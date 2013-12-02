@@ -1,0 +1,178 @@
+﻿<UserControl x:Class="TailForWin.Template.TextEditor.LogViewerControl"  
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" xmlns:local="clr-namespace:TailForWin.Template.TextEditor.Data" x:Name="LogViewerProperty" xmlns:conv="clr-namespace:TailForWin.Template.TextEditor.Converter" xmlns:sel="clr-namespace:TailForWin.Template.TextEditor.Utils">
+  <UserControl.Resources>
+    <conv:BoolToTextWrapConverter x:Key="BoolToTextWrap" />
+    <conv:BoolToScrollbarVisibilityConverter x:Key="BoolToScrollbarVisibility" />
+    <conv:StringFormatConverter x:Key="StringFormat" />
+
+    <Style TargetType="ListBox" x:Key="MyListBox">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate>
+            <Grid Background="{TemplateBinding Background}">
+              <ScrollViewer CanContentScroll="True" Padding="{TemplateBinding Padding}" HorizontalScrollBarVisibility="{Binding Path=WordWrapping, ElementName=LogViewerProperty, Converter={StaticResource BoolToScrollbarVisibility}}" VerticalScrollBarVisibility="{Binding Path=VerticalScrollbarVisible, ElementName=LogViewerProperty}">
+                <ItemsPresenter SnapsToDevicePixels="True" />
+              </ScrollViewer>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="LeftAligned">
+      <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left" />
+    </Style>
+    <Style x:Key="FullSelectionBox">
+      <Setter Property="FrameworkElement.HorizontalAlignment" Value="Stretch" />
+    </Style>
+
+    <Style x:Key="ItemStyle" TargetType="ListBoxItem">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="ListBoxItem">
+            <ContentPresenter/>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="MyLineNumberText">
+      <Setter Property="Foreground" Value="{Binding Path=LineNumbersColor, ElementName=LogViewerProperty}" />
+      <Setter Property="FontWeight" Value="{Binding Path=LineNumberFontWeight, ElementName=LogViewerProperty}" />
+      <Setter Property="FontFamily" Value="{Binding Path=LineNumberFontFamily, ElementName=LogViewerProperty}" />
+      <Setter Property="FontSize" Value="{Binding Path=LineNumberFontSize, ElementName=LogViewerProperty}" />
+      <Setter Property="TextAlignment" Value="Right" />
+      <Setter Property="Text" Value="{Binding Index, Mode=OneWay}" />
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="MyTextEditor">
+      <Setter Property="FontFamily" Value="{Binding Path=TextEditorFontFamily, ElementName=LogViewerProperty}" />
+      <Setter Property="FontWeight" Value="{Binding Path=TextEditorFontWeight, ElementName=LogViewerProperty}" />
+      <Setter Property="FontSize" Value="{Binding Path=TextEditorFontSize, ElementName=LogViewerProperty}" />
+      <Setter Property="FontStyle" Value="{Binding Path=TextEditorFontStyle, ElementName=LogViewerProperty}" />
+      <Setter Property="TextWrapping" Value="{Binding Path=WordWrapping, ElementName=LogViewerProperty, Converter={StaticResource BoolToTextWrap}}" />
+      <Setter Property="Text" Value="{Binding Message, Mode=OneWay}" />
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}" Value="True">
+          <Setter Property="Background">
+            <Setter.Value>
+              <SolidColorBrush Opacity="0.4" Color="{Binding Source={x:Reference LogViewerProperty}, Path=TextEditorSelectionColor}" />
+            </Setter.Value>
+          </Setter>
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="MyDateTimeEditor">
+      <Setter Property="FontFamily" Value="{Binding Path=TextEditorFontFamily, ElementName=LogViewerProperty}" />
+      <Setter Property="FontWeight" Value="{Binding Path=TextEditorFontWeight, ElementName=LogViewerProperty}" />
+      <Setter Property="FontSize" Value="{Binding Path=TextEditorFontSize, ElementName=LogViewerProperty}" />
+      <Setter Property="FontStyle" Value="{Binding Path=TextEditorFontStyle, ElementName=LogViewerProperty}" />
+      <Setter Property="Text" Value="{Binding DateTime, Mode=OneWay, Converter={StaticResource StringFormat}}" />
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}" Value="True">
+          <Setter Property="Background">
+            <Setter.Value>
+              <SolidColorBrush Opacity="0.4" Color="{Binding Source={x:Reference LogViewerProperty}, Path=TextEditorSelectionColor}" />
+            </Setter.Value>
+          </Setter>
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+
+    <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="lineNumberTemplate">
+      <Grid IsSharedSizeScope="True">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition SharedSizeGroup="Index" Width="Auto"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Cursor="/TailForWin;component/Template/TextEditor/RightArrow.cur">
+          <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.4" />
+          <TextBlock Grid.Column="0" Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
+        </Grid>
+        <TextBlock Grid.Column="1" Margin="5,0,0,0" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="dateTimeLineNumberTemplate">
+      <Grid IsSharedSizeScope="True">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition SharedSizeGroup="Index" Width="Auto"/>
+          <ColumnDefinition SharedSizeGroup="Date" Width="Auto"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Cursor="/TailForWin;component/Template/TextEditor/RightArrow.cur">
+          <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.4" />
+          <TextBlock Grid.Column="0" Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
+        </Grid>
+
+        <TextBlock Grid.Column="1" Margin="5,0,0,0" Padding="0,0,5,0" Style="{StaticResource MyDateTimeEditor}" />
+        <TextBlock Grid.Column="2" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="dateTimeTemplate">
+      <Grid IsSharedSizeScope="True">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition SharedSizeGroup="Date" Width="Auto"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0" Margin="2,0,0,0" Padding="0,0,5,0" Style="{StaticResource MyDateTimeEditor}" />
+        <TextBlock Grid.Column="1" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="defaultTemplate">
+      <Grid IsSharedSizeScope="True">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
+      </Grid>
+    </DataTemplate>
+
+    <!--<DataTemplate DataType="{x:Type local:CollapsibleLogEntry}">
+      <Grid IsSharedSizeScope="True">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition SharedSizeGroup="Index" Width="Auto"/>
+          <ColumnDefinition SharedSizeGroup="Date" Width="Auto"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="{Binding DateTime}" Grid.Column="1" FontWeight="Bold" Margin="0,0,5,0"/>
+        <TextBlock Text="{Binding Index}" Grid.Column="0" FontWeight="Normal" Margin="2,0,2,0" Foreground="{Binding Path=LineNumbersColor, ElementName=LogViewerProperty}" Cursor="RightArrow.cur" />
+        <TextBlock Text="{Binding Message}" Grid.Column="2" TextWrapping="{Binding Path=WordWrapping, ElementName=LogViewerProperty, Converter={StaticResource BoolToTextWrap}}" />
+
+      </Grid>
+      <DataTemplate.Triggers>
+        <Trigger SourceName="Expander" Property="IsChecked" Value="True">
+          <Setter TargetName="Contents" Property="Visibility" Value="Visible"/>
+          <Setter TargetName="Expander" Property="Content" Value="-"/>
+        </Trigger>
+      </DataTemplate.Triggers>
+    </DataTemplate>-->
+
+    <sel:LogViewerDataTemplateSelector LineNumberTemplate="{StaticResource lineNumberTemplate}" 
+                                        DateTimeTemplate="{StaticResource dateTimeTemplate}"
+                                        DefaultTemplate="{StaticResource defaultTemplate}"
+                                        DateTimeLineNumbersTemplate="{StaticResource dateTimeLineNumberTemplate}" x:Key="templateSelector" />
+  </UserControl.Resources>
+  <Border BorderThickness="0,1,0,0" BorderBrush="Gainsboro">
+    <ListBox ItemsSource="{Binding}" x:Name="LogViewer" Background="{Binding Path=TextEditorBackgroundColor, ElementName=LogViewerProperty}" Style="{StaticResource MyListBox}" Foreground="{Binding Path=TextEditorForegroundColor, ElementName=LogViewerProperty}" ItemTemplateSelector="{StaticResource templateSelector}" Loaded="LogViewer_Loaded" SelectionMode="Extended" IsSynchronizedWithCurrentItem="True" sel:ListBoxExtenders.AutoScrollToCurrentItem="{Binding Path=AlwaysScrollIntoView, ElementName=LogViewerProperty}" ItemContainerStyle="{StaticResource ItemStyle}" sel:ListBoxCopy.AutoCopy="True" sel:ListBoxCopy.AddDateTime="{Binding Path=AddDateTime, ElementName=LogViewerProperty}" />
+  </Border>
+
+</UserControl>

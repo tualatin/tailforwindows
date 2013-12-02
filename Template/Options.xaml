@@ -1,0 +1,65 @@
+﻿<Window x:Class="TailForWin.Template.Options"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Options" Height="450" Width="420" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize" Icon="/TailForWin;component/Res/system.ico"
+        xmlns:tabData="clr-namespace:TailForWin.Template.TabOptions" AllowDrop="True">
+    <Grid>
+    <TabControl Margin="0" Name="tabControl1">
+      <TabItem Header="Options" Name="tabItemOptions">
+        <TabItem.HeaderTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <Image Source="/TailForWin;component/Res/system.ico" />
+              <TextBlock Text="Options" Margin="5,0,0,0" />
+            </StackPanel>
+          </DataTemplate>
+        </TabItem.HeaderTemplate>
+        <tabData:OptionsItem Margin="0" x:Name="tabOptionsItem" />
+      </TabItem>
+      <TabItem Header="Colors" Name="tabItemColor">
+        <TabItem.HeaderTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <Image Source="/TailForWin;component/Res/colors.ico" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+              <TextBlock Text="Colors" Margin="5,0,0,0" />
+            </StackPanel>
+          </DataTemplate>
+        </TabItem.HeaderTemplate>
+        <tabData:ColorItem x:Name="tabColorItem" />
+      </TabItem>
+      <TabItem Header="Alert" Name="tabItemAlert">
+        <TabItem.HeaderTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <Image Source="/TailForWin;component/Res/Alert.ico" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+              <TextBlock Text="Alerts" Margin="5,0,0,0" />
+            </StackPanel>
+          </DataTemplate>
+        </TabItem.HeaderTemplate>
+        <tabData:AlertsItem Margin="0" x:Name="tabAlertItem" />
+      </TabItem>
+      <TabItem Header="System Information" Name="tabItemSysInfo">
+        <TabItem.HeaderTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <Image Source="/TailForWin;component/Res/SystemInfo.ico" Width="16" Height="16" />
+              <TextBlock Text="System Information" Margin="5,0,0,0" />
+            </StackPanel>
+          </DataTemplate>
+        </TabItem.HeaderTemplate>
+        <tabData:SystemInformation Margin="0" x:Name="tabSysInfoItem" />
+      </TabItem>
+      <TabItem Header="About" Name="tabItemAbout">
+        <TabItem.HeaderTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <Image Source="/TailForWin;component/Res/about.ico" Width="16" Height="16" />
+              <TextBlock Text="About" Margin="5,0,0,0" />
+            </StackPanel>
+          </DataTemplate>
+        </TabItem.HeaderTemplate>
+        <tabData:AboutItem Margin="0" x:Name="tabAboutItem" />
+      </TabItem>
+    </TabControl>
+  </Grid>
+</Window>

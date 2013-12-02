@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+  <system:String x:Key="OpenFileDialog">Please select a file to tail ...</system:String>
+  <system:String x:Key="FileNotFound">File not found!</system:String>
+  <system:String x:Key="NoFilenameEntered">No filename entered!</system:String>
+  <system:String x:Key="Error">Error</system:String>
+  <system:String x:Key="Question">Question</system:String>
+  <system:String x:Key="Record">Tail ...</system:String>
+  <system:String x:Key="Pause">Pause</system:String>
+  <system:String x:Key="NoFile">No file.</system:String>
+  <system:String x:Key="LastTab">Cannot remove last tab.</system:String>
+  <system:String x:Key="QRemoveTab">Are you sure you want to remove the tab</system:String>
+  <system:String x:Key="TrayIconReady">ready ...</system:String>
+  <system:String x:Key="HCloseTab">Please close some tail windows before open a new one!</system:String>
+  <system:String x:Key="LinesRead">Lines read=</system:String>
+  <system:String x:Key="QResetSettings">Do you really want reset all settings to default?</system:String>
+  <system:String x:Key="QDeleteDataGridItem">Do you want delete selected item?</system:String>
+  <system:String x:Key="NoContentFound">The XML file is empty!</system:String>
+  <system:String x:Key="FileEncodingLabel">(If no value selected, auto file encoding is on)</system:String>
+  <system:String x:Key="OS">Operating System</system:String>
+  <system:String x:Key="FindDialogTitle">Find</system:String>
+  <system:String x:Key="NoHighLightning">TailForWinHighlight.xshd was not found!</system:String>
+  <system:String x:Key="SearchCount">Count: {0} matches.</system:String>
+  <system:String x:Key="SelectSoundFile">Please select a soundfile</system:String>
+  <system:String x:Key="NoSoundFile">This is a unkown soundfile format. Please select a valid sound file!</system:String>
+  <system:String x:Key="FilterNotEmpty">The filter value cannot be null!</system:String>
+  <system:String x:Key="FiltersLoaded">{0} filter(s) active</system:String>
+</ResourceDictionary>

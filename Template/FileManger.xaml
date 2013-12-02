@@ -1,0 +1,14 @@
+﻿<Window x:Class="TailForWin.Template.FileManger"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="FileManger" Height="480" Width="640" Icon="/TailForWin;component/Res/Main.ico" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize">
+    <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="250" />
+      <RowDefinition Height="234*" />
+    </Grid.RowDefinitions>
+    <DataGrid AutoGenerateColumns="False" Grid.Row="0" Margin="0" Name="dataGridFiles" />
+    <ComboBox Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="156,77,0,0" Name="comboBoxCategory" VerticalAlignment="Top" Width="120" SelectionChanged="comboBoxCategory_SelectionChanged" />
+    <Label Content="Category:" Grid.Row="1" Height="28" HorizontalAlignment="Left" Margin="64,82,0,0" Name="label1" VerticalAlignment="Top" />
+  </Grid>
+</Window>
