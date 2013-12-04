@@ -32,6 +32,16 @@ namespace TailForWin.Template
     private bool isInit = false;
 
     /// <summary>
+    /// filemanager save property
+    /// </summary>
+    private FileManagerData fileManagerProperties;
+
+    /// <summary>
+    /// new filters added, can save XML file
+    /// </summary>
+    private bool saveFilters;
+
+    /// <summary>
     /// FileManager open new tab event handler
     /// </summary>
     public event EventHandler FileManagerDoOpenTab;
@@ -40,6 +50,11 @@ namespace TailForWin.Template
     /// Open the search box window event
     /// </summary>
     public event EventHandler ButtonSearchBox;
+
+    /// <summary>
+    /// new file added load default properties
+    /// </summary>
+    private event EventHandler NewFile;
 
 
     public void Dispose ()
@@ -64,6 +79,8 @@ namespace TailForWin.Template
     {
       InitializeComponent ( );
 
+      this.fileManagerProperties = fileManagerProperties;
+
       tabProperties = new TailLogData ( )
       {
         Wrap = fileManagerProperties.Wrap, 
@@ -86,7 +103,7 @@ namespace TailForWin.Template
     /// New tab with default settings
     /// </summary>
     /// <param name="childTabIndex">Reference index</param>
-    /// <param name="tabItem">Reference  tab control parent</param>
+    /// <param name="tabItem">Reference tab control parent</param>
     public TailLog (int childTabIndex, TabItem tabItem)
     {
       InitializeComponent ( );
@@ -107,20 +124,28 @@ namespace TailForWin.Template
         FontType = textBox,
         RefreshRate = SettingsHelper.TailSettings.DefaultRefreshRate,
         ThreadPriority = SettingsHelper.TailSettings.DefaultThreadPriority,
-        ListOfFilter = new System.Collections.Generic.List<Filter> ( ),
         FileEncoding = null
       };
 
       InitTailLog (childTabIndex, tabItem);
     }
 
+    private bool activeTab;
+
     /// <summary>
     /// Is tab active or not
     /// </summary>
     public bool ActiveTab
     {
-      get;
-      set;
+      get
+      {
+        return (activeTab);
+      }
+      set
+      {
+        activeTab = value;
+        textBlockTailLog.IsActiv = activeTab;
+      }
     }
 
     /// <summary>
@@ -138,8 +163,7 @@ namespace TailForWin.Template
     /// <param name="sd">Search data structure</param>
     public void FindNext (SearchData sd)
     {
-      textBlockTailLog.SearchCount = 0;
-      textBlockTailLog.FindListViewItem (sd.WordToFind);
+      textBlockTailLog.FindNextItem (sd);
     }
 
     /// <summary>
@@ -147,7 +171,40 @@ namespace TailForWin.Template
     /// </summary>
     public int SearchCount ( )
     {
-      return (textBlockTailLog.GetSearchCount ( ));
+      return (textBlockTailLog.SearchResultCount);
+    }
+
+    /// <summary>
+    /// Searchbox is shown
+    /// </summary>
+    public void SearchBoxActive ()
+    {
+      textBlockTailLog.IsSearching = true;
+    }
+
+    /// <summary>
+    /// Searchbox is hidden
+    /// </summary>
+    public void SearchBoxInactive ()
+    {
+      textBlockTailLog.RemoveSearchHighlight ( );
+    }
+
+    /// <summary>
+    /// Find text changed
+    /// </summary>
+    public void FindWhatTextChanged ()
+    {
+      textBlockTailLog.FindWhatTextChanged ( );
+    }
+
+    /// <summary>
+    /// Wrap around while searching
+    /// </summary>
+    /// <param name="wrap">true or false</param>
+    public void WrapAround (bool wrap)
+    {
+      textBlockTailLog.WrapAround = wrap;
     }
 
     #region ClickEvent
@@ -160,6 +217,11 @@ namespace TailForWin.Template
         LogFile.APP_MAIN_WINDOW.MainWindowTopmost = false;
     }
 
+    /// <summary>
+    /// Open search dialog
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">RoutedEventArgs</param>
     public void btnSearch_Click (object sender, RoutedEventArgs e)
     {
       if (tabProperties.File != null)
@@ -181,7 +243,12 @@ namespace TailForWin.Template
       }
     }
 
-    private void btnStart_Click (object sender, RoutedEventArgs e)
+    /// <summary>
+    /// Start tail process
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">RoutedEventArgs</param>
+    public void btnStart_Click (object sender, RoutedEventArgs e)
     {
       if (string.IsNullOrEmpty (tabProperties.FileName))
       {
@@ -191,10 +258,7 @@ namespace TailForWin.Template
       else
       {
         if (!tabProperties.FileName.Equals (oldFileName))
-        {
           textBlockTailLog.Clear ( );
-          oldFileName = tabProperties.FileName;
-        }
 
         if (tabProperties.FileEncoding == null)
         {
@@ -223,9 +287,12 @@ namespace TailForWin.Template
           childTabItem.Foreground = Brushes.LimeGreen;
 
           WordWrap ( );
-          
+
           if (!tailWorker.IsBusy)
+          {
             tailWorker.RunWorkerAsync ( );
+            btnStop.IsEnabled = true;
+          }
 
           SetControlVisibility (true);
         }
@@ -234,8 +301,15 @@ namespace TailForWin.Template
       }
     }
 
-    private void btnStop_Click (object sender, RoutedEventArgs e)
+    /// <summary>
+    /// Pause tail process
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">RoutedEventArgs</param>
+    public void btnStop_Click (object sender, RoutedEventArgs e)
     {
+      oldFileName = tabProperties.FileName;
+      btnStop.IsEnabled = false;
       tailWorker.CancelAsync ( );
     }
 
@@ -247,12 +321,22 @@ namespace TailForWin.Template
         new PrintHelper (textBlockTailLog.LogEntries, tabProperties.File, true, StringFormatData.StringFormat);
     }
 
-    private void btnOpenFile_Click (object sender, RoutedEventArgs e)
+    /// <summary>
+    /// Open file dialog
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">RoutedEventArgs</param>
+    public void btnOpenFile_Click (object sender, RoutedEventArgs e)
     {
       string fName = string.Empty;
 
-      if (LogFile.OpenFileLogDialog (out fName))
+      if (LogFile.OpenFileLogDialog (out fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource ("OpenFileDialog") as string))
+      {
+        if (NewFile != null)
+          NewFile (this, EventArgs.Empty);
+
         textBoxFileName.Text = fName;
+      }
     }
 
     private void comboBoxRefreshRate_SelectionChanged (object sender, SelectionChangedEventArgs e)
@@ -261,7 +345,8 @@ namespace TailForWin.Template
         return;
 
       SettingsData.ETailRefreshRate selection = (SettingsData.ETailRefreshRate) comboBoxRefreshRate.SelectedItem;
-      tabProperties.RefreshRate = selection;  
+      tabProperties.RefreshRate = selection;
+      e.Handled = true;
     }
 
     private void comboBoxThreadPriority_SelectionChanged (object sender, SelectionChangedEventArgs e)
@@ -271,6 +356,7 @@ namespace TailForWin.Template
 
       ThreadPriority selection = (ThreadPriority) comboBoxThreadPriority.SelectedItem;
       tabProperties.ThreadPriority = selection;
+      e.Handled = true;
     }
 
     private void btnShellOpen_Click (object sender, RoutedEventArgs e)
@@ -282,7 +368,12 @@ namespace TailForWin.Template
       }
     }
 
-    private void btnFileManager_Click (object sender, RoutedEventArgs e)
+    /// <summary>
+    /// Open file manager dialog
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">RoutedEventArgs</param>
+    public void btnFileManager_Click (object sender, RoutedEventArgs e)
     {
       FileManager fileManager = new FileManager (SettingsData.EFileManagerState.OpenFileManager, tabProperties) { Owner = LogFile.APP_MAIN_WINDOW };
       fileManager.DoUpdate += fileManagerDoUpdate;
@@ -296,7 +387,7 @@ namespace TailForWin.Template
       { 
         Owner = LogFile.APP_MAIN_WINDOW,
         Title = string.Format ("FileManager - Add file '{0}'", tabProperties.File),
-        Icon = new ImageSourceConverter ( ).ConvertFromString (@"pack://application:,,/Res/add.png") as ImageSource
+        Icon = new ImageSourceConverter ( ).ConvertFromString (@"pack://application:,,/Res/add.ico") as ImageSource
       };
 
       fileManager.DoUpdate += fileManagerDoUpdate;
@@ -311,7 +402,12 @@ namespace TailForWin.Template
       settings.ShowDialog ( );
     }
 
-    private void btnClearTextBox_Click (object sender, RoutedEventArgs e)
+    /// <summary>
+    /// Clears all content in TextEditor
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">RoutedEventArgs</param>
+    public void btnClearTextBox_Click (object sender, RoutedEventArgs e)
     {
       textBlockTailLog.Clear ( );
     }
@@ -341,6 +437,31 @@ namespace TailForWin.Template
     private void checkBoxWordWrap_Click (object sender, RoutedEventArgs e)
     {
       WordWrap ( );
+    }
+
+    private void btnFilters_Click (object sender, RoutedEventArgs e)
+    {
+      Filters filters = new Filters (tabProperties)
+      {
+        Owner = LogFile.APP_MAIN_WINDOW
+      };
+
+      filters.SaveNow += FilterTrigger;
+      filters.ShowDialog ( );
+
+      if (saveFilters)
+      {
+        FileManagerStructure fms = new FileManagerStructure ( );
+        fms.UpdateNode (fileManagerProperties);
+        textBlockTailLog.UpdateFilters (tabProperties.ListOfFilter);
+        saveFilters = false;
+      }
+    }
+
+    private void checkBoxFilter_Click (object sender, RoutedEventArgs e)
+    {
+      if (checkBoxFilter.IsChecked == true)
+        textBlockTailLog.UpdateFilters (tabProperties.ListOfFilter);
     }
 
     #endregion
@@ -484,11 +605,17 @@ namespace TailForWin.Template
 
       defaultPropertiesChanged (this, null);
       LoadHighlighting ( );
+
+      textBlockTailLog.Alert += AlertTrigger;
+      NewFile += NewFileOpend;
     }
 
     private void LoadHighlighting ()
     {
       // TODO Highlighting
+#if DEBUG
+      ErrorLog.WriteLog (ErrorFlags.Info, "TailLog", string.Format ("LoadHighlighting"));
+#endif
     }
 
     /// <summary>
@@ -616,14 +743,41 @@ namespace TailForWin.Template
 
       // Only when tab is active update statusbar!
       if (ActiveTab == true)
-      {
         UpdateStatusBarOnTabSelectionChange ( );
-      }
     }
-
+    
     #endregion
 
     #region Events
+
+    private void NewFileOpend (object sender, EventArgs e)
+    {
+      if (fileManagerProperties != null)
+        fileManagerProperties = null;
+
+      System.Drawing.FontStyle fs = System.Drawing.FontStyle.Regular;
+
+      if (textBlockTailLog.TextEditorFontStyle == FontStyles.Italic)
+        fs = System.Drawing.FontStyle.Italic;
+      if (textBlockTailLog.TextEditorFontWeight == FontWeights.Bold)
+        fs |= System.Drawing.FontStyle.Bold;
+
+      System.Drawing.Font textBox = new System.Drawing.Font (textBlockTailLog.FontFamily.Source, (float) textBlockTailLog.FontSize, fs);
+
+      tabProperties.Wrap = false;
+      tabProperties.KillSpace = false;
+      tabProperties.FontType = textBox;
+      tabProperties.ListOfFilter = new System.Collections.ObjectModel.ObservableCollection<FilterData> ();
+      tabProperties.ThreadPriority = SettingsHelper.TailSettings.DefaultThreadPriority;
+      tabProperties.RefreshRate = SettingsHelper.TailSettings.DefaultRefreshRate;
+      tabProperties.FileEncoding = null;
+
+      comboBoxRefreshRate.SelectedItem = tabProperties.RefreshRate;
+      comboBoxThreadPriority.SelectedItem = tabProperties.ThreadPriority;
+    
+      checkBoxFilter.IsChecked = false;
+      saveFilters = false;
+    }
     
     private void textBoxFileName_TextChanged (object sender, TextChangedEventArgs e)
     {
@@ -633,7 +787,10 @@ namespace TailForWin.Template
         {
           tabProperties.FileName = textBoxFileName.Text;
           childTabItem.Header = tabProperties.File;
-          btnFileManagerAdd.IsEnabled = true;
+
+          if (fileManagerProperties == null)
+            btnFileManagerAdd.IsEnabled = true;
+
           btnShellOpen.IsEnabled = true;
           btnPrint.IsEnabled = true;
           ExtraIcons.IsEnabled = true;
@@ -645,6 +802,10 @@ namespace TailForWin.Template
           btnShellOpen.IsEnabled = false;
           btnPrint.IsEnabled = false;
           ExtraIcons.IsEnabled = false;
+
+          tabProperties.ListOfFilter.Clear ( );
+          checkBoxFilter.IsChecked = false;
+          saveFilters = false;
         }
       }
     }
@@ -678,17 +839,73 @@ namespace TailForWin.Template
       textBlockTailLog.TextEditorSearchHighlightForeground = SettingsHelper.TailSettings.GuiDefaultHighlightForegroundColor;
       textBlockTailLog.AlwaysScrollIntoView = SettingsHelper.TailSettings.AlwaysScrollToEnd;
       textBlockTailLog.TextEditorSelectionColor = ((SolidColorBrush) (SettingsHelper.TailSettings.GuiDefaultHighlightColor)).Color;
+
+      SoundPlay.UpdateSoundFile (SettingsHelper.TailSettings.AlertSettings.SoundFileNameFullPath);
     }
 
     private void fileManagerDoUpdate (object sender, EventArgs e)
     {
+#if DEBUG
       MessageBox.Show ("FileManager do update");
+#endif
     }
 
     private void fileManagerGetProperties (object sender, EventArgs e)
     {
       if (FileManagerDoOpenTab != null)
         FileManagerDoOpenTab (this, e);
+    }
+
+    public void DragEnterHelper (object sender, DragEventArgs e)
+    {
+      e.Handled = true;
+
+      if (e.Source == sender)
+        e.Effects = DragDropEffects.None;
+    }
+
+    public void DropHelper (object sender, DragEventArgs e)
+    {
+      e.Handled = true;
+
+      try
+      {
+        var text = e.Data.GetData (DataFormats.FileDrop);
+
+        if (text != null)
+        {
+          string fileName = string.Format ("{0}", ((string[]) text)[0]);
+
+          if (NewFile != null)
+            NewFile (this, EventArgs.Empty);
+
+          textBoxFileName.Text = fileName;
+        }
+      }
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, "TailLog", string.Format ("Drag and Drop TabItem exception {0}", ex));
+      }
+    }
+
+    private void textBoxFileName_PreviewDragOver (object sender, DragEventArgs e)
+    {
+      e.Handled = true;
+    }
+
+    private void AlertTrigger (object sender, EventArgs e)
+    {
+      if (SettingsHelper.TailSettings.AlertSettings.BringToFront)
+        LogFile.BringMainWindoToFront ( );
+
+      if (SettingsHelper.TailSettings.AlertSettings.PlaySoundFile)
+        SoundPlay.Play ( );
+    }
+
+    private void FilterTrigger (object sender, EventArgs e)
+    {
+      if (fileManagerProperties != null)
+        saveFilters = true;
     }
 
     #endregion

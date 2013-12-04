@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Diagnostics;
 using System.Text;
 using System;
+using TailForWin.Utils;
 
 
 namespace TailForWin.Template
@@ -188,7 +189,7 @@ namespace TailForWin.Template
         fmWorkingProperties.Category = comboBoxCategory.SelectedItem as string;
 
       // TODO better solution (IsEnable property) at the moment workaground
-      if (fmWorkingProperties.EqualsProperties (fmMemento))
+      if (fmWorkingProperties.EqualsProperties (fmMemento) && fmState != SettingsData.EFileManagerState.EditFilter)
         return;
 
       switch (fmState)
@@ -199,6 +200,7 @@ namespace TailForWin.Template
         break;
 
       case SettingsData.EFileManagerState.EditItem:
+      case SettingsData.EFileManagerState.EditFilter:
 
         fmDoc.UpdateNode (fmWorkingProperties);
         break;
@@ -221,6 +223,7 @@ namespace TailForWin.Template
       SetSelectedComboBoxItem (fmWorkingProperties.Category, fmWorkingProperties.ThreadPriority, fmWorkingProperties.RefreshRate, fmWorkingProperties.FileEncoding);
       SetAddSaveButton ( );
       fmState = SettingsData.EFileManagerState.OpenFileManager;
+      fmMemento = fmWorkingProperties.SaveToMemento ( );
     }
 
     private void checkBoxWrap_Click (object sender, RoutedEventArgs e)
@@ -245,12 +248,7 @@ namespace TailForWin.Template
 
     private void btnFilters_Click (object sender, RoutedEventArgs e)
     {
-      TailLogData tailLogData = new TailLogData ( )
-      {
-        ListOfFilter = fmWorkingProperties.ListOfFilter
-      };
-
-      Filters filters = new Filters (tailLogData)
+      Filters filters = new Filters (fmWorkingProperties)
       {
         Owner = LogFile.APP_MAIN_WINDOW
       };
@@ -274,8 +272,19 @@ namespace TailForWin.Template
         SelectLastItemInDataGrid ( );
     }
 
+    private void Window_Closing (object sender, System.ComponentModel.CancelEventArgs e)
+    {
+      if (dataGridFiles.IsEnabled == false)
+      {
+        MessageBox.Show (Application.Current.FindResource ("FileManagerCloseUnsaveItem").ToString ( ), LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+        e.Cancel = true;
+      }
+    }
+
     private void comboBoxCategory_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
+      e.Handled = true;
+
       if (!isInit)
         return;
 
@@ -288,6 +297,8 @@ namespace TailForWin.Template
 
     private void comboBoxRefreshRate_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
+      e.Handled = true;
+
       if (!isInit)
         return;
 
@@ -297,6 +308,8 @@ namespace TailForWin.Template
 
     private void comboBoxThreadPriority_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
+      e.Handled = true;
+
       if (!isInit)
         return;
 
@@ -306,6 +319,8 @@ namespace TailForWin.Template
 
     private void comboBoxFileEncode_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
+      e.Handled = true;
+
       if (!isInit)
         return;
 
@@ -315,6 +330,8 @@ namespace TailForWin.Template
 
     private void dataGridFiles_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
+      e.Handled = true;
+
       fmWorkingProperties = dataGridFiles.SelectedItem as FileManagerData;
 
       if (fmWorkingProperties != null)
@@ -341,6 +358,8 @@ namespace TailForWin.Template
 
     private void Window_Drop (object sender, DragEventArgs e)
     {
+      e.Handled = true;
+
       try
       {
         var text = e.Data.GetData (DataFormats.FileDrop);
@@ -354,27 +373,28 @@ namespace TailForWin.Template
       catch (Exception ex)
       {
 #if DEBUG
-        Console.WriteLine (string.Format ("Drag and Drop FileManager exception {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, "FileManager", string.Format ("Drop exception: {0}", ex));
 #endif
-      }
-      finally
-      {
-        e.Handled = true;
       }
     }
 
     private void Window_DragEnter (object sender, DragEventArgs e)
     {
+      e.Handled = true;
+
       if (e.Source == sender)
         e.Effects = DragDropEffects.None;
-
-      e.Handled = true;
     }
 
     private void SaveFilters (object sender, EventArgs e)
     {
+      dataGridFiles.Items.Refresh ( );
       FMProperties.DataContext = fmWorkingProperties;
-      fmDoc.SaveFMDoc ( );
+
+      if (fmState != SettingsData.EFileManagerState.AddFile)
+        fmState = SettingsData.EFileManagerState.EditFilter;
+
+      SetAddSaveButton (false);
     }
 
     #endregion
@@ -392,7 +412,6 @@ namespace TailForWin.Template
         fmWorkingProperties.Description = string.Empty;
         fmWorkingProperties.FileName = fileName;
         fmWorkingProperties.ID = ++fmDoc.LastFileId;
-        fmWorkingProperties.ListOfFilter = new System.Collections.ObjectModel.ObservableCollection<FilterData> ( );
 
         fmDoc.FMProperties.Add (fmWorkingProperties);
         dataGridFiles.Items.Refresh ( );

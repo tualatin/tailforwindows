@@ -10,7 +10,7 @@
       <RowDefinition Height="252*" />
       <RowDefinition Height="25" />
     </Grid.RowDefinitions>
-    <ListView Margin="0,0,0,5" Name="listViewSysInfo" Grid.Row="0">
+    <ListView Margin="0,0,0,5" Name="listViewSysInfo" Grid.Row="0" SelectionChanged="listViewSysInfo_SelectionChanged">
       <ListView.View>
         <GridView>
           <GridViewColumn Width="auto" Header="Key" DisplayMemberBinding="{Binding Key}" />

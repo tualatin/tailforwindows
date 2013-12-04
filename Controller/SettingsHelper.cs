@@ -116,6 +116,24 @@ namespace TailForWin.Controller
         if (!bool.TryParse (ConfigurationManager.AppSettings["ShowLineNumbers"], out bHelper))
           bHelper = false;
         TailSettings.ShowLineNumbers = bHelper;
+
+        if (!bool.TryParse (ConfigurationManager.AppSettings["Alert.BringToFront"], out bHelper))
+          bHelper = true;
+        TailSettings.AlertSettings.BringToFront = bHelper;
+
+        if (!bool.TryParse (ConfigurationManager.AppSettings["Alert.PlaySoundFile"], out bHelper))
+          bHelper = false;
+        TailSettings.AlertSettings.PlaySoundFile = bHelper;
+
+        if (!bool.TryParse (ConfigurationManager.AppSettings["Alert.SendEMail"], out bHelper))
+          bHelper = false;
+        TailSettings.AlertSettings.SendEMail = bHelper;
+
+        sHelper = ConfigurationManager.AppSettings["Alert.SoundFile"];
+        ParseSoundFileName (sHelper);
+
+        sHelper = ConfigurationManager.AppSettings["Alert.EMailAddress"];
+        ParseEMailAddress (sHelper);
       }
       catch (ConfigurationErrorsException ex)
       {
@@ -161,6 +179,11 @@ namespace TailForWin.Controller
           config.AppSettings.Settings["ShowLineNumbers"].Value = TailSettings.ShowLineNumbers.ToString ( );
           config.AppSettings.Settings["LineNumbersColor"].Value = TailSettings.DefaultLineNumbersColor;
           config.AppSettings.Settings["HighlightColor"].Value = TailSettings.DefaultHighlightColor;
+          config.AppSettings.Settings["Alert.BringToFront"].Value = TailSettings.AlertSettings.BringToFront.ToString ( );
+          config.AppSettings.Settings["Alert.PlaySoundFile"].Value = TailSettings.AlertSettings.PlaySoundFile.ToString ( );
+          config.AppSettings.Settings["Alert.SendEMail"].Value = TailSettings.AlertSettings.SendEMail.ToString ( );
+          config.AppSettings.Settings["Alert.EMailAddress"].Value = TailSettings.AlertSettings.EMailAddress;
+          config.AppSettings.Settings["Alert.SoundFile"].Value = TailSettings.AlertSettings.SoundFileNameFullPath;
 
           config.Save (ConfigurationSaveMode.Modified);
           ConfigurationManager.RefreshSection ("appSettings");
@@ -172,6 +195,9 @@ namespace TailForWin.Controller
       }
     }
 
+    /// <summary>
+    /// Save search dialog window position
+    /// </summary>
     public static void SaveSearchWindowPosition ()
     {
       try
@@ -225,6 +251,11 @@ namespace TailForWin.Controller
       TailSettings.SearchWndYPos = -1;
       TailSettings.DefaultFileSort = SettingsData.EFileSort.Nothing;
       TailSettings.ShowLineNumbers = false;
+      TailSettings.AlertSettings.BringToFront = true;
+      TailSettings.AlertSettings.SendEMail = false;
+      TailSettings.AlertSettings.PlaySoundFile = false;
+      TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
+      TailSettings.AlertSettings.EMailAddress = LogFile.ALERT_EMAIL_ADDRESS;
 
       SaveSettings ( );
     }
@@ -441,6 +472,57 @@ namespace TailForWin.Controller
 
         TailSettings.SearchWndYPos = pos;
       }       
+    }
+
+    private static void ParseEMailAddress (string emailAddress)
+    {
+      string checkedEMail = string.Empty;
+      Regex regex = new Regex (LogFile.REGEX_EMAIL_ADDRESS);
+      
+      if (regex.IsMatch (emailAddress))
+        checkedEMail = emailAddress;
+      else
+        checkedEMail = LogFile.ALERT_EMAIL_ADDRESS;
+
+      TailSettings.AlertSettings.EMailAddress = checkedEMail;
+    }
+
+    private static void ParseSoundFileName (string fullPath)
+    {
+      string extension = System.IO.Path.GetExtension (fullPath);
+      string fileName = System.IO.Path.GetFileName (fullPath);
+      char[] reserved = System.IO.Path.GetInvalidFileNameChars ( );
+
+      if (fileName.Length < 3)
+      {
+        TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
+        return;
+      }
+
+      if (fileName.Length > 20)
+      {
+        TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
+        return;
+      }
+
+      foreach (char c in reserved)
+      {
+        if (fileName.Contains (c.ToString ( )))
+        {
+          TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
+          return;
+        }
+      }
+
+      Regex regex = new Regex (LogFile.REGEX_SOUNDFILE_EXTENSION);
+
+      if (!regex.IsMatch (extension))
+      {
+        TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
+        return;
+      }
+
+      TailSettings.AlertSettings.SoundFileNameFullPath = fullPath;
     }
 
     #endregion

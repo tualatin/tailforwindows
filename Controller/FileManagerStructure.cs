@@ -123,7 +123,6 @@ namespace TailForWin.Controller
             RefreshRate = GetRefreshRate (xe.Element ("refreshRate").Value),
             NewWindow = IsNewWindow (xe.Element ("newWindow").Value),
             FileEncoding = GetEncoding (xe.Element ("fileEncoding").Value),
-            ListOfFilter = new ObservableCollection<FilterData> ( )
           };
           
           foreach (XElement filter in xe.Elements ("filter"))
@@ -141,7 +140,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        Debug.WriteLine (ex);
+        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("ReadFMDoc exception: {0}", ex));
       }
     }
 
@@ -216,20 +215,48 @@ namespace TailForWin.Controller
 
     public void UpdateNode (FileManagerData property)
     {
-      XElement node = (fmDoc.Root.Descendants ("file").Where (x => x.Element ("id").Value == property.ID.ToString ( ))).SingleOrDefault ( );
+      try
+      {
+        XElement node = (fmDoc.Root.Descendants ("file").Where (x => x.Element ("id").Value == property.ID.ToString ( ))).SingleOrDefault ( );
 
-      node.Element ("fileEncoding").Value = property.FileEncoding.HeaderName;
-      node.Element ("fileName").Value = property.FileName;
-      node.Element ("timeStamp").Value = property.Timestamp.ToString ( );
-      node.Element ("killSpace").Value = property.KillSpace.ToString ( );
-      node.Element ("newWindow").Value = property.NewWindow.ToString ( );
-      node.Element ("lineWrap").Value = property.Wrap.ToString ( );
-      node.Element ("category").Value = property.Category;
-      node.Element ("description").Value = property.Description;
-      node.Element ("threadPriority").Value = property.ThreadPriority.ToString ( );
-      node.Element ("refreshRate").Value = property.RefreshRate.ToString ( );
-      
-      fmDoc.Save (@fmFile, SaveOptions.None);
+        node.Element ("fileEncoding").Value = property.FileEncoding.HeaderName;
+        node.Element ("fileName").Value = property.FileName;
+        node.Element ("timeStamp").Value = property.Timestamp.ToString ( );
+        node.Element ("killSpace").Value = property.KillSpace.ToString ( );
+        node.Element ("newWindow").Value = property.NewWindow.ToString ( );
+        node.Element ("lineWrap").Value = property.Wrap.ToString ( );
+        node.Element ("category").Value = property.Category;
+        node.Element ("description").Value = property.Description;
+        node.Element ("threadPriority").Value = property.ThreadPriority.ToString ( );
+        node.Element ("refreshRate").Value = property.RefreshRate.ToString ( );
+
+        List<string> filterID = new List<string> ( );
+
+        // TODO NOT nice!
+        foreach (XElement filter in node.Elements ("filter"))
+        {
+          filterID.Add (filter.Element ("id").Value);
+        }
+
+        foreach (string id in filterID)
+        {
+          node.Elements ("filter").Where (x => x.Element ("id").Value == id).Remove ( );
+        }
+
+        fmDoc.Save (@fmFile, SaveOptions.None);
+
+        foreach (FilterData item in property.ListOfFilter)
+        {
+          node.Add (AddFilterToDoc (item));
+        }
+        //////////////////////////////////////////////
+
+        fmDoc.Save (@fmFile, SaveOptions.None);
+      }
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("UpdateNode exception: {0}", ex));
+      }
     }
 
     /// <summary>
@@ -247,7 +274,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        Debug.WriteLine (ex);
+        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("RemoveNode exception: {0}", ex));
 
         return (false);
       }
@@ -327,7 +354,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        Debug.WriteLine (ex);
+        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("AddCategoryToDictionary exception: {0}", ex));
       }
     }
 

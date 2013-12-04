@@ -11,16 +11,11 @@ namespace TailForWin.Data
 {
   public static class LogFile
   {
-    public const string APPLICATION_CAPTION = "TailForWindows";
-    public static MainWindow APP_MAIN_WINDOW = (Application.Current.MainWindow as MainWindow);
-    public const int MAX_TAB_CHILDS = 10;
+    public static string APPLICATION_CAPTION = "TailForWindows";
     public static string STATUS_BAR_STATE_RUN = Application.Current.FindResource ("Record") as string;
     public static string STATUS_BAR_STATE_PAUSE = Application.Current.FindResource ("Pause") as string;
     public static string TABBAR_CHILD_EMPTY_STRING = Application.Current.FindResource ("NoFile") as string;
     public static string MSGBOX_ERROR = Application.Current.FindResource ("Error") as string;
-    private static ObservableCollection<System.Threading.ThreadPriority> threadPriority = new ObservableCollection<System.Threading.ThreadPriority> ( );
-    private static ObservableCollection<SettingsData.ETailRefreshRate> refreshRate = new ObservableCollection<SettingsData.ETailRefreshRate> ( );
-    private static ObservableCollection<Encoding> fileEncoding = new ObservableCollection<Encoding> ( );
     public static string DEFAULT_FOREGROUND_COLOR = "#000000";
     public static string DEFAULT_BACKGROUND_COLOR = "#FFFFFF";
     public static string DEFAULT_INACTIVE_FOREGROUND_COLOR = "#000000";
@@ -29,6 +24,26 @@ namespace TailForWin.Data
     public static string DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR = "#000000";
     public static string DEFAULT_LINE_NUMBERS_COLOR = "#808080";
     public static string DEFAULT_HIGHLIGHT_COLOR = "#FF0000FF";
+    public static string ALERT_SOUND_FILENAME = "NoFile";
+    public static string ALERT_EMAIL_ADDRESS = "NoMail";
+
+    #region ObservableCollection
+
+    private static ObservableCollection<System.Threading.ThreadPriority> threadPriority = new ObservableCollection<System.Threading.ThreadPriority> ( );
+    private static ObservableCollection<SettingsData.ETailRefreshRate> refreshRate = new ObservableCollection<SettingsData.ETailRefreshRate> ( );
+    private static ObservableCollection<Encoding> fileEncoding = new ObservableCollection<Encoding> ( );
+
+    #endregion
+
+    #region RegexPattern
+
+    public static string REGEX_SOUNDFILE_EXTENSION = @"^\.(mp3|wav)";
+    public static string REGEX_EMAIL_ADDRESS = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+
+    #endregion
+
+    public static MainWindow APP_MAIN_WINDOW = (Application.Current.MainWindow as MainWindow);
+    public const int MAX_TAB_CHILDS = 10;
 
 
     /// <summary>
@@ -36,13 +51,13 @@ namespace TailForWin.Data
     /// </summary>
     /// <param name="fileName">Output of filename</param>
     /// <returns>If success true otherwise false</returns>
-    public static bool OpenFileLogDialog (out string fileName)
+    public static bool OpenFileLogDialog (out string fileName, string filter, string title)
     {
       OpenFileDialog openDialog = new OpenFileDialog ( )
       {
-        Filter = "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*",
+        Filter = filter,
         RestoreDirectory = true,
-        Title = Application.Current.FindResource ("OpenFileDialog") as string
+        Title = title
       };
 
       Nullable<bool> result = openDialog.ShowDialog ( );
@@ -55,6 +70,18 @@ namespace TailForWin.Data
         return (true);
       }
       return (false);
+    }
+
+    /// <summary>
+    /// Bring main window to front and set it active
+    /// </summary>
+    public static void BringMainWindoToFront ()
+    {
+      if (APP_MAIN_WINDOW.WindowState == WindowState.Minimized)
+        APP_MAIN_WINDOW.WindowState = WindowState.Normal;
+
+      APP_MAIN_WINDOW.Activate ( );
+      APP_MAIN_WINDOW.Focus ( );
     }
 
     /// <summary>
@@ -143,6 +170,16 @@ namespace TailForWin.Data
         }
         return (result);
       }
+    }
+
+    public static bool FindDuplicateInFilterList (ObservableCollection<FilterData> listOfFilters, FilterData newItem)
+    {
+      foreach (FilterData item in listOfFilters)
+      {
+        if (item.Filter.CompareTo (newItem.Filter) == 0)
+          return (true);
+      }
+      return (false);
     }
 
     /// <summary>

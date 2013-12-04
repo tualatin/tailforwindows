@@ -80,24 +80,32 @@ namespace TailForWin.Template.TabOptions
 
     private void comboBoxThreadPriority_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
+      e.Handled = true;
+
       if (isInit)
         SettingsHelper.TailSettings.DefaultThreadPriority = (System.Threading.ThreadPriority) Enum.Parse (typeof (System.Threading.ThreadPriority), comboBoxThreadPriority.SelectedItem as string);
     }
 
     private void comboBoxThreadRefreshRate_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
+      e.Handled = true;
+
       if (isInit)
         SettingsHelper.TailSettings.DefaultRefreshRate = (SettingsData.ETailRefreshRate) Enum.Parse (typeof (SettingsData.ETailRefreshRate), comboBoxThreadRefreshRate.SelectedItem as string);
     }
 
     private void comboBoxTimeFormat_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
+      e.Handled = true;
+
       if (isInit)
         SettingsHelper.TailSettings.DefaultTimeFormat = SettingsData.GetDescriptionEnum<SettingsData.ETimeFormat> (comboBoxTimeFormat.SelectedItem as string);
     }
 
     private void comboBoxDateFormat_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
+      e.Handled = true;
+
       if (isInit)
         SettingsHelper.TailSettings.DefaultDateFormat = SettingsData.GetDescriptionEnum<SettingsData.EDateFormat> (comboBoxDateFormat.SelectedItem as string);
     }

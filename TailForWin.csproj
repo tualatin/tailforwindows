@@ -197,6 +197,7 @@
     <Compile Include="Utils\DeferredAction.cs" />
     <Compile Include="Utils\EncodingDetector.cs" />
     <Compile Include="Controller\FileManagerStructure.cs" />
+    <Compile Include="Utils\ErrorLog.cs" />
     <Compile Include="Utils\FileReader.cs" />
     <Compile Include="Controller\PrintHelper.cs" />
     <Compile Include="Controller\SettingsHelper.cs" />
@@ -320,16 +321,7 @@
     <Resource Include="Res\notepad.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\stop.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Res\Main.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Res\add.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Res\remove.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Res\Filters.ico" />
@@ -395,6 +387,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Res\Alert.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\remove.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\add.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\stop.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

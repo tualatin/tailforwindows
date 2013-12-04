@@ -19,6 +19,8 @@ namespace TailForWin.Template
     private SettingsData.EFileManagerState fState;
     private bool isInit = false;
     private int filterID;
+    private System.Drawing.Font defaultFont;
+    private System.Drawing.Color defaultColor;
 
     /// <summary>
     /// Save event handler
@@ -35,28 +37,13 @@ namespace TailForWin.Template
       this.tailLogData = tailLogData;
       isInit = true;
 
-      filterID = tailLogData.ListOfFilter.Count;
+      if (tailLogData.ListOfFilter.Count != 0)
+        filterID = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1].ID + 1;
+      else
+        filterID = 0;
     }
 
     #region ClickEvents
-
-    private void btnOK_Click (object sender, RoutedEventArgs e)
-    {
-      if (filterData.EqualsProperties (mementoFilterData))
-        return;
-
-      if (string.IsNullOrWhiteSpace (filterData.Filter))
-      {
-        MessageBox.Show (Application.Current.FindResource ("FilterNotEmpty").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-        return;
-      }
-
-      SetIsEnableButton ( );
-      fState = SettingsData.EFileManagerState.OpenFileManager;
-
-      if (SaveNow != null)
-        SaveNow (this, EventArgs.Empty);
-    }
 
     private void btnCancel_Click (object sender, RoutedEventArgs e)
     {
@@ -88,20 +75,23 @@ namespace TailForWin.Template
     private void btnNew_Click (object sender, RoutedEventArgs e)
     {
       fState = SettingsData.EFileManagerState.AddFile;
+      btnCancel.IsEnabled = false;
 
       FilterData newItem = new FilterData ( )
       {
-        FilterFontType = new System.Drawing.Font ("Tahoma", 8),
-        FilterColor = System.Drawing.Color.Black,
+        FilterFontType = defaultFont,
+        FilterColor = defaultColor,
         ID = filterID
       };
 
       tailLogData.ListOfFilter.Add (newItem);
 
+      if (SaveNow != null)
+        SaveNow (this, EventArgs.Empty);
+
       dataGridFilters.Items.Refresh ( );
       SelectLastItemInDataGrid ( );
 
-      SetIsEnableButton (false);
       filterID++;
     }
 
@@ -124,7 +114,6 @@ namespace TailForWin.Template
       }
 
       fState = SettingsData.EFileManagerState.OpenFileManager;
-      SetIsEnableButton ( );
     }
 
     private void btnDelete_Click (object sender, RoutedEventArgs e)
@@ -137,6 +126,9 @@ namespace TailForWin.Template
         tailLogData.ListOfFilter.RemoveAt (index);
         dataGridFilters.Items.Refresh ( );
 
+        if (SaveNow != null)
+          SaveNow (this, EventArgs.Empty);
+
         if (tailLogData.ListOfFilter.Count != 0)
           SelectLastItemInDataGrid ( );
       }
@@ -148,8 +140,14 @@ namespace TailForWin.Template
 
     private void Window_Closing (object sender, System.ComponentModel.CancelEventArgs e)
     {
-      //if (filterData != null)
-      //  filterData.Dispose ( );
+      foreach (FilterData item in tailLogData.ListOfFilter)
+      {
+        if (string.IsNullOrWhiteSpace (item.Filter))
+        {
+          MessageBox.Show (Application.Current.FindResource ("FilterNotEmpty").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+          e.Cancel = true;
+        }
+      }
     }
 
     private void Window_Loaded (object sender, RoutedEventArgs e)
@@ -157,14 +155,16 @@ namespace TailForWin.Template
       dataGridFilters.DataContext = tailLogData.ListOfFilter;
       filterProperties.DataContext = filterData;
 
-      filterData.FilterFontType = new System.Drawing.Font ("Tahoma", 8);
-      filterData.FilterColor = System.Drawing.Color.Black;
+      defaultFont = new System.Drawing.Font ("Tahoma", 12);
+      defaultColor = System.Drawing.Color.Black;
 
       fState = SettingsData.EFileManagerState.OpenFileManager;
     }
 
     private void dataGridFiles_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
+      e.Handled = true;
+
       filterData = dataGridFilters.SelectedItem as FilterData;
 
       if (filterData != null)
@@ -178,7 +178,12 @@ namespace TailForWin.Template
     private void textBoxFilter_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
       if (!string.IsNullOrEmpty (textBoxFilter.Text))
+      {
+        btnCancel.IsEnabled = true;
         ChangeState ( );
+      }
+      else
+        btnCancel.IsEnabled = false;
     }
 
     private void textBoxDescription_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -212,16 +217,7 @@ namespace TailForWin.Template
         return;
 
       if (fState == SettingsData.EFileManagerState.OpenFileManager && mementoFilterData != null && filterData != null && !filterData.EqualsProperties (mementoFilterData))
-      {
         fState = SettingsData.EFileManagerState.EditItem;
-        SetIsEnableButton (false);
-      }
-    }
-
-    private void SetIsEnableButton (bool state = true)
-    {
-      btnNew.IsEnabled = state;
-      dataGridFilters.IsEnabled = state;
     }
 
     #endregion

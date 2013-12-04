@@ -36,9 +36,23 @@ namespace TailForWin.Template
     /// </summary>
     public event EventHandler FindTextChanged;
 
+    /// <summary>
+    /// Wrap around event handler
+    /// </summary>
+    public event EventHandler WrapAround;
+
     #endregion
 
     private Dictionary<string, string> SearchWords;
+
+    /// <summary>
+    /// Wrap search active
+    /// </summary>
+    public bool WrapSearch
+    {
+      get;
+      private set;
+    }
 
 
     public SearchDialog ()
@@ -90,6 +104,28 @@ namespace TailForWin.Template
         HideSearchBox (this, EventArgs.Empty);
 
       Hide ( );
+    }
+
+    private void checkBoxWrapAround_Click (object sender, RoutedEventArgs e)
+    {
+      WrapAroundBool wrap = new WrapAroundBool ( );
+
+      if (checkBoxWrapAround.IsChecked == true)
+      {
+        wrap.Wrap = true;
+        WrapSearch = true;
+
+        if (WrapAround != null)
+          WrapAround (this, wrap);
+      }
+      else
+      {
+        wrap.Wrap = false;
+        WrapSearch = false;
+
+        if (WrapAround != null)
+          WrapAround (this, wrap);
+      }
     }
 
     #endregion
@@ -152,6 +188,9 @@ namespace TailForWin.Template
 
       SettingsHelper.SaveSearchWindowPosition ( );
 
+      if (HideSearchBox != null)
+        HideSearchBox (this, EventArgs.Empty);
+
       e.Cancel = true;
       Hide ( );
     }
@@ -167,6 +206,23 @@ namespace TailForWin.Template
         FindTextChanged (this, EventArgs.Empty);
     }
 
+    private void comboBoxWordToFind_SelectionChanged (object sender, SelectionChangedEventArgs e)
+    {
+      e.Handled = true;
+    }
+
     #endregion
+  }
+
+  public class WrapAroundBool: EventArgs
+  {
+    /// <summary>
+    /// Wrap boolean
+    /// </summary>
+    public bool Wrap
+    {
+      get;
+      set;
+    }
   }
 }

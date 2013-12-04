@@ -1,17 +1,25 @@
-﻿Changelog:
+﻿.NET 4.x required!
+
+Changelog:
 
 v0.9.
+* add filtering in view
+* improve tab selection change (minimize event firing)
+* lot bug fixes in search dialogue for more than one tab page
+* bug fix search next - scroll from beginning
+* bug fix for Windows XP
+* replace some icons (bug fix for Windows XP)
 * add Drag and Drop support
 * add Drag and Drop support in FileManager
 * add alert tab in options dialogue
 * add more options in *.config file
 * add filters
-* add sound support
 * add alert support
-* read filter section from XML file
+* add read filter section from XML file
+* add writing filter section into XML file
 * bug fix in FileManager
 * bug fix Count button in search dialogue
-* button title from Manager font -> Manage font
+* button title from "Manager font" -> "Manage font"
 * improve Find next in search dialogue
 
 v0.9.5078.x

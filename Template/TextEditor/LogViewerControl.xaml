@@ -172,7 +172,7 @@
                                         DateTimeLineNumbersTemplate="{StaticResource dateTimeLineNumberTemplate}" x:Key="templateSelector" />
   </UserControl.Resources>
   <Border BorderThickness="0,1,0,0" BorderBrush="Gainsboro">
-    <ListBox ItemsSource="{Binding}" x:Name="LogViewer" Background="{Binding Path=TextEditorBackgroundColor, ElementName=LogViewerProperty}" Style="{StaticResource MyListBox}" Foreground="{Binding Path=TextEditorForegroundColor, ElementName=LogViewerProperty}" ItemTemplateSelector="{StaticResource templateSelector}" Loaded="LogViewer_Loaded" SelectionMode="Extended" IsSynchronizedWithCurrentItem="True" sel:ListBoxExtenders.AutoScrollToCurrentItem="{Binding Path=AlwaysScrollIntoView, ElementName=LogViewerProperty}" ItemContainerStyle="{StaticResource ItemStyle}" sel:ListBoxCopy.AutoCopy="True" sel:ListBoxCopy.AddDateTime="{Binding Path=AddDateTime, ElementName=LogViewerProperty}" />
+    <ListBox ItemsSource="{Binding}" x:Name="LogViewer" Background="{Binding Path=TextEditorBackgroundColor, ElementName=LogViewerProperty}" Style="{StaticResource MyListBox}" Foreground="{Binding Path=TextEditorForegroundColor, ElementName=LogViewerProperty}" ItemTemplateSelector="{StaticResource templateSelector}" Loaded="LogViewer_Loaded" SelectionMode="Extended" IsSynchronizedWithCurrentItem="True" sel:ListBoxExtenders.AutoScrollToCurrentItem="{Binding Path=AlwaysScrollIntoView, ElementName=LogViewerProperty}" ItemContainerStyle="{StaticResource ItemStyle}" sel:ListBoxCopy.AutoCopy="True" sel:ListBoxCopy.AddDateTime="{Binding Path=AddDateTime, ElementName=LogViewerProperty}" SelectionChanged="LogViewer_SelectionChanged_1" />
   </Border>
 
 </UserControl>

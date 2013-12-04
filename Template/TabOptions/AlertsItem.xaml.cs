@@ -5,6 +5,7 @@ using TailForWin.Controller;
 using TailForWin.Data;
 using System.Windows;
 using System.Text.RegularExpressions;
+using TailForWin.Utils;
 
 
 namespace TailForWin.Template.TabOptions
@@ -71,6 +72,8 @@ namespace TailForWin.Template.TabOptions
 
     private void UserControl_Drop (object sender, DragEventArgs e)
     {
+      e.Handled = true;
+
       try
       {
         var text = e.Data.GetData (DataFormats.FileDrop);
@@ -93,22 +96,16 @@ namespace TailForWin.Template.TabOptions
       }
       catch (Exception ex)
       {
-#if DEBUG
-        Console.WriteLine (string.Format ("AlertsItem Drop exception {0}", ex));
-#endif
-      }
-      finally
-      {
-        e.Handled = true;
+        ErrorLog.WriteLog (ErrorFlags.Error, "AlertsItem", string.Format ("AlertsItem Drop exception {0}", ex));
       }
     }
 
     private void UserControl_DragEnter (object sender, DragEventArgs e)
     {
+      e.Handled = true;
+
       if (e.Source == sender)
         e.Effects = DragDropEffects.None;
-
-      e.Handled = true;
     }
 
     private void textBoxSoundFile_PreviewDragOver (object sender, DragEventArgs e)

@@ -17,7 +17,7 @@ namespace TailForWin.Converter
         {
           Font font = value as Font;
 
-          return (string.Format ("{0} {1}", font.FontFamily.Name, font.Size));
+          return (string.Format ("{0} ({1}) {2} {3}", font.Name, font.Size, font.Italic ? "Italic" : string.Empty, font.Bold ? "Bold" : string.Empty));
         }
       }
       return (string.Empty);

@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Text;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 
 namespace TailForWin.Data
@@ -13,13 +14,18 @@ namespace TailForWin.Data
   public class TailLogData: INotifyMaster, IDisposable
   {
     private Font fontType;
-    private string guiFont;
     private bool killSpace;
     private bool wrap;
     private bool timeStamp;
     private string fileName;
     private string file;
 
+
+    public TailLogData ()
+    {
+      listOfFilter = new ObservableCollection<FilterData> ( );
+      listOfFilter.CollectionChanged += ContentCollectionChanged;
+    }
 
     public void Dispose ()
     {
@@ -132,24 +138,7 @@ namespace TailForWin.Data
       set
       {
         fontType = value;
-        GuiFont = string.Format ("{0} ({1}) {2} {3}", FontType.Name, FontType.Size, FontType.Italic ? "Italic" : string.Empty, FontType.Bold ? "Bold" : string.Empty);
         OnPropertyChanged ("FontType");
-      }
-    }
-
-    /// <summary>
-    /// Gui font type
-    /// </summary>
-    public string GuiFont
-    {
-      get
-      {
-        return (guiFont);
-      }
-      set
-      {
-        guiFont = value;
-        OnPropertyChanged ("GuiFont");
       }
     }
 
@@ -196,6 +185,26 @@ namespace TailForWin.Data
     {
       get;
       set;
+    }
+
+    private void ContentCollectionChanged (object sender, NotifyCollectionChangedEventArgs e)
+    {
+      if (e.Action == NotifyCollectionChangedAction.Remove)
+      {
+        foreach (FilterData item in e.OldItems)
+        {
+          item.PropertyChanged -= ItemPropertyChanged;
+          OnPropertyChanged ("ListOfFilter");
+        }
+      }
+      else if (e.Action == NotifyCollectionChangedAction.Add)
+      {
+        foreach (FilterData item in e.NewItems)
+        {
+          item.PropertyChanged += ItemPropertyChanged;
+          OnPropertyChanged ("ListOfFilter");
+        }
+      }
     }
   }
 }

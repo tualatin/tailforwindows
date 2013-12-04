@@ -8,6 +8,11 @@ namespace TailForWin.Data
 {
   public class SettingsData: INotifyMaster
   {
+    public SettingsData ()
+    {
+      AlertSettings = new AlertData ( );
+    }
+
     /// <summary>
     /// Lines to read at the begining
     /// </summary>
@@ -547,6 +552,15 @@ namespace TailForWin.Data
     }
 
     /// <summary>
+    /// Alert settings
+    /// </summary>
+    public AlertData AlertSettings
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Enum File sort
     /// </summary>
     public enum EFileSort
@@ -657,6 +671,11 @@ namespace TailForWin.Data
       /// Open FileManager without new file
       /// </summary>
       OpenFileManager,
+
+      /// <summary>
+      /// Do something in FilterDialogue
+      /// </summary>
+      EditFilter,
 
       /// <summary>
       /// Edit selected item

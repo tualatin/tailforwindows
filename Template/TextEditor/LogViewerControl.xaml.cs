@@ -12,7 +12,9 @@ using System.Windows.Documents;
 using TailForWin.Template.TextEditor.Utils;
 using TailForWin.Template.TextEditor.Data;
 using TailForWin.Template.TextEditor.Converter;
-using System.Linq;
+using TailForWin.Data;
+using System.Windows.Threading;
+using System.Windows.Data;
 
 
 namespace TailForWin.Template.TextEditor
@@ -22,6 +24,15 @@ namespace TailForWin.Template.TextEditor
   /// </summary>
   public partial class LogViewerControl: UserControl
   {
+    #region EventHandler
+
+    /// <summary>
+    /// Alert event handler
+    /// </summary>
+    public event EventHandler Alert;
+
+    #endregion
+    
     private bool leftMouseButtonDown;
     private bool rightMouseButtonDown;
     private bool wordSelection;
@@ -30,8 +41,33 @@ namespace TailForWin.Template.TextEditor
     private Point oldMousePosition;
     private DeferredAction deferredOnMouseMove = null;
     private readonly TimeSpan onMouseMoveDelay = TimeSpan.FromMilliseconds (200.0);
+    private ScrollViewer logViewScrollViewer;
+    private bool newSearch;
+
+    /// <summary>
+    /// Index for LogEntries and linenumbers
+    /// </summary>
     private int index;
+
+    /// <summary>
+    /// Pattern from search box what we explore
+    /// </summary>
     private string SearchText;
+
+    /// <summary>
+    /// Collection of found items
+    /// </summary>
+    private List<LogEntry> foundItems;
+
+    /// <summary>
+    /// Collection of words what we want to find
+    /// </summary>
+    private ObservableCollection<FilterData> filters;
+
+    /// <summary>
+    /// CollectionViewSource to filter data, grouping etc.
+    /// </summary>
+    private CollectionViewSource collectionViewSource;
 
 
     public LogViewerControl ()
@@ -48,15 +84,21 @@ namespace TailForWin.Template.TextEditor
       LogViewer.MouseMove += LogViewer_MouseMove;
       LogViewer.SelectionChanged += LogViewer_SelectionChanged;
 
-      LogViewer.DataContext = LogEntries = new ObservableCollection<LogEntry> ( );
+      /* LogViewer.DataContext = */ LogEntries = new ObservableCollection<LogEntry> ( );
+      collectionViewSource = new CollectionViewSource ( ) { Source = LogEntries };
+      collectionViewSource.Filter += CollectionViewSourceFilter;
+      LogViewer.DataContext = collectionViewSource;
+      filters = new ObservableCollection<FilterData> ( );
+      foundItems = new List<LogEntry> ( );
 
       StringFormatData.StringFormat = "dd.MM.yyyy HH:mm:ss.fff";
+      newSearch = true;
     }
 
     #region Public properties
 
     public static readonly DependencyProperty ShowLineNumbersProperty = DependencyProperty.Register ("ShowLineNumbers", typeof (bool), typeof (LogViewerControl),
-                              new PropertyMetadata (false, OnDataTemplateChange));
+                              new PropertyMetadata (false, OnDataTemplateChanged));
 
     [Category ("TextEditor")]
     public bool ShowLineNumbers
@@ -168,7 +210,7 @@ namespace TailForWin.Template.TextEditor
     }
 
     public static readonly DependencyProperty ShowDateTimeProperty = DependencyProperty.Register ("ShowDateTime", typeof (bool), typeof (LogViewerControl), 
-                              new PropertyMetadata (false, OnDataTemplateChange));
+                              new PropertyMetadata (false, OnDataTemplateChanged));
 
     [Category ("TextEditor")]
     public bool ShowDateTime
@@ -383,10 +425,66 @@ namespace TailForWin.Template.TextEditor
       }
     }
 
+    public static readonly DependencyProperty FilterOnProperty = DependencyProperty.Register ("FilterOn", typeof (bool), typeof (LogViewerControl),
+                      new PropertyMetadata (false, OnFilterOnChanged));
+
+    [Category ("TextEditor")]
+    public bool FilterOn
+    {
+      get
+      {
+        return ((bool) GetValue (FilterOnProperty));
+      }
+      set
+      {
+        SetValue (FilterOnProperty, value);
+      }
+    }
+
+    /// <summary>
+    /// Is control visible yes/no
+    /// </summary>
+    public bool IsActiv
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Searchbox open yes/no
+    /// </summary>
+    public bool IsSearching
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// NextSearch counter
+    /// </summary>
+    public LogEntry NextSearch
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Wrap around while searching
+    /// </summary>
+    public bool WrapAround
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     #region Public functions
 
+    /// <summary>
+    /// Append text to TextEditor
+    /// </summary>
+    /// <param name="logText">Text to insert</param>
     public void AppendText (string logText)
     {
       LogEntry entry = new LogEntry ( )
@@ -395,17 +493,65 @@ namespace TailForWin.Template.TextEditor
         Message = logText,
         DateTime = DateTime.Now
       };
-
+      
       Dispatcher.BeginInvoke ((Action) (() => LogEntries.Add (entry)));
 
       if (AlwaysScrollIntoView)
         ScrollToEnd ( );
+
+      // TriggerAlert (entry);
     }
 
-    public void FindListViewItem (string searchText)
+    /// <summary>
+    /// Find next search item
+    /// </summary>
+    /// <param name="searchText">Text to search</param>
+    public void FindNextItem (SearchData sd)
     {
-      SearchText = searchText;
-      FindListViewItem (LogViewer);
+      // Dispatcher.BeginInvoke allows the runtime to finish init tab control
+      Dispatcher.BeginInvoke (new Action (() =>
+      {
+        SearchText = sd.WordToFind;
+
+        if (newSearch)
+        {
+          RemoveAllSearchHighlights ( );
+          SearchItemsNow (sd.Count);
+        }
+
+        if (!sd.Count)
+        {
+          FindNextSearchItem ( );
+          LogViewer.SelectedItem = NextSearch;
+          LogViewer.ScrollIntoView (NextSearch);
+          SearchNextHightlightItem (FindMessageTextBox (NextSearch));
+        }
+      }), DispatcherPriority.DataBind);
+    }
+
+    /// <summary>
+    /// Remove the search highlights
+    /// </summary>
+    public void RemoveSearchHighlight ()
+    {
+      RemoveAllSearchHighlights ( );
+      newSearch = true;
+      NextSearch = null;
+      IsSearching = false;
+    }
+
+    /// <summary>
+    /// Find text changed
+    /// </summary>
+    public void FindWhatTextChanged ()
+    {
+      if (foundItems.Count != 0)
+      {
+        RemoveAllSearchHighlights ( );
+        foundItems.Clear ( );
+        newSearch = true;
+        NextSearch = null;
+      }
     }
 
     /// <summary>
@@ -425,7 +571,7 @@ namespace TailForWin.Template.TextEditor
       if (LogViewer.Items.Count == 0)
         return;
 
-      LogViewer.ScrollIntoView (LogViewer.Items[LogEntries.Count - 1]);
+      logViewScrollViewer.ScrollToEnd ( );
     }
 
     /// <summary>
@@ -440,45 +586,30 @@ namespace TailForWin.Template.TextEditor
     }
 
     /// <summary>
-    /// Get search count
+    /// Get search result count
     /// </summary>
-    public int SearchCount
+    public int SearchResultCount
     {
-      get;
-      set;
+      get
+      {
+        return (foundItems.Count);
+      }
     }
 
     /// <summary>
-    /// Get count of search result
+    /// Update filters
     /// </summary>
-    /// <returns>Counts of find</returns>
-    public int GetSearchCount ()
+    /// <param name="newFilter">Dictionary with filters</param>
+    public void UpdateFilters (ObservableCollection<FilterData> newFilter)
     {
-      if (!string.IsNullOrEmpty (SearchText))
-      {
-        int count = 0;
-        Regex regSearch = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
-
-        foreach (LogEntry item in LogEntries)
-        {
-          string[] substrings = regSearch.Split (item.Message);
-
-          foreach (var sub in substrings) 
-          {
-            if (regSearch.Match (sub).Success)
-              count++;
-          }
-        }
-        return (count);
-      }
-      return (-1);
+      filters = newFilter;
     }
 
     #endregion
 
     #region PropertyCallback functions
 
-    private static void OnDataTemplateChange (DependencyObject sender, DependencyPropertyChangedEventArgs e) 
+    private static void OnDataTemplateChanged (DependencyObject sender, DependencyPropertyChangedEventArgs e) 
     {
       if (sender.GetType ( ) == typeof (LogViewerControl))
       {
@@ -489,6 +620,17 @@ namespace TailForWin.Template.TextEditor
       }
     }
 
+    private static void OnFilterOnChanged (object sender, DependencyPropertyChangedEventArgs e)
+    {
+      if (sender.GetType ( ) == typeof (LogViewerControl))
+      {
+        LogViewerControl control = sender as LogViewerControl;
+
+        if (control != null)
+          CollectionViewSource.GetDefaultView (control.LogViewer.ItemsSource).Refresh ( );
+      }
+    }
+
     #endregion
 
     #region Events
@@ -496,10 +638,20 @@ namespace TailForWin.Template.TextEditor
     private void LogViewer_Loaded (object sender, RoutedEventArgs e)
     {
       SetTemplateState ( );
+      logViewScrollViewer = FindVisualChild<ScrollViewer> (LogViewer);
+      logViewScrollViewer.ScrollChanged += ScrollViewerChanged;
+    }
+
+    private void ScrollViewerChanged (object sender, ScrollChangedEventArgs e)
+    {
+      if (foundItems.Count != 0 && IsSearching && IsActiv)
+        HighlightAllMatches ( );
     }
 
     private void LogViewer_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
+      e.Handled = true;
+
       if (rightMouseButtonDown)
         return;
       if (!leftMouseButtonDown)
@@ -557,13 +709,34 @@ namespace TailForWin.Template.TextEditor
       catch (Exception ex)
       {
 #if DEBUG
-        Console.WriteLine (string.Format ("{0}", ex));
+        TailForWin.Utils.ErrorLog.WriteLog (TailForWin.Utils.ErrorFlags.Error, "LogViewerControl", string.Format ("{0}", ex));
 #endif
       }
 
 #if DEBUG
       LogMouseEvents ("--- SelectionChanged ---");
 #endif
+    }
+
+    private void LogViewer_SelectionChanged_1 (object sender, SelectionChangedEventArgs e)
+    {
+      e.Handled = true;
+    }
+
+    private void CollectionViewSourceFilter (object sender, FilterEventArgs e)
+    {
+      if (FilterOn)
+      {
+        LogEntry logEntry = e.Item as LogEntry;
+
+        if (logEntry != null)
+        {
+          if (TriggerAlert (logEntry))
+            e.Accepted = true;
+          else
+            e.Accepted = false;
+        }
+      }
     }
 
     #endregion
@@ -691,68 +864,286 @@ namespace TailForWin.Template.TextEditor
 
     #endregion
 
-    #region Helperfunctions
-
-    private void FindListViewItem (DependencyObject obj)
+    #region Searching
+    
+    private void FindNextSearchItem ( )
     {
-      for (int i = 0; i < VisualTreeHelper.GetChildrenCount (obj); i++)
+      int start = -1;
+      int end = (int) Math.Round (logViewScrollViewer.ViewportHeight);
+      int stop = -1;
+
+      if (NextSearch == null)
+        start = (int) Math.Round (logViewScrollViewer.VerticalOffset) + 1;
+      else
+        start = NextSearch.Index;
+      
+      // I.)
+      // Look into visible items and highlight first hit
+      if (ScrollIntoVisibleSearchText (start, end, out stop))
+        return;
+
+      // II.)
+      // Look into hidden items and highlight first hit
+      if (!ScrollIntoHiddenSearchText (stop))
       {
-        ListBoxItem lbi = obj as ListBoxItem;
-
-        if (lbi != null)
-          HightlightText (lbi);
-
-        FindListViewItem (VisualTreeHelper.GetChild (obj, i));
+        if (WrapAround)
+        {
+          logViewScrollViewer.ScrollToHome ( );
+          HightlightText (FindMessageTextBox (NextSearch));
+          NextSearch = null;
+          ScrollIntoHiddenSearchText (0);
+        }
       }
     }
 
-    private void HightlightText (Object itx)
+    private bool ScrollIntoVisibleSearchText (int start, int end, out int stop)
     {
-      if (itx != null)
+      int counter = 0;
+      stop = -1;
+
+      for (int i = start; i <= LogEntries.Count; i++)
       {
-        Regex regex;
-
-        if (itx is TextBlock)
+        foreach (LogEntry item in foundItems)
         {
-          regex = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
-          TextBlock tb = itx as TextBlock;
-
-          if (SearchText.Length == 0)
+          if (item.Index == i)
           {
-            string str = tb.Text;
-            tb.Inlines.Clear ( );
-            tb.Inlines.Add (str);
-            return;
-          }
-
-          string[] substrings = regex.Split (tb.Text);
-          tb.Inlines.Clear ( );
-
-          foreach (var item in substrings)
-          {
-            if (regex.Match (item).Success)
+            if (NextSearch != null && item.Index == NextSearch.Index)
             {
-              Brush searchHighlightOpacity = TextEditorSearchHighlightBackground;
-              searchHighlightOpacity.Opacity = 0.4;
-
-              Run runx = new Run (item) 
-              { 
-                Background = searchHighlightOpacity,
-                Foreground = TextEditorSearchHighlightForeground
-              };
-              tb.Inlines.Add (runx);
+              stop = i;
+              continue;
             }
-            else
-              tb.Inlines.Add (item);
+
+            HightlightText (FindMessageTextBox (NextSearch));
+            NextSearch = item;
+
+            return (true);
           }
-          return;
         }
-        else
+
+        counter++;
+
+        if (counter > end)
+          break;
+      }
+      return (false);
+    }
+
+    private bool ScrollIntoHiddenSearchText (int start)
+    {
+      for (int i = start; i <= LogEntries.Count; i++)
+      {
+        foreach (LogEntry item in foundItems)
         {
-          for (int i = 0; i < VisualTreeHelper.GetChildrenCount (itx as DependencyObject); i++)
-            HightlightText (VisualTreeHelper.GetChild (itx as DependencyObject, i));
+          if (item.Index == i)
+          {
+            if (NextSearch != null && item.Index == NextSearch.Index)
+              continue;
+
+            HightlightText (FindMessageTextBox (NextSearch));
+            NextSearch = item;
+            
+            return (true);
+          }
         }
       }
+      return (false);
+    }
+
+    private void SearchItemsNow (bool count = false)
+    {
+      if (!string.IsNullOrEmpty (SearchText))
+      {
+        foundItems.Clear ( );
+        Regex regSearch = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
+
+        foreach (LogEntry item in LogEntries)
+        {
+          string[] substrings = regSearch.Split (item.Message);
+
+          foreach (var sub in substrings)
+          {
+            if (regSearch.Match (sub).Success)
+            {
+              foundItems.Add (item);
+
+              if (count)
+                newSearch = true;
+              else
+                newSearch = false;
+            }
+          }
+        }
+
+        if (!count)
+          HighlightAllMatches ( );
+      }
+    }
+
+    private void HighlightAllMatches ( )
+    {
+      if (foundItems.Count != 0)
+      {
+        foreach (LogEntry item in foundItems)
+        {
+          if (NextSearch != null && item.Index == NextSearch.Index)
+            continue;
+
+          HightlightText (FindMessageTextBox (item));
+        }
+      }
+    }
+
+    private void RemoveAllSearchHighlights ()
+    {
+      if (foundItems.Count != 0)
+      {
+        foreach (LogEntry item in foundItems)
+        {
+          RemoveHightlightText (FindMessageTextBox (item));
+        }
+      }
+    }
+
+    private TextBlock FindMessageTextBox (LogEntry item)
+    {
+      TextBlock target = null;
+
+      ListBoxItem myListBoxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem (item));
+      ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter> (myListBoxItem);
+
+      if (myContentPresenter != null)
+      {
+        DataTemplate myDataTemplate = myContentPresenter.ContentTemplateSelector.SelectTemplate (myListBoxItem, LogViewer);
+        target = (TextBlock) myDataTemplate.FindName ("txtBoxMessage", myContentPresenter);
+
+        return (target);
+      }
+      return (target);
+    }
+
+    private void HightlightText (TextBlock tb)
+    {
+      if (tb != null)
+      {
+        Regex regex = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
+
+        if (SearchText.Length == 0)
+        {
+          string str = tb.Text;
+          tb.Inlines.Clear ( );
+          tb.Inlines.Add (str);
+          return;
+        }
+
+        string[] substrings = regex.Split (tb.Text);
+        tb.Inlines.Clear ( );
+
+        foreach (var item in substrings)
+        {
+          if (regex.Match (item).Success)
+          {
+            Brush searchHighlightOpacity = TextEditorSearchHighlightBackground.Clone ( );
+            searchHighlightOpacity.Opacity = 0.5;
+
+            Run runx = new Run (item)
+            {
+              Background = searchHighlightOpacity,
+              Foreground = TextEditorSearchHighlightForeground
+            };
+            tb.Inlines.Add (runx);
+          }
+          else
+            tb.Inlines.Add (item);
+        }
+      }
+    }
+
+    private void RemoveHightlightText (TextBlock tb)
+    {
+      if (tb != null)
+      {
+        Regex regex = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
+
+        if (SearchText.Length == 0)
+        {
+          string str = tb.Text;
+          tb.Inlines.Clear ( );
+          tb.Inlines.Add (str);
+          return;
+        }
+
+        string[] substrings = regex.Split (tb.Text);
+        tb.Inlines.Clear ( );
+
+        foreach (var item in substrings)
+        {
+          tb.Inlines.Add (item);
+        }
+        return;
+      }
+    }
+
+    private void SearchNextHightlightItem (TextBlock tb)
+    {
+      if (tb != null)
+      {
+        Regex regex = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
+
+        if (SearchText.Length == 0)
+        {
+          string str = tb.Text;
+          tb.Inlines.Clear ( );
+          tb.Inlines.Add (str);
+        }
+
+        string[] substrings = regex.Split (tb.Text);
+        tb.Inlines.Clear ( );
+
+        foreach (var item in substrings)
+        {
+          if (regex.Match (item).Success)
+          {
+            Run runx = new Run (item)
+            {
+              Background = TextEditorSearchHighlightBackground,
+              Foreground = TextEditorSearchHighlightForeground
+            };
+            tb.Inlines.Add (runx);
+          }
+          else
+            tb.Inlines.Add (item);
+        }
+      }
+    }
+
+    #endregion
+
+    #region Helperfunctions
+
+    private bool TriggerAlert (LogEntry newItem)
+    {
+      if (filters.Count == 0)
+        return (false);
+
+      bool success = false;
+
+      foreach (FilterData pair in filters)
+      {
+        Regex regSearch = new Regex (string.Format ("({0})", pair.Filter), RegexOptions.IgnoreCase);
+        string[] substrings = regSearch.Split (newItem.Message);
+
+        foreach (var sub in substrings)
+        {
+          if (regSearch.Match (sub).Success)
+          {
+            if (Alert != null)
+              Alert (this, EventArgs.Empty);
+
+            success = true;
+          }
+        }
+      }
+      return (success);
     }
 
     private void SetTemplateState ()

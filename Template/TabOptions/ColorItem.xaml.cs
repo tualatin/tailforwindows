@@ -13,7 +13,7 @@ namespace TailForWin.Template.TabOptions
   /// <summary>
   /// Interaction logic for ColorItem.xaml
   /// </summary>
-  public partial class ColorItem: UserControl
+  public partial class ColorItem: UserControl, ITabItems
   {
     /// <summary>
     /// Close dialog event handler
@@ -37,13 +37,13 @@ namespace TailForWin.Template.TabOptions
 
     #region ClickEvents
 
-    private void btnSave_Click (object sender, RoutedEventArgs e)
+    public void btnSave_Click (object sender, RoutedEventArgs e)
     {
       if (SaveSettings != null)
         SaveSettings (this, EventArgs.Empty);
     }
 
-    private void btnCancel_Click (object sender, RoutedEventArgs e)
+    public void btnCancel_Click (object sender, RoutedEventArgs e)
     {
       if (CloseDialog != null)
         CloseDialog (this, EventArgs.Empty);
@@ -110,7 +110,7 @@ namespace TailForWin.Template.TabOptions
       return (string.Empty);
     }
 
-    private void HandleEsc (object sender, KeyEventArgs e)
+    public void HandleEsc (object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
         btnCancel_Click (sender, e);

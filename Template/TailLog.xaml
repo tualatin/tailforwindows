@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="760"
-  Title="TailLog" Loaded="Page_Loaded" xmlns:my="clr-namespace:TailForWin.Template.TextEditor">
+  Title="TailLog" Loaded="Page_Loaded" xmlns:my="clr-namespace:TailForWin.Template.TextEditor" AllowDrop="True" DragEnter="DragEnterHelper" Drop="DropHelper">
   <Page.Resources>
 
   </Page.Resources>
@@ -17,7 +17,7 @@
     </Grid.RowDefinitions>
       
     <!-- Row 0 -->
-    <GroupBox Grid.Row="0" Header="" Margin="0" Name="groupBoxSettings" BorderThickness="0">
+    <GroupBox Grid.Row="0" Header="" Margin="0" Name="groupBoxSettings" BorderThickness="0" AllowDrop="True" DragEnter="DragEnterHelper" Drop="DropHelper">
       <Grid>
         <Grid.RowDefinitions>
           <RowDefinition Height="25" />
@@ -29,32 +29,32 @@
           <ColumnDefinition Width="488*" />
           <ColumnDefinition Width="105" />
         </Grid.ColumnDefinitions>
-        <Button Height="23" Margin="0" Name="btnStart" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" Click="btnStart_Click" TabIndex="9">
+        <Button Height="23" Margin="0" Name="btnStart" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" Click="btnStart_Click" TabIndex="9" ToolTip="Start tail (Ctrl+T)">
           <StackPanel Orientation="Horizontal">
             <Image Source="/TailForWin;component/Res/start.ico"></Image>
             <TextBlock Margin="15,0,0,0">Start</TextBlock>
           </StackPanel>
         </Button>
-        <Button Height="23" Margin="0" Name="btnStop" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" Click="btnStop_Click" Visibility="Hidden">
+        <Button Height="23" Margin="0" Name="btnStop" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" Click="btnStop_Click" Visibility="Hidden" ToolTip="Paus tail (Ctrl+S)">
           <StackPanel Orientation="Horizontal">
-            <Image Source="/TailForWin;component/Res/stop.png"></Image>
+            <Image Source="/TailForWin;component/Res/stop.ico"></Image>
             <TextBlock Margin="15,0,0,0">Stop</TextBlock>
           </StackPanel>
         </Button>
         <Label Content="File:" Height="28" HorizontalAlignment="Left" Margin="0,-2,0,24" VerticalAlignment="Center" Grid.RowSpan="2" />
-        <Button Height="23" HorizontalAlignment="Left" Name="btnOpenFile" VerticalAlignment="Center" Width="23" Margin="35,0,0,0" Click="btnOpenFile_Click" ToolTip="Open file to tail" TabIndex="1">
+        <Button Height="23" HorizontalAlignment="Left" Name="btnOpenFile" VerticalAlignment="Center" Width="23" Margin="35,0,0,0" Click="btnOpenFile_Click" ToolTip="Open file to tail (Ctrl+O)" TabIndex="1">
           <StackPanel>
-            <Image Source="/TailForWin;component/Res/openfolder.ico"></Image>
+            <Image Source="/TailForWin;component/Res/openfolder.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"></Image>
           </StackPanel>
         </Button>
         <Button Height="23" HorizontalAlignment="Left" Name="btnFileManagerAdd" VerticalAlignment="Center" Width="23" Margin="65,0,0,0" Click="btnFileManagerAdd_Click" IsEnabled="False" ToolTip="Add file to the FileManager" TabIndex="2">
           <StackPanel>
-            <Image Source="/TailForWin;component/Res/add.png"></Image>
+            <Image Source="/TailForWin;component/Res/add.ico"></Image>
           </StackPanel>
         </Button>
 
         <!-- Column 1 -->
-        <TextBox Height="23" Margin="0,0,3,0" Name="textBoxFileName" VerticalAlignment="Center" Grid.Column="1" TextChanged="textBoxFileName_TextChanged" TabIndex="3" />
+        <TextBox Height="23" Margin="0,0,3,0" Name="textBoxFileName" VerticalAlignment="Center" Grid.Column="1" TextChanged="textBoxFileName_TextChanged" TabIndex="3" PreviewDragOver="textBoxFileName_PreviewDragOver" />
 
         <!-- Row 1 -->
         <StackPanel Name="ExtraIcons" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" Grid.Column="0" Grid.ColumnSpan="2" Margin="0" IsEnabled="False">
@@ -93,6 +93,12 @@
           </ToggleButton.Style>
         </ToggleButton>
 
+        <Button Grid.Column="1" Grid.Row="2" Height="23" Width="23" HorizontalAlignment="Right" Margin="5,0" Name="btnFilters" Click="btnFilters_Click" ToolTip="Add filters">
+          <StackPanel>
+            <Image Source="/TailForWin;component/Res/Filters.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Width="16"  Height="16"></Image>
+          </StackPanel>
+        </Button>
+
         <!-- Row 2 -->
         <Grid Grid.Column="2" Grid.Row="2">
           <Grid.ColumnDefinitions>
@@ -111,7 +117,7 @@
               <Image Source="/TailForWin;component/Res/print.ico"></Image>
             </StackPanel>
           </Button>
-          <Button Height="23" HorizontalAlignment="Left" Name="btnFileManager" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="2" Click="btnFileManager_Click" ToolTip="Open the FileManager" TabIndex="13">
+          <Button Height="23" HorizontalAlignment="Left" Name="btnFileManager" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="2" Click="btnFileManager_Click" ToolTip="Open the FileManager (Ctrl+M)" TabIndex="13">
             <StackPanel>
               <Image Source="/TailForWin;component/Res/Explorer.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
             </StackPanel>
@@ -122,6 +128,7 @@
             </StackPanel>
           </Button>
         </Grid>
+        <CheckBox Content="Filter active" Grid.Column="1" Grid.Row="2" Height="16" HorizontalAlignment="Right" Margin="0,0,35,0" Name="checkBoxFilter" VerticalAlignment="Center" Click="checkBoxFilter_Click" />
       </Grid>
     </GroupBox>
     <Grid Grid.Row="1" Margin="0">
@@ -142,7 +149,7 @@
             </Style.Triggers>
           </Style>
         </Grid.Style>
-        <my:LogViewerControl x:Name="textBlockTailLog" ShowDateTime="{Binding ElementName=checkBoxTimestamp, Path=IsChecked, Mode=OneWay}" />
+        <my:LogViewerControl x:Name="textBlockTailLog" ShowDateTime="{Binding ElementName=checkBoxTimestamp, Path=IsChecked, Mode=OneWay}" DragEnter="DragEnterHelper" Drop="DropHelper" FilterOn="{Binding ElementName=checkBoxFilter, Path=IsChecked}" />
       </Grid>
       <Grid Name="bottomGrid" Grid.Row="1" Visibility="{Binding ElementName=toggle1, Path=IsChecked, Converter={StaticResource visConverter}}">
         <Grid.ColumnDefinitions>
@@ -152,17 +159,17 @@
           <ColumnDefinition Width="23"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Button Width="18" Height="18" HorizontalAlignment="Right" Grid.Column="1" Name="btnSearch" Click="btnSearch_Click" ToolTip="Search in tailtextbox">
+        <Button Width="18" Height="18" HorizontalAlignment="Right" Grid.Column="1" Name="btnSearch" Click="btnSearch_Click" ToolTip="Search in tailtextbox (Ctrl+F)">
           <StackPanel>
             <Image Source="/TailForWin;component/Res/Search.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
           </StackPanel>
         </Button>
-        <Button Width="18" Height="18" HorizontalAlignment="Right" Grid.Column="2" Name="btnClearTextBox" Click="btnClearTextBox_Click" ToolTip="Clears all the content from the tailtextbox">
+        <Button Width="18" Height="18" HorizontalAlignment="Right" Grid.Column="2" Name="btnClearTextBox" Click="btnClearTextBox_Click" ToolTip="Clears all the content from the tailtextbox (Ctrl+E)">
           <StackPanel>
             <Image Source="/TailForWin;component/Res/Clear.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
           </StackPanel>
         </Button>
-        <Button Width="18" Height="18" HorizontalAlignment="Right" Grid.Column="3" Name="btnFont" Click="btnFont_Click" ToolTip="Manager font">
+        <Button Width="18" Height="18" HorizontalAlignment="Right" Grid.Column="3" Name="btnFont" Click="btnFont_Click" ToolTip="Manage font">
           <StackPanel>
             <Image Source="/TailForWin;component/Res/Font.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
           </StackPanel>

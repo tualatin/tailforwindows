@@ -149,27 +149,42 @@ namespace TailForWin
 
     private void tabControlTail_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
-      TabItem tab = tabControlTail.SelectedItem as TabItem;
+      e.Handled = true;
 
-      if (tab == null)
-        return;
-
-      if (tab.Equals (tabAdd))
+      if (e.Source is TabControl)
       {
-        TabItem newTab = AddTailTab ( );
-        tabControlTail.SelectedItem = newTab;
-      }
-      else
-      {
-        TailLog page = GetTailLogWindow (tab.Content as Frame);
+        TabItem tab = tabControlTail.SelectedItem as TabItem;
 
-        if (page != null)
+        if (tab == null)
+          return;
+
+        if (tab.Equals (tabAdd))
         {
-          stsBarState.Content = page.GetChildState ( );
-          page.ActiveTab = true;
+          TabItem newTab = AddTailTab ( );
+          tabControlTail.SelectedItem = newTab;
+        }
+        else
+        {
+          TailLog page = GetTailLogWindow (tab.Content as Frame);
 
-          currentPage = page;
-          TabItemUpdateParent (page);
+          if (page != null)
+          {
+            if (currentPage != null && (page.GetChildTabIndex ( ) == currentPage.GetChildTabIndex ( )))
+              return;
+
+            stsBarState.Content = page.GetChildState ( );
+            page.ActiveTab = true;
+
+            if (searchBoxWindow.Visibility == System.Windows.Visibility.Visible)
+            {
+              page.SearchBoxActive ( );
+              page.WrapAround (searchBoxWindow.WrapSearch);
+              FindWhatTextChangedEvent (this, EventArgs.Empty);
+            }
+
+            currentPage = page;
+            TabItemUpdateParent (page);
+          }
         }
       }
     }
@@ -209,6 +224,8 @@ namespace TailForWin
 
     private void cbStsEncoding_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
+      e.Handled = true;
+
       if (currentPage != null)
         currentPage.UpdateFileEncoding ((Encoding) cbStsEncoding.SelectedItem);
     }
@@ -219,12 +236,14 @@ namespace TailForWin
 
     private void tabControlTail_Drop (object sender, DragEventArgs e)
     {
-      currentPage.DropHelper (sender, e);
+      if (currentPage != null)
+        currentPage.DropHelper (sender, e);
     }
 
     private void tabControlTail_DragEnter (object sender, DragEventArgs e)
     {
-      currentPage.DragEnterHelper (sender, e);
+      if (currentPage != null)
+        currentPage.DragEnterHelper (sender, e);
     }
 
     private void Window_Closing (object sender, CancelEventArgs e)
@@ -304,28 +323,56 @@ namespace TailForWin
         searchBoxWindow.Top = yPos;
         searchBoxWindow.SetTitle = properties.File;
         searchBoxWindow.Show ( );
-        currentPage.SearchBoxActive ( );
+
+        foreach (TabItem item in tailTabItems)
+        {
+          if (item.Content != null && item.Content.GetType ( ) == typeof (Frame))
+          {
+            TailLog page = GetTailLogWindow (item.Content as Frame);
+            page.SearchBoxActive ( );
+
+          }
+        }
       }
     }
 
     private void HideSearchBoxEvent (object sender, EventArgs e)
     {
-      currentPage.SearchBoxInactive ( );
+      if (currentPage != null)
+        currentPage.SearchBoxInactive ( );
     }
 
     private void FindNextEvent (object sender, EventArgs e)
     {
-      currentPage.FindNext (e as SearchData);
+      if (currentPage != null)
+        currentPage.FindNext (e as SearchData);
     }
 
     private void CoundSearchEvent (object sender, EventArgs e)
     {
-      searchBoxWindow.SetStatusBarSearchCountText (currentPage.SearchCount ( ));
+      if (currentPage != null)
+        searchBoxWindow.SetStatusBarSearchCountText (currentPage.SearchCount ( ));
     }
 
     private void FindWhatTextChangedEvent (object sender, EventArgs e)
     {
-      currentPage.FindWhatTextChanged ( );
+      if (currentPage != null)
+        currentPage.FindWhatTextChanged ( );
+    }
+
+    private void WrapAroundEvent (object sender, EventArgs e)
+    {
+      WrapAroundBool wrap = e as WrapAroundBool;
+
+      foreach (TabItem item in tailTabItems)
+      {
+        if (item.Content != null && item.Content.GetType ( ) == typeof (Frame))
+        {
+          TailLog page = GetTailLogWindow (item.Content as Frame);
+          page.WrapAround (wrap.Wrap);
+
+        }
+      }
     }
 
     #endregion
@@ -379,6 +426,7 @@ namespace TailForWin
       searchBoxWindow.CountSearchEvent += CoundSearchEvent;
       searchBoxWindow.HideSearchBox += HideSearchBoxEvent;
       searchBoxWindow.FindTextChanged += FindWhatTextChangedEvent;
+      searchBoxWindow.WrapAround += WrapAroundEvent;
 
       SoundPlay.InitSoundPlay (SettingsHelper.TailSettings.AlertSettings.SoundFileNameFullPath);
     }
@@ -430,6 +478,7 @@ namespace TailForWin
 
       searchBoxWindow.Close ( );
 
+      ErrorLog.StopLog ( );
       Application.Current.Shutdown ( );
     }
 
@@ -467,6 +516,12 @@ namespace TailForWin
         tailTabItems.Insert (count - 1, tabItem);
         tabControlTail.DataContext = tailTabItems;
         tabCount++;
+
+        if (searchBoxWindow.Visibility == System.Windows.Visibility.Visible)
+        {
+          tailWindow.SearchBoxActive ( );
+          tailWindow.WrapAround (searchBoxWindow.WrapSearch);
+        }
         
         return (tabItem);
       } 

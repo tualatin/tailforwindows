@@ -25,5 +25,6 @@
   <system:String x:Key="SelectSoundFile">Please select a soundfile</system:String>
   <system:String x:Key="NoSoundFile">This is a unkown soundfile format. Please select a valid sound file!</system:String>
   <system:String x:Key="FilterNotEmpty">The filter value cannot be null!</system:String>
-  <system:String x:Key="FiltersLoaded">{0} filter(s) active</system:String>
+  <system:String x:Key="FiltersLoaded">{0} filter(s)</system:String>
+  <system:String x:Key="FileManagerCloseUnsaveItem">The last edit item is unsaved. Please save the item bevore close the dialogue.</system:String>
 </ResourceDictionary>

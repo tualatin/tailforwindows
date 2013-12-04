@@ -28,7 +28,16 @@ namespace TailForWin.Utils
 
     public WinTrayIcon (Icon icon, string iconText)
     {
-      Init (icon, iconText);
+      try
+      {
+        Init (icon, iconText);
+      }
+      catch (Exception ex)
+      {
+#if DEBUG
+        ErrorLog.WriteLog (ErrorFlags.Debug, "WinTrayIcon Constructor", string.Format ("Exception: {0}", ex));
+#endif
+      }
     }
 
     private void Init (Icon icon, string text)

@@ -72,5 +72,10 @@ namespace TailForWin.Template.TabOptions
       if (e.Key == Key.Escape)
         btnSave_Click (sender, e);
     }
+
+    private void listViewSysInfo_SelectionChanged (object sender, SelectionChangedEventArgs e)
+    {
+      e.Handled = true;
+    }
   }
 }

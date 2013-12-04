@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using TailForWin.Controller;
 using TailForWin.Data;
 using System;
+using TailForWin.Utils;
 
 
 namespace TailForWin
@@ -14,7 +15,12 @@ namespace TailForWin
   {
     private void Application_Startup (object sender, StartupEventArgs e)
     {
+#if DEBUG
+      ErrorLog.StartLog ( );
+#endif
+
       MainWindow wnd = new MainWindow ( );
+      AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
       wnd.Show ( );
 
       if (e.Args.Length > 0)
@@ -42,6 +48,11 @@ namespace TailForWin
           }
         }
       }
+    }
+
+    private void CurrentDomain_UnhandledException (object sender, UnhandledExceptionEventArgs e)
+    {
+      ErrorLog.WriteLog (ErrorFlags.Error, "TfW", string.Format ("UnhandledException: {0}", e.ExceptionObject));
     }
   }
 }

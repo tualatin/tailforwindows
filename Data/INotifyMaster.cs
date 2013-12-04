@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Collections.Specialized;
 
 
 namespace TailForWin.Data
@@ -20,6 +21,11 @@ namespace TailForWin.Data
 
       if (handler != null)
         handler (this, new PropertyChangedEventArgs (name));
+    }
+
+    protected void ItemPropertyChanged (object sender, PropertyChangedEventArgs e)
+    {
+      NotifyCollectionChangedEventArgs a = new NotifyCollectionChangedEventArgs (NotifyCollectionChangedAction.Reset);
     }
   }
 }
