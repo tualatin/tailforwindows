@@ -407,14 +407,25 @@ namespace TailForWin.Template
       {
         fmState = SettingsData.EFileManagerState.AddFile;
 
-        fmWorkingProperties = fmProperties.Clone ( );
-        fmWorkingProperties.Category = string.Empty;
-        fmWorkingProperties.Description = string.Empty;
-        fmWorkingProperties.FileName = fileName;
-        fmWorkingProperties.ID = ++fmDoc.LastFileId;
+        fmWorkingProperties = new FileManagerData ( )
+        {
+          Category = string.Empty,
+          Description = string.Empty,
+          FileName = fileName,
+          ID = ++fmDoc.LastFileId,
+          RefreshRate = fmProperties.RefreshRate,
+          ThreadPriority = fmProperties.ThreadPriority,
+          KillSpace = false,
+          Timestamp = false,
+          NewWindow = false,
+          FontType = fmProperties.FontType,
+          Wrap = false
+        };
+
+        fmWorkingProperties.ListOfFilter.Clear ( );
 
         fmDoc.FMProperties.Add (fmWorkingProperties);
-        dataGridFiles.Items.Refresh ( );
+        // dataGridFiles.Items.Refresh ( );
         SelectLastItemInDataGrid ( );
 
         comboBoxCategory.SelectedIndex = 0;

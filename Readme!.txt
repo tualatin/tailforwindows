@@ -1,8 +1,17 @@
 ﻿.NET 4.x required!
+Source: git@github.com:tualatin/tailforwindows.git
 
 Changelog:
 
 v0.9.
+* bug fix in FileManager
+* bug fixes writing XML file
+* add history for search dialogue
+* rename "Filters active" -> "Filter"
+* add button not enabled when file is open in FileManager
+
+v0.9.5087.x
+* stability improvements
 * add filtering in view
 * improve tab selection change (minimize event firing)
 * lot bug fixes in search dialogue for more than one tab page
@@ -19,7 +28,7 @@ v0.9.
 * add writing filter section into XML file
 * bug fix in FileManager
 * bug fix Count button in search dialogue
-* button title from "Manager font" -> "Manage font"
+* rename button "Manager font" -> "Manage font"
 * improve Find next in search dialogue
 
 v0.9.5078.x

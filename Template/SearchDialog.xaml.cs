@@ -5,6 +5,9 @@ using TailForWin.Data;
 using System.Windows.Input;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using System.ComponentModel;
+using System.Collections.Specialized;
+using TailForWin.Utils;
 
 
 namespace TailForWin.Template
@@ -12,7 +15,7 @@ namespace TailForWin.Template
   /// <summary>
   /// Interaction logic for SearchDialog.xaml
   /// </summary>
-  public partial class SearchDialog: Window
+  public partial class SearchDialog: Window, INotifyPropertyChanged
   {
     #region Public EventHandler
     
@@ -43,15 +46,34 @@ namespace TailForWin.Template
 
     #endregion
 
-    private Dictionary<string, string> SearchWords;
+    private FileManagerStructure fmStructure;
+    private ObservableDictionary<string, string> searchWords;
+
+    /// <summary>
+    /// Combobox search word history
+    /// </summary>
+    public ObservableDictionary<string, string> SearchWords
+    {
+      get
+      {
+        return (searchWords);
+      }
+      set
+      {
+        searchWords = value;
+        OnPropertyChanged ("SearchWords");
+      }
+    }
 
     /// <summary>
     /// Wrap search active
     /// </summary>
     public bool WrapSearch
     {
-      get;
-      private set;
+      get
+      {
+        return (fmStructure.Wrap);
+      }
     }
 
 
@@ -61,7 +83,8 @@ namespace TailForWin.Template
 
       PreviewKeyDown += HandleEsc;
 
-      SearchWords = new Dictionary<string, string> ( );
+      fmStructure = new FileManagerStructure (true);
+      SearchWords = new ObservableDictionary<string, string> ( );
     }
 
     /// <summary>
@@ -112,20 +135,20 @@ namespace TailForWin.Template
 
       if (checkBoxWrapAround.IsChecked == true)
       {
-        wrap.Wrap = true;
-        WrapSearch = true;
+        wrap.Wrap = fmStructure.Wrap = true;
 
         if (WrapAround != null)
           WrapAround (this, wrap);
       }
       else
       {
-        wrap.Wrap = false;
-        WrapSearch = false;
+        wrap.Wrap = fmStructure.Wrap = false;
 
         if (WrapAround != null)
           WrapAround (this, wrap);
       }
+
+      fmStructure.SaveFindHistoryWrap ( );
     }
 
     #endregion
@@ -136,13 +159,10 @@ namespace TailForWin.Template
     {
       if (!SearchWords.ContainsKey (comboBoxWordToFind.Text))
       {
-        SearchWords.Add (comboBoxWordToFind.Text, comboBoxWordToFind.Text);
-        comboBoxWordToFind.Items.Clear ( );
+        SearchWords.Add (comboBoxWordToFind.Text.Trim ( ), comboBoxWordToFind.Text.Trim ( ));
+        fmStructure.SaveFindHistoryName (comboBoxWordToFind.Text.Trim ( ));
 
-        foreach (var item in SearchWords)
-        {
-          comboBoxWordToFind.Items.Add (item.Key);
-        }
+        // comboBoxWordToFind.Items.Refresh ( );
       }
     }
 
@@ -197,6 +217,16 @@ namespace TailForWin.Template
 
     private void Window_Loaded (object sender, RoutedEventArgs e)
     {
+      fmStructure.ReadFindHistory (ref searchWords);
+      checkBoxWrapAround.IsChecked = fmStructure.Wrap;
+      comboBoxWordToFind.DataContext = this;
+      // comboBoxWordToFind.DisplayMemberPath = "Key";
+
+      WrapAroundBool wrap = new WrapAroundBool ( ) { Wrap = fmStructure.Wrap };
+
+      if (WrapAround != null)
+        WrapAround (this, wrap);
+
       SetFocusToTextBox ( );
     }
 
@@ -209,6 +239,25 @@ namespace TailForWin.Template
     private void comboBoxWordToFind_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
+    }
+
+    #endregion
+
+    #region INotifyPropertyChanged Members
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    protected void OnPropertyChanged (string name)
+    {
+      PropertyChangedEventHandler handler = PropertyChanged;
+
+      if (handler != null)
+        handler (this, new PropertyChangedEventArgs (name));
+    }
+
+    protected void ItemPropertyChanged (object sender, PropertyChangedEventArgs e)
+    {
+      NotifyCollectionChangedEventArgs a = new NotifyCollectionChangedEventArgs (NotifyCollectionChangedAction.Reset);
     }
 
     #endregion

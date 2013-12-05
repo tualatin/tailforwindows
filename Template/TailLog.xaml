@@ -128,7 +128,7 @@
             </StackPanel>
           </Button>
         </Grid>
-        <CheckBox Content="Filter active" Grid.Column="1" Grid.Row="2" Height="16" HorizontalAlignment="Right" Margin="0,0,35,0" Name="checkBoxFilter" VerticalAlignment="Center" Click="checkBoxFilter_Click" />
+        <CheckBox Content="Filter" Grid.Column="1" Grid.Row="2" Height="16" HorizontalAlignment="Right" Margin="0,0,35,0" Name="checkBoxFilter" VerticalAlignment="Center" Click="checkBoxFilter_Click" />
       </Grid>
     </GroupBox>
     <Grid Grid.Row="1" Margin="0">

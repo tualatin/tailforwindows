@@ -767,7 +767,6 @@ namespace TailForWin.Template
       tabProperties.Wrap = false;
       tabProperties.KillSpace = false;
       tabProperties.FontType = textBox;
-      tabProperties.ListOfFilter = new System.Collections.ObjectModel.ObservableCollection<FilterData> ();
       tabProperties.ThreadPriority = SettingsHelper.TailSettings.DefaultThreadPriority;
       tabProperties.RefreshRate = SettingsHelper.TailSettings.DefaultRefreshRate;
       tabProperties.FileEncoding = null;

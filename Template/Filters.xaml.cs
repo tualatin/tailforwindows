@@ -19,8 +19,6 @@ namespace TailForWin.Template
     private SettingsData.EFileManagerState fState;
     private bool isInit = false;
     private int filterID;
-    private System.Drawing.Font defaultFont;
-    private System.Drawing.Color defaultColor;
 
     /// <summary>
     /// Save event handler
@@ -33,7 +31,6 @@ namespace TailForWin.Template
       InitializeComponent ( );
 
       PreviewKeyDown += HandleEsc;
-      filterData = new FilterData ( );
       this.tailLogData = tailLogData;
       isInit = true;
 
@@ -77,14 +74,14 @@ namespace TailForWin.Template
       fState = SettingsData.EFileManagerState.AddFile;
       btnCancel.IsEnabled = false;
 
-      FilterData newItem = new FilterData ( )
+      filterData = new FilterData ( )
       {
-        FilterFontType = defaultFont,
-        FilterColor = defaultColor,
+        FilterFontType = new System.Drawing.Font ("Tahoma", 12, System.Drawing.FontStyle.Regular),
+        FilterColor = System.Drawing.Color.Black,
         ID = filterID
       };
 
-      tailLogData.ListOfFilter.Add (newItem);
+      tailLogData.ListOfFilter.Add (filterData);
 
       if (SaveNow != null)
         SaveNow (this, EventArgs.Empty);
@@ -154,10 +151,6 @@ namespace TailForWin.Template
     {
       dataGridFilters.DataContext = tailLogData.ListOfFilter;
       filterProperties.DataContext = filterData;
-
-      defaultFont = new System.Drawing.Font ("Tahoma", 12);
-      defaultColor = System.Drawing.Color.Black;
-
       fState = SettingsData.EFileManagerState.OpenFileManager;
     }
 
@@ -171,8 +164,6 @@ namespace TailForWin.Template
         mementoFilterData = filterData.SaveToMemento ( );
       else
         mementoFilterData = null;
-
-      filterProperties.DataContext = filterData;
     }
     
     private void textBoxFilter_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)

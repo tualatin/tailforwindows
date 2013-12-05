@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using TailForWin.Data;
 using System.Drawing;
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Collections.ObjectModel;
@@ -23,14 +22,18 @@ namespace TailForWin.Controller
     private const string XMLROOT = "fileManager";
 
 
-    public FileManagerStructure ()
+    public FileManagerStructure (bool findHistory = false)
     {
       fmFile = Path.GetDirectoryName (System.Reflection.Assembly.GetEntryAssembly ( ).Location) + "\\FileManager.xml";
-      fmProperties = new List<FileManagerData> ( );
-      LastFileId = -1;
-      LastFilterId = -1;
 
-      OpenFMDoc ( );
+      if (!findHistory)
+      {
+        fmProperties = new List<FileManagerData> ( );
+        LastFileId = -1;
+        LastFilterId = -1;
+
+        OpenFMDoc ( );
+      }
     }
 
     #region HelperProperties
@@ -155,6 +158,114 @@ namespace TailForWin.Controller
       fmDoc.Save (@fmFile, SaveOptions.None);
     }
 
+    #region FindHistory
+
+    /// <summary>
+    /// Wrap around in search dialogue
+    /// </summary>
+    public bool Wrap
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Read find history section in XML file
+    /// </summary>
+    public void ReadFindHistory (ref ObservableDictionary<string, string> words)
+    {
+      try
+      {
+        if (File.Exists (fmFile))
+        {
+          fmDoc = XDocument.Load (fmFile);
+          XElement findHistoryRoot = fmDoc.Root.Element ("FindHistory");
+
+          if (findHistoryRoot != null)
+          {
+            string wrapAround = findHistoryRoot.Attribute ("wrap").Value;
+            bool wrap = false;
+
+            if (!bool.TryParse (wrapAround, out wrap))
+              Wrap = false;
+            else
+              Wrap = wrap;
+
+            foreach (XElement find in findHistoryRoot.Elements ("Find"))
+            {
+              words.Add (find.Attribute ("name").Value, find.Attribute ("name").Value);
+            }
+          }
+        }
+      }
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("ReadFindHistory exception: {0}", ex));
+      }
+    }
+
+    /// <summary>
+    /// Save find history attribute wrap
+    /// </summary>
+    public XElement SaveFindHistoryWrap ( )
+    {
+      if (!File.Exists (fmFile))
+        fmDoc = new XDocument (new XElement (XMLROOT));
+
+      try
+      {
+        XElement findHistoryRoot = fmDoc.Root.Element ("FindHistory");
+
+        if (findHistoryRoot != null)
+          findHistoryRoot.Attribute ("wrap").Value = Wrap.ToString ( );
+        else
+        {
+          findHistoryRoot = new XElement ("FindHistory");
+          findHistoryRoot.Add (new XAttribute ("wrap", Wrap.ToString ( )));
+          fmDoc.Root.Add (findHistoryRoot);
+        }
+
+        fmDoc.Save (@fmFile, SaveOptions.None);
+
+        return (findHistoryRoot);
+      }
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("SaveFindHistoryWrap exception: {0}", ex));
+        return (null);
+      }
+    }
+
+    /// <summary>
+    /// Save find history attribute name
+    /// </summary>
+    /// <param name="searchWord">Find what word</param>
+    public void SaveFindHistoryName (string searchWord)
+    {
+      if (!File.Exists (fmFile))
+        fmDoc = new XDocument (new XElement (XMLROOT));
+
+      try
+      {
+        XElement findHistoryRoot = fmDoc.Root.Element ("FindHistory");
+
+        if (findHistoryRoot == null)
+          findHistoryRoot = SaveFindHistoryWrap ( );
+
+        XElement findHistoryFind = new XElement ("Find");
+        findHistoryFind.Add (new XAttribute ("name", searchWord));
+        findHistoryRoot.Add (findHistoryFind);
+
+        fmDoc.Save (@fmFile, SaveOptions.None);
+      }
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("SaveFindHistoryName exception: {0}", ex));
+      }
+    }
+
+    #endregion
+
     /// <summary>
     /// Get a XML node by Id
     /// </summary>
@@ -225,7 +336,12 @@ namespace TailForWin.Controller
         node.Element ("killSpace").Value = property.KillSpace.ToString ( );
         node.Element ("newWindow").Value = property.NewWindow.ToString ( );
         node.Element ("lineWrap").Value = property.Wrap.ToString ( );
-        node.Element ("category").Value = property.Category;
+
+        if (string.IsNullOrEmpty (property.Category))
+          node.Element ("category").Value = string.Empty;
+        else
+          node.Element ("category").Value = property.Category;
+
         node.Element ("description").Value = property.Description;
         node.Element ("threadPriority").Value = property.ThreadPriority.ToString ( );
         node.Element ("refreshRate").Value = property.RefreshRate.ToString ( );
@@ -282,29 +398,37 @@ namespace TailForWin.Controller
 
     private XElement AddNode (FileManagerData fmProperty)
     {
-      XElement file = new XElement ("file",
-            new XElement ("id", fmProperty.ID),
-            new XElement ("fileName", fmProperty.FileName),
-            new XElement ("description", fmProperty.Description),
-            new XElement ("category", fmProperty.Category),
-            new XElement ("threadPriority", fmProperty.ThreadPriority),
-            new XElement ("newWindow", fmProperty.NewWindow),
-            new XElement ("refreshRate", fmProperty.RefreshRate),
-            new XElement ("timeStamp", fmProperty.Timestamp),
-            new XElement ("killSpace", fmProperty.KillSpace),
-            new XElement ("lineWrap", fmProperty.Wrap),
-            new XElement ("fileEncoding", fmProperty.FileEncoding.HeaderName),
-            new XElement ("font",
-              new XElement ("name", fmProperty.FontType.Name),
-              new XElement ("size", fmProperty.FontType.Size),
-              new XElement ("bold", fmProperty.FontType.Bold),
-              new XElement ("italic", fmProperty.FontType.Italic)));
-
-      foreach (FilterData item in fmProperty.ListOfFilter)
+      try
       {
-        file.Add (AddFilterToDoc (item));
+        XElement file = new XElement ("file",
+              new XElement ("id", fmProperty.ID),
+              new XElement ("fileName", fmProperty.FileName),
+              new XElement ("description", fmProperty.Description),
+              new XElement ("category", fmProperty.Category),
+              new XElement ("threadPriority", fmProperty.ThreadPriority),
+              new XElement ("newWindow", fmProperty.NewWindow),
+              new XElement ("refreshRate", fmProperty.RefreshRate),
+              new XElement ("timeStamp", fmProperty.Timestamp),
+              new XElement ("killSpace", fmProperty.KillSpace),
+              new XElement ("lineWrap", fmProperty.Wrap),
+              new XElement ("fileEncoding", fmProperty.FileEncoding.HeaderName),
+              new XElement ("font",
+                new XElement ("name", fmProperty.FontType.Name),
+                new XElement ("size", fmProperty.FontType.Size),
+                new XElement ("bold", fmProperty.FontType.Bold),
+                new XElement ("italic", fmProperty.FontType.Italic)));
+
+        foreach (FilterData item in fmProperty.ListOfFilter)
+        {
+          file.Add (AddFilterToDoc (item));
+        }
+        return (file);
       }
-      return (file);
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("AddNode exception: {0}", ex));
+        return (null);
+      }
     }
 
     #region HelperFunctions

@@ -23,8 +23,8 @@ namespace TailForWin.Data
 
     public TailLogData ()
     {
-      listOfFilter = new ObservableCollection<FilterData> ( );
-      listOfFilter.CollectionChanged += ContentCollectionChanged;
+      ListOfFilter = new ObservableCollection<FilterData> ( );
+      ListOfFilter.CollectionChanged += ContentCollectionChanged;
     }
 
     public void Dispose ()

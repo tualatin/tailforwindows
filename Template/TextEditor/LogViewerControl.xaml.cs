@@ -498,8 +498,6 @@ namespace TailForWin.Template.TextEditor
 
       if (AlwaysScrollIntoView)
         ScrollToEnd ( );
-
-      // TriggerAlert (entry);
     }
 
     /// <summary>
@@ -508,11 +506,14 @@ namespace TailForWin.Template.TextEditor
     /// <param name="searchText">Text to search</param>
     public void FindNextItem (SearchData sd)
     {
+      SearchText = sd.WordToFind;
+
+      if (sd.Count)
+        SearchItemsNow (sd.Count);
+
       // Dispatcher.BeginInvoke allows the runtime to finish init tab control
       Dispatcher.BeginInvoke (new Action (() =>
       {
-        SearchText = sd.WordToFind;
-
         if (newSearch)
         {
           RemoveAllSearchHighlights ( );
@@ -616,7 +617,10 @@ namespace TailForWin.Template.TextEditor
         LogViewerControl control = sender as LogViewerControl;
 
         if (control != null)
+        {
           control.SetTemplateState ( );
+          control.RefreshCollectionViewSource ( );
+        }
       }
     }
 
@@ -627,7 +631,7 @@ namespace TailForWin.Template.TextEditor
         LogViewerControl control = sender as LogViewerControl;
 
         if (control != null)
-          CollectionViewSource.GetDefaultView (control.LogViewer.ItemsSource).Refresh ( );
+          control.RefreshCollectionViewSource ( );
       }
     }
 
@@ -1119,6 +1123,12 @@ namespace TailForWin.Template.TextEditor
     #endregion
 
     #region Helperfunctions
+
+    private void RefreshCollectionViewSource ()
+    {
+      if (LogViewer.ItemsSource != null)
+        CollectionViewSource.GetDefaultView (LogViewer.ItemsSource).Refresh ( );
+    }
 
     private bool TriggerAlert (LogEntry newItem)
     {

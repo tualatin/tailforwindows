@@ -60,15 +60,15 @@
         <RowDefinition Height="63*" />
       </Grid.RowDefinitions>
       <Label Content="Filter:" Grid.Row="0" Name="label1" VerticalAlignment="Center" />
-      <TextBox Grid.Column="1" Name="textBoxFilter" Margin="0,3,5,3" Text="{Binding Path=Filter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" TextChanged="textBoxFilter_TextChanged" />
+      <TextBox Grid.Column="1" Name="textBoxFilter" Margin="0,3,5,3" Text="{Binding ElementName=dataGridFilters, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Path=SelectedItem.Filter}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" TextChanged="textBoxFilter_TextChanged" />
       <Label Content="Description:" Grid.Row="1" Name="label2" VerticalAlignment="Center" />
-      <TextBox Grid.Column="1" Grid.Row="1" Name="textBoxDescription" Margin="0,3,5,3" Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" TextChanged="textBoxDescription_TextChanged" />
+      <TextBox Grid.Column="1" Grid.Row="1" Name="textBoxDescription" Margin="0,3,5,3" Text="{Binding Path=SelectedItem.Description, ElementName=dataGridFilters, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" TextChanged="textBoxDescription_TextChanged" />
       <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Name="btnFont" Click="btnFont_Click" ToolTip="Manage font" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}">
         <StackPanel>
           <Image Source="/TailForWin;component/Res/Font.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
         </StackPanel>
       </Button>
-      <Label Grid.Column="1" Grid.Row="2" Height="28" Margin="0,0,5,0" Name="labelFont" VerticalAlignment="Center" Content="{Binding Path=FilterFontType, Converter={StaticResource FontToString}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Foreground="{Binding Path=FilterColor, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColorToBrush}}" />
+      <Label Grid.Column="1" Grid.Row="2" Height="28" Margin="0,0,5,0" Name="labelFont" VerticalAlignment="Center" Content="{Binding Path=SelectedItem.FilterFontType, ElementName=dataGridFilters, Converter={StaticResource FontToString}, UpdateSourceTrigger=PropertyChanged}" />
 
       <Grid Grid.Column="2" Grid.Row="0">
         <Grid.ColumnDefinitions>
