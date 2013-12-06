@@ -427,8 +427,6 @@ namespace TailForWin
       searchBoxWindow.HideSearchBox += HideSearchBoxEvent;
       searchBoxWindow.FindTextChanged += FindWhatTextChangedEvent;
       searchBoxWindow.WrapAround += WrapAroundEvent;
-
-      SoundPlay.InitSoundPlay (SettingsHelper.TailSettings.AlertSettings.SoundFileNameFullPath);
     }
 
     private void TabItemUpdateParent (TailLog page)

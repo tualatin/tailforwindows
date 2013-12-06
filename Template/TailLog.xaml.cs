@@ -115,7 +115,7 @@ namespace TailForWin.Template
       if (textBlockTailLog.TextEditorFontWeight == FontWeights.Bold)
         fs |= System.Drawing.FontStyle.Bold;
 
-      System.Drawing.Font textBox = new System.Drawing.Font (textBlockTailLog.FontFamily.Source, (float) textBlockTailLog.FontSize, fs);
+      System.Drawing.Font textBox = new System.Drawing.Font (textBlockTailLog.TextEditorFontFamily.Source, (float) textBlockTailLog.TextEditorFontSize, fs);
 
       tabProperties = new TailLogData ( )
       {
@@ -421,16 +421,13 @@ namespace TailForWin.Template
       if (textBlockTailLog.FontWeight == FontWeights.Bold)
         fs |= System.Drawing.FontStyle.Bold;
 
-      System.Drawing.Font textBox = new System.Drawing.Font (textBlockTailLog.FontFamily.Source, (float) textBlockTailLog.FontSize, fs);
+      System.Drawing.Font textBox = new System.Drawing.Font (textBlockTailLog.TextEditorFontFamily.Source, (float) textBlockTailLog.TextEditorFontSize, fs);
       System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog ( ) { ShowEffects = false, Font = textBox, FontMustExist = true };
 
       if (fontManager.ShowDialog ( ) != System.Windows.Forms.DialogResult.Cancel)
       {
         tabProperties.FontType = fontManager.Font;
-        textBlockTailLog.FontFamily = new FontFamily (tabProperties.FontType.Name);
-        textBlockTailLog.FontSize = tabProperties.FontType.Size;
-        textBlockTailLog.FontWeight = tabProperties.FontType.Bold ? FontWeights.Bold : FontWeights.Regular;
-        textBlockTailLog.FontStyle = tabProperties.FontType.Italic ? FontStyles.Italic : FontStyles.Normal;
+        SetFontInTextEditor ( );
       }
     }
 
@@ -468,7 +465,7 @@ namespace TailForWin.Template
 
     #region Thread
 
-    void tailWorker_DoWork (object sender, DoWorkEventArgs e)
+    private void tailWorker_DoWork (object sender, DoWorkEventArgs e)
     {
       try
       {
@@ -546,11 +543,11 @@ namespace TailForWin.Template
       }
       catch (Exception ex)
       {
-        Debug.WriteLine (ex);
+        ErrorLog.WriteLog (ErrorFlags.Error, "TailLog", string.Format ("tailWorker_DoWork exception: {0}", ex));
       }
     }
 
-    void tailWorker_RunWorkerComplete (object sender, RunWorkerCompletedEventArgs e)
+    private void tailWorker_RunWorkerComplete (object sender, RunWorkerCompletedEventArgs e)
     {
       if (e.Error != null)
         MessageBox.Show (e.Error.Message, string.Format ("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), MessageBoxButton.OK, MessageBoxImage.Error);
@@ -595,6 +592,8 @@ namespace TailForWin.Template
       tailWorker.DoWork += tailWorker_DoWork;
       tailWorker.RunWorkerCompleted += tailWorker_RunWorkerComplete;
 
+      SetFontInTextEditor ( );
+
       this.childTabIndex = childTabIndex;
       childTabItem = tabItem;
       childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
@@ -608,6 +607,14 @@ namespace TailForWin.Template
 
       textBlockTailLog.Alert += AlertTrigger;
       NewFile += NewFileOpend;
+    }
+
+    private void SetFontInTextEditor ( )
+    {
+      textBlockTailLog.TextEditorFontFamily = new FontFamily (tabProperties.FontType.Name);
+      textBlockTailLog.TextEditorFontSize = (int) tabProperties.FontType.Size;
+      textBlockTailLog.TextEditorFontWeight = tabProperties.FontType.Bold ? FontWeights.Bold : FontWeights.Regular;
+      textBlockTailLog.TextEditorFontStyle = tabProperties.FontType.Italic ? FontStyles.Italic : FontStyles.Normal;
     }
 
     private void LoadHighlighting ()
@@ -839,7 +846,7 @@ namespace TailForWin.Template
       textBlockTailLog.AlwaysScrollIntoView = SettingsHelper.TailSettings.AlwaysScrollToEnd;
       textBlockTailLog.TextEditorSelectionColor = ((SolidColorBrush) (SettingsHelper.TailSettings.GuiDefaultHighlightColor)).Color;
 
-      SoundPlay.UpdateSoundFile (SettingsHelper.TailSettings.AlertSettings.SoundFileNameFullPath);
+      SoundPlay.InitSoundPlay (SettingsHelper.TailSettings.AlertSettings.SoundFileNameFullPath);
     }
 
     private void fileManagerDoUpdate (object sender, EventArgs e)
@@ -898,7 +905,7 @@ namespace TailForWin.Template
         LogFile.BringMainWindoToFront ( );
 
       if (SettingsHelper.TailSettings.AlertSettings.PlaySoundFile)
-        SoundPlay.Play ( );
+          SoundPlay.Play (false);
     }
 
     private void FilterTrigger (object sender, EventArgs e)

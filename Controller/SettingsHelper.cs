@@ -499,7 +499,7 @@ namespace TailForWin.Controller
         return;
       }
 
-      if (fileName.Length > 20)
+      if (fileName.Length > 128)
       {
         TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
         return;

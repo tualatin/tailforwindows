@@ -1,14 +1,21 @@
 ﻿.NET 4.x required!
 Source: git@github.com:tualatin/tailforwindows.git
+Known issues: https://github.com/tualatin/tailforwindows/issues
 
 Changelog:
 
 v0.9.
+* add sound support
+* bug fix loading soundfile
+* fix problems with FontType in TextEditor
+* bug fix font change in FileManager
+* bug fix in FilterDialogue change event
+* bug fix change FontType
 * bug fix in FileManager
 * bug fixes writing XML file
 * add history for search dialogue
 * rename "Filters active" -> "Filter"
-* add button not enabled when file is open in FileManager
+* "Add" button not enabled again when file is open from FileManager
 
 v0.9.5087.x
 * stability improvements

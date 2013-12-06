@@ -209,6 +209,9 @@ namespace TailForWin.Template
 
       if (fState == SettingsData.EFileManagerState.OpenFileManager && mementoFilterData != null && filterData != null && !filterData.EqualsProperties (mementoFilterData))
         fState = SettingsData.EFileManagerState.EditItem;
+
+      if (SaveNow != null)
+        SaveNow (this, EventArgs.Empty);
     }
 
     #endregion
