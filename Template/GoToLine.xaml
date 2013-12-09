@@ -1,0 +1,22 @@
+﻿<Window x:Class="TailForWin.Template.GoToLine"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Go To Line" Height="147" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="30" />
+      <RowDefinition Height="23" />
+      <RowDefinition Height="189*" />
+    </Grid.RowDefinitions>
+    <Label Content="Line number ():" Name="labelLineNumber" Margin="0,2" />
+    <TextBox Grid.Row="1" Name="textBoxLineNumber" TextChanged="textBoxLineNumber_TextChanged" Margin="5,0" TabIndex="1" />
+    <Grid Grid.Row="2" Margin="0,10,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="189*" />
+        <ColumnDefinition Width="90" />
+      </Grid.ColumnDefinitions>
+      <Button Content="OK" Height="23" HorizontalAlignment="Right" Margin="0,0,5,0" Name="btnOk" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="0" Click="btnOK_Click" TabIndex="2" />
+      <Button Content="Close" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="btnCancel_Click" TabIndex="3" />
+    </Grid>
+  </Grid>
+</Window>

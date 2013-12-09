@@ -15,6 +15,7 @@ using TailForWin.Template.TextEditor.Converter;
 using TailForWin.Data;
 using System.Windows.Threading;
 using System.Windows.Data;
+using System.Linq;
 
 
 namespace TailForWin.Template.TextEditor
@@ -604,6 +605,17 @@ namespace TailForWin.Template.TextEditor
     public void UpdateFilters (ObservableCollection<FilterData> newFilter)
     {
       filters = newFilter;
+    }
+
+    /// <summary>
+    /// Go to linenumber
+    /// </summary>
+    /// <param name="line">linenumber</param>
+    public void GoToLineNumber (int line)
+    {
+      logViewScrollViewer.ScrollToVerticalOffset (line - 1);
+      var item = LogEntries.Where (x => x.Index == line).FirstOrDefault ( );
+      LogViewer.SelectedItem = item;
     }
 
     #endregion

@@ -132,6 +132,7 @@
     <Compile Include="Data\FilterDataEventArgs.cs" />
     <Compile Include="Data\FileManagerDataEventArgs.cs" />
     <Compile Include="Data\FilterData.cs" />
+    <Compile Include="Data\GoToLineData.cs" />
     <Compile Include="Data\SearchData.cs" />
     <Compile Include="Template\ColorPicker\ColorDialog.xaml.cs">
       <DependentUpon>ColorDialog.xaml</DependentUpon>
@@ -151,6 +152,9 @@
     </Compile>
     <Compile Include="Template\Filters.xaml.cs">
       <DependentUpon>Filters.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\GoToLine.xaml.cs">
+      <DependentUpon>GoToLine.xaml</DependentUpon>
     </Compile>
     <Compile Include="Template\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
@@ -237,6 +241,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Template\Filters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Template\GoToLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

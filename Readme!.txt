@@ -5,6 +5,8 @@ Known issues: https://github.com/tualatin/tailforwindows/issues
 Changelog:
 
 v0.9.
+* add shortcut CTRL+G (GoToLine)
+* add GoToLine
 * add sound support
 * bug fix loading soundfile
 * fix problems with FontType in TextEditor

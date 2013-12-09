@@ -276,15 +276,15 @@ namespace TailForWin
           OnExit ( );
       }
 
-      // When pressing Control + F shows the search dialog
+      // When pressing Control + F shows the search dialogue
       if (e.Key == Key.F && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
         currentPage.btnSearch_Click (sender, e);
 
-      // When pressing Control + O shows the open file dialog
+      // When pressing Control + O shows the open file dialogue
       if (e.Key == Key.O && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
         currentPage.btnOpenFile_Click (sender, e);
 
-      // When pressing Control + M shows the file manager dialog
+      // When pressing Control + M shows the file manager dialogue
       if (e.Key == Key.M && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
         currentPage.btnFileManager_Click (sender, e);
 
@@ -299,6 +299,10 @@ namespace TailForWin
       // When pressing Control + S pause tail process
       if (e.Key == Key.S && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
         currentPage.btnStop_Click (sender, e);
+
+      // When pressing Control + G show GoToLine dialogue
+      if (e.Key == Key.G & (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+        currentPage.GoToLineNumber ( );
     }
 
     private void OpenSearchBoxWindow (object sender, EventArgs e)

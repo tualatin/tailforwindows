@@ -207,6 +207,17 @@ namespace TailForWin.Template
       textBlockTailLog.WrapAround = wrap;
     }
 
+    /// <summary>
+    /// Go to line number
+    /// </summary>
+    public void GoToLineNumber ()
+    {
+      GoToLine goToLineDialog = new GoToLine (GetMinLineNumber ( ), GetMaxLineNumber ( )) { Owner = LogFile.APP_MAIN_WINDOW };
+      goToLineDialog.GoToLineNumber += GoToLineNumberEvent;
+
+      goToLineDialog.ShowDialog ( );
+    }
+
     #region ClickEvent
     
     private void checkBoxOnTop_Click (object sender, RoutedEventArgs e)
@@ -752,10 +763,40 @@ namespace TailForWin.Template
       if (ActiveTab == true)
         UpdateStatusBarOnTabSelectionChange ( );
     }
+
+    /// <summary>
+    /// Get min linenumber
+    /// </summary>
+    /// <returns>min linenumber</returns>
+    private int GetMinLineNumber ()
+    {
+      if (textBlockTailLog.LogEntries.Count > 0)
+        return (textBlockTailLog.LogEntries[0].Index);
+      else
+        return (-1);
+    }
+
+    /// <summary>
+    /// Get max linenumber
+    /// </summary>
+    /// <returns>max linenumber</returns>
+    private int GetMaxLineNumber ()
+    {
+      if (textBlockTailLog.LogEntries.Count > 0)
+        return (textBlockTailLog.LogEntries[textBlockTailLog.LogEntries.Count - 1].Index);
+      else
+        return (-1);
+    }
     
     #endregion
 
     #region Events
+
+    private void GoToLineNumberEvent (object sender, EventArgs e)
+    {
+      if (e.GetType ( ) == typeof (GoToLineData))
+        textBlockTailLog.GoToLineNumber ((e as GoToLineData).LineNumber);
+    }
 
     private void NewFileOpend (object sender, EventArgs e)
     {
