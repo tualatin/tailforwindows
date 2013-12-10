@@ -357,7 +357,6 @@ namespace TailForWin
           {
             TailLog page = GetTailLogWindow (item.Content as Frame);
             page.SearchBoxActive ( );
-
           }
         }
       }
@@ -605,5 +604,10 @@ namespace TailForWin
     }
 
     #endregion
+
+    private void PART_Close_Click (object sender, RoutedEventArgs e)
+    {
+
+    }
   }
 }
