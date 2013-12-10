@@ -28,6 +28,8 @@ namespace TailForWin
     private int tabCount;
     private TailLog currentPage;
     private SearchDialog searchBoxWindow;
+    private bool ctrlTabKey;
+    private bool ctrlShiftTabKey;
 
 
     public void Dispose ()
@@ -59,7 +61,10 @@ namespace TailForWin
       Icon icon = new Icon (stream);
       trayIcon = new WinTrayIcon (icon, string.Format ("{0} {1}", LogFile.APPLICATION_CAPTION, Application.Current.FindResource ("TrayIconReady")));
 
-      trayIcon.NotifyIcon.DoubleClick += DoubleClickNotifyIcon;      
+      trayIcon.NotifyIcon.DoubleClick += DoubleClickNotifyIcon;
+
+      tabControlTail.PreviewKeyDown += tabControlTail_PreviewKeyDown;
+      tabControlTail.PreviewKeyUp += tabControlTail_PreviewKeyUp;
 
       SetWindowSettings ( );
 
@@ -158,13 +163,25 @@ namespace TailForWin
         if (tab == null)
           return;
 
-        if (tab.Equals (tabAdd))
+        if (tab.Equals (tabAdd) && !ctrlTabKey && !ctrlShiftTabKey)
         {
           TabItem newTab = AddTailTab ( );
           tabControlTail.SelectedItem = newTab;
         }
         else
         {
+          if (tab.Equals (tabAdd) && ctrlTabKey)
+          {
+            tab = tailTabItems[0];
+            tabControlTail.SelectedItem = tab;
+          }
+
+          if (tab.Equals (tabAdd) && ctrlShiftTabKey)
+          {
+            tab = tailTabItems[tailTabItems.Count - 2];
+            tabControlTail.SelectedItem = tab;
+          }
+
           TailLog page = GetTailLogWindow (tab.Content as Frame);
 
           if (page != null)
@@ -192,7 +209,6 @@ namespace TailForWin
     private void btnDelete_Click (object sender, RoutedEventArgs e)
     {
       RemoveTab ((sender as Button).CommandParameter.ToString ( ));
-
     }
 
     private void cbStsEncoding_SelectionChanged (object sender, SelectionChangedEventArgs e)
@@ -206,6 +222,26 @@ namespace TailForWin
     #endregion
 
     #region Events
+
+    private void tabControlTail_PreviewKeyDown (object sender, KeyEventArgs e)
+    {
+      if ((Keyboard.Modifiers & ModifierKeys.Control) != 0 && e.Key == Key.Tab)
+      {
+        ctrlTabKey = true;
+        ctrlShiftTabKey = false;
+      }
+      if ((Keyboard.Modifiers & ModifierKeys.Control) != 0 && (Keyboard.Modifiers & ModifierKeys.Shift) != 0 && e.Key == Key.Tab)
+      {
+        ctrlShiftTabKey = true;
+        ctrlTabKey = false;
+      }
+    }
+
+    private void tabControlTail_PreviewKeyUp (object sender, KeyEventArgs e)
+    {
+      ctrlTabKey = false;
+      ctrlShiftTabKey = false;
+    }
 
     private void tabControlTail_Drop (object sender, DragEventArgs e)
     {
