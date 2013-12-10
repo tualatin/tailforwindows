@@ -5,6 +5,7 @@ Known issues: https://github.com/tualatin/tailforwindows/issues
 Changelog:
 
 v0.9.
+* add Webside information in About dialogue
 * add shortcut CTRL+G (GoToLine)
 * add GoToLine
 * add sound support

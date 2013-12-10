@@ -18,10 +18,11 @@
           <RowDefinition Height="30" />
           <RowDefinition Height="30" />
           <RowDefinition Height="30" />
-          <RowDefinition Height="178*" />
+          <RowDefinition Height="30" />
+          <RowDefinition Height="148*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="70" />
+          <ColumnDefinition Width="73" />
           <ColumnDefinition Width="310*" />
         </Grid.ColumnDefinitions>
         <Label Content="Label" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0" Margin="0" Name="labelAppName" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" FontStretch="Normal" />
@@ -33,6 +34,10 @@
         <Label Content="Author:" Grid.Row="3" Grid.Column="0" Margin="0" Name="label3" VerticalAlignment="Center" />
         <Label Content="M. Zoennchen, Copyright 2013" Grid.Column="1" Grid.Row="3"  Margin="0" Name="label4" VerticalAlignment="Center" />
         <Label Content="All rights reserved" Grid.Column="1" Grid.Row="4" Margin="0" Name="label5" VerticalAlignment="Center" />
+        <Label Content="Homepage:" Grid.Row="5" Height="28" Name="label6" />
+        <TextBlock Grid.Column="1" Grid.Row="5" Name="textBlockHomepage" VerticalAlignment="Center" Margin="5,0,0,0">
+          <Hyperlink NavigateUri="https://github.com/tualatin/tailforwindows/releases" RequestNavigate="Hyperlink_RequestNavigate">https://github.com/tualatin/tailforwindows/releases</Hyperlink>
+        </TextBlock>
       </Grid>
     </Border>
     <Button Content="Close" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnOK" VerticalAlignment="Center" Width="75" Grid.Row="1" Click="btnSave_Click" />

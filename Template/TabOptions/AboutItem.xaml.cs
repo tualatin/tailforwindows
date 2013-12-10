@@ -5,6 +5,7 @@ using TailForWin.Utils;
 using TailForWin.Data;
 using System;
 using System.Windows.Input;
+using System.Diagnostics;
 
 
 namespace TailForWin.Template.TabOptions
@@ -52,6 +53,12 @@ namespace TailForWin.Template.TabOptions
     {
       if (e.Key == Key.Escape)
         btnSave_Click (sender, e);
+    }
+
+    private void Hyperlink_RequestNavigate (object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+    {
+      Process.Start (new ProcessStartInfo (e.Uri.AbsoluteUri));
+      e.Handled = true;
     }
   }
 }
