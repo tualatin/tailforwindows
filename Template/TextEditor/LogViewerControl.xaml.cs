@@ -226,54 +226,6 @@ namespace TailForWin.Template.TextEditor
       }
     }
 
-    public static readonly DependencyProperty LineNumberFontFamilyProperty = DependencyProperty.Register ("LineNumberFontFamily", typeof (FontFamily), typeof (LogViewerControl), 
-                              new PropertyMetadata (new FontFamily ("Segoe UI")));
-
-    [Category ("TextEditor")]
-    public FontFamily LineNumberFontFamily
-    {
-      get
-      {
-        return ((FontFamily) GetValue (LineNumberFontFamilyProperty));
-      }
-      set
-      {
-        SetValue (LineNumberFontFamilyProperty, value);
-      }
-    }
-
-    public static readonly DependencyProperty LineNumberFontSizeProperty = DependencyProperty.Register ("LineNumberFontSize", typeof (int), typeof (LogViewerControl), 
-                              new PropertyMetadata (12));
-
-    [Category ("TextEditor")]
-    public int LineNumberFontSize
-    {
-      get
-      {
-        return ((int) GetValue (LineNumberFontSizeProperty));
-      }
-      set
-      {
-        SetValue (LineNumberFontSizeProperty, value);
-      }
-    }
-
-    public static readonly DependencyProperty LineNumberFontWeightProperty = DependencyProperty.Register ("LineNumberFontWeight", typeof (FontWeight), typeof (LogViewerControl), 
-                              new PropertyMetadata (FontWeights.Normal));
-
-    [Category ("TextEditor")]
-    public FontWeight LineNumberFontWeight
-    {
-      get
-      {
-        return ((FontWeight) GetValue (LineNumberFontWeightProperty));
-      }
-      set
-      {
-        SetValue (LineNumberFontWeightProperty, value);
-      }
-    }
-
     public static readonly DependencyProperty TextEditorFontStyleProperty = DependencyProperty.Register ("TextEditorFontStyle", typeof (FontStyle), typeof (LogViewerControl),
                               new PropertyMetadata (FontStyles.Normal));
 

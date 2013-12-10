@@ -43,9 +43,9 @@
 
     <Style TargetType="TextBlock" x:Key="MyLineNumberText">
       <Setter Property="Foreground" Value="{Binding Path=LineNumbersColor, ElementName=LogViewerProperty}" />
-      <Setter Property="FontWeight" Value="{Binding Path=LineNumberFontWeight, ElementName=LogViewerProperty}" />
-      <Setter Property="FontFamily" Value="{Binding Path=LineNumberFontFamily, ElementName=LogViewerProperty}" />
-      <Setter Property="FontSize" Value="{Binding Path=LineNumberFontSize, ElementName=LogViewerProperty}" />
+      <Setter Property="FontWeight" Value="{Binding Path=TextEditorFontWeight, ElementName=LogViewerProperty}" />
+      <Setter Property="FontFamily" Value="{Binding Path=TextEditorFontFamily, ElementName=LogViewerProperty}" />
+      <Setter Property="FontSize" Value="{Binding Path=TextEditorFontSize, ElementName=LogViewerProperty}" />
       <Setter Property="TextAlignment" Value="Right" />
       <Setter Property="Text" Value="{Binding Index, Mode=OneWay}" />
     </Style>

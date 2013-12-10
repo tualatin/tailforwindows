@@ -191,35 +191,8 @@ namespace TailForWin
 
     private void btnDelete_Click (object sender, RoutedEventArgs e)
     {
-      string tabName = (sender as Button).CommandParameter.ToString ( );
-      TabItem tab = tabControlTail.Items.Cast<TabItem> ( ).Where (i => i.Name.Equals (tabName)).SingleOrDefault ( );
+      RemoveTab ((sender as Button).CommandParameter.ToString ( ));
 
-      if (tab != null)
-      {
-        if (tailTabItems.Count < 3)
-          MessageBox.Show (Application.Current.FindResource ("LastTab") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
-        else if (MessageBox.Show (string.Format ("{0} '{1}'?", Application.Current.FindResource ("QRemoveTab"), tab.Header), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-        {
-          TabItem selectedTab = tabControlTail.SelectedItem as TabItem;
-
-          tabControlTail.DataContext = null;
-
-          tailTabItems.Remove (tab);
-
-          tabControlTail.DataContext = tailTabItems;
-
-          TailLog page = GetTailLogWindow (tab.Content as Frame);
-
-          if (page != null)
-            page.StopThread ( );
-
-          // select previously selected tab. if that is removed then select first tab
-          if (selectedTab == null || selectedTab.Equals (tab))
-            selectedTab = tailTabItems[0];
-
-          tabControlTail.SelectedItem = selectedTab;
-        }
-      }
     }
 
     private void cbStsEncoding_SelectionChanged (object sender, SelectionChangedEventArgs e)
@@ -292,8 +265,8 @@ namespace TailForWin
       if (e.Key == Key.E && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
         currentPage.btnClearTextBox_Click (sender, e);
 
-      // When pressing Control + T start tail process
-      if (e.Key == Key.T && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      // When pressing Control + R start tail process
+      if (e.Key == Key.R && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
         currentPage.btnStart_Click (sender, e);
 
       // When pressing Control + S pause tail process
@@ -303,6 +276,20 @@ namespace TailForWin
       // When pressing Control + G show GoToLine dialogue
       if (e.Key == Key.G & (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
         currentPage.GoToLineNumber ( );
+
+      // When pressing Control + T new Tab
+      if (e.Key == Key.T & (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      {
+        TabItem newTab = AddTailTab ( );
+        tabControlTail.SelectedItem = newTab;
+      }
+
+      // When pressing Control + W close tab
+      if (e.Key == Key.W & (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      {
+        TabItem tab = tabControlTail.SelectedItem as TabItem;
+        RemoveTab (tab.Name);
+      }
     }
 
     private void OpenSearchBoxWindow (object sender, EventArgs e)
@@ -545,6 +532,38 @@ namespace TailForWin
 
           if (page.GetChildTabIndex ( ) != activePage.GetChildTabIndex ( ))
             page.ActiveTab = false;
+        }
+      }
+    }
+
+    private void RemoveTab (string tabName)
+    {
+      TabItem tab = tabControlTail.Items.Cast<TabItem> ( ).Where (i => i.Name.Equals (tabName)).SingleOrDefault ( );
+
+      if (tab != null)
+      {
+        if (tailTabItems.Count < 3)
+          MessageBox.Show (Application.Current.FindResource ("LastTab") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+        else if (MessageBox.Show (string.Format ("{0} '{1}'?", Application.Current.FindResource ("QRemoveTab"), tab.Header), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+        {
+          TabItem selectedTab = tabControlTail.SelectedItem as TabItem;
+
+          tabControlTail.DataContext = null;
+
+          tailTabItems.Remove (tab);
+
+          tabControlTail.DataContext = tailTabItems;
+
+          TailLog page = GetTailLogWindow (tab.Content as Frame);
+
+          if (page != null)
+            page.StopThread ( );
+
+          // select previously selected tab. if that is removed then select first tab
+          if (selectedTab == null || selectedTab.Equals (tab))
+            selectedTab = tailTabItems[0];
+
+          tabControlTail.SelectedItem = selectedTab;
         }
       }
     }

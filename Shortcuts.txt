@@ -1,0 +1,10 @@
+Ctrl+G		Go To Line
+Ctrl+F		Find what
+Ctrl+O		Open file
+Ctrl+M		Open FileManager
+Ctrl+E		Clear TextEditor window
+Ctrl+R		Start tail
+Ctrl+S		Stop tail
+Ctrl+C		Copy line in TextEditor
+Ctrl+T		New tab window
+Ctrl+W		Close tab window

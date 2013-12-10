@@ -5,6 +5,7 @@ Known issues: https://github.com/tualatin/tailforwindows/issues
 Changelog:
 
 v0.9.
+* fix problems with linenumber font
 * add Webside information in About dialogue
 * add shortcut CTRL+G (GoToLine)
 * add GoToLine
@@ -21,6 +22,9 @@ v0.9.
 * "Add" button not enabled again when file is open from FileManager
 
 v0.9.5087.x
+* shortcut Ctrl+T new tab window
+* shortcut Ctrl+W close tab window
+* change shortcut Start tail (new Ctrl+R)
 * stability improvements
 * add filtering in view
 * improve tab selection change (minimize event firing)
