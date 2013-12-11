@@ -71,7 +71,13 @@ namespace TailForWin
       tailTabItems = new List<TabItem> ( );
       tabCount = 0;
 
-      tabAdd = new TabItem ( ) { Header = "+", Name = "AddChildTab" };
+      tabAdd = new TabItem ( ) 
+      { 
+        Header = "+", 
+        Name = "AddChildTab", 
+        Style = (Style) FindResource ("TabItemStopStyle") 
+      };
+
       tailTabItems.Add (tabAdd);
 
       AddTailTab ( );
@@ -517,7 +523,8 @@ namespace TailForWin
         { 
           Header = LogFile.TABBAR_CHILD_EMPTY_STRING, 
           Name = string.Format ("TabIndex_{0}", tabCount), 
-          HeaderTemplate = tabControlTail.FindResource ("TabHeader") as DataTemplate 
+          HeaderTemplate = tabControlTail.FindResource ("TabHeader") as DataTemplate ,
+          Style = (Style) FindResource ("TabItemStopStyle")
         };
 
         TailLog tailWindow;

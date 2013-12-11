@@ -7,12 +7,11 @@
       <RowDefinition Height="328*" />
       <RowDefinition Height="23" />
     </Grid.RowDefinitions>
-
     <TabControl Name="tabControlTail" ItemsSource="{Binding}" SelectionChanged="tabControlTail_SelectionChanged" AllowDrop="True" Drop="tabControlTail_Drop" DragEnter="tabControlTail_DragEnter" BorderBrush="Gainsboro">
       <TabControl.Resources>
         <DataTemplate x:Key="TabHeader" DataType="TabItem">
           <DockPanel>
-            <Button x:Name="PART_Close" DockPanel.Dock="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="10" Height="10" Padding="0" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}" ToolTip="Close tab" BorderBrush="{x:Null}" BorderThickness="0" Style="{DynamicResource CloseableTabItemButtonStyle}" Click="btnDelete_Click">
+            <Button x:Name="PART_Close" DockPanel.Dock="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="16" Height="16" Padding="4" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}" ToolTip="Close tab" Style="{DynamicResource CloseableTabItemButtonStyle}" Click="btnDelete_Click" HorizontalAlignment="Center">
               <Path x:Name="Path" Stretch="Fill" StrokeThickness="0.5" Stroke="#FF333333" Fill="#FF969696" Data="F1 M 2.28484e-007,1.33331L 1.33333,0L 4.00001,2.66669L 6.66667,6.10352e-005L 8,1.33331L 5.33334,4L 8,6.66669L 6.66667,8L 4,5.33331L 1.33333,8L 1.086e-007,6.66669L 2.66667,4L 2.28484e-007,1.33331 Z " HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Button>
             <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=TabItem }, Path=Header}"></TextBlock>
@@ -21,7 +20,7 @@
             <Trigger Property="IsMouseOver" Value="True" SourceName="PART_Close">
               <Setter Property="Fill" TargetName="Path" Value="#FFB83C3D"/>
             </Trigger>
-            <Trigger Property="IsPressed" SourceName="PART_Close" Value="True">
+            <Trigger Property="IsPressed" Value="True" SourceName="PART_Close">
               <Setter Property="Fill" TargetName="Path" Value="#FF9D3838"/>
             </Trigger>
           </DataTemplate.Triggers>
@@ -34,27 +33,6 @@
           <Setter Property="MaxLines" Value="5000"></Setter>
           <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"></Setter>
           <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"></Setter>
-        </Style>
-        <Style TargetType="TabItem">
-          <Setter Property="Template">
-            <Setter.Value>
-              <ControlTemplate TargetType="TabItem">
-                <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="3,3,0,0" Margin="1,0">
-                  <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="8,2"/>
-                </Border>
-                <ControlTemplate.Triggers>
-                  <Trigger Property="IsSelected" Value="True">
-                    <Setter TargetName="Border" Property="Background" Value="LightSteelBlue" />
-                    <Setter Property="Foreground" Value="WhiteSmoke" />
-                  </Trigger>
-                  <Trigger Property="IsSelected" Value="False">
-                    <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
-                    <Setter Property="Foreground" Value="Black" />
-                  </Trigger>
-                </ControlTemplate.Triggers>
-              </ControlTemplate>
-            </Setter.Value>
-          </Setter>
         </Style>
       </TabControl.Resources>
     </TabControl>

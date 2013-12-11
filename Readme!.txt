@@ -6,6 +6,7 @@ Changelog:
 
 v0.9.
 * change tab layout
+* update tab layout
 * fix problem with Ctrl+Tab
 * shortcut Ctrl+T new tab window
 * shortcut Ctrl+W close tab window

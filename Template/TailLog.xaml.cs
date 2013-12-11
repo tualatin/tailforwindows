@@ -295,7 +295,7 @@ namespace TailForWin.Template
         if (myReader.FileExists (tabProperties.FileName))
         {
           childTabItem.Header = string.Format ("{0}", tabProperties.File);
-          // childTabItem.Foreground = Brushes.Green;
+          childTabItem.Style = (Style) FindResource ("TabItemTailStyle");
 
           WordWrap ( );
 
@@ -568,7 +568,7 @@ namespace TailForWin.Template
         LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
 
         childTabItem.Header = tabProperties.File;
-        // childTabItem.Foreground = Brushes.WhiteSmoke;
+        childTabItem.Style = (Style) FindResource ("TabItemStopStyle");
         SetControlVisibility ( );
 
         if (stopThread)
