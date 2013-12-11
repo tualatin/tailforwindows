@@ -29,7 +29,6 @@ namespace TailForWin
     private TailLog currentPage;
     private SearchDialog searchBoxWindow;
     private bool ctrlTabKey;
-    private bool ctrlShiftTabKey;
 
 
     public void Dispose ()
@@ -169,7 +168,7 @@ namespace TailForWin
         if (tab == null)
           return;
 
-        if (tab.Equals (tabAdd) && !ctrlTabKey && !ctrlShiftTabKey)
+        if (tab.Equals (tabAdd) && !ctrlTabKey)
         {
           TabItem newTab = AddTailTab ( );
           tabControlTail.SelectedItem = newTab;
@@ -179,12 +178,6 @@ namespace TailForWin
           if (tab.Equals (tabAdd) && ctrlTabKey)
           {
             tab = tailTabItems[0];
-            tabControlTail.SelectedItem = tab;
-          }
-
-          if (tab.Equals (tabAdd) && ctrlShiftTabKey)
-          {
-            tab = tailTabItems[tailTabItems.Count - 2];
             tabControlTail.SelectedItem = tab;
           }
 
@@ -232,21 +225,14 @@ namespace TailForWin
     private void tabControlTail_PreviewKeyDown (object sender, KeyEventArgs e)
     {
       if ((Keyboard.Modifiers & ModifierKeys.Control) != 0 && e.Key == Key.Tab)
-      {
         ctrlTabKey = true;
-        ctrlShiftTabKey = false;
-      }
       if ((Keyboard.Modifiers & ModifierKeys.Control) != 0 && (Keyboard.Modifiers & ModifierKeys.Shift) != 0 && e.Key == Key.Tab)
-      {
-        ctrlShiftTabKey = true;
-        ctrlTabKey = false;
-      }
+        e.Handled = true;
     }
 
     private void tabControlTail_PreviewKeyUp (object sender, KeyEventArgs e)
     {
       ctrlTabKey = false;
-      ctrlShiftTabKey = false;
     }
 
     private void tabControlTail_Drop (object sender, DragEventArgs e)
@@ -611,10 +597,5 @@ namespace TailForWin
     }
 
     #endregion
-
-    private void PART_Close_Click (object sender, RoutedEventArgs e)
-    {
-
-    }
   }
 }
