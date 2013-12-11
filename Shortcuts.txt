@@ -8,3 +8,5 @@ Ctrl+S		Stop tail
 Ctrl+C		Copy line in TextEditor
 Ctrl+T		New tab window
 Ctrl+W		Close tab window
+T			Always on top on/off
+F			Filter on/off

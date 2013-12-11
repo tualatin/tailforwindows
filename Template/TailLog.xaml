@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="760"
-  Title="TailLog" Loaded="Page_Loaded" xmlns:my="clr-namespace:TailForWin.Template.TextEditor" AllowDrop="True" DragEnter="DragEnterHelper" Drop="DropHelper">
+  Title="TailLog" Loaded="Page_Loaded" xmlns:my="clr-namespace:TailForWin.Template.TextEditor" AllowDrop="True" DragEnter="DragEnterHelper" Drop="DropHelper" xmlns:tb="clr-namespace:TailForWin.Template.WatermarkTextBox">
   <Page.Resources>
 
   </Page.Resources>
@@ -54,7 +54,11 @@
         </Button>
 
         <!-- Column 1 -->
-        <TextBox Height="23" Margin="0,0,3,0" Name="textBoxFileName" VerticalAlignment="Center" Grid.Column="1" TextChanged="textBoxFileName_TextChanged" TabIndex="3" PreviewDragOver="textBoxFileName_PreviewDragOver" />
+        <tb:WatermarkTextBox Height="23" Margin="0,0,3,0" x:Name="textBoxFileName" VerticalAlignment="Center" Grid.Column="1" TextChanged="textBoxFileName_TextChanged" TabIndex="3" PreviewDragOver="textBoxFileName_PreviewDragOver">
+          <tb:WatermarkTextBox.Watermark>
+            <TextBlock Text="Logfile" Margin="5,0,0,0" FontStyle="Italic" />
+          </tb:WatermarkTextBox.Watermark>
+        </tb:WatermarkTextBox>
 
         <!-- Row 1 -->
         <StackPanel Name="ExtraIcons" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" Grid.Column="0" Grid.ColumnSpan="2" Margin="0" IsEnabled="False">
@@ -66,7 +70,7 @@
           <Label Content="Thread Priority:" Grid.Column="1" Grid.Row="1" Height="25" HorizontalAlignment="Left" Margin="0,0,5,0" VerticalAlignment="Center" />
           <ComboBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="0,0,0,0" Name="comboBoxThreadPriority" VerticalAlignment="Center" Width="100" SelectedIndex="0" SelectionChanged="comboBoxThreadPriority_SelectionChanged" ItemsSource="{Binding}" TabIndex="8" />
         </StackPanel>
-        <CheckBox Content="Always on top" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxOnTop" VerticalAlignment="Center" Click="checkBoxOnTop_Click" Grid.Column="2" Grid.Row="1" />
+        <CheckBox Content="Always on top" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxOnTop" VerticalAlignment="Center" Click="checkBoxOnTop_Click" Grid.Column="2" Grid.Row="1" ToolTip="TailForWindows is always on top (T)" />
 
         <ToggleButton Name="toggle1" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Height="20" Width="20" ToolTip="Popup some more settings for the tailtextbox" TabIndex="10">
           <ToggleButton.Style>

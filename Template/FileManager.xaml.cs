@@ -521,6 +521,8 @@ namespace TailForWin.Template
     {
       if (e.Key == Key.Escape)
         OnExit ( );
+      if (e.Key == Key.Enter)
+        btnOK_Click (sender, e);
     }
 
     private void OnExit ()

@@ -57,6 +57,8 @@ namespace TailForWin.Template
     {
       if (e.Key == Key.Escape)
         btnCancel_Click (sender, e);
+      if (e.Key == Key.Enter)
+        btnOK_Click (sender, e);
     }
 
     private void textBoxLineNumber_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)

@@ -318,6 +318,14 @@ namespace TailForWin
         TabItem tab = tabControlTail.SelectedItem as TabItem;
         RemoveTab (tab.Name);
       }
+
+      // When pressing T toggle always on top on/off
+      if (e.Key == Key.T)
+        currentPage.AlwaysOnTop ( );
+
+      // When pressing F toggle filter on/off
+      if (e.Key == Key.F)
+        currentPage.FilterOnOff ( );
     }
 
     private void OpenSearchBoxWindow (object sender, EventArgs e)

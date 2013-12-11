@@ -218,6 +218,32 @@ namespace TailForWin.Template
       goToLineDialog.ShowDialog ( );
     }
 
+    /// <summary>
+    /// Toggle always on top on/off
+    /// </summary>
+    public void AlwaysOnTop ( )
+    {
+      if (checkBoxOnTop.IsChecked == true)
+        checkBoxOnTop.IsChecked = false;
+      else
+        checkBoxOnTop.IsChecked = true;
+
+      checkBoxOnTop_Click (checkBoxOnTop, null);
+    }
+
+    /// <summary>
+    /// Toggle filter on/off
+    /// </summary>
+    public void FilterOnOff ()
+    {
+      if (checkBoxFilter.IsChecked == true)
+        checkBoxFilter.IsChecked = false;
+      else
+        checkBoxFilter.IsChecked = true;
+
+      checkBoxFilter_Click (checkBoxFilter, null);
+    }
+
     #region ClickEvent
     
     private void checkBoxOnTop_Click (object sender, RoutedEventArgs e)

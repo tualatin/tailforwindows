@@ -5,11 +5,16 @@ Known issues: https://github.com/tualatin/tailforwindows/issues
 Changelog:
 
 v0.9.
+* add shortcut F (Filter on/off)
+* add shortcut T (Always on top on/off)
+* FileManager dialogue add Enter key event
+* GoToLine dialogue add press Enter key event
+* add watermark textbox
 * change tab layout
 * update tab layout
 * fix problem with Ctrl+Tab
-* shortcut Ctrl+T new tab window
-* shortcut Ctrl+W close tab window
+* shortcut Ctrl+T change to new tab window
+* add shortcut Ctrl+W close tab window
 * change shortcut Start tail (new Ctrl+R)
 * fix problems with linenumber font
 * add Webside information in About dialogue

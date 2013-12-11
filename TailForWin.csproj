@@ -197,6 +197,7 @@
     <Compile Include="Template\TextEditor\Utils\ListBoxExtenders.cs" />
     <Compile Include="Template\TextEditor\Utils\LogViewerDataTemplateSelector.cs" />
     <Compile Include="Template\TextEditor\Utils\TemplateData.cs" />
+    <Compile Include="Template\WatermarkTextBox\WatermarkTextBox.cs" />
     <Compile Include="Utils\BuildDate.cs" />
     <Compile Include="Utils\DeferredAction.cs" />
     <Compile Include="Utils\EncodingDetector.cs" />
@@ -287,6 +288,10 @@
     <Page Include="Template\TextEditor\LogViewerControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\WatermarkTextBox\WatermarkTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="themes\generic.xaml">
       <SubType>Designer</SubType>
