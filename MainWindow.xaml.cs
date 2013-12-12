@@ -154,7 +154,7 @@ namespace TailForWin
 
     private void DoubleClickNotifyIcon (object sender, EventArgs e)
     {
-      LogFile.BringMainWindoToFront ( );
+      LogFile.BringMainWindowToFront ( );
     }
 
     private void tabControlTail_SelectionChanged (object sender, SelectionChangedEventArgs e)
@@ -280,13 +280,17 @@ namespace TailForWin
       // When pressing Control + F shows the search dialogue
       if (e.Key == Key.F && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
         currentPage.btnSearch_Click (sender, e);
+      else if (e.Key == Key.F) // When pressing F toggle filter on/off
+        currentPage.FilterOnOff ( );
 
       // When pressing Control + O shows the open file dialogue
       if (e.Key == Key.O && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
         currentPage.btnOpenFile_Click (sender, e);
 
-      // When pressing Control + M shows the file manager dialogue
-      if (e.Key == Key.M && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      // When pressing Control + Alt + M minimize main window
+      if (e.Key == Key.M && (Keyboard.Modifiers & ModifierKeys.Control) != 0 && (Keyboard.Modifiers & ModifierKeys.Alt) != 0)
+        LogFile.MinimizeMainWindow ( );
+      else if (e.Key == Key.M && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control) // When pressing Control + M shows the file manager dialogue
         currentPage.btnFileManager_Click (sender, e);
 
       // When pressing Control + E clear all content in Tailwindow
@@ -302,30 +306,24 @@ namespace TailForWin
         currentPage.btnStop_Click (sender, e);
 
       // When pressing Control + G show GoToLine dialogue
-      if (e.Key == Key.G & (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      if (e.Key == Key.G && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
         currentPage.GoToLineNumber ( );
 
       // When pressing Control + T new Tab
-      if (e.Key == Key.T & (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      if (e.Key == Key.T && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
       {
         TabItem newTab = AddTailTab ( );
         tabControlTail.SelectedItem = newTab;
       }
+      else if (e.Key == Key.T) // When pressing T toggle always on top on/off
+        currentPage.AlwaysOnTop ( );
 
       // When pressing Control + W close tab
-      if (e.Key == Key.W & (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      if (e.Key == Key.W && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
       {
         TabItem tab = tabControlTail.SelectedItem as TabItem;
         RemoveTab (tab.Name);
       }
-
-      // When pressing T toggle always on top on/off
-      if (e.Key == Key.T)
-        currentPage.AlwaysOnTop ( );
-
-      // When pressing F toggle filter on/off
-      if (e.Key == Key.F)
-        currentPage.FilterOnOff ( );
     }
 
     private void OpenSearchBoxWindow (object sender, EventArgs e)

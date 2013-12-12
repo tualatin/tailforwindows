@@ -13,7 +13,7 @@ namespace TailForWin.Template.TabOptions
   /// <summary>
   /// Interaction logic for ColorItem.xaml
   /// </summary>
-  public partial class ColorItem: UserControl, ITabItems
+  public partial class ColorItem: UserControl, ITabOptionItems
   {
     /// <summary>
     /// Close dialog event handler

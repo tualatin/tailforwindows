@@ -12,7 +12,7 @@ namespace TailForWin.Template.TabOptions
   /// <summary>
   /// Interaction logic for SystemInformation.xaml
   /// </summary>
-  public partial class SystemInformation: UserControl, ITabItems
+  public partial class SystemInformation: UserControl, ITabOptionItems
   {
     /// <summary>
     /// Close dialog event handler

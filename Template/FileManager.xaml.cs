@@ -515,6 +515,9 @@ namespace TailForWin.Template
       comboBoxFileEncode.DisplayMemberPath = "HeaderName";
 
       RefreshCategoryComboBox ( );
+
+      dataGridFiles.Focus ( );
+      Keyboard.Focus (dataGridFiles);
     }
 
     private void HandleEsc (object sender, KeyEventArgs e)

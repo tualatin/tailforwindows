@@ -969,7 +969,7 @@ namespace TailForWin.Template
     private void AlertTrigger (object sender, EventArgs e)
     {
       if (SettingsHelper.TailSettings.AlertSettings.BringToFront)
-        LogFile.BringMainWindoToFront ( );
+        LogFile.BringMainWindowToFront ( );
 
       if (SettingsHelper.TailSettings.AlertSettings.PlaySoundFile)
           SoundPlay.Play (false);

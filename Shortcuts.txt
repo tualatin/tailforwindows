@@ -10,3 +10,4 @@ Ctrl+T		New tab window
 Ctrl+W		Close tab window
 T			Always on top on/off
 F			Filter on/off
+Ctrl+Alt+M	Minimize mainwindow

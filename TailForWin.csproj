@@ -174,7 +174,7 @@
     <Compile Include="Template\TabOptions\ColorItem.xaml.cs">
       <DependentUpon>ColorItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Template\TabOptions\ITabItems.cs" />
+    <Compile Include="Template\TabOptions\ITabOptionItems.cs" />
     <Compile Include="Template\TabOptions\OptionsItem.xaml.cs">
       <DependentUpon>OptionsItem.xaml</DependentUpon>
     </Compile>

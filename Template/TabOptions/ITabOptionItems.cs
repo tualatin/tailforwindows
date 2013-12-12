@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace TailForWin.Template.TabOptions
 {
-  public interface ITabItems
+  public interface ITabOptionItems
   {
     /// <summary>
     /// Close dialog event handler

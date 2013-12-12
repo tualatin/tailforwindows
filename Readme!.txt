@@ -5,6 +5,7 @@ Known issues: https://github.com/tualatin/tailforwindows/issues
 Changelog:
 
 v0.9.
+* add shortcut Ctrl+Alt+M minimize main window
 * add shortcut F (Filter on/off)
 * add shortcut T (Always on top on/off)
 * FileManager dialogue add Enter key event

@@ -75,13 +75,22 @@ namespace TailForWin.Data
     /// <summary>
     /// Bring main window to front and set it active
     /// </summary>
-    public static void BringMainWindoToFront ()
+    public static void BringMainWindowToFront ()
     {
       if (APP_MAIN_WINDOW.WindowState == WindowState.Minimized)
         APP_MAIN_WINDOW.WindowState = WindowState.Normal;
 
       APP_MAIN_WINDOW.Activate ( );
       APP_MAIN_WINDOW.Focus ( );
+    }
+
+    /// <summary>
+    /// Minimize main window
+    /// </summary>
+    public static void MinimizeMainWindow ()
+    {
+      if (APP_MAIN_WINDOW.WindowState == WindowState.Normal || APP_MAIN_WINDOW.WindowState == WindowState.Maximized)
+        APP_MAIN_WINDOW.WindowState = WindowState.Minimized;
     }
 
     /// <summary>
