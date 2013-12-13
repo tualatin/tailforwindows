@@ -274,6 +274,9 @@ namespace TailForWin.Template
       }
       else
         SelectLastItemInDataGrid ( );
+
+      var dc = GetDataGridCell (dataGridFiles.SelectedCells[0]);
+      Keyboard.Focus (dc);
     }
 
     private void Window_Closing (object sender, System.ComponentModel.CancelEventArgs e)
@@ -437,6 +440,16 @@ namespace TailForWin.Template
       }
     }
 
+    private System.Windows.Controls.DataGridCell GetDataGridCell (System.Windows.Controls.DataGridCellInfo cellInfo)
+    {
+      var cellContent = cellInfo.Column.GetCellContent (cellInfo.Item);
+
+      if (cellContent != null)
+        return ((System.Windows.Controls.DataGridCell) cellContent.Parent);
+
+      return (null);
+    }
+
     private void SetDialogTitle ()
     {
       if (Title.CompareTo ("FileManager") != 0)
@@ -515,9 +528,6 @@ namespace TailForWin.Template
       comboBoxFileEncode.DisplayMemberPath = "HeaderName";
 
       RefreshCategoryComboBox ( );
-
-      dataGridFiles.Focus ( );
-      Keyboard.Focus (dataGridFiles);
     }
 
     private void HandleEsc (object sender, KeyEventArgs e)
