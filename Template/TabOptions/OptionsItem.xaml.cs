@@ -63,6 +63,14 @@ namespace TailForWin.Template.TabOptions
       }
     }
 
+    private void btnProxy_Click (object sender, RoutedEventArgs e)
+    {
+      Window wnd = Window.GetWindow (this);
+      ProxyServer ps = new ProxyServer ( ) { Owner = wnd };
+
+      ps.ShowDialog ( );
+    }
+
     #endregion
 
     #region Events

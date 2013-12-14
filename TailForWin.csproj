@@ -127,12 +127,14 @@
     <Compile Include="Converter\FilterDataToBoolConverter.cs" />
     <Compile Include="Converter\FontToStringConverter.cs" />
     <Compile Include="Converter\IntToBoolConverter.cs" />
+    <Compile Include="Converter\InverseBooleanConverter.cs" />
     <Compile Include="Converter\SoundFileNameConverter.cs" />
     <Compile Include="Data\AlertData.cs" />
     <Compile Include="Data\FilterDataEventArgs.cs" />
     <Compile Include="Data\FileManagerDataEventArgs.cs" />
     <Compile Include="Data\FilterData.cs" />
     <Compile Include="Data\GoToLineData.cs" />
+    <Compile Include="Data\ProxySettingsData.cs" />
     <Compile Include="Data\SearchData.cs" />
     <Compile Include="Template\ColorPicker\ColorDialog.xaml.cs">
       <DependentUpon>ColorDialog.xaml</DependentUpon>
@@ -177,6 +179,9 @@
     <Compile Include="Template\TabOptions\ITabOptionItems.cs" />
     <Compile Include="Template\TabOptions\OptionsItem.xaml.cs">
       <DependentUpon>OptionsItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TabOptions\ProxyServer.xaml.cs">
+      <DependentUpon>ProxyServer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Template\TabOptions\SystemInformation.xaml.cs">
       <DependentUpon>SystemInformation.xaml</DependentUpon>
@@ -285,6 +290,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Template\TabOptions\OptionsItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Template\TabOptions\ProxyServer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

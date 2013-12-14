@@ -1,0 +1,80 @@
+﻿<Window x:Class="TailForWin.Template.TabOptions.ProxyServer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:conv="clr-namespace:TailForWin.Converter"
+        Title="Proxy Settings" Height="292" Width="453" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" Icon="/TailForWin;component/Res/Main.ico" Loaded="Window_Loaded" xmlns:my="clr-namespace:TailForWin.Template.WatermarkTextBox">
+  <Window.Resources>
+    <conv:InverseBooleanConverter x:Key="InverseBool" />
+  </Window.Resources>
+    <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="134" />
+      <RowDefinition Height="126*" />
+      <RowDefinition Height="30" />
+    </Grid.RowDefinitions>
+    <GroupBox Header="Server" Margin="5,0,5,1" Name="groupBoxServer">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="25" />
+          <RowDefinition Height="25" />
+          <RowDefinition Height="25" />
+          <RowDefinition Height="35" />
+        </Grid.RowDefinitions>
+        <RadioButton Content="No Proxy" Height="16" HorizontalAlignment="Left"  Name="radioButtonNoProxy" VerticalAlignment="Center" IsChecked="{Binding Path=UseProxy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <RadioButton Content="Use system proxy settings" Grid.Row="1" Height="16" HorizontalAlignment="Left" Name="radioButtonSystemSettings" VerticalAlignment="Center" IsChecked="{Binding Path=UseSystemSettings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <RadioButton Content="Manual proxy configuration" Grid.Row="2" Height="16" HorizontalAlignment="Left" Name="radioButtonManualProxy" VerticalAlignment="Center" />
+                
+        <Grid Grid.Row="3" Name="ProxyPortUrl" IsEnabled="{Binding ElementName=radioButtonManualProxy, Path=IsChecked}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="90" />
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="60" />
+          </Grid.ColumnDefinitions>
+          <Label Content="Address:" Height="28" HorizontalAlignment="Right" Margin="0,0,5,0" Name="label1" VerticalAlignment="Center" />
+          <my:WatermarkTextBox Grid.Column="1" Height="23" x:Name="watermarkTextBoxUrl" VerticalAlignment="Center" Text="{Binding Path=ProxyUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <my:WatermarkTextBox.Watermark>
+              <TextBlock Text="Url" Margin="5,0,0,0" FontStyle="Italic" />
+            </my:WatermarkTextBox.Watermark>
+          </my:WatermarkTextBox>
+
+          <Label Content="Port:" Grid.Column="2" Height="28" HorizontalAlignment="Right" Margin="0,0,5,0" Name="label2" VerticalAlignment="Center" />
+          <my:WatermarkTextBox Grid.Column="3" Height="23" x:Name="watermarkTextBoxPort" VerticalAlignment="Center" Text="{Binding Path=ProxyPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <my:WatermarkTextBox.Watermark>
+              <TextBlock Text="Port" Margin="5,0,0,0" FontStyle="Italic" />
+            </my:WatermarkTextBox.Watermark>
+          </my:WatermarkTextBox>
+          
+        </Grid>
+      </Grid>
+    </GroupBox>
+    <GroupBox Header="Authentification" Margin="5,1,5,0" Name="groupBoxAuth" Grid.Row="1" IsEnabled="{Binding ElementName=radioButtonNoProxy, Path=IsChecked, Converter={StaticResource InverseBool}}">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="30" />
+          <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="90" />
+          <ColumnDefinition Width="398*" />
+        </Grid.ColumnDefinitions>
+        <Label Content="User name:" Height="28" Margin="0,0,5,0" Name="label3" VerticalAlignment="Center" HorizontalAlignment="Right" />
+        <my:WatermarkTextBox Grid.Column="1" Height="23" x:Name="watermarkTextBoxUserName" VerticalAlignment="Center" Margin="0,0,50,0" Text="{Binding Path=UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <my:WatermarkTextBox.Watermark>
+              <TextBlock Text="User name" Margin="5,0,0,0" FontStyle="Italic" />
+          </my:WatermarkTextBox.Watermark>
+        </my:WatermarkTextBox>
+        <Label Content="Password:" Grid.Row="1" Height="28" HorizontalAlignment="Right" Margin="0,0,5,0" Name="label4" VerticalAlignment="Center" />
+        <PasswordBox Name="textBoxPassword" Grid.Row="1" Grid.Column="1" Margin="0,0,50,0" VerticalAlignment="Center" Height="28" />
+      </Grid>
+    </GroupBox>
+    <Grid Grid.Row="2" >
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="189*" />
+        <ColumnDefinition Width="90" />
+      </Grid.ColumnDefinitions>
+      <Button Content="OK" Height="23" HorizontalAlignment="Right" Margin="0,0,5,0" Name="btnOk" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="0" Click="btnOK_Click" TabIndex="2" />
+      <Button Content="Close" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="btnCancel_Click" TabIndex="3" />
+    </Grid>
+  </Grid>
+</Window>

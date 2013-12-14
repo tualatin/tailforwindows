@@ -134,6 +134,27 @@ namespace TailForWin.Controller
 
         sHelper = ConfigurationManager.AppSettings["Alert.EMailAddress"];
         ParseEMailAddress (sHelper);
+
+        if (!bool.TryParse (ConfigurationManager.AppSettings["Proxy.Use"], out bHelper))
+          bHelper = false;
+        TailSettings.ProxySettings.UseProxy = bHelper;
+
+        if (!bool.TryParse (ConfigurationManager.AppSettings["Proxy.UseSystem"], out bHelper))
+          bHelper = true;
+        TailSettings.ProxySettings.UseSystemSettings = bHelper;
+
+        if (!int.TryParse (ConfigurationManager.AppSettings["Proxy.Port"], out iHelper))
+          iHelper = -1;
+        TailSettings.ProxySettings.ProxyPort = iHelper;
+
+        sHelper = ConfigurationManager.AppSettings["Proxy.Url"];
+        TailSettings.ProxySettings.ProxyUrl = sHelper;
+
+        sHelper = ConfigurationManager.AppSettings["Proxy.UserName"];
+        TailSettings.ProxySettings.UserName = sHelper;
+
+        sHelper = ConfigurationManager.AppSettings["Proxy.Password"];
+        TailSettings.ProxySettings.Password = sHelper;
       }
       catch (ConfigurationErrorsException ex)
       {
@@ -179,11 +200,21 @@ namespace TailForWin.Controller
           config.AppSettings.Settings["ShowLineNumbers"].Value = TailSettings.ShowLineNumbers.ToString ( );
           config.AppSettings.Settings["LineNumbersColor"].Value = TailSettings.DefaultLineNumbersColor;
           config.AppSettings.Settings["HighlightColor"].Value = TailSettings.DefaultHighlightColor;
+
+          // Alert settings
           config.AppSettings.Settings["Alert.BringToFront"].Value = TailSettings.AlertSettings.BringToFront.ToString ( );
           config.AppSettings.Settings["Alert.PlaySoundFile"].Value = TailSettings.AlertSettings.PlaySoundFile.ToString ( );
           config.AppSettings.Settings["Alert.SendEMail"].Value = TailSettings.AlertSettings.SendEMail.ToString ( );
           config.AppSettings.Settings["Alert.EMailAddress"].Value = TailSettings.AlertSettings.EMailAddress;
           config.AppSettings.Settings["Alert.SoundFile"].Value = TailSettings.AlertSettings.SoundFileNameFullPath;
+
+          // Proxy settings
+          config.AppSettings.Settings["Proxy.UserName"].Value = TailSettings.ProxySettings.UserName;
+          config.AppSettings.Settings["Proxy.Password"].Value = TailSettings.ProxySettings.Password;
+          config.AppSettings.Settings["Proxy.Use"].Value = TailSettings.ProxySettings.UseProxy.ToString ( );
+          config.AppSettings.Settings["Proxy.Port"].Value = TailSettings.ProxySettings.ProxyPort.ToString ( );
+          config.AppSettings.Settings["Proxy.Url"].Value = TailSettings.ProxySettings.ProxyUrl;
+          config.AppSettings.Settings["Proxy.UseSystem"].Value = TailSettings.ProxySettings.UseSystemSettings.ToString ( );
 
           config.Save (ConfigurationSaveMode.Modified);
           ConfigurationManager.RefreshSection ("appSettings");
@@ -251,11 +282,21 @@ namespace TailForWin.Controller
       TailSettings.SearchWndYPos = -1;
       TailSettings.DefaultFileSort = SettingsData.EFileSort.Nothing;
       TailSettings.ShowLineNumbers = false;
+
+      // Alert settings
       TailSettings.AlertSettings.BringToFront = true;
       TailSettings.AlertSettings.SendEMail = false;
       TailSettings.AlertSettings.PlaySoundFile = false;
       TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
       TailSettings.AlertSettings.EMailAddress = LogFile.ALERT_EMAIL_ADDRESS;
+      
+      // Proxy settings
+      TailSettings.ProxySettings.Password = string.Empty;
+      TailSettings.ProxySettings.ProxyPort = -1;
+      TailSettings.ProxySettings.ProxyUrl = string.Empty;
+      TailSettings.ProxySettings.UseProxy = false;
+      TailSettings.ProxySettings.UseSystemSettings = true;
+      TailSettings.ProxySettings.UserName = string.Empty;
 
       SaveSettings ( );
     }

@@ -11,6 +11,7 @@ namespace TailForWin.Data
     public SettingsData ()
     {
       AlertSettings = new AlertData ( );
+      ProxySettings = new ProxySettingsData ( );
     }
 
     /// <summary>
@@ -514,6 +515,14 @@ namespace TailForWin.Data
       }
     }
 
+    /// <summary>
+    /// Proxy settings
+    /// </summary>
+    public ProxySettingsData ProxySettings
+    {
+      get;
+      set;
+    }
 
     /// <summary>
     /// Default thread refresh rate

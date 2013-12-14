@@ -156,10 +156,10 @@ namespace TailForWin.Template.UpdateController
         {
           string tag = UpdateURL.Substring (match.Value.Length, UpdateURL.Length - match.Value.Length);
 
-          Window parentWindow = Window.GetWindow (this);
+          Window wnd = Window.GetWindow (this);
           ResultDialog rd = new ResultDialog (ApplicationName, uc.UpdateNecessary (webData, tag), UpdateURL)
           {
-            Owner = parentWindow,
+            Owner = wnd,
             WebVersion = uc.WebVersion,
             ApplicationVersion = uc.AppVersion
           };
