@@ -26,6 +26,7 @@ namespace TailForWin.Data
     public static string DEFAULT_HIGHLIGHT_COLOR = "#FF0000FF";
     public static string ALERT_SOUND_FILENAME = "NoFile";
     public static string ALERT_EMAIL_ADDRESS = "NoMail";
+    public static string ENCRYPT_PASSPHRASE = "fhsdtgf45FSDvj_dhjf#+sdkjfh567gAQW";
 
     #region ObservableCollection
 

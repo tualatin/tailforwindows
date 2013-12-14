@@ -28,4 +28,6 @@
   <system:String x:Key="FiltersLoaded">{0} filter(s)</system:String>
   <system:String x:Key="FileManagerCloseUnsaveItem">The last edit item is unsaved. Please save the item bevore close the dialogue.</system:String>
   <system:String x:Key="GoToLineNumber">Line number ({0} - {1}):</system:String>
+  <system:String x:Key="NoUpdate">No update necessary</system:String>
+  <system:String x:Key="DoUpdate">New update available</system:String>
 </ResourceDictionary>

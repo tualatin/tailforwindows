@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="TailForWin.Template.UpdateController.Updater"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="20" d:DesignWidth="20" Loaded="UserControl_Loaded">
+    <Grid>
+    <Button Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnUpdater" Click="btnUpdater_Click" ToolTip="Check for Update" Margin="0">
+      <StackPanel>
+        <Image Source="/TailForWin;component/Template/UpdateController/update.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Width="24" Height="24" />
+      </StackPanel>
+    </Button>
+  </Grid>
+</UserControl>

@@ -33,6 +33,7 @@ namespace TailForWin.Template.TabOptions
       labelBuildDate.Content = (BuildDate.GetBuildDateTime (assembly)).ToString ("dd.MM.yyyy HH:mm:ss");
       labelAppName.Content = LogFile.APPLICATION_CAPTION;
       labelVersion.Content = assembly.GetName ( ).Version;
+      updater.ApplicationName = LogFile.APPLICATION_CAPTION;
     }
 
     public void btnSave_Click (object sender, RoutedEventArgs e)

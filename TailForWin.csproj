@@ -197,6 +197,16 @@
     <Compile Include="Template\TextEditor\Utils\ListBoxExtenders.cs" />
     <Compile Include="Template\TextEditor\Utils\LogViewerDataTemplateSelector.cs" />
     <Compile Include="Template\TextEditor\Utils\TemplateData.cs" />
+    <Compile Include="Template\UpdateController\Data\WebServiceData.cs" />
+    <Compile Include="Template\UpdateController\ResultDialog.xaml.cs">
+      <DependentUpon>ResultDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\UpdateController\UpdateController.cs" />
+    <Compile Include="Template\UpdateController\Updater.xaml.cs">
+      <DependentUpon>Updater.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\UpdateController\UserErrorException.cs" />
+    <Compile Include="Template\UpdateController\Webservice.cs" />
     <Compile Include="Template\WatermarkTextBox\WatermarkTextBox.cs" />
     <Compile Include="Utils\BuildDate.cs" />
     <Compile Include="Utils\DeferredAction.cs" />
@@ -212,6 +222,7 @@
     <Compile Include="Converter\TextTrimConverter.cs" />
     <Compile Include="Utils\ObservableDictionary.cs" />
     <Compile Include="Utils\SoundPlay.cs" />
+    <Compile Include="Utils\StringEncryption.cs" />
     <Compile Include="Utils\WinTrayIcon.cs" />
     <Page Include="Template\ColorPicker\ColorDialog.xaml">
       <SubType>Designer</SubType>
@@ -286,6 +297,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Template\TextEditor\LogViewerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\UpdateController\ResultDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\UpdateController\Updater.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -414,6 +433,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Res\stop.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Template\UpdateController\internet.ico" />
+    <Resource Include="Template\UpdateController\local.ico" />
+    <Resource Include="Template\UpdateController\update.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

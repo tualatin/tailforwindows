@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="380" d:DesignWidth="400">
+             d:DesignHeight="380" d:DesignWidth="400" xmlns:my="clr-namespace:TailForWin.Template.UpdateController">
   <Grid Margin="5">
     <Grid.RowDefinitions>
       <RowDefinition Height="345*" />
@@ -19,7 +19,9 @@
           <RowDefinition Height="30" />
           <RowDefinition Height="30" />
           <RowDefinition Height="30" />
-          <RowDefinition Height="148*" />
+          <RowDefinition Height="10" />
+          <RowDefinition Height="35" />
+          <RowDefinition Height="98*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="73" />
@@ -38,6 +40,8 @@
         <TextBlock Grid.Column="1" Grid.Row="5" Name="textBlockHomepage" VerticalAlignment="Center" Margin="5,0,0,0">
           <Hyperlink NavigateUri="https://github.com/tualatin/tailforwindows/releases" RequestNavigate="Hyperlink_RequestNavigate">https://github.com/tualatin/tailforwindows/releases</Hyperlink>
         </TextBlock>
+        <my:Updater Grid.Row="7" HorizontalAlignment="Left" x:Name="updater" Grid.Column="1" Margin="5,0,0,0" UpdateURL="https://github.com/tualatin/tailforwindows/releases" />
+        <Label Content="Update:" Grid.Row="7" Name="label7" VerticalAlignment="Center" />
       </Grid>
     </Border>
     <Button Content="Close" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnOK" VerticalAlignment="Center" Width="75" Grid.Row="1" Click="btnSave_Click" />
