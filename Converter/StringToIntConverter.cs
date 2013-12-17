@@ -10,17 +10,18 @@ namespace TailForWin.Converter
     {
       if (value != null)
       {
-        int port;
+        if (value.GetType ( ) == typeof (int))
+        {
 
-        if (int.TryParse (value as string, out port))
-          port = 0;
+          int port = (int) value;
 
-        if (port < 0)
-          port = 0;
+          if (port < 0)
+            port = 0;
 
-        return (port);
+          return (port);
+        }
       }
-      return (null);
+      return (0);
     }
 
     public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

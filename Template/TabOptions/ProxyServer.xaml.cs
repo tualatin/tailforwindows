@@ -3,6 +3,7 @@ using TailForWin.Controller;
 using System.Windows.Input;
 using TailForWin.Utils;
 using TailForWin.Data;
+using System;
 
 
 namespace TailForWin.Template.TabOptions
@@ -98,6 +99,32 @@ namespace TailForWin.Template.TabOptions
         textBoxPassword.Password = StringEncryption.Decrypt (SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE);
     }
 
+    private void SelectAllText (TailForWin.Template.WatermarkTextBox.WatermarkTextBox textBox)
+    {
+      textBox.Dispatcher.BeginInvoke (new Action (delegate
+        {
+          textBox.SelectAll ( );
+        }), System.Windows.Threading.DispatcherPriority.Input);
+    }
+
     #endregion
+
+    private void watermarkTextBoxPort_GotFocus (object sender, RoutedEventArgs e)
+    {
+      TailForWin.Template.WatermarkTextBox.WatermarkTextBox tb = (TailForWin.Template.WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
+      SelectAllText (tb);
+    }
+
+    private void watermarkTextBoxUrl_GotFocus (object sender, RoutedEventArgs e)
+    {
+      TailForWin.Template.WatermarkTextBox.WatermarkTextBox tb = (TailForWin.Template.WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
+      SelectAllText (tb);
+    }
+
+    private void watermarkTextBoxUserName_GotFocus (object sender, RoutedEventArgs e)
+    {
+      TailForWin.Template.WatermarkTextBox.WatermarkTextBox tb = (TailForWin.Template.WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
+      SelectAllText (tb);
+    }
   }
 }
