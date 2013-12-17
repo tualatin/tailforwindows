@@ -128,7 +128,9 @@
     <Compile Include="Converter\FontToStringConverter.cs" />
     <Compile Include="Converter\IntToBoolConverter.cs" />
     <Compile Include="Converter\InverseBooleanConverter.cs" />
+    <Compile Include="Converter\IsEnableMultiConverter.cs" />
     <Compile Include="Converter\SoundFileNameConverter.cs" />
+    <Compile Include="Converter\StringToIntConverter.cs" />
     <Compile Include="Data\AlertData.cs" />
     <Compile Include="Data\FilterDataEventArgs.cs" />
     <Compile Include="Data\FileManagerDataEventArgs.cs" />

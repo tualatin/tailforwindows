@@ -6,6 +6,7 @@ using TailForWin.Data;
 using System;
 using System.Windows.Input;
 using System.Diagnostics;
+using TailForWin.Controller;
 
 
 namespace TailForWin.Template.TabOptions
@@ -60,6 +61,12 @@ namespace TailForWin.Template.TabOptions
     {
       Process.Start (new ProcessStartInfo (e.Uri.AbsoluteUri));
       e.Handled = true;
+    }
+
+    private void UserControl_Loaded (object sender, RoutedEventArgs e)
+    {
+      if (!string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.Password))
+        updater.ProxyAuthentification = new System.Net.NetworkCredential (SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt (SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
     }
   }
 }
