@@ -40,7 +40,7 @@
         <TextBlock Grid.Column="1" Grid.Row="5" Name="textBlockHomepage" VerticalAlignment="Center" Margin="5,0,0,0">
           <Hyperlink NavigateUri="https://github.com/tualatin/tailforwindows/releases" RequestNavigate="Hyperlink_RequestNavigate">https://github.com/tualatin/tailforwindows/releases</Hyperlink>
         </TextBlock>
-        <my:Updater Grid.Row="7" HorizontalAlignment="Left" x:Name="updater" Grid.Column="1" Margin="5,0,0,0" UpdateURL="https://github.com/tualatin/tailforwindows/releases" />
+        <my:Updater Grid.Row="7" HorizontalAlignment="Left" x:Name="updater" Grid.Column="1" Margin="5,0,0,0" UpdateURL="https://github.com/tualatin/tailforwindows/releases" UseProxy="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Path=UseProxy}" UseSystemSettings="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Path=UseSystemSettings}" />
         <Label Content="Update:" Grid.Row="7" Name="label7" VerticalAlignment="Center" />
       </Grid>
     </Border>

@@ -20,7 +20,10 @@ namespace TailForWin.Template.TabOptions
     /// Close dialog event handler
     /// </summary>
     public event EventHandler CloseDialog;
-
+    
+    /// <summary>
+    /// Save settubgs event handler
+    /// </summary>
     public event EventHandler SaveSettings;
 
 
@@ -35,6 +38,7 @@ namespace TailForWin.Template.TabOptions
       labelAppName.Content = LogFile.APPLICATION_CAPTION;
       labelVersion.Content = assembly.GetName ( ).Version;
       updater.ApplicationName = LogFile.APPLICATION_CAPTION;
+      updater.DataContext = SettingsHelper.TailSettings.ProxySettings;
     }
 
     public void btnSave_Click (object sender, RoutedEventArgs e)
