@@ -34,7 +34,7 @@
         <Label Content="Version:" Grid.Column="0" Grid.Row="1" Margin="0" Name="label2" VerticalAlignment="Center" />
         <Label Content="Label" Grid.Column="1" Grid.Row="1" Margin="0" Name="labelVersion" VerticalAlignment="Center" FontWeight="Bold" />
         <Label Content="Author:" Grid.Row="3" Grid.Column="0" Margin="0" Name="label3" VerticalAlignment="Center" />
-        <Label Content="M. Zoennchen, Copyright 2013" Grid.Column="1" Grid.Row="3"  Margin="0" Name="label4" VerticalAlignment="Center" />
+        <Label Content="M. Zoennchen, Copyright 2013 - 2014" Grid.Column="1" Grid.Row="3"  Margin="0" Name="label4" VerticalAlignment="Center" />
         <Label Content="All rights reserved" Grid.Column="1" Grid.Row="4" Margin="0" Name="label5" VerticalAlignment="Center" />
         <Label Content="Homepage:" Grid.Row="5" Height="28" Name="label6" />
         <TextBlock Grid.Column="1" Grid.Row="5" Name="textBlockHomepage" VerticalAlignment="Center" Margin="5,0,0,0">
