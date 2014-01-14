@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="FileManager" Height="455" Width="640" Icon="/TailForWin;component/Res/Explorer.ico" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize"
-        xmlns:prop="clr-namespace:TailForWin.Data" Loaded="Window_Loaded" xmlns:conv="clr-namespace:TailForWin.Converter" Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True" Closing="Window_Closing">
+        xmlns:prop="clr-namespace:TailForWin.Data" Loaded="Window_Loaded" xmlns:conv="clr-namespace:TailForWin.Converter" Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True" Closing="Window_Closing" xmlns:my="clr-namespace:TailForWin.Template.WatermarkTextBox">
   <Window.Resources>
     <conv:TailConverter x:Key="selectedConverter" />
     <conv:TextTrimConverter x:Key="trimConverter" />
@@ -91,10 +91,18 @@
       </Grid>
       
       <Label Content="Description:" Grid.Row="0" Grid.Column="0" Margin="0" Name="label2" VerticalAlignment="Center" />
-      <TextBox Grid.Column="1" Margin="0,0,5,0" Name="textBlockDescription" VerticalAlignment="Center" Grid.ColumnSpan="2" Text="{Binding Mode=TwoWay, Path=Description, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource trimConverter}}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TextChanged="textBlockDescription_TextChanged" TabIndex="1" />
+      <my:WatermarkTextBox Grid.Column="1" Margin="0,0,5,0" x:Name="textBlockDescription" VerticalAlignment="Center" Grid.ColumnSpan="2" Text="{Binding Mode=TwoWay, Path=Description, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource trimConverter}}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TextChanged="textBlockDescription_TextChanged" TabIndex="1">
+        <my:WatermarkTextBox.Watermark>
+          <TextBlock Text="Description" Margin="5,0,0,0" FontStyle="Italic" />
+        </my:WatermarkTextBox.Watermark>
+      </my:WatermarkTextBox>
       <Label Content="Category:" Grid.Row="1" Grid.Column="0" Margin="0" Name="label1" VerticalAlignment="Center" />
       <ComboBox Grid.Row="1" Grid.Column="1" Height="23" Margin="0,0,5,0" Name="comboBoxCategory" VerticalAlignment="Center" SelectionChanged="comboBoxCategory_SelectionChanged" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}" TabIndex="2" />
-      <TextBox Grid.Row="1" Grid.Column="2" Height="23" Name="textBoxNewCategorie" VerticalAlignment="Center" Margin="0,0,5,0" Text="{Binding Mode=TwoWay, Path=Category, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource trimConverter}}" IsEnabled="{Binding ElementName=checkBoxInsertCategory, Path=IsChecked}" TextChanged="textBoxNewCategorie_TextChanged" TabIndex="4" />
+      <my:WatermarkTextBox Grid.Row="1" Grid.Column="2" Height="23" x:Name="textBoxNewCategorie" VerticalAlignment="Center" Margin="0,0,5,0" Text="{Binding Mode=TwoWay, Path=Category, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource trimConverter}}" IsEnabled="{Binding ElementName=checkBoxInsertCategory, Path=IsChecked}" TextChanged="textBoxNewCategorie_TextChanged" TabIndex="4">
+        <my:WatermarkTextBox.Watermark>
+          <TextBlock Text="Category" Margin="5,0,0,0" FontStyle="Italic" />
+        </my:WatermarkTextBox.Watermark>
+      </my:WatermarkTextBox>
       <CheckBox Content="New Category" Grid.Row="1" Grid.Column="3" Height="16" HorizontalAlignment="Left" Margin="0,7" Name="checkBoxInsertCategory" VerticalAlignment="Center" ToolTip="Create a new category" TabIndex="3" />
       <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Name="btnFont" Click="btnFont_Click" ToolTip="Manager font" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}">
         <StackPanel>

@@ -6,7 +6,12 @@ Changelog:
 
 v0.9.
 * bug fix proxy authentication
-
+* bug fix drag and drop while a process is running
+* change description text box in FileManager
+* change category text box in FileManager
+* add E-Mail options in Alert option tab
+* add SMTP settings dialogue
+* change Filters icon
 
 v0.9.5099.x
 * add shortcut Ctrl+Alt+M minimize main window

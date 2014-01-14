@@ -129,6 +129,7 @@
     <Compile Include="Converter\IntToBoolConverter.cs" />
     <Compile Include="Converter\InverseBooleanConverter.cs" />
     <Compile Include="Converter\IsEnableMultiConverter.cs" />
+    <Compile Include="Converter\MailAddressConverter.cs" />
     <Compile Include="Converter\SoundFileNameConverter.cs" />
     <Compile Include="Converter\StringToIntConverter.cs" />
     <Compile Include="Data\AlertData.cs" />
@@ -165,6 +166,9 @@
     </Compile>
     <Compile Include="Template\SearchDialog.xaml.cs">
       <DependentUpon>SearchDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TabOptions\SmtpSettings.xaml.cs">
+      <DependentUpon>SmtpSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Template\Spinner.xaml.cs">
       <DependentUpon>Spinner.xaml</DependentUpon>
@@ -227,6 +231,7 @@
     <Compile Include="Utils\GlobalMutex.cs" />
     <Compile Include="Converter\TailConverter.cs" />
     <Compile Include="Converter\TextTrimConverter.cs" />
+    <Compile Include="Utils\MailClient.cs" />
     <Compile Include="Utils\ObservableDictionary.cs" />
     <Compile Include="Utils\SoundPlay.cs" />
     <Compile Include="Utils\StringEncryption.cs" />
@@ -272,6 +277,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Template\SearchDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Template\TabOptions\SmtpSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -449,6 +458,9 @@
     <Resource Include="Template\UpdateController\internet.ico" />
     <Resource Include="Template\UpdateController\local.ico" />
     <Resource Include="Template\UpdateController\update.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\EMail.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -55,6 +55,19 @@ namespace TailForWin.Template.TabOptions
         textBoxSoundFile.Text = fName;
     }
 
+    private void btnTestEMail_Click (object sender, RoutedEventArgs e)
+    {
+
+    }
+
+    private void btnSmtp_Click (object sender, RoutedEventArgs e)
+    {
+      Window wnd = Window.GetWindow (this);
+      SmtpSettings smtp = new SmtpSettings ( ) { Owner = wnd };
+
+      smtp.ShowDialog ( );
+    }
+
     #endregion
 
     #region Events
