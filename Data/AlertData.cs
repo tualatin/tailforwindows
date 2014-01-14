@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-
-namespace TailForWin.Data
+﻿namespace TailForWin.Data
 {
   public class AlertData : INotifyMaster
   {
@@ -115,6 +109,15 @@ namespace TailForWin.Data
         emailAddress = value;
         OnPropertyChanged ("EMailAddress");
       }
+    }
+
+    /// <summary>
+    /// SMTP server settings
+    /// </summary>
+    public SmtpData SmtpSettings
+    {
+      get;
+      set;
     }
   }
 }

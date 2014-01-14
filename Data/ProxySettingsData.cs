@@ -1,7 +1,4 @@
-﻿using TailForWin.Utils;
-
-
-namespace TailForWin.Data
+﻿namespace TailForWin.Data
 {
   public class ProxySettingsData : INotifyMaster
   {

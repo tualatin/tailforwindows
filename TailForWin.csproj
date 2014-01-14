@@ -139,6 +139,7 @@
     <Compile Include="Data\GoToLineData.cs" />
     <Compile Include="Data\ProxySettingsData.cs" />
     <Compile Include="Data\SearchData.cs" />
+    <Compile Include="Data\SmtpData.cs" />
     <Compile Include="Template\ColorPicker\ColorDialog.xaml.cs">
       <DependentUpon>ColorDialog.xaml</DependentUpon>
     </Compile>
