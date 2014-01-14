@@ -931,7 +931,10 @@ namespace TailForWin.Template
 
     public void DragEnterHelper (object sender, DragEventArgs e)
     {
-      e.Handled = true;
+      if (tailWorker.IsBusy)
+        e.Handled = false;
+      else
+        e.Handled = true;
 
       if (e.Source == sender)
         e.Effects = DragDropEffects.None;
@@ -939,6 +942,13 @@ namespace TailForWin.Template
 
     public void DropHelper (object sender, DragEventArgs e)
     {
+      if (tailWorker.IsBusy)
+      {
+        MessageBox.Show (Application.Current.FindResource ("DragDropRunningWarining").ToString ( ), LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+        e.Handled = false;
+        return;
+      }
+
       e.Handled = true;
 
       try
@@ -963,7 +973,10 @@ namespace TailForWin.Template
 
     private void textBoxFileName_PreviewDragOver (object sender, DragEventArgs e)
     {
-      e.Handled = true;
+      if (tailWorker.IsBusy)
+        e.Handled = false;
+      else
+        e.Handled = true;
     }
 
     private void AlertTrigger (object sender, EventArgs e)
