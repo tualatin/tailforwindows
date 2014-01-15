@@ -20,7 +20,6 @@
   <system:String x:Key="FileEncodingLabel">(If no value selected, auto file encoding is on)</system:String>
   <system:String x:Key="OS">Operating System</system:String>
   <system:String x:Key="FindDialogTitle">Find</system:String>
-  <system:String x:Key="NoHighLightning">TailForWinHighlight.xshd was not found!</system:String>
   <system:String x:Key="SearchCount">Count: {0} matches.</system:String>
   <system:String x:Key="SelectSoundFile">Please select a soundfile</system:String>
   <system:String x:Key="NoSoundFile">This is a unkown soundfile format. Please select a valid sound file!</system:String>
@@ -33,4 +32,6 @@
   <system:String x:Key="DragDropRunningWarining">There is a running process! Please stop it or open a new tab. After that you can drag and drop a new file to tail.</system:String>
   <system:String x:Key="EMailAddressNotValid">The E-Mail address is not valid!</system:String>
   <system:String x:Key="SmtpPortNotValid">The SMTP Server Port is not valid!</system:String>
+  <system:String x:Key="MailCannotSend">E-Mail can not send! Please check your SMTP settings.</system:String>
+  <system:String x:Key="SmtpSettingsNotValid">Can not set SMTP settings! Please take a look into the log file to get more information.</system:String>
 </ResourceDictionary>

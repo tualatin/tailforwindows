@@ -51,7 +51,7 @@
       </Grid>
     </GroupBox>
     <GroupBox Header="Authentification" Margin="5,1,5,0" Name="groupBoxAuth" Grid.Row="1" IsEnabled="{Binding ElementName=radioButtonNoProxy, Path=IsChecked, Converter={StaticResource InverseBool}}">
-      <Grid>
+      <Grid Height="64">
         <Grid.RowDefinitions>
           <RowDefinition Height="30" />
           <RowDefinition Height="30" />

@@ -72,7 +72,10 @@ namespace TailForWin.Template.TabOptions
 
     private void btnTestEMail_Click (object sender, RoutedEventArgs e)
     {
-
+      MailClient mailClient = new MailClient ( );
+      mailClient.InitClient ( );
+      mailClient.SendMail ( );
+      mailClient.Dispose ( );
     }
 
     private void btnSmtp_Click (object sender, RoutedEventArgs e)
