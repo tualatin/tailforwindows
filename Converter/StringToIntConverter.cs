@@ -12,7 +12,6 @@ namespace TailForWin.Converter
       {
         if (value.GetType ( ) == typeof (int))
         {
-
           int port = (int) value;
 
           if (port < 0)
@@ -21,7 +20,7 @@ namespace TailForWin.Converter
           return (port);
         }
       }
-      return (0);
+      return (null);
     }
 
     public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -11,7 +11,10 @@ v0.9.
 * change category text box in FileManager
 * add E-Mail options in Alert option tab
 * add SMTP settings dialogue
+* add SMTP settings
+* improve read settings
 * change Filters icon
+* bug fix exception when enter a E-Mail address in Alert dialogue
 
 v0.9.5099.x
 * add shortcut Ctrl+Alt+M minimize main window

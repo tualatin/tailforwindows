@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace TailForWin.Converter
 {
-  public class MailAddressConverter : IValueConverter
+  public class SmtpPortConverter : IValueConverter
   {
     #region IValueConverter Members
 
@@ -12,24 +12,23 @@ namespace TailForWin.Converter
     {
       if (value != null)
       {
-        if (value.GetType ( ) == typeof (string))
+        if (value.GetType ( ) == typeof (int))
         {
-          string eMailAddress = value as string;
+          int port = (int) value;
 
-          if (eMailAddress.CompareTo ("NoMail") == 0)
-            return (string.Empty);
+          if (port > 0)
+            return (port);
           else
-            return (eMailAddress);
+            return (25);
         }
-        else
-          return (string.Empty);
+        return (null);
       }
-      return (string.Empty);
+      return (null);
     }
 
     public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      return (value);
+      throw new NotImplementedException ( );
     }
 
     #endregion

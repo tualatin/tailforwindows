@@ -37,8 +37,23 @@ namespace TailForWin.Template.TabOptions
     
     public void btnSave_Click (object sender, RoutedEventArgs e)
     {
-      if (SaveSettings != null)
-        SaveSettings (this, EventArgs.Empty);
+      if (checkBoxSendMail.IsChecked == true)
+      {
+        if (SettingsHelper.ParseEMailAddress (watermarkTextBoxEMailAddress.Text))
+        {
+          if (SaveSettings != null)
+            SaveSettings (this, EventArgs.Empty);
+        }
+        else
+        {
+          MessageBox.Show (Application.Current.FindResource ("EMailAddressNotValid").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+          watermarkTextBoxEMailAddress.Focus ( );
+          return;
+        }
+      }
+      else
+        if (SaveSettings != null)
+          SaveSettings (this, EventArgs.Empty);
     }
 
     public void btnCancel_Click (object sender, RoutedEventArgs e)

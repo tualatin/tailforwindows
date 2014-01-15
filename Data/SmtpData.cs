@@ -74,5 +74,41 @@
         OnPropertyChanged ("Password");
       }
     }
+
+    private string fromAddress;
+
+    /// <summary>
+    /// E-Mail address From
+    /// </summary>
+    public string FromAddress
+    {
+      get
+      {
+        return (fromAddress);
+      }
+      set
+      {
+        fromAddress = value;
+        OnPropertyChanged ("FromAddress");
+      }
+    }
+
+    private string subject;
+
+    /// <summary>
+    /// Subject
+    /// </summary>
+    public string Subject
+    {
+      get
+      {
+        return (subject);
+      }
+      set
+      {
+        subject = value;
+        OnPropertyChanged ("Subject");
+      }
+    }
   }
 }

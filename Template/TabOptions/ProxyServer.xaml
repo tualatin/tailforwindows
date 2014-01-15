@@ -34,14 +34,14 @@
             <ColumnDefinition Width="60" />
           </Grid.ColumnDefinitions>
           <Label Content="Address:" Height="28" HorizontalAlignment="Right" Margin="0,0,5,0" Name="label1" VerticalAlignment="Center" />
-          <my:WatermarkTextBox Grid.Column="1" Height="23" x:Name="watermarkTextBoxUrl" VerticalAlignment="Center" Text="{Binding Path=ProxyUrl, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="3" GotFocus="watermarkTextBoxUrl_GotFocus">
+          <my:WatermarkTextBox Grid.Column="1" Height="23" x:Name="watermarkTextBoxUrl" VerticalAlignment="Center" Text="{Binding Path=ProxyUrl, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="3" GotFocus="watermarkTextBox_GotFocus">
             <my:WatermarkTextBox.Watermark>
               <TextBlock Text="Url" Margin="5,0,0,0" FontStyle="Italic" />
             </my:WatermarkTextBox.Watermark>
           </my:WatermarkTextBox>
 
           <Label Content="Port:" Grid.Column="2" Height="28" HorizontalAlignment="Right" Margin="0,0,5,0" Name="label2" VerticalAlignment="Center" />
-          <my:WatermarkTextBox Grid.Column="3" Height="23" x:Name="watermarkTextBoxPort" VerticalAlignment="Center" Text="{Binding Path=ProxyPort, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToInt}}" TabIndex="4" GotFocus="watermarkTextBoxPort_GotFocus">
+          <my:WatermarkTextBox Grid.Column="3" Height="23" x:Name="watermarkTextBoxPort" VerticalAlignment="Center" Text="{Binding Path=ProxyPort, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToInt}}" TabIndex="4" GotFocus="watermarkTextBox_GotFocus">
             <my:WatermarkTextBox.Watermark>
               <TextBlock Text="Port" Margin="5,0,0,0" FontStyle="Italic" />
             </my:WatermarkTextBox.Watermark>
@@ -61,7 +61,7 @@
           <ColumnDefinition Width="398*" />
         </Grid.ColumnDefinitions>
         <Label Content="User name:" Height="28" Margin="0,0,5,0" Name="label3" VerticalAlignment="Center" HorizontalAlignment="Right" />
-        <my:WatermarkTextBox Grid.Column="1" Height="23" x:Name="watermarkTextBoxUserName" VerticalAlignment="Center" Margin="0,0,10,0" Text="{Binding Path=UserName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="5" GotFocus="watermarkTextBoxUserName_GotFocus">
+        <my:WatermarkTextBox Grid.Column="1" Height="23" x:Name="watermarkTextBoxUserName" VerticalAlignment="Center" Margin="0,0,10,0" Text="{Binding Path=UserName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="5" GotFocus="watermarkTextBox_GotFocus">
             <my:WatermarkTextBox.Watermark>
               <TextBlock Text="User name" Margin="5,0,0,0" FontStyle="Italic" />
           </my:WatermarkTextBox.Watermark>

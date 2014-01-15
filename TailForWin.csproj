@@ -130,6 +130,7 @@
     <Compile Include="Converter\InverseBooleanConverter.cs" />
     <Compile Include="Converter\IsEnableMultiConverter.cs" />
     <Compile Include="Converter\MailAddressConverter.cs" />
+    <Compile Include="Converter\SmtpPortConverter.cs" />
     <Compile Include="Converter\SoundFileNameConverter.cs" />
     <Compile Include="Converter\StringToIntConverter.cs" />
     <Compile Include="Data\AlertData.cs" />

@@ -109,19 +109,7 @@ namespace TailForWin.Template.TabOptions
 
     #endregion
 
-    private void watermarkTextBoxPort_GotFocus (object sender, RoutedEventArgs e)
-    {
-      TailForWin.Template.WatermarkTextBox.WatermarkTextBox tb = (TailForWin.Template.WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
-      SelectAllText (tb);
-    }
-
-    private void watermarkTextBoxUrl_GotFocus (object sender, RoutedEventArgs e)
-    {
-      TailForWin.Template.WatermarkTextBox.WatermarkTextBox tb = (TailForWin.Template.WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
-      SelectAllText (tb);
-    }
-
-    private void watermarkTextBoxUserName_GotFocus (object sender, RoutedEventArgs e)
+    private void watermarkTextBox_GotFocus (object sender, RoutedEventArgs e)
     {
       TailForWin.Template.WatermarkTextBox.WatermarkTextBox tb = (TailForWin.Template.WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
       SelectAllText (tb);

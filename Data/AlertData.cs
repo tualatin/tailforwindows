@@ -2,6 +2,11 @@
 {
   public class AlertData : INotifyMaster
   {
+    public AlertData ()
+    {
+      SmtpSettings = new SmtpData ( );
+    }
+
     private bool bringToFront;
 
     /// <summary>
