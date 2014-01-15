@@ -4,7 +4,9 @@ Known issues: https://github.com/tualatin/tailforwindows/issues
 
 Changelog:
 
-v0.9.
+v0.9.5099.x
+* add proxy settings
+* add check for updates
 * add shortcut Ctrl+Alt+M minimize main window
 * add shortcut F (Filter on/off)
 * add shortcut T (Always on top on/off)
