@@ -3,10 +3,19 @@
 
 namespace TailForWin.Data
 {
-  public class FilterDataEventArgs : EventArgs
+  public class FilterDataEventArgs: EventArgs, IDisposable
   {
     private FilterData filterData;
 
+
+    public void Dispose ()
+    {
+      if (filterData != null)
+      {
+        filterData.Dispose ( );
+        filterData = null;
+      }
+    }
 
     public FilterDataEventArgs (FilterData filterData)
     {

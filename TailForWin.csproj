@@ -134,6 +134,7 @@
     <Compile Include="Converter\SoundFileNameConverter.cs" />
     <Compile Include="Converter\StringToIntConverter.cs" />
     <Compile Include="Data\AlertData.cs" />
+    <Compile Include="Data\AlertTriggerEventArgs.cs" />
     <Compile Include="Data\FilterDataEventArgs.cs" />
     <Compile Include="Data\FileManagerDataEventArgs.cs" />
     <Compile Include="Data\FilterData.cs" />

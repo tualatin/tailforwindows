@@ -16,7 +16,7 @@ namespace TailForWin.Utils
 
 
     /// <summary>
-    /// Free up unused object
+    /// Free up unused objects
     /// </summary>
     public void Dispose ()
     {
@@ -38,6 +38,13 @@ namespace TailForWin.Utils
     /// </summary>
     public void InitClient ()
     {
+      InitSucces = false;
+
+      if (string.IsNullOrEmpty (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpServerName))
+        return;
+      if (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpPort <= 0)
+        return;
+
       try
       {
         mailClient = new SmtpClient (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpServerName, SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpPort)
@@ -63,8 +70,11 @@ namespace TailForWin.Utils
         {
           Subject = SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Subject,
           SubjectEncoding = System.Text.Encoding.UTF8,
+          BodyEncoding = System.Text.Encoding.UTF8,
           IsBodyHtml = false,
         };
+
+        InitSucces = true;
       }
       catch (Exception ex)
       {
@@ -74,14 +84,16 @@ namespace TailForWin.Utils
     }
 
     /// <summary>
-    /// Send a E-Mail
+    /// Send E-Mail
     /// </summary>
     /// <param name="userToken">User token</param>
-    public void SendMail (string userToken)
+    /// <param name="bodyMessage">Message to be send</param>
+    public void SendMail (string userToken, string bodyMessage = null)
     {
       try
       {
         string userState = userToken;
+        mailMessage.Body = bodyMessage;
         mailClient.SendAsync (mailMessage, userState);
       }
       catch (Exception ex)
@@ -89,6 +101,15 @@ namespace TailForWin.Utils
         MessageBox.Show (Application.Current.FindResource ("MailCannotSend").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         ErrorLog.WriteLog (ErrorFlags.Error, "MailClient", string.Format ("SendMail exception: {0}", ex));
       }
+    }
+
+    /// <summary>
+    /// SMTP client initialisation success
+    /// </summary>
+    public bool InitSucces
+    {
+      get;
+      set;
     }
 
     private void SendCompleted (object sender, AsyncCompletedEventArgs e)

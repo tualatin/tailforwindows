@@ -30,6 +30,7 @@ namespace TailForWin.Template
     private FileReader myReader;
     private bool stopThread;
     private bool isInit = false;
+    private MailClient mySMTP;
 
     /// <summary>
     /// filemanager save property
@@ -67,6 +68,7 @@ namespace TailForWin.Template
 
       myReader.Dispose ( );
       tabProperties.Dispose ( );
+      mySMTP.Dispose ( );
     }
 
     /// <summary>
@@ -644,6 +646,9 @@ namespace TailForWin.Template
 
       textBlockTailLog.Alert += AlertTrigger;
       NewFile += NewFileOpend;
+
+      mySMTP = new MailClient ( );
+      mySMTP.InitClient ( );
     }
 
     private void SetFontInTextEditor ( )
@@ -914,6 +919,9 @@ namespace TailForWin.Template
       textBlockTailLog.TextEditorSelectionColor = ((SolidColorBrush) (SettingsHelper.TailSettings.GuiDefaultHighlightColor)).Color;
 
       SoundPlay.InitSoundPlay (SettingsHelper.TailSettings.AlertSettings.SoundFileNameFullPath);
+
+      if (SettingsHelper.TailSettings.AlertSettings.SendEMail)
+         mySMTP.InitClient ( );
     }
 
     private void fileManagerDoUpdate (object sender, EventArgs e)
@@ -981,11 +989,25 @@ namespace TailForWin.Template
 
     private void AlertTrigger (object sender, EventArgs e)
     {
+      TailForWin.Template.TextEditor.Data.LogEntry alertTriggerData = new TextEditor.Data.LogEntry ( );
+
+      if (e.GetType ( ) == typeof (AlertTriggerEventArgs))
+        alertTriggerData = (e as AlertTriggerEventArgs).GetData ( );
+
       if (SettingsHelper.TailSettings.AlertSettings.BringToFront)
         LogFile.BringMainWindowToFront ( );
 
       if (SettingsHelper.TailSettings.AlertSettings.PlaySoundFile)
-          SoundPlay.Play (false);
+        SoundPlay.Play (false);
+
+      if (SettingsHelper.TailSettings.AlertSettings.SendEMail)
+      {
+        if (mySMTP.InitSucces)
+        {
+          string message = string.Format ("{0}\t{1}", alertTriggerData.Index, alertTriggerData.Message);
+          mySMTP.SendMail ("AlertTrigger", message);
+        }
+      }
     }
 
     private void FilterTrigger (object sender, EventArgs e)

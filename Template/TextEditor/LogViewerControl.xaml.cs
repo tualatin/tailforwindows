@@ -1110,8 +1110,10 @@ namespace TailForWin.Template.TextEditor
         {
           if (regSearch.Match (sub).Success)
           {
+            AlertTriggerEventArgs triggerData = new AlertTriggerEventArgs (newItem);
+
             if (Alert != null)
-              Alert (this, EventArgs.Empty);
+              Alert (this, triggerData);
 
             success = true;
           }
