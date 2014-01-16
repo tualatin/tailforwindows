@@ -43,12 +43,18 @@ namespace TailForWin.Utils
         mailClient = new SmtpClient (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpServerName, SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpPort)
         {
           UseDefaultCredentials = false,
-          Timeout = 120000
+          Timeout = 30000,
+          DeliveryMethod = SmtpDeliveryMethod.Network
         };
         string decryptPassword = StringEncryption.Decrypt (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password, LogFile.ENCRYPT_PASSPHRASE);
         NetworkCredential authInfo = new NetworkCredential (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.LoginName, decryptPassword);
         mailClient.Credentials = authInfo;
         mailClient.SendCompleted += SendCompleted;
+
+        if (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SSL)
+          mailClient.EnableSsl = true;
+        if (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.TLS)
+          ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
 
         MailAddress from = new MailAddress (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.FromAddress);
         MailAddress to = new MailAddress (SettingsHelper.TailSettings.AlertSettings.EMailAddress);
@@ -70,11 +76,12 @@ namespace TailForWin.Utils
     /// <summary>
     /// Send a E-Mail
     /// </summary>
-    public void SendMail ( )
+    /// <param name="userToken">User token</param>
+    public void SendMail (string userToken)
     {
       try
       {
-        string userState = "test message";
+        string userState = userToken;
         mailClient.SendAsync (mailMessage, userState);
       }
       catch (Exception ex)
@@ -90,11 +97,11 @@ namespace TailForWin.Utils
 
       if (e.Cancelled)
       {
-        MessageBox.Show (Application.Current.FindResource ("MailCannotSend").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show (string.Format ("{0}\n\"{1}\"", Application.Current.FindResource ("MailCannotSend"), token), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         return;
       }
       if (e.Error != null)
-        MessageBox.Show (e.Error.ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show (string.Format ("{0}\n\"{1}\"", e.Error, token), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
       else
         MessageBox.Show ("Complete!", LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
     }

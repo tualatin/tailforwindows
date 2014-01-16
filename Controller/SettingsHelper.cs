@@ -184,6 +184,8 @@ namespace TailForWin.Controller
           config.AppSettings.Settings["Smtp.Password"].Value = TailSettings.AlertSettings.SmtpSettings.Password;
           config.AppSettings.Settings["Smtp.FromEMail"].Value = TailSettings.AlertSettings.SmtpSettings.FromAddress;
           config.AppSettings.Settings["Smtp.Subject"].Value = TailSettings.AlertSettings.SmtpSettings.Subject;
+          config.AppSettings.Settings["Smtp.Ssl"].Value = TailSettings.AlertSettings.SmtpSettings.SSL.ToString ( );
+          config.AppSettings.Settings["Smtp.Tls"].Value = TailSettings.AlertSettings.SmtpSettings.TLS.ToString ( );
           
           config.Save (ConfigurationSaveMode.Modified);
           ConfigurationManager.RefreshSection ("appSettings");
@@ -274,6 +276,8 @@ namespace TailForWin.Controller
       TailSettings.AlertSettings.SmtpSettings.SmtpPort = -1;
       TailSettings.AlertSettings.SmtpSettings.SmtpServerName = string.Empty;
       TailSettings.AlertSettings.SmtpSettings.Subject = string.Empty;
+      TailSettings.AlertSettings.SmtpSettings.SSL = true;
+      TailSettings.AlertSettings.SmtpSettings.TLS = false;
 
       SaveSettings ( );
     }
@@ -354,6 +358,18 @@ namespace TailForWin.Controller
 
       sHelper = ConfigurationManager.AppSettings["Smtp.Subject"];
       TailSettings.AlertSettings.SmtpSettings.Subject = sHelper;
+
+      bool bHelper;
+
+      if (!bool.TryParse (ConfigurationManager.AppSettings["Smtp.Ssl"], out bHelper))
+        bHelper = true;
+      TailSettings.AlertSettings.SmtpSettings.SSL = bHelper;
+
+      if (!bool.TryParse (ConfigurationManager.AppSettings["Smtp.Tls"], out bHelper))
+        bHelper = false;
+      if (TailSettings.AlertSettings.SmtpSettings.SSL)
+        bHelper = false;
+      TailSettings.AlertSettings.SmtpSettings.TLS = bHelper;
     }
 
     /// <summary>

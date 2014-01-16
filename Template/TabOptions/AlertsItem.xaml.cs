@@ -74,7 +74,7 @@ namespace TailForWin.Template.TabOptions
     {
       MailClient mailClient = new MailClient ( );
       mailClient.InitClient ( );
-      mailClient.SendMail ( );
+      mailClient.SendMail ("testMessage");
       mailClient.Dispose ( );
     }
 

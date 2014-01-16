@@ -80,6 +80,13 @@ namespace TailForWin.Template
 
       if (!string.IsNullOrEmpty (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password))
         textBoxPassword.Password = TailForWin.Utils.StringEncryption.Decrypt (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password, LogFile.ENCRYPT_PASSPHRASE);
+
+      if (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SSL)
+        comboBoxSecurity.SelectedIndex = 1;
+      else if (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.TLS)
+        comboBoxSecurity.SelectedIndex = 2;
+      else
+        comboBoxSecurity.SelectedIndex = 0;
     }
 
     #endregion
@@ -122,6 +129,29 @@ namespace TailForWin.Template
 
       if (watermarkTextBoxSubject.Text.Length > 0)
         SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Subject = watermarkTextBoxSubject.Text;
+
+      switch (comboBoxSecurity.SelectedIndex)
+      {
+      case 0:
+
+        SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SSL = false;
+        SettingsHelper.TailSettings.AlertSettings.SmtpSettings.TLS = false;
+        break;
+
+      case 1:
+
+        SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SSL = true;
+        SettingsHelper.TailSettings.AlertSettings.SmtpSettings.TLS = false;
+        break;
+
+      case 2:
+
+        SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SSL = false;
+        SettingsHelper.TailSettings.AlertSettings.SmtpSettings.TLS = true;
+        break;
+      }
+
+      SettingsHelper.SaveSettings ( );
     }
 
     #endregion

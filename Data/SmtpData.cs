@@ -110,5 +110,41 @@
         OnPropertyChanged ("Subject");
       }
     }
+
+    private bool ssl;
+
+    /// <summary>
+    /// Use SSL
+    /// </summary>
+    public bool SSL
+    {
+      get
+      {
+        return (ssl);
+      }
+      set
+      {
+        ssl = value;
+        OnPropertyChanged ("SSL");
+      }
+    }
+
+    private bool tls;
+
+    /// <summary>
+    /// Use TLS
+    /// </summary>
+    public bool TLS
+    {
+      get
+      {
+        return (tls);
+      }
+      set
+      {
+        tls = value;
+        OnPropertyChanged ("TLS");
+      }
+    }
   }
 }
