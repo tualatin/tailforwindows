@@ -9,6 +9,7 @@ v0.9.
 * bug fix drag and drop while a process is running
 * change description text box in FileManager
 * change category text box in FileManager
+* add TLS/SSL support for SMTP
 * add E-Mail options in Alert option tab
 * add SMTP settings dialogue
 * add SMTP settings
