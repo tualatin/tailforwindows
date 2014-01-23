@@ -43,7 +43,14 @@ namespace TailForWin.Data
 
     #endregion
 
+    /// <summary>
+    /// MainWindow reference from TfW
+    /// </summary>
     public static MainWindow APP_MAIN_WINDOW = (Application.Current.MainWindow as MainWindow);
+
+    /// <summary>
+    /// Max open tabs in TfW
+    /// </summary>
     public const int MAX_TAB_CHILDS = 10;
 
 
