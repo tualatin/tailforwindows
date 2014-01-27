@@ -26,6 +26,8 @@ namespace TailForWin.Template
 
       tabAboutItem.CloseDialog += OnExit;
 
+      tabImportExportItem.CloseDialog += OnExit;
+
       tabOptionsItem.CloseDialog += OnExit;
       tabOptionsItem.SaveSettings += OnSaveSettings;
 
