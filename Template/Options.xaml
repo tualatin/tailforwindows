@@ -2,8 +2,22 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Options" Height="450" Width="420" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize" Icon="/TailForWin;component/Res/system.ico"
-        xmlns:tabData="clr-namespace:TailForWin.Template.TabOptions" AllowDrop="True">
-    <Grid>
+        xmlns:tabData="clr-namespace:TailForWin.Template.TabOptions" AllowDrop="True" xmlns:conv="clr-namespace:TailForWin.Converter">
+  <Window.Resources>
+    <conv:TabSizeMultiConverter x:Key="TabSize" />
+    
+    <!--<Style TargetType="{x:Type TabItem}">
+      <Setter Property="Width">
+        <Setter.Value>
+          <MultiBinding Converter="{StaticResource TabSize}">
+            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" />
+            <Binding RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type TabControl}}" Path="ActualWidth" />
+          </MultiBinding>
+        </Setter.Value>
+      </Setter>
+    </Style>-->
+  </Window.Resources>
+  <Grid>
     <TabControl Margin="0" Name="tabControl1">
       <TabItem Header="Options" Name="tabItemOptions">
         <TabItem.HeaderTemplate>
@@ -38,16 +52,16 @@
         </TabItem.HeaderTemplate>
         <tabData:AlertsItem Margin="0" x:Name="tabAlertItem" />
       </TabItem>
-      <TabItem Header="System Information" Name="tabItemSysInfo">
+      <TabItem Header="Import/Export Settings" Name="tabItemImportExport">
         <TabItem.HeaderTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
-              <Image Source="/TailForWin;component/Res/SystemInfo.ico" Width="16" Height="16" />
-              <TextBlock Text="System Information" Margin="5,0,0,0" />
+              <Image Source="/TailForWin;component/Res/Export.ico" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+              <TextBlock Text="Import/Export Settings" Margin="5,0,0,0" />
             </StackPanel>
           </DataTemplate>
         </TabItem.HeaderTemplate>
-        <tabData:SystemInformation Margin="0" x:Name="tabSysInfoItem" />
+        <tabData:ImportExportItem Margin="0" x:Name="tabImportExportItem" />
       </TabItem>
       <TabItem Header="About" Name="tabItemAbout">
         <TabItem.HeaderTemplate>

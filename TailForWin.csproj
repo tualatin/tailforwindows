@@ -133,6 +133,7 @@
     <Compile Include="Converter\SmtpPortConverter.cs" />
     <Compile Include="Converter\SoundFileNameConverter.cs" />
     <Compile Include="Converter\StringToIntConverter.cs" />
+    <Compile Include="Converter\TabSizeMultiConverter.cs" />
     <Compile Include="Data\AlertData.cs" />
     <Compile Include="Data\AlertTriggerEventArgs.cs" />
     <Compile Include="Data\FilterDataEventArgs.cs" />
@@ -170,6 +171,12 @@
     <Compile Include="Template\SearchDialog.xaml.cs">
       <DependentUpon>SearchDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Template\TabOptions\ImportExportItem.xaml.cs">
+      <DependentUpon>ImportExportItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TabOptions\SystemInformation.xaml.cs">
+      <DependentUpon>SystemInformation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Template\TabOptions\SmtpSettings.xaml.cs">
       <DependentUpon>SmtpSettings.xaml</DependentUpon>
     </Compile>
@@ -191,9 +198,6 @@
     </Compile>
     <Compile Include="Template\TabOptions\ProxyServer.xaml.cs">
       <DependentUpon>ProxyServer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TabOptions\SystemInformation.xaml.cs">
-      <DependentUpon>SystemInformation.xaml</DependentUpon>
     </Compile>
     <Compile Include="Template\TailLog.xaml.cs">
       <DependentUpon>TailLog.xaml</DependentUpon>
@@ -283,6 +287,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Template\TabOptions\ImportExportItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Template\TabOptions\SystemInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Template\TabOptions\SmtpSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -308,10 +320,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Template\TabOptions\ProxyServer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Template\TabOptions\SystemInformation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -464,6 +472,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Res\EMail.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Export.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

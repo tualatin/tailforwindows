@@ -36,6 +36,5 @@ namespace TailForWin.Template.TabOptions
     /// <param name="sender">Sender</param>
     /// <param name="e">RoutedEventArgs</param>
     void btnCancel_Click (object sender, System.Windows.RoutedEventArgs e);
-
   }
 }

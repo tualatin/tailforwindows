@@ -1,14 +1,11 @@
-﻿<UserControl x:Class="TailForWin.Template.TabOptions.SystemInformation"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="380" d:DesignWidth="400">
-    <Grid Margin="5">
+﻿<Window x:Class="TailForWin.Template.TabOptions.SystemInformation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Systeminformation" Height="450" Width="520" WindowStartupLocation="CenterOwner" Icon="/TailForWin;component/Res/SystemInfo.ico" ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" MinHeight="450" MinWidth="520">
+    <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="252*" />
-      <RowDefinition Height="25" />
+      <RowDefinition Height="236*" />
+      <RowDefinition Height="30" />
     </Grid.RowDefinitions>
     <ListView Margin="0,0,0,5" Name="listViewSysInfo" Grid.Row="0" SelectionChanged="listViewSysInfo_SelectionChanged">
       <ListView.View>
@@ -18,6 +15,6 @@
         </GridView>
       </ListView.View>
     </ListView>
-    <Button Content="Close" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnOK" VerticalAlignment="Center" Width="75" Grid.Row="1" Click="btnSave_Click" />
+    <Button Content="Close" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnClose" VerticalAlignment="Center" Width="75" Grid.Row="1" Click="btnClose_Click" />
   </Grid>
-</UserControl>
+</Window>

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Windows;
-using TailForWin.Data;
-using TailForWin.Controller;
+﻿using System.Windows;
 using System.Windows.Controls;
+using TailForWin.Controller;
+using TailForWin.Data;
+using System.Collections.Generic;
+using System;
 using System.Windows.Input;
 
 
@@ -11,8 +12,16 @@ namespace TailForWin.Template.TabOptions
   /// <summary>
   /// Interaction logic for SystemInformation.xaml
   /// </summary>
-  public partial class SystemInformation: Window
+  public partial class SystemInformation: UserControl, ITabOptionItems
   {
+    /// <summary>
+    /// Close dialog event handler
+    /// </summary>
+    public event EventHandler CloseDialog;
+
+    public event EventHandler SaveSettings;
+
+
     public SystemInformation ()
     {
       InitializeComponent ( );
@@ -20,6 +29,20 @@ namespace TailForWin.Template.TabOptions
       PreviewKeyDown += HandleEsc;
 
       InitListView ( );
+    }
+
+    public void btnSave_Click (object sender, RoutedEventArgs e)
+    {
+      if (CloseDialog != null)
+        CloseDialog (this, EventArgs.Empty);
+    }
+
+    public void btnCancel_Click (object sender, RoutedEventArgs e)
+    {
+      if (SaveSettings != null)
+        SaveSettings (this, EventArgs.Empty);
+
+      throw new NotImplementedException ( );
     }
 
     private void InitListView ()
@@ -34,7 +57,7 @@ namespace TailForWin.Template.TabOptions
       listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("Version", sysInfo.OsVersion));
       listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("CPU name", sysInfo.CpuInfo.Name));
       listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("CPU manufacturer", sysInfo.CpuInfo.Manufacturer));
-      listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("CPU speed", string.Format ("{0} MHz", sysInfo.CpuInfo.ClockSpeed)));
+      listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("CPU speed",  string.Format ("{0} MHz", sysInfo.CpuInfo.ClockSpeed)));
       listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("CPU physical number of processors", sysInfo.CpuInfo.NumberOfProcessors));
       listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("CPU logical number of processors", sysInfo.CpuInfo.LogicalNumberOfProcessors));
       listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("Host IP address Ipv4/Ipv6", string.Format ("{0} / {1}", sysInfo.HostIPAddress.ipv4, sysInfo.HostIPAddress.ipv6)));
@@ -44,20 +67,15 @@ namespace TailForWin.Template.TabOptions
       listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("Virtual memory available", sysInfo.GuiAvailVirtual));
     }
 
-    private void btnClose_Click (object sender, RoutedEventArgs e)
+    public void HandleEsc (object sender, KeyEventArgs e)
     {
-      Close ( );
+      if (e.Key == Key.Escape)
+        btnSave_Click (sender, e);
     }
 
     private void listViewSysInfo_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
-    }
-
-    private void HandleEsc (object sender, KeyEventArgs e)
-    {
-      if (e.Key == Key.Escape)
-        btnClose_Click (sender, e);
     }
   }
 }

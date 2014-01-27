@@ -21,7 +21,8 @@
           <RowDefinition Height="30" />
           <RowDefinition Height="10" />
           <RowDefinition Height="35" />
-          <RowDefinition Height="98*" />
+          <RowDefinition Height="30" />
+          <RowDefinition Height="75*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="73" />
@@ -42,6 +43,7 @@
         </TextBlock>
         <my:Updater Grid.Row="7" HorizontalAlignment="Left" x:Name="updater" Grid.Column="1" Margin="5,0,0,0" UpdateURL="https://github.com/tualatin/tailforwindows/releases" UseProxy="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Path=UseProxy}" UseSystemSettings="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Path=UseSystemSettings}" />
         <Label Content="Update:" Grid.Row="7" Name="label7" VerticalAlignment="Center" />
+        <Button Content="System Info" Grid.Column="1" Grid.Row="8" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnSysInfo" VerticalAlignment="Center" Width="75" Click="btnSysInfo_Click" ToolTip="Get information about your system" />
       </Grid>
     </Border>
     <Button Content="Close" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnOK" VerticalAlignment="Center" Width="75" Grid.Row="1" Click="btnSave_Click" />

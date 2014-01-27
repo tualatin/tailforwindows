@@ -5,7 +5,7 @@ using TailForWin.Controller;
 using TailForWin.Data;
 
 
-namespace TailForWin.Template
+namespace TailForWin.Template.TabOptions
 {
   /// <summary>
   /// Interaction logic for SmtpSettings.xaml

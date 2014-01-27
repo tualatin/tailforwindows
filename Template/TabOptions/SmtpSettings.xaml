@@ -1,4 +1,4 @@
-﻿<Window x:Class="TailForWin.Template.SmtpSettings"
+﻿<Window x:Class="TailForWin.Template.TabOptions.SmtpSettings"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="SMTP Settings" Height="261" Width="445" WindowStartupLocation="CenterOwner" Icon="/TailForWin;component/Res/EMail.ico" ShowInTaskbar="False" ResizeMode="NoResize" xmlns:my="clr-namespace:TailForWin.Template.WatermarkTextBox" xmlns:conv="clr-namespace:TailForWin.Converter" Loaded="Window_Loaded">

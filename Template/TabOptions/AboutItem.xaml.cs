@@ -72,5 +72,12 @@ namespace TailForWin.Template.TabOptions
       if (!string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.Password))
         updater.ProxyAuthentification = new System.Net.NetworkCredential (SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt (SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
     }
+
+    private void btnSysInfo_Click (object sender, RoutedEventArgs e)
+    {
+      Window wnd = Window.GetWindow (this);
+      SystemInformation sysInfo = new SystemInformation ( ) { Owner = wnd };
+      sysInfo.ShowDialog ( );
+    }
   }
 }

@@ -16,6 +16,9 @@ v0.9.
 * improve read settings
 * change Filters icon
 * bug fix exception when enter a E-Mail address in Alert dialogue
+* remove systeminformation from TabItem (improve speed to call settings dialogue)
+* add systeminformation dialogue in About-Tab
+* add import and export settings
 
 v0.9.5099.x
 * add shortcut Ctrl+Alt+M minimize main window
