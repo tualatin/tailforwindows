@@ -33,6 +33,7 @@ namespace TailForWin.Data
     private static ObservableCollection<System.Threading.ThreadPriority> threadPriority = new ObservableCollection<System.Threading.ThreadPriority> ( );
     private static ObservableCollection<SettingsData.ETailRefreshRate> refreshRate = new ObservableCollection<SettingsData.ETailRefreshRate> ( );
     private static ObservableCollection<Encoding> fileEncoding = new ObservableCollection<Encoding> ( );
+    private static ObservableCollection<FileManagerHelper> fmHelper = new ObservableCollection<FileManagerHelper> ( );
 
     #endregion
 
@@ -99,6 +100,21 @@ namespace TailForWin.Data
     {
       if (APP_MAIN_WINDOW.WindowState == WindowState.Normal || APP_MAIN_WINDOW.WindowState == WindowState.Maximized)
         APP_MAIN_WINDOW.WindowState = WindowState.Minimized;
+    }
+
+    /// <summary>
+    /// List of open items from FileManager
+    /// </summary>
+    public static ObservableCollection<FileManagerHelper> FMHelper
+    {
+      get
+      {
+        return (fmHelper);
+      }
+      set
+      {
+        fmHelper = value;
+      }
     }
 
     /// <summary>

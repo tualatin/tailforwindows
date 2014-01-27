@@ -187,6 +187,15 @@ namespace TailForWin.Data
       set;
     }
 
+    /// <summary>
+    /// Is item opened from FileManager
+    /// </summary>
+    public bool OpenFromFileManager
+    {
+      get;
+      set;
+    }
+
     private void ContentCollectionChanged (object sender, NotifyCollectionChangedEventArgs e)
     {
       if (e.Action == NotifyCollectionChangedAction.Remove)

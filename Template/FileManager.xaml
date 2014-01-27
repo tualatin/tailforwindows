@@ -4,6 +4,7 @@
         Title="FileManager" Height="455" Width="640" Icon="/TailForWin;component/Res/Explorer.ico" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize"
         xmlns:prop="clr-namespace:TailForWin.Data" Loaded="Window_Loaded" xmlns:conv="clr-namespace:TailForWin.Converter" Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True" Closing="Window_Closing" xmlns:my="clr-namespace:TailForWin.Template.WatermarkTextBox">
   <Window.Resources>
+    <conv:EnableOpenMultiConverter x:Key="isEnabled" />
     <conv:TailConverter x:Key="selectedConverter" />
     <conv:TextTrimConverter x:Key="trimConverter" />
     <conv:IntToBoolConverter x:Key="intToBoolConverter" />
@@ -132,7 +133,14 @@
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Button Content="Open" Grid.Column="0" Height="23" HorizontalAlignment="Right" Margin="0,0,10,0" Name="btnOK" VerticalAlignment="Center" Width="75" Click="btnOK_Click" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="13" />
+        <Button Content="Open" Grid.Column="0" Height="23" HorizontalAlignment="Right" Margin="0,0,10,0" Name="btnOK" VerticalAlignment="Center" Width="75" Click="btnOK_Click" TabIndex="13">
+          <Button.IsEnabled>
+            <MultiBinding Converter="{StaticResource isEnabled}">
+              <Binding ElementName="dataGridFiles" Path="SelectedItem" />
+              <Binding Path="SelectedItem" ElementName="dataGridFiles" />
+            </MultiBinding>
+          </Button.IsEnabled>
+        </Button>
         <Button Content="Close" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="10,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Click="btnCancel_Click" TabIndex="14" />
       </Grid>
       <Label Content="" Grid.Column="2" Grid.Row="5" Margin="0,0,5,0" Name="labelFileEncodingHint" FontSize="10" VerticalAlignment="Center" />

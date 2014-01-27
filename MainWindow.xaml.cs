@@ -581,7 +581,7 @@ namespace TailForWin
         else if (MessageBox.Show (string.Format ("{0} '{1}'?", Application.Current.FindResource ("QRemoveTab"), tab.Header), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
         {
           TabItem selectedTab = tabControlTail.SelectedItem as TabItem;
-
+                    
           tabControlTail.DataContext = null;
 
           tailTabItems.Remove (tab);
@@ -589,6 +589,10 @@ namespace TailForWin
           tabControlTail.DataContext = tailTabItems;
 
           TailLog page = GetTailLogWindow (tab.Content as Frame);
+          FileManagerHelper item = LogFile.FMHelper.Where (x => x.ID == page.ID).SingleOrDefault ( );
+
+          if (item != null)
+            LogFile.FMHelper.Remove (item);
 
           if (page != null)
             page.StopThread ( );

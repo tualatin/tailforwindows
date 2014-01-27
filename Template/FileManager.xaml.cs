@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Text;
 using System;
 using TailForWin.Utils;
+using System.Linq;
 
 
 namespace TailForWin.Template
@@ -57,7 +58,8 @@ namespace TailForWin.Template
         ThreadPriority = addFile.ThreadPriority,
         Wrap = addFile.Wrap,
         Timestamp = addFile.Timestamp,
-        FileEncoding = addFile.FileEncoding, 
+        FileEncoding = addFile.FileEncoding,
+        OpenFromFileManager = addFile.OpenFromFileManager
       };
 
       fmWorkingProperties = fmProperties.Clone ( );
@@ -111,6 +113,24 @@ namespace TailForWin.Template
       }
       else
       {
+        fmDoc.FMProperties[dataGridFiles.SelectedIndex].OpenFromFileManager = true;
+        FileManagerHelper helper = new FileManagerHelper ( )
+        {
+          ID = fmDoc.FMProperties[dataGridFiles.SelectedIndex].ID,
+          OpenFromFileManager = fmDoc.FMProperties[dataGridFiles.SelectedIndex].OpenFromFileManager
+        };
+
+
+        if (LogFile.FMHelper.Count > 0)
+        {
+          FileManagerHelper item = LogFile.FMHelper.Where (x => x.ID == helper.ID).SingleOrDefault ( );
+
+          if (item == null)
+            LogFile.FMHelper.Add (helper);
+        }
+        else
+          LogFile.FMHelper.Add (helper);
+
         FileManagerDataEventArgs argument = new FileManagerDataEventArgs (fmWorkingProperties);
 
         if (OpenFileAsNewTab != null)
@@ -516,6 +536,18 @@ namespace TailForWin.Template
       PreviewKeyDown += HandleEsc;
 
       fmDoc = new FileManagerStructure ( );
+
+      if (LogFile.FMHelper.Count > 0)
+      {
+        foreach (FileManagerData item in fmDoc.FMProperties)
+        {
+          FileManagerHelper f = LogFile.FMHelper.Where (x => x.ID == item.ID).SingleOrDefault ( );
+
+          if (f != null)
+            item.OpenFromFileManager = f.OpenFromFileManager;
+        }
+      }
+
       dataGridFiles.DataContext = fmDoc.FMProperties;
       labelFileEncodingHint.Content = Application.Current.FindResource ("FileEncodingLabel");
 

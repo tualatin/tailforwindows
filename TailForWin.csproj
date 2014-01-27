@@ -123,6 +123,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\ColorToBrushConverter.cs" />
+    <Compile Include="Converter\EnableOpenMultiConverter.cs" />
     <Compile Include="Converter\FilterCountToStringConverter.cs" />
     <Compile Include="Converter\FilterDataToBoolConverter.cs" />
     <Compile Include="Converter\FontToStringConverter.cs" />

@@ -93,8 +93,11 @@ namespace TailForWin.Template
         ThreadPriority = fileManagerProperties.ThreadPriority,
         ListOfFilter = fileManagerProperties.ListOfFilter,
         Timestamp = fileManagerProperties.Timestamp,
-        FileEncoding = fileManagerProperties.FileEncoding
+        FileEncoding = fileManagerProperties.FileEncoding,
+        OpenFromFileManager = fileManagerProperties.OpenFromFileManager
       };
+
+      ID = fileManagerProperties.ID;
 
       InitTailLog (childTabIndex, tabItem);
 
@@ -129,6 +132,8 @@ namespace TailForWin.Template
         FileEncoding = null
       };
 
+      ID = -1;
+
       InitTailLog (childTabIndex, tabItem);
     }
 
@@ -148,6 +153,15 @@ namespace TailForWin.Template
         activeTab = value;
         textBlockTailLog.IsActiv = activeTab;
       }
+    }
+
+    /// <summary>
+    /// FileManager temp ID for item
+    /// </summary>
+    public int ID
+    {
+      get;
+      set;
     }
 
     /// <summary>

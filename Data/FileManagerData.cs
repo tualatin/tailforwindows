@@ -334,4 +334,19 @@ namespace TailForWin.Data
       #endregion
     }
   }
+
+  public class FileManagerHelper
+  {
+    public int ID
+    {
+      get;
+      set;
+    }
+
+    public bool OpenFromFileManager
+    {
+      get;
+      set;
+    }
+  }
 }
