@@ -34,4 +34,6 @@
   <system:String x:Key="SmtpPortNotValid">The SMTP Server Port is not valid!</system:String>
   <system:String x:Key="MailCannotSend">E-Mail can not send! Please check your SMTP settings.</system:String>
   <system:String x:Key="SmtpSettingsNotValid">Can not set SMTP settings! Please take a look into the log file to get more information.</system:String>
+  <system:String x:Key="OpenDialogImportSettings">Please select a exported settings file ...</system:String>
+  <system:String x:Key="QImportSettings">Do you really want to import this settings? Your old settings will override.</system:String>
 </ResourceDictionary>

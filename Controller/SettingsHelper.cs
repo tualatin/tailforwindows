@@ -282,6 +282,11 @@ namespace TailForWin.Controller
       SaveSettings ( );
     }
 
+    public static void ReloadSettings ()
+    {
+      ConfigurationManager.RefreshSection ("appSettings");
+    }
+
     /// <summary>
     /// Get tail settings
     /// </summary>
