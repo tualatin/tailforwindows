@@ -93,7 +93,6 @@ namespace TailForWin.Template
       {
         fmWorkingProperties.FontType = fontManager.Font;
         ChangeFMStateToEditItem ( );
-
       }
     }
 

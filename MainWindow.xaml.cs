@@ -589,7 +589,7 @@ namespace TailForWin
           tabControlTail.DataContext = tailTabItems;
 
           TailLog page = GetTailLogWindow (tab.Content as Frame);
-          FileManagerHelper item = LogFile.FMHelper.Where (x => x.ID == page.ID).SingleOrDefault ( );
+          FileManagerHelper item = LogFile.FMHelper.Where (x => x.ID == page.FileManagerProperties.ID).SingleOrDefault ( );
 
           if (item != null)
             LogFile.FMHelper.Remove (item);

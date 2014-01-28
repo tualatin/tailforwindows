@@ -97,8 +97,6 @@ namespace TailForWin.Template
         OpenFromFileManager = fileManagerProperties.OpenFromFileManager
       };
 
-      ID = fileManagerProperties.ID;
-
       InitTailLog (childTabIndex, tabItem);
 
       textBoxFileName.Text = tabProperties.FileName;
@@ -132,7 +130,7 @@ namespace TailForWin.Template
         FileEncoding = null
       };
 
-      ID = -1;
+      fileManagerProperties = new FileManagerData ( ) { ID = -1 };
 
       InitTailLog (childTabIndex, tabItem);
     }
@@ -156,12 +154,14 @@ namespace TailForWin.Template
     }
 
     /// <summary>
-    /// FileManager temp ID for item
+    /// FileManager properties
     /// </summary>
-    public int ID
+    public FileManagerData FileManagerProperties
     {
-      get;
-      set;
+      get
+      {
+        return (fileManagerProperties);
+      }
     }
 
     /// <summary>
@@ -846,7 +846,7 @@ namespace TailForWin.Template
     private void NewFileOpend (object sender, EventArgs e)
     {
       if (fileManagerProperties != null)
-        fileManagerProperties = null;
+        fileManagerProperties = new FileManagerData ( ) { ID = -1 };
 
       System.Drawing.FontStyle fs = System.Drawing.FontStyle.Regular;
 
@@ -880,7 +880,7 @@ namespace TailForWin.Template
           tabProperties.FileName = textBoxFileName.Text;
           childTabItem.Header = tabProperties.File;
 
-          if (fileManagerProperties == null)
+          if (!fileManagerProperties.OpenFromFileManager)
             btnFileManagerAdd.IsEnabled = true;
 
           btnShellOpen.IsEnabled = true;
