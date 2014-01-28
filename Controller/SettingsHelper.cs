@@ -74,6 +74,10 @@ namespace TailForWin.Controller
           bHelper = false;
         TailSettings.ExitWithEscape = bHelper;
 
+        if (!bool.TryParse (ConfigurationManager.AppSettings["AutoUpdate"], out bHelper))
+          bHelper = false;
+        TailSettings.AutoUpdate = bHelper;
+
         sHelper = ConfigurationManager.AppSettings["TimeFormat"];
         ReadTimeFormatEnum (sHelper);
 
@@ -161,6 +165,7 @@ namespace TailForWin.Controller
           config.AppSettings.Settings["ShowLineNumbers"].Value = TailSettings.ShowLineNumbers.ToString ( );
           config.AppSettings.Settings["LineNumbersColor"].Value = TailSettings.DefaultLineNumbersColor;
           config.AppSettings.Settings["HighlightColor"].Value = TailSettings.DefaultHighlightColor;
+          config.AppSettings.Settings["AutoUpdate"].Value = TailSettings.AutoUpdate.ToString ( );
 
           // Alert settings
           config.AppSettings.Settings["Alert.BringToFront"].Value = TailSettings.AlertSettings.BringToFront.ToString ( );
@@ -253,6 +258,7 @@ namespace TailForWin.Controller
       TailSettings.SearchWndYPos = -1;
       TailSettings.DefaultFileSort = SettingsData.EFileSort.Nothing;
       TailSettings.ShowLineNumbers = false;
+      TailSettings.AutoUpdate = false;
 
       // Alert settings
       TailSettings.AlertSettings.BringToFront = true;

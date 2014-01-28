@@ -569,6 +569,24 @@ namespace TailForWin.Data
       set;
     }
 
+    private bool autoUpdate;
+
+    /// <summary>
+    /// Check for update at startup
+    /// </summary>
+    public bool AutoUpdate
+    {
+      get
+      {
+        return (autoUpdate);
+      }
+      set
+      {
+        autoUpdate = value;
+        OnPropertyChanged ("AutoUpdate");
+      }
+    }
+
     /// <summary>
     /// Enum File sort
     /// </summary>

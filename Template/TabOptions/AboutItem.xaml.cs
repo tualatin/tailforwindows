@@ -39,6 +39,7 @@ namespace TailForWin.Template.TabOptions
       labelVersion.Content = assembly.GetName ( ).Version;
       updater.ApplicationName = LogFile.APPLICATION_CAPTION;
       updater.DataContext = SettingsHelper.TailSettings.ProxySettings;
+      checkBoxAutoUpdate.DataContext = SettingsHelper.TailSettings;
     }
 
     public void btnSave_Click (object sender, RoutedEventArgs e)

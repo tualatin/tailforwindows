@@ -19,6 +19,7 @@ v0.9.
 * remove systeminformation from TabItem (improve speed to call settings dialogue)
 * add systeminformation dialogue in About-Tab
 * add import and export settings
+* add autoupdate
 
 v0.9.5099.x
 * add shortcut Ctrl+Alt+M minimize main window
