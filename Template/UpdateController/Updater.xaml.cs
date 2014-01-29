@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.ComponentModel;
-using TailForWin.Template.UpdateController.Data;
-using System.Text.RegularExpressions;
+using System;
 
 
 namespace TailForWin.Template.UpdateController
@@ -10,20 +9,23 @@ namespace TailForWin.Template.UpdateController
   /// <summary>
   /// Interaction logic for Updater.xaml
   /// </summary>
-  public partial class Updater: UserControl
+  public partial class Updater: UserControl, IDisposable
   {
-    private Webservice webservice;
-    private BackgroundWorker updateThread;
-    private string webData = string.Empty;
+    private Updateservice updater;
 
+
+    public void Dispose ()
+    {
+      if (updater != null)
+      {
+        updater.Dispose ( );
+        updater = null;
+      }
+    }
 
     public Updater ()
     {
       InitializeComponent ( );
-
-      updateThread = new BackgroundWorker ( ) { WorkerSupportsCancellation = true };
-      updateThread.DoWork += updateThread_DoWork;
-      updateThread.RunWorkerCompleted += updateThread_Completed;
     }
 
     #region Public Properties
@@ -135,64 +137,44 @@ namespace TailForWin.Template.UpdateController
 
     #endregion
 
-    #region Thread
-
-    private void updateThread_DoWork (object sender, DoWorkEventArgs e)
-    {
-      string html = string.Empty;
-
-      if (webservice.UpdateWebRequest (out html))
-        webData = html;
-    }
-
-    private void updateThread_Completed (object sender, RunWorkerCompletedEventArgs e)
-    {
-      if (!string.IsNullOrEmpty (webData)) 
-      {
-        UpdateController uc = new UpdateController ( );
-        Match match = Regex.Match (UpdateURL, @"https://github.com", RegexOptions.IgnoreCase);
-
-        if (match.Success)
-        {
-          string tag = UpdateURL.Substring (match.Value.Length, UpdateURL.Length - match.Value.Length);
-
-          Window wnd = Window.GetWindow (this);
-          ResultDialog rd = new ResultDialog (ApplicationName, uc.UpdateNecessary (webData, tag), UpdateURL)
-          {
-            Owner = wnd,
-            WebVersion = uc.WebVersion,
-            ApplicationVersion = uc.AppVersion
-          };
-          rd.ShowDialog ( );
-        }
-      }
-
-      btnUpdater.IsEnabled = true;
-    }
-
-    #endregion
-
     private void btnUpdater_Click (object sender, RoutedEventArgs e)
     {
-      if (!updateThread.IsBusy)
-        updateThread.RunWorkerAsync ( );
-
-      btnUpdater.IsEnabled = false;
+      updater.StartUpdate ( );
+      
+      btnUpdater.IsEnabled = updater.IsThreadCompleted;
     }
 
     private void UserControl_Loaded (object sender, RoutedEventArgs e)
     {
-      WebServiceData data = new WebServiceData ( )
+      if (updater != null)
+        updater = null;
+
+      updater = new Updateservice ( )
       {
-        ProxyAddress = Proxy,
-        ProxyPort = ProxyPort,
-        ProxyCredential = ProxyAuthentification,
-        Url = UpdateURL,
         UseProxy = UseProxy,
-        UseProxySystemSettings = UseSystemSettings
+        UseSystemSettings = UseSystemSettings,
+        Proxy = Proxy,
+        ProxyPort = ProxyPort,
+        UpdateURL = UpdateURL,
+        ProxyAuthentification = ProxyAuthentification
       };
 
-      webservice = new Webservice (data);
+      updater.ThreadCompletedEvent += UpdateCompleted;
+      updater.InitWebService ( );
+    }
+
+    private void UpdateCompleted (object sender, EventArgs e)
+    {
+      btnUpdater.IsEnabled = updater.IsThreadCompleted;
+
+      Window wnd = Window.GetWindow (this);
+      ResultDialog rd = new ResultDialog (ApplicationName, updater.HaveToUpdate, UpdateURL)
+      {
+        Owner = wnd,
+        WebVersion = updater.WebVersion,
+        ApplicationVersion = updater.AppVersion
+      };
+      rd.ShowDialog ( );
     }
   }
 }

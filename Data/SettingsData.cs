@@ -588,6 +588,17 @@ namespace TailForWin.Data
     }
 
     /// <summary>
+    /// Webside for new releases
+    /// </summary>
+    public string ApplicationWebUrl
+    {
+      get
+      {
+        return ("https://github.com/tualatin/tailforwindows/releases");
+      }
+    }
+
+    /// <summary>
     /// Enum File sort
     /// </summary>
     public enum EFileSort

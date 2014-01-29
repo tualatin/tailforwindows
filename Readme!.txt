@@ -20,6 +20,8 @@ v0.9.
 * add systeminformation dialogue in About-Tab
 * add import and export settings
 * add autoupdate
+* improve updater
+* bug fix proxy settings
 
 v0.9.5099.x
 * add shortcut Ctrl+Alt+M minimize main window

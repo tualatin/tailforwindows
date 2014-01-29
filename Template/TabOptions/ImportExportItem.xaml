@@ -37,6 +37,8 @@
             <Image Source="/TailForWin;component/Res/Import.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"></Image>
           </StackPanel>
         </Button>
+        <Label Content="Configuration Path:" Grid.Row="1" Grid.ColumnSpan="2" Name="label3" VerticalAlignment="Center" />
+        <TextBox Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="1" Height="23" Name="textBoxConfigPath" VerticalAlignment="Center" Margin="20,0,5,0" IsReadOnly="True" />
       </Grid>
     </Border>
     <Button Content="Close" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Click="btnCancel_Click" />

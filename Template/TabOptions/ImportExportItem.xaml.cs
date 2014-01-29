@@ -20,7 +20,9 @@ namespace TailForWin.Template.TabOptions
     {
       InitializeComponent ( );
 
-      PreviewKeyDown += HandleEsc;  
+      PreviewKeyDown += HandleEsc;
+
+      textBoxConfigPath.Text = string.Format ("{0}{1}.Config", AppDomain.CurrentDomain.BaseDirectory, AppDomain.CurrentDomain.FriendlyName);
     }
 
     #region ITabOptionItems Members

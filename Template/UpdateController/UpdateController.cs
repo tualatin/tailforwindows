@@ -1,8 +1,5 @@
-﻿using System.Reflection;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using System.Collections;
 using System;
 using TailForWin.Utils;
 
@@ -11,20 +8,20 @@ namespace TailForWin.Template.UpdateController
 {
   public class UpdateController
   {
-    private System.Version appVersion;
-    private List<System.Version> webVersions;
+    private Version appVersion;
+    private List<Version> webVersions;
 
 
-    public UpdateController ( )
+    public UpdateController ()
     {
       appVersion = System.Reflection.Assembly.GetExecutingAssembly ( ).GetName ( ).Version;
-      webVersions = new List<System.Version> ( );
+      webVersions = new List<Version> ( );
     }
 
     /// <summary>
     /// Latest webversion
     /// </summary>
-    public System.Version WebVersion
+    public Version WebVersion
     {
       get;
       private set;
@@ -33,7 +30,7 @@ namespace TailForWin.Template.UpdateController
     /// <summary>
     /// Applications version
     /// </summary>
-    public System.Version AppVersion
+    public Version AppVersion
     {
       get
       {
@@ -93,7 +90,7 @@ namespace TailForWin.Template.UpdateController
               }
             }
 
-            System.Version myVersion = new System.Version (major, minor, build);
+            Version myVersion = new Version (major, minor, build);
             webVersions.Add (myVersion);
           }
         }
@@ -110,9 +107,9 @@ namespace TailForWin.Template.UpdateController
       return (false);
     }
 
-    private bool DoCompare ( )
+    private bool DoCompare ()
     {
-      foreach (System.Version version in webVersions)
+      foreach (Version version in webVersions)
       {
         var result = version.CompareTo (appVersion);
 
@@ -128,12 +125,12 @@ namespace TailForWin.Template.UpdateController
       WebVersion = webVersions[webVersions.Count - 1];
     }
 
-    private class VersionComparer : IComparer<System.Version>
+    private class VersionComparer : IComparer<Version>
     {
-      public int Compare (System.Version x, System.Version y)
+      public int Compare (Version x, Version y)
       {
-        var xVersion = x as System.Version;
-        var yVersion = y as System.Version;
+        var xVersion = x as Version;
+        var yVersion = y as Version;
 
         return (xVersion.CompareTo (yVersion));
       }

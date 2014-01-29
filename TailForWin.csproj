@@ -224,9 +224,11 @@
     <Compile Include="Template\UpdateController\Updater.xaml.cs">
       <DependentUpon>Updater.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Template\UpdateController\Updateservice.cs" />
     <Compile Include="Template\UpdateController\UserErrorException.cs" />
     <Compile Include="Template\UpdateController\Webservice.cs" />
     <Compile Include="Template\WatermarkTextBox\WatermarkTextBox.cs" />
+    <Compile Include="Utils\AutoUpdate.cs" />
     <Compile Include="Utils\BuildDate.cs" />
     <Compile Include="Utils\DeferredAction.cs" />
     <Compile Include="Utils\EncodingDetector.cs" />

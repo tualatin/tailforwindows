@@ -38,7 +38,7 @@ namespace TailForWin.Template.TabOptions
       labelAppName.Content = LogFile.APPLICATION_CAPTION;
       labelVersion.Content = assembly.GetName ( ).Version;
       updater.ApplicationName = LogFile.APPLICATION_CAPTION;
-      updater.DataContext = SettingsHelper.TailSettings.ProxySettings;
+      updater.DataContext = SettingsHelper.TailSettings;
       checkBoxAutoUpdate.DataContext = SettingsHelper.TailSettings;
     }
 

@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using System;
+using System.Diagnostics;
 
 
 namespace TailForWin.Template.UpdateController
@@ -28,7 +30,7 @@ namespace TailForWin.Template.UpdateController
     /// <summary>
     /// Latest webversion
     /// </summary>
-    public System.Version WebVersion
+    public Version WebVersion
     {
       get;
       set;
@@ -37,7 +39,7 @@ namespace TailForWin.Template.UpdateController
     /// <summary>
     /// Application version
     /// </summary>
-    public System.Version ApplicationVersion
+    public Version ApplicationVersion
     {
       get;
       set;
@@ -60,8 +62,7 @@ namespace TailForWin.Template.UpdateController
       if (doUpdate)
         labelUpdate.Content = Application.Current.FindResource ("DoUpdate");
       else
-        labelUpdate.Content = Application.Current.FindResource ("NoUpdate");
-     
+        labelUpdate.Content = Application.Current.FindResource ("NoUpdate");     
     }
 
     private void HandleEsc (object sender, KeyEventArgs e)
@@ -78,13 +79,27 @@ namespace TailForWin.Template.UpdateController
     {
       Close ( );
     }
+
+    private static IntPtr FindWindow (string title)
+    {
+      Process[] tempProcesses = Process.GetProcesses ( );
+
+      foreach (Process proc in tempProcesses)
+      {
+        if (proc.MainWindowTitle == title)
+        {
+          return (proc.MainWindowHandle);
+        }
+      }
+      return (IntPtr.Zero);
+    }
     
     #endregion
 
     private void btnOK_Click (object sender, RoutedEventArgs e)
     {
       updateUrl = string.Format ("{0}/tag/{1}", updateUrl, WebVersion);
-      System.Diagnostics.Process.Start (updateUrl);
+      Process.Start (updateUrl);
       OnExit ( );
     }
 

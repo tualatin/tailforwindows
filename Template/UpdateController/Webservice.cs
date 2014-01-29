@@ -63,23 +63,28 @@ namespace TailForWin.Template.UpdateController
       // 3 minutes
       request.Timeout = 180000;
 
-      if (proxySettings.UseProxy)
+   if (proxySettings.UseProxy)
       {
         if (!useSystemProxySettings)
           request.Proxy = new WebProxy (string.Format ("{0}:{1}", proxySettings.ProxyAddress, proxySettings.ProxyPort), true);
 
-        if (!string.IsNullOrEmpty (proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty (proxySettings.ProxyCredential.Password))
+        if (proxySettings.ProxyCredential != null)
         {
-          if (!useSystemProxySettings)
+          if (!string.IsNullOrEmpty (proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty (proxySettings.ProxyCredential.Password))
+          {
             request.Proxy.Credentials = proxySettings.ProxyCredential;
+          }
         }
       }
       if (useSystemProxySettings)
       {
         WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy ( );
 
-        if (!string.IsNullOrEmpty (proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty (proxySettings.ProxyCredential.Password))
-          WebRequest.DefaultWebProxy.Credentials = proxySettings.ProxyCredential;
+        if (proxySettings.ProxyCredential != null)
+        {
+          if (!string.IsNullOrEmpty (proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty (proxySettings.ProxyCredential.Password))
+            WebRequest.DefaultWebProxy.Credentials = proxySettings.ProxyCredential;
+        }
       }
     }
 

@@ -54,7 +54,7 @@ namespace TailForWin.Utils
     /// </summary>
     public static void StartLog ()
     {
-      logFileName = Path.GetDirectoryName (System.Reflection.Assembly.GetEntryAssembly ( ).Location) + "\\error.log";
+      logFileName = string.Format ("{0}\\{1}_error.log", Path.GetDirectoryName (System.Reflection.Assembly.GetEntryAssembly ( ).Location), System.Environment.MachineName);
 
       try
       {

@@ -30,7 +30,7 @@
         <RowDefinition Height="*" />
         <RowDefinition Height="*" />
       </Grid.RowDefinitions>
-      <Label Content="Your version:" Name="label1" />
+      <Label Content="Local version:" Name="label1" />
       <Label Content="Label" Name="labelLocalVersion" Grid.Row="1" />
     </Grid>
     <Grid Grid.Column="3">

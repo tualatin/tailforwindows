@@ -40,9 +40,9 @@
         <Label Content="All rights reserved" Grid.Column="1" Grid.Row="4" Margin="0,2" Name="label5" VerticalAlignment="Center" Grid.ColumnSpan="2" />
         <Label Content="Homepage:" Grid.Row="5" Height="28" Name="label6" />
         <TextBlock Grid.Column="1" Grid.Row="5" Name="textBlockHomepage" VerticalAlignment="Center" Margin="5,0,0,0" Grid.ColumnSpan="2">
-          <Hyperlink NavigateUri="https://github.com/tualatin/tailforwindows/releases" RequestNavigate="Hyperlink_RequestNavigate">https://github.com/tualatin/tailforwindows/releases</Hyperlink>
+          <Hyperlink NavigateUri="https://github.com/tualatin/tailforwindows/releases" RequestNavigate="Hyperlink_RequestNavigate">https://github.com/tualatin/tailforwindows/release</Hyperlink>
         </TextBlock>
-        <my:Updater Grid.Row="7" HorizontalAlignment="Left" x:Name="updater" Grid.Column="1" Margin="5,0,0,0" UpdateURL="https://github.com/tualatin/tailforwindows/releases" UseProxy="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Path=UseProxy}" UseSystemSettings="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Path=UseSystemSettings}" />
+        <my:Updater Grid.Row="7" HorizontalAlignment="Left" x:Name="updater" Grid.Column="1" Margin="5,0,0,0" UpdateURL="{Binding Path=ApplicationWebUrl}" UseProxy="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Path=ProxySettings.UseProxy}" UseSystemSettings="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Path=ProxySettings.UseSystemSettings}" Proxy="{Binding Path=ProxySettings.ProxyUrl, UpdateSourceTrigger=PropertyChanged, Mode= OneWay}" ProxyPort="{Binding Path=ProxySettings.ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
         <Label Content="Update:" Grid.Row="7" Name="label7" VerticalAlignment="Center" />
         <Button Content="System Info" Grid.Column="1" Grid.Row="8" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnSysInfo" VerticalAlignment="Center" Width="75" Click="btnSysInfo_Click" ToolTip="Get information about your system" />
         <CheckBox Content="Check for update at startup" Grid.Column="2" Grid.Row="7" Height="16" HorizontalAlignment="Left" Name="checkBoxAutoUpdate" VerticalAlignment="Center" IsChecked="{Binding Path=AutoUpdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
