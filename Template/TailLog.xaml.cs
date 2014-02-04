@@ -652,6 +652,8 @@ namespace TailForWin.Template
       childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
 
       myReader = new FileReader ( );
+      mySMTP = new MailClient ( );
+      mySMTP.InitClient ( );
 
       ExtraIcons.DataContext = tabProperties;
 
@@ -660,9 +662,6 @@ namespace TailForWin.Template
 
       textBlockTailLog.Alert += AlertTrigger;
       NewFile += NewFileOpend;
-
-      mySMTP = new MailClient ( );
-      mySMTP.InitClient ( );
     }
 
     private void SetFontInTextEditor ( )
@@ -1018,8 +1017,11 @@ namespace TailForWin.Template
       {
         if (mySMTP.InitSucces)
         {
-          string message = string.Format ("{0}\t{1}", alertTriggerData.Index, alertTriggerData.Message);
-          mySMTP.SendMail ("AlertTrigger", message);
+          if (!mySMTP.EMailTimer.Enabled)
+          {
+            string message = string.Format ("{0}\t{1}", alertTriggerData.Index, alertTriggerData.Message);
+            mySMTP.SendMail ("AlertTrigger", message);
+          }
         }
       }
     }

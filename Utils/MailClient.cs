@@ -13,6 +13,7 @@ namespace TailForWin.Utils
   {
     private SmtpClient mailClient;
     private MailMessage mailMessage;
+    private System.Timers.Timer emailTimer;
 
 
     /// <summary>
@@ -30,6 +31,12 @@ namespace TailForWin.Utils
       {
         mailMessage.Dispose ( );
         mailMessage = null;
+      }
+
+      if (emailTimer != null)
+      {
+        emailTimer.Dispose ( );
+        emailTimer = null;
       }
     }
 
@@ -74,6 +81,13 @@ namespace TailForWin.Utils
           IsBodyHtml = false,
         };
 
+        emailTimer = new System.Timers.Timer (300000)
+        {
+          Enabled = false
+        };
+
+        emailTimer.Elapsed += EMailTimerEvent;
+
         InitSucces = true;
       }
       catch (Exception ex)
@@ -95,6 +109,12 @@ namespace TailForWin.Utils
         string userState = userToken;
         mailMessage.Body = bodyMessage;
         mailClient.SendAsync (mailMessage, userState);
+
+        if (userState.CompareTo ("testMessage") != 0)
+        {
+          emailTimer.Enabled = true;
+          Console.WriteLine (string.Format ("Timer start {0}", DateTime.Now));
+        }
       }
       catch (Exception ex)
       {
@@ -112,6 +132,17 @@ namespace TailForWin.Utils
       set;
     }
 
+    /// <summary>
+    /// E-Mail timer
+    /// </summary>
+    public System.Timers.Timer EMailTimer
+    {
+      get
+      {
+        return (emailTimer);
+      }
+    }
+
     private void SendCompleted (object sender, AsyncCompletedEventArgs e)
     {
       string token = (string) e.UserState;
@@ -125,6 +156,19 @@ namespace TailForWin.Utils
         MessageBox.Show (string.Format ("{0}\n\"{1}\"", e.Error, token), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
       else
         MessageBox.Show ("Complete!", LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+    }
+
+    private void EMailTimerEvent (object sender, System.Timers.ElapsedEventArgs e)
+    {
+      try
+      {
+        emailTimer.Enabled = false;
+        Console.WriteLine (string.Format ("Timer end {0}", DateTime.Now));
+      }
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, "MailClient", string.Format ("EMailTimerEvent, exception: {0}", ex));
+      }
     }
   }
 }
