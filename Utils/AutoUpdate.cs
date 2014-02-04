@@ -28,53 +28,80 @@ namespace TailForWin.Utils
 
     private static void TimerEvent (object sender, ElapsedEventArgs e)
     {
-      timer.Enabled = false;
-
-      updater = new Updateservice ( )
+      try
       {
-        UseSystemSettings = SettingsHelper.TailSettings.ProxySettings.UseSystemSettings,
-        UseProxy = SettingsHelper.TailSettings.ProxySettings.UseProxy,
-        Proxy = SettingsHelper.TailSettings.ProxySettings.ProxyUrl,
-        ProxyPort = SettingsHelper.TailSettings.ProxySettings.ProxyPort,
-        UpdateURL = SettingsHelper.TailSettings.ApplicationWebUrl
-      };
+        timer.Enabled = false;
 
-      if (!string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.Password))
-        updater.ProxyAuthentification = new System.Net.NetworkCredential (SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt (SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
+        updater = new Updateservice ( )
+        {
+          UseSystemSettings = SettingsHelper.TailSettings.ProxySettings.UseSystemSettings,
+          UseProxy = SettingsHelper.TailSettings.ProxySettings.UseProxy,
+          Proxy = SettingsHelper.TailSettings.ProxySettings.ProxyUrl,
+          ProxyPort = SettingsHelper.TailSettings.ProxySettings.ProxyPort,
+          UpdateURL = SettingsHelper.TailSettings.ApplicationWebUrl
+        };
 
-      updater.InitWebService ( );
-      updater.ThreadCompletedEvent += UpdateCompletedEvent;
+        if (!string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.Password))
+          updater.ProxyAuthentification = new System.Net.NetworkCredential (SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt (SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
 
-      updater.StartUpdate ( );
+        updater.InitWebService ( );
+        updater.ThreadCompletedEvent += UpdateCompletedEvent;
+
+        updater.StartUpdate ( );
+      }
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, "AutoUpdate", string.Format ("TimerEvent, exception: {0}", ex));
+      }
     }
 
     private static void UpdateCompletedEvent (object sender, EventArgs e)
     {
-      if (updater.HaveToUpdate)
+      try
       {
-        System.Threading.Thread STAThread = new System.Threading.Thread (() =>
+        if (updater.HaveToUpdate)
         {
-          ResultDialog rd = new ResultDialog (LogFile.APPLICATION_CAPTION, updater.HaveToUpdate, updater.UpdateURL);      
-
-          rd.Dispatcher.Invoke (new Action (() =>
+          System.Threading.Thread STAThread = new System.Threading.Thread (() =>
           {
-            rd.WebVersion = updater.WebVersion;
-            rd.ApplicationVersion = updater.AppVersion;
-            rd.Topmost = true;
-            rd.ShowDialog ( );
-          }), System.Windows.Threading.DispatcherPriority.Normal);
-        }) 
-        { 
-          Name = string.Format ("{0}_AutoUpdateThread", LogFile.APPLICATION_CAPTION),
-          IsBackground = true
-        };
+            ResultDialog rd = new ResultDialog (LogFile.APPLICATION_CAPTION, updater.HaveToUpdate, updater.UpdateURL);
 
-        STAThread.SetApartmentState (System.Threading.ApartmentState.STA);
-        STAThread.Start ( );
-        STAThread.Join ( );
+            rd.Dispatcher.Invoke (new Action (() =>
+            {
+              rd.WebVersion = updater.WebVersion;
+              rd.ApplicationVersion = updater.AppVersion;
+              rd.Topmost = true;
+              rd.ShowInTaskbar = true;
+
+              System.Windows.Window temp = new System.Windows.Window ( )
+              {
+                Visibility = System.Windows.Visibility.Hidden,
+                WindowState = System.Windows.WindowState.Minimized,
+                ShowInTaskbar = false
+              };
+
+              temp.Show ( );
+              rd.Owner = temp;
+
+              rd.ShowDialog ( );
+
+            }), System.Windows.Threading.DispatcherPriority.Normal);
+          })
+          {
+            Name = string.Format ("{0}_AutoUpdateThread", LogFile.APPLICATION_CAPTION),
+            IsBackground = true
+          };
+
+          STAThread.SetApartmentState (System.Threading.ApartmentState.STA);
+          STAThread.Start ( );
+          STAThread.Join ( );
+        }
+
+        ErrorLog.WriteLog (ErrorFlags.Info, "AutoUpdate", string.Format ("local version: {0}, web version: {1}", updater.AppVersion, updater.WebVersion));
       }
-
-      ErrorLog.WriteLog (ErrorFlags.Info, "AutoUpdate", string.Format ("local version: {0}, web version: {1}", updater.AppVersion, updater.WebVersion));
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, "AutoUpdate", string.Format ("UpdateCompleteEvent, exception: {0}", ex));
+      }
     }
   }
 }

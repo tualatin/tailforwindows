@@ -48,5 +48,8 @@ namespace TailForWin.Native
 
     [DllImport ("Kernel32.dll", SetLastError = true)]
     public static extern bool GlobalMemoryStatusEx ([In, Out] MemoryObject lpBuffer);
+
+    [DllImport ("user32.dll")]
+    public static extern IntPtr GetDesktopWindow ( );
   }
 }
