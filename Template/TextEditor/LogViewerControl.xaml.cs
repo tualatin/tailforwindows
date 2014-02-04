@@ -77,7 +77,7 @@ namespace TailForWin.Template.TextEditor
 
       LogViewer.PreviewMouseLeftButtonDown += LogViewer_PreviewMouseLeftButtonDown;
       LogViewer.PreviewMouseRightButtonDown += LogViewer_PreviewMouseRightButtonDown;
-      // LogViewer.AddHandler (MouseLeftButtonDownEvent, new MouseButtonEventHandler (LogViewer_MouseLeftButtonDown), true);
+      LogViewer.AddHandler (MouseLeftButtonDownEvent, new MouseButtonEventHandler (LogViewer_MouseLeftButtonDown), true);
       // LogViewer.AddHandler (MouseRightButtonDownEvent, new MouseButtonEventHandler (LogViewer_MouseRightButtonDown), true);
       LogViewer.AddHandler (MouseDoubleClickEvent, new MouseButtonEventHandler (LogViewer_MouseDoubleClick), true);
       LogViewer.PreviewMouseLeftButtonUp += LogViewer_MouseUp;
@@ -525,7 +525,8 @@ namespace TailForWin.Template.TextEditor
       if (LogViewer.Items.Count == 0)
         return;
 
-      logViewScrollViewer.ScrollToEnd ( );
+      if (logViewScrollViewer != null)
+        logViewScrollViewer.ScrollToEnd ( );
     }
 
     /// <summary>
@@ -676,19 +677,12 @@ namespace TailForWin.Template.TextEditor
       }
       catch (Exception ex)
       {
-#if DEBUG
         TailForWin.Utils.ErrorLog.WriteLog (TailForWin.Utils.ErrorFlags.Error, "LogViewerControl", string.Format ("{0}", ex));
-#endif
       }
 
 #if DEBUG
       LogMouseEvents ("--- SelectionChanged ---");
 #endif
-    }
-
-    private void LogViewer_SelectionChanged_1 (object sender, SelectionChangedEventArgs e)
-    {
-      e.Handled = true;
     }
 
     private void CollectionViewSourceFilter (object sender, FilterEventArgs e)
@@ -763,7 +757,6 @@ namespace TailForWin.Template.TextEditor
 
       leftMouseButtonDown = true;
       oldMousePosition = PointToScreen (Mouse.GetPosition (this));
-
 #if DEBUG
       LogMouseEvents ("PreviewMouseLeftButtonDown");
 #endif
@@ -773,6 +766,55 @@ namespace TailForWin.Template.TextEditor
     {
       if (rightMouseButtonDown)
         return;
+
+      if (sender.GetType ( ) != typeof (ListBox))
+        return;
+
+      ListBox lb = sender as ListBox;
+      LogEntry item = lb.SelectedItem as LogEntry;
+      Point mousePoint = PointToScreen (Mouse.GetPosition (this));
+
+      if (item != null)
+      {
+        ListBoxItem myListBoxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem (item));
+        ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter> (myListBoxItem);
+
+        if (myContentPresenter == null)
+          return;
+
+        DataTemplate myDataTemplate = myContentPresenter.ContentTemplateSelector.SelectTemplate (myListBoxItem, LogViewer);
+
+        TextBlock text = (TextBlock) myDataTemplate.FindName ("txtBoxMessage", myContentPresenter);
+        Image target = (Image) myDataTemplate.FindName ("txtBoxBreakpoint", myContentPresenter);
+        Point relativePoint = target.PointToScreen (new Point (0, 0));
+
+        Size s = new Size (16, 16);
+        Size textSize = GetSizeFromText (text);
+
+        if (textSize.Height >= 16)
+          s.Height = textSize.Height;
+
+        // very strange behaviour! when image is shown, no correction is needed, otherwise it is needed??? WTF!
+        if (item.BookmarkPoint == null)
+        {
+          relativePoint.X = relativePoint.X - (s.Width / 2);
+          relativePoint.Y = relativePoint.Y - (s.Height / 2);
+        }
+        System.Drawing.Rectangle rcBreakpoint = new System.Drawing.Rectangle ((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
+
+        if (rcBreakpoint.Contains ((int) mousePoint.X, (int) mousePoint.Y) && leftMouseButtonDown)
+        {
+          System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage ( );
+          bp.BeginInit ( );
+          bp.UriSource = new Uri ("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
+          bp.EndInit ( );
+
+          if (item.BookmarkPoint == null)
+            item.BookmarkPoint = bp;
+          else
+            item.BookmarkPoint = null;
+        }
+      }
 
 #if DEBUG
       LogMouseEvents ("MouseLeftButtonDown");
@@ -815,6 +857,14 @@ namespace TailForWin.Template.TextEditor
 #if DEBUG
       LogMouseEvents ("MouseUp");
 #endif
+    }
+
+    private void Image_PreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e)
+    {
+      if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+      {
+        MessageBox.Show ("Jawohl!");
+      }
     }
 
     #endregion

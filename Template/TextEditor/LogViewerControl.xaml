@@ -84,33 +84,64 @@
         </DataTrigger>
       </Style.Triggers>
     </Style>
-
+    
     <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="lineNumberTemplate">
       <Grid IsSharedSizeScope="True">
         <Grid.ColumnDefinitions>
+          <ColumnDefinition SharedSizeGroup="Bookmark" Width="Auto" />
           <ColumnDefinition SharedSizeGroup="Index" Width="Auto"/>
           <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Grid Cursor="/TailForWin;component/Template/TextEditor/RightArrow.cur">
-          <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.4" />
-          <TextBlock Grid.Column="0" Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
+        <Grid Grid.Column="0">
+          <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.5" />
+          <Image Source="{Binding Path=BookmarkPoint}" Grid.Column="0" Width="16" Height="16" Margin="2,0" x:Name="txtBoxBreakpoint" />
         </Grid>
-        <TextBlock Grid.Column="1" Margin="5,0,0,0" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
+
+        <Grid Cursor="/TailForWin;component/Template/TextEditor/RightArrow.cur" Grid.Column="1">
+          <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.4" />
+          <TextBlock Grid.Column="1" Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
+        </Grid>       
+        
+        <TextBlock Grid.Column="2" Margin="5,0,0,0" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
       </Grid>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="dateTimeLineNumberTemplate">
       <Grid IsSharedSizeScope="True">
         <Grid.ColumnDefinitions>
+          <ColumnDefinition SharedSizeGroup="Bookmark" Width="Auto" />
           <ColumnDefinition SharedSizeGroup="Index" Width="Auto"/>
           <ColumnDefinition SharedSizeGroup="Date" Width="Auto"/>
           <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Grid Cursor="/TailForWin;component/Template/TextEditor/RightArrow.cur">
+        <Grid Grid.Column="0">
+          <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.5" />
+          <Image Source="{Binding Path=BookmarkPoint}" Grid.Column="0" Width="16" Height="16" Margin="2,0" x:Name="txtBoxBreakpoint" />
+        </Grid>
+
+        <Grid Cursor="/TailForWin;component/Template/TextEditor/RightArrow.cur" Grid.Column="1">
           <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.4" />
-          <TextBlock Grid.Column="0" Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
+          <TextBlock Grid.Column="1" Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
+        </Grid>
+
+        <TextBlock Grid.Column="2" Margin="5,0,0,0" Padding="0,0,5,0" Style="{StaticResource MyDateTimeEditor}" />
+        <TextBlock Grid.Column="3" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="dateTimeTemplate">
+      <Grid IsSharedSizeScope="True">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition SharedSizeGroup="Bookmark" Width="Auto" />
+          <ColumnDefinition SharedSizeGroup="Date" Width="Auto"/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+          <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.5" />
+          <Image Source="{Binding Path=BookmarkPoint}" Grid.Column="0" Width="16" Height="16" Margin="2,0" x:Name="txtBoxBreakpoint" />
         </Grid>
 
         <TextBlock Grid.Column="1" Margin="5,0,0,0" Padding="0,0,5,0" Style="{StaticResource MyDateTimeEditor}" />
@@ -118,25 +149,19 @@
       </Grid>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="dateTimeTemplate">
-      <Grid IsSharedSizeScope="True">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition SharedSizeGroup="Date" Width="Auto"/>
-          <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
-        <TextBlock Grid.Column="0" Margin="2,0,0,0" Padding="0,0,5,0" Style="{StaticResource MyDateTimeEditor}" />
-        <TextBlock Grid.Column="1" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
-      </Grid>
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="defaultTemplate">
       <Grid IsSharedSizeScope="True">
         <Grid.ColumnDefinitions>
+          <ColumnDefinition SharedSizeGroup="Bookmark" Width="Auto" />
           <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Column="0" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
+        <Grid Grid.Column="0">
+          <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.5" />
+          <Image Source="{Binding Path=BookmarkPoint}" Grid.Column="0" Width="16" Height="16" Margin="2,0" x:Name="txtBoxBreakpoint" />
+        </Grid>
+
+        <TextBlock Grid.Column="1" Margin="5,0,0,0" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
       </Grid>
     </DataTemplate>
 
@@ -172,7 +197,7 @@
                                         DateTimeLineNumbersTemplate="{StaticResource dateTimeLineNumberTemplate}" x:Key="templateSelector" />
   </UserControl.Resources>
   <Border BorderThickness="0,1,0,0" BorderBrush="Gainsboro">
-    <ListBox ItemsSource="{Binding}" x:Name="LogViewer" Background="{Binding Path=TextEditorBackgroundColor, ElementName=LogViewerProperty}" Style="{StaticResource MyListBox}" Foreground="{Binding Path=TextEditorForegroundColor, ElementName=LogViewerProperty}" ItemTemplateSelector="{StaticResource templateSelector}" Loaded="LogViewer_Loaded" SelectionMode="Extended" IsSynchronizedWithCurrentItem="True" sel:ListBoxExtenders.AutoScrollToCurrentItem="{Binding Path=AlwaysScrollIntoView, ElementName=LogViewerProperty}" ItemContainerStyle="{StaticResource ItemStyle}" sel:ListBoxCopy.AutoCopy="True" sel:ListBoxCopy.AddDateTime="{Binding Path=AddDateTime, ElementName=LogViewerProperty}" SelectionChanged="LogViewer_SelectionChanged_1" />
+    <ListBox ItemsSource="{Binding}" x:Name="LogViewer" Background="{Binding Path=TextEditorBackgroundColor, ElementName=LogViewerProperty}" Style="{StaticResource MyListBox}" Foreground="{Binding Path=TextEditorForegroundColor, ElementName=LogViewerProperty}" ItemTemplateSelector="{StaticResource templateSelector}" Loaded="LogViewer_Loaded" SelectionMode="Extended" IsSynchronizedWithCurrentItem="True" sel:ListBoxExtenders.AutoScrollToCurrentItem="{Binding Path=AlwaysScrollIntoView, ElementName=LogViewerProperty}" ItemContainerStyle="{StaticResource ItemStyle}" sel:ListBoxCopy.AutoCopy="True" sel:ListBoxCopy.AddDateTime="{Binding Path=AddDateTime, ElementName=LogViewerProperty}" />
   </Border>
 
 </UserControl>

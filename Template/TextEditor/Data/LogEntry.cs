@@ -8,12 +8,38 @@ namespace TailForWin.Template.TextEditor.Data
     /// <summary>
     /// DateTime
     /// </summary>
-    public DateTime DateTime { get; set; }
+    public DateTime DateTime 
+    { 
+      get; 
+      set; 
+    }
 
     /// <summary>
     /// Index for LineNumbers
     /// </summary>
-    public int Index { get; set; }
+    public int Index 
+    { 
+      get; 
+      set; 
+    }
+
+    private System.Windows.Media.ImageSource bookmarkPoint;
+
+    /// <summary>
+    /// Bookmark image when set a bookmark to a line
+    /// </summary>
+    public System.Windows.Media.ImageSource BookmarkPoint
+    {
+      get
+      {
+        return (bookmarkPoint);
+      }
+      set
+      {
+        bookmarkPoint = value;
+        OnPropertyChanged ("BookmarkPoint");
+      }
+    }
 
     private string message;
 
