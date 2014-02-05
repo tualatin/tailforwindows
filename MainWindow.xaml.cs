@@ -196,6 +196,7 @@ namespace TailForWin
               page.SearchBoxActive ( );
               page.WrapAround (searchBoxWindow.WrapSearch);
               FindWhatTextChangedEvent (this, EventArgs.Empty);
+              searchBoxWindow.SetTitle = page.FileManagerProperties.File;
             }
 
             currentPage = page;
@@ -402,7 +403,20 @@ namespace TailForWin
         {
           TailLog page = GetTailLogWindow (item.Content as Frame);
           page.WrapAround (wrap.Wrap);
+        }
+      }
+    }
 
+    private void BookmarkLineEvent (object sender, EventArgs e)
+    {
+      BookmarkLineBool bookmarkLine = e as BookmarkLineBool;
+
+      foreach (TabItem item in tailTabItems)
+      {
+        if (item.Content != null && item.Content.GetType ( ) == typeof (Frame))
+        {
+          TailLog page = GetTailLogWindow (item.Content as Frame);
+          page.BookmarkLine (bookmarkLine.BookmarkLine);
         }
       }
     }
@@ -459,6 +473,7 @@ namespace TailForWin
       searchBoxWindow.HideSearchBox += HideSearchBoxEvent;
       searchBoxWindow.FindTextChanged += FindWhatTextChangedEvent;
       searchBoxWindow.WrapAround += WrapAroundEvent;
+      searchBoxWindow.BookmarkLine += BookmarkLineEvent;
     }
 
     private void TabItemUpdateParent (TailLog page)

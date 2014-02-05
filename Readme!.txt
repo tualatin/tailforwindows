@@ -1,6 +1,7 @@
 ﻿.NET 4.x required!
 Source: git@github.com:tualatin/tailforwindows.git
 Known issues: https://github.com/tualatin/tailforwindows/issues
+If there are problems, TailForWindows creates a error logfile in the directory. Please send me this error file bevore restart TfW, because the program deletes the error log file when it is started
 
 Changelog:
 
@@ -25,6 +26,7 @@ v0.9.
 * add bookmark option
 * add "Search Bookmarks" in find box
 * add contextmenu for Bookmark lines to remove all Bookmarks
+* bug fix find what window title
 
 v0.9.5099.x
 * add shortcut Ctrl+Alt+M minimize main window

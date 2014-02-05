@@ -90,7 +90,7 @@ namespace TailForWin.Template.TextEditor
       LogViewer.MouseMove += LogViewer_MouseMove;
       LogViewer.SelectionChanged += LogViewer_SelectionChanged;
 
-      /* LogViewer.DataContext = */ LogEntries = new ObservableCollection<LogEntry> ( );
+      LogEntries = new ObservableCollection<LogEntry> ( );
       collectionViewSource = new CollectionViewSource ( ) { Source = LogEntries };
       collectionViewSource.Filter += CollectionViewSourceFilter;
       LogViewer.DataContext = collectionViewSource;
@@ -435,6 +435,26 @@ namespace TailForWin.Template.TextEditor
       set;
     }
 
+    private bool bookmarLine;
+
+    /// <summary>
+    /// Bookmark lines
+    /// </summary>
+    public bool BookmarkLine
+    {
+      get
+      {
+        return (bookmarLine);
+      }
+      set
+      {
+        bookmarLine = value;
+
+        if (bookmarLine)
+          FindWhatTextChanged ( );
+      }
+    }
+
     #endregion
 
     #region Public functions
@@ -512,6 +532,9 @@ namespace TailForWin.Template.TextEditor
         newSearch = true;
         NextSearch = null;
       }
+
+      if (BookmarkLine)
+        RemoveAllBookmarks_Click (null, null);
     }
 
     /// <summary>
@@ -1017,6 +1040,16 @@ namespace TailForWin.Template.TextEditor
           {
             if (regSearch.Match (sub).Success)
             {
+              if (BookmarkLine)
+              {
+                System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage ( );
+                bp.BeginInit ( );
+                bp.UriSource = new Uri ("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
+                bp.EndInit ( );
+
+                item.BookmarkPoint = bp;
+              }
+
               foundItems.Add (item);
 
               if (count)

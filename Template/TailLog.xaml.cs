@@ -211,6 +211,7 @@ namespace TailForWin.Template
     /// </summary>
     public void FindWhatTextChanged ()
     {
+      var test = ActiveTab;
       textBlockTailLog.FindWhatTextChanged ( );
     }
 
@@ -221,6 +222,15 @@ namespace TailForWin.Template
     public void WrapAround (bool wrap)
     {
       textBlockTailLog.WrapAround = wrap;
+    }
+
+    /// <summary>
+    /// Bookmark lines
+    /// </summary>
+    /// <param name="bookmark">true or false</param>
+    public void BookmarkLine (bool bookmark)
+    {
+      textBlockTailLog.BookmarkLine = bookmark;
     }
 
     /// <summary>

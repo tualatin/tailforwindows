@@ -44,6 +44,11 @@ namespace TailForWin.Template
     /// </summary>
     public event EventHandler WrapAround;
 
+    /// <summary>
+    /// Bookmark line event handler
+    /// </summary>
+    public event EventHandler BookmarkLine;
+
     #endregion
 
     private FileManagerStructure fmStructure;
@@ -146,8 +151,28 @@ namespace TailForWin.Template
 
     private void checkBoxBookmark_Click (object sender, RoutedEventArgs e)
     {
+      if (checkBoxBookmarkLine.IsChecked == true)
+      {
+        checkBoxBookmarkLine.IsChecked = false;
+
+        checkBoxBookmarkLine_Click (sender, e);
+      }
+
       if (FindTextChanged != null)
         FindTextChanged (this, EventArgs.Empty);
+    }
+
+    private void checkBoxBookmarkLine_Click (object sender, RoutedEventArgs e)
+    {
+      BookmarkLineBool bookmarkLine = new BookmarkLineBool ( );
+
+      if (checkBoxBookmarkLine.IsChecked == true)
+        bookmarkLine.BookmarkLine = true;
+      else
+        bookmarkLine.BookmarkLine = false;
+
+      if (BookmarkLine != null)
+        BookmarkLine (this, bookmarkLine);
     }
 
     #endregion
@@ -269,12 +294,24 @@ namespace TailForWin.Template
     #endregion
   }
 
-  public class WrapAroundBool: EventArgs
+  public class WrapAroundBool : EventArgs
   {
     /// <summary>
     /// Wrap boolean
     /// </summary>
     public bool Wrap
+    {
+      get;
+      set;
+    }
+  }
+
+  public class BookmarkLineBool : EventArgs
+  {
+    /// <summary>
+    /// Bookmark line
+    /// </summary>
+    public bool BookmarkLine
     {
       get;
       set;
