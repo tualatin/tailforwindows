@@ -83,7 +83,7 @@ namespace TailForWin.Template.TextEditor
       LogViewer.PreviewMouseLeftButtonDown += LogViewer_PreviewMouseLeftButtonDown;
       LogViewer.PreviewMouseRightButtonDown += LogViewer_PreviewMouseRightButtonDown;
       LogViewer.AddHandler (MouseLeftButtonDownEvent, new MouseButtonEventHandler (LogViewer_MouseLeftButtonDown), true);
-      // LogViewer.AddHandler (MouseRightButtonDownEvent, new MouseButtonEventHandler (LogViewer_MouseRightButtonDown), true);
+      LogViewer.AddHandler (MouseRightButtonDownEvent, new MouseButtonEventHandler (LogViewer_MouseRightButtonDown), true);
       LogViewer.AddHandler (MouseDoubleClickEvent, new MouseButtonEventHandler (LogViewer_MouseDoubleClick), true);
       LogViewer.PreviewMouseLeftButtonUp += LogViewer_MouseUp;
       LogViewer.PreviewMouseRightButtonUp += LogViewer_MouseUp;
@@ -776,49 +776,29 @@ namespace TailForWin.Template.TextEditor
       if (sender.GetType ( ) != typeof (ListBox))
         return;
 
+      LogViewer.ContextMenu = null;
       ListBox lb = sender as ListBox;
       LogEntry item = lb.SelectedItem as LogEntry;
       Point mousePoint = PointToScreen (Mouse.GetPosition (this));
 
       if (item != null)
       {
-        ListBoxItem myListBoxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem (item));
-        ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter> (myListBoxItem);
+        System.Drawing.Rectangle? rcBreakpoint = MouseButtonDownHelper (item);
 
-        if (myContentPresenter == null)
-          return;
-
-        DataTemplate myDataTemplate = myContentPresenter.ContentTemplateSelector.SelectTemplate (myListBoxItem, LogViewer);
-
-        TextBlock text = (TextBlock) myDataTemplate.FindName ("txtBoxMessage", myContentPresenter);
-        Image target = (Image) myDataTemplate.FindName ("txtBoxBreakpoint", myContentPresenter);
-        Point relativePoint = target.PointToScreen (new Point (0, 0));
-
-        Size s = new Size (16, 16);
-        Size textSize = GetSizeFromText (text);
-
-        if (textSize.Height >= 16)
-          s.Height = textSize.Height;
-
-        // very strange behaviour! when image is shown, no correction is needed, otherwise it is needed??? WTF!
-        if (item.BookmarkPoint == null)
+        if (rcBreakpoint != null)
         {
-          relativePoint.X = relativePoint.X - (s.Width / 2);
-          relativePoint.Y = relativePoint.Y - (s.Height / 2);
-        }
-        System.Drawing.Rectangle rcBreakpoint = new System.Drawing.Rectangle ((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
+          if (((System.Drawing.Rectangle) rcBreakpoint).Contains ((int) mousePoint.X, (int) mousePoint.Y) && leftMouseButtonDown)
+          {
+            System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage ( );
+            bp.BeginInit ( );
+            bp.UriSource = new Uri ("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
+            bp.EndInit ( );
 
-        if (rcBreakpoint.Contains ((int) mousePoint.X, (int) mousePoint.Y) && leftMouseButtonDown)
-        {
-          System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage ( );
-          bp.BeginInit ( );
-          bp.UriSource = new Uri ("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
-          bp.EndInit ( );
-
-          if (item.BookmarkPoint == null)
-            item.BookmarkPoint = bp;
-          else
-            item.BookmarkPoint = null;
+            if (item.BookmarkPoint == null)
+              item.BookmarkPoint = bp;
+            else
+              item.BookmarkPoint = null;
+          }
         }
       }
 
@@ -844,6 +824,47 @@ namespace TailForWin.Template.TextEditor
       if (leftMouseButtonDown)
         return;
 
+      if (sender.GetType ( ) != typeof (ListBox))
+        return;
+
+      LogViewer.ContextMenu = null;
+      ListBox lb = sender as ListBox;
+      LogEntry item = lb.SelectedItem as LogEntry;
+      Point mousePoint = PointToScreen (Mouse.GetPosition (this));
+
+      if (item != null)
+      {
+        if (item.BookmarkPoint != null)
+        {
+          System.Drawing.Rectangle? rcBreakpoint = MouseButtonDownHelper (item);
+
+          if (rcBreakpoint != null)
+          {
+            if (((System.Drawing.Rectangle) rcBreakpoint).Contains ((int) mousePoint.X, (int) mousePoint.Y) && rightMouseButtonDown)
+            {
+              System.Windows.Media.Imaging.BitmapImage icon = new System.Windows.Media.Imaging.BitmapImage (new Uri ("/TailForWin;component/Template/TextEditor/breakpoint_delete.gif", UriKind.Relative));
+              RenderOptions.SetBitmapScalingMode (icon, BitmapScalingMode.NearestNeighbor);
+              RenderOptions.SetEdgeMode (icon, EdgeMode.Aliased);
+
+              ContextMenu menu = new ContextMenu ( );
+              MenuItem menuItem = new MenuItem ( )
+              {
+                Header = "Delete all Bookmarks",
+                Icon = new Image ( )
+                {
+                  Source = icon
+                }
+              };
+
+              menuItem.Click += RemoveAllBookmarks_Click;
+              menu.Items.Add (menuItem);
+
+              LogViewer.ContextMenu = menu;
+            }
+          }
+        }
+      }
+
 #if DEBUG
       LogMouseEvents ("MouseRightButtonDown");
 #endif
@@ -865,12 +886,20 @@ namespace TailForWin.Template.TextEditor
 #endif
     }
 
-    private void Image_PreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e)
+    #endregion
+
+    #region ClickEvents
+
+    private void RemoveAllBookmarks_Click (object sender, RoutedEventArgs e)
     {
-      if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+      var bookmarkItems = LogEntries.Where (item => item.BookmarkPoint != null);
+
+      foreach (LogEntry bookmarkItem in bookmarkItems)
       {
-        MessageBox.Show ("Jawohl!");
+        bookmarkItem.BookmarkPoint = null;
       }
+
+      LogViewer.ContextMenu = null;
     }
 
     #endregion
@@ -1163,6 +1192,35 @@ namespace TailForWin.Template.TextEditor
     #endregion
 
     #region Helperfunctions
+
+    private System.Drawing.Rectangle? MouseButtonDownHelper (LogEntry item)
+    {
+      ListBoxItem myListBoxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem (item));
+      ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter> (myListBoxItem);
+
+      if (myContentPresenter == null)
+        return (null);
+
+      DataTemplate myDataTemplate = myContentPresenter.ContentTemplateSelector.SelectTemplate (myListBoxItem, LogViewer);
+
+      TextBlock text = (TextBlock) myDataTemplate.FindName ("txtBoxMessage", myContentPresenter);
+      Image target = (Image) myDataTemplate.FindName ("txtBoxBreakpoint", myContentPresenter);
+      Point relativePoint = target.PointToScreen (new Point (0, 0));
+
+      Size s = new Size (16, 16);
+      Size textSize = GetSizeFromText (text);
+
+      if (textSize.Height >= 16)
+        s.Height = textSize.Height;
+
+      // very strange behaviour! when image is shown, no correction is needed, otherwise it is needed??? WTF!
+      if (item.BookmarkPoint == null)
+      {
+        relativePoint.X = relativePoint.X - (s.Width / 2);
+        relativePoint.Y = relativePoint.Y - (s.Height / 2);
+      }
+      return (new System.Drawing.Rectangle ((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height));
+    }
 
     private void RefreshCollectionViewSource ()
     {

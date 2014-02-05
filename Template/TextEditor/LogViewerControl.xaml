@@ -9,7 +9,7 @@
     <conv:BoolToTextWrapConverter x:Key="BoolToTextWrap" />
     <conv:BoolToScrollbarVisibilityConverter x:Key="BoolToScrollbarVisibility" />
     <conv:StringFormatConverter x:Key="StringFormat" />
-
+    
     <Style TargetType="ListBox" x:Key="MyListBox">
       <Setter Property="Template">
         <Setter.Value>

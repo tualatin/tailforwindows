@@ -24,6 +24,7 @@ v0.9.
 * bug fix proxy settings
 * add bookmark option
 * add "Search Bookmarks" in find box
+* add contextmenu for Bookmark lines to remove all Bookmarks
 
 v0.9.5099.x
 * add shortcut Ctrl+Alt+M minimize main window
