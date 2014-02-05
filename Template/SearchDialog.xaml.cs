@@ -134,21 +134,20 @@ namespace TailForWin.Template
       WrapAroundBool wrap = new WrapAroundBool ( );
 
       if (checkBoxWrapAround.IsChecked == true)
-      {
         wrap.Wrap = fmStructure.Wrap = true;
-
-        if (WrapAround != null)
-          WrapAround (this, wrap);
-      }
       else
-      {
         wrap.Wrap = fmStructure.Wrap = false;
 
-        if (WrapAround != null)
-          WrapAround (this, wrap);
-      }
-
       fmStructure.SaveFindHistoryWrap ( );
+
+      if (WrapAround != null)
+        WrapAround (this, wrap);
+    }
+
+    private void checkBoxBookmark_Click (object sender, RoutedEventArgs e)
+    {
+      if (FindTextChanged != null)
+        FindTextChanged (this, EventArgs.Empty);
     }
 
     #endregion
@@ -189,13 +188,20 @@ namespace TailForWin.Template
 
     private void DoFindNextEvent (bool count = false)
     {
-      AddSearchWordToDictionary ( );
-
       SearchData searching = new SearchData ( )
       {
-        WordToFind = comboBoxWordToFind.Text,
-        Count = count
+        Count = count,
+        SearchBookmarks = false,
+        WordToFind = string.Empty
       };
+
+      if (checkBoxBookmark.IsChecked == true)
+        searching.SearchBookmarks = true;
+      else
+      {
+        AddSearchWordToDictionary ( );
+        searching.WordToFind = comboBoxWordToFind.Text;
+      }
 
       if (FindNextEvent != null)
         FindNextEvent (this, searching);

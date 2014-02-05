@@ -56,6 +56,11 @@ namespace TailForWin.Template.TextEditor
     private string SearchText;
 
     /// <summary>
+    /// Search bookmarks only
+    /// </summary>
+    private bool SearchBookmark;
+
+    /// <summary>
     /// Collection of found items
     /// </summary>
     private List<LogEntry> foundItems;
@@ -459,6 +464,7 @@ namespace TailForWin.Template.TextEditor
     /// <param name="searchText">Text to search</param>
     public void FindNextItem (SearchData sd)
     {
+      SearchBookmark = sd.SearchBookmarks;
       SearchText = sd.WordToFind;
 
       if (sd.Count)
@@ -995,6 +1001,23 @@ namespace TailForWin.Template.TextEditor
         if (!count)
           HighlightAllMatches ( );
       }
+      else if (SearchBookmark)
+      {
+        foundItems.Clear ( );
+
+        foreach (LogEntry item in LogEntries)
+        {
+          if (item.BookmarkPoint != null)
+          {
+            foundItems.Add (item);
+
+            if (count)
+              newSearch = true;
+            else
+              newSearch = false;
+          }
+        }
+      }
     }
 
     private void HighlightAllMatches ( )
@@ -1105,31 +1128,34 @@ namespace TailForWin.Template.TextEditor
     {
       if (tb != null)
       {
-        Regex regex = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
-
-        if (SearchText.Length == 0)
+        if (!SearchBookmark)
         {
-          string str = tb.Text;
-          tb.Inlines.Clear ( );
-          tb.Inlines.Add (str);
-        }
+          Regex regex = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
 
-        string[] substrings = regex.Split (tb.Text);
-        tb.Inlines.Clear ( );
-
-        foreach (var item in substrings)
-        {
-          if (regex.Match (item).Success)
+          if (SearchText.Length == 0)
           {
-            Run runx = new Run (item)
-            {
-              Background = TextEditorSearchHighlightBackground,
-              Foreground = TextEditorSearchHighlightForeground
-            };
-            tb.Inlines.Add (runx);
+            string str = tb.Text;
+            tb.Inlines.Clear ( );
+            tb.Inlines.Add (str);
           }
-          else
-            tb.Inlines.Add (item);
+
+          string[] substrings = regex.Split (tb.Text);
+          tb.Inlines.Clear ( );
+
+          foreach (var item in substrings)
+          {
+            if (regex.Match (item).Success)
+            {
+              Run runx = new Run (item)
+              {
+                Background = TextEditorSearchHighlightBackground,
+                Foreground = TextEditorSearchHighlightForeground
+              };
+              tb.Inlines.Add (runx);
+            }
+            else
+              tb.Inlines.Add (item);
+          }
         }
       }
     }

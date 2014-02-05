@@ -25,5 +25,14 @@ namespace TailForWin.Data
       get;
       set;
     }
+
+    /// <summary>
+    /// Search for bookmarks only
+    /// </summary>
+    public bool SearchBookmarks
+    {
+      get;
+      set;
+    }
   }
 }

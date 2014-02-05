@@ -22,7 +22,8 @@ v0.9.
 * add autoupdate
 * improve updater
 * bug fix proxy settings
-* add user can set bookmark icon
+* add bookmark option
+* add "Search Bookmarks" in find box
 
 v0.9.5099.x
 * add shortcut Ctrl+Alt+M minimize main window
