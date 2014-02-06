@@ -224,8 +224,11 @@ namespace TailForWin.Template
         searching.SearchBookmarks = true;
       else
       {
-        AddSearchWordToDictionary ( );
-        searching.WordToFind = comboBoxWordToFind.Text;
+        if (!string.IsNullOrWhiteSpace (comboBoxWordToFind.Text))
+        {
+          AddSearchWordToDictionary ( );
+          searching.WordToFind = comboBoxWordToFind.Text;
+        }
       }
 
       if (FindNextEvent != null)
