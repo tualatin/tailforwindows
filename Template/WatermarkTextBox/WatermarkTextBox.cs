@@ -34,7 +34,7 @@ namespace TailForWin.Template.WatermarkTextBox
     {
       get
       {
-        return ((object) GetValue (WatermarkProperty));
+        return (GetValue (WatermarkProperty));
       }
       set
       {
@@ -58,7 +58,7 @@ namespace TailForWin.Template.WatermarkTextBox
 
     #endregion
 
-    protected override void OnGotKeyboardFocus (System.Windows.Input.KeyboardFocusChangedEventArgs e)
+    protected override void OnGotKeyboardFocus (KeyboardFocusChangedEventArgs e)
     {
       base.OnGotKeyboardFocus (e);
 

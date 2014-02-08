@@ -73,13 +73,12 @@ namespace TailForWin.Data
       bool? result = openDialog.ShowDialog ( );
       fileName = string.Empty;
 
-      if (result == true)
-      {
-        fileName = openDialog.FileName;
+      if (result != true)
+        return (false);
 
-        return (true);
-      }
-      return (false);
+      fileName = openDialog.FileName;
+
+      return (true);
     }
 
     /// <summary>
@@ -196,13 +195,13 @@ namespace TailForWin.Data
       {
         int result = 0;
 
-        if (x is EncodingInfo && y is EncodingInfo)
-        {
-          var xEncodingInfo = x as EncodingInfo;
-          var yEncodingInfo = y as EncodingInfo;
-          result = ((new CaseInsensitiveComparer ( )).Compare (xEncodingInfo.Name, yEncodingInfo.Name));
-        }
-        return (result);
+        if (!(x is EncodingInfo) || !(y is EncodingInfo))
+          return (result);
+
+        var xEncodingInfo = x as EncodingInfo;
+        var yEncodingInfo = y as EncodingInfo;
+
+        return ((new CaseInsensitiveComparer ( )).Compare (xEncodingInfo.Name, yEncodingInfo.Name));
       }
     }
 

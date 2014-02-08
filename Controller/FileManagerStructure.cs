@@ -16,8 +16,8 @@ namespace TailForWin.Controller
   public class FileManagerStructure: INotifyMaster
   {
     XDocument fmDoc;
-    string fmFile = string.Empty;
-    List<FileManagerData> fmProperties;
+    readonly string fmFile = string.Empty;
+    readonly List<FileManagerData> fmProperties;
     ObservableCollection<string> category = new ObservableCollection<string> ( );
     private const string XMLROOT = "fileManager";
 
@@ -320,7 +320,11 @@ namespace TailForWin.Controller
         reader.Dispose ( );
       }
 
-      fmDoc.Element (XMLROOT).Add (AddNode (property));
+      var xElement = fmDoc.Element (XMLROOT);
+
+      if (xElement != null)
+        xElement.Add (AddNode (property));
+
       fmDoc.Save (@fmFile, SaveOptions.None);
     }
 
@@ -328,42 +332,90 @@ namespace TailForWin.Controller
     {
       try
       {
-        XElement node = (fmDoc.Root.Descendants ("file").Where (x => x.Element ("id").Value == property.ID.ToString ( ))).SingleOrDefault ( );
-
-        node.Element ("fileEncoding").Value = property.FileEncoding.HeaderName;
-        node.Element ("fileName").Value = property.FileName;
-        node.Element ("timeStamp").Value = property.Timestamp.ToString ( );
-        node.Element ("killSpace").Value = property.KillSpace.ToString ( );
-        node.Element ("newWindow").Value = property.NewWindow.ToString ( );
-        node.Element ("lineWrap").Value = property.Wrap.ToString ( );
-
-        if (string.IsNullOrEmpty (property.Category))
-          node.Element ("category").Value = string.Empty;
-        else
-          node.Element ("category").Value = property.Category;
-
-        node.Element ("description").Value = property.Description;
-        node.Element ("threadPriority").Value = property.ThreadPriority.ToString ( );
-        node.Element ("refreshRate").Value = property.RefreshRate.ToString ( );
-
-        List<string> filterID = new List<string> ( );
-
-        // TODO NOT nice!
-        foreach (XElement filter in node.Elements ("filter"))
+        if (fmDoc.Root != null)
         {
-          filterID.Add (filter.Element ("id").Value);
-        }
+          XElement node = (fmDoc.Root.Descendants ("file").Where (x =>
+                                                                  {
+                                                                    var element = x.Element ("id");
+                                                                    return element != null && element.Value == property.ID.ToString ( );
+                                                                  })).SingleOrDefault ( );
 
-        foreach (string id in filterID)
-        {
-          node.Elements ("filter").Where (x => x.Element ("id").Value == id).Remove ( );
-        }
+          if (node != null)
+          {
+            var element = node.Element ("fileEncoding");
 
-        fmDoc.Save (@fmFile, SaveOptions.None);
+            if (element != null)
+              element.Value = property.FileEncoding.HeaderName;
 
-        foreach (FilterData item in property.ListOfFilter)
-        {
-          node.Add (AddFilterToDoc (item));
+            var xElement1 = node.Element ("fileName");
+
+            if (xElement1 != null)
+              xElement1.Value = property.FileName;
+
+            var element1 = node.Element ("timeStamp");
+
+            if (element1 != null)
+              element1.Value = property.Timestamp.ToString ( );
+
+            var xElement2 = node.Element ("killSpace");
+            
+            if (xElement2 != null)
+              xElement2.Value = property.KillSpace.ToString ( );
+
+            var element2 = node.Element ("newWindow");
+            
+            if (element2 != null)
+              element2.Value = property.NewWindow.ToString ( );
+
+            var xElement3 = node.Element ("lineWrap");
+            
+            if (xElement3 != null)
+              xElement3.Value = property.Wrap.ToString ( );
+
+            var element3 = node.Element ("category");
+
+            if (element3 != null)
+              element3.Value = string.IsNullOrEmpty (property.Category) ? string.Empty : property.Category;
+
+            var xElement4 = node.Element ("description");
+           
+            if (xElement4 != null)
+              xElement4.Value = property.Description;
+
+            var element4 = node.Element ("threadPriority");
+
+            if (element4 != null)
+              element4.Value = property.ThreadPriority.ToString ( );
+
+            var xElement5 = node.Element ("refreshRate");
+
+            if (xElement5 != null)
+              xElement5.Value = property.RefreshRate.ToString ( );
+
+            List<string> filterID = node.Elements ("filter").Select (filter =>
+                                                                     {
+                                                                       var element5 = filter.Element ("id");
+                                                                       return element5 != null ? element5.Value : null;
+                                                                     }).ToList ( );
+
+            // TODO NOT nice!
+
+            foreach (string id in filterID)
+            {
+              node.Elements ("filter").Where (x =>
+                                              {
+                                                var xElement = x.Element ("id");
+                                                return xElement != null && xElement.Value == id;
+                                              }).Remove ( );
+            }
+
+            fmDoc.Save (@fmFile, SaveOptions.None);
+
+            foreach (FilterData item in property.ListOfFilter)
+            {
+              node.Add (AddFilterToDoc (item));
+            }
+          }
         }
         //////////////////////////////////////////////
 
@@ -383,7 +435,13 @@ namespace TailForWin.Controller
     {
       try
       {
-        fmDoc.Root.Descendants ("file").Where (x => x.Element ("id").Value == property.ID.ToString ( )).Remove ( );
+        if (fmDoc.Root != null)
+          fmDoc.Root.Descendants ("file").Where (x =>
+                                                 {
+                                                   var xElement = x.Element ("id");
+                                                   return xElement != null && xElement.Value == property.ID.ToString (CultureInfo.InvariantCulture);
+                                                 }).Remove ( );
+
         fmDoc.Save (@fmFile, SaveOptions.None);
 
         return (true);
@@ -593,7 +651,7 @@ namespace TailForWin.Controller
 
       foreach (Encoding encode in LogFile.FileEncoding)
       {
-        if (encode.HeaderName.CompareTo (sEncode) == 0)
+        if (String.Compare(encode.HeaderName, sEncode, StringComparison.Ordinal) == 0)
         {
           encoding = encode;
           break;

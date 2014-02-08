@@ -30,10 +30,10 @@ namespace TailForWin.Utils
 
     private DeferredAction (Action action)
     {
-      timer = new Timer (new TimerCallback (delegate
-      {
-        Application.Current.Dispatcher.Invoke (action);
-      }));
+      timer = new Timer (delegate
+                         {
+                           Application.Current.Dispatcher.Invoke (action);
+                         });
     }
 
     /// <summary>

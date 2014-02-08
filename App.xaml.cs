@@ -24,7 +24,7 @@ namespace TailForWin
       AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
       wnd.Show ( );
 
-      if (e.Args.Length <= 0) 
+      if (e.Args.Length <= 0)
         return;
 
       foreach (FileManagerDataEventArgs args in from arg in e.Args

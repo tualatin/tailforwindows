@@ -32,14 +32,14 @@ namespace TailForWin.Utils
       {
         timer.Enabled = false;
 
-        updater = new Updateservice ( )
-        {
+        updater = new Updateservice
+                  {
           UseSystemSettings = SettingsHelper.TailSettings.ProxySettings.UseSystemSettings,
           UseProxy = SettingsHelper.TailSettings.ProxySettings.UseProxy,
           Proxy = SettingsHelper.TailSettings.ProxySettings.ProxyUrl,
           ProxyPort = SettingsHelper.TailSettings.ProxySettings.ProxyPort,
           UpdateURL = SettingsHelper.TailSettings.ApplicationWebUrl
-        };
+                  };
 
         if (!string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.Password))
           updater.ProxyAuthentification = new System.Net.NetworkCredential (SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt (SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
@@ -72,12 +72,12 @@ namespace TailForWin.Utils
               rd.Topmost = true;
               rd.ShowInTaskbar = true;
 
-              System.Windows.Window temp = new System.Windows.Window ( )
-              {
+              System.Windows.Window temp = new System.Windows.Window
+                                           {
                 Visibility = System.Windows.Visibility.Hidden,
                 WindowState = System.Windows.WindowState.Minimized,
                 ShowInTaskbar = false
-              };
+                                           };
 
               temp.Show ( );
               rd.Owner = temp;
