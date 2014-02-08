@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
@@ -69,7 +70,7 @@ namespace TailForWin.Data
         Title = title
       };
 
-      Nullable<bool> result = openDialog.ShowDialog ( );
+      bool? result = openDialog.ShowDialog ( );
       fileName = string.Empty;
 
       if (result == true)
@@ -174,9 +175,9 @@ namespace TailForWin.Data
       }
 
       // Threadpriority
-      foreach (System.Threading.ThreadPriority threadPriority in Enum.GetValues (typeof (System.Threading.ThreadPriority)))
+      foreach (System.Threading.ThreadPriority priority in Enum.GetValues (typeof (System.Threading.ThreadPriority)))
       {
-        ThreadPriority.Add (threadPriority);
+        ThreadPriority.Add (priority);
       }
 
       // Fileencoding
@@ -189,7 +190,7 @@ namespace TailForWin.Data
       }
     }
 
-    private class CaseInsensitiveEncodingInfoNameComparer: IComparer
+    private class CaseInsensitiveEncodingInfoNameComparer : IComparer
     {
       int IComparer.Compare (Object x, Object y)
       {
@@ -207,18 +208,13 @@ namespace TailForWin.Data
 
     public static bool FindDuplicateInFilterList (ObservableCollection<FilterData> listOfFilters, FilterData newItem)
     {
-      foreach (FilterData item in listOfFilters)
-      {
-        if (item.Filter.CompareTo (newItem.Filter) == 0)
-          return (true);
-      }
-      return (false);
+      return listOfFilters.Any(item => String.Compare(item.Filter, newItem.Filter, StringComparison.Ordinal) == 0);
     }
 
     /// <summary>
     /// FileCreationTime comparer
     /// </summary>
-    public class FileManagerDataFileCreationTimeComparer: IComparer<FileManagerData>
+    public class FileManagerDataFileCreationTimeComparer : IComparer<FileManagerData>
     {
       #region IComparer<DateTime?> Members
 
@@ -229,7 +225,7 @@ namespace TailForWin.Data
 
         return (-(nx.CompareTo (ny)));
       }
-      
+
       #endregion
     }
   }

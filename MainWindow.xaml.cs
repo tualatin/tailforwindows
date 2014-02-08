@@ -20,11 +20,11 @@ namespace TailForWin
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
-  public partial class MainWindow: Window, IDisposable
+  public partial class MainWindow : Window, IDisposable
   {
     private WinTrayIcon trayIcon;
-    private List<TabItem> tailTabItems;
-    private TabItem tabAdd;
+    private readonly List<TabItem> tailTabItems;
+    private readonly TabItem tabAdd;
     private int tabCount;
     private TailLog currentPage;
     private SearchDialog searchBoxWindow;
@@ -39,16 +39,12 @@ namespace TailForWin
         trayIcon = null;
       }
 
-      foreach (TabItem item in tailTabItems)
-      {
-        if (item.Content != null && item.Content.GetType ( ) == typeof (Frame))
-        {
-          TailLog page = GetTailLogWindow (item.Content as Frame);
-
-          if (page != null)
-            page.StopThread ( );
-        }
-      }
+      foreach (
+        TailLog page in
+          tailTabItems.Where (item => item.Content != null && item.Content.GetType ( ) == typeof (Frame))
+            .Select (item => GetTailLogWindow (item.Content as Frame))
+            .Where (page => page != null))
+        page.StopThread ( );
     }
 
     public MainWindow ()
@@ -56,9 +52,14 @@ namespace TailForWin
       InitializeComponent ( );
 
       // TrayIcon stuff
-      Stream stream = Application.GetResourceStream (new Uri ("pack://application:,,,/TailForWin;component/Res/Main.ico")).Stream;
-      Icon icon = new Icon (stream);
-      trayIcon = new WinTrayIcon (icon, string.Format ("{0} {1}", LogFile.APPLICATION_CAPTION, Application.Current.FindResource ("TrayIconReady")));
+      var streamResourceInfo = Application.GetResourceStream (new Uri ("pack://application:,,,/TailForWin;component/Res/Main.ico"));
+     
+      if (streamResourceInfo != null)
+      {
+        Stream stream = streamResourceInfo.Stream;
+        Icon icon = new Icon (stream);
+        trayIcon = new WinTrayIcon (icon, string.Format ("{0} {1}", LogFile.APPLICATION_CAPTION, Application.Current.FindResource ("TrayIconReady")));
+      }
 
       trayIcon.NotifyIcon.DoubleClick += DoubleClickNotifyIcon;
 
@@ -70,11 +71,11 @@ namespace TailForWin
       tailTabItems = new List<TabItem> ( );
       tabCount = 0;
 
-      tabAdd = new TabItem ( ) 
-      { 
-        Header = "+", 
-        Name = "AddChildTab", 
-        Style = (Style) FindResource ("TabItemStopStyle") 
+      tabAdd = new TabItem ( )
+      {
+        Header = "+",
+        Name = "AddChildTab",
+        Style = (Style) FindResource ("TabItemStopStyle")
       };
 
       tailTabItems.Add (tabAdd);
@@ -152,7 +153,7 @@ namespace TailForWin
 
     #region ClickEvents
 
-    private void DoubleClickNotifyIcon (object sender, EventArgs e)
+    private static void DoubleClickNotifyIcon (object sender, EventArgs e)
     {
       LogFile.BringMainWindowToFront ( );
     }
@@ -161,54 +162,57 @@ namespace TailForWin
     {
       e.Handled = true;
 
-      if (e.Source is TabControl)
-      {
-        TabItem tab = tabControlTail.SelectedItem as TabItem;
+      if (!(e.Source is TabControl)) 
+        return;
 
-        if (tab == null)
+      TabItem tab = tabControlTail.SelectedItem as TabItem;
+
+      if (tab == null)
+        return;
+
+      if (tab.Equals (tabAdd) && !ctrlTabKey)
+      {
+        TabItem newTab = AddTailTab ( );
+        tabControlTail.SelectedItem = newTab;
+      }
+      else
+      {
+        if (tab.Equals (tabAdd) && ctrlTabKey)
+        {
+          tab = tailTabItems[0];
+          tabControlTail.SelectedItem = tab;
+        }
+
+        TailLog page = GetTailLogWindow (tab.Content as Frame);
+
+        if (page == null)
           return;
 
-        if (tab.Equals (tabAdd) && !ctrlTabKey)
+        if (currentPage != null && (page.GetChildTabIndex ( ) == currentPage.GetChildTabIndex ( )))
+          return;
+
+        stsBarState.Content = page.GetChildState ( );
+        page.ActiveTab = true;
+
+        if (searchBoxWindow.Visibility == Visibility.Visible)
         {
-          TabItem newTab = AddTailTab ( );
-          tabControlTail.SelectedItem = newTab;
+          page.SearchBoxActive ( );
+          page.WrapAround (searchBoxWindow.WrapSearch);
+          FindWhatTextChangedEvent (this, EventArgs.Empty);
+          searchBoxWindow.SetTitle = page.FileManagerProperties.File;
         }
-        else
-        {
-          if (tab.Equals (tabAdd) && ctrlTabKey)
-          {
-            tab = tailTabItems[0];
-            tabControlTail.SelectedItem = tab;
-          }
 
-          TailLog page = GetTailLogWindow (tab.Content as Frame);
-
-          if (page != null)
-          {
-            if (currentPage != null && (page.GetChildTabIndex ( ) == currentPage.GetChildTabIndex ( )))
-              return;
-
-            stsBarState.Content = page.GetChildState ( );
-            page.ActiveTab = true;
-
-            if (searchBoxWindow.Visibility == System.Windows.Visibility.Visible)
-            {
-              page.SearchBoxActive ( );
-              page.WrapAround (searchBoxWindow.WrapSearch);
-              FindWhatTextChangedEvent (this, EventArgs.Empty);
-              searchBoxWindow.SetTitle = page.FileManagerProperties.File;
-            }
-
-            currentPage = page;
-            TabItemUpdateParent (page);
-          }
-        }
+        currentPage = page;
+        TabItemUpdateParent (page);
       }
     }
 
     private void btnDelete_Click (object sender, RoutedEventArgs e)
     {
-      RemoveTab ((sender as Button).CommandParameter.ToString ( ));
+      var button = sender as Button;
+
+      if (button != null)
+        RemoveTab (button.CommandParameter.ToString ( ));
     }
 
     private void cbStsEncoding_SelectionChanged (object sender, SelectionChangedEventArgs e)
@@ -265,16 +269,16 @@ namespace TailForWin
     {
       Frame frame = sender as Frame;
 
-      if (frame.Content != null)
-      {
-        TailLog page = frame.Content as TailLog;
+      if (frame == null || frame.Content == null) 
+        return;
 
-        if (page != null)
-        {
-          currentPage = page;
-          TabItemUpdateParent (page);
-        }
-      }
+      TailLog page = frame.Content as TailLog;
+
+      if (page == null) 
+        return;
+
+      currentPage = page;
+      TabItemUpdateParent (page);
     }
 
     private void HandleMainWindowKeys (object sender, KeyEventArgs e)
@@ -328,27 +332,33 @@ namespace TailForWin
         currentPage.AlwaysOnTop ( );
 
       // When pressing Control + W close tab
-      if (e.Key == Key.W && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
-      {
-        TabItem tab = tabControlTail.SelectedItem as TabItem;
+      if (e.Key != Key.W || (Keyboard.Modifiers & (ModifierKeys.Control)) != ModifierKeys.Control) 
+        return;
+
+      TabItem tab = tabControlTail.SelectedItem as TabItem;
+        
+      if (tab != null) 
         RemoveTab (tab.Name);
-      }
     }
 
     private void OpenSearchBoxWindow (object sender, EventArgs e)
     {
-      if (e.GetType ( ) == typeof (FileManagerDataEventArgs))
+      if (e.GetType() != typeof (FileManagerDataEventArgs)) 
+        return;
+
+      FileManagerDataEventArgs data = e as FileManagerDataEventArgs;
+
+      if (data != null)
       {
-        FileManagerDataEventArgs data = e as FileManagerDataEventArgs;
         FileManagerData properties = data.GetData ( );
         double xPos, yPos;
 
-        if (SettingsHelper.TailSettings.SearchWndXPos == -1)
+        if (SettingsHelper.TailSettings.SearchWndXPos == -1.0f)
           xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
         else
           xPos = SettingsHelper.TailSettings.SearchWndXPos;
 
-        if (SettingsHelper.TailSettings.SearchWndYPos == -1)
+        if (SettingsHelper.TailSettings.SearchWndYPos == -1.0f)
           yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
         else
           yPos = SettingsHelper.TailSettings.SearchWndYPos;
@@ -356,17 +366,13 @@ namespace TailForWin
         searchBoxWindow.Left = xPos;
         searchBoxWindow.Top = yPos;
         searchBoxWindow.SetTitle = properties.File;
-        searchBoxWindow.Show ( );
-
-        foreach (TabItem item in tailTabItems)
-        {
-          if (item.Content != null && item.Content.GetType ( ) == typeof (Frame))
-          {
-            TailLog page = GetTailLogWindow (item.Content as Frame);
-            page.SearchBoxActive ( );
-          }
-        }
       }
+      searchBoxWindow.Show ( );
+
+      foreach (TailLog page in (from item in tailTabItems
+                                where item.Content != null && item.Content.GetType ( ) == typeof (Frame)
+                                select GetTailLogWindow (item.Content as Frame)).Where (page => page != null))
+        page.SearchBoxActive ( );
     }
 
     private void HideSearchBoxEvent (object sender, EventArgs e)
@@ -397,39 +403,35 @@ namespace TailForWin
     {
       WrapAroundBool wrap = e as WrapAroundBool;
 
-      foreach (TabItem item in tailTabItems)
-      {
-        if (item.Content != null && item.Content.GetType ( ) == typeof (Frame))
-        {
-          TailLog page = GetTailLogWindow (item.Content as Frame);
-          page.WrapAround (wrap.Wrap);
-        }
-      }
+      foreach (TailLog page in from item in tailTabItems
+                               where item.Content != null && item.Content.GetType ( ) == typeof (Frame)
+                               select GetTailLogWindow (item.Content as Frame))
+        page.WrapAround (wrap != null && wrap.Wrap);
     }
 
     private void BookmarkLineEvent (object sender, EventArgs e)
     {
       BookmarkLineBool bookmarkLine = e as BookmarkLineBool;
 
-      foreach (TabItem item in tailTabItems)
-      {
-        if (item.Content != null && item.Content.GetType ( ) == typeof (Frame))
-        {
-          TailLog page = GetTailLogWindow (item.Content as Frame);
-          page.BookmarkLine (bookmarkLine.BookmarkLine);
-        }
-      }
+      foreach (TailLog page in from item in tailTabItems
+                               where item.Content != null && item.Content.GetType ( ) == typeof (Frame)
+                               select GetTailLogWindow (item.Content as Frame))
+        page.BookmarkLine (bookmarkLine != null && bookmarkLine.BookmarkLine);
     }
 
     #endregion
 
     #region Helperfunctions
-   
+
     public void FileManagerTab (object sender, EventArgs e)
     {
-      if (e.GetType ( ) == typeof (FileManagerDataEventArgs))
+      if (e.GetType() != typeof (FileManagerDataEventArgs)) 
+        return;
+
+      FileManagerDataEventArgs properties = e as FileManagerDataEventArgs;
+
+      if (properties != null)
       {
-        FileManagerDataEventArgs properties = e as FileManagerDataEventArgs;
         FileManagerData item = properties.GetData ( );
         TabItem newTab = AddTailTab (item);
         tabControlTail.SelectedItem = newTab;
@@ -449,19 +451,19 @@ namespace TailForWin
 
       PreviewKeyDown += HandleMainWindowKeys;
 
-      if (SettingsHelper.TailSettings.RestoreWindowSize == true)
+      if (SettingsHelper.TailSettings.RestoreWindowSize)
       {
-        if (SettingsHelper.TailSettings.WndWidth != -1)
+        if (SettingsHelper.TailSettings.WndWidth != -1.0f)
           Application.Current.MainWindow.Width = SettingsHelper.TailSettings.WndWidth;
-        if (SettingsHelper.TailSettings.WndHeight != -1)
+        if (SettingsHelper.TailSettings.WndHeight != -1.0f)
           Application.Current.MainWindow.Height = SettingsHelper.TailSettings.WndHeight;
       }
 
-      if (SettingsHelper.TailSettings.SaveWindowPosition == true)
+      if (SettingsHelper.TailSettings.SaveWindowPosition)
       {
-        if (SettingsHelper.TailSettings.WndYPos != -1)
+        if (SettingsHelper.TailSettings.WndYPos != -1.0f)
           Application.Current.MainWindow.Top = SettingsHelper.TailSettings.WndYPos;
-        if (SettingsHelper.TailSettings.WndXPos != -1)
+        if (SettingsHelper.TailSettings.WndXPos != -1.0f)
           Application.Current.MainWindow.Left = SettingsHelper.TailSettings.WndXPos;
       }
 
@@ -487,10 +489,7 @@ namespace TailForWin
     {
       TailLog tabPage = tabTemplate.Content as TailLog;
 
-      if (tabPage != null)
-        return (tabPage);
-      else
-        return (null);
+      return (tabPage != null ? (tabPage) : (null));
     }
 
     private void OnExit ()
@@ -534,25 +533,34 @@ namespace TailForWin
         tabControlTail.DataContext = null;
         int count = tailTabItems.Count;
 
-        TabItem tabItem = new TabItem ( ) 
-        { 
-          Header = LogFile.TABBAR_CHILD_EMPTY_STRING, 
-          Name = string.Format ("TabIndex_{0}", tabCount), 
-          HeaderTemplate = tabControlTail.FindResource ("TabHeader") as DataTemplate ,
+        TabItem tabItem = new TabItem ( )
+        {
+          Header = LogFile.TABBAR_CHILD_EMPTY_STRING,
+          Name = string.Format ("TabIndex_{0}", tabCount),
+          HeaderTemplate = tabControlTail.FindResource ("TabHeader") as DataTemplate,
           Style = (Style) FindResource ("TabItemStopStyle")
         };
 
         TailLog tailWindow;
 
         if (properties == null)
-          tailWindow = new TailLog (tabCount, tabItem) { ActiveTab = true };
+          tailWindow = new TailLog (tabCount, tabItem)
+          {
+            ActiveTab = true
+          };
         else
-          tailWindow = new TailLog (tabCount, tabItem, properties) { ActiveTab = true };
+          tailWindow = new TailLog (tabCount, tabItem, properties)
+          {
+            ActiveTab = true
+          };
 
         tailWindow.FileManagerDoOpenTab += FileManagerTab;
         tailWindow.ButtonSearchBox += OpenSearchBoxWindow;
 
-        Frame tabFrame = new Frame ( ) { Content = tailWindow };
+        Frame tabFrame = new Frame ( )
+        {
+          Content = tailWindow
+        };
         tabFrame.ContentRendered += OnContentRendered;
         tabItem.Content = tabFrame;
 
@@ -563,69 +571,62 @@ namespace TailForWin
         tabControlTail.DataContext = tailTabItems;
         tabCount++;
 
-        if (searchBoxWindow.Visibility == System.Windows.Visibility.Visible)
-        {
-          tailWindow.SearchBoxActive ( );
-          tailWindow.WrapAround (searchBoxWindow.WrapSearch);
-        }
-        
-        return (tabItem);
-      } 
-      else
-      {
-        MessageBox.Show (Application.Current.FindResource ("HCloseTab") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+        if (searchBoxWindow.Visibility != Visibility.Visible) 
+          return (tabItem);
 
-        return (tailTabItems[tailTabItems.Count - 2]);
+        tailWindow.SearchBoxActive ( );
+        tailWindow.WrapAround (searchBoxWindow.WrapSearch);
+
+        return (tabItem);
       }
+
+      MessageBox.Show (Application.Current.FindResource ("HCloseTab") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+
+      return (tailTabItems[tailTabItems.Count - 2]);
     }
 
     private void SetTabNotActive (TailLog activePage)
     {
-      foreach (TabItem item in tailTabItems)
-      {
-        if (item.Content != null && item.Content.GetType ( ) == typeof (Frame))
-        {
-          TailLog page = GetTailLogWindow (item.Content as Frame);
-
-          if (page.GetChildTabIndex ( ) != activePage.GetChildTabIndex ( ))
-            page.ActiveTab = false;
-        }
-      }
+      foreach (
+        TailLog page in
+          tailTabItems.Where (item => item.Content != null && item.Content.GetType ( ) == typeof (Frame))
+            .Select (item => GetTailLogWindow (item.Content as Frame))
+            .Where (page => page.GetChildTabIndex ( ) != activePage.GetChildTabIndex ( )))
+        page.ActiveTab = false;
     }
 
     private void RemoveTab (string tabName)
     {
-      TabItem tab = tabControlTail.Items.Cast<TabItem> ( ).Where (i => i.Name.Equals (tabName)).SingleOrDefault ( );
+      TabItem tab = tabControlTail.Items.Cast<TabItem> ( ).SingleOrDefault (i => i.Name.Equals (tabName));
 
-      if (tab != null)
+      if (tab == null) 
+        return;
+      if (tailTabItems.Count < 3)
+        MessageBox.Show (Application.Current.FindResource ("LastTab") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+      else if (MessageBox.Show (string.Format ("{0} '{1}'?", Application.Current.FindResource ("QRemoveTab"), tab.Header), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
       {
-        if (tailTabItems.Count < 3)
-          MessageBox.Show (Application.Current.FindResource ("LastTab") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
-        else if (MessageBox.Show (string.Format ("{0} '{1}'?", Application.Current.FindResource ("QRemoveTab"), tab.Header), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-        {
-          TabItem selectedTab = tabControlTail.SelectedItem as TabItem;
-                    
-          tabControlTail.DataContext = null;
+        TabItem selectedTab = tabControlTail.SelectedItem as TabItem;
 
-          tailTabItems.Remove (tab);
+        tabControlTail.DataContext = null;
 
-          tabControlTail.DataContext = tailTabItems;
+        tailTabItems.Remove (tab);
 
-          TailLog page = GetTailLogWindow (tab.Content as Frame);
-          FileManagerHelper item = LogFile.FMHelper.Where (x => x.ID == page.FileManagerProperties.ID).SingleOrDefault ( );
+        tabControlTail.DataContext = tailTabItems;
 
-          if (item != null)
-            LogFile.FMHelper.Remove (item);
+        TailLog page = GetTailLogWindow (tab.Content as Frame);
+        FileManagerHelper item = LogFile.FMHelper.SingleOrDefault (x => x.ID == page.FileManagerProperties.ID);
 
-          if (page != null)
-            page.StopThread ( );
+        if (item != null)
+          LogFile.FMHelper.Remove (item);
 
-          // select previously selected tab. if that is removed then select first tab
-          if (selectedTab == null || selectedTab.Equals (tab))
-            selectedTab = tailTabItems[0];
+        if (page != null)
+          page.StopThread ( );
 
-          tabControlTail.SelectedItem = selectedTab;
-        }
+        // select previously selected tab. if that is removed then select first tab
+        if (selectedTab == null || selectedTab.Equals (tab))
+          selectedTab = tailTabItems[0];
+
+        tabControlTail.SelectedItem = selectedTab;
       }
     }
 
