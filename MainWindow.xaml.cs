@@ -71,7 +71,7 @@ namespace TailForWin
       tailTabItems = new List<TabItem> ( );
       tabCount = 0;
 
-      tabAdd = new TabItem ( )
+      tabAdd = new TabItem
       {
         Header = "+",
         Name = "AddChildTab",
@@ -533,7 +533,7 @@ namespace TailForWin
         tabControlTail.DataContext = null;
         int count = tailTabItems.Count;
 
-        TabItem tabItem = new TabItem ( )
+        TabItem tabItem = new TabItem
         {
           Header = LogFile.TABBAR_CHILD_EMPTY_STRING,
           Name = string.Format ("TabIndex_{0}", tabCount),
@@ -557,7 +557,7 @@ namespace TailForWin
         tailWindow.FileManagerDoOpenTab += FileManagerTab;
         tailWindow.ButtonSearchBox += OpenSearchBoxWindow;
 
-        Frame tabFrame = new Frame ( )
+        Frame tabFrame = new Frame
         {
           Content = tailWindow
         };
