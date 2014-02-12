@@ -39,12 +39,14 @@ namespace TailForWin
         trayIcon = null;
       }
 
-      foreach (
-        TailLog page in
-          tailTabItems.Where (item => item.Content != null && item.Content.GetType ( ) == typeof (Frame))
-            .Select (item => GetTailLogWindow (item.Content as Frame))
-            .Where (page => page != null))
+      foreach (TailLog page in tailTabItems.Where (item => item.Content != null && item.Content.GetType ( ) == typeof (Frame)).Select (item => GetTailLogWindow (item.Content as Frame)).Where (page => page != null))
         page.StopThread ( );
+
+      if (currentPage == null)
+        return;
+
+      currentPage.Dispose ( );
+      currentPage = null;
     }
 
     public MainWindow ()
@@ -485,7 +487,7 @@ namespace TailForWin
       page.UpdateCheckBoxOnTopOnWindowTopmost (Topmost);
     }
 
-    private TailLog GetTailLogWindow (Frame tabTemplate)
+    private static TailLog GetTailLogWindow (Frame tabTemplate)
     {
       TailLog tabPage = tabTemplate.Content as TailLog;
 

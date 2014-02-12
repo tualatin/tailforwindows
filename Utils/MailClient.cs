@@ -33,11 +33,11 @@ namespace TailForWin.Utils
         mailMessage = null;
       }
 
-      if (emailTimer != null)
-      {
-        emailTimer.Dispose ( );
-        emailTimer = null;
-      }
+      if (emailTimer == null)
+        return;
+
+      emailTimer.Dispose ( );
+      emailTimer = null;
     }
 
     /// <summary>
