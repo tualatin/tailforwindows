@@ -54,7 +54,7 @@
         <ControlTemplate TargetType="TabItem">
           <Grid>
             <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="3,3,0,0" Margin="1,0">
-              <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="8,2" />
+              <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="8,2" TextBlock.FontWeight="Bold" />
             </Border>
           </Grid>
           <ControlTemplate.Triggers>
@@ -73,12 +73,12 @@
               </MultiTrigger.Conditions>
               <Setter TargetName="Border" Property="Background" Value="#D6EEFC" />
               <Setter Property="Foreground" Value="Green" />
-            </MultiTrigger>
+              </MultiTrigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
-  </Style>
+  </Style>  
 
   <Style TargetType="TabItem" x:Key="TabItemStopStyle">
     <Setter Property="Template">
@@ -86,7 +86,7 @@
         <ControlTemplate TargetType="TabItem">
           <Grid>
             <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="3,3,0,0" Margin="1,0">
-              <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="8,2"/>
+              <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="8,2" TextBlock.FontWeight="Normal" />
             </Border>
           </Grid>
           <ControlTemplate.Triggers>

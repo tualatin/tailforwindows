@@ -27,6 +27,7 @@ v0.9.
 * add "Search Bookmarks" in find box
 * add contextmenu for Bookmark lines to remove all Bookmarks
 * bug fix find what window title
+* bug fix in FileManager
 
 v0.9.5099.x
 * add shortcut Ctrl+Alt+M minimize main window

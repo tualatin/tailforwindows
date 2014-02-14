@@ -103,6 +103,9 @@ namespace TailForWin.Template
 
     private void btnOK_Click (object sender, RoutedEventArgs e)
     {
+      if (fmWorkingProperties == null)
+        return;
+
       if (fmWorkingProperties.NewWindow == true)
       {
         Process newWindow = new Process ( );
