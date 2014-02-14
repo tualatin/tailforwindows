@@ -34,9 +34,7 @@ namespace TailForWin.Utils
       }
       catch (Exception ex)
       {
-#if DEBUG
-        ErrorLog.WriteLog (ErrorFlags.Debug, "WinTrayIcon Constructor", string.Format ("Exception: {0}", ex));
-#endif
+        ErrorLog.WriteLog (ErrorFlags.Error, "WinTrayIcon Constructor", string.Format ("Exception: {0}", ex));
       }
     }
 

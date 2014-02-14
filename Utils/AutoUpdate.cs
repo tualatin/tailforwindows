@@ -51,7 +51,7 @@ namespace TailForWin.Utils
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "AutoUpdate", string.Format ("TimerEvent, exception: {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, "AutoUpdate", string.Format ("{1} exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 
@@ -100,7 +100,7 @@ namespace TailForWin.Utils
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "AutoUpdate", string.Format ("UpdateCompleteEvent, exception: {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, "AutoUpdate", string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
   }

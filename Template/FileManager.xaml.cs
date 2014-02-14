@@ -87,7 +87,7 @@ namespace TailForWin.Template
     private void btnFont_Click (object sender, RoutedEventArgs e)
     {
       System.Drawing.Font textFont = fmWorkingProperties.FontType;
-      System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog ( ) { ShowEffects = false, Font = textFont, FontMustExist = true };
+      System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog { ShowEffects = false, Font = textFont, FontMustExist = true };
 
       if (fontManager.ShowDialog ( ) != System.Windows.Forms.DialogResult.Cancel)
       {
@@ -303,11 +303,11 @@ namespace TailForWin.Template
 
     private void Window_Closing (object sender, System.ComponentModel.CancelEventArgs e)
     {
-      if (dataGridFiles.IsEnabled == false)
-      {
-        MessageBox.Show (Application.Current.FindResource ("FileManagerCloseUnsaveItem").ToString ( ), LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
-        e.Cancel = true;
-      }
+      if (dataGridFiles.IsEnabled != false)
+        return;
+
+      MessageBox.Show (Application.Current.FindResource ("FileManagerCloseUnsaveItem").ToString ( ), LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+      e.Cancel = true;
     }
 
     private void comboBoxCategory_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -401,9 +401,7 @@ namespace TailForWin.Template
       }
       catch (Exception ex)
       {
-#if DEBUG
-        ErrorLog.WriteLog (ErrorFlags.Error, "FileManager", string.Format ("Drop exception: {0}", ex));
-#endif
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 
@@ -432,37 +430,37 @@ namespace TailForWin.Template
 
     private void AddNewFile (string fileName)
     {
-      if (!string.IsNullOrEmpty (fileName))
+      if (string.IsNullOrEmpty (fileName))
+        return;
+
+      fmState = SettingsData.EFileManagerState.AddFile;
+
+      fmWorkingProperties = new FileManagerData ( )
       {
-        fmState = SettingsData.EFileManagerState.AddFile;
+        Category = string.Empty,
+        Description = string.Empty,
+        FileName = fileName,
+        ID = ++fmDoc.LastFileId,
+        RefreshRate = fmProperties.RefreshRate,
+        ThreadPriority = fmProperties.ThreadPriority,
+        KillSpace = false,
+        Timestamp = false,
+        NewWindow = false,
+        FontType = fmProperties.FontType,
+        Wrap = false
+      };
 
-        fmWorkingProperties = new FileManagerData ( )
-        {
-          Category = string.Empty,
-          Description = string.Empty,
-          FileName = fileName,
-          ID = ++fmDoc.LastFileId,
-          RefreshRate = fmProperties.RefreshRate,
-          ThreadPriority = fmProperties.ThreadPriority,
-          KillSpace = false,
-          Timestamp = false,
-          NewWindow = false,
-          FontType = fmProperties.FontType,
-          Wrap = false
-        };
+      fmWorkingProperties.ListOfFilter.Clear ( );
 
-        fmWorkingProperties.ListOfFilter.Clear ( );
+      fmDoc.FMProperties.Add (fmWorkingProperties);
+      // dataGridFiles.Items.Refresh ( );
+      SelectLastItemInDataGrid ( );
 
-        fmDoc.FMProperties.Add (fmWorkingProperties);
-        // dataGridFiles.Items.Refresh ( );
-        SelectLastItemInDataGrid ( );
-
-        comboBoxCategory.SelectedIndex = 0;
-        SetAddSaveButton (false);
-      }
+      comboBoxCategory.SelectedIndex = 0;
+      SetAddSaveButton (false);
     }
 
-    private System.Windows.Controls.DataGridCell GetDataGridCell (System.Windows.Controls.DataGridCellInfo cellInfo)
+    private static System.Windows.Controls.DataGridCell GetDataGridCell (System.Windows.Controls.DataGridCellInfo cellInfo)
     {
       var cellContent = cellInfo.Column.GetCellContent (cellInfo.Item);
 
@@ -490,11 +488,11 @@ namespace TailForWin.Template
       if (!isInit)
         return;
 
-      if (fmState == SettingsData.EFileManagerState.OpenFileManager && fmMemento != null && fmWorkingProperties != null && !fmWorkingProperties.EqualsProperties (fmMemento))
-      {
-        fmState = SettingsData.EFileManagerState.EditItem;
-        SetAddSaveButton (false);
-      }
+      if (fmState != SettingsData.EFileManagerState.OpenFileManager || fmMemento == null || fmWorkingProperties == null || fmWorkingProperties.EqualsProperties (fmMemento))
+        return;
+
+      fmState = SettingsData.EFileManagerState.EditItem;
+      SetAddSaveButton (false);
     }
 
     private void RefreshCategoryComboBox ()
@@ -516,11 +514,11 @@ namespace TailForWin.Template
 
     private void SelectLastItemInDataGrid ()
     {
-      if (dataGridFiles.Items.Count > 0)
-      {
-        dataGridFiles.SelectedItem = fmDoc.FMProperties[fmDoc.FMProperties.Count - 1];
-        dataGridFiles.ScrollIntoView (fmDoc.FMProperties[fmDoc.FMProperties.Count - 1]);
-      }
+      if (dataGridFiles.Items.Count <= 0)
+        return;
+
+      dataGridFiles.SelectedItem = fmDoc.FMProperties[fmDoc.FMProperties.Count - 1];
+      dataGridFiles.ScrollIntoView (fmDoc.FMProperties[fmDoc.FMProperties.Count - 1]);
     }
 
     private void SetSelectedComboBoxItem (string category, System.Threading.ThreadPriority tp, SettingsData.ETailRefreshRate rr, Encoding fe)
@@ -541,13 +539,12 @@ namespace TailForWin.Template
 
       if (LogFile.FMHelper.Count > 0)
       {
-        foreach (FileManagerData item in fmDoc.FMProperties)
-        {
-          FileManagerHelper f = LogFile.FMHelper.Where (x => x.ID == item.ID).SingleOrDefault ( );
-
-          if (f != null)
-            item.OpenFromFileManager = f.OpenFromFileManager;
-        }
+        fmDoc.FMProperties.ForEach (item =>
+          {
+            FileManagerHelper f = LogFile.FMHelper.Where (x => x.ID == item.ID).SingleOrDefault ( );
+            if (f != null)
+              item.OpenFromFileManager = f.OpenFromFileManager;
+          });
       }
 
       dataGridFiles.DataContext = fmDoc.FMProperties;

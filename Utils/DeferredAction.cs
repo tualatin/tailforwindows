@@ -52,11 +52,11 @@ namespace TailForWin.Utils
 
     public void Dispose ()
     {
-      if (timer != null)
-      {
-        timer.Dispose ( );
-        timer = null;
-      }
+      if (timer == null)
+        return;
+
+      timer.Dispose ( );
+      timer = null;
     }
 
     #endregion

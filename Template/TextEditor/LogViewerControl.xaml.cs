@@ -33,14 +33,14 @@ namespace TailForWin.Template.TextEditor
     public event EventHandler Alert;
 
     #endregion
-    
+
     private bool leftMouseButtonDown;
     private bool rightMouseButtonDown;
     private bool wordSelection;
     private bool mouseMove;
     private bool selectMouseItems;
     private Point oldMousePosition;
-    private DeferredAction deferredOnMouseMove = null;
+    private readonly DeferredAction deferredOnMouseMove;
     private readonly TimeSpan onMouseMoveDelay = TimeSpan.FromMilliseconds (200.0);
     private ScrollViewer logViewScrollViewer;
     private bool newSearch;
@@ -63,7 +63,7 @@ namespace TailForWin.Template.TextEditor
     /// <summary>
     /// Collection of found items
     /// </summary>
-    private List<LogEntry> foundItems;
+    private readonly List<LogEntry> foundItems;
 
     /// <summary>
     /// Collection of words what we want to find
@@ -73,7 +73,7 @@ namespace TailForWin.Template.TextEditor
     /// <summary>
     /// CollectionViewSource to filter data, grouping etc.
     /// </summary>
-    private CollectionViewSource collectionViewSource;
+    private readonly CollectionViewSource collectionViewSource;
 
 
     public LogViewerControl ()
@@ -91,7 +91,7 @@ namespace TailForWin.Template.TextEditor
       LogViewer.SelectionChanged += LogViewer_SelectionChanged;
 
       LogEntries = new ObservableCollection<LogEntry> ( );
-      collectionViewSource = new CollectionViewSource ( ) { Source = LogEntries };
+      collectionViewSource = new CollectionViewSource { Source = LogEntries };
       collectionViewSource.Filter += CollectionViewSourceFilter;
       LogViewer.DataContext = collectionViewSource;
       filters = new ObservableCollection<FilterData> ( );
@@ -135,7 +135,7 @@ namespace TailForWin.Template.TextEditor
       }
     }
 
-    public static readonly DependencyProperty LineNumbersBackgroundColorProperty = DependencyProperty.Register ("LineNumbersBackgroundColor", typeof (Brush), typeof (LogViewerControl), 
+    public static readonly DependencyProperty LineNumbersBackgroundColorProperty = DependencyProperty.Register ("LineNumbersBackgroundColor", typeof (Brush), typeof (LogViewerControl),
                               new PropertyMetadata (Brushes.LightGray));
 
     [Category ("TextEditor")]
@@ -151,7 +151,7 @@ namespace TailForWin.Template.TextEditor
       }
     }
 
-    public static readonly DependencyProperty WordWrappingProperty = DependencyProperty.Register ("WordWrapping", typeof (bool), typeof (LogViewerControl), 
+    public static readonly DependencyProperty WordWrappingProperty = DependencyProperty.Register ("WordWrapping", typeof (bool), typeof (LogViewerControl),
                               new PropertyMetadata (false));
 
     [Category ("TextEditor")]
@@ -161,13 +161,13 @@ namespace TailForWin.Template.TextEditor
       {
         return ((bool) GetValue (WordWrappingProperty));
       }
-      set 
+      set
       {
         SetValue (WordWrappingProperty, value);
       }
     }
 
-    public static readonly DependencyProperty VerticalScrollBarVisibleProperty = DependencyProperty.Register ("VerticalScrollBarVisible", typeof (ScrollBarVisibility), typeof (LogViewerControl), 
+    public static readonly DependencyProperty VerticalScrollBarVisibleProperty = DependencyProperty.Register ("VerticalScrollBarVisible", typeof (ScrollBarVisibility), typeof (LogViewerControl),
                               new PropertyMetadata (ScrollBarVisibility.Auto));
 
     [Category ("TextEditor")]
@@ -183,11 +183,11 @@ namespace TailForWin.Template.TextEditor
       }
     }
 
-    public static readonly DependencyProperty TextEditorBackGroundColorProperty = DependencyProperty.Register ("TextEditorBackgroundColor", typeof (Brush), typeof (LogViewerControl), 
+    public static readonly DependencyProperty TextEditorBackGroundColorProperty = DependencyProperty.Register ("TextEditorBackgroundColor", typeof (Brush), typeof (LogViewerControl),
                               new PropertyMetadata (Brushes.White));
 
     [Category ("TextEditor")]
-    public Brush TextEditorBackgroundColor 
+    public Brush TextEditorBackgroundColor
     {
       get
       {
@@ -199,7 +199,7 @@ namespace TailForWin.Template.TextEditor
       }
     }
 
-    public static readonly DependencyProperty TextEditorForegroundColorProperty = DependencyProperty.Register ("TextEditorForegroundColor", typeof (Brush), typeof (LogViewerControl), 
+    public static readonly DependencyProperty TextEditorForegroundColorProperty = DependencyProperty.Register ("TextEditorForegroundColor", typeof (Brush), typeof (LogViewerControl),
                               new PropertyMetadata (Brushes.Black));
 
     [Category ("TextEditor")]
@@ -215,7 +215,7 @@ namespace TailForWin.Template.TextEditor
       }
     }
 
-    public static readonly DependencyProperty ShowDateTimeProperty = DependencyProperty.Register ("ShowDateTime", typeof (bool), typeof (LogViewerControl), 
+    public static readonly DependencyProperty ShowDateTimeProperty = DependencyProperty.Register ("ShowDateTime", typeof (bool), typeof (LogViewerControl),
                               new PropertyMetadata (false, OnDataTemplateChanged));
 
     [Category ("TextEditor")]
@@ -263,7 +263,7 @@ namespace TailForWin.Template.TextEditor
       }
     }
 
-    public static readonly DependencyProperty TextEditorFontWeightProperty = DependencyProperty.Register ("TextEditorFontWeight", typeof (FontWeight), typeof (LogViewerControl), 
+    public static readonly DependencyProperty TextEditorFontWeightProperty = DependencyProperty.Register ("TextEditorFontWeight", typeof (FontWeight), typeof (LogViewerControl),
                               new PropertyMetadata (FontWeights.Normal));
 
     [Category ("TextEditor")]
@@ -295,7 +295,7 @@ namespace TailForWin.Template.TextEditor
       }
     }
 
-    public static readonly DependencyProperty TextEditorSelectionColorProperty = DependencyProperty.Register ("TextEditorSelectionColor", typeof (Color), 
+    public static readonly DependencyProperty TextEditorSelectionColorProperty = DependencyProperty.Register ("TextEditorSelectionColor", typeof (Color),
                               typeof (LogViewerControl), new PropertyMetadata (Colors.Blue));
 
     [Category ("TextEditor")]
@@ -363,9 +363,9 @@ namespace TailForWin.Template.TextEditor
     /// All log entries
     /// </summary>
     public ObservableCollection<LogEntry> LogEntries
-    { 
-      get; 
-      set; 
+    {
+      get;
+      set;
     }
 
     private static readonly DependencyProperty AddDateTimeProperty = DependencyProperty.Register ("AddDateTime", typeof (bool), typeof (LogViewerControl),
@@ -471,7 +471,7 @@ namespace TailForWin.Template.TextEditor
         Message = logText,
         DateTime = DateTime.Now
       };
-      
+
       Dispatcher.BeginInvoke ((Action) (() => LogEntries.Add (entry)));
 
       if (AlwaysScrollIntoView)
@@ -540,7 +540,7 @@ namespace TailForWin.Template.TextEditor
     /// <summary>
     /// Clears all items
     /// </summary>
-    public void Clear ( )
+    public void Clear ()
     {
       index = 0;
       LogEntries.Clear ( );
@@ -604,7 +604,7 @@ namespace TailForWin.Template.TextEditor
 
     #region PropertyCallback functions
 
-    private static void OnDataTemplateChanged (DependencyObject sender, DependencyPropertyChangedEventArgs e) 
+    private static void OnDataTemplateChanged (DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
       if (sender.GetType ( ) == typeof (LogViewerControl))
       {
@@ -706,7 +706,7 @@ namespace TailForWin.Template.TextEditor
       }
       catch (Exception ex)
       {
-        TailForWin.Utils.ErrorLog.WriteLog (TailForWin.Utils.ErrorFlags.Error, "LogViewerControl", string.Format ("{0}", ex));
+        TailForWin.Utils.ErrorLog.WriteLog (TailForWin.Utils.ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
       }
 
 #if DEBUG
@@ -873,7 +873,7 @@ namespace TailForWin.Template.TextEditor
               MenuItem menuItem = new MenuItem ( )
               {
                 Header = "Delete all Bookmarks",
-                Icon = new Image ( )
+                Icon = new Image
                 {
                   Source = icon
                 }
@@ -941,8 +941,8 @@ namespace TailForWin.Template.TextEditor
     #endregion
 
     #region Searching
-    
-    private void FindNextSearchItem ( )
+
+    private void FindNextSearchItem ()
     {
       int start = -1;
       int end = (int) Math.Round (logViewScrollViewer.ViewportHeight);
@@ -952,7 +952,7 @@ namespace TailForWin.Template.TextEditor
         start = (int) Math.Round (logViewScrollViewer.VerticalOffset) + 1;
       else
         start = NextSearch.Index;
-      
+
       // I.)
       // Look into visible items and highlight first hit
       if (ScrollIntoVisibleSearchText (start, end, out stop))
@@ -960,16 +960,16 @@ namespace TailForWin.Template.TextEditor
 
       // II.)
       // Look into hidden items and highlight first hit
-      if (!ScrollIntoHiddenSearchText (stop))
-      {
-        if (WrapAround)
-        {
-          logViewScrollViewer.ScrollToHome ( );
-          HightlightText (FindMessageTextBox (NextSearch));
-          NextSearch = null;
-          ScrollIntoHiddenSearchText (0);
-        }
-      }
+      if (ScrollIntoHiddenSearchText (stop))
+        return;
+
+      if (!WrapAround)
+        return;
+
+      logViewScrollViewer.ScrollToHome ( );
+      HightlightText (FindMessageTextBox (NextSearch));
+      NextSearch = null;
+      ScrollIntoHiddenSearchText (0);
     }
 
     private bool ScrollIntoVisibleSearchText (int start, int end, out int stop)
@@ -981,19 +981,19 @@ namespace TailForWin.Template.TextEditor
       {
         foreach (LogEntry item in foundItems)
         {
-          if (item.Index == i)
+          if (item.Index != i)
+            continue;
+
+          if (NextSearch != null && item.Index == NextSearch.Index)
           {
-            if (NextSearch != null && item.Index == NextSearch.Index)
-            {
-              stop = i;
-              continue;
-            }
-
-            HightlightText (FindMessageTextBox (NextSearch));
-            NextSearch = item;
-
-            return (true);
+            stop = i;
+            continue;
           }
+
+          HightlightText (FindMessageTextBox (NextSearch));
+          NextSearch = item;
+
+          return (true);
         }
 
         counter++;
@@ -1010,16 +1010,16 @@ namespace TailForWin.Template.TextEditor
       {
         foreach (LogEntry item in foundItems)
         {
-          if (item.Index == i)
-          {
-            if (NextSearch != null && item.Index == NextSearch.Index)
-              continue;
+          if (item.Index != i)
+            continue;
 
-            HightlightText (FindMessageTextBox (NextSearch));
-            NextSearch = item;
-            
-            return (true);
-          }
+          if (NextSearch != null && item.Index == NextSearch.Index)
+            continue;
+
+          HightlightText (FindMessageTextBox (NextSearch));
+          NextSearch = item;
+
+          return (true);
         }
       }
       return (false);
@@ -1038,25 +1038,25 @@ namespace TailForWin.Template.TextEditor
 
           foreach (var sub in substrings)
           {
-            if (regSearch.Match (sub).Success)
+            if (!regSearch.Match (sub).Success)
+              continue;
+
+            if (BookmarkLine)
             {
-              if (BookmarkLine)
-              {
-                System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage ( );
-                bp.BeginInit ( );
-                bp.UriSource = new Uri ("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
-                bp.EndInit ( );
+              System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage ( );
+              bp.BeginInit ( );
+              bp.UriSource = new Uri ("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
+              bp.EndInit ( );
 
-                item.BookmarkPoint = bp;
-              }
-
-              foundItems.Add (item);
-
-              if (count)
-                newSearch = true;
-              else
-                newSearch = false;
+              item.BookmarkPoint = bp;
             }
+
+            foundItems.Add (item);
+
+            if (count)
+              newSearch = true;
+            else
+              newSearch = false;
           }
         }
 
@@ -1069,20 +1069,20 @@ namespace TailForWin.Template.TextEditor
 
         foreach (LogEntry item in LogEntries)
         {
-          if (item.BookmarkPoint != null)
-          {
-            foundItems.Add (item);
+          if (item.BookmarkPoint == null)
+            continue;
 
-            if (count)
-              newSearch = true;
-            else
-              newSearch = false;
-          }
+          foundItems.Add (item);
+
+          if (count)
+            newSearch = true;
+          else
+            newSearch = false;
         }
       }
     }
 
-    private void HighlightAllMatches ( )
+    private void HighlightAllMatches ()
     {
       if (foundItems.Count != 0)
       {
@@ -1100,10 +1100,7 @@ namespace TailForWin.Template.TextEditor
     {
       if (foundItems.Count != 0)
       {
-        foreach (LogEntry item in foundItems)
-        {
-          RemoveHightlightText (FindMessageTextBox (item));
-        }
+        foundItems.ForEach (item => RemoveHightlightText (FindMessageTextBox (item)));
       }
     }
 
@@ -1126,39 +1123,34 @@ namespace TailForWin.Template.TextEditor
 
     private void HightlightText (TextBlock tb)
     {
-      if (tb != null)
+      if (tb == null)
+        return;
+
+      Regex regex = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
+
+      if (SearchText.Length == 0)
       {
-        Regex regex = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
-
-        if (SearchText.Length == 0)
-        {
-          string str = tb.Text;
-          tb.Inlines.Clear ( );
-          tb.Inlines.Add (str);
-          return;
-        }
-
-        string[] substrings = regex.Split (tb.Text);
+        string str = tb.Text;
         tb.Inlines.Clear ( );
+        tb.Inlines.Add (str);
+        return;
+      }
 
-        foreach (var item in substrings)
+      string[] substrings = regex.Split (tb.Text);
+      tb.Inlines.Clear ( );
+
+      Array.ForEach (substrings, item =>
         {
           if (regex.Match (item).Success)
           {
             Brush searchHighlightOpacity = TextEditorSearchHighlightBackground.Clone ( );
             searchHighlightOpacity.Opacity = 0.5;
-
-            Run runx = new Run (item)
-            {
-              Background = searchHighlightOpacity,
-              Foreground = TextEditorSearchHighlightForeground
-            };
+            Run runx = new Run (item) { Background = searchHighlightOpacity, Foreground = TextEditorSearchHighlightForeground };
             tb.Inlines.Add (runx);
           }
           else
             tb.Inlines.Add (item);
-        }
-      }
+        });
     }
 
     private void RemoveHightlightText (TextBlock tb)
@@ -1178,10 +1170,7 @@ namespace TailForWin.Template.TextEditor
         string[] substrings = regex.Split (tb.Text);
         tb.Inlines.Clear ( );
 
-        foreach (var item in substrings)
-        {
-          tb.Inlines.Add (item);
-        }
+        Array.ForEach (substrings, tb.Inlines.Add);
         return;
       }
     }
@@ -1190,35 +1179,31 @@ namespace TailForWin.Template.TextEditor
     {
       if (tb != null)
       {
-        if (!SearchBookmark)
+        if (SearchBookmark)
+          return;
+
+        Regex regex = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
+
+        if (SearchText.Length == 0)
         {
-          Regex regex = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
-
-          if (SearchText.Length == 0)
-          {
-            string str = tb.Text;
-            tb.Inlines.Clear ( );
-            tb.Inlines.Add (str);
-          }
-
-          string[] substrings = regex.Split (tb.Text);
+          string str = tb.Text;
           tb.Inlines.Clear ( );
+          tb.Inlines.Add (str);
+        }
 
-          foreach (var item in substrings)
+        string[] substrings = regex.Split (tb.Text);
+        tb.Inlines.Clear ( );
+
+        Array.ForEach (substrings, item =>
           {
             if (regex.Match (item).Success)
             {
-              Run runx = new Run (item)
-              {
-                Background = TextEditorSearchHighlightBackground,
-                Foreground = TextEditorSearchHighlightForeground
-              };
+              Run runx = new Run (item) { Background = TextEditorSearchHighlightBackground, Foreground = TextEditorSearchHighlightForeground };
               tb.Inlines.Add (runx);
             }
             else
               tb.Inlines.Add (item);
-          }
-        }
+          });
       }
     }
 
@@ -1247,11 +1232,12 @@ namespace TailForWin.Template.TextEditor
         s.Height = textSize.Height;
 
       // very strange behaviour! when image is shown, no correction is needed, otherwise it is needed??? WTF!
-      if (item.BookmarkPoint == null)
-      {
-        relativePoint.X = relativePoint.X - (s.Width / 2);
-        relativePoint.Y = relativePoint.Y - (s.Height / 2);
-      }
+      if (item.BookmarkPoint != null)
+        return (new System.Drawing.Rectangle ((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height));
+
+      relativePoint.X = relativePoint.X - (s.Width / 2);
+      relativePoint.Y = relativePoint.Y - (s.Height / 2);
+
       return (new System.Drawing.Rectangle ((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height));
     }
 
@@ -1273,18 +1259,18 @@ namespace TailForWin.Template.TextEditor
         Regex regSearch = new Regex (string.Format ("({0})", pair.Filter), RegexOptions.IgnoreCase);
         string[] substrings = regSearch.Split (newItem.Message);
 
-        foreach (var sub in substrings)
-        {
-          if (regSearch.Match (sub).Success)
+        Array.ForEach (substrings, sub =>
           {
-            AlertTriggerEventArgs triggerData = new AlertTriggerEventArgs (newItem);
+            if (regSearch.Match (sub).Success)
+            {
+              AlertTriggerEventArgs triggerData = new AlertTriggerEventArgs (newItem);
 
-            if (Alert != null)
-              Alert (this, triggerData);
+              if (Alert != null)
+                Alert (this, triggerData);
 
-            success = true;
-          }
-        }
+              success = true;
+            }
+          });
       }
       return (success);
     }
@@ -1313,15 +1299,15 @@ namespace TailForWin.Template.TextEditor
       }
     }
 
-    private Size GetSizeFromText (TextBlock target)
+    private static Size GetSizeFromText (TextBlock target)
     {
-      FormattedText txtSize = new FormattedText (target.Text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, 
+      FormattedText txtSize = new FormattedText (target.Text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
         new Typeface (target.FontFamily, target.FontStyle, target.FontWeight, target.FontStretch), target.FontSize, Brushes.Black);
 
       return (new Size (txtSize.Width, txtSize.Height));
     }
 
-    private childItem FindVisualChild<childItem> (DependencyObject obj)
+    private static childItem FindVisualChild<childItem> (DependencyObject obj)
         where childItem: DependencyObject
     {
       if (obj != null)

@@ -21,11 +21,11 @@ namespace TailForWin.Utils
         fs = null;
       }
 
-      if (reader != null)
-      {
-        reader.Dispose ( );
-        reader = null;
-      }
+      if (reader == null)
+        return;
+
+      reader.Dispose ( );
+      reader = null;
     }
 
     /// <summary>
@@ -53,7 +53,7 @@ namespace TailForWin.Utils
       }
       catch (Exception ex)
       {
-        Debug.WriteLine (ex);
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
         Dispose ( );
       }
       return (false);
@@ -86,7 +86,7 @@ namespace TailForWin.Utils
     /// </summary>
     /// <param name="fileName">Name of file</param>
     /// <returns>If exist true otherwise false</returns>
-    public bool FileExists (string fileName)
+    public static bool FileExists (string fileName)
     {
       if (File.Exists (fileName))
         return (true);

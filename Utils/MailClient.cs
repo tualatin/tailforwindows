@@ -93,7 +93,7 @@ namespace TailForWin.Utils
       catch (Exception ex)
       {
         MessageBox.Show (Application.Current.FindResource ("SmtpSettingsNotValid").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-        ErrorLog.WriteLog (ErrorFlags.Error, "MailClient", string.Format ("InitClient exception: {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 
@@ -119,7 +119,7 @@ namespace TailForWin.Utils
       catch (Exception ex)
       {
         MessageBox.Show (Application.Current.FindResource ("MailCannotSend").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-        ErrorLog.WriteLog (ErrorFlags.Error, "MailClient", string.Format ("SendMail exception: {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 
@@ -167,7 +167,7 @@ namespace TailForWin.Utils
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "MailClient", string.Format ("EMailTimerEvent, exception: {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
   }

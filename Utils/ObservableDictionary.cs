@@ -121,11 +121,11 @@ namespace TailForWin.Utils
 
     public void Clear ()
     {
-      if (Dictionary.Count > 0)
-      {
-        Dictionary.Clear ( );
-        OnCollectionChanged ( );
-      }
+      if (Dictionary.Count <= 0)
+        return;
+
+      Dictionary.Clear ( );
+      OnCollectionChanged ( );
     }
 
     public bool Contains (KeyValuePair<TKey, TValue> item)
@@ -190,21 +190,21 @@ namespace TailForWin.Utils
       if (items == null)
         throw new ArgumentNullException ("items");
 
-      if (items.Count > 0)
-      {
-        if (Dictionary.Count > 0)
-        {
-          if (items.Keys.Any ((k) => Dictionary.ContainsKey (k)))
-            throw new ArgumentException ("An item with the same key has already been added.");
-          else
-            foreach (var item in items)
-              Dictionary.Add (item);
-        }
-        else
-          _Dictionary = new Dictionary<TKey, TValue> (items);
+      if (items.Count <= 0)
+        return;
 
-        OnCollectionChanged (NotifyCollectionChangedAction.Add, items.ToArray ( ));
+      if (Dictionary.Count > 0)
+      {
+        if (items.Keys.Any ((k) => Dictionary.ContainsKey (k)))
+          throw new ArgumentException ("An item with the same key has already been added.");
+        else
+          foreach (var item in items)
+            Dictionary.Add (item);
       }
+      else
+        _Dictionary = new Dictionary<TKey, TValue> (items);
+
+      OnCollectionChanged (NotifyCollectionChangedAction.Add, items.ToArray ( ));
     }
 
     private void Insert (TKey key, TValue value, bool add)

@@ -194,11 +194,11 @@ namespace TailForWin.Template
     {
       var textBox = (comboBoxWordToFind.Template.FindName ("PART_EditableTextBox", comboBoxWordToFind) as TextBox);
 
-      if (textBox != null)
-      {
-        textBox.Focus ( );
-        textBox.SelectionStart = textBox.Text.Length;
-      }
+      if (textBox == null)
+        return;
+
+      textBox.Focus ( );
+      textBox.SelectionStart = textBox.Text.Length;
     }
 
     #endregion
@@ -256,7 +256,7 @@ namespace TailForWin.Template
       comboBoxWordToFind.DataContext = this;
       // comboBoxWordToFind.DisplayMemberPath = "Key";
 
-      WrapAroundBool wrap = new WrapAroundBool ( ) { Wrap = fmStructure.Wrap };
+      WrapAroundBool wrap = new WrapAroundBool { Wrap = fmStructure.Wrap };
 
       if (WrapAround != null)
         WrapAround (this, wrap);
@@ -289,7 +289,7 @@ namespace TailForWin.Template
         handler (this, new PropertyChangedEventArgs (name));
     }
 
-    protected void ItemPropertyChanged (object sender, PropertyChangedEventArgs e)
+    protected static void ItemPropertyChanged (object sender, PropertyChangedEventArgs e)
     {
       NotifyCollectionChangedEventArgs a = new NotifyCollectionChangedEventArgs (NotifyCollectionChangedAction.Reset);
     }

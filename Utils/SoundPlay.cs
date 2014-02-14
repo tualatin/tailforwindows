@@ -89,7 +89,7 @@ namespace TailForWin.Utils
       command = "status MediaFile mode";
       result = mciSendString (command, returnData, 128, IntPtr.Zero);
 
-      if (returnData.Length == 7 && returnData.ToString ( ).Substring (0, 7) == "playing")
+      if (returnData.Length == 7 && String.Compare (returnData.ToString ( ).Substring (0, 7), "playing", false) == 0)
         return (true);
       else
       {
@@ -104,7 +104,7 @@ namespace TailForWin.Utils
       command = "status MediaFile mode";
       result = mciSendString (command, returnData, 128, IntPtr.Zero);
 
-      if (returnData.Length == 4 && returnData.ToString ( ).Substring (0, 4) == "open")
+      if (returnData.Length == 4 && String.Compare (returnData.ToString ( ).Substring (0, 4), "open", false) == 0)
         return (true);
       else
         return (false);
@@ -115,7 +115,7 @@ namespace TailForWin.Utils
       command = "status MediaFile mode";
       result = mciSendString (command, returnData, 128, IntPtr.Zero);
 
-      if (returnData.Length == 7 && returnData.ToString ( ).Substring (0, 7) == "stopped")
+      if (returnData.Length == 7 && String.Compare (returnData.ToString ( ).Substring (0, 7), "stopped", false) == 0)
         return (true);
       else
         return (false);

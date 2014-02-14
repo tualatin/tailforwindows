@@ -65,7 +65,7 @@ namespace TailForWin.Utils
       }
       catch (Exception ex)
       {
-        Console.WriteLine (string.Format ("ErrorLog Exception: {0}", ex));
+        Console.WriteLine (string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 
@@ -105,7 +105,7 @@ namespace TailForWin.Utils
       }
       catch (Exception ex)
       {
-        Console.WriteLine (string.Format ("WriteLog Exception: {0}", ex));
+        Console.WriteLine (string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 
@@ -114,13 +114,13 @@ namespace TailForWin.Utils
     /// </summary>
     public static void StopLog ()
     {
-      if (sw != null)
-      {
-        Flush ( );
+      if (sw == null)
+        return;
 
-        sw.Close ( );
-        sw = null;
-      }
+      Flush ( );
+
+      sw.Close ( );
+      sw = null;
     }
 
     /// <summary>

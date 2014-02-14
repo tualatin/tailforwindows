@@ -345,7 +345,7 @@ namespace TailForWin.Template
 
         LogFile.APP_MAIN_WINDOW.StatusBarEncodeCB.SelectedValue = tabProperties.FileEncoding;
 
-        if (myReader.FileExists (tabProperties.FileName))
+        if (FileReader.FileExists (tabProperties.FileName))
         {
           childTabItem.Header = string.Format ("{0}", tabProperties.File);
           childTabItem.Style = (Style) FindResource ("TabItemTailStyle");
@@ -610,7 +610,7 @@ namespace TailForWin.Template
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "TailLog", string.Format ("tailWorker_DoWork exception: {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 
@@ -893,7 +893,7 @@ namespace TailForWin.Template
       if (string.IsNullOrEmpty (textBoxFileName.Text))
         return;
 
-      if (myReader.FileExists (textBoxFileName.Text))
+      if (FileReader.FileExists (textBoxFileName.Text))
       {
         tabProperties.FileName = textBoxFileName.Text;
         childTabItem.Header = tabProperties.File;
@@ -1006,7 +1006,7 @@ namespace TailForWin.Template
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "TailLog", string.Format ("Drag and Drop TabItem exception {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 
