@@ -694,7 +694,7 @@ namespace TailForWin.Template
     {
       // TODO Highlighting
 #if DEBUG
-      ErrorLog.WriteLog (ErrorFlags.Info, "TailLog", "LoadHighlighting");
+      ErrorLog.WriteLog (ErrorFlags.Debug, "TailLog", "LoadHighlighting");
 #endif
     }
 
