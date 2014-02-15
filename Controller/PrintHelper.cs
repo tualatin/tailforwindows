@@ -13,46 +13,45 @@ namespace TailForWin.Controller
   {
     public PrintHelper (ObservableCollection<LogEntry> items, string fileName, bool timeStamp = false, string format = null)
     {
-      PrintDialog printDialog = new PrintDialog ( )
+      PrintDialog printDialog = new PrintDialog
       {
         UserPageRangeEnabled = true,
         PageRangeSelection = PageRangeSelection.AllPages,
         PrintTicket = GetPrintTicketFromPrinter ( )
       };
 
-      if (printDialog.ShowDialog ( ).GetValueOrDefault  ( ))
-      {               
-        FlowDocument flowDocument = new FlowDocument ( )
-        {
-          FontSize = 11f,
-          FontFamily = new System.Windows.Media.FontFamily ("Tahoma"),
-          PageHeight = printDialog.PrintableAreaHeight,
-          PageWidth = printDialog.PrintableAreaWidth,
-          PagePadding = new Thickness (80),
-          ColumnGap = 0
-        };
+      if (!printDialog.ShowDialog ( ).GetValueOrDefault ( ))
+        return;
 
-        foreach (LogEntry item in items)
-        {
-          if (!timeStamp)
-            flowDocument.Blocks.Add (new Paragraph (new Run (string.Format ("{0}\t{1}", item.Index, item.Message))));
-          else
-            flowDocument.Blocks.Add (new Paragraph (new Run (string.Format ("{2}\t{0} {1}", item.DateTime.ToString (format), item.Message, item.Index))));
-        }
+      FlowDocument flowDocument = new FlowDocument
+                                  {
+                                    FontSize = 11f,
+                                    FontFamily = new System.Windows.Media.FontFamily ("Tahoma"),
+                                    PageHeight = printDialog.PrintableAreaHeight,
+                                    PageWidth = printDialog.PrintableAreaWidth,
+                                    PagePadding = new Thickness (80),
+                                    ColumnGap = 0
+                                  };
 
-        flowDocument.ColumnWidth = (flowDocument.PageWidth - flowDocument.ColumnGap - flowDocument.PagePadding.Left - flowDocument.PagePadding.Right);
-
-        DocumentPaginator page = ((IDocumentPaginatorSource) flowDocument).DocumentPaginator;
-        printDialog.PrintDocument (page, string.Format ("{0} printing file {1}", LogFile.APPLICATION_CAPTION, fileName));
+      foreach (LogEntry item in items)
+      {
+        flowDocument.Blocks.Add (!timeStamp
+          ? new Paragraph (new Run (string.Format ("{0}\t{1}", item.Index, item.Message)))
+          : new Paragraph (new Run (string.Format ("{2}\t{0} {1}", item.DateTime.ToString (format), item.Message, item.Index))));
       }
+
+      flowDocument.ColumnWidth = (flowDocument.PageWidth - flowDocument.ColumnGap - flowDocument.PagePadding.Left - flowDocument.PagePadding.Right);
+
+      DocumentPaginator page = ((IDocumentPaginatorSource) flowDocument).DocumentPaginator;
+      printDialog.PrintDocument (page, string.Format ("{0} printing file {1}", LogFile.APPLICATION_CAPTION, fileName));
     }
 
     /// <summary>
     /// Returns a PrintTicket based on the current default printer.</summary>
     /// <returns>A PrintTicket for the current local default printer.</returns>
-    private PrintTicket GetPrintTicketFromPrinter ()
+    private static PrintTicket GetPrintTicketFromPrinter ()
     {
-      PrintQueue printQueue = null;
+      PrintQueue printQueue;
       LocalPrintServer localPrintServer = new LocalPrintServer ( );
 
       // Retrieving collection of local printer on user machine

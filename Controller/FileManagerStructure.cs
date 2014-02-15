@@ -26,14 +26,14 @@ namespace TailForWin.Controller
     {
       fmFile = Path.GetDirectoryName (System.Reflection.Assembly.GetEntryAssembly ( ).Location) + "\\FileManager.xml";
 
-      if (!findHistory)
-      {
-        fmProperties = new List<FileManagerData> ( );
-        LastFileId = -1;
-        LastFilterId = -1;
+      if (findHistory)
+        return;
 
-        OpenFMDoc ( );
-      }
+      fmProperties = new List<FileManagerData> ( );
+      LastFileId = -1;
+      LastFilterId = -1;
+
+      OpenFmDoc ( );
     }
 
     #region HelperProperties
@@ -57,7 +57,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// List of FileManager Properties
     /// </summary>
-    public List<FileManagerData> FMProperties
+    public List<FileManagerData> FmProperties
     {
       get
       {
@@ -88,69 +88,98 @@ namespace TailForWin.Controller
     /// <summary>
     /// Open FileManager XML document
     /// </summary>
-    public void OpenFMDoc ()
+    public void OpenFmDoc ()
     {
       if (File.Exists (fmFile))
-      {
-        ReadFMDoc ( );
-      }
+        ReadFmDoc ( );
     }
 
     /// <summary>
     /// Read FileManager file
     /// </summary>
-    public void ReadFMDoc ()
+    public void ReadFmDoc ()
     {
       try
       {
         fmDoc = XDocument.Load (fmFile);
 
-        foreach (XElement xe in fmDoc.Root.Descendants ("file"))
+        if (fmDoc.Root != null)
         {
-          string category = GetCategory (xe);
-
-          if (category != null)
-            AddCategoryToDictionary (category, category);
-
-          FileManagerData item = new FileManagerData ( )
+          foreach (XElement xe in fmDoc.Root.Descendants ("file"))
           {
-            ID = GetId (xe.Element ("id").Value),
-            FileName = xe.Element ("fileName").Value,
-            FontType = GetFont (xe.Element ("font")),
-            KillSpace = IsKillSpace (xe.Element ("killSpace").Value),
-            Wrap = IsLineWrap (xe.Element ("lineWrap").Value),
-            Category = category,
-            Description = xe.Element ("description").Value,
-            Timestamp = IsTimeStamp (xe.Element ("timeStamp").Value),
-            ThreadPriority = GetThreadPriority (xe.Element ("threadPriority").Value),
-            RefreshRate = GetRefreshRate (xe.Element ("refreshRate").Value),
-            NewWindow = IsNewWindow (xe.Element ("newWindow").Value),
-            FileEncoding = GetEncoding (xe.Element ("fileEncoding").Value),
-          };
+            string cate = GetCategory (xe);
+
+            if (cate != null)
+              AddCategoryToDictionary (cate);
+
+            var xElement = xe.Element ("id");
+            if (xElement == null)
+              continue;
+
+            var element = xe.Element ("fileName");
+            if (element == null)
+              continue;
+
+            var xElement1  = xe.Element ("killSpace");
+            var element1 = xe.Element ("lineWrap");
+
+            var xElement2 = xe.Element ("description");
+            if (xElement2 == null)
+              continue;
+
+            var element2 = xe.Element ("timeStamp");
+
+            var xElement3 = xe.Element ("threadPriority");
+            if (xElement3 == null)
+              continue;
+
+            var element3 = xe.Element ("refreshRate");
+            if (element3 == null)
+              continue;
+
+            var xElement4 = xe.Element ("newWindow");
+
+            var element4 = xe.Element ("fileEncoding");
+            if (element4 == null)
+              continue;
+
+            FileManagerData item = new FileManagerData
+                                   {
+                                     ID = GetId (xElement.Value),
+                                     FileName = element.Value,
+                                     FontType = GetFont (xe.Element ("font")),
+                                     KillSpace = xElement1 != null && IsKillSpace (xElement1.Value),
+                                     Wrap = element1 != null && IsLineWrap (element1.Value),
+                                     Category = cate,
+                                     Description = xElement2.Value,
+                                     Timestamp = element2 != null && IsTimeStamp (element2.Value),
+                                     ThreadPriority = GetThreadPriority (xElement3.Value),
+                                     RefreshRate = GetRefreshRate (element3.Value),
+                                     NewWindow = xElement4 != null && IsNewWindow (xElement4.Value),
+                                     FileEncoding = GetEncoding (element4.Value),
+                                   };
           
-          foreach (XElement filter in xe.Elements ("filter"))
-          {
-            FilterData data = GetFilters (filter);
-
-            if (data != null)
+            foreach (FilterData data in xe.Elements ("filter").Select (GetFilters).Where (data => data != null))
+            {
               item.ListOfFilter.Add (data);
-          }
+            }
 
-          fmProperties.Add (item);
+            fmProperties.Add (item);
+          }
         }
 
         SortListIfRequired ( );
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("ReadFMDoc exception: {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
       }
     }
 
     /// <summary>
     /// Save FileManager file
     /// </summary>
-    public void SaveFMDoc ()
+    public void SaveFmDoc ()
     {
       if (!File.Exists (fmFile))
         fmDoc = new XDocument (new XElement (XMLROOT));
@@ -176,31 +205,32 @@ namespace TailForWin.Controller
     {
       try
       {
-        if (File.Exists (fmFile))
+        if (!File.Exists (fmFile))
+          return;
+
+        fmDoc = XDocument.Load (fmFile);
+
+        if (fmDoc.Root == null)
+          return;
+
+        XElement findHistoryRoot = fmDoc.Root.Element ("FindHistory");
+
+        if (findHistoryRoot == null)
+          return;
+
+        string wrapAround = findHistoryRoot.Attribute ("wrap").Value;
+        bool wrap;
+
+        Wrap = bool.TryParse (wrapAround, out wrap) && wrap;
+
+        foreach (XElement find in findHistoryRoot.Elements ("Find"))
         {
-          fmDoc = XDocument.Load (fmFile);
-          XElement findHistoryRoot = fmDoc.Root.Element ("FindHistory");
-
-          if (findHistoryRoot != null)
-          {
-            string wrapAround = findHistoryRoot.Attribute ("wrap").Value;
-            bool wrap = false;
-
-            if (!bool.TryParse (wrapAround, out wrap))
-              Wrap = false;
-            else
-              Wrap = wrap;
-
-            foreach (XElement find in findHistoryRoot.Elements ("Find"))
-            {
-              words.Add (find.Attribute ("name").Value, find.Attribute ("name").Value);
-            }
-          }
+          words.Add (find.Attribute ("name").Value, find.Attribute ("name").Value);
         }
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("ReadFindHistory exception: {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
       }
     }
 
@@ -214,26 +244,29 @@ namespace TailForWin.Controller
 
       try
       {
-        XElement findHistoryRoot = fmDoc.Root.Element ("FindHistory");
-
-        if (findHistoryRoot != null)
-          findHistoryRoot.Attribute ("wrap").Value = Wrap.ToString ( );
-        else
+        if (fmDoc.Root != null)
         {
-          findHistoryRoot = new XElement ("FindHistory");
-          findHistoryRoot.Add (new XAttribute ("wrap", Wrap.ToString ( )));
-          fmDoc.Root.Add (findHistoryRoot);
+          XElement findHistoryRoot = fmDoc.Root.Element ("FindHistory");
+
+          if (findHistoryRoot != null)
+            findHistoryRoot.Attribute ("wrap").Value = Wrap.ToString ( );
+          else
+          {
+            findHistoryRoot = new XElement ("FindHistory");
+            findHistoryRoot.Add (new XAttribute ("wrap", Wrap.ToString ( )));
+            fmDoc.Root.Add (findHistoryRoot);
+          }
+
+          fmDoc.Save (@fmFile, SaveOptions.None);
+
+          return (findHistoryRoot);
         }
-
-        fmDoc.Save (@fmFile, SaveOptions.None);
-
-        return (findHistoryRoot);
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("SaveFindHistoryWrap exception: {0}", ex));
-        return (null);
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
       }
+      return (null);
     }
 
     /// <summary>
@@ -247,20 +280,19 @@ namespace TailForWin.Controller
 
       try
       {
-        XElement findHistoryRoot = fmDoc.Root.Element ("FindHistory");
-
-        if (findHistoryRoot == null)
-          findHistoryRoot = SaveFindHistoryWrap ( );
-
-        XElement findHistoryFind = new XElement ("Find");
-        findHistoryFind.Add (new XAttribute ("name", searchWord));
-        findHistoryRoot.Add (findHistoryFind);
+        if (fmDoc.Root != null)
+        {
+          XElement findHistoryRoot = fmDoc.Root.Element ("FindHistory") ?? SaveFindHistoryWrap ( );
+          XElement findHistoryFind = new XElement ("Find");
+          findHistoryFind.Add (new XAttribute ("name", searchWord));
+          findHistoryRoot.Add (findHistoryFind);
+        }
 
         fmDoc.Save (@fmFile, SaveOptions.None);
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("SaveFindHistoryName exception: {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
       }
     }
 
@@ -277,14 +309,14 @@ namespace TailForWin.Controller
       if (!File.Exists (fmFile)) {
         System.Windows.MessageBox.Show (System.Windows.Application.Current.FindResource ("FileNotFound").ToString ( ), string.Format ("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
-        return (cmdParameterItem);
+        return (null);
       }
 
       if (fmProperties.Count == 0)
       {
         System.Windows.MessageBox.Show (System.Windows.Application.Current.FindResource ("NoContentFound").ToString ( ), string.Format ("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
-        return (cmdParameterItem);
+        return (null);
       }
 
       int iid;
@@ -337,7 +369,7 @@ namespace TailForWin.Controller
           XElement node = (fmDoc.Root.Descendants ("file").Where (x =>
                                                                   {
                                                                     var element = x.Element ("id");
-                                                                    return element != null && element.Value == property.ID.ToString ( );
+                                                                    return element != null && element.Value == property.ID.ToString (CultureInfo.InvariantCulture);
                                                                   })).SingleOrDefault ( );
 
           if (node != null)
@@ -392,20 +424,20 @@ namespace TailForWin.Controller
             if (xElement5 != null)
               xElement5.Value = property.RefreshRate.ToString ( );
 
-            List<string> filterID = node.Elements ("filter").Select (filter =>
+            List<string> filterId = node.Elements ("filter").Select (filter =>
                                                                      {
                                                                        var element5 = filter.Element ("id");
                                                                        return element5 != null ? element5.Value : null;
                                                                      }).ToList ( );
 
             // TODO NOT nice!
-
-            foreach (string id in filterID)
+            foreach (string id in filterId)
             {
+              var id1 = id;
               node.Elements ("filter").Where (x =>
                                               {
                                                 var xElement = x.Element ("id");
-                                                return xElement != null && xElement.Value == id;
+                                                return xElement != null && xElement.Value == id1;
                                               }).Remove ( );
             }
 
@@ -423,7 +455,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("UpdateNode exception: {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
       }
     }
 
@@ -448,7 +480,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("RemoveNode exception: {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1} exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
 
         return (false);
       }
@@ -484,9 +516,9 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("AddNode exception: {0}", ex));
-        return (null);
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
       }
+      return (null);
     }
 
     #region HelperFunctions
@@ -506,10 +538,6 @@ namespace TailForWin.Controller
       case SettingsData.EFileSort.Nothing:
 
         break;
-
-      default:
-
-        break;
       }
     }
 
@@ -518,16 +546,16 @@ namespace TailForWin.Controller
     /// </summary>
     public void RefreshCategories ()
     {
-      List<string> categories = (from x in fmDoc.Descendants ("file") select x.Element ("category").Value).ToList<string> ( );
+      List<string> categories = (from x in fmDoc.Descendants ("file") let xElement = x.Element ("category") where xElement != null select xElement.Value).ToList<string> ( );
       Category.Clear ( );
 
-      foreach (string category in categories)
+      foreach (string cate in categories)
       {
-        AddCategoryToDictionary (category, category);
+        AddCategoryToDictionary (cate);
       }
     }
 
-    private void AddCategoryToDictionary (string key, string value)
+    private void AddCategoryToDictionary (string key)
     {
       try
       {
@@ -536,28 +564,30 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "FileManagerStructure", string.Format ("AddCategoryToDictionary exception: {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
       }
     }
 
-    private string GetCategory (XElement root)
+    private static string GetCategory (XContainer root)
     {
-      string category = root.Element ("category").Value;
+      var xElement = root.Element ("category");
 
-      if (string.IsNullOrEmpty (category))
+      if (xElement == null)
         return (null);
-      else
-        return (category);
+
+      string category = xElement.Value;
+
+      return (string.IsNullOrEmpty (category) ? (null) : (category));
     }
 
     private int GetId (string sId, bool isFile = true)
     {
-      int id = -1;
+      int id;
 
       if (!int.TryParse (sId, out id))
         id = -1;
 
-      if (isFile == true)
+      if (isFile)
       {
         if (id > LastFileId)
           LastFileId = id;
@@ -570,7 +600,7 @@ namespace TailForWin.Controller
       return (id);
     }
 
-    private bool IsKillSpace (string sKillSpace)
+    private static bool IsKillSpace (string sKillSpace)
     {
       bool killspace;
 
@@ -580,7 +610,7 @@ namespace TailForWin.Controller
       return (killspace);
     }
 
-    private bool IsLineWrap (string sLineWrap)
+    private static bool IsLineWrap (string sLineWrap)
     {
       bool lineWrap;
 
@@ -590,7 +620,7 @@ namespace TailForWin.Controller
       return (lineWrap);
     }
 
-    private bool IsTimeStamp (string sTimeStamp)
+    private static bool IsTimeStamp (string sTimeStamp)
     {
       bool timeStamp;
 
@@ -600,7 +630,7 @@ namespace TailForWin.Controller
       return (timeStamp);
     }
 
-    private bool IsNewWindow (string sNewWindow)
+    private static bool IsNewWindow (string sNewWindow)
     {
       bool newWindow;
 
@@ -610,23 +640,34 @@ namespace TailForWin.Controller
       return (newWindow);
     }
 
-    private Font GetFont (XElement root)
+    private static Font GetFont (XContainer root)
     {
-      string name = root.Element ("name").Value;
-      FontStyle fs = FontStyle.Regular;
-      float size;
+      var xElement = root.Element ("name");
 
-      if (!float.TryParse (root.Element ("size").Value, System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out size))
+      if (xElement == null)
+        return (null);
+
+      string name = xElement.Value;
+      FontStyle fs = FontStyle.Regular;
+      float size = 10;
+
+      var element = root.Element ("size");
+
+      if (element != null && !float.TryParse (element.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out size))
         size = 10f;
 
-      bool bold;
+      bool bold = false;
 
-      if (!bool.TryParse (root.Element ("bold").Value, out bold))
+      var xElement1 = root.Element ("bold");
+
+      if (xElement1 != null && !bool.TryParse (xElement1.Value, out bold))
         bold = false;
 
-      bool italic;
+      bool italic = false;
 
-      if (!bool.TryParse (root.Element ("italic").Value, out italic))
+      var element1 = root.Element ("italic");
+
+      if (element1 != null && !bool.TryParse (element1.Value, out italic))
         italic = false;
 
       fs |= bold ? FontStyle.Bold : FontStyle.Regular;
@@ -635,17 +676,17 @@ namespace TailForWin.Controller
       return (new Font (name, size, fs));
     }
 
-    private System.Threading.ThreadPriority GetThreadPriority (string sThreadPriority)
+    private static System.Threading.ThreadPriority GetThreadPriority (string sThreadPriority)
     {
       return (SettingsHelper.GetThreadPriority (sThreadPriority));
     }
 
-    private SettingsData.ETailRefreshRate GetRefreshRate (string sRefreshRate)
+    private static SettingsData.ETailRefreshRate GetRefreshRate (string sRefreshRate)
     {
       return (SettingsHelper.GetRefreshRate (sRefreshRate));
     }
 
-    private Encoding GetEncoding (string sEncode)
+    private static Encoding GetEncoding (string sEncode)
     {
       Encoding encoding = null;
 
@@ -656,13 +697,12 @@ namespace TailForWin.Controller
           encoding = encode;
           break;
         }
-        else
-          encoding = Encoding.UTF8;
+        encoding = Encoding.UTF8;
       }
       return (encoding);
     }
 
-    private XElement AddFilterToDoc (FilterData filter)
+    private static XElement AddFilterToDoc (FilterData filter)
     {
       XElement docPart = new XElement ("filter",
             new XElement ("id", filter.ID),
@@ -679,17 +719,33 @@ namespace TailForWin.Controller
 
     private FilterData GetFilters (XElement root)
     {
-      if (GetId (root.Element ("id").Value) == -1)
+      var xElement = root.Element ("id");
+
+      if (xElement != null && GetId (xElement.Value) == -1)
         return (null);
 
-      FilterData filter = new FilterData ( )
-      {
-        ID = GetId (root.Element ("id").Value),
-        Filter = root.Element ("filterPattern").Value,
-        Description = root.Element ("filterName").Value,
-        FilterFontType = GetFont (root.Element ("font"))
-      };
+      var element = root.Element ("id");
 
+      if (element == null)
+        return (null);
+
+      var xElement1 = root.Element ("filterPattern");
+
+      if (xElement1 == null)
+        return (null);
+
+      var element1 = root.Element ("filterName");
+
+      if (element1 == null)
+        return (null);
+
+      FilterData filter = new FilterData
+                          {
+                            ID = GetId (element.Value),
+                            Filter = xElement1.Value,
+                            Description = element1.Value,
+                            FilterFontType = GetFont (root.Element ("font"))
+                          };
       return (filter);
     }
 

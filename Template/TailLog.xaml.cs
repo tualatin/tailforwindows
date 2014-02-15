@@ -20,7 +20,7 @@ namespace TailForWin.Template
   /// <summary>
   /// Interaction logic for TailLog.xaml
   /// </summary>
-  public partial class TailLog: Page, IDisposable
+  public partial class TailLog : IDisposable
   {
     private readonly TailLogData tabProperties;
     private BackgroundWorker tailWorker;
@@ -31,7 +31,7 @@ namespace TailForWin.Template
     private FileReader myReader;
     private bool stopThread;
     private bool isInit;
-    private MailClient mySMTP;
+    private MailClient mySmtp;
 
     /// <summary>
     /// filemanager save property
@@ -69,7 +69,7 @@ namespace TailForWin.Template
 
       myReader.Dispose ( );
       tabProperties.Dispose ( );
-      mySMTP.Dispose ( );
+      mySmtp.Dispose ( );
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ namespace TailForWin.Template
 
       this.fileManagerProperties = fileManagerProperties;
 
-      tabProperties = new TailLogData ( )
+      tabProperties = new TailLogData
       {
         Wrap = fileManagerProperties.Wrap, 
         KillSpace = fileManagerProperties.KillSpace,
@@ -119,9 +119,9 @@ namespace TailForWin.Template
       if (textBlockTailLog.TextEditorFontWeight == FontWeights.Bold)
         fs |= System.Drawing.FontStyle.Bold;
 
-      System.Drawing.Font textBox = new System.Drawing.Font (textBlockTailLog.TextEditorFontFamily.Source, (float) textBlockTailLog.TextEditorFontSize, fs);
+      System.Drawing.Font textBox = new System.Drawing.Font (textBlockTailLog.TextEditorFontFamily.Source, textBlockTailLog.TextEditorFontSize, fs);
 
-      tabProperties = new TailLogData ( )
+      tabProperties = new TailLogData
       {
         Wrap = false,
         KillSpace = false,
@@ -287,24 +287,22 @@ namespace TailForWin.Template
     /// <param name="e">RoutedEventArgs</param>
     public void btnSearch_Click (object sender, RoutedEventArgs e)
     {
-      if (tabProperties.File != null)
-      {
-        if (textBlockTailLog.LineCount != 0)
-        {
-          if (ButtonSearchBox != null)
-          {
-            FileManagerData data = new FileManagerData
-            {
-              File = tabProperties.File,
-              FileName = tabProperties.FileName
-            };
+      if (tabProperties.File == null)
+        return;
+      if (textBlockTailLog.LineCount == 0)
+        return;
+      if (ButtonSearchBox == null)
+        return;
 
-            FileManagerDataEventArgs eventData = new FileManagerDataEventArgs (data);
-            ButtonSearchBox (this, eventData);
-            eventData.Dispose ( );
-          }
-        }
-      }
+      FileManagerData data = new FileManagerData
+                             {
+                               File = tabProperties.File,
+                               FileName = tabProperties.FileName
+                             };
+
+      FileManagerDataEventArgs eventData = new FileManagerDataEventArgs (data);
+      ButtonSearchBox (this, eventData);
+      eventData.Dispose ( );
     }
 
     /// <summary>
@@ -343,7 +341,7 @@ namespace TailForWin.Template
           }
         }
 
-        LogFile.APP_MAIN_WINDOW.StatusBarEncodeCB.SelectedValue = tabProperties.FileEncoding;
+        LogFile.APP_MAIN_WINDOW.StatusBarEncodeCb.SelectedValue = tabProperties.FileEncoding;
 
         if (FileReader.FileExists (tabProperties.FileName))
         {
@@ -379,7 +377,7 @@ namespace TailForWin.Template
 
     private void btnPrint_Click (object sender, RoutedEventArgs e)
     {
-      if (!(bool) checkBoxTimestamp.IsChecked)
+      if (checkBoxTimestamp.IsChecked != null && !(bool) checkBoxTimestamp.IsChecked)
         new PrintHelper (textBlockTailLog.LogEntries, tabProperties.File);
       else
         new PrintHelper (textBlockTailLog.LogEntries, tabProperties.File, true, StringFormatData.StringFormat);
@@ -392,7 +390,7 @@ namespace TailForWin.Template
     /// <param name="e">RoutedEventArgs</param>
     public void btnOpenFile_Click (object sender, RoutedEventArgs e)
     {
-      string fName = string.Empty;
+      string fName;
 
       if (!LogFile.OpenFileLogDialog (out fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource ("OpenFileDialog") as string))
         return;
@@ -441,7 +439,7 @@ namespace TailForWin.Template
     {
       FileManager fileManager = new FileManager (SettingsData.EFileManagerState.OpenFileManager, tabProperties) { Owner = LogFile.APP_MAIN_WINDOW };
       fileManager.DoUpdate += fileManagerDoUpdate;
-      fileManager.OpenFileAsNewTab += fileManagerGetProperties;
+      fileManager.OpenFileAsNewTab += FileManagerGetProperties;
       fileManager.ShowDialog ( );
     }
 
@@ -455,7 +453,7 @@ namespace TailForWin.Template
       };
 
       fileManager.DoUpdate += fileManagerDoUpdate;
-      fileManager.OpenFileAsNewTab += fileManagerGetProperties;
+      fileManager.OpenFileAsNewTab += FileManagerGetProperties;
       fileManager.ShowDialog ( );
     }
 
@@ -463,7 +461,7 @@ namespace TailForWin.Template
     {
       Options settings = new Options { Owner = LogFile.APP_MAIN_WINDOW };
 
-      settings.UpdateEvent += defaultPropertiesChanged;
+      settings.UpdateEvent += DefaultPropertiesChanged;
       settings.ShowDialog ( );
     }
 
@@ -486,7 +484,7 @@ namespace TailForWin.Template
       if (textBlockTailLog.FontWeight == FontWeights.Bold)
         fs |= System.Drawing.FontStyle.Bold;
 
-      System.Drawing.Font textBox = new System.Drawing.Font (textBlockTailLog.TextEditorFontFamily.Source, (float) textBlockTailLog.TextEditorFontSize, fs);
+      System.Drawing.Font textBox = new System.Drawing.Font (textBlockTailLog.TextEditorFontFamily.Source, textBlockTailLog.TextEditorFontSize, fs);
       System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
       {
         ShowEffects = false,
@@ -548,12 +546,12 @@ namespace TailForWin.Template
         else
           LogFile.APP_MAIN_WINDOW.StatusBarState.Dispatcher.Invoke (new Action (() => { LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState; }));
 
-        if (SettingsHelper.TailSettings.ShowNLineAtStart == true)
+        if (SettingsHelper.TailSettings.ShowNLineAtStart)
         {
           tabProperties.LastRefreshTime = DateTime.Now;
           myReader.ReadLastNLines (SettingsHelper.TailSettings.LinesRead);
 
-          string line = string.Empty;
+          string line;
 
           while ((line = myReader.TailStreamReader.ReadLine ( )) != null)
           {
@@ -586,7 +584,7 @@ namespace TailForWin.Template
           myReader.TailStreamReader.BaseStream.Seek (lastMaxOffset, SeekOrigin.Begin);
 
           // read out of the file until the EOF
-          string line = string.Empty;
+          string line;
 
           while ((line = myReader.TailStreamReader.ReadLine ( )) != null)
           {
@@ -605,7 +603,7 @@ namespace TailForWin.Template
           lastMaxOffset = myReader.TailStreamReader.BaseStream.Position;
         }
 
-        if (tailWorker != null && tailWorker.CancellationPending == true)
+        if (tailWorker != null && tailWorker.CancellationPending)
           e.Cancel = true;
       }
       catch (Exception ex)
@@ -653,7 +651,7 @@ namespace TailForWin.Template
 
     #region HelpFunctions
 
-    private void InitTailLog (int childTabIndex, TabItem tabItem)
+    private void InitTailLog (int chldTabIdx, TabItem tabItem)
     {
       tailWorker = new BackgroundWorker
       { 
@@ -665,17 +663,17 @@ namespace TailForWin.Template
 
       SetFontInTextEditor ( );
 
-      this.childTabIndex = childTabIndex;
+      childTabIndex = chldTabIdx;
       childTabItem = tabItem;
       childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
 
       myReader = new FileReader ( );
-      mySMTP = new MailClient ( );
-      mySMTP.InitClient ( );
+      mySmtp = new MailClient ( );
+      mySmtp.InitClient ( );
 
       ExtraIcons.DataContext = tabProperties;
 
-      defaultPropertiesChanged (this, null);
+      DefaultPropertiesChanged (this, null);
       LoadHighlighting ( );
 
       textBlockTailLog.Alert += AlertTrigger;
@@ -725,8 +723,8 @@ namespace TailForWin.Template
     {
       if (visible)
       {
-        btnStart.Visibility = System.Windows.Visibility.Hidden;
-        btnStop.Visibility = System.Windows.Visibility.Visible;
+        btnStart.Visibility = Visibility.Hidden;
+        btnStop.Visibility = Visibility.Visible;
         textBlockTailLog.TextEditorBackgroundColor = SettingsHelper.TailSettings.GuiDefaultBackgroundColor;
         textBlockTailLog.TextEditorForegroundColor = SettingsHelper.TailSettings.GuiDefaultForegroundColor;
         btnOpenFile.IsEnabled = !visible;
@@ -734,8 +732,8 @@ namespace TailForWin.Template
       }
       else
       {
-        btnStop.Visibility = System.Windows.Visibility.Hidden;
-        btnStart.Visibility = System.Windows.Visibility.Visible;
+        btnStop.Visibility = Visibility.Hidden;
+        btnStart.Visibility = Visibility.Visible;
         btnOpenFile.IsEnabled = !visible;
         textBoxFileName.IsReadOnly = visible;
 
@@ -780,9 +778,9 @@ namespace TailForWin.Template
           LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Format ("{0}{1}", Application.Current.FindResource ("LinesRead"), textBlockTailLog.LineCount);
         }), DispatcherPriority.ApplicationIdle);
 
-        LogFile.APP_MAIN_WINDOW.StatusBarEncodeCB.Dispatcher.Invoke (new Action (() =>
+        LogFile.APP_MAIN_WINDOW.StatusBarEncodeCb.Dispatcher.Invoke (new Action (() =>
         {
-          LogFile.APP_MAIN_WINDOW.StatusBarEncodeCB.SelectedValue = tabProperties.FileEncoding;
+          LogFile.APP_MAIN_WINDOW.StatusBarEncodeCb.SelectedValue = tabProperties.FileEncoding;
         }), DispatcherPriority.ApplicationIdle);
       }
       else
@@ -803,10 +801,7 @@ namespace TailForWin.Template
     {
       if (!tabProperties.Timestamp)
       {
-        textBlockTailLog.Dispatcher.Invoke (new Action (() =>
-          {
-            textBlockTailLog.AppendText (line);
-          }), DispatcherPriority.ApplicationIdle);
+        textBlockTailLog.Dispatcher.Invoke (new Action (() => textBlockTailLog.AppendText (line)), DispatcherPriority.ApplicationIdle);
       }
       else
       {
@@ -822,7 +817,7 @@ namespace TailForWin.Template
       }
 
       // Only when tab is active update statusbar!
-      if (ActiveTab == true)
+      if (ActiveTab)
         UpdateStatusBarOnTabSelectionChange ( );
     }
 
@@ -834,8 +829,8 @@ namespace TailForWin.Template
     {
       if (textBlockTailLog.LogEntries.Count > 0)
         return (textBlockTailLog.LogEntries[0].Index);
-      else
-        return (-1);
+
+      return (-1);
     }
 
     /// <summary>
@@ -846,18 +841,23 @@ namespace TailForWin.Template
     {
       if (textBlockTailLog.LogEntries.Count > 0)
         return (textBlockTailLog.LogEntries[textBlockTailLog.LogEntries.Count - 1].Index);
-      else
-        return (-1);
+
+      return (-1);
     }
-    
+
     #endregion
 
     #region Events
 
     private void GoToLineNumberEvent (object sender, EventArgs e)
     {
-      if (e.GetType ( ) == typeof (GoToLineData))
-        textBlockTailLog.GoToLineNumber ((e as GoToLineData).LineNumber);
+      if (e.GetType ( ) != typeof (GoToLineData))
+        return;
+
+      var goToLineData = e as GoToLineData;
+
+      if (goToLineData != null)
+        textBlockTailLog.GoToLineNumber (goToLineData.LineNumber);
     }
 
     private void NewFileOpend (object sender, EventArgs e)
@@ -928,7 +928,7 @@ namespace TailForWin.Template
       comboBoxThreadPriority.SelectedValue = tabProperties.ThreadPriority;
     }
 
-    private void defaultPropertiesChanged (object sender, EventArgs e)
+    private void DefaultPropertiesChanged (object sender, EventArgs e)
     {
       if (tailWorker.IsBusy)
       {
@@ -952,7 +952,7 @@ namespace TailForWin.Template
       SoundPlay.InitSoundPlay (SettingsHelper.TailSettings.AlertSettings.SoundFileNameFullPath);
 
       if (SettingsHelper.TailSettings.AlertSettings.SendEMail)
-         mySMTP.InitClient ( );
+         mySmtp.InitClient ( );
     }
 
     private void fileManagerDoUpdate (object sender, EventArgs e)
@@ -962,7 +962,7 @@ namespace TailForWin.Template
 #endif
     }
 
-    private void fileManagerGetProperties (object sender, EventArgs e)
+    private void FileManagerGetProperties (object sender, EventArgs e)
     {
       if (FileManagerDoOpenTab != null)
         FileManagerDoOpenTab (this, e);
@@ -994,15 +994,15 @@ namespace TailForWin.Template
       {
         var text = e.Data.GetData (DataFormats.FileDrop);
 
-        if (text != null)
-        {
-          string fileName = string.Format ("{0}", ((string[]) text)[0]);
+        if (text == null)
+          return;
 
-          if (NewFile != null)
-            NewFile (this, EventArgs.Empty);
+        string fileName = string.Format ("{0}", ((string[]) text)[0]);
 
-          textBoxFileName.Text = fileName;
-        }
+        if (NewFile != null)
+          NewFile (this, EventArgs.Empty);
+
+        textBoxFileName.Text = fileName;
       }
       catch (Exception ex)
       {
@@ -1012,10 +1012,7 @@ namespace TailForWin.Template
 
     private void textBoxFileName_PreviewDragOver (object sender, DragEventArgs e)
     {
-      if (tailWorker.IsBusy)
-        e.Handled = false;
-      else
-        e.Handled = true;
+      e.Handled = !tailWorker.IsBusy;
     }
 
     private void AlertTrigger (object sender, EventArgs e)
@@ -1023,7 +1020,12 @@ namespace TailForWin.Template
       LogEntry alertTriggerData = new LogEntry ( );
 
       if (e.GetType ( ) == typeof (AlertTriggerEventArgs))
-        alertTriggerData = (e as AlertTriggerEventArgs).GetData ( );
+      {
+        var alertTriggerEventArgs = e as AlertTriggerEventArgs;
+
+        if (alertTriggerEventArgs != null)
+          alertTriggerData = alertTriggerEventArgs.GetData ( );
+      }
 
       if (SettingsHelper.TailSettings.AlertSettings.BringToFront)
         LogFile.BringMainWindowToFront ( );
@@ -1031,17 +1033,16 @@ namespace TailForWin.Template
       if (SettingsHelper.TailSettings.AlertSettings.PlaySoundFile)
         SoundPlay.Play (false);
 
-      if (SettingsHelper.TailSettings.AlertSettings.SendEMail)
-      {
-        if (!mySMTP.InitSucces)
-          return;
+      if (!SettingsHelper.TailSettings.AlertSettings.SendEMail)
+        return;
+      if (!mySmtp.InitSucces)
+        return;
 
-        if (mySMTP.EMailTimer.Enabled)
-          return;
+      if (mySmtp.EMailTimer.Enabled)
+        return;
 
-        string message = string.Format ("{0}\t{1}", alertTriggerData.Index, alertTriggerData.Message);
-        mySMTP.SendMail ("AlertTrigger", message);
-      }
+      string message = string.Format ("{0}\t{1}", alertTriggerData.Index, alertTriggerData.Message);
+      mySmtp.SendMail ("AlertTrigger", message);
     }
 
     private void FilterTrigger (object sender, EventArgs e)

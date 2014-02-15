@@ -20,7 +20,7 @@ namespace TailForWin
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
-  public partial class MainWindow : Window, IDisposable
+  public partial class MainWindow : IDisposable
   {
     private WinTrayIcon trayIcon;
     private readonly List<TabItem> tailTabItems;
@@ -143,7 +143,7 @@ namespace TailForWin
     /// <summary>
     /// Set statubar encode combobox (cbStsEncoding)
     /// </summary>
-    public ComboBox StatusBarEncodeCB
+    public ComboBox StatusBarEncodeCb
     {
       get
       {
@@ -286,7 +286,7 @@ namespace TailForWin
     private void HandleMainWindowKeys (object sender, KeyEventArgs e)
     {
       // If exit while pressing ESC, than exit application
-      if (SettingsHelper.TailSettings.ExitWithEscape == true)
+      if (SettingsHelper.TailSettings.ExitWithEscape)
       {
         if (e.Key == Key.Escape)
           OnExit ( );
@@ -444,7 +444,7 @@ namespace TailForWin
     {
       SettingsHelper.ReadSettings ( );
       Title = LogFile.APPLICATION_CAPTION;
-      LogFile.InitObservableCollectionsRRTPFE ( );
+      LogFile.InitObservableCollectionsRrtpfe ( );
 
       cbStsEncoding.DataContext = LogFile.FileEncoding;
       cbStsEncoding.DisplayMemberPath = "HeaderName";
@@ -496,7 +496,7 @@ namespace TailForWin
 
     private void OnExit ()
     {
-      if (SettingsHelper.TailSettings.RestoreWindowSize == true)
+      if (SettingsHelper.TailSettings.RestoreWindowSize)
       {
         SettingsHelper.TailSettings.WndWidth = Application.Current.MainWindow.Width;
         SettingsHelper.TailSettings.WndHeight = Application.Current.MainWindow.Height;
@@ -507,7 +507,7 @@ namespace TailForWin
         SettingsHelper.TailSettings.WndHeight = -1;
       }
 
-      if (SettingsHelper.TailSettings.SaveWindowPosition == true)
+      if (SettingsHelper.TailSettings.SaveWindowPosition)
       {
         SettingsHelper.TailSettings.WndXPos = Application.Current.MainWindow.Left;
         SettingsHelper.TailSettings.WndYPos = Application.Current.MainWindow.Top;
@@ -616,10 +616,10 @@ namespace TailForWin
         tabControlTail.DataContext = tailTabItems;
 
         TailLog page = GetTailLogWindow (tab.Content as Frame);
-        FileManagerHelper item = LogFile.FMHelper.SingleOrDefault (x => x.ID == page.FileManagerProperties.ID);
+        FileManagerHelper item = LogFile.FmHelper.SingleOrDefault (x => x.ID == page.FileManagerProperties.ID);
 
         if (item != null)
-          LogFile.FMHelper.Remove (item);
+          LogFile.FmHelper.Remove (item);
 
         if (page != null)
           page.StopThread ( );

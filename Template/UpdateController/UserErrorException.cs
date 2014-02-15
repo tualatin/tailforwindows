@@ -24,7 +24,12 @@ namespace TailForWin.Template.UpdateController
 
       if (ex.GetType ( ) == typeof (WebException))
       {
-        HttpWebResponse response = (HttpWebResponse) (ex as WebException).Response;
+        var webException = ex as WebException;
+
+        if (webException == null)
+          return;
+
+        HttpWebResponse response = (HttpWebResponse) webException.Response;
 
         if (response != null)
         {
@@ -57,10 +62,9 @@ namespace TailForWin.Template.UpdateController
 
           default:
 
-            string result = string.Empty;
-
             try
             {
+              string result;
               using (StreamReader reader = new StreamReader (response.GetResponseStream ( ), (string.IsNullOrEmpty (response.ContentEncoding) ? Encoding.UTF8 : Encoding.GetEncoding (response.ContentEncoding))))
               {
                 result = reader.ReadToEnd ( );
@@ -70,7 +74,7 @@ namespace TailForWin.Template.UpdateController
             }
             catch (Exception e)
             {
-              ErrorLog.WriteLog (ErrorFlags.Error, "UserErrorException", string.Format ("HandleUserException exception: {0}", e));
+              ErrorLog.WriteLog (ErrorFlags.Error, "UserErrorException", string.Format ("{1}, exception: {0}", e, System.Reflection.MethodBase.GetCurrentMethod (  )));
             }
             break;
           }

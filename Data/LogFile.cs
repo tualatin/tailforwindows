@@ -55,15 +55,16 @@ namespace TailForWin.Data
     /// </summary>
     public const int MAX_TAB_CHILDS = 10;
 
-
     /// <summary>
     /// Shows open file dialog
     /// </summary>
     /// <param name="fileName">Output of filename</param>
+    /// <param name="filter">Filter</param>
+    /// <param name="title">Title</param>
     /// <returns>If success true otherwise false</returns>
     public static bool OpenFileLogDialog (out string fileName, string filter, string title)
     {
-      OpenFileDialog openDialog = new OpenFileDialog ( )
+      OpenFileDialog openDialog = new OpenFileDialog
       {
         Filter = filter,
         RestoreDirectory = true,
@@ -105,7 +106,7 @@ namespace TailForWin.Data
     /// <summary>
     /// List of open items from FileManager
     /// </summary>
-    public static ObservableCollection<FileManagerHelper> FMHelper
+    public static ObservableCollection<FileManagerHelper> FmHelper
     {
       get
       {
@@ -165,7 +166,7 @@ namespace TailForWin.Data
     /// <summary>
     /// Initialize the observable collections from refresh rate (RR), thread priority (TP) and file encodings (FE)
     /// </summary>
-    public static void InitObservableCollectionsRRTPFE ()
+    public static void InitObservableCollectionsRrtpfe ()
     {
       // Threadrefresh rate
       foreach (SettingsData.ETailRefreshRate refreshName in Enum.GetValues (typeof (SettingsData.ETailRefreshRate)))
@@ -193,7 +194,7 @@ namespace TailForWin.Data
     {
       int IComparer.Compare (Object x, Object y)
       {
-        int result = 0;
+        const int result = 0;
 
         if (!(x is EncodingInfo) || !(y is EncodingInfo))
           return (result);
