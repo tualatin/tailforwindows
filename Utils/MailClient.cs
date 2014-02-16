@@ -78,7 +78,7 @@ namespace TailForWin.Utils
           Subject = SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Subject,
           SubjectEncoding = System.Text.Encoding.UTF8,
           BodyEncoding = System.Text.Encoding.UTF8,
-          IsBodyHtml = false,
+          IsBodyHtml = false
         };
 
         emailTimer = new System.Timers.Timer (300000)
@@ -107,14 +107,20 @@ namespace TailForWin.Utils
       try
       {
         string userState = userToken;
-        mailMessage.Body = bodyMessage;
-        mailClient.SendAsync (mailMessage, userState);
 
-        if (userState.CompareTo ("testMessage") != 0)
-        {
-          emailTimer.Enabled = true;
-          Console.WriteLine (string.Format ("Timer start {0}", DateTime.Now));
-        }
+        if (bodyMessage != null)
+          mailMessage.Body = bodyMessage;
+
+        if (String.Compare (userState, "testMessage", StringComparison.Ordinal) == 0)
+          mailMessage.Body = string.Format ("Testmail from {0}", LogFile.APPLICATION_CAPTION);
+
+        mailClient.SendAsync (mailMessage, userToken);
+        
+        if (String.Compare (userState, "testMessage", StringComparison.Ordinal) == 0)
+          return;
+
+        emailTimer.Enabled = true;
+        Console.WriteLine ("Timer start {0}", DateTime.Now);
       }
       catch (Exception ex)
       {
@@ -143,7 +149,7 @@ namespace TailForWin.Utils
       }
     }
 
-    private void SendCompleted (object sender, AsyncCompletedEventArgs e)
+    private static void SendCompleted (object sender, AsyncCompletedEventArgs e)
     {
       string token = (string) e.UserState;
 
@@ -152,10 +158,8 @@ namespace TailForWin.Utils
         MessageBox.Show (string.Format ("{0}\n\"{1}\"", Application.Current.FindResource ("MailCannotSend"), token), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         return;
       }
-      if (e.Error != null)
-        MessageBox.Show (string.Format ("{0}\n\"{1}\"", e.Error, token), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-      else
-        MessageBox.Show ("Complete!", LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+
+      MessageBox.Show (e.Error != null ? string.Format ("{0}\n\"{1}\"", e.Error, token) : "Complete!", LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
     private void EMailTimerEvent (object sender, System.Timers.ElapsedEventArgs e)
@@ -163,7 +167,7 @@ namespace TailForWin.Utils
       try
       {
         emailTimer.Enabled = false;
-        Console.WriteLine (string.Format ("Timer end {0}", DateTime.Now));
+        Console.WriteLine ("Timer end {0}", DateTime.Now);
       }
       catch (Exception ex)
       {

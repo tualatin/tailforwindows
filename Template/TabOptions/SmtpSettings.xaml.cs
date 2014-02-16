@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System;
 using TailForWin.Controller;
@@ -10,7 +11,7 @@ namespace TailForWin.Template.TabOptions
   /// <summary>
   /// Interaction logic for SmtpSettings.xaml
   /// </summary>
-  public partial class SmtpSettings: Window
+  public partial class SmtpSettings
   {
     public SmtpSettings ()
     {
@@ -29,7 +30,6 @@ namespace TailForWin.Template.TabOptions
         {
           MessageBox.Show (Application.Current.FindResource ("SmtpPortNotValid").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
           watermarkTextBoxPort.Focus ( );
-          return;
         }
         else
         {
@@ -42,7 +42,6 @@ namespace TailForWin.Template.TabOptions
           {
             MessageBox.Show (Application.Current.FindResource ("EMailAddressNotValid").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             watermarkTextBoxFrom.Focus ( );
-            return;
           }
         }
       }
@@ -70,7 +69,7 @@ namespace TailForWin.Template.TabOptions
 
     private void watermarkTextBox_GotFocus (object sender, RoutedEventArgs e)
     {
-      TailForWin.Template.WatermarkTextBox.WatermarkTextBox tb = (TailForWin.Template.WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
+      WatermarkTextBox.WatermarkTextBox tb = (WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
       SelectAllText (tb);
     }
 
@@ -79,7 +78,7 @@ namespace TailForWin.Template.TabOptions
       DataContext = SettingsHelper.TailSettings.AlertSettings.SmtpSettings;
 
       if (!string.IsNullOrEmpty (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password))
-        textBoxPassword.Password = TailForWin.Utils.StringEncryption.Decrypt (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password, LogFile.ENCRYPT_PASSPHRASE);
+        textBoxPassword.Password = Utils.StringEncryption.Decrypt (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password, LogFile.ENCRYPT_PASSPHRASE);
 
       if (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SSL)
         comboBoxSecurity.SelectedIndex = 1;
@@ -98,12 +97,9 @@ namespace TailForWin.Template.TabOptions
       Close ( );
     }
 
-    private void SelectAllText (TailForWin.Template.WatermarkTextBox.WatermarkTextBox textBox)
+    private static void SelectAllText (TextBoxBase textBox)
     {
-      textBox.Dispatcher.BeginInvoke (new Action (delegate
-      {
-        textBox.SelectAll ( );
-      }), System.Windows.Threading.DispatcherPriority.Input);
+      textBox.Dispatcher.BeginInvoke (new Action (textBox.SelectAll), System.Windows.Threading.DispatcherPriority.Input);
     }
 
     private void SaveSettings ()
@@ -125,7 +121,7 @@ namespace TailForWin.Template.TabOptions
         SettingsHelper.TailSettings.AlertSettings.SmtpSettings.LoginName = watermarkTextBoxUserName.Text;
 
       if (textBoxPassword.Password.Length > 0)
-        SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password = TailForWin.Utils.StringEncryption.Encrypt (textBoxPassword.Password, LogFile.ENCRYPT_PASSPHRASE);
+        SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password = Utils.StringEncryption.Encrypt (textBoxPassword.Password, LogFile.ENCRYPT_PASSPHRASE);
 
       if (watermarkTextBoxSubject.Text.Length > 0)
         SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Subject = watermarkTextBoxSubject.Text;

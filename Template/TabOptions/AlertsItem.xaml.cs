@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using System;
+﻿using System;
 using System.Windows.Input;
 using TailForWin.Controller;
 using TailForWin.Data;
@@ -13,7 +12,7 @@ namespace TailForWin.Template.TabOptions
   /// <summary>
   /// Interaction logic for AlertsItem.xaml
   /// </summary>
-  public partial class AlertsItem: UserControl, ITabOptionItems
+  public partial class AlertsItem : ITabOptionItems
   {
     /// <summary>
     /// Close dialog event handler
@@ -48,7 +47,6 @@ namespace TailForWin.Template.TabOptions
         {
           MessageBox.Show (Application.Current.FindResource ("EMailAddressNotValid").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
           watermarkTextBoxEMailAddress.Focus ( );
-          return;
         }
       }
       else
@@ -64,7 +62,7 @@ namespace TailForWin.Template.TabOptions
 
     private void btnOpenSoundFile_Click (object sender, RoutedEventArgs e)
     {
-      string fName = string.Empty;
+      string fName;
 
       if (LogFile.OpenFileLogDialog (out fName, "MP3 (*.mp3)|*.mp3|Wave (*.wav)|*.wav|All files (*.*)|*.*", Application.Current.FindResource ("SelectSoundFile") as string))
         textBoxSoundFile.Text = fName;
@@ -81,7 +79,7 @@ namespace TailForWin.Template.TabOptions
     private void btnSmtp_Click (object sender, RoutedEventArgs e)
     {
       Window wnd = Window.GetWindow (this);
-      SmtpSettings smtp = new SmtpSettings ( ) { Owner = wnd };
+      SmtpSettings smtp = new SmtpSettings { Owner = wnd };
 
       smtp.ShowDialog ( );
     }
@@ -109,21 +107,21 @@ namespace TailForWin.Template.TabOptions
       {
         var text = e.Data.GetData (DataFormats.FileDrop);
 
-        if (text != null)
+        if (text == null)
+          return;
+
+        string fileName = string.Format ("{0}", ((string[]) text)[0]);
+        string extension = System.IO.Path.GetExtension (fileName);
+
+        Regex regex = new Regex (LogFile.REGEX_SOUNDFILE_EXTENSION);
+
+        if (!regex.IsMatch (extension))
         {
-          string fileName = string.Format ("{0}", ((string[]) text)[0]);
-          string extension = System.IO.Path.GetExtension (fileName);
-
-          Regex regex = new Regex (LogFile.REGEX_SOUNDFILE_EXTENSION);
-
-          if (!regex.IsMatch (extension))
-          {
-            MessageBox.Show (Application.Current.FindResource ("NoSoundFile").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-            return;
-          }
-
-          textBoxSoundFile.Text = fileName;
+          MessageBox.Show (Application.Current.FindResource ("NoSoundFile").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+          return;
         }
+
+        textBoxSoundFile.Text = fileName;
       }
       catch (Exception ex)
       {
