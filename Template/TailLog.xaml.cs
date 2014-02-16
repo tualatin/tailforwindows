@@ -955,7 +955,7 @@ namespace TailForWin.Template
          mySmtp.InitClient ( );
     }
 
-    private void fileManagerDoUpdate (object sender, EventArgs e)
+    private static void fileManagerDoUpdate (object sender, EventArgs e)
     {
 #if DEBUG
       MessageBox.Show ("FileManager do update");
@@ -970,10 +970,7 @@ namespace TailForWin.Template
 
     public void DragEnterHelper (object sender, DragEventArgs e)
     {
-      if (tailWorker.IsBusy)
-        e.Handled = false;
-      else
-        e.Handled = true;
+      e.Handled = !tailWorker.IsBusy;
 
       if (e.Source == sender)
         e.Effects = DragDropEffects.None;

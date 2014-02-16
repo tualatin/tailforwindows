@@ -259,6 +259,7 @@ namespace TailForWin.Template
       SetDialogTitle ( );
 
       SetSelectedComboBoxItem (fmWorkingProperties.Category, fmWorkingProperties.ThreadPriority, fmWorkingProperties.RefreshRate, fmWorkingProperties.FileEncoding);
+      Title = "FileManager";
       SetAddSaveButton ( );
       fmState = SettingsData.EFileManagerState.OpenFileManager;
       fmMemento = fmWorkingProperties.SaveToMemento ( );
@@ -465,6 +466,7 @@ namespace TailForWin.Template
       fmWorkingProperties.ListOfFilter.Clear ( );
 
       fmDoc.FmProperties.Add (fmWorkingProperties);
+      Title = string.Format ("FileManager - Add file '{0}'", fileName);
       // dataGridFiles.Items.Refresh ( );
       SelectLastItemInDataGrid ( );
 
