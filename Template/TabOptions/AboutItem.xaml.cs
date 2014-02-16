@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Reflection;
 using TailForWin.Utils;
 using TailForWin.Data;
@@ -14,7 +13,7 @@ namespace TailForWin.Template.TabOptions
   /// <summary>
   /// Interaction logic for AboutItem.xaml
   /// </summary>
-  public partial class AboutItem: UserControl, ITabOptionItems
+  public partial class AboutItem : ITabOptionItems
   {
     /// <summary>
     /// Close dialog event handler
@@ -77,7 +76,7 @@ namespace TailForWin.Template.TabOptions
     private void btnSysInfo_Click (object sender, RoutedEventArgs e)
     {
       Window wnd = Window.GetWindow (this);
-      SystemInformation sysInfo = new SystemInformation ( ) { Owner = wnd };
+      SystemInformation sysInfo = new SystemInformation { Owner = wnd };
       sysInfo.ShowDialog ( );
     }
   }

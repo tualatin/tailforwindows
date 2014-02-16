@@ -11,7 +11,7 @@ namespace TailForWin.Template.TabOptions
   /// <summary>
   /// Interaktionslogik für ProxyServer.xaml
   /// </summary>
-  public partial class ProxyServer : Window
+  public partial class ProxyServer
   {
     public ProxyServer ()
     {
@@ -99,7 +99,7 @@ namespace TailForWin.Template.TabOptions
         textBoxPassword.Password = StringEncryption.Decrypt (SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE);
     }
 
-    private void SelectAllText (TailForWin.Template.WatermarkTextBox.WatermarkTextBox textBox)
+    private void SelectAllText (WatermarkTextBox.WatermarkTextBox textBox)
     {
       textBox.Dispatcher.BeginInvoke (new Action (delegate
         {
@@ -111,7 +111,7 @@ namespace TailForWin.Template.TabOptions
 
     private void watermarkTextBox_GotFocus (object sender, RoutedEventArgs e)
     {
-      TailForWin.Template.WatermarkTextBox.WatermarkTextBox tb = (TailForWin.Template.WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
+      WatermarkTextBox.WatermarkTextBox tb = (WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
       SelectAllText (tb);
     }
   }

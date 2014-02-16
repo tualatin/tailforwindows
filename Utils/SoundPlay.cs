@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using TailForWin.Data;
@@ -9,15 +7,14 @@ using System.IO;
 
 namespace TailForWin.Utils
 {
-  // TODO sound engine
   public static class SoundPlay
   {
     [DllImport ("winmm.dll")]
     private static extern int mciSendString (string strCommand, StringBuilder strReturn, int iReturnLength, IntPtr hWndCallback);
 
     private static string command = string.Empty;
-    private static StringBuilder msg = new StringBuilder ((int) 256);
-    private static StringBuilder returnData = new StringBuilder ((int) 256);
+    // private static StringBuilder msg = new StringBuilder ((int) 256);
+    private static readonly StringBuilder ReturnData = new StringBuilder (256);
     private static int result = -1;
     private static string mciMusicFile = string.Empty;
 
@@ -28,7 +25,7 @@ namespace TailForWin.Utils
     /// <param name="soundFile">Soundfile</param>
     public static bool InitSoundPlay (string soundFile) 
     {
-      if (soundFile.CompareTo (LogFile.ALERT_SOUND_FILENAME) == 0)
+      if (String.Compare(soundFile, LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0)
         return (false);
       if (!File.Exists (soundFile))
         return (false);
@@ -39,18 +36,13 @@ namespace TailForWin.Utils
       command = string.Format ("open \"{0}\" type mpegvideo alias MediaFile", soundFile);
       result = mciSendString (command, null, 0, IntPtr.Zero);
 
-      if (result != 0)
-      {
-        command = string.Format ("open \"{0}\" alias MediaFile", soundFile);
-        result = mciSendString (command, null, 0, IntPtr.Zero);
-
-        if (result == 0)
-          return (true);
-        else
-          return (false);
-      }
-      else
+      if (result == 0)
         return (true);
+
+      command = string.Format ("open \"{0}\" alias MediaFile", soundFile);
+      result = mciSendString (command, null, 0, IntPtr.Zero);
+
+      return (result == 0);
     }
 
     /// <summary>
@@ -70,12 +62,10 @@ namespace TailForWin.Utils
 
       if (result == 0)
         return (true);
-      else
-      {
-        Close ( );
 
-        return (false);
-      }
+      Close ( );
+
+      return (false);
     }
 
     public static void Close ( )
@@ -87,38 +77,30 @@ namespace TailForWin.Utils
     public static bool IsPlaying ()
     {
       command = "status MediaFile mode";
-      result = mciSendString (command, returnData, 128, IntPtr.Zero);
+      result = mciSendString (command, ReturnData, 128, IntPtr.Zero);
 
-      if (returnData.Length == 7 && String.Compare (returnData.ToString ( ).Substring (0, 7), "playing", false) == 0)
+      if (ReturnData.Length == 7 && String.CompareOrdinal(ReturnData.ToString ( ).Substring (0, 7), "playing") == 0)
         return (true);
-      else
-      {
-        InitSoundPlay (mciMusicFile);
 
-        return (false);
-      }
+      InitSoundPlay (mciMusicFile);
+
+      return (false);
     }
 
     private static bool IsOpen ()
     {
       command = "status MediaFile mode";
-      result = mciSendString (command, returnData, 128, IntPtr.Zero);
+      result = mciSendString (command, ReturnData, 128, IntPtr.Zero);
 
-      if (returnData.Length == 4 && String.Compare (returnData.ToString ( ).Substring (0, 4), "open", false) == 0)
-        return (true);
-      else
-        return (false);
+      return (ReturnData.Length == 4 && String.CompareOrdinal(ReturnData.ToString ( ).Substring (0, 4), "open") == 0);
     }
 
     public static bool IsStopped ()
     {
       command = "status MediaFile mode";
-      result = mciSendString (command, returnData, 128, IntPtr.Zero);
+      result = mciSendString (command, ReturnData, 128, IntPtr.Zero);
 
-      if (returnData.Length == 7 && String.Compare (returnData.ToString ( ).Substring (0, 7), "stopped", false) == 0)
-        return (true);
-      else
-        return (false);
+      return (ReturnData.Length == 7 && String.CompareOrdinal(ReturnData.ToString ( ).Substring (0, 7), "stopped") == 0);
     }
   }
 }

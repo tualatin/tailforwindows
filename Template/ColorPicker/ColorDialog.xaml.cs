@@ -8,7 +8,7 @@ namespace TailForWin.Template.ColorPicker
   /// <summary>
   /// Interaction logic for ColorDialog.xaml
   /// </summary>
-  public partial class ColorDialog: Window
+  public partial class ColorDialog
   {
     public ColorDialog ()
       : this (Colors.Black)

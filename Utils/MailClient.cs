@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 namespace TailForWin.Utils
 {
-  public class MailClient: IDisposable
+  public class MailClient : IDisposable
   {
     private SmtpClient mailClient;
     private MailMessage mailMessage;
@@ -72,7 +72,7 @@ namespace TailForWin.Utils
 
         MailAddress from = new MailAddress (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.FromAddress);
         MailAddress to = new MailAddress (SettingsHelper.TailSettings.AlertSettings.EMailAddress);
-        
+
         mailMessage = new MailMessage (from, to)
         {
           Subject = SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Subject,
@@ -92,7 +92,7 @@ namespace TailForWin.Utils
       }
       catch (Exception ex)
       {
-        MessageBox.Show (Application.Current.FindResource ("SmtpSettingsNotValid").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show (Application.Current.FindResource ("SmtpSettingsNotValid") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
@@ -115,16 +115,16 @@ namespace TailForWin.Utils
           mailMessage.Body = string.Format ("Testmail from {0}", LogFile.APPLICATION_CAPTION);
 
         mailClient.SendAsync (mailMessage, userToken);
-        
+
         if (String.Compare (userState, "testMessage", StringComparison.Ordinal) == 0)
           return;
 
         emailTimer.Enabled = true;
-        Console.WriteLine ("Timer start {0}", DateTime.Now);
+        Console.WriteLine (@"Timer start {0}", DateTime.Now);
       }
       catch (Exception ex)
       {
-        MessageBox.Show (Application.Current.FindResource ("MailCannotSend").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show (Application.Current.FindResource ("MailCannotSend") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
@@ -167,7 +167,7 @@ namespace TailForWin.Utils
       try
       {
         emailTimer.Enabled = false;
-        Console.WriteLine ("Timer end {0}", DateTime.Now);
+        Console.WriteLine (@"Timer end {0}", DateTime.Now);
       }
       catch (Exception ex)
       {

@@ -8,8 +8,8 @@ namespace TailForWin.Template.UpdateController
 {
   public class Webservice
   {
-    WebServiceData proxySettings;
-    HttpWebRequest request = null;
+    readonly WebServiceData proxySettings;
+    HttpWebRequest request;
     
 
     public Webservice (WebServiceData data)

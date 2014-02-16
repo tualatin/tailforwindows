@@ -307,14 +307,14 @@ namespace TailForWin.Controller
       FileManagerData cmdParameterItem = null;
 
       if (!File.Exists (fmFile)) {
-        System.Windows.MessageBox.Show (System.Windows.Application.Current.FindResource ("FileNotFound").ToString ( ), string.Format ("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+        System.Windows.MessageBox.Show (System.Windows.Application.Current.FindResource ("FileNotFound") as string, string.Format ("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
         return (null);
       }
 
       if (fmProperties.Count == 0)
       {
-        System.Windows.MessageBox.Show (System.Windows.Application.Current.FindResource ("NoContentFound").ToString ( ), string.Format ("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+        System.Windows.MessageBox.Show (System.Windows.Application.Current.FindResource ("NoContentFound") as string, string.Format ("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
         return (null);
       }
@@ -705,7 +705,7 @@ namespace TailForWin.Controller
     private static XElement AddFilterToDoc (FilterData filter)
     {
       XElement docPart = new XElement ("filter",
-            new XElement ("id", filter.ID),
+            new XElement ("id", filter.Id),
             new XElement ("filterName", filter.Description),
             new XElement ("filterPattern", filter.Filter),
             new XElement ("font",
@@ -741,7 +741,7 @@ namespace TailForWin.Controller
 
       FilterData filter = new FilterData
                           {
-                            ID = GetId (element.Value),
+                            Id = GetId (element.Value),
                             Filter = xElement1.Value,
                             Description = element1.Value,
                             FilterFontType = GetFont (root.Element ("font"))

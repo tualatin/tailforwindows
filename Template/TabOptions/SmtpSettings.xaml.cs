@@ -28,7 +28,7 @@ namespace TailForWin.Template.TabOptions
       {
         if (string.IsNullOrEmpty (watermarkTextBoxPort.Text))
         {
-          MessageBox.Show (Application.Current.FindResource ("SmtpPortNotValid").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+          MessageBox.Show (Application.Current.FindResource ("SmtpPortNotValid") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
           watermarkTextBoxPort.Focus ( );
         }
         else
@@ -40,7 +40,7 @@ namespace TailForWin.Template.TabOptions
           }
           else
           {
-            MessageBox.Show (Application.Current.FindResource ("EMailAddressNotValid").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show (Application.Current.FindResource ("EMailAddressNotValid") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             watermarkTextBoxFrom.Focus ( );
           }
         }

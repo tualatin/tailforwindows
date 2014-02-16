@@ -1,9 +1,9 @@
-﻿using System.Printing;
+﻿using System.Collections.Generic;
+using System.Printing;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using TailForWin.Data;
 using System.Windows;
-using System.Collections.ObjectModel;
 using TailForWin.Template.TextEditor.Data;
 
 
@@ -11,7 +11,7 @@ namespace TailForWin.Controller
 {
   public class PrintHelper
   {
-    public PrintHelper (ObservableCollection<LogEntry> items, string fileName, bool timeStamp = false, string format = null)
+    public PrintHelper (IEnumerable<LogEntry> items, string fileName, bool timeStamp = false, string format = null)
     {
       PrintDialog printDialog = new PrintDialog
       {

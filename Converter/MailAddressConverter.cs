@@ -10,21 +10,15 @@ namespace TailForWin.Converter
 
     public object Convert (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (value != null)
-      {
-        if (value.GetType ( ) == typeof (string))
-        {
-          string eMailAddress = value as string;
+      if (value == null)
+        return (string.Empty);
 
-          if (eMailAddress.CompareTo ("NoMail") == 0)
-            return (string.Empty);
-          else
-            return (eMailAddress);
-        }
-        else
-          return (string.Empty);
-      }
-      return (string.Empty);
+      if (!(value is string))
+        return (string.Empty);
+
+      string eMailAddress = value as string;
+
+      return (String.Compare(eMailAddress, "NoMail", StringComparison.Ordinal) == 0 ? (string.Empty) : (eMailAddress));
     }
 
     public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

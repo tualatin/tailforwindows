@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
 using System.ComponentModel;
 
@@ -8,7 +9,7 @@ namespace TailForWin.Template
   /// <summary>
   /// Interaction logic for Spinner.xaml
   /// </summary>
-  public partial class Spinner: UserControl
+  public partial class Spinner
   {
     public Spinner ()
     {
@@ -20,7 +21,7 @@ namespace TailForWin.Template
       if (StartIndex <= MaxSpinValue)
         StartIndex = StartIndex + Increment;
 
-      textBoxSpinValue.Text = StartIndex.ToString ( );
+      textBoxSpinValue.Text = StartIndex.ToString (CultureInfo.InvariantCulture);
     }
 
     private void btnDown_Click (object sender, RoutedEventArgs e)
@@ -28,7 +29,7 @@ namespace TailForWin.Template
       if (StartIndex > MinSpinValue)
         StartIndex = StartIndex - Increment;
 
-      textBoxSpinValue.Text = StartIndex.ToString ( );
+      textBoxSpinValue.Text = StartIndex.ToString (CultureInfo.InvariantCulture);
     }
 
     #region Properties
@@ -121,7 +122,7 @@ namespace TailForWin.Template
 
     private void textBoxSpinValue_LostFocus (object sender, RoutedEventArgs e)
     {
-      textBoxSpinValue.Text = StartIndex.ToString ( );
+      textBoxSpinValue.Text = StartIndex.ToString (CultureInfo.InvariantCulture);
     }
 
     private void UserControl_Loaded (object sender, RoutedEventArgs e)
@@ -131,7 +132,7 @@ namespace TailForWin.Template
       if (StartIndex < MinSpinValue)
         StartIndex = MinSpinValue;
 
-      textBoxSpinValue.Text = StartIndex.ToString ( );
+      textBoxSpinValue.Text = StartIndex.ToString (CultureInfo.InvariantCulture);
     }
   }
 }

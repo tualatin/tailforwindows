@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Microsoft.Win32;
 using System.IO;
@@ -14,7 +13,7 @@ namespace TailForWin.Template.TabOptions
   /// <summary>
   /// Interaction logic for ImportExport.xaml
   /// </summary>
-  public partial class ImportExportItem: UserControl, ITabOptionItems
+  public partial class ImportExportItem : ITabOptionItems
   {
     public ImportExportItem ()
     {
@@ -62,40 +61,42 @@ namespace TailForWin.Template.TabOptions
     {
       string importSettings;
 
-      if (LogFile.OpenFileLogDialog (out importSettings, "Export Settings (*export)|*.export", Application.Current.FindResource ("OpenDialogImportSettings").ToString ( )))
+      if (!LogFile.OpenFileLogDialog (out importSettings, "Export Settings (*export)|*.export",
+                                    Application.Current.FindResource ("OpenDialogImportSettings") as string))
+        return;
+
+      if (importSettings == null)
+        return;
+
+      if (MessageBox.Show (Application.Current.FindResource ("QImportSettings") as string, LogFile.APPLICATION_CAPTION,
+                         MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+        return;
+
+      try
       {
-        if (importSettings != null)
+        string appName = AppDomain.CurrentDomain.FriendlyName;
+        FileStream importFile = new FileStream (importSettings, FileMode.Open);
+        Stream output = File.Create (string.Format ("{0}{1}.Config", AppDomain.CurrentDomain.BaseDirectory, appName));
+        byte[] buffer = new byte[1024];
+        int len;
+
+        while ((len = importFile.Read (buffer, 0, buffer.Length)) > 0)
         {
-          if (MessageBox.Show (Application.Current.FindResource ("QImportSettings").ToString ( ), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-          {
-            try
-            {
-              string appName = AppDomain.CurrentDomain.FriendlyName;
-              FileStream importFile = new FileStream (importSettings, FileMode.Open);
-              Stream output = File.Create (string.Format ("{0}{1}.Config", AppDomain.CurrentDomain.BaseDirectory, appName));
-              byte[] buffer = new byte[1024];
-              int len;
-
-              while ((len = importFile.Read (buffer, 0, buffer.Length)) > 0)
-              {
-                output.Write (buffer, 0, len);
-              }
-
-              output.Flush ( );
-              importFile.Flush ( );
-
-              output.Close ( );
-              importFile.Close ( );
-
-              SettingsHelper.ReloadSettings ( );
-              SettingsHelper.ReadSettings ( );
-            }
-            catch (Exception ex)
-            {
-              ErrorLog.WriteLog (ErrorFlags.Error, "ImportExportItem", string.Format ("Import ( ), exception: {0}", ex));
-            }
-          }
+          output.Write (buffer, 0, len);
         }
+
+        output.Flush ( );
+        importFile.Flush ( );
+
+        output.Close ( );
+        importFile.Close ( );
+
+        SettingsHelper.ReloadSettings ( );
+        SettingsHelper.ReadSettings ( );
+      }
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
       }
     }
 
@@ -105,40 +106,40 @@ namespace TailForWin.Template.TabOptions
       string appSettings = string.Format ("{0}{1}.Config", AppDomain.CurrentDomain.BaseDirectory, appName);
       string date = DateTime.Now.ToString ("yyyy_MM_dd_hh_mm");
      
-      SaveFileDialog saveDialog = new SaveFileDialog ( )
+      SaveFileDialog saveDialog = new SaveFileDialog
       {
         FileName = string.Format ("{0}_{1}.Config", date, appName),
         DefaultExt = ".export",
         Filter = "Export Settings (*.export)|*.export"
       };
 
-      Nullable<bool> result = saveDialog.ShowDialog ( );
+      bool? result = saveDialog.ShowDialog ( );
 
-      if (result == true)
+      if (result != true)
+        return;
+
+      try
       {
-        try
+        FileStream saveFile = new FileStream (appSettings, FileMode.Open);
+        Stream output = File.Create (string.Format ("{0}.{1}", saveDialog.FileName, saveDialog.DefaultExt));
+        byte[] buffer = new byte[1024];
+        int len;
+
+        while ((len = saveFile.Read (buffer, 0, buffer.Length)) > 0)
         {
-          FileStream saveFile = new FileStream (appSettings, FileMode.Open);
-          Stream output = File.Create (string.Format ("{0}.{1}", saveDialog.FileName, saveDialog.DefaultExt));
-          byte[] buffer = new byte[1024];
-          int len;
-
-          while ((len = saveFile.Read (buffer, 0, buffer.Length)) > 0)
-          {
-            output.Write (buffer, 0, len);
-          }
-
-          saveFile.Flush ( );
-          output.Flush ( );
-
-          saveFile.Close ( );
-          output.Close ( );
+          output.Write (buffer, 0, len);
         }
-        catch (Exception ex)
-        {
-          ErrorLog.WriteLog (ErrorFlags.Error, "ImportExportItem", string.Format ("Export ( ), exception: {0}", ex));
-        }
-      }           
+
+        saveFile.Flush ( );
+        output.Flush ( );
+
+        saveFile.Close ( );
+        output.Close ( );
+      }
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
+      }
     }
   }
 }

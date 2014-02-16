@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System;
+﻿using System;
 using TailForWin.Controller;
 using System.Windows.Input;
 
@@ -9,7 +8,7 @@ namespace TailForWin.Template
   /// <summary>
   /// Interaction logic for Options.xaml
   /// </summary>
-  public partial class Options: Window
+  public partial class Options
   {
     /// <summary>
     /// Update properties event handler

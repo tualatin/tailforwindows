@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Globalization;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Ink;
 using System.Windows;
@@ -29,11 +30,11 @@ namespace TailForWin.Template.ColorPicker
   ///  - Modify color select dragging behavior
   /// </summary>
 
-  public partial class ColorPicker: UserControl
+  public partial class ColorPicker
   {
-    private DrawingAttributes drawingAttributes = new DrawingAttributes ( );
+    private readonly DrawingAttributes drawingAttributes = new DrawingAttributes ( );
     private Color selectedColor = Colors.Transparent;
-    private bool IsMouseDown = false;
+    private bool isMouseDown;
 
 
     public ColorPicker ()
@@ -55,19 +56,19 @@ namespace TailForWin.Template.ColorPicker
     /// </summary>
     public Color SelectedColor
     {
-      get 
-      { 
-        return (selectedColor); 
+      get
+      {
+        return (selectedColor);
       }
       private set
       {
-        if (selectedColor != value)
-        {
-          this.selectedColor = value;
-          CreateAlphaLinearBrush ( );
-          UpdateTextBoxes ( );
-          UpdateInk ( );
-        }
+        if (selectedColor == value)
+          return;
+
+        selectedColor = value;
+        CreateAlphaLinearBrush ( );
+        UpdateTextBoxes ( );
+        UpdateInk ( );
       }
     }
 
@@ -105,8 +106,8 @@ namespace TailForWin.Template.ColorPicker
     /// </summary>
     private void CreateAlphaLinearBrush ()
     {
-      Color startColor = Color.FromArgb ((byte) 0, SelectedColor.R, SelectedColor.G, SelectedColor.B);
-      Color endColor = Color.FromArgb ((byte) 255, SelectedColor.R, SelectedColor.G, SelectedColor.B);
+      Color startColor = Color.FromArgb (0, SelectedColor.R, SelectedColor.G, SelectedColor.B);
+      Color endColor = Color.FromArgb (255, SelectedColor.R, SelectedColor.G, SelectedColor.B);
       LinearGradientBrush alphaBrush = new LinearGradientBrush (startColor, endColor, new Point (0, 0), new Point (1, 0));
       AlphaBorder.Background = alphaBrush;
     }
@@ -117,10 +118,9 @@ namespace TailForWin.Template.ColorPicker
     private void UpdateCursorEllipse (Color searchColor)
     {
       // Scan the canvas image for a color which matches the search color
-      CroppedBitmap cb;
       Color tempColor = new Color ( );
       byte[] pixels = new byte[4];
-      int searchY = 0;
+      int searchY;
       int searchX = 0;
       searchColor.A = 255;
 
@@ -128,7 +128,7 @@ namespace TailForWin.Template.ColorPicker
       {
         for (searchX = 0; searchX <= canvasImage.Height - 1; searchX++)
         {
-          cb = new CroppedBitmap (ColorImage.Source as BitmapSource, new Int32Rect (searchX, searchY, 1, 1));
+          CroppedBitmap cb = new CroppedBitmap (ColorImage.Source as BitmapSource, new Int32Rect (searchX, searchY, 1, 1));
           cb.CopyPixels (pixels, 4, 0);
           tempColor = Color.FromArgb (255, pixels[2], pixels[1], pixels[0]);
 
@@ -148,8 +148,8 @@ namespace TailForWin.Template.ColorPicker
       }
 
       // Update the mouse cursor ellipse position
-      ellipsePixel.SetValue (Canvas.LeftProperty, ((double) searchX - (ellipsePixel.Width / 2.0)));
-      ellipsePixel.SetValue (Canvas.TopProperty, ((double) searchY - (ellipsePixel.Width / 2.0)));
+      ellipsePixel.SetValue (Canvas.LeftProperty, (searchX - (ellipsePixel.Width / 2.0)));
+      ellipsePixel.SetValue (Canvas.TopProperty, (searchY - (ellipsePixel.Width / 2.0)));
     }
 
     /// <summary>
@@ -170,8 +170,8 @@ namespace TailForWin.Template.ColorPicker
       cb.CopyPixels (pixels, 4, 0);
 
       // Update the mouse cursor position and the Selected Color
-      ellipsePixel.SetValue (Canvas.LeftProperty, (double) (Mouse.GetPosition (canvasImage).X - (ellipsePixel.Width / 2.0)));
-      ellipsePixel.SetValue (Canvas.TopProperty, (double) (Mouse.GetPosition (canvasImage).Y - (ellipsePixel.Width / 2.0)));
+      ellipsePixel.SetValue (Canvas.LeftProperty, Mouse.GetPosition (canvasImage).X - (ellipsePixel.Width / 2.0));
+      ellipsePixel.SetValue (Canvas.TopProperty, Mouse.GetPosition (canvasImage).Y - (ellipsePixel.Width / 2.0));
       canvasImage.InvalidateVisual ( );
 
       // Set the Selected Color based on the cursor pixel and Alpha Slider value
@@ -183,13 +183,13 @@ namespace TailForWin.Template.ColorPicker
     /// </summary>
     private void UpdateTextBoxes ()
     {
-      txtAlpha.Text = SelectedColor.A.ToString ( );
+      txtAlpha.Text = SelectedColor.A.ToString (CultureInfo.InvariantCulture);
       txtAlphaHex.Text = SelectedColor.A.ToString ("X2");
-      txtRed.Text = SelectedColor.R.ToString ( );
+      txtRed.Text = SelectedColor.R.ToString (CultureInfo.InvariantCulture);
       txtRedHex.Text = SelectedColor.R.ToString ("X2");
-      txtGreen.Text = SelectedColor.G.ToString ( );
+      txtGreen.Text = SelectedColor.G.ToString (CultureInfo.InvariantCulture);
       txtGreenHex.Text = SelectedColor.G.ToString ("X2");
-      txtBlue.Text = SelectedColor.B.ToString ( );
+      txtBlue.Text = SelectedColor.B.ToString (CultureInfo.InvariantCulture);
       txtBlueHex.Text = SelectedColor.B.ToString ("X2");
       txtAll.Text = string.Format ("#{0}{1}{2}{3}", txtAlphaHex.Text, txtRedHex.Text, txtGreenHex.Text, txtBlueHex.Text);
     }
@@ -220,7 +220,7 @@ namespace TailForWin.Template.ColorPicker
     private void AlphaSlider_MouseWheel (object sender, MouseWheelEventArgs e)
     {
       int change = e.Delta / Math.Abs (e.Delta);
-      AlphaSlider.Value = AlphaSlider.Value + (double) change;
+      AlphaSlider.Value = AlphaSlider.Value + change;
     }
 
     /// <summary>
@@ -236,7 +236,7 @@ namespace TailForWin.Template.ColorPicker
     /// </summary>
     private void CanvasImage_MouseMove (object sender, MouseEventArgs e)
     {
-      if (IsMouseDown)
+      if (isMouseDown)
         UpdateColor ( );
     }
 
@@ -245,7 +245,7 @@ namespace TailForWin.Template.ColorPicker
     /// </summary>
     private void CanvasImage_MouseDown (object sender, MouseButtonEventArgs e)
     {
-      IsMouseDown = true;
+      isMouseDown = true;
       UpdateColor ( );
     }
 
@@ -254,7 +254,7 @@ namespace TailForWin.Template.ColorPicker
     /// </summary>
     private void CanvasImage_MouseUp (object sender, MouseButtonEventArgs e)
     {
-      IsMouseDown = false;
+      isMouseDown = false;
     }
 
     /// <summary>
@@ -263,7 +263,10 @@ namespace TailForWin.Template.ColorPicker
     private void Swatch_MouseLeftButtonDown (object sender, MouseButtonEventArgs e)
     {
       Image img = (sender as Image);
-      ColorImage.Source = img.Source;
+
+      if (img != null)
+        ColorImage.Source = img.Source;
+
       UpdateCursorEllipse (SelectedColor);
     }
 

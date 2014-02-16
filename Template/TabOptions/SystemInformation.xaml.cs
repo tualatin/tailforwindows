@@ -11,7 +11,7 @@ namespace TailForWin.Template.TabOptions
   /// <summary>
   /// Interaction logic for SystemInformation.xaml
   /// </summary>
-  public partial class SystemInformation: Window
+  public partial class SystemInformation
   {
     public SystemInformation ()
     {

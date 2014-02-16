@@ -23,7 +23,7 @@ namespace TailForWin.Template.TextEditor
   /// <summary>
   /// Interaction logic for LogViewerControl.xaml
   /// </summary>
-  public partial class LogViewerControl: UserControl
+  public partial class LogViewerControl
   {
     #region EventHandler
 
@@ -53,12 +53,12 @@ namespace TailForWin.Template.TextEditor
     /// <summary>
     /// Pattern from search box what we explore
     /// </summary>
-    private string SearchText;
+    private string searchText;
 
     /// <summary>
     /// Search bookmarks only
     /// </summary>
-    private bool SearchBookmark;
+    private bool searchBookmark;
 
     /// <summary>
     /// Collection of found items
@@ -91,7 +91,10 @@ namespace TailForWin.Template.TextEditor
       LogViewer.SelectionChanged += LogViewer_SelectionChanged;
 
       LogEntries = new ObservableCollection<LogEntry> ( );
-      collectionViewSource = new CollectionViewSource { Source = LogEntries };
+      collectionViewSource = new CollectionViewSource
+      {
+        Source = LogEntries
+      };
       collectionViewSource.Filter += CollectionViewSourceFilter;
       LogViewer.DataContext = collectionViewSource;
       filters = new ObservableCollection<FilterData> ( );
@@ -465,7 +468,7 @@ namespace TailForWin.Template.TextEditor
     /// <param name="logText">Text to insert</param>
     public void AppendText (string logText)
     {
-      LogEntry entry = new LogEntry ( )
+      LogEntry entry = new LogEntry
       {
         Index = ++index,
         Message = logText,
@@ -479,13 +482,13 @@ namespace TailForWin.Template.TextEditor
     }
 
     /// <summary>
-    /// Find next search item
+    /// Find next serach item
     /// </summary>
-    /// <param name="searchText">Text to search</param>
+    /// <param name="sd"></param>
     public void FindNextItem (SearchData sd)
     {
-      SearchBookmark = sd.SearchBookmarks;
-      SearchText = sd.WordToFind;
+      searchBookmark = sd.SearchBookmarks;
+      searchText = sd.WordToFind;
 
       if (sd.Count)
         SearchItemsNow (sd.Count);
@@ -499,13 +502,13 @@ namespace TailForWin.Template.TextEditor
           SearchItemsNow (sd.Count);
         }
 
-        if (!sd.Count)
-        {
-          FindNextSearchItem ( );
-          LogViewer.SelectedItem = NextSearch;
-          LogViewer.ScrollIntoView (NextSearch);
-          SearchNextHightlightItem (FindMessageTextBox (NextSearch));
-        }
+        if (sd.Count)
+          return;
+
+        FindNextSearchItem ( );
+        LogViewer.SelectedItem = NextSearch;
+        LogViewer.ScrollIntoView (NextSearch);
+        SearchNextHightlightItem (FindMessageTextBox (NextSearch));
       }), DispatcherPriority.DataBind);
     }
 
@@ -596,7 +599,7 @@ namespace TailForWin.Template.TextEditor
     public void GoToLineNumber (int line)
     {
       logViewScrollViewer.ScrollToVerticalOffset (line - 1);
-      var item = LogEntries.Where (x => x.Index == line).FirstOrDefault ( );
+      var item = LogEntries.FirstOrDefault (x => x.Index == line);
       LogViewer.SelectedItem = item;
     }
 
@@ -655,58 +658,66 @@ namespace TailForWin.Template.TextEditor
       if (!leftMouseButtonDown)
         return;
 
-      var items = (sender as ListBox).SelectedItems;
-      int index;
-      Point mousePoint = PointToScreen (Mouse.GetPosition (this));
+      var listBox = sender as ListBox;
 
-      if (oldMousePosition.Y != mousePoint.Y)
-        mouseMove = true;
-
-      try
+      if (listBox != null)
       {
-        foreach (LogEntry item in items)
+        var items = listBox.SelectedItems;
+        int index;
+        Point mousePoint = PointToScreen (Mouse.GetPosition (this));
+
+        if (oldMousePosition.Y != mousePoint.Y)
+          mouseMove = true;
+
+        try
         {
-          index = items.IndexOf (item);
-
-          if (index == 0)
+          foreach (LogEntry item in items)
           {
-            ListBoxItem myListBoxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem (item));
-            ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter> (myListBoxItem);
+            index = items.IndexOf (item);
 
-            if (myContentPresenter == null)
-              return;
-
-            DataTemplate myDataTemplate = myContentPresenter.ContentTemplateSelector.SelectTemplate (myListBoxItem, LogViewer);
-
-            if (!mouseMove && leftMouseButtonDown)
+            if (index == 0)
             {
-              if (TemplateData.State == TemplateData.TemplateStates.ShowDateTimeLineNumber || TemplateData.State == TemplateData.TemplateStates.ShowLineNumber)
+              ListBoxItem myListBoxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem (item));
+              ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter> (myListBoxItem);
+
+              if (myContentPresenter == null)
+                return;
+
+              DataTemplate myDataTemplate = myContentPresenter.ContentTemplateSelector.SelectTemplate (myListBoxItem, LogViewer);
+
+              if (!mouseMove && leftMouseButtonDown)
               {
-                TextBlock target = (TextBlock) myDataTemplate.FindName ("txtBoxLineNumbers", myContentPresenter);
-                Point relativePoint = target.PointToScreen (new Point (0, 0));
-                Size s = GetSizeFromText (target);
-                s.Width += 10; // see XAML Margin style from txtBoxLineNumbers! Margin (5, 0, 5, 0)
-
-                relativePoint.X = relativePoint.X - (10 / 2);
-                System.Drawing.Rectangle rcTextBox = new System.Drawing.Rectangle ((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
-
-                if (rcTextBox.Contains ((int) mousePoint.X, (int) mousePoint.Y) && leftMouseButtonDown)
+                if (TemplateData.State == TemplateData.TemplateStates.ShowDateTimeLineNumber || TemplateData.State == TemplateData.TemplateStates.ShowLineNumber)
                 {
-                  System.Windows.Resources.StreamResourceInfo info = Application.GetResourceStream (new Uri ("/TailForWin;component/Template/TextEditor/RightArrow.cur", UriKind.Relative));
-                  Cursor = new Cursor (info.Stream);
-                  selectMouseItems = true;
+                  TextBlock target = (TextBlock) myDataTemplate.FindName ("txtBoxLineNumbers", myContentPresenter);
+                  Point relativePoint = target.PointToScreen (new Point (0, 0));
+                  Size s = GetSizeFromText (target);
+                  s.Width += 10; // see XAML Margin style from txtBoxLineNumbers! Margin (5, 0, 5, 0)
 
-                  // fullSelectionBox = true;
-                  // LogViewer.ItemContainerStyle = (Style) FindResource ("FullSelectionBox");
+                  relativePoint.X = relativePoint.X - (10 / 2);
+                  System.Drawing.Rectangle rcTextBox = new System.Drawing.Rectangle ((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
+
+                  if (rcTextBox.Contains ((int) mousePoint.X, (int) mousePoint.Y) && leftMouseButtonDown)
+                  {
+                    System.Windows.Resources.StreamResourceInfo info = Application.GetResourceStream (new Uri ("/TailForWin;component/Template/TextEditor/RightArrow.cur", UriKind.Relative));
+
+                    if (info != null)
+                      Cursor = new Cursor (info.Stream);
+
+                    selectMouseItems = true;
+
+                    // fullSelectionBox = true;
+                    // LogViewer.ItemContainerStyle = (Style) FindResource ("FullSelectionBox");
+                  }
                 }
               }
             }
           }
         }
-      }
-      catch (Exception ex)
-      {
-        TailForWin.Utils.ErrorLog.WriteLog (TailForWin.Utils.ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
+        catch (Exception ex)
+        {
+          TailForWin.Utils.ErrorLog.WriteLog (TailForWin.Utils.ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
+        }
       }
 
 #if DEBUG
@@ -741,7 +752,7 @@ namespace TailForWin.Template.TextEditor
 
       if (leftMouseButtonDown && selectMouseItems)
       {
-        Console.WriteLine (string.Format ("---------------- {0} --------------------", LogViewer.SelectedItems.Count));
+        Console.WriteLine (@"---------------- {0} --------------------", LogViewer.SelectedItems.Count);
       }
       //if (mouseMove && leftMouseButtonDown)
       //{
@@ -944,9 +955,9 @@ namespace TailForWin.Template.TextEditor
 
     private void FindNextSearchItem ()
     {
-      int start = -1;
+      int start;
       int end = (int) Math.Round (logViewScrollViewer.ViewportHeight);
-      int stop = -1;
+      int stop;
 
       if (NextSearch == null)
         start = (int) Math.Round (logViewScrollViewer.VerticalOffset) + 1;
@@ -979,11 +990,8 @@ namespace TailForWin.Template.TextEditor
 
       for (int i = start; i <= LogEntries.Count; i++)
       {
-        foreach (LogEntry item in foundItems)
+        foreach (LogEntry item in foundItems.Where (item => item.Index == i))
         {
-          if (item.Index != i)
-            continue;
-
           if (NextSearch != null && item.Index == NextSearch.Index)
           {
             stop = i;
@@ -1008,14 +1016,8 @@ namespace TailForWin.Template.TextEditor
     {
       for (int i = start; i <= LogEntries.Count; i++)
       {
-        foreach (LogEntry item in foundItems)
+        foreach (LogEntry item in foundItems.Where (item => item.Index == i).Where (item => NextSearch == null || item.Index != NextSearch.Index))
         {
-          if (item.Index != i)
-            continue;
-
-          if (NextSearch != null && item.Index == NextSearch.Index)
-            continue;
-
           HightlightText (FindMessageTextBox (NextSearch));
           NextSearch = item;
 
@@ -1027,51 +1029,40 @@ namespace TailForWin.Template.TextEditor
 
     private void SearchItemsNow (bool count = false)
     {
-      if (!string.IsNullOrEmpty (SearchText))
+      if (!string.IsNullOrEmpty (searchText))
       {
         foundItems.Clear ( );
-        Regex regSearch = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
+        Regex regSearch = new Regex (string.Format ("({0})", searchText), RegexOptions.IgnoreCase);
 
-        foreach (LogEntry item in LogEntries)
+        foreach (LogEntry item in from item in LogEntries let substrings = regSearch.Split (item.Message) from sub in substrings where regSearch.Match (sub).Success select item)
         {
-          string[] substrings = regSearch.Split (item.Message);
-
-          foreach (var sub in substrings)
+          if (BookmarkLine)
           {
-            if (!regSearch.Match (sub).Success)
-              continue;
+            System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage ( );
+            bp.BeginInit ( );
+            bp.UriSource = new Uri ("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
+            bp.EndInit ( );
 
-            if (BookmarkLine)
-            {
-              System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage ( );
-              bp.BeginInit ( );
-              bp.UriSource = new Uri ("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
-              bp.EndInit ( );
-
-              item.BookmarkPoint = bp;
-            }
-
-            foundItems.Add (item);
-
-            if (count)
-              newSearch = true;
-            else
-              newSearch = false;
+            item.BookmarkPoint = bp;
           }
+
+          foundItems.Add (item);
+
+          if (count)
+            newSearch = true;
+          else
+            newSearch = false;
         }
 
         if (!count)
           HighlightAllMatches ( );
       }
-      else if (SearchBookmark)
+      else if (searchBookmark)
       {
         foundItems.Clear ( );
 
-        foreach (LogEntry item in LogEntries)
+        foreach (LogEntry item in LogEntries.Where (item => item.BookmarkPoint != null))
         {
-          if (item.BookmarkPoint == null)
-            continue;
-
           foundItems.Add (item);
 
           if (count)
@@ -1084,15 +1075,12 @@ namespace TailForWin.Template.TextEditor
 
     private void HighlightAllMatches ()
     {
-      if (foundItems.Count != 0)
-      {
-        foreach (LogEntry item in foundItems)
-        {
-          if (NextSearch != null && item.Index == NextSearch.Index)
-            continue;
+      if (foundItems.Count == 0)
+        return;
 
-          HightlightText (FindMessageTextBox (item));
-        }
+      foreach (LogEntry item in foundItems.Where (item => NextSearch == null || item.Index != NextSearch.Index))
+      {
+        HightlightText (FindMessageTextBox (item));
       }
     }
 
@@ -1126,9 +1114,9 @@ namespace TailForWin.Template.TextEditor
       if (tb == null)
         return;
 
-      Regex regex = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
+      Regex regex = new Regex (string.Format ("({0})", searchText), RegexOptions.IgnoreCase);
 
-      if (SearchText.Length == 0)
+      if (searchText.Length == 0)
       {
         string str = tb.Text;
         tb.Inlines.Clear ( );
@@ -1145,7 +1133,11 @@ namespace TailForWin.Template.TextEditor
           {
             Brush searchHighlightOpacity = TextEditorSearchHighlightBackground.Clone ( );
             searchHighlightOpacity.Opacity = 0.5;
-            Run runx = new Run (item) { Background = searchHighlightOpacity, Foreground = TextEditorSearchHighlightForeground };
+            Run runx = new Run (item)
+            {
+              Background = searchHighlightOpacity,
+              Foreground = TextEditorSearchHighlightForeground
+            };
             tb.Inlines.Add (runx);
           }
           else
@@ -1155,56 +1147,59 @@ namespace TailForWin.Template.TextEditor
 
     private void RemoveHightlightText (TextBlock tb)
     {
-      if (tb != null)
+      if (tb == null)
+        return;
+
+      Regex regex = new Regex (string.Format ("({0})", searchText), RegexOptions.IgnoreCase);
+
+      if (searchText.Length == 0)
       {
-        Regex regex = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
-
-        if (SearchText.Length == 0)
-        {
-          string str = tb.Text;
-          tb.Inlines.Clear ( );
-          tb.Inlines.Add (str);
-          return;
-        }
-
-        string[] substrings = regex.Split (tb.Text);
+        string str = tb.Text;
         tb.Inlines.Clear ( );
-
-        Array.ForEach (substrings, tb.Inlines.Add);
+        tb.Inlines.Add (str);
         return;
       }
+
+      string[] substrings = regex.Split (tb.Text);
+      tb.Inlines.Clear ( );
+
+      Array.ForEach (substrings, tb.Inlines.Add);
     }
 
     private void SearchNextHightlightItem (TextBlock tb)
     {
-      if (tb != null)
+      if (tb == null)
+        return;
+
+      if (searchBookmark)
+        return;
+
+      Regex regex = new Regex (string.Format ("({0})", searchText), RegexOptions.IgnoreCase);
+
+      if (searchText.Length == 0)
       {
-        if (SearchBookmark)
-          return;
-
-        Regex regex = new Regex (string.Format ("({0})", SearchText), RegexOptions.IgnoreCase);
-
-        if (SearchText.Length == 0)
-        {
-          string str = tb.Text;
-          tb.Inlines.Clear ( );
-          tb.Inlines.Add (str);
-        }
-
-        string[] substrings = regex.Split (tb.Text);
+        string str = tb.Text;
         tb.Inlines.Clear ( );
-
-        Array.ForEach (substrings, item =>
-          {
-            if (regex.Match (item).Success)
-            {
-              Run runx = new Run (item) { Background = TextEditorSearchHighlightBackground, Foreground = TextEditorSearchHighlightForeground };
-              tb.Inlines.Add (runx);
-            }
-            else
-              tb.Inlines.Add (item);
-          });
+        tb.Inlines.Add (str);
       }
+
+      string[] substrings = regex.Split (tb.Text);
+      tb.Inlines.Clear ( );
+
+      Array.ForEach (substrings, item =>
+                                 {
+                                   if (regex.Match (item).Success)
+                                   {
+                                     Run runx = new Run (item)
+                                                {
+                                                  Background = TextEditorSearchHighlightBackground,
+                                                  Foreground = TextEditorSearchHighlightForeground
+                                                };
+                                     tb.Inlines.Add (runx);
+                                   }
+                                   else
+                                     tb.Inlines.Add (item);
+                                 });
     }
 
     #endregion
@@ -1261,15 +1256,15 @@ namespace TailForWin.Template.TextEditor
 
         Array.ForEach (substrings, sub =>
           {
-            if (regSearch.Match (sub).Success)
-            {
-              AlertTriggerEventArgs triggerData = new AlertTriggerEventArgs (newItem);
+            if (!regSearch.Match (sub).Success)
+              return;
 
-              if (Alert != null)
-                Alert (this, triggerData);
+            AlertTriggerEventArgs triggerData = new AlertTriggerEventArgs (newItem);
 
-              success = true;
-            }
+            if (Alert != null)
+              Alert (this, triggerData);
+
+            success = true;
           });
       }
       return (success);
@@ -1308,23 +1303,23 @@ namespace TailForWin.Template.TextEditor
     }
 
     private static childItem FindVisualChild<childItem> (DependencyObject obj)
-        where childItem: DependencyObject
+        where childItem : DependencyObject
     {
-      if (obj != null)
-        for (int i = 0; i < VisualTreeHelper.GetChildrenCount (obj); i++)
-        {
-          DependencyObject child = VisualTreeHelper.GetChild (obj, i);
+      if (obj == null)
+        return (null);
 
-          if (child != null && child is childItem)
-            return ((childItem) child);
-          else
-          {
-            childItem childOfChild = FindVisualChild<childItem> (child);
+      for (int i = 0; i < VisualTreeHelper.GetChildrenCount (obj); i++)
+      {
+        DependencyObject child = VisualTreeHelper.GetChild (obj, i);
 
-            if (childOfChild != null)
-              return (childOfChild);
-          }
-        }
+        if (child is childItem)
+          return ((childItem) child);
+
+        childItem childOfChild = FindVisualChild<childItem> (child);
+
+        if (childOfChild != null)
+          return (childOfChild);
+      }
       return (null);
     }
 
@@ -1334,10 +1329,10 @@ namespace TailForWin.Template.TextEditor
     {
       DateTime now = DateTime.Now;
 
-      Console.WriteLine (string.Format ("\n{0} {1}", now.ToString ("hh:mm:ss.fff"), mouseEvent));
-      Console.WriteLine (string.Format ("LeftMouseButtonDown {0} / RightMouseButtonDown {1}", leftMouseButtonDown, rightMouseButtonDown));
-      Console.WriteLine (string.Format ("OldMousePosition X {0} / OldMousePosition Y {1}", oldMousePosition.X, oldMousePosition.Y));
-      Console.WriteLine (string.Format ("MouseMove {0} / WordSelection {1}", mouseMove, wordSelection));
+      Console.WriteLine (@"\n{0} {1}", now.ToString ("hh:mm:ss.fff"), mouseEvent);
+      Console.WriteLine (@"LeftMouseButtonDown {0} / RightMouseButtonDown {1}", leftMouseButtonDown, rightMouseButtonDown);
+      Console.WriteLine (@"OldMousePosition X {0} / OldMousePosition Y {1}", oldMousePosition.X, oldMousePosition.Y);
+      Console.WriteLine (@"MouseMove {0} / WordSelection {1}", mouseMove, wordSelection);
     }
 
 #endif

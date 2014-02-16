@@ -3,7 +3,6 @@ using TailForWin.Controller;
 using System;
 using TailForWin.Data;
 using System.Windows.Input;
-using System.Collections.Generic;
 using System.Windows.Controls;
 using System.ComponentModel;
 using System.Collections.Specialized;
@@ -15,7 +14,7 @@ namespace TailForWin.Template
   /// <summary>
   /// Interaction logic for SearchDialog.xaml
   /// </summary>
-  public partial class SearchDialog: Window, INotifyPropertyChanged
+  public partial class SearchDialog : INotifyPropertyChanged
   {
     #region Public EventHandler
     
@@ -51,7 +50,7 @@ namespace TailForWin.Template
 
     #endregion
 
-    private FileManagerStructure fmStructure;
+    private readonly FileManagerStructure fmStructure;
     private ObservableDictionary<string, string> searchWords;
 
     /// <summary>
@@ -181,13 +180,13 @@ namespace TailForWin.Template
 
     private void AddSearchWordToDictionary ()
     {
-      if (!SearchWords.ContainsKey (comboBoxWordToFind.Text))
-      {
-        SearchWords.Add (comboBoxWordToFind.Text.Trim ( ), comboBoxWordToFind.Text.Trim ( ));
-        fmStructure.SaveFindHistoryName (comboBoxWordToFind.Text.Trim ( ));
+      if (SearchWords.ContainsKey (comboBoxWordToFind.Text))
+        return;
 
-        // comboBoxWordToFind.Items.Refresh ( );
-      }
+      SearchWords.Add (comboBoxWordToFind.Text.Trim ( ), comboBoxWordToFind.Text.Trim ( ));
+      fmStructure.SaveFindHistoryName (comboBoxWordToFind.Text.Trim ( ));
+
+      // comboBoxWordToFind.Items.Refresh ( );
     }
 
     private void SetFocusToTextBox ()
@@ -213,7 +212,7 @@ namespace TailForWin.Template
 
     private void DoFindNextEvent (bool count = false)
     {
-      SearchData searching = new SearchData ( )
+      SearchData searching = new SearchData
       {
         Count = count,
         SearchBookmarks = false,
@@ -235,7 +234,7 @@ namespace TailForWin.Template
         FindNextEvent (this, searching);
     }
 
-    private void Window_Closing (object sender, System.ComponentModel.CancelEventArgs e)
+    private void Window_Closing (object sender, CancelEventArgs e)
     {
       SettingsHelper.TailSettings.SearchWndXPos = Left;
       SettingsHelper.TailSettings.SearchWndYPos = Top;

@@ -10,15 +10,15 @@ namespace TailForWin.Template
   /// <summary>
   /// Interaction logic for GoToLine.xaml
   /// </summary>
-  public partial class GoToLine: Window
+  public partial class GoToLine
   {
     /// <summary>
     /// Go to linenumber event handler
     /// </summary>
     public event EventHandler GoToLineNumber;
 
-    private int minLines;
-    private int maxLines;
+    private readonly int minLines;
+    private readonly int maxLines;
     private int userInput;
 
 
@@ -37,15 +37,15 @@ namespace TailForWin.Template
 
     private void btnOK_Click (object sender, RoutedEventArgs e)
     {
-      if (userInput != -1) 
-      {
-        GoToLineData lineNumber = new GoToLineData ( ) { LineNumber = userInput };
+      if (userInput == -1)
+        return;
 
-        if (GoToLineNumber != null)
-          GoToLineNumber (this, lineNumber);
+      GoToLineData lineNumber = new GoToLineData { LineNumber = userInput };
 
-        Close ( );
-      }
+      if (GoToLineNumber != null)
+        GoToLineNumber (this, lineNumber);
+
+      Close ( );
     }
 
     private void btnCancel_Click (object sender, RoutedEventArgs e)
@@ -67,18 +67,18 @@ namespace TailForWin.Template
 
       if (regex.IsMatch (textBoxLineNumber.Text))
       {
-        int userInput = -1;
+        int usrInput;
 
-        if (int.TryParse (textBoxLineNumber.Text, out userInput))
+        if (int.TryParse (textBoxLineNumber.Text, out usrInput))
         {
-          if (userInput < minLines)
+          if (usrInput < minLines)
             btnOk.IsEnabled = false;
-          else if (userInput > maxLines)
+          else if (usrInput > maxLines)
             btnOk.IsEnabled = false;
           else
           {
             btnOk.IsEnabled = true;
-            this.userInput = userInput;
+            userInput = usrInput;
           }
         }
         else

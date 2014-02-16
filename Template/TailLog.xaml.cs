@@ -438,7 +438,7 @@ namespace TailForWin.Template
     public void btnFileManager_Click (object sender, RoutedEventArgs e)
     {
       FileManager fileManager = new FileManager (SettingsData.EFileManagerState.OpenFileManager, tabProperties) { Owner = LogFile.APP_MAIN_WINDOW };
-      fileManager.DoUpdate += fileManagerDoUpdate;
+      fileManager.DoUpdate += FileManagerDoUpdate;
       fileManager.OpenFileAsNewTab += FileManagerGetProperties;
       fileManager.ShowDialog ( );
     }
@@ -452,7 +452,7 @@ namespace TailForWin.Template
         Icon = new ImageSourceConverter ( ).ConvertFromString (@"pack://application:,,/Res/add.ico") as ImageSource
       };
 
-      fileManager.DoUpdate += fileManagerDoUpdate;
+      fileManager.DoUpdate += FileManagerDoUpdate;
       fileManager.OpenFileAsNewTab += FileManagerGetProperties;
       fileManager.ShowDialog ( );
     }
@@ -955,7 +955,7 @@ namespace TailForWin.Template
          mySmtp.InitClient ( );
     }
 
-    private static void fileManagerDoUpdate (object sender, EventArgs e)
+    private static void FileManagerDoUpdate (object sender, EventArgs e)
     {
 #if DEBUG
       MessageBox.Show ("FileManager do update");
@@ -980,7 +980,7 @@ namespace TailForWin.Template
     {
       if (tailWorker.IsBusy)
       {
-        MessageBox.Show (Application.Current.FindResource ("DragDropRunningWarining").ToString ( ), LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+        MessageBox.Show (Application.Current.FindResource ("DragDropRunningWarining") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
         e.Handled = false;
         return;
       }

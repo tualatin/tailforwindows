@@ -11,7 +11,7 @@ namespace TailForWin.Template.TabOptions
   /// <summary>
   /// Interaction logic for OptionsItem.xaml
   /// </summary>
-  public partial class OptionsItem: UserControl, ITabOptionItems
+  public partial class OptionsItem : ITabOptionItems
   {
     /// <summary>
     /// Close dialog event handler
@@ -23,7 +23,7 @@ namespace TailForWin.Template.TabOptions
     /// </summary>
     public event EventHandler SaveSettings;
 
-    private bool isInit = false;
+    private readonly bool isInit;
 
 
     public OptionsItem ()
@@ -56,17 +56,19 @@ namespace TailForWin.Template.TabOptions
 
     private void btnReset_Click (object sender, RoutedEventArgs e)
     {
-      if (MessageBox.Show (Application.Current.FindResource ("QResetSettings") as string, Application.Current.FindResource ("Question") as string, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-      {
-        SettingsHelper.SetToDefault ( );
-        SetControls ( );
-      }
+      if (MessageBox.Show (Application.Current.FindResource ("QResetSettings") as string,
+                         Application.Current.FindResource ("Question") as string, MessageBoxButton.YesNo,
+                         MessageBoxImage.Question) != MessageBoxResult.Yes)
+        return;
+
+      SettingsHelper.SetToDefault ( );
+      SetControls ( );
     }
 
     private void btnProxy_Click (object sender, RoutedEventArgs e)
     {
       Window wnd = Window.GetWindow (this);
-      ProxyServer ps = new ProxyServer ( ) { Owner = wnd };
+      ProxyServer ps = new ProxyServer { Owner = wnd };
 
       ps.ShowDialog ( );
     }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using TailForWin.Data;
 using System.Windows.Input;
@@ -11,14 +9,14 @@ namespace TailForWin.Template
   /// <summary>
   /// Interaction logic for Filters.xaml
   /// </summary>
-  public partial class Filters: Window
+  public partial class Filters
   {
     private FilterData filterData;
-    private TailLogData tailLogData;
+    private readonly TailLogData tailLogData;
     private FilterData.MementoFilterData mementoFilterData;
     private SettingsData.EFileManagerState fState;
-    private bool isInit = false;
-    private int filterID;
+    private readonly bool isInit;
+    private int filterId;
 
     /// <summary>
     /// Save event handler
@@ -35,9 +33,9 @@ namespace TailForWin.Template
       isInit = true;
 
       if (tailLogData.ListOfFilter.Count != 0)
-        filterID = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1].ID + 1;
+        filterId = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1].Id + 1;
       else
-        filterID = 0;
+        filterId = 0;
     }
 
     #region ClickEvents
@@ -50,7 +48,7 @@ namespace TailForWin.Template
     private void btnFont_Click (object sender, RoutedEventArgs e)
     {
       System.Drawing.Font filterFont = filterData.FilterFontType;
-      System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog ( ) 
+      System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
       { 
         ShowEffects = true, 
         Font = filterFont, 
@@ -74,11 +72,11 @@ namespace TailForWin.Template
       fState = SettingsData.EFileManagerState.AddFile;
       btnCancel.IsEnabled = false;
 
-      filterData = new FilterData ( )
+      filterData = new FilterData
       {
         FilterFontType = new System.Drawing.Font ("Tahoma", 12, System.Drawing.FontStyle.Regular),
         FilterColor = System.Drawing.Color.Black,
-        ID = filterID
+        Id = filterId
       };
 
       tailLogData.ListOfFilter.Add (filterData);
@@ -89,7 +87,7 @@ namespace TailForWin.Template
       dataGridFilters.Items.Refresh ( );
       SelectLastItemInDataGrid ( );
 
-      filterID++;
+      filterId++;
     }
 
     private void btnCancelAdd_Click (object sender, RoutedEventArgs e)
@@ -160,10 +158,7 @@ namespace TailForWin.Template
 
       filterData = dataGridFilters.SelectedItem as FilterData;
 
-      if (filterData != null)
-        mementoFilterData = filterData.SaveToMemento ( );
-      else
-        mementoFilterData = null;
+      mementoFilterData = filterData != null ? filterData.SaveToMemento ( ) : null;
     }
     
     private void textBoxFilter_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)

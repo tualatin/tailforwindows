@@ -16,12 +16,12 @@ namespace TailForWin.Utils
     /// This size of the IV (in bytes) must = (keysize / 8).  Default keysize is 256, so the IV must be
     /// 32 bytes long.  Using a 16 character string here gives us 32 bytes when converted to a byte array.
     /// </summary>
-    private const string initVector = "98Tgyxjgh4FbmnQp";
+    private const string InitVector = "98Tgyxjgh4FbmnQp";
 
     /// <summary>
     /// This constant is used to determine the keysize of the encryption algorithm.
     /// </summary>
-    private const int keysize = 256;
+    private const int Keysize = 256;
 
 
     /// <summary>
@@ -32,10 +32,10 @@ namespace TailForWin.Utils
     /// <returns>The encrypt string</returns>
     public static string Encrypt (string plainText, string passPhrase)
     {
-      byte[] initVectorBytes = Encoding.UTF8.GetBytes (initVector);
+      byte[] initVectorBytes = Encoding.UTF8.GetBytes (InitVector);
       byte[] plainTextBytes = Encoding.UTF8.GetBytes (plainText);
       PasswordDeriveBytes password = new PasswordDeriveBytes (passPhrase, null);
-      byte[] keyBytes = password.GetBytes (keysize / 8);
+      byte[] keyBytes = password.GetBytes (Keysize / 8);
       RijndaelManaged symmetricKey = new RijndaelManaged { Mode = CipherMode.CBC };
       ICryptoTransform encryptor = symmetricKey.CreateEncryptor (keyBytes, initVectorBytes);
       MemoryStream memoryStream = new MemoryStream ( );
@@ -58,10 +58,10 @@ namespace TailForWin.Utils
     /// <returns>The plain string</returns>
     public static string Decrypt (string cipherText, string passPhrase)
     {
-      byte[] initVectorBytes = Encoding.ASCII.GetBytes (initVector);
+      byte[] initVectorBytes = Encoding.ASCII.GetBytes (InitVector);
       byte[] cipherTextBytes = Convert.FromBase64String (cipherText);
       PasswordDeriveBytes password = new PasswordDeriveBytes (passPhrase, null);
-      byte[] keyBytes = password.GetBytes (keysize / 8);
+      byte[] keyBytes = password.GetBytes (Keysize / 8);
       RijndaelManaged symmetricKey = new RijndaelManaged { Mode = CipherMode.CBC };
       ICryptoTransform decryptor = symmetricKey.CreateDecryptor (keyBytes, initVectorBytes);
       MemoryStream memoryStream = new MemoryStream (cipherTextBytes);

@@ -1,4 +1,7 @@
-﻿using TailForWin.Data;
+﻿using System.Globalization;
+using System.Linq;
+using System.Threading;
+using TailForWin.Data;
 using System.Configuration;
 using System;
 using System.Text.RegularExpressions;
@@ -9,7 +12,7 @@ namespace TailForWin.Controller
 {
   public class SettingsHelper
   {
-    private static SettingsData tailSettings = new SettingsData ( );
+    private static readonly SettingsData tailSettings = new SettingsData ( );
 
 
     /// <summary>
@@ -19,10 +22,9 @@ namespace TailForWin.Controller
     {
       try
       {
-        int iHelper = -1;
-        double dHelper = -1;
+        int iHelper;
+        double dHelper;
         bool bHelper;
-        string sHelper = string.Empty;
 
         if (!int.TryParse (ConfigurationManager.AppSettings["LinesRead"], out iHelper))
           iHelper = 10;
@@ -64,7 +66,7 @@ namespace TailForWin.Controller
           dHelper = -1;
         tailSettings.WndYPos = dHelper;
 
-        sHelper = ConfigurationManager.AppSettings["defaultThreadPriority"];
+        string sHelper = ConfigurationManager.AppSettings["defaultThreadPriority"];
         ReadThreadPriorityEnum (sHelper);
 
         sHelper = ConfigurationManager.AppSettings["defaultRefreshRate"];
@@ -105,7 +107,7 @@ namespace TailForWin.Controller
         sHelper = ConfigurationManager.AppSettings["LineNumbersColor"];
         CheckHexColorValue (sHelper, SettingsData.ETailLogColorTypes.LineNumbersColor);
 
-        sHelper = ConfigurationManager.AppSettings ["HighlightColor"];
+        sHelper = ConfigurationManager.AppSettings["HighlightColor"];
         CheckHexColorValue (sHelper, SettingsData.ETailLogColorTypes.HighlightColor);
 
         sHelper = ConfigurationManager.AppSettings["SearchwndXPos"];
@@ -136,65 +138,65 @@ namespace TailForWin.Controller
       {
         Configuration config = ConfigurationManager.OpenExeConfiguration (ConfigurationUserLevel.None);
 
-        if (config.AppSettings.Settings.Count > 0)
-        {
-          config.AppSettings.Settings["LinesRead"].Value = TailSettings.LinesRead.ToString ( );
-          config.AppSettings.Settings["AlwaysOnTop"].Value = TailSettings.AlwaysOnTop.ToString ( );
-          config.AppSettings.Settings["ShowNLineAtStart"].Value = TailSettings.ShowNLineAtStart.ToString ( );
-          config.AppSettings.Settings["AlwaysScrollToEnd"].Value = TailSettings.AlwaysScrollToEnd.ToString ( );
-          config.AppSettings.Settings["RestoreWindowSize"].Value = TailSettings.RestoreWindowSize.ToString ( );
-          config.AppSettings.Settings["wndWidth"].Value = TailSettings.WndWidth.ToString ( );
-          config.AppSettings.Settings["wndHeight"].Value = TailSettings.WndHeight.ToString ( );
-          config.AppSettings.Settings["SaveWindowPosition"].Value = TailSettings.RestoreWindowSize.ToString ( );
-          config.AppSettings.Settings["wndXPos"].Value = TailSettings.WndXPos.ToString ( );
-          config.AppSettings.Settings["wndYPos"].Value = TailSettings.WndYPos.ToString ( );
-          config.AppSettings.Settings["defaultThreadPriority"].Value = TailSettings.DefaultThreadPriority.ToString ( );
-          config.AppSettings.Settings["defaultRefreshRate"].Value = TailSettings.DefaultRefreshRate.ToString ( );
-          config.AppSettings.Settings["ExitWithEsc"].Value = TailSettings.ExitWithEscape.ToString ( );
-          config.AppSettings.Settings["TimeFormat"].Value = TailSettings.DefaultTimeFormat.ToString ( );
-          config.AppSettings.Settings["DateFormat"].Value = TailSettings.DefaultDateFormat.ToString ( );
-          config.AppSettings.Settings["ForegroundColor"].Value = TailSettings.DefaultForegroundColor;
-          config.AppSettings.Settings["BackgroundColor"].Value = TailSettings.DefaultBackgroundColor;
-          config.AppSettings.Settings["InactiveForegroundColor"].Value = TailSettings.DefaultInactiveForegroundColor;
-          config.AppSettings.Settings["InactiveBackgroundColor"].Value = TailSettings.DefaultInactiveBackgroundColor;
-          config.AppSettings.Settings["FindHighlightForegroundColor"].Value = TailSettings.DefaultHighlightForegroundColor;
-          config.AppSettings.Settings["FindHighlightBackgroundColor"].Value = TailSettings.DefaultHighlightBackgroundColor;
-          config.AppSettings.Settings["SearchwndXPos"].Value = TailSettings.SearchWndXPos.ToString ( );
-          config.AppSettings.Settings["SearchwndYPos"].Value = TailSettings.SearchWndYPos.ToString ( );
-          config.AppSettings.Settings["FileManagerSort"].Value = TailSettings.DefaultFileSort.ToString ( );
-          config.AppSettings.Settings["ShowLineNumbers"].Value = TailSettings.ShowLineNumbers.ToString ( );
-          config.AppSettings.Settings["LineNumbersColor"].Value = TailSettings.DefaultLineNumbersColor;
-          config.AppSettings.Settings["HighlightColor"].Value = TailSettings.DefaultHighlightColor;
-          config.AppSettings.Settings["AutoUpdate"].Value = TailSettings.AutoUpdate.ToString ( );
+        if (config.AppSettings.Settings.Count <= 0)
+          return;
 
-          // Alert settings
-          config.AppSettings.Settings["Alert.BringToFront"].Value = TailSettings.AlertSettings.BringToFront.ToString ( );
-          config.AppSettings.Settings["Alert.PlaySoundFile"].Value = TailSettings.AlertSettings.PlaySoundFile.ToString ( );
-          config.AppSettings.Settings["Alert.SendEMail"].Value = TailSettings.AlertSettings.SendEMail.ToString ( );
-          config.AppSettings.Settings["Alert.EMailAddress"].Value = TailSettings.AlertSettings.EMailAddress;
-          config.AppSettings.Settings["Alert.SoundFile"].Value = TailSettings.AlertSettings.SoundFileNameFullPath;
+        config.AppSettings.Settings["LinesRead"].Value = TailSettings.LinesRead.ToString (CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["AlwaysOnTop"].Value = TailSettings.AlwaysOnTop.ToString ( );
+        config.AppSettings.Settings["ShowNLineAtStart"].Value = TailSettings.ShowNLineAtStart.ToString ( );
+        config.AppSettings.Settings["AlwaysScrollToEnd"].Value = TailSettings.AlwaysScrollToEnd.ToString ( );
+        config.AppSettings.Settings["RestoreWindowSize"].Value = TailSettings.RestoreWindowSize.ToString ( );
+        config.AppSettings.Settings["wndWidth"].Value = TailSettings.WndWidth.ToString (CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["wndHeight"].Value = TailSettings.WndHeight.ToString (CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["SaveWindowPosition"].Value = TailSettings.RestoreWindowSize.ToString ( );
+        config.AppSettings.Settings["wndXPos"].Value = TailSettings.WndXPos.ToString (CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["wndYPos"].Value = TailSettings.WndYPos.ToString (CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["defaultThreadPriority"].Value = TailSettings.DefaultThreadPriority.ToString ( );
+        config.AppSettings.Settings["defaultRefreshRate"].Value = TailSettings.DefaultRefreshRate.ToString ( );
+        config.AppSettings.Settings["ExitWithEsc"].Value = TailSettings.ExitWithEscape.ToString ( );
+        config.AppSettings.Settings["TimeFormat"].Value = TailSettings.DefaultTimeFormat.ToString ( );
+        config.AppSettings.Settings["DateFormat"].Value = TailSettings.DefaultDateFormat.ToString ( );
+        config.AppSettings.Settings["ForegroundColor"].Value = TailSettings.DefaultForegroundColor;
+        config.AppSettings.Settings["BackgroundColor"].Value = TailSettings.DefaultBackgroundColor;
+        config.AppSettings.Settings["InactiveForegroundColor"].Value = TailSettings.DefaultInactiveForegroundColor;
+        config.AppSettings.Settings["InactiveBackgroundColor"].Value = TailSettings.DefaultInactiveBackgroundColor;
+        config.AppSettings.Settings["FindHighlightForegroundColor"].Value = TailSettings.DefaultHighlightForegroundColor;
+        config.AppSettings.Settings["FindHighlightBackgroundColor"].Value = TailSettings.DefaultHighlightBackgroundColor;
+        config.AppSettings.Settings["SearchwndXPos"].Value = TailSettings.SearchWndXPos.ToString (CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["SearchwndYPos"].Value = TailSettings.SearchWndYPos.ToString (CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["FileManagerSort"].Value = TailSettings.DefaultFileSort.ToString ( );
+        config.AppSettings.Settings["ShowLineNumbers"].Value = TailSettings.ShowLineNumbers.ToString ( );
+        config.AppSettings.Settings["LineNumbersColor"].Value = TailSettings.DefaultLineNumbersColor;
+        config.AppSettings.Settings["HighlightColor"].Value = TailSettings.DefaultHighlightColor;
+        config.AppSettings.Settings["AutoUpdate"].Value = TailSettings.AutoUpdate.ToString ( );
 
-          // Proxy settings
-          config.AppSettings.Settings["Proxy.UserName"].Value = TailSettings.ProxySettings.UserName;
-          config.AppSettings.Settings["Proxy.Password"].Value = TailSettings.ProxySettings.Password;
-          config.AppSettings.Settings["Proxy.Use"].Value = TailSettings.ProxySettings.UseProxy.ToString ( );
-          config.AppSettings.Settings["Proxy.Port"].Value = TailSettings.ProxySettings.ProxyPort.ToString ( );
-          config.AppSettings.Settings["Proxy.Url"].Value = TailSettings.ProxySettings.ProxyUrl;
-          config.AppSettings.Settings["Proxy.UseSystem"].Value = TailSettings.ProxySettings.UseSystemSettings.ToString ( );
+        // Alert settings
+        config.AppSettings.Settings["Alert.BringToFront"].Value = TailSettings.AlertSettings.BringToFront.ToString ( );
+        config.AppSettings.Settings["Alert.PlaySoundFile"].Value = TailSettings.AlertSettings.PlaySoundFile.ToString ( );
+        config.AppSettings.Settings["Alert.SendEMail"].Value = TailSettings.AlertSettings.SendEMail.ToString ( );
+        config.AppSettings.Settings["Alert.EMailAddress"].Value = TailSettings.AlertSettings.EMailAddress;
+        config.AppSettings.Settings["Alert.SoundFile"].Value = TailSettings.AlertSettings.SoundFileNameFullPath;
 
-          // Smtp settings
-          config.AppSettings.Settings["Smtp.Server"].Value = TailSettings.AlertSettings.SmtpSettings.SmtpServerName;
-          config.AppSettings.Settings["Smtp.Port"].Value = TailSettings.AlertSettings.SmtpSettings.SmtpPort.ToString ( );
-          config.AppSettings.Settings["Smtp.Login"].Value = TailSettings.AlertSettings.SmtpSettings.LoginName;
-          config.AppSettings.Settings["Smtp.Password"].Value = TailSettings.AlertSettings.SmtpSettings.Password;
-          config.AppSettings.Settings["Smtp.FromEMail"].Value = TailSettings.AlertSettings.SmtpSettings.FromAddress;
-          config.AppSettings.Settings["Smtp.Subject"].Value = TailSettings.AlertSettings.SmtpSettings.Subject;
-          config.AppSettings.Settings["Smtp.Ssl"].Value = TailSettings.AlertSettings.SmtpSettings.SSL.ToString ( );
-          config.AppSettings.Settings["Smtp.Tls"].Value = TailSettings.AlertSettings.SmtpSettings.TLS.ToString ( );
-          
-          config.Save (ConfigurationSaveMode.Modified);
-          ConfigurationManager.RefreshSection ("appSettings");
-        }
+        // Proxy settings
+        config.AppSettings.Settings["Proxy.UserName"].Value = TailSettings.ProxySettings.UserName;
+        config.AppSettings.Settings["Proxy.Password"].Value = TailSettings.ProxySettings.Password;
+        config.AppSettings.Settings["Proxy.Use"].Value = TailSettings.ProxySettings.UseProxy.ToString ( );
+        config.AppSettings.Settings["Proxy.Port"].Value = TailSettings.ProxySettings.ProxyPort.ToString (CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["Proxy.Url"].Value = TailSettings.ProxySettings.ProxyUrl;
+        config.AppSettings.Settings["Proxy.UseSystem"].Value = TailSettings.ProxySettings.UseSystemSettings.ToString ( );
+
+        // Smtp settings
+        config.AppSettings.Settings["Smtp.Server"].Value = TailSettings.AlertSettings.SmtpSettings.SmtpServerName;
+        config.AppSettings.Settings["Smtp.Port"].Value = TailSettings.AlertSettings.SmtpSettings.SmtpPort.ToString (CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["Smtp.Login"].Value = TailSettings.AlertSettings.SmtpSettings.LoginName;
+        config.AppSettings.Settings["Smtp.Password"].Value = TailSettings.AlertSettings.SmtpSettings.Password;
+        config.AppSettings.Settings["Smtp.FromEMail"].Value = TailSettings.AlertSettings.SmtpSettings.FromAddress;
+        config.AppSettings.Settings["Smtp.Subject"].Value = TailSettings.AlertSettings.SmtpSettings.Subject;
+        config.AppSettings.Settings["Smtp.Ssl"].Value = TailSettings.AlertSettings.SmtpSettings.SSL.ToString ( );
+        config.AppSettings.Settings["Smtp.Tls"].Value = TailSettings.AlertSettings.SmtpSettings.TLS.ToString ( );
+
+        config.Save (ConfigurationSaveMode.Modified);
+        ConfigurationManager.RefreshSection ("appSettings");
       }
       catch (ConfigurationErrorsException ex)
       {
@@ -211,18 +213,18 @@ namespace TailForWin.Controller
       {
         Configuration config = ConfigurationManager.OpenExeConfiguration (ConfigurationUserLevel.None);
 
-        if (config.AppSettings.Settings.Count > 0)
-        {
-          config.AppSettings.Settings["SearchwndXPos"].Value = TailSettings.SearchWndXPos.ToString ( );
-          config.AppSettings.Settings["SearchwndYPos"].Value = TailSettings.SearchWndYPos.ToString ( );
+        if (config.AppSettings.Settings.Count <= 0)
+          return;
 
-          config.Save (ConfigurationSaveMode.Modified);
-          ConfigurationManager.RefreshSection ("appSettings");
-        }
+        config.AppSettings.Settings["SearchwndXPos"].Value = TailSettings.SearchWndXPos.ToString (CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["SearchwndYPos"].Value = TailSettings.SearchWndYPos.ToString (CultureInfo.InvariantCulture);
+
+        config.Save (ConfigurationSaveMode.Modified);
+        ConfigurationManager.RefreshSection ("appSettings");
       }
       catch (ConfigurationErrorsException ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "SettingsHelper", string.Format ("SaveSearchWindowPosition exception {0}", ex));
+        ErrorLog.WriteLog (ErrorFlags.Error, "SettingsHelper", string.Format ("{1}, exception {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( )));
       }
     }
 
@@ -241,7 +243,7 @@ namespace TailForWin.Controller
       TailSettings.WndWidth = -1;
       TailSettings.WndXPos = -1;
       TailSettings.WndYPos = -1;
-      TailSettings.DefaultThreadPriority = System.Threading.ThreadPriority.Normal;
+      TailSettings.DefaultThreadPriority = ThreadPriority.Normal;
       TailSettings.DefaultRefreshRate = SettingsData.ETailRefreshRate.Normal;
       TailSettings.ExitWithEscape = false;
       TailSettings.DefaultTimeFormat = SettingsData.ETimeFormat.HHMMD;
@@ -266,7 +268,7 @@ namespace TailForWin.Controller
       TailSettings.AlertSettings.PlaySoundFile = false;
       TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
       TailSettings.AlertSettings.EMailAddress = LogFile.ALERT_EMAIL_ADDRESS;
-      
+
       // Proxy settings
       TailSettings.ProxySettings.Password = string.Empty;
       TailSettings.ProxySettings.ProxyPort = -1;
@@ -312,8 +314,7 @@ namespace TailForWin.Controller
     private static void ReadProxySettings ()
     {
       bool bHelper;
-      string sHelper = string.Empty;
-   
+
       if (!bool.TryParse (ConfigurationManager.AppSettings["Proxy.Use"], out bHelper))
         bHelper = false;
       TailSettings.ProxySettings.UseProxy = bHelper;
@@ -328,7 +329,7 @@ namespace TailForWin.Controller
         port = -1;
       TailSettings.ProxySettings.ProxyPort = port;
 
-      sHelper = ConfigurationManager.AppSettings["Proxy.Url"];
+      string sHelper = ConfigurationManager.AppSettings["Proxy.Url"];
       TailSettings.ProxySettings.ProxyUrl = sHelper;
 
       sHelper = ConfigurationManager.AppSettings["Proxy.UserName"];
@@ -343,9 +344,7 @@ namespace TailForWin.Controller
     /// </summary>
     private static void ReadSmtpSettings ()
     {
-      string sHelper = string.Empty;
-
-      sHelper = ConfigurationManager.AppSettings["Smtp.Server"];
+      string sHelper = ConfigurationManager.AppSettings["Smtp.Server"];
       TailSettings.AlertSettings.SmtpSettings.SmtpServerName = sHelper;
 
       int port;
@@ -362,10 +361,7 @@ namespace TailForWin.Controller
 
       sHelper = ConfigurationManager.AppSettings["Smtp.FromEMail"];
 
-      if (ParseEMailAddress (sHelper))
-        TailSettings.AlertSettings.SmtpSettings.FromAddress = sHelper;
-      else
-        TailSettings.AlertSettings.SmtpSettings.FromAddress = string.Empty;
+      TailSettings.AlertSettings.SmtpSettings.FromAddress = ParseEMailAddress (sHelper) ? sHelper : string.Empty;
 
       sHelper = ConfigurationManager.AppSettings["Smtp.Subject"];
       TailSettings.AlertSettings.SmtpSettings.Subject = sHelper;
@@ -389,7 +385,6 @@ namespace TailForWin.Controller
     private static void ReadAlertSettings ()
     {
       bool bHelper;
-      string sHelper = string.Empty;
 
       if (!bool.TryParse (ConfigurationManager.AppSettings["ShowLineNumbers"], out bHelper))
         bHelper = false;
@@ -407,15 +402,12 @@ namespace TailForWin.Controller
         bHelper = false;
       TailSettings.AlertSettings.SendEMail = bHelper;
 
-      sHelper = ConfigurationManager.AppSettings["Alert.SoundFile"];
+      string sHelper = ConfigurationManager.AppSettings["Alert.SoundFile"];
       ParseSoundFileName (sHelper);
 
       sHelper = ConfigurationManager.AppSettings["Alert.EMailAddress"];
 
-      if (ParseEMailAddress (sHelper))
-        TailSettings.AlertSettings.EMailAddress = sHelper;
-      else
-        TailSettings.AlertSettings.EMailAddress = LogFile.ALERT_EMAIL_ADDRESS;
+      TailSettings.AlertSettings.EMailAddress = ParseEMailAddress (sHelper) ? sHelper : LogFile.ALERT_EMAIL_ADDRESS;
     }
 
     /// <summary>
@@ -423,19 +415,17 @@ namespace TailForWin.Controller
     /// </summary>
     /// <param name="s">Reference of thread priority string</param>
     /// <returns>Enum from thread priority</returns>
-    public static System.Threading.ThreadPriority GetThreadPriority (string s)
+    public static ThreadPriority GetThreadPriority (string s)
     {
-      if (s != null)
-        foreach (string priorityName in Enum.GetNames (typeof (System.Threading.ThreadPriority)))
-        {
-          if (s.ToLower ( ).CompareTo (priorityName.ToLower ( )) == 0)
-          {
-            System.Threading.ThreadPriority tp = (System.Threading.ThreadPriority) Enum.Parse (typeof (System.Threading.ThreadPriority), s);
-          
-            return (tp);
-          }
-        }
-      return (System.Threading.ThreadPriority.Normal);
+      if (s == null)
+        return (ThreadPriority.Normal);
+
+      if (Enum.GetNames (typeof (ThreadPriority)).All (priorityName => String.Compare (s.ToLower ( ), priorityName.ToLower ( ), StringComparison.Ordinal) != 0))
+        return (ThreadPriority.Normal);
+
+      ThreadPriority tp = (ThreadPriority) Enum.Parse (typeof (ThreadPriority), s);
+
+      return (tp);
     }
 
     private static void ReadThreadPriorityEnum (string s)
@@ -450,16 +440,15 @@ namespace TailForWin.Controller
     /// <returns>Enum from refresh rate</returns>
     public static SettingsData.ETailRefreshRate GetRefreshRate (string s)
     {
-      if (s != null)
-        foreach (string refreshName in Enum.GetNames (typeof (SettingsData.ETailRefreshRate)))
-        {
-          if (s.ToLower ( ).CompareTo (refreshName.ToLower ( )) == 0)
-          {
-            SettingsData.ETailRefreshRate trr = (SettingsData.ETailRefreshRate) Enum.Parse (typeof (SettingsData.ETailRefreshRate), s);
-            return (trr);
-          }
-        }
-      return (SettingsData.ETailRefreshRate.Normal);
+      if (s == null)
+        return (SettingsData.ETailRefreshRate.Normal);
+
+      if (Enum.GetNames (typeof (SettingsData.ETailRefreshRate)).All (refreshName => String.Compare (s.ToLower ( ), refreshName.ToLower ( ), StringComparison.Ordinal) != 0))
+        return (SettingsData.ETailRefreshRate.Normal);
+
+      SettingsData.ETailRefreshRate trr = (SettingsData.ETailRefreshRate) Enum.Parse (typeof (SettingsData.ETailRefreshRate), s);
+
+      return (trr);
     }
 
     private static void ReadThreadRefreshRateEnum (string s)
@@ -472,14 +461,14 @@ namespace TailForWin.Controller
       if (s != null)
         foreach (string timeFormat in Enum.GetNames (typeof (SettingsData.ETimeFormat)))
         {
-          if (s.CompareTo (timeFormat) == 0)
+          if (String.Compare (s, timeFormat, StringComparison.Ordinal) == 0)
           {
             SettingsData.ETimeFormat tf = (SettingsData.ETimeFormat) Enum.Parse (typeof (SettingsData.ETimeFormat), s);
             TailSettings.DefaultTimeFormat = tf;
             break;
           }
-          else
-            TailSettings.DefaultTimeFormat = SettingsData.ETimeFormat.HHMMD;
+
+          TailSettings.DefaultTimeFormat = SettingsData.ETimeFormat.HHMMD;
         }
       else
         TailSettings.DefaultTimeFormat = SettingsData.ETimeFormat.HHMMD;
@@ -490,14 +479,14 @@ namespace TailForWin.Controller
       if (s != null)
         foreach (string dateFormat in Enum.GetNames (typeof (SettingsData.EDateFormat)))
         {
-          if (s.CompareTo (dateFormat) == 0)
+          if (String.Compare (s, dateFormat, StringComparison.Ordinal) == 0)
           {
             SettingsData.EDateFormat df = (SettingsData.EDateFormat) Enum.Parse (typeof (SettingsData.EDateFormat), s);
             TailSettings.DefaultDateFormat = df;
             break;
           }
-          else
-            TailSettings.DefaultDateFormat = SettingsData.EDateFormat.DDMMYYYY;
+
+          TailSettings.DefaultDateFormat = SettingsData.EDateFormat.DDMMYYYY;
         }
       else
         TailSettings.DefaultDateFormat = SettingsData.EDateFormat.DDMMYYYY;
@@ -508,14 +497,14 @@ namespace TailForWin.Controller
       if (s != null)
         foreach (string fileSort in Enum.GetNames (typeof (SettingsData.EFileSort)))
         {
-          if (s.CompareTo (fileSort) == 0)
+          if (String.Compare (s, fileSort, StringComparison.Ordinal) == 0)
           {
             SettingsData.EFileSort fs = (SettingsData.EFileSort) Enum.Parse (typeof (SettingsData.EFileSort), s);
             TailSettings.DefaultFileSort = fs;
             break;
           }
-          else
-            TailSettings.DefaultFileSort = SettingsData.EFileSort.Nothing;
+
+          TailSettings.DefaultFileSort = SettingsData.EFileSort.Nothing;
         }
       else
         TailSettings.DefaultFileSort = SettingsData.EFileSort.Nothing;
@@ -523,79 +512,55 @@ namespace TailForWin.Controller
 
     private static void CheckHexColorValue (string s, SettingsData.ETailLogColorTypes cType)
     {
-      Match match_6 = Regex.Match (s, @"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$");
-      Match match_8 = Regex.Match (s, @"^(#)?([0-9a-fA-F]{4})([0-9a-fA-F]{4})?$");
-      bool matched = match_6.Success | match_8.Success;
+      Match match6 = Regex.Match (s, @"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$");
+      Match match8 = Regex.Match (s, @"^(#)?([0-9a-fA-F]{4})([0-9a-fA-F]{4})?$");
+      bool matched = match6.Success | match8.Success;
 
       switch (cType)
       {
       case SettingsData.ETailLogColorTypes.BackgroundColor:
 
-        if (!matched)
-          TailSettings.DefaultBackgroundColor = LogFile.DEFAULT_BACKGROUND_COLOR;
-        else
-          TailSettings.DefaultBackgroundColor = s;
-        break;
+      TailSettings.DefaultBackgroundColor = !matched ? LogFile.DEFAULT_BACKGROUND_COLOR : s;
+      break;
 
       case SettingsData.ETailLogColorTypes.ForegroundColor:
 
-        if (!matched)
-          TailSettings.DefaultForegroundColor = LogFile.DEFAULT_FOREGROUND_COLOR;
-        else
-          TailSettings.DefaultForegroundColor = s;
-        break;
+      TailSettings.DefaultForegroundColor = !matched ? LogFile.DEFAULT_FOREGROUND_COLOR : s;
+      break;
 
       case SettingsData.ETailLogColorTypes.InactiveForegroundColor:
 
-        if (!matched)
-          TailSettings.DefaultInactiveForegroundColor = LogFile.DEFAULT_INACTIVE_FOREGROUND_COLOR;
-        else
-          TailSettings.DefaultInactiveForegroundColor = s;
-        break;
+      TailSettings.DefaultInactiveForegroundColor = !matched ? LogFile.DEFAULT_INACTIVE_FOREGROUND_COLOR : s;
+      break;
 
       case SettingsData.ETailLogColorTypes.InactiveBackgroundColor:
 
-        if (!matched)
-          TailSettings.DefaultInactiveBackgroundColor = LogFile.DEFAULT_INACTIVE_BACKGROUND_COLOR;
-        else
-          TailSettings.DefaultInactiveBackgroundColor = s;
-        break;
+      TailSettings.DefaultInactiveBackgroundColor = !matched ? LogFile.DEFAULT_INACTIVE_BACKGROUND_COLOR : s;
+      break;
 
       case SettingsData.ETailLogColorTypes.FindHighlightForegroundColor:
 
-        if (!matched)
-          TailSettings.DefaultHighlightForegroundColor = LogFile.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR;
-        else
-          TailSettings.DefaultHighlightForegroundColor = s;
-        break;
+      TailSettings.DefaultHighlightForegroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR : s;
+      break;
 
       case SettingsData.ETailLogColorTypes.FindHighlightBackgroundColor:
 
-        if (!matched)
-          TailSettings.DefaultHighlightBackgroundColor = LogFile.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR;
-        else
-          TailSettings.DefaultHighlightBackgroundColor = s;
-        break;
+      TailSettings.DefaultHighlightBackgroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR : s;
+      break;
 
       case SettingsData.ETailLogColorTypes.LineNumbersColor:
 
-        if (!matched)
-          TailSettings.DefaultLineNumbersColor = LogFile.DEFAULT_LINE_NUMBERS_COLOR;
-        else
-          TailSettings.DefaultLineNumbersColor = s;
-        break;
+      TailSettings.DefaultLineNumbersColor = !matched ? LogFile.DEFAULT_LINE_NUMBERS_COLOR : s;
+      break;
 
       case SettingsData.ETailLogColorTypes.HighlightColor:
 
-        if (!matched)
-          TailSettings.DefaultHighlightColor = LogFile.DEFAULT_HIGHLIGHT_COLOR;
-        else
-          TailSettings.DefaultHighlightColor = s;
-        break;
-        
+      TailSettings.DefaultHighlightColor = !matched ? LogFile.DEFAULT_HIGHLIGHT_COLOR : s;
+      break;
+
       default:
 
-        throw new NotImplementedException ("not supported color type");
+      throw new NotImplementedException ("not supported color type");
       }
     }
 
@@ -603,7 +568,7 @@ namespace TailForWin.Controller
     {
       int pos;
 
-      if (xPos == true)
+      if (xPos)
       {
         if (!int.TryParse (s, out pos))
           pos = -1;
@@ -616,7 +581,7 @@ namespace TailForWin.Controller
           pos = -1;
 
         TailSettings.SearchWndYPos = pos;
-      }       
+      }
     }
 
     /// <summary>
@@ -627,11 +592,8 @@ namespace TailForWin.Controller
     public static bool ParseEMailAddress (string emailAddress)
     {
       Regex regex = new Regex (LogFile.REGEX_EMAIL_ADDRESS);
-      
-      if (regex.IsMatch (emailAddress))
-        return (true);
 
-      return (false);
+      return (regex.IsMatch (emailAddress));
     }
 
     private static void ParseSoundFileName (string fullPath)
@@ -640,30 +602,27 @@ namespace TailForWin.Controller
       string fileName = System.IO.Path.GetFileName (fullPath);
       char[] reserved = System.IO.Path.GetInvalidFileNameChars ( );
 
-      if (fileName.Length < 3)
+      if (fileName != null && fileName.Length < 3)
       {
         TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
         return;
       }
 
-      if (fileName.Length > 128)
+      if (fileName != null && fileName.Length > 128)
       {
         TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
         return;
       }
 
-      foreach (char c in reserved)
+      if (reserved.Any (c => fileName != null && fileName.Contains (c.ToString (CultureInfo.InvariantCulture))))
       {
-        if (fileName.Contains (c.ToString ( )))
-        {
-          TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
-          return;
-        }
+        TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
+        return;
       }
 
       Regex regex = new Regex (LogFile.REGEX_SOUNDFILE_EXTENSION);
 
-      if (!regex.IsMatch (extension))
+      if (extension != null && !regex.IsMatch (extension))
       {
         TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
         return;

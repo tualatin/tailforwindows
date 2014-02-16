@@ -8,8 +8,8 @@ namespace TailForWin.Template.UpdateController
 {
   public class UpdateController
   {
-    private Version appVersion;
-    private List<Version> webVersions;
+    private readonly Version appVersion;
+    private readonly List<Version> webVersions;
 
 
     public UpdateController ()
@@ -57,7 +57,7 @@ namespace TailForWin.Template.UpdateController
 
         foreach (Match match in matches)
         {
-          string part = (match.Value.Substring (match.Value.IndexOf (mainTag))).Substring (tag.Length);
+          string part = (match.Value.Substring (match.Value.IndexOf (mainTag, StringComparison.Ordinal))).Substring (tag.Length);
           Regex regex = new Regex (@"\d+.\d+.\d+", RegexOptions.IgnoreCase);
 
           if (regex.Match (part).Success)
@@ -119,7 +119,7 @@ namespace TailForWin.Template.UpdateController
       return (false);
     }
 
-    private void GetLatestWebVersion ( )
+    private void GetLatestWebVersion ()
     {
       webVersions.Sort (new VersionComparer ( ));
       WebVersion = webVersions[webVersions.Count - 1];
@@ -129,8 +129,8 @@ namespace TailForWin.Template.UpdateController
     {
       public int Compare (Version x, Version y)
       {
-        var xVersion = x as Version;
-        var yVersion = y as Version;
+        var xVersion = x;
+        var yVersion = y;
 
         return (xVersion.CompareTo (yVersion));
       }

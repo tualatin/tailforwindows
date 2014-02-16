@@ -200,7 +200,7 @@ namespace TailForWin.Template
     private void btnDelete_Click (object sender, RoutedEventArgs e)
     {
       if (
-        MessageBox.Show (Application.Current.FindResource ("QDeleteDataGridItem").ToString ( ),
+        MessageBox.Show (Application.Current.FindResource ("QDeleteDataGridItem") as string,
                          LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question,
                          MessageBoxResult.No) != MessageBoxResult.Yes)
         return;
@@ -316,10 +316,10 @@ namespace TailForWin.Template
 
     private void Window_Closing (object sender, System.ComponentModel.CancelEventArgs e)
     {
-      if (dataGridFiles.IsEnabled != false)
+      if (dataGridFiles.IsEnabled)
         return;
 
-      MessageBox.Show (Application.Current.FindResource ("FileManagerCloseUnsaveItem").ToString ( ), LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+      MessageBox.Show (Application.Current.FindResource ("FileManagerCloseUnsaveItem") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
       e.Cancel = true;
     }
 

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Drawing;
 
 
@@ -20,7 +18,7 @@ namespace TailForWin.Data
     /// <summary>
     /// ID filter
     /// </summary>
-    public int ID
+    public int Id
     {
       get;
       set;
@@ -113,7 +111,7 @@ namespace TailForWin.Data
     /// <returns>A clone of object</returns>
     public FilterData Clone ()
     {
-      return (this.MemberwiseClone ( ) as FilterData);
+      return (MemberwiseClone ( ) as FilterData);
     }
 
     /// <summary>
@@ -123,18 +121,18 @@ namespace TailForWin.Data
     /// <returns>If equal true otherwise false</returns>
     public bool EqualsProperties (object obj)
     {
-      FilterData.MementoFilterData other = obj as FilterData.MementoFilterData;
+      MementoFilterData other = obj as MementoFilterData;
 
       if (other == null)
         return (false);
 
       bool equal = true;
 
-      equal &= object.Equals (other.ID, ID);
-      equal &= object.Equals (other.Filter, Filter);
-      equal &= object.Equals (other.Description, Description);
-      equal &= object.Equals (other.FilterColor, FilterColor);
-      equal &= object.Equals (other.FilterFontType, FilterFontType);
+      equal &= Equals (other.Id, Id);
+      equal &= Equals (other.Filter, Filter);
+      equal &= Equals (other.Description, Description);
+      equal &= Equals (other.FilterColor, FilterColor);
+      equal &= Equals (other.FilterFontType, FilterFontType);
 
       return (equal);
     }
@@ -145,12 +143,12 @@ namespace TailForWin.Data
     /// <param name="memento">The memento to roll back to</param>
     public void RestoreFromMemento (MementoFilterData memento)
     {
-      MementoFilterData mementoFilterData = memento as MementoFilterData;
+      MementoFilterData mementoFilterData = memento;
 
       if (mementoFilterData == null)
         throw new ArgumentException (string.Format ("Argument is not a MementoFilterData {0}!", memento.GetType ( ).Name), "memento");
 
-      ID = memento.ID;
+      Id = memento.Id;
       Filter = memento.Filter;
       Description = memento.Description;
       FilterFontType = memento.FilterFontType;
@@ -165,7 +163,7 @@ namespace TailForWin.Data
     {
       internal MementoFilterData (FilterData obj)
       {
-        ID = obj.ID;
+        Id = obj.Id;
         Filter = obj.Filter;
         Description = obj.Description;
         FilterColor = obj.FilterColor;
@@ -177,7 +175,7 @@ namespace TailForWin.Data
       /// <summary>
       /// ID filter
       /// </summary>
-      public int ID
+      public int Id
       {
         get;
         private set;

@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.ComponentModel;
 using System;
 
@@ -9,7 +8,7 @@ namespace TailForWin.Template.UpdateController
   /// <summary>
   /// Interaction logic for Updater.xaml
   /// </summary>
-  public partial class Updater: UserControl, IDisposable
+  public partial class Updater : IDisposable
   {
     private Updateservice updater;
 
@@ -149,7 +148,7 @@ namespace TailForWin.Template.UpdateController
       if (updater != null)
         updater = null;
 
-      updater = new Updateservice ( )
+      updater = new Updateservice
       {
         UseProxy = UseProxy,
         UseSystemSettings = UseSystemSettings,

@@ -1,4 +1,5 @@
-﻿using TailForWin.Data;
+﻿using System.Linq;
+using TailForWin.Data;
 using System.Reflection;
 using TailForWin.Utils;
 using System.Windows.Forms;
@@ -25,30 +26,30 @@ namespace TailForWin.Controller
       string format = string.Format ("{0} {1}", SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultTimeFormat));
       string buildDateTime = (BuildDate.GetBuildDateTime (assembly)).ToString (format);
 
-      SysInformationData sysInfo = new SysInformationData ( )
+      SysInformationData sysInfo = new SysInformationData
       {
         ApplicationName = LogFile.APPLICATION_CAPTION,
         BuildDateTime = buildDateTime,
         ApplicationVersion = Application.ProductVersion,
         MachineName = Environment.MachineName,
-        OsName = GetOSFriendlyName ( ).Trim ( ),
+        OsName = GetOsFriendlyName ( ).Trim ( ),
         OsVersion = string.Format ("{0} {1} Build {2}", Environment.OSVersion.Version, Environment.OSVersion.ServicePack, Environment.OSVersion.Version.Build),
-        OsType = string.Format ("{0} Bit-{1}", GetOSArchitecture ( ), System.Windows.Application.Current.FindResource ("OS")),
-        HostIPAddress = GetIPAddress ( ),
+        OsType = string.Format ("{0} Bit-{1}", GetOsArchitecture ( ), System.Windows.Application.Current.FindResource ("OS")),
+        HostIPAddress = GetIpAddress ( ),
         MachineMemory = GetMachineMemoryInfo ( ),
         Language = GetSystemLanguage ( ),
-        CpuInfo = GetCPUInfo ( ),
+        CpuInfo = GetCpuInfo ( ),
       };
       return (sysInfo);
     }
 
-    private static string GetOSFriendlyName ()
+    private static string GetOsFriendlyName ()
     {
       string result = string.Empty;
 
       using (ManagementObjectSearcher searcher = new ManagementObjectSearcher ("root\\CIMV2", "SELECT Caption FROM Win32_OperatingSystem"))
       {
-        foreach (ManagementObject os in searcher.Get ( ))
+        foreach (var os in searcher.Get ( ).Cast<ManagementObject> ( ))
         {
           result = os["Caption"].ToString ( );
           break;
@@ -57,16 +58,16 @@ namespace TailForWin.Controller
       return (result);
     }
 
-    private static int GetOSArchitecture ()
+    private static int GetOsArchitecture ()
     {
       string pa = Environment.GetEnvironmentVariable ("PROCESSOR_ARCHITECTURE");
 
       return ((string.IsNullOrEmpty (pa) || string.Compare (pa, 0, "x86", 0, 3, true) == 0) ? 32 : 64);
     }
 
-    private static TailForWin.Data.IPAddress GetIPAddress ()
+    private static Data.IPAddress GetIpAddress ()
     {
-      TailForWin.Data.IPAddress ipAddress = new TailForWin.Data.IPAddress ( );
+      Data.IPAddress ipAddress = new Data.IPAddress ( );
 
       try
       {
@@ -74,7 +75,7 @@ namespace TailForWin.Controller
 
         Array.ForEach (lvsHost.AddressList, currentAddress =>
         {
-          if (String.Compare (currentAddress.AddressFamily.ToString ( ), ProtocolFamily.InterNetworkV6.ToString ( ), false) == 0)
+          if (String.CompareOrdinal(currentAddress.AddressFamily.ToString ( ), ProtocolFamily.InterNetworkV6.ToString ( )) == 0)
             ipAddress.ipv6 = currentAddress.ToString ( );
           else
             ipAddress.ipv4 = currentAddress.ToString ( );
@@ -91,19 +92,16 @@ namespace TailForWin.Controller
     {
       MemoryObject memoryInfo = new MemoryObject ( );
 
-      if (NativeMethods.GlobalMemoryStatusEx (memoryInfo))
-        return (memoryInfo);
-      else
-        return (null);
+      return (NativeMethods.GlobalMemoryStatusEx (memoryInfo) ? (memoryInfo) : (null));
     }
 
-    private static CpuInfo GetCPUInfo ()
+    private static CpuInfo GetCpuInfo ()
     {
       CpuInfo myCpu = new CpuInfo ( );
 
       using (ManagementObjectSearcher cpuInfo = new ManagementObjectSearcher ("SELECT * FROM Win32_Processor"))
       {
-        foreach (ManagementObject cpu in cpuInfo.Get ( ))
+        foreach (var cpu in cpuInfo.Get ( ).Cast<ManagementObject> ( ))
         {
           myCpu.Manufacturer = cpu["Manufacturer"].ToString ( );
           myCpu.ClockSpeed = cpu["CurrentClockSpeed"].ToString ( );
@@ -113,7 +111,7 @@ namespace TailForWin.Controller
 
       using (ManagementObjectSearcher cpuInfo = new ManagementObjectSearcher ("SELECT * FROM Win32_ComputerSystem "))
       {
-        foreach (ManagementObject cpu in cpuInfo.Get ( ))
+        foreach (var cpu in cpuInfo.Get ( ).Cast<ManagementObject> ( ))
         {
           myCpu.NumberOfProcessors = cpu["NumberOfProcessors"].ToString ( );
           myCpu.LogicalNumberOfProcessors = cpu["NumberOfLogicalProcessors"].ToString ( );

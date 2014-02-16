@@ -17,13 +17,9 @@ namespace TailForWin.Converter
       if (value == null)
         return (string.Empty);
 
-      if (value.GetType ( ) == typeof (string))
-      {
-        if (((string) value).CompareTo (LogFile.ALERT_SOUND_FILENAME) == 0)
-          return (string.Empty);
-        else
-          return (value);
-      }
+      if (value is string)
+        return (String.Compare(((string) value), LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0 ? (string.Empty) : (value));
+
       return (string.Empty);
     }
 

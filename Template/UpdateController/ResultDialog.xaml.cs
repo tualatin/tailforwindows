@@ -9,19 +9,19 @@ namespace TailForWin.Template.UpdateController
   /// <summary>
   /// Interaction logic for ResultDialog.xaml
   /// </summary>
-  public partial class ResultDialog: Window
+  public partial class ResultDialog
   {
-    private bool doUpdate;
+    private readonly bool doUpdate;
     private string updateUrl;
 
 
-    public ResultDialog (string applicationName, bool update, string updateURL)
+    public ResultDialog (string applicationName, bool update, string updUrl)
     {
       InitializeComponent ( );
       Title = string.Format ("{0} Update", applicationName);
 
       doUpdate = update;
-      updateUrl = updateURL;
+      updateUrl = updUrl;
       PreviewKeyDown += HandleEsc;
     }
 
@@ -80,19 +80,19 @@ namespace TailForWin.Template.UpdateController
       Close ( );
     }
 
-    private static IntPtr FindWindow (string title)
-    {
-      Process[] tempProcesses = Process.GetProcesses ( );
+    //private static IntPtr FindWindow (string title)
+    //{
+    //  Process[] tempProcesses = Process.GetProcesses ( );
 
-      foreach (Process proc in tempProcesses)
-      {
-        if (proc.MainWindowTitle == title)
-        {
-          return (proc.MainWindowHandle);
-        }
-      }
-      return (IntPtr.Zero);
-    }
+    //  foreach (Process proc in tempProcesses)
+    //  {
+    //    if (proc.MainWindowTitle == title)
+    //    {
+    //      return (proc.MainWindowHandle);
+    //    }
+    //  }
+    //  return (IntPtr.Zero);
+    //}
     
     #endregion
 

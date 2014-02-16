@@ -45,7 +45,7 @@ namespace TailForWin.Template.TabOptions
         }
         else
         {
-          MessageBox.Show (Application.Current.FindResource ("EMailAddressNotValid").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+          MessageBox.Show (Application.Current.FindResource ("EMailAddressNotValid") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
           watermarkTextBoxEMailAddress.Focus ( );
         }
       }
@@ -117,7 +117,7 @@ namespace TailForWin.Template.TabOptions
 
         if (!regex.IsMatch (extension))
         {
-          MessageBox.Show (Application.Current.FindResource ("NoSoundFile").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+          MessageBox.Show (Application.Current.FindResource ("NoSoundFile") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
           return;
         }
 

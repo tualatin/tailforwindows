@@ -33,7 +33,7 @@ namespace TailForWin.Utils
   /// </summary>
   public static class ErrorLog
   {
-    private static List<string> allMessages = new List<string> ( );
+    private static readonly List<string> AllMessages = new List<string> ( );
     private static DateTime now;
     private static StreamWriter sw;
     private static string logFileName = string.Empty;
@@ -54,7 +54,7 @@ namespace TailForWin.Utils
     /// </summary>
     public static void StartLog ()
     {
-      logFileName = string.Format ("{0}\\{1}_error.log", Path.GetDirectoryName (System.Reflection.Assembly.GetEntryAssembly ( ).Location), System.Environment.MachineName);
+      logFileName = string.Format ("{0}\\{1}_error.log", Path.GetDirectoryName (System.Reflection.Assembly.GetEntryAssembly ( ).Location), Environment.MachineName);
 
       try
       {
@@ -65,7 +65,7 @@ namespace TailForWin.Utils
       }
       catch (Exception ex)
       {
-        Console.WriteLine (string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
+        Console.WriteLine (@"{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name);
       }
     }
 
@@ -100,12 +100,12 @@ namespace TailForWin.Utils
       {
         now = GetSystemTime ( );
 
-        allMessages.Add (string.Format ("{0},{1} > |{2} |{3,-30} |{4}", now.ToString ("T", CultureInfo.CurrentCulture), now.Millisecond.ToString ("D3"), (char) flag, source, msg));
+        AllMessages.Add (string.Format ("{0},{1} > |{2} |{3,-30} |{4}", now.ToString ("T", CultureInfo.CurrentCulture), now.Millisecond.ToString ("D3"), (char) flag, source, msg));
         Flush ( );
       }
       catch (Exception ex)
       {
-        Console.WriteLine (string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
+        Console.WriteLine (@"{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name);
       }
     }
 
@@ -134,15 +134,15 @@ namespace TailForWin.Utils
 
     private static void Flush ()
     {
-      if (object.ReferenceEquals (allMessages, null))
+      if (ReferenceEquals (AllMessages, null))
         return;
 
-      for (int i = 0; i < allMessages.Count; i++)
-        sw.WriteLine (allMessages[i]);
+      foreach (string t in AllMessages)
+        sw.WriteLine (t);
 
       sw.Flush ( );
 
-      allMessages.Clear ( );
+      AllMessages.Clear ( );
     }
   }
 }

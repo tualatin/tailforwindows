@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using TailForWin.Controller;
 using TailForWin.Template.ColorPicker;
 using System.Windows.Media;
@@ -13,7 +12,7 @@ namespace TailForWin.Template.TabOptions
   /// <summary>
   /// Interaction logic for ColorItem.xaml
   /// </summary>
-  public partial class ColorItem: UserControl, ITabOptionItems
+  public partial class ColorItem : ITabOptionItems
   {
     /// <summary>
     /// Close dialog event handler
@@ -94,20 +93,17 @@ namespace TailForWin.Template.TabOptions
     private string SetColor (Brush brushColor, Rectangle rect)
     {
       SolidColorBrush b = brushColor as SolidColorBrush;
-      ColorDialog color = null;
 
-      if (b != null)
-      {
-        color = new ColorDialog (b.Color)
-        {
-          Owner = Window.GetWindow (this),
-          SelectedColor = ((SolidColorBrush) rect.Fill).Color
-        };
+      if (b == null)
+        return (string.Empty);
 
-        if (color.ShowDialog ( ).GetValueOrDefault ( ))
-          return (color.SelectedColorHex);
-      }
-      return (string.Empty);
+      ColorDialog color = new ColorDialog (b.Color)
+                          {
+                            Owner = Window.GetWindow (this),
+                            SelectedColor = ((SolidColorBrush) rect.Fill).Color
+                          };
+
+      return (color.ShowDialog ( ).GetValueOrDefault ( ) ? (color.SelectedColorHex) : (string.Empty));
     }
 
     public void HandleEsc (object sender, KeyEventArgs e)
