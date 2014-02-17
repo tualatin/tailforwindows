@@ -74,7 +74,7 @@ namespace TailForWin.Template.UpdateController
             }
             catch (Exception e)
             {
-              ErrorLog.WriteLog (ErrorFlags.Error, "UserErrorException", string.Format ("{1}, exception: {0}", e, System.Reflection.MethodBase.GetCurrentMethod (  )));
+              ErrorLog.WriteLog (ErrorFlags.Error, "UserErrorException", string.Format ("{1}, exception: {0}", e, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
             }
             break;
           }

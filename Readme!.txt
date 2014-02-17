@@ -28,6 +28,7 @@ v0.9.
 * add contextmenu for Bookmark lines to remove all Bookmarks
 * bug fix find what window title
 * bug fix in FileManager
+* bug fix FileManager add file
 
 v0.9.5099.x
 * add shortcut Ctrl+Alt+M minimize main window

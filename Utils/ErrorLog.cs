@@ -137,8 +137,7 @@ namespace TailForWin.Utils
       if (ReferenceEquals (AllMessages, null))
         return;
 
-      foreach (string t in AllMessages)
-        sw.WriteLine (t);
+      AllMessages.ForEach (sw.WriteLine);
 
       sw.Flush ( );
 

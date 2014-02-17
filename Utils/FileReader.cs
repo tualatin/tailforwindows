@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System;
 using System.Text;
-using System.Diagnostics;
 
 
 namespace TailForWin.Utils

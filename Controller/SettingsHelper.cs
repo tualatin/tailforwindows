@@ -224,7 +224,7 @@ namespace TailForWin.Controller
       }
       catch (ConfigurationErrorsException ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "SettingsHelper", string.Format ("{1}, exception {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( )));
+        ErrorLog.WriteLog (ErrorFlags.Error, "SettingsHelper", string.Format ("{1}, exception {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 

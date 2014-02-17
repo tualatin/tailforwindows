@@ -89,11 +89,11 @@ namespace TailForWin.Template
       System.Drawing.Font textFont = fmWorkingProperties.FontType;
       System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog { ShowEffects = false, Font = textFont, FontMustExist = true };
 
-      if (fontManager.ShowDialog ( ) != System.Windows.Forms.DialogResult.Cancel)
-      {
-        fmWorkingProperties.FontType = fontManager.Font;
-        ChangeFmStateToEditItem ( );
-      }
+      if (fontManager.ShowDialog ( ) == System.Windows.Forms.DialogResult.Cancel)
+        return;
+
+      fmWorkingProperties.FontType = fontManager.Font;
+      ChangeFmStateToEditItem ( );
     }
 
     private void btnCancel_Click (object sender, RoutedEventArgs e)

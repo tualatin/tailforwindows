@@ -183,11 +183,7 @@ namespace TailForWin.Data
       // Fileencoding
       EncodingInfo[] encodings = Encoding.GetEncodings ( );
       Array.Sort (encodings, new CaseInsensitiveEncodingInfoNameComparer ( ));
-
-      foreach (EncodingInfo fileEncode in encodings)
-      {
-        FileEncoding.Add (fileEncode.GetEncoding ( ));
-      }
+      Array.ForEach (encodings, fileEncode => FileEncoding.Add (fileEncode.GetEncoding ( )));
     }
 
     private class CaseInsensitiveEncodingInfoNameComparer : IComparer

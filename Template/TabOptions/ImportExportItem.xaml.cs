@@ -96,7 +96,7 @@ namespace TailForWin.Template.TabOptions
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
       }
     }
 
@@ -138,7 +138,7 @@ namespace TailForWin.Template.TabOptions
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
       }
     }
   }

@@ -172,7 +172,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
       }
     }
 
@@ -230,7 +230,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
       }
     }
 
@@ -264,7 +264,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
       }
       return (null);
     }
@@ -292,7 +292,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
       }
     }
 
@@ -369,7 +369,7 @@ namespace TailForWin.Controller
           XElement node = (fmDoc.Root.Descendants ("file").Where (x =>
                                                                   {
                                                                     var element = x.Element ("id");
-                                                                    return element != null && element.Value == property.ID.ToString (CultureInfo.InvariantCulture);
+                                                                    return (element != null && String.Compare (element.Value, property.ID.ToString (CultureInfo.InvariantCulture), false) == 0);
                                                                   })).SingleOrDefault ( );
 
           if (node != null)
@@ -437,7 +437,7 @@ namespace TailForWin.Controller
               node.Elements ("filter").Where (x =>
                                               {
                                                 var xElement = x.Element ("id");
-                                                return xElement != null && xElement.Value == id1;
+                                                return (xElement != null && String.Compare (xElement.Value, id1, false) == 0);
                                               }).Remove ( );
             }
 
@@ -455,7 +455,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
       }
     }
 
@@ -471,7 +471,7 @@ namespace TailForWin.Controller
           fmDoc.Root.Descendants ("file").Where (x =>
                                                  {
                                                    var xElement = x.Element ("id");
-                                                   return xElement != null && xElement.Value == property.ID.ToString (CultureInfo.InvariantCulture);
+                                                   return (xElement != null && String.Compare (xElement.Value, property.ID.ToString (CultureInfo.InvariantCulture), false) == 0);
                                                  }).Remove ( );
 
         fmDoc.Save (@fmFile, SaveOptions.None);
@@ -480,7 +480,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1} exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1} exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
 
         return (false);
       }
@@ -516,7 +516,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
       }
       return (null);
     }
@@ -549,10 +549,7 @@ namespace TailForWin.Controller
       List<string> categories = (from x in fmDoc.Descendants ("file") let xElement = x.Element ("category") where xElement != null select xElement.Value).ToList<string> ( );
       Category.Clear ( );
 
-      foreach (string cate in categories)
-      {
-        AddCategoryToDictionary (cate);
-      }
+      categories.ForEach (AddCategoryToDictionary);
     }
 
     private void AddCategoryToDictionary (string key)
@@ -564,7 +561,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  )));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
       }
     }
 

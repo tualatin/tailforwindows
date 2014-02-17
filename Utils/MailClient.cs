@@ -15,6 +15,11 @@ namespace TailForWin.Utils
     private MailMessage mailMessage;
     private System.Timers.Timer emailTimer;
 
+    /// <summary>
+    /// Send E-Mail complete event handler
+    /// </summary>
+    public event EventHandler SendMailComplete;
+
 
     /// <summary>
     /// Free up unused objects
@@ -149,17 +154,23 @@ namespace TailForWin.Utils
       }
     }
 
-    private static void SendCompleted (object sender, AsyncCompletedEventArgs e)
+    private void SendCompleted (object sender, AsyncCompletedEventArgs e)
     {
       string token = (string) e.UserState;
 
       if (e.Cancelled)
       {
         MessageBox.Show (string.Format ("{0}\n\"{1}\"", Application.Current.FindResource ("MailCannotSend"), token), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+
+        if (SendMailComplete != null)
+          SendMailComplete (sender, EventArgs.Empty);
         return;
       }
 
       MessageBox.Show (e.Error != null ? string.Format ("{0}\n\"{1}\"", e.Error, token) : "Complete!", LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+
+      if (SendMailComplete != null)
+        SendMailComplete (sender, EventArgs.Empty);
     }
 
     private void EMailTimerEvent (object sender, System.Timers.ElapsedEventArgs e)

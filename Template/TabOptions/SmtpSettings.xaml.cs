@@ -57,6 +57,14 @@ namespace TailForWin.Template.TabOptions
       OnExit ( );
     }
 
+    private void checkBoxSameLogin_Click (object sender, RoutedEventArgs e)
+    {
+      if (checkBoxSameLogin.IsChecked == true)
+        watermarkTextBoxFrom.Text = watermarkTextBoxUserName.Text;
+      else
+        watermarkTextBoxFrom.Text = string.Empty;
+    }
+
     #endregion
 
     #region Events
@@ -86,6 +94,12 @@ namespace TailForWin.Template.TabOptions
         comboBoxSecurity.SelectedIndex = 2;
       else
         comboBoxSecurity.SelectedIndex = 0;
+    }
+
+    private void watermarkTextBoxUserName_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+      if (checkBoxSameLogin.IsChecked == true)
+        watermarkTextBoxFrom.Text = watermarkTextBoxUserName.Text;
     }
 
     #endregion
