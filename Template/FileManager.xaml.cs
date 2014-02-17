@@ -21,14 +21,6 @@ namespace TailForWin.Template
     /// </summary>
     public event EventHandler DoUpdate;
 
-    protected virtual void OnDoUpdate ()
-    {
-      EventHandler handler = DoUpdate;
-
-      if (handler != null)
-        handler (this, EventArgs.Empty);
-    }
-
     /// <summary>
     /// FileManager open file in new tab event handler
     /// </summary>
@@ -199,10 +191,8 @@ namespace TailForWin.Template
 
     private void btnDelete_Click (object sender, RoutedEventArgs e)
     {
-      if (
-        MessageBox.Show (Application.Current.FindResource ("QDeleteDataGridItem") as string,
-                         LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question,
-                         MessageBoxResult.No) != MessageBoxResult.Yes)
+      if (MessageBox.Show (Application.Current.FindResource ("QDeleteDataGridItem") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question,
+                           MessageBoxResult.No) != MessageBoxResult.Yes)
         return;
 
       int index = dataGridFiles.SelectedIndex;
@@ -437,6 +427,14 @@ namespace TailForWin.Template
       SetAddSaveButton (false);
     }
 
+    protected virtual void OnDoUpdate ()
+    {
+      EventHandler handler = DoUpdate;
+
+      if (handler != null)
+        handler (this, EventArgs.Empty);
+    }
+
     #endregion
 
     #region HelperFunctions
@@ -467,7 +465,7 @@ namespace TailForWin.Template
 
       fmDoc.FmProperties.Add (fmWorkingProperties);
       Title = string.Format ("FileManager - Add file '{0}'", fileName);
-      // dataGridFiles.Items.Refresh ( );
+      dataGridFiles.Items.Refresh ( );
       SelectLastItemInDataGrid ( );
 
       comboBoxCategory.SelectedIndex = 0;
