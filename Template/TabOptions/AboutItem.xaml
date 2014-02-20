@@ -22,7 +22,8 @@
           <RowDefinition Height="10" />
           <RowDefinition Height="35" />
           <RowDefinition Height="30" />
-          <RowDefinition Height="75*" />
+          <RowDefinition Height="30" />
+          <RowDefinition Height="48*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="73" />
@@ -46,6 +47,8 @@
         <Label Content="Update:" Grid.Row="7" Name="label7" VerticalAlignment="Center" />
         <Button Content="System Info" Grid.Column="1" Grid.Row="8" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnSysInfo" VerticalAlignment="Center" Width="75" Click="btnSysInfo_Click" ToolTip="Get information about your system" />
         <CheckBox Content="Check for update at startup" Grid.Column="2" Grid.Row="7" Height="16" HorizontalAlignment="Left" Name="checkBoxAutoUpdate" VerticalAlignment="Center" IsChecked="{Binding Path=AutoUpdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Content="Uptime:" Grid.Row="9" Height="28" Name="label8" VerticalAlignment="Center" />
+        <Label Content="Label" Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Margin="0,2" Name="labelUptime" VerticalAlignment="Center" />
       </Grid>
     </Border>
     <Button Content="Close" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnOK" VerticalAlignment="Center" Width="75" Grid.Row="1" Click="btnSave_Click" />

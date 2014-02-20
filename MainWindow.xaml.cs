@@ -53,6 +53,8 @@ namespace TailForWin
     {
       InitializeComponent ( );
 
+      TfW_UpTimeStart = DateTime.Now;
+
       // TrayIcon stuff
       var streamResourceInfo = Application.GetResourceStream (new Uri ("pack://application:,,,/TailForWin;component/Res/Main.ico"));
      
@@ -91,6 +93,15 @@ namespace TailForWin
     }
 
     #region Properties
+
+    /// <summary>
+    /// Uptime start time
+    /// </summary>
+    public DateTime TfW_UpTimeStart
+    {
+      get;
+      private set;
+    }
 
     /// <summary>
     /// Set topmost

@@ -1329,7 +1329,7 @@ namespace TailForWin.Template.TextEditor
     {
       DateTime now = DateTime.Now;
 
-      Console.WriteLine (@"\n{0} {1}", now.ToString ("hh:mm:ss.fff"), mouseEvent);
+      Console.WriteLine (@"{0} {1}", now.ToString ("hh:mm:ss.fff"), mouseEvent);
       Console.WriteLine (@"LeftMouseButtonDown {0} / RightMouseButtonDown {1}", leftMouseButtonDown, rightMouseButtonDown);
       Console.WriteLine (@"OldMousePosition X {0} / OldMousePosition Y {1}", oldMousePosition.X, oldMousePosition.Y);
       Console.WriteLine (@"MouseMove {0} / WordSelection {1}", mouseMove, wordSelection);

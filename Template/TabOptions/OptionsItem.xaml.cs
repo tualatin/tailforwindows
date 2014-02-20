@@ -136,18 +136,10 @@ namespace TailForWin.Template.TabOptions
 
     private void SetComboBoxes ()
     {
-      foreach (string priorityName in Enum.GetNames (typeof (System.Threading.ThreadPriority)))
-      {
-        comboBoxThreadPriority.Items.Add (priorityName);
-      }
-
+      Array.ForEach (Enum.GetNames (typeof(System.Threading.ThreadPriority)), priorityName => comboBoxThreadPriority.Items.Add (priorityName));
       comboBoxThreadPriority.SelectedIndex = 0;
 
-      foreach (string refreshName in Enum.GetNames (typeof (SettingsData.ETailRefreshRate)))
-      {
-        comboBoxThreadRefreshRate.Items.Add (refreshName);
-      }
-
+      Array.ForEach (Enum.GetNames (typeof(SettingsData.ETailRefreshRate)), refreshName => comboBoxThreadRefreshRate.Items.Add (refreshName));
       comboBoxThreadRefreshRate.SelectedIndex = 0;
 
       foreach (SettingsData.ETimeFormat timeFormat in Enum.GetValues (typeof (SettingsData.ETimeFormat)))

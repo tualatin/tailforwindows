@@ -6,6 +6,7 @@ using System;
 using System.Windows.Input;
 using System.Diagnostics;
 using TailForWin.Controller;
+using System.ComponentModel;
 
 
 namespace TailForWin.Template.TabOptions
@@ -25,6 +26,8 @@ namespace TailForWin.Template.TabOptions
     /// </summary>
     public event EventHandler SaveSettings;
 
+    private readonly BackgroundWorker uptimeThread;
+
 
     public AboutItem ()
     {
@@ -39,12 +42,19 @@ namespace TailForWin.Template.TabOptions
       updater.ApplicationName = LogFile.APPLICATION_CAPTION;
       updater.DataContext = SettingsHelper.TailSettings;
       checkBoxAutoUpdate.DataContext = SettingsHelper.TailSettings;
+
+      uptimeThread = new BackgroundWorker { WorkerSupportsCancellation = true };
+      uptimeThread.DoWork += DoWork_Thread;
+
+      Unloaded += (o, e) => uptimeThread.CancelAsync ( );
     }
 
     public void btnSave_Click (object sender, RoutedEventArgs e)
     {
       if (CloseDialog != null)
         CloseDialog (this, EventArgs.Empty);
+
+      uptimeThread.CancelAsync ( );
     }
 
     public void btnCancel_Click (object sender, RoutedEventArgs e)
@@ -71,6 +81,9 @@ namespace TailForWin.Template.TabOptions
     {
       if (!string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.Password))
         updater.ProxyAuthentification = new System.Net.NetworkCredential (SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt (SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
+
+      if (!uptimeThread.IsBusy)
+        uptimeThread.RunWorkerAsync ( );
     }
 
     private void btnSysInfo_Click (object sender, RoutedEventArgs e)
@@ -79,5 +92,23 @@ namespace TailForWin.Template.TabOptions
       SystemInformation sysInfo = new SystemInformation { Owner = wnd };
       sysInfo.ShowDialog ( );
     }
+
+    #region Thread
+
+    private void DoWork_Thread (object sender, DoWorkEventArgs e)
+    {
+      while (uptimeThread != null && !uptimeThread.CancellationPending)
+      {
+        TimeSpan updTime = DateTime.Now.Subtract (LogFile.APP_MAIN_WINDOW.TfW_UpTimeStart);
+        labelUptime.Dispatcher.Invoke (new Action (( ) => 
+        {
+          labelUptime.Content = string.Format ("{0} Day(s), {1:00}:{2:00}:{3:00} Hour(s)", updTime.Days, updTime.Hours, updTime.Minutes, updTime.Seconds);
+        }));
+
+        System.Threading.Thread.Sleep (1000);
+      }
+    }
+
+    #endregion
   }
 }
