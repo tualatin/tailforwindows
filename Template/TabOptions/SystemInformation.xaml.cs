@@ -37,7 +37,7 @@ namespace TailForWin.Template.TabOptions
       listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("CPU speed", string.Format ("{0} MHz", sysInfo.CpuInfo.ClockSpeed)));
       listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("CPU physical number of processors", sysInfo.CpuInfo.NumberOfProcessors));
       listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("CPU logical number of processors", sysInfo.CpuInfo.LogicalNumberOfProcessors));
-      listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("Host IP address Ipv4/Ipv6", string.Format ("{0} / {1}", sysInfo.HostIPAddress.ipv4, sysInfo.HostIPAddress.ipv6)));
+      listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("Host IP address Ipv4/Ipv6", string.Format ("{0} / {1}", sysInfo.HostIpAddress.Ipv4, sysInfo.HostIpAddress.Ipv6)));
       listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("Physical memory total", sysInfo.GuiTotalPhys));
       listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("Physical memory available", sysInfo.GuiAvailPhys));
       listViewSysInfo.Items.Add (new KeyValuePair<string, string> ("Virtual memory total", sysInfo.GuiTotalVirtual));

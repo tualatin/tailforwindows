@@ -35,7 +35,7 @@ namespace TailForWin.Controller
         OsName = GetOsFriendlyName ( ).Trim ( ),
         OsVersion = string.Format ("{0} {1} Build {2}", Environment.OSVersion.Version, Environment.OSVersion.ServicePack, Environment.OSVersion.Version.Build),
         OsType = string.Format ("{0} Bit-{1}", GetOsArchitecture ( ), System.Windows.Application.Current.FindResource ("OS")),
-        HostIPAddress = GetIpAddress ( ),
+        HostIpAddress = GetIpAddress ( ),
         MachineMemory = GetMachineMemoryInfo ( ),
         Language = GetSystemLanguage ( ),
         CpuInfo = GetCpuInfo ( ),
@@ -65,9 +65,9 @@ namespace TailForWin.Controller
       return ((string.IsNullOrEmpty (pa) || string.Compare (pa, 0, "x86", 0, 3, true) == 0) ? 32 : 64);
     }
 
-    private static Data.IPAddress GetIpAddress ()
+    private static Data.IpAddress GetIpAddress ()
     {
-      Data.IPAddress ipAddress = new Data.IPAddress ( );
+      Data.IpAddress ipAddress = new Data.IpAddress ( );
 
       try
       {
@@ -76,9 +76,9 @@ namespace TailForWin.Controller
         Array.ForEach (lvsHost.AddressList, currentAddress =>
         {
           if (String.CompareOrdinal(currentAddress.AddressFamily.ToString ( ), ProtocolFamily.InterNetworkV6.ToString ( )) == 0)
-            ipAddress.ipv6 = currentAddress.ToString ( );
+            ipAddress.Ipv6 = currentAddress.ToString ( );
           else
-            ipAddress.ipv4 = currentAddress.ToString ( );
+            ipAddress.Ipv4 = currentAddress.ToString ( );
         });
       }
       catch (Exception ex)

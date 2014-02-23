@@ -28,7 +28,7 @@ namespace TailForWin.Data
     /// <summary>
     /// Holds IP-addresses in IPv4 and IPv6
     /// </summary>
-    public IPAddress HostIPAddress
+    public IpAddress HostIpAddress
     {
       get;
       set;
@@ -180,14 +180,12 @@ namespace TailForWin.Data
     {
       if (string.IsNullOrEmpty (CultureNumberFormat))
         return (new CultureInfo ("de-DE", false).NumberFormat);
-      else
-      {
-        int pos = CultureNumberFormat.IndexOf ('_');
-        char[] snipped = CultureNumberFormat.ToCharArray ( );
-        snipped[pos] = '-';
 
-        return (new CultureInfo (new string (snipped), false).NumberFormat);
-      }
+      int pos = CultureNumberFormat.IndexOf ('_');
+      char[] snipped = CultureNumberFormat.ToCharArray ( );
+      snipped[pos] = '-';
+
+      return (new CultureInfo (new string (snipped), false).NumberFormat);
     }
 
     /// <summary>
@@ -225,12 +223,12 @@ namespace TailForWin.Data
   /// <summary>
   /// IPAddress Class
   /// </summary>
-  public class IPAddress
+  public class IpAddress
   {
     /// <summary>
     /// IPv4 address
     /// </summary>
-    public string ipv4
+    public string Ipv4
     {
       get;
       set;
@@ -239,7 +237,7 @@ namespace TailForWin.Data
     /// <summary>
     /// IPv6 address
     /// </summary>
-    public string ipv6
+    public string Ipv6
     {
       get;
       set;
