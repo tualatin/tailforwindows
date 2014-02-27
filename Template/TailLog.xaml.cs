@@ -1035,9 +1035,6 @@ namespace TailForWin.Template
       if (!mySmtp.InitSucces)
         return;
 
-      if (mySmtp.EMailTimer.Enabled)
-        return;
-
       string message = string.Format ("{0}\t{1}", alertTriggerData.Index, alertTriggerData.Message);
       mySmtp.SendMail ("AlertTrigger", message);
     }

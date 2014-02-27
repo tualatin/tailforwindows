@@ -5,6 +5,7 @@ using TailForWin.Data;
 using System.Windows;
 using System;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 
 namespace TailForWin.Utils
@@ -14,6 +15,7 @@ namespace TailForWin.Utils
     private SmtpClient mailClient;
     private MailMessage mailMessage;
     private System.Timers.Timer emailTimer;
+    private List<string> messageCollection;
 
     /// <summary>
     /// Send E-Mail complete event handler
@@ -93,6 +95,8 @@ namespace TailForWin.Utils
 
         emailTimer.Elapsed += EMailTimerEvent;
 
+        messageCollection = new List<string> ( );
+
         InitSucces = true;
       }
       catch (Exception ex)
@@ -119,7 +123,13 @@ namespace TailForWin.Utils
         if (String.Compare (userState, "testMessage", StringComparison.Ordinal) == 0)
           mailMessage.Body = string.Format ("Testmail from {0}", LogFile.APPLICATION_CAPTION);
 
-        mailClient.SendAsync (mailMessage, userToken);
+        if (!EMailTimer.Enabled)
+          mailClient.SendAsync (mailMessage, userToken);
+        else
+        {
+          CollectMessages (bodyMessage);
+          return;
+        }
 
         if (String.Compare (userState, "testMessage", StringComparison.Ordinal) == 0)
           return;
@@ -178,12 +188,28 @@ namespace TailForWin.Utils
       try
       {
         emailTimer.Enabled = false;
+        string body = string.Empty;
+
+        messageCollection.ForEach (message =>
+          {
+            body += string.Format ("{0}\n", message);
+          });
+
+        messageCollection.Clear ( );
+
+        SendMail ("AlertTrigger", body);
         Console.WriteLine (@"Timer end {0}", DateTime.Now);
       }
       catch (Exception ex)
       {
         ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
+    }
+
+    private void CollectMessages (string message)
+    {
+      messageCollection.Add (message);
+      ErrorLog.WriteLog (ErrorFlags.Debug, GetType ( ).Name, string.Format ("{0} add message ...", System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
     }
   }
 }
