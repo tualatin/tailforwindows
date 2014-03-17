@@ -785,6 +785,10 @@ namespace TailForWin.Template.TextEditor
 
     private void LogViewer_MouseDoubleClick (object sender, MouseButtonEventArgs e)
     {
+      if (sender.GetType ( ) != typeof (ListBox))
+        return;
+
+      ListBox lb = sender as ListBox;
 #if DEBUG
       LogMouseEvents ("MouseDoubleClick");
 #endif
