@@ -44,6 +44,8 @@ namespace TailForWin.Template.TextEditor
     private readonly TimeSpan onMouseMoveDelay = TimeSpan.FromMilliseconds (200.0);
     private ScrollViewer logViewScrollViewer;
     private bool newSearch;
+    private TextBox readOnlyEditor;
+    private TextBlock showLineEditor;
 
     /// <summary>
     /// Index for LogEntries and linenumbers
@@ -669,6 +671,12 @@ namespace TailForWin.Template.TextEditor
         if (oldMousePosition.Y != mousePoint.Y)
           mouseMove = true;
 
+        // TODO: review me
+        if (readOnlyEditor != null)
+          readOnlyEditor.Visibility = System.Windows.Visibility.Collapsed;
+        if (showLineEditor != null)
+          showLineEditor.Visibility = System.Windows.Visibility.Visible;
+
         try
         {
           foreach (LogEntry item in items)
@@ -706,8 +714,8 @@ namespace TailForWin.Template.TextEditor
 
                     selectMouseItems = true;
 
-                    // fullSelectionBox = true;
-                    // LogViewer.ItemContainerStyle = (Style) FindResource ("FullSelectionBox");
+                    fullSelectionBox = true;
+                    LogViewer.ItemContainerStyle = (Style) FindResource ("FullSelectionBox");
                   }
                 }
               }
@@ -789,6 +797,34 @@ namespace TailForWin.Template.TextEditor
         return;
 
       ListBox lb = sender as ListBox;
+      var item = lb.SelectedItem as LogEntry;
+      //Point mousePoint = PointToScreen (Mouse.GetPosition (this));
+
+      if (item != null)
+      {
+        ListBoxItem myListBoxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem (item));
+        ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter> (myListBoxItem);
+
+        if (myContentPresenter == null)
+          return;
+
+        DataTemplate myDataTemplate = myContentPresenter.ContentTemplateSelector.SelectTemplate (myListBoxItem, LogViewer);
+        showLineEditor = (TextBlock) myDataTemplate.FindName ("txtBoxMessage", myContentPresenter);
+        readOnlyEditor = (TextBox) myDataTemplate.FindName ("txtEditMessage", myContentPresenter);
+
+        if (showLineEditor == null)
+          return;
+        if (readOnlyEditor == null)
+          return;
+
+        showLineEditor.Visibility = System.Windows.Visibility.Hidden;
+        readOnlyEditor.Visibility = System.Windows.Visibility.Visible;
+
+        //Point relativePoint = target.PointToScreen (new Point (0, 0));
+        //Size s = GetSizeFromText (target);
+
+      }
+
 #if DEBUG
       LogMouseEvents ("MouseDoubleClick");
 #endif

@@ -68,6 +68,35 @@
       </Style.Triggers>
     </Style>
 
+    <Style TargetType="TextBox" x:Key="MyEditTextEditor">
+      <Setter Property="FontFamily" Value="{Binding Path=TextEditorFontFamily, ElementName=LogViewerProperty}" />
+      <Setter Property="FontWeight" Value="{Binding Path=TextEditorFontWeight, ElementName=LogViewerProperty}" />
+      <Setter Property="FontSize" Value="{Binding Path=TextEditorFontSize, ElementName=LogViewerProperty}" />
+      <Setter Property="FontStyle" Value="{Binding Path=TextEditorFontStyle, ElementName=LogViewerProperty}" />
+      <Setter Property="TextWrapping" Value="{Binding Path=WordWrapping, ElementName=LogViewerProperty, Converter={StaticResource BoolToTextWrap}}" />
+      <Setter Property="Text" Value="{Binding Message, Mode=OneWay}" />
+      <Setter Property="IsReadOnly" Value="True" />
+      <Setter Property="Visibility" Value="Collapsed" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type TextBox}">
+            <Grid>
+              <TextBox Text="{TemplateBinding Text}" BorderThickness="0" Margin="-3,-1" />
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}" Value="True">
+          <Setter Property="Background">
+            <Setter.Value>
+              <SolidColorBrush Opacity="0.4" Color="{Binding Source={x:Reference LogViewerProperty}, Path=TextEditorSelectionColor}" />
+            </Setter.Value>
+          </Setter>
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+
     <Style TargetType="TextBlock" x:Key="MyDateTimeEditor">
       <Setter Property="FontFamily" Value="{Binding Path=TextEditorFontFamily, ElementName=LogViewerProperty}" />
       <Setter Property="FontWeight" Value="{Binding Path=TextEditorFontWeight, ElementName=LogViewerProperty}" />
@@ -104,6 +133,7 @@
         </Grid>       
         
         <TextBlock Grid.Column="2" Margin="5,0,0,0" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
+        <TextBox Grid.Column="2" Margin="5,0,0,0" x:Name="txtEditMessage" Style="{StaticResource MyEditTextEditor}" />
       </Grid>
     </DataTemplate>
 
@@ -128,6 +158,7 @@
 
         <TextBlock Grid.Column="2" Margin="5,0,0,0" Padding="0,0,5,0" Style="{StaticResource MyDateTimeEditor}" />
         <TextBlock Grid.Column="3" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
+        <TextBox Grid.Column="3" x:Name="txtEditMessage" Style="{StaticResource MyEditTextEditor}" />
       </Grid>
     </DataTemplate>
 
@@ -146,6 +177,7 @@
 
         <TextBlock Grid.Column="1" Margin="5,0,0,0" Padding="0,0,5,0" Style="{StaticResource MyDateTimeEditor}" />
         <TextBlock Grid.Column="2" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
+        <TextBox Grid.Column="2" x:Name="txtEditMessage" Style="{StaticResource MyEditTextEditor}" />
       </Grid>
     </DataTemplate>
 
@@ -162,6 +194,7 @@
         </Grid>
 
         <TextBlock Grid.Column="1" Margin="5,0,0,0" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
+        <TextBox Grid.Column="1" Margin="5,0,0,0" x:Name="txtEditMessage" Style="{StaticResource MyEditTextEditor}" />
       </Grid>
     </DataTemplate>
 
