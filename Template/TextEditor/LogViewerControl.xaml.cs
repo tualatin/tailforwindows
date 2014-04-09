@@ -40,12 +40,14 @@ namespace TailForWin.Template.TextEditor
     private bool mouseMove;
     private bool selectMouseItems;
     private Point oldMousePosition;
-    private readonly DeferredAction deferredOnMouseMove;
-    private readonly TimeSpan onMouseMoveDelay = TimeSpan.FromMilliseconds (200.0);
+    //private readonly DeferredAction deferredOnMouseMove;
+    //private readonly TimeSpan onMouseMoveDelay = TimeSpan.FromMilliseconds (200.0);
     private ScrollViewer logViewScrollViewer;
     private bool newSearch;
     private TextBox readOnlyEditor;
     private TextBlock showLineEditor;
+    private readonly List<object> selectedItems = new List<object> ( );
+    private object anchor, lead;
 
     /// <summary>
     /// Index for LogEntries and linenumbers
@@ -721,8 +723,6 @@ namespace TailForWin.Template.TextEditor
                     if (info != null)
                       Cursor = new Cursor (info.Stream);
 
-                    selectMouseItems = true;
-
                     // fullSelectionBox = true;
                     LogViewer.ItemContainerStyle = (Style) FindResource ("FullSelectionBox");
                   }
@@ -766,11 +766,38 @@ namespace TailForWin.Template.TextEditor
     {
       if (!leftMouseButtonDown)
         return;
+      if (!selectMouseItems)
+        return;
+      if (sender.GetType ( ) != typeof (ListBox))
+        return;
 
-      if (leftMouseButtonDown && selectMouseItems)
+      ListBox lb = sender as ListBox;
+      var item = lb.SelectedItem as LogEntry;
+
+      if (item != null)
       {
-        Console.WriteLine (@"---------------- {0} --------------------", LogViewer.SelectedItems.Count);
+        ListBoxItem listBoxItem = (ListBoxItem)(LogViewer.ItemContainerGenerator.ContainerFromItem (item));
+
+        if (listBoxItem == null)
+          return;
+        if (lead == listBoxItem)
+          return;
+
+        var last = lead;
+        lead = listBoxItem;
+
+        if (selectedItems.Contains (lead))
+          selectedItems.Remove (last);
+        else
+          selectedItems.Add (lead);
+        
       }
+
+      foreach (var lbi in selectedItems)
+      {
+        ((ListBoxItem) lbi).IsSelected = true;
+      }
+
       //if (mouseMove && leftMouseButtonDown)
       //{
       //  LogViewer.ItemContainerStyle = (Style) FindResource ("LeftAligned");
@@ -836,7 +863,6 @@ namespace TailForWin.Template.TextEditor
 
         //Point relativePoint = target.PointToScreen (new Point (0, 0));
         //Size s = GetSizeFromText (target);
-
       }
 
 #if DEBUG
@@ -860,7 +886,6 @@ namespace TailForWin.Template.TextEditor
     {
       if (rightMouseButtonDown)
         return;
-
       if (sender.GetType ( ) != typeof (ListBox))
         return;
 
@@ -869,26 +894,36 @@ namespace TailForWin.Template.TextEditor
       LogEntry item = lb.SelectedItem as LogEntry;
       Point mousePoint = PointToScreen (Mouse.GetPosition (this));
 
-      if (item != null)
+      if (item == null)
+        return;
+
+      System.Drawing.Rectangle? rcBreakpoint = MouseButtonDownHelper (item);
+
+      if (rcBreakpoint != null)
       {
-        System.Drawing.Rectangle? rcBreakpoint = MouseButtonDownHelper (item);
-
-        if (rcBreakpoint != null)
+        if (((System.Drawing.Rectangle) rcBreakpoint).Contains ((int) mousePoint.X, (int) mousePoint.Y) && leftMouseButtonDown)
         {
-          if (((System.Drawing.Rectangle) rcBreakpoint).Contains ((int) mousePoint.X, (int) mousePoint.Y) && leftMouseButtonDown)
-          {
-            System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage ( );
-            bp.BeginInit ( );
-            bp.UriSource = new Uri ("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
-            bp.EndInit ( );
+          System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage ( );
+          bp.BeginInit ( );
+          bp.UriSource = new Uri ("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
+          bp.EndInit ( );
 
-            if (item.BookmarkPoint == null)
-              item.BookmarkPoint = bp;
-            else
-              item.BookmarkPoint = null;
-          }
+          if (item.BookmarkPoint == null)
+            item.BookmarkPoint = bp;
+          else
+            item.BookmarkPoint = null;
         }
       }
+
+      ListBoxItem listboxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem (item));
+
+      if (listboxItem == null)
+        return;
+
+      selectedItems.Clear ( );
+      selectedItems.Add (listboxItem);
+      selectMouseItems = true;
+
 
 #if DEBUG
       LogMouseEvents ("MouseLeftButtonDown");
@@ -911,7 +946,6 @@ namespace TailForWin.Template.TextEditor
     {
       if (leftMouseButtonDown)
         return;
-
       if (sender.GetType ( ) != typeof (ListBox))
         return;
 
@@ -935,7 +969,7 @@ namespace TailForWin.Template.TextEditor
               RenderOptions.SetEdgeMode (icon, EdgeMode.Aliased);
 
               ContextMenu menu = new ContextMenu ( );
-              MenuItem menuItem = new MenuItem ( )
+              MenuItem menuItem = new MenuItem
               {
                 Header = "Delete all Bookmarks",
                 Icon = new Image
@@ -964,8 +998,12 @@ namespace TailForWin.Template.TextEditor
       rightMouseButtonDown = false;
       mouseMove = false;
       wordSelection = false;
-      selectMouseItems = false;
       // fullSelectionBox = false;
+
+      selectMouseItems = false;
+      selectedItems.Clear ( );
+      lead = null;
+      anchor = null;
 
       Cursor = Cursors.Arrow;
 
