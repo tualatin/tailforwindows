@@ -460,6 +460,15 @@ namespace TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Is a valid FileName entered
+    /// </summary>
+    public bool FileNameAvailable
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     #region Public functions
@@ -714,7 +723,7 @@ namespace TailForWin.Template.TextEditor
 
                     selectMouseItems = true;
 
-                    fullSelectionBox = true;
+                    // fullSelectionBox = true;
                     LogViewer.ItemContainerStyle = (Style) FindResource ("FullSelectionBox");
                   }
                 }
@@ -795,10 +804,15 @@ namespace TailForWin.Template.TextEditor
     {
       if (sender.GetType ( ) != typeof (ListBox))
         return;
+      if (!FileNameAvailable)
+        return;
 
       ListBox lb = sender as ListBox;
       var item = lb.SelectedItem as LogEntry;
       //Point mousePoint = PointToScreen (Mouse.GetPosition (this));
+
+      if (string.IsNullOrEmpty (item.Message))
+        return;
 
       if (item != null)
       {

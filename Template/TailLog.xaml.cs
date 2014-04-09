@@ -316,6 +316,7 @@ namespace TailForWin.Template
       {
         textBlockTailLog.AppendText (string.Format ("{0} - {1}", DateTime.Now, Application.Current.FindResource ("NoFilenameEntered")));
         textBlockTailLog.ScrollToEnd ( );
+        textBlockTailLog.FileNameAvailable = false;
       }
       else
       {
@@ -345,8 +346,12 @@ namespace TailForWin.Template
 
         if (FileReader.FileExists (tabProperties.FileName))
         {
+          if (string.IsNullOrEmpty (textBoxFileName.Text))
+            textBoxFileName.Text = tabProperties.FileName;
+
           childTabItem.Header = string.Format ("{0}", tabProperties.File);
           childTabItem.Style = (Style) FindResource ("TabItemTailStyle");
+          textBlockTailLog.FileNameAvailable = true;
 
           WordWrap ( );
 
