@@ -764,6 +764,8 @@ namespace TailForWin.Template.TextEditor
 
     private void LogViewer_MouseMove (object sender, MouseEventArgs e)
     {
+      DateTime now = DateTime.Now;
+
       if (!leftMouseButtonDown)
         return;
       if (!selectMouseItems)
@@ -778,21 +780,26 @@ namespace TailForWin.Template.TextEditor
       {
         ListBoxItem listBoxItem = (ListBoxItem)(LogViewer.ItemContainerGenerator.ContainerFromItem (item));
 
-        if (listBoxItem == null)
-          return;
-        if (lead == listBoxItem)
-          return;
+        if (listBoxItem != null)
+        {
+          if (lead != listBoxItem)
+          {
+            var last = lead;
+            lead = listBoxItem;
 
-        var last = lead;
-        lead = listBoxItem;
-
-        if (selectedItems.Contains (lead))
-          selectedItems.Remove (last);
-        else
-          selectedItems.Add (lead);        
+            if (selectedItems.Contains (lead))
+              selectedItems.Remove (last);
+            else
+              selectedItems.Add (lead);
+          }
+        }
       }
 
       selectedItems.ForEach (lbi => ((ListBoxItem) lbi).IsSelected = true);
+
+      DateTime complete = DateTime.Now;
+      TimeSpan duration = complete.Subtract (now);
+      Console.WriteLine (@"Duration in millisec {0}", duration.Milliseconds);
 
       //if (mouseMove && leftMouseButtonDown)
       //{
