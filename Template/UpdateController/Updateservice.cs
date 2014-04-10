@@ -110,27 +110,36 @@ namespace TailForWin.Template.UpdateController
       private set;
     }
 
+    /// <summary>
+    /// Update process was successful
+    /// </summary>
+    public bool Success
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     public void Dispose ()
     {
-      if (updateThread != null)
-      {
-        updateThread.Dispose ( );
-        updateThread = null;
-      }
+      if (updateThread == null)
+        return;
+
+      updateThread.Dispose ( );
+      updateThread = null;
     }
 
     public Updateservice ()
     {
-      updateThread = new BackgroundWorker ( ) { WorkerSupportsCancellation = true };
+      updateThread = new BackgroundWorker { WorkerSupportsCancellation = true };
       updateThread.DoWork += updateThread_DoWork;
       updateThread.RunWorkerCompleted += updateThread_Completed;
     }
 
     public void InitWebService ( )
     {
-      WebServiceData data = new WebServiceData ( )
+      WebServiceData data = new WebServiceData
       {
         ProxyAddress = Proxy,
         ProxyPort = ProxyPort,
@@ -160,8 +169,11 @@ namespace TailForWin.Template.UpdateController
     {
       string html = string.Empty;
 
-      if (webservice.UpdateWebRequest (out html))
-        webData = html;
+      if (!webservice.UpdateWebRequest (out html))
+        return;
+
+      webData = html;
+      Success = true;
     }
 
     private void updateThread_Completed (object sender, RunWorkerCompletedEventArgs e)

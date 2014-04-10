@@ -15,11 +15,11 @@ namespace TailForWin.Template.UpdateController
 
     public void Dispose ()
     {
-      if (updater != null)
-      {
-        updater.Dispose ( );
-        updater = null;
-      }
+      if (updater == null)
+        return;
+
+      updater.Dispose ( );
+      updater = null;
     }
 
     public Updater ()
@@ -165,6 +165,9 @@ namespace TailForWin.Template.UpdateController
     private void UpdateCompleted (object sender, EventArgs e)
     {
       btnUpdater.IsEnabled = updater.IsThreadCompleted;
+
+      if (!updater.Success)
+        return;
 
       Window wnd = Window.GetWindow (this);
       ResultDialog rd = new ResultDialog (ApplicationName, updater.HaveToUpdate, UpdateURL)

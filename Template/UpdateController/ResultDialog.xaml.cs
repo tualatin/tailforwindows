@@ -25,7 +25,7 @@ namespace TailForWin.Template.UpdateController
       PreviewKeyDown += HandleEsc;
     }
 
-    #region PublicFunctions
+    #region PublicProperties
 
     /// <summary>
     /// Latest webversion

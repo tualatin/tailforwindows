@@ -789,14 +789,10 @@ namespace TailForWin.Template.TextEditor
         if (selectedItems.Contains (lead))
           selectedItems.Remove (last);
         else
-          selectedItems.Add (lead);
-        
+          selectedItems.Add (lead);        
       }
 
-      foreach (var lbi in selectedItems)
-      {
-        ((ListBoxItem) lbi).IsSelected = true;
-      }
+      selectedItems.ForEach (lbi => ((ListBoxItem) lbi).IsSelected = true);
 
       //if (mouseMove && leftMouseButtonDown)
       //{
@@ -923,8 +919,7 @@ namespace TailForWin.Template.TextEditor
       selectedItems.Clear ( );
       selectedItems.Add (listboxItem);
       selectMouseItems = true;
-
-
+      
 #if DEBUG
       LogMouseEvents ("MouseLeftButtonDown");
 #endif

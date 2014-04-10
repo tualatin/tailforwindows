@@ -63,7 +63,7 @@ namespace TailForWin.Template.UpdateController
       // 3 minutes
       request.Timeout = 180000;
 
-   if (proxySettings.UseProxy)
+      if (proxySettings.UseProxy)
       {
         if (!useSystemProxySettings)
           request.Proxy = new WebProxy (string.Format ("{0}:{1}", proxySettings.ProxyAddress, proxySettings.ProxyPort), true);
@@ -76,15 +76,15 @@ namespace TailForWin.Template.UpdateController
           }
         }
       }
-      if (useSystemProxySettings)
-      {
-        WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy ( );
+      if (!useSystemProxySettings)
+        return;
 
-        if (proxySettings.ProxyCredential != null)
-        {
-          if (!string.IsNullOrEmpty (proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty (proxySettings.ProxyCredential.Password))
-            WebRequest.DefaultWebProxy.Credentials = proxySettings.ProxyCredential;
-        }
+      WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy ( );
+
+      if (proxySettings.ProxyCredential != null)
+      {
+        if (!string.IsNullOrEmpty (proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty (proxySettings.ProxyCredential.Password))
+          WebRequest.DefaultWebProxy.Credentials = proxySettings.ProxyCredential;
       }
     }
 
