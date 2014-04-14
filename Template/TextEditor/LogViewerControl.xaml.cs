@@ -38,7 +38,6 @@ namespace TailForWin.Template.TextEditor
     private bool rightMouseButtonDown;
     private bool wordSelection;
     private bool mouseMove;
-    private bool selectMouseItems;
     private Point oldMousePosition;
     //private readonly DeferredAction deferredOnMouseMove;
     //private readonly TimeSpan onMouseMoveDelay = TimeSpan.FromMilliseconds (200.0);
@@ -46,8 +45,6 @@ namespace TailForWin.Template.TextEditor
     private bool newSearch;
     private TextBox readOnlyEditor;
     private TextBlock showLineEditor;
-    private readonly List<object> selectedItems = new List<object> ( );
-    private object anchor, lead;
 
     /// <summary>
     /// Index for LogEntries and linenumbers
@@ -764,64 +761,6 @@ namespace TailForWin.Template.TextEditor
 
     private void LogViewer_MouseMove (object sender, MouseEventArgs e)
     {
-      if (!leftMouseButtonDown)
-        return;
-      if (!selectMouseItems)
-        return;
-      if (sender.GetType ( ) != typeof (ListBox))
-        return;
-
-      ListBox lb = sender as ListBox;
-      var item = lb.SelectedItem as LogEntry;
-
-      if (item != null)
-      {
-        ListBoxItem listBoxItem = (ListBoxItem)(LogViewer.ItemContainerGenerator.ContainerFromItem (item));
-
-        if (listBoxItem != null)
-        {
-          if (lead != listBoxItem)
-          {
-            var last = lead;
-            lead = listBoxItem;
-
-            if (selectedItems.Contains (lead))
-              selectedItems.Remove (last);
-            else
-              selectedItems.Add (lead);
-          }
-        }
-      }
-
-      // selectedItems.ForEach (lbi => ((ListBoxItem) lbi).IsSelected = true);
-
-      //if (mouseMove && leftMouseButtonDown)
-      //{
-      //  LogViewer.ItemContainerStyle = (Style) FindResource ("LeftAligned");
-      //  fullSelectionBox = false;
-      //}
-
-      //if (!fullSelectionBox)
-      //{
-      //  Point mousePosition = PointToScreen (Mouse.GetPosition (this));
-
-      //  if (oldMousePosition.X != mousePosition.X)
-      //    wordSelection = true;
-      //}
-
-      //if (e.LeftButton != MouseButtonState.Pressed)
-      //{
-      //  LogViewer_MouseUp (null, null);
-      //}
-
-      //if (deferredOnMouseMove == null)
-      //  deferredOnMouseMove = DeferredAction.Create (() => DeferredMouseMove ( ));
-
-      //deferredOnMouseMove.Defer (onMouseMoveDelay);
-
-#if DEBUG
-      LogMouseEvents ("MouseMove");
-#endif
     }
 
     private void LogViewer_MouseDoubleClick (object sender, MouseButtonEventArgs e)
@@ -829,6 +768,8 @@ namespace TailForWin.Template.TextEditor
       if (sender.GetType ( ) != typeof (ListBox))
         return;
       if (!FileNameAvailable)
+        return;
+      if (!leftMouseButtonDown)
         return;
 
       ListBox lb = sender as ListBox;
@@ -861,10 +802,6 @@ namespace TailForWin.Template.TextEditor
         //Point relativePoint = target.PointToScreen (new Point (0, 0));
         //Size s = GetSizeFromText (target);
       }
-
-#if DEBUG
-      LogMouseEvents ("MouseDoubleClick");
-#endif
     }
 
     private void LogViewer_PreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e)
@@ -874,9 +811,6 @@ namespace TailForWin.Template.TextEditor
 
       leftMouseButtonDown = true;
       oldMousePosition = PointToScreen (Mouse.GetPosition (this));
-#if DEBUG
-      LogMouseEvents ("PreviewMouseLeftButtonDown");
-#endif
     }
 
     private void LogViewer_MouseLeftButtonDown (object sender, MouseButtonEventArgs e)
@@ -911,19 +845,6 @@ namespace TailForWin.Template.TextEditor
             item.BookmarkPoint = null;
         }
       }
-
-      ListBoxItem listboxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem (item));
-
-      if (listboxItem == null)
-        return;
-
-      selectedItems.Clear ( );
-      selectedItems.Add (listboxItem);
-      selectMouseItems = true;
-      
-#if DEBUG
-      LogMouseEvents ("MouseLeftButtonDown");
-#endif
     }
 
     private void LogViewer_PreviewMouseRightButtonDown (object sender, MouseButtonEventArgs e)
@@ -932,10 +853,6 @@ namespace TailForWin.Template.TextEditor
         return;
 
       rightMouseButtonDown = true;
-
-#if DEBUG
-      LogMouseEvents ("PreviewMouseRightButtonDown");
-#endif
     }
 
     private void LogViewer_MouseRightButtonDown (object sender, MouseButtonEventArgs e)
@@ -982,10 +899,6 @@ namespace TailForWin.Template.TextEditor
           }
         }
       }
-
-#if DEBUG
-      LogMouseEvents ("MouseRightButtonDown");
-#endif
     }
 
     private void LogViewer_MouseUp (object sender, MouseButtonEventArgs e)
@@ -994,20 +907,8 @@ namespace TailForWin.Template.TextEditor
       rightMouseButtonDown = false;
       mouseMove = false;
       wordSelection = false;
-      // fullSelectionBox = false;
-
-      selectedItems.ForEach (lbi => ((ListBoxItem) lbi).IsSelected = true);
-
-      selectMouseItems = false;
-      selectedItems.Clear ( );
-      lead = null;
-      anchor = null;
 
       Cursor = Cursors.Arrow;
-
-#if DEBUG
-      LogMouseEvents ("MouseUp");
-#endif
     }
 
     #endregion
@@ -1393,7 +1294,7 @@ namespace TailForWin.Template.TextEditor
     }
 
     private static childItem FindVisualChild<childItem> (DependencyObject obj)
-        where childItem : DependencyObject
+        where childItem: DependencyObject
     {
       if (obj == null)
         return (null);
@@ -1414,7 +1315,6 @@ namespace TailForWin.Template.TextEditor
     }
 
 #if DEBUG
-
     private void LogMouseEvents (string mouseEvent)
     {
       DateTime now = DateTime.Now;
@@ -1424,7 +1324,6 @@ namespace TailForWin.Template.TextEditor
       Console.WriteLine (@"OldMousePosition X {0} / OldMousePosition Y {1}", oldMousePosition.X, oldMousePosition.Y);
       Console.WriteLine (@"MouseMove {0} / WordSelection {1}", mouseMove, wordSelection);
     }
-
 #endif
 
     #endregion

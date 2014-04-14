@@ -9,6 +9,7 @@ v0.9.xx
 * bug fix when clear FileName textbox, than press Start, textbox was empty
 * add select single word
 * add multiselect by mouse
+* improve performance multiselect by mouse
 
 v0.9.5172.x
 * bug fix proxy authentication
