@@ -776,32 +776,31 @@ namespace TailForWin.Template.TextEditor
       var item = lb.SelectedItem as LogEntry;
       //Point mousePoint = PointToScreen (Mouse.GetPosition (this));
 
+      if (item == null)
+        return;
       if (string.IsNullOrEmpty (item.Message))
         return;
 
-      if (item != null)
-      {
-        ListBoxItem myListBoxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem (item));
-        ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter> (myListBoxItem);
+      ListBoxItem myListBoxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem (item));
+      ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter> (myListBoxItem);
 
-        if (myContentPresenter == null)
-          return;
+      if (myContentPresenter == null)
+        return;
 
-        DataTemplate myDataTemplate = myContentPresenter.ContentTemplateSelector.SelectTemplate (myListBoxItem, LogViewer);
-        showLineEditor = (TextBlock) myDataTemplate.FindName ("txtBoxMessage", myContentPresenter);
-        readOnlyEditor = (TextBox) myDataTemplate.FindName ("txtEditMessage", myContentPresenter);
+      DataTemplate myDataTemplate = myContentPresenter.ContentTemplateSelector.SelectTemplate (myListBoxItem, LogViewer);
+      showLineEditor = (TextBlock) myDataTemplate.FindName ("txtBoxMessage", myContentPresenter);
+      readOnlyEditor = (TextBox) myDataTemplate.FindName ("txtEditMessage", myContentPresenter);
 
-        if (showLineEditor == null)
-          return;
-        if (readOnlyEditor == null)
-          return;
+      if (showLineEditor == null)
+        return;
+      if (readOnlyEditor == null)
+        return;
 
-        showLineEditor.Visibility = System.Windows.Visibility.Hidden;
-        readOnlyEditor.Visibility = System.Windows.Visibility.Visible;
+      showLineEditor.Visibility = System.Windows.Visibility.Hidden;
+      readOnlyEditor.Visibility = System.Windows.Visibility.Visible;
 
-        //Point relativePoint = target.PointToScreen (new Point (0, 0));
-        //Size s = GetSizeFromText (target);
-      }
+      //Point relativePoint = target.PointToScreen (new Point (0, 0));
+      //Size s = GetSizeFromText (target);
     }
 
     private void LogViewer_PreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e)

@@ -10,6 +10,7 @@ v0.9.xx
 * add select single word
 * add multiselect by mouse
 * improve performance multiselect by mouse
+* bug fix mouse double click on a empty text editor window
 
 v0.9.5172.x
 * bug fix proxy authentication
