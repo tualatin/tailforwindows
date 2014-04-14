@@ -407,7 +407,8 @@ namespace TailForWin.Template.TextEditor.Utils
         // default value for the Interval property. KeyboardSpeed returns
         // a value between 0 (400ms) and 31 (33ms).
         const double Ratio = (400.0 - 33.0) / 31.0;
-        return 400 - (int) (SystemParameters.KeyboardSpeed * Ratio);
+
+        return (400 - (int) (SystemParameters.KeyboardSpeed * Ratio));
       }
 
       private double CalculateOffset (int startIndex, int endIndex)

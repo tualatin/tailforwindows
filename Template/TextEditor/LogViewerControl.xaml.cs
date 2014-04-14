@@ -76,6 +76,11 @@ namespace TailForWin.Template.TextEditor
     /// </summary>
     private readonly CollectionViewSource collectionViewSource;
 
+    /// <summary>
+    /// Mouse left button down counter, don't know, why this event fires twice
+    /// </summary>
+    private int mouseLeftButtonDownCounter;
+
 
     public LogViewerControl ()
     {
@@ -663,10 +668,10 @@ namespace TailForWin.Template.TextEditor
     {
       e.Handled = true;
 
-      if (rightMouseButtonDown)
-        return;
-      if (!leftMouseButtonDown)
-        return;
+      //if (rightMouseButtonDown)
+      //  return;
+      //if (!leftMouseButtonDown)
+      //  return;
 
       var listBox = sender as ListBox;
 
@@ -721,7 +726,7 @@ namespace TailForWin.Template.TextEditor
                       Cursor = new Cursor (info.Stream);
 
                     // fullSelectionBox = true;
-                    LogViewer.ItemContainerStyle = (Style) FindResource ("FullSelectionBox");
+                    // LogViewer.ItemContainerStyle = (Style) FindResource ("FullSelectionBox");
                   }
                 }
               }
@@ -814,6 +819,10 @@ namespace TailForWin.Template.TextEditor
 
     private void LogViewer_MouseLeftButtonDown (object sender, MouseButtonEventArgs e)
     {
+      mouseLeftButtonDownCounter++;
+
+      if (mouseLeftButtonDownCounter >= 2)
+        return;
       if (rightMouseButtonDown)
         return;
       if (sender.GetType ( ) != typeof (ListBox))
@@ -829,21 +838,20 @@ namespace TailForWin.Template.TextEditor
 
       System.Drawing.Rectangle? rcBreakpoint = MouseButtonDownHelper (item);
 
-      if (rcBreakpoint != null)
-      {
-        if (((System.Drawing.Rectangle) rcBreakpoint).Contains ((int) mousePoint.X, (int) mousePoint.Y) && leftMouseButtonDown)
-        {
-          System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage ( );
-          bp.BeginInit ( );
-          bp.UriSource = new Uri ("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
-          bp.EndInit ( );
+      if (rcBreakpoint == null)
+        return;
+      if (!(((System.Drawing.Rectangle) rcBreakpoint).Contains ((int) mousePoint.X, (int) mousePoint.Y) && leftMouseButtonDown))
+        return;
 
-          if (item.BookmarkPoint == null)
-            item.BookmarkPoint = bp;
-          else
-            item.BookmarkPoint = null;
-        }
-      }
+      System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage ( );
+      bp.BeginInit ( );
+      bp.UriSource = new Uri ("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
+      bp.EndInit ( );
+
+      if (item.BookmarkPoint == null)
+        item.BookmarkPoint = bp;
+      else
+        item.BookmarkPoint = null;
     }
 
     private void LogViewer_PreviewMouseRightButtonDown (object sender, MouseButtonEventArgs e)
@@ -906,6 +914,8 @@ namespace TailForWin.Template.TextEditor
       rightMouseButtonDown = false;
       mouseMove = false;
       wordSelection = false;
+
+      mouseLeftButtonDownCounter = 0;
 
       Cursor = Cursors.Arrow;
     }
