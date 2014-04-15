@@ -23,7 +23,7 @@ namespace TailForWin.Data
         handler (this, new PropertyChangedEventArgs (name));
     }
 
-    protected void ItemPropertyChanged (object sender, PropertyChangedEventArgs e)
+    protected static void ItemPropertyChanged (object sender, PropertyChangedEventArgs e)
     {
       NotifyCollectionChangedEventArgs a = new NotifyCollectionChangedEventArgs (NotifyCollectionChangedAction.Reset);
     }

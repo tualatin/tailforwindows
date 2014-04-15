@@ -25,6 +25,24 @@
       }
     }
 
+    private bool popupWnd;
+
+    /// <summary>
+    /// Show Popup window when alert occours
+    /// </summary>
+    public bool PopupWnd
+    {
+      get
+      {
+        return (popupWnd);
+      }
+      set
+      {
+        popupWnd = value;
+        OnPropertyChanged ("PopupWnd");
+      }
+    }
+
     private bool playSoundFile;
 
     /// <summary>

@@ -13,6 +13,7 @@ using System.Windows.Controls.Primitives;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Text;
+using TailForWin.Template.TaskBarNotifier;
 
 
 namespace TailForWin
@@ -23,6 +24,7 @@ namespace TailForWin
   public partial class MainWindow : IDisposable
   {
     private WinTrayIcon trayIcon;
+    private TaskBarNotifier_Wnd taskBarNotifier;
     private readonly List<TabItem> tailTabItems;
     private readonly TabItem tabAdd;
     private int tabCount;
@@ -66,6 +68,8 @@ namespace TailForWin
       }
 
       trayIcon.NotifyIcon.DoubleClick += DoubleClickNotifyIcon;
+      taskBarNotifier = new TaskBarNotifier_Wnd ( );
+      taskBarNotifier.Show ( );
 
       tabControlTail.PreviewKeyDown += tabControlTail_PreviewKeyDown;
       tabControlTail.PreviewKeyUp += tabControlTail_PreviewKeyUp;
@@ -166,9 +170,12 @@ namespace TailForWin
 
     #region ClickEvents
 
-    private static void DoubleClickNotifyIcon (object sender, EventArgs e)
+    private void DoubleClickNotifyIcon (object sender, EventArgs e)
     {
       LogFile.BringMainWindowToFront ( );
+
+      taskBarNotifier.NotifyContent.Add (new NotifyObject ("Hallo Welt", "Alert"));
+      taskBarNotifier.Notify ( );
     }
 
     private void tabControlTail_SelectionChanged (object sender, SelectionChangedEventArgs e)

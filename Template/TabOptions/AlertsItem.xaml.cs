@@ -84,6 +84,11 @@ namespace TailForWin.Template.TabOptions
       smtp.ShowDialog ( );
     }
 
+    public void btnSettingsPopUpWnd_Click (object sender, RoutedEventArgs e)
+    {
+
+    }
+
     #endregion
 
     #region Events

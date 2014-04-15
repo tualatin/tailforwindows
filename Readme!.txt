@@ -13,6 +13,7 @@ v0.9.xx
 * bug fix mouse double click on a empty text editor window
 * bug fix rightmouse buttondown by multiselect items
 * bug fix NullReferenceException when closing TfW
+* add popup window alert option
 
 v0.9.5172.x
 * bug fix proxy authentication
