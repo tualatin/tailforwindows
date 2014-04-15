@@ -11,6 +11,7 @@ v0.9.xx
 * add multiselect by mouse
 * improve performance multiselect by mouse
 * bug fix mouse double click on a empty text editor window
+* bug fix rightmouse buttondown by multiselect items
 
 v0.9.5172.x
 * bug fix proxy authentication

@@ -871,39 +871,42 @@ namespace TailForWin.Template.TextEditor
 
       LogViewer.ContextMenu = null;
       ListBox lb = sender as ListBox;
-      LogEntry item = lb.SelectedItem as LogEntry;
+      var items = lb.SelectedItems;
       Point mousePoint = PointToScreen (Mouse.GetPosition (this));
 
-      if (item != null)
+      if (items != null)
       {
-        if (item.BookmarkPoint != null)
+        foreach (LogEntry item in items)
         {
+          if (item.BookmarkPoint == null)
+            continue;
+
           System.Drawing.Rectangle? rcBreakpoint = MouseButtonDownHelper (item);
 
-          if (rcBreakpoint != null)
+          if (rcBreakpoint == null)
+            continue;
+          if (!(((System.Drawing.Rectangle) rcBreakpoint).Contains ((int) mousePoint.X, (int) mousePoint.Y) && rightMouseButtonDown))
+            continue;
+
+          System.Windows.Media.Imaging.BitmapImage icon = new System.Windows.Media.Imaging.BitmapImage (new Uri ("/TailForWin;component/Template/TextEditor/breakpoint_delete.gif", UriKind.Relative));
+          RenderOptions.SetBitmapScalingMode (icon, BitmapScalingMode.NearestNeighbor);
+          RenderOptions.SetEdgeMode (icon, EdgeMode.Aliased);
+
+          ContextMenu menu = new ContextMenu ( );
+          MenuItem menuItem = new MenuItem
           {
-            if (((System.Drawing.Rectangle) rcBreakpoint).Contains ((int) mousePoint.X, (int) mousePoint.Y) && rightMouseButtonDown)
+            Header = "Delete all Bookmarks",
+            Icon = new Image
             {
-              System.Windows.Media.Imaging.BitmapImage icon = new System.Windows.Media.Imaging.BitmapImage (new Uri ("/TailForWin;component/Template/TextEditor/breakpoint_delete.gif", UriKind.Relative));
-              RenderOptions.SetBitmapScalingMode (icon, BitmapScalingMode.NearestNeighbor);
-              RenderOptions.SetEdgeMode (icon, EdgeMode.Aliased);
-
-              ContextMenu menu = new ContextMenu ( );
-              MenuItem menuItem = new MenuItem
-              {
-                Header = "Delete all Bookmarks",
-                Icon = new Image
-                {
-                  Source = icon
-                }
-              };
-
-              menuItem.Click += RemoveAllBookmarks_Click;
-              menu.Items.Add (menuItem);
-
-              LogViewer.ContextMenu = menu;
+              Source = icon
             }
-          }
+          };
+
+          menuItem.Click += RemoveAllBookmarks_Click;
+          menu.Items.Add (menuItem);
+
+          LogViewer.ContextMenu = menu;
+          return;
         }
       }
     }
