@@ -766,6 +766,9 @@ namespace TailForWin.Template.TextEditor
 
     private void LogViewer_MouseMove (object sender, MouseEventArgs e)
     {
+#if DEBUG
+      LogMouseEvents ("LogViewer_MouseMove");
+#endif
     }
 
     private void LogViewer_MouseDoubleClick (object sender, MouseButtonEventArgs e)
@@ -906,7 +909,7 @@ namespace TailForWin.Template.TextEditor
           menu.Items.Add (menuItem);
 
           LogViewer.ContextMenu = menu;
-          return;
+          break;
         }
       }
     }
@@ -917,9 +920,7 @@ namespace TailForWin.Template.TextEditor
       rightMouseButtonDown = false;
       mouseMove = false;
       wordSelection = false;
-
       mouseLeftButtonDownCounter = 0;
-
       Cursor = Cursors.Arrow;
     }
 
@@ -937,20 +938,21 @@ namespace TailForWin.Template.TextEditor
       }
 
       LogViewer.ContextMenu = null;
+      e.Handled = true;
     }
 
     #endregion
 
     #region Deferred Action
 
-    private void DeferredMouseMove ()
-    {
-      mouseMove = true;
+//    private void DeferredMouseMove ()
+//    {
+//      mouseMove = true;
 
-#if DEBUG
-      LogMouseEvents ("DeferedMouseMove");
-#endif
-    }
+//#if DEBUG
+//      LogMouseEvents ("DeferedMouseMove");
+//#endif
+//    }
 
     #endregion
 

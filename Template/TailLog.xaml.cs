@@ -577,6 +577,9 @@ namespace TailForWin.Template
         {
           Thread.Sleep ((int) tabProperties.RefreshRate);
 
+          if (myReader.TailStreamReader == null)
+            break;
+
           // if the file size has not changed, idle
           if (myReader.TailStreamReader.BaseStream.Length == lastMaxOffset)
             continue;
