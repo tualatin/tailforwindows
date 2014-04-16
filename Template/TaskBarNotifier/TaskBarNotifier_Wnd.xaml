@@ -2,7 +2,7 @@
         xmlns:tn="clr-namespace:TailForWin.Template.TaskBarNotifier"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="TaskBarNotifier" Height="300" Width="300" x:Name="ThisControl">
+        Title="TaskBarNotifier" Height="300" Width="300" x:Name="ThisControl" HidingMilliseconds="{Binding Path=HidingMilliseconds, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" OpeningMilliseconds="{Binding Path=OpeningMilliseconds, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" StayOpenMilliseconds="{Binding Path=StayOpenMilliseconds, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
   <tn:TaskBarNotifier.Resources>
 
     <DataTemplate x:Key="ItemsTemplate">

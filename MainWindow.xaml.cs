@@ -68,8 +68,6 @@ namespace TailForWin
       }
 
       trayIcon.NotifyIcon.DoubleClick += DoubleClickNotifyIcon;
-      taskBarNotifier = new TaskBarNotifier_Wnd ( );
-      taskBarNotifier.Show ( );
 
       tabControlTail.PreviewKeyDown += tabControlTail_PreviewKeyDown;
       tabControlTail.PreviewKeyUp += tabControlTail_PreviewKeyUp;
@@ -97,6 +95,17 @@ namespace TailForWin
     }
 
     #region Properties
+
+    /// <summary>
+    /// Get Popup window for notification
+    /// </summary>
+    public TaskBarNotifier_Wnd TaskBarNotifierWnd
+    {
+      get
+      {
+        return (taskBarNotifier);
+      }
+    }
 
     /// <summary>
     /// Uptime start time
@@ -170,12 +179,9 @@ namespace TailForWin
 
     #region ClickEvents
 
-    private void DoubleClickNotifyIcon (object sender, EventArgs e)
+    private static void DoubleClickNotifyIcon (object sender, EventArgs e)
     {
       LogFile.BringMainWindowToFront ( );
-
-      taskBarNotifier.NotifyContent.Add (new NotifyObject ("Hallo Welt", "Alert"));
-      taskBarNotifier.Notify ( );
     }
 
     private void tabControlTail_SelectionChanged (object sender, SelectionChangedEventArgs e)
@@ -486,6 +492,9 @@ namespace TailForWin
         if (SettingsHelper.TailSettings.WndXPos != -1.0f)
           Application.Current.MainWindow.Left = SettingsHelper.TailSettings.WndXPos;
       }
+
+      taskBarNotifier = new TaskBarNotifier_Wnd ( );
+      taskBarNotifier.Show ( );
 
       searchBoxWindow = new SearchDialog ( );
 

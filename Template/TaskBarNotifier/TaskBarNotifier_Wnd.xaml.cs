@@ -18,6 +18,7 @@ namespace TailForWin.Template.TaskBarNotifier
     {
       InitializeComponent ( );
       lblAppName.Content = TailForWin.Data.LogFile.APPLICATION_CAPTION;
+      DataContext = TailForWin.Controller.SettingsHelper.TailSettings.AlertSettings.PopupWndSettings;
     }
 
     public ObservableCollection<NotifyObject> NotifyContent

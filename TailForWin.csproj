@@ -141,6 +141,7 @@
     <Compile Include="Data\FileManagerDataEventArgs.cs" />
     <Compile Include="Data\FilterData.cs" />
     <Compile Include="Data\GoToLineData.cs" />
+    <Compile Include="Data\PopupWndData.cs" />
     <Compile Include="Data\ProxySettingsData.cs" />
     <Compile Include="Data\SearchData.cs" />
     <Compile Include="Data\SmtpData.cs" />

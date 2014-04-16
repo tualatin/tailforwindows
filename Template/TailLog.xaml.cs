@@ -1035,6 +1035,22 @@ namespace TailForWin.Template
       if (SettingsHelper.TailSettings.AlertSettings.BringToFront)
         LogFile.BringMainWindowToFront ( );
 
+      if (SettingsHelper.TailSettings.AlertSettings.PopupWnd)
+      {
+        string alertMsg;
+
+        if (alertTriggerData.Message.Length > 120)
+        {
+          alertMsg = alertTriggerData.Message.Substring (0, 120);
+          alertMsg = string.Format ("{0} ...", alertMsg);
+        }
+        else
+          alertMsg = alertTriggerData.Message;
+
+        LogFile.APP_MAIN_WINDOW.TaskBarNotifierWnd.NotifyContent.Add (new TaskBarNotifier.NotifyObject (string.Format ("{0} {1}", alertTriggerData.Index, alertMsg), "Alert"));
+        LogFile.APP_MAIN_WINDOW.TaskBarNotifierWnd.Notify ( );
+      }
+
       if (SettingsHelper.TailSettings.AlertSettings.PlaySoundFile)
         SoundPlay.Play (false);
 

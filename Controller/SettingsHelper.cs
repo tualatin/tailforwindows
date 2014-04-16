@@ -28,15 +28,19 @@ namespace TailForWin.Controller
 
         if (!int.TryParse (ConfigurationManager.AppSettings["LinesRead"], out iHelper))
           iHelper = 10;
-        tailSettings.LinesRead = iHelper;
+        TailSettings.LinesRead = iHelper;
 
         if (!bool.TryParse (ConfigurationManager.AppSettings["AlwaysOnTop"], out bHelper))
           bHelper = false;
-        tailSettings.AlwaysOnTop = bHelper;
+        TailSettings.AlwaysOnTop = bHelper;
 
         if (!bool.TryParse (ConfigurationManager.AppSettings["ShowNLineAtStart"], out bHelper))
           bHelper = true;
-        tailSettings.ShowNLineAtStart = bHelper;
+        TailSettings.ShowNLineAtStart = bHelper;
+
+        if (!bool.TryParse (ConfigurationManager.AppSettings["ShowLineNumbers"], out bHelper))
+          bHelper = false;
+        TailSettings.ShowLineNumbers = bHelper;
 
         if (!bool.TryParse (ConfigurationManager.AppSettings["AlwaysScrollToEnd"], out bHelper))
           bHelper = true;
@@ -48,11 +52,11 @@ namespace TailForWin.Controller
 
         if (!double.TryParse (ConfigurationManager.AppSettings["wndWidth"], out dHelper))
           dHelper = -1;
-        tailSettings.WndWidth = dHelper;
+        TailSettings.WndWidth = dHelper;
 
         if (!double.TryParse (ConfigurationManager.AppSettings["wndHeight"], out dHelper))
           dHelper = -1;
-        tailSettings.WndHeight = dHelper;
+        TailSettings.WndHeight = dHelper;
 
         if (!bool.TryParse (ConfigurationManager.AppSettings["SaveWindowPosition"], out bHelper))
           bHelper = false;
@@ -60,11 +64,11 @@ namespace TailForWin.Controller
 
         if (!double.TryParse (ConfigurationManager.AppSettings["wndXPos"], out dHelper))
           dHelper = -1;
-        tailSettings.WndXPos = dHelper;
+        TailSettings.WndXPos = dHelper;
 
         if (!double.TryParse (ConfigurationManager.AppSettings["wndYPos"], out dHelper))
           dHelper = -1;
-        tailSettings.WndYPos = dHelper;
+        TailSettings.WndYPos = dHelper;
 
         string sHelper = ConfigurationManager.AppSettings["defaultThreadPriority"];
         ReadThreadPriorityEnum (sHelper);
@@ -170,30 +174,9 @@ namespace TailForWin.Controller
         config.AppSettings.Settings["HighlightColor"].Value = TailSettings.DefaultHighlightColor;
         config.AppSettings.Settings["AutoUpdate"].Value = TailSettings.AutoUpdate.ToString ( );
 
-        // Alert settings
-        config.AppSettings.Settings["Alert.BringToFront"].Value = TailSettings.AlertSettings.BringToFront.ToString ( );
-        config.AppSettings.Settings["Alert.PlaySoundFile"].Value = TailSettings.AlertSettings.PlaySoundFile.ToString ( );
-        config.AppSettings.Settings["Alert.SendEMail"].Value = TailSettings.AlertSettings.SendEMail.ToString ( );
-        config.AppSettings.Settings["Alert.EMailAddress"].Value = TailSettings.AlertSettings.EMailAddress;
-        config.AppSettings.Settings["Alert.SoundFile"].Value = TailSettings.AlertSettings.SoundFileNameFullPath;
-
-        // Proxy settings
-        config.AppSettings.Settings["Proxy.UserName"].Value = TailSettings.ProxySettings.UserName;
-        config.AppSettings.Settings["Proxy.Password"].Value = TailSettings.ProxySettings.Password;
-        config.AppSettings.Settings["Proxy.Use"].Value = TailSettings.ProxySettings.UseProxy.ToString ( );
-        config.AppSettings.Settings["Proxy.Port"].Value = TailSettings.ProxySettings.ProxyPort.ToString (CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["Proxy.Url"].Value = TailSettings.ProxySettings.ProxyUrl;
-        config.AppSettings.Settings["Proxy.UseSystem"].Value = TailSettings.ProxySettings.UseSystemSettings.ToString ( );
-
-        // Smtp settings
-        config.AppSettings.Settings["Smtp.Server"].Value = TailSettings.AlertSettings.SmtpSettings.SmtpServerName;
-        config.AppSettings.Settings["Smtp.Port"].Value = TailSettings.AlertSettings.SmtpSettings.SmtpPort.ToString (CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["Smtp.Login"].Value = TailSettings.AlertSettings.SmtpSettings.LoginName;
-        config.AppSettings.Settings["Smtp.Password"].Value = TailSettings.AlertSettings.SmtpSettings.Password;
-        config.AppSettings.Settings["Smtp.FromEMail"].Value = TailSettings.AlertSettings.SmtpSettings.FromAddress;
-        config.AppSettings.Settings["Smtp.Subject"].Value = TailSettings.AlertSettings.SmtpSettings.Subject;
-        config.AppSettings.Settings["Smtp.Ssl"].Value = TailSettings.AlertSettings.SmtpSettings.SSL.ToString ( );
-        config.AppSettings.Settings["Smtp.Tls"].Value = TailSettings.AlertSettings.SmtpSettings.TLS.ToString ( );
+        SaveAlertSettings (config);
+        SaveProxySettings (config);
+        SaveSmptSettings (config);
 
         config.Save (ConfigurationSaveMode.Modified);
         ConfigurationManager.RefreshSection ("appSettings");
@@ -262,30 +245,9 @@ namespace TailForWin.Controller
       TailSettings.ShowLineNumbers = false;
       TailSettings.AutoUpdate = false;
 
-      // Alert settings
-      TailSettings.AlertSettings.BringToFront = true;
-      TailSettings.AlertSettings.SendEMail = false;
-      TailSettings.AlertSettings.PlaySoundFile = false;
-      TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
-      TailSettings.AlertSettings.EMailAddress = LogFile.ALERT_EMAIL_ADDRESS;
-
-      // Proxy settings
-      TailSettings.ProxySettings.Password = string.Empty;
-      TailSettings.ProxySettings.ProxyPort = -1;
-      TailSettings.ProxySettings.ProxyUrl = string.Empty;
-      TailSettings.ProxySettings.UseProxy = false;
-      TailSettings.ProxySettings.UseSystemSettings = true;
-      TailSettings.ProxySettings.UserName = string.Empty;
-
-      // SMTP settings
-      TailSettings.AlertSettings.SmtpSettings.FromAddress = string.Empty;
-      TailSettings.AlertSettings.SmtpSettings.LoginName = string.Empty;
-      TailSettings.AlertSettings.SmtpSettings.Password = string.Empty;
-      TailSettings.AlertSettings.SmtpSettings.SmtpPort = -1;
-      TailSettings.AlertSettings.SmtpSettings.SmtpServerName = string.Empty;
-      TailSettings.AlertSettings.SmtpSettings.Subject = string.Empty;
-      TailSettings.AlertSettings.SmtpSettings.SSL = true;
-      TailSettings.AlertSettings.SmtpSettings.TLS = false;
+      ResetAlertSettings ( );
+      ResetProxySettings ( );
+      ResetSmtpSettings ( );
 
       SaveSettings ( );
     }
@@ -307,6 +269,95 @@ namespace TailForWin.Controller
     }
 
     #region HelperFunctions
+
+    /// <summary>
+    /// Reset SMTP settings
+    /// </summary>
+    private static void ResetSmtpSettings ()
+    {
+      TailSettings.AlertSettings.SmtpSettings.FromAddress = string.Empty;
+      TailSettings.AlertSettings.SmtpSettings.LoginName = string.Empty;
+      TailSettings.AlertSettings.SmtpSettings.Password = string.Empty;
+      TailSettings.AlertSettings.SmtpSettings.SmtpPort = -1;
+      TailSettings.AlertSettings.SmtpSettings.SmtpServerName = string.Empty;
+      TailSettings.AlertSettings.SmtpSettings.Subject = string.Empty;
+      TailSettings.AlertSettings.SmtpSettings.SSL = true;
+      TailSettings.AlertSettings.SmtpSettings.TLS = false;
+    }
+
+    /// <summary>
+    /// Reset Proxy settings
+    /// </summary>
+    private static void ResetProxySettings ()
+    {
+      TailSettings.ProxySettings.Password = string.Empty;
+      TailSettings.ProxySettings.ProxyPort = -1;
+      TailSettings.ProxySettings.ProxyUrl = string.Empty;
+      TailSettings.ProxySettings.UseProxy = false;
+      TailSettings.ProxySettings.UseSystemSettings = true;
+      TailSettings.ProxySettings.UserName = string.Empty;
+    }
+
+    /// <summary>
+    /// Reset Alert settings
+    /// </summary>
+    private static void ResetAlertSettings ()
+    {
+      TailSettings.AlertSettings.BringToFront = true;
+      TailSettings.AlertSettings.SendEMail = false;
+      TailSettings.AlertSettings.PlaySoundFile = false;
+      TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
+      TailSettings.AlertSettings.EMailAddress = LogFile.ALERT_EMAIL_ADDRESS;
+      TailSettings.AlertSettings.PopupWnd = false;
+    }
+
+    /// <summary>
+    /// Save Alert settings to config
+    /// </summary>
+    /// <param name="config">Reference to config file</param>
+    private static void SaveAlertSettings (Configuration config)
+    {
+      config.AppSettings.Settings["Alert.BringToFront"].Value = TailSettings.AlertSettings.BringToFront.ToString ( );
+      config.AppSettings.Settings["Alert.PlaySoundFile"].Value = TailSettings.AlertSettings.PlaySoundFile.ToString ( );
+      config.AppSettings.Settings["Alert.SendEMail"].Value = TailSettings.AlertSettings.SendEMail.ToString ( );
+      config.AppSettings.Settings["Alert.EMailAddress"].Value = TailSettings.AlertSettings.EMailAddress;
+      config.AppSettings.Settings["Alert.SoundFile"].Value = TailSettings.AlertSettings.SoundFileNameFullPath;
+      config.AppSettings.Settings["Alert.PopupWindow"].Value = TailSettings.AlertSettings.PopupWnd.ToString ( );
+
+      config.AppSettings.Settings["PopupWnd.OpeningMilliseconds"].Value = TailSettings.AlertSettings.PopupWndSettings.OpeningMilliseconds.ToString ( );
+      config.AppSettings.Settings["PopupWnd.StayOpenMilliseconds"].Value = TailSettings.AlertSettings.PopupWndSettings.StayOpenMilliseconds.ToString ( );
+      config.AppSettings.Settings["PopupWnd.HidingMilliseconds"].Value = TailSettings.AlertSettings.PopupWndSettings.HidingMilliseconds.ToString ( );
+    }
+
+    /// <summary>
+    /// Savve Proxy settings to config
+    /// </summary>
+    /// <param name="config">Reference to config file</param>
+    private static void SaveProxySettings (Configuration config)
+    {
+      config.AppSettings.Settings["Proxy.UserName"].Value = TailSettings.ProxySettings.UserName;
+      config.AppSettings.Settings["Proxy.Password"].Value = TailSettings.ProxySettings.Password;
+      config.AppSettings.Settings["Proxy.Use"].Value = TailSettings.ProxySettings.UseProxy.ToString ( );
+      config.AppSettings.Settings["Proxy.Port"].Value = TailSettings.ProxySettings.ProxyPort.ToString (CultureInfo.InvariantCulture);
+      config.AppSettings.Settings["Proxy.Url"].Value = TailSettings.ProxySettings.ProxyUrl;
+      config.AppSettings.Settings["Proxy.UseSystem"].Value = TailSettings.ProxySettings.UseSystemSettings.ToString ( );
+    }
+
+    /// <summary>
+    /// Save SMTP settings to config
+    /// </summary>
+    /// <param name="config">Reference to config file</param>
+    private static void SaveSmptSettings (Configuration config)
+    {
+      config.AppSettings.Settings["Smtp.Server"].Value = TailSettings.AlertSettings.SmtpSettings.SmtpServerName;
+      config.AppSettings.Settings["Smtp.Port"].Value = TailSettings.AlertSettings.SmtpSettings.SmtpPort.ToString (CultureInfo.InvariantCulture);
+      config.AppSettings.Settings["Smtp.Login"].Value = TailSettings.AlertSettings.SmtpSettings.LoginName;
+      config.AppSettings.Settings["Smtp.Password"].Value = TailSettings.AlertSettings.SmtpSettings.Password;
+      config.AppSettings.Settings["Smtp.FromEMail"].Value = TailSettings.AlertSettings.SmtpSettings.FromAddress;
+      config.AppSettings.Settings["Smtp.Subject"].Value = TailSettings.AlertSettings.SmtpSettings.Subject;
+      config.AppSettings.Settings["Smtp.Ssl"].Value = TailSettings.AlertSettings.SmtpSettings.SSL.ToString ( );
+      config.AppSettings.Settings["Smtp.Tls"].Value = TailSettings.AlertSettings.SmtpSettings.TLS.ToString ( );
+    }
 
     /// <summary>
     /// Read proxy config settings
@@ -386,10 +437,6 @@ namespace TailForWin.Controller
     {
       bool bHelper;
 
-      if (!bool.TryParse (ConfigurationManager.AppSettings["ShowLineNumbers"], out bHelper))
-        bHelper = false;
-      TailSettings.ShowLineNumbers = bHelper;
-
       if (!bool.TryParse (ConfigurationManager.AppSettings["Alert.BringToFront"], out bHelper))
         bHelper = true;
       TailSettings.AlertSettings.BringToFront = bHelper;
@@ -408,6 +455,24 @@ namespace TailForWin.Controller
       sHelper = ConfigurationManager.AppSettings["Alert.EMailAddress"];
 
       TailSettings.AlertSettings.EMailAddress = ParseEMailAddress (sHelper) ? sHelper : LogFile.ALERT_EMAIL_ADDRESS;
+
+      if (!bool.TryParse (ConfigurationManager.AppSettings["Alert.PopupWindow"], out bHelper))
+        bHelper = false;
+      TailSettings.AlertSettings.PopupWnd = bHelper;
+
+      int iHelper;
+
+      if (!int.TryParse (ConfigurationManager.AppSettings["PopupWnd.OpeningMilliseconds"], out iHelper))
+        iHelper = 1000;
+      TailSettings.AlertSettings.PopupWndSettings.OpeningMilliseconds = iHelper;
+
+      if (!int.TryParse (ConfigurationManager.AppSettings["PopupWnd.StayOpenMilliseconds"], out iHelper))
+        iHelper = 1000;
+      TailSettings.AlertSettings.PopupWndSettings.StayOpenMilliseconds = iHelper;
+
+      if (!int.TryParse (ConfigurationManager.AppSettings["PopupWnd.HidingMilliseconds"], out iHelper))
+        iHelper = 1000;
+      TailSettings.AlertSettings.PopupWndSettings.HidingMilliseconds = iHelper;
     }
 
     /// <summary>

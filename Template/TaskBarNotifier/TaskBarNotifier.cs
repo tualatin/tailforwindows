@@ -148,7 +148,7 @@ namespace TailForWin.Template.TaskBarNotifier
         // Because the window may already be partially open, the rate at which
         // it opens may be a fraction of the normal rate.
         // This must be calculated.
-        int milliseconds = CalculateMillseconds (openingMilliseconds, this.openedTop);
+        int milliseconds = CalculateMillseconds (OpeningMilliseconds, this.openedTop);
 
         if (milliseconds < 1)
         {
@@ -173,7 +173,7 @@ namespace TailForWin.Template.TaskBarNotifier
         // Because the window may already be partially hidden, the rate at which
         // it hides may be a fraction of the normal rate.
         // This must be calculated.
-        int milliseconds = CalculateMillseconds (hidingMilliseconds, hiddenTop);
+        int milliseconds = CalculateMillseconds (HidingMilliseconds, hiddenTop);
 
         if (milliseconds < 1)
         {
@@ -348,61 +348,64 @@ namespace TailForWin.Template.TaskBarNotifier
       }
     }
 
-    private int stayOpenMilliseconds = 1000;
+    #endregion
+
+    #region Control Properties
+
+    public static readonly DependencyProperty StayOpenMillisecondsProperty = DependencyProperty.Register ("StayOpenMilliseconds", typeof (int), typeof (TaskBarNotifier),
+      new PropertyMetadata (1000));
 
     /// <summary>
     /// The time the TaskbarNotifier window should stay open in milliseconds.
     /// </summary>
+    [Category ("Popup Window Settings")]
     public int StayOpenMilliseconds
     {
       get 
       { 
-        return (stayOpenMilliseconds); 
+        return ((int) GetValue (StayOpenMillisecondsProperty)); 
       }
       set
       {
-        stayOpenMilliseconds = value;
-
-        if (stayOpenTimer != null)
-          stayOpenTimer.Interval = TimeSpan.FromMilliseconds (stayOpenMilliseconds);
-
-        OnPropertyChanged ("StayOpenMilliseconds");
+        SetValue (StayOpenMillisecondsProperty, value);
       }
     }
 
-    private int hidingMilliseconds = 1000;
+    public static readonly DependencyProperty HidingMillisecondsProperty = DependencyProperty.Register ("HidingMilliseconds", typeof (int), typeof (TaskBarNotifier),
+      new PropertyMetadata (1000));
 
     /// <summary>
     /// The time the TaskbarNotifier window should take to hide in milliseconds.
     /// </summary>
+    [Category ("Popup Window Settings")]
     public int HidingMilliseconds
     {
       get 
       { 
-        return (hidingMilliseconds); 
+        return ((int) GetValue (HidingMillisecondsProperty)); 
       }
       set
       {
-        hidingMilliseconds = value;
-        OnPropertyChanged ("HidingMilliseconds");
+        SetValue (HidingMillisecondsProperty, value);
       }
     }
 
-    private int openingMilliseconds = 1000;
+    public static readonly DependencyProperty OpeningMillisecondsProperty = DependencyProperty.Register ("OpeningMilliseconds", typeof (int), typeof (TaskBarNotifier),
+      new PropertyMetadata (1000));
 
     /// <summary>
     /// The time the TaskbarNotifier window should take to open in milliseconds.
     /// </summary>
+    [Category ("Popup Window Settings")]
     public int OpeningMilliseconds
     {
       get 
       { 
-        return (openingMilliseconds); 
+        return ((int) GetValue (OpeningMillisecondsProperty)); 
       }
       set
       {
-        openingMilliseconds = value;
-        OnPropertyChanged ("OpeningMilliseconds");
+        SetValue (OpeningMillisecondsProperty, value);
       }
     }
 
