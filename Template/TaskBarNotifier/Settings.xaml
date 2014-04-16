@@ -1,0 +1,32 @@
+﻿<Window x:Class="TailForWin.Template.TaskBarNotifier.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Popup Window Settings" Height="182" Width="237" Icon="/TailForWin;component/Res/system.ico" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize" xmlns:my="clr-namespace:TailForWin.Template">
+    <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="130" />
+      <ColumnDefinition Width="214*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="30" />
+      <RowDefinition Height="30" />
+      <RowDefinition Height="30" />
+      <RowDefinition Height="137*" />
+      <RowDefinition Height="30" />
+    </Grid.RowDefinitions>
+    <Grid Grid.Row="4" Grid.ColumnSpan="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="189*" />
+        <ColumnDefinition Width="90" />
+      </Grid.ColumnDefinitions>
+      <Button Content="OK" Height="23" HorizontalAlignment="Right" Margin="0,0,5,0" Name="btnOk" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="0" Click="btnOK_Click" TabIndex="7" />
+      <Button Content="Close" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="btnCancel_Click" TabIndex="8" IsCancel="True" />
+    </Grid>
+    <Label Content="Opening time (ms):" HorizontalAlignment="Right"  Margin="0,0,5,0" Name="label1" VerticalAlignment="Center" />
+    <my:Spinner HorizontalAlignment="Left" Margin="0" x:Name="spinnerOpeningTime" VerticalAlignment="Center" Width="55" Grid.Column="1" MinSpinValue="10" MaxSpinValue="1000" StartIndex="{Binding Path=OpeningMilliseconds, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
+    <Label Content="Stay open time (ms):" Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,5,0" Name="label2" VerticalAlignment="Center" />
+    <my:Spinner Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="0" x:Name="spinnerStayOpenTime" VerticalAlignment="Center" Width="55" MinSpinValue="200" MaxSpinValue="3000" StartIndex="{Binding Path=StayOpenMilliseconds, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
+    <Label Content="Hiding time (ms):" Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,5,0" Name="label3" VerticalAlignment="Center" />
+    <my:Spinner Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="0" x:Name="spinnerHidingTime" VerticalAlignment="Center" Width="55" MinSpinValue="10" MaxSpinValue="1000" StartIndex="{Binding Path=HidingMilliseconds, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
+  </Grid>
+</Window>

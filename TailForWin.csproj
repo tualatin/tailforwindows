@@ -205,6 +205,9 @@
       <DependentUpon>TailLog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Template\TaskBarNotifier\NotifyObject.cs" />
+    <Compile Include="Template\TaskBarNotifier\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Template\TaskBarNotifier\TaskBarNotifier.cs" />
     <Compile Include="Template\TaskBarNotifier\TaskBarNotifier_Wnd.xaml.cs">
       <DependentUpon>TaskBarNotifier_Wnd.xaml</DependentUpon>
@@ -334,6 +337,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Template\TailLog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Template\TaskBarNotifier\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

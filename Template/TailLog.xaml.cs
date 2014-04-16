@@ -661,11 +661,7 @@ namespace TailForWin.Template
 
     private void InitTailLog (int chldTabIdx, TabItem tabItem)
     {
-      tailWorker = new BackgroundWorker
-      { 
-        WorkerSupportsCancellation = true 
-      };
-
+      tailWorker = new BackgroundWorker { WorkerSupportsCancellation = true };
       tailWorker.DoWork += tailWorker_DoWork;
       tailWorker.RunWorkerCompleted += tailWorker_RunWorkerComplete;
 

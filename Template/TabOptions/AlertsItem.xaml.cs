@@ -86,7 +86,10 @@ namespace TailForWin.Template.TabOptions
 
     public void btnSettingsPopUpWnd_Click (object sender, RoutedEventArgs e)
     {
+      Window wnd = Window.GetWindow (this);
+      TailForWin.Template.TaskBarNotifier.Settings popupWnd = new TaskBarNotifier.Settings { Owner = wnd };
 
+      popupWnd.ShowDialog ( );
     }
 
     #endregion

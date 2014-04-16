@@ -2,6 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.ComponentModel;
+using System;
+using System.Windows.Threading;
+using System.Threading;
 
 
 namespace TailForWin.Template
@@ -9,27 +12,59 @@ namespace TailForWin.Template
   /// <summary>
   /// Interaction logic for Spinner.xaml
   /// </summary>
-  public partial class Spinner
+  public partial class Spinner : IDisposable
   {
+    private BackgroundWorker counterIncrementUp;
+    private BackgroundWorker counterIncrementDown;
+
+
+    public void Dispose ()
+    {
+      if (counterIncrementDown != null)
+      {
+        counterIncrementDown.Dispose ( );
+        counterIncrementDown = null;
+      }
+
+      if (counterIncrementUp == null)
+        return;
+
+      counterIncrementUp.Dispose ( );
+      counterIncrementUp = null;
+    }
+
     public Spinner ()
     {
       InitializeComponent ( );
+
+      counterIncrementUp = new BackgroundWorker { WorkerSupportsCancellation = true };
+      counterIncrementUp.DoWork += IncrementUp_DoWork;
+
+      counterIncrementDown = new BackgroundWorker { WorkerSupportsCancellation = true };
+      counterIncrementDown.DoWork += IncrementDown_DoWork;
     }
 
-    private void btnUp_Click (object sender, RoutedEventArgs e)
+    private void btnUp_PreviewMouseLeftButtonDown (object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-      if (StartIndex <= MaxSpinValue)
-        StartIndex = StartIndex + Increment;
-
-      textBoxSpinValue.Text = StartIndex.ToString (CultureInfo.InvariantCulture);
+      counterIncrementUp.RunWorkerAsync ( );
     }
 
-    private void btnDown_Click (object sender, RoutedEventArgs e)
+    private void btnUp_PreviewMouseLeftButtonUp (object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-      if (StartIndex > MinSpinValue)
-        StartIndex = StartIndex - Increment;
+      if (!counterIncrementUp.IsBusy)
+        return;
 
-      textBoxSpinValue.Text = StartIndex.ToString (CultureInfo.InvariantCulture);
+      counterIncrementUp.CancelAsync ( );
+    }
+
+    private void btnDown_PreviewMouseLeftButtonDown (object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+
+    }
+
+    private void btnDown_PreviewMouseLeftButtonUp (object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+
     }
 
     #region Properties
@@ -42,12 +77,12 @@ namespace TailForWin.Template
     /// <summary>
     /// Maximum spinner value
     /// </summary>
-    [Bindable(true)]
+    [Bindable (true)]
     public int MaxSpinValue
     {
       get
       {
-        return ((int) GetValue (MaxValueProperty)); 
+        return ((int) GetValue (MaxValueProperty));
       }
       set
       {
@@ -58,7 +93,7 @@ namespace TailForWin.Template
     /// <summary>
     /// Minimum spinner value
     /// </summary>
-    [Bindable(true)]
+    [Bindable (true)]
     public int MinSpinValue
     {
       get
@@ -74,7 +109,7 @@ namespace TailForWin.Template
     /// <summary>
     /// Increment for spinner
     /// </summary>
-    [Bindable(true)]
+    [Bindable (true)]
     public int Increment
     {
       get
@@ -90,7 +125,7 @@ namespace TailForWin.Template
     /// <summary>
     /// Start value for spinner
     /// </summary>
-    [Bindable(true)]
+    [Bindable (true)]
     public int StartIndex
     {
       get
@@ -110,12 +145,49 @@ namespace TailForWin.Template
 
     #endregion
 
+    private void IncrementUp_DoWork (object sender, DoWorkEventArgs e)
+    {
+      while (counterIncrementUp != null && !counterIncrementUp.CancellationPending)
+      {
+        this.Dispatcher.Invoke (new Action (() =>
+        {
+          if (StartIndex <= MaxSpinValue)
+            StartIndex = StartIndex + Increment;
+
+          textBoxSpinValue.Text = StartIndex.ToString (CultureInfo.InvariantCulture);
+        }), DispatcherPriority.Background);
+
+        Thread.Sleep (100);
+      }
+    }
+
+    private void IncrementDown_DoWork (object sender, DoWorkEventArgs e)
+    {
+      while (counterIncrementUp != null && !counterIncrementUp.CancellationPending)
+      {
+        this.Dispatcher.Invoke (new Action (() =>
+        {
+          if (StartIndex > MinSpinValue)
+            StartIndex = StartIndex - Increment;
+
+          textBoxSpinValue.Text = StartIndex.ToString (CultureInfo.InvariantCulture);
+        }), DispatcherPriority.Background);
+
+        Thread.Sleep (100);
+      }
+    }
+
     private void textBoxSpinValue_TextChanged (object sender, TextChangedEventArgs e)
     {
       int i;
 
       if (!int.TryParse (textBoxSpinValue.Text, out i))
         i = MinSpinValue;
+
+      if (i < MinSpinValue)
+        i = MinSpinValue;
+      if (i > MaxSpinValue)
+        i = MaxSpinValue;
 
       StartIndex = i;
     }
@@ -133,6 +205,11 @@ namespace TailForWin.Template
         StartIndex = MinSpinValue;
 
       textBoxSpinValue.Text = StartIndex.ToString (CultureInfo.InvariantCulture);
+    }
+
+    private void textBoxSpinValue_KeyDown (object sender, System.Windows.Input.KeyEventArgs e)
+    {
+      e.Handled = (int) e.Key >= 43 || (int) e.Key <= 34 || (int) e.Key == 3;
     }
   }
 }

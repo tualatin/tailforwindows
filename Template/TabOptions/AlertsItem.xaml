@@ -9,8 +9,8 @@
     <conv:SoundFileNameConverter x:Key="SoundFileNameConv" />
     <conv:MailAddressConverter x:Key="MailAddressConv" />
   </UserControl.Resources>
-  
-    <Grid Margin="5" >
+
+  <Grid Margin="5" >
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*" />
       <ColumnDefinition Width="*" />
@@ -22,7 +22,7 @@
     <Button Content="Save" Height="23" HorizontalAlignment="Right" Margin="0,0,5,0" Name="btnSave" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="0" Click="btnSave_Click" TabIndex="13" />
     <Button Content="Close" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="btnCancel_Click" TabIndex="14" />
     <Border BorderBrush="Silver" BorderThickness="1" Grid.ColumnSpan="2" Margin="0,0,0,5" Name="border1">
-      <Grid Margin="5" Name="alertOptions">
+      <Grid Name="alertOptions" Margin="5">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="110" />
           <ColumnDefinition Width="224*" />
@@ -68,4 +68,5 @@
         <Button Content="SMTP" Grid.Row="6" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnSmtp" VerticalAlignment="Center" Width="75" ToolTip="Setup E-Mail settings" Click="btnSmtp_Click" />
       </Grid>
     </Border>
-  </Grid></UserControl>
+  </Grid>
+</UserControl>
