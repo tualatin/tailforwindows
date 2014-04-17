@@ -13,6 +13,7 @@ using System.Text;
 using System.Windows.Threading;
 using TailForWin.Template.TextEditor.Converter;
 using TailForWin.Template.TextEditor.Data;
+using TailForWin.Template.TaskBarNotifier;
 
 
 namespace TailForWin.Template
@@ -32,6 +33,7 @@ namespace TailForWin.Template
     private bool stopThread;
     private bool isInit;
     private MailClient mySmtp;
+    private TaskBarNotifier_Wnd taskBarNotifier;
 
     /// <summary>
     /// filemanager save property
@@ -682,6 +684,9 @@ namespace TailForWin.Template
 
       textBlockTailLog.Alert += AlertTrigger;
       NewFile += NewFileOpend;
+
+      taskBarNotifier = new TaskBarNotifier_Wnd ( );
+      taskBarNotifier.Show ( );
     }
 
     private void SetFontInTextEditor ( )
@@ -1043,8 +1048,8 @@ namespace TailForWin.Template
         else
           alertMsg = alertTriggerData.Message;
 
-        LogFile.APP_MAIN_WINDOW.TaskBarNotifierWnd.NotifyContent.Add (new TaskBarNotifier.NotifyObject (string.Format ("{0} {1}", alertTriggerData.Index, alertMsg), "Alert"));
-        LogFile.APP_MAIN_WINDOW.TaskBarNotifierWnd.Notify ( );
+        taskBarNotifier.NotifyContent.Add (new NotifyObject (string.Format ("{0} {1}", alertTriggerData.Index, alertMsg), "Alert"));
+        taskBarNotifier.Notify ( );
       }
 
       if (SettingsHelper.TailSettings.AlertSettings.PlaySoundFile)

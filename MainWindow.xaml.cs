@@ -13,7 +13,6 @@ using System.Windows.Controls.Primitives;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Text;
-using TailForWin.Template.TaskBarNotifier;
 
 
 namespace TailForWin
@@ -24,7 +23,6 @@ namespace TailForWin
   public partial class MainWindow : IDisposable
   {
     private WinTrayIcon trayIcon;
-    private TaskBarNotifier_Wnd taskBarNotifier;
     private readonly List<TabItem> tailTabItems;
     private readonly TabItem tabAdd;
     private int tabCount;
@@ -95,17 +93,6 @@ namespace TailForWin
     }
 
     #region Properties
-
-    /// <summary>
-    /// Get Popup window for notification
-    /// </summary>
-    public TaskBarNotifier_Wnd TaskBarNotifierWnd
-    {
-      get
-      {
-        return (taskBarNotifier);
-      }
-    }
 
     /// <summary>
     /// Uptime start time
@@ -492,9 +479,6 @@ namespace TailForWin
         if (SettingsHelper.TailSettings.WndXPos != -1.0f)
           Application.Current.MainWindow.Left = SettingsHelper.TailSettings.WndXPos;
       }
-
-      taskBarNotifier = new TaskBarNotifier_Wnd ( );
-      taskBarNotifier.Show ( );
 
       searchBoxWindow = new SearchDialog ( );
 
