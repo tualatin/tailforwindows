@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System;
 using System.Windows.Threading;
 using System.Threading;
+using System.Windows.Media;
+using System.Windows.Input;
 
 
 namespace TailForWin.Template
@@ -16,6 +18,7 @@ namespace TailForWin.Template
   {
     private BackgroundWorker counterIncrementUp;
     private BackgroundWorker counterIncrementDown;
+    private bool leftmouseButtonDown;
 
 
     public void Dispose ()
@@ -44,28 +47,113 @@ namespace TailForWin.Template
       counterIncrementDown.DoWork += IncrementDown_DoWork;
     }
 
-    private void btnUp_PreviewMouseLeftButtonDown (object sender, System.Windows.Input.MouseButtonEventArgs e)
+    #region MouseEvents
+
+    private void btnUp_PreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e)
     {
+      if (counterIncrementUp.IsBusy)
+        return;
+
+      leftmouseButtonDown = true;
       counterIncrementUp.RunWorkerAsync ( );
+      btnUp.CaptureMouse ( );
     }
 
-    private void btnUp_PreviewMouseLeftButtonUp (object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private void btnUp_PreviewMouseLeftButtonUp (object sender, MouseButtonEventArgs e)
     {
       if (!counterIncrementUp.IsBusy)
         return;
 
+      leftmouseButtonDown = false;
       counterIncrementUp.CancelAsync ( );
+      btnUp.ReleaseMouseCapture ( );
     }
 
-    private void btnDown_PreviewMouseLeftButtonDown (object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private void btnUp_PreviewMouseMove (object sender, MouseEventArgs e)
     {
+      if (!leftmouseButtonDown)
+        return;
+      if (sender.GetType ( ) != typeof (Button))
+        return;
+      
+      Button btnIncrement = sender as Button;
 
+      if (!btnIncrement.IsMouseCaptured)
+        return;
+
+      Point mousePoint = PointToScreen (Mouse.GetPosition (this));
+      Point relativePoint = btnIncrement.PointToScreen (new Point (0, 0));
+      Size sizeBtn = new Size (btnIncrement.ActualWidth, btnIncrement.ActualHeight);
+      System.Drawing.Rectangle rc = new System.Drawing.Rectangle ((int) relativePoint.X, (int) relativePoint.Y, (int) sizeBtn.Width, (int) sizeBtn.Height);
+
+      if (!rc.Contains ((int) mousePoint.X, (int) mousePoint.Y))
+      {
+        if (!counterIncrementUp.IsBusy)
+          return;
+
+        counterIncrementUp.CancelAsync ( );
+        return;
+      }
+
+      if (counterIncrementUp.IsBusy)
+        return;
+
+      counterIncrementUp.RunWorkerAsync ( );
     }
-
-    private void btnDown_PreviewMouseLeftButtonUp (object sender, System.Windows.Input.MouseButtonEventArgs e)
+    
+    private void btnDown_PreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e)
     {
+      if (counterIncrementDown.IsBusy)
+        return;
 
+      leftmouseButtonDown = true;
+      counterIncrementDown.RunWorkerAsync ( );
+      btnDown.CaptureMouse ( );
     }
+
+    private void btnDown_PreviewMouseLeftButtonUp (object sender, MouseButtonEventArgs e)
+    {
+      if (!counterIncrementDown.IsBusy)
+        return;
+
+      leftmouseButtonDown = false;
+      counterIncrementDown.CancelAsync ( );
+      btnDown.ReleaseMouseCapture ( );
+    }
+
+    private void btnDown_PreviewMouseMove (object sender, MouseEventArgs e)
+    {
+      if (!leftmouseButtonDown)
+        return;
+      if (sender.GetType ( ) != typeof (Button))
+        return;
+
+      Button btnDecrement = sender as Button;
+
+      if (!btnDecrement.IsMouseCaptured)
+        return;
+
+      Point mousePoint = PointToScreen (Mouse.GetPosition (this));
+      Point relativePoint = btnDecrement.PointToScreen (new Point (0, 0));
+      Size sizeBtn = new Size (btnDecrement.ActualWidth, btnDecrement.ActualHeight);
+      System.Drawing.Rectangle rc = new System.Drawing.Rectangle ((int) relativePoint.X, (int) relativePoint.Y, (int) sizeBtn.Width, (int) sizeBtn.Height);
+
+      if (!rc.Contains ((int) mousePoint.X, (int) mousePoint.Y))
+      {
+        if (!counterIncrementDown.IsBusy)
+          return;
+
+        counterIncrementDown.CancelAsync ( );
+        return;
+      }
+
+      if (counterIncrementDown.IsBusy)
+        return;
+
+      counterIncrementDown.RunWorkerAsync ( );
+    }
+
+    #endregion
 
     #region Properties
 
@@ -145,6 +233,8 @@ namespace TailForWin.Template
 
     #endregion
 
+    #region Threads
+
     private void IncrementUp_DoWork (object sender, DoWorkEventArgs e)
     {
       while (counterIncrementUp != null && !counterIncrementUp.CancellationPending)
@@ -163,7 +253,7 @@ namespace TailForWin.Template
 
     private void IncrementDown_DoWork (object sender, DoWorkEventArgs e)
     {
-      while (counterIncrementUp != null && !counterIncrementUp.CancellationPending)
+      while (counterIncrementDown != null && !counterIncrementDown.CancellationPending)
       {
         this.Dispatcher.Invoke (new Action (() =>
         {
@@ -176,6 +266,8 @@ namespace TailForWin.Template
         Thread.Sleep (100);
       }
     }
+
+    #endregion
 
     private void textBoxSpinValue_TextChanged (object sender, TextChangedEventArgs e)
     {
@@ -207,7 +299,7 @@ namespace TailForWin.Template
       textBoxSpinValue.Text = StartIndex.ToString (CultureInfo.InvariantCulture);
     }
 
-    private void textBoxSpinValue_KeyDown (object sender, System.Windows.Input.KeyEventArgs e)
+    private void textBoxSpinValue_KeyDown (object sender, KeyEventArgs e)
     {
       e.Handled = (int) e.Key >= 43 || (int) e.Key <= 34 || (int) e.Key == 3;
     }

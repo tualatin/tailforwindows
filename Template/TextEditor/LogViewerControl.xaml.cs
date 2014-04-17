@@ -1308,7 +1308,7 @@ namespace TailForWin.Template.TextEditor
     }
 
     private static childItem FindVisualChild<childItem> (DependencyObject obj)
-        where childItem: DependencyObject
+      where childItem: DependencyObject
     {
       if (obj == null)
         return (null);

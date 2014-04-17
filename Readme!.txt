@@ -14,6 +14,7 @@ v0.9.xx
 * bug fix rightmouse buttondown by multiselect items
 * bug fix NullReferenceException when closing TfW
 * add popup window alert option
+* improve spinner control: hold mouse button down increment or decrement value
 --- Hint ---
 Please insert the following lines into your config file, when you use TailForWindows in the past:
 <add key="Alert.PopupWindow" value="false" />
