@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:tbMask="clr-namespace:TailForWin.Utils"
              mc:Ignorable="d" 
              d:DesignHeight="22" d:DesignWidth="50" Loaded="UserControl_Loaded">
   <UserControl.Resources>
@@ -89,6 +90,6 @@
       <Path Fill="Black" Data="M 0 0 L 6 6 L 12 0 Z" />
     </Button>
     </Grid>
-    <TextBox Height="22" Name="textBoxSpinValue" VerticalAlignment="Center" Grid.Column="0" TextChanged="textBoxSpinValue_TextChanged" LostFocus="textBoxSpinValue_LostFocus" TabIndex="1" KeyDown="textBoxSpinValue_KeyDown" />
+    <TextBox Height="22" Name="textBoxSpinValue" VerticalAlignment="Center" Grid.Column="0" TextChanged="textBoxSpinValue_TextChanged" LostFocus="textBoxSpinValue_LostFocus" TabIndex="1" tbMask:TextBoxMaskBehavior.Mask="{Binding Path=TextBoxMask}" tbMask:TextBoxMaskBehavior.MaximumValue="{Binding Path=TextBoxMaxValue}" tbMask:TextBoxMaskBehavior.MinimumValue="{Binding Path=TextBoxMinValue}" />
   </Grid>
 </UserControl>

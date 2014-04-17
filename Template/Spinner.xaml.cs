@@ -45,6 +45,8 @@ namespace TailForWin.Template
 
       counterIncrementDown = new BackgroundWorker { WorkerSupportsCancellation = true };
       counterIncrementDown.DoWork += IncrementDown_DoWork;
+
+      textBoxSpinValue.DataContext = this;
     }
 
     #region MouseEvents
@@ -165,7 +167,7 @@ namespace TailForWin.Template
     /// <summary>
     /// Maximum spinner value
     /// </summary>
-    [Bindable (true)]
+    [Category ("Spinner Settings")]
     public int MaxSpinValue
     {
       get
@@ -181,7 +183,7 @@ namespace TailForWin.Template
     /// <summary>
     /// Minimum spinner value
     /// </summary>
-    [Bindable (true)]
+    [Category ("Spinner Settings")]
     public int MinSpinValue
     {
       get
@@ -197,7 +199,7 @@ namespace TailForWin.Template
     /// <summary>
     /// Increment for spinner
     /// </summary>
-    [Bindable (true)]
+    [Category ("Spinner Settings")]
     public int Increment
     {
       get
@@ -213,7 +215,7 @@ namespace TailForWin.Template
     /// <summary>
     /// Start value for spinner
     /// </summary>
-    [Bindable (true)]
+    [Category ("Spinner Settings")]
     public int StartIndex
     {
       get
@@ -228,6 +230,63 @@ namespace TailForWin.Template
           value = MinSpinValue;
 
         SetValue (StartIndexProperty, value);
+      }
+    }
+
+    public static readonly DependencyProperty TextBoxMaskProperty = DependencyProperty.Register ("TextBoxMask", typeof (TailForWin.Utils.MaskType), typeof (Spinner), 
+      new PropertyMetadata (TailForWin.Utils.MaskType.Integer));
+
+    /// <summary>
+    /// TextBoxMask
+    /// </summary>
+    [Category ("Spinner Settings")]
+    public TailForWin.Utils.MaskType TextBoxMask
+    {
+      get
+      {
+        return ((TailForWin.Utils.MaskType) GetValue (TextBoxMaskProperty));
+      }
+      set
+      {
+        SetValue (TextBoxMaskProperty, value);
+      }
+    }
+
+    public static readonly DependencyProperty TextBoxMinValueProperty = DependencyProperty.Register ("TextBoxMinValue", typeof (double), typeof (Spinner),
+      new PropertyMetadata ((double) 0));
+
+    /// <summary>
+    /// TextBoxMinValue
+    /// </summary>
+    [Category ("Spinner Settings")]
+    public double TextBoxMinValue
+    {
+      get
+      {
+        return ((double) GetValue (TextBoxMinValueProperty));
+      }
+      set
+      {
+        SetValue (TextBoxMinValueProperty, value);
+      }
+    }
+
+    public static readonly DependencyProperty TextBoxMaxValueProperty = DependencyProperty.Register ("TextBoxMaxValue", typeof (double), typeof (Spinner),
+      new PropertyMetadata ((double) 10));
+
+    /// <summary>
+    /// TextBoxMaxValue
+    /// </summary>
+    [Category ("Spinner Settings")]
+    public double TextBoxMaxValue
+    {
+      get
+      {
+        return ((double) GetValue (TextBoxMaxValueProperty));
+      }
+      set
+      {
+        SetValue (TextBoxMaxValueProperty, value);
       }
     }
 
@@ -297,11 +356,6 @@ namespace TailForWin.Template
         StartIndex = MinSpinValue;
 
       textBoxSpinValue.Text = StartIndex.ToString (CultureInfo.InvariantCulture);
-    }
-
-    private void textBoxSpinValue_KeyDown (object sender, KeyEventArgs e)
-    {
-      e.Handled = (int) e.Key >= 43 || (int) e.Key <= 34 || (int) e.Key == 3;
     }
   }
 }

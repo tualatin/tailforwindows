@@ -255,6 +255,7 @@
     <Compile Include="Utils\ObservableDictionary.cs" />
     <Compile Include="Utils\SoundPlay.cs" />
     <Compile Include="Utils\StringEncryption.cs" />
+    <Compile Include="Utils\TextBoxMaskBehavior.cs" />
     <Compile Include="Utils\WinTrayIcon.cs" />
     <Page Include="Template\ColorPicker\ColorDialog.xaml">
       <SubType>Designer</SubType>
