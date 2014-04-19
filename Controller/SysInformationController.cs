@@ -65,9 +65,9 @@ namespace TailForWin.Controller
       return ((string.IsNullOrEmpty (pa) || string.Compare (pa, 0, "x86", 0, 3, true) == 0) ? 32 : 64);
     }
 
-    private static Data.IpAddress GetIpAddress ()
+    private static IpAddress GetIpAddress ()
     {
-      Data.IpAddress ipAddress = new Data.IpAddress ( );
+      IpAddress ipAddress = new IpAddress ( );
 
       try
       {
