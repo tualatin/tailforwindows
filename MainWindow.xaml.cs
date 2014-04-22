@@ -4,9 +4,7 @@ using TailForWin.Template;
 using TailForWin.Data;
 using TailForWin.Utils;
 using TailForWin.Controller;
-using System.IO;
 using System;
-using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls.Primitives;
@@ -22,7 +20,6 @@ namespace TailForWin
   /// </summary>
   public partial class MainWindow : IDisposable
   {
-    private WinTrayIcon trayIcon;
     private readonly List<TabItem> tailTabItems;
     private readonly TabItem tabAdd;
     private int tabCount;
@@ -33,12 +30,6 @@ namespace TailForWin
 
     public void Dispose ()
     {
-      if (trayIcon != null)
-      {
-        trayIcon.Dispose ( );
-        trayIcon = null;
-      }
-
       foreach (TailLog page in tailTabItems.Where (item => item.Content != null && item.Content.GetType ( ) == typeof (Frame)).Select (item => GetTailLogWindow (item.Content as Frame)).Where (page => page != null))
         page.StopThread ( );
 
@@ -55,17 +46,9 @@ namespace TailForWin
 
       TfW_UpTimeStart = DateTime.Now;
 
-      // TrayIcon stuff
-      var streamResourceInfo = Application.GetResourceStream (new Uri ("pack://application:,,,/TailForWin;component/Res/Main.ico"));
-     
-      if (streamResourceInfo != null)
-      {
-        Stream stream = streamResourceInfo.Stream;
-        Icon icon = new Icon (stream);
-        trayIcon = new WinTrayIcon (icon, string.Format ("{0} {1}", LogFile.APPLICATION_CAPTION, Application.Current.FindResource ("TrayIconReady")));
-      }
-
-      trayIcon.NotifyIcon.DoubleClick += DoubleClickNotifyIcon;
+      tbIcon.ToolTipText = Application.Current.FindResource ("TrayIconReady") as string;
+      fancyToolTipTfW.ApplicationText = LogFile.APPLICATION_CAPTION;
+      tbIcon.TrayMouseDoubleClick += DoubleClickNotifyIcon;
 
       tabControlTail.PreviewKeyDown += tabControlTail_PreviewKeyDown;
       tabControlTail.PreviewKeyUp += tabControlTail_PreviewKeyUp;
@@ -93,6 +76,21 @@ namespace TailForWin
     }
 
     #region Properties
+
+    /// <summary>
+    /// Set ToolTip detail text
+    /// </summary>
+    public string ToolTipDetailText
+    {
+      get
+      {
+        return (fancyToolTipTfW.ToolTipDetail);
+      }
+      set
+      {
+        fancyToolTipTfW.ToolTipDetail = value;
+      }
+    }
 
     /// <summary>
     /// Uptime start time

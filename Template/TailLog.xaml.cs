@@ -13,7 +13,6 @@ using System.Text;
 using System.Windows.Threading;
 using TailForWin.Template.TextEditor.Converter;
 using TailForWin.Template.TextEditor.Data;
-using TailForWin.Template.TaskBarNotifier;
 
 
 namespace TailForWin.Template
@@ -33,7 +32,6 @@ namespace TailForWin.Template
     private bool stopThread;
     private bool isInit;
     private MailClient mySmtp;
-    private TaskBarNotifier_Wnd taskBarNotifier;
 
     /// <summary>
     /// filemanager save property
@@ -351,6 +349,8 @@ namespace TailForWin.Template
           if (string.IsNullOrEmpty (textBoxFileName.Text))
             textBoxFileName.Text = tabProperties.FileName;
 
+          LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Format ("Tailing {0}", tabProperties.File);
+
           childTabItem.Header = string.Format ("{0}", tabProperties.File);
           childTabItem.Style = (Style) FindResource ("TabItemTailStyle");
           textBlockTailLog.FileNameAvailable = true;
@@ -630,6 +630,7 @@ namespace TailForWin.Template
       {
         childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
         LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
+        LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Empty;
 
         childTabItem.Header = tabProperties.File;
         childTabItem.Style = (Style) FindResource ("TabItemStopStyle");
@@ -684,10 +685,6 @@ namespace TailForWin.Template
 
       textBlockTailLog.Alert += AlertTrigger;
       NewFile += NewFileOpend;
-
-      // TODO problem with add new tab, change selection and so on
-      //taskBarNotifier = new TaskBarNotifier_Wnd ( );
-      //taskBarNotifier.Show ( );
     }
 
     private void SetFontInTextEditor ( )
@@ -792,6 +789,8 @@ namespace TailForWin.Template
         {
           LogFile.APP_MAIN_WINDOW.StatusBarEncodeCb.SelectedValue = tabProperties.FileEncoding;
         }), DispatcherPriority.ApplicationIdle);
+
+        LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Format ("Tailing {0}", tabProperties.File);
       }
       else
       {
@@ -804,6 +803,8 @@ namespace TailForWin.Template
         {
           LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Empty;
         }), DispatcherPriority.ApplicationIdle);
+
+        LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Empty;
       }
     }
 

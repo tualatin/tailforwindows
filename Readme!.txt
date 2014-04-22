@@ -16,6 +16,7 @@ v0.9.xx
 * add popup window alert option
 * improve spinner control: hold mouse button down increment or decrement value
 * bug fix spinner control
+* new IconTray API
 --- Hint ---
 Please insert the following lines into your config file, when you use TailForWindows in the past:
 <add key="Alert.PopupWindow" value="false" />

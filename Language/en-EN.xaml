@@ -11,7 +11,7 @@
   <system:String x:Key="NoFile">No file.</system:String>
   <system:String x:Key="LastTab">Cannot remove last tab.</system:String>
   <system:String x:Key="QRemoveTab">Are you sure you want to remove the tab</system:String>
-  <system:String x:Key="TrayIconReady">ready ...</system:String>
+  <system:String x:Key="TrayIconReady">Ready ...</system:String>
   <system:String x:Key="HCloseTab">Please close some tail windows before open a new one!</system:String>
   <system:String x:Key="LinesRead">Lines read=</system:String>
   <system:String x:Key="QResetSettings">Do you really want reset all settings to default?</system:String>

@@ -145,6 +145,27 @@
     <Compile Include="Data\ProxySettingsData.cs" />
     <Compile Include="Data\SearchData.cs" />
     <Compile Include="Data\SmtpData.cs" />
+    <Compile Include="NotifyIcon\BalloonIcon.cs" />
+    <Compile Include="Template\FancyToolTip.xaml.cs">
+      <DependentUpon>FancyToolTip.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NotifyIcon\Interop\BalloonFlags.cs" />
+    <Compile Include="NotifyIcon\Interop\IconDataMembers.cs" />
+    <Compile Include="NotifyIcon\Interop\IconState.cs" />
+    <Compile Include="NotifyIcon\Interop\MouseEvent.cs" />
+    <Compile Include="NotifyIcon\Interop\NotifyCommand.cs" />
+    <Compile Include="NotifyIcon\Interop\NotifyIconData.cs" />
+    <Compile Include="NotifyIcon\Interop\NotifyIconVersion.cs" />
+    <Compile Include="NotifyIcon\Interop\Point.cs" />
+    <Compile Include="NotifyIcon\Interop\TrayInfo.cs" />
+    <Compile Include="NotifyIcon\Interop\WinApi.cs" />
+    <Compile Include="NotifyIcon\Interop\WindowClass.cs" />
+    <Compile Include="NotifyIcon\Interop\WindowMessageSink.cs" />
+    <Compile Include="NotifyIcon\PopupActivationMode.cs" />
+    <Compile Include="NotifyIcon\RoutedEventHelper.cs" />
+    <Compile Include="NotifyIcon\TaskbarIcon.cs" />
+    <Compile Include="NotifyIcon\TaskbarIcon.Declarations.cs" />
+    <Compile Include="NotifyIcon\Util.cs" />
     <Compile Include="Template\ColorPicker\ColorDialog.xaml.cs">
       <DependentUpon>ColorDialog.xaml</DependentUpon>
     </Compile>
@@ -204,14 +225,6 @@
     <Compile Include="Template\TailLog.xaml.cs">
       <DependentUpon>TailLog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Template\TaskBarNotifier\NotifyObject.cs" />
-    <Compile Include="Template\TaskBarNotifier\Settings.xaml.cs">
-      <DependentUpon>Settings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TaskBarNotifier\TaskBarNotifier.cs" />
-    <Compile Include="Template\TaskBarNotifier\TaskBarNotifier_Wnd.xaml.cs">
-      <DependentUpon>TaskBarNotifier_Wnd.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Template\TextEditor\Converter\BoolToScrollbarVisibilityConverter.cs" />
     <Compile Include="Template\TextEditor\Converter\BoolToTextWrapConverter.cs" />
     <Compile Include="Template\TextEditor\Converter\StringFormatConverter.cs" />
@@ -256,7 +269,10 @@
     <Compile Include="Utils\SoundPlay.cs" />
     <Compile Include="Utils\StringEncryption.cs" />
     <Compile Include="Utils\TextBoxMaskBehavior.cs" />
-    <Compile Include="Utils\WinTrayIcon.cs" />
+    <Page Include="Template\FancyToolTip.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Template\ColorPicker\ColorDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -338,14 +354,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Template\TailLog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Template\TaskBarNotifier\Settings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Template\TaskBarNotifier\TaskBarNotifier_Wnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -506,6 +514,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Template\TextEditor\breakpoint_delete.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Info.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
