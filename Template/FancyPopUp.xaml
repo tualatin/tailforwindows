@@ -7,96 +7,39 @@
              mc:Ignorable="d" 
              Height="180" Width="280" x:Name="me">
   <UserControl.Resources>
-    <Storyboard
-            x:Key="FadeInAndOut">
-      <DoubleAnimationUsingKeyFrames
-                BeginTime="00:00:00"
-                Storyboard.TargetName="grid"
-                Storyboard.TargetProperty="(UIElement.Opacity)">
-        <SplineDoubleKeyFrame
-                    KeyTime="00:00:00"
-                    Value="0" />
-        <SplineDoubleKeyFrame
-                    KeyTime="00:00:01"
-                    Value="0.895" />
-        <SplineDoubleKeyFrame
-                    KeyTime="00:00:4"
-                    Value="0.895" />
-        <SplineDoubleKeyFrame
-                    KeyTime="00:00:6.6000000"
-                    Value="0" />
+    <Storyboard x:Key="FadeInAndOut">
+      <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)">
+        <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0" />
+        <SplineDoubleKeyFrame KeyTime="00:00:01" Value="0.895" />
+        <SplineDoubleKeyFrame KeyTime="00:00:4" Value="0.895" />
+        <SplineDoubleKeyFrame KeyTime="00:00:6.6000000" Value="0" />
       </DoubleAnimationUsingKeyFrames>
     </Storyboard>
   </UserControl.Resources>
   <UserControl.Triggers>
-    <EventTrigger
-            RoutedEvent="tb:TaskbarIcon.BalloonShowing">
-      <BeginStoryboard
-                Storyboard="{StaticResource FadeInAndOut}"
-                x:Name="FadeInAndOut_BeginStoryboard" />
+    <EventTrigger RoutedEvent="tb:TaskbarIcon.BalloonShowing">
+      <BeginStoryboard Storyboard="{StaticResource FadeInAndOut}" x:Name="FadeInAndOut_BeginStoryboard" />
     </EventTrigger>
   </UserControl.Triggers>
-  <Grid
-        x:Name="grid">
-
-    <Border
-            x:Name="border"
-            CornerRadius="10,10,10,10"
-            Margin="0,0,5,5">
+  <Grid x:Name="grid">
+    <Border x:Name="border" CornerRadius="10,10,10,10" Margin="0,0,5,5">
       <Border.Background>
-        <LinearGradientBrush
-                    EndPoint="0.5,1"
-                    StartPoint="0.5,0">
-          <GradientStop
-                        Color="#FFEEEEEE"
-                        Offset="1" />
-          <GradientStop
-                        Color="#FFFB6B42"
-                        Offset="0" />
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+          <GradientStop Color="#FFEEEEEE" Offset="1" />
+          <GradientStop Color="#FFFB6B42" Offset="0" />
         </LinearGradientBrush>
       </Border.Background>
       <Border.Effect>
         <DropShadowEffect />
       </Border.Effect>
     </Border>
-    <TextBlock
-            Margin="10,10,15,0"
-            VerticalAlignment="Top"
-            FontSize="14"
-            FontWeight="Bold"
-            TextWrapping="Wrap"
-            HorizontalAlignment="Center">
-            <Run
-                Text="WPF NotifyIcon - Sample Application"
-                Language="de-ch" />
+    <TextBlock Margin="10,10,15,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold" TextWrapping="Wrap" HorizontalAlignment="Center">
+      <Run Text="Alert occours:" />
     </TextBlock>
-    <TextBlock
-            Margin="10,38.62,10,0"
-            VerticalAlignment="Top"
-            TextWrapping="Wrap"
-            HorizontalAlignment="Left">
-            <Run
-                Text="You should see this icon in your system tray:" />
-            <Run
-                Text=" " />
-            <InlineUIContainer>
-                <Image
-                    Source="{Binding Path=IconSource}"
-                    Width="16"
-                    Height="16" />
-            </InlineUIContainer>
-            <LineBreak />
-            <Run
-                Text="This is your NotifyIcon." />
-            <LineBreak />
-            <Run
-                Text="" />
-            <LineBreak />
-            <Run
-                FontSize="10"
-                FontStyle="Italic"
-                Text="You can change the displayed icon by selecting another image in the sample window." />
+    <TextBlock Margin="10,38,10,0" VerticalAlignment="Top" TextWrapping="Wrap" HorizontalAlignment="Left">
+      <Run Text="{Binding ElementName=me, Path=PopUpAlert}" />
+      <LineBreak />
+      <Run FontSize="10" FontStyle="Italic" Text="{Binding ElementName=me, Path=PopUpAlertDetail}" />
     </TextBlock>
-
   </Grid>
 </UserControl>

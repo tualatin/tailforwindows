@@ -323,10 +323,6 @@ namespace TailForWin.Controller
       config.AppSettings.Settings["Alert.EMailAddress"].Value = TailSettings.AlertSettings.EMailAddress;
       config.AppSettings.Settings["Alert.SoundFile"].Value = TailSettings.AlertSettings.SoundFileNameFullPath;
       config.AppSettings.Settings["Alert.PopupWindow"].Value = TailSettings.AlertSettings.PopupWnd.ToString ( );
-
-      config.AppSettings.Settings["PopupWnd.OpeningMilliseconds"].Value = TailSettings.AlertSettings.PopupWndSettings.OpeningMilliseconds.ToString ( );
-      config.AppSettings.Settings["PopupWnd.StayOpenMilliseconds"].Value = TailSettings.AlertSettings.PopupWndSettings.StayOpenMilliseconds.ToString ( );
-      config.AppSettings.Settings["PopupWnd.HidingMilliseconds"].Value = TailSettings.AlertSettings.PopupWndSettings.HidingMilliseconds.ToString ( );
     }
 
     /// <summary>
@@ -459,20 +455,6 @@ namespace TailForWin.Controller
       if (!bool.TryParse (ConfigurationManager.AppSettings["Alert.PopupWindow"], out bHelper))
         bHelper = false;
       TailSettings.AlertSettings.PopupWnd = bHelper;
-
-      int iHelper;
-
-      if (!int.TryParse (ConfigurationManager.AppSettings["PopupWnd.OpeningMilliseconds"], out iHelper))
-        iHelper = 1000;
-      TailSettings.AlertSettings.PopupWndSettings.OpeningMilliseconds = iHelper;
-
-      if (!int.TryParse (ConfigurationManager.AppSettings["PopupWnd.StayOpenMilliseconds"], out iHelper))
-        iHelper = 1000;
-      TailSettings.AlertSettings.PopupWndSettings.StayOpenMilliseconds = iHelper;
-
-      if (!int.TryParse (ConfigurationManager.AppSettings["PopupWnd.HidingMilliseconds"], out iHelper))
-        iHelper = 1000;
-      TailSettings.AlertSettings.PopupWndSettings.HidingMilliseconds = iHelper;
     }
 
     /// <summary>

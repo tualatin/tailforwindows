@@ -5,7 +5,6 @@
     public AlertData ()
     {
       SmtpSettings = new SmtpData ( );
-      PopupWndSettings = new PopupWndData ( );
     }
 
     private bool bringToFront;
@@ -139,15 +138,6 @@
     /// SMTP server settings
     /// </summary>
     public SmtpData SmtpSettings
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Popup window settings
-    /// </summary>
-    public PopupWndData PopupWndSettings
     {
       get;
       set;

@@ -1024,24 +1024,17 @@ namespace TailForWin.Template
       if (SettingsHelper.TailSettings.AlertSettings.BringToFront)
         LogFile.BringMainWindowToFront ( );
 
-      // TODO alert popup window
       if (SettingsHelper.TailSettings.AlertSettings.PopupWnd)
       {
-        var alertPopUp = new FancyPopUp ( );
+        Console.WriteLine (@"{0}", LogFile.APP_MAIN_WINDOW.MainWndTaskBarIcon.IsVisible);
+
+        var alertPopUp = new FancyPopUp
+        { 
+          PopUpAlert = tabProperties.File,
+          PopUpAlertDetail = alertTriggerData.Message
+        };
         LogFile.APP_MAIN_WINDOW.MainWndTaskBarIcon.ShowCustomBalloon (alertPopUp, System.Windows.Controls.Primitives.PopupAnimation.Slide, 7000);
-
-      //  string alertMsg;
-
-      //  if (alertTriggerData.Message.Length > 120)
-      //  {
-      //    alertMsg = alertTriggerData.Message.Substring (0, 120);
-      //    alertMsg = string.Format ("{0} ...", alertMsg);
-      //  }
-      //  else
-      //    alertMsg = alertTriggerData.Message;
-
-      //  taskBarNotifier.NotifyContent.Add (new NotifyObject (string.Format ("{0} {1}", alertTriggerData.Index, alertMsg), "Alert"));
-      //  taskBarNotifier.Notify ( );
+        Console.WriteLine (@"{0}", LogFile.APP_MAIN_WINDOW.MainWndTaskBarIcon.IsVisible);
       }
 
       if (SettingsHelper.TailSettings.AlertSettings.PlaySoundFile)

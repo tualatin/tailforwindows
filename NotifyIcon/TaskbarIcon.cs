@@ -246,12 +246,9 @@ namespace TailForWin.NotifyIcon
       popup.IsOpen = true;
 
       if (timeout.HasValue)
-      {
         //register timer to close the popup
         balloonCloseTimer.Change (timeout.Value, Timeout.Infinite);
-      }
     }
-
 
     /// <summary>
     /// Resets the closing timeout, which effectively
@@ -271,7 +268,6 @@ namespace TailForWin.NotifyIcon
         balloonCloseTimer.Change (Timeout.Infinite, Timeout.Infinite);
       }
     }
-
 
     /// <summary>
     /// Closes the current <see cref="CustomBalloon"/>, if the
@@ -328,7 +324,6 @@ namespace TailForWin.NotifyIcon
         }
       }
     }
-
 
     /// <summary>
     /// Timer-invoke event which closes the currently open balloon and
@@ -415,7 +410,6 @@ namespace TailForWin.NotifyIcon
 
         throw new ArgumentOutOfRangeException ("me", "Missing handler for mouse event flag: " + me);
       }
-
 
       //get mouse coordinates
       Point cursorPosition = new Point ( );

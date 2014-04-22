@@ -20,9 +20,6 @@ v0.9.xx
 --- Hint ---
 Please insert the following lines into your config file, when you use TailForWindows in the past:
 <add key="Alert.PopupWindow" value="false" />
-<add key="PopupWnd.OpeningMilliseconds" value="1000" />
-<add key="PopupWnd.StayOpenMilliseconds" value="1000" />
-<add key="PopupWnd.HidingMilliseconds" value="1000" />
 
 v0.9.5172.x
 * bug fix proxy authentication
