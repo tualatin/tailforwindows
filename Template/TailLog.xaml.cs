@@ -774,37 +774,23 @@ namespace TailForWin.Template
     {
       if (!string.IsNullOrEmpty (tabProperties.FileName) && myReader.FileEncoding != null)
       {
-        LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Dispatcher.Invoke (new Action (() =>
+        LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke (new Action (() =>
         {
           string time = tabProperties.LastRefreshTime.ToString (SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultTimeFormat));
           LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = string.Format ("Size={0:0.###} Kb, Last refresh time={1}", myReader.FileSizeKB, time);
-        }), DispatcherPriority.ApplicationIdle);
-
-        LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Dispatcher.Invoke (new Action (() =>
-        {
           LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Format ("{0}{1}", Application.Current.FindResource ("LinesRead"), textBlockTailLog.LineCount);
-        }), DispatcherPriority.ApplicationIdle);
-
-        LogFile.APP_MAIN_WINDOW.StatusBarEncodeCb.Dispatcher.Invoke (new Action (() =>
-        {
           LogFile.APP_MAIN_WINDOW.StatusBarEncodeCb.SelectedValue = tabProperties.FileEncoding;
-        }), DispatcherPriority.ApplicationIdle);
-
-        LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Format ("Tailing {0}", tabProperties.File);
+          LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Format ("Tailing {0}", tabProperties.File);
+        }), DispatcherPriority.Background);
       }
       else
       {
-        LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Dispatcher.Invoke (new Action (() =>
+        LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke (new Action (() =>
         {
           LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = string.Empty;
-        }), DispatcherPriority.ApplicationIdle);
-
-        LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Dispatcher.Invoke (new Action (() =>
-        {
           LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Empty;
-        }), DispatcherPriority.ApplicationIdle);
-
-        LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Empty;
+          LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Empty;
+        }), DispatcherPriority.Background);
       }
     }
 
@@ -824,7 +810,7 @@ namespace TailForWin.Template
               StringFormatData.StringFormat = string.Format ("{0} {1}.fff", SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultTimeFormat));
 
             textBlockTailLog.AppendText (line);
-          }), DispatcherPriority.ApplicationIdle);
+          }), DispatcherPriority.Background);
       }
 
       // Only when tab is active update statusbar!
@@ -1039,8 +1025,11 @@ namespace TailForWin.Template
         LogFile.BringMainWindowToFront ( );
 
       // TODO alert popup window
-      //if (SettingsHelper.TailSettings.AlertSettings.PopupWnd)
-      //{
+      if (SettingsHelper.TailSettings.AlertSettings.PopupWnd)
+      {
+        var alertPopUp = new FancyPopUp ( );
+        LogFile.APP_MAIN_WINDOW.MainWndTaskBarIcon.ShowCustomBalloon (alertPopUp, System.Windows.Controls.Primitives.PopupAnimation.Slide, 7000);
+
       //  string alertMsg;
 
       //  if (alertTriggerData.Message.Length > 120)
@@ -1053,7 +1042,7 @@ namespace TailForWin.Template
 
       //  taskBarNotifier.NotifyContent.Add (new NotifyObject (string.Format ("{0} {1}", alertTriggerData.Index, alertMsg), "Alert"));
       //  taskBarNotifier.Notify ( );
-      //}
+      }
 
       if (SettingsHelper.TailSettings.AlertSettings.PlaySoundFile)
         SoundPlay.Play (false);

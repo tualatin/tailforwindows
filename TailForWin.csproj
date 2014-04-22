@@ -146,6 +146,9 @@
     <Compile Include="Data\SearchData.cs" />
     <Compile Include="Data\SmtpData.cs" />
     <Compile Include="NotifyIcon\BalloonIcon.cs" />
+    <Compile Include="Template\FancyPopUp.xaml.cs">
+      <DependentUpon>FancyPopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Template\FancyToolTip.xaml.cs">
       <DependentUpon>FancyToolTip.xaml</DependentUpon>
     </Compile>
@@ -269,6 +272,10 @@
     <Compile Include="Utils\SoundPlay.cs" />
     <Compile Include="Utils\StringEncryption.cs" />
     <Compile Include="Utils\TextBoxMaskBehavior.cs" />
+    <Page Include="Template\FancyPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Template\FancyToolTip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

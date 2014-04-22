@@ -93,6 +93,17 @@ namespace TailForWin
     }
 
     /// <summary>
+    /// Main window taskbar icon
+    /// </summary>
+    public TailForWin.NotifyIcon.TaskbarIcon MainWndTaskBarIcon
+    {
+      get
+      {
+        return (tbIcon);
+      }
+    }
+
+    /// <summary>
     /// Uptime start time
     /// </summary>
     public DateTime TfW_UpTimeStart
