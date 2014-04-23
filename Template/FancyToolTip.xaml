@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:tb="clr-namespace:TailForWin.NotifyIcon"
              mc:Ignorable="d" 
-             x:Name="me" Width="285" Height="136">
+             x:Name="me" Width="240" Height="100">
   <UserControl.Resources>
     <Storyboard x:Key="FadeIn">
       <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.Opacity)">
@@ -37,34 +37,19 @@
     </EventTrigger>
   </UserControl.Triggers>
 
-  <Grid
-    x:Name="LayoutRoot" Height="Auto">
-    <Border
-      HorizontalAlignment="Stretch"
-      VerticalAlignment="Stretch"
-      Width="Auto"
-      Height="Auto"
-      CornerRadius="6,6,6,6"
-      BorderThickness="3,3,3,3"
-      Margin="0,0,5,5" x:Name="border">
+  <Grid x:Name="LayoutRoot" Height="Auto">
+    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" CornerRadius="6,6,6,6" BorderThickness="3,3,3,3" Margin="0,0,5,5" x:Name="border">
       <Border.Effect>
-        <DropShadowEffect
-          Color="#FF7A7A7A" />
+        <DropShadowEffect Color="#FF7A7A7A" />
       </Border.Effect>
       <Border.Background>
-        <LinearGradientBrush
-          EndPoint="0.5,1"
-          StartPoint="0.5,0">
-          <GradientStop
-            Color="#FFFFD283"
-            Offset="0" />
-          <GradientStop
-            Color="#FFFFFFFF"
-            Offset="1" />
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0"> 
+          <GradientStop Color="#31A7F9" Offset="0" />
+          <GradientStop Color="#C9E9FF" Offset="1" />
         </LinearGradientBrush>
       </Border.Background>
     </Border>
-    <Image HorizontalAlignment="Left" Margin="10,10,0,26" Width="72" Source="/TailForWin;component/Res/Info.png" Stretch="Fill" VerticalAlignment="Top" RenderTransformOrigin="0.792,0.486" x:Name="image" Height="72" >
+    <Image HorizontalAlignment="Left" Margin="10,10,0,26" Width="48" Source="/TailForWin;component/Res/Main.ico" Stretch="Fill" VerticalAlignment="Top" RenderTransformOrigin="0.792,0.486" x:Name="image" Height="48" >
       <Image.RenderTransform>
         <TransformGroup>
           <ScaleTransform ScaleX="1" ScaleY="1"/>
@@ -74,12 +59,12 @@
         </TransformGroup>
       </Image.RenderTransform>
     </Image>
-    <TextBlock Margin="82,10,20,0" TextWrapping="Wrap" Height="32" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" Foreground="#FF575757">
+    <TextBlock Margin="82,10,20,0" TextWrapping="Wrap" Height="32" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" Foreground="#353535">
       <Run Text="{Binding ElementName=me, Path=ApplicationText}" />
     </TextBlock>
     <TextBlock FontSize="12" FontWeight="Bold" Foreground="#FF141414" TextWrapping="Wrap" Margin="10,0,20,19" VerticalAlignment="Bottom" Text="{Binding ElementName=me, Path=InfoText}"
       x:Name="txtToolTipDetail" d:LayoutOverrides="Height" />
-    <TextBlock FontSize="12" FontWeight="Normal" Foreground="#FF141414" TextWrapping="Wrap" Margin="82,42,20,44.96" x:Name="txtToolTipDetail_Copy" >
+    <TextBlock FontSize="12" FontWeight="Normal" Foreground="#FF141414" TextWrapping="Wrap" Margin="82,42,20,41" x:Name="txtToolTipDetail_Copy">
       <Run Text="{Binding ElementName=me, Path=ToolTipDetail}" />
     </TextBlock>
   </Grid>

@@ -71,6 +71,7 @@
         <TextBlock></TextBlock>
       </StatusBarItem>
     </StatusBar>
+    <!--TaskbarIcon part-->
     <tb:TaskbarIcon x:Name="tbIcon" IconSource="/Res/Main.ico">
       <tb:TaskbarIcon.TrayToolTip>
        <local:FancyToolTip Opacity="0.85" InfoText="{Binding Path=ToolTipText}" x:Name="fancyToolTipTfW" />

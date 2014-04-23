@@ -22,7 +22,6 @@
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
 using System.Windows;
@@ -458,10 +457,8 @@ namespace TailForWin.NotifyIcon
           isLeftClickCommandInvoked = true;
         }
         else
-        {
           //show context menu immediately
           ShowContextMenu (cursorPosition);
-        }
       }
 
       //make sure the left click command is invoked on mouse clicks
@@ -470,9 +467,9 @@ namespace TailForWin.NotifyIcon
 
       //show context menu once we are sure it's not a double click
       singleClickTimerAction = () =>
-        {
-          LeftClickCommand.ExecuteIfEnabled (LeftClickCommandParameter, LeftClickCommandTarget ?? this);
-        };
+      {
+        LeftClickCommand.ExecuteIfEnabled (LeftClickCommandParameter, LeftClickCommandTarget ?? this);
+      };
       singleClickTimer.Change (WinApi.GetDoubleClickTime ( ), Timeout.Infinite);
     }
 
@@ -597,11 +594,9 @@ namespace TailForWin.NotifyIcon
         //we need to set a tooltip text to get tooltip events from the
         //taskbar icon
         if (String.IsNullOrEmpty (iconData.ToolTipText) && TrayToolTipResolved != null)
-        {
           //if we have not tooltip text but a custom tooltip, we
           //need to set a dummy value (we're displaying the ToolTip control, not the string)
           iconData.ToolTipText = "ToolTip";
-        }
       }
 
       //update the tooltip text
@@ -695,6 +690,7 @@ namespace TailForWin.NotifyIcon
         {
           //try to get a handle on the popup itself (via its child)
           HwndSource source = (HwndSource) PresentationSource.FromVisual (TrayPopupResolved.Child);
+
           if (source != null)
             handle = source.Handle;
         }
@@ -907,10 +903,7 @@ namespace TailForWin.NotifyIcon
       }
 
       if (!status)
-      {
-        // TODO error log
-        Debug.Fail ("Could not set version");
-      }
+        TailForWin.Utils.ErrorLog.WriteLog (TailForWin.Utils.ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, could not set version", System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
     }
 
     #endregion
@@ -943,18 +936,15 @@ namespace TailForWin.NotifyIcon
           var status = Util.WriteIconData (ref iconData, NotifyCommand.Add, members);
 
           if (!status)
-          {
             //couldn't create the icon - we can assume this is because explorer is not running (yet!)
             //-> try a bit later again rather than throwing an exception. Typically, if the windows
             // shell is being loaded later, this method is being reinvoked from OnTaskbarCreated
             // (we could also retry after a delay, but that's currently YAGNI)
             return;
-          }
 
           //set to most recent version
           SetVersion ( );
           messageSink.Version = (NotifyIconVersion) iconData.VersionOrTimeout;
-
           IsTaskbarIconCreated = true;
         }
       }
@@ -968,7 +958,6 @@ namespace TailForWin.NotifyIcon
       lock (this)
       {
         //make sure we didn't schedule a creation
-
         if (!IsTaskbarIconCreated)
           return;
 

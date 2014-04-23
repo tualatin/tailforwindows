@@ -1026,15 +1026,12 @@ namespace TailForWin.Template
 
       if (SettingsHelper.TailSettings.AlertSettings.PopupWnd)
       {
-        Console.WriteLine (@"{0}", LogFile.APP_MAIN_WINDOW.MainWndTaskBarIcon.IsVisible);
-
         var alertPopUp = new FancyPopUp
         { 
           PopUpAlert = tabProperties.File,
           PopUpAlertDetail = alertTriggerData.Message
         };
         LogFile.APP_MAIN_WINDOW.MainWndTaskBarIcon.ShowCustomBalloon (alertPopUp, System.Windows.Controls.Primitives.PopupAnimation.Slide, 7000);
-        Console.WriteLine (@"{0}", LogFile.APP_MAIN_WINDOW.MainWndTaskBarIcon.IsVisible);
       }
 
       if (SettingsHelper.TailSettings.AlertSettings.PlaySoundFile)
