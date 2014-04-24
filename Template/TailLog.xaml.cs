@@ -101,6 +101,7 @@ namespace TailForWin.Template
       InitTailLog (childTabIndex, tabItem);
 
       textBoxFileName.Text = tabProperties.FileName;
+      SetToolTipDetailText ( );
     }
 
     /// <summary>
@@ -245,6 +246,17 @@ namespace TailForWin.Template
     }
 
     /// <summary>
+    /// Is textbox filename focued
+    /// </summary>
+    public bool TextBoxFileNameIsFocused
+    {
+      get
+      {
+        return (textBoxFileName.IsFocused);
+      }
+    }
+
+    /// <summary>
     /// Toggle always on top on/off
     /// </summary>
     public void AlwaysOnTop ( )
@@ -348,8 +360,6 @@ namespace TailForWin.Template
         {
           if (string.IsNullOrEmpty (textBoxFileName.Text))
             textBoxFileName.Text = tabProperties.FileName;
-
-          LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Format ("Tailing {0}", tabProperties.File);
 
           childTabItem.Header = string.Format ("{0}", tabProperties.File);
           childTabItem.Style = (Style) FindResource ("TabItemTailStyle");
@@ -630,11 +640,10 @@ namespace TailForWin.Template
       {
         childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
         LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
-        LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Empty;
-
         childTabItem.Header = tabProperties.File;
         childTabItem.Style = (Style) FindResource ("TabItemStopStyle");
         SetControlVisibility ( );
+        SetToolTipDetailText ( );
 
         if (stopThread)
           KillThread ( );
@@ -681,7 +690,6 @@ namespace TailForWin.Template
       ExtraIcons.DataContext = tabProperties;
 
       DefaultPropertiesChanged (this, null);
-      LoadHighlighting ( );
 
       textBlockTailLog.Alert += AlertTrigger;
       NewFile += NewFileOpend;
@@ -693,14 +701,6 @@ namespace TailForWin.Template
       textBlockTailLog.TextEditorFontSize = (int) tabProperties.FontType.Size;
       textBlockTailLog.TextEditorFontWeight = tabProperties.FontType.Bold ? FontWeights.Bold : FontWeights.Regular;
       textBlockTailLog.TextEditorFontStyle = tabProperties.FontType.Italic ? FontStyles.Italic : FontStyles.Normal;
-    }
-
-    private static void LoadHighlighting ()
-    {
-      // TODO Highlighting
-#if DEBUG
-      ErrorLog.WriteLog (ErrorFlags.Debug, "TailLog", "LoadHighlighting");
-#endif
     }
 
     /// <summary>
@@ -780,7 +780,8 @@ namespace TailForWin.Template
           LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = string.Format ("Size={0:0.###} Kb, Last refresh time={1}", myReader.FileSizeKB, time);
           LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Format ("{0}{1}", Application.Current.FindResource ("LinesRead"), textBlockTailLog.LineCount);
           LogFile.APP_MAIN_WINDOW.StatusBarEncodeCb.SelectedValue = tabProperties.FileEncoding;
-          LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Format ("Tailing {0}", tabProperties.File);
+
+          SetToolTipDetailText ( );
         }), DispatcherPriority.Background);
       }
       else
@@ -789,7 +790,8 @@ namespace TailForWin.Template
         {
           LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = string.Empty;
           LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Empty;
-          LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Empty;
+
+          SetToolTipDetailText ( );
         }), DispatcherPriority.Background);
       }
     }
@@ -803,14 +805,14 @@ namespace TailForWin.Template
       else
       {
         textBlockTailLog.Dispatcher.Invoke (new Action (() =>
-          {
-            if (SettingsHelper.TailSettings.DefaultTimeFormat == SettingsData.ETimeFormat.HHMMd || SettingsHelper.TailSettings.DefaultTimeFormat == SettingsData.ETimeFormat.HHMMD)
-              StringFormatData.StringFormat = string.Format ("{0} {1}:ss.fff", SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultTimeFormat));
-            if (SettingsHelper.TailSettings.DefaultTimeFormat == SettingsData.ETimeFormat.HHMMSSd || SettingsHelper.TailSettings.DefaultTimeFormat == SettingsData.ETimeFormat.HHMMSSD)
-              StringFormatData.StringFormat = string.Format ("{0} {1}.fff", SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultTimeFormat));
+        {
+          if (SettingsHelper.TailSettings.DefaultTimeFormat == SettingsData.ETimeFormat.HHMMd || SettingsHelper.TailSettings.DefaultTimeFormat == SettingsData.ETimeFormat.HHMMD)
+            StringFormatData.StringFormat = string.Format ("{0} {1}:ss.fff", SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultTimeFormat));
+          if (SettingsHelper.TailSettings.DefaultTimeFormat == SettingsData.ETimeFormat.HHMMSSd || SettingsHelper.TailSettings.DefaultTimeFormat == SettingsData.ETimeFormat.HHMMSSD)
+            StringFormatData.StringFormat = string.Format ("{0} {1}.fff", SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultTimeFormat));
 
-            textBlockTailLog.AppendText (line);
-          }), DispatcherPriority.Background);
+          textBlockTailLog.AppendText (line);
+        }), DispatcherPriority.Background);
       }
 
       // Only when tab is active update statusbar!
@@ -840,6 +842,17 @@ namespace TailForWin.Template
         return (textBlockTailLog.LogEntries[textBlockTailLog.LogEntries.Count - 1].Index);
 
       return (-1);
+    }
+
+    private void SetToolTipDetailText ()
+    {
+      if (string.IsNullOrEmpty (tabProperties.File))
+      {
+        LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Empty;
+        return;
+      }
+
+      LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Format (tailWorker.IsBusy ? "Tailing {0}" : "Pause {0}", tabProperties.File);
     }
 
     #endregion
@@ -901,6 +914,8 @@ namespace TailForWin.Template
         btnShellOpen.IsEnabled = true;
         btnPrint.IsEnabled = true;
         ExtraIcons.IsEnabled = true;
+
+        SetToolTipDetailText ( );
       }
       else
       {

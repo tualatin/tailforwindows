@@ -17,6 +17,7 @@ v0.9.xx
 * improve spinner control: hold mouse button down increment or decrement value
 * bug fix spinner control
 * new IconTray API
+* bug fix when TextBox FileName has focus, user type a "t" or "f" -> "Always on top" or "Filter" toggle on/off
 --- Hint ---
 Please insert the following lines into your config file, when you use TailForWindows in the past:
 <add key="Alert.PopupWindow" value="false" />

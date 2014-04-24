@@ -315,7 +315,7 @@ namespace TailForWin
       // When pressing Control + F shows the search dialogue
       if (e.Key == Key.F && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
         currentPage.btnSearch_Click (sender, e);
-      else if (e.Key == Key.F) // When pressing F toggle filter on/off
+      else if (e.Key == Key.F && !currentPage.TextBoxFileNameIsFocused) // When pressing F toggle filter on/off
         currentPage.FilterOnOff ( );
 
       // When pressing Control + O shows the open file dialogue
@@ -350,7 +350,7 @@ namespace TailForWin
         TabItem newTab = AddTailTab ( );
         tabControlTail.SelectedItem = newTab;
       }
-      else if (e.Key == Key.T) // When pressing T toggle always on top on/off
+      else if (e.Key == Key.T && !currentPage.TextBoxFileNameIsFocused) // When pressing T toggle always on top on/off
         currentPage.AlwaysOnTop ( );
 
       // When pressing Control + W close tab
