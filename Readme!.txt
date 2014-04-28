@@ -5,7 +5,7 @@ If there are problems, TailForWindows creates a error logfile in the directory. 
 
 Changelog:
 
-v0.9.xx
+v0.9.5231.x
 * bug fix when clear FileName textbox, than press Start, textbox was empty
 * add select single word
 * add multiselect by mouse
