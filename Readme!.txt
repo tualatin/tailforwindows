@@ -4,6 +4,8 @@ Known issues: https://github.com/tualatin/tailforwindows/issues
 If there are problems, TailForWindows creates a error logfile in the directory. Please send me this error file bevore restart TfW, because the program deletes the error log file when it is started
 
 Changelog:
+v0.9.xxx.
+* bug fix searching for bookmark lines
 
 v0.9.5231.x
 * bug fix when clear FileName textbox, than press Start, textbox was empty

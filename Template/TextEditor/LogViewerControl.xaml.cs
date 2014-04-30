@@ -552,7 +552,7 @@ namespace TailForWin.Template.TextEditor
       }
 
       if (BookmarkLine)
-        RemoveAllBookmarks_Click (null, null);
+        RemoveAllBookmarks_Click (this, null);
     }
 
     /// <summary>
@@ -930,6 +930,17 @@ namespace TailForWin.Template.TextEditor
 
     private void RemoveAllBookmarks_Click (object sender, RoutedEventArgs e)
     {
+      if (sender.GetType ( ) != typeof (LogViewerControl))
+      {
+        if (sender.GetType ( ) != typeof (MenuItem))
+          return;
+      }
+      if (sender.GetType ( ) != typeof (MenuItem))
+      {
+        if (sender.GetType ( ) != typeof (LogViewerControl))
+          return;
+      }
+
       var bookmarkItems = LogEntries.Where (item => item.BookmarkPoint != null);
 
       foreach (LogEntry bookmarkItem in bookmarkItems)
@@ -938,6 +949,10 @@ namespace TailForWin.Template.TextEditor
       }
 
       LogViewer.ContextMenu = null;
+
+      if (e == null)
+        return;
+
       e.Handled = true;
     }
 
