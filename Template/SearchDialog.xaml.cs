@@ -127,6 +127,8 @@ namespace TailForWin.Template
 
     private void btnClose_Click (object sender, RoutedEventArgs e)
     {
+      SaveBoxPosition ( );
+
       if (HideSearchBox != null)
         HideSearchBox (this, EventArgs.Empty);
 
@@ -200,6 +202,14 @@ namespace TailForWin.Template
       textBox.SelectionStart = textBox.Text.Length;
     }
 
+    private void SaveBoxPosition ( )
+    {
+      SettingsHelper.TailSettings.SearchWndXPos = Left;
+      SettingsHelper.TailSettings.SearchWndYPos = Top;
+
+      SettingsHelper.SaveSearchWindowPosition ( );
+    }
+
     #endregion
 
     #region Events
@@ -236,10 +246,7 @@ namespace TailForWin.Template
 
     private void Window_Closing (object sender, CancelEventArgs e)
     {
-      SettingsHelper.TailSettings.SearchWndXPos = Left;
-      SettingsHelper.TailSettings.SearchWndYPos = Top;
-
-      SettingsHelper.SaveSearchWindowPosition ( );
+      SaveBoxPosition ( );
 
       if (HideSearchBox != null)
         HideSearchBox (this, EventArgs.Empty);
