@@ -30,7 +30,8 @@ namespace TailForWin
 
     public void Dispose ()
     {
-      foreach (TailLog page in tailTabItems.Where (item => item.Content != null && item.Content.GetType ( ) == typeof (Frame)).Select (item => GetTailLogWindow (item.Content as Frame)).Where (page => page != null))
+      foreach (TailLog page in tailTabItems.Where 
+               (item => item.Content != null && item.Content.GetType ( ) == typeof (Frame)).Select (item => GetTailLogWindow (item.Content as Frame)).Where (page => page != null))
         page.StopThread ( );
 
       if (currentPage == null)
@@ -45,7 +46,6 @@ namespace TailForWin
       InitializeComponent ( );
 
       TfW_UpTimeStart = DateTime.Now;
-
       tbIcon.ToolTipText = Application.Current.FindResource ("TrayIconReady") as string;
       fancyToolTipTfW.ApplicationText = LogFile.APPLICATION_CAPTION;
       tbIcon.TrayMouseDoubleClick += DoubleClickNotifyIcon;
@@ -365,7 +365,7 @@ namespace TailForWin
 
     private void OpenSearchBoxWindow (object sender, EventArgs e)
     {
-      if (e.GetType() != typeof (FileManagerDataEventArgs)) 
+      if (e.GetType ( ) != typeof (FileManagerDataEventArgs)) 
         return;
 
       FileManagerDataEventArgs data = e as FileManagerDataEventArgs;
@@ -447,7 +447,7 @@ namespace TailForWin
 
     public void FileManagerTab (object sender, EventArgs e)
     {
-      if (e.GetType() != typeof (FileManagerDataEventArgs)) 
+      if (e.GetType ( ) != typeof (FileManagerDataEventArgs))
         return;
 
       FileManagerDataEventArgs properties = e as FileManagerDataEventArgs;
@@ -609,11 +609,8 @@ namespace TailForWin
 
     private void SetTabNotActive (TailLog activePage)
     {
-      foreach (
-        TailLog page in
-          tailTabItems.Where (item => item.Content != null && item.Content.GetType ( ) == typeof (Frame))
-            .Select (item => GetTailLogWindow (item.Content as Frame))
-            .Where (page => page.GetChildTabIndex ( ) != activePage.GetChildTabIndex ( )))
+      foreach (TailLog page in tailTabItems.Where (item => item.Content != null && item.Content.GetType ( ) == typeof (Frame)).Select (item => 
+               GetTailLogWindow (item.Content as Frame)).Where (page => page.GetChildTabIndex ( ) != activePage.GetChildTabIndex ( )))
         page.ActiveTab = false;
     }
 

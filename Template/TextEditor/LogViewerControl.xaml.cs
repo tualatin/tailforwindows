@@ -81,6 +81,8 @@ namespace TailForWin.Template.TextEditor
     /// </summary>
     private int mouseLeftButtonDownCounter;
 
+    // TODO CodeFolding
+
 
     public LogViewerControl ()
     {
