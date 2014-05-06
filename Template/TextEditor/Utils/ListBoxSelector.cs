@@ -32,6 +32,8 @@ namespace TailForWin.Template.TextEditor.Utils
     private AutoScroller autoScroller;
     private ItemsControlSelector selector;
 
+    private MouseButtonEventArgs lbdEventArgs;
+
     private bool mouseCaptured;
     private Point start;
     private Point end;
@@ -42,12 +44,12 @@ namespace TailForWin.Template.TextEditor.Utils
       this.listBox = listBox;
 
       if (this.listBox.IsLoaded)
-        this.Register ( );
+        Register ( );
       else
       {
         // We need to wait for it to be loaded so we can find the
         // child controls.
-        this.listBox.Loaded += this.OnListBoxLoaded;
+        this.listBox.Loaded += OnListBoxLoaded;
       }
     }
 
@@ -134,89 +136,126 @@ namespace TailForWin.Template.TextEditor.Utils
 
     private bool Register ()
     {
-      this.scrollContent = FindChild<ScrollContentPresenter> (this.listBox);
+      scrollContent = FindChild<ScrollContentPresenter> (listBox);
 
-      if (this.scrollContent == null)
-        return (this.scrollContent != null);
+      if (scrollContent == null)
+        return (scrollContent != null);
 
-      this.autoScroller = new AutoScroller (this.listBox);
-      this.autoScroller.OffsetChanged += this.OnOffsetChanged;
+      autoScroller = new AutoScroller (listBox);
+      autoScroller.OffsetChanged += OnOffsetChanged;
 
-      this.selectionRect = new SelectionAdorner (this.scrollContent);
-      this.scrollContent.AdornerLayer.Add (this.selectionRect);
+      selectionRect = new SelectionAdorner (scrollContent);
+      scrollContent.AdornerLayer.Add (selectionRect);
 
-      this.selector = new ItemsControlSelector (this.listBox);
+      selector = new ItemsControlSelector (listBox);
 
       // The ListBox intercepts the regular MouseLeftButtonDown event
       // to do its selection processing, so we need to handle the
       // PreviewMouseLeftButtonDown. The scroll content won't receive
       // the message if we click on a blank area so use the ListBox.
-      this.listBox.PreviewMouseLeftButtonDown += this.OnPreviewMouseLeftButtonDown;
-      this.listBox.MouseLeftButtonUp += this.OnMouseLeftButtonUp;
-      this.listBox.MouseMove += this.OnMouseMove;
+      listBox.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
+      listBox.MouseLeftButtonUp += OnMouseLeftButtonUp;
+      listBox.MouseMove += OnMouseMove;
+      listBox.MouseLeftButtonDown += OnMouseLeftButtonDown;
 
       // Return success if we found the ScrollContentPresenter
-      return (this.scrollContent != null);
+      return (scrollContent != null);
     }
 
     private void UnRegister ()
     {
-      this.StopSelection ( );
+      StopSelection ( );
 
       // Remove all the event handlers so this instance can be reclaimed by the GC.
-      this.listBox.PreviewMouseLeftButtonDown -= this.OnPreviewMouseLeftButtonDown;
-      this.listBox.MouseLeftButtonUp -= this.OnMouseLeftButtonUp;
-      this.listBox.MouseMove -= this.OnMouseMove;
+      listBox.PreviewMouseLeftButtonDown -= OnPreviewMouseLeftButtonDown;
+      listBox.MouseLeftButtonUp -= OnMouseLeftButtonUp;
+      listBox.MouseMove -= OnMouseMove;
+      listBox.MouseLeftButtonDown -= OnMouseLeftButtonDown;
 
-      this.autoScroller.UnRegister ( );
+      autoScroller.UnRegister ( );
     }
 
     private void OnListBoxLoaded (object sender, EventArgs e)
     {
-      if (this.Register ( ))
-        this.listBox.Loaded -= this.OnListBoxLoaded;
+      if (Register ( ))
+        listBox.Loaded -= OnListBoxLoaded;
     }
 
     private void OnOffsetChanged (object sender, OffsetChangedEventArgs e)
     {
-      this.selector.Scroll (e.HorizontalChange, e.VerticalChange);
-      this.UpdateSelection ( );
+      selector.Scroll (e.HorizontalChange, e.VerticalChange);
+      UpdateSelection ( );
     }
 
     private void OnMouseLeftButtonUp (object sender, MouseButtonEventArgs e)
     {
-      if (!this.mouseCaptured)
-        return;
+      if (mouseCaptured)
+      {
+        mouseCaptured = false;
+        scrollContent.ReleaseMouseCapture ( );
+        StopSelection ( );
+      }
 
-      this.mouseCaptured = false;
-      this.scrollContent.ReleaseMouseCapture ( );
-      this.StopSelection ( );
+      lbdEventArgs = null;
     }
 
+    private void OnMouseLeftButtonDown (object sender, MouseButtonEventArgs e)
+    {
+      Point mouse = e.GetPosition (this.scrollContent);
+
+      if ((mouse.X >= 0) && (mouse.X < this.scrollContent.ActualWidth) &&
+          (mouse.Y >= 0) && (mouse.Y < this.scrollContent.ActualHeight))
+      {
+        if (((Keyboard.Modifiers & ModifierKeys.Control) == 0) &&
+            ((Keyboard.Modifiers & ModifierKeys.Shift) == 0))
+          // Neither the shift key or control key is pressed, so
+          // clear the selection.
+          listBox.SelectedItems.Clear ( );
+      }
+    }
+    
     private void OnMouseMove (object sender, MouseEventArgs e)
     {
-      if (!this.mouseCaptured)
+      if (lbdEventArgs != null)
+      {
+        var e2 = lbdEventArgs;
+        lbdEventArgs = null;
+
+        mouseCaptured = TryCaptureMouse (e2);
+        Point mouse = e2.GetPosition (scrollContent);
+
+        if (mouseCaptured)
+          StartSelection (mouse);
+      }
+
+      if (!mouseCaptured)
         return;
 
       // Get the position relative to the content of the ScrollViewer.
-      this.end = e.GetPosition (this.scrollContent);
-      this.autoScroller.Update (this.end);
-      this.UpdateSelection ( );
+      end = e.GetPosition (scrollContent);
+      autoScroller.Update (end);
+      UpdateSelection ( );
     }
 
     private void OnPreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e)
     {
       // Check that the mouse is inside the scroll content (could be on the
       // scroll bars for example).
-      Point mouse = e.GetPosition (this.scrollContent);
+      Point mouse = e.GetPosition (scrollContent);
 
-      if (mouse.X < 0 || mouse.X >= this.scrollContent.ActualWidth || mouse.Y < 0 || mouse.Y >= this.scrollContent.ActualHeight)
-        return;
+      if ((mouse.X >= 0) && (mouse.X < scrollContent.ActualWidth) &&
+          (mouse.Y >= 0) && (mouse.Y < scrollContent.ActualHeight))
+        lbdEventArgs = e;
+      else
+        lbdEventArgs = null;
 
-      this.mouseCaptured = this.TryCaptureMouse (e);
+      //if (mouse.X < 0 || mouse.X >= this.scrollContent.ActualWidth || mouse.Y < 0 || mouse.Y >= this.scrollContent.ActualHeight)
+      //  return;
 
-      if (this.mouseCaptured)
-        this.StartSelection (mouse);
+      //this.mouseCaptured = this.TryCaptureMouse (e);
+
+      //if (this.mouseCaptured)
+      //  this.StartSelection (mouse);
     }
 
     private bool TryCaptureMouse (MouseButtonEventArgs e)
@@ -224,7 +263,7 @@ namespace TailForWin.Template.TextEditor.Utils
       Point position = e.GetPosition (this.scrollContent);
 
       // Check if there is anything under the mouse.
-      UIElement element = this.scrollContent.InputHitTest (position) as UIElement;
+      UIElement element = scrollContent.InputHitTest (position) as UIElement;
 
       if (element != null)
       {
@@ -239,7 +278,7 @@ namespace TailForWin.Template.TextEditor.Utils
 
         // The ListBox will try to capture the mouse unless something
         // else captures it.
-        if (Mouse.Captured != this.listBox)
+        if (Mouse.Captured != listBox)
           return (false); // Something else wanted the mouse, let it keep it.
       }
 
@@ -250,18 +289,19 @@ namespace TailForWin.Template.TextEditor.Utils
     private void StopSelection ()
     {
       // Hide the selection rectangle and stop the auto scrolling.
-      this.selectionRect.IsEnabled = false;
-      this.autoScroller.IsEnabled = false;
+      selectionRect.IsEnabled = false;
+      autoScroller.IsEnabled = false;
     }
 
     private void StartSelection (Point location)
     {
       // We've stolen the MouseLeftButtonDown event from the ListBox
       // so we need to manually give it focus.
-      this.listBox.Focus ( );
+      if (!listBox.IsKeyboardFocusWithin)
+        listBox.Focus ( );
 
-      this.start = location;
-      this.end = location;
+      start = location;
+      end = location;
 
       // Do we need to start a new selection?
       if (((Keyboard.Modifiers & ModifierKeys.Control) == 0) &&
@@ -269,20 +309,20 @@ namespace TailForWin.Template.TextEditor.Utils
       {
         // Neither the shift key or control key is pressed, so
         // clear the selection.
-        this.listBox.SelectedItems.Clear ( );
+        listBox.SelectedItems.Clear ( );
       }
 
-      this.selector.Reset ( );
-      this.UpdateSelection ( );
+      selector.Reset ( );
+      UpdateSelection ( );
 
-      this.selectionRect.IsEnabled = true;
-      this.autoScroller.IsEnabled = true;
+      selectionRect.IsEnabled = true;
+      autoScroller.IsEnabled = true;
     }
 
     private void UpdateSelection ()
     {
       // Offset the start point based on the scroll offset.
-      Point start = this.autoScroller.TranslatePoint (this.start);
+      Point start = autoScroller.TranslatePoint (this.start);
 
       // Draw the selecion rectangle.
       // Rect can't have a negative width/height...
@@ -291,15 +331,15 @@ namespace TailForWin.Template.TextEditor.Utils
       double width = Math.Abs (this.end.X - start.X);
       double height = Math.Abs (this.end.Y - start.Y);
       Rect area = new Rect (x, y, width, height);
-      this.selectionRect.SelectionArea = area;
+      selectionRect.SelectionArea = area;
 
       // Select the items.
       // Transform the points to be relative to the ListBox.
-      Point topLeft = this.scrollContent.TranslatePoint (area.TopLeft, this.listBox);
-      Point bottomRight = this.scrollContent.TranslatePoint (area.BottomRight, this.listBox);
+      Point topLeft = scrollContent.TranslatePoint (area.TopLeft, listBox);
+      Point bottomRight = scrollContent.TranslatePoint (area.BottomRight, listBox);
 
       // And select the items.
-      this.selector.UpdateSelection (new Rect (topLeft, bottomRight));
+      selector.UpdateSelection (new Rect (topLeft, bottomRight));
     }
 
     /// <summary>
