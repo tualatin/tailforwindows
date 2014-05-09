@@ -306,11 +306,9 @@ namespace TailForWin.Template.TextEditor.Utils
       // Do we need to start a new selection?
       if (((Keyboard.Modifiers & ModifierKeys.Control) == 0) &&
           ((Keyboard.Modifiers & ModifierKeys.Shift) == 0))
-      {
         // Neither the shift key or control key is pressed, so
         // clear the selection.
         listBox.SelectedItems.Clear ( );
-      }
 
       selector.Reset ( );
       UpdateSelection ( );

@@ -25,8 +25,8 @@
     <Border x:Name="border" CornerRadius="10,10,10,10" Margin="0,0,5,5">
       <Border.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-          <GradientStop Color="#FFEEEEEE" Offset="1" />
-          <GradientStop Color="#FB4F42" Offset="0" />
+          <GradientStop Color="#FF8C80" Offset="1" />
+          <GradientStop Color="#FD3627" Offset="0" />
         </LinearGradientBrush>
       </Border.Background>
       <Border.Effect>
