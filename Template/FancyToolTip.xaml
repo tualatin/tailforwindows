@@ -44,8 +44,8 @@
       </Border.Effect>
       <Border.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0"> 
-          <GradientStop Color="#31A7F9" Offset="0" />
-          <GradientStop Color="#C9E9FF" Offset="1" />
+          <GradientStop Color="#3186F9" Offset="0" />
+          <GradientStop Color="#81CCFF" Offset="1" />
         </LinearGradientBrush>
       </Border.Background>
     </Border>

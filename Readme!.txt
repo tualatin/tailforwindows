@@ -7,6 +7,7 @@ Changelog:
 v0.9.xxx.
 * bug fix searching for bookmark lines
 * bug fix save search box position
+* bug fix keyboard navigation
 
 v0.9.5231.x
 * bug fix when clear FileName textbox, than press Start, textbox was empty

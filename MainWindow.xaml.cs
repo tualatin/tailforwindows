@@ -277,9 +277,7 @@ namespace TailForWin
     private void Window_Loaded (object sender, RoutedEventArgs e)
     {
       if (SettingsHelper.TailSettings.AutoUpdate)
-      {
         AutoUpdate.Init ( );
-      }
     }
 
     private void Window_Closing (object sender, CancelEventArgs e)
