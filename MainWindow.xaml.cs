@@ -45,7 +45,7 @@ namespace TailForWin
     {
       InitializeComponent ( );
 
-      TfW_UpTimeStart = DateTime.Now;
+      TfWUpTimeStart = DateTime.Now;
       tbIcon.ToolTipText = Application.Current.FindResource ("TrayIconReady") as string;
       fancyToolTipTfW.ApplicationText = LogFile.APPLICATION_CAPTION;
       tbIcon.TrayMouseDoubleClick += DoubleClickNotifyIcon;
@@ -95,7 +95,7 @@ namespace TailForWin
     /// <summary>
     /// Main window taskbar icon
     /// </summary>
-    public TailForWin.NotifyIcon.TaskbarIcon MainWndTaskBarIcon
+    public NotifyIcon.TaskbarIcon MainWndTaskBarIcon
     {
       get
       {
@@ -106,7 +106,7 @@ namespace TailForWin
     /// <summary>
     /// Uptime start time
     /// </summary>
-    public DateTime TfW_UpTimeStart
+    public DateTime TfWUpTimeStart
     {
       get;
       private set;
