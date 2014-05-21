@@ -11,6 +11,7 @@ using System.Windows.Controls.Primitives;
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Text;
+using System.Collections.ObjectModel;
 
 
 namespace TailForWin
@@ -20,7 +21,7 @@ namespace TailForWin
   /// </summary>
   public partial class MainWindow : IDisposable
   {
-    private readonly List<TabItem> tailTabItems;
+    private readonly ObservableCollection<TabItem> tailTabItems = new ObservableCollection<TabItem> ( );
     private readonly TabItem tabAdd;
     private int tabCount;
     private TailLog currentPage;
@@ -55,7 +56,6 @@ namespace TailForWin
 
       SetWindowSettings ( );
 
-      tailTabItems = new List<TabItem> ( );
       tabCount = 0;
 
       tabAdd = new TabItem
@@ -66,6 +66,7 @@ namespace TailForWin
       };
 
       tailTabItems.Add (tabAdd);
+      tabControlTail.DataContext = tailTabItems;
 
       AddTailTab ( );
       tabControlTail.SelectedIndex = 0;
@@ -550,7 +551,6 @@ namespace TailForWin
     {
       if (tailTabItems.Count <= LogFile.MAX_TAB_CHILDS)
       {
-        tabControlTail.DataContext = null;
         int count = tailTabItems.Count;
 
         TabItem tabItem = new TabItem
@@ -588,7 +588,6 @@ namespace TailForWin
         stsBarState.Content = tailWindow.GetChildState ( );
 
         tailTabItems.Insert (count - 1, tabItem);
-        tabControlTail.DataContext = tailTabItems;
         tabCount++;
 
         if (searchBoxWindow.Visibility != Visibility.Visible) 
@@ -607,9 +606,16 @@ namespace TailForWin
 
     private void SetTabNotActive (TailLog activePage)
     {
-      foreach (TailLog page in tailTabItems.Where (item => item.Content != null && item.Content.GetType ( ) == typeof (Frame)).Select (item => 
-               GetTailLogWindow (item.Content as Frame)).Where (page => page.GetChildTabIndex ( ) != activePage.GetChildTabIndex ( )))
-        page.ActiveTab = false;
+      try
+      {
+        foreach (TailLog page in tailTabItems.Where (item => item.Content != null && item.Content.GetType ( ) == typeof (Frame)).Select (item =>
+                 GetTailLogWindow (item.Content as Frame)).Where (page => page.GetChildTabIndex ( ) != activePage.GetChildTabIndex ( )))
+          page.ActiveTab = false;
+      }
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
+      }
     }
 
     private void RemoveTab (string tabName)
@@ -624,11 +630,7 @@ namespace TailForWin
       {
         TabItem selectedTab = tabControlTail.SelectedItem as TabItem;
 
-        tabControlTail.DataContext = null;
-
         tailTabItems.Remove (tab);
-
-        tabControlTail.DataContext = tailTabItems;
 
         TailLog page = GetTailLogWindow (tab.Content as Frame);
         FileManagerHelper item = LogFile.FmHelper.SingleOrDefault (x => x.ID == page.FileManagerProperties.ID);
