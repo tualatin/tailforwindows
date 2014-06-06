@@ -452,6 +452,9 @@ namespace TailForWin.Controller
 
       TailSettings.AlertSettings.EMailAddress = ParseEMailAddress (sHelper) ? sHelper : LogFile.ALERT_EMAIL_ADDRESS;
 
+      if (ConfigurationManager.AppSettings["Alert.PopupWindow"] == null)
+        AddNewProperties_IntoConfigFile ("Alert.PopupWindow", "false"); 
+
       if (!bool.TryParse (ConfigurationManager.AppSettings["Alert.PopupWindow"], out bHelper))
         bHelper = false;
       TailSettings.AlertSettings.PopupWnd = bHelper;
@@ -676,6 +679,21 @@ namespace TailForWin.Controller
       }
 
       TailSettings.AlertSettings.SoundFileNameFullPath = fullPath;
+    }
+
+    /// <summary>
+    /// If property does not exists, add it
+    /// </summary>
+    /// <param name="key">Key string</param>
+    /// <param name="value">Default value</param>
+    private static void AddNewProperties_IntoConfigFile (string key, string value)
+    {
+      Configuration config = ConfigurationManager.OpenExeConfiguration (ConfigurationUserLevel.None);
+
+      config.AppSettings.Settings.Add (key, value);
+
+      config.Save (ConfigurationSaveMode.Modified);
+      ConfigurationManager.RefreshSection ("appSettings");
     }
 
     #endregion
