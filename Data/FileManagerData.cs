@@ -120,7 +120,7 @@ namespace TailForWin.Data
     /// Create copy of object
     /// </summary>
     /// <returns>A clone of object</returns>
-    public FileManagerData Clone ()
+    public FileManagerData Clone ( )
     {
       return (this.MemberwiseClone ( ) as FileManagerData);
     }
@@ -129,7 +129,7 @@ namespace TailForWin.Data
     /// Save data to memenento
     /// </summary>
     /// <returns>Copy of FileManagerData</returns>
-    public MementoFileManagerData SaveToMemento ()
+    public MementoFileManagerData SaveToMemento ( )
     {
       return (new MementoFileManagerData (this));
     }
@@ -160,7 +160,7 @@ namespace TailForWin.Data
       equal &= object.Equals (other.ThreadPriority, ThreadPriority);
       equal &= object.Equals (other.Wrap, Wrap);
       equal &= object.Equals (other.TimeStamp, Timestamp);
-   
+
       return (equal);
     }
 

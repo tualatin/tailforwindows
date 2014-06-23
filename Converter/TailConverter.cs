@@ -7,7 +7,7 @@ namespace TailForWin.Converter
   /// <summary>
   /// DataGrid selectedItem converter to bool
   /// </summary>
-  public class TailConverter : IValueConverter
+  public class TailConverter: IValueConverter
   {
     #region IValueConverter Members
 

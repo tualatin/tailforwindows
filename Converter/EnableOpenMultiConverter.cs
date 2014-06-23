@@ -5,7 +5,7 @@ using TailForWin.Data;
 
 namespace TailForWin.Converter
 {
-  class EnableOpenMultiConverter : IMultiValueConverter
+  class EnableOpenMultiConverter: IMultiValueConverter
   {
     #region IMultiValueConverter Members
 
@@ -24,8 +24,8 @@ namespace TailForWin.Converter
         if (isOpenFromFileManager)
           return (false);
         else
-          return (isEnable);        
-      }      
+          return (isEnable);
+      }
       return (false);
     }
 

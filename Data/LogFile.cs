@@ -85,7 +85,7 @@ namespace TailForWin.Data
     /// <summary>
     /// Bring main window to front and set it active
     /// </summary>
-    public static void BringMainWindowToFront ()
+    public static void BringMainWindowToFront ( )
     {
       if (APP_MAIN_WINDOW.WindowState == WindowState.Minimized)
         APP_MAIN_WINDOW.WindowState = WindowState.Normal;
@@ -97,7 +97,7 @@ namespace TailForWin.Data
     /// <summary>
     /// Minimize main window
     /// </summary>
-    public static void MinimizeMainWindow ()
+    public static void MinimizeMainWindow ( )
     {
       if (APP_MAIN_WINDOW.WindowState == WindowState.Normal || APP_MAIN_WINDOW.WindowState == WindowState.Maximized)
         APP_MAIN_WINDOW.WindowState = WindowState.Minimized;
@@ -166,7 +166,7 @@ namespace TailForWin.Data
     /// <summary>
     /// Initialize the observable collections from refresh rate (RR), thread priority (TP) and file encodings (FE)
     /// </summary>
-    public static void InitObservableCollectionsRrtpfe ()
+    public static void InitObservableCollectionsRrtpfe ( )
     {
       // Threadrefresh rate
       foreach (SettingsData.ETailRefreshRate refreshName in Enum.GetValues (typeof (SettingsData.ETailRefreshRate)))
@@ -186,7 +186,7 @@ namespace TailForWin.Data
       Array.ForEach (encodings, fileEncode => FileEncoding.Add (fileEncode.GetEncoding ( )));
     }
 
-    private class CaseInsensitiveEncodingInfoNameComparer : IComparer
+    private class CaseInsensitiveEncodingInfoNameComparer: IComparer
     {
       int IComparer.Compare (Object x, Object y)
       {
@@ -204,13 +204,13 @@ namespace TailForWin.Data
 
     public static bool FindDuplicateInFilterList (ObservableCollection<FilterData> listOfFilters, FilterData newItem)
     {
-      return listOfFilters.Any(item => String.Compare(item.Filter, newItem.Filter, StringComparison.Ordinal) == 0);
+      return listOfFilters.Any (item => String.Compare (item.Filter, newItem.Filter, StringComparison.Ordinal) == 0);
     }
 
     /// <summary>
     /// FileCreationTime comparer
     /// </summary>
-    public class FileManagerDataFileCreationTimeComparer : IComparer<FileManagerData>
+    public class FileManagerDataFileCreationTimeComparer: IComparer<FileManagerData>
     {
       #region IComparer<DateTime?> Members
 

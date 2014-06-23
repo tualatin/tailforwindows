@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace TailForWin.Converter
 {
-  public class FontToStringConverter : IValueConverter
+  public class FontToStringConverter: IValueConverter
   {
     #region IValueConverter Members
 

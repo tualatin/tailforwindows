@@ -19,7 +19,7 @@ namespace TailForWin
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
-  public partial class MainWindow : IDisposable
+  public partial class MainWindow: IDisposable
   {
     private readonly ObservableCollection<TabItem> tailTabItems = new ObservableCollection<TabItem> ( );
     private readonly TabItem tabAdd;
@@ -29,9 +29,9 @@ namespace TailForWin
     private bool ctrlTabKey;
 
 
-    public void Dispose ()
+    public void Dispose ( )
     {
-      foreach (TailLog page in tailTabItems.Where 
+      foreach (TailLog page in tailTabItems.Where
                (item => item.Content != null && item.Content.GetType ( ) == typeof (Frame)).Select (item => GetTailLogWindow (item.Content as Frame)).Where (page => page != null))
         page.StopThread ( );
 
@@ -42,7 +42,7 @@ namespace TailForWin
       currentPage = null;
     }
 
-    public MainWindow ()
+    public MainWindow ( )
     {
       InitializeComponent ( );
 
@@ -185,7 +185,7 @@ namespace TailForWin
     {
       e.Handled = true;
 
-      if (!(e.Source is TabControl)) 
+      if (!(e.Source is TabControl))
         return;
 
       TabItem tab = tabControlTail.SelectedItem as TabItem;
@@ -290,12 +290,12 @@ namespace TailForWin
     {
       Frame frame = sender as Frame;
 
-      if (frame == null || frame.Content == null) 
+      if (frame == null || frame.Content == null)
         return;
 
       TailLog page = frame.Content as TailLog;
 
-      if (page == null) 
+      if (page == null)
         return;
 
       currentPage = page;
@@ -353,18 +353,18 @@ namespace TailForWin
         currentPage.AlwaysOnTop ( );
 
       // When pressing Control + W close tab
-      if (e.Key != Key.W || (Keyboard.Modifiers & (ModifierKeys.Control)) != ModifierKeys.Control) 
+      if (e.Key != Key.W || (Keyboard.Modifiers & (ModifierKeys.Control)) != ModifierKeys.Control)
         return;
 
       TabItem tab = tabControlTail.SelectedItem as TabItem;
-        
-      if (tab != null) 
+
+      if (tab != null)
         RemoveTab (tab.Name);
     }
 
     private void OpenSearchBoxWindow (object sender, EventArgs e)
     {
-      if (e.GetType ( ) != typeof (FileManagerDataEventArgs)) 
+      if (e.GetType ( ) != typeof (FileManagerDataEventArgs))
         return;
 
       FileManagerDataEventArgs data = e as FileManagerDataEventArgs;
@@ -459,7 +459,7 @@ namespace TailForWin
       }
     }
 
-    private void SetWindowSettings ()
+    private void SetWindowSettings ( )
     {
       SettingsHelper.ReadSettings ( );
       Title = LogFile.APPLICATION_CAPTION;
@@ -513,7 +513,7 @@ namespace TailForWin
       return (tabPage != null ? (tabPage) : (null));
     }
 
-    private void OnExit ()
+    private void OnExit ( )
     {
       if (SettingsHelper.TailSettings.RestoreWindowSize)
       {
@@ -590,7 +590,7 @@ namespace TailForWin
         tailTabItems.Insert (count - 1, tabItem);
         tabCount++;
 
-        if (searchBoxWindow.Visibility != Visibility.Visible) 
+        if (searchBoxWindow.Visibility != Visibility.Visible)
           return (tabItem);
 
         tailWindow.SearchBoxActive ( );
@@ -622,7 +622,7 @@ namespace TailForWin
     {
       TabItem tab = tabControlTail.Items.Cast<TabItem> ( ).SingleOrDefault (i => i.Name.Equals (tabName));
 
-      if (tab == null) 
+      if (tab == null)
         return;
       if (tailTabItems.Count < 3)
         MessageBox.Show (Application.Current.FindResource ("LastTab") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);

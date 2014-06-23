@@ -87,7 +87,10 @@ namespace TailForWin.Template
     private void btnFont_Click (object sender, RoutedEventArgs e)
     {
       System.Drawing.Font textFont = fmWorkingProperties.FontType;
-      System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog { ShowEffects = false, Font = textFont, FontMustExist = true };
+      System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
+      {
+        ShowEffects = false, Font = textFont, FontMustExist = true
+      };
 
       if (fontManager.ShowDialog ( ) == System.Windows.Forms.DialogResult.Cancel)
         return;
@@ -376,10 +379,10 @@ namespace TailForWin.Template
 
       FMProperties.DataContext = fmWorkingProperties;
     }
-    
+
     private void textBlockDescription_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-      if (!string.IsNullOrEmpty(textBlockDescription.Text))
+      if (!string.IsNullOrEmpty (textBlockDescription.Text))
         ChangeFmStateToEditItem ( );
     }
 
@@ -427,7 +430,7 @@ namespace TailForWin.Template
       SetAddSaveButton (false);
     }
 
-    protected virtual void OnDoUpdate ()
+    protected virtual void OnDoUpdate ( )
     {
       EventHandler handler = DoUpdate;
 
@@ -482,19 +485,19 @@ namespace TailForWin.Template
       return (null);
     }
 
-    private void SetDialogTitle ()
+    private void SetDialogTitle ( )
     {
-      if (String.Compare(Title, "FileManager", StringComparison.Ordinal) != 0)
+      if (String.Compare (Title, "FileManager", StringComparison.Ordinal) != 0)
         Title = "FileManager";
     }
 
-    private void SortDataGrid ()
+    private void SortDataGrid ( )
     {
       fmDoc.SortListIfRequired ( );
       dataGridFiles.Items.Refresh ( );
     }
 
-    private void ChangeFmStateToEditItem ()
+    private void ChangeFmStateToEditItem ( )
     {
       // TODO better solution
       if (!isInit)
@@ -507,7 +510,7 @@ namespace TailForWin.Template
       SetAddSaveButton (false);
     }
 
-    private void RefreshCategoryComboBox ()
+    private void RefreshCategoryComboBox ( )
     {
       if (fmDoc.Category.Count == 0)
         comboBoxCategory.IsEnabled = false;
@@ -524,7 +527,7 @@ namespace TailForWin.Template
       dataGridFiles.IsEnabled = state;
     }
 
-    private void SelectLastItemInDataGrid ()
+    private void SelectLastItemInDataGrid ( )
     {
       if (dataGridFiles.Items.Count <= 0)
         return;
@@ -537,13 +540,13 @@ namespace TailForWin.Template
     {
       if (category != null)
         comboBoxCategory.SelectedValue = category;
-       
+
       comboBoxThreadPriority.SelectedValue = tp;
       comboBoxRefreshRate.SelectedValue = rr;
       comboBoxFileEncode.SelectedValue = fe;
     }
 
-    private void InitFileManager ()
+    private void InitFileManager ( )
     {
       PreviewKeyDown += HandleEsc;
 
@@ -553,7 +556,7 @@ namespace TailForWin.Template
       {
         fmDoc.FmProperties.ForEach (item =>
           {
-            FileManagerHelper f = LogFile.FmHelper.SingleOrDefault(x => x.ID == item.ID);
+            FileManagerHelper f = LogFile.FmHelper.SingleOrDefault (x => x.ID == item.ID);
 
             if (f != null)
               item.OpenFromFileManager = f.OpenFromFileManager;
@@ -582,7 +585,7 @@ namespace TailForWin.Template
         btnOK_Click (sender, e);
     }
 
-    private void OnExit ()
+    private void OnExit ( )
     {
       Close ( );
     }

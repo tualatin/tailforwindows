@@ -8,13 +8,13 @@ namespace TailForWin.Data
     private FilterData filterData;
 
 
-    public void Dispose ()
+    public void Dispose ( )
     {
-      if (filterData != null)
-      {
-        filterData.Dispose ( );
-        filterData = null;
-      }
+      if (filterData == null)
+        return;
+
+      filterData.Dispose ( );
+      filterData = null;
     }
 
     public FilterDataEventArgs (FilterData filterData)
@@ -26,7 +26,7 @@ namespace TailForWin.Data
     /// Get FilterData data
     /// </summary>
     /// <returns>FilterData object</returns>
-    public FilterData GetData ()
+    public FilterData GetData ( )
     {
       return (filterData);
     }

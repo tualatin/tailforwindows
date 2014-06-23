@@ -1,6 +1,6 @@
 ﻿namespace TailForWin.Data
 {
-  public class ProxySettingsData : INotifyMaster
+  public class ProxySettingsData: INotifyMaster
   {
     private bool useSystemSettings;
 

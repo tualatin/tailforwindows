@@ -176,7 +176,7 @@ namespace TailForWin.Data
     /// SetNumberFormat
     /// </summary>
     /// <returns></returns>
-    private NumberFormatInfo SetNumberFormat ()
+    private NumberFormatInfo SetNumberFormat ( )
     {
       if (string.IsNullOrEmpty (CultureNumberFormat))
         return (new CultureInfo ("de-DE", false).NumberFormat);
@@ -214,7 +214,7 @@ namespace TailForWin.Data
     public ulong ullAvailVirtual;
     public ulong ullAvailExtendedVirtual;
 
-    public MemoryObject ()
+    public MemoryObject ( )
     {
       dwLength = (uint) Marshal.SizeOf (typeof (MemoryObject));
     }

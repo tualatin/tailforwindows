@@ -1,6 +1,6 @@
 ﻿namespace TailForWin.Data
 {
-  public class SmtpData : INotifyMaster
+  public class SmtpData: INotifyMaster
   {
     private string smtpServerName;
 

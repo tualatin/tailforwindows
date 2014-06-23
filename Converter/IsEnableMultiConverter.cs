@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace TailForWin.Converter
 {
-  public class IsEnableMultiConverter : IMultiValueConverter
+  public class IsEnableMultiConverter: IMultiValueConverter
   {
     public object Convert (object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {

@@ -8,7 +8,7 @@ namespace TailForWin.Converter
   /// Text trim converter
   /// </summary>
   [ValueConversion (typeof (string), typeof (string))]
-  public class TextTrimConverter : IValueConverter
+  public class TextTrimConverter: IValueConverter
   {
     #region IValueConverter Members
 
@@ -25,7 +25,7 @@ namespace TailForWin.Converter
       if (value == null)
         return (null);
 
-      if (string.IsNullOrEmpty (value as string)) 
+      if (string.IsNullOrEmpty (value as string))
         return (string.Empty);
 
       string s = (value as string).Trim ( );

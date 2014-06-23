@@ -38,7 +38,7 @@ namespace TailForWin.Utils
           UseProxy = SettingsHelper.TailSettings.ProxySettings.UseProxy,
           Proxy = SettingsHelper.TailSettings.ProxySettings.ProxyUrl,
           ProxyPort = SettingsHelper.TailSettings.ProxySettings.ProxyPort,
-          UpdateURL = SettingsHelper.TailSettings.ApplicationWebUrl
+          UpdateURL = SettingsData.ApplicationWebUrl
                   };
 
         if (!string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.Password))

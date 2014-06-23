@@ -49,7 +49,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Returns a PrintTicket based on the current default printer.</summary>
     /// <returns>A PrintTicket for the current local default printer.</returns>
-    private static PrintTicket GetPrintTicketFromPrinter ()
+    private static PrintTicket GetPrintTicketFromPrinter ( )
     {
       PrintQueue printQueue;
       LocalPrintServer localPrintServer = new LocalPrintServer ( );

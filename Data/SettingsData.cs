@@ -590,7 +590,7 @@ namespace TailForWin.Data
     /// <summary>
     /// Webside for new releases
     /// </summary>
-    public string ApplicationWebUrl
+    public static string ApplicationWebUrl
     {
       get
       {
@@ -783,7 +783,7 @@ namespace TailForWin.Data
       HighlightColor
     }
 
-    private Brush GetColorFromHex (string hex)
+    private static Brush GetColorFromHex (string hex)
     {
       Color color = (Color) ColorConverter.ConvertFromString (hex);
 
@@ -825,12 +825,12 @@ namespace TailForWin.Data
         
         if (attribute != null)
         {
-          if (attribute.Description == description)
+          if (string.Compare (attribute.Description, description, false) == 0)
             return ((T) field.GetValue (null));
         }
         else
         {
-          if (field.Name == description)
+          if (string.Compare (field.Name, description, false) == 0)
             return ((T) field.GetValue (null));
         }
       }

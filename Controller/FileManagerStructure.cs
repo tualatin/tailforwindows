@@ -88,7 +88,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Open FileManager XML document
     /// </summary>
-    public void OpenFmDoc ()
+    public void OpenFmDoc ( )
     {
       if (File.Exists (fmFile))
         ReadFmDoc ( );
@@ -97,7 +97,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Read FileManager file
     /// </summary>
-    public void ReadFmDoc ()
+    public void ReadFmDoc ( )
     {
       try
       {
@@ -120,7 +120,7 @@ namespace TailForWin.Controller
             if (element == null)
               continue;
 
-            var xElement1  = xe.Element ("killSpace");
+            var xElement1 = xe.Element ("killSpace");
             var element1 = xe.Element ("lineWrap");
 
             var xElement2 = xe.Element ("description");
@@ -158,7 +158,7 @@ namespace TailForWin.Controller
                                      NewWindow = xElement4 != null && IsNewWindow (xElement4.Value),
                                      FileEncoding = GetEncoding (element4.Value),
                                    };
-          
+
             foreach (FilterData data in xe.Elements ("filter").Select (GetFilters).Where (data => data != null))
             {
               item.ListOfFilter.Add (data);
@@ -172,14 +172,14 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 
     /// <summary>
     /// Save FileManager file
     /// </summary>
-    public void SaveFmDoc ()
+    public void SaveFmDoc ( )
     {
       if (!File.Exists (fmFile))
         fmDoc = new XDocument (new XElement (XMLROOT));
@@ -230,7 +230,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 
@@ -264,7 +264,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
       return (null);
     }
@@ -292,7 +292,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 
@@ -306,7 +306,8 @@ namespace TailForWin.Controller
     {
       FileManagerData cmdParameterItem = null;
 
-      if (!File.Exists (fmFile)) {
+      if (!File.Exists (fmFile))
+      {
         System.Windows.MessageBox.Show (System.Windows.Application.Current.FindResource ("FileNotFound") as string, string.Format ("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
         return (null);
@@ -390,17 +391,17 @@ namespace TailForWin.Controller
               element1.Value = property.Timestamp.ToString ( );
 
             var xElement2 = node.Element ("killSpace");
-            
+
             if (xElement2 != null)
               xElement2.Value = property.KillSpace.ToString ( );
 
             var element2 = node.Element ("newWindow");
-            
+
             if (element2 != null)
               element2.Value = property.NewWindow.ToString ( );
 
             var xElement3 = node.Element ("lineWrap");
-            
+
             if (xElement3 != null)
               xElement3.Value = property.Wrap.ToString ( );
 
@@ -410,7 +411,7 @@ namespace TailForWin.Controller
               element3.Value = string.IsNullOrEmpty (property.Category) ? string.Empty : property.Category;
 
             var xElement4 = node.Element ("description");
-           
+
             if (xElement4 != null)
               xElement4.Value = property.Description;
 
@@ -455,7 +456,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 
@@ -480,7 +481,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1} exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1} exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
 
         return (false);
       }
@@ -516,7 +517,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
       return (null);
     }
@@ -526,7 +527,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Sort list if file sort is FileAge or FileCreateTime
     /// </summary>
-    public void SortListIfRequired ()
+    public void SortListIfRequired ( )
     {
       switch (SettingsHelper.TailSettings.DefaultFileSort)
       {
@@ -544,9 +545,12 @@ namespace TailForWin.Controller
     /// <summary>
     /// Get new category from XML file
     /// </summary>
-    public void RefreshCategories ()
+    public void RefreshCategories ( )
     {
-      List<string> categories = (from x in fmDoc.Descendants ("file") let xElement = x.Element ("category") where xElement != null select xElement.Value).ToList<string> ( );
+      List<string> categories = (from x in fmDoc.Descendants ("file")
+                                 let xElement = x.Element ("category")
+                                 where xElement != null
+                                 select xElement.Value).ToList<string> ( );
       Category.Clear ( );
 
       categories.ForEach (AddCategoryToDictionary);
@@ -561,7 +565,7 @@ namespace TailForWin.Controller
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod (  ).Name));
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
       }
     }
 
@@ -689,7 +693,7 @@ namespace TailForWin.Controller
 
       foreach (Encoding encode in LogFile.FileEncoding)
       {
-        if (String.Compare(encode.HeaderName, sEncode, StringComparison.Ordinal) == 0)
+        if (String.Compare (encode.HeaderName, sEncode, StringComparison.Ordinal) == 0)
         {
           encoding = encode;
           break;

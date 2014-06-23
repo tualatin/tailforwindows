@@ -18,7 +18,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Read app settings
     /// </summary>
-    public static void ReadSettings ()
+    public static void ReadSettings ( )
     {
       try
       {
@@ -136,7 +136,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Save app settings
     /// </summary>
-    public static void SaveSettings ()
+    public static void SaveSettings ( )
     {
       try
       {
@@ -190,7 +190,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Save search dialog window position
     /// </summary>
-    public static void SaveSearchWindowPosition ()
+    public static void SaveSearchWindowPosition ( )
     {
       try
       {
@@ -214,7 +214,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Set app settings to default parameters
     /// </summary>
-    public static void SetToDefault ()
+    public static void SetToDefault ( )
     {
       TailSettings.AlwaysOnTop = false;
       TailSettings.AlwaysScrollToEnd = true;
@@ -252,7 +252,7 @@ namespace TailForWin.Controller
       SaveSettings ( );
     }
 
-    public static void ReloadSettings ()
+    public static void ReloadSettings ( )
     {
       ConfigurationManager.RefreshSection ("appSettings");
     }
@@ -273,7 +273,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Reset SMTP settings
     /// </summary>
-    private static void ResetSmtpSettings ()
+    private static void ResetSmtpSettings ( )
     {
       TailSettings.AlertSettings.SmtpSettings.FromAddress = string.Empty;
       TailSettings.AlertSettings.SmtpSettings.LoginName = string.Empty;
@@ -288,7 +288,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Reset Proxy settings
     /// </summary>
-    private static void ResetProxySettings ()
+    private static void ResetProxySettings ( )
     {
       TailSettings.ProxySettings.Password = string.Empty;
       TailSettings.ProxySettings.ProxyPort = -1;
@@ -301,7 +301,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Reset Alert settings
     /// </summary>
-    private static void ResetAlertSettings ()
+    private static void ResetAlertSettings ( )
     {
       TailSettings.AlertSettings.BringToFront = true;
       TailSettings.AlertSettings.SendEMail = false;
@@ -358,7 +358,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Read proxy config settings
     /// </summary>
-    private static void ReadProxySettings ()
+    private static void ReadProxySettings ( )
     {
       bool bHelper;
 
@@ -389,7 +389,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Read SMTP config settings
     /// </summary>
-    private static void ReadSmtpSettings ()
+    private static void ReadSmtpSettings ( )
     {
       string sHelper = ConfigurationManager.AppSettings["Smtp.Server"];
       TailSettings.AlertSettings.SmtpSettings.SmtpServerName = sHelper;
@@ -429,7 +429,7 @@ namespace TailForWin.Controller
     /// <summary>
     /// Read alert config settings
     /// </summary>
-    private static void ReadAlertSettings ()
+    private static void ReadAlertSettings ( )
     {
       bool bHelper;
 
@@ -453,7 +453,7 @@ namespace TailForWin.Controller
       TailSettings.AlertSettings.EMailAddress = ParseEMailAddress (sHelper) ? sHelper : LogFile.ALERT_EMAIL_ADDRESS;
 
       if (ConfigurationManager.AppSettings["Alert.PopupWindow"] == null)
-        AddNewProperties_IntoConfigFile ("Alert.PopupWindow", "false"); 
+        AddNewProperties_IntoConfigFile ("Alert.PopupWindow", "false");
 
       if (!bool.TryParse (ConfigurationManager.AppSettings["Alert.PopupWindow"], out bHelper))
         bHelper = false;
@@ -570,47 +570,47 @@ namespace TailForWin.Controller
       {
       case SettingsData.ETailLogColorTypes.BackgroundColor:
 
-      TailSettings.DefaultBackgroundColor = !matched ? LogFile.DEFAULT_BACKGROUND_COLOR : s;
-      break;
+        TailSettings.DefaultBackgroundColor = !matched ? LogFile.DEFAULT_BACKGROUND_COLOR : s;
+        break;
 
       case SettingsData.ETailLogColorTypes.ForegroundColor:
 
-      TailSettings.DefaultForegroundColor = !matched ? LogFile.DEFAULT_FOREGROUND_COLOR : s;
-      break;
+        TailSettings.DefaultForegroundColor = !matched ? LogFile.DEFAULT_FOREGROUND_COLOR : s;
+        break;
 
       case SettingsData.ETailLogColorTypes.InactiveForegroundColor:
 
-      TailSettings.DefaultInactiveForegroundColor = !matched ? LogFile.DEFAULT_INACTIVE_FOREGROUND_COLOR : s;
-      break;
+        TailSettings.DefaultInactiveForegroundColor = !matched ? LogFile.DEFAULT_INACTIVE_FOREGROUND_COLOR : s;
+        break;
 
       case SettingsData.ETailLogColorTypes.InactiveBackgroundColor:
 
-      TailSettings.DefaultInactiveBackgroundColor = !matched ? LogFile.DEFAULT_INACTIVE_BACKGROUND_COLOR : s;
-      break;
+        TailSettings.DefaultInactiveBackgroundColor = !matched ? LogFile.DEFAULT_INACTIVE_BACKGROUND_COLOR : s;
+        break;
 
       case SettingsData.ETailLogColorTypes.FindHighlightForegroundColor:
 
-      TailSettings.DefaultHighlightForegroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR : s;
-      break;
+        TailSettings.DefaultHighlightForegroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR : s;
+        break;
 
       case SettingsData.ETailLogColorTypes.FindHighlightBackgroundColor:
 
-      TailSettings.DefaultHighlightBackgroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR : s;
-      break;
+        TailSettings.DefaultHighlightBackgroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR : s;
+        break;
 
       case SettingsData.ETailLogColorTypes.LineNumbersColor:
 
-      TailSettings.DefaultLineNumbersColor = !matched ? LogFile.DEFAULT_LINE_NUMBERS_COLOR : s;
-      break;
+        TailSettings.DefaultLineNumbersColor = !matched ? LogFile.DEFAULT_LINE_NUMBERS_COLOR : s;
+        break;
 
       case SettingsData.ETailLogColorTypes.HighlightColor:
 
-      TailSettings.DefaultHighlightColor = !matched ? LogFile.DEFAULT_HIGHLIGHT_COLOR : s;
-      break;
+        TailSettings.DefaultHighlightColor = !matched ? LogFile.DEFAULT_HIGHLIGHT_COLOR : s;
+        break;
 
       default:
 
-      throw new NotImplementedException ("not supported color type");
+        throw new NotImplementedException ("not supported color type");
       }
     }
 

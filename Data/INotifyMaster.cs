@@ -7,7 +7,7 @@ namespace TailForWin.Data
   /// <summary>
   /// Implementation for INotifyPropertyChanged
   /// </summary>
-  public class INotifyMaster : INotifyPropertyChanged
+  public class INotifyMaster: INotifyPropertyChanged
   {
     /// <summary>
     /// Declare the event

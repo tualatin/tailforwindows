@@ -1,8 +1,8 @@
 ﻿namespace TailForWin.Data
 {
-  public class AlertData : INotifyMaster
+  public class AlertData: INotifyMaster
   {
-    public AlertData ()
+    public AlertData ( )
     {
       SmtpSettings = new SmtpData ( );
     }

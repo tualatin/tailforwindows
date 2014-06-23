@@ -6,13 +6,13 @@ namespace TailForWin.Data
 {
   public class FilterData: INotifyMaster, IDisposable
   {
-    public void Dispose ()
+    public void Dispose ( )
     {
-      if (filterFontType != null)
-      {
-        filterFontType.Dispose ( );
-        filterFontType = null;
-      }
+      if (filterFontType == null)
+        return;
+
+      filterFontType.Dispose ( );
+      filterFontType = null;
     }
 
     /// <summary>
@@ -100,7 +100,7 @@ namespace TailForWin.Data
     /// Save data to memenento
     /// </summary>
     /// <returns>Copy of FilterData</returns>
-    public MementoFilterData SaveToMemento ()
+    public MementoFilterData SaveToMemento ( )
     {
       return (new MementoFilterData (this));
     }
@@ -109,7 +109,7 @@ namespace TailForWin.Data
     /// Create copy of object
     /// </summary>
     /// <returns>A clone of object</returns>
-    public FilterData Clone ()
+    public FilterData Clone ( )
     {
       return (MemberwiseClone ( ) as FilterData);
     }

@@ -20,7 +20,7 @@ namespace TailForWin.Controller
     /// Get systeminformations from computer
     /// </summary>
     /// <returns>Object with systeminformations</returns>
-    public static SysInformationData GetAllSystemInformation ()
+    public static SysInformationData GetAllSystemInformation ( )
     {
       Assembly assembly = Assembly.GetExecutingAssembly ( );
       string format = string.Format ("{0} {1}", SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultTimeFormat));
@@ -43,7 +43,7 @@ namespace TailForWin.Controller
       return (sysInfo);
     }
 
-    private static string GetOsFriendlyName ()
+    private static string GetOsFriendlyName ( )
     {
       string result = string.Empty;
 
@@ -58,14 +58,14 @@ namespace TailForWin.Controller
       return (result);
     }
 
-    private static int GetOsArchitecture ()
+    private static int GetOsArchitecture ( )
     {
       string pa = Environment.GetEnvironmentVariable ("PROCESSOR_ARCHITECTURE");
 
       return ((string.IsNullOrEmpty (pa) || string.Compare (pa, 0, "x86", 0, 3, true) == 0) ? 32 : 64);
     }
 
-    private static IpAddress GetIpAddress ()
+    private static IpAddress GetIpAddress ( )
     {
       IpAddress ipAddress = new IpAddress ( );
 
@@ -75,7 +75,7 @@ namespace TailForWin.Controller
 
         Array.ForEach (lvsHost.AddressList, currentAddress =>
         {
-          if (String.CompareOrdinal(currentAddress.AddressFamily.ToString ( ), ProtocolFamily.InterNetworkV6.ToString ( )) == 0)
+          if (String.CompareOrdinal (currentAddress.AddressFamily.ToString ( ), ProtocolFamily.InterNetworkV6.ToString ( )) == 0)
             ipAddress.Ipv6 = currentAddress.ToString ( );
           else
             ipAddress.Ipv4 = currentAddress.ToString ( );
@@ -88,14 +88,14 @@ namespace TailForWin.Controller
       return (ipAddress);
     }
 
-    private static MemoryObject GetMachineMemoryInfo ()
+    private static MemoryObject GetMachineMemoryInfo ( )
     {
       MemoryObject memoryInfo = new MemoryObject ( );
 
       return (NativeMethods.GlobalMemoryStatusEx (memoryInfo) ? (memoryInfo) : (null));
     }
 
-    private static CpuInfo GetCpuInfo ()
+    private static CpuInfo GetCpuInfo ( )
     {
       CpuInfo myCpu = new CpuInfo ( );
 
@@ -120,7 +120,7 @@ namespace TailForWin.Controller
       return (myCpu);
     }
 
-    private static string GetSystemLanguage ()
+    private static string GetSystemLanguage ( )
     {
       return (Thread.CurrentThread.CurrentCulture.DisplayName);
     }

@@ -21,19 +21,19 @@ namespace TailForWin.Data
     private string file;
 
 
-    public TailLogData ()
+    public TailLogData ( )
     {
       ListOfFilter = new ObservableCollection<FilterData> ( );
       ListOfFilter.CollectionChanged += ContentCollectionChanged;
     }
 
-    public void Dispose ()
+    public void Dispose ( )
     {
-      if (fontType != null)
-      {
-        fontType.Dispose ( );
-        fontType = null;
-      }
+      if (fontType == null)
+        return;
+
+      fontType.Dispose ( );
+      fontType = null;
     }
 
     /// <summary>

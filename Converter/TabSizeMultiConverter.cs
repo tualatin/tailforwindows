@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace TailForWin.Converter
 {
-  class TabSizeMultiConverter : IMultiValueConverter
+  class TabSizeMultiConverter: IMultiValueConverter
   {
     #region IMultiValueConverter Members
 

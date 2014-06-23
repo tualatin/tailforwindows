@@ -7,7 +7,7 @@ using TailForWin.Data;
 
 namespace TailForWin.Converter
 {
-  public class FilterCountToStringConverter : IValueConverter
+  public class FilterCountToStringConverter: IValueConverter
   {
     #region IValueConverter Members
 

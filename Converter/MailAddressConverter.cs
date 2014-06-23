@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace TailForWin.Converter
 {
-  public class MailAddressConverter : IValueConverter
+  public class MailAddressConverter: IValueConverter
   {
     #region IValueConverter Members
 
@@ -18,7 +18,7 @@ namespace TailForWin.Converter
 
       string eMailAddress = value as string;
 
-      return (String.Compare(eMailAddress, "NoMail", StringComparison.Ordinal) == 0 ? (string.Empty) : (eMailAddress));
+      return (String.Compare (eMailAddress, "NoMail", StringComparison.Ordinal) == 0 ? (string.Empty) : (eMailAddress));
     }
 
     public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace TailForWin.Converter
 {
-  class ColorToBrushConverter : IValueConverter
+  class ColorToBrushConverter: IValueConverter
   {
     #region IValueConverter Members
 

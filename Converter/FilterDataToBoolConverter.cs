@@ -5,7 +5,7 @@ using TailForWin.Data;
 
 namespace TailForWin.Converter
 {
-  public class FilterDataToBoolConverter : IValueConverter
+  public class FilterDataToBoolConverter: IValueConverter
   {
     #region IValueConverter Members
 

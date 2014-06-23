@@ -3,7 +3,7 @@
 
 namespace TailForWin.Data
 {
-  public class AlertTriggerEventArgs : EventArgs
+  public class AlertTriggerEventArgs: EventArgs
   {
     private readonly Template.TextEditor.Data.LogEntry alertTriggerData;
 
