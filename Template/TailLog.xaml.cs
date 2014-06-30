@@ -559,6 +559,8 @@ namespace TailForWin.Template
 
     private void checkBoxFilter_Click (object sender, RoutedEventArgs e)
     {
+      tabProperties.FilterState = (bool) checkBoxFilter.IsChecked;
+
       FilterState ( );
     }
 
@@ -765,6 +767,10 @@ namespace TailForWin.Template
         checkBoxFilter.IsChecked = tabProperties.FilterState;
         textBlockTailLog.FilterOn = tabProperties.FilterState;
       }
+
+      FileManagerStructure fms = new FileManagerStructure ( );
+      fileManagerProperties.FilterState = tabProperties.FilterState;
+      fms.UpdateNode (fileManagerProperties);
     }
 
     private void InitComboBoxes ( )

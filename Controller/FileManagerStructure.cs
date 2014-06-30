@@ -380,7 +380,6 @@ namespace TailForWin.Controller
                                                                     var element = x.Element ("id");
                                                                     return (element != null && String.Compare (element.Value, property.ID.ToString (CultureInfo.InvariantCulture), false) == 0);
                                                                   })).SingleOrDefault ( );
-
           if (node != null)
           {
             var element = node.Element ("fileEncoding");
@@ -432,6 +431,17 @@ namespace TailForWin.Controller
 
             if (xElement5 != null)
               xElement5.Value = property.RefreshRate.ToString ( );
+
+            var filterElement = node.Element ("filters");
+
+            if (filterElement != null)
+              filterElement.Value = property.FilterState.ToString ( );
+            else
+            {
+              filterElement = new XElement ("filters");
+              filterElement.Value = property.FilterState.ToString ( );
+              node.Add (filterElement);
+            }
 
             List<string> filterId = node.Elements ("filter").Select (filter =>
                                                                      {
@@ -511,6 +521,7 @@ namespace TailForWin.Controller
               new XElement ("killSpace", fmProperty.KillSpace),
               new XElement ("lineWrap", fmProperty.Wrap),
               new XElement ("fileEncoding", fmProperty.FileEncoding.HeaderName),
+              new XElement ("filters", fmProperty.FilterState),
               new XElement ("font",
                 new XElement ("name", fmProperty.FontType.Name),
                 new XElement ("size", fmProperty.FontType.Size),
