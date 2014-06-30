@@ -95,13 +95,15 @@ namespace TailForWin.Template
         ListOfFilter = fileManagerProperties.ListOfFilter,
         Timestamp = fileManagerProperties.Timestamp,
         FileEncoding = fileManagerProperties.FileEncoding,
-        OpenFromFileManager = fileManagerProperties.OpenFromFileManager
+        OpenFromFileManager = fileManagerProperties.OpenFromFileManager,
+        FilterState = fileManagerProperties.FilterState
       };
 
       InitTailLog (childTabIndex, tabItem);
 
       textBoxFileName.Text = tabProperties.FileName;
       SetToolTipDetailText ( );
+      FilterState ( );
     }
 
     /// <summary>
@@ -281,9 +283,9 @@ namespace TailForWin.Template
     public void FilterOnOff ( )
     {
       if (checkBoxFilter.IsChecked == true)
-        checkBoxFilter.IsChecked = false;
+        tabProperties.FilterState = false;
       else
-        checkBoxFilter.IsChecked = true;
+        tabProperties.FilterState = true;
 
       checkBoxFilter_Click (checkBoxFilter, null);
     }
@@ -557,8 +559,7 @@ namespace TailForWin.Template
 
     private void checkBoxFilter_Click (object sender, RoutedEventArgs e)
     {
-      if (checkBoxFilter.IsChecked == true)
-        textBlockTailLog.UpdateFilters (tabProperties.ListOfFilter);
+      FilterState ( );
     }
 
     #endregion
@@ -749,6 +750,21 @@ namespace TailForWin.Template
         textBlockTailLog.WordWrapping = true;
       else
         textBlockTailLog.WordWrapping = false;
+    }
+
+    private void FilterState ( )
+    {
+      if (tabProperties.FilterState)
+      {
+        checkBoxFilter.IsChecked = tabProperties.FilterState;
+        textBlockTailLog.FilterOn = tabProperties.FilterState;
+        textBlockTailLog.UpdateFilters (tabProperties.ListOfFilter);
+      }
+      else
+      {
+        checkBoxFilter.IsChecked = tabProperties.FilterState;
+        textBlockTailLog.FilterOn = tabProperties.FilterState;
+      }
     }
 
     private void InitComboBoxes ( )

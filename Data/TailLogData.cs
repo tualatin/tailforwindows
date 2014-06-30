@@ -196,6 +196,15 @@ namespace TailForWin.Data
       set;
     }
 
+    /// <summary>
+    /// Is filter checkbox on/off
+    /// </summary>
+    public bool FilterState
+    {
+      get;
+      set;
+    }
+
     private void ContentCollectionChanged (object sender, NotifyCollectionChangedEventArgs e)
     {
       if (e.Action == NotifyCollectionChangedAction.Remove)

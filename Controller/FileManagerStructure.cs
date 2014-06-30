@@ -143,6 +143,13 @@ namespace TailForWin.Controller
             if (element4 == null)
               continue;
 
+            var filterElement = xe.Element ("filters");
+            if (filterElement == null)
+            {
+              filterElement = new XElement ("filters");
+              filterElement.Value = "false";
+            }
+
             FileManagerData item = new FileManagerData
                                    {
                                      ID = GetId (xElement.Value),
@@ -157,6 +164,7 @@ namespace TailForWin.Controller
                                      RefreshRate = GetRefreshRate (element3.Value),
                                      NewWindow = xElement4 != null && IsNewWindow (xElement4.Value),
                                      FileEncoding = GetEncoding (element4.Value),
+                                     FilterState = filterElement != null && GetFilterState (filterElement.Value)
                                    };
 
             foreach (FilterData data in xe.Elements ("filter").Select (GetFilters).Where (data => data != null))
@@ -599,6 +607,16 @@ namespace TailForWin.Controller
           LastFilterId = id;
       }
       return (id);
+    }
+
+    private static bool GetFilterState (string sFilters)
+    {
+      bool filters;
+
+      if (!bool.TryParse (sFilters, out filters))
+        filters = false;
+
+      return (filters);
     }
 
     private static bool IsKillSpace (string sKillSpace)
