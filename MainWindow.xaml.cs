@@ -608,10 +608,19 @@ namespace TailForWin
     {
       try
       {
-        // TODO page can be null!
-        foreach (TailLog page in tailTabItems.Where (item => item.Content != null && item.Content.GetType ( ) == typeof (Frame)).Select (item =>
-                 GetTailLogWindow (item.Content as Frame)).Where (page => page.GetChildTabIndex ( ) != activePage.GetChildTabIndex ( )))
-          page.ActiveTab = false;
+        foreach (TabItem item in tailTabItems)
+        {
+          if (item.Content != null && item.Content.GetType ( ) == typeof (Frame))
+          {
+            TailLog page = GetTailLogWindow (item.Content as Frame);
+
+            if (page == null)
+              return;
+
+            if (page.GetChildTabIndex ( ) != activePage.GetChildTabIndex ( ))
+              page.ActiveTab = false;
+          }
+        }
       }
       catch (Exception ex)
       {

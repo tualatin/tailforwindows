@@ -287,7 +287,7 @@ namespace TailForWin.Template
       else
         tabProperties.FilterState = true;
 
-      checkBoxFilter_Click (checkBoxFilter, null);
+      FilterState ( );
     }
 
     #region ClickEvent
