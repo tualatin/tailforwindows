@@ -624,7 +624,7 @@ namespace TailForWin.Template
           // seek to the last max offset
           myReader.TailStreamReader.BaseStream.Seek (lastMaxOffset, SeekOrigin.Begin);
 
-          // read out of the file until the EOF
+          // read out of file until EOF
           string line;
 
           while ((line = myReader.TailStreamReader.ReadLine ( )) != null)
@@ -646,6 +646,13 @@ namespace TailForWin.Template
 
         if (tailWorker != null && tailWorker.CancellationPending)
           e.Cancel = true;
+      }
+      catch (ObjectDisposedException ex)
+      {
+        MessageBox.Show (Application.Current.FindResource ("FileObjectDisposedException").ToString ( ), string.Format ("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), MessageBoxButton.OK, MessageBoxImage.Error);
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
+
+        StopThread ( );
       }
       catch (Exception ex)
       {

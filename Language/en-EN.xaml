@@ -4,6 +4,7 @@
   <system:String x:Key="OpenFileDialog">Please select a file to tail ...</system:String>
   <system:String x:Key="FileNotFound">File not found!</system:String>
   <system:String x:Key="NoFilenameEntered">No filename entered!</system:String>
+  <system:String x:Key="FileObjectDisposedException">Cannot access a closed File! Please check your network connection.</system:String>
   <system:String x:Key="Error">Error</system:String>
   <system:String x:Key="Question">Question</system:String>
   <system:String x:Key="Record">Tail ...</system:String>
