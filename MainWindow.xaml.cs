@@ -638,10 +638,6 @@ namespace TailForWin
         MessageBox.Show (Application.Current.FindResource ("LastTab") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
       else if (MessageBox.Show (string.Format ("{0} '{1}'?", Application.Current.FindResource ("QRemoveTab"), tab.Header), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
       {
-        TabItem selectedTab = tabControlTail.SelectedItem as TabItem;
-
-        tailTabItems.Remove (tab);
-
         TailLog page = GetTailLogWindow (tab.Content as Frame);
         FileManagerHelper item = LogFile.FmHelper.SingleOrDefault (x => x.ID == page.FileManagerProperties.ID);
 
@@ -651,12 +647,26 @@ namespace TailForWin
         if (page != null)
           page.StopThread ( );
 
+        TabItem selectedTab = Previous (tab);
+
         // select previously selected tab. if that is removed then select first tab
         if (selectedTab == null || selectedTab.Equals (tab))
           selectedTab = tailTabItems[0];
 
         tabControlTail.SelectedItem = selectedTab;
+
+        tailTabItems.Remove (tab);
       }
+    }
+    
+    private TabItem Previous (TabItem current)
+    {
+      int index = tailTabItems.IndexOf (current);
+
+      if (index >= 1)
+        return (tailTabItems.ElementAt (index - 1));
+
+      return (current);
     }
 
     #endregion
