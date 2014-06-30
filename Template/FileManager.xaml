@@ -17,7 +17,7 @@
       <RowDefinition Height="234*" />
     </Grid.RowDefinitions>
     <Grid Grid.Row="0">
-      <DataGrid AutoGenerateColumns="False" Grid.Row="0" Margin="0" Name="dataGridFiles" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" HorizontalGridLinesBrush="#FFBEBEBE" VerticalGridLinesBrush="#FFBEBEBE" SelectionChanged="dataGridFiles_SelectionChanged" SelectionMode="Single" SelectionUnit="FullRow">
+      <DataGrid AutoGenerateColumns="False" Grid.Row="0" Margin="0" Name="dataGridFiles" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" HorizontalGridLinesBrush="#FFBEBEBE" VerticalGridLinesBrush="#FFBEBEBE" SelectionChanged="dataGridFiles_SelectionChanged" SelectionMode="Single" SelectionUnit="FullRow" MouseDoubleClick="dataGridFiles_MouseDoubleClick">
         <DataGrid.Style>
           <Style TargetType="DataGrid">
             <Setter Property="AlternatingRowBackground" Value="Azure"/>

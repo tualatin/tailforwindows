@@ -4,12 +4,14 @@ Known issues: https://github.com/tualatin/tailforwindows/issues
 If there are problems, TailForWindows creates a error logfile in the directory. Please send me this error file bevore restart TfW, because the program deletes the error log file when it is started
 
 Changelog:
-v0.9.xxx.
+v1.0.xxx.
 * bug fix searching for bookmark lines
 * bug fix save search box position
 * bug fix keyboard navigation
 * bug fix unhandle exception when open log file properties from FileManager
 * improve tab control handler
+* improve tail thread
+* add mouse double click to open file from FileManager
 
 v0.9.5231.x
 * bug fix when clear FileName textbox, than press Start, textbox was empty

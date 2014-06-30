@@ -84,6 +84,14 @@ namespace TailForWin.Template
 
     #region ClickEvents
 
+    private void dataGridFiles_MouseDoubleClick (object sender, MouseButtonEventArgs e)
+    {
+      if (e.ChangedButton != MouseButton.Left)
+        return;
+
+      OpenFileToTail ( );
+    }
+
     private void btnFont_Click (object sender, RoutedEventArgs e)
     {
       System.Drawing.Font textFont = fmWorkingProperties.FontType;
@@ -106,50 +114,7 @@ namespace TailForWin.Template
 
     private void btnOK_Click (object sender, RoutedEventArgs e)
     {
-      if (fmWorkingProperties == null)
-        return;
-
-      if (fmWorkingProperties.NewWindow)
-      {
-        Process newWindow = new Process
-                            {
-                              StartInfo =
-                              {
-                                FileName = Process.GetCurrentProcess ( ).MainModule.FileName,
-                                Arguments = string.Format ("/id={0}", fmWorkingProperties.ID)
-                              }
-                            };
-        newWindow.Start ( );
-      }
-      else
-      {
-        fmDoc.FmProperties[dataGridFiles.SelectedIndex].OpenFromFileManager = true;
-        FileManagerHelper helper = new FileManagerHelper
-        {
-          ID = fmDoc.FmProperties[dataGridFiles.SelectedIndex].ID,
-          OpenFromFileManager = fmDoc.FmProperties[dataGridFiles.SelectedIndex].OpenFromFileManager
-        };
-
-
-        if (LogFile.FmHelper.Count > 0)
-        {
-          FileManagerHelper item = LogFile.FmHelper.SingleOrDefault (x => x.ID == helper.ID);
-
-          if (item == null)
-            LogFile.FmHelper.Add (helper);
-        }
-        else
-          LogFile.FmHelper.Add (helper);
-
-        FileManagerDataEventArgs argument = new FileManagerDataEventArgs (fmWorkingProperties);
-
-        if (OpenFileAsNewTab != null)
-          OpenFileAsNewTab (this, argument);
-
-        argument.Dispose ( );
-      }
-
-      Close ( );
+      OpenFileToTail ( );
     }
 
     private void btnNew_Click (object sender, RoutedEventArgs e)
@@ -587,6 +552,54 @@ namespace TailForWin.Template
 
     private void OnExit ( )
     {
+      Close ( );
+    }
+
+    private void OpenFileToTail ( )
+    {
+      if (fmWorkingProperties == null)
+        return;
+
+      if (fmWorkingProperties.NewWindow)
+      {
+        Process newWindow = new Process
+        {
+          StartInfo =
+          {
+            FileName = Process.GetCurrentProcess ( ).MainModule.FileName,
+            Arguments = string.Format ("/id={0}", fmWorkingProperties.ID)
+          }
+        };
+        newWindow.Start ( );
+      }
+      else
+      {
+        fmDoc.FmProperties[dataGridFiles.SelectedIndex].OpenFromFileManager = true;
+        FileManagerHelper helper = new FileManagerHelper
+        {
+          ID = fmDoc.FmProperties[dataGridFiles.SelectedIndex].ID,
+          OpenFromFileManager = fmDoc.FmProperties[dataGridFiles.SelectedIndex].OpenFromFileManager
+        };
+
+
+        if (LogFile.FmHelper.Count > 0)
+        {
+          FileManagerHelper item = LogFile.FmHelper.SingleOrDefault (x => x.ID == helper.ID);
+
+          if (item == null)
+            LogFile.FmHelper.Add (helper);
+        }
+        else
+          LogFile.FmHelper.Add (helper);
+
+        FileManagerDataEventArgs argument = new FileManagerDataEventArgs (fmWorkingProperties);
+
+        if (OpenFileAsNewTab != null)
+          OpenFileAsNewTab (this, argument);
+
+        argument.Dispose ( );
+      }
+
       Close ( );
     }
 
