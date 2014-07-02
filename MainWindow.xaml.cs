@@ -221,7 +221,10 @@ namespace TailForWin
       }
 
       if (addNew)
-        AddTailTab ( );
+      {
+        TabItem newTab = AddTailTab ( );
+        tabControlTail.SelectedItem = newTab;
+      }
     }
 
     private static void DoubleClickNotifyIcon (object sender, EventArgs e)
