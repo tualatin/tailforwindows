@@ -53,8 +53,8 @@ namespace TailForWin
 
       tabControlTail.PreviewKeyDown += tabControlTail_PreviewKeyDown;
       tabControlTail.PreviewKeyUp += tabControlTail_PreviewKeyUp;
-      PreviewMouseDown += mainWindow_MouseDown;
-      tabControlTail.PreviewMouseDown += tabControlTail_MouseDown;
+      PreviewMouseDown += mainWindow_PreviewMouseDown;
+      tabControlTail.PreviewMouseDown += tabControlTail_PreviewMouseDown;
 
       SetWindowSettings ( );
 
@@ -178,13 +178,30 @@ namespace TailForWin
 
     #region ClickEvents
 
-    private void tabControlTail_MouseDown (object sender, MouseEventArgs e)
+    private void tabControlTail_PreviewMouseDown (object sender, MouseEventArgs e)
     {
       if (e.MiddleButton != MouseButtonState.Pressed)
         return;
+
+      Point mousePoint = PointToScreen (Mouse.GetPosition (this));
+
+      foreach (TabItem item in tailTabItems)
+      {
+        if ((item.Header as string).CompareTo ("+") == 0)
+          continue;
+
+        Point relativePoint = item.PointToScreen (new Point (0, 0));
+        System.Drawing.Rectangle rc = new System.Drawing.Rectangle ((int) relativePoint.X, (int) relativePoint.Y, (int) item.DesiredSize.Width, (int) item.DesiredSize.Height);
+
+        if (rc.Contains ((int) mousePoint.X, (int) mousePoint.Y))
+        {
+          RemoveTab (item.Name);
+          return;
+        }
+      }
     }
 
-    private void mainWindow_MouseDown (object sender, MouseEventArgs e)
+    private void mainWindow_PreviewMouseDown (object sender, MouseEventArgs e)
     {
       if (e.MiddleButton != MouseButtonState.Pressed)
         return;
