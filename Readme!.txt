@@ -13,6 +13,7 @@ v1.0.xxx.
 * improve tail thread
 * add mouse double click to open file from FileManager
 * save if Filter is on/off
+* click mousewheel add a new tab
 
 v0.9.5231.x
 * bug fix when clear FileName textbox, than press Start, textbox was empty

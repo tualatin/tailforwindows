@@ -704,7 +704,7 @@ namespace TailForWin.Template.TextEditor
               ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter> (myListBoxItem);
 
               if (myContentPresenter == null)
-                return;
+                continue;
 
               DataTemplate myDataTemplate = myContentPresenter.ContentTemplateSelector.SelectTemplate (myListBoxItem, LogViewer);
 

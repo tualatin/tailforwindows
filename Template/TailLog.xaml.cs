@@ -13,6 +13,7 @@ using System.Text;
 using System.Windows.Threading;
 using TailForWin.Template.TextEditor.Converter;
 using TailForWin.Template.TextEditor.Data;
+using System.Windows.Input;
 
 
 namespace TailForWin.Template
