@@ -4,6 +4,9 @@ Known issues: https://github.com/tualatin/tailforwindows/issues
 If there are problems, TailForWindows creates a error logfile in the directory. Please send me this error file bevore restart TfW, because the program deletes the error log file when it is started
 
 Changelog:
+v1.0.x
+* bug fix FileManager, does not changed the FontType
+
 v1.0.5296.x
 * bug fix searching for bookmark lines
 * bug fix save search box position
