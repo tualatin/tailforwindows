@@ -443,6 +443,21 @@ namespace TailForWin.Controller
               node.Add (filterElement);
             }
 
+            var xFont = node.Element ("font");
+
+            if (xFont != null)
+            {
+              var xFontFamily = xFont.Element ("name");
+              var xFontSize = xFont.Element ("size");
+              var xFontBold = xFont.Element ("bold");
+              var xFontItalic = xFont.Element ("italic");
+
+              xFontFamily.Value = property.FontType.Name;
+              xFontSize.Value = property.FontType.Size.ToString ( );
+              xFontBold.Value = property.FontType.Bold.ToString ( );
+              xFontItalic.Value = property.FontType.Italic.ToString ( );
+            }
+
             List<string> filterId = node.Elements ("filter").Select (filter =>
                                                                      {
                                                                        var element5 = filter.Element ("id");
