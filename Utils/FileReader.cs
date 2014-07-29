@@ -156,10 +156,19 @@ namespace TailForWin.Utils
     {
       get
       {
-        if (reader != null)
-          return (reader.BaseStream.Length / 1024.00);
-        else
+        try
+        {
+
+          if (reader != null)
+            return (reader.BaseStream.Length / 1024.00);
+          else
+            return (Double.NaN);
+        }
+        catch (Exception ex)
+        {
+          ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
           return (Double.NaN);
+        }
       }
     }
 

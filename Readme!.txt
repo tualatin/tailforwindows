@@ -6,6 +6,7 @@ If there are problems, TailForWindows creates a error logfile in the directory. 
 Changelog:
 v1.0.x
 * bug fix FileManager, does not changed the FontType
+* bug fix get file size exception
 
 v1.0.5296.x
 * bug fix searching for bookmark lines
