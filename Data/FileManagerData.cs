@@ -13,10 +13,9 @@ namespace TailForWin.Data
   /// </summary>
   public class FileManagerData: TailLogData
   {
-    private string description;
-    private string category;
-    private bool newWindow;
+    #region Description
 
+    private string description;
 
     /// <summary>
     /// Description of item
@@ -37,6 +36,12 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region Category
+
+    private string category;
+
     /// <summary>
     /// Category of item
     /// </summary>
@@ -56,6 +61,8 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
     /// <summary>
     /// Unique ID of FileManager node
     /// </summary>
@@ -64,6 +71,10 @@ namespace TailForWin.Data
       get;
       set;
     }
+
+    #region NewWindow
+
+    private bool newWindow;
 
     /// <summary>
     /// Open thread in new window
@@ -80,6 +91,8 @@ namespace TailForWin.Data
         OnPropertyChanged ("NewWindow");
       }
     }
+
+    #endregion
 
     /// <summary>
     /// File creation time

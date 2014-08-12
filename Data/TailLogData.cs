@@ -13,14 +13,6 @@ namespace TailForWin.Data
   /// </summary>
   public class TailLogData: INotifyMaster, IDisposable
   {
-    private Font fontType;
-    private bool killSpace;
-    private bool wrap;
-    private bool timeStamp;
-    private string fileName;
-    private string file;
-
-
     public TailLogData ( )
     {
       ListOfFilter = new ObservableCollection<FilterData> ( );
@@ -35,6 +27,10 @@ namespace TailForWin.Data
       fontType.Dispose ( );
       fontType = null;
     }
+
+    #region FileName
+
+    private string fileName;
 
     /// <summary>
     /// Filename
@@ -53,6 +49,12 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region File
+
+    private string file;
+
     /// <summary>
     /// Filename without path
     /// </summary>
@@ -68,6 +70,12 @@ namespace TailForWin.Data
         OnPropertyChanged ("File");
       }
     }
+
+    #endregion
+
+    #region Wrap
+
+    private bool wrap;
 
     /// <summary>
     /// Wrap text in textbox
@@ -85,6 +93,12 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region KillSpace
+
+    private bool killSpace;
+
     /// <summary>
     /// Remove extra space in each line
     /// </summary>
@@ -101,14 +115,33 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region RefreshRate
+
+    private SettingsData.ETailRefreshRate refreshRate;
+
     /// <summary>
     /// Refreshrate for thread
     /// </summary>
     public SettingsData.ETailRefreshRate RefreshRate
     {
-      get;
-      set;
+      get
+      {
+        return (refreshRate);
+      }
+      set
+      {
+        refreshRate = value;
+        OnPropertyChanged ("RefreshRate");
+      }
     }
+
+    #endregion
+
+    #region TimeStamp
+
+    private bool timeStamp;
 
     /// <summary>
     /// Timestamp in taillog
@@ -126,6 +159,12 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region FontType
+
+    private Font fontType;
+
     /// <summary>
     /// Font type
     /// </summary>
@@ -142,14 +181,29 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region ThreadPriority
+
+    private System.Threading.ThreadPriority threadPriority;
+
     /// <summary>
     /// ThreadPriority
     /// </summary>
     public System.Threading.ThreadPriority ThreadPriority
     {
-      get;
-      set;
+      get
+      {
+        return (threadPriority);
+      }
+      set
+      {
+        threadPriority = value;
+        OnPropertyChanged ("ThreadPriority");
+      }
     }
+
+    #endregion
 
     /// <summary>
     /// Last refresh time
@@ -159,6 +213,8 @@ namespace TailForWin.Data
       get;
       set;
     }
+
+    #region ListOfFilter
 
     private ObservableCollection<FilterData> listOfFilter;
 
@@ -178,14 +234,29 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region FileEncoding
+
+    private Encoding fileEncoding;
+
     /// <summary>
     /// File encoding
     /// </summary>
     public Encoding FileEncoding
     {
-      get;
-      set;
+      get
+      {
+        return (fileEncoding);
+      }
+      set
+      {
+        fileEncoding = value;
+        OnPropertyChanged ("FileEncoding");
+      }
     }
+
+    #endregion
 
     /// <summary>
     /// Is item opened from FileManager

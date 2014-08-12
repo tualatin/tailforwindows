@@ -8,7 +8,7 @@ namespace TailForWin.Data
 {
   public class SettingsData: INotifyMaster
   {
-    public SettingsData ()
+    public SettingsData ( )
     {
       AlertSettings = new AlertData ( );
       ProxySettings = new ProxySettingsData ( );
@@ -22,6 +22,8 @@ namespace TailForWin.Data
       get;
       set;
     }
+
+    #region AlwaysOnTop
 
     private bool alwaysOnTop;
 
@@ -41,6 +43,10 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region ShowNLineAtStart
+
     private bool showNLineAtStart;
 
     /// <summary>
@@ -58,6 +64,10 @@ namespace TailForWin.Data
         OnPropertyChanged ("ShowNLineAtStart");
       }
     }
+
+    #endregion
+
+    #region AlwaysScrollToEnd
 
     private bool alwaysScrollToEnd;
 
@@ -77,6 +87,10 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region RestoreWindowSize
+
     private bool restoreWindowSize;
 
     /// <summary>
@@ -94,6 +108,8 @@ namespace TailForWin.Data
         OnPropertyChanged ("RestoreWindowSize");
       }
     }
+
+    #endregion
 
     /// <summary>
     /// Window height
@@ -113,6 +129,8 @@ namespace TailForWin.Data
       set;
     }
 
+    #region SaveWindowPosition
+
     private bool saveWindowPosition;
 
     /// <summary>
@@ -130,6 +148,8 @@ namespace TailForWin.Data
         OnPropertyChanged ("SaveWindowPosition");
       }
     }
+
+    #endregion
 
     /// <summary>
     /// Window x position
@@ -176,6 +196,8 @@ namespace TailForWin.Data
       set;
     }
 
+    #region ExitWithEsc
+
     private bool exitWithEsc;
 
     /// <summary>
@@ -194,6 +216,10 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region ShowLineNumbers
+
     private bool showLineNumbers;
 
     /// <summary>
@@ -211,6 +237,10 @@ namespace TailForWin.Data
         OnPropertyChanged ("ShowLineNumbers");
       }
     }
+
+    #endregion
+
+    #region DefaultForegroundColor
 
     private string defaultForegroundColor;
 
@@ -232,6 +262,10 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region DefaultBackgroundColor
+
     private string defaultBackgroundColor;
 
     /// <summary>
@@ -252,6 +286,10 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region GuiDefaultForegroundColor
+
     private Brush guiDefaultForegroundColor;
 
     /// <summary>
@@ -270,6 +308,10 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region GuiDefaultBackgroundColor
+
     private Brush guiDefaultBackgroundColor;
 
     /// <summary>
@@ -287,6 +329,10 @@ namespace TailForWin.Data
         OnPropertyChanged ("GuiDefaultBackgroundColor");
       }
     }
+
+    #endregion
+
+    #region DefaultInactiveForegroundColor
 
     private string defaultInactiveForegroundColor;
 
@@ -307,7 +353,11 @@ namespace TailForWin.Data
           GuiDefaultInactiveForegroundColor = GetColorFromHex (defaultInactiveForegroundColor);
       }
     }
-        
+
+    #endregion
+
+    #region GuiDefaultInactiveForegroundColor
+
     private Brush guiDefaultInactiveForegroundColor;
 
     /// <summary>
@@ -315,7 +365,8 @@ namespace TailForWin.Data
     /// </summary>
     public Brush GuiDefaultInactiveForegroundColor
     {
-      get {
+      get
+      {
         return (guiDefaultInactiveForegroundColor);
       }
       set
@@ -324,6 +375,10 @@ namespace TailForWin.Data
         OnPropertyChanged ("GuiDefaultInactiveForegroundColor");
       }
     }
+
+    #endregion
+
+    #region DefaultInactiveBackgroundColor
 
     private string defaultInactiveBackgroundColor;
 
@@ -345,6 +400,10 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region GuiDefaultInactiveBackgroundColor
+
     private Brush guiDefaultInactiveBackgroundColor;
 
     /// <summary>
@@ -362,6 +421,10 @@ namespace TailForWin.Data
         OnPropertyChanged ("GuiDefaultInactiveBackgroundColor");
       }
     }
+
+    #endregion
+
+    #region DefaultFindHiglightForegoundColor
 
     private string defaultFindHighlightForegroundColor;
 
@@ -383,6 +446,10 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region GuiDefaultHighlightForegroundColor
+
     private Brush guiDefaultHighlightForegroundColor;
 
     /// <summary>
@@ -400,6 +467,10 @@ namespace TailForWin.Data
         OnPropertyChanged ("GuiDefaultHighlightForegroundColor");
       }
     }
+
+    #endregion
+
+    #region DefaultFindHighlightBackgroundColor
 
     private string defaultFindHighlightBackgroundColor;
 
@@ -421,6 +492,10 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region GuiDefaultHighlightBackgroundColor
+
     private Brush guiDefaultHighlightBackgroundColor;
 
     /// <summary>
@@ -438,6 +513,10 @@ namespace TailForWin.Data
         OnPropertyChanged ("GuiDefaultHighlightBackgroundColor");
       }
     }
+
+    #endregion
+
+    #region DefaultLineNumbersColor
 
     private string defaultLineNumbersColor;
 
@@ -459,6 +538,10 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region GuiDefaultLineNumbersColor
+
     private Brush guiDefaultLineNumbersColor;
 
     /// <summary>
@@ -476,6 +559,10 @@ namespace TailForWin.Data
         OnPropertyChanged ("GuiDefaultLineNumbersColor");
       }
     }
+
+    #endregion
+
+    #region DefaultHighlightColor
 
     private string defaultHighlightColor;
 
@@ -497,6 +584,10 @@ namespace TailForWin.Data
       }
     }
 
+    #endregion
+
+    #region GuiDefaultHighlightColor
+
     private Brush guiDefaultHighlightColor;
 
     /// <summary>
@@ -514,6 +605,8 @@ namespace TailForWin.Data
         OnPropertyChanged ("GuiDefaultHighlightColor");
       }
     }
+
+    #endregion
 
     /// <summary>
     /// Proxy settings
@@ -569,6 +662,8 @@ namespace TailForWin.Data
       set;
     }
 
+    #region AutoUpdate
+
     private bool autoUpdate;
 
     /// <summary>
@@ -586,6 +681,8 @@ namespace TailForWin.Data
         OnPropertyChanged ("AutoUpdate");
       }
     }
+
+    #endregion
 
     /// <summary>
     /// Webside for new releases
@@ -789,7 +886,7 @@ namespace TailForWin.Data
 
       return (new SolidColorBrush (color));
     }
-    
+
     /// <summary>
     /// Get description from enum
     /// </summary>
@@ -822,7 +919,7 @@ namespace TailForWin.Data
       foreach (var field in type.GetFields ( ))
       {
         var attribute = Attribute.GetCustomAttribute (field, typeof (DescriptionAttribute)) as DescriptionAttribute;
-        
+
         if (attribute != null)
         {
           if (string.Compare (attribute.Description, description, false) == 0)
