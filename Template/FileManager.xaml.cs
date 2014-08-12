@@ -79,6 +79,7 @@ namespace TailForWin.Template
         dataGridFiles.Items.Refresh ( );
       }
 
+      comboBoxCategory.SelectedIndex = 0;
       isInit = true;
     }
 

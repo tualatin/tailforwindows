@@ -7,6 +7,8 @@ Changelog:
 v1.0.x
 * bug fix FileManager, does not changed the FontType
 * bug fix get file size exception
+* bug fix select first category when add file from main window to FileManager
+* bug fix FileManager sort alpha alphabetical order
 
 v1.0.5296.x
 * bug fix searching for bookmark lines

@@ -186,7 +186,7 @@ namespace TailForWin.Data
       Array.ForEach (encodings, fileEncode => FileEncoding.Add (fileEncode.GetEncoding ( )));
     }
 
-    private class CaseInsensitiveEncodingInfoNameComparer: IComparer
+    private class CaseInsensitiveEncodingInfoNameComparer : IComparer
     {
       int IComparer.Compare (Object x, Object y)
       {
@@ -204,13 +204,13 @@ namespace TailForWin.Data
 
     public static bool FindDuplicateInFilterList (ObservableCollection<FilterData> listOfFilters, FilterData newItem)
     {
-      return listOfFilters.Any (item => String.Compare (item.Filter, newItem.Filter, StringComparison.Ordinal) == 0);
+      return (listOfFilters.Any (item => String.Compare (item.Filter, newItem.Filter, StringComparison.Ordinal) == 0));
     }
 
     /// <summary>
     /// FileCreationTime comparer
     /// </summary>
-    public class FileManagerDataFileCreationTimeComparer: IComparer<FileManagerData>
+    public class FileManagerDataFileCreationTimeComparer : IComparer<FileManagerData>
     {
       #region IComparer<DateTime?> Members
 

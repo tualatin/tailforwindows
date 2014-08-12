@@ -17,7 +17,7 @@ namespace TailForWin.Controller
   {
     XDocument fmDoc;
     readonly string fmFile = string.Empty;
-    readonly List<FileManagerData> fmProperties;
+    List<FileManagerData> fmProperties;
     ObservableCollection<string> category = new ObservableCollection<string> ( );
     private const string XMLROOT = "fileManager";
 
@@ -572,6 +572,7 @@ namespace TailForWin.Controller
 
       case SettingsData.EFileSort.Nothing:
 
+        fmProperties = fmProperties.OrderBy (o => o.File).ToList ( );
         break;
       }
     }
