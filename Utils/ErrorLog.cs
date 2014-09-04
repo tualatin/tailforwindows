@@ -100,7 +100,7 @@ namespace TailForWin.Utils
       {
         now = GetSystemTime ( );
 
-        AllMessages.Add (string.Format ("{0},{1} > |{2} |{3,-30} |{4}", now.ToString ("T", CultureInfo.CurrentCulture), now.Millisecond.ToString ("D3"), (char) flag, source, msg));
+        AllMessages.Add (string.Format ("{0},{1} > |{2} |{3,-30} |{4}", now.ToString ("dd MMM yyyy HH:mm:ss", CultureInfo.CurrentCulture), now.Millisecond.ToString ("D3"), (char) flag, source, msg));
         Flush ( );
       }
       catch (Exception ex)

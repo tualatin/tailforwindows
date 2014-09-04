@@ -137,7 +137,8 @@ namespace TailForWin.Template
 
       fileManagerProperties = new FileManagerData
       {
-        ID = -1
+        ID = -1,
+        FontType = tabProperties.FontType
       };
 
       InitTailLog (childTabIndex, tabItem);
@@ -549,13 +550,17 @@ namespace TailForWin.Template
       filters.SaveNow += FilterTrigger;
       filters.ShowDialog ( );
 
-      if (saveFilters)
-      {
-        FileManagerStructure fms = new FileManagerStructure ( );
-        fms.UpdateNode (fileManagerProperties);
-        textBlockTailLog.UpdateFilters (tabProperties.ListOfFilter);
-        saveFilters = false;
-      }
+      if (!saveFilters)
+        return;
+
+      FileManagerStructure fms = new FileManagerStructure ( );
+
+      if (fileManagerProperties.FontType == null)
+        fileManagerProperties.FontType = tabProperties.FontType;
+
+      fms.UpdateNode (fileManagerProperties);
+      textBlockTailLog.UpdateFilters (tabProperties.ListOfFilter);
+      saveFilters = false;
     }
 
     private void checkBoxFilter_Click (object sender, RoutedEventArgs e)

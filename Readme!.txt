@@ -10,6 +10,8 @@ v1.0.x
 * bug fix select first category when add file from main window to FileManager
 * bug fix FileManager sort alpha alphabetical order
 * bug fix FileManager update Thread Priority, Refresh Rate changes in datagrid in realtime
+* update ErrorLog-Controller, actual date will log now
+* bug fix add new filter from main window
 
 v1.0.5296.x
 * bug fix searching for bookmark lines
