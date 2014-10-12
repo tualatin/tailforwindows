@@ -563,15 +563,22 @@ namespace TailForWin.Template
 
       if (fmWorkingProperties.NewWindow)
       {
-        Process newWindow = new Process
+        try
         {
-          StartInfo =
-          {
-            FileName = Process.GetCurrentProcess ( ).MainModule.FileName,
-            Arguments = string.Format ("/id={0}", fmWorkingProperties.ID)
-          }
-        };
-        newWindow.Start ( );
+          Process newWindow = new Process
+                              {
+                                StartInfo =
+                                {
+                                  FileName = Process.GetCurrentProcess ( ).MainModule.FileName,
+                                  Arguments = string.Format ("/id={0}", fmWorkingProperties.ID)
+                                }
+                              };
+          newWindow.Start ( );
+        }
+        catch (Exception ex)
+        {
+          ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
+        }
       }
       else
       {

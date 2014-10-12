@@ -13,7 +13,6 @@ using System.Text;
 using System.Windows.Threading;
 using TailForWin.Template.TextEditor.Converter;
 using TailForWin.Template.TextEditor.Data;
-using System.Windows.Input;
 
 
 namespace TailForWin.Template
@@ -428,6 +427,18 @@ namespace TailForWin.Template
       textBoxFileName.Text = fName;
     }
 
+    /// <summary>
+    /// Open file from parameter
+    /// </summary>
+    /// <param name="fName">File with full path</param>
+    public void OpenFileFromParameter (string fName)
+    {
+      if (NewFile != null)
+        NewFile (this, EventArgs.Empty);
+
+      textBoxFileName.Text = fName;
+    }
+
     private void comboBoxRefreshRate_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
       if (!isInit)
@@ -467,13 +478,20 @@ namespace TailForWin.Template
     /// <param name="e">RoutedEventArgs</param>
     public void btnFileManager_Click (object sender, RoutedEventArgs e)
     {
-      FileManager fileManager = new FileManager (SettingsData.EFileManagerState.OpenFileManager, tabProperties)
+      try
       {
-        Owner = LogFile.APP_MAIN_WINDOW
-      };
-      fileManager.DoUpdate += FileManagerDoUpdate;
-      fileManager.OpenFileAsNewTab += FileManagerGetProperties;
-      fileManager.ShowDialog ( );
+        FileManager fileManager = new FileManager (SettingsData.EFileManagerState.OpenFileManager, tabProperties)
+                                  {
+                                    Owner = LogFile.APP_MAIN_WINDOW
+                                  };
+        fileManager.DoUpdate += FileManagerDoUpdate;
+        fileManager.OpenFileAsNewTab += FileManagerGetProperties;
+        fileManager.ShowDialog ( );
+      }
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType (  ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod (  ).Name, ex));
+      }
     }
 
     private void btnFileManagerAdd_Click (object sender, RoutedEventArgs e)

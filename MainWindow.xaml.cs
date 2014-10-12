@@ -27,6 +27,7 @@ namespace TailForWin
     private TailLog currentPage;
     private SearchDialog searchBoxWindow;
     private bool ctrlTabKey;
+    private string parameterFileName;
 
 
     public void Dispose ( )
@@ -351,6 +352,9 @@ namespace TailForWin
 
       currentPage = page;
       TabItemUpdateParent (page);
+
+      if (!string.IsNullOrEmpty (parameterFileName))
+        currentPage.OpenFileFromParameter (parameterFileName);
     }
 
     private void HandleMainWindowKeys (object sender, KeyEventArgs e)
@@ -495,6 +499,11 @@ namespace TailForWin
 
     #region Helperfunctions
 
+    public void OpenFileFromParameter (string fName)
+    {
+      parameterFileName = fName;
+    }
+
     public void FileManagerTab (object sender, EventArgs e)
     {
       if (e.GetType ( ) != typeof (FileManagerDataEventArgs))
@@ -502,12 +511,12 @@ namespace TailForWin
 
       FileManagerDataEventArgs properties = e as FileManagerDataEventArgs;
 
-      if (properties != null)
-      {
-        FileManagerData item = properties.GetData ( );
-        TabItem newTab = AddTailTab (item);
-        tabControlTail.SelectedItem = newTab;
-      }
+      if (properties == null)
+        return;
+
+      FileManagerData item = properties.GetData ( );
+      TabItem newTab = AddTailTab (item);
+      tabControlTail.SelectedItem = newTab;
     }
 
     private void SetWindowSettings ( )
