@@ -53,6 +53,7 @@
         <ComboBox Grid.Column="1" Grid.Row="7" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxDateFormat" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxDateFormat_SelectionChanged" TabIndex="12" />
         <Label Content="lines" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="50,0" Name="label6" VerticalAlignment="Center" />
         <CheckBox Content="Show line numbers" Grid.Row="8" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxShowLineNumbers" VerticalAlignment="Center" IsChecked="{Binding Mode=TwoWay, Path=ShowLineNumbers, UpdateSourceTrigger=PropertyChanged}" />
+        <Button Content="Add to 'Send to'" Grid.Row="8" Grid.Column="1" Height="23" HorizontalAlignment="Left" Name="btnSendToMenu" VerticalAlignment="Center" Width="120" Click="btnSendToMenu_Click" />
         <Separator Grid.ColumnSpan="2" Grid.Row="10" HorizontalAlignment="Center" Margin="0" Name="separator" VerticalAlignment="Center" Width="300" />
         <Button Content="Proxy" Grid.Row="11" Height="23" HorizontalAlignment="Left" Name="btnProxy" VerticalAlignment="Center" Width="75" Click="btnProxy_Click" />
         <Button Content="Reset" Grid.Column="1" Grid.Row="11" Height="23" HorizontalAlignment="Right" Margin="0" Name="btnReset" VerticalAlignment="Center" Width="75" Click="btnReset_Click" TabIndex="15" />

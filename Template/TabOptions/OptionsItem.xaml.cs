@@ -4,6 +4,8 @@ using System;
 using TailForWin.Data;
 using TailForWin.Controller;
 using System.Windows.Input;
+using System.IO;
+using TailForWin.Utils;
 
 
 namespace TailForWin.Template.TabOptions
@@ -71,6 +73,22 @@ namespace TailForWin.Template.TabOptions
       ProxyServer ps = new ProxyServer { Owner = wnd };
 
       ps.ShowDialog ( );
+    }
+
+    private void btnSendToMenu_Click (object sender, RoutedEventArgs e)
+    {
+      try
+      {
+        var sendTo = Environment.GetFolderPath (Environment.SpecialFolder.SendTo);
+        IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell ( );
+        IWshRuntimeLibrary.IWshShortcut shortCut = shell.CreateShortcut (string.Format ("{0}\\{1}.lnk", sendTo, LogFile.APPLICATION_CAPTION));
+        shortCut.TargetPath = System.Reflection.Assembly.GetExecutingAssembly ( ).Location;
+        shortCut.Save ( );
+      }
+      catch (Exception ex)
+      {
+        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
+      }
     }
 
     #endregion
