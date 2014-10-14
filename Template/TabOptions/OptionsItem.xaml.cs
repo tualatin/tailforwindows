@@ -4,8 +4,8 @@ using System;
 using TailForWin.Data;
 using TailForWin.Controller;
 using System.Windows.Input;
-using System.IO;
 using TailForWin.Utils;
+using System.IO;
 
 
 namespace TailForWin.Template.TabOptions
@@ -26,6 +26,7 @@ namespace TailForWin.Template.TabOptions
     public event EventHandler SaveSettings;
 
     private readonly bool isInit;
+    private string sendToLnkName;
 
 
     public OptionsItem ()
@@ -34,6 +35,9 @@ namespace TailForWin.Template.TabOptions
 
       PreviewKeyDown += HandleEsc;
 
+      sendToLnkName = string.Format ("{0}\\{1}.lnk", Environment.GetFolderPath (Environment.SpecialFolder.SendTo), LogFile.APPLICATION_CAPTION);
+
+      Rename_BtnSendTo ( );
       SetComboBoxes ( );
       SetControls ( );
 
@@ -79,11 +83,19 @@ namespace TailForWin.Template.TabOptions
     {
       try
       {
-        var sendTo = Environment.GetFolderPath (Environment.SpecialFolder.SendTo);
-        IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell ( );
-        IWshRuntimeLibrary.IWshShortcut shortCut = shell.CreateShortcut (string.Format ("{0}\\{1}.lnk", sendTo, LogFile.APPLICATION_CAPTION));
-        shortCut.TargetPath = System.Reflection.Assembly.GetExecutingAssembly ( ).Location;
-        shortCut.Save ( );
+        if (File.Exists (sendToLnkName))
+        {
+          File.Delete (sendToLnkName);
+          Rename_BtnSendTo ( );
+        }
+        else
+        {
+          IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell ( );
+          IWshRuntimeLibrary.IWshShortcut shortCut = shell.CreateShortcut (sendToLnkName);
+          shortCut.TargetPath = System.Reflection.Assembly.GetExecutingAssembly ( ).Location;
+          shortCut.Save ( );
+          Rename_BtnSendTo ( );
+        }
       }
       catch (Exception ex)
       {
@@ -141,6 +153,14 @@ namespace TailForWin.Template.TabOptions
     #endregion
 
     #region HelperFunctions
+
+    private void Rename_BtnSendTo ( )
+    {
+      if (File.Exists (sendToLnkName))
+        btnSendToMenu.Content = "Remove 'SendTo'";
+      else
+        btnSendToMenu.Content = "Add 'SendTo'";
+    }
 
     private void SetControls ()
     {

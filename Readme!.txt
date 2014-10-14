@@ -4,7 +4,7 @@ Known issues: https://github.com/tualatin/tailforwindows/issues
 If there are problems, TailForWindows creates a error logfile in the directory. Please send me this error file bevore restart TfW, because the program deletes the error log file when it is started
 
 Changelog:
-v1.0.x
+v1.0.5400.x
 * bug fix FileManager, does not changed the FontType
 * bug fix get file size exception
 * bug fix select first category when add file from main window to FileManager
@@ -13,6 +13,8 @@ v1.0.x
 * update ErrorLog-Controller, actual date will log now
 * bug fix add new filter from main window
 * add option command parameter to add file to TfW
+* add add/remove SendTo menu
+* bug fix can not delete or edit logfile after TfW is stopped
 
 v1.0.5296.x
 * bug fix searching for bookmark lines

@@ -672,7 +672,12 @@ namespace TailForWin.Template
         }
 
         if (tailWorker != null && tailWorker.CancellationPending)
+        {
+          myReader.CloseFileStream ( );
+
           e.Cancel = true;
+          return;
+        }
       }
       catch (ObjectDisposedException ex)
       {
