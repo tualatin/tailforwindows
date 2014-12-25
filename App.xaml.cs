@@ -35,18 +35,18 @@ namespace TailForWin
 				{
 					Match id = Regex.Match (arg, @"\d+");
 
-					if (id.Success)
-					{
-						FileManagerStructure fm = new FileManagerStructure ( );
-						FileManagerData item = fm.GetNodeById (id.Value);
+				  if (!id.Success)
+				    continue;
 
-						if (item != null)
-						{
-							FileManagerDataEventArgs args = new FileManagerDataEventArgs (item);
-							wnd.FileManagerTab (this, args);
-							args.Dispose ( );
-						}
-					}
+				  FileManagerStructure fm = new FileManagerStructure ( );
+				  FileManagerData item = fm.GetNodeById (id.Value);
+
+				  if (item == null)
+				    continue;
+
+				  FileManagerDataEventArgs args = new FileManagerDataEventArgs (item);
+				  wnd.FileManagerTab (this, args);
+				  args.Dispose ( );
 				}
 				else
 				{

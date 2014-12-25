@@ -270,10 +270,7 @@ namespace TailForWin.Template
     /// </summary>
     public void AlwaysOnTop ( )
     {
-      if (checkBoxOnTop.IsChecked == true)
-        checkBoxOnTop.IsChecked = false;
-      else
-        checkBoxOnTop.IsChecked = true;
+      checkBoxOnTop.IsChecked = checkBoxOnTop.IsChecked != true;
 
       checkBoxOnTop_Click (checkBoxOnTop, null);
     }
@@ -283,10 +280,7 @@ namespace TailForWin.Template
     /// </summary>
     public void FilterOnOff ( )
     {
-      if (checkBoxFilter.IsChecked == true)
-        tabProperties.FilterState = false;
-      else
-        tabProperties.FilterState = true;
+      tabProperties.FilterState = checkBoxFilter.IsChecked != true;
 
       FilterState ( );
     }
@@ -295,10 +289,7 @@ namespace TailForWin.Template
 
     private void checkBoxOnTop_Click (object sender, RoutedEventArgs e)
     {
-      if (checkBoxOnTop.IsChecked == true)
-        LogFile.APP_MAIN_WINDOW.MainWindowTopmost = true;
-      else
-        LogFile.APP_MAIN_WINDOW.MainWindowTopmost = false;
+      LogFile.APP_MAIN_WINDOW.MainWindowTopmost = checkBoxOnTop.IsChecked == true;
     }
 
     /// <summary>
@@ -583,7 +574,8 @@ namespace TailForWin.Template
 
     private void checkBoxFilter_Click (object sender, RoutedEventArgs e)
     {
-      tabProperties.FilterState = (bool) checkBoxFilter.IsChecked;
+      if (checkBoxFilter.IsChecked != null)
+        tabProperties.FilterState = (bool) checkBoxFilter.IsChecked;
 
       FilterState ( );
     }
@@ -777,10 +769,7 @@ namespace TailForWin.Template
 
     private void WordWrap ( )
     {
-      if (tabProperties.Wrap)
-        textBlockTailLog.WordWrapping = true;
-      else
-        textBlockTailLog.WordWrapping = false;
+      textBlockTailLog.WordWrapping = tabProperties.Wrap;
     }
 
     private void FilterState ( )
