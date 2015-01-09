@@ -50,6 +50,7 @@ namespace TailForWin.Data
     /// </summary>
     public static MainWindow APP_MAIN_WINDOW = (Application.Current.MainWindow as MainWindow);
 
+
     /// <summary>
     /// Max open tabs in TfW
     /// </summary>
