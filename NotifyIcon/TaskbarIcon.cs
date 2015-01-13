@@ -74,10 +74,10 @@ namespace TailForWin.NotifyIcon
     /// <summary>
     /// Indicates whether the taskbar icon has been created or not.
     /// </summary>
-    public bool IsTaskbarIconCreated 
-    { 
-      get; 
-      private set; 
+    public bool IsTaskbarIconCreated
+    {
+      get;
+      private set;
     }
 
     /// <summary>
@@ -87,9 +87,9 @@ namespace TailForWin.NotifyIcon
     /// </summary>
     public bool SupportsCustomToolTips
     {
-      get 
-      { 
-        return (messageSink.Version == NotifyIconVersion.Vista); 
+      get
+      {
+        return (messageSink.Version == NotifyIconVersion.Vista);
       }
     }
 
@@ -118,7 +118,7 @@ namespace TailForWin.NotifyIcon
     /// Inits the taskbar icon and registers a message listener
     /// in order to receive events from the taskbar area.
     /// </summary>
-    public TaskbarIcon ()
+    public TaskbarIcon ( )
     {
       //using dummy sink in design mode
       messageSink = Util.IsDesignMode ? WindowMessageSink.CreateEmpty ( ) : new WindowMessageSink (NotifyIconVersion.Win95);
@@ -164,7 +164,7 @@ namespace TailForWin.NotifyIcon
 
       if (!dispatcher.CheckAccess ( ))
       {
-        var action = new Action (() => ShowCustomBalloon (balloon, animation, timeout));
+        var action = new Action (( ) => ShowCustomBalloon (balloon, animation, timeout));
         dispatcher.Invoke (DispatcherPriority.Normal, action);
         return;
       }
@@ -187,9 +187,9 @@ namespace TailForWin.NotifyIcon
       }
 
       //create an invisible popup that hosts the UIElement
-      Popup popup = new Popup 
-      { 
-        AllowsTransparency = true 
+      Popup popup = new Popup
+      {
+        AllowsTransparency = true
       };
 
       //provide the popup with the taskbar icon's data context
@@ -256,7 +256,7 @@ namespace TailForWin.NotifyIcon
     /// <see cref="CloseBalloon"/> or due to a new
     /// message being displayed.
     /// </summary>
-    public void ResetBalloonCloseTimer ()
+    public void ResetBalloonCloseTimer ( )
     {
       if (IsDisposed)
         return;
@@ -272,7 +272,7 @@ namespace TailForWin.NotifyIcon
     /// Closes the current <see cref="CustomBalloon"/>, if the
     /// property is set.
     /// </summary>
-    public void CloseBalloon ()
+    public void CloseBalloon ( )
     {
       if (IsDisposed)
         return;
@@ -429,7 +429,7 @@ namespace TailForWin.NotifyIcon
         if (me == MouseEvent.IconLeftMouseUp)
         {
           //show popup once we are sure it's not a double click
-          singleClickTimerAction = () =>
+          singleClickTimerAction = ( ) =>
           {
             LeftClickCommand.ExecuteIfEnabled (LeftClickCommandParameter, LeftClickCommandTarget ?? this);
             ShowTrayPopup (cursorPosition);
@@ -448,7 +448,7 @@ namespace TailForWin.NotifyIcon
         if (me == MouseEvent.IconLeftMouseUp)
         {
           //show context menu once we are sure it's not a double click
-          singleClickTimerAction = () =>
+          singleClickTimerAction = ( ) =>
           {
             LeftClickCommand.ExecuteIfEnabled (LeftClickCommandParameter, LeftClickCommandTarget ?? this);
             ShowContextMenu (cursorPosition);
@@ -466,7 +466,7 @@ namespace TailForWin.NotifyIcon
         return;
 
       //show context menu once we are sure it's not a double click
-      singleClickTimerAction = () =>
+      singleClickTimerAction = ( ) =>
       {
         LeftClickCommand.ExecuteIfEnabled (LeftClickCommandParameter, LeftClickCommandTarget ?? this);
       };
@@ -539,7 +539,7 @@ namespace TailForWin.NotifyIcon
     /// placed under the mouse. ToolTip internally uses a Popup of
     /// its own, but takes advance of Popup's internal <see cref="UIElement.IsHitTestVisible"/>
     /// property which prevents this issue.</remarks>
-    private void CreateCustomToolTip ()
+    private void CreateCustomToolTip ( )
     {
       //check if the item itself is a tooltip
       ToolTip tt = TrayToolTip as ToolTip;
@@ -584,7 +584,7 @@ namespace TailForWin.NotifyIcon
     /// Sets tooltip settings for the class depending on defined
     /// dependency properties and OS support.
     /// </summary>
-    private void WriteToolTipSettings ()
+    private void WriteToolTipSettings ( )
     {
       const IconDataMembers flags = IconDataMembers.Tip;
       iconData.ToolTipText = ToolTipText;
@@ -620,7 +620,7 @@ namespace TailForWin.NotifyIcon
     /// placed under the mouse. ToolTip internally uses a Popup of
     /// its own, but takes advance of Popup's internal <see cref="UIElement.IsHitTestVisible"/>
     /// property which prevents this issue.</remarks>
-    private void CreatePopup ()
+    private void CreatePopup ( )
     {
       //check if the item itself is a popup
       Popup popup = TrayPopup as Popup;
@@ -657,7 +657,7 @@ namespace TailForWin.NotifyIcon
       //store a reference to the used tooltip
       SetTrayPopupResolved (popup);
     }
-    
+
     /// <summary>
     /// Displays the <see cref="TrayPopup"/> control if
     /// it was set.
@@ -842,7 +842,7 @@ namespace TailForWin.NotifyIcon
     /// <summary>
     /// Hides a balloon ToolTip, if any is displayed.
     /// </summary>
-    public void HideBalloonTip ()
+    public void HideBalloonTip ( )
     {
       EnsureNotDisposed ( );
 
@@ -885,7 +885,7 @@ namespace TailForWin.NotifyIcon
     /// <summary>
     /// Sets the version flag for the <see cref="iconData"/>.
     /// </summary>
-    private void SetVersion ()
+    private void SetVersion ( )
     {
       iconData.VersionOrTimeout = (uint) NotifyIconVersion.Vista;
       bool status = WinApi.Shell_NotifyIcon (NotifyCommand.SetVersion, ref iconData);
@@ -914,23 +914,23 @@ namespace TailForWin.NotifyIcon
     /// Recreates the taskbar icon if the whole taskbar was
     /// recreated (e.g. because Explorer was shut down).
     /// </summary>
-    private void OnTaskbarCreated ()
+    private void OnTaskbarCreated ( )
     {
       IsTaskbarIconCreated = false;
       CreateTaskbarIcon ( );
     }
-    
+
     /// <summary>
     /// Creates the taskbar icon. This message is invoked during initialization,
     /// if the taskbar is restarted, and whenever the icon is displayed.
     /// </summary>
-    private void CreateTaskbarIcon ()
+    private void CreateTaskbarIcon ( )
     {
       lock (this)
       {
         if (!IsTaskbarIconCreated)
         {
-          const IconDataMembers members = IconDataMembers.Message | IconDataMembers.Icon | IconDataMembers.Tip; 
+          const IconDataMembers members = IconDataMembers.Message | IconDataMembers.Icon | IconDataMembers.Tip;
 
           //write initial configuration
           var status = Util.WriteIconData (ref iconData, NotifyCommand.Add, members);
@@ -953,7 +953,7 @@ namespace TailForWin.NotifyIcon
     /// <summary>
     /// Closes the taskbar icon if required.
     /// </summary>
-    private void RemoveTaskbarIcon ()
+    private void RemoveTaskbarIcon ( )
     {
       lock (this)
       {
@@ -994,7 +994,10 @@ namespace TailForWin.NotifyIcon
       if (scalingFactor == 1.0)
         return (point);
 
-      return (new Point { X = (int) (point.X * scalingFactor), Y = (int) (point.Y * scalingFactor) });
+      return (new Point
+      {
+        X = (int) (point.X * scalingFactor), Y = (int) (point.Y * scalingFactor)
+      });
     }
 
     #region Dispose / Exit
@@ -1002,10 +1005,10 @@ namespace TailForWin.NotifyIcon
     /// <summary>
     /// Set to true as soon as <c>Dispose</c> has been invoked.
     /// </summary>
-    public bool IsDisposed 
-    { 
-      get; 
-      private set; 
+    public bool IsDisposed
+    {
+      get;
+      private set;
     }
 
     /// <summary>
@@ -1013,7 +1016,7 @@ namespace TailForWin.NotifyIcon
     /// raises a <see cref="ObjectDisposedException"/> in case
     /// the <see cref="IsDisposed"/> flag is true.
     /// </summary>
-    private void EnsureNotDisposed ()
+    private void EnsureNotDisposed ( )
     {
       if (IsDisposed)
         throw new ObjectDisposedException (Name ?? GetType ( ).FullName);
@@ -1036,7 +1039,7 @@ namespace TailForWin.NotifyIcon
     /// this class.
     /// </para>
     /// </summary>
-    ~TaskbarIcon ()
+    ~TaskbarIcon ( )
     {
       Dispose (false);
     }
@@ -1047,7 +1050,7 @@ namespace TailForWin.NotifyIcon
     /// <remarks>This method is not virtual by design. Derived classes
     /// should override <see cref="Dispose(bool)"/>.
     /// </remarks>
-    public void Dispose ()
+    public void Dispose ( )
     {
       Dispose (true);
 

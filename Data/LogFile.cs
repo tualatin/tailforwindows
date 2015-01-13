@@ -187,7 +187,7 @@ namespace TailForWin.Data
       Array.ForEach (encodings, fileEncode => FileEncoding.Add (fileEncode.GetEncoding ( )));
     }
 
-    private class CaseInsensitiveEncodingInfoNameComparer : IComparer
+    private class CaseInsensitiveEncodingInfoNameComparer: IComparer
     {
       int IComparer.Compare (Object x, Object y)
       {
@@ -211,7 +211,7 @@ namespace TailForWin.Data
     /// <summary>
     /// FileCreationTime comparer
     /// </summary>
-    public class FileManagerDataFileCreationTimeComparer : IComparer<FileManagerData>
+    public class FileManagerDataFileCreationTimeComparer: IComparer<FileManagerData>
     {
       #region IComparer<DateTime?> Members
 

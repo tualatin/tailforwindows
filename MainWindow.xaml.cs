@@ -47,7 +47,6 @@ namespace TailForWin
     {
       InitializeComponent ( );
 
-      TfWUpTimeStart = DateTime.Now;
       tbIcon.ToolTipText = Application.Current.FindResource ("TrayIconReady") as string;
       fancyToolTipTfW.ApplicationText = LogFile.APPLICATION_CAPTION;
       tbIcon.TrayMouseDoubleClick += DoubleClickNotifyIcon;
@@ -279,6 +278,8 @@ namespace TailForWin
 
         currentPage = page;
         TabItemUpdateParent (page);
+
+        SetSbIconText ( );
       }
     }
 
@@ -498,6 +499,14 @@ namespace TailForWin
     #endregion
 
     #region Helperfunctions
+
+    public void SetSbIconText ( )
+    {
+      if (currentPage.IsThreadBusy)
+        tbIcon.ToolTipText = Application.Current.FindResource ("Record") as string;
+      else
+        tbIcon.ToolTipText = Application.Current.FindResource ("TrayIconReady") as string;
+    }
 
     public void OpenFileFromParameter (string fName)
     {

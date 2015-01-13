@@ -285,6 +285,15 @@ namespace TailForWin.Template
       FilterState ( );
     }
 
+    /// <summary>
+    /// Is thread busy
+    /// </summary>
+    public bool IsThreadBusy
+    {
+      get;
+      private set;
+    }
+
     #region ClickEvent
 
     private void checkBoxOnTop_Click (object sender, RoutedEventArgs e)
@@ -594,6 +603,12 @@ namespace TailForWin.Template
         Thread.CurrentThread.Priority = tabProperties.ThreadPriority;
 
         childTabState = LogFile.STATUS_BAR_STATE_RUN;
+        IsThreadBusy = true;
+
+        LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke (new Action (( ) =>
+        {
+          LogFile.APP_MAIN_WINDOW.SetSbIconText ( );
+        }));
 
         if (LogFile.APP_MAIN_WINDOW.StatusBarState.Dispatcher.CheckAccess ( ))
           LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
@@ -696,6 +711,12 @@ namespace TailForWin.Template
         childTabItem.Style = (Style) FindResource ("TabItemStopStyle");
         SetControlVisibility ( );
         SetToolTipDetailText ( );
+        IsThreadBusy = false;
+
+        LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke (new Action (( ) =>
+        {
+          LogFile.APP_MAIN_WINDOW.SetSbIconText ( );
+        }));
 
         if (stopThread)
           KillThread ( );

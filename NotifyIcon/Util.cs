@@ -50,9 +50,9 @@ namespace TailForWin.NotifyIcon
     /// </summary>
     public static bool IsDesignMode
     {
-      get 
+      get
       {
-        return (isDesignMode); 
+        return (isDesignMode);
       }
     }
 
@@ -60,7 +60,7 @@ namespace TailForWin.NotifyIcon
 
     #region construction
 
-    static Util ()
+    static Util ( )
     {
       isDesignMode = (bool) DependencyPropertyDescriptor.FromProperty (DesignerProperties.IsInDesignModeProperty, typeof (FrameworkElement)).Metadata.DefaultValue;
     }
@@ -75,7 +75,7 @@ namespace TailForWin.NotifyIcon
     /// be used as a window message sink.
     /// </summary>
     /// <returns>Empty window.</returns>
-    public static Window CreateHelperWindow ()
+    public static Window CreateHelperWindow ( )
     {
       return (new Window
       {
@@ -104,7 +104,7 @@ namespace TailForWin.NotifyIcon
     {
       return (WriteIconData (ref data, command, data.ValidMembers));
     }
-    
+
     /// <summary>
     /// Updates the taskbar icons with data provided by a given
     /// <see cref="NotifyIconData"/> instance.
@@ -146,11 +146,11 @@ namespace TailForWin.NotifyIcon
         return (BalloonFlags.None);
 
       case BalloonIcon.Info:
-        
+
         return (BalloonFlags.Info);
 
       case BalloonIcon.Warning:
-        
+
         return (BalloonFlags.Warning);
 
       case BalloonIcon.Error:
@@ -243,23 +243,23 @@ namespace TailForWin.NotifyIcon
         return (me == MouseEvent.IconRightMouseUp);
 
       case PopupActivationMode.LeftOrRightClick:
-        
+
         return (me.Is (MouseEvent.IconLeftMouseUp, MouseEvent.IconRightMouseUp));
 
       case PopupActivationMode.LeftOrDoubleClick:
-        
+
         return (me.Is (MouseEvent.IconLeftMouseUp, MouseEvent.IconDoubleClick));
 
       case PopupActivationMode.DoubleClick:
-        
+
         return (me.Is (MouseEvent.IconDoubleClick));
 
       case PopupActivationMode.MiddleClick:
-       
+
         return (me == MouseEvent.IconMiddleMouseUp);
 
       case PopupActivationMode.All:
-        
+
         //return true for everything except mouse movements
         return (me != MouseEvent.MouseMove);
 
