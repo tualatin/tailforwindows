@@ -73,6 +73,8 @@ namespace TailForWin
       AddTailTab ( );
       tabControlTail.SelectedIndex = 0;
 
+      TfWUpTimeStart = DateTime.Now;
+
       // Important for command line parameter!
       if (LogFile.APP_MAIN_WINDOW == null)
         LogFile.APP_MAIN_WINDOW = (Application.Current.MainWindow as MainWindow);

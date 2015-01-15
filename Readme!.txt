@@ -4,6 +4,12 @@ Known issues: https://github.com/tualatin/tailforwindows/issues
 If there are problems, TailForWindows creates a error logfile in the directory. Please send me this error file bevore restart TfW, because the program deletes the error log file when it is started
 
 Changelog:
+v1.0.x
+
+* bug fix Uptime
+* improve StatusBar Tooltip information
+* some code refactories
+
 v1.0.5400.x
 * bug fix FileManager, does not changed the FontType
 * bug fix get file size exception

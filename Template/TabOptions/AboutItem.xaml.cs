@@ -100,6 +100,7 @@ namespace TailForWin.Template.TabOptions
       while (uptimeThread != null && !uptimeThread.CancellationPending)
       {
         TimeSpan updTime = DateTime.Now.Subtract (LogFile.APP_MAIN_WINDOW.TfWUpTimeStart);
+
         labelUptime.Dispatcher.Invoke (new Action (( ) => 
         {
           labelUptime.Content = string.Format ("{0} Day(s), {1:00}:{2:00}:{3:00} Hour(s)", updTime.Days, updTime.Hours, updTime.Minutes, updTime.Seconds);
