@@ -42,6 +42,7 @@ namespace TailForWin.Template.TabOptions
       updater.ApplicationName = LogFile.APPLICATION_CAPTION;
       updater.DataContext = SettingsHelper.TailSettings;
       checkBoxAutoUpdate.DataContext = SettingsHelper.TailSettings;
+      lbCopyright.Content = string.Format ("{0} {1}", lbCopyright.Content, DateTime.Now.Year);
 
       uptimeThread = new BackgroundWorker { WorkerSupportsCancellation = true };
       uptimeThread.DoWork += DoWork_Thread;
