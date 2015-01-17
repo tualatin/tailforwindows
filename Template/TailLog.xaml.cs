@@ -678,13 +678,12 @@ namespace TailForWin.Template
           lastMaxOffset = myReader.TailStreamReader.BaseStream.Position;
         }
 
-        if (tailWorker != null && tailWorker.CancellationPending)
-        {
-          myReader.CloseFileStream ( );
-
-          e.Cancel = true;
+        if (tailWorker == null || !tailWorker.CancellationPending)
           return;
-        }
+
+        myReader.CloseFileStream ( );
+
+        e.Cancel = true;
       }
       catch (ObjectDisposedException ex)
       {
