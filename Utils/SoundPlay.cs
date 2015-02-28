@@ -1,8 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using TailForWin.Data;
-using System.IO;
 
 
 namespace TailForWin.Utils
@@ -23,9 +23,9 @@ namespace TailForWin.Utils
     /// Initialize sound engine
     /// </summary>
     /// <param name="soundFile">Soundfile</param>
-    public static bool InitSoundPlay (string soundFile) 
+    public static bool InitSoundPlay (string soundFile)
     {
-      if (String.Compare(soundFile, LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0)
+      if (String.Compare (soundFile, LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0)
         return (false);
       if (!File.Exists (soundFile))
         return (false);
@@ -56,7 +56,7 @@ namespace TailForWin.Utils
       command = "play MediaFile";
 
       if (loop)
-       command += " REPEAT";
+        command += " REPEAT";
 
       result = mciSendString (command, null, 0, IntPtr.Zero);
 
@@ -74,12 +74,12 @@ namespace TailForWin.Utils
       mciSendString (command, null, 0, IntPtr.Zero);
     }
 
-    public static bool IsPlaying ()
+    public static bool IsPlaying ( )
     {
       command = "status MediaFile mode";
       result = mciSendString (command, ReturnData, 128, IntPtr.Zero);
 
-      if (ReturnData.Length == 7 && String.CompareOrdinal(ReturnData.ToString ( ).Substring (0, 7), "playing") == 0)
+      if (ReturnData.Length == 7 && String.CompareOrdinal (ReturnData.ToString ( ).Substring (0, 7), "playing") == 0)
         return (true);
 
       InitSoundPlay (mciMusicFile);
@@ -87,20 +87,20 @@ namespace TailForWin.Utils
       return (false);
     }
 
-    private static bool IsOpen ()
+    private static bool IsOpen ( )
     {
       command = "status MediaFile mode";
       result = mciSendString (command, ReturnData, 128, IntPtr.Zero);
 
-      return (ReturnData.Length == 4 && String.CompareOrdinal(ReturnData.ToString ( ).Substring (0, 4), "open") == 0);
+      return (ReturnData.Length == 4 && String.CompareOrdinal (ReturnData.ToString ( ).Substring (0, 4), "open") == 0);
     }
 
-    public static bool IsStopped ()
+    public static bool IsStopped ( )
     {
       command = "status MediaFile mode";
       result = mciSendString (command, ReturnData, 128, IntPtr.Zero);
 
-      return (ReturnData.Length == 7 && String.CompareOrdinal(ReturnData.ToString ( ).Substring (0, 7), "stopped") == 0);
+      return (ReturnData.Length == 7 && String.CompareOrdinal (ReturnData.ToString ( ).Substring (0, 7), "stopped") == 0);
     }
   }
 }

@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Globalization;
 
 
 namespace TailForWin.Utils
@@ -90,10 +89,12 @@ namespace TailForWin.Utils
 
     private static void MaskChangedCallback (DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      if (e.OldValue is TextBox)
+      var textBox = e.OldValue as TextBox;
+
+      if (textBox != null)
       {
-        (e.OldValue as TextBox).PreviewTextInput -= TextBox_PreviewTextInput;
-        DataObject.RemovePastingHandler ((e.OldValue as TextBox), (DataObjectPastingEventHandler) TextBoxPastingEventHandler);
+        textBox.PreviewTextInput -= TextBox_PreviewTextInput;
+        DataObject.RemovePastingHandler (textBox, TextBoxPastingEventHandler);
       }
 
       TextBox tb = (d as TextBox);
@@ -104,7 +105,7 @@ namespace TailForWin.Utils
       if ((MaskType) e.NewValue != MaskType.Any)
       {
         tb.PreviewTextInput += TextBox_PreviewTextInput;
-        DataObject.AddPastingHandler (tb, (DataObjectPastingEventHandler) TextBoxPastingEventHandler);
+        DataObject.AddPastingHandler (tb, TextBoxPastingEventHandler);
       }
 
       ValidateTextBox (tb);
@@ -127,7 +128,10 @@ namespace TailForWin.Utils
       clipboard = ValidateValue (GetMask (tb), clipboard);
 
       if (!string.IsNullOrEmpty (clipboard))
-        tb.Text = clipboard;
+      {
+        if (tb != null)
+          tb.Text = clipboard;
+      }
 
       e.CancelCommand ( );
       e.Handled = true;
@@ -139,7 +143,10 @@ namespace TailForWin.Utils
       bool isValid = IsSymbolValid (GetMask (tb), e.Text);
       e.Handled = !isValid;
 
-      if (isValid)
+      if (!isValid)
+        return;
+
+      if (tb != null)
       {
         int caret = tb.CaretIndex;
         string text = tb.Text;
@@ -152,11 +159,12 @@ namespace TailForWin.Utils
           caret = tb.SelectionStart;
         }
 
-        if (String.Compare (e.Text, NumberFormatInfo.CurrentInfo.NumberDecimalSeparator, false) == 0)
+        if (String.CompareOrdinal (e.Text, NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) == 0)
         {
           while (true)
           {
-            int ind = text.IndexOf (NumberFormatInfo.CurrentInfo.NumberDecimalSeparator);
+            int ind = text.IndexOf (NumberFormatInfo.CurrentInfo.NumberDecimalSeparator, StringComparison.Ordinal);
+
             if (ind == -1)
               break;
 
@@ -173,7 +181,7 @@ namespace TailForWin.Utils
           }
           else
           {
-            if (caret == 1 && String.Compare (string.Empty + text[0], NumberFormatInfo.CurrentInfo.NegativeSign, false) == 0)
+            if (caret == 1 && String.CompareOrdinal (string.Empty + text[0], NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
             {
               text = String.Format ("{0}0{1}", NumberFormatInfo.CurrentInfo.NegativeSign, text.Substring (1));
               caret++;
@@ -188,7 +196,7 @@ namespace TailForWin.Utils
             caret++;
           }
         }
-        else if (String.Compare (e.Text, NumberFormatInfo.CurrentInfo.NegativeSign, false) == 0)
+        else if (String.CompareOrdinal (e.Text, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
         {
           textInserted = true;
 
@@ -208,8 +216,7 @@ namespace TailForWin.Utils
 
         if (!textInserted)
         {
-          text = text.Substring (0, caret) + e.Text +
-              ((caret < tb.Text.Length) ? text.Substring (caret) : string.Empty);
+          text = text.Substring (0, caret) + e.Text + ((caret < tb.Text.Length) ? text.Substring (caret) : string.Empty);
 
           caret++;
         }
@@ -220,8 +227,8 @@ namespace TailForWin.Utils
         tb.CaretIndex = caret;
         tb.SelectionStart = caret;
         tb.SelectionLength = selectionLength;
-        e.Handled = true;
       }
+      e.Handled = true;
     }
 
     private static void SetCaretPosition (TextBox tb, ref string text, ref int caret)
@@ -242,8 +249,8 @@ namespace TailForWin.Utils
         text = "0";
       }
 
-      while (text.Length > 1 && String.Compare (text[0].ToString ( ), '0'.ToString ( ), false) == 0 &&
-             String.Compare (string.Empty + text[1], NumberFormatInfo.CurrentInfo.NumberDecimalSeparator, false) != 0)
+      while (text.Length > 1 && String.CompareOrdinal (text[0].ToString ( ), '0'.ToString ( )) == 0 &&
+             String.CompareOrdinal (string.Empty + text[1], NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) != 0)
       {
         text = text.Substring (1);
 
@@ -251,9 +258,9 @@ namespace TailForWin.Utils
           caret--;
       }
 
-      while (text.Length > 2 && String.Compare (string.Empty + text[0], NumberFormatInfo.CurrentInfo.NegativeSign, false) == 0 &&
-             String.Compare (text[1].ToString ( ), '0'.ToString ( ), false) == 0 &&
-             String.Compare (string.Empty + text[2], NumberFormatInfo.CurrentInfo.NumberDecimalSeparator, false) != 0)
+      while (text.Length > 2 && String.CompareOrdinal (string.Empty + text[0], NumberFormatInfo.CurrentInfo.NegativeSign) == 0 &&
+             String.CompareOrdinal (text[1].ToString ( ), '0'.ToString ( )) == 0 &&
+             String.CompareOrdinal (string.Empty + text[2], NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) != 0)
       {
         text = NumberFormatInfo.CurrentInfo.NegativeSign + text.Substring (2);
 
@@ -284,6 +291,7 @@ namespace TailForWin.Utils
         }
         catch
         {
+          // ignored
         }
         return (string.Empty);
 
@@ -297,6 +305,7 @@ namespace TailForWin.Utils
         }
         catch
         {
+          // ignored
         }
         return (string.Empty);
       }
@@ -311,12 +320,10 @@ namespace TailForWin.Utils
           return (min);
       }
 
-      if (!max.Equals (double.NaN))
-      {
-        if (value > max)
-          return (max);
-      }
-      return (value);
+      if (max.Equals (double.NaN))
+        return (value);
+
+      return (value > max ? (max) : (value));
     }
 
     private static bool IsSymbolValid (MaskType mask, string str)
@@ -329,14 +336,14 @@ namespace TailForWin.Utils
 
       case MaskType.Integer:
 
-        if (String.Compare (str, NumberFormatInfo.CurrentInfo.NegativeSign, false) == 0)
+        if (String.CompareOrdinal (str, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
           return (true);
         break;
 
       case MaskType.Decimal:
 
-        if (String.Compare (str, NumberFormatInfo.CurrentInfo.NumberDecimalSeparator, false) == 0 ||
-            String.Compare (str, NumberFormatInfo.CurrentInfo.NegativeSign, false) == 0)
+        if (String.CompareOrdinal (str, NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) == 0 ||
+            String.CompareOrdinal (str, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
           return (true);
         break;
       }
@@ -344,12 +351,7 @@ namespace TailForWin.Utils
       if (!(mask.Equals (MaskType.Integer) || mask.Equals (MaskType.Decimal)))
         return (false);
 
-      foreach (char ch in str)
-      {
-        if (!Char.IsDigit (ch))
-          return (false);
-      }
-      return (true);
+      return (str.All (Char.IsDigit));
     }
 
     #endregion

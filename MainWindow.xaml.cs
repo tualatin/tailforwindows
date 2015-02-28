@@ -1,17 +1,16 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using TailForWin.Template;
-using TailForWin.Data;
-using TailForWin.Utils;
-using TailForWin.Controller;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Controls.Primitives;
-using System.ComponentModel;
-using System.Windows.Input;
-using System.Text;
+﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
+using TailForWin.Controller;
+using TailForWin.Data;
+using TailForWin.Template;
+using TailForWin.Utils;
 
 
 namespace TailForWin
@@ -19,7 +18,7 @@ namespace TailForWin
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
-  public partial class MainWindow: IDisposable
+  public partial class MainWindow : IDisposable
   {
     private readonly ObservableCollection<TabItem> tailTabItems = new ObservableCollection<TabItem> ( );
     private readonly TabItem tabAdd;
@@ -189,17 +188,17 @@ namespace TailForWin
 
       foreach (TabItem item in tailTabItems)
       {
-        if ((item.Header as string).CompareTo ("+") == 0)
+        if (string.Compare ((item.Header as string), "+", StringComparison.Ordinal) == 0)
           continue;
 
         Point relativePoint = item.PointToScreen (new Point (0, 0));
         System.Drawing.Rectangle rc = new System.Drawing.Rectangle ((int) relativePoint.X, (int) relativePoint.Y, (int) item.DesiredSize.Width, (int) item.DesiredSize.Height);
 
-        if (rc.Contains ((int) mousePoint.X, (int) mousePoint.Y))
-        {
-          RemoveTab (item.Name);
-          return;
-        }
+        if (!rc.Contains ((int) mousePoint.X, (int) mousePoint.Y))
+          continue;
+
+        RemoveTab (item.Name);
+        return;
       }
     }
 
@@ -222,11 +221,11 @@ namespace TailForWin
         addNew = true;
       }
 
-      if (addNew)
-      {
-        TabItem newTab = AddTailTab ( );
-        tabControlTail.SelectedItem = newTab;
-      }
+      if (!addNew)
+        return;
+
+      TabItem newTab = AddTailTab ( );
+      tabControlTail.SelectedItem = newTab;
     }
 
     private static void DoubleClickNotifyIcon (object sender, EventArgs e)
@@ -581,7 +580,7 @@ namespace TailForWin
     {
       TailLog tabPage = tabTemplate.Content as TailLog;
 
-      return (tabPage != null ? (tabPage) : (null));
+      return (tabPage);
     }
 
     private void OnExit ( )
@@ -681,16 +680,16 @@ namespace TailForWin
       {
         foreach (TabItem item in tailTabItems)
         {
-          if (item.Content != null && item.Content.GetType ( ) == typeof (Frame))
-          {
-            TailLog page = GetTailLogWindow (item.Content as Frame);
+          if (item.Content == null || item.Content.GetType ( ) != typeof (Frame))
+            continue;
 
-            if (page == null)
-              return;
+          TailLog page = GetTailLogWindow (item.Content as Frame);
 
-            if (page.GetChildTabIndex ( ) != activePage.GetChildTabIndex ( ))
-              page.ActiveTab = false;
-          }
+          if (page == null)
+            return;
+
+          if (page.GetChildTabIndex ( ) != activePage.GetChildTabIndex ( ))
+            page.ActiveTab = false;
         }
       }
       catch (Exception ex)
@@ -729,15 +728,12 @@ namespace TailForWin
         tailTabItems.Remove (tab);
       }
     }
-    
+
     private TabItem Previous (TabItem current)
     {
       int index = tailTabItems.IndexOf (current);
 
-      if (index >= 1)
-        return (tailTabItems.ElementAt (index - 1));
-
-      return (current);
+      return (index >= 1 ? (tailTabItems.ElementAt (index - 1)) : (current));
     }
 
     #endregion

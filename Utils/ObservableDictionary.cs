@@ -1,56 +1,57 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Collections;
+using System.Linq;
 
 
 namespace TailForWin.Utils
 {
-  public class ObservableDictionary<TKey, TValue>: IDictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged
+  public class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged
   {
     private const string CountString = "Count";
     private const string IndexerName = "Item[]";
     private const string KeysName = "Keys";
     private const string ValuesName = "Values";
-    private IDictionary<TKey, TValue> _Dictionary;
 
     protected IDictionary<TKey, TValue> Dictionary
     {
-      get { return (_Dictionary); }
+      get;
+      private set;
     }
+
 
     #region Constructors
 
-    public ObservableDictionary ()
+    public ObservableDictionary ( )
     {
-      _Dictionary = new Dictionary<TKey, TValue> ( );
+      Dictionary = new Dictionary<TKey, TValue> ( );
     }
 
     public ObservableDictionary (IDictionary<TKey, TValue> dictionary)
     {
-      _Dictionary = new Dictionary<TKey, TValue> (dictionary);
+      Dictionary = new Dictionary<TKey, TValue> (dictionary);
     }
 
     public ObservableDictionary (IEqualityComparer<TKey> comparer)
     {
-      _Dictionary = new Dictionary<TKey, TValue> (comparer);
+      Dictionary = new Dictionary<TKey, TValue> (comparer);
     }
 
     public ObservableDictionary (int capacity)
     {
-      _Dictionary = new Dictionary<TKey, TValue> (capacity);
+      Dictionary = new Dictionary<TKey, TValue> (capacity);
     }
 
     public ObservableDictionary (IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
     {
-      _Dictionary = new Dictionary<TKey, TValue> (dictionary, comparer);
+      Dictionary = new Dictionary<TKey, TValue> (dictionary, comparer);
     }
 
     public ObservableDictionary (int capacity, IEqualityComparer<TKey> comparer)
     {
-      _Dictionary = new Dictionary<TKey, TValue> (capacity, comparer);
+      Dictionary = new Dictionary<TKey, TValue> (capacity, comparer);
     }
 
     #endregion
@@ -69,7 +70,10 @@ namespace TailForWin.Utils
 
     public ICollection<TKey> Keys
     {
-      get { return (Dictionary.Keys); }
+      get
+      {
+        return (Dictionary.Keys);
+      }
     }
 
     public bool Remove (TKey key)
@@ -95,7 +99,10 @@ namespace TailForWin.Utils
 
     public ICollection<TValue> Values
     {
-      get { return (Dictionary.Values); }
+      get
+      {
+        return (Dictionary.Values);
+      }
     }
 
     public TValue this[TKey key]
@@ -119,7 +126,7 @@ namespace TailForWin.Utils
       Insert (item.Key, item.Value, true);
     }
 
-    public void Clear ()
+    public void Clear ( )
     {
       if (Dictionary.Count <= 0)
         return;
@@ -140,12 +147,18 @@ namespace TailForWin.Utils
 
     public int Count
     {
-      get { return (Dictionary.Count); }
+      get
+      {
+        return (Dictionary.Count);
+      }
     }
 
     public bool IsReadOnly
     {
-      get { return (Dictionary.IsReadOnly); }
+      get
+      {
+        return (Dictionary.IsReadOnly);
+      }
     }
 
     public bool Remove (KeyValuePair<TKey, TValue> item)
@@ -157,7 +170,7 @@ namespace TailForWin.Utils
 
     #region IEnumerable<KeyValuePair<TKey,TValue>> Members
 
-    public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator ()
+    public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator ( )
     {
       return (Dictionary.GetEnumerator ( ));
     }
@@ -166,7 +179,7 @@ namespace TailForWin.Utils
 
     #region IEnumerable Members
 
-    IEnumerator IEnumerable.GetEnumerator ()
+    IEnumerator IEnumerable.GetEnumerator ( )
     {
       return (((IEnumerable) Dictionary).GetEnumerator ( ));
     }
@@ -195,14 +208,14 @@ namespace TailForWin.Utils
 
       if (Dictionary.Count > 0)
       {
-        if (items.Keys.Any ((k) => Dictionary.ContainsKey (k)))
+        if (items.Keys.Any (k => Dictionary.ContainsKey (k)))
           throw new ArgumentException ("An item with the same key has already been added.");
         else
           foreach (var item in items)
             Dictionary.Add (item);
       }
       else
-        _Dictionary = new Dictionary<TKey, TValue> (items);
+        Dictionary = new Dictionary<TKey, TValue> (items);
 
       OnCollectionChanged (NotifyCollectionChangedAction.Add, items.ToArray ( ));
     }
@@ -233,7 +246,7 @@ namespace TailForWin.Utils
       }
     }
 
-    private void OnPropertyChanged ()
+    private void OnPropertyChanged ( )
     {
       OnPropertyChanged (CountString);
       OnPropertyChanged (IndexerName);
@@ -247,7 +260,7 @@ namespace TailForWin.Utils
         PropertyChanged (this, new PropertyChangedEventArgs (propertyName));
     }
 
-    private void OnCollectionChanged ()
+    private void OnCollectionChanged ( )
     {
       OnPropertyChanged ( );
 
