@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("Virtual Studios")]
 [assembly: AssemblyProduct ("TailForWindows")]
-[assembly: AssemblyCopyright ("Copyright ©  2013 - 2014 M. Zoennchen")]
+[assembly: AssemblyCopyright ("Copyright ©  2013 - 2015 M. Zoennchen")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 
