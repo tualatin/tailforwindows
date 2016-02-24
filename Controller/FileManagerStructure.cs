@@ -1,13 +1,14 @@
-﻿using System.Xml.Linq;
-using System.IO;
+﻿using System;
 using System.Collections.Generic;
-using TailForWin.Data;
-using System.Drawing;
-using System;
-using System.Globalization;
-using System.Linq;
 using System.Collections.ObjectModel;
+using System.Drawing;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Xml.Linq;
+using TailForWin.Data;
+using TailForWin.Data.Enums;
 using TailForWin.Utils;
 
 
@@ -565,12 +566,12 @@ namespace TailForWin.Controller
     {
       switch (SettingsHelper.TailSettings.DefaultFileSort)
       {
-      case SettingsData.EFileSort.FileCreationTime:
+      case EFileSort.FileCreationTime:
 
         fmProperties.Sort (new LogFile.FileManagerDataFileCreationTimeComparer ( ));
         break;
 
-      case SettingsData.EFileSort.Nothing:
+      case EFileSort.Nothing:
 
         fmProperties = fmProperties.OrderBy (o => o.File).ToList ( );
         break;
@@ -727,7 +728,7 @@ namespace TailForWin.Controller
       return (SettingsHelper.GetThreadPriority (sThreadPriority));
     }
 
-    private static SettingsData.ETailRefreshRate GetRefreshRate (string sRefreshRate)
+    private static ETailRefreshRate GetRefreshRate (string sRefreshRate)
     {
       return (SettingsHelper.GetRefreshRate (sRefreshRate));
     }

@@ -1,6 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
 using System.Collections.Generic;
-using System;
+using System.Text.RegularExpressions;
+using TailForWin.Data.Enums;
 using TailForWin.Utils;
 
 

@@ -2,6 +2,7 @@
 using System.Timers;
 using TailForWin.Controller;
 using TailForWin.Data;
+using TailForWin.Data.Enums;
 using TailForWin.Template.UpdateController;
 
 

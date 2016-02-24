@@ -1,11 +1,12 @@
-﻿using System.Net.Mail;
-using TailForWin.Controller;
-using System.Net;
-using TailForWin.Data;
-using System.Windows;
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Net;
+using System.Net.Mail;
+using System.Windows;
+using TailForWin.Controller;
+using TailForWin.Data;
+using TailForWin.Data.Enums;
 
 
 namespace TailForWin.Utils

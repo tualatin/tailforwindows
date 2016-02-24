@@ -1,12 +1,14 @@
-﻿using System.Windows;
-using TailForWin.Data;
-using TailForWin.Controller;
-using System.Windows.Input;
+﻿using System;
 using System.Diagnostics;
-using System.Text;
-using System;
-using TailForWin.Utils;
 using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Windows;
+using System.Windows.Input;
+using TailForWin.Controller;
+using TailForWin.Data;
+using TailForWin.Data.Enums;
+using TailForWin.Utils;
 
 
 namespace TailForWin.Template
@@ -26,7 +28,7 @@ namespace TailForWin.Template
     /// </summary>
     public event EventHandler OpenFileAsNewTab;
 
-    private SettingsData.EFileManagerState fmState;
+    private EFileManagerState fmState;
     private FileManagerStructure fmDoc;
     private readonly bool isInit;
 
@@ -46,7 +48,7 @@ namespace TailForWin.Template
     private FileManagerData.MementoFileManagerData fmMemento;
 
 
-    public FileManager (SettingsData.EFileManagerState fmState, TailLogData addFile)
+    public FileManager (EFileManagerState fmState, TailLogData addFile)
     {
       this.fmState = fmState;
       fmProperties = new FileManagerData
@@ -67,7 +69,7 @@ namespace TailForWin.Template
       InitializeComponent ( );
       InitFileManager ( );
 
-      if (fmState == SettingsData.EFileManagerState.AddFile)
+      if (fmState == EFileManagerState.AddFile)
       {
         SetAddSaveButton (false);
 
@@ -130,7 +132,7 @@ namespace TailForWin.Template
     {
       switch (fmState)
       {
-      case SettingsData.EFileManagerState.AddFile:
+      case EFileManagerState.AddFile:
 
         FileManagerData lastItem = fmDoc.FmProperties[fmDoc.FmProperties.Count - 1];
         fmDoc.FmProperties.Remove (lastItem);
@@ -139,7 +141,7 @@ namespace TailForWin.Template
         SetDialogTitle ( );
         break;
 
-      case SettingsData.EFileManagerState.EditItem:
+      case EFileManagerState.EditItem:
 
         if (fmMemento != null)
           fmWorkingProperties.RestoreFromMemento (fmMemento);
@@ -154,7 +156,7 @@ namespace TailForWin.Template
         break;
       }
 
-      fmState = SettingsData.EFileManagerState.OpenFileManager;
+      fmState = EFileManagerState.OpenFileManager;
       SetAddSaveButton ( );
     }
 
@@ -181,7 +183,7 @@ namespace TailForWin.Template
           SelectLastItemInDataGrid ( );
       }
 
-      fmState = SettingsData.EFileManagerState.OpenFileManager;
+      fmState = EFileManagerState.OpenFileManager;
     }
 
     private void btnSave_Click (object sender, RoutedEventArgs e)
@@ -190,18 +192,18 @@ namespace TailForWin.Template
         fmWorkingProperties.Category = comboBoxCategory.SelectedItem as string;
 
       // TODO better solution (IsEnable property) at the moment workaground
-      if (fmWorkingProperties.EqualsProperties (fmMemento) && fmState != SettingsData.EFileManagerState.EditFilter)
+      if (fmWorkingProperties.EqualsProperties (fmMemento) && fmState != EFileManagerState.EditFilter)
         return;
 
       switch (fmState)
       {
-      case SettingsData.EFileManagerState.AddFile:
+      case EFileManagerState.AddFile:
 
         fmDoc.AddNewNode (fmWorkingProperties);
         break;
 
-      case SettingsData.EFileManagerState.EditItem:
-      case SettingsData.EFileManagerState.EditFilter:
+      case EFileManagerState.EditItem:
+      case EFileManagerState.EditFilter:
 
         fmDoc.UpdateNode (fmWorkingProperties);
         break;
@@ -220,7 +222,7 @@ namespace TailForWin.Template
       SetSelectedComboBoxItem (fmWorkingProperties.Category, fmWorkingProperties.ThreadPriority, fmWorkingProperties.RefreshRate, fmWorkingProperties.FileEncoding);
       Title = "FileManager";
       SetAddSaveButton ( );
-      fmState = SettingsData.EFileManagerState.OpenFileManager;
+      fmState = EFileManagerState.OpenFileManager;
       fmMemento = fmWorkingProperties.SaveToMemento ( );
     }
 
@@ -261,7 +263,7 @@ namespace TailForWin.Template
 
     private void Window_Loaded (object sender, RoutedEventArgs e)
     {
-      if (fmState == SettingsData.EFileManagerState.OpenFileManager)
+      if (fmState == EFileManagerState.OpenFileManager)
       {
         dataGridFiles.SelectedItem = dataGridFiles.Items[0];
         dataGridFiles.ScrollIntoView (dataGridFiles.Items[0]);
@@ -303,7 +305,7 @@ namespace TailForWin.Template
       if (!isInit)
         return;
 
-      fmWorkingProperties.RefreshRate = (SettingsData.ETailRefreshRate) comboBoxRefreshRate.SelectedItem;
+      fmWorkingProperties.RefreshRate = (ETailRefreshRate) comboBoxRefreshRate.SelectedItem;
       ChangeFmStateToEditItem ( );
     }
 
@@ -314,7 +316,7 @@ namespace TailForWin.Template
       if (!isInit)
         return;
 
-      fmWorkingProperties.ThreadPriority = (System.Threading.ThreadPriority) comboBoxThreadPriority.SelectedItem;
+      fmWorkingProperties.ThreadPriority = (ThreadPriority) comboBoxThreadPriority.SelectedItem;
       ChangeFmStateToEditItem ( );
     }
 
@@ -390,8 +392,8 @@ namespace TailForWin.Template
       dataGridFiles.Items.Refresh ( );
       FMProperties.DataContext = fmWorkingProperties;
 
-      if (fmState != SettingsData.EFileManagerState.AddFile)
-        fmState = SettingsData.EFileManagerState.EditFilter;
+      if (fmState != EFileManagerState.AddFile)
+        fmState = EFileManagerState.EditFilter;
 
       SetAddSaveButton (false);
     }
@@ -413,7 +415,7 @@ namespace TailForWin.Template
       if (string.IsNullOrEmpty (fileName))
         return;
 
-      fmState = SettingsData.EFileManagerState.AddFile;
+      fmState = EFileManagerState.AddFile;
 
       fmWorkingProperties = new FileManagerData
       {
@@ -469,10 +471,10 @@ namespace TailForWin.Template
       if (!isInit)
         return;
 
-      if (fmState != SettingsData.EFileManagerState.OpenFileManager || fmMemento == null || fmWorkingProperties == null || fmWorkingProperties.EqualsProperties (fmMemento))
+      if (fmState != EFileManagerState.OpenFileManager || fmMemento == null || fmWorkingProperties == null || fmWorkingProperties.EqualsProperties (fmMemento))
         return;
 
-      fmState = SettingsData.EFileManagerState.EditItem;
+      fmState = EFileManagerState.EditItem;
       SetAddSaveButton (false);
     }
 
@@ -502,7 +504,7 @@ namespace TailForWin.Template
       dataGridFiles.ScrollIntoView (fmDoc.FmProperties[fmDoc.FmProperties.Count - 1]);
     }
 
-    private void SetSelectedComboBoxItem (string category, System.Threading.ThreadPriority tp, SettingsData.ETailRefreshRate rr, Encoding fe)
+    private void SetSelectedComboBoxItem (string category, ThreadPriority tp, ETailRefreshRate rr, Encoding fe)
     {
       if (category != null)
         comboBoxCategory.SelectedValue = category;

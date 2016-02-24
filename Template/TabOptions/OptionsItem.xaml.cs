@@ -1,11 +1,12 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System;
-using TailForWin.Data;
-using TailForWin.Controller;
-using System.Windows.Input;
-using TailForWin.Utils;
+﻿using System;
 using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using TailForWin.Controller;
+using TailForWin.Data;
+using TailForWin.Data.Enums;
+using TailForWin.Utils;
 
 
 namespace TailForWin.Template.TabOptions
@@ -131,7 +132,7 @@ namespace TailForWin.Template.TabOptions
       e.Handled = true;
 
       if (isInit)
-        SettingsHelper.TailSettings.DefaultRefreshRate = (SettingsData.ETailRefreshRate) Enum.Parse (typeof (SettingsData.ETailRefreshRate), comboBoxThreadRefreshRate.SelectedItem as string);
+        SettingsHelper.TailSettings.DefaultRefreshRate = (ETailRefreshRate) Enum.Parse (typeof (ETailRefreshRate), comboBoxThreadRefreshRate.SelectedItem as string);
     }
 
     private void comboBoxTimeFormat_SelectionChanged (object sender, SelectionChangedEventArgs e)
@@ -139,7 +140,7 @@ namespace TailForWin.Template.TabOptions
       e.Handled = true;
 
       if (isInit)
-        SettingsHelper.TailSettings.DefaultTimeFormat = SettingsData.GetDescriptionEnum<SettingsData.ETimeFormat> (comboBoxTimeFormat.SelectedItem as string);
+        SettingsHelper.TailSettings.DefaultTimeFormat = SettingsData.GetDescriptionEnum<ETimeFormat> (comboBoxTimeFormat.SelectedItem as string);
     }
 
     private void comboBoxDateFormat_SelectionChanged (object sender, SelectionChangedEventArgs e)
@@ -147,7 +148,7 @@ namespace TailForWin.Template.TabOptions
       e.Handled = true;
 
       if (isInit)
-        SettingsHelper.TailSettings.DefaultDateFormat = SettingsData.GetDescriptionEnum<SettingsData.EDateFormat> (comboBoxDateFormat.SelectedItem as string);
+        SettingsHelper.TailSettings.DefaultDateFormat = SettingsData.GetDescriptionEnum<EDateFormat> (comboBoxDateFormat.SelectedItem as string);
     }
 
     #endregion
@@ -177,10 +178,10 @@ namespace TailForWin.Template.TabOptions
       Array.ForEach (Enum.GetNames (typeof(System.Threading.ThreadPriority)), priorityName => comboBoxThreadPriority.Items.Add (priorityName));
       comboBoxThreadPriority.SelectedIndex = 0;
 
-      Array.ForEach (Enum.GetNames (typeof(SettingsData.ETailRefreshRate)), refreshName => comboBoxThreadRefreshRate.Items.Add (refreshName));
+      Array.ForEach (Enum.GetNames (typeof(ETailRefreshRate)), refreshName => comboBoxThreadRefreshRate.Items.Add (refreshName));
       comboBoxThreadRefreshRate.SelectedIndex = 0;
 
-      foreach (SettingsData.ETimeFormat timeFormat in Enum.GetValues (typeof (SettingsData.ETimeFormat)))
+      foreach (ETimeFormat timeFormat in Enum.GetValues (typeof (ETimeFormat)))
       {
         string item = SettingsData.GetEnumDescription (timeFormat);
         comboBoxTimeFormat.Items.Add (item);
@@ -188,7 +189,7 @@ namespace TailForWin.Template.TabOptions
 
       comboBoxTimeFormat.SelectedIndex = 0;
 
-      foreach (SettingsData.EDateFormat dateFormat in Enum.GetValues (typeof (SettingsData.EDateFormat)))
+      foreach (EDateFormat dateFormat in Enum.GetValues (typeof (EDateFormat)))
       {
         string item = SettingsData.GetEnumDescription (dateFormat);
         comboBoxDateFormat.Items.Add (item);

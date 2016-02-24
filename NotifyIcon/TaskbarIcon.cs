@@ -29,6 +29,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using System.Windows.Threading;
+using TailForWin.Data.Enums;
 using TailForWin.NotifyIcon.Interop;
 using Point = TailForWin.NotifyIcon.Interop.Point;
 
@@ -903,7 +904,7 @@ namespace TailForWin.NotifyIcon
       }
 
       if (!status)
-        TailForWin.Utils.ErrorLog.WriteLog (TailForWin.Utils.ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, could not set version", System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
+        TailForWin.Utils.ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, could not set version", System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
     }
 
     #endregion

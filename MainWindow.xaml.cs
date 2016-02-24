@@ -9,6 +9,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using TailForWin.Controller;
 using TailForWin.Data;
+using TailForWin.Data.Enums;
 using TailForWin.Template;
 using TailForWin.Utils;
 

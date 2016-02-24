@@ -1,18 +1,19 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using TailForWin.Data;
-using System;
+﻿using System;
 using System.ComponentModel;
-using System.Threading;
 using System.Diagnostics;
-using TailForWin.Utils;
-using TailForWin.Controller;
-using System.Windows.Media;
 using System.IO;
 using System.Text;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
+using TailForWin.Controller;
+using TailForWin.Data;
+using TailForWin.Data.Enums;
 using TailForWin.Template.TextEditor.Converter;
 using TailForWin.Template.TextEditor.Data;
+using TailForWin.Utils;
 
 
 namespace TailForWin.Template
@@ -444,7 +445,7 @@ namespace TailForWin.Template
       if (!isInit)
         return;
 
-      SettingsData.ETailRefreshRate selection = (SettingsData.ETailRefreshRate) comboBoxRefreshRate.SelectedItem;
+      ETailRefreshRate selection = (ETailRefreshRate) comboBoxRefreshRate.SelectedItem;
       tabProperties.RefreshRate = selection;
       e.Handled = true;
     }
@@ -480,7 +481,7 @@ namespace TailForWin.Template
     {
       try
       {
-        FileManager fileManager = new FileManager (SettingsData.EFileManagerState.OpenFileManager, tabProperties)
+        FileManager fileManager = new FileManager (EFileManagerState.OpenFileManager, tabProperties)
                                   {
                                     Owner = LogFile.APP_MAIN_WINDOW
                                   };
@@ -496,7 +497,7 @@ namespace TailForWin.Template
 
     private void btnFileManagerAdd_Click (object sender, RoutedEventArgs e)
     {
-      FileManager fileManager = new FileManager (SettingsData.EFileManagerState.AddFile, tabProperties)
+      FileManager fileManager = new FileManager (EFileManagerState.AddFile, tabProperties)
       {
         Owner = LogFile.APP_MAIN_WINDOW,
         Title = string.Format ("FileManager - Add file '{0}'", tabProperties.File),
@@ -897,9 +898,9 @@ namespace TailForWin.Template
       {
         textBlockTailLog.Dispatcher.Invoke (new Action (( ) =>
         {
-          if (SettingsHelper.TailSettings.DefaultTimeFormat == SettingsData.ETimeFormat.HHMMd || SettingsHelper.TailSettings.DefaultTimeFormat == SettingsData.ETimeFormat.HHMMD)
+          if (SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMd || SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMD)
             StringFormatData.StringFormat = string.Format ("{0} {1}:ss.fff", SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultTimeFormat));
-          if (SettingsHelper.TailSettings.DefaultTimeFormat == SettingsData.ETimeFormat.HHMMSSd || SettingsHelper.TailSettings.DefaultTimeFormat == SettingsData.ETimeFormat.HHMMSSD)
+          if (SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMSSd || SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMSSD)
             StringFormatData.StringFormat = string.Format ("{0} {1}.fff", SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultTimeFormat));
 
           textBlockTailLog.AppendText (line);

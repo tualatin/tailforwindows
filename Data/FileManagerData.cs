@@ -1,9 +1,10 @@
-﻿using System.Drawing;
-using System;
-using System.Text;
-using System.Collections.ObjectModel;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
+using System.Text;
+using TailForWin.Data.Enums;
 
 
 namespace TailForWin.Data
@@ -302,7 +303,7 @@ namespace TailForWin.Data
       /// <summary>
       /// Refresh rate of thread
       /// </summary>
-      public SettingsData.ETailRefreshRate RefreshRate
+      public ETailRefreshRate RefreshRate
       {
         get;
         private set;
@@ -345,21 +346,6 @@ namespace TailForWin.Data
       }
 
       #endregion
-    }
-  }
-
-  public class FileManagerHelper
-  {
-    public int ID
-    {
-      get;
-      set;
-    }
-
-    public bool OpenFromFileManager
-    {
-      get;
-      set;
     }
   }
 }

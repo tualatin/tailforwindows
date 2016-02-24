@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Windows;
-using System.Net;
-using TailForWin.Utils;
 using System.IO;
+using System.Net;
 using System.Text;
+using System.Windows;
+using TailForWin.Data.Enums;
+using TailForWin.Utils;
 
 
 namespace TailForWin.Template.UpdateController

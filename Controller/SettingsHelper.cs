@@ -1,10 +1,11 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Configuration;
+using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using TailForWin.Data;
-using System.Configuration;
-using System;
-using System.Text.RegularExpressions;
+using TailForWin.Data.Enums;
 using TailForWin.Utils;
 
 
@@ -91,28 +92,28 @@ namespace TailForWin.Controller
         ReadDateFormatEnum (sHelper);
 
         sHelper = ConfigurationManager.AppSettings["ForegroundColor"];
-        CheckHexColorValue (sHelper, SettingsData.ETailLogColorTypes.ForegroundColor);
+        CheckHexColorValue (sHelper, ETailLogColorTypes.ForegroundColor);
 
         sHelper = ConfigurationManager.AppSettings["BackgroundColor"];
-        CheckHexColorValue (sHelper, SettingsData.ETailLogColorTypes.BackgroundColor);
+        CheckHexColorValue (sHelper, ETailLogColorTypes.BackgroundColor);
 
         sHelper = ConfigurationManager.AppSettings["InactiveForegroundColor"];
-        CheckHexColorValue (sHelper, SettingsData.ETailLogColorTypes.InactiveForegroundColor);
+        CheckHexColorValue (sHelper, ETailLogColorTypes.InactiveForegroundColor);
 
         sHelper = ConfigurationManager.AppSettings["InactiveBackgroundColor"];
-        CheckHexColorValue (sHelper, SettingsData.ETailLogColorTypes.InactiveBackgroundColor);
+        CheckHexColorValue (sHelper, ETailLogColorTypes.InactiveBackgroundColor);
 
         sHelper = ConfigurationManager.AppSettings["FindHighlightForegroundColor"];
-        CheckHexColorValue (sHelper, SettingsData.ETailLogColorTypes.FindHighlightForegroundColor);
+        CheckHexColorValue (sHelper, ETailLogColorTypes.FindHighlightForegroundColor);
 
         sHelper = ConfigurationManager.AppSettings["FindHighlightBackgroundColor"];
-        CheckHexColorValue (sHelper, SettingsData.ETailLogColorTypes.FindHighlightBackgroundColor);
+        CheckHexColorValue (sHelper, ETailLogColorTypes.FindHighlightBackgroundColor);
 
         sHelper = ConfigurationManager.AppSettings["LineNumbersColor"];
-        CheckHexColorValue (sHelper, SettingsData.ETailLogColorTypes.LineNumbersColor);
+        CheckHexColorValue (sHelper, ETailLogColorTypes.LineNumbersColor);
 
         sHelper = ConfigurationManager.AppSettings["HighlightColor"];
-        CheckHexColorValue (sHelper, SettingsData.ETailLogColorTypes.HighlightColor);
+        CheckHexColorValue (sHelper, ETailLogColorTypes.HighlightColor);
 
         sHelper = ConfigurationManager.AppSettings["SearchwndXPos"];
         SetSearchWindowPosition (sHelper);
@@ -227,10 +228,10 @@ namespace TailForWin.Controller
       TailSettings.WndXPos = -1;
       TailSettings.WndYPos = -1;
       TailSettings.DefaultThreadPriority = ThreadPriority.Normal;
-      TailSettings.DefaultRefreshRate = SettingsData.ETailRefreshRate.Normal;
+      TailSettings.DefaultRefreshRate = ETailRefreshRate.Normal;
       TailSettings.ExitWithEscape = false;
-      TailSettings.DefaultTimeFormat = SettingsData.ETimeFormat.HHMMD;
-      TailSettings.DefaultDateFormat = SettingsData.EDateFormat.DDMMYYYY;
+      TailSettings.DefaultTimeFormat = ETimeFormat.HHMMD;
+      TailSettings.DefaultDateFormat = EDateFormat.DDMMYYYY;
       TailSettings.DefaultBackgroundColor = LogFile.DEFAULT_BACKGROUND_COLOR;
       TailSettings.DefaultForegroundColor = LogFile.DEFAULT_FOREGROUND_COLOR;
       TailSettings.DefaultInactiveForegroundColor = LogFile.DEFAULT_INACTIVE_FOREGROUND_COLOR;
@@ -241,7 +242,7 @@ namespace TailForWin.Controller
       TailSettings.DefaultHighlightColor = LogFile.DEFAULT_HIGHLIGHT_COLOR;
       TailSettings.SearchWndXPos = -1;
       TailSettings.SearchWndYPos = -1;
-      TailSettings.DefaultFileSort = SettingsData.EFileSort.Nothing;
+      TailSettings.DefaultFileSort = EFileSort.Nothing;
       TailSettings.ShowLineNumbers = false;
       TailSettings.AutoUpdate = false;
 
@@ -488,15 +489,15 @@ namespace TailForWin.Controller
     /// </summary>
     /// <param name="s">Reference of refresh rate string</param>
     /// <returns>Enum from refresh rate</returns>
-    public static SettingsData.ETailRefreshRate GetRefreshRate (string s)
+    public static ETailRefreshRate GetRefreshRate (string s)
     {
       if (s == null)
-        return (SettingsData.ETailRefreshRate.Normal);
+        return (ETailRefreshRate.Normal);
 
-      if (Enum.GetNames (typeof (SettingsData.ETailRefreshRate)).All (refreshName => String.Compare (s.ToLower ( ), refreshName.ToLower ( ), StringComparison.Ordinal) != 0))
-        return (SettingsData.ETailRefreshRate.Normal);
+      if (Enum.GetNames (typeof (ETailRefreshRate)).All (refreshName => String.Compare (s.ToLower ( ), refreshName.ToLower ( ), StringComparison.Ordinal) != 0))
+        return (ETailRefreshRate.Normal);
 
-      SettingsData.ETailRefreshRate trr = (SettingsData.ETailRefreshRate) Enum.Parse (typeof (SettingsData.ETailRefreshRate), s);
+      ETailRefreshRate trr = (ETailRefreshRate) Enum.Parse (typeof (ETailRefreshRate), s);
 
       return (trr);
     }
@@ -509,58 +510,58 @@ namespace TailForWin.Controller
     private static void ReadTimeFormatEnum (string s)
     {
       if (s != null)
-        foreach (string timeFormat in Enum.GetNames (typeof (SettingsData.ETimeFormat)))
+        foreach (string timeFormat in Enum.GetNames (typeof (ETimeFormat)))
         {
           if (String.Compare (s, timeFormat, StringComparison.Ordinal) == 0)
           {
-            SettingsData.ETimeFormat tf = (SettingsData.ETimeFormat) Enum.Parse (typeof (SettingsData.ETimeFormat), s);
+            ETimeFormat tf = (ETimeFormat) Enum.Parse (typeof (ETimeFormat), s);
             TailSettings.DefaultTimeFormat = tf;
             break;
           }
 
-          TailSettings.DefaultTimeFormat = SettingsData.ETimeFormat.HHMMD;
+          TailSettings.DefaultTimeFormat = ETimeFormat.HHMMD;
         }
       else
-        TailSettings.DefaultTimeFormat = SettingsData.ETimeFormat.HHMMD;
+        TailSettings.DefaultTimeFormat = ETimeFormat.HHMMD;
     }
 
     private static void ReadDateFormatEnum (string s)
     {
       if (s != null)
-        foreach (string dateFormat in Enum.GetNames (typeof (SettingsData.EDateFormat)))
+        foreach (string dateFormat in Enum.GetNames (typeof (EDateFormat)))
         {
           if (String.Compare (s, dateFormat, StringComparison.Ordinal) == 0)
           {
-            SettingsData.EDateFormat df = (SettingsData.EDateFormat) Enum.Parse (typeof (SettingsData.EDateFormat), s);
+            EDateFormat df = (EDateFormat) Enum.Parse (typeof (EDateFormat), s);
             TailSettings.DefaultDateFormat = df;
             break;
           }
 
-          TailSettings.DefaultDateFormat = SettingsData.EDateFormat.DDMMYYYY;
+          TailSettings.DefaultDateFormat = EDateFormat.DDMMYYYY;
         }
       else
-        TailSettings.DefaultDateFormat = SettingsData.EDateFormat.DDMMYYYY;
+        TailSettings.DefaultDateFormat = EDateFormat.DDMMYYYY;
     }
 
     private static void ReadFileSortEnum (string s)
     {
       if (s != null)
-        foreach (string fileSort in Enum.GetNames (typeof (SettingsData.EFileSort)))
+        foreach (string fileSort in Enum.GetNames (typeof (EFileSort)))
         {
           if (String.Compare (s, fileSort, StringComparison.Ordinal) == 0)
           {
-            SettingsData.EFileSort fs = (SettingsData.EFileSort) Enum.Parse (typeof (SettingsData.EFileSort), s);
+            EFileSort fs = (EFileSort) Enum.Parse (typeof (EFileSort), s);
             TailSettings.DefaultFileSort = fs;
             break;
           }
 
-          TailSettings.DefaultFileSort = SettingsData.EFileSort.Nothing;
+          TailSettings.DefaultFileSort = EFileSort.Nothing;
         }
       else
-        TailSettings.DefaultFileSort = SettingsData.EFileSort.Nothing;
+        TailSettings.DefaultFileSort = EFileSort.Nothing;
     }
 
-    private static void CheckHexColorValue (string s, SettingsData.ETailLogColorTypes cType)
+    private static void CheckHexColorValue (string s, ETailLogColorTypes cType)
     {
       Match match6 = Regex.Match (s, @"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$");
       Match match8 = Regex.Match (s, @"^(#)?([0-9a-fA-F]{4})([0-9a-fA-F]{4})?$");
@@ -568,42 +569,42 @@ namespace TailForWin.Controller
 
       switch (cType)
       {
-      case SettingsData.ETailLogColorTypes.BackgroundColor:
+      case ETailLogColorTypes.BackgroundColor:
 
         TailSettings.DefaultBackgroundColor = !matched ? LogFile.DEFAULT_BACKGROUND_COLOR : s;
         break;
 
-      case SettingsData.ETailLogColorTypes.ForegroundColor:
+      case ETailLogColorTypes.ForegroundColor:
 
         TailSettings.DefaultForegroundColor = !matched ? LogFile.DEFAULT_FOREGROUND_COLOR : s;
         break;
 
-      case SettingsData.ETailLogColorTypes.InactiveForegroundColor:
+      case ETailLogColorTypes.InactiveForegroundColor:
 
         TailSettings.DefaultInactiveForegroundColor = !matched ? LogFile.DEFAULT_INACTIVE_FOREGROUND_COLOR : s;
         break;
 
-      case SettingsData.ETailLogColorTypes.InactiveBackgroundColor:
+      case ETailLogColorTypes.InactiveBackgroundColor:
 
         TailSettings.DefaultInactiveBackgroundColor = !matched ? LogFile.DEFAULT_INACTIVE_BACKGROUND_COLOR : s;
         break;
 
-      case SettingsData.ETailLogColorTypes.FindHighlightForegroundColor:
+      case ETailLogColorTypes.FindHighlightForegroundColor:
 
         TailSettings.DefaultHighlightForegroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR : s;
         break;
 
-      case SettingsData.ETailLogColorTypes.FindHighlightBackgroundColor:
+      case ETailLogColorTypes.FindHighlightBackgroundColor:
 
         TailSettings.DefaultHighlightBackgroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR : s;
         break;
 
-      case SettingsData.ETailLogColorTypes.LineNumbersColor:
+      case ETailLogColorTypes.LineNumbersColor:
 
         TailSettings.DefaultLineNumbersColor = !matched ? LogFile.DEFAULT_LINE_NUMBERS_COLOR : s;
         break;
 
-      case SettingsData.ETailLogColorTypes.HighlightColor:
+      case ETailLogColorTypes.HighlightColor:
 
         TailSettings.DefaultHighlightColor = !matched ? LogFile.DEFAULT_HIGHLIGHT_COLOR : s;
         break;

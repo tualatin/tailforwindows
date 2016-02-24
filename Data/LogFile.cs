@@ -1,11 +1,12 @@
-﻿using System.Linq;
-using System.Windows;
-using Microsoft.Win32;
-using System;
-using System.Collections.ObjectModel;
-using System.Text;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using Microsoft.Win32;
+using TailForWin.Data.Enums;
 
 
 namespace TailForWin.Data
@@ -32,7 +33,7 @@ namespace TailForWin.Data
     #region ObservableCollection
 
     private static ObservableCollection<System.Threading.ThreadPriority> threadPriority = new ObservableCollection<System.Threading.ThreadPriority> ( );
-    private static ObservableCollection<SettingsData.ETailRefreshRate> refreshRate = new ObservableCollection<SettingsData.ETailRefreshRate> ( );
+    private static ObservableCollection<ETailRefreshRate> refreshRate = new ObservableCollection<ETailRefreshRate> ( );
     private static ObservableCollection<Encoding> fileEncoding = new ObservableCollection<Encoding> ( );
     private static ObservableCollection<FileManagerHelper> fmHelper = new ObservableCollection<FileManagerHelper> ( );
 
@@ -137,7 +138,7 @@ namespace TailForWin.Data
     /// <summary>
     /// List of supported refresh rates
     /// </summary>
-    public static ObservableCollection<SettingsData.ETailRefreshRate> RefreshRate
+    public static ObservableCollection<ETailRefreshRate> RefreshRate
     {
       get
       {
@@ -170,7 +171,7 @@ namespace TailForWin.Data
     public static void InitObservableCollectionsRrtpfe ( )
     {
       // Threadrefresh rate
-      foreach (SettingsData.ETailRefreshRate refreshName in Enum.GetValues (typeof (SettingsData.ETailRefreshRate)))
+      foreach (ETailRefreshRate refreshName in Enum.GetValues (typeof (ETailRefreshRate)))
       {
         RefreshRate.Add (refreshName);
       }

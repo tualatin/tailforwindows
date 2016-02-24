@@ -1,9 +1,10 @@
-﻿using System.IO;
-using System;
-using System.Drawing;
-using System.Text;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Drawing;
+using System.IO;
+using System.Text;
+using TailForWin.Data.Enums;
 
 
 namespace TailForWin.Data
@@ -119,12 +120,12 @@ namespace TailForWin.Data
 
     #region RefreshRate
 
-    private SettingsData.ETailRefreshRate refreshRate;
+    private ETailRefreshRate refreshRate;
 
     /// <summary>
     /// Refreshrate for thread
     /// </summary>
-    public SettingsData.ETailRefreshRate RefreshRate
+    public ETailRefreshRate RefreshRate
     {
       get
       {

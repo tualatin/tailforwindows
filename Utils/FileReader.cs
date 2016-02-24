@@ -1,6 +1,7 @@
-﻿using System.IO;
-using System;
+﻿using System;
+using System.IO;
 using System.Text;
+using TailForWin.Data.Enums;
 
 
 namespace TailForWin.Utils

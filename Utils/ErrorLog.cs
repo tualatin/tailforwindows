@@ -1,32 +1,13 @@
-﻿using System.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Text;
+using TailForWin.Data.Enums;
 
 
 namespace TailForWin.Utils
 {
-  /// <summary>
-  /// Error flags
-  /// </summary>
-  public enum ErrorFlags
-  {
-    /// <summary>
-    /// Error
-    /// </summary>
-    Error = (byte) 'E',
-
-    /// <summary>
-    /// Info
-    /// </summary>
-    Info = (byte) 'I',
-
-    /// <summary>
-    /// Debug
-    /// </summary>
-    Debug = (byte) 'D'
-  }
 
   /// <summary>
   /// Error log class

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Input;
 using TailForWin.Controller;
 using TailForWin.Data;
-using System.Windows;
-using System.Text.RegularExpressions;
+using TailForWin.Data.Enums;
 using TailForWin.Utils;
 
 

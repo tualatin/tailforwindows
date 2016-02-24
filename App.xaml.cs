@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System;
 using System.Text.RegularExpressions;
+using System.Windows;
 using TailForWin.Controller;
 using TailForWin.Data;
-using System;
+using TailForWin.Data.Enums;
 using TailForWin.Utils;
 
 

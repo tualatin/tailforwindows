@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows;
-using TailForWin.Data;
 using System.Windows.Input;
+using TailForWin.Data;
+using TailForWin.Data.Enums;
 
 
 namespace TailForWin.Template
@@ -14,7 +15,7 @@ namespace TailForWin.Template
     private FilterData filterData;
     private readonly TailLogData tailLogData;
     private FilterData.MementoFilterData mementoFilterData;
-    private SettingsData.EFileManagerState fState;
+    private EFileManagerState fState;
     private readonly bool isInit;
     private int filterId;
 
@@ -69,7 +70,7 @@ namespace TailForWin.Template
 
     private void btnNew_Click (object sender, RoutedEventArgs e)
     {
-      fState = SettingsData.EFileManagerState.AddFile;
+      fState = EFileManagerState.AddFile;
       btnCancel.IsEnabled = false;
 
       filterData = new FilterData
@@ -94,21 +95,21 @@ namespace TailForWin.Template
     {
       switch (fState)
       {
-      case SettingsData.EFileManagerState.AddFile:
+      case EFileManagerState.AddFile:
 
         FilterData lastItem = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1];
         tailLogData.ListOfFilter.Remove (lastItem);
         dataGridFilters.Items.Refresh ( );
         break;
 
-      case SettingsData.EFileManagerState.EditItem:
+      case EFileManagerState.EditItem:
 
         if (mementoFilterData != null)
           filterData.RestoreFromMemento (mementoFilterData);
         break;
       }
 
-      fState = SettingsData.EFileManagerState.OpenFileManager;
+      fState = EFileManagerState.OpenFileManager;
     }
 
     private void btnDelete_Click (object sender, RoutedEventArgs e)
@@ -149,7 +150,7 @@ namespace TailForWin.Template
     {
       dataGridFilters.DataContext = tailLogData.ListOfFilter;
       filterProperties.DataContext = filterData;
-      fState = SettingsData.EFileManagerState.OpenFileManager;
+      fState = EFileManagerState.OpenFileManager;
     }
 
     private void dataGridFiles_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -202,8 +203,8 @@ namespace TailForWin.Template
       if (!isInit)
         return;
 
-      if (fState == SettingsData.EFileManagerState.OpenFileManager && mementoFilterData != null && filterData != null && !filterData.EqualsProperties (mementoFilterData))
-        fState = SettingsData.EFileManagerState.EditItem;
+      if (fState == EFileManagerState.OpenFileManager && mementoFilterData != null && filterData != null && !filterData.EqualsProperties (mementoFilterData))
+        fState = EFileManagerState.EditItem;
 
       if (SaveNow != null)
         SaveNow (this, EventArgs.Empty);

@@ -1,21 +1,22 @@
-﻿using System.Windows.Controls;
-using System.Windows;
-using System.ComponentModel;
-using System.Windows.Media;
-using System;
-using System.Windows.Input;
-using System.Globalization;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
-using System.Windows.Documents;
-using TailForWin.Template.TextEditor.Utils;
-using TailForWin.Template.TextEditor.Data;
-using TailForWin.Template.TextEditor.Converter;
-using TailForWin.Data;
-using System.Windows.Threading;
-using System.Windows.Data;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Threading;
+using TailForWin.Data;
+using TailForWin.Data.Enums;
+using TailForWin.Template.TextEditor.Converter;
+using TailForWin.Template.TextEditor.Data;
+using TailForWin.Template.TextEditor.Utils;
 
 
 namespace TailForWin.Template.TextEditor
@@ -737,7 +738,7 @@ namespace TailForWin.Template.TextEditor
         }
         catch (Exception ex)
         {
-          TailForWin.Utils.ErrorLog.WriteLog (TailForWin.Utils.ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
+          TailForWin.Utils.ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
         }
       }
 

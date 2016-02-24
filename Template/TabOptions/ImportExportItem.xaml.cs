@@ -1,11 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
-using System.IO;
-using TailForWin.Utils;
-using TailForWin.Data;
 using TailForWin.Controller;
+using TailForWin.Data;
+using TailForWin.Data.Enums;
+using TailForWin.Utils;
 
 
 namespace TailForWin.Template.TabOptions
