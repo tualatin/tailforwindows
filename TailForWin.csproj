@@ -140,6 +140,7 @@
     <Compile Include="Data\Enums\EDateFormat.cs" />
     <Compile Include="Data\Enums\EFileManagerState.cs" />
     <Compile Include="Data\Enums\EFileSort.cs" />
+    <Compile Include="Data\Enums\EMaskType.cs" />
     <Compile Include="Data\Enums\ETabState.cs" />
     <Compile Include="Data\Enums\ETailLogColorTypes.cs" />
     <Compile Include="Data\Enums\ETailRefreshRate.cs" />
@@ -275,6 +276,7 @@
     <Compile Include="Utils\GlobalMutex.cs" />
     <Compile Include="Converter\TailConverter.cs" />
     <Compile Include="Converter\TextTrimConverter.cs" />
+    <Compile Include="Utils\IconHelper.cs" />
     <Compile Include="Utils\MailClient.cs" />
     <Compile Include="Utils\ObservableDictionary.cs" />
     <Compile Include="Utils\SoundPlay.cs" />

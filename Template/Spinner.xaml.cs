@@ -5,8 +5,8 @@ using System.ComponentModel;
 using System;
 using System.Windows.Threading;
 using System.Threading;
-using System.Windows.Media;
 using System.Windows.Input;
+using TailForWin.Data.Enums;
 
 
 namespace TailForWin.Template
@@ -233,18 +233,18 @@ namespace TailForWin.Template
       }
     }
 
-    public static readonly DependencyProperty TextBoxMaskProperty = DependencyProperty.Register ("TextBoxMask", typeof (TailForWin.Utils.MaskType), typeof (Spinner), 
-      new PropertyMetadata (TailForWin.Utils.MaskType.Integer));
+    public static readonly DependencyProperty TextBoxMaskProperty = DependencyProperty.Register ("TextBoxMask", typeof (EMaskType), typeof (Spinner), 
+      new PropertyMetadata (EMaskType.Integer));
 
     /// <summary>
     /// TextBoxMask
     /// </summary>
     [Category ("Spinner Settings")]
-    public TailForWin.Utils.MaskType TextBoxMask
+    public EMaskType TextBoxMask
     {
       get
       {
-        return ((TailForWin.Utils.MaskType) GetValue (TextBoxMaskProperty));
+        return ((EMaskType) GetValue (TextBoxMaskProperty));
       }
       set
       {

@@ -16,7 +16,7 @@ namespace TailForWin.Template
   /// <summary>
   /// Interaction logic for FileManger.xaml
   /// </summary>
-  public partial class FileManager
+  public sealed partial class FileManager
   {
     /// <summary>
     /// FileManager DoUpdate event handler
@@ -100,7 +100,9 @@ namespace TailForWin.Template
       System.Drawing.Font textFont = fmWorkingProperties.FontType;
       System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
       {
-        ShowEffects = false, Font = textFont, FontMustExist = true
+        ShowEffects = false,
+        Font = textFont,
+        FontMustExist = true
       };
 
       if (fontManager.ShowDialog ( ) == System.Windows.Forms.DialogResult.Cancel)
@@ -162,8 +164,7 @@ namespace TailForWin.Template
 
     private void btnDelete_Click (object sender, RoutedEventArgs e)
     {
-      if (MessageBox.Show (Application.Current.FindResource ("QDeleteDataGridItem") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question,
-                           MessageBoxResult.No) != MessageBoxResult.Yes)
+      if (MessageBox.Show (Application.Current.FindResource ("QDeleteDataGridItem") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes)
         return;
 
       int index = dataGridFiles.SelectedIndex;
@@ -370,7 +371,7 @@ namespace TailForWin.Template
         if (text == null)
           return;
 
-        string fileName = string.Format ("{0}", ((string[]) text)[0]);
+        string fileName = $"{((string[]) text)[0]}";
         AddNewFile (fileName);
       }
       catch (Exception ex)
@@ -398,12 +399,10 @@ namespace TailForWin.Template
       SetAddSaveButton (false);
     }
 
-    protected virtual void OnDoUpdate ( )
+    private void OnDoUpdate ( )
     {
       EventHandler handler = DoUpdate;
-
-      if (handler != null)
-        handler (this, EventArgs.Empty);
+      handler?.Invoke (this, EventArgs.Empty);
     }
 
     #endregion
@@ -435,7 +434,7 @@ namespace TailForWin.Template
       fmWorkingProperties.ListOfFilter.Clear ( );
 
       fmDoc.FmProperties.Add (fmWorkingProperties);
-      Title = string.Format ("FileManager - Add file '{0}'", fileName);
+      Title = $"FileManager - Add file '{fileName}'";
       dataGridFiles.Items.Refresh ( );
       SelectLastItemInDataGrid ( );
 
@@ -447,15 +446,12 @@ namespace TailForWin.Template
     {
       var cellContent = cellInfo.Column.GetCellContent (cellInfo.Item);
 
-      if (cellContent != null)
-        return ((System.Windows.Controls.DataGridCell) cellContent.Parent);
-
-      return (null);
+      return (System.Windows.Controls.DataGridCell) cellContent?.Parent;
     }
 
     private void SetDialogTitle ( )
     {
-      if (String.Compare (Title, "FileManager", StringComparison.Ordinal) != 0)
+      if (string.Compare (Title, "FileManager", StringComparison.Ordinal) != 0)
         Title = "FileManager";
     }
 
@@ -568,18 +564,18 @@ namespace TailForWin.Template
         try
         {
           Process newWindow = new Process
-                              {
-                                StartInfo =
+          {
+            StartInfo =
                                 {
                                   FileName = Process.GetCurrentProcess ( ).MainModule.FileName,
-                                  Arguments = string.Format ("/id={0}", fmWorkingProperties.ID)
+                                  Arguments = $"/id={fmWorkingProperties.ID}"
                                 }
-                              };
+          };
           newWindow.Start ( );
         }
         catch (Exception ex)
         {
-          ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
+          ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, $"{System.Reflection.MethodBase.GetCurrentMethod ( ).Name}, exception: {ex}");
         }
       }
       else
@@ -604,8 +600,7 @@ namespace TailForWin.Template
 
         FileManagerDataEventArgs argument = new FileManagerDataEventArgs (fmWorkingProperties);
 
-        if (OpenFileAsNewTab != null)
-          OpenFileAsNewTab (this, argument);
+        OpenFileAsNewTab?.Invoke (this, argument);
 
         argument.Dispose ( );
       }

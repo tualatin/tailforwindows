@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Text.RegularExpressions;
 using TailForWin.Data;
+using TailForWin.Utils;
 
 
 namespace TailForWin.Template
@@ -35,6 +36,11 @@ namespace TailForWin.Template
       labelLineNumber.Content = string.Format (Application.Current.FindResource ("GoToLineNumber").ToString ( ), this.minLines, this.maxLines);
     }
 
+    protected override void OnSourceInitialized (EventArgs e)
+    {
+      IconHelper.RemoveIcon (this);
+    }
+
     private void btnOK_Click (object sender, RoutedEventArgs e)
     {
       if (userInput == -1)
@@ -42,9 +48,7 @@ namespace TailForWin.Template
 
       GoToLineData lineNumber = new GoToLineData { LineNumber = userInput };
 
-      if (GoToLineNumber != null)
-        GoToLineNumber (this, lineNumber);
-
+      GoToLineNumber?.Invoke (this, lineNumber);
       Close ( );
     }
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Controls;
-using System.Windows;
+﻿using System.Windows;
 
 
 namespace TailForWin.Template
@@ -10,7 +6,7 @@ namespace TailForWin.Template
   /// <summary>
   /// Interaction logic for FancyPopUp.xaml
   /// </summary>
-  public partial class FancyPopUp : UserControl
+  public partial class FancyPopUp
   {
     public FancyPopUp ()
     {

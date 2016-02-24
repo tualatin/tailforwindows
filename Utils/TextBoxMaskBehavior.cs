@@ -3,35 +3,11 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using TailForWin.Data.Enums;
 
 
 namespace TailForWin.Utils
 {
-  #region Enum MaskType
-
-  /// <summary>
-  /// TextBox mask types
-  /// </summary>
-  public enum MaskType
-  {
-    /// <summary>
-    /// Any type
-    /// </summary>
-    Any,
-
-    /// <summary>
-    /// Integer
-    /// </summary>
-    Integer,
-
-    /// <summary>
-    /// Decimal
-    /// </summary>
-    Decimal
-  }
-
-  #endregion
-
   public class TextBoxMaskBehavior
   {
     #region Control Properties
@@ -74,15 +50,15 @@ namespace TailForWin.Utils
       ValidateTextBox (tb);
     }
 
-    public static readonly DependencyProperty MaskProperty = DependencyProperty.RegisterAttached ("Mask", typeof (MaskType), typeof (TextBoxMaskBehavior),
+    public static readonly DependencyProperty MaskProperty = DependencyProperty.RegisterAttached ("Mask", typeof (EMaskType), typeof (TextBoxMaskBehavior),
       new FrameworkPropertyMetadata (MaskChangedCallback));
 
-    public static MaskType GetMask (DependencyObject obj)
+    public static EMaskType GetMask (DependencyObject obj)
     {
-      return ((MaskType) obj.GetValue (MaskProperty));
+      return ((EMaskType) obj.GetValue (MaskProperty));
     }
 
-    public static void SetMask (DependencyObject obj, MaskType value)
+    public static void SetMask (DependencyObject obj, EMaskType value)
     {
       obj.SetValue (MaskProperty, value);
     }
@@ -102,7 +78,7 @@ namespace TailForWin.Utils
       if (tb == null)
         return;
 
-      if ((MaskType) e.NewValue != MaskType.Any)
+      if ((EMaskType) e.NewValue != EMaskType.Any)
       {
         tb.PreviewTextInput += TextBox_PreviewTextInput;
         DataObject.AddPastingHandler (tb, TextBoxPastingEventHandler);
@@ -117,7 +93,7 @@ namespace TailForWin.Utils
 
     private static void ValidateTextBox (TextBox tb)
     {
-      if (GetMask (tb) != MaskType.Any)
+      if (GetMask (tb) != EMaskType.Any)
         tb.Text = ValidateValue (GetMask (tb), tb.Text);
     }
 
@@ -159,7 +135,7 @@ namespace TailForWin.Utils
           caret = tb.SelectionStart;
         }
 
-        if (String.CompareOrdinal (e.Text, NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) == 0)
+        if (string.CompareOrdinal (e.Text, NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) == 0)
         {
           while (true)
           {
@@ -181,9 +157,9 @@ namespace TailForWin.Utils
           }
           else
           {
-            if (caret == 1 && String.CompareOrdinal (string.Empty + text[0], NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
+            if (caret == 1 && string.CompareOrdinal (string.Empty + text[0], NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
             {
-              text = String.Format ("{0}0{1}", NumberFormatInfo.CurrentInfo.NegativeSign, text.Substring (1));
+              text = $"{NumberFormatInfo.CurrentInfo.NegativeSign}0{text.Substring(1)}";
               caret++;
             }
           }
@@ -192,11 +168,11 @@ namespace TailForWin.Utils
           {
             selectionLength = 1;
             textInserted = true;
-            text = String.Format ("{0}{1}0", text, NumberFormatInfo.CurrentInfo.NumberDecimalSeparator);
+            text = $"{text}{NumberFormatInfo.CurrentInfo.NumberDecimalSeparator}0";
             caret++;
           }
         }
-        else if (String.CompareOrdinal (e.Text, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
+        else if (string.CompareOrdinal (e.Text, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
         {
           textInserted = true;
 
@@ -272,7 +248,7 @@ namespace TailForWin.Utils
         caret = text.Length;
     }
 
-    private static string ValidateValue (MaskType mask, string value)
+    private static string ValidateValue (EMaskType mask, string value)
     {
       if (string.IsNullOrEmpty (value))
         return (string.Empty);
@@ -281,7 +257,7 @@ namespace TailForWin.Utils
 
       switch (mask)
       {
-      case MaskType.Integer:
+      case EMaskType.Integer:
 
         try
         {
@@ -295,7 +271,7 @@ namespace TailForWin.Utils
         }
         return (string.Empty);
 
-      case MaskType.Decimal:
+      case EMaskType.Decimal:
 
         try
         {
@@ -326,21 +302,21 @@ namespace TailForWin.Utils
       return (value > max ? (max) : (value));
     }
 
-    private static bool IsSymbolValid (MaskType mask, string str)
+    private static bool IsSymbolValid (EMaskType mask, string str)
     {
       switch (mask)
       {
-      case MaskType.Any:
+      case EMaskType.Any:
 
         return (true);
 
-      case MaskType.Integer:
+      case EMaskType.Integer:
 
         if (String.CompareOrdinal (str, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
           return (true);
         break;
 
-      case MaskType.Decimal:
+      case EMaskType.Decimal:
 
         if (String.CompareOrdinal (str, NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) == 0 ||
             String.CompareOrdinal (str, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
@@ -348,7 +324,7 @@ namespace TailForWin.Utils
         break;
       }
 
-      if (!(mask.Equals (MaskType.Integer) || mask.Equals (MaskType.Decimal)))
+      if (!(mask.Equals (EMaskType.Integer) || mask.Equals (EMaskType.Decimal)))
         return (false);
 
       return (str.All (Char.IsDigit));
