@@ -33,7 +33,10 @@ namespace TailForWin.Template
       userInput = -1;
 
       textBoxLineNumber.Focus ( );
-      labelLineNumber.Content = string.Format (Application.Current.FindResource ("GoToLineNumber").ToString ( ), this.minLines, this.maxLines);
+      var findResource = Application.Current.FindResource ("GoToLineNumber");
+
+      if (findResource != null)
+        labelLineNumber.Content = string.Format (findResource.ToString ( ), this.minLines, this.maxLines);
     }
 
     protected override void OnSourceInitialized (EventArgs e)
@@ -46,7 +49,7 @@ namespace TailForWin.Template
       if (userInput == -1)
         return;
 
-      GoToLineData lineNumber = new GoToLineData { LineNumber = userInput };
+      var lineNumber = new GoToLineData { LineNumber = userInput };
 
       GoToLineNumber?.Invoke (this, lineNumber);
       Close ( );
@@ -67,7 +70,7 @@ namespace TailForWin.Template
 
     private void textBoxLineNumber_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-      Regex regex = new Regex (@"\d");
+      var regex = new Regex (@"\d");
 
       if (regex.IsMatch (textBoxLineNumber.Text))
       {

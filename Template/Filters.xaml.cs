@@ -50,12 +50,12 @@ namespace TailForWin.Template
     {
       System.Drawing.Font filterFont = filterData.FilterFontType;
       System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
-      { 
-        ShowEffects = true, 
-        Font = filterFont, 
-        FontMustExist = true, 
-        Color = filterData.FilterColor, 
-        ShowColor = true 
+      {
+        ShowEffects = true,
+        Font = filterFont,
+        FontMustExist = true,
+        Color = filterData.FilterColor,
+        ShowColor = true
       };
 
       if (fontManager.ShowDialog ( ) != System.Windows.Forms.DialogResult.Cancel)
@@ -82,8 +82,7 @@ namespace TailForWin.Template
 
       tailLogData.ListOfFilter.Add (filterData);
 
-      if (SaveNow != null)
-        SaveNow (this, EventArgs.Empty);
+      SaveNow?.Invoke (this, EventArgs.Empty);
 
       dataGridFilters.Items.Refresh ( );
       SelectLastItemInDataGrid ( );
@@ -97,7 +96,7 @@ namespace TailForWin.Template
       {
       case EFileManagerState.AddFile:
 
-        FilterData lastItem = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1];
+        var lastItem = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1];
         tailLogData.ListOfFilter.Remove (lastItem);
         dataGridFilters.Items.Refresh ( );
         break;
@@ -107,6 +106,15 @@ namespace TailForWin.Template
         if (mementoFilterData != null)
           filterData.RestoreFromMemento (mementoFilterData);
         break;
+
+      case EFileManagerState.OpenFileManager:
+        break;
+
+      case EFileManagerState.EditFilter:
+        break;
+
+      default:
+        throw new ArgumentOutOfRangeException ( );
       }
 
       fState = EFileManagerState.OpenFileManager;
@@ -114,20 +122,22 @@ namespace TailForWin.Template
 
     private void btnDelete_Click (object sender, RoutedEventArgs e)
     {
-      if (MessageBox.Show (Application.Current.FindResource ("QDeleteDataGridItem").ToString ( ), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
-      {
-        int index = dataGridFilters.SelectedIndex;
-        filterData = dataGridFilters.SelectedItem as FilterData;
+      var findResource = Application.Current.FindResource ("QDeleteDataGridItem");
 
-        tailLogData.ListOfFilter.RemoveAt (index);
-        dataGridFilters.Items.Refresh ( );
+      if (findResource == null || MessageBox.Show (findResource.ToString ( ), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo,
+            MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes)
+        return;
 
-        if (SaveNow != null)
-          SaveNow (this, EventArgs.Empty);
+      var index = dataGridFilters.SelectedIndex;
+      filterData = dataGridFilters.SelectedItem as FilterData;
 
-        if (tailLogData.ListOfFilter.Count != 0)
-          SelectLastItemInDataGrid ( );
-      }
+      tailLogData.ListOfFilter.RemoveAt (index);
+      dataGridFilters.Items.Refresh ( );
+
+      SaveNow?.Invoke (this, EventArgs.Empty);
+
+      if (tailLogData.ListOfFilter.Count != 0)
+        SelectLastItemInDataGrid ( );
     }
 
     #endregion
@@ -138,11 +148,15 @@ namespace TailForWin.Template
     {
       foreach (FilterData item in tailLogData.ListOfFilter)
       {
-        if (string.IsNullOrWhiteSpace (item.Filter))
-        {
-          MessageBox.Show (Application.Current.FindResource ("FilterNotEmpty").ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-          e.Cancel = true;
-        }
+        if (!string.IsNullOrWhiteSpace (item.Filter))
+          continue;
+
+        var findResource = Application.Current.FindResource ("FilterNotEmpty");
+
+        if (findResource != null)
+          MessageBox.Show (findResource.ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+
+        e.Cancel = true;
       }
     }
 
@@ -158,10 +172,9 @@ namespace TailForWin.Template
       e.Handled = true;
 
       filterData = dataGridFilters.SelectedItem as FilterData;
-
-      mementoFilterData = filterData != null ? filterData.SaveToMemento ( ) : null;
+      mementoFilterData = filterData?.SaveToMemento ( );
     }
-    
+
     private void textBoxFilter_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
       if (!string.IsNullOrEmpty (textBoxFilter.Text))
@@ -189,16 +202,16 @@ namespace TailForWin.Template
 
     #region HelperFunctions
 
-    private void SelectLastItemInDataGrid ()
+    private void SelectLastItemInDataGrid ( )
     {
-      if (dataGridFilters.Items.Count > 0)
-      {
-        dataGridFilters.SelectedItem = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1];
-        dataGridFilters.ScrollIntoView (tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1]);
-      }
+      if (dataGridFilters.Items.Count <= 0)
+        return;
+
+      dataGridFilters.SelectedItem = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1];
+      dataGridFilters.ScrollIntoView (tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1]);
     }
 
-    private void ChangeState ()
+    private void ChangeState ( )
     {
       if (!isInit)
         return;
@@ -206,8 +219,7 @@ namespace TailForWin.Template
       if (fState == EFileManagerState.OpenFileManager && mementoFilterData != null && filterData != null && !filterData.EqualsProperties (mementoFilterData))
         fState = EFileManagerState.EditItem;
 
-      if (SaveNow != null)
-        SaveNow (this, EventArgs.Empty);
+      SaveNow?.Invoke (this, EventArgs.Empty);
     }
 
     #endregion
