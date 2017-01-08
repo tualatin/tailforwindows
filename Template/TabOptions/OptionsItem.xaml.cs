@@ -101,6 +101,10 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         }
         else
         {
+          if (MessageBox.Show(Application.Current.FindResource("QAddSendTo") as string, Application.Current.FindResource("Question") as string, MessageBoxButton.YesNo,
+                          MessageBoxImage.Question) == MessageBoxResult.No)
+            return;
+
           IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
           IWshRuntimeLibrary.IWshShortcut shortCut = shell.CreateShortcut(sendToLnkName);
           shortCut.TargetPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
