@@ -85,6 +85,9 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     // TODO CodeFolding
 
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public LogViewerControl()
     {
       InitializeComponent();

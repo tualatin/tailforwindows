@@ -64,6 +64,9 @@ namespace Org.Vs.TailForWin.Template
 
     #endregion
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public FancyToolTip()
     {
       InitializeComponent();

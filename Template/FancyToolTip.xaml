@@ -49,7 +49,7 @@
         </LinearGradientBrush>
       </Border.Background>
     </Border>
-    <Image HorizontalAlignment="Left" Margin="10,10,0,26" Width="48" Source="/Org.Vs.TailForWin;component/Res/Main.ico" Stretch="Fill" VerticalAlignment="Top" RenderTransformOrigin="0.792,0.486" x:Name="image" Height="48" >
+    <Image HorizontalAlignment="Left" Margin="10,10,0,26" Width="48" Source="/TailForWin;component/Res/Main.ico" Stretch="Fill" VerticalAlignment="Top" RenderTransformOrigin="0.792,0.486" x:Name="image" Height="48" >
       <Image.RenderTransform>
         <TransformGroup>
           <ScaleTransform ScaleX="1" ScaleY="1"/>
