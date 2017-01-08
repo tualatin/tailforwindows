@@ -1,7 +1,7 @@
-﻿using System.ComponentModel;
-using System.Text.RegularExpressions;
-using Org.Vs.TailForWin.Template.UpdateController.Data;
+﻿using Org.Vs.TailForWin.Template.UpdateController.Data;
 using System;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 
 namespace Org.Vs.TailForWin.Template.UpdateController
@@ -121,6 +121,9 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     #endregion
 
+    /// <summary>
+    /// Releases all resources used by the Updateservice.
+    /// </summary>
     public void Dispose()
     {
       if (updateThread == null)
@@ -130,6 +133,9 @@ namespace Org.Vs.TailForWin.Template.UpdateController
       updateThread = null;
     }
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public Updateservice()
     {
       updateThread = new BackgroundWorker { WorkerSupportsCancellation = true };

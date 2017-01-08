@@ -1,17 +1,24 @@
-﻿using System.Net;
+﻿using Org.Vs.TailForWin.Template.UpdateController.Data;
 using System;
 using System.IO;
-using Org.Vs.TailForWin.Template.UpdateController.Data;
+using System.Net;
 
 
 namespace Org.Vs.TailForWin.Template.UpdateController
 {
+  /// <summary>
+  /// WebService
+  /// </summary>
   public class Webservice
   {
     readonly WebServiceData proxySettings;
     HttpWebRequest request;
 
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="data">WebServiceData</param>
     public Webservice(WebServiceData data)
     {
       proxySettings = data;

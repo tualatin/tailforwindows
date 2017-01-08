@@ -63,7 +63,7 @@
                  HorizontalAlignment="Center"
                  VerticalAlignment="Top"
                  Margin="2"
-                 Source="/Org.Vs.TailForWin;component/Res/ColorSwatch.png"/>
+                 Source="/TailForWin;component/Res/ColorSwatch.png"/>
         <Canvas x:Name="canvasImage"
                 Width="150"
                 Height="150"
@@ -111,7 +111,7 @@
           <Border CornerRadius="5" BorderBrush="Black" Background="LightGray"
                             BorderThickness="1" Width="50" Height="30">
             <TextBox x:Name="txtAlpha" BorderThickness="0" Background="LightGray"
-                            BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="0"/>
+                            BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" />
           </Border>
           <Border CornerRadius="5" BorderBrush="Black" Background="LightGray"
                             BorderThickness="1" Margin="10,0,0,0" Width="50" Height="30">

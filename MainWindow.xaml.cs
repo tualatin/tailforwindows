@@ -37,7 +37,9 @@ namespace Org.Vs.TailForWin
     {
       foreach (TailLog page in tailTabItems.Where
                (item => item.Content != null && item.Content.GetType() == typeof(Frame)).Select(item => GetTailLogWindow(item.Content as Frame)).Where(page => page != null))
+      {
         page.StopThread();
+      }
 
       if (currentPage == null)
         return;
@@ -457,7 +459,9 @@ namespace Org.Vs.TailForWin
       foreach (TailLog page in (from item in tailTabItems
                                 where item.Content != null && item.Content.GetType() == typeof(Frame)
                                 select GetTailLogWindow(item.Content as Frame)).Where(page => page != null))
+      {
         page.SearchBoxActive();
+      }
     }
 
     private void HideSearchBoxEvent(object sender, EventArgs e)
@@ -491,7 +495,9 @@ namespace Org.Vs.TailForWin
       foreach (TailLog page in from item in tailTabItems
                                where item.Content != null && item.Content.GetType() == typeof(Frame)
                                select GetTailLogWindow(item.Content as Frame))
+      {
         page.WrapAround(wrap != null && wrap.Wrap);
+      }
     }
 
     private void BookmarkLineEvent(object sender, EventArgs e)
@@ -501,13 +507,18 @@ namespace Org.Vs.TailForWin
       foreach (TailLog page in from item in tailTabItems
                                where item.Content != null && item.Content.GetType() == typeof(Frame)
                                select GetTailLogWindow(item.Content as Frame))
+      {
         page.BookmarkLine(bookmarkLine != null && bookmarkLine.BookmarkLine);
+      }
     }
 
     #endregion
 
     #region Helperfunctions
 
+    /// <summary>
+    /// Set statusbar text
+    /// </summary>
     public void SetSbIconText()
     {
       if (currentPage.IsThreadBusy)
@@ -516,11 +527,20 @@ namespace Org.Vs.TailForWin
         tbIcon.ToolTipText = Application.Current.FindResource("TrayIconReady") as string;
     }
 
+    /// <summary>
+    /// Opens file from parameter
+    /// </summary>
+    /// <param name="fName">Name of file</param>
     public void OpenFileFromParameter(string fName)
     {
       parameterFileName = fName;
     }
 
+    /// <summary>
+    /// OnOpenFileManager tab
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     public void FileManagerTab(object sender, EventArgs e)
     {
       if (e.GetType() != typeof(FileManagerDataEventArgs))
@@ -715,8 +735,11 @@ namespace Org.Vs.TailForWin
 
       if (tab == null)
         return;
+
       if (tailTabItems.Count < 3)
+      {
         MessageBox.Show(Application.Current.FindResource("LastTab") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+      }
       else if (MessageBox.Show(string.Format("{0} '{1}'?", Application.Current.FindResource("QRemoveTab"), tab.Header), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.Yes)
       {
         TailLog page = GetTailLogWindow(tab.Content as Frame);

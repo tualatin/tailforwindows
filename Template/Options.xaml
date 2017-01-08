@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Org.Vs.TailForWin.Template.Options"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Options" Height="450" Width="420" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize" Icon="/Org.Vs.TailForWin;component/Res/system.ico"
+        Title="Options" Height="450" Width="420" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize" Icon="/TailForWin;component/Res/system.ico"
         xmlns:tabData="clr-namespace:Org.Vs.TailForWin.Template.TabOptions" AllowDrop="True" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converter">
   <Window.Resources>
     <conv:TabSizeMultiConverter x:Key="TabSize" />
@@ -23,18 +23,18 @@
         <TabItem.HeaderTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
-              <Image Source="/Org.Vs.TailForWin;component/Res/system.ico" />
+              <Image Source="/TailForWin;component/Res/system.ico" />
               <TextBlock Text="Options" Margin="5,0,0,0" />
             </StackPanel>
           </DataTemplate>
         </TabItem.HeaderTemplate>
-        <tabData:OptionsItem Margin="0" x:Name="tabOptionsItem" ToolTip="Adds 'Send to' to system context menu" Loaded="tabOptionsItem_Loaded" />
+        <tabData:OptionsItem Margin="0" x:Name="tabOptionsItem" ToolTip="Adds 'Send to' to system context menu" />
       </TabItem>
       <TabItem Header="Colors" Name="tabItemColor">
         <TabItem.HeaderTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
-              <Image Source="/Org.Vs.TailForWin;component/Res/colors.ico" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+              <Image Source="/TailForWin;component/Res/colors.ico" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
               <TextBlock Text="Colors" Margin="5,0,0,0" />
             </StackPanel>
           </DataTemplate>
@@ -45,7 +45,7 @@
         <TabItem.HeaderTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
-              <Image Source="/Org.Vs.TailForWin;component/Res/Alert.ico" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+              <Image Source="/TailForWin;component/Res/Alert.ico" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
               <TextBlock Text="Alerts" Margin="5,0,0,0" />
             </StackPanel>
           </DataTemplate>
@@ -56,7 +56,7 @@
         <TabItem.HeaderTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
-              <Image Source="/Org.Vs.TailForWin;component/Res/Export.ico" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+              <Image Source="/TailForWin;component/Res/Export.ico" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
               <TextBlock Text="Import/Export Settings" Margin="5,0,0,0" />
             </StackPanel>
           </DataTemplate>
@@ -67,7 +67,7 @@
         <TabItem.HeaderTemplate>
           <DataTemplate>
             <StackPanel Orientation="Horizontal">
-              <Image Source="/Org.Vs.TailForWin;component/Res/about.ico" Width="16" Height="16" />
+              <Image Source="/TailForWin;component/Res/about.ico" Width="16" Height="16" />
               <TextBlock Text="About" Margin="5,0,0,0" />
             </StackPanel>
           </DataTemplate>

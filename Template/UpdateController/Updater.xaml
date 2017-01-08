@@ -8,7 +8,7 @@
     <Grid>
     <Button Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnUpdater" Click="btnUpdater_Click" ToolTip="Check for Update" Margin="0">
       <StackPanel>
-        <Image Source="/Org.Vs.TailForWin;component/Template/UpdateController/update.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Width="24" Height="24" />
+        <Image Source="/TailForWin;component/Template/UpdateController/update.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Width="24" Height="24" />
       </StackPanel>
     </Button>
   </Grid>

@@ -16,6 +16,9 @@ namespace Org.Vs.TailForWin.Template
     public event EventHandler UpdateEvent;
 
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public Options()
     {
       InitializeComponent();

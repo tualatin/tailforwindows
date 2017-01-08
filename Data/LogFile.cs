@@ -1,33 +1,100 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using Org.Vs.TailForWin.Data.Enums;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using Microsoft.Win32;
-using Org.Vs.TailForWin.Data.Enums;
 
 
 namespace Org.Vs.TailForWin.Data
 {
+  /// <summary>
+  /// LogFile class
+  /// </summary>
   public static class LogFile
   {
-    public static string APPLICATION_CAPTION = "Org.Vs.TailForWindows";
+    /// <summary>
+    /// Application caption
+    /// </summary>
+    public static string APPLICATION_CAPTION = "TailForWindows";
+
+    /// <summary>
+    /// Status bar state run
+    /// </summary>
     public static string STATUS_BAR_STATE_RUN = Application.Current.FindResource("Record") as string;
+
+    /// <summary>
+    /// Status bar state pause
+    /// </summary>
     public static string STATUS_BAR_STATE_PAUSE = Application.Current.FindResource("Pause") as string;
+
+    /// <summary>
+    /// Tabbar child empty
+    /// </summary>
     public static string TABBAR_CHILD_EMPTY_STRING = Application.Current.FindResource("NoFile") as string;
+
+    /// <summary>
+    /// MessageBox error
+    /// </summary>
+    /// 
     public static string MSGBOX_ERROR = Application.Current.FindResource("Error") as string;
+
+    /// <summary>
+    /// Default forground color
+    /// </summary>
     public static string DEFAULT_FOREGROUND_COLOR = "#000000";
+
+    /// <summary>
+    /// Default background color
+    /// </summary>
     public static string DEFAULT_BACKGROUND_COLOR = "#FFFFFF";
+
+    /// <summary>
+    /// Default inactive foreground color
+    /// </summary>
     public static string DEFAULT_INACTIVE_FOREGROUND_COLOR = "#000000";
+    
+    /// <summary>
+    /// default inactive background color
+    /// </summary>
     public static string DEFAULT_INACTIVE_BACKGROUND_COLOR = "#FFFCFAF5";
+
+    /// <summary>
+    /// Default find highlight background color
+    /// </summary>
     public static string DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR = "#FFCC00";
+
+    /// <summary>
+    /// Default find highlight foreground color
+    /// </summary>
     public static string DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR = "#000000";
+
+    /// <summary>
+    /// Default line number color
+    /// </summary>
     public static string DEFAULT_LINE_NUMBERS_COLOR = "#808080";
+
+    /// <summary>
+    /// Default highlight color
+    /// </summary>
     public static string DEFAULT_HIGHLIGHT_COLOR = "#FF0000FF";
+
+    /// <summary>
+    /// Alert sound filename
+    /// </summary>
     public static string ALERT_SOUND_FILENAME = "NoFile";
+
+    /// <summary>
+    /// Alert email address
+    /// </summary>
     public static string ALERT_EMAIL_ADDRESS = "NoMail";
+
+    /// <summary>
+    /// Encrypt passphrase
+    /// </summary>
     public static string ENCRYPT_PASSPHRASE = "fhsdtgf45FSDvj_dhjf#+sdkjfh567gAQW";
 
     #region ObservableCollection

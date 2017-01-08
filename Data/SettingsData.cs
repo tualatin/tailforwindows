@@ -692,7 +692,7 @@ namespace Org.Vs.TailForWin.Data
     {
       get
       {
-        return ("https://github.com/tualatin/Org.Vs.TailForWindows/releases");
+        return ("https://github.com/tualatin/TailForWindows/releases");
       }
     }
 
