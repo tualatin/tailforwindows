@@ -6,25 +6,25 @@ using TailForWin.Data.Enums;
 
 namespace TailForWin.Utils
 {
-  public class FileReader: IDisposable
+  public class FileReader : IDisposable
   {
     private FileStream fs;
     private StreamReader reader;
     private Encoding fileEncoding;
 
 
-    public void Dispose ()
+    public void Dispose()
     {
       if (fs != null)
       {
-        fs.Dispose ( );
+        fs.Dispose();
         fs = null;
       }
 
       if (reader == null)
         return;
 
-      reader.Dispose ( );
+      reader.Dispose();
       reader = null;
     }
 
@@ -33,28 +33,28 @@ namespace TailForWin.Utils
     /// </summary>
     /// <param name="fileName">Name of file</param>
     /// <param name="encode">By default encode is null but you can set your own encoding</param>
-    public bool OpenTailFileStream (string fileName, Encoding encode = null) 
+    public bool OpenTailFileStream(string fileName, Encoding encode = null)
     {
-      if (!File.Exists (fileName))
+      if (!File.Exists(fileName))
         return (false);
 
       try
       {
-        fs = new FileStream (fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
         if (encode != null)
           fileEncoding = encode;
         else
-          DetectEncoding ( );
+          DetectEncoding();
 
-        reader = new StreamReader (fs, fileEncoding);
+        reader = new StreamReader(fs, fileEncoding);
 
         return (true);
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
-        Dispose ( );
+        ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex));
+        Dispose();
       }
       return (false);
     }
@@ -64,19 +64,19 @@ namespace TailForWin.Utils
     /// </summary>
     /// <param name="nLines">Number of line to read</param>
     /// <returns>Readed lines</returns>
-    public void ReadLastNLines (int nLines)
+    public void ReadLastNLines(int nLines)
     {
-      reader.BaseStream.Seek (0, SeekOrigin.End);
+      reader.BaseStream.Seek(0, SeekOrigin.End);
       LinesRead = 0;
 
       while ((LinesRead < nLines) && (reader.BaseStream.Position > 0))
       {
         reader.BaseStream.Position--;
-        int c = reader.BaseStream.ReadByte ( );
+        int c = reader.BaseStream.ReadByte();
 
         if (reader.BaseStream.Position > 0)
           reader.BaseStream.Position--;
-        if (c == Convert.ToInt32 ('\n'))
+        if (c == Convert.ToInt32('\n'))
           LinesRead++;
       }
     }
@@ -86,9 +86,9 @@ namespace TailForWin.Utils
     /// </summary>
     /// <param name="fileName">Name of file</param>
     /// <returns>If exist true otherwise false</returns>
-    public static bool FileExists (string fileName)
+    public static bool FileExists(string fileName)
     {
-      if (File.Exists (fileName))
+      if (File.Exists(fileName))
         return (true);
       else
         return (false);
@@ -97,15 +97,15 @@ namespace TailForWin.Utils
     /// <summary>
     /// Close filestreamer and streamreader
     /// </summary>
-    public void CloseFileStream ()
+    public void CloseFileStream()
     {
-      fs.Close ( );
-      reader.Close ( );
+      fs.Close();
+      reader.Close();
     }
 
-    private void DetectEncoding ()
+    private void DetectEncoding()
     {
-      fileEncoding = EncodingDetector.GetEncoding (fs);
+      fileEncoding = EncodingDetector.GetEncoding(fs);
 
       if (fileEncoding == null)
         fileEncoding = Encoding.Default;
@@ -144,9 +144,9 @@ namespace TailForWin.Utils
     /// </summary>
     public StreamReader TailStreamReader
     {
-      get 
-      { 
-        return (reader); 
+      get
+      {
+        return (reader);
       }
     }
 
@@ -167,7 +167,7 @@ namespace TailForWin.Utils
         }
         catch (Exception ex)
         {
-          ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
+          ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex));
           return (Double.NaN);
         }
       }

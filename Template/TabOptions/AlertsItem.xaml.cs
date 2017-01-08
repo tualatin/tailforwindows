@@ -26,99 +26,99 @@ namespace TailForWin.Template.TabOptions
     public event EventHandler SaveSettings;
 
 
-    public AlertsItem ()
+    public AlertsItem()
     {
-      InitializeComponent ( );
+      InitializeComponent();
 
-      PreviewKeyDown += HandleEsc;  
+      PreviewKeyDown += HandleEsc;
     }
 
     #region ClickEvents
-    
-    public void btnSave_Click (object sender, RoutedEventArgs e)
+
+    public void btnSave_Click(object sender, RoutedEventArgs e)
     {
       if (checkBoxSendMail.IsChecked == true)
       {
-        if (SettingsHelper.ParseEMailAddress (watermarkTextBoxEMailAddress.Text))
+        if (SettingsHelper.ParseEMailAddress(watermarkTextBoxEMailAddress.Text))
         {
           if (SaveSettings != null)
-            SaveSettings (this, EventArgs.Empty);
+            SaveSettings(this, EventArgs.Empty);
         }
         else
         {
-          MessageBox.Show (Application.Current.FindResource ("EMailAddressNotValid") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-          watermarkTextBoxEMailAddress.Focus ( );
+          MessageBox.Show(Application.Current.FindResource("EMailAddressNotValid") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+          watermarkTextBoxEMailAddress.Focus();
         }
       }
       else
         if (SaveSettings != null)
-          SaveSettings (this, EventArgs.Empty);
+        SaveSettings(this, EventArgs.Empty);
     }
 
-    public void btnCancel_Click (object sender, RoutedEventArgs e)
+    public void btnCancel_Click(object sender, RoutedEventArgs e)
     {
       if (CloseDialog != null)
-        CloseDialog (this, EventArgs.Empty);
+        CloseDialog(this, EventArgs.Empty);
     }
 
-    private void btnOpenSoundFile_Click (object sender, RoutedEventArgs e)
+    private void btnOpenSoundFile_Click(object sender, RoutedEventArgs e)
     {
       string fName;
 
-      if (LogFile.OpenFileLogDialog (out fName, "MP3 (*.mp3)|*.mp3|Wave (*.wav)|*.wav|All files (*.*)|*.*", Application.Current.FindResource ("SelectSoundFile") as string))
+      if (LogFile.OpenFileLogDialog(out fName, "MP3 (*.mp3)|*.mp3|Wave (*.wav)|*.wav|All files (*.*)|*.*", Application.Current.FindResource("SelectSoundFile") as string))
         textBoxSoundFile.Text = fName;
     }
 
-    private void btnTestEMail_Click (object sender, RoutedEventArgs e)
+    private void btnTestEMail_Click(object sender, RoutedEventArgs e)
     {
-      MailClient mailClient = new MailClient ( );
-      mailClient.SendMailComplete += (o, a) => mailClient.Dispose ( );
-      mailClient.InitClient ( );
-      mailClient.SendMail ("testMessage");
+      MailClient mailClient = new MailClient();
+      mailClient.SendMailComplete += (o, a) => mailClient.Dispose();
+      mailClient.InitClient();
+      mailClient.SendMail("testMessage");
     }
 
-    private void btnSmtp_Click (object sender, RoutedEventArgs e)
+    private void btnSmtp_Click(object sender, RoutedEventArgs e)
     {
-      Window wnd = Window.GetWindow (this);
+      Window wnd = Window.GetWindow(this);
       SmtpSettings smtp = new SmtpSettings { Owner = wnd };
 
-      smtp.ShowDialog ( );
+      smtp.ShowDialog();
     }
 
     #endregion
 
     #region Events
 
-    public void HandleEsc (object sender, KeyEventArgs e)
+    public void HandleEsc(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
-        btnCancel_Click (sender, e);
+        btnCancel_Click(sender, e);
     }
 
-    private void UserControl_Loaded (object sender, RoutedEventArgs e)
+    private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
       alertOptions.DataContext = SettingsHelper.TailSettings.AlertSettings;
     }
 
-    private void UserControl_Drop (object sender, DragEventArgs e)
+    private void UserControl_Drop(object sender, DragEventArgs e)
     {
       e.Handled = true;
 
       try
       {
-        var text = e.Data.GetData (DataFormats.FileDrop);
+        var text = e.Data.GetData(DataFormats.FileDrop);
 
         if (text == null)
           return;
 
-        string fileName = string.Format ("{0}", ((string[]) text)[0]);
-        string extension = System.IO.Path.GetExtension (fileName);
+        string fileName = string.Format("{0}", ((string[])text)[0]);
+        string extension = System.IO.Path.GetExtension(fileName);
 
-        Regex regex = new Regex (LogFile.REGEX_SOUNDFILE_EXTENSION);
+        Regex regex = new Regex(LogFile.REGEX_SOUNDFILE_EXTENSION);
 
-        if (!regex.IsMatch (extension))
+        if (!regex.IsMatch(extension))
         {
-          MessageBox.Show (Application.Current.FindResource ("NoSoundFile") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+          MessageBox.Show(Application.Current.FindResource("NoSoundFile") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
           return;
         }
 
@@ -126,11 +126,11 @@ namespace TailForWin.Template.TabOptions
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, "AlertsItem", string.Format ("AlertsItem Drop exception {0}", ex));
+        ErrorLog.WriteLog(ErrorFlags.Error, "AlertsItem", string.Format("AlertsItem Drop exception {0}", ex));
       }
     }
 
-    private void UserControl_DragEnter (object sender, DragEventArgs e)
+    private void UserControl_DragEnter(object sender, DragEventArgs e)
     {
       e.Handled = true;
 
@@ -138,7 +138,7 @@ namespace TailForWin.Template.TabOptions
         e.Effects = DragDropEffects.None;
     }
 
-    private void textBoxSoundFile_PreviewDragOver (object sender, DragEventArgs e)
+    private void textBoxSoundFile_PreviewDragOver(object sender, DragEventArgs e)
     {
       e.Handled = true;
     }

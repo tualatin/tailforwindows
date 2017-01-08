@@ -6,7 +6,7 @@ using System;
 
 namespace TailForWin.Template.UpdateController
 {
-  public class Updateservice: IDisposable
+  public class Updateservice : IDisposable
   {
     private Webservice webservice;
     private BackgroundWorker updateThread;
@@ -121,23 +121,23 @@ namespace TailForWin.Template.UpdateController
 
     #endregion
 
-    public void Dispose ()
+    public void Dispose()
     {
       if (updateThread == null)
         return;
 
-      updateThread.Dispose ( );
+      updateThread.Dispose();
       updateThread = null;
     }
 
-    public Updateservice ()
+    public Updateservice()
     {
       updateThread = new BackgroundWorker { WorkerSupportsCancellation = true };
       updateThread.DoWork += updateThread_DoWork;
       updateThread.RunWorkerCompleted += updateThread_Completed;
     }
 
-    public void InitWebService ( )
+    public void InitWebService()
     {
       WebServiceData data = new WebServiceData
       {
@@ -149,45 +149,45 @@ namespace TailForWin.Template.UpdateController
         UseProxySystemSettings = UseSystemSettings
       };
 
-      webservice = new Webservice (data);
+      webservice = new Webservice(data);
     }
 
     /// <summary>
     /// Start update thread
     /// </summary>
-    public void StartUpdate ( )
+    public void StartUpdate()
     {
       if (!updateThread.IsBusy)
-        updateThread.RunWorkerAsync ( );
+        updateThread.RunWorkerAsync();
 
       IsThreadCompleted = false;
     }
 
     #region Thread
 
-    private void updateThread_DoWork (object sender, DoWorkEventArgs e)
+    private void updateThread_DoWork(object sender, DoWorkEventArgs e)
     {
       string html = string.Empty;
 
-      if (!webservice.UpdateWebRequest (out html))
+      if (!webservice.UpdateWebRequest(out html))
         return;
 
       webData = html;
       Success = true;
     }
 
-    private void updateThread_Completed (object sender, RunWorkerCompletedEventArgs e)
+    private void updateThread_Completed(object sender, RunWorkerCompletedEventArgs e)
     {
-      if (!string.IsNullOrEmpty (webData))
+      if (!string.IsNullOrEmpty(webData))
       {
-        UpdateController uc = new UpdateController ( );
-        Match match = Regex.Match (UpdateURL, @"https://github.com", RegexOptions.IgnoreCase);
+        UpdateController uc = new UpdateController();
+        Match match = Regex.Match(UpdateURL, @"https://github.com", RegexOptions.IgnoreCase);
 
         if (match.Success)
         {
-          string tag = UpdateURL.Substring (match.Value.Length, UpdateURL.Length - match.Value.Length);
+          string tag = UpdateURL.Substring(match.Value.Length, UpdateURL.Length - match.Value.Length);
 
-          HaveToUpdate = uc.UpdateNecessary (webData, tag);
+          HaveToUpdate = uc.UpdateNecessary(webData, tag);
           WebVersion = uc.WebVersion;
           AppVersion = uc.AppVersion;
         }
@@ -196,7 +196,7 @@ namespace TailForWin.Template.UpdateController
       IsThreadCompleted = true;
 
       if (ThreadCompletedEvent != null)
-        ThreadCompletedEvent (this, EventArgs.Empty);
+        ThreadCompletedEvent(this, EventArgs.Empty);
     }
 
     #endregion

@@ -4,14 +4,14 @@ using System.Drawing;
 
 namespace TailForWin.Data
 {
-  public class FilterData: INotifyMaster, IDisposable
+  public class FilterData : INotifyMaster, IDisposable
   {
-    public void Dispose ( )
+    public void Dispose()
     {
       if (filterFontType == null)
         return;
 
-      filterFontType.Dispose ( );
+      filterFontType.Dispose();
       filterFontType = null;
     }
 
@@ -38,7 +38,7 @@ namespace TailForWin.Data
       set
       {
         description = value;
-        OnPropertyChanged ("Description");
+        OnPropertyChanged("Description");
       }
     }
 
@@ -56,7 +56,7 @@ namespace TailForWin.Data
       set
       {
         filter = value;
-        OnPropertyChanged ("Filter");
+        OnPropertyChanged("Filter");
       }
     }
 
@@ -74,7 +74,7 @@ namespace TailForWin.Data
       set
       {
         filterColor = value;
-        OnPropertyChanged ("FilterColor");
+        OnPropertyChanged("FilterColor");
       }
     }
 
@@ -92,7 +92,7 @@ namespace TailForWin.Data
       set
       {
         filterFontType = value;
-        OnPropertyChanged ("FilterFontType");
+        OnPropertyChanged("FilterFontType");
       }
     }
 
@@ -100,18 +100,18 @@ namespace TailForWin.Data
     /// Save data to memenento
     /// </summary>
     /// <returns>Copy of FilterData</returns>
-    public MementoFilterData SaveToMemento ( )
+    public MementoFilterData SaveToMemento()
     {
-      return (new MementoFilterData (this));
+      return (new MementoFilterData(this));
     }
 
     /// <summary>
     /// Create copy of object
     /// </summary>
     /// <returns>A clone of object</returns>
-    public FilterData Clone ( )
+    public FilterData Clone()
     {
-      return (MemberwiseClone ( ) as FilterData);
+      return (MemberwiseClone() as FilterData);
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ namespace TailForWin.Data
     /// </summary>
     /// <param name="obj">Reference of FilterData</param>
     /// <returns>If equal true otherwise false</returns>
-    public bool EqualsProperties (object obj)
+    public bool EqualsProperties(object obj)
     {
       MementoFilterData other = obj as MementoFilterData;
 
@@ -128,11 +128,11 @@ namespace TailForWin.Data
 
       bool equal = true;
 
-      equal &= Equals (other.Id, Id);
-      equal &= Equals (other.Filter, Filter);
-      equal &= Equals (other.Description, Description);
-      equal &= Equals (other.FilterColor, FilterColor);
-      equal &= Equals (other.FilterFontType, FilterFontType);
+      equal &= Equals(other.Id, Id);
+      equal &= Equals(other.Filter, Filter);
+      equal &= Equals(other.Description, Description);
+      equal &= Equals(other.FilterColor, FilterColor);
+      equal &= Equals(other.FilterFontType, FilterFontType);
 
       return (equal);
     }
@@ -141,12 +141,12 @@ namespace TailForWin.Data
     /// Roll object back to the state of the provided memento
     /// </summary>
     /// <param name="memento">The memento to roll back to</param>
-    public void RestoreFromMemento (MementoFilterData memento)
+    public void RestoreFromMemento(MementoFilterData memento)
     {
       MementoFilterData mementoFilterData = memento;
 
       if (mementoFilterData == null)
-        throw new ArgumentException (string.Format ("Argument is not a MementoFilterData {0}!", memento.GetType ( ).Name), "memento");
+        throw new ArgumentException(string.Format("Argument is not a MementoFilterData {0}!", memento.GetType().Name), "memento");
 
       Id = memento.Id;
       Filter = memento.Filter;
@@ -161,7 +161,7 @@ namespace TailForWin.Data
     /// </summary>
     public class MementoFilterData
     {
-      internal MementoFilterData (FilterData obj)
+      internal MementoFilterData(FilterData obj)
       {
         Id = obj.Id;
         Filter = obj.Filter;

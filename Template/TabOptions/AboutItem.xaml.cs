@@ -20,7 +20,7 @@ namespace TailForWin.Template.TabOptions
     /// Close dialog event handler
     /// </summary>
     public event EventHandler CloseDialog;
-    
+
     /// <summary>
     /// Save settubgs event handler
     /// </summary>
@@ -29,85 +29,85 @@ namespace TailForWin.Template.TabOptions
     private readonly BackgroundWorker uptimeThread;
 
 
-    public AboutItem ()
+    public AboutItem()
     {
-      InitializeComponent ( );
+      InitializeComponent();
 
       PreviewKeyDown += HandleEsc;
 
-      Assembly assembly = Assembly.GetExecutingAssembly ( );
-      labelBuildDate.Content = (BuildDate.GetBuildDateTime (assembly)).ToString ("dd.MM.yyyy HH:mm:ss");
+      Assembly assembly = Assembly.GetExecutingAssembly();
+      labelBuildDate.Content = (BuildDate.GetBuildDateTime(assembly)).ToString("dd.MM.yyyy HH:mm:ss");
       labelAppName.Content = LogFile.APPLICATION_CAPTION;
-      labelVersion.Content = assembly.GetName ( ).Version;
+      labelVersion.Content = assembly.GetName().Version;
       updater.ApplicationName = LogFile.APPLICATION_CAPTION;
       updater.DataContext = SettingsHelper.TailSettings;
       checkBoxAutoUpdate.DataContext = SettingsHelper.TailSettings;
-      lbCopyright.Content = string.Format ("{0} {1}", lbCopyright.Content, DateTime.Now.Year);
+      lbCopyright.Content = string.Format("{0} {1}", lbCopyright.Content, DateTime.Now.Year);
 
       uptimeThread = new BackgroundWorker { WorkerSupportsCancellation = true };
       uptimeThread.DoWork += DoWork_Thread;
 
-      Unloaded += (o, e) => uptimeThread.CancelAsync ( );
+      Unloaded += (o, e) => uptimeThread.CancelAsync();
     }
 
-    public void btnSave_Click (object sender, RoutedEventArgs e)
+    public void btnSave_Click(object sender, RoutedEventArgs e)
     {
       if (CloseDialog != null)
-        CloseDialog (this, EventArgs.Empty);
+        CloseDialog(this, EventArgs.Empty);
 
-      uptimeThread.CancelAsync ( );
+      uptimeThread.CancelAsync();
     }
 
-    public void btnCancel_Click (object sender, RoutedEventArgs e)
+    public void btnCancel_Click(object sender, RoutedEventArgs e)
     {
       if (SaveSettings != null)
-        SaveSettings (this, EventArgs.Empty);
+        SaveSettings(this, EventArgs.Empty);
 
-      throw new NotImplementedException ( );
+      throw new NotImplementedException();
     }
 
-    public void HandleEsc (object sender, KeyEventArgs e)
+    public void HandleEsc(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
-        btnSave_Click (sender, e);
+        btnSave_Click(sender, e);
     }
 
-    private void Hyperlink_RequestNavigate (object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+    private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
     {
-      Process.Start (new ProcessStartInfo (e.Uri.AbsoluteUri));
+      Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
       e.Handled = true;
     }
 
-    private void UserControl_Loaded (object sender, RoutedEventArgs e)
+    private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-      if (!string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.Password))
-        updater.ProxyAuthentification = new System.Net.NetworkCredential (SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt (SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
+      if (!string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password))
+        updater.ProxyAuthentification = new System.Net.NetworkCredential(SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
 
       if (!uptimeThread.IsBusy)
-        uptimeThread.RunWorkerAsync ( );
+        uptimeThread.RunWorkerAsync();
     }
 
-    private void btnSysInfo_Click (object sender, RoutedEventArgs e)
+    private void btnSysInfo_Click(object sender, RoutedEventArgs e)
     {
-      Window wnd = Window.GetWindow (this);
+      Window wnd = Window.GetWindow(this);
       SystemInformation sysInfo = new SystemInformation { Owner = wnd };
-      sysInfo.ShowDialog ( );
+      sysInfo.ShowDialog();
     }
 
     #region Thread
 
-    private void DoWork_Thread (object sender, DoWorkEventArgs e)
+    private void DoWork_Thread(object sender, DoWorkEventArgs e)
     {
       while (uptimeThread != null && !uptimeThread.CancellationPending)
       {
-        TimeSpan updTime = DateTime.Now.Subtract (LogFile.APP_MAIN_WINDOW.TfWUpTimeStart);
+        TimeSpan updTime = DateTime.Now.Subtract(LogFile.APP_MAIN_WINDOW.TfWUpTimeStart);
 
-        labelUptime.Dispatcher.Invoke (new Action (( ) => 
-        {
-          labelUptime.Content = string.Format ("{0} Day(s), {1:00}:{2:00}:{3:00} Hour(s)", updTime.Days, updTime.Hours, updTime.Minutes, updTime.Seconds);
-        }));
+        labelUptime.Dispatcher.Invoke(new Action(() =>
+      {
+        labelUptime.Content = string.Format("{0} Day(s), {1:00}:{2:00}:{3:00} Hour(s)", updTime.Days, updTime.Hours, updTime.Minutes, updTime.Seconds);
+      }));
 
-        System.Threading.Thread.Sleep (1000);
+        System.Threading.Thread.Sleep(1000);
       }
     }
 

@@ -5,22 +5,22 @@ using System.Windows.Media;
 
 namespace TailForWin.Converter
 {
-  class ColorToBrushConverter: IValueConverter
+  class ColorToBrushConverter : IValueConverter
   {
     #region IValueConverter Members
 
-    public object Convert (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if (value != null)
       {
-        if (value.GetType ( ) == typeof (System.Drawing.Color))
+        if (value.GetType() == typeof(System.Drawing.Color))
         {
           int num = -1;
 
-          if (!int.TryParse (((System.Drawing.Color) value).Name, out num))
+          if (!int.TryParse(((System.Drawing.Color)value).Name, out num))
           {
-            Color mediaColor = (Color) ColorConverter.ConvertFromString (((System.Drawing.Color) value).Name);
-            Brush brush = new SolidColorBrush ((Color) mediaColor);
+            Color mediaColor = (Color)ColorConverter.ConvertFromString(((System.Drawing.Color)value).Name);
+            Brush brush = new SolidColorBrush((Color)mediaColor);
 
             return (brush);
           }
@@ -31,9 +31,9 @@ namespace TailForWin.Converter
       return (null);
     }
 
-    public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      throw new NotImplementedException ( );
+      throw new NotImplementedException();
     }
 
     #endregion

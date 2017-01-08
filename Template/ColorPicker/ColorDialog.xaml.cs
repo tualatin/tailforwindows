@@ -10,15 +10,15 @@ namespace TailForWin.Template.ColorPicker
   /// </summary>
   public partial class ColorDialog
   {
-    public ColorDialog ()
-      : this (Colors.Black)
+    public ColorDialog()
+      : this(Colors.Black)
     {
 
     }
 
-    public ColorDialog (Color initialColor)
+    public ColorDialog(Color initialColor)
     {
-      InitializeComponent ( );
+      InitializeComponent();
       colorPicker.InitialColor = initialColor;
 
       PreviewKeyDown += HandleEsc;
@@ -29,13 +29,13 @@ namespace TailForWin.Template.ColorPicker
     /// </summary>
     public Color SelectedColor
     {
-      get 
-      { 
-        return (colorPicker.SelectedColor); 
+      get
+      {
+        return (colorPicker.SelectedColor);
       }
-      set 
-      { 
-        colorPicker.InitialColor = value; 
+      set
+      {
+        colorPicker.InitialColor = value;
       }
     }
 
@@ -50,20 +50,20 @@ namespace TailForWin.Template.ColorPicker
       }
     }
 
-    private void btnSave_Click (object sender, RoutedEventArgs e)
+    private void btnSave_Click(object sender, RoutedEventArgs e)
     {
       DialogResult = true;
     }
 
-    private void btnCancel_Click (object sender, RoutedEventArgs e)
+    private void btnCancel_Click(object sender, RoutedEventArgs e)
     {
       DialogResult = false;
     }
 
-    private void HandleEsc (object sender, KeyEventArgs e )
+    private void HandleEsc(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
-        btnCancel_Click (sender, e);
+        btnCancel_Click(sender, e);
     }
   }
 }

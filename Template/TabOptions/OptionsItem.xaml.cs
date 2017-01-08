@@ -30,77 +30,77 @@ namespace TailForWin.Template.TabOptions
     private string sendToLnkName;
 
 
-    public OptionsItem ()
+    public OptionsItem()
     {
-      InitializeComponent ( );
+      InitializeComponent();
 
       PreviewKeyDown += HandleEsc;
 
-      sendToLnkName = string.Format ("{0}\\{1}.lnk", Environment.GetFolderPath (Environment.SpecialFolder.SendTo), LogFile.APPLICATION_CAPTION);
+      sendToLnkName = string.Format("{0}\\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.SendTo), LogFile.APPLICATION_CAPTION);
 
-      Rename_BtnSendTo ( );
-      SetComboBoxes ( );
-      SetControls ( );
+      Rename_BtnSendTo();
+      SetComboBoxes();
+      SetControls();
 
       isInit = true;
     }
-    
+
     #region ClickEvents
-    
-    public void btnSave_Click (object sender, RoutedEventArgs e)
+
+    public void btnSave_Click(object sender, RoutedEventArgs e)
     {
       SettingsHelper.TailSettings.LinesRead = spinnerNLines.StartIndex;
 
       if (SaveSettings != null)
-        SaveSettings (this, EventArgs.Empty);
+        SaveSettings(this, EventArgs.Empty);
     }
 
-    public void btnCancel_Click (object sender, RoutedEventArgs e)
+    public void btnCancel_Click(object sender, RoutedEventArgs e)
     {
       if (CloseDialog != null)
-        CloseDialog (this, EventArgs.Empty);
+        CloseDialog(this, EventArgs.Empty);
     }
 
-    private void btnReset_Click (object sender, RoutedEventArgs e)
+    private void btnReset_Click(object sender, RoutedEventArgs e)
     {
-      if (MessageBox.Show (Application.Current.FindResource ("QResetSettings") as string,
-                         Application.Current.FindResource ("Question") as string, MessageBoxButton.YesNo,
+      if (MessageBox.Show(Application.Current.FindResource("QResetSettings") as string,
+                         Application.Current.FindResource("Question") as string, MessageBoxButton.YesNo,
                          MessageBoxImage.Question) != MessageBoxResult.Yes)
         return;
 
-      SettingsHelper.SetToDefault ( );
-      SetControls ( );
+      SettingsHelper.SetToDefault();
+      SetControls();
     }
 
-    private void btnProxy_Click (object sender, RoutedEventArgs e)
+    private void btnProxy_Click(object sender, RoutedEventArgs e)
     {
-      Window wnd = Window.GetWindow (this);
+      Window wnd = Window.GetWindow(this);
       ProxyServer ps = new ProxyServer { Owner = wnd };
 
-      ps.ShowDialog ( );
+      ps.ShowDialog();
     }
 
-    private void btnSendToMenu_Click (object sender, RoutedEventArgs e)
+    private void btnSendToMenu_Click(object sender, RoutedEventArgs e)
     {
       try
       {
-        if (File.Exists (sendToLnkName))
+        if (File.Exists(sendToLnkName))
         {
-          File.Delete (sendToLnkName);
-          Rename_BtnSendTo ( );
+          File.Delete(sendToLnkName);
+          Rename_BtnSendTo();
         }
         else
         {
-          IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell ( );
-          IWshRuntimeLibrary.IWshShortcut shortCut = shell.CreateShortcut (sendToLnkName);
-          shortCut.TargetPath = System.Reflection.Assembly.GetExecutingAssembly ( ).Location;
-          shortCut.Save ( );
-          Rename_BtnSendTo ( );
+          IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
+          IWshRuntimeLibrary.IWshShortcut shortCut = shell.CreateShortcut(sendToLnkName);
+          shortCut.TargetPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+          shortCut.Save();
+          Rename_BtnSendTo();
         }
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod ( ).Name, ex));
+        ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex));
       }
     }
 
@@ -108,91 +108,91 @@ namespace TailForWin.Template.TabOptions
 
     #region Events
 
-    private void UserControl_Loaded (object sender, RoutedEventArgs e)
+    private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
       gridOptions.DataContext = SettingsHelper.TailSettings;
     }
 
-    public void HandleEsc (object sender, KeyEventArgs e)
+    public void HandleEsc(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
-        btnCancel_Click (sender, e);
+        btnCancel_Click(sender, e);
     }
 
-    private void comboBoxThreadPriority_SelectionChanged (object sender, SelectionChangedEventArgs e)
+    private void comboBoxThreadPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
       if (isInit)
-        SettingsHelper.TailSettings.DefaultThreadPriority = (System.Threading.ThreadPriority) Enum.Parse (typeof (System.Threading.ThreadPriority), comboBoxThreadPriority.SelectedItem as string);
+        SettingsHelper.TailSettings.DefaultThreadPriority = (System.Threading.ThreadPriority)Enum.Parse(typeof(System.Threading.ThreadPriority), comboBoxThreadPriority.SelectedItem as string);
     }
 
-    private void comboBoxThreadRefreshRate_SelectionChanged (object sender, SelectionChangedEventArgs e)
+    private void comboBoxThreadRefreshRate_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
       if (isInit)
-        SettingsHelper.TailSettings.DefaultRefreshRate = (ETailRefreshRate) Enum.Parse (typeof (ETailRefreshRate), comboBoxThreadRefreshRate.SelectedItem as string);
+        SettingsHelper.TailSettings.DefaultRefreshRate = (ETailRefreshRate)Enum.Parse(typeof(ETailRefreshRate), comboBoxThreadRefreshRate.SelectedItem as string);
     }
 
-    private void comboBoxTimeFormat_SelectionChanged (object sender, SelectionChangedEventArgs e)
+    private void comboBoxTimeFormat_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
       if (isInit)
-        SettingsHelper.TailSettings.DefaultTimeFormat = SettingsData.GetDescriptionEnum<ETimeFormat> (comboBoxTimeFormat.SelectedItem as string);
+        SettingsHelper.TailSettings.DefaultTimeFormat = SettingsData.GetDescriptionEnum<ETimeFormat>(comboBoxTimeFormat.SelectedItem as string);
     }
 
-    private void comboBoxDateFormat_SelectionChanged (object sender, SelectionChangedEventArgs e)
+    private void comboBoxDateFormat_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
       if (isInit)
-        SettingsHelper.TailSettings.DefaultDateFormat = SettingsData.GetDescriptionEnum<EDateFormat> (comboBoxDateFormat.SelectedItem as string);
+        SettingsHelper.TailSettings.DefaultDateFormat = SettingsData.GetDescriptionEnum<EDateFormat>(comboBoxDateFormat.SelectedItem as string);
     }
 
     #endregion
 
     #region HelperFunctions
 
-    private void Rename_BtnSendTo ( )
+    private void Rename_BtnSendTo()
     {
-      if (File.Exists (sendToLnkName))
+      if (File.Exists(sendToLnkName))
         btnSendToMenu.Content = "Remove 'SendTo'";
       else
         btnSendToMenu.Content = "Add 'SendTo'";
     }
 
-    private void SetControls ()
+    private void SetControls()
     {
-      comboBoxThreadPriority.SelectedItem = SettingsHelper.TailSettings.DefaultThreadPriority.ToString ( );
-      comboBoxThreadRefreshRate.SelectedItem = SettingsHelper.TailSettings.DefaultRefreshRate.ToString ( );
-      comboBoxTimeFormat.SelectedItem = SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultTimeFormat);
-      comboBoxDateFormat.SelectedItem = SettingsData.GetEnumDescription (SettingsHelper.TailSettings.DefaultDateFormat);
+      comboBoxThreadPriority.SelectedItem = SettingsHelper.TailSettings.DefaultThreadPriority.ToString();
+      comboBoxThreadRefreshRate.SelectedItem = SettingsHelper.TailSettings.DefaultRefreshRate.ToString();
+      comboBoxTimeFormat.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat);
+      comboBoxDateFormat.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat);
 
       spinnerNLines.StartIndex = SettingsHelper.TailSettings.LinesRead;
     }
 
-    private void SetComboBoxes ()
+    private void SetComboBoxes()
     {
-      Array.ForEach (Enum.GetNames (typeof(System.Threading.ThreadPriority)), priorityName => comboBoxThreadPriority.Items.Add (priorityName));
+      Array.ForEach(Enum.GetNames(typeof(System.Threading.ThreadPriority)), priorityName => comboBoxThreadPriority.Items.Add(priorityName));
       comboBoxThreadPriority.SelectedIndex = 0;
 
-      Array.ForEach (Enum.GetNames (typeof(ETailRefreshRate)), refreshName => comboBoxThreadRefreshRate.Items.Add (refreshName));
+      Array.ForEach(Enum.GetNames(typeof(ETailRefreshRate)), refreshName => comboBoxThreadRefreshRate.Items.Add(refreshName));
       comboBoxThreadRefreshRate.SelectedIndex = 0;
 
-      foreach (ETimeFormat timeFormat in Enum.GetValues (typeof (ETimeFormat)))
+      foreach (ETimeFormat timeFormat in Enum.GetValues(typeof(ETimeFormat)))
       {
-        string item = SettingsData.GetEnumDescription (timeFormat);
-        comboBoxTimeFormat.Items.Add (item);
+        string item = SettingsData.GetEnumDescription(timeFormat);
+        comboBoxTimeFormat.Items.Add(item);
       }
 
       comboBoxTimeFormat.SelectedIndex = 0;
 
-      foreach (EDateFormat dateFormat in Enum.GetValues (typeof (EDateFormat)))
+      foreach (EDateFormat dateFormat in Enum.GetValues(typeof(EDateFormat)))
       {
-        string item = SettingsData.GetEnumDescription (dateFormat);
-        comboBoxDateFormat.Items.Add (item);
+        string item = SettingsData.GetEnumDescription(dateFormat);
+        comboBoxDateFormat.Items.Add(item);
       }
 
       comboBoxDateFormat.SelectedIndex = 0;

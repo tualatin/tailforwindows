@@ -3,21 +3,21 @@
 
 namespace TailForWin.Data
 {
-  public class FilterDataEventArgs: EventArgs, IDisposable
+  public class FilterDataEventArgs : EventArgs, IDisposable
   {
     private FilterData filterData;
 
 
-    public void Dispose ( )
+    public void Dispose()
     {
       if (filterData == null)
         return;
 
-      filterData.Dispose ( );
+      filterData.Dispose();
       filterData = null;
     }
 
-    public FilterDataEventArgs (FilterData filterData)
+    public FilterDataEventArgs(FilterData filterData)
     {
       this.filterData = filterData;
     }
@@ -26,7 +26,7 @@ namespace TailForWin.Data
     /// Get FilterData data
     /// </summary>
     /// <returns>FilterData object</returns>
-    public FilterData GetData ( )
+    public FilterData GetData()
     {
       return (filterData);
     }

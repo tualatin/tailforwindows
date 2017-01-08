@@ -48,25 +48,25 @@ namespace TailForWin.Template.TextEditor.Utils
     /// <param name="item">Item</param>
     /// <param name="container">Container</param>
     /// <returns>DataTemplate</returns>
-    public override DataTemplate SelectTemplate (object item, DependencyObject container)
+    public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
       switch (TemplateData.State)
       {
       case TemplateData.TemplateStates.ShowDateTime:
 
-        return (DateTimeTemplate);
+      return (DateTimeTemplate);
 
       case TemplateData.TemplateStates.ShowDateTimeLineNumber:
 
-        return (DateTimeLineNumbersTemplate);
+      return (DateTimeLineNumbersTemplate);
 
       case TemplateData.TemplateStates.ShowLineNumber:
 
-        return (LineNumberTemplate);
+      return (LineNumberTemplate);
 
       default:
 
-        return (DefaultTemplate);
+      return (DefaultTemplate);
       }
     }
   }

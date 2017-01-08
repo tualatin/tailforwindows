@@ -13,7 +13,7 @@ namespace TailForWin.Template
     /// <summary>
     /// The tooltip details.
     /// </summary>
-    public static readonly DependencyProperty InfoTextProperty = DependencyProperty.Register ("InfoText", typeof (string), typeof (FancyToolTip), new FrameworkPropertyMetadata (string.Empty));
+    public static readonly DependencyProperty InfoTextProperty = DependencyProperty.Register("InfoText", typeof(string), typeof(FancyToolTip), new FrameworkPropertyMetadata(string.Empty));
 
     /// <summary>
     /// A property wrapper for the <see cref="InfoTextProperty"/>
@@ -22,51 +22,51 @@ namespace TailForWin.Template
     /// </summary>
     public string InfoText
     {
-      get 
+      get
       {
-        return ((string) GetValue (InfoTextProperty));
+        return ((string)GetValue(InfoTextProperty));
       }
       set
       {
-        SetValue (InfoTextProperty, value);
+        SetValue(InfoTextProperty, value);
       }
     }
 
-    public static readonly DependencyProperty ApplicationTextProperty = DependencyProperty.Register ("ApplicationText", typeof (string), typeof (FancyToolTip),
-      new FrameworkPropertyMetadata (string.Empty));
+    public static readonly DependencyProperty ApplicationTextProperty = DependencyProperty.Register("ApplicationText", typeof(string), typeof(FancyToolTip),
+      new FrameworkPropertyMetadata(string.Empty));
 
     public string ApplicationText
     {
       get
       {
-        return ((string) GetValue (ApplicationTextProperty));
+        return ((string)GetValue(ApplicationTextProperty));
       }
       set
       {
-        SetValue (ApplicationTextProperty, value);
+        SetValue(ApplicationTextProperty, value);
       }
     }
 
-    public static readonly DependencyProperty ToolTipDetailProperty = DependencyProperty.Register ("ToolTipDetail", typeof (string), typeof (FancyToolTip),
-      new FrameworkPropertyMetadata (string.Empty));
+    public static readonly DependencyProperty ToolTipDetailProperty = DependencyProperty.Register("ToolTipDetail", typeof(string), typeof(FancyToolTip),
+      new FrameworkPropertyMetadata(string.Empty));
 
     public string ToolTipDetail
     {
       get
       {
-        return ((string) GetValue (ToolTipDetailProperty));
+        return ((string)GetValue(ToolTipDetailProperty));
       }
       set
       {
-        SetValue (ToolTipDetailProperty, value);
+        SetValue(ToolTipDetailProperty, value);
       }
     }
 
     #endregion
 
-    public FancyToolTip ()
+    public FancyToolTip()
     {
-      InitializeComponent ( );
+      InitializeComponent();
     }
   }
 }

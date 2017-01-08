@@ -1,6 +1,6 @@
 ﻿namespace TailForWin.Data
 {
-  public class ProxySettingsData: INotifyMaster
+  public class ProxySettingsData : INotifyMaster
   {
     private bool useSystemSettings;
 
@@ -16,7 +16,7 @@
       set
       {
         useSystemSettings = value;
-        OnPropertyChanged ("UseSystemSettings");
+        OnPropertyChanged("UseSystemSettings");
       }
     }
 
@@ -34,7 +34,7 @@
       set
       {
         useProxy = value;
-        OnPropertyChanged ("UseProxy");
+        OnPropertyChanged("UseProxy");
       }
     }
 
@@ -52,7 +52,7 @@
       set
       {
         proxyPort = value;
-        OnPropertyChanged ("ProxyPort");
+        OnPropertyChanged("ProxyPort");
       }
     }
 
@@ -70,7 +70,7 @@
       set
       {
         proxyUrl = value;
-        OnPropertyChanged ("ProxyUrl");
+        OnPropertyChanged("ProxyUrl");
       }
     }
 
@@ -105,7 +105,7 @@
       set
       {
         password = value;
-        OnPropertyChanged ("Password");
+        OnPropertyChanged("Password");
       }
     }
   }

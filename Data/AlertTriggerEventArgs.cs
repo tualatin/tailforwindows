@@ -3,7 +3,7 @@
 
 namespace TailForWin.Data
 {
-  public class AlertTriggerEventArgs: EventArgs
+  public class AlertTriggerEventArgs : EventArgs
   {
     private readonly Template.TextEditor.Data.LogEntry alertTriggerData;
 
@@ -12,7 +12,7 @@ namespace TailForWin.Data
     /// Set LogEntry data
     /// </summary>
     /// <param name="obj">LogEntry data</param>
-    public AlertTriggerEventArgs (Template.TextEditor.Data.LogEntry obj)
+    public AlertTriggerEventArgs(Template.TextEditor.Data.LogEntry obj)
     {
       alertTriggerData = obj;
     }
@@ -21,7 +21,7 @@ namespace TailForWin.Data
     /// Get LogEntry object
     /// </summary>
     /// <returns>LogEntry object</returns>
-    public Template.TextEditor.Data.LogEntry GetData ( )
+    public Template.TextEditor.Data.LogEntry GetData()
     {
       return (alertTriggerData);
     }

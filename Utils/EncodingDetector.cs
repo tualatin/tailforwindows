@@ -9,11 +9,11 @@ namespace TailForWin.Utils
   /// </summary>
   public class EncodingDetector
   {
-    public static Encoding GetEncoding (FileStream fs)
+    public static Encoding GetEncoding(FileStream fs)
     {
       // Read the BOM
       var bom = new byte[4];
-      fs.Read (bom, 0, 4);
+      fs.Read(bom, 0, 4);
 
       // Analyze the BOM
       if (bom[0] == 0x2b && bom[1] == 0x2f && bom[2] == 0x76)

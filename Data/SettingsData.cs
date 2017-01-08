@@ -7,12 +7,12 @@ using TailForWin.Data.Enums;
 
 namespace TailForWin.Data
 {
-  public class SettingsData: INotifyMaster
+  public class SettingsData : INotifyMaster
   {
-    public SettingsData ( )
+    public SettingsData()
     {
-      AlertSettings = new AlertData ( );
-      ProxySettings = new ProxySettingsData ( );
+      AlertSettings = new AlertData();
+      ProxySettings = new ProxySettingsData();
     }
 
     /// <summary>
@@ -40,7 +40,7 @@ namespace TailForWin.Data
       set
       {
         alwaysOnTop = value;
-        OnPropertyChanged ("AlwaysOnTop");
+        OnPropertyChanged("AlwaysOnTop");
       }
     }
 
@@ -62,7 +62,7 @@ namespace TailForWin.Data
       set
       {
         showNLineAtStart = value;
-        OnPropertyChanged ("ShowNLineAtStart");
+        OnPropertyChanged("ShowNLineAtStart");
       }
     }
 
@@ -84,7 +84,7 @@ namespace TailForWin.Data
       set
       {
         alwaysScrollToEnd = value;
-        OnPropertyChanged ("AlwaysScrollToEnd");
+        OnPropertyChanged("AlwaysScrollToEnd");
       }
     }
 
@@ -106,7 +106,7 @@ namespace TailForWin.Data
       set
       {
         restoreWindowSize = value;
-        OnPropertyChanged ("RestoreWindowSize");
+        OnPropertyChanged("RestoreWindowSize");
       }
     }
 
@@ -146,7 +146,7 @@ namespace TailForWin.Data
       set
       {
         saveWindowPosition = value;
-        OnPropertyChanged ("SaveWindowPosition");
+        OnPropertyChanged("SaveWindowPosition");
       }
     }
 
@@ -213,7 +213,7 @@ namespace TailForWin.Data
       set
       {
         exitWithEsc = value;
-        OnPropertyChanged ("ExitWithEscape");
+        OnPropertyChanged("ExitWithEscape");
       }
     }
 
@@ -235,7 +235,7 @@ namespace TailForWin.Data
       set
       {
         showLineNumbers = value;
-        OnPropertyChanged ("ShowLineNumbers");
+        OnPropertyChanged("ShowLineNumbers");
       }
     }
 
@@ -258,8 +258,8 @@ namespace TailForWin.Data
       {
         defaultForegroundColor = value;
 
-        if (!string.IsNullOrEmpty (defaultForegroundColor))
-          GuiDefaultForegroundColor = GetColorFromHex (defaultForegroundColor);
+        if (!string.IsNullOrEmpty(defaultForegroundColor))
+          GuiDefaultForegroundColor = GetColorFromHex(defaultForegroundColor);
       }
     }
 
@@ -282,8 +282,8 @@ namespace TailForWin.Data
       {
         defaultBackgroundColor = value;
 
-        if (!string.IsNullOrEmpty (defaultBackgroundColor))
-          GuiDefaultBackgroundColor = GetColorFromHex (defaultBackgroundColor);
+        if (!string.IsNullOrEmpty(defaultBackgroundColor))
+          GuiDefaultBackgroundColor = GetColorFromHex(defaultBackgroundColor);
       }
     }
 
@@ -305,7 +305,7 @@ namespace TailForWin.Data
       set
       {
         guiDefaultForegroundColor = value;
-        OnPropertyChanged ("GuiDefaultForegroundColor");
+        OnPropertyChanged("GuiDefaultForegroundColor");
       }
     }
 
@@ -327,7 +327,7 @@ namespace TailForWin.Data
       set
       {
         guiDefaultBackgroundColor = value;
-        OnPropertyChanged ("GuiDefaultBackgroundColor");
+        OnPropertyChanged("GuiDefaultBackgroundColor");
       }
     }
 
@@ -350,8 +350,8 @@ namespace TailForWin.Data
       {
         defaultInactiveForegroundColor = value;
 
-        if (!string.IsNullOrEmpty (defaultInactiveForegroundColor))
-          GuiDefaultInactiveForegroundColor = GetColorFromHex (defaultInactiveForegroundColor);
+        if (!string.IsNullOrEmpty(defaultInactiveForegroundColor))
+          GuiDefaultInactiveForegroundColor = GetColorFromHex(defaultInactiveForegroundColor);
       }
     }
 
@@ -373,7 +373,7 @@ namespace TailForWin.Data
       set
       {
         guiDefaultInactiveForegroundColor = value;
-        OnPropertyChanged ("GuiDefaultInactiveForegroundColor");
+        OnPropertyChanged("GuiDefaultInactiveForegroundColor");
       }
     }
 
@@ -396,8 +396,8 @@ namespace TailForWin.Data
       {
         defaultInactiveBackgroundColor = value;
 
-        if (!string.IsNullOrEmpty (defaultInactiveBackgroundColor))
-          GuiDefaultInactiveBackgroundColor = GetColorFromHex (defaultInactiveBackgroundColor);
+        if (!string.IsNullOrEmpty(defaultInactiveBackgroundColor))
+          GuiDefaultInactiveBackgroundColor = GetColorFromHex(defaultInactiveBackgroundColor);
       }
     }
 
@@ -419,7 +419,7 @@ namespace TailForWin.Data
       set
       {
         guiDefaultInactiveBackgroundColor = value;
-        OnPropertyChanged ("GuiDefaultInactiveBackgroundColor");
+        OnPropertyChanged("GuiDefaultInactiveBackgroundColor");
       }
     }
 
@@ -442,8 +442,8 @@ namespace TailForWin.Data
       {
         defaultFindHighlightForegroundColor = value;
 
-        if (!string.IsNullOrEmpty (defaultFindHighlightForegroundColor))
-          GuiDefaultHighlightForegroundColor = GetColorFromHex (defaultFindHighlightForegroundColor);
+        if (!string.IsNullOrEmpty(defaultFindHighlightForegroundColor))
+          GuiDefaultHighlightForegroundColor = GetColorFromHex(defaultFindHighlightForegroundColor);
       }
     }
 
@@ -465,7 +465,7 @@ namespace TailForWin.Data
       set
       {
         guiDefaultHighlightForegroundColor = value;
-        OnPropertyChanged ("GuiDefaultHighlightForegroundColor");
+        OnPropertyChanged("GuiDefaultHighlightForegroundColor");
       }
     }
 
@@ -488,8 +488,8 @@ namespace TailForWin.Data
       {
         defaultFindHighlightBackgroundColor = value;
 
-        if (!string.IsNullOrEmpty (defaultFindHighlightBackgroundColor))
-          GuiDefaultHighlightBackgroundColor = GetColorFromHex (defaultFindHighlightBackgroundColor);
+        if (!string.IsNullOrEmpty(defaultFindHighlightBackgroundColor))
+          GuiDefaultHighlightBackgroundColor = GetColorFromHex(defaultFindHighlightBackgroundColor);
       }
     }
 
@@ -511,7 +511,7 @@ namespace TailForWin.Data
       set
       {
         guiDefaultHighlightBackgroundColor = value;
-        OnPropertyChanged ("GuiDefaultHighlightBackgroundColor");
+        OnPropertyChanged("GuiDefaultHighlightBackgroundColor");
       }
     }
 
@@ -534,8 +534,8 @@ namespace TailForWin.Data
       {
         defaultLineNumbersColor = value;
 
-        if (!string.IsNullOrEmpty (defaultLineNumbersColor))
-          GuiDefaultLineNumbersColor = GetColorFromHex (defaultLineNumbersColor);
+        if (!string.IsNullOrEmpty(defaultLineNumbersColor))
+          GuiDefaultLineNumbersColor = GetColorFromHex(defaultLineNumbersColor);
       }
     }
 
@@ -557,7 +557,7 @@ namespace TailForWin.Data
       set
       {
         guiDefaultLineNumbersColor = value;
-        OnPropertyChanged ("GuiDefaultLineNumbersColor");
+        OnPropertyChanged("GuiDefaultLineNumbersColor");
       }
     }
 
@@ -580,8 +580,8 @@ namespace TailForWin.Data
       {
         defaultHighlightColor = value;
 
-        if (!string.IsNullOrEmpty (defaultHighlightColor))
-          GuiDefaultHighlightColor = GetColorFromHex (defaultHighlightColor);
+        if (!string.IsNullOrEmpty(defaultHighlightColor))
+          GuiDefaultHighlightColor = GetColorFromHex(defaultHighlightColor);
       }
     }
 
@@ -603,7 +603,7 @@ namespace TailForWin.Data
       set
       {
         guiDefaultHighlightColor = value;
-        OnPropertyChanged ("GuiDefaultHighlightColor");
+        OnPropertyChanged("GuiDefaultHighlightColor");
       }
     }
 
@@ -679,7 +679,7 @@ namespace TailForWin.Data
       set
       {
         autoUpdate = value;
-        OnPropertyChanged ("AutoUpdate");
+        OnPropertyChanged("AutoUpdate");
       }
     }
 
@@ -696,11 +696,11 @@ namespace TailForWin.Data
       }
     }
 
-    private static Brush GetColorFromHex (string hex)
+    private static Brush GetColorFromHex(string hex)
     {
-      Color color = (Color) ColorConverter.ConvertFromString (hex);
+      Color color = (Color)ColorConverter.ConvertFromString(hex);
 
-      return (new SolidColorBrush (color));
+      return (new SolidColorBrush(color));
     }
 
     /// <summary>
@@ -708,15 +708,15 @@ namespace TailForWin.Data
     /// </summary>
     /// <param name="value">Reference of enum</param>
     /// <returns>Description of enum</returns>
-    public static string GetEnumDescription (Enum value)
+    public static string GetEnumDescription(Enum value)
     {
-      FieldInfo fi = value.GetType ( ).GetField (value.ToString ( ));
-      DescriptionAttribute[] attributes = (DescriptionAttribute[]) fi.GetCustomAttributes (typeof (DescriptionAttribute), false);
+      FieldInfo fi = value.GetType().GetField(value.ToString());
+      DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
       if (attributes != null && attributes.Length > 0)
         return (attributes[0].Description);
       else
-        return (value.ToString ( ));
+        return (value.ToString());
     }
 
     /// <summary>
@@ -725,29 +725,29 @@ namespace TailForWin.Data
     /// <typeparam name="T">Type of enum</typeparam>
     /// <param name="description">Reference of description string</param>
     /// <returns>Enum type</returns>
-    public static T GetDescriptionEnum<T> (string description)
+    public static T GetDescriptionEnum<T>(string description)
     {
-      var type = typeof (T);
+      var type = typeof(T);
 
       if (!type.IsEnum)
-        throw new InvalidOperationException ( );
+        throw new InvalidOperationException();
 
-      foreach (var field in type.GetFields ( ))
+      foreach (var field in type.GetFields())
       {
-        var attribute = Attribute.GetCustomAttribute (field, typeof (DescriptionAttribute)) as DescriptionAttribute;
+        var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
 
         if (attribute != null)
         {
-          if (string.Compare (attribute.Description, description, false) == 0)
-            return ((T) field.GetValue (null));
+          if (string.Compare(attribute.Description, description, false) == 0)
+            return ((T)field.GetValue(null));
         }
         else
         {
-          if (string.Compare (field.Name, description, false) == 0)
-            return ((T) field.GetValue (null));
+          if (string.Compare(field.Name, description, false) == 0)
+            return ((T)field.GetValue(null));
         }
       }
-      throw new ArgumentException ("Not found.", "description");
+      throw new ArgumentException("Not found.", "description");
       // or return default(T);
     }
   }

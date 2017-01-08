@@ -15,10 +15,10 @@ namespace TailForWin.Template.UpdateController
     private string updateUrl;
 
 
-    public ResultDialog (string applicationName, bool update, string updUrl)
+    public ResultDialog(string applicationName, bool update, string updUrl)
     {
-      InitializeComponent ( );
-      Title = string.Format ("{0} Update", applicationName);
+      InitializeComponent();
+      Title = string.Format("{0} Update", applicationName);
 
       doUpdate = update;
       updateUrl = updUrl;
@@ -49,7 +49,7 @@ namespace TailForWin.Template.UpdateController
 
     #region Events
 
-    private void Window_Loaded (object sender, RoutedEventArgs e)
+    private void Window_Loaded(object sender, RoutedEventArgs e)
     {
       if (doUpdate)
         btnOk.IsEnabled = true;
@@ -60,24 +60,24 @@ namespace TailForWin.Template.UpdateController
       labelWebVersion.Content = WebVersion;
 
       if (doUpdate)
-        labelUpdate.Content = Application.Current.FindResource ("DoUpdate");
+        labelUpdate.Content = Application.Current.FindResource("DoUpdate");
       else
-        labelUpdate.Content = Application.Current.FindResource ("NoUpdate");     
+        labelUpdate.Content = Application.Current.FindResource("NoUpdate");
     }
 
-    private void HandleEsc (object sender, KeyEventArgs e)
+    private void HandleEsc(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
-        OnExit ( );
+        OnExit();
     }
 
     #endregion
-    
+
     #region HelperFunctions
 
-    private void OnExit ()
+    private void OnExit()
     {
-      Close ( );
+      Close();
     }
 
     //private static IntPtr FindWindow (string title)
@@ -93,19 +93,19 @@ namespace TailForWin.Template.UpdateController
     //  }
     //  return (IntPtr.Zero);
     //}
-    
+
     #endregion
 
-    private void btnOK_Click (object sender, RoutedEventArgs e)
+    private void btnOK_Click(object sender, RoutedEventArgs e)
     {
-      updateUrl = string.Format ("{0}/tag/{1}", updateUrl, WebVersion);
-      Process.Start (updateUrl);
-      OnExit ( );
+      updateUrl = string.Format("{0}/tag/{1}", updateUrl, WebVersion);
+      Process.Start(updateUrl);
+      OnExit();
     }
 
-    private void btnCancel_Click (object sender, RoutedEventArgs e)
+    private void btnCancel_Click(object sender, RoutedEventArgs e)
     {
-      OnExit ( );
+      OnExit();
     }
   }
 }

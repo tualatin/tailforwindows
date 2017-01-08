@@ -4,18 +4,18 @@ using System.Windows.Data;
 
 namespace TailForWin.Converter
 {
-  public class SmtpPortConverter: IValueConverter
+  public class SmtpPortConverter : IValueConverter
   {
     #region IValueConverter Members
 
-    public object Convert (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if (value == null)
         return (null);
 
-      if (value.GetType ( ) == typeof (int))
+      if (value.GetType() == typeof(int))
       {
-        int port = (int) value;
+        int port = (int)value;
 
         if (port > 0)
           return (port);
@@ -25,9 +25,9 @@ namespace TailForWin.Converter
       return (null);
     }
 
-    public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      throw new NotImplementedException ( );
+      throw new NotImplementedException();
     }
 
     #endregion

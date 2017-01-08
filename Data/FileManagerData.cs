@@ -12,7 +12,7 @@ namespace TailForWin.Data
   /// <summary>
   /// Dataobject for FileManagerProperties
   /// </summary>
-  public class FileManagerData: TailLogData
+  public class FileManagerData : TailLogData
   {
     #region Description
 
@@ -28,12 +28,12 @@ namespace TailForWin.Data
         if (description == null)
           return (null);
 
-        return (description.Trim ( ));
+        return (description.Trim());
       }
       set
       {
         description = value;
-        OnPropertyChanged ("Description");
+        OnPropertyChanged("Description");
       }
     }
 
@@ -53,12 +53,12 @@ namespace TailForWin.Data
         if (category == null)
           return (null);
 
-        return (category.Trim ( ));
+        return (category.Trim());
       }
       set
       {
         category = value;
-        OnPropertyChanged ("Category");
+        OnPropertyChanged("Category");
       }
     }
 
@@ -89,7 +89,7 @@ namespace TailForWin.Data
       set
       {
         newWindow = value;
-        OnPropertyChanged ("NewWindow");
+        OnPropertyChanged("NewWindow");
       }
     }
 
@@ -102,8 +102,8 @@ namespace TailForWin.Data
     {
       get
       {
-        if (System.IO.File.Exists (FileName))
-          return (System.IO.File.GetCreationTime (FileName));
+        if (System.IO.File.Exists(FileName))
+          return (System.IO.File.GetCreationTime(FileName));
         else
           return (null);
       }
@@ -120,11 +120,11 @@ namespace TailForWin.Data
 
         try
         {
-          return (now.Subtract ((DateTime) FileCreationTime));
+          return (now.Subtract((DateTime)FileCreationTime));
         }
         catch (ArgumentOutOfRangeException ex)
         {
-          System.Diagnostics.Debug.WriteLine (ex);
+          System.Diagnostics.Debug.WriteLine(ex);
           throw;
         }
       }
@@ -134,18 +134,18 @@ namespace TailForWin.Data
     /// Create copy of object
     /// </summary>
     /// <returns>A clone of object</returns>
-    public FileManagerData Clone ( )
+    public FileManagerData Clone()
     {
-      return (this.MemberwiseClone ( ) as FileManagerData);
+      return (this.MemberwiseClone() as FileManagerData);
     }
 
     /// <summary>
     /// Save data to memenento
     /// </summary>
     /// <returns>Copy of FileManagerData</returns>
-    public MementoFileManagerData SaveToMemento ( )
+    public MementoFileManagerData SaveToMemento()
     {
-      return (new MementoFileManagerData (this));
+      return (new MementoFileManagerData(this));
     }
 
     /// <summary>
@@ -153,7 +153,7 @@ namespace TailForWin.Data
     /// </summary>
     /// <param name="obj">Reference of FileManagerData</param>
     /// <returns>If equal true otherwise false</returns>
-    public bool EqualsProperties (object obj)
+    public bool EqualsProperties(object obj)
     {
       FileManagerData.MementoFileManagerData other = obj as FileManagerData.MementoFileManagerData;
 
@@ -162,18 +162,18 @@ namespace TailForWin.Data
 
       bool equal = true;
 
-      equal &= object.Equals (other.Category, Category);
-      equal &= object.Equals (other.Description, Description);
-      equal &= object.Equals (other.FileEncoding, FileEncoding);
-      equal &= object.Equals (other.FileName, FileName);
-      equal &= object.Equals (other.FontType, FontType);
-      equal &= object.Equals (other.KillSpace, KillSpace);
-      equal &= object.Equals (other.ListOfFilter, ListOfFilter);
-      equal &= object.Equals (other.NewWindow, NewWindow);
-      equal &= object.Equals (other.RefreshRate, RefreshRate);
-      equal &= object.Equals (other.ThreadPriority, ThreadPriority);
-      equal &= object.Equals (other.Wrap, Wrap);
-      equal &= object.Equals (other.TimeStamp, Timestamp);
+      equal &= object.Equals(other.Category, Category);
+      equal &= object.Equals(other.Description, Description);
+      equal &= object.Equals(other.FileEncoding, FileEncoding);
+      equal &= object.Equals(other.FileName, FileName);
+      equal &= object.Equals(other.FontType, FontType);
+      equal &= object.Equals(other.KillSpace, KillSpace);
+      equal &= object.Equals(other.ListOfFilter, ListOfFilter);
+      equal &= object.Equals(other.NewWindow, NewWindow);
+      equal &= object.Equals(other.RefreshRate, RefreshRate);
+      equal &= object.Equals(other.ThreadPriority, ThreadPriority);
+      equal &= object.Equals(other.Wrap, Wrap);
+      equal &= object.Equals(other.TimeStamp, Timestamp);
 
       return (equal);
     }
@@ -182,12 +182,12 @@ namespace TailForWin.Data
     /// Roll object back to the state of the provided memento
     /// </summary>
     /// <param name="memento">The memento to roll back to</param>
-    public void RestoreFromMemento (MementoFileManagerData memento)
+    public void RestoreFromMemento(MementoFileManagerData memento)
     {
       MementoFileManagerData mementoFMData = memento as MementoFileManagerData;
 
       if (mementoFMData == null)
-        throw new ArgumentException (string.Format ("Argument is not a MementoFileManagerData {0}!", memento.GetType ( ).Name), "memento");
+        throw new ArgumentException(string.Format("Argument is not a MementoFileManagerData {0}!", memento.GetType().Name), "memento");
 
       ID = mementoFMData.ID;
       Category = mementoFMData.Category;
@@ -209,7 +209,7 @@ namespace TailForWin.Data
     /// </summary>
     public class MementoFileManagerData
     {
-      internal MementoFileManagerData (FileManagerData obj)
+      internal MementoFileManagerData(FileManagerData obj)
       {
         ID = obj.ID;
         Category = obj.Category;

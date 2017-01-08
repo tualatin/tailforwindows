@@ -1,6 +1,6 @@
 ﻿namespace TailForWin.Data
 {
-  public class SmtpData: INotifyMaster
+  public class SmtpData : INotifyMaster
   {
     private string smtpServerName;
 
@@ -16,7 +16,7 @@
       set
       {
         smtpServerName = value;
-        OnPropertyChanged ("SmtpServerName");
+        OnPropertyChanged("SmtpServerName");
       }
     }
 
@@ -34,7 +34,7 @@
       set
       {
         smtpPort = value;
-        OnPropertyChanged ("SmtpPort");
+        OnPropertyChanged("SmtpPort");
       }
     }
 
@@ -52,7 +52,7 @@
       set
       {
         loginName = value;
-        OnPropertyChanged ("LoginName");
+        OnPropertyChanged("LoginName");
       }
 
     }
@@ -71,7 +71,7 @@
       set
       {
         password = value;
-        OnPropertyChanged ("Password");
+        OnPropertyChanged("Password");
       }
     }
 
@@ -89,7 +89,7 @@
       set
       {
         fromAddress = value;
-        OnPropertyChanged ("FromAddress");
+        OnPropertyChanged("FromAddress");
       }
     }
 
@@ -107,7 +107,7 @@
       set
       {
         subject = value;
-        OnPropertyChanged ("Subject");
+        OnPropertyChanged("Subject");
       }
     }
 
@@ -125,7 +125,7 @@
       set
       {
         ssl = value;
-        OnPropertyChanged ("SSL");
+        OnPropertyChanged("SSL");
       }
     }
 
@@ -143,7 +143,7 @@
       set
       {
         tls = value;
-        OnPropertyChanged ("TLS");
+        OnPropertyChanged("TLS");
       }
     }
   }

@@ -15,10 +15,10 @@ namespace TailForWin.NotifyIcon.Interop
     /// Gets the position of the system tray.
     /// </summary>
     /// <returns>Tray coordinates.</returns>
-    public static Point GetTrayLocation ()
+    public static Point GetTrayLocation()
     {
-      var info = new AppBarInfo ( );
-      info.GetSystemTaskBarPosition ( );
+      var info = new AppBarInfo();
+      info.GetSystemTaskBarPosition();
       Rectangle rcWorkArea = AppBarInfo.WorkArea;
       int x = 0, y = 0;
 
@@ -48,15 +48,15 @@ namespace TailForWin.NotifyIcon.Interop
 
   internal class AppBarInfo
   {
-    [DllImport ("user32.dll")]
-    private static extern IntPtr FindWindow (String lpClassName, String lpWindowName);
+    [DllImport("user32.dll")]
+    private static extern IntPtr FindWindow(String lpClassName, String lpWindowName);
 
-    [DllImport ("shell32.dll")]
-    private static extern UInt32 SHAppBarMessage (UInt32 dwMessage, ref APPBARDATA data);
+    [DllImport("shell32.dll")]
+    private static extern UInt32 SHAppBarMessage(UInt32 dwMessage, ref APPBARDATA data);
 
-    [DllImport ("user32.dll")]
-    private static extern Int32 SystemParametersInfo (UInt32 uiAction, UInt32 uiParam, IntPtr pvParam, UInt32 fWinIni);
-    
+    [DllImport("user32.dll")]
+    private static extern Int32 SystemParametersInfo(UInt32 uiAction, UInt32 uiParam, IntPtr pvParam, UInt32 fWinIni);
+
     private const int ABE_BOTTOM = 3;
     private const int ABE_LEFT = 0;
     private const int ABE_RIGHT = 2;
@@ -71,9 +71,9 @@ namespace TailForWin.NotifyIcon.Interop
 
     public ScreenEdge Edge
     {
-      get 
+      get
       {
-        return ((ScreenEdge) m_data.uEdge); 
+        return ((ScreenEdge)m_data.uEdge);
       }
     }
 
@@ -82,43 +82,43 @@ namespace TailForWin.NotifyIcon.Interop
       get
       {
         Int32 bResult = 0;
-        var rc = new RECT ( );
-        IntPtr rawRect = Marshal.AllocHGlobal (Marshal.SizeOf (rc));
-        bResult = SystemParametersInfo (SPI_GETWORKAREA, 0, rawRect, 0);
-        rc = (RECT) Marshal.PtrToStructure (rawRect, rc.GetType ( ));
+        var rc = new RECT();
+        IntPtr rawRect = Marshal.AllocHGlobal(Marshal.SizeOf(rc));
+        bResult = SystemParametersInfo(SPI_GETWORKAREA, 0, rawRect, 0);
+        rc = (RECT)Marshal.PtrToStructure(rawRect, rc.GetType());
 
         if (bResult == 1)
         {
-          Marshal.FreeHGlobal (rawRect);
-          
-          return (new Rectangle (rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top));
+          Marshal.FreeHGlobal(rawRect);
+
+          return (new Rectangle(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top));
         }
-        return (new Rectangle (0, 0, 0, 0));
+        return (new Rectangle(0, 0, 0, 0));
       }
     }
 
-    public void GetPosition (string strClassName, string strWindowName)
+    public void GetPosition(string strClassName, string strWindowName)
     {
       m_data = new APPBARDATA
-      { 
-        cbSize = (UInt32) Marshal.SizeOf (m_data.GetType ( )) 
+      {
+        cbSize = (UInt32)Marshal.SizeOf(m_data.GetType())
       };
-      IntPtr hWnd = FindWindow (strClassName, strWindowName);
+      IntPtr hWnd = FindWindow(strClassName, strWindowName);
 
       if (hWnd != IntPtr.Zero)
       {
-        UInt32 uResult = SHAppBarMessage (ABM_GETTASKBARPOS, ref m_data);
+        UInt32 uResult = SHAppBarMessage(ABM_GETTASKBARPOS, ref m_data);
 
         if (uResult != 1)
-          throw new Exception ("Failed to communicate with the given AppBar");
+          throw new Exception("Failed to communicate with the given AppBar");
       }
       else
-        throw new Exception ("Failed to find an AppBar that matched the given criteria");
+        throw new Exception("Failed to find an AppBar that matched the given criteria");
     }
 
-    public void GetSystemTaskBarPosition ()
+    public void GetSystemTaskBarPosition()
     {
-      GetPosition ("Shell_TrayWnd", null);
+      GetPosition("Shell_TrayWnd", null);
     }
 
     public enum ScreenEdge
@@ -130,7 +130,7 @@ namespace TailForWin.NotifyIcon.Interop
       Bottom = ABE_BOTTOM
     }
 
-    [StructLayout (LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential)]
     private struct APPBARDATA
     {
       public UInt32 cbSize;
@@ -141,7 +141,7 @@ namespace TailForWin.NotifyIcon.Interop
       public Int32 lParam;
     }
 
-    [StructLayout (LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential)]
     private struct RECT
     {
       public Int32 left;

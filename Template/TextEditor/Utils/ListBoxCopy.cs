@@ -13,70 +13,70 @@ namespace TailForWin.Template.TextEditor.Utils
 
 
     #region Properties
-    
-    public static readonly DependencyProperty AutoCopyProperty = DependencyProperty.RegisterAttached ("AutoCopy", typeof (bool), typeof (ListBoxCopy), new UIPropertyMetadata (AutoCopyChanged));
 
-    public static bool GetAutoCopy (DependencyObject obj)
-    {
-      return ((bool) obj.GetValue (AutoCopyProperty));
-    }    
+    public static readonly DependencyProperty AutoCopyProperty = DependencyProperty.RegisterAttached("AutoCopy", typeof(bool), typeof(ListBoxCopy), new UIPropertyMetadata(AutoCopyChanged));
 
-    public static void SetAutoCopy (DependencyObject obj, bool value)
+    public static bool GetAutoCopy(DependencyObject obj)
     {
-      obj.SetValue (AutoCopyProperty, value);
+      return ((bool)obj.GetValue(AutoCopyProperty));
     }
 
-    public static readonly DependencyProperty AddDateTimeProperty = DependencyProperty.RegisterAttached ("AddDateTime", typeof (bool), typeof (ListBoxCopy), new UIPropertyMetadata (AddDateTimeChanged));
-
-    public static bool GetAddDateTime (DependencyObject obj)
+    public static void SetAutoCopy(DependencyObject obj, bool value)
     {
-      return ((bool) obj.GetValue (AddDateTimeProperty));
+      obj.SetValue(AutoCopyProperty, value);
     }
 
-    public static void SetAddDateTime (DependencyObject obj, bool value)
+    public static readonly DependencyProperty AddDateTimeProperty = DependencyProperty.RegisterAttached("AddDateTime", typeof(bool), typeof(ListBoxCopy), new UIPropertyMetadata(AddDateTimeChanged));
+
+    public static bool GetAddDateTime(DependencyObject obj)
     {
-      obj.SetValue (AddDateTimeProperty, value);
+      return ((bool)obj.GetValue(AddDateTimeProperty));
+    }
+
+    public static void SetAddDateTime(DependencyObject obj, bool value)
+    {
+      obj.SetValue(AddDateTimeProperty, value);
     }
 
     #endregion
 
-    private static void AutoCopyChanged (DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void AutoCopyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
       var listBox = obj as ListBox;
 
       if (listBox != null)
       {
-        if ((bool) e.NewValue)
+        if ((bool)e.NewValue)
         {
-          ExecutedRoutedEventHandler handler = (sender, arg) => 
+          ExecutedRoutedEventHandler handler = (sender, arg) =>
               {
                 if (listBox.SelectedItem != null)
                 {
                   var items = listBox.SelectedItems;
-                  StringBuilder sb = new StringBuilder ( );
+                  StringBuilder sb = new StringBuilder();
 
                   foreach (LogEntry item in items)
                   {
                     if (addDateTime)
-                      sb.Append (string.Format ("{0} - {1}\n", item.DateTime, item.Message));
+                      sb.Append(string.Format("{0} - {1}\n", item.DateTime, item.Message));
                     else
-                      sb.Append (item.Message + "\n");
+                      sb.Append(item.Message + "\n");
                   }
 
-                  Clipboard.SetDataObject (sb.ToString ( ));
+                  Clipboard.SetDataObject(sb.ToString());
                 }
               };
 
-          var command = new RoutedCommand ("Copy", typeof (ListBox));
-          command.InputGestures.Add (new KeyGesture (Key.C, ModifierKeys.Control, "Copy"));
-          listBox.CommandBindings.Add (new CommandBinding (command, handler));
+          var command = new RoutedCommand("Copy", typeof(ListBox));
+          command.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control, "Copy"));
+          listBox.CommandBindings.Add(new CommandBinding(command, handler));
         }
       }
     }
 
-    private static void AddDateTimeChanged (DependencyObject obj, DependencyPropertyChangedEventArgs e)
+    private static void AddDateTimeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-      addDateTime = (bool) e.NewValue;
+      addDateTime = (bool)e.NewValue;
     }
   }
 }

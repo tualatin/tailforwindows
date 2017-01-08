@@ -113,7 +113,7 @@ namespace TailForWin.Data
     {
       get
       {
-        return ((MachineMemory.ullTotalPhys / Math.Pow (1024, 3)).ToString ("N2", SetNumberFormat ( )) + " GB");
+        return ((MachineMemory.ullTotalPhys / Math.Pow(1024, 3)).ToString("N2", SetNumberFormat()) + " GB");
       }
     }
 
@@ -124,7 +124,7 @@ namespace TailForWin.Data
     {
       get
       {
-        return ((MachineMemory.ullAvailPhys / Math.Pow (1024, 2)).ToString ("N2", SetNumberFormat ( )) + " MB");
+        return ((MachineMemory.ullAvailPhys / Math.Pow(1024, 2)).ToString("N2", SetNumberFormat()) + " MB");
       }
     }
 
@@ -135,7 +135,7 @@ namespace TailForWin.Data
     {
       get
       {
-        return ((MachineMemory.ullTotalVirtual / Math.Pow (1024, 3)).ToString ("N2", SetNumberFormat ( )) + " GB");
+        return ((MachineMemory.ullTotalVirtual / Math.Pow(1024, 3)).ToString("N2", SetNumberFormat()) + " GB");
       }
     }
 
@@ -146,7 +146,7 @@ namespace TailForWin.Data
     {
       get
       {
-        return ((MachineMemory.ullAvailVirtual / Math.Pow (1024, 2)).ToString ("N2", SetNumberFormat ( )) + " MB");
+        return ((MachineMemory.ullAvailVirtual / Math.Pow(1024, 2)).ToString("N2", SetNumberFormat()) + " MB");
       }
     }
 
@@ -157,7 +157,7 @@ namespace TailForWin.Data
     {
       get
       {
-        return ((MachineMemory.ullTotalPageFile / Math.Pow (1024, 3)).ToString ("N2", SetNumberFormat ( )) + " GB");
+        return ((MachineMemory.ullTotalPageFile / Math.Pow(1024, 3)).ToString("N2", SetNumberFormat()) + " GB");
       }
     }
 
@@ -168,7 +168,7 @@ namespace TailForWin.Data
     {
       get
       {
-        return ((MachineMemory.ullAvailPageFile / Math.Pow (1024, 2)).ToString ("N2", SetNumberFormat ( )) + " MB");
+        return ((MachineMemory.ullAvailPageFile / Math.Pow(1024, 2)).ToString("N2", SetNumberFormat()) + " MB");
       }
     }
 
@@ -176,16 +176,16 @@ namespace TailForWin.Data
     /// SetNumberFormat
     /// </summary>
     /// <returns></returns>
-    private NumberFormatInfo SetNumberFormat ( )
+    private NumberFormatInfo SetNumberFormat()
     {
-      if (string.IsNullOrEmpty (CultureNumberFormat))
-        return (new CultureInfo ("de-DE", false).NumberFormat);
+      if (string.IsNullOrEmpty(CultureNumberFormat))
+        return (new CultureInfo("de-DE", false).NumberFormat);
 
-      int pos = CultureNumberFormat.IndexOf ('_');
-      char[] snipped = CultureNumberFormat.ToCharArray ( );
+      int pos = CultureNumberFormat.IndexOf('_');
+      char[] snipped = CultureNumberFormat.ToCharArray();
       snipped[pos] = '-';
 
-      return (new CultureInfo (new string (snipped), false).NumberFormat);
+      return (new CultureInfo(new string(snipped), false).NumberFormat);
     }
 
     /// <summary>
@@ -201,7 +201,7 @@ namespace TailForWin.Data
   /// <summary>
   /// MemoryObject Class
   /// </summary>
-  [StructLayout (LayoutKind.Sequential, CharSet = CharSet.Auto)]
+  [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
   public class MemoryObject
   {
     public uint dwLength;
@@ -214,9 +214,9 @@ namespace TailForWin.Data
     public ulong ullAvailVirtual;
     public ulong ullAvailExtendedVirtual;
 
-    public MemoryObject ( )
+    public MemoryObject()
     {
-      dwLength = (uint) Marshal.SizeOf (typeof (MemoryObject));
+      dwLength = (uint)Marshal.SizeOf(typeof(MemoryObject));
     }
   }
 

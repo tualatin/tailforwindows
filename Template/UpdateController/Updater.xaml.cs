@@ -13,137 +13,137 @@ namespace TailForWin.Template.UpdateController
     private Updateservice updater;
 
 
-    public void Dispose ()
+    public void Dispose()
     {
       if (updater == null)
         return;
 
-      updater.Dispose ( );
+      updater.Dispose();
       updater = null;
     }
 
-    public Updater ()
+    public Updater()
     {
-      InitializeComponent ( );
+      InitializeComponent();
     }
 
     #region Public Properties
 
-    public static readonly DependencyProperty ApplicationNameProperty = DependencyProperty.Register ("ApplicationName", typeof (string), typeof (Updater), new PropertyMetadata (string.Empty));
+    public static readonly DependencyProperty ApplicationNameProperty = DependencyProperty.Register("ApplicationName", typeof(string), typeof(Updater), new PropertyMetadata(string.Empty));
 
-    [Category ("Updater"), Description ("Application name for message dialogue")]
+    [Category("Updater"), Description("Application name for message dialogue")]
     public string ApplicationName
     {
       get
       {
-        return ((string) GetValue (ApplicationNameProperty));
+        return ((string)GetValue(ApplicationNameProperty));
       }
       set
       {
-        SetValue (ApplicationNameProperty, value);
+        SetValue(ApplicationNameProperty, value);
       }
     }
 
-    public static readonly DependencyProperty UpdateURLProperty = DependencyProperty.Register ("UpdateURL", typeof (string), typeof (Updater), new PropertyMetadata (string.Empty));
+    public static readonly DependencyProperty UpdateURLProperty = DependencyProperty.Register("UpdateURL", typeof(string), typeof(Updater), new PropertyMetadata(string.Empty));
 
-    [Category ("Updater"), Description ("Update Url")]
+    [Category("Updater"), Description("Update Url")]
     public string UpdateURL
     {
       get
       {
-        return ((string) GetValue (UpdateURLProperty));
+        return ((string)GetValue(UpdateURLProperty));
       }
       set
       {
-        SetValue (UpdateURLProperty, value);
+        SetValue(UpdateURLProperty, value);
       }
     }
 
-    public static readonly DependencyProperty ProxyProperty = DependencyProperty.Register ("Proxy", typeof (string), typeof (Updater), new PropertyMetadata (string.Empty));
+    public static readonly DependencyProperty ProxyProperty = DependencyProperty.Register("Proxy", typeof(string), typeof(Updater), new PropertyMetadata(string.Empty));
 
-    [Category ("Updater"), Description ("Proxy Server")]
+    [Category("Updater"), Description("Proxy Server")]
     public string Proxy
     {
       get
       {
-        return ((string) GetValue (ProxyProperty));
+        return ((string)GetValue(ProxyProperty));
       }
       set
       {
-        SetValue (ProxyProperty, value);
+        SetValue(ProxyProperty, value);
       }
     }
 
-    public static readonly DependencyProperty ProxyPortProperty = DependencyProperty.Register ("ProxyPort", typeof (int), typeof (Updater), new PropertyMetadata (-1));
+    public static readonly DependencyProperty ProxyPortProperty = DependencyProperty.Register("ProxyPort", typeof(int), typeof(Updater), new PropertyMetadata(-1));
 
-    [Category ("Updater"), Description ("Proxy Port")]
+    [Category("Updater"), Description("Proxy Port")]
     public int ProxyPort
     {
       get
       {
-        return ((int) GetValue (ProxyPortProperty));
+        return ((int)GetValue(ProxyPortProperty));
       }
       set
       {
-        SetValue (ProxyPortProperty, value);
+        SetValue(ProxyPortProperty, value);
       }
     }
 
-    public static readonly DependencyProperty ProxyAuthentificationProperty = DependencyProperty.Register ("ProxyAuthentification", typeof (System.Net.NetworkCredential), typeof (Updater), new PropertyMetadata (new System.Net.NetworkCredential ( )));
+    public static readonly DependencyProperty ProxyAuthentificationProperty = DependencyProperty.Register("ProxyAuthentification", typeof(System.Net.NetworkCredential), typeof(Updater), new PropertyMetadata(new System.Net.NetworkCredential()));
 
-    [Category ("Updater"), Description ("Proxy Username/Password")]
+    [Category("Updater"), Description("Proxy Username/Password")]
     public System.Net.NetworkCredential ProxyAuthentification
     {
       get
       {
-        return ((System.Net.NetworkCredential) GetValue (ProxyAuthentificationProperty));
+        return ((System.Net.NetworkCredential)GetValue(ProxyAuthentificationProperty));
       }
       set
       {
-        SetValue (ProxyAuthentificationProperty, value);
+        SetValue(ProxyAuthentificationProperty, value);
       }
     }
 
-    public static readonly DependencyProperty UseProxyProperty = DependencyProperty.Register ("UseProxy", typeof (bool), typeof (Updater), new PropertyMetadata (false));
+    public static readonly DependencyProperty UseProxyProperty = DependencyProperty.Register("UseProxy", typeof(bool), typeof(Updater), new PropertyMetadata(false));
 
-    [Category ("Updater"), Description ("Use a proxy server")]
+    [Category("Updater"), Description("Use a proxy server")]
     public bool UseProxy
     {
       get
       {
-        return ((bool) GetValue (UseProxyProperty));
+        return ((bool)GetValue(UseProxyProperty));
       }
       set
       {
-        SetValue (UseProxyProperty, value);
+        SetValue(UseProxyProperty, value);
       }
     }
 
-    public static readonly DependencyProperty UseSystemSettingsProperty = DependencyProperty.Register ("UseSystemSettings", typeof (bool), typeof (Updater), new PropertyMetadata (false));
+    public static readonly DependencyProperty UseSystemSettingsProperty = DependencyProperty.Register("UseSystemSettings", typeof(bool), typeof(Updater), new PropertyMetadata(false));
 
-    [Category ("Updater"), Description ("Use system settings")]
+    [Category("Updater"), Description("Use system settings")]
     public bool UseSystemSettings
     {
       get
       {
-        return ((bool) GetValue (UseSystemSettingsProperty));
+        return ((bool)GetValue(UseSystemSettingsProperty));
       }
       set
       {
-        SetValue (UseSystemSettingsProperty, value);
+        SetValue(UseSystemSettingsProperty, value);
       }
     }
 
     #endregion
 
-    private void btnUpdater_Click (object sender, RoutedEventArgs e)
+    private void btnUpdater_Click(object sender, RoutedEventArgs e)
     {
-      updater.StartUpdate ( );
-      
+      updater.StartUpdate();
+
       btnUpdater.IsEnabled = updater.IsThreadCompleted;
     }
 
-    private void UserControl_Loaded (object sender, RoutedEventArgs e)
+    private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
       if (updater != null)
         updater = null;
@@ -159,24 +159,24 @@ namespace TailForWin.Template.UpdateController
       };
 
       updater.ThreadCompletedEvent += UpdateCompleted;
-      updater.InitWebService ( );
+      updater.InitWebService();
     }
 
-    private void UpdateCompleted (object sender, EventArgs e)
+    private void UpdateCompleted(object sender, EventArgs e)
     {
       btnUpdater.IsEnabled = updater.IsThreadCompleted;
 
       if (!updater.Success)
         return;
 
-      Window wnd = Window.GetWindow (this);
-      ResultDialog rd = new ResultDialog (ApplicationName, updater.HaveToUpdate, UpdateURL)
+      Window wnd = Window.GetWindow(this);
+      ResultDialog rd = new ResultDialog(ApplicationName, updater.HaveToUpdate, UpdateURL)
       {
         Owner = wnd,
         WebVersion = updater.WebVersion,
         ApplicationVersion = updater.AppVersion
       };
-      rd.ShowDialog ( );
+      rd.ShowDialog();
     }
   }
 }

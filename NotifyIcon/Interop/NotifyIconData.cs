@@ -11,7 +11,7 @@ namespace TailForWin.NotifyIcon.Interop
   /// values of the <see cref="IconDataMembers"/>
   /// that were defined.
   /// </summary>
-  [StructLayout (LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+  [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
   public struct NotifyIconData
   {
     /// <summary>
@@ -57,7 +57,7 @@ namespace TailForWin.NotifyIcon.Interop
     /// the terminating NULL. For Version 5.0 and later, szTip can have a maximum of
     /// 128 characters, including the terminating NULL.
     /// </summary>
-    [MarshalAs (UnmanagedType.ByValTStr, SizeConst = 128)]
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
     public string ToolTipText;
 
     /// <summary>
@@ -77,7 +77,7 @@ namespace TailForWin.NotifyIcon.Interop
     /// String with the text for a balloon ToolTip. It can have a maximum of 255 characters.
     /// To remove the ToolTip, set the NIF_INFO flag in uFlags and set szInfo to an empty string.
     /// </summary>
-    [MarshalAs (UnmanagedType.ByValTStr, SizeConst = 256)]
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
     public string BalloonText;
 
     /// <summary>
@@ -91,7 +91,7 @@ namespace TailForWin.NotifyIcon.Interop
     /// String containing a title for a balloon ToolTip. This title appears in boldface
     /// above the text. It can have a maximum of 63 characters.
     /// </summary>
-    [MarshalAs (UnmanagedType.ByValTStr, SizeConst = 64)]
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
     public string BalloonTitle;
 
     /// <summary>
@@ -123,14 +123,14 @@ namespace TailForWin.NotifyIcon.Interop
     /// </summary>
     /// <param name="handle"></param>
     /// <returns></returns>
-    public static NotifyIconData CreateDefault (IntPtr handle)
+    public static NotifyIconData CreateDefault(IntPtr handle)
     {
-      var data = new NotifyIconData ( );
+      var data = new NotifyIconData();
 
       if (Environment.OSVersion.Version.Major >= 6)
       {
         //use the current size
-        data.cbSize = (uint) Marshal.SizeOf (data);
+        data.cbSize = (uint)Marshal.SizeOf(data);
       }
       else
       {
@@ -145,7 +145,7 @@ namespace TailForWin.NotifyIcon.Interop
       data.WindowHandle = handle;
       data.TaskbarIconId = 0x0;
       data.CallbackMessageId = WindowMessageSink.CallbackMessageId;
-      data.VersionOrTimeout = (uint) NotifyIconVersion.Win95;
+      data.VersionOrTimeout = (uint)NotifyIconVersion.Win95;
 
       data.IconHandle = IntPtr.Zero;
 

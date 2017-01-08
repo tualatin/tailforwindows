@@ -6,21 +6,21 @@ namespace TailForWin.Data
   /// <summary>
   /// Holding the FileManager data inside
   /// </summary>
-  public class FileManagerDataEventArgs: EventArgs, IDisposable
+  public class FileManagerDataEventArgs : EventArgs, IDisposable
   {
     private FileManagerData fileManagerProperties;
 
 
-    public void Dispose ( )
+    public void Dispose()
     {
       if (fileManagerProperties == null)
         return;
 
-      fileManagerProperties.Dispose ( );
+      fileManagerProperties.Dispose();
       fileManagerProperties = null;
     }
 
-    public FileManagerDataEventArgs (FileManagerData obj)
+    public FileManagerDataEventArgs(FileManagerData obj)
     {
       fileManagerProperties = obj;
     }
@@ -29,7 +29,7 @@ namespace TailForWin.Data
     /// Get FileManager data
     /// </summary>
     /// <returns>FileManagerData object</returns>
-    public FileManagerData GetData ( )
+    public FileManagerData GetData()
     {
       return (fileManagerProperties);
     }

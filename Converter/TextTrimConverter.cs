@@ -7,8 +7,8 @@ namespace TailForWin.Converter
   /// <summary>
   /// Text trim converter
   /// </summary>
-  [ValueConversion (typeof (string), typeof (string))]
-  public class TextTrimConverter: IValueConverter
+  [ValueConversion(typeof(string), typeof(string))]
+  public class TextTrimConverter : IValueConverter
   {
     #region IValueConverter Members
 
@@ -20,15 +20,15 @@ namespace TailForWin.Converter
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Trim text</returns>
-    public object Convert (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if (value == null)
         return (null);
 
-      if (string.IsNullOrEmpty (value as string))
+      if (string.IsNullOrEmpty(value as string))
         return (string.Empty);
 
-      string s = (value as string).Trim ( );
+      string s = (value as string).Trim();
 
       return (s);
     }
@@ -41,7 +41,7 @@ namespace TailForWin.Converter
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Object</returns>
-    public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       return (value);
     }

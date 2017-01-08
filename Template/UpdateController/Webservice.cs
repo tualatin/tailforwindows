@@ -10,9 +10,9 @@ namespace TailForWin.Template.UpdateController
   {
     readonly WebServiceData proxySettings;
     HttpWebRequest request;
-    
 
-    public Webservice (WebServiceData data)
+
+    public Webservice(WebServiceData data)
     {
       proxySettings = data;
     }
@@ -22,39 +22,39 @@ namespace TailForWin.Template.UpdateController
     /// </summary>
     /// <param name="html">Output html string</param>
     /// <returns>If success then true, otherwise false</returns>
-    public bool UpdateWebRequest (out string html)
+    public bool UpdateWebRequest(out string html)
     {
       html = string.Empty;
 
       try
       {
-        request = WebRequest.Create (proxySettings.Url) as HttpWebRequest;
+        request = WebRequest.Create(proxySettings.Url) as HttpWebRequest;
 
-        InitWebRequest (proxySettings.UseProxySystemSettings);
+        InitWebRequest(proxySettings.UseProxySystemSettings);
 
-        using (HttpWebResponse response = request.GetResponse ( ) as HttpWebResponse)
+        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
         {
-          using (StreamReader sr = new StreamReader (response.GetResponseStream ( )))
+          using (StreamReader sr = new StreamReader(response.GetResponseStream()))
           {
-            html = sr.ReadToEnd ( );
+            html = sr.ReadToEnd();
           }
         }
 
-        if (!string.IsNullOrWhiteSpace (html))
+        if (!string.IsNullOrWhiteSpace(html))
           return (true);
 
         return (false);
       }
       catch (Exception ex)
       {
-        UserErrorException.HandleUserException (ex);
+        UserErrorException.HandleUserException(ex);
       }
       return (false);
     }
 
     #region HelperFunctions
 
-    private void InitWebRequest (bool useSystemProxySettings)
+    private void InitWebRequest(bool useSystemProxySettings)
     {
       request.UserAgent = "UpdateService";
       request.Headers["Accept-Charset"] = "utf-8";
@@ -66,11 +66,11 @@ namespace TailForWin.Template.UpdateController
       if (proxySettings.UseProxy)
       {
         if (!useSystemProxySettings)
-          request.Proxy = new WebProxy (string.Format ("{0}:{1}", proxySettings.ProxyAddress, proxySettings.ProxyPort), true);
+          request.Proxy = new WebProxy(string.Format("{0}:{1}", proxySettings.ProxyAddress, proxySettings.ProxyPort), true);
 
         if (proxySettings.ProxyCredential != null)
         {
-          if (!string.IsNullOrEmpty (proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty (proxySettings.ProxyCredential.Password))
+          if (!string.IsNullOrEmpty(proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty(proxySettings.ProxyCredential.Password))
           {
             request.Proxy.Credentials = proxySettings.ProxyCredential;
           }
@@ -79,11 +79,11 @@ namespace TailForWin.Template.UpdateController
       if (!useSystemProxySettings)
         return;
 
-      WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy ( );
+      WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy();
 
       if (proxySettings.ProxyCredential != null)
       {
-        if (!string.IsNullOrEmpty (proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty (proxySettings.ProxyCredential.Password))
+        if (!string.IsNullOrEmpty(proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty(proxySettings.ProxyCredential.Password))
           WebRequest.DefaultWebProxy.Credentials = proxySettings.ProxyCredential;
       }
     }

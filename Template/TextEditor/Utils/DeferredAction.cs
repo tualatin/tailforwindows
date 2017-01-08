@@ -20,20 +20,20 @@ namespace TailForWin.Template.TextEditor.Utils
     /// <param name="action">
     /// The action that will be deferred.  It is not performed until after <see cref="Defer"/> is called.
     /// </param>
-    public static DeferredAction Create (Action action)
+    public static DeferredAction Create(Action action)
     {
       if (action == null)
-        throw new ArgumentNullException ("action");
+        throw new ArgumentNullException("action");
 
-      return (new DeferredAction (action));
+      return (new DeferredAction(action));
     }
 
-    private DeferredAction (Action action)
+    private DeferredAction(Action action)
     {
-      timer = new Timer (new TimerCallback (delegate
-      {
-        Application.Current.Dispatcher.Invoke (action);
-      }));
+      timer = new Timer(new TimerCallback(delegate
+    {
+      Application.Current.Dispatcher.Invoke(action);
+    }));
     }
 
     /// <summary>
@@ -43,18 +43,18 @@ namespace TailForWin.Template.TextEditor.Utils
     /// <param name="delay">
     /// The amount of time to wait before performing the action.
     /// </param>
-    public void Defer (TimeSpan delay)
+    public void Defer(TimeSpan delay)
     {
-      timer.Change (delay, TimeSpan.FromMilliseconds (-1));
+      timer.Change(delay, TimeSpan.FromMilliseconds(-1));
     }
 
     #region IDisposable Members
 
-    public void Dispose ()
+    public void Dispose()
     {
       if (timer != null)
       {
-        timer.Dispose ( );
+        timer.Dispose();
         timer = null;
       }
     }

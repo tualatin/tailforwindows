@@ -32,7 +32,7 @@ namespace TailForWin.NotifyIcon.Interop
   /// Receives messages from the taskbar icon through
   /// window messages of an underlying helper window.
   /// </summary>
-  public class WindowMessageSink: IDisposable
+  public class WindowMessageSink : IDisposable
   {
     #region members
 
@@ -66,18 +66,27 @@ namespace TailForWin.NotifyIcon.Interop
     /// <summary>
     /// Window class ID.
     /// </summary>
-    internal string WindowId { get; private set; }
+    internal string WindowId
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// Handle for the message window.
     /// </summary> 
-    internal IntPtr MessageWindowHandle { get; private set; }
+    internal IntPtr MessageWindowHandle
+    {
+      get; private set;
+    }
 
     /// <summary>
     /// The version of the underlying icon. Defines how
     /// incoming messages are interpreted.
     /// </summary>
-    public NotifyIconVersion Version { get; set; }
+    public NotifyIconVersion Version
+    {
+      get; set;
+    }
 
     #endregion
 
@@ -115,13 +124,13 @@ namespace TailForWin.NotifyIcon.Interop
     /// a given taskbar icon.
     /// </summary>
     /// <param name="version"></param>
-    public WindowMessageSink (NotifyIconVersion version)
+    public WindowMessageSink(NotifyIconVersion version)
     {
       Version = version;
-      CreateMessageWindow ( );
+      CreateMessageWindow();
     }
 
-    private WindowMessageSink ()
+    private WindowMessageSink()
     {
     }
 
@@ -131,7 +140,7 @@ namespace TailForWin.NotifyIcon.Interop
     /// Used at design time.
     /// </summary>
     /// <returns></returns>
-    internal static WindowMessageSink CreateEmpty ()
+    internal static WindowMessageSink CreateEmpty()
     {
       return new WindowMessageSink
       {
@@ -148,7 +157,7 @@ namespace TailForWin.NotifyIcon.Interop
     /// Creates the helper message window that is used
     /// to receive messages from the taskbar icon.
     /// </summary>
-    private void CreateMessageWindow ()
+    private void CreateMessageWindow()
     {
       //generate a unique ID for the window
       WindowId = "WPFTaskbarIcon_" + DateTime.Now.Ticks;
@@ -158,9 +167,9 @@ namespace TailForWin.NotifyIcon.Interop
 
       // Create a simple window class which is reference through
       //the messageHandler delegate
-      WindowClass wc = new WindowClass 
-      { 
-        style = 0, 
+      WindowClass wc = new WindowClass
+      {
+        style = 0,
         lpfnWndProc = messageHandler,
         cbClsExtra = 0,
         cbWndExtra = 0,
@@ -168,26 +177,26 @@ namespace TailForWin.NotifyIcon.Interop
         hIcon = IntPtr.Zero,
         hCursor = IntPtr.Zero,
         hbrBackground = IntPtr.Zero,
-        lpszMenuName = string.Empty, 
-        lpszClassName = WindowId 
+        lpszMenuName = string.Empty,
+        lpszClassName = WindowId
       };
 
       // Register the window class
-      WinApi.RegisterClass (ref wc);
+      WinApi.RegisterClass(ref wc);
 
       // Get the message used to indicate the taskbar has been restarted
       // This is used to re-add icons when the taskbar restarts
-      taskbarRestartMessageId = WinApi.RegisterWindowMessage ("TaskbarCreated");
+      taskbarRestartMessageId = WinApi.RegisterWindowMessage("TaskbarCreated");
 
       // Create the message window
-      MessageWindowHandle = WinApi.CreateWindowEx (0, WindowId, "", 0, 0, 0, 1, 1, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+      MessageWindowHandle = WinApi.CreateWindowEx(0, WindowId, "", 0, 0, 0, 1, 1, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
 
       if (MessageWindowHandle == IntPtr.Zero)
       {
 #if SILVERLIGHT
       	throw new Exception("Message window handle was not a valid pointer.");
 #else
-        throw new Win32Exception ("Message window handle was not a valid pointer");
+        throw new Win32Exception("Message window handle was not a valid pointer");
 #endif
       }
     }
@@ -199,19 +208,19 @@ namespace TailForWin.NotifyIcon.Interop
     /// <summary>
     /// Callback method that receives messages from the taskbar area.
     /// </summary>
-    private IntPtr OnWindowMessageReceived (IntPtr hwnd, uint messageId, IntPtr wparam, IntPtr lparam)
+    private IntPtr OnWindowMessageReceived(IntPtr hwnd, uint messageId, IntPtr wparam, IntPtr lparam)
     {
       if (messageId == taskbarRestartMessageId)
       {
         //recreate the icon if the taskbar was restarted (e.g. due to Win Explorer shutdown)
-        TaskbarCreated ( );
+        TaskbarCreated();
       }
 
       //forward message
-      ProcessWindowMessage (messageId, wparam, lparam);
+      ProcessWindowMessage(messageId, wparam, lparam);
 
       // Pass the message to the default window procedure
-      return (WinApi.DefWindowProc (hwnd, messageId, wparam, lparam));
+      return (WinApi.DefWindowProc(hwnd, messageId, wparam, lparam));
     }
 
     /// <summary>
@@ -222,97 +231,97 @@ namespace TailForWin.NotifyIcon.Interop
     /// or higher, this parameter can be used to resolve mouse coordinates.
     /// Currently not in use.</param>
     /// <param name="lParam">Provides information about the event.</param>
-    private void ProcessWindowMessage (uint msg, IntPtr wParam, IntPtr lParam)
+    private void ProcessWindowMessage(uint msg, IntPtr wParam, IntPtr lParam)
     {
       if (msg != CallbackMessageId)
         return;
 
-      switch (lParam.ToInt32 ( ))
+      switch (lParam.ToInt32())
       {
       case 0x200:
 
-        MouseEventReceived (MouseEvent.MouseMove);
-        break;
+      MouseEventReceived(MouseEvent.MouseMove);
+      break;
 
       case 0x201:
 
-        MouseEventReceived (MouseEvent.IconLeftMouseDown);
-        break;
+      MouseEventReceived(MouseEvent.IconLeftMouseDown);
+      break;
 
       case 0x202:
 
-        if (!isDoubleClick)
-          MouseEventReceived (MouseEvent.IconLeftMouseUp);
+      if (!isDoubleClick)
+        MouseEventReceived(MouseEvent.IconLeftMouseUp);
 
-        isDoubleClick = false;
-        break;
+      isDoubleClick = false;
+      break;
 
       case 0x203:
 
-        isDoubleClick = true;
-        MouseEventReceived (MouseEvent.IconDoubleClick);
-        break;
+      isDoubleClick = true;
+      MouseEventReceived(MouseEvent.IconDoubleClick);
+      break;
 
       case 0x204:
 
-        MouseEventReceived (MouseEvent.IconRightMouseDown);
-        break;
+      MouseEventReceived(MouseEvent.IconRightMouseDown);
+      break;
 
       case 0x205:
 
-        MouseEventReceived (MouseEvent.IconRightMouseUp);
-        break;
+      MouseEventReceived(MouseEvent.IconRightMouseUp);
+      break;
 
       case 0x206:
 
-        //double click with right mouse button - do not trigger event
-        break;
+      //double click with right mouse button - do not trigger event
+      break;
 
       case 0x207:
 
-        MouseEventReceived (MouseEvent.IconMiddleMouseDown);
-        break;
+      MouseEventReceived(MouseEvent.IconMiddleMouseDown);
+      break;
 
       case 520:
 
-        MouseEventReceived (MouseEvent.IconMiddleMouseUp);
-        break;
+      MouseEventReceived(MouseEvent.IconMiddleMouseUp);
+      break;
 
       case 0x209:
 
-        //double click with middle mouse button - do not trigger event
-        break;
+      //double click with middle mouse button - do not trigger event
+      break;
 
       case 0x402:
 
-        BalloonToolTipChanged (true);
-        break;
+      BalloonToolTipChanged(true);
+      break;
 
       case 0x403:
       case 0x404:
 
-        BalloonToolTipChanged (false);
-        break;
+      BalloonToolTipChanged(false);
+      break;
 
       case 0x405:
 
-        MouseEventReceived (MouseEvent.BalloonToolTipClicked);
-        break;
+      MouseEventReceived(MouseEvent.BalloonToolTipClicked);
+      break;
 
       case 0x406:
 
-        ChangeToolTipStateRequest (true);
-        break;
+      ChangeToolTipStateRequest(true);
+      break;
 
       case 0x407:
 
-        ChangeToolTipStateRequest (false);
-        break;
+      ChangeToolTipStateRequest(false);
+      break;
 
       default:
 
-        Debug.WriteLine ("Unhandled NotifyIcon message ID: " + lParam);
-        break;
+      Debug.WriteLine("Unhandled NotifyIcon message ID: " + lParam);
+      break;
       }
     }
 
@@ -324,9 +333,9 @@ namespace TailForWin.NotifyIcon.Interop
     /// Set to true as soon as <c>Dispose</c> has been invoked.
     /// </summary>
     public bool IsDisposed
-    { 
-      get; 
-      private set; 
+    {
+      get;
+      private set;
     }
 
     /// <summary>
@@ -335,16 +344,16 @@ namespace TailForWin.NotifyIcon.Interop
     /// <remarks>This method is not virtual by design. Derived classes
     /// should override <see cref="Dispose(bool)"/>.
     /// </remarks>
-    public void Dispose ()
+    public void Dispose()
     {
-      Dispose (true);
+      Dispose(true);
 
       // This object will be cleaned up by the Dispose method.
       // Therefore, you should call GC.SupressFinalize to
       // take this object off the finalization queue 
       // and prevent finalization code for this object
       // from executing a second time.
-      GC.SuppressFinalize (this);
+      GC.SuppressFinalize(this);
     }
 
     /// <summary>
@@ -356,16 +365,16 @@ namespace TailForWin.NotifyIcon.Interop
     /// this class.
     /// </para>
     /// </summary>
-    ~WindowMessageSink ()
+    ~WindowMessageSink()
     {
-      Dispose (false);
+      Dispose(false);
     }
 
     /// <summary>
     /// Removes the windows hook that receives window
     /// messages and closes the underlying helper window.
     /// </summary>
-    private void Dispose (bool disposing)
+    private void Dispose(bool disposing)
     {
       //don't do anything if the component is already disposed
       if (IsDisposed)
@@ -374,7 +383,7 @@ namespace TailForWin.NotifyIcon.Interop
       IsDisposed = true;
 
       //always destroy the unmanaged handle (even if called from the GC)
-      WinApi.DestroyWindow (MessageWindowHandle);
+      WinApi.DestroyWindow(MessageWindowHandle);
       messageHandler = null;
     }
 

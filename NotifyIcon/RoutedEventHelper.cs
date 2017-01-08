@@ -17,12 +17,12 @@ namespace TailForWin.NotifyIcon
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
     /// <param name="args">RoutedEventArgs to use when raising the event</param>
-    internal static void RaiseEvent (DependencyObject target, RoutedEventArgs args)
+    internal static void RaiseEvent(DependencyObject target, RoutedEventArgs args)
     {
       if (target is UIElement)
-        (target as UIElement).RaiseEvent (args);
+        (target as UIElement).RaiseEvent(args);
       else if (target is ContentElement)
-        (target as ContentElement).RaiseEvent (args);
+        (target as ContentElement).RaiseEvent(args);
     }
 
     /// <summary>
@@ -32,18 +32,18 @@ namespace TailForWin.NotifyIcon
     /// <param name="element">UIElement or ContentElement that listens to the event</param>
     /// <param name="routedEvent">Event that will be handled</param>
     /// <param name="handler">Event handler to be added</param>
-    internal static void AddHandler (DependencyObject element, RoutedEvent routedEvent, Delegate handler)
+    internal static void AddHandler(DependencyObject element, RoutedEvent routedEvent, Delegate handler)
     {
       UIElement uie = element as UIElement;
 
       if (uie != null)
-        uie.AddHandler (routedEvent, handler);
+        uie.AddHandler(routedEvent, handler);
       else
       {
         ContentElement ce = element as ContentElement;
 
         if (ce != null)
-          ce.AddHandler (routedEvent, handler);
+          ce.AddHandler(routedEvent, handler);
       }
     }
 
@@ -54,18 +54,18 @@ namespace TailForWin.NotifyIcon
     /// <param name="element">UIElement or ContentElement that listens to the event</param>
     /// <param name="routedEvent">Event that will no longer be handled</param>
     /// <param name="handler">Event handler to be removed</param>
-    internal static void RemoveHandler (DependencyObject element, RoutedEvent routedEvent, Delegate handler)
+    internal static void RemoveHandler(DependencyObject element, RoutedEvent routedEvent, Delegate handler)
     {
       UIElement uie = element as UIElement;
 
       if (uie != null)
-        uie.RemoveHandler (routedEvent, handler);
+        uie.RemoveHandler(routedEvent, handler);
       else
       {
         ContentElement ce = element as ContentElement;
 
         if (ce != null)
-          ce.RemoveHandler (routedEvent, handler);
+          ce.RemoveHandler(routedEvent, handler);
       }
     }
 

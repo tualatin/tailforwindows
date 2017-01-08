@@ -39,7 +39,7 @@ namespace TailForWin.NotifyIcon
   /// </summary>
   internal static class Util
   {
-    public static readonly object SyncRoot = new object ( );
+    public static readonly object SyncRoot = new object();
 
     #region IsDesignMode
 
@@ -60,9 +60,9 @@ namespace TailForWin.NotifyIcon
 
     #region construction
 
-    static Util ( )
+    static Util()
     {
-      isDesignMode = (bool) DependencyPropertyDescriptor.FromProperty (DesignerProperties.IsInDesignModeProperty, typeof (FrameworkElement)).Metadata.DefaultValue;
+      isDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement)).Metadata.DefaultValue;
     }
 
     #endregion
@@ -75,7 +75,7 @@ namespace TailForWin.NotifyIcon
     /// be used as a window message sink.
     /// </summary>
     /// <returns>Empty window.</returns>
-    public static Window CreateHelperWindow ( )
+    public static Window CreateHelperWindow()
     {
       return (new Window
       {
@@ -100,9 +100,9 @@ namespace TailForWin.NotifyIcon
     /// <param name="command">Operation on the icon (e.g. delete the icon).</param>
     /// <returns>True if the data was successfully written.</returns>
     /// <remarks>See Shell_NotifyIcon documentation on MSDN for details.</remarks>
-    public static bool WriteIconData (ref NotifyIconData data, NotifyCommand command)
+    public static bool WriteIconData(ref NotifyIconData data, NotifyCommand command)
     {
-      return (WriteIconData (ref data, command, data.ValidMembers));
+      return (WriteIconData(ref data, command, data.ValidMembers));
     }
 
     /// <summary>
@@ -115,7 +115,7 @@ namespace TailForWin.NotifyIcon
     /// structure are set.</param>
     /// <returns>True if the data was successfully written.</returns>
     /// <remarks>See Shell_NotifyIcon documentation on MSDN for details.</remarks>
-    public static bool WriteIconData (ref NotifyIconData data, NotifyCommand command, IconDataMembers flags)
+    public static bool WriteIconData(ref NotifyIconData data, NotifyCommand command, IconDataMembers flags)
     {
       //do nothing if in design mode
       if (IsDesignMode)
@@ -125,7 +125,7 @@ namespace TailForWin.NotifyIcon
 
       lock (SyncRoot)
       {
-        return (WinApi.Shell_NotifyIcon (command, ref data));
+        return (WinApi.Shell_NotifyIcon(command, ref data));
       }
     }
 
@@ -137,29 +137,29 @@ namespace TailForWin.NotifyIcon
     /// Gets a <see cref="BalloonFlags"/> enum value that
     /// matches a given <see cref="BalloonIcon"/>.
     /// </summary>
-    public static BalloonFlags GetBalloonFlag (this BalloonIcon icon)
+    public static BalloonFlags GetBalloonFlag(this BalloonIcon icon)
     {
       switch (icon)
       {
       case BalloonIcon.None:
 
-        return (BalloonFlags.None);
+      return (BalloonFlags.None);
 
       case BalloonIcon.Info:
 
-        return (BalloonFlags.Info);
+      return (BalloonFlags.Info);
 
       case BalloonIcon.Warning:
 
-        return (BalloonFlags.Warning);
+      return (BalloonFlags.Warning);
 
       case BalloonIcon.Error:
 
-        return (BalloonFlags.Error);
+      return (BalloonFlags.Error);
 
       default:
 
-        throw new ArgumentOutOfRangeException ("icon");
+      throw new ArgumentOutOfRangeException("icon");
       }
     }
 
@@ -174,21 +174,21 @@ namespace TailForWin.NotifyIcon
     /// an icon file (*.ico).</param>
     /// <returns>An icon object that can be used with the
     /// taskbar area.</returns>
-    public static Icon ToIcon (this ImageSource imageSource)
+    public static Icon ToIcon(this ImageSource imageSource)
     {
       if (imageSource == null)
         return (null);
 
-      Uri uri = new Uri (imageSource.ToString ( ));
-      StreamResourceInfo streamInfo = Application.GetResourceStream (uri);
+      Uri uri = new Uri(imageSource.ToString());
+      StreamResourceInfo streamInfo = Application.GetResourceStream(uri);
 
       if (streamInfo == null)
       {
         string msg = "The supplied image source '{0}' could not be resolved.";
-        msg = String.Format (msg, imageSource);
-        throw new ArgumentException (msg);
+        msg = String.Format(msg, imageSource);
+        throw new ArgumentException(msg);
       }
-      return (new Icon (streamInfo.Stream));
+      return (new Icon(streamInfo.Stream));
     }
 
     #endregion
@@ -209,14 +209,14 @@ namespace TailForWin.NotifyIcon
     /// which allows to check with null values, too.</returns>
     /// <exception cref="ArgumentNullException">If <paramref name="candidates"/>
     /// is a null reference.</exception>
-    public static bool Is<T> (this T value, params T[] candidates)
+    public static bool Is<T>(this T value, params T[] candidates)
     {
       if (candidates == null)
         return (false);
 
       foreach (var t in candidates)
       {
-        if (value.Equals (t))
+        if (value.Equals(t))
           return (true);
       }
       return (false);
@@ -230,42 +230,42 @@ namespace TailForWin.NotifyIcon
     /// Checks if a given <see cref="PopupActivationMode"/> is a match for
     /// an effectively pressed mouse button.
     /// </summary>
-    public static bool IsMatch (this MouseEvent me, PopupActivationMode activationMode)
+    public static bool IsMatch(this MouseEvent me, PopupActivationMode activationMode)
     {
       switch (activationMode)
       {
       case PopupActivationMode.LeftClick:
 
-        return (me == MouseEvent.IconLeftMouseUp);
+      return (me == MouseEvent.IconLeftMouseUp);
 
       case PopupActivationMode.RightClick:
 
-        return (me == MouseEvent.IconRightMouseUp);
+      return (me == MouseEvent.IconRightMouseUp);
 
       case PopupActivationMode.LeftOrRightClick:
 
-        return (me.Is (MouseEvent.IconLeftMouseUp, MouseEvent.IconRightMouseUp));
+      return (me.Is(MouseEvent.IconLeftMouseUp, MouseEvent.IconRightMouseUp));
 
       case PopupActivationMode.LeftOrDoubleClick:
 
-        return (me.Is (MouseEvent.IconLeftMouseUp, MouseEvent.IconDoubleClick));
+      return (me.Is(MouseEvent.IconLeftMouseUp, MouseEvent.IconDoubleClick));
 
       case PopupActivationMode.DoubleClick:
 
-        return (me.Is (MouseEvent.IconDoubleClick));
+      return (me.Is(MouseEvent.IconDoubleClick));
 
       case PopupActivationMode.MiddleClick:
 
-        return (me == MouseEvent.IconMiddleMouseUp);
+      return (me == MouseEvent.IconMiddleMouseUp);
 
       case PopupActivationMode.All:
 
-        //return true for everything except mouse movements
-        return (me != MouseEvent.MouseMove);
+      //return true for everything except mouse movements
+      return (me != MouseEvent.MouseMove);
 
       default:
 
-        throw new ArgumentOutOfRangeException ("activationMode");
+      throw new ArgumentOutOfRangeException("activationMode");
       }
     }
 
@@ -281,7 +281,7 @@ namespace TailForWin.NotifyIcon
     /// <param name="commandParameter">An optional parameter that is associated with
     /// the command.</param>
     /// <param name="target">The target element on which to raise the command.</param>
-    public static void ExecuteIfEnabled (this ICommand command, object commandParameter, IInputElement target)
+    public static void ExecuteIfEnabled(this ICommand command, object commandParameter, IInputElement target)
     {
       if (command == null)
         return;
@@ -290,11 +290,11 @@ namespace TailForWin.NotifyIcon
       if (rc != null)
       {
         //routed commands work on a target
-        if (rc.CanExecute (commandParameter, target))
-          rc.Execute (commandParameter, target);
+        if (rc.CanExecute(commandParameter, target))
+          rc.Execute(commandParameter, target);
       }
-      else if (command.CanExecute (commandParameter))
-        command.Execute (commandParameter);
+      else if (command.CanExecute(commandParameter))
+        command.Execute(commandParameter);
     }
 
     #endregion
@@ -303,7 +303,7 @@ namespace TailForWin.NotifyIcon
     /// Returns a dispatcher for multi-threaded scenarios
     /// </summary>
     /// <returns></returns>
-    internal static Dispatcher GetDispatcher (this DispatcherObject source)
+    internal static Dispatcher GetDispatcher(this DispatcherObject source)
     {
       //use the application's dispatcher by default
       if (Application.Current != null)
@@ -327,12 +327,12 @@ namespace TailForWin.NotifyIcon
     /// binding expression.</returns>
     /// <exception cref="ArgumentNullException">If <paramref name="element"/>
     /// is a null reference.</exception>
-    public static bool IsDataContextDataBound (this FrameworkElement element)
+    public static bool IsDataContextDataBound(this FrameworkElement element)
     {
       if (element == null)
-        throw new ArgumentNullException ("element");
+        throw new ArgumentNullException("element");
 
-      return (element.GetBindingExpression (FrameworkElement.DataContextProperty) != null);
+      return (element.GetBindingExpression(FrameworkElement.DataContextProperty) != null);
     }
   }
 }

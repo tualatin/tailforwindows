@@ -8,8 +8,8 @@ namespace TailForWin.Converter
   /// <summary>
   /// Integer to bool converter
   /// </summary>
-  [ValueConversion (typeof (int), typeof (bool))]
-  public class IntToBoolConverter: IValueConverter
+  [ValueConversion(typeof(int), typeof(bool))]
+  public class IntToBoolConverter : IValueConverter
   {
     #region IValueConverter Members
 
@@ -21,11 +21,11 @@ namespace TailForWin.Converter
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Trim text</returns>
-    public object Convert (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       try
       {
-        return (System.Convert.ToInt32 (value) > 0);
+        return (System.Convert.ToInt32(value) > 0);
       }
       catch (InvalidCastException)
       {
@@ -41,7 +41,7 @@ namespace TailForWin.Converter
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Object</returns>
-    public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       return (value);
     }

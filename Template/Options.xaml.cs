@@ -16,9 +16,9 @@ namespace TailForWin.Template
     public event EventHandler UpdateEvent;
 
 
-    public Options ()
+    public Options()
     {
-      InitializeComponent ( );
+      InitializeComponent();
 
       tabColorItem.CloseDialog += OnExit;
       tabColorItem.SaveSettings += OnSaveSettings;
@@ -37,28 +37,28 @@ namespace TailForWin.Template
     }
 
     #region Events
-    
-    private void OnUpdateEvent ()
+
+    private void OnUpdateEvent()
     {
       if (UpdateEvent != null)
-        UpdateEvent (this, EventArgs.Empty);
+        UpdateEvent(this, EventArgs.Empty);
     }
 
-    private void OnExit (object sender, EventArgs e)
+    private void OnExit(object sender, EventArgs e)
     {
-      Close ( );
+      Close();
     }
 
-    private void OnSaveSettings (object sender, EventArgs e)
+    private void OnSaveSettings(object sender, EventArgs e)
     {
-      SettingsHelper.SaveSettings ( );
-      OnUpdateEvent ( );
+      SettingsHelper.SaveSettings();
+      OnUpdateEvent();
     }
 
-    private void HandleEsc (object sender, KeyEventArgs e)
+    private void HandleEsc(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
-        OnExit (sender, e);
+        OnExit(sender, e);
     }
 
     #endregion

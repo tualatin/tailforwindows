@@ -18,12 +18,12 @@ namespace TailForWin.Template.TextEditor.Utils
     /// Identifies the IsEnabled attached property.
     /// </summary>
     public static readonly DependencyProperty EnabledProperty =
-      DependencyProperty.RegisterAttached ("Enabled", typeof (bool), typeof (ListBoxSelector), new UIPropertyMetadata (false, IsEnabledChangedCallback));
+      DependencyProperty.RegisterAttached("Enabled", typeof(bool), typeof(ListBoxSelector), new UIPropertyMetadata(false, IsEnabledChangedCallback));
 
     /// <summary>
     /// This stores the ListBoxSelector for each ListBox so we can unregister it.
     /// </summary>
-    private static readonly Dictionary<ListBox, ListBoxSelector> attachedControls = new Dictionary<ListBox, ListBoxSelector> ( );
+    private static readonly Dictionary<ListBox, ListBoxSelector> attachedControls = new Dictionary<ListBox, ListBoxSelector>();
 
     private readonly ListBox listBox;
     private ScrollContentPresenter scrollContent;
@@ -39,12 +39,12 @@ namespace TailForWin.Template.TextEditor.Utils
     private Point end;
 
 
-    private ListBoxSelector (ListBox listBox)
+    private ListBoxSelector(ListBox listBox)
     {
       this.listBox = listBox;
 
       if (this.listBox.IsLoaded)
-        Register ( );
+        Register();
       else
       {
         // We need to wait for it to be loaded so we can find the
@@ -61,9 +61,9 @@ namespace TailForWin.Template.TextEditor.Utils
     /// <returns>
     /// true if items can be selected by a selection rectangle; otherwise, false.
     /// </returns>
-    public static bool GetEnabled (DependencyObject obj)
+    public static bool GetEnabled(DependencyObject obj)
     {
-      return ((bool) obj.GetValue (EnabledProperty));
+      return ((bool)obj.GetValue(EnabledProperty));
     }
 
     /// <summary>
@@ -72,35 +72,35 @@ namespace TailForWin.Template.TextEditor.Utils
     /// </summary>
     /// <param name="obj">Object on which to set the property.</param>
     /// <param name="value">Value to set.</param>
-    public static void SetEnabled (DependencyObject obj, bool value)
+    public static void SetEnabled(DependencyObject obj, bool value)
     {
-      obj.SetValue (EnabledProperty, value);
+      obj.SetValue(EnabledProperty, value);
     }
 
-    private static void IsEnabledChangedCallback (DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void IsEnabledChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       ListBox listBox = d as ListBox;
 
       if (listBox == null)
         return;
 
-      if ((bool) e.NewValue)
+      if ((bool)e.NewValue)
       {
         // If we're enabling selection by a rectangle we can assume
         // this means we want to be able to select more than one item.
         if (listBox.SelectionMode == SelectionMode.Single)
           listBox.SelectionMode = SelectionMode.Extended;
 
-        attachedControls.Add (listBox, new ListBoxSelector (listBox));
+        attachedControls.Add(listBox, new ListBoxSelector(listBox));
       }
       else // Unregister the selector
       {
         ListBoxSelector selector;
 
-        if (attachedControls.TryGetValue (listBox, out selector))
+        if (attachedControls.TryGetValue(listBox, out selector))
         {
-          attachedControls.Remove (listBox);
-          selector.UnRegister ( );
+          attachedControls.Remove(listBox);
+          selector.UnRegister();
         }
       }
     }
@@ -111,43 +111,43 @@ namespace TailForWin.Template.TextEditor.Utils
     /// <typeparam name="T"></typeparam>
     /// <param name="reference"></param>
     /// <returns></returns>
-    private static T FindChild<T> (DependencyObject reference) where T: class
+    private static T FindChild<T>(DependencyObject reference) where T : class
     {
       // Do a breadth first search.
-      var queue = new Queue<DependencyObject> ( );
-      queue.Enqueue (reference);
+      var queue = new Queue<DependencyObject>();
+      queue.Enqueue(reference);
 
       while (queue.Count > 0)
       {
-        DependencyObject child = queue.Dequeue ( );
+        DependencyObject child = queue.Dequeue();
         T obj = child as T;
 
         if (obj != null)
           return (obj);
 
         // Add the children to the queue to search through later.
-        for (int i = 0; i < VisualTreeHelper.GetChildrenCount (child); i++)
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
         {
-          queue.Enqueue (VisualTreeHelper.GetChild (child, i));
+          queue.Enqueue(VisualTreeHelper.GetChild(child, i));
         }
       }
       return (null); // Not found.
     }
 
-    private bool Register ()
+    private bool Register()
     {
-      scrollContent = FindChild<ScrollContentPresenter> (listBox);
+      scrollContent = FindChild<ScrollContentPresenter>(listBox);
 
       if (scrollContent == null)
         return (scrollContent != null);
 
-      autoScroller = new AutoScroller (listBox);
+      autoScroller = new AutoScroller(listBox);
       autoScroller.OffsetChanged += OnOffsetChanged;
 
-      selectionRect = new SelectionAdorner (scrollContent);
-      scrollContent.AdornerLayer.Add (selectionRect);
+      selectionRect = new SelectionAdorner(scrollContent);
+      scrollContent.AdornerLayer.Add(selectionRect);
 
-      selector = new ItemsControlSelector (listBox);
+      selector = new ItemsControlSelector(listBox);
 
       // The ListBox intercepts the regular MouseLeftButtonDown event
       // to do its selection processing, so we need to handle the
@@ -162,9 +162,9 @@ namespace TailForWin.Template.TextEditor.Utils
       return (scrollContent != null);
     }
 
-    private void UnRegister ()
+    private void UnRegister()
     {
-      StopSelection ( );
+      StopSelection();
 
       // Remove all the event handlers so this instance can be reclaimed by the GC.
       listBox.PreviewMouseLeftButtonDown -= OnPreviewMouseLeftButtonDown;
@@ -172,36 +172,36 @@ namespace TailForWin.Template.TextEditor.Utils
       listBox.MouseMove -= OnMouseMove;
       listBox.MouseLeftButtonDown -= OnMouseLeftButtonDown;
 
-      autoScroller.UnRegister ( );
+      autoScroller.UnRegister();
     }
 
-    private void OnListBoxLoaded (object sender, EventArgs e)
+    private void OnListBoxLoaded(object sender, EventArgs e)
     {
-      if (Register ( ))
+      if (Register())
         listBox.Loaded -= OnListBoxLoaded;
     }
 
-    private void OnOffsetChanged (object sender, OffsetChangedEventArgs e)
+    private void OnOffsetChanged(object sender, OffsetChangedEventArgs e)
     {
-      selector.Scroll (e.HorizontalChange, e.VerticalChange);
-      UpdateSelection ( );
+      selector.Scroll(e.HorizontalChange, e.VerticalChange);
+      UpdateSelection();
     }
 
-    private void OnMouseLeftButtonUp (object sender, MouseButtonEventArgs e)
+    private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
       if (mouseCaptured)
       {
         mouseCaptured = false;
-        scrollContent.ReleaseMouseCapture ( );
-        StopSelection ( );
+        scrollContent.ReleaseMouseCapture();
+        StopSelection();
       }
 
       lbdEventArgs = null;
     }
 
-    private void OnMouseLeftButtonDown (object sender, MouseButtonEventArgs e)
+    private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      Point mouse = e.GetPosition (this.scrollContent);
+      Point mouse = e.GetPosition(this.scrollContent);
 
       if ((mouse.X >= 0) && (mouse.X < this.scrollContent.ActualWidth) &&
           (mouse.Y >= 0) && (mouse.Y < this.scrollContent.ActualHeight))
@@ -210,38 +210,38 @@ namespace TailForWin.Template.TextEditor.Utils
             ((Keyboard.Modifiers & ModifierKeys.Shift) == 0))
           // Neither the shift key or control key is pressed, so
           // clear the selection.
-          listBox.SelectedItems.Clear ( );
+          listBox.SelectedItems.Clear();
       }
     }
-    
-    private void OnMouseMove (object sender, MouseEventArgs e)
+
+    private void OnMouseMove(object sender, MouseEventArgs e)
     {
       if (lbdEventArgs != null)
       {
         var e2 = lbdEventArgs;
         lbdEventArgs = null;
 
-        mouseCaptured = TryCaptureMouse (e2);
-        Point mouse = e2.GetPosition (scrollContent);
+        mouseCaptured = TryCaptureMouse(e2);
+        Point mouse = e2.GetPosition(scrollContent);
 
         if (mouseCaptured)
-          StartSelection (mouse);
+          StartSelection(mouse);
       }
 
       if (!mouseCaptured)
         return;
 
       // Get the position relative to the content of the ScrollViewer.
-      end = e.GetPosition (scrollContent);
-      autoScroller.Update (end);
-      UpdateSelection ( );
+      end = e.GetPosition(scrollContent);
+      autoScroller.Update(end);
+      UpdateSelection();
     }
 
-    private void OnPreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e)
+    private void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
       // Check that the mouse is inside the scroll content (could be on the
       // scroll bars for example).
-      Point mouse = e.GetPosition (scrollContent);
+      Point mouse = e.GetPosition(scrollContent);
 
       if ((mouse.X >= 0) && (mouse.X < scrollContent.ActualWidth) &&
           (mouse.Y >= 0) && (mouse.Y < scrollContent.ActualHeight))
@@ -258,23 +258,23 @@ namespace TailForWin.Template.TextEditor.Utils
       //  this.StartSelection (mouse);
     }
 
-    private bool TryCaptureMouse (MouseButtonEventArgs e)
+    private bool TryCaptureMouse(MouseButtonEventArgs e)
     {
-      Point position = e.GetPosition (this.scrollContent);
+      Point position = e.GetPosition(this.scrollContent);
 
       // Check if there is anything under the mouse.
-      UIElement element = scrollContent.InputHitTest (position) as UIElement;
+      UIElement element = scrollContent.InputHitTest(position) as UIElement;
 
       if (element != null)
       {
         // Simulate a mouse click by sending it the MouseButtonDown
         // event based on the data we received.
-        var args = new MouseButtonEventArgs (e.MouseDevice, e.Timestamp, MouseButton.Left, e.StylusDevice) 
+        var args = new MouseButtonEventArgs(e.MouseDevice, e.Timestamp, MouseButton.Left, e.StylusDevice)
         {
-          RoutedEvent = Mouse.MouseDownEvent, 
-          Source = e.Source 
+          RoutedEvent = Mouse.MouseDownEvent,
+          Source = e.Source
         };
-        element.RaiseEvent (args);
+        element.RaiseEvent(args);
 
         // The ListBox will try to capture the mouse unless something
         // else captures it.
@@ -283,22 +283,22 @@ namespace TailForWin.Template.TextEditor.Utils
       }
 
       // Either there's nothing under the mouse or the element doesn't want the mouse.
-      return (this.scrollContent.CaptureMouse ( ));
+      return (this.scrollContent.CaptureMouse());
     }
 
-    private void StopSelection ()
+    private void StopSelection()
     {
       // Hide the selection rectangle and stop the auto scrolling.
       selectionRect.IsEnabled = false;
       autoScroller.IsEnabled = false;
     }
 
-    private void StartSelection (Point location)
+    private void StartSelection(Point location)
     {
       // We've stolen the MouseLeftButtonDown event from the ListBox
       // so we need to manually give it focus.
       if (!listBox.IsKeyboardFocusWithin)
-        listBox.Focus ( );
+        listBox.Focus();
 
       start = location;
       end = location;
@@ -308,36 +308,36 @@ namespace TailForWin.Template.TextEditor.Utils
           ((Keyboard.Modifiers & ModifierKeys.Shift) == 0))
         // Neither the shift key or control key is pressed, so
         // clear the selection.
-        listBox.SelectedItems.Clear ( );
+        listBox.SelectedItems.Clear();
 
-      selector.Reset ( );
-      UpdateSelection ( );
+      selector.Reset();
+      UpdateSelection();
 
       selectionRect.IsEnabled = true;
       autoScroller.IsEnabled = true;
     }
 
-    private void UpdateSelection ()
+    private void UpdateSelection()
     {
       // Offset the start point based on the scroll offset.
-      Point start = autoScroller.TranslatePoint (this.start);
+      Point start = autoScroller.TranslatePoint(this.start);
 
       // Draw the selecion rectangle.
       // Rect can't have a negative width/height...
-      double x = Math.Min (start.X, this.end.X);
-      double y = Math.Min (start.Y, this.end.Y);
-      double width = Math.Abs (this.end.X - start.X);
-      double height = Math.Abs (this.end.Y - start.Y);
-      Rect area = new Rect (x, y, width, height);
+      double x = Math.Min(start.X, this.end.X);
+      double y = Math.Min(start.Y, this.end.Y);
+      double width = Math.Abs(this.end.X - start.X);
+      double height = Math.Abs(this.end.Y - start.Y);
+      Rect area = new Rect(x, y, width, height);
       selectionRect.SelectionArea = area;
 
       // Select the items.
       // Transform the points to be relative to the ListBox.
-      Point topLeft = scrollContent.TranslatePoint (area.TopLeft, listBox);
-      Point bottomRight = scrollContent.TranslatePoint (area.BottomRight, listBox);
+      Point topLeft = scrollContent.TranslatePoint(area.TopLeft, listBox);
+      Point bottomRight = scrollContent.TranslatePoint(area.BottomRight, listBox);
 
       // And select the items.
-      selector.UpdateSelection (new Rect (topLeft, bottomRight));
+      selector.UpdateSelection(new Rect(topLeft, bottomRight));
     }
 
     /// <summary>
@@ -346,7 +346,7 @@ namespace TailForWin.Template.TextEditor.Utils
     /// </summary>
     private sealed class AutoScroller
     {
-      private readonly DispatcherTimer autoScroll = new DispatcherTimer ( );
+      private readonly DispatcherTimer autoScroll = new DispatcherTimer();
       private readonly ItemsControl itemsControl;
       private readonly ScrollViewer scrollViewer;
       private readonly ScrollContentPresenter scrollContent;
@@ -360,18 +360,21 @@ namespace TailForWin.Template.TextEditor.Utils
       /// </summary>
       /// <param name="itemsControl">The ItemsControl that is scrolled.</param>
       /// <exception cref="ArgumentNullException">itemsControl is null.</exception>
-      public AutoScroller (ItemsControl itemsControl)
+      public AutoScroller(ItemsControl itemsControl)
       {
         if (itemsControl == null)
-          throw new ArgumentNullException ("itemsControl");
+          throw new ArgumentNullException("itemsControl");
 
         this.itemsControl = itemsControl;
-        this.scrollViewer = FindChild<ScrollViewer> (itemsControl);
+        this.scrollViewer = FindChild<ScrollViewer>(itemsControl);
         this.scrollViewer.ScrollChanged += this.OnScrollChanged;
-        this.scrollContent = FindChild<ScrollContentPresenter> (this.scrollViewer);
+        this.scrollContent = FindChild<ScrollContentPresenter>(this.scrollViewer);
 
-        this.autoScroll.Tick += delegate { this.PreformScroll ( ); };
-        this.autoScroll.Interval = TimeSpan.FromMilliseconds (GetRepeatRate ( ));
+        this.autoScroll.Tick += delegate
+        {
+          this.PreformScroll();
+        };
+        this.autoScroll.Interval = TimeSpan.FromMilliseconds(GetRepeatRate());
       }
 
       /// <summary>
@@ -398,7 +401,7 @@ namespace TailForWin.Template.TextEditor.Utils
 
           // Reset the auto-scroller and offset.
           this.autoScroll.IsEnabled = false;
-          this.offset = new Point ( );
+          this.offset = new Point();
         }
       }
 
@@ -407,15 +410,15 @@ namespace TailForWin.Template.TextEditor.Utils
       /// </summary>
       /// <param name="point">The point to translate.</param>
       /// <returns>A new point offset by the current scroll amount.</returns>
-      public Point TranslatePoint (Point point)
+      public Point TranslatePoint(Point point)
       {
-        return (new Point (point.X - this.offset.X, point.Y - this.offset.Y));
+        return (new Point(point.X - this.offset.X, point.Y - this.offset.Y));
       }
 
       /// <summary>
       /// Removes all the event handlers registered on the control.
       /// </summary>
-      public void UnRegister ()
+      public void UnRegister()
       {
         this.scrollViewer.ScrollChanged -= this.OnScrollChanged;
       }
@@ -426,37 +429,37 @@ namespace TailForWin.Template.TextEditor.Utils
       /// <param name="mouse">
       /// The location of the mouse, relative to the ScrollViewer's content.
       /// </param>
-      public void Update (Point mouse)
+      public void Update(Point mouse)
       {
         this.mouse = mouse;
 
         // If scrolling isn't enabled then see if it needs to be.
         if (!this.autoScroll.IsEnabled)
-          this.PreformScroll ( );
+          this.PreformScroll();
       }
 
       /// <summary>
       /// Returns the default repeat rate in milliseconds.
       /// </summary>
       /// <returns></returns>
-      private static int GetRepeatRate ()
+      private static int GetRepeatRate()
       {
         // The RepeatButton uses the SystemParameters.KeyboardSpeed as the
         // default value for the Interval property. KeyboardSpeed returns
         // a value between 0 (400ms) and 31 (33ms).
         const double Ratio = (400.0 - 33.0) / 31.0;
 
-        return (400 - (int) (SystemParameters.KeyboardSpeed * Ratio));
+        return (400 - (int)(SystemParameters.KeyboardSpeed * Ratio));
       }
 
-      private double CalculateOffset (int startIndex, int endIndex)
+      private double CalculateOffset(int startIndex, int endIndex)
       {
         double sum = 0;
 
         for (int i = startIndex; i != endIndex; i++)
         {
-          FrameworkElement container = this.itemsControl.ItemContainerGenerator.ContainerFromIndex (i) as FrameworkElement;
-          
+          FrameworkElement container = this.itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
+
           if (container != null)
           {
             // Height = Actual height + margin
@@ -467,7 +470,7 @@ namespace TailForWin.Template.TextEditor.Utils
         return (sum);
       }
 
-      private void OnScrollChanged (object sender, ScrollChangedEventArgs e)
+      private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
       {
         // Do we need to update the offset?
         if (this.IsEnabled)
@@ -483,15 +486,15 @@ namespace TailForWin.Template.TextEditor.Utils
             // We need to either increase the offset or decrease it.
             if (e.VerticalChange < 0)
             {
-              int start = (int) e.VerticalOffset;
-              int end = (int) (e.VerticalOffset - e.VerticalChange);
-              vertical = -this.CalculateOffset (start, end);
+              int start = (int)e.VerticalOffset;
+              int end = (int)(e.VerticalOffset - e.VerticalChange);
+              vertical = -this.CalculateOffset(start, end);
             }
             else
             {
-              int start = (int) (e.VerticalOffset - e.VerticalChange);
-              int end = (int) e.VerticalOffset;
-              vertical = this.CalculateOffset (start, end);
+              int start = (int)(e.VerticalOffset - e.VerticalChange);
+              int end = (int)e.VerticalOffset;
+              vertical = this.CalculateOffset(start, end);
             }
           }
 
@@ -501,33 +504,33 @@ namespace TailForWin.Template.TextEditor.Utils
           var callback = this.OffsetChanged;
 
           if (callback != null)
-            callback (this, new OffsetChangedEventArgs (horizontal, vertical));
+            callback(this, new OffsetChangedEventArgs(horizontal, vertical));
         }
       }
 
-      private void PreformScroll ()
+      private void PreformScroll()
       {
         bool scrolled = false;
 
         if (this.mouse.X > this.scrollContent.ActualWidth)
         {
-          this.scrollViewer.LineRight ( );
+          this.scrollViewer.LineRight();
           scrolled = true;
         }
         else if (this.mouse.X < 0)
         {
-          this.scrollViewer.LineLeft ( );
+          this.scrollViewer.LineLeft();
           scrolled = true;
         }
 
         if (this.mouse.Y > this.scrollContent.ActualHeight)
         {
-          this.scrollViewer.LineDown ( );
+          this.scrollViewer.LineDown();
           scrolled = true;
         }
         else if (this.mouse.Y < 0)
         {
-          this.scrollViewer.LineUp ( );
+          this.scrollViewer.LineUp();
           scrolled = true;
         }
 
@@ -554,10 +557,10 @@ namespace TailForWin.Template.TextEditor.Utils
       /// The control that contains the items to select.
       /// </param>
       /// <exception cref="ArgumentNullException">itemsControl is null.</exception>
-      public ItemsControlSelector (ItemsControl itemsControl)
+      public ItemsControlSelector(ItemsControl itemsControl)
       {
         if (itemsControl == null)
-          throw new ArgumentNullException ("itemsControl");
+          throw new ArgumentNullException("itemsControl");
 
         this.itemsControl = itemsControl;
       }
@@ -565,9 +568,9 @@ namespace TailForWin.Template.TextEditor.Utils
       /// <summary>
       /// Resets the cached information, allowing a new selection to begin.
       /// </summary>
-      public void Reset ()
+      public void Reset()
       {
-        this.previousArea = new Rect ( );
+        this.previousArea = new Rect();
       }
 
       /// <summary>
@@ -575,9 +578,9 @@ namespace TailForWin.Template.TextEditor.Utils
       /// </summary>
       /// <param name="x">The horizontal scroll amount.</param>
       /// <param name="y">The vertical scroll amount.</param>
-      public void Scroll (double x, double y)
+      public void Scroll(double x, double y)
       {
-        this.previousArea.Offset (-x, -y);
+        this.previousArea.Offset(-x, -y);
       }
 
       /// <summary>
@@ -586,28 +589,28 @@ namespace TailForWin.Template.TextEditor.Utils
       /// <param name="area">
       /// The selection area, relative to the control passed in the contructor.
       /// </param>
-      public void UpdateSelection (Rect area)
+      public void UpdateSelection(Rect area)
       {
         // Check each item to see if it intersects with the area.
         for (int i = 0; i < this.itemsControl.Items.Count; i++)
         {
-          FrameworkElement item = this.itemsControl.ItemContainerGenerator.ContainerFromIndex (i) as FrameworkElement;
-          
+          FrameworkElement item = this.itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
+
           if (item != null)
           {
             // Get the bounds in the parent's co-ordinates.
-            Point topLeft = item.TranslatePoint (new Point (0, 0), this.itemsControl);
-            Rect itemBounds = new Rect (topLeft.X, topLeft.Y, item.ActualWidth, item.ActualHeight);
+            Point topLeft = item.TranslatePoint(new Point(0, 0), this.itemsControl);
+            Rect itemBounds = new Rect(topLeft.X, topLeft.Y, item.ActualWidth, item.ActualHeight);
 
             // Only change the selection if it intersects with the area
             // (or intersected i.e. we changed the value last time).
-            if (itemBounds.IntersectsWith (area))
-              Selector.SetIsSelected (item, true);
-            else if (itemBounds.IntersectsWith (this.previousArea))
+            if (itemBounds.IntersectsWith(area))
+              Selector.SetIsSelected(item, true);
+            else if (itemBounds.IntersectsWith(this.previousArea))
             {
               // We previously changed the selection to true but it no
               // longer intersects with the area so clear the selection.
-              Selector.SetIsSelected (item, false);
+              Selector.SetIsSelected(item, false);
             }
           }
         }
@@ -619,7 +622,7 @@ namespace TailForWin.Template.TextEditor.Utils
     /// <summary>
     /// The event data for the AutoScroller.OffsetChanged event.
     /// </summary>
-    private sealed class OffsetChangedEventArgs: EventArgs
+    private sealed class OffsetChangedEventArgs : EventArgs
     {
       private readonly double horizontal;
       private readonly double vertical;
@@ -630,7 +633,7 @@ namespace TailForWin.Template.TextEditor.Utils
       /// </summary>
       /// <param name="horizontal">The change in horizontal scroll.</param>
       /// <param name="vertical">The change in vertical scroll.</param>
-      internal OffsetChangedEventArgs (double horizontal, double vertical)
+      internal OffsetChangedEventArgs(double horizontal, double vertical)
       {
         this.horizontal = horizontal;
         this.vertical = vertical;
@@ -641,9 +644,9 @@ namespace TailForWin.Template.TextEditor.Utils
       /// </summary>
       public double HorizontalChange
       {
-        get 
-        { 
-          return (this.horizontal); 
+        get
+        {
+          return (this.horizontal);
         }
       }
 
@@ -652,9 +655,9 @@ namespace TailForWin.Template.TextEditor.Utils
       /// </summary>
       public double VerticalChange
       {
-        get 
-        { 
-          return (this.vertical); 
+        get
+        {
+          return (this.vertical);
         }
       }
     }
@@ -662,7 +665,7 @@ namespace TailForWin.Template.TextEditor.Utils
     /// <summary>
     /// Draws a selection rectangle on an AdornerLayer.
     /// </summary>
-    private sealed class SelectionAdorner: Adorner
+    private sealed class SelectionAdorner : Adorner
     {
       private Rect selectionRect;
 
@@ -674,14 +677,17 @@ namespace TailForWin.Template.TextEditor.Utils
       /// The UIElement which this instance will overlay.
       /// </param>
       /// <exception cref="ArgumentNullException">parent is null.</exception>
-      public SelectionAdorner (UIElement parent)
-        : base (parent)
+      public SelectionAdorner(UIElement parent)
+        : base(parent)
       {
         // Make sure the mouse doesn't see us.
         this.IsHitTestVisible = false;
 
         // We only draw a rectangle when we're enabled.
-        this.IsEnabledChanged += delegate { this.InvalidateVisual ( ); };
+        this.IsEnabledChanged += delegate
+        {
+          this.InvalidateVisual();
+        };
       }
 
       /// <summary>
@@ -696,7 +702,7 @@ namespace TailForWin.Template.TextEditor.Utils
         set
         {
           this.selectionRect = value;
-          this.InvalidateVisual ( );
+          this.InvalidateVisual();
         }
       }
 
@@ -704,20 +710,20 @@ namespace TailForWin.Template.TextEditor.Utils
       /// Participates in rendering operations that are directed by the layout system.
       /// </summary>
       /// <param name="drawingContext">The drawing instructions.</param>
-      protected override void OnRender (DrawingContext drawingContext)
+      protected override void OnRender(DrawingContext drawingContext)
       {
-        base.OnRender (drawingContext);
+        base.OnRender(drawingContext);
 
         if (this.IsEnabled)
         {
           // Make the lines snap to pixels (add half the pen width [0.5])
           double[] x = { this.SelectionArea.Left + 0.5, this.SelectionArea.Right + 0.5 };
           double[] y = { this.SelectionArea.Top + 0.5, this.SelectionArea.Bottom + 0.5 };
-          drawingContext.PushGuidelineSet (new GuidelineSet (x, y));
+          drawingContext.PushGuidelineSet(new GuidelineSet(x, y));
 
-          Brush fill = SystemColors.HighlightBrush.Clone ( );
+          Brush fill = SystemColors.HighlightBrush.Clone();
           fill.Opacity = 0.4;
-          drawingContext.DrawRectangle (fill, new Pen (SystemColors.HighlightBrush, 1.0), this.SelectionArea);
+          drawingContext.DrawRectangle(fill, new Pen(SystemColors.HighlightBrush, 1.0), this.SelectionArea);
         }
       }
     }

@@ -3,24 +3,24 @@
 
 namespace TailForWin.Template.TextEditor.Data
 {
-  public class LogEntry: PropertyChangedBase
+  public class LogEntry : PropertyChangedBase
   {
     /// <summary>
     /// DateTime
     /// </summary>
-    public DateTime DateTime 
-    { 
-      get; 
-      set; 
+    public DateTime DateTime
+    {
+      get;
+      set;
     }
 
     /// <summary>
     /// Index for LineNumbers
     /// </summary>
-    public int Index 
-    { 
-      get; 
-      set; 
+    public int Index
+    {
+      get;
+      set;
     }
 
     private System.Windows.Media.ImageSource bookmarkPoint;
@@ -37,7 +37,7 @@ namespace TailForWin.Template.TextEditor.Data
       set
       {
         bookmarkPoint = value;
-        OnPropertyChanged ("BookmarkPoint");
+        OnPropertyChanged("BookmarkPoint");
       }
     }
 
@@ -46,7 +46,7 @@ namespace TailForWin.Template.TextEditor.Data
     /// <summary>
     /// Logmessage
     /// </summary>
-    public string Message 
+    public string Message
     {
       get
       {
@@ -55,7 +55,7 @@ namespace TailForWin.Template.TextEditor.Data
       set
       {
         message = value;
-        OnPropertyChanged ("Message");
+        OnPropertyChanged("Message");
       }
     }
 
@@ -63,9 +63,9 @@ namespace TailForWin.Template.TextEditor.Data
     /// Create a copy of object
     /// </summary>
     /// <returns>A clone from object</returns>
-    public LogEntry Clone ()
+    public LogEntry Clone()
     {
-      return (this.MemberwiseClone ( ) as LogEntry);
+      return (this.MemberwiseClone() as LogEntry);
     }
   }
 }

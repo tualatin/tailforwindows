@@ -13,48 +13,48 @@ namespace TailForWin.Template.TabOptions
   /// </summary>
   public partial class ProxyServer
   {
-    public ProxyServer ()
+    public ProxyServer()
     {
-      InitializeComponent ( );
+      InitializeComponent();
 
       PreviewKeyDown += HandleEsc;
 
-      InitRadios ( );
+      InitRadios();
     }
 
-    private void Window_Loaded (object sender, RoutedEventArgs e)
+    private void Window_Loaded(object sender, RoutedEventArgs e)
     {
       DataContext = SettingsHelper.TailSettings.ProxySettings;
     }
 
-    private void btnOK_Click (object sender, RoutedEventArgs e)
+    private void btnOK_Click(object sender, RoutedEventArgs e)
     {
-      SaveSettings ( );
-      OnExit ( );
+      SaveSettings();
+      OnExit();
     }
 
-    private void btnCancel_Click (object sender, RoutedEventArgs e)
+    private void btnCancel_Click(object sender, RoutedEventArgs e)
     {
-      OnExit ( );
+      OnExit();
     }
 
-    private void HandleEsc (object sender, KeyEventArgs e)
+    private void HandleEsc(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
-        OnExit ( );
+        OnExit();
     }
 
-    private void OnExit ()
+    private void OnExit()
     {
-      Close ( );
+      Close();
     }
 
     #region HelperFunctions
 
-    private void SaveSettings ()
+    private void SaveSettings()
     {
       if (textBoxPassword.Password.Length > 0)
-        SettingsHelper.TailSettings.ProxySettings.Password = StringEncryption.Encrypt (textBoxPassword.Password, LogFile.ENCRYPT_PASSPHRASE);
+        SettingsHelper.TailSettings.ProxySettings.Password = StringEncryption.Encrypt(textBoxPassword.Password, LogFile.ENCRYPT_PASSPHRASE);
       if (watermarkTextBoxUserName.Text.Length > 0)
         SettingsHelper.TailSettings.ProxySettings.UserName = watermarkTextBoxUserName.Text;
       if (watermarkTextBoxUrl.Text.Length > 0)
@@ -62,7 +62,7 @@ namespace TailForWin.Template.TabOptions
 
       int port;
 
-      if (!int.TryParse (watermarkTextBoxPort.Text, out port))
+      if (!int.TryParse(watermarkTextBoxPort.Text, out port))
         port = -1;
 
       SettingsHelper.TailSettings.ProxySettings.ProxyPort = port;
@@ -85,34 +85,34 @@ namespace TailForWin.Template.TabOptions
         SettingsHelper.TailSettings.ProxySettings.ProxyPort = -1;
       }
 
-      SettingsHelper.SaveSettings ( );
+      SettingsHelper.SaveSettings();
     }
 
-    private void InitRadios ( )
+    private void InitRadios()
     {
       if (!SettingsHelper.TailSettings.ProxySettings.UseSystemSettings && !SettingsHelper.TailSettings.ProxySettings.UseProxy)
         radioButtonNoProxy.IsChecked = true;
       else
         radioButtonNoProxy.IsChecked = false;
 
-      if (!string.IsNullOrEmpty (SettingsHelper.TailSettings.ProxySettings.Password))
-        textBoxPassword.Password = StringEncryption.Decrypt (SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE);
+      if (!string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password))
+        textBoxPassword.Password = StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE);
     }
 
-    private void SelectAllText (WatermarkTextBox.WatermarkTextBox textBox)
+    private void SelectAllText(WatermarkTextBox.WatermarkTextBox textBox)
     {
-      textBox.Dispatcher.BeginInvoke (new Action (delegate
-        {
-          textBox.SelectAll ( );
-        }), System.Windows.Threading.DispatcherPriority.Input);
+      textBox.Dispatcher.BeginInvoke(new Action(delegate
+      {
+        textBox.SelectAll();
+      }), System.Windows.Threading.DispatcherPriority.Input);
     }
 
     #endregion
 
-    private void watermarkTextBox_GotFocus (object sender, RoutedEventArgs e)
+    private void watermarkTextBox_GotFocus(object sender, RoutedEventArgs e)
     {
-      WatermarkTextBox.WatermarkTextBox tb = (WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
-      SelectAllText (tb);
+      WatermarkTextBox.WatermarkTextBox tb = (WatermarkTextBox.WatermarkTextBox)e.OriginalSource;
+      SelectAllText(tb);
     }
   }
 }

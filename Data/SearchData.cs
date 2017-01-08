@@ -6,7 +6,7 @@ namespace TailForWin.Data
   /// <summary>
   /// SearchData class
   /// </summary>
-  public class SearchData: EventArgs
+  public class SearchData : EventArgs
   {
     /// <summary>
     /// Word what is to find

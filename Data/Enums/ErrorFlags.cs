@@ -9,16 +9,16 @@ namespace TailForWin.Data.Enums
     /// <summary>
     /// Error
     /// </summary>
-    Error = (byte) 'E',
+    Error = (byte)'E',
 
     /// <summary>
     /// Info
     /// </summary>
-    Info = (byte) 'I',
+    Info = (byte)'I',
 
     /// <summary>
     /// Debug
     /// </summary>
-    Debug = (byte) 'D'
+    Debug = (byte)'D'
   }
 }

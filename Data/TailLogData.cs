@@ -12,20 +12,20 @@ namespace TailForWin.Data
   /// <summary>
   /// Dataobject for Tabproperties
   /// </summary>
-  public class TailLogData: INotifyMaster, IDisposable
+  public class TailLogData : INotifyMaster, IDisposable
   {
-    public TailLogData ( )
+    public TailLogData()
     {
-      ListOfFilter = new ObservableCollection<FilterData> ( );
+      ListOfFilter = new ObservableCollection<FilterData>();
       ListOfFilter.CollectionChanged += ContentCollectionChanged;
     }
 
-    public void Dispose ( )
+    public void Dispose()
     {
       if (fontType == null)
         return;
 
-      fontType.Dispose ( );
+      fontType.Dispose();
       fontType = null;
     }
 
@@ -45,8 +45,8 @@ namespace TailForWin.Data
       set
       {
         fileName = value;
-        File = Path.GetFileName (FileName);
-        OnPropertyChanged ("FileName");
+        File = Path.GetFileName(FileName);
+        OnPropertyChanged("FileName");
       }
     }
 
@@ -68,7 +68,7 @@ namespace TailForWin.Data
       set
       {
         file = value;
-        OnPropertyChanged ("File");
+        OnPropertyChanged("File");
       }
     }
 
@@ -90,7 +90,7 @@ namespace TailForWin.Data
       set
       {
         wrap = value;
-        OnPropertyChanged ("Wrap");
+        OnPropertyChanged("Wrap");
       }
     }
 
@@ -112,7 +112,7 @@ namespace TailForWin.Data
       set
       {
         killSpace = value;
-        OnPropertyChanged ("KillSpace");
+        OnPropertyChanged("KillSpace");
       }
     }
 
@@ -134,7 +134,7 @@ namespace TailForWin.Data
       set
       {
         refreshRate = value;
-        OnPropertyChanged ("RefreshRate");
+        OnPropertyChanged("RefreshRate");
       }
     }
 
@@ -156,7 +156,7 @@ namespace TailForWin.Data
       set
       {
         timeStamp = value;
-        OnPropertyChanged ("Timestamp");
+        OnPropertyChanged("Timestamp");
       }
     }
 
@@ -178,7 +178,7 @@ namespace TailForWin.Data
       set
       {
         fontType = value;
-        OnPropertyChanged ("FontType");
+        OnPropertyChanged("FontType");
       }
     }
 
@@ -200,7 +200,7 @@ namespace TailForWin.Data
       set
       {
         threadPriority = value;
-        OnPropertyChanged ("ThreadPriority");
+        OnPropertyChanged("ThreadPriority");
       }
     }
 
@@ -231,7 +231,7 @@ namespace TailForWin.Data
       set
       {
         listOfFilter = value;
-        OnPropertyChanged ("ListOfFilter");
+        OnPropertyChanged("ListOfFilter");
       }
     }
 
@@ -253,7 +253,7 @@ namespace TailForWin.Data
       set
       {
         fileEncoding = value;
-        OnPropertyChanged ("FileEncoding");
+        OnPropertyChanged("FileEncoding");
       }
     }
 
@@ -277,14 +277,14 @@ namespace TailForWin.Data
       set;
     }
 
-    private void ContentCollectionChanged (object sender, NotifyCollectionChangedEventArgs e)
+    private void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       if (e.Action == NotifyCollectionChangedAction.Remove)
       {
         foreach (FilterData item in e.OldItems)
         {
           item.PropertyChanged -= ItemPropertyChanged;
-          OnPropertyChanged ("ListOfFilter");
+          OnPropertyChanged("ListOfFilter");
         }
       }
       else if (e.Action == NotifyCollectionChangedAction.Add)
@@ -292,7 +292,7 @@ namespace TailForWin.Data
         foreach (FilterData item in e.NewItems)
         {
           item.PropertyChanged += ItemPropertyChanged;
-          OnPropertyChanged ("ListOfFilter");
+          OnPropertyChanged("ListOfFilter");
         }
       }
     }

@@ -14,10 +14,10 @@ namespace TailForWin.Data
   public static class LogFile
   {
     public static string APPLICATION_CAPTION = "TailForWindows";
-    public static string STATUS_BAR_STATE_RUN = Application.Current.FindResource ("Record") as string;
-    public static string STATUS_BAR_STATE_PAUSE = Application.Current.FindResource ("Pause") as string;
-    public static string TABBAR_CHILD_EMPTY_STRING = Application.Current.FindResource ("NoFile") as string;
-    public static string MSGBOX_ERROR = Application.Current.FindResource ("Error") as string;
+    public static string STATUS_BAR_STATE_RUN = Application.Current.FindResource("Record") as string;
+    public static string STATUS_BAR_STATE_PAUSE = Application.Current.FindResource("Pause") as string;
+    public static string TABBAR_CHILD_EMPTY_STRING = Application.Current.FindResource("NoFile") as string;
+    public static string MSGBOX_ERROR = Application.Current.FindResource("Error") as string;
     public static string DEFAULT_FOREGROUND_COLOR = "#000000";
     public static string DEFAULT_BACKGROUND_COLOR = "#FFFFFF";
     public static string DEFAULT_INACTIVE_FOREGROUND_COLOR = "#000000";
@@ -32,10 +32,10 @@ namespace TailForWin.Data
 
     #region ObservableCollection
 
-    private static ObservableCollection<System.Threading.ThreadPriority> threadPriority = new ObservableCollection<System.Threading.ThreadPriority> ( );
-    private static ObservableCollection<ETailRefreshRate> refreshRate = new ObservableCollection<ETailRefreshRate> ( );
-    private static ObservableCollection<Encoding> fileEncoding = new ObservableCollection<Encoding> ( );
-    private static ObservableCollection<FileManagerHelper> fmHelper = new ObservableCollection<FileManagerHelper> ( );
+    private static ObservableCollection<System.Threading.ThreadPriority> threadPriority = new ObservableCollection<System.Threading.ThreadPriority>();
+    private static ObservableCollection<ETailRefreshRate> refreshRate = new ObservableCollection<ETailRefreshRate>();
+    private static ObservableCollection<Encoding> fileEncoding = new ObservableCollection<Encoding>();
+    private static ObservableCollection<FileManagerHelper> fmHelper = new ObservableCollection<FileManagerHelper>();
 
     #endregion
 
@@ -64,7 +64,7 @@ namespace TailForWin.Data
     /// <param name="filter">Filter</param>
     /// <param name="title">Title</param>
     /// <returns>If success true otherwise false</returns>
-    public static bool OpenFileLogDialog (out string fileName, string filter, string title)
+    public static bool OpenFileLogDialog(out string fileName, string filter, string title)
     {
       OpenFileDialog openDialog = new OpenFileDialog
       {
@@ -73,7 +73,7 @@ namespace TailForWin.Data
         Title = title
       };
 
-      bool? result = openDialog.ShowDialog ( );
+      bool? result = openDialog.ShowDialog();
       fileName = string.Empty;
 
       if (result != true)
@@ -87,19 +87,19 @@ namespace TailForWin.Data
     /// <summary>
     /// Bring main window to front and set it active
     /// </summary>
-    public static void BringMainWindowToFront ( )
+    public static void BringMainWindowToFront()
     {
       if (APP_MAIN_WINDOW.WindowState == WindowState.Minimized)
         APP_MAIN_WINDOW.WindowState = WindowState.Normal;
 
-      APP_MAIN_WINDOW.Activate ( );
-      APP_MAIN_WINDOW.Focus ( );
+      APP_MAIN_WINDOW.Activate();
+      APP_MAIN_WINDOW.Focus();
     }
 
     /// <summary>
     /// Minimize main window
     /// </summary>
-    public static void MinimizeMainWindow ( )
+    public static void MinimizeMainWindow()
     {
       if (APP_MAIN_WINDOW.WindowState == WindowState.Normal || APP_MAIN_WINDOW.WindowState == WindowState.Maximized)
         APP_MAIN_WINDOW.WindowState = WindowState.Minimized;
@@ -168,29 +168,29 @@ namespace TailForWin.Data
     /// <summary>
     /// Initialize the observable collections from refresh rate (RR), thread priority (TP) and file encodings (FE)
     /// </summary>
-    public static void InitObservableCollectionsRrtpfe ( )
+    public static void InitObservableCollectionsRrtpfe()
     {
       // Threadrefresh rate
-      foreach (ETailRefreshRate refreshName in Enum.GetValues (typeof (ETailRefreshRate)))
+      foreach (ETailRefreshRate refreshName in Enum.GetValues(typeof(ETailRefreshRate)))
       {
-        RefreshRate.Add (refreshName);
+        RefreshRate.Add(refreshName);
       }
 
       // Threadpriority
-      foreach (System.Threading.ThreadPriority priority in Enum.GetValues (typeof (System.Threading.ThreadPriority)))
+      foreach (System.Threading.ThreadPriority priority in Enum.GetValues(typeof(System.Threading.ThreadPriority)))
       {
-        ThreadPriority.Add (priority);
+        ThreadPriority.Add(priority);
       }
 
       // Fileencoding
-      EncodingInfo[] encodings = Encoding.GetEncodings ( );
-      Array.Sort (encodings, new CaseInsensitiveEncodingInfoNameComparer ( ));
-      Array.ForEach (encodings, fileEncode => FileEncoding.Add (fileEncode.GetEncoding ( )));
+      EncodingInfo[] encodings = Encoding.GetEncodings();
+      Array.Sort(encodings, new CaseInsensitiveEncodingInfoNameComparer());
+      Array.ForEach(encodings, fileEncode => FileEncoding.Add(fileEncode.GetEncoding()));
     }
 
-    private class CaseInsensitiveEncodingInfoNameComparer: IComparer
+    private class CaseInsensitiveEncodingInfoNameComparer : IComparer
     {
-      int IComparer.Compare (Object x, Object y)
+      int IComparer.Compare(Object x, Object y)
       {
         const int result = 0;
 
@@ -200,28 +200,28 @@ namespace TailForWin.Data
         var xEncodingInfo = x as EncodingInfo;
         var yEncodingInfo = y as EncodingInfo;
 
-        return ((new CaseInsensitiveComparer ( )).Compare (xEncodingInfo.Name, yEncodingInfo.Name));
+        return ((new CaseInsensitiveComparer()).Compare(xEncodingInfo.Name, yEncodingInfo.Name));
       }
     }
 
-    public static bool FindDuplicateInFilterList (ObservableCollection<FilterData> listOfFilters, FilterData newItem)
+    public static bool FindDuplicateInFilterList(ObservableCollection<FilterData> listOfFilters, FilterData newItem)
     {
-      return (listOfFilters.Any (item => String.Compare (item.Filter, newItem.Filter, StringComparison.Ordinal) == 0));
+      return (listOfFilters.Any(item => String.Compare(item.Filter, newItem.Filter, StringComparison.Ordinal) == 0));
     }
 
     /// <summary>
     /// FileCreationTime comparer
     /// </summary>
-    public class FileManagerDataFileCreationTimeComparer: IComparer<FileManagerData>
+    public class FileManagerDataFileCreationTimeComparer : IComparer<FileManagerData>
     {
       #region IComparer<DateTime?> Members
 
-      public int Compare (FileManagerData x, FileManagerData y)
+      public int Compare(FileManagerData x, FileManagerData y)
       {
         DateTime nx = x.FileCreationTime ?? DateTime.MaxValue;
         DateTime ny = y.FileCreationTime ?? DateTime.MaxValue;
 
-        return (-(nx.CompareTo (ny)));
+        return (-(nx.CompareTo(ny)));
       }
 
       #endregion

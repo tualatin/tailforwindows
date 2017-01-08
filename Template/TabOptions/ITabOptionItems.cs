@@ -21,20 +21,20 @@ namespace TailForWin.Template.TabOptions
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="e">KeyEventArgs</param>
-    void HandleEsc (object sender, KeyEventArgs e);
+    void HandleEsc(object sender, KeyEventArgs e);
 
     /// <summary>
     /// Save key event function
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="e">RoutedEventArgs</param>
-    void btnSave_Click (object sender, System.Windows.RoutedEventArgs e);
+    void btnSave_Click(object sender, System.Windows.RoutedEventArgs e);
 
     /// <summary>
     /// Cancel key event function
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="e">RoutedEventArgs</param>
-    void btnCancel_Click (object sender, System.Windows.RoutedEventArgs e);
+    void btnCancel_Click(object sender, System.Windows.RoutedEventArgs e);
   }
 }

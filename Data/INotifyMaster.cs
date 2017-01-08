@@ -7,7 +7,7 @@ namespace TailForWin.Data
   /// <summary>
   /// Implementation for INotifyPropertyChanged
   /// </summary>
-  public class INotifyMaster: INotifyPropertyChanged
+  public class INotifyMaster : INotifyPropertyChanged
   {
     /// <summary>
     /// Declare the event
@@ -15,17 +15,17 @@ namespace TailForWin.Data
     public event PropertyChangedEventHandler PropertyChanged;
 
 
-    protected void OnPropertyChanged (string name)
+    protected void OnPropertyChanged(string name)
     {
       PropertyChangedEventHandler handler = PropertyChanged;
 
       if (handler != null)
-        handler (this, new PropertyChangedEventArgs (name));
+        handler(this, new PropertyChangedEventArgs(name));
     }
 
-    protected static void ItemPropertyChanged (object sender, PropertyChangedEventArgs e)
+    protected static void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      NotifyCollectionChangedEventArgs a = new NotifyCollectionChangedEventArgs (NotifyCollectionChangedAction.Reset);
+      NotifyCollectionChangedEventArgs a = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
     }
   }
 }

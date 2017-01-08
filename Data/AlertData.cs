@@ -1,10 +1,10 @@
 ﻿namespace TailForWin.Data
 {
-  public class AlertData: INotifyMaster
+  public class AlertData : INotifyMaster
   {
-    public AlertData ( )
+    public AlertData()
     {
-      SmtpSettings = new SmtpData ( );
+      SmtpSettings = new SmtpData();
     }
 
     private bool bringToFront;
@@ -21,7 +21,7 @@
       set
       {
         bringToFront = value;
-        OnPropertyChanged ("BringToFront");
+        OnPropertyChanged("BringToFront");
       }
     }
 
@@ -39,7 +39,7 @@
       set
       {
         popupWnd = value;
-        OnPropertyChanged ("PopupWnd");
+        OnPropertyChanged("PopupWnd");
       }
     }
 
@@ -57,7 +57,7 @@
       set
       {
         playSoundFile = value;
-        OnPropertyChanged ("PlaySoundFile");
+        OnPropertyChanged("PlaySoundFile");
       }
     }
 
@@ -75,7 +75,7 @@
       set
       {
         sendEMail = value;
-        OnPropertyChanged ("SendEMail");
+        OnPropertyChanged("SendEMail");
       }
     }
 
@@ -93,8 +93,8 @@
       set
       {
         soundFileNameFullPath = value;
-        SoundFileName = System.IO.Path.GetFileName (soundFileNameFullPath);
-        OnPropertyChanged ("SoundFileNameFullPath");
+        SoundFileName = System.IO.Path.GetFileName(soundFileNameFullPath);
+        OnPropertyChanged("SoundFileNameFullPath");
       }
     }
 
@@ -112,7 +112,7 @@
       set
       {
         soundFileName = value;
-        OnPropertyChanged ("SoundFileName");
+        OnPropertyChanged("SoundFileName");
       }
     }
 
@@ -130,7 +130,7 @@
       set
       {
         emailAddress = value;
-        OnPropertyChanged ("EMailAddress");
+        OnPropertyChanged("EMailAddress");
       }
     }
 

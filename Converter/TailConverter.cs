@@ -7,7 +7,7 @@ namespace TailForWin.Converter
   /// <summary>
   /// DataGrid selectedItem converter to bool
   /// </summary>
-  public class TailConverter: IValueConverter
+  public class TailConverter : IValueConverter
   {
     #region IValueConverter Members
 
@@ -19,11 +19,11 @@ namespace TailForWin.Converter
     /// <param name="parameter">Parameters</param>
     /// <param name="culture">Culture</param>
     /// <returns>True or False</returns>
-    public object Convert (object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if (value != null)
       {
-        if (value.GetType ( ) == typeof (FileManagerData))
+        if (value.GetType() == typeof(FileManagerData))
           return (true);
         return (false);
       }
@@ -39,9 +39,9 @@ namespace TailForWin.Converter
     /// <param name="parameter">Parameters</param>
     /// <param name="culture">Culture</param>
     /// <returns>Object</returns>
-    public object ConvertBack (object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      throw new System.NotImplementedException ( );
+      throw new System.NotImplementedException();
     }
 
     #endregion

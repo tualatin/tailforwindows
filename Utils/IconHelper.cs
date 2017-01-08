@@ -11,18 +11,18 @@ namespace TailForWin.Utils
   /// </summary>
   public static class IconHelper
   {
-    [DllImport ("user32.dll")]
-    static extern int GetWindowLong (IntPtr hwnd, int index);
+    [DllImport("user32.dll")]
+    static extern int GetWindowLong(IntPtr hwnd, int index);
 
-    [DllImport ("user32.dll")]
-    static extern int SetWindowLong (IntPtr hwnd, int index, int newStyle);
+    [DllImport("user32.dll")]
+    static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
 
-    [DllImport ("user32.dll")]
-    static extern bool SetWindowPos (IntPtr hwnd, IntPtr hwndInsertAfter,
+    [DllImport("user32.dll")]
+    static extern bool SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter,
                int x, int y, int width, int height, uint flags);
 
-    [DllImport ("user32.dll")]
-    static extern IntPtr SendMessage (IntPtr hwnd, uint msg,
+    [DllImport("user32.dll")]
+    static extern IntPtr SendMessage(IntPtr hwnd, uint msg,
                IntPtr wParam, IntPtr lParam);
 
     const int GWL_EXSTYLE = -20;
@@ -33,17 +33,17 @@ namespace TailForWin.Utils
     const int SWP_FRAMECHANGED = 0x0020;
     const uint WM_SETICON = 0x0080;
 
-    public static void RemoveIcon (Window window)
+    public static void RemoveIcon(Window window)
     {
       // Get this window's handle
-      IntPtr hwnd = new WindowInteropHelper (window).Handle;
+      IntPtr hwnd = new WindowInteropHelper(window).Handle;
 
       // Change the extended window style to not show a window icon
-      int extendedStyle = GetWindowLong (hwnd, GWL_EXSTYLE);
-      SetWindowLong (hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_DLGMODALFRAME);
+      int extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+      SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_DLGMODALFRAME);
 
       // Update the window's non-client area to reflect the changes
-      SetWindowPos (hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+      SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
     }
   }
 }

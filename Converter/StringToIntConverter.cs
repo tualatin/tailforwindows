@@ -4,15 +4,15 @@ using System.Windows.Data;
 
 namespace TailForWin.Converter
 {
-  public class StringToIntConverter: IValueConverter
+  public class StringToIntConverter : IValueConverter
   {
-    public object Convert (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if (value != null)
       {
-        if (value.GetType ( ) == typeof (int))
+        if (value.GetType() == typeof(int))
         {
-          int port = (int) value;
+          int port = (int)value;
 
           if (port < 0)
             port = 0;
@@ -23,9 +23,9 @@ namespace TailForWin.Converter
       return (null);
     }
 
-    public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      throw new NotImplementedException ( );
+      throw new NotImplementedException();
     }
   }
 }

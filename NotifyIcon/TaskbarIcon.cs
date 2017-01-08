@@ -40,7 +40,7 @@ namespace TailForWin.NotifyIcon
   /// A WPF proxy to for a taskbar icon (NotifyIcon) that sits in the system's
   /// taskbar notification area ("system tray").
   /// </summary>
-  public partial class TaskbarIcon: FrameworkElement, IDisposable
+  public partial class TaskbarIcon : FrameworkElement, IDisposable
   {
     #region Members
 
@@ -119,16 +119,16 @@ namespace TailForWin.NotifyIcon
     /// Inits the taskbar icon and registers a message listener
     /// in order to receive events from the taskbar area.
     /// </summary>
-    public TaskbarIcon ( )
+    public TaskbarIcon()
     {
       //using dummy sink in design mode
-      messageSink = Util.IsDesignMode ? WindowMessageSink.CreateEmpty ( ) : new WindowMessageSink (NotifyIconVersion.Win95);
+      messageSink = Util.IsDesignMode ? WindowMessageSink.CreateEmpty() : new WindowMessageSink(NotifyIconVersion.Win95);
 
       //init icon data structure
-      iconData = NotifyIconData.CreateDefault (messageSink.MessageWindowHandle);
+      iconData = NotifyIconData.CreateDefault(messageSink.MessageWindowHandle);
 
       //create the taskbar icon
-      CreateTaskbarIcon ( );
+      CreateTaskbarIcon();
 
       //register event listeners
       messageSink.MouseEventReceived += OnMouseEvent;
@@ -137,8 +137,8 @@ namespace TailForWin.NotifyIcon
       messageSink.BalloonToolTipChanged += OnBalloonToolTipChanged;
 
       //init single click / balloon timers
-      singleClickTimer = new Timer (DoSingleClickAction);
-      balloonCloseTimer = new Timer (CloseBalloonCallback);
+      singleClickTimer = new Timer(DoSingleClickAction);
+      balloonCloseTimer = new Timer(CloseBalloonCallback);
 
       //register listener in order to get notified when the application closes
       if (Application.Current != null)
@@ -159,32 +159,32 @@ namespace TailForWin.NotifyIcon
     /// </param>
     /// <exception cref="ArgumentNullException">If <paramref name="balloon"/>
     /// is a null reference.</exception>
-    public void ShowCustomBalloon (UIElement balloon, PopupAnimation animation, int? timeout)
+    public void ShowCustomBalloon(UIElement balloon, PopupAnimation animation, int? timeout)
     {
-      Dispatcher dispatcher = this.GetDispatcher ( );
+      Dispatcher dispatcher = this.GetDispatcher();
 
-      if (!dispatcher.CheckAccess ( ))
+      if (!dispatcher.CheckAccess())
       {
-        var action = new Action (( ) => ShowCustomBalloon (balloon, animation, timeout));
-        dispatcher.Invoke (DispatcherPriority.Normal, action);
+        var action = new Action(() => ShowCustomBalloon(balloon, animation, timeout));
+        dispatcher.Invoke(DispatcherPriority.Normal, action);
         return;
       }
 
       if (balloon == null)
-        throw new ArgumentNullException ("balloon");
+        throw new ArgumentNullException("balloon");
       if (timeout.HasValue && timeout < 500)
       {
         string msg = "Invalid timeout of {0} milliseconds. Timeout must be at least 500 ms";
-        msg = String.Format (msg, timeout);
-        throw new ArgumentOutOfRangeException ("timeout", msg);
+        msg = String.Format(msg, timeout);
+        throw new ArgumentOutOfRangeException("timeout", msg);
       }
 
-      EnsureNotDisposed ( );
+      EnsureNotDisposed();
 
       //make sure we don't have an open balloon
       lock (this)
       {
-        CloseBalloon ( );
+        CloseBalloon();
       }
 
       //create an invisible popup that hosts the UIElement
@@ -194,7 +194,7 @@ namespace TailForWin.NotifyIcon
       };
 
       //provide the popup with the taskbar icon's data context
-      UpdateDataContext (popup, null, DataContext);
+      UpdateDataContext(popup, null, DataContext);
 
       //don't animate by default - devs can use attached
       //events or override
@@ -204,7 +204,7 @@ namespace TailForWin.NotifyIcon
       //control didn't remove the balloon from its parent popup when
       //if was closed the last time - just make sure it doesn't have
       //a parent that is a popup
-      var parent = LogicalTreeHelper.GetParent (balloon) as Popup;
+      var parent = LogicalTreeHelper.GetParent(balloon) as Popup;
 
       if (parent != null)
         parent.Child = null;
@@ -212,8 +212,8 @@ namespace TailForWin.NotifyIcon
       if (parent != null)
       {
         string msg = "Cannot display control [{0}] in a new balloon popup - that control already has a parent. You may consider creating new balloons every time you want to show one.";
-        msg = String.Format (msg, balloon);
-        throw new InvalidOperationException (msg);
+        msg = String.Format(msg, balloon);
+        throw new InvalidOperationException(msg);
       }
 
       popup.Child = balloon;
@@ -225,29 +225,29 @@ namespace TailForWin.NotifyIcon
       popup.Placement = PlacementMode.AbsolutePoint;
       popup.StaysOpen = true;
 
-      Point position = TrayInfo.GetTrayLocation ( );
-      position = GetDeviceCoordinates (position);
+      Point position = TrayInfo.GetTrayLocation();
+      position = GetDeviceCoordinates(position);
       popup.HorizontalOffset = position.X - 1;
       popup.VerticalOffset = position.Y - 1;
 
       //store reference
       lock (this)
       {
-        SetCustomBalloon (popup);
+        SetCustomBalloon(popup);
       }
 
       //assign this instance as an attached property
-      SetParentTaskbarIcon (balloon, this);
+      SetParentTaskbarIcon(balloon, this);
 
       //fire attached event
-      RaiseBalloonShowingEvent (balloon, this);
+      RaiseBalloonShowingEvent(balloon, this);
 
       //display item
       popup.IsOpen = true;
 
       if (timeout.HasValue)
         //register timer to close the popup
-        balloonCloseTimer.Change (timeout.Value, Timeout.Infinite);
+        balloonCloseTimer.Change(timeout.Value, Timeout.Infinite);
     }
 
     /// <summary>
@@ -257,7 +257,7 @@ namespace TailForWin.NotifyIcon
     /// <see cref="CloseBalloon"/> or due to a new
     /// message being displayed.
     /// </summary>
-    public void ResetBalloonCloseTimer ( )
+    public void ResetBalloonCloseTimer()
     {
       if (IsDisposed)
         return;
@@ -265,7 +265,7 @@ namespace TailForWin.NotifyIcon
       lock (this)
       {
         //reset timer in any case
-        balloonCloseTimer.Change (Timeout.Infinite, Timeout.Infinite);
+        balloonCloseTimer.Change(Timeout.Infinite, Timeout.Infinite);
       }
     }
 
@@ -273,24 +273,24 @@ namespace TailForWin.NotifyIcon
     /// Closes the current <see cref="CustomBalloon"/>, if the
     /// property is set.
     /// </summary>
-    public void CloseBalloon ( )
+    public void CloseBalloon()
     {
       if (IsDisposed)
         return;
 
-      Dispatcher dispatcher = this.GetDispatcher ( );
+      Dispatcher dispatcher = this.GetDispatcher();
 
-      if (!dispatcher.CheckAccess ( ))
+      if (!dispatcher.CheckAccess())
       {
         Action action = CloseBalloon;
-        dispatcher.Invoke (DispatcherPriority.Normal, action);
+        dispatcher.Invoke(DispatcherPriority.Normal, action);
         return;
       }
 
       lock (this)
       {
         //reset timer in any case
-        balloonCloseTimer.Change (Timeout.Infinite, Timeout.Infinite);
+        balloonCloseTimer.Change(Timeout.Infinite, Timeout.Infinite);
 
         //reset old popup, if we still have one
         Popup popup = CustomBalloon;
@@ -300,7 +300,7 @@ namespace TailForWin.NotifyIcon
           UIElement element = popup.Child;
 
           //announce closing
-          RoutedEventArgs eventArgs = RaiseBalloonClosingEvent (element, this);
+          RoutedEventArgs eventArgs = RaiseBalloonClosingEvent(element, this);
 
           if (!eventArgs.Handled)
           {
@@ -316,11 +316,11 @@ namespace TailForWin.NotifyIcon
 
             //reset attached property
             if (element != null)
-              SetParentTaskbarIcon (element, null);
+              SetParentTaskbarIcon(element, null);
           }
 
           //remove custom balloon anyway
-          SetCustomBalloon (null);
+          SetCustomBalloon(null);
         }
       }
     }
@@ -329,14 +329,14 @@ namespace TailForWin.NotifyIcon
     /// Timer-invoke event which closes the currently open balloon and
     /// resets the <see cref="CustomBalloon"/> dependency property.
     /// </summary>
-    private void CloseBalloonCallback (object state)
+    private void CloseBalloonCallback(object state)
     {
       if (IsDisposed)
         return;
 
       //switch to UI thread
       Action action = CloseBalloon;
-      this.GetDispatcher ( ).Invoke (action);
+      this.GetDispatcher().Invoke(action);
     }
 
     #endregion
@@ -350,7 +350,7 @@ namespace TailForWin.NotifyIcon
     /// both.
     /// </summary>
     /// <param name="me">Event flag.</param>
-    private void OnMouseEvent (MouseEvent me)
+    private void OnMouseEvent(MouseEvent me)
     {
       if (IsDisposed)
         return;
@@ -359,107 +359,107 @@ namespace TailForWin.NotifyIcon
       {
       case MouseEvent.MouseMove:
 
-        RaiseTrayMouseMoveEvent ( );
-        //immediately return - there's nothing left to evaluate
-        return;
+      RaiseTrayMouseMoveEvent();
+      //immediately return - there's nothing left to evaluate
+      return;
 
       case MouseEvent.IconRightMouseDown:
 
-        RaiseTrayRightMouseDownEvent ( );
-        break;
+      RaiseTrayRightMouseDownEvent();
+      break;
 
       case MouseEvent.IconLeftMouseDown:
 
-        RaiseTrayLeftMouseDownEvent ( );
-        break;
+      RaiseTrayLeftMouseDownEvent();
+      break;
 
       case MouseEvent.IconRightMouseUp:
 
-        RaiseTrayRightMouseUpEvent ( );
-        break;
+      RaiseTrayRightMouseUpEvent();
+      break;
 
       case MouseEvent.IconLeftMouseUp:
 
-        RaiseTrayLeftMouseUpEvent ( );
-        break;
+      RaiseTrayLeftMouseUpEvent();
+      break;
 
       case MouseEvent.IconMiddleMouseDown:
 
-        RaiseTrayMiddleMouseDownEvent ( );
-        break;
+      RaiseTrayMiddleMouseDownEvent();
+      break;
 
       case MouseEvent.IconMiddleMouseUp:
 
-        RaiseTrayMiddleMouseUpEvent ( );
-        break;
+      RaiseTrayMiddleMouseUpEvent();
+      break;
 
       case MouseEvent.IconDoubleClick:
 
-        //cancel single click timer
-        singleClickTimer.Change (Timeout.Infinite, Timeout.Infinite);
-        //bubble event
-        RaiseTrayMouseDoubleClickEvent ( );
-        break;
+      //cancel single click timer
+      singleClickTimer.Change(Timeout.Infinite, Timeout.Infinite);
+      //bubble event
+      RaiseTrayMouseDoubleClickEvent();
+      break;
 
       case MouseEvent.BalloonToolTipClicked:
 
-        RaiseTrayBalloonTipClickedEvent ( );
-        break;
+      RaiseTrayBalloonTipClickedEvent();
+      break;
 
       default:
 
-        throw new ArgumentOutOfRangeException ("me", "Missing handler for mouse event flag: " + me);
+      throw new ArgumentOutOfRangeException("me", "Missing handler for mouse event flag: " + me);
       }
 
       //get mouse coordinates
-      Point cursorPosition = new Point ( );
+      Point cursorPosition = new Point();
 
       if (messageSink.Version == NotifyIconVersion.Vista)
         //physical cursor position is supported for Vista and above
-        WinApi.GetPhysicalCursorPos (ref cursorPosition);
+        WinApi.GetPhysicalCursorPos(ref cursorPosition);
       else
-        WinApi.GetCursorPos (ref cursorPosition);
+        WinApi.GetCursorPos(ref cursorPosition);
 
-      cursorPosition = GetDeviceCoordinates (cursorPosition);
+      cursorPosition = GetDeviceCoordinates(cursorPosition);
 
       bool isLeftClickCommandInvoked = false;
 
       //show popup, if requested
-      if (me.IsMatch (PopupActivation))
+      if (me.IsMatch(PopupActivation))
       {
         if (me == MouseEvent.IconLeftMouseUp)
         {
           //show popup once we are sure it's not a double click
-          singleClickTimerAction = ( ) =>
+          singleClickTimerAction = () =>
           {
-            LeftClickCommand.ExecuteIfEnabled (LeftClickCommandParameter, LeftClickCommandTarget ?? this);
-            ShowTrayPopup (cursorPosition);
+            LeftClickCommand.ExecuteIfEnabled(LeftClickCommandParameter, LeftClickCommandTarget ?? this);
+            ShowTrayPopup(cursorPosition);
           };
-          singleClickTimer.Change (WinApi.GetDoubleClickTime ( ), Timeout.Infinite);
+          singleClickTimer.Change(WinApi.GetDoubleClickTime(), Timeout.Infinite);
           isLeftClickCommandInvoked = true;
         }
         else
           //show popup immediately
-          ShowTrayPopup (cursorPosition);
+          ShowTrayPopup(cursorPosition);
       }
 
       //show context menu, if requested
-      if (me.IsMatch (MenuActivation))
+      if (me.IsMatch(MenuActivation))
       {
         if (me == MouseEvent.IconLeftMouseUp)
         {
           //show context menu once we are sure it's not a double click
-          singleClickTimerAction = ( ) =>
+          singleClickTimerAction = () =>
           {
-            LeftClickCommand.ExecuteIfEnabled (LeftClickCommandParameter, LeftClickCommandTarget ?? this);
-            ShowContextMenu (cursorPosition);
+            LeftClickCommand.ExecuteIfEnabled(LeftClickCommandParameter, LeftClickCommandTarget ?? this);
+            ShowContextMenu(cursorPosition);
           };
-          singleClickTimer.Change (WinApi.GetDoubleClickTime ( ), Timeout.Infinite);
+          singleClickTimer.Change(WinApi.GetDoubleClickTime(), Timeout.Infinite);
           isLeftClickCommandInvoked = true;
         }
         else
           //show context menu immediately
-          ShowContextMenu (cursorPosition);
+          ShowContextMenu(cursorPosition);
       }
 
       //make sure the left click command is invoked on mouse clicks
@@ -467,11 +467,11 @@ namespace TailForWin.NotifyIcon
         return;
 
       //show context menu once we are sure it's not a double click
-      singleClickTimerAction = ( ) =>
+      singleClickTimerAction = () =>
       {
-        LeftClickCommand.ExecuteIfEnabled (LeftClickCommandParameter, LeftClickCommandTarget ?? this);
+        LeftClickCommand.ExecuteIfEnabled(LeftClickCommandParameter, LeftClickCommandTarget ?? this);
       };
-      singleClickTimer.Change (WinApi.GetDoubleClickTime ( ), Timeout.Infinite);
+      singleClickTimer.Change(WinApi.GetDoubleClickTime(), Timeout.Infinite);
     }
 
     #endregion
@@ -483,7 +483,7 @@ namespace TailForWin.NotifyIcon
     /// invoked for Windows Vista and above.
     /// </summary>
     /// <param name="visible">Whether to show or hide the tooltip.</param>
-    private void OnToolTipChange (bool visible)
+    private void OnToolTipChange(bool visible)
     {
       //if we don't have a tooltip, there's nothing to do here...
       if (TrayToolTipResolved == null)
@@ -495,7 +495,7 @@ namespace TailForWin.NotifyIcon
           //ignore if we are already displaying something down there
           return;
 
-        var args = RaisePreviewTrayToolTipOpenEvent ( );
+        var args = RaisePreviewTrayToolTipOpenEvent();
 
         if (args.Handled)
           return;
@@ -504,26 +504,26 @@ namespace TailForWin.NotifyIcon
 
         //raise attached event first
         if (TrayToolTip != null)
-          RaiseToolTipOpenedEvent (TrayToolTip);
+          RaiseToolTipOpenedEvent(TrayToolTip);
 
         //bubble routed event
-        RaiseTrayToolTipOpenEvent ( );
+        RaiseTrayToolTipOpenEvent();
       }
       else
       {
-        var args = RaisePreviewTrayToolTipCloseEvent ( );
+        var args = RaisePreviewTrayToolTipCloseEvent();
 
         if (args.Handled)
           return;
 
         //raise attached event first
         if (TrayToolTip != null)
-          RaiseToolTipCloseEvent (TrayToolTip);
+          RaiseToolTipCloseEvent(TrayToolTip);
 
         TrayToolTipResolved.IsOpen = false;
 
         //bubble event
-        RaiseTrayToolTipCloseEvent ( );
+        RaiseTrayToolTipCloseEvent();
       }
     }
 
@@ -540,7 +540,7 @@ namespace TailForWin.NotifyIcon
     /// placed under the mouse. ToolTip internally uses a Popup of
     /// its own, but takes advance of Popup's internal <see cref="UIElement.IsHitTestVisible"/>
     /// property which prevents this issue.</remarks>
-    private void CreateCustomToolTip ( )
+    private void CreateCustomToolTip()
     {
       //check if the item itself is a tooltip
       ToolTip tt = TrayToolTip as ToolTip;
@@ -548,7 +548,7 @@ namespace TailForWin.NotifyIcon
       if (tt == null && TrayToolTip != null)
       {
         //create an invisible wrapper tooltip that hosts the UIElement
-        tt = new ToolTip ( );
+        tt = new ToolTip();
         tt.Placement = PlacementMode.Mouse;
 
         //do *not* set the placement target, as it causes the popup to become hidden if the
@@ -558,34 +558,34 @@ namespace TailForWin.NotifyIcon
 
         //make sure the tooltip is invisible
         tt.HasDropShadow = false;
-        tt.BorderThickness = new Thickness (0);
+        tt.BorderThickness = new Thickness(0);
         tt.Background = System.Windows.Media.Brushes.Transparent;
 
         //setting the 
         tt.StaysOpen = true;
         tt.Content = TrayToolTip;
       }
-      else if (tt == null && !String.IsNullOrEmpty (ToolTipText))
+      else if (tt == null && !String.IsNullOrEmpty(ToolTipText))
       {
         //create a simple tooltip for the ToolTipText string
-        tt = new ToolTip ( );
+        tt = new ToolTip();
         tt.Content = ToolTipText;
       }
 
       //the tooltip explicitly gets the DataContext of this instance.
       //If there is no DataContext, the TaskbarIcon assigns itself
       if (tt != null)
-        UpdateDataContext (tt, null, DataContext);
+        UpdateDataContext(tt, null, DataContext);
 
       //store a reference to the used tooltip
-      SetTrayToolTipResolved (tt);
+      SetTrayToolTipResolved(tt);
     }
 
     /// <summary>
     /// Sets tooltip settings for the class depending on defined
     /// dependency properties and OS support.
     /// </summary>
-    private void WriteToolTipSettings ( )
+    private void WriteToolTipSettings()
     {
       const IconDataMembers flags = IconDataMembers.Tip;
       iconData.ToolTipText = ToolTipText;
@@ -594,14 +594,14 @@ namespace TailForWin.NotifyIcon
       {
         //we need to set a tooltip text to get tooltip events from the
         //taskbar icon
-        if (String.IsNullOrEmpty (iconData.ToolTipText) && TrayToolTipResolved != null)
+        if (String.IsNullOrEmpty(iconData.ToolTipText) && TrayToolTipResolved != null)
           //if we have not tooltip text but a custom tooltip, we
           //need to set a dummy value (we're displaying the ToolTip control, not the string)
           iconData.ToolTipText = "ToolTip";
       }
 
       //update the tooltip text
-      Util.WriteIconData (ref iconData, NotifyCommand.Modify, flags);
+      Util.WriteIconData(ref iconData, NotifyCommand.Modify, flags);
     }
 
     #endregion
@@ -621,7 +621,7 @@ namespace TailForWin.NotifyIcon
     /// placed under the mouse. ToolTip internally uses a Popup of
     /// its own, but takes advance of Popup's internal <see cref="UIElement.IsHitTestVisible"/>
     /// property which prevents this issue.</remarks>
-    private void CreatePopup ( )
+    private void CreatePopup()
     {
       //check if the item itself is a popup
       Popup popup = TrayPopup as Popup;
@@ -629,7 +629,7 @@ namespace TailForWin.NotifyIcon
       if (popup == null && TrayPopup != null)
       {
         //create an invisible popup that hosts the UIElement
-        popup = new Popup ( );
+        popup = new Popup();
         popup.AllowsTransparency = true;
 
         //don't animate by default - devs can use attached
@@ -653,24 +653,24 @@ namespace TailForWin.NotifyIcon
       //the popup explicitly gets the DataContext of this instance.
       //If there is no DataContext, the TaskbarIcon assigns itself
       if (popup != null)
-        UpdateDataContext (popup, null, DataContext);
+        UpdateDataContext(popup, null, DataContext);
 
       //store a reference to the used tooltip
-      SetTrayPopupResolved (popup);
+      SetTrayPopupResolved(popup);
     }
 
     /// <summary>
     /// Displays the <see cref="TrayPopup"/> control if
     /// it was set.
     /// </summary>
-    private void ShowTrayPopup (Point cursorPosition)
+    private void ShowTrayPopup(Point cursorPosition)
     {
       if (IsDisposed)
         return;
 
       //raise preview event no matter whether popup is currently set
       //or not (enables client to set it on demand)
-      var args = RaisePreviewTrayPopupOpenEvent ( );
+      var args = RaisePreviewTrayPopupOpenEvent();
 
       if (args.Handled)
         return;
@@ -690,7 +690,7 @@ namespace TailForWin.NotifyIcon
         if (TrayPopupResolved.Child != null)
         {
           //try to get a handle on the popup itself (via its child)
-          HwndSource source = (HwndSource) PresentationSource.FromVisual (TrayPopupResolved.Child);
+          HwndSource source = (HwndSource)PresentationSource.FromVisual(TrayPopupResolved.Child);
 
           if (source != null)
             handle = source.Handle;
@@ -702,15 +702,15 @@ namespace TailForWin.NotifyIcon
 
         //activate either popup or message sink to track deactivation.
         //otherwise, the popup does not close if the user clicks somewhere else
-        WinApi.SetForegroundWindow (handle);
+        WinApi.SetForegroundWindow(handle);
 
         //raise attached event - item should never be null unless developers
         //changed the CustomPopup directly...
         if (TrayPopup != null)
-          RaisePopupOpenedEvent (TrayPopup);
+          RaisePopupOpenedEvent(TrayPopup);
 
         //bubble routed event
-        RaiseTrayPopupOpenEvent ( );
+        RaiseTrayPopupOpenEvent();
       }
     }
 
@@ -722,14 +722,14 @@ namespace TailForWin.NotifyIcon
     /// Displays the <see cref="ContextMenu"/> if
     /// it was set.
     /// </summary>
-    private void ShowContextMenu (Point cursorPosition)
+    private void ShowContextMenu(Point cursorPosition)
     {
       if (IsDisposed)
         return;
 
       //raise preview event no matter whether context menu is currently set
       //or not (enables client to set it on demand)
-      var args = RaisePreviewTrayContextMenuOpenEvent ( );
+      var args = RaisePreviewTrayContextMenuOpenEvent();
 
       if (args.Handled)
         return;
@@ -747,7 +747,7 @@ namespace TailForWin.NotifyIcon
         IntPtr handle = IntPtr.Zero;
 
         //try to get a handle on the context itself
-        HwndSource source = (HwndSource) PresentationSource.FromVisual (ContextMenu);
+        HwndSource source = (HwndSource)PresentationSource.FromVisual(ContextMenu);
 
         if (source != null)
           handle = source.Handle;
@@ -759,10 +759,10 @@ namespace TailForWin.NotifyIcon
         //activate the context menu or the message window to track deactivation - otherwise, the context menu
         //does not close if the user clicks somewhere else. With the message window
         //fallback, the context menu can't receive keyboard events - should not happen though
-        WinApi.SetForegroundWindow (handle);
+        WinApi.SetForegroundWindow(handle);
 
         //bubble event
-        RaiseTrayContextMenuOpenEvent ( );
+        RaiseTrayContextMenuOpenEvent();
       }
     }
 
@@ -776,12 +776,12 @@ namespace TailForWin.NotifyIcon
     /// </summary>
     /// <param name="visible">Whether the ToolTip was just displayed
     /// or removed.</param>
-    private void OnBalloonToolTipChanged (bool visible)
+    private void OnBalloonToolTipChanged(bool visible)
     {
       if (visible)
-        RaiseTrayBalloonTipShownEvent ( );
+        RaiseTrayBalloonTipShownEvent();
       else
-        RaiseTrayBalloonTipClosedEvent ( );
+        RaiseTrayBalloonTipClosedEvent();
     }
 
     /// <summary>
@@ -791,11 +791,11 @@ namespace TailForWin.NotifyIcon
     /// <param name="title">The title to display on the balloon tip.</param>
     /// <param name="message">The text to display on the balloon tip.</param>
     /// <param name="symbol">A symbol that indicates the severity.</param>
-    public void ShowBalloonTip (string title, string message, BalloonIcon symbol)
+    public void ShowBalloonTip(string title, string message, BalloonIcon symbol)
     {
       lock (this)
       {
-        ShowBalloonTip (title, message, symbol.GetBalloonFlag ( ), IntPtr.Zero);
+        ShowBalloonTip(title, message, symbol.GetBalloonFlag(), IntPtr.Zero);
       }
     }
 
@@ -808,14 +808,14 @@ namespace TailForWin.NotifyIcon
     /// <param name="customIcon">A custom icon.</param>
     /// <exception cref="ArgumentNullException">If <paramref name="customIcon"/>
     /// is a null reference.</exception>
-    public void ShowBalloonTip (string title, string message, Icon customIcon)
+    public void ShowBalloonTip(string title, string message, Icon customIcon)
     {
       if (customIcon == null)
-        throw new ArgumentNullException ("customIcon");
+        throw new ArgumentNullException("customIcon");
 
       lock (this)
       {
-        ShowBalloonTip (title, message, BalloonFlags.User, customIcon.Handle);
+        ShowBalloonTip(title, message, BalloonFlags.User, customIcon.Handle);
       }
     }
 
@@ -828,28 +828,28 @@ namespace TailForWin.NotifyIcon
     /// <param name="flags">Indicates what icon to use.</param>
     /// <param name="balloonIconHandle">A handle to a custom icon, if any, or
     /// <see cref="IntPtr.Zero"/>.</param>
-    private void ShowBalloonTip (string title, string message, BalloonFlags flags, IntPtr balloonIconHandle)
+    private void ShowBalloonTip(string title, string message, BalloonFlags flags, IntPtr balloonIconHandle)
     {
-      EnsureNotDisposed ( );
+      EnsureNotDisposed();
 
       iconData.BalloonText = message ?? String.Empty;
       iconData.BalloonTitle = title ?? String.Empty;
 
       iconData.BalloonFlags = flags;
       iconData.CustomBalloonIconHandle = balloonIconHandle;
-      Util.WriteIconData (ref iconData, NotifyCommand.Modify, IconDataMembers.Info | IconDataMembers.Icon);
+      Util.WriteIconData(ref iconData, NotifyCommand.Modify, IconDataMembers.Info | IconDataMembers.Icon);
     }
 
     /// <summary>
     /// Hides a balloon ToolTip, if any is displayed.
     /// </summary>
-    public void HideBalloonTip ( )
+    public void HideBalloonTip()
     {
-      EnsureNotDisposed ( );
+      EnsureNotDisposed();
 
       //reset balloon by just setting the info to an empty string
       iconData.BalloonText = iconData.BalloonTitle = String.Empty;
-      Util.WriteIconData (ref iconData, NotifyCommand.Modify, IconDataMembers.Info);
+      Util.WriteIconData(ref iconData, NotifyCommand.Modify, IconDataMembers.Info);
     }
 
     #endregion
@@ -861,7 +861,7 @@ namespace TailForWin.NotifyIcon
     /// based on a single click of the left mouse.<br/>
     /// This method is invoked by the <see cref="singleClickTimer"/>.
     /// </summary>
-    private void DoSingleClickAction (object state)
+    private void DoSingleClickAction(object state)
     {
       if (IsDisposed)
         return;
@@ -876,7 +876,7 @@ namespace TailForWin.NotifyIcon
       singleClickTimerAction = null;
 
       //switch to UI thread
-      this.GetDispatcher ( ).Invoke (action);
+      this.GetDispatcher().Invoke(action);
     }
 
     #endregion
@@ -886,25 +886,25 @@ namespace TailForWin.NotifyIcon
     /// <summary>
     /// Sets the version flag for the <see cref="iconData"/>.
     /// </summary>
-    private void SetVersion ( )
+    private void SetVersion()
     {
-      iconData.VersionOrTimeout = (uint) NotifyIconVersion.Vista;
-      bool status = WinApi.Shell_NotifyIcon (NotifyCommand.SetVersion, ref iconData);
+      iconData.VersionOrTimeout = (uint)NotifyIconVersion.Vista;
+      bool status = WinApi.Shell_NotifyIcon(NotifyCommand.SetVersion, ref iconData);
 
       if (!status)
       {
-        iconData.VersionOrTimeout = (uint) NotifyIconVersion.Win2000;
-        status = Util.WriteIconData (ref iconData, NotifyCommand.SetVersion);
+        iconData.VersionOrTimeout = (uint)NotifyIconVersion.Win2000;
+        status = Util.WriteIconData(ref iconData, NotifyCommand.SetVersion);
       }
 
       if (!status)
       {
-        iconData.VersionOrTimeout = (uint) NotifyIconVersion.Win95;
-        status = Util.WriteIconData (ref iconData, NotifyCommand.SetVersion);
+        iconData.VersionOrTimeout = (uint)NotifyIconVersion.Win95;
+        status = Util.WriteIconData(ref iconData, NotifyCommand.SetVersion);
       }
 
       if (!status)
-        TailForWin.Utils.ErrorLog.WriteLog (ErrorFlags.Error, GetType ( ).Name, string.Format ("{0}, could not set version", System.Reflection.MethodBase.GetCurrentMethod ( ).Name));
+        TailForWin.Utils.ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{0}, could not set version", System.Reflection.MethodBase.GetCurrentMethod().Name));
     }
 
     #endregion
@@ -915,17 +915,17 @@ namespace TailForWin.NotifyIcon
     /// Recreates the taskbar icon if the whole taskbar was
     /// recreated (e.g. because Explorer was shut down).
     /// </summary>
-    private void OnTaskbarCreated ( )
+    private void OnTaskbarCreated()
     {
       IsTaskbarIconCreated = false;
-      CreateTaskbarIcon ( );
+      CreateTaskbarIcon();
     }
 
     /// <summary>
     /// Creates the taskbar icon. This message is invoked during initialization,
     /// if the taskbar is restarted, and whenever the icon is displayed.
     /// </summary>
-    private void CreateTaskbarIcon ( )
+    private void CreateTaskbarIcon()
     {
       lock (this)
       {
@@ -934,7 +934,7 @@ namespace TailForWin.NotifyIcon
           const IconDataMembers members = IconDataMembers.Message | IconDataMembers.Icon | IconDataMembers.Tip;
 
           //write initial configuration
-          var status = Util.WriteIconData (ref iconData, NotifyCommand.Add, members);
+          var status = Util.WriteIconData(ref iconData, NotifyCommand.Add, members);
 
           if (!status)
             //couldn't create the icon - we can assume this is because explorer is not running (yet!)
@@ -944,8 +944,8 @@ namespace TailForWin.NotifyIcon
             return;
 
           //set to most recent version
-          SetVersion ( );
-          messageSink.Version = (NotifyIconVersion) iconData.VersionOrTimeout;
+          SetVersion();
+          messageSink.Version = (NotifyIconVersion)iconData.VersionOrTimeout;
           IsTaskbarIconCreated = true;
         }
       }
@@ -954,7 +954,7 @@ namespace TailForWin.NotifyIcon
     /// <summary>
     /// Closes the taskbar icon if required.
     /// </summary>
-    private void RemoveTaskbarIcon ( )
+    private void RemoveTaskbarIcon()
     {
       lock (this)
       {
@@ -962,7 +962,7 @@ namespace TailForWin.NotifyIcon
         if (!IsTaskbarIconCreated)
           return;
 
-        Util.WriteIconData (ref iconData, NotifyCommand.Delete, IconDataMembers.Message);
+        Util.WriteIconData(ref iconData, NotifyCommand.Delete, IconDataMembers.Message);
         IsTaskbarIconCreated = false;
       }
     }
@@ -975,12 +975,12 @@ namespace TailForWin.NotifyIcon
     /// </summary>
     /// <param name="point"></param>
     /// <returns></returns>
-    private Point GetDeviceCoordinates (Point point)
+    private Point GetDeviceCoordinates(Point point)
     {
-      if (double.IsNaN (scalingFactor))
+      if (double.IsNaN(scalingFactor))
       {
         //calculate scaling factor in order to support non-standard DPIs
-        var presentationSource = PresentationSource.FromVisual (this);
+        var presentationSource = PresentationSource.FromVisual(this);
 
         if (presentationSource == null)
           scalingFactor = 1;
@@ -997,7 +997,8 @@ namespace TailForWin.NotifyIcon
 
       return (new Point
       {
-        X = (int) (point.X * scalingFactor), Y = (int) (point.Y * scalingFactor)
+        X = (int)(point.X * scalingFactor),
+        Y = (int)(point.Y * scalingFactor)
       });
     }
 
@@ -1017,18 +1018,18 @@ namespace TailForWin.NotifyIcon
     /// raises a <see cref="ObjectDisposedException"/> in case
     /// the <see cref="IsDisposed"/> flag is true.
     /// </summary>
-    private void EnsureNotDisposed ( )
+    private void EnsureNotDisposed()
     {
       if (IsDisposed)
-        throw new ObjectDisposedException (Name ?? GetType ( ).FullName);
+        throw new ObjectDisposedException(Name ?? GetType().FullName);
     }
 
     /// <summary>
     /// Disposes the class if the application exits.
     /// </summary>
-    private void OnExit (object sender, EventArgs e)
+    private void OnExit(object sender, EventArgs e)
     {
-      Dispose ( );
+      Dispose();
     }
 
     /// <summary>
@@ -1040,9 +1041,9 @@ namespace TailForWin.NotifyIcon
     /// this class.
     /// </para>
     /// </summary>
-    ~TaskbarIcon ( )
+    ~TaskbarIcon()
     {
-      Dispose (false);
+      Dispose(false);
     }
 
     /// <summary>
@@ -1051,16 +1052,16 @@ namespace TailForWin.NotifyIcon
     /// <remarks>This method is not virtual by design. Derived classes
     /// should override <see cref="Dispose(bool)"/>.
     /// </remarks>
-    public void Dispose ( )
+    public void Dispose()
     {
-      Dispose (true);
+      Dispose(true);
 
       // This object will be cleaned up by the Dispose method.
       // Therefore, you should call GC.SupressFinalize to
       // take this object off the finalization queue 
       // and prevent finalization code for this object
       // from executing a second time.
-      GC.SuppressFinalize (this);
+      GC.SuppressFinalize(this);
     }
 
     /// <summary>
@@ -1078,7 +1079,7 @@ namespace TailForWin.NotifyIcon
     /// be disposed.</param>
     /// <remarks>Check the <see cref="IsDisposed"/> property to determine whether
     /// the method has already been called.</remarks>
-    private void Dispose (bool disposing)
+    private void Dispose(bool disposing)
     {
       //don't do anything if the component is already disposed
       if (IsDisposed || !disposing)
@@ -1093,14 +1094,14 @@ namespace TailForWin.NotifyIcon
           Application.Current.Exit -= OnExit;
 
         //stop timers
-        singleClickTimer.Dispose ( );
-        balloonCloseTimer.Dispose ( );
+        singleClickTimer.Dispose();
+        balloonCloseTimer.Dispose();
 
         //dispose message sink
-        messageSink.Dispose ( );
+        messageSink.Dispose();
 
         //remove icon
-        RemoveTaskbarIcon ( );
+        RemoveTaskbarIcon();
       }
     }
 

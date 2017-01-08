@@ -25,9 +25,9 @@ namespace TailForWin.Template
     public event EventHandler SaveNow;
 
 
-    public Filters (TailLogData tailLogData)
+    public Filters(TailLogData tailLogData)
     {
-      InitializeComponent ( );
+      InitializeComponent();
 
       PreviewKeyDown += HandleEsc;
       this.tailLogData = tailLogData;
@@ -41,12 +41,12 @@ namespace TailForWin.Template
 
     #region ClickEvents
 
-    private void btnCancel_Click (object sender, RoutedEventArgs e)
+    private void btnCancel_Click(object sender, RoutedEventArgs e)
     {
-      Close ( );
+      Close();
     }
 
-    private void btnFont_Click (object sender, RoutedEventArgs e)
+    private void btnFont_Click(object sender, RoutedEventArgs e)
     {
       System.Drawing.Font filterFont = filterData.FilterFontType;
       System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
@@ -58,168 +58,168 @@ namespace TailForWin.Template
         ShowColor = true
       };
 
-      if (fontManager.ShowDialog ( ) != System.Windows.Forms.DialogResult.Cancel)
+      if (fontManager.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
       {
-        filterFont = new System.Drawing.Font (fontManager.Font.FontFamily, fontManager.Font.Size, fontManager.Font.Style);
+        filterFont = new System.Drawing.Font(fontManager.Font.FontFamily, fontManager.Font.Size, fontManager.Font.Style);
         filterData.FilterFontType = filterFont;
         filterData.FilterColor = fontManager.Color;
 
-        ChangeState ( );
+        ChangeState();
       }
     }
 
-    private void btnNew_Click (object sender, RoutedEventArgs e)
+    private void btnNew_Click(object sender, RoutedEventArgs e)
     {
       fState = EFileManagerState.AddFile;
       btnCancel.IsEnabled = false;
 
       filterData = new FilterData
       {
-        FilterFontType = new System.Drawing.Font ("Tahoma", 12, System.Drawing.FontStyle.Regular),
+        FilterFontType = new System.Drawing.Font("Tahoma", 12, System.Drawing.FontStyle.Regular),
         FilterColor = System.Drawing.Color.Black,
         Id = filterId
       };
 
-      tailLogData.ListOfFilter.Add (filterData);
+      tailLogData.ListOfFilter.Add(filterData);
 
-      SaveNow?.Invoke (this, EventArgs.Empty);
+      SaveNow?.Invoke(this, EventArgs.Empty);
 
-      dataGridFilters.Items.Refresh ( );
-      SelectLastItemInDataGrid ( );
+      dataGridFilters.Items.Refresh();
+      SelectLastItemInDataGrid();
 
       filterId++;
     }
 
-    private void btnCancelAdd_Click (object sender, RoutedEventArgs e)
+    private void btnCancelAdd_Click(object sender, RoutedEventArgs e)
     {
       switch (fState)
       {
       case EFileManagerState.AddFile:
 
-        var lastItem = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1];
-        tailLogData.ListOfFilter.Remove (lastItem);
-        dataGridFilters.Items.Refresh ( );
-        break;
+      var lastItem = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1];
+      tailLogData.ListOfFilter.Remove(lastItem);
+      dataGridFilters.Items.Refresh();
+      break;
 
       case EFileManagerState.EditItem:
 
-        if (mementoFilterData != null)
-          filterData.RestoreFromMemento (mementoFilterData);
-        break;
+      if (mementoFilterData != null)
+        filterData.RestoreFromMemento(mementoFilterData);
+      break;
 
       case EFileManagerState.OpenFileManager:
-        break;
+      break;
 
       case EFileManagerState.EditFilter:
-        break;
+      break;
 
       default:
-        throw new ArgumentOutOfRangeException ( );
+      throw new ArgumentOutOfRangeException();
       }
 
       fState = EFileManagerState.OpenFileManager;
     }
 
-    private void btnDelete_Click (object sender, RoutedEventArgs e)
+    private void btnDelete_Click(object sender, RoutedEventArgs e)
     {
-      var findResource = Application.Current.FindResource ("QDeleteDataGridItem");
+      var findResource = Application.Current.FindResource("QDeleteDataGridItem");
 
-      if (findResource == null || MessageBox.Show (findResource.ToString ( ), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo,
+      if (findResource == null || MessageBox.Show(findResource.ToString(), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo,
             MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes)
         return;
 
       var index = dataGridFilters.SelectedIndex;
       filterData = dataGridFilters.SelectedItem as FilterData;
 
-      tailLogData.ListOfFilter.RemoveAt (index);
-      dataGridFilters.Items.Refresh ( );
+      tailLogData.ListOfFilter.RemoveAt(index);
+      dataGridFilters.Items.Refresh();
 
-      SaveNow?.Invoke (this, EventArgs.Empty);
+      SaveNow?.Invoke(this, EventArgs.Empty);
 
       if (tailLogData.ListOfFilter.Count != 0)
-        SelectLastItemInDataGrid ( );
+        SelectLastItemInDataGrid();
     }
 
     #endregion
 
     #region Events
 
-    private void Window_Closing (object sender, System.ComponentModel.CancelEventArgs e)
+    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
       foreach (FilterData item in tailLogData.ListOfFilter)
       {
-        if (!string.IsNullOrWhiteSpace (item.Filter))
+        if (!string.IsNullOrWhiteSpace(item.Filter))
           continue;
 
-        var findResource = Application.Current.FindResource ("FilterNotEmpty");
+        var findResource = Application.Current.FindResource("FilterNotEmpty");
 
         if (findResource != null)
-          MessageBox.Show (findResource.ToString ( ), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+          MessageBox.Show(findResource.ToString(), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
         e.Cancel = true;
       }
     }
 
-    private void Window_Loaded (object sender, RoutedEventArgs e)
+    private void Window_Loaded(object sender, RoutedEventArgs e)
     {
       dataGridFilters.DataContext = tailLogData.ListOfFilter;
       filterProperties.DataContext = filterData;
       fState = EFileManagerState.OpenFileManager;
     }
 
-    private void dataGridFiles_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void dataGridFiles_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
       filterData = dataGridFilters.SelectedItem as FilterData;
-      mementoFilterData = filterData?.SaveToMemento ( );
+      mementoFilterData = filterData?.SaveToMemento();
     }
 
-    private void textBoxFilter_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void textBoxFilter_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-      if (!string.IsNullOrEmpty (textBoxFilter.Text))
+      if (!string.IsNullOrEmpty(textBoxFilter.Text))
       {
         btnCancel.IsEnabled = true;
-        ChangeState ( );
+        ChangeState();
       }
       else
         btnCancel.IsEnabled = false;
     }
 
-    private void textBoxDescription_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void textBoxDescription_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-      if (!string.IsNullOrEmpty (textBoxDescription.Text))
-        ChangeState ( );
+      if (!string.IsNullOrEmpty(textBoxDescription.Text))
+        ChangeState();
     }
 
-    private void HandleEsc (object sender, KeyEventArgs e)
+    private void HandleEsc(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
-        btnCancel_Click (this, e);
+        btnCancel_Click(this, e);
     }
 
     #endregion
 
     #region HelperFunctions
 
-    private void SelectLastItemInDataGrid ( )
+    private void SelectLastItemInDataGrid()
     {
       if (dataGridFilters.Items.Count <= 0)
         return;
 
       dataGridFilters.SelectedItem = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1];
-      dataGridFilters.ScrollIntoView (tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1]);
+      dataGridFilters.ScrollIntoView(tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1]);
     }
 
-    private void ChangeState ( )
+    private void ChangeState()
     {
       if (!isInit)
         return;
 
-      if (fState == EFileManagerState.OpenFileManager && mementoFilterData != null && filterData != null && !filterData.EqualsProperties (mementoFilterData))
+      if (fState == EFileManagerState.OpenFileManager && mementoFilterData != null && filterData != null && !filterData.EqualsProperties(mementoFilterData))
         fState = EFileManagerState.EditItem;
 
-      SaveNow?.Invoke (this, EventArgs.Empty);
+      SaveNow?.Invoke(this, EventArgs.Empty);
     }
 
     #endregion

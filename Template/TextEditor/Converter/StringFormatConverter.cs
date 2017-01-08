@@ -20,22 +20,22 @@ namespace TailForWin.Template.TextEditor.Converter
   {
     #region IValueConverter Members
 
-    public object Convert (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if (value == null)
         return (null);
 
-      if (value.GetType () == typeof (DateTime)) 
+      if (value.GetType() == typeof(DateTime))
       {
-        DateTime dt = (DateTime) value;
-        return (dt.ToString (StringFormatData.StringFormat));
+        DateTime dt = (DateTime)value;
+        return (dt.ToString(StringFormatData.StringFormat));
       }
       return (null);
     }
 
-    public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      throw new NotImplementedException ( );
+      throw new NotImplementedException();
     }
 
     #endregion

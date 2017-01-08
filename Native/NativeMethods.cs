@@ -31,25 +31,25 @@ namespace TailForWin.Native
     public const uint SW_RESTORE = 9;
 
 
-    [DllImport ("User32.dll")]
-    public static extern Int32 SetForegroundWindow (IntPtr hWnd);
+    [DllImport("User32.dll")]
+    public static extern Int32 SetForegroundWindow(IntPtr hWnd);
 
-    [DllImport ("user32.dll", SetLastError = true)]
-    public static extern bool BringWindowToTop (IntPtr hWnd);
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool BringWindowToTop(IntPtr hWnd);
 
-    [DllImport ("user32.dll", SetLastError = true)]
-    public static extern bool BringWindowToTop (HandleRef hWnd);
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool BringWindowToTop(HandleRef hWnd);
 
-    [DllImport ("user32.dll")]
-    public static extern bool ShowWindow (IntPtr hWnd, uint nCmdShow);
+    [DllImport("user32.dll")]
+    public static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
 
-    [DllImport ("user32.dll")]
-    public static extern bool IsZoomed (IntPtr hWnd);
+    [DllImport("user32.dll")]
+    public static extern bool IsZoomed(IntPtr hWnd);
 
-    [DllImport ("Kernel32.dll", SetLastError = true)]
-    public static extern bool GlobalMemoryStatusEx ([In, Out] MemoryObject lpBuffer);
+    [DllImport("Kernel32.dll", SetLastError = true)]
+    public static extern bool GlobalMemoryStatusEx([In, Out] MemoryObject lpBuffer);
 
-    [DllImport ("user32.dll")]
-    public static extern IntPtr GetDesktopWindow ( );
+    [DllImport("user32.dll")]
+    public static extern IntPtr GetDesktopWindow();
   }
 }
