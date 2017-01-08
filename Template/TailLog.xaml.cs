@@ -60,6 +60,9 @@ namespace Org.Vs.TailForWin.Template
     private event EventHandler NewFile;
 
 
+    /// <summary>
+    /// Releases all resources used by the TailLog.
+    /// </summary>
     public void Dispose()
     {
       if (tailWorker != null)
@@ -422,8 +425,7 @@ namespace Org.Vs.TailForWin.Template
       if (!LogFile.OpenFileLogDialog(out fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource("OpenFileDialog") as string))
         return;
 
-      if (NewFile != null)
-        NewFile(this, EventArgs.Empty);
+      NewFile?.Invoke(this, EventArgs.Empty);
 
       textBoxFileName.Text = fName;
     }
@@ -434,8 +436,7 @@ namespace Org.Vs.TailForWin.Template
     /// <param name="fName">File with full path</param>
     public void OpenFileFromParameter(string fName)
     {
-      if (NewFile != null)
-        NewFile(this, EventArgs.Empty);
+      NewFile?.Invoke(this, EventArgs.Empty);
 
       textBoxFileName.Text = fName;
     }
@@ -607,9 +608,9 @@ namespace Org.Vs.TailForWin.Template
         IsThreadBusy = true;
 
         LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
-      {
-        LogFile.APP_MAIN_WINDOW.SetSbIconText();
-      }));
+        {
+          LogFile.APP_MAIN_WINDOW.SetSbIconText();
+        }));
 
         if (LogFile.APP_MAIN_WINDOW.StatusBarState.Dispatcher.CheckAccess())
           LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
@@ -723,6 +724,9 @@ namespace Org.Vs.TailForWin.Template
       }
     }
 
+    /// <summary>
+    /// Stops tail thread
+    /// </summary>
     public void StopThread()
     {
       if (!tailWorker.IsBusy)

@@ -10,12 +10,12 @@
 
   </Page.Resources>
 
-    <Grid>
+  <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="100" />
       <RowDefinition Height="325*" />
     </Grid.RowDefinitions>
-      
+
     <!-- Row 0 -->
     <GroupBox Grid.Row="0" Header="" Margin="0" Name="groupBoxSettings" BorderThickness="0" AllowDrop="True" DragEnter="DragEnterHelper" Drop="DropHelper">
       <Grid>
@@ -29,11 +29,22 @@
           <ColumnDefinition Width="488*" />
           <ColumnDefinition Width="105" />
         </Grid.ColumnDefinitions>
-        <Button Height="23" Margin="0" Name="btnStart" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" Click="btnStart_Click" TabIndex="9" ToolTip="Start tail (Ctrl+T)">
+        <Button Height="23" Margin="0" Name="btnStart" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" Click="btnStart_Click" TabIndex="9">
           <StackPanel Orientation="Horizontal">
             <Image Source="/TailForWin;component/Res/start.ico"></Image>
             <TextBlock Margin="15,0,0,0">Start</TextBlock>
           </StackPanel>
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Start tail</TextBlock>
+              <TextBlock>Start tail (Ctrl+T)</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0"/>
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>    
         </Button>
         <Button Height="23" Margin="0" Name="btnStop" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" Click="btnStop_Click" Visibility="Hidden" ToolTip="Paus tail (Ctrl+S)">
           <StackPanel Orientation="Horizontal">
@@ -42,15 +53,37 @@
           </StackPanel>
         </Button>
         <Label Content="File:" Height="28" HorizontalAlignment="Left" Margin="0,-2,0,24" VerticalAlignment="Center" Grid.RowSpan="2" />
-        <Button Height="23" HorizontalAlignment="Left" Name="btnOpenFile" VerticalAlignment="Center" Width="23" Margin="35,0,0,0" Click="btnOpenFile_Click" ToolTip="Open file to tail (Ctrl+O)" TabIndex="1">
+        <Button Height="23" HorizontalAlignment="Left" Name="btnOpenFile" VerticalAlignment="Center" Width="23" Margin="35,0,0,0" Click="btnOpenFile_Click" TabIndex="1">
           <StackPanel>
             <Image Source="/TailForWin;component/Res/openfolder.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"></Image>
           </StackPanel>
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Open File</TextBlock>
+              <TextBlock>Open file to tail (Ctrl+O)</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
         </Button>
-        <Button Height="23" HorizontalAlignment="Left" Name="btnFileManagerAdd" VerticalAlignment="Center" Width="23" Margin="65,0,0,0" Click="btnFileManagerAdd_Click" IsEnabled="False" ToolTip="Add file to the FileManager" TabIndex="2">
+        <Button Height="23" HorizontalAlignment="Left" Name="btnFileManagerAdd" VerticalAlignment="Center" Width="23" Margin="65,0,0,0" Click="btnFileManagerAdd_Click" IsEnabled="False" TabIndex="2">
           <StackPanel>
             <Image Source="/TailForWin;component/Res/add.ico"></Image>
           </StackPanel>
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Adds file to</TextBlock>
+              <TextBlock>Adds file to the FileManager</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
         </Button>
 
         <!-- Column 1 -->
@@ -70,9 +103,32 @@
           <Label Content="Thread Priority:" Grid.Column="1" Grid.Row="1" Height="25" HorizontalAlignment="Left" Margin="0,0,5,0" VerticalAlignment="Center" />
           <ComboBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="0,0,0,0" Name="comboBoxThreadPriority" VerticalAlignment="Center" Width="100" SelectedIndex="0" SelectionChanged="comboBoxThreadPriority_SelectionChanged" ItemsSource="{Binding}" TabIndex="8" />
         </StackPanel>
-        <CheckBox Content="Always on top" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxOnTop" VerticalAlignment="Center" Click="checkBoxOnTop_Click" Grid.Column="2" Grid.Row="1" ToolTip="Always on top toggle on/off (T)" />
+        <CheckBox Content="Always on top" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxOnTop" VerticalAlignment="Center" Click="checkBoxOnTop_Click" Grid.Column="2" Grid.Row="1">
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Always on top</TextBlock>
+              <TextBlock>Always on top toggle on/off (T)</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>   
+        </CheckBox>
 
-        <ToggleButton Name="toggle1" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Height="20" Width="20" ToolTip="Popup some more settings for the tailtextbox" TabIndex="10">
+        <ToggleButton Name="toggle1" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Height="20" Width="20" TabIndex="10">
+          <ToggleButton.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">More settings</TextBlock>
+              <TextBlock>Popup some more settings for the tailtextbox</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </ToggleButton.ToolTip>
           <ToggleButton.Style>
             <Style TargetType="{x:Type ToggleButton}">
               <Setter Property="ContentTemplate" >
@@ -97,10 +153,21 @@
           </ToggleButton.Style>
         </ToggleButton>
 
-        <Button Grid.Column="1" Grid.Row="2" Height="23" Width="23" HorizontalAlignment="Right" Margin="5,0" Name="btnFilters" Click="btnFilters_Click" ToolTip="Add filters">
+        <Button Grid.Column="1" Grid.Row="2" Height="23" Width="23" HorizontalAlignment="Right" Margin="5,0" Name="btnFilters" Click="btnFilters_Click">
           <StackPanel>
             <Image Source="/TailForWin;component/Res/Filters.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Width="16"  Height="16"></Image>
           </StackPanel>
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Open Filter</TextBlock>
+              <TextBlock>Filter options to add or remove filters</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
         </Button>
 
         <!-- Row 2 -->
@@ -111,28 +178,84 @@
             <ColumnDefinition Width="27" />
             <ColumnDefinition Width="27" />
           </Grid.ColumnDefinitions>
-          <Button Height="23" HorizontalAlignment="Left" Name="btnShellOpen" VerticalAlignment="Center" Width="23" Margin="0" Click="btnShellOpen_Click" IsEnabled="False" Grid.Column="0" ToolTip="Open file in standard editor" TabIndex="11">
+          <Button Height="23" HorizontalAlignment="Left" Name="btnShellOpen" VerticalAlignment="Center" Width="23" Margin="0" Click="btnShellOpen_Click" IsEnabled="False" Grid.Column="0" TabIndex="11">
             <StackPanel>
               <Image Source="/TailForWin;component/Res/notepad.ico"></Image>
             </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Open Editor</TextBlock>
+                <TextBlock>Open log file in standard editor</TextBlock>
+                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                <WrapPanel>
+                  <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                  <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
           </Button>
-          <Button Height="23" HorizontalAlignment="Left" Name="btnPrint" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="1" IsEnabled="False" Click="btnPrint_Click" ToolTip="Print log file" TabIndex="12">
+          <Button Height="23" HorizontalAlignment="Left" Name="btnPrint" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="1" IsEnabled="False" Click="btnPrint_Click" TabIndex="12">
             <StackPanel>
               <Image Source="/TailForWin;component/Res/print.ico"></Image>
             </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Print log</TextBlock>
+                <TextBlock>Print log file</TextBlock>
+                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                <WrapPanel>
+                  <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                  <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
           </Button>
-          <Button Height="23" HorizontalAlignment="Left" Name="btnFileManager" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="2" Click="btnFileManager_Click" ToolTip="Open the FileManager (Ctrl+M)" TabIndex="13">
+          <Button Height="23" HorizontalAlignment="Left" Name="btnFileManager" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="2" Click="btnFileManager_Click" TabIndex="13">
             <StackPanel>
               <Image Source="/TailForWin;component/Res/Explorer.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
             </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Open FileManager</TextBlock>
+                <TextBlock>Open the FileManager (Ctrl+M)</TextBlock>
+                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                <WrapPanel>
+                  <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                  <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
           </Button>
-          <Button Height="23" HorizontalAlignment="Left" Name="btnSettings" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="3" Click="btnSettings_Click" ToolTip="Open options dialog" TabIndex="14">
+          <Button Height="23" HorizontalAlignment="Left" Name="btnSettings" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="3" Click="btnSettings_Click" TabIndex="14">
             <StackPanel>
               <Image Source="/TailForWin;component/Res/system.ico"></Image>
             </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Open Options</TextBlock>
+                <TextBlock>Open options dialog</TextBlock>
+                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                <WrapPanel>
+                  <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                  <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
           </Button>
         </Grid>
-        <CheckBox Content="Filter" Grid.Column="1" Grid.Row="2" Height="16" HorizontalAlignment="Right" Margin="0,0,35,0" Name="checkBoxFilter" VerticalAlignment="Center" Click="checkBoxFilter_Click" ToolTip="Filter toggle on/off (F)" />
+        <CheckBox Content="Filter" Grid.Column="1" Grid.Row="2" Height="16" HorizontalAlignment="Right" Margin="0,0,35,0" Name="checkBoxFilter" VerticalAlignment="Center" Click="checkBoxFilter_Click">
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Set Filter</TextBlock>
+              <TextBlock>Filter toggle on/off (F)</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
       </Grid>
     </GroupBox>
     <Grid Grid.Row="1" Margin="0">
@@ -179,7 +302,7 @@
           </StackPanel>
         </Button>
       </Grid>
-           
+
       <!-- <GridSplitter Grid.Row="1" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch" Height="3" Visibility="{Binding ElementName=toggle1, Path=IsChecked, Converter={StaticResource visConverter}}" /> -->
     </Grid>
   </Grid>

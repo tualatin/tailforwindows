@@ -15,7 +15,7 @@
       <RowDefinition Height="25" />
     </Grid.RowDefinitions>
     <Button Content="Save" Height="23" HorizontalAlignment="Right" Margin="0,0,5,0" Name="btnSave" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="0" Click="btnSave_Click" TabIndex="16" />
-    <Button Content="Close" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="btnCancel_Click" TabIndex="16" />
+    <Button Content="Close" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="btnCancel_Click" TabIndex="17" />
     <Border BorderBrush="Silver" BorderThickness="1" Grid.ColumnSpan="2" Margin="0,0,0,5" Name="border1">
       <Grid Margin="5">
         <Grid.ColumnDefinitions>

@@ -13,7 +13,18 @@
       <TabControl.Resources>
         <DataTemplate x:Key="TabHeader" DataType="TabItem">
           <DockPanel>
-            <Button x:Name="PART_Close" DockPanel.Dock="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="16" Height="16" Padding="4" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}" ToolTip="Close tab" Style="{DynamicResource CloseableTabItemButtonStyle}" Click="btnDelete_Click" HorizontalAlignment="Center">
+            <Button x:Name="PART_Close" DockPanel.Dock="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="16" Height="16" Padding="4" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}" Style="{DynamicResource CloseableTabItemButtonStyle}" Click="btnDelete_Click" HorizontalAlignment="Center">
+              <Button.ToolTip>
+                <StackPanel>
+                  <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Close current tab</TextBlock>
+                  <TextBlock>Close tab (Ctrl+W)</TextBlock>
+                  <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                  <WrapPanel>
+                    <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                    <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                  </WrapPanel>
+                </StackPanel>
+              </Button.ToolTip>
               <Path x:Name="Path" Stretch="Fill" StrokeThickness="0.5" Stroke="#FF333333" Fill="#FF969696" Data="F1 M 2.28484e-007,1.33331L 1.33333,0L 4.00001,2.66669L 6.66667,6.10352e-005L 8,1.33331L 5.33334,4L 8,6.66669L 6.66667,8L 4,5.33331L 1.33333,8L 1.086e-007,6.66669L 2.66667,4L 2.28484e-007,1.33331 Z " HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             </Button>
             <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=TabItem }, Path=Header}"></TextBlock>
@@ -64,6 +75,17 @@
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
           <TextBlock Text="Type:" Margin="0,0,5,0" />
           <ComboBox Name="cbStsEncoding" ItemsSource="{Binding}" Width="135" FontSize="9" SelectionChanged="cbStsEncoding_SelectionChanged">
+            <ComboBox.ToolTip>
+              <StackPanel>
+                <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">File encoding</TextBlock>
+                <TextBlock>Select file encoding for current log file</TextBlock>
+                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                <WrapPanel>
+                  <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                  <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                </WrapPanel>
+              </StackPanel>
+            </ComboBox.ToolTip>
           </ComboBox>
         </StackPanel>
       </StatusBarItem>
@@ -74,7 +96,7 @@
     <!--TaskbarIcon part-->
     <tb:TaskbarIcon x:Name="tbIcon" IconSource="/Res/Main.ico">
       <tb:TaskbarIcon.TrayToolTip>
-       <local:FancyToolTip Opacity="0.85" InfoText="{Binding Path=ToolTipText}" x:Name="fancyToolTipTfW" />
+        <local:FancyToolTip Opacity="0.85" InfoText="{Binding Path=ToolTipText}" x:Name="fancyToolTipTfW" />
       </tb:TaskbarIcon.TrayToolTip>
     </tb:TaskbarIcon>
   </Grid>
