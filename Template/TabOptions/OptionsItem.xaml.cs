@@ -31,12 +31,14 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     private string sendToLnkName;
 
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public OptionsItem()
     {
       InitializeComponent();
 
       PreviewKeyDown += HandleEsc;
-
       sendToLnkName = string.Format("{0}\\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.SendTo), LogFile.APPLICATION_CAPTION);
 
       Rename_BtnSendTo();
@@ -48,18 +50,25 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     #region ClickEvents
 
+    /// <summary>
+    /// Save button click
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     public void btnSave_Click(object sender, RoutedEventArgs e)
     {
-      SettingsHelper.TailSettings.LinesRead = spinnerNLines.StartIndex;
-
-      if (SaveSettings != null)
-        SaveSettings(this, EventArgs.Empty);
+      SettingsHelper.TailSettings.LinesRead = spinnerNLines.StartIndex;   
+      SaveSettings?.Invoke(this, EventArgs.Empty);
     }
 
+    /// <summary>
+    /// Cancel button click
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     public void btnCancel_Click(object sender, RoutedEventArgs e)
     {
-      if (CloseDialog != null)
-        CloseDialog(this, EventArgs.Empty);
+      CloseDialog?.Invoke(this, EventArgs.Empty);
     }
 
     private void btnReset_Click(object sender, RoutedEventArgs e)
@@ -114,6 +123,11 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       gridOptions.DataContext = SettingsHelper.TailSettings;
     }
 
+    /// <summary>
+    /// Handle Escape button blick
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     public void HandleEsc(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)

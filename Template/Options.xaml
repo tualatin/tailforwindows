@@ -28,7 +28,7 @@
             </StackPanel>
           </DataTemplate>
         </TabItem.HeaderTemplate>
-        <tabData:OptionsItem Margin="0" x:Name="tabOptionsItem" ToolTip="Adds 'Send to' to system context menu" />
+        <tabData:OptionsItem Margin="0" x:Name="tabOptionsItem" />
       </TabItem>
       <TabItem Header="Colors" Name="tabItemColor">
         <TabItem.HeaderTemplate>
