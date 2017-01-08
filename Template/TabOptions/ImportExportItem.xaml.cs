@@ -1,27 +1,30 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
+using Org.Vs.TailForWin.Utils;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using Microsoft.Win32;
-using TailForWin.Controller;
-using TailForWin.Data;
-using TailForWin.Data.Enums;
-using TailForWin.Utils;
 
 
-namespace TailForWin.Template.TabOptions
+namespace Org.Vs.TailForWin.Template.TabOptions
 {
   /// <summary>
   /// Interaction logic for ImportExport.xaml
   /// </summary>
   public partial class ImportExportItem : ITabOptionItems
   {
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public ImportExportItem()
     {
       InitializeComponent();
 
-      PreviewKeyDown += HandleEsc;
-
+      PreviewKeyDown += HandleEsc;     
       textBoxConfigPath.Text = string.Format("{0}{1}.Config", AppDomain.CurrentDomain.BaseDirectory, AppDomain.CurrentDomain.FriendlyName);
     }
 

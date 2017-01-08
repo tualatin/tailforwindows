@@ -4,12 +4,12 @@ using System.ComponentModel;
 using System.Net;
 using System.Net.Mail;
 using System.Windows;
-using TailForWin.Controller;
-using TailForWin.Data;
-using TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
 
 
-namespace TailForWin.Utils
+namespace Org.Vs.TailForWin.Utils
 {
   public class MailClient : IDisposable
   {

@@ -2,13 +2,13 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using TailForWin.Data;
+using Org.Vs.TailForWin.Data;
 
 
-namespace TailForWin.Utils
+namespace Org.Vs.TailForWin.Utils
 {
   /// <summary>
-  /// This class is responsible to play sounds in TailForWindows
+  /// This class is responsible to play sounds in Org.Vs.TailForWindows
   /// </summary>
   public static class SoundPlay
   {

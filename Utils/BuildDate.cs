@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 
 
-namespace TailForWin.Utils
+namespace Org.Vs.TailForWin.Utils
 {
   public static class BuildDate
   {

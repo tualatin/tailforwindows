@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using TailForWin.Data.Enums;
-using TailForWin.Utils;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Utils;
 
 
-namespace TailForWin.Template.UpdateController
+namespace Org.Vs.TailForWin.Template.UpdateController
 {
   public class UpdateController
   {

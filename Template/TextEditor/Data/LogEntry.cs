@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace TailForWin.Template.TextEditor.Data
+namespace Org.Vs.TailForWin.Template.TextEditor.Data
 {
   public class LogEntry : PropertyChangedBase
   {

@@ -6,10 +6,10 @@ using System;
 using System.Windows.Threading;
 using System.Threading;
 using System.Windows.Input;
-using TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Data.Enums;
 
 
-namespace TailForWin.Template
+namespace Org.Vs.TailForWin.Template
 {
   /// <summary>
   /// Interaction logic for Spinner.xaml

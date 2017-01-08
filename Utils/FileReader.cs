@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Data.Enums;
 
 
-namespace TailForWin.Utils
+namespace Org.Vs.TailForWin.Utils
 {
   public class FileReader : IDisposable
   {

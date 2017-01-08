@@ -1,4 +1,9 @@
-﻿using System;
+﻿using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Template;
+using Org.Vs.TailForWin.Utils;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -7,14 +12,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using TailForWin.Controller;
-using TailForWin.Data;
-using TailForWin.Data.Enums;
-using TailForWin.Template;
-using TailForWin.Utils;
 
 
-namespace TailForWin
+namespace Org.Vs.TailForWin
 {
   /// <summary>
   /// Interaction logic for MainWindow.xaml
@@ -30,6 +30,9 @@ namespace TailForWin
     private string parameterFileName;
 
 
+    /// <summary>
+    ///  Releases all resources used by the MainWindow.
+    /// </summary>
     public void Dispose()
     {
       foreach (TailLog page in tailTabItems.Where
@@ -43,6 +46,9 @@ namespace TailForWin
       currentPage = null;
     }
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public MainWindow()
     {
       InitializeComponent();
@@ -635,15 +641,19 @@ namespace TailForWin
         TailLog tailWindow;
 
         if (properties == null)
+        {
           tailWindow = new TailLog(tabCount, tabItem)
           {
             ActiveTab = true
           };
+        }
         else
+        {
           tailWindow = new TailLog(tabCount, tabItem, properties)
           {
             ActiveTab = true
           };
+        }
 
         tailWindow.FileManagerDoOpenTab += FileManagerTab;
         tailWindow.ButtonSearchBox += OpenSearchBoxWindow;

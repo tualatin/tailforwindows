@@ -21,7 +21,7 @@
 //
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
-namespace TailForWin.NotifyIcon
+namespace Org.Vs.TailForWin.NotifyIcon
 {
   ///<summary>
   /// Supported icons for the tray's balloon messages.

@@ -5,13 +5,13 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using TailForWin.Controller;
-using TailForWin.Data;
-using TailForWin.Data.Enums;
-using TailForWin.Utils;
+using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Utils;
 
 
-namespace TailForWin.Template
+namespace Org.Vs.TailForWin.Template
 {
   /// <summary>
   /// Interaction logic for FileManger.xaml

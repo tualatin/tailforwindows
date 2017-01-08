@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using TailForWin.Data;
+using Org.Vs.TailForWin.Data;
 
 
-namespace TailForWin.Native
+namespace Org.Vs.TailForWin.Native
 {
   /// <summary>
   /// Native windows methods for .NET

@@ -1,18 +1,21 @@
-﻿using System.Windows;
+﻿using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using System;
+using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System;
-using TailForWin.Controller;
-using TailForWin.Data;
 
 
-namespace TailForWin.Template.TabOptions
+namespace Org.Vs.TailForWin.Template.TabOptions
 {
   /// <summary>
   /// Interaction logic for SmtpSettings.xaml
   /// </summary>
   public partial class SmtpSettings
   {
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public SmtpSettings()
     {
       InitializeComponent();

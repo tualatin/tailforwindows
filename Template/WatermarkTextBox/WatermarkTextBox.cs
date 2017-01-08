@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 
 
-namespace TailForWin.Template.WatermarkTextBox
+namespace Org.Vs.TailForWin.Template.WatermarkTextBox
 {
   public class WatermarkTextBox : TextBox
   {

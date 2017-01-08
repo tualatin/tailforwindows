@@ -5,7 +5,7 @@ using System.Threading;
 using System.Diagnostics;
 
 
-namespace TailForWin.Utils
+namespace Org.Vs.TailForWin.Utils
 {
   /// <summary>
   /// Create Mutex class

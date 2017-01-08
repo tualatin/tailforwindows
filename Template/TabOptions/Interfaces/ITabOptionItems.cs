@@ -2,8 +2,11 @@
 using System.Windows.Input;
 
 
-namespace TailForWin.Template.TabOptions
+namespace Org.Vs.TailForWin.Template.TabOptions.Interfaces
 {
+  /// <summary>
+  /// Interface tab option items
+  /// </summary>
   public interface ITabOptionItems
   {
     /// <summary>

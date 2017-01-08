@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using TailForWin.Data;
-using TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
 
 
-namespace TailForWin.Template
+namespace Org.Vs.TailForWin.Template
 {
   /// <summary>
   /// Interaction logic for Filters.xaml

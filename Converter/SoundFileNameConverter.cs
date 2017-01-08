@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Data;
-using TailForWin.Data;
+using Org.Vs.TailForWin.Data;
 
 
-namespace TailForWin.Converter
+namespace Org.Vs.TailForWin.Converter
 {
   /// <summary>
   /// SoundFileName converter

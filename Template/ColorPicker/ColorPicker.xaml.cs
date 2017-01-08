@@ -1,14 +1,14 @@
-﻿using System.Globalization;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Ink;
+﻿using System;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Ink;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System;
 
 
-namespace TailForWin.Template.ColorPicker
+namespace Org.Vs.TailForWin.Template.ColorPicker
 {
   /// <summary>
   /// A simple WPF color picker.  The basic idea is to use a Color swatch image and then pick out a single
@@ -28,8 +28,7 @@ namespace TailForWin.Template.ColorPicker
   ///  - Fix single digit hex displays
   ///  - Add Mouse Wheel support to change the Alpha value
   ///  - Modify color select dragging behavior
-  /// </summary>
-
+  /// </summary>     
   public partial class ColorPicker
   {
     private readonly DrawingAttributes drawingAttributes = new DrawingAttributes();
@@ -37,12 +36,18 @@ namespace TailForWin.Template.ColorPicker
     private bool isMouseDown;
 
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public ColorPicker()
       : this(Colors.Black)
-    {
-
+    {      
     }
 
+    /// <summary>
+    /// Constrcutor
+    /// </summary>
+    /// <param name="initialColor">Initialize color</param>
     public ColorPicker(Color initialColor)
     {
       InitializeComponent();

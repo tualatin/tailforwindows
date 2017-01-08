@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 
-namespace TailForWin.NotifyIcon.Interop
+namespace Org.Vs.TailForWin.NotifyIcon.Interop
 {
   /// <summary>
   /// Callback delegate which is used by the Windows API to

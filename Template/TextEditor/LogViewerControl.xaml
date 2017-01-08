@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="TailForWin.Template.TextEditor.LogViewerControl"  
+﻿<UserControl x:Class="Org.Vs.TailForWin.Template.TextEditor.LogViewerControl"  
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" xmlns:local="clr-namespace:TailForWin.Template.TextEditor.Data" x:Name="LogViewerProperty" xmlns:conv="clr-namespace:TailForWin.Template.TextEditor.Converter" xmlns:sel="clr-namespace:TailForWin.Template.TextEditor.Utils">
+             d:DesignHeight="300" d:DesignWidth="300" xmlns:local="clr-namespace:Org.Vs.TailForWin.Template.TextEditor.Data" x:Name="LogViewerProperty" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Template.TextEditor.Converter" xmlns:sel="clr-namespace:Org.Vs.TailForWin.Template.TextEditor.Utils">
   <UserControl.Resources>
     <conv:BoolToTextWrapConverter x:Key="BoolToTextWrap" />
     <conv:BoolToScrollbarVisibilityConverter x:Key="BoolToScrollbarVisibility" />
@@ -127,7 +127,7 @@
           <Image Source="{Binding Path=BookmarkPoint}" Grid.Column="0" Width="16" Height="16" Margin="2,0" x:Name="txtBoxBreakpoint" />
         </Grid>
 
-        <Grid Cursor="/TailForWin;component/Template/TextEditor/RightArrow.cur" Grid.Column="1">
+        <Grid Cursor="/Org.Vs.TailForWin;component/Template/TextEditor/RightArrow.cur" Grid.Column="1">
           <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.4" />
           <TextBlock Grid.Column="1" Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
         </Grid>       
@@ -151,7 +151,7 @@
           <Image Source="{Binding Path=BookmarkPoint}" Grid.Column="0" Width="16" Height="16" Margin="2,0" x:Name="txtBoxBreakpoint" />
         </Grid>
 
-        <Grid Cursor="/TailForWin;component/Template/TextEditor/RightArrow.cur" Grid.Column="1">
+        <Grid Cursor="/Org.Vs.TailForWin;component/Template/TextEditor/RightArrow.cur" Grid.Column="1">
           <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.4" />
           <TextBlock Grid.Column="1" Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
         </Grid>

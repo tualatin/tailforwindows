@@ -12,14 +12,14 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using TailForWin.Data;
-using TailForWin.Data.Enums;
-using TailForWin.Template.TextEditor.Converter;
-using TailForWin.Template.TextEditor.Data;
-using TailForWin.Template.TextEditor.Utils;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Template.TextEditor.Converter;
+using Org.Vs.TailForWin.Template.TextEditor.Data;
+using Org.Vs.TailForWin.Template.TextEditor.Utils;
 
 
-namespace TailForWin.Template.TextEditor
+namespace Org.Vs.TailForWin.Template.TextEditor
 {
   /// <summary>
   /// Interaction logic for LogViewerControl.xaml
@@ -723,7 +723,7 @@ namespace TailForWin.Template.TextEditor
 
                   if (rcTextBox.Contains((int)mousePoint.X, (int)mousePoint.Y) && leftMouseButtonDown)
                   {
-                    System.Windows.Resources.StreamResourceInfo info = Application.GetResourceStream(new Uri("/TailForWin;component/Template/TextEditor/RightArrow.cur", UriKind.Relative));
+                    System.Windows.Resources.StreamResourceInfo info = Application.GetResourceStream(new Uri("/Org.Vs.TailForWin;component/Template/TextEditor/RightArrow.cur", UriKind.Relative));
 
                     if (info != null)
                       Cursor = new Cursor(info.Stream);
@@ -738,7 +738,7 @@ namespace TailForWin.Template.TextEditor
         }
         catch (Exception ex)
         {
-          TailForWin.Utils.ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex));
+          Org.Vs.TailForWin.Utils.ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex));
         }
       }
 
@@ -851,7 +851,7 @@ namespace TailForWin.Template.TextEditor
 
       System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage();
       bp.BeginInit();
-      bp.UriSource = new Uri("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
+      bp.UriSource = new Uri("/Org.Vs.TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
       bp.EndInit();
 
       if (item.BookmarkPoint == null)
@@ -894,7 +894,7 @@ namespace TailForWin.Template.TextEditor
           if (!(((System.Drawing.Rectangle)rcBreakpoint).Contains((int)mousePoint.X, (int)mousePoint.Y) && rightMouseButtonDown))
             continue;
 
-          System.Windows.Media.Imaging.BitmapImage icon = new System.Windows.Media.Imaging.BitmapImage(new Uri("/TailForWin;component/Template/TextEditor/breakpoint_delete.gif", UriKind.Relative));
+          System.Windows.Media.Imaging.BitmapImage icon = new System.Windows.Media.Imaging.BitmapImage(new Uri("/Org.Vs.TailForWin;component/Template/TextEditor/breakpoint_delete.gif", UriKind.Relative));
           RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
           RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
 
@@ -1063,7 +1063,7 @@ namespace TailForWin.Template.TextEditor
           {
             System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage();
             bp.BeginInit();
-            bp.UriSource = new Uri("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
+            bp.UriSource = new Uri("/Org.Vs.TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
             bp.EndInit();
 
             item.BookmarkPoint = bp;

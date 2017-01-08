@@ -1,4 +1,4 @@
-namespace TailForWin.NotifyIcon.Interop
+namespace Org.Vs.TailForWin.NotifyIcon.Interop
 {
   /// <summary>
   /// Main operations performed on the

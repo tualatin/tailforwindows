@@ -2,10 +2,10 @@
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Media;
-using TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Data.Enums;
 
 
-namespace TailForWin.Data
+namespace Org.Vs.TailForWin.Data
 {
   public class SettingsData : INotifyMaster
   {
@@ -692,7 +692,7 @@ namespace TailForWin.Data
     {
       get
       {
-        return ("https://github.com/tualatin/tailforwindows/releases");
+        return ("https://github.com/tualatin/Org.Vs.TailForWindows/releases");
       }
     }
 

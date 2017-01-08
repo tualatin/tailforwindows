@@ -3,11 +3,11 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows;
-using TailForWin.Data.Enums;
-using TailForWin.Utils;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Utils;
 
 
-namespace TailForWin.Template.UpdateController
+namespace Org.Vs.TailForWin.Template.UpdateController
 {
   /// <summary>
   /// Simple class to a show message box with error message

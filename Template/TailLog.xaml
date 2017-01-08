@@ -1,11 +1,11 @@
-﻿<Page x:Class="TailForWin.Template.TailLog"
+﻿<Page x:Class="Org.Vs.TailForWin.Template.TailLog"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="760"
-  Title="TailLog" Loaded="Page_Loaded" xmlns:my="clr-namespace:TailForWin.Template.TextEditor" AllowDrop="True" DragEnter="DragEnterHelper" Drop="DropHelper" xmlns:tb="clr-namespace:TailForWin.Template.WatermarkTextBox">
+  Title="TailLog" Loaded="Page_Loaded" xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.TextEditor" AllowDrop="True" DragEnter="DragEnterHelper" Drop="DropHelper" xmlns:tb="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox">
   <Page.Resources>
 
   </Page.Resources>
@@ -31,25 +31,25 @@
         </Grid.ColumnDefinitions>
         <Button Height="23" Margin="0" Name="btnStart" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" Click="btnStart_Click" TabIndex="9" ToolTip="Start tail (Ctrl+T)">
           <StackPanel Orientation="Horizontal">
-            <Image Source="/TailForWin;component/Res/start.ico"></Image>
+            <Image Source="/Org.Vs.TailForWin;component/Res/start.ico"></Image>
             <TextBlock Margin="15,0,0,0">Start</TextBlock>
           </StackPanel>
         </Button>
         <Button Height="23" Margin="0" Name="btnStop" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" Click="btnStop_Click" Visibility="Hidden" ToolTip="Paus tail (Ctrl+S)">
           <StackPanel Orientation="Horizontal">
-            <Image Source="/TailForWin;component/Res/stop.ico"></Image>
+            <Image Source="/Org.Vs.TailForWin;component/Res/stop.ico"></Image>
             <TextBlock Margin="15,0,0,0">Stop</TextBlock>
           </StackPanel>
         </Button>
         <Label Content="File:" Height="28" HorizontalAlignment="Left" Margin="0,-2,0,24" VerticalAlignment="Center" Grid.RowSpan="2" />
         <Button Height="23" HorizontalAlignment="Left" Name="btnOpenFile" VerticalAlignment="Center" Width="23" Margin="35,0,0,0" Click="btnOpenFile_Click" ToolTip="Open file to tail (Ctrl+O)" TabIndex="1">
           <StackPanel>
-            <Image Source="/TailForWin;component/Res/openfolder.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"></Image>
+            <Image Source="/Org.Vs.TailForWin;component/Res/openfolder.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"></Image>
           </StackPanel>
         </Button>
         <Button Height="23" HorizontalAlignment="Left" Name="btnFileManagerAdd" VerticalAlignment="Center" Width="23" Margin="65,0,0,0" Click="btnFileManagerAdd_Click" IsEnabled="False" ToolTip="Add file to the FileManager" TabIndex="2">
           <StackPanel>
-            <Image Source="/TailForWin;component/Res/add.ico"></Image>
+            <Image Source="/Org.Vs.TailForWin;component/Res/add.ico"></Image>
           </StackPanel>
         </Button>
 
@@ -78,7 +78,7 @@
               <Setter Property="ContentTemplate" >
                 <Setter.Value>
                   <DataTemplate>
-                    <Image Source="/TailForWin;component/Res/Arrow-up.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                    <Image Source="/Org.Vs.TailForWin;component/Res/Arrow-up.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
                   </DataTemplate>
                 </Setter.Value>
               </Setter>
@@ -87,7 +87,7 @@
                   <Setter Property="ContentTemplate">
                     <Setter.Value>
                       <DataTemplate>
-                        <Image Source="/TailForWin;component/Res/Arrow-down.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                        <Image Source="/Org.Vs.TailForWin;component/Res/Arrow-down.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
                       </DataTemplate>
                     </Setter.Value>
                   </Setter>
@@ -99,7 +99,7 @@
 
         <Button Grid.Column="1" Grid.Row="2" Height="23" Width="23" HorizontalAlignment="Right" Margin="5,0" Name="btnFilters" Click="btnFilters_Click" ToolTip="Add filters">
           <StackPanel>
-            <Image Source="/TailForWin;component/Res/Filters.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Width="16"  Height="16"></Image>
+            <Image Source="/Org.Vs.TailForWin;component/Res/Filters.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Width="16"  Height="16"></Image>
           </StackPanel>
         </Button>
 
@@ -113,22 +113,22 @@
           </Grid.ColumnDefinitions>
           <Button Height="23" HorizontalAlignment="Left" Name="btnShellOpen" VerticalAlignment="Center" Width="23" Margin="0" Click="btnShellOpen_Click" IsEnabled="False" Grid.Column="0" ToolTip="Open file in standard editor" TabIndex="11">
             <StackPanel>
-              <Image Source="/TailForWin;component/Res/notepad.ico"></Image>
+              <Image Source="/Org.Vs.TailForWin;component/Res/notepad.ico"></Image>
             </StackPanel>
           </Button>
           <Button Height="23" HorizontalAlignment="Left" Name="btnPrint" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="1" IsEnabled="False" Click="btnPrint_Click" ToolTip="Print log file" TabIndex="12">
             <StackPanel>
-              <Image Source="/TailForWin;component/Res/print.ico"></Image>
+              <Image Source="/Org.Vs.TailForWin;component/Res/print.ico"></Image>
             </StackPanel>
           </Button>
           <Button Height="23" HorizontalAlignment="Left" Name="btnFileManager" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="2" Click="btnFileManager_Click" ToolTip="Open the FileManager (Ctrl+M)" TabIndex="13">
             <StackPanel>
-              <Image Source="/TailForWin;component/Res/Explorer.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+              <Image Source="/Org.Vs.TailForWin;component/Res/Explorer.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
             </StackPanel>
           </Button>
           <Button Height="23" HorizontalAlignment="Left" Name="btnSettings" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="3" Click="btnSettings_Click" ToolTip="Open options dialog" TabIndex="14">
             <StackPanel>
-              <Image Source="/TailForWin;component/Res/system.ico"></Image>
+              <Image Source="/Org.Vs.TailForWin;component/Res/system.ico"></Image>
             </StackPanel>
           </Button>
         </Grid>
@@ -165,17 +165,17 @@
 
         <Button Width="18" Height="18" HorizontalAlignment="Right" Grid.Column="1" Name="btnSearch" Click="btnSearch_Click" ToolTip="Search in tailtextbox (Ctrl+F)">
           <StackPanel>
-            <Image Source="/TailForWin;component/Res/Search.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+            <Image Source="/Org.Vs.TailForWin;component/Res/Search.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
           </StackPanel>
         </Button>
         <Button Width="18" Height="18" HorizontalAlignment="Right" Grid.Column="2" Name="btnClearTextBox" Click="btnClearTextBox_Click" ToolTip="Clears all the content from the tailtextbox (Ctrl+E)">
           <StackPanel>
-            <Image Source="/TailForWin;component/Res/Clear.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+            <Image Source="/Org.Vs.TailForWin;component/Res/Clear.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
           </StackPanel>
         </Button>
         <Button Width="18" Height="18" HorizontalAlignment="Right" Grid.Column="3" Name="btnFont" Click="btnFont_Click" ToolTip="Manage font">
           <StackPanel>
-            <Image Source="/TailForWin;component/Res/Font.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+            <Image Source="/Org.Vs.TailForWin;component/Res/Font.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
           </StackPanel>
         </Button>
       </Grid>

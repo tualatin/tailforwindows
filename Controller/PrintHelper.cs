@@ -2,12 +2,12 @@
 using System.Printing;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using TailForWin.Data;
+using Org.Vs.TailForWin.Data;
 using System.Windows;
-using TailForWin.Template.TextEditor.Data;
+using Org.Vs.TailForWin.Template.TextEditor.Data;
 
 
-namespace TailForWin.Controller
+namespace Org.Vs.TailForWin.Controller
 {
   public class PrintHelper
   {

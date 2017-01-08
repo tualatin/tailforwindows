@@ -2,10 +2,10 @@
 using System.Windows.Data;
 using System.Windows;
 using System.Collections.ObjectModel;
-using TailForWin.Data;
+using Org.Vs.TailForWin.Data;
 
 
-namespace TailForWin.Converter
+namespace Org.Vs.TailForWin.Converter
 {
   public class FilterCountToStringConverter : IValueConverter
   {

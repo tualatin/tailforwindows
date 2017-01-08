@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows;
-using TailForWin.Controller;
-using TailForWin.Data;
-using TailForWin.Data.Enums;
-using TailForWin.Utils;
+using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Utils;
 
 
-namespace TailForWin
+namespace Org.Vs.TailForWin
 {
   /// <summary>
   /// Interaction logic for App.xaml

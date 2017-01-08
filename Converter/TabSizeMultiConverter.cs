@@ -3,7 +3,7 @@ using System.Windows.Data;
 using System.Windows.Controls;
 
 
-namespace TailForWin.Converter
+namespace Org.Vs.TailForWin.Converter
 {
   class TabSizeMultiConverter : IMultiValueConverter
   {

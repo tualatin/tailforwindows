@@ -2,7 +2,7 @@
 using System.IO;
 
 
-namespace TailForWin.Utils
+namespace Org.Vs.TailForWin.Utils
 {
   /// <summary>
   /// Encoding detector class

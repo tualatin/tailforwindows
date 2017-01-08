@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 
 
-namespace TailForWin.NotifyIcon.Interop
+namespace Org.Vs.TailForWin.NotifyIcon.Interop
 {
   /// <summary>
   /// A struct that is submitted in order to configure

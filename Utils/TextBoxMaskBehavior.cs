@@ -3,10 +3,10 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Data.Enums;
 
 
-namespace TailForWin.Utils
+namespace Org.Vs.TailForWin.Utils
 {
   public class TextBoxMaskBehavior
   {

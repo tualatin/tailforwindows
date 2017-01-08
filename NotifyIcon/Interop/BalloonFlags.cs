@@ -1,4 +1,4 @@
-namespace TailForWin.NotifyIcon.Interop
+namespace Org.Vs.TailForWin.NotifyIcon.Interop
 {
   /// <summary>
   /// Flags that define the icon that is shown on a balloon

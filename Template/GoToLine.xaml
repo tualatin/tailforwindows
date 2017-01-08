@@ -1,7 +1,7 @@
-﻿<Window x:Class="TailForWin.Template.GoToLine"
+﻿<Window x:Class="Org.Vs.TailForWin.Template.GoToLine"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Go To Line" Height="147" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" xmlns:tb="clr-namespace:TailForWin.Template.WatermarkTextBox">
+        Title="Go To Line" Height="147" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" xmlns:tb="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="30" />

@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 
 
-namespace TailForWin.NotifyIcon.Interop
+namespace Org.Vs.TailForWin.NotifyIcon.Interop
 {
   /// <summary>
   /// Win API struct providing coordinates for a single point.

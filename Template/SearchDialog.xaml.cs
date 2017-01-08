@@ -1,15 +1,15 @@
 ﻿using System.Windows;
-using TailForWin.Controller;
+using Org.Vs.TailForWin.Controller;
 using System;
-using TailForWin.Data;
+using Org.Vs.TailForWin.Data;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.ComponentModel;
 using System.Collections.Specialized;
-using TailForWin.Utils;
+using Org.Vs.TailForWin.Utils;
 
 
-namespace TailForWin.Template
+namespace Org.Vs.TailForWin.Template
 {
   /// <summary>
   /// Interaction logic for SearchDialog.xaml

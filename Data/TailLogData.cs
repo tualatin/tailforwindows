@@ -4,10 +4,10 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.IO;
 using System.Text;
-using TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Data.Enums;
 
 
-namespace TailForWin.Data
+namespace Org.Vs.TailForWin.Data
 {
   /// <summary>
   /// Dataobject for Tabproperties

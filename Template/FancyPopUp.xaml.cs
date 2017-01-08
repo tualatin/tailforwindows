@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace TailForWin.Template
+namespace Org.Vs.TailForWin.Template
 {
   /// <summary>
   /// Interaction logic for FancyPopUp.xaml

@@ -3,7 +3,7 @@ using System.Windows.Data;
 using System.Drawing;
 
 
-namespace TailForWin.Converter
+namespace Org.Vs.TailForWin.Converter
 {
   public class FontToStringConverter : IValueConverter
   {

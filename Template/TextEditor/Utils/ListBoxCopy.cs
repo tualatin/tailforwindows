@@ -2,10 +2,10 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Text;
-using TailForWin.Template.TextEditor.Data;
+using Org.Vs.TailForWin.Template.TextEditor.Data;
 
 
-namespace TailForWin.Template.TextEditor.Utils
+namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 {
   public class ListBoxCopy
   {

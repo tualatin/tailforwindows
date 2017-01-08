@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 
 
-namespace TailForWin.Data
+namespace Org.Vs.TailForWin.Data
 {
   /// <summary>
   /// Implementation for INotifyPropertyChanged

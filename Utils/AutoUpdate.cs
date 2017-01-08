@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Timers;
-using TailForWin.Controller;
-using TailForWin.Data;
-using TailForWin.Data.Enums;
-using TailForWin.Template.UpdateController;
+using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Template.UpdateController;
 
 
-namespace TailForWin.Utils
+namespace Org.Vs.TailForWin.Utils
 {
   public static class AutoUpdate
   {

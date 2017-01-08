@@ -2,7 +2,7 @@
 using System.Windows.Data;
 
 
-namespace TailForWin.Template.TextEditor.Converter
+namespace Org.Vs.TailForWin.Template.TextEditor.Converter
 {
   public static class StringFormatData
   {

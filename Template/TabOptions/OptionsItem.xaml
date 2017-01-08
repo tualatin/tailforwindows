@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="TailForWin.Template.TabOptions.OptionsItem"
+﻿<UserControl x:Class="Org.Vs.TailForWin.Template.TabOptions.OptionsItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="380" d:DesignWidth="400" xmlns:my="clr-namespace:TailForWin.Template" Loaded="UserControl_Loaded">
+             d:DesignHeight="380" d:DesignWidth="400" xmlns:my="clr-namespace:Org.Vs.TailForWin.Template" Loaded="UserControl_Loaded">
     <Grid Margin="5" Name="gridOptions">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*" />
@@ -14,8 +14,8 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="25" />
     </Grid.RowDefinitions>
-    <Button Content="Save" Height="23" HorizontalAlignment="Right" Margin="0,0,5,0" Name="btnSave" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="0" Click="btnSave_Click" TabIndex="13" />
-    <Button Content="Close" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="btnCancel_Click" TabIndex="14" />
+    <Button Content="Save" Height="23" HorizontalAlignment="Right" Margin="0,0,5,0" Name="btnSave" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="0" Click="btnSave_Click" TabIndex="16" />
+    <Button Content="Close" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="btnCancel_Click" TabIndex="16" />
     <Border BorderBrush="Silver" BorderThickness="1" Grid.ColumnSpan="2" Margin="0,0,0,5" Name="border1">
       <Grid Margin="5">
         <Grid.ColumnDefinitions>
@@ -47,15 +47,15 @@
         <Label Content="Default thread refresh rate:" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left" Margin="0" Name="label2" VerticalAlignment="Center" />
         <ComboBox Grid.Column="1" Grid.Row="5" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxThreadRefreshRate" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxThreadRefreshRate_SelectionChanged" TabIndex="9" />
         <Label Content="Default time format:" Grid.Row="6" Height="28" HorizontalAlignment="Left" Margin="0" Name="label4" VerticalAlignment="Center" />
-        <ComboBox Grid.Column="1" Grid.Row="6" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxTimeFormat" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxTimeFormat_SelectionChanged" TabIndex="11" />
+        <ComboBox Grid.Column="1" Grid.Row="6" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxTimeFormat" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxTimeFormat_SelectionChanged" TabIndex="10" />
         <my:Spinner Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="0,3" x:Name="spinnerNLines" VerticalAlignment="Center" Width="50" MaxSpinValue="2000" MinSpinValue="10" IsEnabled="{Binding ElementName=checkBoxShowLines, Path=IsChecked}" StartIndex="20" Increment="10" ToolTip="Setup how much lines are read at beginning" TabIndex="5" TextBoxMinValue="10" TextBoxMaxValue="2000" />
         <Label Content="Default date format:" Grid.Row="7" Margin="0" Name="label5" VerticalAlignment="Center" />
-        <ComboBox Grid.Column="1" Grid.Row="7" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxDateFormat" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxDateFormat_SelectionChanged" TabIndex="12" />
+        <ComboBox Grid.Column="1" Grid.Row="7" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxDateFormat" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxDateFormat_SelectionChanged" TabIndex="11" />
         <Label Content="lines" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="50,0" Name="label6" VerticalAlignment="Center" />
-        <CheckBox Content="Show line numbers" Grid.Row="8" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxShowLineNumbers" VerticalAlignment="Center" IsChecked="{Binding Mode=TwoWay, Path=ShowLineNumbers, UpdateSourceTrigger=PropertyChanged}" />
-        <Button Content="Add to 'Send to'" Grid.Row="8" Grid.Column="1" Height="23" HorizontalAlignment="Left" Name="btnSendToMenu" VerticalAlignment="Center" Width="120" Click="btnSendToMenu_Click" />
+        <CheckBox Content="Show line numbers" Grid.Row="8" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxShowLineNumbers" VerticalAlignment="Center" IsChecked="{Binding Mode=TwoWay, Path=ShowLineNumbers, UpdateSourceTrigger=PropertyChanged}" TabIndex="12" />
+        <Button Content="Add to 'Send to'" Grid.Row="8" Grid.Column="1" Height="23" HorizontalAlignment="Left" Name="btnSendToMenu" VerticalAlignment="Center" Width="120" Click="btnSendToMenu_Click" TabIndex="13" />
         <Separator Grid.ColumnSpan="2" Grid.Row="10" HorizontalAlignment="Center" Margin="0" Name="separator" VerticalAlignment="Center" Width="300" />
-        <Button Content="Proxy" Grid.Row="11" Height="23" HorizontalAlignment="Left" Name="btnProxy" VerticalAlignment="Center" Width="75" Click="btnProxy_Click" />
+        <Button Content="Proxy" Grid.Row="11" Height="23" HorizontalAlignment="Left" Name="btnProxy" VerticalAlignment="Center" Width="75" Click="btnProxy_Click" TabIndex="14" />
         <Button Content="Reset" Grid.Column="1" Grid.Row="11" Height="23" HorizontalAlignment="Right" Margin="0" Name="btnReset" VerticalAlignment="Center" Width="75" Click="btnReset_Click" TabIndex="15" />
       </Grid>
     </Border>

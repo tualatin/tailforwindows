@@ -1,6 +1,6 @@
 using System;
 
-namespace TailForWin.NotifyIcon.Interop
+namespace Org.Vs.TailForWin.NotifyIcon.Interop
 {
   /// <summary>
   /// Indicates which members of a <see cref="NotifyIconData"/> structure

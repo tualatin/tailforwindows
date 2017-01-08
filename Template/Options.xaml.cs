@@ -1,9 +1,9 @@
 ﻿using System;
-using TailForWin.Controller;
+using Org.Vs.TailForWin.Controller;
 using System.Windows.Input;
 
 
-namespace TailForWin.Template
+namespace Org.Vs.TailForWin.Template
 {
   /// <summary>
   /// Interaction logic for Options.xaml

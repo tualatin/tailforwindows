@@ -2,7 +2,7 @@
 using System.Windows.Data;
 
 
-namespace TailForWin.Converter
+namespace Org.Vs.TailForWin.Converter
 {
   public class SmtpPortConverter : IValueConverter
   {

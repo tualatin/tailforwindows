@@ -1,5 +1,5 @@
 
-namespace TailForWin.Data
+namespace Org.Vs.TailForWin.Data
 {
   /// <summary>
   /// FileManager helper class

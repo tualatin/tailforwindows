@@ -8,15 +8,15 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using TailForWin.Controller;
-using TailForWin.Data;
-using TailForWin.Data.Enums;
-using TailForWin.Template.TextEditor.Converter;
-using TailForWin.Template.TextEditor.Data;
-using TailForWin.Utils;
+using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Template.TextEditor.Converter;
+using Org.Vs.TailForWin.Template.TextEditor.Data;
+using Org.Vs.TailForWin.Utils;
 
 
-namespace TailForWin.Template
+namespace Org.Vs.TailForWin.Template
 {
   /// <summary>
   /// Interaction logic for TailLog.xaml

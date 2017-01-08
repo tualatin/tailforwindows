@@ -2,11 +2,11 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Text.RegularExpressions;
-using TailForWin.Data;
-using TailForWin.Utils;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Utils;
 
 
-namespace TailForWin.Template
+namespace Org.Vs.TailForWin.Template
 {
   /// <summary>
   /// Interaction logic for GoToLine.xaml

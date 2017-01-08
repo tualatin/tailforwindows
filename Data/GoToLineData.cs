@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace TailForWin.Data
+namespace Org.Vs.TailForWin.Data
 {
   /// <summary>
   /// Go to linenumber EventArgs Data class

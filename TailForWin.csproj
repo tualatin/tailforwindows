@@ -8,7 +8,7 @@
     <ProjectGuid>{9B55E512-2010-4590-A100-0446684FFC81}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TailForWin</RootNamespace>
+    <RootNamespace>Org.Vs.TailForWin</RootNamespace>
     <AssemblyName>TailForWin</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -78,6 +78,7 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <DocumentationFile>bin\x64\Debug\TailForWin.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -226,7 +227,7 @@
     <Compile Include="Template\TabOptions\ColorItem.xaml.cs">
       <DependentUpon>ColorItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Template\TabOptions\ITabOptionItems.cs" />
+    <Compile Include="Template\TabOptions\Interfaces\ITabOptionItems.cs" />
     <Compile Include="Template\TabOptions\OptionsItem.xaml.cs">
       <DependentUpon>OptionsItem.xaml</DependentUpon>
     </Compile>

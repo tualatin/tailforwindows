@@ -1,4 +1,4 @@
-﻿namespace TailForWin.NotifyIcon.Interop
+﻿namespace Org.Vs.TailForWin.NotifyIcon.Interop
 {
   /// <summary>
   /// Event flags for clicked events.

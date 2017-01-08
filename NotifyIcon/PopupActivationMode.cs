@@ -21,7 +21,7 @@
 //
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
-namespace TailForWin.NotifyIcon
+namespace Org.Vs.TailForWin.NotifyIcon
 {
   /// <summary>
   /// Defines flags that define when a popup

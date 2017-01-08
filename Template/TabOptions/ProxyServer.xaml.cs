@@ -1,18 +1,21 @@
-﻿using System.Windows;
-using TailForWin.Controller;
-using System.Windows.Input;
-using TailForWin.Utils;
-using TailForWin.Data;
+﻿using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Utils;
 using System;
+using System.Windows;
+using System.Windows.Input;
 
 
-namespace TailForWin.Template.TabOptions
+namespace Org.Vs.TailForWin.Template.TabOptions
 {
   /// <summary>
   /// Interaktionslogik für ProxyServer.xaml
   /// </summary>
   public partial class ProxyServer
   {
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public ProxyServer()
     {
       InitializeComponent();

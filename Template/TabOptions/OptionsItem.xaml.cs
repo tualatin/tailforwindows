@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
+using Org.Vs.TailForWin.Utils;
+using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using TailForWin.Controller;
-using TailForWin.Data;
-using TailForWin.Data.Enums;
-using TailForWin.Utils;
 
 
-namespace TailForWin.Template.TabOptions
+namespace Org.Vs.TailForWin.Template.TabOptions
 {
   /// <summary>
   /// Interaction logic for OptionsItem.xaml

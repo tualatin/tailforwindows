@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 
 
-namespace TailForWin.Data.Enums
+namespace Org.Vs.TailForWin.Data.Enums
 {
   /// <summary>
   /// Enum time format

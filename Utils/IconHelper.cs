@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Interop;
 
 
-namespace TailForWin.Utils
+namespace Org.Vs.TailForWin.Utils
 {
   /// <summary>
   /// Icon Helper to remove icons from WPF window

@@ -2,7 +2,7 @@
 using System.Drawing;
 
 
-namespace TailForWin.Data
+namespace Org.Vs.TailForWin.Data
 {
   public class FilterData : INotifyMaster, IDisposable
   {

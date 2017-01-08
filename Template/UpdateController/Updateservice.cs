@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Text.RegularExpressions;
-using TailForWin.Template.UpdateController.Data;
+using Org.Vs.TailForWin.Template.UpdateController.Data;
 using System;
 
 
-namespace TailForWin.Template.UpdateController
+namespace Org.Vs.TailForWin.Template.UpdateController
 {
   public class Updateservice : IDisposable
   {

@@ -1,18 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using System.Collections.Generic;
 using System.Windows;
-using TailForWin.Data;
-using TailForWin.Controller;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 
-namespace TailForWin.Template.TabOptions
+namespace Org.Vs.TailForWin.Template.TabOptions
 {
   /// <summary>
   /// Interaction logic for SystemInformation.xaml
   /// </summary>
   public partial class SystemInformation
   {
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public SystemInformation()
     {
       InitializeComponent();

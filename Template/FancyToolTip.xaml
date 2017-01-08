@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="TailForWin.Template.FancyToolTip"
+﻿<UserControl x:Class="Org.Vs.TailForWin.Template.FancyToolTip"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:tb="clr-namespace:TailForWin.NotifyIcon"
+             xmlns:tb="clr-namespace:Org.Vs.TailForWin.NotifyIcon"
              mc:Ignorable="d" 
              x:Name="me" Width="240" Height="100">
   <UserControl.Resources>
@@ -49,7 +49,7 @@
         </LinearGradientBrush>
       </Border.Background>
     </Border>
-    <Image HorizontalAlignment="Left" Margin="10,10,0,26" Width="48" Source="/TailForWin;component/Res/Main.ico" Stretch="Fill" VerticalAlignment="Top" RenderTransformOrigin="0.792,0.486" x:Name="image" Height="48" >
+    <Image HorizontalAlignment="Left" Margin="10,10,0,26" Width="48" Source="/Org.Vs.TailForWin;component/Res/Main.ico" Stretch="Fill" VerticalAlignment="Top" RenderTransformOrigin="0.792,0.486" x:Name="image" Height="48" >
       <Image.RenderTransform>
         <TransformGroup>
           <ScaleTransform ScaleX="1" ScaleY="1"/>

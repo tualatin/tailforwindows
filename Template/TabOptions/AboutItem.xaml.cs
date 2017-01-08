@@ -1,15 +1,16 @@
-﻿using System.Windows;
-using System.Reflection;
-using TailForWin.Utils;
-using TailForWin.Data;
+﻿using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
+using Org.Vs.TailForWin.Utils;
 using System;
-using System.Windows.Input;
-using System.Diagnostics;
-using TailForWin.Controller;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Input;
 
 
-namespace TailForWin.Template.TabOptions
+namespace Org.Vs.TailForWin.Template.TabOptions
 {
   /// <summary>
   /// Interaction logic for AboutItem.xaml

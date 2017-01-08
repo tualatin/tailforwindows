@@ -1,13 +1,14 @@
-﻿using System.Windows;
-using TailForWin.Controller;
-using TailForWin.Template.ColorPicker;
-using System.Windows.Media;
+﻿using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Template.ColorPicker;
+using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
 using System;
-using System.Windows.Shapes;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 
-namespace TailForWin.Template.TabOptions
+namespace Org.Vs.TailForWin.Template.TabOptions
 {
   /// <summary>
   /// Interaction logic for ColorItem.xaml

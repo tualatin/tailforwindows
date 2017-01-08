@@ -7,12 +7,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
-using TailForWin.Data;
-using TailForWin.Data.Enums;
-using TailForWin.Utils;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Utils;
 
 
-namespace TailForWin.Controller
+namespace Org.Vs.TailForWin.Controller
 {
   public class FileManagerStructure : INotifyMaster
   {

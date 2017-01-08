@@ -29,12 +29,12 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using System.Windows.Threading;
-using TailForWin.Data.Enums;
-using TailForWin.NotifyIcon.Interop;
-using Point = TailForWin.NotifyIcon.Interop.Point;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.NotifyIcon.Interop;
+using Point = Org.Vs.TailForWin.NotifyIcon.Interop.Point;
 
 
-namespace TailForWin.NotifyIcon
+namespace Org.Vs.TailForWin.NotifyIcon
 {
   /// <summary>
   /// A WPF proxy to for a taskbar icon (NotifyIcon) that sits in the system's
@@ -904,7 +904,7 @@ namespace TailForWin.NotifyIcon
       }
 
       if (!status)
-        TailForWin.Utils.ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{0}, could not set version", System.Reflection.MethodBase.GetCurrentMethod().Name));
+        Org.Vs.TailForWin.Utils.ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{0}, could not set version", System.Reflection.MethodBase.GetCurrentMethod().Name));
     }
 
     #endregion

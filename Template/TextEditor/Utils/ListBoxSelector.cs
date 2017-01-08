@@ -10,7 +10,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 
 
-namespace TailForWin.Template.TextEditor.Utils
+namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 {
   public sealed class ListBoxSelector
   {

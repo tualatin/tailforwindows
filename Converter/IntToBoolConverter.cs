@@ -3,7 +3,7 @@ using System.Windows.Data;
 using System.Windows;
 
 
-namespace TailForWin.Converter
+namespace Org.Vs.TailForWin.Converter
 {
   /// <summary>
   /// Integer to bool converter

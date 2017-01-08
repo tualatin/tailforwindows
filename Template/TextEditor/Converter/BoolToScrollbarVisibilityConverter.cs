@@ -3,7 +3,7 @@ using System.Windows.Data;
 using System.Windows.Controls;
 
 
-namespace TailForWin.Template.TextEditor.Converter
+namespace Org.Vs.TailForWin.Template.TextEditor.Converter
 {
   class BoolToScrollbarVisibilityConverter : IValueConverter
   {

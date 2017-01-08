@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 
 
-namespace TailForWin.Template.TextEditor.Utils
+namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 {
   public class LogViewerDataTemplateSelector : DataTemplateSelector
   {

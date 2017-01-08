@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 
 
-namespace TailForWin.Template.UpdateController
+namespace Org.Vs.TailForWin.Template.UpdateController
 {
   /// <summary>
   /// Interaction logic for ResultDialog.xaml

@@ -1,4 +1,4 @@
-﻿namespace TailForWin.Template.UpdateController.Data
+﻿namespace Org.Vs.TailForWin.Template.UpdateController.Data
 {
   /// <summary>
   /// Webservice property class

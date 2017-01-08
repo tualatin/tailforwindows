@@ -3,7 +3,7 @@ using System;
 using System.Globalization;
 
 
-namespace TailForWin.Data
+namespace Org.Vs.TailForWin.Data
 {
   public class SysInformationData
   {

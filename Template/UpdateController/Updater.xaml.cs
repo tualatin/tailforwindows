@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System;
 
 
-namespace TailForWin.Template.UpdateController
+namespace Org.Vs.TailForWin.Template.UpdateController
 {
   /// <summary>
   /// Interaction logic for Updater.xaml

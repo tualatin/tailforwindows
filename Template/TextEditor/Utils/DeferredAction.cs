@@ -3,7 +3,7 @@ using System.Threading;
 using System.Windows;
 
 
-namespace TailForWin.Template.TextEditor.Utils
+namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 {
   /// <summary>
   /// Represents a timer which performs an action on the UI thread when time elapses.  Rescheduling is supported.

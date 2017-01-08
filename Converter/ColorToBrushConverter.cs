@@ -3,7 +3,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 
 
-namespace TailForWin.Converter
+namespace Org.Vs.TailForWin.Converter
 {
   class ColorToBrushConverter : IValueConverter
   {

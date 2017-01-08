@@ -26,7 +26,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 
 
-namespace TailForWin.NotifyIcon.Interop
+namespace Org.Vs.TailForWin.NotifyIcon.Interop
 {
   /// <summary>
   /// Receives messages from the taskbar icon through

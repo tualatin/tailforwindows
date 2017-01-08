@@ -1,4 +1,4 @@
-﻿namespace TailForWin.NotifyIcon.Interop
+﻿namespace Org.Vs.TailForWin.NotifyIcon.Interop
 {
   /// <summary>
   /// The notify icon version that is used. The higher

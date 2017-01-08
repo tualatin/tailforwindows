@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TailForWin.Template.TabOptions.ImportExportItem"
+﻿<UserControl x:Class="Org.Vs.TailForWin.Template.TabOptions.ImportExportItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -28,21 +28,21 @@
         <Label Content="Export Settings:" Name="label1" VerticalAlignment="Center" />
         <Button Grid.Column="1" Height="33" HorizontalAlignment="Center" Name="btnExport" VerticalAlignment="Center" Width="33" ToolTip="Export Settings" TabIndex="1" Click="btnExport_Click">
           <StackPanel>
-            <Image Source="/TailForWin;component/Res/Export.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"></Image>
+            <Image Source="/Org.Vs.TailForWin;component/Res/Export.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"></Image>
           </StackPanel>
         </Button>
 
         <Label Content="Import Settings:" Grid.Column="3" Name="label2" VerticalAlignment="Center" />
-        <Button Grid.Column="4" Height="33" HorizontalAlignment="Center" Name="btnImport" VerticalAlignment="Center" Width="33" ToolTip="Import Settings" TabIndex="1" Click="btnImport_Click">
+        <Button Grid.Column="4" Height="33" HorizontalAlignment="Center" Name="btnImport" VerticalAlignment="Center" Width="33" ToolTip="Import Settings" TabIndex="2" Click="btnImport_Click">
           <StackPanel>
-            <Image Source="/TailForWin;component/Res/Import.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"></Image>
+            <Image Source="/Org.Vs.TailForWin;component/Res/Import.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"></Image>
           </StackPanel>
         </Button>
         <Label Content="Configuration Path:" Grid.Row="2" Grid.ColumnSpan="2" Name="label3" VerticalAlignment="Center" />
-        <TextBox Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2" Height="23" Name="textBoxConfigPath" VerticalAlignment="Center" Margin="8,0,5,0" IsReadOnly="True" />
+        <TextBox Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2" Height="23" Name="textBoxConfigPath" VerticalAlignment="Center" Margin="8,0,5,0" IsReadOnly="True" TabIndex="3" />
         <Separator Grid.ColumnSpan="5" Grid.Row="1" HorizontalAlignment="Center" Margin="0" Name="separator" VerticalAlignment="Center" Width="300" />
       </Grid>
     </Border>
-    <Button Content="Close" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Click="btnCancel_Click" />
+    <Button Content="Close" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Click="btnCancel_Click" TabIndex="4" />
   </Grid>
 </UserControl>

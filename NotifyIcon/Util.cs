@@ -29,10 +29,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Resources;
 using System.Windows.Threading;
-using TailForWin.NotifyIcon.Interop;
+using Org.Vs.TailForWin.NotifyIcon.Interop;
 
 
-namespace TailForWin.NotifyIcon
+namespace Org.Vs.TailForWin.NotifyIcon
 {
   /// <summary>
   /// Util and extension methods.

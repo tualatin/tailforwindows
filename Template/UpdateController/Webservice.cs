@@ -1,10 +1,10 @@
 ﻿using System.Net;
 using System;
 using System.IO;
-using TailForWin.Template.UpdateController.Data;
+using Org.Vs.TailForWin.Template.UpdateController.Data;
 
 
-namespace TailForWin.Template.UpdateController
+namespace Org.Vs.TailForWin.Template.UpdateController
 {
   public class Webservice
   {

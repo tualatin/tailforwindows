@@ -1,7 +1,7 @@
 ﻿using System.Linq;
-using TailForWin.Data;
+using Org.Vs.TailForWin.Data;
 using System.Reflection;
-using TailForWin.Utils;
+using Org.Vs.TailForWin.Utils;
 using System.Windows.Forms;
 using System;
 using System.Management;
@@ -9,10 +9,10 @@ using System.Net;
 using System.Diagnostics;
 using System.Net.Sockets;
 using System.Threading;
-using TailForWin.Native;
+using Org.Vs.TailForWin.Native;
 
 
-namespace TailForWin.Controller
+namespace Org.Vs.TailForWin.Controller
 {
   public class SysInformationController
   {

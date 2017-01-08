@@ -29,10 +29,10 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using TailForWin.NotifyIcon.Interop;
+using Org.Vs.TailForWin.NotifyIcon.Interop;
 
 
-namespace TailForWin.NotifyIcon
+namespace Org.Vs.TailForWin.NotifyIcon
 {
   /// <summary>
   /// Contains declarations of WPF dependency properties

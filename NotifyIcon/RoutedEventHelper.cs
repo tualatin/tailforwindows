@@ -2,7 +2,7 @@
 using System.Windows;
 
 
-namespace TailForWin.NotifyIcon
+namespace Org.Vs.TailForWin.NotifyIcon
 {
   /// <summary>
   /// Helper class used by routed events of the

@@ -1,21 +1,28 @@
 ﻿using System.Windows;
-using System.Windows.Media;
 using System.Windows.Input;
+using System.Windows.Media;
 
 
-namespace TailForWin.Template.ColorPicker
+namespace Org.Vs.TailForWin.Template.ColorPicker
 {
   /// <summary>
   /// Interaction logic for ColorDialog.xaml
   /// </summary>
   public partial class ColorDialog
   {
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public ColorDialog()
       : this(Colors.Black)
     {
 
     }
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="initialColor">Initialize color</param>
     public ColorDialog(Color initialColor)
     {
       InitializeComponent();

@@ -6,14 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Microsoft.Win32;
-using TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Data.Enums;
 
 
-namespace TailForWin.Data
+namespace Org.Vs.TailForWin.Data
 {
   public static class LogFile
   {
-    public static string APPLICATION_CAPTION = "TailForWindows";
+    public static string APPLICATION_CAPTION = "Org.Vs.TailForWindows";
     public static string STATUS_BAR_STATE_RUN = Application.Current.FindResource("Record") as string;
     public static string STATUS_BAR_STATE_PAUSE = Application.Current.FindResource("Pause") as string;
     public static string TABBAR_CHILD_EMPTY_STRING = Application.Current.FindResource("NoFile") as string;
