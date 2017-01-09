@@ -44,13 +44,24 @@
                 <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
               </WrapPanel>
             </StackPanel>
-          </Button.ToolTip>    
+          </Button.ToolTip>
         </Button>
-        <Button Height="23" Margin="0" Name="btnStop" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" Click="btnStop_Click" Visibility="Hidden" ToolTip="Paus tail (Ctrl+S)">
+        <Button Height="23" Margin="0" Name="btnStop" VerticalAlignment="Center" Grid.Column="2" Grid.Row="0" Click="btnStop_Click" Visibility="Hidden">
           <StackPanel Orientation="Horizontal">
             <Image Source="/TailForWin;component/Res/stop.ico"></Image>
             <TextBlock Margin="15,0,0,0">Stop</TextBlock>
           </StackPanel>
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Stop tail</TextBlock>
+              <TextBlock>Stop tail (Ctrl+S)</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0"/>
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
         </Button>
         <Label Content="File:" Height="28" HorizontalAlignment="Left" Margin="0,-2,0,24" VerticalAlignment="Center" Grid.RowSpan="2" />
         <Button Height="23" HorizontalAlignment="Left" Name="btnOpenFile" VerticalAlignment="Center" Width="23" Margin="35,0,0,0" Click="btnOpenFile_Click" TabIndex="1">
@@ -95,9 +106,45 @@
 
         <!-- Row 1 -->
         <StackPanel Name="ExtraIcons" Grid.Row="1" Orientation="Horizontal" Visibility="Visible" Grid.Column="0" Grid.ColumnSpan="2" Margin="0" IsEnabled="False">
-          <CheckBox Content="Timestamp" Grid.Column="1" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="5,0,5,0" Name="checkBoxTimestamp" VerticalAlignment="Center" ToolTip="Set extra timestamp on each line" IsChecked="{Binding Mode=TwoWay, Path=Timestamp, UpdateSourceTrigger=PropertyChanged}" TabIndex="4" />
-          <CheckBox Content="Line Wrap" Grid.Column="1" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="0,0,5,0" Name="checkBoxWordWrap" VerticalAlignment="Center" ToolTip="Wrap each line" IsChecked="{Binding Mode=TwoWay, Path=Wrap, UpdateSourceTrigger=PropertyChanged}" TabIndex="5" Click="checkBoxWordWrap_Click" />
-          <CheckBox Content="Kill space" Grid.Column="1" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="0,0,5,0" Name="checkBoxKillSpace" VerticalAlignment="Center" ToolTip="Remove extra space in each line" IsChecked="{Binding Mode=TwoWay, Path=KillSpace, UpdateSourceTrigger=PropertyChanged}" TabIndex="6" />
+          <CheckBox Content="Timestamp" Grid.Column="1" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="5,0,5,0" Name="checkBoxTimestamp" VerticalAlignment="Center" IsChecked="{Binding Mode=TwoWay, Path=Timestamp, UpdateSourceTrigger=PropertyChanged}" TabIndex="4">
+            <CheckBox.ToolTip>
+              <StackPanel>
+                <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Timestamp</TextBlock>
+                <TextBlock>Set extra timestamp on each line</TextBlock>
+                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                <WrapPanel>
+                  <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0"/>
+                  <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                </WrapPanel>
+              </StackPanel>
+            </CheckBox.ToolTip>
+          </CheckBox>
+          <CheckBox Content="Line Wrap" Grid.Column="1" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="0,0,5,0" Name="checkBoxWordWrap" VerticalAlignment="Center" IsChecked="{Binding Mode=TwoWay, Path=Wrap, UpdateSourceTrigger=PropertyChanged}" TabIndex="5" Click="checkBoxWordWrap_Click">
+            <CheckBox.ToolTip>
+              <StackPanel>
+                <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Wrap line</TextBlock>
+                <TextBlock>Wrap each line</TextBlock>
+                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                <WrapPanel>
+                  <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0"/>
+                  <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                </WrapPanel>
+              </StackPanel>
+            </CheckBox.ToolTip>
+          </CheckBox>
+          <CheckBox Content="Kill space" Grid.Column="1" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="0,0,5,0" Name="checkBoxKillSpace" VerticalAlignment="Center" IsChecked="{Binding Mode=TwoWay, Path=KillSpace, UpdateSourceTrigger=PropertyChanged}" TabIndex="6">
+            <CheckBox.ToolTip>
+              <StackPanel>
+                <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Remove line</TextBlock>
+                <TextBlock>Remove extra space in each line</TextBlock>
+                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                <WrapPanel>
+                  <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0"/>
+                  <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                </WrapPanel>
+              </StackPanel>
+            </CheckBox.ToolTip>
+          </CheckBox>
           <Label Content="Refresh Rate:" Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="0,-3,5,0" VerticalAlignment="Center" />
           <ComboBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="0,0,0,0" Name="comboBoxRefreshRate" VerticalAlignment="Center" Width="70" SelectedIndex="0" SelectionChanged="comboBoxRefreshRate_SelectionChanged" ItemsSource="{Binding}" TabIndex="7" />
           <Label Content="Thread Priority:" Grid.Column="1" Grid.Row="1" Height="25" HorizontalAlignment="Left" Margin="0,0,5,0" VerticalAlignment="Center" />
@@ -114,7 +161,7 @@
                 <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
               </WrapPanel>
             </StackPanel>
-          </CheckBox.ToolTip>   
+          </CheckBox.ToolTip>
         </CheckBox>
 
         <ToggleButton Name="toggle1" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Height="20" Width="20" TabIndex="10">
