@@ -161,6 +161,13 @@
     <Compile Include="Data\ProxySettingsData.cs" />
     <Compile Include="Data\SearchData.cs" />
     <Compile Include="Data\SmtpData.cs" />
+    <Compile Include="Logging\ILogExtentions.cs" />
+    <Compile Include="Logging\Log4NetTraceListener.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LoggerFactory.cs" />
+    <Compile Include="Logging\LogUtil.cs" />
+    <Compile Include="Logging\SingleLetterLevelConverter.cs" />
+    <Compile Include="Logging\ZippingRollingFileAppender.cs" />
     <Compile Include="NotifyIcon\BalloonIcon.cs" />
     <Compile Include="Template\FancyPopUp.xaml.cs">
       <DependentUpon>FancyPopUp.xaml</DependentUpon>
