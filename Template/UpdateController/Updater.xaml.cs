@@ -13,15 +13,21 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     private Updateservice updater;
 
 
+    /// <summary>
+    /// Releases all resources used by the Updater.
+    /// </summary>
     public void Dispose()
     {
-      if (updater == null)
+      if(updater == null)
         return;
 
       updater.Dispose();
       updater = null;
     }
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public Updater()
     {
       InitializeComponent();
@@ -36,7 +42,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     {
       get
       {
-        return ((string)GetValue(ApplicationNameProperty));
+        return ((string) GetValue(ApplicationNameProperty));
       }
       set
       {
@@ -51,7 +57,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     {
       get
       {
-        return ((string)GetValue(UpdateURLProperty));
+        return ((string) GetValue(UpdateURLProperty));
       }
       set
       {
@@ -66,7 +72,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     {
       get
       {
-        return ((string)GetValue(ProxyProperty));
+        return ((string) GetValue(ProxyProperty));
       }
       set
       {
@@ -81,7 +87,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     {
       get
       {
-        return ((int)GetValue(ProxyPortProperty));
+        return ((int) GetValue(ProxyPortProperty));
       }
       set
       {
@@ -96,7 +102,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     {
       get
       {
-        return ((System.Net.NetworkCredential)GetValue(ProxyAuthentificationProperty));
+        return ((System.Net.NetworkCredential) GetValue(ProxyAuthentificationProperty));
       }
       set
       {
@@ -111,7 +117,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     {
       get
       {
-        return ((bool)GetValue(UseProxyProperty));
+        return ((bool) GetValue(UseProxyProperty));
       }
       set
       {
@@ -126,7 +132,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     {
       get
       {
-        return ((bool)GetValue(UseSystemSettingsProperty));
+        return ((bool) GetValue(UseSystemSettingsProperty));
       }
       set
       {
@@ -145,7 +151,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-      if (updater != null)
+      if(updater != null)
         updater = null;
 
       updater = new Updateservice
@@ -166,7 +172,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     {
       btnUpdater.IsEnabled = updater.IsThreadCompleted;
 
-      if (!updater.Success)
+      if(!updater.Success)
         return;
 
       Window wnd = Window.GetWindow(this);

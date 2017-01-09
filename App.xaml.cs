@@ -1,7 +1,6 @@
-﻿using Org.Vs.TailForWin.Controller;
+﻿using log4net;
+using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
-using Org.Vs.TailForWin.Data.Enums;
-using Org.Vs.TailForWin.Utils;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -14,12 +13,10 @@ namespace Org.Vs.TailForWin
   /// </summary>
   public partial class App
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(App));
+
     private void Application_Startup(object sender, StartupEventArgs e)
     {
-#if DEBUG
-      ErrorLog.StartLog();
-#endif
-
       MainWindow wnd = new MainWindow();
       AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
       wnd.Show();
@@ -76,7 +73,7 @@ namespace Org.Vs.TailForWin
 
     private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
-      ErrorLog.WriteLog(ErrorFlags.Error, "TfW", string.Format("UnhandledException: {0}", e.ExceptionObject));
+      LOG.Error("{0} caused a(n) {1} {2}", System.Reflection.MethodBase.GetCurrentMethod().Name, e.ExceptionObject.GetType().Name, e.ExceptionObject);
     }
   }
 }

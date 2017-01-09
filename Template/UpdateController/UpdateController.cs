@@ -1,18 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using log4net;
 using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Utils;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 
 namespace Org.Vs.TailForWin.Template.UpdateController
 {
+  /// <summary>
+  /// Update controller
+  /// </summary>
   public class UpdateController
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(UpdateController));
+
     private readonly Version appVersion;
     private readonly List<Version> webVersions;
 
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public UpdateController()
     {
       appVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
@@ -53,22 +62,22 @@ namespace Org.Vs.TailForWin.Template.UpdateController
         string pattern = string.Format("<a[^>]*href=(?:\"|\'){0}([^>]*)", tag);
         MatchCollection matches = Regex.Matches(webData, pattern, RegexOptions.IgnoreCase);
 
-        if (matches.Count == 0)
+        if(matches.Count == 0)
           return (false);
 
-        foreach (Match match in matches)
+        foreach(Match match in matches)
         {
           string part = (match.Value.Substring(match.Value.IndexOf(mainTag, StringComparison.Ordinal))).Substring(tag.Length);
           Regex regex = new Regex(@"\d+.\d+.\d+", RegexOptions.IgnoreCase);
 
-          if (regex.Match(part).Success)
+          if(regex.Match(part).Success)
           {
             string version = regex.Match(part).Value;
             int major = -1, minor = -1, build = -1;
 
             Regex rxVersion = new Regex(@"\d+", RegexOptions.IgnoreCase);
 
-            if (rxVersion.IsMatch(version))
+            if(rxVersion.IsMatch(version))
             {
               Match mtVersion = rxVersion.Match(version);
 
@@ -76,14 +85,14 @@ namespace Org.Vs.TailForWin.Template.UpdateController
               int length = mtVersion.Length + 1;
               version = version.Substring(length, version.Length - length);
 
-              if (rxVersion.IsMatch(version))
+              if(rxVersion.IsMatch(version))
               {
                 mtVersion = rxVersion.Match(version);
                 minor = int.Parse(mtVersion.Value);
                 length = mtVersion.Length + 1;
                 version = version.Substring(length, version.Length - length);
 
-                if (rxVersion.IsMatch(version))
+                if(rxVersion.IsMatch(version))
                 {
                   mtVersion = rxVersion.Match(version);
                   build = int.Parse(mtVersion.Value);
@@ -98,23 +107,23 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
         GetLatestWebVersion();
 
-        if (DoCompare())
+        if(DoCompare())
           return (true);
       }
-      catch (Exception ex)
+      catch(Exception ex)
       {
-        ErrorLog.WriteLog(ErrorFlags.Error, "UpdateController", string.Format("UpdateNecessary exception: {0}", ex));
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
       return (false);
     }
 
     private bool DoCompare()
     {
-      foreach (Version version in webVersions)
+      foreach(Version version in webVersions)
       {
         var result = version.CompareTo(appVersion);
 
-        if (result > 0)
+        if(result > 0)
           return (true);
       }
       return (false);

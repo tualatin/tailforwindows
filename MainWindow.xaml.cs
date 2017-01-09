@@ -347,6 +347,8 @@ namespace Org.Vs.TailForWin
 
       if(SettingsHelper.TailSettings.AutoUpdate)
         AutoUpdate.Init();
+
+      LOG.Info("Startup completed!");
     }
 
     private void Window_Closing(object sender, CancelEventArgs e)

@@ -6,6 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace Org.Vs.TailForWin.Template.UpdateController
 {
+  /// <summary>
+  /// Update service
+  /// </summary>
   public class Updateservice : IDisposable
   {
     private Webservice webservice;
@@ -143,6 +146,9 @@ namespace Org.Vs.TailForWin.Template.UpdateController
       updateThread.RunWorkerCompleted += updateThread_Completed;
     }
 
+    /// <summary>
+    /// Initialize web service
+    /// </summary>
     public void InitWebService()
     {
       WebServiceData data = new WebServiceData
