@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Org.Vs.TailForWin.Template.TabOptions.SmtpSettings"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="SMTP Settings" Height="261" Width="445" WindowStartupLocation="CenterOwner" Icon="/Org.Vs.TailForWin;component/Res/EMail.ico" ShowInTaskbar="False" ResizeMode="NoResize" xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converter" Loaded="Window_Loaded">
+        Title="SMTP Settings" Height="261" Width="445" WindowStartupLocation="CenterOwner" Icon="/TailForWin;component/Res/EMail.ico" ShowInTaskbar="False" ResizeMode="NoResize" xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converter" Loaded="Window_Loaded">
   <Window.Resources>
     <conv:StringToIntConverter x:Key="StringToInt" />
     <conv:SmtpPortConverter x:Key="SmtpPort" />
