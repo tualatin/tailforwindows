@@ -4,15 +4,19 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using log4net;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Enums;
-using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Controller
 {
+  /// <summary>
+  /// SettingsHelper
+  /// </summary>
   public class SettingsHelper
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(SettingsHelper));
     private static readonly SettingsData tailSettings = new SettingsData();
 
 
@@ -21,53 +25,55 @@ namespace Org.Vs.TailForWin.Controller
     /// </summary>
     public static void ReadSettings()
     {
+      LOG.Trace("Read TailForWindows settings");
+
       try
       {
         int iHelper;
         double dHelper;
         bool bHelper;
 
-        if (!int.TryParse(ConfigurationManager.AppSettings["LinesRead"], out iHelper))
+        if(!int.TryParse(ConfigurationManager.AppSettings["LinesRead"], out iHelper))
           iHelper = 10;
         TailSettings.LinesRead = iHelper;
 
-        if (!bool.TryParse(ConfigurationManager.AppSettings["AlwaysOnTop"], out bHelper))
+        if(!bool.TryParse(ConfigurationManager.AppSettings["AlwaysOnTop"], out bHelper))
           bHelper = false;
         TailSettings.AlwaysOnTop = bHelper;
 
-        if (!bool.TryParse(ConfigurationManager.AppSettings["ShowNLineAtStart"], out bHelper))
+        if(!bool.TryParse(ConfigurationManager.AppSettings["ShowNLineAtStart"], out bHelper))
           bHelper = true;
         TailSettings.ShowNLineAtStart = bHelper;
 
-        if (!bool.TryParse(ConfigurationManager.AppSettings["ShowLineNumbers"], out bHelper))
+        if(!bool.TryParse(ConfigurationManager.AppSettings["ShowLineNumbers"], out bHelper))
           bHelper = false;
         TailSettings.ShowLineNumbers = bHelper;
 
-        if (!bool.TryParse(ConfigurationManager.AppSettings["AlwaysScrollToEnd"], out bHelper))
+        if(!bool.TryParse(ConfigurationManager.AppSettings["AlwaysScrollToEnd"], out bHelper))
           bHelper = true;
         TailSettings.AlwaysScrollToEnd = bHelper;
 
-        if (!bool.TryParse(ConfigurationManager.AppSettings["RestoreWindowSize"], out bHelper))
+        if(!bool.TryParse(ConfigurationManager.AppSettings["RestoreWindowSize"], out bHelper))
           bHelper = false;
         TailSettings.RestoreWindowSize = bHelper;
 
-        if (!double.TryParse(ConfigurationManager.AppSettings["wndWidth"], out dHelper))
+        if(!double.TryParse(ConfigurationManager.AppSettings["wndWidth"], out dHelper))
           dHelper = -1;
         TailSettings.WndWidth = dHelper;
 
-        if (!double.TryParse(ConfigurationManager.AppSettings["wndHeight"], out dHelper))
+        if(!double.TryParse(ConfigurationManager.AppSettings["wndHeight"], out dHelper))
           dHelper = -1;
         TailSettings.WndHeight = dHelper;
 
-        if (!bool.TryParse(ConfigurationManager.AppSettings["SaveWindowPosition"], out bHelper))
+        if(!bool.TryParse(ConfigurationManager.AppSettings["SaveWindowPosition"], out bHelper))
           bHelper = false;
         TailSettings.SaveWindowPosition = bHelper;
 
-        if (!double.TryParse(ConfigurationManager.AppSettings["wndXPos"], out dHelper))
+        if(!double.TryParse(ConfigurationManager.AppSettings["wndXPos"], out dHelper))
           dHelper = -1;
         TailSettings.WndXPos = dHelper;
 
-        if (!double.TryParse(ConfigurationManager.AppSettings["wndYPos"], out dHelper))
+        if(!double.TryParse(ConfigurationManager.AppSettings["wndYPos"], out dHelper))
           dHelper = -1;
         TailSettings.WndYPos = dHelper;
 
@@ -77,11 +83,11 @@ namespace Org.Vs.TailForWin.Controller
         sHelper = ConfigurationManager.AppSettings["defaultRefreshRate"];
         ReadThreadRefreshRateEnum(sHelper);
 
-        if (!bool.TryParse(ConfigurationManager.AppSettings["ExitWithEsc"], out bHelper))
+        if(!bool.TryParse(ConfigurationManager.AppSettings["ExitWithEsc"], out bHelper))
           bHelper = false;
         TailSettings.ExitWithEscape = bHelper;
 
-        if (!bool.TryParse(ConfigurationManager.AppSettings["AutoUpdate"], out bHelper))
+        if(!bool.TryParse(ConfigurationManager.AppSettings["AutoUpdate"], out bHelper))
           bHelper = false;
         TailSettings.AutoUpdate = bHelper;
 
@@ -128,9 +134,9 @@ namespace Org.Vs.TailForWin.Controller
         ReadProxySettings();
         ReadSmtpSettings();
       }
-      catch (ConfigurationErrorsException ex)
+      catch(ConfigurationErrorsException ex)
       {
-        ErrorLog.WriteLog(ErrorFlags.Error, "SettingsHelper", string.Format("ReadSettings exception {0}", ex));
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
@@ -143,7 +149,7 @@ namespace Org.Vs.TailForWin.Controller
       {
         Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-        if (config.AppSettings.Settings.Count <= 0)
+        if(config.AppSettings.Settings.Count <= 0)
           return;
 
         config.AppSettings.Settings["LinesRead"].Value = TailSettings.LinesRead.ToString(CultureInfo.InvariantCulture);
@@ -182,9 +188,9 @@ namespace Org.Vs.TailForWin.Controller
         config.Save(ConfigurationSaveMode.Modified);
         ConfigurationManager.RefreshSection("appSettings");
       }
-      catch (ConfigurationErrorsException ex)
+      catch(ConfigurationErrorsException ex)
       {
-        ErrorLog.WriteLog(ErrorFlags.Error, "SettingsHelper", string.Format("SaveSettings exception {0}", ex));
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
@@ -197,7 +203,7 @@ namespace Org.Vs.TailForWin.Controller
       {
         Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-        if (config.AppSettings.Settings.Count <= 0)
+        if(config.AppSettings.Settings.Count <= 0)
           return;
 
         config.AppSettings.Settings["SearchwndXPos"].Value = TailSettings.SearchWndXPos.ToString(CultureInfo.InvariantCulture);
@@ -206,9 +212,9 @@ namespace Org.Vs.TailForWin.Controller
         config.Save(ConfigurationSaveMode.Modified);
         ConfigurationManager.RefreshSection("appSettings");
       }
-      catch (ConfigurationErrorsException ex)
+      catch(ConfigurationErrorsException ex)
       {
-        ErrorLog.WriteLog(ErrorFlags.Error, "SettingsHelper", string.Format("{1}, exception {0}", ex, System.Reflection.MethodBase.GetCurrentMethod().Name));
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
@@ -217,6 +223,8 @@ namespace Org.Vs.TailForWin.Controller
     /// </summary>
     public static void SetToDefault()
     {
+      LOG.Info("Set all settings to default values");
+
       TailSettings.AlwaysOnTop = false;
       TailSettings.AlwaysScrollToEnd = true;
       TailSettings.LinesRead = 10;
@@ -363,28 +371,35 @@ namespace Org.Vs.TailForWin.Controller
     {
       bool bHelper;
 
-      if (!bool.TryParse(ConfigurationManager.AppSettings["Proxy.Use"], out bHelper))
-        bHelper = false;
-      TailSettings.ProxySettings.UseProxy = bHelper;
+      try
+      {
+        if(!bool.TryParse(ConfigurationManager.AppSettings["Proxy.Use"], out bHelper))
+          bHelper = false;
+        TailSettings.ProxySettings.UseProxy = bHelper;
 
-      if (!bool.TryParse(ConfigurationManager.AppSettings["Proxy.UseSystem"], out bHelper))
-        bHelper = true;
-      TailSettings.ProxySettings.UseSystemSettings = bHelper;
+        if(!bool.TryParse(ConfigurationManager.AppSettings["Proxy.UseSystem"], out bHelper))
+          bHelper = true;
+        TailSettings.ProxySettings.UseSystemSettings = bHelper;
 
-      int port;
+        int port;
 
-      if (!int.TryParse(ConfigurationManager.AppSettings["Proxy.Port"], out port))
-        port = -1;
-      TailSettings.ProxySettings.ProxyPort = port;
+        if(!int.TryParse(ConfigurationManager.AppSettings["Proxy.Port"], out port))
+          port = -1;
+        TailSettings.ProxySettings.ProxyPort = port;
 
-      string sHelper = ConfigurationManager.AppSettings["Proxy.Url"];
-      TailSettings.ProxySettings.ProxyUrl = sHelper;
+        string sHelper = ConfigurationManager.AppSettings["Proxy.Url"];
+        TailSettings.ProxySettings.ProxyUrl = sHelper;
 
-      sHelper = ConfigurationManager.AppSettings["Proxy.UserName"];
-      TailSettings.ProxySettings.UserName = sHelper;
+        sHelper = ConfigurationManager.AppSettings["Proxy.UserName"];
+        TailSettings.ProxySettings.UserName = sHelper;
 
-      sHelper = ConfigurationManager.AppSettings["Proxy.Password"];
-      TailSettings.ProxySettings.Password = sHelper;
+        sHelper = ConfigurationManager.AppSettings["Proxy.Password"];
+        TailSettings.ProxySettings.Password = sHelper;
+      }
+      catch(ConfigurationErrorsException ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
     }
 
     /// <summary>
@@ -392,39 +407,46 @@ namespace Org.Vs.TailForWin.Controller
     /// </summary>
     private static void ReadSmtpSettings()
     {
-      string sHelper = ConfigurationManager.AppSettings["Smtp.Server"];
-      TailSettings.AlertSettings.SmtpSettings.SmtpServerName = sHelper;
+      try
+      {
+        string sHelper = ConfigurationManager.AppSettings["Smtp.Server"];
+        TailSettings.AlertSettings.SmtpSettings.SmtpServerName = sHelper;
 
-      int port;
+        int port;
 
-      if (!int.TryParse(ConfigurationManager.AppSettings["Smtp.Port"], out port))
-        port = -1;
-      TailSettings.AlertSettings.SmtpSettings.SmtpPort = port;
+        if(!int.TryParse(ConfigurationManager.AppSettings["Smtp.Port"], out port))
+          port = -1;
+        TailSettings.AlertSettings.SmtpSettings.SmtpPort = port;
 
-      sHelper = ConfigurationManager.AppSettings["Smtp.Login"];
-      TailSettings.AlertSettings.SmtpSettings.LoginName = sHelper;
+        sHelper = ConfigurationManager.AppSettings["Smtp.Login"];
+        TailSettings.AlertSettings.SmtpSettings.LoginName = sHelper;
 
-      sHelper = ConfigurationManager.AppSettings["Smtp.Password"];
-      TailSettings.AlertSettings.SmtpSettings.Password = sHelper;
+        sHelper = ConfigurationManager.AppSettings["Smtp.Password"];
+        TailSettings.AlertSettings.SmtpSettings.Password = sHelper;
 
-      sHelper = ConfigurationManager.AppSettings["Smtp.FromEMail"];
+        sHelper = ConfigurationManager.AppSettings["Smtp.FromEMail"];
 
-      TailSettings.AlertSettings.SmtpSettings.FromAddress = ParseEMailAddress(sHelper) ? sHelper : string.Empty;
+        TailSettings.AlertSettings.SmtpSettings.FromAddress = ParseEMailAddress(sHelper) ? sHelper : string.Empty;
 
-      sHelper = ConfigurationManager.AppSettings["Smtp.Subject"];
-      TailSettings.AlertSettings.SmtpSettings.Subject = sHelper;
+        sHelper = ConfigurationManager.AppSettings["Smtp.Subject"];
+        TailSettings.AlertSettings.SmtpSettings.Subject = sHelper;
 
-      bool bHelper;
+        bool bHelper;
 
-      if (!bool.TryParse(ConfigurationManager.AppSettings["Smtp.Ssl"], out bHelper))
-        bHelper = true;
-      TailSettings.AlertSettings.SmtpSettings.SSL = bHelper;
+        if(!bool.TryParse(ConfigurationManager.AppSettings["Smtp.Ssl"], out bHelper))
+          bHelper = true;
+        TailSettings.AlertSettings.SmtpSettings.SSL = bHelper;
 
-      if (!bool.TryParse(ConfigurationManager.AppSettings["Smtp.Tls"], out bHelper))
-        bHelper = false;
-      if (TailSettings.AlertSettings.SmtpSettings.SSL)
-        bHelper = false;
-      TailSettings.AlertSettings.SmtpSettings.TLS = bHelper;
+        if(!bool.TryParse(ConfigurationManager.AppSettings["Smtp.Tls"], out bHelper))
+          bHelper = false;
+        if(TailSettings.AlertSettings.SmtpSettings.SSL)
+          bHelper = false;
+        TailSettings.AlertSettings.SmtpSettings.TLS = bHelper;
+      }
+      catch(ConfigurationErrorsException ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
     }
 
     /// <summary>
@@ -434,31 +456,38 @@ namespace Org.Vs.TailForWin.Controller
     {
       bool bHelper;
 
-      if (!bool.TryParse(ConfigurationManager.AppSettings["Alert.BringToFront"], out bHelper))
-        bHelper = true;
-      TailSettings.AlertSettings.BringToFront = bHelper;
+      try
+      {
+        if(!bool.TryParse(ConfigurationManager.AppSettings["Alert.BringToFront"], out bHelper))
+          bHelper = true;
+        TailSettings.AlertSettings.BringToFront = bHelper;
 
-      if (!bool.TryParse(ConfigurationManager.AppSettings["Alert.PlaySoundFile"], out bHelper))
-        bHelper = false;
-      TailSettings.AlertSettings.PlaySoundFile = bHelper;
+        if(!bool.TryParse(ConfigurationManager.AppSettings["Alert.PlaySoundFile"], out bHelper))
+          bHelper = false;
+        TailSettings.AlertSettings.PlaySoundFile = bHelper;
 
-      if (!bool.TryParse(ConfigurationManager.AppSettings["Alert.SendEMail"], out bHelper))
-        bHelper = false;
-      TailSettings.AlertSettings.SendEMail = bHelper;
+        if(!bool.TryParse(ConfigurationManager.AppSettings["Alert.SendEMail"], out bHelper))
+          bHelper = false;
+        TailSettings.AlertSettings.SendEMail = bHelper;
 
-      string sHelper = ConfigurationManager.AppSettings["Alert.SoundFile"];
-      ParseSoundFileName(sHelper);
+        string sHelper = ConfigurationManager.AppSettings["Alert.SoundFile"];
+        ParseSoundFileName(sHelper);
 
-      sHelper = ConfigurationManager.AppSettings["Alert.EMailAddress"];
+        sHelper = ConfigurationManager.AppSettings["Alert.EMailAddress"];
 
-      TailSettings.AlertSettings.EMailAddress = ParseEMailAddress(sHelper) ? sHelper : LogFile.ALERT_EMAIL_ADDRESS;
+        TailSettings.AlertSettings.EMailAddress = ParseEMailAddress(sHelper) ? sHelper : LogFile.ALERT_EMAIL_ADDRESS;
 
-      if (ConfigurationManager.AppSettings["Alert.PopupWindow"] == null)
-        AddNewProperties_IntoConfigFile("Alert.PopupWindow", "false");
+        if(ConfigurationManager.AppSettings["Alert.PopupWindow"] == null)
+          AddNewProperties_IntoConfigFile("Alert.PopupWindow", "false");
 
-      if (!bool.TryParse(ConfigurationManager.AppSettings["Alert.PopupWindow"], out bHelper))
-        bHelper = false;
-      TailSettings.AlertSettings.PopupWnd = bHelper;
+        if(!bool.TryParse(ConfigurationManager.AppSettings["Alert.PopupWindow"], out bHelper))
+          bHelper = false;
+        TailSettings.AlertSettings.PopupWnd = bHelper;
+      }
+      catch(ConfigurationErrorsException ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
     }
 
     /// <summary>
@@ -468,13 +497,13 @@ namespace Org.Vs.TailForWin.Controller
     /// <returns>Enum from thread priority</returns>
     public static ThreadPriority GetThreadPriority(string s)
     {
-      if (s == null)
+      if(s == null)
         return (ThreadPriority.Normal);
 
-      if (Enum.GetNames(typeof(ThreadPriority)).All(priorityName => String.Compare(s.ToLower(), priorityName.ToLower(), StringComparison.Ordinal) != 0))
+      if(Enum.GetNames(typeof(ThreadPriority)).All(priorityName => String.Compare(s.ToLower(), priorityName.ToLower(), StringComparison.Ordinal) != 0))
         return (ThreadPriority.Normal);
 
-      ThreadPriority tp = (ThreadPriority)Enum.Parse(typeof(ThreadPriority), s);
+      ThreadPriority tp = (ThreadPriority) Enum.Parse(typeof(ThreadPriority), s);
 
       return (tp);
     }
@@ -491,13 +520,13 @@ namespace Org.Vs.TailForWin.Controller
     /// <returns>Enum from refresh rate</returns>
     public static ETailRefreshRate GetRefreshRate(string s)
     {
-      if (s == null)
+      if(s == null)
         return (ETailRefreshRate.Normal);
 
-      if (Enum.GetNames(typeof(ETailRefreshRate)).All(refreshName => String.Compare(s.ToLower(), refreshName.ToLower(), StringComparison.Ordinal) != 0))
+      if(Enum.GetNames(typeof(ETailRefreshRate)).All(refreshName => String.Compare(s.ToLower(), refreshName.ToLower(), StringComparison.Ordinal) != 0))
         return (ETailRefreshRate.Normal);
 
-      ETailRefreshRate trr = (ETailRefreshRate)Enum.Parse(typeof(ETailRefreshRate), s);
+      ETailRefreshRate trr = (ETailRefreshRate) Enum.Parse(typeof(ETailRefreshRate), s);
 
       return (trr);
     }
@@ -509,56 +538,68 @@ namespace Org.Vs.TailForWin.Controller
 
     private static void ReadTimeFormatEnum(string s)
     {
-      if (s != null)
-        foreach (string timeFormat in Enum.GetNames(typeof(ETimeFormat)))
+      if(s != null)
+      {
+        foreach(string timeFormat in Enum.GetNames(typeof(ETimeFormat)))
         {
-          if (String.Compare(s, timeFormat, StringComparison.Ordinal) == 0)
+          if(String.Compare(s, timeFormat, StringComparison.Ordinal) == 0)
           {
-            ETimeFormat tf = (ETimeFormat)Enum.Parse(typeof(ETimeFormat), s);
+            ETimeFormat tf = (ETimeFormat) Enum.Parse(typeof(ETimeFormat), s);
             TailSettings.DefaultTimeFormat = tf;
             break;
           }
 
           TailSettings.DefaultTimeFormat = ETimeFormat.HHMMD;
         }
+      }
       else
+      {
         TailSettings.DefaultTimeFormat = ETimeFormat.HHMMD;
+      }
     }
 
     private static void ReadDateFormatEnum(string s)
     {
-      if (s != null)
-        foreach (string dateFormat in Enum.GetNames(typeof(EDateFormat)))
+      if(s != null)
+      {
+        foreach(string dateFormat in Enum.GetNames(typeof(EDateFormat)))
         {
-          if (String.Compare(s, dateFormat, StringComparison.Ordinal) == 0)
+          if(String.Compare(s, dateFormat, StringComparison.Ordinal) == 0)
           {
-            EDateFormat df = (EDateFormat)Enum.Parse(typeof(EDateFormat), s);
+            EDateFormat df = (EDateFormat) Enum.Parse(typeof(EDateFormat), s);
             TailSettings.DefaultDateFormat = df;
             break;
           }
 
           TailSettings.DefaultDateFormat = EDateFormat.DDMMYYYY;
         }
+      }
       else
+      {
         TailSettings.DefaultDateFormat = EDateFormat.DDMMYYYY;
+      }
     }
 
     private static void ReadFileSortEnum(string s)
     {
-      if (s != null)
-        foreach (string fileSort in Enum.GetNames(typeof(EFileSort)))
+      if(s != null)
+      {
+        foreach(string fileSort in Enum.GetNames(typeof(EFileSort)))
         {
-          if (String.Compare(s, fileSort, StringComparison.Ordinal) == 0)
+          if(String.Compare(s, fileSort, StringComparison.Ordinal) == 0)
           {
-            EFileSort fs = (EFileSort)Enum.Parse(typeof(EFileSort), s);
+            EFileSort fs = (EFileSort) Enum.Parse(typeof(EFileSort), s);
             TailSettings.DefaultFileSort = fs;
             break;
           }
 
           TailSettings.DefaultFileSort = EFileSort.Nothing;
         }
+      }
       else
+      {
         TailSettings.DefaultFileSort = EFileSort.Nothing;
+      }
     }
 
     private static void CheckHexColorValue(string s, ETailLogColorTypes cType)
@@ -567,51 +608,51 @@ namespace Org.Vs.TailForWin.Controller
       Match match8 = Regex.Match(s, @"^(#)?([0-9a-fA-F]{4})([0-9a-fA-F]{4})?$");
       bool matched = match6.Success | match8.Success;
 
-      switch (cType)
+      switch(cType)
       {
       case ETailLogColorTypes.BackgroundColor:
 
-      TailSettings.DefaultBackgroundColor = !matched ? LogFile.DEFAULT_BACKGROUND_COLOR : s;
-      break;
+        TailSettings.DefaultBackgroundColor = !matched ? LogFile.DEFAULT_BACKGROUND_COLOR : s;
+        break;
 
       case ETailLogColorTypes.ForegroundColor:
 
-      TailSettings.DefaultForegroundColor = !matched ? LogFile.DEFAULT_FOREGROUND_COLOR : s;
-      break;
+        TailSettings.DefaultForegroundColor = !matched ? LogFile.DEFAULT_FOREGROUND_COLOR : s;
+        break;
 
       case ETailLogColorTypes.InactiveForegroundColor:
 
-      TailSettings.DefaultInactiveForegroundColor = !matched ? LogFile.DEFAULT_INACTIVE_FOREGROUND_COLOR : s;
-      break;
+        TailSettings.DefaultInactiveForegroundColor = !matched ? LogFile.DEFAULT_INACTIVE_FOREGROUND_COLOR : s;
+        break;
 
       case ETailLogColorTypes.InactiveBackgroundColor:
 
-      TailSettings.DefaultInactiveBackgroundColor = !matched ? LogFile.DEFAULT_INACTIVE_BACKGROUND_COLOR : s;
-      break;
+        TailSettings.DefaultInactiveBackgroundColor = !matched ? LogFile.DEFAULT_INACTIVE_BACKGROUND_COLOR : s;
+        break;
 
       case ETailLogColorTypes.FindHighlightForegroundColor:
 
-      TailSettings.DefaultHighlightForegroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR : s;
-      break;
+        TailSettings.DefaultHighlightForegroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR : s;
+        break;
 
       case ETailLogColorTypes.FindHighlightBackgroundColor:
 
-      TailSettings.DefaultHighlightBackgroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR : s;
-      break;
+        TailSettings.DefaultHighlightBackgroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR : s;
+        break;
 
       case ETailLogColorTypes.LineNumbersColor:
 
-      TailSettings.DefaultLineNumbersColor = !matched ? LogFile.DEFAULT_LINE_NUMBERS_COLOR : s;
-      break;
+        TailSettings.DefaultLineNumbersColor = !matched ? LogFile.DEFAULT_LINE_NUMBERS_COLOR : s;
+        break;
 
       case ETailLogColorTypes.HighlightColor:
 
-      TailSettings.DefaultHighlightColor = !matched ? LogFile.DEFAULT_HIGHLIGHT_COLOR : s;
-      break;
+        TailSettings.DefaultHighlightColor = !matched ? LogFile.DEFAULT_HIGHLIGHT_COLOR : s;
+        break;
 
       default:
 
-      throw new NotImplementedException("not supported color type");
+        throw new NotImplementedException("not supported color type");
       }
     }
 
@@ -619,16 +660,16 @@ namespace Org.Vs.TailForWin.Controller
     {
       int pos;
 
-      if (xPos)
+      if(xPos)
       {
-        if (!int.TryParse(s, out pos))
+        if(!int.TryParse(s, out pos))
           pos = -1;
 
         TailSettings.SearchWndXPos = pos;
       }
       else
       {
-        if (!int.TryParse(s, out pos))
+        if(!int.TryParse(s, out pos))
           pos = -1;
 
         TailSettings.SearchWndYPos = pos;
@@ -653,19 +694,19 @@ namespace Org.Vs.TailForWin.Controller
       string fileName = System.IO.Path.GetFileName(fullPath);
       char[] reserved = System.IO.Path.GetInvalidFileNameChars();
 
-      if (fileName != null && fileName.Length < 3)
+      if(fileName != null && fileName.Length < 3)
       {
         TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
         return;
       }
 
-      if (fileName != null && fileName.Length > 128)
+      if(fileName != null && fileName.Length > 128)
       {
         TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
         return;
       }
 
-      if (reserved.Any(c => fileName != null && fileName.Contains(c.ToString(CultureInfo.InvariantCulture))))
+      if(reserved.Any(c => fileName != null && fileName.Contains(c.ToString(CultureInfo.InvariantCulture))))
       {
         TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
         return;
@@ -673,7 +714,7 @@ namespace Org.Vs.TailForWin.Controller
 
       Regex regex = new Regex(LogFile.REGEX_SOUNDFILE_EXTENSION);
 
-      if (extension != null && !regex.IsMatch(extension))
+      if(extension != null && !regex.IsMatch(extension))
       {
         TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
         return;
@@ -689,12 +730,19 @@ namespace Org.Vs.TailForWin.Controller
     /// <param name="value">Default value</param>
     private static void AddNewProperties_IntoConfigFile(string key, string value)
     {
-      Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+      try
+      {
+        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-      config.AppSettings.Settings.Add(key, value);
+        config.AppSettings.Settings.Add(key, value);
 
-      config.Save(ConfigurationSaveMode.Modified);
-      ConfigurationManager.RefreshSection("appSettings");
+        config.Save(ConfigurationSaveMode.Modified);
+        ConfigurationManager.RefreshSection("appSettings");
+      }
+      catch(ConfigurationErrorsException ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
     }
 
     #endregion

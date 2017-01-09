@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using log4net;
 using Org.Vs.TailForWin.Data;
 
 
@@ -12,6 +13,8 @@ namespace Org.Vs.TailForWin.Utils
   /// </summary>
   public static class SoundPlay
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(SoundPlay));
+
     [DllImport("winmm.dll")]
     private static extern int mciSendString(string strCommand, StringBuilder strReturn, int iReturnLength, IntPtr hWndCallback);
 
@@ -34,18 +37,24 @@ namespace Org.Vs.TailForWin.Utils
       if (!File.Exists(soundFile))
         return (false);
 
-      Close();
+      try
+      {
+        Close();
 
-      mciMusicFile = soundFile;
-      command = $"open \"{soundFile}\" type mpegvideo alias MediaFile";
-      result = mciSendString(command, null, 0, IntPtr.Zero);
+        mciMusicFile = soundFile;
+        command = $"open \"{soundFile}\" type mpegvideo alias MediaFile";
+        result = mciSendString(command, null, 0, IntPtr.Zero);
 
-      if (result == 0)
-        return (true);
+        if (result == 0)
+          return (true);
 
-      command = $"open \"{soundFile}\" alias MediaFile";
-      result = mciSendString(command, null, 0, IntPtr.Zero);
-
+        command = $"open \"{soundFile}\" alias MediaFile";
+        result = mciSendString(command, null, 0, IntPtr.Zero);
+      }
+      catch(Exception ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
       return (result == 0);
     }
 
@@ -64,13 +73,19 @@ namespace Org.Vs.TailForWin.Utils
       if (loop)
         command += " REPEAT";
 
-      result = mciSendString(command, null, 0, IntPtr.Zero);
+      try
+      {
+        result = mciSendString(command, null, 0, IntPtr.Zero);
 
-      if (result == 0)
-        return (true);
+        if (result == 0)
+          return (true);
 
-      Close();
-
+        Close();
+      }
+      catch(Exception ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
       return (false);
     }
 
@@ -90,13 +105,20 @@ namespace Org.Vs.TailForWin.Utils
     public static bool IsPlaying()
     {
       command = "status MediaFile mode";
-      result = mciSendString(command, ReturnData, 128, IntPtr.Zero);
 
-      if (ReturnData.Length == 7 && string.CompareOrdinal(ReturnData.ToString().Substring(0, 7), "playing") == 0)
-        return (true);
+      try
+      {
+        result = mciSendString(command, ReturnData, 128, IntPtr.Zero);
 
-      InitSoundPlay(mciMusicFile);
+        if (ReturnData.Length == 7 && string.CompareOrdinal(ReturnData.ToString().Substring(0, 7), "playing") == 0)
+          return (true);
 
+        InitSoundPlay(mciMusicFile);
+      }
+      catch(Exception ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
       return (false);
     }
 
@@ -107,16 +129,30 @@ namespace Org.Vs.TailForWin.Utils
     private static bool IsOpen()
     {
       command = "status MediaFile mode";
-      result = mciSendString(command, ReturnData, 128, IntPtr.Zero);
 
+      try
+      {
+        result = mciSendString(command, ReturnData, 128, IntPtr.Zero);
+      }
+      catch(Exception ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
       return (ReturnData.Length == 4 && string.CompareOrdinal(ReturnData.ToString().Substring(0, 4), "open") == 0);
     }
 
     public static bool IsStopped()
     {
       command = "status MediaFile mode";
-      result = mciSendString(command, ReturnData, 128, IntPtr.Zero);
 
+      try
+      {
+        result = mciSendString(command, ReturnData, 128, IntPtr.Zero);
+      }
+      catch(Exception ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
       return (ReturnData.Length == 7 && string.CompareOrdinal(ReturnData.ToString().Substring(0, 7), "stopped") == 0);
     }
   }

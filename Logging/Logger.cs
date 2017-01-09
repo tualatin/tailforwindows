@@ -235,7 +235,8 @@ namespace Org.Vs.TailForWin.Logging
       if(t == null)
         return (msg);
       else
-        return string.Format("{0}\nstack trace:\n{1}", msg, t.StackTrace);
+        // return (string.Format("{0}\nstack trace:\n{1}", msg, t.StackTrace));
+        return ($"\"{msg}\"\nstack trace:\n\"{t.StackTrace}\"");
     }
   }
 }
