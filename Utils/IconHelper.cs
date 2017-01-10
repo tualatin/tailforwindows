@@ -37,8 +37,11 @@ namespace Org.Vs.TailForWin.Utils
     /// Remove NotifyIcon from taskbar
     /// </summary>
     /// <param name="window">Current window</param>
+    /// <exception cref="ArgumentException">If window is null</exception>
     public static void RemoveIcon(Window window)
     {
+      Arg.NotNull("IconHelper", window, "Window");
+
       // Get this window's handle
       IntPtr hwnd = new WindowInteropHelper(window).Handle;
 

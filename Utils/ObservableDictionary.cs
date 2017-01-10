@@ -84,10 +84,15 @@ namespace Org.Vs.TailForWin.Utils
       }
     }
 
+    /// <summary>
+    /// Remove key from Dictionary
+    /// </summary>
+    /// <param name="key">Key to remove</param>
+    /// <returns>If success true otherwise false</returns>
+    /// <exception cref="ArgumentException">If key is null</exception>
     public bool Remove(TKey key)
     {
-      if(key == null)
-        throw new ArgumentNullException("key");
+      Arg.NotNull(this, key, "Key");
 
       TValue value;
       Dictionary.TryGetValue(key, out value);
@@ -206,10 +211,14 @@ namespace Org.Vs.TailForWin.Utils
 
     #endregion
 
+    /// <summary>
+    /// Add items to Dictionary
+    /// </summary>
+    /// <param name="items">Items to add</param>
+    /// <exception cref="ArgumentException">If items is null</exception>
     public void AddRange(IDictionary<TKey, TValue> items)
     {
-      if(items == null)
-        throw new ArgumentNullException("items");
+      Arg.NotNull(this, items, "Items");
 
       if(items.Count <= 0)
         return;
@@ -232,8 +241,7 @@ namespace Org.Vs.TailForWin.Utils
 
     private void Insert(TKey key, TValue value, bool add)
     {
-      if(key == null)
-        throw new ArgumentNullException("key");
+      Arg.NotNull(this, key, "Key");
 
       TValue item;
 

@@ -117,8 +117,11 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     /// <param name="userToken">User token</param>
     /// <param name="bodyMessage">Message to be send</param>
+    /// <exception cref="ArgumentExcpetion">If userToken is null or empty</exception>
     public void SendMail(string userToken, string bodyMessage = null)
     {
+      Arg.NotNull(this, userToken, "UserToken");
+
       try
       {
         string userState = userToken;
@@ -126,7 +129,7 @@ namespace Org.Vs.TailForWin.Utils
         if(bodyMessage != null)
           mailMessage.Body = bodyMessage;
 
-        if(String.Compare(userState, "testMessage", StringComparison.Ordinal) == 0)
+        if(string.Compare(userState, "testMessage", StringComparison.Ordinal) == 0)
           mailMessage.Body = string.Format("Testmail from {0}", LogFile.APPLICATION_CAPTION);
 
         if(!EMailTimer.Enabled)
@@ -137,7 +140,7 @@ namespace Org.Vs.TailForWin.Utils
           return;
         }
 
-        if(String.Compare(userState, "testMessage", StringComparison.Ordinal) == 0)
+        if(string.Compare(userState, "testMessage", StringComparison.Ordinal) == 0)
           return;
 
         emailTimer.Enabled = true;

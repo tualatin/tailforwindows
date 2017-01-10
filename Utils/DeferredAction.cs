@@ -20,10 +20,10 @@ namespace Org.Vs.TailForWin.Utils
     /// <param name="action">
     /// The action that will be deferred.  It is not performed until after <see cref="Defer"/> is called.
     /// </param>
+    /// <exception cref="ArgumentException">If action is null</exception>
     public static DeferredAction Create(Action action)
     {
-      if(action == null)
-        throw new ArgumentNullException("action");
+      Arg.NotNull("DeferredAction", action, "Action");
 
       return (new DeferredAction(action));
     }

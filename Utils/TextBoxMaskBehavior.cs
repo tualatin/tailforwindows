@@ -215,6 +215,8 @@ namespace Org.Vs.TailForWin.Utils
 
     private static void SetCaretPosition(TextBox tb, ref string text, ref int caret)
     {
+      Arg.NotNull("TextBoxMaskBehavior", tb, "TextBox");
+
       try
       {
         double val = Convert.ToDouble(text);
