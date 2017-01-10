@@ -3,25 +3,28 @@ using System.Windows.Data;
 using Org.Vs.TailForWin.Data;
 
 
-namespace Org.Vs.TailForWin.Converter
+namespace Org.Vs.TailForWin.Converters.MultiConverters
 {
+  /// <summary>
+  /// EnableOpenMultiConverter
+  /// </summary>
   class EnableOpenMultiConverter : IMultiValueConverter
   {
     #region IMultiValueConverter Members
 
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (values != null)
+      if(values != null)
       {
         bool isEnable = false;
         bool isOpenFromFileManager = false;
 
-        if (values[0] != null && values[0].GetType() == typeof(FileManagerData))
+        if(values[0] != null && values[0].GetType() == typeof(FileManagerData))
           isEnable = true;
-        if (values[1] != null && values[1].GetType() == typeof(FileManagerData))
+        if(values[1] != null && values[1].GetType() == typeof(FileManagerData))
           isOpenFromFileManager = (values[1] as FileManagerData).OpenFromFileManager;
 
-        if (isOpenFromFileManager)
+        if(isOpenFromFileManager)
           return (false);
         else
           return (isEnable);

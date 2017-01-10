@@ -1,10 +1,9 @@
-﻿using Org.Vs.TailForWin.Data.Enums;
-using Org.Vs.TailForWin.Utils;
-using System;
+﻿using System;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Windows;
+using log4net;
 
 
 namespace Org.Vs.TailForWin.Template.UpdateController
@@ -14,6 +13,8 @@ namespace Org.Vs.TailForWin.Template.UpdateController
   /// </summary>
   public static class UserErrorException
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(UserErrorException));
+
     /// <summary>
     /// Handle user exception
     /// </summary>
@@ -41,50 +42,52 @@ namespace Org.Vs.TailForWin.Template.UpdateController
           {
           case HttpStatusCode.ProxyAuthenticationRequired:
 
-          ShowMessageBox(ex.Message);
-          break;
+            ShowMessageBox(ex.Message);
+            break;
 
           case HttpStatusCode.NotFound:
 
-          ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.ResponseUri));
-          break;
+            ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.ResponseUri));
+            break;
 
           case HttpStatusCode.Forbidden:
 
-          ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
-          break;
+            ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
+            break;
 
           case HttpStatusCode.Conflict:
 
-          ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
-          break;
+            ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
+            break;
 
           case HttpStatusCode.Unauthorized:
 
-          ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
-          break;
+            ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
+            break;
 
           default:
 
-          try
-          {
-            string result;
-            using(StreamReader reader = new StreamReader(response.GetResponseStream(), (string.IsNullOrEmpty(response.ContentEncoding) ? Encoding.UTF8 : Encoding.GetEncoding(response.ContentEncoding))))
+            try
             {
-              result = reader.ReadToEnd();
-            }
+              string result;
+              using(StreamReader reader = new StreamReader(response.GetResponseStream(), (string.IsNullOrEmpty(response.ContentEncoding) ? Encoding.UTF8 : Encoding.GetEncoding(response.ContentEncoding))))
+              {
+                result = reader.ReadToEnd();
+              }
 
-            ShowMessageBox(result);
-          }
-          catch(Exception e)
-          {
-            ErrorLog.WriteLog(ErrorFlags.Error, "UserErrorException", string.Format("{1}, exception: {0}", e, System.Reflection.MethodBase.GetCurrentMethod().Name));
-          }
-          break;
+              ShowMessageBox(result);
+            }
+            catch(Exception e)
+            {
+              LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+            }
+            break;
           }
         }
         else
+        {
           ShowMessageBox(ex.Message);
+        }
 
         return;
       }

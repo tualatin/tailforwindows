@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Windows.Data;
+using Org.Vs.TailForWin.Data;
 
 
-namespace Org.Vs.TailForWin.Converter
+namespace Org.Vs.TailForWin.Converters
 {
-  public class MailAddressConverter : IValueConverter
+  /// <summary>
+  /// SoundFileName converter
+  /// </summary>
+  public class SoundFileNameConverter : IValueConverter
   {
     #region IValueConverter Members
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (value == null)
+      if(value == null)
         return (string.Empty);
 
-      if (!(value is string))
-        return (string.Empty);
+      if(value is string)
+        return (String.Compare(((string) value), LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0 ? (string.Empty) : (value));
 
-      string eMailAddress = value as string;
-
-      return (String.Compare(eMailAddress, "NoMail", StringComparison.Ordinal) == 0 ? (string.Empty) : (eMailAddress));
+      return (string.Empty);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -3,17 +3,20 @@ using System.Windows.Data;
 using System.Drawing;
 
 
-namespace Org.Vs.TailForWin.Converter
+namespace Org.Vs.TailForWin.Converters
 {
+  /// <summary>
+  /// FontToStringConverter
+  /// </summary>
   public class FontToStringConverter : IValueConverter
   {
     #region IValueConverter Members
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (value != null)
+      if(value != null)
       {
-        if (value.GetType() == typeof(Font))
+        if(value.GetType() == typeof(Font))
         {
           Font font = value as Font;
 

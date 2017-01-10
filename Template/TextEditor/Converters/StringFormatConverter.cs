@@ -1,33 +1,25 @@
 ﻿using System;
 using System.Windows.Data;
+using Org.Vs.TailForWin.Template.TextEditor.Data;
 
 
-namespace Org.Vs.TailForWin.Template.TextEditor.Converter
+namespace Org.Vs.TailForWin.Template.TextEditor.Converters
 {
-  public static class StringFormatData
-  {
-    /// <summary>
-    /// Set application wide string format for DateTime
-    /// </summary>
-    public static string StringFormat
-    {
-      get;
-      set;
-    }
-  }
-
+  /// <summary>
+  /// StringFormatConverter
+  /// </summary>
   class StringFormatConverter : IValueConverter
   {
     #region IValueConverter Members
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (value == null)
+      if(value == null)
         return (null);
 
-      if (value.GetType() == typeof(DateTime))
+      if(value.GetType() == typeof(DateTime))
       {
-        DateTime dt = (DateTime)value;
+        DateTime dt = (DateTime) value;
         return (dt.ToString(StringFormatData.StringFormat));
       }
       return (null);

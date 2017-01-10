@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Printing;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using Org.Vs.TailForWin.Data;
-using System.Windows;
 using Org.Vs.TailForWin.Template.TextEditor.Data;
 
 
 namespace Org.Vs.TailForWin.Controller
 {
+  /// <summary>
+  /// PrintHelper
+  /// </summary>
   public class PrintHelper
   {
     public PrintHelper(IEnumerable<LogEntry> items, string fileName, bool timeStamp = false, string format = null)
@@ -20,7 +23,7 @@ namespace Org.Vs.TailForWin.Controller
         PrintTicket = GetPrintTicketFromPrinter()
       };
 
-      if (!printDialog.ShowDialog().GetValueOrDefault())
+      if(!printDialog.ShowDialog().GetValueOrDefault())
         return;
 
       FlowDocument flowDocument = new FlowDocument
@@ -33,7 +36,7 @@ namespace Org.Vs.TailForWin.Controller
         ColumnGap = 0
       };
 
-      foreach (LogEntry item in items)
+      foreach(LogEntry item in items)
       {
         flowDocument.Blocks.Add(!timeStamp
           ? new Paragraph(new Run(string.Format("{0}\t{1}", item.Index, item.Message)))
@@ -42,7 +45,7 @@ namespace Org.Vs.TailForWin.Controller
 
       flowDocument.ColumnWidth = (flowDocument.PageWidth - flowDocument.ColumnGap - flowDocument.PagePadding.Left - flowDocument.PagePadding.Right);
 
-      DocumentPaginator page = ((IDocumentPaginatorSource)flowDocument).DocumentPaginator;
+      DocumentPaginator page = ((IDocumentPaginatorSource) flowDocument).DocumentPaginator;
       printDialog.PrintDocument(page, string.Format("{0} printing file {1}", LogFile.APPLICATION_CAPTION, fileName));
     }
 
@@ -58,10 +61,10 @@ namespace Org.Vs.TailForWin.Controller
       PrintQueueCollection localPrinterCollection = localPrintServer.GetPrintQueues();
       System.Collections.IEnumerator localPrinterEnumerator = localPrinterCollection.GetEnumerator();
 
-      if (localPrinterEnumerator.MoveNext())
+      if(localPrinterEnumerator.MoveNext())
       {
         // Get PrintQueue from first available printer
-        printQueue = (PrintQueue)localPrinterEnumerator.Current;
+        printQueue = (PrintQueue) localPrinterEnumerator.Current;
       }
       else
       {
@@ -74,13 +77,13 @@ namespace Org.Vs.TailForWin.Controller
       PrintCapabilities printCapabilites = printQueue.GetPrintCapabilities();
 
       // Modify PrintTicket
-      if (printCapabilites.CollationCapability.Contains(Collation.Collated))
+      if(printCapabilites.CollationCapability.Contains(Collation.Collated))
         printTicket.Collation = Collation.Collated;
 
-      if (printCapabilites.DuplexingCapability.Contains(Duplexing.TwoSidedLongEdge))
+      if(printCapabilites.DuplexingCapability.Contains(Duplexing.TwoSidedLongEdge))
         printTicket.Duplexing = Duplexing.TwoSidedLongEdge;
 
-      if (printCapabilites.StaplingCapability.Contains(Stapling.StapleDualLeft))
+      if(printCapabilites.StaplingCapability.Contains(Stapling.StapleDualLeft))
         printTicket.Stapling = Stapling.StapleDualLeft;
 
       return (printTicket);

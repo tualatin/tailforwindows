@@ -5,8 +5,11 @@ using System.Collections.ObjectModel;
 using Org.Vs.TailForWin.Data;
 
 
-namespace Org.Vs.TailForWin.Converter
+namespace Org.Vs.TailForWin.Converters
 {
+  /// <summary>
+  /// FilterCountToStringConverter
+  /// </summary>
   public class FilterCountToStringConverter : IValueConverter
   {
     #region IValueConverter Members
@@ -15,8 +18,8 @@ namespace Org.Vs.TailForWin.Converter
     {
       string title = Application.Current.FindResource("FiltersLoaded").ToString();
 
-      if (value != null)
-        return (string.Format(title, ((ObservableCollection<FilterData>)value).Count));
+      if(value != null)
+        return (string.Format(title, ((ObservableCollection<FilterData>) value).Count));
       return (string.Format(title, 0));
     }
 

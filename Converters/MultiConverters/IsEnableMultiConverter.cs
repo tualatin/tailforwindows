@@ -2,20 +2,23 @@
 using System.Windows.Data;
 
 
-namespace Org.Vs.TailForWin.Converter
+namespace Org.Vs.TailForWin.Converters.MultiConverters
 {
+  /// <summary>
+  /// IsEnableMultiConverter
+  /// </summary>
   public class IsEnableMultiConverter : IMultiValueConverter
   {
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (values != null)
+      if(values != null)
       {
-        bool radio = (bool)values[0];
-        int url = (int)values[1];
+        bool radio = (bool) values[0];
+        int url = (int) values[1];
 
-        if (!radio)
+        if(!radio)
           return (true);
-        else if (radio && url > 0)
+        else if(radio && url > 0)
           return (true);
         else
           return (false);

@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using log4net;
 using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Data.Events;
-using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Template
@@ -19,6 +19,8 @@ namespace Org.Vs.TailForWin.Template
   /// </summary>
   public sealed partial class FileManager
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(FileManager));
+
     /// <summary>
     /// FileManager DoUpdate event handler
     /// </summary>
@@ -377,12 +379,12 @@ namespace Org.Vs.TailForWin.Template
         if (text == null)
           return;
 
-        string fileName = $"{((string[])text)[0]}";
+        const string fileName = "{((string[])text)[0]}";
         AddNewFile(fileName);
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod().Name));
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
@@ -581,7 +583,7 @@ namespace Org.Vs.TailForWin.Template
         }
         catch (Exception ex)
         {
-          ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, $"{System.Reflection.MethodBase.GetCurrentMethod().Name}, exception: {ex}");
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
       }
       else

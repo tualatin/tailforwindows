@@ -3,29 +3,30 @@ using System.Windows.Data;
 using Org.Vs.TailForWin.Data;
 
 
-namespace Org.Vs.TailForWin.Converter
+namespace Org.Vs.TailForWin.Converters
 {
   /// <summary>
-  /// SoundFileName converter
+  /// FilterDataToBoolConverter
   /// </summary>
-  public class SoundFileNameConverter : IValueConverter
+  public class FilterDataToBoolConverter : IValueConverter
   {
     #region IValueConverter Members
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (value == null)
-        return (string.Empty);
-
-      if (value is string)
-        return (String.Compare(((string)value), LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0 ? (string.Empty) : (value));
-
-      return (string.Empty);
+      if(value != null)
+      {
+        if(value.GetType() == typeof(FilterData))
+          return (true);
+        else
+          return (false);
+      }
+      return (false);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      return (value);
+      throw new NotImplementedException();
     }
 
     #endregion

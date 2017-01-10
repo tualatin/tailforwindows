@@ -39,20 +39,20 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
         InitWebRequest(proxySettings.UseProxySystemSettings);
 
-        using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+        using(HttpWebResponse response = request.GetResponse() as HttpWebResponse)
         {
-          using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+          using(StreamReader sr = new StreamReader(response.GetResponseStream()))
           {
             html = sr.ReadToEnd();
           }
         }
 
-        if (!string.IsNullOrWhiteSpace(html))
+        if(!string.IsNullOrWhiteSpace(html))
           return (true);
 
         return (false);
       }
-      catch (Exception ex)
+      catch(Exception ex)
       {
         UserErrorException.HandleUserException(ex);
       }
@@ -70,27 +70,27 @@ namespace Org.Vs.TailForWin.Template.UpdateController
       // 3 minutes
       request.Timeout = 180000;
 
-      if (proxySettings.UseProxy)
+      if(proxySettings.UseProxy)
       {
-        if (!useSystemProxySettings)
+        if(!useSystemProxySettings)
           request.Proxy = new WebProxy(string.Format("{0}:{1}", proxySettings.ProxyAddress, proxySettings.ProxyPort), true);
 
-        if (proxySettings.ProxyCredential != null)
+        if(proxySettings.ProxyCredential != null)
         {
-          if (!string.IsNullOrEmpty(proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty(proxySettings.ProxyCredential.Password))
+          if(!string.IsNullOrEmpty(proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty(proxySettings.ProxyCredential.Password))
           {
             request.Proxy.Credentials = proxySettings.ProxyCredential;
           }
         }
       }
-      if (!useSystemProxySettings)
+      if(!useSystemProxySettings)
         return;
 
       WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy();
 
-      if (proxySettings.ProxyCredential != null)
+      if(proxySettings.ProxyCredential != null)
       {
-        if (!string.IsNullOrEmpty(proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty(proxySettings.ProxyCredential.Password))
+        if(!string.IsNullOrEmpty(proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty(proxySettings.ProxyCredential.Password))
           WebRequest.DefaultWebProxy.Credentials = proxySettings.ProxyCredential;
       }
     }

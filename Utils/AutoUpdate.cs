@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Timers;
+using log4net;
 using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
-using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Template.UpdateController;
 
 
 namespace Org.Vs.TailForWin.Utils
 {
+  /// <summary>
+  /// AutoUpdate
+  /// </summary>
   public static class AutoUpdate
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(AutoUpdate));
+
     private static Timer timer;
     private static Updateservice updater;
 
@@ -42,7 +47,7 @@ namespace Org.Vs.TailForWin.Utils
           UpdateURL = SettingsData.ApplicationWebUrl
         };
 
-        if (!string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password))
+        if(!string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password))
           updater.ProxyAuthentification = new System.Net.NetworkCredential(SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
 
         updater.InitWebService();
@@ -50,9 +55,9 @@ namespace Org.Vs.TailForWin.Utils
 
         updater.StartUpdate();
       }
-      catch (Exception ex)
+      catch(Exception ex)
       {
-        ErrorLog.WriteLog(ErrorFlags.Error, "AutoUpdate", string.Format("{1} exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod().Name));
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
@@ -60,33 +65,33 @@ namespace Org.Vs.TailForWin.Utils
     {
       try
       {
-        if (updater.HaveToUpdate)
+        if(updater.HaveToUpdate)
         {
           System.Threading.Thread STAThread = new System.Threading.Thread(() =>
-         {
-           ResultDialog rd = new ResultDialog(LogFile.APPLICATION_CAPTION, updater.HaveToUpdate, updater.UpdateURL);
-
-           rd.Dispatcher.Invoke(new Action(() =>
           {
-             rd.WebVersion = updater.WebVersion;
-             rd.ApplicationVersion = updater.AppVersion;
-             rd.Topmost = true;
-             rd.ShowInTaskbar = true;
+            ResultDialog rd = new ResultDialog(LogFile.APPLICATION_CAPTION, updater.HaveToUpdate, updater.UpdateURL);
 
-             System.Windows.Window temp = new System.Windows.Window
-             {
-               Visibility = System.Windows.Visibility.Hidden,
-               WindowState = System.Windows.WindowState.Minimized,
-               ShowInTaskbar = false
-             };
+            rd.Dispatcher.Invoke(new Action(() =>
+            {
+              rd.WebVersion = updater.WebVersion;
+              rd.ApplicationVersion = updater.AppVersion;
+              rd.Topmost = true;
+              rd.ShowInTaskbar = true;
 
-             temp.Show();
-             rd.Owner = temp;
+              System.Windows.Window temp = new System.Windows.Window
+              {
+                Visibility = System.Windows.Visibility.Hidden,
+                WindowState = System.Windows.WindowState.Minimized,
+                ShowInTaskbar = false
+              };
 
-             rd.ShowDialog();
+              temp.Show();
+              rd.Owner = temp;
 
-           }), System.Windows.Threading.DispatcherPriority.Normal);
-         })
+              rd.ShowDialog();
+
+            }), System.Windows.Threading.DispatcherPriority.Normal);
+          })
           {
             Name = string.Format("{0}_AutoUpdateThread", LogFile.APPLICATION_CAPTION),
             IsBackground = true
@@ -97,11 +102,11 @@ namespace Org.Vs.TailForWin.Utils
           STAThread.Join();
         }
 
-        ErrorLog.WriteLog(ErrorFlags.Info, "AutoUpdate", string.Format("local version: {0}, web version: {1}", updater.AppVersion, updater.WebVersion));
+        LOG.Info("AutoUpdate local version '{0}' - web version '{1}", updater.AppVersion, updater.WebVersion);
       }
-      catch (Exception ex)
+      catch(Exception ex)
       {
-        ErrorLog.WriteLog(ErrorFlags.Error, "AutoUpdate", string.Format("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod().Name));
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
   }

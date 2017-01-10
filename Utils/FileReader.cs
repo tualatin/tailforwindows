@@ -1,27 +1,35 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using Org.Vs.TailForWin.Data.Enums;
+using log4net;
 
 
 namespace Org.Vs.TailForWin.Utils
 {
+  /// <summary>
+  /// FileReader
+  /// </summary>
   public class FileReader : IDisposable
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(FileReader));
+
     private FileStream fs;
     private StreamReader reader;
     private Encoding fileEncoding;
 
 
+    /// <summary>
+    /// Releases all resources used by the FileReader.
+    /// </summary>
     public void Dispose()
     {
-      if (fs != null)
+      if(fs != null)
       {
         fs.Dispose();
         fs = null;
       }
 
-      if (reader == null)
+      if(reader == null)
         return;
 
       reader.Dispose();
@@ -35,14 +43,14 @@ namespace Org.Vs.TailForWin.Utils
     /// <param name="encode">By default encode is null but you can set your own encoding</param>
     public bool OpenTailFileStream(string fileName, Encoding encode = null)
     {
-      if (!File.Exists(fileName))
+      if(!File.Exists(fileName))
         return (false);
 
       try
       {
         fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
-        if (encode != null)
+        if(encode != null)
           fileEncoding = encode;
         else
           DetectEncoding();
@@ -51,9 +59,9 @@ namespace Org.Vs.TailForWin.Utils
 
         return (true);
       }
-      catch (Exception ex)
+      catch(Exception ex)
       {
-        ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex));
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         Dispose();
       }
       return (false);
@@ -69,14 +77,14 @@ namespace Org.Vs.TailForWin.Utils
       reader.BaseStream.Seek(0, SeekOrigin.End);
       LinesRead = 0;
 
-      while ((LinesRead < nLines) && (reader.BaseStream.Position > 0))
+      while((LinesRead < nLines) && (reader.BaseStream.Position > 0))
       {
         reader.BaseStream.Position--;
         int c = reader.BaseStream.ReadByte();
 
-        if (reader.BaseStream.Position > 0)
+        if(reader.BaseStream.Position > 0)
           reader.BaseStream.Position--;
-        if (c == Convert.ToInt32('\n'))
+        if(c == Convert.ToInt32('\n'))
           LinesRead++;
       }
     }
@@ -88,7 +96,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>If exist true otherwise false</returns>
     public static bool FileExists(string fileName)
     {
-      if (File.Exists(fileName))
+      if(File.Exists(fileName))
         return (true);
       else
         return (false);
@@ -107,7 +115,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       fileEncoding = EncodingDetector.GetEncoding(fs);
 
-      if (fileEncoding == null)
+      if(fileEncoding == null)
         fileEncoding = Encoding.Default;
     }
 
@@ -160,14 +168,14 @@ namespace Org.Vs.TailForWin.Utils
         try
         {
 
-          if (reader != null)
+          if(reader != null)
             return (reader.BaseStream.Length / 1024.00);
           else
             return (Double.NaN);
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
-          ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex));
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
           return (Double.NaN);
         }
       }

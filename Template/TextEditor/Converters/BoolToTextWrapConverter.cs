@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Windows.Data;
+using System.Windows;
 
 
-namespace Org.Vs.TailForWin.Converter
+namespace Org.Vs.TailForWin.Template.TextEditor.Converters
 {
-  public class SmtpPortConverter : IValueConverter
+  /// <summary>
+  /// BoolToTextWrapConverter
+  /// </summary>
+  public class BoolToTextWrapConverter : IValueConverter
   {
     #region IValueConverter Members
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (value == null)
-        return (null);
-
-      if (value.GetType() == typeof(int))
+      if(value.GetType() == typeof(bool))
       {
-        int port = (int)value;
+        bool wrap = (bool) value;
 
-        if (port > 0)
-          return (port);
+        if(wrap)
+          return (TextWrapping.Wrap);
         else
-          return (25);
+          return (TextWrapping.NoWrap);
       }
-      return (null);
+      return (TextWrapping.NoWrap);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

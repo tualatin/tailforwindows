@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.Data;
-using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Data.Events;
 using Org.Vs.TailForWin.Template.TextEditor.Converter;
 using Org.Vs.TailForWin.Template.TextEditor.Data;
 using Org.Vs.TailForWin.Template.TextEditor.Utils;
@@ -795,7 +795,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
         }
         catch(Exception ex)
         {
-          Org.Vs.TailForWin.Utils.ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex));
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
       }
 

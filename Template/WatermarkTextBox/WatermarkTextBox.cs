@@ -5,6 +5,9 @@ using System.Windows.Input;
 
 namespace Org.Vs.TailForWin.Template.WatermarkTextBox
 {
+  /// <summary>
+  /// WatermakTextBox
+  /// </summary>
   public class WatermarkTextBox : TextBox
   {
     static WatermarkTextBox()
@@ -20,7 +23,7 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
     {
       get
       {
-        return ((bool)GetValue(SelectAllOnGotFocusProperty));
+        return ((bool) GetValue(SelectAllOnGotFocusProperty));
       }
       set
       {
@@ -48,7 +51,7 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
     {
       get
       {
-        return ((DataTemplate)GetValue(WatermarkTemplateProperty));
+        return ((DataTemplate) GetValue(WatermarkTemplateProperty));
       }
       set
       {
@@ -62,13 +65,13 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
     {
       base.OnGotKeyboardFocus(e);
 
-      if (SelectAllOnGotFocus)
+      if(SelectAllOnGotFocus)
         SelectAll();
     }
 
     protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
     {
-      if (!IsKeyboardFocused && SelectAllOnGotFocus)
+      if(!IsKeyboardFocused && SelectAllOnGotFocus)
       {
         e.Handled = true;
         Focus();

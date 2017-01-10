@@ -3,8 +3,11 @@ using System.Windows.Data;
 using System.Windows.Controls;
 
 
-namespace Org.Vs.TailForWin.Converter
+namespace Org.Vs.TailForWin.Converters.MultiConverters
 {
+  /// <summary>
+  /// TabSizeMultiConverter
+  /// </summary>
   class TabSizeMultiConverter : IMultiValueConverter
   {
     #region IMultiValueConverter Members

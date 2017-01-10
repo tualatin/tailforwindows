@@ -1,31 +1,34 @@
 ﻿using System;
 using System.Windows.Data;
-using Org.Vs.TailForWin.Data;
 
 
-namespace Org.Vs.TailForWin.Converter
+namespace Org.Vs.TailForWin.Converters
 {
-  public class FilterDataToBoolConverter : IValueConverter
+  /// <summary>
+  /// StringToIntConverter
+  /// </summary>
+  public class StringToIntConverter : IValueConverter
   {
-    #region IValueConverter Members
-
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (value != null)
+      if(value != null)
       {
-        if (value.GetType() == typeof(FilterData))
-          return (true);
-        else
-          return (false);
+        if(value.GetType() == typeof(int))
+        {
+          int port = (int) value;
+
+          if(port < 0)
+            port = 0;
+
+          return (port);
+        }
       }
-      return (false);
+      return (null);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       throw new NotImplementedException();
     }
-
-    #endregion
   }
 }

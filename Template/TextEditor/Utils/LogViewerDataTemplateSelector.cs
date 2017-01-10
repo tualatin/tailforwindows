@@ -4,6 +4,9 @@ using System.Windows.Controls;
 
 namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 {
+  /// <summary>
+  /// LogViewDataTemplateSelector
+  /// </summary>
   public class LogViewerDataTemplateSelector : DataTemplateSelector
   {
     /// <summary>
@@ -50,23 +53,23 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     /// <returns>DataTemplate</returns>
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
-      switch (TemplateData.State)
+      switch(TemplateData.State)
       {
       case TemplateData.TemplateStates.ShowDateTime:
 
-      return (DateTimeTemplate);
+        return (DateTimeTemplate);
 
       case TemplateData.TemplateStates.ShowDateTimeLineNumber:
 
-      return (DateTimeLineNumbersTemplate);
+        return (DateTimeLineNumbersTemplate);
 
       case TemplateData.TemplateStates.ShowLineNumber:
 
-      return (LineNumberTemplate);
+        return (LineNumberTemplate);
 
       default:
 
-      return (DefaultTemplate);
+        return (DefaultTemplate);
       }
     }
   }

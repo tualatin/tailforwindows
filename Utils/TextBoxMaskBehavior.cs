@@ -3,13 +3,19 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using log4net;
 using Org.Vs.TailForWin.Data.Enums;
 
 
 namespace Org.Vs.TailForWin.Utils
 {
+  /// <summary>
+  /// TextBoxMaskBehavior
+  /// </summary>
   public class TextBoxMaskBehavior
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(TextBoxMaskBehavior));
+
     #region Control Properties
 
     public static readonly DependencyProperty MinimumValueProperty = DependencyProperty.RegisterAttached("MinimumValue", typeof(double), typeof(TextBoxMaskBehavior),
@@ -259,31 +265,31 @@ namespace Org.Vs.TailForWin.Utils
       {
       case EMaskType.Integer:
 
-      try
-      {
-        Convert.ToInt64(value);
+        try
+        {
+          Convert.ToInt64(value);
 
-        return (value);
-      }
-      catch
-      {
-        // ignored
-      }
-      return (string.Empty);
+          return (value);
+        }
+        catch
+        {
+          LOG.Error("{0} can not convert value '{1}' to integer", System.Reflection.MethodBase.GetCurrentMethod().Name, value);
+        }
+        return (string.Empty);
 
       case EMaskType.Decimal:
 
-      try
-      {
-        Convert.ToDouble(value);
+        try
+        {
+          Convert.ToDouble(value);
 
-        return (value);
-      }
-      catch
-      {
-        // ignored
-      }
-      return (string.Empty);
+          return (value);
+        }
+        catch
+        {
+          LOG.Error("{0} can not convert value '{1}' to decimal", System.Reflection.MethodBase.GetCurrentMethod().Name, value);
+        }
+        return (string.Empty);
       }
       return (value);
     }

@@ -2,25 +2,19 @@
 using System.Windows.Data;
 
 
-namespace Org.Vs.TailForWin.Converter
+namespace Org.Vs.TailForWin.Converters
 {
-  public class StringToIntConverter : IValueConverter
+  /// <summary>
+  /// InverseBooleanConverter
+  /// </summary>
+  public class InverseBooleanConverter : IValueConverter
   {
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (value != null)
-      {
-        if (value.GetType() == typeof(int))
-        {
-          int port = (int)value;
+      if(targetType != typeof(bool))
+        throw new InvalidOperationException("The target must be a boolean");
 
-          if (port < 0)
-            port = 0;
-
-          return (port);
-        }
-      }
-      return (null);
+      return (!(bool) value);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

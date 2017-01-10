@@ -43,8 +43,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void OnUpdateEvent()
     {
-      if (UpdateEvent != null)
-        UpdateEvent(this, EventArgs.Empty);
+      UpdateEvent?.Invoke(this, EventArgs.Empty);
     }
 
     private void OnExit(object sender, EventArgs e)

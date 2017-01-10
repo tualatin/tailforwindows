@@ -3,19 +3,22 @@ using System.Windows.Data;
 using System.Windows.Controls;
 
 
-namespace Org.Vs.TailForWin.Template.TextEditor.Converter
+namespace Org.Vs.TailForWin.Template.TextEditor.Converters
 {
+  /// <summary>
+  /// BoolToScrollbarVisibilityConverter
+  /// </summary>
   class BoolToScrollbarVisibilityConverter : IValueConverter
   {
     #region IValueConverter Members
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (value.GetType() == typeof(bool))
+      if(value.GetType() == typeof(bool))
       {
-        bool wrap = (bool)value;
+        bool wrap = (bool) value;
 
-        if (wrap)
+        if(wrap)
           return (ScrollBarVisibility.Disabled);
         else
           return (ScrollBarVisibility.Auto);

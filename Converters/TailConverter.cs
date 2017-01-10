@@ -2,7 +2,7 @@
 using Org.Vs.TailForWin.Data;
 
 
-namespace Org.Vs.TailForWin.Converter
+namespace Org.Vs.TailForWin.Converters
 {
   /// <summary>
   /// DataGrid selectedItem converter to bool
@@ -21,9 +21,9 @@ namespace Org.Vs.TailForWin.Converter
     /// <returns>True or False</returns>
     public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (value != null)
+      if(value != null)
       {
-        if (value.GetType() == typeof(FileManagerData))
+        if(value.GetType() == typeof(FileManagerData))
           return (true);
         return (false);
       }

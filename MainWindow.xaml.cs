@@ -663,8 +663,6 @@ namespace Org.Vs.TailForWin
       currentPage = null;
 
       searchBoxWindow.Close();
-
-      ErrorLog.StopLog();
       Application.Current.Shutdown();
     }
 

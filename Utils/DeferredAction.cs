@@ -22,7 +22,7 @@ namespace Org.Vs.TailForWin.Utils
     /// </param>
     public static DeferredAction Create(Action action)
     {
-      if (action == null)
+      if(action == null)
         throw new ArgumentNullException("action");
 
       return (new DeferredAction(action));
@@ -50,9 +50,12 @@ namespace Org.Vs.TailForWin.Utils
 
     #region IDisposable Members
 
+    /// <summary>
+    /// Releases all resources used by the DeferredAction.
+    /// </summary>
     public void Dispose()
     {
-      if (timer == null)
+      if(timer == null)
         return;
 
       timer.Dispose();

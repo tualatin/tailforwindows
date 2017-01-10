@@ -2,10 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Options" Height="450" Width="420" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize" Icon="/TailForWin;component/Res/system.ico"
-        xmlns:tabData="clr-namespace:Org.Vs.TailForWin.Template.TabOptions" AllowDrop="True" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converter">
+        xmlns:tabData="clr-namespace:Org.Vs.TailForWin.Template.TabOptions" AllowDrop="True" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters.MultiConverters">
   <Window.Resources>
-    <conv:TabSizeMultiConverter x:Key="TabSize" />
-    
+    <conv:TabSizeMultiConverter x:Key="TabSize" />    
     <!--<Style TargetType="{x:Type TabItem}">
       <Setter Property="Width">
         <Setter.Value>

@@ -33,6 +33,10 @@ namespace Org.Vs.TailForWin.Utils
     const int SWP_FRAMECHANGED = 0x0020;
     const uint WM_SETICON = 0x0080;
 
+    /// <summary>
+    /// Remove NotifyIcon from taskbar
+    /// </summary>
+    /// <param name="window">Current window</param>
     public static void RemoveIcon(Window window)
     {
       // Get this window's handle

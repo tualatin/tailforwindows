@@ -1,26 +1,31 @@
 ﻿using System;
 using System.Windows.Data;
-using System.Windows;
 
 
-namespace Org.Vs.TailForWin.Template.TextEditor.Converter
+namespace Org.Vs.TailForWin.Converters
 {
-  public class BoolToTextWrapConverter : IValueConverter
+  /// <summary>
+  /// SmtpPortConverter
+  /// </summary>
+  public class SmtpPortConverter : IValueConverter
   {
     #region IValueConverter Members
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (value.GetType() == typeof(bool))
-      {
-        bool wrap = (bool)value;
+      if(value == null)
+        return (null);
 
-        if (wrap)
-          return (TextWrapping.Wrap);
+      if(value.GetType() == typeof(int))
+      {
+        int port = (int) value;
+
+        if(port > 0)
+          return (port);
         else
-          return (TextWrapping.NoWrap);
+          return (25);
       }
-      return (TextWrapping.NoWrap);
+      return (null);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

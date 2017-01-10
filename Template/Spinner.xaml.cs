@@ -21,29 +21,41 @@ namespace Org.Vs.TailForWin.Template
     private bool leftmouseButtonDown;
 
 
+    /// <summary>
+    /// Releases all resources used by the Spinner.
+    /// </summary>
     public void Dispose()
     {
-      if (counterIncrementDown != null)
+      if(counterIncrementDown != null)
       {
         counterIncrementDown.Dispose();
         counterIncrementDown = null;
       }
 
-      if (counterIncrementUp == null)
+      if(counterIncrementUp == null)
         return;
 
       counterIncrementUp.Dispose();
       counterIncrementUp = null;
     }
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public Spinner()
     {
       InitializeComponent();
 
-      counterIncrementUp = new BackgroundWorker { WorkerSupportsCancellation = true };
+      counterIncrementUp = new BackgroundWorker
+      {
+        WorkerSupportsCancellation = true
+      };
       counterIncrementUp.DoWork += IncrementUp_DoWork;
 
-      counterIncrementDown = new BackgroundWorker { WorkerSupportsCancellation = true };
+      counterIncrementDown = new BackgroundWorker
+      {
+        WorkerSupportsCancellation = true
+      };
       counterIncrementDown.DoWork += IncrementDown_DoWork;
 
       textBoxSpinValue.DataContext = this;
@@ -53,7 +65,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnUp_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      if (counterIncrementUp.IsBusy)
+      if(counterIncrementUp.IsBusy)
         return;
 
       leftmouseButtonDown = true;
@@ -63,7 +75,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnUp_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-      if (!counterIncrementUp.IsBusy)
+      if(!counterIncrementUp.IsBusy)
         return;
 
       leftmouseButtonDown = false;
@@ -73,31 +85,31 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnUp_PreviewMouseMove(object sender, MouseEventArgs e)
     {
-      if (!leftmouseButtonDown)
+      if(!leftmouseButtonDown)
         return;
-      if (sender.GetType() != typeof(Button))
+      if(sender.GetType() != typeof(Button))
         return;
 
       Button btnIncrement = sender as Button;
 
-      if (!btnIncrement.IsMouseCaptured)
+      if(!btnIncrement.IsMouseCaptured)
         return;
 
       Point mousePoint = PointToScreen(Mouse.GetPosition(this));
       Point relativePoint = btnIncrement.PointToScreen(new Point(0, 0));
       Size sizeBtn = new Size(btnIncrement.ActualWidth, btnIncrement.ActualHeight);
-      System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int)relativePoint.X, (int)relativePoint.Y, (int)sizeBtn.Width, (int)sizeBtn.Height);
+      System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) sizeBtn.Width, (int) sizeBtn.Height);
 
-      if (!rc.Contains((int)mousePoint.X, (int)mousePoint.Y))
+      if(!rc.Contains((int) mousePoint.X, (int) mousePoint.Y))
       {
-        if (!counterIncrementUp.IsBusy)
+        if(!counterIncrementUp.IsBusy)
           return;
 
         counterIncrementUp.CancelAsync();
         return;
       }
 
-      if (counterIncrementUp.IsBusy)
+      if(counterIncrementUp.IsBusy)
         return;
 
       counterIncrementUp.RunWorkerAsync();
@@ -105,7 +117,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnDown_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      if (counterIncrementDown.IsBusy)
+      if(counterIncrementDown.IsBusy)
         return;
 
       leftmouseButtonDown = true;
@@ -115,7 +127,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnDown_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-      if (!counterIncrementDown.IsBusy)
+      if(!counterIncrementDown.IsBusy)
         return;
 
       leftmouseButtonDown = false;
@@ -125,31 +137,31 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnDown_PreviewMouseMove(object sender, MouseEventArgs e)
     {
-      if (!leftmouseButtonDown)
+      if(!leftmouseButtonDown)
         return;
-      if (sender.GetType() != typeof(Button))
+      if(sender.GetType() != typeof(Button))
         return;
 
       Button btnDecrement = sender as Button;
 
-      if (!btnDecrement.IsMouseCaptured)
+      if(!btnDecrement.IsMouseCaptured)
         return;
 
       Point mousePoint = PointToScreen(Mouse.GetPosition(this));
       Point relativePoint = btnDecrement.PointToScreen(new Point(0, 0));
       Size sizeBtn = new Size(btnDecrement.ActualWidth, btnDecrement.ActualHeight);
-      System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int)relativePoint.X, (int)relativePoint.Y, (int)sizeBtn.Width, (int)sizeBtn.Height);
+      System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) sizeBtn.Width, (int) sizeBtn.Height);
 
-      if (!rc.Contains((int)mousePoint.X, (int)mousePoint.Y))
+      if(!rc.Contains((int) mousePoint.X, (int) mousePoint.Y))
       {
-        if (!counterIncrementDown.IsBusy)
+        if(!counterIncrementDown.IsBusy)
           return;
 
         counterIncrementDown.CancelAsync();
         return;
       }
 
-      if (counterIncrementDown.IsBusy)
+      if(counterIncrementDown.IsBusy)
         return;
 
       counterIncrementDown.RunWorkerAsync();
@@ -172,7 +184,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((int)GetValue(MaxValueProperty));
+        return ((int) GetValue(MaxValueProperty));
       }
       set
       {
@@ -188,7 +200,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((int)GetValue(MinValueProperty));
+        return ((int) GetValue(MinValueProperty));
       }
       set
       {
@@ -204,7 +216,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((int)GetValue(IncrementProperty));
+        return ((int) GetValue(IncrementProperty));
       }
       set
       {
@@ -220,13 +232,13 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((int)GetValue(StartIndexProperty));
+        return ((int) GetValue(StartIndexProperty));
       }
       set
       {
-        if (value > MaxSpinValue)
+        if(value > MaxSpinValue)
           value = MaxSpinValue;
-        if (value < MinSpinValue)
+        if(value < MinSpinValue)
           value = MinSpinValue;
 
         SetValue(StartIndexProperty, value);
@@ -244,7 +256,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((EMaskType)GetValue(TextBoxMaskProperty));
+        return ((EMaskType) GetValue(TextBoxMaskProperty));
       }
       set
       {
@@ -253,7 +265,7 @@ namespace Org.Vs.TailForWin.Template
     }
 
     public static readonly DependencyProperty TextBoxMinValueProperty = DependencyProperty.Register("TextBoxMinValue", typeof(double), typeof(Spinner),
-      new PropertyMetadata((double)0));
+      new PropertyMetadata((double) 0));
 
     /// <summary>
     /// TextBoxMinValue
@@ -263,7 +275,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((double)GetValue(TextBoxMinValueProperty));
+        return ((double) GetValue(TextBoxMinValueProperty));
       }
       set
       {
@@ -272,7 +284,7 @@ namespace Org.Vs.TailForWin.Template
     }
 
     public static readonly DependencyProperty TextBoxMaxValueProperty = DependencyProperty.Register("TextBoxMaxValue", typeof(double), typeof(Spinner),
-      new PropertyMetadata((double)10));
+      new PropertyMetadata((double) 10));
 
     /// <summary>
     /// TextBoxMaxValue
@@ -282,7 +294,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((double)GetValue(TextBoxMaxValueProperty));
+        return ((double) GetValue(TextBoxMaxValueProperty));
       }
       set
       {
@@ -296,11 +308,11 @@ namespace Org.Vs.TailForWin.Template
 
     private void IncrementUp_DoWork(object sender, DoWorkEventArgs e)
     {
-      while (counterIncrementUp != null && !counterIncrementUp.CancellationPending)
+      while(counterIncrementUp != null && !counterIncrementUp.CancellationPending)
       {
         this.Dispatcher.Invoke(new Action(() =>
       {
-        if (StartIndex <= MaxSpinValue)
+        if(StartIndex <= MaxSpinValue)
           StartIndex = StartIndex + Increment;
 
         textBoxSpinValue.Text = StartIndex.ToString(CultureInfo.InvariantCulture);
@@ -312,11 +324,11 @@ namespace Org.Vs.TailForWin.Template
 
     private void IncrementDown_DoWork(object sender, DoWorkEventArgs e)
     {
-      while (counterIncrementDown != null && !counterIncrementDown.CancellationPending)
+      while(counterIncrementDown != null && !counterIncrementDown.CancellationPending)
       {
         this.Dispatcher.Invoke(new Action(() =>
       {
-        if (StartIndex > MinSpinValue)
+        if(StartIndex > MinSpinValue)
           StartIndex = StartIndex - Increment;
 
         textBoxSpinValue.Text = StartIndex.ToString(CultureInfo.InvariantCulture);
@@ -332,12 +344,12 @@ namespace Org.Vs.TailForWin.Template
     {
       int i;
 
-      if (!int.TryParse(textBoxSpinValue.Text, out i))
+      if(!int.TryParse(textBoxSpinValue.Text, out i))
         i = MinSpinValue;
 
-      if (i < MinSpinValue)
+      if(i < MinSpinValue)
         i = MinSpinValue;
-      if (i > MaxSpinValue)
+      if(i > MaxSpinValue)
         i = MaxSpinValue;
 
       StartIndex = i;
@@ -350,9 +362,9 @@ namespace Org.Vs.TailForWin.Template
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-      if (StartIndex > MaxSpinValue)
+      if(StartIndex > MaxSpinValue)
         StartIndex = MaxSpinValue;
-      if (StartIndex < MinSpinValue)
+      if(StartIndex < MinSpinValue)
         StartIndex = MinSpinValue;
 
       textBoxSpinValue.Text = StartIndex.ToString(CultureInfo.InvariantCulture);

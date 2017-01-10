@@ -130,19 +130,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converter\ColorToBrushConverter.cs" />
-    <Compile Include="Converter\EnableOpenMultiConverter.cs" />
-    <Compile Include="Converter\FilterCountToStringConverter.cs" />
-    <Compile Include="Converter\FilterDataToBoolConverter.cs" />
-    <Compile Include="Converter\FontToStringConverter.cs" />
-    <Compile Include="Converter\IntToBoolConverter.cs" />
-    <Compile Include="Converter\InverseBooleanConverter.cs" />
-    <Compile Include="Converter\IsEnableMultiConverter.cs" />
-    <Compile Include="Converter\MailAddressConverter.cs" />
-    <Compile Include="Converter\SmtpPortConverter.cs" />
-    <Compile Include="Converter\SoundFileNameConverter.cs" />
-    <Compile Include="Converter\StringToIntConverter.cs" />
-    <Compile Include="Converter\TabSizeMultiConverter.cs" />
+    <Compile Include="Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Converters\MultiConverters\EnableOpenMultiConverter.cs" />
+    <Compile Include="Converters\FilterCountToStringConverter.cs" />
+    <Compile Include="Converters\FilterDataToBoolConverter.cs" />
+    <Compile Include="Converters\FontToStringConverter.cs" />
+    <Compile Include="Converters\IntToBoolConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\MultiConverters\IsEnableMultiConverter.cs" />
+    <Compile Include="Converters\MailAddressConverter.cs" />
+    <Compile Include="Converters\SmtpPortConverter.cs" />
+    <Compile Include="Converters\SoundFileNameConverter.cs" />
+    <Compile Include="Converters\StringToIntConverter.cs" />
+    <Compile Include="Converters\MultiConverters\TabSizeMultiConverter.cs" />
     <Compile Include="Data\AlertData.cs" />
     <Compile Include="Data\Events\AlertTriggerEventArgs.cs" />
     <Compile Include="Data\Enums\EDateFormat.cs" />
@@ -252,9 +252,10 @@
     <Compile Include="Template\TailLog.xaml.cs">
       <DependentUpon>TailLog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Template\TextEditor\Converter\BoolToScrollbarVisibilityConverter.cs" />
-    <Compile Include="Template\TextEditor\Converter\BoolToTextWrapConverter.cs" />
-    <Compile Include="Template\TextEditor\Converter\StringFormatConverter.cs" />
+    <Compile Include="Template\TextEditor\Converters\BoolToScrollbarVisibilityConverter.cs" />
+    <Compile Include="Template\TextEditor\Converters\BoolToTextWrapConverter.cs" />
+    <Compile Include="Template\TextEditor\Converters\StringFormatConverter.cs" />
+    <Compile Include="Template\TextEditor\Data\StringFormatData.cs" />
     <Compile Include="Template\TextEditor\Data\LogEntry.cs" />
     <Compile Include="Template\TextEditor\Data\PropertyChangedBase.cs" />
     <Compile Include="Template\TextEditor\LogViewerControl.xaml.cs">
@@ -279,20 +280,19 @@
     <Compile Include="Template\UpdateController\Webservice.cs" />
     <Compile Include="Template\WatermarkTextBox\WatermarkTextBox.cs" />
     <Compile Include="Data\Events\WrapAroundBool.cs" />
+    <Compile Include="Utils\Arg.cs" />
     <Compile Include="Utils\AutoUpdate.cs" />
     <Compile Include="Utils\BuildDate.cs" />
     <Compile Include="Utils\DeferredAction.cs" />
     <Compile Include="Utils\EncodingDetector.cs" />
     <Compile Include="Controller\FileManagerStructure.cs" />
-    <Compile Include="Data\Enums\ErrorFlags.cs" />
-    <Compile Include="Utils\ErrorLog.cs" />
     <Compile Include="Utils\FileReader.cs" />
     <Compile Include="Controller\PrintHelper.cs" />
     <Compile Include="Controller\SettingsHelper.cs" />
     <Compile Include="Controller\SysInformationController.cs" />
     <Compile Include="Utils\GlobalMutex.cs" />
-    <Compile Include="Converter\TailConverter.cs" />
-    <Compile Include="Converter\TextTrimConverter.cs" />
+    <Compile Include="Converters\TailConverter.cs" />
+    <Compile Include="Converters\TextTrimConverter.cs" />
     <Compile Include="Utils\IconHelper.cs" />
     <Compile Include="Utils\MailClient.cs" />
     <Compile Include="Utils\ObservableDictionary.cs" />
@@ -566,6 +566,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

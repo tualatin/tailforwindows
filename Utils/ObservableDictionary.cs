@@ -8,6 +8,11 @@ using System.Linq;
 
 namespace Org.Vs.TailForWin.Utils
 {
+  /// <summary>
+  /// ObservableDictionary
+  /// </summary>
+  /// <typeparam name="TKey">INotifyCollectionChanged</typeparam>
+  /// <typeparam name="TValue">INotifyPropertyChanged</typeparam>
   public class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged
   {
     private const string CountString = "Count";
@@ -15,6 +20,9 @@ namespace Org.Vs.TailForWin.Utils
     private const string KeysName = "Keys";
     private const string ValuesName = "Values";
 
+    /// <summary>
+    /// Dictionary
+    /// </summary>
     protected IDictionary<TKey, TValue> Dictionary
     {
       get;
@@ -78,14 +86,14 @@ namespace Org.Vs.TailForWin.Utils
 
     public bool Remove(TKey key)
     {
-      if (key == null)
+      if(key == null)
         throw new ArgumentNullException("key");
 
       TValue value;
       Dictionary.TryGetValue(key, out value);
       var removed = Dictionary.Remove(key);
-      if (removed)
 
+      if(removed)
         //OnCollectionChanged(NotifyCollectionChangedAction.Remove, new KeyValuePair<TKey, TValue>(key, value));
         OnCollectionChanged();
 
@@ -128,7 +136,7 @@ namespace Org.Vs.TailForWin.Utils
 
     public void Clear()
     {
-      if (Dictionary.Count <= 0)
+      if(Dictionary.Count <= 0)
         return;
 
       Dictionary.Clear();
@@ -181,7 +189,7 @@ namespace Org.Vs.TailForWin.Utils
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-      return (((IEnumerable)Dictionary).GetEnumerator());
+      return (((IEnumerable) Dictionary).GetEnumerator());
     }
 
     #endregion
@@ -200,38 +208,40 @@ namespace Org.Vs.TailForWin.Utils
 
     public void AddRange(IDictionary<TKey, TValue> items)
     {
-      if (items == null)
+      if(items == null)
         throw new ArgumentNullException("items");
 
-      if (items.Count <= 0)
+      if(items.Count <= 0)
         return;
 
-      if (Dictionary.Count > 0)
+      if(Dictionary.Count > 0)
       {
-        if (items.Keys.Any(k => Dictionary.ContainsKey(k)))
+        if(items.Keys.Any(k => Dictionary.ContainsKey(k)))
           throw new ArgumentException("An item with the same key has already been added.");
         else
-          foreach (var item in items)
+          foreach(var item in items)
             Dictionary.Add(item);
       }
       else
+      {
         Dictionary = new Dictionary<TKey, TValue>(items);
+      }
 
       OnCollectionChanged(NotifyCollectionChangedAction.Add, items.ToArray());
     }
 
     private void Insert(TKey key, TValue value, bool add)
     {
-      if (key == null)
+      if(key == null)
         throw new ArgumentNullException("key");
 
       TValue item;
 
-      if (Dictionary.TryGetValue(key, out item))
+      if(Dictionary.TryGetValue(key, out item))
       {
-        if (add)
+        if(add)
           throw new ArgumentException("An item with the same key has already been added.");
-        if (Equals(item, value))
+        if(Equals(item, value))
           return;
 
         Dictionary[key] = value;
@@ -256,7 +266,7 @@ namespace Org.Vs.TailForWin.Utils
 
     protected virtual void OnPropertyChanged(string propertyName)
     {
-      if (PropertyChanged != null)
+      if(PropertyChanged != null)
         PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
     }
 
@@ -264,7 +274,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       OnPropertyChanged();
 
-      if (CollectionChanged != null)
+      if(CollectionChanged != null)
         CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     }
 
@@ -272,7 +282,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       OnPropertyChanged();
 
-      if (CollectionChanged != null)
+      if(CollectionChanged != null)
         CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, changedItem));
     }
 
@@ -280,7 +290,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       OnPropertyChanged();
 
-      if (CollectionChanged != null)
+      if(CollectionChanged != null)
         CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem));
     }
 
@@ -288,7 +298,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       OnPropertyChanged();
 
-      if (CollectionChanged != null)
+      if(CollectionChanged != null)
         CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItems));
     }
   }

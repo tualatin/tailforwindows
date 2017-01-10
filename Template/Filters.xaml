@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Org.Vs.TailForWin.Template.Filters"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Filters" Height="346" Width="466" Icon="/TailForWin;component/Res/Filters.ico" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False" Loaded="Window_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converter" Closing="Window_Closing">
+        Title="Filters" Height="346" Width="466" Icon="/TailForWin;component/Res/Filters.ico" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False" Loaded="Window_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters" Closing="Window_Closing">
   <Window.Resources>
     <conv:FontToStringConverter x:Key="FontToString" />
     <conv:ColorToBrushConverter x:Key="ColorToBrush" />

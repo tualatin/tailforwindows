@@ -22,7 +22,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     /// </param>
     public static DeferredAction Create(Action action)
     {
-      if (action == null)
+      if(action == null)
         throw new ArgumentNullException("action");
 
       return (new DeferredAction(action));
@@ -52,7 +52,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 
     public void Dispose()
     {
-      if (timer != null)
+      if(timer != null)
       {
         timer.Dispose();
         timer = null;

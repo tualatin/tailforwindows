@@ -7,6 +7,9 @@ using Org.Vs.TailForWin.Template.TextEditor.Data;
 
 namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 {
+  /// <summary>
+  /// ListBoxCopy
+  /// </summary>
   public class ListBoxCopy
   {
     private static bool addDateTime;
@@ -18,7 +21,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 
     public static bool GetAutoCopy(DependencyObject obj)
     {
-      return ((bool)obj.GetValue(AutoCopyProperty));
+      return ((bool) obj.GetValue(AutoCopyProperty));
     }
 
     public static void SetAutoCopy(DependencyObject obj, bool value)
@@ -30,7 +33,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 
     public static bool GetAddDateTime(DependencyObject obj)
     {
-      return ((bool)obj.GetValue(AddDateTimeProperty));
+      return ((bool) obj.GetValue(AddDateTimeProperty));
     }
 
     public static void SetAddDateTime(DependencyObject obj, bool value)
@@ -44,20 +47,20 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     {
       var listBox = obj as ListBox;
 
-      if (listBox != null)
+      if(listBox != null)
       {
-        if ((bool)e.NewValue)
+        if((bool) e.NewValue)
         {
           ExecutedRoutedEventHandler handler = (sender, arg) =>
               {
-                if (listBox.SelectedItem != null)
+                if(listBox.SelectedItem != null)
                 {
                   var items = listBox.SelectedItems;
                   StringBuilder sb = new StringBuilder();
 
-                  foreach (LogEntry item in items)
+                  foreach(LogEntry item in items)
                   {
-                    if (addDateTime)
+                    if(addDateTime)
                       sb.Append(string.Format("{0} - {1}\n", item.DateTime, item.Message));
                     else
                       sb.Append(item.Message + "\n");
@@ -76,7 +79,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 
     private static void AddDateTimeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
     {
-      addDateTime = (bool)e.NewValue;
+      addDateTime = (bool) e.NewValue;
     }
   }
 }

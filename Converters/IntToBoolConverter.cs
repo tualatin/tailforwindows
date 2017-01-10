@@ -3,7 +3,7 @@ using System.Windows.Data;
 using System.Windows;
 
 
-namespace Org.Vs.TailForWin.Converter
+namespace Org.Vs.TailForWin.Converters
 {
   /// <summary>
   /// Integer to bool converter
@@ -27,7 +27,7 @@ namespace Org.Vs.TailForWin.Converter
       {
         return (System.Convert.ToInt32(value) > 0);
       }
-      catch (InvalidCastException)
+      catch(InvalidCastException)
       {
         return (DependencyProperty.UnsetValue);
       }
