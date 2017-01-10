@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using Org.Vs.TailForWin.Data.Base;
 using Org.Vs.TailForWin.Data.Enums;
 
 
@@ -14,6 +15,9 @@ namespace Org.Vs.TailForWin.Data
   /// </summary>
   public class TailLogData : INotifyMaster, IDisposable
   {
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public TailLogData()
     {
       ListOfFilter = new ObservableCollection<FilterData>();

@@ -5,6 +5,9 @@ using System.Globalization;
 
 namespace Org.Vs.TailForWin.Data
 {
+  /// <summary>
+  /// SysInformationData object
+  /// </summary>
   public class SysInformationData
   {
     /// <summary>

@@ -1,13 +1,19 @@
 ﻿using System;
 
 
-namespace Org.Vs.TailForWin.Data
+namespace Org.Vs.TailForWin.Data.Events
 {
+  /// <summary>
+  /// FilterDataEventArgs object
+  /// </summary>
   public class FilterDataEventArgs : EventArgs, IDisposable
   {
     private FilterData filterData;
 
 
+    /// <summary>
+    /// Releases all resources used by the FilterDataEventArgs.
+    /// </summary>
     public void Dispose()
     {
       if (filterData == null)
@@ -17,6 +23,10 @@ namespace Org.Vs.TailForWin.Data
       filterData = null;
     }
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="filterData">FilterData object</param>
     public FilterDataEventArgs(FilterData filterData)
     {
       this.filterData = filterData;

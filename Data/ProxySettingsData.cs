@@ -1,5 +1,11 @@
-﻿namespace Org.Vs.TailForWin.Data
+﻿using Org.Vs.TailForWin.Data.Base;
+
+
+namespace Org.Vs.TailForWin.Data
 {
+  /// <summary>
+  /// ProxySettingsData object
+  /// </summary>
   public class ProxySettingsData : INotifyMaster
   {
     private bool useSystemSettings;

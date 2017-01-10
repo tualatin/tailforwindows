@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Org.Vs.TailForWin.Data
+namespace Org.Vs.TailForWin.Data.Events
 {
   /// <summary>
   /// Holding the FileManager data inside
@@ -11,6 +11,9 @@ namespace Org.Vs.TailForWin.Data
     private FileManagerData fileManagerProperties;
 
 
+    /// <summary>
+    /// Releases all resources used by the FileManagerDataEventArgs.
+    /// </summary>
     public void Dispose()
     {
       if (fileManagerProperties == null)
@@ -20,6 +23,10 @@ namespace Org.Vs.TailForWin.Data
       fileManagerProperties = null;
     }
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="obj">FileManagerData object</param>
     public FileManagerDataEventArgs(FileManagerData obj)
     {
       fileManagerProperties = obj;

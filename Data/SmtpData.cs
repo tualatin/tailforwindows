@@ -1,5 +1,11 @@
-﻿namespace Org.Vs.TailForWin.Data
+﻿using Org.Vs.TailForWin.Data.Base;
+
+
+namespace Org.Vs.TailForWin.Data
 {
+  /// <summary>
+  /// SmtpData object
+  /// </summary>
   public class SmtpData : INotifyMaster
   {
     private string smtpServerName;

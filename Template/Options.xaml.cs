@@ -1,6 +1,6 @@
 ﻿using System;
-using Org.Vs.TailForWin.Controller;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Controller;
 
 
 namespace Org.Vs.TailForWin.Template

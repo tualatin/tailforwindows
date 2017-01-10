@@ -23,6 +23,11 @@ namespace Org.Vs.TailForWin.Template
     private int userInput;
 
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="minLines">Min lines</param>
+    /// <param name="maxLines">Max lines</param>
     public GoToLine(int minLines, int maxLines)
     {
       InitializeComponent();
@@ -39,6 +44,10 @@ namespace Org.Vs.TailForWin.Template
         labelLineNumber.Content = string.Format(findResource.ToString(), this.minLines, this.maxLines);
     }
 
+    /// <summary>
+    /// On source initialized
+    /// </summary>
+    /// <param name="e">EventArgs</param>
     protected override void OnSourceInitialized(EventArgs e)
     {
       IconHelper.RemoveIcon(this);

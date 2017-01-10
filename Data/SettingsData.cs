@@ -2,13 +2,20 @@
 using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Media;
+using Org.Vs.TailForWin.Data.Base;
 using Org.Vs.TailForWin.Data.Enums;
 
 
 namespace Org.Vs.TailForWin.Data
 {
+  /// <summary>
+  /// SettingsData object
+  /// </summary>
   public class SettingsData : INotifyMaster
   {
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public SettingsData()
     {
       AlertSettings = new AlertData();

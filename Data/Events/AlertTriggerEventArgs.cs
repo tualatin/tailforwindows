@@ -1,8 +1,11 @@
 ﻿using System;
 
 
-namespace Org.Vs.TailForWin.Data
+namespace Org.Vs.TailForWin.Data.Events
 {
+  /// <summary>
+  /// AlertTriggerEventArgs
+  /// </summary>
   public class AlertTriggerEventArgs : EventArgs
   {
     private readonly Template.TextEditor.Data.LogEntry alertTriggerData;

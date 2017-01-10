@@ -1,7 +1,16 @@
-﻿namespace Org.Vs.TailForWin.Data
+﻿using Org.Vs.TailForWin.Data.Base;
+
+
+namespace Org.Vs.TailForWin.Data
 {
+  /// <summary>
+  /// AlertData object
+  /// </summary>
   public class AlertData : INotifyMaster
   {
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public AlertData()
     {
       SmtpSettings = new SmtpData();
@@ -10,7 +19,7 @@
     private bool bringToFront;
 
     /// <summary>
-    /// Bring mainwindow to front when alert occourse
+    /// Bring mainwindow to front when alert occurs
     /// </summary>
     public bool BringToFront
     {
@@ -28,7 +37,7 @@
     private bool popupWnd;
 
     /// <summary>
-    /// Show Popup window when alert occours
+    /// Show Popup window when alert occurs
     /// </summary>
     public bool PopupWnd
     {
@@ -46,7 +55,7 @@
     private bool playSoundFile;
 
     /// <summary>
-    /// Play sound file when alert occourse
+    /// Play sound file when alert occurs
     /// </summary>
     public bool PlaySoundFile
     {
@@ -64,7 +73,7 @@
     private bool sendEMail;
 
     /// <summary>
-    /// Send E-Mail when alert occourse
+    /// Send E-Mail when alert occurs
     /// </summary>
     public bool SendEMail
     {
@@ -82,7 +91,7 @@
     private string soundFileNameFullPath;
 
     /// <summary>
-    /// Name of sound file to play when alert occourse
+    /// Name of sound file to play when alert occurs
     /// </summary>
     public string SoundFileNameFullPath
     {
@@ -119,7 +128,7 @@
     private string emailAddress;
 
     /// <summary>
-    /// E-Mail address to send E-Mail when alert occourse
+    /// E-Mail address to send E-Mail when alert occurs
     /// </summary>
     public string EMailAddress
     {

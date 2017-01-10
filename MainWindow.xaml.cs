@@ -1,8 +1,4 @@
-﻿using Org.Vs.TailForWin.Controller;
-using Org.Vs.TailForWin.Data;
-using Org.Vs.TailForWin.Template;
-using Org.Vs.TailForWin.Utils;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -12,6 +8,11 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Events;
+using Org.Vs.TailForWin.Template;
+using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin

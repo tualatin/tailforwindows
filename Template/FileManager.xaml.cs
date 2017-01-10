@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Data.Events;
 using Org.Vs.TailForWin.Utils;
 
 
@@ -48,6 +49,11 @@ namespace Org.Vs.TailForWin.Template
     private FileManagerData.MementoFileManagerData fmMemento;
 
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="fmState">EFileManagerState</param>
+    /// <param name="addFile">TailForLogData object</param>
     public FileManager(EFileManagerState fmState, TailLogData addFile)
     {
       this.fmState = fmState;
@@ -566,10 +572,10 @@ namespace Org.Vs.TailForWin.Template
           Process newWindow = new Process
           {
             StartInfo =
-                                {
-                                  FileName = Process.GetCurrentProcess ( ).MainModule.FileName,
-                                  Arguments = $"/id={fmWorkingProperties.ID}"
-                                }
+            {
+              FileName = Process.GetCurrentProcess ( ).MainModule.FileName,
+              Arguments = $"/id={fmWorkingProperties.ID}"
+            }
           };
           newWindow.Start();
         }
@@ -599,7 +605,6 @@ namespace Org.Vs.TailForWin.Template
           LogFile.FmHelper.Add(helper);
 
         FileManagerDataEventArgs argument = new FileManagerDataEventArgs(fmWorkingProperties);
-
         OpenFileAsNewTab?.Invoke(this, argument);
 
         argument.Dispose();

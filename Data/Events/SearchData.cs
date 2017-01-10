@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Org.Vs.TailForWin.Data
+namespace Org.Vs.TailForWin.Data.Events
 {
   /// <summary>
   /// SearchData class

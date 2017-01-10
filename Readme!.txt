@@ -4,8 +4,9 @@ Known issues: https://github.com/tualatin/tailforwindows/issues
 If there are problems, TailForWindows creates a error logfile in the directory. Please send me this error file bevore restart TfW, because the program deletes the error log file when it is started
 
 Changelog:
-v1.0.x
-
+v1.x.x
+* new log4net is logging system now
+* new tooltip design
 * bug fix Uptime
 * improve StatusBar Tooltip information
 * some code refactories

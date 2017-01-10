@@ -6,7 +6,7 @@
   <log4net>
     <!-- Define some output appenders -->
     <appender name="LogFileAppender" type="log4net.Appender.FileAppender" >
-      <file value="tailforwindows.log" />
+      <file value="logs\tailforwindows.log" />
       <appendToFile value="true" />
       <layout type="log4net.Layout.PatternLayout">
         <conversionPattern value="%date [%-5level] - %message%newline" />
@@ -22,7 +22,7 @@
       <appendToFile value="true" />
       <rollingStyle value="Composite" />
       <staticLogFileName value="false" />
-      <file value="" />
+      <file value="logs\" />
       <datePattern value="'tailforwindows_'yyyy-MM-dd'.log'" />
       <maximumFileSize value="10MB" />
       <maxSizeRollBackups value="10" />

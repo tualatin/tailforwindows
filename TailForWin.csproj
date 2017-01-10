@@ -144,7 +144,7 @@
     <Compile Include="Converter\StringToIntConverter.cs" />
     <Compile Include="Converter\TabSizeMultiConverter.cs" />
     <Compile Include="Data\AlertData.cs" />
-    <Compile Include="Data\AlertTriggerEventArgs.cs" />
+    <Compile Include="Data\Events\AlertTriggerEventArgs.cs" />
     <Compile Include="Data\Enums\EDateFormat.cs" />
     <Compile Include="Data\Enums\EFileManagerState.cs" />
     <Compile Include="Data\Enums\EFileSort.cs" />
@@ -154,12 +154,12 @@
     <Compile Include="Data\Enums\ETailRefreshRate.cs" />
     <Compile Include="Data\Enums\ETimeFormat.cs" />
     <Compile Include="Data\FileManagerHelper.cs" />
-    <Compile Include="Data\FilterDataEventArgs.cs" />
-    <Compile Include="Data\FileManagerDataEventArgs.cs" />
+    <Compile Include="Data\Events\FilterDataEventArgs.cs" />
+    <Compile Include="Data\Events\FileManagerDataEventArgs.cs" />
     <Compile Include="Data\FilterData.cs" />
     <Compile Include="Data\GoToLineData.cs" />
     <Compile Include="Data\ProxySettingsData.cs" />
-    <Compile Include="Data\SearchData.cs" />
+    <Compile Include="Data\Events\SearchData.cs" />
     <Compile Include="Data\SmtpData.cs" />
     <Compile Include="Logging\ILogExtentions.cs" />
     <Compile Include="Logging\Log4NetTraceListener.cs" />
@@ -169,6 +169,7 @@
     <Compile Include="Logging\SingleLetterLevelConverter.cs" />
     <Compile Include="Logging\ZippingRollingFileAppender.cs" />
     <Compile Include="NotifyIcon\BalloonIcon.cs" />
+    <Compile Include="Data\Events\BookmarkLineBool.cs" />
     <Compile Include="Template\FancyPopUp.xaml.cs">
       <DependentUpon>FancyPopUp.xaml</DependentUpon>
     </Compile>
@@ -199,7 +200,7 @@
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\FileManagerData.cs" />
-    <Compile Include="Data\INotifyMaster.cs" />
+    <Compile Include="Data\Base\INotifyMaster.cs" />
     <Compile Include="Data\LogFile.cs" />
     <Compile Include="Data\SettingsData.cs" />
     <Compile Include="Data\SysInformationData.cs" />
@@ -277,6 +278,7 @@
     <Compile Include="Template\UpdateController\UserErrorException.cs" />
     <Compile Include="Template\UpdateController\Webservice.cs" />
     <Compile Include="Template\WatermarkTextBox\WatermarkTextBox.cs" />
+    <Compile Include="Data\Events\WrapAroundBool.cs" />
     <Compile Include="Utils\AutoUpdate.cs" />
     <Compile Include="Utils\BuildDate.cs" />
     <Compile Include="Utils\DeferredAction.cs" />

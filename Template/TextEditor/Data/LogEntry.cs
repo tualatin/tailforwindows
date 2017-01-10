@@ -3,6 +3,9 @@
 
 namespace Org.Vs.TailForWin.Template.TextEditor.Data
 {
+  /// <summary>
+  /// LogEntry object
+  /// </summary>
   public class LogEntry : PropertyChangedBase
   {
     /// <summary>
@@ -44,7 +47,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Data
     private string message;
 
     /// <summary>
-    /// Logmessage
+    /// Log message
     /// </summary>
     public string Message
     {

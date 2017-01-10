@@ -25,6 +25,10 @@ namespace Org.Vs.TailForWin.Template
     public event EventHandler SaveNow;
 
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="tailLogData">TailLogData object</param>
     public Filters(TailLogData tailLogData)
     {
       InitializeComponent();
@@ -33,7 +37,7 @@ namespace Org.Vs.TailForWin.Template
       this.tailLogData = tailLogData;
       isInit = true;
 
-      if (tailLogData.ListOfFilter.Count != 0)
+      if(tailLogData.ListOfFilter.Count != 0)
         filterId = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1].Id + 1;
       else
         filterId = 0;
@@ -58,7 +62,7 @@ namespace Org.Vs.TailForWin.Template
         ShowColor = true
       };
 
-      if (fontManager.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
+      if(fontManager.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
       {
         filterFont = new System.Drawing.Font(fontManager.Font.FontFamily, fontManager.Font.Size, fontManager.Font.Style);
         filterData.FilterFontType = filterFont;
@@ -92,29 +96,29 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnCancelAdd_Click(object sender, RoutedEventArgs e)
     {
-      switch (fState)
+      switch(fState)
       {
       case EFileManagerState.AddFile:
 
-      var lastItem = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1];
-      tailLogData.ListOfFilter.Remove(lastItem);
-      dataGridFilters.Items.Refresh();
-      break;
+        var lastItem = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1];
+        tailLogData.ListOfFilter.Remove(lastItem);
+        dataGridFilters.Items.Refresh();
+        break;
 
       case EFileManagerState.EditItem:
 
-      if (mementoFilterData != null)
-        filterData.RestoreFromMemento(mementoFilterData);
-      break;
+        if(mementoFilterData != null)
+          filterData.RestoreFromMemento(mementoFilterData);
+        break;
 
       case EFileManagerState.OpenFileManager:
-      break;
+        break;
 
       case EFileManagerState.EditFilter:
-      break;
+        break;
 
       default:
-      throw new ArgumentOutOfRangeException();
+        throw new ArgumentOutOfRangeException();
       }
 
       fState = EFileManagerState.OpenFileManager;
@@ -146,14 +150,14 @@ namespace Org.Vs.TailForWin.Template
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-      foreach (FilterData item in tailLogData.ListOfFilter)
+      foreach(FilterData item in tailLogData.ListOfFilter)
       {
-        if (!string.IsNullOrWhiteSpace(item.Filter))
+        if(!string.IsNullOrWhiteSpace(item.Filter))
           continue;
 
         var findResource = Application.Current.FindResource("FilterNotEmpty");
 
-        if (findResource != null)
+        if(findResource != null)
           MessageBox.Show(findResource.ToString(), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
         e.Cancel = true;
@@ -177,7 +181,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void textBoxFilter_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-      if (!string.IsNullOrEmpty(textBoxFilter.Text))
+      if(!string.IsNullOrEmpty(textBoxFilter.Text))
       {
         btnCancel.IsEnabled = true;
         ChangeState();
@@ -188,13 +192,13 @@ namespace Org.Vs.TailForWin.Template
 
     private void textBoxDescription_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-      if (!string.IsNullOrEmpty(textBoxDescription.Text))
+      if(!string.IsNullOrEmpty(textBoxDescription.Text))
         ChangeState();
     }
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if (e.Key == Key.Escape)
+      if(e.Key == Key.Escape)
         btnCancel_Click(this, e);
     }
 
@@ -204,7 +208,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void SelectLastItemInDataGrid()
     {
-      if (dataGridFilters.Items.Count <= 0)
+      if(dataGridFilters.Items.Count <= 0)
         return;
 
       dataGridFilters.SelectedItem = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1];

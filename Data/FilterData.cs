@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Drawing;
+using Org.Vs.TailForWin.Data.Base;
 
 
 namespace Org.Vs.TailForWin.Data
 {
+  /// <summary>
+  /// FilterData object
+  /// </summary>
   public class FilterData : INotifyMaster, IDisposable
   {
+    /// <summary>
+    /// Releases all resources used by the FilterData.
+    /// </summary>
     public void Dispose()
     {
       if (filterFontType == null)

@@ -1,11 +1,11 @@
-﻿using System.Windows;
-using Org.Vs.TailForWin.Controller;
-using System;
-using Org.Vs.TailForWin.Data;
-using System.Windows.Input;
-using System.Windows.Controls;
-using System.ComponentModel;
+﻿using System;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data.Events;
 using Org.Vs.TailForWin.Utils;
 
 
@@ -81,6 +81,9 @@ namespace Org.Vs.TailForWin.Template
     }
 
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public SearchDialog()
     {
       InitializeComponent();
@@ -103,6 +106,10 @@ namespace Org.Vs.TailForWin.Template
       }
     }
 
+    /// <summary>
+    /// Set statusbar seach count text
+    /// </summary>
+    /// <param name="count">Current tail log lines</param>
     public void SetStatusBarSearchCountText(int count)
     {
       string myString = Application.Current.FindResource("SearchCount").ToString();
@@ -121,17 +128,14 @@ namespace Org.Vs.TailForWin.Template
     {
       DoFindNextEvent(true);
 
-      if (CountSearchEvent != null)
-        CountSearchEvent(this, EventArgs.Empty);
+      CountSearchEvent?.Invoke(this, EventArgs.Empty);
     }
 
     private void btnClose_Click(object sender, RoutedEventArgs e)
     {
       SaveBoxPosition();
 
-      if (HideSearchBox != null)
-        HideSearchBox(this, EventArgs.Empty);
-
+      HideSearchBox?.Invoke(this, EventArgs.Empty);
       Hide();
     }
 
@@ -146,8 +150,7 @@ namespace Org.Vs.TailForWin.Template
 
       fmStructure.SaveFindHistoryWrap();
 
-      if (WrapAround != null)
-        WrapAround(this, wrap);
+      WrapAround?.Invoke(this, wrap);
     }
 
     private void checkBoxBookmark_Click(object sender, RoutedEventArgs e)
@@ -159,8 +162,7 @@ namespace Org.Vs.TailForWin.Template
         checkBoxBookmarkLine_Click(sender, e);
       }
 
-      if (FindTextChanged != null)
-        FindTextChanged(this, EventArgs.Empty);
+      FindTextChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void checkBoxBookmarkLine_Click(object sender, RoutedEventArgs e)
@@ -172,8 +174,7 @@ namespace Org.Vs.TailForWin.Template
       else
         bookmarkLine.BookmarkLine = false;
 
-      if (BookmarkLine != null)
-        BookmarkLine(this, bookmarkLine);
+      BookmarkLine?.Invoke(this, bookmarkLine);
     }
 
     #endregion
@@ -182,7 +183,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void AddSearchWordToDictionary()
     {
-      if (SearchWords.ContainsKey(comboBoxWordToFind.Text))
+      if(SearchWords.ContainsKey(comboBoxWordToFind.Text))
         return;
 
       SearchWords.Add(comboBoxWordToFind.Text.Trim(), comboBoxWordToFind.Text.Trim());
@@ -195,7 +196,7 @@ namespace Org.Vs.TailForWin.Template
     {
       var textBox = (comboBoxWordToFind.Template.FindName("PART_EditableTextBox", comboBoxWordToFind) as TextBox);
 
-      if (textBox == null)
+      if(textBox == null)
         return;
 
       textBox.Focus();
@@ -216,7 +217,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if (e.Key == Key.Escape)
+      if(e.Key == Key.Escape)
         btnClose_Click(sender, e);
     }
 
@@ -229,27 +230,26 @@ namespace Org.Vs.TailForWin.Template
         WordToFind = string.Empty
       };
 
-      if (checkBoxBookmark.IsChecked == true)
+      if(checkBoxBookmark.IsChecked == true)
+      {
         searching.SearchBookmarks = true;
+      }
       else
       {
-        if (!string.IsNullOrWhiteSpace(comboBoxWordToFind.Text))
+        if(!string.IsNullOrWhiteSpace(comboBoxWordToFind.Text))
         {
           AddSearchWordToDictionary();
           searching.WordToFind = comboBoxWordToFind.Text;
         }
       }
 
-      if (FindNextEvent != null)
-        FindNextEvent(this, searching);
+      FindNextEvent?.Invoke(this, searching);
     }
 
     private void Window_Closing(object sender, CancelEventArgs e)
     {
       SaveBoxPosition();
-
-      if (HideSearchBox != null)
-        HideSearchBox(this, EventArgs.Empty);
+      HideSearchBox?.Invoke(this, EventArgs.Empty);
 
       e.Cancel = true;
       Hide();
@@ -262,18 +262,18 @@ namespace Org.Vs.TailForWin.Template
       comboBoxWordToFind.DataContext = this;
       // comboBoxWordToFind.DisplayMemberPath = "Key";
 
-      WrapAroundBool wrap = new WrapAroundBool { Wrap = fmStructure.Wrap };
+      WrapAroundBool wrap = new WrapAroundBool
+      {
+        Wrap = fmStructure.Wrap
+      };
 
-      if (WrapAround != null)
-        WrapAround(this, wrap);
-
+      WrapAround?.Invoke(this, wrap);
       SetFocusToTextBox();
     }
 
     private void comboBoxWordToFind_TextChanged(object sender, TextChangedEventArgs e)
     {
-      if (FindTextChanged != null)
-        FindTextChanged(this, EventArgs.Empty);
+      FindTextChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void comboBoxWordToFind_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -290,9 +290,7 @@ namespace Org.Vs.TailForWin.Template
     protected void OnPropertyChanged(string name)
     {
       PropertyChangedEventHandler handler = PropertyChanged;
-
-      if (handler != null)
-        handler(this, new PropertyChangedEventArgs(name));
+      handler?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
     protected static void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -301,29 +299,5 @@ namespace Org.Vs.TailForWin.Template
     }
 
     #endregion
-  }
-
-  public class WrapAroundBool : EventArgs
-  {
-    /// <summary>
-    /// Wrap boolean
-    /// </summary>
-    public bool Wrap
-    {
-      get;
-      set;
-    }
-  }
-
-  public class BookmarkLineBool : EventArgs
-  {
-    /// <summary>
-    /// Bookmark line
-    /// </summary>
-    public bool BookmarkLine
-    {
-      get;
-      set;
-    }
   }
 }

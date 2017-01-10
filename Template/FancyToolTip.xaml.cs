@@ -11,7 +11,7 @@ namespace Org.Vs.TailForWin.Template
     #region InfoText dependency property
 
     /// <summary>
-    /// The tooltip details.
+    /// The tool tip details.
     /// </summary>
     public static readonly DependencyProperty InfoTextProperty = DependencyProperty.Register("InfoText", typeof(string), typeof(FancyToolTip), new FrameworkPropertyMetadata(string.Empty));
 
@@ -35,6 +35,9 @@ namespace Org.Vs.TailForWin.Template
     public static readonly DependencyProperty ApplicationTextProperty = DependencyProperty.Register("ApplicationText", typeof(string), typeof(FancyToolTip),
       new FrameworkPropertyMetadata(string.Empty));
 
+    /// <summary>
+    /// Application text
+    /// </summary>
     public string ApplicationText
     {
       get
@@ -50,6 +53,9 @@ namespace Org.Vs.TailForWin.Template
     public static readonly DependencyProperty ToolTipDetailProperty = DependencyProperty.Register("ToolTipDetail", typeof(string), typeof(FancyToolTip),
       new FrameworkPropertyMetadata(string.Empty));
 
+    /// <summary>
+    /// Tool tip details
+    /// </summary>
     public string ToolTipDetail
     {
       get
