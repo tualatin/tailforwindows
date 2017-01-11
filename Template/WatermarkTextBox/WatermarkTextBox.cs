@@ -10,7 +10,7 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
   /// </summary>
   public class WatermarkTextBox : TextBox
   {
-    static WatermarkTextBox()
+    static WatermarkTextBox ()
     {
       DefaultStyleKeyProperty.OverrideMetadata(typeof(WatermarkTextBox), new FrameworkPropertyMetadata(typeof(WatermarkTextBox)));
     }
@@ -61,17 +61,17 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
 
     #endregion
 
-    protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
+    protected override void OnGotKeyboardFocus (KeyboardFocusChangedEventArgs e)
     {
       base.OnGotKeyboardFocus(e);
 
-      if(SelectAllOnGotFocus)
+      if (SelectAllOnGotFocus)
         SelectAll();
     }
 
-    protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+    protected override void OnPreviewMouseLeftButtonDown (MouseButtonEventArgs e)
     {
-      if(!IsKeyboardFocused && SelectAllOnGotFocus)
+      if (!IsKeyboardFocused && SelectAllOnGotFocus)
       {
         e.Handled = true;
         Focus();

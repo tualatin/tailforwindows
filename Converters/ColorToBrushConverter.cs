@@ -12,15 +12,15 @@ namespace Org.Vs.TailForWin.Converters
   {
     #region IValueConverter Members
 
-    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if(value != null)
+      if (value != null)
       {
-        if(value.GetType() == typeof(System.Drawing.Color))
+        if (value.GetType() == typeof(System.Drawing.Color))
         {
           int num = -1;
 
-          if(!int.TryParse(((System.Drawing.Color) value).Name, out num))
+          if (!int.TryParse(((System.Drawing.Color) value).Name, out num))
           {
             Color mediaColor = (Color) ColorConverter.ConvertFromString(((System.Drawing.Color) value).Name);
             Brush brush = new SolidColorBrush((Color) mediaColor);
@@ -36,7 +36,7 @@ namespace Org.Vs.TailForWin.Converters
       return (null);
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       throw new NotImplementedException();
     }

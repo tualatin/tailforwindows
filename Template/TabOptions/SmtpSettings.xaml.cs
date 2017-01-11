@@ -16,7 +16,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public SmtpSettings()
+    public SmtpSettings ()
     {
       InitializeComponent();
 
@@ -25,7 +25,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     #region ClickEvents
 
-    private void btnOK_Click(object sender, RoutedEventArgs e)
+    private void btnOK_Click (object sender, RoutedEventArgs e)
     {
       if (!string.IsNullOrEmpty(watermarkTextBoxSmtpServer.Text))
       {
@@ -55,12 +55,12 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       }
     }
 
-    private void btnCancel_Click(object sender, RoutedEventArgs e)
+    private void btnCancel_Click (object sender, RoutedEventArgs e)
     {
       OnExit();
     }
 
-    private void checkBoxSameLogin_Click(object sender, RoutedEventArgs e)
+    private void checkBoxSameLogin_Click (object sender, RoutedEventArgs e)
     {
       if (checkBoxSameLogin.IsChecked == true)
         watermarkTextBoxFrom.Text = watermarkTextBoxUserName.Text;
@@ -72,19 +72,19 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     #region Events
 
-    private void HandleEsc(object sender, KeyEventArgs e)
+    private void HandleEsc (object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
         OnExit();
     }
 
-    private void watermarkTextBox_GotFocus(object sender, RoutedEventArgs e)
+    private void watermarkTextBox_GotFocus (object sender, RoutedEventArgs e)
     {
-      WatermarkTextBox.WatermarkTextBox tb = (WatermarkTextBox.WatermarkTextBox)e.OriginalSource;
+      WatermarkTextBox.WatermarkTextBox tb = (WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
       SelectAllText(tb);
     }
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private void Window_Loaded (object sender, RoutedEventArgs e)
     {
       DataContext = SettingsHelper.TailSettings.AlertSettings.SmtpSettings;
 
@@ -99,7 +99,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         comboBoxSecurity.SelectedIndex = 0;
     }
 
-    private void watermarkTextBoxUserName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void watermarkTextBoxUserName_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
       if (checkBoxSameLogin.IsChecked == true)
         watermarkTextBoxFrom.Text = watermarkTextBoxUserName.Text;
@@ -109,17 +109,17 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     #region HelperFunctions
 
-    private void OnExit()
+    private void OnExit ()
     {
       Close();
     }
 
-    private static void SelectAllText(TextBoxBase textBox)
+    private static void SelectAllText (TextBoxBase textBox)
     {
       textBox.Dispatcher.BeginInvoke(new Action(textBox.SelectAll), System.Windows.Threading.DispatcherPriority.Input);
     }
 
-    private void SaveSettings()
+    private void SaveSettings ()
     {
       if (watermarkTextBoxSmtpServer.Text.Length > 0)
         SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpServerName = watermarkTextBoxSmtpServer.Text;

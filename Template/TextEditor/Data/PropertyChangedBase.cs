@@ -12,13 +12,13 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Data
   {
     public event PropertyChangedEventHandler PropertyChanged;
 
-    protected virtual void OnPropertyChanged(string propertyName)
+    protected virtual void OnPropertyChanged (string propertyName)
     {
       Application.Current.Dispatcher.BeginInvoke((Action) (() =>
       {
         PropertyChangedEventHandler handler = PropertyChanged;
 
-        handler?.Invoke(this, new ProgressChangedEventArgs(propertyName));
+        handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
       }));
     }
   }

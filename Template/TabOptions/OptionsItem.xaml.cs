@@ -1,8 +1,8 @@
-﻿using Org.Vs.TailForWin.Controller;
+﻿using log4net;
+using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
-using Org.Vs.TailForWin.Utils;
 using System;
 using System.IO;
 using System.Windows;
@@ -17,6 +17,8 @@ namespace Org.Vs.TailForWin.Template.TabOptions
   /// </summary>
   public partial class OptionsItem : ITabOptionItems
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(OptionsItem));
+
     /// <summary>
     /// Close dialog event handler
     /// </summary>
@@ -34,7 +36,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public OptionsItem()
+    public OptionsItem ()
     {
       InitializeComponent();
 
@@ -55,9 +57,9 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="e">Arguments</param>
-    public void btnSave_Click(object sender, RoutedEventArgs e)
+    public void btnSave_Click (object sender, RoutedEventArgs e)
     {
-      SettingsHelper.TailSettings.LinesRead = spinnerNLines.StartIndex;   
+      SettingsHelper.TailSettings.LinesRead = spinnerNLines.StartIndex;
       SaveSettings?.Invoke(this, EventArgs.Empty);
     }
 
@@ -66,12 +68,12 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="e">Arguments</param>
-    public void btnCancel_Click(object sender, RoutedEventArgs e)
+    public void btnCancel_Click (object sender, RoutedEventArgs e)
     {
       CloseDialog?.Invoke(this, EventArgs.Empty);
     }
 
-    private void btnReset_Click(object sender, RoutedEventArgs e)
+    private void btnReset_Click (object sender, RoutedEventArgs e)
     {
       if (MessageBox.Show(Application.Current.FindResource("QResetSettings") as string,
                          Application.Current.FindResource("Question") as string, MessageBoxButton.YesNo,
@@ -82,7 +84,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       SetControls();
     }
 
-    private void btnProxy_Click(object sender, RoutedEventArgs e)
+    private void btnProxy_Click (object sender, RoutedEventArgs e)
     {
       Window wnd = Window.GetWindow(this);
       ProxyServer ps = new ProxyServer { Owner = wnd };
@@ -90,7 +92,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       ps.ShowDialog();
     }
 
-    private void btnSendToMenu_Click(object sender, RoutedEventArgs e)
+    private void btnSendToMenu_Click (object sender, RoutedEventArgs e)
     {
       try
       {
@@ -114,7 +116,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{0}, exception: {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex));
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
@@ -122,7 +124,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     #region Events
 
-    private void UserControl_Loaded(object sender, RoutedEventArgs e)
+    private void UserControl_Loaded (object sender, RoutedEventArgs e)
     {
       gridOptions.DataContext = SettingsHelper.TailSettings;
     }
@@ -132,29 +134,29 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="e">Arguments</param>
-    public void HandleEsc(object sender, KeyEventArgs e)
+    public void HandleEsc (object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
         btnCancel_Click(sender, e);
     }
 
-    private void comboBoxThreadPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void comboBoxThreadPriority_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
       if (isInit)
-        SettingsHelper.TailSettings.DefaultThreadPriority = (System.Threading.ThreadPriority)Enum.Parse(typeof(System.Threading.ThreadPriority), comboBoxThreadPriority.SelectedItem as string);
+        SettingsHelper.TailSettings.DefaultThreadPriority = (System.Threading.ThreadPriority) Enum.Parse(typeof(System.Threading.ThreadPriority), comboBoxThreadPriority.SelectedItem as string);
     }
 
-    private void comboBoxThreadRefreshRate_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void comboBoxThreadRefreshRate_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
       if (isInit)
-        SettingsHelper.TailSettings.DefaultRefreshRate = (ETailRefreshRate)Enum.Parse(typeof(ETailRefreshRate), comboBoxThreadRefreshRate.SelectedItem as string);
+        SettingsHelper.TailSettings.DefaultRefreshRate = (ETailRefreshRate) Enum.Parse(typeof(ETailRefreshRate), comboBoxThreadRefreshRate.SelectedItem as string);
     }
 
-    private void comboBoxTimeFormat_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void comboBoxTimeFormat_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
@@ -162,7 +164,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         SettingsHelper.TailSettings.DefaultTimeFormat = SettingsData.GetDescriptionEnum<ETimeFormat>(comboBoxTimeFormat.SelectedItem as string);
     }
 
-    private void comboBoxDateFormat_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void comboBoxDateFormat_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
@@ -174,7 +176,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     #region HelperFunctions
 
-    private void Rename_BtnSendTo()
+    private void Rename_BtnSendTo ()
     {
       if (File.Exists(sendToLnkName))
         btnSendToMenu.Content = "Remove 'SendTo'";
@@ -182,7 +184,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         btnSendToMenu.Content = "Add 'SendTo'";
     }
 
-    private void SetControls()
+    private void SetControls ()
     {
       comboBoxThreadPriority.SelectedItem = SettingsHelper.TailSettings.DefaultThreadPriority.ToString();
       comboBoxThreadRefreshRate.SelectedItem = SettingsHelper.TailSettings.DefaultRefreshRate.ToString();
@@ -192,7 +194,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       spinnerNLines.StartIndex = SettingsHelper.TailSettings.LinesRead;
     }
 
-    private void SetComboBoxes()
+    private void SetComboBoxes ()
     {
       Array.ForEach(Enum.GetNames(typeof(System.Threading.ThreadPriority)), priorityName => comboBoxThreadPriority.Items.Add(priorityName));
       comboBoxThreadPriority.SelectedIndex = 0;

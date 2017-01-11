@@ -32,21 +32,21 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// Free up unused objects
     /// </summary>
-    public void Dispose()
+    public void Dispose ()
     {
-      if(mailClient != null)
+      if (mailClient != null)
       {
         mailClient.Dispose();
         mailClient = null;
       }
 
-      if(mailMessage != null)
+      if (mailMessage != null)
       {
         mailMessage.Dispose();
         mailMessage = null;
       }
 
-      if(emailTimer == null)
+      if (emailTimer == null)
         return;
 
       emailTimer.Dispose();
@@ -56,13 +56,13 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// Init E-Mail client engine
     /// </summary>
-    public void InitClient()
+    public void InitClient ()
     {
       InitSucces = false;
 
-      if(string.IsNullOrEmpty(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpServerName))
+      if (string.IsNullOrEmpty(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpServerName))
         return;
-      if(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpPort <= 0)
+      if (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpPort <= 0)
         return;
 
       try
@@ -78,9 +78,9 @@ namespace Org.Vs.TailForWin.Utils
         mailClient.Credentials = authInfo;
         mailClient.SendCompleted += SendCompleted;
 
-        if(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SSL)
+        if (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SSL)
           mailClient.EnableSsl = true;
-        if(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.TLS)
+        if (SettingsHelper.TailSettings.AlertSettings.SmtpSettings.TLS)
           ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
 
         MailAddress from = new MailAddress(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.FromAddress);
@@ -105,7 +105,7 @@ namespace Org.Vs.TailForWin.Utils
 
         InitSucces = true;
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         MessageBox.Show(Application.Current.FindResource("SmtpSettingsNotValid") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
@@ -117,22 +117,22 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     /// <param name="userToken">User token</param>
     /// <param name="bodyMessage">Message to be send</param>
-    /// <exception cref="ArgumentExcpetion">If userToken is null or empty</exception>
-    public void SendMail(string userToken, string bodyMessage = null)
+    /// <exception cref="ArgumentException">If userToken is null or empty</exception>
+    public void SendMail (string userToken, string bodyMessage = null)
     {
-      Arg.NotNull(this, userToken, "UserToken");
+      Arg.NotNull(userToken, "UserToken");
 
       try
       {
         string userState = userToken;
 
-        if(bodyMessage != null)
+        if (bodyMessage != null)
           mailMessage.Body = bodyMessage;
 
-        if(string.Compare(userState, "testMessage", StringComparison.Ordinal) == 0)
+        if (string.Compare(userState, "testMessage", StringComparison.Ordinal) == 0)
           mailMessage.Body = string.Format("Testmail from {0}", LogFile.APPLICATION_CAPTION);
 
-        if(!EMailTimer.Enabled)
+        if (!EMailTimer.Enabled)
           mailClient.SendAsync(mailMessage, userToken);
         else
         {
@@ -140,13 +140,13 @@ namespace Org.Vs.TailForWin.Utils
           return;
         }
 
-        if(string.Compare(userState, "testMessage", StringComparison.Ordinal) == 0)
+        if (string.Compare(userState, "testMessage", StringComparison.Ordinal) == 0)
           return;
 
         emailTimer.Enabled = true;
         Console.WriteLine(@"Timer start {0}", DateTime.Now);
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         MessageBox.Show(Application.Current.FindResource("MailCannotSend") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
@@ -173,26 +173,26 @@ namespace Org.Vs.TailForWin.Utils
       }
     }
 
-    private void SendCompleted(object sender, AsyncCompletedEventArgs e)
+    private void SendCompleted (object sender, AsyncCompletedEventArgs e)
     {
       string token = (string) e.UserState;
 
-      if(e.Cancelled)
+      if (e.Cancelled)
       {
         MessageBox.Show(string.Format("{0}\n\"{1}\"", Application.Current.FindResource("MailCannotSend"), token), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
-        if(SendMailComplete != null)
+        if (SendMailComplete != null)
           SendMailComplete(sender, EventArgs.Empty);
         return;
       }
 
       MessageBox.Show(e.Error != null ? string.Format("{0}\n\"{1}\"", e.Error, token) : "Complete!", LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
-      if(SendMailComplete != null)
+      if (SendMailComplete != null)
         SendMailComplete(sender, EventArgs.Empty);
     }
 
-    private void EMailTimerEvent(object sender, System.Timers.ElapsedEventArgs e)
+    private void EMailTimerEvent (object sender, System.Timers.ElapsedEventArgs e)
     {
       try
       {
@@ -209,13 +209,13 @@ namespace Org.Vs.TailForWin.Utils
         SendMail("AlertTrigger", body);
         Console.WriteLine(@"Timer end {0}", DateTime.Now);
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
-    private void CollectMessages(string message)
+    private void CollectMessages (string message)
     {
       messageCollection.Add(message);
       LOG.Debug("{0} add message ...", System.Reflection.MethodBase.GetCurrentMethod().Name);

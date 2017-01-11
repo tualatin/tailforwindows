@@ -15,7 +15,7 @@ namespace Org.Vs.TailForWin.Data.Events
     /// Set LogEntry data
     /// </summary>
     /// <param name="obj">LogEntry data</param>
-    public AlertTriggerEventArgs(Template.TextEditor.Data.LogEntry obj)
+    public AlertTriggerEventArgs (Template.TextEditor.Data.LogEntry obj)
     {
       alertTriggerData = obj;
     }
@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.Data.Events
     /// Get LogEntry object
     /// </summary>
     /// <returns>LogEntry object</returns>
-    public Template.TextEditor.Data.LogEntry GetData()
+    public Template.TextEditor.Data.LogEntry GetData ()
     {
       return (alertTriggerData);
     }

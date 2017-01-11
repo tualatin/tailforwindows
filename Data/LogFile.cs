@@ -56,7 +56,7 @@ namespace Org.Vs.TailForWin.Data
     /// Default inactive foreground color
     /// </summary>
     public static string DEFAULT_INACTIVE_FOREGROUND_COLOR = "#000000";
-    
+
     /// <summary>
     /// default inactive background color
     /// </summary>
@@ -131,7 +131,7 @@ namespace Org.Vs.TailForWin.Data
     /// <param name="filter">Filter</param>
     /// <param name="title">Title</param>
     /// <returns>If success true otherwise false</returns>
-    public static bool OpenFileLogDialog(out string fileName, string filter, string title)
+    public static bool OpenFileLogDialog (out string fileName, string filter, string title)
     {
       OpenFileDialog openDialog = new OpenFileDialog
       {
@@ -154,7 +154,7 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Bring main window to front and set it active
     /// </summary>
-    public static void BringMainWindowToFront()
+    public static void BringMainWindowToFront ()
     {
       if (APP_MAIN_WINDOW.WindowState == WindowState.Minimized)
         APP_MAIN_WINDOW.WindowState = WindowState.Normal;
@@ -166,7 +166,7 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Minimize main window
     /// </summary>
-    public static void MinimizeMainWindow()
+    public static void MinimizeMainWindow ()
     {
       if (APP_MAIN_WINDOW.WindowState == WindowState.Normal || APP_MAIN_WINDOW.WindowState == WindowState.Maximized)
         APP_MAIN_WINDOW.WindowState = WindowState.Minimized;
@@ -235,7 +235,7 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Initialize the observable collections from refresh rate (RR), thread priority (TP) and file encodings (FE)
     /// </summary>
-    public static void InitObservableCollectionsRrtpfe()
+    public static void InitObservableCollectionsRrtpfe ()
     {
       // Threadrefresh rate
       foreach (ETailRefreshRate refreshName in Enum.GetValues(typeof(ETailRefreshRate)))
@@ -257,7 +257,7 @@ namespace Org.Vs.TailForWin.Data
 
     private class CaseInsensitiveEncodingInfoNameComparer : IComparer
     {
-      int IComparer.Compare(Object x, Object y)
+      int IComparer.Compare (Object x, Object y)
       {
         const int result = 0;
 
@@ -271,7 +271,7 @@ namespace Org.Vs.TailForWin.Data
       }
     }
 
-    public static bool FindDuplicateInFilterList(ObservableCollection<FilterData> listOfFilters, FilterData newItem)
+    public static bool FindDuplicateInFilterList (ObservableCollection<FilterData> listOfFilters, FilterData newItem)
     {
       return (listOfFilters.Any(item => String.Compare(item.Filter, newItem.Filter, StringComparison.Ordinal) == 0));
     }
@@ -283,7 +283,7 @@ namespace Org.Vs.TailForWin.Data
     {
       #region IComparer<DateTime?> Members
 
-      public int Compare(FileManagerData x, FileManagerData y)
+      public int Compare (FileManagerData x, FileManagerData y)
       {
         DateTime nx = x.FileCreationTime ?? DateTime.MaxValue;
         DateTime ny = y.FileCreationTime ?? DateTime.MaxValue;

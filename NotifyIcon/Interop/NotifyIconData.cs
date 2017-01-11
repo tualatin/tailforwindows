@@ -123,14 +123,14 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// </summary>
     /// <param name="handle"></param>
     /// <returns></returns>
-    public static NotifyIconData CreateDefault(IntPtr handle)
+    public static NotifyIconData CreateDefault (IntPtr handle)
     {
       var data = new NotifyIconData();
 
       if (Environment.OSVersion.Version.Major >= 6)
       {
         //use the current size
-        data.cbSize = (uint)Marshal.SizeOf(data);
+        data.cbSize = (uint) Marshal.SizeOf(data);
       }
       else
       {
@@ -145,7 +145,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
       data.WindowHandle = handle;
       data.TaskbarIconId = 0x0;
       data.CallbackMessageId = WindowMessageSink.CallbackMessageId;
-      data.VersionOrTimeout = (uint)NotifyIconVersion.Win95;
+      data.VersionOrTimeout = (uint) NotifyIconVersion.Win95;
 
       data.IconHandle = IntPtr.Zero;
 

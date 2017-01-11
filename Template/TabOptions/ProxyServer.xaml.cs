@@ -16,7 +16,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public ProxyServer()
+    public ProxyServer ()
     {
       InitializeComponent();
 
@@ -25,36 +25,36 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       InitRadios();
     }
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private void Window_Loaded (object sender, RoutedEventArgs e)
     {
       DataContext = SettingsHelper.TailSettings.ProxySettings;
     }
 
-    private void btnOK_Click(object sender, RoutedEventArgs e)
+    private void btnOK_Click (object sender, RoutedEventArgs e)
     {
       SaveSettings();
       OnExit();
     }
 
-    private void btnCancel_Click(object sender, RoutedEventArgs e)
+    private void btnCancel_Click (object sender, RoutedEventArgs e)
     {
       OnExit();
     }
 
-    private void HandleEsc(object sender, KeyEventArgs e)
+    private void HandleEsc (object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
         OnExit();
     }
 
-    private void OnExit()
+    private void OnExit ()
     {
       Close();
     }
 
     #region HelperFunctions
 
-    private void SaveSettings()
+    private void SaveSettings ()
     {
       if (textBoxPassword.Password.Length > 0)
         SettingsHelper.TailSettings.ProxySettings.Password = StringEncryption.Encrypt(textBoxPassword.Password, LogFile.ENCRYPT_PASSPHRASE);
@@ -91,7 +91,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       SettingsHelper.SaveSettings();
     }
 
-    private void InitRadios()
+    private void InitRadios ()
     {
       if (!SettingsHelper.TailSettings.ProxySettings.UseSystemSettings && !SettingsHelper.TailSettings.ProxySettings.UseProxy)
         radioButtonNoProxy.IsChecked = true;
@@ -102,7 +102,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         textBoxPassword.Password = StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE);
     }
 
-    private void SelectAllText(WatermarkTextBox.WatermarkTextBox textBox)
+    private void SelectAllText (WatermarkTextBox.WatermarkTextBox textBox)
     {
       textBox.Dispatcher.BeginInvoke(new Action(delegate
       {
@@ -112,9 +112,9 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     #endregion
 
-    private void watermarkTextBox_GotFocus(object sender, RoutedEventArgs e)
+    private void watermarkTextBox_GotFocus (object sender, RoutedEventArgs e)
     {
-      WatermarkTextBox.WatermarkTextBox tb = (WatermarkTextBox.WatermarkTextBox)e.OriginalSource;
+      WatermarkTextBox.WatermarkTextBox tb = (WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
       SelectAllText(tb);
     }
   }

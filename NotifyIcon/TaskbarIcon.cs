@@ -21,6 +21,8 @@
 //
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
+using log4net;
+using Org.Vs.TailForWin.NotifyIcon.Interop;
 using System;
 using System.Drawing;
 using System.Threading;
@@ -29,8 +31,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Interop;
 using System.Windows.Threading;
-using Org.Vs.TailForWin.Data.Enums;
-using Org.Vs.TailForWin.NotifyIcon.Interop;
+
 using Point = Org.Vs.TailForWin.NotifyIcon.Interop.Point;
 
 
@@ -42,6 +43,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
   /// </summary>
   public partial class TaskbarIcon : FrameworkElement, IDisposable
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(TaskbarIcon));
+
     #region Members
 
     /// <summary>
@@ -119,7 +122,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Inits the taskbar icon and registers a message listener
     /// in order to receive events from the taskbar area.
     /// </summary>
-    public TaskbarIcon()
+    public TaskbarIcon ()
     {
       //using dummy sink in design mode
       messageSink = Util.IsDesignMode ? WindowMessageSink.CreateEmpty() : new WindowMessageSink(NotifyIconVersion.Win95);
@@ -159,7 +162,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </param>
     /// <exception cref="ArgumentNullException">If <paramref name="balloon"/>
     /// is a null reference.</exception>
-    public void ShowCustomBalloon(UIElement balloon, PopupAnimation animation, int? timeout)
+    public void ShowCustomBalloon (UIElement balloon, PopupAnimation animation, int? timeout)
     {
       Dispatcher dispatcher = this.GetDispatcher();
 
@@ -257,7 +260,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <see cref="CloseBalloon"/> or due to a new
     /// message being displayed.
     /// </summary>
-    public void ResetBalloonCloseTimer()
+    public void ResetBalloonCloseTimer ()
     {
       if (IsDisposed)
         return;
@@ -273,7 +276,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Closes the current <see cref="CustomBalloon"/>, if the
     /// property is set.
     /// </summary>
-    public void CloseBalloon()
+    public void CloseBalloon ()
     {
       if (IsDisposed)
         return;
@@ -329,7 +332,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Timer-invoke event which closes the currently open balloon and
     /// resets the <see cref="CustomBalloon"/> dependency property.
     /// </summary>
-    private void CloseBalloonCallback(object state)
+    private void CloseBalloonCallback (object state)
     {
       if (IsDisposed)
         return;
@@ -350,7 +353,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// both.
     /// </summary>
     /// <param name="me">Event flag.</param>
-    private void OnMouseEvent(MouseEvent me)
+    private void OnMouseEvent (MouseEvent me)
     {
       if (IsDisposed)
         return;
@@ -483,7 +486,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// invoked for Windows Vista and above.
     /// </summary>
     /// <param name="visible">Whether to show or hide the tooltip.</param>
-    private void OnToolTipChange(bool visible)
+    private void OnToolTipChange (bool visible)
     {
       //if we don't have a tooltip, there's nothing to do here...
       if (TrayToolTipResolved == null)
@@ -540,7 +543,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// placed under the mouse. ToolTip internally uses a Popup of
     /// its own, but takes advance of Popup's internal <see cref="UIElement.IsHitTestVisible"/>
     /// property which prevents this issue.</remarks>
-    private void CreateCustomToolTip()
+    private void CreateCustomToolTip ()
     {
       //check if the item itself is a tooltip
       ToolTip tt = TrayToolTip as ToolTip;
@@ -585,7 +588,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Sets tooltip settings for the class depending on defined
     /// dependency properties and OS support.
     /// </summary>
-    private void WriteToolTipSettings()
+    private void WriteToolTipSettings ()
     {
       const IconDataMembers flags = IconDataMembers.Tip;
       iconData.ToolTipText = ToolTipText;
@@ -621,7 +624,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// placed under the mouse. ToolTip internally uses a Popup of
     /// its own, but takes advance of Popup's internal <see cref="UIElement.IsHitTestVisible"/>
     /// property which prevents this issue.</remarks>
-    private void CreatePopup()
+    private void CreatePopup ()
     {
       //check if the item itself is a popup
       Popup popup = TrayPopup as Popup;
@@ -663,7 +666,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Displays the <see cref="TrayPopup"/> control if
     /// it was set.
     /// </summary>
-    private void ShowTrayPopup(Point cursorPosition)
+    private void ShowTrayPopup (Point cursorPosition)
     {
       if (IsDisposed)
         return;
@@ -690,7 +693,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
         if (TrayPopupResolved.Child != null)
         {
           //try to get a handle on the popup itself (via its child)
-          HwndSource source = (HwndSource)PresentationSource.FromVisual(TrayPopupResolved.Child);
+          HwndSource source = (HwndSource) PresentationSource.FromVisual(TrayPopupResolved.Child);
 
           if (source != null)
             handle = source.Handle;
@@ -722,7 +725,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Displays the <see cref="ContextMenu"/> if
     /// it was set.
     /// </summary>
-    private void ShowContextMenu(Point cursorPosition)
+    private void ShowContextMenu (Point cursorPosition)
     {
       if (IsDisposed)
         return;
@@ -747,7 +750,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
         IntPtr handle = IntPtr.Zero;
 
         //try to get a handle on the context itself
-        HwndSource source = (HwndSource)PresentationSource.FromVisual(ContextMenu);
+        HwndSource source = (HwndSource) PresentationSource.FromVisual(ContextMenu);
 
         if (source != null)
           handle = source.Handle;
@@ -776,7 +779,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="visible">Whether the ToolTip was just displayed
     /// or removed.</param>
-    private void OnBalloonToolTipChanged(bool visible)
+    private void OnBalloonToolTipChanged (bool visible)
     {
       if (visible)
         RaiseTrayBalloonTipShownEvent();
@@ -791,7 +794,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <param name="title">The title to display on the balloon tip.</param>
     /// <param name="message">The text to display on the balloon tip.</param>
     /// <param name="symbol">A symbol that indicates the severity.</param>
-    public void ShowBalloonTip(string title, string message, BalloonIcon symbol)
+    public void ShowBalloonTip (string title, string message, BalloonIcon symbol)
     {
       lock (this)
       {
@@ -808,7 +811,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <param name="customIcon">A custom icon.</param>
     /// <exception cref="ArgumentNullException">If <paramref name="customIcon"/>
     /// is a null reference.</exception>
-    public void ShowBalloonTip(string title, string message, Icon customIcon)
+    public void ShowBalloonTip (string title, string message, Icon customIcon)
     {
       if (customIcon == null)
         throw new ArgumentNullException("customIcon");
@@ -828,7 +831,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <param name="flags">Indicates what icon to use.</param>
     /// <param name="balloonIconHandle">A handle to a custom icon, if any, or
     /// <see cref="IntPtr.Zero"/>.</param>
-    private void ShowBalloonTip(string title, string message, BalloonFlags flags, IntPtr balloonIconHandle)
+    private void ShowBalloonTip (string title, string message, BalloonFlags flags, IntPtr balloonIconHandle)
     {
       EnsureNotDisposed();
 
@@ -843,7 +846,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// Hides a balloon ToolTip, if any is displayed.
     /// </summary>
-    public void HideBalloonTip()
+    public void HideBalloonTip ()
     {
       EnsureNotDisposed();
 
@@ -861,7 +864,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// based on a single click of the left mouse.<br/>
     /// This method is invoked by the <see cref="singleClickTimer"/>.
     /// </summary>
-    private void DoSingleClickAction(object state)
+    private void DoSingleClickAction (object state)
     {
       if (IsDisposed)
         return;
@@ -886,25 +889,25 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// Sets the version flag for the <see cref="iconData"/>.
     /// </summary>
-    private void SetVersion()
+    private void SetVersion ()
     {
-      iconData.VersionOrTimeout = (uint)NotifyIconVersion.Vista;
+      iconData.VersionOrTimeout = (uint) NotifyIconVersion.Vista;
       bool status = WinApi.Shell_NotifyIcon(NotifyCommand.SetVersion, ref iconData);
 
       if (!status)
       {
-        iconData.VersionOrTimeout = (uint)NotifyIconVersion.Win2000;
+        iconData.VersionOrTimeout = (uint) NotifyIconVersion.Win2000;
         status = Util.WriteIconData(ref iconData, NotifyCommand.SetVersion);
       }
 
       if (!status)
       {
-        iconData.VersionOrTimeout = (uint)NotifyIconVersion.Win95;
+        iconData.VersionOrTimeout = (uint) NotifyIconVersion.Win95;
         status = Util.WriteIconData(ref iconData, NotifyCommand.SetVersion);
       }
 
       if (!status)
-        Org.Vs.TailForWin.Utils.ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{0}, could not set version", System.Reflection.MethodBase.GetCurrentMethod().Name));
+        LOG.Error("{0} could not set version", System.Reflection.MethodBase.GetCurrentMethod().Name); 
     }
 
     #endregion
@@ -915,7 +918,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Recreates the taskbar icon if the whole taskbar was
     /// recreated (e.g. because Explorer was shut down).
     /// </summary>
-    private void OnTaskbarCreated()
+    private void OnTaskbarCreated ()
     {
       IsTaskbarIconCreated = false;
       CreateTaskbarIcon();
@@ -925,7 +928,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Creates the taskbar icon. This message is invoked during initialization,
     /// if the taskbar is restarted, and whenever the icon is displayed.
     /// </summary>
-    private void CreateTaskbarIcon()
+    private void CreateTaskbarIcon ()
     {
       lock (this)
       {
@@ -945,7 +948,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
 
           //set to most recent version
           SetVersion();
-          messageSink.Version = (NotifyIconVersion)iconData.VersionOrTimeout;
+          messageSink.Version = (NotifyIconVersion) iconData.VersionOrTimeout;
           IsTaskbarIconCreated = true;
         }
       }
@@ -954,7 +957,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// Closes the taskbar icon if required.
     /// </summary>
-    private void RemoveTaskbarIcon()
+    private void RemoveTaskbarIcon ()
     {
       lock (this)
       {
@@ -975,7 +978,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="point"></param>
     /// <returns></returns>
-    private Point GetDeviceCoordinates(Point point)
+    private Point GetDeviceCoordinates (Point point)
     {
       if (double.IsNaN(scalingFactor))
       {
@@ -997,8 +1000,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
 
       return (new Point
       {
-        X = (int)(point.X * scalingFactor),
-        Y = (int)(point.Y * scalingFactor)
+        X = (int) (point.X * scalingFactor),
+        Y = (int) (point.Y * scalingFactor)
       });
     }
 
@@ -1018,7 +1021,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// raises a <see cref="ObjectDisposedException"/> in case
     /// the <see cref="IsDisposed"/> flag is true.
     /// </summary>
-    private void EnsureNotDisposed()
+    private void EnsureNotDisposed ()
     {
       if (IsDisposed)
         throw new ObjectDisposedException(Name ?? GetType().FullName);
@@ -1027,7 +1030,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// Disposes the class if the application exits.
     /// </summary>
-    private void OnExit(object sender, EventArgs e)
+    private void OnExit (object sender, EventArgs e)
     {
       Dispose();
     }
@@ -1041,7 +1044,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// this class.
     /// </para>
     /// </summary>
-    ~TaskbarIcon()
+    ~TaskbarIcon ()
     {
       Dispose(false);
     }
@@ -1052,7 +1055,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <remarks>This method is not virtual by design. Derived classes
     /// should override <see cref="Dispose(bool)"/>.
     /// </remarks>
-    public void Dispose()
+    public void Dispose ()
     {
       Dispose(true);
 
@@ -1079,7 +1082,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// be disposed.</param>
     /// <remarks>Check the <see cref="IsDisposed"/> property to determine whether
     /// the method has already been called.</remarks>
-    private void Dispose(bool disposing)
+    private void Dispose (bool disposing)
     {
       //don't do anything if the component is already disposed
       if (IsDisposed || !disposing)

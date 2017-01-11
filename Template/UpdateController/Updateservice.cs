@@ -127,7 +127,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// Releases all resources used by the Updateservice.
     /// </summary>
-    public void Dispose()
+    public void Dispose ()
     {
       if (updateThread == null)
         return;
@@ -139,7 +139,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public Updateservice()
+    public Updateservice ()
     {
       updateThread = new BackgroundWorker { WorkerSupportsCancellation = true };
       updateThread.DoWork += updateThread_DoWork;
@@ -149,7 +149,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// Initialize web service
     /// </summary>
-    public void InitWebService()
+    public void InitWebService ()
     {
       WebServiceData data = new WebServiceData
       {
@@ -167,7 +167,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// Start update thread
     /// </summary>
-    public void StartUpdate()
+    public void StartUpdate ()
     {
       if (!updateThread.IsBusy)
         updateThread.RunWorkerAsync();
@@ -177,7 +177,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     #region Thread
 
-    private void updateThread_DoWork(object sender, DoWorkEventArgs e)
+    private void updateThread_DoWork (object sender, DoWorkEventArgs e)
     {
       string html = string.Empty;
 
@@ -188,7 +188,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
       Success = true;
     }
 
-    private void updateThread_Completed(object sender, RunWorkerCompletedEventArgs e)
+    private void updateThread_Completed (object sender, RunWorkerCompletedEventArgs e)
     {
       if (!string.IsNullOrEmpty(webData))
       {

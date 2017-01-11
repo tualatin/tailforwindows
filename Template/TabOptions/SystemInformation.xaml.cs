@@ -16,7 +16,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public SystemInformation()
+    public SystemInformation ()
     {
       InitializeComponent();
 
@@ -25,7 +25,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       InitListView();
     }
 
-    private void InitListView()
+    private void InitListView ()
     {
       SysInformationData sysInfo = SysInformationController.GetAllSystemInformation();
 
@@ -47,17 +47,17 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       listViewSysInfo.Items.Add(new KeyValuePair<string, string>("Virtual memory available", sysInfo.GuiAvailVirtual));
     }
 
-    private void btnClose_Click(object sender, RoutedEventArgs e)
+    private void btnClose_Click (object sender, RoutedEventArgs e)
     {
       Close();
     }
 
-    private void listViewSysInfo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void listViewSysInfo_SelectionChanged (object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
     }
 
-    private void HandleEsc(object sender, KeyEventArgs e)
+    private void HandleEsc (object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
         btnClose_Click(sender, e);

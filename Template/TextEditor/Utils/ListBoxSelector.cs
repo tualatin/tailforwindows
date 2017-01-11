@@ -42,11 +42,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     private Point end;
 
 
-    private ListBoxSelector(ListBox listBox)
+    private ListBoxSelector (ListBox listBox)
     {
       this.listBox = listBox;
 
-      if(this.listBox.IsLoaded)
+      if (this.listBox.IsLoaded)
         Register();
       else
       {
@@ -64,7 +64,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     /// <returns>
     /// true if items can be selected by a selection rectangle; otherwise, false.
     /// </returns>
-    public static bool GetEnabled(DependencyObject obj)
+    public static bool GetEnabled (DependencyObject obj)
     {
       return ((bool) obj.GetValue(EnabledProperty));
     }
@@ -75,23 +75,23 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     /// </summary>
     /// <param name="obj">Object on which to set the property.</param>
     /// <param name="value">Value to set.</param>
-    public static void SetEnabled(DependencyObject obj, bool value)
+    public static void SetEnabled (DependencyObject obj, bool value)
     {
       obj.SetValue(EnabledProperty, value);
     }
 
-    private static void IsEnabledChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void IsEnabledChangedCallback (DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       ListBox listBox = d as ListBox;
 
-      if(listBox == null)
+      if (listBox == null)
         return;
 
-      if((bool) e.NewValue)
+      if ((bool) e.NewValue)
       {
         // If we're enabling selection by a rectangle we can assume
         // this means we want to be able to select more than one item.
-        if(listBox.SelectionMode == SelectionMode.Single)
+        if (listBox.SelectionMode == SelectionMode.Single)
           listBox.SelectionMode = SelectionMode.Extended;
 
         attachedControls.Add(listBox, new ListBoxSelector(listBox));
@@ -100,7 +100,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       {
         ListBoxSelector selector;
 
-        if(attachedControls.TryGetValue(listBox, out selector))
+        if (attachedControls.TryGetValue(listBox, out selector))
         {
           attachedControls.Remove(listBox);
           selector.UnRegister();
@@ -114,22 +114,22 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     /// <typeparam name="T"></typeparam>
     /// <param name="reference"></param>
     /// <returns></returns>
-    private static T FindChild<T>(DependencyObject reference) where T : class
+    private static T FindChild<T> (DependencyObject reference) where T : class
     {
       // Do a breadth first search.
       var queue = new Queue<DependencyObject>();
       queue.Enqueue(reference);
 
-      while(queue.Count > 0)
+      while (queue.Count > 0)
       {
         DependencyObject child = queue.Dequeue();
         T obj = child as T;
 
-        if(obj != null)
+        if (obj != null)
           return (obj);
 
         // Add the children to the queue to search through later.
-        for(int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
         {
           queue.Enqueue(VisualTreeHelper.GetChild(child, i));
         }
@@ -137,11 +137,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       return (null); // Not found.
     }
 
-    private bool Register()
+    private bool Register ()
     {
       scrollContent = FindChild<ScrollContentPresenter>(listBox);
 
-      if(scrollContent == null)
+      if (scrollContent == null)
         return (scrollContent != null);
 
       autoScroller = new AutoScroller(listBox);
@@ -165,7 +165,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       return (scrollContent != null);
     }
 
-    private void UnRegister()
+    private void UnRegister ()
     {
       StopSelection();
 
@@ -178,21 +178,21 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       autoScroller.UnRegister();
     }
 
-    private void OnListBoxLoaded(object sender, EventArgs e)
+    private void OnListBoxLoaded (object sender, EventArgs e)
     {
-      if(Register())
+      if (Register())
         listBox.Loaded -= OnListBoxLoaded;
     }
 
-    private void OnOffsetChanged(object sender, OffsetChangedEventArgs e)
+    private void OnOffsetChanged (object sender, OffsetChangedEventArgs e)
     {
       selector.Scroll(e.HorizontalChange, e.VerticalChange);
       UpdateSelection();
     }
 
-    private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    private void OnMouseLeftButtonUp (object sender, MouseButtonEventArgs e)
     {
-      if(mouseCaptured)
+      if (mouseCaptured)
       {
         mouseCaptured = false;
         scrollContent.ReleaseMouseCapture();
@@ -202,14 +202,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       lbdEventArgs = null;
     }
 
-    private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void OnMouseLeftButtonDown (object sender, MouseButtonEventArgs e)
     {
       Point mouse = e.GetPosition(this.scrollContent);
 
-      if((mouse.X >= 0) && (mouse.X < this.scrollContent.ActualWidth) &&
+      if ((mouse.X >= 0) && (mouse.X < this.scrollContent.ActualWidth) &&
           (mouse.Y >= 0) && (mouse.Y < this.scrollContent.ActualHeight))
       {
-        if(((Keyboard.Modifiers & ModifierKeys.Control) == 0) &&
+        if (((Keyboard.Modifiers & ModifierKeys.Control) == 0) &&
             ((Keyboard.Modifiers & ModifierKeys.Shift) == 0))
           // Neither the shift key or control key is pressed, so
           // clear the selection.
@@ -217,9 +217,9 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       }
     }
 
-    private void OnMouseMove(object sender, MouseEventArgs e)
+    private void OnMouseMove (object sender, MouseEventArgs e)
     {
-      if(lbdEventArgs != null)
+      if (lbdEventArgs != null)
       {
         var e2 = lbdEventArgs;
         lbdEventArgs = null;
@@ -227,11 +227,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
         mouseCaptured = TryCaptureMouse(e2);
         Point mouse = e2.GetPosition(scrollContent);
 
-        if(mouseCaptured)
+        if (mouseCaptured)
           StartSelection(mouse);
       }
 
-      if(!mouseCaptured)
+      if (!mouseCaptured)
         return;
 
       // Get the position relative to the content of the ScrollViewer.
@@ -240,13 +240,13 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       UpdateSelection();
     }
 
-    private void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void OnPreviewMouseLeftButtonDown (object sender, MouseButtonEventArgs e)
     {
       // Check that the mouse is inside the scroll content (could be on the
       // scroll bars for example).
       Point mouse = e.GetPosition(scrollContent);
 
-      if((mouse.X >= 0) && (mouse.X < scrollContent.ActualWidth) &&
+      if ((mouse.X >= 0) && (mouse.X < scrollContent.ActualWidth) &&
           (mouse.Y >= 0) && (mouse.Y < scrollContent.ActualHeight))
         lbdEventArgs = e;
       else
@@ -261,14 +261,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       //  this.StartSelection (mouse);
     }
 
-    private bool TryCaptureMouse(MouseButtonEventArgs e)
+    private bool TryCaptureMouse (MouseButtonEventArgs e)
     {
       Point position = e.GetPosition(this.scrollContent);
 
       // Check if there is anything under the mouse.
       UIElement element = scrollContent.InputHitTest(position) as UIElement;
 
-      if(element != null)
+      if (element != null)
       {
         // Simulate a mouse click by sending it the MouseButtonDown
         // event based on the data we received.
@@ -281,7 +281,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 
         // The ListBox will try to capture the mouse unless something
         // else captures it.
-        if(Mouse.Captured != listBox)
+        if (Mouse.Captured != listBox)
           return (false); // Something else wanted the mouse, let it keep it.
       }
 
@@ -289,25 +289,25 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       return (this.scrollContent.CaptureMouse());
     }
 
-    private void StopSelection()
+    private void StopSelection ()
     {
       // Hide the selection rectangle and stop the auto scrolling.
       selectionRect.IsEnabled = false;
       autoScroller.IsEnabled = false;
     }
 
-    private void StartSelection(Point location)
+    private void StartSelection (Point location)
     {
       // We've stolen the MouseLeftButtonDown event from the ListBox
       // so we need to manually give it focus.
-      if(!listBox.IsKeyboardFocusWithin)
+      if (!listBox.IsKeyboardFocusWithin)
         listBox.Focus();
 
       start = location;
       end = location;
 
       // Do we need to start a new selection?
-      if(((Keyboard.Modifiers & ModifierKeys.Control) == 0) &&
+      if (((Keyboard.Modifiers & ModifierKeys.Control) == 0) &&
           ((Keyboard.Modifiers & ModifierKeys.Shift) == 0))
         // Neither the shift key or control key is pressed, so
         // clear the selection.
@@ -320,7 +320,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       autoScroller.IsEnabled = true;
     }
 
-    private void UpdateSelection()
+    private void UpdateSelection ()
     {
       // Offset the start point based on the scroll offset.
       Point start = autoScroller.TranslatePoint(this.start);
@@ -363,9 +363,9 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       /// </summary>
       /// <param name="itemsControl">The ItemsControl that is scrolled.</param>
       /// <exception cref="ArgumentNullException">itemsControl is null.</exception>
-      public AutoScroller(ItemsControl itemsControl)
+      public AutoScroller (ItemsControl itemsControl)
       {
-        if(itemsControl == null)
+        if (itemsControl == null)
           throw new ArgumentNullException("itemsControl");
 
         this.itemsControl = itemsControl;
@@ -397,7 +397,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
         }
         set
         {
-          if(this.isEnabled == value)
+          if (this.isEnabled == value)
             return;
 
           this.isEnabled = value;
@@ -413,7 +413,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       /// </summary>
       /// <param name="point">The point to translate.</param>
       /// <returns>A new point offset by the current scroll amount.</returns>
-      public Point TranslatePoint(Point point)
+      public Point TranslatePoint (Point point)
       {
         return (new Point(point.X - this.offset.X, point.Y - this.offset.Y));
       }
@@ -421,7 +421,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       /// <summary>
       /// Removes all the event handlers registered on the control.
       /// </summary>
-      public void UnRegister()
+      public void UnRegister ()
       {
         this.scrollViewer.ScrollChanged -= this.OnScrollChanged;
       }
@@ -432,12 +432,12 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       /// <param name="mouse">
       /// The location of the mouse, relative to the ScrollViewer's content.
       /// </param>
-      public void Update(Point mouse)
+      public void Update (Point mouse)
       {
         this.mouse = mouse;
 
         // If scrolling isn't enabled then see if it needs to be.
-        if(!this.autoScroll.IsEnabled)
+        if (!this.autoScroll.IsEnabled)
           this.PreformScroll();
       }
 
@@ -445,7 +445,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       /// Returns the default repeat rate in milliseconds.
       /// </summary>
       /// <returns></returns>
-      private static int GetRepeatRate()
+      private static int GetRepeatRate ()
       {
         // The RepeatButton uses the SystemParameters.KeyboardSpeed as the
         // default value for the Interval property. KeyboardSpeed returns
@@ -455,15 +455,15 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
         return (400 - (int) (SystemParameters.KeyboardSpeed * Ratio));
       }
 
-      private double CalculateOffset(int startIndex, int endIndex)
+      private double CalculateOffset (int startIndex, int endIndex)
       {
         double sum = 0;
 
-        for(int i = startIndex; i != endIndex; i++)
+        for (int i = startIndex; i != endIndex; i++)
         {
           FrameworkElement container = this.itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
 
-          if(container != null)
+          if (container != null)
           {
             // Height = Actual height + margin
             sum += container.ActualHeight;
@@ -473,10 +473,10 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
         return (sum);
       }
 
-      private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
+      private void OnScrollChanged (object sender, ScrollChangedEventArgs e)
       {
         // Do we need to update the offset?
-        if(this.IsEnabled)
+        if (this.IsEnabled)
         {
           double horizontal = e.HorizontalChange;
           double vertical = e.VerticalChange;
@@ -484,10 +484,10 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
           // VerticalOffset means two seperate things based on the CanContentScroll
           // property. If this property is true then the offset is the number of
           // items to scroll; false then it's in Device Independant Pixels (DIPs).
-          if(this.scrollViewer.CanContentScroll)
+          if (this.scrollViewer.CanContentScroll)
           {
             // We need to either increase the offset or decrease it.
-            if(e.VerticalChange < 0)
+            if (e.VerticalChange < 0)
             {
               int start = (int) e.VerticalOffset;
               int end = (int) (e.VerticalOffset - e.VerticalChange);
@@ -506,32 +506,32 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 
           var callback = this.OffsetChanged;
 
-          if(callback != null)
+          if (callback != null)
             callback(this, new OffsetChangedEventArgs(horizontal, vertical));
         }
       }
 
-      private void PreformScroll()
+      private void PreformScroll ()
       {
         bool scrolled = false;
 
-        if(this.mouse.X > this.scrollContent.ActualWidth)
+        if (this.mouse.X > this.scrollContent.ActualWidth)
         {
           this.scrollViewer.LineRight();
           scrolled = true;
         }
-        else if(this.mouse.X < 0)
+        else if (this.mouse.X < 0)
         {
           this.scrollViewer.LineLeft();
           scrolled = true;
         }
 
-        if(this.mouse.Y > this.scrollContent.ActualHeight)
+        if (this.mouse.Y > this.scrollContent.ActualHeight)
         {
           this.scrollViewer.LineDown();
           scrolled = true;
         }
-        else if(this.mouse.Y < 0)
+        else if (this.mouse.Y < 0)
         {
           this.scrollViewer.LineUp();
           scrolled = true;
@@ -560,9 +560,9 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       /// The control that contains the items to select.
       /// </param>
       /// <exception cref="ArgumentNullException">itemsControl is null.</exception>
-      public ItemsControlSelector(ItemsControl itemsControl)
+      public ItemsControlSelector (ItemsControl itemsControl)
       {
-        if(itemsControl == null)
+        if (itemsControl == null)
           throw new ArgumentNullException("itemsControl");
 
         this.itemsControl = itemsControl;
@@ -571,7 +571,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       /// <summary>
       /// Resets the cached information, allowing a new selection to begin.
       /// </summary>
-      public void Reset()
+      public void Reset ()
       {
         this.previousArea = new Rect();
       }
@@ -581,7 +581,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       /// </summary>
       /// <param name="x">The horizontal scroll amount.</param>
       /// <param name="y">The vertical scroll amount.</param>
-      public void Scroll(double x, double y)
+      public void Scroll (double x, double y)
       {
         this.previousArea.Offset(-x, -y);
       }
@@ -592,14 +592,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       /// <param name="area">
       /// The selection area, relative to the control passed in the contructor.
       /// </param>
-      public void UpdateSelection(Rect area)
+      public void UpdateSelection (Rect area)
       {
         // Check each item to see if it intersects with the area.
-        for(int i = 0; i < this.itemsControl.Items.Count; i++)
+        for (int i = 0; i < this.itemsControl.Items.Count; i++)
         {
           FrameworkElement item = this.itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
 
-          if(item != null)
+          if (item != null)
           {
             // Get the bounds in the parent's co-ordinates.
             Point topLeft = item.TranslatePoint(new Point(0, 0), this.itemsControl);
@@ -607,9 +607,9 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 
             // Only change the selection if it intersects with the area
             // (or intersected i.e. we changed the value last time).
-            if(itemBounds.IntersectsWith(area))
+            if (itemBounds.IntersectsWith(area))
               Selector.SetIsSelected(item, true);
-            else if(itemBounds.IntersectsWith(this.previousArea))
+            else if (itemBounds.IntersectsWith(this.previousArea))
             {
               // We previously changed the selection to true but it no
               // longer intersects with the area so clear the selection.
@@ -636,7 +636,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       /// </summary>
       /// <param name="horizontal">The change in horizontal scroll.</param>
       /// <param name="vertical">The change in vertical scroll.</param>
-      internal OffsetChangedEventArgs(double horizontal, double vertical)
+      internal OffsetChangedEventArgs (double horizontal, double vertical)
       {
         this.horizontal = horizontal;
         this.vertical = vertical;
@@ -680,7 +680,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       /// The UIElement which this instance will overlay.
       /// </param>
       /// <exception cref="ArgumentNullException">parent is null.</exception>
-      public SelectionAdorner(UIElement parent)
+      public SelectionAdorner (UIElement parent)
         : base(parent)
       {
         // Make sure the mouse doesn't see us.
@@ -713,11 +713,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       /// Participates in rendering operations that are directed by the layout system.
       /// </summary>
       /// <param name="drawingContext">The drawing instructions.</param>
-      protected override void OnRender(DrawingContext drawingContext)
+      protected override void OnRender (DrawingContext drawingContext)
       {
         base.OnRender(drawingContext);
 
-        if(this.IsEnabled)
+        if (this.IsEnabled)
         {
           // Make the lines snap to pixels (add half the pen width [0.5])
           double[] x = { this.SelectionArea.Left + 0.5, this.SelectionArea.Right + 0.5 };

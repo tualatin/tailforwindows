@@ -60,9 +60,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
 
     #region construction
 
-    static Util()
+    static Util ()
     {
-      isDesignMode = (bool)DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement)).Metadata.DefaultValue;
+      isDesignMode = (bool) DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement)).Metadata.DefaultValue;
     }
 
     #endregion
@@ -75,7 +75,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// be used as a window message sink.
     /// </summary>
     /// <returns>Empty window.</returns>
-    public static Window CreateHelperWindow()
+    public static Window CreateHelperWindow ()
     {
       return (new Window
       {
@@ -100,7 +100,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <param name="command">Operation on the icon (e.g. delete the icon).</param>
     /// <returns>True if the data was successfully written.</returns>
     /// <remarks>See Shell_NotifyIcon documentation on MSDN for details.</remarks>
-    public static bool WriteIconData(ref NotifyIconData data, NotifyCommand command)
+    public static bool WriteIconData (ref NotifyIconData data, NotifyCommand command)
     {
       return (WriteIconData(ref data, command, data.ValidMembers));
     }
@@ -115,7 +115,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// structure are set.</param>
     /// <returns>True if the data was successfully written.</returns>
     /// <remarks>See Shell_NotifyIcon documentation on MSDN for details.</remarks>
-    public static bool WriteIconData(ref NotifyIconData data, NotifyCommand command, IconDataMembers flags)
+    public static bool WriteIconData (ref NotifyIconData data, NotifyCommand command, IconDataMembers flags)
     {
       //do nothing if in design mode
       if (IsDesignMode)
@@ -137,7 +137,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Gets a <see cref="BalloonFlags"/> enum value that
     /// matches a given <see cref="BalloonIcon"/>.
     /// </summary>
-    public static BalloonFlags GetBalloonFlag(this BalloonIcon icon)
+    public static BalloonFlags GetBalloonFlag (this BalloonIcon icon)
     {
       switch (icon)
       {
@@ -174,7 +174,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// an icon file (*.ico).</param>
     /// <returns>An icon object that can be used with the
     /// taskbar area.</returns>
-    public static Icon ToIcon(this ImageSource imageSource)
+    public static Icon ToIcon (this ImageSource imageSource)
     {
       if (imageSource == null)
         return (null);
@@ -209,7 +209,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// which allows to check with null values, too.</returns>
     /// <exception cref="ArgumentNullException">If <paramref name="candidates"/>
     /// is a null reference.</exception>
-    public static bool Is<T>(this T value, params T[] candidates)
+    public static bool Is<T> (this T value, params T[] candidates)
     {
       if (candidates == null)
         return (false);
@@ -230,7 +230,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Checks if a given <see cref="PopupActivationMode"/> is a match for
     /// an effectively pressed mouse button.
     /// </summary>
-    public static bool IsMatch(this MouseEvent me, PopupActivationMode activationMode)
+    public static bool IsMatch (this MouseEvent me, PopupActivationMode activationMode)
     {
       switch (activationMode)
       {
@@ -281,7 +281,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <param name="commandParameter">An optional parameter that is associated with
     /// the command.</param>
     /// <param name="target">The target element on which to raise the command.</param>
-    public static void ExecuteIfEnabled(this ICommand command, object commandParameter, IInputElement target)
+    public static void ExecuteIfEnabled (this ICommand command, object commandParameter, IInputElement target)
     {
       if (command == null)
         return;
@@ -303,7 +303,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Returns a dispatcher for multi-threaded scenarios
     /// </summary>
     /// <returns></returns>
-    internal static Dispatcher GetDispatcher(this DispatcherObject source)
+    internal static Dispatcher GetDispatcher (this DispatcherObject source)
     {
       //use the application's dispatcher by default
       if (Application.Current != null)
@@ -327,7 +327,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// binding expression.</returns>
     /// <exception cref="ArgumentNullException">If <paramref name="element"/>
     /// is a null reference.</exception>
-    public static bool IsDataContextDataBound(this FrameworkElement element)
+    public static bool IsDataContextDataBound (this FrameworkElement element)
     {
       if (element == null)
         throw new ArgumentNullException("element");

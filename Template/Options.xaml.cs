@@ -19,7 +19,7 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public Options()
+    public Options ()
     {
       InitializeComponent();
 
@@ -41,23 +41,23 @@ namespace Org.Vs.TailForWin.Template
 
     #region Events
 
-    private void OnUpdateEvent()
+    private void OnUpdateEvent ()
     {
       UpdateEvent?.Invoke(this, EventArgs.Empty);
     }
 
-    private void OnExit(object sender, EventArgs e)
+    private void OnExit (object sender, EventArgs e)
     {
       Close();
     }
 
-    private void OnSaveSettings(object sender, EventArgs e)
+    private void OnSaveSettings (object sender, EventArgs e)
     {
       SettingsHelper.SaveSettings();
       OnUpdateEvent();
     }
 
-    private void HandleEsc(object sender, KeyEventArgs e)
+    private void HandleEsc (object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
         OnExit(sender, e);

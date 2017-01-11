@@ -120,7 +120,7 @@ namespace Org.Vs.TailForWin.Data
 
         try
         {
-          return (now.Subtract((DateTime)FileCreationTime));
+          return (now.Subtract((DateTime) FileCreationTime));
         }
         catch (ArgumentOutOfRangeException ex)
         {
@@ -134,7 +134,7 @@ namespace Org.Vs.TailForWin.Data
     /// Create copy of object
     /// </summary>
     /// <returns>A clone of object</returns>
-    public FileManagerData Clone()
+    public FileManagerData Clone ()
     {
       return (this.MemberwiseClone() as FileManagerData);
     }
@@ -143,7 +143,7 @@ namespace Org.Vs.TailForWin.Data
     /// Save data to memenento
     /// </summary>
     /// <returns>Copy of FileManagerData</returns>
-    public MementoFileManagerData SaveToMemento()
+    public MementoFileManagerData SaveToMemento ()
     {
       return (new MementoFileManagerData(this));
     }
@@ -153,7 +153,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     /// <param name="obj">Reference of FileManagerData</param>
     /// <returns>If equal true otherwise false</returns>
-    public bool EqualsProperties(object obj)
+    public bool EqualsProperties (object obj)
     {
       FileManagerData.MementoFileManagerData other = obj as FileManagerData.MementoFileManagerData;
 
@@ -182,7 +182,7 @@ namespace Org.Vs.TailForWin.Data
     /// Roll object back to the state of the provided memento
     /// </summary>
     /// <param name="memento">The memento to roll back to</param>
-    public void RestoreFromMemento(MementoFileManagerData memento)
+    public void RestoreFromMemento (MementoFileManagerData memento)
     {
       MementoFileManagerData mementoFMData = memento as MementoFileManagerData;
 
@@ -209,7 +209,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public class MementoFileManagerData
     {
-      internal MementoFileManagerData(FileManagerData obj)
+      internal MementoFileManagerData (FileManagerData obj)
       {
         ID = obj.ID;
         Category = obj.Category;

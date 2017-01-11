@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="380" d:DesignWidth="400" Loaded="UserControl_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converter" AllowDrop="True" Drop="UserControl_Drop" DragEnter="UserControl_DragEnter" PreviewDragOver="textBoxSoundFile_PreviewDragOver" xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox">
+             d:DesignHeight="380" d:DesignWidth="400" Loaded="UserControl_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters" AllowDrop="True" Drop="UserControl_Drop" DragEnter="UserControl_DragEnter" PreviewDragOver="textBoxSoundFile_PreviewDragOver" xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox">
   <UserControl.Resources>
     <conv:SoundFileNameConverter x:Key="SoundFileNameConv" />
     <conv:MailAddressConverter x:Key="MailAddressConv" />

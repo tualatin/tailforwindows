@@ -17,7 +17,7 @@ namespace Org.Vs.TailForWin.Logging
     /// </summary>
     /// <param name="sourceName">The name of the logger.</param>
     /// <returns>logger</returns>
-    public static Logger GetLogger(string sourceName)
+    public static Logger GetLogger (string sourceName)
     {
       LoggerFactory.sourceName = sourceName;
 
@@ -29,7 +29,7 @@ namespace Org.Vs.TailForWin.Logging
     /// </summary>
     /// <param name="sourceType">the returned logger will be named after clazz</param>
     /// <returns>logger</returns>
-    public static Logger GetLogger(Type sourceType)
+    public static Logger GetLogger (Type sourceType)
     {
       LoggerFactory.sourceType = sourceType;
 
@@ -41,7 +41,7 @@ namespace Org.Vs.TailForWin.Logging
     /// </summary>
     /// <typeparam name="T">the returned logger will be named after type</typeparam>
     /// <returns>logger</returns>
-    public static Logger GetLogger<T>()
+    public static Logger GetLogger<T> ()
     {
       LoggerFactory.sourceType = typeof(T);
 

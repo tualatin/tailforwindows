@@ -1,6 +1,7 @@
 ﻿using log4net;
 using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Events;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -15,7 +16,7 @@ namespace Org.Vs.TailForWin
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(App));
 
-    private void Application_Startup(object sender, StartupEventArgs e)
+    private void Application_Startup (object sender, StartupEventArgs e)
     {
       MainWindow wnd = new MainWindow();
       AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -71,7 +72,7 @@ namespace Org.Vs.TailForWin
       //}
     }
 
-    private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    private static void CurrentDomain_UnhandledException (object sender, UnhandledExceptionEventArgs e)
     {
       LOG.Error("{0} caused a(n) {1} {2}", System.Reflection.MethodBase.GetCurrentMethod().Name, e.ExceptionObject.GetType().Name, e.ExceptionObject);
     }

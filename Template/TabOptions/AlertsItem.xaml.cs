@@ -1,6 +1,6 @@
-﻿using Org.Vs.TailForWin.Controller;
+﻿using log4net;
+using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
-using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
 using Org.Vs.TailForWin.Utils;
 using System;
@@ -16,6 +16,8 @@ namespace Org.Vs.TailForWin.Template.TabOptions
   /// </summary>
   public partial class AlertsItem : ITabOptionItems
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(AlertsItem));
+
     /// <summary>
     /// Close dialog event handler
     /// </summary>
@@ -27,7 +29,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     public event EventHandler SaveSettings;
 
 
-    public AlertsItem()
+    public AlertsItem ()
     {
       InitializeComponent();
 
@@ -36,7 +38,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     #region ClickEvents
 
-    public void btnSave_Click(object sender, RoutedEventArgs e)
+    public void btnSave_Click (object sender, RoutedEventArgs e)
     {
       if (checkBoxSendMail.IsChecked == true)
       {
@@ -56,13 +58,13 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         SaveSettings(this, EventArgs.Empty);
     }
 
-    public void btnCancel_Click(object sender, RoutedEventArgs e)
+    public void btnCancel_Click (object sender, RoutedEventArgs e)
     {
       if (CloseDialog != null)
         CloseDialog(this, EventArgs.Empty);
     }
 
-    private void btnOpenSoundFile_Click(object sender, RoutedEventArgs e)
+    private void btnOpenSoundFile_Click (object sender, RoutedEventArgs e)
     {
       string fName;
 
@@ -70,7 +72,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         textBoxSoundFile.Text = fName;
     }
 
-    private void btnTestEMail_Click(object sender, RoutedEventArgs e)
+    private void btnTestEMail_Click (object sender, RoutedEventArgs e)
     {
       MailClient mailClient = new MailClient();
       mailClient.SendMailComplete += (o, a) => mailClient.Dispose();
@@ -78,7 +80,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       mailClient.SendMail("testMessage");
     }
 
-    private void btnSmtp_Click(object sender, RoutedEventArgs e)
+    private void btnSmtp_Click (object sender, RoutedEventArgs e)
     {
       Window wnd = Window.GetWindow(this);
       SmtpSettings smtp = new SmtpSettings { Owner = wnd };
@@ -90,18 +92,23 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     #region Events
 
-    public void HandleEsc(object sender, KeyEventArgs e)
+    /// <summary>
+    /// Handle Escape key
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
+    public void HandleEsc (object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
         btnCancel_Click(sender, e);
     }
 
-    private void UserControl_Loaded(object sender, RoutedEventArgs e)
+    private void UserControl_Loaded (object sender, RoutedEventArgs e)
     {
       alertOptions.DataContext = SettingsHelper.TailSettings.AlertSettings;
     }
 
-    private void UserControl_Drop(object sender, DragEventArgs e)
+    private void UserControl_Drop (object sender, DragEventArgs e)
     {
       e.Handled = true;
 
@@ -112,7 +119,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         if (text == null)
           return;
 
-        string fileName = string.Format("{0}", ((string[])text)[0]);
+        string fileName = string.Format("{0}", ((string[]) text)[0]);
         string extension = System.IO.Path.GetExtension(fileName);
 
         Regex regex = new Regex(LogFile.REGEX_SOUNDFILE_EXTENSION);
@@ -127,11 +134,11 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog(ErrorFlags.Error, "AlertsItem", string.Format("AlertsItem Drop exception {0}", ex));
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
-    private void UserControl_DragEnter(object sender, DragEventArgs e)
+    private void UserControl_DragEnter (object sender, DragEventArgs e)
     {
       e.Handled = true;
 
@@ -139,7 +146,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         e.Effects = DragDropEffects.None;
     }
 
-    private void textBoxSoundFile_PreviewDragOver(object sender, DragEventArgs e)
+    private void textBoxSoundFile_PreviewDragOver (object sender, DragEventArgs e)
     {
       e.Handled = true;
     }

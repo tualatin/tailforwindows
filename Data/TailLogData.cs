@@ -18,13 +18,13 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public TailLogData()
+    public TailLogData ()
     {
       ListOfFilter = new ObservableCollection<FilterData>();
       ListOfFilter.CollectionChanged += ContentCollectionChanged;
     }
 
-    public void Dispose()
+    public void Dispose ()
     {
       if (fontType == null)
         return;
@@ -281,7 +281,7 @@ namespace Org.Vs.TailForWin.Data
       set;
     }
 
-    private void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void ContentCollectionChanged (object sender, NotifyCollectionChangedEventArgs e)
     {
       if (e.Action == NotifyCollectionChangedAction.Remove)
       {

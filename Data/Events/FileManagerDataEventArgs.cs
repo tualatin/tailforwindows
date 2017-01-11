@@ -14,7 +14,7 @@ namespace Org.Vs.TailForWin.Data.Events
     /// <summary>
     /// Releases all resources used by the FileManagerDataEventArgs.
     /// </summary>
-    public void Dispose()
+    public void Dispose ()
     {
       if (fileManagerProperties == null)
         return;
@@ -27,7 +27,7 @@ namespace Org.Vs.TailForWin.Data.Events
     /// Constructor
     /// </summary>
     /// <param name="obj">FileManagerData object</param>
-    public FileManagerDataEventArgs(FileManagerData obj)
+    public FileManagerDataEventArgs (FileManagerData obj)
     {
       fileManagerProperties = obj;
     }
@@ -36,7 +36,7 @@ namespace Org.Vs.TailForWin.Data.Events
     /// Get FileManager data
     /// </summary>
     /// <returns>FileManagerData object</returns>
-    public FileManagerData GetData()
+    public FileManagerData GetData ()
     {
       return (fileManagerProperties);
     }

@@ -15,7 +15,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     private string updateUrl;
 
 
-    public ResultDialog(string applicationName, bool update, string updUrl)
+    public ResultDialog (string applicationName, bool update, string updUrl)
     {
       InitializeComponent();
       Title = string.Format("{0} Update", applicationName);
@@ -49,7 +49,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     #region Events
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private void Window_Loaded (object sender, RoutedEventArgs e)
     {
       if (doUpdate)
         btnOk.IsEnabled = true;
@@ -65,7 +65,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
         labelUpdate.Content = Application.Current.FindResource("NoUpdate");
     }
 
-    private void HandleEsc(object sender, KeyEventArgs e)
+    private void HandleEsc (object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
         OnExit();
@@ -75,7 +75,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     #region HelperFunctions
 
-    private void OnExit()
+    private void OnExit ()
     {
       Close();
     }
@@ -96,14 +96,14 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     #endregion
 
-    private void btnOK_Click(object sender, RoutedEventArgs e)
+    private void btnOK_Click (object sender, RoutedEventArgs e)
     {
       updateUrl = string.Format("{0}/tag/{1}", updateUrl, WebVersion);
       Process.Start(updateUrl);
       OnExit();
     }
 
-    private void btnCancel_Click(object sender, RoutedEventArgs e)
+    private void btnCancel_Click (object sender, RoutedEventArgs e)
     {
       OnExit();
     }

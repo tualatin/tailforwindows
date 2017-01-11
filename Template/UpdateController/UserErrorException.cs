@@ -19,69 +19,69 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// Handle user exception
     /// </summary>
     /// <param name="ex">Exception</param>
-    public static void HandleUserException(Exception ex)
+    public static void HandleUserException (Exception ex)
     {
-      if(ex.GetType() == typeof(ArgumentNullException) || ex.GetType() == typeof(NullReferenceException))
+      if (ex.GetType() == typeof(ArgumentNullException) || ex.GetType() == typeof(NullReferenceException))
       {
         ShowMessageBox(ex.Message);
         return;
       }
 
-      if(ex.GetType() == typeof(WebException))
+      if (ex.GetType() == typeof(WebException))
       {
         var webException = ex as WebException;
 
-        if(webException == null)
+        if (webException == null)
           return;
 
         HttpWebResponse response = (HttpWebResponse) webException.Response;
 
-        if(response != null)
+        if (response != null)
         {
-          switch(response.StatusCode)
+          switch (response.StatusCode)
           {
           case HttpStatusCode.ProxyAuthenticationRequired:
 
-            ShowMessageBox(ex.Message);
-            break;
+          ShowMessageBox(ex.Message);
+          break;
 
           case HttpStatusCode.NotFound:
 
-            ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.ResponseUri));
-            break;
+          ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.ResponseUri));
+          break;
 
           case HttpStatusCode.Forbidden:
 
-            ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
-            break;
+          ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
+          break;
 
           case HttpStatusCode.Conflict:
 
-            ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
-            break;
+          ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
+          break;
 
           case HttpStatusCode.Unauthorized:
 
-            ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
-            break;
+          ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
+          break;
 
           default:
 
-            try
+          try
+          {
+            string result;
+            using (StreamReader reader = new StreamReader(response.GetResponseStream(), (string.IsNullOrEmpty(response.ContentEncoding) ? Encoding.UTF8 : Encoding.GetEncoding(response.ContentEncoding))))
             {
-              string result;
-              using(StreamReader reader = new StreamReader(response.GetResponseStream(), (string.IsNullOrEmpty(response.ContentEncoding) ? Encoding.UTF8 : Encoding.GetEncoding(response.ContentEncoding))))
-              {
-                result = reader.ReadToEnd();
-              }
+              result = reader.ReadToEnd();
+            }
 
-              ShowMessageBox(result);
-            }
-            catch(Exception e)
-            {
-              LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-            }
-            break;
+            ShowMessageBox(result);
+          }
+          catch (Exception e)
+          {
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          }
+          break;
           }
         }
         else
@@ -92,7 +92,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
         return;
       }
 
-      if(ex.GetType() == typeof(UriFormatException))
+      if (ex.GetType() == typeof(UriFormatException))
       {
         ShowMessageBox(ex.Message);
         return;
@@ -101,7 +101,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
       ShowMessageBox(ex.Message);
     }
 
-    private static void ShowMessageBox(string msg)
+    private static void ShowMessageBox (string msg)
     {
       MessageBox.Show(msg, Application.Current.FindResource("Error").ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
     }

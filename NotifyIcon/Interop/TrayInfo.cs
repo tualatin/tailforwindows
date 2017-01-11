@@ -15,7 +15,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// Gets the position of the system tray.
     /// </summary>
     /// <returns>Tray coordinates.</returns>
-    public static Point GetTrayLocation()
+    public static Point GetTrayLocation ()
     {
       var info = new AppBarInfo();
       info.GetSystemTaskBarPosition();
@@ -49,13 +49,13 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
   internal class AppBarInfo
   {
     [DllImport("user32.dll")]
-    private static extern IntPtr FindWindow(String lpClassName, String lpWindowName);
+    private static extern IntPtr FindWindow (String lpClassName, String lpWindowName);
 
     [DllImport("shell32.dll")]
-    private static extern UInt32 SHAppBarMessage(UInt32 dwMessage, ref APPBARDATA data);
+    private static extern UInt32 SHAppBarMessage (UInt32 dwMessage, ref APPBARDATA data);
 
     [DllImport("user32.dll")]
-    private static extern Int32 SystemParametersInfo(UInt32 uiAction, UInt32 uiParam, IntPtr pvParam, UInt32 fWinIni);
+    private static extern Int32 SystemParametersInfo (UInt32 uiAction, UInt32 uiParam, IntPtr pvParam, UInt32 fWinIni);
 
     private const int ABE_BOTTOM = 3;
     private const int ABE_LEFT = 0;
@@ -73,7 +73,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     {
       get
       {
-        return ((ScreenEdge)m_data.uEdge);
+        return ((ScreenEdge) m_data.uEdge);
       }
     }
 
@@ -85,7 +85,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
         var rc = new RECT();
         IntPtr rawRect = Marshal.AllocHGlobal(Marshal.SizeOf(rc));
         bResult = SystemParametersInfo(SPI_GETWORKAREA, 0, rawRect, 0);
-        rc = (RECT)Marshal.PtrToStructure(rawRect, rc.GetType());
+        rc = (RECT) Marshal.PtrToStructure(rawRect, rc.GetType());
 
         if (bResult == 1)
         {
@@ -97,11 +97,11 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
       }
     }
 
-    public void GetPosition(string strClassName, string strWindowName)
+    public void GetPosition (string strClassName, string strWindowName)
     {
       m_data = new APPBARDATA
       {
-        cbSize = (UInt32)Marshal.SizeOf(m_data.GetType())
+        cbSize = (UInt32) Marshal.SizeOf(m_data.GetType())
       };
       IntPtr hWnd = FindWindow(strClassName, strWindowName);
 
@@ -116,7 +116,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
         throw new Exception("Failed to find an AppBar that matched the given criteria");
     }
 
-    public void GetSystemTaskBarPosition()
+    public void GetSystemTaskBarPosition ()
     {
       GetPosition("Shell_TrayWnd", null);
     }

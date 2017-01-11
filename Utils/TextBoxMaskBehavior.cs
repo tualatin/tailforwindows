@@ -21,17 +21,17 @@ namespace Org.Vs.TailForWin.Utils
     public static readonly DependencyProperty MinimumValueProperty = DependencyProperty.RegisterAttached("MinimumValue", typeof(double), typeof(TextBoxMaskBehavior),
       new FrameworkPropertyMetadata(double.NaN, MinimumValueChangedCallback));
 
-    public static double GetMinimumValue(DependencyObject obj)
+    public static double GetMinimumValue (DependencyObject obj)
     {
-      return ((double)obj.GetValue(MinimumValueProperty));
+      return ((double) obj.GetValue(MinimumValueProperty));
     }
 
-    public static void SetMinimumValue(DependencyObject obj, double value)
+    public static void SetMinimumValue (DependencyObject obj, double value)
     {
       obj.SetValue(MinimumValueProperty, value);
     }
 
-    private static void MinimumValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void MinimumValueChangedCallback (DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       TextBox tb = (d as TextBox);
       ValidateTextBox(tb);
@@ -40,17 +40,17 @@ namespace Org.Vs.TailForWin.Utils
     public static readonly DependencyProperty MaximumValueProperty = DependencyProperty.RegisterAttached("MaximumValue", typeof(double), typeof(TextBoxMaskBehavior),
       new FrameworkPropertyMetadata(double.NaN, MaximumValueChangedCallback));
 
-    public static double GetMaximumValue(DependencyObject obj)
+    public static double GetMaximumValue (DependencyObject obj)
     {
-      return ((double)obj.GetValue(MaximumValueProperty));
+      return ((double) obj.GetValue(MaximumValueProperty));
     }
 
-    public static void SetMaximumValue(DependencyObject obj, double value)
+    public static void SetMaximumValue (DependencyObject obj, double value)
     {
       obj.SetValue(MaximumValueProperty, value);
     }
 
-    private static void MaximumValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void MaximumValueChangedCallback (DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       TextBox tb = (d as TextBox);
       ValidateTextBox(tb);
@@ -59,17 +59,17 @@ namespace Org.Vs.TailForWin.Utils
     public static readonly DependencyProperty MaskProperty = DependencyProperty.RegisterAttached("Mask", typeof(EMaskType), typeof(TextBoxMaskBehavior),
       new FrameworkPropertyMetadata(MaskChangedCallback));
 
-    public static EMaskType GetMask(DependencyObject obj)
+    public static EMaskType GetMask (DependencyObject obj)
     {
-      return ((EMaskType)obj.GetValue(MaskProperty));
+      return ((EMaskType) obj.GetValue(MaskProperty));
     }
 
-    public static void SetMask(DependencyObject obj, EMaskType value)
+    public static void SetMask (DependencyObject obj, EMaskType value)
     {
       obj.SetValue(MaskProperty, value);
     }
 
-    private static void MaskChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void MaskChangedCallback (DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       var textBox = e.OldValue as TextBox;
 
@@ -84,7 +84,7 @@ namespace Org.Vs.TailForWin.Utils
       if (tb == null)
         return;
 
-      if ((EMaskType)e.NewValue != EMaskType.Any)
+      if ((EMaskType) e.NewValue != EMaskType.Any)
       {
         tb.PreviewTextInput += TextBox_PreviewTextInput;
         DataObject.AddPastingHandler(tb, TextBoxPastingEventHandler);
@@ -97,13 +97,13 @@ namespace Org.Vs.TailForWin.Utils
 
     #region Helper Functions
 
-    private static void ValidateTextBox(TextBox tb)
+    private static void ValidateTextBox (TextBox tb)
     {
       if (GetMask(tb) != EMaskType.Any)
         tb.Text = ValidateValue(GetMask(tb), tb.Text);
     }
 
-    private static void TextBoxPastingEventHandler(object sender, DataObjectPastingEventArgs e)
+    private static void TextBoxPastingEventHandler (object sender, DataObjectPastingEventArgs e)
     {
       TextBox tb = (sender as TextBox);
       string clipboard = e.DataObject.GetData(typeof(string)) as string;
@@ -119,7 +119,7 @@ namespace Org.Vs.TailForWin.Utils
       e.Handled = true;
     }
 
-    private static void TextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    private static void TextBox_PreviewTextInput (object sender, System.Windows.Input.TextCompositionEventArgs e)
     {
       TextBox tb = (sender as TextBox);
       bool isValid = IsSymbolValid(GetMask(tb), e.Text);
@@ -213,9 +213,9 @@ namespace Org.Vs.TailForWin.Utils
       e.Handled = true;
     }
 
-    private static void SetCaretPosition(TextBox tb, ref string text, ref int caret)
+    private static void SetCaretPosition (TextBox tb, ref string text, ref int caret)
     {
-      Arg.NotNull("TextBoxMaskBehavior", tb, "TextBox");
+      Arg.NotNull(tb, "TextBox");
 
       try
       {
@@ -256,7 +256,7 @@ namespace Org.Vs.TailForWin.Utils
         caret = text.Length;
     }
 
-    private static string ValidateValue(EMaskType mask, string value)
+    private static string ValidateValue (EMaskType mask, string value)
     {
       if (string.IsNullOrEmpty(value))
         return (string.Empty);
@@ -267,36 +267,36 @@ namespace Org.Vs.TailForWin.Utils
       {
       case EMaskType.Integer:
 
-        try
-        {
-          Convert.ToInt64(value);
+      try
+      {
+        Convert.ToInt64(value);
 
-          return (value);
-        }
-        catch
-        {
-          LOG.Error("{0} can not convert value '{1}' to integer", System.Reflection.MethodBase.GetCurrentMethod().Name, value);
-        }
-        return (string.Empty);
+        return (value);
+      }
+      catch
+      {
+        LOG.Error("{0} can not convert value '{1}' to integer", System.Reflection.MethodBase.GetCurrentMethod().Name, value);
+      }
+      return (string.Empty);
 
       case EMaskType.Decimal:
 
-        try
-        {
-          Convert.ToDouble(value);
+      try
+      {
+        Convert.ToDouble(value);
 
-          return (value);
-        }
-        catch
-        {
-          LOG.Error("{0} can not convert value '{1}' to decimal", System.Reflection.MethodBase.GetCurrentMethod().Name, value);
-        }
-        return (string.Empty);
+        return (value);
+      }
+      catch
+      {
+        LOG.Error("{0} can not convert value '{1}' to decimal", System.Reflection.MethodBase.GetCurrentMethod().Name, value);
+      }
+      return (string.Empty);
       }
       return (value);
     }
 
-    private static double ValidateLimits(double min, double max, double value)
+    private static double ValidateLimits (double min, double max, double value)
     {
       if (!min.Equals(double.NaN))
       {
@@ -310,7 +310,7 @@ namespace Org.Vs.TailForWin.Utils
       return (value > max ? (max) : (value));
     }
 
-    private static bool IsSymbolValid(EMaskType mask, string str)
+    private static bool IsSymbolValid (EMaskType mask, string str)
     {
       switch (mask)
       {

@@ -1,9 +1,8 @@
-﻿using Microsoft.Win32;
+﻿using log4net;
+using Microsoft.Win32;
 using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
-using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
-using Org.Vs.TailForWin.Utils;
 using System;
 using System.IO;
 using System.Windows;
@@ -17,14 +16,16 @@ namespace Org.Vs.TailForWin.Template.TabOptions
   /// </summary>
   public partial class ImportExportItem : ITabOptionItems
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(ImportExportItem));
+
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public ImportExportItem()
+    public ImportExportItem ()
     {
       InitializeComponent();
 
-      PreviewKeyDown += HandleEsc;     
+      PreviewKeyDown += HandleEsc;
       textBoxConfigPath.Text = string.Format("{0}{1}.Config", AppDomain.CurrentDomain.BaseDirectory, AppDomain.CurrentDomain.FriendlyName);
     }
 
@@ -41,19 +42,19 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     public event EventHandler SaveSettings;
 
 
-    public void HandleEsc(object sender, KeyEventArgs e)
+    public void HandleEsc (object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
         btnCancel_Click(sender, e);
     }
 
-    public void btnSave_Click(object sender, RoutedEventArgs e)
+    public void btnSave_Click (object sender, RoutedEventArgs e)
     {
       if (SaveSettings != null)
         CloseDialog(this, EventArgs.Empty);
     }
 
-    public void btnCancel_Click(object sender, RoutedEventArgs e)
+    public void btnCancel_Click (object sender, RoutedEventArgs e)
     {
       if (CloseDialog != null)
         CloseDialog(this, EventArgs.Empty);
@@ -61,7 +62,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     #endregion
 
-    private void btnImport_Click(object sender, RoutedEventArgs e)
+    private void btnImport_Click (object sender, RoutedEventArgs e)
     {
       string importSettings;
 
@@ -100,11 +101,11 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod().Name));
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
-    private void btnExport_Click(object sender, RoutedEventArgs e)
+    private void btnExport_Click (object sender, RoutedEventArgs e)
     {
       string appName = AppDomain.CurrentDomain.FriendlyName;
       string appSettings = string.Format("{0}{1}.Config", AppDomain.CurrentDomain.BaseDirectory, appName);
@@ -142,7 +143,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       }
       catch (Exception ex)
       {
-        ErrorLog.WriteLog(ErrorFlags.Error, GetType().Name, string.Format("{1}, exception: {0}", ex, System.Reflection.MethodBase.GetCurrentMethod().Name));
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
   }

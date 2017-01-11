@@ -16,7 +16,7 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public SettingsData()
+    public SettingsData ()
     {
       AlertSettings = new AlertData();
       ProxySettings = new ProxySettingsData();
@@ -703,9 +703,9 @@ namespace Org.Vs.TailForWin.Data
       }
     }
 
-    private static Brush GetColorFromHex(string hex)
+    private static Brush GetColorFromHex (string hex)
     {
-      Color color = (Color)ColorConverter.ConvertFromString(hex);
+      Color color = (Color) ColorConverter.ConvertFromString(hex);
 
       return (new SolidColorBrush(color));
     }
@@ -715,10 +715,10 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     /// <param name="value">Reference of enum</param>
     /// <returns>Description of enum</returns>
-    public static string GetEnumDescription(Enum value)
+    public static string GetEnumDescription (Enum value)
     {
       FieldInfo fi = value.GetType().GetField(value.ToString());
-      DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+      DescriptionAttribute[] attributes = (DescriptionAttribute[]) fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
       if (attributes != null && attributes.Length > 0)
         return (attributes[0].Description);
@@ -732,7 +732,7 @@ namespace Org.Vs.TailForWin.Data
     /// <typeparam name="T">Type of enum</typeparam>
     /// <param name="description">Reference of description string</param>
     /// <returns>Enum type</returns>
-    public static T GetDescriptionEnum<T>(string description)
+    public static T GetDescriptionEnum<T> (string description)
     {
       var type = typeof(T);
 
@@ -746,12 +746,12 @@ namespace Org.Vs.TailForWin.Data
         if (attribute != null)
         {
           if (string.Compare(attribute.Description, description, false) == 0)
-            return ((T)field.GetValue(null));
+            return ((T) field.GetValue(null));
         }
         else
         {
           if (string.Compare(field.Name, description, false) == 0)
-            return ((T)field.GetValue(null));
+            return ((T) field.GetValue(null));
         }
       }
       throw new ArgumentException("Not found.", "description");

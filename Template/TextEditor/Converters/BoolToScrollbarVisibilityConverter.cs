@@ -12,13 +12,13 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Converters
   {
     #region IValueConverter Members
 
-    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if(value.GetType() == typeof(bool))
+      if (value.GetType() == typeof(bool))
       {
         bool wrap = (bool) value;
 
-        if(wrap)
+        if (wrap)
           return (ScrollBarVisibility.Disabled);
         else
           return (ScrollBarVisibility.Auto);
@@ -26,7 +26,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Converters
       return (ScrollBarVisibility.Auto);
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       throw new NotImplementedException();
     }

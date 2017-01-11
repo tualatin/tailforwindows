@@ -14,7 +14,7 @@ namespace Org.Vs.TailForWin.Controller
   /// </summary>
   public class PrintHelper
   {
-    public PrintHelper(IEnumerable<LogEntry> items, string fileName, bool timeStamp = false, string format = null)
+    public PrintHelper (IEnumerable<LogEntry> items, string fileName, bool timeStamp = false, string format = null)
     {
       PrintDialog printDialog = new PrintDialog
       {
@@ -23,7 +23,7 @@ namespace Org.Vs.TailForWin.Controller
         PrintTicket = GetPrintTicketFromPrinter()
       };
 
-      if(!printDialog.ShowDialog().GetValueOrDefault())
+      if (!printDialog.ShowDialog().GetValueOrDefault())
         return;
 
       FlowDocument flowDocument = new FlowDocument
@@ -36,7 +36,7 @@ namespace Org.Vs.TailForWin.Controller
         ColumnGap = 0
       };
 
-      foreach(LogEntry item in items)
+      foreach (LogEntry item in items)
       {
         flowDocument.Blocks.Add(!timeStamp
           ? new Paragraph(new Run(string.Format("{0}\t{1}", item.Index, item.Message)))
@@ -52,7 +52,7 @@ namespace Org.Vs.TailForWin.Controller
     /// <summary>
     /// Returns a PrintTicket based on the current default printer.</summary>
     /// <returns>A PrintTicket for the current local default printer.</returns>
-    private static PrintTicket GetPrintTicketFromPrinter()
+    private static PrintTicket GetPrintTicketFromPrinter ()
     {
       PrintQueue printQueue;
       LocalPrintServer localPrintServer = new LocalPrintServer();
@@ -61,7 +61,7 @@ namespace Org.Vs.TailForWin.Controller
       PrintQueueCollection localPrinterCollection = localPrintServer.GetPrintQueues();
       System.Collections.IEnumerator localPrinterEnumerator = localPrinterCollection.GetEnumerator();
 
-      if(localPrinterEnumerator.MoveNext())
+      if (localPrinterEnumerator.MoveNext())
       {
         // Get PrintQueue from first available printer
         printQueue = (PrintQueue) localPrinterEnumerator.Current;
@@ -77,13 +77,13 @@ namespace Org.Vs.TailForWin.Controller
       PrintCapabilities printCapabilites = printQueue.GetPrintCapabilities();
 
       // Modify PrintTicket
-      if(printCapabilites.CollationCapability.Contains(Collation.Collated))
+      if (printCapabilites.CollationCapability.Contains(Collation.Collated))
         printTicket.Collation = Collation.Collated;
 
-      if(printCapabilites.DuplexingCapability.Contains(Duplexing.TwoSidedLongEdge))
+      if (printCapabilites.DuplexingCapability.Contains(Duplexing.TwoSidedLongEdge))
         printTicket.Duplexing = Duplexing.TwoSidedLongEdge;
 
-      if(printCapabilites.StaplingCapability.Contains(Stapling.StapleDualLeft))
+      if (printCapabilites.StaplingCapability.Contains(Stapling.StapleDualLeft))
         printTicket.Stapling = Stapling.StapleDualLeft;
 
       return (printTicket);

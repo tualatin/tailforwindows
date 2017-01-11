@@ -124,13 +124,13 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// a given taskbar icon.
     /// </summary>
     /// <param name="version"></param>
-    public WindowMessageSink(NotifyIconVersion version)
+    public WindowMessageSink (NotifyIconVersion version)
     {
       Version = version;
       CreateMessageWindow();
     }
 
-    private WindowMessageSink()
+    private WindowMessageSink ()
     {
     }
 
@@ -140,7 +140,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// Used at design time.
     /// </summary>
     /// <returns></returns>
-    internal static WindowMessageSink CreateEmpty()
+    internal static WindowMessageSink CreateEmpty ()
     {
       return new WindowMessageSink
       {
@@ -157,7 +157,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// Creates the helper message window that is used
     /// to receive messages from the taskbar icon.
     /// </summary>
-    private void CreateMessageWindow()
+    private void CreateMessageWindow ()
     {
       //generate a unique ID for the window
       WindowId = "WPFTaskbarIcon_" + DateTime.Now.Ticks;
@@ -208,7 +208,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// <summary>
     /// Callback method that receives messages from the taskbar area.
     /// </summary>
-    private IntPtr OnWindowMessageReceived(IntPtr hwnd, uint messageId, IntPtr wparam, IntPtr lparam)
+    private IntPtr OnWindowMessageReceived (IntPtr hwnd, uint messageId, IntPtr wparam, IntPtr lparam)
     {
       if (messageId == taskbarRestartMessageId)
       {
@@ -231,7 +231,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// or higher, this parameter can be used to resolve mouse coordinates.
     /// Currently not in use.</param>
     /// <param name="lParam">Provides information about the event.</param>
-    private void ProcessWindowMessage(uint msg, IntPtr wParam, IntPtr lParam)
+    private void ProcessWindowMessage (uint msg, IntPtr wParam, IntPtr lParam)
     {
       if (msg != CallbackMessageId)
         return;
@@ -344,7 +344,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// <remarks>This method is not virtual by design. Derived classes
     /// should override <see cref="Dispose(bool)"/>.
     /// </remarks>
-    public void Dispose()
+    public void Dispose ()
     {
       Dispose(true);
 
@@ -365,7 +365,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// this class.
     /// </para>
     /// </summary>
-    ~WindowMessageSink()
+    ~WindowMessageSink ()
     {
       Dispose(false);
     }
@@ -374,7 +374,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// Removes the windows hook that receives window
     /// messages and closes the underlying helper window.
     /// </summary>
-    private void Dispose(bool disposing)
+    private void Dispose (bool disposing)
     {
       //don't do anything if the component is already disposed
       if (IsDisposed)

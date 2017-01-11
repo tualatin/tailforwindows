@@ -73,7 +73,7 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public FancyToolTip()
+    public FancyToolTip ()
     {
       InitializeComponent();
     }

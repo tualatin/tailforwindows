@@ -30,7 +30,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <param name="plainText">Plaintext</param>
     /// <param name="passPhrase">Passphrase</param>
     /// <returns>The encrypt string</returns>
-    public static string Encrypt(string plainText, string passPhrase)
+    public static string Encrypt (string plainText, string passPhrase)
     {
       byte[] initVectorBytes = Encoding.UTF8.GetBytes(InitVector);
       byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
@@ -59,7 +59,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <param name="cipherText">Cipher text</param>
     /// <param name="passPhrase">Passphrase</param>
     /// <returns>The plain string</returns>
-    public static string Decrypt(string cipherText, string passPhrase)
+    public static string Decrypt (string cipherText, string passPhrase)
     {
       byte[] initVectorBytes = Encoding.ASCII.GetBytes(InitVector);
       byte[] cipherTextBytes = Convert.FromBase64String(cipherText);

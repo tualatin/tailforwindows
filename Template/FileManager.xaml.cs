@@ -56,7 +56,7 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     /// <param name="fmState">EFileManagerState</param>
     /// <param name="addFile">TailForLogData object</param>
-    public FileManager(EFileManagerState fmState, TailLogData addFile)
+    public FileManager (EFileManagerState fmState, TailLogData addFile)
     {
       this.fmState = fmState;
       fmProperties = new FileManagerData
@@ -95,7 +95,7 @@ namespace Org.Vs.TailForWin.Template
 
     #region ClickEvents
 
-    private void dataGridFiles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    private void dataGridFiles_MouseDoubleClick (object sender, MouseButtonEventArgs e)
     {
       if (e.ChangedButton != MouseButton.Left)
         return;
@@ -103,7 +103,7 @@ namespace Org.Vs.TailForWin.Template
       OpenFileToTail();
     }
 
-    private void btnFont_Click(object sender, RoutedEventArgs e)
+    private void btnFont_Click (object sender, RoutedEventArgs e)
     {
       System.Drawing.Font textFont = fmWorkingProperties.FontType;
       System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
@@ -120,17 +120,17 @@ namespace Org.Vs.TailForWin.Template
       ChangeFmStateToEditItem();
     }
 
-    private void btnCancel_Click(object sender, RoutedEventArgs e)
+    private void btnCancel_Click (object sender, RoutedEventArgs e)
     {
       Close();
     }
 
-    private void btnOK_Click(object sender, RoutedEventArgs e)
+    private void btnOK_Click (object sender, RoutedEventArgs e)
     {
       OpenFileToTail();
     }
 
-    private void btnNew_Click(object sender, RoutedEventArgs e)
+    private void btnNew_Click (object sender, RoutedEventArgs e)
     {
       string fName;
 
@@ -138,7 +138,7 @@ namespace Org.Vs.TailForWin.Template
         AddNewFile(fName);
     }
 
-    private void btnCancelAdd_Click(object sender, RoutedEventArgs e)
+    private void btnCancelAdd_Click (object sender, RoutedEventArgs e)
     {
       switch (fmState)
       {
@@ -170,7 +170,7 @@ namespace Org.Vs.TailForWin.Template
       SetAddSaveButton();
     }
 
-    private void btnDelete_Click(object sender, RoutedEventArgs e)
+    private void btnDelete_Click (object sender, RoutedEventArgs e)
     {
       if (MessageBox.Show(Application.Current.FindResource("QDeleteDataGridItem") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes)
         return;
@@ -195,7 +195,7 @@ namespace Org.Vs.TailForWin.Template
       fmState = EFileManagerState.OpenFileManager;
     }
 
-    private void btnSave_Click(object sender, RoutedEventArgs e)
+    private void btnSave_Click (object sender, RoutedEventArgs e)
     {
       if (checkBoxInsertCategory.IsChecked == false)
         fmWorkingProperties.Category = comboBoxCategory.SelectedItem as string;
@@ -235,27 +235,27 @@ namespace Org.Vs.TailForWin.Template
       fmMemento = fmWorkingProperties.SaveToMemento();
     }
 
-    private void checkBoxWrap_Click(object sender, RoutedEventArgs e)
+    private void checkBoxWrap_Click (object sender, RoutedEventArgs e)
     {
       ChangeFmStateToEditItem();
     }
 
-    private void checkBoxTimestamp_Click(object sender, RoutedEventArgs e)
+    private void checkBoxTimestamp_Click (object sender, RoutedEventArgs e)
     {
       ChangeFmStateToEditItem();
     }
 
-    private void checkBoxKillSpace_Click(object sender, RoutedEventArgs e)
+    private void checkBoxKillSpace_Click (object sender, RoutedEventArgs e)
     {
       ChangeFmStateToEditItem();
     }
 
-    private void checkBoxThreadNewWindow_Click(object sender, RoutedEventArgs e)
+    private void checkBoxThreadNewWindow_Click (object sender, RoutedEventArgs e)
     {
       ChangeFmStateToEditItem();
     }
 
-    private void btnFilters_Click(object sender, RoutedEventArgs e)
+    private void btnFilters_Click (object sender, RoutedEventArgs e)
     {
       Filters filters = new Filters(fmWorkingProperties)
       {
@@ -270,7 +270,7 @@ namespace Org.Vs.TailForWin.Template
 
     #region Events
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private void Window_Loaded (object sender, RoutedEventArgs e)
     {
       if (fmState == EFileManagerState.OpenFileManager)
       {
@@ -284,7 +284,7 @@ namespace Org.Vs.TailForWin.Template
       Keyboard.Focus(dc);
     }
 
-    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    private void Window_Closing (object sender, System.ComponentModel.CancelEventArgs e)
     {
       if (dataGridFiles.IsEnabled)
         return;
@@ -293,7 +293,7 @@ namespace Org.Vs.TailForWin.Template
       e.Cancel = true;
     }
 
-    private void comboBoxCategory_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void comboBoxCategory_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
@@ -307,40 +307,40 @@ namespace Org.Vs.TailForWin.Template
       ChangeFmStateToEditItem();
     }
 
-    private void comboBoxRefreshRate_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void comboBoxRefreshRate_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
       if (!isInit)
         return;
 
-      fmWorkingProperties.RefreshRate = (ETailRefreshRate)comboBoxRefreshRate.SelectedItem;
+      fmWorkingProperties.RefreshRate = (ETailRefreshRate) comboBoxRefreshRate.SelectedItem;
       ChangeFmStateToEditItem();
     }
 
-    private void comboBoxThreadPriority_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void comboBoxThreadPriority_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
       if (!isInit)
         return;
 
-      fmWorkingProperties.ThreadPriority = (ThreadPriority)comboBoxThreadPriority.SelectedItem;
+      fmWorkingProperties.ThreadPriority = (ThreadPriority) comboBoxThreadPriority.SelectedItem;
       ChangeFmStateToEditItem();
     }
 
-    private void comboBoxFileEncode_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void comboBoxFileEncode_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
       if (!isInit)
         return;
 
-      fmWorkingProperties.FileEncoding = (Encoding)comboBoxFileEncode.SelectedItem;
+      fmWorkingProperties.FileEncoding = (Encoding) comboBoxFileEncode.SelectedItem;
       ChangeFmStateToEditItem();
     }
 
-    private void dataGridFiles_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void dataGridFiles_SelectionChanged (object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
@@ -357,18 +357,18 @@ namespace Org.Vs.TailForWin.Template
       FMProperties.DataContext = fmWorkingProperties;
     }
 
-    private void textBlockDescription_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void textBlockDescription_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
       if (!string.IsNullOrEmpty(textBlockDescription.Text))
         ChangeFmStateToEditItem();
     }
 
-    private void textBoxNewCategorie_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void textBoxNewCategorie_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
       ChangeFmStateToEditItem();
     }
 
-    private void Window_Drop(object sender, DragEventArgs e)
+    private void Window_Drop (object sender, DragEventArgs e)
     {
       e.Handled = true;
 
@@ -388,7 +388,7 @@ namespace Org.Vs.TailForWin.Template
       }
     }
 
-    private void Window_DragEnter(object sender, DragEventArgs e)
+    private void Window_DragEnter (object sender, DragEventArgs e)
     {
       e.Handled = true;
 
@@ -396,7 +396,7 @@ namespace Org.Vs.TailForWin.Template
         e.Effects = DragDropEffects.None;
     }
 
-    private void SaveFilters(object sender, EventArgs e)
+    private void SaveFilters (object sender, EventArgs e)
     {
       dataGridFiles.Items.Refresh();
       FMProperties.DataContext = fmWorkingProperties;
@@ -407,7 +407,7 @@ namespace Org.Vs.TailForWin.Template
       SetAddSaveButton(false);
     }
 
-    private void OnDoUpdate()
+    private void OnDoUpdate ()
     {
       EventHandler handler = DoUpdate;
       handler?.Invoke(this, EventArgs.Empty);
@@ -417,7 +417,7 @@ namespace Org.Vs.TailForWin.Template
 
     #region HelperFunctions
 
-    private void AddNewFile(string fileName)
+    private void AddNewFile (string fileName)
     {
       if (string.IsNullOrEmpty(fileName))
         return;
@@ -450,26 +450,26 @@ namespace Org.Vs.TailForWin.Template
       SetAddSaveButton(false);
     }
 
-    private static System.Windows.Controls.DataGridCell GetDataGridCell(System.Windows.Controls.DataGridCellInfo cellInfo)
+    private static System.Windows.Controls.DataGridCell GetDataGridCell (System.Windows.Controls.DataGridCellInfo cellInfo)
     {
       var cellContent = cellInfo.Column.GetCellContent(cellInfo.Item);
 
-      return (System.Windows.Controls.DataGridCell)cellContent?.Parent;
+      return (System.Windows.Controls.DataGridCell) cellContent?.Parent;
     }
 
-    private void SetDialogTitle()
+    private void SetDialogTitle ()
     {
       if (string.Compare(Title, "FileManager", StringComparison.Ordinal) != 0)
         Title = "FileManager";
     }
 
-    private void SortDataGrid()
+    private void SortDataGrid ()
     {
       fmDoc.SortListIfRequired();
       dataGridFiles.Items.Refresh();
     }
 
-    private void ChangeFmStateToEditItem()
+    private void ChangeFmStateToEditItem ()
     {
       // TODO better solution
       if (!isInit)
@@ -482,7 +482,7 @@ namespace Org.Vs.TailForWin.Template
       SetAddSaveButton(false);
     }
 
-    private void RefreshCategoryComboBox()
+    private void RefreshCategoryComboBox ()
     {
       if (fmDoc.Category.Count == 0)
         comboBoxCategory.IsEnabled = false;
@@ -493,13 +493,13 @@ namespace Org.Vs.TailForWin.Template
       }
     }
 
-    private void SetAddSaveButton(bool state = true)
+    private void SetAddSaveButton (bool state = true)
     {
       btnNew.IsEnabled = state;
       dataGridFiles.IsEnabled = state;
     }
 
-    private void SelectLastItemInDataGrid()
+    private void SelectLastItemInDataGrid ()
     {
       if (dataGridFiles.Items.Count <= 0)
         return;
@@ -508,7 +508,7 @@ namespace Org.Vs.TailForWin.Template
       dataGridFiles.ScrollIntoView(fmDoc.FmProperties[fmDoc.FmProperties.Count - 1]);
     }
 
-    private void SetSelectedComboBoxItem(string category, ThreadPriority tp, ETailRefreshRate rr, Encoding fe)
+    private void SetSelectedComboBoxItem (string category, ThreadPriority tp, ETailRefreshRate rr, Encoding fe)
     {
       if (category != null)
         comboBoxCategory.SelectedValue = category;
@@ -518,7 +518,7 @@ namespace Org.Vs.TailForWin.Template
       comboBoxFileEncode.SelectedValue = fe;
     }
 
-    private void InitFileManager()
+    private void InitFileManager ()
     {
       PreviewKeyDown += HandleEsc;
 
@@ -549,7 +549,7 @@ namespace Org.Vs.TailForWin.Template
       RefreshCategoryComboBox();
     }
 
-    private void HandleEsc(object sender, KeyEventArgs e)
+    private void HandleEsc (object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
         OnExit();
@@ -557,12 +557,12 @@ namespace Org.Vs.TailForWin.Template
         btnOK_Click(sender, e);
     }
 
-    private void OnExit()
+    private void OnExit ()
     {
       Close();
     }
 
-    private void OpenFileToTail()
+    private void OpenFileToTail ()
     {
       if (fmWorkingProperties == null)
         return;

@@ -21,14 +21,14 @@ namespace Org.Vs.TailForWin.Utils
     /// The action that will be deferred.  It is not performed until after <see cref="Defer"/> is called.
     /// </param>
     /// <exception cref="ArgumentException">If action is null</exception>
-    public static DeferredAction Create(Action action)
+    public static DeferredAction Create (Action action)
     {
-      Arg.NotNull("DeferredAction", action, "Action");
+      Arg.NotNull(action, "Action");
 
       return (new DeferredAction(action));
     }
 
-    private DeferredAction(Action action)
+    private DeferredAction (Action action)
     {
       timer = new Timer(delegate
                         {
@@ -43,7 +43,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <param name="delay">
     /// The amount of time to wait before performing the action.
     /// </param>
-    public void Defer(TimeSpan delay)
+    public void Defer (TimeSpan delay)
     {
       timer.Change(delay, TimeSpan.FromMilliseconds(-1));
     }
@@ -53,9 +53,9 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// Releases all resources used by the DeferredAction.
     /// </summary>
-    public void Dispose()
+    public void Dispose ()
     {
-      if(timer == null)
+      if (timer == null)
         return;
 
       timer.Dispose();

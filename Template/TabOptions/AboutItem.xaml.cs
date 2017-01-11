@@ -30,7 +30,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     private readonly BackgroundWorker uptimeThread;
 
 
-    public AboutItem()
+    public AboutItem ()
     {
       InitializeComponent();
 
@@ -51,7 +51,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       Unloaded += (o, e) => uptimeThread.CancelAsync();
     }
 
-    public void btnSave_Click(object sender, RoutedEventArgs e)
+    public void btnSave_Click (object sender, RoutedEventArgs e)
     {
       if (CloseDialog != null)
         CloseDialog(this, EventArgs.Empty);
@@ -59,7 +59,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       uptimeThread.CancelAsync();
     }
 
-    public void btnCancel_Click(object sender, RoutedEventArgs e)
+    public void btnCancel_Click (object sender, RoutedEventArgs e)
     {
       if (SaveSettings != null)
         SaveSettings(this, EventArgs.Empty);
@@ -67,19 +67,19 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       throw new NotImplementedException();
     }
 
-    public void HandleEsc(object sender, KeyEventArgs e)
+    public void HandleEsc (object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Escape)
         btnSave_Click(sender, e);
     }
 
-    private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+    private void Hyperlink_RequestNavigate (object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
     {
       Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
       e.Handled = true;
     }
 
-    private void UserControl_Loaded(object sender, RoutedEventArgs e)
+    private void UserControl_Loaded (object sender, RoutedEventArgs e)
     {
       if (!string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password))
         updater.ProxyAuthentification = new System.Net.NetworkCredential(SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
@@ -88,7 +88,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         uptimeThread.RunWorkerAsync();
     }
 
-    private void btnSysInfo_Click(object sender, RoutedEventArgs e)
+    private void btnSysInfo_Click (object sender, RoutedEventArgs e)
     {
       Window wnd = Window.GetWindow(this);
       SystemInformation sysInfo = new SystemInformation { Owner = wnd };
@@ -97,7 +97,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     #region Thread
 
-    private void DoWork_Thread(object sender, DoWorkEventArgs e)
+    private void DoWork_Thread (object sender, DoWorkEventArgs e)
     {
       while (uptimeThread != null && !uptimeThread.CancellationPending)
       {

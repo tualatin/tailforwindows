@@ -19,11 +19,11 @@ namespace Org.Vs.TailForWin.Data.Base
     /// OnPropertyChanged
     /// </summary>
     /// <param name="name">Name of property</param>
-    protected void OnPropertyChanged(string name)
+    protected void OnPropertyChanged (string name)
     {
       PropertyChangedEventHandler handler = PropertyChanged;
 
-      handler?.Invoke(this, new ProgressChangedEventArgs(name));
+      handler?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
     /// <summary>
@@ -31,7 +31,7 @@ namespace Org.Vs.TailForWin.Data.Base
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="e">Arguments</param>
-    protected static void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+    protected static void ItemPropertyChanged (object sender, PropertyChangedEventArgs e)
     {
       NotifyCollectionChangedEventArgs a = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
     }

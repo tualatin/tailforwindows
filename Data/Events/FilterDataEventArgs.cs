@@ -14,7 +14,7 @@ namespace Org.Vs.TailForWin.Data.Events
     /// <summary>
     /// Releases all resources used by the FilterDataEventArgs.
     /// </summary>
-    public void Dispose()
+    public void Dispose ()
     {
       if (filterData == null)
         return;
@@ -27,7 +27,7 @@ namespace Org.Vs.TailForWin.Data.Events
     /// Constructor
     /// </summary>
     /// <param name="filterData">FilterData object</param>
-    public FilterDataEventArgs(FilterData filterData)
+    public FilterDataEventArgs (FilterData filterData)
     {
       this.filterData = filterData;
     }
@@ -36,7 +36,7 @@ namespace Org.Vs.TailForWin.Data.Events
     /// Get FilterData data
     /// </summary>
     /// <returns>FilterData object</returns>
-    public FilterData GetData()
+    public FilterData GetData ()
     {
       return (filterData);
     }
