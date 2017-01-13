@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using Org.Vs.TailForWin.Data.Enums;
 
@@ -25,7 +23,7 @@ namespace Org.Vs.TailForWin.Data
     {
       get
       {
-        if (description == null)
+        if(description == null)
           return (null);
 
         return (description.Trim());
@@ -50,7 +48,7 @@ namespace Org.Vs.TailForWin.Data
     {
       get
       {
-        if (category == null)
+        if(category == null)
           return (null);
 
         return (category.Trim());
@@ -102,7 +100,7 @@ namespace Org.Vs.TailForWin.Data
     {
       get
       {
-        if (System.IO.File.Exists(FileName))
+        if(System.IO.File.Exists(FileName))
           return (System.IO.File.GetCreationTime(FileName));
         else
           return (null);
@@ -122,7 +120,7 @@ namespace Org.Vs.TailForWin.Data
         {
           return (now.Subtract((DateTime) FileCreationTime));
         }
-        catch (ArgumentOutOfRangeException ex)
+        catch(ArgumentOutOfRangeException ex)
         {
           System.Diagnostics.Debug.WriteLine(ex);
           throw;
@@ -134,7 +132,7 @@ namespace Org.Vs.TailForWin.Data
     /// Create copy of object
     /// </summary>
     /// <returns>A clone of object</returns>
-    public FileManagerData Clone ()
+    public FileManagerData Clone()
     {
       return (this.MemberwiseClone() as FileManagerData);
     }
@@ -143,7 +141,7 @@ namespace Org.Vs.TailForWin.Data
     /// Save data to memenento
     /// </summary>
     /// <returns>Copy of FileManagerData</returns>
-    public MementoFileManagerData SaveToMemento ()
+    public MementoFileManagerData SaveToMemento()
     {
       return (new MementoFileManagerData(this));
     }
@@ -153,11 +151,11 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     /// <param name="obj">Reference of FileManagerData</param>
     /// <returns>If equal true otherwise false</returns>
-    public bool EqualsProperties (object obj)
+    public bool EqualsProperties(object obj)
     {
       FileManagerData.MementoFileManagerData other = obj as FileManagerData.MementoFileManagerData;
 
-      if (other == null)
+      if(other == null)
         return (false);
 
       bool equal = true;
@@ -182,11 +180,11 @@ namespace Org.Vs.TailForWin.Data
     /// Roll object back to the state of the provided memento
     /// </summary>
     /// <param name="memento">The memento to roll back to</param>
-    public void RestoreFromMemento (MementoFileManagerData memento)
+    public void RestoreFromMemento(MementoFileManagerData memento)
     {
       MementoFileManagerData mementoFMData = memento as MementoFileManagerData;
 
-      if (mementoFMData == null)
+      if(mementoFMData == null)
         throw new ArgumentException(string.Format("Argument is not a MementoFileManagerData {0}!", memento.GetType().Name), "memento");
 
       ID = mementoFMData.ID;
@@ -209,7 +207,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public class MementoFileManagerData
     {
-      internal MementoFileManagerData (FileManagerData obj)
+      internal MementoFileManagerData(FileManagerData obj)
       {
         ID = obj.ID;
         Category = obj.Category;

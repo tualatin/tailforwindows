@@ -123,11 +123,11 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// </summary>
     /// <param name="handle"></param>
     /// <returns></returns>
-    public static NotifyIconData CreateDefault (IntPtr handle)
+    public static NotifyIconData CreateDefault(IntPtr handle)
     {
       var data = new NotifyIconData();
 
-      if (Environment.OSVersion.Version.Major >= 6)
+      if(Environment.OSVersion.Version.Major >= 6)
       {
         //use the current size
         data.cbSize = (uint) Marshal.SizeOf(data);

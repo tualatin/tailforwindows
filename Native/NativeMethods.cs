@@ -32,24 +32,24 @@ namespace Org.Vs.TailForWin.Native
 
 
     [DllImport("User32.dll")]
-    public static extern Int32 SetForegroundWindow (IntPtr hWnd);
+    public static extern Int32 SetForegroundWindow(IntPtr hWnd);
 
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool BringWindowToTop (IntPtr hWnd);
+    public static extern bool BringWindowToTop(IntPtr hWnd);
 
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool BringWindowToTop (HandleRef hWnd);
+    public static extern bool BringWindowToTop(HandleRef hWnd);
 
     [DllImport("user32.dll")]
-    public static extern bool ShowWindow (IntPtr hWnd, uint nCmdShow);
+    public static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
 
     [DllImport("user32.dll")]
-    public static extern bool IsZoomed (IntPtr hWnd);
+    public static extern bool IsZoomed(IntPtr hWnd);
 
     [DllImport("Kernel32.dll", SetLastError = true)]
-    public static extern bool GlobalMemoryStatusEx ([In, Out] MemoryObject lpBuffer);
+    public static extern bool GlobalMemoryStatusEx([In, Out] MemoryObject lpBuffer);
 
     [DllImport("user32.dll")]
-    public static extern IntPtr GetDesktopWindow ();
+    public static extern IntPtr GetDesktopWindow();
   }
 }

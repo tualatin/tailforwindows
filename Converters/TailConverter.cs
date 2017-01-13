@@ -19,11 +19,11 @@ namespace Org.Vs.TailForWin.Converters
     /// <param name="parameter">Parameters</param>
     /// <param name="culture">Culture</param>
     /// <returns>True or False</returns>
-    public object Convert (object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (value != null)
+      if(value != null)
       {
-        if (value.GetType() == typeof(FileManagerData))
+        if(value.GetType() == typeof(FileManagerData))
           return (true);
         return (false);
       }
@@ -39,7 +39,7 @@ namespace Org.Vs.TailForWin.Converters
     /// <param name="parameter">Parameters</param>
     /// <param name="culture">Culture</param>
     /// <returns>Object</returns>
-    public object ConvertBack (object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       throw new System.NotImplementedException();
     }

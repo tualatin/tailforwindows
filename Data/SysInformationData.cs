@@ -1,6 +1,6 @@
-﻿using System.Runtime.InteropServices;
-using System;
+﻿using System;
 using System.Globalization;
+using System.Runtime.InteropServices;
 
 
 namespace Org.Vs.TailForWin.Data
@@ -179,9 +179,9 @@ namespace Org.Vs.TailForWin.Data
     /// SetNumberFormat
     /// </summary>
     /// <returns></returns>
-    private NumberFormatInfo SetNumberFormat ()
+    private NumberFormatInfo SetNumberFormat()
     {
-      if (string.IsNullOrEmpty(CultureNumberFormat))
+      if(string.IsNullOrEmpty(CultureNumberFormat))
         return (new CultureInfo("de-DE", false).NumberFormat);
 
       int pos = CultureNumberFormat.IndexOf('_');
@@ -217,7 +217,7 @@ namespace Org.Vs.TailForWin.Data
     public ulong ullAvailVirtual;
     public ulong ullAvailExtendedVirtual;
 
-    public MemoryObject ()
+    public MemoryObject()
     {
       dwLength = (uint) Marshal.SizeOf(typeof(MemoryObject));
     }

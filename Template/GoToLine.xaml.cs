@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
-using System.Text.RegularExpressions;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Utils;
 
@@ -28,7 +28,7 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     /// <param name="minLines">Min lines</param>
     /// <param name="maxLines">Max lines</param>
-    public GoToLine (int minLines, int maxLines)
+    public GoToLine(int minLines, int maxLines)
     {
       InitializeComponent();
 
@@ -40,7 +40,7 @@ namespace Org.Vs.TailForWin.Template
       textBoxLineNumber.Focus();
       var findResource = Application.Current.FindResource("GoToLineNumber");
 
-      if (findResource != null)
+      if(findResource != null)
         labelLineNumber.Content = string.Format(findResource.ToString(), this.minLines, this.maxLines);
     }
 
@@ -48,12 +48,12 @@ namespace Org.Vs.TailForWin.Template
     /// On source initialized
     /// </summary>
     /// <param name="e">EventArgs</param>
-    protected override void OnSourceInitialized (EventArgs e)
+    protected override void OnSourceInitialized(EventArgs e)
     {
       IconHelper.RemoveIcon(this);
     }
 
-    private void btnOK_Click (object sender, RoutedEventArgs e)
+    private void btnOK_Click(object sender, RoutedEventArgs e)
     {
       if (userInput == -1)
         return;
@@ -64,32 +64,32 @@ namespace Org.Vs.TailForWin.Template
       Close();
     }
 
-    private void btnCancel_Click (object sender, RoutedEventArgs e)
+    private void btnCancel_Click(object sender, RoutedEventArgs e)
     {
       Close();
     }
 
-    private void HandleEsc (object sender, KeyEventArgs e)
+    private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if (e.Key == Key.Escape)
+      if(e.Key == Key.Escape)
         btnCancel_Click(sender, e);
-      if (e.Key == Key.Enter)
+      if(e.Key == Key.Enter)
         btnOK_Click(sender, e);
     }
 
-    private void textBoxLineNumber_TextChanged (object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void textBoxLineNumber_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
       var regex = new Regex(@"\d");
 
-      if (regex.IsMatch(textBoxLineNumber.Text))
+      if(regex.IsMatch(textBoxLineNumber.Text))
       {
         int usrInput;
 
-        if (int.TryParse(textBoxLineNumber.Text, out usrInput))
+        if(int.TryParse(textBoxLineNumber.Text, out usrInput))
         {
-          if (usrInput < minLines)
+          if(usrInput < minLines)
             btnOk.IsEnabled = false;
-          else if (usrInput > maxLines)
+          else if(usrInput > maxLines)
             btnOk.IsEnabled = false;
           else
           {

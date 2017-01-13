@@ -1,4 +1,3 @@
-using System;
 using log4net;
 
 
@@ -15,7 +14,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public Log4NetTraceListener ()
+    public Log4NetTraceListener()
     {
       LOG = LogManager.GetLogger("System.Diagnostics.Redirection");
     }
@@ -24,7 +23,7 @@ namespace Org.Vs.TailForWin.Logging
     /// Constructor
     /// </summary>
     /// <param name="log">Reference to ILog</param>
-    public Log4NetTraceListener (ILog log)
+    public Log4NetTraceListener(ILog log)
     {
       LOG = log;
     }
@@ -32,7 +31,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <summary>
     /// Register new logger
     /// </summary>
-    public static void RegisterToTrace ()
+    public static void RegisterToTrace()
     {
       System.Diagnostics.Trace.Listeners.Add(new Log4NetTraceListener());
     }
@@ -41,9 +40,9 @@ namespace Org.Vs.TailForWin.Logging
     /// Write a debug message into log
     /// </summary>
     /// <param name="message">Message to write</param>
-    public override void Write (string message)
+    public override void Write(string message)
     {
-      if (LOG != null)
+      if(LOG != null)
         LOG.Debug(message);
     }
 
@@ -52,9 +51,9 @@ namespace Org.Vs.TailForWin.Logging
     /// </summary>
     /// <param name="message">Message to write</param>
     /// <param name="category">Category</param>
-    public override void Write (string message, string category)
+    public override void Write(string message, string category)
     {
-      if (LOG != null)
+      if(LOG != null)
         LOG.Debug(string.Format("{0} - {1}", category, message));
     }
 
@@ -62,9 +61,9 @@ namespace Org.Vs.TailForWin.Logging
     /// Write a line as debug into log
     /// </summary>
     /// <param name="message">Message to write</param>
-    public override void WriteLine (string message)
+    public override void WriteLine(string message)
     {
-      if (LOG != null)
+      if(LOG != null)
         LOG.Debug(message);
     }
 
@@ -73,9 +72,9 @@ namespace Org.Vs.TailForWin.Logging
     /// </summary>
     /// <param name="message">Message to write</param>
     /// <param name="category">Category</param>
-    public override void WriteLine (string message, string category)
+    public override void WriteLine(string message, string category)
     {
-      if (LOG != null)
+      if(LOG != null)
         LOG.Debug(string.Format("{0} - {1}", category, message));
     }
 
@@ -83,9 +82,9 @@ namespace Org.Vs.TailForWin.Logging
     /// Write a debug message into log
     /// </summary>
     /// <param name="o">Object to write</param>
-    public override void Write (object o)
+    public override void Write(object o)
     {
-      if (LOG != null)
+      if(LOG != null)
         LOG.Debug(o == null ? "NULL" : o.ToString());
     }
 
@@ -94,9 +93,9 @@ namespace Org.Vs.TailForWin.Logging
     /// </summary>
     /// <param name="o">Object to write</param>
     /// <param name="category">Category</param>
-    public override void Write (object o, string category)
+    public override void Write(object o, string category)
     {
-      if (LOG != null)
+      if(LOG != null)
         LOG.Debug(string.Format("{0} - {1}", category, (o == null ? "NULL" : o.ToString())));
     }
 
@@ -104,9 +103,9 @@ namespace Org.Vs.TailForWin.Logging
     /// Write a line as debug into log
     /// </summary>
     /// <param name="o">Object to write</param>
-    public override void WriteLine (object o)
+    public override void WriteLine(object o)
     {
-      if (LOG != null)
+      if(LOG != null)
         LOG.Debug(o == null ? "NULL" : o.ToString());
     }
 
@@ -115,9 +114,9 @@ namespace Org.Vs.TailForWin.Logging
     /// </summary>
     /// <param name="o">Object to write</param>
     /// <param name="category">Category</param>
-    public override void WriteLine (object o, string category)
+    public override void WriteLine(object o, string category)
     {
-      if (LOG != null)
+      if(LOG != null)
         LOG.Debug(string.Format("{0} - {1}", category, (o == null ? "NULL" : o.ToString())));
     }
   }

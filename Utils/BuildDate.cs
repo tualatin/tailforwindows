@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Reflection;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 
@@ -27,13 +27,13 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     /// <param name="assembly">Current assembly</param>
     /// <returns>Build date of given assembly otherwise empty datetime</returns>
-    public static DateTime GetBuildDateTime (Assembly assembly)
+    public static DateTime GetBuildDateTime(Assembly assembly)
     {
-      if (File.Exists(assembly.Location))
+      if(File.Exists(assembly.Location))
       {
         var buffer = new byte[Math.Max(Marshal.SizeOf(typeof(_IMAGE_FILE_HEADER)), 4)];
 
-        using (var fileStream = new FileStream(assembly.Location, FileMode.Open, FileAccess.Read))
+        using(var fileStream = new FileStream(assembly.Location, FileMode.Open, FileAccess.Read))
         {
           fileStream.Position = 0x3C;
           fileStream.Read(buffer, 0, 4);

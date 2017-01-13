@@ -9,15 +9,15 @@ namespace Org.Vs.TailForWin.Converters
   /// </summary>
   public class StringToIntConverter : IValueConverter
   {
-    public object Convert (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if (value != null)
+      if(value != null)
       {
-        if (value.GetType() == typeof(int))
+        if(value.GetType() == typeof(int))
         {
           int port = (int) value;
 
-          if (port < 0)
+          if(port < 0)
             port = 0;
 
           return (port);
@@ -26,7 +26,7 @@ namespace Org.Vs.TailForWin.Converters
       return (null);
     }
 
-    public object ConvertBack (object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       throw new NotImplementedException();
     }

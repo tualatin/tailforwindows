@@ -11,7 +11,7 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public AlertData ()
+    public AlertData()
     {
       SmtpSettings = new SmtpData();
     }

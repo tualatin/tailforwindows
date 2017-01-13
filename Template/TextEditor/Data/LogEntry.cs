@@ -66,7 +66,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Data
     /// Create a copy of object
     /// </summary>
     /// <returns>A clone from object</returns>
-    public LogEntry Clone ()
+    public LogEntry Clone()
     {
       return (this.MemberwiseClone() as LogEntry);
     }

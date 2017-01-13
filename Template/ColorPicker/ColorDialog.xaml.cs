@@ -13,7 +13,7 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public ColorDialog ()
+    public ColorDialog()
       : this(Colors.Black)
     {
 
@@ -23,7 +23,7 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
     /// Constructor
     /// </summary>
     /// <param name="initialColor">Initialize color</param>
-    public ColorDialog (Color initialColor)
+    public ColorDialog(Color initialColor)
     {
       InitializeComponent();
       colorPicker.InitialColor = initialColor;
@@ -57,19 +57,19 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
       }
     }
 
-    private void btnSave_Click (object sender, RoutedEventArgs e)
+    private void btnSave_Click(object sender, RoutedEventArgs e)
     {
       DialogResult = true;
     }
 
-    private void btnCancel_Click (object sender, RoutedEventArgs e)
+    private void btnCancel_Click(object sender, RoutedEventArgs e)
     {
       DialogResult = false;
     }
 
-    private void HandleEsc (object sender, KeyEventArgs e)
+    private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if (e.Key == Key.Escape)
+      if(e.Key == Key.Escape)
         btnCancel_Click(sender, e);
     }
   }

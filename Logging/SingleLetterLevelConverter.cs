@@ -15,7 +15,7 @@ namespace Org.Vs.TailForWin.Logging
     /// </summary>
     /// <param name="writer">TextWriter</param>
     /// <param name="loggingEvent">LoggingEvent</param>
-    protected override void Convert (TextWriter writer, LoggingEvent loggingEvent)
+    protected override void Convert(TextWriter writer, LoggingEvent loggingEvent)
     {
       // use first letter of the logging level, capitalized to represent the log-level
       writer.Write(loggingEvent.Level.DisplayName.Substring(0, 1).ToUpper());

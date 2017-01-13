@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using System;
 using System.ComponentModel;
-using System;
+using System.Windows;
 
 
 namespace Org.Vs.TailForWin.Template.UpdateController
@@ -16,9 +16,9 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// Releases all resources used by the Updater.
     /// </summary>
-    public void Dispose ()
+    public void Dispose()
     {
-      if (updater == null)
+      if(updater == null)
         return;
 
       updater.Dispose();
@@ -28,7 +28,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public Updater ()
+    public Updater()
     {
       InitializeComponent();
     }
@@ -142,16 +142,16 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     #endregion
 
-    private void btnUpdater_Click (object sender, RoutedEventArgs e)
+    private void btnUpdater_Click(object sender, RoutedEventArgs e)
     {
       updater.StartUpdate();
 
       btnUpdater.IsEnabled = updater.IsThreadCompleted;
     }
 
-    private void UserControl_Loaded (object sender, RoutedEventArgs e)
+    private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-      if (updater != null)
+      if(updater != null)
         updater = null;
 
       updater = new Updateservice
@@ -168,11 +168,11 @@ namespace Org.Vs.TailForWin.Template.UpdateController
       updater.InitWebService();
     }
 
-    private void UpdateCompleted (object sender, EventArgs e)
+    private void UpdateCompleted(object sender, EventArgs e)
     {
       btnUpdater.IsEnabled = updater.IsThreadCompleted;
 
-      if (!updater.Success)
+      if(!updater.Success)
         return;
 
       Window wnd = Window.GetWindow(this);

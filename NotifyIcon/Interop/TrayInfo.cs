@@ -15,47 +15,50 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// Gets the position of the system tray.
     /// </summary>
     /// <returns>Tray coordinates.</returns>
-    public static Point GetTrayLocation ()
+    public static Point GetTrayLocation()
     {
       var info = new AppBarInfo();
       info.GetSystemTaskBarPosition();
       Rectangle rcWorkArea = AppBarInfo.WorkArea;
       int x = 0, y = 0;
 
-      if (info.Edge == AppBarInfo.ScreenEdge.Left)
+      if(info.Edge == AppBarInfo.ScreenEdge.Left)
       {
         x = rcWorkArea.Left + 2;
         y = rcWorkArea.Bottom;
       }
-      else if (info.Edge == AppBarInfo.ScreenEdge.Bottom)
+      else if(info.Edge == AppBarInfo.ScreenEdge.Bottom)
       {
         x = rcWorkArea.Right;
         y = rcWorkArea.Bottom;
       }
-      else if (info.Edge == AppBarInfo.ScreenEdge.Top)
+      else if(info.Edge == AppBarInfo.ScreenEdge.Top)
       {
         x = rcWorkArea.Right;
         y = rcWorkArea.Top;
       }
-      else if (info.Edge == AppBarInfo.ScreenEdge.Right)
+      else if(info.Edge == AppBarInfo.ScreenEdge.Right)
       {
         x = rcWorkArea.Right;
         y = rcWorkArea.Bottom;
       }
-      return (new Point { X = x, Y = y });
+      return (new Point
+      {
+        X = x, Y = y
+      });
     }
   }
 
   internal class AppBarInfo
   {
     [DllImport("user32.dll")]
-    private static extern IntPtr FindWindow (String lpClassName, String lpWindowName);
+    private static extern IntPtr FindWindow(String lpClassName, String lpWindowName);
 
     [DllImport("shell32.dll")]
-    private static extern UInt32 SHAppBarMessage (UInt32 dwMessage, ref APPBARDATA data);
+    private static extern UInt32 SHAppBarMessage(UInt32 dwMessage, ref APPBARDATA data);
 
     [DllImport("user32.dll")]
-    private static extern Int32 SystemParametersInfo (UInt32 uiAction, UInt32 uiParam, IntPtr pvParam, UInt32 fWinIni);
+    private static extern Int32 SystemParametersInfo(UInt32 uiAction, UInt32 uiParam, IntPtr pvParam, UInt32 fWinIni);
 
     private const int ABE_BOTTOM = 3;
     private const int ABE_LEFT = 0;
@@ -87,7 +90,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
         bResult = SystemParametersInfo(SPI_GETWORKAREA, 0, rawRect, 0);
         rc = (RECT) Marshal.PtrToStructure(rawRect, rc.GetType());
 
-        if (bResult == 1)
+        if(bResult == 1)
         {
           Marshal.FreeHGlobal(rawRect);
 
@@ -97,7 +100,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
       }
     }
 
-    public void GetPosition (string strClassName, string strWindowName)
+    public void GetPosition(string strClassName, string strWindowName)
     {
       m_data = new APPBARDATA
       {
@@ -105,18 +108,18 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
       };
       IntPtr hWnd = FindWindow(strClassName, strWindowName);
 
-      if (hWnd != IntPtr.Zero)
+      if(hWnd != IntPtr.Zero)
       {
         UInt32 uResult = SHAppBarMessage(ABM_GETTASKBARPOS, ref m_data);
 
-        if (uResult != 1)
+        if(uResult != 1)
           throw new Exception("Failed to communicate with the given AppBar");
       }
       else
         throw new Exception("Failed to find an AppBar that matched the given criteria");
     }
 
-    public void GetSystemTaskBarPosition ()
+    public void GetSystemTaskBarPosition()
     {
       GetPosition("Shell_TrayWnd", null);
     }

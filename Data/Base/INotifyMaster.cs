@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
+using System.ComponentModel;
 
 
 namespace Org.Vs.TailForWin.Data.Base
@@ -19,7 +19,7 @@ namespace Org.Vs.TailForWin.Data.Base
     /// OnPropertyChanged
     /// </summary>
     /// <param name="name">Name of property</param>
-    protected void OnPropertyChanged (string name)
+    protected void OnPropertyChanged(string name)
     {
       PropertyChangedEventHandler handler = PropertyChanged;
 
@@ -31,7 +31,7 @@ namespace Org.Vs.TailForWin.Data.Base
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="e">Arguments</param>
-    protected static void ItemPropertyChanged (object sender, PropertyChangedEventArgs e)
+    protected static void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       NotifyCollectionChangedEventArgs a = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
     }

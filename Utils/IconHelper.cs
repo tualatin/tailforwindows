@@ -12,17 +12,17 @@ namespace Org.Vs.TailForWin.Utils
   public static class IconHelper
   {
     [DllImport("user32.dll")]
-    static extern int GetWindowLong (IntPtr hwnd, int index);
+    static extern int GetWindowLong(IntPtr hwnd, int index);
 
     [DllImport("user32.dll")]
-    static extern int SetWindowLong (IntPtr hwnd, int index, int newStyle);
+    static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
 
     [DllImport("user32.dll")]
-    static extern bool SetWindowPos (IntPtr hwnd, IntPtr hwndInsertAfter,
+    static extern bool SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter,
                int x, int y, int width, int height, uint flags);
 
     [DllImport("user32.dll")]
-    static extern IntPtr SendMessage (IntPtr hwnd, uint msg,
+    static extern IntPtr SendMessage(IntPtr hwnd, uint msg,
                IntPtr wParam, IntPtr lParam);
 
     const int GWL_EXSTYLE = -20;
@@ -38,7 +38,7 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     /// <param name="window">Current window</param>
     /// <exception cref="ArgumentException">If window is null</exception>
-    public static void RemoveIcon (Window window)
+    public static void RemoveIcon(Window window)
     {
       Arg.NotNull(window, "Window");
 

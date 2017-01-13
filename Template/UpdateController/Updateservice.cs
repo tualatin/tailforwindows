@@ -1,7 +1,7 @@
-﻿using Org.Vs.TailForWin.Template.UpdateController.Data;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
+using Org.Vs.TailForWin.Template.UpdateController.Data;
 
 
 namespace Org.Vs.TailForWin.Template.UpdateController
@@ -127,9 +127,9 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// Releases all resources used by the Updateservice.
     /// </summary>
-    public void Dispose ()
+    public void Dispose()
     {
-      if (updateThread == null)
+      if(updateThread == null)
         return;
 
       updateThread.Dispose();
@@ -139,9 +139,12 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public Updateservice ()
+    public Updateservice()
     {
-      updateThread = new BackgroundWorker { WorkerSupportsCancellation = true };
+      updateThread = new BackgroundWorker
+      {
+        WorkerSupportsCancellation = true
+      };
       updateThread.DoWork += updateThread_DoWork;
       updateThread.RunWorkerCompleted += updateThread_Completed;
     }
@@ -149,7 +152,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// Initialize web service
     /// </summary>
-    public void InitWebService ()
+    public void InitWebService()
     {
       WebServiceData data = new WebServiceData
       {
@@ -167,9 +170,9 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// Start update thread
     /// </summary>
-    public void StartUpdate ()
+    public void StartUpdate()
     {
-      if (!updateThread.IsBusy)
+      if(!updateThread.IsBusy)
         updateThread.RunWorkerAsync();
 
       IsThreadCompleted = false;
@@ -177,25 +180,25 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     #region Thread
 
-    private void updateThread_DoWork (object sender, DoWorkEventArgs e)
+    private void updateThread_DoWork(object sender, DoWorkEventArgs e)
     {
       string html = string.Empty;
 
-      if (!webservice.UpdateWebRequest(out html))
+      if(!webservice.UpdateWebRequest(out html))
         return;
 
       webData = html;
       Success = true;
     }
 
-    private void updateThread_Completed (object sender, RunWorkerCompletedEventArgs e)
+    private void updateThread_Completed(object sender, RunWorkerCompletedEventArgs e)
     {
-      if (!string.IsNullOrEmpty(webData))
+      if(!string.IsNullOrEmpty(webData))
       {
         UpdateController uc = new UpdateController();
         Match match = Regex.Match(UpdateURL, @"https://github.com", RegexOptions.IgnoreCase);
 
-        if (match.Success)
+        if(match.Success)
         {
           string tag = UpdateURL.Substring(match.Value.Length, UpdateURL.Length - match.Value.Length);
 
@@ -207,7 +210,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
       IsThreadCompleted = true;
 
-      if (ThreadCompletedEvent != null)
+      if(ThreadCompletedEvent != null)
         ThreadCompletedEvent(this, EventArgs.Empty);
     }
 

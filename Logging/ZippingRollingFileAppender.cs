@@ -12,12 +12,12 @@ namespace Org.Vs.TailForWinLogging
     /// Zips files if they get rolled.
     /// </summary>
     /// <see cref="http://stackoverflow.com/questions/26276296/how-to-implement-auto-archiving-for-log-file-using-log4net"/>
-    protected override void AdjustFileBeforeAppend ()
+    protected override void AdjustFileBeforeAppend()
     {
       var previousFile = File; // the file that may need to get zipped
       base.AdjustFileBeforeAppend();
 
-      if (File != previousFile)
+      if(File != previousFile)
       {
         // ### zip the file ###
         // maybe this should be done in a background thread so the logging does not get blocked for this
@@ -58,14 +58,14 @@ namespace Org.Vs.TailForWinLogging
     /// </summary>
     /// <param name="str">String to compress</param>
     /// <returns>Compressed archive</returns>
-    private byte[] Compress (string str)
+    private byte[] Compress(string str)
     {
       var bytes = Encoding.UTF8.GetBytes(str);
 
-      using (var msi = new MemoryStream(bytes))
-      using (var mso = new MemoryStream())
+      using(var msi = new MemoryStream(bytes))
+      using(var mso = new MemoryStream())
       {
-        using (var gs = new GZipStream(mso, CompressionMode.Compress))
+        using(var gs = new GZipStream(mso, CompressionMode.Compress))
         {
           CopyTo(msi, gs);
         }
@@ -73,12 +73,12 @@ namespace Org.Vs.TailForWinLogging
       }
     }
 
-    private void CopyTo (Stream src, Stream dest)
+    private void CopyTo(Stream src, Stream dest)
     {
       byte[] bytes = new byte[4096];
       int cnt;
 
-      while ((cnt = src.Read(bytes, 0, bytes.Length)) != 0)
+      while((cnt = src.Read(bytes, 0, bytes.Length)) != 0)
       {
         dest.Write(bytes, 0, cnt);
       }

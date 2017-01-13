@@ -11,7 +11,7 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public FancyPopUp ()
+    public FancyPopUp()
     {
       InitializeComponent();
     }

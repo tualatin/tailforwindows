@@ -13,9 +13,9 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Releases all resources used by the FilterData.
     /// </summary>
-    public void Dispose ()
+    public void Dispose()
     {
-      if (filterFontType == null)
+      if(filterFontType == null)
         return;
 
       filterFontType.Dispose();
@@ -107,7 +107,7 @@ namespace Org.Vs.TailForWin.Data
     /// Save data to memenento
     /// </summary>
     /// <returns>Copy of FilterData</returns>
-    public MementoFilterData SaveToMemento ()
+    public MementoFilterData SaveToMemento()
     {
       return (new MementoFilterData(this));
     }
@@ -116,7 +116,7 @@ namespace Org.Vs.TailForWin.Data
     /// Create copy of object
     /// </summary>
     /// <returns>A clone of object</returns>
-    public FilterData Clone ()
+    public FilterData Clone()
     {
       return (MemberwiseClone() as FilterData);
     }
@@ -126,11 +126,11 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     /// <param name="obj">Reference of FilterData</param>
     /// <returns>If equal true otherwise false</returns>
-    public bool EqualsProperties (object obj)
+    public bool EqualsProperties(object obj)
     {
       MementoFilterData other = obj as MementoFilterData;
 
-      if (other == null)
+      if(other == null)
         return (false);
 
       bool equal = true;
@@ -148,11 +148,11 @@ namespace Org.Vs.TailForWin.Data
     /// Roll object back to the state of the provided memento
     /// </summary>
     /// <param name="memento">The memento to roll back to</param>
-    public void RestoreFromMemento (MementoFilterData memento)
+    public void RestoreFromMemento(MementoFilterData memento)
     {
       MementoFilterData mementoFilterData = memento;
 
-      if (mementoFilterData == null)
+      if(mementoFilterData == null)
         throw new ArgumentException(string.Format("Argument is not a MementoFilterData {0}!", memento.GetType().Name), "memento");
 
       Id = memento.Id;
@@ -168,7 +168,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public class MementoFilterData
     {
-      internal MementoFilterData (FilterData obj)
+      internal MementoFilterData(FilterData obj)
       {
         Id = obj.Id;
         Filter = obj.Filter;

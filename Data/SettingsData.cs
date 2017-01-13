@@ -16,7 +16,7 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public SettingsData ()
+    public SettingsData()
     {
       AlertSettings = new AlertData();
       ProxySettings = new ProxySettingsData();
@@ -265,7 +265,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultForegroundColor = value;
 
-        if (!string.IsNullOrEmpty(defaultForegroundColor))
+        if(!string.IsNullOrEmpty(defaultForegroundColor))
           GuiDefaultForegroundColor = GetColorFromHex(defaultForegroundColor);
       }
     }
@@ -289,7 +289,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultBackgroundColor = value;
 
-        if (!string.IsNullOrEmpty(defaultBackgroundColor))
+        if(!string.IsNullOrEmpty(defaultBackgroundColor))
           GuiDefaultBackgroundColor = GetColorFromHex(defaultBackgroundColor);
       }
     }
@@ -357,7 +357,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultInactiveForegroundColor = value;
 
-        if (!string.IsNullOrEmpty(defaultInactiveForegroundColor))
+        if(!string.IsNullOrEmpty(defaultInactiveForegroundColor))
           GuiDefaultInactiveForegroundColor = GetColorFromHex(defaultInactiveForegroundColor);
       }
     }
@@ -403,7 +403,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultInactiveBackgroundColor = value;
 
-        if (!string.IsNullOrEmpty(defaultInactiveBackgroundColor))
+        if(!string.IsNullOrEmpty(defaultInactiveBackgroundColor))
           GuiDefaultInactiveBackgroundColor = GetColorFromHex(defaultInactiveBackgroundColor);
       }
     }
@@ -449,7 +449,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultFindHighlightForegroundColor = value;
 
-        if (!string.IsNullOrEmpty(defaultFindHighlightForegroundColor))
+        if(!string.IsNullOrEmpty(defaultFindHighlightForegroundColor))
           GuiDefaultHighlightForegroundColor = GetColorFromHex(defaultFindHighlightForegroundColor);
       }
     }
@@ -495,7 +495,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultFindHighlightBackgroundColor = value;
 
-        if (!string.IsNullOrEmpty(defaultFindHighlightBackgroundColor))
+        if(!string.IsNullOrEmpty(defaultFindHighlightBackgroundColor))
           GuiDefaultHighlightBackgroundColor = GetColorFromHex(defaultFindHighlightBackgroundColor);
       }
     }
@@ -541,7 +541,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultLineNumbersColor = value;
 
-        if (!string.IsNullOrEmpty(defaultLineNumbersColor))
+        if(!string.IsNullOrEmpty(defaultLineNumbersColor))
           GuiDefaultLineNumbersColor = GetColorFromHex(defaultLineNumbersColor);
       }
     }
@@ -587,7 +587,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultHighlightColor = value;
 
-        if (!string.IsNullOrEmpty(defaultHighlightColor))
+        if(!string.IsNullOrEmpty(defaultHighlightColor))
           GuiDefaultHighlightColor = GetColorFromHex(defaultHighlightColor);
       }
     }
@@ -703,7 +703,7 @@ namespace Org.Vs.TailForWin.Data
       }
     }
 
-    private static Brush GetColorFromHex (string hex)
+    private static Brush GetColorFromHex(string hex)
     {
       Color color = (Color) ColorConverter.ConvertFromString(hex);
 
@@ -715,12 +715,12 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     /// <param name="value">Reference of enum</param>
     /// <returns>Description of enum</returns>
-    public static string GetEnumDescription (Enum value)
+    public static string GetEnumDescription(Enum value)
     {
       FieldInfo fi = value.GetType().GetField(value.ToString());
       DescriptionAttribute[] attributes = (DescriptionAttribute[]) fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-      if (attributes != null && attributes.Length > 0)
+      if(attributes != null && attributes.Length > 0)
         return (attributes[0].Description);
       else
         return (value.ToString());
@@ -732,25 +732,25 @@ namespace Org.Vs.TailForWin.Data
     /// <typeparam name="T">Type of enum</typeparam>
     /// <param name="description">Reference of description string</param>
     /// <returns>Enum type</returns>
-    public static T GetDescriptionEnum<T> (string description)
+    public static T GetDescriptionEnum<T>(string description)
     {
       var type = typeof(T);
 
-      if (!type.IsEnum)
+      if(!type.IsEnum)
         throw new InvalidOperationException();
 
-      foreach (var field in type.GetFields())
+      foreach(var field in type.GetFields())
       {
         var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
 
-        if (attribute != null)
+        if(attribute != null)
         {
-          if (string.Compare(attribute.Description, description, false) == 0)
+          if(string.Compare(attribute.Description, description, false) == 0)
             return ((T) field.GetValue(null));
         }
         else
         {
-          if (string.Compare(field.Name, description, false) == 0)
+          if(string.Compare(field.Name, description, false) == 0)
             return ((T) field.GetValue(null));
         }
       }

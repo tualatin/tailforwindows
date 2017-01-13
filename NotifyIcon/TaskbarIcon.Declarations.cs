@@ -82,7 +82,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// This dependency property indicates ....
     /// </summary>
     /// <param name="value">The new value for the property.</param>
-    protected void SetTrayPopupResolved (Popup value)
+    protected void SetTrayPopupResolved(Popup value)
     {
       SetValue(TrayPopupResolvedPropertyKey, value);
     }
@@ -125,7 +125,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// property.  
     /// </summary>
     /// <param name="value">The new value for the property.</param>
-    protected void SetTrayToolTipResolved (ToolTip value)
+    protected void SetTrayToolTipResolved(ToolTip value)
     {
       SetValue(TrayToolTipResolvedPropertyKey, value);
     }
@@ -161,7 +161,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Provides a secure method for setting the <see cref="CustomBalloon"/> property.  
     /// </summary>
     /// <param name="value">The new value for the property.</param>
-    protected void SetCustomBalloon (Popup value)
+    protected void SetCustomBalloon(Popup value)
     {
       SetValue(CustomBalloonPropertyKey, value);
     }
@@ -229,7 +229,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="d">The currently processed owner of the property.</param>
     /// <param name="e">Provides information about the updated property.</param>
-    private static void IconSourcePropertyChanged (DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void IconSourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       TaskbarIcon owner = (TaskbarIcon) d;
       owner.OnIconSourcePropertyChanged(e);
@@ -242,12 +242,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// should be handled here.
     /// </summary>
     /// <param name="e">Provides information about the updated property.</param>
-    private void OnIconSourcePropertyChanged (DependencyPropertyChangedEventArgs e)
+    private void OnIconSourcePropertyChanged(DependencyPropertyChangedEventArgs e)
     {
       ImageSource newValue = (ImageSource) e.NewValue;
 
       //resolving the ImageSource at design time is unlikely to work
-      if (!Util.IsDesignMode)
+      if(!Util.IsDesignMode)
         Icon = newValue.ToIcon();
     }
 
@@ -290,7 +290,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="d">The currently processed owner of the property.</param>
     /// <param name="e">Provides information about the updated property.</param>
-    private static void ToolTipTextPropertyChanged (DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void ToolTipTextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       TaskbarIcon owner = (TaskbarIcon) d;
       owner.OnToolTipTextPropertyChanged(e);
@@ -303,15 +303,15 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// should be handled here.
     /// </summary>
     /// <param name="e">Provides information about the updated property.</param>
-    private void OnToolTipTextPropertyChanged (DependencyPropertyChangedEventArgs e)
+    private void OnToolTipTextPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
       //do not touch tooltips if we have a custom tooltip element
-      if (TrayToolTip != null)
+      if(TrayToolTip != null)
         return;
 
       ToolTip currentToolTip = TrayToolTipResolved;
 
-      if (currentToolTip == null)
+      if(currentToolTip == null)
         //if we don't have a wrapper tooltip for the tooltip text, create it now
         CreateCustomToolTip();
       else
@@ -362,7 +362,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="d">The currently processed owner of the property.</param>
     /// <param name="e">Provides information about the updated property.</param>
-    private static void TrayToolTipPropertyChanged (DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void TrayToolTipPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       TaskbarIcon owner = (TaskbarIcon) d;
       owner.OnTrayToolTipPropertyChanged(e);
@@ -375,16 +375,16 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// should be handled here.
     /// </summary>
     /// <param name="e">Provides information about the updated property.</param>
-    private void OnTrayToolTipPropertyChanged (DependencyPropertyChangedEventArgs e)
+    private void OnTrayToolTipPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
       //recreate tooltip control
       CreateCustomToolTip();
 
-      if (e.OldValue != null)
+      if(e.OldValue != null)
         //remove the taskbar icon reference from the previously used element
         SetParentTaskbarIcon((DependencyObject) e.OldValue, null);
 
-      if (e.NewValue != null)
+      if(e.NewValue != null)
         //set this taskbar icon as a reference to the new tooltip element
         SetParentTaskbarIcon((DependencyObject) e.NewValue, this);
 
@@ -431,7 +431,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="d">The currently processed owner of the property.</param>
     /// <param name="e">Provides information about the updated property.</param>
-    private static void TrayPopupPropertyChanged (DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void TrayPopupPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       TaskbarIcon owner = (TaskbarIcon) d;
       owner.OnTrayPopupPropertyChanged(e);
@@ -444,13 +444,13 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// should be handled here.
     /// </summary>
     /// <param name="e">Provides information about the updated property.</param>
-    private void OnTrayPopupPropertyChanged (DependencyPropertyChangedEventArgs e)
+    private void OnTrayPopupPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
-      if (e.OldValue != null)
+      if(e.OldValue != null)
         //remove the taskbar icon reference from the previously used element
         SetParentTaskbarIcon((DependencyObject) e.OldValue, null);
 
-      if (e.NewValue != null)
+      if(e.NewValue != null)
         //set this taskbar icon as a reference to the new tooltip element
         SetParentTaskbarIcon((DependencyObject) e.NewValue, this);
 
@@ -532,7 +532,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="d">The currently processed owner of the property.</param>
     /// <param name="e">Provides information about the updated property.</param>
-    private static void VisibilityPropertyChanged (DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void VisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       TaskbarIcon owner = (TaskbarIcon) d;
       owner.OnVisibilityPropertyChanged(e);
@@ -545,12 +545,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// should be handled here.
     /// </summary>
     /// <param name="e">Provides information about the updated property.</param>
-    private void OnVisibilityPropertyChanged (DependencyPropertyChangedEventArgs e)
+    private void OnVisibilityPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
       Visibility newValue = (Visibility) e.NewValue;
 
       //update
-      if (newValue == Visibility.Visible)
+      if(newValue == Visibility.Visible)
         CreateTaskbarIcon();
       else
         RemoveTaskbarIcon();
@@ -567,16 +567,16 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// the <see cref="FrameworkElement.DataContext"/> of the NotifyIcon, or the
     /// NotifyIcon itself, if no data context was assigned at all.
     /// </summary>
-    private void UpdateDataContext (FrameworkElement target, object oldDataContextValue, object newDataContextValue)
+    private void UpdateDataContext(FrameworkElement target, object oldDataContextValue, object newDataContextValue)
     {
       //if there is no target or it's data context is determined through a binding
       //of its own, keep it
-      if (target == null || target.IsDataContextDataBound())
+      if(target == null || target.IsDataContextDataBound())
         return;
 
       //if the target's data context is the NotifyIcon's old DataContext or the NotifyIcon itself,
       //update it
-      if (ReferenceEquals(this, target.DataContext) || Equals(oldDataContextValue, target.DataContext))
+      if(ReferenceEquals(this, target.DataContext) || Equals(oldDataContextValue, target.DataContext))
         //assign own data context, if available. If there is no data
         //context at all, assign NotifyIcon itself.
         target.DataContext = newDataContextValue ?? this;
@@ -590,7 +590,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="d">The currently processed owner of the property.</param>
     /// <param name="e">Provides information about the updated property.</param>
-    private static void DataContextPropertyChanged (DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void DataContextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       TaskbarIcon owner = (TaskbarIcon) d;
       owner.OnDataContextPropertyChanged(e);
@@ -603,7 +603,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// should be handled here.
     /// </summary>
     /// <param name="e">Provides information about the updated property.</param>
-    private void OnDataContextPropertyChanged (DependencyPropertyChangedEventArgs e)
+    private void OnDataContextPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
       object newValue = e.NewValue;
       object oldValue = e.OldValue;
@@ -627,7 +627,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="d">The currently processed owner of the property.</param>
     /// <param name="e">Provides information about the updated property.</param>
-    private static void ContextMenuPropertyChanged (DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void ContextMenuPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       TaskbarIcon owner = (TaskbarIcon) d;
       owner.OnContextMenuPropertyChanged(e);
@@ -639,13 +639,13 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// property and have the <see cref="ParentTaskbarIconProperty"/> assigned.
     /// </summary>
     /// <param name="e">Provides information about the updated property.</param>
-    private void OnContextMenuPropertyChanged (DependencyPropertyChangedEventArgs e)
+    private void OnContextMenuPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
-      if (e.OldValue != null)
+      if(e.OldValue != null)
         //remove the taskbar icon reference from the previously used element
         SetParentTaskbarIcon((DependencyObject) e.OldValue, null);
 
-      if (e.NewValue != null)
+      if(e.NewValue != null)
         //set this taskbar icon as a reference to the new tooltip element
         SetParentTaskbarIcon((DependencyObject) e.NewValue, this);
 
@@ -861,7 +861,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayLeftMouseDown event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayLeftMouseDownEvent ()
+    protected RoutedEventArgs RaiseTrayLeftMouseDownEvent()
     {
       RoutedEventArgs args = RaiseTrayLeftMouseDownEvent(this);
 
@@ -872,9 +872,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayLeftMouseDown event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayLeftMouseDownEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayLeftMouseDownEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -914,7 +914,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayRightMouseDown event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayRightMouseDownEvent ()
+    protected RoutedEventArgs RaiseTrayRightMouseDownEvent()
     {
       return (RaiseTrayRightMouseDownEvent(this));
     }
@@ -923,9 +923,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayRightMouseDown event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayRightMouseDownEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayRightMouseDownEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -965,7 +965,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayMiddleMouseDown event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayMiddleMouseDownEvent ()
+    protected RoutedEventArgs RaiseTrayMiddleMouseDownEvent()
     {
       return (RaiseTrayMiddleMouseDownEvent(this));
     }
@@ -974,9 +974,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayMiddleMouseDown event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayMiddleMouseDownEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayMiddleMouseDownEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1015,7 +1015,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayLeftMouseUp event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayLeftMouseUpEvent ()
+    protected RoutedEventArgs RaiseTrayLeftMouseUpEvent()
     {
       return (RaiseTrayLeftMouseUpEvent(this));
     }
@@ -1024,9 +1024,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayLeftMouseUp event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayLeftMouseUpEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayLeftMouseUpEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1065,7 +1065,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayRightMouseUp event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayRightMouseUpEvent ()
+    protected RoutedEventArgs RaiseTrayRightMouseUpEvent()
     {
       return (RaiseTrayRightMouseUpEvent(this));
     }
@@ -1074,9 +1074,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayRightMouseUp event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayRightMouseUpEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayRightMouseUpEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1115,7 +1115,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayMiddleMouseUp event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayMiddleMouseUpEvent ()
+    protected RoutedEventArgs RaiseTrayMiddleMouseUpEvent()
     {
       return (RaiseTrayMiddleMouseUpEvent(this));
     }
@@ -1124,9 +1124,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayMiddleMouseUp event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayMiddleMouseUpEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayMiddleMouseUpEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1166,7 +1166,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayMouseDoubleClick event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayMouseDoubleClickEvent ()
+    protected RoutedEventArgs RaiseTrayMouseDoubleClickEvent()
     {
       RoutedEventArgs args = RaiseTrayMouseDoubleClickEvent(this);
       DoubleClickCommand.ExecuteIfEnabled(DoubleClickCommandParameter, DoubleClickCommandTarget ?? this);
@@ -1178,9 +1178,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayMouseDoubleClick event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayMouseDoubleClickEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayMouseDoubleClickEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1219,7 +1219,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayMouseMove event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayMouseMoveEvent ()
+    protected RoutedEventArgs RaiseTrayMouseMoveEvent()
     {
       return (RaiseTrayMouseMoveEvent(this));
     }
@@ -1228,9 +1228,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayMouseMove event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayMouseMoveEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayMouseMoveEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       var args = new RoutedEventArgs
@@ -1270,7 +1270,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayBalloonTipShown event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayBalloonTipShownEvent ()
+    protected RoutedEventArgs RaiseTrayBalloonTipShownEvent()
     {
       return (RaiseTrayBalloonTipShownEvent(this));
     }
@@ -1279,9 +1279,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayBalloonTipShown event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayBalloonTipShownEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayBalloonTipShownEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1320,7 +1320,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayBalloonTipClosed event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayBalloonTipClosedEvent ()
+    protected RoutedEventArgs RaiseTrayBalloonTipClosedEvent()
     {
       return (RaiseTrayBalloonTipClosedEvent(this));
     }
@@ -1329,9 +1329,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayBalloonTipClosed event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayBalloonTipClosedEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayBalloonTipClosedEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1371,7 +1371,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayBalloonTipClicked event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayBalloonTipClickedEvent ()
+    protected RoutedEventArgs RaiseTrayBalloonTipClickedEvent()
     {
       return (RaiseTrayBalloonTipClickedEvent(this));
     }
@@ -1380,9 +1380,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayBalloonTipClicked event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayBalloonTipClickedEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayBalloonTipClickedEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1421,7 +1421,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayContextMenuOpen event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayContextMenuOpenEvent ()
+    protected RoutedEventArgs RaiseTrayContextMenuOpenEvent()
     {
       return (RaiseTrayContextMenuOpenEvent(this));
     }
@@ -1430,9 +1430,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayContextMenuOpen event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayContextMenuOpenEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayContextMenuOpenEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1468,7 +1468,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the PreviewTrayContextMenuOpen event.
     /// </summary>
-    protected RoutedEventArgs RaisePreviewTrayContextMenuOpenEvent ()
+    protected RoutedEventArgs RaisePreviewTrayContextMenuOpenEvent()
     {
       return (RaisePreviewTrayContextMenuOpenEvent(this));
     }
@@ -1477,9 +1477,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the PreviewTrayContextMenuOpen event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaisePreviewTrayContextMenuOpenEvent (DependencyObject target)
+    internal static RoutedEventArgs RaisePreviewTrayContextMenuOpenEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1518,7 +1518,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayPopupOpen event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayPopupOpenEvent ()
+    protected RoutedEventArgs RaiseTrayPopupOpenEvent()
     {
       return (RaiseTrayPopupOpenEvent(this));
     }
@@ -1527,9 +1527,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayPopupOpen event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayPopupOpenEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayPopupOpenEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1565,7 +1565,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the PreviewTrayPopupOpen event.
     /// </summary>
-    protected RoutedEventArgs RaisePreviewTrayPopupOpenEvent ()
+    protected RoutedEventArgs RaisePreviewTrayPopupOpenEvent()
     {
       return (RaisePreviewTrayPopupOpenEvent(this));
     }
@@ -1574,9 +1574,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the PreviewTrayPopupOpen event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaisePreviewTrayPopupOpenEvent (DependencyObject target)
+    internal static RoutedEventArgs RaisePreviewTrayPopupOpenEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1615,7 +1615,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayToolTipOpen event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayToolTipOpenEvent ()
+    protected RoutedEventArgs RaiseTrayToolTipOpenEvent()
     {
       return (RaiseTrayToolTipOpenEvent(this));
     }
@@ -1624,9 +1624,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayToolTipOpen event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayToolTipOpenEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayToolTipOpenEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1662,7 +1662,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the PreviewTrayToolTipOpen event.
     /// </summary>
-    protected RoutedEventArgs RaisePreviewTrayToolTipOpenEvent ()
+    protected RoutedEventArgs RaisePreviewTrayToolTipOpenEvent()
     {
       return (RaisePreviewTrayToolTipOpenEvent(this));
     }
@@ -1671,9 +1671,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the PreviewTrayToolTipOpen event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaisePreviewTrayToolTipOpenEvent (DependencyObject target)
+    internal static RoutedEventArgs RaisePreviewTrayToolTipOpenEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1712,7 +1712,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the TrayToolTipClose event.
     /// </summary>
-    protected RoutedEventArgs RaiseTrayToolTipCloseEvent ()
+    protected RoutedEventArgs RaiseTrayToolTipCloseEvent()
     {
       return (RaiseTrayToolTipCloseEvent(this));
     }
@@ -1721,9 +1721,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the TrayToolTipClose event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseTrayToolTipCloseEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseTrayToolTipCloseEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1759,7 +1759,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A helper method to raise the PreviewTrayToolTipClose event.
     /// </summary>
-    protected RoutedEventArgs RaisePreviewTrayToolTipCloseEvent ()
+    protected RoutedEventArgs RaisePreviewTrayToolTipCloseEvent()
     {
       return (RaisePreviewTrayToolTipCloseEvent(this));
     }
@@ -1768,9 +1768,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the PreviewTrayToolTipClose event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaisePreviewTrayToolTipCloseEvent (DependencyObject target)
+    internal static RoutedEventArgs RaisePreviewTrayToolTipCloseEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1798,7 +1798,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="element">UIElement or ContentElement that listens to the event</param>
     /// <param name="handler">Event handler to be added</param>
-    public static void AddPopupOpenedHandler (DependencyObject element, RoutedEventHandler handler)
+    public static void AddPopupOpenedHandler(DependencyObject element, RoutedEventHandler handler)
     {
       RoutedEventHelper.AddHandler(element, PopupOpenedEvent, handler);
     }
@@ -1808,7 +1808,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="element">UIElement or ContentElement that listens to the event</param>
     /// <param name="handler">Event handler to be removed</param>
-    public static void RemovePopupOpenedHandler (DependencyObject element, RoutedEventHandler handler)
+    public static void RemovePopupOpenedHandler(DependencyObject element, RoutedEventHandler handler)
     {
       RoutedEventHelper.RemoveHandler(element, PopupOpenedEvent, handler);
     }
@@ -1817,9 +1817,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the PopupOpened event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaisePopupOpenedEvent (DependencyObject target)
+    internal static RoutedEventArgs RaisePopupOpenedEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1845,7 +1845,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="element">UIElement or ContentElement that listens to the event</param>
     /// <param name="handler">Event handler to be added</param>
-    public static void AddToolTipOpenedHandler (DependencyObject element, RoutedEventHandler handler)
+    public static void AddToolTipOpenedHandler(DependencyObject element, RoutedEventHandler handler)
     {
       RoutedEventHelper.AddHandler(element, ToolTipOpenedEvent, handler);
     }
@@ -1855,7 +1855,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="element">UIElement or ContentElement that listens to the event</param>
     /// <param name="handler">Event handler to be removed</param>
-    public static void RemoveToolTipOpenedHandler (DependencyObject element, RoutedEventHandler handler)
+    public static void RemoveToolTipOpenedHandler(DependencyObject element, RoutedEventHandler handler)
     {
       RoutedEventHelper.RemoveHandler(element, ToolTipOpenedEvent, handler);
     }
@@ -1864,9 +1864,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the ToolTipOpened event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseToolTipOpenedEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseToolTipOpenedEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1892,7 +1892,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="element">UIElement or ContentElement that listens to the event</param>
     /// <param name="handler">Event handler to be added</param>
-    public static void AddToolTipCloseHandler (DependencyObject element, RoutedEventHandler handler)
+    public static void AddToolTipCloseHandler(DependencyObject element, RoutedEventHandler handler)
     {
       RoutedEventHelper.AddHandler(element, ToolTipCloseEvent, handler);
     }
@@ -1902,7 +1902,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="element">UIElement or ContentElement that listens to the event</param>
     /// <param name="handler">Event handler to be removed</param>
-    public static void RemoveToolTipCloseHandler (DependencyObject element, RoutedEventHandler handler)
+    public static void RemoveToolTipCloseHandler(DependencyObject element, RoutedEventHandler handler)
     {
       RoutedEventHelper.RemoveHandler(element, ToolTipCloseEvent, handler);
     }
@@ -1911,9 +1911,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A static helper method to raise the ToolTipClose event on a target element.
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
-    internal static RoutedEventArgs RaiseToolTipCloseEvent (DependencyObject target)
+    internal static RoutedEventArgs RaiseToolTipCloseEvent(DependencyObject target)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs
@@ -1939,7 +1939,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="element">UIElement or ContentElement that listens to the event</param>
     /// <param name="handler">Event handler to be added</param>
-    public static void AddBalloonShowingHandler (DependencyObject element, RoutedEventHandler handler)
+    public static void AddBalloonShowingHandler(DependencyObject element, RoutedEventHandler handler)
     {
       RoutedEventHelper.AddHandler(element, BalloonShowingEvent, handler);
     }
@@ -1949,7 +1949,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="element">UIElement or ContentElement that listens to the event</param>
     /// <param name="handler">Event handler to be removed</param>
-    public static void RemoveBalloonShowingHandler (DependencyObject element, RoutedEventHandler handler)
+    public static void RemoveBalloonShowingHandler(DependencyObject element, RoutedEventHandler handler)
     {
       RoutedEventHelper.RemoveHandler(element, BalloonShowingEvent, handler);
     }
@@ -1959,9 +1959,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
     /// <param name="source">The <see cref="TaskbarIcon"/> instance that manages the balloon.</param>
-    internal static RoutedEventArgs RaiseBalloonShowingEvent (DependencyObject target, TaskbarIcon source)
+    internal static RoutedEventArgs RaiseBalloonShowingEvent(DependencyObject target, TaskbarIcon source)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs(BalloonShowingEvent, source);
@@ -1984,7 +1984,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="element">UIElement or ContentElement that listens to the event</param>
     /// <param name="handler">Event handler to be added</param>
-    public static void AddBalloonClosingHandler (DependencyObject element, RoutedEventHandler handler)
+    public static void AddBalloonClosingHandler(DependencyObject element, RoutedEventHandler handler)
     {
       RoutedEventHelper.AddHandler(element, BalloonClosingEvent, handler);
     }
@@ -1994,7 +1994,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="element">UIElement or ContentElement that listens to the event</param>
     /// <param name="handler">Event handler to be removed</param>
-    public static void RemoveBalloonClosingHandler (DependencyObject element, RoutedEventHandler handler)
+    public static void RemoveBalloonClosingHandler(DependencyObject element, RoutedEventHandler handler)
     {
       RoutedEventHelper.RemoveHandler(element, BalloonClosingEvent, handler);
     }
@@ -2004,9 +2004,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     /// <param name="target">UIElement or ContentElement on which to raise the event</param>
     /// <param name="source">The <see cref="TaskbarIcon"/> instance that manages the balloon.</param>
-    internal static RoutedEventArgs RaiseBalloonClosingEvent (DependencyObject target, TaskbarIcon source)
+    internal static RoutedEventArgs RaiseBalloonClosingEvent(DependencyObject target, TaskbarIcon source)
     {
-      if (target == null)
+      if(target == null)
         return (null);
 
       RoutedEventArgs args = new RoutedEventArgs(BalloonClosingEvent, source);
@@ -2036,7 +2036,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Gets the ParentTaskbarIcon property.  This dependency property 
     /// indicates ....
     /// </summary>
-    public static TaskbarIcon GetParentTaskbarIcon (DependencyObject d)
+    public static TaskbarIcon GetParentTaskbarIcon(DependencyObject d)
     {
       return ((TaskbarIcon) d.GetValue(ParentTaskbarIconProperty));
     }
@@ -2045,7 +2045,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Sets the ParentTaskbarIcon property.  This dependency property 
     /// indicates ....
     /// </summary>
-    public static void SetParentTaskbarIcon (DependencyObject d, TaskbarIcon value)
+    public static void SetParentTaskbarIcon(DependencyObject d, TaskbarIcon value)
     {
       d.SetValue(ParentTaskbarIconProperty, value);
     }
@@ -2057,7 +2057,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// Registers properties.
     /// </summary>
-    static TaskbarIcon ()
+    static TaskbarIcon()
     {
       //register change listener for the Visibility property
       var md = new PropertyMetadata(Visibility.Visible, VisibilityPropertyChanged);

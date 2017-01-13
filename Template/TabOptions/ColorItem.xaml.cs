@@ -1,11 +1,11 @@
-﻿using Org.Vs.TailForWin.Controller;
-using Org.Vs.TailForWin.Template.ColorPicker;
-using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Template.ColorPicker;
+using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
 
 
 namespace Org.Vs.TailForWin.Template.TabOptions
@@ -26,7 +26,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     public event EventHandler SaveSettings;
 
 
-    public ColorItem ()
+    public ColorItem()
     {
       InitializeComponent();
 
@@ -37,65 +37,65 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     #region ClickEvents
 
-    public void btnSave_Click (object sender, RoutedEventArgs e)
+    public void btnSave_Click(object sender, RoutedEventArgs e)
     {
-      if (SaveSettings != null)
+      if(SaveSettings != null)
         SaveSettings(this, EventArgs.Empty);
     }
 
-    public void btnCancel_Click (object sender, RoutedEventArgs e)
+    public void btnCancel_Click(object sender, RoutedEventArgs e)
     {
-      if (CloseDialog != null)
+      if(CloseDialog != null)
         CloseDialog(this, EventArgs.Empty);
     }
 
-    private void btnColorPickerForeground_Click (object sender, RoutedEventArgs e)
+    private void btnColorPickerForeground_Click(object sender, RoutedEventArgs e)
     {
       SettingsHelper.TailSettings.DefaultForegroundColor = SetColor(SettingsHelper.TailSettings.GuiDefaultForegroundColor, foregroundColor);
     }
 
-    private void btnColorPickerBackground_Click (object sender, RoutedEventArgs e)
+    private void btnColorPickerBackground_Click(object sender, RoutedEventArgs e)
     {
       SettingsHelper.TailSettings.DefaultBackgroundColor = SetColor(SettingsHelper.TailSettings.GuiDefaultBackgroundColor, backgroundColor);
     }
 
-    private void btnColorPickerInactiveForeground_Click (object sender, RoutedEventArgs e)
+    private void btnColorPickerInactiveForeground_Click(object sender, RoutedEventArgs e)
     {
       SettingsHelper.TailSettings.DefaultInactiveForegroundColor = SetColor(SettingsHelper.TailSettings.GuiDefaultInactiveForegroundColor, inactiveForegroundColor);
     }
 
-    private void btnColorPickerInactiveBackground_Click (object sender, RoutedEventArgs e)
+    private void btnColorPickerInactiveBackground_Click(object sender, RoutedEventArgs e)
     {
       SettingsHelper.TailSettings.DefaultInactiveBackgroundColor = SetColor(SettingsHelper.TailSettings.GuiDefaultInactiveBackgroundColor, inactiveBackgroundColor);
     }
 
-    private void btnFindHighlightColor_Click (object sender, RoutedEventArgs e)
+    private void btnFindHighlightColor_Click(object sender, RoutedEventArgs e)
     {
       SettingsHelper.TailSettings.DefaultHighlightForegroundColor = SetColor(SettingsHelper.TailSettings.GuiDefaultHighlightForegroundColor, findHighlightForegroundColor);
     }
 
-    private void btnFindHighlightBackgroundColor_Click (object sender, RoutedEventArgs e)
+    private void btnFindHighlightBackgroundColor_Click(object sender, RoutedEventArgs e)
     {
       SettingsHelper.TailSettings.DefaultHighlightBackgroundColor = SetColor(SettingsHelper.TailSettings.GuiDefaultHighlightBackgroundColor, findHighlightBackgroundColor);
     }
 
-    private void btnLineNumbersColor_Click (object sender, RoutedEventArgs e)
+    private void btnLineNumbersColor_Click(object sender, RoutedEventArgs e)
     {
       SettingsHelper.TailSettings.DefaultLineNumbersColor = SetColor(SettingsHelper.TailSettings.GuiDefaultLineNumbersColor, lineNumbersColor);
     }
 
-    private void btnHighlightColor_Click (object sender, RoutedEventArgs e)
+    private void btnHighlightColor_Click(object sender, RoutedEventArgs e)
     {
       SettingsHelper.TailSettings.DefaultHighlightColor = SetColor(SettingsHelper.TailSettings.GuiDefaultHighlightColor, highlightColor);
     }
 
     #endregion
 
-    private string SetColor (Brush brushColor, Rectangle rect)
+    private string SetColor(Brush brushColor, Rectangle rect)
     {
       SolidColorBrush b = brushColor as SolidColorBrush;
 
-      if (b == null)
+      if(b == null)
         return (string.Empty);
 
       ColorDialog color = new ColorDialog(b.Color)
@@ -107,9 +107,9 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       return (color.ShowDialog().GetValueOrDefault() ? (color.SelectedColorHex) : (string.Empty));
     }
 
-    public void HandleEsc (object sender, KeyEventArgs e)
+    public void HandleEsc(object sender, KeyEventArgs e)
     {
-      if (e.Key == Key.Escape)
+      if(e.Key == Key.Escape)
         btnCancel_Click(sender, e);
     }
   }
