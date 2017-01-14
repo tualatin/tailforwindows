@@ -41,6 +41,7 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     /// <param name="fileName">Name of file</param>
     /// <param name="encode">By default encode is null but you can set your own encoding</param>
+    /// <returns><code>True</code>if file exists otherwise <code>false</code></returns>
     public bool OpenTailFileStream(string fileName, Encoding encode = null)
     {
       if(!File.Exists(fileName))

@@ -55,7 +55,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnOK_Click(object sender, RoutedEventArgs e)
     {
-      if (userInput == -1)
+      if(userInput == -1)
         return;
 
       var lineNumber = new GoToLineData { LineNumber = userInput };

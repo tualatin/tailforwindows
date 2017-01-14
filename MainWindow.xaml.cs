@@ -677,7 +677,7 @@ namespace Org.Vs.TailForWin
         TabItem tabItem = new TabItem
         {
           Header = LogFile.TABBAR_CHILD_EMPTY_STRING,
-          Name = string.Format("TabIndex_{0}", tabCount),
+          Name = $"TabIndex_{tabCount}",
           HeaderTemplate = tabControlTail.FindResource("TabHeader") as DataTemplate,
           Style = (Style) FindResource("TabItemStopStyle")
         };

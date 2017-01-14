@@ -25,7 +25,7 @@ namespace Org.Vs.TailForWin.Controller
     /// Get systeminformations from computer
     /// </summary>
     /// <returns>Object with systeminformations</returns>
-    public static SysInformationData GetAllSystemInformation ()
+    public static SysInformationData GetAllSystemInformation()
     {
       LOG.Trace("Get System informations");
 
@@ -50,13 +50,13 @@ namespace Org.Vs.TailForWin.Controller
       return (sysInfo);
     }
 
-    private static string GetOsFriendlyName ()
+    private static string GetOsFriendlyName()
     {
       string result = string.Empty;
 
-      using (ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT Caption FROM Win32_OperatingSystem"))
+      using(ManagementObjectSearcher searcher = new ManagementObjectSearcher("root\\CIMV2", "SELECT Caption FROM Win32_OperatingSystem"))
       {
-        foreach (var os in searcher.Get().Cast<ManagementObject>())
+        foreach(var os in searcher.Get().Cast<ManagementObject>())
         {
           result = os["Caption"].ToString();
           break;
@@ -65,14 +65,14 @@ namespace Org.Vs.TailForWin.Controller
       return (result);
     }
 
-    private static int GetOsArchitecture ()
+    private static int GetOsArchitecture()
     {
       string pa = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
 
       return ((string.IsNullOrEmpty(pa) || string.Compare(pa, 0, "x86", 0, 3, true) == 0) ? 32 : 64);
     }
 
-    private static IpAddress GetIpAddress ()
+    private static IpAddress GetIpAddress()
     {
       IpAddress ipAddress = new IpAddress();
 
@@ -82,33 +82,33 @@ namespace Org.Vs.TailForWin.Controller
 
         Array.ForEach(lvsHost.AddressList, currentAddress =>
         {
-          if (String.CompareOrdinal(currentAddress.AddressFamily.ToString(), ProtocolFamily.InterNetworkV6.ToString()) == 0)
+          if(String.CompareOrdinal(currentAddress.AddressFamily.ToString(), ProtocolFamily.InterNetworkV6.ToString()) == 0)
             ipAddress.Ipv6 = currentAddress.ToString();
           else
             ipAddress.Ipv4 = currentAddress.ToString();
         });
       }
-      catch (Exception ex)
+      catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
       return (ipAddress);
     }
 
-    private static MemoryObject GetMachineMemoryInfo ()
+    private static MemoryObject GetMachineMemoryInfo()
     {
       MemoryObject memoryInfo = new MemoryObject();
 
       return (NativeMethods.GlobalMemoryStatusEx(memoryInfo) ? (memoryInfo) : (null));
     }
 
-    private static CpuInfo GetCpuInfo ()
+    private static CpuInfo GetCpuInfo()
     {
       CpuInfo myCpu = new CpuInfo();
 
-      using (ManagementObjectSearcher cpuInfo = new ManagementObjectSearcher("SELECT * FROM Win32_Processor"))
+      using(ManagementObjectSearcher cpuInfo = new ManagementObjectSearcher("SELECT * FROM Win32_Processor"))
       {
-        foreach (var cpu in cpuInfo.Get().Cast<ManagementObject>())
+        foreach(var cpu in cpuInfo.Get().Cast<ManagementObject>())
         {
           myCpu.Manufacturer = cpu["Manufacturer"].ToString();
           myCpu.ClockSpeed = cpu["CurrentClockSpeed"].ToString();
@@ -116,9 +116,9 @@ namespace Org.Vs.TailForWin.Controller
         }
       }
 
-      using (ManagementObjectSearcher cpuInfo = new ManagementObjectSearcher("SELECT * FROM Win32_ComputerSystem "))
+      using(ManagementObjectSearcher cpuInfo = new ManagementObjectSearcher("SELECT * FROM Win32_ComputerSystem "))
       {
-        foreach (var cpu in cpuInfo.Get().Cast<ManagementObject>())
+        foreach(var cpu in cpuInfo.Get().Cast<ManagementObject>())
         {
           myCpu.NumberOfProcessors = cpu["NumberOfProcessors"].ToString();
           myCpu.LogicalNumberOfProcessors = cpu["NumberOfLogicalProcessors"].ToString();
@@ -127,7 +127,7 @@ namespace Org.Vs.TailForWin.Controller
       return (myCpu);
     }
 
-    private static string GetSystemLanguage ()
+    private static string GetSystemLanguage()
     {
       return (Thread.CurrentThread.CurrentCulture.DisplayName);
     }

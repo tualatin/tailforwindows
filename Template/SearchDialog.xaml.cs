@@ -143,7 +143,7 @@ namespace Org.Vs.TailForWin.Template
     {
       WrapAroundBool wrap = new WrapAroundBool();
 
-      if (checkBoxWrapAround.IsChecked == true)
+      if(checkBoxWrapAround.IsChecked == true)
         wrap.Wrap = fmStructure.Wrap = true;
       else
         wrap.Wrap = fmStructure.Wrap = false;
@@ -155,7 +155,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void checkBoxBookmark_Click(object sender, RoutedEventArgs e)
     {
-      if (checkBoxBookmarkLine.IsChecked == true)
+      if(checkBoxBookmarkLine.IsChecked == true)
       {
         checkBoxBookmarkLine.IsChecked = false;
 
@@ -169,7 +169,7 @@ namespace Org.Vs.TailForWin.Template
     {
       BookmarkLineBool bookmarkLine = new BookmarkLineBool();
 
-      if (checkBoxBookmarkLine.IsChecked == true)
+      if(checkBoxBookmarkLine.IsChecked == true)
         bookmarkLine.BookmarkLine = true;
       else
         bookmarkLine.BookmarkLine = false;
@@ -230,13 +230,13 @@ namespace Org.Vs.TailForWin.Template
         WordToFind = string.Empty
       };
 
-      if (checkBoxBookmark.IsChecked == true)
+      if(checkBoxBookmark.IsChecked == true)
       {
         searching.SearchBookmarks = true;
       }
       else
       {
-        if (!string.IsNullOrWhiteSpace(comboBoxWordToFind.Text))
+        if(!string.IsNullOrWhiteSpace(comboBoxWordToFind.Text))
         {
           AddSearchWordToDictionary();
           searching.WordToFind = comboBoxWordToFind.Text;

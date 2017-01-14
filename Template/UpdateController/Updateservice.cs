@@ -145,8 +145,8 @@ namespace Org.Vs.TailForWin.Template.UpdateController
       {
         WorkerSupportsCancellation = true
       };
-      updateThread.DoWork += updateThread_DoWork;
-      updateThread.RunWorkerCompleted += updateThread_Completed;
+      updateThread.DoWork += UpdateThread_DoWork;
+      updateThread.RunWorkerCompleted += UpdateThread_Completed;
     }
 
     /// <summary>
@@ -180,7 +180,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     #region Thread
 
-    private void updateThread_DoWork(object sender, DoWorkEventArgs e)
+    private void UpdateThread_DoWork(object sender, DoWorkEventArgs e)
     {
       string html = string.Empty;
 
@@ -191,7 +191,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
       Success = true;
     }
 
-    private void updateThread_Completed(object sender, RunWorkerCompletedEventArgs e)
+    private void UpdateThread_Completed(object sender, RunWorkerCompletedEventArgs e)
     {
       if(!string.IsNullOrEmpty(webData))
       {
@@ -209,9 +209,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
       }
 
       IsThreadCompleted = true;
-
-      if(ThreadCompletedEvent != null)
-        ThreadCompletedEvent(this, EventArgs.Empty);
+      ThreadCompletedEvent?.Invoke(this, EventArgs.Empty);
     }
 
     #endregion

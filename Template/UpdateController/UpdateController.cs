@@ -56,8 +56,8 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     {
       try
       {
-        string tag = string.Format("{0}/tag/", mainTag);
-        string pattern = string.Format("<a[^>]*href=(?:\"|\'){0}([^>]*)", tag);
+        string tag = $"{mainTag}/tag/";
+        string pattern = $"<a[^>]*href=(?:\"|\'){tag}([^>]*)";
         MatchCollection matches = Regex.Matches(webData, pattern, RegexOptions.IgnoreCase);
 
         if(matches.Count == 0)

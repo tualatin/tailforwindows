@@ -128,7 +128,7 @@ namespace Org.Vs.TailForWin.Template
     {
       var findResource = Application.Current.FindResource("QDeleteDataGridItem");
 
-      if (findResource == null || MessageBox.Show(findResource.ToString(), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo,
+      if(findResource == null || MessageBox.Show(findResource.ToString(), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo,
             MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes)
         return;
 
@@ -140,7 +140,7 @@ namespace Org.Vs.TailForWin.Template
 
       SaveNow?.Invoke(this, EventArgs.Empty);
 
-      if (tailLogData.ListOfFilter.Count != 0)
+      if(tailLogData.ListOfFilter.Count != 0)
         SelectLastItemInDataGrid();
     }
 
@@ -217,10 +217,10 @@ namespace Org.Vs.TailForWin.Template
 
     private void ChangeState()
     {
-      if (!isInit)
+      if(!isInit)
         return;
 
-      if (fState == EFileManagerState.OpenFileManager && mementoFilterData != null && filterData != null && !filterData.EqualsProperties(mementoFilterData))
+      if(fState == EFileManagerState.OpenFileManager && mementoFilterData != null && filterData != null && !filterData.EqualsProperties(mementoFilterData))
         fState = EFileManagerState.EditItem;
 
       SaveNow?.Invoke(this, EventArgs.Empty);

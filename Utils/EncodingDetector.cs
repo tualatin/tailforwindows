@@ -9,6 +9,11 @@ namespace Org.Vs.TailForWin.Utils
   /// </summary>
   public class EncodingDetector
   {
+    /// <summary>
+    /// Get current file encoding
+    /// </summary>
+    /// <param name="fs">FileStream of log file</param>
+    /// <returns>A valid file encoding</returns>
     public static Encoding GetEncoding(FileStream fs)
     {
       // Read the BOM

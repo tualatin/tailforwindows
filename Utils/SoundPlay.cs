@@ -16,7 +16,7 @@ namespace Org.Vs.TailForWin.Utils
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SoundPlay));
 
     [DllImport("winmm.dll")]
-    private static extern int mciSendString (string strCommand, StringBuilder strReturn, int iReturnLength, IntPtr hWndCallback);
+    private static extern int mciSendString(string strCommand, StringBuilder strReturn, int iReturnLength, IntPtr hWndCallback);
 
     private static string command = string.Empty;
     // private static StringBuilder msg = new StringBuilder ((int) 256);
@@ -30,11 +30,11 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     /// <param name="soundFile">Soundfile</param>
     /// <returns>If media file exists, returns true otherwise false</returns>
-    public static bool InitSoundPlay (string soundFile)
+    public static bool InitSoundPlay(string soundFile)
     {
-      if (string.Compare(soundFile, LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0)
+      if(string.Compare(soundFile, LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0)
         return (false);
-      if (!File.Exists(soundFile))
+      if(!File.Exists(soundFile))
         return (false);
 
       try
@@ -45,13 +45,13 @@ namespace Org.Vs.TailForWin.Utils
         command = $"open \"{soundFile}\" type mpegvideo alias MediaFile";
         result = mciSendString(command, null, 0, IntPtr.Zero);
 
-        if (result == 0)
+        if(result == 0)
           return (true);
 
         command = $"open \"{soundFile}\" alias MediaFile";
         result = mciSendString(command, null, 0, IntPtr.Zero);
       }
-      catch (Exception ex)
+      catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -63,26 +63,26 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     /// <param name="loop">Should loop</param>
     /// <returns>If media file is playing, returns false, otherwise true</returns>
-    public static bool Play (bool loop)
+    public static bool Play(bool loop)
     {
-      if (IsPlaying())
+      if(IsPlaying())
         return (false);
 
       command = "play MediaFile";
 
-      if (loop)
+      if(loop)
         command += " REPEAT";
 
       try
       {
         result = mciSendString(command, null, 0, IntPtr.Zero);
 
-        if (result == 0)
+        if(result == 0)
           return (true);
 
         Close();
       }
-      catch (Exception ex)
+      catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -92,7 +92,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// Close media file
     /// </summary>
-    public static void Close ()
+    public static void Close()
     {
       command = "close MediaFile";
       mciSendString(command, null, 0, IntPtr.Zero);
@@ -102,7 +102,7 @@ namespace Org.Vs.TailForWin.Utils
     /// If media file is playing at the moment
     /// </summary>
     /// <returns>If it is playing, return true, otherwise false</returns>
-    public static bool IsPlaying ()
+    public static bool IsPlaying()
     {
       command = "status MediaFile mode";
 
@@ -110,12 +110,12 @@ namespace Org.Vs.TailForWin.Utils
       {
         result = mciSendString(command, ReturnData, 128, IntPtr.Zero);
 
-        if (ReturnData.Length == 7 && string.CompareOrdinal(ReturnData.ToString().Substring(0, 7), "playing") == 0)
+        if(ReturnData.Length == 7 && string.CompareOrdinal(ReturnData.ToString().Substring(0, 7), "playing") == 0)
           return (true);
 
         InitSoundPlay(mciMusicFile);
       }
-      catch (Exception ex)
+      catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -126,7 +126,7 @@ namespace Org.Vs.TailForWin.Utils
     /// Is media file currently open
     /// </summary>
     /// <returns>If not open, returns false otherwise true</returns>
-    private static bool IsOpen ()
+    private static bool IsOpen()
     {
       command = "status MediaFile mode";
 
@@ -134,14 +134,14 @@ namespace Org.Vs.TailForWin.Utils
       {
         result = mciSendString(command, ReturnData, 128, IntPtr.Zero);
       }
-      catch (Exception ex)
+      catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
       return (ReturnData.Length == 4 && string.CompareOrdinal(ReturnData.ToString().Substring(0, 4), "open") == 0);
     }
 
-    public static bool IsStopped ()
+    public static bool IsStopped()
     {
       command = "status MediaFile mode";
 
@@ -149,7 +149,7 @@ namespace Org.Vs.TailForWin.Utils
       {
         result = mciSendString(command, ReturnData, 128, IntPtr.Zero);
       }
-      catch (Exception ex)
+      catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }

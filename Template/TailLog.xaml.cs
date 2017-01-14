@@ -434,7 +434,7 @@ namespace Org.Vs.TailForWin.Template
     {
       string fName;
 
-      if (!LogFile.OpenFileLogDialog(out fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource("OpenFileDialog") as string))
+      if(!LogFile.OpenFileLogDialog(out fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource("OpenFileDialog") as string))
         return;
 
       NewFile?.Invoke(this, EventArgs.Empty);

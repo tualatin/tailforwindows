@@ -695,13 +695,7 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Webside for new releases
     /// </summary>
-    public static string ApplicationWebUrl
-    {
-      get
-      {
-        return ("https://github.com/tualatin/TailForWindows/releases");
-      }
-    }
+    public static string ApplicationWebUrl => ("https://github.com/tualatin/tailforwindows/releases");
 
     private static Brush GetColorFromHex(string hex)
     {

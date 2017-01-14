@@ -55,7 +55,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       }
       else
         if(SaveSettings != null)
-          SaveSettings(this, EventArgs.Empty);
+        SaveSettings(this, EventArgs.Empty);
     }
 
     public void btnCancel_Click(object sender, RoutedEventArgs e)

@@ -93,7 +93,7 @@ namespace Org.Vs.TailForWin.Utils
             }), System.Windows.Threading.DispatcherPriority.Normal);
           })
           {
-            Name = string.Format("{0}_AutoUpdateThread", LogFile.APPLICATION_CAPTION),
+            Name = $"{LogFile.APPLICATION_CAPTION}_AutoUpdateThread",
             IsBackground = true
           };
 

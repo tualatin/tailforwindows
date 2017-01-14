@@ -14,6 +14,13 @@ namespace Org.Vs.TailForWin.Controller
   /// </summary>
   public class PrintHelper
   {
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="items">Items to print</param>
+    /// <param name="fileName">Filename</param>
+    /// <param name="timeStamp">With timestamp, default <code>false</code></param>
+    /// <param name="format">Format identifier</param>
     public PrintHelper(IEnumerable<LogEntry> items, string fileName, bool timeStamp = false, string format = null)
     {
       PrintDialog printDialog = new PrintDialog
@@ -39,14 +46,14 @@ namespace Org.Vs.TailForWin.Controller
       foreach(LogEntry item in items)
       {
         flowDocument.Blocks.Add(!timeStamp
-          ? new Paragraph(new Run(string.Format("{0}\t{1}", item.Index, item.Message)))
-          : new Paragraph(new Run(string.Format("{2}\t{0} {1}", item.DateTime.ToString(format), item.Message, item.Index))));
+          ? new Paragraph(new Run($"{item.Index}\t{item.Message}"))
+          : new Paragraph(new Run($"{item.Index}\t{item.DateTime.ToString(format)} {item.Message}")));
       }
 
       flowDocument.ColumnWidth = (flowDocument.PageWidth - flowDocument.ColumnGap - flowDocument.PagePadding.Left - flowDocument.PagePadding.Right);
 
       DocumentPaginator page = ((IDocumentPaginatorSource) flowDocument).DocumentPaginator;
-      printDialog.PrintDocument(page, string.Format("{0} printing file {1}", LogFile.APPLICATION_CAPTION, fileName));
+      printDialog.PrintDocument(page, $"{LogFile.APPLICATION_CAPTION} printing file {fileName}");
     }
 
     /// <summary>
