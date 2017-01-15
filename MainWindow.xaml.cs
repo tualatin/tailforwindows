@@ -164,11 +164,22 @@ namespace Org.Vs.TailForWin
       }
     }
 
+    /// <summary>
+    /// Current tailtab items
+    /// </summary>
+    public ObservableCollection<TabItem> TailTabItems
+    {
+      get
+      {
+        return (tailTabItems);
+      }
+    }
+
     #endregion
 
     #region ClickEvents
 
-    private void tabControlTail_PreviewMouseDown(object sender, MouseEventArgs e)
+    private void TabControlTail_PreviewMouseDown(object sender, MouseEventArgs e)
     {
       if(e.MiddleButton != MouseButtonState.Pressed)
         return;
@@ -191,7 +202,7 @@ namespace Org.Vs.TailForWin
       }
     }
 
-    private void mainWindow_PreviewMouseDown(object sender, MouseEventArgs e)
+    private void MainWindow_PreviewMouseDown(object sender, MouseEventArgs e)
     {
       if(e.MiddleButton != MouseButtonState.Pressed)
         return;
@@ -222,7 +233,7 @@ namespace Org.Vs.TailForWin
       LogFile.BringMainWindowToFront();
     }
 
-    private void tabControlTail_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void TabControlTail_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
 
@@ -273,27 +284,23 @@ namespace Org.Vs.TailForWin
       }
     }
 
-    private void btnDelete_Click(object sender, RoutedEventArgs e)
+    private void BtnDelete_Click(object sender, RoutedEventArgs e)
     {
-      var button = sender as Button;
-
-      if(button != null)
+      if(sender is Button button)
         RemoveTab(button.CommandParameter.ToString());
     }
 
-    private void cbStsEncoding_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void CbStsEncoding_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
-
-      if(currentPage != null)
-        currentPage.UpdateFileEncoding((Encoding) cbStsEncoding.SelectedItem);
+      currentPage?.UpdateFileEncoding((Encoding) cbStsEncoding.SelectedItem);
     }
 
     #endregion
 
     #region Events
 
-    private void tabControlTail_PreviewKeyDown(object sender, KeyEventArgs e)
+    private void TabControlTail_PreviewKeyDown(object sender, KeyEventArgs e)
     {
       if((Keyboard.Modifiers & ModifierKeys.Control) != 0 && e.Key == Key.Tab)
         ctrlTabKey = true;
@@ -303,22 +310,20 @@ namespace Org.Vs.TailForWin
       LOG.Trace("tabControlTail PreviewKeyDown ctrlTabKey='{0}'", ctrlTabKey);
     }
 
-    private void tabControlTail_PreviewKeyUp(object sender, KeyEventArgs e)
+    private void TabControlTail_PreviewKeyUp(object sender, KeyEventArgs e)
     {
       ctrlTabKey = false;
       LOG.Trace("tabControlTail PreviewKeyUp ctrlTabKey='{0}'", ctrlTabKey);
     }
 
-    private void tabControlTail_Drop(object sender, DragEventArgs e)
+    private void TabControlTail_Drop(object sender, DragEventArgs e)
     {
-      if(currentPage != null)
-        currentPage.DropHelper(sender, e);
+      currentPage?.DropHelper(sender, e);
     }
 
-    private void tabControlTail_DragEnter(object sender, DragEventArgs e)
+    private void TabControlTail_DragEnter(object sender, DragEventArgs e)
     {
-      if(currentPage != null)
-        currentPage.DragEnterHelper(sender, e);
+      currentPage?.DragEnterHelper(sender, e);
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -327,10 +332,10 @@ namespace Org.Vs.TailForWin
       fancyToolTipTfW.ApplicationText = LogFile.APPLICATION_CAPTION;
       tbIcon.TrayMouseDoubleClick += DoubleClickNotifyIcon;
 
-      tabControlTail.PreviewKeyDown += tabControlTail_PreviewKeyDown;
-      tabControlTail.PreviewKeyUp += tabControlTail_PreviewKeyUp;
-      PreviewMouseDown += mainWindow_PreviewMouseDown;
-      tabControlTail.PreviewMouseDown += tabControlTail_PreviewMouseDown;
+      tabControlTail.PreviewKeyDown += TabControlTail_PreviewKeyDown;
+      tabControlTail.PreviewKeyUp += TabControlTail_PreviewKeyUp;
+      PreviewMouseDown += MainWindow_PreviewMouseDown;
+      tabControlTail.PreviewMouseDown += TabControlTail_PreviewMouseDown;
 
       SetWindowSettings();
 
@@ -448,9 +453,7 @@ namespace Org.Vs.TailForWin
     {
       if(e is FileManagerDataEventArgs)
       {
-        FileManagerDataEventArgs data = e as FileManagerDataEventArgs;
-
-        if(data != null)
+        if(e is FileManagerDataEventArgs data)
         {
           FileManagerData properties = data.GetData();
           double xPos, yPos;
@@ -482,14 +485,12 @@ namespace Org.Vs.TailForWin
 
     private void HideSearchBoxEvent(object sender, EventArgs e)
     {
-      if(currentPage != null)
-        currentPage.SearchBoxInactive();
+      currentPage?.SearchBoxInactive();
     }
 
     private void FindNextEvent(object sender, EventArgs e)
     {
-      if(currentPage != null)
-        currentPage.FindNext(e as SearchData);
+      currentPage?.FindNext(e as SearchData);
     }
 
     private void CoundSearchEvent(object sender, EventArgs e)
@@ -500,16 +501,13 @@ namespace Org.Vs.TailForWin
 
     private void FindWhatTextChangedEvent(object sender, EventArgs e)
     {
-      if(currentPage != null)
-        currentPage.FindWhatTextChanged();
+      currentPage?.FindWhatTextChanged();
     }
 
     private void WrapAroundEvent(object sender, EventArgs e)
     {
-      if(e is WrapAroundBool)
+      if(e is WrapAroundBool wrap)
       {
-        WrapAroundBool wrap = e as WrapAroundBool;
-
         foreach(TailLog page in from item in tailTabItems
                                 where item.Content != null && item.Content.GetType() == typeof(Frame)
                                 select GetTailLogWindow(item.Content as Frame))
@@ -521,10 +519,8 @@ namespace Org.Vs.TailForWin
 
     private void BookmarkLineEvent(object sender, EventArgs e)
     {
-      if(e is BookmarkLineBool)
+      if(e is BookmarkLineBool bookmarkLine)
       {
-        BookmarkLineBool bookmarkLine = e as BookmarkLineBool;
-
         foreach(TailLog page in from item in tailTabItems
                                 where item.Content != null && item.Content.GetType() == typeof(Frame)
                                 select GetTailLogWindow(item.Content as Frame))
@@ -565,10 +561,8 @@ namespace Org.Vs.TailForWin
     /// <param name="e">Arguments</param>
     public void FileManagerTab(object sender, EventArgs e)
     {
-      if(e is FileManagerDataEventArgs)
+      if(e is FileManagerDataEventArgs properties)
       {
-        FileManagerDataEventArgs properties = e as FileManagerDataEventArgs;
-
         if(properties == null)
           return;
 
@@ -627,12 +621,9 @@ namespace Org.Vs.TailForWin
 
     private static TailLog GetTailLogWindow(Frame tabTemplate)
     {
-      if(tabTemplate.Content is TailLog)
-      {
-        TailLog tabPage = tabTemplate.Content as TailLog;
-
+      if(tabTemplate.Content is TailLog tabPage)
         return (tabPage);
-      }
+
       return (null);
     }
 
@@ -701,6 +692,8 @@ namespace Org.Vs.TailForWin
 
         tailWindow.FileManagerDoOpenTab += FileManagerTab;
         tailWindow.ButtonSearchBox += OpenSearchBoxWindow;
+        tailWindow.OnDragAndDropEvent += TailWindow_OnDragAndDropEvnt;
+        tailWindow.OnIsOpenInTabControl += TailWindow_OnIsOpenInTabControl;
 
         Frame tabFrame = new Frame
         {
@@ -727,6 +720,25 @@ namespace Org.Vs.TailForWin
       MessageBox.Show(Application.Current.FindResource("HCloseTab") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
 
       return (tailTabItems[tailTabItems.Count - 2]);
+    }
+
+    private void TailWindow_OnIsOpenInTabControl(TabItem tabItem)
+    {
+      tabControlTail.SelectedItem = tabItem;
+    }
+
+    private void TailWindow_OnDragAndDropEvnt(FileManagerData fileProperties)
+    {
+      if(fileProperties == null)
+        return;
+
+      LOG.Trace("Drag'n'Drop get new file '{0}'", fileProperties.FileName);
+      var item = AddTailTab(fileProperties);
+
+      if(item == null)
+        return;
+
+      tabControlTail.SelectedItem = item;
     }
 
     private void SetTabNotActive(TailLog activePage)

@@ -13,6 +13,7 @@ using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Data.Events;
+using Org.Vs.TailForWin.Template.Events;
 using Org.Vs.TailForWin.Template.TextEditor.Data;
 using Org.Vs.TailForWin.Utils;
 
@@ -31,7 +32,8 @@ namespace Org.Vs.TailForWin.Template
     private int childTabIndex;
     private TabItem childTabItem;
     private string childTabState;
-    private string oldFileName = string.Empty;
+    private string oldFileName;
+    private string currentFileName;
     private FileReader myReader;
     private bool stopThread;
     private bool isInit;
@@ -61,6 +63,16 @@ namespace Org.Vs.TailForWin.Template
     /// new file added load default properties
     /// </summary>
     private event EventHandler NewFile;
+
+    /// <summary>
+    /// Drag'n' drop event
+    /// </summary>
+    public event DragDropEventDelegate OnDragAndDropEvent;
+
+    /// <summary>
+    /// Is open in tab control event
+    /// </summary>
+    public event IsOpenInTabEventDelegate OnIsOpenInTabControl;
 
 
     /// <summary>
@@ -432,14 +444,13 @@ namespace Org.Vs.TailForWin.Template
     /// <param name="e">RoutedEventArgs</param>
     public void btnOpenFile_Click(object sender, RoutedEventArgs e)
     {
-      string fName;
-
-      if(!LogFile.OpenFileLogDialog(out fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource("OpenFileDialog") as string))
+      if(!LogFile.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource("OpenFileDialog") as string))
         return;
 
+      currentFileName = fName;
       NewFile?.Invoke(this, EventArgs.Empty);
 
-      textBoxFileName.Text = fName;
+      textBoxFileName.Text = currentFileName;
     }
 
     /// <summary>
@@ -963,7 +974,7 @@ namespace Org.Vs.TailForWin.Template
         return;
       }
 
-      LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Format(tailWorker.IsBusy ? "Tailing {0}" : "Pause {0}", tabProperties.File);
+      LogFile.APP_MAIN_WINDOW.ToolTipDetailText = tailWorker.IsBusy ? $"Tailing {tabProperties.File}" : $"Pause {tabProperties.File}";
     }
 
     #endregion
@@ -972,35 +983,26 @@ namespace Org.Vs.TailForWin.Template
 
     private void GoToLineNumberEvent(object sender, EventArgs e)
     {
-      if(e.GetType() != typeof(GoToLineData))
-        return;
-
-      var goToLineData = e as GoToLineData;
-
-      if(goToLineData != null)
+      if(e is GoToLineData goToLineData)
         textBlockTailLog.GoToLineNumber(goToLineData.LineNumber);
     }
 
     private void NewFileOpend(object sender, EventArgs e)
     {
+      if(FileIsOpenInOtherTab())
+        return;
+
       if(fileManagerProperties != null)
+      {
         fileManagerProperties = new FileManagerData
         {
           ID = -1
         };
-
-      System.Drawing.FontStyle fs = System.Drawing.FontStyle.Regular;
-
-      if(textBlockTailLog.TextEditorFontStyle == FontStyles.Italic)
-        fs = System.Drawing.FontStyle.Italic;
-      if(textBlockTailLog.TextEditorFontWeight == FontWeights.Bold)
-        fs |= System.Drawing.FontStyle.Bold;
-
-      System.Drawing.Font textBox = new System.Drawing.Font(textBlockTailLog.FontFamily.Source, (float) textBlockTailLog.FontSize, fs);
+      }
 
       tabProperties.Wrap = false;
       tabProperties.KillSpace = false;
-      tabProperties.FontType = textBox;
+      tabProperties.FontType = CreateTailWindowFont();
       tabProperties.ThreadPriority = SettingsHelper.TailSettings.DefaultThreadPriority;
       tabProperties.RefreshRate = SettingsHelper.TailSettings.DefaultRefreshRate;
       tabProperties.FileEncoding = null;
@@ -1090,10 +1092,14 @@ namespace Org.Vs.TailForWin.Template
 
     private void FileManagerGetProperties(object sender, EventArgs e)
     {
-      if(FileManagerDoOpenTab != null)
-        FileManagerDoOpenTab(this, e);
+      FileManagerDoOpenTab?.Invoke(this, e);
     }
 
+    /// <summary>
+    /// Drag enter helper
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     public void DragEnterHelper(object sender, DragEventArgs e)
     {
       e.Handled = !tailWorker.IsBusy;
@@ -1102,11 +1108,46 @@ namespace Org.Vs.TailForWin.Template
         e.Effects = DragDropEffects.None;
     }
 
+    /// <summary>
+    /// Drop helper
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     public void DropHelper(object sender, DragEventArgs e)
     {
       if(tailWorker.IsBusy)
       {
-        MessageBox.Show(Application.Current.FindResource("DragDropRunningWarining") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+        var result = MessageBox.Show(Application.Current.FindResource("DragDropRunningWarning") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+        if(result == MessageBoxResult.Yes)
+        {
+          try
+          {
+            currentFileName = GetFileNameFromDropData(e);
+
+            if(FileIsOpenInOtherTab())
+              return;
+
+            var fileProperties = new FileManagerData
+            {
+              ID = -1,
+              Wrap = false,
+              KillSpace = false,
+              FontType = CreateTailWindowFont(),
+              ThreadPriority = SettingsHelper.TailSettings.DefaultThreadPriority,
+              RefreshRate = SettingsHelper.TailSettings.DefaultRefreshRate,
+              FileEncoding = null,
+              FileName = currentFileName
+            };
+
+            OnDragAndDropEvent?.Invoke(fileProperties);
+          }
+          catch(Exception ex)
+          {
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          }
+        }
+
         e.Handled = false;
         return;
       }
@@ -1115,17 +1156,9 @@ namespace Org.Vs.TailForWin.Template
 
       try
       {
-        var text = e.Data.GetData(DataFormats.FileDrop);
-
-        if(text == null)
-          return;
-
-        string fileName = string.Format("{0}", ((string[]) text)[0]);
-
-        if(NewFile != null)
-          NewFile(this, EventArgs.Empty);
-
-        textBoxFileName.Text = fileName;
+        currentFileName = GetFileNameFromDropData(e);
+        NewFile?.Invoke(this, EventArgs.Empty);
+        textBoxFileName.Text = currentFileName;
       }
       catch(Exception ex)
       {
@@ -1142,13 +1175,8 @@ namespace Org.Vs.TailForWin.Template
     {
       LogEntry alertTriggerData = new LogEntry();
 
-      if(e.GetType() == typeof(AlertTriggerEventArgs))
-      {
-        var alertTriggerEventArgs = e as AlertTriggerEventArgs;
-
-        if(alertTriggerEventArgs != null)
-          alertTriggerData = alertTriggerEventArgs.GetData();
-      }
+      if(e is AlertTriggerEventArgs alertTriggerEventArgs)
+        alertTriggerData = alertTriggerEventArgs.GetData();
 
       if(SettingsHelper.TailSettings.AlertSettings.BringToFront)
         LogFile.BringMainWindowToFront();
@@ -1171,7 +1199,7 @@ namespace Org.Vs.TailForWin.Template
       if(!mySmtp.InitSucces)
         return;
 
-      string message = string.Format("{0}\t{1}", alertTriggerData.Index, alertTriggerData.Message);
+      string message = $"{alertTriggerData.Index}\t{alertTriggerData.Message}";
       mySmtp.SendMail("AlertTrigger", message);
     }
 
@@ -1179,6 +1207,72 @@ namespace Org.Vs.TailForWin.Template
     {
       if(fileManagerProperties != null)
         saveFilters = true;
+    }
+
+    #endregion
+
+    #region HelperFunctions
+
+    private System.Drawing.Font CreateTailWindowFont()
+    {
+      try
+      {
+        System.Drawing.FontStyle fs = System.Drawing.FontStyle.Regular;
+
+        if(textBlockTailLog.TextEditorFontStyle == FontStyles.Italic)
+          fs = System.Drawing.FontStyle.Italic;
+        if(textBlockTailLog.TextEditorFontWeight == FontWeights.Bold)
+          fs |= System.Drawing.FontStyle.Bold;
+
+        System.Drawing.Font textBox = new System.Drawing.Font(textBlockTailLog.FontFamily.Source, (float) textBlockTailLog.FontSize, fs);
+
+        return (textBox);
+      }
+      catch(ArgumentException ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+      return (null);
+    }
+
+    private string GetFileNameFromDropData(DragEventArgs e)
+    {
+      try
+      {
+        var dropData = e.Data.GetData(DataFormats.FileDrop);
+
+        if(dropData == null)
+          return (string.Empty);
+
+        return (string.Format("{0}", ((string[]) dropData)[0]));
+      }
+      catch(Exception ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+      return (string.Empty);
+    }
+
+    private bool FileIsOpenInOtherTab()
+    {
+      foreach(var item in LogFile.APP_MAIN_WINDOW.TailTabItems)
+      {
+        if(item.Content is Frame tabFrame)
+        {
+          if(tabFrame.Content is TailLog logWnd)
+          {
+            if(currentFileName.Equals(logWnd.textBoxFileName.Text))
+            {
+              LOG.Trace("Is opened '{0}'!", currentFileName);
+              OnIsOpenInTabControl?.Invoke(item);
+
+              currentFileName = string.Empty;
+              return (true);
+            }
+          }
+        }
+      }
+      return (false);
     }
 
     #endregion

@@ -170,6 +170,8 @@
     <Compile Include="Logging\ZippingRollingFileAppender.cs" />
     <Compile Include="NotifyIcon\BalloonIcon.cs" />
     <Compile Include="Data\Events\BookmarkLineBool.cs" />
+    <Compile Include="Template\Events\DragDropEventDelegate.cs" />
+    <Compile Include="Template\Events\IsOpenInTabEventDelegate.cs" />
     <Compile Include="Template\FancyPopUp.xaml.cs">
       <DependentUpon>FancyPopUp.xaml</DependentUpon>
     </Compile>

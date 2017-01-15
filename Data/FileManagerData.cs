@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Text;
 using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Data
@@ -183,9 +184,7 @@ namespace Org.Vs.TailForWin.Data
     public void RestoreFromMemento(MementoFileManagerData memento)
     {
       MementoFileManagerData mementoFMData = memento as MementoFileManagerData;
-
-      if(mementoFMData == null)
-        throw new ArgumentException(string.Format("Argument is not a MementoFileManagerData {0}!", memento.GetType().Name), "memento");
+      Arg.NotNull(mementoFMData, "Argument is not a MementoFileManagerData");
 
       ID = mementoFMData.ID;
       Category = mementoFMData.Category;

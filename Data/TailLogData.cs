@@ -24,6 +24,9 @@ namespace Org.Vs.TailForWin.Data
       ListOfFilter.CollectionChanged += ContentCollectionChanged;
     }
 
+    /// <summary>
+    /// Releases all resources used by the TailLogData.
+    /// </summary>
     public void Dispose()
     {
       if(fontType == null)

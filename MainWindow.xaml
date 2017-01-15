@@ -9,11 +9,11 @@
       <RowDefinition Height="328*" />
       <RowDefinition Height="23" />
     </Grid.RowDefinitions>
-    <TabControl Name="tabControlTail" ItemsSource="{Binding}" SelectionChanged="tabControlTail_SelectionChanged" AllowDrop="True" Drop="tabControlTail_Drop" DragEnter="tabControlTail_DragEnter" BorderBrush="Gainsboro">
+    <TabControl Name="tabControlTail" ItemsSource="{Binding}" SelectionChanged="TabControlTail_SelectionChanged" AllowDrop="True" Drop="TabControlTail_Drop" DragEnter="TabControlTail_DragEnter" BorderBrush="Gainsboro">
       <TabControl.Resources>
         <DataTemplate x:Key="TabHeader" DataType="TabItem">
           <DockPanel>
-            <Button x:Name="PART_Close" DockPanel.Dock="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="16" Height="16" Padding="4" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}" Style="{DynamicResource CloseableTabItemButtonStyle}" Click="btnDelete_Click" HorizontalAlignment="Center">
+            <Button x:Name="PART_Close" DockPanel.Dock="Right" Margin="5,0,0,0" VerticalAlignment="Center" Width="16" Height="16" Padding="4" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type TabItem}}, Path=Name}" Style="{DynamicResource CloseableTabItemButtonStyle}" Click="BtnDelete_Click" HorizontalAlignment="Center">
               <Button.ToolTip>
                 <StackPanel>
                   <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Close current tab</TextBlock>
@@ -74,7 +74,7 @@
       <StatusBarItem Grid.Column="2" Name="stsEncode" BorderBrush="#FFC8C8C8" BorderThickness="0,0,1,0" FontSize="11" Foreground="DarkBlue">
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
           <TextBlock Text="Type:" Margin="0,0,5,0" />
-          <ComboBox Name="cbStsEncoding" ItemsSource="{Binding}" Width="135" FontSize="9" SelectionChanged="cbStsEncoding_SelectionChanged">
+          <ComboBox Name="cbStsEncoding" ItemsSource="{Binding}" Width="135" FontSize="9" SelectionChanged="CbStsEncoding_SelectionChanged">
             <ComboBox.ToolTip>
               <StackPanel>
                 <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">File encoding</TextBlock>
