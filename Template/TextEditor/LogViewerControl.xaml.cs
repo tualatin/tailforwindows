@@ -120,11 +120,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
     #region Public properties
 
+    /// <summary>
+    /// Show line number property
+    /// </summary>
     public static readonly DependencyProperty ShowLineNumbersProperty = DependencyProperty.Register("ShowLineNumbers", typeof(bool), typeof(LogViewerControl),
                               new PropertyMetadata(false, OnDataTemplateChanged));
 
     /// <summary>
-    /// TextEditor show line numbers
+    /// Text editor show line numbers
     /// </summary>
     [Category("TextEditor")]
     public bool ShowLineNumbers
@@ -139,11 +142,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Line number color property
+    /// </summary>
     public static readonly DependencyProperty LineNumbersColorProperty = DependencyProperty.Register("LineNumbersColor", typeof(Brush), typeof(LogViewerControl),
                               new PropertyMetadata(Brushes.Gray));
 
     /// <summary>
-    /// TextEditor line number color
+    /// Text editor line number color
     /// </summary>
     [Category("TextEditor")]
     public Brush LineNumbersColor
@@ -162,7 +168,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
                               new PropertyMetadata(Brushes.LightGray));
 
     /// <summary>
-    /// TextEditor line number background color
+    /// Text editor line number background color
     /// </summary>
     [Category("TextEditor")]
     public Brush LineNumbersBackgroundColor
@@ -177,11 +183,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Word wrap property
+    /// </summary>
     public static readonly DependencyProperty WordWrappingProperty = DependencyProperty.Register("WordWrapping", typeof(bool), typeof(LogViewerControl),
                               new PropertyMetadata(false));
 
     /// <summary>
-    /// TextEditor word wrapping
+    /// Text editor word wrapping
     /// </summary>
     [Category("TextEditor")]
     public bool WordWrapping
@@ -196,8 +205,10 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
-    public static readonly DependencyProperty VerticalScrollBarVisibleProperty = DependencyProperty.Register("VerticalScrollBarVisible", typeof(ScrollBarVisibility), typeof(LogViewerControl),
-                              new PropertyMetadata(ScrollBarVisibility.Auto));
+    /// <summary>
+    /// Vertical scroll bar visibility property
+    /// </summary>
+    public static readonly DependencyProperty VerticalScrollBarVisibleProperty = DependencyProperty.Register("VerticalScrollBarVisible", typeof(ScrollBarVisibility), typeof(LogViewerControl), new PropertyMetadata(ScrollBarVisibility.Auto));
 
     /// <summary>
     /// TextEditor vertical scroll visible
@@ -215,11 +226,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Text editor background color property
+    /// </summary>
     public static readonly DependencyProperty TextEditorBackGroundColorProperty = DependencyProperty.Register("TextEditorBackgroundColor", typeof(Brush), typeof(LogViewerControl),
                               new PropertyMetadata(Brushes.White));
 
     /// <summary>
-    /// TextEditor background color
+    /// Text editor background color
     /// </summary>
     [Category("TextEditor")]
     public Brush TextEditorBackgroundColor
@@ -234,11 +248,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Text editor forground color property
+    /// </summary>
     public static readonly DependencyProperty TextEditorForegroundColorProperty = DependencyProperty.Register("TextEditorForegroundColor", typeof(Brush), typeof(LogViewerControl),
                               new PropertyMetadata(Brushes.Black));
 
     /// <summary>
-    /// TextEditor foreground color
+    /// Text editor foreground color
     /// </summary>
     [Category("TextEditor")]
     public Brush TextEditorForegroundColor
@@ -253,6 +270,9 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Show date time property
+    /// </summary>
     public static readonly DependencyProperty ShowDateTimeProperty = DependencyProperty.Register("ShowDateTime", typeof(bool), typeof(LogViewerControl),
                               new PropertyMetadata(false, OnDataTemplateChanged));
 
@@ -272,11 +292,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Text editor font style property
+    /// </summary>
     public static readonly DependencyProperty TextEditorFontStyleProperty = DependencyProperty.Register("TextEditorFontStyle", typeof(FontStyle), typeof(LogViewerControl),
                               new PropertyMetadata(FontStyles.Normal));
 
     /// <summary>
-    /// TextEditor font style
+    /// Text editor font style
     /// </summary>
     [Category("TextEditor")]
     public FontStyle TextEditorFontStyle
@@ -291,11 +314,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Text editor font family property
+    /// </summary>
     public static readonly DependencyProperty TextEditorFontFamilyProperty = DependencyProperty.Register("TextEditorFontFamily", typeof(FontFamily), typeof(LogViewerControl),
                               new PropertyMetadata(new FontFamily("Segoe UI")));
 
     /// <summary>
-    /// TextEditor font family
+    /// Text editor font family
     /// </summary>
     [Category("TextEditor")]
     public FontFamily TextEditorFontFamily
@@ -310,11 +336,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Text editor font weight property
+    /// </summary>
     public static readonly DependencyProperty TextEditorFontWeightProperty = DependencyProperty.Register("TextEditorFontWeight", typeof(FontWeight), typeof(LogViewerControl),
                               new PropertyMetadata(FontWeights.Normal));
 
     /// <summary>
-    /// TextEditor font weight
+    /// Text editor font weight
     /// </summary>
     [Category("TextEditor")]
     public FontWeight TextEditorFontWeight
@@ -329,11 +358,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Text editor font size property
+    /// </summary>
     public static readonly DependencyProperty TextEditorFontSizeProperty = DependencyProperty.Register("TextEditorFontSize", typeof(int), typeof(LogViewerControl),
                               new PropertyMetadata(12));
 
     /// <summary>
-    /// TextEditor font size
+    /// Text editor font size
     /// </summary>
     [Category("TextEditor")]
     public int TextEditorFontSize
@@ -348,11 +380,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Text editor selection color porperty
+    /// </summary>
     public static readonly DependencyProperty TextEditorSelectionColorProperty = DependencyProperty.Register("TextEditorSelectionColor", typeof(Color),
                               typeof(LogViewerControl), new PropertyMetadata(Colors.Blue));
 
     /// <summary>
-    /// TextEditor selection color
+    /// Text editor selection color
     /// </summary>
     [Category("TextEditor")]
     public Color TextEditorSelectionColor
@@ -367,11 +402,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Always scroll into view property
+    /// </summary>
     public static readonly DependencyProperty AlwaysScrollIntoViewProperty = DependencyProperty.Register("AlwaysScrollIntoView", typeof(bool), typeof(LogViewerControl),
                           new PropertyMetadata(true));
 
     /// <summary>
-    /// TextEditor scroll into view
+    /// Text editor scroll into view
     /// </summary>
     [Category("TextEditor")]
     public bool AlwaysScrollIntoView
@@ -386,11 +424,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Text editor search highlight background property
+    /// </summary>
     public static readonly DependencyProperty TextEditorSearchHighlightBackgroundProperty = DependencyProperty.Register("TextEditorSearchHighlightBackground", typeof(Brush), typeof(LogViewerControl),
                           new PropertyMetadata(Brushes.Red));
 
     /// <summary>
-    /// TextEditor search highlight background
+    /// Text editor search highlight background
     /// </summary>
     [Category("TextEditor")]
     public Brush TextEditorSearchHighlightBackground
@@ -405,11 +446,13 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
-    public static readonly DependencyProperty TextEditorSearchHighlightForegroundProperty = DependencyProperty.Register("TextEditorSearchHighlightForeground", typeof(Brush), typeof(LogViewerControl),
-                      new PropertyMetadata(Brushes.WhiteSmoke));
+    /// <summary>
+    /// Text eidtor search highlight foreground property
+    /// </summary>
+    public static readonly DependencyProperty TextEditorSearchHighlightForegroundProperty = DependencyProperty.Register("TextEditorSearchHighlightForeground", typeof(Brush), typeof(LogViewerControl), new PropertyMetadata(Brushes.WhiteSmoke));
 
     /// <summary>
-    /// TextEditor search highlight foreground
+    /// Text editor search highlight foreground
     /// </summary>
     [Category("TextEditor")]
     public Brush TextEditorSearchHighlightForeground
@@ -432,7 +475,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       get;
       set;
     }
-
+    
     private static readonly DependencyProperty AddDateTimeProperty = DependencyProperty.Register("AddDateTime", typeof(bool), typeof(LogViewerControl),
                       new PropertyMetadata(true));
 
@@ -448,6 +491,9 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    /// <summary>
+    /// Filter on property
+    /// </summary>
     public static readonly DependencyProperty FilterOnProperty = DependencyProperty.Register("FilterOn", typeof(bool), typeof(LogViewerControl),
                       new PropertyMetadata(false, OnFilterOnChanged));
 
@@ -697,7 +743,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
     private static void OnFilterOnChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender.GetType() == typeof(LogViewerControl))
+      if(sender is LogViewerControl)
       {
         LogViewerControl control = sender as LogViewerControl;
 
@@ -779,7 +825,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
                   if(rcTextBox.Contains((int) mousePoint.X, (int) mousePoint.Y) && leftMouseButtonDown)
                   {
-                    System.Windows.Resources.StreamResourceInfo info = Application.GetResourceStream(new Uri("/Org.Vs.TailForWin;component/Template/TextEditor/RightArrow.cur", UriKind.Relative));
+                    System.Windows.Resources.StreamResourceInfo info = Application.GetResourceStream(new Uri("/Org.Vs.TailForWin;component/Template/TextEditor/Res/RightArrow.cur", UriKind.Relative));
 
                     if(info != null)
                       Cursor = new Cursor(info.Stream);
@@ -903,8 +949,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
       System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage();
       bp.BeginInit();
-      bp.UriSource = new Uri("/TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
+      bp.UriSource = new Uri("/TailForWin;component/Template/TextEditor/Res/breakpoint.png", UriKind.Relative);
       bp.EndInit();
+
+      RenderOptions.SetBitmapScalingMode(bp, BitmapScalingMode.NearestNeighbor);
+      RenderOptions.SetEdgeMode(bp, EdgeMode.Aliased);
 
       if(item.BookmarkPoint == null)
         item.BookmarkPoint = bp;
@@ -946,7 +995,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
           if(!(((System.Drawing.Rectangle) rcBreakpoint).Contains((int) mousePoint.X, (int) mousePoint.Y) && rightMouseButtonDown))
             continue;
 
-          System.Windows.Media.Imaging.BitmapImage icon = new System.Windows.Media.Imaging.BitmapImage(new Uri("/TailForWin;component/Template/TextEditor/breakpoint_delete.gif", UriKind.Relative));
+          System.Windows.Media.Imaging.BitmapImage icon = new System.Windows.Media.Imaging.BitmapImage(new Uri("/TailForWin;component/Template/TextEditor/Res/trash-icon.png", UriKind.Relative));
           RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
           RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
 
@@ -1107,7 +1156,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       if(!string.IsNullOrEmpty(searchText))
       {
         foundItems.Clear();
-        Regex regSearch = new Regex(string.Format("({0})", searchText), RegexOptions.IgnoreCase);
+        Regex regSearch = new Regex($"({searchText})", RegexOptions.IgnoreCase);
 
         foreach(LogEntry item in from item in LogEntries let substrings = regSearch.Split(item.Message) from sub in substrings where regSearch.Match(sub).Success select item)
         {
@@ -1115,8 +1164,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor
           {
             System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage();
             bp.BeginInit();
-            bp.UriSource = new Uri("/Org.Vs.TailForWin;component/Template/TextEditor/breakpoint.gif", UriKind.Relative);
+            bp.UriSource = new Uri("/Org.Vs.TailForWin;component/Template/TextEditor/Res/breakpoint.png", UriKind.Relative);
             bp.EndInit();
+
+            RenderOptions.SetBitmapScalingMode(bp, BitmapScalingMode.NearestNeighbor);
+            RenderOptions.SetEdgeMode(bp, EdgeMode.Aliased);
 
             item.BookmarkPoint = bp;
           }
@@ -1162,9 +1214,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     private void RemoveAllSearchHighlights()
     {
       if(foundItems.Count != 0)
-      {
         foundItems.ForEach(item => RemoveHightlightText(FindMessageTextBox(item)));
-      }
     }
 
     private TextBlock FindMessageTextBox(LogEntry item)
@@ -1225,7 +1275,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       if(tb == null)
         return;
 
-      Regex regex = new Regex(string.Format("({0})", searchText), RegexOptions.IgnoreCase);
+      Regex regex = new Regex($"({searchText})", RegexOptions.IgnoreCase);
 
       if(searchText.Length == 0)
       {
@@ -1249,7 +1299,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       if(searchBookmark)
         return;
 
-      Regex regex = new Regex(string.Format("({0})", searchText), RegexOptions.IgnoreCase);
+      Regex regex = new Regex($"({searchText})", RegexOptions.IgnoreCase);
 
       if(searchText.Length == 0)
       {
@@ -1326,7 +1376,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
       foreach(FilterData pair in filters)
       {
-        Regex regSearch = new Regex(string.Format("({0})", pair.Filter), RegexOptions.IgnoreCase);
+        Regex regSearch = new Regex($"({pair.Filter})", RegexOptions.IgnoreCase);
         string[] substrings = regSearch.Split(newItem.Message);
 
         Array.ForEach(substrings, sub =>

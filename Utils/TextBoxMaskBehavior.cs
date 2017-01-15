@@ -21,11 +21,21 @@ namespace Org.Vs.TailForWin.Utils
     public static readonly DependencyProperty MinimumValueProperty = DependencyProperty.RegisterAttached("MinimumValue", typeof(double), typeof(TextBoxMaskBehavior),
       new FrameworkPropertyMetadata(double.NaN, MinimumValueChangedCallback));
 
+    /// <summary>
+    /// Get minimum value
+    /// </summary>
+    /// <param name="obj">Dependency object</param>
+    /// <returns>Minimum value</returns>
     public static double GetMinimumValue(DependencyObject obj)
     {
       return ((double) obj.GetValue(MinimumValueProperty));
     }
 
+    /// <summary>
+    /// Set minimum vlaue
+    /// </summary>
+    /// <param name="obj">Dependency object</param>
+    /// <param name="value">Value</param>
     public static void SetMinimumValue(DependencyObject obj, double value)
     {
       obj.SetValue(MinimumValueProperty, value);
@@ -233,8 +243,8 @@ namespace Org.Vs.TailForWin.Utils
         text = "0";
       }
 
-      while(text.Length > 1 && String.CompareOrdinal(text[0].ToString(), '0'.ToString()) == 0 &&
-             String.CompareOrdinal(string.Empty + text[1], NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) != 0)
+      while(text.Length > 1 && string.CompareOrdinal(text[0].ToString(), '0'.ToString()) == 0 &&
+             string.CompareOrdinal(string.Empty + text[1], NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) != 0)
       {
         text = text.Substring(1);
 
@@ -243,8 +253,8 @@ namespace Org.Vs.TailForWin.Utils
       }
 
       while(text.Length > 2 && String.CompareOrdinal(string.Empty + text[0], NumberFormatInfo.CurrentInfo.NegativeSign) == 0 &&
-             String.CompareOrdinal(text[1].ToString(), '0'.ToString()) == 0 &&
-             String.CompareOrdinal(string.Empty + text[2], NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) != 0)
+             string.CompareOrdinal(text[1].ToString(), '0'.ToString()) == 0 &&
+             string.CompareOrdinal(string.Empty + text[2], NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) != 0)
       {
         text = NumberFormatInfo.CurrentInfo.NegativeSign + text.Substring(2);
 

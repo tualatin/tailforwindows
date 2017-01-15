@@ -127,7 +127,7 @@
           <Image Source="{Binding Path=BookmarkPoint}" Grid.Column="0" Width="16" Height="16" Margin="2,0" x:Name="txtBoxBreakpoint" />
         </Grid>
 
-        <Grid Cursor="/TailForWin;component/Template/TextEditor/RightArrow.cur" Grid.Column="1">
+        <Grid Cursor="/TailForWin;component/Template/TextEditor/Res/RightArrow.cur" Grid.Column="1">
           <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.4" />
           <TextBlock Grid.Column="1" Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
         </Grid>       
@@ -151,7 +151,7 @@
           <Image Source="{Binding Path=BookmarkPoint}" Grid.Column="0" Width="16" Height="16" Margin="2,0" x:Name="txtBoxBreakpoint" />
         </Grid>
 
-        <Grid Cursor="/TailForWin;component/Template/TextEditor/RightArrow.cur" Grid.Column="1">
+        <Grid Cursor="/TailForWin;component/Template/TextEditor/Res/RightArrow.cur" Grid.Column="1">
           <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.4" />
           <TextBlock Grid.Column="1" Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
         </Grid>

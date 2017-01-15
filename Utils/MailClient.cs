@@ -100,9 +100,7 @@ namespace Org.Vs.TailForWin.Utils
         };
 
         emailTimer.Elapsed += EMailTimerEvent;
-
         messageCollection = new List<string>();
-
         InitSucces = true;
       }
       catch(Exception ex)
@@ -130,10 +128,12 @@ namespace Org.Vs.TailForWin.Utils
           mailMessage.Body = bodyMessage;
 
         if(string.Compare(userState, "testMessage", StringComparison.Ordinal) == 0)
-          mailMessage.Body = string.Format("Testmail from {0}", LogFile.APPLICATION_CAPTION);
+          mailMessage.Body = $"Testmail from {LogFile.APPLICATION_CAPTION}";
 
         if(!EMailTimer.Enabled)
+        {
           mailClient.SendAsync(mailMessage, userToken);
+        }
         else
         {
           CollectMessages(bodyMessage);
@@ -144,7 +144,7 @@ namespace Org.Vs.TailForWin.Utils
           return;
 
         emailTimer.Enabled = true;
-        Console.WriteLine(@"Timer start {0}", DateTime.Now);
+        LOG.Trace("Timer start {0}", DateTime.Now);
       }
       catch(Exception ex)
       {
@@ -179,17 +179,14 @@ namespace Org.Vs.TailForWin.Utils
 
       if(e.Cancelled)
       {
-        MessageBox.Show(string.Format("{0}\n\"{1}\"", Application.Current.FindResource("MailCannotSend"), token), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show($"{Application.Current.FindResource("MailCannotSend")}\n\"{token}\"", LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+        SendMailComplete?.Invoke(sender, EventArgs.Empty);
 
-        if(SendMailComplete != null)
-          SendMailComplete(sender, EventArgs.Empty);
         return;
       }
 
-      MessageBox.Show(e.Error != null ? string.Format("{0}\n\"{1}\"", e.Error, token) : "Complete!", LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
-
-      if(SendMailComplete != null)
-        SendMailComplete(sender, EventArgs.Empty);
+      MessageBox.Show(e.Error != null ? $"{e.Error}\n{token}" : "Complete!", LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+      SendMailComplete?.Invoke(sender, EventArgs.Empty);
     }
 
     private void EMailTimerEvent(object sender, System.Timers.ElapsedEventArgs e)
@@ -201,13 +198,13 @@ namespace Org.Vs.TailForWin.Utils
 
         messageCollection.ForEach(message =>
          {
-           body += string.Format("{0}\n", message);
+           body += $"{message}\n";
          });
 
         messageCollection.Clear();
 
         SendMail("AlertTrigger", body);
-        Console.WriteLine(@"Timer end {0}", DateTime.Now);
+        LOG.Trace("Timer end {0}", DateTime.Now);
       }
       catch(Exception ex)
       {

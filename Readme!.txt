@@ -5,6 +5,9 @@ If there are problems, TailForWindows creates a error logfile in the directory. 
 
 Changelog:
 v1.x.x
+* change internal structur 
+* bug fix auto update
+* change some icons
 * new log4net is logging system now
 * new tooltip design
 * bug fix Uptime

@@ -8,7 +8,7 @@ namespace Org.Vs.TailForWin.Utils
 {
   /// <summary>
   /// Utility class for checking method arguments.
-  /// Thanks to S.F. from poland
+  /// Thanks to S.F. from p.
   /// </summary>
   public sealed class Arg
   {

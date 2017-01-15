@@ -516,9 +516,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Template\TextEditor\RightArrow.cur" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Res\Alert.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -545,12 +542,6 @@
     <Resource Include="Res\Import.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Template\TextEditor\breakpoint.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Template\TextEditor\breakpoint_delete.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="IWshRuntimeLibrary">
       <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -565,6 +556,9 @@
     <Content Include="Config\log4net.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Template\TextEditor\Res\RightArrow.cur" />
+    <Resource Include="Template\TextEditor\Res\breakpoint.png" />
+    <Resource Include="Template\TextEditor\Res\trash-icon.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
