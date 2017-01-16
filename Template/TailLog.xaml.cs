@@ -1102,7 +1102,7 @@ namespace Org.Vs.TailForWin.Template
     /// <param name="e">Arguments</param>
     public void DragEnterHelper(object sender, DragEventArgs e)
     {
-      e.Handled = !tailWorker.IsBusy;
+      e.Handled = true;
 
       if(e.Source == sender)
         e.Effects = DragDropEffects.None;
@@ -1168,7 +1168,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void textBoxFileName_PreviewDragOver(object sender, DragEventArgs e)
     {
-      e.Handled = !tailWorker.IsBusy;
+      e.Handled = true;
     }
 
     private void AlertTrigger(object sender, EventArgs e)
