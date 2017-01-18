@@ -475,7 +475,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       get;
       set;
     }
-    
+
     private static readonly DependencyProperty AddDateTimeProperty = DependencyProperty.Register("AddDateTime", typeof(bool), typeof(LogViewerControl),
                       new PropertyMetadata(true));
 
@@ -825,7 +825,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
                   if(rcTextBox.Contains((int) mousePoint.X, (int) mousePoint.Y) && leftMouseButtonDown)
                   {
-                    System.Windows.Resources.StreamResourceInfo info = Application.GetResourceStream(new Uri("/Org.Vs.TailForWin;component/Template/TextEditor/Res/RightArrow.cur", UriKind.Relative));
+                    System.Windows.Resources.StreamResourceInfo info = Application.GetResourceStream(new Uri("/TailForWin;component/Template/TextEditor/Res/RightArrow.cur", UriKind.Relative));
 
                     if(info != null)
                       Cursor = new Cursor(info.Stream);
@@ -1114,24 +1114,32 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
       for(int i = start; i <= LogEntries.Count; i++)
       {
-        foreach(LogEntry item in foundItems.Where(item => item.Index == i))
+        try
         {
-          if(NextSearch != null && item.Index == NextSearch.Index)
+          foreach(LogEntry item in foundItems.Where(item => item.Index == i))
           {
-            stop = i;
-            continue;
+            if(NextSearch != null && item.Index == NextSearch.Index)
+            {
+              stop = i;
+              continue;
+            }
+
+            HightlightText(FindMessageTextBox(NextSearch));
+            NextSearch = item;
+
+            return (true);
           }
 
-          HightlightText(FindMessageTextBox(NextSearch));
-          NextSearch = item;
+          counter++;
 
-          return (true);
+          if(counter > end)
+            break;
         }
-
-        counter++;
-
-        if(counter > end)
-          break;
+        catch(Exception ex)
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          continue;
+        }
       }
       return (false);
     }
@@ -1140,12 +1148,20 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     {
       for(int i = start; i <= LogEntries.Count; i++)
       {
-        foreach(LogEntry item in foundItems.Where(item => item.Index == i).Where(item => NextSearch == null || item.Index != NextSearch.Index))
+        try
         {
-          HightlightText(FindMessageTextBox(NextSearch));
-          NextSearch = item;
+          foreach(LogEntry item in foundItems.Where(item => item.Index == i).Where(item => NextSearch == null || item.Index != NextSearch.Index))
+          {
+            HightlightText(FindMessageTextBox(NextSearch));
+            NextSearch = item;
 
-          return (true);
+            return (true);
+          }
+        }
+        catch(Exception ex)
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          continue;
         }
       }
       return (false);
@@ -1153,50 +1169,57 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
     private void SearchItemsNow(bool count = false)
     {
-      if(!string.IsNullOrEmpty(searchText))
+      try
       {
-        foundItems.Clear();
-        Regex regSearch = new Regex($"({searchText})", RegexOptions.IgnoreCase);
-
-        foreach(LogEntry item in from item in LogEntries let substrings = regSearch.Split(item.Message) from sub in substrings where regSearch.Match(sub).Success select item)
+        if(!string.IsNullOrEmpty(searchText))
         {
-          if(BookmarkLine)
+          foundItems.Clear();
+          Regex regSearch = new Regex($"({searchText})", RegexOptions.IgnoreCase);
+
+          foreach(LogEntry item in from item in LogEntries let substrings = regSearch.Split(item.Message) from sub in substrings where regSearch.Match(sub).Success select item)
           {
-            System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage();
-            bp.BeginInit();
-            bp.UriSource = new Uri("/Org.Vs.TailForWin;component/Template/TextEditor/Res/breakpoint.png", UriKind.Relative);
-            bp.EndInit();
+            if(BookmarkLine)
+            {
+              System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage();
+              bp.BeginInit();
+              bp.UriSource = new Uri("/TailForWin;component/Template/TextEditor/Res/breakpoint.png", UriKind.Relative);
+              bp.EndInit();
 
-            RenderOptions.SetBitmapScalingMode(bp, BitmapScalingMode.NearestNeighbor);
-            RenderOptions.SetEdgeMode(bp, EdgeMode.Aliased);
+              RenderOptions.SetBitmapScalingMode(bp, BitmapScalingMode.NearestNeighbor);
+              RenderOptions.SetEdgeMode(bp, EdgeMode.Aliased);
 
-            item.BookmarkPoint = bp;
+              item.BookmarkPoint = bp;
+            }
+
+            foundItems.Add(item);
+
+            if(count)
+              newSearch = true;
+            else
+              newSearch = false;
           }
 
-          foundItems.Add(item);
-
-          if(count)
-            newSearch = true;
-          else
-            newSearch = false;
+          if(!count)
+            HighlightAllMatches();
         }
-
-        if(!count)
-          HighlightAllMatches();
-      }
-      else if(searchBookmark)
-      {
-        foundItems.Clear();
-
-        foreach(LogEntry item in LogEntries.Where(item => item.BookmarkPoint != null))
+        else if(searchBookmark)
         {
-          foundItems.Add(item);
+          foundItems.Clear();
 
-          if(count)
-            newSearch = true;
-          else
-            newSearch = false;
+          foreach(LogEntry item in LogEntries.Where(item => item.BookmarkPoint != null))
+          {
+            foundItems.Add(item);
+
+            if(count)
+              newSearch = true;
+            else
+              newSearch = false;
+          }
         }
+      }
+      catch(Exception ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
@@ -1205,9 +1228,16 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       if(foundItems.Count == 0)
         return;
 
-      foreach(LogEntry item in foundItems.Where(item => NextSearch == null || item.Index != NextSearch.Index))
+      try
       {
-        HightlightText(FindMessageTextBox(item));
+        foreach(LogEntry item in foundItems.Where(item => NextSearch == null || item.Index != NextSearch.Index))
+        {
+          HightlightText(FindMessageTextBox(item));
+        }
+      }
+      catch(Exception ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
@@ -1266,7 +1296,9 @@ namespace Org.Vs.TailForWin.Template.TextEditor
            tb.Inlines.Add(runx);
          }
          else
+         {
            tb.Inlines.Add(item);
+         }
        });
     }
 
@@ -1385,9 +1417,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
              return;
 
            AlertTriggerEventArgs triggerData = new AlertTriggerEventArgs(newItem);
-
-           if(Alert != null)
-             Alert(this, triggerData);
+           Alert?.Invoke(this, triggerData);
 
            success = true;
          });
