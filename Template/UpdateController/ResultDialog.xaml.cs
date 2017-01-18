@@ -15,6 +15,12 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     private string updateUrl;
 
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="applicationName">Application name</param>
+    /// <param name="update">Update <code>true</code> or <code>false</code></param>
+    /// <param name="updUrl">Update URL</param>
     public ResultDialog(string applicationName, bool update, string updUrl)
     {
       InitializeComponent();

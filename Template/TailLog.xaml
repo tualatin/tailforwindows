@@ -13,7 +13,7 @@
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="100" />
-      <RowDefinition Height="325*" />
+      <RowDefinition Height="*" />
     </Grid.RowDefinitions>
 
     <!-- Row 0 -->
@@ -325,6 +325,7 @@
         </Grid.Style>
         <my:LogViewerControl x:Name="textBlockTailLog" ShowDateTime="{Binding ElementName=checkBoxTimestamp, Path=IsChecked, Mode=OneWay}" DragEnter="DragEnterHelper" Drop="DropHelper" FilterOn="{Binding ElementName=checkBoxFilter, Path=IsChecked}" />
       </Grid>
+      
       <Grid Name="bottomGrid" Grid.Row="1" Visibility="{Binding ElementName=toggle1, Path=IsChecked, Converter={StaticResource visConverter}}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"></ColumnDefinition>

@@ -530,9 +530,9 @@
     <Resource Include="Res\stop.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Template\UpdateController\internet.ico" />
-    <Resource Include="Template\UpdateController\local.ico" />
-    <Resource Include="Template\UpdateController\update.ico" />
+    <Resource Include="Template\UpdateController\Res\internet.ico" />
+    <Resource Include="Template\UpdateController\Res\local.ico" />
+    <Resource Include="Template\UpdateController\Res\update.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Res\EMail.ico" />
