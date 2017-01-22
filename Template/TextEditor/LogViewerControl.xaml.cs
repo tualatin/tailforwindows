@@ -1480,10 +1480,10 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
     private void LogMouseEvents(string mouseEvent)
     {
-      LOG.Debug("{0}", mouseEvent);
-      LOG.Debug("LeftMouseButtonDown {0} / RightMouseButtonDown {1}", leftMouseButtonDown, rightMouseButtonDown);
-      LOG.Debug("OldMousePosition X {0} / OldMousePosition Y {1}", oldMousePosition.X, oldMousePosition.Y);
-      LOG.Debug("MouseMove {0} / WordSelection {1}", mouseMove, wordSelection);
+      //LOG.Debug("{0}", mouseEvent);
+      //LOG.Debug("LeftMouseButtonDown {0} / RightMouseButtonDown {1}", leftMouseButtonDown, rightMouseButtonDown);
+      //LOG.Debug("OldMousePosition X {0} / OldMousePosition Y {1}", oldMousePosition.X, oldMousePosition.Y);
+      //LOG.Debug("MouseMove {0} / WordSelection {1}", mouseMove, wordSelection);
     }
 
     #endregion

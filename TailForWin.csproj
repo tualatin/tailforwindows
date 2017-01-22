@@ -558,6 +558,7 @@
     <Content Include="Config\log4net.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Res\SplitterHandle.png" />
     <Resource Include="Template\TextEditor\Res\RightArrow.cur" />
     <Resource Include="Template\TextEditor\Res\breakpoint.png" />
     <Resource Include="Template\TextEditor\Res\trash-icon.png" />

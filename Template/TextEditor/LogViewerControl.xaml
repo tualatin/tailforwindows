@@ -201,9 +201,20 @@
                                         DateTimeLineNumbersTemplate="{StaticResource dateTimeLineNumberTemplate}" x:Key="templateSelector" />
   </UserControl.Resources>
   <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="4"/>
+      <RowDefinition Height="0"/>
+    </Grid.RowDefinitions>
     <Border BorderThickness="0,1,0,0" BorderBrush="Gainsboro">
-      <ListBox ItemsSource="{Binding}" x:Name="LogViewer" Background="{Binding Path=TextEditorBackgroundColor, ElementName=LogViewerProperty}" Style="{StaticResource MyListBox}" Foreground="{Binding Path=TextEditorForegroundColor, ElementName=LogViewerProperty}" ItemTemplateSelector="{StaticResource templateSelector}" Loaded="LogViewer_Loaded" SelectionMode="Extended" IsSynchronizedWithCurrentItem="True" sel:ListBoxExtenders.AutoScrollToCurrentItem="{Binding Path=AlwaysScrollIntoView, ElementName=LogViewerProperty}" ItemContainerStyle="{StaticResource ItemStyle}" sel:ListBoxCopy.AutoCopy="True" sel:ListBoxCopy.AddDateTime="{Binding Path=AddDateTime, ElementName=LogViewerProperty}" sel:ListBoxSelector.Enabled="True">
-      </ListBox>
+      <ListBox ItemsSource="{Binding}" x:Name="LogViewer" Background="{Binding Path=TextEditorBackgroundColor, ElementName=LogViewerProperty}" Style="{StaticResource MyListBox}" Foreground="{Binding Path=TextEditorForegroundColor, ElementName=LogViewerProperty}" ItemTemplateSelector="{StaticResource templateSelector}" Loaded="LogViewer_Loaded" SelectionMode="Extended" IsSynchronizedWithCurrentItem="True" sel:ListBoxExtenders.AutoScrollToCurrentItem="{Binding Path=AlwaysScrollIntoView, ElementName=LogViewerProperty}" ItemContainerStyle="{StaticResource ItemStyle}" sel:ListBoxCopy.AutoCopy="True" sel:ListBoxCopy.AddDateTime="{Binding Path=AddDateTime, ElementName=LogViewerProperty}" sel:ListBoxSelector.Enabled="True"/>
     </Border>
+
+    <Rectangle Grid.Row="1" Fill="#99D3D3D3"/>
+    <GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" Name="Splitter" BorderBrush="#FFDEDEDE" BorderThickness="0,1" >
+      <GridSplitter.Background>
+        <ImageBrush Stretch="None" ImageSource="/TailForWin;component/Res/SplitterHandle.png" AlignmentX="Center" AlignmentY="Center"/>
+      </GridSplitter.Background>
+    </GridSplitter>
   </Grid>
 </UserControl>
