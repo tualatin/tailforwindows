@@ -9,7 +9,7 @@ using System.Windows;
 [assembly: AssemblyDescription("Unix like tail for windows")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Virtual Studios")]
-[assembly: AssemblyProduct("Org.Vs.TailForWindows")]
+[assembly: AssemblyProduct("TailForWindows")]
 [assembly: AssemblyCopyright("Copyright ©  2013 - 2017 M. Zoennchen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
