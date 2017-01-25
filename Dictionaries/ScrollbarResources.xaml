@@ -4,6 +4,7 @@
   <!-- Some color definitions -->
   <Color x:Key="DisabledForegroundColor">#CACBD3</Color>
   <SolidColorBrush x:Key="ScrollBarLightColor">#E8E8EC</SolidColorBrush>
+  <SolidColorBrush x:Key="BorderHighlight">#FFF0D0</SolidColorBrush>
   <Color x:Key="DefaultScrollBarColor">#D0D1D7</Color>
   <Color x:Key="ScrollBarPressed">#888888</Color>
 
@@ -115,18 +116,38 @@
       </Setter.Value>
     </Setter>
   </Style>
-
+  
   <!-- Vertical ScrollBar definition -->
   <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type ScrollBar}">
     <Grid>
       <Grid.RowDefinitions>
         <RowDefinition MaxHeight="18"/>
+        <RowDefinition MaxHeight="18"/>
         <RowDefinition Height="0.00001*"/>
         <RowDefinition MaxHeight="18"/>
       </Grid.RowDefinitions>
-      <Border Grid.RowSpan="3" Background="{StaticResource ScrollBarLightColor}"/>
-      <RepeatButton Style="{StaticResource ScrollBarLineButton}" Height="18" Command="ScrollBar.LineUpCommand" Content="M 0 5 L 10 5 L 5 0 Z"/>
-      <Track x:Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
+      
+      <!-- GripControl -->
+      <Border BorderThickness="1" CornerRadius="1">
+        <Border.Style>
+          <Style>
+            <Setter Property="Border.Background" Value="{StaticResource ScrollBarLightColor}"/>
+            <Setter Property="Border.BorderBrush" Value="#C9C9C9"/>
+            <Style.Triggers>
+              <Trigger Property="Border.IsMouseOver" Value="True">
+                <Setter Property="Border.BorderBrush" Value="{StaticResource BorderHighlight}"/>
+                <Setter Property="Border.Background" Value="{StaticResource BorderHighlight}"/>
+                <Setter Property="Border.Cursor" Value="Hand"/>
+              </Trigger>
+            </Style.Triggers>
+          </Style>
+        </Border.Style>
+        <Image Source="Res/grip.png" Height="17" Width="17" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+      </Border>
+      
+      <Border Grid.Row="1" Grid.RowSpan="3" Background="{StaticResource ScrollBarLightColor}"/>
+      <RepeatButton Grid.Row="1" Style="{StaticResource ScrollBarLineButton}" Height="18" Command="ScrollBar.LineUpCommand" Content="M 0 5 L 10 5 L 5 0 Z"/>
+      <Track x:Name="PART_Track" Grid.Row="2" IsDirectionReversed="true">
         <Track.DecreaseRepeatButton>
           <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageUpCommand"/>
         </Track.DecreaseRepeatButton>
@@ -141,7 +162,7 @@
           <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageDownCommand"/>
         </Track.IncreaseRepeatButton>
       </Track>
-      <RepeatButton Grid.Row="3" Style="{StaticResource ScrollBarLineButton}" Height="18" Command="ScrollBar.LineDownCommand" Content="M 0 0 L 5 5 L 10 0 Z"/>
+      <RepeatButton Grid.Row="4" Style="{StaticResource ScrollBarLineButton}" Height="18" Command="ScrollBar.LineDownCommand" Content="M 0 0 L 5 5 L 10 0 Z"/>
     </Grid>
   </ControlTemplate>
 
