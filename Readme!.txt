@@ -5,6 +5,7 @@ If there are problems, TailForWindows creates a error logfile in the directory. 
 
 Changelog:
 v1.x.x
+* new Scrollbar design
 * change some icons
 * improve Drag'n'Drop behaviour
 * change internal structur 
