@@ -5,12 +5,18 @@
         Title="FileManager" Height="455" Width="640" Icon="/TailForWin;component/Res/Explorer.ico" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize"
         xmlns:prop="clr-namespace:Org.Vs.TailForWin.Data" Loaded="Window_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters" Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True" Closing="Window_Closing" xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox">
   <Window.Resources>
-    <multiconv:EnableOpenMultiConverter x:Key="isEnabled" />
-    <conv:TailConverter x:Key="selectedConverter" />
-    <conv:TextTrimConverter x:Key="trimConverter" />
-    <conv:IntToBoolConverter x:Key="intToBoolConverter" />
-    <conv:FilterCountToStringConverter x:Key="filterCount" />
-    <conv:FontToStringConverter x:Key="FontToString" />
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Dictionaries/ScrollbarResources.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+
+      <multiconv:EnableOpenMultiConverter x:Key="isEnabled" />
+      <conv:TailConverter x:Key="selectedConverter" />
+      <conv:TextTrimConverter x:Key="trimConverter" />
+      <conv:IntToBoolConverter x:Key="intToBoolConverter" />
+      <conv:FilterCountToStringConverter x:Key="filterCount" />
+      <conv:FontToStringConverter x:Key="FontToString" />
+    </ResourceDictionary>
   </Window.Resources>
     <Grid>
     <Grid.RowDefinitions>

@@ -3,10 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Filters" Height="346" Width="466" Icon="/TailForWin;component/Res/Filters.ico" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False" Loaded="Window_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters" Closing="Window_Closing">
   <Window.Resources>
-    <conv:FontToStringConverter x:Key="FontToString" />
-    <conv:ColorToBrushConverter x:Key="ColorToBrush" />
-    <conv:FilterDataToBoolConverter x:Key="selectedConverter" />
-    <conv:IntToBoolConverter x:Key="intToBoolConverter" />
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Dictionaries/ScrollbarResources.xaml"/>
+      </ResourceDictionary.MergedDictionaries>
+      
+      <conv:FontToStringConverter x:Key="FontToString" />
+      <conv:ColorToBrushConverter x:Key="ColorToBrush" />
+      <conv:FilterDataToBoolConverter x:Key="selectedConverter" />
+      <conv:IntToBoolConverter x:Key="intToBoolConverter" />
+    </ResourceDictionary>    
   </Window.Resources>
   <Grid>
     <Grid.RowDefinitions>
