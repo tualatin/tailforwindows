@@ -31,6 +31,7 @@ using System.Windows.Interop;
 using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.NotifyIcon.Interop;
+
 using Point = Org.Vs.TailForWin.NotifyIcon.Interop.Point;
 
 
