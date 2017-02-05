@@ -81,10 +81,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool NewWindow
     {
-      get
-      {
-        return (newWindow);
-      }
+      get => (newWindow);
       set
       {
         newWindow = value;
@@ -135,7 +132,7 @@ namespace Org.Vs.TailForWin.Data
     /// <returns>A clone of object</returns>
     public FileManagerData Clone()
     {
-      return (this.MemberwiseClone() as FileManagerData);
+      return (MemberwiseClone() as FileManagerData);
     }
 
     /// <summary>
@@ -154,25 +151,25 @@ namespace Org.Vs.TailForWin.Data
     /// <returns>If equal true otherwise false</returns>
     public bool EqualsProperties(object obj)
     {
-      FileManagerData.MementoFileManagerData other = obj as FileManagerData.MementoFileManagerData;
+      MementoFileManagerData other = obj as MementoFileManagerData;
 
       if(other == null)
         return (false);
 
       bool equal = true;
 
-      equal &= object.Equals(other.Category, Category);
-      equal &= object.Equals(other.Description, Description);
-      equal &= object.Equals(other.FileEncoding, FileEncoding);
-      equal &= object.Equals(other.FileName, FileName);
-      equal &= object.Equals(other.FontType, FontType);
-      equal &= object.Equals(other.KillSpace, KillSpace);
-      equal &= object.Equals(other.ListOfFilter, ListOfFilter);
-      equal &= object.Equals(other.NewWindow, NewWindow);
-      equal &= object.Equals(other.RefreshRate, RefreshRate);
-      equal &= object.Equals(other.ThreadPriority, ThreadPriority);
-      equal &= object.Equals(other.Wrap, Wrap);
-      equal &= object.Equals(other.TimeStamp, Timestamp);
+      equal &= Equals(other.Category, Category);
+      equal &= Equals(other.Description, Description);
+      equal &= Equals(other.FileEncoding, FileEncoding);
+      equal &= Equals(other.FileName, FileName);
+      equal &= Equals(other.FontType, FontType);
+      equal &= Equals(other.KillSpace, KillSpace);
+      equal &= Equals(other.ListOfFilter, ListOfFilter);
+      equal &= Equals(other.NewWindow, NewWindow);
+      equal &= Equals(other.RefreshRate, RefreshRate);
+      equal &= Equals(other.ThreadPriority, ThreadPriority);
+      equal &= Equals(other.Wrap, Wrap);
+      equal &= Equals(other.TimeStamp, Timestamp);
 
       return (equal);
     }
@@ -181,6 +178,7 @@ namespace Org.Vs.TailForWin.Data
     /// Roll object back to the state of the provided memento
     /// </summary>
     /// <param name="memento">The memento to roll back to</param>
+    /// <exception cref="ArgumentException">If memento object is no an MementoFileManagerData object</exception>
     public void RestoreFromMemento(MementoFileManagerData memento)
     {
       MementoFileManagerData mementoFMData = memento as MementoFileManagerData;

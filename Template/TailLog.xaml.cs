@@ -1,12 +1,4 @@
-﻿using log4net;
-using Org.Vs.TailForWin.Controller;
-using Org.Vs.TailForWin.Data;
-using Org.Vs.TailForWin.Data.Enums;
-using Org.Vs.TailForWin.Data.Events;
-using Org.Vs.TailForWin.Template.Events;
-using Org.Vs.TailForWin.Template.TextEditor.Data;
-using Org.Vs.TailForWin.Utils;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -16,14 +8,22 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
+using log4net;
+using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Data.Events;
+using Org.Vs.TailForWin.Template.Events;
+using Org.Vs.TailForWin.Template.TextEditor.Data;
+using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Template
 {
-    /// <summary>
-    /// Interaction logic for TailLog.xaml
-    /// </summary>
-    public partial class TailLog : IDisposable
+  /// <summary>
+  /// Interaction logic for TailLog.xaml
+  /// </summary>
+  public partial class TailLog : IDisposable
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(TailLog));
 
@@ -699,6 +699,8 @@ namespace Org.Vs.TailForWin.Template
             tabProperties.LastRefreshTime = DateTime.Now;
           }
 
+          LOG.Trace("Encoding is {0}", myReader.TailStreamReader.CurrentEncoding);
+
           // update the last max offset
           lastMaxOffset = myReader.TailStreamReader.BaseStream.Position;
         }
@@ -815,7 +817,15 @@ namespace Org.Vs.TailForWin.Template
     /// <param name="encode">Encoding</param>
     public void UpdateFileEncoding(Encoding encode)
     {
-      tabProperties.FileEncoding = encode;
+      try
+      {
+        tabProperties.FileEncoding = encode;
+        myReader.ChangeFileEncoding(encode);
+      }
+      catch(ArgumentException ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
     }
 
     private void WordWrap()

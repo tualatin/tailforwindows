@@ -69,12 +69,32 @@ namespace Org.Vs.TailForWin.Utils
     }
 
     /// <summary>
+    /// Change current file encoding to new encoding
+    /// </summary>
+    /// <param name="encode">New encoding</param>
+    /// <exception cref="ArgumentException">If encode is null or filestream is null</exception>
+    public void ChangeFileEncoding(Encoding encode)
+    {
+      Arg.NotNull(encode, "Encoding");
+      Arg.NotNull(fs, "FileStream");
+
+      reader = null;
+      reader = new StreamReader(fs, encode);
+    }
+
+    /// <summary>
     /// Read last n line from file
     /// </summary>
     /// <param name="nLines">Number of line to read</param>
     /// <returns>Readed lines</returns>
     public void ReadLastNLines(int nLines)
     {
+      if(reader == null)
+      {
+        LOG.Info("StreamReader is null!");
+        return;
+      }
+
       reader.BaseStream.Seek(0, SeekOrigin.End);
       LinesRead = 0;
 
