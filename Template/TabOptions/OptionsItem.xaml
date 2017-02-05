@@ -36,27 +36,90 @@
           <RowDefinition Height="10" />
           <RowDefinition Height="30" />
         </Grid.RowDefinitions>
-        <CheckBox Content="Always on top" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxAlwaysOnTop" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" TabIndex="1" IsChecked="{Binding Mode=TwoWay, Path=AlwaysOnTop, UpdateSourceTrigger=PropertyChanged}" />
-        <CheckBox Content="Exit with Escape" Grid.Column="1" Grid.Row="0" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxExitWithEscape" VerticalAlignment="Center" TabIndex="2" IsChecked="{Binding Mode=TwoWay, Path=ExitWithEscape, UpdateSourceTrigger=PropertyChanged}" />
-        <CheckBox Content="Always scroll to end of file when new lines appear" Height="16" HorizontalAlignment="Left" Margin="0,7" Name="checkBoxScrollToEnd" VerticalAlignment="Center" Grid.Row="1" Grid.ColumnSpan="2" TabIndex="3" IsChecked="{Binding Mode=TwoWay, Path=AlwaysScrollToEnd, UpdateSourceTrigger=PropertyChanged}" />
-        <CheckBox Content="Show n lines on tail start" Height="16" HorizontalAlignment="Left" Margin="0,7" Name="checkBoxShowLines" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" TabIndex="4" IsChecked="{Binding Mode=TwoWay, Path=ShowNLineAtStart, UpdateSourceTrigger=PropertyChanged}" />
-        <CheckBox Content="Restore window position" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxSaveWindowPosition" VerticalAlignment="Center" Grid.Row="3" Grid.Column="0" TabIndex="6" IsChecked="{Binding Mode=TwoWay, Path=SaveWindowPosition, UpdateSourceTrigger=PropertyChanged}" />
-        <CheckBox Content="Restore window size" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxSaveWindowSize" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1" TabIndex="7" IsChecked="{Binding Mode=TwoWay, Path=RestoreWindowSize, UpdateSourceTrigger=PropertyChanged}" />
+        <CheckBox Content="Always on top" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxAlwaysOnTop" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" 
+                  TabIndex="1" IsChecked="{Binding Mode=TwoWay, Path=AlwaysOnTop, UpdateSourceTrigger=PropertyChanged}" />
+        <CheckBox Content="Exit with Escape" Grid.Column="1" Grid.Row="0" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxExitWithEscape" VerticalAlignment="Center"
+                  TabIndex="2" IsChecked="{Binding Mode=TwoWay, Path=ExitWithEscape, UpdateSourceTrigger=PropertyChanged}" />
+        <CheckBox Content="Always scroll to end of file when new lines appear" Height="16" HorizontalAlignment="Left" Margin="0,7" Name="checkBoxScrollToEnd" VerticalAlignment="Center"
+                  Grid.Row="1" Grid.ColumnSpan="2" TabIndex="3" IsChecked="{Binding Mode=TwoWay, Path=AlwaysScrollToEnd, UpdateSourceTrigger=PropertyChanged}" />
+        <CheckBox Content="Show n lines on tail start" Height="16" HorizontalAlignment="Left" Margin="0,7" Name="checkBoxShowLines" VerticalAlignment="Center" Grid.Row="2" 
+                  Grid.Column="0" TabIndex="4" IsChecked="{Binding Mode=TwoWay, Path=ShowNLineAtStart, UpdateSourceTrigger=PropertyChanged}" />
+        <CheckBox Content="Restore window position" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxSaveWindowPosition" VerticalAlignment="Center" Grid.Row="3" 
+                  Grid.Column="0" TabIndex="6" IsChecked="{Binding Mode=TwoWay, Path=SaveWindowPosition, UpdateSourceTrigger=PropertyChanged}" />
+        <CheckBox Content="Restore window size" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxSaveWindowSize" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1"
+                  TabIndex="7" IsChecked="{Binding Mode=TwoWay, Path=RestoreWindowSize, UpdateSourceTrigger=PropertyChanged}" />
         <Label Content="Default thread priority:" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left" Margin="0" Name="label1" VerticalAlignment="Center" />
-        <ComboBox Grid.Column="1" Grid.Row="4" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxThreadPriority" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxThreadPriority_SelectionChanged" TabIndex="8" />
+        <ComboBox Grid.Column="1" Grid.Row="4" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxThreadPriority" VerticalAlignment="Center" Width="120" 
+                  SelectionChanged="comboBoxThreadPriority_SelectionChanged" TabIndex="8" />
         <Label Content="Default thread refresh rate:" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left" Margin="0" Name="label2" VerticalAlignment="Center" />
-        <ComboBox Grid.Column="1" Grid.Row="5" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxThreadRefreshRate" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxThreadRefreshRate_SelectionChanged" TabIndex="9" />
+        <ComboBox Grid.Column="1" Grid.Row="5" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxThreadRefreshRate" VerticalAlignment="Center" Width="120"
+                  SelectionChanged="comboBoxThreadRefreshRate_SelectionChanged" TabIndex="9" />
         <Label Content="Default time format:" Grid.Row="6" Height="28" HorizontalAlignment="Left" Margin="0" Name="label4" VerticalAlignment="Center" />
-        <ComboBox Grid.Column="1" Grid.Row="6" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxTimeFormat" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxTimeFormat_SelectionChanged" TabIndex="10" />
-        <my:Spinner Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="0,3" x:Name="spinnerNLines" VerticalAlignment="Center" Width="50" MaxSpinValue="2000" MinSpinValue="10" IsEnabled="{Binding ElementName=checkBoxShowLines, Path=IsChecked}" StartIndex="20" Increment="10" ToolTip="Setup how much lines are read at beginning" TabIndex="5" TextBoxMinValue="10" TextBoxMaxValue="2000" />
+        <ComboBox Grid.Column="1" Grid.Row="6" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxTimeFormat" VerticalAlignment="Center" Width="120" 
+                  SelectionChanged="comboBoxTimeFormat_SelectionChanged" TabIndex="10" />
+        <my:Spinner Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="0,3" x:Name="spinnerNLines" VerticalAlignment="Center" Width="50" MaxSpinValue="2000" 
+                    MinSpinValue="10" IsEnabled="{Binding ElementName=checkBoxShowLines, Path=IsChecked}" StartIndex="20" Increment="10" 
+                    TabIndex="5" TextBoxMinValue="10" TextBoxMaxValue="2000">
+          <my:Spinner.ToolTip>
+              <StackPanel>
+                <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Lines reading</TextBlock>
+                <TextBlock>Setup how much lines are read at beginning</TextBlock>
+                <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                <WrapPanel>
+                  <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                  <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                </WrapPanel>
+              </StackPanel>
+          </my:Spinner.ToolTip>
+        </my:Spinner>
         <Label Content="Default date format:" Grid.Row="7" Margin="0" Name="label5" VerticalAlignment="Center" />
-        <ComboBox Grid.Column="1" Grid.Row="7" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxDateFormat" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxDateFormat_SelectionChanged" TabIndex="11" />
+        <ComboBox Grid.Column="1" Grid.Row="7" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxDateFormat" VerticalAlignment="Center" Width="120"
+                  SelectionChanged="comboBoxDateFormat_SelectionChanged" TabIndex="11" />
         <Label Content="lines" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="50,0" Name="label6" VerticalAlignment="Center" />
-        <CheckBox Content="Show line numbers" Grid.Row="8" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxShowLineNumbers" VerticalAlignment="Center" IsChecked="{Binding Mode=TwoWay, Path=ShowLineNumbers, UpdateSourceTrigger=PropertyChanged}" TabIndex="12" />
-        <Button Content="Add to 'Send to'" Grid.Row="8" Grid.Column="1" Height="23" HorizontalAlignment="Left" Name="btnSendToMenu" VerticalAlignment="Center" Width="120" Click="btnSendToMenu_Click" TabIndex="13" />
+        <CheckBox Content="Show line numbers" Grid.Row="8" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxShowLineNumbers" VerticalAlignment="Center" 
+                  IsChecked="{Binding Mode=TwoWay, Path=ShowLineNumbers, UpdateSourceTrigger=PropertyChanged}" TabIndex="12" />
+        <Button Content="Add to 'Send to'" Grid.Row="8" Grid.Column="1" Height="23" HorizontalAlignment="Left" Name="btnSendToMenu" VerticalAlignment="Center" Width="120"
+                Click="btnSendToMenu_Click" TabIndex="13">
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Send to</TextBlock>
+              <TextBlock>Add TailForWindows to send to menu from Windows</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
+        </Button>
         <Separator Grid.ColumnSpan="2" Grid.Row="10" HorizontalAlignment="Center" Margin="0" Name="separator" VerticalAlignment="Center" Width="300" />
-        <Button Content="Proxy" Grid.Row="11" Height="23" HorizontalAlignment="Left" Name="btnProxy" VerticalAlignment="Center" Width="75" Click="btnProxy_Click" TabIndex="14" />
-        <Button Content="Reset" Grid.Column="1" Grid.Row="11" Height="23" HorizontalAlignment="Right" Margin="0" Name="btnReset" VerticalAlignment="Center" Width="75" Click="btnReset_Click" TabIndex="15" />
+        <Button Content="Proxy" Grid.Row="11" Height="23" HorizontalAlignment="Left" Name="btnProxy" VerticalAlignment="Center" Width="75" Click="btnProxy_Click" TabIndex="14">
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Proxy</TextBlock>
+              <TextBlock>Setup proxy settings</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
+        </Button>
+        <Button Content="Reset" Grid.Column="1" Grid.Row="11" Height="23" HorizontalAlignment="Right" Margin="0" Name="btnReset" VerticalAlignment="Center" Width="75"
+                Click="btnReset_Click" TabIndex="15">
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Reset</TextBlock>
+              <TextBlock>Reset current settings to default values</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
+        </Button>
       </Grid>
     </Border>
   </Grid>

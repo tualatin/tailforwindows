@@ -26,14 +26,36 @@
           <RowDefinition Height="206*" />
         </Grid.RowDefinitions>
         <Label Content="Export Settings:" Name="label1" VerticalAlignment="Center" />
-        <Button Grid.Column="1" Height="33" HorizontalAlignment="Center" Name="btnExport" VerticalAlignment="Center" Width="33" ToolTip="Export Settings" TabIndex="1" Click="btnExport_Click">
+        <Button Grid.Column="1" Height="33" HorizontalAlignment="Center" Name="btnExport" VerticalAlignment="Center" Width="33" TabIndex="1" Click="btnExport_Click">
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Export</TextBlock>
+              <TextBlock>Export current settings</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
           <StackPanel>
             <Image Source="/TailForWin;component/Res/Export.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"></Image>
           </StackPanel>
         </Button>
 
         <Label Content="Import Settings:" Grid.Column="3" Name="label2" VerticalAlignment="Center" />
-        <Button Grid.Column="4" Height="33" HorizontalAlignment="Center" Name="btnImport" VerticalAlignment="Center" Width="33" ToolTip="Import Settings" TabIndex="2" Click="btnImport_Click">
+        <Button Grid.Column="4" Height="33" HorizontalAlignment="Center" Name="btnImport" VerticalAlignment="Center" Width="33" TabIndex="2" Click="btnImport_Click">
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Import</TextBlock>
+              <TextBlock>Import exported settings and override current settings</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
           <StackPanel>
             <Image Source="/TailForWin;component/Res/Import.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"></Image>
           </StackPanel>

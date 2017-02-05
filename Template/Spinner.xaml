@@ -83,13 +83,17 @@
         <RowDefinition Height="*" />
         <RowDefinition Height="*" />
       </Grid.RowDefinitions>
-      <Button HorizontalAlignment="Right" Name="btnUp" Width="13" Style="{DynamicResource ButtonStyle}" TabIndex="2" PreviewMouseLeftButtonDown="btnUp_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="btnUp_PreviewMouseLeftButtonUp" PreviewMouseMove="btnUp_PreviewMouseMove">
+      <Button HorizontalAlignment="Right" Name="btnUp" Width="13" Style="{DynamicResource ButtonStyle}" TabIndex="2" PreviewMouseLeftButtonDown="btnUp_PreviewMouseLeftButtonDown" 
+              PreviewMouseLeftButtonUp="btnUp_PreviewMouseLeftButtonUp" PreviewMouseMove="btnUp_PreviewMouseMove">
         <Path Fill="Black" Data="M 0 4 L 4 0 L 8 4 Z" />
     </Button>
-    <Button Height="11" HorizontalAlignment="Right" Name="btnDown" VerticalAlignment="Bottom" Width="13" Style="{DynamicResource ButtonStyle}" Grid.Row="1" TabIndex="3" PreviewMouseLeftButtonDown="btnDown_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="btnDown_PreviewMouseLeftButtonUp" PreviewMouseMove="btnDown_PreviewMouseMove">
+    <Button Height="11" HorizontalAlignment="Right" Name="btnDown" VerticalAlignment="Bottom" Width="13" Style="{DynamicResource ButtonStyle}" Grid.Row="1" TabIndex="3"
+            PreviewMouseLeftButtonDown="btnDown_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="btnDown_PreviewMouseLeftButtonUp" PreviewMouseMove="btnDown_PreviewMouseMove">
         <Path Fill="Black" Data="M 0 0 L 4 4 L 8 0 Z" />
     </Button>
     </Grid>
-    <TextBox Height="22" Name="textBoxSpinValue" VerticalAlignment="Center" Grid.Column="0" TextChanged="textBoxSpinValue_TextChanged" LostFocus="textBoxSpinValue_LostFocus" TabIndex="1" tbMask:TextBoxMaskBehavior.Mask="{Binding Path=TextBoxMask}" tbMask:TextBoxMaskBehavior.MaximumValue="{Binding Path=TextBoxMaxValue}" tbMask:TextBoxMaskBehavior.MinimumValue="{Binding Path=TextBoxMinValue}" />
+    <TextBox Height="22" Name="textBoxSpinValue" VerticalAlignment="Center" Grid.Column="0" TextChanged="textBoxSpinValue_TextChanged" LostFocus="textBoxSpinValue_LostFocus"
+             TabIndex="1" tbMask:TextBoxMaskBehavior.Mask="{Binding Path=TextBoxMask}" tbMask:TextBoxMaskBehavior.MaximumValue="{Binding Path=TextBoxMaxValue}"
+             tbMask:TextBoxMaskBehavior.MinimumValue="{Binding Path=TextBoxMinValue}" />
   </Grid>
 </UserControl>

@@ -6,7 +6,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="20" d:DesignWidth="20" Loaded="UserControl_Loaded">
     <Grid>
-    <Button Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnUpdater" Click="btnUpdater_Click" ToolTip="Check for Update" Margin="0">
+    <Button Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnUpdater" Click="btnUpdater_Click" Margin="0">
+      <Button.ToolTip>
+        <StackPanel>
+          <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Update TailForWindows</TextBlock>
+          <TextBlock>Check for online update</TextBlock>
+          <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+          <WrapPanel>
+            <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+            <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+          </WrapPanel>
+        </StackPanel>
+      </Button.ToolTip>
       <StackPanel>
         <Image Source="/TailForWin;component/Template/UpdateController/Res/update.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Width="24" Height="24" />
       </StackPanel>
