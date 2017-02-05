@@ -7,12 +7,12 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Dictionaries/ScrollbarResources.xaml"/>
       </ResourceDictionary.MergedDictionaries>
-      
+
       <conv:FontToStringConverter x:Key="FontToString" />
       <conv:ColorToBrushConverter x:Key="ColorToBrush" />
       <conv:FilterDataToBoolConverter x:Key="selectedConverter" />
       <conv:IntToBoolConverter x:Key="intToBoolConverter" />
-    </ResourceDictionary>    
+    </ResourceDictionary>
   </Window.Resources>
   <Grid>
     <Grid.RowDefinitions>
@@ -69,10 +69,22 @@
       <TextBox Grid.Column="1" Name="textBoxFilter" Margin="0,3,5,3" Text="{Binding ElementName=dataGridFilters, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Path=SelectedItem.Filter}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" TextChanged="textBoxFilter_TextChanged" />
       <Label Content="Description:" Grid.Row="1" Name="label2" VerticalAlignment="Center" />
       <TextBox Grid.Column="1" Grid.Row="1" Name="textBoxDescription" Margin="0,3,5,3" Text="{Binding Path=SelectedItem.Description, ElementName=dataGridFilters, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" TextChanged="textBoxDescription_TextChanged" />
-      <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Name="btnFont" Click="btnFont_Click" ToolTip="Manage font" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}">
+      <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Name="btnFont" Click="btnFont_Click" 
+              IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}">
         <StackPanel>
           <Image Source="/TailForWin;component/Res/Font.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
         </StackPanel>
+        <Button.ToolTip>
+          <StackPanel>
+            <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Font settings</TextBlock>
+            <TextBlock>Filter font settings</TextBlock>
+            <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+            <WrapPanel>
+              <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+              <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+            </WrapPanel>
+          </StackPanel>
+        </Button.ToolTip>
       </Button>
       <Label Grid.Column="1" Grid.Row="2" Height="28" Margin="0,0,5,0" Name="labelFont" VerticalAlignment="Center" Content="{Binding Path=SelectedItem.FilterFontType, ElementName=dataGridFilters, Converter={StaticResource FontToString}, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -82,17 +94,52 @@
           <ColumnDefinition Width="24" />
           <ColumnDefinition Width="24" />
         </Grid.ColumnDefinitions>
-        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnNew" Click="btnNew_Click" ToolTip="Add item" Margin="0" Grid.Column="0">
+        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnNew" Click="btnNew_Click" Margin="0" Grid.Column="0">
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">New</TextBlock>
+              <TextBlock>Add new item</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
           <StackPanel>
             <Image Source="/TailForWin;component/Res/add.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
           </StackPanel>
         </Button>
-        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnCancelAdd" Click="btnCancelAdd_Click" ToolTip="Cancel" Margin="0" Grid.Column="1" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}">
+        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnCancelAdd" Click="btnCancelAdd_Click" Margin="0" 
+                Grid.Column="1" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}">
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Cancel</TextBlock>
+              <TextBlock>Cancel current opertation</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
           <StackPanel>
             <Image Source="/TailForWin;component/Res/Cancel.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
           </StackPanel>
         </Button>
-        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnDelete" Click="btnDelete_Click" ToolTip="Delete item" Margin="0" Grid.Column="2" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}">
+        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnDelete" Click="btnDelete_Click" Margin="0"
+                Grid.Column="2" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}">
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Delete</TextBlock>
+              <TextBlock>Delete selected item</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
           <StackPanel>
             <Image Source="/TailForWin;component/Res/remove.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
           </StackPanel>
