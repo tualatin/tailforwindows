@@ -127,10 +127,7 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     public Encoding FileEncoding
     {
-      get
-      {
-        return (fileEncoding);
-      }
+      get => (fileEncoding);
       set
       {
         fileEncoding = value;
@@ -140,29 +137,17 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// Get filestream
     /// </summary>
-    public FileStream TailFileStream
-    {
-      get
-      {
-        return (fs);
-      }
-    }
+    public FileStream TailFileStream => (fs);
 
     /// <summary>
     /// Get streamreader
     /// </summary>
-    public StreamReader TailStreamReader
-    {
-      get
-      {
-        return (reader);
-      }
-    }
+    public StreamReader TailStreamReader => (reader);
 
     /// <summary>
     /// Get filesize in KBytes
     /// </summary>
-    public Double FileSizeKB
+    public Double FileSizeKb
     {
       get
       {

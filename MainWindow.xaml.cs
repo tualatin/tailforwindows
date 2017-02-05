@@ -539,10 +539,17 @@ namespace Org.Vs.TailForWin
     /// </summary>
     public void SetSbIconText()
     {
-      if(currentPage.IsThreadBusy)
-        tbIcon.ToolTipText = Application.Current.FindResource("Record") as string;
-      else
-        tbIcon.ToolTipText = Application.Current.FindResource("TrayIconReady") as string;
+      try
+      {
+        if(currentPage.IsThreadBusy)
+          tbIcon.ToolTipText = Application.Current.FindResource("Record") as string;
+        else
+          tbIcon.ToolTipText = Application.Current.FindResource("TrayIconReady") as string;
+      }
+      catch(Exception ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
     }
 
     /// <summary>

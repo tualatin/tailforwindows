@@ -1,4 +1,12 @@
-﻿using System;
+﻿using log4net;
+using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Data.Events;
+using Org.Vs.TailForWin.Template.Events;
+using Org.Vs.TailForWin.Template.TextEditor.Data;
+using Org.Vs.TailForWin.Utils;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -8,22 +16,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using log4net;
-using Org.Vs.TailForWin.Controller;
-using Org.Vs.TailForWin.Data;
-using Org.Vs.TailForWin.Data.Enums;
-using Org.Vs.TailForWin.Data.Events;
-using Org.Vs.TailForWin.Template.Events;
-using Org.Vs.TailForWin.Template.TextEditor.Data;
-using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Template
 {
-  /// <summary>
-  /// Interaction logic for TailLog.xaml
-  /// </summary>
-  public partial class TailLog : IDisposable
+    /// <summary>
+    /// Interaction logic for TailLog.xaml
+    /// </summary>
+    public partial class TailLog : IDisposable
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(TailLog));
 
@@ -735,7 +735,7 @@ namespace Org.Vs.TailForWin.Template
         childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
         LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
         childTabItem.Header = tabProperties.File;
-        childTabItem.Style = (Style) FindResource("TabItemStopStyle");
+        childTabItem.Style = Application.Current.FindResource("TabItemStopStyle") as Style;
         SetControlVisibility();
         SetToolTipDetailText();
         IsThreadBusy = false;
@@ -899,7 +899,7 @@ namespace Org.Vs.TailForWin.Template
         LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
       {
         string time = tabProperties.LastRefreshTime.ToString(SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat));
-        LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = string.Format("Size={0:0.###} Kb, Last refresh time={1}", myReader.FileSizeKB, time);
+        LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = string.Format("Size={0:0.###} Kb, Last refresh time={1}", myReader.FileSizeKb, time);
         LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Format("{0}{1}", Application.Current.FindResource("LinesRead"), textBlockTailLog.LineCount);
         LogFile.APP_MAIN_WINDOW.StatusBarEncodeCb.SelectedValue = tabProperties.FileEncoding;
 

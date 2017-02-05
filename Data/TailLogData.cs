@@ -45,10 +45,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string FileName
     {
-      get
-      {
-        return (fileName);
-      }
+      get => (fileName);
       set
       {
         fileName = value;
@@ -68,10 +65,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string File
     {
-      get
-      {
-        return (file);
-      }
+      get => (file);
       set
       {
         file = value;
@@ -90,10 +84,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool Wrap
     {
-      get
-      {
-        return (wrap);
-      }
+      get => (wrap);
       set
       {
         wrap = value;
@@ -112,10 +103,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool KillSpace
     {
-      get
-      {
-        return (killSpace);
-      }
+      get => (killSpace);
       set
       {
         killSpace = value;
@@ -134,10 +122,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public ETailRefreshRate RefreshRate
     {
-      get
-      {
-        return (refreshRate);
-      }
+      get => (refreshRate);
       set
       {
         refreshRate = value;
@@ -156,10 +141,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool Timestamp
     {
-      get
-      {
-        return (timeStamp);
-      }
+      get => (timeStamp);
       set
       {
         timeStamp = value;
@@ -178,10 +160,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Font FontType
     {
-      get
-      {
-        return (fontType);
-      }
+      get => (fontType);
       set
       {
         fontType = value;
@@ -200,10 +179,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public System.Threading.ThreadPriority ThreadPriority
     {
-      get
-      {
-        return (threadPriority);
-      }
+      get => (threadPriority);
       set
       {
         threadPriority = value;
@@ -231,10 +207,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public ObservableCollection<FilterData> ListOfFilter
     {
-      get
-      {
-        return (listOfFilter);
-      }
+      get => (listOfFilter);
       set
       {
         listOfFilter = value;
@@ -253,10 +226,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Encoding FileEncoding
     {
-      get
-      {
-        return (fileEncoding);
-      }
+      get => (fileEncoding);
       set
       {
         fileEncoding = value;

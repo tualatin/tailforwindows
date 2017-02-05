@@ -4,11 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" xmlns:local="clr-namespace:Org.Vs.TailForWin.Template.TextEditor.Data" x:Name="LogViewerProperty" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Template.TextEditor.Converters" xmlns:sel="clr-namespace:Org.Vs.TailForWin.Template.TextEditor.Utils">
+             d:DesignHeight="300" d:DesignWidth="300" xmlns:local="clr-namespace:Org.Vs.TailForWin.Template.TextEditor.Data" x:Name="LogViewerProperty" 
+             xmlns:conv="clr-namespace:Org.Vs.TailForWin.Template.TextEditor.Converters" xmlns:sel="clr-namespace:Org.Vs.TailForWin.Template.TextEditor.Utils">
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../../Dictionaries/ScrollbarResources.xaml"/>
+        <ResourceDictionary Source="../../Dictionaries/ScrollbarWithGripResources.xaml"/>
       </ResourceDictionary.MergedDictionaries>
 
       <conv:BoolToTextWrapConverter x:Key="BoolToTextWrap" />
@@ -207,13 +208,14 @@
                                         DateTimeLineNumbersTemplate="{StaticResource dateTimeLineNumberTemplate}" x:Key="templateSelector"/>
     </ResourceDictionary>
   </UserControl.Resources>
+    
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="4"/>
       <RowDefinition Height="0"/>
+      <RowDefinition Height="2"/>
+      <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
-    <Border BorderThickness="0,1,0,0" BorderBrush="Gainsboro">
+    <Border Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="Gainsboro">
       <ListBox ItemsSource="{Binding}" x:Name="LogViewer" Background="{Binding Path=TextEditorBackgroundColor, ElementName=LogViewerProperty}" 
                Style="{StaticResource MyListBox}" Foreground="{Binding Path=TextEditorForegroundColor, ElementName=LogViewerProperty}" 
                ItemTemplateSelector="{StaticResource templateSelector}" Loaded="LogViewer_Loaded" SelectionMode="Extended" IsSynchronizedWithCurrentItem="True"
@@ -223,10 +225,11 @@
     </Border>
 
     <Rectangle Grid.Row="1" Fill="#99D3D3D3"/>
-    <GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" Name="Splitter" BorderBrush="#FFDEDEDE" BorderThickness="0,1" >
+    <GridSplitter Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Name="Splitter" BorderBrush="#FFDEDEDE" BorderThickness="0,1" Visibility="Hidden">
       <GridSplitter.Background>
         <ImageBrush Stretch="None" ImageSource="/TailForWin;component/Res/SplitterHandle.png" AlignmentX="Center" AlignmentY="Center"/>
       </GridSplitter.Background>
     </GridSplitter>
   </Grid>
+    
 </UserControl>
