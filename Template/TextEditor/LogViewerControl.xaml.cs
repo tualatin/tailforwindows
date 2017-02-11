@@ -132,14 +132,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public bool ShowLineNumbers
     {
-      get
-      {
-        return ((bool) GetValue(ShowLineNumbersProperty));
-      }
-      set
-      {
-        SetValue(ShowLineNumbersProperty, value);
-      }
+      get => ((bool) GetValue(ShowLineNumbersProperty));
+      set => SetValue(ShowLineNumbersProperty, value);
     }
 
     /// <summary>
@@ -154,16 +148,13 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Brush LineNumbersColor
     {
-      get
-      {
-        return ((Brush) GetValue(LineNumbersColorProperty));
-      }
-      set
-      {
-        SetValue(LineNumbersColorProperty, value);
-      }
+      get => ((Brush) GetValue(LineNumbersColorProperty));
+      set => SetValue(LineNumbersColorProperty, value);
     }
 
+    /// <summary>
+    /// Text editor line number background color
+    /// </summary>
     public static readonly DependencyProperty LineNumbersBackgroundColorProperty = DependencyProperty.Register("LineNumbersBackgroundColor", typeof(Brush), typeof(LogViewerControl),
                               new PropertyMetadata(Brushes.LightGray));
 
@@ -173,14 +164,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Brush LineNumbersBackgroundColor
     {
-      get
-      {
-        return ((Brush) GetValue(LineNumbersBackgroundColorProperty));
-      }
-      set
-      {
-        SetValue(LineNumbersBackgroundColorProperty, value);
-      }
+      get => ((Brush) GetValue(LineNumbersBackgroundColorProperty));
+      set => SetValue(LineNumbersBackgroundColorProperty, value);
     }
 
     /// <summary>
@@ -195,14 +180,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public bool WordWrapping
     {
-      get
-      {
-        return ((bool) GetValue(WordWrappingProperty));
-      }
-      set
-      {
-        SetValue(WordWrappingProperty, value);
-      }
+      get => ((bool) GetValue(WordWrappingProperty));
+      set => SetValue(WordWrappingProperty, value);
     }
 
     /// <summary>
@@ -216,14 +195,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public ScrollBarVisibility VerticalScrollbarVisible
     {
-      get
-      {
-        return ((ScrollBarVisibility) GetValue(VerticalScrollBarVisibleProperty));
-      }
-      set
-      {
-        SetValue(VerticalScrollBarVisibleProperty, value);
-      }
+      get => ((ScrollBarVisibility) GetValue(VerticalScrollBarVisibleProperty));
+      set => SetValue(VerticalScrollBarVisibleProperty, value);
     }
 
     /// <summary>
@@ -238,14 +211,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Brush TextEditorBackgroundColor
     {
-      get
-      {
-        return ((Brush) GetValue(TextEditorBackGroundColorProperty));
-      }
-      set
-      {
-        SetValue(TextEditorBackGroundColorProperty, value);
-      }
+      get => ((Brush) GetValue(TextEditorBackGroundColorProperty));
+      set => SetValue(TextEditorBackGroundColorProperty, value);
     }
 
     /// <summary>
@@ -260,14 +227,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Brush TextEditorForegroundColor
     {
-      get
-      {
-        return ((Brush) GetValue(TextEditorForegroundColorProperty));
-      }
-      set
-      {
-        SetValue(TextEditorForegroundColorProperty, value);
-      }
+      get => ((Brush) GetValue(TextEditorForegroundColorProperty));
+      set => SetValue(TextEditorForegroundColorProperty, value);
     }
 
     /// <summary>
@@ -282,14 +243,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public bool ShowDateTime
     {
-      get
-      {
-        return ((bool) GetValue(ShowDateTimeProperty));
-      }
-      set
-      {
-        SetValue(ShowDateTimeProperty, value);
-      }
+      get => ((bool) GetValue(ShowDateTimeProperty));
+      set => SetValue(ShowDateTimeProperty, value);
     }
 
     /// <summary>
@@ -304,14 +259,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public FontStyle TextEditorFontStyle
     {
-      get
-      {
-        return ((FontStyle) GetValue(TextEditorFontStyleProperty));
-      }
-      set
-      {
-        SetValue(TextEditorFontStyleProperty, value);
-      }
+      get => ((FontStyle) GetValue(TextEditorFontStyleProperty));
+      set => SetValue(TextEditorFontStyleProperty, value);
     }
 
     /// <summary>
@@ -326,14 +275,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public FontFamily TextEditorFontFamily
     {
-      get
-      {
-        return ((FontFamily) GetValue(TextEditorFontFamilyProperty));
-      }
-      set
-      {
-        SetValue(TextEditorFontFamilyProperty, value);
-      }
+      get => ((FontFamily) GetValue(TextEditorFontFamilyProperty));
+      set => SetValue(TextEditorFontFamilyProperty, value);
     }
 
     /// <summary>
@@ -348,14 +291,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public FontWeight TextEditorFontWeight
     {
-      get
-      {
-        return ((FontWeight) GetValue(TextEditorFontWeightProperty));
-      }
-      set
-      {
-        SetValue(TextEditorFontWeightProperty, value);
-      }
+      get => ((FontWeight) GetValue(TextEditorFontWeightProperty));
+      set => SetValue(TextEditorFontWeightProperty, value);
     }
 
     /// <summary>
@@ -370,14 +307,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public int TextEditorFontSize
     {
-      get
-      {
-        return ((int) GetValue(TextEditorFontSizeProperty));
-      }
-      set
-      {
-        SetValue(TextEditorFontSizeProperty, value);
-      }
+      get => ((int) GetValue(TextEditorFontSizeProperty));
+      set => SetValue(TextEditorFontSizeProperty, value);
     }
 
     /// <summary>
@@ -392,14 +323,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Color TextEditorSelectionColor
     {
-      get
-      {
-        return ((Color) GetValue(TextEditorSelectionColorProperty));
-      }
-      set
-      {
-        SetValue(TextEditorSelectionColorProperty, value);
-      }
+      get => ((Color) GetValue(TextEditorSelectionColorProperty));
+      set => SetValue(TextEditorSelectionColorProperty, value);
     }
 
     /// <summary>
@@ -414,14 +339,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public bool AlwaysScrollIntoView
     {
-      get
-      {
-        return ((bool) GetValue(AlwaysScrollIntoViewProperty));
-      }
-      set
-      {
-        SetValue(AlwaysScrollIntoViewProperty, value);
-      }
+      get => ((bool) GetValue(AlwaysScrollIntoViewProperty));
+      set => SetValue(AlwaysScrollIntoViewProperty, value);
     }
 
     /// <summary>
@@ -436,14 +355,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Brush TextEditorSearchHighlightBackground
     {
-      get
-      {
-        return ((Brush) GetValue(TextEditorSearchHighlightBackgroundProperty));
-      }
-      set
-      {
-        SetValue(TextEditorSearchHighlightBackgroundProperty, value);
-      }
+      get => ((Brush) GetValue(TextEditorSearchHighlightBackgroundProperty));
+      set => SetValue(TextEditorSearchHighlightBackgroundProperty, value);
     }
 
     /// <summary>
@@ -457,14 +370,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Brush TextEditorSearchHighlightForeground
     {
-      get
-      {
-        return ((Brush) GetValue(TextEditorSearchHighlightForegroundProperty));
-      }
-      set
-      {
-        SetValue(TextEditorSearchHighlightForegroundProperty, value);
-      }
+      get => ((Brush) GetValue(TextEditorSearchHighlightForegroundProperty));
+      set => SetValue(TextEditorSearchHighlightForegroundProperty, value);
     }
 
     /// <summary>
@@ -481,14 +388,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
     private bool AddDateTime
     {
-      get
-      {
-        return ((bool) GetValue(AddDateTimeProperty));
-      }
-      set
-      {
-        SetValue(AddDateTimeProperty, value);
-      }
+      get => ((bool) GetValue(AddDateTimeProperty));
+      set => SetValue(AddDateTimeProperty, value);
     }
 
     /// <summary>
@@ -503,14 +404,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public bool FilterOn
     {
-      get
-      {
-        return ((bool) GetValue(FilterOnProperty));
-      }
-      set
-      {
-        SetValue(FilterOnProperty, value);
-      }
+      get => ((bool) GetValue(FilterOnProperty));
+      set => SetValue(FilterOnProperty, value);
     }
 
     /// <summary>
@@ -556,10 +451,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     /// </summary>
     public bool BookmarkLine
     {
-      get
-      {
-        return (bookmarLine);
-      }
+      get => (bookmarLine);
       set
       {
         bookmarLine = value;

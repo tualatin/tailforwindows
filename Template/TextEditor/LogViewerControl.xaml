@@ -204,8 +204,9 @@
           <TextBox Grid.Column="1" Margin="5,0,0,0" x:Name="txtEditMessage" Style="{StaticResource MyEditTextEditor}" />
         </Grid>
       </DataTemplate>
-      <sel:LogViewerDataTemplateSelector LineNumberTemplate="{StaticResource lineNumberTemplate}" DateTimeTemplate="{StaticResource dateTimeTemplate}" DefaultTemplate="{StaticResource defaultTemplate}"
-                                        DateTimeLineNumbersTemplate="{StaticResource dateTimeLineNumberTemplate}" x:Key="templateSelector"/>
+      <sel:LogViewerDataTemplateSelector LineNumberTemplate="{StaticResource lineNumberTemplate}" DateTimeTemplate="{StaticResource dateTimeTemplate}"
+                                         DefaultTemplate="{StaticResource defaultTemplate}" DateTimeLineNumbersTemplate="{StaticResource dateTimeLineNumberTemplate}" 
+                                         x:Key="templateSelector"/>
     </ResourceDictionary>
   </UserControl.Resources>
     
