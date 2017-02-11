@@ -38,13 +38,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// Applications version
     /// </summary>
-    public Version AppVersion
-    {
-      get
-      {
-        return (appVersion);
-      }
-    }
+    public Version AppVersion => (appVersion);
 
     /// <summary>
     /// Do check if main application needs to update

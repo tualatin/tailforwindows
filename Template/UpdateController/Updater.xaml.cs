@@ -35,109 +35,109 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     #region Public Properties
 
+    /// <summary>
+    /// Update application name
+    /// </summary>
     public static readonly DependencyProperty ApplicationNameProperty = DependencyProperty.Register("ApplicationName", typeof(string), typeof(Updater), new PropertyMetadata(string.Empty));
 
+    /// <summary>
+    /// Update application name
+    /// </summary>
     [Category("Updater"), Description("Application name for message dialogue")]
     public string ApplicationName
     {
-      get
-      {
-        return ((string) GetValue(ApplicationNameProperty));
-      }
-      set
-      {
-        SetValue(ApplicationNameProperty, value);
-      }
+      get => ((string) GetValue(ApplicationNameProperty));
+      set => SetValue(ApplicationNameProperty, value);
     }
 
+    /// <summary>
+    /// Update URL
+    /// </summary>
     public static readonly DependencyProperty UpdateURLProperty = DependencyProperty.Register("UpdateURL", typeof(string), typeof(Updater), new PropertyMetadata(string.Empty));
 
+    /// <summary>
+    /// Update URL
+    /// </summary>
     [Category("Updater"), Description("Update Url")]
     public string UpdateURL
     {
-      get
-      {
-        return ((string) GetValue(UpdateURLProperty));
-      }
-      set
-      {
-        SetValue(UpdateURLProperty, value);
-      }
+      get => ((string) GetValue(UpdateURLProperty));
+      set => SetValue(UpdateURLProperty, value);
     }
 
+    /// <summary>
+    /// Proxy settings
+    /// </summary>
     public static readonly DependencyProperty ProxyProperty = DependencyProperty.Register("Proxy", typeof(string), typeof(Updater), new PropertyMetadata(string.Empty));
 
+    /// <summary>
+    /// Proxy settings
+    /// </summary>
     [Category("Updater"), Description("Proxy Server")]
     public string Proxy
     {
-      get
-      {
-        return ((string) GetValue(ProxyProperty));
-      }
-      set
-      {
-        SetValue(ProxyProperty, value);
-      }
+      get => ((string) GetValue(ProxyProperty));
+      set => SetValue(ProxyProperty, value);
     }
 
+    /// <summary>
+    /// Proxy port settings
+    /// </summary>
     public static readonly DependencyProperty ProxyPortProperty = DependencyProperty.Register("ProxyPort", typeof(int), typeof(Updater), new PropertyMetadata(-1));
 
+    /// <summary>
+    /// Proxy port settings
+    /// </summary>
     [Category("Updater"), Description("Proxy Port")]
     public int ProxyPort
     {
-      get
-      {
-        return ((int) GetValue(ProxyPortProperty));
-      }
-      set
-      {
-        SetValue(ProxyPortProperty, value);
-      }
+      get => ((int) GetValue(ProxyPortProperty));
+      set => SetValue(ProxyPortProperty, value);
     }
 
+    /// <summary>
+    /// Proxy authentification
+    /// </summary>
     public static readonly DependencyProperty ProxyAuthentificationProperty = DependencyProperty.Register("ProxyAuthentification", typeof(System.Net.NetworkCredential), typeof(Updater), new PropertyMetadata(new System.Net.NetworkCredential()));
 
+    /// <summary>
+    /// Proxy authentification
+    /// </summary>
     [Category("Updater"), Description("Proxy Username/Password")]
     public System.Net.NetworkCredential ProxyAuthentification
     {
-      get
-      {
-        return ((System.Net.NetworkCredential) GetValue(ProxyAuthentificationProperty));
-      }
-      set
-      {
-        SetValue(ProxyAuthentificationProperty, value);
-      }
+      get => ((System.Net.NetworkCredential) GetValue(ProxyAuthentificationProperty));
+      set => SetValue(ProxyAuthentificationProperty, value);
     }
 
+    /// <summary>
+    /// Use a Proxy
+    /// </summary>
     public static readonly DependencyProperty UseProxyProperty = DependencyProperty.Register("UseProxy", typeof(bool), typeof(Updater), new PropertyMetadata(false));
 
+    /// <summary>
+    /// Use Proxy
+    /// </summary>
     [Category("Updater"), Description("Use a proxy server")]
     public bool UseProxy
     {
-      get
-      {
-        return ((bool) GetValue(UseProxyProperty));
-      }
-      set
-      {
-        SetValue(UseProxyProperty, value);
-      }
+      get => ((bool) GetValue(UseProxyProperty));
+      set => SetValue(UseProxyProperty, value);
     }
 
+    /// <summary>
+    /// Use system settings for Proxy
+    /// </summary>
     public static readonly DependencyProperty UseSystemSettingsProperty = DependencyProperty.Register("UseSystemSettings", typeof(bool), typeof(Updater), new PropertyMetadata(false));
 
+    /// <summary>
+    /// Use system settings for Proxy
+    /// </summary>
     [Category("Updater"), Description("Use system settings")]
     public bool UseSystemSettings
     {
-      get
-      {
-        return ((bool) GetValue(UseSystemSettingsProperty));
-      }
-      set
-      {
-        SetValue(UseSystemSettingsProperty, value);
-      }
+      get => ((bool) GetValue(UseSystemSettingsProperty));
+      set => SetValue(UseSystemSettingsProperty, value);
     }
 
     #endregion

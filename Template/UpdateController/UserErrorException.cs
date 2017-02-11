@@ -47,22 +47,22 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
           case HttpStatusCode.NotFound:
 
-            ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.ResponseUri));
+            ShowMessageBox($"{ex.Message}\n{response.ResponseUri}");
             break;
 
           case HttpStatusCode.Forbidden:
 
-            ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
+            ShowMessageBox($"{ex.Message}\n{response.StatusDescription}");
             break;
 
           case HttpStatusCode.Conflict:
 
-            ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
+            ShowMessageBox($"{ex.Message}\n{response.StatusDescription}");
             break;
 
           case HttpStatusCode.Unauthorized:
 
-            ShowMessageBox(string.Format("{0}\n{1}", ex.Message, response.StatusDescription));
+            ShowMessageBox($"{ex.Message}\n{response.StatusDescription}");
             break;
 
           default:
@@ -79,7 +79,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
             }
             catch(Exception e)
             {
-              LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+              LOG.Error(e, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, e.GetType().Name);
             }
             break;
           }

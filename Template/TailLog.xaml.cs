@@ -169,10 +169,7 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     public bool ActiveTab
     {
-      get
-      {
-        return (activeTab);
-      }
+      get => (activeTab);
       set
       {
         activeTab = value;
@@ -183,13 +180,7 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// FileManager properties
     /// </summary>
-    public FileManagerData FileManagerProperties
-    {
-      get
-      {
-        return (fileManagerProperties);
-      }
-    }
+    public FileManagerData FileManagerProperties => (fileManagerProperties);
 
     /// <summary>
     /// Update checkBoxOnTop.IsChecked
@@ -276,13 +267,7 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// Is textbox filename focued
     /// </summary>
-    public bool TextBoxFileNameIsFocused
-    {
-      get
-      {
-        return (textBoxFileName.IsFocused);
-      }
-    }
+    public bool TextBoxFileNameIsFocused => (textBoxFileName.IsFocused);
 
     /// <summary>
     /// Toggle always on top on/off
