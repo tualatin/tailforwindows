@@ -38,6 +38,7 @@ namespace Org.Vs.TailForWin.Template
     private bool stopThread;
     private bool isInit;
     private MailClient mySmtp;
+    private SmartWatch smartWatch;
 
     /// <summary>
     /// filemanager save property
@@ -89,6 +90,7 @@ namespace Org.Vs.TailForWin.Template
       myReader.Dispose();
       tabProperties.Dispose();
       mySmtp.Dispose();
+      smartWatch.Dispose();
     }
 
     /// <summary>
@@ -388,6 +390,9 @@ namespace Org.Vs.TailForWin.Template
           {
             LOG.Info("{0} start tail file '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, tabProperties.FileName);
 
+            if(SettingsHelper.TailSettings.SmartWatch)
+              smartWatch.StartSmartWatch(Path.GetDirectoryName(tabProperties.FileName));
+
             tailWorker.RunWorkerAsync();
             btnStop.IsEnabled = true;
           }
@@ -412,6 +417,7 @@ namespace Org.Vs.TailForWin.Template
       oldFileName = tabProperties.FileName;
       btnStop.IsEnabled = false;
       tailWorker.CancelAsync();
+      smartWatch.SuspendSmartWatch();
     }
 
     private void btnPrint_Click(object sender, RoutedEventArgs e)
@@ -715,7 +721,7 @@ namespace Org.Vs.TailForWin.Template
       if(e.Error != null)
       {
         LOG.Info("{0} can not tail '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, e.Error.Message);
-        MessageBox.Show(e.Error.Message, string.Format("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show(e.Error.Message, $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
       }
       else if(e.Cancelled)
       {
@@ -725,6 +731,7 @@ namespace Org.Vs.TailForWin.Template
         childTabItem.Style = Application.Current.FindResource("TabItemStopStyle") as Style;
         SetControlVisibility();
         SetToolTipDetailText();
+
         IsThreadBusy = false;
 
         LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
@@ -769,6 +776,8 @@ namespace Org.Vs.TailForWin.Template
       };
       tailWorker.DoWork += tailWorker_DoWork;
       tailWorker.RunWorkerCompleted += tailWorker_RunWorkerComplete;
+
+      smartWatch = new SmartWatch();
 
       SetFontInTextEditor();
 

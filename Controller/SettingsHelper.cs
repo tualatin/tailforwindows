@@ -29,15 +29,11 @@ namespace Org.Vs.TailForWin.Controller
 
       try
       {
-        int iHelper;
-        double dHelper;
-        bool bHelper;
-
-        if(!int.TryParse(ConfigurationManager.AppSettings["LinesRead"], out iHelper))
+        if(!int.TryParse(ConfigurationManager.AppSettings["LinesRead"], out int iHelper))
           iHelper = 10;
         TailSettings.LinesRead = iHelper;
 
-        if(!bool.TryParse(ConfigurationManager.AppSettings["AlwaysOnTop"], out bHelper))
+        if(!bool.TryParse(ConfigurationManager.AppSettings["AlwaysOnTop"], out bool bHelper))
           bHelper = false;
         TailSettings.AlwaysOnTop = bHelper;
 
@@ -57,7 +53,7 @@ namespace Org.Vs.TailForWin.Controller
           bHelper = false;
         TailSettings.RestoreWindowSize = bHelper;
 
-        if(!double.TryParse(ConfigurationManager.AppSettings["wndWidth"], out dHelper))
+        if(!double.TryParse(ConfigurationManager.AppSettings["wndWidth"], out double dHelper))
           dHelper = -1;
         TailSettings.WndWidth = dHelper;
 
@@ -90,6 +86,13 @@ namespace Org.Vs.TailForWin.Controller
         if(!bool.TryParse(ConfigurationManager.AppSettings["AutoUpdate"], out bHelper))
           bHelper = false;
         TailSettings.AutoUpdate = bHelper;
+
+        if(ConfigurationManager.AppSettings["SmartWatch"] == null)
+          AddNewProperties_IntoConfigFile("SmartWatch", "false");
+
+        if(!bool.TryParse(ConfigurationManager.AppSettings["SmartWatch"], out bHelper))
+          bHelper = false;
+        TailSettings.SmartWatch = bHelper;
 
         sHelper = ConfigurationManager.AppSettings["TimeFormat"];
         ReadTimeFormatEnum(sHelper);
@@ -180,6 +183,7 @@ namespace Org.Vs.TailForWin.Controller
         config.AppSettings.Settings["LineNumbersColor"].Value = TailSettings.DefaultLineNumbersColor;
         config.AppSettings.Settings["HighlightColor"].Value = TailSettings.DefaultHighlightColor;
         config.AppSettings.Settings["AutoUpdate"].Value = TailSettings.AutoUpdate.ToString();
+        config.AppSettings.Settings["SmartWatch"].Value = TailSettings.SmartWatch.ToString();
 
         SaveAlertSettings(config);
         SaveProxySettings(config);
@@ -253,6 +257,7 @@ namespace Org.Vs.TailForWin.Controller
       TailSettings.DefaultFileSort = EFileSort.Nothing;
       TailSettings.ShowLineNumbers = false;
       TailSettings.AutoUpdate = false;
+      TailSettings.SmartWatch = false;
 
       ResetAlertSettings();
       ResetProxySettings();
@@ -261,6 +266,9 @@ namespace Org.Vs.TailForWin.Controller
       SaveSettings();
     }
 
+    /// <summary>
+    /// Reload all TailForWindows settings
+    /// </summary>
     public static void ReloadSettings()
     {
       ConfigurationManager.RefreshSection("appSettings");
@@ -269,13 +277,7 @@ namespace Org.Vs.TailForWin.Controller
     /// <summary>
     /// Get tail settings
     /// </summary>
-    public static SettingsData TailSettings
-    {
-      get
-      {
-        return (tailSettings);
-      }
-    }
+    public static SettingsData TailSettings => (tailSettings);
 
     #region HelperFunctions
 
@@ -369,11 +371,9 @@ namespace Org.Vs.TailForWin.Controller
     /// </summary>
     private static void ReadProxySettings()
     {
-      bool bHelper;
-
       try
       {
-        if(!bool.TryParse(ConfigurationManager.AppSettings["Proxy.Use"], out bHelper))
+        if(!bool.TryParse(ConfigurationManager.AppSettings["Proxy.Use"], out bool bHelper))
           bHelper = false;
         TailSettings.ProxySettings.UseProxy = bHelper;
 
@@ -381,9 +381,7 @@ namespace Org.Vs.TailForWin.Controller
           bHelper = true;
         TailSettings.ProxySettings.UseSystemSettings = bHelper;
 
-        int port;
-
-        if(!int.TryParse(ConfigurationManager.AppSettings["Proxy.Port"], out port))
+        if(!int.TryParse(ConfigurationManager.AppSettings["Proxy.Port"], out int port))
           port = -1;
         TailSettings.ProxySettings.ProxyPort = port;
 
@@ -412,9 +410,7 @@ namespace Org.Vs.TailForWin.Controller
         string sHelper = ConfigurationManager.AppSettings["Smtp.Server"];
         TailSettings.AlertSettings.SmtpSettings.SmtpServerName = sHelper;
 
-        int port;
-
-        if(!int.TryParse(ConfigurationManager.AppSettings["Smtp.Port"], out port))
+        if(!int.TryParse(ConfigurationManager.AppSettings["Smtp.Port"], out int port))
           port = -1;
         TailSettings.AlertSettings.SmtpSettings.SmtpPort = port;
 
@@ -425,15 +421,12 @@ namespace Org.Vs.TailForWin.Controller
         TailSettings.AlertSettings.SmtpSettings.Password = sHelper;
 
         sHelper = ConfigurationManager.AppSettings["Smtp.FromEMail"];
-
         TailSettings.AlertSettings.SmtpSettings.FromAddress = ParseEMailAddress(sHelper) ? sHelper : string.Empty;
 
         sHelper = ConfigurationManager.AppSettings["Smtp.Subject"];
         TailSettings.AlertSettings.SmtpSettings.Subject = sHelper;
 
-        bool bHelper;
-
-        if(!bool.TryParse(ConfigurationManager.AppSettings["Smtp.Ssl"], out bHelper))
+        if(!bool.TryParse(ConfigurationManager.AppSettings["Smtp.Ssl"], out bool bHelper))
           bHelper = true;
         TailSettings.AlertSettings.SmtpSettings.SSL = bHelper;
 
@@ -454,11 +447,9 @@ namespace Org.Vs.TailForWin.Controller
     /// </summary>
     private static void ReadAlertSettings()
     {
-      bool bHelper;
-
       try
       {
-        if(!bool.TryParse(ConfigurationManager.AppSettings["Alert.BringToFront"], out bHelper))
+        if(!bool.TryParse(ConfigurationManager.AppSettings["Alert.BringToFront"], out bool bHelper))
           bHelper = true;
         TailSettings.AlertSettings.BringToFront = bHelper;
 

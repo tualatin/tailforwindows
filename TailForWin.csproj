@@ -298,6 +298,7 @@
     <Compile Include="Utils\IconHelper.cs" />
     <Compile Include="Utils\MailClient.cs" />
     <Compile Include="Utils\ObservableDictionary.cs" />
+    <Compile Include="Utils\SmartWatch.cs" />
     <Compile Include="Utils\SoundPlay.cs" />
     <Compile Include="Utils\StringEncryption.cs" />
     <Compile Include="Utils\TextBoxMaskBehavior.cs" />

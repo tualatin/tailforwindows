@@ -40,10 +40,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool AlwaysOnTop
     {
-      get
-      {
-        return (alwaysOnTop);
-      }
+      get => (alwaysOnTop);
       set
       {
         alwaysOnTop = value;
@@ -62,10 +59,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool ShowNLineAtStart
     {
-      get
-      {
-        return (showNLineAtStart);
-      }
+      get => (showNLineAtStart);
       set
       {
         showNLineAtStart = value;
@@ -84,10 +78,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool AlwaysScrollToEnd
     {
-      get
-      {
-        return (alwaysScrollToEnd);
-      }
+      get => (alwaysScrollToEnd);
       set
       {
         alwaysScrollToEnd = value;
@@ -106,10 +97,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool RestoreWindowSize
     {
-      get
-      {
-        return (restoreWindowSize);
-      }
+      get => (restoreWindowSize);
       set
       {
         restoreWindowSize = value;
@@ -146,10 +134,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool SaveWindowPosition
     {
-      get
-      {
-        return (saveWindowPosition);
-      }
+      get => (saveWindowPosition);
       set
       {
         saveWindowPosition = value;
@@ -213,10 +198,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool ExitWithEscape
     {
-      get
-      {
-        return (exitWithEsc);
-      }
+      get => (exitWithEsc);
       set
       {
         exitWithEsc = value;
@@ -235,10 +217,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool ShowLineNumbers
     {
-      get
-      {
-        return (showLineNumbers);
-      }
+      get => (showLineNumbers);
       set
       {
         showLineNumbers = value;
@@ -257,10 +236,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultForegroundColor
     {
-      get
-      {
-        return (defaultForegroundColor);
-      }
+      get => (defaultForegroundColor);
       set
       {
         defaultForegroundColor = value;
@@ -281,10 +257,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultBackgroundColor
     {
-      get
-      {
-        return (defaultBackgroundColor);
-      }
+      get => (defaultBackgroundColor);
       set
       {
         defaultBackgroundColor = value;
@@ -305,10 +278,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultForegroundColor
     {
-      get
-      {
-        return (guiDefaultForegroundColor);
-      }
+      get => (guiDefaultForegroundColor);
       set
       {
         guiDefaultForegroundColor = value;
@@ -327,10 +297,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultBackgroundColor
     {
-      get
-      {
-        return (guiDefaultBackgroundColor);
-      }
+      get => (guiDefaultBackgroundColor);
       set
       {
         guiDefaultBackgroundColor = value;
@@ -349,10 +316,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultInactiveForegroundColor
     {
-      get
-      {
-        return (defaultInactiveForegroundColor);
-      }
+      get => (defaultInactiveForegroundColor);
       set
       {
         defaultInactiveForegroundColor = value;
@@ -373,10 +337,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultInactiveForegroundColor
     {
-      get
-      {
-        return (guiDefaultInactiveForegroundColor);
-      }
+      get => (guiDefaultInactiveForegroundColor);
       set
       {
         guiDefaultInactiveForegroundColor = value;
@@ -395,10 +356,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultInactiveBackgroundColor
     {
-      get
-      {
-        return (defaultInactiveBackgroundColor);
-      }
+      get => (defaultInactiveBackgroundColor);
       set
       {
         defaultInactiveBackgroundColor = value;
@@ -419,10 +377,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultInactiveBackgroundColor
     {
-      get
-      {
-        return (guiDefaultInactiveBackgroundColor);
-      }
+      get => (guiDefaultInactiveBackgroundColor);
       set
       {
         guiDefaultInactiveBackgroundColor = value;
@@ -441,10 +396,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultHighlightForegroundColor
     {
-      get
-      {
-        return (defaultFindHighlightForegroundColor);
-      }
+      get => (defaultFindHighlightForegroundColor);
       set
       {
         defaultFindHighlightForegroundColor = value;
@@ -465,10 +417,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultHighlightForegroundColor
     {
-      get
-      {
-        return (guiDefaultHighlightForegroundColor);
-      }
+      get => (guiDefaultHighlightForegroundColor);
       set
       {
         guiDefaultHighlightForegroundColor = value;
@@ -487,10 +436,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultHighlightBackgroundColor
     {
-      get
-      {
-        return (defaultFindHighlightBackgroundColor);
-      }
+      get => (defaultFindHighlightBackgroundColor);
       set
       {
         defaultFindHighlightBackgroundColor = value;
@@ -511,10 +457,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultHighlightBackgroundColor
     {
-      get
-      {
-        return (guiDefaultHighlightBackgroundColor);
-      }
+      get => (guiDefaultHighlightBackgroundColor);
       set
       {
         guiDefaultHighlightBackgroundColor = value;
@@ -533,10 +476,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultLineNumbersColor
     {
-      get
-      {
-        return (defaultLineNumbersColor);
-      }
+      get => (defaultLineNumbersColor);
       set
       {
         defaultLineNumbersColor = value;
@@ -557,10 +497,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultLineNumbersColor
     {
-      get
-      {
-        return (guiDefaultLineNumbersColor);
-      }
+      get => (guiDefaultLineNumbersColor);
       set
       {
         guiDefaultLineNumbersColor = value;
@@ -579,10 +516,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultHighlightColor
     {
-      get
-      {
-        return (defaultHighlightColor);
-      }
+      get => (defaultHighlightColor);
       set
       {
         defaultHighlightColor = value;
@@ -603,10 +537,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultHighlightColor
     {
-      get
-      {
-        return (guiDefaultHighlightColor);
-      }
+      get => (guiDefaultHighlightColor);
       set
       {
         guiDefaultHighlightColor = value;
@@ -679,14 +610,30 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool AutoUpdate
     {
-      get
-      {
-        return (autoUpdate);
-      }
+      get => (autoUpdate);
       set
       {
         autoUpdate = value;
         OnPropertyChanged("AutoUpdate");
+      }
+    }
+
+    #endregion
+
+    #region SmartWatch
+
+    private bool useSmartWatch;
+
+    /// <summary>
+    /// Use Smart watch at tailing a log file
+    /// </summary>
+    public bool SmartWatch
+    {
+      get => useSmartWatch;
+      set
+      {
+        useSmartWatch = value;
+        OnPropertyChanged("SmartWatch");
       }
     }
 
