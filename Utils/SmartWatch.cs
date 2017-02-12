@@ -100,9 +100,14 @@ namespace Org.Vs.TailForWin.Utils
 
         if(currentFiles < GetCountOfFiles())
         {
+          LOG.Trace("SmartWatch Logfiles changed! Current '{0}' new '{1}'", currentFiles, GetCountOfFiles());
           currentFiles = GetCountOfFiles();
-          LOG.Trace("SmartWatch Logfiles changed!");
         }
+        else if(currentFiles > GetCountOfFiles())
+        {
+          LOG.Trace("SmartWatch some logfile are deleted! Current '{0}' new '{1}'", currentFiles, GetCountOfFiles());
+          currentFiles = GetCountOfFiles();
+        }        
       }
 
       e.Cancel = true;
