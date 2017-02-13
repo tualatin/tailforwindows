@@ -7,40 +7,44 @@
              mc:Ignorable="d" 
              d:DesignHeight="22" d:DesignWidth="50" Loaded="UserControl_Loaded">
   <UserControl.Resources>
+    <!-- Glyph colors -->
+    <Color x:Key="GlyphColor">#888888</Color>
+    <Color x:Key="GlyphMouseOver">#1C97EA</Color>
+    <Color x:Key="GlyphMousePressed">#136FAE</Color>
+
+
     <Style x:Key="ButtonStyle" TargetType="Button">
-      <Setter Property="FontFamily" Value="Arial Narrow" />
-      <Setter Property="FontSize" Value="10" />
+      <Setter Property="FontFamily" Value="Microsoft Sans Serif"/>
+      <Setter Property="FontSize" Value="10"/>
       <Setter Property="Width" Value="13"/>
       <Setter Property="Height" Value="11"/>
       <Setter Property="Margin" Value="0"/>
-      <Setter Property="Cursor" Value="Hand"/>
       <Setter Property="BorderBrush" Value="Black"/>
       <Setter Property="BorderThickness" Value="1"/>
       <Setter Property="HorizontalAlignment" Value="Center"/>
       <Setter Property="VerticalAlignment" Value="Top"/>
-      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="Foreground" Value="#FFFFFF"/>
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Button">
             <Grid x:Name="grid">
-              <Border x:Name="border" CornerRadius="0" BorderBrush="#989898" BorderThickness="1">
+              <Border x:Name="border" CornerRadius="0" BorderBrush="#C1C1C1" BorderThickness="1">
                 <Border.Background>
                   <RadialGradientBrush GradientOrigin="0.496,1.052">
                     <RadialGradientBrush.RelativeTransform>
                       <TransformGroup>
                         <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
-                        <TranslateTransform X="0.02" Y="0.3"/>
+                        <TranslateTransform X="0.2" Y="0.4"/>
                       </TransformGroup>
                     </RadialGradientBrush.RelativeTransform>
                     <GradientStop Offset="1" Color="#00000000"/>
                     <GradientStop Offset="0.3" Color="#FFFFFFFF"/>
                   </RadialGradientBrush>
                 </Border.Background>
-                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.FontWeight="Bold"></ContentPresenter>
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.FontWeight="Bold"/>
               </Border>
             </Grid>
             <ControlTemplate.Triggers>
-
               <Trigger Property="IsPressed" Value="True">
                 <Setter Property="Background" TargetName="border">
                   <Setter.Value>
@@ -58,42 +62,59 @@
                 </Setter>
               </Trigger>
               <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" TargetName="border" Value="#FF33962B"/>
+                <Setter Property="Foreground">
+                  <Setter.Value>
+                    <SolidColorBrush Color="{StaticResource GlyphMouseOver}"/>
+                  </Setter.Value>
+                </Setter>
+              </Trigger>
+              <Trigger Property="IsMouseOver" Value="False">
+                <Setter Property="Foreground">
+                  <Setter.Value>
+                    <SolidColorBrush Color="{StaticResource GlyphColor}"/>
+                  </Setter.Value>
+                </Setter>
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Foreground">
+                  <Setter.Value>
+                    <SolidColorBrush Color="{StaticResource GlyphMousePressed}"/>
+                  </Setter.Value>
+                </Setter>
               </Trigger>
               <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
               </Trigger>
-
             </ControlTemplate.Triggers>
           </ControlTemplate>
         </Setter.Value>
       </Setter>
     </Style>
   </UserControl.Resources>
-    <Grid>
+  <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="22" />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*" />
-      <ColumnDefinition Width="13" />
+      <ColumnDefinition/>
+      <ColumnDefinition Width="11" />
     </Grid.ColumnDefinitions>
-    <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"> 
+    <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
       <Grid.RowDefinitions>
-        <RowDefinition Height="*" />
-        <RowDefinition Height="*" />
+        <RowDefinition/>
+        <RowDefinition/>
       </Grid.RowDefinitions>
-      <Button HorizontalAlignment="Right" Name="btnUp" Height="11" Width="13" Style="{DynamicResource ButtonStyle}" TabIndex="2" PreviewMouseLeftButtonDown="btnUp_PreviewMouseLeftButtonDown" 
+      <Button HorizontalAlignment="Right" Name="btnUp" Height="11" Width="11" Style="{DynamicResource ButtonStyle}" TabIndex="2" PreviewMouseLeftButtonDown="btnUp_PreviewMouseLeftButtonDown" 
               PreviewMouseLeftButtonUp="btnUp_PreviewMouseLeftButtonUp" PreviewMouseMove="btnUp_PreviewMouseMove">
-        <Path Fill="Black" Data="M 0 4 L 4 0 L 8 4 Z"/>
-    </Button>
-    <Button Height="11" HorizontalAlignment="Right" Name="btnDown" VerticalAlignment="Bottom" Width="13" Style="{DynamicResource ButtonStyle}" Grid.Row="1" TabIndex="3"
+        <Path Data="M 0 4 L 8 4 L 4 0 Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
+      </Button>
+      <Button Height="11" HorizontalAlignment="Right" Name="btnDown" VerticalAlignment="Bottom" Width="11" Style="{DynamicResource ButtonStyle}" Grid.Row="1" TabIndex="3"
             PreviewMouseLeftButtonDown="btnDown_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="btnDown_PreviewMouseLeftButtonUp" PreviewMouseMove="btnDown_PreviewMouseMove">
-        <Path Fill="Black" Data="M 0 0 L 4 4 L 8 0 Z"/>
+        <Path Data="M 0 0 L 4 4 L 8 0 Z" Fill="{Binding Foreground, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"/>
       </Button>
     </Grid>
-    <TextBox Height="22" Name="textBoxSpinValue" VerticalAlignment="Center" Grid.Column="0" TextChanged="textBoxSpinValue_TextChanged" LostFocus="textBoxSpinValue_LostFocus"
+    <TextBox Height="22" Name="textBoxSpinValue" VerticalAlignment="Center" TextChanged="textBoxSpinValue_TextChanged" LostFocus="textBoxSpinValue_LostFocus"
              TabIndex="1" tbMask:TextBoxMaskBehavior.Mask="{Binding Path=TextBoxMask}" tbMask:TextBoxMaskBehavior.MaximumValue="{Binding Path=TextBoxMaxValue}"
-             tbMask:TextBoxMaskBehavior.MinimumValue="{Binding Path=TextBoxMinValue}" />
+             tbMask:TextBoxMaskBehavior.MinimumValue="{Binding Path=TextBoxMinValue}" PreviewMouseWheel="textBoxSpinValue_PreviewMouseWheel"/>
   </Grid>
 </UserControl>

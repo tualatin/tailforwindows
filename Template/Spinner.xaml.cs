@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
@@ -87,32 +88,32 @@ namespace Org.Vs.TailForWin.Template
     {
       if(!leftmouseButtonDown)
         return;
-      if(sender.GetType() != typeof(Button))
-        return;
-
-      Button btnIncrement = sender as Button;
-
-      if(!btnIncrement.IsMouseCaptured)
-        return;
-
-      Point mousePoint = PointToScreen(Mouse.GetPosition(this));
-      Point relativePoint = btnIncrement.PointToScreen(new Point(0, 0));
-      Size sizeBtn = new Size(btnIncrement.ActualWidth, btnIncrement.ActualHeight);
-      System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) sizeBtn.Width, (int) sizeBtn.Height);
-
-      if(!rc.Contains((int) mousePoint.X, (int) mousePoint.Y))
+      if(sender is Button)
       {
-        if(!counterIncrementUp.IsBusy)
+        Button btnIncrement = sender as Button;
+
+        if(!btnIncrement.IsMouseCaptured)
           return;
 
-        counterIncrementUp.CancelAsync();
-        return;
+        Point mousePoint = PointToScreen(Mouse.GetPosition(this));
+        Point relativePoint = btnIncrement.PointToScreen(new Point(0, 0));
+        Size sizeBtn = new Size(btnIncrement.ActualWidth, btnIncrement.ActualHeight);
+        System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) sizeBtn.Width, (int) sizeBtn.Height);
+
+        if(!rc.Contains((int) mousePoint.X, (int) mousePoint.Y))
+        {
+          if(!counterIncrementUp.IsBusy)
+            return;
+
+          counterIncrementUp.CancelAsync();
+          return;
+        }
+
+        if(counterIncrementUp.IsBusy)
+          return;
+
+        counterIncrementUp.RunWorkerAsync();
       }
-
-      if(counterIncrementUp.IsBusy)
-        return;
-
-      counterIncrementUp.RunWorkerAsync();
     }
 
     private void btnDown_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -139,41 +140,56 @@ namespace Org.Vs.TailForWin.Template
     {
       if(!leftmouseButtonDown)
         return;
-      if(sender.GetType() != typeof(Button))
-        return;
-
-      Button btnDecrement = sender as Button;
-
-      if(!btnDecrement.IsMouseCaptured)
-        return;
-
-      Point mousePoint = PointToScreen(Mouse.GetPosition(this));
-      Point relativePoint = btnDecrement.PointToScreen(new Point(0, 0));
-      Size sizeBtn = new Size(btnDecrement.ActualWidth, btnDecrement.ActualHeight);
-      System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) sizeBtn.Width, (int) sizeBtn.Height);
-
-      if(!rc.Contains((int) mousePoint.X, (int) mousePoint.Y))
+      if(sender is Button)
       {
-        if(!counterIncrementDown.IsBusy)
+        Button btnDecrement = sender as Button;
+
+        if(!btnDecrement.IsMouseCaptured)
           return;
 
-        counterIncrementDown.CancelAsync();
-        return;
+        Point mousePoint = PointToScreen(Mouse.GetPosition(this));
+        Point relativePoint = btnDecrement.PointToScreen(new Point(0, 0));
+        Size sizeBtn = new Size(btnDecrement.ActualWidth, btnDecrement.ActualHeight);
+        System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) sizeBtn.Width, (int) sizeBtn.Height);
+
+        if(!rc.Contains((int) mousePoint.X, (int) mousePoint.Y))
+        {
+          if(!counterIncrementDown.IsBusy)
+            return;
+
+          counterIncrementDown.CancelAsync();
+          return;
+        }
+
+        if(counterIncrementDown.IsBusy)
+          return;
+
+        counterIncrementDown.RunWorkerAsync();
       }
-
-      if(counterIncrementDown.IsBusy)
-        return;
-
-      counterIncrementDown.RunWorkerAsync();
     }
 
     #endregion
 
     #region Properties
 
+    /// <summary>
+    /// Maximum spinner value 
+    /// </summary>
     public static readonly DependencyProperty MaxValueProperty = DependencyProperty.Register("MaxSpinValue", typeof(int), typeof(Spinner), new PropertyMetadata(10));
+
+    /// <summary>
+    /// Minimum spinner value
+    /// </summary>
     public static readonly DependencyProperty MinValueProperty = DependencyProperty.Register("MinSpinValue", typeof(int), typeof(Spinner), new PropertyMetadata(0));
+
+    /// <summary>
+    /// Step value
+    /// </summary>
     public static readonly DependencyProperty IncrementProperty = DependencyProperty.Register("Increment", typeof(int), typeof(Spinner), new PropertyMetadata(1));
+
+    /// <summary>
+    /// Start index
+    /// </summary>
     public static readonly DependencyProperty StartIndexProperty = DependencyProperty.Register("StartIndex", typeof(int), typeof(Spinner), new PropertyMetadata(0));
 
     /// <summary>
@@ -245,11 +261,13 @@ namespace Org.Vs.TailForWin.Template
       }
     }
 
-    public static readonly DependencyProperty TextBoxMaskProperty = DependencyProperty.Register("TextBoxMask", typeof(EMaskType), typeof(Spinner),
-      new PropertyMetadata(EMaskType.Integer));
+    /// <summary>
+    /// Text box mask
+    /// </summary>
+    public static readonly DependencyProperty TextBoxMaskProperty = DependencyProperty.Register("TextBoxMask", typeof(EMaskType), typeof(Spinner), new PropertyMetadata(EMaskType.Integer));
 
     /// <summary>
-    /// TextBoxMask
+    /// Text box mask
     /// </summary>
     [Category("Spinner Settings")]
     public EMaskType TextBoxMask
@@ -264,11 +282,13 @@ namespace Org.Vs.TailForWin.Template
       }
     }
 
-    public static readonly DependencyProperty TextBoxMinValueProperty = DependencyProperty.Register("TextBoxMinValue", typeof(double), typeof(Spinner),
-      new PropertyMetadata((double) 0));
+    /// <summary>
+    /// Text box min value
+    /// </summary>
+    public static readonly DependencyProperty TextBoxMinValueProperty = DependencyProperty.Register("TextBoxMinValue", typeof(double), typeof(Spinner), new PropertyMetadata((double) 0));
 
     /// <summary>
-    /// TextBoxMinValue
+    /// Text box min value
     /// </summary>
     [Category("Spinner Settings")]
     public double TextBoxMinValue
@@ -283,11 +303,13 @@ namespace Org.Vs.TailForWin.Template
       }
     }
 
-    public static readonly DependencyProperty TextBoxMaxValueProperty = DependencyProperty.Register("TextBoxMaxValue", typeof(double), typeof(Spinner),
-      new PropertyMetadata((double) 10));
+    /// <summary>
+    /// Text box max value
+    /// </summary>
+    public static readonly DependencyProperty TextBoxMaxValueProperty = DependencyProperty.Register("TextBoxMaxValue", typeof(double), typeof(Spinner), new PropertyMetadata((double) 10));
 
     /// <summary>
-    /// TextBoxMaxValue
+    /// Text box max value
     /// </summary>
     [Category("Spinner Settings")]
     public double TextBoxMaxValue
@@ -310,14 +332,7 @@ namespace Org.Vs.TailForWin.Template
     {
       while(counterIncrementUp != null && !counterIncrementUp.CancellationPending)
       {
-        this.Dispatcher.Invoke(new Action(() =>
-      {
-        if(StartIndex <= MaxSpinValue)
-          StartIndex = StartIndex + Increment;
-
-        textBoxSpinValue.Text = StartIndex.ToString(CultureInfo.InvariantCulture);
-      }), DispatcherPriority.Background);
-
+        UpValue();
         Thread.Sleep(100);
       }
     }
@@ -326,14 +341,7 @@ namespace Org.Vs.TailForWin.Template
     {
       while(counterIncrementDown != null && !counterIncrementDown.CancellationPending)
       {
-        this.Dispatcher.Invoke(new Action(() =>
-      {
-        if(StartIndex > MinSpinValue)
-          StartIndex = StartIndex - Increment;
-
-        textBoxSpinValue.Text = StartIndex.ToString(CultureInfo.InvariantCulture);
-      }), DispatcherPriority.Background);
-
+        DownValue();
         Thread.Sleep(100);
       }
     }
@@ -346,7 +354,6 @@ namespace Org.Vs.TailForWin.Template
 
       if(!int.TryParse(textBoxSpinValue.Text, out i))
         i = MinSpinValue;
-
       if(i < MinSpinValue)
         i = MinSpinValue;
       if(i > MaxSpinValue)
@@ -360,6 +367,17 @@ namespace Org.Vs.TailForWin.Template
       textBoxSpinValue.Text = StartIndex.ToString(CultureInfo.InvariantCulture);
     }
 
+    private void textBoxSpinValue_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+      if(sender is TextBox)
+      {
+        if(e.Delta > 0)
+          UpValue();
+        else if(e.Delta < 0)
+          DownValue();
+      }
+    }
+
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
       if(StartIndex > MaxSpinValue)
@@ -369,5 +387,31 @@ namespace Org.Vs.TailForWin.Template
 
       textBoxSpinValue.Text = StartIndex.ToString(CultureInfo.InvariantCulture);
     }
+
+    #region HelperFunctions
+
+    private void UpValue()
+    {
+      this.Dispatcher.Invoke(new Action(() =>
+      {
+        if(StartIndex <= MaxSpinValue)
+          StartIndex = StartIndex + Increment;
+
+        textBoxSpinValue.Text = StartIndex.ToString(CultureInfo.InvariantCulture);
+      }), DispatcherPriority.Background);
+    }
+
+    private void DownValue()
+    {
+      this.Dispatcher.Invoke(new Action(() =>
+      {
+        if(StartIndex > MinSpinValue)
+          StartIndex = StartIndex - Increment;
+
+        textBoxSpinValue.Text = StartIndex.ToString(CultureInfo.InvariantCulture);
+      }), DispatcherPriority.Background);
+    }
+
+    #endregion
   }
 }

@@ -5,6 +5,7 @@ If there are problems, TailForWindows creates a error logfile in the directory. 
 
 Changelog:
 v1.x.x
+* SpinnerControl accept MouseWheel now
 * File encoding can change while tailing
 * new Scrollbar design
 * change some icons
