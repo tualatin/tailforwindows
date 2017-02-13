@@ -5,9 +5,11 @@
     <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Language/en-EN.xaml" />
-        <ResourceDictionary Source="/themes/generic.xaml" />
-        <ResourceDictionary Source="/Template/WatermarkTextBox/WatermarkTextBox.xaml" />
+        <ResourceDictionary Source="/Language/en-EN.xaml"/>
+        <ResourceDictionary Source="/Resource/TabItem.xaml"/>
+        <ResourceDictionary Source="/Template/WatermarkTextBox/WatermarkTextBox.xaml"/>
+        <ResourceDictionary Source="/Resources/ScrollbarResources.xaml"/>
+        <ResourceDictionary Source="/Resources/CheckBox.xaml"/>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

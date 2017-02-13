@@ -6,9 +6,9 @@
         xmlns:prop="clr-namespace:Org.Vs.TailForWin.Data" Loaded="Window_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters" Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True" Closing="Window_Closing" xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox">
   <Window.Resources>
     <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
+      <!--<ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Dictionaries/ScrollbarResources.xaml"/>
-      </ResourceDictionary.MergedDictionaries>
+      </ResourceDictionary.MergedDictionaries>-->
 
       <multiconv:EnableOpenMultiConverter x:Key="isEnabled" />
       <conv:TailConverter x:Key="selectedConverter" />

@@ -7,89 +7,89 @@
              mc:Ignorable="d" 
              d:DesignHeight="22" d:DesignWidth="50" Loaded="UserControl_Loaded">
   <UserControl.Resources>
-    <!-- Glyph colors -->
-    <Color x:Key="GlyphColor">#888888</Color>
-    <Color x:Key="GlyphMouseOver">#1C97EA</Color>
-    <Color x:Key="GlyphMousePressed">#136FAE</Color>
-
-
-    <Style x:Key="ButtonStyle" TargetType="Button">
-      <Setter Property="FontFamily" Value="Microsoft Sans Serif"/>
-      <Setter Property="FontSize" Value="10"/>
-      <Setter Property="Width" Value="13"/>
-      <Setter Property="Height" Value="11"/>
-      <Setter Property="Margin" Value="0"/>
-      <Setter Property="BorderBrush" Value="Black"/>
-      <Setter Property="BorderThickness" Value="1"/>
-      <Setter Property="HorizontalAlignment" Value="Center"/>
-      <Setter Property="VerticalAlignment" Value="Top"/>
-      <Setter Property="Foreground" Value="#FFFFFF"/>
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="Button">
-            <Grid x:Name="grid">
-              <Border x:Name="border" CornerRadius="0" BorderBrush="#C1C1C1" BorderThickness="1">
-                <Border.Background>
-                  <RadialGradientBrush GradientOrigin="0.496,1.052">
-                    <RadialGradientBrush.RelativeTransform>
-                      <TransformGroup>
-                        <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
-                        <TranslateTransform X="0.2" Y="0.4"/>
-                      </TransformGroup>
-                    </RadialGradientBrush.RelativeTransform>
-                    <GradientStop Offset="1" Color="#00000000"/>
-                    <GradientStop Offset="0.3" Color="#FFFFFFFF"/>
-                  </RadialGradientBrush>
-                </Border.Background>
-                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.FontWeight="Bold"/>
-              </Border>
-            </Grid>
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" TargetName="border">
-                  <Setter.Value>
-                    <RadialGradientBrush GradientOrigin="0.496,1.052">
-                      <RadialGradientBrush.RelativeTransform>
-                        <TransformGroup>
-                          <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
-                          <TranslateTransform X="0.02" Y="0.3"/>
-                        </TransformGroup>
-                      </RadialGradientBrush.RelativeTransform>
-                      <GradientStop Color="#00000000" Offset="1"/>
-                      <GradientStop Color="#FF303030" Offset="0.3"/>
-                    </RadialGradientBrush>
-                  </Setter.Value>
-                </Setter>
-              </Trigger>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground">
-                  <Setter.Value>
-                    <SolidColorBrush Color="{StaticResource GlyphMouseOver}"/>
-                  </Setter.Value>
-                </Setter>
-              </Trigger>
-              <Trigger Property="IsMouseOver" Value="False">
-                <Setter Property="Foreground">
-                  <Setter.Value>
-                    <SolidColorBrush Color="{StaticResource GlyphColor}"/>
-                  </Setter.Value>
-                </Setter>
-              </Trigger>
-              <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Foreground">
-                  <Setter.Value>
-                    <SolidColorBrush Color="{StaticResource GlyphMousePressed}"/>
-                  </Setter.Value>
-                </Setter>
-              </Trigger>
-              <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-    </Style>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Resources/Shared.xaml"/>
+        <ResourceDictionary>
+          <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="FontFamily" Value="Microsoft Sans Serif"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Width" Value="13"/>
+            <Setter Property="Height" Value="11"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                  <Grid x:Name="grid">
+                    <Border x:Name="border" CornerRadius="0" BorderBrush="#C1C1C1" BorderThickness="1">
+                      <Border.Background>
+                        <RadialGradientBrush GradientOrigin="0.496,1.052">
+                          <RadialGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                              <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
+                              <TranslateTransform X="0.2" Y="0.4"/>
+                            </TransformGroup>
+                          </RadialGradientBrush.RelativeTransform>
+                          <GradientStop Offset="1" Color="#00000000"/>
+                          <GradientStop Offset="0.3" Color="#FFFFFFFF"/>
+                        </RadialGradientBrush>
+                      </Border.Background>
+                      <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.FontWeight="Bold"/>
+                    </Border>
+                  </Grid>
+                  <ControlTemplate.Triggers>
+                    <Trigger Property="IsPressed" Value="True">
+                      <Setter Property="Background" TargetName="border">
+                        <Setter.Value>
+                          <RadialGradientBrush GradientOrigin="0.496,1.052">
+                            <RadialGradientBrush.RelativeTransform>
+                              <TransformGroup>
+                                <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1.5" ScaleY="1.5"/>
+                                <TranslateTransform X="0.02" Y="0.3"/>
+                              </TransformGroup>
+                            </RadialGradientBrush.RelativeTransform>
+                            <GradientStop Color="#00000000" Offset="1"/>
+                            <GradientStop Color="#FF303030" Offset="0.3"/>
+                          </RadialGradientBrush>
+                        </Setter.Value>
+                      </Setter>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                      <Setter Property="Foreground">
+                        <Setter.Value>
+                          <SolidColorBrush Color="{StaticResource GlyphMouseOver}"/>
+                        </Setter.Value>
+                      </Setter>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="False">
+                      <Setter Property="Foreground">
+                        <Setter.Value>
+                          <SolidColorBrush Color="{StaticResource GlyphColor}"/>
+                        </Setter.Value>
+                      </Setter>
+                    </Trigger>
+                    <Trigger Property="IsPressed" Value="True">
+                      <Setter Property="Foreground">
+                        <Setter.Value>
+                          <SolidColorBrush Color="{StaticResource GlyphMousePressed}"/>
+                        </Setter.Value>
+                      </Setter>
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                      <Setter Property="Opacity" TargetName="grid" Value="0.25"/>
+                    </Trigger>
+                  </ControlTemplate.Triggers>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </ResourceDictionary>
+      </ResourceDictionary.MergedDictionaries>
   </UserControl.Resources>
   <Grid>
     <Grid.RowDefinitions>

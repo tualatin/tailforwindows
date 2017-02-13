@@ -4,9 +4,9 @@
         Title="Filters" Height="346" Width="466" Icon="/TailForWin;component/Res/Filters.ico" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False" Loaded="Window_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters" Closing="Window_Closing">
   <Window.Resources>
     <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
+      <!--<ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Dictionaries/ScrollbarResources.xaml"/>
-      </ResourceDictionary.MergedDictionaries>
+      </ResourceDictionary.MergedDictionaries>-->
 
       <conv:FontToStringConverter x:Key="FontToString" />
       <conv:ColorToBrushConverter x:Key="ColorToBrush" />
