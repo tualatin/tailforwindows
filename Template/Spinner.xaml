@@ -9,7 +9,7 @@
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Resources/Shared.xaml"/>
+        <ResourceDictionary Source="../Resources/Shared.xaml"/>
         <ResourceDictionary>
           <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="FontFamily" Value="Microsoft Sans Serif"/>
@@ -90,6 +90,7 @@
           </Style>
         </ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
   </UserControl.Resources>
   <Grid>
     <Grid.RowDefinitions>

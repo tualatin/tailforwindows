@@ -6,7 +6,7 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Language/en-EN.xaml"/>
-        <ResourceDictionary Source="/Resource/TabItem.xaml"/>
+        <ResourceDictionary Source="/Resources/TabControl.xaml"/>
         <ResourceDictionary Source="/Template/WatermarkTextBox/WatermarkTextBox.xaml"/>
         <ResourceDictionary Source="/Resources/ScrollbarResources.xaml"/>
         <ResourceDictionary Source="/Resources/CheckBox.xaml"/>

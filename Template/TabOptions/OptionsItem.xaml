@@ -58,7 +58,7 @@
         <ComboBox Grid.Column="1" Grid.Row="6" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxTimeFormat" VerticalAlignment="Center" Width="120" 
                   SelectionChanged="comboBoxTimeFormat_SelectionChanged" TabIndex="10" />
         <my:Spinner Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="0,3" x:Name="spinnerNLines" VerticalAlignment="Center" Width="50" MaxSpinValue="2000" 
-                    MinSpinValue="10" IsEnabled="{Binding ElementName=checkBoxShowLines, Path=IsChecked}" StartIndex="20" Increment="10" 
+                    MinSpinValue="10" IsEnabled="{Binding ElementName=checkBoxShowLines, Path=IsChecked}" StartIndex="20" Increment="5" 
                     TabIndex="5" TextBoxMinValue="10" TextBoxMaxValue="2000">
           <my:Spinner.ToolTip>
               <StackPanel>

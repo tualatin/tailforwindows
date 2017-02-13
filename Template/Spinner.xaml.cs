@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
@@ -350,9 +349,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void textBoxSpinValue_TextChanged(object sender, TextChangedEventArgs e)
     {
-      int i;
-
-      if(!int.TryParse(textBoxSpinValue.Text, out i))
+      if(!int.TryParse(textBoxSpinValue.Text, out int i))
         i = MinSpinValue;
       if(i < MinSpinValue)
         i = MinSpinValue;

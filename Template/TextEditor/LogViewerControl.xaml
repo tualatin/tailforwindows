@@ -9,7 +9,7 @@
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../../Dictionaries/ScrollbarWithGripResources.xaml"/>
+        <ResourceDictionary Source="../../Resources/ScrollbarWithGripResources.xaml"/>
       </ResourceDictionary.MergedDictionaries>
 
       <conv:BoolToTextWrapConverter x:Key="BoolToTextWrap" />
