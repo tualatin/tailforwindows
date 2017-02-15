@@ -5,7 +5,7 @@
   <Window.Resources>
     <conv:InverseBooleanConverter x:Key="InvBoolConv" />
   </Window.Resources>
-  <Grid>
+  <Grid Margin="5">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="70" />
       <ColumnDefinition Width="318*" />
@@ -19,7 +19,7 @@
       <RowDefinition Height="36*" />
       <RowDefinition Height="24" />
     </Grid.RowDefinitions>
-    <Label Content="Find what:" Margin="0" Name="label1" VerticalAlignment="Center" />
+    <Label Content="Find what:" Name="label1" VerticalAlignment="Center" />
     <Button Content="Find Next" Grid.Column="2" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnFindNext" VerticalAlignment="Center" Width="75" Click="btnFindNext_Click" TabIndex="2" />
     <ComboBox Grid.Column="1" Height="23" Margin="0" Name="comboBoxWordToFind" VerticalAlignment="Center" IsEditable="True" TabIndex="1" TextBoxBase.TextChanged="comboBoxWordToFind_TextChanged" SelectionChanged="comboBoxWordToFind_SelectionChanged" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Path=SearchWords}" DisplayMemberPath="Key" IsEnabled="{Binding ElementName=checkBoxBookmark, Path=IsChecked, Converter={StaticResource InvBoolConv}}" />
     <Button Content="Count" Grid.Column="2" Grid.Row="1" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnCount" VerticalAlignment="Center" Width="75" Click="btnCount_Click" />
@@ -28,15 +28,15 @@
     <StatusBar Grid.ColumnSpan="3" Grid.Row="5" Height="23" Name="statusBarSearch">
       <StatusBarItem Name="stsBarSearchCount" BorderBrush="#FFC4C4C4" BorderThickness="0,1,0,0" />
     </StatusBar>
-    <CheckBox Content="Wrap around" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Height="16" HorizontalAlignment="Left" Margin="5,0,0,0" Name="checkBoxWrapAround" VerticalAlignment="Center" Click="checkBoxWrapAround_Click" />
+    <CheckBox Content="Wrap around" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Height="22" HorizontalAlignment="Left" Margin="5,0,0,0" Name="checkBoxWrapAround" VerticalAlignment="Center" Click="checkBoxWrapAround_Click" />
     <Grid Grid.Row="2" Grid.ColumnSpan="2">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
 
-      <CheckBox Content="Search Bookmarks" Height="16" HorizontalAlignment="Left" Margin="5,0,0,0" Name="checkBoxBookmark" VerticalAlignment="Center" Click="checkBoxBookmark_Click" />
-      <CheckBox Content="Bookmark line" Grid.Column="1" Height="16" HorizontalAlignment="Left" Name="checkBoxBookmarkLine" VerticalAlignment="Center" Click="checkBoxBookmarkLine_Click" IsEnabled="{Binding ElementName=checkBoxBookmark, Path=IsChecked, Converter={StaticResource InvBoolConv}}" />
+      <CheckBox Content="Search Bookmarks" Height="22" HorizontalAlignment="Left" Margin="5,0,0,0" Name="checkBoxBookmark" VerticalAlignment="Center" Click="checkBoxBookmark_Click" />
+      <CheckBox Content="Bookmark line" Grid.Column="1" Height="22" HorizontalAlignment="Left" Name="checkBoxBookmarkLine" VerticalAlignment="Center" Click="checkBoxBookmarkLine_Click" IsEnabled="{Binding ElementName=checkBoxBookmark, Path=IsChecked, Converter={StaticResource InvBoolConv}}" />
     </Grid>
   </Grid>
 </Window>

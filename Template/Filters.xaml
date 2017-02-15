@@ -14,7 +14,7 @@
       <conv:IntToBoolConverter x:Key="intToBoolConverter" />
     </ResourceDictionary>
   </Window.Resources>
-  <Grid>
+  <Grid Margin="5">
     <Grid.RowDefinitions>
       <RowDefinition Height="180" />
       <RowDefinition Height="127*" />
@@ -86,7 +86,7 @@
           </StackPanel>
         </Button.ToolTip>
       </Button>
-      <Label Grid.Column="1" Grid.Row="2" Height="28" Margin="0,0,5,0" Name="labelFont" VerticalAlignment="Center" Content="{Binding Path=SelectedItem.FilterFontType, ElementName=dataGridFilters, Converter={StaticResource FontToString}, UpdateSourceTrigger=PropertyChanged}" />
+      <Label Grid.Column="1" Grid.Row="2" Name="labelFont" VerticalAlignment="Center" Content="{Binding Path=SelectedItem.FilterFontType, ElementName=dataGridFilters, Converter={StaticResource FontToString}, UpdateSourceTrigger=PropertyChanged}" />
 
       <Grid Grid.Column="2" Grid.Row="0">
         <Grid.ColumnDefinitions>

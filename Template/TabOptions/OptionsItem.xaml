@@ -36,25 +36,25 @@
           <RowDefinition Height="10" />
           <RowDefinition Height="30" />
         </Grid.RowDefinitions>
-        <CheckBox Content="Always on top" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxAlwaysOnTop" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" 
+        <CheckBox Content="Always on top" Height="22" HorizontalAlignment="Left" Margin="0" Name="checkBoxAlwaysOnTop" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0" 
                   TabIndex="1" IsChecked="{Binding Mode=TwoWay, Path=AlwaysOnTop, UpdateSourceTrigger=PropertyChanged}" />
-        <CheckBox Content="Exit with Escape" Grid.Column="1" Grid.Row="0" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxExitWithEscape" VerticalAlignment="Center"
+        <CheckBox Content="Exit with Escape" Grid.Column="1" Grid.Row="0" Height="22" HorizontalAlignment="Left" Margin="0" Name="checkBoxExitWithEscape" VerticalAlignment="Center"
                   TabIndex="2" IsChecked="{Binding Mode=TwoWay, Path=ExitWithEscape, UpdateSourceTrigger=PropertyChanged}" />
-        <CheckBox Content="Always scroll to end of file when new lines appear" Height="16" HorizontalAlignment="Left" Margin="0,7" Name="checkBoxScrollToEnd" VerticalAlignment="Center"
+        <CheckBox Content="Always scroll to end of file when new lines appear" Height="22" HorizontalAlignment="Left" Margin="0,7" Name="checkBoxScrollToEnd" VerticalAlignment="Center"
                   Grid.Row="1" Grid.ColumnSpan="2" TabIndex="3" IsChecked="{Binding Mode=TwoWay, Path=AlwaysScrollToEnd, UpdateSourceTrigger=PropertyChanged}" />
-        <CheckBox Content="Show n lines on tail start" Height="16" HorizontalAlignment="Left" Margin="0,7" Name="checkBoxShowLines" VerticalAlignment="Center" Grid.Row="2" 
+        <CheckBox Content="Show n lines on tail start" Height="22" HorizontalAlignment="Left" Margin="0,7" Name="checkBoxShowLines" VerticalAlignment="Center" Grid.Row="2" 
                   Grid.Column="0" TabIndex="4" IsChecked="{Binding Mode=TwoWay, Path=ShowNLineAtStart, UpdateSourceTrigger=PropertyChanged}" />
-        <CheckBox Content="Restore window position" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxSaveWindowPosition" VerticalAlignment="Center" Grid.Row="3" 
+        <CheckBox Content="Restore window position" Height="22" HorizontalAlignment="Left" Margin="0" Name="checkBoxSaveWindowPosition" VerticalAlignment="Center" Grid.Row="3" 
                   Grid.Column="0" TabIndex="6" IsChecked="{Binding Mode=TwoWay, Path=SaveWindowPosition, UpdateSourceTrigger=PropertyChanged}" />
-        <CheckBox Content="Restore window size" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxSaveWindowSize" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1"
+        <CheckBox Content="Restore window size" Height="22" HorizontalAlignment="Left" Margin="0" Name="checkBoxSaveWindowSize" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1"
                   TabIndex="7" IsChecked="{Binding Mode=TwoWay, Path=RestoreWindowSize, UpdateSourceTrigger=PropertyChanged}" />
-        <Label Content="Default thread priority:" Grid.Row="4" Grid.Column="0" Height="28" HorizontalAlignment="Left" Margin="0" Name="label1" VerticalAlignment="Center" />
+        <Label Content="Default thread priority:" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Center" />
         <ComboBox Grid.Column="1" Grid.Row="4" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxThreadPriority" VerticalAlignment="Center" Width="120" 
                   SelectionChanged="comboBoxThreadPriority_SelectionChanged" TabIndex="8" />
-        <Label Content="Default thread refresh rate:" Grid.Row="5" Grid.Column="0" Height="28" HorizontalAlignment="Left" Margin="0" Name="label2" VerticalAlignment="Center" />
+        <Label Content="Default thread refresh rate:" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left" Name="label2" VerticalAlignment="Center" />
         <ComboBox Grid.Column="1" Grid.Row="5" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxThreadRefreshRate" VerticalAlignment="Center" Width="120"
                   SelectionChanged="comboBoxThreadRefreshRate_SelectionChanged" TabIndex="9" />
-        <Label Content="Default time format:" Grid.Row="6" Height="28" HorizontalAlignment="Left" Margin="0" Name="label4" VerticalAlignment="Center" />
+        <Label Content="Default time format:" Grid.Row="6" HorizontalAlignment="Left" Margin="0" Name="label4" VerticalAlignment="Center" />
         <ComboBox Grid.Column="1" Grid.Row="6" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxTimeFormat" VerticalAlignment="Center" Width="120" 
                   SelectionChanged="comboBoxTimeFormat_SelectionChanged" TabIndex="10" />
         <my:Spinner Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="0,3" x:Name="spinnerNLines" VerticalAlignment="Center" Width="50" MaxSpinValue="2000" 
@@ -72,11 +72,11 @@
               </StackPanel>
           </my:Spinner.ToolTip>
         </my:Spinner>
-        <Label Content="Default date format:" Grid.Row="7" Margin="0" Name="label5" VerticalAlignment="Center" />
+        <Label Content="Default date format:" Grid.Row="7" Name="label5" VerticalAlignment="Center"/>
         <ComboBox Grid.Column="1" Grid.Row="7" Height="23" HorizontalAlignment="Left" Margin="0" Name="comboBoxDateFormat" VerticalAlignment="Center" Width="120"
                   SelectionChanged="comboBoxDateFormat_SelectionChanged" TabIndex="11" />
-        <Label Content="lines" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="50,0" Name="label6" VerticalAlignment="Center" />
-        <CheckBox Content="Show line numbers" Grid.Row="8" Height="16" HorizontalAlignment="Left" Margin="0" Name="checkBoxShowLineNumbers" VerticalAlignment="Center" 
+        <Label Content="lines" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="60,0" Name="label6" VerticalAlignment="Center" />
+        <CheckBox Content="Show line numbers" Grid.Row="8" Height="22" HorizontalAlignment="Left" Margin="0" Name="checkBoxShowLineNumbers" VerticalAlignment="Center" 
                   IsChecked="{Binding Mode=TwoWay, Path=ShowLineNumbers, UpdateSourceTrigger=PropertyChanged}" TabIndex="12" />
         <Button Content="Add to 'Send to'" Grid.Row="8" Grid.Column="1" Height="23" HorizontalAlignment="Left" Name="btnSendToMenu" VerticalAlignment="Center" Width="120"
                 Click="btnSendToMenu_Click" TabIndex="13">

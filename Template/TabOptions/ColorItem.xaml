@@ -15,7 +15,7 @@
       <RowDefinition Height="25" />
     </Grid.RowDefinitions>
     <Border BorderBrush="Silver" BorderThickness="1" Grid.ColumnSpan="2" Margin="0,0,0,5" Name="border1">
-      <Grid Name="gridColorItem">
+      <Grid Name="gridColorItem" Margin="5">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="160" />
           <ColumnDefinition Width="174*" />
@@ -32,28 +32,28 @@
           <RowDefinition Height="35" />
           <RowDefinition Height="67*" />
         </Grid.RowDefinitions>
-        <Label Content="Font color:" Grid.Column="0" Grid.Row="0" Margin="0" Name="label1" VerticalAlignment="Center" />
-        <Label Content="Background color:" Grid.Column="0" Grid.Row="1" Margin="0" Name="label2" VerticalAlignment="Center" />
+        <Label Content="Font color:" Grid.Column="0" Grid.Row="0" Name="label1" VerticalAlignment="Center" />
+        <Label Content="Background color:" Grid.Column="0" Grid.Row="1" Name="label2" VerticalAlignment="Center" />
         <Rectangle Grid.Column="1" Margin="30,5" Name="foregroundColor" Stroke="Black" Fill="{Binding Path=GuiDefaultForegroundColor, UpdateSourceTrigger=PropertyChanged}" />
         <Rectangle Grid.Column="1" Grid.Row ="1" Margin="30,5" Name="backgroundColor" Stroke="Black" Fill="{Binding Path=GuiDefaultBackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
         <Button Content="Pick Color" Grid.Column="2" Grid.Row="0" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnColorPickerForeground" VerticalAlignment="Center" Width="75" Click="btnColorPickerForeground_Click" TabIndex="1" />
         <Button Content="Pick Color" Grid.Column="2" Grid.Row="1" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnColorPickerBackground" VerticalAlignment="Center" Width="75" Click="btnColorPickerBackground_Click" TabIndex="2" />
-        <Label Content="Inactive font color:" Grid.Column="0" Grid.Row="2" Margin="0" Name="label3" VerticalAlignment="Center" />
-        <Label Content="Inactive background color:" Grid.Column="0" Grid.Row="3" Margin="0" Name="label4" VerticalAlignment="Center" />
+        <Label Content="Inactive font color:" Grid.Column="0" Grid.Row="2" Name="label3" VerticalAlignment="Center" />
+        <Label Content="Inactive background color:" Grid.Column="0" Grid.Row="3" Name="label4" VerticalAlignment="Center" />
         <Rectangle Grid.Column="1" Grid.Row="2" Margin="30,5" Name="inactiveForegroundColor" Stroke="Black" Fill="{Binding Path=GuiDefaultInactiveForegroundColor, UpdateSourceTrigger=PropertyChanged}" />
         <Rectangle Grid.Column="1" Grid.Row ="3" Margin="30,5" Name="inactiveBackgroundColor" Stroke="Black" Fill="{Binding Path=GuiDefaultInactiveBackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
         <Button Content="Pick Color" Grid.Column="2" Grid.Row="2" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnColorPickerInactiveForeground" VerticalAlignment="Center" Width="75" Click="btnColorPickerInactiveForeground_Click" TabIndex="3" />
         <Button Content="Pick Color" Grid.Column="2" Grid.Row="3" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnColorPickerInactiveBackground" VerticalAlignment="Center" Width="75" Click="btnColorPickerInactiveBackground_Click" TabIndex="4" />
-        <Label Content="Highlight font color:" Grid.Column="0" Grid.Row="4" Margin="0" Name="label5" VerticalAlignment="Center" />
+        <Label Content="Highlight font color:" Grid.Column="0" Grid.Row="4" Name="label5" VerticalAlignment="Center" />
         <Rectangle Grid.Column="1" Grid.Row="4" Margin="30,5" Name="findHighlightForegroundColor" Stroke="Black" Fill="{Binding Path=GuiDefaultHighlightForegroundColor, UpdateSourceTrigger=PropertyChanged}" />
         <Button Content="Pick Color" Grid.Column="2" Grid.Row="4" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnFindHightlightColor" VerticalAlignment="Center" Width="75" Click="btnFindHighlightColor_Click" TabIndex="5" />
-        <Label Content="Highlight background color:" Grid.Column="0" Grid.Row="5" Margin="0" Name="label6" VerticalAlignment="Center" />
+        <Label Content="Highlight background color:" Grid.Column="0" Grid.Row="5" Name="label6" VerticalAlignment="Center" />
         <Rectangle Grid.Column="1" Grid.Row="5" Margin="30,5" Name="findHighlightBackgroundColor" Stroke="Black" Fill="{Binding Path=GuiDefaultHighlightBackgroundColor, UpdateSourceTrigger=PropertyChanged}" />
         <Button Content="Pick Color" Grid.Column="2" Grid.Row="5" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnFindHightlightBackgroundColor" VerticalAlignment="Center" Width="75" Click="btnFindHighlightBackgroundColor_Click" TabIndex="6" />
-        <Label Content="Line numbers color:" Grid.Column="0" Grid.Row="6" Margin="0" Name="label7" VerticalAlignment="Center" />
+        <Label Content="Line numbers color:" Grid.Column="0" Grid.Row="6" Name="label7" VerticalAlignment="Center" />
         <Rectangle Grid.Column="1" Grid.Row="6" Margin="30,5" Name="lineNumbersColor" Stroke="Black" Fill="{Binding Path=GuiDefaultLineNumbersColor, UpdateSourceTrigger=PropertyChanged}" />
         <Button Content="Pick Color" Grid.Column="2" Grid.Row="6" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnLineNumbersColor" VerticalAlignment="Center" Width="75" Click="btnLineNumbersColor_Click" TabIndex="7" />
-        <Label Content="Highlight color:" Grid.Column="0" Grid.Row="7" Margin="0" Name="label8" VerticalAlignment="Center" />
+        <Label Content="Highlight color:" Grid.Column="0" Grid.Row="7" Name="label8" VerticalAlignment="Center" />
         <Rectangle Grid.Column="1" Grid.Row="7" Margin="30,5" Name="highlightColor" Stroke="Black" Fill="{Binding Path=GuiDefaultHighlightColor, UpdateSourceTrigger=PropertyChanged}" />
         <Button Content="Pick Color" Grid.Column="2" Grid.Row="7" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnHighlightColor" VerticalAlignment="Center" Width="75" Click="btnHighlightColor_Click" TabIndex="8" />
 
