@@ -5,11 +5,14 @@
     <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Language/en-EN.xaml"/>
-        <ResourceDictionary Source="/Resources/TabControl.xaml"/>
-        <ResourceDictionary Source="/Template/WatermarkTextBox/WatermarkTextBox.xaml"/>
-        <ResourceDictionary Source="/Resources/ScrollbarResources.xaml"/>
-        <ResourceDictionary Source="/Resources/CheckBox.xaml"/>
+        <ResourceDictionary Source="Language/en-EN.xaml"/>
+        <ResourceDictionary Source="Resources/AndroidCheckBox.xaml"/>
+        <ResourceDictionary Source="Resources/AndroidRadioButton.xaml"/>
+        <ResourceDictionary Source="Resources/TabControl.xaml"/>
+        <ResourceDictionary Source="Resources/TextBox.xaml"/>
+        <ResourceDictionary Source="Resources/Label.xaml"/>
+        <ResourceDictionary Source="Template/WatermarkTextBox/WatermarkTextBox.xaml"/>
+        <ResourceDictionary Source="Resources/ScrollbarResources.xaml"/>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>
