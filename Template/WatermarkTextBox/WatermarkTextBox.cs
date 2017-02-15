@@ -17,8 +17,14 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
 
     #region Public Properties
 
+    /// <summary>
+    /// Select all on got focus property
+    /// </summary>
     public static readonly DependencyProperty SelectAllOnGotFocusProperty = DependencyProperty.Register("SelectAllOnGotFocus", typeof(bool), typeof(WatermarkTextBox), new PropertyMetadata(false));
 
+    /// <summary>
+    /// Select all on got focus
+    /// </summary>
     public bool SelectAllOnGotFocus
     {
       get
@@ -31,8 +37,14 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
       }
     }
 
+    /// <summary>
+    /// Set watermark property
+    /// </summary>
     public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(object), typeof(WatermarkTextBox), new UIPropertyMetadata(null));
 
+    /// <summary>
+    /// Set watermark
+    /// </summary>
     public object Watermark
     {
       get
@@ -45,8 +57,14 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
       }
     }
 
+    /// <summary>
+    /// Watermark template property
+    /// </summary>
     public static readonly DependencyProperty WatermarkTemplateProperty = DependencyProperty.Register("WatermarkTemplate", typeof(DataTemplate), typeof(WatermarkTextBox), new UIPropertyMetadata(null));
 
+    /// <summary>
+    /// Watermark template
+    /// </summary>
     public DataTemplate WatermarkTemplate
     {
       get
@@ -61,6 +79,10 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
 
     #endregion
 
+    /// <summary>
+    /// On got keyboard focus event
+    /// </summary>
+    /// <param name="e">KeyboadFocuesChangedEvent arguments</param>
     protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
     {
       base.OnGotKeyboardFocus(e);
@@ -69,6 +91,10 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
         SelectAll();
     }
 
+    /// <summary>
+    /// On preview mouse left button down event
+    /// </summary>
+    /// <param name="e">MouseButtonEvent arguments</param>
     protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
     {
       if(!IsKeyboardFocused && SelectAllOnGotFocus)

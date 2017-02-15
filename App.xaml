@@ -11,6 +11,7 @@
         <ResourceDictionary Source="Resources/TabControl.xaml"/>
         <ResourceDictionary Source="Resources/TextBox.xaml"/>
         <ResourceDictionary Source="Resources/Label.xaml"/>
+        <ResourceDictionary Source="Resources/Button.xaml"/>
         <ResourceDictionary Source="Template/WatermarkTextBox/WatermarkTextBox.xaml"/>
         <ResourceDictionary Source="Resources/ScrollbarResources.xaml"/>
       </ResourceDictionary.MergedDictionaries>
