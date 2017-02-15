@@ -4,7 +4,7 @@ using System.Text;
 using log4net.Appender;
 
 
-namespace Org.Vs.TailForWinLogging
+namespace Org.Vs.TailForWin.Logging
 {
   public class ZippingRollingFileAppender : RollingFileAppender
   {
