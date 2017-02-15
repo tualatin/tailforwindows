@@ -8,6 +8,7 @@
         <ResourceDictionary Source="Language/en-EN.xaml"/>
         <ResourceDictionary Source="Resources/AndroidCheckBox.xaml"/>
         <ResourceDictionary Source="Resources/AndroidRadioButton.xaml"/>
+        <ResourceDictionary Source="Resources/AndroidSlider.xaml"/>
         <ResourceDictionary Source="Resources/TabControl.xaml"/>
         <ResourceDictionary Source="Resources/TextBox.xaml"/>
         <ResourceDictionary Source="Resources/Label.xaml"/>
