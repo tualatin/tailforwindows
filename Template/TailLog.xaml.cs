@@ -36,7 +36,6 @@ namespace Org.Vs.TailForWin.Template
     private string currentFileName;
     private FileReader myReader;
     private bool stopThread;
-    private bool isInit;
     private MailClient mySmtp;
     private SmartWatch smartWatch;
 
@@ -457,7 +456,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxRefreshRate_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if(!isInit)
+      if(!IsInitialized)
         return;
 
       ETailRefreshRate selection = (ETailRefreshRate) comboBoxRefreshRate.SelectedItem;
@@ -467,7 +466,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxThreadPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if(!isInit)
+      if(!IsInitialized)
         return;
 
       ThreadPriority selection = (ThreadPriority) comboBoxThreadPriority.SelectedItem;
@@ -901,24 +900,24 @@ namespace Org.Vs.TailForWin.Template
       if(!string.IsNullOrEmpty(tabProperties.FileName) && myReader.FileEncoding != null)
       {
         LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
-      {
-        string time = tabProperties.LastRefreshTime.ToString(SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat));
-        LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = string.Format("Size={0:0.###} Kb, Last refresh time={1}", myReader.FileSizeKb, time);
-        LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Format("{0}{1}", Application.Current.FindResource("LinesRead"), textBlockTailLog.LineCount);
-        LogFile.APP_MAIN_WINDOW.StatusBarEncodeCb.SelectedValue = tabProperties.FileEncoding;
+        {
+          string time = tabProperties.LastRefreshTime.ToString(SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat));
+          LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = string.Format("Size={0:0.###} Kb, Last refresh time={1}", myReader.FileSizeKb, time);
+          LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Format("{0}{1}", Application.Current.FindResource("LinesRead"), textBlockTailLog.LineCount);
+          LogFile.APP_MAIN_WINDOW.StatusBarEncodeCb.SelectedValue = tabProperties.FileEncoding;
 
-        SetToolTipDetailText();
-      }), DispatcherPriority.Background);
+          SetToolTipDetailText();
+        }), DispatcherPriority.Background);
       }
       else
       {
         LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
-      {
-        LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = string.Empty;
-        LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Empty;
+        {
+          LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = string.Empty;
+          LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Empty;
 
-        SetToolTipDetailText();
-      }), DispatcherPriority.Background);
+          SetToolTipDetailText();
+        }), DispatcherPriority.Background);
       }
     }
 
@@ -931,14 +930,14 @@ namespace Org.Vs.TailForWin.Template
       else
       {
         textBlockTailLog.Dispatcher.Invoke(new Action(() =>
-      {
-        if(SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMd || SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMD)
-          StringFormatData.StringFormat = string.Format("{0} {1}:ss.fff", SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat));
-        if(SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMSSd || SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMSSD)
-          StringFormatData.StringFormat = string.Format("{0} {1}.fff", SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat));
+        {
+          if(SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMd || SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMD)
+            StringFormatData.StringFormat = string.Format("{0} {1}:ss.fff", SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat));
+          if(SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMSSd || SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMSSD)
+            StringFormatData.StringFormat = string.Format("{0} {1}.fff", SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat));
 
-        textBlockTailLog.AppendText(line);
-      }), DispatcherPriority.Background);
+          textBlockTailLog.AppendText(line);
+        }), DispatcherPriority.Background);
       }
 
       // Only when tab is active update statusbar!
@@ -1054,7 +1053,6 @@ namespace Org.Vs.TailForWin.Template
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
       InitComboBoxes();
-      isInit = true;
 
       comboBoxRefreshRate.SelectedValue = tabProperties.RefreshRate;
       comboBoxThreadPriority.SelectedValue = tabProperties.ThreadPriority;

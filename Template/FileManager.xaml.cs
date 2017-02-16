@@ -33,7 +33,6 @@ namespace Org.Vs.TailForWin.Template
 
     private EFileManagerState fmState;
     private FileManagerStructure fmDoc;
-    private readonly bool isInit;
 
     /// <summary>
     /// Default settings or settings of added file
@@ -295,10 +294,10 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxCategory_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      e.Handled = true;
-
-      if(!isInit)
+      if (!IsInitialized)
         return;
+
+      e.Handled = true;
 
       if(comboBoxCategory.SelectedItem == null || fmWorkingProperties == null)
         return;
@@ -309,10 +308,10 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxRefreshRate_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      e.Handled = true;
-
-      if(!isInit)
+      if (!IsInitialized)
         return;
+
+      e.Handled = true;
 
       fmWorkingProperties.RefreshRate = (ETailRefreshRate) comboBoxRefreshRate.SelectedItem;
       ChangeFmStateToEditItem();
@@ -320,10 +319,9 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxThreadPriority_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      e.Handled = true;
-
-      if(!isInit)
+      if (!IsInitialized)
         return;
+      e.Handled = true;
 
       fmWorkingProperties.ThreadPriority = (ThreadPriority) comboBoxThreadPriority.SelectedItem;
       ChangeFmStateToEditItem();
@@ -331,10 +329,10 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxFileEncode_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      e.Handled = true;
-
-      if(!isInit)
+      if (!IsInitialized)
         return;
+
+      e.Handled = true;
 
       fmWorkingProperties.FileEncoding = (Encoding) comboBoxFileEncode.SelectedItem;
       ChangeFmStateToEditItem();
@@ -342,6 +340,9 @@ namespace Org.Vs.TailForWin.Template
 
     private void dataGridFiles_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
+      if (!IsInitialized)
+        return;
+
       e.Handled = true;
 
       fmWorkingProperties = dataGridFiles.SelectedItem as FileManagerData;
@@ -359,12 +360,18 @@ namespace Org.Vs.TailForWin.Template
 
     private void textBlockDescription_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
+      if (!IsInitialized)
+        return;
+
       if(!string.IsNullOrEmpty(textBlockDescription.Text))
         ChangeFmStateToEditItem();
     }
 
     private void textBoxNewCategorie_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
+      if (!IsInitialized)
+        return;
+
       ChangeFmStateToEditItem();
     }
 
@@ -472,7 +479,7 @@ namespace Org.Vs.TailForWin.Template
     private void ChangeFmStateToEditItem()
     {
       // TODO better solution
-      if(!isInit)
+      if(!IsInitialized)
         return;
 
       if(fmState != EFileManagerState.OpenFileManager || fmMemento == null || fmWorkingProperties == null || fmWorkingProperties.EqualsProperties(fmMemento))
