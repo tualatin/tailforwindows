@@ -89,7 +89,6 @@ namespace Org.Vs.TailForWin.Template
       }
 
       comboBoxCategory.SelectedIndex = 0;
-      isInit = true;
     }
 
     #region ClickEvents
