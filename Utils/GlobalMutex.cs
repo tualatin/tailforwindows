@@ -77,6 +77,7 @@ namespace Org.Vs.TailForWin.Utils
             LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
           }
         }
+
         mutexes.RemoveAt(item.Index);
 
         return (true);

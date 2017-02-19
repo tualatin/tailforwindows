@@ -4,8 +4,11 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
+using log4net;
 using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data.Events;
+using Org.Vs.TailForWin.Native;
 using Org.Vs.TailForWin.Utils;
 
 
@@ -16,6 +19,8 @@ namespace Org.Vs.TailForWin.Template
   /// </summary>
   public partial class SearchDialog : INotifyPropertyChanged
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(SearchData));
+
     #region Public EventHandler
 
     /// <summary>
@@ -52,16 +57,15 @@ namespace Org.Vs.TailForWin.Template
 
     private readonly FileManagerStructure fmStructure;
     private ObservableDictionary<string, string> searchWords;
+    private HwndSource source;
+    private const int HOTKEY_ID = 7000;
 
     /// <summary>
     /// Combobox search word history
     /// </summary>
     public ObservableDictionary<string, string> SearchWords
     {
-      get
-      {
-        return (searchWords);
-      }
+      get => (searchWords);
       set
       {
         searchWords = value;
@@ -72,13 +76,7 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// Wrap search active
     /// </summary>
-    public bool WrapSearch
-    {
-      get
-      {
-        return (fmStructure.Wrap);
-      }
-    }
+    public bool WrapSearch => (fmStructure.Wrap);
 
 
     /// <summary>
@@ -94,6 +92,58 @@ namespace Org.Vs.TailForWin.Template
       SearchWords = new ObservableDictionary<string, string>();
     }
 
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+      fmStructure.ReadFindHistory(ref searchWords);
+      checkBoxWrapAround.IsChecked = fmStructure.Wrap;
+      comboBoxWordToFind.DataContext = this;
+      // comboBoxWordToFind.DisplayMemberPath = "Key";
+
+      WrapAroundBool wrap = new WrapAroundBool
+      {
+        Wrap = fmStructure.Wrap
+      };
+
+      WrapAround?.Invoke(this, wrap);
+      SetFocusToTextBox();
+    }
+
+    /// <summary>
+    /// Raises the SourceInitialized event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnSourceInitialized(EventArgs e)
+    {
+      base.OnSourceInitialized(e);
+
+      var helper = new WindowInteropHelper(this);
+      source = HwndSource.FromHwnd(helper.Handle);
+      source.AddHook(HwndHook);
+      RegisterHotKey();
+    }
+
+    private void Window_Closing(object sender, CancelEventArgs e)
+    {
+      SaveBoxPosition();
+      HideSearchBox?.Invoke(this, EventArgs.Empty);
+
+      e.Cancel = true;
+      Hide();
+    }
+
+    /// <summary>
+    /// Raises the Closed event.
+    /// </summary>
+    /// <param name="e">The EventArgs that contains the event data.</param>
+    protected override void OnClosed(EventArgs e)
+    {
+      source.RemoveHook(HwndHook);
+      source = null;
+
+      UnregisterHotKey();
+      base.OnClosed(e);
+    }
+
     /// <summary>
     /// Set title of search window
     /// </summary>
@@ -102,7 +152,7 @@ namespace Org.Vs.TailForWin.Template
       set
       {
         string advanced = value;
-        Title = string.Format("{0} in {1}", Application.Current.FindResource("FindDialogTitle"), advanced);
+        Title = $"{Application.Current.FindResource("FindDialogTitle")} in {advanced}";
       }
     }
 
@@ -127,7 +177,6 @@ namespace Org.Vs.TailForWin.Template
     private void btnCount_Click(object sender, RoutedEventArgs e)
     {
       DoFindNextEvent(true);
-
       CountSearchEvent?.Invoke(this, EventArgs.Empty);
     }
 
@@ -143,22 +192,20 @@ namespace Org.Vs.TailForWin.Template
     {
       WrapAroundBool wrap = new WrapAroundBool();
 
-      if(checkBoxWrapAround.IsChecked == true)
+      if(checkBoxWrapAround.IsChecked.Value)
         wrap.Wrap = fmStructure.Wrap = true;
       else
         wrap.Wrap = fmStructure.Wrap = false;
 
       fmStructure.SaveFindHistoryWrap();
-
       WrapAround?.Invoke(this, wrap);
     }
 
     private void checkBoxBookmark_Click(object sender, RoutedEventArgs e)
     {
-      if(checkBoxBookmarkLine.IsChecked == true)
+      if(checkBoxBookmarkLine.IsChecked.Value)
       {
         checkBoxBookmarkLine.IsChecked = false;
-
         checkBoxBookmarkLine_Click(sender, e);
       }
 
@@ -169,7 +216,7 @@ namespace Org.Vs.TailForWin.Template
     {
       BookmarkLineBool bookmarkLine = new BookmarkLineBool();
 
-      if(checkBoxBookmarkLine.IsChecked == true)
+      if(checkBoxBookmarkLine.IsChecked.Value)
         bookmarkLine.BookmarkLine = true;
       else
         bookmarkLine.BookmarkLine = false;
@@ -211,6 +258,42 @@ namespace Org.Vs.TailForWin.Template
       SettingsHelper.SaveSearchWindowPosition();
     }
 
+    private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+      const int WM_HOTKEY = 0x0312;
+
+      switch(msg)
+      {
+      case WM_HOTKEY:
+
+        switch(wParam.ToInt32())
+        {
+        case HOTKEY_ID:
+
+          btnFindNext_Click(this, null);
+          handled = true;
+          break;
+        }
+        break;
+      }
+      return (IntPtr.Zero);
+    }
+
+    private void RegisterHotKey()
+    {
+      var helper = new WindowInteropHelper(this);
+      const uint VK_F3 = 0x72;
+
+      if(!NativeMethods.RegisterHotKey(helper.Handle, HOTKEY_ID, 0, VK_F3))
+        LOG.Error("{0} can not register hotkey", System.Reflection.MethodBase.GetCurrentMethod().Name);
+    }
+
+    private void UnregisterHotKey()
+    {
+      var helper = new WindowInteropHelper(this);
+      NativeMethods.UnregisterHotKey(helper.Handle, HOTKEY_ID);
+    }
+
     #endregion
 
     #region Events
@@ -230,7 +313,7 @@ namespace Org.Vs.TailForWin.Template
         WordToFind = string.Empty
       };
 
-      if(checkBoxBookmark.IsChecked == true)
+      if(checkBoxBookmark.IsChecked.Value)
       {
         searching.SearchBookmarks = true;
       }
@@ -244,31 +327,6 @@ namespace Org.Vs.TailForWin.Template
       }
 
       FindNextEvent?.Invoke(this, searching);
-    }
-
-    private void Window_Closing(object sender, CancelEventArgs e)
-    {
-      SaveBoxPosition();
-      HideSearchBox?.Invoke(this, EventArgs.Empty);
-
-      e.Cancel = true;
-      Hide();
-    }
-
-    private void Window_Loaded(object sender, RoutedEventArgs e)
-    {
-      fmStructure.ReadFindHistory(ref searchWords);
-      checkBoxWrapAround.IsChecked = fmStructure.Wrap;
-      comboBoxWordToFind.DataContext = this;
-      // comboBoxWordToFind.DisplayMemberPath = "Key";
-
-      WrapAroundBool wrap = new WrapAroundBool
-      {
-        Wrap = fmStructure.Wrap
-      };
-
-      WrapAround?.Invoke(this, wrap);
-      SetFocusToTextBox();
     }
 
     private void comboBoxWordToFind_TextChanged(object sender, TextChangedEventArgs e)
@@ -285,14 +343,26 @@ namespace Org.Vs.TailForWin.Template
 
     #region INotifyPropertyChanged Members
 
+    /// <summary>
+    /// PropertyChanged event
+    /// </summary>
     public event PropertyChangedEventHandler PropertyChanged;
 
+    /// <summary>
+    /// OnPropertyChanged
+    /// </summary>
+    /// <param name="name">Name of property</param>
     protected void OnPropertyChanged(string name)
     {
       PropertyChangedEventHandler handler = PropertyChanged;
       handler?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
+    /// <summary>
+    /// ItemPropertyChanged
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     protected static void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       NotifyCollectionChangedEventArgs a = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
