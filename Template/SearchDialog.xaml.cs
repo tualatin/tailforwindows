@@ -137,10 +137,14 @@ namespace Org.Vs.TailForWin.Template
     /// <param name="e">The EventArgs that contains the event data.</param>
     protected override void OnClosed(EventArgs e)
     {
-      source.RemoveHook(HwndHook);
-      source = null;
+      if(source != null)
+      {
+        source.RemoveHook(HwndHook);
+        source = null;
 
-      UnregisterHotKey();
+        UnregisterHotKey();
+      }
+
       base.OnClosed(e);
     }
 

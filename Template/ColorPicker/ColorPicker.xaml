@@ -46,24 +46,11 @@
       </Grid.ColumnDefinitions>
 
       <!-- Colorbox, Column1-->
-      <Grid Grid.Column="0" Grid.Row="0" Margin="10,30,0,0" >
-
-        <Border BorderBrush="Black"
-                BorderThickness="2"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                Background="White"
-                Width="154"
-                Height="154">
+      <Grid Grid.Column="0" Grid.Row="0" Margin="10,30,0,0">
+        <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Top" Background="White" Width="154" Height="154">
         </Border>
         <!-- Selection, Column 0-->
-        <Image x:Name="ColorImage"
-                 Width="150"
-                 Height="150"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Top"
-                 Margin="2"
-                 Source="/TailForWin;component/Res/ColorSwatch.png"/>
+        <Image x:Name="ColorImage" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="2" Source="/TailForWin;component/Res/ColorSwatch.png"/>
         <Canvas x:Name="canvasImage"
                 Width="150"
                 Height="150"
@@ -101,99 +88,64 @@
       <StackPanel Grid.Column="2" Orientation="Vertical" Margin="0,0,28,0">
 
         <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
-          <Label Content="A" Margin="5,0,0,0" HorizontalAlignment="Left"
-                            Foreground="Black" FontWeight="Bold" VerticalAlignment="Center"/>
-          <Border CornerRadius="5" BorderBrush="Black" Background="LightGray"
-                            BorderThickness="1" Width="50" Height="30">
-            <TextBox x:Name="txtAlpha" BorderThickness="0" Background="LightGray"
-                            BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" />
+          <Label Content="A" Margin="5,0,0,0" HorizontalAlignment="Left" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center"/>
+          <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Width="50" Height="30">
+            <TextBox x:Name="txtAlpha" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False"/>
           </Border>
-          <Border CornerRadius="5" BorderBrush="Black" Background="LightGray"
-                            BorderThickness="1" Margin="10,0,0,0" Width="50" Height="30">
-            <TextBox x:Name="txtAlphaHex" BorderThickness="0"
-                            Background="LightGray" BorderBrush="Transparent"
-                            Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="1"/>
+          <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Margin="10,0,0,0" Width="50" Height="30">
+            <TextBox x:Name="txtAlphaHex" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="1"/>
           </Border>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-          <Label Content="R" Margin="5,0,0,0" HorizontalAlignment="Left"
-                            Foreground="Black" FontWeight="Bold" VerticalAlignment="Center"/>
-          <Border CornerRadius="5" BorderBrush="Black" Background="LightGray"
-                            BorderThickness="1" Width="50" Height="30">
-            <TextBox x:Name="txtRed" BorderThickness="0" Background="LightGray"
-                            BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="2"/>
+          <Label Content="R" Margin="5,0,0,0" HorizontalAlignment="Left" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center"/>
+          <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Width="50" Height="30">
+            <TextBox x:Name="txtRed" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center"
+                     Padding="0,5,0,0" IsTabStop="False" MaxLines="2"/>
           </Border>
-          <Border CornerRadius="5" BorderBrush="Black" Background="LightGray"
-                            BorderThickness="1" Margin="10,0,0,0" Width="50" Height="30">
-            <TextBox x:Name="txtRedHex" BorderThickness="0" Background="LightGray"
-                            BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="3"/>
+          <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Margin="10,0,0,0" Width="50" Height="30">
+            <TextBox x:Name="txtRedHex" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center"
+                     Padding="0,5,0,0" IsTabStop="False" MaxLines="3"/>
           </Border>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-          <Label Content="G" Margin="5,0,0,0" HorizontalAlignment="Left"
-                            Foreground="Black" FontWeight="Bold"
-                            VerticalAlignment="Center"/>
-          <Border CornerRadius="5" BorderBrush="Black" Background="LightGray"
-                            BorderThickness="1" Width="50" Height="30">
-            <TextBox x:Name="txtGreen" BorderThickness="0"
-                            Background="LightGray" BorderBrush="Transparent"
+          <Label Content="G" Margin="5,0,0,0" HorizontalAlignment="Left" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center"/>
+          <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Width="50" Height="30">
+            <TextBox x:Name="txtGreen" BorderThickness="0" Background="LightGray" BorderBrush="Transparent"
                             Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="4"/>
           </Border>
-          <Border CornerRadius="5" BorderBrush="Black" Background="LightGray"
-                            BorderThickness="1" Margin="10,0,0,0" Width="50" Height="30">
-            <TextBox x:Name="txtGreenHex" BorderThickness="0"
-                            Background="LightGray" BorderBrush="Transparent"
+          <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Margin="10,0,0,0" Width="50" Height="30">
+            <TextBox x:Name="txtGreenHex" BorderThickness="0" Background="LightGray" BorderBrush="Transparent"
                             Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="5"/>
           </Border>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-          <Label Content="B" Margin="5,0,0,0" HorizontalAlignment="Left"
-                           Foreground="Black" FontWeight="Bold"
-                           VerticalAlignment="Center"/>
-          <Border CornerRadius="5" BorderBrush="Black" Background="LightGray"
-                           BorderThickness="1" Width="50" Height="30">
-            <TextBox x:Name="txtBlue" BorderThickness="0" Background="LightGray"
-                           BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="6"/>
+          <Label Content="B" Margin="5,0,0,0" HorizontalAlignment="Left" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center"/>
+          <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Width="50" Height="30">
+            <TextBox x:Name="txtBlue" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" 
+                     Padding="0,5,0,0" IsTabStop="False" MaxLines="6"/>
           </Border>
-          <Border CornerRadius="5" BorderBrush="Black" Background="LightGray"
-                            BorderThickness="1" Margin="10,0,0,0" Width="50" Height="30">
-            <TextBox x:Name="txtBlueHex" BorderThickness="0"
-                            Background="LightGray" BorderBrush="Transparent"
-                            Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="7"/>
+          <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Margin="10,0,0,0" Width="50" Height="30">
+            <TextBox x:Name="txtBlueHex" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" 
+                     TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="7"/>
           </Border>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-          <Border CornerRadius="5" Margin="22,0,0,0" Background="LightGray"
-                            BorderBrush="Black" BorderThickness="1" Width="112" Height="30">
-            <TextBox x:Name="txtAll" BorderThickness="0" Background="LightGray"
-                            BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="8"/>
+          <Border CornerRadius="5" Margin="22,0,0,0" BorderBrush="Gainsboro" BorderThickness="1" Width="112" Height="30">
+            <TextBox x:Name="txtAll" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" 
+                     Padding="0,5,0,0" IsTabStop="False" MaxLines="8"/>
           </Border>
         </StackPanel>
       </StackPanel>
     </Grid>
 
     <!--AlphaSlider-->
-    <Border x:Name="AlphaBorder"
-                Grid.Row="1" BorderBrush="Black"
-                Height="40"
-                BorderThickness="1"
-                CornerRadius="5"
-                MouseWheel="AlphaSlider_MouseWheel"
-                Margin="10,0,10,0">
-      <Slider x:Name="AlphaSlider"
-                    Orientation="Horizontal"
-                    Minimum="0"
-                    Maximum="255"
-                    SmallChange="1"
-                    LargeChange="25"
-                    VerticalAlignment="Center"
-                    Margin="5"
-                    Value="255"
-                    ValueChanged="AlphaSlider_ValueChanged" TabIndex="9"/>
+    <Border x:Name="AlphaBorder" Grid.Row="1" BorderBrush="Black" Height="40" BorderThickness="1" CornerRadius="5" MouseWheel="AlphaSlider_MouseWheel" Margin="10,0,10,0">
+      <Slider x:Name="AlphaSlider" Orientation="Horizontal" Minimum="0" Maximum="255" SmallChange="1" LargeChange="25" VerticalAlignment="Center" Margin="5"
+                    Value="255" ValueChanged="AlphaSlider_ValueChanged" TabIndex="9"/>
     </Border>
 
   </Grid>
