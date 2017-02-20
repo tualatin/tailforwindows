@@ -108,20 +108,6 @@ namespace Org.Vs.TailForWin.Template
       SetFocusToTextBox();
     }
 
-    /// <summary>
-    /// Raises the SourceInitialized event.
-    /// </summary>
-    /// <param name="e">An EventArgs that contains the event data.</param>
-    protected override void OnSourceInitialized(EventArgs e)
-    {
-      base.OnSourceInitialized(e);
-
-      var helper = new WindowInteropHelper(this);
-      source = HwndSource.FromHwnd(helper.Handle);
-      source.AddHook(HwndHook);
-      RegisterHotKey();
-    }
-
     private void Window_Closing(object sender, CancelEventArgs e)
     {
       SaveBoxPosition();
@@ -131,21 +117,25 @@ namespace Org.Vs.TailForWin.Template
       Hide();
     }
 
-    /// <summary>
-    /// Raises the Closed event.
-    /// </summary>
-    /// <param name="e">The EventArgs that contains the event data.</param>
-    protected override void OnClosed(EventArgs e)
+    private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(source != null)
+      if(IsVisible)
       {
-        source.RemoveHook(HwndHook);
-        source = null;
-
-        UnregisterHotKey();
+        var helper = new WindowInteropHelper(this);
+        source = HwndSource.FromHwnd(helper.Handle);
+        source.AddHook(HwndHook);
+        RegisterHotKey();
       }
+      else
+      {
+        if(source != null)
+        {
+          source.RemoveHook(HwndHook);
+          source = null;
 
-      base.OnClosed(e);
+          UnregisterHotKey();
+        }
+      }
     }
 
     /// <summary>
