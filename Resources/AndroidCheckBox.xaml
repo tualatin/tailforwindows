@@ -98,6 +98,10 @@
               <Setter TargetName="InderminateMark" Property="Fill" Value="#cccccc"/>
               <Setter TargetName="InnerBorder" Property="BorderBrush" Value="#cccccc"/>
             </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="InnerBorder" Property="BorderBrush" Value="#BB34b4e3"/>
+              <Setter TargetName="InnerPath" Property="Stroke" Value="#BB34b4e3"/>
+            </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
       </Setter.Value>

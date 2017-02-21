@@ -68,6 +68,9 @@
             <Trigger Property="IsFocused" Value="True">
               <Setter TargetName="EllipseMain" Property="Stroke" Value="#88029cc7"/>
             </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="EllipseMain" Property="Stroke" Value="#BB34b4e3"/>
+            </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
       </Setter.Value>
