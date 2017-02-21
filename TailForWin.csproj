@@ -282,6 +282,7 @@
     <Compile Include="Template\UpdateController\Webservice.cs" />
     <Compile Include="Template\WatermarkTextBox\WatermarkTextBox.cs" />
     <Compile Include="Data\Events\WrapAroundBool.cs" />
+    <Compile Include="UserControls\TailScrollBar.cs" />
     <Compile Include="Utils\Arg.cs" />
     <Compile Include="Utils\AutoUpdate.cs" />
     <Compile Include="Utils\BuildDate.cs" />

@@ -15,7 +15,7 @@
       </Grid.RowDefinitions>
       
       <!-- GripControl -->
-      <Border BorderThickness="1" CornerRadius="1" Name="SplittGripCtrl">
+      <Border BorderThickness="1" CornerRadius="1" Name="PART_SplitterControl">
         <Border.Style>
           <Style>
             <Setter Property="Border.Background" Value="{StaticResource ScrollBarLightColor}"/>
