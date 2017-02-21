@@ -42,7 +42,13 @@
                     </ColorAnimationUsingKeyFrames>
                   </Storyboard>
                 </VisualState>
-                <VisualState x:Name="MouseOver"/>
+                <VisualState x:Name="MouseOver">
+                  <Storyboard>
+                    <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                      <EasingColorKeyFrame KeyTime="0" Value="#BB34b4e3"/>
+                    </ColorAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
             <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
