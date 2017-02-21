@@ -18,7 +18,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type TextBoxBase}">
-          <Border Name="Border" CornerRadius="2" Padding="2" BorderThickness="1">
+          <Border Name="Border" Padding="2" BorderThickness="1">
             <Border.Background>
               <SolidColorBrush Color="{DynamicResource ControlLightColor}"/>
             </Border.Background>

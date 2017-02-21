@@ -55,7 +55,7 @@
           <VisualState x:Name="Indeterminate"/>
         </VisualStateGroup>
       </VisualStateManager.VisualStateGroups>
-      <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="2" BorderThickness="1">
+      <Border x:Name="Border" Grid.ColumnSpan="2" BorderThickness="1">
         <Border.BorderBrush>
           <SolidColorBrush Color="{DynamicResource BorderMediumColor}"/>
         </Border.BorderBrush>

@@ -32,7 +32,7 @@
       </Style>
       
       
-      <Style x:Key"ScrollViewerControlTemplate" TargetType="ScrollViewer">
+      <!--<Style x:Key"ScrollViewerControlTemplate" TargetType="ScrollViewer">
       <Setter Property="OverridesDefaultStyle" Value="True"/>
       <Setter Property=Template>
         <Setter.Value>
@@ -57,7 +57,7 @@
   </ControlTemplate>
   </Setter.Value>
   </Setter>
-      </Style>
+      </Style>-->
 
       
       <Style x:Key="LeftAligned">

@@ -16,6 +16,9 @@ using Org.Vs.TailForWin.Utils;
 
 namespace Org.Vs.TailForWin.Controller
 {
+  /// <summary>
+  /// FileManager structure
+  /// </summary>
   public class FileManagerStructure : INotifyMaster
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(FileManagerStructure));
@@ -27,6 +30,10 @@ namespace Org.Vs.TailForWin.Controller
     private const string XMLROOT = "fileManager";
 
 
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="findHistory">Find history</param>
     public FileManagerStructure(bool findHistory = false)
     {
       fmFile = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\FileManager.xml";
@@ -321,14 +328,16 @@ namespace Org.Vs.TailForWin.Controller
 
       if(!File.Exists(fmFile))
       {
-        System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("FileNotFound") as string, string.Format("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+        System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("FileNotFound") as string, 
+          $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
         return (null);
       }
 
       if(fmProperties.Count == 0)
       {
-        System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("NoContentFound") as string, string.Format("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+        System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("NoContentFound") as string, 
+          $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
         return (null);
       }
@@ -358,7 +367,8 @@ namespace Org.Vs.TailForWin.Controller
 
         if(!reader.OpenTailFileStream(property.FileName))
         {
-          System.Windows.MessageBox.Show(string.Format("{0} '{1}'", System.Windows.Application.Current.FindResource("FileNotFound"), property.File), string.Format("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+          System.Windows.MessageBox.Show($"{System.Windows.Application.Current.FindResource("FileNotFound")} '{property.File}'",
+            $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
           return;
         }
 
@@ -369,11 +379,26 @@ namespace Org.Vs.TailForWin.Controller
       var xElement = fmDoc.Element(XMLROOT);
 
       if(xElement != null)
-        xElement.Add(AddNode(property));
+      {
+        var newNode = AddNode(property);
+
+        if(newNode == null)
+        {
+          System.Windows.MessageBox.Show("Can not create new FileManager entry. Internal error, please try it again.", $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}",
+            System.Windows.MessageBoxButton.OK);
+          return;
+        }
+
+        xElement.Add(newNode);
+      }
 
       fmDoc.Save(@fmFile, SaveOptions.None);
     }
 
+    /// <summary>
+    /// Update a current XML node
+    /// </summary>
+    /// <param name="property">FileManagerData property</param>
     public void UpdateNode(FileManagerData property)
     {
       try
@@ -526,6 +551,9 @@ namespace Org.Vs.TailForWin.Controller
 
     private XElement AddNode(FileManagerData fmProperty)
     {
+      if(fmProperty == null)
+        return (null);
+
       try
       {
         XElement file = new XElement("file",
