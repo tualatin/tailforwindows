@@ -15,6 +15,7 @@
         <ResourceDictionary Source="Resources/Button.xaml"/>
         <ResourceDictionary Source="Template/WatermarkTextBox/WatermarkTextBox.xaml"/>
         <ResourceDictionary Source="Resources/ScrollbarResources.xaml"/>
+        <ResourceDictionary Source="Resources/ComboBox.xaml"/>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>
