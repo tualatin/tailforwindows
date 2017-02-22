@@ -556,6 +556,9 @@ namespace Org.Vs.TailForWin.Controller
 
       try
       {
+        if (fmProperty.FontType == null)
+          fmProperty.FontType = new Font("Segoe UI", 12f, FontStyle.Regular);
+
         XElement file = new XElement("file",
               new XElement("id", fmProperty.ID),
               new XElement("fileName", fmProperty.FileName),
