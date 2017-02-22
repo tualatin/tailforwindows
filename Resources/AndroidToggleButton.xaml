@@ -17,10 +17,11 @@
         <ControlTemplate TargetType="ToggleButton">
           <Viewbox Stretch="Uniform">
             <Canvas Name="Layer_1" Width="20" Height="20" Canvas.Left="10" Canvas.Top="0">
-              <Ellipse  Canvas.Left="0" Width="20" Height="20" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.5"/>
-              <Ellipse  Canvas.Left="15" Width="20" Height="20" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.5"/>
-              <Border Canvas.Left="10" Width="15" Height="20" Name="rect416927" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0.5,0,0.5"/>
-              <Ellipse x:Name="ellipse"  Canvas.Left="0" Width="20" Height="20" Fill="White" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.3">
+              <Ellipse  Canvas.Left="0" Width="18" Height="18" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.5" Margin="0,1,0,0"/>
+              <Ellipse  Canvas.Left="15" Width="18" Height="18" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.5" Margin="0,1,0,0"/>
+              <Border Canvas.Left="10" Width="16" Height="18" Name="rect416927" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                      Margin="0,1,0,0" BorderThickness="0,0.5,0,0.5"/>
+              <Ellipse x:Name="ellipse"  Canvas.Left="0" Width="20" Height="20" Fill="#FFECE8E8" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="0.3">
                 <Ellipse.RenderTransform>
                   <TranslateTransform X="0" Y="0"/>
                 </Ellipse.RenderTransform>
