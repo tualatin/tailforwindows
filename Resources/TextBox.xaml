@@ -82,7 +82,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type PasswordBox}">
-          <Border x:Name="Border" CornerRadius="2" Padding="2" BorderThickness="1">
+          <Border x:Name="Border" Padding="2" BorderThickness="1">
             <Border.Background>
               <SolidColorBrush Color="{DynamicResource ControlLightColor}"/>
             </Border.Background>
@@ -92,8 +92,19 @@
             <VisualStateManager.VisualStateGroups>
               <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal"/>
-                <VisualState x:Name="Disabled"/>
-                <VisualState x:Name="MouseOver"/>
+                  <VisualState x:Name="Disabled">
+                    <Storyboard>
+                      <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource DisabledControlLightColor}"/>
+                      </ColorAnimationUsingKeyFrames>
+                    </Storyboard>               
+                  <VisualState x:Name="MouseOver">
+                    <Storyboard>
+                      <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                        <EasingColorKeyFrame KeyTime="0" Value="#BB34b4e3"/>
+                      </ColorAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
             <ScrollViewer x:Name="PART_ContentHost"/>

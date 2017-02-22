@@ -169,7 +169,7 @@
           </CheckBox.ToolTip>
         </CheckBox>
 
-        <ToggleButton Name="toggle1" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Height="20" Width="20" TabIndex="10">
+        <ToggleButton Name="toggle" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Width="20" TabIndex="10">
           <ToggleButton.ToolTip>
             <StackPanel>
               <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">More settings</TextBlock>
@@ -181,7 +181,7 @@
               </WrapPanel>
             </StackPanel>
           </ToggleButton.ToolTip>
-          <ToggleButton.Style>
+          <!--<ToggleButton.Style>
             <Style TargetType="{x:Type ToggleButton}">
               <Setter Property="ContentTemplate" >
                 <Setter.Value>
@@ -202,7 +202,7 @@
                 </Trigger>
               </Style.Triggers>
             </Style>
-          </ToggleButton.Style>
+          </ToggleButton.Style>-->
         </ToggleButton>
 
         <Button Grid.Column="1" Grid.Row="2" Height="23" Width="23" HorizontalAlignment="Right" Margin="5,0" Name="btnFilters" Click="btnFilters_Click">
