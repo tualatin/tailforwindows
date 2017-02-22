@@ -47,7 +47,7 @@
               <Trigger.ExitActions>
                 <BeginStoryboard>
                   <Storyboard>
-                    <ColorAnimation Storyboard.TargetProperty="Background.Color" To="#FAFAFB" Duration="0:0:0.2"/>
+                    <ColorAnimation Storyboard.TargetProperty="Background.Color" To="#FFEEEEEE" Duration="0:0:0.2"/>
                     <ColorAnimation Storyboard.TargetProperty="BorderBrush.Color" To="#EAEAEB" Duration="0:0:0.2"/>
                     <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Ellipse.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ellipse">
                       <SplineDoubleKeyFrame KeyTime="0" Value="15"/>

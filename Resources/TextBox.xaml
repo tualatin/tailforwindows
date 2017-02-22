@@ -57,7 +57,7 @@
       </Setter.Value>
     </Setter>
   </Style>
-    <!--</SnippetTextBox>-->
+  <!--</SnippetTextBox>-->
 
   <Style x:Key="{x:Type RichTextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type RichTextBox}">
     <Style.Resources>
@@ -92,18 +92,19 @@
             <VisualStateManager.VisualStateGroups>
               <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal"/>
-                  <VisualState x:Name="Disabled">
-                    <Storyboard>
-                      <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
-                        <EasingColorKeyFrame KeyTime="0" Value="{StaticResource DisabledControlLightColor}"/>
-                      </ColorAnimationUsingKeyFrames>
-                    </Storyboard>               
-                  <VisualState x:Name="MouseOver">
-                    <Storyboard>
-                      <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
-                        <EasingColorKeyFrame KeyTime="0" Value="#BB34b4e3"/>
-                      </ColorAnimationUsingKeyFrames>
-                    </Storyboard>
+                <VisualState x:Name="Disabled">
+                  <Storyboard>
+                    <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                      <EasingColorKeyFrame KeyTime="0" Value="{StaticResource DisabledControlLightColor}"/>
+                    </ColorAnimationUsingKeyFrames>
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="MouseOver">
+                  <Storyboard>
+                    <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)">
+                      <EasingColorKeyFrame KeyTime="0" Value="#BB34b4e3"/>
+                    </ColorAnimationUsingKeyFrames>
+                  </Storyboard>
                 </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>

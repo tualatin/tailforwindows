@@ -169,7 +169,7 @@
           </CheckBox.ToolTip>
         </CheckBox>
 
-        <ToggleButton Name="toggle" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Width="20" TabIndex="10">
+        <ToggleButton Name="toggle" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Width="17" TabIndex="10" Background="#FFEEEEEE">
           <ToggleButton.ToolTip>
             <StackPanel>
               <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">More settings</TextBlock>
@@ -322,7 +322,7 @@
         <Grid.Style>
           <Style TargetType="Grid">
             <Style.Triggers>
-              <DataTrigger Binding="{Binding ElementName=toggle1, Path=IsChecked}" Value="False">
+              <DataTrigger Binding="{Binding ElementName=toggle, Path=IsChecked}" Value="False">
                 <Setter Property="Grid.RowSpan" Value="2"/>
               </DataTrigger>
             </Style.Triggers>
@@ -332,7 +332,7 @@
                              Drop="DropHelper" FilterOn="{Binding ElementName=checkBoxFilter, Path=IsChecked}" VerticalScrollbarVisible="Visible"/>
       </Grid>
 
-      <Grid Name="bottomGrid" Grid.Row="1" Visibility="{Binding ElementName=toggle1, Path=IsChecked, Converter={StaticResource visConverter}}">
+      <Grid Name="bottomGrid" Grid.Row="1" Visibility="{Binding ElementName=toggle, Path=IsChecked, Converter={StaticResource visConverter}}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition/>
           <ColumnDefinition Width="23"/>

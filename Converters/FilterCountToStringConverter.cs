@@ -29,10 +29,9 @@ namespace Org.Vs.TailForWin.Converters
         int count = ((ObservableCollection<FilterData>) value).Count;
         string title = count == 1 ? Application.Current.FindResource("FilterLoaded").ToString() : Application.Current.FindResource("FiltersLoaded").ToString();
 
-        return ($"{title} count");
+        return (string.Format(title, count));
       }
-
-      return ($"{Application.Current.FindResource("FiltersLoaded").ToString()} 0");
+      return (string.Format(Application.Current.FindResource("FiltersLoaded").ToString(), 0));
     }
 
     /// <summary>
