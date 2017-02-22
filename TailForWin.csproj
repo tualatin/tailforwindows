@@ -315,6 +315,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\AndroidToggleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
