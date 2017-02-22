@@ -25,10 +25,13 @@ namespace Org.Vs.TailForWin.Converters
       {
         if(value.GetType() == typeof(FileManagerData))
           return (true);
+
         return (false);
       }
       else
+      {
         return (false);
+      }
     }
 
     /// <summary>

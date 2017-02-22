@@ -5,11 +5,8 @@
         Title="FileManager" Height="455" Width="640" Icon="/TailForWin;component/Res/Explorer.ico" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize"
         xmlns:prop="clr-namespace:Org.Vs.TailForWin.Data" Loaded="Window_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters" Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True" Closing="Window_Closing" xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox">
   <Window.Resources>
+  
     <ResourceDictionary>
-      <!--<ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Dictionaries/ScrollbarResources.xaml"/>
-      </ResourceDictionary.MergedDictionaries>-->
-
       <multiconv:EnableOpenMultiConverter x:Key="isEnabled" />
       <conv:TailConverter x:Key="selectedConverter" />
       <conv:TextTrimConverter x:Key="trimConverter" />
@@ -17,13 +14,14 @@
       <conv:FilterCountToStringConverter x:Key="filterCount" />
       <conv:FontToStringConverter x:Key="FontToString" />
     </ResourceDictionary>
+    
   </Window.Resources>
   <Grid Margin="5">
     <Grid.RowDefinitions>
       <RowDefinition Height="200" />
       <RowDefinition Height="234*" />
     </Grid.RowDefinitions>
-    <Grid Grid.Row="0">
+    <Grid>
       <DataGrid AutoGenerateColumns="False" Grid.Row="0" Margin="0" Name="dataGridFiles" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" HorizontalGridLinesBrush="#FFBEBEBE" VerticalGridLinesBrush="#FFBEBEBE" SelectionChanged="dataGridFiles_SelectionChanged" SelectionMode="Single" SelectionUnit="FullRow" MouseDoubleClick="dataGridFiles_MouseDoubleClick">
         <DataGrid.Style>
           <Style TargetType="DataGrid">
@@ -35,46 +33,46 @@
           <Style TargetType="DataGridRow">
             <Style.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Beige" />
+                <Setter Property="Background" Value="Beige"/>
               </Trigger>
             </Style.Triggers>
           </Style>
         </DataGrid.RowStyle>
 
         <DataGrid.Columns>
-          <DataGridTextColumn Width="180" Header="Files" Binding="{Binding Path=File}" IsReadOnly="True" />
-          <DataGridTextColumn Width="190" Header="Description" Binding="{Binding Path=Description}" IsReadOnly="True" />
-          <DataGridTextColumn Width="190" Header="Category" Binding="{Binding Path=Category}" IsReadOnly="True" />
-          <DataGridTextColumn Width="90" Header="Refreh Rate" Binding="{Binding Path=RefreshRate}" IsReadOnly="True" />
-          <DataGridTextColumn Width="120" Header="Thread Priority" Binding="{Binding Path=ThreadPriority}" IsReadOnly="True" />
+          <DataGridTextColumn Width="180" Header="Files" Binding="{Binding Path=File}" IsReadOnly="True"/>
+          <DataGridTextColumn Width="190" Header="Description" Binding="{Binding Path=Description}" IsReadOnly="True"/>
+          <DataGridTextColumn Width="190" Header="Category" Binding="{Binding Path=Category}" IsReadOnly="True"/>
+          <DataGridTextColumn Width="90" Header="Refreh Rate" Binding="{Binding Path=RefreshRate}" IsReadOnly="True"/>
+          <DataGridTextColumn Width="120" Header="Thread Priority" Binding="{Binding Path=ThreadPriority}" IsReadOnly="True"/>
         </DataGrid.Columns>
       </DataGrid>
     </Grid>
     <Grid Grid.Row="1" Name="FMProperties">
       <Grid.RowDefinitions>
-        <RowDefinition Height="30" />
-        <RowDefinition Height="30" />
-        <RowDefinition Height="30" />
-        <RowDefinition Height="30" />
-        <RowDefinition Height="30" />
-        <RowDefinition Height="30" />
-        <RowDefinition Height="5*" />
-        <RowDefinition Height="32" />
+        <RowDefinition Height="30"/>
+        <RowDefinition Height="30"/>
+        <RowDefinition Height="30"/>
+        <RowDefinition Height="30"/>
+        <RowDefinition Height="30"/>
+        <RowDefinition Height="30"/>
+        <RowDefinition Height="5*"/>
+        <RowDefinition Height="32"/>
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="90" />
-        <ColumnDefinition Width="122" />
-        <ColumnDefinition Width="215" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="90"/>
+        <ColumnDefinition Width="122"/>
+        <ColumnDefinition Width="215"/>
+        <ColumnDefinition/>
+        <ColumnDefinition/>
       </Grid.ColumnDefinitions>
 
-      <Grid Grid.Column="4" Grid.Row="0">
+      <Grid Grid.Column="4">
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="24" />
-          <ColumnDefinition Width="24" />
-          <ColumnDefinition Width="24" />
-          <ColumnDefinition Width="24" />
+          <ColumnDefinition Width="24"/>
+          <ColumnDefinition Width="24"/>
+          <ColumnDefinition Width="24"/>
+          <ColumnDefinition Width="24"/>
         </Grid.ColumnDefinitions>
         <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnSave" Click="btnSave_Click" Margin="0" Grid.Column="1" 
                 TabIndex="16" IsEnabled="{Binding ElementName=textBlockDescription, Path=Text.Length, Converter={StaticResource intToBoolConverter}}">
@@ -84,7 +82,7 @@
               <TextBlock>Save current item</TextBlock>
               <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
               <WrapPanel>
-                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
                 <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
               </WrapPanel>
             </StackPanel>
@@ -145,17 +143,17 @@
         </Button>
       </Grid>
 
-      <Label Content="Description:" Grid.Row="0" Grid.Column="0" Margin="0" Name="label2" VerticalAlignment="Center" />
+      <Label Content="Description:" Name="label2" VerticalAlignment="Center"/>
       <my:WatermarkTextBox Grid.Column="1" Margin="0,0,5,0" x:Name="textBlockDescription" VerticalAlignment="Center" Grid.ColumnSpan="2" Text="{Binding Mode=TwoWay, Path=Description, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource trimConverter}}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TextChanged="textBlockDescription_TextChanged" TabIndex="1">
         <my:WatermarkTextBox.Watermark>
           <TextBlock Text="Description" Margin="5,0,0,0" FontStyle="Italic" />
         </my:WatermarkTextBox.Watermark>
       </my:WatermarkTextBox>
-      <Label Content="Category:" Grid.Row="1" Grid.Column="0" Margin="0" Name="label1" VerticalAlignment="Center" />
+      <Label Content="Category:" Grid.Row="1" Grid.Column="0" Name="label1" VerticalAlignment="Center" />
       <ComboBox Grid.Row="1" Grid.Column="1" Height="23" Margin="0,0,5,0" Name="comboBoxCategory" VerticalAlignment="Center" SelectionChanged="comboBoxCategory_SelectionChanged" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}" TabIndex="2" />
       <my:WatermarkTextBox Grid.Row="1" Grid.Column="2" Height="23" x:Name="textBoxNewCategorie" VerticalAlignment="Center" Margin="0,0,5,0" Text="{Binding Mode=TwoWay, Path=Category, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource trimConverter}}" IsEnabled="{Binding ElementName=checkBoxInsertCategory, Path=IsChecked}" TextChanged="textBoxNewCategorie_TextChanged" TabIndex="4">
         <my:WatermarkTextBox.Watermark>
-          <TextBlock Text="Category" Margin="5,0,0,0" FontStyle="Italic" />
+          <TextBlock Text="Category" Margin="5,0,0,0" FontStyle="Italic"/>
         </my:WatermarkTextBox.Watermark>
       </my:WatermarkTextBox>
       <CheckBox Content="New Category" Grid.Row="1" Grid.Column="3" Height="22" HorizontalAlignment="Left" Margin="0,7" Name="checkBoxInsertCategory" VerticalAlignment="Center"
@@ -166,7 +164,7 @@
             <TextBlock>Create a new category</TextBlock>
             <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
             <WrapPanel>
-              <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+              <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
               <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
             </WrapPanel>
           </StackPanel>
@@ -180,7 +178,7 @@
             <TextBlock>FileManager font settings</TextBlock>
             <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
             <WrapPanel>
-              <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+              <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
               <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
             </WrapPanel>
           </StackPanel>
@@ -199,7 +197,7 @@
             <TextBlock>Wrap each new line</TextBlock>
             <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
             <WrapPanel>
-              <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+              <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
               <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
             </WrapPanel>
           </StackPanel>
@@ -214,7 +212,7 @@
             <TextBlock>Remove extra space in each line</TextBlock>
             <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
             <WrapPanel>
-              <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+              <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
               <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
             </WrapPanel>
           </StackPanel>
@@ -235,7 +233,7 @@
           </StackPanel>
         </CheckBox.ToolTip>
       </CheckBox>
-      <Label Content="Refresh Rate:" Grid.Row="3" Height="28" Margin="0" Name="label3" VerticalAlignment="Center" />
+      <Label Content="Refresh Rate:" Grid.Row="3" Name="label3" VerticalAlignment="Center" />
       <ComboBox Grid.Column="1" Grid.Row="3" Height="23" Margin="0,0,5,0" Name="comboBoxRefreshRate" VerticalAlignment="Center" ItemsSource="{Binding}" SelectionChanged="comboBoxRefreshRate_SelectionChanged" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="6" />
       <Button Grid.Column="3" Grid.Row="5" Height="23" HorizontalAlignment="Left" Margin="0" Name="btnFilter" VerticalAlignment="Center" Width="23"
               IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="12" Click="btnFilters_Click">
@@ -245,18 +243,18 @@
             <TextBlock>Add filters to entry</TextBlock>
             <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
             <WrapPanel>
-              <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+              <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
               <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
             </WrapPanel>
           </StackPanel>
         </Button.ToolTip>
         <StackPanel>
-          <Image Source="/TailForWin;component/Res/Filters.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Height="16" Width="16"></Image>
+          <Image Source="/TailForWin;component/Res/Filters.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Height="16" Width="16"/>
         </StackPanel>
       </Button>
-      <Label Content="Thread Priority:" Grid.Row="4" Height="28" Margin="0" Name="label4" VerticalAlignment="Center" />
+      <Label Content="Thread Priority:" Grid.Row="4" Name="label4" VerticalAlignment="Center"/>
       <ComboBox Grid.Column="1" Grid.Row="4" Height="23" Margin="0,0,5,0" Name="comboBoxThreadPriority" VerticalAlignment="Center" ItemsSource="{Binding}" SelectionChanged="comboBoxThreadPriority_SelectionChanged" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="8" />
-      <Label Content="File Encoding:" Grid.Row="5" Margin="0" Name="label5" VerticalAlignment="Center" />
+      <Label Content="File Encoding:" Grid.Row="5" Name="label5" VerticalAlignment="Center" />
       <ComboBox Grid.Column="1" Grid.Row="5" Margin="0,0,5,0" Name="comboBoxFileEncode" VerticalAlignment="Center" SelectionChanged="comboBoxFileEncode_SelectionChanged" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" ItemsSource="{Binding}" TabIndex="11" />
       <CheckBox Content="Open in new window" Grid.Column="2" Grid.Row="4" Height="22" Margin="0" Name="checkBoxThreadNewWindow" VerticalAlignment="Center" 
                 IsChecked="{Binding Mode=TwoWay, Path=NewWindow, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, 
@@ -264,22 +262,22 @@
 
       <Grid Grid.Row="7" Grid.ColumnSpan="5">
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="*" />
+          <ColumnDefinition/>
+          <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Button Content="Open" Grid.Column="0" Height="23" HorizontalAlignment="Right" Margin="0,0,10,0" Name="btnOK" VerticalAlignment="Center" Width="75" Click="btnOK_Click" TabIndex="13">
+        <Button Content="Open" Height="23" HorizontalAlignment="Right" Margin="0,0,10,0" Name="btnOK" VerticalAlignment="Center" Width="75" Click="btnOK_Click" TabIndex="13">
           <Button.IsEnabled>
             <MultiBinding Converter="{StaticResource isEnabled}">
-              <Binding ElementName="dataGridFiles" Path="SelectedItem" />
-              <Binding Path="SelectedItem" ElementName="dataGridFiles" />
+              <Binding ElementName="dataGridFiles" Path="SelectedItem"/>
+              <Binding Path="SelectedItem" ElementName="dataGridFiles"/>
             </MultiBinding>
           </Button.IsEnabled>
         </Button>
-        <Button Content="Close" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="10,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Click="btnCancel_Click" TabIndex="14" />
+        <Button Content="Close" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="10,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Click="btnCancel_Click" TabIndex="14"/>
       </Grid>
       <Label Content="" Grid.Column="2" Grid.Row="5" Margin="0,0,5,0" Name="labelFileEncodingHint" FontSize="10" VerticalAlignment="Center" />
-      <Label Content="{Binding Path=ListOfFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource filterCount}}" Grid.Column="3" Grid.Row="5" Height="28" Margin="30,0,0,0" Name="label6" VerticalAlignment="Center" Grid.ColumnSpan="2" />
+      <Label Content="{Binding Path=ListOfFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource filterCount}}" Grid.Column="3" Grid.Row="5" Margin="30,0,0,0" Name="label6" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
     </Grid>
   </Grid>
 </Window>

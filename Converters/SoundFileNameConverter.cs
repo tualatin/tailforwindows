@@ -18,7 +18,7 @@ namespace Org.Vs.TailForWin.Converters
         return (string.Empty);
 
       if(value is string)
-        return (String.Compare(((string) value), LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0 ? (string.Empty) : (value));
+        return (string.Compare(((string) value), LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0 ? (string.Empty) : (value));
 
       return (string.Empty);
     }

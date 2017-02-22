@@ -61,7 +61,7 @@
             </StackPanel>
           </Button.ToolTip>
         </Button>
-        <Label Content="File:" Height="28" HorizontalAlignment="Left" Margin="0,-2,0,24" VerticalAlignment="Center" Grid.RowSpan="2"/>
+        <Label Content="File:" HorizontalAlignment="Left" Margin="0,0,0,24" VerticalAlignment="Center" Grid.RowSpan="2"/>
         <Button Height="23" HorizontalAlignment="Left" Name="btnOpenFile" VerticalAlignment="Center" Width="23" Margin="35,0,0,0" Click="btnOpenFile_Click" TabIndex="1">
           <StackPanel>
             <Image Source="/TailForWin;component/Res/openfolder.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>

@@ -14,18 +14,38 @@ namespace Org.Vs.TailForWin.Converters
   {
     #region IValueConverter Members
 
+    /// <summary>
+    /// Convert
+    /// </summary>
+    /// <param name="value">Value to convert</param>
+    /// <param name="targetType">TargetType</param>
+    /// <param name="parameter">Parameter</param>
+    /// <param name="culture">Current culture</param>
+    /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      string title = Application.Current.FindResource("FiltersLoaded").ToString();
-
       if(value != null)
-        return (string.Format(title, ((ObservableCollection<FilterData>) value).Count));
-      return (string.Format(title, 0));
+      {
+        int count = ((ObservableCollection<FilterData>) value).Count;
+        string title = count == 1 ? Application.Current.FindResource("FilterLoaded").ToString() : Application.Current.FindResource("FiltersLoaded").ToString();
+
+        return ($"{title} count");
+      }
+
+      return ($"{Application.Current.FindResource("FiltersLoaded").ToString()} 0");
     }
 
+    /// <summary>
+    /// Convert back
+    /// </summary>
+    /// <param name="value">Value</param>
+    /// <param name="targetType">TargetType</param>
+    /// <param name="parameter">Parameter</param>
+    /// <param name="culture">Current culture</param>
+    /// <returns>Back converted value</returns>
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      throw new NotImplementedException();
+      return (null);
     }
 
     #endregion

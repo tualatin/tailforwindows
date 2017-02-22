@@ -21,7 +21,7 @@ namespace Org.Vs.TailForWin.Converters
 
       string eMailAddress = value as string;
 
-      return (String.Compare(eMailAddress, "NoMail", StringComparison.Ordinal) == 0 ? (string.Empty) : (eMailAddress));
+      return (string.Compare(eMailAddress, "NoMail", StringComparison.Ordinal) == 0 ? (string.Empty) : (eMailAddress));
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
