@@ -493,7 +493,6 @@ namespace Org.Vs.TailForWin.Controller
                                                                      var element5 = filter.Element("id");
                                                                      return element5 != null ? element5.Value : null;
                                                                    }).ToList();
-
             // TODO NOT nice!
             foreach(string id in filterId)
             {
@@ -537,7 +536,6 @@ namespace Org.Vs.TailForWin.Controller
                                                  var xElement = x.Element("id");
                                                  return (xElement != null && String.Compare(xElement.Value, property.ID.ToString(CultureInfo.InvariantCulture), false) == 0);
                                                }).Remove();
-
         fmDoc.Save(@fmFile, SaveOptions.None);
 
         return (true);
@@ -622,7 +620,6 @@ namespace Org.Vs.TailForWin.Controller
                                  where xElement != null
                                  select xElement.Value).ToList<string>();
       Category.Clear();
-
       categories.ForEach(AddCategoryToDictionary);
     }
 

@@ -3,8 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:multiconv="clr-namespace:Org.Vs.TailForWin.Converters.MultiConverters"
         Title="FileManager" Height="455" Width="640" Icon="/TailForWin;component/Res/Explorer.ico" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize"
-        xmlns:prop="clr-namespace:Org.Vs.TailForWin.Data" Loaded="Window_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters" Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True" Closing="Window_Closing" xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox">
+        xmlns:prop="clr-namespace:Org.Vs.TailForWin.Data" 
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        Loaded="Window_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters" Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True" Closing="Window_Closing" 
+        xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox">
   <Window.Resources>
+    <prop:FileManagerDataList x:Key="fileManagerData"/>
+    <CollectionViewSource x:Key="cvsFileManagerData" Source="{StaticResource fileManagerData}" Filter="CollectionViewSource_Filter">
+      <CollectionViewSource.SortDescriptions>
+        <scm:SortDescription PropertyName="FileName"/>
+      </CollectionViewSource.SortDescriptions>
+      <CollectionViewSource.GroupDescriptions>
+        <PropertyGroupDescription PropertyName="Category"/>
+      </CollectionViewSource.GroupDescriptions>
+    </CollectionViewSource>
   
     <ResourceDictionary>
       <multiconv:EnableOpenMultiConverter x:Key="isEnabled" />
@@ -22,7 +34,7 @@
       <RowDefinition Height="234*" />
     </Grid.RowDefinitions>
     <Grid>
-      <DataGrid AutoGenerateColumns="False" Grid.Row="0" Margin="0" Name="dataGridFiles" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" HorizontalGridLinesBrush="#FFBEBEBE" VerticalGridLinesBrush="#FFBEBEBE" SelectionChanged="dataGridFiles_SelectionChanged" SelectionMode="Single" SelectionUnit="FullRow" MouseDoubleClick="dataGridFiles_MouseDoubleClick">
+      <DataGrid AutoGenerateColumns="False" Name="dataGridFiles" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" HorizontalGridLinesBrush="#FFBEBEBE" VerticalGridLinesBrush="#FFBEBEBE" SelectionChanged="dataGridFiles_SelectionChanged" SelectionMode="Single" SelectionUnit="FullRow" MouseDoubleClick="dataGridFiles_MouseDoubleClick">
         <DataGrid.Style>
           <Style TargetType="DataGrid">
             <Setter Property="AlternatingRowBackground" Value="Azure"/>
@@ -40,7 +52,7 @@
         </DataGrid.RowStyle>
 
         <DataGrid.Columns>
-          <DataGridTextColumn Width="180" Header="Files" Binding="{Binding Path=File}" IsReadOnly="True"/>
+          <DataGridTextColumn Width="180" Header="Filename" Binding="{Binding Path=File}" IsReadOnly="True"/>
           <DataGridTextColumn Width="190" Header="Description" Binding="{Binding Path=Description}" IsReadOnly="True"/>
           <DataGridTextColumn Width="190" Header="Category" Binding="{Binding Path=Category}" IsReadOnly="True"/>
           <DataGridTextColumn Width="90" Header="Refreh Rate" Binding="{Binding Path=RefreshRate}" IsReadOnly="True"/>

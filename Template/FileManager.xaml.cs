@@ -33,6 +33,7 @@ namespace Org.Vs.TailForWin.Template
 
     private EFileManagerState fmState;
     private FileManagerStructure fmDoc;
+    private FileManagerDataList fmData;
 
     /// <summary>
     /// Default settings or settings of added file
@@ -84,7 +85,8 @@ namespace Org.Vs.TailForWin.Template
         fmWorkingProperties.ID = ++fmDoc.LastFileId;
         fmWorkingProperties.FileEncoding = addFile.FileEncoding;
 
-        fmDoc.FmProperties.Add(fmWorkingProperties);
+        fmData.Add(fmWorkingProperties);
+        -- fmDoc.FmProperties.Add(fmWorkingProperties);
         dataGridFiles.Items.Refresh();
       }
 
@@ -178,7 +180,8 @@ namespace Org.Vs.TailForWin.Template
 
       if(fmDoc.RemoveNode(fmWorkingProperties))
       {
-        fmDoc.FmProperties.RemoveAt(index);
+        fmData.RemoveAt(index);
+        -- fmDoc.FmProperties.RemoveAt(index);
         dataGridFiles.Items.Refresh();
 
         fmDoc.RefreshCategories();
@@ -198,7 +201,7 @@ namespace Org.Vs.TailForWin.Template
       if(checkBoxInsertCategory.IsChecked == false)
         fmWorkingProperties.Category = comboBoxCategory.SelectedItem as string;
 
-      // TODO better solution (IsEnable property) at the moment workaground
+      // TODO better solution (IsEnable property) at the moment workaround
       if(fmWorkingProperties.EqualsProperties(fmMemento) && fmState != EFileManagerState.EditFilter)
         return;
 
@@ -276,7 +279,9 @@ namespace Org.Vs.TailForWin.Template
         dataGridFiles.ScrollIntoView(dataGridFiles.Items[0]);
       }
       else
+      {
         SelectLastItemInDataGrid();
+      }
 
       var dc = GetDataGridCell(dataGridFiles.SelectedCells[0]);
       Keyboard.Focus(dc);
@@ -284,6 +289,8 @@ namespace Org.Vs.TailForWin.Template
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
+      fmData.CollectionChanged -= FmData_CollectionChanged;
+
       if(dataGridFiles.IsEnabled)
         return;
 
@@ -419,6 +426,17 @@ namespace Org.Vs.TailForWin.Template
       handler?.Invoke(this, EventArgs.Empty);
     }
 
+    private void CollectionViewSource_Filter(object sender, System.Windows.Data.FilterEventArgs e)
+    {
+      FileManagerData fmData = e.Item as FileManagerData;
+
+      if (fmData == null)
+        return;
+
+      // Filter
+      // this line is for filter control: CollectionViewSource.GetDefaultView(dataGrid.ItemsSource).Refresh();
+    }
+
     #endregion
 
     #region HelperFunctions
@@ -447,7 +465,9 @@ namespace Org.Vs.TailForWin.Template
 
       fmWorkingProperties.ListOfFilter.Clear();
 
-      fmDoc.FmProperties.Add(fmWorkingProperties);
+      fmData.Add(fmWorkingProperties);      
+      -- fmDoc.FmProperties.Add(fmWorkingProperties);
+
       Title = $"FileManager - Add file '{fileName}'";
       dataGridFiles.Items.Refresh();
       SelectLastItemInDataGrid();
@@ -530,7 +550,10 @@ namespace Org.Vs.TailForWin.Template
 
       fmDoc = new FileManagerStructure();
 
-      if(LogFile.FmHelper.Count > 0)
+      // Get a reference to FileManagerData collection
+      fmData = (FileManagerDataList) this.Resources["fileManagerData"];
+      
+      if(LogFile.FmHelper != null && LogFile.FmHelper.Count > 0)
       {
         fmDoc.FmProperties.ForEach(item =>
          {
@@ -541,6 +564,12 @@ namespace Org.Vs.TailForWin.Template
          });
       }
 
+      foreach (var item in fmDoc.FmProperties)
+      {
+        fmData.Add(item) ;
+      }
+
+      fmData.CollectionChanged += FmData_CollectionChanged;
       dataGridFiles.DataContext = fmDoc.FmProperties;
       labelFileEncodingHint.Content = Application.Current.FindResource("FileEncodingLabel");
 
@@ -553,6 +582,38 @@ namespace Org.Vs.TailForWin.Template
       comboBoxFileEncode.DisplayMemberPath = "HeaderName";
 
       RefreshCategoryComboBox();
+    }
+
+    private void FmData_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+      if (e.NewItems == null)
+        return;
+
+      foreach (FileManagerData item in e.NewItems)
+      {
+        switch (e.Action)
+        {      
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+
+          fmDoc.FmProperties.Add(item);
+          break;
+
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+
+          break;
+
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
+
+          break;
+
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
+
+          break;
+
+        case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+
+          break;}
+      }
     }
 
     private void HandleEsc(object sender, KeyEventArgs e)
@@ -610,7 +671,9 @@ namespace Org.Vs.TailForWin.Template
             LogFile.FmHelper.Add(helper);
         }
         else
+        {
           LogFile.FmHelper.Add(helper);
+        }
 
         FileManagerDataEventArgs argument = new FileManagerDataEventArgs(fmWorkingProperties);
         OpenFileAsNewTab?.Invoke(this, argument);
