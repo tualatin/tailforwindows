@@ -10,7 +10,7 @@
           <Viewbox Stretch="Uniform">
             <Canvas Height="2" Name="canvas1" Width="{TemplateBinding Width}">
               <Ellipse Canvas.Left="0" Height="2" Name="ellipse1" Width="{TemplateBinding Width}" Fill="#C2C4CB"/>
-              <Border BorderBrush="#FFFFFF" Canvas.Left="0" Height="2" Name="border1" Width="{TemplateBinding Width}" BorderThickness="0,0,0,0.8"/>
+              <Border BorderBrush="#FFFFFF" Canvas.Left="0" Height="2" Name="border1" Width="{TemplateBinding Width}" BorderThickness="0,0,0,0.8" Margin="0,0.53,0,0"/>
             </Canvas>
           </Viewbox>
         </ControlTemplate>
