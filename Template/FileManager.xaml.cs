@@ -450,15 +450,22 @@ namespace Org.Vs.TailForWin.Template
       if(fmData == null)
         return;
 
-      CultureInfo culturInfo = CultureInfo.CurrentCulture;
-      int categoryResult = culturInfo.CompareInfo.IndexOf(fmData.Category, FilterTextBox.Text, CompareOptions.IgnoreCase);
-      int descriptionResult = culturInfo.CompareInfo.IndexOf(fmData.Description, FilterTextBox.Text, CompareOptions.IgnoreCase);
-      int result = categoryResult & descriptionResult;
+      try
+      {
+        CultureInfo culturInfo = CultureInfo.CurrentCulture;
+        int categoryResult = culturInfo.CompareInfo.IndexOf(fmData.Category, FilterTextBox.Text, CompareOptions.IgnoreCase);
+        int descriptionResult = culturInfo.CompareInfo.IndexOf(fmData.Description, FilterTextBox.Text, CompareOptions.IgnoreCase);
+        int result = categoryResult & descriptionResult;
 
-      if(!string.IsNullOrEmpty(FilterTextBox.Text) && result < 0)
-        e.Accepted = false;
-      else
+        if(!string.IsNullOrEmpty(FilterTextBox.Text) && result < 0)
+          e.Accepted = false;
+        else
+          e.Accepted = true;
+      }
+      catch(ArgumentNullException)
+      {
         e.Accepted = true;
+      }
     }
 
     private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
