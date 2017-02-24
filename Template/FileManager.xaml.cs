@@ -2,10 +2,12 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using log4net;
@@ -313,7 +315,7 @@ namespace Org.Vs.TailForWin.Template
       e.Cancel = true;
     }
 
-    private void comboBoxCategory_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void comboBoxCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       if(!IsInitialized)
         return;
@@ -327,7 +329,7 @@ namespace Org.Vs.TailForWin.Template
       ChangeFmStateToEditItem();
     }
 
-    private void comboBoxRefreshRate_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void comboBoxRefreshRate_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       if(!IsInitialized)
         return;
@@ -338,7 +340,7 @@ namespace Org.Vs.TailForWin.Template
       ChangeFmStateToEditItem();
     }
 
-    private void comboBoxThreadPriority_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void comboBoxThreadPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       if(!IsInitialized)
         return;
@@ -348,7 +350,7 @@ namespace Org.Vs.TailForWin.Template
       ChangeFmStateToEditItem();
     }
 
-    private void comboBoxFileEncode_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void comboBoxFileEncode_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       if(!IsInitialized)
         return;
@@ -359,7 +361,7 @@ namespace Org.Vs.TailForWin.Template
       ChangeFmStateToEditItem();
     }
 
-    private void dataGridFiles_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void dataGridFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       if(!IsInitialized)
         return;
@@ -379,7 +381,7 @@ namespace Org.Vs.TailForWin.Template
       FMProperties.DataContext = fmWorkingProperties;
     }
 
-    private void textBlockDescription_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void textBlockDescription_TextChanged(object sender, TextChangedEventArgs e)
     {
       if(!IsInitialized)
         return;
@@ -388,7 +390,7 @@ namespace Org.Vs.TailForWin.Template
         ChangeFmStateToEditItem();
     }
 
-    private void textBoxNewCategorie_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    private void textBoxNewCategorie_TextChanged(object sender, TextChangedEventArgs e)
     {
       if(!IsInitialized)
         return;
@@ -448,8 +450,20 @@ namespace Org.Vs.TailForWin.Template
       if(fmData == null)
         return;
 
-      // Filter
-      // this line is for filter control: CollectionViewSource.GetDefaultView(dataGrid.ItemsSource).Refresh();
+      CultureInfo culturInfo = CultureInfo.CurrentCulture;
+      int categoryResult = culturInfo.CompareInfo.IndexOf(fmData.Category, FilterTextBox.Text, CompareOptions.IgnoreCase);
+      int descriptionResult = culturInfo.CompareInfo.IndexOf(fmData.Description, FilterTextBox.Text, CompareOptions.IgnoreCase);
+      int result = categoryResult & descriptionResult;
+
+      if(!string.IsNullOrEmpty(FilterTextBox.Text) && result < 0)
+        e.Accepted = false;
+      else
+        e.Accepted = true;
+    }
+
+    private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+      CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource).Refresh();
     }
 
     #endregion
