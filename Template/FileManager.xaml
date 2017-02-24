@@ -12,19 +12,20 @@
       <prop:FileManagerDataList x:Key="fileManagerData"/>
       <CollectionViewSource x:Key="cvsFileManagerData" Source="{StaticResource fileManagerData}" Filter="CollectionViewSource_Filter">
         <CollectionViewSource.SortDescriptions>
-          <scm:SortDescription PropertyName="FileName"/>
+          <scm:SortDescription PropertyName="Category"/>
+          <scm:SortDescription PropertyName="Description"/>
         </CollectionViewSource.SortDescriptions>
         <CollectionViewSource.GroupDescriptions>
           <PropertyGroupDescription PropertyName="Category"/>
         </CollectionViewSource.GroupDescriptions>
       </CollectionViewSource>
 
-      <multiconv:EnableOpenMultiConverter x:Key="isEnabled" />
-      <conv:TailConverter x:Key="selectedConverter" />
-      <conv:TextTrimConverter x:Key="trimConverter" />
-      <conv:IntToBoolConverter x:Key="intToBoolConverter" />
-      <conv:FilterCountToStringConverter x:Key="filterCount" />
-      <conv:FontToStringConverter x:Key="FontToString" />
+      <multiconv:EnableOpenMultiConverter x:Key="isEnabled"/>
+      <conv:TailConverter x:Key="selectedConverter"/>
+      <conv:TextTrimConverter x:Key="trimConverter"/>
+      <conv:IntToBoolConverter x:Key="intToBoolConverter"/>
+      <conv:FilterCountToStringConverter x:Key="filterCount"/>
+      <conv:FontToStringConverter x:Key="FontToString"/>
     </ResourceDictionary>
 
   </Window.Resources>

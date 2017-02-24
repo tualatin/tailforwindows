@@ -169,7 +169,7 @@
           </CheckBox.ToolTip>
         </CheckBox>
 
-        <ToggleButton Name="toggle" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Width="17" TabIndex="10" Background="#FFEEEEEE">
+        <ToggleButton Name="toggle" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Width="17" TabIndex="10">
           <ToggleButton.ToolTip>
             <StackPanel>
               <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">More settings</TextBlock>
