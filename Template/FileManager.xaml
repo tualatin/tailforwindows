@@ -43,6 +43,17 @@
       <DataGrid AutoGenerateColumns="False" Name="dataGridFiles" ItemsSource="{Binding Source={StaticResource cvsFileManagerData}}" CanUserAddRows="False"
                 HorizontalGridLinesBrush="#FFBEBEBE" VerticalGridLinesBrush="#FFBEBEBE" SelectionChanged="dataGridFiles_SelectionChanged" SelectionMode="Single" 
                 SelectionUnit="FullRow" MouseDoubleClick="dataGridFiles_MouseDoubleClick" IsReadOnly="True">
+             <DataGrid.Resources>
+              <ContextMenu x:Key="columnHeaderContextMenu">
+                <MenuItem Header="Expand groups"/>
+                <MenuItem Header="Collapse groups"/>
+              </ContextMenu>
+              
+              <Style TargetType="{x:Type DataGridColumnHeader}">
+                <Setter Property="ContextMenu" Value="{StaticResource columnHeaderContextMenu}"/>
+              </Style>
+            </DataGrid.Resources>
+
         <DataGrid.GroupStyle>
           <GroupStyle>
             <GroupStyle.HeaderTemplate>
