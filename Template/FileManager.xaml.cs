@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Controller;
@@ -86,7 +89,7 @@ namespace Org.Vs.TailForWin.Template
         fmWorkingProperties.FileEncoding = addFile.FileEncoding;
 
         fmData.Add(fmWorkingProperties);
-        -- fmDoc.FmProperties.Add(fmWorkingProperties);
+        //-- fmDoc.FmProperties.Add(fmWorkingProperties);
         dataGridFiles.Items.Refresh();
       }
 
@@ -181,7 +184,7 @@ namespace Org.Vs.TailForWin.Template
       if(fmDoc.RemoveNode(fmWorkingProperties))
       {
         fmData.RemoveAt(index);
-        -- fmDoc.FmProperties.RemoveAt(index);
+        //-- fmDoc.FmProperties.RemoveAt(index);
         dataGridFiles.Items.Refresh();
 
         fmDoc.RefreshCategories();
@@ -228,6 +231,7 @@ namespace Org.Vs.TailForWin.Template
 
       SortDataGrid();
       SetDialogTitle();
+      CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource).Refresh();
 
       SetSelectedComboBoxItem(fmWorkingProperties.Category, fmWorkingProperties.ThreadPriority, fmWorkingProperties.RefreshRate, fmWorkingProperties.FileEncoding);
       Title = "FileManager";
@@ -273,7 +277,15 @@ namespace Org.Vs.TailForWin.Template
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-      if(fmState == EFileManagerState.OpenFileManager)
+      ICollectionView cvFmData = CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource);
+
+      if(cvFmData != null && cvFmData.CanGroup)
+      {
+        cvFmData.GroupDescriptions.Clear();
+        cvFmData.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
+      }
+
+      if(fmState == EFileManagerState.OpenFileManager && fmData.Count > 0)
       {
         dataGridFiles.SelectedItem = dataGridFiles.Items[0];
         dataGridFiles.ScrollIntoView(dataGridFiles.Items[0]);
@@ -283,11 +295,14 @@ namespace Org.Vs.TailForWin.Template
         SelectLastItemInDataGrid();
       }
 
+      if(fmData.Count == 0)
+        return;
+
       var dc = GetDataGridCell(dataGridFiles.SelectedCells[0]);
       Keyboard.Focus(dc);
     }
 
-    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    private void Window_Closing(object sender, CancelEventArgs e)
     {
       fmData.CollectionChanged -= FmData_CollectionChanged;
 
@@ -300,7 +315,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxCategory_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (!IsInitialized)
+      if(!IsInitialized)
         return;
 
       e.Handled = true;
@@ -314,7 +329,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxRefreshRate_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (!IsInitialized)
+      if(!IsInitialized)
         return;
 
       e.Handled = true;
@@ -325,7 +340,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxThreadPriority_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (!IsInitialized)
+      if(!IsInitialized)
         return;
       e.Handled = true;
 
@@ -335,7 +350,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxFileEncode_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (!IsInitialized)
+      if(!IsInitialized)
         return;
 
       e.Handled = true;
@@ -346,7 +361,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void dataGridFiles_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (!IsInitialized)
+      if(!IsInitialized)
         return;
 
       e.Handled = true;
@@ -366,7 +381,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void textBlockDescription_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-      if (!IsInitialized)
+      if(!IsInitialized)
         return;
 
       if(!string.IsNullOrEmpty(textBlockDescription.Text))
@@ -375,7 +390,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void textBoxNewCategorie_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-      if (!IsInitialized)
+      if(!IsInitialized)
         return;
 
       ChangeFmStateToEditItem();
@@ -430,7 +445,7 @@ namespace Org.Vs.TailForWin.Template
     {
       FileManagerData fmData = e.Item as FileManagerData;
 
-      if (fmData == null)
+      if(fmData == null)
         return;
 
       // Filter
@@ -465,8 +480,7 @@ namespace Org.Vs.TailForWin.Template
 
       fmWorkingProperties.ListOfFilter.Clear();
 
-      fmData.Add(fmWorkingProperties);      
-      -- fmDoc.FmProperties.Add(fmWorkingProperties);
+      fmData.Add(fmWorkingProperties);
 
       Title = $"FileManager - Add file '{fileName}'";
       dataGridFiles.Items.Refresh();
@@ -530,8 +544,8 @@ namespace Org.Vs.TailForWin.Template
       if(dataGridFiles.Items.Count <= 0)
         return;
 
-      dataGridFiles.SelectedItem = fmDoc.FmProperties[fmDoc.FmProperties.Count - 1];
-      dataGridFiles.ScrollIntoView(fmDoc.FmProperties[fmDoc.FmProperties.Count - 1]);
+      dataGridFiles.SelectedItem = fmData[fmData.Count - 1];
+      dataGridFiles.ScrollIntoView(fmData[fmData.Count - 1]);
     }
 
     private void SetSelectedComboBoxItem(string category, ThreadPriority tp, ETailRefreshRate rr, Encoding fe)
@@ -551,8 +565,8 @@ namespace Org.Vs.TailForWin.Template
       fmDoc = new FileManagerStructure();
 
       // Get a reference to FileManagerData collection
-      fmData = (FileManagerDataList) this.Resources["fileManagerData"];
-      
+      fmData = (FileManagerDataList) Resources["fileManagerData"];
+
       if(LogFile.FmHelper != null && LogFile.FmHelper.Count > 0)
       {
         fmDoc.FmProperties.ForEach(item =>
@@ -564,9 +578,9 @@ namespace Org.Vs.TailForWin.Template
          });
       }
 
-      foreach (var item in fmDoc.FmProperties)
+      foreach(var item in fmDoc.FmProperties)
       {
-        fmData.Add(item) ;
+        fmData.Add(item);
       }
 
       fmData.CollectionChanged += FmData_CollectionChanged;
@@ -584,35 +598,24 @@ namespace Org.Vs.TailForWin.Template
       RefreshCategoryComboBox();
     }
 
-    private void FmData_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    private void FmData_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      if (e.NewItems == null)
-        return;
-
-      foreach (FileManagerData item in e.NewItems)
+      if(e.NewItems != null)
       {
-        switch (e.Action)
-        {      
-        case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+        foreach(FileManagerData item in e.NewItems)
+        {
+          if(e.Action == NotifyCollectionChangedAction.Add)
+            fmDoc.FmProperties.Add(item);
+        }
+      }
 
-          fmDoc.FmProperties.Add(item);
-          break;
-
-        case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-
-          break;
-
-        case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
-
-          break;
-
-        case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
-
-          break;
-
-        case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
-
-          break;}
+      if(e.OldItems != null)
+      {
+        foreach(FileManagerData item in e.OldItems)
+        {
+          if(e.Action == NotifyCollectionChangedAction.Remove)
+            fmDoc.FmProperties.Remove(item);
+        }
       }
     }
 

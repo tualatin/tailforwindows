@@ -3,22 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:multiconv="clr-namespace:Org.Vs.TailForWin.Converters.MultiConverters"
         Title="FileManager" Height="455" Width="640" Icon="/TailForWin;component/Res/Explorer.ico" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize"
-        xmlns:prop="clr-namespace:Org.Vs.TailForWin.Data" 
+        xmlns:prop="clr-namespace:Org.Vs.TailForWin.Data"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         Loaded="Window_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters" Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True" Closing="Window_Closing" 
         xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox">
   <Window.Resources>
-    <prop:FileManagerDataList x:Key="fileManagerData"/>
-    <CollectionViewSource x:Key="cvsFileManagerData" Source="{StaticResource fileManagerData}" Filter="CollectionViewSource_Filter">
-      <CollectionViewSource.SortDescriptions>
-        <scm:SortDescription PropertyName="FileName"/>
-      </CollectionViewSource.SortDescriptions>
-      <CollectionViewSource.GroupDescriptions>
-        <PropertyGroupDescription PropertyName="Category"/>
-      </CollectionViewSource.GroupDescriptions>
-    </CollectionViewSource>
-  
     <ResourceDictionary>
+      <prop:FileManagerDataList x:Key="fileManagerData"/>
+      <CollectionViewSource x:Key="cvsFileManagerData" Source="{StaticResource fileManagerData}" Filter="CollectionViewSource_Filter">
+        <CollectionViewSource.SortDescriptions>
+          <scm:SortDescription PropertyName="FileName"/>
+        </CollectionViewSource.SortDescriptions>
+        <CollectionViewSource.GroupDescriptions>
+          <PropertyGroupDescription PropertyName="Category"/>
+        </CollectionViewSource.GroupDescriptions>
+      </CollectionViewSource>
+
       <multiconv:EnableOpenMultiConverter x:Key="isEnabled" />
       <conv:TailConverter x:Key="selectedConverter" />
       <conv:TextTrimConverter x:Key="trimConverter" />
@@ -26,7 +26,7 @@
       <conv:FilterCountToStringConverter x:Key="filterCount" />
       <conv:FontToStringConverter x:Key="FontToString" />
     </ResourceDictionary>
-    
+
   </Window.Resources>
   <Grid Margin="5">
     <Grid.RowDefinitions>
@@ -34,7 +34,40 @@
       <RowDefinition Height="234*" />
     </Grid.RowDefinitions>
     <Grid>
-      <DataGrid AutoGenerateColumns="False" Name="dataGridFiles" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}" HorizontalGridLinesBrush="#FFBEBEBE" VerticalGridLinesBrush="#FFBEBEBE" SelectionChanged="dataGridFiles_SelectionChanged" SelectionMode="Single" SelectionUnit="FullRow" MouseDoubleClick="dataGridFiles_MouseDoubleClick">
+      <DataGrid AutoGenerateColumns="False" Name="dataGridFiles" ItemsSource="{Binding Source={StaticResource cvsFileManagerData}}" CanUserAddRows="False"
+                HorizontalGridLinesBrush="#FFBEBEBE" VerticalGridLinesBrush="#FFBEBEBE" SelectionChanged="dataGridFiles_SelectionChanged" SelectionMode="Single" 
+                SelectionUnit="FullRow" MouseDoubleClick="dataGridFiles_MouseDoubleClick" IsReadOnly="True">
+        <DataGrid.GroupStyle>
+          <GroupStyle>
+            <GroupStyle.HeaderTemplate>
+              <DataTemplate>
+                <StackPanel>
+                  <TextBlock Text="{Binding Path=Name}"/>
+                </StackPanel>
+              </DataTemplate>
+            </GroupStyle.HeaderTemplate>
+            <GroupStyle.ContainerStyle>
+              <Style TargetType="{x:Type GroupItem}">
+                <Setter Property="Template">
+                  <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                      <Expander IsExpanded="True" BorderBrush="#FFEBEBEB" BorderThickness="1,1,1,2">
+                        <Expander.Header>
+                          <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=Name}" />
+                            <TextBlock Text="{Binding Path=ItemCount}" Margin="5,1,0,5" FontSize="10" FontWeight="Bold"/>
+                          </StackPanel>
+                        </Expander.Header>
+                        <ItemsPresenter />
+                      </Expander>
+                    </ControlTemplate>
+                  </Setter.Value>
+                </Setter>
+              </Style>
+            </GroupStyle.ContainerStyle>
+          </GroupStyle>
+        </DataGrid.GroupStyle>
+
         <DataGrid.Style>
           <Style TargetType="DataGrid">
             <Setter Property="AlternatingRowBackground" Value="Azure"/>
@@ -52,11 +85,11 @@
         </DataGrid.RowStyle>
 
         <DataGrid.Columns>
-          <DataGridTextColumn Width="180" Header="Filename" Binding="{Binding Path=File}" IsReadOnly="True"/>
-          <DataGridTextColumn Width="190" Header="Description" Binding="{Binding Path=Description}" IsReadOnly="True"/>
-          <DataGridTextColumn Width="190" Header="Category" Binding="{Binding Path=Category}" IsReadOnly="True"/>
-          <DataGridTextColumn Width="90" Header="Refreh Rate" Binding="{Binding Path=RefreshRate}" IsReadOnly="True"/>
-          <DataGridTextColumn Width="120" Header="Thread Priority" Binding="{Binding Path=ThreadPriority}" IsReadOnly="True"/>
+          <DataGridTextColumn Width="180" Header="Filename" Binding="{Binding Path=File}"/>
+          <DataGridTextColumn Width="190" Header="Description" Binding="{Binding Path=Description}"/>
+          <DataGridTextColumn Width="190" Header="Category" Binding="{Binding Path=Category}"/>
+          <DataGridTextColumn Width="90" Header="Refreh Rate" Binding="{Binding Path=RefreshRate}"/>
+          <DataGridTextColumn Width="120" Header="Thread Priority" Binding="{Binding Path=ThreadPriority}"/>
         </DataGrid.Columns>
       </DataGrid>
     </Grid>
@@ -168,8 +201,8 @@
           <TextBlock Text="Category" Margin="5,0,0,0" FontStyle="Italic"/>
         </my:WatermarkTextBox.Watermark>
       </my:WatermarkTextBox>
-      <CheckBox Content="New Category" Grid.Row="1" Grid.Column="3" Height="22" HorizontalAlignment="Left" Margin="0,7" Name="checkBoxInsertCategory" VerticalAlignment="Center"
-                TabIndex="3">
+      <CheckBox Content="New Category" Grid.Row="1" Grid.Column="3" Height="22" HorizontalAlignment="Left" Margin="0,4" Name="checkBoxInsertCategory" VerticalAlignment="Center"
+                TabIndex="3" Grid.ColumnSpan="2" Width="141">
         <CheckBox.ToolTip>
           <StackPanel>
             <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Category</TextBlock>
