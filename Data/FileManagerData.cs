@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// Dataobject for FileManagerProperties
   /// </summary>
-  public class FileManagerData : TailLogData
+  public class FileManagerData : TailLogData, IComparer
   {
     #region Description
 
@@ -197,6 +198,27 @@ namespace Org.Vs.TailForWin.Data
       ThreadPriority = mementoFMData.ThreadPriority;
       ListOfFilter = mementoFMData.ListOfFilter;
       FileEncoding = mementoFMData.FileEncoding;
+    }
+
+    /// <summary>
+    /// Compare
+    /// </summary>
+    /// <param name="x">FileManagerData x</param>
+    /// <param name="y">FileManagerData y</param>
+    /// <returns>Compareable result</returns>
+    public int Compare(object x, object y)
+    {
+      if(x is FileManagerData && y is FileManagerData)
+      {
+        var xFm = x as FileManagerData;
+        var yFm = y as FileManagerData;
+
+        DateTime nx = xFm.FileCreationTime ?? DateTime.MaxValue;
+        DateTime ny = yFm.FileCreationTime ?? DateTime.MaxValue;
+
+        return (-(nx.CompareTo(ny)));
+      }
+      return (1);
     }
 
     /// <summary>

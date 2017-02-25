@@ -600,7 +600,7 @@ namespace Org.Vs.TailForWin.Controller
         {
         case EFileSort.FileCreationTime:
 
-          fmProperties.Sort(new FileManagerDataFileCreationTimeComparer());
+          fmProperties.Sort();
           break;
 
         case EFileSort.Nothing:

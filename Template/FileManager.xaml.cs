@@ -433,6 +433,9 @@ namespace Org.Vs.TailForWin.Template
 
       SortDataGrid();
 
+      if(dataGridFiles.SelectedCells.Count == 0)
+        return;
+
       var dc = GetDataGridCell(dataGridFiles.SelectedCells[0]);
       Keyboard.Focus(dc);
     }
@@ -531,7 +534,7 @@ namespace Org.Vs.TailForWin.Template
         CultureInfo culturInfo = CultureInfo.CurrentCulture;
         int categoryResult = culturInfo.CompareInfo.IndexOf(fmData.Category, FilterTextBox.Text, CompareOptions.IgnoreCase);
         int descriptionResult = culturInfo.CompareInfo.IndexOf(fmData.Description, FilterTextBox.Text, CompareOptions.IgnoreCase);
-        int result = categoryResult & descriptionResult;
+        int result = categoryResult | descriptionResult;
 
         if(!string.IsNullOrEmpty(FilterTextBox.Text) && result < 0)
           e.Accepted = false;
@@ -601,7 +604,7 @@ namespace Org.Vs.TailForWin.Template
       SetAddSaveButton(false);
     }
 
-    private static DataGridCell GetDataGridCell(System.Windows.Controls.DataGridCellInfo cellInfo)
+    private static DataGridCell GetDataGridCell(DataGridCellInfo cellInfo)
     {
       var cellContent = cellInfo.Column.GetCellContent(cellInfo.Item);
 
@@ -616,21 +619,17 @@ namespace Org.Vs.TailForWin.Template
 
     private void SortDataGrid()
     {
-      ICollectionView cvFmData = GetCurrentCollectionViewSource();
-
-      if(cvFmData == null)
-        return;
-
       switch(SettingsHelper.TailSettings.DefaultFileSort)
       {
       case EFileSort.FileCreationTime:
 
-        // TODO FileCreationTime sorting
-        if(cvFmData.CanSort)
-          cvFmData.SortDescriptions.Add(new SortDescription("File", ListSortDirection.Ascending));
+        ListCollectionView view = (ListCollectionView) GetCurrentCollectionViewSource();
+        view.CustomSort = fmData;
         break;
 
       case EFileSort.Nothing:
+
+        ICollectionView cvFmData = GetCurrentCollectionViewSource();
 
         if(cvFmData.CanSort)
           cvFmData.SortDescriptions.Add(new SortDescription("File", ListSortDirection.Ascending));
