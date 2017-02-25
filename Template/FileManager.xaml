@@ -1,19 +1,20 @@
-﻿<Window x:Class="Org.Vs.TailForWin.Template.FileManager"
+﻿<Window x:Name="TailFileManager" x:Class="Org.Vs.TailForWin.Template.FileManager"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:multiconv="clr-namespace:Org.Vs.TailForWin.Converters.MultiConverters"
-        Title="FileManager" Height="584" Width="640" Icon="/TailForWin;component/Res/Explorer.ico" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize"
         xmlns:prop="clr-namespace:Org.Vs.TailForWin.Data"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-        Loaded="Window_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters" Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True" Closing="Window_Closing" 
-        xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox">
+        xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox"
+        xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters"
+        
+        Title="FileManager" Height="584" Width="640" Icon="/TailForWin;component/Res/Explorer.ico" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize"
+        Loaded="Window_Loaded"  Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True" Closing="Window_Closing">
   <Window.Resources>
     <ResourceDictionary>
       <prop:FileManagerDataList x:Key="fileManagerData"/>
       <CollectionViewSource x:Key="cvsFileManagerData" Source="{StaticResource fileManagerData}" Filter="CollectionViewSource_Filter">
         <CollectionViewSource.SortDescriptions>
-          <scm:SortDescription PropertyName="Category"/>
-          <scm:SortDescription PropertyName="Description"/>
+          <scm:SortDescription PropertyName="File"/>
         </CollectionViewSource.SortDescriptions>
         <CollectionViewSource.GroupDescriptions>
           <PropertyGroupDescription PropertyName="Category"/>
@@ -26,13 +27,14 @@
       <conv:IntToBoolConverter x:Key="intToBoolConverter"/>
       <conv:FilterCountToStringConverter x:Key="filterCount"/>
       <conv:FontToStringConverter x:Key="FontToString"/>
+      <conv:InverseBooleanConverter x:Key="InverseBoolConverter"/>
     </ResourceDictionary>
 
   </Window.Resources>
   <Grid Margin="5">
     <Grid.RowDefinitions>
-      <RowDefinition Height="320" />
-      <RowDefinition Height="234*" />
+      <RowDefinition Height="320"/>
+      <RowDefinition Height="234*"/>
     </Grid.RowDefinitions>
     <Grid>
       <Grid.RowDefinitions>
@@ -42,17 +44,17 @@
       </Grid.RowDefinitions>
       <DataGrid AutoGenerateColumns="False" Name="dataGridFiles" ItemsSource="{Binding Source={StaticResource cvsFileManagerData}}" CanUserAddRows="False"
                 HorizontalGridLinesBrush="#FFBEBEBE" VerticalGridLinesBrush="#FFBEBEBE" SelectionChanged="dataGridFiles_SelectionChanged" SelectionMode="Single" 
-                SelectionUnit="FullRow" MouseDoubleClick="dataGridFiles_MouseDoubleClick" IsReadOnly="True">
-             <DataGrid.Resources>
-              <ContextMenu x:Key="columnHeaderContextMenu">
-                <MenuItem Header="Expand groups"/>
-                <MenuItem Header="Collapse groups"/>
-              </ContextMenu>
-              
-              <Style TargetType="{x:Type DataGridColumnHeader}">
-                <Setter Property="ContextMenu" Value="{StaticResource columnHeaderContextMenu}"/>
-              </Style>
-            </DataGrid.Resources>
+                SelectionUnit="FullRow" MouseDoubleClick="dataGridFiles_MouseDoubleClick" IsReadOnly="True" Loaded="dataGridFiles_Loaded">
+        <DataGrid.Resources>
+          <ContextMenu x:Key="columnHeaderContextMenu">
+            <MenuItem Header="Expand groups" Click="ExpandGroups_Click" IsEnabled="{Binding IsExpanded, Source={x:Reference TailFileManager}, Converter={StaticResource InverseBoolConverter}}"/>
+            <MenuItem Header="Collapse groups" Click="CollapseGroups_Click" IsEnabled="{Binding IsExpanded, Source={x:Reference TailFileManager}}"/>
+          </ContextMenu>
+
+          <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="ContextMenu" Value="{StaticResource columnHeaderContextMenu}"/>
+          </Style>
+        </DataGrid.Resources>
 
         <DataGrid.GroupStyle>
           <GroupStyle>
@@ -68,11 +70,11 @@
                 <Setter Property="Template">
                   <Setter.Value>
                     <ControlTemplate TargetType="{x:Type GroupItem}">
-                      <Expander IsExpanded="True" BorderBrush="#FFEBEBEB" BorderThickness="1,1,1,2">
+                      <Expander IsExpanded="{Binding IsExpanded, ElementName=TailFileManager, Mode=TwoWay}" BorderBrush="#FFEBEBEB" BorderThickness="1,1,1,2">
                         <Expander.Header>
                           <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Path=Name}" />
-                            <TextBlock Text="{Binding Path=ItemCount}" Margin="5,1,0,5" FontSize="10" FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Path=ItemCount}" Margin="10,1,0,5" FontSize="10" FontWeight="Bold"/>
                           </StackPanel>
                         </Expander.Header>
                         <ItemsPresenter />
@@ -109,20 +111,20 @@
           <DataGridTextColumn Width="120" Header="Thread Priority" Binding="{Binding Path=ThreadPriority}"/>
         </DataGrid.Columns>
       </DataGrid>
-      
+
       <StackPanel Grid.Row="1">
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="180"/>
             <ColumnDefinition/>
           </Grid.ColumnDefinitions>
-          
+
           <Label Content="Filter by Description or Category:" VerticalAlignment="Center"/>
           <TextBox Grid.Column="1" Name="FilterTextBox" TextChanged="FilterTextBox_TextChanged" Margin="0,5"/>
         </Grid>
       </StackPanel>
-      
-      <Separator Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="600" />
+
+      <Separator Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="560" />
     </Grid>
     <Grid Grid.Row="1" Name="FMProperties">
       <Grid.RowDefinitions>

@@ -187,8 +187,6 @@ namespace Org.Vs.TailForWin.Controller
             fmProperties.Add(item);
           }
         }
-
-        SortListIfRequired();
       }
       catch(Exception ex)
       {
@@ -596,17 +594,24 @@ namespace Org.Vs.TailForWin.Controller
     /// </summary>
     public void SortListIfRequired()
     {
-      switch(SettingsHelper.TailSettings.DefaultFileSort)
+      try
       {
-      case EFileSort.FileCreationTime:
+        switch(SettingsHelper.TailSettings.DefaultFileSort)
+        {
+        case EFileSort.FileCreationTime:
 
-        fmProperties.Sort(new LogFile.FileManagerDataFileCreationTimeComparer());
-        break;
+          fmProperties.Sort(new FileManagerDataFileCreationTimeComparer());
+          break;
 
-      case EFileSort.Nothing:
+        case EFileSort.Nothing:
 
-        fmProperties = fmProperties.OrderBy(o => o.File).ToList();
-        break;
+          fmProperties = fmProperties.OrderBy(o => o.File).ToList();
+          break;
+        }
+      }
+      catch(Exception ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 

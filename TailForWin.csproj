@@ -153,6 +153,7 @@
     <Compile Include="Data\Enums\ETailLogColorTypes.cs" />
     <Compile Include="Data\Enums\ETailRefreshRate.cs" />
     <Compile Include="Data\Enums\ETimeFormat.cs" />
+    <Compile Include="Data\FileManagerDataFileCreationTimeComparer.cs" />
     <Compile Include="Data\FileManagerDataList.cs" />
     <Compile Include="Data\FileManagerHelper.cs" />
     <Compile Include="Data\Events\FilterDataEventArgs.cs" />

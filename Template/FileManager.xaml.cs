@@ -22,7 +22,7 @@ namespace Org.Vs.TailForWin.Template
   /// <summary>
   /// Interaction logic for FileManger.xaml
   /// </summary>
-  public sealed partial class FileManager
+  public sealed partial class FileManager : INotifyPropertyChanged
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(FileManager));
 
@@ -149,9 +149,9 @@ namespace Org.Vs.TailForWin.Template
       {
       case EFileManagerState.AddFile:
 
-        FileManagerData lastItem = fmDoc.FmProperties[fmDoc.FmProperties.Count - 1];
-        fmDoc.FmProperties.Remove(lastItem);
-        dataGridFiles.Items.Refresh();
+        FileManagerData lastItem = fmData[fmData.Count - 1];
+        fmData.Remove(lastItem);
+
         SelectLastItemInDataGrid();
         SetDialogTitle();
         break;
@@ -172,7 +172,9 @@ namespace Org.Vs.TailForWin.Template
       }
 
       fmState = EFileManagerState.OpenFileManager;
+
       SetAddSaveButton();
+      CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource).Refresh();
     }
 
     private void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -185,13 +187,11 @@ namespace Org.Vs.TailForWin.Template
 
       if(fmDoc.RemoveNode(fmWorkingProperties))
       {
-        fmData.RemoveAt(index);
-        //-- fmDoc.FmProperties.RemoveAt(index);
+        fmData.Remove(fmWorkingProperties);
         dataGridFiles.Items.Refresh();
 
         fmDoc.RefreshCategories();
         RefreshCategoryComboBox();
-
         SortDataGrid();
 
         if(fmDoc.FmProperties.Count != 0)
@@ -199,6 +199,7 @@ namespace Org.Vs.TailForWin.Template
       }
 
       fmState = EFileManagerState.OpenFileManager;
+      CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource).Refresh();
     }
 
     private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -233,13 +234,13 @@ namespace Org.Vs.TailForWin.Template
 
       SortDataGrid();
       SetDialogTitle();
-      CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource).Refresh();
 
       SetSelectedComboBoxItem(fmWorkingProperties.Category, fmWorkingProperties.ThreadPriority, fmWorkingProperties.RefreshRate, fmWorkingProperties.FileEncoding);
       Title = "FileManager";
       SetAddSaveButton();
       fmState = EFileManagerState.OpenFileManager;
       fmMemento = fmWorkingProperties.SaveToMemento();
+      CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource).Refresh();
     }
 
     private void checkBoxWrap_Click(object sender, RoutedEventArgs e)
@@ -273,6 +274,18 @@ namespace Org.Vs.TailForWin.Template
       filters.ShowDialog();
     }
 
+    private void CollapseGroups_Click(object sender, RoutedEventArgs e)
+    {
+      if(sender is MenuItem)
+        IsExpanded = false;
+    }
+
+    private void ExpandGroups_Click(object sender, RoutedEventArgs e)
+    {
+      if(sender is MenuItem)
+        IsExpanded = true;
+    }
+
     #endregion
 
     #region Events
@@ -300,8 +313,7 @@ namespace Org.Vs.TailForWin.Template
       if(fmData.Count == 0)
         return;
 
-      var dc = GetDataGridCell(dataGridFiles.SelectedCells[0]);
-      Keyboard.Focus(dc);
+      IsExpanded = true;
     }
 
     private void Window_Closing(object sender, CancelEventArgs e)
@@ -359,6 +371,19 @@ namespace Org.Vs.TailForWin.Template
 
       fmWorkingProperties.FileEncoding = (Encoding) comboBoxFileEncode.SelectedItem;
       ChangeFmStateToEditItem();
+    }
+
+    private void dataGridFiles_Loaded(object sender, RoutedEventArgs e)
+    {
+      ICollectionView cvFmData = CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource);
+
+      if(fmData.Count == 0)
+        return;
+
+      SortDataGrid();
+
+      var dc = GetDataGridCell(dataGridFiles.SelectedCells[0]);
+      Keyboard.Focus(dc);
     }
 
     private void dataGridFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -511,11 +536,11 @@ namespace Org.Vs.TailForWin.Template
       SetAddSaveButton(false);
     }
 
-    private static System.Windows.Controls.DataGridCell GetDataGridCell(System.Windows.Controls.DataGridCellInfo cellInfo)
+    private static DataGridCell GetDataGridCell(System.Windows.Controls.DataGridCellInfo cellInfo)
     {
       var cellContent = cellInfo.Column.GetCellContent(cellInfo.Item);
 
-      return (System.Windows.Controls.DataGridCell) cellContent?.Parent;
+      return (DataGridCell) cellContent?.Parent;
     }
 
     private void SetDialogTitle()
@@ -526,8 +551,26 @@ namespace Org.Vs.TailForWin.Template
 
     private void SortDataGrid()
     {
-      fmDoc.SortListIfRequired();
-      dataGridFiles.Items.Refresh();
+      ICollectionView cvFmData = CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource);
+
+      if(cvFmData == null)
+        return;
+
+      switch(SettingsHelper.TailSettings.DefaultFileSort)
+      {
+      case EFileSort.FileCreationTime:
+
+        if(cvFmData.CanSort)
+          cvFmData.SortDescriptions.Add(new SortDescription("File", ListSortDirection.Ascending));
+        break;
+
+      case EFileSort.Nothing:
+
+        if(cvFmData.CanSort)
+          cvFmData.SortDescriptions.Add(new SortDescription("File", ListSortDirection.Ascending));
+
+        break;
+      }
     }
 
     private void ChangeFmStateToEditItem()
@@ -706,6 +749,38 @@ namespace Org.Vs.TailForWin.Template
       }
 
       Close();
+    }
+
+    #endregion
+
+    #region GridControl groups expanded/collapse
+
+    /// <summary>
+    /// PropertyChangedEventHandler
+    /// </summary>
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    private void NotifyPropertyChanged(string propertyName)
+    {
+      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private bool isExpanded;
+
+    /// <summary>
+    /// Groups are expanded
+    /// </summary>
+    public bool IsExpanded
+    {
+      get
+      {
+        return (isExpanded);
+      }
+      set
+      {
+        isExpanded = value;
+        NotifyPropertyChanged("IsExpanded");
+      }
     }
 
     #endregion

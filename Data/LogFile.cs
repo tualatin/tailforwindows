@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -14,7 +13,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// LogFile class
   /// </summary>
-  public static class LogFile
+  public static partial class LogFile
   {
     /// <summary>
     /// Application caption
@@ -274,24 +273,6 @@ namespace Org.Vs.TailForWin.Data
     public static bool FindDuplicateInFilterList(ObservableCollection<FilterData> listOfFilters, FilterData newItem)
     {
       return (listOfFilters.Any(item => String.Compare(item.Filter, newItem.Filter, StringComparison.Ordinal) == 0));
-    }
-
-    /// <summary>
-    /// FileCreationTime comparer
-    /// </summary>
-    public class FileManagerDataFileCreationTimeComparer : IComparer<FileManagerData>
-    {
-      #region IComparer<DateTime?> Members
-
-      public int Compare(FileManagerData x, FileManagerData y)
-      {
-        DateTime nx = x.FileCreationTime ?? DateTime.MaxValue;
-        DateTime ny = y.FileCreationTime ?? DateTime.MaxValue;
-
-        return (-(nx.CompareTo(ny)));
-      }
-
-      #endregion
     }
   }
 }
