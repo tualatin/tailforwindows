@@ -94,6 +94,13 @@ namespace Org.Vs.TailForWin.Controller
           bHelper = false;
         TailSettings.SmartWatch = bHelper;
 
+        if(ConfigurationManager.AppSettings["GroupByCategory"] == null)
+          AddNewProperties_IntoConfigFile("GroupByCategory", "true");
+
+        if(!bool.TryParse(ConfigurationManager.AppSettings["GroupByCategory"], out bHelper))
+          bHelper = true;
+        TailSettings.GroupByCategory = bHelper;
+
         sHelper = ConfigurationManager.AppSettings["TimeFormat"];
         ReadTimeFormatEnum(sHelper);
 
@@ -184,6 +191,7 @@ namespace Org.Vs.TailForWin.Controller
         config.AppSettings.Settings["HighlightColor"].Value = TailSettings.DefaultHighlightColor;
         config.AppSettings.Settings["AutoUpdate"].Value = TailSettings.AutoUpdate.ToString();
         config.AppSettings.Settings["SmartWatch"].Value = TailSettings.SmartWatch.ToString();
+        config.AppSettings.Settings["GroupByCategory"].Value = TailSettings.GroupByCategory.ToString();
 
         SaveAlertSettings(config);
         SaveProxySettings(config);
@@ -258,6 +266,7 @@ namespace Org.Vs.TailForWin.Controller
       TailSettings.ShowLineNumbers = false;
       TailSettings.AutoUpdate = false;
       TailSettings.SmartWatch = false;
+      TailSettings.GroupByCategory = true;
 
       ResetAlertSettings();
       ResetProxySettings();

@@ -592,6 +592,16 @@ namespace Org.Vs.TailForWin.Data
       set;
     }
 
+
+    /// <summary>
+    /// Group GridControl in FileManager by Category
+    /// </summary>
+    public bool GroupByCategory
+    {
+      get;
+      set;
+    }
+
     /// <summary>
     /// Alert settings
     /// </summary>

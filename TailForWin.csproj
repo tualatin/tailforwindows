@@ -131,6 +131,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Converters\GroupByCategoryContentConverter.cs" />
     <Compile Include="Converters\MultiConverters\EnableOpenMultiConverter.cs" />
     <Compile Include="Converters\FilterCountToStringConverter.cs" />
     <Compile Include="Converters\FilterDataToBoolConverter.cs" />

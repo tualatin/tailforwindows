@@ -28,6 +28,7 @@
       <conv:FilterCountToStringConverter x:Key="filterCount"/>
       <conv:FontToStringConverter x:Key="FontToString"/>
       <conv:InverseBooleanConverter x:Key="InverseBoolConverter"/>
+      <conv:GroupByCategoryContentConverter x:Key="GroupByCategoryConverter"/>
     </ResourceDictionary>
 
   </Window.Resources>
@@ -49,6 +50,7 @@
           <ContextMenu x:Key="columnHeaderContextMenu">
             <MenuItem Header="Expand groups" Click="ExpandGroups_Click" IsEnabled="{Binding IsExpanded, Source={x:Reference TailFileManager}, Converter={StaticResource InverseBoolConverter}}"/>
             <MenuItem Header="Collapse groups" Click="CollapseGroups_Click" IsEnabled="{Binding IsExpanded, Source={x:Reference TailFileManager}}"/>
+            <MenuItem Header="{Binding GroupByCategory, Source={x:Reference TailFileManager}, Converter={StaticResource GroupByCategoryConverter}}" Click="GroupUngroupByCategory_Click"/>
           </ContextMenu>
 
           <Style TargetType="{x:Type DataGridColumnHeader}">

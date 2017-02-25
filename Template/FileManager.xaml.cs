@@ -286,6 +286,22 @@ namespace Org.Vs.TailForWin.Template
         IsExpanded = true;
     }
 
+    private void GroupUngroupByCategory_Click(object sender, RoutedEventArgs e)
+    {
+      ICollectionView cvFmData = CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource);
+
+      if(GroupByCategory)
+      {
+        cvFmData.GroupDescriptions.Clear();
+        GroupByCategory = false;
+      }
+      else
+      {
+        GridControlGroupByCategory(cvFmData);
+        GroupByCategory = true;
+      }
+    }
+
     #endregion
 
     #region Events
@@ -294,10 +310,10 @@ namespace Org.Vs.TailForWin.Template
     {
       ICollectionView cvFmData = CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource);
 
-      if(cvFmData != null && cvFmData.CanGroup)
+      if(SettingsHelper.TailSettings.GroupByCategory)
       {
-        cvFmData.GroupDescriptions.Clear();
-        cvFmData.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
+        GroupByCategory = true;
+        GridControlGroupByCategory(cvFmData);
       }
 
       if(fmState == EFileManagerState.OpenFileManager && fmData.Count > 0)
@@ -502,6 +518,15 @@ namespace Org.Vs.TailForWin.Template
 
     #region HelperFunctions
 
+    private void GridControlGroupByCategory(ICollectionView cvFmData)
+    {
+      if(cvFmData != null && cvFmData.CanGroup)
+      {
+        cvFmData.GroupDescriptions.Clear();
+        cvFmData.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
+      }
+    }
+
     private void AddNewFile(string fileName)
     {
       if(string.IsNullOrEmpty(fileName))
@@ -560,6 +585,7 @@ namespace Org.Vs.TailForWin.Template
       {
       case EFileSort.FileCreationTime:
 
+        // TODO FileCreationTime sorting
         if(cvFmData.CanSort)
           cvFmData.SortDescriptions.Add(new SortDescription("File", ListSortDirection.Ascending));
         break;
@@ -780,6 +806,24 @@ namespace Org.Vs.TailForWin.Template
       {
         isExpanded = value;
         NotifyPropertyChanged("IsExpanded");
+      }
+    }
+
+    private bool groupByCategory;
+
+    /// <summary>
+    /// GroupByCategory
+    /// </summary>
+    public bool GroupByCategory
+    {
+      get
+      {
+        return (groupByCategory);
+      }
+      set
+      {
+        groupByCategory = value;
+        NotifyPropertyChanged("GroupByCategory");
       }
     }
 
