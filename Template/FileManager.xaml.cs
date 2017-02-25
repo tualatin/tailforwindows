@@ -174,7 +174,7 @@ namespace Org.Vs.TailForWin.Template
       fmState = EFileManagerState.OpenFileManager;
 
       SetAddSaveButton();
-      CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource).Refresh();
+      GetCurrentCollectionViewSource().Refresh();
     }
 
     private void btnDelete_Click(object sender, RoutedEventArgs e)
@@ -240,27 +240,55 @@ namespace Org.Vs.TailForWin.Template
       SetAddSaveButton();
       fmState = EFileManagerState.OpenFileManager;
       fmMemento = fmWorkingProperties.SaveToMemento();
-      CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource).Refresh();
+      GetCurrentCollectionViewSource().Refresh();
     }
 
-    private void checkBoxWrap_Click(object sender, RoutedEventArgs e)
+    private void CheckBoxWrap_Click(object sender, RoutedEventArgs e)
     {
+      if(!IsInitialized)
+        return;
+
       ChangeFmStateToEditItem();
     }
 
-    private void checkBoxTimestamp_Click(object sender, RoutedEventArgs e)
+    private void CheckBoxTimestamp_Click(object sender, RoutedEventArgs e)
     {
+      if(!IsInitialized)
+        return;
+
       ChangeFmStateToEditItem();
     }
 
-    private void checkBoxKillSpace_Click(object sender, RoutedEventArgs e)
+    private void CheckBoxKillSpace_Click(object sender, RoutedEventArgs e)
     {
+      if(!IsInitialized)
+        return;
+
       ChangeFmStateToEditItem();
     }
 
-    private void checkBoxThreadNewWindow_Click(object sender, RoutedEventArgs e)
+    private void CheckBoxThreadNewWindow_Click(object sender, RoutedEventArgs e)
     {
+      if(!IsInitialized)
+        return;
+
       ChangeFmStateToEditItem();
+    }
+
+    private void CheckBoxAlwaysGroupByCategory_Click(object sender, RoutedEventArgs e)
+    {
+      if(!IsInitialized)
+        return;
+
+      GroupByCategory = CheckBoxAlwaysGroupByCategory.IsChecked.Value;
+      ICollectionView cvFmData = GetCurrentCollectionViewSource();
+
+      if(GroupByCategory)
+        GridControlGroupByCategory(cvFmData);
+      else
+        cvFmData.GroupDescriptions.Clear();
+
+      SettingsHelper.SaveSettings();
     }
 
     private void btnFilters_Click(object sender, RoutedEventArgs e)
@@ -288,7 +316,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void GroupUngroupByCategory_Click(object sender, RoutedEventArgs e)
     {
-      ICollectionView cvFmData = CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource);
+      ICollectionView cvFmData = GetCurrentCollectionViewSource();
 
       if(GroupByCategory)
       {
@@ -308,12 +336,17 @@ namespace Org.Vs.TailForWin.Template
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-      ICollectionView cvFmData = CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource);
+      ICollectionView cvFmData = GetCurrentCollectionViewSource();
 
       if(SettingsHelper.TailSettings.GroupByCategory)
       {
         GroupByCategory = true;
         GridControlGroupByCategory(cvFmData);
+      }
+      else
+      {
+        GroupByCategory = false;
+        cvFmData.GroupDescriptions.Clear();
       }
 
       if(fmState == EFileManagerState.OpenFileManager && fmData.Count > 0)
@@ -325,6 +358,8 @@ namespace Org.Vs.TailForWin.Template
       {
         SelectLastItemInDataGrid();
       }
+
+      CheckBoxAlwaysGroupByCategory.DataContext = SettingsHelper.TailSettings;
 
       if(fmData.Count == 0)
         return;
@@ -391,7 +426,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void dataGridFiles_Loaded(object sender, RoutedEventArgs e)
     {
-      ICollectionView cvFmData = CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource);
+      ICollectionView cvFmData = GetCurrentCollectionViewSource();
 
       if(fmData.Count == 0)
         return;
@@ -511,12 +546,17 @@ namespace Org.Vs.TailForWin.Template
 
     private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
-      CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource).Refresh();
+      GetCurrentCollectionViewSource().Refresh();
     }
 
     #endregion
 
     #region HelperFunctions
+
+    private ICollectionView GetCurrentCollectionViewSource()
+    {
+      return (CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource));
+    }
 
     private void GridControlGroupByCategory(ICollectionView cvFmData)
     {
@@ -576,7 +616,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void SortDataGrid()
     {
-      ICollectionView cvFmData = CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource);
+      ICollectionView cvFmData = GetCurrentCollectionViewSource();
 
       if(cvFmData == null)
         return;
