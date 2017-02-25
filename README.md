@@ -1,4 +1,4 @@
 tailforwindows
 ==============
 
-Log reader for windows
+Professional log reader for windows

@@ -5,6 +5,9 @@ If there are problems, TailForWindows creates a error logfile in the directory. 
 
 Changelog:
 v1.x.x
+* lot of bug fixes
+* new design for all main controls
+* Group by Category option in FileManager
 * Go forward with search is with F3 possible now
 * SpinnerControl accept MouseWheel now
 * File encoding can change while tailing
