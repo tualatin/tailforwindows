@@ -124,6 +124,7 @@ namespace Org.Vs.TailForWin.Template
       textBoxFileName.Text = tabProperties.FileName;
       SetToolTipDetailText();
       FilterState();
+      ShowCountOfFilters();
     }
 
     /// <summary>
@@ -593,6 +594,8 @@ namespace Org.Vs.TailForWin.Template
 
       fms.UpdateNode(fileManagerProperties);
       textBlockTailLog.UpdateFilters(tabProperties.ListOfFilter);
+      ShowCountOfFilters();
+
       saveFilters = false;
     }
 
@@ -1214,6 +1217,17 @@ namespace Org.Vs.TailForWin.Template
     #endregion
 
     #region HelperFunctions
+
+    private void ShowCountOfFilters()
+    {
+      if(tabProperties.ListOfFilter.Count == 0)
+      {
+        LblCountOfFilters.Content = string.Empty;
+        return;
+      }
+
+      LblCountOfFilters.Content = tabProperties.ListOfFilter.Count == 1 ? $"{tabProperties.ListOfFilter.Count} Filter" : $"{tabProperties.ListOfFilter.Count} Filters";
+    }
 
     private System.Drawing.Font CreateTailWindowFont()
     {

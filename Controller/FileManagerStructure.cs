@@ -395,6 +395,8 @@ namespace Org.Vs.TailForWin.Controller
               node.Add(filterElement);
             }
 
+            #region Font
+
             var xFont = node.Element("font");
 
             if(xFont != null)
@@ -409,6 +411,10 @@ namespace Org.Vs.TailForWin.Controller
               xFontBold.Value = property.FontType.Bold.ToString();
               xFontItalic.Value = property.FontType.Italic.ToString();
             }
+
+            #endregion
+
+            #region Search pattern
 
             var searchPattern = node.Element("searchPattern");
 
@@ -440,6 +446,10 @@ namespace Org.Vs.TailForWin.Controller
               searchPattern.Add(AddPartsToSearchPattern(property.SearchPattern.PatternParts));
             }
 
+            #endregion
+
+            #region Filters
+
             var filtersElement = node.Element("filters");
 
             if(filtersElement != null)
@@ -451,6 +461,8 @@ namespace Org.Vs.TailForWin.Controller
             {
               node.Add(AddFiltersToRoot(property.ListOfFilter));
             }
+
+            #endregion
           }
         }
 

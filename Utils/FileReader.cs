@@ -175,9 +175,16 @@ namespace Org.Vs.TailForWin.Utils
         {
 
           if(reader != null)
+          {
+            if(reader.BaseStream == null)
+              return (Double.NaN);
+
             return (reader.BaseStream.Length / 1024.00);
+          }
           else
+          {
             return (Double.NaN);
+          }
         }
         catch(Exception ex)
         {
