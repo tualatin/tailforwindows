@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.Controller
     private static readonly ILog LOG = LogManager.GetLogger(typeof(FileManagerStructure));
 
     XDocument fmDoc;
-    readonly string fmFile = string.Empty;
+    readonly string fmFile;
     List<FileManagerData> fmProperties;
     ObservableCollection<string> category = new ObservableCollection<string>();
     private const string XMLROOT = "fileManager";
@@ -33,14 +33,9 @@ namespace Org.Vs.TailForWin.Controller
     /// <summary>
     /// Constructor
     /// </summary>
-    /// <param name="findHistory">Find history</param>
-    public FileManagerStructure(bool findHistory = false)
+    public FileManagerStructure()
     {
       fmFile = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\FileManager.xml";
-
-      if(findHistory)
-        return;
-
       fmProperties = new List<FileManagerData>();
       LastFileId = -1;
       LastFilterId = -1;
@@ -241,117 +236,6 @@ namespace Org.Vs.TailForWin.Controller
 
       fmDoc.Save(@fmFile, SaveOptions.None);
     }
-
-    #region FindHistory
-
-    /// <summary>
-    /// Wrap around in search dialogue
-    /// </summary>
-    public bool Wrap
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Read find history section in XML file
-    /// </summary>
-    public void ReadFindHistory(ref ObservableDictionary<string, string> words)
-    {
-      try
-      {
-        if(!File.Exists(fmFile))
-          return;
-
-        fmDoc = XDocument.Load(fmFile);
-
-        if(fmDoc.Root == null)
-          return;
-
-        XElement findHistoryRoot = fmDoc.Root.Element("FindHistory");
-
-        if(findHistoryRoot == null)
-          return;
-
-        string wrapAround = findHistoryRoot.Attribute("wrap").Value;
-        bool wrap;
-
-        Wrap = bool.TryParse(wrapAround, out wrap) && wrap;
-
-        foreach(XElement find in findHistoryRoot.Elements("Find"))
-        {
-          words.Add(find.Attribute("name").Value, find.Attribute("name").Value);
-        }
-      }
-      catch(Exception ex)
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-      }
-    }
-
-    /// <summary>
-    /// Save find history attribute wrap
-    /// </summary>
-    public XElement SaveFindHistoryWrap()
-    {
-      if(!File.Exists(fmFile))
-        fmDoc = new XDocument(new XElement(XMLROOT));
-
-      try
-      {
-        if(fmDoc.Root != null)
-        {
-          XElement findHistoryRoot = fmDoc.Root.Element("FindHistory");
-
-          if(findHistoryRoot != null)
-            findHistoryRoot.Attribute("wrap").Value = Wrap.ToString();
-          else
-          {
-            findHistoryRoot = new XElement("FindHistory");
-            findHistoryRoot.Add(new XAttribute("wrap", Wrap.ToString()));
-            fmDoc.Root.Add(findHistoryRoot);
-          }
-
-          fmDoc.Save(@fmFile, SaveOptions.None);
-
-          return (findHistoryRoot);
-        }
-      }
-      catch(Exception ex)
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-      }
-      return (null);
-    }
-
-    /// <summary>
-    /// Save find history attribute name
-    /// </summary>
-    /// <param name="searchWord">Find what word</param>
-    public void SaveFindHistoryName(string searchWord)
-    {
-      if(!File.Exists(fmFile))
-        fmDoc = new XDocument(new XElement(XMLROOT));
-
-      try
-      {
-        if(fmDoc.Root != null)
-        {
-          XElement findHistoryRoot = fmDoc.Root.Element("FindHistory") ?? SaveFindHistoryWrap();
-          XElement findHistoryFind = new XElement("Find");
-          findHistoryFind.Add(new XAttribute("name", searchWord));
-          findHistoryRoot.Add(findHistoryFind);
-        }
-
-        fmDoc.Save(@fmFile, SaveOptions.None);
-      }
-      catch(Exception ex)
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-      }
-    }
-
-    #endregion
 
     /// <summary>
     /// Get a XML node by Id

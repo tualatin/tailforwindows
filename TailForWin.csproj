@@ -130,6 +130,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\HistoryStructureController.cs" />
+    <Compile Include="Controller\SearchPatternController.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\GroupByCategoryContentConverter.cs" />
     <Compile Include="Converters\MultiConverters\EnableOpenMultiConverter.cs" />

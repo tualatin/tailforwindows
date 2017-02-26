@@ -55,7 +55,7 @@ namespace Org.Vs.TailForWin.Template
 
     #endregion
 
-    private readonly FileManagerStructure fmStructure;
+    private readonly HistoryStructureController historyStructure;
     private ObservableDictionary<string, string> searchWords;
     private HwndSource source;
     private const int HOTKEY_ID = 7000;
@@ -76,7 +76,7 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// Wrap search active
     /// </summary>
-    public bool WrapSearch => (fmStructure.Wrap);
+    public bool WrapSearch => (historyStructure.Wrap);
 
 
     /// <summary>
@@ -88,20 +88,20 @@ namespace Org.Vs.TailForWin.Template
 
       PreviewKeyDown += HandleEsc;
 
-      fmStructure = new FileManagerStructure(true);
+      historyStructure = new HistoryStructureController();
       SearchWords = new ObservableDictionary<string, string>();
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-      fmStructure.ReadFindHistory(ref searchWords);
-      checkBoxWrapAround.IsChecked = fmStructure.Wrap;
+      historyStructure.ReadFindHistory(ref searchWords);
+      checkBoxWrapAround.IsChecked = historyStructure.Wrap;
       comboBoxWordToFind.DataContext = this;
       // comboBoxWordToFind.DisplayMemberPath = "Key";
 
       WrapAroundBool wrap = new WrapAroundBool
       {
-        Wrap = fmStructure.Wrap
+        Wrap = historyStructure.Wrap
       };
 
       WrapAround?.Invoke(this, wrap);
@@ -187,11 +187,11 @@ namespace Org.Vs.TailForWin.Template
       WrapAroundBool wrap = new WrapAroundBool();
 
       if(checkBoxWrapAround.IsChecked.Value)
-        wrap.Wrap = fmStructure.Wrap = true;
+        wrap.Wrap = historyStructure.Wrap = true;
       else
-        wrap.Wrap = fmStructure.Wrap = false;
+        wrap.Wrap = historyStructure.Wrap = false;
 
-      fmStructure.SaveFindHistoryWrap();
+      historyStructure.SaveFindHistoryWrap();
       WrapAround?.Invoke(this, wrap);
     }
 
@@ -228,7 +228,7 @@ namespace Org.Vs.TailForWin.Template
         return;
 
       SearchWords.Add(comboBoxWordToFind.Text.Trim(), comboBoxWordToFind.Text.Trim());
-      fmStructure.SaveFindHistoryName(comboBoxWordToFind.Text.Trim());
+      historyStructure.SaveFindHistoryName(comboBoxWordToFind.Text.Trim());
 
       // comboBoxWordToFind.Items.Refresh ( );
     }
