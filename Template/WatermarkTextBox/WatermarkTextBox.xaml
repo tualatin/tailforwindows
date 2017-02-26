@@ -42,12 +42,12 @@
       <Setter.Value>
         <ControlTemplate>
           <DockPanel LastChildFill="True">
-            <Border Background="OrangeRed" DockPanel.Dock="right" Margin="5,0,0,0" Width="20" Height="20" CornerRadius="5" 
+            <Border Background="OrangeRed" DockPanel.Dock="Right" Margin="5,0,0,0" Width="15" Height="15" CornerRadius="15" 
                     ToolTip="{Binding ElementName=customAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
-              <TextBlock Text="!" VerticalAlignment="Center" HorizontalAlignment="Center"  FontWeight="Bold" Foreground="white"/>
+              <TextBlock Text="!" VerticalAlignment="Center" HorizontalAlignment="Center"  FontWeight="Bold" Foreground="White"/>
             </Border>
             <AdornedElementPlaceholder Name="customAdorner" VerticalAlignment="Center">
-              <Border BorderBrush="red" BorderThickness="1"/>
+              <Border BorderBrush="Red" BorderThickness="1"/>
             </AdornedElementPlaceholder>
           </DockPanel>
         </ControlTemplate>

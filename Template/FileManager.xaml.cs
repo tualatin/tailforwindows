@@ -457,7 +457,9 @@ namespace Org.Vs.TailForWin.Template
         SetSelectedComboBoxItem(fmWorkingProperties.Category, fmWorkingProperties.ThreadPriority, fmWorkingProperties.RefreshRate, fmWorkingProperties.FileEncoding);
       }
       else
+      {
         fmMemento = null;
+      }
 
       FMProperties.DataContext = fmWorkingProperties;
     }
@@ -536,7 +538,7 @@ namespace Org.Vs.TailForWin.Template
         CultureInfo culturInfo = CultureInfo.CurrentCulture;
         int categoryResult = culturInfo.CompareInfo.IndexOf(fmData.Category, FilterTextBox.Text, CompareOptions.IgnoreCase);
         int descriptionResult = culturInfo.CompareInfo.IndexOf(fmData.Description, FilterTextBox.Text, CompareOptions.IgnoreCase);
-        int result = categoryResult | descriptionResult;
+        int result = categoryResult & descriptionResult;
 
         if(!string.IsNullOrEmpty(FilterTextBox.Text) && result < 0)
           e.Accepted = false;

@@ -115,7 +115,7 @@ namespace Org.Vs.TailForWin.Data
     /// Gets the error message for the property with the given name.
     /// </summary>
     /// <param name="columnName">Name of column</param>
-    /// <returns></returns>
+    /// <returns>Current error result</returns>
     public string this[string columnName]
     {
       get

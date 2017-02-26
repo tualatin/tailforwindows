@@ -5,6 +5,7 @@ If there are problems, TailForWindows creates a error logfile in the directory. 
 
 Changelog:
 v1.x.x
+* add validation in Filter view and FileManager
 * lot of bug fixes
 * new design for all main controls
 * Group by Category option in FileManager

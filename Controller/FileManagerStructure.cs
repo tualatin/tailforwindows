@@ -125,41 +125,47 @@ namespace Org.Vs.TailForWin.Controller
               AddCategoryToDictionary(cate);
 
             var xElement = xe.Element("id");
+
             if(xElement == null)
               continue;
 
             var element = xe.Element("fileName");
+
             if(element == null)
               continue;
 
             var xElement1 = xe.Element("killSpace");
             var element1 = xe.Element("lineWrap");
-
             var xElement2 = xe.Element("description");
+
             if(xElement2 == null)
               continue;
 
             var element2 = xe.Element("timeStamp");
-
             var xElement3 = xe.Element("threadPriority");
+
             if(xElement3 == null)
               continue;
 
             var element3 = xe.Element("refreshRate");
+
             if(element3 == null)
               continue;
 
             var xElement4 = xe.Element("newWindow");
-
             var element4 = xe.Element("fileEncoding");
+
             if(element4 == null)
               continue;
 
             var filterElement = xe.Element("filters");
+
             if(filterElement == null)
             {
-              filterElement = new XElement("filters");
-              filterElement.Value = "false";
+              filterElement = new XElement("filters")
+              {
+                Value = "false"
+              };
             }
 
             FileManagerData item = new FileManagerData
@@ -167,22 +173,48 @@ namespace Org.Vs.TailForWin.Controller
               ID = GetId(xElement.Value),
               FileName = element.Value,
               FontType = GetFont(xe.Element("font")),
-              KillSpace = xElement1 != null && IsKillSpace(xElement1.Value),
-              Wrap = element1 != null && IsLineWrap(element1.Value),
+              KillSpace = xElement1 != null && StringToBool(xElement1.Value),
+              Wrap = element1 != null && StringToBool(element1.Value),
               Category = cate,
               Description = xElement2.Value,
-              Timestamp = element2 != null && IsTimeStamp(element2.Value),
+              Timestamp = element2 != null && StringToBool(element2.Value),
               ThreadPriority = GetThreadPriority(xElement3.Value),
               RefreshRate = GetRefreshRate(element3.Value),
-              NewWindow = xElement4 != null && IsNewWindow(xElement4.Value),
+              NewWindow = xElement4 != null && StringToBool(xElement4.Value),
               FileEncoding = GetEncoding(element4.Value),
-              FilterState = filterElement != null && GetFilterState(filterElement.Value)
+              FilterState = filterElement != null && StringToBool(filterElement.Value),
             };
 
-            foreach(FilterData data in xe.Elements("filter").Select(GetFilters).Where(data => data != null))
+            #region Search pattern
+
+            var searchPatternElement = xe.Element("searchPattern");
+
+            if(searchPatternElement != null)
+            {
+              item.SearchPattern = GetSearchPattern(searchPatternElement);
+
+              var partsElement = searchPatternElement.Element("parts");
+
+              if(partsElement != null)
+              {
+                foreach(Part part in partsElement.Elements("part").Select(GetPart).Where(part => part != null))
+                {
+                  item.SearchPattern.PatternParts.Add(part);
+                }
+
+              }
+            }
+
+            #endregion
+
+            #region Filters
+
+            foreach(FilterData data in xe.Elements("filter").Select(GetFilter).Where(data => data != null))
             {
               item.ListOfFilter.Add(data);
             }
+
+            #endregion
 
             fmProperties.Add(item);
           }
@@ -326,7 +358,7 @@ namespace Org.Vs.TailForWin.Controller
 
       if(!File.Exists(fmFile))
       {
-        System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("FileNotFound") as string, 
+        System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("FileNotFound") as string,
           $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
         return (null);
@@ -334,16 +366,15 @@ namespace Org.Vs.TailForWin.Controller
 
       if(fmProperties.Count == 0)
       {
-        System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("NoContentFound") as string, 
+        System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("NoContentFound") as string,
           $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
         return (null);
       }
 
-      int iid;
-
-      if(!int.TryParse(id, out iid))
+      if(!int.TryParse(id, out int iid))
         iid = -1;
+
       if(iid != -1)
         cmdParameterItem = fmProperties.Find(o => o.ID == iid);
 
@@ -463,11 +494,15 @@ namespace Org.Vs.TailForWin.Controller
             var filterElement = node.Element("filters");
 
             if(filterElement != null)
+            {
               filterElement.Value = property.FilterState.ToString();
+            }
             else
             {
-              filterElement = new XElement("filters");
-              filterElement.Value = property.FilterState.ToString();
+              filterElement = new XElement("filters")
+              {
+                Value = property.FilterState.ToString()
+              };
               node.Add(filterElement);
             }
 
@@ -486,10 +521,40 @@ namespace Org.Vs.TailForWin.Controller
               xFontItalic.Value = property.FontType.Italic.ToString();
             }
 
+            var searchPattern = node.Element("searchPattern");
+
+            if(searchPattern != null)
+            {
+              var isRegexElement = searchPattern.Element("isRegex");
+              var patternElement = searchPattern.Element("pattern");
+
+              isRegexElement.Value = property.SearchPattern.IsRegex.ToString();
+              patternElement.Value = property.SearchPattern.Pattern;
+
+              var parts = searchPattern.Element("parts");
+
+              if(parts == null)
+              {
+                searchPattern.Add(AddPartsToSearchPattern(property.SearchPattern.PatternParts));
+              }
+              else
+              {
+                parts.Remove();
+                searchPattern.Add(AddPartsToSearchPattern(property.SearchPattern.PatternParts));
+              }
+            }
+            else
+            {
+              node.Add(AddSearchPatternToDoc(property.SearchPattern));
+
+              searchPattern = node.Element("searchPattern");
+              searchPattern.Add(AddPartsToSearchPattern(property.SearchPattern.PatternParts));
+            }
+
             List<string> filterId = node.Elements("filter").Select(filter =>
                                                                    {
                                                                      var element5 = filter.Element("id");
-                                                                     return element5 != null ? element5.Value : null;
+                                                                     return (element5?.Value);
                                                                    }).ToList();
             // TODO NOT nice!
             foreach(string id in filterId)
@@ -498,7 +563,7 @@ namespace Org.Vs.TailForWin.Controller
               node.Elements("filter").Where(x =>
                                             {
                                               var xElement = x.Element("id");
-                                              return (xElement != null && String.Compare(xElement.Value, id1, false) == 0);
+                                              return (xElement != null && string.Compare(xElement.Value, id1, false) == 0);
                                             }).Remove();
             }
 
@@ -510,7 +575,6 @@ namespace Org.Vs.TailForWin.Controller
             }
           }
         }
-        //////////////////////////////////////////////
 
         fmDoc.Save(@fmFile, SaveOptions.None);
       }
@@ -552,7 +616,7 @@ namespace Org.Vs.TailForWin.Controller
 
       try
       {
-        if (fmProperty.FontType == null)
+        if(fmProperty.FontType == null)
           fmProperty.FontType = new Font("Segoe UI", 12f, FontStyle.Regular);
 
         XElement file = new XElement("file",
@@ -573,6 +637,19 @@ namespace Org.Vs.TailForWin.Controller
                 new XElement("size", fmProperty.FontType.Size),
                 new XElement("bold", fmProperty.FontType.Bold),
                 new XElement("italic", fmProperty.FontType.Italic)));
+
+        var searchPattern = new XElement("searchPattern",
+                              new XElement("isRegex", fmProperty.SearchPattern.IsRegex),
+                              new XElement("pattern", fmProperty.SearchPattern.Pattern));
+        var parts = new XElement("parts");
+
+        foreach(Part item in fmProperty.SearchPattern.PatternParts)
+        {
+          parts.Add(AddPartToDoc(item));
+        }
+
+        searchPattern.Add(parts);
+        file.Add(searchPattern);
 
         foreach(FilterData item in fmProperty.ListOfFilter)
         {
@@ -623,7 +700,7 @@ namespace Org.Vs.TailForWin.Controller
       List<string> categories = (from x in fmDoc.Descendants("file")
                                  let xElement = x.Element("category")
                                  where xElement != null
-                                 select xElement.Value).ToList<string>();
+                                 select xElement.Value).ToList();
       Category.Clear();
       categories.ForEach(AddCategoryToDictionary);
     }
@@ -655,9 +732,7 @@ namespace Org.Vs.TailForWin.Controller
 
     private int GetId(string sId, bool isFile = true)
     {
-      int id;
-
-      if(!int.TryParse(sId, out id))
+      if(!int.TryParse(sId, out int id))
         id = -1;
 
       if(isFile)
@@ -673,54 +748,20 @@ namespace Org.Vs.TailForWin.Controller
       return (id);
     }
 
-    private static bool GetFilterState(string sFilters)
+    private bool StringToBool(string boolean)
     {
-      bool filters;
+      if(!bool.TryParse(boolean, out bool outValue))
+        outValue = false;
 
-      if(!bool.TryParse(sFilters, out filters))
-        filters = false;
-
-      return (filters);
+      return (outValue);
     }
 
-    private static bool IsKillSpace(string sKillSpace)
+    private int StringToInt(string integer)
     {
-      bool killspace;
+      if(!int.TryParse(integer, out int outValue))
+        outValue = -1;
 
-      if(!bool.TryParse(sKillSpace, out killspace))
-        killspace = false;
-
-      return (killspace);
-    }
-
-    private static bool IsLineWrap(string sLineWrap)
-    {
-      bool lineWrap;
-
-      if(!bool.TryParse(sLineWrap, out lineWrap))
-        lineWrap = false;
-
-      return (lineWrap);
-    }
-
-    private static bool IsTimeStamp(string sTimeStamp)
-    {
-      bool timeStamp;
-
-      if(!bool.TryParse(sTimeStamp, out timeStamp))
-        timeStamp = false;
-
-      return (timeStamp);
-    }
-
-    private static bool IsNewWindow(string sNewWindow)
-    {
-      bool newWindow;
-
-      if(!bool.TryParse(sNewWindow, out newWindow))
-        newWindow = false;
-
-      return (newWindow);
+      return (outValue);
     }
 
     private static Font GetFont(XContainer root)
@@ -785,7 +826,7 @@ namespace Org.Vs.TailForWin.Controller
       return (encoding);
     }
 
-    private static XElement AddFilterToDoc(FilterData filter)
+    private XElement AddFilterToDoc(FilterData filter)
     {
       XElement docPart = new XElement("filter",
             new XElement("id", filter.Id),
@@ -800,7 +841,7 @@ namespace Org.Vs.TailForWin.Controller
       return (docPart);
     }
 
-    private FilterData GetFilters(XElement root)
+    private FilterData GetFilter(XElement root)
     {
       var xElement = root.Element("id");
 
@@ -830,6 +871,64 @@ namespace Org.Vs.TailForWin.Controller
         FilterFontType = GetFont(root.Element("font"))
       };
       return (filter);
+    }
+
+    private XElement AddSearchPatternToDoc(SearchPatter pattern)
+    {
+      XElement docPart = new XElement("searchPattern",
+        new XElement("isRegex", pattern.IsRegex),
+        new XElement("pattern", pattern.Pattern));
+
+      return (docPart);
+    }
+
+    private SearchPatter GetSearchPattern(XElement root)
+    {
+      var isRegexElement = root.Element("isRegex");
+      var patternElement = root.Element("pattern");
+
+      SearchPatter searchPattern = new SearchPatter
+      {
+        IsRegex = StringToBool(isRegexElement.Value),
+        Pattern = patternElement == null ? string.Empty : patternElement.Value
+      };
+      return (searchPattern);
+    }
+
+    private XElement AddPartToDoc(Part part)
+    {
+      XElement docPart = new XElement("part",
+        new XElement("index", part.Index),
+        new XElement("begin", part.Begin),
+        new XElement("end", part.End));
+
+      return (docPart);
+    }
+
+    private Part GetPart(XElement root)
+    {
+      var beginPart = root.Element("begin");
+      var endPart = root.Element("end");
+      var index = root.Element("index");
+
+      Part part = new Part
+      {
+        Index = StringToInt(index.Value),
+        Begin = StringToInt(beginPart.Value),
+        End = StringToInt(endPart.Value)
+      };
+      return (part);
+    }
+
+    private XElement AddPartsToSearchPattern(List<Part> parts)
+    {
+      var partsElement = new XElement("parts");
+
+      foreach(var item in parts)
+      {
+        partsElement.Add(AddPartToDoc(item));
+      }
+      return (partsElement);
     }
 
     #endregion

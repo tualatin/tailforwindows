@@ -160,8 +160,10 @@
     <Compile Include="Data\Events\FileManagerDataEventArgs.cs" />
     <Compile Include="Data\FilterData.cs" />
     <Compile Include="Data\GoToLineData.cs" />
+    <Compile Include="Data\Part.cs" />
     <Compile Include="Data\ProxySettingsData.cs" />
     <Compile Include="Data\Events\SearchData.cs" />
+    <Compile Include="Data\SearchPatter.cs" />
     <Compile Include="Data\SmtpData.cs" />
     <Compile Include="Logging\ILogExtentions.cs" />
     <Compile Include="Logging\Log4NetTraceListener.cs" />
