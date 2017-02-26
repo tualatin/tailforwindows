@@ -55,6 +55,8 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     private FileManagerData.MementoFileManagerData fmMemento;
 
+    private int errors;
+
 
     /// <summary>
     /// Constructor
@@ -550,6 +552,14 @@ namespace Org.Vs.TailForWin.Template
     private void FilterTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
       GetCurrentCollectionViewSource().Refresh();
+    }
+
+    private void Validation_Error(object sender, ValidationErrorEventArgs e)
+    {
+      if(e.Action == ValidationErrorEventAction.Added)
+        errors++;
+      else
+        errors--;
     }
 
     #endregion

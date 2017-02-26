@@ -1,35 +1,35 @@
 ﻿<Window x:Class="Org.Vs.TailForWin.Template.Filters"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Filters" Height="346" Width="466" Icon="/TailForWin;component/Res/Filters.ico" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False" Loaded="Window_Loaded" xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters" Closing="Window_Closing">
+        xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters"
+        
+        Title="Filters" Height="346" Width="485" Icon="/TailForWin;component/Res/Filters.ico" WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False"
+        Loaded="Window_Loaded" Closing="Window_Closing">
   <Window.Resources>
     <ResourceDictionary>
-      <!--<ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Dictionaries/ScrollbarResources.xaml"/>
-      </ResourceDictionary.MergedDictionaries>-->
-
-      <conv:FontToStringConverter x:Key="FontToString" />
-      <conv:ColorToBrushConverter x:Key="ColorToBrush" />
-      <conv:FilterDataToBoolConverter x:Key="selectedConverter" />
-      <conv:IntToBoolConverter x:Key="intToBoolConverter" />
+      <conv:FontToStringConverter x:Key="FontToString"/>
+      <conv:ColorToBrushConverter x:Key="ColorToBrush"/>
+      <conv:FilterDataToBoolConverter x:Key="selectedConverter"/>
+      <conv:IntToBoolConverter x:Key="intToBoolConverter"/>
     </ResourceDictionary>
   </Window.Resources>
   <Grid Margin="5">
     <Grid.RowDefinitions>
-      <RowDefinition Height="180" />
-      <RowDefinition Height="127*" />
-      <RowDefinition Height="30" />
+      <RowDefinition Height="180"/>
+      <RowDefinition Height="127*"/>
+      <RowDefinition Height="30"/>
     </Grid.RowDefinitions>
 
     <Grid Grid.Row="2">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
+        <ColumnDefinition/>
       </Grid.ColumnDefinitions>
 
-      <Button Content="Close" Height="23" HorizontalAlignment="Center" Name="btnCancel" VerticalAlignment="Center" Width="75" Click="btnCancel_Click" />
-
+      <Button Content="Close" Height="23" HorizontalAlignment="Center" Name="btnCancel" VerticalAlignment="Center" Width="75" Click="btnCancel_Click"/>
     </Grid>
-    <DataGrid AutoGenerateColumns="False" Grid.Row="0" Name="dataGridFilters" HorizontalGridLinesBrush="#FFBEBEBE" VerticalGridLinesBrush="#FFBEBEBE" SelectionChanged="dataGridFiles_SelectionChanged" SelectionMode="Single" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}">
+    
+    <DataGrid AutoGenerateColumns="False" Name="dataGridFilters" HorizontalGridLinesBrush="#FFBEBEBE" VerticalGridLinesBrush="#FFBEBEBE" 
+              SelectionChanged="dataGridFiles_SelectionChanged" SelectionMode="Single" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}">
       <DataGrid.Style>
         <Style TargetType="DataGrid">
           <Setter Property="AlternatingRowBackground" Value="Azure"/>
@@ -47,29 +47,33 @@
       </DataGrid.RowStyle>
 
       <DataGrid.Columns>
-        <DataGridTextColumn Width="180" Header="Filter" IsReadOnly="True" Binding="{Binding Path=Filter}" />
-        <DataGridTextColumn Width="190" Header="Description" IsReadOnly="True" Binding="{Binding Path=Description}" />
-        <DataGridTextColumn Width="190" Header="Font" IsReadOnly="True" Binding="{Binding Path=FilterFontType, Converter={StaticResource FontToString}}" />
+        <DataGridTextColumn Width="180" Header="Filter" IsReadOnly="True" Binding="{Binding Path=Filter}"/>
+        <DataGridTextColumn Width="190" Header="Description" IsReadOnly="True" Binding="{Binding Path=Description}"/>
+        <DataGridTextColumn Width="190" Header="Font" IsReadOnly="True" Binding="{Binding Path=FilterFontType, Converter={StaticResource FontToString}}"/>
       </DataGrid.Columns>
     </DataGrid>
 
     <Grid Grid.Row="1" Name="filterProperties">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="90" />
-        <ColumnDefinition Width="281" />
-        <ColumnDefinition Width="73*" />
+        <ColumnDefinition Width="90"/>
+        <ColumnDefinition Width="281"/>
+        <ColumnDefinition Width="73*"/>
       </Grid.ColumnDefinitions>
       <Grid.RowDefinitions>
-        <RowDefinition Height="30" />
-        <RowDefinition Height="30" />
-        <RowDefinition Height="30" />
-        <RowDefinition Height="63*" />
+        <RowDefinition Height="30"/>
+        <RowDefinition Height="30"/>
+        <RowDefinition Height="30"/>
+        <RowDefinition Height="63*"/>
       </Grid.RowDefinitions>
-      <Label Content="Filter:" Grid.Row="0" Name="label1" VerticalAlignment="Center" />
-      <TextBox Grid.Column="1" Name="textBoxFilter" Margin="0,3,5,3" Text="{Binding ElementName=dataGridFilters, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Path=SelectedItem.Filter}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" TextChanged="textBoxFilter_TextChanged" />
-      <Label Content="Description:" Grid.Row="1" Name="label2" VerticalAlignment="Center" />
-      <TextBox Grid.Column="1" Grid.Row="1" Name="textBoxDescription" Margin="0,3,5,3" Text="{Binding Path=SelectedItem.Description, ElementName=dataGridFilters, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" TextChanged="textBoxDescription_TextChanged" />
-      <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2" Name="btnFont" Click="btnFont_Click" 
+      <Label Content="Filter:" Name="label1" VerticalAlignment="Center" />
+      <TextBox Grid.Column="1" Name="textBoxFilter" Margin="0,3,5,3" Text="{Binding ElementName=dataGridFilters, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Path=SelectedItem.Filter, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" 
+               IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" TextChanged="textBoxFilter_TextChanged"
+               Validation.Error="Validation_Error"/>
+      <Label Content="Description:" Grid.Row="1" Name="label2" VerticalAlignment="Center"/>
+      <TextBox Grid.Column="1" Grid.Row="1" Name="textBoxDescription" Margin="0,3,5,3" Text="{Binding Path=SelectedItem.Description, ElementName=dataGridFilters, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" 
+               IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" 
+               TextChanged="textBoxDescription_TextChanged" Validation.Error="Validation_Error"/>
+      <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Row="2" Name="btnFont" Click="btnFont_Click" 
               IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}">
         <StackPanel>
           <Image Source="/TailForWin;component/Res/Font.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
@@ -88,13 +92,13 @@
       </Button>
       <Label Grid.Column="1" Grid.Row="2" Name="labelFont" VerticalAlignment="Center" Content="{Binding Path=SelectedItem.FilterFontType, ElementName=dataGridFilters, Converter={StaticResource FontToString}, UpdateSourceTrigger=PropertyChanged}" />
 
-      <Grid Grid.Column="2" Grid.Row="0">
+      <Grid Grid.Column="2" HorizontalAlignment="Right">
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="24" />
-          <ColumnDefinition Width="24" />
-          <ColumnDefinition Width="24" />
+          <ColumnDefinition Width="24"/>
+          <ColumnDefinition Width="24"/>
+          <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnNew" Click="btnNew_Click" Margin="0" Grid.Column="0">
+        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnNew" Click="btnNew_Click">
           <Button.ToolTip>
             <StackPanel>
               <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">New</TextBlock>
@@ -110,7 +114,7 @@
             <Image Source="/TailForWin;component/Res/add.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
           </StackPanel>
         </Button>
-        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnCancelAdd" Click="btnCancelAdd_Click" Margin="0" 
+        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnCancelAdd" Click="btnCancelAdd_Click" 
                 Grid.Column="1" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}">
           <Button.ToolTip>
             <StackPanel>
@@ -127,7 +131,7 @@
             <Image Source="/TailForWin;component/Res/Cancel.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
           </StackPanel>
         </Button>
-        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnDelete" Click="btnDelete_Click" Margin="0"
+        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnDelete" Click="btnDelete_Click"
                 Grid.Column="2" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}">
           <Button.ToolTip>
             <StackPanel>

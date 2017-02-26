@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using Org.Vs.TailForWin.Data.Base;
 
@@ -8,7 +9,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// FilterData object
   /// </summary>
-  public class FilterData : INotifyMaster, IDisposable
+  public class FilterData : INotifyMaster, IDisposable, IDataErrorInfo
   {
     /// <summary>
     /// Releases all resources used by the FilterData.
@@ -102,6 +103,40 @@ namespace Org.Vs.TailForWin.Data
         OnPropertyChanged("FilterFontType");
       }
     }
+
+    #region IDataErrorInfo interface
+
+    /// <summary>
+    /// Gets an error message indicating what is wrong with this object.
+    /// </summary>
+    public string Error => throw new NotImplementedException();
+
+    /// <summary>
+    /// Gets the error message for the property with the given name.
+    /// </summary>
+    /// <param name="columnName">Name of column</param>
+    /// <returns></returns>
+    public string this[string columnName]
+    {
+      get
+      {
+        string result = null;
+
+        if(columnName == "Description")
+        {
+          if(string.IsNullOrEmpty(Description))
+            result = "Please enter a Description";
+        }
+        if(columnName == "Filter")
+        {
+          if(string.IsNullOrEmpty(Filter))
+            result = "Please enter a Filterpattern";
+        }
+        return (result);
+      }
+    }
+
+    #endregion
 
     /// <summary>
     /// Save data to memenento

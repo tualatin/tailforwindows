@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using Org.Vs.TailForWin.Data.Enums;
@@ -12,7 +13,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// Dataobject for FileManagerProperties
   /// </summary>
-  public class FileManagerData : TailLogData, IComparer
+  public class FileManagerData : TailLogData, IComparer, IDataErrorInfo
   {
     #region Description
 
@@ -200,6 +201,8 @@ namespace Org.Vs.TailForWin.Data
       FileEncoding = mementoFMData.FileEncoding;
     }
 
+    #region IComparer interface
+
     /// <summary>
     /// Compare
     /// </summary>
@@ -220,6 +223,37 @@ namespace Org.Vs.TailForWin.Data
       }
       return (1);
     }
+
+    #endregion
+
+    #region IDataErrorInfo interface
+
+    /// <summary>
+    /// Gets an error message indicating what is wrong with this object.
+    /// </summary>
+    public string Error => throw new NotImplementedException();
+
+    /// <summary>
+    /// Gets the error message for the property with the given name.
+    /// </summary>
+    /// <param name="columnName">Name of column</param>
+    /// <returns></returns>
+    public string this[string columnName]
+    {
+      get
+      {
+        string result = null;
+
+        if(columnName == "Description")
+        {
+          if(string.IsNullOrEmpty(Description))
+            result = "Please enter a Description";
+        }
+        return (result);
+      }
+    }
+
+    #endregion
 
     /// <summary>
     /// Memento design pattern

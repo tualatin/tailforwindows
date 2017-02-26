@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Enums;
@@ -18,6 +19,7 @@ namespace Org.Vs.TailForWin.Template
     private EFileManagerState fState;
     private readonly bool isInit;
     private int filterId;
+    private int errors;
 
     /// <summary>
     /// Save event handler
@@ -200,6 +202,14 @@ namespace Org.Vs.TailForWin.Template
     {
       if(e.Key == Key.Escape)
         btnCancel_Click(this, e);
+    }
+
+    private void Validation_Error(object sender, ValidationErrorEventArgs e)
+    {
+      if(e.Action == ValidationErrorEventAction.Added)
+        errors++;
+      else
+        errors--;
     }
 
     #endregion
