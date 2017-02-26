@@ -158,11 +158,11 @@ namespace Org.Vs.TailForWin.Controller
             if(element4 == null)
               continue;
 
-            var filterElement = xe.Element("filters");
+            var filterElement = xe.Element("useFilters");
 
             if(filterElement == null)
             {
-              filterElement = new XElement("filters")
+              filterElement = new XElement("useFilters")
               {
                 Value = "false"
               };
@@ -209,9 +209,14 @@ namespace Org.Vs.TailForWin.Controller
 
             #region Filters
 
-            foreach(FilterData data in xe.Elements("filter").Select(GetFilter).Where(data => data != null))
+            var filtersElement = xe.Element("filters");
+
+            if(filtersElement != null)
             {
-              item.ListOfFilter.Add(data);
+              foreach(FilterData data in filtersElement.Elements("filter").Select(GetFilter).Where(data => data != null))
+              {
+                item.ListOfFilter.Add(data);
+              }
             }
 
             #endregion
@@ -491,7 +496,7 @@ namespace Org.Vs.TailForWin.Controller
             if(xElement5 != null)
               xElement5.Value = property.RefreshRate.ToString();
 
-            var filterElement = node.Element("filters");
+            var filterElement = node.Element("useFilters");
 
             if(filterElement != null)
             {
@@ -499,7 +504,7 @@ namespace Org.Vs.TailForWin.Controller
             }
             else
             {
-              filterElement = new XElement("filters")
+              filterElement = new XElement("useFilters")
               {
                 Value = property.FilterState.ToString()
               };
@@ -551,27 +556,16 @@ namespace Org.Vs.TailForWin.Controller
               searchPattern.Add(AddPartsToSearchPattern(property.SearchPattern.PatternParts));
             }
 
-            List<string> filterId = node.Elements("filter").Select(filter =>
-                                                                   {
-                                                                     var element5 = filter.Element("id");
-                                                                     return (element5?.Value);
-                                                                   }).ToList();
-            // TODO NOT nice!
-            foreach(string id in filterId)
+            var filtersElement = node.Element("filters");
+
+            if(filtersElement != null)
             {
-              var id1 = id;
-              node.Elements("filter").Where(x =>
-                                            {
-                                              var xElement = x.Element("id");
-                                              return (xElement != null && string.Compare(xElement.Value, id1, false) == 0);
-                                            }).Remove();
+              filtersElement.Remove();
+              node.Add(AddFiltersToRoot(property.ListOfFilter));
             }
-
-            fmDoc.Save(@fmFile, SaveOptions.None);
-
-            foreach(FilterData item in property.ListOfFilter)
+            else
             {
-              node.Add(AddFilterToDoc(item));
+              node.Add(AddFiltersToRoot(property.ListOfFilter));
             }
           }
         }
@@ -631,7 +625,7 @@ namespace Org.Vs.TailForWin.Controller
               new XElement("killSpace", fmProperty.KillSpace),
               new XElement("lineWrap", fmProperty.Wrap),
               new XElement("fileEncoding", fmProperty.FileEncoding.HeaderName),
-              new XElement("filters", fmProperty.FilterState),
+              new XElement("useFilters", fmProperty.FilterState),
               new XElement("font",
                 new XElement("name", fmProperty.FontType.Name),
                 new XElement("size", fmProperty.FontType.Size),
@@ -651,10 +645,15 @@ namespace Org.Vs.TailForWin.Controller
         searchPattern.Add(parts);
         file.Add(searchPattern);
 
+        var filters = new XElement("filters");
+
         foreach(FilterData item in fmProperty.ListOfFilter)
         {
-          file.Add(AddFilterToDoc(item));
+          filters.Add(AddFilterToDoc(item));
         }
+
+        file.Add(filters);
+
         return (file);
       }
       catch(Exception ex)
@@ -930,6 +929,18 @@ namespace Org.Vs.TailForWin.Controller
       }
       return (partsElement);
     }
+
+    private XElement AddFiltersToRoot(ObservableCollection<FilterData> filters)
+    {
+      var filtersElement = new XElement("filters");
+
+      foreach(var item in filters)
+      {
+        filtersElement.Add(AddFilterToDoc(item));
+      }
+      return (filtersElement);
+    }
+
 
     #endregion
   }
