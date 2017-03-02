@@ -11,6 +11,7 @@ using log4net;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Base;
 using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Data.XmlNames;
 using Org.Vs.TailForWin.Utils;
 
 
@@ -112,52 +113,54 @@ namespace Org.Vs.TailForWin.Controller
 
         if(fmDoc.Root != null)
         {
-          foreach(XElement xe in fmDoc.Root.Descendants("file"))
+          foreach(XElement xe in fmDoc.Root.Descendants(XmlStructure.File))
           {
             string cate = GetCategory(xe);
 
             if(cate != null)
               AddCategoryToDictionary(cate);
 
-            var xElement = xe.Element("id");
+            var xElement = xe.Element(XmlStructure.Id);
 
             if(xElement == null)
               continue;
 
-            var element = xe.Element("fileName");
+            var element = xe.Element(XmlStructure.FileName);
 
             if(element == null)
               continue;
 
-            var xElement1 = xe.Element("killSpace");
-            var element1 = xe.Element("lineWrap");
-            var xElement2 = xe.Element("description");
-
-            if(xElement2 == null)
-              continue;
-
-            var element2 = xe.Element("timeStamp");
-            var xElement3 = xe.Element("threadPriority");
+            var xElement1 = xe.Element(XmlStructure.RemoveSpace);
+            var element1 = xe.Element(XmlStructure.LineWrap);
+            var xElement2 = xe.Element(XmlStructure.Description);
+            var element2 = xe.Element(XmlStructure.TimeStamp);
+            var xElement3 = xe.Element(XmlStructure.ThreadPriority);
 
             if(xElement3 == null)
               continue;
 
-            var element3 = xe.Element("refreshRate");
+            var element3 = xe.Element(XmlStructure.RefreshRate);
 
             if(element3 == null)
               continue;
 
-            var xElement4 = xe.Element("newWindow");
-            var element4 = xe.Element("fileEncoding");
-
-            if(element4 == null)
-              continue;
-
-            var filterElement = xe.Element("useFilters");
+            var xElement4 = xe.Element(XmlStructure.NewWindow);
+            var element4 = xe.Element(XmlStructure.FileEncoding);
+            var filterElement = xe.Element(XmlStructure.UseFilters);
 
             if(filterElement == null)
             {
-              filterElement = new XElement("useFilters")
+              filterElement = new XElement(XmlStructure.UseFilters)
+              {
+                Value = "false"
+              };
+            }
+
+            var usePatternElement = xe.Element(XmlStructure.UsePattern);
+
+            if(usePatternElement == null)
+            {
+              usePatternElement = new XElement(XmlStructure.UsePattern)
               {
                 Value = "false"
               };
@@ -167,7 +170,7 @@ namespace Org.Vs.TailForWin.Controller
             {
               ID = GetId(xElement.Value),
               FileName = element.Value,
-              FontType = GetFont(xe.Element("font")),
+              FontType = GetFont(xe.Element(XmlStructure.Font)),
               KillSpace = xElement1 != null && StringToBool(xElement1.Value),
               Wrap = element1 != null && StringToBool(element1.Value),
               Category = cate,
@@ -177,26 +180,19 @@ namespace Org.Vs.TailForWin.Controller
               RefreshRate = GetRefreshRate(element3.Value),
               NewWindow = xElement4 != null && StringToBool(xElement4.Value),
               FileEncoding = GetEncoding(element4.Value),
-              FilterState = filterElement != null && StringToBool(filterElement.Value),
+              FilterState = StringToBool(filterElement.Value),
+              UsePattern = StringToBool(usePatternElement.Value)
             };
 
             #region Search pattern
 
-            var searchPatternElement = xe.Element("searchPattern");
+            var searchPatternsElement = xe.Element(XmlStructure.SearchPatterns);
 
-            if(searchPatternElement != null)
+            if(searchPatternsElement != null)
             {
-              item.SearchPattern = GetSearchPattern(searchPatternElement);
-
-              var partsElement = searchPatternElement.Element("parts");
-
-              if(partsElement != null)
+              foreach(SearchPatter data in searchPatternsElement.Elements(XmlStructure.SearchPattern).Select(GetSearchPattern).Where(data => data != null))
               {
-                foreach(Part part in partsElement.Elements("part").Select(GetPart).Where(part => part != null))
-                {
-                  item.SearchPattern.PatternParts.Add(part);
-                }
-
+                item.SearchPattern.Add(data);
               }
             }
 
@@ -204,11 +200,11 @@ namespace Org.Vs.TailForWin.Controller
 
             #region Filters
 
-            var filtersElement = xe.Element("filters");
+            var filtersElement = xe.Element(XmlStructure.Filters);
 
             if(filtersElement != null)
             {
-              foreach(FilterData data in filtersElement.Elements("filter").Select(GetFilter).Where(data => data != null))
+              foreach(FilterData data in filtersElement.Elements(XmlStructure.Filter).Select(GetFilter).Where(data => data != null))
               {
                 item.ListOfFilter.Add(data);
               }
@@ -323,64 +319,64 @@ namespace Org.Vs.TailForWin.Controller
       {
         if(fmDoc.Root != null)
         {
-          XElement node = (fmDoc.Root.Descendants("file").Where(x =>
+          XElement node = (fmDoc.Root.Descendants(XmlStructure.File).Where(x =>
                                                                 {
-                                                                  var element = x.Element("id");
+                                                                  var element = x.Element(XmlStructure.Id);
                                                                   return (element != null && String.Compare(element.Value, property.ID.ToString(CultureInfo.InvariantCulture), false) == 0);
                                                                 })).SingleOrDefault();
           if(node != null)
           {
-            var element = node.Element("fileEncoding");
+            var element = node.Element(XmlStructure.FileEncoding);
 
             if(element != null)
               element.Value = property.FileEncoding.HeaderName;
 
-            var xElement1 = node.Element("fileName");
+            var xElement1 = node.Element(XmlStructure.FileName);
 
             if(xElement1 != null)
               xElement1.Value = property.FileName;
 
-            var element1 = node.Element("timeStamp");
+            var element1 = node.Element(XmlStructure.TimeStamp);
 
             if(element1 != null)
               element1.Value = property.Timestamp.ToString();
 
-            var xElement2 = node.Element("killSpace");
+            var xElement2 = node.Element(XmlStructure.RemoveSpace);
 
             if(xElement2 != null)
               xElement2.Value = property.KillSpace.ToString();
 
-            var element2 = node.Element("newWindow");
+            var element2 = node.Element(XmlStructure.NewWindow);
 
             if(element2 != null)
               element2.Value = property.NewWindow.ToString();
 
-            var xElement3 = node.Element("lineWrap");
+            var xElement3 = node.Element(XmlStructure.LineWrap);
 
             if(xElement3 != null)
               xElement3.Value = property.Wrap.ToString();
 
-            var element3 = node.Element("category");
+            var element3 = node.Element(XmlStructure.Category);
 
             if(element3 != null)
               element3.Value = string.IsNullOrEmpty(property.Category) ? string.Empty : property.Category;
 
-            var xElement4 = node.Element("description");
+            var xElement4 = node.Element(XmlStructure.Description);
 
             if(xElement4 != null)
               xElement4.Value = property.Description;
 
-            var element4 = node.Element("threadPriority");
+            var element4 = node.Element(XmlStructure.ThreadPriority);
 
             if(element4 != null)
               element4.Value = property.ThreadPriority.ToString();
 
-            var xElement5 = node.Element("refreshRate");
+            var xElement5 = node.Element(XmlStructure.RefreshRate);
 
             if(xElement5 != null)
               xElement5.Value = property.RefreshRate.ToString();
 
-            var filterElement = node.Element("useFilters");
+            var filterElement = node.Element(XmlStructure.UseFilters);
 
             if(filterElement != null)
             {
@@ -388,7 +384,7 @@ namespace Org.Vs.TailForWin.Controller
             }
             else
             {
-              filterElement = new XElement("useFilters")
+              filterElement = new XElement(XmlStructure.UseFilters)
               {
                 Value = property.FilterState.ToString()
               };
@@ -397,14 +393,14 @@ namespace Org.Vs.TailForWin.Controller
 
             #region Font
 
-            var xFont = node.Element("font");
+            var xFont = node.Element(XmlStructure.Font);
 
             if(xFont != null)
             {
-              var xFontFamily = xFont.Element("name");
-              var xFontSize = xFont.Element("size");
-              var xFontBold = xFont.Element("bold");
-              var xFontItalic = xFont.Element("italic");
+              var xFontFamily = xFont.Element(XmlStructure.Name);
+              var xFontSize = xFont.Element(XmlStructure.Size);
+              var xFontBold = xFont.Element(XmlStructure.Bold);
+              var xFontItalic = xFont.Element(XmlStructure.Italic);
 
               xFontFamily.Value = property.FontType.Name;
               xFontSize.Value = property.FontType.Size.ToString();
@@ -416,41 +412,38 @@ namespace Org.Vs.TailForWin.Controller
 
             #region Search pattern
 
-            var searchPattern = node.Element("searchPattern");
+            var usePattern = node.Element(XmlStructure.UsePattern);
 
-            if(searchPattern != null)
+            if(usePattern != null)
             {
-              var isRegexElement = searchPattern.Element("isRegex");
-              var patternElement = searchPattern.Element("pattern");
-
-              isRegexElement.Value = property.SearchPattern.IsRegex.ToString();
-              patternElement.Value = property.SearchPattern.Pattern;
-
-              var parts = searchPattern.Element("parts");
-
-              if(parts == null)
+              usePattern.Value = property.UsePattern.ToString();
+            }
+            else
+            {
+              usePattern = new XElement(XmlStructure.UsePattern)
               {
-                searchPattern.Add(AddPartsToSearchPattern(property.SearchPattern.PatternParts));
-              }
-              else
-              {
-                parts.Remove();
-                searchPattern.Add(AddPartsToSearchPattern(property.SearchPattern.PatternParts));
-              }
+                Value = property.UsePattern.ToString()
+              };
+              node.Add(usePattern);
+            }
+
+            var searchPatterns = node.Element(XmlStructure.SearchPatterns);
+
+            if(searchPatterns != null)
+            {
+              searchPatterns.Remove();
+              node.Add(AddSearchPatternToDoc(property.SearchPattern));
             }
             else
             {
               node.Add(AddSearchPatternToDoc(property.SearchPattern));
-
-              searchPattern = node.Element("searchPattern");
-              searchPattern.Add(AddPartsToSearchPattern(property.SearchPattern.PatternParts));
             }
 
             #endregion
 
             #region Filters
 
-            var filtersElement = node.Element("filters");
+            var filtersElement = node.Element(XmlStructure.Filters);
 
             if(filtersElement != null)
             {
@@ -483,9 +476,9 @@ namespace Org.Vs.TailForWin.Controller
       try
       {
         if(fmDoc.Root != null)
-          fmDoc.Root.Descendants("file").Where(x =>
+          fmDoc.Root.Descendants(XmlStructure.File).Where(x =>
                                                {
-                                                 var xElement = x.Element("id");
+                                                 var xElement = x.Element(XmlStructure.Id);
                                                  return (xElement != null && String.Compare(xElement.Value, property.ID.ToString(CultureInfo.InvariantCulture), false) == 0);
                                                }).Remove();
         fmDoc.Save(@fmFile, SaveOptions.None);
@@ -509,39 +502,29 @@ namespace Org.Vs.TailForWin.Controller
         if(fmProperty.FontType == null)
           fmProperty.FontType = new Font("Segoe UI", 12f, FontStyle.Regular);
 
-        XElement file = new XElement("file",
-              new XElement("id", fmProperty.ID),
-              new XElement("fileName", fmProperty.FileName),
-              new XElement("description", fmProperty.Description),
-              new XElement("category", fmProperty.Category),
-              new XElement("threadPriority", fmProperty.ThreadPriority),
-              new XElement("newWindow", fmProperty.NewWindow),
-              new XElement("refreshRate", fmProperty.RefreshRate),
-              new XElement("timeStamp", fmProperty.Timestamp),
-              new XElement("killSpace", fmProperty.KillSpace),
-              new XElement("lineWrap", fmProperty.Wrap),
-              new XElement("fileEncoding", fmProperty.FileEncoding.HeaderName),
-              new XElement("useFilters", fmProperty.FilterState),
-              new XElement("font",
-                new XElement("name", fmProperty.FontType.Name),
-                new XElement("size", fmProperty.FontType.Size),
-                new XElement("bold", fmProperty.FontType.Bold),
-                new XElement("italic", fmProperty.FontType.Italic)));
+        XElement file = new XElement(XmlStructure.File,
+              new XElement(XmlStructure.Id, fmProperty.ID),
+              new XElement(XmlStructure.FileName, fmProperty.FileName),
+              new XElement(XmlStructure.Description, fmProperty.Description),
+              new XElement(XmlStructure.Category, fmProperty.Category),
+              new XElement(XmlStructure.ThreadPriority, fmProperty.ThreadPriority),
+              new XElement(XmlStructure.NewWindow, fmProperty.NewWindow),
+              new XElement(XmlStructure.RefreshRate, fmProperty.RefreshRate),
+              new XElement(XmlStructure.TimeStamp, fmProperty.Timestamp),
+              new XElement(XmlStructure.RemoveSpace, fmProperty.KillSpace),
+              new XElement(XmlStructure.LineWrap, fmProperty.Wrap),
+              new XElement(XmlStructure.FileEncoding, fmProperty.FileEncoding.HeaderName),
+              new XElement(XmlStructure.UseFilters, fmProperty.FilterState),
+              new XElement(XmlStructure.UsePattern, fmProperty.UsePattern),
+              new XElement(XmlStructure.Font,
+                new XElement(XmlStructure.Name, fmProperty.FontType.Name),
+                new XElement(XmlStructure.Size, fmProperty.FontType.Size),
+                new XElement(XmlStructure.Bold, fmProperty.FontType.Bold),
+                new XElement(XmlStructure.Italic, fmProperty.FontType.Italic)));
 
-        var searchPattern = new XElement("searchPattern",
-                              new XElement("isRegex", fmProperty.SearchPattern.IsRegex),
-                              new XElement("pattern", fmProperty.SearchPattern.Pattern));
-        var parts = new XElement("parts");
+        file.Add(AddSearchPatternToDoc(fmProperty.SearchPattern));
 
-        foreach(Part item in fmProperty.SearchPattern.PatternParts)
-        {
-          parts.Add(AddPartToDoc(item));
-        }
-
-        searchPattern.Add(parts);
-        file.Add(searchPattern);
-
-        var filters = new XElement("filters");
+        var filters = new XElement(XmlStructure.Filters);
 
         foreach(FilterData item in fmProperty.ListOfFilter)
         {
@@ -592,8 +575,8 @@ namespace Org.Vs.TailForWin.Controller
     /// </summary>
     public void RefreshCategories()
     {
-      List<string> categories = (from x in fmDoc.Descendants("file")
-                                 let xElement = x.Element("category")
+      List<string> categories = (from x in fmDoc.Descendants(XmlStructure.File)
+                                 let xElement = x.Element(XmlStructure.Category)
                                  where xElement != null
                                  select xElement.Value).ToList();
       Category.Clear();
@@ -615,7 +598,7 @@ namespace Org.Vs.TailForWin.Controller
 
     private static string GetCategory(XContainer root)
     {
-      var xElement = root.Element("category");
+      var xElement = root.Element(XmlStructure.Category);
 
       if(xElement == null)
         return (null);
@@ -661,7 +644,7 @@ namespace Org.Vs.TailForWin.Controller
 
     private static Font GetFont(XContainer root)
     {
-      var xElement = root.Element("name");
+      var xElement = root.Element(XmlStructure.Name);
 
       if(xElement == null)
         return (null);
@@ -670,21 +653,21 @@ namespace Org.Vs.TailForWin.Controller
       FontStyle fs = FontStyle.Regular;
       float size = 10;
 
-      var element = root.Element("size");
+      var element = root.Element(XmlStructure.Size);
 
       if(element != null && !float.TryParse(element.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out size))
         size = 10f;
 
       bool bold = false;
 
-      var xElement1 = root.Element("bold");
+      var xElement1 = root.Element(XmlStructure.Bold);
 
       if(xElement1 != null && !bool.TryParse(xElement1.Value, out bold))
         bold = false;
 
       bool italic = false;
 
-      var element1 = root.Element("italic");
+      var element1 = root.Element(XmlStructure.Italic);
 
       if(element1 != null && !bool.TryParse(element1.Value, out italic))
         italic = false;
@@ -723,37 +706,37 @@ namespace Org.Vs.TailForWin.Controller
 
     private XElement AddFilterToDoc(FilterData filter)
     {
-      XElement docPart = new XElement("filter",
-            new XElement("id", filter.Id),
-            new XElement("filterName", filter.Description),
-            new XElement("filterPattern", filter.Filter),
-            new XElement("font",
-              new XElement("name", filter.FilterFontType.Name),
-              new XElement("size", filter.FilterFontType.Size),
-              new XElement("bold", filter.FilterFontType.Bold),
-              new XElement("italic", filter.FilterFontType.Italic)));
+      XElement docPart = new XElement(XmlStructure.Filter,
+            new XElement(XmlStructure.Id, filter.Id),
+            new XElement(XmlStructure.FilterName, filter.Description),
+            new XElement(XmlStructure.FilterPattern, filter.Filter),
+            new XElement(XmlStructure.Font,
+              new XElement(XmlStructure.Name, filter.FilterFontType.Name),
+              new XElement(XmlStructure.Size, filter.FilterFontType.Size),
+              new XElement(XmlStructure.Bold, filter.FilterFontType.Bold),
+              new XElement(XmlStructure.Italic, filter.FilterFontType.Italic)));
 
       return (docPart);
     }
 
     private FilterData GetFilter(XElement root)
     {
-      var xElement = root.Element("id");
+      var xElement = root.Element(XmlStructure.Id);
 
       if(xElement != null && GetId(xElement.Value) == -1)
         return (null);
 
-      var element = root.Element("id");
+      var element = root.Element(XmlStructure.Id);
 
       if(element == null)
         return (null);
 
-      var xElement1 = root.Element("filterPattern");
+      var xElement1 = root.Element(XmlStructure.FilterPattern);
 
       if(xElement1 == null)
         return (null);
 
-      var element1 = root.Element("filterName");
+      var element1 = root.Element(XmlStructure.FilterName);
 
       if(element1 == null)
         return (null);
@@ -763,72 +746,66 @@ namespace Org.Vs.TailForWin.Controller
         Id = GetId(element.Value),
         Filter = xElement1.Value,
         Description = element1.Value,
-        FilterFontType = GetFont(root.Element("font"))
+        FilterFontType = GetFont(root.Element(XmlStructure.Font))
       };
       return (filter);
     }
 
-    private XElement AddSearchPatternToDoc(SearchPatter pattern)
-    {
-      XElement docPart = new XElement("searchPattern",
-        new XElement("isRegex", pattern.IsRegex),
-        new XElement("pattern", pattern.Pattern));
-
-      return (docPart);
-    }
-
     private SearchPatter GetSearchPattern(XElement root)
     {
-      var isRegexElement = root.Element("isRegex");
-      var patternElement = root.Element("pattern");
+      var patternElement = root.Element(XmlStructure.Pattern);
+      var patternPart = root.Element(XmlStructure.PatternPart);
+      Part part = null;
+      Pattern pattern = null;
+
+      if(patternElement != null)
+        pattern = GetPattern(patternElement);
+      if(patternPart != null)
+        part = GetPart(patternPart);
 
       SearchPatter searchPattern = new SearchPatter
       {
-        IsRegex = StringToBool(isRegexElement.Value),
-        Pattern = patternElement == null ? string.Empty : patternElement.Value
+        Pattern = pattern,
+        PatternPart = part
       };
       return (searchPattern);
     }
 
-    private XElement AddPartToDoc(Part part)
+    private Part GetPart(XElement part)
     {
-      XElement docPart = new XElement("part",
-        new XElement("index", part.Index),
-        new XElement("begin", part.Begin),
-        new XElement("end", part.End));
+      var begin = part.Element(XmlStructure.Begin);
+      var end = part.Element(XmlStructure.End);
 
-      return (docPart);
-    }
+      if(begin == null || end == null)
+        return (null);
 
-    private Part GetPart(XElement root)
-    {
-      var beginPart = root.Element("begin");
-      var endPart = root.Element("end");
-      var index = root.Element("index");
-
-      Part part = new Part
+      Part xmlPart = new Part
       {
-        Index = StringToInt(index.Value),
-        Begin = StringToInt(beginPart.Value),
-        End = StringToInt(endPart.Value)
+        Begin = Convert.ToInt32(begin.Value),
+        End = Convert.ToInt32(end.Value)
       };
-      return (part);
+      return (xmlPart);
     }
 
-    private XElement AddPartsToSearchPattern(List<Part> parts)
+    private Pattern GetPattern(XElement pattern)
     {
-      var partsElement = new XElement("parts");
+      var patternString = pattern.Element(XmlStructure.PatternString);
+      var patternIsRegex = pattern.Element(XmlStructure.IsRegex);
 
-      foreach(var item in parts)
+      if(patternIsRegex == null || patternString == null)
+        return (null);
+
+      Pattern xmlPattern = new Pattern
       {
-        partsElement.Add(AddPartToDoc(item));
-      }
-      return (partsElement);
+        PatternString = patternString.Value,
+        IsRegex = StringToBool(patternIsRegex.Value)
+      };
+      return (xmlPattern);
     }
 
     private XElement AddFiltersToRoot(ObservableCollection<FilterData> filters)
     {
-      var filtersElement = new XElement("filters");
+      var filtersElement = new XElement(XmlStructure.Filters);
 
       foreach(var item in filters)
       {
@@ -837,6 +814,50 @@ namespace Org.Vs.TailForWin.Controller
       return (filtersElement);
     }
 
+    private XElement AddSearchPatternToDoc(List<SearchPatter> pattern)
+    {
+      var patternsElement = new XElement(XmlStructure.SearchPatterns);
+
+      foreach(var item in pattern)
+      {
+        patternsElement.Add(AddSearchPatternToDoc(item));
+      }
+      return (patternsElement);
+    }
+
+    private XElement AddSearchPatternToDoc(SearchPatter pattern)
+    {
+      var patternElement = new XElement(XmlStructure.SearchPattern);
+
+      patternElement.Add(AddPatternToDoc(pattern.Pattern));
+      patternElement.Add(AddPartToDoc(pattern.PatternPart));
+
+      return (patternElement);
+    }
+
+    private XElement AddPatternToDoc(Pattern pattern)
+    {
+      var xmlPattern = new XElement(XmlStructure.Pattern);
+
+      if(pattern != null)
+      {
+        xmlPattern.Add(new XElement(XmlStructure.IsRegex, pattern.IsRegex));
+        xmlPattern.Add(new XElement(XmlStructure.PatternString, pattern.PatternString));
+      }
+      return (xmlPattern);
+    }
+
+    private XElement AddPartToDoc(Part part)
+    {
+      var xmlPart = new XElement(XmlStructure.PatternPart);
+
+      if(part != null)
+      {
+        xmlPart.Add(new XElement(XmlStructure.Begin, part.Begin));
+        xmlPart.Add(new XElement(XmlStructure.End, part.End));
+      }
+      return (xmlPart);
+    }
 
     #endregion
   }

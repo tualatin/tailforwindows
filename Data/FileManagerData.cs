@@ -173,9 +173,15 @@ namespace Org.Vs.TailForWin.Data
       equal &= Equals(other.ThreadPriority, ThreadPriority);
       equal &= Equals(other.Wrap, Wrap);
       equal &= Equals(other.TimeStamp, Timestamp);
-      equal &= Equals(other.SearchPattern, SearchPattern);
+      equal &= SearchPatternListEqual(other.SearchPattern, SearchPattern);
 
       return (equal);
+    }
+
+    internal bool SearchPatternListEqual(List<SearchPatter> firstList, List<SearchPatter> secondList)
+    {
+      return (firstList.Count == secondList.Count // assumes unique values in each list
+          && new HashSet<SearchPatter>(firstList).SetEquals(secondList));
     }
 
     /// <summary>

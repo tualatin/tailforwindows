@@ -167,6 +167,7 @@
     <Compile Include="Data\Events\SearchData.cs" />
     <Compile Include="Data\SearchPatter.cs" />
     <Compile Include="Data\SmtpData.cs" />
+    <Compile Include="Data\XmlNames\XmlStructure.cs" />
     <Compile Include="Logging\ILogExtentions.cs" />
     <Compile Include="Logging\Log4NetTraceListener.cs" />
     <Compile Include="Logging\Logger.cs" />
