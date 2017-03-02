@@ -7,7 +7,7 @@
         xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox"
         xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters"
         
-        Title="FileManager" Height="584" Width="640" Icon="/TailForWin;component/Res/Explorer.ico" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize"
+        Title="FileManager" Height="608" Width="640" Icon="/TailForWin;component/Res/Explorer.ico" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize"
         Loaded="Window_Loaded"  Drop="Window_Drop" DragEnter="Window_DragEnter" AllowDrop="True" Closing="Window_Closing">
   <Window.Resources>
     <ResourceDictionary>
@@ -154,6 +154,7 @@
         <RowDefinition Height="30"/>
         <RowDefinition Height="30"/>
         <RowDefinition Height="30"/>
+        <RowDefinition Height="30"/>
         <RowDefinition Height="5*"/>
         <RowDefinition Height="32"/>
       </Grid.RowDefinitions>
@@ -241,6 +242,7 @@
         </Button>
       </Grid>
 
+      <!--Description-->
       <Label Content="Description:" Name="label2" VerticalAlignment="Center"/>
       <my:WatermarkTextBox Grid.Column="1" Margin="0,0,5,0" x:Name="textBlockDescription" VerticalAlignment="Center" Grid.ColumnSpan="2" Text="{Binding Mode=TwoWay, Path=Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True, Converter={StaticResource trimConverter}}" 
                            IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}"
@@ -249,6 +251,8 @@
           <TextBlock Text="Description" Margin="5,0,0,0" FontStyle="Italic" />
         </my:WatermarkTextBox.Watermark>
       </my:WatermarkTextBox>
+
+      <!--Category-->
       <Label Content="Category:" Grid.Row="1" Name="label1" VerticalAlignment="Center" />
       <ComboBox Grid.Row="1" Grid.Column="1" Height="23" Margin="0,0,5,0" Name="comboBoxCategory" VerticalAlignment="Center" SelectionChanged="comboBoxCategory_SelectionChanged"
                 ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}" TabIndex="2"/>
@@ -271,7 +275,13 @@
           </StackPanel>
         </CheckBox.ToolTip>
       </CheckBox>
-      <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="0" Name="btnFont" Click="btnFont_Click" 
+
+      <!--Pattern tool-->
+      <CheckBox Height="22" Grid.Row="2" Grid.Column="2" Content="Use pattern" IsChecked="{Binding Mode=TwoWay, Path=UsePattern, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding Path=SearchPattern.Count}"/>
+
+      <!--Font button-->
+      <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Row="3" Name="btnFont" Click="btnFont_Click" 
               IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}">
         <Button.ToolTip>
           <StackPanel>
@@ -288,8 +298,8 @@
           <Image Source="/TailForWin;component/Res/Font.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
         </StackPanel>
       </Button>
-      <Label Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" Name="labelFont" VerticalAlignment="Center" Content="{Binding Path=FontType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FontToString}}" />
-      <CheckBox Content="Line Wrap" Grid.Column="3" Grid.Row="2" Height="22" HorizontalAlignment="Left" Margin="0" Name="checkBoxWrap" VerticalAlignment="Center" 
+      <Label Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Name="labelFont" VerticalAlignment="Center" Content="{Binding Path=FontType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FontToString}}" />
+      <CheckBox Content="Line Wrap" Grid.Column="3" Grid.Row="2" Height="22" HorizontalAlignment="Left" Name="checkBoxWrap" VerticalAlignment="Center" 
                 IsChecked="{Binding Mode=TwoWay, Path=Wrap, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, 
         Converter={StaticResource ResourceKey=selectedConverter}}" Click="CheckBoxWrap_Click" TabIndex="5">
         <CheckBox.ToolTip>
@@ -334,8 +344,10 @@
           </StackPanel>
         </CheckBox.ToolTip>
       </CheckBox>
-      <Label Content="Refresh Rate:" Grid.Row="3" Name="label3" VerticalAlignment="Center" />
-      <ComboBox Grid.Column="1" Grid.Row="3" Height="23" Margin="0,0,5,0" Name="comboBoxRefreshRate" VerticalAlignment="Center" ItemsSource="{Binding}" SelectionChanged="comboBoxRefreshRate_SelectionChanged" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="6" />
+
+      <!--Refresh rate-->
+      <Label Content="Refresh Rate:" Grid.Row="4" Name="label3" VerticalAlignment="Center" />
+      <ComboBox Grid.Column="1" Grid.Row="4" Height="23" Margin="0,0,5,0" Name="comboBoxRefreshRate" VerticalAlignment="Center" ItemsSource="{Binding}" SelectionChanged="comboBoxRefreshRate_SelectionChanged" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="6" />
       <Button Grid.Column="3" Grid.Row="5" Height="23" HorizontalAlignment="Left" Margin="0" Name="btnFilter" VerticalAlignment="Center" Width="23"
               IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="12" Click="btnFilters_Click">
         <Button.ToolTip>
@@ -353,15 +365,22 @@
           <Image Source="/TailForWin;component/Res/Filters.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Height="16" Width="16"/>
         </StackPanel>
       </Button>
-      <Label Content="Thread Priority:" Grid.Row="4" Name="label4" VerticalAlignment="Center"/>
-      <ComboBox Grid.Column="1" Grid.Row="4" Height="23" Margin="0,0,5,0" Name="comboBoxThreadPriority" VerticalAlignment="Center" ItemsSource="{Binding}" SelectionChanged="comboBoxThreadPriority_SelectionChanged" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="8" />
-      <Label Content="File Encoding:" Grid.Row="5" Name="label5" VerticalAlignment="Center" />
-      <ComboBox Grid.Column="1" Grid.Row="5" Margin="0,0,5,0" Name="comboBoxFileEncode" VerticalAlignment="Center" SelectionChanged="comboBoxFileEncode_SelectionChanged" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" ItemsSource="{Binding}" TabIndex="11" />
+
+      <!--Thread priority-->
+      <Label Content="Thread Priority:" Grid.Row="5" Name="label4" VerticalAlignment="Center"/>
+      <ComboBox Grid.Column="1" Grid.Row="5" Height="23" Margin="0,0,5,0" Name="comboBoxThreadPriority" VerticalAlignment="Center" ItemsSource="{Binding}" SelectionChanged="comboBoxThreadPriority_SelectionChanged" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="8"/>
+      <Label Content="{Binding Path=ListOfFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource filterCount}}" Grid.Column="3" Grid.Row="5" Margin="30,0,0,0" Name="label6" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+
+      <!--File encoding-->
+      <Label Content="File Encoding:" Grid.Row="6" Name="label5" VerticalAlignment="Center" />
+      <ComboBox Grid.Column="1" Grid.Row="6" Margin="0,0,5,0" Name="comboBoxFileEncode" VerticalAlignment="Center" SelectionChanged="comboBoxFileEncode_SelectionChanged" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" ItemsSource="{Binding}" TabIndex="11" />
       <CheckBox Content="Open in new window" Grid.Column="2" Grid.Row="4" Height="22" Margin="0" Name="checkBoxThreadNewWindow" VerticalAlignment="Center" 
                 IsChecked="{Binding Mode=TwoWay, Path=NewWindow, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, 
                 Converter={StaticResource ResourceKey=selectedConverter}}" Click="CheckBoxThreadNewWindow_Click" TabIndex="9"/>
+      <Label Content="" Grid.Column="2" Grid.Row="6" Margin="0,0,5,0" Name="labelFileEncodingHint" FontSize="10" VerticalAlignment="Center" />
 
-      <Grid Grid.Row="7" Grid.ColumnSpan="5">
+      <!--Main button bar-->
+      <Grid Grid.Row="8" Grid.ColumnSpan="5">
         <Grid.ColumnDefinitions>
           <ColumnDefinition/>
           <ColumnDefinition/>
@@ -377,8 +396,6 @@
         </Button>
         <Button Content="Close" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="10,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Click="btnCancel_Click" TabIndex="14"/>
       </Grid>
-      <Label Content="" Grid.Column="2" Grid.Row="5" Margin="0,0,5,0" Name="labelFileEncodingHint" FontSize="10" VerticalAlignment="Center" />
-      <Label Content="{Binding Path=ListOfFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource filterCount}}" Grid.Column="3" Grid.Row="5" Margin="30,0,0,0" Name="label6" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
     </Grid>
   </Grid>
 </Window>

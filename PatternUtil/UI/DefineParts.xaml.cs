@@ -120,7 +120,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
           PatternPart = part
         });
 
-        patternFile = string.Format("{0}{1}", patternFile, result.Substring(part.Begin, part.End));
+        patternFile = $"{patternFile}{result.Substring(part.Begin, part.End)}";
         ShowResult();
       }
     }
