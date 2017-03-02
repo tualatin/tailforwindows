@@ -1,24 +1,24 @@
-﻿namespace Org.Vs.TailForWin.Data
+﻿
+namespace Org.Vs.TailForWin.Data
 {
   /// <summary>
-  /// Pattern parts
+  /// Pattern container
   /// </summary>
-  public class Part
+  public class Pattern
   {
     /// <summary>
-    /// Begin of part
+    /// Is regex pattern
     /// </summary>
-    public int Begin
+    public bool IsRegex
     {
-
       get;
       set;
     }
 
     /// <summary>
-    /// End of part
+    /// Pattern
     /// </summary>
-    public int End
+    public string PatternString
     {
       get;
       set;

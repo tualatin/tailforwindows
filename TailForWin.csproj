@@ -163,6 +163,7 @@
     <Compile Include="Data\FilterData.cs" />
     <Compile Include="Data\GoToLineData.cs" />
     <Compile Include="Data\Part.cs" />
+    <Compile Include="Data\Pattern.cs" />
     <Compile Include="Data\ProxySettingsData.cs" />
     <Compile Include="Data\Events\SearchData.cs" />
     <Compile Include="Data\SearchPatter.cs" />
@@ -176,6 +177,17 @@
     <Compile Include="Logging\ZippingRollingFileAppender.cs" />
     <Compile Include="NotifyIcon\BalloonIcon.cs" />
     <Compile Include="Data\Events\BookmarkLineBool.cs" />
+    <Compile Include="PatternUtil\Events\PartChangedEventHandler.cs" />
+    <Compile Include="PatternUtil\Events\PatternChangedEventHandler.cs" />
+    <Compile Include="PatternUtil\UI\DefineParts.xaml.cs">
+      <DependentUpon>DefineParts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PatternUtil\UI\DefinePattern.xaml.cs">
+      <DependentUpon>DefinePattern.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PatternUtil\UI\SelectPart.xaml.cs">
+      <DependentUpon>SelectPart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Template\Events\DragDropEventDelegate.cs" />
     <Compile Include="Template\Events\IsOpenInTabEventDelegate.cs" />
     <Compile Include="Template\FancyPopUp.xaml.cs">
@@ -309,6 +321,18 @@
     <Compile Include="Utils\SoundPlay.cs" />
     <Compile Include="Utils\StringEncryption.cs" />
     <Compile Include="Utils\TextBoxMaskBehavior.cs" />
+    <Page Include="PatternUtil\UI\DefineParts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PatternUtil\UI\DefinePattern.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PatternUtil\UI\SelectPart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\AndroidCheckBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -620,7 +644,9 @@
     <Resource Include="Template\TextEditor\Res\breakpoint.png" />
     <Resource Include="Template\TextEditor\Res\trash-icon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="PatternUtil\Utils\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
