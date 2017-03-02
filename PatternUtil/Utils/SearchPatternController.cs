@@ -112,17 +112,17 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
       }
       return (string.Empty);
     }
-  
-  #region IDisposable Members
+
+    #region IDisposable Members
 
     /// <summary>
     /// Releases all resources used by SearchPatternController.
     /// </summary>
-    public void  Dispose()
+    public void Dispose()
     {
       currentProperty.Dispose();
     }
 
-  #endregion
+    #endregion
   }
 }

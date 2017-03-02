@@ -21,6 +21,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public TailLogData()
     {
+      SearchPattern = new List<SearchPatter>();
       ListOfFilter = new ObservableCollection<FilterData>();
       ListOfFilter.CollectionChanged += ContentCollectionChanged;
     }
@@ -260,7 +261,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public List<SearchPatter> SearchPattern
     {
-      get; 
+      get;
       set;
     }
 
@@ -269,7 +270,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool UsePattern
     {
-      get; 
+      get;
       set;
     }
 

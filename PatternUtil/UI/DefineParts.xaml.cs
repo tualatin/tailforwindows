@@ -1,8 +1,8 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Data;
-using System.Collections.Generic;
 using Org.Vs.TailForWin.PatternUtil.Events;
 
 
@@ -120,7 +120,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
           PatternPart = part
         });
 
-        patternFile = $"{patternFile}{result.Substring(part.Begin, part.End}";
+        patternFile = string.Format("{0}{1}", patternFile, result.Substring(part.Begin, part.End));
         ShowResult();
       }
     }

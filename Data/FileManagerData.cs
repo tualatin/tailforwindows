@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Utils;
@@ -17,14 +16,6 @@ namespace Org.Vs.TailForWin.Data
   /// </summary>
   public class FileManagerData : TailLogData, IComparer, IDataErrorInfo
   {
-    /// <summary>
-    /// Standard constructor
-    /// </summary>
-    public FileManagerData()
-    {
-      SearchPattern = new SearchPatter();
-    }
-
     #region Description
 
     private string description;
@@ -182,18 +173,7 @@ namespace Org.Vs.TailForWin.Data
       equal &= Equals(other.ThreadPriority, ThreadPriority);
       equal &= Equals(other.Wrap, Wrap);
       equal &= Equals(other.TimeStamp, Timestamp);
-      equal &= EqualsSearchPattern(other.SearchPattern, SearchPattern);
-
-      return (equal);
-    }
-
-    private bool EqualsSearchPattern(SearchPatter original, SearchPatter toEqual)
-    {
-      bool equal = true;
-
-      equal &= Equals(original.IsRegex, toEqual.IsRegex);
-      equal &= Equals(original.Pattern, toEqual.Pattern);
-      equal &= original.PatternParts.SequenceEqual(toEqual.PatternParts);
+      equal &= Equals(other.SearchPattern, SearchPattern);
 
       return (equal);
     }
@@ -302,13 +282,12 @@ namespace Org.Vs.TailForWin.Data
         if(obj.SearchPattern == null)
           return;
 
-        SearchPattern = new SearchPatter
-        {
-         IsRegex = obj.SearchPattern.IsRegex,
-         Pattern = obj.SearchPattern.Pattern
-        };
+        SearchPattern = new List<SearchPatter>();
 
-        SearchPattern.PatternParts = new List<Part>(obj.SearchPattern.PatternParts);
+        foreach(var item in obj.SearchPattern)
+        {
+          SearchPattern.Add(item);
+        }
       }
 
       #region Properties memento
@@ -433,7 +412,7 @@ namespace Org.Vs.TailForWin.Data
       /// <summary>
       /// Search pattern
       /// </summary>
-      public SearchPatter SearchPattern
+      public List<SearchPatter> SearchPattern
       {
         get;
         private set;
