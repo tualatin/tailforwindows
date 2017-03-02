@@ -139,15 +139,6 @@ namespace Org.Vs.TailForWin.Data
     }
 
     /// <summary>
-    /// Search pattern
-    /// </summary>
-    public SearchPatter SearchPattern
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
     /// Create copy of object
     /// </summary>
     /// <returns>A clone of object</returns>

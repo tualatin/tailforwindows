@@ -179,6 +179,7 @@
     <Compile Include="Data\Events\BookmarkLineBool.cs" />
     <Compile Include="PatternUtil\Events\PartChangedEventHandler.cs" />
     <Compile Include="PatternUtil\Events\PatternChangedEventHandler.cs" />
+    <Compile Include="PatternUtil\Events\PatternObjectChangedEventHandler.cs" />
     <Compile Include="PatternUtil\UI\DefineParts.xaml.cs">
       <DependentUpon>DefineParts.xaml</DependentUpon>
     </Compile>
@@ -188,6 +189,7 @@
     <Compile Include="PatternUtil\UI\SelectPart.xaml.cs">
       <DependentUpon>SelectPart.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PatternUtil\Utils\SearchPatternController.cs" />
     <Compile Include="Template\Events\DragDropEventDelegate.cs" />
     <Compile Include="Template\Events\IsOpenInTabEventDelegate.cs" />
     <Compile Include="Template\FancyPopUp.xaml.cs">
@@ -644,9 +646,7 @@
     <Resource Include="Template\TextEditor\Res\breakpoint.png" />
     <Resource Include="Template\TextEditor\Res\trash-icon.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="PatternUtil\Utils\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

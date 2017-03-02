@@ -47,9 +47,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
         pattern.PatternString = TextBoxPattern.Text;
       }
 
-      if(PatternChanged != null)
-        PatternChanged(this, pattern);
-
+      PatternChanged?.Invoke(this, pattern);
       Close();
     }
 

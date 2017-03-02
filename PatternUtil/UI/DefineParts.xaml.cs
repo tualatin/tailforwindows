@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Data;
 using System.Collections.Generic;
+using Org.Vs.TailForWin.PatternUtil.Events;
 
 
 namespace Org.Vs.TailForWin.PatternUtil.UI
@@ -12,6 +13,11 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
   /// </summary>
   public partial class DefineParts : Window
   {
+    /// <summary>
+    /// Fires, when pattern changed successful
+    /// </summary>
+    public event PatternObjectChangedEventHandler PatternObjectChanged;
+
     private List<SearchPatter> searchPattern;
     private string fileExtension;
     private string patternFile;
@@ -77,6 +83,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
 
     private void BtnSavePattern_Click(object sender, RoutedEventArgs e)
     {
+      PatternObjectChanged?.Invoke(this, searchPattern);
       Close();
     }
 
@@ -94,7 +101,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
           Pattern = pattern
         });
 
-        patternFile = string.Format("{0}{1}", patternFile, pattern.PatternString);
+        patternFile = $"{patternFile}{pattern.PatternString}";
         ShowResult();
       }
     }
@@ -113,14 +120,14 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
           PatternPart = part
         });
 
-        patternFile = string.Format("{0}{1}", patternFile, result.Substring(part.Begin, part.End));
+        patternFile = $"{patternFile}{result.Substring(part.Begin, part.End}";
         ShowResult();
       }
     }
 
     private void ShowResult()
     {
-      TextBlockResult.Text = string.Format("{0}{1}", patternFile, fileExtension);
+      TextBlockResult.Text = $"{patternFile}{fileExtension}";
     }
 
     private void HandleEsc(object sender, KeyEventArgs e)

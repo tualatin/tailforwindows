@@ -62,9 +62,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
         part.End = TextBoxSelectPart.SelectionLength;
       }
 
-      if(PartChanged != null)
-        PartChanged(this, part);
-
+      PartChanged?.Invoke(this, part);
       Close();
     }
 
@@ -103,18 +101,18 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
       {
       case 0:
 
-        LabelPartCount.Content = null;
-        break;
+      LabelPartCount.Content = null;
+      break;
 
       case 1:
 
-        LabelPartCount.Content = length;
-        break;
+      LabelPartCount.Content = length;
+      break;
 
       default:
 
-        LabelPartCount.Content = string.Format("{0}-{1}", start, length);
-        break;
+      LabelPartCount.Content = $"{start}-{length}";
+      break;
       }
     }
 

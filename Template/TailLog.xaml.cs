@@ -116,7 +116,9 @@ namespace Org.Vs.TailForWin.Template
         Timestamp = fileManagerProperties.Timestamp,
         FileEncoding = fileManagerProperties.FileEncoding,
         OpenFromFileManager = fileManagerProperties.OpenFromFileManager,
-        FilterState = fileManagerProperties.FilterState
+        FilterState = fileManagerProperties.FilterState,
+        UsePattern = fileManagerProperties.UsePattern,
+        SearchPattern = fileManagerProperties.SearchPattern
       };
 
       InitTailLog(childTabIndex, tabItem);

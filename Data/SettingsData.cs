@@ -23,7 +23,7 @@ namespace Org.Vs.TailForWin.Data
     }
 
     /// <summary>
-    /// Lines to read at the begining
+    /// Lines to read at the beginning
     /// </summary>
     public int LinesRead
     {

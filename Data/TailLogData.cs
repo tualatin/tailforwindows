@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Drawing;
@@ -251,6 +252,24 @@ namespace Org.Vs.TailForWin.Data
     public bool FilterState
     {
       get;
+      set;
+    }
+
+    /// <summary>
+    /// Search pattern
+    /// </summary>
+    public List<SearchPatter> SearchPattern
+    {
+      get; 
+      set;
+    }
+
+    /// <summary>
+    /// Use pattern logic
+    /// </summary>
+    public bool UsePattern
+    {
+      get; 
       set;
     }
 
