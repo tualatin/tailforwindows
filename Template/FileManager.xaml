@@ -110,11 +110,13 @@
         </DataGrid.RowStyle>
 
         <DataGrid.Columns>
-          <DataGridTextColumn Width="180" Header="Filename" Binding="{Binding Path=File}"/>
-          <DataGridTextColumn Width="190" Header="Description" Binding="{Binding Path=Description}"/>
-          <DataGridTextColumn Width="190" Header="Category" Binding="{Binding Path=Category}"/>
-          <DataGridTextColumn Width="90" Header="Refreh Rate" Binding="{Binding Path=RefreshRate}"/>
-          <DataGridTextColumn Width="120" Header="Thread Priority" Binding="{Binding Path=ThreadPriority}"/>
+          <DataGridTextColumn MinWidth="180" Header="Filename" Binding="{Binding Path=File}"/>
+          <DataGridTextColumn MinWidth="190" Header="Description" Binding="{Binding Path=Description}"/>
+          <DataGridTextColumn MinWidth="190" Header="Category" Binding="{Binding Path=Category}"/>
+          <DataGridTextColumn MinWidth="190" Header="Pattern" Binding="{Binding Path=PatternString}"/>
+          <DataGridCheckBoxColumn MinWidth="50" Header="Regex" Binding="{Binding Path=IsRegex}"/>
+          <DataGridTextColumn MinWidth="90" Header="Refresh Rate" Binding="{Binding Path=RefreshRate}"/>
+          <DataGridTextColumn MinWidth="120" Header="Thread Priority" Binding="{Binding Path=ThreadPriority}"/>
         </DataGrid.Columns>
       </DataGrid>
 
@@ -279,7 +281,24 @@
 
       <!--Pattern tool-->
       <CheckBox Height="22" Grid.Row="2" Grid.Column="2" Content="Use pattern" IsChecked="{Binding Mode=TwoWay, Path=UsePattern, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=SearchPattern.Count}"/>
+                IsEnabled="{Binding Path=PatternString, Converter={StaticResource EmptyStringToBool}}"/>
+      <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Row="2" Name="btnAddPattern" Click="btnFont_Click" 
+              IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}">
+        <Button.ToolTip>
+          <StackPanel>
+            <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Pattern tool</TextBlock>
+            <TextBlock>Add special placeholder or regex pattern</TextBlock>
+            <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+            <WrapPanel>
+              <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
+              <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+            </WrapPanel>
+          </StackPanel>
+        </Button.ToolTip>
+        <StackPanel>
+          <Image Source="/TailForWin;component/Res/Font.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+        </StackPanel>
+      </Button>
 
       <!--Font button-->
       <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Row="3" Name="btnFont" Click="btnFont_Click" 

@@ -254,22 +254,34 @@ namespace Org.Vs.TailForWin.Data
       set;
     }
 
+    private string patternString;
+
     /// <summary>
     /// Current pattern string
     /// </summary>
     public string PatternString
     {
-      get;
-      set;
+      get => patternString;
+      set
+      {
+        patternString = value;
+        OnPropertyChanged("PatternString");
+      }
     }
+
+    private bool isRegex;
 
     /// <summary>
     /// Is regex pattern
     /// </summary>
     public bool IsRegex
     {
-
-      get; set;
+      get => isRegex;
+      set
+      {
+        isRegex = value;
+        OnPropertyChanged("IsRegex");
+      }
     }
 
     /// <summary>

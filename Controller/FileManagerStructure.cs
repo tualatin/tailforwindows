@@ -186,15 +186,18 @@ namespace Org.Vs.TailForWin.Controller
 
             #region Search pattern
 
-            //var searchPatternsElement = xe.Element(XmlStructure.SearchPatterns);
+            var searchPatternElement = xe.Element(XmlStructure.SearchPattern);
 
-            //if(searchPatternsElement != null)
-            //{
-            //  foreach(SearchPatter data in searchPatternsElement.Elements(XmlStructure.SearchPattern).Select(GetSearchPattern).Where(data => data != null))
-            //  {
-            //    item.SearchPattern.Add(data);
-            //  }
-            //}
+            if(searchPatternElement != null)
+            {
+              Pattern pattern = GetPattern(searchPatternElement);
+
+              if(pattern != null)
+              {
+                item.PatternString = pattern.PatternString;
+                item.IsRegex = pattern.IsRegex;
+              }
+            }
 
             #endregion
 
@@ -427,17 +430,17 @@ namespace Org.Vs.TailForWin.Controller
               node.Add(usePattern);
             }
 
-            //var searchPatterns = node.Element(XmlStructure.SearchPatterns);
+            var searchPattern = node.Element(XmlStructure.SearchPattern);
 
-            //if(searchPatterns != null)
-            //{
-            //  searchPatterns.Remove();
-            //  node.Add(AddSearchPatternToDoc(property.SearchPattern));
-            //}
-            //else
-            //{
-            //  node.Add(AddSearchPatternToDoc(property.SearchPattern));
-            //}
+            if(searchPattern != null)
+              searchPattern.Remove();
+
+            Pattern pattern = new Pattern
+            {
+              IsRegex = property.IsRegex,
+              PatternString = property.PatternString
+            };
+            node.Add(AddSearchPatternToDoc(pattern));
 
             #endregion
 
@@ -522,7 +525,12 @@ namespace Org.Vs.TailForWin.Controller
                 new XElement(XmlStructure.Bold, fmProperty.FontType.Bold),
                 new XElement(XmlStructure.Italic, fmProperty.FontType.Italic)));
 
-        //file.Add(AddSearchPatternToDoc(fmProperty.SearchPattern));
+        Pattern pattern = new Pattern
+        {
+          IsRegex = fmProperty.IsRegex,
+          PatternString = fmProperty.PatternString
+        };
+        file.Add(AddSearchPatternToDoc(pattern));
 
         var filters = new XElement(XmlStructure.Filters);
 
@@ -782,21 +790,10 @@ namespace Org.Vs.TailForWin.Controller
     {
       var patternElement = new XElement(XmlStructure.SearchPattern);
 
-      patternElement.Add(AddPatternToDoc(pattern));
+      patternElement.Add(new XElement(XmlStructure.IsRegex, pattern.IsRegex));
+      patternElement.Add(new XElement(XmlStructure.PatternString, pattern.PatternString));
 
       return (patternElement);
-    }
-
-    private XElement AddPatternToDoc(Pattern pattern)
-    {
-      var xmlPattern = new XElement(XmlStructure.Pattern);
-
-      if(pattern != null)
-      {
-        xmlPattern.Add(new XElement(XmlStructure.IsRegex, pattern.IsRegex));
-        xmlPattern.Add(new XElement(XmlStructure.PatternString, pattern.PatternString));
-      }
-      return (xmlPattern);
     }
 
     #endregion

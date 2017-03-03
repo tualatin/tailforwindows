@@ -11,11 +11,6 @@
     public const string SearchPattern = "searchPattern";
 
     /// <summary>
-    /// pattern
-    /// </summary>
-    public const string Pattern = "pattern";
-
-    /// <summary>
     /// isRegex
     /// </summary>
     public const string IsRegex = "isRegex";
