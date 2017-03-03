@@ -186,15 +186,15 @@ namespace Org.Vs.TailForWin.Controller
 
             #region Search pattern
 
-            var searchPatternsElement = xe.Element(XmlStructure.SearchPatterns);
+            //var searchPatternsElement = xe.Element(XmlStructure.SearchPatterns);
 
-            if(searchPatternsElement != null)
-            {
-              foreach(SearchPatter data in searchPatternsElement.Elements(XmlStructure.SearchPattern).Select(GetSearchPattern).Where(data => data != null))
-              {
-                item.SearchPattern.Add(data);
-              }
-            }
+            //if(searchPatternsElement != null)
+            //{
+            //  foreach(SearchPatter data in searchPatternsElement.Elements(XmlStructure.SearchPattern).Select(GetSearchPattern).Where(data => data != null))
+            //  {
+            //    item.SearchPattern.Add(data);
+            //  }
+            //}
 
             #endregion
 
@@ -427,17 +427,17 @@ namespace Org.Vs.TailForWin.Controller
               node.Add(usePattern);
             }
 
-            var searchPatterns = node.Element(XmlStructure.SearchPatterns);
+            //var searchPatterns = node.Element(XmlStructure.SearchPatterns);
 
-            if(searchPatterns != null)
-            {
-              searchPatterns.Remove();
-              node.Add(AddSearchPatternToDoc(property.SearchPattern));
-            }
-            else
-            {
-              node.Add(AddSearchPatternToDoc(property.SearchPattern));
-            }
+            //if(searchPatterns != null)
+            //{
+            //  searchPatterns.Remove();
+            //  node.Add(AddSearchPatternToDoc(property.SearchPattern));
+            //}
+            //else
+            //{
+            //  node.Add(AddSearchPatternToDoc(property.SearchPattern));
+            //}
 
             #endregion
 
@@ -522,7 +522,7 @@ namespace Org.Vs.TailForWin.Controller
                 new XElement(XmlStructure.Bold, fmProperty.FontType.Bold),
                 new XElement(XmlStructure.Italic, fmProperty.FontType.Italic)));
 
-        file.Add(AddSearchPatternToDoc(fmProperty.SearchPattern));
+        //file.Add(AddSearchPatternToDoc(fmProperty.SearchPattern));
 
         var filters = new XElement(XmlStructure.Filters);
 
@@ -751,42 +751,6 @@ namespace Org.Vs.TailForWin.Controller
       return (filter);
     }
 
-    private SearchPatter GetSearchPattern(XElement root)
-    {
-      var patternElement = root.Element(XmlStructure.Pattern);
-      var patternPart = root.Element(XmlStructure.PatternPart);
-      Part part = null;
-      Pattern pattern = null;
-
-      if(patternElement != null)
-        pattern = GetPattern(patternElement);
-      if(patternPart != null)
-        part = GetPart(patternPart);
-
-      SearchPatter searchPattern = new SearchPatter
-      {
-        Pattern = pattern,
-        PatternPart = part
-      };
-      return (searchPattern);
-    }
-
-    private Part GetPart(XElement part)
-    {
-      var begin = part.Element(XmlStructure.Begin);
-      var end = part.Element(XmlStructure.End);
-
-      if(begin == null || end == null)
-        return (null);
-
-      Part xmlPart = new Part
-      {
-        Begin = Convert.ToInt32(begin.Value),
-        End = Convert.ToInt32(end.Value)
-      };
-      return (xmlPart);
-    }
-
     private Pattern GetPattern(XElement pattern)
     {
       var patternString = pattern.Element(XmlStructure.PatternString);
@@ -814,23 +778,11 @@ namespace Org.Vs.TailForWin.Controller
       return (filtersElement);
     }
 
-    private XElement AddSearchPatternToDoc(List<SearchPatter> pattern)
-    {
-      var patternsElement = new XElement(XmlStructure.SearchPatterns);
-
-      foreach(var item in pattern)
-      {
-        patternsElement.Add(AddSearchPatternToDoc(item));
-      }
-      return (patternsElement);
-    }
-
-    private XElement AddSearchPatternToDoc(SearchPatter pattern)
+    private XElement AddSearchPatternToDoc(Pattern pattern)
     {
       var patternElement = new XElement(XmlStructure.SearchPattern);
 
-      patternElement.Add(AddPatternToDoc(pattern.Pattern));
-      patternElement.Add(AddPartToDoc(pattern.PatternPart));
+      patternElement.Add(AddPatternToDoc(pattern));
 
       return (patternElement);
     }
@@ -845,18 +797,6 @@ namespace Org.Vs.TailForWin.Controller
         xmlPattern.Add(new XElement(XmlStructure.PatternString, pattern.PatternString));
       }
       return (xmlPattern);
-    }
-
-    private XElement AddPartToDoc(Part part)
-    {
-      var xmlPart = new XElement(XmlStructure.PatternPart);
-
-      if(part != null)
-      {
-        xmlPart.Add(new XElement(XmlStructure.Begin, part.Begin));
-        xmlPart.Add(new XElement(XmlStructure.End, part.End));
-      }
-      return (xmlPart);
     }
 
     #endregion

@@ -173,15 +173,16 @@ namespace Org.Vs.TailForWin.Data
       equal &= Equals(other.ThreadPriority, ThreadPriority);
       equal &= Equals(other.Wrap, Wrap);
       equal &= Equals(other.TimeStamp, Timestamp);
-      equal &= SearchPatternListEqual(other.SearchPattern, SearchPattern);
+      equal &= Equals(other.PatternString, PatternString);
+      equal &= Equals(other.IsRegex, IsRegex);
 
       return (equal);
     }
 
-    internal bool SearchPatternListEqual(List<SearchPatter> firstList, List<SearchPatter> secondList)
+    internal bool CompareLists<T>(List<T> firstList, List<T> secondList)
     {
       return (firstList.Count == secondList.Count // assumes unique values in each list
-          && new HashSet<SearchPatter>(firstList).SetEquals(secondList));
+          && new HashSet<T>(firstList).SetEquals(secondList));
     }
 
     /// <summary>
@@ -207,7 +208,8 @@ namespace Org.Vs.TailForWin.Data
       ThreadPriority = mementoFMData.ThreadPriority;
       ListOfFilter = mementoFMData.ListOfFilter;
       FileEncoding = mementoFMData.FileEncoding;
-      SearchPattern = mementoFMData.SearchPattern;
+      PatternString = mementoFMData.PatternString;
+      IsRegex = memento.IsRegex;
     }
 
     #region IComparer interface
@@ -284,16 +286,8 @@ namespace Org.Vs.TailForWin.Data
         ThreadPriority = obj.ThreadPriority;
         ListOfFilter = obj.ListOfFilter;
         FileEncoding = obj.FileEncoding;
-
-        if(obj.SearchPattern == null)
-          return;
-
-        SearchPattern = new List<SearchPatter>();
-
-        foreach(var item in obj.SearchPattern)
-        {
-          SearchPattern.Add(item);
-        }
+        PatternString = obj.PatternString;
+        IsRegex = obj.IsRegex;
       }
 
       #region Properties memento
@@ -416,9 +410,18 @@ namespace Org.Vs.TailForWin.Data
       }
 
       /// <summary>
-      /// Search pattern
+      /// Current pattern string
       /// </summary>
-      public List<SearchPatter> SearchPattern
+      public string PatternString
+      {
+        get;
+        private set;
+      }
+
+      /// <summary>
+      /// Is regex pattern
+      /// </summary>
+      public bool IsRegex
       {
         get;
         private set;

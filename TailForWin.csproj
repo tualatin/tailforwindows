@@ -132,19 +132,20 @@
     </ApplicationDefinition>
     <Compile Include="Controller\HistoryStructureController.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Converters\EmptyStringToBoolConverter.cs" />
     <Compile Include="Converters\GroupByCategoryContentConverter.cs" />
     <Compile Include="Converters\MultiConverters\EnableOpenMultiConverter.cs" />
+    <Compile Include="Converters\MultiConverters\IsEnableMultiConverter.cs" />
+    <Compile Include="Converters\MultiConverters\TabSizeMultiConverter.cs" />
     <Compile Include="Converters\FilterCountToStringConverter.cs" />
     <Compile Include="Converters\FilterDataToBoolConverter.cs" />
     <Compile Include="Converters\FontToStringConverter.cs" />
     <Compile Include="Converters\IntToBoolConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="Converters\MultiConverters\IsEnableMultiConverter.cs" />
     <Compile Include="Converters\MailAddressConverter.cs" />
     <Compile Include="Converters\SmtpPortConverter.cs" />
     <Compile Include="Converters\SoundFileNameConverter.cs" />
     <Compile Include="Converters\StringToIntConverter.cs" />
-    <Compile Include="Converters\MultiConverters\TabSizeMultiConverter.cs" />
     <Compile Include="Data\AlertData.cs" />
     <Compile Include="Data\Events\AlertTriggerEventArgs.cs" />
     <Compile Include="Data\Enums\EDateFormat.cs" />

@@ -6,11 +6,6 @@
   public class XmlStructure
   {
     /// <summary>
-    /// searchPatterns
-    /// </summary>
-    public const string SearchPatterns = "searchPatterns";
-
-    /// <summary>
     /// searchPattern
     /// </summary>
     public const string SearchPattern = "searchPattern";
@@ -29,21 +24,6 @@
     /// patternString
     /// </summary>
     public const string PatternString = "patternString";
-
-    /// <summary>
-    /// begin
-    /// </summary>
-    public const string Begin = "begin";
-
-    /// <summary>
-    /// end
-    /// </summary>
-    public const string End = "end";
-
-    /// <summary>
-    /// patternPart
-    /// </summary>
-    public const string PatternPart = "patternPart";
 
     /// <summary>
     /// filters

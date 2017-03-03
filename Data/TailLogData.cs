@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Drawing;
@@ -21,7 +20,6 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public TailLogData()
     {
-      SearchPattern = new List<SearchPatter>();
       ListOfFilter = new ObservableCollection<FilterData>();
       ListOfFilter.CollectionChanged += ContentCollectionChanged;
     }
@@ -257,12 +255,21 @@ namespace Org.Vs.TailForWin.Data
     }
 
     /// <summary>
-    /// Search pattern
+    /// Current pattern string
     /// </summary>
-    public List<SearchPatter> SearchPattern
+    public string PatternString
     {
       get;
       set;
+    }
+
+    /// <summary>
+    /// Is regex pattern
+    /// </summary>
+    public bool IsRegex
+    {
+
+      get; set;
     }
 
     /// <summary>

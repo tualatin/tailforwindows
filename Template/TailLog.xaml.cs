@@ -118,7 +118,8 @@ namespace Org.Vs.TailForWin.Template
         OpenFromFileManager = fileManagerProperties.OpenFromFileManager,
         FilterState = fileManagerProperties.FilterState,
         UsePattern = fileManagerProperties.UsePattern,
-        SearchPattern = fileManagerProperties.SearchPattern
+        PatternString = fileManagerProperties.PatternString,
+        IsRegex = fileManagerProperties.IsRegex
       };
 
       InitTailLog(childTabIndex, tabItem);

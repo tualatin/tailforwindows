@@ -16,7 +16,6 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SearchPatternController));
 
-    private string regexPattern;
     private TailLogData currentProperty;
 
 
@@ -43,18 +42,17 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
       if(directoryInfo == null || !directoryInfo.Exists)
         return (null);
 
-      string pattern = BuildSearchPattern();
       FileInfo[] files;
 
-      if(string.IsNullOrEmpty(regexPattern))
+      if(!currentProperty.IsRegex)
       {
-        files = directoryInfo.GetFiles(pattern, SearchOption.TopDirectoryOnly);
+        files = directoryInfo.GetFiles(currentProperty.PatternString, SearchOption.TopDirectoryOnly);
       }
       else
       {
         try
         {
-          Regex regex = new Regex(regexPattern, RegexOptions.None);
+          Regex regex = new Regex(currentProperty.PatternString, RegexOptions.None);
           files = directoryInfo.GetFiles().Where(p => regex.IsMatch(p.Name)).ToArray<FileInfo>();
         }
         catch(ArgumentNullException ex)
@@ -79,38 +77,6 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
         }
       }
       return (latestFile.FullName);
-    }
-
-    private string BuildSearchPattern()
-    {
-      if(currentProperty.UsePattern)
-      {
-        string pattern = string.Empty;
-        string file = Path.GetFileNameWithoutExtension(currentProperty.FileName);
-        string exentsion = Path.GetExtension(currentProperty.FileName);
-        bool isRegex = false;
-
-        foreach(var item in currentProperty.SearchPattern)
-        {
-          if(item.PatternPart != null)
-          {
-            pattern = $"{pattern}{file.Substring(item.PatternPart.Begin, item.PatternPart.End)}";
-          }
-          else if(item.Pattern != null)
-          {
-            if(item.Pattern.IsRegex)
-              isRegex = true;
-
-            pattern = $"{pattern}{item.Pattern.PatternString}";
-          }
-        }
-
-        if(isRegex)
-          regexPattern = $"{pattern}{exentsion}";
-
-        return ($"{pattern}{exentsion}");
-      }
-      return (string.Empty);
     }
 
     #region IDisposable Members

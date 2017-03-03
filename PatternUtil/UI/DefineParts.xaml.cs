@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Data;
@@ -18,9 +17,9 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
     /// </summary>
     public event PatternObjectChangedEventHandler PatternObjectChanged;
 
-    private List<SearchPatter> searchPattern;
     private string fileExtension;
     private string patternFile;
+    private bool isRegex;
 
     /// <summary>
     /// Tail log file, which is used with patterns
@@ -49,11 +48,6 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
       PreviewKeyDown += HandleEsc;
     }
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
-    {
-      searchPattern = new List<SearchPatter>();
-    }
-
     private void BtnSelectPart_Click(object sender, RoutedEventArgs e)
     {
       var selectPart = new SelectPart
@@ -68,7 +62,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
     private void BtnClear_Click(object sender, RoutedEventArgs e)
     {
       TextBlockResult.Text = patternFile = string.Empty;
-      searchPattern.Clear();
+      isRegex = false;
     }
 
     private void BtnAddPattern_Click(object sender, RoutedEventArgs e)
@@ -83,7 +77,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
 
     private void BtnSavePattern_Click(object sender, RoutedEventArgs e)
     {
-      PatternObjectChanged?.Invoke(this, searchPattern);
+      PatternObjectChanged?.Invoke(this, TextBlockResult.Text, isRegex);
       Close();
     }
 
@@ -96,10 +90,8 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
         if(pattern == null)
           return;
 
-        searchPattern.Add(new SearchPatter
-        {
-          Pattern = pattern
-        });
+        if(pattern.IsRegex)
+          isRegex = pattern.IsRegex;
 
         patternFile = $"{patternFile}{pattern.PatternString}";
         ShowResult();
@@ -114,11 +106,6 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
       {
         if(part == null)
           return;
-
-        searchPattern.Add(new SearchPatter
-        {
-          PatternPart = part
-        });
 
         patternFile = $"{patternFile}{result.Substring(part.Begin, part.End)}";
         ShowResult();

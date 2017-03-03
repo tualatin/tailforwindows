@@ -30,6 +30,7 @@
       <conv:InverseBooleanConverter x:Key="InverseBoolConverter"/>
       <conv:GroupByCategoryContentConverter x:Key="GroupByCategoryConverter"/>
       <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+      <conv:EmptyStringToBoolConverter x:Key="EmptyStringToBool"/>
     </ResourceDictionary>
 
   </Window.Resources>
