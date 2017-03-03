@@ -190,6 +190,7 @@
     <Compile Include="PatternUtil\UI\SelectPart.xaml.cs">
       <DependentUpon>SelectPart.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PatternUtil\Interfaces\ISearchPatternController.cs" />
     <Compile Include="PatternUtil\Utils\SearchPatternController.cs" />
     <Compile Include="Template\Events\DragDropEventDelegate.cs" />
     <Compile Include="Template\Events\IsOpenInTabEventDelegate.cs" />
@@ -641,6 +642,7 @@
     <Content Include="Config\log4net.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Res\script.ico" />
     <Resource Include="Res\grip.png" />
     <Resource Include="Res\SplitterHandle.png" />
     <Resource Include="Template\TextEditor\Res\RightArrow.cur" />

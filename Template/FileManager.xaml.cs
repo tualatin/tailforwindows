@@ -15,6 +15,8 @@ using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Data.Events;
+using Org.Vs.TailForWin.PatternUtil.UI;
+using Org.Vs.TailForWin.PatternUtil.Utils;
 
 
 namespace Org.Vs.TailForWin.Template
@@ -76,7 +78,9 @@ namespace Org.Vs.TailForWin.Template
         Wrap = addFile.Wrap,
         Timestamp = addFile.Timestamp,
         FileEncoding = addFile.FileEncoding,
-        OpenFromFileManager = addFile.OpenFromFileManager
+        OpenFromFileManager = addFile.OpenFromFileManager,
+        PatternString = addFile.PatternString,
+        IsRegex = addFile.IsRegex
       };
 
       fmWorkingProperties = fmProperties.Clone();
@@ -93,8 +97,7 @@ namespace Org.Vs.TailForWin.Template
         fmWorkingProperties.FileEncoding = addFile.FileEncoding;
 
         fmData.Add(fmWorkingProperties);
-        //-- fmDoc.FmProperties.Add(fmWorkingProperties);
-        dataGridFiles.Items.Refresh();
+        //dataGridFiles.Items.Refresh();
       }
 
       comboBoxCategory.SelectedIndex = 0;
@@ -332,6 +335,17 @@ namespace Org.Vs.TailForWin.Template
       }
     }
 
+    private void BtnAddPattern_Click(object sender, RoutedEventArgs e)
+    {
+      DefineParts defineParts = new DefineParts
+      {
+        Owner = this,
+        TailLogFile = fmWorkingProperties.FileName
+      };
+      defineParts.PatternObjectChanged += PatternObjectChanged;
+      defineParts.ShowDialog();
+    }
+
     #endregion
 
     #region Events
@@ -564,6 +578,14 @@ namespace Org.Vs.TailForWin.Template
         errors--;
     }
 
+    private void PatternObjectChanged(object sender, string pattern, bool isRegex)
+    {
+      fmWorkingProperties.PatternString = pattern;
+      fmWorkingProperties.IsRegex = isRegex;
+
+      ChangeFmStateToEditItem();
+    }
+
     #endregion
 
     #region HelperFunctions
@@ -678,6 +700,7 @@ namespace Org.Vs.TailForWin.Template
     {
       btnNew.IsEnabled = state;
       dataGridFiles.IsEnabled = state;
+      FilterTextBox.IsEnabled = state;
     }
 
     private void SelectLastItemInDataGrid()
@@ -719,8 +742,16 @@ namespace Org.Vs.TailForWin.Template
          });
       }
 
-      foreach(var item in fmDoc.FmProperties)
+      foreach(FileManagerData item in fmDoc.FmProperties)
       {
+        if(item.UsePattern)
+        {
+          using(var patternController = new SearchPatternController())
+          {
+            item.FileName = patternController.GetCurrentFileByPattern(item);
+          }
+        }
+
         fmData.Add(item);
       }
 
@@ -786,7 +817,7 @@ namespace Org.Vs.TailForWin.Template
           {
             StartInfo =
             {
-              FileName = Process.GetCurrentProcess ( ).MainModule.FileName,
+              FileName = Process.GetCurrentProcess ().MainModule.FileName,
               Arguments = $"/id={fmWorkingProperties.ID}"
             }
           };
@@ -809,10 +840,17 @@ namespace Org.Vs.TailForWin.Template
 
         if(LogFile.FmHelper.Count > 0)
         {
-          FileManagerHelper item = LogFile.FmHelper.SingleOrDefault(x => x.ID == helper.ID);
+          try
+          {
+            FileManagerHelper item = LogFile.FmHelper.SingleOrDefault(x => x.ID == helper.ID);
 
-          if(item == null)
-            LogFile.FmHelper.Add(helper);
+            if(item == null)
+              LogFile.FmHelper.Add(helper);
+          }
+          catch(ArgumentNullException ex)
+          {
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          }
         }
         else
         {

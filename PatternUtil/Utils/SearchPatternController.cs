@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using log4net;
 using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.PatternUtil.Interfaces;
 using Org.Vs.TailForWin.Utils;
 
 
@@ -12,7 +13,7 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
   /// <summary>
   /// Search pattern controller
   /// </summary>
-  public class SearchPatternController : IDisposable
+  public class SearchPatternController : IDisposable, ISearchPatternController
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SearchPatternController));
 
@@ -29,7 +30,7 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
     {
       Arg.NotNull(tailProperty, "TailProperty");
 
-      currentProperty = tailProperty;
+      currentProperty = (TailLogData) tailProperty.Clone();
 
       return (GetLatestFileByPattern());
     }

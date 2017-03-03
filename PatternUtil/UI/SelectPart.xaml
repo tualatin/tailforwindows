@@ -1,8 +1,8 @@
 ﻿<Window x:Class="Org.Vs.TailForWin.PatternUtil.UI.SelectPart"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Select part" Height="98" Width="342" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" Loaded="Window_Loaded" SnapsToDevicePixels="True" ShowInTaskbar="False">
-  <Grid Margin="5,0,5,0">
+        Title="Select part" Height="105" Width="342" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" Loaded="Window_Loaded" SnapsToDevicePixels="True" ShowInTaskbar="False" ResizeMode="NoResize">
+  <Grid Margin="5">
     <Grid.RowDefinitions>
       <RowDefinition Height="33"/>
       <RowDefinition Height="26"/>

@@ -110,9 +110,9 @@
         </DataGrid.RowStyle>
 
         <DataGrid.Columns>
-          <DataGridTextColumn MinWidth="180" Header="Filename" Binding="{Binding Path=File}"/>
-          <DataGridTextColumn MinWidth="190" Header="Description" Binding="{Binding Path=Description}"/>
-          <DataGridTextColumn MinWidth="190" Header="Category" Binding="{Binding Path=Category}"/>
+          <DataGridTextColumn MinWidth="130" Header="Filename" Binding="{Binding Path=File}"/>
+          <DataGridTextColumn MinWidth="130" Header="Description" Binding="{Binding Path=Description}"/>
+          <DataGridTextColumn MinWidth="130" Header="Category" Binding="{Binding Path=Category}"/>
           <DataGridTextColumn MinWidth="190" Header="Pattern" Binding="{Binding Path=PatternString}"/>
           <DataGridCheckBoxColumn MinWidth="50" Header="Regex" Binding="{Binding Path=IsRegex}"/>
           <DataGridTextColumn MinWidth="90" Header="Refresh Rate" Binding="{Binding Path=RefreshRate}"/>
@@ -282,7 +282,7 @@
       <!--Pattern tool-->
       <CheckBox Height="22" Grid.Row="2" Grid.Column="2" Content="Use pattern" IsChecked="{Binding Mode=TwoWay, Path=UsePattern, UpdateSourceTrigger=PropertyChanged}"
                 IsEnabled="{Binding Path=PatternString, Converter={StaticResource EmptyStringToBool}}"/>
-      <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Row="2" Name="btnAddPattern" Click="btnFont_Click" 
+      <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Row="2" Name="BtnAddPattern" Click="BtnAddPattern_Click" 
               IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}">
         <Button.ToolTip>
           <StackPanel>
@@ -296,7 +296,7 @@
           </StackPanel>
         </Button.ToolTip>
         <StackPanel>
-          <Image Source="/TailForWin;component/Res/Font.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+          <Image Source="/TailForWin;component/Res/script.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
         </StackPanel>
       </Button>
 
