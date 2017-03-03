@@ -66,23 +66,27 @@ namespace Org.Vs.TailForWin.Utils
 
     #region IDictionary<TKey,TValue> Members
 
+    /// <summary>
+    /// Adds the specified key and value to the dictionary.
+    /// </summary>
+    /// <param name="key">The key of the element to add.</param>
+    /// <param name="value">The value of the element to add. The value can be <c>null</c> for reference types.</param>
     public void Add(TKey key, TValue value)
     {
       Insert(key, value, true);
     }
 
+    /// <summary>
+    /// Determines whether the Dictionary&lt;TKey, TValue&gt; contains the specified key.
+    /// </summary>
+    /// <param name="key">The key to locate in the Dictionary&lt;TKey, TValue&gt;.</param>
+    /// <returns><c>true</c> if the Dictionary&lt;TKey, TValue&gt; contains an element with the specified key; otherwise, <c>false</c>.</returns>
     public bool ContainsKey(TKey key)
     {
       return (Dictionary.ContainsKey(key));
     }
 
-    public ICollection<TKey> Keys
-    {
-      get
-      {
-        return (Dictionary.Keys);
-      }
-    }
+    public ICollection<TKey> Keys => (Dictionary.Keys);
 
     /// <summary>
     /// Remove key from Dictionary
@@ -110,30 +114,22 @@ namespace Org.Vs.TailForWin.Utils
       return (Dictionary.TryGetValue(key, out value));
     }
 
-    public ICollection<TValue> Values
-    {
-      get
-      {
-        return (Dictionary.Values);
-      }
-    }
+    public ICollection<TValue> Values => (Dictionary.Values);
 
     public TValue this[TKey key]
     {
-      get
-      {
-        return (Dictionary[key]);
-      }
-      set
-      {
-        Insert(key, value, false);
-      }
+      get => (Dictionary[key]);
+      set => Insert(key, value, false);
     }
 
     #endregion
 
     #region ICollection<KeyValuePair<TKey,TValue>> Members
 
+    /// <summary>
+    /// Adds the specified key and value to the dictionary.
+    /// </summary>
+    /// <param name="item">The item of the element to add.</param>
     public void Add(KeyValuePair<TKey, TValue> item)
     {
       Insert(item.Key, item.Value, true);
@@ -158,21 +154,9 @@ namespace Org.Vs.TailForWin.Utils
       Dictionary.CopyTo(array, arrayIndex);
     }
 
-    public int Count
-    {
-      get
-      {
-        return (Dictionary.Count);
-      }
-    }
+    public int Count => (Dictionary.Count);
 
-    public bool IsReadOnly
-    {
-      get
-      {
-        return (Dictionary.IsReadOnly);
-      }
-    }
+    public bool IsReadOnly => (Dictionary.IsReadOnly);
 
     public bool Remove(KeyValuePair<TKey, TValue> item)
     {
@@ -226,10 +210,16 @@ namespace Org.Vs.TailForWin.Utils
       if(Dictionary.Count > 0)
       {
         if(items.Keys.Any(k => Dictionary.ContainsKey(k)))
+        {
           throw new ArgumentException("An item with the same key has already been added.");
+        }
         else
+        {
           foreach(var item in items)
+          {
             Dictionary.Add(item);
+          }
+        }
       }
       else
       {
@@ -243,9 +233,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       Arg.NotNull(key, "Key");
 
-      TValue item;
-
-      if(Dictionary.TryGetValue(key, out item))
+      if(Dictionary.TryGetValue(key, out TValue item))
       {
         if(add)
           throw new ArgumentException("An item with the same key has already been added.");
@@ -272,42 +260,37 @@ namespace Org.Vs.TailForWin.Utils
       OnPropertyChanged(ValuesName);
     }
 
+    /// <summary>
+    /// Occurs when a property value changes.
+    /// </summary>
+    /// <param name="propertyName">Name of property</param>
     protected virtual void OnPropertyChanged(string propertyName)
     {
-      if(PropertyChanged != null)
-        PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     private void OnCollectionChanged()
     {
       OnPropertyChanged();
-
-      if(CollectionChanged != null)
-        CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+      CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
     }
 
     private void OnCollectionChanged(NotifyCollectionChangedAction action, KeyValuePair<TKey, TValue> changedItem)
     {
       OnPropertyChanged();
-
-      if(CollectionChanged != null)
-        CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, changedItem));
+      CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, changedItem));
     }
 
     private void OnCollectionChanged(NotifyCollectionChangedAction action, KeyValuePair<TKey, TValue> newItem, KeyValuePair<TKey, TValue> oldItem)
     {
       OnPropertyChanged();
-
-      if(CollectionChanged != null)
-        CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem));
+      CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, newItem, oldItem));
     }
 
     private void OnCollectionChanged(NotifyCollectionChangedAction action, IList newItems)
     {
       OnPropertyChanged();
-
-      if(CollectionChanged != null)
-        CollectionChanged(this, new NotifyCollectionChangedEventArgs(action, newItems));
+      CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, newItems));
     }
   }
 }

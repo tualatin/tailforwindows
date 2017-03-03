@@ -1,7 +1,10 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Interfaces;
 using Org.Vs.TailForWin.PatternUtil.Events;
 
 
@@ -20,6 +23,8 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
     private string fileExtension;
     private string patternFile;
     private bool isRegex;
+    private IDefaultPatternStructureController defaultPatterns;
+    private List<Pattern> definedPatterns;
 
     /// <summary>
     /// Tail log file, which is used with patterns
@@ -48,6 +53,12 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
       PreviewKeyDown += HandleEsc;
     }
 
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+      defaultPatterns = new DefaultPatternStructureController();
+      definedPatterns = defaultPatterns.ReadDefaultPatternFile();
+    }
+
     private void BtnSelectPart_Click(object sender, RoutedEventArgs e)
     {
       var selectPart = new SelectPart
@@ -72,6 +83,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
         Owner = this
       };
       definePattern.PatternChanged += PatternChanged;
+      definePattern.AddDefaultPatterns(definedPatterns);
       definePattern.ShowDialog();
     }
 

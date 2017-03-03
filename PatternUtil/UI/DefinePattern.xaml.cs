@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.PatternUtil.Events;
@@ -29,26 +31,55 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
       PreviewKeyDown += HandleEsc;
     }
 
+    /// <summary>
+    /// Add a list of default patterns to combobox
+    /// </summary>
+    /// <param name="defaultPatterns">List of default patterns</param>
+    public void AddDefaultPatterns(List<Pattern> defaultPatterns)
+    {
+      if(defaultPatterns == null || defaultPatterns.Count == 0)
+        return;
+
+      foreach(var item in defaultPatterns)
+      {
+        ComboBoxPattern.Items.Add(item);
+      }
+    }
+
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
       pattern = new Pattern();
-      FocusManager.SetFocusedElement(this, TextBoxPattern);
+      FocusManager.SetFocusedElement(this, ComboBoxPattern);
     }
 
     private void BtnSave_Click(object sender, RoutedEventArgs e)
     {
-      if(string.IsNullOrEmpty(TextBoxPattern.Text))
+      if(string.IsNullOrEmpty(ComboBoxPattern.Text))
       {
         pattern = null;
       }
       else
       {
         pattern.IsRegex = CheckBoxRegex.IsChecked.Value;
-        pattern.PatternString = TextBoxPattern.Text;
+        pattern.PatternString = ComboBoxPattern.Text;
       }
 
       PatternChanged?.Invoke(this, pattern);
       Close();
+    }
+
+    private void ComboBoxPattern_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+      if(!IsInitialized)
+        return;
+
+      if(e.AddedItems.Count > 0)
+      {
+        var pattern = e.AddedItems[0];
+
+        if(pattern is Pattern)
+          CheckBoxRegex.IsChecked = (pattern as Pattern).IsRegex;
+      }
     }
 
     #region HelperFunctsion

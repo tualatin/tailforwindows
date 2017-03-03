@@ -5,6 +5,8 @@
   /// </summary>
   public class XmlStructure
   {
+    #region FileManager XML file
+
     /// <summary>
     /// searchPattern
     /// </summary>
@@ -134,5 +136,40 @@
     /// timeStamp
     /// </summary>
     public const string TimeStamp = "timeStamp";
+
+    #endregion
+
+    #region History XML file
+
+    /// <summary>
+    /// FindHistory
+    /// </summary>
+    public const string FindHistory = "FindHistory";
+
+    /// <summary>
+    /// Find
+    /// </summary>
+    public const string Find = "Find";
+
+    /// <summary>
+    /// wrap
+    /// </summary>
+    public const string Wrap = "wrap";
+
+    #endregion
+
+    #region Default patterns XML file
+
+    /// <summary>
+    /// Patterns
+    /// </summary>
+    public const string Patterns = "Patterns";
+
+    /// <summary>
+    /// Pattern
+    /// </summary>
+    public const string Pattern = "Pattern";
+
+    #endregion
   }
 }

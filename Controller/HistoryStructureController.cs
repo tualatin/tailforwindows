@@ -2,6 +2,8 @@
 using System.IO;
 using System.Xml.Linq;
 using log4net;
+using Org.Vs.TailForWin.Data.XmlNames;
+using Org.Vs.TailForWin.Interfaces;
 using Org.Vs.TailForWin.Utils;
 
 
@@ -10,7 +12,7 @@ namespace Org.Vs.TailForWin.Controller
   /// <summary>
   /// History structure controller
   /// </summary>
-  public class HistoryStructureController
+  public class HistoryStructureController : IHistoryStructureController
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(HistoryStructureController));
 
@@ -39,6 +41,7 @@ namespace Org.Vs.TailForWin.Controller
     /// <summary>
     /// Read find history section in XML file
     /// </summary>
+    /// <param name="words">History words</param>
     public void ReadFindHistory(ref ObservableDictionary<string, string> words)
     {
       try
@@ -51,17 +54,17 @@ namespace Org.Vs.TailForWin.Controller
         if(historyDoc.Root == null)
           return;
 
-        XElement findHistoryRoot = historyDoc.Root.Element("FindHistory");
+        XElement findHistoryRoot = historyDoc.Root.Element(XmlStructure.FindHistory);
 
         if(findHistoryRoot == null)
           return;
 
-        string wrapAround = findHistoryRoot.Attribute("wrap").Value;
+        string wrapAround = findHistoryRoot.Attribute(XmlStructure.Wrap).Value;
         Wrap = bool.TryParse(wrapAround, out bool wrap) && wrap;
 
-        foreach(XElement find in findHistoryRoot.Elements("Find"))
+        foreach(XElement find in findHistoryRoot.Elements(XmlStructure.Find))
         {
-          words.Add(find.Attribute("name").Value, find.Attribute("name").Value);
+          words.Add(find.Attribute(XmlStructure.Name).Value, find.Attribute(XmlStructure.Name).Value);
         }
       }
       catch(Exception ex)
@@ -82,14 +85,14 @@ namespace Org.Vs.TailForWin.Controller
       {
         if(historyDoc.Root != null)
         {
-          XElement findHistoryRoot = historyDoc.Root.Element("FindHistory");
+          XElement findHistoryRoot = historyDoc.Root.Element(XmlStructure.FindHistory);
 
           if(findHistoryRoot != null)
-            findHistoryRoot.Attribute("wrap").Value = Wrap.ToString();
+            findHistoryRoot.Attribute(XmlStructure.Wrap).Value = Wrap.ToString();
           else
           {
-            findHistoryRoot = new XElement("FindHistory");
-            findHistoryRoot.Add(new XAttribute("wrap", Wrap.ToString()));
+            findHistoryRoot = new XElement(XmlStructure.FindHistory);
+            findHistoryRoot.Add(new XAttribute(XmlStructure.Wrap, Wrap.ToString()));
             historyDoc.Root.Add(findHistoryRoot);
           }
 
@@ -118,9 +121,9 @@ namespace Org.Vs.TailForWin.Controller
       {
         if(historyDoc.Root != null)
         {
-          XElement findHistoryRoot = historyDoc.Root.Element("FindHistory") ?? SaveFindHistoryWrap();
-          XElement findHistoryFind = new XElement("Find");
-          findHistoryFind.Add(new XAttribute("name", searchWord));
+          XElement findHistoryRoot = historyDoc.Root.Element(XmlStructure.FindHistory) ?? SaveFindHistoryWrap();
+          XElement findHistoryFind = new XElement(XmlStructure.Find);
+          findHistoryFind.Add(new XAttribute(XmlStructure.Name, searchWord));
           findHistoryRoot.Add(findHistoryFind);
         }
 

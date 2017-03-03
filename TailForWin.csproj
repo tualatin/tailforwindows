@@ -130,7 +130,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\DefaultPatternStructureController.cs" />
     <Compile Include="Controller\HistoryStructureController.cs" />
+    <Compile Include="Interfaces\IDefaultPatternStructureController.cs" />
+    <Compile Include="Interfaces\IHistoryStructureController.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\EmptyStringToBoolConverter.cs" />
     <Compile Include="Converters\GroupByCategoryContentConverter.cs" />
@@ -640,6 +643,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\log4net.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DefaultPatterns.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Resource Include="Res\script.ico" />

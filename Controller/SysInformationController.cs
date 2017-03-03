@@ -1,8 +1,4 @@
-﻿using log4net;
-using Org.Vs.TailForWin.Data;
-using Org.Vs.TailForWin.Native;
-using Org.Vs.TailForWin.Utils;
-using System;
+﻿using System;
 using System.Linq;
 using System.Management;
 using System.Net;
@@ -10,6 +6,10 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using log4net;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Native;
+using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Controller
