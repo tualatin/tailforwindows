@@ -209,7 +209,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnSave_Click(object sender, RoutedEventArgs e)
     {
-      if(checkBoxInsertCategory.IsChecked == false)
+      if(!checkBoxInsertCategory.IsChecked.Value)
         fmWorkingProperties.Category = comboBoxCategory.SelectedItem as string;
 
       // TODO better solution (IsEnable property) at the moment workaround
@@ -230,12 +230,15 @@ namespace Org.Vs.TailForWin.Template
         break;
       }
 
-      if(checkBoxInsertCategory.IsChecked == true)
+      if(checkBoxInsertCategory.IsChecked.Value)
       {
         fmDoc.RefreshCategories();
         RefreshCategoryComboBox();
         checkBoxInsertCategory.IsChecked = false;
       }
+
+      if(fmWorkingProperties.UsePattern)
+        UsePatternToLogfile(fmWorkingProperties);
 
       SortDataGrid();
       SetDialogTitle();
@@ -246,6 +249,14 @@ namespace Org.Vs.TailForWin.Template
       fmState = EFileManagerState.OpenFileManager;
       fmMemento = fmWorkingProperties.SaveToMemento();
       GetCurrentCollectionViewSource().Refresh();
+    }
+
+    private void CheckBoxUsePattern_Click(object sender, RoutedEventArgs e)
+    {
+      if(!IsInitialized)
+        return;
+
+      ChangeFmStateToEditItem();
     }
 
     private void CheckBoxWrap_Click(object sender, RoutedEventArgs e)
@@ -745,12 +756,7 @@ namespace Org.Vs.TailForWin.Template
       foreach(FileManagerData item in fmDoc.FmProperties)
       {
         if(item.UsePattern)
-        {
-          using(var patternController = new SearchPatternController())
-          {
-            item.FileName = patternController.GetCurrentFileByPattern(item);
-          }
-        }
+          UsePatternToLogfile(item);
 
         fmData.Add(item);
       }
@@ -768,6 +774,14 @@ namespace Org.Vs.TailForWin.Template
       comboBoxFileEncode.DisplayMemberPath = "HeaderName";
 
       RefreshCategoryComboBox();
+    }
+
+    private static void UsePatternToLogfile(FileManagerData item)
+    {
+      using(var patternController = new SearchPatternController())
+      {
+        item.FileName = patternController.GetCurrentFileByPattern(item);
+      }
     }
 
     private void FmData_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

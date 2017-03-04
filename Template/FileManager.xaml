@@ -280,8 +280,8 @@
       </CheckBox>
 
       <!--Pattern tool-->
-      <CheckBox Height="22" Grid.Row="2" Grid.Column="2" Content="Use pattern" IsChecked="{Binding Mode=TwoWay, Path=UsePattern, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=PatternString, Converter={StaticResource EmptyStringToBool}}"/>
+      <CheckBox x:Name="CheckBoxUsePattern" Height="22" Grid.Row="2" Grid.Column="2" Content="Use pattern" IsChecked="{Binding Mode=TwoWay, Path=UsePattern, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{Binding Path=PatternString, Converter={StaticResource EmptyStringToBool}}" Click="CheckBoxUsePattern_Click"/>
       <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Row="2" Name="BtnAddPattern" Click="BtnAddPattern_Click" 
               IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}">
         <Button.ToolTip>

@@ -284,13 +284,19 @@ namespace Org.Vs.TailForWin.Data
       }
     }
 
+    private bool usePattern;
+
     /// <summary>
     /// Use pattern logic
     /// </summary>
     public bool UsePattern
     {
-      get;
-      set;
+      get => usePattern;
+      set
+      {
+        usePattern = value;
+        OnPropertyChanged("UsePattern");
+      }
     }
 
     private void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

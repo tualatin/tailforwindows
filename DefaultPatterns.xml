@@ -5,8 +5,24 @@
       <patternString>????-??-??</patternString>
       <isRegex/>
     </Pattern>
+    
+    <Pattern>
+      <patternString>??-??-????</patternString>
+      <isRegex/>
+    </Pattern>
+    
     <Pattern>
       <patternString>d{4}-d{2}-d{2}</patternString>
+      <isRegex>True</isRegex>
+    </Pattern>
+
+    <Pattern>
+      <patternString>d{2}-d{2}-d{4}</patternString>
+      <isRegex>True</isRegex>
+    </Pattern>
+
+    <Pattern>
+      <patternString>^\w*_\d+</patternString>
       <isRegex>True</isRegex>
     </Pattern>
   </Patterns>

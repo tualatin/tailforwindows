@@ -175,6 +175,7 @@ namespace Org.Vs.TailForWin.Data
       equal &= Equals(other.TimeStamp, Timestamp);
       equal &= Equals(other.PatternString, PatternString);
       equal &= Equals(other.IsRegex, IsRegex);
+      equal &= Equals(other.UsePattern, UsePattern);
 
       return (equal);
     }
@@ -210,6 +211,7 @@ namespace Org.Vs.TailForWin.Data
       FileEncoding = mementoFMData.FileEncoding;
       PatternString = mementoFMData.PatternString;
       IsRegex = memento.IsRegex;
+      UsePattern = memento.UsePattern;
     }
 
     #region IComparer interface
@@ -288,6 +290,7 @@ namespace Org.Vs.TailForWin.Data
         FileEncoding = obj.FileEncoding;
         PatternString = obj.PatternString;
         IsRegex = obj.IsRegex;
+        UsePattern = obj.UsePattern;
       }
 
       #region Properties memento
@@ -422,6 +425,15 @@ namespace Org.Vs.TailForWin.Data
       /// Is regex pattern
       /// </summary>
       public bool IsRegex
+      {
+        get;
+        private set;
+      }
+
+      /// <summary>
+      /// Use pattern
+      /// </summary>
+      public bool UsePattern
       {
         get;
         private set;
