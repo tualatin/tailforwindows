@@ -32,6 +32,8 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void UCExtraItem_Loaded(object sender, RoutedEventArgs e)
     {
+      GridExtraOptions.DataContext = SettingsHelper.TailSettings;
+
       SetControls();
     }
 
