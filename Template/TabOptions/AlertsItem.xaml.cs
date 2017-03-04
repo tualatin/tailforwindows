@@ -29,6 +29,9 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     public event EventHandler SaveSettings;
 
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public AlertsItem()
     {
       InitializeComponent();
@@ -44,8 +47,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       {
         if(SettingsHelper.ParseEMailAddress(watermarkTextBoxEMailAddress.Text))
         {
-          if(SaveSettings != null)
-            SaveSettings(this, EventArgs.Empty);
+          SaveSettings?.Invoke(this, EventArgs.Empty);
         }
         else
         {
@@ -54,21 +56,19 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         }
       }
       else
-        if(SaveSettings != null)
-        SaveSettings(this, EventArgs.Empty);
+      {
+        SaveSettings?.Invoke(this, EventArgs.Empty);
+      }
     }
 
     public void btnCancel_Click(object sender, RoutedEventArgs e)
     {
-      if(CloseDialog != null)
-        CloseDialog(this, EventArgs.Empty);
+      CloseDialog?.Invoke(this, EventArgs.Empty);
     }
 
     private void btnOpenSoundFile_Click(object sender, RoutedEventArgs e)
     {
-      string fName;
-
-      if(LogFile.OpenFileLogDialog(out fName, "MP3 (*.mp3)|*.mp3|Wave (*.wav)|*.wav|All files (*.*)|*.*", Application.Current.FindResource("SelectSoundFile") as string))
+      if(LogFile.OpenFileLogDialog(out string fName, "MP3 (*.mp3)|*.mp3|Wave (*.wav)|*.wav|All files (*.*)|*.*", Application.Current.FindResource("SelectSoundFile") as string))
         textBoxSoundFile.Text = fName;
     }
 

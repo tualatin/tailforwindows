@@ -93,11 +93,11 @@ namespace Org.Vs.TailForWin.Template
         SetAddSaveButton(false);
 
         fmWorkingProperties.FileName = addFile.FileName;
+        fmWorkingProperties.OriginalFileName = addFile.FileName;
         fmWorkingProperties.ID = ++fmDoc.LastFileId;
         fmWorkingProperties.FileEncoding = addFile.FileEncoding;
 
         fmData.Add(fmWorkingProperties);
-        //dataGridFiles.Items.Refresh();
       }
 
       comboBoxCategory.SelectedIndex = 0;
@@ -239,6 +239,8 @@ namespace Org.Vs.TailForWin.Template
 
       if(fmWorkingProperties.UsePattern)
         UsePatternToLogfile(fmWorkingProperties);
+      else
+        fmWorkingProperties.FileName = fmWorkingProperties.OriginalFileName;
 
       SortDataGrid();
       SetDialogTitle();
@@ -557,6 +559,8 @@ namespace Org.Vs.TailForWin.Template
 
       if(fmData == null)
         return;
+      if(string.IsNullOrEmpty(fmData.Category) || string.IsNullOrEmpty(fmData.Description))
+        return;
 
       try
       {
@@ -627,6 +631,7 @@ namespace Org.Vs.TailForWin.Template
         Category = string.Empty,
         Description = string.Empty,
         FileName = fileName,
+        OriginalFileName = fileName,
         ID = ++fmDoc.LastFileId,
         RefreshRate = fmProperties.RefreshRate,
         ThreadPriority = fmProperties.ThreadPriority,

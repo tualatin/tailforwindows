@@ -56,17 +56,15 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     public void btnCancel_Click(object sender, RoutedEventArgs e)
     {
-      if(CloseDialog != null)
-        CloseDialog(this, EventArgs.Empty);
+      CloseDialog?.Invoke(this, EventArgs.Empty);
     }
 
     #endregion
 
     private void btnImport_Click(object sender, RoutedEventArgs e)
     {
-      string importSettings;
 
-      if(!LogFile.OpenFileLogDialog(out importSettings, "Export Settings (*export)|*.export",
+      if(!LogFile.OpenFileLogDialog(out string importSettings, "Export Settings (*export)|*.export",
                                     Application.Current.FindResource("OpenDialogImportSettings") as string))
         return;
 
@@ -81,7 +79,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       {
         string appName = AppDomain.CurrentDomain.FriendlyName;
         FileStream importFile = new FileStream(importSettings, FileMode.Open);
-        Stream output = File.Create(string.Format("{0}{1}.Config", AppDomain.CurrentDomain.BaseDirectory, appName));
+        Stream output = File.Create($"{AppDomain.CurrentDomain.BaseDirectory}{appName}.Config");
         byte[] buffer = new byte[1024];
         int len;
 
@@ -108,12 +106,12 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     private void btnExport_Click(object sender, RoutedEventArgs e)
     {
       string appName = AppDomain.CurrentDomain.FriendlyName;
-      string appSettings = string.Format("{0}{1}.Config", AppDomain.CurrentDomain.BaseDirectory, appName);
+      string appSettings = $"{AppDomain.CurrentDomain.BaseDirectory}{appName}.Config";
       string date = DateTime.Now.ToString("yyyy_MM_dd_hh_mm");
 
       SaveFileDialog saveDialog = new SaveFileDialog
       {
-        FileName = string.Format("{0}_{1}.Config", date, appName),
+        FileName = $"{date}_{appName}.Config",
         DefaultExt = ".export",
         Filter = "Export Settings (*.export)|*.export"
       };
@@ -126,7 +124,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       try
       {
         FileStream saveFile = new FileStream(appSettings, FileMode.Open);
-        Stream output = File.Create(string.Format("{0}.{1}", saveDialog.FileName, saveDialog.DefaultExt));
+        Stream output = File.Create($"{saveDialog.FileName}.{saveDialog.DefaultExt}");
         byte[] buffer = new byte[1024];
         int len;
 

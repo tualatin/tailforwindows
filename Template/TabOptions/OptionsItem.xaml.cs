@@ -29,7 +29,6 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// </summary>
     public event EventHandler SaveSettings;
 
-    private readonly bool isInit;
     private string sendToLnkName;
 
 
@@ -41,13 +40,11 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       InitializeComponent();
 
       PreviewKeyDown += HandleEsc;
-      sendToLnkName = string.Format("{0}\\{1}.lnk", Environment.GetFolderPath(Environment.SpecialFolder.SendTo), LogFile.APPLICATION_CAPTION);
+      sendToLnkName = $"{Environment.GetFolderPath(Environment.SpecialFolder.SendTo)}\\{LogFile.APPLICATION_CAPTION}.lnk";
 
       Rename_BtnSendTo();
       SetComboBoxes();
       SetControls();
-
-      isInit = true;
     }
 
     #region ClickEvents
@@ -147,7 +144,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     {
       e.Handled = true;
 
-      if(isInit)
+      if(IsInitialized)
         SettingsHelper.TailSettings.DefaultThreadPriority = (System.Threading.ThreadPriority) Enum.Parse(typeof(System.Threading.ThreadPriority), comboBoxThreadPriority.SelectedItem as string);
     }
 
@@ -155,7 +152,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     {
       e.Handled = true;
 
-      if(isInit)
+      if(IsInitialized)
         SettingsHelper.TailSettings.DefaultRefreshRate = (ETailRefreshRate) Enum.Parse(typeof(ETailRefreshRate), comboBoxThreadRefreshRate.SelectedItem as string);
     }
 
@@ -163,7 +160,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     {
       e.Handled = true;
 
-      if(isInit)
+      if(IsInitialized)
         SettingsHelper.TailSettings.DefaultTimeFormat = SettingsData.GetDescriptionEnum<ETimeFormat>(comboBoxTimeFormat.SelectedItem as string);
     }
 
@@ -171,7 +168,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     {
       e.Handled = true;
 
-      if(isInit)
+      if(IsInitialized)
         SettingsHelper.TailSettings.DefaultDateFormat = SettingsData.GetDescriptionEnum<EDateFormat>(comboBoxDateFormat.SelectedItem as string);
     }
 

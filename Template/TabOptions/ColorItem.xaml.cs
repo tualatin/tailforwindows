@@ -26,6 +26,9 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     public event EventHandler SaveSettings;
 
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public ColorItem()
     {
       InitializeComponent();
@@ -39,14 +42,12 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     public void btnSave_Click(object sender, RoutedEventArgs e)
     {
-      if(SaveSettings != null)
-        SaveSettings(this, EventArgs.Empty);
+      SaveSettings?.Invoke(this, EventArgs.Empty);
     }
 
     public void btnCancel_Click(object sender, RoutedEventArgs e)
     {
-      if(CloseDialog != null)
-        CloseDialog(this, EventArgs.Empty);
+      CloseDialog?.Invoke(this, EventArgs.Empty);
     }
 
     private void btnColorPickerForeground_Click(object sender, RoutedEventArgs e)

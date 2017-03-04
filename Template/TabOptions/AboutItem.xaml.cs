@@ -30,6 +30,9 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     private readonly BackgroundWorker uptimeThread;
 
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
     public AboutItem()
     {
       InitializeComponent();
@@ -54,22 +57,32 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       Unloaded += (o, e) => uptimeThread.CancelAsync();
     }
 
+    /// <summary>
+    /// Handles the save click event
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     public void btnSave_Click(object sender, RoutedEventArgs e)
     {
-      if(CloseDialog != null)
-        CloseDialog(this, EventArgs.Empty);
-
+      CloseDialog?.Invoke(this, EventArgs.Empty);
       uptimeThread.CancelAsync();
     }
 
+    /// <summary>
+    /// Handles the cancel click event
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     public void btnCancel_Click(object sender, RoutedEventArgs e)
     {
-      if(SaveSettings != null)
-        SaveSettings(this, EventArgs.Empty);
-
-      throw new NotImplementedException();
+      SaveSettings?.Invoke(this, EventArgs.Empty);
     }
 
+    /// <summary>
+    /// Handles the ESC button
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     public void HandleEsc(object sender, KeyEventArgs e)
     {
       if(e.Key == Key.Escape)
@@ -110,9 +123,9 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         TimeSpan updTime = DateTime.Now.Subtract(LogFile.APP_MAIN_WINDOW.TfWUpTimeStart);
 
         labelUptime.Dispatcher.Invoke(new Action(() =>
-      {
-        labelUptime.Content = string.Format("{0} Day(s), {1:00}:{2:00}:{3:00} Hour(s)", updTime.Days, updTime.Hours, updTime.Minutes, updTime.Seconds);
-      }));
+        {
+          labelUptime.Content = $"{updTime.Days} Day(s), {updTime.Hours:00}:{updTime.Minutes:00}:{updTime.Seconds:00} Hour(s)";
+        }));
 
         System.Threading.Thread.Sleep(1000);
       }

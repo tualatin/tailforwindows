@@ -109,6 +109,7 @@ namespace Org.Vs.TailForWin.Template
         Wrap = fileManagerProperties.Wrap,
         KillSpace = fileManagerProperties.KillSpace,
         FileName = fileManagerProperties.FileName,
+        OriginalFileName = fileManagerProperties.OriginalFileName,
         FontType = fileManagerProperties.FontType,
         RefreshRate = fileManagerProperties.RefreshRate,
         ThreadPriority = fileManagerProperties.ThreadPriority,
@@ -1031,6 +1032,7 @@ namespace Org.Vs.TailForWin.Template
       if(FileReader.FileExists(textBoxFileName.Text))
       {
         tabProperties.FileName = textBoxFileName.Text;
+        tabProperties.OriginalFileName = textBoxFileName.Text;
         childTabItem.Header = tabProperties.File;
 
         if(!fileManagerProperties.OpenFromFileManager)
@@ -1145,7 +1147,8 @@ namespace Org.Vs.TailForWin.Template
               ThreadPriority = SettingsHelper.TailSettings.DefaultThreadPriority,
               RefreshRate = SettingsHelper.TailSettings.DefaultRefreshRate,
               FileEncoding = null,
-              FileName = currentFileName
+              FileName = currentFileName,
+              OriginalFileName = currentFileName
             };
 
             OnDragAndDropEvent?.Invoke(fileProperties);

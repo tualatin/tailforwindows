@@ -124,9 +124,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       if(watermarkTextBoxSmtpServer.Text.Length > 0)
         SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpServerName = watermarkTextBoxSmtpServer.Text;
 
-      int port;
-
-      if(!int.TryParse(watermarkTextBoxPort.Text, out port))
+      if(!int.TryParse(watermarkTextBoxPort.Text, out int port))
         port = -1;
 
       SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpPort = port;

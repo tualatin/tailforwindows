@@ -248,6 +248,9 @@
     <Compile Include="Template\SearchDialog.xaml.cs">
       <DependentUpon>SearchDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Template\TabOptions\ExtraItem.xaml.cs">
+      <DependentUpon>ExtraItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Template\TabOptions\ImportExportItem.xaml.cs">
       <DependentUpon>ImportExportItem.xaml</DependentUpon>
     </Compile>
@@ -439,6 +442,10 @@
     <Page Include="Template\SearchDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Template\TabOptions\ExtraItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Template\TabOptions\ImportExportItem.xaml">
       <SubType>Designer</SubType>

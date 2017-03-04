@@ -9,7 +9,7 @@
       <RowDefinition Height="189*" />
     </Grid.RowDefinitions>
     <Label Content="Line number ():" Name="labelLineNumber"/>
-    <tb:WatermarkTextBox Grid.Row="1" x:Name="textBoxLineNumber" TextChanged="textBoxLineNumber_TextChanged" Margin="5,0" TabIndex="1">
+    <tb:WatermarkTextBox Grid.Row="1" x:Name="textBoxLineNumber" TextChanged="textBoxLineNumber_TextChanged" Margin="5,0" TabIndex="0">
       <tb:WatermarkTextBox.Watermark>
         <TextBlock Text="Linenumber" Margin="5,0,0,0" FontStyle="Italic" />
       </tb:WatermarkTextBox.Watermark>
@@ -19,8 +19,8 @@
         <ColumnDefinition Width="189*" />
         <ColumnDefinition Width="90" />
       </Grid.ColumnDefinitions>
-      <Button Content="OK" Height="23" HorizontalAlignment="Right" Margin="0,0,5,0" Name="btnOk" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="0" Click="btnOK_Click" TabIndex="2" />
-      <Button Content="Close" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="btnCancel_Click" TabIndex="3" />
+      <Button Content="OK" Height="23" HorizontalAlignment="Right" Margin="0,0,5,0" Name="btnOk" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="0" Click="btnOK_Click" TabIndex="1" />
+      <Button Content="Close" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="btnCancel_Click" TabIndex="2" />
     </Grid>
   </Grid>
 </Window>

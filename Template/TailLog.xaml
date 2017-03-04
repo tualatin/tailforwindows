@@ -27,7 +27,7 @@
           <ColumnDefinition Width="488*"/>
           <ColumnDefinition Width="105"/>
         </Grid.ColumnDefinitions>
-        <Button Height="23" Margin="0" Name="btnStart" VerticalAlignment="Center" Grid.Column="2" Click="btnStart_Click" TabIndex="9">
+        <Button Height="23" Margin="0" Name="btnStart" VerticalAlignment="Center" Grid.Column="2" Click="btnStart_Click" TabIndex="3">
           <StackPanel Orientation="Horizontal">
             <Image Source="/TailForWin;component/Res/start.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
             <TextBlock Margin="15,0,0,0">Start</TextBlock>
@@ -62,7 +62,7 @@
           </Button.ToolTip>
         </Button>
         <Label Content="File:" HorizontalAlignment="Left" Margin="0,0,0,24" VerticalAlignment="Center" Grid.RowSpan="2"/>
-        <Button Height="23" HorizontalAlignment="Left" Name="btnOpenFile" VerticalAlignment="Center" Width="23" Margin="35,0,0,0" Click="btnOpenFile_Click" TabIndex="1">
+        <Button Height="23" HorizontalAlignment="Left" Name="btnOpenFile" VerticalAlignment="Center" Width="23" Margin="35,0,0,0" Click="btnOpenFile_Click" TabIndex="0">
           <StackPanel>
             <Image Source="/TailForWin;component/Res/openfolder.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
           </StackPanel>
@@ -97,7 +97,7 @@
 
         <!-- Column 1 -->
         <tb:WatermarkTextBox Height="23" Margin="0,0,3,0" x:Name="textBoxFileName" VerticalAlignment="Center" Grid.Column="1" TextChanged="textBoxFileName_TextChanged" 
-                             TabIndex="3" PreviewDragOver="textBoxFileName_PreviewDragOver">
+                             TabIndex="2" PreviewDragOver="textBoxFileName_PreviewDragOver">
           <tb:WatermarkTextBox.Watermark>
             <TextBlock Text="Logfile" Margin="5,0,0,0" FontStyle="Italic"/>
           </tb:WatermarkTextBox.Watermark>
@@ -106,7 +106,7 @@
         <!-- Row 1 -->
         <StackPanel Name="ExtraIcons" Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="2" Margin="0" IsEnabled="False">
           <CheckBox Content="Timestamp" Grid.Column="1" Grid.Row="1" Height="22" HorizontalAlignment="Left" Margin="5,0,5,0" Name="checkBoxTimestamp" VerticalAlignment="Center" 
-                    IsChecked="{Binding Mode=TwoWay, Path=Timestamp, UpdateSourceTrigger=PropertyChanged}" TabIndex="4" Foreground="Black">
+                    IsChecked="{Binding Mode=TwoWay, Path=Timestamp, UpdateSourceTrigger=PropertyChanged}" TabIndex="5" Foreground="Black">
             <CheckBox.ToolTip>
               <StackPanel>
                 <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Timestamp</TextBlock>
@@ -120,7 +120,7 @@
             </CheckBox.ToolTip>
           </CheckBox>
           <CheckBox Content="Line Wrap" Grid.Column="1" Grid.Row="1" Height="22" HorizontalAlignment="Left" Margin="0,0,5,0" Name="checkBoxWordWrap" VerticalAlignment="Center"
-                    IsChecked="{Binding Mode=TwoWay, Path=Wrap, UpdateSourceTrigger=PropertyChanged}" TabIndex="5" Click="checkBoxWordWrap_Click" Foreground="Black">
+                    IsChecked="{Binding Mode=TwoWay, Path=Wrap, UpdateSourceTrigger=PropertyChanged}" TabIndex="6" Click="checkBoxWordWrap_Click" Foreground="Black">
             <CheckBox.ToolTip>
               <StackPanel>
                 <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Wrap line</TextBlock>
@@ -134,7 +134,7 @@
             </CheckBox.ToolTip>
           </CheckBox>
           <CheckBox Content="Kill space" Grid.Column="1" Grid.Row="1" Height="22" HorizontalAlignment="Left" Margin="0,0,5,0" Name="checkBoxKillSpace" VerticalAlignment="Center"
-                    IsChecked="{Binding Mode=TwoWay, Path=KillSpace, UpdateSourceTrigger=PropertyChanged}" TabIndex="6" Foreground="Black">
+                    IsChecked="{Binding Mode=TwoWay, Path=KillSpace, UpdateSourceTrigger=PropertyChanged}" TabIndex="7" Foreground="Black">
             <CheckBox.ToolTip>
               <StackPanel>
                 <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Remove line</TextBlock>
@@ -149,13 +149,13 @@
           </CheckBox>
           <Label Content="Refresh Rate:" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="0,0,5,0" VerticalAlignment="Center"/>
           <ComboBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="0,0,0,0" Name="comboBoxRefreshRate" VerticalAlignment="Center" Width="70"
-                    SelectedIndex="0" SelectionChanged="comboBoxRefreshRate_SelectionChanged" ItemsSource="{Binding}" TabIndex="7" Foreground="Black"/>
+                    SelectedIndex="0" SelectionChanged="comboBoxRefreshRate_SelectionChanged" ItemsSource="{Binding}" TabIndex="15" Foreground="Black"/>
           <Label Content="Thread Priority:" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="5,0,5,0" VerticalAlignment="Center"/>
           <ComboBox Grid.Column="1" Grid.Row="1" Height="23" HorizontalAlignment="Left" Margin="0,0,0,0" Name="comboBoxThreadPriority" VerticalAlignment="Center" Width="100"
-                    SelectedIndex="0" SelectionChanged="comboBoxThreadPriority_SelectionChanged" ItemsSource="{Binding}" TabIndex="8" Foreground="Black"/>
+                    SelectedIndex="0" SelectionChanged="comboBoxThreadPriority_SelectionChanged" ItemsSource="{Binding}" TabIndex="16" Foreground="Black"/>
         </StackPanel>
         <CheckBox Content="Always on top" Height="22" HorizontalAlignment="Left" Margin="0" Name="checkBoxOnTop" VerticalAlignment="Center" Click="checkBoxOnTop_Click"
-                  Grid.Column="2" Grid.Row="1" Foreground="Black">
+                  Grid.Column="2" Grid.Row="1" Foreground="Black" TabIndex="4">
           <CheckBox.ToolTip>
             <StackPanel>
               <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Always on top</TextBlock>
@@ -169,7 +169,7 @@
           </CheckBox.ToolTip>
         </CheckBox>
 
-        <ToggleButton Name="toggle" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Width="17" TabIndex="10">
+        <ToggleButton Name="toggle" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Width="17" TabIndex="14">
           <ToggleButton.ToolTip>
             <StackPanel>
               <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">More settings</TextBlock>
@@ -205,7 +205,7 @@
           </ToggleButton.Style>-->
         </ToggleButton>
 
-        <Button Grid.Column="1" Grid.Row="2" Height="23" Width="23" HorizontalAlignment="Right" Margin="5,0" Name="btnFilters" Click="btnFilters_Click">
+        <Button Grid.Column="1" Grid.Row="2" Height="23" Width="23" HorizontalAlignment="Right" Margin="5,0" Name="btnFilters" Click="btnFilters_Click" TabIndex="8">
           <StackPanel>
             <Image Source="/TailForWin;component/Res/Filters.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" Width="16" Height="16"/>
           </StackPanel>
@@ -230,7 +230,7 @@
             <ColumnDefinition Width="27"/>
             <ColumnDefinition Width="27"/>
           </Grid.ColumnDefinitions>
-          <Button Height="23" HorizontalAlignment="Left" Name="btnShellOpen" VerticalAlignment="Center" Width="23" Margin="0" Click="btnShellOpen_Click" IsEnabled="False" TabIndex="11">
+          <Button Height="23" HorizontalAlignment="Left" Name="btnShellOpen" VerticalAlignment="Center" Width="23" Margin="0" Click="btnShellOpen_Click" IsEnabled="False" TabIndex="10">
             <StackPanel>
               <Image Source="/TailForWin;component/Res/notepad.ico"/>
             </StackPanel>
@@ -246,7 +246,7 @@
               </StackPanel>
             </Button.ToolTip>
           </Button>
-          <Button Height="23" HorizontalAlignment="Left" Name="btnPrint" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="1" IsEnabled="False" Click="btnPrint_Click" TabIndex="12">
+          <Button Height="23" HorizontalAlignment="Left" Name="btnPrint" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="1" IsEnabled="False" Click="btnPrint_Click" TabIndex="11">
             <StackPanel>
               <Image Source="/TailForWin;component/Res/print.ico"/>
             </StackPanel>
@@ -262,7 +262,7 @@
               </StackPanel>
             </Button.ToolTip>
           </Button>
-          <Button Height="23" HorizontalAlignment="Left" Name="btnFileManager" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="2" Click="btnFileManager_Click" TabIndex="13">
+          <Button Height="23" HorizontalAlignment="Left" Name="btnFileManager" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="2" Click="btnFileManager_Click" TabIndex="9">
             <StackPanel>
               <Image Source="/TailForWin;component/Res/Explorer.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
             </StackPanel>
@@ -278,7 +278,7 @@
               </StackPanel>
             </Button.ToolTip>
           </Button>
-          <Button Height="23" HorizontalAlignment="Left" Name="btnSettings" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="3" Click="btnSettings_Click" TabIndex="14">
+          <Button Height="23" HorizontalAlignment="Left" Name="btnSettings" VerticalAlignment="Center" Width="23" Margin="0" Grid.Column="3" Click="btnSettings_Click" TabIndex="13">
             <StackPanel>
               <Image Source="/TailForWin;component/Res/system.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
             </StackPanel>
@@ -301,7 +301,7 @@
             <ColumnDefinition Width="95"/>
           </Grid.ColumnDefinitions>
           <Label Name="LblCountOfFilters" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="10" FontWeight="Bold"/>
-          <CheckBox Content="Filter" Grid.Column="1" Height="22" HorizontalAlignment="Right" Margin="0,0,35,0" Name="checkBoxFilter" VerticalAlignment="Center" Click="checkBoxFilter_Click" Foreground="Black">
+          <CheckBox Content="Filter" Grid.Column="1" Height="22" HorizontalAlignment="Right" Margin="0,0,35,0" Name="checkBoxFilter" VerticalAlignment="Center" Click="checkBoxFilter_Click" Foreground="Black" TabIndex="8">
             <CheckBox.ToolTip>
               <StackPanel>
                 <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Set Filter</TextBlock>

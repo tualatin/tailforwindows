@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="Org.Vs.TailForWin.Template.TabOptions.ExtraItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="380" d:DesignWidth="400">
+  <Grid Margin="5">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="278*" />
+      <RowDefinition Height="25" />
+    </Grid.RowDefinitions>
+    <Border BorderBrush="Silver" BorderThickness="1" Margin="0,0,0,5" Name="border1">
+      <Grid Margin="5">
+      </Grid>
+    </Border>
+    <Button Content="Close" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Click="btnCancel_Click" TabIndex="3" />
+  </Grid>
+</UserControl>

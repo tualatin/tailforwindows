@@ -25,7 +25,7 @@
         <ColumnDefinition/>
       </Grid.ColumnDefinitions>
 
-      <Button Content="Close" Height="23" HorizontalAlignment="Center" Name="btnCancel" VerticalAlignment="Center" Width="75" Click="btnCancel_Click"/>
+      <Button Content="Close" Height="23" HorizontalAlignment="Center" Name="btnCancel" VerticalAlignment="Center" Width="75" Click="btnCancel_Click" TabIndex="4"/>
     </Grid>
     
     <DataGrid AutoGenerateColumns="False" Name="dataGridFilters" HorizontalGridLinesBrush="#FFBEBEBE" VerticalGridLinesBrush="#FFBEBEBE" 
@@ -68,13 +68,13 @@
       <Label Content="Filter:" Name="label1" VerticalAlignment="Center" />
       <TextBox Grid.Column="1" Name="textBoxFilter" Margin="0,3,5,3" Text="{Binding ElementName=dataGridFilters, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Path=SelectedItem.Filter, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" 
                IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" TextChanged="textBoxFilter_TextChanged"
-               Validation.Error="Validation_Error"/>
+               Validation.Error="Validation_Error" TabIndex="0"/>
       <Label Content="Description:" Grid.Row="1" Name="label2" VerticalAlignment="Center"/>
       <TextBox Grid.Column="1" Grid.Row="1" Name="textBoxDescription" Margin="0,3,5,3" Text="{Binding Path=SelectedItem.Description, ElementName=dataGridFilters, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" 
                IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" 
-               TextChanged="textBoxDescription_TextChanged" Validation.Error="Validation_Error"/>
+               TextChanged="textBoxDescription_TextChanged" Validation.Error="Validation_Error" TabIndex="1"/>
       <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Row="2" Name="btnFont" Click="btnFont_Click" 
-              IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}">
+              IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="3">
         <StackPanel>
           <Image Source="/TailForWin;component/Res/Font.ico" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
         </StackPanel>
@@ -98,7 +98,7 @@
           <ColumnDefinition Width="24"/>
           <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnNew" Click="btnNew_Click">
+        <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnNew" Click="btnNew_Click" TabIndex="5">
           <Button.ToolTip>
             <StackPanel>
               <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">New</TextBlock>
@@ -115,7 +115,7 @@
           </StackPanel>
         </Button>
         <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnCancelAdd" Click="btnCancelAdd_Click" 
-                Grid.Column="1" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}">
+                Grid.Column="1" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="6">
           <Button.ToolTip>
             <StackPanel>
               <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Cancel</TextBlock>
@@ -132,7 +132,7 @@
           </StackPanel>
         </Button>
         <Button Width="18" Height="18" HorizontalAlignment="Center" VerticalAlignment="Center" Name="btnDelete" Click="btnDelete_Click"
-                Grid.Column="2" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}">
+                Grid.Column="2" IsEnabled="{Binding SelectedItem, ElementName=dataGridFilters, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="7">
           <Button.ToolTip>
             <StackPanel>
               <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Delete</TextBlock>

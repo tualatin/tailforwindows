@@ -54,6 +54,15 @@ namespace Org.Vs.TailForWin.Data
       }
     }
 
+    /// <summary>
+    /// Original filename from XML file or Tail4Windows window
+    /// </summary>
+    public string OriginalFileName
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     #region File

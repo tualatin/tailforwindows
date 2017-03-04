@@ -170,6 +170,7 @@ namespace Org.Vs.TailForWin.Controller
             {
               ID = GetId(xElement.Value),
               FileName = element.Value,
+              OriginalFileName = element.Value,
               FontType = GetFont(xe.Element(XmlStructure.Font)),
               KillSpace = xElement1 != null && StringToBool(xElement1.Value),
               Wrap = element1 != null && StringToBool(element1.Value),
@@ -337,7 +338,7 @@ namespace Org.Vs.TailForWin.Controller
             var xElement1 = node.Element(XmlStructure.FileName);
 
             if(xElement1 != null)
-              xElement1.Value = property.FileName;
+              xElement1.Value = property.OriginalFileName;
 
             var element1 = node.Element(XmlStructure.TimeStamp);
 

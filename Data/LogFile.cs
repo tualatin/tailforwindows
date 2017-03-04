@@ -18,7 +18,7 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Application caption
     /// </summary>
-    public static string APPLICATION_CAPTION = "TailForWindows";
+    public static string APPLICATION_CAPTION = "Tail4Windows";
 
     /// <summary>
     /// Status bar state run
@@ -107,7 +107,14 @@ namespace Org.Vs.TailForWin.Data
 
     #region RegexPattern
 
+    /// <summary>
+    /// Regex for sound file extension
+    /// </summary>
     public static string REGEX_SOUNDFILE_EXTENSION = @"^\.(mp3|wav)";
+
+    /// <summary>
+    /// Regex for E-Mail address
+    /// </summary>
     public static string REGEX_EMAIL_ADDRESS = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
 
     #endregion
@@ -270,6 +277,12 @@ namespace Org.Vs.TailForWin.Data
       }
     }
 
+    /// <summary>
+    /// Find duplicated items in filter list
+    /// </summary>
+    /// <param name="listOfFilters">List of filters</param>
+    /// <param name="newItem">Item to add</param>
+    /// <returns><c>True</c> if exists, otherwise <c>False</c></returns>
     public static bool FindDuplicateInFilterList(ObservableCollection<FilterData> listOfFilters, FilterData newItem)
     {
       return (listOfFilters.Any(item => String.Compare(item.Filter, newItem.Filter, StringComparison.Ordinal) == 0));

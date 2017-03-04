@@ -5,11 +5,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TailForWindows")]
-[assembly: AssemblyDescription("Unix like tail for windows")]
+[assembly: AssemblyTitle("Tail4Windows")]
+[assembly: AssemblyDescription("Professional log reader for Windows®")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Virtual Studios")]
-[assembly: AssemblyProduct("TailForWindows")]
+[assembly: AssemblyProduct("Tail4Windows")]
 [assembly: AssemblyCopyright("Copyright ©  2013 - 2017 M. Zoennchen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
