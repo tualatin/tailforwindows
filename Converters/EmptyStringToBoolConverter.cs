@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.Converters
     {
       if(value is string)
       {
-        if((value as string).Length > 0)
+        if(!string.IsNullOrEmpty((value as string)))
           return (true);
       }
       return (false);

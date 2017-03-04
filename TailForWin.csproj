@@ -132,6 +132,7 @@
     </ApplicationDefinition>
     <Compile Include="Controller\DefaultPatternStructureController.cs" />
     <Compile Include="Controller\HistoryStructureController.cs" />
+    <Compile Include="Converters\MultiConverters\EnableUsePatternCheckBoxMultiConverter.cs" />
     <Compile Include="Interfaces\IDefaultPatternStructureController.cs" />
     <Compile Include="Interfaces\IHistoryStructureController.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />

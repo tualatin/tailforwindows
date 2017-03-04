@@ -22,6 +22,7 @@
       </CollectionViewSource>
 
       <multiconv:EnableOpenMultiConverter x:Key="isEnabled"/>
+      <multiconv:EnableUsePatternCheckBoxMultiConverter x:Key="UsePatternEnabler"/>
       <conv:TailConverter x:Key="selectedConverter"/>
       <conv:TextTrimConverter x:Key="trimConverter"/>
       <conv:IntToBoolConverter x:Key="intToBoolConverter"/>
@@ -30,7 +31,6 @@
       <conv:InverseBooleanConverter x:Key="InverseBoolConverter"/>
       <conv:GroupByCategoryContentConverter x:Key="GroupByCategoryConverter"/>
       <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-      <conv:EmptyStringToBoolConverter x:Key="EmptyStringToBool"/>
     </ResourceDictionary>
 
   </Window.Resources>
@@ -281,7 +281,14 @@
 
       <!--Pattern tool-->
       <CheckBox x:Name="CheckBoxUsePattern" Height="22" Grid.Row="2" Grid.Column="2" Content="Use pattern" IsChecked="{Binding Mode=TwoWay, Path=UsePattern, UpdateSourceTrigger=PropertyChanged}"
-                IsEnabled="{Binding Path=PatternString, Converter={StaticResource EmptyStringToBool}}" Click="CheckBoxUsePattern_Click"/>
+                Click="CheckBoxUsePattern_Click">
+        <CheckBox.IsEnabled>
+          <MultiBinding Converter="{StaticResource UsePatternEnabler}">
+            <Binding ElementName="dataGridFiles" Path="SelectedItem"/>
+            <Binding Path="PatternString"/>
+          </MultiBinding>
+        </CheckBox.IsEnabled>
+      </CheckBox>
       <Button Width="18" Height="18" HorizontalAlignment="Center" Grid.Row="2" Name="BtnAddPattern" Click="BtnAddPattern_Click" 
               IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}">
         <Button.ToolTip>
