@@ -12,6 +12,7 @@
       <RowDefinition Height="35"/>
       <RowDefinition Height="55"/>
       <RowDefinition/>
+      <RowDefinition Height="32"/>
     </Grid.RowDefinitions>
 
     <GroupBox Header="Log File" Padding="5">
@@ -78,6 +79,6 @@
       </Grid>
     </GroupBox>
 
-    <Button Grid.Row="3" Content="Save" Width="90" Height="23" HorizontalAlignment="Center" Name="BtnSavePattern" Click="BtnSavePattern_Click" Margin="0,5,0,0" TabIndex="2"/>
+    <Button Grid.Row="4" Content="Save" Width="90" Height="23" VerticalAlignment="Center" HorizontalAlignment="Center" Name="BtnSavePattern" Click="BtnSavePattern_Click" TabIndex="2"/>
   </Grid>
 </Window>

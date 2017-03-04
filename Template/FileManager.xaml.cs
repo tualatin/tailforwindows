@@ -115,7 +115,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnFont_Click(object sender, RoutedEventArgs e)
     {
-      System.Drawing.Font textFont = fmWorkingProperties.FontType;
+      System.Drawing.Font textFont = new System.Drawing.Font(fmProperties.FontType.FontFamily, fmProperties.FontType.Size);
       System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
       {
         ShowEffects = false,

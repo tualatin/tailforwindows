@@ -6,7 +6,7 @@
     <Setter Property="OverridesDefaultStyle" Value="true"/>
     <Setter Property="BorderThickness" Value="1"/>
     <Setter Property="Height" Value="15"/>
-    <Setter Property="Margin" Value="5"/>
+    <Setter Property="Margin" Value="2"/>
     <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
     <Setter Property="Template">
       <Setter.Value>
@@ -24,7 +24,7 @@
                   <RowDefinition Height="3*"/>
                   <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <Ellipse Name="EllipseMain" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Grid.RowSpan="3" Fill="Transparent" StrokeThickness="{TemplateBinding BorderThickness}"
+                <Ellipse Name="EllipseMain" Grid.ColumnSpan="3" Grid.RowSpan="3" Fill="Transparent" StrokeThickness="{TemplateBinding BorderThickness}"
                                      Stroke="DimGray"/>
                 <Ellipse Name="CheckMark" Grid.Column="1" Grid.Row="1" Opacity="0" Fill="#029cc7"/>
               </Grid>
@@ -59,7 +59,7 @@
                 </VisualState>
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
-            <ContentPresenter Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" RecognizesAccessKey="True"/>
+            <ContentPresenter Margin="4,-1,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" RecognizesAccessKey="True"/>
           </BulletDecorator>
           <ControlTemplate.Triggers>
             <Trigger Property="IsPressed" Value="True">

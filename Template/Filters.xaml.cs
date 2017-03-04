@@ -54,7 +54,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnFont_Click(object sender, RoutedEventArgs e)
     {
-      System.Drawing.Font filterFont = filterData.FilterFontType;
+      System.Drawing.Font filterFont = new System.Drawing.Font(filterData.FilterFontType.FontFamily, filterData.FilterFontType.Size);
       System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
       {
         ShowEffects = true,
