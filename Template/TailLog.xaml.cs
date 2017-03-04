@@ -702,7 +702,7 @@ namespace Org.Vs.TailForWin.Template
           lastMaxOffset = myReader.TailStreamReader.BaseStream.Position;
         }
 
-        if(tailWorker == null || !tailWorker.CancellationPending)
+        if(tailWorker == null || !tailWorker.CancellationPending || myReader == null)
           return;
 
         myReader.CloseFileStream();

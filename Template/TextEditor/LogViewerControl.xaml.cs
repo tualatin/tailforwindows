@@ -761,7 +761,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
     private void LogViewer_MouseMove(object sender, MouseEventArgs e)
     {
-      LogMouseEvents("LogViewer_MouseMove");
+      // LogMouseEvents("LogViewer_MouseMove");
     }
 
     private void LogViewer_MouseDoubleClick(object sender, MouseButtonEventArgs e)

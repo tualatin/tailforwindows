@@ -52,6 +52,7 @@ namespace Org.Vs.TailForWin.Utils
         return;
       }
 
+      LOG.Trace("Start SmartWatch");
       smartWorker.RunWorkerAsync();
       resetEvent.Set();
     }
@@ -63,6 +64,8 @@ namespace Org.Vs.TailForWin.Utils
     {
       if(smartWorker.IsBusy)
         resetEvent.Reset();
+
+      LOG.Trace("Suspend SmartWatch");
     }
 
     /// <summary>
