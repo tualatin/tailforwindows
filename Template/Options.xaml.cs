@@ -36,6 +36,9 @@ namespace Org.Vs.TailForWin.Template
       tabAlertItem.CloseDialog += OnExit;
       tabAlertItem.SaveSettings += OnSaveSettings;
 
+      tabExtrasItem.CloseDialog += OnExit;
+      tabExtrasItem.SaveSettings += OnSaveSettings;
+
       PreviewKeyDown += HandleEsc;
     }
 

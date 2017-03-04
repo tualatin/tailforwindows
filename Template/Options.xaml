@@ -51,17 +51,6 @@
         </TabItem.HeaderTemplate>
         <tabData:AlertsItem x:Name="tabAlertItem"/>
       </TabItem>
-      <TabItem Header="Import/Export Settings" Name="tabItemImportExport">
-        <TabItem.HeaderTemplate>
-          <DataTemplate>
-            <StackPanel Orientation="Horizontal">
-              <Image Source="/TailForWin;component/Res/Export.ico" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
-              <TextBlock Text="Import/Export Settings" Margin="5,0,0,0"/>
-            </StackPanel>
-          </DataTemplate>
-        </TabItem.HeaderTemplate>
-        <tabData:ImportExportItem x:Name="tabImportExportItem"/>
-      </TabItem>
       <TabItem Header="Extras" Name="tabItemExtras">
         <TabItem.HeaderTemplate>
           <DataTemplate>
@@ -72,6 +61,17 @@
           </DataTemplate>
         </TabItem.HeaderTemplate>
         <tabData:ExtraItem x:Name="tabExtrasItem"/>
+      </TabItem>
+      <TabItem Header="Import/Export Settings" Name="tabItemImportExport">
+        <TabItem.HeaderTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <Image Source="/TailForWin;component/Res/Export.ico" Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"/>
+              <TextBlock Text="Import/Export Settings" Margin="5,0,0,0"/>
+            </StackPanel>
+          </DataTemplate>
+        </TabItem.HeaderTemplate>
+        <tabData:ImportExportItem x:Name="tabImportExportItem"/>
       </TabItem>
       <TabItem Header="About" Name="tabItemAbout">
         <TabItem.HeaderTemplate>

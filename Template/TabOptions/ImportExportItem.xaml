@@ -61,10 +61,11 @@
           </StackPanel>
         </Button>
         <Label Content="Configuration Path:" Grid.Row="2" Grid.ColumnSpan="2" Name="label3" VerticalAlignment="Center" />
-        <TextBox Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2" Height="23" Name="textBoxConfigPath" VerticalAlignment="Center" Margin="8,0,5,0" IsReadOnly="True" TabIndex="3" />
-        <Separator Grid.ColumnSpan="5" Grid.Row="1" HorizontalAlignment="Center" Margin="0" Name="separator" VerticalAlignment="Center" Width="300" />
+        <TextBox Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="2" Height="23" Name="textBoxConfigPath" VerticalAlignment="Center" Margin="8,0,5,0" IsReadOnly="True" TabIndex="3"
+                 ToolTip="{Binding ElementName=textBoxConfigPath, Path=Text, UpdateSourceTrigger=PropertyChanged}"/>
+        <Separator Grid.ColumnSpan="5" Grid.Row="1" HorizontalAlignment="Center" Name="separator" VerticalAlignment="Center" Width="300" />
       </Grid>
     </Border>
-    <Button Content="Close" Height="23" HorizontalAlignment="Center" Margin="0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Click="btnCancel_Click" TabIndex="3" />
+    <Button Content="Close" Height="23" HorizontalAlignment="Center" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Click="btnCancel_Click" TabIndex="3" />
   </Grid>
 </UserControl>

@@ -26,7 +26,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       InitializeComponent();
 
       PreviewKeyDown += HandleEsc;
-      textBoxConfigPath.Text = string.Format("{0}{1}.Config", AppDomain.CurrentDomain.BaseDirectory, AppDomain.CurrentDomain.FriendlyName);
+      textBoxConfigPath.Text = $"{AppDomain.CurrentDomain.BaseDirectory}{AppDomain.CurrentDomain.FriendlyName}.Config";
     }
 
     #region ITabOptionItems Members
@@ -42,18 +42,33 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     public event EventHandler SaveSettings;
 
 
+    /// <summary>
+    /// Handles Escape button blick
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     public void HandleEsc(object sender, KeyEventArgs e)
     {
       if(e.Key == Key.Escape)
         btnCancel_Click(sender, e);
     }
 
+    /// <summary>
+    /// Save clicke event
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     public void btnSave_Click(object sender, RoutedEventArgs e)
     {
       if(SaveSettings != null)
         CloseDialog(this, EventArgs.Empty);
     }
 
+    /// <summary>
+    /// Cancel click event
+    /// </summary>
+    /// <param name="sender">Sender</param>
+    /// <param name="e">Arguments</param>
     public void btnCancel_Click(object sender, RoutedEventArgs e)
     {
       CloseDialog?.Invoke(this, EventArgs.Empty);
@@ -63,7 +78,6 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void btnImport_Click(object sender, RoutedEventArgs e)
     {
-
       if(!LogFile.OpenFileLogDialog(out string importSettings, "Export Settings (*export)|*.export",
                                     Application.Current.FindResource("OpenDialogImportSettings") as string))
         return;

@@ -88,7 +88,6 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       {
         Owner = wnd
       };
-
       ps.ShowDialog();
     }
 
@@ -130,7 +129,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     }
 
     /// <summary>
-    /// Handle Escape button blick
+    /// Handles Escape button blick
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="e">Arguments</param>
@@ -197,10 +196,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     private void SetComboBoxes()
     {
       Array.ForEach(Enum.GetNames(typeof(System.Threading.ThreadPriority)), priorityName => comboBoxThreadPriority.Items.Add(priorityName));
-      comboBoxThreadPriority.SelectedIndex = 0;
-
       Array.ForEach(Enum.GetNames(typeof(ETailRefreshRate)), refreshName => comboBoxThreadRefreshRate.Items.Add(refreshName));
-      comboBoxThreadRefreshRate.SelectedIndex = 0;
 
       foreach(ETimeFormat timeFormat in Enum.GetValues(typeof(ETimeFormat)))
       {
@@ -208,15 +204,11 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         comboBoxTimeFormat.Items.Add(item);
       }
 
-      comboBoxTimeFormat.SelectedIndex = 0;
-
       foreach(EDateFormat dateFormat in Enum.GetValues(typeof(EDateFormat)))
       {
         string item = SettingsData.GetEnumDescription(dateFormat);
         comboBoxDateFormat.Items.Add(item);
       }
-
-      comboBoxDateFormat.SelectedIndex = 0;
     }
 
     #endregion
