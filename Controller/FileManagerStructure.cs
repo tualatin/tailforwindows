@@ -319,6 +319,9 @@ namespace Org.Vs.TailForWin.Controller
     /// <param name="property">FileManagerData property</param>
     public void UpdateNode(FileManagerData property)
     {
+      if(fmDoc == null)
+        return;
+
       try
       {
         if(fmDoc.Root != null)
