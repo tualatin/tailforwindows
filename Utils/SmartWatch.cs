@@ -17,7 +17,8 @@ namespace Org.Vs.TailForWin.Utils
     private BackgroundWorker smartWorker;
     private ManualResetEvent resetEvent;
     private string currentLogFolder;
-    private int currentFiles;
+    private string currentFileExtension;
+    private string[] currentFiles;
 
 
     /// <summary>
@@ -37,14 +38,18 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// Start smart watch
     /// </summary>
-    /// <param name="logFolder">Full path of current log file</param>
+    /// <param name="logFile">Full path of current log file</param>
     /// <exception cref="ArgumentException">If logFolder is null or empty</exception>
-    public void StartSmartWatch(string logFolder)
+    public void StartSmartWatch(string logFile)
     {
-      Arg.NotNull(logFolder, "LogFolder");
+      Arg.NotNull(logFile, "LogFolder");
 
-      currentLogFolder = logFolder;
-      currentFiles = GetCountOfFiles();
+      currentLogFolder = Path.GetDirectoryName(logFile);
+      currentFileExtension = Path.GetExtension(logFile);
+      currentFiles = GetFilesInCurrentLogDirectory();
+
+      if(currentFiles == null)
+        return;
 
       if(smartWorker.IsBusy)
       {
@@ -101,16 +106,22 @@ namespace Org.Vs.TailForWin.Utils
         resetEvent.WaitOne();
         Thread.Sleep(2000);
 
-        if(currentFiles < GetCountOfFiles())
+        var newValue = GetFilesInCurrentLogDirectory();
+
+        if(newValue == null)
+          continue;
+
+        if(currentFiles.Length < newValue.Length)
         {
-          LOG.Trace("SmartWatch Logfiles changed! Current '{0}' new '{1}'", currentFiles, GetCountOfFiles());
-          currentFiles = GetCountOfFiles();
+          LOG.Trace("SmartWatch Logfiles changed! Current '{0}' new '{1}'", currentFiles.Length, newValue.Length);
+          currentFiles = GetFilesInCurrentLogDirectory();
+          GetLatestFile();
         }
-        else if(currentFiles > GetCountOfFiles())
+        else if(currentFiles.Length > newValue.Length)
         {
-          LOG.Trace("SmartWatch some logfile are deleted! Current '{0}' new '{1}'", currentFiles, GetCountOfFiles());
-          currentFiles = GetCountOfFiles();
-        }        
+          LOG.Trace("SmartWatch some logfile are deleted! Current '{0}' new '{1}'", currentFiles.Length, newValue.Length);
+          currentFiles = GetFilesInCurrentLogDirectory();
+        }
       }
 
       e.Cancel = true;
@@ -125,9 +136,21 @@ namespace Org.Vs.TailForWin.Utils
 
     #region HelperFunctions
 
-    private int GetCountOfFiles()
+    private void GetLatestFile()
     {
-      return (Directory.GetFiles(currentLogFolder).Length);
+    }
+
+    private string[] GetFilesInCurrentLogDirectory()
+    {
+      try
+      {
+        return (Directory.GetFiles(currentLogFolder, $"*{currentFileExtension}", SearchOption.TopDirectoryOnly));
+      }
+      catch(Exception ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+      return (null);
     }
 
     #endregion

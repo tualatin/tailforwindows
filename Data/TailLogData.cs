@@ -308,6 +308,25 @@ namespace Org.Vs.TailForWin.Data
       }
     }
 
+    #region SmartWatch
+
+    private bool smartWatch;
+
+    /// <summary>
+    /// Tail is using SmartWatch logic
+    /// </summary>
+    public bool SmartWatch
+    {
+      get => smartWatch;
+      set
+      {
+        smartWatch = value;
+        OnPropertyChanged("SmartWatch");
+      }
+    }
+
+    #endregion
+
     private void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       if(e.Action == NotifyCollectionChangedAction.Remove)

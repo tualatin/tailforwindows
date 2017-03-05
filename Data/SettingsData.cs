@@ -20,6 +20,7 @@ namespace Org.Vs.TailForWin.Data
     {
       AlertSettings = new AlertData();
       ProxySettings = new ProxySettingsData();
+      SmartWatchData = new SmartWatchData();
     }
 
     /// <summary>
@@ -645,6 +646,15 @@ namespace Org.Vs.TailForWin.Data
         useSmartWatch = value;
         OnPropertyChanged("SmartWatch");
       }
+    }
+
+    /// <summary>
+    /// SmartWatch properties
+    /// </summary>
+    public SmartWatchData SmartWatchData
+    {
+      get;
+      set;
     }
 
     #endregion

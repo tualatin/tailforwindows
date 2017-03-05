@@ -394,11 +394,12 @@ namespace Org.Vs.TailForWin.Template
           {
             LOG.Info("{0} start tail file '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, tabProperties.FileName);
 
-            if(SettingsHelper.TailSettings.SmartWatch)
-              smartWatch.StartSmartWatch(Path.GetDirectoryName(tabProperties.FileName));
+            if(tabProperties.SmartWatch && SettingsHelper.TailSettings.SmartWatch)
+              smartWatch.StartSmartWatch(tabProperties.FileName);
 
-            tailWorker.RunWorkerAsync();
+            CheckBoxSmartWatch.IsEnabled = false;
             btnStop.IsEnabled = true;
+            tailWorker.RunWorkerAsync();
           }
 
           SetControlVisibility(true);
@@ -420,8 +421,12 @@ namespace Org.Vs.TailForWin.Template
     {
       oldFileName = tabProperties.FileName;
       btnStop.IsEnabled = false;
+      CheckBoxSmartWatch.IsEnabled = true;
+
       tailWorker.CancelAsync();
-      smartWatch.SuspendSmartWatch();
+
+      if(tabProperties.SmartWatch && SettingsHelper.TailSettings.SmartWatch)
+        smartWatch.SuspendSmartWatch();
     }
 
     private void btnPrint_Click(object sender, RoutedEventArgs e)
@@ -573,6 +578,11 @@ namespace Org.Vs.TailForWin.Template
       SetFontInTextEditor();
     }
 
+    private void CheckBoxSmartWatch_Click(object sender, RoutedEventArgs e)
+    {
+      tabProperties.SmartWatch = CheckBoxSmartWatch.IsChecked.Value;
+    }
+
     private void checkBoxWordWrap_Click(object sender, RoutedEventArgs e)
     {
       WordWrap();
@@ -680,7 +690,7 @@ namespace Org.Vs.TailForWin.Template
           // seek to the last max offset
           myReader.TailStreamReader.BaseStream.Seek(lastMaxOffset, SeekOrigin.Begin);
 
-          // read out of file until EOF
+          // read file until EOF
           string line;
 
           while((line = myReader.TailStreamReader.ReadLine()) != null)
@@ -691,9 +701,14 @@ namespace Org.Vs.TailForWin.Template
                 InvokeControlAccess(line);
             }
             else
+            {
               InvokeControlAccess(line);
+            }
 
             tabProperties.LastRefreshTime = DateTime.Now;
+
+            if(myReader == null)
+              return;
           }
 
           LOG.Trace("Encoding is {0}", myReader.TailStreamReader.CurrentEncoding);
@@ -702,7 +717,7 @@ namespace Org.Vs.TailForWin.Template
           lastMaxOffset = myReader.TailStreamReader.BaseStream.Position;
         }
 
-        if(tailWorker == null || !tailWorker.CancellationPending || myReader == null)
+        if(tailWorker == null || !tailWorker.CancellationPending)
           return;
 
         myReader.CloseFileStream();
@@ -796,6 +811,7 @@ namespace Org.Vs.TailForWin.Template
       mySmtp.InitClient();
 
       ExtraIcons.DataContext = tabProperties;
+      CheckBoxSmartWatch.DataContext = SettingsHelper.TailSettings;
 
       DefaultPropertiesChanged(this, null);
 
@@ -909,8 +925,8 @@ namespace Org.Vs.TailForWin.Template
         LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
         {
           string time = tabProperties.LastRefreshTime.ToString(SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat));
-          LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = string.Format("Size={0:0.###} Kb, Last refresh time={1}", myReader.FileSizeKb, time);
-          LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Format("{0}{1}", Application.Current.FindResource("LinesRead"), textBlockTailLog.LineCount);
+          LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = $"Size={myReader.FileSizeKb:0.###} Kb, Last refresh time={time}";
+          LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = $"{Application.Current.FindResource("LinesRead")}{textBlockTailLog.LineCount}";
           LogFile.APP_MAIN_WINDOW.StatusBarEncodeCb.SelectedValue = tabProperties.FileEncoding;
 
           SetToolTipDetailText();
@@ -939,9 +955,9 @@ namespace Org.Vs.TailForWin.Template
         textBlockTailLog.Dispatcher.Invoke(new Action(() =>
         {
           if(SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMd || SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMD)
-            StringFormatData.StringFormat = string.Format("{0} {1}:ss.fff", SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat));
+            StringFormatData.StringFormat = $"{SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat)} {SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat)}:ss.fff";
           if(SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMSSd || SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMSSD)
-            StringFormatData.StringFormat = string.Format("{0} {1}.fff", SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat), SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat));
+            StringFormatData.StringFormat = $"{SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat)} {SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat)}.fff";
 
           textBlockTailLog.AppendText(line);
         }), DispatcherPriority.Background);

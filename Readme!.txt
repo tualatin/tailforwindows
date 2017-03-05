@@ -16,7 +16,6 @@ v1.x.x
 * SpinnerControl accept MouseWheel now
 * File encoding can change while tailing
 * new Scrollbar design
-* change some icons
 * improve Drag'n'Drop behaviour
 * change internal structur 
 * bug fix auto update

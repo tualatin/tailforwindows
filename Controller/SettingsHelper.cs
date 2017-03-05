@@ -143,6 +143,7 @@ namespace Org.Vs.TailForWin.Controller
         ReadAlertSettings();
         ReadProxySettings();
         ReadSmtpSettings();
+        ReadSmartWatchSettings();
       }
       catch(ConfigurationErrorsException ex)
       {
@@ -196,6 +197,7 @@ namespace Org.Vs.TailForWin.Controller
         SaveAlertSettings(config);
         SaveProxySettings(config);
         SaveSmptSettings(config);
+        SaveSmartWatchSettings(config);
 
         config.Save(ConfigurationSaveMode.Modified);
         ConfigurationManager.RefreshSection("appSettings");
@@ -271,6 +273,7 @@ namespace Org.Vs.TailForWin.Controller
       ResetAlertSettings();
       ResetProxySettings();
       ResetSmtpSettings();
+      ResetSmartWatchSettings();
 
       SaveSettings();
     }
@@ -289,6 +292,11 @@ namespace Org.Vs.TailForWin.Controller
     public static SettingsData TailSettings => (tailSettings);
 
     #region HelperFunctions
+
+    private static void ResetSmartWatchSettings()
+    {
+      TailSettings.SmartWatchData.FilterByExtension = true;
+    }
 
     /// <summary>
     /// Reset SMTP settings
@@ -373,6 +381,28 @@ namespace Org.Vs.TailForWin.Controller
       config.AppSettings.Settings["Smtp.Subject"].Value = TailSettings.AlertSettings.SmtpSettings.Subject;
       config.AppSettings.Settings["Smtp.Ssl"].Value = TailSettings.AlertSettings.SmtpSettings.SSL.ToString();
       config.AppSettings.Settings["Smtp.Tls"].Value = TailSettings.AlertSettings.SmtpSettings.TLS.ToString();
+    }
+
+    private static void SaveSmartWatchSettings(Configuration config)
+    {
+      config.AppSettings.Settings["SmartWatch.FilterByExtension"].Value = TailSettings.SmartWatchData.FilterByExtension.ToString();
+    }
+
+    private static void ReadSmartWatchSettings()
+    {
+      try
+      {
+        if(ConfigurationManager.AppSettings["SmartWatch.FilterByExtension"] == null)
+          AddNewProperties_IntoConfigFile("SmartWatch.FilterByExtension", "True");
+
+        if(!bool.TryParse(ConfigurationManager.AppSettings["SmartWatch.FilterByExtension"], out bool bHelper))
+          bHelper = true;
+        TailSettings.SmartWatchData.FilterByExtension = bHelper;
+      }
+      catch(ConfigurationErrorsException ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
     }
 
     /// <summary>

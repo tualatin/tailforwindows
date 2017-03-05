@@ -15,7 +15,7 @@
       <RowDefinition Height="278*"/>
       <RowDefinition Height="25"/>
     </Grid.RowDefinitions>
-    
+
     <Border BorderBrush="Silver" Grid.ColumnSpan="2" BorderThickness="1" Margin="0,0,0,5" Name="border1">
       <Grid Margin="5">
         <Grid.ColumnDefinitions>
@@ -25,7 +25,7 @@
 
         <Grid.RowDefinitions>
           <RowDefinition Height="30"/>
-          <RowDefinition Height="120"/>
+          <RowDefinition Height="140"/>
           <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -48,6 +48,7 @@
           <Grid Margin="3">
             <Grid.RowDefinitions>
               <RowDefinition Height="30"/>
+              <RowDefinition Height="10"/>
               <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -64,8 +65,21 @@
                   </WrapPanel>
                 </StackPanel>
               </CheckBox.ToolTip>
-
             </CheckBox>
+
+            <Separator Grid.Row="1" Width="300"/>
+
+            <Grid Grid.Row="2" IsEnabled="{Binding ElementName=CheckBoxEnableSmartWatch, Path=IsChecked}">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+              </Grid.RowDefinitions>
+
+              <CheckBox Name="CheckBoxFilterByExtension" Height="22" IsChecked="{Binding Path=SmartWatchData.FilterByExtension, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        Content="Filter by Extension" VerticalAlignment="Center" HorizontalAlignment="Left" TabIndex="2">
+                
+              </CheckBox>
+            </Grid>
           </Grid>
         </GroupBox>
       </Grid>
