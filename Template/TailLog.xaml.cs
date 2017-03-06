@@ -347,7 +347,7 @@ namespace Org.Vs.TailForWin.Template
       {
         LOG.Info("{0} file not found", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-        textBlockTailLog.AppendText(string.Format("{0} - {1}", DateTime.Now, Application.Current.FindResource("NoFilenameEntered")));
+        textBlockTailLog.AppendText($"{DateTime.Now} - {Application.Current.FindResource("NoFilenameEntered")}");
         textBlockTailLog.ScrollToEnd();
         textBlockTailLog.FileNameAvailable = false;
       }
@@ -361,7 +361,7 @@ namespace Org.Vs.TailForWin.Template
           if(!myReader.OpenTailFileStream(tabProperties.FileName))
           {
             LOG.Info("{0} file not found '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, tabProperties.FileName);
-            MessageBox.Show(string.Format("{0} '{1}'", Application.Current.FindResource("FileNotFound"), tabProperties.File), string.Format("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"{Application.Current.FindResource("FileNotFound")} '{tabProperties.File}'", $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
           }
 
@@ -372,7 +372,7 @@ namespace Org.Vs.TailForWin.Template
           if(!myReader.OpenTailFileStream(tabProperties.FileName, tabProperties.FileEncoding))
           {
             LOG.Info("{0} file not found '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, tabProperties.FileName);
-            MessageBox.Show(string.Format("{0} '{1}'", Application.Current.FindResource("FileNotFound"), tabProperties.File), string.Format("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"{Application.Current.FindResource("FileNotFound")} '{tabProperties.File}'", $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
           }
         }
@@ -384,8 +384,9 @@ namespace Org.Vs.TailForWin.Template
           if(string.IsNullOrEmpty(textBoxFileName.Text))
             textBoxFileName.Text = tabProperties.FileName;
 
-          childTabItem.Header = string.Format("{0}", tabProperties.File);
+          childTabItem.Header = $"{tabProperties.File}";
           childTabItem.Style = (Style) FindResource("TabItemTailStyle");
+          childTabItem.ToolTip = tabProperties.FileName;
           textBlockTailLog.FileNameAvailable = true;
 
           WordWrap();
@@ -444,7 +445,8 @@ namespace Org.Vs.TailForWin.Template
     /// <param name="e">RoutedEventArgs</param>
     public void btnOpenFile_Click(object sender, RoutedEventArgs e)
     {
-      if(!LogFile.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource("OpenFileDialog") as string))
+      if(!LogFile.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", 
+        Application.Current.FindResource("OpenFileDialog") as string))
         return;
 
       currentFileName = fName;
