@@ -290,7 +290,7 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     public void FilterOnOff()
     {
-      tabProperties.FilterState = checkBoxFilter.IsChecked != true;
+      tabProperties.FilterState = !checkBoxFilter.IsChecked.Value;
 
       FilterState();
     }
@@ -308,7 +308,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void checkBoxOnTop_Click(object sender, RoutedEventArgs e)
     {
-      LogFile.APP_MAIN_WINDOW.MainWindowTopmost = checkBoxOnTop.IsChecked == true;
+      LogFile.APP_MAIN_WINDOW.MainWindowTopmost = checkBoxOnTop.IsChecked.Value;
     }
 
     /// <summary>
@@ -386,7 +386,15 @@ namespace Org.Vs.TailForWin.Template
 
           childTabItem.Header = $"{tabProperties.File}";
           childTabItem.Style = (Style) FindResource("TabItemTailStyle");
-          childTabItem.ToolTip = tabProperties.FileName;
+
+          // set special ToolTip for TabItemHeader
+          ToolTip myToolTip = new ToolTip()
+          {
+            Style = (Style) FindResource("TabItemToolTipStyle"),
+            Content = tabProperties.FileName
+          };
+          ToolTipService.SetToolTip(childTabItem, myToolTip);
+
           textBlockTailLog.FileNameAvailable = true;
 
           WordWrap();
@@ -445,7 +453,7 @@ namespace Org.Vs.TailForWin.Template
     /// <param name="e">RoutedEventArgs</param>
     public void btnOpenFile_Click(object sender, RoutedEventArgs e)
     {
-      if(!LogFile.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", 
+      if(!LogFile.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*",
         Application.Current.FindResource("OpenFileDialog") as string))
         return;
 
@@ -526,7 +534,7 @@ namespace Org.Vs.TailForWin.Template
       FileManager fileManager = new FileManager(EFileManagerState.AddFile, tabProperties)
       {
         Owner = LogFile.APP_MAIN_WINDOW,
-        Title = string.Format("FileManager - Add file '{0}'", tabProperties.File),
+        Title = $"FileManager - Add file '{tabProperties.File}'",
         Icon = new ImageSourceConverter().ConvertFromString(@"pack://application:,,/Res/add.ico") as ImageSource
       };
 
@@ -709,8 +717,8 @@ namespace Org.Vs.TailForWin.Template
 
             tabProperties.LastRefreshTime = DateTime.Now;
 
-            if(myReader == null)
-              return;
+            if(myReader.TailFileStream == null)
+              break;
           }
 
           LOG.Trace("Encoding is {0}", myReader.TailStreamReader.CurrentEncoding);
@@ -728,7 +736,7 @@ namespace Org.Vs.TailForWin.Template
       }
       catch(ObjectDisposedException ex)
       {
-        MessageBox.Show(Application.Current.FindResource("FileObjectDisposedException").ToString(), string.Format("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show(Application.Current.FindResource("FileObjectDisposedException").ToString(), $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
 
         StopThread();

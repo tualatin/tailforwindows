@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using log4net;
 using Microsoft.Win32;
@@ -27,6 +28,18 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
       PreviewKeyDown += HandleEsc;
       textBoxConfigPath.Text = $"{AppDomain.CurrentDomain.BaseDirectory}{AppDomain.CurrentDomain.FriendlyName}.Config";
+    }
+
+    private void UCImportExportOptions_Loaded(object sender, RoutedEventArgs e)
+    {
+      // set special ToolTip for TabItemHeader
+      ToolTip myToolTip = new ToolTip()
+      {
+        Style = (Style) FindResource("TabItemToolTipStyle"),
+        Content = textBoxConfigPath.Text
+      };
+      ToolTipService.SetToolTip(textBoxConfigPath, myToolTip);
+
     }
 
     #region ITabOptionItems Members

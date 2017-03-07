@@ -18,6 +18,7 @@
         <ResourceDictionary Source="Resources/ScrollbarResources.xaml"/>
         <ResourceDictionary Source="Resources/ComboBox.xaml"/>
         <ResourceDictionary Source="Resources/Separator.xaml"/>
+        <ResourceDictionary Source="Resources/TabItemToolTipStyle.xaml"/>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>
