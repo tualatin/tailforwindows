@@ -750,7 +750,7 @@ namespace Org.Vs.TailForWin.Template
       {
         childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
         LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
-        childTabItem.Header = tabProperties.File;
+        childTabItem.Header = tabProperties == null ? string.Empty : tabProperties.File;
         childTabItem.Style = Application.Current.FindResource("TabItemStopStyle") as Style;
         SetControlVisibility();
         SetToolTipDetailText();
