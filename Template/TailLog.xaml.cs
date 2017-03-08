@@ -1303,6 +1303,9 @@ namespace Org.Vs.TailForWin.Template
 
     private bool FileIsOpenInOtherTab()
     {
+      if(string.IsNullOrEmpty(currentFileName))
+        return (false);
+
       foreach(var item in LogFile.APP_MAIN_WINDOW.TailTabItems)
       {
         if(item.Content is Frame tabFrame)
