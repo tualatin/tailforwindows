@@ -1151,6 +1151,18 @@ namespace Org.Vs.TailForWin.Template
     /// <param name="e">Arguments</param>
     public void DropHelper(object sender, DragEventArgs e)
     {
+      try
+      {
+        currentFileName = GetFileNameFromDropData(e);
+
+        if(string.IsNullOrEmpty(currentFileName))
+          return;
+      }
+      catch
+      {
+        return;
+      }
+
       if(tailWorker.IsBusy)
       {
         var result = MessageBox.Show(Application.Current.FindResource("DragDropRunningWarning") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -1159,7 +1171,7 @@ namespace Org.Vs.TailForWin.Template
         {
           try
           {
-            currentFileName = GetFileNameFromDropData(e);
+            // currentFileName = GetFileNameFromDropData(e);
 
             if(FileIsOpenInOtherTab())
               return;
@@ -1193,7 +1205,7 @@ namespace Org.Vs.TailForWin.Template
 
       try
       {
-        currentFileName = GetFileNameFromDropData(e);
+        // currentFileName = GetFileNameFromDropData(e);
         NewFile?.Invoke(this, EventArgs.Empty);
         textBoxFileName.Text = currentFileName;
       }

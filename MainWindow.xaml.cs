@@ -235,52 +235,54 @@ namespace Org.Vs.TailForWin
 
     private void TabControlTail_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      e.Handled = true;
-
-      if(!(e.Source is TabControl))
+      if(!IsInitialized)
         return;
 
-      TabItem tab = tabControlTail.SelectedItem as TabItem;
-
-      if(tab == null)
-        return;
-
-      if(tab.Equals(tabAdd) && !ctrlTabKey)
+      if(e.Source is TabControl)
       {
-        TabItem newTab = AddTailTab();
-        tabControlTail.SelectedItem = newTab;
-      }
-      else
-      {
-        if(tab.Equals(tabAdd) && ctrlTabKey)
-        {
-          tab = tailTabItems[0];
-          tabControlTail.SelectedItem = tab;
-        }
+        e.Handled = true;
+        TabItem tab = tabControlTail.SelectedItem as TabItem;
 
-        TailLog page = GetTailLogWindow(tab.Content as Frame);
-
-        if(page == null)
+        if(tab == null)
           return;
 
-        if(currentPage != null && (page.GetChildTabIndex() == currentPage.GetChildTabIndex()))
-          return;
-
-        stsBarState.Content = page.GetChildState();
-        page.ActiveTab = true;
-
-        if(searchBoxWindow.Visibility == Visibility.Visible)
+        if(tab.Equals(tabAdd) && !ctrlTabKey)
         {
-          page.SearchBoxActive();
-          page.WrapAround(searchBoxWindow.WrapSearch);
-          FindWhatTextChangedEvent(this, EventArgs.Empty);
-          searchBoxWindow.SetTitle = page.FileManagerProperties.File;
+          TabItem newTab = AddTailTab();
+          tabControlTail.SelectedItem = newTab;
         }
+        else
+        {
+          if(tab.Equals(tabAdd) && ctrlTabKey)
+          {
+            tab = tailTabItems[0];
+            tabControlTail.SelectedItem = tab;
+          }
 
-        currentPage = page;
-        TabItemUpdateParent(page);
+          TailLog page = GetTailLogWindow(tab.Content as Frame);
 
-        SetSbIconText();
+          if(page == null)
+            return;
+
+          if(currentPage != null && (page.GetChildTabIndex() == currentPage.GetChildTabIndex()))
+            return;
+
+          stsBarState.Content = page.GetChildState();
+          page.ActiveTab = true;
+
+          if(searchBoxWindow.Visibility == Visibility.Visible)
+          {
+            page.SearchBoxActive();
+            page.WrapAround(searchBoxWindow.WrapSearch);
+            FindWhatTextChangedEvent(this, EventArgs.Empty);
+            searchBoxWindow.SetTitle = page.FileManagerProperties.File;
+          }
+
+          currentPage = page;
+          TabItemUpdateParent(page);
+
+          SetSbIconText();
+        }
       }
     }
 
@@ -324,6 +326,49 @@ namespace Org.Vs.TailForWin
     private void TabControlTail_DragEnter(object sender, DragEventArgs e)
     {
       currentPage?.DragEnterHelper(sender, e);
+    }
+
+    private void TabItem_PreviewMouseMove(object sender, MouseEventArgs e)
+    {
+      // TODO TabHeader sort
+      if(e.Source is TabItem)
+      {
+        var tabItem = e.Source as TabItem;
+
+        if(string.Compare((tabItem.Header as string), "+", StringComparison.Ordinal) == 0)
+          return;
+
+        Point mousePoint = PointToScreen(Mouse.GetPosition(this));
+        Point relativePoint = tabItem.PointToScreen(new Point(0, 0));
+        System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) tabItem.DesiredSize.Width, (int) tabItem.DesiredSize.Height);
+
+        if(!rc.Contains((int) mousePoint.X, (int) mousePoint.Y))
+          return;
+
+        if(Mouse.PrimaryDevice.LeftButton == MouseButtonState.Pressed)
+        {
+          DragDrop.DoDragDrop(tabItem, tabItem, DragDropEffects.All);
+        }
+      }
+    }
+
+    private void TabItem_Drop(object sender, DragEventArgs e)
+    {
+      // TODO TabHeader sort
+      var tabItemTarget = e.Source as TabItem;
+      var tabItemSource = e.Data.GetData(typeof(TabItem)) as TabItem;
+
+      if(!tabItemTarget.Equals(tabItemSource))
+      {
+        int sourceIndex = tailTabItems.IndexOf(tabItemSource);
+        int targetIndex = tailTabItems.IndexOf(tabItemTarget);
+
+        tailTabItems.Remove(tabItemSource);
+        tailTabItems.Insert(targetIndex, tabItemSource);
+
+        tailTabItems.Remove(tabItemTarget);
+        tailTabItems.Insert(sourceIndex, tabItemTarget);
+      }
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -383,7 +428,12 @@ namespace Org.Vs.TailForWin
         TabItemUpdateParent(page);
 
         if(!string.IsNullOrEmpty(parameterFileName))
+        {
           currentPage.OpenFileFromParameter(parameterFileName);
+
+          // after opens file name from parameter, reset parameterFileName
+          parameterFileName = string.Empty;
+        }
       }
     }
 
@@ -678,7 +728,10 @@ namespace Org.Vs.TailForWin
           Name = $"TabIndex_{tabCount}",
           HeaderTemplate = tabControlTail.FindResource("TabHeader") as DataTemplate,
           Style = (Style) FindResource("TabItemStopStyle")
+          // AllowDrop = true
         };
+        //tabItem.PreviewMouseMove += TabItem_PreviewMouseMove;
+        //tabItem.Drop += TabItem_Drop;
 
         TailLog tailWindow;
 
