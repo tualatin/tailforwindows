@@ -721,8 +721,6 @@ namespace Org.Vs.TailForWin.Template
               break;
           }
 
-          LOG.Trace("Encoding is {0}", myReader.TailStreamReader.CurrentEncoding);
-
           // update the last max offset
           lastMaxOffset = myReader.TailStreamReader.BaseStream.Position;
         }

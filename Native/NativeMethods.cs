@@ -13,22 +13,48 @@ namespace Org.Vs.TailForWin.Native
     /// <summary>
     /// HWND_BROADCAST
     /// </summary>
-    public const int HWND_BROADCAST = 0xffff;
+    internal const int HWND_BROADCAST = 0xffff;
 
     /// <summary>
-    /// SW_SHOW flag
+    /// Activates the window and displays it in its current size and position.
     /// </summary>
-    public const uint SW_SHOW = 5;
+    internal const uint SW_SHOW = 5;
 
     /// <summary>
-    /// SW_MAXIMIZE flag
+    /// Maximizes the specified window.
     /// </summary>
-    public const uint SW_MAXIMIZE = 3;
+    internal const uint SW_MAXIMIZE = 3;
 
     /// <summary>
-    /// SW_RESTORE flag
+    /// Activates and displays the window. If the window is minimized or maximized, the system restores it to its original size and position. 
+    /// An application should specify this flag when restoring a minimized window.
     /// </summary>
-    public const uint SW_RESTORE = 9;
+    internal const uint SW_RESTORE = 9;
+
+    /// <summary>
+    /// The system sends the WM_ENTERSIZEMOVE message regardless of whether the dragging of full windows is enabled.
+    /// </summary>
+    internal const int WM_ENTERSIZEMOVE = 0x0231;
+
+    /// <summary>
+    /// A window receives this message through its WindowProc function.
+    /// </summary>
+    internal const int WM_EXITSIZEMOVE = 0x0232;
+
+    /// <summary>
+    /// Sent after a window has been moved.
+    /// </summary>
+    internal const int WM_MOVE = 0x0003;
+
+    /// <summary>
+    /// The retrieved handle identifies the window below the specified window in the Z order.
+    /// </summary>
+    internal const int GW_HWNDNEXT = 2;
+
+    /// <summary>
+    /// The retrieved handle identifies the window above the specified window in the Z order.
+    /// </summary>
+    internal const int GW_HWNDPREV = 3;
 
     /// <summary>
     /// Brings the thread that created the specified window into the foreground and activates the window. 
@@ -40,7 +66,7 @@ namespace Org.Vs.TailForWin.Native
     /// If the window was not brought to the foreground, the return value is <c>zero</c>.
     /// </returns>
     [DllImport("User32.dll")]
-    public static extern Int32 SetForegroundWindow(IntPtr hWnd);
+    internal static extern Int32 SetForegroundWindow(IntPtr hWnd);
 
     /// <summary>
     /// Brings the specified window to the top of the Z order. If the window is a top-level window, it is activated. 
@@ -55,7 +81,7 @@ namespace Org.Vs.TailForWin.Native
     /// BringWindowToTop does not make a window a top-level window. 
     /// </remarks>
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool BringWindowToTop(IntPtr hWnd);
+    internal static extern bool BringWindowToTop(IntPtr hWnd);
 
     /// <summary>
     /// Brings the specified window to the top of the Z order. If the window is a top-level window, it is activated. 
@@ -70,7 +96,7 @@ namespace Org.Vs.TailForWin.Native
     /// BringWindowToTop does not make a window a top-level window. 
     /// </remarks>
     [DllImport("user32.dll", SetLastError = true)]
-    public static extern bool BringWindowToTop(HandleRef hWnd);
+    internal static extern bool BringWindowToTop(HandleRef hWnd);
 
     /// <summary>
     /// Sets the specified window's show state.
@@ -83,7 +109,7 @@ namespace Org.Vs.TailForWin.Native
     /// If the window was previously hidden, the return value is <c>zero</c>. 
     /// </returns>
     [DllImport("user32.dll")]
-    public static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
+    internal static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
 
     /// <summary>
     /// Determines whether a window is maximized. 
@@ -93,7 +119,7 @@ namespace Org.Vs.TailForWin.Native
     /// If the window is not zoomed, the return value is <c>zero</c>.
     /// </returns>
     [DllImport("user32.dll")]
-    public static extern bool IsZoomed(IntPtr hWnd);
+    internal static extern bool IsZoomed(IntPtr hWnd);
 
     /// <summary>
     /// Sets the last-error code for the calling thread.
@@ -108,14 +134,14 @@ namespace Org.Vs.TailForWin.Native
     /// application and to ensure that your error code does not conflict with any system-defined error codes.
     /// </remarks>
     [DllImport("Kernel32.dll", SetLastError = true)]
-    public static extern bool GlobalMemoryStatusEx([In, Out] MemoryObject lpBuffer);
+    internal static extern bool GlobalMemoryStatusEx([In, Out] MemoryObject lpBuffer);
 
     /// <summary>
     /// Retrieves a handle to the desktop window. The desktop window covers the entire screen. The desktop window is the area on top of which other windows are painted.
     /// </summary>
     /// <returns>The return value is a handle to the desktop window.</returns>
     [DllImport("user32.dll")]
-    public static extern IntPtr GetDesktopWindow();
+    internal static extern IntPtr GetDesktopWindow();
 
     /// <summary>
     /// Defines a system-wide hot key.
@@ -140,7 +166,7 @@ namespace Org.Vs.TailForWin.Native
     /// should use the GlobalAddAtom function to obtain the hot-key identifier.
     /// </remarks>
     [DllImport("User32.dll")]
-    public static extern bool RegisterHotKey([In] IntPtr hWnd, [In] int id, [In] uint fsModifiers, [In] uint vk);
+    internal static extern bool RegisterHotKey([In] IntPtr hWnd, [In] int id, [In] uint fsModifiers, [In] uint vk);
 
     /// <summary>
     /// Frees a hot key previously registered by the calling thread. 
@@ -151,6 +177,25 @@ namespace Org.Vs.TailForWin.Native
     /// <returns>If the function succeeds, the return value is <c>nonzero</c>.
     /// If the function fails, the return value is <c>zero</c>.To get extended error information, call <code>GetLastError</code>.</returns>
     [DllImport("User32.dll")]
-    public static extern bool UnregisterHotKey([In] IntPtr hWnd, [In] int id);
+    internal static extern bool UnregisterHotKey([In] IntPtr hWnd, [In] int id);
+
+    /// <summary>
+    /// Retrieves a handle to a window that has the specified relationship (Z-Order or owner) to the specified window.
+    /// </summary>
+    /// <param name="hWnd">A handle to a window. The window handle retrieved is relative to this window, based on the value of the uCmd parameter.</param>
+    /// <param name="wCmd">The relationship between the specified window and the window whose handle is to be retrieved. This parameter can be one of the following values.</param>
+    /// <returns>If the function succeeds, the return value is a window handle. If no window exists with the specified relationship to the specified window, the return value is NULL. 
+    /// To get extended error information, call GetLastError.</returns>
+    [DllImport("User32", SetLastError = true)]
+    internal static extern IntPtr GetWindow(IntPtr hWnd, uint wCmd);
+
+    /// <summary>
+    /// Retrieves the position of the mouse cursor, in screen coordinates.
+    /// </summary>
+    /// <param name="pt">A pointer to a POINT structure that receives the screen coordinates of the cursor.</param>
+    /// <returns>Returns nonzero if successful or zero otherwise. To get extended error information, call GetLastError.</returns>
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    internal static extern bool GetCursorPos(ref Win32Point pt);
   }
 }

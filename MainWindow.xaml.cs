@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 using log4net;
 using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
@@ -228,6 +229,50 @@ namespace Org.Vs.TailForWin
       tabControlTail.SelectedItem = newTab;
     }
 
+    private void TabItem_PreviewMouseMove(object sender, MouseEventArgs e)
+    {
+      // TODO TabHeader sort
+      if(e.Source is TabItem)
+      {
+        var tabItem = e.Source as TabItem;
+
+        Point mousePoint = PointToScreen(Mouse.GetPosition(this));
+        Point relativePoint = tabItem.PointToScreen(new Point(0, 0));
+        System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) tabItem.DesiredSize.Width, (int) tabItem.DesiredSize.Height);
+
+        if(!rc.Contains((int) mousePoint.X, (int) mousePoint.Y))
+          return;
+
+        LOG.Trace("{0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+        if(Mouse.PrimaryDevice.LeftButton == MouseButtonState.Pressed)
+          DragDrop.DoDragDrop(tabItem, tabItem, DragDropEffects.All);
+      }
+    }
+
+    private void TabItem_Drop(object sender, DragEventArgs e)
+    {
+      // TODO TabHeader sort
+      var tabItemTarget = GetTargetTabItem(e.OriginalSource);
+
+      if(tabItemTarget == null)
+        return;
+
+      var tabItemSource = e.Data.GetData(typeof(TabItem)) as TabItem;
+
+      if(!tabItemTarget.Equals(tabItemSource))
+      {
+        int sourceIndex = tailTabItems.IndexOf(tabItemSource);
+        int targetIndex = tailTabItems.IndexOf(tabItemTarget);
+
+        tailTabItems.Remove(tabItemSource);
+        tailTabItems.Insert(targetIndex, tabItemSource);
+
+        tailTabItems.Remove(tabItemTarget);
+        tailTabItems.Insert(sourceIndex, tabItemTarget);
+      }
+    }
+
     private static void DoubleClickNotifyIcon(object sender, EventArgs e)
     {
       LogFile.BringMainWindowToFront();
@@ -243,6 +288,8 @@ namespace Org.Vs.TailForWin
         if(e.AddedItems.Count == 0)
           return;
 
+        LOG.Trace("{0}", System.Reflection.MethodBase.GetCurrentMethod());
+
         var tab = e.AddedItems[0] as TabItem;
         var tabControl = e.Source as TabControl;
 
@@ -253,6 +300,7 @@ namespace Org.Vs.TailForWin
 
         if(tab.Equals(tabAdd) && !ctrlTabKey)
         {
+          // If user does not scroll with CTRL + TAB and press button down on +tab, create new tab window
           TabItem newTab = AddTailTab();
           tabControl.SelectedItem = newTab;
         }
@@ -260,6 +308,7 @@ namespace Org.Vs.TailForWin
         {
           if(tab.Equals(tabAdd) && ctrlTabKey)
           {
+            // Scroll with CTRL + TAB, start from beginning
             tab = tailTabItems[0];
             tabControl.SelectedItem = tab;
           }
@@ -331,49 +380,6 @@ namespace Org.Vs.TailForWin
     private void TabControlTail_DragEnter(object sender, DragEventArgs e)
     {
       currentPage?.DragEnterHelper(sender, e);
-    }
-
-    private void TabItem_PreviewMouseMove(object sender, MouseEventArgs e)
-    {
-      // TODO TabHeader sort
-      if(e.Source is TabItem)
-      {
-        var tabItem = e.Source as TabItem;
-
-        if(string.Compare((tabItem.Header as string), "+", StringComparison.Ordinal) == 0)
-          return;
-
-        Point mousePoint = PointToScreen(Mouse.GetPosition(this));
-        Point relativePoint = tabItem.PointToScreen(new Point(0, 0));
-        System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) tabItem.DesiredSize.Width, (int) tabItem.DesiredSize.Height);
-
-        if(!rc.Contains((int) mousePoint.X, (int) mousePoint.Y))
-          return;
-
-        if(Mouse.PrimaryDevice.LeftButton == MouseButtonState.Pressed)
-        {
-          DragDrop.DoDragDrop(tabItem, tabItem, DragDropEffects.All);
-        }
-      }
-    }
-
-    private void TabItem_Drop(object sender, DragEventArgs e)
-    {
-      // TODO TabHeader sort
-      var tabItemTarget = e.Source as TabItem;
-      var tabItemSource = e.Data.GetData(typeof(TabItem)) as TabItem;
-
-      if(!tabItemTarget.Equals(tabItemSource))
-      {
-        int sourceIndex = tailTabItems.IndexOf(tabItemSource);
-        int targetIndex = tailTabItems.IndexOf(tabItemTarget);
-
-        tailTabItems.Remove(tabItemSource);
-        tailTabItems.Insert(targetIndex, tabItemSource);
-
-        tailTabItems.Remove(tabItemTarget);
-        tailTabItems.Insert(sourceIndex, tabItemTarget);
-      }
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -492,7 +498,9 @@ namespace Org.Vs.TailForWin
         tabControlTail.SelectedItem = newTab;
       }
       else if(e.Key == Key.T && !currentPage.TextBoxFileNameIsFocused) // When pressing T toggle always on top on/off
+      {
         currentPage.AlwaysOnTop();
+      }
 
       // When pressing Control + W close tab
       if(e.Key != Key.W || (Keyboard.Modifiers & (ModifierKeys.Control)) != ModifierKeys.Control)
@@ -723,6 +731,8 @@ namespace Org.Vs.TailForWin
 
     private TabItem AddTailTab(FileManagerData properties = null)
     {
+      LOG.Trace("{0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
       if(tailTabItems.Count <= LogFile.MAX_TAB_CHILDS)
       {
         int count = tailTabItems.Count;
@@ -735,8 +745,8 @@ namespace Org.Vs.TailForWin
           Style = (Style) FindResource("TabItemStopStyle"),
           AllowDrop = true
         };
-        //tabItem.PreviewMouseMove += TabItem_PreviewMouseMove;
-        //tabItem.Drop += TabItem_Drop;
+        tabItem.PreviewMouseMove += TabItem_PreviewMouseMove;
+        tabItem.Drop += TabItem_Drop;
 
         TailLog tailWindow;
 
@@ -828,6 +838,22 @@ namespace Org.Vs.TailForWin
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
+    }
+
+    private TabItem GetTargetTabItem(object originalSource)
+    {
+      var current = originalSource as DependencyObject;
+
+      while(current != null)
+      {
+        var tabItem = current as TabItem;
+
+        if(tabItem != null)
+          return (tabItem);
+
+        current = VisualTreeHelper.GetParent(current);
+      }
+      return (null);
     }
 
     private void RemoveTab(string tabName)
