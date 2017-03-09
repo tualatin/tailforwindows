@@ -21,7 +21,7 @@ namespace Org.Vs.TailForWin
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
-  public partial class MainWindow : IDisposable
+  public partial class MainWindow : INotifyPropertyChanged, IDisposable
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(MainWindow));
 
@@ -32,6 +32,22 @@ namespace Org.Vs.TailForWin
     private SearchDialog searchBoxWindow;
     private bool ctrlTabKey;
     private string parameterFileName;
+
+    private bool isTabTargetOver;
+
+
+    /// <summary>
+    /// Is new tab window over current window
+    /// </summary>
+    public bool IsTabTargetOver
+    {
+      get => isTabTargetOver;
+      set
+      {
+        isTabTargetOver = value;
+        OnPropertyChanged("IsTabTargetOver");
+      }
+    }
 
 
     /// <summary>
@@ -68,6 +84,23 @@ namespace Org.Vs.TailForWin
 
       Arg.NotNull(tabAdd, "tabAdd");
     }
+
+    /// <summary>
+    /// Is mouse over tab target
+    /// </summary>
+    /// <param name="mousePos">Current mouse position</param>
+    /// <returns>If mouse pointer is over <c>true</c> otherwise <c>false</c></returns>
+    public bool IsMouseOverTabTarget(Point mousePos)
+    {
+      //Point buttonPosToScreen = this.btnDropTarget.PointToScreen(new Point(0, 0));
+      PresentationSource source = PresentationSource.FromVisual(this);
+      // Point targetPos = source.CompositionTarget.TransformFromDevice.Transform(buttonPosToScreen);
+
+      bool isMouseOver = false;//(mousePos.X > targetPos.X && mousePos.X < (targetPos.X + btnDropTarget.Width) && mousePos.Y > targetPos.Y && mousePos.Y < (targetPos.Y + btnDropTarget.Height));
+      IsTabTargetOver = isMouseOver;
+
+      return (isMouseOver);
+   }
 
     #region Properties
 
@@ -742,11 +775,8 @@ namespace Org.Vs.TailForWin
           Header = LogFile.TABBAR_CHILD_EMPTY_STRING,
           Name = $"TabIndex_{tabCount}",
           HeaderTemplate = tabControlTail.FindResource("TabHeader") as DataTemplate,
-          Style = (Style) FindResource("TabItemStopStyle"),
-          AllowDrop = true
+          Style = (Style) FindResource("TabItemStopStyle")
         };
-        tabItem.PreviewMouseMove += TabItem_PreviewMouseMove;
-        tabItem.Drop += TabItem_Drop;
 
         TailLog tailWindow;
 
@@ -904,5 +934,16 @@ namespace Org.Vs.TailForWin
     }
 
     #endregion
+
+    /// <summary>
+    /// Represents the method that will handle the <c>PropertyChanged</c> event raised when a property is changed on a component.
+    /// </summary>
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    private void OnPropertyChanged(string name)
+    {
+      PropertyChangedEventHandler handler = PropertyChanged;
+      handler?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
   }
 }

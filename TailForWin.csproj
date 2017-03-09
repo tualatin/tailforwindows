@@ -137,6 +137,7 @@
     <Compile Include="Data\SmartWatchData.cs" />
     <Compile Include="Data\Win32Point.cs" />
     <Compile Include="Interfaces\IDefaultPatternStructureController.cs" />
+    <Compile Include="Interfaces\IDragDropToTabWindow.cs" />
     <Compile Include="Interfaces\IHistoryStructureController.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\EmptyStringToBoolConverter.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Data\SearchPatter.cs" />
     <Compile Include="Data\SmtpData.cs" />
     <Compile Include="Data\XmlNames\XmlStructure.cs" />
+    <Compile Include="Interfaces\ITabWindow.cs" />
     <Compile Include="Logging\ILogExtentions.cs" />
     <Compile Include="Logging\Log4NetTraceListener.cs" />
     <Compile Include="Logging\Logger.cs" />
@@ -314,6 +316,10 @@
     <Compile Include="Template\UpdateController\Webservice.cs" />
     <Compile Include="Template\WatermarkTextBox\WatermarkTextBox.cs" />
     <Compile Include="Data\Events\WrapAroundBool.cs" />
+    <Compile Include="UI\TabWindow.cs" />
+    <Compile Include="UI\TailForWinTabItem.cs" />
+    <Compile Include="UI\Utils\DragSupportTabControl.cs" />
+    <Compile Include="UI\Utils\DragWindowManager.cs" />
     <Compile Include="UserControls\TailScrollBar.cs" />
     <Compile Include="Utils\Arg.cs" />
     <Compile Include="Utils\AutoUpdate.cs" />
@@ -392,6 +398,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\TabItemToolTipStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\TailForWinTabItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
