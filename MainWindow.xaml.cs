@@ -240,23 +240,28 @@ namespace Org.Vs.TailForWin
 
       if(e.Source is TabControl)
       {
-        e.Handled = true;
-        TabItem tab = tabControlTail.SelectedItem as TabItem;
-
-        if(tab == null)
+        if(e.AddedItems.Count == 0)
           return;
+
+        var tab = e.AddedItems[0] as TabItem;
+        var tabControl = e.Source as TabControl;
+
+        if(tab == null || tabControl == null)
+          return;
+
+        e.Handled = true;
 
         if(tab.Equals(tabAdd) && !ctrlTabKey)
         {
           TabItem newTab = AddTailTab();
-          tabControlTail.SelectedItem = newTab;
+          tabControl.SelectedItem = newTab;
         }
         else
         {
           if(tab.Equals(tabAdd) && ctrlTabKey)
           {
             tab = tailTabItems[0];
-            tabControlTail.SelectedItem = tab;
+            tabControl.SelectedItem = tab;
           }
 
           TailLog page = GetTailLogWindow(tab.Content as Frame);
@@ -727,8 +732,8 @@ namespace Org.Vs.TailForWin
           Header = LogFile.TABBAR_CHILD_EMPTY_STRING,
           Name = $"TabIndex_{tabCount}",
           HeaderTemplate = tabControlTail.FindResource("TabHeader") as DataTemplate,
-          Style = (Style) FindResource("TabItemStopStyle")
-          // AllowDrop = true
+          Style = (Style) FindResource("TabItemStopStyle"),
+          AllowDrop = true
         };
         //tabItem.PreviewMouseMove += TabItem_PreviewMouseMove;
         //tabItem.Drop += TabItem_Drop;

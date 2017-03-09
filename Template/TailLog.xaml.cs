@@ -756,22 +756,31 @@ namespace Org.Vs.TailForWin.Template
       }
       else if(e.Cancelled)
       {
-        childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
-        LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
-        childTabItem.Header = tabProperties == null ? string.Empty : tabProperties.File;
-        childTabItem.Style = Application.Current.FindResource("TabItemStopStyle") as Style;
-        SetControlVisibility();
-        SetToolTipDetailText();
-
-        IsThreadBusy = false;
-
-        LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
+        try
         {
-          LogFile.APP_MAIN_WINDOW.SetSbIconText();
-        }));
+          childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
+          LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
+          childTabItem.Header = tabProperties == null ? string.Empty : tabProperties.File;
+          childTabItem.Style = Application.Current.FindResource("TabItemStopStyle") as Style;
 
-        if(stopThread)
-          KillThread();
+          SetControlVisibility();
+          SetToolTipDetailText();
+
+          IsThreadBusy = false;
+
+          LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
+          {
+            LogFile.APP_MAIN_WINDOW.SetSbIconText();
+          }));
+
+          if(stopThread)
+            KillThread();
+        }
+        catch
+        {
+          if(stopThread)
+            KillThread();
+        }
       }
     }
 
