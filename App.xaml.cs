@@ -18,7 +18,8 @@ namespace Org.Vs.TailForWin
 
     private void Application_Startup(object sender, StartupEventArgs e)
     {
-      MainWindow wnd = new MainWindow();
+      // MainWindow wnd = new MainWindow();
+      UI.TabWindow wnd = new UI.TabWindow();
       AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
       wnd.Show();
 

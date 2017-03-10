@@ -787,7 +787,7 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     public void StopThread()
     {
-      if(!tailWorker.IsBusy)
+      if(tailWorker == null || !tailWorker.IsBusy)
         return;
 
       tailWorker.CancelAsync();
@@ -1328,7 +1328,7 @@ namespace Org.Vs.TailForWin.Template
       if(string.IsNullOrEmpty(currentFileName))
         return (false);
 
-      foreach(var item in LogFile.APP_MAIN_WINDOW.TailTabItems)
+      foreach(TabItem item in LogFile.APP_MAIN_WINDOW.TabControl.Items) // .TailTabItems)
       {
         if(item.Content is Frame tabFrame)
         {

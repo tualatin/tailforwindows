@@ -122,7 +122,8 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// MainWindow reference from TfW
     /// </summary>
-    public static MainWindow APP_MAIN_WINDOW = (Application.Current.MainWindow as MainWindow);
+    //public static MainWindow APP_MAIN_WINDOW = (Application.Current.MainWindow as MainWindow);
+    public static UI.TabWindow APP_MAIN_WINDOW = (Application.Current.MainWindow as UI.TabWindow);
 
 
     /// <summary>

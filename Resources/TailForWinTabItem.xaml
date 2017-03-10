@@ -86,6 +86,8 @@
   </Style>
 
   <Style TargetType="{x:Type local:TailForWinTabItem}" x:Key="TabItemTailStyle">
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="TabItem">
@@ -139,6 +141,8 @@
   </Style>
 
   <Style TargetType="{x:Type local:TailForWinTabItem}" x:Key="TabItemStopStyle">
+    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+    <Setter Property="VerticalContentAlignment" Value="Stretch"/>
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type local:TailForWinTabItem}">

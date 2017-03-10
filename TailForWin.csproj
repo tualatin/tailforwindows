@@ -319,10 +319,9 @@
     <Compile Include="UI\OverlayDragWnd.xaml.cs">
       <DependentUpon>OverlayDragWnd.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\PageTail4Windows.xaml.cs">
-      <DependentUpon>PageTail4Windows.xaml</DependentUpon>
+    <Compile Include="UI\TabWindow.xaml.cs">
+      <DependentUpon>TabWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\TabWindow.cs" />
     <Compile Include="UI\TailForWinTabItem.cs" />
     <Compile Include="UI\Utils\DragSupportTabControl.cs" />
     <Compile Include="UI\Utils\DragWindowManager.cs" />
@@ -535,7 +534,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\PageTail4Windows.xaml">
+    <Page Include="UI\TabWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -406,8 +406,8 @@ namespace Org.Vs.TailForWin
       TfWUpTimeStart = DateTime.Now;
 
       // Important for command line parameter!
-      if(LogFile.APP_MAIN_WINDOW == null)
-        LogFile.APP_MAIN_WINDOW = (Application.Current.MainWindow as MainWindow);
+      //if(LogFile.APP_MAIN_WINDOW == null)
+      //  LogFile.APP_MAIN_WINDOW = (Application.Current.MainWindow as MainWindow);
 
       if(SettingsHelper.TailSettings.AutoUpdate)
         AutoUpdate.Init();

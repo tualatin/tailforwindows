@@ -10,7 +10,7 @@
         <ResourceDictionary Source="Resources/AndroidRadioButton.xaml"/>
         <ResourceDictionary Source="Resources/AndroidSlider.xaml"/>
         <ResourceDictionary Source="Resources/AndroidToggleButton.xaml"/>
-        <ResourceDictionary Source="Resources/TabControl.xaml"/>
+        <!--<ResourceDictionary Source="Resources/TabControl.xaml"/>-->
         <ResourceDictionary Source="Resources/TextBox.xaml"/>
         <ResourceDictionary Source="Resources/Label.xaml"/>
         <ResourceDictionary Source="Resources/Button.xaml"/>
@@ -19,6 +19,7 @@
         <ResourceDictionary Source="Resources/ComboBox.xaml"/>
         <ResourceDictionary Source="Resources/Separator.xaml"/>
         <ResourceDictionary Source="Resources/TabItemToolTipStyle.xaml"/>
+        <ResourceDictionary Source="Resources/TailForWinTabItem.xaml"/>
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

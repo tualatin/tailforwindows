@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
 using log4net;
 using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
@@ -21,20 +22,44 @@ namespace Org.Vs.TailForWin.UI
   /// <summary>
   /// Tab window logic
   /// </summary>
-  public class TabWindow : Window, ITabWindow, IDragDropToTabWindow
+  public partial class TabWindow : Window, ITabWindow, IDragDropToTabWindow
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(TabWindow));
 
     private OverlayDragWnd overlayWindow;
-    private DragSupportTabControl tabControl;
     private bool hasFocus;
     private TailForWinTabItem tabAdd;
-    private PageTail4Windows tail4Wnd;
     private SearchDialog searchBoxWindow;
     private TailLog currentPage;
     private string parameterFileName;
 
     #region Properties
+
+    /// <summary>
+    /// Set ToolTip detail text
+    /// </summary>
+    public string ToolTipDetailText
+    {
+      get
+      {
+        return (fancyToolTipTfW.ToolTipDetail);
+      }
+      set
+      {
+        fancyToolTipTfW.ToolTipDetail = value;
+      }
+    }
+
+    /// <summary>
+    /// Main window taskbar icon
+    /// </summary>
+    public NotifyIcon.TaskbarIcon MainWndTaskBarIcon
+    {
+      get
+      {
+        return (tbIcon);
+      }
+    }
 
     /// <summary>
     /// Uptime start time
@@ -60,6 +85,55 @@ namespace Org.Vs.TailForWin.UI
       }
     }
 
+    /// <summary>
+    /// Set statusbar state item
+    /// </summary>
+    public StatusBarItem StatusBarState
+    {
+      get
+      {
+        return (stsBarState);
+      }
+    }
+
+    /// <summary>
+    /// Set statusbar encoding item
+    /// </summary>
+    public StatusBarItem StatusBarEncoding
+    {
+      get
+      {
+        return (stsEncoding);
+      }
+    }
+
+    /// <summary>
+    /// Set statusbar lines read
+    /// </summary>
+    public StatusBarItem StatusBarLinesRead
+    {
+      get
+      {
+        return (stsLinesRead);
+      }
+    }
+
+    /// <summary>
+    /// Set statubar encode combobox (cbStsEncoding)
+    /// </summary>
+    public ComboBox StatusBarEncodeCb
+    {
+      get
+      {
+        return (cbStsEncoding);
+      }
+    }
+
+    /// <summary>
+    /// Current tab control
+    /// </summary>
+    public DragSupportTabControl TabControl => tabControl;
+
     #endregion
 
 
@@ -67,20 +141,11 @@ namespace Org.Vs.TailForWin.UI
     /// Standarc constructor
     /// </summary>
     public TabWindow()
-      : base()
     {
-      tail4Wnd = new PageTail4Windows();
-      Content = tail4Wnd;
-
+      InitializeComponent();
       DefaultWndSettings();
 
-      tabControl = new DragSupportTabControl
-      {
-        Margin = new Thickness(0)
-      };
       tabControl.SelectionChanged += TabControl_SelectionChanged;
-
-      tail4Wnd.AddContentToPage(tabControl);
 
       tabAdd = new TailForWinTabItem
       {
@@ -89,9 +154,11 @@ namespace Org.Vs.TailForWin.UI
         Style = (Style) FindResource("TabItemAddStyle")
       };
       tabAdd.PreviewMouseLeftButtonDown += TabAdd_MouseLeftButtonDown;
-      tabControl.Items.Add(tabAdd);
 
+      tabControl.Items.Add(tabAdd);
+      AddTabItem();
       DragWindowManager.Instance.Register(this);
+
       SourceInitialized += TabWindow_SourceInitialized;
       PreviewMouseDown += TabWindow_PreviewMouseDown;
       Loaded += TabWindow_Loaded;
@@ -107,7 +174,7 @@ namespace Org.Vs.TailForWin.UI
       {
         foreach(TabItem item in tabControl.Items)
         {
-          if(item.Content != null || item.Content.GetType() == typeof(Frame))
+          if(item.Content != null && item.Content.GetType() == typeof(Frame))
           {
             var page = GetTailLogWindow(item.Content as Frame);
 
@@ -136,9 +203,9 @@ namespace Org.Vs.TailForWin.UI
       try
       {
         if(currentPage.IsThreadBusy)
-          tbIcon.ToolTipText = Application.Current.FindResource("Record") as string;
+          MainWndTaskBarIcon.ToolTipText = Application.Current.FindResource("Record") as string;
         else
-          tbIcon.ToolTipText = Application.Current.FindResource("TrayIconReady") as string;
+          MainWndTaskBarIcon.ToolTipText = Application.Current.FindResource("TrayIconReady") as string;
       }
       catch(Exception ex)
       {
@@ -254,15 +321,14 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabWindow_Loaded(object sender, RoutedEventArgs e)
     {
-      TfWUpTimeStart = DateTime.Now;
-
       // Important for command line parameter!
       if(LogFile.APP_MAIN_WINDOW == null)
-        LogFile.APP_MAIN_WINDOW = (Application.Current.MainWindow as MainWindow);
+        LogFile.APP_MAIN_WINDOW = (Application.Current.MainWindow as TabWindow);
 
       if(SettingsHelper.TailSettings.AutoUpdate)
         AutoUpdate.Init();
 
+      TfWUpTimeStart = DateTime.Now;
       LOG.Info("Startup completed!");
     }
 
@@ -356,6 +422,12 @@ namespace Org.Vs.TailForWin.UI
       }
     }
 
+    private void CbStsEncoding_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+      e.Handled = true;
+      currentPage?.UpdateFileEncoding((Encoding) cbStsEncoding.SelectedItem);
+    }
+
     #endregion
 
     #region ITabWindow
@@ -407,7 +479,7 @@ namespace Org.Vs.TailForWin.UI
 
     private void AddTabItem(string tabHeader, Control content, FileManagerData properties)
     {
-      if(tabControl.Items.Count <= LogFile.MAX_TAB_CHILDS)
+      if(tabControl.Items.Count >= LogFile.MAX_TAB_CHILDS)
       {
         MessageBox.Show(Application.Current.FindResource("HCloseTab") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
         return;
@@ -437,6 +509,9 @@ namespace Org.Vs.TailForWin.UI
     /// <param name="tabItem">Item to remove</param>
     public void RemoveTabItem(TabItem tabItem)
     {
+      if(TabControl.Items.Count <= 2)
+        AddTabItem();
+
       if(tabControl.Items.Contains(tabItem))
       {
         ((TailForWinTabItem) tabItem).TabHeaderDoubleClick -= TabItem_TabHeaderDoubleClick;
@@ -539,14 +614,14 @@ namespace Org.Vs.TailForWin.UI
 
     private void DefaultWndSettings()
     {
+      SettingsHelper.ReadSettings();
+      LogFile.InitObservableCollectionsRrtpfe();
+
       Title = LogFile.APPLICATION_CAPTION;
-
-      ResizeMode = ResizeMode.CanResizeWithGrip;
-      Icon = new ImageSourceConverter().ConvertFromString(@"pack://application:,,/Res/Main.ico") as ImageSource;
-      MinHeight = 410;
-      MinWidth = 750;
-
       Topmost = SettingsHelper.TailSettings.AlwaysOnTop;
+
+      cbStsEncoding.DataContext = LogFile.FileEncoding;
+      cbStsEncoding.DisplayMemberPath = "HeaderName";
 
       PreviewKeyDown += HandleMainWindowKeys;
 
@@ -611,7 +686,7 @@ namespace Org.Vs.TailForWin.UI
       tabItem.Content = tabFrame;
 
       // Update statusbar text
-      stsBarState.Content = tailWindow.GetChildState();
+      StatusBarState.Content = tailWindow.GetChildState();
 
       if(searchBoxWindow.Visibility != Visibility.Visible)
         return (tabFrame);
@@ -787,7 +862,7 @@ namespace Org.Vs.TailForWin.UI
         // TODO review me!!
         foreach(TabItem item in tabControl.Items)
         {
-          if(item.Content != null || item.Content.GetType() == typeof(Frame))
+          if(item.Content != null && item.Content.GetType() == typeof(Frame))
           {
             var page = GetTailLogWindow(item.Content as Frame);
 
@@ -828,7 +903,7 @@ namespace Org.Vs.TailForWin.UI
       {
         foreach(TabItem item in tabControl.Items)
         {
-          if(item.Content != null || item.Content.GetType() == typeof(Frame))
+          if(item.Content != null && item.Content.GetType() == typeof(Frame))
           {
             var page = GetTailLogWindow(item.Content as Frame);
 
