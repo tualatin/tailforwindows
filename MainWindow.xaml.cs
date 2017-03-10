@@ -21,7 +21,7 @@ namespace Org.Vs.TailForWin
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
-  public partial class MainWindow : INotifyPropertyChanged, IDisposable
+  public partial class MainWindow : IDisposable
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(MainWindow));
 
@@ -32,22 +32,6 @@ namespace Org.Vs.TailForWin
     private SearchDialog searchBoxWindow;
     private bool ctrlTabKey;
     private string parameterFileName;
-
-    private bool isTabTargetOver;
-
-
-    /// <summary>
-    /// Is new tab window over current window
-    /// </summary>
-    public bool IsTabTargetOver
-    {
-      get => isTabTargetOver;
-      set
-      {
-        isTabTargetOver = value;
-        OnPropertyChanged("IsTabTargetOver");
-      }
-    }
 
 
     /// <summary>
@@ -84,23 +68,6 @@ namespace Org.Vs.TailForWin
 
       Arg.NotNull(tabAdd, "tabAdd");
     }
-
-    /// <summary>
-    /// Is mouse over tab target
-    /// </summary>
-    /// <param name="mousePos">Current mouse position</param>
-    /// <returns>If mouse pointer is over <c>true</c> otherwise <c>false</c></returns>
-    public bool IsMouseOverTabTarget(Point mousePos)
-    {
-      //Point buttonPosToScreen = this.btnDropTarget.PointToScreen(new Point(0, 0));
-      PresentationSource source = PresentationSource.FromVisual(this);
-      // Point targetPos = source.CompositionTarget.TransformFromDevice.Transform(buttonPosToScreen);
-
-      bool isMouseOver = false;//(mousePos.X > targetPos.X && mousePos.X < (targetPos.X + btnDropTarget.Width) && mousePos.Y > targetPos.Y && mousePos.Y < (targetPos.Y + btnDropTarget.Height));
-      IsTabTargetOver = isMouseOver;
-
-      return (isMouseOver);
-   }
 
     #region Properties
 
@@ -539,9 +506,7 @@ namespace Org.Vs.TailForWin
       if(e.Key != Key.W || (Keyboard.Modifiers & (ModifierKeys.Control)) != ModifierKeys.Control)
         return;
 
-      TabItem tab = tabControlTail.SelectedItem as TabItem;
-
-      if(tab != null)
+      if(tabControlTail.SelectedItem is TabItem tab)
         RemoveTab(tab.Name);
     }
 
@@ -876,9 +841,7 @@ namespace Org.Vs.TailForWin
 
       while(current != null)
       {
-        var tabItem = current as TabItem;
-
-        if(tabItem != null)
+        if(current is TabItem tabItem)
           return (tabItem);
 
         current = VisualTreeHelper.GetParent(current);
@@ -934,16 +897,5 @@ namespace Org.Vs.TailForWin
     }
 
     #endregion
-
-    /// <summary>
-    /// Represents the method that will handle the <c>PropertyChanged</c> event raised when a property is changed on a component.
-    /// </summary>
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    private void OnPropertyChanged(string name)
-    {
-      PropertyChangedEventHandler handler = PropertyChanged;
-      handler?.Invoke(this, new PropertyChangedEventArgs(name));
-    }
   }
 }

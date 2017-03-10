@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 
 namespace Org.Vs.TailForWin.Interfaces
@@ -8,6 +9,14 @@ namespace Org.Vs.TailForWin.Interfaces
   /// </summary>
   public interface IDragDropToTabWindow
   {
+    /// <summary>
+    /// Add TabItem
+    /// </summary>
+    TabItem TabAdd
+    {
+      get;
+    }
+
     /// <summary>
     /// Drag enter
     /// </summary>

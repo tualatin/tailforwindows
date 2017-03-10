@@ -42,7 +42,7 @@ namespace Org.Vs.TailForWin.UI
     }
 
     /// <summary>
-    /// TabHeaderDoubleClicke event
+    /// TabHeaderDoubleClicke event handler
     /// </summary>
     public static readonly RoutedEvent TabHeaderDoubleClickEvent = EventManager.RegisterRoutedEvent("TabHeaderDoubleClick", RoutingStrategy.Bubble,
                                                                       typeof(RoutedEventHandler), typeof(TailForWinTabItem));
@@ -62,6 +62,26 @@ namespace Org.Vs.TailForWin.UI
       }
     }
 
+    /// <summary>
+    /// LastTabWindowOpen event handler
+    /// </summary>
+    public static readonly RoutedEvent LastTabWindowOpenEvent = EventManager.RegisterRoutedEvent("LastTabWindowOpen", RoutingStrategy.Bubble,
+                                                                  typeof(RoutedEventHandler), typeof(TailForWinTabItem));
+
+    /// <summary>
+    /// When only one tab is open, remove it and open a new empty tab window
+    /// </summary>
+    public event RoutedEventHandler LastTabWindowOpen
+    {
+      add
+      {
+        AddHandler(LastTabWindowOpenEvent, value);
+      }
+      remove
+      {
+        RemoveHandler(LastTabWindowOpenEvent, value);
+      }
+    }
 
     /// <summary>
     /// When overridden in a derived class, is invoked whenever application code or internal proc esses call <code>ApplyTemplate</code>.
@@ -74,7 +94,10 @@ namespace Org.Vs.TailForWin.UI
         closeButton.Click += new RoutedEventHandler(CloseButton_Click);
 
       if(GetTemplateChild("gridHeader") is Grid headerGrid)
+      {
+        headerGrid.PreviewMouseDown += new MouseButtonEventHandler(HeaderGrid_MiddleMouseButtonDown);
         headerGrid.MouseLeftButtonDown += new MouseButtonEventHandler(HeaderGrid_MouseLeftButtonDown);
+      }
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -83,7 +106,7 @@ namespace Org.Vs.TailForWin.UI
       {
         if(tabCtrl.Items.Count <= 2)
         {
-          MessageBox.Show("Is last tabitem, ca not remove!");
+          RaiseEvent(new RoutedEventArgs(LastTabWindowOpenEvent, this));
           return;
         }
 
@@ -95,6 +118,23 @@ namespace Org.Vs.TailForWin.UI
     {
       if(e.ClickCount == 2)
         RaiseEvent(new RoutedEventArgs(TabHeaderDoubleClickEvent, this));
+    }
+
+    private void HeaderGrid_MiddleMouseButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      if(Parent is TabControl tabCtrl)
+      {
+        if(e.MiddleButton == MouseButtonState.Pressed)
+        {
+          if(tabCtrl.Items.Count <= 2)
+          {
+            RaiseEvent(new RoutedEventArgs(LastTabWindowOpenEvent, this));
+            return;
+          }
+
+          tabCtrl.Items.Remove(this);
+        }
+      }
     }
   }
 }

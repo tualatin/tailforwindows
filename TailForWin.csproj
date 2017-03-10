@@ -201,6 +201,9 @@
     </Compile>
     <Compile Include="PatternUtil\Interfaces\ISearchPatternController.cs" />
     <Compile Include="PatternUtil\Utils\SearchPatternController.cs" />
+    <Compile Include="Tail4Windows.xaml.cs">
+      <DependentUpon>Tail4Windows.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Template\Events\DragDropEventDelegate.cs" />
     <Compile Include="Template\Events\IsOpenInTabEventDelegate.cs" />
     <Compile Include="Template\FancyPopUp.xaml.cs">
@@ -316,6 +319,9 @@
     <Compile Include="Template\UpdateController\Webservice.cs" />
     <Compile Include="Template\WatermarkTextBox\WatermarkTextBox.cs" />
     <Compile Include="Data\Events\WrapAroundBool.cs" />
+    <Compile Include="UI\OverlayDragWnd.xaml.cs">
+      <DependentUpon>OverlayDragWnd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\TabWindow.cs" />
     <Compile Include="UI\TailForWinTabItem.cs" />
     <Compile Include="UI\Utils\DragSupportTabControl.cs" />
@@ -408,6 +414,10 @@
     <Page Include="Resources\TextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Tail4Windows.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Template\FancyPopUp.xaml">
       <SubType>Designer</SubType>
@@ -522,6 +532,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\TabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\OverlayDragWnd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

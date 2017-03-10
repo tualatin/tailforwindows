@@ -15,7 +15,7 @@ namespace Org.Vs.TailForWin.UI
   /// </summary>
   public class TabWindow : Window, ITabWindow, IDragDropToTabWindow
   {
-    private MainWindow overlayWindow;
+    private OverlayDragWnd overlayWindow;
     private DragSupportTabControl tabControl;
     private bool hasFocus;
     private TailForWinTabItem tabAdd;
@@ -46,6 +46,7 @@ namespace Org.Vs.TailForWin.UI
 
       DragWindowManager.Instance.Register(this);
       SourceInitialized += TabWindow_SourceInitialized;
+      PreviewMouseDown += TabWindow_PreviewMouseDown;
     }
 
     /// <summary>
@@ -121,7 +122,6 @@ namespace Org.Vs.TailForWin.UI
           tabControl.SelectedItem = tabControl.Items[tabControl.Items.Count - 2];
           return;
         }
-
       }
     }
 
@@ -131,13 +131,36 @@ namespace Org.Vs.TailForWin.UI
       source.AddHook(new HwndSourceHook(WndProc));
     }
 
-    private void tabItem_TabHeaderDoubleClick(object sender, RoutedEventArgs e)
+    private void TabWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
-      if(tabControl.Items.Count <= 2)
-      {
-        MessageBox.Show("Is last tabitem, ca not remove!");
+      if(e.MiddleButton != MouseButtonState.Pressed)
         return;
+
+      Point mousePoint = PointToScreen(Mouse.GetPosition(this));
+      bool addNew = false;
+
+      foreach(TabItem item in tabControl.Items)
+      {
+        Point relativePoint = item.PointToScreen(new Point(0, 0));
+        System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) item.DesiredSize.Width, (int) item.DesiredSize.Height);
+
+        if(rc.Contains((int) mousePoint.X, (int) mousePoint.Y))
+          return;
+
+        addNew = true;
       }
+
+      if(!addNew)
+        return;
+
+      AddTabItem("No file.", null);
+    }
+
+    private void TabItem_TabHeaderDoubleClick(object sender, RoutedEventArgs e)
+    {
+      // When one tab and the add tab is open, no other operation possible
+      if(tabControl.Items.Count <= 2)
+        return;
 
       if(e.Source is TailForWinTabItem tabItem)
       {
@@ -147,6 +170,15 @@ namespace Org.Vs.TailForWin.UI
         tabControl.RemoveTabItem(tabItem);
         tabWin.Activate();
         tabWin.Focus();
+      }
+    }
+
+    private void TabItem_LastTabWindowOpen(object sender, RoutedEventArgs e)
+    {
+      if(e.Source is TailForWinTabItem tabItem)
+      {
+        AddTabItem("No file.", null);
+        RemoveTabItem(tabItem);
       }
     }
 
@@ -187,13 +219,17 @@ namespace Org.Vs.TailForWin.UI
     /// <param name="content">Content</param>
     public void AddTabItem(string tabHeader, Control content)
     {
+      if(tabControl.Items.Count > 8)
+        return;
+
       TailForWinTabItem item = new TailForWinTabItem
       {
         Header = tabHeader,
         Content = content,
         Style = (Style) FindResource("TabItemStopStyle")
       };
-      item.TabHeaderDoubleClick += tabItem_TabHeaderDoubleClick;
+      item.TabHeaderDoubleClick += TabItem_TabHeaderDoubleClick;
+      item.LastTabWindowOpen += TabItem_LastTabWindowOpen;
 
       tabControl.Items.Insert(tabControl.Items.Count - 1, item);
       tabControl.SelectedItem = item;
@@ -207,7 +243,8 @@ namespace Org.Vs.TailForWin.UI
     {
       if(tabControl.Items.Contains(tabItem))
       {
-        ((TailForWinTabItem) tabItem).TabHeaderDoubleClick -= tabItem_TabHeaderDoubleClick;
+        ((TailForWinTabItem) tabItem).TabHeaderDoubleClick -= TabItem_TabHeaderDoubleClick;
+        ((TailForWinTabItem) tabItem).LastTabWindowOpen -= TabItem_LastTabWindowOpen;
         tabControl.Items.Remove(tabItem);
       }
     }
@@ -215,6 +252,11 @@ namespace Org.Vs.TailForWin.UI
     #endregion
 
     #region IDragDropToTabWindow
+
+    /// <summary>
+    /// Add TabItem
+    /// </summary>
+    public TabItem TabAdd => tabAdd;
 
     /// <summary>
     /// Is drag mouse over
@@ -275,7 +317,7 @@ namespace Org.Vs.TailForWin.UI
     public void OnDragEnter()
     {
       if(overlayWindow == null)
-        overlayWindow = new MainWindow();
+        overlayWindow = new OverlayDragWnd();
 
       if(WindowState == WindowState.Maximized)
       {

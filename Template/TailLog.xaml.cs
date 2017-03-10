@@ -850,6 +850,9 @@ namespace Org.Vs.TailForWin.Template
     /// <param name="encode">Encoding</param>
     public void UpdateFileEncoding(Encoding encode)
     {
+      if(encode == null)
+        return;
+
       try
       {
         tabProperties.FileEncoding = encode;

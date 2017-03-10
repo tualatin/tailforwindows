@@ -133,7 +133,7 @@ namespace Org.Vs.TailForWin.Data
     /// Create copy of object
     /// </summary>
     /// <returns>A clone of object</returns>
-    public FileManagerData Clone()
+    public new FileManagerData Clone()
     {
       return (MemberwiseClone() as FileManagerData);
     }

@@ -203,7 +203,7 @@ namespace Org.Vs.TailForWin.Logging
     /// Logs a message on ERROR level with or without error.
     /// </summary>
     /// <param name="logger">The logger. Not <code>null</code>.</param>
-    /// <param name="error">The error. Can be <code>null</code><./param>
+    /// <param name="error">The error. Can be <code>null</code></param>
     /// <param name="message">The logged message. Not <code>null</code> and not empty. Characters are given unescaped. Placeholders are given as {0}, {1}, etc.</param>
     /// <param name="args">Arguments for the error message. Can be <code>null</code> or empty.</param>
     public static void Error(Logger logger, Exception error, string message, params object[] args)

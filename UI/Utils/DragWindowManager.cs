@@ -174,7 +174,7 @@ namespace Org.Vs.TailForWin.UI.Utils
           {
             TabItem item = items[i] as TabItem;
 
-            if(item.Header.Equals("+"))
+            if(item.Header.Equals(targetWindow.TabAdd.Header))
               continue;
 
             if(item != null)
