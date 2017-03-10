@@ -71,7 +71,7 @@ namespace Org.Vs.TailForWin.UI.Utils
 
     #region Events
 
-    private void DragSupportTabControl_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private void DragSupportTabControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
       startPoint = e.GetPosition(this);
     }
@@ -82,7 +82,7 @@ namespace Org.Vs.TailForWin.UI.Utils
 
       var tabItemTarget = e.Source as TabItem;
 
-      if(tabItemTarget == null)
+      if(tabItemTarget == null || tabItemTarget.Header.Equals("+"))
         return;
 
       var tabItemSource = e.Data.GetData(typeof(TailForWinTabItem)) as TabItem;
