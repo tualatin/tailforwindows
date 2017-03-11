@@ -349,8 +349,6 @@ namespace Org.Vs.TailForWin.UI
       if(LogFile.APP_MAIN_WINDOW == null)
         LogFile.APP_MAIN_WINDOW = this;// (Application.Current.MainWindow as TabWindow);
 
-      var tes = DragWindowManager.Instance;
-
       if(SettingsHelper.TailSettings.AutoUpdate)
         AutoUpdate.Init();
 
@@ -452,6 +450,11 @@ namespace Org.Vs.TailForWin.UI
     {
       e.Handled = true;
       currentPage?.UpdateFileEncoding((Encoding) cbStsEncoding.SelectedItem);
+    }
+
+    private static void DoubleClickNotifyIcon(object sender, EventArgs e)
+    {
+      LogFile.BringMainWindowToFront();
     }
 
     #endregion
@@ -642,6 +645,10 @@ namespace Org.Vs.TailForWin.UI
     {
       SettingsHelper.ReadSettings();
       LogFile.InitObservableCollectionsRrtpfe();
+
+      tbIcon.ToolTipText = Application.Current.FindResource("TrayIconReady") as string;
+      fancyToolTipTfW.ApplicationText = LogFile.APPLICATION_CAPTION;
+      tbIcon.TrayMouseDoubleClick += DoubleClickNotifyIcon;
 
       Title = LogFile.APPLICATION_CAPTION;
       Topmost = SettingsHelper.TailSettings.AlwaysOnTop;
