@@ -316,6 +316,30 @@ namespace Org.Vs.TailForWin.UI
           tabControl.SelectedItem = tabControl.Items[tabControl.Items.Count - 2];
           return;
         }
+
+        TailLog page = GetTailLogWindow(tab.Content as Frame);
+
+        if(page == null)
+          return;
+
+        if(currentPage != null && (page.GetChildTabIndex() == currentPage.GetChildTabIndex()))
+          return;
+
+        stsBarState.Content = page.GetChildState();
+        page.ActiveTab = true;
+
+        if(searchBoxWindow.Visibility == Visibility.Visible)
+        {
+          page.SearchBoxActive();
+          page.WrapAround(searchBoxWindow.WrapSearch);
+          FindWhatTextChangedEvent(this, EventArgs.Empty);
+          searchBoxWindow.SetTitle = page.FileManagerProperties.File;
+        }
+
+        currentPage = page;
+        TabItemUpdateParent(page);
+
+        SetSbIconText();
       }
     }
 
@@ -323,7 +347,9 @@ namespace Org.Vs.TailForWin.UI
     {
       // Important for command line parameter!
       if(LogFile.APP_MAIN_WINDOW == null)
-        LogFile.APP_MAIN_WINDOW = (Application.Current.MainWindow as TabWindow);
+        LogFile.APP_MAIN_WINDOW = this;// (Application.Current.MainWindow as TabWindow);
+
+      var tes = DragWindowManager.Instance;
 
       if(SettingsHelper.TailSettings.AutoUpdate)
         AutoUpdate.Init();
@@ -509,8 +535,8 @@ namespace Org.Vs.TailForWin.UI
     /// <param name="tabItem">Item to remove</param>
     public void RemoveTabItem(TabItem tabItem)
     {
-      if(TabControl.Items.Count <= 2)
-        AddTabItem();
+      //if(TabControl.Items.Count <= 2)
+      //  AddTabItem();
 
       if(tabControl.Items.Contains(tabItem))
       {

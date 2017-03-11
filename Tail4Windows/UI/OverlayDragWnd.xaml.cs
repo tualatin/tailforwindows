@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using log4net;
 
 
 namespace Org.Vs.TailForWin.UI
@@ -9,6 +10,8 @@ namespace Org.Vs.TailForWin.UI
   /// </summary>
   public partial class OverlayDragWnd : Window, INotifyPropertyChanged
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(OverlayDragWnd));
+
     private bool isTabTargetOver;
 
     /// <summary>
@@ -39,12 +42,14 @@ namespace Org.Vs.TailForWin.UI
     /// <returns>If mouse pointer is over <c>true</c> otherwise <c>false</c></returns>
     public bool IsMouseOverTabTarget(Point mousePos)
     {
-      Point buttonPosToScreen = this.btnDropTarget.PointToScreen(new Point(0, 0));
+      Point buttonPosToScreen = btnDropTarget.PointToScreen(new Point(0, 0));
       PresentationSource source = PresentationSource.FromVisual(this);
       Point targetPos = source.CompositionTarget.TransformFromDevice.Transform(buttonPosToScreen);
 
       bool isMouseOver = (mousePos.X > targetPos.X && mousePos.X < (targetPos.X + btnDropTarget.Width) && mousePos.Y > targetPos.Y && mousePos.Y < (targetPos.Y + btnDropTarget.Height));
       IsTabTargetOver = isMouseOver;
+
+      LOG.Trace("{0} IsMouseOver {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, isMouseOver);
 
       return (isMouseOver);
     }

@@ -5,18 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
          xmlns:local="clr-namespace:System.Windows;assembly=PresentationFramework"
         mc:Ignorable="d"
-        Title="OverlayDragWnd" Height="300" Width="300" AllowsTransparency="True" Background="Transparent" WindowStyle="None" ShowInTaskbar="False">
+        Title="OverlayDragWnd" Height="300" Width="300" AllowsTransparency="True" WindowStyle="None" ShowInTaskbar="False">
+  <Window.Background>
+    <SolidColorBrush Color="#FF68C6E8" Opacity="0.1"/>
+  </Window.Background>
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="{x:Static local:SystemParameters.WindowCaptionHeight}" />
-      <RowDefinition Height="*" />
+      <RowDefinition Height="{x:Static local:SystemParameters.WindowCaptionHeight}"/>
+      <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
 
     <Border Grid.Row="1" Height="auto" Opacity="0.5" BorderThickness="9" Margin="8,7,8,8">
       <Border.Style>
         <Style TargetType="{x:Type Border}">
-          <Setter Property="BorderBrush" Value="Transparent" />
-          <Setter Property="Background" Value="Transparent" />
+          <Setter Property="BorderBrush" Value="Transparent"/>
+          <Setter Property="Background" Value="Transparent"/>
           <Style.Triggers>
             <DataTrigger Binding="{Binding IsTabTargetOver}" Value="True">
               <Setter Property="BorderBrush" Value="#FF1E90FF" />

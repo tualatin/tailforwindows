@@ -1,0 +1,695 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B07BE282-4B92-4E8B-97E0-8413E9501877}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Org.Vs.TailForWin</RootNamespace>
+    <AssemblyName>TailForWin</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Res\Main.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=2.0.7.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.7\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Template\ColorPicker\ColorDialog.xaml.cs">
+      <DependentUpon>ColorDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\ColorPicker\ColorPicker.xaml.cs">
+      <DependentUpon>ColorPicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\Events\DragDropEventDelegate.cs" />
+    <Compile Include="Template\Events\IsOpenInTabEventDelegate.cs" />
+    <Compile Include="Template\FancyPopUp.xaml.cs">
+      <DependentUpon>FancyPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\FancyToolTip.xaml.cs">
+      <DependentUpon>FancyToolTip.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\FileManager.xaml.cs">
+      <DependentUpon>FileManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\Filters.xaml.cs">
+      <DependentUpon>Filters.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\GoToLine.xaml.cs">
+      <DependentUpon>GoToLine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\Options.xaml.cs">
+      <DependentUpon>Options.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\SearchDialog.xaml.cs">
+      <DependentUpon>SearchDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\Spinner.xaml.cs">
+      <DependentUpon>Spinner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TabOptions\AboutItem.xaml.cs">
+      <DependentUpon>AboutItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TabOptions\AlertsItem.xaml.cs">
+      <DependentUpon>AlertsItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TabOptions\ColorItem.xaml.cs">
+      <DependentUpon>ColorItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TabOptions\ExtraItem.xaml.cs">
+      <DependentUpon>ExtraItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TabOptions\ImportExportItem.xaml.cs">
+      <DependentUpon>ImportExportItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TabOptions\Interfaces\ITabOptionItems.cs" />
+    <Compile Include="Template\TabOptions\OptionsItem.xaml.cs">
+      <DependentUpon>OptionsItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TabOptions\ProxyServer.xaml.cs">
+      <DependentUpon>ProxyServer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TabOptions\SmtpSettings.xaml.cs">
+      <DependentUpon>SmtpSettings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TabOptions\SystemInformation.xaml.cs">
+      <DependentUpon>SystemInformation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TailLog.xaml.cs">
+      <DependentUpon>TailLog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TextEditor\Converters\BoolToScrollbarVisibilityConverter.cs" />
+    <Compile Include="Template\TextEditor\Converters\BoolToTextWrapConverter.cs" />
+    <Compile Include="Template\TextEditor\Converters\StringFormatConverter.cs" />
+    <Compile Include="Template\TextEditor\Data\LogEntry.cs" />
+    <Compile Include="Template\TextEditor\Data\PropertyChangedBase.cs" />
+    <Compile Include="Template\TextEditor\Data\StringFormatData.cs" />
+    <Compile Include="Template\TextEditor\LogViewerControl.xaml.cs">
+      <DependentUpon>LogViewerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\TextEditor\Utils\DeferredAction.cs" />
+    <Compile Include="Template\TextEditor\Utils\ListBoxCopy.cs" />
+    <Compile Include="Template\TextEditor\Utils\ListBoxExtenders.cs" />
+    <Compile Include="Template\TextEditor\Utils\ListBoxSelector.cs" />
+    <Compile Include="Template\TextEditor\Utils\LogViewerDataTemplateSelector.cs" />
+    <Compile Include="Template\TextEditor\Utils\TemplateData.cs" />
+    <Compile Include="Template\UpdateController\Data\WebServiceData.cs" />
+    <Compile Include="Template\UpdateController\ResultDialog.xaml.cs">
+      <DependentUpon>ResultDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\UpdateController\UpdateController.cs" />
+    <Compile Include="Template\UpdateController\Updater.xaml.cs">
+      <DependentUpon>Updater.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\UpdateController\Updateservice.cs" />
+    <Compile Include="Template\UpdateController\UserErrorException.cs" />
+    <Compile Include="Template\UpdateController\Webservice.cs" />
+    <Compile Include="Template\WatermarkTextBox\WatermarkTextBox.cs" />
+    <Compile Include="UI\OverlayDragWnd.xaml.cs">
+      <DependentUpon>OverlayDragWnd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TabWindow.xaml.cs">
+      <DependentUpon>TabWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TailForWinTabItem.cs" />
+    <Compile Include="UI\Utils\DragSupportTabControl.cs" />
+    <Compile Include="UI\Utils\DragWindowManager.cs" />
+    <Compile Include="UserControls\TailScrollBar.cs" />
+    <Compile Include="Utils\Arg.cs" />
+    <Compile Include="Utils\AutoUpdate.cs" />
+    <Compile Include="Utils\BuildDate.cs" />
+    <Compile Include="Utils\DeferredAction.cs" />
+    <Compile Include="Utils\EncodingDetector.cs" />
+    <Compile Include="Utils\FileReader.cs" />
+    <Compile Include="Utils\GlobalMutex.cs" />
+    <Compile Include="Utils\IconHelper.cs" />
+    <Compile Include="Utils\MailClient.cs" />
+    <Compile Include="Utils\ObservableDictionary.cs" />
+    <Compile Include="Utils\SmartWatch.cs" />
+    <Compile Include="Utils\SoundPlay.cs" />
+    <Compile Include="Utils\StringEncryption.cs" />
+    <Compile Include="Utils\TextBoxMaskBehavior.cs" />
+    <Page Include="Language\en-EN.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controller\DefaultPatternStructureController.cs" />
+    <Compile Include="Controller\FileManagerStructure.cs" />
+    <Compile Include="Controller\HistoryStructureController.cs" />
+    <Compile Include="Controller\PrintHelper.cs" />
+    <Compile Include="Controller\SettingsHelper.cs" />
+    <Compile Include="Controller\SysInformationController.cs" />
+    <Compile Include="Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Converters\EmptyStringToBoolConverter.cs" />
+    <Compile Include="Converters\FilterCountToStringConverter.cs" />
+    <Compile Include="Converters\FilterDataToBoolConverter.cs" />
+    <Compile Include="Converters\FontToStringConverter.cs" />
+    <Compile Include="Converters\GroupByCategoryContentConverter.cs" />
+    <Compile Include="Converters\IntToBoolConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\MailAddressConverter.cs" />
+    <Compile Include="Converters\MultiConverters\EnableOpenMultiConverter.cs" />
+    <Compile Include="Converters\MultiConverters\EnableUsePatternCheckBoxMultiConverter.cs" />
+    <Compile Include="Converters\MultiConverters\IsEnableMultiConverter.cs" />
+    <Compile Include="Converters\MultiConverters\TabSizeMultiConverter.cs" />
+    <Compile Include="Converters\SmtpPortConverter.cs" />
+    <Compile Include="Converters\SoundFileNameConverter.cs" />
+    <Compile Include="Converters\StringToIntConverter.cs" />
+    <Compile Include="Converters\TailConverter.cs" />
+    <Compile Include="Converters\TextTrimConverter.cs" />
+    <Compile Include="Data\AlertData.cs" />
+    <Compile Include="Data\Base\INotifyMaster.cs" />
+    <Compile Include="Data\Enums\EDateFormat.cs" />
+    <Compile Include="Data\Enums\EFileManagerState.cs" />
+    <Compile Include="Data\Enums\EFileSort.cs" />
+    <Compile Include="Data\Enums\EMaskType.cs" />
+    <Compile Include="Data\Enums\ETabState.cs" />
+    <Compile Include="Data\Enums\ETailLogColorTypes.cs" />
+    <Compile Include="Data\Enums\ETailRefreshRate.cs" />
+    <Compile Include="Data\Enums\ETimeFormat.cs" />
+    <Compile Include="Data\Events\AlertTriggerEventArgs.cs" />
+    <Compile Include="Data\Events\BookmarkLineBool.cs" />
+    <Compile Include="Data\Events\FileManagerDataEventArgs.cs" />
+    <Compile Include="Data\Events\FilterDataEventArgs.cs" />
+    <Compile Include="Data\Events\SearchData.cs" />
+    <Compile Include="Data\Events\WrapAroundBool.cs" />
+    <Compile Include="Data\FileManagerData.cs" />
+    <Compile Include="Data\FileManagerDataList.cs" />
+    <Compile Include="Data\FileManagerHelper.cs" />
+    <Compile Include="Data\FilterData.cs" />
+    <Compile Include="Data\GoToLineData.cs" />
+    <Compile Include="Data\LogFile.cs" />
+    <Compile Include="Data\MemoryObject.cs" />
+    <Compile Include="Data\Part.cs" />
+    <Compile Include="Data\Pattern.cs" />
+    <Compile Include="Data\ProxySettingsData.cs" />
+    <Compile Include="Data\SearchPatter.cs" />
+    <Compile Include="Data\SettingsData.cs" />
+    <Compile Include="Data\SmartWatchData.cs" />
+    <Compile Include="Data\SmtpData.cs" />
+    <Compile Include="Data\SysInformationData.cs" />
+    <Compile Include="Data\TailLogData.cs" />
+    <Compile Include="Data\Win32Point.cs" />
+    <Compile Include="Data\XmlNames\XmlStructure.cs" />
+    <Compile Include="Interfaces\IDefaultPatternStructureController.cs" />
+    <Compile Include="Interfaces\IDragDropToTabWindow.cs" />
+    <Compile Include="Interfaces\IHistoryStructureController.cs" />
+    <Compile Include="Interfaces\ITabWindow.cs" />
+    <Compile Include="Logging\ILogExtentions.cs" />
+    <Compile Include="Logging\Log4NetTraceListener.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LoggerFactory.cs" />
+    <Compile Include="Logging\LogUtil.cs" />
+    <Compile Include="Logging\SingleLetterLevelConverter.cs" />
+    <Compile Include="Logging\ZippingRollingFileAppender.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="PatternUtil\UI\DefineParts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PatternUtil\UI\DefinePattern.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PatternUtil\UI\SelectPart.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\AndroidCheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\AndroidRadioButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\AndroidSlider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\AndroidToggleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\ComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Label.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\ScrollbarResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\ScrollbarWithGripResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Separator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Shared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\TabControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\TabItemToolTipStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\TailForWinTabItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\ColorPicker\ColorDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\ColorPicker\ColorPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\FancyPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\FancyToolTip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\FileManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\Filters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\GoToLine.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\Options.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\SearchDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\Spinner.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\TabOptions\AboutItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\TabOptions\AlertsItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\TabOptions\ColorItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\TabOptions\ExtraItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\TabOptions\ImportExportItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\TabOptions\OptionsItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\TabOptions\ProxyServer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\TabOptions\SmtpSettings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\TabOptions\SystemInformation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\TailLog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\TextEditor\LogViewerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\UpdateController\ResultDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\UpdateController\Updater.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\WatermarkTextBox\WatermarkTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\OverlayDragWnd.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\TabWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Native\NativeMethods.cs" />
+    <Compile Include="NotifyIcon\BalloonIcon.cs" />
+    <Compile Include="NotifyIcon\Interop\BalloonFlags.cs" />
+    <Compile Include="NotifyIcon\Interop\IconDataMembers.cs" />
+    <Compile Include="NotifyIcon\Interop\IconState.cs" />
+    <Compile Include="NotifyIcon\Interop\MouseEvent.cs" />
+    <Compile Include="NotifyIcon\Interop\NotifyCommand.cs" />
+    <Compile Include="NotifyIcon\Interop\NotifyIconData.cs" />
+    <Compile Include="NotifyIcon\Interop\NotifyIconVersion.cs" />
+    <Compile Include="NotifyIcon\Interop\Point.cs" />
+    <Compile Include="NotifyIcon\Interop\TrayInfo.cs" />
+    <Compile Include="NotifyIcon\Interop\WinApi.cs" />
+    <Compile Include="NotifyIcon\Interop\WindowClass.cs" />
+    <Compile Include="NotifyIcon\Interop\WindowMessageSink.cs" />
+    <Compile Include="NotifyIcon\PopupActivationMode.cs" />
+    <Compile Include="NotifyIcon\RoutedEventHelper.cs" />
+    <Compile Include="NotifyIcon\TaskbarIcon.cs" />
+    <Compile Include="NotifyIcon\TaskbarIcon.Declarations.cs" />
+    <Compile Include="NotifyIcon\Util.cs" />
+    <Compile Include="PatternUtil\Events\PartChangedEventHandler.cs" />
+    <Compile Include="PatternUtil\Events\PatternChangedEventHandler.cs" />
+    <Compile Include="PatternUtil\Events\PatternObjectChangedEventHandler.cs" />
+    <Compile Include="PatternUtil\Interfaces\ISearchPatternController.cs" />
+    <Compile Include="PatternUtil\UI\DefineParts.xaml.cs">
+      <DependentUpon>DefineParts.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PatternUtil\UI\DefinePattern.xaml.cs">
+      <DependentUpon>DefinePattern.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PatternUtil\UI\SelectPart.xaml.cs">
+      <DependentUpon>SelectPart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PatternUtil\Utils\SearchPatternController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\log4net.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\about.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\add.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Alert.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Arrow-down.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Arrow-up.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Cancel.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Clear.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\colors.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\ColorSwatch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\EMail.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Explorer.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Export.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Filters.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Font.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\grip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Import.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Main.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\notepad.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\openfolder.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\print.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\remove.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\save.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\script.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\Search.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\SplitterHandle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\start.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\stop.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\system.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\SystemInfo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Template\TextEditor\Res\breakpoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Template\TextEditor\Res\RightArrow.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Template\TextEditor\Res\trash-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Template\UpdateController\Res\internet.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Template\UpdateController\Res\local.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Template\UpdateController\Res\update.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DefaultPatterns.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
