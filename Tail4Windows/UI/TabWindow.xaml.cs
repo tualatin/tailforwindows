@@ -349,7 +349,7 @@ namespace Org.Vs.TailForWin.UI
     {
       // Important for command line parameter!
       if(LogFile.APP_MAIN_WINDOW == null)
-        LogFile.APP_MAIN_WINDOW = this;// (Application.Current.MainWindow as TabWindow);
+        LogFile.APP_MAIN_WINDOW = (TabWindow) DragWindowManager.Instance.AllWindows.Last();// (Application.Current.MainWindow as TabWindow);
 
       if(SettingsHelper.TailSettings.AutoUpdate)
         AutoUpdate.Init();
@@ -797,6 +797,9 @@ namespace Org.Vs.TailForWin.UI
 
     private static TailLog GetTailLogWindow(Frame tabTemplate)
     {
+      if(tabTemplate == null || tabTemplate.Content == null)
+        return (null);
+
       if(tabTemplate.Content is TailLog tabPage)
         return (tabPage);
 

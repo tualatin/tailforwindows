@@ -35,6 +35,11 @@ namespace Org.Vs.TailForWin.UI.Utils
       }
     }
 
+    /// <summary>
+    /// List of all Drag and drap tab windows
+    /// </summary>
+    public List<IDragDropToTabWindow> AllWindows => allWindows;
+
     private DragWindowManager()
     {
       allWindows = new List<IDragDropToTabWindow>();
