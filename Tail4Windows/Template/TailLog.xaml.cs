@@ -15,6 +15,7 @@ using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Data.Events;
 using Org.Vs.TailForWin.Template.Events;
 using Org.Vs.TailForWin.Template.TextEditor.Data;
+using Org.Vs.TailForWin.UI;
 using Org.Vs.TailForWin.Utils;
 
 
@@ -30,7 +31,7 @@ namespace Org.Vs.TailForWin.Template
     private readonly TailLogData tabProperties;
     private BackgroundWorker tailWorker;
     private int childTabIndex;
-    private TabItem childTabItem;
+    private TailForWinTabItem childTabItem;
     private string childTabState;
     private string oldFileName;
     private string currentFileName;
@@ -386,14 +387,7 @@ namespace Org.Vs.TailForWin.Template
 
           childTabItem.Header = $"{tabProperties.File}";
           childTabItem.Style = (Style) FindResource("TabItemTailStyle");
-
-          // set special ToolTip for TabItemHeader
-          ToolTip myToolTip = new ToolTip()
-          {
-            Style = (Style) FindResource("TabItemToolTipStyle"),
-            Content = tabProperties.FileName
-          };
-          ToolTipService.SetToolTip(childTabItem, myToolTip);
+          childTabItem.HeaderToolTip = tabProperties.FileName;
 
           textBlockTailLog.FileNameAvailable = true;
 
@@ -820,7 +814,7 @@ namespace Org.Vs.TailForWin.Template
       SetFontInTextEditor();
 
       childTabIndex = chldTabIdx;
-      childTabItem = tabItem;
+      childTabItem = (TailForWinTabItem) tabItem;
       childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
 
       myReader = new FileReader();
@@ -1181,8 +1175,6 @@ namespace Org.Vs.TailForWin.Template
         {
           try
           {
-            // currentFileName = GetFileNameFromDropData(e);
-
             if(FileIsOpenInOtherTab())
               return;
 
@@ -1215,7 +1207,6 @@ namespace Org.Vs.TailForWin.Template
 
       try
       {
-        // currentFileName = GetFileNameFromDropData(e);
         NewFile?.Invoke(this, EventArgs.Empty);
         textBoxFileName.Text = currentFileName;
       }

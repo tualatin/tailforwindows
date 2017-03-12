@@ -63,25 +63,46 @@ namespace Org.Vs.TailForWin.UI
     }
 
     /// <summary>
-    /// LastTabWindowOpen event handler
+    /// CloseTabWindow event handler
     /// </summary>
-    public static readonly RoutedEvent LastTabWindowOpenEvent = EventManager.RegisterRoutedEvent("LastTabWindowOpen", RoutingStrategy.Bubble,
+    public static readonly RoutedEvent CloseTabWindowEvent = EventManager.RegisterRoutedEvent("CloseTabWindow", RoutingStrategy.Bubble,
                                                                   typeof(RoutedEventHandler), typeof(TailForWinTabItem));
 
     /// <summary>
-    /// When only one tab is open, remove it and open a new empty tab window
+    /// Close tab window when user press the close button in TabHeader
     /// </summary>
-    public event RoutedEventHandler LastTabWindowOpen
+    public event RoutedEventHandler CloseTabWindow
     {
       add
       {
-        AddHandler(LastTabWindowOpenEvent, value);
+        AddHandler(CloseTabWindowEvent, value);
       }
       remove
       {
-        RemoveHandler(LastTabWindowOpenEvent, value);
+        RemoveHandler(CloseTabWindowEvent, value);
       }
     }
+
+    /// <summary>
+    /// Set HeaderToolTipProperty property
+    /// </summary>
+    public static readonly DependencyProperty HeaderToolTipProperty = DependencyProperty.Register("HeaderToolTip", typeof(object), typeof(TailForWinTabItem), new UIPropertyMetadata(null));
+
+    /// <summary>
+    /// Set HeaderToolTip
+    /// </summary>
+    public object HeaderToolTip
+    {
+      get
+      {
+        return (GetValue(HeaderToolTipProperty));
+      }
+      set
+      {
+        SetValue(HeaderToolTipProperty, value);
+      }
+    }
+
 
     /// <summary>
     /// When overridden in a derived class, is invoked whenever application code or internal proc esses call <code>ApplyTemplate</code>.
@@ -97,21 +118,23 @@ namespace Org.Vs.TailForWin.UI
       {
         headerGrid.PreviewMouseDown += new MouseButtonEventHandler(HeaderGrid_MiddleMouseButtonDown);
         headerGrid.MouseLeftButtonDown += new MouseButtonEventHandler(HeaderGrid_MouseLeftButtonDown);
+
+        // set special ToolTip for TabItemHeader
+        ToolTip myToolTip = new ToolTip()
+        {
+          Style = (Style) FindResource("TabItemToolTipStyle"),
+          Content = HeaderToolTip
+        };
+
+        if(HeaderToolTip != null)
+          ToolTipService.SetToolTip(headerGrid, myToolTip);
       }
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
       if(Parent is TabControl tabCtrl)
-      {
-        if(tabCtrl.Items.Count <= 2)
-        {
-          RaiseEvent(new RoutedEventArgs(LastTabWindowOpenEvent, this));
-          return;
-        }
-
-        tabCtrl.Items.Remove(this);
-      }
+        RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
     }
 
     private void HeaderGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -125,15 +148,7 @@ namespace Org.Vs.TailForWin.UI
       if(Parent is TabControl tabCtrl)
       {
         if(e.MiddleButton == MouseButtonState.Pressed)
-        {
-          if(tabCtrl.Items.Count <= 2)
-          {
-            RaiseEvent(new RoutedEventArgs(LastTabWindowOpenEvent, this));
-            return;
-          }
-
-          tabCtrl.Items.Remove(this);
-        }
+          RaiseEvent(new RoutedEventArgs(TabHeaderDoubleClickEvent, this));
       }
     }
   }

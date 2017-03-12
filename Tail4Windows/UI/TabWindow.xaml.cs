@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -313,7 +314,8 @@ namespace Org.Vs.TailForWin.UI
 
         if(tab.Equals(tabAdd))
         {
-          tabControl.SelectedItem = tabControl.Items[tabControl.Items.Count - 2];
+          if(tabControl.Items.Count >= 2)
+            tabControl.SelectedItem = tabControl.Items[tabControl.Items.Count - 2];
           return;
         }
 
@@ -410,13 +412,10 @@ namespace Org.Vs.TailForWin.UI
       }
     }
 
-    private void TabItem_LastTabWindowOpen(object sender, RoutedEventArgs e)
+    private void TabItem_CloseTabWindow(object sender, RoutedEventArgs e)
     {
       if(e.Source is TailForWinTabItem tabItem)
-      {
-        AddTabItem();
         RemoveTabItem(tabItem);
-      }
     }
 
     private void OnContentRendered(object sender, EventArgs e)
@@ -521,7 +520,7 @@ namespace Org.Vs.TailForWin.UI
         Style = (Style) FindResource("TabItemStopStyle")
       };
       item.TabHeaderDoubleClick += TabItem_TabHeaderDoubleClick;
-      item.LastTabWindowOpen += TabItem_LastTabWindowOpen;
+      item.CloseTabWindow += TabItem_CloseTabWindow;
 
       if(content != null)
         item.Content = content;
@@ -538,14 +537,40 @@ namespace Org.Vs.TailForWin.UI
     /// <param name="tabItem">Item to remove</param>
     public void RemoveTabItem(TabItem tabItem)
     {
-      //if(TabControl.Items.Count <= 2)
-      //  AddTabItem();
-
       if(tabControl.Items.Contains(tabItem))
       {
+        TailLog page = GetTailLogWindow(tabItem.Content as Frame);
+
+        try
+        {
+          if(page != null)
+          {
+            if(page.IsThreadBusy)
+            {
+              if(MessageBox.Show(string.Format("{0} '{1}'?", Application.Current.FindResource("QRemoveTab"), tabItem.Header),
+                          LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.No)
+                return;
+            }
+
+            FileManagerHelper item = LogFile.FmHelper.SingleOrDefault(x => x.ID == page.FileManagerProperties.ID);
+
+            if(item != null)
+              LogFile.FmHelper.Remove(item);
+
+            page.StopThread();
+          }
+        }
+        catch(ArgumentNullException ex)
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+
         ((TailForWinTabItem) tabItem).TabHeaderDoubleClick -= TabItem_TabHeaderDoubleClick;
-        ((TailForWinTabItem) tabItem).LastTabWindowOpen -= TabItem_LastTabWindowOpen;
+        ((TailForWinTabItem) tabItem).CloseTabWindow -= TabItem_CloseTabWindow;
         tabControl.Items.Remove(tabItem);
+
+        if(tabControl.Items.Count < 2)
+          AddTabItem();
       }
     }
 
@@ -891,26 +916,24 @@ namespace Org.Vs.TailForWin.UI
           searchBoxWindow.SetTitle = properties.File;
         }
         searchBoxWindow.Show();
-
-        // TODO review me!!
-        foreach(TabItem item in tabControl.Items)
-        {
-          if(item.Content != null && item.Content.GetType() == typeof(Frame))
-          {
-            var page = GetTailLogWindow(item.Content as Frame);
-
-            if(page == null)
-              continue;
-
-            page.SearchBoxActive();
-          }
-        }
+        currentPage.SearchBoxActive();
       }
     }
 
     private void HideSearchBoxEvent(object sender, EventArgs e)
     {
-      currentPage?.SearchBoxInactive();
+      foreach(TabItem item in tabControl.Items)
+      {
+        if(item.Content != null && item.Content.GetType() == typeof(Frame))
+        {
+          var page = GetTailLogWindow(item.Content as Frame);
+
+          if(page == null)
+            continue;
+
+          page.SearchBoxInactive();
+        }
+      }
     }
 
     private void FindNextEvent(object sender, EventArgs e)
@@ -931,7 +954,6 @@ namespace Org.Vs.TailForWin.UI
 
     private void WrapAroundEvent(object sender, EventArgs e)
     {
-      // TODO review me!!
       if(e is WrapAroundBool wrap)
       {
         foreach(TabItem item in tabControl.Items)
@@ -943,8 +965,7 @@ namespace Org.Vs.TailForWin.UI
             if(page == null)
               continue;
 
-            page.WrapAround(wrap != null || wrap.Wrap);
-            page.StopThread();
+            page.WrapAround(wrap != null && wrap.Wrap);
           }
         }
       }
