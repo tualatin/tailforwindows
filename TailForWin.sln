@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestTail4Windows", "UnitTestTail4Windows\UnitTestTail4Windows.csproj", "{CA520380-81C0-46B7-BC1C-6ECFD6900F4A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tail4Windows", "Tail4Windows\Tail4Windows.csproj", "{B07BE282-4B92-4E8B-97E0-8413E9501877}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{41D6DDBF-2AC6-4862-966B-FC8989F16C5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,18 +17,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CA520380-81C0-46B7-BC1C-6ECFD6900F4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA520380-81C0-46B7-BC1C-6ECFD6900F4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA520380-81C0-46B7-BC1C-6ECFD6900F4A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CA520380-81C0-46B7-BC1C-6ECFD6900F4A}.Debug|x64.Build.0 = Debug|Any CPU
-		{CA520380-81C0-46B7-BC1C-6ECFD6900F4A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CA520380-81C0-46B7-BC1C-6ECFD6900F4A}.Debug|x86.Build.0 = Debug|Any CPU
-		{CA520380-81C0-46B7-BC1C-6ECFD6900F4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA520380-81C0-46B7-BC1C-6ECFD6900F4A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA520380-81C0-46B7-BC1C-6ECFD6900F4A}.Release|x64.ActiveCfg = Release|Any CPU
-		{CA520380-81C0-46B7-BC1C-6ECFD6900F4A}.Release|x64.Build.0 = Release|Any CPU
-		{CA520380-81C0-46B7-BC1C-6ECFD6900F4A}.Release|x86.ActiveCfg = Release|Any CPU
-		{CA520380-81C0-46B7-BC1C-6ECFD6900F4A}.Release|x86.Build.0 = Release|Any CPU
 		{B07BE282-4B92-4E8B-97E0-8413E9501877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B07BE282-4B92-4E8B-97E0-8413E9501877}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B07BE282-4B92-4E8B-97E0-8413E9501877}.Debug|x64.ActiveCfg = Debug|x64

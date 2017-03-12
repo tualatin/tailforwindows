@@ -148,7 +148,7 @@ namespace Org.Vs.TailForWin.UI
       if(Parent is TabControl tabCtrl)
       {
         if(e.MiddleButton == MouseButtonState.Pressed)
-          RaiseEvent(new RoutedEventArgs(TabHeaderDoubleClickEvent, this));
+          RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
       }
     }
   }
