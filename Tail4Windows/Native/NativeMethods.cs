@@ -57,6 +57,22 @@ namespace Org.Vs.TailForWin.Native
     internal const int GW_HWNDPREV = 3;
 
     /// <summary>
+    /// A window receives this message when the user chooses a command from the Window menu (formerly known as the system or control menu) or when the user chooses the maximize button,
+    /// minimize button, restore button, or close button.
+    /// </summary>
+    internal const uint WM_SYSCOMMAND = 0x112;
+
+    /// <summary>
+    /// Positions the shortcut menu so that its left side is aligned with the coordinate specified by the x parameter.
+    /// </summary>
+    internal const uint TPM_LEFTALIGN = 0x0000;
+
+    /// <summary>
+    /// The function returns the menu item identifier of the user's selection in the return value.
+    /// </summary>
+    internal const uint TPM_RETURNCMD = 0x0100;
+
+    /// <summary>
     /// Brings the thread that created the specified window into the foreground and activates the window. 
     /// Keyboard input is directed to the window, and various visual cues are changed for the user. The system assigns a slightly 
     /// higher priority to the thread that created the foreground window than it does to other threads. 
@@ -197,5 +213,58 @@ namespace Org.Vs.TailForWin.Native
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     internal static extern bool GetCursorPos(ref Win32Point pt);
+
+    /// <summary>
+    /// Enables the application to access the window menu (also known as the system menu or the control menu) for copying and modifying.
+    /// </summary>
+    /// <param name="hWnd">A handle to the window that will own a copy of the window menu.</param>
+    /// <param name="bRevert">The action to be taken. If this parameter is FALSE, GetSystemMenu returns a handle to the copy of the window menu currently in use. 
+    /// The copy is initially identical to the window menu, but it can be modified. If this parameter is TRUE, GetSystemMenu resets the window menu back to the default state.
+    /// The previous window menu, if any, is destroyed.</param>
+    /// <returns>If the bRevert parameter is <c>FALSE</c>, the return value is a handle to a copy of the window menu. If the bRevert parameter is <c>TRUE</c>, the return value is <c>NULL</c>.</returns>
+    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    internal static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+    /// <summary>
+    /// Displays a shortcut menu at the specified location and tracks the selection of items on the shortcut menu. The shortcut menu can appear anywhere on the screen.
+    /// </summary>
+    /// <param name="hmenu">A handle to the shortcut menu to be displayed. This handle can be obtained by calling the CreatePopupMenu function to create a new shortcut menu or
+    /// by calling the GetSubMenu function to retrieve a handle to a submenu associated with an existing menu item.</param>
+    /// <param name="fuFlags">Specifies function options.</param>
+    /// <param name="x">The horizontal location of the shortcut menu, in screen coordinates.</param>
+    /// <param name="y">The vertical location of the shortcut menu, in screen coordinates.</param>
+    /// <param name="hwnd">A handle to the window that owns the shortcut menu. This window receives all messages from the menu. The window does not receive a WM_COMMAND message from the menu 
+    /// until the function returns. If you specify TPM_NONOTIFY in the fuFlags parameter, the function does not send messages to the window identified by hwnd. However, 
+    /// you must still pass a window handle in hwnd. It can be any window handle from your application.</param>
+    /// <param name="lptpm">A pointer to a TPMPARAMS structure that specifies an area of the screen the menu should not overlap. This parameter can be NULL.</param>
+    /// <returns>If you specify TPM_RETURNCMD in the fuFlags parameter, the return value is the menu-item identifier of the item that the user selected. 
+    /// If the user cancels the menu without making a selection, or if an error occurs, the return value is zero.</returns>
+    [DllImport("user32.dll")]
+    internal static extern int TrackPopupMenuEx(IntPtr hmenu, uint fuFlags, int x, int y, IntPtr hwnd, IntPtr lptpm);
+
+    /// <summary>
+    /// Places (posts) a message in the message queue associated with the thread that created the specified window and returns without waiting for the thread to process the message.
+    /// To post a message in the message queue associated with a thread, use the PostThreadMessage function.
+    /// </summary>
+    /// <param name="hWnd">A handle to the window whose window procedure is to receive the message. The following values have special meanings.</param>
+    /// <param name="Msg">The message to be posted.
+    /// For lists of the system-provided messages, see System-Defined Messages.</param>
+    /// <param name="wParam">Additional message-specific information.</param>
+    /// <param name="lParam">Additional message-specific information.</param>
+    /// <returns>If the function succeeds, the return value is nonzero.
+    /// If the function fails, the return value is zero. To get extended error information, call GetLastError. GetLastError returns ERROR_NOT_ENOUGH_QUOTA when the limit is hit.</returns>
+    [DllImport("user32.dll")]
+    internal static extern IntPtr PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+    /// <summary>
+    /// Enables, disables, or grays the specified menu item.
+    /// </summary>
+    /// <param name="hMenu">A handle to the menu.</param>
+    /// <param name="uIDEnableItem">The menu item to be enabled, disabled, or grayed, as determined by the uEnable parameter. This parameter specifies an item in a menu bar, menu, or submenu.</param>
+    /// <param name="uEnable">Controls the interpretation of the uIDEnableItem parameter and indicate whether the menu item is enabled, disabled, or grayed. 
+    /// This parameter must be a combination of the following values.</param>
+    /// <returns>The return value specifies the previous state of the menu item (it is either MF_DISABLED, MF_ENABLED, or MF_GRAYED). If the menu item does not exist, the return value is -1.</returns>
+    [DllImport("user32.dll")]
+    internal static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
   }
 }
