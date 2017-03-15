@@ -213,6 +213,14 @@
     <Compile Include="UI\OverlayDragWnd.xaml.cs">
       <DependentUpon>OverlayDragWnd.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\StyleableWindow\ControlDoubleClickBehavior.cs" />
+    <Compile Include="UI\StyleableWindow\ShowSystemMenuBehavior.cs" />
+    <Compile Include="UI\StyleableWindow\SystemMenuManager.cs" />
+    <Compile Include="UI\StyleableWindow\WindowCloseCommand.cs" />
+    <Compile Include="UI\StyleableWindow\WindowDragBehavior.cs" />
+    <Compile Include="UI\StyleableWindow\WindowMaximizeCommand.cs" />
+    <Compile Include="UI\StyleableWindow\WindowMinimizeCommand.cs" />
+    <Compile Include="UI\StyleableWindow\WindowResizeBehavior.cs" />
     <Compile Include="UI\TabWindow.xaml.cs">
       <DependentUpon>TabWindow.xaml</DependentUpon>
     </Compile>
@@ -380,6 +388,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\WindowStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
