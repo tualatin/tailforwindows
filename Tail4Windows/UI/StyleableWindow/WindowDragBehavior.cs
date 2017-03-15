@@ -39,11 +39,11 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
       if(sender is UIElement)
       {
         var element = sender as UIElement;
-        element.MouseLeftButtonDown += buttonDown;
+        element.MouseLeftButtonDown += ButtonDown;
       }
     }
 
-    private static void buttonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private static void ButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
       if(sender is UIElement)
       {

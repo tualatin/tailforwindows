@@ -65,16 +65,33 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
       if(sender is Control)
       {
         var control = sender as Control;
-        control.MouseDoubleClick += control_MouseDoubleClick;
+        control.MouseDoubleClick += Control_MouseDoubleClick;
+      }
+      else if(sender is Border)
+      {
+        var border = sender as Border;
+        border.MouseLeftButtonDown += Border_MouseLeftButtonDown;
+      } 
+    }
+
+    static void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      if(e.ClickCount == 2)
+      {
+        var border = sender as Border;
+        var command = border.GetValue(ExecuteCommand) as ICommand;
+        var commandParameter = border.GetValue(ExecuteCommandParameter);
+
+        if(command.CanExecute(e))
+          command.Execute(commandParameter);
       }
     }
 
-    private static void control_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    private static void Control_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
       if(sender is Control)
       {
         var control = sender as Control;
-
         var command = control.GetValue(ExecuteCommand) as ICommand;
         var commandParameter = control.GetValue(ExecuteCommandParameter);
 
