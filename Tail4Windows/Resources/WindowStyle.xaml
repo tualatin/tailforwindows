@@ -5,7 +5,6 @@
   <sw:WindowMinimizeCommand x:Key="MinimizeCommand"/>
   <sw:WindowMaximizeCommand x:Key="MaximizeCommand"/>
   <sw:WindowCloseCommand x:Key="CloseCommand"/>
-  <SolidColorBrush x:Key="WindowForeColor" Color="WhiteSmoke"/>
 
   <!-- Buttons -->
   <Style TargetType="{x:Type Button}" x:Key="WindowButtonStyle">
@@ -42,7 +41,9 @@
   <Style TargetType="{x:Type Image}" x:Key="WindowIcon">
     <Setter Property="Height" Value="25"/>
     <Setter Property="Width" Value="25"/>
-  </Style>
+    <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"/>
+    <Setter Property="RenderOptions.EdgeMode" Value="Aliased"/>
+   </Style>
 
   <!-- Window template -->
   <ControlTemplate x:Key="WindowTemplate" TargetType="{x:Type Window}">
@@ -76,45 +77,45 @@
                     sw:ShowSystemMenuBehavior.RightButtonShow="true">
               
               <Label Content="{TemplateBinding Property=Title}" Margin="8,0,0,0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                 HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}">
+                     HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}">
               </Label>
             </Border>
 
             <StackPanel Grid.Column="2" Orientation="Horizontal">
               <Button DockPanel.Dock="Right" Style="{StaticResource WindowButtonStyle}" Command="{StaticResource MinimizeCommand}" Width="24"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Content="0"/>
+                      CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Content="0"/>
               <Button DockPanel.Dock="Right" Style="{StaticResource WindowButtonStyle}" Command="{StaticResource MaximizeCommand}" Width="24"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Content="1"/>
+                      CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Content="1"/>
               <Button DockPanel.Dock="Right"  Style="{StaticResource WindowButtonStyle}" Command="{StaticResource CloseCommand}" Width="24"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Content="r"/>
+                      CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Content="r"/>
             </StackPanel>
           </Grid>
 
           <Border Grid.Row="1">
-            <Grid Margin="2" Background="{TemplateBinding Background}">
+            <Grid Margin="1" Background="{TemplateBinding Background}">
               <AdornerDecorator>
                 <ContentPresenter x:Name="WindowContent"/>
               </AdornerDecorator>
-              <ResizeGrip  x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="false" Visibility="Collapsed" VerticalAlignment="Bottom"/>
+              <ResizeGrip x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="false" Visibility="Collapsed" VerticalAlignment="Bottom"/>
             </Grid>
           </Border>
         </Grid>
         <Thumb x:Name="ThumbTop" Height="6" Margin="14,0" VerticalAlignment="Top" Cursor="SizeNS"  Opacity="0" 
-             sw:WindowResizeBehavior.TopResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+               sw:WindowResizeBehavior.TopResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
         <Thumb x:Name="ThumbTopLeft" Height="6" Width="6" VerticalAlignment="Top" HorizontalAlignment="Left" Cursor="SizeNWSE"  Opacity="0"
-             sw:WindowResizeBehavior.TopLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+               sw:WindowResizeBehavior.TopLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
         <Thumb x:Name="ThumbBottom" Height="6" Margin="14,0" VerticalAlignment="Bottom" Cursor="SizeNS" Opacity="0" 
-             sw:WindowResizeBehavior.BottomResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+               sw:WindowResizeBehavior.BottomResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
         <Thumb x:Name="ThumbTopRight" Height="6" Width="6" VerticalAlignment="Top" HorizontalAlignment="Right" Cursor="SizeNESW"  Opacity="0" 
-             sw:WindowResizeBehavior.TopRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+               sw:WindowResizeBehavior.TopRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
         <Thumb x:Name="ThumbRight" HorizontalAlignment="Right" Margin="0,14" Width="6" Cursor="SizeWE"  Opacity="0"
-             sw:WindowResizeBehavior.RightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+               sw:WindowResizeBehavior.RightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
         <Thumb x:Name="ThumbBottomRight" Height="6" Width="6" VerticalAlignment="Bottom" HorizontalAlignment="Right" Cursor="SizeNWSE"  Opacity="0"
-             sw:WindowResizeBehavior.BottomRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+               sw:WindowResizeBehavior.BottomRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
         <Thumb x:Name="ThumbLeft" HorizontalAlignment="Left" Margin="0,14" Width="6" Cursor="SizeWE"  Opacity="0" 
-             sw:WindowResizeBehavior.LeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+               sw:WindowResizeBehavior.LeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
         <Thumb x:Name="ThumbBottomLeft" Height="6" Width="6" VerticalAlignment="Bottom" HorizontalAlignment="Left" Cursor="SizeNESW"  Opacity="0"
-             sw:WindowResizeBehavior.BottomLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
+               sw:WindowResizeBehavior.BottomLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
       </Grid>
     </Border>
 

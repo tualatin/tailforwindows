@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Native;
 
 
 namespace Org.Vs.TailForWin.Native
@@ -266,5 +266,25 @@ namespace Org.Vs.TailForWin.Native
     /// <returns>The return value specifies the previous state of the menu item (it is either MF_DISABLED, MF_ENABLED, or MF_GRAYED). If the menu item does not exist, the return value is -1.</returns>
     [DllImport("user32.dll")]
     internal static extern bool EnableMenuItem(IntPtr hMenu, uint uIDEnableItem, uint uEnable);
+
+    /// <summary>
+    /// The GetMonitorInfo function retrieves information about a display monitor.
+    /// </summary>
+    /// <param name="hMonitor">A handle to the display monitor of interest.</param>
+    /// <param name="lpmi">A pointer to a MONITORINFO or MONITORINFOEX structure that receives information about the specified display monitor.</param>
+    /// <returns>If the function succeeds, the return value is nonzero.</returns>
+    [DllImport("user32")]
+    internal static extern bool GetMonitorInfo(IntPtr hMonitor, MonitorInfo lpmi);
+
+    /// <summary>
+    /// The MonitorFromWindow function retrieves a handle to the display monitor that has the largest area of intersection with the bounding rectangle of a specified window.
+    /// </summary>
+    /// <param name="handle">A handle to the window of interest.</param>
+    /// <param name="flags">Determines the function's return value if the window does not intersect any display monitor.</param>
+    /// <returns>If the window intersects one or more display monitor rectangles, the return value is an HMONITOR handle to the display monitor that has the largest area of 
+    /// intersection with the window.
+    /// If the window does not intersect a display monitor, the return value depends on the value of dwFlags.</returns>
+    [DllImport("User32")]
+    internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
   }
 }

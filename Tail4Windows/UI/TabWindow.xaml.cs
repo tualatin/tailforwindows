@@ -11,6 +11,7 @@ using log4net;
 using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Events;
+using Org.Vs.TailForWin.Data.Native;
 using Org.Vs.TailForWin.Interfaces;
 using Org.Vs.TailForWin.Native;
 using Org.Vs.TailForWin.Template;
@@ -1018,23 +1019,65 @@ namespace Org.Vs.TailForWin.UI
 
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
-      if(msg == NativeMethods.WM_ENTERSIZEMOVE)
+      handled = false;
+
+      switch(msg)
       {
+      case NativeMethods.WM_ENTERSIZEMOVE:
+      
         hasFocus = true;
-      }
-      else if(msg == NativeMethods.WM_EXITSIZEMOVE)
-      {
+        break;
+        
+      case NativeMethods.WM_EXITSIZEMOVE:
+      
         hasFocus = false;
         DragWindowManager.Instance.DragEnd(this);
-      }
-      else if(msg == NativeMethods.WM_MOVE)
-      {
+        break;
+        
+      case NativeMethods.WM_MOVE:
+      
         if(hasFocus)
           DragWindowManager.Instance.DragMove(this);
+        break;
+        
+      case 0x0024:
+      
+        WmGetMinMaxInfo(hwnd, lParam);
+        handled = true;
+        break;
+      }
+      return (IntPtr.Zero);
+    }
+    
+    /// <summary>
+    /// This is required, when the window has own WPF style, it's maximized, that the window hides taskbar
+    /// The reason is, the window style <c>None</c>
+    /// </summary>
+    /// <param name="hwnd">Handle of window</param>
+    /// <param name="lParam">Low parameter</param>
+    private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam)
+    {
+      MINMAXINFO mmi = (MINMAXINFO) Marshal.PtrToStructure(lParam, typeof(MINMAXINFO));
+
+      // Adjust the maximized size and position to fit the work area of the correct monitor
+      int MONITOR_DEFAULTTONEAREST = 0x00000002;
+      IntPtr monitor = NativeMethods.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+
+      if(monitor != IntPtr.Zero)
+      {
+        MonitorInfo monitorInfo = new MonitorInfo();
+
+        NativeMethods.GetMonitorInfo(monitor, monitorInfo);
+
+        Org.Vs.TailForWin.Data.Native.Rect rcWorkArea = monitorInfo.rcWork;
+        Org.Vs.TailForWin.Data.Native.Rect rcMonitorArea = monitorInfo.rcMonitor;
+        mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.left - rcMonitorArea.left);
+        mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
+        mmi.ptMaxSize.X = Math.Abs(rcWorkArea.right - rcWorkArea.left);
+        mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.bottom - rcWorkArea.top);
       }
 
-      handled = false;
-      return (IntPtr.Zero);
+      Marshal.StructureToPtr(mmi, lParam, true);
     }
 
     #endregion

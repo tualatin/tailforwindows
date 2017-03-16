@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 
 
-namespace Org.Vs.TailForWin.Data
+namespace Org.Vs.TailForWin.Data.Native
 {
   /// <summary>
   /// Contains information about the current state of both physical and virtual memory, including extended memory. The GlobalMemoryStatusEx function stores information in this structure.

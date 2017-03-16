@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 
-namespace Org.Vs.TailForWin.Data
+namespace Org.Vs.TailForWin.Data.Native
 {
   /// <summary>
   /// The POINT structure defines the x- and y- coordinates of a point.
