@@ -25,5 +25,10 @@
       <patternString>^\w*_\d+</patternString>
       <isRegex>True</isRegex>
     </Pattern>
+    
+    <Pattern>
+      <patternString>^\blabla*_\d+</patternString>
+      <isRegex>True</isRegex>
+    </Pattern>
   </Patterns>
 </defaultPatternFile>
