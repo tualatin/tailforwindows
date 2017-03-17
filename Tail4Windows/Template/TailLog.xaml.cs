@@ -650,9 +650,9 @@ namespace Org.Vs.TailForWin.Template
           LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
         else
           LogFile.APP_MAIN_WINDOW.StatusBarState.Dispatcher.Invoke(new Action(() =>
-        {
-          LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
-        }));
+          {
+            LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
+          }));
 
         if(SettingsHelper.TailSettings.ShowNLineAtStart)
         {
@@ -660,6 +660,9 @@ namespace Org.Vs.TailForWin.Template
           myReader.ReadLastNLines(SettingsHelper.TailSettings.LinesRead);
 
           string line;
+
+          if(myReader.TailFileStream == null)
+            return;
 
           while((line = myReader.TailStreamReader.ReadLine()) != null)
           {
@@ -669,7 +672,9 @@ namespace Org.Vs.TailForWin.Template
                 InvokeControlAccess(line);
             }
             else
+            {
               InvokeControlAccess(line);
+            }
           }
         }
 
@@ -697,7 +702,7 @@ namespace Org.Vs.TailForWin.Template
           // read file until EOF
           string line;
 
-          while((line = myReader.TailStreamReader.ReadLine()) != null)
+          while((line = myReader.TailStreamReader.ReadLine()) != null && !tailWorker.CancellationPending)
           {
             if(tabProperties.KillSpace)
             {
@@ -730,12 +735,12 @@ namespace Org.Vs.TailForWin.Template
       {
         MessageBox.Show(Application.Current.FindResource("FileObjectDisposedException").ToString(), $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-
         StopThread();
       }
       catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        StopThread();
       }
     }
 
@@ -746,7 +751,8 @@ namespace Org.Vs.TailForWin.Template
         LOG.Info("{0} can not tail '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, e.Error.Message);
         MessageBox.Show(e.Error.Message, $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
       }
-      else if(e.Cancelled)
+
+      if(e.Cancelled)
       {
         try
         {
