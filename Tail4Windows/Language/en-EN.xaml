@@ -39,4 +39,5 @@
   <system:String x:Key="OpenDialogImportSettings">Please select a exported settings file...</system:String>
   <system:String x:Key="QImportSettings">Do you really want to import this settings? Your old settings will override.</system:String>
   <system:String x:Key="QAddSendTo">Do you really want to add TailForWindows into the Send to context menu of Windows?</system:String>
+  <system:String x:Key="WndStyleChanged">Window style changed, please restart {0}, to see the changes.</system:String>
 </ResourceDictionary>

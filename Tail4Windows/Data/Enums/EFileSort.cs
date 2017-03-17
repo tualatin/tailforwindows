@@ -1,4 +1,6 @@
-﻿
+﻿using System.ComponentModel;
+
+
 namespace Org.Vs.TailForWin.Data.Enums
 {
   /// <summary>
@@ -9,11 +11,13 @@ namespace Org.Vs.TailForWin.Data.Enums
     /// <summary>
     /// File creation time
     /// </summary>
+    [Description("File creation time")]
     FileCreationTime,
 
     /// <summary>
     /// No file sort
     /// </summary>
+    [Description("Default")]
     Nothing
   }
 }

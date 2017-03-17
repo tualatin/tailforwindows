@@ -18,6 +18,9 @@ namespace Org.Vs.TailForWin.Template.TabOptions
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(ExtraItem));
 
+    private bool changedWndStyle;
+
+
     /// <summary>
     /// Standard constructor
     /// </summary>
@@ -28,6 +31,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       PreviewKeyDown += HandleEsc;
 
       AddItemsToFileSortComboBox();
+      AddItemsToWindowStyleComboBox();
     }
 
     private void UCExtraItem_Loaded(object sender, RoutedEventArgs e)
@@ -68,6 +72,12 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// <param name="e">Arguments</param>
     public void btnSave_Click(object sender, RoutedEventArgs e)
     {
+      if(changedWndStyle)
+      {
+        var hintText = FindResource("WndStyleChanged");
+        MessageBox.Show(string.Format(hintText.ToString(), LogFile.APPLICATION_CAPTION), LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+      }
+
       SaveSettings?.Invoke(this, EventArgs.Empty);
     }
 
@@ -88,7 +98,23 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       if(!IsInitialized)
         return;
 
-      SettingsHelper.TailSettings.DefaultFileSort = SettingsData.GetDescriptionEnum<EFileSort>(ComboBoxFileSort.SelectedItem as string);
+      if(SettingsHelper.TailSettings.DefaultFileSort != SettingsData.GetDescriptionEnum<EFileSort>(ComboBoxFileSort.SelectedItem as string))
+        SettingsHelper.TailSettings.DefaultFileSort = SettingsData.GetDescriptionEnum<EFileSort>(ComboBoxFileSort.SelectedItem as string);
+
+      e.Handled = true;
+    }
+
+    private void CombBoxWindowStyle_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+      if(!IsInitialized)
+        return;
+
+      if(SettingsHelper.TailSettings.CurrentWindowStyle != SettingsData.GetDescriptionEnum<EWindowStyle>(ComboBoxWindowStyle.SelectedItem as string))
+      {
+        SettingsHelper.TailSettings.CurrentWindowStyle = SettingsData.GetDescriptionEnum<EWindowStyle>(ComboBoxWindowStyle.SelectedItem as string);
+        changedWndStyle = true;
+      }
+
       e.Handled = true;
     }
 
@@ -97,6 +123,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     private void SetControls()
     {
       ComboBoxFileSort.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultFileSort);
+      ComboBoxWindowStyle.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.CurrentWindowStyle);
     }
 
     private void AddItemsToFileSortComboBox()
@@ -105,6 +132,15 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       {
         var item = SettingsData.GetEnumDescription(sort);
         ComboBoxFileSort.Items.Add(item);
+      }
+    }
+
+    private void AddItemsToWindowStyleComboBox()
+    {
+      foreach(EWindowStyle wndStyle in Enum.GetValues(typeof(EWindowStyle)))
+      {
+        var item = SettingsData.GetEnumDescription(wndStyle);
+        ComboBoxWindowStyle.Items.Add(item);
       }
     }
 
