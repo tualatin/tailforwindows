@@ -153,6 +153,7 @@ namespace Org.Vs.TailForWin.UI
       tabControl.SelectionChanged += TabControl_SelectionChanged;
       tabControl.PreviewKeyDown += TabControl_PreviewKeyDown;
       tabControl.PreviewKeyUp += TabControl_PreviewKeyUp;
+      tabControl.Drop += TabControl_Drop;
 
       tabAdd = new TailForWinTabItem
       {
@@ -296,6 +297,11 @@ namespace Org.Vs.TailForWin.UI
         if(tabItem.Equals(tabAdd))
           AddTabItem();
       }
+    }
+
+    private void TabControl_Drop(object sender, DragEventArgs e)
+    {
+      currentPage?.DropHelper(sender, e);
     }
 
     private void TabControl_PreviewKeyUp(object sender, KeyEventArgs e)

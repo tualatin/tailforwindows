@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="400" d:DesignWidth="760"
-  Title="TailLog" Loaded="Page_Loaded" xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.TextEditor" AllowDrop="True" DragEnter="DragEnterHelper" Drop="DropHelper" 
+  Title="TailLog" Loaded="Page_Loaded" xmlns:my="clr-namespace:Org.Vs.TailForWin.Template.TextEditor" AllowDrop="True" DragEnter="DragEnterHelper"  
       xmlns:tb="clr-namespace:Org.Vs.TailForWin.Template.WatermarkTextBox">
   <Page.Resources>
     <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -18,7 +18,7 @@
     </Grid.RowDefinitions>
 
     <!-- Row 0 -->
-    <GroupBox Header="" Margin="0" Name="groupBoxSettings" BorderThickness="0" AllowDrop="True" DragEnter="DragEnterHelper" Drop="DropHelper">
+    <GroupBox Header="" Margin="0" Name="groupBoxSettings" BorderThickness="0" AllowDrop="True" DragEnter="DragEnterHelper">
       <Grid>
         <Grid.RowDefinitions>
           <RowDefinition Height="25"/>
