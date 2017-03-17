@@ -729,7 +729,22 @@ namespace Org.Vs.TailForWin.UI
       cbStsEncoding.DisplayMemberPath = "HeaderName";
 
       PreviewKeyDown += HandleMainWindowKeys;
+      searchBoxWindow = new SearchDialog();
 
+      MoveIntoView();
+      RestoreWindowSizePosition();
+
+      // EventHandler for searchBoxWindow
+      searchBoxWindow.FindNextEvent += FindNextEvent;
+      searchBoxWindow.CountSearchEvent += CoundSearchEvent;
+      searchBoxWindow.HideSearchBox += HideSearchBoxEvent;
+      searchBoxWindow.FindTextChanged += FindWhatTextChangedEvent;
+      searchBoxWindow.WrapAround += WrapAroundEvent;
+      searchBoxWindow.BookmarkLine += BookmarkLineEvent;
+    }
+
+    private static void RestoreWindowSizePosition()
+    {
       if(SettingsHelper.TailSettings.RestoreWindowSize)
       {
         if(SettingsHelper.TailSettings.WndWidth != -1.0f)
@@ -745,16 +760,21 @@ namespace Org.Vs.TailForWin.UI
         if(SettingsHelper.TailSettings.WndXPos != -1.0f)
           Application.Current.MainWindow.Left = SettingsHelper.TailSettings.WndXPos;
       }
+    }
 
-      searchBoxWindow = new SearchDialog();
+    private void MoveIntoView()
+    {
+      if(SettingsHelper.TailSettings.WndYPos + SettingsHelper.TailSettings.WndHeight / 2 > SystemParameters.VirtualScreenHeight)
+        SettingsHelper.TailSettings.WndYPos = SystemParameters.VirtualScreenHeight - SettingsHelper.TailSettings.WndHeight;
 
-      // EventHandler for searchBoxWindow
-      searchBoxWindow.FindNextEvent += FindNextEvent;
-      searchBoxWindow.CountSearchEvent += CoundSearchEvent;
-      searchBoxWindow.HideSearchBox += HideSearchBoxEvent;
-      searchBoxWindow.FindTextChanged += FindWhatTextChangedEvent;
-      searchBoxWindow.WrapAround += WrapAroundEvent;
-      searchBoxWindow.BookmarkLine += BookmarkLineEvent;
+      if(SettingsHelper.TailSettings.WndXPos + SettingsHelper.TailSettings.WndWidth / 2 > SystemParameters.VirtualScreenWidth)
+        SettingsHelper.TailSettings.WndXPos = SystemParameters.VirtualScreenWidth - SettingsHelper.TailSettings.WndWidth;
+
+      if(SettingsHelper.TailSettings.WndYPos < 0)
+        SettingsHelper.TailSettings.WndYPos = 0;
+
+      if(SettingsHelper.TailSettings.WndXPos < 0)
+        SettingsHelper.TailSettings.WndXPos = 0;
     }
 
     private Frame CreateTabItemContent(TabItem tabItem, FileManagerData properties = null)
@@ -1086,7 +1106,7 @@ namespace Org.Vs.TailForWin.UI
           DragWindowManager.Instance.DragMove(this);
         break;
 
-      case 0x0024:
+      case NativeMethods.WM_GETMINMAXINFO:
 
         WmGetMinMaxInfo(hwnd, lParam);
         handled = true;

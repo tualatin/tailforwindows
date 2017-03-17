@@ -47,6 +47,13 @@ namespace Org.Vs.TailForWin.Native
     internal const int WM_MOVE = 0x0003;
 
     /// <summary>
+    /// Sent to a window when the size or position of the window is about to change. An application can use this message to override the window's 
+    /// default maximized size and position, or its default minimum or maximum tracking size.
+    /// A window receives this message through its WindowProc function.
+    /// </summary>
+    internal const int WM_GETMINMAXINFO = 0x0024;
+
+    /// <summary>
     /// The retrieved handle identifies the window below the specified window in the Z order.
     /// </summary>
     internal const int GW_HWNDNEXT = 2;
