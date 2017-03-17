@@ -1115,8 +1115,8 @@ namespace Org.Vs.TailForWin.UI
 
         NativeMethods.GetMonitorInfo(monitor, monitorInfo);
 
-        Org.Vs.TailForWin.Data.Native.Rect rcWorkArea = monitorInfo.rcWork;
-        Org.Vs.TailForWin.Data.Native.Rect rcMonitorArea = monitorInfo.rcMonitor;
+        Data.Native.Rect rcWorkArea = monitorInfo.rcWork;
+        Data.Native.Rect rcMonitorArea = monitorInfo.rcMonitor;
         mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.left - rcMonitorArea.left);
         mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.top - rcMonitorArea.top);
         mmi.ptMaxSize.X = Math.Abs(rcWorkArea.right - rcWorkArea.left);

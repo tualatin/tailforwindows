@@ -286,5 +286,20 @@ namespace Org.Vs.TailForWin.Native
     /// If the window does not intersect a display monitor, the return value depends on the value of dwFlags.</returns>
     [DllImport("User32")]
     internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
+
+    /// <summary>
+    /// Retrieves a handle to the top-level window whose class name and window name match the specified strings. This function does not search child windows. 
+    /// This function does not perform a case-sensitive search.
+    /// </summary>
+    /// <param name="lpClassName">The class name or a class atom created by a previous call to the RegisterClass or RegisterClassEx function. The atom must be in the low
+    /// -order word of lpClassName; the high-order word must be zero.
+    /// If lpClassName points to a string, it specifies the window class name. The class name can be any name registered with RegisterClass or RegisterClassEx, 
+    /// or any of the predefined control-class names.
+    /// If lpClassName is NULL, it finds any window whose title matches the lpWindowName parameter.</param>
+    /// <param name="lpWindowName">The window name (the window's title). If this parameter is NULL, all window names match.</param>
+    /// <returns>If the function succeeds, the return value is a handle to the window that has the specified class name and window name.
+    /// If the function fails, the return value is NULL.To get extended error information, call GetLastError.</returns>
+    [DllImport("user32.dll", SetLastError = true)]
+    internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
   }
 }
