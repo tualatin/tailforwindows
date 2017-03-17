@@ -35,6 +35,8 @@ namespace Org.Vs.TailForWin.UI
     private SearchDialog searchBoxWindow;
     private TailLog currentPage;
     private string parameterFileName;
+    private bool ctrlTabKey;
+    private bool shiftCtrlTabKey;
 
     #region Properties
 
@@ -149,6 +151,8 @@ namespace Org.Vs.TailForWin.UI
       DefaultWndSettings();
 
       tabControl.SelectionChanged += TabControl_SelectionChanged;
+      tabControl.PreviewKeyDown += TabControl_PreviewKeyDown;
+      tabControl.PreviewKeyUp += TabControl_PreviewKeyUp;
 
       tabAdd = new TailForWinTabItem
       {
@@ -294,6 +298,20 @@ namespace Org.Vs.TailForWin.UI
       }
     }
 
+    private void TabControl_PreviewKeyUp(object sender, KeyEventArgs e)
+    {
+      ctrlTabKey = false;
+      shiftCtrlTabKey = false;
+    }
+
+    private void TabControl_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+      if((Keyboard.Modifiers & ModifierKeys.Control) != 0 && e.Key == Key.Tab)
+        ctrlTabKey = true;
+      if((Keyboard.Modifiers & ModifierKeys.Control) != 0 && (Keyboard.Modifiers & ModifierKeys.Shift) != 0 && e.Key == Key.Tab)
+        shiftCtrlTabKey = true;
+    }
+
     private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       if(!IsInitialized)
@@ -314,11 +332,23 @@ namespace Org.Vs.TailForWin.UI
 
         e.Handled = true;
 
-        if(tab.Equals(tabAdd))
+        if(tab.Equals(tabAdd) && !ctrlTabKey && !shiftCtrlTabKey)
         {
           if(tabControl.Items.Count >= 2)
             tabControl.SelectedItem = tabControl.Items[tabControl.Items.Count - 2];
+
           return;
+        }
+
+        if(tab.Equals(tabAdd) && ctrlTabKey && !shiftCtrlTabKey)
+        {
+          // Scroll with CTRL + TAB, start from beginning
+          tabControl.SelectedItem = tabControl.Items[0];
+        }
+        else if(tab.Equals(tabAdd) && ctrlTabKey && shiftCtrlTabKey)
+        {
+          // Scroll with CTRL + SHIFT + TAB, start from end
+          tabControl.SelectedItem = tabControl.Items[tabControl.Items.Count - 2];
         }
 
         TailLog page = GetTailLogWindow(tab.Content as Frame);
@@ -1025,31 +1055,31 @@ namespace Org.Vs.TailForWin.UI
       switch(msg)
       {
       case NativeMethods.WM_ENTERSIZEMOVE:
-      
+
         hasFocus = true;
         break;
-        
+
       case NativeMethods.WM_EXITSIZEMOVE:
-      
+
         hasFocus = false;
         DragWindowManager.Instance.DragEnd(this);
         break;
-        
+
       case NativeMethods.WM_MOVE:
-      
+
         if(hasFocus)
           DragWindowManager.Instance.DragMove(this);
         break;
-        
+
       case 0x0024:
-      
+
         WmGetMinMaxInfo(hwnd, lParam);
         handled = true;
         break;
       }
       return (IntPtr.Zero);
     }
-    
+
     /// <summary>
     /// This is required, when the window has own WPF style, it's maximized, that the window hides taskbar
     /// The reason is, the window style <c>None</c>
