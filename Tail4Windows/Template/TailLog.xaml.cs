@@ -473,18 +473,16 @@ namespace Org.Vs.TailForWin.Template
       if(!IsInitialized)
         return;
 
-      ETailRefreshRate selection = (ETailRefreshRate) comboBoxRefreshRate.SelectedItem;
-      tabProperties.RefreshRate = selection;
+      tabProperties.RefreshRate = (ETailRefreshRate) comboBoxRefreshRate.SelectedItem;
       e.Handled = true;
     }
 
     private void comboBoxThreadPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if(!IsInitialized)
+      if(!IsInitialized || comboBoxThreadPriority.SelectedValue == null)
         return;
 
-      ThreadPriority selection = (ThreadPriority) comboBoxThreadPriority.SelectedItem;
-      tabProperties.ThreadPriority = selection;
+      tabProperties.ThreadPriority = (ThreadPriority) comboBoxThreadPriority.SelectedValue;
       e.Handled = true;
     }
 
@@ -808,6 +806,8 @@ namespace Org.Vs.TailForWin.Template
 
     private void InitTailLog(int chldTabIdx, TabItem tabItem)
     {
+      InitComboBoxes();
+
       tailWorker = new BackgroundWorker
       {
         WorkerSupportsCancellation = true
@@ -1054,7 +1054,7 @@ namespace Org.Vs.TailForWin.Template
       tabProperties.FileEncoding = null;
 
       comboBoxRefreshRate.SelectedItem = tabProperties.RefreshRate;
-      comboBoxThreadPriority.SelectedItem = tabProperties.ThreadPriority;
+      comboBoxThreadPriority.SelectedValue = tabProperties.ThreadPriority;
 
       checkBoxFilter.IsChecked = false;
       saveFilters = false;
@@ -1096,9 +1096,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-      InitComboBoxes();
-
-      comboBoxRefreshRate.SelectedValue = tabProperties.RefreshRate;
+      comboBoxRefreshRate.SelectedItem = tabProperties.RefreshRate;
       comboBoxThreadPriority.SelectedValue = tabProperties.ThreadPriority;
     }
 

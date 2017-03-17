@@ -395,7 +395,7 @@
 
       <!--Thread priority-->
       <Label Content="Thread Priority:" Grid.Row="5" Name="label4" VerticalAlignment="Center"/>
-      <ComboBox Grid.Column="1" Grid.Row="5" Height="23" Margin="0,0,5,0" Name="comboBoxThreadPriority" VerticalAlignment="Center" ItemsSource="{Binding}" SelectionChanged="comboBoxThreadPriority_SelectionChanged" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="8"/>
+      <ComboBox Grid.Column="1" Grid.Row="5" Height="23" Margin="0,0,5,0" Name="comboBoxThreadPriority" VerticalAlignment="Center" ItemsSource="{Binding}" SelectionChanged="comboBoxThreadPriority_SelectionChanged" IsEnabled="{Binding SelectedItem, ElementName=dataGridFiles, Converter={StaticResource ResourceKey=selectedConverter}}" TabIndex="8" SelectedValuePath="ThreadPriority" DisplayMemberPath="Description"/>
       <Label Content="{Binding Path=ListOfFilter, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource filterCount}}" Grid.Column="3" Grid.Row="5" Margin="30,0,0,0" Name="label6" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
 
       <!--File encoding-->

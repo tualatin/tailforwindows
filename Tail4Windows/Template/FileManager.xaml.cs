@@ -434,11 +434,12 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxThreadPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if(!IsInitialized)
+      if(!IsInitialized || comboBoxThreadPriority.SelectedValue == null)
         return;
+
       e.Handled = true;
 
-      fmWorkingProperties.ThreadPriority = (ThreadPriority) comboBoxThreadPriority.SelectedItem;
+      fmWorkingProperties.ThreadPriority = (ThreadPriority) comboBoxThreadPriority.SelectedValue;
       ChangeFmStateToEditItem();
     }
 

@@ -98,7 +98,7 @@ namespace Org.Vs.TailForWin.Data
 
     #region ObservableCollection
 
-    private static ObservableCollection<System.Threading.ThreadPriority> threadPriority = new ObservableCollection<System.Threading.ThreadPriority>();
+    private static ObservableCollection<ThreadPriorityMapping> threadPriority = new ObservableCollection<ThreadPriorityMapping>();
     private static ObservableCollection<ETailRefreshRate> refreshRate = new ObservableCollection<ETailRefreshRate>();
     private static ObservableCollection<Encoding> fileEncoding = new ObservableCollection<Encoding>();
     private static ObservableCollection<FileManagerHelper> fmHelper = new ObservableCollection<FileManagerHelper>();
@@ -184,29 +184,17 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public static ObservableCollection<FileManagerHelper> FmHelper
     {
-      get
-      {
-        return (fmHelper);
-      }
-      set
-      {
-        fmHelper = value;
-      }
+      get => fmHelper;
+      set => fmHelper = value;
     }
 
     /// <summary>
     /// List of thread priority (static)
     /// </summary>
-    public static ObservableCollection<System.Threading.ThreadPriority> ThreadPriority
+    public static ObservableCollection<ThreadPriorityMapping> ThreadPriority
     {
-      get
-      {
-        return (threadPriority);
-      }
-      set
-      {
-        threadPriority = value;
-      }
+      get => threadPriority;
+      set => threadPriority = value;
     }
 
     /// <summary>
@@ -214,14 +202,8 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public static ObservableCollection<ETailRefreshRate> RefreshRate
     {
-      get
-      {
-        return (refreshRate);
-      }
-      set
-      {
-        refreshRate = value;
-      }
+      get => refreshRate;
+      set => refreshRate = value;
     }
 
     /// <summary>
@@ -229,14 +211,8 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public static ObservableCollection<Encoding> FileEncoding
     {
-      get
-      {
-        return (fileEncoding);
-      }
-      set
-      {
-        fileEncoding = value;
-      }
+      get => fileEncoding;
+      set => fileEncoding = value;
     }
 
     /// <summary>
@@ -244,16 +220,19 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public static void InitObservableCollectionsRrtpfe()
     {
-      // Threadrefresh rate
+      // ThreadRefresh rate
       foreach(ETailRefreshRate refreshName in Enum.GetValues(typeof(ETailRefreshRate)))
       {
         RefreshRate.Add(refreshName);
       }
 
-      // Threadpriority
+      // ThreadPriority
       foreach(System.Threading.ThreadPriority priority in Enum.GetValues(typeof(System.Threading.ThreadPriority)))
       {
-        ThreadPriority.Add(priority);
+        ThreadPriority.Add(new ThreadPriorityMapping
+        {
+          ThreadPriority = priority
+        });
       }
 
       // Fileencoding
