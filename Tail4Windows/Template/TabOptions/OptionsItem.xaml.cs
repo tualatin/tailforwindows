@@ -141,34 +141,38 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void comboBoxThreadPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      e.Handled = true;
+      if(!IsInitialized || comboBoxThreadPriority.SelectedValue == null)
+        return;
 
-      if(IsInitialized)
-        SettingsHelper.TailSettings.DefaultThreadPriority = (System.Threading.ThreadPriority) Enum.Parse(typeof(System.Threading.ThreadPriority), comboBoxThreadPriority.SelectedItem as string);
+      e.Handled = true;
+      SettingsHelper.TailSettings.DefaultThreadPriority = (System.Threading.ThreadPriority) comboBoxThreadPriority.SelectedValue;
     }
 
     private void comboBoxThreadRefreshRate_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      e.Handled = true;
+      if(!IsInitialized)
+        return;
 
-      if(IsInitialized)
-        SettingsHelper.TailSettings.DefaultRefreshRate = (ETailRefreshRate) Enum.Parse(typeof(ETailRefreshRate), comboBoxThreadRefreshRate.SelectedItem as string);
+      e.Handled = true;
+      SettingsHelper.TailSettings.DefaultRefreshRate = (ETailRefreshRate) comboBoxThreadRefreshRate.SelectedItem;
     }
 
     private void comboBoxTimeFormat_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      e.Handled = true;
+      if(!IsInitialized)
+        return;
 
-      if(IsInitialized)
-        SettingsHelper.TailSettings.DefaultTimeFormat = SettingsData.GetDescriptionEnum<ETimeFormat>(comboBoxTimeFormat.SelectedItem as string);
+      e.Handled = true;
+      SettingsHelper.TailSettings.DefaultTimeFormat = SettingsData.GetDescriptionEnum<ETimeFormat>(comboBoxTimeFormat.SelectedItem as string);
     }
 
     private void comboBoxDateFormat_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      e.Handled = true;
+      if(!IsInitialized)
+        return;
 
-      if(IsInitialized)
-        SettingsHelper.TailSettings.DefaultDateFormat = SettingsData.GetDescriptionEnum<EDateFormat>(comboBoxDateFormat.SelectedItem as string);
+      e.Handled = true;
+      SettingsHelper.TailSettings.DefaultDateFormat = SettingsData.GetDescriptionEnum<EDateFormat>(comboBoxDateFormat.SelectedItem as string);
     }
 
     #endregion
@@ -185,8 +189,8 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void SetControls()
     {
-      comboBoxThreadPriority.SelectedItem = SettingsHelper.TailSettings.DefaultThreadPriority.ToString();
-      comboBoxThreadRefreshRate.SelectedItem = SettingsHelper.TailSettings.DefaultRefreshRate.ToString();
+      comboBoxThreadPriority.SelectedValue = SettingsHelper.TailSettings.DefaultThreadPriority;
+      comboBoxThreadRefreshRate.SelectedItem = SettingsHelper.TailSettings.DefaultRefreshRate;
       comboBoxTimeFormat.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat);
       comboBoxDateFormat.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat);
 
@@ -195,8 +199,8 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void SetComboBoxes()
     {
-      Array.ForEach(Enum.GetNames(typeof(System.Threading.ThreadPriority)), priorityName => comboBoxThreadPriority.Items.Add(priorityName));
-      Array.ForEach(Enum.GetNames(typeof(ETailRefreshRate)), refreshName => comboBoxThreadRefreshRate.Items.Add(refreshName));
+      comboBoxThreadPriority.DataContext = LogFile.ThreadPriority;
+      comboBoxThreadRefreshRate.DataContext = LogFile.RefreshRate;
 
       foreach(ETimeFormat timeFormat in Enum.GetValues(typeof(ETimeFormat)))
       {

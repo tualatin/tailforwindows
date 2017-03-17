@@ -48,12 +48,12 @@
                   TabIndex="6" IsChecked="{Binding Mode=TwoWay, Path=SaveWindowPosition, UpdateSourceTrigger=PropertyChanged}"/>
         <CheckBox Content="Restore window size" Height="22" HorizontalAlignment="Left" Name="checkBoxSaveWindowSize" VerticalAlignment="Center" Grid.Row="3" Grid.Column="1"
                   TabIndex="7" IsChecked="{Binding Mode=TwoWay, Path=RestoreWindowSize, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Content="Default thread priority:" Grid.Row="4" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Center"/>
-        <ComboBox Grid.Column="1" Grid.Row="4" Height="23" HorizontalAlignment="Left" Name="comboBoxThreadPriority" VerticalAlignment="Center" Width="120" 
-                  SelectionChanged="comboBoxThreadPriority_SelectionChanged" TabIndex="8"/>
-        <Label Content="Default thread refresh rate:" Grid.Row="5" HorizontalAlignment="Left" Name="label2" VerticalAlignment="Center"/>
-        <ComboBox Grid.Column="1" Grid.Row="5" Height="23" HorizontalAlignment="Left" Name="comboBoxThreadRefreshRate" VerticalAlignment="Center" Width="120"
-                  SelectionChanged="comboBoxThreadRefreshRate_SelectionChanged" TabIndex="9"/>
+        <Label Content="Default thread priority:" Grid.Row="5" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Center"/>
+        <ComboBox Grid.Column="1" Grid.Row="5" Height="23" HorizontalAlignment="Left" Name="comboBoxThreadPriority" VerticalAlignment="Center" Width="120" 
+                  SelectionChanged="comboBoxThreadPriority_SelectionChanged" TabIndex="8" DisplayMemberPath="Description" SelectedValuePath="ThreadPriority" ItemsSource="{Binding}"/>
+        <Label Content="Default thread refresh rate:" Grid.Row="4" HorizontalAlignment="Left" Name="label2" VerticalAlignment="Center"/>
+        <ComboBox Grid.Column="1" Grid.Row="4" Height="23" HorizontalAlignment="Left" Name="comboBoxThreadRefreshRate" VerticalAlignment="Center" Width="120"
+                  SelectionChanged="comboBoxThreadRefreshRate_SelectionChanged" TabIndex="9" ItemsSource="{Binding}"/>
         <Label Content="Default time format:" Grid.Row="6" HorizontalAlignment="Left" Name="label4" VerticalAlignment="Center"/>
         <ComboBox Grid.Column="1" Grid.Row="6" Height="23" HorizontalAlignment="Left" Name="comboBoxTimeFormat" VerticalAlignment="Center" Width="120" 
                   SelectionChanged="comboBoxTimeFormat_SelectionChanged" TabIndex="10"/>
