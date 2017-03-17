@@ -190,6 +190,15 @@ namespace Org.Vs.TailForWin.Data
       set;
     }
 
+    /// <summary>
+    /// Current window style
+    /// </summary>
+    public EWindowStyle CurrentWindowStyle
+    {
+      get;
+      set;
+    }
+
     #region ExitWithEsc
 
     private bool exitWithEsc;

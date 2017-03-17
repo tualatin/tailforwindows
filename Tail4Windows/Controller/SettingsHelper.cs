@@ -101,6 +101,12 @@ namespace Org.Vs.TailForWin.Controller
           bHelper = true;
         TailSettings.GroupByCategory = bHelper;
 
+        if(ConfigurationManager.AppSettings["CurrentWindowStyle"] == null)
+          AddNewProperties_IntoConfigFile("CurrentWindowStyle", EWindowStyle.ModernBlueWindowStyle.ToString());
+
+        sHelper = ConfigurationManager.AppSettings["CurrentWindowStyle"];
+        TailSettings.CurrentWindowStyle = GetWindowStyle(sHelper);
+
         sHelper = ConfigurationManager.AppSettings["TimeFormat"];
         ReadTimeFormatEnum(sHelper);
 
@@ -193,6 +199,7 @@ namespace Org.Vs.TailForWin.Controller
         config.AppSettings.Settings["AutoUpdate"].Value = TailSettings.AutoUpdate.ToString();
         config.AppSettings.Settings["SmartWatch"].Value = TailSettings.SmartWatch.ToString();
         config.AppSettings.Settings["GroupByCategory"].Value = TailSettings.GroupByCategory.ToString();
+        config.AppSettings.Settings["CurrentWindowStyle"].Value = TailSettings.CurrentWindowStyle.ToString();
 
         SaveAlertSettings(config);
         SaveProxySettings(config);
@@ -269,6 +276,7 @@ namespace Org.Vs.TailForWin.Controller
       TailSettings.AutoUpdate = false;
       TailSettings.SmartWatch = false;
       TailSettings.GroupByCategory = true;
+      TailSettings.CurrentWindowStyle = EWindowStyle.ModernBlueWindowStyle;
 
       ResetAlertSettings();
       ResetProxySettings();
@@ -533,7 +541,7 @@ namespace Org.Vs.TailForWin.Controller
       if(Enum.GetNames(typeof(ThreadPriority)).All(priorityName => String.Compare(s.ToLower(), priorityName.ToLower(), StringComparison.Ordinal) != 0))
         return (ThreadPriority.Normal);
 
-      ThreadPriority tp = (ThreadPriority) Enum.Parse(typeof(ThreadPriority), s);
+      Enum.TryParse(s, out ThreadPriority tp);
 
       return (tp);
     }
@@ -550,15 +558,28 @@ namespace Org.Vs.TailForWin.Controller
     /// <returns>Enum from refresh rate</returns>
     public static ETailRefreshRate GetRefreshRate(string s)
     {
-      if(s == null)
+      if(string.IsNullOrEmpty(s))
         return (ETailRefreshRate.Normal);
 
-      if(Enum.GetNames(typeof(ETailRefreshRate)).All(refreshName => String.Compare(s.ToLower(), refreshName.ToLower(), StringComparison.Ordinal) != 0))
+      if(Enum.GetNames(typeof(ETailRefreshRate)).All(refreshName => string.Compare(s.ToLower(), refreshName.ToLower(), StringComparison.Ordinal) != 0))
         return (ETailRefreshRate.Normal);
 
-      ETailRefreshRate trr = (ETailRefreshRate) Enum.Parse(typeof(ETailRefreshRate), s);
+      Enum.TryParse(s, out ETailRefreshRate trr);
 
       return (trr);
+    }
+
+    public static EWindowStyle GetWindowStyle(string s)
+    {
+      if(string.IsNullOrEmpty(s))
+        return (EWindowStyle.ModernBlueWindowStyle);
+
+      if(Enum.GetNames(typeof(EWindowStyle)).All(w => string.Compare(s.ToLower(), w.ToLower(), StringComparison.Ordinal) != 0))
+        return (EWindowStyle.ModernBlueWindowStyle);
+
+      Enum.TryParse(s, out EWindowStyle wnd);
+
+      return (wnd);
     }
 
     private static void ReadThreadRefreshRateEnum(string s)
@@ -574,7 +595,7 @@ namespace Org.Vs.TailForWin.Controller
         {
           if(String.Compare(s, timeFormat, StringComparison.Ordinal) == 0)
           {
-            ETimeFormat tf = (ETimeFormat) Enum.Parse(typeof(ETimeFormat), s);
+            Enum.TryParse(s, out ETimeFormat tf);
             TailSettings.DefaultTimeFormat = tf;
             break;
           }
@@ -596,7 +617,7 @@ namespace Org.Vs.TailForWin.Controller
         {
           if(String.Compare(s, dateFormat, StringComparison.Ordinal) == 0)
           {
-            EDateFormat df = (EDateFormat) Enum.Parse(typeof(EDateFormat), s);
+            Enum.TryParse(s, out EDateFormat df);
             TailSettings.DefaultDateFormat = df;
             break;
           }
@@ -618,7 +639,7 @@ namespace Org.Vs.TailForWin.Controller
         {
           if(String.Compare(s, fileSort, StringComparison.Ordinal) == 0)
           {
-            EFileSort fs = (EFileSort) Enum.Parse(typeof(EFileSort), s);
+            Enum.TryParse(s, out EFileSort fs);
             TailSettings.DefaultFileSort = fs;
             break;
           }

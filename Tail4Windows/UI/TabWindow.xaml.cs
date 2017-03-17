@@ -11,6 +11,7 @@ using System.Windows.Interop;
 using log4net;
 using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Data.Events;
 using Org.Vs.TailForWin.Data.Native;
 using Org.Vs.TailForWin.Interfaces;
@@ -708,6 +709,14 @@ namespace Org.Vs.TailForWin.UI
     {
       SettingsHelper.ReadSettings();
       LogFile.InitObservableCollectionsRrtpfe();
+
+      switch(SettingsHelper.TailSettings.CurrentWindowStyle)
+      {
+      case EWindowStyle.ModernBlueWindowStyle:
+
+        MainWindow.Style = (Style) FindResource("Tail4WindowStyle");
+        break;
+      }
 
       tbIcon.ToolTipText = Application.Current.FindResource("TrayIconReady") as string;
       fancyToolTipTfW.ApplicationText = LogFile.APPLICATION_CAPTION;
