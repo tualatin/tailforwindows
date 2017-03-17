@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
-using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Native;
 using Org.Vs.TailForWin.Interfaces;
 using Org.Vs.TailForWin.Native;
 

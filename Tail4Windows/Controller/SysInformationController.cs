@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using log4net;
 using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Native;
 using Org.Vs.TailForWin.Native;
 using Org.Vs.TailForWin.Utils;
 

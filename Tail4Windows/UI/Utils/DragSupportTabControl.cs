@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Native;
 using Org.Vs.TailForWin.Native;
 
 
@@ -68,7 +68,6 @@ namespace Org.Vs.TailForWin.UI.Utils
       }
       return (false);
     }
-
 
     #region Events
 
