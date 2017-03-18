@@ -1012,6 +1012,7 @@ namespace Org.Vs.TailForWin.UI
           searchBoxWindow.Top = yPos;
           searchBoxWindow.SetTitle = properties.File;
         }
+
         searchBoxWindow.Show();
         currentPage.SearchBoxActive();
       }

@@ -1,0 +1,12 @@
+﻿<Window x:Class="Org.Vs.TailForWin.Template.SmartWatchPopUp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Org.Vs.TailForWin.Template"
+        mc:Ignorable="d"
+        Title="SmartWatch" Height="132" Width="539" Topmost="True" WindowStyle="ToolWindow" ShowInTaskbar="False" ResizeMode="NoResize" Name="SmartWatchWnd" Loaded="SmartWatchWnd_Loaded" Deactivated="SmartWatchWnd_Deactivated">
+    <Grid>
+        
+    </Grid>
+</Window>
