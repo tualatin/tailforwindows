@@ -121,11 +121,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\Enums\EWindowStyle.cs" />
+    <Compile Include="Data\Native\Enum\SWP.cs" />
     <Compile Include="Data\Native\MemoryObject.cs" />
     <Compile Include="Data\Native\MINMAXINFO.cs" />
     <Compile Include="Data\Native\MonitorInfo.cs" />
     <Compile Include="Data\Native\Rect.cs" />
     <Compile Include="Data\Native\Win32Point.cs" />
+    <Compile Include="Data\Native\WINDOWPOS.cs" />
     <Compile Include="Data\ThreadPriorityMapping.cs" />
     <Compile Include="Template\ColorPicker\ColorDialog.xaml.cs">
       <DependentUpon>ColorDialog.xaml</DependentUpon>

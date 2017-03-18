@@ -73,10 +73,16 @@ namespace Org.Vs.TailForWin.Controller
           dHelper = -1;
         TailSettings.WndYPos = dHelper;
 
-        string sHelper = ConfigurationManager.AppSettings["defaultThreadPriority"];
+        if(ConfigurationManager.AppSettings["WindowState"] == null)
+          AddNewProperties_IntoConfigFile("WindowState", System.Windows.WindowState.Normal.ToString());
+
+        string sHelper = ConfigurationManager.AppSettings["WindowState"];
+        TailSettings.CurrentWindowState = GetWindowState(sHelper);
+
+        sHelper = ConfigurationManager.AppSettings["DefaultThreadPriority"];
         ReadThreadPriorityEnum(sHelper);
 
-        sHelper = ConfigurationManager.AppSettings["defaultRefreshRate"];
+        sHelper = ConfigurationManager.AppSettings["DefaultRefreshRate"];
         ReadThreadRefreshRateEnum(sHelper);
 
         if(!bool.TryParse(ConfigurationManager.AppSettings["ExitWithEsc"], out bHelper))
@@ -179,8 +185,8 @@ namespace Org.Vs.TailForWin.Controller
         config.AppSettings.Settings["SaveWindowPosition"].Value = TailSettings.RestoreWindowSize.ToString();
         config.AppSettings.Settings["wndXPos"].Value = TailSettings.WndXPos.ToString(CultureInfo.InvariantCulture);
         config.AppSettings.Settings["wndYPos"].Value = TailSettings.WndYPos.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["defaultThreadPriority"].Value = TailSettings.DefaultThreadPriority.ToString();
-        config.AppSettings.Settings["defaultRefreshRate"].Value = TailSettings.DefaultRefreshRate.ToString();
+        config.AppSettings.Settings["DefaultThreadPriority"].Value = TailSettings.DefaultThreadPriority.ToString();
+        config.AppSettings.Settings["DefaultRefreshRate"].Value = TailSettings.DefaultRefreshRate.ToString();
         config.AppSettings.Settings["ExitWithEsc"].Value = TailSettings.ExitWithEscape.ToString();
         config.AppSettings.Settings["TimeFormat"].Value = TailSettings.DefaultTimeFormat.ToString();
         config.AppSettings.Settings["DateFormat"].Value = TailSettings.DefaultDateFormat.ToString();
@@ -200,6 +206,7 @@ namespace Org.Vs.TailForWin.Controller
         config.AppSettings.Settings["SmartWatch"].Value = TailSettings.SmartWatch.ToString();
         config.AppSettings.Settings["GroupByCategory"].Value = TailSettings.GroupByCategory.ToString();
         config.AppSettings.Settings["CurrentWindowStyle"].Value = TailSettings.CurrentWindowStyle.ToString();
+        config.AppSettings.Settings["WindowState"].Value = TailSettings.CurrentWindowState.ToString();
 
         SaveAlertSettings(config);
         SaveProxySettings(config);
@@ -277,6 +284,7 @@ namespace Org.Vs.TailForWin.Controller
       TailSettings.SmartWatch = false;
       TailSettings.GroupByCategory = true;
       TailSettings.CurrentWindowStyle = EWindowStyle.ModernBlueWindowStyle;
+      TailSettings.CurrentWindowState = System.Windows.WindowState.Normal;
 
       ResetAlertSettings();
       ResetProxySettings();
@@ -555,7 +563,7 @@ namespace Org.Vs.TailForWin.Controller
     /// Get all Enum RefreshRates
     /// </summary>
     /// <param name="s">Reference of refresh rate string</param>
-    /// <returns>Enum from refresh rate</returns>
+    /// <returns>Enum of ETailRefreshRate</returns>
     public static ETailRefreshRate GetRefreshRate(string s)
     {
       if(string.IsNullOrEmpty(s))
@@ -569,6 +577,29 @@ namespace Org.Vs.TailForWin.Controller
       return (trr);
     }
 
+    /// <summary>
+    /// Get current window state from Enum
+    /// </summary>
+    /// <param name="s">Enum value as string</param>
+    /// <returns>Enum of System.Windows.WindowState</returns>
+    public static System.Windows.WindowState GetWindowState(string s)
+    {
+      if(string.IsNullOrEmpty(s))
+        return (System.Windows.WindowState.Normal);
+
+      if(Enum.GetNames(typeof(System.Windows.WindowState)).All(w => string.Compare(s.ToLower(), w.ToLower(), StringComparison.Ordinal) != 0))
+        return (System.Windows.WindowState.Normal);
+
+      Enum.TryParse(s, out System.Windows.WindowState wndState);
+
+      return (wndState);
+    }
+
+    /// <summary>
+    /// Get current window style from Enum
+    /// </summary>
+    /// <param name="s">Enum value as string</param>
+    /// <returns>Enum of EWindowStyle</returns>
     public static EWindowStyle GetWindowStyle(string s)
     {
       if(string.IsNullOrEmpty(s))

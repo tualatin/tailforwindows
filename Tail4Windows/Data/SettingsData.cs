@@ -146,6 +146,15 @@ namespace Org.Vs.TailForWin.Data
     #endregion
 
     /// <summary>
+    /// Current main window state
+    /// </summary>
+    public System.Windows.WindowState CurrentWindowState
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Window x position
     /// </summary>
     public double WndXPos
