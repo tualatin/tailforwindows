@@ -14,6 +14,7 @@ using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Data.Events;
 using Org.Vs.TailForWin.Data.Native;
+using Org.Vs.TailForWin.Data.Native.Enum;
 using Org.Vs.TailForWin.Interfaces;
 using Org.Vs.TailForWin.Native;
 using Org.Vs.TailForWin.Template;
@@ -743,22 +744,29 @@ namespace Org.Vs.TailForWin.UI
       searchBoxWindow.BookmarkLine += BookmarkLineEvent;
     }
 
-    private static void RestoreWindowSizePosition()
+    private void RestoreWindowSizePosition()
     {
-      if(SettingsHelper.TailSettings.RestoreWindowSize)
+      if(SettingsHelper.TailSettings.CurrentWindowState == WindowState.Normal)
       {
-        if(SettingsHelper.TailSettings.WndWidth != -1.0f)
-          Application.Current.MainWindow.Width = SettingsHelper.TailSettings.WndWidth;
-        if(SettingsHelper.TailSettings.WndHeight != -1.0f)
-          Application.Current.MainWindow.Height = SettingsHelper.TailSettings.WndHeight;
-      }
+        if(SettingsHelper.TailSettings.RestoreWindowSize)
+        {
+          if(SettingsHelper.TailSettings.WndWidth != -1.0f)
+            Application.Current.MainWindow.Width = SettingsHelper.TailSettings.WndWidth;
+          if(SettingsHelper.TailSettings.WndHeight != -1.0f)
+            Application.Current.MainWindow.Height = SettingsHelper.TailSettings.WndHeight;
+        }
 
-      if(SettingsHelper.TailSettings.SaveWindowPosition)
+        if(SettingsHelper.TailSettings.SaveWindowPosition)
+        {
+          if(SettingsHelper.TailSettings.WndYPos != -1.0f)
+            Application.Current.MainWindow.Top = SettingsHelper.TailSettings.WndYPos;
+          if(SettingsHelper.TailSettings.WndXPos != -1.0f)
+            Application.Current.MainWindow.Left = SettingsHelper.TailSettings.WndXPos;
+        }
+      }
+      else
       {
-        if(SettingsHelper.TailSettings.WndYPos != -1.0f)
-          Application.Current.MainWindow.Top = SettingsHelper.TailSettings.WndYPos;
-        if(SettingsHelper.TailSettings.WndXPos != -1.0f)
-          Application.Current.MainWindow.Left = SettingsHelper.TailSettings.WndXPos;
+        MainWindow.WindowState = SettingsHelper.TailSettings.CurrentWindowState;
       }
     }
 
@@ -875,26 +883,31 @@ namespace Org.Vs.TailForWin.UI
 
     private void OnExit()
     {
-      if(SettingsHelper.TailSettings.RestoreWindowSize)
-      {
-        SettingsHelper.TailSettings.WndWidth = Application.Current.MainWindow.Width;
-        SettingsHelper.TailSettings.WndHeight = Application.Current.MainWindow.Height;
-      }
-      else
-      {
-        SettingsHelper.TailSettings.WndWidth = -1;
-        SettingsHelper.TailSettings.WndHeight = -1;
-      }
+      SettingsHelper.TailSettings.CurrentWindowState = MainWindow.WindowState;
 
-      if(SettingsHelper.TailSettings.SaveWindowPosition)
+      if(SettingsHelper.TailSettings.CurrentWindowState == WindowState.Normal)
       {
-        SettingsHelper.TailSettings.WndXPos = Application.Current.MainWindow.Left;
-        SettingsHelper.TailSettings.WndYPos = Application.Current.MainWindow.Top;
-      }
-      else
-      {
-        SettingsHelper.TailSettings.WndXPos = -1;
-        SettingsHelper.TailSettings.WndYPos = -1;
+        if(SettingsHelper.TailSettings.RestoreWindowSize)
+        {
+          SettingsHelper.TailSettings.WndWidth = Application.Current.MainWindow.Width;
+          SettingsHelper.TailSettings.WndHeight = Application.Current.MainWindow.Height;
+        }
+        else
+        {
+          SettingsHelper.TailSettings.WndWidth = -1;
+          SettingsHelper.TailSettings.WndHeight = -1;
+        }
+
+        if(SettingsHelper.TailSettings.SaveWindowPosition)
+        {
+          SettingsHelper.TailSettings.WndXPos = Application.Current.MainWindow.Left;
+          SettingsHelper.TailSettings.WndYPos = Application.Current.MainWindow.Top;
+        }
+        else
+        {
+          SettingsHelper.TailSettings.WndXPos = -1;
+          SettingsHelper.TailSettings.WndYPos = -1;
+        }
       }
 
       SettingsHelper.SaveSettings();
@@ -1111,6 +1124,40 @@ namespace Org.Vs.TailForWin.UI
         WmGetMinMaxInfo(hwnd, lParam);
         handled = true;
         break;
+
+      case NativeMethods.WM_WINDOWPOSCHANGING:
+
+        WINDOWPOS pos = (WINDOWPOS) Marshal.PtrToStructure(lParam, typeof(WINDOWPOS));
+
+        if((pos.flags & (int) (SWP.NOMOVE)) != 0)
+          return (IntPtr.Zero);
+
+        Window wnd = (Window) HwndSource.FromHwnd(hwnd).RootVisual;
+
+        if(wnd == null)
+          return (IntPtr.Zero);
+
+        bool changedPos = false;
+
+        if(pos.cx < MinWidth)
+        {
+          pos.cx = (int) MinWidth;
+          changedPos = true;
+        }
+
+        if(pos.cy < MinHeight)
+        {
+          pos.cy = (int) MinHeight;
+          changedPos = true;
+        }
+
+        if(!changedPos)
+          return (IntPtr.Zero);
+
+        Marshal.StructureToPtr(pos, lParam, true);
+        handled = true;
+        break;
+
       }
       return (IntPtr.Zero);
     }

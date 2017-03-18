@@ -13,7 +13,7 @@ namespace Org.Vs.TailForWin.Native
     /// <summary>
     /// HWND_BROADCAST
     /// </summary>
-    internal const int HWND_BROADCAST = 0xffff;
+    internal const uint HWND_BROADCAST = 0xffff;
 
     /// <summary>
     /// Activates the window and displays it in its current size and position.
@@ -56,18 +56,23 @@ namespace Org.Vs.TailForWin.Native
     /// <summary>
     /// The retrieved handle identifies the window below the specified window in the Z order.
     /// </summary>
-    internal const int GW_HWNDNEXT = 2;
+    internal const uint GW_HWNDNEXT = 2;
 
     /// <summary>
     /// The retrieved handle identifies the window above the specified window in the Z order.
     /// </summary>
-    internal const int GW_HWNDPREV = 3;
+    internal const uint GW_HWNDPREV = 3;
 
     /// <summary>
     /// A window receives this message when the user chooses a command from the Window menu (formerly known as the system or control menu) or when the user chooses the maximize button,
     /// minimize button, restore button, or close button.
     /// </summary>
     internal const uint WM_SYSCOMMAND = 0x112;
+
+    /// <summary>
+    /// Sent to a window whose size, position, or place in the Z order is about to change as a result of a call to the SetWindowPos function or another window-management function.
+    /// </summary>
+    internal const int WM_WINDOWPOSCHANGING = 0x0046;
 
     /// <summary>
     /// Positions the shortcut menu so that its left side is aligned with the coordinate specified by the x parameter.
