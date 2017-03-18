@@ -53,11 +53,11 @@ namespace Org.Vs.TailForWin.Controller
           bHelper = false;
         TailSettings.RestoreWindowSize = bHelper;
 
-        if(!double.TryParse(ConfigurationManager.AppSettings["wndWidth"], out double dHelper))
+        if(!double.TryParse(ConfigurationManager.AppSettings["WndWidth"], out double dHelper))
           dHelper = -1;
         TailSettings.WndWidth = dHelper;
 
-        if(!double.TryParse(ConfigurationManager.AppSettings["wndHeight"], out dHelper))
+        if(!double.TryParse(ConfigurationManager.AppSettings["WndHeight"], out dHelper))
           dHelper = -1;
         TailSettings.WndHeight = dHelper;
 
@@ -65,11 +65,11 @@ namespace Org.Vs.TailForWin.Controller
           bHelper = false;
         TailSettings.SaveWindowPosition = bHelper;
 
-        if(!double.TryParse(ConfigurationManager.AppSettings["wndXPos"], out dHelper))
+        if(!double.TryParse(ConfigurationManager.AppSettings["WndXPos"], out dHelper))
           dHelper = -1;
         TailSettings.WndXPos = dHelper;
 
-        if(!double.TryParse(ConfigurationManager.AppSettings["wndYPos"], out dHelper))
+        if(!double.TryParse(ConfigurationManager.AppSettings["WndYPos"], out dHelper))
           dHelper = -1;
         TailSettings.WndYPos = dHelper;
 
@@ -180,11 +180,11 @@ namespace Org.Vs.TailForWin.Controller
         config.AppSettings.Settings["ShowNLineAtStart"].Value = TailSettings.ShowNLineAtStart.ToString();
         config.AppSettings.Settings["AlwaysScrollToEnd"].Value = TailSettings.AlwaysScrollToEnd.ToString();
         config.AppSettings.Settings["RestoreWindowSize"].Value = TailSettings.RestoreWindowSize.ToString();
-        config.AppSettings.Settings["wndWidth"].Value = TailSettings.WndWidth.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["wndHeight"].Value = TailSettings.WndHeight.ToString(CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["WndWidth"].Value = TailSettings.WndWidth.ToString(CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["WndHeight"].Value = TailSettings.WndHeight.ToString(CultureInfo.InvariantCulture);
         config.AppSettings.Settings["SaveWindowPosition"].Value = TailSettings.RestoreWindowSize.ToString();
-        config.AppSettings.Settings["wndXPos"].Value = TailSettings.WndXPos.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["wndYPos"].Value = TailSettings.WndYPos.ToString(CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["WndXPos"].Value = TailSettings.WndXPos.ToString(CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["WndYPos"].Value = TailSettings.WndYPos.ToString(CultureInfo.InvariantCulture);
         config.AppSettings.Settings["DefaultThreadPriority"].Value = TailSettings.DefaultThreadPriority.ToString();
         config.AppSettings.Settings["DefaultRefreshRate"].Value = TailSettings.DefaultRefreshRate.ToString();
         config.AppSettings.Settings["ExitWithEsc"].Value = TailSettings.ExitWithEscape.ToString();
