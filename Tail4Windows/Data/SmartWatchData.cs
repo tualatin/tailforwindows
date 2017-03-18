@@ -22,5 +22,20 @@ namespace Org.Vs.TailForWin.Data
         OnPropertyChanged("FilterByExtension");
       }
     }
+
+    private bool saveLastDecision;
+
+    /// <summary>
+    /// Save last decision
+    /// </summary>
+    public bool SaveLastDecision
+    {
+      get => saveLastDecision;
+      set
+      {
+        saveLastDecision = value;
+        OnPropertyChanged("SaveLastDecision");
+      }
+    }
   }
 }

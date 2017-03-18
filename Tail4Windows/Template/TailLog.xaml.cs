@@ -856,11 +856,11 @@ namespace Org.Vs.TailForWin.Template
           SmartWatchPopUp smartWatchWnd = new SmartWatchPopUp
           {
             Left = xPos,
-            Top = yPos
+            Top = yPos,
+            NewFileOpen = Path.GetFileName(file)
           };
           smartWatchWnd.Show();
-
-
+          smartWatchWnd.Owner = Window.GetWindow(this);
         }));
       }
     }

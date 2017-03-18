@@ -991,7 +991,7 @@ namespace Org.Vs.TailForWin.UI
           else
           {
             if(SettingsHelper.TailSettings.SearchWndXPos + searchBoxWindow.Width / 2 > SystemParameters.VirtualScreenWidth)
-              xPos = SettingsHelper.TailSettings.SearchWndXPos = SystemParameters.VirtualScreenWidth - searchBoxWindow.Width;
+              xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
             else
               xPos = SettingsHelper.TailSettings.SearchWndXPos;
           }
@@ -1003,7 +1003,7 @@ namespace Org.Vs.TailForWin.UI
           else
           {
             if(SettingsHelper.TailSettings.SearchWndYPos + searchBoxWindow.Height / 2 > SystemParameters.VirtualScreenHeight)
-              yPos = SettingsHelper.TailSettings.SearchWndYPos = SystemParameters.VirtualScreenHeight - searchBoxWindow.Height;
+              yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
             else
               yPos = SettingsHelper.TailSettings.SearchWndYPos;
           }
@@ -1014,6 +1014,7 @@ namespace Org.Vs.TailForWin.UI
         }
 
         searchBoxWindow.Show();
+        searchBoxWindow.Owner = Window.GetWindow(this);
         currentPage.SearchBoxActive();
       }
     }

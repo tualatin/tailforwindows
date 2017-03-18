@@ -23,18 +23,18 @@
           <ColumnDefinition Width="275*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-          <RowDefinition Height="30" />
-          <RowDefinition Height="30" />
-          <RowDefinition Height="30" />
-          <RowDefinition Height="30" />
-          <RowDefinition Height="30" />
-          <RowDefinition Height="30" />
-          <RowDefinition Height="30" />
-          <RowDefinition Height="30" />
-          <RowDefinition Height="30" />
-          <RowDefinition Height="30*" />
-          <RowDefinition Height="10" />
-          <RowDefinition Height="30" />
+          <RowDefinition Height="30"/>
+          <RowDefinition Height="30"/>
+          <RowDefinition Height="30"/>
+          <RowDefinition Height="30"/>
+          <RowDefinition Height="30"/>
+          <RowDefinition Height="30"/>
+          <RowDefinition Height="30"/>
+          <RowDefinition Height="30"/>
+          <RowDefinition Height="30"/>
+          <RowDefinition Height="30*"/>
+          <RowDefinition Height="10"/>
+          <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <CheckBox Content="Always on top" Height="22" HorizontalAlignment="Left" Name="checkBoxAlwaysOnTop" VerticalAlignment="Center" 
                   TabIndex="1" IsChecked="{Binding Mode=TwoWay, Path=AlwaysOnTop, UpdateSourceTrigger=PropertyChanged}"/>

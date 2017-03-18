@@ -312,6 +312,7 @@ namespace Org.Vs.TailForWin.Controller
     private static void ResetSmartWatchSettings()
     {
       TailSettings.SmartWatchData.FilterByExtension = true;
+      TailSettings.SmartWatchData.SaveLastDecision = true;
     }
 
     /// <summary>
@@ -408,6 +409,8 @@ namespace Org.Vs.TailForWin.Controller
     {
       try
       {
+        TailSettings.SmartWatchData.SaveLastDecision = true;
+
         if(ConfigurationManager.AppSettings["SmartWatch.FilterByExtension"] == null)
           AddNewProperties_IntoConfigFile("SmartWatch.FilterByExtension", "True");
 
