@@ -40,4 +40,9 @@
   <system:String x:Key="QImportSettings">Do you really want to import this settings? Your old settings will override.</system:String>
   <system:String x:Key="QAddSendTo">Do you really want to add TailForWindows into the Send to context menu of Windows?</system:String>
   <system:String x:Key="WndStyleChanged">Window style changed, please restart {0}, to see the changes.</system:String>
+  <system:String x:Key="Lowest">Lowest</system:String>
+  <system:String x:Key="BelowNormal">Below normal</system:String>
+  <system:String x:Key="Normal">Normal</system:String>
+  <system:String x:Key="AboveNormal">Above normal</system:String>
+  <system:String x:Key="Highest">Highest</system:String>
 </ResourceDictionary>

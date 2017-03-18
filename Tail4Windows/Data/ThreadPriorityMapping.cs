@@ -1,4 +1,7 @@
-﻿namespace Org.Vs.TailForWin.Data
+﻿using System.Windows;
+
+
+namespace Org.Vs.TailForWin.Data
 {
   /// <summary>
   /// System Threading priority enum mapping 
@@ -21,30 +24,13 @@
     {
       get
       {
-        switch(ThreadPriority)
+        try
         {
-        case System.Threading.ThreadPriority.Lowest:
-
-          return ("Lowest");
-
-        case System.Threading.ThreadPriority.BelowNormal:
-
-          return ("Below normal");
-
-        case System.Threading.ThreadPriority.Normal:
-
-          return ("Normal");
-
-        case System.Threading.ThreadPriority.AboveNormal:
-
-          return ("Above normal");
-
-        case System.Threading.ThreadPriority.Highest:
-
-          return ("Highest");
-
-        default:
-
+          var resourceKey = Application.Current.FindResource(ThreadPriority.ToString());
+          return (resourceKey.ToString());
+        }
+        catch
+        {
           return (string.Empty);
         }
       }
