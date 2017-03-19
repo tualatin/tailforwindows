@@ -65,7 +65,7 @@
             <Label sw:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource CloseCommand}" HorizontalAlignment="Center" Margin="0,2,0,0" 
                    sw:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Padding="0">
               <Image Style="{StaticResource WindowIcon}" Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=Icon}"              
-                     Width="16" sw:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"                                        
+                     Width="16" sw:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                      sw:ShowSystemMenuBehavior.LeftButtonShowAt="{Binding ElementName=WindowContent}"/>
             </Label>
 
@@ -75,10 +75,9 @@
                     sw:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                     sw:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" 
                     sw:ShowSystemMenuBehavior.RightButtonShow="true">
-              
-              <Label Content="{TemplateBinding Property=Title}" Margin="8,0,0,0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                     HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}">
-              </Label>
+
+              <Label x:Name="WndTitle" Content="{TemplateBinding Property=Title}" Margin="8,0,0,0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                     HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}"/>
             </Border>
 
             <StackPanel Grid.Column="2" Orientation="Horizontal">

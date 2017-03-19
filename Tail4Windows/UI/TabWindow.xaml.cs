@@ -985,20 +985,36 @@ namespace Org.Vs.TailForWin.UI
           double xPos, yPos;
 
           if(SettingsHelper.TailSettings.SearchWndXPos == -1.0f)
+          {
             xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
+          }
           else
-            xPos = SettingsHelper.TailSettings.SearchWndXPos;
+          {
+            if(SettingsHelper.TailSettings.SearchWndXPos + searchBoxWindow.Width / 2 > SystemParameters.VirtualScreenWidth)
+              xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
+            else
+              xPos = SettingsHelper.TailSettings.SearchWndXPos;
+          }
 
           if(SettingsHelper.TailSettings.SearchWndYPos == -1.0f)
+          {
             yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
+          }
           else
-            yPos = SettingsHelper.TailSettings.SearchWndYPos;
+          {
+            if(SettingsHelper.TailSettings.SearchWndYPos + searchBoxWindow.Height / 2 > SystemParameters.VirtualScreenHeight)
+              yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
+            else
+              yPos = SettingsHelper.TailSettings.SearchWndYPos;
+          }
 
           searchBoxWindow.Left = xPos;
           searchBoxWindow.Top = yPos;
           searchBoxWindow.SetTitle = properties.File;
         }
+
         searchBoxWindow.Show();
+        searchBoxWindow.Owner = Window.GetWindow(this);
         currentPage.SearchBoxActive();
       }
     }

@@ -120,6 +120,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\SmartWatchModeToBoolConverter.cs" />
+    <Compile Include="Data\Enums\ESmartWatchMode.cs" />
     <Compile Include="Data\Enums\EWindowStyle.cs" />
     <Compile Include="Data\Native\Enum\SWP.cs" />
     <Compile Include="Data\Native\MemoryObject.cs" />
@@ -137,6 +139,7 @@
     </Compile>
     <Compile Include="Template\Events\DragDropEventDelegate.cs" />
     <Compile Include="Template\Events\IsOpenInTabEventDelegate.cs" />
+    <Compile Include="Template\Events\SmartWatchOpenFileEventHandler.cs" />
     <Compile Include="Template\FancyPopUp.xaml.cs">
       <DependentUpon>FancyPopUp.xaml</DependentUpon>
     </Compile>
@@ -157,6 +160,9 @@
     </Compile>
     <Compile Include="Template\SearchDialog.xaml.cs">
       <DependentUpon>SearchDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Template\SmartWatchPopUp.xaml.cs">
+      <DependentUpon>SmartWatchPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Template\Spinner.xaml.cs">
       <DependentUpon>Spinner.xaml</DependentUpon>
@@ -242,6 +248,7 @@
     <Compile Include="Utils\BuildDate.cs" />
     <Compile Include="Utils\DeferredAction.cs" />
     <Compile Include="Utils\EncodingDetector.cs" />
+    <Compile Include="Utils\Events\SmartWatchFilesChangedEventHandler.cs" />
     <Compile Include="Utils\FileReader.cs" />
     <Compile Include="Utils\GlobalMutex.cs" />
     <Compile Include="Utils\IconHelper.cs" />
@@ -437,6 +444,10 @@
     <Page Include="Template\SearchDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Template\SmartWatchPopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Template\Spinner.xaml">
       <Generator>MSBuild:Compile</Generator>

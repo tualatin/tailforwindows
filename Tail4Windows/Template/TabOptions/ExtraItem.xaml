@@ -3,8 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:conv="clr-namespace:Org.Vs.TailForWin.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="380" d:DesignWidth="400" Loaded="UCExtraItem_Loaded">
+  <UserControl.Resources>
+    <conv:SmartWatchModeToBoolConverter x:Key="SWModeToBool"/>
+    <conv:InverseBooleanConverter x:Key="InverseBoolConverter"/>
+  </UserControl.Resources>
+  
   <Grid Margin="5" Name="GridExtraOptions">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*"/>
@@ -26,12 +32,12 @@
         <Grid.RowDefinitions>
           <RowDefinition Height="30"/>
           <RowDefinition Height="30"/>
-          <RowDefinition Height="140"/>
-          <RowDefinition Height="*"/>
+          <RowDefinition Height="145"/>
+          <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label Content="File sort direction" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <ComboBox Name="ComboBoxFileSort" Grid.Column="1" Height="23" Width="150" HorizontalAlignment="Left" SelectionChanged="CombBoxFileSort_SelectionChanged" TabIndex="0">
+        <Label Content="File sort direction" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" Margin="0,7" Width="92"/>
+        <ComboBox Name="ComboBoxFileSort" Grid.Column="1" Width="150" HorizontalAlignment="Left" SelectionChanged="CombBoxFileSort_SelectionChanged" TabIndex="0" Margin="0,4">
           <ComboBox.ToolTip>
             <StackPanel>
               <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">File sort</TextBlock>
@@ -45,8 +51,8 @@
           </ComboBox.ToolTip>
         </ComboBox>
 
-        <Label Content="Window Style" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <ComboBox Name="ComboBoxWindowStyle" Grid.Row="1" Grid.Column="1" Height="23" Width="150" HorizontalAlignment="Left" SelectionChanged="CombBoxWindowStyle_SelectionChanged" TabIndex="0">
+        <Label Content="Window Style" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" Margin="0,7" Width="72"/>
+        <ComboBox Name="ComboBoxWindowStyle" Grid.Row="1" Grid.Column="1" Width="150" HorizontalAlignment="Left" SelectionChanged="CombBoxWindowStyle_SelectionChanged" TabIndex="1" Margin="0,4">
           <ComboBox.ToolTip>
             <StackPanel>
               <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Current Window style</TextBlock>
@@ -69,7 +75,7 @@
             </Grid.RowDefinitions>
 
             <CheckBox Name="CheckBoxEnableSmartWatch" Height="22" IsChecked="{Binding Path=SmartWatch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                      Content="SmartWatch" VerticalAlignment="Center" HorizontalAlignment="Left" TabIndex="1">
+                      Content="SmartWatch" VerticalAlignment="Center" HorizontalAlignment="Left" TabIndex="2">
               <CheckBox.ToolTip>
                 <StackPanel>
                   <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">SmartWatch</TextBlock>
@@ -88,12 +94,77 @@
             <Grid Grid.Row="2" IsEnabled="{Binding ElementName=CheckBoxEnableSmartWatch, Path=IsChecked}">
               <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
+                <RowDefinition Height="25"/>
                 <RowDefinition Height="30"/>
               </Grid.RowDefinitions>
 
-              <CheckBox Name="CheckBoxFilterByExtension" Height="22" IsChecked="{Binding Path=SmartWatchData.FilterByExtension, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        Content="Filter by Extension" VerticalAlignment="Center" HorizontalAlignment="Left" TabIndex="2">
-                
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="168"/>
+                <ColumnDefinition/>
+              </Grid.ColumnDefinitions>
+
+              <Label Content="SmartWatch mode" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" Margin="0,7,0,8" Width="110"/>
+              <ComboBox Name="ComboBoxSmartWatchMode" Grid.Column="1" Width="150" HorizontalAlignment="Left" SelectionChanged="ComboBoxSmartWatchMode_SelectionChanged" TabIndex="3" 
+                        Margin="0,4">
+                <ComboBox.ToolTip>
+                  <StackPanel>
+                    <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">SmartWatch mode</TextBlock>
+                    <TextBlock>Set SmartWatch mode to Manual or Auto</TextBlock>
+                    <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                    <WrapPanel>
+                      <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                      <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                    </WrapPanel>
+                  </StackPanel>
+                </ComboBox.ToolTip>
+              </ComboBox>
+
+              <RadioButton Grid.Row="1" Content="Open in new Tab" Height="15" HorizontalAlignment="Left"  Name="RadioButtonNewTab" VerticalAlignment="Center" TabIndex="4"
+                           IsEnabled="{Binding Path=SmartWatchData.Mode, Converter={StaticResource SWModeToBool}}"
+                           IsChecked="{Binding Path=SmartWatchData.NewTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <RadioButton.ToolTip>
+                  <StackPanel>
+                    <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Open in new Tab</TextBlock>
+                    <TextBlock>Opens detected file automatically in new Tab</TextBlock>
+                    <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                    <WrapPanel>
+                      <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                      <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                    </WrapPanel>
+                  </StackPanel>
+                </RadioButton.ToolTip>
+
+              </RadioButton>
+
+              <RadioButton Grid.Row="1" Grid.Column="1" Content="Open in same Tab" Height="15" HorizontalAlignment="Left"  Name="RadioButtonSameTab" 
+                           VerticalAlignment="Center" TabIndex="5" IsEnabled="{Binding Path=SmartWatchData.Mode, Converter={StaticResource SWModeToBool}}"
+                           IsChecked="{Binding Path=SmartWatchData.NewTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBoolConverter}}">
+                <RadioButton.ToolTip>
+                  <StackPanel>
+                    <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Open in same Tab</TextBlock>
+                    <TextBlock>Opens detected file automatically in same Tab</TextBlock>
+                    <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                    <WrapPanel>
+                      <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                      <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                    </WrapPanel>
+                  </StackPanel>
+                </RadioButton.ToolTip>
+              </RadioButton>
+
+              <CheckBox Name="CheckBoxFilterByExtension" Grid.Row="2" Height="22" IsChecked="{Binding Path=SmartWatchData.FilterByExtension, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        Content="Filter by Extension" VerticalAlignment="Center" HorizontalAlignment="Left" TabIndex="6" Margin="0,4,0,5" Width="126">
+                <CheckBox.ToolTip>
+                  <StackPanel>
+                    <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Fiel Extension</TextBlock>
+                    <TextBlock>Filter by last log file extension</TextBlock>
+                    <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                    <WrapPanel>
+                      <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                      <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                    </WrapPanel>
+                  </StackPanel>
+                </CheckBox.ToolTip>
               </CheckBox>
             </Grid>
           </Grid>

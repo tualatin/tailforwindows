@@ -1,8 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using log4net;
+using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Utils.Events;
 
 
 namespace Org.Vs.TailForWin.Utils
@@ -13,6 +16,11 @@ namespace Org.Vs.TailForWin.Utils
   public class SmartWatch : IDisposable
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SmartWatch));
+
+    /// <summary>
+    /// Fires, when files changed
+    /// </summary>
+    public event SmartWatchFilesChangedEventHandler SmartWatchFilesChanged;
 
     private BackgroundWorker smartWorker;
     private ManualResetEvent resetEvent;
@@ -114,13 +122,14 @@ namespace Org.Vs.TailForWin.Utils
         if(currentFiles.Length < newValue.Length)
         {
           LOG.Trace("SmartWatch Logfiles changed! Current '{0}' new '{1}'", currentFiles.Length, newValue.Length);
-          currentFiles = GetFilesInCurrentLogDirectory();
-          GetLatestFile();
+          GetLatestFile(newValue);
+
+          currentFiles = newValue;
         }
         else if(currentFiles.Length > newValue.Length)
         {
           LOG.Trace("SmartWatch some logfile are deleted! Current '{0}' new '{1}'", currentFiles.Length, newValue.Length);
-          currentFiles = GetFilesInCurrentLogDirectory();
+          currentFiles = newValue;
         }
       }
 
@@ -136,15 +145,34 @@ namespace Org.Vs.TailForWin.Utils
 
     #region HelperFunctions
 
-    private void GetLatestFile()
+    private void GetLatestFile(string[] fileInput)
     {
+      foreach(var item in fileInput)
+      {
+        try
+        {
+          if(!currentFiles.Contains(item))
+            SmartWatchFilesChanged?.Invoke(this, item);
+        }
+        catch
+        {
+          continue;
+        }
+      }
     }
 
     private string[] GetFilesInCurrentLogDirectory()
     {
       try
       {
-        return (Directory.GetFiles(currentLogFolder, $"*{currentFileExtension}", SearchOption.TopDirectoryOnly));
+        string[] files;
+
+        if(SettingsHelper.TailSettings.SmartWatchData.FilterByExtension)
+          files = Directory.GetFiles(currentLogFolder, $"*{currentFileExtension}", SearchOption.TopDirectoryOnly);
+        else
+          files = Directory.GetFiles(currentLogFolder, "*.*", SearchOption.TopDirectoryOnly);
+
+        return (files);
       }
       catch(Exception ex)
       {

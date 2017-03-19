@@ -32,6 +32,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
       AddItemsToFileSortComboBox();
       AddItemsToWindowStyleComboBox();
+      AddItemToSmartWatchModeComboBox();
     }
 
     private void UCExtraItem_Loaded(object sender, RoutedEventArgs e)
@@ -118,12 +119,24 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       e.Handled = true;
     }
 
+    private void ComboBoxSmartWatchMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+      if(!IsInitialized)
+        return;
+
+      if(SettingsHelper.TailSettings.SmartWatchData.Mode != SettingsData.GetDescriptionEnum<ESmartWatchMode>(ComboBoxSmartWatchMode.SelectedItem as string))
+        SettingsHelper.TailSettings.SmartWatchData.Mode = SettingsData.GetDescriptionEnum<ESmartWatchMode>(ComboBoxSmartWatchMode.SelectedItem as string);
+
+      e.Handled = true;
+    }
+
     #region HelperFunctions
 
     private void SetControls()
     {
       ComboBoxFileSort.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultFileSort);
       ComboBoxWindowStyle.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.CurrentWindowStyle);
+      ComboBoxSmartWatchMode.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.SmartWatchData.Mode);
     }
 
     private void AddItemsToFileSortComboBox()
@@ -141,6 +154,15 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       {
         var item = SettingsData.GetEnumDescription(wndStyle);
         ComboBoxWindowStyle.Items.Add(item);
+      }
+    }
+
+    private void AddItemToSmartWatchModeComboBox()
+    {
+      foreach(ESmartWatchMode mode in Enum.GetValues(typeof(ESmartWatchMode)))
+      {
+        var item = SettingsData.GetEnumDescription(mode);
+        ComboBoxSmartWatchMode.Items.Add(item);
       }
     }
 

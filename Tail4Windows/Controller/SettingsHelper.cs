@@ -53,11 +53,11 @@ namespace Org.Vs.TailForWin.Controller
           bHelper = false;
         TailSettings.RestoreWindowSize = bHelper;
 
-        if(!double.TryParse(ConfigurationManager.AppSettings["wndWidth"], out double dHelper))
+        if(!double.TryParse(ConfigurationManager.AppSettings["WndWidth"], out double dHelper))
           dHelper = -1;
         TailSettings.WndWidth = dHelper;
 
-        if(!double.TryParse(ConfigurationManager.AppSettings["wndHeight"], out dHelper))
+        if(!double.TryParse(ConfigurationManager.AppSettings["WndHeight"], out dHelper))
           dHelper = -1;
         TailSettings.WndHeight = dHelper;
 
@@ -65,11 +65,11 @@ namespace Org.Vs.TailForWin.Controller
           bHelper = false;
         TailSettings.SaveWindowPosition = bHelper;
 
-        if(!double.TryParse(ConfigurationManager.AppSettings["wndXPos"], out dHelper))
+        if(!double.TryParse(ConfigurationManager.AppSettings["WndXPos"], out dHelper))
           dHelper = -1;
         TailSettings.WndXPos = dHelper;
 
-        if(!double.TryParse(ConfigurationManager.AppSettings["wndYPos"], out dHelper))
+        if(!double.TryParse(ConfigurationManager.AppSettings["WndYPos"], out dHelper))
           dHelper = -1;
         TailSettings.WndYPos = dHelper;
 
@@ -180,11 +180,11 @@ namespace Org.Vs.TailForWin.Controller
         config.AppSettings.Settings["ShowNLineAtStart"].Value = TailSettings.ShowNLineAtStart.ToString();
         config.AppSettings.Settings["AlwaysScrollToEnd"].Value = TailSettings.AlwaysScrollToEnd.ToString();
         config.AppSettings.Settings["RestoreWindowSize"].Value = TailSettings.RestoreWindowSize.ToString();
-        config.AppSettings.Settings["wndWidth"].Value = TailSettings.WndWidth.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["wndHeight"].Value = TailSettings.WndHeight.ToString(CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["WndWidth"].Value = TailSettings.WndWidth.ToString(CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["WndHeight"].Value = TailSettings.WndHeight.ToString(CultureInfo.InvariantCulture);
         config.AppSettings.Settings["SaveWindowPosition"].Value = TailSettings.RestoreWindowSize.ToString();
-        config.AppSettings.Settings["wndXPos"].Value = TailSettings.WndXPos.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["wndYPos"].Value = TailSettings.WndYPos.ToString(CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["WndXPos"].Value = TailSettings.WndXPos.ToString(CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["WndYPos"].Value = TailSettings.WndYPos.ToString(CultureInfo.InvariantCulture);
         config.AppSettings.Settings["DefaultThreadPriority"].Value = TailSettings.DefaultThreadPriority.ToString();
         config.AppSettings.Settings["DefaultRefreshRate"].Value = TailSettings.DefaultRefreshRate.ToString();
         config.AppSettings.Settings["ExitWithEsc"].Value = TailSettings.ExitWithEscape.ToString();
@@ -312,6 +312,8 @@ namespace Org.Vs.TailForWin.Controller
     private static void ResetSmartWatchSettings()
     {
       TailSettings.SmartWatchData.FilterByExtension = true;
+      TailSettings.SmartWatchData.NewTab = true;
+      TailSettings.SmartWatchData.Mode = ESmartWatchMode.Manual;
     }
 
     /// <summary>
@@ -402,6 +404,8 @@ namespace Org.Vs.TailForWin.Controller
     private static void SaveSmartWatchSettings(Configuration config)
     {
       config.AppSettings.Settings["SmartWatch.FilterByExtension"].Value = TailSettings.SmartWatchData.FilterByExtension.ToString();
+      config.AppSettings.Settings["SmartWatch.NewTab"].Value = TailSettings.SmartWatchData.NewTab.ToString();
+      config.AppSettings.Settings["SmartWatch.Mode"].Value = TailSettings.SmartWatchData.Mode.ToString();
     }
 
     private static void ReadSmartWatchSettings()
@@ -414,6 +418,19 @@ namespace Org.Vs.TailForWin.Controller
         if(!bool.TryParse(ConfigurationManager.AppSettings["SmartWatch.FilterByExtension"], out bool bHelper))
           bHelper = true;
         TailSettings.SmartWatchData.FilterByExtension = bHelper;
+
+        if(ConfigurationManager.AppSettings["SmartWatch.NewTab"] == null)
+          AddNewProperties_IntoConfigFile("SmartWatch.NewTab", "True");
+
+        if(!bool.TryParse(ConfigurationManager.AppSettings["SmartWatch.NewTab"], out bHelper))
+          bHelper = true;
+        TailSettings.SmartWatchData.NewTab = bHelper;
+
+        if(ConfigurationManager.AppSettings["SmartWatch.Mode"] == null)
+          AddNewProperties_IntoConfigFile("SmartWatch.Mode", ESmartWatchMode.Manual.ToString());
+
+        string sHelper = ConfigurationManager.AppSettings["SmartWatch.Mode"];
+        TailSettings.SmartWatchData.Mode = GetSmartWatchMode(sHelper);
       }
       catch(ConfigurationErrorsException ex)
       {
@@ -575,6 +592,24 @@ namespace Org.Vs.TailForWin.Controller
       Enum.TryParse(s, out ETailRefreshRate trr);
 
       return (trr);
+    }
+
+    /// <summary>
+    /// Get all Enum SmartWatch modes
+    /// </summary>
+    /// <param name="s">Reference of SmartWatch mode string</param>
+    /// <returns>Enum of ESmartWatchMode</returns>
+    public static ESmartWatchMode GetSmartWatchMode(string s)
+    {
+      if(string.IsNullOrEmpty(s))
+        return (ESmartWatchMode.Manual);
+
+      if(Enum.GetNames(typeof(ESmartWatchMode)).All(m => string.Compare(s.ToLower(), m.ToLower(), StringComparison.Ordinal) != 0))
+        return (ESmartWatchMode.Manual);
+
+      Enum.TryParse(s, out ESmartWatchMode mode);
+
+      return (mode);
     }
 
     /// <summary>

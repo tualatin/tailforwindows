@@ -718,6 +718,9 @@ namespace Org.Vs.TailForWin.Template
               break;
           }
 
+          if(myReader.TailFileStream == null)
+            break;
+
           // update the last max offset
           lastMaxOffset = myReader.TailStreamReader.BaseStream.Position;
         }
@@ -816,6 +819,7 @@ namespace Org.Vs.TailForWin.Template
       tailWorker.RunWorkerCompleted += tailWorker_RunWorkerComplete;
 
       smartWatch = new SmartWatch();
+      smartWatch.SmartWatchFilesChanged += SmartWatchFilesChanged;
 
       SetFontInTextEditor();
 
@@ -834,6 +838,32 @@ namespace Org.Vs.TailForWin.Template
 
       textBlockTailLog.Alert += AlertTrigger;
       NewFile += NewFileOpend;
+    }
+
+    private void SmartWatchFilesChanged(object sender, string file)
+    {
+      if(sender is SmartWatch)
+      {
+        LOG.Debug("{0} changed file is '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, file);
+
+        Dispatcher.Invoke(new Action(() =>
+        {
+          double xPos, yPos;
+
+          xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
+          yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
+
+          SmartWatchPopUp smartWatchWnd = new SmartWatchPopUp
+          {
+            Left = xPos,
+            Top = yPos,
+            NewFileOpen = Path.GetFileName(file),
+            DataContext = tabProperties
+          };
+          smartWatchWnd.Show();
+          smartWatchWnd.Owner = Window.GetWindow(this);
+        }));
+      }
     }
 
     private void SetFontInTextEditor()

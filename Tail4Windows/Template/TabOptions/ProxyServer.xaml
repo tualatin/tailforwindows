@@ -23,11 +23,11 @@
           <RowDefinition Height="25" />
           <RowDefinition Height="35" />
         </Grid.RowDefinitions>
-        <RadioButton Content="No Proxy" Height="15" HorizontalAlignment="Left"  Name="radioButtonNoProxy" VerticalAlignment="Center" TabIndex="0" />
+        <RadioButton Content="No Proxy" Height="15" HorizontalAlignment="Left"  Name="radioButtonNoProxy" VerticalAlignment="Center" TabIndex="0"/>
         <RadioButton Content="Use system proxy settings" Grid.Row="1" Height="15" HorizontalAlignment="Left" Name="radioButtonSystemSettings" VerticalAlignment="Center" 
-                     IsChecked="{Binding Path=UseSystemSettings, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="1" />
+                     IsChecked="{Binding Path=UseSystemSettings, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="1"/>
         <RadioButton Content="Manual proxy configuration" Grid.Row="2" Height="15" HorizontalAlignment="Left" Name="radioButtonManualProxy" VerticalAlignment="Center"
-                     IsChecked="{Binding Path=UseProxy, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" />
+                     IsChecked="{Binding Path=UseProxy, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2"/>
                 
         <Grid Grid.Row="3" Name="ProxyPortUrl" IsEnabled="{Binding ElementName=radioButtonManualProxy, Path=IsChecked}">
           <Grid.ColumnDefinitions>

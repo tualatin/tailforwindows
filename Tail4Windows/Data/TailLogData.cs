@@ -20,6 +20,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public TailLogData()
     {
+      SaveLastDecision = true;
       ListOfFilter = new ObservableCollection<FilterData>();
       ListOfFilter.CollectionChanged += ContentCollectionChanged;
     }
@@ -322,6 +323,21 @@ namespace Org.Vs.TailForWin.Data
       {
         smartWatch = value;
         OnPropertyChanged("SmartWatch");
+      }
+    }
+
+    private bool saveLastDecision;
+
+    /// <summary>
+    /// Save last decision
+    /// </summary>
+    public bool SaveLastDecision
+    {
+      get => saveLastDecision;
+      set
+      {
+        saveLastDecision = value;
+        OnPropertyChanged("SaveLastDecision");
       }
     }
 
