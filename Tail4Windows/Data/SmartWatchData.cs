@@ -1,4 +1,5 @@
 ﻿using Org.Vs.TailForWin.Data.Base;
+using Org.Vs.TailForWin.Data.Enums;
 
 
 namespace Org.Vs.TailForWin.Data
@@ -23,18 +24,33 @@ namespace Org.Vs.TailForWin.Data
       }
     }
 
-    private bool saveLastDecision;
+    private ESmartWatchMode mode;
 
     /// <summary>
-    /// Save last decision
+    /// SmartWatch mode
     /// </summary>
-    public bool SaveLastDecision
+    public ESmartWatchMode Mode
     {
-      get => saveLastDecision;
+      get => mode;
       set
       {
-        saveLastDecision = value;
-        OnPropertyChanged("SaveLastDecision");
+        mode = value;
+        OnPropertyChanged("Mode");
+      }
+    }
+
+    private bool newTab;
+
+    /// <summary>
+    /// Open in new tab
+    /// </summary>
+    public bool NewTab
+    {
+      get => newTab;
+      set
+      {
+        newTab = value;
+        OnPropertyChanged("NewTab");
       }
     }
   }

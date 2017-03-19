@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Template.Events;
 
@@ -37,8 +36,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void SmartWatchWnd_Loaded(object sender, RoutedEventArgs e)
     {
-      SmartWatchWnd.DataContext = SettingsHelper.TailSettings.SmartWatchData;
-      LblNewFile.Text = $"File '{NewFileOpen}' detected. What should {LogFile.APPLICATION_CAPTION} do?";
+      LblNewFile.Text = string.Format(Application.Current.FindResource("SmartWatchHint").ToString(), NewFileOpen, LogFile.APPLICATION_CAPTION);
 
       Activate();
       Focus();

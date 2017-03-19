@@ -120,6 +120,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\SmartWatchModeToBoolConverter.cs" />
+    <Compile Include="Data\Enums\ESmartWatchMode.cs" />
     <Compile Include="Data\Enums\EWindowStyle.cs" />
     <Compile Include="Data\Native\Enum\SWP.cs" />
     <Compile Include="Data\Native\MemoryObject.cs" />

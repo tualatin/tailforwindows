@@ -857,7 +857,8 @@ namespace Org.Vs.TailForWin.Template
           {
             Left = xPos,
             Top = yPos,
-            NewFileOpen = Path.GetFileName(file)
+            NewFileOpen = Path.GetFileName(file),
+            DataContext = tabProperties
           };
           smartWatchWnd.Show();
           smartWatchWnd.Owner = Window.GetWindow(this);

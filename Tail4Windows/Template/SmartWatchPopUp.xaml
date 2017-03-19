@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Org.Vs.TailForWin.Template"
         mc:Ignorable="d"
-        Title="SmartWatch" Height="132" Width="458" Topmost="True" WindowStyle="ToolWindow" ShowInTaskbar="False" ResizeMode="NoResize" Name="SmartWatchWnd" Loaded="SmartWatchWnd_Loaded" Deactivated="SmartWatchWnd_Deactivated">
+        Title="SmartWatch" Height="132" Width="473" Topmost="True" WindowStyle="ToolWindow" ShowInTaskbar="False" ResizeMode="NoResize" Name="SmartWatchWnd" Loaded="SmartWatchWnd_Loaded" Deactivated="SmartWatchWnd_Deactivated">
   <Grid Margin="5">
     <Grid.RowDefinitions>
       <RowDefinition/>
@@ -13,19 +13,19 @@
       <RowDefinition Height="30"/>
     </Grid.RowDefinitions>
 
-    <TextBlock Name="LblNewFile" VerticalAlignment="Center" FontWeight="SemiBold" TextWrapping="Wrap"/>
+    <TextBlock Name="LblNewFile" FontWeight="SemiBold" TextWrapping="Wrap" Margin="2"/>
 
     <Separator Grid.Row="1" HorizontalAlignment="Center" Margin="0" Name="separator" VerticalAlignment="Center" Width="400"/>
 
     <Grid Grid.Row="2">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="105"/>
-        <ColumnDefinition Width="105"/>
-        <ColumnDefinition Width="105"/>
+        <ColumnDefinition Width="108"/>
+        <ColumnDefinition Width="108"/>
+        <ColumnDefinition Width="108"/>
         <ColumnDefinition/>
       </Grid.ColumnDefinitions>
 
-      <Button Name="BtnOpenNewTab" Content="Open in new Tab" Height="23" Width="100" TabIndex="0" Click="BtnOpenNewTab_Click">
+      <Button Name="BtnOpenNewTab" Content="Open in new Tab" Height="23" Width="105" TabIndex="0" Click="BtnOpenNewTab_Click">
         <Button.ToolTip>
           <StackPanel>
             <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Proxy</TextBlock>
@@ -39,7 +39,7 @@
         </Button.ToolTip>
       </Button>
 
-      <Button Name="BtnOpenSameTab" Grid.Column="1" Content="Open in same Tab" Height="23" Width="100" TabIndex="1" Click="BtnOpenSameTab_Click">
+      <Button Name="BtnOpenSameTab" Grid.Column="1" Content="Open in same Tab" Height="23" Width="105" TabIndex="1" Click="BtnOpenSameTab_Click">
         <Button.ToolTip>
           <StackPanel>
             <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Proxy</TextBlock>
@@ -53,7 +53,7 @@
         </Button.ToolTip>
       </Button>
 
-      <Button Name="BtnIgnore" Grid.Column="2" Content="Ignore" Height="23" Width="100" TabIndex="2" Click="BtnIgnore_Click">
+      <Button Name="BtnIgnore" Grid.Column="2" Content="Ignore" Height="23" Width="105" TabIndex="2" Click="BtnIgnore_Click">
         <Button.ToolTip>
           <StackPanel>
             <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Proxy</TextBlock>
