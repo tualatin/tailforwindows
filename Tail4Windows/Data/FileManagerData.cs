@@ -207,7 +207,23 @@ namespace Org.Vs.TailForWin.Data
       Timestamp = mementoFMData.TimeStamp;
       FontType = mementoFMData.FontType;
       ThreadPriority = mementoFMData.ThreadPriority;
-      ListOfFilter = mementoFMData.ListOfFilter.ConvertAll(FilterDataConverter.FilterDataToFilterData);
+      
+      try
+      {
+        ListOfFilter = mementoFMData.ListOfFilter.Select(f => new FilterData
+        {
+          Id = f.Id,
+          Description = f.Description,
+          Filter = f.Filter,
+          FilterColor = f.FilterColor,
+          FilterFontType = f.FilterFontType
+        });
+      }
+      catch
+      {        
+        ListOfFilter = null;
+      }
+      
       FileEncoding = mementoFMData.FileEncoding;
       PatternString = mementoFMData.PatternString;
       IsRegex = memento.IsRegex;
@@ -286,7 +302,23 @@ namespace Org.Vs.TailForWin.Data
         TimeStamp = obj.Timestamp;
         FontType = obj.FontType;
         ThreadPriority = obj.ThreadPriority;
-        ListOfFilter = obj.ListOfFilter.ConvertAll(FilterDataConverter.FilterDataToFilterData);
+        
+        try
+        {
+          ListOfFilter = obj.ListOfFilter.Select(f => new FilterData
+          {
+            Id = f.Id,
+            Description = f.Description,
+            Filter = f.Filter,
+            FilterColor = f.FilterColor,
+            FilterFontType = f.FilterFontType
+          });
+        }
+        catch
+        {
+          ListOfFilter = null;
+        }
+        
         FileEncoding = obj.FileEncoding;
         PatternString = obj.PatternString;
         IsRegex = obj.IsRegex;
