@@ -1,6 +1,6 @@
 Tail4Windows
 ==============
-## Professional log reader for windows
+## Professional log reader for Windows
 
 In order to monitor changes to your computer, or errors and warnings, your Windows system generates log files. These provide you with important details about any change that occurred on your system. Sadly, it is hard to monitor all these files at once, since some of them might change some data at the same time.
 
