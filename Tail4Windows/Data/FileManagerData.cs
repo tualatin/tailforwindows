@@ -167,7 +167,7 @@ namespace Org.Vs.TailForWin.Data
       equal &= Equals(other.FileName, FileName);
       equal &= Equals(other.FontType, FontType);
       equal &= Equals(other.KillSpace, KillSpace);
-      equal &= Equals(other.ListOfFilter, ListOfFilter);
+      equal &= CompareLists(other.ListOfFilter, ListOfFilter);
       equal &= Equals(other.NewWindow, NewWindow);
       equal &= Equals(other.RefreshRate, RefreshRate);
       equal &= Equals(other.ThreadPriority, ThreadPriority);
@@ -207,7 +207,7 @@ namespace Org.Vs.TailForWin.Data
       Timestamp = mementoFMData.TimeStamp;
       FontType = mementoFMData.FontType;
       ThreadPriority = mementoFMData.ThreadPriority;
-      ListOfFilter = mementoFMData.ListOfFilter;
+      ListOfFilter = mementoFMData.ListOfFilter.ConvertAll(FilterDataConverter.FilterDataToFilterData);
       FileEncoding = mementoFMData.FileEncoding;
       PatternString = mementoFMData.PatternString;
       IsRegex = memento.IsRegex;
@@ -286,7 +286,7 @@ namespace Org.Vs.TailForWin.Data
         TimeStamp = obj.Timestamp;
         FontType = obj.FontType;
         ThreadPriority = obj.ThreadPriority;
-        ListOfFilter = obj.ListOfFilter;
+        ListOfFilter = obj.ListOfFilter.ConvertAll(FilterDataConverter.FilterDataToFilterData);
         FileEncoding = obj.FileEncoding;
         PatternString = obj.PatternString;
         IsRegex = obj.IsRegex;
