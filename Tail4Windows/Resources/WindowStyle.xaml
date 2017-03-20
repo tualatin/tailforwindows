@@ -64,7 +64,7 @@
 
             <Label sw:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource CloseCommand}" HorizontalAlignment="Center" Margin="0,2,0,0" 
                    sw:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Padding="0">
-              <Image Style="{StaticResource WindowIcon}" Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=Icon}"              
+              <Image x:Name="WndIcon" Style="{StaticResource WindowIcon}" Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=Icon}"              
                      Width="16" sw:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                      sw:ShowSystemMenuBehavior.LeftButtonShowAt="{Binding ElementName=WindowContent}"/>
             </Label>
@@ -119,6 +119,11 @@
     </Border>
 
     <ControlTemplate.Triggers>
+      <Trigger Property="Window.IsActive" Value="False">
+        <Setter Property="Foreground" TargetName="WndTitle" Value="Gray"/>
+        <Setter Property="Source" TargetName="WndIcon" Value="/TailForWin;component/Res/Main_bw.ico"/>
+      </Trigger>
+
       <MultiTrigger>
         <MultiTrigger.Conditions>
           <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
