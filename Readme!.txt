@@ -5,6 +5,7 @@ If there are problems, TailForWindows creates a error logfile in the directory. 
 
 Changelog:
 v1.x.x
+* add Log line limitation, if needed
 * add some default patterns
 * add pattern logic to FileManager
 * history saves content in own XML file

@@ -657,12 +657,12 @@ namespace Org.Vs.TailForWin.Template
           tabProperties.LastRefreshTime = DateTime.Now;
           myReader.ReadLastNLines(SettingsHelper.TailSettings.LinesRead);
 
-          string line;
-
           if(myReader.TailFileStream == null)
             return;
 
-          while((line = myReader.TailStreamReader.ReadLine()) != null)
+          string line;
+
+          while(myReader.TailStreamReader != null && (line = myReader.TailStreamReader.ReadLine()) != null)
           {
             if(tabProperties.KillSpace)
             {
@@ -675,6 +675,9 @@ namespace Org.Vs.TailForWin.Template
             }
           }
         }
+
+        if(myReader.TailStreamReader == null)
+          return;
 
         // start at the end of the file
         long lastMaxOffset = myReader.TailStreamReader.BaseStream.Length;
@@ -700,7 +703,7 @@ namespace Org.Vs.TailForWin.Template
           // read file until EOF
           string line;
 
-          while((line = myReader.TailStreamReader.ReadLine()) != null && !tailWorker.CancellationPending)
+          while(myReader.TailFileStream != null && (line = myReader.TailStreamReader.ReadLine()) != null && !tailWorker.CancellationPending)
           {
             if(tabProperties.KillSpace)
             {
@@ -713,9 +716,6 @@ namespace Org.Vs.TailForWin.Template
             }
 
             tabProperties.LastRefreshTime = DateTime.Now;
-
-            if(myReader.TailFileStream == null)
-              break;
           }
 
           if(myReader.TailFileStream == null)

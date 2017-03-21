@@ -130,6 +130,22 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       e.Handled = true;
     }
 
+    private void SliderLogLineLimit_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+      if(!IsInitialized)
+        return;
+
+      string value;
+
+      if(e.NewValue == 400000)
+        value = "Unlimited";
+      else
+        value = $"{e.NewValue.ToString("N0")} lines";
+
+      LblSliderValue.Content = value;
+      e.Handled = true;
+    }
+
     #region HelperFunctions
 
     private void SetControls()

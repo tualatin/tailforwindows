@@ -9,8 +9,9 @@
   <UserControl.Resources>
     <conv:SmartWatchModeToBoolConverter x:Key="SWModeToBool"/>
     <conv:InverseBooleanConverter x:Key="InverseBoolConverter"/>
+    <conv:LogLineLimitConverter x:Key="LogLineConverter"/>
   </UserControl.Resources>
-  
+
   <Grid Margin="5" Name="GridExtraOptions">
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*"/>
@@ -32,6 +33,8 @@
         <Grid.RowDefinitions>
           <RowDefinition Height="30"/>
           <RowDefinition Height="30"/>
+          <RowDefinition Height="40"/>
+          <RowDefinition Height="20"/>
           <RowDefinition Height="145"/>
           <RowDefinition/>
         </Grid.RowDefinitions>
@@ -66,7 +69,27 @@
           </ComboBox.ToolTip>
         </ComboBox>
 
-        <GroupBox Header="SmartWatch" Grid.Row="2" Grid.ColumnSpan="2">
+        <Label Content="Log line limit" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" Margin="0,7" Width="72"/>
+        <Slider x:Name="SliderLogLineLimit" Orientation="Horizontal" Minimum="50000" Maximum="400000" SmallChange="50000"
+                VerticalAlignment="Center" Margin="169,3,36,3" TabIndex="2" Grid.Row="2" TickFrequency="50000" TickPlacement="BottomRight"
+                Value="{Binding Path=LogLineLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource LogLineConverter}}"
+                Interval="50000" IsSnapToTickEnabled="True" ValueChanged="SliderLogLineLimit_ValueChanged" Grid.ColumnSpan="2">
+          <Slider.ToolTip>
+            <StackPanel>
+              <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Log line limit</TextBlock>
+              <TextBlock>Change the max log lines in log view</TextBlock>
+              <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+              <WrapPanel>
+                <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+              </WrapPanel>
+            </StackPanel>
+          </Slider.ToolTip>
+        </Slider>
+
+        <Label Name="LblSliderValue" Grid.Row="3" Grid.Column="1" FontWeight="SemiBold" HorizontalAlignment="Right" Margin="0,0,50,0" FontSize="10"/>
+
+        <GroupBox Header="SmartWatch" Grid.Row="4" Grid.ColumnSpan="2">
           <Grid Margin="3">
             <Grid.RowDefinitions>
               <RowDefinition Height="30"/>
@@ -75,7 +98,7 @@
             </Grid.RowDefinitions>
 
             <CheckBox Name="CheckBoxEnableSmartWatch" Height="22" IsChecked="{Binding Path=SmartWatch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
-                      Content="SmartWatch" VerticalAlignment="Center" HorizontalAlignment="Left" TabIndex="2">
+                      Content="SmartWatch" VerticalAlignment="Center" HorizontalAlignment="Left" TabIndex="3">
               <CheckBox.ToolTip>
                 <StackPanel>
                   <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">SmartWatch</TextBlock>
@@ -104,7 +127,7 @@
               </Grid.ColumnDefinitions>
 
               <Label Content="SmartWatch mode" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" Margin="0,7,0,8" Width="110"/>
-              <ComboBox Name="ComboBoxSmartWatchMode" Grid.Column="1" Width="150" HorizontalAlignment="Left" SelectionChanged="ComboBoxSmartWatchMode_SelectionChanged" TabIndex="3" 
+              <ComboBox Name="ComboBoxSmartWatchMode" Grid.Column="1" Width="150" HorizontalAlignment="Left" SelectionChanged="ComboBoxSmartWatchMode_SelectionChanged" TabIndex="4" 
                         Margin="0,4">
                 <ComboBox.ToolTip>
                   <StackPanel>
@@ -119,7 +142,7 @@
                 </ComboBox.ToolTip>
               </ComboBox>
 
-              <RadioButton Grid.Row="1" Content="Open in new Tab" Height="15" HorizontalAlignment="Left"  Name="RadioButtonNewTab" VerticalAlignment="Center" TabIndex="4"
+              <RadioButton Grid.Row="1" Content="Open in new Tab" Height="15" HorizontalAlignment="Left"  Name="RadioButtonNewTab" VerticalAlignment="Center" TabIndex="5"
                            IsEnabled="{Binding Path=SmartWatchData.Mode, Converter={StaticResource SWModeToBool}}"
                            IsChecked="{Binding Path=SmartWatchData.NewTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <RadioButton.ToolTip>
@@ -133,11 +156,10 @@
                     </WrapPanel>
                   </StackPanel>
                 </RadioButton.ToolTip>
-
               </RadioButton>
 
               <RadioButton Grid.Row="1" Grid.Column="1" Content="Open in same Tab" Height="15" HorizontalAlignment="Left"  Name="RadioButtonSameTab" 
-                           VerticalAlignment="Center" TabIndex="5" IsEnabled="{Binding Path=SmartWatchData.Mode, Converter={StaticResource SWModeToBool}}"
+                           VerticalAlignment="Center" TabIndex="6" IsEnabled="{Binding Path=SmartWatchData.Mode, Converter={StaticResource SWModeToBool}}"
                            IsChecked="{Binding Path=SmartWatchData.NewTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBoolConverter}}">
                 <RadioButton.ToolTip>
                   <StackPanel>
@@ -152,8 +174,7 @@
                 </RadioButton.ToolTip>
               </RadioButton>
 
-              <CheckBox Name="CheckBoxFilterByExtension" Grid.Row="2" Height="22" IsChecked="{Binding Path=SmartWatchData.FilterByExtension, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                        Content="Filter by Extension" VerticalAlignment="Center" HorizontalAlignment="Left" TabIndex="6" Margin="0,4,0,5" Width="126">
+              <CheckBox Name="CheckBoxFilterByExtension" Grid.Row="2" Height="22" IsChecked="{Binding Path=SmartWatchData.FilterByExtension, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Content="Filter by Extension" VerticalAlignment="Center" HorizontalAlignment="Left" TabIndex="7" Margin="0,4,0,5" Width="126">
                 <CheckBox.ToolTip>
                   <StackPanel>
                     <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Fiel Extension</TextBlock>

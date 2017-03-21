@@ -152,6 +152,13 @@ namespace Org.Vs.TailForWin.Controller
         sHelper = ConfigurationManager.AppSettings["FileManagerSort"];
         ReadFileSortEnum(sHelper);
 
+        if(ConfigurationManager.AppSettings["LogLineLimit"] == null)
+          AddNewProperties_IntoConfigFile("LogLineLimit", "-1");
+
+        if(!int.TryParse(ConfigurationManager.AppSettings["LogLineLimit"], out iHelper))
+          iHelper = -1;
+        TailSettings.LogLineLimit = iHelper;
+
         ReadAlertSettings();
         ReadProxySettings();
         ReadSmtpSettings();
@@ -176,6 +183,7 @@ namespace Org.Vs.TailForWin.Controller
           return;
 
         config.AppSettings.Settings["LinesRead"].Value = TailSettings.LinesRead.ToString(CultureInfo.InvariantCulture);
+        config.AppSettings.Settings["LogLineLimit"].Value = TailSettings.LogLineLimit.ToString(CultureInfo.InvariantCulture);
         config.AppSettings.Settings["AlwaysOnTop"].Value = TailSettings.AlwaysOnTop.ToString();
         config.AppSettings.Settings["ShowNLineAtStart"].Value = TailSettings.ShowNLineAtStart.ToString();
         config.AppSettings.Settings["AlwaysScrollToEnd"].Value = TailSettings.AlwaysScrollToEnd.ToString();
@@ -285,6 +293,7 @@ namespace Org.Vs.TailForWin.Controller
       TailSettings.GroupByCategory = true;
       TailSettings.CurrentWindowStyle = EWindowStyle.ModernBlueWindowStyle;
       TailSettings.CurrentWindowState = System.Windows.WindowState.Normal;
+      TailSettings.LogLineLimit = -1;
 
       ResetAlertSettings();
       ResetProxySettings();

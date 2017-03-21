@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using log4net;
+using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Events;
 using Org.Vs.TailForWin.Template.TextEditor.Data;
@@ -491,6 +492,10 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
       Dispatcher.BeginInvoke((Action) (() => LogEntries.Add(entry)));
 
+      // Remove first items in Collection, when user wants a limit
+      if(SettingsHelper.TailSettings.LogLineLimit != -1 && LogEntries.Count >= SettingsHelper.TailSettings.LogLineLimit)
+        Dispatcher.Invoke(new Action(() => LogEntries.RemoveAt(0)));
+
       if(AlwaysScrollIntoView)
         ScrollToEnd();
     }
@@ -759,7 +764,10 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
     private void LogEntries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      // TODO collection changed event!
+      if(e.Action == NotifyCollectionChangedAction.Add)
+      {
+        // TODO collection changed event!
+      }
     }
 
     #endregion

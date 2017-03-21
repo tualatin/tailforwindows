@@ -70,6 +70,21 @@ namespace Org.Vs.TailForWin.Data
 
     #endregion
 
+    private int logLineLimit;
+
+    /// <summary>
+    /// Log line limitation
+    /// </summary>
+    public int LogLineLimit
+    {
+      get => logLineLimit;
+      set
+      {
+        logLineLimit = value;
+        OnPropertyChanged("LogLineLimit");
+      }
+    }
+
     #region AlwaysScrollToEnd
 
     private bool alwaysScrollToEnd;
