@@ -137,7 +137,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
       string value;
 
-      if(e.NewValue == 400000)
+      if(e.NewValue == LogFile.UNLIMITED_LOG_LINE_VALUE)
         value = "Unlimited";
       else
         value = $"{e.NewValue.ToString("N0")} lines";
@@ -153,6 +153,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       ComboBoxFileSort.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultFileSort);
       ComboBoxWindowStyle.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.CurrentWindowStyle);
       ComboBoxSmartWatchMode.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.SmartWatchData.Mode);
+      LblSliderValue.Content = SliderLogLineLimit.Value == LogFile.UNLIMITED_LOG_LINE_VALUE ? "Unlimited" : $"{SliderLogLineLimit.Value.ToString("N0")} lines";
     }
 
     private void AddItemsToFileSortComboBox()

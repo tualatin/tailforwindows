@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using Org.Vs.TailForWin.Data;
 
 
 namespace Org.Vs.TailForWin.Converters
@@ -25,7 +26,7 @@ namespace Org.Vs.TailForWin.Converters
         if((int) value > -1)
           return ((int) value);
       }
-      return (400000);
+      return (LogFile.UNLIMITED_LOG_LINE_VALUE);
     }
 
     /// <summary>
@@ -40,7 +41,7 @@ namespace Org.Vs.TailForWin.Converters
     {
       if(value is double)
       {
-        if((double) value < 400000)
+        if((double) value < LogFile.UNLIMITED_LOG_LINE_VALUE)
           return (value);
       }
       return (-1);

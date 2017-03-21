@@ -96,6 +96,11 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public static string ENCRYPT_PASSPHRASE = "fhsdtgf45FSDvj_dhjf#+sdkjfh567gAQW";
 
+    /// <summary>
+    /// Unlimited log line value
+    /// </summary>
+    public static int UNLIMITED_LOG_LINE_VALUE = 400000;
+
     #region ObservableCollection
 
     private static ObservableCollection<ThreadPriorityMapping> threadPriority = new ObservableCollection<ThreadPriorityMapping>();

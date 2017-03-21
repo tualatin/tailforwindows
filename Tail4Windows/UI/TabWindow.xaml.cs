@@ -210,6 +210,9 @@ namespace Org.Vs.TailForWin.UI
     /// </summary>
     public void SetSbIconText()
     {
+      if(currentPage == null)
+        return;
+
       try
       {
         if(currentPage.IsThreadBusy)

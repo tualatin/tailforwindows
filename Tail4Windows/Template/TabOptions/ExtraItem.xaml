@@ -71,7 +71,7 @@
 
         <Label Content="Log line limit" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" Margin="0,7" Width="72"/>
         <Slider x:Name="SliderLogLineLimit" Orientation="Horizontal" Minimum="50000" Maximum="400000" SmallChange="50000"
-                VerticalAlignment="Center" Margin="169,3,36,3" TabIndex="2" Grid.Row="2" TickFrequency="50000" TickPlacement="BottomRight"
+                VerticalAlignment="Center" Margin="163,3,40,3" TabIndex="2" Grid.Row="2" TickFrequency="50000" TickPlacement="BottomRight"
                 Value="{Binding Path=LogLineLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource LogLineConverter}}"
                 Interval="50000" IsSnapToTickEnabled="True" ValueChanged="SliderLogLineLimit_ValueChanged" Grid.ColumnSpan="2">
           <Slider.ToolTip>
