@@ -131,6 +131,8 @@
     <Compile Include="Data\Native\Win32Point.cs" />
     <Compile Include="Data\Native\WINDOWPOS.cs" />
     <Compile Include="Data\ThreadPriorityMapping.cs" />
+    <Compile Include="Extensions\CloneObservableCollection.cs" />
+    <Compile Include="Extensions\CompareLists.cs" />
     <Compile Include="Template\ColorPicker\ColorDialog.xaml.cs">
       <DependentUpon>ColorDialog.xaml</DependentUpon>
     </Compile>
@@ -584,6 +586,7 @@
     <Content Include="Config\log4net.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Res\Main_bw.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Res\about.ico" />

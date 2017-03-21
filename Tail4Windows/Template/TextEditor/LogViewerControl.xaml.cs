@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -105,6 +106,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       LogViewer.SelectionChanged += LogViewer_SelectionChanged;
 
       LogEntries = new ObservableCollection<LogEntry>();
+      LogEntries.CollectionChanged += LogEntries_CollectionChanged;
       collectionViewSource = new CollectionViewSource
       {
         Source = LogEntries
@@ -755,6 +757,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       }
     }
 
+    private void LogEntries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      // TODO collection changed event!
+    }
+
     #endregion
 
     #region MouseEvents
@@ -1304,15 +1311,15 @@ namespace Org.Vs.TailForWin.Template.TextEditor
         string[] substrings = regSearch.Split(newItem.Message);
 
         Array.ForEach(substrings, sub =>
-         {
-           if(!regSearch.Match(sub).Success)
-             return;
+        {
+          if(regSearch.Match(sub).Success)
+          {
+            AlertTriggerEventArgs triggerData = new AlertTriggerEventArgs(newItem);
+            Alert?.Invoke(this, triggerData);
 
-           AlertTriggerEventArgs triggerData = new AlertTriggerEventArgs(newItem);
-           Alert?.Invoke(this, triggerData);
-
-           success = true;
-         });
+            success = true;
+          }
+        });
       }
       return (success);
     }
