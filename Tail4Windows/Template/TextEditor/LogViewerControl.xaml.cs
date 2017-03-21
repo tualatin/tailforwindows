@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -755,7 +756,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
         }
       }
     }
-    
+
     private void LogEntries_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       // TODO collection changed event!
@@ -1311,13 +1312,13 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
         Array.ForEach(substrings, sub =>
         {
-          if(!regSearch.Match(sub).Success)
-            continue;
+          if(regSearch.Match(sub).Success)
+          {
+            AlertTriggerEventArgs triggerData = new AlertTriggerEventArgs(newItem);
+            Alert?.Invoke(this, triggerData);
 
-          AlertTriggerEventArgs triggerData = new AlertTriggerEventArgs(newItem);
-          Alert?.Invoke(this, triggerData);
-
-          success = true;
+            success = true;
+          }
         });
       }
       return (success);

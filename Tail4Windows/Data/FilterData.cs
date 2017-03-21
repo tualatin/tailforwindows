@@ -9,7 +9,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// FilterData object
   /// </summary>
-  public class FilterData : INotifyMaster, IDisposable, IDataErrorInfo
+  public class FilterData : INotifyMaster, IDisposable, IDataErrorInfo, ICloneable
   {
     /// <summary>
     /// Releases all resources used by the FilterData.
@@ -148,15 +148,6 @@ namespace Org.Vs.TailForWin.Data
     }
 
     /// <summary>
-    /// Create copy of object
-    /// </summary>
-    /// <returns>A clone of object</returns>
-    public FilterData Clone()
-    {
-      return (MemberwiseClone() as FilterData);
-    }
-
-    /// <summary>
     /// Equals two objects
     /// </summary>
     /// <param name="obj">Reference of FilterData</param>
@@ -196,6 +187,15 @@ namespace Org.Vs.TailForWin.Data
       FilterFontType = memento.FilterFontType;
       FilterColor = memento.FilterColor;
 
+    }
+
+    /// <summary>
+    /// Creates a shallow copy of the current Object.
+    /// </summary>
+    /// <returns>A shallow copy of the current Object.</returns>
+    public object Clone()
+    {
+      return (MemberwiseClone());
     }
 
     /// <summary>

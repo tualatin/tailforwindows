@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Extensions;
 using Org.Vs.TailForWin.Utils;
 
 
@@ -167,7 +167,7 @@ namespace Org.Vs.TailForWin.Data
       equal &= Equals(other.FileName, FileName);
       equal &= Equals(other.FontType, FontType);
       equal &= Equals(other.KillSpace, KillSpace);
-      equal &= CompareLists(other.ListOfFilter, ListOfFilter);
+      equal &= CompareFilterList(ListOfFilter, other.ListOfFilter);
       equal &= Equals(other.NewWindow, NewWindow);
       equal &= Equals(other.RefreshRate, RefreshRate);
       equal &= Equals(other.ThreadPriority, ThreadPriority);
@@ -180,10 +180,24 @@ namespace Org.Vs.TailForWin.Data
       return (equal);
     }
 
-    internal bool CompareLists<T>(List<T> firstList, List<T> secondList)
+    private bool CompareFilterList(ObservableCollection<FilterData> a, ObservableCollection<FilterData> b)
     {
-      return (firstList.Count == secondList.Count // assumes unique values in each list
-          && new HashSet<T>(firstList).SetEquals(secondList));
+      if(a.Count != b.Count)
+        return (false);
+
+      int index = 0;
+      bool equal = true;
+
+      foreach(FilterData item in a)
+      {
+        equal &= Equals(item.Description, b[index].Description);
+        equal &= Equals(item.Filter, b[index].Filter);
+        equal &= Equals(item.FilterColor, b[index].FilterColor);
+        equal &= Equals(item.FilterFontType, b[index].FilterFontType);
+
+        index++;
+      }
+      return (equal);
     }
 
     /// <summary>
@@ -207,23 +221,7 @@ namespace Org.Vs.TailForWin.Data
       Timestamp = mementoFMData.TimeStamp;
       FontType = mementoFMData.FontType;
       ThreadPriority = mementoFMData.ThreadPriority;
-      
-      try
-      {
-        ListOfFilter = mementoFMData.ListOfFilter.Select(f => new FilterData
-        {
-          Id = f.Id,
-          Description = f.Description,
-          Filter = f.Filter,
-          FilterColor = f.FilterColor,
-          FilterFontType = f.FilterFontType
-        });
-      }
-      catch
-      {        
-        ListOfFilter = null;
-      }
-      
+      ListOfFilter = CloneObservableCollection.DeepCopy(mementoFMData.ListOfFilter);
       FileEncoding = mementoFMData.FileEncoding;
       PatternString = mementoFMData.PatternString;
       IsRegex = memento.IsRegex;
@@ -302,23 +300,7 @@ namespace Org.Vs.TailForWin.Data
         TimeStamp = obj.Timestamp;
         FontType = obj.FontType;
         ThreadPriority = obj.ThreadPriority;
-        
-        try
-        {
-          ListOfFilter = obj.ListOfFilter.Select(f => new FilterData
-          {
-            Id = f.Id,
-            Description = f.Description,
-            Filter = f.Filter,
-            FilterColor = f.FilterColor,
-            FilterFontType = f.FilterFontType
-          });
-        }
-        catch
-        {
-          ListOfFilter = null;
-        }
-        
+        ListOfFilter = CloneObservableCollection.DeepCopy(obj.ListOfFilter);
         FileEncoding = obj.FileEncoding;
         PatternString = obj.PatternString;
         IsRegex = obj.IsRegex;

@@ -439,7 +439,7 @@ namespace Org.Vs.TailForWin.Template
 
       e.Handled = true;
 
-      fmWorkingProperties.ThreadPriority = (ThreadPriority) comboBoxThreadPriority.SelectedValue;
+      fmWorkingProperties.ThreadPriority = (comboBoxThreadPriority.SelectedItem as ThreadPriorityMapping).ThreadPriority;
       ChangeFmStateToEditItem();
     }
 
@@ -734,7 +734,16 @@ namespace Org.Vs.TailForWin.Template
       if(category != null)
         comboBoxCategory.SelectedValue = category;
 
-      comboBoxThreadPriority.SelectedValue = tp;
+      try
+      {
+        var selectedThread = LogFile.ThreadPriority.SingleOrDefault(p => p.ThreadPriority == tp);
+        comboBoxThreadPriority.SelectedItem = selectedThread;
+      }
+      catch
+      {
+        comboBoxCategory.SelectedItem = LogFile.ThreadPriority[0];
+      }
+
       comboBoxRefreshRate.SelectedValue = rr;
       comboBoxFileEncode.SelectedValue = fe;
     }
