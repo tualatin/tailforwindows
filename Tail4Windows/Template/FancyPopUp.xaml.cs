@@ -16,6 +16,9 @@ namespace Org.Vs.TailForWin.Template
       InitializeComponent();
     }
 
+    /// <summary>
+    /// PopUpAlertProperty
+    /// </summary>
     public static readonly DependencyProperty PopUpAlertProperty = DependencyProperty.Register("PopUpAlert", typeof(string), typeof(FancyPopUp),
       new FrameworkPropertyMetadata(string.Empty));
 
@@ -34,6 +37,9 @@ namespace Org.Vs.TailForWin.Template
       }
     }
 
+    /// <summary>
+    /// PopUpAlertDetailProperty
+    /// </summary>
     public static readonly DependencyProperty PopUpAlertDetailProperty = DependencyProperty.Register("PopUpAlertDetail", typeof(string), typeof(FancyPopUp),
       new FrameworkPropertyMetadata(string.Empty));
 

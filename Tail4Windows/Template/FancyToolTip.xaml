@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:tb="clr-namespace:Org.Vs.TailForWin.NotifyIcon"
              mc:Ignorable="d" 
-             x:Name="me" Width="240" Height="100">
+             x:Name="me" Width="300" Height="100">
   <UserControl.Resources>
     <Storyboard x:Key="FadeIn">
       <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="border" Storyboard.TargetProperty="(UIElement.Opacity)">

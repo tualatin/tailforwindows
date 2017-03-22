@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:tb="clr-namespace:Org.Vs.TailForWin.NotifyIcon"
              mc:Ignorable="d" 
-             Height="180" Width="280" x:Name="me">
+             Height="180" Width="300" x:Name="me">
   <UserControl.Resources>
     <Storyboard x:Key="FadeInAndOut">
       <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.Opacity)">

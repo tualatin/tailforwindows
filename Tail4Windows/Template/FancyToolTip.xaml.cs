@@ -64,7 +64,14 @@ namespace Org.Vs.TailForWin.Template
       }
       set
       {
-        SetValue(ToolTipDetailProperty, value);
+        if(string.IsNullOrEmpty(value))
+        {
+          SetValue(ToolTipDetailProperty, value);
+          return;
+        }
+
+        var cutStr = $"{value.Substring(0, 30)}...";
+        SetValue(ToolTipDetailProperty, cutStr);
       }
     }
 

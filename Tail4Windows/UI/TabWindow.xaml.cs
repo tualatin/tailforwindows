@@ -47,26 +47,14 @@ namespace Org.Vs.TailForWin.UI
     /// </summary>
     public string ToolTipDetailText
     {
-      get
-      {
-        return (fancyToolTipTfW.ToolTipDetail);
-      }
-      set
-      {
-        fancyToolTipTfW.ToolTipDetail = value;
-      }
+      get => fancyToolTipTfW.ToolTipDetail;
+      set => fancyToolTipTfW.ToolTipDetail = value;
     }
 
     /// <summary>
     /// Main window taskbar icon
     /// </summary>
-    public NotifyIcon.TaskbarIcon MainWndTaskBarIcon
-    {
-      get
-      {
-        return (tbIcon);
-      }
-    }
+    public NotifyIcon.TaskbarIcon MainWndTaskBarIcon => tbIcon;
 
     /// <summary>
     /// Uptime start time
@@ -82,58 +70,31 @@ namespace Org.Vs.TailForWin.UI
     /// </summary>
     public bool MainWindowTopmost
     {
-      get
-      {
-        return (Topmost);
-      }
-      set
-      {
-        Topmost = value;
-      }
+      get => Topmost;
+      set => Topmost = value;
     }
 
     /// <summary>
     /// Set statusbar state item
     /// </summary>
-    public StatusBarItem StatusBarState
-    {
-      get
-      {
-        return (stsBarState);
-      }
-    }
+    public StatusBarItem StatusBarState => stsBarState;
 
     /// <summary>
     /// Set statusbar encoding item
     /// </summary>
-    public StatusBarItem StatusBarEncoding
-    {
-      get
-      {
-        return (stsEncoding);
-      }
-    }
+    public StatusBarItem StatusBarEncoding => stsEncoding;
 
     /// <summary>
     /// Set statusbar lines read
     /// </summary>
-    public StatusBarItem StatusBarLinesRead
-    {
-      get
-      {
-        return (stsLinesRead);
-      }
-    }
+    public StatusBarItem StatusBarLinesRead => stsLinesRead;
 
     /// <summary>
     /// Set statubar encode combobox (cbStsEncoding)
     /// </summary>
     public ComboBox StatusBarEncodeCb
     {
-      get
-      {
-        return (cbStsEncoding);
-      }
+      get => cbStsEncoding;
     }
 
     /// <summary>
@@ -378,7 +339,7 @@ namespace Org.Vs.TailForWin.UI
           page.SearchBoxActive();
           page.WrapAround(searchBoxWindow.WrapSearch);
           FindWhatTextChangedEvent(this, EventArgs.Empty);
-          searchBoxWindow.SetTitle = page.FileManagerProperties.File;
+          searchBoxWindow.SetTitle = string.IsNullOrEmpty(page.FileManagerProperties.File) ? page.TailLogProperties.File : page.FileManagerProperties.File;
         }
 
         currentPage = page;

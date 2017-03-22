@@ -187,7 +187,12 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// FileManager properties
     /// </summary>
-    public FileManagerData FileManagerProperties => (fileManagerProperties);
+    public FileManagerData FileManagerProperties => fileManagerProperties;
+
+    /// <summary>
+    /// Current tab properties
+    /// </summary>
+    public TailLogData TailLogProperties => tabProperties;
 
     /// <summary>
     /// Update checkBoxOnTop.IsChecked
