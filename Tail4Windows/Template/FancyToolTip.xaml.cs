@@ -70,7 +70,13 @@ namespace Org.Vs.TailForWin.Template
           return;
         }
 
-        var cutStr = $"{value.Substring(0, 30)}...";
+        string cutStr = string.Empty;
+        
+        if (value.Length > 30)
+          cutStr = $"{value.Substring(0, 30)}...";
+        else
+          cutStr = value;
+        
         SetValue(ToolTipDetailProperty, cutStr);
       }
     }
