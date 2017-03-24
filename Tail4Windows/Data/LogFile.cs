@@ -100,6 +100,11 @@ namespace Org.Vs.TailForWin.Data
     /// Unlimited log line value
     /// </summary>
     public static int UNLIMITED_LOG_LINE_VALUE = 400000;
+    
+    /// <summary>
+    /// Delete log files older than xxx days
+    /// </summary>
+    public static int DELETE_LOG_FILES_OLDER_THAN = 5;
 
     #region ObservableCollection
 
