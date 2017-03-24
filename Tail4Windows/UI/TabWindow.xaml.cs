@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -363,9 +364,8 @@ namespace Org.Vs.TailForWin.UI
     }
 
     private void TabWindow_Closing(object sender, CancelEventArgs e)
-    {      
+    {
       LOG.Trace("{0} closing, goodbye!", LogFile.APPLICATION_CAPTION);
-      DeleteLogFiles();
       OnExit();
     }
 
@@ -810,7 +810,7 @@ namespace Org.Vs.TailForWin.UI
       page.UpdateStatusBarOnTabSelectionChange();
       page.UpdateCheckBoxOnTopOnWindowTopmost(Topmost);
     }
-    
+
     private void DeleteLogFiles()
     {
       if(!Directory.Exists("logs"))
@@ -903,6 +903,10 @@ namespace Org.Vs.TailForWin.UI
       }
 
       SettingsHelper.SaveSettings();
+
+      if(SettingsHelper.TailSettings.DeleteLogFiles)
+        DeleteLogFiles();
+
       Dispose();
       currentPage = null;
 

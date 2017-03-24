@@ -1,7 +1,7 @@
 ﻿.NET 4.x required!
 Source: git@github.com:tualatin/tailforwindows.git
 Known issues: https://github.com/tualatin/tailforwindows/issues
-If there are problems, TailForWindows creates a error logfile in the directory. Please send me this error file bevore restart TfW, because the program deletes the error log file when it is started
+If there are problems, Tail4Windows creates log files in folder 'logs'. You can send me the log file from the day where the error occurred. I will investigate it and fix it as soon as possible.
 
 Changelog:
 v1.x.x
@@ -13,14 +13,15 @@ v1.x.x
 * lot of bug fixes
 * new design for all main controls
 * Group by Category option in FileManager
-* Go forward with search is with F3 possible now
+* Go forward in  search dialog is by key F3 possible now
 * SpinnerControl accept MouseWheel now
 * File encoding can change while tailing
 * new Scrollbar design
 * improve Drag'n'Drop behaviour
-* change internal structur 
+* change internal structure 
 * bug fix auto update
 * change some icons
+* Tail4Windows log files older than 5 days will automatically delete, if you don't want it, please edit the config file and set property 'DeleteLogFiles' to 'False'
 * new log4net is logging system now
 * new tooltip design
 * bug fix Uptime

@@ -38,7 +38,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       InitializeComponent();
 
       PreviewKeyDown += HandleEsc;
-      
+
 #if BUILD64
       string build = "64-Bit";
 #elif BUILD32
@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       Assembly assembly = Assembly.GetExecutingAssembly();
       labelBuildDate.Content = (BuildDate.GetBuildDateTime(assembly)).ToString("dd.MM.yyyy HH:mm:ss");
       labelAppName.Content = LogFile.APPLICATION_CAPTION;
-      labelVersion.Content = $"{assembly.GetName().Version} {build}";
+      labelVersion.Content = $"{assembly.GetName().Version} - {build}";
       updater.ApplicationName = LogFile.APPLICATION_CAPTION;
       updater.DataContext = SettingsHelper.TailSettings;
       checkBoxAutoUpdate.DataContext = SettingsHelper.TailSettings;

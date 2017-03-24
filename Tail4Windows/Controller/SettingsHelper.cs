@@ -107,6 +107,13 @@ namespace Org.Vs.TailForWin.Controller
           bHelper = true;
         TailSettings.GroupByCategory = bHelper;
 
+        if(ConfigurationManager.AppSettings["DeleteLogFiles"] == null)
+          AddNewProperties_IntoConfigFile("DeleteLogFiles", true.ToString());
+
+        if(!bool.TryParse(ConfigurationManager.AppSettings["LogLineLimit"], out bHelper))
+          bHelper = true;
+        TailSettings.DeleteLogFiles = bHelper;
+
         if(ConfigurationManager.AppSettings["CurrentWindowStyle"] == null)
           AddNewProperties_IntoConfigFile("CurrentWindowStyle", EWindowStyle.ModernBlueWindowStyle.ToString());
 
@@ -215,6 +222,7 @@ namespace Org.Vs.TailForWin.Controller
         config.AppSettings.Settings["GroupByCategory"].Value = TailSettings.GroupByCategory.ToString();
         config.AppSettings.Settings["CurrentWindowStyle"].Value = TailSettings.CurrentWindowStyle.ToString();
         config.AppSettings.Settings["WindowState"].Value = TailSettings.CurrentWindowState.ToString();
+        config.AppSettings.Settings["DeleteLogFiles"].Value = TailSettings.DeleteLogFiles.ToString();
 
         SaveAlertSettings(config);
         SaveProxySettings(config);
@@ -294,6 +302,7 @@ namespace Org.Vs.TailForWin.Controller
       TailSettings.CurrentWindowStyle = EWindowStyle.ModernBlueWindowStyle;
       TailSettings.CurrentWindowState = System.Windows.WindowState.Normal;
       TailSettings.LogLineLimit = -1;
+      TailSettings.DeleteLogFiles = true;
 
       ResetAlertSettings();
       ResetProxySettings();
