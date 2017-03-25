@@ -1372,7 +1372,7 @@ namespace Org.Vs.TailForWin.Template
           {
             if(currentFileName.Equals(logWnd.textBoxFileName.Text))
             {
-              LOG.Trace("Is opened '{0}'!", currentFileName);
+              LOG.Trace("Is already open '{0}'!", currentFileName);
               OnIsOpenInTabControl?.Invoke(item);
 
               currentFileName = string.Empty;
