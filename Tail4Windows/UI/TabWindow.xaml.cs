@@ -372,6 +372,40 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabWindow_Closing(object sender, CancelEventArgs e)
     {
+      bool tailing = false;
+
+      foreach(TabItem item in tabControl.Items)
+      {
+        if(item.Content != null && item.Content.GetType() == typeof(Frame))
+        {
+          var page = GetTailLogWindow(item.Content as Frame);
+
+          if(page == null)
+            continue;
+
+          if(page.IsThreadBusy)
+          {
+            tailing = true;
+            break;
+          }
+        }
+      }
+
+      if(tailing)
+      {
+        string message = string.Format(Application.Current.FindResource("ThreadIsBusy").ToString(), LogFile.APPLICATION_CAPTION);
+
+        if(MessageBox.Show(message, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+        {
+          e.Cancel = false;
+        }
+        else
+        {
+          e.Cancel = true;
+          return;
+        }
+      }
+
       LOG.Trace("{0} closing, goodbye!", LogFile.APPLICATION_CAPTION);
       OnExit();
     }

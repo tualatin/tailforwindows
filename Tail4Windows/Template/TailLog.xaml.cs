@@ -121,7 +121,9 @@ namespace Org.Vs.TailForWin.Template
         FilterState = fileManagerProperties.FilterState,
         UsePattern = fileManagerProperties.UsePattern,
         PatternString = fileManagerProperties.PatternString,
-        IsRegex = fileManagerProperties.IsRegex
+        IsRegex = fileManagerProperties.IsRegex,
+        SmartWatch = fileManagerProperties.SmartWatch,
+        SmartWatchRun = fileManagerProperties.SmartWatchRun
       };
 
       InitTailLog(childTabIndex, tabItem);
@@ -130,6 +132,9 @@ namespace Org.Vs.TailForWin.Template
       SetToolTipDetailText();
       FilterState();
       ShowCountOfFilters();
+
+      if(tabProperties.SmartWatchRun)
+        btnStart_Click(this, null);
     }
 
     /// <summary>
@@ -838,6 +843,7 @@ namespace Org.Vs.TailForWin.Template
 
       ExtraIcons.DataContext = tabProperties;
       CheckBoxSmartWatch.DataContext = SettingsHelper.TailSettings;
+      CheckBoxSmartWatch.IsChecked = tabProperties.SmartWatch;
 
       DefaultPropertiesChanged(this, null);
 
@@ -863,11 +869,38 @@ namespace Org.Vs.TailForWin.Template
             Left = xPos,
             Top = yPos,
             NewFileOpen = Path.GetFileName(file),
+            FullPath = file,
             DataContext = tabProperties
           };
+          smartWatchWnd.SmartWatchOpenFile += SmartWatchWnd_SmartWatchOpenFile;
           smartWatchWnd.Show();
           smartWatchWnd.Owner = Window.GetWindow(this);
         }));
+      }
+    }
+
+    private void SmartWatchWnd_SmartWatchOpenFile(object sender, string file, bool openInTab)
+    {
+      currentFileName = file;
+
+      if(openInTab)
+      {
+        FileManagerData smartWatchProperties = null;
+
+        if(fileManagerProperties != null && fileManagerProperties.OpenFromFileManager)
+          smartWatchProperties = fileManagerProperties;
+        else
+          smartWatchProperties = new FileManagerData(tabProperties);
+
+        if(smartWatchProperties == null)
+          return;
+
+        smartWatchProperties.FontType = tabProperties.FontType;
+        smartWatchProperties.FileName = file;
+        smartWatchProperties.OriginalFileName = file;
+        smartWatchProperties.SmartWatchRun = true;
+
+        OnDragAndDropEvent?.Invoke(smartWatchProperties);
       }
     }
 
@@ -918,9 +951,12 @@ namespace Org.Vs.TailForWin.Template
         textBlockTailLog.FilterOn = tabProperties.FilterState;
       }
 
-      FileManagerStructure fms = new FileManagerStructure();
-      fileManagerProperties.FilterState = tabProperties.FilterState;
-      fms.UpdateNode(fileManagerProperties);
+      if(tabProperties.OpenFromFileManager)
+      {
+        FileManagerStructure fms = new FileManagerStructure();
+        fileManagerProperties.FilterState = tabProperties.FilterState;
+        fms.UpdateNode(fileManagerProperties);
+      }
     }
 
     private void InitComboBoxes()

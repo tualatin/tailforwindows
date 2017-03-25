@@ -341,6 +341,21 @@ namespace Org.Vs.TailForWin.Data
       }
     }
 
+    private bool smartWatchRun;
+
+    /// <summary>
+    /// Tail automatically after tab is created
+    /// </summary>
+    public bool SmartWatchRun
+    {
+      get => smartWatchRun;
+      set
+      {
+        smartWatchRun = value;
+        OnPropertyChanged("SmartWatchRun");
+      }
+    }
+
     #endregion
 
     private void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

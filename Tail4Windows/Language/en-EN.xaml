@@ -38,7 +38,7 @@
   <system:String x:Key="SmtpSettingsNotValid">Can not set SMTP settings! Please take a look into the log file to get more information.</system:String>
   <system:String x:Key="OpenDialogImportSettings">Please select a exported settings file...</system:String>
   <system:String x:Key="QImportSettings">Do you really want to import this settings? Your old settings will override.</system:String>
-  <system:String x:Key="QAddSendTo">Do you really want to add TailForWindows into the Send to context menu of Windows?</system:String>
+  <system:String x:Key="QAddSendTo">Do you really want to add Tail4Windows into the Send to context menu of Windows?</system:String>
   <system:String x:Key="WndStyleChanged">Window style changed, please restart {0}, to see the changes.</system:String>
   <system:String x:Key="Lowest">Lowest</system:String>
   <system:String x:Key="BelowNormal">Below normal</system:String>
@@ -46,4 +46,5 @@
   <system:String x:Key="AboveNormal">Above normal</system:String>
   <system:String x:Key="Highest">Highest</system:String>
   <system:String x:Key="SmartWatchHint">File '{0}' detected. What should {1} do?</system:String>
+  <system:String x:Key="ThreadIsBusy">There is a running process in {0}. Are you sure to exit?</system:String>
 </ResourceDictionary>
