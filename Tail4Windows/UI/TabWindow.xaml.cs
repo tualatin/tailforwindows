@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -214,6 +215,13 @@ namespace Org.Vs.TailForWin.UI
           return;
 
         AddTabItem(item);
+
+
+        if(tabControl.Items.Count == 3)
+        {
+          var tabItem = tabControl.Items[0];
+          RemoveTabItem(tabItem as TabItem);
+        }
       }
     }
 
@@ -267,7 +275,7 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabControl_Drop(object sender, DragEventArgs e)
     {
-      currentPage?.DropHelper(sender, e);
+      //currentPage?.DropHelper(sender, e);
     }
 
     private void TabControl_PreviewKeyUp(object sender, KeyEventArgs e)
@@ -364,7 +372,7 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabWindow_Closing(object sender, CancelEventArgs e)
     {
-      LOG.Trace("Tail4Windows closing, goodbye!");
+      LOG.Trace("{0} closing, goodbye!", LogFile.APPLICATION_CAPTION);
       OnExit();
     }
 
@@ -810,6 +818,33 @@ namespace Org.Vs.TailForWin.UI
       page.UpdateCheckBoxOnTopOnWindowTopmost(Topmost);
     }
 
+    private void DeleteLogFiles()
+    {
+      if(!Directory.Exists("logs"))
+        return;
+
+      try
+      {
+        var files = new DirectoryInfo("logs").GetFiles("*.log");
+
+        foreach(var item in files.Where(f => DateTime.Now - f.LastWriteTimeUtc > TimeSpan.FromDays(LogFile.DELETE_LOG_FILES_OLDER_THAN)))
+        {
+          try
+          {
+            item.Delete();
+          }
+          catch
+          {
+            continue;
+          }
+        }
+      }
+      catch(Exception ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType());
+      }
+    }
+
     private void SetTabNotActive(TailLog activePage)
     {
       try
@@ -875,6 +910,10 @@ namespace Org.Vs.TailForWin.UI
       }
 
       SettingsHelper.SaveSettings();
+
+      if(SettingsHelper.TailSettings.DeleteLogFiles)
+        DeleteLogFiles();
+
       Dispose();
       currentPage = null;
 

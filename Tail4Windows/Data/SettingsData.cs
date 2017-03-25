@@ -32,6 +32,15 @@ namespace Org.Vs.TailForWin.Data
       set;
     }
 
+    /// <summary>
+    /// Delete Tail4Windows log files older than xx days
+    /// </summary>
+    public bool DeleteLogFiles
+    {
+      get;
+      set;
+    }
+
     #region AlwaysOnTop
 
     private bool alwaysOnTop;

@@ -31,7 +31,7 @@
   <system:String x:Key="GoToLineNumber">Line number ({0}-{1}):</system:String>
   <system:String x:Key="NoUpdate">No update necessary</system:String>
   <system:String x:Key="DoUpdate">New update available</system:String>
-  <system:String x:Key="DragDropRunningWarning">There is a running process! Do you want open a new TailWindows tab?</system:String>
+  <system:String x:Key="DragDropRunningWarning">There is a running process! Do you want open a new TailWindow tab?</system:String>
   <system:String x:Key="EMailAddressNotValid">The E-Mail address is not valid!</system:String>
   <system:String x:Key="SmtpPortNotValid">The SMTP Server Port is not valid!</system:String>
   <system:String x:Key="MailCannotSend">E-Mail can not send! Please check your SMTP settings.</system:String>
