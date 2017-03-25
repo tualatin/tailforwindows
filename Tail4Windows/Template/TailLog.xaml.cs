@@ -1171,6 +1171,12 @@ namespace Org.Vs.TailForWin.Template
 
     private void FileManagerGetProperties(object sender, EventArgs e)
     {
+      if(e is FileManagerDataEventArgs properties)
+        currentFileName = properties.GetData().FileName;
+
+      if(FileIsOpenInOtherTab())
+        return;
+
       FileManagerDoOpenTab?.Invoke(this, e);
     }
 
@@ -1206,6 +1212,9 @@ namespace Org.Vs.TailForWin.Template
         return;
       }
 
+      if(FileIsOpenInOtherTab())
+        return;
+
       if(tailWorker.IsBusy)
       {
         var result = MessageBox.Show(Application.Current.FindResource("DragDropRunningWarning") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -1214,9 +1223,6 @@ namespace Org.Vs.TailForWin.Template
         {
           try
           {
-            if(FileIsOpenInOtherTab())
-              return;
-
             var fileProperties = new FileManagerData
             {
               ID = -1,

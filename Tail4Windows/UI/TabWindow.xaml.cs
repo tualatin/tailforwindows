@@ -215,6 +215,13 @@ namespace Org.Vs.TailForWin.UI
           return;
 
         AddTabItem(item);
+
+
+        if(tabControl.Items.Count == 3)
+        {
+          var tabItem = tabControl.Items[0];
+          RemoveTabItem(tabItem as TabItem);
+        }
       }
     }
 
@@ -268,7 +275,7 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabControl_Drop(object sender, DragEventArgs e)
     {
-      currentPage?.DropHelper(sender, e);
+      //currentPage?.DropHelper(sender, e);
     }
 
     private void TabControl_PreviewKeyUp(object sender, KeyEventArgs e)
