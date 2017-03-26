@@ -20,7 +20,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public TailLogData()
     {
-      SaveLastDecision = true;
+      AutoRun = true;
       ListOfFilter = new ObservableCollection<FilterData>();
       ListOfFilter.CollectionChanged += ContentCollectionChanged;
     }
@@ -326,33 +326,18 @@ namespace Org.Vs.TailForWin.Data
       }
     }
 
-    private bool saveLastDecision;
-
-    /// <summary>
-    /// Save last decision
-    /// </summary>
-    public bool SaveLastDecision
-    {
-      get => saveLastDecision;
-      set
-      {
-        saveLastDecision = value;
-        OnPropertyChanged("SaveLastDecision");
-      }
-    }
-
-    private bool smartWatchRun;
+    private bool autoRun;
 
     /// <summary>
     /// Tail automatically after tab is created
     /// </summary>
-    public bool SmartWatchRun
+    public bool AutoRun
     {
-      get => smartWatchRun;
+      get => autoRun;
       set
       {
-        smartWatchRun = value;
-        OnPropertyChanged("SmartWatchRun");
+        autoRun = value;
+        OnPropertyChanged("AutoRun");
       }
     }
 

@@ -30,6 +30,7 @@ namespace Org.Vs.TailForWin.Template
 
     private readonly TailLogData tabProperties;
     private BackgroundWorker tailWorker;
+    private BackgroundWorker waitWorker;
     private int childTabIndex;
     private TailForWinTabItem childTabItem;
     private string childTabState;
@@ -87,6 +88,12 @@ namespace Org.Vs.TailForWin.Template
         tailWorker = null;
       }
 
+      if(waitWorker != null)
+      {
+        waitWorker.Dispose();
+        waitWorker = null;
+      }
+
       myReader.Dispose();
       tabProperties.Dispose();
       mySmtp.Dispose();
@@ -123,7 +130,7 @@ namespace Org.Vs.TailForWin.Template
         PatternString = fileManagerProperties.PatternString,
         IsRegex = fileManagerProperties.IsRegex,
         SmartWatch = fileManagerProperties.SmartWatch,
-        SmartWatchRun = fileManagerProperties.SmartWatchRun
+        AutoRun = fileManagerProperties.AutoRun
       };
 
       InitTailLog(childTabIndex, tabItem);
@@ -133,7 +140,7 @@ namespace Org.Vs.TailForWin.Template
       FilterState();
       ShowCountOfFilters();
 
-      if(tabProperties.SmartWatchRun)
+      if(tabProperties.AutoRun)
         btnStart_Click(this, null);
     }
 
@@ -635,9 +642,9 @@ namespace Org.Vs.TailForWin.Template
 
     #endregion
 
-    #region Thread
+    #region Threads
 
-    private void tailWorker_DoWork(object sender, DoWorkEventArgs e)
+    private void TailWorker_DoWork(object sender, DoWorkEventArgs e)
     {
       try
       {
@@ -755,7 +762,7 @@ namespace Org.Vs.TailForWin.Template
       }
     }
 
-    private void tailWorker_RunWorkerComplete(object sender, RunWorkerCompletedEventArgs e)
+    private void TailWorker_RunWorkerComplete(object sender, RunWorkerCompletedEventArgs e)
     {
       if(e.Error != null)
       {
@@ -813,6 +820,30 @@ namespace Org.Vs.TailForWin.Template
       myReader.Dispose();
     }
 
+    private void WaitWorker_DoWork(object sender, DoWorkEventArgs e)
+    {
+      while(tailWorker.IsBusy && !waitWorker.CancellationPending)
+      {
+        Thread.Sleep(100);
+      }
+
+      if(e.Argument is string)
+        e.Result = e.Argument;
+    }
+
+    private void WaitWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+      if(e.Result is string file)
+      {
+        tabProperties.FileName = file;
+        tabProperties.OriginalFileName = file;
+        textBoxFileName.Text = file;
+
+        if(tabProperties.AutoRun)
+          btnStart_Click(this, null);
+      }
+    }
+
     #endregion
 
     #region HelpFunctions
@@ -825,8 +856,15 @@ namespace Org.Vs.TailForWin.Template
       {
         WorkerSupportsCancellation = true
       };
-      tailWorker.DoWork += tailWorker_DoWork;
-      tailWorker.RunWorkerCompleted += tailWorker_RunWorkerComplete;
+      tailWorker.DoWork += TailWorker_DoWork;
+      tailWorker.RunWorkerCompleted += TailWorker_RunWorkerComplete;
+
+      waitWorker = new BackgroundWorker
+      {
+        WorkerSupportsCancellation = true
+      };
+      waitWorker.DoWork += WaitWorker_DoWork;
+      waitWorker.RunWorkerCompleted += WaitWorker_RunWorkerCompleted;
 
       smartWatch = new SmartWatch();
       smartWatch.SmartWatchFilesChanged += SmartWatchFilesChanged;
@@ -898,9 +936,15 @@ namespace Org.Vs.TailForWin.Template
         smartWatchProperties.FontType = tabProperties.FontType;
         smartWatchProperties.FileName = file;
         smartWatchProperties.OriginalFileName = file;
-        smartWatchProperties.SmartWatchRun = true;
 
         OnDragAndDropEvent?.Invoke(smartWatchProperties);
+      }
+      else
+      {
+        btnStop_Click(this, null);
+
+        if(!waitWorker.IsBusy)
+          waitWorker.RunWorkerAsync(file);
       }
     }
 

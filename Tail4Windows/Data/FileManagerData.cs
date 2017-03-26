@@ -36,7 +36,7 @@ namespace Org.Vs.TailForWin.Data
       FileEncoding = tailData.FileEncoding;
       FontType = tailData.FontType;
       SmartWatch = tailData.SmartWatch;
-      SaveLastDecision = tailData.SaveLastDecision;
+      AutoRun = tailData.AutoRun;
       FilterState = tailData.FilterState;
       PatternString = tailData.PatternString;
       IsRegex = tailData.IsRegex;
