@@ -332,6 +332,7 @@ namespace Org.Vs.TailForWin.Controller
       TailSettings.SmartWatchData.FilterByExtension = true;
       TailSettings.SmartWatchData.NewTab = true;
       TailSettings.SmartWatchData.Mode = ESmartWatchMode.Manual;
+      TailSettings.SmartWatchData.AutoRun = true;
     }
 
     /// <summary>
@@ -424,6 +425,7 @@ namespace Org.Vs.TailForWin.Controller
       config.AppSettings.Settings["SmartWatch.FilterByExtension"].Value = TailSettings.SmartWatchData.FilterByExtension.ToString();
       config.AppSettings.Settings["SmartWatch.NewTab"].Value = TailSettings.SmartWatchData.NewTab.ToString();
       config.AppSettings.Settings["SmartWatch.Mode"].Value = TailSettings.SmartWatchData.Mode.ToString();
+      config.AppSettings.Settings["SmartWatch.AutoRun"].Value = TailSettings.SmartWatchData.AutoRun.ToString();
     }
 
     private static void ReadSmartWatchSettings()
@@ -431,14 +433,14 @@ namespace Org.Vs.TailForWin.Controller
       try
       {
         if(ConfigurationManager.AppSettings["SmartWatch.FilterByExtension"] == null)
-          AddNewProperties_IntoConfigFile("SmartWatch.FilterByExtension", "True");
+          AddNewProperties_IntoConfigFile("SmartWatch.FilterByExtension", true.ToString());
 
         if(!bool.TryParse(ConfigurationManager.AppSettings["SmartWatch.FilterByExtension"], out bool bHelper))
           bHelper = true;
         TailSettings.SmartWatchData.FilterByExtension = bHelper;
 
         if(ConfigurationManager.AppSettings["SmartWatch.NewTab"] == null)
-          AddNewProperties_IntoConfigFile("SmartWatch.NewTab", "True");
+          AddNewProperties_IntoConfigFile("SmartWatch.NewTab", true.ToString());
 
         if(!bool.TryParse(ConfigurationManager.AppSettings["SmartWatch.NewTab"], out bHelper))
           bHelper = true;
@@ -449,6 +451,13 @@ namespace Org.Vs.TailForWin.Controller
 
         string sHelper = ConfigurationManager.AppSettings["SmartWatch.Mode"];
         TailSettings.SmartWatchData.Mode = GetSmartWatchMode(sHelper);
+
+        if(ConfigurationManager.AppSettings["SmartWatch.AutoRun"] == null)
+          AddNewProperties_IntoConfigFile("SmartWatch.AutoRun", true.ToString());
+
+        if(!bool.TryParse(ConfigurationManager.AppSettings["SmartWatch.AutoRun"], out bHelper))
+          bHelper = true;
+        TailSettings.SmartWatchData.AutoRun = bHelper;
       }
       catch(ConfigurationErrorsException ex)
       {

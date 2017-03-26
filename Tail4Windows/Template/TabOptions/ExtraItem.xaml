@@ -35,7 +35,7 @@
           <RowDefinition Height="30"/>
           <RowDefinition Height="40"/>
           <RowDefinition Height="20"/>
-          <RowDefinition Height="145"/>
+          <RowDefinition Height="146"/>
           <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -143,7 +143,7 @@
               </ComboBox>
 
               <RadioButton Grid.Row="1" Content="Open in new Tab" Height="15" HorizontalAlignment="Left"  Name="RadioButtonNewTab" VerticalAlignment="Center" TabIndex="5"
-                           IsEnabled="{Binding Path=SmartWatchData.Mode, Converter={StaticResource SWModeToBool}}"
+                           IsEnabled="{Binding Path=SmartWatchData.Mode, Converter={StaticResource SWModeToBool}}" Margin="4,0,0,0"
                            IsChecked="{Binding Path=SmartWatchData.NewTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <RadioButton.ToolTip>
                   <StackPanel>
@@ -159,7 +159,7 @@
               </RadioButton>
 
               <RadioButton Grid.Row="1" Grid.Column="1" Content="Open in same Tab" Height="15" HorizontalAlignment="Left"  Name="RadioButtonSameTab" 
-                           VerticalAlignment="Center" TabIndex="6" IsEnabled="{Binding Path=SmartWatchData.Mode, Converter={StaticResource SWModeToBool}}"
+                           VerticalAlignment="Center" TabIndex="6" IsEnabled="{Binding Path=SmartWatchData.Mode, Converter={StaticResource SWModeToBool}}" Margin="4,0,0,0"
                            IsChecked="{Binding Path=SmartWatchData.NewTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBoolConverter}}">
                 <RadioButton.ToolTip>
                   <StackPanel>
@@ -179,6 +179,21 @@
                   <StackPanel>
                     <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Fiel Extension</TextBlock>
                     <TextBlock>Filter by last log file extension</TextBlock>
+                    <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
+                    <WrapPanel>
+                      <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />
+                      <TextBlock FontStyle="Italic">Take a look into Readme file for more informations</TextBlock>
+                    </WrapPanel>
+                  </StackPanel>
+                </CheckBox.ToolTip>
+              </CheckBox>
+
+              <CheckBox Name="CheckBoxAutoRun" Grid.Row="2" Grid.Column="1" Height="22" IsChecked="{Binding Path=SmartWatchData.AutoRun, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IsEnabled="{Binding Path=SmartWatchData.Mode, Converter={StaticResource SWModeToBool}}" Content="Autorun" VerticalAlignment="Center"
+                        HorizontalAlignment="Left" TabIndex="8" Margin="0,4,0,5" Width="126">
+                <CheckBox.ToolTip>
+                  <StackPanel>
+                    <TextBlock FontWeight="Bold" FontSize="12" Margin="0,0,0,5">Autorun</TextBlock>
+                    <TextBlock>If Autorun is enabled, Tail4Windows starts automatically tailing of new file</TextBlock>
                     <Border BorderBrush="Silver" BorderThickness="0,1,0,0" Margin="0,8"/>
                     <WrapPanel>
                       <Image Source="/TailForWin;component/Res/Search.ico" Height="16" Width="16" Margin="0,0,5,0" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" />

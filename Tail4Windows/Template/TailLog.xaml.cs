@@ -839,8 +839,26 @@ namespace Org.Vs.TailForWin.Template
         tabProperties.OriginalFileName = file;
         textBoxFileName.Text = file;
 
-        if(tabProperties.AutoRun)
-          btnStart_Click(this, null);
+        switch(SettingsHelper.TailSettings.SmartWatchData.Mode)
+        {
+        case ESmartWatchMode.Manual:
+
+          if(tabProperties.AutoRun)
+            btnStart_Click(this, null);
+
+          break;
+
+        case ESmartWatchMode.Auto:
+
+          if(SettingsHelper.TailSettings.SmartWatchData.AutoRun)
+            btnStart_Click(this, null);
+
+          break;
+
+        default:
+
+          throw new NotImplementedException("This case is not possible!");
+        }
       }
     }
 
@@ -895,28 +913,48 @@ namespace Org.Vs.TailForWin.Template
       {
         LOG.Debug("{0} changed file is '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, file);
 
-        Dispatcher.Invoke(new Action(() =>
+        if(SettingsHelper.TailSettings.SmartWatchData.Mode == ESmartWatchMode.Manual)
         {
-          double xPos, yPos;
-
-          xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
-          yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
-
-          SmartWatchPopUp smartWatchWnd = new SmartWatchPopUp
+          Dispatcher.Invoke(new Action(() =>
           {
-            Left = xPos,
-            Top = yPos,
-            NewFileOpen = Path.GetFileName(file),
-            FullPath = file,
-            DataContext = tabProperties
-          };
-          smartWatchWnd.SmartWatchOpenFile += SmartWatchWnd_SmartWatchOpenFile;
-          smartWatchWnd.Show();
-          smartWatchWnd.Owner = Window.GetWindow(this);
-        }));
+            double xPos, yPos;
+
+            xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
+            yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
+
+            SmartWatchPopUp smartWatchWnd = new SmartWatchPopUp
+            {
+              Left = xPos,
+              Top = yPos,
+              NewFileOpen = Path.GetFileName(file),
+              FullPath = file,
+              DataContext = tabProperties
+            };
+            smartWatchWnd.SmartWatchOpenFile += SmartWatchWnd_SmartWatchOpenFile;
+            smartWatchWnd.Show();
+            smartWatchWnd.Owner = Window.GetWindow(this);
+          }));
+        }
+        else if(SettingsHelper.TailSettings.SmartWatchData.Mode == ESmartWatchMode.Auto)
+        {
+          Dispatcher.Invoke(new Action(() =>
+          {
+            SmartWatchWnd_SmartWatchOpenFile(this, file, SettingsHelper.TailSettings.SmartWatchData.NewTab);
+          }));
+        }
+        else
+        {
+          throw new NotImplementedException("This case is not possible!");
+        }
       }
     }
 
+    /// <summary>
+    /// SmartWatch detect a new file, open it...
+    /// </summary>
+    /// <param name="sender">Who sends the event</param>
+    /// <param name="file">Full path of file</param>
+    /// <param name="openInTab">Open in tab or same window</param>
     private void SmartWatchWnd_SmartWatchOpenFile(object sender, string file, bool openInTab)
     {
       currentFileName = file;
@@ -937,7 +975,11 @@ namespace Org.Vs.TailForWin.Template
         smartWatchProperties.FileName = file;
         smartWatchProperties.OriginalFileName = file;
 
+        if(SettingsHelper.TailSettings.SmartWatchData.AutoRun)
+          smartWatchProperties.AutoRun = SettingsHelper.TailSettings.SmartWatchData.AutoRun;
+
         OnDragAndDropEvent?.Invoke(smartWatchProperties);
+        smartWatchProperties = null;
       }
       else
       {
