@@ -341,6 +341,15 @@ namespace Org.Vs.TailForWin.Data
       }
     }
 
+    /// <summary>
+    /// Properties comes from SmartWatch
+    /// </summary>
+    public bool OpenFromSmartWatch
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     private void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

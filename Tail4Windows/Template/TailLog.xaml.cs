@@ -130,6 +130,7 @@ namespace Org.Vs.TailForWin.Template
         PatternString = fileManagerProperties.PatternString,
         IsRegex = fileManagerProperties.IsRegex,
         SmartWatch = fileManagerProperties.SmartWatch,
+        OpenFromSmartWatch = fileManagerProperties.OpenFromSmartWatch,
         AutoRun = fileManagerProperties.AutoRun
       };
 
@@ -140,7 +141,7 @@ namespace Org.Vs.TailForWin.Template
       FilterState();
       ShowCountOfFilters();
 
-      if(tabProperties.AutoRun)
+      if(tabProperties.AutoRun && tabProperties.OpenFromSmartWatch)
         btnStart_Click(this, null);
     }
 
@@ -974,6 +975,7 @@ namespace Org.Vs.TailForWin.Template
         smartWatchProperties.FontType = tabProperties.FontType;
         smartWatchProperties.FileName = file;
         smartWatchProperties.OriginalFileName = file;
+        smartWatchProperties.OpenFromSmartWatch = true;
 
         if(SettingsHelper.TailSettings.SmartWatchData.AutoRun)
           smartWatchProperties.AutoRun = SettingsHelper.TailSettings.SmartWatchData.AutoRun;
