@@ -31,7 +31,7 @@ namespace Org.Vs.TailForWin.Template
     private readonly TailLogData tabProperties;
     private BackgroundWorker tailWorker;
     private BackgroundWorker waitWorker;
-    private int childTabIndex;
+    private Guid childTabIndex;
     private TailForWinTabItem childTabItem;
     private string childTabState;
     private string oldFileName;
@@ -103,10 +103,9 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// Tab with properties from FileManager
     /// </summary>
-    /// <param name="childTabIndex">Reference index</param>
     /// <param name="tabItem">Reference tab control parent</param>
     /// <param name="fileManagerProperties">Settings from FileManager</param>
-    public TailLog(int childTabIndex, TabItem tabItem, FileManagerData fileManagerProperties)
+    public TailLog(TabItem tabItem, FileManagerData fileManagerProperties)
     {
       InitializeComponent();
 
@@ -134,7 +133,7 @@ namespace Org.Vs.TailForWin.Template
         AutoRun = fileManagerProperties.AutoRun
       };
 
-      InitTailLog(childTabIndex, tabItem);
+      InitTailLog(tabItem);
 
       textBoxFileName.Text = tabProperties.FileName;
       SetToolTipDetailText();
@@ -148,9 +147,8 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// New tab with default settings
     /// </summary>
-    /// <param name="childTabIndex">Reference index</param>
     /// <param name="tabItem">Reference tab control parent</param>
-    public TailLog(int childTabIndex, TabItem tabItem)
+    public TailLog(TabItem tabItem)
     {
       InitializeComponent();
 
@@ -179,7 +177,7 @@ namespace Org.Vs.TailForWin.Template
         FontType = tabProperties.FontType
       };
 
-      InitTailLog(childTabIndex, tabItem);
+      InitTailLog(tabItem);
     }
 
     private bool activeTab;
@@ -650,7 +648,7 @@ namespace Org.Vs.TailForWin.Template
       try
       {
         if(string.IsNullOrEmpty(Thread.CurrentThread.Name))
-          Thread.CurrentThread.Name = string.Format("TailThread_{0}", childTabIndex);
+          Thread.CurrentThread.Name = $"TailThread_{childTabIndex.ToString()}";
 
         Thread.CurrentThread.Priority = tabProperties.ThreadPriority;
 
@@ -867,7 +865,7 @@ namespace Org.Vs.TailForWin.Template
 
     #region HelpFunctions
 
-    private void InitTailLog(int chldTabIdx, TabItem tabItem)
+    private void InitTailLog(TabItem tabItem)
     {
       InitComboBoxes();
 
@@ -890,7 +888,7 @@ namespace Org.Vs.TailForWin.Template
 
       SetFontInTextEditor();
 
-      childTabIndex = chldTabIdx;
+      childTabIndex = Guid.NewGuid();
       childTabItem = (TailForWinTabItem) tabItem;
       childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
 
@@ -1086,10 +1084,10 @@ namespace Org.Vs.TailForWin.Template
     }
 
     /// <summary>
-    /// Get child tab index
+    /// Get child tab Guid
     /// </summary>
-    /// <returns>Index of tab</returns>
-    public int GetChildTabIndex()
+    /// <returns>Guid of selected tab</returns>
+    public Guid GetChildTabIndex()
     {
       return (childTabIndex);
     }

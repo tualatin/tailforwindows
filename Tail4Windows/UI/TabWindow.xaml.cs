@@ -801,14 +801,14 @@ namespace Org.Vs.TailForWin.UI
 
       if(properties == null)
       {
-        tailWindow = new TailLog(tabControl.Items.Count, tabItem)
+        tailWindow = new TailLog(tabItem)
         {
           ActiveTab = true
         };
       }
       else
       {
-        tailWindow = new TailLog(tabControl.Items.Count, tabItem, properties)
+        tailWindow = new TailLog(tabItem, properties)
         {
           ActiveTab = true
         };
