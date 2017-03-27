@@ -26,7 +26,7 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// ID filter
     /// </summary>
-    public int Id
+    public Guid Id
     {
       get;
       set;

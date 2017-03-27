@@ -38,8 +38,6 @@ namespace Org.Vs.TailForWin.Controller
     {
       fmFile = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + "\\FileManager.xml";
       fmProperties = new List<FileManagerData>();
-      LastFileId = -1;
-      LastFilterId = -1;
 
       OpenFmDoc();
     }
@@ -71,24 +69,6 @@ namespace Org.Vs.TailForWin.Controller
       {
         return (fmProperties);
       }
-    }
-
-    /// <summary>
-    /// Last Id of file node
-    /// </summary>
-    public int LastFileId
-    {
-      set;
-      get;
-    }
-
-    /// <summary>
-    /// Last Id of filter node
-    /// </summary>
-    public int LastFilterId
-    {
-      get;
-      set;
     }
 
     #endregion
@@ -620,21 +600,11 @@ namespace Org.Vs.TailForWin.Controller
       return (string.IsNullOrEmpty(category) ? (null) : (category));
     }
 
-    private int GetId(string sId, bool isFile = true)
+    private Guid GetId(string sId, bool isFile = true)
     {
-      if(!int.TryParse(sId, out int id))
-        id = -1;
+      if(!Guid.TryParse(sId, out int id))
+        id = Guid.Empty;
 
-      if(isFile)
-      {
-        if(id > LastFileId)
-          LastFileId = id;
-      }
-      else
-      {
-        if(id > LastFilterId)
-          LastFilterId = id;
-      }
       return (id);
     }
 

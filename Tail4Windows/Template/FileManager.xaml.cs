@@ -94,7 +94,7 @@ namespace Org.Vs.TailForWin.Template
 
         fmWorkingProperties.FileName = addFile.FileName;
         fmWorkingProperties.OriginalFileName = addFile.FileName;
-        fmWorkingProperties.ID = ++fmDoc.LastFileId;
+        fmWorkingProperties.ID = Guid.NewGuid();
         fmWorkingProperties.FileEncoding = addFile.FileEncoding;
 
         fmData.Add(fmWorkingProperties);
@@ -633,7 +633,7 @@ namespace Org.Vs.TailForWin.Template
         Description = string.Empty,
         FileName = fileName,
         OriginalFileName = fileName,
-        ID = ++fmDoc.LastFileId,
+        ID = Guid.NewGuid(),
         RefreshRate = fmProperties.RefreshRate,
         ThreadPriority = fmProperties.ThreadPriority,
         KillSpace = false,
