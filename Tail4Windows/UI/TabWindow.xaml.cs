@@ -796,6 +796,7 @@ namespace Org.Vs.TailForWin.UI
     {
       LOG.Trace("{0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
+      // TODO check tabControl.Items.Count index!! I think, it's wrong
       TailLog tailWindow;
 
       if(properties == null)
