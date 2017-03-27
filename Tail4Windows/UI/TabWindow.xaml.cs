@@ -215,8 +215,8 @@ namespace Org.Vs.TailForWin.UI
           return;
 
         AddTabItem(item);
-
-
+        
+        // TODO issue! Improve it...
         if(tabControl.Items.Count == 3)
         {
           var tabItem = tabControl.Items[0];
@@ -275,7 +275,8 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabControl_Drop(object sender, DragEventArgs e)
     {
-      //currentPage?.DropHelper(sender, e);
+      // TODO issue?? Drag and drop on TabControl
+      currentPage?.DropHelper(sender, e);
     }
 
     private void TabControl_PreviewKeyUp(object sender, KeyEventArgs e)
@@ -294,18 +295,18 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+      // TODO issue, when all files opens from FileManager, it works. But when open a file from external, it doesn't work again, it's broken!!
       if(!IsInitialized)
         return;
 
-      if(e.Source is TabControl)
+      if(e.Source is TabControl tabControl)
       {
         if(e.AddedItems.Count == 0)
           return;
 
-        //LOG.Trace("{0}", System.Reflection.MethodBase.GetCurrentMethod());
+        LOG.Trace("{0}", System.Reflection.MethodBase.GetCurrentMethod());
 
         var tab = e.AddedItems[0] as TabItem;
-        var tabControl = e.Source as TabControl;
 
         if(tab == null || tabControl == null)
           return;
