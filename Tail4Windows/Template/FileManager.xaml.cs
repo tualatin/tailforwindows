@@ -67,6 +67,8 @@ namespace Org.Vs.TailForWin.Template
     /// <param name="addFile">TailForLogData object</param>
     public FileManager(EFileManagerState fmState, TailLogData addFile)
     {
+      Cursor = Cursors.Wait;
+
       this.fmState = fmState;
       fmProperties = new FileManagerData
       {
@@ -101,6 +103,7 @@ namespace Org.Vs.TailForWin.Template
       }
 
       comboBoxCategory.SelectedIndex = 0;
+      Cursor = Cursors.Arrow;
     }
 
     #region ClickEvents
@@ -142,9 +145,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnNew_Click(object sender, RoutedEventArgs e)
     {
-      string fName;
-
-      if(LogFile.OpenFileLogDialog(out fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource("OpenFileDialog") as string))
+      if(LogFile.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource("OpenFileDialog") as string))
         AddNewFile(fName);
     }
 
@@ -219,6 +220,8 @@ namespace Org.Vs.TailForWin.Template
         return;
       }
 
+      Cursor = Cursors.Wait;
+
       switch(fmState)
       {
       case EFileManagerState.AddFile:
@@ -254,6 +257,8 @@ namespace Org.Vs.TailForWin.Template
       fmState = EFileManagerState.OpenFileManager;
       fmMemento = fmWorkingProperties.SaveToMemento();
       GetCurrentCollectionViewSource().Refresh();
+
+      Cursor = Cursors.Arrow;
     }
 
     private void CheckBoxUsePattern_Click(object sender, RoutedEventArgs e)

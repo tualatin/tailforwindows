@@ -216,6 +216,7 @@ namespace Org.Vs.TailForWin.Data
       equal &= Equals(other.PatternString, PatternString);
       equal &= Equals(other.IsRegex, IsRegex);
       equal &= Equals(other.UsePattern, UsePattern);
+      equal &= Equals(other.SmartWatch, SmartWatch);
 
       return (equal);
     }
@@ -266,6 +267,7 @@ namespace Org.Vs.TailForWin.Data
       PatternString = mementoFMData.PatternString;
       IsRegex = memento.IsRegex;
       UsePattern = memento.UsePattern;
+      SmartWatch = memento.SmartWatch;
     }
 
     #region IComparer interface
@@ -345,6 +347,7 @@ namespace Org.Vs.TailForWin.Data
         PatternString = obj.PatternString;
         IsRegex = obj.IsRegex;
         UsePattern = obj.UsePattern;
+        SmartWatch = obj.SmartWatch;
       }
 
       #region Properties memento
@@ -353,6 +356,15 @@ namespace Org.Vs.TailForWin.Data
       /// Unique ID of FileManager node
       /// </summary>
       public Guid ID
+      {
+        get;
+        private set;
+      }
+
+      /// <summary>
+      /// SmartWatch
+      /// </summary>
+      public bool SmartWatch
       {
         get;
         private set;

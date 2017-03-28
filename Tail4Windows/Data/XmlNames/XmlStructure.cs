@@ -137,6 +137,11 @@
     /// </summary>
     public const string TimeStamp = "timeStamp";
 
+    /// <summary>
+    /// useSmartWatch
+    /// </summary>
+    public const string UseSmartWatch = "useSmartWatch";
+
     #endregion
 
     #region History XML file
