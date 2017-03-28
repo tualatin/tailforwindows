@@ -30,7 +30,8 @@ namespace Org.Vs.TailForWin.Template
 
     private readonly TailLogData tabProperties;
     private BackgroundWorker tailWorker;
-    private int childTabIndex;
+    private BackgroundWorker waitWorker;
+    private Guid childTabIndex;
     private TailForWinTabItem childTabItem;
     private string childTabState;
     private string oldFileName;
@@ -87,6 +88,12 @@ namespace Org.Vs.TailForWin.Template
         tailWorker = null;
       }
 
+      if(waitWorker != null)
+      {
+        waitWorker.Dispose();
+        waitWorker = null;
+      }
+
       myReader.Dispose();
       tabProperties.Dispose();
       mySmtp.Dispose();
@@ -96,10 +103,9 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// Tab with properties from FileManager
     /// </summary>
-    /// <param name="childTabIndex">Reference index</param>
     /// <param name="tabItem">Reference tab control parent</param>
     /// <param name="fileManagerProperties">Settings from FileManager</param>
-    public TailLog(int childTabIndex, TabItem tabItem, FileManagerData fileManagerProperties)
+    public TailLog(TabItem tabItem, FileManagerData fileManagerProperties)
     {
       InitializeComponent();
 
@@ -121,23 +127,28 @@ namespace Org.Vs.TailForWin.Template
         FilterState = fileManagerProperties.FilterState,
         UsePattern = fileManagerProperties.UsePattern,
         PatternString = fileManagerProperties.PatternString,
-        IsRegex = fileManagerProperties.IsRegex
+        IsRegex = fileManagerProperties.IsRegex,
+        SmartWatch = fileManagerProperties.SmartWatch,
+        OpenFromSmartWatch = fileManagerProperties.OpenFromSmartWatch,
+        AutoRun = fileManagerProperties.AutoRun
       };
 
-      InitTailLog(childTabIndex, tabItem);
+      InitTailLog(tabItem);
 
       textBoxFileName.Text = tabProperties.FileName;
       SetToolTipDetailText();
       FilterState();
       ShowCountOfFilters();
+
+      if(tabProperties.AutoRun && tabProperties.OpenFromSmartWatch)
+        btnStart_Click(this, null);
     }
 
     /// <summary>
     /// New tab with default settings
     /// </summary>
-    /// <param name="childTabIndex">Reference index</param>
     /// <param name="tabItem">Reference tab control parent</param>
-    public TailLog(int childTabIndex, TabItem tabItem)
+    public TailLog(TabItem tabItem)
     {
       InitializeComponent();
 
@@ -162,11 +173,11 @@ namespace Org.Vs.TailForWin.Template
 
       fileManagerProperties = new FileManagerData
       {
-        ID = -1,
+        ID = Guid.Empty,
         FontType = tabProperties.FontType
       };
 
-      InitTailLog(childTabIndex, tabItem);
+      InitTailLog(tabItem);
     }
 
     private bool activeTab;
@@ -630,14 +641,14 @@ namespace Org.Vs.TailForWin.Template
 
     #endregion
 
-    #region Thread
+    #region Threads
 
-    private void tailWorker_DoWork(object sender, DoWorkEventArgs e)
+    private void TailWorker_DoWork(object sender, DoWorkEventArgs e)
     {
       try
       {
         if(string.IsNullOrEmpty(Thread.CurrentThread.Name))
-          Thread.CurrentThread.Name = string.Format("TailThread_{0}", childTabIndex);
+          Thread.CurrentThread.Name = $"TailThread_{childTabIndex.ToString()}";
 
         Thread.CurrentThread.Priority = tabProperties.ThreadPriority;
 
@@ -750,7 +761,7 @@ namespace Org.Vs.TailForWin.Template
       }
     }
 
-    private void tailWorker_RunWorkerComplete(object sender, RunWorkerCompletedEventArgs e)
+    private void TailWorker_RunWorkerComplete(object sender, RunWorkerCompletedEventArgs e)
     {
       if(e.Error != null)
       {
@@ -808,11 +819,53 @@ namespace Org.Vs.TailForWin.Template
       myReader.Dispose();
     }
 
+    private void WaitWorker_DoWork(object sender, DoWorkEventArgs e)
+    {
+      while(tailWorker.IsBusy && !waitWorker.CancellationPending)
+      {
+        Thread.Sleep(100);
+      }
+
+      if(e.Argument is string)
+        e.Result = e.Argument;
+    }
+
+    private void WaitWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+      if(e.Result is string file)
+      {
+        tabProperties.FileName = file;
+        tabProperties.OriginalFileName = file;
+        textBoxFileName.Text = file;
+
+        switch(SettingsHelper.TailSettings.SmartWatchData.Mode)
+        {
+        case ESmartWatchMode.Manual:
+
+          if(tabProperties.AutoRun)
+            btnStart_Click(this, null);
+
+          break;
+
+        case ESmartWatchMode.Auto:
+
+          if(SettingsHelper.TailSettings.SmartWatchData.AutoRun)
+            btnStart_Click(this, null);
+
+          break;
+
+        default:
+
+          throw new NotImplementedException("This case is not possible!");
+        }
+      }
+    }
+
     #endregion
 
     #region HelpFunctions
 
-    private void InitTailLog(int chldTabIdx, TabItem tabItem)
+    private void InitTailLog(TabItem tabItem)
     {
       InitComboBoxes();
 
@@ -820,15 +873,22 @@ namespace Org.Vs.TailForWin.Template
       {
         WorkerSupportsCancellation = true
       };
-      tailWorker.DoWork += tailWorker_DoWork;
-      tailWorker.RunWorkerCompleted += tailWorker_RunWorkerComplete;
+      tailWorker.DoWork += TailWorker_DoWork;
+      tailWorker.RunWorkerCompleted += TailWorker_RunWorkerComplete;
+
+      waitWorker = new BackgroundWorker
+      {
+        WorkerSupportsCancellation = true
+      };
+      waitWorker.DoWork += WaitWorker_DoWork;
+      waitWorker.RunWorkerCompleted += WaitWorker_RunWorkerCompleted;
 
       smartWatch = new SmartWatch();
       smartWatch.SmartWatchFilesChanged += SmartWatchFilesChanged;
 
       SetFontInTextEditor();
 
-      childTabIndex = chldTabIdx;
+      childTabIndex = Guid.NewGuid();
       childTabItem = (TailForWinTabItem) tabItem;
       childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
 
@@ -838,6 +898,7 @@ namespace Org.Vs.TailForWin.Template
 
       ExtraIcons.DataContext = tabProperties;
       CheckBoxSmartWatch.DataContext = SettingsHelper.TailSettings;
+      CheckBoxSmartWatch.IsChecked = tabProperties.SmartWatch;
 
       DefaultPropertiesChanged(this, null);
 
@@ -851,23 +912,89 @@ namespace Org.Vs.TailForWin.Template
       {
         LOG.Debug("{0} changed file is '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, file);
 
-        Dispatcher.Invoke(new Action(() =>
+        if(SettingsHelper.TailSettings.SmartWatchData.Mode == ESmartWatchMode.Manual)
         {
-          double xPos, yPos;
-
-          xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
-          yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
-
-          SmartWatchPopUp smartWatchWnd = new SmartWatchPopUp
+          Dispatcher.Invoke(new Action(() =>
           {
-            Left = xPos,
-            Top = yPos,
-            NewFileOpen = Path.GetFileName(file),
-            DataContext = tabProperties
+            double xPos, yPos;
+
+            xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
+            yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
+
+            SmartWatchPopUp smartWatchWnd = new SmartWatchPopUp
+            {
+              Left = xPos,
+              Top = yPos,
+              NewFileOpen = Path.GetFileName(file),
+              FullPath = file,
+              DataContext = tabProperties
+            };
+            smartWatchWnd.SmartWatchOpenFile += SmartWatchWnd_SmartWatchOpenFile;
+            smartWatchWnd.Show();
+            smartWatchWnd.Owner = Window.GetWindow(this);
+          }));
+        }
+        else if(SettingsHelper.TailSettings.SmartWatchData.Mode == ESmartWatchMode.Auto)
+        {
+          SmartWatchOpenFileEventArgs e = new SmartWatchOpenFileEventArgs
+          {
+            FileFullPath = file,
+            OpenInTab = SettingsHelper.TailSettings.SmartWatchData.NewTab
           };
-          smartWatchWnd.Show();
-          smartWatchWnd.Owner = Window.GetWindow(this);
-        }));
+
+          Dispatcher.Invoke(new Action(() =>
+          {
+            SmartWatchWnd_SmartWatchOpenFile(this, e);
+          }));
+        }
+        else
+        {
+          throw new NotImplementedException("This case is not possible!");
+        }
+      }
+    }
+
+    /// <summary>
+    /// SmartWatch detect a new file, open it...
+    /// </summary>
+    /// <param name="sender">Who sends the event</param>
+    /// <param name="e">SmartWatchOpenFileEventArgs</param>
+    private void SmartWatchWnd_SmartWatchOpenFile(object sender, SmartWatchOpenFileEventArgs e)
+    {
+      if(e == null)
+        return;
+
+      currentFileName = e.FileFullPath;
+
+      if(e.OpenInTab)
+      {
+        FileManagerData smartWatchProperties = null;
+
+        if(fileManagerProperties != null && fileManagerProperties.OpenFromFileManager)
+          smartWatchProperties = fileManagerProperties;
+        else
+          smartWatchProperties = new FileManagerData(tabProperties);
+
+        if(smartWatchProperties == null)
+          return;
+
+        smartWatchProperties.FontType = tabProperties.FontType;
+        smartWatchProperties.FileName = e.FileFullPath;
+        smartWatchProperties.OriginalFileName = e.FileFullPath;
+        smartWatchProperties.OpenFromSmartWatch = true;
+
+        if(SettingsHelper.TailSettings.SmartWatchData.AutoRun)
+          smartWatchProperties.AutoRun = SettingsHelper.TailSettings.SmartWatchData.AutoRun;
+
+        OnDragAndDropEvent?.Invoke(smartWatchProperties);
+        smartWatchProperties = null;
+      }
+      else
+      {
+        btnStop_Click(this, null);
+
+        if(!waitWorker.IsBusy)
+          waitWorker.RunWorkerAsync(e.FileFullPath);
       }
     }
 
@@ -918,9 +1045,12 @@ namespace Org.Vs.TailForWin.Template
         textBlockTailLog.FilterOn = tabProperties.FilterState;
       }
 
-      FileManagerStructure fms = new FileManagerStructure();
-      fileManagerProperties.FilterState = tabProperties.FilterState;
-      fms.UpdateNode(fileManagerProperties);
+      if(tabProperties.OpenFromFileManager)
+      {
+        FileManagerStructure fms = new FileManagerStructure();
+        fileManagerProperties.FilterState = tabProperties.FilterState;
+        fms.UpdateNode(fileManagerProperties);
+      }
     }
 
     private void InitComboBoxes()
@@ -962,10 +1092,10 @@ namespace Org.Vs.TailForWin.Template
     }
 
     /// <summary>
-    /// Get child tab index
+    /// Get child tab Guid
     /// </summary>
-    /// <returns>Index of tab</returns>
-    public int GetChildTabIndex()
+    /// <returns>Guid of selected tab</returns>
+    public Guid GetChildTabIndex()
     {
       return (childTabIndex);
     }
@@ -1077,7 +1207,7 @@ namespace Org.Vs.TailForWin.Template
       {
         fileManagerProperties = new FileManagerData
         {
-          ID = -1
+          ID = Guid.Empty
         };
       }
 
@@ -1225,7 +1355,7 @@ namespace Org.Vs.TailForWin.Template
           {
             var fileProperties = new FileManagerData
             {
-              ID = -1,
+              ID = Guid.Empty,
               Wrap = false,
               KillSpace = false,
               FontType = CreateTailWindowFont(),

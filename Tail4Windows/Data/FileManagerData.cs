@@ -16,6 +16,36 @@ namespace Org.Vs.TailForWin.Data
   /// </summary>
   public class FileManagerData : TailLogData, IComparer, IDataErrorInfo
   {
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
+    public FileManagerData()
+    {
+    }
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="tailData">Tail log data</param>
+    public FileManagerData(TailLogData tailData)
+    {
+      Wrap = tailData.Wrap;
+      KillSpace = tailData.KillSpace;
+      ThreadPriority = tailData.ThreadPriority;
+      RefreshRate = tailData.RefreshRate;
+      FileEncoding = tailData.FileEncoding;
+      FontType = tailData.FontType;
+      SmartWatch = tailData.SmartWatch;
+      AutoRun = tailData.AutoRun;
+      FilterState = tailData.FilterState;
+      PatternString = tailData.PatternString;
+      IsRegex = tailData.IsRegex;
+      Timestamp = tailData.Timestamp;
+      ListOfFilter = tailData.ListOfFilter;
+      OpenFromFileManager = tailData.OpenFromFileManager;
+      UsePattern = tailData.UsePattern;
+    }
+
     #region Description
 
     private string description;
@@ -69,7 +99,17 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Unique ID of FileManager node
     /// </summary>
-    public int ID
+    public Guid ID
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Compatiblity old Id
+    /// </summary>
+    [Obsolete("Use Guid in futur")]
+    public int OldId
     {
       get;
       set;
@@ -312,7 +352,7 @@ namespace Org.Vs.TailForWin.Data
       /// <summary>
       /// Unique ID of FileManager node
       /// </summary>
-      public int ID
+      public Guid ID
       {
         get;
         private set;

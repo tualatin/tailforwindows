@@ -123,7 +123,8 @@ namespace Org.Vs.TailForWin.UI
       {
         Header = "+",
         Name = "AddChildTab",
-        Style = (Style) FindResource("TabItemAddStyle")
+        Style = (Style) FindResource("TabItemAddStyle"),
+        Tag = "AddTab"
       };
       tabAdd.PreviewMouseLeftButtonDown += TabAdd_MouseLeftButtonDown;
 
@@ -216,12 +217,8 @@ namespace Org.Vs.TailForWin.UI
 
         AddTabItem(item);
 
-
-        if(tabControl.Items.Count == 3)
-        {
-          var tabItem = tabControl.Items[0];
-          RemoveTabItem(tabItem as TabItem);
-        }
+        if(tabControl.Items[tabControl.Items.Count - 3] is TabItem tab && tab.Header.Equals(Application.Current.FindResource("NoFile").ToString()))
+          RemoveTabItem(tab);
       }
     }
 
@@ -275,7 +272,8 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabControl_Drop(object sender, DragEventArgs e)
     {
-      //currentPage?.DropHelper(sender, e);
+      // TODO issue?? Drag and drop on TabControl
+      // currentPage?.DropHelper(sender, e);
     }
 
     private void TabControl_PreviewKeyUp(object sender, KeyEventArgs e)
@@ -294,18 +292,18 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+      // TODO issue, when all files opens from FileManager, it works. But when open a file from external, it doesn't work again, it's broken!!
       if(!IsInitialized)
         return;
 
-      if(e.Source is TabControl)
+      if(e.Source is TabControl tabControl)
       {
         if(e.AddedItems.Count == 0)
           return;
 
-        //LOG.Trace("{0}", System.Reflection.MethodBase.GetCurrentMethod());
+        LOG.Trace("{0}", System.Reflection.MethodBase.GetCurrentMethod());
 
         var tab = e.AddedItems[0] as TabItem;
-        var tabControl = e.Source as TabControl;
 
         if(tab == null || tabControl == null)
           return;
@@ -372,6 +370,40 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabWindow_Closing(object sender, CancelEventArgs e)
     {
+      bool tailing = false;
+
+      foreach(TabItem item in tabControl.Items)
+      {
+        if(item.Content != null && item.Content.GetType() == typeof(Frame))
+        {
+          var page = GetTailLogWindow(item.Content as Frame);
+
+          if(page == null)
+            continue;
+
+          if(page.IsThreadBusy)
+          {
+            tailing = true;
+            break;
+          }
+        }
+      }
+
+      if(tailing)
+      {
+        string message = string.Format(Application.Current.FindResource("ThreadIsBusy").ToString(), LogFile.APPLICATION_CAPTION);
+
+        if(MessageBox.Show(message, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+        {
+          e.Cancel = false;
+        }
+        else
+        {
+          e.Cancel = true;
+          return;
+        }
+      }
+
       LOG.Trace("{0} closing, goodbye!", LogFile.APPLICATION_CAPTION);
       OnExit();
     }
@@ -761,18 +793,19 @@ namespace Org.Vs.TailForWin.UI
     {
       LOG.Trace("{0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
+      // TODO check tabControl.Items.Count index!! I think, it's wrong
       TailLog tailWindow;
 
       if(properties == null)
       {
-        tailWindow = new TailLog(tabControl.Items.Count, tabItem)
+        tailWindow = new TailLog(tabItem)
         {
           ActiveTab = true
         };
       }
       else
       {
-        tailWindow = new TailLog(tabControl.Items.Count, tabItem, properties)
+        tailWindow = new TailLog(tabItem, properties)
         {
           ActiveTab = true
         };

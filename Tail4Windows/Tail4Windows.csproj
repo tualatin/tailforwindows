@@ -142,6 +142,7 @@
     </Compile>
     <Compile Include="Template\Events\DragDropEventDelegate.cs" />
     <Compile Include="Template\Events\IsOpenInTabEventDelegate.cs" />
+    <Compile Include="Template\Events\SmartWatchOpenFileEventArgs.cs" />
     <Compile Include="Template\Events\SmartWatchOpenFileEventHandler.cs" />
     <Compile Include="Template\FancyPopUp.xaml.cs">
       <DependentUpon>FancyPopUp.xaml</DependentUpon>

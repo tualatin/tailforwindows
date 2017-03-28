@@ -17,8 +17,6 @@ namespace Org.Vs.TailForWin.Template
     private readonly TailLogData tailLogData;
     private FilterData.MementoFilterData mementoFilterData;
     private EFileManagerState fState;
-    private readonly bool isInit;
-    private int filterId;
     private int errors;
 
     /// <summary>
@@ -37,12 +35,6 @@ namespace Org.Vs.TailForWin.Template
 
       PreviewKeyDown += HandleEsc;
       this.tailLogData = tailLogData;
-      isInit = true;
-
-      if(tailLogData.ListOfFilter.Count != 0)
-        filterId = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1].Id + 1;
-      else
-        filterId = 0;
     }
 
     #region ClickEvents
@@ -55,7 +47,7 @@ namespace Org.Vs.TailForWin.Template
     private void btnFont_Click(object sender, RoutedEventArgs e)
     {
       System.Drawing.Font filterFont = new System.Drawing.Font(filterData.FilterFontType.FontFamily, filterData.FilterFontType.Size, filterData.FilterFontType.Style);
- 
+
       System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
       {
         ShowEffects = true,
@@ -84,7 +76,7 @@ namespace Org.Vs.TailForWin.Template
       {
         FilterFontType = new System.Drawing.Font("Tahoma", 12, System.Drawing.FontStyle.Regular),
         FilterColor = System.Drawing.Color.Black,
-        Id = filterId
+        Id = Guid.NewGuid()
       };
 
       tailLogData.ListOfFilter.Add(filterData);
@@ -93,8 +85,6 @@ namespace Org.Vs.TailForWin.Template
 
       dataGridFilters.Items.Refresh();
       SelectLastItemInDataGrid();
-
-      filterId++;
     }
 
     private void btnCancelAdd_Click(object sender, RoutedEventArgs e)
@@ -228,7 +218,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void ChangeState()
     {
-      if(!isInit)
+      if(!IsInitialized)
         return;
 
       if(fState == EFileManagerState.OpenFileManager && mementoFilterData != null && filterData != null && !filterData.EqualsProperties(mementoFilterData))

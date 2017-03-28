@@ -53,5 +53,20 @@ namespace Org.Vs.TailForWin.Data
         OnPropertyChanged("NewTab");
       }
     }
+
+    private bool autoRun;
+
+    /// <summary>
+    /// AutoRun mode of SmartWatch
+    /// </summary>
+    public bool AutoRun
+    {
+      get => autoRun;
+      set
+      {
+        autoRun = value;
+        OnPropertyChanged("AutoRun");
+      }
+    }
   }
 }

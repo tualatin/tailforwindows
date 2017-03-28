@@ -25,6 +25,15 @@ namespace Org.Vs.TailForWin.Template
       set;
     }
 
+    /// <summary>
+    /// Full path of file
+    /// </summary>
+    public string FullPath
+    {
+      get;
+      set;
+    }
+
 
     /// <summary>
     /// Standard constructor
@@ -54,13 +63,25 @@ namespace Org.Vs.TailForWin.Template
 
     private void BtnOpenSameTab_Click(object sender, RoutedEventArgs e)
     {
-      SmartWatchOpenFile?.Invoke(this, false);
+      SmartWatchOpenFileEventArgs args = new SmartWatchOpenFileEventArgs
+      {
+        FileFullPath = FullPath,
+        OpenInTab = false
+      };
+
+      SmartWatchOpenFile?.Invoke(this, args);
       Close();
     }
 
     private void BtnOpenNewTab_Click(object sender, RoutedEventArgs e)
     {
-      SmartWatchOpenFile?.Invoke(this, true);
+      SmartWatchOpenFileEventArgs args = new SmartWatchOpenFileEventArgs
+      {
+        FileFullPath = FullPath,
+        OpenInTab = true
+      };
+
+      SmartWatchOpenFile?.Invoke(this, args);
       Close();
     }
   }
