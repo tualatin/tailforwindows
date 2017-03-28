@@ -214,7 +214,10 @@ namespace Org.Vs.TailForWin.Template
 
       // TODO better solution (IsEnable property) at the moment workaround
       if(fmWorkingProperties.EqualsProperties(fmMemento) && fmState != EFileManagerState.EditFilter)
+      {
+        SetAddSaveButton();
         return;
+      }
 
       switch(fmState)
       {

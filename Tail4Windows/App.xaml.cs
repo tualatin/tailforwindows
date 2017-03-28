@@ -18,7 +18,6 @@ namespace Org.Vs.TailForWin
 
     private void Application_Startup(object sender, StartupEventArgs e)
     {
-      // MainWindow wnd = new MainWindow();
       UI.TabWindow wnd = new UI.TabWindow();
       AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
       wnd.Show();
@@ -32,7 +31,21 @@ namespace Org.Vs.TailForWin
 
         if(m.Success)
         {
-          Match id = Regex.Match(arg, @"\d+");
+          string guid;
+
+          try
+          {
+            guid = arg.Substring("/id=".Length);
+          }
+          catch
+          {
+            guid = string.Empty;
+          }
+
+          if(string.IsNullOrEmpty(guid))
+            continue;
+
+          Match id = Regex.Match(guid, @"^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$");
 
           if(!id.Success)
             continue;

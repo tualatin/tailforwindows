@@ -149,6 +149,7 @@ namespace Org.Vs.TailForWin.Controller
             FileManagerData item = new FileManagerData
             {
               ID = GetId(xElement.Value),
+              OldId = GetOldId(xElement.Value),
               FileName = element.Value,
               OriginalFileName = element.Value,
               FontType = GetFont(xe.Element(XmlStructure.Font)),
@@ -195,6 +196,9 @@ namespace Org.Vs.TailForWin.Controller
             }
 
             #endregion
+
+            if(item.OldId >= 0)
+              UpdateNode(item);
 
             fmProperties.Add(item);
           }
@@ -307,10 +311,30 @@ namespace Org.Vs.TailForWin.Controller
         if(fmDoc.Root != null)
         {
           XElement node = (fmDoc.Root.Descendants(XmlStructure.File).Where(x =>
-                                                                {
-                                                                  var element = x.Element(XmlStructure.Id);
-                                                                  return (element != null && String.Compare(element.Value, property.ID.ToString(), false) == 0);
-                                                                })).SingleOrDefault();
+                   {
+                     var element = x.Element(XmlStructure.Id);
+                     return (element != null && String.Compare(element.Value, property.ID.ToString(), false) == 0);
+                   })).SingleOrDefault();
+
+          if(node == null)
+          {
+            // migrate old Id to new Guid
+            if(property.OldId >= 0)
+            {
+              node = (fmDoc.Root.Descendants(XmlStructure.File).Where(x =>
+              {
+                var element = x.Element(XmlStructure.Id);
+                return (element != null && String.Compare(element.Value, property.OldId.ToString(CultureInfo.InvariantCulture), false) == 0);
+              })).SingleOrDefault();
+
+              if(node != null)
+              {
+                var xmlId = node.Element(XmlStructure.Id);
+                xmlId.Value = property.ID.ToString();
+              }
+            }
+          }
+
           if(node != null)
           {
             var element = node.Element(XmlStructure.FileEncoding);
@@ -604,6 +628,14 @@ namespace Org.Vs.TailForWin.Controller
     {
       if(!Guid.TryParse(sId, out Guid id))
         id = Guid.NewGuid();
+
+      return (id);
+    }
+
+    private int GetOldId(string sId, bool isFile = true)
+    {
+      if(!int.TryParse(sId, out int id))
+        id = -1;
 
       return (id);
     }

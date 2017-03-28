@@ -105,6 +105,16 @@ namespace Org.Vs.TailForWin.Data
       set;
     }
 
+    /// <summary>
+    /// Compatiblity old Id
+    /// </summary>
+    [Obsolete("Use Guid in futur")]
+    public int OldId
+    {
+      get;
+      set;
+    }
+
     #region NewWindow
 
     private bool newWindow;
