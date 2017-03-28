@@ -215,7 +215,7 @@ namespace Org.Vs.TailForWin.UI
           return;
 
         AddTabItem(item);
-        
+
         // TODO issue! Improve it...
         if(tabControl.Items.Count == 3)
         {
@@ -276,7 +276,7 @@ namespace Org.Vs.TailForWin.UI
     private void TabControl_Drop(object sender, DragEventArgs e)
     {
       // TODO issue?? Drag and drop on TabControl
-      currentPage?.DropHelper(sender, e);
+      // currentPage?.DropHelper(sender, e);
     }
 
     private void TabControl_PreviewKeyUp(object sender, KeyEventArgs e)

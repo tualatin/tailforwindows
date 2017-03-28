@@ -173,7 +173,7 @@ namespace Org.Vs.TailForWin.Template
 
       fileManagerProperties = new FileManagerData
       {
-        ID = -1,
+        ID = Guid.Empty,
         FontType = tabProperties.FontType
       };
 
@@ -936,9 +936,15 @@ namespace Org.Vs.TailForWin.Template
         }
         else if(SettingsHelper.TailSettings.SmartWatchData.Mode == ESmartWatchMode.Auto)
         {
+          SmartWatchOpenFileEventArgs e = new SmartWatchOpenFileEventArgs
+          {
+            FileFullPath = file,
+            OpenInTab = SettingsHelper.TailSettings.SmartWatchData.NewTab
+          };
+
           Dispatcher.Invoke(new Action(() =>
           {
-            SmartWatchWnd_SmartWatchOpenFile(this, file, SettingsHelper.TailSettings.SmartWatchData.NewTab);
+            SmartWatchWnd_SmartWatchOpenFile(this, e);
           }));
         }
         else
@@ -952,13 +958,15 @@ namespace Org.Vs.TailForWin.Template
     /// SmartWatch detect a new file, open it...
     /// </summary>
     /// <param name="sender">Who sends the event</param>
-    /// <param name="file">Full path of file</param>
-    /// <param name="openInTab">Open in tab or same window</param>
-    private void SmartWatchWnd_SmartWatchOpenFile(object sender, string file, bool openInTab)
+    /// <param name="e">SmartWatchOpenFileEventArgs</param>
+    private void SmartWatchWnd_SmartWatchOpenFile(object sender, SmartWatchOpenFileEventArgs e)
     {
-      currentFileName = file;
+      if(e == null)
+        return;
 
-      if(openInTab)
+      currentFileName = e.FileFullPath;
+
+      if(e.OpenInTab)
       {
         FileManagerData smartWatchProperties = null;
 
@@ -971,8 +979,8 @@ namespace Org.Vs.TailForWin.Template
           return;
 
         smartWatchProperties.FontType = tabProperties.FontType;
-        smartWatchProperties.FileName = file;
-        smartWatchProperties.OriginalFileName = file;
+        smartWatchProperties.FileName = e.FileFullPath;
+        smartWatchProperties.OriginalFileName = e.FileFullPath;
         smartWatchProperties.OpenFromSmartWatch = true;
 
         if(SettingsHelper.TailSettings.SmartWatchData.AutoRun)
@@ -986,7 +994,7 @@ namespace Org.Vs.TailForWin.Template
         btnStop_Click(this, null);
 
         if(!waitWorker.IsBusy)
-          waitWorker.RunWorkerAsync(file);
+          waitWorker.RunWorkerAsync(e.FileFullPath);
       }
     }
 
@@ -1199,7 +1207,7 @@ namespace Org.Vs.TailForWin.Template
       {
         fileManagerProperties = new FileManagerData
         {
-          ID = -1
+          ID = Guid.Empty
         };
       }
 
@@ -1347,7 +1355,7 @@ namespace Org.Vs.TailForWin.Template
           {
             var fileProperties = new FileManagerData
             {
-              ID = -1,
+              ID = Guid.Empty,
               Wrap = false,
               KillSpace = false,
               FontType = CreateTailWindowFont(),

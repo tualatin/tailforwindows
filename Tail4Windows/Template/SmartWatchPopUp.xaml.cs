@@ -63,13 +63,25 @@ namespace Org.Vs.TailForWin.Template
 
     private void BtnOpenSameTab_Click(object sender, RoutedEventArgs e)
     {
-      SmartWatchOpenFile?.Invoke(this, FullPath, false);
+      SmartWatchOpenFileEventArgs args = new SmartWatchOpenFileEventArgs
+      {
+        FileFullPath = FullPath,
+        OpenInTab = false
+      };
+
+      SmartWatchOpenFile?.Invoke(this, args);
       Close();
     }
 
     private void BtnOpenNewTab_Click(object sender, RoutedEventArgs e)
     {
-      SmartWatchOpenFile?.Invoke(this, FullPath, true);
+      SmartWatchOpenFileEventArgs args = new SmartWatchOpenFileEventArgs
+      {
+        FileFullPath = FullPath,
+        OpenInTab = true
+      };
+
+      SmartWatchOpenFile?.Invoke(this, args);
       Close();
     }
   }

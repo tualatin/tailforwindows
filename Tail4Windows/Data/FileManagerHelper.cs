@@ -1,3 +1,5 @@
+using System;
+
 
 namespace Org.Vs.TailForWin.Data
 {
@@ -9,7 +11,7 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// ID
     /// </summary>
-    public int ID
+    public Guid ID
     {
       get;
       set;

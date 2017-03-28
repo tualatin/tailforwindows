@@ -1,4 +1,6 @@
-﻿
+﻿using System;
+using System.IO;
+
 
 namespace Org.Vs.TailForWin.Template.Events
 {
@@ -14,7 +16,10 @@ namespace Org.Vs.TailForWin.Template.Events
     /// </summary>
     public string FileFullPath
     {
-      get; 
+      get
+      {
+        return (fileFullPath);
+      }
       set
       {
         fileFullPath = value;

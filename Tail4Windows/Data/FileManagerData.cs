@@ -342,7 +342,7 @@ namespace Org.Vs.TailForWin.Data
       /// <summary>
       /// Unique ID of FileManager node
       /// </summary>
-      public int ID
+      public Guid ID
       {
         get;
         private set;

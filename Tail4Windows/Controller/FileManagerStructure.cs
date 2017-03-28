@@ -227,7 +227,7 @@ namespace Org.Vs.TailForWin.Controller
 
       if(!File.Exists(fmFile))
       {
-        System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("FileNotFound") as string,
+        System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("FileNotFound").ToString(),
           $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
         return (null);
@@ -235,16 +235,16 @@ namespace Org.Vs.TailForWin.Controller
 
       if(fmProperties.Count == 0)
       {
-        System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("NoContentFound") as string,
+        System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("NoContentFound").ToString(),
           $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
         return (null);
       }
 
-      if(!int.TryParse(id, out int iid))
-        iid = -1;
+      if(!Guid.TryParse(id, out Guid iid))
+        iid = Guid.Empty;
 
-      if(iid != -1)
+      if(iid != Guid.Empty)
         cmdParameterItem = fmProperties.Find(o => o.ID == iid);
 
       return (cmdParameterItem);
@@ -309,7 +309,7 @@ namespace Org.Vs.TailForWin.Controller
           XElement node = (fmDoc.Root.Descendants(XmlStructure.File).Where(x =>
                                                                 {
                                                                   var element = x.Element(XmlStructure.Id);
-                                                                  return (element != null && String.Compare(element.Value, property.ID.ToString(CultureInfo.InvariantCulture), false) == 0);
+                                                                  return (element != null && String.Compare(element.Value, property.ID.ToString(), false) == 0);
                                                                 })).SingleOrDefault();
           if(node != null)
           {
@@ -466,7 +466,7 @@ namespace Org.Vs.TailForWin.Controller
           fmDoc.Root.Descendants(XmlStructure.File).Where(x =>
                                                {
                                                  var xElement = x.Element(XmlStructure.Id);
-                                                 return (xElement != null && String.Compare(xElement.Value, property.ID.ToString(CultureInfo.InvariantCulture), false) == 0);
+                                                 return (xElement != null && String.Compare(xElement.Value, property.ID.ToString(), false) == 0);
                                                }).Remove();
         fmDoc.Save(@fmFile, SaveOptions.None);
 
@@ -602,8 +602,8 @@ namespace Org.Vs.TailForWin.Controller
 
     private Guid GetId(string sId, bool isFile = true)
     {
-      if(!Guid.TryParse(sId, out int id))
-        id = Guid.Empty;
+      if(!Guid.TryParse(sId, out Guid id))
+        id = Guid.NewGuid();
 
       return (id);
     }
@@ -705,7 +705,7 @@ namespace Org.Vs.TailForWin.Controller
     {
       var xElement = root.Element(XmlStructure.Id);
 
-      if(xElement != null && GetId(xElement.Value) == -1)
+      if(xElement != null && GetId(xElement.Value) == Guid.Empty)
         return (null);
 
       var element = root.Element(XmlStructure.Id);
