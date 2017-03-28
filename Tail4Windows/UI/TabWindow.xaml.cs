@@ -123,7 +123,8 @@ namespace Org.Vs.TailForWin.UI
       {
         Header = "+",
         Name = "AddChildTab",
-        Style = (Style) FindResource("TabItemAddStyle")
+        Style = (Style) FindResource("TabItemAddStyle"),
+        Tag = "AddTab"
       };
       tabAdd.PreviewMouseLeftButtonDown += TabAdd_MouseLeftButtonDown;
 
@@ -216,12 +217,8 @@ namespace Org.Vs.TailForWin.UI
 
         AddTabItem(item);
 
-        // TODO issue! Improve it...
-        if(tabControl.Items.Count == 3)
-        {
-          var tabItem = tabControl.Items[0];
-          RemoveTabItem(tabItem as TabItem);
-        }
+        if(tabControl.Items[tabControl.Items.Count - 3] is TabItem tab && tab.Header.Equals(Application.Current.FindResource("NoFile").ToString()))
+          RemoveTabItem(tab);
       }
     }
 
