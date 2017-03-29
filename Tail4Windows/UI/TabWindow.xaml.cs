@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
+using Hardcodet.Wpf.TaskbarNotification;
 using log4net;
 using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
@@ -55,7 +56,12 @@ namespace Org.Vs.TailForWin.UI
     /// <summary>
     /// Main window taskbar icon
     /// </summary>
-    public NotifyIcon.TaskbarIcon MainWndTaskBarIcon => tbIcon;
+    public TaskbarIcon MainWndTaskBarIcon => tbIcon;
+
+    /// <summary>
+    /// Main window taskbar icon context menu
+    /// </summary>
+    public ContextMenu TaskBarIconContextMenu => ContextMnu;
 
     /// <summary>
     /// Uptime start time
@@ -165,7 +171,7 @@ namespace Org.Vs.TailForWin.UI
           currentPage.Dispose();
           currentPage = null;
         }
-        
+
         tbIcon.Dispose();
       }
     }
@@ -502,16 +508,16 @@ namespace Org.Vs.TailForWin.UI
       LogFile.BringMainWindowToFront();
     }
 
-    private void MyNotifyIcon_TrayContextMenuOpen(object sender, System.Windows.RoutedEventArgs e)
+    private void MyNotifyIcon_TrayContextMenuOpen(object sender, RoutedEventArgs e)
     {
-      OpenEventCounter.Text = (int.Parse(OpenEventCounter.Text) + 1).ToString();
+      //OpenEventCounter.Text = (int.Parse(OpenEventCounter.Text) + 1).ToString();
     }
 
-    private void MyNotifyIcon_PreviewTrayContextMenuOpen(object sender, System.Windows.RoutedEventArgs e)
+    private void MyNotifyIcon_PreviewTrayContextMenuOpen(object sender, RoutedEventArgs e)
     {
       //marking the event as handled suppresses the context menu
-      e.Handled = (bool) SuppressContextMenu.IsChecked;
-      PreviewOpenEventCounter.Text = (int.Parse(PreviewOpenEventCounter.Text) + 1).ToString();
+      //e.Handled = (bool) SuppressContextMenu.IsChecked;
+      //PreviewOpenEventCounter.Text = (int.Parse(PreviewOpenEventCounter.Text) + 1).ToString();
     }
 
     #endregion
@@ -807,7 +813,6 @@ namespace Org.Vs.TailForWin.UI
     {
       LOG.Trace("{0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
 
-      // TODO check tabControl.Items.Count index!! I think, it's wrong
       TailLog tailWindow;
 
       if(properties == null)
