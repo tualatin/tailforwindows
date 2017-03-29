@@ -21,31 +21,32 @@
 //
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
-namespace Org.Vs.TailForWin.NotifyIcon
+
+namespace Hardcodet.Wpf.TaskbarNotification
 {
-  ///<summary>
-  /// Supported icons for the tray's balloon messages.
-  ///</summary>
-  public enum BalloonIcon
-  {
-    /// <summary>
-    /// The balloon message is displayed without an icon.
-    /// </summary>
-    None,
+    ///<summary>
+    /// Supported icons for the tray's balloon messages.
+    ///</summary>
+    public enum BalloonIcon
+    {
+        /// <summary>
+        /// The balloon message is displayed without an icon.
+        /// </summary>
+        None,
 
-    /// <summary>
-    /// An information is displayed.
-    /// </summary>
-    Info,
+        /// <summary>
+        /// An information is displayed.
+        /// </summary>
+        Info,
 
-    /// <summary>
-    /// A warning is displayed.
-    /// </summary>
-    Warning,
+        /// <summary>
+        /// A warning is displayed.
+        /// </summary>
+        Warning,
 
-    /// <summary>
-    /// An error is displayed.
-    /// </summary>
-    Error
-  }
+        /// <summary>
+        /// An error is displayed.
+        /// </summary>
+        Error
+    }
 }

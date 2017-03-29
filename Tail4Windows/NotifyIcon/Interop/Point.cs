@@ -1,21 +1,20 @@
 ﻿using System.Runtime.InteropServices;
 
-
-namespace Org.Vs.TailForWin.NotifyIcon.Interop
+namespace Hardcodet.Wpf.TaskbarNotification.Interop
 {
-  /// <summary>
-  /// Win API struct providing coordinates for a single point.
-  /// </summary>
-  [StructLayout(LayoutKind.Sequential)]
-  public struct Point
-  {
     /// <summary>
-    /// X coordinate.
+    /// Win API struct providing coordinates for a single point.
     /// </summary>
-    public int X;
-    /// <summary>
-    /// Y coordinate.
-    /// </summary>
-    public int Y;
-  }
+    [StructLayout(LayoutKind.Sequential)]
+    public struct Point
+    {
+        /// <summary>
+        /// X coordinate.
+        /// </summary>
+        public int X;
+        /// <summary>
+        /// Y coordinate.
+        /// </summary>
+        public int Y;
+    }
 }
