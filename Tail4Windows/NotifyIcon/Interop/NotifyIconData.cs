@@ -1,8 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-
-namespace Org.Vs.TailForWin.NotifyIcon.Interop
+namespace Hardcodet.Wpf.TaskbarNotification.Interop
 {
   /// <summary>
   /// A struct that is submitted in order to configure
@@ -57,8 +56,8 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// the terminating NULL. For Version 5.0 and later, szTip can have a maximum of
     /// 128 characters, including the terminating NULL.
     /// </summary>
-    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-    public string ToolTipText;
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)] public string ToolTipText;
+
 
     /// <summary>
     /// State of the icon. Remember to also set the <see cref="StateMask"/>.
@@ -77,8 +76,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// String with the text for a balloon ToolTip. It can have a maximum of 255 characters.
     /// To remove the ToolTip, set the NIF_INFO flag in uFlags and set szInfo to an empty string.
     /// </summary>
-    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-    public string BalloonText;
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)] public string BalloonText;
 
     /// <summary>
     /// Mainly used to set the version when <see cref="WinApi.Shell_NotifyIcon"/> is invoked
@@ -91,8 +89,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// String containing a title for a balloon ToolTip. This title appears in boldface
     /// above the text. It can have a maximum of 63 characters.
     /// </summary>
-    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
-    public string BalloonTitle;
+    [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)] public string BalloonTitle;
 
     /// <summary>
     /// Adds an icon to a balloon ToolTip, which is placed to the left of the title. If the
@@ -116,6 +113,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// If this member is NULL, the legacy behavior is carried out.
     /// </summary>
     public IntPtr CustomBalloonIconHandle;
+
 
     /// <summary>
     /// Creates a default data structure that provides
@@ -154,12 +152,14 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
       data.StateMask = IconState.Hidden;
 
       //set flags
-      data.ValidMembers = IconDataMembers.Message | IconDataMembers.Icon | IconDataMembers.Tip;
+      data.ValidMembers = IconDataMembers.Message
+                          | IconDataMembers.Icon
+                          | IconDataMembers.Tip;
 
       //reset strings
       data.ToolTipText = data.BalloonText = data.BalloonTitle = String.Empty;
 
-      return (data);
+      return data;
     }
   }
 }

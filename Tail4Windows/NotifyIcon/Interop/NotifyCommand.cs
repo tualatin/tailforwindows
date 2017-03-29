@@ -1,4 +1,4 @@
-namespace Org.Vs.TailForWin.NotifyIcon.Interop
+namespace Hardcodet.Wpf.TaskbarNotification.Interop
 {
   /// <summary>
   /// Main operations performed on the

@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.TailForWin.NotifyIcon.Interop
+﻿namespace Hardcodet.Wpf.TaskbarNotification.Interop
 {
   /// <summary>
   /// The notify icon version that is used. The higher

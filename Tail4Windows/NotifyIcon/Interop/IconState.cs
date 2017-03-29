@@ -1,4 +1,4 @@
-namespace Org.Vs.TailForWin.NotifyIcon.Interop
+namespace Hardcodet.Wpf.TaskbarNotification.Interop
 {
   /// <summary>
   /// The state of the icon - can be set to

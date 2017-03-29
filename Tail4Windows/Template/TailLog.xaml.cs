@@ -40,6 +40,7 @@ namespace Org.Vs.TailForWin.Template
     private bool stopThread;
     private MailClient mySmtp;
     private SmartWatch smartWatch;
+    private MenuItem tailLogMenuItem;
 
     /// <summary>
     /// filemanager save property
@@ -891,6 +892,11 @@ namespace Org.Vs.TailForWin.Template
       childTabIndex = Guid.NewGuid();
       childTabItem = (TailForWinTabItem) tabItem;
       childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
+      tailLogMenuItem = new MenuItem()
+      {
+        Header = childTabItem.Header
+      };
+      LogFile.APP_MAIN_WINDOW.TaskBarIconContextMenu.Items.Add(tailLogMenuItem);
 
       myReader = new FileReader();
       mySmtp = new MailClient();
@@ -1257,6 +1263,8 @@ namespace Org.Vs.TailForWin.Template
         checkBoxFilter.IsChecked = false;
         saveFilters = false;
       }
+
+      tailLogMenuItem.Header = childTabItem.Header;
     }
 
     private void Page_Loaded(object sender, RoutedEventArgs e)

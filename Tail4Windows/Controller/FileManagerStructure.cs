@@ -146,6 +146,16 @@ namespace Org.Vs.TailForWin.Controller
               };
             }
 
+            var useSmartWatchElement = xe.Element(XmlStructure.UseSmartWatch);
+
+            if(useSmartWatchElement == null)
+            {
+              useSmartWatchElement = new XElement(XmlStructure.UseSmartWatch)
+              {
+                Value = "false"
+              };
+            }
+
             FileManagerData item = new FileManagerData
             {
               ID = GetId(xElement.Value),
@@ -163,7 +173,8 @@ namespace Org.Vs.TailForWin.Controller
               NewWindow = xElement4 != null && StringToBool(xElement4.Value),
               FileEncoding = GetEncoding(element4.Value),
               FilterState = StringToBool(filterElement.Value),
-              UsePattern = StringToBool(usePatternElement.Value)
+              UsePattern = StringToBool(usePatternElement.Value),
+              SmartWatch = StringToBool(useSmartWatchElement.Value)
             };
 
             #region Search pattern
@@ -400,6 +411,21 @@ namespace Org.Vs.TailForWin.Controller
                 Value = property.FilterState.ToString()
               };
               node.Add(filterElement);
+            }
+
+            var useSmartWatchElement = node.Element(XmlStructure.UseSmartWatch);
+
+            if(useSmartWatchElement != null)
+            {
+              useSmartWatchElement.Value = property.SmartWatch.ToString();
+            }
+            else
+            {
+              useSmartWatchElement = new XElement(XmlStructure.UseSmartWatch)
+              {
+                Value = property.SmartWatch.ToString()
+              };
+              node.Add(useSmartWatchElement);
             }
 
             #region Font

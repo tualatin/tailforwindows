@@ -1,6 +1,6 @@
 using System;
 
-namespace Org.Vs.TailForWin.NotifyIcon.Interop
+namespace Hardcodet.Wpf.TaskbarNotification.Interop
 {
   /// <summary>
   /// Indicates which members of a <see cref="NotifyIconData"/> structure

@@ -21,12 +21,12 @@
 //
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
+
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
 
-
-namespace Org.Vs.TailForWin.NotifyIcon.Interop
+namespace Hardcodet.Wpf.TaskbarNotification.Interop
 {
   /// <summary>
   /// Receives messages from the taskbar icon through
@@ -68,8 +68,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// </summary>
     internal string WindowId
     {
-      get;
-      private set;
+      get; private set;
     }
 
     /// <summary>
@@ -77,8 +76,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// </summary> 
     internal IntPtr MessageWindowHandle
     {
-      get;
-      private set;
+      get; private set;
     }
 
     /// <summary>
@@ -87,8 +85,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// </summary>
     public NotifyIconVersion Version
     {
-      get;
-      set;
+      get; set;
     }
 
     #endregion
@@ -133,9 +130,11 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
       CreateMessageWindow();
     }
 
+
     private WindowMessageSink()
     {
     }
+
 
     /// <summary>
     /// Creates a dummy instance that provides an empty
@@ -170,19 +169,18 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
 
       // Create a simple window class which is reference through
       //the messageHandler delegate
-      WindowClass wc = new WindowClass
-      {
-        style = 0,
-        lpfnWndProc = messageHandler,
-        cbClsExtra = 0,
-        cbWndExtra = 0,
-        hInstance = IntPtr.Zero,
-        hIcon = IntPtr.Zero,
-        hCursor = IntPtr.Zero,
-        hbrBackground = IntPtr.Zero,
-        lpszMenuName = string.Empty,
-        lpszClassName = WindowId
-      };
+      WindowClass wc;
+
+      wc.style = 0;
+      wc.lpfnWndProc = messageHandler;
+      wc.cbClsExtra = 0;
+      wc.cbWndExtra = 0;
+      wc.hInstance = IntPtr.Zero;
+      wc.hIcon = IntPtr.Zero;
+      wc.hCursor = IntPtr.Zero;
+      wc.hbrBackground = IntPtr.Zero;
+      wc.lpszMenuName = "";
+      wc.lpszClassName = WindowId;
 
       // Register the window class
       WinApi.RegisterClass(ref wc);
@@ -192,7 +190,8 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
       taskbarRestartMessageId = WinApi.RegisterWindowMessage("TaskbarCreated");
 
       // Create the message window
-      MessageWindowHandle = WinApi.CreateWindowEx(0, WindowId, "", 0, 0, 0, 1, 1, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+      MessageWindowHandle = WinApi.CreateWindowEx(0, WindowId, "", 0, 0, 0, 1, 1, IntPtr.Zero, IntPtr.Zero,
+          IntPtr.Zero, IntPtr.Zero);
 
       if(MessageWindowHandle == IntPtr.Zero)
       {
@@ -223,8 +222,9 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
       ProcessWindowMessage(messageId, wparam, lparam);
 
       // Pass the message to the default window procedure
-      return (WinApi.DefWindowProc(hwnd, messageId, wparam, lparam));
+      return WinApi.DefWindowProc(hwnd, messageId, wparam, lparam);
     }
+
 
     /// <summary>
     /// Processes incoming system messages.
@@ -242,87 +242,72 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
       switch(lParam.ToInt32())
       {
       case 0x200:
-
         MouseEventReceived(MouseEvent.MouseMove);
         break;
 
       case 0x201:
-
         MouseEventReceived(MouseEvent.IconLeftMouseDown);
         break;
 
       case 0x202:
-
         if(!isDoubleClick)
+        {
           MouseEventReceived(MouseEvent.IconLeftMouseUp);
-
+        }
         isDoubleClick = false;
         break;
 
       case 0x203:
-
         isDoubleClick = true;
         MouseEventReceived(MouseEvent.IconDoubleClick);
         break;
 
       case 0x204:
-
         MouseEventReceived(MouseEvent.IconRightMouseDown);
         break;
 
       case 0x205:
-
         MouseEventReceived(MouseEvent.IconRightMouseUp);
         break;
 
       case 0x206:
-
         //double click with right mouse button - do not trigger event
         break;
 
       case 0x207:
-
         MouseEventReceived(MouseEvent.IconMiddleMouseDown);
         break;
 
       case 520:
-
         MouseEventReceived(MouseEvent.IconMiddleMouseUp);
         break;
 
       case 0x209:
-
         //double click with middle mouse button - do not trigger event
         break;
 
       case 0x402:
-
         BalloonToolTipChanged(true);
         break;
 
       case 0x403:
       case 0x404:
-
         BalloonToolTipChanged(false);
         break;
 
       case 0x405:
-
         MouseEventReceived(MouseEvent.BalloonToolTipClicked);
         break;
 
       case 0x406:
-
         ChangeToolTipStateRequest(true);
         break;
 
       case 0x407:
-
         ChangeToolTipStateRequest(false);
         break;
 
       default:
-
         Debug.WriteLine("Unhandled NotifyIcon message ID: " + lParam);
         break;
       }
@@ -337,9 +322,9 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// </summary>
     public bool IsDisposed
     {
-      get;
-      private set;
+      get; private set;
     }
+
 
     /// <summary>
     /// Disposes the object.
@@ -373,6 +358,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
       Dispose(false);
     }
 
+
     /// <summary>
     /// Removes the windows hook that receives window
     /// messages and closes the underlying helper window.
@@ -382,7 +368,6 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
       //don't do anything if the component is already disposed
       if(IsDisposed)
         return;
-
       IsDisposed = true;
 
       //always destroy the unmanaged handle (even if called from the GC)

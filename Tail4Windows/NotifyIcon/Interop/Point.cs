@@ -1,7 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-
-namespace Org.Vs.TailForWin.NotifyIcon.Interop
+namespace Hardcodet.Wpf.TaskbarNotification.Interop
 {
   /// <summary>
   /// Win API struct providing coordinates for a single point.

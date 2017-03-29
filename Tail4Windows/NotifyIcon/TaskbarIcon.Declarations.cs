@@ -21,6 +21,7 @@
 //
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
+
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -29,10 +30,9 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using Org.Vs.TailForWin.NotifyIcon.Interop;
+using Hardcodet.Wpf.TaskbarNotification.Interop;
 
-
-namespace Org.Vs.TailForWin.NotifyIcon
+namespace Hardcodet.Wpf.TaskbarNotification
 {
   /// <summary>
   /// Contains declarations of WPF dependency properties
@@ -45,6 +45,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     public const string CategoryName = "NotifyIcon";
 
+
     //POPUP CONTROLS
 
     #region TrayPopupResolved
@@ -52,14 +53,17 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayPopupResolved Read-Only Dependency Property
     /// </summary>
-    private static readonly DependencyPropertyKey TrayPopupResolvedPropertyKey = DependencyProperty.RegisterReadOnly("TrayPopupResolved", typeof(Popup), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(null));
+    private static readonly DependencyPropertyKey TrayPopupResolvedPropertyKey
+        = DependencyProperty.RegisterReadOnly("TrayPopupResolved", typeof(Popup), typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(null));
+
 
     /// <summary>
     /// A read-only dependency property that returns the <see cref="Popup"/>
     /// that is being displayed in the taskbar area based on a user action.
     /// </summary>
-    public static readonly DependencyProperty TrayPopupResolvedProperty = TrayPopupResolvedPropertyKey.DependencyProperty;
+    public static readonly DependencyProperty TrayPopupResolvedProperty
+        = TrayPopupResolvedPropertyKey.DependencyProperty;
 
     /// <summary>
     /// Gets the TrayPopupResolved property. Returns
@@ -73,7 +77,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return ((Popup) GetValue(TrayPopupResolvedProperty));
+        return (Popup) GetValue(TrayPopupResolvedProperty);
       }
     }
 
@@ -94,14 +98,17 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayToolTipResolved Read-Only Dependency Property
     /// </summary>
-    private static readonly DependencyPropertyKey TrayToolTipResolvedPropertyKey = DependencyProperty.RegisterReadOnly("TrayToolTipResolved", typeof(ToolTip), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(null));
+    private static readonly DependencyPropertyKey TrayToolTipResolvedPropertyKey
+        = DependencyProperty.RegisterReadOnly("TrayToolTipResolved", typeof(ToolTip), typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(null));
+
 
     /// <summary>
     /// A read-only dependency property that returns the <see cref="ToolTip"/>
     /// that is being displayed.
     /// </summary>
-    public static readonly DependencyProperty TrayToolTipResolvedProperty = TrayToolTipResolvedPropertyKey.DependencyProperty;
+    public static readonly DependencyProperty TrayToolTipResolvedProperty
+        = TrayToolTipResolvedPropertyKey.DependencyProperty;
 
     /// <summary>
     /// Gets the TrayToolTipResolved property. Returns 
@@ -116,7 +123,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return ((ToolTip) GetValue(TrayToolTipResolvedProperty));
+        return (ToolTip) GetValue(TrayToolTipResolvedProperty);
       }
     }
 
@@ -137,13 +144,15 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// CustomBalloon Read-Only Dependency Property
     /// </summary>
-    private static readonly DependencyPropertyKey CustomBalloonPropertyKey = DependencyProperty.RegisterReadOnly("CustomBalloon", typeof(Popup), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(null));
+    private static readonly DependencyPropertyKey CustomBalloonPropertyKey
+        = DependencyProperty.RegisterReadOnly("CustomBalloon", typeof(Popup), typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(null));
 
     /// <summary>
     /// Maintains a currently displayed custom balloon.
     /// </summary>
-    public static readonly DependencyProperty CustomBalloonProperty = CustomBalloonPropertyKey.DependencyProperty;
+    public static readonly DependencyProperty CustomBalloonProperty
+        = CustomBalloonPropertyKey.DependencyProperty;
 
     /// <summary>
     /// A custom popup that is being displayed in the tray area in order
@@ -153,7 +162,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return ((Popup) GetValue(CustomBalloonProperty));
+        return (Popup) GetValue(CustomBalloonProperty);
       }
     }
 
@@ -185,7 +194,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return (icon);
+        return icon;
       }
       set
       {
@@ -196,11 +205,15 @@ namespace Org.Vs.TailForWin.NotifyIcon
       }
     }
 
+
     /// <summary>
     /// Resolves an image source and updates the <see cref="Icon" /> property accordingly.
     /// </summary>
-    public static readonly DependencyProperty IconSourceProperty = DependencyProperty.Register("IconSource", typeof(ImageSource), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(null, IconSourcePropertyChanged));
+    public static readonly DependencyProperty IconSourceProperty =
+        DependencyProperty.Register("IconSource",
+            typeof(ImageSource),
+            typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(null, IconSourcePropertyChanged));
 
     /// <summary>
     /// A property wrapper for the <see cref="IconSourceProperty"/>
@@ -213,13 +226,14 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return ((ImageSource) GetValue(IconSourceProperty));
+        return (ImageSource) GetValue(IconSourceProperty);
       }
       set
       {
         SetValue(IconSourceProperty, value);
       }
     }
+
 
     /// <summary>
     /// A static callback listener which is being invoked if the
@@ -234,6 +248,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
       TaskbarIcon owner = (TaskbarIcon) d;
       owner.OnIconSourcePropertyChanged(e);
     }
+
 
     /// <summary>
     /// Handles changes of the <see cref="IconSourceProperty"/> dependency property. As
@@ -259,8 +274,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// A tooltip text that is being displayed if no custom <see cref="ToolTip"/>
     /// was set or if custom tooltips are not supported.
     /// </summary>
-    public static readonly DependencyProperty ToolTipTextProperty = DependencyProperty.Register("ToolTipText", typeof(string), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(String.Empty, ToolTipTextPropertyChanged));
+    public static readonly DependencyProperty ToolTipTextProperty =
+        DependencyProperty.Register("ToolTipText",
+            typeof(string),
+            typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(String.Empty, ToolTipTextPropertyChanged));
+
 
     /// <summary>
     /// A property wrapper for the <see cref="ToolTipTextProperty"/>
@@ -274,13 +293,14 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return ((string) GetValue(ToolTipTextProperty));
+        return (string) GetValue(ToolTipTextProperty);
       }
       set
       {
         SetValue(ToolTipTextProperty, value);
       }
     }
+
 
     /// <summary>
     /// A static callback listener which is being invoked if the
@@ -296,6 +316,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
       owner.OnToolTipTextPropertyChanged(e);
     }
 
+
     /// <summary>
     /// Handles changes of the <see cref="ToolTipTextProperty"/> dependency property. As
     /// WPF internally uses the dependency property system and bypasses the
@@ -306,17 +327,20 @@ namespace Org.Vs.TailForWin.NotifyIcon
     private void OnToolTipTextPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
       //do not touch tooltips if we have a custom tooltip element
-      if(TrayToolTip != null)
-        return;
-
-      ToolTip currentToolTip = TrayToolTipResolved;
-
-      if(currentToolTip == null)
-        //if we don't have a wrapper tooltip for the tooltip text, create it now
-        CreateCustomToolTip();
-      else
-        //if we have a wrapper tooltip that shows the old tooltip text, just update content
-        currentToolTip.Content = e.NewValue;
+      if(TrayToolTip == null)
+      {
+        ToolTip currentToolTip = TrayToolTipResolved;
+        if(currentToolTip == null)
+        {
+          //if we don't have a wrapper tooltip for the tooltip text, create it now
+          CreateCustomToolTip();
+        }
+        else
+        {
+          //if we have a wrapper tooltip that shows the old tooltip text, just update content
+          currentToolTip.Content = e.NewValue;
+        }
+      }
 
       WriteToolTipSettings();
     }
@@ -330,8 +354,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Works only with Vista and above. Accordingly, you should make sure that
     /// the <see cref="ToolTipText"/> property is set as well.
     /// </summary>
-    public static readonly DependencyProperty TrayToolTipProperty = DependencyProperty.Register("TrayToolTip", typeof(UIElement), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(null, TrayToolTipPropertyChanged));
+    public static readonly DependencyProperty TrayToolTipProperty =
+        DependencyProperty.Register("TrayToolTip",
+            typeof(UIElement),
+            typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(null, TrayToolTipPropertyChanged));
 
     /// <summary>
     /// A property wrapper for the <see cref="TrayToolTipProperty"/>
@@ -346,13 +373,14 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return ((UIElement) GetValue(TrayToolTipProperty));
+        return (UIElement) GetValue(TrayToolTipProperty);
       }
       set
       {
         SetValue(TrayToolTipProperty, value);
       }
     }
+
 
     /// <summary>
     /// A static callback listener which is being invoked if the
@@ -368,6 +396,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
       owner.OnTrayToolTipPropertyChanged(e);
     }
 
+
     /// <summary>
     /// Handles changes of the <see cref="TrayToolTipProperty"/> dependency property. As
     /// WPF internally uses the dependency property system and bypasses the
@@ -381,12 +410,16 @@ namespace Org.Vs.TailForWin.NotifyIcon
       CreateCustomToolTip();
 
       if(e.OldValue != null)
+      {
         //remove the taskbar icon reference from the previously used element
         SetParentTaskbarIcon((DependencyObject) e.OldValue, null);
+      }
 
       if(e.NewValue != null)
+      {
         //set this taskbar icon as a reference to the new tooltip element
         SetParentTaskbarIcon((DependencyObject) e.NewValue, this);
+      }
 
       //update tooltip settings - needed to make sure a string is set, even
       //if the ToolTipText property is not set. Otherwise, the event that
@@ -401,8 +434,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// A control that is displayed as a popup when the taskbar icon is clicked.
     /// </summary>
-    public static readonly DependencyProperty TrayPopupProperty = DependencyProperty.Register("TrayPopup", typeof(UIElement), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(null, TrayPopupPropertyChanged));
+    public static readonly DependencyProperty TrayPopupProperty =
+        DependencyProperty.Register("TrayPopup",
+            typeof(UIElement),
+            typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(null, TrayPopupPropertyChanged));
 
     /// <summary>
     /// A property wrapper for the <see cref="TrayPopupProperty"/>
@@ -415,13 +451,14 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return ((UIElement) GetValue(TrayPopupProperty));
+        return (UIElement) GetValue(TrayPopupProperty);
       }
       set
       {
         SetValue(TrayPopupProperty, value);
       }
     }
+
 
     /// <summary>
     /// A static callback listener which is being invoked if the
@@ -437,6 +474,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
       owner.OnTrayPopupPropertyChanged(e);
     }
 
+
     /// <summary>
     /// Handles changes of the <see cref="TrayPopupProperty"/> dependency property. As
     /// WPF internally uses the dependency property system and bypasses the
@@ -447,12 +485,17 @@ namespace Org.Vs.TailForWin.NotifyIcon
     private void OnTrayPopupPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
       if(e.OldValue != null)
+      {
         //remove the taskbar icon reference from the previously used element
         SetParentTaskbarIcon((DependencyObject) e.OldValue, null);
+      }
+
 
       if(e.NewValue != null)
+      {
         //set this taskbar icon as a reference to the new tooltip element
         SetParentTaskbarIcon((DependencyObject) e.NewValue, this);
+      }
 
       //create a pop
       CreatePopup();
@@ -466,8 +509,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Defines what mouse events display the context menu.
     /// Defaults to <see cref="PopupActivationMode.RightClick"/>.
     /// </summary>
-    public static readonly DependencyProperty MenuActivationProperty = DependencyProperty.Register("MenuActivation", typeof(PopupActivationMode), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(PopupActivationMode.RightClick));
+    public static readonly DependencyProperty MenuActivationProperty =
+        DependencyProperty.Register("MenuActivation",
+            typeof(PopupActivationMode),
+            typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(PopupActivationMode.RightClick));
 
     /// <summary>
     /// A property wrapper for the <see cref="MenuActivationProperty"/>
@@ -481,7 +527,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return ((PopupActivationMode) GetValue(MenuActivationProperty));
+        return (PopupActivationMode) GetValue(MenuActivationProperty);
       }
       set
       {
@@ -497,8 +543,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Defines what mouse events trigger the <see cref="TrayPopup" />.
     /// Default is <see cref="PopupActivationMode.LeftClick" />.
     /// </summary>
-    public static readonly DependencyProperty PopupActivationProperty = DependencyProperty.Register("PopupActivation", typeof(PopupActivationMode), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(PopupActivationMode.LeftClick));
+    public static readonly DependencyProperty PopupActivationProperty =
+        DependencyProperty.Register("PopupActivation",
+            typeof(PopupActivationMode),
+            typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(PopupActivationMode.LeftClick));
 
     /// <summary>
     /// A property wrapper for the <see cref="PopupActivationProperty"/>
@@ -512,7 +561,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return ((PopupActivationMode) GetValue(PopupActivationProperty));
+        return (PopupActivationMode) GetValue(PopupActivationProperty);
       }
       set
       {
@@ -538,6 +587,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
       owner.OnVisibilityPropertyChanged(e);
     }
 
+
     /// <summary>
     /// Handles changes of the <see cref="UIElement.VisibilityProperty"/> dependency property. As
     /// WPF internally uses the dependency property system and bypasses the
@@ -551,9 +601,13 @@ namespace Org.Vs.TailForWin.NotifyIcon
 
       //update
       if(newValue == Visibility.Visible)
+      {
         CreateTaskbarIcon();
+      }
       else
+      {
         RemoveTaskbarIcon();
+      }
     }
 
     #endregion
@@ -577,9 +631,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
       //if the target's data context is the NotifyIcon's old DataContext or the NotifyIcon itself,
       //update it
       if(ReferenceEquals(this, target.DataContext) || Equals(oldDataContextValue, target.DataContext))
+      {
         //assign own data context, if available. If there is no data
         //context at all, assign NotifyIcon itself.
         target.DataContext = newDataContextValue ?? this;
+      }
     }
 
     /// <summary>
@@ -595,6 +651,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
       TaskbarIcon owner = (TaskbarIcon) d;
       owner.OnDataContextPropertyChanged(e);
     }
+
 
     /// <summary>
     /// Handles changes of the <see cref="FrameworkElement.DataContextProperty"/> dependency property. As
@@ -633,6 +690,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
       owner.OnContextMenuPropertyChanged(e);
     }
 
+
     /// <summary>
     /// Releases the old and updates the new <see cref="ContextMenu"/> property
     /// in order to reflect both the NotifyIcon's <see cref="FrameworkElement.DataContext"/>
@@ -642,12 +700,16 @@ namespace Org.Vs.TailForWin.NotifyIcon
     private void OnContextMenuPropertyChanged(DependencyPropertyChangedEventArgs e)
     {
       if(e.OldValue != null)
+      {
         //remove the taskbar icon reference from the previously used element
         SetParentTaskbarIcon((DependencyObject) e.OldValue, null);
+      }
 
       if(e.NewValue != null)
+      {
         //set this taskbar icon as a reference to the new tooltip element
         SetParentTaskbarIcon((DependencyObject) e.NewValue, this);
+      }
 
       UpdateDataContext((ContextMenu) e.NewValue, null, DataContext);
     }
@@ -660,8 +722,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Associates a command that is being executed if the tray icon is being
     /// double clicked.
     /// </summary>
-    public static readonly DependencyProperty DoubleClickCommandProperty = DependencyProperty.Register("DoubleClickCommand", typeof(ICommand), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(null));
+    public static readonly DependencyProperty DoubleClickCommandProperty =
+        DependencyProperty.Register("DoubleClickCommand",
+            typeof(ICommand),
+            typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(null));
 
     /// <summary>
     /// A property wrapper for the <see cref="DoubleClickCommandProperty"/>
@@ -675,7 +740,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return ((ICommand) GetValue(DoubleClickCommandProperty));
+        return (ICommand) GetValue(DoubleClickCommandProperty);
       }
       set
       {
@@ -690,8 +755,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// Command parameter for the <see cref="DoubleClickCommand"/>.
     /// </summary>
-    public static readonly DependencyProperty DoubleClickCommandParameterProperty = DependencyProperty.Register("DoubleClickCommandParameter", typeof(object), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(null));
+    public static readonly DependencyProperty DoubleClickCommandParameterProperty =
+        DependencyProperty.Register("DoubleClickCommandParameter",
+            typeof(object),
+            typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(null));
 
     /// <summary>
     /// A property wrapper for the <see cref="DoubleClickCommandParameterProperty"/>
@@ -704,7 +772,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return (GetValue(DoubleClickCommandParameterProperty));
+        return GetValue(DoubleClickCommandParameterProperty);
       }
       set
       {
@@ -719,8 +787,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// The target of the command that is fired if the notify icon is double clicked.
     /// </summary>
-    public static readonly DependencyProperty DoubleClickCommandTargetProperty = DependencyProperty.Register("DoubleClickCommandTarget", typeof(IInputElement), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(null));
+    public static readonly DependencyProperty DoubleClickCommandTargetProperty =
+        DependencyProperty.Register("DoubleClickCommandTarget",
+            typeof(IInputElement),
+            typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(null));
 
     /// <summary>
     /// A property wrapper for the <see cref="DoubleClickCommandTargetProperty"/>
@@ -733,7 +804,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return ((IInputElement) GetValue(DoubleClickCommandTargetProperty));
+        return (IInputElement) GetValue(DoubleClickCommandTargetProperty);
       }
       set
       {
@@ -749,8 +820,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Associates a command that is being executed if the tray icon is being
     /// double clicked.
     /// </summary>
-    public static readonly DependencyProperty LeftClickCommandProperty = DependencyProperty.Register("LeftClickCommand", typeof(ICommand), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(null));
+    public static readonly DependencyProperty LeftClickCommandProperty =
+        DependencyProperty.Register("LeftClickCommand",
+            typeof(ICommand),
+            typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(null));
 
     /// <summary>
     /// A property wrapper for the <see cref="LeftClickCommandProperty"/>
@@ -764,7 +838,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return ((ICommand) GetValue(LeftClickCommandProperty));
+        return (ICommand) GetValue(LeftClickCommandProperty);
       }
       set
       {
@@ -779,8 +853,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// Command parameter for the <see cref="LeftClickCommand"/>.
     /// </summary>
-    public static readonly DependencyProperty LeftClickCommandParameterProperty = DependencyProperty.Register("LeftClickCommandParameter", typeof(object), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(null));
+    public static readonly DependencyProperty LeftClickCommandParameterProperty =
+        DependencyProperty.Register("LeftClickCommandParameter",
+            typeof(object),
+            typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(null));
 
     /// <summary>
     /// A property wrapper for the <see cref="LeftClickCommandParameterProperty"/>
@@ -788,12 +865,13 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// Command parameter for the <see cref="LeftClickCommand"/>.
     /// </summary>
     [Category(CategoryName)]
-    [Description("The target of the command that is fired if the notify icon is clicked with the left mouse button.")]
+    [Description("The target of the command that is fired if the notify icon is clicked with the left mouse button."
+        )]
     public object LeftClickCommandParameter
     {
       get
       {
-        return (GetValue(LeftClickCommandParameterProperty));
+        return GetValue(LeftClickCommandParameterProperty);
       }
       set
       {
@@ -808,8 +886,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// The target of the command that is fired if the notify icon is clicked.
     /// </summary>
-    public static readonly DependencyProperty LeftClickCommandTargetProperty = DependencyProperty.Register("LeftClickCommandTarget", typeof(IInputElement), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(null));
+    public static readonly DependencyProperty LeftClickCommandTargetProperty =
+        DependencyProperty.Register("LeftClickCommandTarget",
+            typeof(IInputElement),
+            typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(null));
 
     /// <summary>
     /// A property wrapper for the <see cref="LeftClickCommandTargetProperty"/>
@@ -817,12 +898,13 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// The target of the command that is fired if the notify icon is clicked.
     /// </summary>
     [Category(CategoryName)]
-    [Description("The target of the command that is fired if the notify icon is clicked with the left mouse button.")]
+    [Description("The target of the command that is fired if the notify icon is clicked with the left mouse button."
+        )]
     public IInputElement LeftClickCommandTarget
     {
       get
       {
-        return ((IInputElement) GetValue(LeftClickCommandTargetProperty));
+        return (IInputElement) GetValue(LeftClickCommandTargetProperty);
       }
       set
       {
@@ -839,8 +921,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayLeftMouseDown Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayLeftMouseDownEvent = EventManager.RegisterRoutedEvent("TrayLeftMouseDown",
-      RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayLeftMouseDownEvent = EventManager.RegisterRoutedEvent(
+        "TrayLeftMouseDown",
+        RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Occurs when the user presses the left mouse button.
@@ -864,8 +947,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     protected RoutedEventArgs RaiseTrayLeftMouseDownEvent()
     {
       RoutedEventArgs args = RaiseTrayLeftMouseDownEvent(this);
-
-      return (args);
+      return args;
     }
 
     /// <summary>
@@ -875,15 +957,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayLeftMouseDownEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayLeftMouseDownEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayLeftMouseDownEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -893,8 +972,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayRightMouseDown Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayRightMouseDownEvent = EventManager.RegisterRoutedEvent("TrayRightMouseDown",
-      RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayRightMouseDownEvent =
+        EventManager.RegisterRoutedEvent("TrayRightMouseDown",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Occurs when the presses the right mouse button.
@@ -916,7 +996,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaiseTrayRightMouseDownEvent()
     {
-      return (RaiseTrayRightMouseDownEvent(this));
+      return RaiseTrayRightMouseDownEvent(this);
     }
 
     /// <summary>
@@ -926,15 +1006,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayRightMouseDownEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayRightMouseDownEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayRightMouseDownEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -944,8 +1021,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayMiddleMouseDown Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayMiddleMouseDownEvent = EventManager.RegisterRoutedEvent("TrayMiddleMouseDown",
-      RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayMiddleMouseDownEvent =
+        EventManager.RegisterRoutedEvent("TrayMiddleMouseDown",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Occurs when the user presses the middle mouse button.
@@ -967,7 +1045,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaiseTrayMiddleMouseDownEvent()
     {
-      return (RaiseTrayMiddleMouseDownEvent(this));
+      return RaiseTrayMiddleMouseDownEvent(this);
     }
 
     /// <summary>
@@ -977,15 +1055,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayMiddleMouseDownEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayMiddleMouseDownEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayMiddleMouseDownEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -995,7 +1070,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayLeftMouseUp Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayLeftMouseUpEvent = EventManager.RegisterRoutedEvent("TrayLeftMouseUp", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayLeftMouseUpEvent = EventManager.RegisterRoutedEvent("TrayLeftMouseUp",
+        RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Occurs when the user releases the left mouse button.
@@ -1017,7 +1093,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaiseTrayLeftMouseUpEvent()
     {
-      return (RaiseTrayLeftMouseUpEvent(this));
+      return RaiseTrayLeftMouseUpEvent(this);
     }
 
     /// <summary>
@@ -1027,15 +1103,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayLeftMouseUpEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayLeftMouseUpEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayLeftMouseUpEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1045,7 +1118,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayRightMouseUp Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayRightMouseUpEvent = EventManager.RegisterRoutedEvent("TrayRightMouseUp", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayRightMouseUpEvent = EventManager.RegisterRoutedEvent("TrayRightMouseUp",
+        RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Occurs when the user releases the right mouse button.
@@ -1067,7 +1141,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaiseTrayRightMouseUpEvent()
     {
-      return (RaiseTrayRightMouseUpEvent(this));
+      return RaiseTrayRightMouseUpEvent(this);
     }
 
     /// <summary>
@@ -1077,15 +1151,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayRightMouseUpEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayRightMouseUpEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayRightMouseUpEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1095,7 +1166,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayMiddleMouseUp Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayMiddleMouseUpEvent = EventManager.RegisterRoutedEvent("TrayMiddleMouseUp", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayMiddleMouseUpEvent = EventManager.RegisterRoutedEvent(
+        "TrayMiddleMouseUp",
+        RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Occurs when the user releases the middle mouse button.
@@ -1117,7 +1190,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaiseTrayMiddleMouseUpEvent()
     {
-      return (RaiseTrayMiddleMouseUpEvent(this));
+      return RaiseTrayMiddleMouseUpEvent(this);
     }
 
     /// <summary>
@@ -1127,15 +1200,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayMiddleMouseUpEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayMiddleMouseUpEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayMiddleMouseUpEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1145,8 +1215,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayMouseDoubleClick Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayMouseDoubleClickEvent = EventManager.RegisterRoutedEvent("TrayMouseDoubleClick",
-      RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayMouseDoubleClickEvent =
+        EventManager.RegisterRoutedEvent("TrayMouseDoubleClick",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Occurs when the user double-clicks the taskbar icon.
@@ -1170,8 +1241,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       RoutedEventArgs args = RaiseTrayMouseDoubleClickEvent(this);
       DoubleClickCommand.ExecuteIfEnabled(DoubleClickCommandParameter, DoubleClickCommandTarget ?? this);
-
-      return (args);
+      return args;
     }
 
     /// <summary>
@@ -1181,15 +1251,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayMouseDoubleClickEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayMouseDoubleClickEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayMouseDoubleClickEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1199,7 +1266,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayMouseMove Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayMouseMoveEvent = EventManager.RegisterRoutedEvent("TrayMouseMove", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayMouseMoveEvent = EventManager.RegisterRoutedEvent("TrayMouseMove",
+        RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Occurs when the user moves the mouse over the taskbar icon.
@@ -1221,7 +1289,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaiseTrayMouseMoveEvent()
     {
-      return (RaiseTrayMouseMoveEvent(this));
+      return RaiseTrayMouseMoveEvent(this);
     }
 
     /// <summary>
@@ -1231,15 +1299,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayMouseMoveEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      var args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayMouseMoveEvent
-      };
+      var args = new RoutedEventArgs();
+      args.RoutedEvent = TrayMouseMoveEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1249,8 +1314,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayBalloonTipShown Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayBalloonTipShownEvent = EventManager.RegisterRoutedEvent("TrayBalloonTipShown",
-      RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayBalloonTipShownEvent =
+        EventManager.RegisterRoutedEvent("TrayBalloonTipShown",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Occurs when a balloon ToolTip is displayed.
@@ -1272,7 +1338,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaiseTrayBalloonTipShownEvent()
     {
-      return (RaiseTrayBalloonTipShownEvent(this));
+      return RaiseTrayBalloonTipShownEvent(this);
     }
 
     /// <summary>
@@ -1282,15 +1348,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayBalloonTipShownEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayBalloonTipShownEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayBalloonTipShownEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1300,7 +1363,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayBalloonTipClosed Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayBalloonTipClosedEvent = EventManager.RegisterRoutedEvent("TrayBalloonTipClosed", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayBalloonTipClosedEvent =
+        EventManager.RegisterRoutedEvent("TrayBalloonTipClosed",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Occurs when a balloon ToolTip was closed.
@@ -1322,7 +1387,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaiseTrayBalloonTipClosedEvent()
     {
-      return (RaiseTrayBalloonTipClosedEvent(this));
+      return RaiseTrayBalloonTipClosedEvent(this);
     }
 
     /// <summary>
@@ -1332,15 +1397,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayBalloonTipClosedEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayBalloonTipClosedEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayBalloonTipClosedEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1350,8 +1412,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayBalloonTipClicked Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayBalloonTipClickedEvent = EventManager.RegisterRoutedEvent("TrayBalloonTipClicked",
-      RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayBalloonTipClickedEvent =
+        EventManager.RegisterRoutedEvent("TrayBalloonTipClicked",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Occurs when the user clicks on a balloon ToolTip.
@@ -1373,7 +1436,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaiseTrayBalloonTipClickedEvent()
     {
-      return (RaiseTrayBalloonTipClickedEvent(this));
+      return RaiseTrayBalloonTipClickedEvent(this);
     }
 
     /// <summary>
@@ -1383,15 +1446,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayBalloonTipClickedEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayBalloonTipClickedEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayBalloonTipClickedEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1401,7 +1461,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayContextMenuOpen Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayContextMenuOpenEvent = EventManager.RegisterRoutedEvent("TrayContextMenuOpen", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayContextMenuOpenEvent =
+        EventManager.RegisterRoutedEvent("TrayContextMenuOpen",
+            RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Bubbled event that occurs when the context menu of the taskbar icon is being displayed.
@@ -1423,7 +1485,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaiseTrayContextMenuOpenEvent()
     {
-      return (RaiseTrayContextMenuOpenEvent(this));
+      return RaiseTrayContextMenuOpenEvent(this);
     }
 
     /// <summary>
@@ -1433,22 +1495,20 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayContextMenuOpenEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayContextMenuOpenEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayContextMenuOpenEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     /// <summary>
     /// PreviewTrayContextMenuOpen Routed Event
     /// </summary>
-    public static readonly RoutedEvent PreviewTrayContextMenuOpenEvent = EventManager.RegisterRoutedEvent("PreviewTrayContextMenuOpen",
-      RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent PreviewTrayContextMenuOpenEvent =
+        EventManager.RegisterRoutedEvent("PreviewTrayContextMenuOpen",
+            RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Tunneled event that occurs when the context menu of the taskbar icon is being displayed.
@@ -1470,7 +1530,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaisePreviewTrayContextMenuOpenEvent()
     {
-      return (RaisePreviewTrayContextMenuOpenEvent(this));
+      return RaisePreviewTrayContextMenuOpenEvent(this);
     }
 
     /// <summary>
@@ -1480,15 +1540,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaisePreviewTrayContextMenuOpenEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = PreviewTrayContextMenuOpenEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = PreviewTrayContextMenuOpenEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1498,7 +1555,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayPopupOpen Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayPopupOpenEvent = EventManager.RegisterRoutedEvent("TrayPopupOpen", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayPopupOpenEvent = EventManager.RegisterRoutedEvent("TrayPopupOpen",
+        RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Bubbled event that occurs when the custom popup is being opened.
@@ -1520,7 +1578,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaiseTrayPopupOpenEvent()
     {
-      return (RaiseTrayPopupOpenEvent(this));
+      return RaiseTrayPopupOpenEvent(this);
     }
 
     /// <summary>
@@ -1530,22 +1588,20 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayPopupOpenEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayPopupOpenEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayPopupOpenEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     /// <summary>
     /// PreviewTrayPopupOpen Routed Event
     /// </summary>
-    public static readonly RoutedEvent PreviewTrayPopupOpenEvent = EventManager.RegisterRoutedEvent("PreviewTrayPopupOpen",
-      RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent PreviewTrayPopupOpenEvent =
+        EventManager.RegisterRoutedEvent("PreviewTrayPopupOpen",
+            RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Tunneled event that occurs when the custom popup is being opened.
@@ -1567,7 +1623,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaisePreviewTrayPopupOpenEvent()
     {
-      return (RaisePreviewTrayPopupOpenEvent(this));
+      return RaisePreviewTrayPopupOpenEvent(this);
     }
 
     /// <summary>
@@ -1577,15 +1633,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaisePreviewTrayPopupOpenEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = PreviewTrayPopupOpenEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = PreviewTrayPopupOpenEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1595,7 +1648,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayToolTipOpen Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayToolTipOpenEvent = EventManager.RegisterRoutedEvent("TrayToolTipOpen", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayToolTipOpenEvent = EventManager.RegisterRoutedEvent("TrayToolTipOpen",
+        RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Bubbled event that occurs when the custom ToolTip is being displayed.
@@ -1617,7 +1671,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaiseTrayToolTipOpenEvent()
     {
-      return (RaiseTrayToolTipOpenEvent(this));
+      return RaiseTrayToolTipOpenEvent(this);
     }
 
     /// <summary>
@@ -1627,22 +1681,20 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayToolTipOpenEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayToolTipOpenEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayToolTipOpenEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     /// <summary>
     /// PreviewTrayToolTipOpen Routed Event
     /// </summary>
-    public static readonly RoutedEvent PreviewTrayToolTipOpenEvent = EventManager.RegisterRoutedEvent("PreviewTrayToolTipOpen",
-      RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent PreviewTrayToolTipOpenEvent =
+        EventManager.RegisterRoutedEvent("PreviewTrayToolTipOpen",
+            RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Tunneled event that occurs when the custom ToolTip is being displayed.
@@ -1664,7 +1716,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaisePreviewTrayToolTipOpenEvent()
     {
-      return (RaisePreviewTrayToolTipOpenEvent(this));
+      return RaisePreviewTrayToolTipOpenEvent(this);
     }
 
     /// <summary>
@@ -1674,15 +1726,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaisePreviewTrayToolTipOpenEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = PreviewTrayToolTipOpenEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = PreviewTrayToolTipOpenEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1692,7 +1741,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// TrayToolTipClose Routed Event
     /// </summary>
-    public static readonly RoutedEvent TrayToolTipCloseEvent = EventManager.RegisterRoutedEvent("TrayToolTipClose", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent TrayToolTipCloseEvent = EventManager.RegisterRoutedEvent("TrayToolTipClose",
+        RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Bubbled event that occurs when a custom tooltip is being closed.
@@ -1714,7 +1764,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaiseTrayToolTipCloseEvent()
     {
-      return (RaiseTrayToolTipCloseEvent(this));
+      return RaiseTrayToolTipCloseEvent(this);
     }
 
     /// <summary>
@@ -1724,22 +1774,20 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseTrayToolTipCloseEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = TrayToolTipCloseEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = TrayToolTipCloseEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     /// <summary>
     /// PreviewTrayToolTipClose Routed Event
     /// </summary>
-    public static readonly RoutedEvent PreviewTrayToolTipCloseEvent = EventManager.RegisterRoutedEvent("PreviewTrayToolTipClose",
-      RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent PreviewTrayToolTipCloseEvent =
+        EventManager.RegisterRoutedEvent("PreviewTrayToolTipClose",
+            RoutingStrategy.Tunnel, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Tunneled event that occurs when a custom tooltip is being closed.
@@ -1761,7 +1809,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     protected RoutedEventArgs RaisePreviewTrayToolTipCloseEvent()
     {
-      return (RaisePreviewTrayToolTipCloseEvent(this));
+      return RaisePreviewTrayToolTipCloseEvent(this);
     }
 
     /// <summary>
@@ -1771,15 +1819,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaisePreviewTrayToolTipCloseEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = PreviewTrayToolTipCloseEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = PreviewTrayToolTipCloseEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1791,7 +1836,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// PopupOpened Attached Routed Event
     /// </summary>
-    public static readonly RoutedEvent PopupOpenedEvent = EventManager.RegisterRoutedEvent("PopupOpened", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent PopupOpenedEvent = EventManager.RegisterRoutedEvent("PopupOpened",
+        RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Adds a handler for the PopupOpened attached event
@@ -1820,15 +1866,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaisePopupOpenedEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = PopupOpenedEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = PopupOpenedEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1838,7 +1881,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// ToolTipOpened Attached Routed Event
     /// </summary>
-    public static readonly RoutedEvent ToolTipOpenedEvent = EventManager.RegisterRoutedEvent("ToolTipOpened", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent ToolTipOpenedEvent = EventManager.RegisterRoutedEvent("ToolTipOpened",
+        RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Adds a handler for the ToolTipOpened attached event
@@ -1867,15 +1911,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseToolTipOpenedEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = ToolTipOpenedEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = ToolTipOpenedEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1885,7 +1926,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// ToolTipClose Attached Routed Event
     /// </summary>
-    public static readonly RoutedEvent ToolTipCloseEvent = EventManager.RegisterRoutedEvent("ToolTipClose", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent ToolTipCloseEvent = EventManager.RegisterRoutedEvent("ToolTipClose",
+        RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Adds a handler for the ToolTipClose attached event
@@ -1914,15 +1956,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseToolTipCloseEvent(DependencyObject target)
     {
       if(target == null)
-        return (null);
+        return null;
 
-      RoutedEventArgs args = new RoutedEventArgs
-      {
-        RoutedEvent = ToolTipCloseEvent
-      };
+      RoutedEventArgs args = new RoutedEventArgs();
+      args.RoutedEvent = ToolTipCloseEvent;
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1932,7 +1971,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// BalloonShowing Attached Routed Event
     /// </summary>
-    public static readonly RoutedEvent BalloonShowingEvent = EventManager.RegisterRoutedEvent("BalloonShowing", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent BalloonShowingEvent = EventManager.RegisterRoutedEvent("BalloonShowing",
+        RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Adds a handler for the BalloonShowing attached event
@@ -1962,12 +2002,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseBalloonShowingEvent(DependencyObject target, TaskbarIcon source)
     {
       if(target == null)
-        return (null);
+        return null;
 
       RoutedEventArgs args = new RoutedEventArgs(BalloonShowingEvent, source);
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -1977,7 +2016,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <summary>
     /// BalloonClosing Attached Routed Event
     /// </summary>
-    public static readonly RoutedEvent BalloonClosingEvent = EventManager.RegisterRoutedEvent("BalloonClosing", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
+    public static readonly RoutedEvent BalloonClosingEvent = EventManager.RegisterRoutedEvent("BalloonClosing",
+        RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TaskbarIcon));
 
     /// <summary>
     /// Adds a handler for the BalloonClosing attached event
@@ -2007,12 +2047,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
     internal static RoutedEventArgs RaiseBalloonClosingEvent(DependencyObject target, TaskbarIcon source)
     {
       if(target == null)
-        return (null);
+        return null;
 
       RoutedEventArgs args = new RoutedEventArgs(BalloonClosingEvent, source);
       RoutedEventHelper.RaiseEvent(target, args);
-
-      return (args);
+      return args;
     }
 
     #endregion
@@ -2029,8 +2068,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <TextBlock Text="{Binding RelativeSource={RelativeSource Self}, Path=(tb:TaskbarIcon.ParentTaskbarIcon).ToolTipText}" />
     /// </code>
     /// </summary>  
-    public static readonly DependencyProperty ParentTaskbarIconProperty = DependencyProperty.RegisterAttached("ParentTaskbarIcon", typeof(TaskbarIcon), typeof(TaskbarIcon),
-      new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
+    public static readonly DependencyProperty ParentTaskbarIconProperty =
+        DependencyProperty.RegisterAttached("ParentTaskbarIcon", typeof(TaskbarIcon), typeof(TaskbarIcon),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
 
     /// <summary>
     /// Gets the ParentTaskbarIcon property.  This dependency property 
@@ -2038,7 +2078,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// </summary>
     public static TaskbarIcon GetParentTaskbarIcon(DependencyObject d)
     {
-      return ((TaskbarIcon) d.GetValue(ParentTaskbarIconProperty));
+      return (TaskbarIcon) d.GetValue(ParentTaskbarIconProperty);
     }
 
     /// <summary>
@@ -2064,11 +2104,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
       VisibilityProperty.OverrideMetadata(typeof(TaskbarIcon), md);
 
       //register change listener for the DataContext property
-      md = new FrameworkPropertyMetadata(DataContextPropertyChanged);
+      md = new FrameworkPropertyMetadata(new PropertyChangedCallback(DataContextPropertyChanged));
       DataContextProperty.OverrideMetadata(typeof(TaskbarIcon), md);
 
       //register change listener for the ContextMenu property
-      md = new FrameworkPropertyMetadata(ContextMenuPropertyChanged);
+      md = new FrameworkPropertyMetadata(new PropertyChangedCallback(ContextMenuPropertyChanged));
       ContextMenuProperty.OverrideMetadata(typeof(TaskbarIcon), md);
     }
   }

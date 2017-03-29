@@ -1,10 +1,11 @@
 ﻿// Some interop code taken from Mike Marshall's AnyForm
+
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
 
-namespace Org.Vs.TailForWin.NotifyIcon.Interop
+namespace Hardcodet.Wpf.TaskbarNotification.Interop
 {
   /// <summary>
   /// Resolves the current tray position.
@@ -19,9 +20,10 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     {
       var info = new AppBarInfo();
       info.GetSystemTaskBarPosition();
-      Rectangle rcWorkArea = AppBarInfo.WorkArea;
-      int x = 0, y = 0;
 
+      Rectangle rcWorkArea = info.WorkArea;
+
+      int x = 0, y = 0;
       if(info.Edge == AppBarInfo.ScreenEdge.Left)
       {
         x = rcWorkArea.Left + 2;
@@ -42,12 +44,11 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
         x = rcWorkArea.Right;
         y = rcWorkArea.Bottom;
       }
-      return (new Point
-      {
-        X = x, Y = y
-      });
+
+      return new Point { X = x, Y = y };
     }
   }
+
 
   internal class AppBarInfo
   {
@@ -58,12 +59,15 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     private static extern UInt32 SHAppBarMessage(UInt32 dwMessage, ref APPBARDATA data);
 
     [DllImport("user32.dll")]
-    private static extern Int32 SystemParametersInfo(UInt32 uiAction, UInt32 uiParam, IntPtr pvParam, UInt32 fWinIni);
+    private static extern Int32 SystemParametersInfo(UInt32 uiAction, UInt32 uiParam,
+        IntPtr pvParam, UInt32 fWinIni);
+
 
     private const int ABE_BOTTOM = 3;
     private const int ABE_LEFT = 0;
     private const int ABE_RIGHT = 2;
     private const int ABE_TOP = 1;
+
     private const int ABM_GETTASKBARPOS = 0x00000005;
 
     // SystemParametersInfo constants
@@ -71,16 +75,16 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
 
     private APPBARDATA m_data;
 
-
     public ScreenEdge Edge
     {
       get
       {
-        return ((ScreenEdge) m_data.uEdge);
+        return (ScreenEdge) m_data.uEdge;
       }
     }
 
-    public static Rectangle WorkArea
+
+    public Rectangle WorkArea
     {
       get
       {
@@ -93,19 +97,19 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
         if(bResult == 1)
         {
           Marshal.FreeHGlobal(rawRect);
-
-          return (new Rectangle(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top));
+          return new Rectangle(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
         }
-        return (new Rectangle(0, 0, 0, 0));
+
+        return new Rectangle(0, 0, 0, 0);
       }
     }
 
+
     public void GetPosition(string strClassName, string strWindowName)
     {
-      m_data = new APPBARDATA
-      {
-        cbSize = (UInt32) Marshal.SizeOf(m_data.GetType())
-      };
+      m_data = new APPBARDATA();
+      m_data.cbSize = (UInt32) Marshal.SizeOf(m_data.GetType());
+
       IntPtr hWnd = FindWindow(strClassName, strWindowName);
 
       if(hWnd != IntPtr.Zero)
@@ -113,16 +117,22 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
         UInt32 uResult = SHAppBarMessage(ABM_GETTASKBARPOS, ref m_data);
 
         if(uResult != 1)
+        {
           throw new Exception("Failed to communicate with the given AppBar");
+        }
       }
       else
+      {
         throw new Exception("Failed to find an AppBar that matched the given criteria");
+      }
     }
+
 
     public void GetSystemTaskBarPosition()
     {
       GetPosition("Shell_TrayWnd", null);
     }
+
 
     public enum ScreenEdge
     {
@@ -132,6 +142,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
       Right = ABE_RIGHT,
       Bottom = ABE_BOTTOM
     }
+
 
     [StructLayout(LayoutKind.Sequential)]
     private struct APPBARDATA

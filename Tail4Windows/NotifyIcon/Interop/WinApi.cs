@@ -1,8 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-
-namespace Org.Vs.TailForWin.NotifyIcon.Interop
+namespace Hardcodet.Wpf.TaskbarNotification.Interop
 {
   /// <summary>
   /// Win32 API imports.
@@ -15,6 +14,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     [DllImport("shell32.Dll", CharSet = CharSet.Unicode)]
     public static extern bool Shell_NotifyIcon(NotifyCommand cmd, [In] ref NotifyIconData data);
 
+
     /// <summary>
     /// Creates the helper window that receives messages from the taskar icon.
     /// </summary>
@@ -23,6 +23,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
         [MarshalAs(UnmanagedType.LPWStr)] string lpWindowName, int dwStyle, int x, int y,
         int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance,
         IntPtr lpParam);
+
 
     /// <summary>
     /// Processes a default windows procedure.
@@ -53,6 +54,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     [DllImport("USER32.DLL", SetLastError = true)]
     public static extern bool DestroyWindow(IntPtr hWnd);
 
+
     /// <summary>
     /// Gives focus to a given window.
     /// </summary>
@@ -60,6 +62,7 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     /// <returns></returns>
     [DllImport("USER32.DLL")]
     public static extern bool SetForegroundWindow(IntPtr hWnd);
+
 
     /// <summary>
     /// Gets the maximum number of milliseconds that can elapse between a
@@ -72,11 +75,13 @@ namespace Org.Vs.TailForWin.NotifyIcon.Interop
     [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
     public static extern int GetDoubleClickTime();
 
+
     /// <summary>
     /// Gets the screen coordinates of the current mouse position.
     /// </summary>
     [DllImport("USER32.DLL", SetLastError = true)]
     public static extern bool GetPhysicalCursorPos(ref Point lpPoint);
+
 
     [DllImport("USER32.DLL", SetLastError = true)]
     public static extern bool GetCursorPos(ref Point lpPoint);

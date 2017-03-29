@@ -21,7 +21,8 @@
 //
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
-namespace Org.Vs.TailForWin.NotifyIcon
+
+namespace Hardcodet.Wpf.TaskbarNotification
 {
   /// <summary>
   /// Defines flags that define when a popup

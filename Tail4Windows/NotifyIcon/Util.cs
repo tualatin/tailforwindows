@@ -21,6 +21,7 @@
 //
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
+
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -29,10 +30,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Resources;
 using System.Windows.Threading;
-using Org.Vs.TailForWin.NotifyIcon.Interop;
+using Hardcodet.Wpf.TaskbarNotification.Interop;
 
-
-namespace Org.Vs.TailForWin.NotifyIcon
+namespace Hardcodet.Wpf.TaskbarNotification
 {
   /// <summary>
   /// Util and extension methods.
@@ -52,7 +52,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       get
       {
-        return (isDesignMode);
+        return isDesignMode;
       }
     }
 
@@ -62,7 +62,11 @@ namespace Org.Vs.TailForWin.NotifyIcon
 
     static Util()
     {
-      isDesignMode = (bool) DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement)).Metadata.DefaultValue;
+      isDesignMode =
+          (bool)
+              DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty,
+                  typeof(FrameworkElement))
+                  .Metadata.DefaultValue;
     }
 
     #endregion
@@ -77,7 +81,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <returns>Empty window.</returns>
     public static Window CreateHelperWindow()
     {
-      return (new Window
+      return new Window
       {
         Width = 0,
         Height = 0,
@@ -85,7 +89,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
         WindowStyle = WindowStyle.None,
         AllowsTransparency = true,
         Opacity = 0
-      });
+      };
     }
 
     #endregion
@@ -102,8 +106,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
     /// <remarks>See Shell_NotifyIcon documentation on MSDN for details.</remarks>
     public static bool WriteIconData(ref NotifyIconData data, NotifyCommand command)
     {
-      return (WriteIconData(ref data, command, data.ValidMembers));
+      return WriteIconData(ref data, command, data.ValidMembers);
     }
+
 
     /// <summary>
     /// Updates the taskbar icons with data provided by a given
@@ -119,13 +124,12 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       //do nothing if in design mode
       if(IsDesignMode)
-        return (true);
+        return true;
 
       data.ValidMembers = flags;
-
       lock(SyncRoot)
       {
-        return (WinApi.Shell_NotifyIcon(command, ref data));
+        return WinApi.Shell_NotifyIcon(command, ref data);
       }
     }
 
@@ -142,23 +146,14 @@ namespace Org.Vs.TailForWin.NotifyIcon
       switch(icon)
       {
       case BalloonIcon.None:
-
-        return (BalloonFlags.None);
-
+        return BalloonFlags.None;
       case BalloonIcon.Info:
-
-        return (BalloonFlags.Info);
-
+        return BalloonFlags.Info;
       case BalloonIcon.Warning:
-
-        return (BalloonFlags.Warning);
-
+        return BalloonFlags.Warning;
       case BalloonIcon.Error:
-
-        return (BalloonFlags.Error);
-
+        return BalloonFlags.Error;
       default:
-
         throw new ArgumentOutOfRangeException("icon");
       }
     }
@@ -177,7 +172,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     public static Icon ToIcon(this ImageSource imageSource)
     {
       if(imageSource == null)
-        return (null);
+        return null;
 
       Uri uri = new Uri(imageSource.ToString());
       StreamResourceInfo streamInfo = Application.GetResourceStream(uri);
@@ -188,7 +183,8 @@ namespace Org.Vs.TailForWin.NotifyIcon
         msg = String.Format(msg, imageSource);
         throw new ArgumentException(msg);
       }
-      return (new Icon(streamInfo.Stream));
+
+      return new Icon(streamInfo.Stream);
     }
 
     #endregion
@@ -212,14 +208,15 @@ namespace Org.Vs.TailForWin.NotifyIcon
     public static bool Is<T>(this T value, params T[] candidates)
     {
       if(candidates == null)
-        return (false);
+        return false;
 
       foreach(var t in candidates)
       {
         if(value.Equals(t))
-          return (true);
+          return true;
       }
-      return (false);
+
+      return false;
     }
 
     #endregion
@@ -235,36 +232,21 @@ namespace Org.Vs.TailForWin.NotifyIcon
       switch(activationMode)
       {
       case PopupActivationMode.LeftClick:
-
-        return (me == MouseEvent.IconLeftMouseUp);
-
+        return me == MouseEvent.IconLeftMouseUp;
       case PopupActivationMode.RightClick:
-
-        return (me == MouseEvent.IconRightMouseUp);
-
+        return me == MouseEvent.IconRightMouseUp;
       case PopupActivationMode.LeftOrRightClick:
-
-        return (me.Is(MouseEvent.IconLeftMouseUp, MouseEvent.IconRightMouseUp));
-
+        return me.Is(MouseEvent.IconLeftMouseUp, MouseEvent.IconRightMouseUp);
       case PopupActivationMode.LeftOrDoubleClick:
-
-        return (me.Is(MouseEvent.IconLeftMouseUp, MouseEvent.IconDoubleClick));
-
+        return me.Is(MouseEvent.IconLeftMouseUp, MouseEvent.IconDoubleClick);
       case PopupActivationMode.DoubleClick:
-
-        return (me.Is(MouseEvent.IconDoubleClick));
-
+        return me.Is(MouseEvent.IconDoubleClick);
       case PopupActivationMode.MiddleClick:
-
-        return (me == MouseEvent.IconMiddleMouseUp);
-
+        return me == MouseEvent.IconMiddleMouseUp;
       case PopupActivationMode.All:
-
         //return true for everything except mouse movements
-        return (me != MouseEvent.MouseMove);
-
+        return me != MouseEvent.MouseMove;
       default:
-
         throw new ArgumentOutOfRangeException("activationMode");
       }
     }
@@ -294,7 +276,9 @@ namespace Org.Vs.TailForWin.NotifyIcon
           rc.Execute(commandParameter, target);
       }
       else if(command.CanExecute(commandParameter))
+      {
         command.Execute(commandParameter);
+      }
     }
 
     #endregion
@@ -307,14 +291,14 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       //use the application's dispatcher by default
       if(Application.Current != null)
-        return (Application.Current.Dispatcher);
+        return Application.Current.Dispatcher;
 
       //fallback for WinForms environments
       if(source.Dispatcher != null)
-        return (source.Dispatcher);
+        return source.Dispatcher;
 
       //ultimatively use the thread's dispatcher
-      return (Dispatcher.CurrentDispatcher);
+      return Dispatcher.CurrentDispatcher;
     }
 
 
@@ -331,8 +315,7 @@ namespace Org.Vs.TailForWin.NotifyIcon
     {
       if(element == null)
         throw new ArgumentNullException("element");
-
-      return (element.GetBindingExpression(FrameworkElement.DataContextProperty) != null);
+      return element.GetBindingExpression(FrameworkElement.DataContextProperty) != null;
     }
   }
 }
