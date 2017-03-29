@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:tb="clr-namespace:Org.Vs.TailForWin.NotifyIcon"
+        xmlns:tb="clr-namespace:Hardcodet.Wpf.TaskbarNotification"
         xmlns:local="clr-namespace:Org.Vs.TailForWin.Template"
         xmlns:Utils="clr-namespace:Org.Vs.TailForWin.UI.Utils" x:Class="Org.Vs.TailForWin.UI.TabWindow"
         mc:Ignorable="d"
@@ -68,7 +68,16 @@
     </StatusBar>
 
     <!--TaskbarIcon part-->
-    <tb:TaskbarIcon x:Name="tbIcon" IconSource="/Res/Main.ico">
+    <tb:TaskbarIcon x:Name="tbIcon" IconSource="/Res/Main.ico"  TrayContextMenuOpen="MyNotifyIcon_TrayContextMenuOpen"
+                    PreviewTrayContextMenuOpen="MyNotifyIcon_PreviewTrayContextMenuOpen">
+      <tb:TaskbarIcon.ContextMenu>
+        <ContextMenu>
+          <TextBlock Text="Hiding the sample window will not close it!"/>
+            <MenuItem Header="_Show Sample Window [S]" Command="{commands:ShowSampleWindowCommand}" CommandParameter="{Binding}"/>
+            <Separator />
+            <MenuItem Header="_Hide Sample Window [H]" Command="{commands:HideSampleWindowCommand}" CommandParameter="{Binding}"/>
+        </ContextMenu>
+      </tb:TaskbarIcon.ContextMenu>
       <tb:TaskbarIcon.TrayToolTip>
         <local:FancyToolTip Opacity="0.85" InfoText="{Binding ToolTipText}" x:Name="fancyToolTipTfW" />
       </tb:TaskbarIcon.TrayToolTip>
