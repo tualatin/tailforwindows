@@ -5,14 +5,14 @@
     <ResourceDictionary Source="Shared.xaml"/>
   </ResourceDictionary.MergedDictionaries>
 
-<Style TargetType="{x:Type MenuItem}">
-     <Setter Property="HeaderTemplate">
-          <Setter.Value>
-               <DataTemplate>
-                    <TextBlock Text="{Binding Header, RelativeSource= {RelativeSource Mode=FindAncestor, AncestorType={x:Type MenuItem}}}" />
-               </DataTemplate>
-          </Setter.Value>
-     </Setter>
-</Style>
+  <Style x:Key="ContextMenuItem" TargetType="MenuItem">
+    <Setter Property="HeaderTemplate">
+      <Setter.Value>
+        <DataTemplate>
+          <TextBlock Text="{Binding Header, RelativeSource= {RelativeSource Mode=FindAncestor, AncestorType={x:Type MenuItem}}}" />
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
 
 </ResourceDictionary>

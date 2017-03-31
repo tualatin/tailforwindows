@@ -134,6 +134,7 @@
     <Compile Include="Data\ThreadPriorityMapping.cs" />
     <Compile Include="Extensions\CloneObservableCollection.cs" />
     <Compile Include="Extensions\CompareLists.cs" />
+    <Compile Include="NotifyIcon\Interop\SystemInfo.cs" />
     <Compile Include="Template\ColorPicker\ColorDialog.xaml.cs">
       <DependentUpon>ColorDialog.xaml</DependentUpon>
     </Compile>
@@ -373,6 +374,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\ContextMenuItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Label.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -390,10 +395,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Shared.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\TabControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

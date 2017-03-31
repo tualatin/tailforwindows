@@ -136,6 +136,7 @@ namespace Org.Vs.TailForWin.UI
 
       tabControl.Items.Add(tabAdd);
       AddTabItem();
+
       DragWindowManager.Instance.Register(this);
 
       SourceInitialized += TabWindow_SourceInitialized;
@@ -160,7 +161,7 @@ namespace Org.Vs.TailForWin.UI
             if(page == null)
               continue;
 
-            page.StopThread();
+            page.Dispose();
           }
         }
       }
@@ -300,7 +301,6 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      // TODO issue, when all files opens from FileManager, it works. But when open a file from external, it doesn't work again, it's broken!!
       if(!IsInitialized)
         return;
 
@@ -621,7 +621,7 @@ namespace Org.Vs.TailForWin.UI
             if(item != null)
               LogFile.FmHelper.Remove(item);
 
-            page.StopThread();
+            page.Dispose();
           }
         }
         catch(ArgumentNullException ex)
@@ -832,7 +832,7 @@ namespace Org.Vs.TailForWin.UI
 
       tailWindow.FileManagerDoOpenTab += FileManagerTab;
       tailWindow.ButtonSearchBox += OpenSearchBoxWindow;
-      tailWindow.OnDragAndDropEvent += TailWindow_OnDragAndDropEvnt;
+      tailWindow.OnDragAndDropEvent += TailWindow_OnDragAndDropEvent;
       tailWindow.OnIsOpenInTabControl += TailWindow_OnIsOpenInTabControl;
 
       Frame tabFrame = new Frame
@@ -854,7 +854,7 @@ namespace Org.Vs.TailForWin.UI
       return (tabFrame);
     }
 
-    private void TailWindow_OnDragAndDropEvnt(FileManagerData fileProperties)
+    private void TailWindow_OnDragAndDropEvent(FileManagerData fileProperties)
     {
       if(fileProperties == null)
         return;
@@ -1181,13 +1181,13 @@ namespace Org.Vs.TailForWin.UI
       case NativeMethods.WM_EXITSIZEMOVE:
 
         hasFocus = false;
-        DragWindowManager.Instance.DragEnd(this);
+        //DragWindowManager.Instance.DragEnd(this);
         break;
 
       case NativeMethods.WM_MOVE:
 
-        if(hasFocus)
-          DragWindowManager.Instance.DragMove(this);
+        //if(hasFocus)
+        //  DragWindowManager.Instance.DragMove(this);
         break;
 
       case NativeMethods.WM_GETMINMAXINFO:

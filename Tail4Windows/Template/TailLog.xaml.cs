@@ -95,6 +95,12 @@ namespace Org.Vs.TailForWin.Template
         waitWorker = null;
       }
 
+      LogFile.APP_MAIN_WINDOW.TaskBarIconContextMenu.Items.Remove(tailLogMenuItem);
+      tailLogMenuItem = null;
+      childTabItem = null;
+      fileManagerProperties = null;
+
+      tabProperties.Dispose();
       myReader.Dispose();
       tabProperties.Dispose();
       mySmtp.Dispose();
@@ -403,7 +409,7 @@ namespace Org.Vs.TailForWin.Template
             textBoxFileName.Text = tabProperties.FileName;
 
           childTabItem.Header = $"{tabProperties.File}";
-          childTabItem.Style = (Style) FindResource("TabItemTailStyle");
+          childTabItem.Style = Application.Current.FindResource("TabItemTailStyle") as Style;
           childTabItem.HeaderToolTip = tabProperties.FileName;
 
           textBlockTailLog.FileNameAvailable = true;
@@ -638,6 +644,11 @@ namespace Org.Vs.TailForWin.Template
         tabProperties.FilterState = (bool) checkBoxFilter.IsChecked;
 
       FilterState();
+    }
+
+    private void TailLogMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+      LogFile.APP_MAIN_WINDOW.TabControl.SelectedItem = childTabItem;
     }
 
     #endregion
@@ -894,8 +905,10 @@ namespace Org.Vs.TailForWin.Template
       childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
       tailLogMenuItem = new MenuItem()
       {
+        Style = Application.Current.FindResource("ContextMenuItem") as Style,
         Header = childTabItem.Header
       };
+      tailLogMenuItem.Click += TailLogMenuItem_Click;
       LogFile.APP_MAIN_WINDOW.TaskBarIconContextMenu.Items.Add(tailLogMenuItem);
 
       myReader = new FileReader();

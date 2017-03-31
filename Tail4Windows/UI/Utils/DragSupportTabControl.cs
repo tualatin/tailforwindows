@@ -171,20 +171,22 @@ namespace Org.Vs.TailForWin.UI.Utils
 
     private void UpdateWindowLocation(double left, double top, TabItem tabItem)
     {
-      if(dragToWindow == null)
-      {
-        lock(synLockTabWindow)
-        {
-          if(dragToWindow == null)
-            dragToWindow = TabWindow.CreateTabWindow(left, top, ActualWidth, ActualHeight, tabItem);
-        }
-      }
+      // TODO Drag'n'Drop window
 
-      if(dragToWindow != null)
-      {
-        dragToWindow.Left = left;
-        dragToWindow.Top = top;
-      }
+      //if(dragToWindow == null)
+      //{
+      //  lock(synLockTabWindow)
+      //  {
+      //    if(dragToWindow == null)
+      //      dragToWindow = TabWindow.CreateTabWindow(left, top, ActualWidth, ActualHeight, tabItem);
+      //  }
+      //}
+
+      //if(dragToWindow != null)
+      //{
+      //  dragToWindow.Left = left;
+      //  dragToWindow.Top = top;
+      //}
     }
 
     #endregion
