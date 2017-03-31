@@ -483,21 +483,23 @@ namespace Org.Vs.TailForWin.Template
       if(!IsInitialized)
         return;
 
-      e.Handled = true;
-
-      fmWorkingProperties = dataGridFiles.SelectedItem as FileManagerData;
-
-      if(fmWorkingProperties != null)
+      if(dataGridFiles.SelectedItem is FileManagerData fmData)
       {
-        fmMemento = fmWorkingProperties.SaveToMemento();
-        SetSelectedComboBoxItem(fmWorkingProperties.Category, fmWorkingProperties.ThreadPriority, fmWorkingProperties.RefreshRate, fmWorkingProperties.FileEncoding);
-      }
-      else
-      {
-        fmMemento = null;
-      }
+        e.Handled = true;
+        fmWorkingProperties = fmData;
 
-      FMProperties.DataContext = fmWorkingProperties;
+        if(fmWorkingProperties != null)
+        {
+          fmMemento = fmWorkingProperties.SaveToMemento();
+          SetSelectedComboBoxItem(fmWorkingProperties.Category, fmWorkingProperties.ThreadPriority, fmWorkingProperties.RefreshRate, fmWorkingProperties.FileEncoding);
+        }
+        else
+        {
+          fmMemento = null;
+        }
+
+        FMProperties.DataContext = fmWorkingProperties;
+      }
     }
 
     private void textBlockDescription_TextChanged(object sender, TextChangedEventArgs e)
@@ -768,12 +770,12 @@ namespace Org.Vs.TailForWin.Template
       if(LogFile.FmHelper != null && LogFile.FmHelper.Count > 0)
       {
         fmDoc.FmProperties.ForEach(item =>
-         {
-           FileManagerHelper f = LogFile.FmHelper.SingleOrDefault(x => x.ID == item.ID);
+        {
+          FileManagerHelper f = LogFile.FmHelper.SingleOrDefault(x => x.ID == item.ID);
 
-           if(f != null)
-             item.OpenFromFileManager = f.OpenFromFileManager;
-         });
+          if(f != null)
+            item.OpenFromFileManager = f.OpenFromFileManager;
+        });
       }
 
       foreach(FileManagerData item in fmDoc.FmProperties)
@@ -867,37 +869,50 @@ namespace Org.Vs.TailForWin.Template
       }
       else
       {
-        fmDoc.FmProperties[dataGridFiles.SelectedIndex].OpenFromFileManager = true;
-        FileManagerHelper helper = new FileManagerHelper
+        if(dataGridFiles.SelectedItem is FileManagerData fmData)
         {
-          ID = fmDoc.FmProperties[dataGridFiles.SelectedIndex].ID,
-          OpenFromFileManager = fmDoc.FmProperties[dataGridFiles.SelectedIndex].OpenFromFileManager
-        };
+          fmWorkingProperties.OpenFromFileManager = true;
 
-
-        if(LogFile.FmHelper.Count > 0)
-        {
           try
           {
-            FileManagerHelper item = LogFile.FmHelper.SingleOrDefault(x => x.ID == helper.ID);
-
-            if(item == null)
-              LogFile.FmHelper.Add(helper);
+            var data = fmDoc.FmProperties.Find(p => p.ID == fmData.ID);
+            data.OpenFromFileManager = fmData.OpenFromFileManager;
           }
-          catch(ArgumentNullException ex)
+          catch
           {
-            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+            LOG.Trace("{0} can not find FileManager data object, ID {1}!", System.Reflection.MethodBase.GetCurrentMethod().Name, fmData.ID);
           }
-        }
-        else
-        {
-          LogFile.FmHelper.Add(helper);
-        }
 
-        FileManagerDataEventArgs argument = new FileManagerDataEventArgs(fmWorkingProperties);
-        OpenFileAsNewTab?.Invoke(this, argument);
+          FileManagerHelper helper = new FileManagerHelper
+          {
+            ID = fmData.ID,
+            OpenFromFileManager = fmData.OpenFromFileManager
+          };
 
-        argument.Dispose();
+          if(LogFile.FmHelper.Count > 0)
+          {
+            try
+            {
+              FileManagerHelper item = LogFile.FmHelper.SingleOrDefault(x => x.ID == helper.ID);
+
+              if(item == null)
+                LogFile.FmHelper.Add(helper);
+            }
+            catch(ArgumentNullException ex)
+            {
+              LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+            }
+          }
+          else
+          {
+            LogFile.FmHelper.Add(helper);
+          }
+
+          FileManagerDataEventArgs args = new FileManagerDataEventArgs(fmWorkingProperties);
+          OpenFileAsNewTab?.Invoke(this, args);
+
+          args.Dispose();
+        }
       }
 
       Close();

@@ -453,15 +453,15 @@ namespace Org.Vs.TailForWin.UI
       if(tabControl.Items.Count <= 2)
         return;
 
-      if(e.Source is TailForWinTabItem tabItem)
-      {
-        Point mousePos = PointToScreen(Mouse.GetPosition(tabItem));
-        TabWindow tabWin = CreateTabWindow(mousePos.X, mousePos.Y, ActualWidth, ActualHeight, tabItem);
+      //if(e.Source is TailForWinTabItem tabItem)
+      //{
+      //  Point mousePos = PointToScreen(Mouse.GetPosition(tabItem));
+      //  TabWindow tabWin = CreateTabWindow(mousePos.X, mousePos.Y, ActualWidth, ActualHeight, tabItem);
 
-        tabControl.RemoveTabItem(tabItem);
-        tabWin.Activate();
-        tabWin.Focus();
-      }
+      //  tabControl.RemoveTabItem(tabItem);
+      //  tabWin.Activate();
+      //  tabWin.Focus();
+      //}
     }
 
     private void TabItem_CloseTabWindow(object sender, RoutedEventArgs e)

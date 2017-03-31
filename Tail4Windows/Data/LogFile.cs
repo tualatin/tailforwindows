@@ -100,7 +100,7 @@ namespace Org.Vs.TailForWin.Data
     /// Unlimited log line value
     /// </summary>
     public static int UNLIMITED_LOG_LINE_VALUE = 400000;
-    
+
     /// <summary>
     /// Delete log files older than xxx days
     /// </summary>
@@ -190,7 +190,7 @@ namespace Org.Vs.TailForWin.Data
     }
 
     /// <summary>
-    /// List of open items from FileManager
+    /// List of open items from FileManager, to see, which file is already open
     /// </summary>
     public static ObservableCollection<FileManagerHelper> FmHelper
     {

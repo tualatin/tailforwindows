@@ -20,10 +20,11 @@ namespace Org.Vs.TailForWin.Converters.MultiConverters
         bool isEnable = false;
         bool isOpenFromFileManager = false;
 
-        if(values[0] != null && values[0].GetType() == typeof(FileManagerData))
+        if(values[0] != null && values[0] is FileManagerData fmData)
+        {
           isEnable = true;
-        if(values[1] != null && values[1].GetType() == typeof(FileManagerData))
-          isOpenFromFileManager = (values[1] as FileManagerData).OpenFromFileManager;
+          isOpenFromFileManager = fmData.OpenFromFileManager;
+        }
 
         if(isOpenFromFileManager)
           return (false);

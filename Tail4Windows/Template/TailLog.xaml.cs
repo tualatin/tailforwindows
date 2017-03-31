@@ -118,6 +118,8 @@ namespace Org.Vs.TailForWin.Template
 
       this.fileManagerProperties = fileManagerProperties;
 
+      LOG.Trace("TailLog open new TabItem - Open from FileManager {0}", fileManagerProperties.OpenFromFileManager);
+
       tabProperties = new TailLogData
       {
         Wrap = fileManagerProperties.Wrap,
