@@ -489,23 +489,6 @@ namespace Org.Vs.TailForWin.Template
       }
 
       currentFileName = fName;
-
-      if(fileManagerProperties != null)
-      {
-        try
-        {
-          if(LogFile.FmHelper.Any(p => p.ID.Equals(fileManagerProperties.ID)))
-          {
-            var itemToRemove = LogFile.FmHelper.FirstOrDefault(p => p.ID.Equals(fileManagerProperties.ID));
-            LogFile.FmHelper.Remove(itemToRemove);
-          }
-        }
-        catch(ArgumentNullException ex)
-        {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        }
-      }
-
       NewFile?.Invoke(this, EventArgs.Empty);
       textBoxFileName.Text = currentFileName;
     }
@@ -1254,6 +1237,19 @@ namespace Org.Vs.TailForWin.Template
 
       if(fileManagerProperties != null)
       {
+        try
+        {
+          if(LogFile.FmHelper.Any(p => p.ID.Equals(fileManagerProperties.ID)))
+          {
+            var itemToRemove = LogFile.FmHelper.FirstOrDefault(p => p.ID.Equals(fileManagerProperties.ID));
+            LogFile.FmHelper.Remove(itemToRemove);
+          }
+        }
+        catch(ArgumentNullException ex)
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+
         fileManagerProperties = new FileManagerData
         {
           ID = Guid.Empty

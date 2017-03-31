@@ -23,7 +23,7 @@ namespace Org.Vs.TailForWin.Converters.MultiConverters
         if(values[0] != null && values[0] is FileManagerData fmData)
         {
           isEnable = true;
-          isOpenFromFileManager = fmData.OpenFromFileManager;
+          //isOpenFromFileManager = fmData.OpenFromFileManager;          
         }
 
         if(isOpenFromFileManager)

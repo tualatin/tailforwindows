@@ -113,15 +113,15 @@ namespace Org.Vs.TailForWin.Template
       if(e.ChangedButton != MouseButton.Left)
         return;
 
-      if(dataGridFiles.SelectedItem is FileManagerData fmData)
-      {
-        if(fmData.OpenFromFileManager)
-        {
-          string message = string.Format(Application.Current.FindResource("FileAlreadyOpen").ToString(), fmData.File);
-          MessageBox.Show(message, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Exclamation);
-          return;
-        }
-      }
+      //if(dataGridFiles.SelectedItem is FileManagerData fmData)
+      //{
+      //  if(fmData.OpenFromFileManager)
+      //  {
+      //    string message = string.Format(Application.Current.FindResource("FileAlreadyOpen").ToString(), fmData.File);
+      //    MessageBox.Show(message, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+      //    return;
+      //  }
+      //}
 
       OpenFileToTail();
     }
