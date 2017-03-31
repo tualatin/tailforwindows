@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:Org.Vs.TailForWin.Template"
         xmlns:Utils="clr-namespace:Org.Vs.TailForWin.UI.Utils" x:Class="Org.Vs.TailForWin.UI.TabWindow"
         mc:Ignorable="d"
-        Title="TabWindow" Height="300" Width="300" MinHeight="410" MinWidth="750" ResizeMode="CanResizeWithGrip" Name="MainWindow"
+        Title="TabWindow" Height="300" Width="300" MinHeight="410" MinWidth="770" ResizeMode="CanResizeWithGrip" Name="MainWindow"
         Icon="/TailForWin;component/Res/Main.ico">
   <Grid x:Name="MainContent">
     <Grid.RowDefinitions>

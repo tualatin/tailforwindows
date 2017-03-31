@@ -23,23 +23,23 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Status bar state run
     /// </summary>
-    public static string STATUS_BAR_STATE_RUN = Application.Current.FindResource("Record") as string;
+    public static string STATUS_BAR_STATE_RUN = Application.Current.FindResource("Record").ToString();
 
     /// <summary>
     /// Status bar state pause
     /// </summary>
-    public static string STATUS_BAR_STATE_PAUSE = Application.Current.FindResource("Pause") as string;
+    public static string STATUS_BAR_STATE_PAUSE = Application.Current.FindResource("Pause").ToString();
 
     /// <summary>
     /// Tabbar child empty
     /// </summary>
-    public static string TABBAR_CHILD_EMPTY_STRING = Application.Current.FindResource("NoFile") as string;
+    public static string TABBAR_CHILD_EMPTY_STRING = Application.Current.FindResource("NoFile").ToString();
 
     /// <summary>
     /// MessageBox error
     /// </summary>
     /// 
-    public static string MSGBOX_ERROR = Application.Current.FindResource("Error") as string;
+    public static string MSGBOX_ERROR = Application.Current.FindResource("Error").ToString();
 
     /// <summary>
     /// Default forground color
@@ -132,7 +132,6 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// MainWindow reference from TfW
     /// </summary>
-    //public static MainWindow APP_MAIN_WINDOW = (Application.Current.MainWindow as MainWindow);
     public static UI.TabWindow APP_MAIN_WINDOW = (Application.Current.MainWindow as UI.TabWindow);
 
 

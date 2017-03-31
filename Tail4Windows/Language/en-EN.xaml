@@ -27,7 +27,7 @@
   <system:String x:Key="FilterNotEmpty">The filter value cannot be null!</system:String>
   <system:String x:Key="FiltersLoaded">{0} filters</system:String>
   <system:String x:Key="FilterLoaded">{0} filter</system:String>
-  <system:String x:Key="FileManagerCloseUnsaveItem">The last edit item is unsaved. Please save the item before close the dialogue.</system:String>
+  <system:String x:Key="FileManagerCloseUnsaveItem">The last edit item is unsaved. Please save the item, before close the dialog.</system:String>
   <system:String x:Key="GoToLineNumber">Line number ({0}-{1}):</system:String>
   <system:String x:Key="NoUpdate">No update necessary</system:String>
   <system:String x:Key="DoUpdate">New update available</system:String>
@@ -47,4 +47,6 @@
   <system:String x:Key="Highest">Highest</system:String>
   <system:String x:Key="SmartWatchHint">File {0} detected. What should {1} do?</system:String>
   <system:String x:Key="ThreadIsBusy">There is a running process in {0}. Are you sure to exit?</system:String>
+  <system:String x:Key="FileAlreadyOpen">File '{0}' is already open.</system:String>
+  <system:String x:Key="SmartWatchCanNotStart">SmartWatch can not start, an internal error occurred.</system:String>
 </ResourceDictionary>

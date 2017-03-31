@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows;
@@ -423,7 +424,16 @@ namespace Org.Vs.TailForWin.Template
             LOG.Info("{0} start tail file '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, tabProperties.FileName);
 
             if(tabProperties.SmartWatch && SettingsHelper.TailSettings.SmartWatch)
-              smartWatch.StartSmartWatch(tabProperties.FileName);
+            {
+              try
+              {
+                smartWatch.StartSmartWatch(tabProperties);
+              }
+              catch(ArgumentException)
+              {
+                MessageBox.Show(Application.Current.FindResource("SmartWatchCanNotStart").ToString(), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+              }
+            }
 
             CheckBoxSmartWatch.IsEnabled = false;
             btnStop.IsEnabled = true;
@@ -473,12 +483,30 @@ namespace Org.Vs.TailForWin.Template
     public void btnOpenFile_Click(object sender, RoutedEventArgs e)
     {
       if(!LogFile.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*",
-        Application.Current.FindResource("OpenFileDialog") as string))
+        Application.Current.FindResource("OpenFileDialog").ToString()))
+      {
         return;
+      }
 
       currentFileName = fName;
-      NewFile?.Invoke(this, EventArgs.Empty);
 
+      if(fileManagerProperties != null)
+      {
+        try
+        {
+          if(LogFile.FmHelper.Any(p => p.ID.Equals(fileManagerProperties.ID)))
+          {
+            var itemToRemove = LogFile.FmHelper.FirstOrDefault(p => p.ID.Equals(fileManagerProperties.ID));
+            LogFile.FmHelper.Remove(itemToRemove);
+          }
+        }
+        catch(ArgumentNullException ex)
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+      }
+
+      NewFile?.Invoke(this, EventArgs.Empty);
       textBoxFileName.Text = currentFileName;
     }
 
@@ -1238,6 +1266,7 @@ namespace Org.Vs.TailForWin.Template
       tabProperties.ThreadPriority = SettingsHelper.TailSettings.DefaultThreadPriority;
       tabProperties.RefreshRate = SettingsHelper.TailSettings.DefaultRefreshRate;
       tabProperties.FileEncoding = null;
+      tabProperties.OpenFromFileManager = false;
 
       comboBoxRefreshRate.SelectedItem = tabProperties.RefreshRate;
       comboBoxThreadPriority.SelectedValue = tabProperties.ThreadPriority;

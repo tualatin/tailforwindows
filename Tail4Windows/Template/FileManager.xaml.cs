@@ -113,6 +113,16 @@ namespace Org.Vs.TailForWin.Template
       if(e.ChangedButton != MouseButton.Left)
         return;
 
+      if(dataGridFiles.SelectedItem is FileManagerData fmData)
+      {
+        if(fmData.OpenFromFileManager)
+        {
+          string message = string.Format(Application.Current.FindResource("FileAlreadyOpen").ToString(), fmData.File);
+          MessageBox.Show(message, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Exclamation);
+          return;
+        }
+      }
+
       OpenFileToTail();
     }
 
@@ -872,17 +882,6 @@ namespace Org.Vs.TailForWin.Template
         if(dataGridFiles.SelectedItem is FileManagerData fmData)
         {
           fmWorkingProperties.OpenFromFileManager = true;
-
-          try
-          {
-            var data = fmDoc.FmProperties.Find(p => p.ID == fmData.ID);
-            data.OpenFromFileManager = fmData.OpenFromFileManager;
-          }
-          catch
-          {
-            LOG.Trace("{0} can not find FileManager data object, ID {1}!", System.Reflection.MethodBase.GetCurrentMethod().Name, fmData.ID);
-          }
-
           FileManagerHelper helper = new FileManagerHelper
           {
             ID = fmData.ID,

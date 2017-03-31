@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading;
 using log4net;
 using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.PatternUtil.Utils;
 using Org.Vs.TailForWin.Utils.Events;
 
 
@@ -24,6 +26,7 @@ namespace Org.Vs.TailForWin.Utils
 
     private BackgroundWorker smartWorker;
     private ManualResetEvent resetEvent;
+    private TailLogData currentProperty;
     private string currentLogFolder;
     private string currentFileExtension;
     private string[] currentFiles;
@@ -46,14 +49,15 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// Start smart watch
     /// </summary>
-    /// <param name="logFile">Full path of current log file</param>
+    /// <param name="tailProperty">TailLog data property</param>
     /// <exception cref="ArgumentException">If logFolder is null or empty</exception>
-    public void StartSmartWatch(string logFile)
+    public void StartSmartWatch(TailLogData tailProperty)
     {
-      Arg.NotNull(logFile, "LogFolder");
+      Arg.NotNull(tailProperty, "tailProperty");
 
-      currentLogFolder = Path.GetDirectoryName(logFile);
-      currentFileExtension = Path.GetExtension(logFile);
+      currentProperty = (TailLogData) tailProperty.Clone();
+      currentLogFolder = Path.GetDirectoryName(currentProperty.FileName);
+      currentFileExtension = Path.GetExtension(currentProperty.FileName);
       currentFiles = GetFilesInCurrentLogDirectory();
 
       if(currentFiles == null)
@@ -95,14 +99,17 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     public void Dispose()
     {
-      if(smartWorker == null)
-        return;
+      if(smartWorker != null)
+      {
+        if(smartWorker.IsBusy)
+          smartWorker.CancelAsync();
 
-      if(smartWorker.IsBusy)
-        smartWorker.CancelAsync();
+        resetEvent.Reset();
+        smartWorker.Dispose();
+      }
 
-      resetEvent.Reset();
-      smartWorker.Dispose();
+      if(currentProperty != null)
+        currentProperty.Dispose();
     }
 
     #region Thread
@@ -121,14 +128,14 @@ namespace Org.Vs.TailForWin.Utils
 
         if(currentFiles.Length < newValue.Length)
         {
-          LOG.Trace("SmartWatch Logfiles changed! Current '{0}' new '{1}'", currentFiles.Length, newValue.Length);
+          LOG.Trace("SmartWatch logfiles changed! Current '{0}' new '{1}'", currentFiles.Length, newValue.Length);
           GetLatestFile(newValue);
 
           currentFiles = newValue;
         }
         else if(currentFiles.Length > newValue.Length)
         {
-          LOG.Trace("SmartWatch some logfile are deleted! Current '{0}' new '{1}'", currentFiles.Length, newValue.Length);
+          LOG.Trace("SmartWatch some logfiles deleted! Current '{0}' new '{1}'", currentFiles.Length, newValue.Length);
           currentFiles = newValue;
         }
       }
@@ -152,7 +159,29 @@ namespace Org.Vs.TailForWin.Utils
         try
         {
           if(!currentFiles.Contains(item))
-            SmartWatchFilesChanged?.Invoke(this, item);
+          {
+            if(currentProperty.UsePattern)
+            {
+              using(var patternController = new SearchPatternController())
+              {
+                var latestFile = patternController.GetCurrentFileByPattern(currentProperty);
+
+                if(latestFile.Equals(item))
+                {
+                  LOG.Trace("SmartWatch file '{0}' match pattern!", Path.GetFileName(item));
+                  SmartWatchFilesChanged?.Invoke(this, item);
+                }
+                else
+                {
+                  LOG.Trace("SmartWatch file '{0}' does not match pattern!", Path.GetFileName(item));
+                }
+              }
+            }
+            else
+            {
+              SmartWatchFilesChanged?.Invoke(this, item);
+            }
+          }
         }
         catch
         {

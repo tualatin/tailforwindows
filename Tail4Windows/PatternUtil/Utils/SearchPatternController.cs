@@ -54,7 +54,7 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
         try
         {
           Regex regex = new Regex(currentProperty.PatternString, RegexOptions.None);
-          files = directoryInfo.GetFiles().Where(p => regex.IsMatch(p.Name)).ToArray<FileInfo>();
+          files = directoryInfo.GetFiles().Where(p => regex.IsMatch(p.Name)).ToArray();
         }
         catch(ArgumentNullException ex)
         {
