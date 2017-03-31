@@ -1254,10 +1254,7 @@ namespace Org.Vs.TailForWin.Template
         tabProperties.FileName = textBoxFileName.Text;
         tabProperties.OriginalFileName = textBoxFileName.Text;
         childTabItem.Header = tabProperties.File;
-
-        if(!fileManagerProperties.OpenFromFileManager)
-          btnFileManagerAdd.IsEnabled = true;
-
+        btnFileManagerAdd.IsEnabled = !tabProperties.OpenFromFileManager;
         btnShellOpen.IsEnabled = true;
         btnPrint.IsEnabled = true;
         ExtraIcons.IsEnabled = true;

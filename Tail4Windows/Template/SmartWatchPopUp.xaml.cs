@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Media;
+using log4net;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Template.Events;
 
@@ -11,6 +15,8 @@ namespace Org.Vs.TailForWin.Template
   /// </summary>
   public partial class SmartWatchPopUp : Window
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(SmartWatchPopUp));
+
     /// <summary>
     /// Fires, when user accept the dialog
     /// </summary>
@@ -45,15 +51,45 @@ namespace Org.Vs.TailForWin.Template
 
     private void SmartWatchWnd_Loaded(object sender, RoutedEventArgs e)
     {
-      LblNewFile.Text = string.Format(Application.Current.FindResource("SmartWatchHint").ToString(), NewFileOpen, LogFile.APPLICATION_CAPTION);
+      try
+      {
+        string message = string.Format(Application.Current.FindResource("SmartWatchHint").ToString(), NewFileOpen, LogFile.APPLICATION_CAPTION);
+        Regex regex = new Regex($"({NewFileOpen})", RegexOptions.IgnoreCase);
+        string[] substrings = regex.Split(message);
 
-      Activate();
-      Focus();
-      BtnOpenSameTab.Focus();
+        LblNewFile.Inlines.Clear();
+
+        Array.ForEach(substrings, item =>
+        {
+          if(regex.Match(item).Success)
+          {
+            Brush highlightText = new SolidColorBrush(Color.FromArgb(255, 52, 180, 227));
+            Run run = new Run(item)
+            {
+              Background = Brushes.White,
+              Foreground = highlightText
+            };
+            LblNewFile.Inlines.Add(run);
+          }
+          else
+          {
+            LblNewFile.Inlines.Add(item);
+          }
+        });
+
+        Activate();
+        Focus();
+        BtnOpenSameTab.Focus();
+      }
+      catch(Exception ex)
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
     }
 
     private void SmartWatchWnd_Deactivated(object sender, EventArgs e)
     {
+      LOG.Trace("{0}", System.Reflection.MethodBase.GetCurrentMethod().Name);
     }
 
     private void BtnIgnore_Click(object sender, RoutedEventArgs e)

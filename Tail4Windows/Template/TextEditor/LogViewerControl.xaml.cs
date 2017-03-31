@@ -677,22 +677,32 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       //if (!leftMouseButtonDown)
       //  return;
 
-      var listBox = sender as ListBox;
-
-      if(listBox != null)
+      if(sender is ListBox listBox)
       {
         var items = listBox.SelectedItems;
         int index;
-        Point mousePoint = PointToScreen(Mouse.GetPosition(this));
+        Point? mousePoint;
 
-        if(oldMousePosition.Y != mousePoint.Y)
+        try
+        {
+          mousePoint = PointToScreen(Mouse.GetPosition(this));
+        }
+        catch
+        {
+          mousePoint = null;
+        }
+
+        if(!mousePoint.HasValue)
+          return;
+
+        if(oldMousePosition.Y != mousePoint.Value.Y)
           mouseMove = true;
 
         // TODO: review me
         if(readOnlyEditor != null)
-          readOnlyEditor.Visibility = System.Windows.Visibility.Collapsed;
+          readOnlyEditor.Visibility = Visibility.Collapsed;
         if(showLineEditor != null)
-          showLineEditor.Visibility = System.Windows.Visibility.Visible;
+          showLineEditor.Visibility = Visibility.Visible;
 
         try
         {
@@ -722,7 +732,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
                   relativePoint.X = relativePoint.X - (10 / 2);
                   System.Drawing.Rectangle rcTextBox = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
 
-                  if(rcTextBox.Contains((int) mousePoint.X, (int) mousePoint.Y) && leftMouseButtonDown)
+                  if(rcTextBox.Contains((int) mousePoint.Value.X, (int) mousePoint.Value.Y) && leftMouseButtonDown)
                   {
                     System.Windows.Resources.StreamResourceInfo info = Application.GetResourceStream(new Uri("/TailForWin;component/Template/TextEditor/Res/RightArrow.cur", UriKind.Relative));
 
@@ -1176,7 +1186,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       if(tb == null)
         return;
 
-      Regex regex = new Regex(string.Format("({0})", searchText), RegexOptions.IgnoreCase);
+      Regex regex = new Regex($"({searchText})", RegexOptions.IgnoreCase);
 
       if(searchText.Length == 0)
       {

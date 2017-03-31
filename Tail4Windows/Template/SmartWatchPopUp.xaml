@@ -13,7 +13,7 @@
       <RowDefinition Height="30"/>
     </Grid.RowDefinitions>
 
-    <TextBlock Name="LblNewFile" FontWeight="SemiBold" TextWrapping="Wrap" Margin="2"/>
+    <TextBlock Name="LblNewFile" TextWrapping="Wrap" Margin="2"/>
 
     <Separator Grid.Row="1" HorizontalAlignment="Center" Margin="0" Name="separator" VerticalAlignment="Center" Width="400"/>
 
