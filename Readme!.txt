@@ -1,10 +1,15 @@
 ﻿.NET 4.x required!
+
 Source: git@github.com:tualatin/tailforwindows.git
 Known issues: https://github.com/tualatin/tailforwindows/issues
+
 If there are problems, Tail4Windows creates log files in folder 'logs'. You can send me the log file from the day where the error occurred. I will investigate it and fix it as soon as possible.
+
+Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
 v1.x.x
+* add SmartWatch
 * add Log line limitation, if needed
 * add some default patterns
 * add pattern logic to FileManager
