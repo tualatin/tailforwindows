@@ -45,7 +45,7 @@
   <system:String x:Key="Normal">Normal</system:String>
   <system:String x:Key="AboveNormal">Above normal</system:String>
   <system:String x:Key="Highest">Highest</system:String>
-  <system:String x:Key="SmartWatchHint">File {0} detected. What should {1} do?</system:String>
+  <system:String x:Key="SmartWatchHint" xml:space="preserve">File {0} detected.&#10;What should {1} do?</system:String>
   <system:String x:Key="ThreadIsBusy">There is a running process in {0}. Are you sure to exit?</system:String>
   <system:String x:Key="FileAlreadyOpen">File '{0}' is already open.</system:String>
   <system:String x:Key="SmartWatchCanNotStart">SmartWatch can not start, an internal error occurred.</system:String>
