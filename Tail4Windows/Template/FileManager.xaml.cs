@@ -371,7 +371,8 @@ namespace Org.Vs.TailForWin.Template
       DefineParts defineParts = new DefineParts
       {
         Owner = this,
-        TailLogFile = fmWorkingProperties.FileName
+        TailLogFile = fmWorkingProperties.FileName,
+        ShowResultString = string.IsNullOrEmpty(fmWorkingProperties.PatternString) ? string.Empty : fmWorkingProperties.PatternString
       };
       defineParts.PatternObjectChanged += PatternObjectChanged;
       defineParts.ShowDialog();

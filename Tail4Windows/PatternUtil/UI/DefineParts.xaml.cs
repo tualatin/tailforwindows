@@ -31,15 +31,21 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
     /// </summary>
     public string TailLogFile
     {
-      get
-      {
-        return (TextBlockOriginal.Text);
-      }
+      get => TextBlockOriginal.Text;
       set
       {
         TextBlockOriginal.Text = Path.GetFileName(value);
         fileExtension = Path.GetExtension(value);
       }
+    }
+
+    /// <summary>
+    /// Shows the current result
+    /// </summary>
+    public string ShowResultString
+    {
+      get => TextBlockResult.Text;
+      set => TextBlockResult.Text = value;
     }
 
 
