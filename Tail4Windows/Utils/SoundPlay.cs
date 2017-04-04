@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 using log4net;
 using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Native;
 
 
 namespace Org.Vs.TailForWin.Utils
@@ -15,8 +15,6 @@ namespace Org.Vs.TailForWin.Utils
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SoundPlay));
 
-    [DllImport("winmm.dll")]
-    private static extern int mciSendString(string strCommand, StringBuilder strReturn, int iReturnLength, IntPtr hWndCallback);
 
     private static string command = string.Empty;
     // private static StringBuilder msg = new StringBuilder ((int) 256);
@@ -43,13 +41,13 @@ namespace Org.Vs.TailForWin.Utils
 
         mciMusicFile = soundFile;
         command = $"open \"{soundFile}\" type mpegvideo alias MediaFile";
-        result = mciSendString(command, null, 0, IntPtr.Zero);
+        result = NativeMethods.MciSendString(command, null, 0, IntPtr.Zero);
 
         if(result == 0)
           return (true);
 
         command = $"open \"{soundFile}\" alias MediaFile";
-        result = mciSendString(command, null, 0, IntPtr.Zero);
+        result = NativeMethods.MciSendString(command, null, 0, IntPtr.Zero);
       }
       catch(Exception ex)
       {
@@ -75,7 +73,7 @@ namespace Org.Vs.TailForWin.Utils
 
       try
       {
-        result = mciSendString(command, null, 0, IntPtr.Zero);
+        result = NativeMethods.MciSendString(command, null, 0, IntPtr.Zero);
 
         if(result == 0)
           return (true);
@@ -95,7 +93,7 @@ namespace Org.Vs.TailForWin.Utils
     public static void Close()
     {
       command = "close MediaFile";
-      mciSendString(command, null, 0, IntPtr.Zero);
+      NativeMethods.MciSendString(command, null, 0, IntPtr.Zero);
     }
 
     /// <summary>
@@ -108,7 +106,7 @@ namespace Org.Vs.TailForWin.Utils
 
       try
       {
-        result = mciSendString(command, ReturnData, 128, IntPtr.Zero);
+        result = NativeMethods.MciSendString(command, ReturnData, 128, IntPtr.Zero);
 
         if(ReturnData.Length == 7 && string.CompareOrdinal(ReturnData.ToString().Substring(0, 7), "playing") == 0)
           return (true);
@@ -132,7 +130,7 @@ namespace Org.Vs.TailForWin.Utils
 
       try
       {
-        result = mciSendString(command, ReturnData, 128, IntPtr.Zero);
+        result = NativeMethods.MciSendString(command, ReturnData, 128, IntPtr.Zero);
       }
       catch(Exception ex)
       {
@@ -147,7 +145,7 @@ namespace Org.Vs.TailForWin.Utils
 
       try
       {
-        result = mciSendString(command, ReturnData, 128, IntPtr.Zero);
+        result = NativeMethods.MciSendString(command, ReturnData, 128, IntPtr.Zero);
       }
       catch(Exception ex)
       {

@@ -330,14 +330,14 @@ namespace Org.Vs.TailForWin.Utils
 
       case EMaskType.Integer:
 
-        if(String.CompareOrdinal(str, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
+        if(string.CompareOrdinal(str, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
           return (true);
         break;
 
       case EMaskType.Decimal:
 
-        if(String.CompareOrdinal(str, NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) == 0 ||
-            String.CompareOrdinal(str, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
+        if(string.CompareOrdinal(str, NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) == 0 ||
+            string.CompareOrdinal(str, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
           return (true);
         break;
       }

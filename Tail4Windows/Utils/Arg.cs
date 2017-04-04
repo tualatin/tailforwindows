@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 
 
@@ -543,7 +544,7 @@ namespace Org.Vs.TailForWin.Utils
         //populate with the values
         for(var iEnum = 0; iEnum < fi.Length; iEnum++)
         {
-          values[iEnum] = ((T) fi[iEnum].GetValue(null)).ToString();
+          values[iEnum] = ((T) fi[iEnum].GetValue(null)).ToString(CultureInfo.InvariantCulture);
 
           //values[iEnum] = Enum.GetName(enumType, fi[iEnum].GetValue(null));
         }

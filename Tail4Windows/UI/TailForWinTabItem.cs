@@ -52,14 +52,8 @@ namespace Org.Vs.TailForWin.UI
     /// </summary>
     public event RoutedEventHandler TabHeaderDoubleClick
     {
-      add
-      {
-        AddHandler(TabHeaderDoubleClickEvent, value);
-      }
-      remove
-      {
-        RemoveHandler(TabHeaderDoubleClickEvent, value);
-      }
+      add => AddHandler(TabHeaderDoubleClickEvent, value);
+      remove => RemoveHandler(TabHeaderDoubleClickEvent, value);
     }
 
     /// <summary>
@@ -73,14 +67,8 @@ namespace Org.Vs.TailForWin.UI
     /// </summary>
     public event RoutedEventHandler CloseTabWindow
     {
-      add
-      {
-        AddHandler(CloseTabWindowEvent, value);
-      }
-      remove
-      {
-        RemoveHandler(CloseTabWindowEvent, value);
-      }
+      add => AddHandler(CloseTabWindowEvent, value);
+      remove => RemoveHandler(CloseTabWindowEvent, value);
     }
 
     /// <summary>
@@ -93,14 +81,8 @@ namespace Org.Vs.TailForWin.UI
     /// </summary>
     public object HeaderToolTip
     {
-      get
-      {
-        return (GetValue(HeaderToolTipProperty));
-      }
-      set
-      {
-        SetValue(HeaderToolTipProperty, value);
-      }
+      private get => GetValue(HeaderToolTipProperty);
+      set => SetValue(HeaderToolTipProperty, value);
     }
 
 
@@ -112,12 +94,12 @@ namespace Org.Vs.TailForWin.UI
       base.OnApplyTemplate();
 
       if(GetTemplateChild("tabItemCloseButton") is Button closeButton)
-        closeButton.Click += new RoutedEventHandler(CloseButton_Click);
+        closeButton.Click += CloseButton_Click;
 
       if(GetTemplateChild("gridHeader") is Grid headerGrid)
       {
-        headerGrid.PreviewMouseDown += new MouseButtonEventHandler(HeaderGrid_MiddleMouseButtonDown);
-        headerGrid.MouseLeftButtonDown += new MouseButtonEventHandler(HeaderGrid_MouseLeftButtonDown);
+        headerGrid.PreviewMouseDown += HeaderGrid_MiddleMouseButtonDown;
+        headerGrid.MouseLeftButtonDown += HeaderGrid_MouseLeftButtonDown;
 
         // set special ToolTip for TabItemHeader
         ToolTip myToolTip = new ToolTip()
@@ -133,7 +115,7 @@ namespace Org.Vs.TailForWin.UI
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
-      if(Parent is TabControl tabCtrl)
+      if(Parent is TabControl)
         RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
     }
 
@@ -145,7 +127,7 @@ namespace Org.Vs.TailForWin.UI
 
     private void HeaderGrid_MiddleMouseButtonDown(object sender, MouseButtonEventArgs e)
     {
-      if(Parent is TabControl tabCtrl)
+      if(Parent is TabControl)
       {
         if(e.MiddleButton == MouseButtonState.Pressed)
           RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));

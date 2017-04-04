@@ -24,8 +24,8 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     public event SmartWatchFilesChangedEventHandler SmartWatchFilesChanged;
 
-    private BackgroundWorker smartWorker;
-    private ManualResetEvent resetEvent;
+    private readonly BackgroundWorker smartWorker;
+    private readonly ManualResetEvent resetEvent;
     private TailLogData currentProperty;
     private string currentLogFolder;
     private string currentFileExtension;
@@ -88,7 +88,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// Resume smart watch
     /// </summary>
-    public void ResumeSmartWatch()
+    private void ResumeSmartWatch()
     {
       if(smartWorker.IsBusy)
         resetEvent.Set();
@@ -108,8 +108,7 @@ namespace Org.Vs.TailForWin.Utils
         smartWorker.Dispose();
       }
 
-      if(currentProperty != null)
-        currentProperty.Dispose();
+      currentProperty?.Dispose();
     }
 
     #region Thread
@@ -183,9 +182,9 @@ namespace Org.Vs.TailForWin.Utils
             }
           }
         }
-        catch
+        catch(Exception ex)
         {
-          continue;
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
       }
     }
@@ -194,13 +193,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       try
       {
-        string[] files;
-
-        if(SettingsHelper.TailSettings.SmartWatchData.FilterByExtension)
-          files = Directory.GetFiles(currentLogFolder, $"*{currentFileExtension}", SearchOption.TopDirectoryOnly);
-        else
-          files = Directory.GetFiles(currentLogFolder, "*.*", SearchOption.TopDirectoryOnly);
-
+        var files = Directory.GetFiles(currentLogFolder, SettingsHelper.TailSettings.SmartWatchData.FilterByExtension ? $"*{currentFileExtension}" : "*.*", SearchOption.TopDirectoryOnly);
         return (files);
       }
       catch(Exception ex)

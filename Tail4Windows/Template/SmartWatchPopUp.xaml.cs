@@ -13,7 +13,7 @@ namespace Org.Vs.TailForWin.Template
   /// <summary>
   /// Interaction logic for SmartWatchPopUp.xaml
   /// </summary>
-  public partial class SmartWatchPopUp : Window
+  public partial class SmartWatchPopUp
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SmartWatchPopUp));
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Text;
 using Org.Vs.TailForWin.Data.Native;
 
 
@@ -8,8 +9,44 @@ namespace Org.Vs.TailForWin.Native
   /// <summary>
   /// Native windows methods for .NET
   /// </summary>
-  public class NativeMethods
+  public static class NativeMethods
   {
+    /// <summary>
+    /// Sets a new extended window style. 
+    /// </summary>
+    internal const int GWL_EXSTYLE = -20;
+
+    /// <summary>
+    /// The window has a double border; the window can, optionally, be created with a title bar by specifying the WS_CAPTION style in the dwStyle parameter.
+    /// </summary>
+    internal const int WS_EX_DLGMODALFRAME = 0x0001;
+
+    /// <summary>
+    /// Retains the current size (ignores the cx and cy parameters).
+    /// </summary>
+    internal const int SWP_NOSIZE = 0x0001;
+
+    /// <summary>
+    /// Retains the current position (ignores X and Y parameters).
+    /// </summary>
+    internal const int SWP_NOMOVE = 0x0002;
+
+    /// <summary>
+    /// Retains the current Z order (ignores the hWndInsertAfter parameter).
+    /// </summary>
+    internal const int SWP_NOZORDER = 0x0004;
+
+    /// <summary>
+    /// Applies new frame styles set using the SetWindowLong function. Sends a WM_NCCALCSIZE message to the window, even if the window's size is not being changed. 
+    /// If this flag is not specified, WM_NCCALCSIZE is sent only when the window's size is being changed.
+    /// </summary>
+    internal const int SWP_FRAMECHANGED = 0x0020;
+
+    /// <summary>
+    /// Associates a new large or small icon with a window. The system displays the large icon in the ALT+TAB dialog box, and the small icon in the window caption. 
+    /// </summary>
+    internal const uint WM_SETICON = 0x0080;
+
     /// <summary>
     /// HWND_BROADCAST
     /// </summary>
@@ -313,5 +350,71 @@ namespace Org.Vs.TailForWin.Native
     /// If the function fails, the return value is NULL.To get extended error information, call GetLastError.</returns>
     [DllImport("user32.dll", SetLastError = true)]
     internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+    /// <summary>
+    /// The mciSendString function sends a command string to an MCI device. The device that the command is sent to is specified in the command string.
+    /// </summary>
+    /// <param name="strCommand">Pointer to a null-terminated string that specifies an MCI command string. For a list, see Multimedia Command Strings.</param>
+    /// <param name="strReturn">Pointer to a buffer that receives return information. If no return information is needed, this parameter can be NULL.</param>
+    /// <param name="iReturnLength">Size, in characters, of the return buffer specified by the lpszReturnString parameter</param>
+    /// <param name="hWndCallback">Handle to a callback window if the "notify" flag was specified in the command string.</param>
+    /// <returns></returns>
+    [DllImport("winmm.dll")]
+    internal static extern int MciSendString(string strCommand, StringBuilder strReturn, int iReturnLength, IntPtr hWndCallback);
+
+    /// <summary>
+    /// Changes an attribute of the specified window. The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
+    /// </summary>
+    /// <param name="hwnd">A handle to the window and, indirectly, the class to which the window belongs.</param>
+    /// <param name="index">The zero-based offset to the value to be set. Valid values are in the range zero through the number of bytes of extra window memory, 
+    /// minus the size of an integer. To set any other value, specify one of the following values.</param>
+    /// <param name="newStyle">The replacement value.</param>
+    /// <returns></returns>
+    [DllImport("user32.dll")]
+    internal static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+
+    /// <summary>
+    /// Retrieves information about the specified window. The function also retrieves the 32-bit (DWORD) value at the specified offset into the extra window memory. 
+    /// </summary>
+    /// <param name="hwnd">A handle to the window and, indirectly, the class to which the window belongs. </param>
+    /// <param name="index">The zero-based offset to the value to be retrieved. Valid values are in the range zero through the number of bytes of extra window memory, minus four;
+    /// for example, if you specified 12 or more bytes of extra memory, a value of 8 would be an index to the third 32-bit integer. To retrieve any other value, specify one of the 
+    /// following values. </param>
+    /// <returns></returns>
+    [DllImport("user32.dll")]
+    internal static extern int GetWindowLong(IntPtr hwnd, int index);
+
+    /// <summary>
+    /// Changes the size, position, and Z order of a child, pop-up, or top-level window. These windows are ordered according to their appearance on the screen.
+    /// The topmost window receives the highest rank and is the first window in the Z order.
+    /// </summary>
+    /// <param name="hwnd">A handle to the window.</param>
+    /// <param name="hwndInsertAfter">A handle to the window to precede the positioned window in the Z order. This parameter must be a window handle or one of the following values.</param>
+    /// <param name="x">The new position of the left side of the window, in client coordinates. </param>
+    /// <param name="y">The new position of the top of the window, in client coordinates. </param>
+    /// <param name="width">The new width of the window, in pixels. </param>
+    /// <param name="height">The new height of the window, in pixels. </param>
+    /// <param name="flags">The window sizing and positioning flags. This parameter can be a combination of the following values. </param>
+    /// <returns></returns>
+    [DllImport("user32.dll")]
+    internal static extern bool SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter, int x, int y, int width, int height, uint flags);
+
+    /// <summary>
+    /// Sends the specified message to a window or windows. The SendMessage function calls the window procedure for the specified window and does not return until the window 
+    /// procedure has processed the message.
+    /// 
+    /// To send a message and return immediately, use the SendMessageCallback or SendNotifyMessage function.To post a message to a thread's message queue and return immediately,
+    /// use the PostMessage or PostThreadMessage function.
+    /// </summary>
+    /// <param name="hwnd">A handle to the window whose window procedure will receive the message. If this parameter is HWND_BROADCAST ((HWND)0xffff), the message is sent to all 
+    /// top-level windows in the system, including disabled or invisible unowned windows, overlapped windows, and pop-up windows; but the message is not sent to child windows.
+    /// Message sending is subject to UIPI.The thread of a process can send messages only to message queues of threads in processes of lesser or equal integrity level.</param>
+    /// <param name="msg">The message to be sent.
+    /// For lists of the system-provided messages, see System-Defined Messages.</param>
+    /// <param name="wParam">Additional message-specific information.</param>
+    /// <param name="lParam">Additional message-specific information.</param>
+    /// <returns></returns>
+    [DllImport("user32.dll")]
+    internal static extern IntPtr SendMessage(IntPtr hwnd, uint msg, IntPtr wParam, IntPtr lParam);
   }
 }

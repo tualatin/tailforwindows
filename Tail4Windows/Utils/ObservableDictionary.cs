@@ -13,7 +13,7 @@ namespace Org.Vs.TailForWin.Utils
   /// </summary>
   /// <typeparam name="TKey">INotifyCollectionChanged</typeparam>
   /// <typeparam name="TValue">INotifyPropertyChanged</typeparam>
-  public class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged
+  public sealed class ObservableDictionary<TKey, TValue> : IDictionary<TKey, TValue>, INotifyCollectionChanged, INotifyPropertyChanged
   {
     private const string CountString = "Count";
     private const string IndexerName = "Item[]";
@@ -23,10 +23,10 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// Dictionary
     /// </summary>
-    protected IDictionary<TKey, TValue> Dictionary
+    private IDictionary<TKey, TValue> Dictionary
     {
       get;
-      private set;
+      set;
     }
 
 
@@ -213,12 +213,10 @@ namespace Org.Vs.TailForWin.Utils
         {
           throw new ArgumentException("An item with the same key has already been added.");
         }
-        else
+
+        foreach(var item in items)
         {
-          foreach(var item in items)
-          {
-            Dictionary.Add(item);
-          }
+          Dictionary.Add(item);
         }
       }
       else
@@ -264,7 +262,7 @@ namespace Org.Vs.TailForWin.Utils
     /// Occurs when a property value changes.
     /// </summary>
     /// <param name="propertyName">Name of property</param>
-    protected virtual void OnPropertyChanged(string propertyName)
+    private void OnPropertyChanged(string propertyName)
     {
       PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

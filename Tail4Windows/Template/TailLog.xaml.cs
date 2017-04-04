@@ -197,7 +197,7 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     public bool ActiveTab
     {
-      get => (activeTab);
+      private get => activeTab;
       set
       {
         activeTab = value;
@@ -317,7 +317,8 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     public void FilterOnOff()
     {
-      tabProperties.FilterState = !checkBoxFilter.IsChecked.Value;
+      if(checkBoxFilter.IsChecked != null)
+        tabProperties.FilterState = !checkBoxFilter.IsChecked.Value;
 
       FilterState();
     }
@@ -335,7 +336,8 @@ namespace Org.Vs.TailForWin.Template
 
     private void checkBoxOnTop_Click(object sender, RoutedEventArgs e)
     {
-      LogFile.APP_MAIN_WINDOW.MainWindowTopmost = checkBoxOnTop.IsChecked.Value;
+      if(checkBoxOnTop.IsChecked != null)
+        LogFile.APP_MAIN_WINDOW.MainWindowTopmost = checkBoxOnTop.IsChecked.Value;
     }
 
     /// <summary>
@@ -445,7 +447,8 @@ namespace Org.Vs.TailForWin.Template
         else
         {
           LOG.Info("{0} file not found '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, tabProperties.FileName);
-          MessageBox.Show(Application.Current.FindResource("FileNotFound") as string, string.Format("{0} - {1}", LogFile.APPLICATION_CAPTION, LogFile.MSGBOX_ERROR), MessageBoxButton.OK, MessageBoxImage.Error);
+          MessageBox.Show(Application.Current.FindResource("FileNotFound").ToString(), $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", MessageBoxButton.OK,
+            MessageBoxImage.Error);
         }
       }
     }
@@ -618,7 +621,8 @@ namespace Org.Vs.TailForWin.Template
 
     private void CheckBoxSmartWatch_Click(object sender, RoutedEventArgs e)
     {
-      tabProperties.SmartWatch = CheckBoxSmartWatch.IsChecked.Value;
+      if(CheckBoxSmartWatch.IsChecked != null)
+        tabProperties.SmartWatch = CheckBoxSmartWatch.IsChecked.Value;
     }
 
     private void checkBoxWordWrap_Click(object sender, RoutedEventArgs e)
@@ -827,7 +831,7 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// Stops tail thread
     /// </summary>
-    public void StopThread()
+    private void StopThread()
     {
       if(tailWorker == null || !tailWorker.IsBusy)
         return;
@@ -948,10 +952,8 @@ namespace Org.Vs.TailForWin.Template
         {
           Dispatcher.Invoke(new Action(() =>
           {
-            double xPos, yPos;
-
-            xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
-            yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
+            var xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
+            var yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
 
             SmartWatchPopUp smartWatchWnd = new SmartWatchPopUp
             {
@@ -1000,7 +1002,7 @@ namespace Org.Vs.TailForWin.Template
 
       if(e.OpenInTab)
       {
-        FileManagerData smartWatchProperties = null;
+        FileManagerData smartWatchProperties;
 
         if(fileManagerProperties != null && fileManagerProperties.OpenFromFileManager)
           smartWatchProperties = fileManagerProperties;
@@ -1019,7 +1021,6 @@ namespace Org.Vs.TailForWin.Template
           smartWatchProperties.AutoRun = SettingsHelper.TailSettings.SmartWatchData.AutoRun;
 
         OnDragAndDropEvent?.Invoke(smartWatchProperties);
-        smartWatchProperties = null;
       }
       else
       {
@@ -1360,7 +1361,7 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="e">Arguments</param>
-    public void DragEnterHelper(object sender, DragEventArgs e)
+    private void DragEnterHelper(object sender, DragEventArgs e)
     {
       e.Handled = true;
 
@@ -1373,7 +1374,7 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="e">Arguments</param>
-    public void DropHelper(object sender, DragEventArgs e)
+    private void DropHelper(object sender, DragEventArgs e)
     {
       try
       {
@@ -1522,10 +1523,7 @@ namespace Org.Vs.TailForWin.Template
       {
         var dropData = e.Data.GetData(DataFormats.FileDrop);
 
-        if(dropData == null)
-          return (string.Empty);
-
-        return (string.Format("{0}", ((string[]) dropData)[0]));
+        return (dropData == null ? string.Empty : $"{((string[]) dropData)[0]}");
       }
       catch(Exception ex)
       {

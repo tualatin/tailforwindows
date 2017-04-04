@@ -66,7 +66,7 @@ namespace Org.Vs.TailForWin.Utils
       {
         if(updater.HaveToUpdate)
         {
-          System.Threading.Thread STAThread = new System.Threading.Thread(() =>
+          System.Threading.Thread staThread = new System.Threading.Thread(() =>
           {
             ResultDialog rd = new ResultDialog(LogFile.APPLICATION_CAPTION, updater.HaveToUpdate, updater.UpdateURL);
 
@@ -96,9 +96,9 @@ namespace Org.Vs.TailForWin.Utils
             IsBackground = true
           };
 
-          STAThread.SetApartmentState(System.Threading.ApartmentState.STA);
-          STAThread.Start();
-          STAThread.Join();
+          staThread.SetApartmentState(System.Threading.ApartmentState.STA);
+          staThread.Start();
+          staThread.Join();
         }
 
         LOG.Info("AutoUpdate local version '{0}' - web version '{1}", updater.AppVersion, updater.WebVersion);

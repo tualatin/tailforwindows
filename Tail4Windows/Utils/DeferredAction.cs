@@ -9,7 +9,7 @@ namespace Org.Vs.TailForWin.Utils
   /// Represents a timer which performs an action on the UI thread when time elapses.  Rescheduling is supported.
   /// Thank you to Matt T Hayes
   /// </summary>
-  class DeferredAction : IDisposable
+  public class DeferredAction : IDisposable
   {
     private Timer timer;
 

@@ -117,10 +117,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>If exist true otherwise false</returns>
     public static bool FileExists(string fileName)
     {
-      if(File.Exists(fileName))
-        return (true);
-      else
-        return (false);
+      return (File.Exists(fileName));
     }
 
     /// <summary>
@@ -134,10 +131,7 @@ namespace Org.Vs.TailForWin.Utils
 
     private void DetectEncoding()
     {
-      fileEncoding = EncodingDetector.GetEncoding(fs);
-
-      if(fileEncoding == null)
-        fileEncoding = Encoding.Default;
+      fileEncoding = EncodingDetector.GetEncoding(fs) ?? Encoding.Default;
     }
 
     #region Properties
@@ -147,22 +141,19 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     public Encoding FileEncoding
     {
-      get => (fileEncoding);
-      set
-      {
-        fileEncoding = value;
-      }
+      get => fileEncoding;
+      set => fileEncoding = value;
     }
 
     /// <summary>
     /// Get filestream
     /// </summary>
-    public FileStream TailFileStream => (fs);
+    public FileStream TailFileStream => fs;
 
     /// <summary>
     /// Get streamreader
     /// </summary>
-    public StreamReader TailStreamReader => (reader);
+    public StreamReader TailStreamReader => reader;
 
     /// <summary>
     /// Get filesize in KBytes
@@ -173,18 +164,10 @@ namespace Org.Vs.TailForWin.Utils
       {
         try
         {
-
-          if(reader != null)
-          {
-            if(reader.BaseStream == null)
-              return (Double.NaN);
-
-            return (reader.BaseStream.Length / 1024.00);
-          }
-          else
-          {
+          if(reader?.BaseStream == null)
             return (Double.NaN);
-          }
+
+          return (reader.BaseStream.Length / 1024.00);
         }
         catch(Exception ex)
         {
@@ -197,7 +180,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// Lines read in logfile
     /// </summary>
-    public Int64 LinesRead
+    private Int64 LinesRead
     {
       get;
       set;

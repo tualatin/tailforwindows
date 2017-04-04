@@ -13,7 +13,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
   /// <summary>
   /// Interaction logic for DefineParts.xaml
   /// </summary>
-  public partial class DefineParts : Window
+  public partial class DefineParts
   {
     /// <summary>
     /// Fires, when pattern changed successful

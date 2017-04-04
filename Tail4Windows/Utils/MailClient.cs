@@ -165,13 +165,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// E-Mail timer
     /// </summary>
-    public System.Timers.Timer EMailTimer
-    {
-      get
-      {
-        return (emailTimer);
-      }
-    }
+    public System.Timers.Timer EMailTimer => emailTimer;
 
     private void SendCompleted(object sender, AsyncCompletedEventArgs e)
     {

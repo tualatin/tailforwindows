@@ -4,9 +4,6 @@
         Title="Define search pattern" Height="227" Width="412" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" SnapsToDevicePixels="True" ResizeMode="NoResize" 
         Icon="/TailForWin;component/Res/script.ico" Loaded="Window_Loaded">
   <Grid Margin="5">
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition/>
-    </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition Height="55"/>
       <RowDefinition Height="35"/>

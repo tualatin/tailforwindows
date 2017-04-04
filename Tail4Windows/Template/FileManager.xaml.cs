@@ -198,7 +198,7 @@ namespace Org.Vs.TailForWin.Template
       if(MessageBox.Show(Application.Current.FindResource("QDeleteDataGridItem") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes)
         return;
 
-      int index = dataGridFiles.SelectedIndex;
+      // int index = dataGridFiles.SelectedIndex;
       fmWorkingProperties = dataGridFiles.SelectedItem as FileManagerData;
 
       if(fmDoc.RemoveNode(fmWorkingProperties))
@@ -220,7 +220,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnSave_Click(object sender, RoutedEventArgs e)
     {
-      if(!checkBoxInsertCategory.IsChecked.Value)
+      if(checkBoxInsertCategory.IsChecked != null && !checkBoxInsertCategory.IsChecked.Value)
         fmWorkingProperties.Category = comboBoxCategory.SelectedItem as string;
 
       // TODO better solution (IsEnable property) at the moment workaround
@@ -246,7 +246,7 @@ namespace Org.Vs.TailForWin.Template
         break;
       }
 
-      if(checkBoxInsertCategory.IsChecked.Value)
+      if(checkBoxInsertCategory.IsChecked != null && checkBoxInsertCategory.IsChecked.Value)
       {
         fmDoc.RefreshCategories();
         RefreshCategoryComboBox();
@@ -316,7 +316,9 @@ namespace Org.Vs.TailForWin.Template
       if(!IsInitialized)
         return;
 
-      GroupByCategory = CheckBoxAlwaysGroupByCategory.IsChecked.Value;
+      if(CheckBoxAlwaysGroupByCategory.IsChecked != null)
+        GroupByCategory = CheckBoxAlwaysGroupByCategory.IsChecked.Value;
+
       ICollectionView cvFmData = GetCurrentCollectionViewSource();
 
       if(GroupByCategory)
@@ -458,7 +460,11 @@ namespace Org.Vs.TailForWin.Template
 
       e.Handled = true;
 
-      fmWorkingProperties.ThreadPriority = (comboBoxThreadPriority.SelectedItem as ThreadPriorityMapping).ThreadPriority;
+      var threadPriorityMapping = comboBoxThreadPriority.SelectedItem as ThreadPriorityMapping;
+
+      if(threadPriorityMapping != null)
+        fmWorkingProperties.ThreadPriority = threadPriorityMapping.ThreadPriority;
+
       ChangeFmStateToEditItem();
     }
 
@@ -475,7 +481,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void dataGridFiles_Loaded(object sender, RoutedEventArgs e)
     {
-      ICollectionView cvFmData = GetCurrentCollectionViewSource();
+      // ICollectionView cvFmData = GetCurrentCollectionViewSource();
 
       if(fmData.Count == 0)
         return;
@@ -494,10 +500,10 @@ namespace Org.Vs.TailForWin.Template
       if(!IsInitialized)
         return;
 
-      if(dataGridFiles.SelectedItem is FileManagerData fmData)
+      if(dataGridFiles.SelectedItem is FileManagerData locFmData)
       {
         e.Handled = true;
-        fmWorkingProperties = fmData;
+        fmWorkingProperties = locFmData;
 
         if(fmWorkingProperties != null)
         {
@@ -575,20 +581,18 @@ namespace Org.Vs.TailForWin.Template
       handler?.Invoke(this, EventArgs.Empty);
     }
 
-    private void CollectionViewSource_Filter(object sender, System.Windows.Data.FilterEventArgs e)
+    private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
     {
-      FileManagerData fmData = e.Item as FileManagerData;
+      FileManagerData locFmData = e.Item as FileManagerData;
 
-      if(fmData == null)
-        return;
-      if(string.IsNullOrEmpty(fmData.Category) || string.IsNullOrEmpty(fmData.Description))
+      if(string.IsNullOrEmpty(locFmData?.Category) || string.IsNullOrEmpty(locFmData.Description))
         return;
 
       try
       {
         CultureInfo culturInfo = CultureInfo.CurrentCulture;
-        int categoryResult = culturInfo.CompareInfo.IndexOf(fmData.Category, FilterTextBox.Text, CompareOptions.IgnoreCase);
-        int descriptionResult = culturInfo.CompareInfo.IndexOf(fmData.Description, FilterTextBox.Text, CompareOptions.IgnoreCase);
+        int categoryResult = culturInfo.CompareInfo.IndexOf(locFmData.Category, FilterTextBox.Text, CompareOptions.IgnoreCase);
+        int descriptionResult = culturInfo.CompareInfo.IndexOf(locFmData.Description, FilterTextBox.Text, CompareOptions.IgnoreCase);
         int result = categoryResult & descriptionResult;
 
         if(!string.IsNullOrEmpty(FilterTextBox.Text) && result < 0)
@@ -880,13 +884,13 @@ namespace Org.Vs.TailForWin.Template
       }
       else
       {
-        if(dataGridFiles.SelectedItem is FileManagerData fmData)
+        if(dataGridFiles.SelectedItem is FileManagerData locFmData)
         {
           fmWorkingProperties.OpenFromFileManager = true;
           FileManagerHelper helper = new FileManagerHelper
           {
-            ID = fmData.ID,
-            OpenFromFileManager = fmData.OpenFromFileManager
+            ID = locFmData.ID,
+            OpenFromFileManager = locFmData.OpenFromFileManager
           };
 
           if(LogFile.FmHelper.Count > 0)
@@ -939,10 +943,7 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     public bool IsExpanded
     {
-      get
-      {
-        return (isExpanded);
-      }
+      get => isExpanded;
       set
       {
         isExpanded = value;
@@ -957,10 +958,7 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     public bool GroupByCategory
     {
-      get
-      {
-        return (groupByCategory);
-      }
+      get => groupByCategory;
       set
       {
         groupByCategory = value;

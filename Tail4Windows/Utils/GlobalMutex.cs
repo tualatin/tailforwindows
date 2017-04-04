@@ -14,7 +14,7 @@ namespace Org.Vs.TailForWin.Utils
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(GlobalMutex));
 
-    private readonly static List<KeyValuePair<string, Mutex>> mutexes = new List<KeyValuePair<string, Mutex>>();
+    private static readonly List<KeyValuePair<string, Mutex>> Mutexes = new List<KeyValuePair<string, Mutex>>();
 
     /// <summary>
     /// Create new Mutex
@@ -36,7 +36,7 @@ namespace Org.Vs.TailForWin.Utils
 
         if(bMyMutex)
         {
-          mutexes.Add(new KeyValuePair<string, Mutex>(strName, m));
+          Mutexes.Add(new KeyValuePair<string, Mutex>(strName, m));
           return (true);
         }
       }
@@ -59,7 +59,7 @@ namespace Org.Vs.TailForWin.Utils
 
     private static bool ReleaseMutexWin32(string strName)
     {
-      foreach(var item in mutexes.Select((x, i) => new
+      foreach(var item in Mutexes.Select((x, i) => new
       {
         Value = x,
         Index = i
@@ -78,7 +78,7 @@ namespace Org.Vs.TailForWin.Utils
           }
         }
 
-        mutexes.RemoveAt(item.Index);
+        Mutexes.RemoveAt(item.Index);
 
         return (true);
       }
@@ -90,8 +90,8 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     public static void ReleaseAll()
     {
-      for(int i = mutexes.Count - 1; i >= 0; --i)
-        ReleaseMutex(mutexes[i].Key);
+      for(int i = Mutexes.Count - 1; i >= 0; --i)
+        ReleaseMutex(Mutexes[i].Key);
     }
   }
 }
