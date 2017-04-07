@@ -32,7 +32,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     public void Execute(object parameter)
     {
       var window = parameter as Window;
-      window.Close();
+      window?.Close();
     }
   }
 }

@@ -22,7 +22,6 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// Standard constructor
     /// </summary>
     public DragSupportTabControl()
-      : base()
     {
       synLockTabWindow = new object();
 
@@ -110,11 +109,11 @@ namespace Org.Vs.TailForWin.UI.Utils
           return;
 
         QueryContinueDrag += DragSupportTabControl_QueryContinueDrag;
-        GiveFeedback += new GiveFeedbackEventHandler(DragSupportTabControl_GiveFeedback);
+        GiveFeedback += DragSupportTabControl_GiveFeedback;
 
         DragDrop.DoDragDrop(tabItem, tabItem, DragDropEffects.All);
 
-        GiveFeedback -= new GiveFeedbackEventHandler(DragSupportTabControl_GiveFeedback);
+        GiveFeedback -= DragSupportTabControl_GiveFeedback;
       }
     }
 
@@ -135,9 +134,9 @@ namespace Org.Vs.TailForWin.UI.Utils
 
         if(NativeMethods.GetCursorPos(ref p))
         {
-          Point _tabPos = PointToScreen(new Point(0, 0));
+          Point tabPos = PointToScreen(new Point(0, 0));
 
-          if(!((p.X >= _tabPos.X && p.X <= (_tabPos.X + ActualWidth) && p.Y >= _tabPos.Y && p.Y <= (_tabPos.Y + ActualHeight))))
+          if(!((p.X >= tabPos.X && p.X <= (tabPos.X + ActualWidth) && p.Y >= tabPos.Y && p.Y <= (tabPos.Y + ActualHeight))))
           {
             if(e.Source is TabItem item)
               UpdateWindowLocation(p.X - 50, p.Y - 10, item);

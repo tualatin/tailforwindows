@@ -31,10 +31,8 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <param name="parameter">Parameter</param>
     public void Execute(object parameter)
     {
-      if(parameter is Window)
+      if(parameter is Window window)
       {
-        var window = parameter as Window;
-
         if(window.WindowState == WindowState.Maximized)
           window.WindowState = WindowState.Normal;
         else

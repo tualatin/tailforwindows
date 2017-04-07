@@ -36,22 +36,17 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void OnLeftMouseButtonDragChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is UIElement)
-      {
-        var element = sender as UIElement;
+      if(sender is UIElement element)
         element.MouseLeftButtonDown += ButtonDown;
-      }
     }
 
     private static void ButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-      if(sender is UIElement)
+      if(sender is UIElement element)
       {
-        var element = sender as UIElement;
         var targetWindow = element.GetValue(LeftMouseButtonDrag) as Window;
 
-        if(targetWindow != null)
-          targetWindow.DragMove();
+        targetWindow?.DragMove();
       }
     }
   }

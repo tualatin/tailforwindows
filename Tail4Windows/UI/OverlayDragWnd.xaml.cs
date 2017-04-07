@@ -8,7 +8,7 @@ namespace Org.Vs.TailForWin.UI
   /// <summary>
   /// Interaction logic for OverlayDragWnd.xaml
   /// </summary>
-  public partial class OverlayDragWnd : Window, INotifyPropertyChanged
+  public partial class OverlayDragWnd : INotifyPropertyChanged
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(OverlayDragWnd));
 
@@ -44,6 +44,10 @@ namespace Org.Vs.TailForWin.UI
     {
       Point buttonPosToScreen = btnDropTarget.PointToScreen(new Point(0, 0));
       PresentationSource source = PresentationSource.FromVisual(this);
+
+      if(source?.CompositionTarget == null)
+        return (false);
+
       Point targetPos = source.CompositionTarget.TransformFromDevice.Transform(buttonPosToScreen);
 
       bool isMouseOver = (mousePos.X > targetPos.X && mousePos.X < (targetPos.X + btnDropTarget.Width) && mousePos.Y > targetPos.Y && mousePos.Y < (targetPos.Y + btnDropTarget.Height));
@@ -53,7 +57,7 @@ namespace Org.Vs.TailForWin.UI
 
       return (isMouseOver);
     }
-    
+
     /// <summary>
     /// Represents the method that will handle the <c>PropertyChanged</c> event raised when a property is changed on a component.
     /// </summary>

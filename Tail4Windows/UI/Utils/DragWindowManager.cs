@@ -17,8 +17,8 @@ namespace Org.Vs.TailForWin.UI.Utils
   {
     private static DragWindowManager instance;
 
-    private List<IDragDropToTabWindow> allWindows;
-    private List<IDragDropToTabWindow> dragEnteredWindows;
+    private readonly List<IDragDropToTabWindow> allWindows;
+    private readonly List<IDragDropToTabWindow> dragEnteredWindows;
 
     /// <summary>
     /// Current instance of DragWindowManager
@@ -114,8 +114,9 @@ namespace Org.Vs.TailForWin.UI.Utils
 
         for(IntPtr hWind = dragBelowhwnd; hWind != IntPtr.Zero; hWind = NativeMethods.GetWindow(hWind, NativeMethods.GW_HWNDNEXT))
         {
-          foreach(Window enteredWindow in dragEnteredWindows)
+          foreach(var dragDropToTabWindow in dragEnteredWindows)
           {
+            var enteredWindow = (Window) dragDropToTabWindow;
             IntPtr enterWinHwnd = new WindowInteropHelper(enteredWindow).Handle;
 
             if(hWind == enterWinHwnd)
@@ -134,8 +135,10 @@ namespace Org.Vs.TailForWin.UI.Utils
 
         if(nextTopWindow != null)
         {
-          foreach(Window enteredWin in dragEnteredWindows)
+          foreach(var dragDropToTabWindow in dragEnteredWindows)
           {
+            var enteredWin = (Window) dragDropToTabWindow;
+
             if(!nextTopWindow.Equals(enteredWin))
               ((IDragDropToTabWindow) enteredWin).OnDrageLeave();
           }
@@ -179,7 +182,7 @@ namespace Org.Vs.TailForWin.UI.Utils
           {
             TabItem item = items[i] as TabItem;
 
-            if(item.Header.Equals(targetWindow.TabAdd.Header))
+            if(item != null && item.Header.Equals(targetWindow.TabAdd.Header))
               continue;
 
             if(item != null)
@@ -204,7 +207,7 @@ namespace Org.Vs.TailForWin.UI.Utils
       dragEnteredWindows.Clear();
     }
 
-    private void DragWindowManager_Closed(object sender, System.EventArgs e)
+    private void DragWindowManager_Closed(object sender, EventArgs e)
     {
       if(sender is Window)
       {

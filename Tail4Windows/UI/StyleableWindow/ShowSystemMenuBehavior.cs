@@ -25,7 +25,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <summary>
     /// Set target window
     /// </summary>
-    /// <param name="obj">Sender</param>
+    /// <param name="sender">Sender</param>
     /// <param name="window">Window</param>
     public static void SetTargetWindow(DependencyObject sender, Window window)
     {
@@ -101,11 +101,8 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void LeftButtonShowAtChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is UIElement)
-      {
-        var element = sender as UIElement;
+      if(sender is UIElement element)
         element.MouseLeftButtonDown += LeftButtonDownShow;
-      }
     }
 
     static bool leftButtonToggle = true;
@@ -134,20 +131,20 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void RightButtonShowChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is UIElement)
-      {
-        var element = sender as UIElement;
+      if(sender is UIElement element)
         element.MouseRightButtonDown += RightButtonDownShow;
-      }
     }
 
     private static void RightButtonDownShow(object sender, MouseButtonEventArgs e)
     {
       var element = (UIElement) sender;
       var targetWindow = element.GetValue(TargetWindow) as Window;
-      var showMenuAt = targetWindow.PointToScreen(Mouse.GetPosition((targetWindow)));
 
-      SystemMenuManager.ShowMenu(targetWindow, showMenuAt);
+      if(targetWindow != null)
+      {
+        var showMenuAt = targetWindow.PointToScreen(Mouse.GetPosition(targetWindow));
+        SystemMenuManager.ShowMenu(targetWindow, showMenuAt);
+      }
     }
 
     #endregion
