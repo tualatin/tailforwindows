@@ -29,13 +29,13 @@ namespace Org.Vs.TailForWin.UI
   /// <summary>
   /// Tab window logic
   /// </summary>
-  public partial class TabWindow : Window, ITabWindow, IDragDropToTabWindow
+  public partial class TabWindow : ITabWindow, IDragDropToTabWindow
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(TabWindow));
 
     private OverlayDragWnd overlayWindow;
     private bool hasFocus;
-    private TailForWinTabItem tabAdd;
+    private readonly TailForWinTabItem tabAdd;
     private SearchDialog searchBoxWindow;
     private TailLog currentPage;
     private string parameterFileName;
@@ -49,7 +49,6 @@ namespace Org.Vs.TailForWin.UI
     /// </summary>
     public string ToolTipDetailText
     {
-      get => fancyToolTipTfW.ToolTipDetail;
       set => fancyToolTipTfW.ToolTipDetail = value;
     }
 
@@ -77,7 +76,6 @@ namespace Org.Vs.TailForWin.UI
     /// </summary>
     public bool MainWindowTopmost
     {
-      get => Topmost;
       set => Topmost = value;
     }
 
@@ -99,10 +97,7 @@ namespace Org.Vs.TailForWin.UI
     /// <summary>
     /// Set statubar encode combobox (cbStsEncoding)
     /// </summary>
-    public ComboBox StatusBarEncodeCb
-    {
-      get => cbStsEncoding;
-    }
+    public ComboBox StatusBarEncodeCb => cbStsEncoding;
 
     /// <summary>
     /// Current tab control
@@ -216,9 +211,6 @@ namespace Org.Vs.TailForWin.UI
     {
       if(e is FileManagerDataEventArgs properties)
       {
-        if(properties == null)
-          return;
-
         FileManagerData item = properties.GetData();
 
         if(item == null)
@@ -270,10 +262,8 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabAdd_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      if(sender is TailForWinTabItem)
+      if(sender is TailForWinTabItem tabItem)
       {
-        var tabItem = sender as TailForWinTabItem;
-
         if(tabItem.Equals(tabAdd))
           AddTabItem();
       }
@@ -304,7 +294,7 @@ namespace Org.Vs.TailForWin.UI
       if(!IsInitialized)
         return;
 
-      if(e.Source is TabControl tabControl)
+      if(e.Source is TabControl tbControl)
       {
         if(e.AddedItems.Count == 0)
           return;
@@ -313,15 +303,15 @@ namespace Org.Vs.TailForWin.UI
 
         var tab = e.AddedItems[0] as TabItem;
 
-        if(tab == null || tabControl == null)
+        if(tab == null)
           return;
 
         e.Handled = true;
 
         if(tab.Equals(tabAdd) && !ctrlTabKey && !shiftCtrlTabKey)
         {
-          if(tabControl.Items.Count >= 2)
-            tabControl.SelectedItem = tabControl.Items[tabControl.Items.Count - 2];
+          if(tbControl.Items.Count >= 2)
+            tbControl.SelectedItem = tbControl.Items[tbControl.Items.Count - 2];
 
           return;
         }
@@ -329,12 +319,12 @@ namespace Org.Vs.TailForWin.UI
         if(tab.Equals(tabAdd) && ctrlTabKey && !shiftCtrlTabKey)
         {
           // Scroll with CTRL + TAB, start from beginning
-          tabControl.SelectedItem = tabControl.Items[0];
+          tbControl.SelectedItem = tbControl.Items[0];
         }
         else if(tab.Equals(tabAdd) && ctrlTabKey && shiftCtrlTabKey)
         {
           // Scroll with CTRL + SHIFT + TAB, start from end
-          tabControl.SelectedItem = tabControl.Items[tabControl.Items.Count - 2];
+          tbControl.SelectedItem = tbControl.Items[tbControl.Items.Count - 2];
         }
 
         TailLog page = GetTailLogWindow(tab.Content as Frame);
@@ -419,7 +409,7 @@ namespace Org.Vs.TailForWin.UI
     private void TabWindow_SourceInitialized(object sender, EventArgs e)
     {
       HwndSource source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
-      source.AddHook(new HwndSourceHook(WndProc));
+      source?.AddHook(WndProc);
     }
 
     private void TabWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -472,13 +462,8 @@ namespace Org.Vs.TailForWin.UI
 
     private void OnContentRendered(object sender, EventArgs e)
     {
-      if(sender is Frame)
+      if(sender is Frame frame)
       {
-        Frame frame = sender as Frame;
-
-        if(frame == null || frame.Content == null)
-          return;
-
         TailLog page = frame.Content as TailLog;
 
         if(page == null)
@@ -527,10 +512,7 @@ namespace Org.Vs.TailForWin.UI
     /// <summary>
     /// Tab items collection
     /// </summary>
-    public ItemCollection TabItems
-    {
-      get => tabControl.Items;
-    }
+    public ItemCollection TabItems => tabControl.Items;
 
     /// <summary>
     /// Tab header selected
@@ -544,10 +526,7 @@ namespace Org.Vs.TailForWin.UI
 
         return (string.Empty);
       }
-      set
-      {
-        SelectTabItem(value);
-      }
+      set => SelectTabItem(value);
     }
 
     /// <summary>
@@ -586,10 +565,7 @@ namespace Org.Vs.TailForWin.UI
       item.TabHeaderDoubleClick += TabItem_TabHeaderDoubleClick;
       item.CloseTabWindow += TabItem_CloseTabWindow;
 
-      if(content != null)
-        item.Content = content;
-      else
-        item.Content = CreateTabItemContent(item, properties);
+      item.Content = content ?? CreateTabItemContent(item, properties);
 
       tabControl.Items.Insert(tabControl.Items.Count - 1, item);
       tabControl.SelectedItem = item;
@@ -611,8 +587,7 @@ namespace Org.Vs.TailForWin.UI
           {
             if(page.IsThreadBusy)
             {
-              if(MessageBox.Show(string.Format("{0} '{1}'?", Application.Current.FindResource("QRemoveTab"), tabItem.Header),
-                          LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.No)
+              if(MessageBox.Show($"{Application.Current.FindResource("QRemoveTab")} '{tabItem.Header}'?", LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.No)
                 return;
             }
 
@@ -774,17 +749,17 @@ namespace Org.Vs.TailForWin.UI
       {
         if(SettingsHelper.TailSettings.RestoreWindowSize)
         {
-          if(SettingsHelper.TailSettings.WndWidth != -1.0f)
+          if(!SettingsHelper.TailSettings.WndWidth.Equals(-1))
             Application.Current.MainWindow.Width = SettingsHelper.TailSettings.WndWidth;
-          if(SettingsHelper.TailSettings.WndHeight != -1.0f)
+          if(!SettingsHelper.TailSettings.WndHeight.Equals(-1))
             Application.Current.MainWindow.Height = SettingsHelper.TailSettings.WndHeight;
         }
 
         if(SettingsHelper.TailSettings.SaveWindowPosition)
         {
-          if(SettingsHelper.TailSettings.WndYPos != -1.0f)
+          if(!SettingsHelper.TailSettings.WndYPos.Equals(-1))
             Application.Current.MainWindow.Top = SettingsHelper.TailSettings.WndYPos;
-          if(SettingsHelper.TailSettings.WndXPos != -1.0f)
+          if(!SettingsHelper.TailSettings.WndXPos.Equals(-1))
             Application.Current.MainWindow.Left = SettingsHelper.TailSettings.WndXPos;
         }
       }
@@ -885,9 +860,9 @@ namespace Org.Vs.TailForWin.UI
           {
             item.Delete();
           }
-          catch
+          catch(Exception ex)
           {
-            continue;
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
           }
         }
       }
@@ -923,7 +898,7 @@ namespace Org.Vs.TailForWin.UI
 
     private static TailLog GetTailLogWindow(Frame tabTemplate)
     {
-      if(tabTemplate == null || tabTemplate.Content == null)
+      if(tabTemplate?.Content == null)
         return (null);
 
       if(tabTemplate.Content is TailLog tabPage)
@@ -1032,44 +1007,41 @@ namespace Org.Vs.TailForWin.UI
 
     private void OpenSearchBoxWindow(object sender, EventArgs e)
     {
-      if(e is FileManagerDataEventArgs)
+      if(e is FileManagerDataEventArgs data)
       {
-        if(e is FileManagerDataEventArgs data)
+        FileManagerData properties = data.GetData();
+        double xPos, yPos;
+
+        if(SettingsHelper.TailSettings.SearchWndXPos.Equals(-1))
         {
-          FileManagerData properties = data.GetData();
-          double xPos, yPos;
-
-          if(SettingsHelper.TailSettings.SearchWndXPos == -1.0f)
-          {
+          xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
+        }
+        else
+        {
+          if(SettingsHelper.TailSettings.SearchWndXPos + searchBoxWindow.Width / 2 > SystemParameters.VirtualScreenWidth)
             xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
-          }
           else
-          {
-            if(SettingsHelper.TailSettings.SearchWndXPos + searchBoxWindow.Width / 2 > SystemParameters.VirtualScreenWidth)
-              xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
-            else
-              xPos = SettingsHelper.TailSettings.SearchWndXPos;
-          }
-
-          if(SettingsHelper.TailSettings.SearchWndYPos == -1.0f)
-          {
-            yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
-          }
-          else
-          {
-            if(SettingsHelper.TailSettings.SearchWndYPos + searchBoxWindow.Height / 2 > SystemParameters.VirtualScreenHeight)
-              yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
-            else
-              yPos = SettingsHelper.TailSettings.SearchWndYPos;
-          }
-
-          searchBoxWindow.Left = xPos;
-          searchBoxWindow.Top = yPos;
-          searchBoxWindow.SetTitle = properties.File;
+            xPos = SettingsHelper.TailSettings.SearchWndXPos;
         }
 
+        if(SettingsHelper.TailSettings.SearchWndYPos.Equals(-1))
+        {
+          yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
+        }
+        else
+        {
+          if(SettingsHelper.TailSettings.SearchWndYPos + searchBoxWindow.Height / 2 > SystemParameters.VirtualScreenHeight)
+            yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
+          else
+            yPos = SettingsHelper.TailSettings.SearchWndYPos;
+        }
+
+        searchBoxWindow.Left = xPos;
+        searchBoxWindow.Top = yPos;
+        searchBoxWindow.SetTitle = properties.File;
+
         searchBoxWindow.Show();
-        searchBoxWindow.Owner = Window.GetWindow(this);
+        searchBoxWindow.Owner = GetWindow(this);
         currentPage.SearchBoxActive();
       }
     }
@@ -1119,7 +1091,7 @@ namespace Org.Vs.TailForWin.UI
             if(page == null)
               continue;
 
-            page.WrapAround(wrap != null && wrap.Wrap);
+            page.WrapAround(wrap.Wrap);
           }
         }
       }
@@ -1132,14 +1104,14 @@ namespace Org.Vs.TailForWin.UI
       {
         foreach(TabItem item in tabControl.Items)
         {
-          if(item.Content != null || item.Content.GetType() == typeof(Frame))
+          if(item.Content != null && (item.Content != null || item.Content.GetType() == typeof(Frame)))
           {
             var page = GetTailLogWindow(item.Content as Frame);
 
             if(page == null)
               continue;
 
-            page.BookmarkLine(bookmarkLine != null || bookmarkLine.BookmarkLine);
+            page.BookmarkLine(bookmarkLine.BookmarkLine);
           }
         }
       }
@@ -1203,7 +1175,7 @@ namespace Org.Vs.TailForWin.UI
         if((pos.flags & (int) (SWP.NOMOVE)) != 0)
           return (IntPtr.Zero);
 
-        Window wnd = (Window) HwndSource.FromHwnd(hwnd).RootVisual;
+        Window wnd = (Window) HwndSource.FromHwnd(hwnd)?.RootVisual;
 
         if(wnd == null)
           return (IntPtr.Zero);
