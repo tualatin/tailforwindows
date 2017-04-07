@@ -18,10 +18,11 @@ namespace Org.Vs.TailForWin.Converters.MultiConverters
 
         if(!radio)
           return (true);
-        else if(radio && url > 0)
+
+        if(url > 0)
           return (true);
-        else
-          return (false);
+
+        return (false);
       }
       return (true);
     }

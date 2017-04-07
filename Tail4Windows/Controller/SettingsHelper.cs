@@ -323,7 +323,7 @@ namespace Org.Vs.TailForWin.Controller
     /// <summary>
     /// Get tail settings
     /// </summary>
-    public static SettingsData TailSettings => (tailSettings);
+    public static SettingsData TailSettings => tailSettings;
 
     #region HelperFunctions
 

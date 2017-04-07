@@ -24,18 +24,13 @@ namespace Org.Vs.TailForWin.Converters.MultiConverters
       if(values != null)
       {
         bool patternSet = false;
-        bool dataGridSelection = false;
+        bool dataGridSelection = values[0] is FileManagerData;
 
-        if(values[0] != null && values[0] is FileManagerData)
-            dataGridSelection = true;
+        var pattern = values[1] as string;
 
-        if(values[1] != null && values[1] is string)
-        {
-          var pattern = (values[1] as string);
+        if(!string.IsNullOrEmpty(pattern))
+          patternSet = true;
 
-          if(!string.IsNullOrEmpty(pattern))
-            patternSet = true;
-        }
         return (patternSet & dataGridSelection);
       }
       return (false);

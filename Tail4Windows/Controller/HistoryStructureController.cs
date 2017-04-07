@@ -50,11 +50,7 @@ namespace Org.Vs.TailForWin.Controller
           return;
 
         historyDoc = XDocument.Load(historyFile);
-
-        if(historyDoc.Root == null)
-          return;
-
-        XElement findHistoryRoot = historyDoc.Root.Element(XmlStructure.FindHistory);
+        XElement findHistoryRoot = historyDoc.Root?.Element(XmlStructure.FindHistory);
 
         if(findHistoryRoot == null)
           return;
@@ -88,7 +84,9 @@ namespace Org.Vs.TailForWin.Controller
           XElement findHistoryRoot = historyDoc.Root.Element(XmlStructure.FindHistory);
 
           if(findHistoryRoot != null)
+          {
             findHistoryRoot.Attribute(XmlStructure.Wrap).Value = Wrap.ToString();
+          }
           else
           {
             findHistoryRoot = new XElement(XmlStructure.FindHistory);
