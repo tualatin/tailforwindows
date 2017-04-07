@@ -216,8 +216,8 @@
     <Compile Include="Template\TextEditor\Utils\ListBoxCopy.cs" />
     <Compile Include="Template\TextEditor\Utils\ListBoxExtenders.cs" />
     <Compile Include="Template\TextEditor\Utils\ListBoxSelector.cs" />
-    <Compile Include="Template\TextEditor\Utils\LogViewerDataTemplateSelector.cs" />
-    <Compile Include="Template\TextEditor\Utils\TemplateData.cs" />
+    <Compile Include="Template\TextEditor\Data\LogViewerDataTemplateSelector.cs" />
+    <Compile Include="Template\TextEditor\Data\TemplateData.cs" />
     <Compile Include="Template\UpdateController\Data\WebServiceData.cs" />
     <Compile Include="Template\UpdateController\ResultDialog.xaml.cs">
       <DependentUpon>ResultDialog.xaml</DependentUpon>

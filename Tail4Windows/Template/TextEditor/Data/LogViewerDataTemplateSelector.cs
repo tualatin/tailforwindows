@@ -1,8 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Org.Vs.TailForWin.Template.TextEditor.Utils;
 
 
-namespace Org.Vs.TailForWin.Template.TextEditor.Utils
+namespace Org.Vs.TailForWin.Template.TextEditor.Data
 {
   /// <summary>
   /// LogViewDataTemplateSelector

@@ -9,7 +9,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
   /// Represents a timer which performs an action on the UI thread when time elapses.  Rescheduling is supported.
   /// Thank you to Matt T Hayes
   /// </summary>
-  class DeferredAction : IDisposable
+  public class DeferredAction : IDisposable
   {
     private Timer timer;
 
@@ -23,7 +23,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     public static DeferredAction Create(Action action)
     {
       if(action == null)
-        throw new ArgumentNullException("action");
+        throw new ArgumentNullException(nameof(action));
 
       return (new DeferredAction(action));
     }

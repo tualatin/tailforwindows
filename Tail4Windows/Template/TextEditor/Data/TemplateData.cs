@@ -1,4 +1,4 @@
-namespace Org.Vs.TailForWin.Template.TextEditor.Utils
+namespace Org.Vs.TailForWin.Template.TextEditor.Data
 {
   public static class TemplateData
   {

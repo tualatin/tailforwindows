@@ -63,13 +63,6 @@
       </Style>-->
 
 
-      <Style x:Key="LeftAligned">
-        <Setter Property="FrameworkElement.HorizontalAlignment" Value="Left" />
-      </Style>
-      <Style x:Key="FullSelectionBox">
-        <Setter Property="FrameworkElement.HorizontalAlignment" Value="Stretch" />
-      </Style>
-
       <Style x:Key="ItemStyle" TargetType="ListBoxItem">
         <Setter Property="Template">
           <Setter.Value>
@@ -153,7 +146,7 @@
         </Style.Triggers>
       </Style>
 
-      <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="lineNumberTemplate">
+      <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="LineNumberTemplate">
         <Grid IsSharedSizeScope="True">
           <Grid.ColumnDefinitions>
             <ColumnDefinition SharedSizeGroup="Bookmark" Width="Auto" />
@@ -168,7 +161,7 @@
 
           <Grid Cursor="/TailForWin;component/Template/TextEditor/Res/RightArrow.cur" Grid.Column="1">
             <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.4" />
-            <TextBlock Grid.Column="1" Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
+            <TextBlock Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
           </Grid>
 
           <TextBlock Grid.Column="2" Margin="5,0,0,0" Style="{StaticResource MyTextEditor}" x:Name="txtBoxMessage" />
@@ -176,7 +169,7 @@
         </Grid>
       </DataTemplate>
 
-      <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="dateTimeLineNumberTemplate">
+      <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="DateTimeLineNumberTemplate">
         <Grid IsSharedSizeScope="True">
           <Grid.ColumnDefinitions>
             <ColumnDefinition SharedSizeGroup="Bookmark" Width="Auto" />
@@ -192,7 +185,7 @@
 
           <Grid Cursor="/TailForWin;component/Template/TextEditor/Res/RightArrow.cur" Grid.Column="1">
             <Rectangle Fill="{Binding Path=LineNumbersBackgroundColor, ElementName=LogViewerProperty}" Opacity="0.4" />
-            <TextBlock Grid.Column="1" Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
+            <TextBlock Margin="5,0,5,0" Style="{StaticResource MyLineNumberText}" x:Name="txtBoxLineNumbers" />
           </Grid>
 
           <TextBlock Grid.Column="2" Margin="5,0,0,0" Padding="0,0,5,0" Style="{StaticResource MyDateTimeEditor}" />
@@ -201,7 +194,7 @@
         </Grid>
       </DataTemplate>
 
-      <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="dateTimeTemplate">
+      <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="DateTimeTemplate">
         <Grid IsSharedSizeScope="True">
           <Grid.ColumnDefinitions>
             <ColumnDefinition SharedSizeGroup="Bookmark" Width="Auto" />
@@ -220,7 +213,7 @@
         </Grid>
       </DataTemplate>
 
-      <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="defaultTemplate">
+      <DataTemplate DataType="{x:Type local:LogEntry}" x:Key="DefaultTemplate">
         <Grid IsSharedSizeScope="True">
           <Grid.ColumnDefinitions>
             <ColumnDefinition SharedSizeGroup="Bookmark" Width="Auto" />
@@ -236,9 +229,9 @@
           <TextBox Grid.Column="1" Margin="5,0,0,0" x:Name="txtEditMessage" Style="{StaticResource MyEditTextEditor}" />
         </Grid>
       </DataTemplate>
-      <sel:LogViewerDataTemplateSelector LineNumberTemplate="{StaticResource lineNumberTemplate}" DateTimeTemplate="{StaticResource dateTimeTemplate}"
-                                         DefaultTemplate="{StaticResource defaultTemplate}" DateTimeLineNumbersTemplate="{StaticResource dateTimeLineNumberTemplate}" 
-                                         x:Key="templateSelector"/>
+      <local:LogViewerDataTemplateSelector LineNumberTemplate="{StaticResource LineNumberTemplate}" DateTimeTemplate="{StaticResource DateTimeTemplate}"
+                                         DefaultTemplate="{StaticResource DefaultTemplate}" DateTimeLineNumbersTemplate="{StaticResource DateTimeLineNumberTemplate}" 
+                                         x:Key="TemplateSelector"/>
     </ResourceDictionary>
   </UserControl.Resources>
 
@@ -251,7 +244,7 @@
     <Border Grid.Row="2" BorderThickness="0,1,0,0" BorderBrush="Gainsboro">
       <ListBox ItemsSource="{Binding}" x:Name="LogViewer" Background="{Binding Path=TextEditorBackgroundColor, ElementName=LogViewerProperty}" 
                Style="{StaticResource MyListBox}" Foreground="{Binding Path=TextEditorForegroundColor, ElementName=LogViewerProperty}" 
-               ItemTemplateSelector="{StaticResource templateSelector}" Loaded="LogViewer_Loaded" SelectionMode="Extended" IsSynchronizedWithCurrentItem="True"
+               ItemTemplateSelector="{StaticResource TemplateSelector}" Loaded="LogViewer_Loaded" SelectionMode="Extended" IsSynchronizedWithCurrentItem="True"
                sel:ListBoxExtenders.AutoScrollToCurrentItem="{Binding Path=AlwaysScrollIntoView, ElementName=LogViewerProperty}" 
                ItemContainerStyle="{StaticResource ItemStyle}" sel:ListBoxCopy.AutoCopy="True" sel:ListBoxCopy.AddDateTime="{Binding Path=AddDateTime, ElementName=LogViewerProperty}" 
                sel:ListBoxSelector.Enabled="True"/>

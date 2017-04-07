@@ -46,11 +46,10 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     /// <param name="e">Some additional information</param>
     public static void OnAutoScrollToCurrentItemChanged(DependencyObject s, DependencyPropertyChangedEventArgs e)
     {
-      var listBox = s as ListBox;
-
-      if(listBox != null)
+      if(s is ListBox listBox)
       {
         var listBoxItems = listBox.Items;
+
         if(listBoxItems != null)
         {
           var newValue = (bool) e.NewValue;
@@ -73,7 +72,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     /// <param name="index">The index of the item to which it should be scrolled</param>
     public static void OnAutoScrollToCurrentItem(ListBox listBox, int index)
     {
-      if(listBox != null && listBox.Items != null && listBox.Items.Count > index && index >= 0)
+      if(listBox?.Items != null && listBox.Items.Count > index && index >= 0)
         listBox.ScrollIntoView(listBox.Items[index]);
     }
 
