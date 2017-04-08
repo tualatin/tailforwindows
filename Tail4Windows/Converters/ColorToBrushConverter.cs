@@ -14,23 +14,25 @@ namespace Org.Vs.TailForWin.Converters
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if(value != null)
+      if(value is System.Drawing.Color)
       {
-        if(value.GetType() == typeof(System.Drawing.Color))
-        {
-          int num = -1;
+        int num;
 
-          if(!int.TryParse(((System.Drawing.Color) value).Name, out num))
+        if(!int.TryParse(((System.Drawing.Color) value).Name, out num))
+        {
+          var convertFromString = ColorConverter.ConvertFromString(((System.Drawing.Color) value).Name);
+
+          if(convertFromString != null)
           {
-            Color mediaColor = (Color) ColorConverter.ConvertFromString(((System.Drawing.Color) value).Name);
-            Brush brush = new SolidColorBrush((Color) mediaColor);
+            Color mediaColor = (Color) convertFromString;
+            Brush brush = new SolidColorBrush(mediaColor);
 
             return (brush);
           }
-          else
-          {
-            return (null);
-          }
+        }
+        else
+        {
+          return (null);
         }
       }
       return (null);

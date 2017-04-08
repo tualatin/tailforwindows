@@ -21,10 +21,10 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>True or False</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if(value is int)
+      if(value is int iValue)
       {
-        if((int) value > -1)
-          return ((int) value);
+        if(iValue > -1)
+          return (iValue);
       }
       return (LogFile.UNLIMITED_LOG_LINE_VALUE);
     }

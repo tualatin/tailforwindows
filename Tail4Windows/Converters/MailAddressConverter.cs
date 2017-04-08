@@ -13,13 +13,10 @@ namespace Org.Vs.TailForWin.Converters
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if(value == null)
-        return (string.Empty);
-
       if(!(value is string))
         return (string.Empty);
 
-      string eMailAddress = value as string;
+      string eMailAddress = (string) value;
 
       return (string.Compare(eMailAddress, "NoMail", StringComparison.Ordinal) == 0 ? (string.Empty) : (eMailAddress));
     }

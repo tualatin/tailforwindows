@@ -780,7 +780,7 @@ namespace Org.Vs.TailForWin.Template
       fmDoc = new FileManagerStructure();
 
       // Get a reference to FileManagerData collection
-      fmData = (FileManagerDataList) Resources["fileManagerData"];
+      fmData = (FileManagerDataList) Resources["FileManagerData"];
 
       if(LogFile.FmHelper != null && LogFile.FmHelper.Count > 0)
       {

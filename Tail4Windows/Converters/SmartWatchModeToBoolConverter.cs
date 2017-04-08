@@ -25,8 +25,8 @@ namespace Org.Vs.TailForWin.Converters
       {
         if(mode == ESmartWatchMode.Manual)
           return (false);
-        else
-          return (true);
+
+        return (true);
       }
       return (false);
     }

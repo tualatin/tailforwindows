@@ -160,7 +160,7 @@ namespace Org.Vs.TailForWin.Template
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
       dataGridFilters.DataContext = tailLogData.ListOfFilter;
-      filterProperties.DataContext = filterData;
+      FilterProperties.DataContext = filterData;
       fState = EFileManagerState.OpenFileManager;
     }
 

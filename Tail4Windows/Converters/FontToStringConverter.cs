@@ -22,15 +22,9 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if(value != null)
-      {
-        if(value.GetType() == typeof(Font))
-        {
-          Font font = value as Font;
+      if(value is Font font)
+        return ($"{font.Name} ({font.Size}) {(font.Italic ? "Italic" : string.Empty)} {(font.Bold ? "Bold" : string.Empty)}");
 
-          return (string.Format("{0} ({1}) {2} {3}", font.Name, font.Size, font.Italic ? "Italic" : string.Empty, font.Bold ? "Bold" : string.Empty));
-        }
-      }
       return (string.Empty);
     }
 

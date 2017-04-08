@@ -3,7 +3,7 @@
   /// <summary>
   /// Current XML names
   /// </summary>
-  public class XmlStructure
+  public static class XmlStructure
   {
     #region FileManager XML file
 

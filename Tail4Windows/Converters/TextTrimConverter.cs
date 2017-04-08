@@ -28,7 +28,7 @@ namespace Org.Vs.TailForWin.Converters
       if(string.IsNullOrEmpty(value as string))
         return (string.Empty);
 
-      string s = (value as string).Trim();
+      string s = ((string) value).Trim();
 
       return (s);
     }

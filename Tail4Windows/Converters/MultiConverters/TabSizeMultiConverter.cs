@@ -14,9 +14,10 @@ namespace Org.Vs.TailForWin.Converters.MultiConverters
 
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if(values != null)
+      TabControl tabControl = values?[0] as TabControl;
+
+      if(tabControl != null)
       {
-        TabControl tabControl = values[0] as TabControl;
         double width = tabControl.ActualWidth / tabControl.Items.Count;
 
         return ((width <= 1) ? 0 : (width - 1));
