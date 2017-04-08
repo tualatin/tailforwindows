@@ -9,7 +9,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// FilterData object
   /// </summary>
-  public class FilterData : INotifyMaster, IDisposable, IDataErrorInfo, ICloneable
+  public class FilterData : NotifyMaster, IDisposable, IDataErrorInfo, ICloneable
   {
     /// <summary>
     /// Releases all resources used by the FilterData.
@@ -39,10 +39,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string Description
     {
-      get
-      {
-        return (description);
-      }
+      get => description;
       set
       {
         description = value;
@@ -57,10 +54,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string Filter
     {
-      get
-      {
-        return (filter);
-      }
+      get => filter;
       set
       {
         filter = value;
@@ -75,10 +69,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Color FilterColor
     {
-      get
-      {
-        return (filterColor);
-      }
+      get => filterColor;
       set
       {
         filterColor = value;
@@ -93,10 +84,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Font FilterFontType
     {
-      get
-      {
-        return (filterFontType);
-      }
+      get => filterFontType;
       set
       {
         filterFontType = value;
@@ -220,7 +208,6 @@ namespace Org.Vs.TailForWin.Data
       public Guid Id
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -229,7 +216,6 @@ namespace Org.Vs.TailForWin.Data
       public string Filter
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -238,7 +224,6 @@ namespace Org.Vs.TailForWin.Data
       public string Description
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -247,7 +232,6 @@ namespace Org.Vs.TailForWin.Data
       public Color FilterColor
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -256,7 +240,6 @@ namespace Org.Vs.TailForWin.Data
       public Font FilterFontType
       {
         get;
-        private set;
       }
 
       #endregion

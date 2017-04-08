@@ -296,7 +296,7 @@
     <Compile Include="Converters\TailConverter.cs" />
     <Compile Include="Converters\TextTrimConverter.cs" />
     <Compile Include="Data\AlertData.cs" />
-    <Compile Include="Data\Base\INotifyMaster.cs" />
+    <Compile Include="Data\Base\NotifyMaster.cs" />
     <Compile Include="Data\Enums\EDateFormat.cs" />
     <Compile Include="Data\Enums\EFileManagerState.cs" />
     <Compile Include="Data\Enums\EFileSort.cs" />

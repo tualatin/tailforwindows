@@ -55,13 +55,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string Description
     {
-      get
-      {
-        if(description == null)
-          return (null);
-
-        return (description.Trim());
-      }
+      get => description?.Trim();
       set
       {
         description = value;
@@ -80,13 +74,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string Category
     {
-      get
-      {
-        if(category == null)
-          return (null);
-
-        return (category.Trim());
-      }
+      get => category?.Trim();
       set
       {
         category = value;
@@ -124,7 +112,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool NewWindow
     {
-      get => (newWindow);
+      get => newWindow;
       set
       {
         newWindow = value;
@@ -143,8 +131,8 @@ namespace Org.Vs.TailForWin.Data
       {
         if(System.IO.File.Exists(FileName))
           return (System.IO.File.GetCreationTime(FileName));
-        else
-          return (null);
+
+        return (null);
       }
     }
 
@@ -159,7 +147,10 @@ namespace Org.Vs.TailForWin.Data
 
         try
         {
-          return (now.Subtract((DateTime) FileCreationTime));
+          if(FileCreationTime != null)
+            return (now.Subtract((DateTime) FileCreationTime));
+
+          return (null);
         }
         catch(ArgumentOutOfRangeException ex)
         {
@@ -248,23 +239,23 @@ namespace Org.Vs.TailForWin.Data
     /// <exception cref="ArgumentException">If memento object is no an MementoFileManagerData object</exception>
     public void RestoreFromMemento(MementoFileManagerData memento)
     {
-      MementoFileManagerData mementoFMData = memento as MementoFileManagerData;
-      Arg.NotNull(mementoFMData, "Argument is not a MementoFileManagerData");
+      MementoFileManagerData mementoFmData = memento;
+      Arg.NotNull(mementoFmData, "Argument is not a MementoFileManagerData");
 
-      ID = mementoFMData.ID;
-      Category = mementoFMData.Category;
-      Description = mementoFMData.Description;
-      NewWindow = mementoFMData.NewWindow;
-      FileName = mementoFMData.FileName;
-      Wrap = mementoFMData.Wrap;
-      KillSpace = mementoFMData.KillSpace;
-      RefreshRate = mementoFMData.RefreshRate;
-      Timestamp = mementoFMData.TimeStamp;
-      FontType = mementoFMData.FontType;
-      ThreadPriority = mementoFMData.ThreadPriority;
-      ListOfFilter = CloneObservableCollection.DeepCopy(mementoFMData.ListOfFilter);
-      FileEncoding = mementoFMData.FileEncoding;
-      PatternString = mementoFMData.PatternString;
+      ID = mementoFmData.ID;
+      Category = mementoFmData.Category;
+      Description = mementoFmData.Description;
+      NewWindow = mementoFmData.NewWindow;
+      FileName = mementoFmData.FileName;
+      Wrap = mementoFmData.Wrap;
+      KillSpace = mementoFmData.KillSpace;
+      RefreshRate = mementoFmData.RefreshRate;
+      Timestamp = mementoFmData.TimeStamp;
+      FontType = mementoFmData.FontType;
+      ThreadPriority = mementoFmData.ThreadPriority;
+      ListOfFilter = CloneObservableCollection.DeepCopy(mementoFmData.ListOfFilter);
+      FileEncoding = mementoFmData.FileEncoding;
+      PatternString = mementoFmData.PatternString;
       IsRegex = memento.IsRegex;
       UsePattern = memento.UsePattern;
       SmartWatch = memento.SmartWatch;
@@ -358,7 +349,6 @@ namespace Org.Vs.TailForWin.Data
       public Guid ID
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -367,7 +357,6 @@ namespace Org.Vs.TailForWin.Data
       public bool SmartWatch
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -376,7 +365,6 @@ namespace Org.Vs.TailForWin.Data
       public string Category
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -385,7 +373,6 @@ namespace Org.Vs.TailForWin.Data
       public string Description
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -394,7 +381,6 @@ namespace Org.Vs.TailForWin.Data
       public bool NewWindow
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -403,7 +389,6 @@ namespace Org.Vs.TailForWin.Data
       public Encoding FileEncoding
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -412,7 +397,6 @@ namespace Org.Vs.TailForWin.Data
       public string FileName
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -421,7 +405,6 @@ namespace Org.Vs.TailForWin.Data
       public bool Wrap
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -430,7 +413,6 @@ namespace Org.Vs.TailForWin.Data
       public bool KillSpace
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -439,7 +421,6 @@ namespace Org.Vs.TailForWin.Data
       public ETailRefreshRate RefreshRate
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -448,7 +429,6 @@ namespace Org.Vs.TailForWin.Data
       public bool TimeStamp
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -457,7 +437,6 @@ namespace Org.Vs.TailForWin.Data
       public Font FontType
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -466,7 +445,6 @@ namespace Org.Vs.TailForWin.Data
       public System.Threading.ThreadPriority ThreadPriority
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -475,7 +453,6 @@ namespace Org.Vs.TailForWin.Data
       public ObservableCollection<FilterData> ListOfFilter
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -484,7 +461,6 @@ namespace Org.Vs.TailForWin.Data
       public string PatternString
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -493,7 +469,6 @@ namespace Org.Vs.TailForWin.Data
       public bool IsRegex
       {
         get;
-        private set;
       }
 
       /// <summary>
@@ -502,7 +477,6 @@ namespace Org.Vs.TailForWin.Data
       public bool UsePattern
       {
         get;
-        private set;
       }
 
       #endregion

@@ -16,5 +16,4 @@ namespace Org.Vs.TailForWin.Data.Enums
     /// </summary>
     FileManagerTab
   }
-
 }

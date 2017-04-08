@@ -6,7 +6,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// ProxySettingsData object
   /// </summary>
-  public class ProxySettingsData : INotifyMaster
+  public class ProxySettingsData : NotifyMaster
   {
     private bool useSystemSettings;
 
@@ -15,10 +15,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool UseSystemSettings
     {
-      get
-      {
-        return (useSystemSettings);
-      }
+      get => useSystemSettings;
       set
       {
         useSystemSettings = value;
@@ -33,10 +30,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool UseProxy
     {
-      get
-      {
-        return (useProxy);
-      }
+      get => useProxy;
       set
       {
         useProxy = value;
@@ -51,10 +45,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public int ProxyPort
     {
-      get
-      {
-        return (proxyPort);
-      }
+      get => proxyPort;
       set
       {
         proxyPort = value;
@@ -69,10 +60,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string ProxyUrl
     {
-      get
-      {
-        return (proxyUrl);
-      }
+      get => proxyUrl;
       set
       {
         proxyUrl = value;
@@ -87,13 +75,11 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string UserName
     {
-      get
-      {
-        return (userName);
-      }
+      get => userName;
       set
       {
         userName = value;
+        OnPropertyChanged("UserName");
       }
     }
 
@@ -104,10 +90,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string Password
     {
-      get
-      {
-        return (password);
-      }
+      get => password;
       set
       {
         password = value;

@@ -11,7 +11,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// SettingsData object
   /// </summary>
-  public class SettingsData : INotifyMaster
+  public class SettingsData : NotifyMaster
   {
     /// <summary>
     /// Standard constructor
@@ -50,7 +50,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool AlwaysOnTop
     {
-      get => (alwaysOnTop);
+      get => alwaysOnTop;
       set
       {
         alwaysOnTop = value;
@@ -69,7 +69,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool ShowNLineAtStart
     {
-      get => (showNLineAtStart);
+      get => showNLineAtStart;
       set
       {
         showNLineAtStart = value;
@@ -103,7 +103,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool AlwaysScrollToEnd
     {
-      get => (alwaysScrollToEnd);
+      get => alwaysScrollToEnd;
       set
       {
         alwaysScrollToEnd = value;
@@ -122,7 +122,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool RestoreWindowSize
     {
-      get => (restoreWindowSize);
+      get => restoreWindowSize;
       set
       {
         restoreWindowSize = value;
@@ -159,7 +159,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool SaveWindowPosition
     {
-      get => (saveWindowPosition);
+      get => saveWindowPosition;
       set
       {
         saveWindowPosition = value;
@@ -241,7 +241,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool ExitWithEscape
     {
-      get => (exitWithEsc);
+      get => exitWithEsc;
       set
       {
         exitWithEsc = value;
@@ -260,7 +260,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool ShowLineNumbers
     {
-      get => (showLineNumbers);
+      get => showLineNumbers;
       set
       {
         showLineNumbers = value;
@@ -279,7 +279,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultForegroundColor
     {
-      get => (defaultForegroundColor);
+      get => defaultForegroundColor;
       set
       {
         defaultForegroundColor = value;
@@ -300,7 +300,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultBackgroundColor
     {
-      get => (defaultBackgroundColor);
+      get => defaultBackgroundColor;
       set
       {
         defaultBackgroundColor = value;
@@ -321,7 +321,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultForegroundColor
     {
-      get => (guiDefaultForegroundColor);
+      get => guiDefaultForegroundColor;
       set
       {
         guiDefaultForegroundColor = value;
@@ -340,7 +340,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultBackgroundColor
     {
-      get => (guiDefaultBackgroundColor);
+      get => guiDefaultBackgroundColor;
       set
       {
         guiDefaultBackgroundColor = value;
@@ -359,7 +359,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultInactiveForegroundColor
     {
-      get => (defaultInactiveForegroundColor);
+      get => defaultInactiveForegroundColor;
       set
       {
         defaultInactiveForegroundColor = value;
@@ -380,7 +380,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultInactiveForegroundColor
     {
-      get => (guiDefaultInactiveForegroundColor);
+      get => guiDefaultInactiveForegroundColor;
       set
       {
         guiDefaultInactiveForegroundColor = value;
@@ -399,7 +399,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultInactiveBackgroundColor
     {
-      get => (defaultInactiveBackgroundColor);
+      get => defaultInactiveBackgroundColor;
       set
       {
         defaultInactiveBackgroundColor = value;
@@ -420,7 +420,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultInactiveBackgroundColor
     {
-      get => (guiDefaultInactiveBackgroundColor);
+      get => guiDefaultInactiveBackgroundColor;
       set
       {
         guiDefaultInactiveBackgroundColor = value;
@@ -439,7 +439,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultHighlightForegroundColor
     {
-      get => (defaultFindHighlightForegroundColor);
+      get => defaultFindHighlightForegroundColor;
       set
       {
         defaultFindHighlightForegroundColor = value;
@@ -460,7 +460,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultHighlightForegroundColor
     {
-      get => (guiDefaultHighlightForegroundColor);
+      get => guiDefaultHighlightForegroundColor;
       set
       {
         guiDefaultHighlightForegroundColor = value;
@@ -479,7 +479,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultHighlightBackgroundColor
     {
-      get => (defaultFindHighlightBackgroundColor);
+      get => defaultFindHighlightBackgroundColor;
       set
       {
         defaultFindHighlightBackgroundColor = value;
@@ -500,7 +500,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultHighlightBackgroundColor
     {
-      get => (guiDefaultHighlightBackgroundColor);
+      get => guiDefaultHighlightBackgroundColor;
       set
       {
         guiDefaultHighlightBackgroundColor = value;
@@ -519,7 +519,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultLineNumbersColor
     {
-      get => (defaultLineNumbersColor);
+      get => defaultLineNumbersColor;
       set
       {
         defaultLineNumbersColor = value;
@@ -540,7 +540,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultLineNumbersColor
     {
-      get => (guiDefaultLineNumbersColor);
+      get => guiDefaultLineNumbersColor;
       set
       {
         guiDefaultLineNumbersColor = value;
@@ -559,7 +559,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string DefaultHighlightColor
     {
-      get => (defaultHighlightColor);
+      get => defaultHighlightColor;
       set
       {
         defaultHighlightColor = value;
@@ -580,7 +580,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Brush GuiDefaultHighlightColor
     {
-      get => (guiDefaultHighlightColor);
+      get => guiDefaultHighlightColor;
       set
       {
         guiDefaultHighlightColor = value;
@@ -596,7 +596,6 @@ namespace Org.Vs.TailForWin.Data
     public ProxySettingsData ProxySettings
     {
       get;
-      set;
     }
 
     /// <summary>
@@ -635,7 +634,6 @@ namespace Org.Vs.TailForWin.Data
       set;
     }
 
-
     /// <summary>
     /// Group GridControl in FileManager by Category
     /// </summary>
@@ -651,7 +649,6 @@ namespace Org.Vs.TailForWin.Data
     public AlertData AlertSettings
     {
       get;
-      set;
     }
 
     #region AutoUpdate
@@ -663,7 +660,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool AutoUpdate
     {
-      get => (autoUpdate);
+      get => autoUpdate;
       set
       {
         autoUpdate = value;
@@ -696,7 +693,6 @@ namespace Org.Vs.TailForWin.Data
     public SmartWatchData SmartWatchData
     {
       get;
-      set;
     }
 
     #endregion
@@ -704,13 +700,19 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Webside for new releases
     /// </summary>
-    public static string ApplicationWebUrl => ("https://github.com/tualatin/tailforwindows/releases");
+    public static string ApplicationWebUrl => "https://github.com/tualatin/tailforwindows/releases";
 
     private static Brush GetColorFromHex(string hex)
     {
-      Color color = (Color) ColorConverter.ConvertFromString(hex);
+      var convertFromString = ColorConverter.ConvertFromString(hex);
 
-      return (new SolidColorBrush(color));
+      if(convertFromString != null)
+      {
+        Color color = (Color) convertFromString;
+
+        return (new SolidColorBrush(color));
+      }
+      return (Brushes.Black);
     }
 
     /// <summary>
@@ -723,10 +725,10 @@ namespace Org.Vs.TailForWin.Data
       FieldInfo fi = value.GetType().GetField(value.ToString());
       DescriptionAttribute[] attributes = (DescriptionAttribute[]) fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-      if(attributes != null && attributes.Length > 0)
-        return (attributes[0].Description);
-      else
-        return (value.ToString());
+      if(attributes.Length > 0)
+        return attributes[0].Description;
+
+      return (value.ToString());
     }
 
     /// <summary>
@@ -748,16 +750,16 @@ namespace Org.Vs.TailForWin.Data
 
         if(attribute != null)
         {
-          if(string.Compare(attribute.Description, description, false) == 0)
-            return ((T) field.GetValue(null));
+          if(string.CompareOrdinal(attribute.Description, description) == 0)
+            return (T) field.GetValue(null);
         }
         else
         {
-          if(string.Compare(field.Name, description, false) == 0)
-            return ((T) field.GetValue(null));
+          if(string.CompareOrdinal(field.Name, description) == 0)
+            return (T) field.GetValue(null);
         }
       }
-      throw new ArgumentException("Not found.", "description");
+      throw new ArgumentException("Not found.", nameof(description));
       // or return default(T);
     }
   }

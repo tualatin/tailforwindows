@@ -7,7 +7,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// SmartWatch object
   /// </summary>
-  public class SmartWatchData : INotifyMaster
+  public class SmartWatchData : NotifyMaster
   {
     private bool filterByExtension;
 

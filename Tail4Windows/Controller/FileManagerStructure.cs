@@ -20,7 +20,7 @@ namespace Org.Vs.TailForWin.Controller
   /// <summary>
   /// FileManager structure
   /// </summary>
-  public class FileManagerStructure : INotifyMaster
+  public class FileManagerStructure : NotifyMaster
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(FileManagerStructure));
 

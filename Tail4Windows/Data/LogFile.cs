@@ -13,7 +13,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// LogFile class
   /// </summary>
-  public static partial class LogFile
+  public static class LogFile
   {
     /// <summary>
     /// Application caption
@@ -106,15 +106,6 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public static int DELETE_LOG_FILES_OLDER_THAN = 5;
 
-    #region ObservableCollection
-
-    private static ObservableCollection<ThreadPriorityMapping> threadPriority = new ObservableCollection<ThreadPriorityMapping>();
-    private static ObservableCollection<ETailRefreshRate> refreshRate = new ObservableCollection<ETailRefreshRate>();
-    private static ObservableCollection<Encoding> fileEncoding = new ObservableCollection<Encoding>();
-    private static ObservableCollection<FileManagerHelper> fmHelper = new ObservableCollection<FileManagerHelper>();
-
-    #endregion
-
     #region RegexPattern
 
     /// <summary>
@@ -133,7 +124,6 @@ namespace Org.Vs.TailForWin.Data
     /// MainWindow reference from TfW
     /// </summary>
     public static UI.TabWindow APP_MAIN_WINDOW = (Application.Current.MainWindow as UI.TabWindow);
-
 
     /// <summary>
     /// Max open tabs in TfW
@@ -191,38 +181,22 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// List of open items from FileManager, to see, which file is already open
     /// </summary>
-    public static ObservableCollection<FileManagerHelper> FmHelper
-    {
-      get => fmHelper;
-      set => fmHelper = value;
-    }
+    public static ObservableCollection<FileManagerHelper> FmHelper { get; } = new ObservableCollection<FileManagerHelper>();
 
     /// <summary>
     /// List of thread priority (static)
     /// </summary>
-    public static ObservableCollection<ThreadPriorityMapping> ThreadPriority
-    {
-      get => threadPriority;
-      set => threadPriority = value;
-    }
+    public static ObservableCollection<ThreadPriorityMapping> ThreadPriority { get; } = new ObservableCollection<ThreadPriorityMapping>();
 
     /// <summary>
     /// List of supported refresh rates
     /// </summary>
-    public static ObservableCollection<ETailRefreshRate> RefreshRate
-    {
-      get => refreshRate;
-      set => refreshRate = value;
-    }
+    public static ObservableCollection<ETailRefreshRate> RefreshRate { get; } = new ObservableCollection<ETailRefreshRate>();
 
     /// <summary>
     /// List of supported file encodings
     /// </summary>
-    public static ObservableCollection<Encoding> FileEncoding
-    {
-      get => fileEncoding;
-      set => fileEncoding = value;
-    }
+    public static ObservableCollection<Encoding> FileEncoding { get; } = new ObservableCollection<Encoding>();
 
     /// <summary>
     /// Initialize the observable collections from refresh rate (RR), thread priority (TP) and file encodings (FE)

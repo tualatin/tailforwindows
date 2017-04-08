@@ -13,7 +13,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// Dataobject for Tabproperties
   /// </summary>
-  public class TailLogData : INotifyMaster, IDisposable, ICloneable
+  public class TailLogData : NotifyMaster, IDisposable, ICloneable
   {
     /// <summary>
     /// Standard constructor
@@ -46,7 +46,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string FileName
     {
-      get => (fileName);
+      get => fileName;
       set
       {
         fileName = value;
@@ -75,7 +75,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string File
     {
-      get => (file);
+      get => file;
       set
       {
         file = value;
@@ -94,7 +94,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool Wrap
     {
-      get => (wrap);
+      get => wrap;
       set
       {
         wrap = value;
@@ -113,7 +113,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool KillSpace
     {
-      get => (killSpace);
+      get => killSpace;
       set
       {
         killSpace = value;
@@ -132,7 +132,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public ETailRefreshRate RefreshRate
     {
-      get => (refreshRate);
+      get => refreshRate;
       set
       {
         refreshRate = value;
@@ -151,7 +151,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool Timestamp
     {
-      get => (timeStamp);
+      get => timeStamp;
       set
       {
         timeStamp = value;
@@ -170,7 +170,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Font FontType
     {
-      get => (fontType);
+      get => fontType;
       set
       {
         fontType = value;
@@ -189,7 +189,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public System.Threading.ThreadPriority ThreadPriority
     {
-      get => (threadPriority);
+      get => threadPriority;
       set
       {
         threadPriority = value;
@@ -217,7 +217,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public ObservableCollection<FilterData> ListOfFilter
     {
-      get => (listOfFilter);
+      get => listOfFilter;
       set
       {
         listOfFilter = value;
@@ -236,7 +236,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public Encoding FileEncoding
     {
-      get => (fileEncoding);
+      get => fileEncoding;
       set
       {
         fileEncoding = value;

@@ -112,68 +112,32 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Gui total memory
     /// </summary>
-    public string GuiTotalPhys
-    {
-      get
-      {
-        return ((MachineMemory.ullTotalPhys / Math.Pow(1024, 3)).ToString("N2", SetNumberFormat()) + " GB");
-      }
-    }
+    public string GuiTotalPhys => (MachineMemory.ullTotalPhys / Math.Pow(1024, 3)).ToString("N2", SetNumberFormat()) + " GB";
 
     /// <summary>
     /// Gui available memory
     /// </summary>
-    public string GuiAvailPhys
-    {
-      get
-      {
-        return ((MachineMemory.ullAvailPhys / Math.Pow(1024, 2)).ToString("N2", SetNumberFormat()) + " MB");
-      }
-    }
+    public string GuiAvailPhys => (MachineMemory.ullAvailPhys / Math.Pow(1024, 2)).ToString("N2", SetNumberFormat()) + " MB";
 
     /// <summary>
     /// Gui total virtual memory
     /// </summary>
-    public string GuiTotalVirtual
-    {
-      get
-      {
-        return ((MachineMemory.ullTotalVirtual / Math.Pow(1024, 3)).ToString("N2", SetNumberFormat()) + " GB");
-      }
-    }
+    public string GuiTotalVirtual => (MachineMemory.ullTotalVirtual / Math.Pow(1024, 3)).ToString("N2", SetNumberFormat()) + " GB";
 
     /// <summary>
     /// Gui available virtual memory
     /// </summary>
-    public string GuiAvailVirtual
-    {
-      get
-      {
-        return ((MachineMemory.ullAvailVirtual / Math.Pow(1024, 2)).ToString("N2", SetNumberFormat()) + " MB");
-      }
-    }
+    public string GuiAvailVirtual => (MachineMemory.ullAvailVirtual / Math.Pow(1024, 2)).ToString("N2", SetNumberFormat()) + " MB";
 
     /// <summary>
     /// Gui page file size
     /// </summary>
-    public string GuiTotalPageFileSize
-    {
-      get
-      {
-        return ((MachineMemory.ullTotalPageFile / Math.Pow(1024, 3)).ToString("N2", SetNumberFormat()) + " GB");
-      }
-    }
+    public string GuiTotalPageFileSize => (MachineMemory.ullTotalPageFile / Math.Pow(1024, 3)).ToString("N2", SetNumberFormat()) + " GB";
 
     /// <summary>
     /// GuiAvailavlePageFileSize
     /// </summary>
-    public string GuiAvailPageFileSize
-    {
-      get
-      {
-        return ((MachineMemory.ullAvailPageFile / Math.Pow(1024, 2)).ToString("N2", SetNumberFormat()) + " MB");
-      }
-    }
+    public string GuiAvailPageFileSize => (MachineMemory.ullAvailPageFile / Math.Pow(1024, 2)).ToString("N2", SetNumberFormat()) + " MB";
 
     /// <summary>
     /// SetNumberFormat

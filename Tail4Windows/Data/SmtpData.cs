@@ -6,7 +6,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// SmtpData object
   /// </summary>
-  public class SmtpData : INotifyMaster
+  public class SmtpData : NotifyMaster
   {
     private string smtpServerName;
 
@@ -15,10 +15,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string SmtpServerName
     {
-      get
-      {
-        return (smtpServerName);
-      }
+      get => smtpServerName;
       set
       {
         smtpServerName = value;
@@ -33,10 +30,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public int SmtpPort
     {
-      get
-      {
-        return (smtpPort);
-      }
+      get => smtpPort;
       set
       {
         smtpPort = value;
@@ -51,10 +45,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string LoginName
     {
-      get
-      {
-        return (loginName);
-      }
+      get => loginName;
       set
       {
         loginName = value;
@@ -70,10 +61,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string Password
     {
-      get
-      {
-        return (password);
-      }
+      get => password;
       set
       {
         password = value;
@@ -88,10 +76,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string FromAddress
     {
-      get
-      {
-        return (fromAddress);
-      }
+      get => fromAddress;
       set
       {
         fromAddress = value;
@@ -106,10 +91,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string Subject
     {
-      get
-      {
-        return (subject);
-      }
+      get => subject;
       set
       {
         subject = value;
@@ -124,10 +106,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool SSL
     {
-      get
-      {
-        return (ssl);
-      }
+      get => ssl;
       set
       {
         ssl = value;
@@ -142,10 +121,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool TLS
     {
-      get
-      {
-        return (tls);
-      }
+      get => tls;
       set
       {
         tls = value;

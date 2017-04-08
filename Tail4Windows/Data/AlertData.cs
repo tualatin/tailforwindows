@@ -6,7 +6,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// AlertData object
   /// </summary>
-  public class AlertData : INotifyMaster
+  public class AlertData : NotifyMaster
   {
     /// <summary>
     /// Standard constructor
