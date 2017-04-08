@@ -16,10 +16,7 @@ namespace Org.Vs.TailForWin.Template.Events
     /// </summary>
     public string FileFullPath
     {
-      get
-      {
-        return (fileFullPath);
-      }
+      get => fileFullPath;
       set
       {
         fileFullPath = value;

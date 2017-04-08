@@ -7,7 +7,7 @@ namespace Org.Vs.TailForWin.Utils
   /// <summary>
   /// Encoding detector class
   /// </summary>
-  public class EncodingDetector
+  public static class EncodingDetector
   {
     /// <summary>
     /// Get current file encoding

@@ -232,11 +232,15 @@ namespace Org.Vs.TailForWin.Utils
         double val = Convert.ToDouble(text);
         double newVal = ValidateLimits(GetMinimumValue(tb), GetMaximumValue(tb), val);
 
-        if(val != newVal)
-          text = newVal.ToString();
-        else if(val == 0)
+        if(!val.Equals(newVal))
+        {
+          text = newVal.ToString(CultureInfo.InvariantCulture);
+        }
+        else if(val.Equals(0))
+        {
           if(!text.Contains(NumberFormatInfo.CurrentInfo.NumberDecimalSeparator))
             text = "0";
+        }
       }
       catch
       {
@@ -332,6 +336,7 @@ namespace Org.Vs.TailForWin.Utils
 
         if(string.CompareOrdinal(str, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
           return (true);
+
         break;
 
       case EMaskType.Decimal:
@@ -339,6 +344,7 @@ namespace Org.Vs.TailForWin.Utils
         if(string.CompareOrdinal(str, NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) == 0 ||
             string.CompareOrdinal(str, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
           return (true);
+
         break;
       }
 
