@@ -9,7 +9,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
   /// <summary>
   /// Interaction logic for SelectPart.xaml
   /// </summary>
-  public partial class SelectPart : Window
+  public partial class SelectPart
   {
     /// <summary>
     /// Fires, when part has changed
@@ -101,18 +101,18 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
       {
       case 0:
 
-      LabelPartCount.Content = null;
-      break;
+        LabelPartCount.Content = null;
+        break;
 
       case 1:
 
-      LabelPartCount.Content = length;
-      break;
+        LabelPartCount.Content = length;
+        break;
 
       default:
 
-      LabelPartCount.Content = $"{start}-{length}";
-      break;
+        LabelPartCount.Content = $"{start}-{length}";
+        break;
       }
     }
 

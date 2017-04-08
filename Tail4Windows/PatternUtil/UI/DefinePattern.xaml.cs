@@ -11,7 +11,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
   /// <summary>
   /// Interaction logic for DefinePattern.xaml
   /// </summary>
-  public partial class DefinePattern : Window
+  public partial class DefinePattern
   {
     /// <summary>
     /// Fires, when pattern changed
@@ -60,7 +60,9 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
       }
       else
       {
-        pattern.IsRegex = CheckBoxRegex.IsChecked.Value;
+        if(CheckBoxRegex.IsChecked != null)
+          pattern.IsRegex = CheckBoxRegex.IsChecked.Value;
+
         pattern.PatternString = ComboBoxPattern.Text;
       }
 
@@ -75,10 +77,10 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
 
       if(e.AddedItems.Count > 0)
       {
-        var pattern = e.AddedItems[0];
+        var pt = e.AddedItems[0];
 
-        if(pattern is Pattern)
-          CheckBoxRegex.IsChecked = (pattern as Pattern).IsRegex;
+        if(pt is Pattern pt1)
+          CheckBoxRegex.IsChecked = pt1.IsRegex;
       }
     }
 

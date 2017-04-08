@@ -331,7 +331,7 @@
     <Compile Include="Interfaces\IDragDropToTabWindow.cs" />
     <Compile Include="Interfaces\IHistoryStructureController.cs" />
     <Compile Include="Interfaces\ITabWindow.cs" />
-    <Compile Include="Logging\ILogExtentions.cs" />
+    <Compile Include="Logging\LogExtentions.cs" />
     <Compile Include="Logging\Log4NetTraceListener.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LoggerFactory.cs" />

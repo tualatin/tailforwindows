@@ -39,7 +39,6 @@ namespace Org.Vs.TailForWin.Interfaces
     /// <param name="properties">File Manager data object, <c>default</c> is <c>NULL</c></param>
     void AddTabItem(FileManagerData properties = null);
 
-
     /// <summary>
     /// Remove a tab item
     /// </summary>

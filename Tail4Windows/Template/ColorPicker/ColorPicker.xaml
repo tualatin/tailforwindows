@@ -51,7 +51,7 @@
         </Border>
         <!-- Selection, Column 0-->
         <Image x:Name="ColorImage" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="2" Source="/TailForWin;component/Res/ColorSwatch.png"/>
-        <Canvas x:Name="canvasImage"
+        <Canvas x:Name="CanvasImage"
                 Width="150"
                 Height="150"
                 HorizontalAlignment="Center"
@@ -61,7 +61,7 @@
                 MouseDown="CanvasImage_MouseDown"
                 MouseUp="CanvasImage_MouseUp"
                 MouseMove="CanvasImage_MouseMove">
-          <Ellipse x:Name="ellipsePixel"
+          <Ellipse x:Name="EllipsePixel"
                    Width="8"
                    Height="8"
                    Stroke="Black"
@@ -79,7 +79,7 @@
         <Border Margin="4,5,10,0" Width="154" Height="154"
                         HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="2"
                         Background="{StaticResource CheckerboardBrush}">
-          <InkPresenter Name="previewPresenter" Margin="0" Width="150" Height="150" MouseDown="CanvasImage_MouseDown" MouseUp="CanvasImage_MouseUp"
+          <InkPresenter Name="PreviewPresenter" Margin="0" Width="150" Height="150" MouseDown="CanvasImage_MouseDown" MouseUp="CanvasImage_MouseUp"
                                   Strokes="AOcBAxdIEESAgYAERYQBGwIAJAFGhAEbAgAkAQUBOBkgMgkA9P8CAekiOkUzCQD4nwIBWiA6RTgIAP4DAAAAgH8RAACAPx8JEQAAAAAAAPA/CpYBNIfm3uajgcQgUUiUkjUelEal0KkUBh0HichlM1mtJotZp9JodDl8jk8ZgcBiUOjUYl08m0+l0+lFCjksjESAh+kg6auNwaEwSBQiEQyLRKTRiVSiUSSORyLQ6JQSBIPFYnKZTL5fOZfMZXL4/H47DYLBYHFoJLIpEo9GgIP3OB5PlxLCJiZmU1MISSi4SJiS74+D4+4o" />
         </Border>
       </StackPanel>
@@ -90,21 +90,21 @@
         <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
           <Label Content="A" Margin="5,0,0,0" HorizontalAlignment="Left" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center"/>
           <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Width="50" Height="30">
-            <TextBox x:Name="txtAlpha" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False"/>
+            <TextBox x:Name="TxtAlpha" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False"/>
           </Border>
           <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Margin="10,0,0,0" Width="50" Height="30">
-            <TextBox x:Name="txtAlphaHex" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="1"/>
+            <TextBox x:Name="TxtAlphaHex" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="1"/>
           </Border>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
           <Label Content="R" Margin="5,0,0,0" HorizontalAlignment="Left" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center"/>
           <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Width="50" Height="30">
-            <TextBox x:Name="txtRed" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center"
+            <TextBox x:Name="TxtRed" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center"
                      Padding="0,5,0,0" IsTabStop="False" MaxLines="2"/>
           </Border>
           <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Margin="10,0,0,0" Width="50" Height="30">
-            <TextBox x:Name="txtRedHex" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center"
+            <TextBox x:Name="TxtRedHex" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center"
                      Padding="0,5,0,0" IsTabStop="False" MaxLines="3"/>
           </Border>
         </StackPanel>
@@ -112,11 +112,11 @@
         <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
           <Label Content="G" Margin="5,0,0,0" HorizontalAlignment="Left" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center"/>
           <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Width="50" Height="30">
-            <TextBox x:Name="txtGreen" BorderThickness="0" Background="LightGray" BorderBrush="Transparent"
+            <TextBox x:Name="TxtGreen" BorderThickness="0" Background="LightGray" BorderBrush="Transparent"
                             Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="4"/>
           </Border>
           <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Margin="10,0,0,0" Width="50" Height="30">
-            <TextBox x:Name="txtGreenHex" BorderThickness="0" Background="LightGray" BorderBrush="Transparent"
+            <TextBox x:Name="TxtGreenHex" BorderThickness="0" Background="LightGray" BorderBrush="Transparent"
                             Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="5"/>
           </Border>
         </StackPanel>
@@ -124,18 +124,18 @@
         <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
           <Label Content="B" Margin="5,0,0,0" HorizontalAlignment="Left" Foreground="Black" FontWeight="Bold" VerticalAlignment="Center"/>
           <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Width="50" Height="30">
-            <TextBox x:Name="txtBlue" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" 
+            <TextBox x:Name="TxtBlue" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" 
                      Padding="0,5,0,0" IsTabStop="False" MaxLines="6"/>
           </Border>
           <Border CornerRadius="5" BorderBrush="Gainsboro" BorderThickness="1" Margin="10,0,0,0" Width="50" Height="30">
-            <TextBox x:Name="txtBlueHex" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" 
+            <TextBox x:Name="TxtBlueHex" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" 
                      TextAlignment="Center" Padding="0,5,0,0" IsTabStop="False" MaxLines="7"/>
           </Border>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
           <Border CornerRadius="5" Margin="22,0,0,0" BorderBrush="Gainsboro" BorderThickness="1" Width="112" Height="30">
-            <TextBox x:Name="txtAll" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" 
+            <TextBox x:Name="TxtAll" BorderThickness="0" Background="LightGray" BorderBrush="Transparent" Margin="5,1,5,1" IsReadOnly="True" TextAlignment="Center" 
                      Padding="0,5,0,0" IsTabStop="False" MaxLines="8"/>
           </Border>
         </StackPanel>

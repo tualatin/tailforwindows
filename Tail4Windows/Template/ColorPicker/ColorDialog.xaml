@@ -11,8 +11,10 @@
       <RowDefinition Height="218*" />
       <RowDefinition Height="32" />
     </Grid.RowDefinitions>
-    <my:ColorPicker x:Name="colorPicker" Grid.Row="0" Grid.ColumnSpan="2" />
-    <Button Content="OK" Height="23" HorizontalAlignment="Right" Margin="0,0,5,0" Name="btnSave" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="0" Click="btnSave_Click" TabIndex="0" />
-    <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="btnCancel_Click" TabIndex="1" />
+    <my:ColorPicker x:Name="ColorPicker" Grid.Row="0" Grid.ColumnSpan="2" />
+    <Button Content="OK" Height="23" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="0"
+            Click="btnSave_Click" TabIndex="0"/>
+    <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1"
+            Click="btnCancel_Click" TabIndex="1"/>
   </Grid>
 </Window>

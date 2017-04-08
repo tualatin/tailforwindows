@@ -46,7 +46,7 @@ namespace Org.Vs.TailForWin.Logging
 
             try
             {
-              sb.Append(arg.ToString());
+              sb.Append(arg);
             }
             catch(SystemException e) //NOCS: IllegalCatch, because: toString() methods may be buggy, but anyway there should be logged a message
             {

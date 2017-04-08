@@ -6,20 +6,20 @@ namespace Org.Vs.TailForWin.Logging
   /// <summary>
   /// log4net LoggerFactory
   /// </summary>
-  public class LoggerFactory
+  public static class LoggerFactory
   {
-    private static string sourceName = null;
-    private static Type sourceType = null;
+    private static string sourceName;
+    private static Type sourceType;
 
 
     /// <summary>
     /// Return a logger named according to the name parameter using the statically bound ILoggerFactory instance.
     /// </summary>
-    /// <param name="sourceName">The name of the logger.</param>
+    /// <param name="scName">The name of the logger.</param>
     /// <returns>logger</returns>
-    public static Logger GetLogger(string sourceName)
+    public static Logger GetLogger(string scName)
     {
-      LoggerFactory.sourceName = sourceName;
+      LoggerFactory.sourceName = scName;
 
       return (new Logger(LoggerFactory.sourceName));
     }
@@ -27,11 +27,11 @@ namespace Org.Vs.TailForWin.Logging
     /// <summary>
     /// Return a logger named corresponding to the class passed as parameter, using the statically bound {@link ILoggerFactory} instance.
     /// </summary>
-    /// <param name="sourceType">the returned logger will be named after clazz</param>
+    /// <param name="scType">the returned logger will be named after clazz</param>
     /// <returns>logger</returns>
-    public static Logger GetLogger(Type sourceType)
+    public static Logger GetLogger(Type scType)
     {
-      LoggerFactory.sourceType = sourceType;
+      LoggerFactory.sourceType = scType;
 
       return (GetLogger(LoggerFactory.sourceType.Name));
     }
@@ -43,9 +43,9 @@ namespace Org.Vs.TailForWin.Logging
     /// <returns>logger</returns>
     public static Logger GetLogger<T>()
     {
-      LoggerFactory.sourceType = typeof(T);
+      sourceType = typeof(T);
 
-      return (GetLogger(LoggerFactory.sourceType.Name));
+      return (GetLogger(sourceType.Name));
     }
   }
 }

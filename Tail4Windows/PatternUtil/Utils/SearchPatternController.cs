@@ -37,47 +37,53 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
 
     private string GetLatestFileByPattern()
     {
-      var path = Path.GetDirectoryName(currentProperty.FileName);
-      DirectoryInfo directoryInfo = new DirectoryInfo(path);
-
-      if(directoryInfo == null || !directoryInfo.Exists)
-        return (null);
-
-      FileInfo[] files;
-
-      if(!currentProperty.IsRegex)
+      try
       {
-        files = directoryInfo.GetFiles(currentProperty.PatternString, SearchOption.TopDirectoryOnly);
+        var path = Path.GetDirectoryName(currentProperty.FileName);
+
+        if(!string.IsNullOrEmpty(path))
+        {
+          DirectoryInfo directoryInfo = new DirectoryInfo(path);
+
+          if(!directoryInfo.Exists)
+            return (string.Empty);
+
+          FileInfo[] files;
+
+          if(!currentProperty.IsRegex)
+          {
+            files = directoryInfo.GetFiles(currentProperty.PatternString, SearchOption.TopDirectoryOnly);
+          }
+          else
+          {
+            Regex regex = new Regex(currentProperty.PatternString, RegexOptions.None);
+            files = directoryInfo.GetFiles().Where(p => regex.IsMatch(p.Name)).ToArray();
+          }
+
+          if(files.Length == 0)
+            return (string.Empty);
+
+          DateTime latestWrite = DateTime.MinValue;
+          FileInfo latestFile = null;
+
+          foreach(var item in files)
+          {
+            if(item.LastWriteTime > latestWrite)
+            {
+              latestFile = item;
+              latestWrite = item.LastWriteTime;
+            }
+          }
+
+          if(latestFile != null)
+            return (latestFile.FullName);
+        }
       }
-      else
+      catch(Exception ex)
       {
-        try
-        {
-          Regex regex = new Regex(currentProperty.PatternString, RegexOptions.None);
-          files = directoryInfo.GetFiles().Where(p => regex.IsMatch(p.Name)).ToArray();
-        }
-        catch(ArgumentNullException ex)
-        {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-          files = null;
-        }
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
-
-      if(files == null || files.Length == 0)
-        return (null);
-
-      DateTime latestWrite = DateTime.MinValue;
-      FileInfo latestFile = null;
-
-      foreach(var item in files)
-      {
-        if(item.LastWriteTime > latestWrite)
-        {
-          latestFile = item;
-          latestWrite = item.LastWriteTime;
-        }
-      }
-      return (latestFile.FullName);
+      return (string.Empty);
     }
 
     #region IDisposable Members

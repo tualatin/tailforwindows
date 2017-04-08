@@ -61,10 +61,7 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
     /// </summary>
     public Color SelectedColor
     {
-      get
-      {
-        return (selectedColor);
-      }
+      get => selectedColor;
       private set
       {
         if(selectedColor == value)
@@ -94,13 +91,7 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
     /// <summary>
     /// Gets selected color in hex
     /// </summary>
-    public string SelectedHexColor
-    {
-      get
-      {
-        return (txtAll.Text);
-      }
-    }
+    public string SelectedHexColor => TxtAll.Text;
 
     #endregion
 
@@ -129,9 +120,9 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
       int searchX = 0;
       searchColor.A = 255;
 
-      for(searchY = 0; searchY <= canvasImage.Width - 1; searchY++)
+      for(searchY = 0; searchY <= CanvasImage.Width - 1; searchY++)
       {
-        for(searchX = 0; searchX <= canvasImage.Height - 1; searchX++)
+        for(searchX = 0; searchX <= CanvasImage.Height - 1; searchX++)
         {
           CroppedBitmap cb = new CroppedBitmap(ColorImage.Source as BitmapSource, new Int32Rect(searchX, searchY, 1, 1));
           cb.CopyPixels(pixels, 4, 0);
@@ -153,8 +144,8 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
       }
 
       // Update the mouse cursor ellipse position
-      ellipsePixel.SetValue(Canvas.LeftProperty, (searchX - (ellipsePixel.Width / 2.0)));
-      ellipsePixel.SetValue(Canvas.TopProperty, (searchY - (ellipsePixel.Width / 2.0)));
+      EllipsePixel.SetValue(Canvas.LeftProperty, (searchX - (EllipsePixel.Width / 2.0)));
+      EllipsePixel.SetValue(Canvas.TopProperty, (searchY - (EllipsePixel.Width / 2.0)));
     }
 
     /// <summary>
@@ -163,8 +154,8 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
     private void UpdateColor()
     {
       // Test to ensure we do not get bad mouse positions along the edges
-      int imageX = (int) Mouse.GetPosition(canvasImage).X;
-      int imageY = (int) Mouse.GetPosition(canvasImage).Y;
+      int imageX = (int) Mouse.GetPosition(CanvasImage).X;
+      int imageY = (int) Mouse.GetPosition(CanvasImage).Y;
 
       if((imageX < 0) || (imageY < 0) || (imageX > ColorImage.Width - 1) || (imageY > ColorImage.Height - 1))
         return;
@@ -175,9 +166,9 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
       cb.CopyPixels(pixels, 4, 0);
 
       // Update the mouse cursor position and the Selected Color
-      ellipsePixel.SetValue(Canvas.LeftProperty, Mouse.GetPosition(canvasImage).X - (ellipsePixel.Width / 2.0));
-      ellipsePixel.SetValue(Canvas.TopProperty, Mouse.GetPosition(canvasImage).Y - (ellipsePixel.Width / 2.0));
-      canvasImage.InvalidateVisual();
+      EllipsePixel.SetValue(Canvas.LeftProperty, Mouse.GetPosition(CanvasImage).X - (EllipsePixel.Width / 2.0));
+      EllipsePixel.SetValue(Canvas.TopProperty, Mouse.GetPosition(CanvasImage).Y - (EllipsePixel.Width / 2.0));
+      CanvasImage.InvalidateVisual();
 
       // Set the Selected Color based on the cursor pixel and Alpha Slider value
       SelectedColor = Color.FromArgb((byte) AlphaSlider.Value, pixels[2], pixels[1], pixels[0]);
@@ -188,15 +179,15 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
     /// </summary>
     private void UpdateTextBoxes()
     {
-      txtAlpha.Text = SelectedColor.A.ToString(CultureInfo.InvariantCulture);
-      txtAlphaHex.Text = SelectedColor.A.ToString("X2");
-      txtRed.Text = SelectedColor.R.ToString(CultureInfo.InvariantCulture);
-      txtRedHex.Text = SelectedColor.R.ToString("X2");
-      txtGreen.Text = SelectedColor.G.ToString(CultureInfo.InvariantCulture);
-      txtGreenHex.Text = SelectedColor.G.ToString("X2");
-      txtBlue.Text = SelectedColor.B.ToString(CultureInfo.InvariantCulture);
-      txtBlueHex.Text = SelectedColor.B.ToString("X2");
-      txtAll.Text = string.Format("#{0}{1}{2}{3}", txtAlphaHex.Text, txtRedHex.Text, txtGreenHex.Text, txtBlueHex.Text);
+      TxtAlpha.Text = SelectedColor.A.ToString(CultureInfo.InvariantCulture);
+      TxtAlphaHex.Text = SelectedColor.A.ToString("X2");
+      TxtRed.Text = SelectedColor.R.ToString(CultureInfo.InvariantCulture);
+      TxtRedHex.Text = SelectedColor.R.ToString("X2");
+      TxtGreen.Text = SelectedColor.G.ToString(CultureInfo.InvariantCulture);
+      TxtGreenHex.Text = SelectedColor.G.ToString("X2");
+      TxtBlue.Text = SelectedColor.B.ToString(CultureInfo.InvariantCulture);
+      TxtBlueHex.Text = SelectedColor.B.ToString("X2");
+      TxtAll.Text = $"#{TxtAlphaHex.Text}{TxtRedHex.Text}{TxtGreenHex.Text}{TxtBlueHex.Text}";
     }
 
     /// <summary>
@@ -209,7 +200,7 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
       drawingAttributes.Width = 5;
 
       // Update drawing attributes on previewPresenter
-      foreach(Stroke s in previewPresenter.Strokes)
+      foreach(Stroke s in PreviewPresenter.Strokes)
       {
         s.DrawingAttributes = drawingAttributes;
       }

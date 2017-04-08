@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 
@@ -23,11 +22,18 @@ namespace Org.Vs.TailForWin.Extensions
           && new HashSet<T>(firstList).SetEquals(secondList));
     }
 
-    internal static bool CompareGenericObservableCollections<T>(ObservableCollection<T> first, ObservableCollection<T> second)
+    /// <summary>
+    /// Compare generic IEnumerables
+    /// </summary>
+    /// <typeparam name="T">Type of IEnumerable</typeparam>
+    /// <param name="first">First IEnumerable</param>
+    /// <param name="second">Second IEnumerable</param>
+    /// <returns>If IEnumerables equal <c>True</c> otherwise <c>False</c></returns>
+    internal static bool CompareGenericObservableCollections<T>(IEnumerable<T> first, IEnumerable<T> second)
     {
       IEnumerable<T> result = first.Except(second);
 
-      if(result.Count() > 0)
+      if(result.Any())
         return (false);
 
       return (true);

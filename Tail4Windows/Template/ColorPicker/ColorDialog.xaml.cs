@@ -26,7 +26,7 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
     public ColorDialog(Color initialColor)
     {
       InitializeComponent();
-      colorPicker.InitialColor = initialColor;
+      ColorPicker.InitialColor = initialColor;
 
       PreviewKeyDown += HandleEsc;
     }
@@ -36,26 +36,14 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
     /// </summary>
     public Color SelectedColor
     {
-      get
-      {
-        return (colorPicker.SelectedColor);
-      }
-      set
-      {
-        colorPicker.InitialColor = value;
-      }
+      get => ColorPicker.SelectedColor;
+      set => ColorPicker.InitialColor = value;
     }
 
     /// <summary>
     /// Gets selected color in hex
     /// </summary>
-    public string SelectedColorHex
-    {
-      get
-      {
-        return (colorPicker.SelectedHexColor);
-      }
-    }
+    public string SelectedColorHex => ColorPicker.SelectedHexColor;
 
     private void btnSave_Click(object sender, RoutedEventArgs e)
     {

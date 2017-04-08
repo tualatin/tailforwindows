@@ -9,8 +9,8 @@ namespace Org.Vs.TailForWin.Logging
   /// </summary>
   public class Logger
   {
-    string sourceName = null;
-    private ILog logger;
+    readonly string sourceName;
+    private readonly ILog logger;
 
 
     /// <summary>
@@ -20,20 +20,14 @@ namespace Org.Vs.TailForWin.Logging
     public Logger(string sourceName)
     {
       this.sourceName = sourceName;
-      this.logger = LogManager.GetLogger(sourceName);
+      logger = LogManager.GetLogger(sourceName);
     }
 
 
     /// <summary>
     /// the name of this <code>Logger</code> instance.
     /// </summary>
-    public string Name
-    {
-      get
-      {
-        return (sourceName);
-      }
-    }
+    public string Name => sourceName;
 
     /// <summary>
     /// Is the logger instance enabled for the TRACE level?
@@ -61,7 +55,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="argArray">an array of arguments</param>
     public void Trace(string format, object[] argArray)
     {
-      this.logger.Trace(format, argArray);
+      logger.Trace(format, argArray);
     }
 
     /// <summary>
@@ -71,7 +65,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="e">the exception (throwable) to log</param>
     public void Trace(string msg, Exception e)
     {
-      this.logger.Trace(e, msg);
+      logger.Trace(e, msg);
     }
 
     /// <summary>
@@ -234,9 +228,8 @@ namespace Org.Vs.TailForWin.Logging
     {
       if(t == null)
         return (msg);
-      else
-        // return (string.Format("{0}\nstack trace:\n{1}", msg, t.StackTrace));
-        return ($"\"{msg}\"\nstack trace:\n\"{t.StackTrace}\"");
+
+      return ($"\"{msg}\"\nstack trace:\n\"{t.StackTrace}\"");
     }
   }
 }
