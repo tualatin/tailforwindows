@@ -448,7 +448,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     /// </summary>
     public bool BookmarkLine
     {
-      get => (bookmarLine);
+      get => bookmarLine;
       set
       {
         bookmarLine = value;
@@ -925,16 +925,25 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
     private void RemoveAllBookmarks_Click(object sender, RoutedEventArgs e)
     {
-      if(sender.GetType() != typeof(LogViewerControl))
+      if(!(sender is LogViewerControl))
       {
-        if(sender.GetType() != typeof(MenuItem))
+        if(!(sender is MenuItem))
           return;
       }
-      if(sender.GetType() != typeof(MenuItem))
-      {
-        if(sender.GetType() != typeof(LogViewerControl))
-          return;
-      }
+
+      if(!(sender is MenuItem))
+        return;
+
+      //if(sender.GetType() != typeof(LogViewerControl))
+      //{
+      //  if(sender.GetType() != typeof(MenuItem))
+      //    return;
+      //}
+      //if(sender.GetType() != typeof(MenuItem))
+      //{
+      //  if(sender.GetType() != typeof(LogViewerControl))
+      //    return;
+      //}
 
       var bookmarkItems = LogEntries.Where(item => item.BookmarkPoint != null);
 
@@ -1352,8 +1361,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       {
         DependencyObject child = VisualTreeHelper.GetChild(obj, i);
 
-        if(child is TChildItem)
-          return ((TChildItem) child);
+        if(child is TChildItem chld)
+          return (chld);
 
         TChildItem childOfChild = FindVisualChild<TChildItem>(child);
 

@@ -11,9 +11,9 @@
              d:DesignHeight="300" d:DesignWidth="300"  x:Name="LogViewerProperty">
   <UserControl.Resources>
     <ResourceDictionary>
-      <!--<ResourceDictionary.MergedDictionaries>
+      <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../../Resources/ScrollbarWithGripResources.xaml"/>
-      </ResourceDictionary.MergedDictionaries>-->
+      </ResourceDictionary.MergedDictionaries>
 
       <conv:BoolToTextWrapConverter x:Key="BoolToTextWrap" />
       <conv:BoolToScrollbarVisibilityConverter x:Key="BoolToScrollbarVisibility" />

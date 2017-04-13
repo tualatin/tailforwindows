@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Markup;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -38,6 +39,9 @@ using System.Windows;
                                               // app, or any theme specific resource dictionaries)
 )]
 
+#if DEBUG
+[assembly: XmlnsDefinition("debug-mode", "Namespace")]
+#endif
 
 // Version information for an assembly consists of the following four values:
 //

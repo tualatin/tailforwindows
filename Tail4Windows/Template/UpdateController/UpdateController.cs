@@ -129,12 +129,21 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     private class VersionComparer : IComparer<Version>
     {
+      /// <summary>
+      /// Compares two versions
+      /// </summary>
+      /// <param name="x">Version X</param>
+      /// <param name="y">Version Y</param>
+      /// <returns>A signed integer that indicates the relative values of x and y, as shown in the following table.</returns>
       public int Compare(Version x, Version y)
       {
         var xVersion = x;
         var yVersion = y;
 
-        return (xVersion.CompareTo(yVersion));
+        if(xVersion != null)
+          return (xVersion.CompareTo(yVersion));
+
+        return (-1);
       }
     }
   }
