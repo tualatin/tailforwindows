@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Timers;
+using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
@@ -68,14 +69,15 @@ namespace Org.Vs.TailForWin.Utils
         {
           System.Threading.Thread staThread = new System.Threading.Thread(() =>
           {
-            ResultDialog rd = new ResultDialog(LogFile.APPLICATION_CAPTION, updater.HaveToUpdate, updater.UpdateURL);
-
-            rd.Dispatcher.Invoke(new Action(() =>
+            Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
             {
-              rd.WebVersion = updater.WebVersion;
-              rd.ApplicationVersion = updater.AppVersion;
-              rd.Topmost = true;
-              rd.ShowInTaskbar = true;
+              ResultDialog rd = new ResultDialog(LogFile.APPLICATION_CAPTION, updater.HaveToUpdate, updater.UpdateURL)
+              {
+                WebVersion = updater.WebVersion,
+                ApplicationVersion = updater.AppVersion,
+                Topmost = true,
+                ShowInTaskbar = true
+              };
 
               System.Windows.Window temp = new System.Windows.Window
               {
@@ -88,8 +90,7 @@ namespace Org.Vs.TailForWin.Utils
               rd.Owner = temp;
 
               rd.ShowDialog();
-
-            }), System.Windows.Threading.DispatcherPriority.Normal);
+            }), DispatcherPriority.Normal);
           })
           {
             Name = $"{LogFile.APPLICATION_CAPTION}_AutoUpdateThread",

@@ -1,5 +1,8 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    mc:Ignorable="po">
 
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="Shared.xaml" />
@@ -14,13 +17,13 @@
         <ControlTemplate TargetType="Label">
           <Border>
             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                              RecognizesAccessKey="True"/>
+                              RecognizesAccessKey="True" />
           </Border>
           <ControlTemplate.Triggers>
             <Trigger Property="IsEnabled" Value="false">
               <Setter Property="Foreground">
                 <Setter.Value>
-                  <SolidColorBrush Color="{DynamicResource DisabledForegroundColor}"/>
+                  <SolidColorBrush po:Freeze="True" Color="#CACBD3"/>
                 </Setter.Value>
               </Setter>
             </Trigger>

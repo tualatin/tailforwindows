@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     public ResultDialog(string applicationName, bool update, string updUrl)
     {
       InitializeComponent();
-      Title = string.Format("{0} Update", applicationName);
+      Title = $"{applicationName} Update";
 
       doUpdate = update;
       updateUrl = updUrl;
@@ -57,18 +57,11 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-      if(doUpdate)
-        btnOk.IsEnabled = true;
-      else
-        btnOk.IsEnabled = false;
+      BtnOk.IsEnabled = doUpdate;
+      LabelLocalVersion.Content = ApplicationVersion;
+      LabelWebVersion.Content = WebVersion;
 
-      labelLocalVersion.Content = ApplicationVersion;
-      labelWebVersion.Content = WebVersion;
-
-      if(doUpdate)
-        labelUpdate.Content = Application.Current.FindResource("DoUpdate");
-      else
-        labelUpdate.Content = Application.Current.FindResource("NoUpdate");
+      LabelUpdate.Content = Application.Current.FindResource(doUpdate ? "DoUpdate" : "NoUpdate");
     }
 
     private void HandleEsc(object sender, KeyEventArgs e)
@@ -86,25 +79,11 @@ namespace Org.Vs.TailForWin.Template.UpdateController
       Close();
     }
 
-    //private static IntPtr FindWindow (string title)
-    //{
-    //  Process[] tempProcesses = Process.GetProcesses ( );
-
-    //  foreach (Process proc in tempProcesses)
-    //  {
-    //    if (proc.MainWindowTitle == title)
-    //    {
-    //      return (proc.MainWindowHandle);
-    //    }
-    //  }
-    //  return (IntPtr.Zero);
-    //}
-
     #endregion
 
     private void btnOK_Click(object sender, RoutedEventArgs e)
     {
-      updateUrl = string.Format("{0}/tag/{1}", updateUrl, WebVersion);
+      updateUrl = $"{updateUrl}/tag/{WebVersion}";
       Process.Start(updateUrl);
       OnExit();
     }

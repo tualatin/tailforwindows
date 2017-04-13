@@ -21,27 +21,29 @@
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="90" />
       </Grid.ColumnDefinitions>
-      <Button Content="Go Webside" Height="23" HorizontalAlignment="Right" Margin="0,0,5,0" Name="btnOk" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="0" Click="btnOK_Click" TabIndex="2" />
-      <Button Content="Close" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnCancel" VerticalAlignment="Center" Width="75" Grid.Row="1" Grid.Column="1" Click="btnCancel_Click" TabIndex="3" />
+      <Button Content="Go Webside" Height="23" HorizontalAlignment="Right" Margin="0,0,5,0" Name="BtnOk" VerticalAlignment="Center" Width="75" Grid.Column="0" 
+              Click="btnOK_Click" TabIndex="2" />
+      <Button Content="Close" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Center" Width="75" Grid.Column="1" Click="btnCancel_Click" TabIndex="3" />
     </Grid>
-    <Image Height="48" Name="image1" Stretch="Fill" VerticalAlignment="Center" Width="48" Source="/TailForWin;component/Template/UpdateController/Res/local.ico" HorizontalAlignment="Center" />
+    <Image Height="48" Stretch="Fill" VerticalAlignment="Center" Width="48" Source="/TailForWin;component/Template/UpdateController/Res/local.ico" HorizontalAlignment="Center" />
     <Grid Grid.Column="1">
       <Grid.RowDefinitions>
         <RowDefinition Height="*" />
         <RowDefinition Height="*" />
       </Grid.RowDefinitions>
-      <Label Content="Local version:" Name="label1" />
-      <Label Content="Label" Name="labelLocalVersion" Grid.Row="1" />
+      <Label Content="Local version:"/>
+      <Label Content="Label" Name="LabelLocalVersion" Grid.Row="1" />
     </Grid>
     <Grid Grid.Column="3">
       <Grid.RowDefinitions>
         <RowDefinition Height="*" />
         <RowDefinition Height="*" />
       </Grid.RowDefinitions>
-      <Label Content="Web version:" Name="label2" />
-      <Label Content="Label" Name="labelWebVersion" Grid.Row="1" />
+      <Label Content="Web version:"/>
+      <Label Content="Label" Name="LabelWebVersion" Grid.Row="1" />
     </Grid>
-    <Image Grid.Column="4" Height="48" HorizontalAlignment="Center" Name="image2" Stretch="Fill" VerticalAlignment="Center" Width="48" Source="/TailForWin;component/Template/UpdateController/Res/internet.ico" />
-    <Label Content="Label" Grid.ColumnSpan="3" Grid.Row="1" Name="labelUpdate" FontWeight="Bold" FontSize="13" Grid.Column="1" />
+    <Image Grid.Column="4" Height="48" HorizontalAlignment="Center" Stretch="Fill" VerticalAlignment="Center" Width="48" 
+           Source="/TailForWin;component/Template/UpdateController/Res/internet.ico" />
+    <Label Content="Label" Grid.ColumnSpan="3" Grid.Row="1" Name="LabelUpdate" FontWeight="Bold" FontSize="13" Grid.Column="1" />
   </Grid>
 </Window>
