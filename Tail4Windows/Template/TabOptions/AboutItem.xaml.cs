@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 #if DEBUG
       string channel = "debug";
 #elif RELEASE
-      string channgel = "release";
+      string channel = "release";
 #endif
 
       Assembly assembly = Assembly.GetExecutingAssembly();
