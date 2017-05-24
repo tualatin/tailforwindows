@@ -378,7 +378,7 @@ namespace Org.Vs.TailForWin.Data
     /// <returns>A new object that is a copy of this instance.</returns>
     public object Clone()
     {
-      return (MemberwiseClone());
+      return MemberwiseClone();
     }
   }
 }

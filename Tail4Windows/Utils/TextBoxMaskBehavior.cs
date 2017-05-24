@@ -28,7 +28,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>Minimum value</returns>
     public static double GetMinimumValue(DependencyObject obj)
     {
-      return ((double) obj.GetValue(MinimumValueProperty));
+      return (double) obj.GetValue(MinimumValueProperty);
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ namespace Org.Vs.TailForWin.Utils
 
     private static void MinimumValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      TextBox tb = (d as TextBox);
+      TextBox tb = d as TextBox;
       ValidateTextBox(tb);
     }
 
@@ -52,7 +52,7 @@ namespace Org.Vs.TailForWin.Utils
 
     public static double GetMaximumValue(DependencyObject obj)
     {
-      return ((double) obj.GetValue(MaximumValueProperty));
+      return (double) obj.GetValue(MaximumValueProperty);
     }
 
     public static void SetMaximumValue(DependencyObject obj, double value)
@@ -62,7 +62,7 @@ namespace Org.Vs.TailForWin.Utils
 
     private static void MaximumValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      TextBox tb = (d as TextBox);
+      TextBox tb = d as TextBox;
       ValidateTextBox(tb);
     }
 
@@ -71,7 +71,7 @@ namespace Org.Vs.TailForWin.Utils
 
     public static EMaskType GetMask(DependencyObject obj)
     {
-      return ((EMaskType) obj.GetValue(MaskProperty));
+      return (EMaskType) obj.GetValue(MaskProperty);
     }
 
     public static void SetMask(DependencyObject obj, EMaskType value)
@@ -89,7 +89,7 @@ namespace Org.Vs.TailForWin.Utils
         DataObject.RemovePastingHandler(textBox, TextBoxPastingEventHandler);
       }
 
-      TextBox tb = (d as TextBox);
+      TextBox tb = d as TextBox;
 
       if(tb == null)
         return;
@@ -115,7 +115,7 @@ namespace Org.Vs.TailForWin.Utils
 
     private static void TextBoxPastingEventHandler(object sender, DataObjectPastingEventArgs e)
     {
-      TextBox tb = (sender as TextBox);
+      TextBox tb = sender as TextBox;
       string clipboard = e.DataObject.GetData(typeof(string)) as string;
       clipboard = ValidateValue(GetMask(tb), clipboard);
 
@@ -131,7 +131,7 @@ namespace Org.Vs.TailForWin.Utils
 
     private static void TextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
     {
-      TextBox tb = (sender as TextBox);
+      TextBox tb = sender as TextBox;
       bool isValid = IsSymbolValid(GetMask(tb), e.Text);
       e.Handled = !isValid;
 
@@ -208,7 +208,7 @@ namespace Org.Vs.TailForWin.Utils
 
         if(!textInserted)
         {
-          text = text.Substring(0, caret) + e.Text + ((caret < tb.Text.Length) ? text.Substring(caret) : string.Empty);
+          text = text.Substring(0, caret) + e.Text + (caret < tb.Text.Length ? text.Substring(caret) : string.Empty);
 
           caret++;
         }
@@ -273,7 +273,7 @@ namespace Org.Vs.TailForWin.Utils
     private static string ValidateValue(EMaskType mask, string value)
     {
       if(string.IsNullOrEmpty(value))
-        return (string.Empty);
+        return string.Empty;
 
       value = value.Trim();
 
@@ -285,13 +285,13 @@ namespace Org.Vs.TailForWin.Utils
         {
           Convert.ToInt64(value);
 
-          return (value);
+          return value;
         }
         catch
         {
           LOG.Error("{0} can not convert value '{1}' to integer", System.Reflection.MethodBase.GetCurrentMethod().Name, value);
         }
-        return (string.Empty);
+        return string.Empty;
 
       case EMaskType.Decimal:
 
@@ -299,15 +299,15 @@ namespace Org.Vs.TailForWin.Utils
         {
           Convert.ToDouble(value);
 
-          return (value);
+          return value;
         }
         catch
         {
           LOG.Error("{0} can not convert value '{1}' to decimal", System.Reflection.MethodBase.GetCurrentMethod().Name, value);
         }
-        return (string.Empty);
+        return string.Empty;
       }
-      return (value);
+      return value;
     }
 
     private static double ValidateLimits(double min, double max, double value)
@@ -315,13 +315,13 @@ namespace Org.Vs.TailForWin.Utils
       if(!min.Equals(double.NaN))
       {
         if(value < min)
-          return (min);
+          return min;
       }
 
       if(max.Equals(double.NaN))
-        return (value);
+        return value;
 
-      return (value > max ? (max) : (value));
+      return value > max ? max : value;
     }
 
     private static bool IsSymbolValid(EMaskType mask, string str)
@@ -330,12 +330,12 @@ namespace Org.Vs.TailForWin.Utils
       {
       case EMaskType.Any:
 
-        return (true);
+        return true;
 
       case EMaskType.Integer:
 
         if(string.CompareOrdinal(str, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
-          return (true);
+          return true;
 
         break;
 
@@ -343,15 +343,15 @@ namespace Org.Vs.TailForWin.Utils
 
         if(string.CompareOrdinal(str, NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) == 0 ||
             string.CompareOrdinal(str, NumberFormatInfo.CurrentInfo.NegativeSign) == 0)
-          return (true);
+          return true;
 
         break;
       }
 
       if(!(mask.Equals(EMaskType.Integer) || mask.Equals(EMaskType.Decimal)))
-        return (false);
+        return false;
 
-      return (str.All(Char.IsDigit));
+      return str.All(Char.IsDigit);
     }
 
     #endregion

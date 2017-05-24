@@ -65,7 +65,7 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     public ObservableDictionary<string, string> SearchWords
     {
-      get => (searchWords);
+      get => searchWords;
       set
       {
         searchWords = value;
@@ -76,7 +76,7 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// Wrap search active
     /// </summary>
-    public bool WrapSearch => (historyStructure.Wrap);
+    public bool WrapSearch => historyStructure.Wrap;
 
 
     /// <summary>
@@ -235,7 +235,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void SetFocusToTextBox()
     {
-      var textBox = (comboBoxWordToFind.Template.FindName("PART_EditableTextBox", comboBoxWordToFind) as TextBox);
+      var textBox = comboBoxWordToFind.Template.FindName("PART_EditableTextBox", comboBoxWordToFind) as TextBox;
 
       if(textBox == null)
         return;
@@ -270,7 +270,7 @@ namespace Org.Vs.TailForWin.Template
         }
         break;
       }
-      return (IntPtr.Zero);
+      return IntPtr.Zero;
     }
 
     private void RegisterHotKey()

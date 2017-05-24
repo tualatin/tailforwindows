@@ -19,7 +19,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>Target window</returns>
     public static Window GetTargetWindow(DependencyObject sender)
     {
-      return ((Window) sender.GetValue(TargetWindow));
+      return (Window) sender.GetValue(TargetWindow);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>UIEelement</returns>
     public static UIElement GetLeftButtonShowAt(DependencyObject sender)
     {
-      return ((UIElement) sender.GetValue(LeftButtonShowAt));
+      return (UIElement) sender.GetValue(LeftButtonShowAt);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>If right button is shown <c>true</c> otherwise <c>false</c></returns>
     public static bool GetRightButtonShow(DependencyObject sender)
     {
-      return ((bool) sender.GetValue(RightButtonShow));
+      return (bool) sender.GetValue(RightButtonShow);
     }
 
     /// <summary>

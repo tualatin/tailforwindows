@@ -17,7 +17,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>Execute command</returns>
     public static ICommand GetExecuteCommand(DependencyObject sender)
     {
-      return ((ICommand) sender.GetValue(ExecuteCommand));
+      return (ICommand) sender.GetValue(ExecuteCommand);
     }
 
     /// <summary>

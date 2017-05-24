@@ -29,9 +29,9 @@ namespace Org.Vs.TailForWin.Converters
         int count = ((ObservableCollection<FilterData>) value).Count;
         string title = count == 1 ? Application.Current.FindResource("FilterLoaded").ToString() : Application.Current.FindResource("FiltersLoaded").ToString();
 
-        return (string.Format(title, count));
+        return string.Format(title, count);
       }
-      return (string.Format(Application.Current.FindResource("FiltersLoaded").ToString(), 0));
+      return string.Format(Application.Current.FindResource("FiltersLoaded").ToString(), 0);
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>Back converted value</returns>
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      return (null);
+      return null;
     }
 
     #endregion

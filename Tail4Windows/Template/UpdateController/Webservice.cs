@@ -48,15 +48,15 @@ namespace Org.Vs.TailForWin.Template.UpdateController
         }
 
         if(!string.IsNullOrWhiteSpace(html))
-          return (true);
+          return true;
 
-        return (false);
+        return false;
       }
       catch(Exception ex)
       {
         UserErrorException.HandleUserException(ex);
       }
-      return (false);
+      return false;
     }
 
     #region HelperFunctions

@@ -20,9 +20,9 @@ namespace Org.Vs.TailForWin.Converters.MultiConverters
       {
         double width = tabControl.ActualWidth / tabControl.Items.Count;
 
-        return ((width <= 1) ? 0 : (width - 1));
+        return width <= 1 ? 0 : width - 1;
       }
-      return (0);
+      return 0;
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)

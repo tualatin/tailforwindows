@@ -25,7 +25,7 @@ namespace Org.Vs.TailForWin.Data
     {
       get
       {
-        return (bringToFront);
+        return bringToFront;
       }
       set
       {
@@ -43,7 +43,7 @@ namespace Org.Vs.TailForWin.Data
     {
       get
       {
-        return (popupWnd);
+        return popupWnd;
       }
       set
       {
@@ -61,7 +61,7 @@ namespace Org.Vs.TailForWin.Data
     {
       get
       {
-        return (playSoundFile);
+        return playSoundFile;
       }
       set
       {
@@ -79,7 +79,7 @@ namespace Org.Vs.TailForWin.Data
     {
       get
       {
-        return (sendEMail);
+        return sendEMail;
       }
       set
       {
@@ -97,7 +97,7 @@ namespace Org.Vs.TailForWin.Data
     {
       get
       {
-        return (soundFileNameFullPath);
+        return soundFileNameFullPath;
       }
       set
       {
@@ -116,7 +116,7 @@ namespace Org.Vs.TailForWin.Data
     {
       get
       {
-        return (soundFileName);
+        return soundFileName;
       }
       set
       {
@@ -134,7 +134,7 @@ namespace Org.Vs.TailForWin.Data
     {
       get
       {
-        return (emailAddress);
+        return emailAddress;
       }
       set
       {

@@ -23,17 +23,7 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <summary>
     /// Current instance of DragWindowManager
     /// </summary>
-    public static DragWindowManager Instance
-    {
-      get
-      {
-        if(instance == null)
-          instance = new DragWindowManager();
-
-        return (instance);
-
-      }
-    }
+    public static DragWindowManager Instance => instance ?? (instance = new DragWindowManager());
 
     /// <summary>
     /// List of all Drag and drap tab windows

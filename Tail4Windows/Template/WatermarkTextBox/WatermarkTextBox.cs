@@ -29,7 +29,7 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
     {
       get
       {
-        return ((bool) GetValue(SelectAllOnGotFocusProperty));
+        return (bool) GetValue(SelectAllOnGotFocusProperty);
       }
       set
       {
@@ -49,7 +49,7 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
     {
       get
       {
-        return (GetValue(WatermarkProperty));
+        return GetValue(WatermarkProperty);
       }
       set
       {
@@ -69,7 +69,7 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
     {
       get
       {
-        return ((DataTemplate) GetValue(WatermarkTemplateProperty));
+        return (DataTemplate) GetValue(WatermarkTemplateProperty);
       }
       set
       {

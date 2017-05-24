@@ -29,7 +29,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// </summary>
     public event EventHandler SaveSettings;
 
-    private string sendToLnkName;
+    private readonly string sendToLnkName;
 
 
     /// <summary>
@@ -182,10 +182,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void Rename_BtnSendTo()
     {
-      if(File.Exists(sendToLnkName))
-        btnSendToMenu.Content = "Remove 'SendTo'";
-      else
-        btnSendToMenu.Content = "Add 'SendTo'";
+      btnSendToMenu.Content = File.Exists(sendToLnkName) ? "Remove 'SendTo'" : "Add 'SendTo'";
     }
 
     private void SetControls()

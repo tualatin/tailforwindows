@@ -70,7 +70,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
             try
             {
               string result;
-              using(StreamReader reader = new StreamReader(response.GetResponseStream(), (string.IsNullOrEmpty(response.ContentEncoding) ? Encoding.UTF8 : Encoding.GetEncoding(response.ContentEncoding))))
+              using(StreamReader reader = new StreamReader(response.GetResponseStream(), string.IsNullOrEmpty(response.ContentEncoding) ? Encoding.UTF8 : Encoding.GetEncoding(response.ContentEncoding)))
               {
                 result = reader.ReadToEnd();
               }

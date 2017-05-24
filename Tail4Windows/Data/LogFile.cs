@@ -123,7 +123,7 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// MainWindow reference from TfW
     /// </summary>
-    public static UI.TabWindow APP_MAIN_WINDOW = (Application.Current.MainWindow as UI.TabWindow);
+    public static UI.TabWindow APP_MAIN_WINDOW = Application.Current.MainWindow as UI.TabWindow;
 
     /// <summary>
     /// Max open tabs in TfW
@@ -150,11 +150,11 @@ namespace Org.Vs.TailForWin.Data
       fileName = string.Empty;
 
       if(result != true)
-        return (false);
+        return false;
 
       fileName = openDialog.FileName;
 
-      return (true);
+      return true;
     }
 
     /// <summary>
@@ -231,12 +231,12 @@ namespace Org.Vs.TailForWin.Data
         const int result = 0;
 
         if(!(x is EncodingInfo) || !(y is EncodingInfo))
-          return (result);
+          return result;
 
         var xEncodingInfo = x as EncodingInfo;
         var yEncodingInfo = y as EncodingInfo;
 
-        return ((new CaseInsensitiveComparer()).Compare(xEncodingInfo.Name, yEncodingInfo.Name));
+        return new CaseInsensitiveComparer().Compare(xEncodingInfo.Name, yEncodingInfo.Name);
       }
     }
 
@@ -248,7 +248,7 @@ namespace Org.Vs.TailForWin.Data
     /// <returns><c>True</c> if exists, otherwise <c>False</c></returns>
     public static bool FindDuplicateInFilterList(ObservableCollection<FilterData> listOfFilters, FilterData newItem)
     {
-      return (listOfFilters.Any(item => String.Compare(item.Filter, newItem.Filter, StringComparison.Ordinal) == 0));
+      return listOfFilters.Any(item => String.Compare(item.Filter, newItem.Filter, StringComparison.Ordinal) == 0);
     }
   }
 }

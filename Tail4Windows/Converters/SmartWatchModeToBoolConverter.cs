@@ -24,11 +24,11 @@ namespace Org.Vs.TailForWin.Converters
       if(value is ESmartWatchMode mode)
       {
         if(mode == ESmartWatchMode.Manual)
-          return (false);
+          return false;
 
-        return (true);
+        return true;
       }
-      return (false);
+      return false;
     }
 
     /// <summary>

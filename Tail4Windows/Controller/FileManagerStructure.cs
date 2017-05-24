@@ -51,7 +51,7 @@ namespace Org.Vs.TailForWin.Controller
     {
       get
       {
-        return (category);
+        return category;
       }
       set
       {
@@ -67,7 +67,7 @@ namespace Org.Vs.TailForWin.Controller
     {
       get
       {
-        return (fmProperties);
+        return fmProperties;
       }
     }
 
@@ -245,7 +245,7 @@ namespace Org.Vs.TailForWin.Controller
         System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("FileNotFound").ToString(),
           $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
-        return (null);
+        return null;
       }
 
       if(fmProperties.Count == 0)
@@ -253,7 +253,7 @@ namespace Org.Vs.TailForWin.Controller
         System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("NoContentFound").ToString(),
           $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
-        return (null);
+        return null;
       }
 
       if(!Guid.TryParse(id, out Guid iid))
@@ -262,7 +262,7 @@ namespace Org.Vs.TailForWin.Controller
       if(iid != Guid.Empty)
         cmdParameterItem = fmProperties.Find(o => o.ID == iid);
 
-      return (cmdParameterItem);
+      return cmdParameterItem;
     }
 
     /// <summary>
@@ -321,22 +321,22 @@ namespace Org.Vs.TailForWin.Controller
       {
         if(fmDoc.Root != null)
         {
-          XElement node = (fmDoc.Root.Descendants(XmlStructure.File).Where(x =>
-                   {
-                     var element = x.Element(XmlStructure.Id);
-                     return (element != null && String.Compare(element.Value, property.ID.ToString(), false) == 0);
-                   })).SingleOrDefault();
+          XElement node = fmDoc.Root.Descendants(XmlStructure.File).Where(x =>
+          {
+            var element = x.Element(XmlStructure.Id);
+            return element != null && String.Compare(element.Value, property.ID.ToString(), false) == 0;
+          }).SingleOrDefault();
 
           if(node == null)
           {
             // migrate old Id to new Guid
             if(property.OldId >= 0)
             {
-              node = (fmDoc.Root.Descendants(XmlStructure.File).Where(x =>
+              node = fmDoc.Root.Descendants(XmlStructure.File).Where(x =>
               {
                 var element = x.Element(XmlStructure.Id);
-                return (element != null && String.Compare(element.Value, property.OldId.ToString(CultureInfo.InvariantCulture), false) == 0);
-              })).SingleOrDefault();
+                return element != null && String.Compare(element.Value, property.OldId.ToString(CultureInfo.InvariantCulture), false) == 0;
+              }).SingleOrDefault();
 
               if(node != null)
               {
@@ -516,23 +516,23 @@ namespace Org.Vs.TailForWin.Controller
           fmDoc.Root.Descendants(XmlStructure.File).Where(x =>
                                                {
                                                  var xElement = x.Element(XmlStructure.Id);
-                                                 return (xElement != null && String.Compare(xElement.Value, property.ID.ToString(), false) == 0);
+                                                 return xElement != null && String.Compare(xElement.Value, property.ID.ToString(), false) == 0;
                                                }).Remove();
         fmDoc.Save(@fmFile, SaveOptions.None);
 
-        return (true);
+        return true;
       }
       catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        return (false);
+        return false;
       }
     }
 
     private XElement AddNode(FileManagerData fmProperty)
     {
       if(fmProperty == null)
-        return (null);
+        return null;
 
       try
       {
@@ -575,13 +575,13 @@ namespace Org.Vs.TailForWin.Controller
 
         file.Add(filters);
 
-        return (file);
+        return file;
       }
       catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
-      return (null);
+      return null;
     }
 
     #region HelperFunctions
@@ -643,11 +643,11 @@ namespace Org.Vs.TailForWin.Controller
       var xElement = root.Element(XmlStructure.Category);
 
       if(xElement == null)
-        return (null);
+        return null;
 
       string category = xElement.Value;
 
-      return (string.IsNullOrEmpty(category) ? (null) : (category));
+      return string.IsNullOrEmpty(category) ? null : category;
     }
 
     private Guid GetId(string sId, bool isFile = true)
@@ -655,7 +655,7 @@ namespace Org.Vs.TailForWin.Controller
       if(!Guid.TryParse(sId, out Guid id))
         id = Guid.NewGuid();
 
-      return (id);
+      return id;
     }
 
     private int GetOldId(string sId, bool isFile = true)
@@ -663,7 +663,7 @@ namespace Org.Vs.TailForWin.Controller
       if(!int.TryParse(sId, out int id))
         id = -1;
 
-      return (id);
+      return id;
     }
 
     private bool StringToBool(string boolean)
@@ -671,7 +671,7 @@ namespace Org.Vs.TailForWin.Controller
       if(!bool.TryParse(boolean, out bool outValue))
         outValue = false;
 
-      return (outValue);
+      return outValue;
     }
 
     private int StringToInt(string integer)
@@ -679,7 +679,7 @@ namespace Org.Vs.TailForWin.Controller
       if(!int.TryParse(integer, out int outValue))
         outValue = -1;
 
-      return (outValue);
+      return outValue;
     }
 
     private static Font GetFont(XContainer root)
@@ -687,7 +687,7 @@ namespace Org.Vs.TailForWin.Controller
       var xElement = root.Element(XmlStructure.Name);
 
       if(xElement == null)
-        return (null);
+        return null;
 
       string name = xElement.Value;
       FontStyle fs = FontStyle.Regular;
@@ -715,17 +715,17 @@ namespace Org.Vs.TailForWin.Controller
       fs |= bold ? FontStyle.Bold : FontStyle.Regular;
       fs |= italic ? FontStyle.Italic : FontStyle.Regular;
 
-      return (new Font(name, size, fs));
+      return new Font(name, size, fs);
     }
 
     private static System.Threading.ThreadPriority GetThreadPriority(string sThreadPriority)
     {
-      return (SettingsHelper.GetThreadPriority(sThreadPriority));
+      return SettingsHelper.GetThreadPriority(sThreadPriority);
     }
 
     private static ETailRefreshRate GetRefreshRate(string sRefreshRate)
     {
-      return (SettingsHelper.GetRefreshRate(sRefreshRate));
+      return SettingsHelper.GetRefreshRate(sRefreshRate);
     }
 
     private static Encoding GetEncoding(string sEncode)
@@ -741,7 +741,7 @@ namespace Org.Vs.TailForWin.Controller
         }
         encoding = Encoding.UTF8;
       }
-      return (encoding);
+      return encoding;
     }
 
     private XElement AddFilterToDoc(FilterData filter)
@@ -756,7 +756,7 @@ namespace Org.Vs.TailForWin.Controller
               new XElement(XmlStructure.Bold, filter.FilterFontType.Bold),
               new XElement(XmlStructure.Italic, filter.FilterFontType.Italic)));
 
-      return (docPart);
+      return docPart;
     }
 
     private FilterData GetFilter(XElement root)
@@ -764,22 +764,22 @@ namespace Org.Vs.TailForWin.Controller
       var xElement = root.Element(XmlStructure.Id);
 
       if(xElement != null && GetId(xElement.Value) == Guid.Empty)
-        return (null);
+        return null;
 
       var element = root.Element(XmlStructure.Id);
 
       if(element == null)
-        return (null);
+        return null;
 
       var xElement1 = root.Element(XmlStructure.FilterPattern);
 
       if(xElement1 == null)
-        return (null);
+        return null;
 
       var element1 = root.Element(XmlStructure.FilterName);
 
       if(element1 == null)
-        return (null);
+        return null;
 
       FilterData filter = new FilterData
       {
@@ -788,7 +788,7 @@ namespace Org.Vs.TailForWin.Controller
         Description = element1.Value,
         FilterFontType = GetFont(root.Element(XmlStructure.Font))
       };
-      return (filter);
+      return filter;
     }
 
     private Pattern GetPattern(XElement pattern)
@@ -797,14 +797,14 @@ namespace Org.Vs.TailForWin.Controller
       var patternIsRegex = pattern.Element(XmlStructure.IsRegex);
 
       if(patternIsRegex == null || patternString == null)
-        return (null);
+        return null;
 
       Pattern xmlPattern = new Pattern
       {
         PatternString = patternString.Value,
         IsRegex = StringToBool(patternIsRegex.Value)
       };
-      return (xmlPattern);
+      return xmlPattern;
     }
 
     private XElement AddFiltersToRoot(ObservableCollection<FilterData> filters)
@@ -815,7 +815,7 @@ namespace Org.Vs.TailForWin.Controller
       {
         filtersElement.Add(AddFilterToDoc(item));
       }
-      return (filtersElement);
+      return filtersElement;
     }
 
     private XElement AddSearchPatternToDoc(Pattern pattern)
@@ -825,7 +825,7 @@ namespace Org.Vs.TailForWin.Controller
       patternElement.Add(new XElement(XmlStructure.IsRegex, pattern.IsRegex));
       patternElement.Add(new XElement(XmlStructure.PatternString, pattern.PatternString));
 
-      return (patternElement);
+      return patternElement;
     }
 
     #endregion

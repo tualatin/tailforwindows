@@ -23,14 +23,14 @@ namespace Org.Vs.TailForWin.Converters
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if(value == null)
-        return (null);
+        return null;
 
       if(string.IsNullOrEmpty(value as string))
-        return (string.Empty);
+        return string.Empty;
 
       string s = ((string) value).Trim();
 
-      return (s);
+      return s;
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>Object</returns>
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      return (value);
+      return value;
     }
 
     #endregion

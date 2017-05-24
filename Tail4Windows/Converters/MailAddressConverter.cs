@@ -14,16 +14,16 @@ namespace Org.Vs.TailForWin.Converters
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if(!(value is string))
-        return (string.Empty);
+        return string.Empty;
 
       string eMailAddress = (string) value;
 
-      return (string.Compare(eMailAddress, "NoMail", StringComparison.Ordinal) == 0 ? (string.Empty) : (eMailAddress));
+      return string.Compare(eMailAddress, "NoMail", StringComparison.Ordinal) == 0 ? string.Empty : eMailAddress;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      return (value);
+      return value;
     }
 
     #endregion

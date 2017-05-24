@@ -21,7 +21,7 @@ namespace Org.Vs.TailForWin.Logging
     {
       LoggerFactory.sourceName = scName;
 
-      return (new Logger(LoggerFactory.sourceName));
+      return new Logger(LoggerFactory.sourceName);
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ namespace Org.Vs.TailForWin.Logging
     {
       LoggerFactory.sourceType = scType;
 
-      return (GetLogger(LoggerFactory.sourceType.Name));
+      return GetLogger(LoggerFactory.sourceType.Name);
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ namespace Org.Vs.TailForWin.Logging
     {
       sourceType = typeof(T);
 
-      return (GetLogger(sourceType.Name));
+      return GetLogger(sourceType.Name);
     }
   }
 }

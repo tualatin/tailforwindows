@@ -238,7 +238,7 @@ namespace Org.Vs.TailForWin.Template
     /// </summary>
     public int SearchCount()
     {
-      return (textBlockTailLog.SearchResultCount);
+      return textBlockTailLog.SearchResultCount;
     }
 
     /// <summary>
@@ -300,7 +300,7 @@ namespace Org.Vs.TailForWin.Template
     /// <summary>
     /// Is textbox filename focued
     /// </summary>
-    public bool TextBoxFileNameIsFocused => (textBoxFileName.IsFocused);
+    public bool TextBoxFileNameIsFocused => textBoxFileName.IsFocused;
 
     /// <summary>
     /// Toggle always on top on/off
@@ -1121,7 +1121,7 @@ namespace Org.Vs.TailForWin.Template
     /// <returns>Pause or Record</returns>
     public string GetChildState()
     {
-      return (childTabState);
+      return childTabState;
     }
 
     /// <summary>
@@ -1130,7 +1130,7 @@ namespace Org.Vs.TailForWin.Template
     /// <returns>Guid of selected tab</returns>
     public Guid GetChildTabIndex()
     {
-      return (childTabIndex);
+      return childTabIndex;
     }
 
     /// <summary>
@@ -1193,9 +1193,9 @@ namespace Org.Vs.TailForWin.Template
     private int GetMinLineNumber()
     {
       if(textBlockTailLog.LogEntries.Count > 0)
-        return (textBlockTailLog.LogEntries[0].Index);
+        return textBlockTailLog.LogEntries[0].Index;
 
-      return (-1);
+      return -1;
     }
 
     /// <summary>
@@ -1205,9 +1205,9 @@ namespace Org.Vs.TailForWin.Template
     private int GetMaxLineNumber()
     {
       if(textBlockTailLog.LogEntries.Count > 0)
-        return (textBlockTailLog.LogEntries[textBlockTailLog.LogEntries.Count - 1].Index);
+        return textBlockTailLog.LogEntries[textBlockTailLog.LogEntries.Count - 1].Index;
 
-      return (-1);
+      return -1;
     }
 
     private void SetToolTipDetailText()
@@ -1330,7 +1330,7 @@ namespace Org.Vs.TailForWin.Template
       textBlockTailLog.TextEditorSearchHighlightBackground = SettingsHelper.TailSettings.GuiDefaultHighlightBackgroundColor;
       textBlockTailLog.TextEditorSearchHighlightForeground = SettingsHelper.TailSettings.GuiDefaultHighlightForegroundColor;
       textBlockTailLog.AlwaysScrollIntoView = SettingsHelper.TailSettings.AlwaysScrollToEnd;
-      textBlockTailLog.TextEditorSelectionColor = ((SolidColorBrush) (SettingsHelper.TailSettings.GuiDefaultHighlightColor)).Color;
+      textBlockTailLog.TextEditorSelectionColor = ((SolidColorBrush) SettingsHelper.TailSettings.GuiDefaultHighlightColor).Color;
 
       SoundPlay.InitSoundPlay(SettingsHelper.TailSettings.AlertSettings.SoundFileNameFullPath);
 
@@ -1508,13 +1508,13 @@ namespace Org.Vs.TailForWin.Template
 
         System.Drawing.Font textBox = new System.Drawing.Font(textBlockTailLog.FontFamily.Source, (float) textBlockTailLog.FontSize, fs);
 
-        return (textBox);
+        return textBox;
       }
       catch(ArgumentException ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
-      return (null);
+      return null;
     }
 
     private string GetFileNameFromDropData(DragEventArgs e)
@@ -1523,19 +1523,19 @@ namespace Org.Vs.TailForWin.Template
       {
         var dropData = e.Data.GetData(DataFormats.FileDrop);
 
-        return (dropData == null ? string.Empty : $"{((string[]) dropData)[0]}");
+        return dropData == null ? string.Empty : $"{((string[]) dropData)[0]}";
       }
       catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
-      return (string.Empty);
+      return string.Empty;
     }
 
     private bool FileIsOpenInOtherTab()
     {
       if(string.IsNullOrEmpty(currentFileName))
-        return (false);
+        return false;
 
       foreach(TabItem item in LogFile.APP_MAIN_WINDOW.TabControl.Items) // .TailTabItems)
       {
@@ -1549,12 +1549,12 @@ namespace Org.Vs.TailForWin.Template
               OnIsOpenInTabControl?.Invoke(item);
 
               currentFileName = string.Empty;
-              return (true);
+              return true;
             }
           }
         }
       }
-      return (false);
+      return false;
     }
 
     #endregion

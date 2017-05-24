@@ -633,7 +633,7 @@ namespace Org.Vs.TailForWin.Template
 
     private ICollectionView GetCurrentCollectionViewSource()
     {
-      return (CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource));
+      return CollectionViewSource.GetDefaultView(dataGridFiles.ItemsSource);
     }
 
     private void GridControlGroupByCategory(ICollectionView cvFmData)

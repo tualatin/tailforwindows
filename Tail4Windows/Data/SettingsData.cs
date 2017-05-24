@@ -710,9 +710,9 @@ namespace Org.Vs.TailForWin.Data
       {
         Color color = (Color) convertFromString;
 
-        return (new SolidColorBrush(color));
+        return new SolidColorBrush(color);
       }
-      return (Brushes.Black);
+      return Brushes.Black;
     }
 
     /// <summary>
@@ -728,7 +728,7 @@ namespace Org.Vs.TailForWin.Data
       if(attributes.Length > 0)
         return attributes[0].Description;
 
-      return (value.ToString());
+      return value.ToString();
     }
 
     /// <summary>

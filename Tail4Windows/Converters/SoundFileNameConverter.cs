@@ -15,14 +15,14 @@ namespace Org.Vs.TailForWin.Converters
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if(value is string)
-        return (string.Compare(((string) value), LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0 ? (string.Empty) : (value));
+        return string.Compare((string) value, LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0 ? string.Empty : value;
 
-      return (string.Empty);
+      return string.Empty;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      return (value);
+      return value;
     }
 
     #endregion

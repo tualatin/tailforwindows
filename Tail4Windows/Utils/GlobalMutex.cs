@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>If success than true otherwise false</returns>
     public static bool CreateMutext(string strName, bool bInitialOwned)
     {
-      return (CreateMutexWin32(strName, bInitialOwned));
+      return CreateMutexWin32(strName, bInitialOwned);
     }
 
     private static bool CreateMutexWin32(string strName, bool bInitialOwned)
@@ -37,14 +37,14 @@ namespace Org.Vs.TailForWin.Utils
         if(bMyMutex)
         {
           Mutexes.Add(new KeyValuePair<string, Mutex>(strName, m));
-          return (true);
+          return true;
         }
       }
       catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
-      return (false);
+      return false;
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>true if success otherwise false</returns>
     public static bool ReleaseMutex(string strName)
     {
-      return (ReleaseMutexWin32(strName));
+      return ReleaseMutexWin32(strName);
     }
 
     private static bool ReleaseMutexWin32(string strName)
@@ -80,9 +80,9 @@ namespace Org.Vs.TailForWin.Utils
 
         Mutexes.RemoveAt(item.Index);
 
-        return (true);
+        return true;
       }
-      return (false);
+      return false;
     }
 
     /// <summary>

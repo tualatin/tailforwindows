@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((string) GetValue(InfoTextProperty));
+        return (string) GetValue(InfoTextProperty);
       }
       set
       {
@@ -42,7 +42,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((string) GetValue(ApplicationTextProperty));
+        return (string) GetValue(ApplicationTextProperty);
       }
       set
       {
@@ -60,7 +60,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((string) GetValue(ToolTipDetailProperty));
+        return (string) GetValue(ToolTipDetailProperty);
       }
       set
       {

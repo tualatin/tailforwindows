@@ -18,8 +18,8 @@ namespace Org.Vs.TailForWin.Extensions
     /// <returns>If lists equal <c>True</c> otherwise <c>False</c></returns>
     internal static bool CompareGenericLists<T>(List<T> firstList, List<T> secondList)
     {
-      return (firstList.Count == secondList.Count // assumes unique values in each list
-          && new HashSet<T>(firstList).SetEquals(secondList));
+      return firstList.Count == secondList.Count // assumes unique values in each list
+             && new HashSet<T>(firstList).SetEquals(secondList);
     }
 
     /// <summary>
@@ -34,9 +34,9 @@ namespace Org.Vs.TailForWin.Extensions
       IEnumerable<T> result = first.Except(second);
 
       if(result.Any())
-        return (false);
+        return false;
 
-      return (true);
+      return true;
     }
   }
 }

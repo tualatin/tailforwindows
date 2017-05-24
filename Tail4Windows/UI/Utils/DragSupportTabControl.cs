@@ -50,7 +50,7 @@ namespace Org.Vs.TailForWin.UI.Utils
     public bool SwapTabItems(TabItem source, TabItem target)
     {
       if(source == null || target == null)
-        return (false);
+        return false;
 
       if(!target.Equals(source))
       {
@@ -63,9 +63,9 @@ namespace Org.Vs.TailForWin.UI.Utils
 
         tabControl.SelectedIndex = targetIndex;
 
-        return (true);
+        return true;
       }
-      return (false);
+      return false;
     }
 
     #region Events
@@ -136,7 +136,7 @@ namespace Org.Vs.TailForWin.UI.Utils
         {
           Point tabPos = PointToScreen(new Point(0, 0));
 
-          if(!((p.X >= tabPos.X && p.X <= (tabPos.X + ActualWidth) && p.Y >= tabPos.Y && p.Y <= (tabPos.Y + ActualHeight))))
+          if(!(p.X >= tabPos.X && p.X <= tabPos.X + ActualWidth && p.Y >= tabPos.Y && p.Y <= tabPos.Y + ActualHeight))
           {
             if(e.Source is TabItem item)
               UpdateWindowLocation(p.X - 50, p.Y - 10, item);

@@ -52,7 +52,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 #endif
 
       Assembly assembly = Assembly.GetExecutingAssembly();
-      labelBuildDate.Content = (BuildDate.GetBuildDateTime(assembly)).ToString("dd.MM.yyyy HH:mm:ss");
+      labelBuildDate.Content = BuildDate.GetBuildDateTime(assembly).ToString("dd.MM.yyyy HH:mm:ss");
       labelAppName.Content = LogFile.APPLICATION_CAPTION;
       labelVersion.Content = $"{assembly.GetName().Version} - {build} ({channel})";
       updater.ApplicationName = LogFile.APPLICATION_CAPTION;

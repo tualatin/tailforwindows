@@ -50,7 +50,7 @@ namespace Org.Vs.TailForWin.Utils
       memoryStream.Close();
       cryptoStream.Close();
 
-      return (Convert.ToBase64String(cipherTextBytes));
+      return Convert.ToBase64String(cipherTextBytes);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ namespace Org.Vs.TailForWin.Utils
       memoryStream.Close();
       cryptoStream.Close();
 
-      return (Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount));
+      return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount);
     }
   }
 }

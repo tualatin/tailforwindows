@@ -36,12 +36,12 @@ namespace Org.Vs.TailForWin.Controller
     public List<Pattern> ReadDefaultPatternFile()
     {
       if(!File.Exists(patternFile))
-        return (null);
+        return null;
 
       defaultPatternDoc = XDocument.Load(patternFile);
 
       if(defaultPatternDoc.Root == null)
-        return (null);
+        return null;
 
       List<Pattern> defaultPatterns = new List<Pattern>();
 
@@ -54,7 +54,7 @@ namespace Org.Vs.TailForWin.Controller
 
         defaultPatterns.Add(newPattern);
       }
-      return (defaultPatterns);
+      return defaultPatterns;
     }
 
     private Pattern GetPattern(XElement pattern)
@@ -63,14 +63,14 @@ namespace Org.Vs.TailForWin.Controller
       var patternIsRegex = pattern.Element(XmlStructure.IsRegex);
 
       if(patternIsRegex == null || patternString == null)
-        return (null);
+        return null;
 
       Pattern xmlPattern = new Pattern
       {
         PatternString = patternString.Value,
         IsRegex = StringToBool(patternIsRegex.Value)
       };
-      return (xmlPattern);
+      return xmlPattern;
     }
 
     private bool StringToBool(string boolean)
@@ -78,7 +78,7 @@ namespace Org.Vs.TailForWin.Controller
       if(!bool.TryParse(boolean, out bool outValue))
         outValue = false;
 
-      return (outValue);
+      return outValue;
     }
   }
 }

@@ -67,7 +67,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     /// </returns>
     public static bool GetEnabled(DependencyObject obj)
     {
-      return ((bool) obj.GetValue(EnabledProperty));
+      return (bool) obj.GetValue(EnabledProperty);
     }
 
     /// <summary>
@@ -127,7 +127,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
         T obj = child as T;
 
         if(obj != null)
-          return (obj);
+          return obj;
 
         // Add the children to the queue to search through later.
         for(int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
@@ -135,7 +135,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
           queue.Enqueue(VisualTreeHelper.GetChild(child, i));
         }
       }
-      return (null); // Not found.
+      return null; // Not found.
     }
 
     private bool Register()
@@ -143,7 +143,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       scrollContent = FindChild<ScrollContentPresenter>(listBox);
 
       if(scrollContent == null)
-        return (scrollContent != null);
+        return scrollContent != null;
 
       autoScroller = new AutoScroller(listBox);
       autoScroller.OffsetChanged += OnOffsetChanged;
@@ -163,7 +163,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       listBox.MouseLeftButtonDown += OnMouseLeftButtonDown;
 
       // Return success if we found the ScrollContentPresenter
-      return (scrollContent != null);
+      return scrollContent != null;
     }
 
     private void UnRegister()
@@ -207,11 +207,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     {
       Point mouse = e.GetPosition(scrollContent);
 
-      if((mouse.X >= 0) && (mouse.X < scrollContent.ActualWidth) &&
-          (mouse.Y >= 0) && (mouse.Y < scrollContent.ActualHeight))
+      if(mouse.X >= 0 && mouse.X < scrollContent.ActualWidth &&
+          mouse.Y >= 0 && mouse.Y < scrollContent.ActualHeight)
       {
-        if(((Keyboard.Modifiers & ModifierKeys.Control) == 0) &&
-            ((Keyboard.Modifiers & ModifierKeys.Shift) == 0))
+        if((Keyboard.Modifiers & ModifierKeys.Control) == 0 &&
+            (Keyboard.Modifiers & ModifierKeys.Shift) == 0)
           // Neither the shift key or control key is pressed, so
           // clear the selection.
           listBox.SelectedItems.Clear();
@@ -247,8 +247,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       // scroll bars for example).
       Point mouse = e.GetPosition(scrollContent);
 
-      if((mouse.X >= 0) && (mouse.X < scrollContent.ActualWidth) &&
-          (mouse.Y >= 0) && (mouse.Y < scrollContent.ActualHeight))
+      if(mouse.X >= 0 && mouse.X < scrollContent.ActualWidth &&
+          mouse.Y >= 0 && mouse.Y < scrollContent.ActualHeight)
         lbdEventArgs = e;
       else
         lbdEventArgs = null;
@@ -283,11 +283,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
         // The ListBox will try to capture the mouse unless something
         // else captures it.
         if(!Equals(Mouse.Captured, listBox)) // Mouse.Captured != listBox
-          return (false); // Something else wanted the mouse, let it keep it.
+          return false; // Something else wanted the mouse, let it keep it.
       }
 
       // Either there's nothing under the mouse or the element doesn't want the mouse.
-      return (scrollContent.CaptureMouse());
+      return scrollContent.CaptureMouse();
     }
 
     private void StopSelection()
@@ -308,8 +308,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       end = location;
 
       // Do we need to start a new selection?
-      if(((Keyboard.Modifiers & ModifierKeys.Control) == 0) &&
-          ((Keyboard.Modifiers & ModifierKeys.Shift) == 0))
+      if((Keyboard.Modifiers & ModifierKeys.Control) == 0 &&
+          (Keyboard.Modifiers & ModifierKeys.Shift) == 0)
         // Neither the shift key or control key is pressed, so
         // clear the selection.
         listBox.SelectedItems.Clear();
@@ -410,7 +410,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       /// <returns>A new point offset by the current scroll amount.</returns>
       public Point TranslatePoint(Point point)
       {
-        return (new Point(point.X - offset.X, point.Y - offset.Y));
+        return new Point(point.X - offset.X, point.Y - offset.Y);
       }
 
       /// <summary>
@@ -445,7 +445,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
         // a value between 0 (400ms) and 31 (33ms).
         const double ratio = (400.0 - 33.0) / 31.0;
 
-        return (400 - (int) (SystemParameters.KeyboardSpeed * ratio));
+        return 400 - (int) (SystemParameters.KeyboardSpeed * ratio);
       }
 
       private double CalculateOffset(int startIndex, int endIndex)
@@ -463,7 +463,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
             sum += container.Margin.Top + container.Margin.Bottom;
           }
         }
-        return (sum);
+        return sum;
       }
 
       private void OnScrollChanged(object sender, ScrollChangedEventArgs e)

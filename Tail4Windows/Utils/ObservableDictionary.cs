@@ -83,10 +83,10 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns><c>true</c> if the Dictionary&lt;TKey, TValue&gt; contains an element with the specified key; otherwise, <c>false</c>.</returns>
     public bool ContainsKey(TKey key)
     {
-      return (Dictionary.ContainsKey(key));
+      return Dictionary.ContainsKey(key);
     }
 
-    public ICollection<TKey> Keys => (Dictionary.Keys);
+    public ICollection<TKey> Keys => Dictionary.Keys;
 
     /// <summary>
     /// Remove key from Dictionary
@@ -106,19 +106,19 @@ namespace Org.Vs.TailForWin.Utils
         //OnCollectionChanged(NotifyCollectionChangedAction.Remove, new KeyValuePair<TKey, TValue>(key, value));
         OnCollectionChanged();
 
-      return (removed);
+      return removed;
     }
 
     public bool TryGetValue(TKey key, out TValue value)
     {
-      return (Dictionary.TryGetValue(key, out value));
+      return Dictionary.TryGetValue(key, out value);
     }
 
-    public ICollection<TValue> Values => (Dictionary.Values);
+    public ICollection<TValue> Values => Dictionary.Values;
 
     public TValue this[TKey key]
     {
-      get => (Dictionary[key]);
+      get => Dictionary[key];
       set => Insert(key, value, false);
     }
 
@@ -146,7 +146,7 @@ namespace Org.Vs.TailForWin.Utils
 
     public bool Contains(KeyValuePair<TKey, TValue> item)
     {
-      return (Dictionary.Contains(item));
+      return Dictionary.Contains(item);
     }
 
     public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
@@ -154,13 +154,13 @@ namespace Org.Vs.TailForWin.Utils
       Dictionary.CopyTo(array, arrayIndex);
     }
 
-    public int Count => (Dictionary.Count);
+    public int Count => Dictionary.Count;
 
-    public bool IsReadOnly => (Dictionary.IsReadOnly);
+    public bool IsReadOnly => Dictionary.IsReadOnly;
 
     public bool Remove(KeyValuePair<TKey, TValue> item)
     {
-      return (Remove(item.Key));
+      return Remove(item.Key);
     }
 
     #endregion
@@ -169,7 +169,7 @@ namespace Org.Vs.TailForWin.Utils
 
     public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
     {
-      return (Dictionary.GetEnumerator());
+      return Dictionary.GetEnumerator();
     }
 
     #endregion
@@ -178,7 +178,7 @@ namespace Org.Vs.TailForWin.Utils
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-      return (((IEnumerable) Dictionary).GetEnumerator());
+      return ((IEnumerable) Dictionary).GetEnumerator();
     }
 
     #endregion

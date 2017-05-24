@@ -23,10 +23,10 @@ namespace Org.Vs.TailForWin.Converters
       if(value is bool bValue)
       {
         if(bValue)
-          return ("Ungroup");
+          return "Ungroup";
 
       }
-      return ("Group by Category");
+      return "Group by Category";
     }
 
     /// <summary>

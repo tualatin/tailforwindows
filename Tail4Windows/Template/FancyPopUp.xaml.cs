@@ -29,7 +29,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((string) GetValue(PopUpAlertProperty));
+        return (string) GetValue(PopUpAlertProperty);
       }
       set
       {
@@ -50,7 +50,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((string) GetValue(PopUpAlertDetailProperty));
+        return (string) GetValue(PopUpAlertDetailProperty);
       }
       set
       {

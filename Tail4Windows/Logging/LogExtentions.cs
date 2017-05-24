@@ -274,7 +274,7 @@ namespace log4net
     /// <returns>If is enabled true, otherwise false</returns>
     public static bool IsTraceEnabled(this ILog log)
     {
-      return (log.Logger.IsEnabledFor(log4net.Core.Level.Trace));
+      return log.Logger.IsEnabledFor(log4net.Core.Level.Trace);
     }
 
     /// <summary>
@@ -284,7 +284,7 @@ namespace log4net
     /// <returns>If is enabled true, otherwise false</returns>
     public static bool IsVerboseEnabled(this ILog log)
     {
-      return (log.Logger.IsEnabledFor(log4net.Core.Level.Verbose));
+      return log.Logger.IsEnabledFor(log4net.Core.Level.Verbose);
     }
 
     /// <summary>
@@ -381,7 +381,7 @@ namespace log4net
 
     private static string FormatMessage(string message, params object[] args)
     {
-      return (args == null || args.Length < 1 ? message : String.Format(message, args));
+      return args == null || args.Length < 1 ? message : String.Format(message, args);
     }
   }
 }

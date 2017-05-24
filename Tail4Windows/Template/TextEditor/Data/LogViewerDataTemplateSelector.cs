@@ -58,19 +58,19 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Data
       {
       case TemplateData.TemplateStates.ShowDateTime:
 
-        return (DateTimeTemplate);
+        return DateTimeTemplate;
 
       case TemplateData.TemplateStates.ShowDateTimeLineNumber:
 
-        return (DateTimeLineNumbersTemplate);
+        return DateTimeLineNumbersTemplate;
 
       case TemplateData.TemplateStates.ShowLineNumber:
 
-        return (LineNumberTemplate);
+        return LineNumberTemplate;
 
       default:
 
-        return (DefaultTemplate);
+        return DefaultTemplate;
       }
     }
   }

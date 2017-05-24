@@ -19,11 +19,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Converters
         bool wrap = (bool) value;
 
         if(wrap)
-          return (ScrollBarVisibility.Disabled);
+          return ScrollBarVisibility.Disabled;
         else
-          return (ScrollBarVisibility.Auto);
+          return ScrollBarVisibility.Auto;
       }
-      return (ScrollBarVisibility.Auto);
+      return ScrollBarVisibility.Auto;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

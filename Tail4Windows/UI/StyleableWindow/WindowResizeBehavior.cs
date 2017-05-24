@@ -16,7 +16,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>Resized window</returns>
     public static Window GetTopLeftResize(DependencyObject sender)
     {
-      return ((Window) sender.GetValue(TopLeftResize));
+      return (Window) sender.GetValue(TopLeftResize);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>Resized window</returns>
     public static Window GetTopRightResize(DependencyObject sender)
     {
-      return ((Window) sender.GetValue(TopRightResize));
+      return (Window) sender.GetValue(TopRightResize);
     }
 
     /// <summary>
@@ -80,7 +80,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>Resized window</returns>
     public static Window GetBottomRightResize(DependencyObject sender)
     {
-      return ((Window) sender.GetValue(BottomRightResize));
+      return (Window) sender.GetValue(BottomRightResize);
     }
 
     /// <summary>
@@ -112,7 +112,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>Resized window</returns>
     public static Window GetBottomLeftResize(DependencyObject sender)
     {
-      return ((Window) sender.GetValue(BottomLeftResize));
+      return (Window) sender.GetValue(BottomLeftResize);
     }
 
     /// <summary>
@@ -144,7 +144,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>Resized window</returns>
     public static Window GetLeftResize(DependencyObject sender)
     {
-      return ((Window) sender.GetValue(LeftResize));
+      return (Window) sender.GetValue(LeftResize);
     }
 
     /// <summary>
@@ -176,7 +176,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>Resized window</returns>
     public static Window GetRightResize(DependencyObject sender)
     {
-      return ((Window) sender.GetValue(RightResize));
+      return (Window) sender.GetValue(RightResize);
     }
 
     /// <summary>
@@ -208,7 +208,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>Resized window</returns>
     public static Window GetTopResize(DependencyObject sender)
     {
-      return ((Window) sender.GetValue(TopResize));
+      return (Window) sender.GetValue(TopResize);
     }
 
     /// <summary>
@@ -240,7 +240,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>Resized window</returns>
     public static Window GetBottomResize(DependencyObject sender)
     {
-      return ((Window) sender.GetValue(BottomResize));
+      return (Window) sender.GetValue(BottomResize);
     }
 
     /// <summary>
@@ -400,15 +400,15 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
       var result = positive ? window.Width + change : window.Width - change;
 
       if(result <= window.MinWidth)
-        return (0);
+        return 0;
 
       if(result >= window.MaxWidth)
-        return (0);
+        return 0;
 
       if(result < 0)
-        return (0);
+        return 0;
 
-      return (change);
+      return change;
     }
 
     private static double SafeHeightChange(this Window window, double change, bool positive = true)
@@ -416,15 +416,15 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
       var result = positive ? window.Height + change : window.Height - change;
 
       if(result <= window.MinHeight)
-        return (0);
+        return 0;
 
       if(result >= window.MaxHeight)
-        return (0);
+        return 0;
 
       if(result < 0)
-        return (0);
+        return 0;
 
-      return (change);
+      return change;
     }
   }
 }

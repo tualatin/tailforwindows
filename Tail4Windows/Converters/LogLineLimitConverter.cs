@@ -24,9 +24,9 @@ namespace Org.Vs.TailForWin.Converters
       if(value is int iValue)
       {
         if(iValue > -1)
-          return (iValue);
+          return iValue;
       }
-      return (LogFile.UNLIMITED_LOG_LINE_VALUE);
+      return LogFile.UNLIMITED_LOG_LINE_VALUE;
     }
 
     /// <summary>
@@ -42,9 +42,9 @@ namespace Org.Vs.TailForWin.Converters
       if(value is double)
       {
         if((double) value < LogFile.UNLIMITED_LOG_LINE_VALUE)
-          return (value);
+          return value;
       }
-      return (-1);
+      return -1;
     }
   }
 }

@@ -135,13 +135,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       if(!IsInitialized)
         return;
 
-      string value;
-
-      if(e.NewValue == LogFile.UNLIMITED_LOG_LINE_VALUE)
-        value = "Unlimited";
-      else
-        value = $"{e.NewValue.ToString("N0")} lines";
-
+      var value = e.NewValue == LogFile.UNLIMITED_LOG_LINE_VALUE ? "Unlimited" : $"{e.NewValue:N0} lines";
       LblSliderValue.Content = value;
       e.Handled = true;
     }

@@ -144,8 +144,8 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
       }
 
       // Update the mouse cursor ellipse position
-      EllipsePixel.SetValue(Canvas.LeftProperty, (searchX - (EllipsePixel.Width / 2.0)));
-      EllipsePixel.SetValue(Canvas.TopProperty, (searchY - (EllipsePixel.Width / 2.0)));
+      EllipsePixel.SetValue(Canvas.LeftProperty, searchX - EllipsePixel.Width / 2.0);
+      EllipsePixel.SetValue(Canvas.TopProperty, searchY - EllipsePixel.Width / 2.0);
     }
 
     /// <summary>
@@ -157,7 +157,7 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
       int imageX = (int) Mouse.GetPosition(CanvasImage).X;
       int imageY = (int) Mouse.GetPosition(CanvasImage).Y;
 
-      if((imageX < 0) || (imageY < 0) || (imageX > ColorImage.Width - 1) || (imageY > ColorImage.Height - 1))
+      if(imageX < 0 || imageY < 0 || imageX > ColorImage.Width - 1 || imageY > ColorImage.Height - 1)
         return;
 
       // Get the single pixel under the mouse into a bitmap and copy it to a byte array
@@ -166,8 +166,8 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
       cb.CopyPixels(pixels, 4, 0);
 
       // Update the mouse cursor position and the Selected Color
-      EllipsePixel.SetValue(Canvas.LeftProperty, Mouse.GetPosition(CanvasImage).X - (EllipsePixel.Width / 2.0));
-      EllipsePixel.SetValue(Canvas.TopProperty, Mouse.GetPosition(CanvasImage).Y - (EllipsePixel.Width / 2.0));
+      EllipsePixel.SetValue(Canvas.LeftProperty, Mouse.GetPosition(CanvasImage).X - EllipsePixel.Width / 2.0);
+      EllipsePixel.SetValue(Canvas.TopProperty, Mouse.GetPosition(CanvasImage).Y - EllipsePixel.Width / 2.0);
       CanvasImage.InvalidateVisual();
 
       // Set the Selected Color based on the cursor pixel and Alpha Slider value
@@ -258,7 +258,7 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
     /// </summary>
     private void Swatch_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      Image img = (sender as Image);
+      Image img = sender as Image;
 
       if(img != null)
         ColorImage.Source = img.Source;

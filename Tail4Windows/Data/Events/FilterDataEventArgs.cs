@@ -38,7 +38,7 @@ namespace Org.Vs.TailForWin.Data.Events
     /// <returns>FilterData object</returns>
     public FilterData GetData()
     {
-      return (filterData);
+      return filterData;
     }
   }
 }

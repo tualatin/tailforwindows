@@ -255,7 +255,7 @@ namespace Org.Vs.TailForWin.UI
       tabWin.Activate();
       tabWin.Focus();
 
-      return (tabWin);
+      return tabWin;
     }
 
     #region Events
@@ -332,7 +332,7 @@ namespace Org.Vs.TailForWin.UI
         if(page == null)
           return;
 
-        if(currentPage != null && (page.GetChildTabIndex() == currentPage.GetChildTabIndex()))
+        if(currentPage != null && page.GetChildTabIndex() == currentPage.GetChildTabIndex())
           return;
 
         stsBarState.Content = page.GetChildState();
@@ -522,9 +522,9 @@ namespace Org.Vs.TailForWin.UI
       get
       {
         if(tabControl.SelectedItem is TailForWinTabItem tab)
-          return (tab.Header.ToString());
+          return tab.Header.ToString();
 
-        return (string.Empty);
+        return string.Empty;
       }
       set => SelectTabItem(value);
     }
@@ -630,7 +630,7 @@ namespace Org.Vs.TailForWin.UI
     public bool IsDragMouseOver(Point mousePosition)
     {
       if(WindowState == WindowState.Minimized)
-        return (false);
+        return false;
 
       double left, top;
 
@@ -645,9 +645,9 @@ namespace Org.Vs.TailForWin.UI
         top = Top;
       }
 
-      bool isMouseOver = (mousePosition.X > left && mousePosition.X < (left + ActualWidth) && mousePosition.Y > top && mousePosition.Y < (top + ActualHeight));
+      bool isMouseOver = mousePosition.X > left && mousePosition.X < left + ActualWidth && mousePosition.Y > top && mousePosition.Y < top + ActualHeight;
 
-      return (isMouseOver);
+      return isMouseOver;
     }
 
     /// <summary>
@@ -657,10 +657,7 @@ namespace Org.Vs.TailForWin.UI
     /// <returns>If mouse pointer is over <c>true</c> otherwise <c>false</c></returns>
     public bool IsDragMouseOverTabZone(Point mousePosition)
     {
-      if(overlayWindow == null)
-        return (false);
-
-      return (overlayWindow.IsMouseOverTabTarget(mousePosition));
+      return overlayWindow != null && overlayWindow.IsMouseOverTabTarget(mousePosition);
     }
 
     /// <summary>
@@ -668,11 +665,11 @@ namespace Org.Vs.TailForWin.UI
     /// </summary>
     public void OnDrageLeave()
     {
-      if(overlayWindow != null)
-      {
-        overlayWindow.Close();
-        overlayWindow = null;
-      }
+      if(overlayWindow == null)
+        return;
+
+      overlayWindow.Close();
+      overlayWindow = null;
     }
 
     /// <summary>
@@ -755,13 +752,13 @@ namespace Org.Vs.TailForWin.UI
             Application.Current.MainWindow.Height = SettingsHelper.TailSettings.WndHeight;
         }
 
-        if(SettingsHelper.TailSettings.SaveWindowPosition)
-        {
-          if(!SettingsHelper.TailSettings.WndYPos.Equals(-1))
-            Application.Current.MainWindow.Top = SettingsHelper.TailSettings.WndYPos;
-          if(!SettingsHelper.TailSettings.WndXPos.Equals(-1))
-            Application.Current.MainWindow.Left = SettingsHelper.TailSettings.WndXPos;
-        }
+        if(!SettingsHelper.TailSettings.SaveWindowPosition)
+          return;
+
+        if(!SettingsHelper.TailSettings.WndYPos.Equals(-1))
+          Application.Current.MainWindow.Top = SettingsHelper.TailSettings.WndYPos;
+        if(!SettingsHelper.TailSettings.WndXPos.Equals(-1))
+          Application.Current.MainWindow.Left = SettingsHelper.TailSettings.WndXPos;
       }
       else
       {
@@ -821,12 +818,12 @@ namespace Org.Vs.TailForWin.UI
       StatusBarState.Content = tailWindow.GetChildState();
 
       if(searchBoxWindow.Visibility != Visibility.Visible)
-        return (tabFrame);
+        return tabFrame;
 
       tailWindow.SearchBoxActive();
       tailWindow.WrapAround(searchBoxWindow.WrapSearch);
 
-      return (tabFrame);
+      return tabFrame;
     }
 
     private void TailWindow_OnDragAndDropEvent(FileManagerData fileProperties)
@@ -899,12 +896,12 @@ namespace Org.Vs.TailForWin.UI
     private static TailLog GetTailLogWindow(Frame tabTemplate)
     {
       if(tabTemplate?.Content == null)
-        return (null);
+        return null;
 
       if(tabTemplate.Content is TailLog tabPage)
-        return (tabPage);
+        return tabPage;
 
-      return (null);
+      return null;
     }
 
     private void OnExit()
@@ -960,45 +957,45 @@ namespace Org.Vs.TailForWin.UI
       }
 
       // When pressing Control + F shows the search dialogue
-      if(e.Key == Key.F && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      if(e.Key == Key.F && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         currentPage.btnSearch_Click(sender, e);
       else if(e.Key == Key.F && !currentPage.TextBoxFileNameIsFocused) // When pressing F toggle filter on/off
         currentPage.FilterOnOff();
 
       // When pressing Control + O shows the open file dialogue
-      if(e.Key == Key.O && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      if(e.Key == Key.O && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         currentPage.btnOpenFile_Click(sender, e);
 
       // When pressing Control + Alt + M minimize main window
       if(e.Key == Key.M && (Keyboard.Modifiers & ModifierKeys.Control) != 0 && (Keyboard.Modifiers & ModifierKeys.Alt) != 0)
         LogFile.MinimizeMainWindow();
-      else if(e.Key == Key.M && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control) // When pressing Control + M shows the file manager dialogue
+      else if(e.Key == Key.M && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) // When pressing Control + M shows the file manager dialogue
         currentPage.btnFileManager_Click(sender, e);
 
       // When pressing Control + E clear all content in Tailwindow
-      if(e.Key == Key.E && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      if(e.Key == Key.E && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         currentPage.btnClearTextBox_Click(sender, e);
 
       // When pressing Control + R start tail process
-      if(e.Key == Key.R && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      if(e.Key == Key.R && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         currentPage.btnStart_Click(sender, e);
 
       // When pressing Control + S pause tail process
-      if(e.Key == Key.S && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      if(e.Key == Key.S && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         currentPage.btnStop_Click(sender, e);
 
       // When pressing Control + G show GoToLine dialogue
-      if(e.Key == Key.G && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      if(e.Key == Key.G && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         currentPage.GoToLineNumber();
 
       // When pressing Control + T new Tab
-      if(e.Key == Key.T && (Keyboard.Modifiers & (ModifierKeys.Control)) == ModifierKeys.Control)
+      if(e.Key == Key.T && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         AddTabItem();
       else if(e.Key == Key.T && !currentPage.TextBoxFileNameIsFocused) // When pressing T toggle always on top on/off
         currentPage.AlwaysOnTop();
 
       // When pressing Control + W close tab
-      if(e.Key != Key.W || (Keyboard.Modifiers & (ModifierKeys.Control)) != ModifierKeys.Control)
+      if(e.Key != Key.W || (Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.Control)
         return;
 
       if(tabControl.SelectedItem is TabItem tab)
@@ -1172,13 +1169,13 @@ namespace Org.Vs.TailForWin.UI
 
         WINDOWPOS pos = (WINDOWPOS) Marshal.PtrToStructure(lParam, typeof(WINDOWPOS));
 
-        if((pos.flags & (int) (SWP.NOMOVE)) != 0)
-          return (IntPtr.Zero);
+        if((pos.flags & (int) SWP.NOMOVE) != 0)
+          return IntPtr.Zero;
 
         Window wnd = (Window) HwndSource.FromHwnd(hwnd)?.RootVisual;
 
         if(wnd == null)
-          return (IntPtr.Zero);
+          return IntPtr.Zero;
 
         bool changedPos = false;
 
@@ -1195,14 +1192,14 @@ namespace Org.Vs.TailForWin.UI
         }
 
         if(!changedPos)
-          return (IntPtr.Zero);
+          return IntPtr.Zero;
 
         Marshal.StructureToPtr(pos, lParam, true);
         handled = true;
         break;
 
       }
-      return (IntPtr.Zero);
+      return IntPtr.Zero;
     }
 
     /// <summary>

@@ -199,7 +199,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((int) GetValue(MaxValueProperty));
+        return (int) GetValue(MaxValueProperty);
       }
       set
       {
@@ -215,7 +215,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((int) GetValue(MinValueProperty));
+        return (int) GetValue(MinValueProperty);
       }
       set
       {
@@ -231,7 +231,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((int) GetValue(IncrementProperty));
+        return (int) GetValue(IncrementProperty);
       }
       set
       {
@@ -247,7 +247,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((int) GetValue(StartIndexProperty));
+        return (int) GetValue(StartIndexProperty);
       }
       set
       {
@@ -273,7 +273,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((EMaskType) GetValue(TextBoxMaskProperty));
+        return (EMaskType) GetValue(TextBoxMaskProperty);
       }
       set
       {
@@ -294,7 +294,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((double) GetValue(TextBoxMinValueProperty));
+        return (double) GetValue(TextBoxMinValueProperty);
       }
       set
       {
@@ -315,7 +315,7 @@ namespace Org.Vs.TailForWin.Template
     {
       get
       {
-        return ((double) GetValue(TextBoxMaxValueProperty));
+        return (double) GetValue(TextBoxMaxValueProperty);
       }
       set
       {

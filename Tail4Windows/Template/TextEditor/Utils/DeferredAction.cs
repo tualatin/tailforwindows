@@ -25,7 +25,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       if(action == null)
         throw new ArgumentNullException(nameof(action));
 
-      return (new DeferredAction(action));
+      return new DeferredAction(action);
     }
 
     private DeferredAction(Action action)

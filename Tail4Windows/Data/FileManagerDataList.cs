@@ -28,9 +28,9 @@ namespace Org.Vs.TailForWin.Data
         DateTime nx = xFm.FileCreationTime ?? DateTime.MaxValue;
         DateTime ny = yFm.FileCreationTime ?? DateTime.MaxValue;
 
-        return (-(nx.CompareTo(ny)));
+        return -nx.CompareTo(ny);
       }
-      return (1);
+      return 1;
     }
   }
 }

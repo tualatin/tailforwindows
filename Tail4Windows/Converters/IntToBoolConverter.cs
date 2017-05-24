@@ -25,11 +25,11 @@ namespace Org.Vs.TailForWin.Converters
     {
       try
       {
-        return (System.Convert.ToInt32(value) > 0);
+        return System.Convert.ToInt32(value) > 0;
       }
       catch(InvalidCastException)
       {
-        return (DependencyProperty.UnsetValue);
+        return DependencyProperty.UnsetValue;
       }
     }
 
@@ -43,7 +43,7 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>Object</returns>
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      return (value);
+      return value;
     }
 
     #endregion

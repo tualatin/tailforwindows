@@ -16,9 +16,9 @@ namespace Org.Vs.TailForWin.Converters
         if(port < 0)
           port = 0;
 
-        return (port);
+        return port;
       }
-      return (null);
+      return null;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

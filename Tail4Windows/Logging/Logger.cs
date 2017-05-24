@@ -35,7 +35,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <returns>True if this Logger is enabled for the TRACE level, false otherwise.</returns>
     public bool IsTraceEnabled()
     {
-      return (logger.IsTraceEnabled());
+      return logger.IsTraceEnabled();
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <returns>True if this Logger is enabled for the DEBUG level, false otherwise</returns>
     public bool IsDebugEnabled()
     {
-      return (logger.IsDebugEnabled);
+      return logger.IsDebugEnabled;
     }
 
     /// <summary>
@@ -113,7 +113,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <returns>True if this Logger is enabled for the INFO level, false otherwise.</returns>
     public bool IsInfoEnabled()
     {
-      return (logger.IsInfoEnabled);
+      return logger.IsInfoEnabled;
     }
 
     /// <summary>
@@ -152,7 +152,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <returns>True if this Logger is enabled for the WARN level, false otherwise.</returns>
     public bool IsWarnEnabled()
     {
-      return (logger.IsWarnEnabled);
+      return logger.IsWarnEnabled;
     }
 
     /// <summary>
@@ -191,7 +191,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <returns>True if this Logger is enabled for the ERROR level, false otherwise.</returns>
     public bool IsErrorEnabled()
     {
-      return (logger.IsErrorEnabled);
+      return logger.IsErrorEnabled;
     }
 
     /// <summary>
@@ -227,9 +227,9 @@ namespace Org.Vs.TailForWin.Logging
     private string Format(string msg, Exception t)
     {
       if(t == null)
-        return (msg);
+        return msg;
 
-      return ($"\"{msg}\"\nstack trace:\n\"{t.StackTrace}\"");
+      return $"\"{msg}\"\nstack trace:\n\"{t.StackTrace}\"";
     }
   }
 }

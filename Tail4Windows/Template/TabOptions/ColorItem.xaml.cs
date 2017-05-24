@@ -97,7 +97,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       SolidColorBrush b = brushColor as SolidColorBrush;
 
       if(b == null)
-        return (string.Empty);
+        return string.Empty;
 
       ColorDialog color = new ColorDialog(b.Color)
       {
@@ -105,7 +105,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         SelectedColor = ((SolidColorBrush) rect.Fill).Color
       };
 
-      return (color.ShowDialog().GetValueOrDefault() ? (color.SelectedColorHex) : (string.Empty));
+      return color.ShowDialog().GetValueOrDefault() ? color.SelectedColorHex : string.Empty;
     }
 
     public void HandleEsc(object sender, KeyEventArgs e)

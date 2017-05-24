@@ -19,11 +19,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Converters
         bool wrap = (bool) value;
 
         if(wrap)
-          return (TextWrapping.Wrap);
+          return TextWrapping.Wrap;
         else
-          return (TextWrapping.NoWrap);
+          return TextWrapping.NoWrap;
       }
-      return (TextWrapping.NoWrap);
+      return TextWrapping.NoWrap;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

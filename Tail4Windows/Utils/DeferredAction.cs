@@ -25,7 +25,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       Arg.NotNull(action, "Action");
 
-      return (new DeferredAction(action));
+      return new DeferredAction(action);
     }
 
     private DeferredAction(Action action)

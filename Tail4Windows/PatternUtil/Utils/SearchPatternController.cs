@@ -32,7 +32,7 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
 
       currentProperty = (TailLogData) tailProperty.Clone();
 
-      return (GetLatestFileByPattern());
+      return GetLatestFileByPattern();
     }
 
     private string GetLatestFileByPattern()
@@ -46,7 +46,7 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
           DirectoryInfo directoryInfo = new DirectoryInfo(path);
 
           if(!directoryInfo.Exists)
-            return (string.Empty);
+            return string.Empty;
 
           FileInfo[] files;
 
@@ -61,7 +61,7 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
           }
 
           if(files.Length == 0)
-            return (string.Empty);
+            return string.Empty;
 
           DateTime latestWrite = DateTime.MinValue;
           FileInfo latestFile = null;
@@ -76,14 +76,14 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
           }
 
           if(latestFile != null)
-            return (latestFile.FullName);
+            return latestFile.FullName;
         }
       }
       catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
-      return (string.Empty);
+      return string.Empty;
     }
 
     #region IDisposable Members

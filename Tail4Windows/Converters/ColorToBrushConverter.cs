@@ -27,20 +27,20 @@ namespace Org.Vs.TailForWin.Converters
             Color mediaColor = (Color) convertFromString;
             Brush brush = new SolidColorBrush(mediaColor);
 
-            return (brush);
+            return brush;
           }
         }
         else
         {
-          return (null);
+          return null;
         }
       }
-      return (null);
+      return null;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      return (null);
+      return null;
     }
 
     #endregion

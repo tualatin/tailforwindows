@@ -146,13 +146,13 @@ namespace Org.Vs.TailForWin.Data
     private NumberFormatInfo SetNumberFormat()
     {
       if(string.IsNullOrEmpty(CultureNumberFormat))
-        return (new CultureInfo("de-DE", false).NumberFormat);
+        return new CultureInfo("de-DE", false).NumberFormat;
 
       int pos = CultureNumberFormat.IndexOf('_');
       char[] snipped = CultureNumberFormat.ToCharArray();
       snipped[pos] = '-';
 
-      return (new CultureInfo(new string(snipped), false).NumberFormat);
+      return new CultureInfo(new string(snipped), false).NumberFormat;
     }
 
     /// <summary>

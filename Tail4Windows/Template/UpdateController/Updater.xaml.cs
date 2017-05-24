@@ -46,7 +46,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     [Category("Updater"), Description("Application name for message dialogue")]
     public string ApplicationName
     {
-      get => ((string) GetValue(ApplicationNameProperty));
+      get => (string) GetValue(ApplicationNameProperty);
       set => SetValue(ApplicationNameProperty, value);
     }
 
@@ -61,7 +61,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     [Category("Updater"), Description("Update Url")]
     public string UpdateURL
     {
-      get => ((string) GetValue(UpdateURLProperty));
+      get => (string) GetValue(UpdateURLProperty);
       set => SetValue(UpdateURLProperty, value);
     }
 
@@ -76,7 +76,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     [Category("Updater"), Description("Proxy Server")]
     public string Proxy
     {
-      get => ((string) GetValue(ProxyProperty));
+      get => (string) GetValue(ProxyProperty);
       set => SetValue(ProxyProperty, value);
     }
 
@@ -91,7 +91,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     [Category("Updater"), Description("Proxy Port")]
     public int ProxyPort
     {
-      get => ((int) GetValue(ProxyPortProperty));
+      get => (int) GetValue(ProxyPortProperty);
       set => SetValue(ProxyPortProperty, value);
     }
 
@@ -106,7 +106,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     [Category("Updater"), Description("Proxy Username/Password")]
     public System.Net.NetworkCredential ProxyAuthentification
     {
-      get => ((System.Net.NetworkCredential) GetValue(ProxyAuthentificationProperty));
+      get => (System.Net.NetworkCredential) GetValue(ProxyAuthentificationProperty);
       set => SetValue(ProxyAuthentificationProperty, value);
     }
 
@@ -121,7 +121,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     [Category("Updater"), Description("Use a proxy server")]
     public bool UseProxy
     {
-      get => ((bool) GetValue(UseProxyProperty));
+      get => (bool) GetValue(UseProxyProperty);
       set => SetValue(UseProxyProperty, value);
     }
 
@@ -136,7 +136,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     [Category("Updater"), Description("Use system settings")]
     public bool UseSystemSettings
     {
-      get => ((bool) GetValue(UseSystemSettingsProperty));
+      get => (bool) GetValue(UseSystemSettingsProperty);
       set => SetValue(UseSystemSettingsProperty, value);
     }
 

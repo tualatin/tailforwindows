@@ -42,7 +42,7 @@ namespace Org.Vs.TailForWin.Data
     /// <returns>A clone of object</returns>
     public SearchPatter Clone()
     {
-      return (MemberwiseClone() as SearchPatter);
+      return MemberwiseClone() as SearchPatter;
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ namespace Org.Vs.TailForWin.Data
     /// <returns>Copy of SearchPattern</returns>
     public MementoSearchPattern SaveToMemento()
     {
-      return (new MementoSearchPattern(this));
+      return new MementoSearchPattern(this);
     }
 
     /// <summary>
@@ -78,14 +78,14 @@ namespace Org.Vs.TailForWin.Data
       MementoSearchPattern other = obj as MementoSearchPattern;
 
       if(other == null)
-        return (false);
+        return false;
 
       bool equal = true;
 
       equal &= Equals(other.Pattern, Pattern);
       equal &= Equals(other.PatternPart, PatternPart);
 
-      return (equal);
+      return equal;
     }
 
     /// <summary>

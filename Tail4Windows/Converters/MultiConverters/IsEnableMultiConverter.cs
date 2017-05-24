@@ -17,14 +17,14 @@ namespace Org.Vs.TailForWin.Converters.MultiConverters
         int url = (int) values[1];
 
         if(!radio)
-          return (true);
+          return true;
 
         if(url > 0)
-          return (true);
+          return true;
 
-        return (false);
+        return false;
       }
-      return (true);
+      return true;
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)

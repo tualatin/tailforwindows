@@ -27,11 +27,11 @@ namespace Org.Vs.TailForWin.Data
         try
         {
           var resourceKey = Application.Current.FindResource(ThreadPriority.ToString());
-          return (resourceKey.ToString());
+          return resourceKey.ToString();
         }
         catch
         {
-          return (string.Empty);
+          return string.Empty;
         }
       }
     }

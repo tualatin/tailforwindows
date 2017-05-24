@@ -17,7 +17,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>Always true</returns>
     public bool CanExecute(object parameter)
     {
-      return (true);
+      return true;
     }
 
     /// <summary>

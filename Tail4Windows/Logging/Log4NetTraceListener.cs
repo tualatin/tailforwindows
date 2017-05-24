@@ -96,7 +96,7 @@ namespace Org.Vs.TailForWin.Logging
     public override void Write(object o, string category)
     {
       if(LOG != null)
-        LOG.Debug(string.Format("{0} - {1}", category, (o == null ? "NULL" : o.ToString())));
+        LOG.Debug(string.Format("{0} - {1}", category, o == null ? "NULL" : o.ToString()));
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ namespace Org.Vs.TailForWin.Logging
     public override void WriteLine(object o, string category)
     {
       if(LOG != null)
-        LOG.Debug(string.Format("{0} - {1}", category, (o == null ? "NULL" : o.ToString())));
+        LOG.Debug(string.Format("{0} - {1}", category, o == null ? "NULL" : o.ToString()));
     }
   }
 }

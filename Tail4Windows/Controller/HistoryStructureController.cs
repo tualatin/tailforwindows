@@ -96,14 +96,14 @@ namespace Org.Vs.TailForWin.Controller
 
           historyDoc.Save(historyFile, SaveOptions.None);
 
-          return (findHistoryRoot);
+          return findHistoryRoot;
         }
       }
       catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
-      return (null);
+      return null;
     }
 
     /// <summary>

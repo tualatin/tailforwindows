@@ -23,9 +23,9 @@ namespace Org.Vs.TailForWin.Converters
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if(!string.IsNullOrEmpty(value as string))
-        return (true);
+        return true;
 
-      return (false);
+      return false;
     }
 
     /// <summary>
@@ -38,7 +38,7 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>Object</returns>
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      return (value);
+      return value;
     }
 
     #endregion

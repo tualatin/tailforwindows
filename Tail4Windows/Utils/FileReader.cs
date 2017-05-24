@@ -45,7 +45,7 @@ namespace Org.Vs.TailForWin.Utils
     public bool OpenTailFileStream(string fileName, Encoding encode = null)
     {
       if(!File.Exists(fileName))
-        return (false);
+        return false;
 
       try
       {
@@ -58,14 +58,14 @@ namespace Org.Vs.TailForWin.Utils
 
         reader = new StreamReader(fs, fileEncoding);
 
-        return (true);
+        return true;
       }
       catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         Dispose();
       }
-      return (false);
+      return false;
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ namespace Org.Vs.TailForWin.Utils
       reader.BaseStream.Seek(0, SeekOrigin.End);
       LinesRead = 0;
 
-      while((LinesRead < nLines) && (reader.BaseStream.Position > 0))
+      while(LinesRead < nLines && reader.BaseStream.Position > 0)
       {
         reader.BaseStream.Position--;
         int c = reader.BaseStream.ReadByte();
@@ -117,7 +117,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>If exist true otherwise false</returns>
     public static bool FileExists(string fileName)
     {
-      return (File.Exists(fileName));
+      return File.Exists(fileName);
     }
 
     /// <summary>
@@ -165,14 +165,14 @@ namespace Org.Vs.TailForWin.Utils
         try
         {
           if(reader?.BaseStream == null)
-            return (Double.NaN);
+            return Double.NaN;
 
-          return (reader.BaseStream.Length / 1024.00);
+          return reader.BaseStream.Length / 1024.00;
         }
         catch(Exception ex)
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-          return (Double.NaN);
+          return Double.NaN;
         }
       }
     }

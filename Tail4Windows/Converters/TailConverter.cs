@@ -22,9 +22,9 @@ namespace Org.Vs.TailForWin.Converters
     public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if(value is FileManagerData)
-        return (true);
+        return true;
 
-      return (false);
+      return false;
     }
 
     /// <summary>

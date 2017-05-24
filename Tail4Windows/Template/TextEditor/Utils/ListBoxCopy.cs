@@ -26,7 +26,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     /// <returns>Returns current setting</returns>
     public static bool GetAutoCopy(DependencyObject obj)
     {
-      return ((bool) obj.GetValue(AutoCopyProperty));
+      return (bool) obj.GetValue(AutoCopyProperty);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     /// <returns>Returns current setting</returns>
     public static bool GetAddDateTime(DependencyObject obj)
     {
-      return ((bool) obj.GetValue(AddDateTimeProperty));
+      return (bool) obj.GetValue(AddDateTimeProperty);
     }
 
     /// <summary>

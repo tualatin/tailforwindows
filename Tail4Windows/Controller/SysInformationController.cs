@@ -32,7 +32,7 @@ namespace Org.Vs.TailForWin.Controller
 
       Assembly assembly = Assembly.GetExecutingAssembly();
       string format = $"{SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat)} {SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat)}";
-      string buildDateTime = (BuildDate.GetBuildDateTime(assembly)).ToString(format);
+      string buildDateTime = BuildDate.GetBuildDateTime(assembly).ToString(format);
 
       SysInformationData sysInfo = new SysInformationData
       {
@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.Controller
         Language = GetSystemLanguage(),
         CpuInfo = GetCpuInfo(),
       };
-      return (sysInfo);
+      return sysInfo;
     }
 
     private static string GetOsFriendlyName()
@@ -63,14 +63,14 @@ namespace Org.Vs.TailForWin.Controller
           break;
         }
       }
-      return (result);
+      return result;
     }
 
     private static int GetOsArchitecture()
     {
       string pa = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
 
-      return ((string.IsNullOrEmpty(pa) || string.Compare(pa, 0, "x86", 0, 3, true) == 0) ? 32 : 64);
+      return string.IsNullOrEmpty(pa) || string.Compare(pa, 0, "x86", 0, 3, true) == 0 ? 32 : 64;
     }
 
     private static IpAddress GetIpAddress()
@@ -93,14 +93,14 @@ namespace Org.Vs.TailForWin.Controller
       {
         LOG.Error(ex, "{0} caused a(n) {1}", MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
-      return (ipAddress);
+      return ipAddress;
     }
 
     private static MemoryObject GetMachineMemoryInfo()
     {
       MemoryObject memoryInfo = new MemoryObject();
 
-      return (NativeMethods.GlobalMemoryStatusEx(memoryInfo) ? (memoryInfo) : (null));
+      return NativeMethods.GlobalMemoryStatusEx(memoryInfo) ? memoryInfo : null;
     }
 
     private static CpuInfo GetCpuInfo()
@@ -125,12 +125,12 @@ namespace Org.Vs.TailForWin.Controller
           myCpu.LogicalNumberOfProcessors = cpu["NumberOfLogicalProcessors"].ToString();
         }
       }
-      return (myCpu);
+      return myCpu;
     }
 
     private static string GetSystemLanguage()
     {
-      return (Thread.CurrentThread.CurrentCulture.DisplayName);
+      return Thread.CurrentThread.CurrentCulture.DisplayName;
     }
   }
 }

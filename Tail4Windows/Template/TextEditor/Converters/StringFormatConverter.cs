@@ -15,14 +15,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Converters
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if(value == null)
-        return (null);
+        return null;
 
       if(value.GetType() == typeof(DateTime))
       {
         DateTime dt = (DateTime) value;
-        return (dt.ToString(StringFormatData.StringFormat));
+        return dt.ToString(StringFormatData.StringFormat);
       }
-      return (null);
+      return null;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

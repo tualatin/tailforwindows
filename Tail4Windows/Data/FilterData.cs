@@ -120,7 +120,7 @@ namespace Org.Vs.TailForWin.Data
           if(string.IsNullOrEmpty(Filter))
             result = "Please enter a Filterpattern";
         }
-        return (result);
+        return result;
       }
     }
 
@@ -132,7 +132,7 @@ namespace Org.Vs.TailForWin.Data
     /// <returns>Copy of FilterData</returns>
     public MementoFilterData SaveToMemento()
     {
-      return (new MementoFilterData(this));
+      return new MementoFilterData(this);
     }
 
     /// <summary>
@@ -145,7 +145,7 @@ namespace Org.Vs.TailForWin.Data
       MementoFilterData other = obj as MementoFilterData;
 
       if(other == null)
-        return (false);
+        return false;
 
       bool equal = true;
 
@@ -155,7 +155,7 @@ namespace Org.Vs.TailForWin.Data
       equal &= Equals(other.FilterColor, FilterColor);
       equal &= Equals(other.FilterFontType, FilterFontType);
 
-      return (equal);
+      return equal;
     }
 
     /// <summary>
@@ -183,7 +183,7 @@ namespace Org.Vs.TailForWin.Data
     /// <returns>A shallow copy of the current Object.</returns>
     public object Clone()
     {
-      return (MemberwiseClone());
+      return MemberwiseClone();
     }
 
     /// <summary>

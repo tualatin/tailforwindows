@@ -50,7 +50,7 @@ namespace Org.Vs.TailForWin.Controller
           : new Paragraph(new Run($"{item.Index}\t{item.DateTime.ToString(format)} {item.Message}")));
       }
 
-      flowDocument.ColumnWidth = (flowDocument.PageWidth - flowDocument.ColumnGap - flowDocument.PagePadding.Left - flowDocument.PagePadding.Right);
+      flowDocument.ColumnWidth = flowDocument.PageWidth - flowDocument.ColumnGap - flowDocument.PagePadding.Left - flowDocument.PagePadding.Right;
 
       DocumentPaginator page = ((IDocumentPaginatorSource) flowDocument).DocumentPaginator;
       printDialog.PrintDocument(page, $"{LogFile.APPLICATION_CAPTION} printing file {fileName}");
@@ -76,7 +76,7 @@ namespace Org.Vs.TailForWin.Controller
       else
       {
         // No printer exist, return null PrintTicket
-        return (null);
+        return null;
       }
 
       // Get default PrintTicket from printer
@@ -93,7 +93,7 @@ namespace Org.Vs.TailForWin.Controller
       if(printCapabilites.StaplingCapability.Contains(Stapling.StapleDualLeft))
         printTicket.Stapling = Stapling.StapleDualLeft;
 
-      return (printTicket);
+      return printTicket;
     }
   }
 }

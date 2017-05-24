@@ -69,7 +69,7 @@ namespace Org.Vs.TailForWin.Logging
         {
           CopyTo(msi, gs);
         }
-        return (mso.ToArray());
+        return mso.ToArray();
       }
     }
 

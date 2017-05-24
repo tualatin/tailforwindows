@@ -22,7 +22,7 @@ namespace Org.Vs.TailForWin.Converters
       //if(targetType != typeof(bool))
       //  throw new InvalidOperationException("The target must be a boolean");
 
-      return (value != null && !(bool) value);
+      return value != null && !(bool) value;
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>Converted object</returns>
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      return (value != null && !(bool) value);
+      return value != null && !(bool) value;
     }
   }
 }

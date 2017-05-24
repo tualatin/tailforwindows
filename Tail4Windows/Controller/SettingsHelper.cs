@@ -588,14 +588,14 @@ namespace Org.Vs.TailForWin.Controller
     public static ThreadPriority GetThreadPriority(string s)
     {
       if(s == null)
-        return (ThreadPriority.Normal);
+        return ThreadPriority.Normal;
 
       if(Enum.GetNames(typeof(ThreadPriority)).All(priorityName => String.Compare(s.ToLower(), priorityName.ToLower(), StringComparison.Ordinal) != 0))
-        return (ThreadPriority.Normal);
+        return ThreadPriority.Normal;
 
       Enum.TryParse(s, out ThreadPriority tp);
 
-      return (tp);
+      return tp;
     }
 
     private static void ReadThreadPriorityEnum(string s)
@@ -611,14 +611,14 @@ namespace Org.Vs.TailForWin.Controller
     public static ETailRefreshRate GetRefreshRate(string s)
     {
       if(string.IsNullOrEmpty(s))
-        return (ETailRefreshRate.Normal);
+        return ETailRefreshRate.Normal;
 
       if(Enum.GetNames(typeof(ETailRefreshRate)).All(refreshName => string.Compare(s.ToLower(), refreshName.ToLower(), StringComparison.Ordinal) != 0))
-        return (ETailRefreshRate.Normal);
+        return ETailRefreshRate.Normal;
 
       Enum.TryParse(s, out ETailRefreshRate trr);
 
-      return (trr);
+      return trr;
     }
 
     /// <summary>
@@ -629,14 +629,14 @@ namespace Org.Vs.TailForWin.Controller
     public static ESmartWatchMode GetSmartWatchMode(string s)
     {
       if(string.IsNullOrEmpty(s))
-        return (ESmartWatchMode.Manual);
+        return ESmartWatchMode.Manual;
 
       if(Enum.GetNames(typeof(ESmartWatchMode)).All(m => string.Compare(s.ToLower(), m.ToLower(), StringComparison.Ordinal) != 0))
-        return (ESmartWatchMode.Manual);
+        return ESmartWatchMode.Manual;
 
       Enum.TryParse(s, out ESmartWatchMode mode);
 
-      return (mode);
+      return mode;
     }
 
     /// <summary>
@@ -647,14 +647,14 @@ namespace Org.Vs.TailForWin.Controller
     public static System.Windows.WindowState GetWindowState(string s)
     {
       if(string.IsNullOrEmpty(s))
-        return (System.Windows.WindowState.Normal);
+        return System.Windows.WindowState.Normal;
 
       if(Enum.GetNames(typeof(System.Windows.WindowState)).All(w => string.Compare(s.ToLower(), w.ToLower(), StringComparison.Ordinal) != 0))
-        return (System.Windows.WindowState.Normal);
+        return System.Windows.WindowState.Normal;
 
       Enum.TryParse(s, out System.Windows.WindowState wndState);
 
-      return (wndState);
+      return wndState;
     }
 
     /// <summary>
@@ -665,14 +665,14 @@ namespace Org.Vs.TailForWin.Controller
     public static EWindowStyle GetWindowStyle(string s)
     {
       if(string.IsNullOrEmpty(s))
-        return (EWindowStyle.ModernBlueWindowStyle);
+        return EWindowStyle.ModernBlueWindowStyle;
 
       if(Enum.GetNames(typeof(EWindowStyle)).All(w => string.Compare(s.ToLower(), w.ToLower(), StringComparison.Ordinal) != 0))
-        return (EWindowStyle.ModernBlueWindowStyle);
+        return EWindowStyle.ModernBlueWindowStyle;
 
       Enum.TryParse(s, out EWindowStyle wnd);
 
-      return (wnd);
+      return wnd;
     }
 
     private static void ReadThreadRefreshRateEnum(string s)
@@ -829,7 +829,7 @@ namespace Org.Vs.TailForWin.Controller
     {
       Regex regex = new Regex(LogFile.REGEX_EMAIL_ADDRESS);
 
-      return (regex.IsMatch(emailAddress));
+      return regex.IsMatch(emailAddress);
     }
 
     private static void ParseSoundFileName(string fullPath)

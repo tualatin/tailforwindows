@@ -15,7 +15,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <returns>Draged window by left mouse button</returns>
     public static Window GetLeftMouseButtonDrag(DependencyObject sender)
     {
-      return ((Window) sender.GetValue(LeftMouseButtonDrag));
+      return (Window) sender.GetValue(LeftMouseButtonDrag);
     }
 
     /// <summary>

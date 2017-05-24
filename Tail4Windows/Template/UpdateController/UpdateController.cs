@@ -38,7 +38,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// Applications version
     /// </summary>
-    public Version AppVersion => (appVersion);
+    public Version AppVersion => appVersion;
 
     /// <summary>
     /// Do check if main application needs to update
@@ -55,11 +55,11 @@ namespace Org.Vs.TailForWin.Template.UpdateController
         MatchCollection matches = Regex.Matches(webData, pattern, RegexOptions.IgnoreCase);
 
         if(matches.Count == 0)
-          return (false);
+          return false;
 
         foreach(Match match in matches)
         {
-          string part = (match.Value.Substring(match.Value.IndexOf(mainTag, StringComparison.Ordinal))).Substring(tag.Length);
+          string part = match.Value.Substring(match.Value.IndexOf(mainTag, StringComparison.Ordinal)).Substring(tag.Length);
           Regex regex = new Regex(@"\d+.\d+.\d+", RegexOptions.IgnoreCase);
 
           if(regex.Match(part).Success)
@@ -100,13 +100,13 @@ namespace Org.Vs.TailForWin.Template.UpdateController
         GetLatestWebVersion();
 
         if(DoCompare())
-          return (true);
+          return true;
       }
       catch(Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
-      return (false);
+      return false;
     }
 
     private bool DoCompare()
@@ -116,9 +116,9 @@ namespace Org.Vs.TailForWin.Template.UpdateController
         var result = version.CompareTo(appVersion);
 
         if(result > 0)
-          return (true);
+          return true;
       }
-      return (false);
+      return false;
     }
 
     private void GetLatestWebVersion()
@@ -141,9 +141,9 @@ namespace Org.Vs.TailForWin.Template.UpdateController
         var yVersion = y;
 
         if(xVersion != null)
-          return (xVersion.CompareTo(yVersion));
+          return xVersion.CompareTo(yVersion);
 
-        return (-1);
+        return -1;
       }
     }
   }

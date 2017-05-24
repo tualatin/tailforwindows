@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
 
 
 namespace Org.Vs.TailForWin.Template
@@ -23,23 +24,20 @@ namespace Org.Vs.TailForWin.Template
     {
       InitializeComponent();
 
-      tabColorItem.CloseDialog += OnExit;
-      tabColorItem.SaveSettings += OnSaveSettings;
-
-      tabAboutItem.CloseDialog += OnExit;
-
-      tabImportExportItem.CloseDialog += OnExit;
-
-      tabOptionsItem.CloseDialog += OnExit;
-      tabOptionsItem.SaveSettings += OnSaveSettings;
-
-      tabAlertItem.CloseDialog += OnExit;
-      tabAlertItem.SaveSettings += OnSaveSettings;
-
-      tabExtrasItem.CloseDialog += OnExit;
-      tabExtrasItem.SaveSettings += OnSaveSettings;
+      InjectMyInterface(tabColorItem);
+      InjectMyInterface(tabAboutItem);
+      InjectMyInterface(tabImportExportItem);
+      InjectMyInterface(tabOptionsItem);
+      InjectMyInterface(tabAlertItem);
+      InjectMyInterface(tabExtrasItem);
 
       PreviewKeyDown += HandleEsc;
+    }
+
+    private void InjectMyInterface(ITabOptionItems tabOptionItem)
+    {
+      tabOptionItem.CloseDialog += OnExit;
+      tabOptionItem.SaveSettings += OnSaveSettings;
     }
 
     #region Events

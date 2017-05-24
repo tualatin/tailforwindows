@@ -26,7 +26,7 @@ namespace Org.Vs.TailForWin.Data.Events
     /// <returns>LogEntry object</returns>
     public Template.TextEditor.Data.LogEntry GetData()
     {
-      return (alertTriggerData);
+      return alertTriggerData;
     }
   }
 }

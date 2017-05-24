@@ -38,7 +38,7 @@ namespace Org.Vs.TailForWin.Data.Events
     /// <returns>FileManagerData object</returns>
     public FileManagerData GetData()
     {
-      return (fileManagerProperties);
+      return fileManagerProperties;
     }
   }
 }

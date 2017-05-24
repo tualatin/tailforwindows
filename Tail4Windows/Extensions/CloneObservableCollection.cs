@@ -19,7 +19,7 @@ namespace Org.Vs.TailForWin.Extensions
     /// <returns>Copy of ObservableCollection</returns>
     internal static ObservableCollection<T> DeepCopy<T>(IEnumerable<T> list) where T : ICloneable
     {
-      return (new ObservableCollection<T>(list.Select(x => x.Clone()).Cast<T>()));
+      return new ObservableCollection<T>(list.Select(x => x.Clone()).Cast<T>());
     }
   }
 }

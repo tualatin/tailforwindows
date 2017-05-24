@@ -46,16 +46,16 @@ namespace Org.Vs.TailForWin.UI
       PresentationSource source = PresentationSource.FromVisual(this);
 
       if(source?.CompositionTarget == null)
-        return (false);
+        return false;
 
       Point targetPos = source.CompositionTarget.TransformFromDevice.Transform(buttonPosToScreen);
 
-      bool isMouseOver = (mousePos.X > targetPos.X && mousePos.X < (targetPos.X + btnDropTarget.Width) && mousePos.Y > targetPos.Y && mousePos.Y < (targetPos.Y + btnDropTarget.Height));
+      bool isMouseOver = mousePos.X > targetPos.X && mousePos.X < targetPos.X + btnDropTarget.Width && mousePos.Y > targetPos.Y && mousePos.Y < targetPos.Y + btnDropTarget.Height;
       IsTabTargetOver = isMouseOver;
 
       LOG.Trace("{0} IsMouseOver {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, isMouseOver);
 
-      return (isMouseOver);
+      return isMouseOver;
     }
 
     /// <summary>

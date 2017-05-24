@@ -18,9 +18,9 @@ namespace Org.Vs.TailForWin.Converters.MultiConverters
       if(values != null)
       {
         bool isEnable = values[0] is FileManagerData;
-        return (isEnable);
+        return isEnable;
       }
-      return (false);
+      return false;
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

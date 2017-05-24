@@ -31,9 +31,9 @@ namespace Org.Vs.TailForWin.Converters.MultiConverters
         if(!string.IsNullOrEmpty(pattern))
           patternSet = true;
 
-        return (patternSet & dataGridSelection);
+        return patternSet & dataGridSelection;
       }
-      return (false);
+      return false;
     }
 
     /// <summary>

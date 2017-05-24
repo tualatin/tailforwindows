@@ -59,7 +59,7 @@ namespace Org.Vs.TailForWin.Logging
         sb.Append("[").Append(result).Append("]");
         result = sb.ToString();
       }
-      return (result);
+      return result;
     }
 
     private static string Format(string message, params object[] args)
@@ -90,7 +90,7 @@ namespace Org.Vs.TailForWin.Logging
 
       //return mf.format(args);
 
-      return (string.Format(message, args));
+      return string.Format(message, args);
     }
 
     /// <summary>Forwards to #debug(Logger, Throwable, String, params object[]) with no error.

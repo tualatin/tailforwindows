@@ -15,9 +15,9 @@ namespace Org.Vs.TailForWin.Converters
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       if(value is FilterData)
-        return (true);
+        return true;
 
-      return (false);
+      return false;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

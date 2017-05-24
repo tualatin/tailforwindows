@@ -130,9 +130,9 @@ namespace Org.Vs.TailForWin.Data
       get
       {
         if(System.IO.File.Exists(FileName))
-          return (System.IO.File.GetCreationTime(FileName));
+          return System.IO.File.GetCreationTime(FileName);
 
-        return (null);
+        return null;
       }
     }
 
@@ -148,9 +148,9 @@ namespace Org.Vs.TailForWin.Data
         try
         {
           if(FileCreationTime != null)
-            return (now.Subtract((DateTime) FileCreationTime));
+            return now.Subtract((DateTime) FileCreationTime);
 
-          return (null);
+          return null;
         }
         catch(ArgumentOutOfRangeException ex)
         {
@@ -166,7 +166,7 @@ namespace Org.Vs.TailForWin.Data
     /// <returns>A clone of object</returns>
     public new FileManagerData Clone()
     {
-      return (MemberwiseClone() as FileManagerData);
+      return MemberwiseClone() as FileManagerData;
     }
 
     /// <summary>
@@ -175,7 +175,7 @@ namespace Org.Vs.TailForWin.Data
     /// <returns>Copy of FileManagerData</returns>
     public MementoFileManagerData SaveToMemento()
     {
-      return (new MementoFileManagerData(this));
+      return new MementoFileManagerData(this);
     }
 
     /// <summary>
@@ -188,7 +188,7 @@ namespace Org.Vs.TailForWin.Data
       MementoFileManagerData other = obj as MementoFileManagerData;
 
       if(other == null)
-        return (false);
+        return false;
 
       bool equal = true;
 
@@ -209,13 +209,13 @@ namespace Org.Vs.TailForWin.Data
       equal &= Equals(other.UsePattern, UsePattern);
       equal &= Equals(other.SmartWatch, SmartWatch);
 
-      return (equal);
+      return equal;
     }
 
     private bool CompareFilterList(ObservableCollection<FilterData> a, ObservableCollection<FilterData> b)
     {
       if(a.Count != b.Count)
-        return (false);
+        return false;
 
       int index = 0;
       bool equal = true;
@@ -229,7 +229,7 @@ namespace Org.Vs.TailForWin.Data
 
         index++;
       }
-      return (equal);
+      return equal;
     }
 
     /// <summary>
@@ -279,9 +279,9 @@ namespace Org.Vs.TailForWin.Data
         DateTime nx = xFm.FileCreationTime ?? DateTime.MaxValue;
         DateTime ny = yFm.FileCreationTime ?? DateTime.MaxValue;
 
-        return (-(nx.CompareTo(ny)));
+        return -nx.CompareTo(ny);
       }
-      return (1);
+      return 1;
     }
 
     #endregion
@@ -309,7 +309,7 @@ namespace Org.Vs.TailForWin.Data
           if(string.IsNullOrEmpty(Description))
             result = "Please enter a Description";
         }
-        return (result);
+        return result;
       }
     }
 

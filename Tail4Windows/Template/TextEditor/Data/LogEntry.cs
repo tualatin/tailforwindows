@@ -35,7 +35,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Data
     {
       get
       {
-        return (bookmarkPoint);
+        return bookmarkPoint;
       }
       set
       {
@@ -53,7 +53,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Data
     {
       get
       {
-        return (message);
+        return message;
       }
       set
       {
@@ -68,7 +68,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Data
     /// <returns>A clone from object</returns>
     public LogEntry Clone()
     {
-      return (this.MemberwiseClone() as LogEntry);
+      return this.MemberwiseClone() as LogEntry;
     }
   }
 }

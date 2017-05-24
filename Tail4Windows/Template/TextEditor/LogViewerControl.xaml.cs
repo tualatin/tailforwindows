@@ -130,7 +130,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public bool ShowLineNumbers
     {
-      get => ((bool) GetValue(ShowLineNumbersProperty));
+      get => (bool) GetValue(ShowLineNumbersProperty);
       set => SetValue(ShowLineNumbersProperty, value);
     }
 
@@ -146,7 +146,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Brush LineNumbersColor
     {
-      get => ((Brush) GetValue(LineNumbersColorProperty));
+      get => (Brush) GetValue(LineNumbersColorProperty);
       set => SetValue(LineNumbersColorProperty, value);
     }
 
@@ -162,7 +162,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Brush LineNumbersBackgroundColor
     {
-      get => ((Brush) GetValue(LineNumbersBackgroundColorProperty));
+      get => (Brush) GetValue(LineNumbersBackgroundColorProperty);
       set => SetValue(LineNumbersBackgroundColorProperty, value);
     }
 
@@ -178,7 +178,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public bool WordWrapping
     {
-      get => ((bool) GetValue(WordWrappingProperty));
+      get => (bool) GetValue(WordWrappingProperty);
       set => SetValue(WordWrappingProperty, value);
     }
 
@@ -193,7 +193,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public ScrollBarVisibility VerticalScrollbarVisible
     {
-      get => ((ScrollBarVisibility) GetValue(VerticalScrollBarVisibleProperty));
+      get => (ScrollBarVisibility) GetValue(VerticalScrollBarVisibleProperty);
       set => SetValue(VerticalScrollBarVisibleProperty, value);
     }
 
@@ -209,7 +209,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Brush TextEditorBackgroundColor
     {
-      get => ((Brush) GetValue(TextEditorBackGroundColorProperty));
+      get => (Brush) GetValue(TextEditorBackGroundColorProperty);
       set => SetValue(TextEditorBackGroundColorProperty, value);
     }
 
@@ -225,7 +225,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Brush TextEditorForegroundColor
     {
-      get => ((Brush) GetValue(TextEditorForegroundColorProperty));
+      get => (Brush) GetValue(TextEditorForegroundColorProperty);
       set => SetValue(TextEditorForegroundColorProperty, value);
     }
 
@@ -241,7 +241,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public bool ShowDateTime
     {
-      get => ((bool) GetValue(ShowDateTimeProperty));
+      get => (bool) GetValue(ShowDateTimeProperty);
       set => SetValue(ShowDateTimeProperty, value);
     }
 
@@ -257,7 +257,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public FontStyle TextEditorFontStyle
     {
-      get => ((FontStyle) GetValue(TextEditorFontStyleProperty));
+      get => (FontStyle) GetValue(TextEditorFontStyleProperty);
       set => SetValue(TextEditorFontStyleProperty, value);
     }
 
@@ -273,7 +273,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public FontFamily TextEditorFontFamily
     {
-      get => ((FontFamily) GetValue(TextEditorFontFamilyProperty));
+      get => (FontFamily) GetValue(TextEditorFontFamilyProperty);
       set => SetValue(TextEditorFontFamilyProperty, value);
     }
 
@@ -289,7 +289,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public FontWeight TextEditorFontWeight
     {
-      get => ((FontWeight) GetValue(TextEditorFontWeightProperty));
+      get => (FontWeight) GetValue(TextEditorFontWeightProperty);
       set => SetValue(TextEditorFontWeightProperty, value);
     }
 
@@ -305,7 +305,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public int TextEditorFontSize
     {
-      get => ((int) GetValue(TextEditorFontSizeProperty));
+      get => (int) GetValue(TextEditorFontSizeProperty);
       set => SetValue(TextEditorFontSizeProperty, value);
     }
 
@@ -321,7 +321,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Color TextEditorSelectionColor
     {
-      get => ((Color) GetValue(TextEditorSelectionColorProperty));
+      get => (Color) GetValue(TextEditorSelectionColorProperty);
       set => SetValue(TextEditorSelectionColorProperty, value);
     }
 
@@ -337,7 +337,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public bool AlwaysScrollIntoView
     {
-      get => ((bool) GetValue(AlwaysScrollIntoViewProperty));
+      get => (bool) GetValue(AlwaysScrollIntoViewProperty);
       set => SetValue(AlwaysScrollIntoViewProperty, value);
     }
 
@@ -353,7 +353,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Brush TextEditorSearchHighlightBackground
     {
-      get => ((Brush) GetValue(TextEditorSearchHighlightBackgroundProperty));
+      get => (Brush) GetValue(TextEditorSearchHighlightBackgroundProperty);
       set => SetValue(TextEditorSearchHighlightBackgroundProperty, value);
     }
 
@@ -368,7 +368,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public Brush TextEditorSearchHighlightForeground
     {
-      get => ((Brush) GetValue(TextEditorSearchHighlightForegroundProperty));
+      get => (Brush) GetValue(TextEditorSearchHighlightForegroundProperty);
       set => SetValue(TextEditorSearchHighlightForegroundProperty, value);
     }
 
@@ -385,7 +385,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
     private bool AddDateTime
     {
-      get => ((bool) GetValue(AddDateTimeProperty));
+      get => (bool) GetValue(AddDateTimeProperty);
       set => SetValue(AddDateTimeProperty, value);
     }
 
@@ -401,7 +401,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     [Category("TextEditor")]
     public bool FilterOn
     {
-      get => ((bool) GetValue(FilterOnProperty));
+      get => (bool) GetValue(FilterOnProperty);
       set => SetValue(FilterOnProperty, value);
     }
 
@@ -687,7 +687,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
             if(idx == 0)
             {
-              ListBoxItem myListBoxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem(item));
+              ListBoxItem myListBoxItem = (ListBoxItem) LogViewer.ItemContainerGenerator.ContainerFromItem(item);
               ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter>(myListBoxItem);
 
               if(myContentPresenter == null)
@@ -777,7 +777,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
         if(string.IsNullOrEmpty(item?.Message))
           return;
 
-        ListBoxItem myListBoxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem(item));
+        ListBoxItem myListBoxItem = (ListBoxItem) LogViewer.ItemContainerGenerator.ContainerFromItem(item);
         ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter>(myListBoxItem);
 
         if(myContentPresenter == null)
@@ -1027,7 +1027,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
             HightlightText(FindMessageTextBox(NextSearch));
             NextSearch = item;
 
-            return (true);
+            return true;
           }
 
           counter++;
@@ -1040,7 +1040,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
       }
-      return (false);
+      return false;
     }
 
     private bool ScrollIntoHiddenSearchText(int start)
@@ -1054,7 +1054,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
             HightlightText(FindMessageTextBox(NextSearch));
             NextSearch = item;
 
-            return (true);
+            return true;
           }
         }
         catch(Exception ex)
@@ -1062,7 +1062,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
       }
-      return (false);
+      return false;
     }
 
     private void SearchItemsNow(bool count = false)
@@ -1143,7 +1143,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     {
       TextBlock target = null;
 
-      ListBoxItem myListBoxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem(item));
+      ListBoxItem myListBoxItem = (ListBoxItem) LogViewer.ItemContainerGenerator.ContainerFromItem(item);
       ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter>(myListBoxItem);
 
       if(myContentPresenter != null)
@@ -1153,9 +1153,9 @@ namespace Org.Vs.TailForWin.Template.TextEditor
         if(myDataTemplate != null)
           target = (TextBlock) myDataTemplate.FindName("txtBoxMessage", myContentPresenter);
 
-        return (target);
+        return target;
       }
-      return (null);
+      return null;
     }
 
     private void HightlightText(TextBlock tb)
@@ -1259,7 +1259,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
     private System.Drawing.Rectangle? MouseButtonDownHelper(LogEntry item)
     {
-      ListBoxItem myListBoxItem = (ListBoxItem) (LogViewer.ItemContainerGenerator.ContainerFromItem(item));
+      ListBoxItem myListBoxItem = (ListBoxItem) LogViewer.ItemContainerGenerator.ContainerFromItem(item);
       ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter>(myListBoxItem);
       DataTemplate myDataTemplate = myContentPresenter?.ContentTemplateSelector.SelectTemplate(myListBoxItem, LogViewer);
 
@@ -1277,14 +1277,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor
 
         // very strange behaviour! when image is shown, no correction is needed, otherwise it is needed??? WTF!
         if(item.BookmarkPoint != null)
-          return (new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height));
+          return new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
 
-        relativePoint.X = relativePoint.X - (s.Width / 2);
-        relativePoint.Y = relativePoint.Y - (s.Height / 2);
+        relativePoint.X = relativePoint.X - s.Width / 2;
+        relativePoint.Y = relativePoint.Y - s.Height / 2;
 
-        return (new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height));
+        return new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
       }
-      return (null);
+      return null;
     }
 
     private void RefreshCollectionViewSource()
@@ -1296,7 +1296,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
     private bool TriggerAlert(LogEntry newItem)
     {
       if(filters.Count == 0)
-        return (false);
+        return false;
 
       bool success = false;
 
@@ -1316,7 +1316,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor
           }
         });
       }
-      return (success);
+      return success;
     }
 
     private void SetTemplateState()
@@ -1348,28 +1348,28 @@ namespace Org.Vs.TailForWin.Template.TextEditor
       FormattedText txtSize = new FormattedText(target.Text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
         new Typeface(target.FontFamily, target.FontStyle, target.FontWeight, target.FontStretch), target.FontSize, Brushes.Black);
 
-      return (new Size(txtSize.Width, txtSize.Height));
+      return new Size(txtSize.Width, txtSize.Height);
     }
 
     private static TChildItem FindVisualChild<TChildItem>(DependencyObject obj)
       where TChildItem : DependencyObject
     {
       if(obj == null)
-        return (null);
+        return null;
 
       for(int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
       {
         DependencyObject child = VisualTreeHelper.GetChild(obj, i);
 
         if(child is TChildItem chld)
-          return (chld);
+          return chld;
 
         TChildItem childOfChild = FindVisualChild<TChildItem>(child);
 
         if(childOfChild != null)
-          return (childOfChild);
+          return childOfChild;
       }
-      return (null);
+      return null;
     }
 
     private void LogMouseEvents(string mouseEvent)
