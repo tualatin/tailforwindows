@@ -1,12 +1,12 @@
-﻿using log4net;
-using Org.Vs.TailForWin.Data;
-using Org.Vs.TailForWin.Data.Enums;
-using System;
+﻿using System;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using log4net;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
 
 
 namespace Org.Vs.TailForWin.Controller

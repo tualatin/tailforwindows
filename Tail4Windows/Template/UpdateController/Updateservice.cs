@@ -44,7 +44,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// URL with updater webaddress
     /// </summary>
-    public string UpdateURL
+    public string UpdateUrl
     {
       get;
       set;
@@ -129,7 +129,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// </summary>
     public void Dispose()
     {
-      if(updateThread == null)
+      if (updateThread == null)
         return;
 
       updateThread.Dispose();
@@ -159,7 +159,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
         ProxyAddress = Proxy,
         ProxyPort = ProxyPort,
         ProxyCredential = ProxyAuthentification,
-        Url = UpdateURL,
+        Url = UpdateUrl,
         UseProxy = UseProxy,
         UseProxySystemSettings = UseSystemSettings
       };
@@ -172,7 +172,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// </summary>
     public void StartUpdate()
     {
-      if(!updateThread.IsBusy)
+      if (!updateThread.IsBusy)
         updateThread.RunWorkerAsync();
 
       IsThreadCompleted = false;
@@ -182,9 +182,9 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     private void UpdateThread_DoWork(object sender, DoWorkEventArgs e)
     {
-      string html = string.Empty;
+      string html;
 
-      if(!webservice.UpdateWebRequest(out html))
+      if (!webservice.UpdateWebRequest(out html))
         return;
 
       webData = html;
@@ -193,14 +193,14 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     private void UpdateThread_Completed(object sender, RunWorkerCompletedEventArgs e)
     {
-      if(!string.IsNullOrEmpty(webData))
+      if (!string.IsNullOrEmpty(webData))
       {
         UpdateController uc = new UpdateController();
-        Match match = Regex.Match(UpdateURL, @"https://github.com", RegexOptions.IgnoreCase);
+        Match match = Regex.Match(UpdateUrl, @"https://github.com", RegexOptions.IgnoreCase);
 
-        if(match.Success)
+        if (match.Success)
         {
-          string tag = UpdateURL.Substring(match.Value.Length, UpdateURL.Length - match.Value.Length);
+          string tag = UpdateUrl.Substring(match.Value.Length, UpdateUrl.Length - match.Value.Length);
 
           HaveToUpdate = uc.UpdateNecessary(webData, tag);
           WebVersion = uc.WebVersion;
