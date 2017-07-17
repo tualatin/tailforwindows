@@ -1,12 +1,12 @@
-﻿using System;
+﻿using log4net;
+using Org.Vs.TailForWin.Data;
+using Org.Vs.TailForWin.Data.Enums;
+using System;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
-using log4net;
-using Org.Vs.TailForWin.Data;
-using Org.Vs.TailForWin.Data.Enums;
 
 
 namespace Org.Vs.TailForWin.Controller
@@ -17,7 +17,6 @@ namespace Org.Vs.TailForWin.Controller
   public class SettingsHelper
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SettingsHelper));
-    private static readonly SettingsData tailSettings = new SettingsData();
 
 
     /// <summary>
@@ -29,152 +28,77 @@ namespace Org.Vs.TailForWin.Controller
 
       try
       {
-        if(!int.TryParse(ConfigurationManager.AppSettings["LinesRead"], out int iHelper))
-          iHelper = 10;
-        TailSettings.LinesRead = iHelper;
+        AddMissingSettingsToConfigFile();
 
-        if(!bool.TryParse(ConfigurationManager.AppSettings["AlwaysOnTop"], out bool bHelper))
-          bHelper = false;
-        TailSettings.AlwaysOnTop = bHelper;
+        TailSettings.LinesRead = GetIntFromSetting("LinesRead", 10);
+        TailSettings.AlwaysOnTop = GetBoolFromSetting("AlwaysOnTop");
+        TailSettings.ShowNLineAtStart = GetBoolFromSetting("ShowNLineAtStart", true);
+        TailSettings.ShowLineNumbers = GetBoolFromSetting("ShowLineNumbers");
+        TailSettings.AlwaysScrollToEnd = GetBoolFromSetting("AlwaysScrollToEnd", true);
+        TailSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
+        TailSettings.WndWidth = GetDoubleFromSetting("WndWidth");
+        TailSettings.WndHeight = GetDoubleFromSetting("WndHeight");
+        TailSettings.SaveWindowPosition = GetBoolFromSetting("SaveWindowPosition");
+        TailSettings.WndXPos = GetDoubleFromSetting("WndXPos");
+        TailSettings.WndYPos = GetDoubleFromSetting("WndYPos");
+        TailSettings.ExitWithEscape = GetBoolFromSetting("ExitWithEsc");
+        TailSettings.AutoUpdate = GetBoolFromSetting("AutoUpdate");
+        TailSettings.CurrentWindowState = GetWindowState(GetStringFromSetting("WindowState"));
 
-        if(!bool.TryParse(ConfigurationManager.AppSettings["ShowNLineAtStart"], out bHelper))
-          bHelper = true;
-        TailSettings.ShowNLineAtStart = bHelper;
+        ReadThreadPriorityEnum(GetStringFromSetting("DefaultThreadPriority"));
+        ReadThreadRefreshRateEnum(GetStringFromSetting("DefaultRefreshRate"));
 
-        if(!bool.TryParse(ConfigurationManager.AppSettings["ShowLineNumbers"], out bHelper))
-          bHelper = false;
-        TailSettings.ShowLineNumbers = bHelper;
+        TailSettings.SmartWatch = GetBoolFromSetting("SmartWatch");
+        TailSettings.GroupByCategory = GetBoolFromSetting("GroupByCategory", true);
+        TailSettings.DeleteLogFiles = GetBoolFromSetting("DeleteLogFiles", true);
+        TailSettings.CurrentWindowStyle = GetWindowStyle(GetStringFromSetting("CurrentWindowStyle"));
 
-        if(!bool.TryParse(ConfigurationManager.AppSettings["AlwaysScrollToEnd"], out bHelper))
-          bHelper = true;
-        TailSettings.AlwaysScrollToEnd = bHelper;
+        ReadTimeFormatEnum(GetStringFromSetting("TimeFormat"));
+        ReadDateFormatEnum(GetStringFromSetting("DateFormat"));
+        CheckHexColorValue(GetStringFromSetting("ForegroundColor"), ETailLogColorTypes.ForegroundColor);
+        CheckHexColorValue(GetStringFromSetting("BackgroundColor"), ETailLogColorTypes.BackgroundColor);
+        CheckHexColorValue(GetStringFromSetting("InactiveForegroundColor"), ETailLogColorTypes.InactiveForegroundColor);
+        CheckHexColorValue(GetStringFromSetting("InactiveBackgroundColor"), ETailLogColorTypes.InactiveBackgroundColor);
+        CheckHexColorValue(GetStringFromSetting("FindHighlightForegroundColor"), ETailLogColorTypes.FindHighlightForegroundColor);
+        CheckHexColorValue(GetStringFromSetting("FindHighlightBackgroundColor"), ETailLogColorTypes.FindHighlightBackgroundColor);
+        CheckHexColorValue(GetStringFromSetting("LineNumbersColor"), ETailLogColorTypes.LineNumbersColor);
+        CheckHexColorValue(GetStringFromSetting("HighlightColor"), ETailLogColorTypes.HighlightColor);
+        SetSearchWindowPosition(GetStringFromSetting("SearchwndXPos"));
+        SetSearchWindowPosition(GetStringFromSetting("SearchwndYPos"), false);
+        ReadFileSortEnum(GetStringFromSetting("FileManagerSort"));
 
-        if(!bool.TryParse(ConfigurationManager.AppSettings["RestoreWindowSize"], out bHelper))
-          bHelper = false;
-        TailSettings.RestoreWindowSize = bHelper;
-
-        if(!double.TryParse(ConfigurationManager.AppSettings["WndWidth"], out double dHelper))
-          dHelper = -1;
-        TailSettings.WndWidth = dHelper;
-
-        if(!double.TryParse(ConfigurationManager.AppSettings["WndHeight"], out dHelper))
-          dHelper = -1;
-        TailSettings.WndHeight = dHelper;
-
-        if(!bool.TryParse(ConfigurationManager.AppSettings["SaveWindowPosition"], out bHelper))
-          bHelper = false;
-        TailSettings.SaveWindowPosition = bHelper;
-
-        if(!double.TryParse(ConfigurationManager.AppSettings["WndXPos"], out dHelper))
-          dHelper = -1;
-        TailSettings.WndXPos = dHelper;
-
-        if(!double.TryParse(ConfigurationManager.AppSettings["WndYPos"], out dHelper))
-          dHelper = -1;
-        TailSettings.WndYPos = dHelper;
-
-        if(ConfigurationManager.AppSettings["WindowState"] == null)
-          AddNewProperties_IntoConfigFile("WindowState", System.Windows.WindowState.Normal.ToString());
-
-        string sHelper = ConfigurationManager.AppSettings["WindowState"];
-        TailSettings.CurrentWindowState = GetWindowState(sHelper);
-
-        sHelper = ConfigurationManager.AppSettings["DefaultThreadPriority"];
-        ReadThreadPriorityEnum(sHelper);
-
-        sHelper = ConfigurationManager.AppSettings["DefaultRefreshRate"];
-        ReadThreadRefreshRateEnum(sHelper);
-
-        if(!bool.TryParse(ConfigurationManager.AppSettings["ExitWithEsc"], out bHelper))
-          bHelper = false;
-        TailSettings.ExitWithEscape = bHelper;
-
-        if(!bool.TryParse(ConfigurationManager.AppSettings["AutoUpdate"], out bHelper))
-          bHelper = false;
-        TailSettings.AutoUpdate = bHelper;
-
-        if(ConfigurationManager.AppSettings["SmartWatch"] == null)
-          AddNewProperties_IntoConfigFile("SmartWatch", "false");
-
-        if(!bool.TryParse(ConfigurationManager.AppSettings["SmartWatch"], out bHelper))
-          bHelper = false;
-        TailSettings.SmartWatch = bHelper;
-
-        if(ConfigurationManager.AppSettings["GroupByCategory"] == null)
-          AddNewProperties_IntoConfigFile("GroupByCategory", "true");
-
-        if(!bool.TryParse(ConfigurationManager.AppSettings["GroupByCategory"], out bHelper))
-          bHelper = true;
-        TailSettings.GroupByCategory = bHelper;
-
-        if(ConfigurationManager.AppSettings["DeleteLogFiles"] == null)
-          AddNewProperties_IntoConfigFile("DeleteLogFiles", true.ToString());
-
-        if(!bool.TryParse(ConfigurationManager.AppSettings["LogLineLimit"], out bHelper))
-          bHelper = true;
-        TailSettings.DeleteLogFiles = bHelper;
-
-        if(ConfigurationManager.AppSettings["CurrentWindowStyle"] == null)
-          AddNewProperties_IntoConfigFile("CurrentWindowStyle", EWindowStyle.ModernBlueWindowStyle.ToString());
-
-        sHelper = ConfigurationManager.AppSettings["CurrentWindowStyle"];
-        TailSettings.CurrentWindowStyle = GetWindowStyle(sHelper);
-
-        sHelper = ConfigurationManager.AppSettings["TimeFormat"];
-        ReadTimeFormatEnum(sHelper);
-
-        sHelper = ConfigurationManager.AppSettings["DateFormat"];
-        ReadDateFormatEnum(sHelper);
-
-        sHelper = ConfigurationManager.AppSettings["ForegroundColor"];
-        CheckHexColorValue(sHelper, ETailLogColorTypes.ForegroundColor);
-
-        sHelper = ConfigurationManager.AppSettings["BackgroundColor"];
-        CheckHexColorValue(sHelper, ETailLogColorTypes.BackgroundColor);
-
-        sHelper = ConfigurationManager.AppSettings["InactiveForegroundColor"];
-        CheckHexColorValue(sHelper, ETailLogColorTypes.InactiveForegroundColor);
-
-        sHelper = ConfigurationManager.AppSettings["InactiveBackgroundColor"];
-        CheckHexColorValue(sHelper, ETailLogColorTypes.InactiveBackgroundColor);
-
-        sHelper = ConfigurationManager.AppSettings["FindHighlightForegroundColor"];
-        CheckHexColorValue(sHelper, ETailLogColorTypes.FindHighlightForegroundColor);
-
-        sHelper = ConfigurationManager.AppSettings["FindHighlightBackgroundColor"];
-        CheckHexColorValue(sHelper, ETailLogColorTypes.FindHighlightBackgroundColor);
-
-        sHelper = ConfigurationManager.AppSettings["LineNumbersColor"];
-        CheckHexColorValue(sHelper, ETailLogColorTypes.LineNumbersColor);
-
-        sHelper = ConfigurationManager.AppSettings["HighlightColor"];
-        CheckHexColorValue(sHelper, ETailLogColorTypes.HighlightColor);
-
-        sHelper = ConfigurationManager.AppSettings["SearchwndXPos"];
-        SetSearchWindowPosition(sHelper);
-
-        sHelper = ConfigurationManager.AppSettings["SearchwndYPos"];
-        SetSearchWindowPosition(sHelper, false);
-
-        sHelper = ConfigurationManager.AppSettings["FileManagerSort"];
-        ReadFileSortEnum(sHelper);
-
-        if(ConfigurationManager.AppSettings["LogLineLimit"] == null)
-          AddNewProperties_IntoConfigFile("LogLineLimit", "-1");
-
-        if(!int.TryParse(ConfigurationManager.AppSettings["LogLineLimit"], out iHelper))
-          iHelper = -1;
-        TailSettings.LogLineLimit = iHelper;
+        TailSettings.LogLineLimit = GetIntFromSetting("LogLineLimit");
 
         ReadAlertSettings();
         ReadProxySettings();
         ReadSmtpSettings();
         ReadSmartWatchSettings();
       }
-      catch(ConfigurationErrorsException ex)
+      catch (ConfigurationErrorsException ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
+    }
+
+    private static void AddMissingSettingsToConfigFile()
+    {
+      if (ConfigurationManager.AppSettings["WindowState"] == null)
+        AddNewProperties_IntoConfigFile("WindowState", System.Windows.WindowState.Normal.ToString());
+
+      if (ConfigurationManager.AppSettings["SmartWatch"] == null)
+        AddNewProperties_IntoConfigFile("SmartWatch", false.ToString());
+
+      if (ConfigurationManager.AppSettings["GroupByCategory"] == null)
+        AddNewProperties_IntoConfigFile("GroupByCategory", true.ToString());
+
+      if (ConfigurationManager.AppSettings["DeleteLogFiles"] == null)
+        AddNewProperties_IntoConfigFile("DeleteLogFiles", true.ToString());
+
+      if (ConfigurationManager.AppSettings["CurrentWindowStyle"] == null)
+        AddNewProperties_IntoConfigFile("CurrentWindowStyle", EWindowStyle.ModernBlueWindowStyle.ToString());
+
+      if (ConfigurationManager.AppSettings["LogLineLimit"] == null)
+        AddNewProperties_IntoConfigFile("LogLineLimit", "-1");
     }
 
     /// <summary>
@@ -186,7 +110,7 @@ namespace Org.Vs.TailForWin.Controller
       {
         Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-        if(config.AppSettings.Settings.Count <= 0)
+        if (config.AppSettings.Settings.Count <= 0)
           return;
 
         config.AppSettings.Settings["LinesRead"].Value = TailSettings.LinesRead.ToString(CultureInfo.InvariantCulture);
@@ -232,7 +156,7 @@ namespace Org.Vs.TailForWin.Controller
         config.Save(ConfigurationSaveMode.Modified);
         ConfigurationManager.RefreshSection("appSettings");
       }
-      catch(ConfigurationErrorsException ex)
+      catch (ConfigurationErrorsException ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -247,7 +171,7 @@ namespace Org.Vs.TailForWin.Controller
       {
         Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-        if(config.AppSettings.Settings.Count <= 0)
+        if (config.AppSettings.Settings.Count <= 0)
           return;
 
         config.AppSettings.Settings["SearchwndXPos"].Value = TailSettings.SearchWndXPos.ToString(CultureInfo.InvariantCulture);
@@ -256,7 +180,7 @@ namespace Org.Vs.TailForWin.Controller
         config.Save(ConfigurationSaveMode.Modified);
         ConfigurationManager.RefreshSection("appSettings");
       }
-      catch(ConfigurationErrorsException ex)
+      catch (ConfigurationErrorsException ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -323,7 +247,7 @@ namespace Org.Vs.TailForWin.Controller
     /// <summary>
     /// Get tail settings
     /// </summary>
-    public static SettingsData TailSettings => tailSettings;
+    public static SettingsData TailSettings { get; } = new SettingsData();
 
     #region HelperFunctions
 
@@ -432,34 +356,24 @@ namespace Org.Vs.TailForWin.Controller
     {
       try
       {
-        if(ConfigurationManager.AppSettings["SmartWatch.FilterByExtension"] == null)
+        if (ConfigurationManager.AppSettings["SmartWatch.FilterByExtension"] == null)
           AddNewProperties_IntoConfigFile("SmartWatch.FilterByExtension", true.ToString());
 
-        if(!bool.TryParse(ConfigurationManager.AppSettings["SmartWatch.FilterByExtension"], out bool bHelper))
-          bHelper = true;
-        TailSettings.SmartWatchData.FilterByExtension = bHelper;
-
-        if(ConfigurationManager.AppSettings["SmartWatch.NewTab"] == null)
+        if (ConfigurationManager.AppSettings["SmartWatch.NewTab"] == null)
           AddNewProperties_IntoConfigFile("SmartWatch.NewTab", true.ToString());
 
-        if(!bool.TryParse(ConfigurationManager.AppSettings["SmartWatch.NewTab"], out bHelper))
-          bHelper = true;
-        TailSettings.SmartWatchData.NewTab = bHelper;
-
-        if(ConfigurationManager.AppSettings["SmartWatch.Mode"] == null)
+        if (ConfigurationManager.AppSettings["SmartWatch.Mode"] == null)
           AddNewProperties_IntoConfigFile("SmartWatch.Mode", ESmartWatchMode.Manual.ToString());
 
-        string sHelper = ConfigurationManager.AppSettings["SmartWatch.Mode"];
-        TailSettings.SmartWatchData.Mode = GetSmartWatchMode(sHelper);
-
-        if(ConfigurationManager.AppSettings["SmartWatch.AutoRun"] == null)
+        if (ConfigurationManager.AppSettings["SmartWatch.AutoRun"] == null)
           AddNewProperties_IntoConfigFile("SmartWatch.AutoRun", true.ToString());
 
-        if(!bool.TryParse(ConfigurationManager.AppSettings["SmartWatch.AutoRun"], out bHelper))
-          bHelper = true;
-        TailSettings.SmartWatchData.AutoRun = bHelper;
+        TailSettings.SmartWatchData.FilterByExtension = GetBoolFromSetting("SmartWatch.FilterByExtension", true);
+        TailSettings.SmartWatchData.NewTab = GetBoolFromSetting("SmartWatch.NewTab", true);
+        TailSettings.SmartWatchData.Mode = GetSmartWatchMode(GetStringFromSetting("SmartWatch.Mode"));
+        TailSettings.SmartWatchData.AutoRun = GetBoolFromSetting("SmartWatch.AutoRun", true);
       }
-      catch(ConfigurationErrorsException ex)
+      catch (ConfigurationErrorsException ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -472,28 +386,14 @@ namespace Org.Vs.TailForWin.Controller
     {
       try
       {
-        if(!bool.TryParse(ConfigurationManager.AppSettings["Proxy.Use"], out bool bHelper))
-          bHelper = false;
-        TailSettings.ProxySettings.UseProxy = bHelper;
-
-        if(!bool.TryParse(ConfigurationManager.AppSettings["Proxy.UseSystem"], out bHelper))
-          bHelper = true;
-        TailSettings.ProxySettings.UseSystemSettings = bHelper;
-
-        if(!int.TryParse(ConfigurationManager.AppSettings["Proxy.Port"], out int port))
-          port = -1;
-        TailSettings.ProxySettings.ProxyPort = port;
-
-        string sHelper = ConfigurationManager.AppSettings["Proxy.Url"];
-        TailSettings.ProxySettings.ProxyUrl = sHelper;
-
-        sHelper = ConfigurationManager.AppSettings["Proxy.UserName"];
-        TailSettings.ProxySettings.UserName = sHelper;
-
-        sHelper = ConfigurationManager.AppSettings["Proxy.Password"];
-        TailSettings.ProxySettings.Password = sHelper;
+        TailSettings.ProxySettings.UseProxy = GetBoolFromSetting("Proxy.Use");
+        TailSettings.ProxySettings.UseSystemSettings = GetBoolFromSetting("Proxy.UseSystem", true);
+        TailSettings.ProxySettings.ProxyPort = GetIntFromSetting("Proxy.Port");
+        TailSettings.ProxySettings.ProxyUrl = GetStringFromSetting("Proxy.Url");
+        TailSettings.ProxySettings.UserName = GetStringFromSetting("Proxy.UserName");
+        TailSettings.ProxySettings.Password = GetStringFromSetting("Proxy.Password");
       }
-      catch(ConfigurationErrorsException ex)
+      catch (ConfigurationErrorsException ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -506,36 +406,20 @@ namespace Org.Vs.TailForWin.Controller
     {
       try
       {
-        string sHelper = ConfigurationManager.AppSettings["Smtp.Server"];
-        TailSettings.AlertSettings.SmtpSettings.SmtpServerName = sHelper;
+        TailSettings.AlertSettings.SmtpSettings.SmtpServerName = GetStringFromSetting("Smtp.Server");
+        TailSettings.AlertSettings.SmtpSettings.SmtpPort = GetIntFromSetting("Smtp.Port");
+        TailSettings.AlertSettings.SmtpSettings.LoginName = GetStringFromSetting("Smtp.Login");
+        TailSettings.AlertSettings.SmtpSettings.Password = GetStringFromSetting("Smtp.Password");
 
-        if(!int.TryParse(ConfigurationManager.AppSettings["Smtp.Port"], out int port))
-          port = -1;
-        TailSettings.AlertSettings.SmtpSettings.SmtpPort = port;
+        string strSetting = GetStringFromSetting("Smtp.FromEMail");
+        TailSettings.AlertSettings.SmtpSettings.FromAddress = ParseEMailAddress(strSetting) ? strSetting : string.Empty;
+        TailSettings.AlertSettings.SmtpSettings.Subject = GetStringFromSetting("Smtp.Subject");
+        TailSettings.AlertSettings.SmtpSettings.SSL = GetBoolFromSetting("Smtp.Ssl", true);
 
-        sHelper = ConfigurationManager.AppSettings["Smtp.Login"];
-        TailSettings.AlertSettings.SmtpSettings.LoginName = sHelper;
-
-        sHelper = ConfigurationManager.AppSettings["Smtp.Password"];
-        TailSettings.AlertSettings.SmtpSettings.Password = sHelper;
-
-        sHelper = ConfigurationManager.AppSettings["Smtp.FromEMail"];
-        TailSettings.AlertSettings.SmtpSettings.FromAddress = ParseEMailAddress(sHelper) ? sHelper : string.Empty;
-
-        sHelper = ConfigurationManager.AppSettings["Smtp.Subject"];
-        TailSettings.AlertSettings.SmtpSettings.Subject = sHelper;
-
-        if(!bool.TryParse(ConfigurationManager.AppSettings["Smtp.Ssl"], out bool bHelper))
-          bHelper = true;
-        TailSettings.AlertSettings.SmtpSettings.SSL = bHelper;
-
-        if(!bool.TryParse(ConfigurationManager.AppSettings["Smtp.Tls"], out bHelper))
-          bHelper = false;
-        if(TailSettings.AlertSettings.SmtpSettings.SSL)
-          bHelper = false;
-        TailSettings.AlertSettings.SmtpSettings.TLS = bHelper;
+        bool boolSetting = GetBoolFromSetting("Smtp.Tls");
+        TailSettings.AlertSettings.SmtpSettings.TLS = !TailSettings.AlertSettings.SmtpSettings.SSL && boolSetting;
       }
-      catch(ConfigurationErrorsException ex)
+      catch (ConfigurationErrorsException ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -548,33 +432,21 @@ namespace Org.Vs.TailForWin.Controller
     {
       try
       {
-        if(!bool.TryParse(ConfigurationManager.AppSettings["Alert.BringToFront"], out bool bHelper))
-          bHelper = true;
-        TailSettings.AlertSettings.BringToFront = bHelper;
-
-        if(!bool.TryParse(ConfigurationManager.AppSettings["Alert.PlaySoundFile"], out bHelper))
-          bHelper = false;
-        TailSettings.AlertSettings.PlaySoundFile = bHelper;
-
-        if(!bool.TryParse(ConfigurationManager.AppSettings["Alert.SendEMail"], out bHelper))
-          bHelper = false;
-        TailSettings.AlertSettings.SendEMail = bHelper;
-
-        string sHelper = ConfigurationManager.AppSettings["Alert.SoundFile"];
-        ParseSoundFileName(sHelper);
-
-        sHelper = ConfigurationManager.AppSettings["Alert.EMailAddress"];
-
-        TailSettings.AlertSettings.EMailAddress = ParseEMailAddress(sHelper) ? sHelper : LogFile.ALERT_EMAIL_ADDRESS;
-
-        if(ConfigurationManager.AppSettings["Alert.PopupWindow"] == null)
+        if (ConfigurationManager.AppSettings["Alert.PopupWindow"] == null)
           AddNewProperties_IntoConfigFile("Alert.PopupWindow", "false");
 
-        if(!bool.TryParse(ConfigurationManager.AppSettings["Alert.PopupWindow"], out bHelper))
-          bHelper = false;
-        TailSettings.AlertSettings.PopupWnd = bHelper;
+        TailSettings.AlertSettings.BringToFront = GetBoolFromSetting("Alert.BringToFront", true);
+        TailSettings.AlertSettings.PlaySoundFile = GetBoolFromSetting("Alert.PlaySoundFile");
+        TailSettings.AlertSettings.SendEMail = GetBoolFromSetting("Alert.SendEMail");
+        TailSettings.AlertSettings.PopupWnd = GetBoolFromSetting("Alert.PopupWindow");
+
+        ParseSoundFileName(GetStringFromSetting("Alert.SoundFile"));
+
+        string strSetting = GetStringFromSetting("Alert.EMailAddress");
+        TailSettings.AlertSettings.EMailAddress = ParseEMailAddress(strSetting) ? strSetting : LogFile.ALERT_EMAIL_ADDRESS;
+
       }
-      catch(ConfigurationErrorsException ex)
+      catch (ConfigurationErrorsException ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -587,10 +459,10 @@ namespace Org.Vs.TailForWin.Controller
     /// <returns>Enum from thread priority</returns>
     public static ThreadPriority GetThreadPriority(string s)
     {
-      if(s == null)
+      if (s == null)
         return ThreadPriority.Normal;
 
-      if(Enum.GetNames(typeof(ThreadPriority)).All(priorityName => String.Compare(s.ToLower(), priorityName.ToLower(), StringComparison.Ordinal) != 0))
+      if (Enum.GetNames(typeof(ThreadPriority)).All(priorityName => String.Compare(s.ToLower(), priorityName.ToLower(), StringComparison.Ordinal) != 0))
         return ThreadPriority.Normal;
 
       Enum.TryParse(s, out ThreadPriority tp);
@@ -610,10 +482,10 @@ namespace Org.Vs.TailForWin.Controller
     /// <returns>Enum of ETailRefreshRate</returns>
     public static ETailRefreshRate GetRefreshRate(string s)
     {
-      if(string.IsNullOrEmpty(s))
+      if (string.IsNullOrEmpty(s))
         return ETailRefreshRate.Normal;
 
-      if(Enum.GetNames(typeof(ETailRefreshRate)).All(refreshName => string.Compare(s.ToLower(), refreshName.ToLower(), StringComparison.Ordinal) != 0))
+      if (Enum.GetNames(typeof(ETailRefreshRate)).All(refreshName => string.Compare(s.ToLower(), refreshName.ToLower(), StringComparison.Ordinal) != 0))
         return ETailRefreshRate.Normal;
 
       Enum.TryParse(s, out ETailRefreshRate trr);
@@ -626,12 +498,12 @@ namespace Org.Vs.TailForWin.Controller
     /// </summary>
     /// <param name="s">Reference of SmartWatch mode string</param>
     /// <returns>Enum of ESmartWatchMode</returns>
-    public static ESmartWatchMode GetSmartWatchMode(string s)
+    private static ESmartWatchMode GetSmartWatchMode(string s)
     {
-      if(string.IsNullOrEmpty(s))
+      if (string.IsNullOrEmpty(s))
         return ESmartWatchMode.Manual;
 
-      if(Enum.GetNames(typeof(ESmartWatchMode)).All(m => string.Compare(s.ToLower(), m.ToLower(), StringComparison.Ordinal) != 0))
+      if (Enum.GetNames(typeof(ESmartWatchMode)).All(m => string.Compare(s.ToLower(), m.ToLower(), StringComparison.Ordinal) != 0))
         return ESmartWatchMode.Manual;
 
       Enum.TryParse(s, out ESmartWatchMode mode);
@@ -644,12 +516,12 @@ namespace Org.Vs.TailForWin.Controller
     /// </summary>
     /// <param name="s">Enum value as string</param>
     /// <returns>Enum of System.Windows.WindowState</returns>
-    public static System.Windows.WindowState GetWindowState(string s)
+    private static System.Windows.WindowState GetWindowState(string s)
     {
-      if(string.IsNullOrEmpty(s))
+      if (string.IsNullOrEmpty(s))
         return System.Windows.WindowState.Normal;
 
-      if(Enum.GetNames(typeof(System.Windows.WindowState)).All(w => string.Compare(s.ToLower(), w.ToLower(), StringComparison.Ordinal) != 0))
+      if (Enum.GetNames(typeof(System.Windows.WindowState)).All(w => string.Compare(s.ToLower(), w.ToLower(), StringComparison.Ordinal) != 0))
         return System.Windows.WindowState.Normal;
 
       Enum.TryParse(s, out System.Windows.WindowState wndState);
@@ -662,12 +534,12 @@ namespace Org.Vs.TailForWin.Controller
     /// </summary>
     /// <param name="s">Enum value as string</param>
     /// <returns>Enum of EWindowStyle</returns>
-    public static EWindowStyle GetWindowStyle(string s)
+    private static EWindowStyle GetWindowStyle(string s)
     {
-      if(string.IsNullOrEmpty(s))
+      if (string.IsNullOrEmpty(s))
         return EWindowStyle.ModernBlueWindowStyle;
 
-      if(Enum.GetNames(typeof(EWindowStyle)).All(w => string.Compare(s.ToLower(), w.ToLower(), StringComparison.Ordinal) != 0))
+      if (Enum.GetNames(typeof(EWindowStyle)).All(w => string.Compare(s.ToLower(), w.ToLower(), StringComparison.Ordinal) != 0))
         return EWindowStyle.ModernBlueWindowStyle;
 
       Enum.TryParse(s, out EWindowStyle wnd);
@@ -682,11 +554,11 @@ namespace Org.Vs.TailForWin.Controller
 
     private static void ReadTimeFormatEnum(string s)
     {
-      if(s != null)
+      if (s != null)
       {
-        foreach(string timeFormat in Enum.GetNames(typeof(ETimeFormat)))
+        foreach (string timeFormat in Enum.GetNames(typeof(ETimeFormat)))
         {
-          if(String.Compare(s, timeFormat, StringComparison.Ordinal) == 0)
+          if (String.Compare(s, timeFormat, StringComparison.Ordinal) == 0)
           {
             Enum.TryParse(s, out ETimeFormat tf);
             TailSettings.DefaultTimeFormat = tf;
@@ -704,11 +576,11 @@ namespace Org.Vs.TailForWin.Controller
 
     private static void ReadDateFormatEnum(string s)
     {
-      if(s != null)
+      if (s != null)
       {
-        foreach(string dateFormat in Enum.GetNames(typeof(EDateFormat)))
+        foreach (string dateFormat in Enum.GetNames(typeof(EDateFormat)))
         {
-          if(String.Compare(s, dateFormat, StringComparison.Ordinal) == 0)
+          if (String.Compare(s, dateFormat, StringComparison.Ordinal) == 0)
           {
             Enum.TryParse(s, out EDateFormat df);
             TailSettings.DefaultDateFormat = df;
@@ -726,11 +598,11 @@ namespace Org.Vs.TailForWin.Controller
 
     private static void ReadFileSortEnum(string s)
     {
-      if(s != null)
+      if (s != null)
       {
-        foreach(string fileSort in Enum.GetNames(typeof(EFileSort)))
+        foreach (string fileSort in Enum.GetNames(typeof(EFileSort)))
         {
-          if(String.Compare(s, fileSort, StringComparison.Ordinal) == 0)
+          if (String.Compare(s, fileSort, StringComparison.Ordinal) == 0)
           {
             Enum.TryParse(s, out EFileSort fs);
             TailSettings.DefaultFileSort = fs;
@@ -752,51 +624,51 @@ namespace Org.Vs.TailForWin.Controller
       Match match8 = Regex.Match(s, @"^(#)?([0-9a-fA-F]{4})([0-9a-fA-F]{4})?$");
       bool matched = match6.Success | match8.Success;
 
-      switch(cType)
+      switch (cType)
       {
-      case ETailLogColorTypes.BackgroundColor:
+        case ETailLogColorTypes.BackgroundColor:
 
-        TailSettings.DefaultBackgroundColor = !matched ? LogFile.DEFAULT_BACKGROUND_COLOR : s;
-        break;
+          TailSettings.DefaultBackgroundColor = !matched ? LogFile.DEFAULT_BACKGROUND_COLOR : s;
+          break;
 
-      case ETailLogColorTypes.ForegroundColor:
+        case ETailLogColorTypes.ForegroundColor:
 
-        TailSettings.DefaultForegroundColor = !matched ? LogFile.DEFAULT_FOREGROUND_COLOR : s;
-        break;
+          TailSettings.DefaultForegroundColor = !matched ? LogFile.DEFAULT_FOREGROUND_COLOR : s;
+          break;
 
-      case ETailLogColorTypes.InactiveForegroundColor:
+        case ETailLogColorTypes.InactiveForegroundColor:
 
-        TailSettings.DefaultInactiveForegroundColor = !matched ? LogFile.DEFAULT_INACTIVE_FOREGROUND_COLOR : s;
-        break;
+          TailSettings.DefaultInactiveForegroundColor = !matched ? LogFile.DEFAULT_INACTIVE_FOREGROUND_COLOR : s;
+          break;
 
-      case ETailLogColorTypes.InactiveBackgroundColor:
+        case ETailLogColorTypes.InactiveBackgroundColor:
 
-        TailSettings.DefaultInactiveBackgroundColor = !matched ? LogFile.DEFAULT_INACTIVE_BACKGROUND_COLOR : s;
-        break;
+          TailSettings.DefaultInactiveBackgroundColor = !matched ? LogFile.DEFAULT_INACTIVE_BACKGROUND_COLOR : s;
+          break;
 
-      case ETailLogColorTypes.FindHighlightForegroundColor:
+        case ETailLogColorTypes.FindHighlightForegroundColor:
 
-        TailSettings.DefaultHighlightForegroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR : s;
-        break;
+          TailSettings.DefaultHighlightForegroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR : s;
+          break;
 
-      case ETailLogColorTypes.FindHighlightBackgroundColor:
+        case ETailLogColorTypes.FindHighlightBackgroundColor:
 
-        TailSettings.DefaultHighlightBackgroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR : s;
-        break;
+          TailSettings.DefaultHighlightBackgroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR : s;
+          break;
 
-      case ETailLogColorTypes.LineNumbersColor:
+        case ETailLogColorTypes.LineNumbersColor:
 
-        TailSettings.DefaultLineNumbersColor = !matched ? LogFile.DEFAULT_LINE_NUMBERS_COLOR : s;
-        break;
+          TailSettings.DefaultLineNumbersColor = !matched ? LogFile.DEFAULT_LINE_NUMBERS_COLOR : s;
+          break;
 
-      case ETailLogColorTypes.HighlightColor:
+        case ETailLogColorTypes.HighlightColor:
 
-        TailSettings.DefaultHighlightColor = !matched ? LogFile.DEFAULT_HIGHLIGHT_COLOR : s;
-        break;
+          TailSettings.DefaultHighlightColor = !matched ? LogFile.DEFAULT_HIGHLIGHT_COLOR : s;
+          break;
 
-      default:
+        default:
 
-        throw new NotImplementedException("not supported color type");
+          throw new NotImplementedException("not supported color type");
       }
     }
 
@@ -804,16 +676,16 @@ namespace Org.Vs.TailForWin.Controller
     {
       int pos;
 
-      if(xPos)
+      if (xPos)
       {
-        if(!int.TryParse(s, out pos))
+        if (!int.TryParse(s, out pos))
           pos = -1;
 
         TailSettings.SearchWndXPos = pos;
       }
       else
       {
-        if(!int.TryParse(s, out pos))
+        if (!int.TryParse(s, out pos))
           pos = -1;
 
         TailSettings.SearchWndYPos = pos;
@@ -838,19 +710,19 @@ namespace Org.Vs.TailForWin.Controller
       string fileName = System.IO.Path.GetFileName(fullPath);
       char[] reserved = System.IO.Path.GetInvalidFileNameChars();
 
-      if(fileName != null && fileName.Length < 3)
+      if (fileName != null && fileName.Length < 3)
       {
         TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
         return;
       }
 
-      if(fileName != null && fileName.Length > 128)
+      if (fileName != null && fileName.Length > 128)
       {
         TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
         return;
       }
 
-      if(reserved.Any(c => fileName != null && fileName.Contains(c.ToString(CultureInfo.InvariantCulture))))
+      if (reserved.Any(c => fileName != null && fileName.Contains(c.ToString(CultureInfo.InvariantCulture))))
       {
         TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
         return;
@@ -858,7 +730,7 @@ namespace Org.Vs.TailForWin.Controller
 
       Regex regex = new Regex(LogFile.REGEX_SOUNDFILE_EXTENSION);
 
-      if(extension != null && !regex.IsMatch(extension))
+      if (extension != null && !regex.IsMatch(extension))
       {
         TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
         return;
@@ -883,10 +755,42 @@ namespace Org.Vs.TailForWin.Controller
         config.Save(ConfigurationSaveMode.Modified);
         ConfigurationManager.RefreshSection("appSettings");
       }
-      catch(ConfigurationErrorsException ex)
+      catch (ConfigurationErrorsException ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
+    }
+
+    private static string GetStringFromSetting(string setting)
+    {
+      if (string.IsNullOrWhiteSpace(setting))
+        return string.Empty;
+
+      return ConfigurationManager.AppSettings[setting];
+    }
+
+    private static int GetIntFromSetting(string setting, int defaultValue = -1)
+    {
+      if (!int.TryParse(ConfigurationManager.AppSettings[setting], out int intSetting))
+        intSetting = defaultValue;
+
+      return intSetting;
+    }
+
+    private static double GetDoubleFromSetting(string setting, double defaultValue = -1)
+    {
+      if (!double.TryParse(ConfigurationManager.AppSettings[setting], out double doubleSetting))
+        doubleSetting = defaultValue;
+
+      return doubleSetting;
+    }
+
+    private static bool GetBoolFromSetting(string setting, bool defaultValue = false)
+    {
+      if (!bool.TryParse(ConfigurationManager.AppSettings[setting], out bool boolSetting))
+        boolSetting = defaultValue;
+
+      return boolSetting;
     }
 
     #endregion
