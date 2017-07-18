@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.Controller
     /// </summary>
     public static void ReadSettings()
     {
-      LOG.Trace("Read TailForWindows settings");
+      LOG.Debug("Read TailForWindows settings");
 
       try
       {
@@ -99,6 +99,25 @@ namespace Org.Vs.TailForWin.Controller
 
       if (ConfigurationManager.AppSettings["LogLineLimit"] == null)
         AddNewProperties_IntoConfigFile("LogLineLimit", "-1");
+      
+      #region SmartWatch settings
+      
+      if (ConfigurationManager.AppSettings["SmartWatch.FilterByExtension"] == null)
+        AddNewProperties_IntoConfigFile("SmartWatch.FilterByExtension", true.ToString());
+
+      if (ConfigurationManager.AppSettings["SmartWatch.NewTab"] == null)
+        AddNewProperties_IntoConfigFile("SmartWatch.NewTab", true.ToString());
+
+      if (ConfigurationManager.AppSettings["SmartWatch.Mode"] == null)
+        AddNewProperties_IntoConfigFile("SmartWatch.Mode", ESmartWatchMode.Manual.ToString());
+
+      if (ConfigurationManager.AppSettings["SmartWatch.AutoRun"] == null)
+        AddNewProperties_IntoConfigFile("SmartWatch.AutoRun", true.ToString());
+      
+      #endregion
+      
+      if (ConfigurationManager.AppSettings["Alert.PopupWindow"] == null)
+        AddNewProperties_IntoConfigFile("Alert.PopupWindow", "false");
     }
 
     /// <summary>
@@ -113,40 +132,40 @@ namespace Org.Vs.TailForWin.Controller
         if (config.AppSettings.Settings.Count <= 0)
           return;
 
-        config.AppSettings.Settings["LinesRead"].Value = TailSettings.LinesRead.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["LogLineLimit"].Value = TailSettings.LogLineLimit.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["AlwaysOnTop"].Value = TailSettings.AlwaysOnTop.ToString();
-        config.AppSettings.Settings["ShowNLineAtStart"].Value = TailSettings.ShowNLineAtStart.ToString();
-        config.AppSettings.Settings["AlwaysScrollToEnd"].Value = TailSettings.AlwaysScrollToEnd.ToString();
-        config.AppSettings.Settings["RestoreWindowSize"].Value = TailSettings.RestoreWindowSize.ToString();
-        config.AppSettings.Settings["WndWidth"].Value = TailSettings.WndWidth.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["WndHeight"].Value = TailSettings.WndHeight.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["SaveWindowPosition"].Value = TailSettings.RestoreWindowSize.ToString();
-        config.AppSettings.Settings["WndXPos"].Value = TailSettings.WndXPos.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["WndYPos"].Value = TailSettings.WndYPos.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["DefaultThreadPriority"].Value = TailSettings.DefaultThreadPriority.ToString();
-        config.AppSettings.Settings["DefaultRefreshRate"].Value = TailSettings.DefaultRefreshRate.ToString();
-        config.AppSettings.Settings["ExitWithEsc"].Value = TailSettings.ExitWithEscape.ToString();
-        config.AppSettings.Settings["TimeFormat"].Value = TailSettings.DefaultTimeFormat.ToString();
-        config.AppSettings.Settings["DateFormat"].Value = TailSettings.DefaultDateFormat.ToString();
-        config.AppSettings.Settings["ForegroundColor"].Value = TailSettings.DefaultForegroundColor;
-        config.AppSettings.Settings["BackgroundColor"].Value = TailSettings.DefaultBackgroundColor;
-        config.AppSettings.Settings["InactiveForegroundColor"].Value = TailSettings.DefaultInactiveForegroundColor;
-        config.AppSettings.Settings["InactiveBackgroundColor"].Value = TailSettings.DefaultInactiveBackgroundColor;
-        config.AppSettings.Settings["FindHighlightForegroundColor"].Value = TailSettings.DefaultHighlightForegroundColor;
-        config.AppSettings.Settings["FindHighlightBackgroundColor"].Value = TailSettings.DefaultHighlightBackgroundColor;
-        config.AppSettings.Settings["SearchwndXPos"].Value = TailSettings.SearchWndXPos.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["SearchwndYPos"].Value = TailSettings.SearchWndYPos.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["FileManagerSort"].Value = TailSettings.DefaultFileSort.ToString();
-        config.AppSettings.Settings["ShowLineNumbers"].Value = TailSettings.ShowLineNumbers.ToString();
-        config.AppSettings.Settings["LineNumbersColor"].Value = TailSettings.DefaultLineNumbersColor;
-        config.AppSettings.Settings["HighlightColor"].Value = TailSettings.DefaultHighlightColor;
-        config.AppSettings.Settings["AutoUpdate"].Value = TailSettings.AutoUpdate.ToString();
-        config.AppSettings.Settings["SmartWatch"].Value = TailSettings.SmartWatch.ToString();
-        config.AppSettings.Settings["GroupByCategory"].Value = TailSettings.GroupByCategory.ToString();
-        config.AppSettings.Settings["CurrentWindowStyle"].Value = TailSettings.CurrentWindowStyle.ToString();
-        config.AppSettings.Settings["WindowState"].Value = TailSettings.CurrentWindowState.ToString();
-        config.AppSettings.Settings["DeleteLogFiles"].Value = TailSettings.DeleteLogFiles.ToString();
+        WriteValueToSetting(config, "LinesRead", TailSettings.LinesRead.ToString(CultureInfo.InvariantCulture));
+        WriteValueToSetting(config, "LogLineLimit", TailSettings.LogLineLimit.ToString(CultureInfo.InvariantCulture));
+        WriteValueToSetting(config, "AlwaysOnTop", TailSettings.AlwaysOnTop.ToString());
+        WriteValueToSetting(config, "ShowNLineAtStart", TailSettings.ShowNLineAtStart.ToString());
+        WriteValueToSetting(config, "AlwaysScrollToEnd", TailSettings.AlwaysScrollToEnd.ToString());
+        WriteValueToSetting(config, "RestoreWindowSize", TailSettings.RestoreWindowSize.ToString());
+        WriteValueToSetting(config, "WndWidth", TailSettings.WndWidth.ToString(CultureInfo.InvariantCulture));
+        WriteValueToSetting(config, "WndHeight", TailSettings.WndHeight.ToString(CultureInfo.InvariantCulture));
+        WriteValueToSetting(config, "SaveWindowPosition", TailSettings.RestoreWindowSize.ToString());
+        WriteValueToSetting(config, "WndXPos", TailSettings.WndXPos.ToString(CultureInfo.InvariantCulture));
+        WriteValueToSetting(config, "WndYPos", TailSettings.WndYPos.ToString(CultureInfo.InvariantCulture));
+        WriteValueToSetting(config, "DefaultThreadPriority", TailSettings.DefaultThreadPriority.ToString());
+        WriteValueToSetting(config, "DefaultRefreshRate", TailSettings.DefaultRefreshRate.ToString());
+        WriteValueToSetting(config, "ExitWithEsc", TailSettings.ExitWithEscape.ToString());
+        WriteValueToSetting(config, "TimeFormat", TailSettings.DefaultTimeFormat.ToString());
+        WriteValueToSetting(config, "DateFormat", TailSettings.DefaultDateFormat.ToString());
+        WriteValueToSetting(config, "ForegroundColor", TailSettings.DefaultForegroundColor);
+        WriteValueToSetting(config, "BackgroundColor", TailSettings.DefaultBackgroundColor);
+        WriteValueToSetting(config, "InactiveForegroundColor", TailSettings.DefaultInactiveForegroundColor);
+        WriteValueToSetting(config, "InactiveBackgroundColor", TailSettings.DefaultInactiveBackgroundColor);
+        WriteValueToSetting(config, "FindHighlightForegroundColor", TailSettings.DefaultHighlightForegroundColor);
+        WriteValueToSetting(config, "FindHighlightBackgroundColor", TailSettings.DefaultHighlightBackgroundColor);
+        WriteValueToSetting(config, "SearchwndXPos", TailSettings.SearchWndXPos.ToString(CultureInfo.InvariantCulture));
+        WriteValueToSetting(config, "SearchwndYPos", TailSettings.SearchWndYPos.ToString(CultureInfo.InvariantCulture));
+        WriteValueToSetting(config, "FileManagerSort", TailSettings.DefaultFileSort.ToString());
+        WriteValueToSetting(config, "ShowLineNumbers", TailSettings.ShowLineNumbers.ToString());
+        WriteValueToSetting(config, "LineNumbersColor", TailSettings.DefaultLineNumbersColor);
+        WriteValueToSetting(config, "HighlightColor", TailSettings.DefaultHighlightColor);
+        WriteValueToSetting(config, "AutoUpdate", TailSettings.AutoUpdate.ToString());
+        WriteValueToSetting(config, "SmartWatch", TailSettings.SmartWatch.ToString());
+        WriteValueToSetting(config, "GroupByCategory", TailSettings.GroupByCategory.ToString());
+        WriteValueToSetting(config, "CurrentWindowStyle", TailSettings.CurrentWindowStyle.ToString());
+        WriteValueToSetting(config, "WindowState", TailSettings.CurrentWindowState.ToString());
+        WriteValueToSetting(config, "DeleteLogFiles", TailSettings.DeleteLogFiles.ToString());
 
         SaveAlertSettings(config);
         SaveProxySettings(config);
@@ -173,9 +192,9 @@ namespace Org.Vs.TailForWin.Controller
 
         if (config.AppSettings.Settings.Count <= 0)
           return;
-
-        config.AppSettings.Settings["SearchwndXPos"].Value = TailSettings.SearchWndXPos.ToString(CultureInfo.InvariantCulture);
-        config.AppSettings.Settings["SearchwndYPos"].Value = TailSettings.SearchWndYPos.ToString(CultureInfo.InvariantCulture);
+        
+        WriteValueToSetting(config, "SearchwndXPos", TailSettings.SearchWndXPos.ToString(CultureInfo.InvariantCulture));
+        WriteValueToSetting(config, "SearchwndYPos", TailSettings.SearchWndYPos.ToString(CultureInfo.InvariantCulture));
 
         config.Save(ConfigurationSaveMode.Modified);
         ConfigurationManager.RefreshSection("appSettings");
@@ -306,12 +325,12 @@ namespace Org.Vs.TailForWin.Controller
     /// <param name="config">Reference to config file</param>
     private static void SaveAlertSettings(Configuration config)
     {
-      config.AppSettings.Settings["Alert.BringToFront"].Value = TailSettings.AlertSettings.BringToFront.ToString();
-      config.AppSettings.Settings["Alert.PlaySoundFile"].Value = TailSettings.AlertSettings.PlaySoundFile.ToString();
-      config.AppSettings.Settings["Alert.SendEMail"].Value = TailSettings.AlertSettings.SendEMail.ToString();
-      config.AppSettings.Settings["Alert.EMailAddress"].Value = TailSettings.AlertSettings.EMailAddress;
-      config.AppSettings.Settings["Alert.SoundFile"].Value = TailSettings.AlertSettings.SoundFileNameFullPath;
-      config.AppSettings.Settings["Alert.PopupWindow"].Value = TailSettings.AlertSettings.PopupWnd.ToString();
+      WriteValueToSetting(config, "Alert.BringToFront", TailSettings.AlertSettings.BringToFront.ToString());
+      WriteValueToSetting(config, "Alert.PlaySoundFile", TailSettings.AlertSettings.PlaySoundFile.ToString());
+      WriteValueToSetting(config, "Alert.SendEMail", TailSettings.AlertSettings.SendEMail.ToString());
+      WriteValueToSetting(config, "Alert.EMailAddress", TailSettings.AlertSettings.EMailAddress);
+      WriteValueToSetting(config, "Alert.SoundFile", TailSettings.AlertSettings.SoundFileNameFullPath);
+      WriteValueToSetting(config, "Alert.PopupWindow", TailSettings.AlertSettings.PopupWnd.ToString());
     }
 
     /// <summary>
@@ -320,12 +339,12 @@ namespace Org.Vs.TailForWin.Controller
     /// <param name="config">Reference to config file</param>
     private static void SaveProxySettings(Configuration config)
     {
-      config.AppSettings.Settings["Proxy.UserName"].Value = TailSettings.ProxySettings.UserName;
-      config.AppSettings.Settings["Proxy.Password"].Value = TailSettings.ProxySettings.Password;
-      config.AppSettings.Settings["Proxy.Use"].Value = TailSettings.ProxySettings.UseProxy.ToString();
-      config.AppSettings.Settings["Proxy.Port"].Value = TailSettings.ProxySettings.ProxyPort.ToString(CultureInfo.InvariantCulture);
-      config.AppSettings.Settings["Proxy.Url"].Value = TailSettings.ProxySettings.ProxyUrl;
-      config.AppSettings.Settings["Proxy.UseSystem"].Value = TailSettings.ProxySettings.UseSystemSettings.ToString();
+      WriteValueToSetting(config, "Proxy.UserName", TailSettings.ProxySettings.UserName);
+      WriteValueToSetting(config, "Proxy.Password", TailSettings.ProxySettings.Password);
+      WriteValueToSetting(config, "Proxy.Use", TailSettings.ProxySettings.UseProxy.ToString());
+      WriteValueToSetting(config, "Proxy.Port", TailSettings.ProxySettings.ProxyPort.ToString(CultureInfo.InvariantCulture));
+      WriteValueToSetting(config, "Proxy.Url", TailSettings.ProxySettings.ProxyUrl);
+      WriteValueToSetting(config, "Proxy.UseSystem", TailSettings.ProxySettings.UseSystemSettings.ToString());
     }
 
     /// <summary>
@@ -334,40 +353,28 @@ namespace Org.Vs.TailForWin.Controller
     /// <param name="config">Reference to config file</param>
     private static void SaveSmptSettings(Configuration config)
     {
-      config.AppSettings.Settings["Smtp.Server"].Value = TailSettings.AlertSettings.SmtpSettings.SmtpServerName;
-      config.AppSettings.Settings["Smtp.Port"].Value = TailSettings.AlertSettings.SmtpSettings.SmtpPort.ToString(CultureInfo.InvariantCulture);
-      config.AppSettings.Settings["Smtp.Login"].Value = TailSettings.AlertSettings.SmtpSettings.LoginName;
-      config.AppSettings.Settings["Smtp.Password"].Value = TailSettings.AlertSettings.SmtpSettings.Password;
-      config.AppSettings.Settings["Smtp.FromEMail"].Value = TailSettings.AlertSettings.SmtpSettings.FromAddress;
-      config.AppSettings.Settings["Smtp.Subject"].Value = TailSettings.AlertSettings.SmtpSettings.Subject;
-      config.AppSettings.Settings["Smtp.Ssl"].Value = TailSettings.AlertSettings.SmtpSettings.SSL.ToString();
-      config.AppSettings.Settings["Smtp.Tls"].Value = TailSettings.AlertSettings.SmtpSettings.TLS.ToString();
+      WriteValueToSetting(config, "Smtp.Server", TailSettings.AlertSettings.SmtpSettings.SmtpServerName);
+      WriteValueToSetting(config, "Smtp.Port", TailSettings.AlertSettings.SmtpSettings.SmtpPort.ToString(CultureInfo.InvariantCulture));
+      WriteValueToSetting(config, "Smtp.Login", TailSettings.AlertSettings.SmtpSettings.LoginName);
+      WriteValueToSetting(config, "Smtp.Password", TailSettings.AlertSettings.SmtpSettings.Password);
+      WriteValueToSetting(config, "Smtp.FromEMail", TailSettings.AlertSettings.SmtpSettings.FromAddress);
+      WriteValueToSetting(config, "Smtp.Subject", TailSettings.AlertSettings.SmtpSettings.Subject);
+      WriteValueToSetting(config, "Smtp.Ssl", TailSettings.AlertSettings.SmtpSettings.SSL.ToString());
+      WriteValueToSetting(config, "Smtp.Tls", TailSettings.AlertSettings.SmtpSettings.TLS.ToString());
     }
 
     private static void SaveSmartWatchSettings(Configuration config)
     {
-      config.AppSettings.Settings["SmartWatch.FilterByExtension"].Value = TailSettings.SmartWatchData.FilterByExtension.ToString();
-      config.AppSettings.Settings["SmartWatch.NewTab"].Value = TailSettings.SmartWatchData.NewTab.ToString();
-      config.AppSettings.Settings["SmartWatch.Mode"].Value = TailSettings.SmartWatchData.Mode.ToString();
-      config.AppSettings.Settings["SmartWatch.AutoRun"].Value = TailSettings.SmartWatchData.AutoRun.ToString();
+      WriteValueToSetting(config, "SmartWatch.FilterByExtension", TailSettings.SmartWatchData.FilterByExtension.ToString());
+      WriteValueToSetting(config, "SmartWatch.NewTab", TailSettings.SmartWatchData.NewTab.ToString());
+      WriteValueToSetting(config, "SmartWatch.Mode", TailSettings.SmartWatchData.Mode.ToString());
+      WriteValueToSetting(config, "SmartWatch.AutoRun", TailSettings.SmartWatchData.AutoRun.ToString());
     }
 
     private static void ReadSmartWatchSettings()
     {
       try
       {
-        if (ConfigurationManager.AppSettings["SmartWatch.FilterByExtension"] == null)
-          AddNewProperties_IntoConfigFile("SmartWatch.FilterByExtension", true.ToString());
-
-        if (ConfigurationManager.AppSettings["SmartWatch.NewTab"] == null)
-          AddNewProperties_IntoConfigFile("SmartWatch.NewTab", true.ToString());
-
-        if (ConfigurationManager.AppSettings["SmartWatch.Mode"] == null)
-          AddNewProperties_IntoConfigFile("SmartWatch.Mode", ESmartWatchMode.Manual.ToString());
-
-        if (ConfigurationManager.AppSettings["SmartWatch.AutoRun"] == null)
-          AddNewProperties_IntoConfigFile("SmartWatch.AutoRun", true.ToString());
-
         TailSettings.SmartWatchData.FilterByExtension = GetBoolFromSetting("SmartWatch.FilterByExtension", true);
         TailSettings.SmartWatchData.NewTab = GetBoolFromSetting("SmartWatch.NewTab", true);
         TailSettings.SmartWatchData.Mode = GetSmartWatchMode(GetStringFromSetting("SmartWatch.Mode"));
@@ -432,9 +439,6 @@ namespace Org.Vs.TailForWin.Controller
     {
       try
       {
-        if (ConfigurationManager.AppSettings["Alert.PopupWindow"] == null)
-          AddNewProperties_IntoConfigFile("Alert.PopupWindow", "false");
-
         TailSettings.AlertSettings.BringToFront = GetBoolFromSetting("Alert.BringToFront", true);
         TailSettings.AlertSettings.PlaySoundFile = GetBoolFromSetting("Alert.PlaySoundFile");
         TailSettings.AlertSettings.SendEMail = GetBoolFromSetting("Alert.SendEMail");
@@ -759,6 +763,12 @@ namespace Org.Vs.TailForWin.Controller
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
+    }
+    
+    private void WriteValueToSetting(Configuration config, string setting, string value)
+    {
+      Arg.NotNull(config, "Configuration");
+      config.AppSettings.Settings[setting].Value = value;
     }
 
     private static string GetStringFromSetting(string setting)
