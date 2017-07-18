@@ -7,6 +7,8 @@ using System.Threading;
 using log4net;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Interfaces;
+using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Controller
@@ -14,7 +16,7 @@ namespace Org.Vs.TailForWin.Controller
   /// <summary>
   /// SettingsHelper
   /// </summary>
-  public class SettingsHelper
+  public class SettingsHelper : ISettingsHelper
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SettingsHelper));
 
@@ -22,7 +24,7 @@ namespace Org.Vs.TailForWin.Controller
     /// <summary>
     /// Read app settings
     /// </summary>
-    public static void ReadSettings()
+    public void ReadSettings()
     {
       LOG.Debug("Read TailForWindows settings");
 
@@ -99,9 +101,9 @@ namespace Org.Vs.TailForWin.Controller
 
       if (ConfigurationManager.AppSettings["LogLineLimit"] == null)
         AddNewProperties_IntoConfigFile("LogLineLimit", "-1");
-      
+
       #region SmartWatch settings
-      
+
       if (ConfigurationManager.AppSettings["SmartWatch.FilterByExtension"] == null)
         AddNewProperties_IntoConfigFile("SmartWatch.FilterByExtension", true.ToString());
 
@@ -113,9 +115,9 @@ namespace Org.Vs.TailForWin.Controller
 
       if (ConfigurationManager.AppSettings["SmartWatch.AutoRun"] == null)
         AddNewProperties_IntoConfigFile("SmartWatch.AutoRun", true.ToString());
-      
+
       #endregion
-      
+
       if (ConfigurationManager.AppSettings["Alert.PopupWindow"] == null)
         AddNewProperties_IntoConfigFile("Alert.PopupWindow", "false");
     }
@@ -123,7 +125,7 @@ namespace Org.Vs.TailForWin.Controller
     /// <summary>
     /// Save app settings
     /// </summary>
-    public static void SaveSettings()
+    public void SaveSettings()
     {
       try
       {
@@ -184,7 +186,7 @@ namespace Org.Vs.TailForWin.Controller
     /// <summary>
     /// Save search dialog window position
     /// </summary>
-    public static void SaveSearchWindowPosition()
+    public void SaveSearchWindowPosition()
     {
       try
       {
@@ -192,7 +194,7 @@ namespace Org.Vs.TailForWin.Controller
 
         if (config.AppSettings.Settings.Count <= 0)
           return;
-        
+
         WriteValueToSetting(config, "SearchwndXPos", TailSettings.SearchWndXPos.ToString(CultureInfo.InvariantCulture));
         WriteValueToSetting(config, "SearchwndYPos", TailSettings.SearchWndYPos.ToString(CultureInfo.InvariantCulture));
 
@@ -208,7 +210,7 @@ namespace Org.Vs.TailForWin.Controller
     /// <summary>
     /// Set app settings to default parameters
     /// </summary>
-    public static void SetToDefault()
+    public void SetToDefault()
     {
       LOG.Info("Set all settings to default values");
 
@@ -258,7 +260,7 @@ namespace Org.Vs.TailForWin.Controller
     /// <summary>
     /// Reload all TailForWindows settings
     /// </summary>
-    public static void ReloadSettings()
+    public void ReloadSettings()
     {
       ConfigurationManager.RefreshSection("appSettings");
     }
@@ -764,8 +766,8 @@ namespace Org.Vs.TailForWin.Controller
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
-    
-    private void WriteValueToSetting(Configuration config, string setting, string value)
+
+    private static void WriteValueToSetting(Configuration config, string setting, string value)
     {
       Arg.NotNull(config, "Configuration");
       config.AppSettings.Settings[setting].Value = value;

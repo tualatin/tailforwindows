@@ -43,7 +43,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if (e.Key == Key.Escape)
         OnExit();
     }
 
@@ -56,31 +56,23 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void SaveSettings()
     {
-      if(textBoxPassword.Password.Length > 0)
+      if (textBoxPassword.Password.Length > 0)
         SettingsHelper.TailSettings.ProxySettings.Password = StringEncryption.Encrypt(textBoxPassword.Password, LogFile.ENCRYPT_PASSPHRASE);
-      if(watermarkTextBoxUserName.Text.Length > 0)
+      if (watermarkTextBoxUserName.Text.Length > 0)
         SettingsHelper.TailSettings.ProxySettings.UserName = watermarkTextBoxUserName.Text;
-      if(watermarkTextBoxUrl.Text.Length > 0)
+      if (watermarkTextBoxUrl.Text.Length > 0)
         SettingsHelper.TailSettings.ProxySettings.ProxyUrl = watermarkTextBoxUrl.Text;
 
       int port;
 
-      if(!int.TryParse(watermarkTextBoxPort.Text, out port))
+      if (!int.TryParse(watermarkTextBoxPort.Text, out port))
         port = -1;
 
       SettingsHelper.TailSettings.ProxySettings.ProxyPort = port;
+      SettingsHelper.TailSettings.ProxySettings.UseProxy = radioButtonManualProxy.IsChecked == true;
+      SettingsHelper.TailSettings.ProxySettings.UseSystemSettings = radioButtonSystemSettings.IsChecked == true;
 
-      if(radioButtonManualProxy.IsChecked == true)
-        SettingsHelper.TailSettings.ProxySettings.UseProxy = true;
-      else
-        SettingsHelper.TailSettings.ProxySettings.UseProxy = false;
-
-      if(radioButtonSystemSettings.IsChecked == true)
-        SettingsHelper.TailSettings.ProxySettings.UseSystemSettings = true;
-      else
-        SettingsHelper.TailSettings.ProxySettings.UseSystemSettings = false;
-
-      if(radioButtonNoProxy.IsChecked == true)
+      if (radioButtonNoProxy.IsChecked == true)
       {
         SettingsHelper.TailSettings.ProxySettings.UserName = string.Empty;
         SettingsHelper.TailSettings.ProxySettings.Password = string.Empty;
@@ -88,33 +80,30 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         SettingsHelper.TailSettings.ProxySettings.ProxyPort = -1;
       }
 
-      SettingsHelper.SaveSettings();
+      LogFile.Settings.SaveSettings();
     }
 
     private void InitRadios()
     {
-      if(!SettingsHelper.TailSettings.ProxySettings.UseSystemSettings && !SettingsHelper.TailSettings.ProxySettings.UseProxy)
+      if (!SettingsHelper.TailSettings.ProxySettings.UseSystemSettings && !SettingsHelper.TailSettings.ProxySettings.UseProxy)
         radioButtonNoProxy.IsChecked = true;
       else
         radioButtonNoProxy.IsChecked = false;
 
-      if(!string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password))
+      if (!string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password))
         textBoxPassword.Password = StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE);
     }
 
     private void SelectAllText(WatermarkTextBox.WatermarkTextBox textBox)
     {
-      textBox.Dispatcher.BeginInvoke(new Action(delegate
-      {
-        textBox.SelectAll();
-      }), System.Windows.Threading.DispatcherPriority.Input);
+      textBox.Dispatcher.BeginInvoke(new Action(textBox.SelectAll), System.Windows.Threading.DispatcherPriority.Input);
     }
 
     #endregion
 
     private void watermarkTextBox_GotFocus(object sender, RoutedEventArgs e)
     {
-      WatermarkTextBox.WatermarkTextBox tb = (WatermarkTextBox.WatermarkTextBox) e.OriginalSource;
+      WatermarkTextBox.WatermarkTextBox tb = (WatermarkTextBox.WatermarkTextBox)e.OriginalSource;
       SelectAllText(tb);
     }
   }

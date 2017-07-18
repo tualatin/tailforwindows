@@ -124,7 +124,7 @@ namespace Org.Vs.TailForWin.UI
       {
         Header = "+",
         Name = "AddChildTab",
-        Style = (Style) FindResource("TabItemAddStyle"),
+        Style = (Style)FindResource("TabItemAddStyle"),
         Tag = "AddTab"
       };
       tabAdd.PreviewMouseLeftButtonDown += TabAdd_MouseLeftButtonDown;
@@ -147,13 +147,13 @@ namespace Org.Vs.TailForWin.UI
     {
       try
       {
-        foreach(TabItem item in tabControl.Items)
+        foreach (TabItem item in tabControl.Items)
         {
-          if(item.Content != null && item.Content.GetType() == typeof(Frame))
+          if (item.Content != null && item.Content.GetType() == typeof(Frame))
           {
             var page = GetTailLogWindow(item.Content as Frame);
 
-            if(page == null)
+            if (page == null)
               continue;
 
             page.Dispose();
@@ -162,7 +162,7 @@ namespace Org.Vs.TailForWin.UI
       }
       finally
       {
-        if(currentPage != null)
+        if (currentPage != null)
         {
           currentPage.Dispose();
           currentPage = null;
@@ -177,17 +177,17 @@ namespace Org.Vs.TailForWin.UI
     /// </summary>
     public void SetSbIconText()
     {
-      if(currentPage == null)
+      if (currentPage == null)
         return;
 
       try
       {
-        if(currentPage.IsThreadBusy)
+        if (currentPage.IsThreadBusy)
           MainWndTaskBarIcon.ToolTipText = Application.Current.FindResource("Record") as string;
         else
           MainWndTaskBarIcon.ToolTipText = Application.Current.FindResource("TrayIconReady") as string;
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -209,16 +209,16 @@ namespace Org.Vs.TailForWin.UI
     /// <param name="e">Arguments</param>
     public void FileManagerTab(object sender, EventArgs e)
     {
-      if(e is FileManagerDataEventArgs properties)
+      if (e is FileManagerDataEventArgs properties)
       {
         FileManagerData item = properties.GetData();
 
-        if(item == null)
+        if (item == null)
           return;
 
         AddTabItem(item);
 
-        if(tabControl.Items[tabControl.Items.Count - 3] is TabItem tab && tab.Header.Equals(Application.Current.FindResource("NoFile").ToString()))
+        if (tabControl.Items[tabControl.Items.Count - 3] is TabItem tab && tab.Header.Equals(Application.Current.FindResource("NoFile").ToString()))
           RemoveTabItem(tab);
       }
     }
@@ -244,13 +244,13 @@ namespace Org.Vs.TailForWin.UI
       };
       Control tabContent = tabItem.Content as Control;
 
-      if(tabContent == null)
+      if (tabContent == null)
       {
         tabContent = new ContentControl();
-        ((ContentControl) tabContent).Content = tabItem.Content;
+        ((ContentControl)tabContent).Content = tabItem.Content;
       }
 
-      ((ITabWindow) tabWin).AddTabItem(tabItem.Header.ToString(), tabContent);
+      ((ITabWindow)tabWin).AddTabItem(tabItem.Header.ToString(), tabContent);
       tabWin.Show();
       tabWin.Activate();
       tabWin.Focus();
@@ -262,9 +262,9 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabAdd_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      if(sender is TailForWinTabItem tabItem)
+      if (sender is TailForWinTabItem tabItem)
       {
-        if(tabItem.Equals(tabAdd))
+        if (tabItem.Equals(tabAdd))
           AddTabItem();
       }
     }
@@ -283,45 +283,45 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabControl_PreviewKeyDown(object sender, KeyEventArgs e)
     {
-      if((Keyboard.Modifiers & ModifierKeys.Control) != 0 && e.Key == Key.Tab)
+      if ((Keyboard.Modifiers & ModifierKeys.Control) != 0 && e.Key == Key.Tab)
         ctrlTabKey = true;
-      if((Keyboard.Modifiers & ModifierKeys.Control) != 0 && (Keyboard.Modifiers & ModifierKeys.Shift) != 0 && e.Key == Key.Tab)
+      if ((Keyboard.Modifiers & ModifierKeys.Control) != 0 && (Keyboard.Modifiers & ModifierKeys.Shift) != 0 && e.Key == Key.Tab)
         shiftCtrlTabKey = true;
     }
 
     private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if(!IsInitialized)
+      if (!IsInitialized)
         return;
 
-      if(e.Source is TabControl tbControl)
+      if (e.Source is TabControl tbControl)
       {
-        if(e.AddedItems.Count == 0)
+        if (e.AddedItems.Count == 0)
           return;
 
         LOG.Trace("{0}", System.Reflection.MethodBase.GetCurrentMethod());
 
         var tab = e.AddedItems[0] as TabItem;
 
-        if(tab == null)
+        if (tab == null)
           return;
 
         e.Handled = true;
 
-        if(tab.Equals(tabAdd) && !ctrlTabKey && !shiftCtrlTabKey)
+        if (tab.Equals(tabAdd) && !ctrlTabKey && !shiftCtrlTabKey)
         {
-          if(tbControl.Items.Count >= 2)
+          if (tbControl.Items.Count >= 2)
             tbControl.SelectedItem = tbControl.Items[tbControl.Items.Count - 2];
 
           return;
         }
 
-        if(tab.Equals(tabAdd) && ctrlTabKey && !shiftCtrlTabKey)
+        if (tab.Equals(tabAdd) && ctrlTabKey && !shiftCtrlTabKey)
         {
           // Scroll with CTRL + TAB, start from beginning
           tbControl.SelectedItem = tbControl.Items[0];
         }
-        else if(tab.Equals(tabAdd) && ctrlTabKey && shiftCtrlTabKey)
+        else if (tab.Equals(tabAdd) && ctrlTabKey && shiftCtrlTabKey)
         {
           // Scroll with CTRL + SHIFT + TAB, start from end
           tbControl.SelectedItem = tbControl.Items[tbControl.Items.Count - 2];
@@ -329,16 +329,16 @@ namespace Org.Vs.TailForWin.UI
 
         TailLog page = GetTailLogWindow(tab.Content as Frame);
 
-        if(page == null)
+        if (page == null)
           return;
 
-        if(currentPage != null && page.GetChildTabIndex() == currentPage.GetChildTabIndex())
+        if (currentPage != null && page.GetChildTabIndex() == currentPage.GetChildTabIndex())
           return;
 
         stsBarState.Content = page.GetChildState();
         page.ActiveTab = true;
 
-        if(searchBoxWindow.Visibility == Visibility.Visible)
+        if (searchBoxWindow.Visibility == Visibility.Visible)
         {
           page.SearchBoxActive();
           page.WrapAround(searchBoxWindow.WrapSearch);
@@ -356,10 +356,10 @@ namespace Org.Vs.TailForWin.UI
     private void TabWindow_Loaded(object sender, RoutedEventArgs e)
     {
       // Important for command line parameter!
-      if(LogFile.APP_MAIN_WINDOW == null)
-        LogFile.APP_MAIN_WINDOW = (TabWindow) DragWindowManager.Instance.AllWindows.Last();// (Application.Current.MainWindow as TabWindow);
+      if (LogFile.APP_MAIN_WINDOW == null)
+        LogFile.APP_MAIN_WINDOW = (TabWindow)DragWindowManager.Instance.AllWindows.Last();// (Application.Current.MainWindow as TabWindow);
 
-      if(SettingsHelper.TailSettings.AutoUpdate)
+      if (SettingsHelper.TailSettings.AutoUpdate)
         AutoUpdate.Init();
 
       TfWUpTimeStart = DateTime.Now;
@@ -370,16 +370,16 @@ namespace Org.Vs.TailForWin.UI
     {
       bool tailing = false;
 
-      foreach(TabItem item in tabControl.Items)
+      foreach (TabItem item in tabControl.Items)
       {
-        if(item.Content != null && item.Content.GetType() == typeof(Frame))
+        if (item.Content != null && item.Content.GetType() == typeof(Frame))
         {
           var page = GetTailLogWindow(item.Content as Frame);
 
-          if(page == null)
+          if (page == null)
             continue;
 
-          if(page.IsThreadBusy)
+          if (page.IsThreadBusy)
           {
             tailing = true;
             break;
@@ -387,11 +387,11 @@ namespace Org.Vs.TailForWin.UI
         }
       }
 
-      if(tailing)
+      if (tailing)
       {
         string message = string.Format(Application.Current.FindResource("ThreadIsBusy").ToString(), LogFile.APPLICATION_CAPTION);
 
-        if(MessageBox.Show(message, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+        if (MessageBox.Show(message, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
         {
           e.Cancel = false;
         }
@@ -414,24 +414,24 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabWindow_PreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
-      if(e.MiddleButton != MouseButtonState.Pressed)
+      if (e.MiddleButton != MouseButtonState.Pressed)
         return;
 
       Point mousePoint = PointToScreen(Mouse.GetPosition(this));
       bool addNew = false;
 
-      foreach(TabItem item in tabControl.Items)
+      foreach (TabItem item in tabControl.Items)
       {
         Point relativePoint = item.PointToScreen(new Point(0, 0));
-        System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) item.DesiredSize.Width, (int) item.DesiredSize.Height);
+        System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int)relativePoint.X, (int)relativePoint.Y, (int)item.DesiredSize.Width, (int)item.DesiredSize.Height);
 
-        if(rc.Contains((int) mousePoint.X, (int) mousePoint.Y))
+        if (rc.Contains((int)mousePoint.X, (int)mousePoint.Y))
           return;
 
         addNew = true;
       }
 
-      if(!addNew)
+      if (!addNew)
         return;
 
       AddTabItem();
@@ -440,7 +440,7 @@ namespace Org.Vs.TailForWin.UI
     private void TabItem_TabHeaderDoubleClick(object sender, RoutedEventArgs e)
     {
       // When one tab and the add tab is open, no other operation possible
-      if(tabControl.Items.Count <= 2)
+      if (tabControl.Items.Count <= 2)
         return;
 
       //if(e.Source is TailForWinTabItem tabItem)
@@ -456,23 +456,23 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabItem_CloseTabWindow(object sender, RoutedEventArgs e)
     {
-      if(e.Source is TailForWinTabItem tabItem)
+      if (e.Source is TailForWinTabItem tabItem)
         RemoveTabItem(tabItem);
     }
 
     private void OnContentRendered(object sender, EventArgs e)
     {
-      if(sender is Frame frame)
+      if (sender is Frame frame)
       {
         TailLog page = frame.Content as TailLog;
 
-        if(page == null)
+        if (page == null)
           return;
 
         currentPage = page;
         TabItemUpdateParent(page);
 
-        if(!string.IsNullOrEmpty(parameterFileName))
+        if (!string.IsNullOrEmpty(parameterFileName))
         {
           currentPage.OpenFileFromParameter(parameterFileName);
 
@@ -485,7 +485,7 @@ namespace Org.Vs.TailForWin.UI
     private void CbStsEncoding_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       e.Handled = true;
-      currentPage?.UpdateFileEncoding((Encoding) cbStsEncoding.SelectedItem);
+      currentPage?.UpdateFileEncoding((Encoding)cbStsEncoding.SelectedItem);
     }
 
     private static void DoubleClickNotifyIcon(object sender, EventArgs e)
@@ -521,7 +521,7 @@ namespace Org.Vs.TailForWin.UI
     {
       get
       {
-        if(tabControl.SelectedItem is TailForWinTabItem tab)
+        if (tabControl.SelectedItem is TailForWinTabItem tab)
           return tab.Header.ToString();
 
         return string.Empty;
@@ -550,7 +550,7 @@ namespace Org.Vs.TailForWin.UI
 
     private void AddTabItem(string tabHeader, Control content, FileManagerData properties)
     {
-      if(tabControl.Items.Count >= LogFile.MAX_TAB_CHILDS)
+      if (tabControl.Items.Count >= LogFile.MAX_TAB_CHILDS)
       {
         MessageBox.Show(Application.Current.FindResource("HCloseTab") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
         return;
@@ -560,7 +560,7 @@ namespace Org.Vs.TailForWin.UI
       {
         Header = string.IsNullOrEmpty(tabHeader) ? LogFile.TABBAR_CHILD_EMPTY_STRING : tabHeader,
         Name = $"TabItem_{tabControl.Items.Count}",
-        Style = (Style) FindResource("TabItemStopStyle")
+        Style = (Style)FindResource("TabItemStopStyle")
       };
       item.TabHeaderDoubleClick += TabItem_TabHeaderDoubleClick;
       item.CloseTabWindow += TabItem_CloseTabWindow;
@@ -577,38 +577,38 @@ namespace Org.Vs.TailForWin.UI
     /// <param name="tabItem">Item to remove</param>
     public void RemoveTabItem(TabItem tabItem)
     {
-      if(tabControl.Items.Contains(tabItem))
+      if (tabControl.Items.Contains(tabItem))
       {
         TailLog page = GetTailLogWindow(tabItem.Content as Frame);
 
         try
         {
-          if(page != null)
+          if (page != null)
           {
-            if(page.IsThreadBusy)
+            if (page.IsThreadBusy)
             {
-              if(MessageBox.Show($"{Application.Current.FindResource("QRemoveTab")} '{tabItem.Header}'?", LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.No)
+              if (MessageBox.Show($"{Application.Current.FindResource("QRemoveTab")} '{tabItem.Header}'?", LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.No)
                 return;
             }
 
             FileManagerHelper item = LogFile.FmHelper.SingleOrDefault(x => x.ID == page.FileManagerProperties.ID);
 
-            if(item != null)
+            if (item != null)
               LogFile.FmHelper.Remove(item);
 
             page.Dispose();
           }
         }
-        catch(ArgumentNullException ex)
+        catch (ArgumentNullException ex)
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
 
-        ((TailForWinTabItem) tabItem).TabHeaderDoubleClick -= TabItem_TabHeaderDoubleClick;
-        ((TailForWinTabItem) tabItem).CloseTabWindow -= TabItem_CloseTabWindow;
+        ((TailForWinTabItem)tabItem).TabHeaderDoubleClick -= TabItem_TabHeaderDoubleClick;
+        ((TailForWinTabItem)tabItem).CloseTabWindow -= TabItem_CloseTabWindow;
         tabControl.Items.Remove(tabItem);
 
-        if(tabControl.Items.Count < 2)
+        if (tabControl.Items.Count < 2)
           AddTabItem();
       }
     }
@@ -629,12 +629,12 @@ namespace Org.Vs.TailForWin.UI
     /// <returns>If mouse pointer is over <c>true</c> otherwise <c>false</c></returns>
     public bool IsDragMouseOver(Point mousePosition)
     {
-      if(WindowState == WindowState.Minimized)
+      if (WindowState == WindowState.Minimized)
         return false;
 
       double left, top;
 
-      if(WindowState == WindowState.Maximized)
+      if (WindowState == WindowState.Maximized)
       {
         left = 0;
         top = 0;
@@ -665,7 +665,7 @@ namespace Org.Vs.TailForWin.UI
     /// </summary>
     public void OnDrageLeave()
     {
-      if(overlayWindow == null)
+      if (overlayWindow == null)
         return;
 
       overlayWindow.Close();
@@ -677,10 +677,10 @@ namespace Org.Vs.TailForWin.UI
     /// </summary>
     public void OnDragEnter()
     {
-      if(overlayWindow == null)
+      if (overlayWindow == null)
         overlayWindow = new OverlayDragWnd();
 
-      if(WindowState == WindowState.Maximized)
+      if (WindowState == WindowState.Maximized)
       {
         overlayWindow.Left = 0;
         overlayWindow.Top = 0;
@@ -704,15 +704,15 @@ namespace Org.Vs.TailForWin.UI
 
     private void DefaultWndSettings()
     {
-      SettingsHelper.ReadSettings();
+      LogFile.Settings.ReadSettings();
       LogFile.InitObservableCollectionsRrtpfe();
 
-      switch(SettingsHelper.TailSettings.CurrentWindowStyle)
+      switch (SettingsHelper.TailSettings.CurrentWindowStyle)
       {
-      case EWindowStyle.ModernBlueWindowStyle:
+        case EWindowStyle.ModernBlueWindowStyle:
 
-        MainWindow.Style = (Style) FindResource("Tail4WindowStyle");
-        break;
+          MainWindow.Style = (Style)FindResource("Tail4WindowStyle");
+          break;
       }
 
       tbIcon.ToolTipText = Application.Current.FindResource("TrayIconReady") as string;
@@ -742,22 +742,22 @@ namespace Org.Vs.TailForWin.UI
 
     private void RestoreWindowSizePosition()
     {
-      if(SettingsHelper.TailSettings.CurrentWindowState == WindowState.Normal)
+      if (SettingsHelper.TailSettings.CurrentWindowState == WindowState.Normal)
       {
-        if(SettingsHelper.TailSettings.RestoreWindowSize)
+        if (SettingsHelper.TailSettings.RestoreWindowSize)
         {
-          if(!SettingsHelper.TailSettings.WndWidth.Equals(-1))
+          if (!SettingsHelper.TailSettings.WndWidth.Equals(-1))
             Application.Current.MainWindow.Width = SettingsHelper.TailSettings.WndWidth;
-          if(!SettingsHelper.TailSettings.WndHeight.Equals(-1))
+          if (!SettingsHelper.TailSettings.WndHeight.Equals(-1))
             Application.Current.MainWindow.Height = SettingsHelper.TailSettings.WndHeight;
         }
 
-        if(!SettingsHelper.TailSettings.SaveWindowPosition)
+        if (!SettingsHelper.TailSettings.SaveWindowPosition)
           return;
 
-        if(!SettingsHelper.TailSettings.WndYPos.Equals(-1))
+        if (!SettingsHelper.TailSettings.WndYPos.Equals(-1))
           Application.Current.MainWindow.Top = SettingsHelper.TailSettings.WndYPos;
-        if(!SettingsHelper.TailSettings.WndXPos.Equals(-1))
+        if (!SettingsHelper.TailSettings.WndXPos.Equals(-1))
           Application.Current.MainWindow.Left = SettingsHelper.TailSettings.WndXPos;
       }
       else
@@ -768,16 +768,16 @@ namespace Org.Vs.TailForWin.UI
 
     private void MoveIntoView()
     {
-      if(SettingsHelper.TailSettings.WndYPos + SettingsHelper.TailSettings.WndHeight / 2 > SystemParameters.VirtualScreenHeight)
+      if (SettingsHelper.TailSettings.WndYPos + SettingsHelper.TailSettings.WndHeight / 2 > SystemParameters.VirtualScreenHeight)
         SettingsHelper.TailSettings.WndYPos = SystemParameters.VirtualScreenHeight - SettingsHelper.TailSettings.WndHeight;
 
-      if(SettingsHelper.TailSettings.WndXPos + SettingsHelper.TailSettings.WndWidth / 2 > SystemParameters.VirtualScreenWidth)
+      if (SettingsHelper.TailSettings.WndXPos + SettingsHelper.TailSettings.WndWidth / 2 > SystemParameters.VirtualScreenWidth)
         SettingsHelper.TailSettings.WndXPos = SystemParameters.VirtualScreenWidth - SettingsHelper.TailSettings.WndWidth;
 
-      if(SettingsHelper.TailSettings.WndYPos < 0)
+      if (SettingsHelper.TailSettings.WndYPos < 0)
         SettingsHelper.TailSettings.WndYPos = 0;
 
-      if(SettingsHelper.TailSettings.WndXPos < 0)
+      if (SettingsHelper.TailSettings.WndXPos < 0)
         SettingsHelper.TailSettings.WndXPos = 0;
     }
 
@@ -787,7 +787,7 @@ namespace Org.Vs.TailForWin.UI
 
       TailLog tailWindow;
 
-      if(properties == null)
+      if (properties == null)
       {
         tailWindow = new TailLog(tabItem)
         {
@@ -817,7 +817,7 @@ namespace Org.Vs.TailForWin.UI
       // Update statusbar text
       StatusBarState.Content = tailWindow.GetChildState();
 
-      if(searchBoxWindow.Visibility != Visibility.Visible)
+      if (searchBoxWindow.Visibility != Visibility.Visible)
         return tabFrame;
 
       tailWindow.SearchBoxActive();
@@ -828,7 +828,7 @@ namespace Org.Vs.TailForWin.UI
 
     private void TailWindow_OnDragAndDropEvent(FileManagerData fileProperties)
     {
-      if(fileProperties == null)
+      if (fileProperties == null)
         return;
 
       LOG.Trace("Drag'n'Drop get new file '{0}'", fileProperties.FileName);
@@ -844,26 +844,26 @@ namespace Org.Vs.TailForWin.UI
 
     private void DeleteLogFiles()
     {
-      if(!Directory.Exists("logs"))
+      if (!Directory.Exists("logs"))
         return;
 
       try
       {
         var files = new DirectoryInfo("logs").GetFiles("*.log");
 
-        foreach(var item in files.Where(f => DateTime.Now - f.LastWriteTimeUtc > TimeSpan.FromDays(LogFile.DELETE_LOG_FILES_OLDER_THAN)))
+        foreach (var item in files.Where(f => DateTime.Now - f.LastWriteTimeUtc > TimeSpan.FromDays(LogFile.DELETE_LOG_FILES_OLDER_THAN)))
         {
           try
           {
             item.Delete();
           }
-          catch(Exception ex)
+          catch (Exception ex)
           {
             LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
           }
         }
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType());
       }
@@ -873,21 +873,21 @@ namespace Org.Vs.TailForWin.UI
     {
       try
       {
-        foreach(TabItem item in tabControl.Items)
+        foreach (TabItem item in tabControl.Items)
         {
-          if(item.Content == null || item.Content.GetType() != typeof(Frame))
+          if (item.Content == null || item.Content.GetType() != typeof(Frame))
             continue;
 
           TailLog page = GetTailLogWindow(item.Content as Frame);
 
-          if(page == null)
+          if (page == null)
             return;
 
-          if(page.GetChildTabIndex() != activePage.GetChildTabIndex())
+          if (page.GetChildTabIndex() != activePage.GetChildTabIndex())
             page.ActiveTab = false;
         }
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -895,10 +895,10 @@ namespace Org.Vs.TailForWin.UI
 
     private static TailLog GetTailLogWindow(Frame tabTemplate)
     {
-      if(tabTemplate?.Content == null)
+      if (tabTemplate?.Content == null)
         return null;
 
-      if(tabTemplate.Content is TailLog tabPage)
+      if (tabTemplate.Content is TailLog tabPage)
         return tabPage;
 
       return null;
@@ -908,9 +908,9 @@ namespace Org.Vs.TailForWin.UI
     {
       SettingsHelper.TailSettings.CurrentWindowState = MainWindow.WindowState;
 
-      if(SettingsHelper.TailSettings.CurrentWindowState == WindowState.Normal)
+      if (SettingsHelper.TailSettings.CurrentWindowState == WindowState.Normal)
       {
-        if(SettingsHelper.TailSettings.RestoreWindowSize)
+        if (SettingsHelper.TailSettings.RestoreWindowSize)
         {
           SettingsHelper.TailSettings.WndWidth = Application.Current.MainWindow.Width;
           SettingsHelper.TailSettings.WndHeight = Application.Current.MainWindow.Height;
@@ -921,7 +921,7 @@ namespace Org.Vs.TailForWin.UI
           SettingsHelper.TailSettings.WndHeight = -1;
         }
 
-        if(SettingsHelper.TailSettings.SaveWindowPosition)
+        if (SettingsHelper.TailSettings.SaveWindowPosition)
         {
           SettingsHelper.TailSettings.WndXPos = Application.Current.MainWindow.Left;
           SettingsHelper.TailSettings.WndYPos = Application.Current.MainWindow.Top;
@@ -933,9 +933,9 @@ namespace Org.Vs.TailForWin.UI
         }
       }
 
-      SettingsHelper.SaveSettings();
+      LogFile.Settings.SaveSettings();
 
-      if(SettingsHelper.TailSettings.DeleteLogFiles)
+      if (SettingsHelper.TailSettings.DeleteLogFiles)
         DeleteLogFiles();
 
       Dispose();
@@ -950,84 +950,84 @@ namespace Org.Vs.TailForWin.UI
       LOG.Debug("HandleMainWindowKeys Key='{0}' Keyboard='{1}' ModifierKeys='{2}'", e.Key, Keyboard.Modifiers, ModifierKeys.Control);
 
       // If exit while pressing ESC, than exit application
-      if(SettingsHelper.TailSettings.ExitWithEscape)
+      if (SettingsHelper.TailSettings.ExitWithEscape)
       {
-        if(e.Key == Key.Escape)
+        if (e.Key == Key.Escape)
           OnExit();
       }
 
       // When pressing Control + F shows the search dialogue
-      if(e.Key == Key.F && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+      if (e.Key == Key.F && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         currentPage.btnSearch_Click(sender, e);
-      else if(e.Key == Key.F && !currentPage.TextBoxFileNameIsFocused) // When pressing F toggle filter on/off
+      else if (e.Key == Key.F && !currentPage.TextBoxFileNameIsFocused) // When pressing F toggle filter on/off
         currentPage.FilterOnOff();
 
       // When pressing Control + O shows the open file dialogue
-      if(e.Key == Key.O && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+      if (e.Key == Key.O && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         currentPage.btnOpenFile_Click(sender, e);
 
       // When pressing Control + Alt + M minimize main window
-      if(e.Key == Key.M && (Keyboard.Modifiers & ModifierKeys.Control) != 0 && (Keyboard.Modifiers & ModifierKeys.Alt) != 0)
+      if (e.Key == Key.M && (Keyboard.Modifiers & ModifierKeys.Control) != 0 && (Keyboard.Modifiers & ModifierKeys.Alt) != 0)
         LogFile.MinimizeMainWindow();
-      else if(e.Key == Key.M && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) // When pressing Control + M shows the file manager dialogue
+      else if (e.Key == Key.M && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) // When pressing Control + M shows the file manager dialogue
         currentPage.btnFileManager_Click(sender, e);
 
       // When pressing Control + E clear all content in Tailwindow
-      if(e.Key == Key.E && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+      if (e.Key == Key.E && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         currentPage.btnClearTextBox_Click(sender, e);
 
       // When pressing Control + R start tail process
-      if(e.Key == Key.R && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+      if (e.Key == Key.R && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         currentPage.btnStart_Click(sender, e);
 
       // When pressing Control + S pause tail process
-      if(e.Key == Key.S && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+      if (e.Key == Key.S && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         currentPage.btnStop_Click(sender, e);
 
       // When pressing Control + G show GoToLine dialogue
-      if(e.Key == Key.G && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+      if (e.Key == Key.G && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         currentPage.GoToLineNumber();
 
       // When pressing Control + T new Tab
-      if(e.Key == Key.T && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+      if (e.Key == Key.T && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
         AddTabItem();
-      else if(e.Key == Key.T && !currentPage.TextBoxFileNameIsFocused) // When pressing T toggle always on top on/off
+      else if (e.Key == Key.T && !currentPage.TextBoxFileNameIsFocused) // When pressing T toggle always on top on/off
         currentPage.AlwaysOnTop();
 
       // When pressing Control + W close tab
-      if(e.Key != Key.W || (Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.Control)
+      if (e.Key != Key.W || (Keyboard.Modifiers & ModifierKeys.Control) != ModifierKeys.Control)
         return;
 
-      if(tabControl.SelectedItem is TabItem tab)
+      if (tabControl.SelectedItem is TabItem tab)
         RemoveTabItem(tab);
     }
 
     private void OpenSearchBoxWindow(object sender, EventArgs e)
     {
-      if(e is FileManagerDataEventArgs data)
+      if (e is FileManagerDataEventArgs data)
       {
         FileManagerData properties = data.GetData();
         double xPos, yPos;
 
-        if(SettingsHelper.TailSettings.SearchWndXPos.Equals(-1))
+        if (SettingsHelper.TailSettings.SearchWndXPos.Equals(-1))
         {
           xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
         }
         else
         {
-          if(SettingsHelper.TailSettings.SearchWndXPos + searchBoxWindow.Width / 2 > SystemParameters.VirtualScreenWidth)
+          if (SettingsHelper.TailSettings.SearchWndXPos + searchBoxWindow.Width / 2 > SystemParameters.VirtualScreenWidth)
             xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
           else
             xPos = SettingsHelper.TailSettings.SearchWndXPos;
         }
 
-        if(SettingsHelper.TailSettings.SearchWndYPos.Equals(-1))
+        if (SettingsHelper.TailSettings.SearchWndYPos.Equals(-1))
         {
           yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
         }
         else
         {
-          if(SettingsHelper.TailSettings.SearchWndYPos + searchBoxWindow.Height / 2 > SystemParameters.VirtualScreenHeight)
+          if (SettingsHelper.TailSettings.SearchWndYPos + searchBoxWindow.Height / 2 > SystemParameters.VirtualScreenHeight)
             yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
           else
             yPos = SettingsHelper.TailSettings.SearchWndYPos;
@@ -1045,13 +1045,13 @@ namespace Org.Vs.TailForWin.UI
 
     private void HideSearchBoxEvent(object sender, EventArgs e)
     {
-      foreach(TabItem item in tabControl.Items)
+      foreach (TabItem item in tabControl.Items)
       {
-        if(item.Content != null && item.Content.GetType() == typeof(Frame))
+        if (item.Content != null && item.Content.GetType() == typeof(Frame))
         {
           var page = GetTailLogWindow(item.Content as Frame);
 
-          if(page == null)
+          if (page == null)
             continue;
 
           page.SearchBoxInactive();
@@ -1066,7 +1066,7 @@ namespace Org.Vs.TailForWin.UI
 
     private void CoundSearchEvent(object sender, EventArgs e)
     {
-      if(currentPage != null)
+      if (currentPage != null)
         searchBoxWindow.SetStatusBarSearchCountText(currentPage.SearchCount());
     }
 
@@ -1077,15 +1077,15 @@ namespace Org.Vs.TailForWin.UI
 
     private void WrapAroundEvent(object sender, EventArgs e)
     {
-      if(e is WrapAroundBool wrap)
+      if (e is WrapAroundBool wrap)
       {
-        foreach(TabItem item in tabControl.Items)
+        foreach (TabItem item in tabControl.Items)
         {
-          if(item.Content != null && item.Content.GetType() == typeof(Frame))
+          if (item.Content != null && item.Content.GetType() == typeof(Frame))
           {
             var page = GetTailLogWindow(item.Content as Frame);
 
-            if(page == null)
+            if (page == null)
               continue;
 
             page.WrapAround(wrap.Wrap);
@@ -1097,15 +1097,15 @@ namespace Org.Vs.TailForWin.UI
     private void BookmarkLineEvent(object sender, EventArgs e)
     {
       // TODO review me!!
-      if(e is BookmarkLineBool bookmarkLine)
+      if (e is BookmarkLineBool bookmarkLine)
       {
-        foreach(TabItem item in tabControl.Items)
+        foreach (TabItem item in tabControl.Items)
         {
-          if(item.Content != null && (item.Content != null || item.Content.GetType() == typeof(Frame)))
+          if (item.Content != null && (item.Content != null || item.Content.GetType() == typeof(Frame)))
           {
             var page = GetTailLogWindow(item.Content as Frame);
 
-            if(page == null)
+            if (page == null)
               continue;
 
             page.BookmarkLine(bookmarkLine.BookmarkLine);
@@ -1123,16 +1123,16 @@ namespace Org.Vs.TailForWin.UI
     {
       TailForWinTabItem selectedTab = null;
 
-      foreach(TailForWinTabItem item in tabControl.Items)
+      foreach (TailForWinTabItem item in tabControl.Items)
       {
-        if(item.Header.ToString() == tabHeader)
+        if (item.Header.ToString() == tabHeader)
         {
           selectedTab = item;
           break;
         }
       }
 
-      if(selectedTab != null)
+      if (selectedTab != null)
         tabControl.SelectedItem = selectedTab;
     }
 
@@ -1140,63 +1140,63 @@ namespace Org.Vs.TailForWin.UI
     {
       handled = false;
 
-      switch(msg)
+      switch (msg)
       {
-      case NativeMethods.WM_ENTERSIZEMOVE:
+        case NativeMethods.WM_ENTERSIZEMOVE:
 
-        hasFocus = true;
-        break;
+          hasFocus = true;
+          break;
 
-      case NativeMethods.WM_EXITSIZEMOVE:
+        case NativeMethods.WM_EXITSIZEMOVE:
 
-        hasFocus = false;
-        //DragWindowManager.Instance.DragEnd(this);
-        break;
+          hasFocus = false;
+          //DragWindowManager.Instance.DragEnd(this);
+          break;
 
-      case NativeMethods.WM_MOVE:
+        case NativeMethods.WM_MOVE:
 
-        //if(hasFocus)
-        //  DragWindowManager.Instance.DragMove(this);
-        break;
+          //if(hasFocus)
+          //  DragWindowManager.Instance.DragMove(this);
+          break;
 
-      case NativeMethods.WM_GETMINMAXINFO:
+        case NativeMethods.WM_GETMINMAXINFO:
 
-        WmGetMinMaxInfo(hwnd, lParam);
-        handled = true;
-        break;
+          WmGetMinMaxInfo(hwnd, lParam);
+          handled = true;
+          break;
 
-      case NativeMethods.WM_WINDOWPOSCHANGING:
+        case NativeMethods.WM_WINDOWPOSCHANGING:
 
-        WINDOWPOS pos = (WINDOWPOS) Marshal.PtrToStructure(lParam, typeof(WINDOWPOS));
+          WINDOWPOS pos = (WINDOWPOS)Marshal.PtrToStructure(lParam, typeof(WINDOWPOS));
 
-        if((pos.flags & (int) SWP.NOMOVE) != 0)
-          return IntPtr.Zero;
+          if ((pos.flags & (int)SWP.NOMOVE) != 0)
+            return IntPtr.Zero;
 
-        Window wnd = (Window) HwndSource.FromHwnd(hwnd)?.RootVisual;
+          Window wnd = (Window)HwndSource.FromHwnd(hwnd)?.RootVisual;
 
-        if(wnd == null)
-          return IntPtr.Zero;
+          if (wnd == null)
+            return IntPtr.Zero;
 
-        bool changedPos = false;
+          bool changedPos = false;
 
-        if(pos.cx < MinWidth)
-        {
-          pos.cx = (int) MinWidth;
-          changedPos = true;
-        }
+          if (pos.cx < MinWidth)
+          {
+            pos.cx = (int)MinWidth;
+            changedPos = true;
+          }
 
-        if(pos.cy < MinHeight)
-        {
-          pos.cy = (int) MinHeight;
-          changedPos = true;
-        }
+          if (pos.cy < MinHeight)
+          {
+            pos.cy = (int)MinHeight;
+            changedPos = true;
+          }
 
-        if(!changedPos)
-          return IntPtr.Zero;
+          if (!changedPos)
+            return IntPtr.Zero;
 
-        Marshal.StructureToPtr(pos, lParam, true);
-        handled = true;
-        break;
+          Marshal.StructureToPtr(pos, lParam, true);
+          handled = true;
+          break;
 
       }
       return IntPtr.Zero;
@@ -1210,13 +1210,13 @@ namespace Org.Vs.TailForWin.UI
     /// <param name="lParam">Low parameter</param>
     private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam)
     {
-      MINMAXINFO mmi = (MINMAXINFO) Marshal.PtrToStructure(lParam, typeof(MINMAXINFO));
+      MINMAXINFO mmi = (MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(MINMAXINFO));
 
       // Adjust the maximized size and position to fit the work area of the correct monitor
       int MONITOR_DEFAULTTONEAREST = 0x00000002;
       IntPtr monitor = NativeMethods.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
 
-      if(monitor != IntPtr.Zero)
+      if (monitor != IntPtr.Zero)
       {
         MonitorInfo monitorInfo = new MonitorInfo();
 

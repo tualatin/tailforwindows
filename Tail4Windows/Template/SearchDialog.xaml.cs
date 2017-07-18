@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using log4net;
 using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Events;
 using Org.Vs.TailForWin.Native;
 using Org.Vs.TailForWin.Utils;
@@ -119,22 +120,22 @@ namespace Org.Vs.TailForWin.Template
 
     private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(IsVisible)
+      if (IsVisible)
       {
         var helper = new WindowInteropHelper(this);
         source = HwndSource.FromHwnd(helper.Handle);
-        source.AddHook(HwndHook);
+        source?.AddHook(HwndHook);
         RegisterHotKey();
       }
       else
       {
-        if(source != null)
-        {
-          source.RemoveHook(HwndHook);
-          source = null;
+        if (source == null)
+          return;
 
-          UnregisterHotKey();
-        }
+        source.RemoveHook(HwndHook);
+        source = null;
+
+        UnregisterHotKey();
       }
     }
 
@@ -177,7 +178,6 @@ namespace Org.Vs.TailForWin.Template
     private void btnClose_Click(object sender, RoutedEventArgs e)
     {
       SaveBoxPosition();
-
       HideSearchBox?.Invoke(this, EventArgs.Empty);
       Hide();
     }
@@ -186,7 +186,7 @@ namespace Org.Vs.TailForWin.Template
     {
       WrapAroundBool wrap = new WrapAroundBool();
 
-      if(checkBoxWrapAround.IsChecked.Value)
+      if (checkBoxWrapAround.IsChecked == true)
         wrap.Wrap = historyStructure.Wrap = true;
       else
         wrap.Wrap = historyStructure.Wrap = false;
@@ -197,7 +197,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void checkBoxBookmark_Click(object sender, RoutedEventArgs e)
     {
-      if(checkBoxBookmarkLine.IsChecked.Value)
+      if (checkBoxBookmarkLine.IsChecked == true)
       {
         checkBoxBookmarkLine.IsChecked = false;
         checkBoxBookmarkLine_Click(sender, e);
@@ -208,12 +208,10 @@ namespace Org.Vs.TailForWin.Template
 
     private void checkBoxBookmarkLine_Click(object sender, RoutedEventArgs e)
     {
-      BookmarkLineBool bookmarkLine = new BookmarkLineBool();
-
-      if(checkBoxBookmarkLine.IsChecked.Value)
-        bookmarkLine.BookmarkLine = true;
-      else
-        bookmarkLine.BookmarkLine = false;
+      BookmarkLineBool bookmarkLine = new BookmarkLineBool
+      {
+        BookmarkLine = checkBoxBookmarkLine.IsChecked == true
+      };
 
       BookmarkLine?.Invoke(this, bookmarkLine);
     }
@@ -224,7 +222,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void AddSearchWordToDictionary()
     {
-      if(SearchWords.ContainsKey(comboBoxWordToFind.Text))
+      if (SearchWords.ContainsKey(comboBoxWordToFind.Text))
         return;
 
       SearchWords.Add(comboBoxWordToFind.Text.Trim(), comboBoxWordToFind.Text.Trim());
@@ -237,7 +235,7 @@ namespace Org.Vs.TailForWin.Template
     {
       var textBox = comboBoxWordToFind.Template.FindName("PART_EditableTextBox", comboBoxWordToFind) as TextBox;
 
-      if(textBox == null)
+      if (textBox == null)
         return;
 
       textBox.Focus();
@@ -249,26 +247,26 @@ namespace Org.Vs.TailForWin.Template
       SettingsHelper.TailSettings.SearchWndXPos = Left;
       SettingsHelper.TailSettings.SearchWndYPos = Top;
 
-      SettingsHelper.SaveSearchWindowPosition();
+      LogFile.Settings.SaveSearchWindowPosition();
     }
 
     private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
       const int WM_HOTKEY = 0x0312;
 
-      switch(msg)
+      switch (msg)
       {
-      case WM_HOTKEY:
+        case WM_HOTKEY:
 
-        switch(wParam.ToInt32())
-        {
-        case HOTKEY_ID:
+          switch (wParam.ToInt32())
+          {
+            case HOTKEY_ID:
 
-          btnFindNext_Click(this, null);
-          handled = true;
+              btnFindNext_Click(this, null);
+              handled = true;
+              break;
+          }
           break;
-        }
-        break;
       }
       return IntPtr.Zero;
     }
@@ -278,7 +276,7 @@ namespace Org.Vs.TailForWin.Template
       var helper = new WindowInteropHelper(this);
       const uint VK_F3 = 0x72;
 
-      if(!NativeMethods.RegisterHotKey(helper.Handle, HOTKEY_ID, 0, VK_F3))
+      if (!NativeMethods.RegisterHotKey(helper.Handle, HOTKEY_ID, 0, VK_F3))
         LOG.Error("{0} can not register hotkey", System.Reflection.MethodBase.GetCurrentMethod().Name);
     }
 
@@ -294,7 +292,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if (e.Key == Key.Escape)
         btnClose_Click(sender, e);
     }
 
@@ -307,13 +305,13 @@ namespace Org.Vs.TailForWin.Template
         WordToFind = string.Empty
       };
 
-      if(checkBoxBookmark.IsChecked.Value)
+      if (checkBoxBookmark.IsChecked == true)
       {
         searching.SearchBookmarks = true;
       }
       else
       {
-        if(!string.IsNullOrWhiteSpace(comboBoxWordToFind.Text))
+        if (!string.IsNullOrWhiteSpace(comboBoxWordToFind.Text))
         {
           AddSearchWordToDictionary();
           searching.WordToFind = comboBoxWordToFind.Text;

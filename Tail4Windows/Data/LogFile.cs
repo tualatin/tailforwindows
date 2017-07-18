@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using Microsoft.Win32;
+using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data.Enums;
+using Org.Vs.TailForWin.Interfaces;
 
 
 namespace Org.Vs.TailForWin.Data
@@ -18,105 +20,105 @@ namespace Org.Vs.TailForWin.Data
     /// <summary>
     /// Application caption
     /// </summary>
-    public static string APPLICATION_CAPTION = "Tail4Windows";
+    public static readonly string APPLICATION_CAPTION = "Tail4Windows";
 
     /// <summary>
     /// Status bar state run
     /// </summary>
-    public static string STATUS_BAR_STATE_RUN = Application.Current.FindResource("Record").ToString();
+    public static readonly string STATUS_BAR_STATE_RUN = Application.Current.FindResource("Record").ToString();
 
     /// <summary>
     /// Status bar state pause
     /// </summary>
-    public static string STATUS_BAR_STATE_PAUSE = Application.Current.FindResource("Pause").ToString();
+    public static readonly string STATUS_BAR_STATE_PAUSE = Application.Current.FindResource("Pause").ToString();
 
     /// <summary>
     /// Tabbar child empty
     /// </summary>
-    public static string TABBAR_CHILD_EMPTY_STRING = Application.Current.FindResource("NoFile").ToString();
+    public static readonly string TABBAR_CHILD_EMPTY_STRING = Application.Current.FindResource("NoFile").ToString();
 
     /// <summary>
     /// MessageBox error
     /// </summary>
     /// 
-    public static string MSGBOX_ERROR = Application.Current.FindResource("Error").ToString();
+    public static readonly string MSGBOX_ERROR = Application.Current.FindResource("Error").ToString();
 
     /// <summary>
     /// Default forground color
     /// </summary>
-    public static string DEFAULT_FOREGROUND_COLOR = "#000000";
+    public static readonly string DEFAULT_FOREGROUND_COLOR = "#000000";
 
     /// <summary>
     /// Default background color
     /// </summary>
-    public static string DEFAULT_BACKGROUND_COLOR = "#FFFFFF";
+    public static readonly string DEFAULT_BACKGROUND_COLOR = "#FFFFFF";
 
     /// <summary>
     /// Default inactive foreground color
     /// </summary>
-    public static string DEFAULT_INACTIVE_FOREGROUND_COLOR = "#000000";
+    public static readonly string DEFAULT_INACTIVE_FOREGROUND_COLOR = "#000000";
 
     /// <summary>
     /// default inactive background color
     /// </summary>
-    public static string DEFAULT_INACTIVE_BACKGROUND_COLOR = "#FFFCFAF5";
+    public static readonly string DEFAULT_INACTIVE_BACKGROUND_COLOR = "#FFFCFAF5";
 
     /// <summary>
     /// Default find highlight background color
     /// </summary>
-    public static string DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR = "#FFCC00";
+    public static readonly string DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR = "#FFCC00";
 
     /// <summary>
     /// Default find highlight foreground color
     /// </summary>
-    public static string DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR = "#000000";
+    public static readonly string DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR = "#000000";
 
     /// <summary>
     /// Default line number color
     /// </summary>
-    public static string DEFAULT_LINE_NUMBERS_COLOR = "#808080";
+    public static readonly string DEFAULT_LINE_NUMBERS_COLOR = "#808080";
 
     /// <summary>
     /// Default highlight color
     /// </summary>
-    public static string DEFAULT_HIGHLIGHT_COLOR = "#FF0000FF";
+    public static readonly string DEFAULT_HIGHLIGHT_COLOR = "#FF0000FF";
 
     /// <summary>
     /// Alert sound filename
     /// </summary>
-    public static string ALERT_SOUND_FILENAME = "NoFile";
+    public static readonly string ALERT_SOUND_FILENAME = "NoFile";
 
     /// <summary>
     /// Alert email address
     /// </summary>
-    public static string ALERT_EMAIL_ADDRESS = "NoMail";
+    public static readonly string ALERT_EMAIL_ADDRESS = "NoMail";
 
     /// <summary>
     /// Encrypt passphrase
     /// </summary>
-    public static string ENCRYPT_PASSPHRASE = "fhsdtgf45FSDvj_dhjf#+sdkjfh567gAQW";
+    public static readonly string ENCRYPT_PASSPHRASE = "fhsdtgf45FSDvj_dhjf#+sdkjfh567gAQW";
 
     /// <summary>
     /// Unlimited log line value
     /// </summary>
-    public static int UNLIMITED_LOG_LINE_VALUE = 400000;
+    public static readonly int UNLIMITED_LOG_LINE_VALUE = 400000;
 
     /// <summary>
     /// Delete log files older than xxx days
     /// </summary>
-    public static int DELETE_LOG_FILES_OLDER_THAN = 5;
+    public static readonly int DELETE_LOG_FILES_OLDER_THAN = 5;
 
     #region RegexPattern
 
     /// <summary>
     /// Regex for sound file extension
     /// </summary>
-    public static string REGEX_SOUNDFILE_EXTENSION = @"^\.(mp3|wav)";
+    public static readonly string REGEX_SOUNDFILE_EXTENSION = @"^\.(mp3|wav)";
 
     /// <summary>
     /// Regex for E-Mail address
     /// </summary>
-    public static string REGEX_EMAIL_ADDRESS = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+    public static readonly string REGEX_EMAIL_ADDRESS = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
 
     #endregion
 
@@ -129,6 +131,12 @@ namespace Org.Vs.TailForWin.Data
     /// Max open tabs in TfW
     /// </summary>
     public const int MAX_TAB_CHILDS = 10;
+
+    /// <summary>
+    /// Current settings for Tail4Windows
+    /// </summary>
+    public static readonly ISettingsHelper Settings = new SettingsHelper();
+
 
     /// <summary>
     /// Shows open file dialog
@@ -149,7 +157,7 @@ namespace Org.Vs.TailForWin.Data
       bool? result = openDialog.ShowDialog();
       fileName = string.Empty;
 
-      if(result != true)
+      if (result != true)
         return false;
 
       fileName = openDialog.FileName;
@@ -162,7 +170,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public static void BringMainWindowToFront()
     {
-      if(APP_MAIN_WINDOW.WindowState == WindowState.Minimized)
+      if (APP_MAIN_WINDOW.WindowState == WindowState.Minimized)
         APP_MAIN_WINDOW.WindowState = WindowState.Normal;
 
       APP_MAIN_WINDOW.Activate();
@@ -174,7 +182,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public static void MinimizeMainWindow()
     {
-      if(APP_MAIN_WINDOW.WindowState == WindowState.Normal || APP_MAIN_WINDOW.WindowState == WindowState.Maximized)
+      if (APP_MAIN_WINDOW.WindowState == WindowState.Normal || APP_MAIN_WINDOW.WindowState == WindowState.Maximized)
         APP_MAIN_WINDOW.WindowState = WindowState.Minimized;
     }
 
@@ -204,13 +212,13 @@ namespace Org.Vs.TailForWin.Data
     public static void InitObservableCollectionsRrtpfe()
     {
       // ThreadRefresh rate
-      foreach(ETailRefreshRate refreshName in Enum.GetValues(typeof(ETailRefreshRate)))
+      foreach (ETailRefreshRate refreshName in Enum.GetValues(typeof(ETailRefreshRate)))
       {
         RefreshRate.Add(refreshName);
       }
 
       // ThreadPriority
-      foreach(System.Threading.ThreadPriority priority in Enum.GetValues(typeof(System.Threading.ThreadPriority)))
+      foreach (System.Threading.ThreadPriority priority in Enum.GetValues(typeof(System.Threading.ThreadPriority)))
       {
         ThreadPriority.Add(new ThreadPriorityMapping
         {
@@ -230,7 +238,7 @@ namespace Org.Vs.TailForWin.Data
       {
         const int result = 0;
 
-        if(!(x is EncodingInfo) || !(y is EncodingInfo))
+        if (!(x is EncodingInfo) || !(y is EncodingInfo))
           return result;
 
         var xEncodingInfo = x as EncodingInfo;

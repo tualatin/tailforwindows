@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
-using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
 
 
@@ -54,13 +54,13 @@ namespace Org.Vs.TailForWin.Template
 
     private void OnSaveSettings(object sender, EventArgs e)
     {
-      SettingsHelper.SaveSettings();
+      LogFile.Settings.SaveSettings();
       OnUpdateEvent();
     }
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if (e.Key == Key.Escape)
         OnExit(sender, e);
     }
 

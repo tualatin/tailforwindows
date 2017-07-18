@@ -126,6 +126,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Interfaces\ISettingsHelper.cs" />
     <Compile Include="Converters\LogLineLimitConverter.cs" />
     <Compile Include="Converters\SmartWatchModeToBoolConverter.cs" />
     <Compile Include="Data\Enums\ESmartWatchMode.cs" />

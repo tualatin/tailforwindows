@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using log4net;
 using Microsoft.Win32;
-using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
 
@@ -35,7 +34,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       // set special ToolTip for TabItemHeader
       ToolTip myToolTip = new ToolTip()
       {
-        Style = (Style) FindResource("TabItemToolTipStyle"),
+        Style = (Style)FindResource("TabItemToolTipStyle"),
         Content = textBoxConfigPath.Text
       };
       ToolTipService.SetToolTip(textBoxConfigPath, myToolTip);
@@ -62,7 +61,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// <param name="e">Arguments</param>
     public void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if (e.Key == Key.Escape)
         btnCancel_Click(sender, e);
     }
 
@@ -73,7 +72,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// <param name="e">Arguments</param>
     public void btnSave_Click(object sender, RoutedEventArgs e)
     {
-      if(SaveSettings != null)
+      if (SaveSettings != null)
         CloseDialog(this, EventArgs.Empty);
     }
 
@@ -91,14 +90,14 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void btnImport_Click(object sender, RoutedEventArgs e)
     {
-      if(!LogFile.OpenFileLogDialog(out string importSettings, "Export Settings (*export)|*.export",
+      if (!LogFile.OpenFileLogDialog(out string importSettings, "Export Settings (*export)|*.export",
                                     Application.Current.FindResource("OpenDialogImportSettings") as string))
         return;
 
-      if(importSettings == null)
+      if (importSettings == null)
         return;
 
-      if(MessageBox.Show(Application.Current.FindResource("QImportSettings") as string, LogFile.APPLICATION_CAPTION,
+      if (MessageBox.Show(Application.Current.FindResource("QImportSettings") as string, LogFile.APPLICATION_CAPTION,
                          MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
         return;
 
@@ -110,7 +109,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         byte[] buffer = new byte[1024];
         int len;
 
-        while((len = importFile.Read(buffer, 0, buffer.Length)) > 0)
+        while ((len = importFile.Read(buffer, 0, buffer.Length)) > 0)
         {
           output.Write(buffer, 0, len);
         }
@@ -121,10 +120,10 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         output.Close();
         importFile.Close();
 
-        SettingsHelper.ReloadSettings();
-        SettingsHelper.ReadSettings();
+        LogFile.Settings.ReloadSettings();
+        LogFile.Settings.ReadSettings();
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -145,7 +144,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
       bool? result = saveDialog.ShowDialog();
 
-      if(result != true)
+      if (result != true)
         return;
 
       try
@@ -155,7 +154,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         byte[] buffer = new byte[1024];
         int len;
 
-        while((len = saveFile.Read(buffer, 0, buffer.Length)) > 0)
+        while ((len = saveFile.Read(buffer, 0, buffer.Length)) > 0)
         {
           output.Write(buffer, 0, len);
         }
@@ -166,7 +165,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         saveFile.Close();
         output.Close();
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }

@@ -72,12 +72,12 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void btnReset_Click(object sender, RoutedEventArgs e)
     {
-      if(MessageBox.Show(Application.Current.FindResource("QResetSettings") as string,
+      if (MessageBox.Show(Application.Current.FindResource("QResetSettings") as string,
                          Application.Current.FindResource("Question") as string, MessageBoxButton.YesNo,
                          MessageBoxImage.Question) != MessageBoxResult.Yes)
         return;
 
-      SettingsHelper.SetToDefault();
+      LogFile.Settings.SetToDefault();
       SetControls();
     }
 
@@ -95,7 +95,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     {
       try
       {
-        if(File.Exists(sendToLnkName))
+        if (File.Exists(sendToLnkName))
         {
           File.Delete(sendToLnkName);
           Rename_BtnSendTo();
@@ -104,7 +104,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         {
           string message = string.Format(Application.Current.FindResource("QAddSendTo").ToString(), LogFile.APPLICATION_CAPTION);
 
-          if(MessageBox.Show(message, Application.Current.FindResource("Question") as string, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+          if (MessageBox.Show(message, Application.Current.FindResource("Question") as string, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
             return;
 
           IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
@@ -114,7 +114,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
           Rename_BtnSendTo();
         }
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -136,31 +136,31 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// <param name="e">Arguments</param>
     public void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if (e.Key == Key.Escape)
         btnCancel_Click(sender, e);
     }
 
     private void comboBoxThreadPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if(!IsInitialized || comboBoxThreadPriority.SelectedValue == null)
+      if (!IsInitialized || comboBoxThreadPriority.SelectedValue == null)
         return;
 
       e.Handled = true;
-      SettingsHelper.TailSettings.DefaultThreadPriority = (System.Threading.ThreadPriority) comboBoxThreadPriority.SelectedValue;
+      SettingsHelper.TailSettings.DefaultThreadPriority = (System.Threading.ThreadPriority)comboBoxThreadPriority.SelectedValue;
     }
 
     private void comboBoxThreadRefreshRate_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if(!IsInitialized)
+      if (!IsInitialized)
         return;
 
       e.Handled = true;
-      SettingsHelper.TailSettings.DefaultRefreshRate = (ETailRefreshRate) comboBoxThreadRefreshRate.SelectedItem;
+      SettingsHelper.TailSettings.DefaultRefreshRate = (ETailRefreshRate)comboBoxThreadRefreshRate.SelectedItem;
     }
 
     private void comboBoxTimeFormat_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if(!IsInitialized)
+      if (!IsInitialized)
         return;
 
       e.Handled = true;
@@ -169,7 +169,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void comboBoxDateFormat_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if(!IsInitialized)
+      if (!IsInitialized)
         return;
 
       e.Handled = true;
@@ -200,13 +200,13 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       comboBoxThreadPriority.DataContext = LogFile.ThreadPriority;
       comboBoxThreadRefreshRate.DataContext = LogFile.RefreshRate;
 
-      foreach(ETimeFormat timeFormat in Enum.GetValues(typeof(ETimeFormat)))
+      foreach (ETimeFormat timeFormat in Enum.GetValues(typeof(ETimeFormat)))
       {
         string item = SettingsData.GetEnumDescription(timeFormat);
         comboBoxTimeFormat.Items.Add(item);
       }
 
-      foreach(EDateFormat dateFormat in Enum.GetValues(typeof(EDateFormat)))
+      foreach (EDateFormat dateFormat in Enum.GetValues(typeof(EDateFormat)))
       {
         string item = SettingsData.GetEnumDescription(dateFormat);
         comboBoxDateFormat.Items.Add(item);
