@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if(value != null)
+      if ( value != null )
       {
         int count = ((ObservableCollection<FilterData>) value).Count;
         string title = count == 1 ? Application.Current.FindResource("FilterLoaded").ToString() : Application.Current.FindResource("FiltersLoaded").ToString();

@@ -23,13 +23,13 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     public void Dispose()
     {
-      if(fs != null)
+      if ( fs != null )
       {
         fs.Dispose();
         fs = null;
       }
 
-      if(reader == null)
+      if ( reader == null )
         return;
 
       reader.Dispose();
@@ -44,14 +44,14 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns><code>True</code>if file exists otherwise <code>false</code></returns>
     public bool OpenTailFileStream(string fileName, Encoding encode = null)
     {
-      if(!File.Exists(fileName))
+      if ( !File.Exists(fileName) )
         return false;
 
       try
       {
         fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
-        if(encode != null)
+        if ( encode != null )
           fileEncoding = encode;
         else
           DetectEncoding();
@@ -60,7 +60,7 @@ namespace Org.Vs.TailForWin.Utils
 
         return true;
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         Dispose();
@@ -89,7 +89,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>Readed lines</returns>
     public void ReadLastNLines(int nLines)
     {
-      if(reader == null)
+      if ( reader == null )
       {
         LOG.Info("StreamReader is null!");
         return;
@@ -98,14 +98,14 @@ namespace Org.Vs.TailForWin.Utils
       reader.BaseStream.Seek(0, SeekOrigin.End);
       LinesRead = 0;
 
-      while(LinesRead < nLines && reader.BaseStream.Position > 0)
+      while ( LinesRead < nLines && reader.BaseStream.Position > 0 )
       {
         reader.BaseStream.Position--;
         int c = reader.BaseStream.ReadByte();
 
-        if(reader.BaseStream.Position > 0)
+        if ( reader.BaseStream.Position > 0 )
           reader.BaseStream.Position--;
-        if(c == Convert.ToInt32('\n'))
+        if ( c == Convert.ToInt32('\n') )
           LinesRead++;
       }
     }
@@ -164,12 +164,12 @@ namespace Org.Vs.TailForWin.Utils
       {
         try
         {
-          if(reader?.BaseStream == null)
+          if ( reader?.BaseStream == null )
             return Double.NaN;
 
           return reader.BaseStream.Length / 1024.00;
         }
-        catch(Exception ex)
+        catch ( Exception ex )
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
           return Double.NaN;

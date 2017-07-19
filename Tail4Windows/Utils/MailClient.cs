@@ -34,19 +34,19 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     public void Dispose()
     {
-      if(mailClient != null)
+      if ( mailClient != null )
       {
         mailClient.Dispose();
         mailClient = null;
       }
 
-      if(mailMessage != null)
+      if ( mailMessage != null )
       {
         mailMessage.Dispose();
         mailMessage = null;
       }
 
-      if(emailTimer == null)
+      if ( emailTimer == null )
         return;
 
       emailTimer.Dispose();
@@ -60,9 +60,9 @@ namespace Org.Vs.TailForWin.Utils
     {
       InitSucces = false;
 
-      if(string.IsNullOrEmpty(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpServerName))
+      if ( string.IsNullOrEmpty(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpServerName) )
         return;
-      if(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpPort <= 0)
+      if ( SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SmtpPort <= 0 )
         return;
 
       try
@@ -78,9 +78,9 @@ namespace Org.Vs.TailForWin.Utils
         mailClient.Credentials = authInfo;
         mailClient.SendCompleted += SendCompleted;
 
-        if(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SSL)
+        if ( SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SSL )
           mailClient.EnableSsl = true;
-        if(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.TLS)
+        if ( SettingsHelper.TailSettings.AlertSettings.SmtpSettings.TLS )
           ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
 
         MailAddress from = new MailAddress(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.FromAddress);
@@ -103,7 +103,7 @@ namespace Org.Vs.TailForWin.Utils
         messageCollection = new List<string>();
         InitSucces = true;
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         MessageBox.Show(Application.Current.FindResource("SmtpSettingsNotValid") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
@@ -124,13 +124,13 @@ namespace Org.Vs.TailForWin.Utils
       {
         string userState = userToken;
 
-        if(bodyMessage != null)
+        if ( bodyMessage != null )
           mailMessage.Body = bodyMessage;
 
-        if(string.Compare(userState, "testMessage", StringComparison.Ordinal) == 0)
+        if ( string.Compare(userState, "testMessage", StringComparison.Ordinal) == 0 )
           mailMessage.Body = $"Testmail from {LogFile.APPLICATION_CAPTION}";
 
-        if(!EMailTimer.Enabled)
+        if ( !EMailTimer.Enabled )
         {
           mailClient.SendAsync(mailMessage, userToken);
         }
@@ -140,13 +140,13 @@ namespace Org.Vs.TailForWin.Utils
           return;
         }
 
-        if(string.Compare(userState, "testMessage", StringComparison.Ordinal) == 0)
+        if ( string.Compare(userState, "testMessage", StringComparison.Ordinal) == 0 )
           return;
 
         emailTimer.Enabled = true;
         LOG.Trace("Timer start {0}", DateTime.Now);
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         MessageBox.Show(Application.Current.FindResource("MailCannotSend") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
@@ -171,7 +171,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       string token = (string) e.UserState;
 
-      if(e.Cancelled)
+      if ( e.Cancelled )
       {
         MessageBox.Show($"{Application.Current.FindResource("MailCannotSend")}\n\"{token}\"", LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         SendMailComplete?.Invoke(sender, EventArgs.Empty);
@@ -200,7 +200,7 @@ namespace Org.Vs.TailForWin.Utils
         SendMail("AlertTrigger", body);
         LOG.Trace("Timer end {0}", DateTime.Now);
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }

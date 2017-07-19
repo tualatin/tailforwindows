@@ -14,11 +14,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Converters
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if(value.GetType() == typeof(bool))
+      if ( value.GetType() == typeof(bool) )
       {
         bool wrap = (bool) value;
 
-        if(wrap)
+        if ( wrap )
           return ScrollBarVisibility.Disabled;
         else
           return ScrollBarVisibility.Auto;

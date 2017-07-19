@@ -52,7 +52,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
 
     private void BtnSave_Click(object sender, RoutedEventArgs e)
     {
-      if(TextBoxSelectPart.SelectionLength == 0)
+      if ( TextBoxSelectPart.SelectionLength == 0 )
       {
         part = null;
       }
@@ -83,7 +83,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
 
     private void TextBoxSelectPart_PreviewMouseMove(object sender, MouseEventArgs e)
     {
-      if(leftMouseDown)
+      if ( leftMouseDown )
         SetLabelContent(TextBoxSelectPart.SelectionStart, TextBoxSelectPart.SelectionLength);
     }
 
@@ -91,13 +91,13 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if ( e.Key == Key.Escape )
         Close();
     }
 
     private void SetLabelContent(int start, int length)
     {
-      switch(length)
+      switch ( length )
       {
       case 0:
 

@@ -39,7 +39,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>The checked argument.</returns>
     public static T NotNull<T>(T arg, string argName)
     {
-      if(arg == null)
+      if ( arg == null )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_NULL));
 
       return arg;
@@ -70,7 +70,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>The checked argument.</returns>
     public static T[] NotEmpty<T>(T[] arg, string argName)
     {
-      if(arg == null || arg.Length < 1)
+      if ( arg == null || arg.Length < 1 )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_EMPTY));
 
       return arg;
@@ -101,7 +101,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>The checked argument.</returns>
     public static T NotEmpty<T, E>(T arg, string argName) where T : ICollection<E>
     {
-      if(arg == null || arg.Count < 1)
+      if ( arg == null || arg.Count < 1 )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_EMPTY));
 
       return arg;
@@ -133,7 +133,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>The checked argument.</returns>
     public static T[] NotContainsEmpty<T>(T[] arg, string argName)
     {
-      if(ContainsEmpty<T>(arg))
+      if ( ContainsEmpty<T>(arg) )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_CONTAINS_EMPTY));
 
       return arg;
@@ -164,7 +164,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>The checked argument.</returns>
     public static int AtLeast(int arg, int minValue, string argName)
     {
-      if(arg < minValue)
+      if ( arg < minValue )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_ATLEAST, arg, minValue));
 
       return arg;
@@ -194,7 +194,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>The checked argument.</returns>
     public static long AtLeast(long arg, long minValue, string argName)
     {
-      if(arg < minValue)
+      if ( arg < minValue )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_ATLEAST, arg, minValue));
 
       return arg;
@@ -224,7 +224,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>The checked argument.</returns>
     public static int GreaterThan(int arg, int minValue, string argName)
     {
-      if(arg <= minValue)
+      if ( arg <= minValue )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_ISGREATER, arg, minValue));
 
       return arg;
@@ -254,7 +254,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>The checked argument.</returns>
     public static long GreaterThan(long arg, long minValue, string argName)
     {
-      if(arg <= minValue)
+      if ( arg <= minValue )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_ISGREATER, arg, minValue));
 
       return arg;
@@ -284,7 +284,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>The checked argument.</returns>
     public static int AtMost(int arg, int maxValue, string argName)
     {
-      if(arg > maxValue)
+      if ( arg > maxValue )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_ATMOST, maxValue, arg));
 
       return arg;
@@ -314,7 +314,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>The checked argument.</returns>
     public static long AtMost(long arg, long maxValue, string argName)
     {
-      if(arg > maxValue)
+      if ( arg > maxValue )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_ATMOST, maxValue, arg));
 
       return arg;
@@ -344,7 +344,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>The checked argument.</returns>
     public static int LowerThan(int arg, int maxValue, string argName)
     {
-      if(arg >= maxValue)
+      if ( arg >= maxValue )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_LOWERTHAN, maxValue, arg));
 
       return arg;
@@ -374,7 +374,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>The checked argument.</returns>
     public static long LowerThan(long arg, long maxValue, string argName)
     {
-      if(arg >= maxValue)
+      if ( arg >= maxValue )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_LOWERTHAN, maxValue, arg));
 
       return arg;
@@ -406,7 +406,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       Type argClass = typeof(T);
 
-      if(arg == null || !(arg is T))
+      if ( arg == null || !(arg is T) )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_EXPECTED_CLASS, argClass.Name, arg != null ? arg.GetType().Name : null));
 
       return (T) arg;
@@ -424,7 +424,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       NotNull(argClass, ARG_ARGUMENT_CLASS);
 
-      if(arg == null || !argClass.DeclaringType.IsAssignableFrom(arg.DeclaringType))
+      if ( arg == null || !argClass.DeclaringType.IsAssignableFrom(arg.DeclaringType) )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_EXPECTED_CLASS, argClass.Name, arg != null ? arg.Name : null));
 
       return arg;
@@ -440,7 +440,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>The checked argument. <code>null</code>, if the checked argument is <code>null</code>.</returns>
     public static T NullOrIsA<T>(object arg, string argName)
     {
-      if(arg != null)
+      if ( arg != null )
         IsA<T>(arg, argName);
 
       return (T) arg;
@@ -458,7 +458,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       Type argClass = typeof(T);
 
-      if(!(arg is T) || argClass.Equals(arg.GetType()))
+      if ( !(arg is T) || argClass.Equals(arg.GetType()) )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_EXPECTED_SUB_CLASS, argClass.Name, arg != null ? arg.GetType().Name : null));
 
       return (T) arg;
@@ -476,7 +476,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       NotNull(argClass, ARG_ARGUMENT_CLASS);
 
-      if(arg == null || argClass.Equals(arg) || !argClass.IsAssignableFrom(arg))
+      if ( arg == null || argClass.Equals(arg) || !argClass.IsAssignableFrom(arg) )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_EXPECTED_SUB_CLASS, argClass.Name, arg != null ? arg.Name : null));
 
       return arg;
@@ -509,13 +509,13 @@ namespace Org.Vs.TailForWin.Utils
 
       Type enumClass = typeof(T);
 
-      if(arg != null && enumClass.IsEnum)
+      if ( arg != null && enumClass.IsEnum )
       {
         try
         {
           return (T) Enum.Parse(enumClass, arg, false);
         }
-        catch(ArgumentException)
+        catch ( ArgumentException )
         {
           throw new ArgumentException(FormatErrorMessage(argName, ERR_VALUE_NOT_VALID, enumClass.Name, string.Join(",", EnumValues<T>())));
         }
@@ -534,7 +534,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       Type enumType = typeof(T);
 
-      if(!enumType.IsEnum)
+      if ( !enumType.IsEnum )
       {
         //get the public static fields (members of the enum)
         FieldInfo[] fi = enumType.GetFields(BindingFlags.Static | BindingFlags.Public);
@@ -542,7 +542,7 @@ namespace Org.Vs.TailForWin.Utils
         string[] values = new string[fi.Length];
 
         //populate with the values
-        for(var iEnum = 0; iEnum < fi.Length; iEnum++)
+        for ( var iEnum = 0; iEnum < fi.Length; iEnum++ )
         {
           values[iEnum] = ((T) fi[iEnum].GetValue(null)).ToString(CultureInfo.InvariantCulture);
 
@@ -565,19 +565,19 @@ namespace Org.Vs.TailForWin.Utils
     {
       bool result = false;
 
-      if(a != null)
+      if ( a != null )
       {
-        for(int i = 0; !result && i < a.Length; i++)
+        for ( int i = 0; !result && i < a.Length; i++ )
         {
-          if(a[i] == null)
+          if ( a[i] == null )
           {
             result = true;
           }
-          else if(a[i] is ICollection)
+          else if ( a[i] is ICollection )
           {
             result = ((ICollection) a[i]).Count < 1;
           }
-          else if(a[i] is IDictionary)
+          else if ( a[i] is IDictionary )
           {
             result = ((IDictionary) a[i]).Count < 1;
           }
@@ -585,7 +585,7 @@ namespace Org.Vs.TailForWin.Utils
           {
             string aString = a as string;
 
-            if(aString != null)
+            if ( aString != null )
             {
               result = string.IsNullOrEmpty(aString);
             }
@@ -593,7 +593,7 @@ namespace Org.Vs.TailForWin.Utils
             {
               object[] aObjectArray = a as object[];
 
-              if(aObjectArray != null)
+              if ( aObjectArray != null )
                 result = IsEmpty(aObjectArray);
             }
           }

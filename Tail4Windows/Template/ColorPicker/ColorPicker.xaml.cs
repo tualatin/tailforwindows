@@ -64,7 +64,7 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
       get => selectedColor;
       private set
       {
-        if(selectedColor == value)
+        if ( selectedColor == value )
           return;
 
         selectedColor = value;
@@ -120,24 +120,24 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
       int searchX = 0;
       searchColor.A = 255;
 
-      for(searchY = 0; searchY <= CanvasImage.Width - 1; searchY++)
+      for ( searchY = 0; searchY <= CanvasImage.Width - 1; searchY++ )
       {
-        for(searchX = 0; searchX <= CanvasImage.Height - 1; searchX++)
+        for ( searchX = 0; searchX <= CanvasImage.Height - 1; searchX++ )
         {
           CroppedBitmap cb = new CroppedBitmap(ColorImage.Source as BitmapSource, new Int32Rect(searchX, searchY, 1, 1));
           cb.CopyPixels(pixels, 4, 0);
           tempColor = Color.FromArgb(255, pixels[2], pixels[1], pixels[0]);
 
-          if(tempColor == searchColor)
+          if ( tempColor == searchColor )
             break;
         }
 
-        if(tempColor == searchColor)
+        if ( tempColor == searchColor )
           break;
       }
 
       // Default to the top left if no match is found
-      if(tempColor != searchColor)
+      if ( tempColor != searchColor )
       {
         searchX = 0;
         searchY = 0;
@@ -157,7 +157,7 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
       int imageX = (int) Mouse.GetPosition(CanvasImage).X;
       int imageY = (int) Mouse.GetPosition(CanvasImage).Y;
 
-      if(imageX < 0 || imageY < 0 || imageX > ColorImage.Width - 1 || imageY > ColorImage.Height - 1)
+      if ( imageX < 0 || imageY < 0 || imageX > ColorImage.Width - 1 || imageY > ColorImage.Height - 1 )
         return;
 
       // Get the single pixel under the mouse into a bitmap and copy it to a byte array
@@ -200,7 +200,7 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
       drawingAttributes.Width = 5;
 
       // Update drawing attributes on previewPresenter
-      foreach(Stroke s in PreviewPresenter.Strokes)
+      foreach ( Stroke s in PreviewPresenter.Strokes )
       {
         s.DrawingAttributes = drawingAttributes;
       }
@@ -232,7 +232,7 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
     /// </summary>
     private void CanvasImage_MouseMove(object sender, MouseEventArgs e)
     {
-      if(isMouseDown)
+      if ( isMouseDown )
         UpdateColor();
     }
 
@@ -260,7 +260,7 @@ namespace Org.Vs.TailForWin.Template.ColorPicker
     {
       Image img = sender as Image;
 
-      if(img != null)
+      if ( img != null )
         ColorImage.Source = img.Source;
 
       UpdateCursorEllipse(SelectedColor);

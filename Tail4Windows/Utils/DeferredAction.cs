@@ -55,7 +55,7 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     public void Dispose()
     {
-      if(timer == null)
+      if ( timer == null )
         return;
 
       timer.Dispose();

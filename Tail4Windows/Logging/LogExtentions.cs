@@ -319,15 +319,15 @@ namespace log4net
     /// <param name="args">Arguments</param>
     public static void BeginMethod(this ILog log, Level logLevel, string methodName, string message, params object[] args)
     {
-      if(Level.Error.Equals(logLevel))
+      if ( Level.Error.Equals(logLevel) )
         log.Error($"{methodName} START - {message}", args);
-      else if(Level.Warn.Equals(logLevel))
+      else if ( Level.Warn.Equals(logLevel) )
         log.Warn($"{methodName} START - {message}", args);
-      else if(Level.Info.Equals(logLevel))
+      else if ( Level.Info.Equals(logLevel) )
         log.Info($"{methodName} START - {message}", args);
-      else if(Level.Debug.Equals(logLevel))
+      else if ( Level.Debug.Equals(logLevel) )
         log.Debug($"{methodName} START - {message}", args);
-      else if(Level.Trace.Equals(logLevel))
+      else if ( Level.Trace.Equals(logLevel) )
         log.Trace($"{methodName} START - {message}", args);
       else
         log.Debug($"{methodName} START - {message}", args);
@@ -365,15 +365,15 @@ namespace log4net
     /// <param name="args">Arguments</param>
     public static void EndMethod(this ILog log, Level logLevel, string methodName, string message, params object[] args)
     {
-      if(Level.Error.Equals(logLevel))
+      if ( Level.Error.Equals(logLevel) )
         log.Error($"{methodName} END   - {message}", args);
-      else if(Level.Warn.Equals(logLevel))
+      else if ( Level.Warn.Equals(logLevel) )
         log.Warn($"{methodName} END   - {message}", args);
-      else if(Level.Info.Equals(logLevel))
+      else if ( Level.Info.Equals(logLevel) )
         log.Info($"{methodName} END   - {message}", args);
-      else if(Level.Debug.Equals(logLevel))
+      else if ( Level.Debug.Equals(logLevel) )
         log.Debug($"{methodName} END   - {message}", args);
-      else if(Level.Trace.Equals(logLevel))
+      else if ( Level.Trace.Equals(logLevel) )
         log.Trace($"{methodName} END   - {message}", args);
       else
         log.Debug($"{methodName} END   - {message}", args);

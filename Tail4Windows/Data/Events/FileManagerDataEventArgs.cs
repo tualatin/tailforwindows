@@ -16,7 +16,7 @@ namespace Org.Vs.TailForWin.Data.Events
     /// </summary>
     public void Dispose()
     {
-      if(fileManagerProperties == null)
+      if ( fileManagerProperties == null )
         return;
 
       fileManagerProperties.Dispose();

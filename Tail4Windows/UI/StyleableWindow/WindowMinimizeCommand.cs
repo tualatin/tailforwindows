@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows.Input;
 using System.Windows;
+using System.Windows.Input;
 
 
 namespace Org.Vs.TailForWin.UI.StyleableWindow
@@ -31,7 +31,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <param name="parameter">Parameter</param>
     public void Execute(object parameter)
     {
-      if(parameter is Window)
+      if ( parameter is Window )
       {
         var window = parameter as Window;
         window.WindowState = WindowState.Minimized;

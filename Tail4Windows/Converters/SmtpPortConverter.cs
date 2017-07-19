@@ -13,11 +13,11 @@ namespace Org.Vs.TailForWin.Converters
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if(value is int)
+      if ( value is int )
       {
         int port = (int) value;
 
-        if(port > 0)
+        if ( port > 0 )
           return port;
 
         return 25;

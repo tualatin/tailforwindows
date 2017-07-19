@@ -284,7 +284,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultForegroundColor = value;
 
-        if(!string.IsNullOrEmpty(defaultForegroundColor))
+        if ( !string.IsNullOrEmpty(defaultForegroundColor) )
           GuiDefaultForegroundColor = GetColorFromHex(defaultForegroundColor);
       }
     }
@@ -305,7 +305,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultBackgroundColor = value;
 
-        if(!string.IsNullOrEmpty(defaultBackgroundColor))
+        if ( !string.IsNullOrEmpty(defaultBackgroundColor) )
           GuiDefaultBackgroundColor = GetColorFromHex(defaultBackgroundColor);
       }
     }
@@ -364,7 +364,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultInactiveForegroundColor = value;
 
-        if(!string.IsNullOrEmpty(defaultInactiveForegroundColor))
+        if ( !string.IsNullOrEmpty(defaultInactiveForegroundColor) )
           GuiDefaultInactiveForegroundColor = GetColorFromHex(defaultInactiveForegroundColor);
       }
     }
@@ -404,7 +404,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultInactiveBackgroundColor = value;
 
-        if(!string.IsNullOrEmpty(defaultInactiveBackgroundColor))
+        if ( !string.IsNullOrEmpty(defaultInactiveBackgroundColor) )
           GuiDefaultInactiveBackgroundColor = GetColorFromHex(defaultInactiveBackgroundColor);
       }
     }
@@ -444,7 +444,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultFindHighlightForegroundColor = value;
 
-        if(!string.IsNullOrEmpty(defaultFindHighlightForegroundColor))
+        if ( !string.IsNullOrEmpty(defaultFindHighlightForegroundColor) )
           GuiDefaultHighlightForegroundColor = GetColorFromHex(defaultFindHighlightForegroundColor);
       }
     }
@@ -484,7 +484,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultFindHighlightBackgroundColor = value;
 
-        if(!string.IsNullOrEmpty(defaultFindHighlightBackgroundColor))
+        if ( !string.IsNullOrEmpty(defaultFindHighlightBackgroundColor) )
           GuiDefaultHighlightBackgroundColor = GetColorFromHex(defaultFindHighlightBackgroundColor);
       }
     }
@@ -524,7 +524,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultLineNumbersColor = value;
 
-        if(!string.IsNullOrEmpty(defaultLineNumbersColor))
+        if ( !string.IsNullOrEmpty(defaultLineNumbersColor) )
           GuiDefaultLineNumbersColor = GetColorFromHex(defaultLineNumbersColor);
       }
     }
@@ -564,7 +564,7 @@ namespace Org.Vs.TailForWin.Data
       {
         defaultHighlightColor = value;
 
-        if(!string.IsNullOrEmpty(defaultHighlightColor))
+        if ( !string.IsNullOrEmpty(defaultHighlightColor) )
           GuiDefaultHighlightColor = GetColorFromHex(defaultHighlightColor);
       }
     }
@@ -706,7 +706,7 @@ namespace Org.Vs.TailForWin.Data
     {
       var convertFromString = ColorConverter.ConvertFromString(hex);
 
-      if(convertFromString != null)
+      if ( convertFromString != null )
       {
         Color color = (Color) convertFromString;
 
@@ -725,7 +725,7 @@ namespace Org.Vs.TailForWin.Data
       FieldInfo fi = value.GetType().GetField(value.ToString());
       DescriptionAttribute[] attributes = (DescriptionAttribute[]) fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-      if(attributes.Length > 0)
+      if ( attributes.Length > 0 )
         return attributes[0].Description;
 
       return value.ToString();
@@ -741,21 +741,21 @@ namespace Org.Vs.TailForWin.Data
     {
       var type = typeof(T);
 
-      if(!type.IsEnum)
+      if ( !type.IsEnum )
         throw new InvalidOperationException();
 
-      foreach(var field in type.GetFields())
+      foreach ( var field in type.GetFields() )
       {
         var attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
 
-        if(attribute != null)
+        if ( attribute != null )
         {
-          if(string.CompareOrdinal(attribute.Description, description) == 0)
+          if ( string.CompareOrdinal(attribute.Description, description) == 0 )
             return (T) field.GetValue(null);
         }
         else
         {
-          if(string.CompareOrdinal(field.Name, description) == 0)
+          if ( string.CompareOrdinal(field.Name, description) == 0 )
             return (T) field.GetValue(null);
         }
       }

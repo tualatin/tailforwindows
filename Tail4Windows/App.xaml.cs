@@ -22,14 +22,14 @@ namespace Org.Vs.TailForWin
       AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
       wnd.Show();
 
-      if(e.Args.Length <= 0)
+      if ( e.Args.Length <= 0 )
         return;
 
-      foreach(var arg in e.Args)
+      foreach ( var arg in e.Args )
       {
         Match m = Regex.Match(arg, @"/id=");
 
-        if(m.Success)
+        if ( m.Success )
         {
           string guid;
 
@@ -42,18 +42,18 @@ namespace Org.Vs.TailForWin
             guid = string.Empty;
           }
 
-          if(string.IsNullOrEmpty(guid))
+          if ( string.IsNullOrEmpty(guid) )
             continue;
 
           Match id = Regex.Match(guid, @"^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$");
 
-          if(!id.Success)
+          if ( !id.Success )
             continue;
 
           FileManagerStructure fm = new FileManagerStructure();
           FileManagerData item = fm.GetNodeById(id.Value);
 
-          if(item == null)
+          if ( item == null )
             continue;
 
           FileManagerDataEventArgs args = new FileManagerDataEventArgs(item);
@@ -66,7 +66,7 @@ namespace Org.Vs.TailForWin
 
           Match result = regex.Match(arg);
 
-          if(result.Success)
+          if ( result.Success )
             wnd.OpenFileFromParameter(arg);
         }
       }

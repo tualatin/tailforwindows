@@ -46,24 +46,24 @@ namespace Org.Vs.TailForWin.Controller
     {
       try
       {
-        if(!File.Exists(historyFile))
+        if ( !File.Exists(historyFile) )
           return;
 
         historyDoc = XDocument.Load(historyFile);
         XElement findHistoryRoot = historyDoc.Root?.Element(XmlStructure.FindHistory);
 
-        if(findHistoryRoot == null)
+        if ( findHistoryRoot == null )
           return;
 
         string wrapAround = findHistoryRoot.Attribute(XmlStructure.Wrap).Value;
         Wrap = bool.TryParse(wrapAround, out bool wrap) && wrap;
 
-        foreach(XElement find in findHistoryRoot.Elements(XmlStructure.Find))
+        foreach ( XElement find in findHistoryRoot.Elements(XmlStructure.Find) )
         {
           words.Add(find.Attribute(XmlStructure.Name).Value, find.Attribute(XmlStructure.Name).Value);
         }
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -74,16 +74,16 @@ namespace Org.Vs.TailForWin.Controller
     /// </summary>
     public XElement SaveFindHistoryWrap()
     {
-      if(!File.Exists(historyFile))
+      if ( !File.Exists(historyFile) )
         historyDoc = new XDocument(new XElement(XMLROOT));
 
       try
       {
-        if(historyDoc.Root != null)
+        if ( historyDoc.Root != null )
         {
           XElement findHistoryRoot = historyDoc.Root.Element(XmlStructure.FindHistory);
 
-          if(findHistoryRoot != null)
+          if ( findHistoryRoot != null )
           {
             findHistoryRoot.Attribute(XmlStructure.Wrap).Value = Wrap.ToString();
           }
@@ -99,7 +99,7 @@ namespace Org.Vs.TailForWin.Controller
           return findHistoryRoot;
         }
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -112,12 +112,12 @@ namespace Org.Vs.TailForWin.Controller
     /// <param name="searchWord">Find what word</param>
     public void SaveFindHistoryName(string searchWord)
     {
-      if(!File.Exists(historyFile))
+      if ( !File.Exists(historyFile) )
         historyDoc = new XDocument(new XElement(XMLROOT));
 
       try
       {
-        if(historyDoc.Root != null)
+        if ( historyDoc.Root != null )
         {
           XElement findHistoryRoot = historyDoc.Root.Element(XmlStructure.FindHistory) ?? SaveFindHistoryWrap();
           XElement findHistoryFind = new XElement(XmlStructure.Find);
@@ -127,7 +127,7 @@ namespace Org.Vs.TailForWin.Controller
 
         historyDoc.Save(historyFile, SaveOptions.None);
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }

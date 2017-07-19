@@ -20,7 +20,7 @@ namespace Org.Vs.TailForWin.Data
     /// <returns>Compareable result</returns>
     public int Compare(object x, object y)
     {
-      if(x is FileManagerData && y is FileManagerData)
+      if ( x is FileManagerData && y is FileManagerData )
       {
         var xFm = x as FileManagerData;
         var yFm = y as FileManagerData;

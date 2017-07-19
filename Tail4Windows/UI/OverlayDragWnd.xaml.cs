@@ -45,7 +45,7 @@ namespace Org.Vs.TailForWin.UI
       Point buttonPosToScreen = btnDropTarget.PointToScreen(new Point(0, 0));
       PresentationSource source = PresentationSource.FromVisual(this);
 
-      if(source?.CompositionTarget == null)
+      if ( source?.CompositionTarget == null )
         return false;
 
       Point targetPos = source.CompositionTarget.TransformFromDevice.Transform(buttonPosToScreen);

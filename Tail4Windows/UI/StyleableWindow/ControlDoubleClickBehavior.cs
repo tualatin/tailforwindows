@@ -1,6 +1,6 @@
-﻿using System.Windows.Input;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 
 namespace Org.Vs.TailForWin.UI.StyleableWindow
@@ -62,24 +62,24 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void OnExecuteCommandChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is Control control)
+      if ( sender is Control control )
         control.MouseDoubleClick += Control_MouseDoubleClick;
-      else if(sender is Border border)
+      else if ( sender is Border border )
         border.MouseLeftButtonDown += Border_MouseLeftButtonDown;
     }
 
     static void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      if(e.ClickCount == 2)
+      if ( e.ClickCount == 2 )
       {
         var border = sender as Border;
 
-        if(border != null)
+        if ( border != null )
         {
           var command = border.GetValue(ExecuteCommand) as ICommand;
           var commandParameter = border.GetValue(ExecuteCommandParameter);
 
-          if(command != null && command.CanExecute(e))
+          if ( command != null && command.CanExecute(e) )
             command.Execute(commandParameter);
         }
       }
@@ -87,12 +87,12 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void Control_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-      if(sender is Control control)
+      if ( sender is Control control )
       {
         var command = control.GetValue(ExecuteCommand) as ICommand;
         var commandParameter = control.GetValue(ExecuteCommandParameter);
 
-        if(command != null && command.CanExecute(e))
+        if ( command != null && command.CanExecute(e) )
           command.Execute(commandParameter);
       }
     }

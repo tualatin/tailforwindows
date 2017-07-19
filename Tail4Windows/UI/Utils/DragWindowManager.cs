@@ -42,7 +42,7 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <param name="window">Reference to DragDropToTabWindow window to register</param>
     public void Register(IDragDropToTabWindow window)
     {
-      if(!allWindows.Contains(window))
+      if ( !allWindows.Contains(window) )
       {
         allWindows.Add(window);
         ((Window) window).Closed += DragWindowManager_Closed;
@@ -55,7 +55,7 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <param name="window">Reference to DragDropToTabWindow window to unregister</param>
     public void Unregister(IDragDropToTabWindow window)
     {
-      if(allWindows.Contains(window))
+      if ( allWindows.Contains(window) )
         allWindows.Remove(window);
     }
 
@@ -65,29 +65,29 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <param name="dragWindow">Window to move</param>
     public void DragMove(IDragDropToTabWindow dragWindow)
     {
-      if(dragWindow == null)
+      if ( dragWindow == null )
         return;
 
       Win32Point p = new Win32Point();
 
-      if(!NativeMethods.GetCursorPos(ref p))
+      if ( !NativeMethods.GetCursorPos(ref p) )
         return;
 
       Point dragWinPosition = new Point(p.X, p.Y);
 
-      foreach(IDragDropToTabWindow existWindow in allWindows)
+      foreach ( IDragDropToTabWindow existWindow in allWindows )
       {
-        if(dragWindow.Equals(existWindow))
+        if ( dragWindow.Equals(existWindow) )
           continue;
 
-        if(existWindow.IsDragMouseOver(dragWinPosition))
+        if ( existWindow.IsDragMouseOver(dragWinPosition) )
         {
-          if(!dragEnteredWindows.Contains(existWindow))
+          if ( !dragEnteredWindows.Contains(existWindow) )
             dragEnteredWindows.Add(existWindow);
         }
         else
         {
-          if(dragEnteredWindows.Contains(existWindow))
+          if ( dragEnteredWindows.Contains(existWindow) )
           {
             dragEnteredWindows.Remove(existWindow);
             existWindow.OnDrageLeave();
@@ -95,21 +95,21 @@ namespace Org.Vs.TailForWin.UI.Utils
         }
       }
 
-      if(dragEnteredWindows.Count > 0)
+      if ( dragEnteredWindows.Count > 0 )
       {
         IntPtr dragWinHwnd = new WindowInteropHelper((Window) dragWindow).Handle;
         IntPtr dragBelowhwnd = NativeMethods.GetWindow(dragWinHwnd, NativeMethods.GW_HWNDNEXT);
         IDragDropToTabWindow nextTopWindow = null;
         bool foundTabTarget = false;
 
-        for(IntPtr hWind = dragBelowhwnd; hWind != IntPtr.Zero; hWind = NativeMethods.GetWindow(hWind, NativeMethods.GW_HWNDNEXT))
+        for ( IntPtr hWind = dragBelowhwnd; hWind != IntPtr.Zero; hWind = NativeMethods.GetWindow(hWind, NativeMethods.GW_HWNDNEXT) )
         {
-          foreach(var dragDropToTabWindow in dragEnteredWindows)
+          foreach ( var dragDropToTabWindow in dragEnteredWindows )
           {
             var enteredWindow = (Window) dragDropToTabWindow;
             IntPtr enterWinHwnd = new WindowInteropHelper(enteredWindow).Handle;
 
-            if(hWind == enterWinHwnd)
+            if ( hWind == enterWinHwnd )
             {
               nextTopWindow = (IDragDropToTabWindow) enteredWindow;
               ((IDragDropToTabWindow) enteredWindow).OnDragEnter();
@@ -119,21 +119,21 @@ namespace Org.Vs.TailForWin.UI.Utils
 
           }
 
-          if(foundTabTarget)
+          if ( foundTabTarget )
             break;
         }
 
-        if(nextTopWindow != null)
+        if ( nextTopWindow != null )
         {
-          foreach(var dragDropToTabWindow in dragEnteredWindows)
+          foreach ( var dragDropToTabWindow in dragEnteredWindows )
           {
             var enteredWin = (Window) dragDropToTabWindow;
 
-            if(!nextTopWindow.Equals(enteredWin))
+            if ( !nextTopWindow.Equals(enteredWin) )
               ((IDragDropToTabWindow) enteredWin).OnDrageLeave();
           }
 
-          if(nextTopWindow.IsDragMouseOverTabZone(dragWinPosition))
+          if ( nextTopWindow.IsDragMouseOverTabZone(dragWinPosition) )
             ((Window) dragWindow).Hide();
           else
             ((Window) dragWindow).Show();
@@ -141,7 +141,7 @@ namespace Org.Vs.TailForWin.UI.Utils
       }
       else
       {
-        if(!((Window) dragWindow).IsVisible)
+        if ( !((Window) dragWindow).IsVisible )
           ((Window) dragWindow).Show();
       }
     }
@@ -152,38 +152,38 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <param name="dragWindow">Drag window</param>
     public void DragEnd(IDragDropToTabWindow dragWindow)
     {
-      if(dragWindow == null)
+      if ( dragWindow == null )
         return;
 
       Win32Point p = new Win32Point();
 
-      if(!NativeMethods.GetCursorPos(ref p))
+      if ( !NativeMethods.GetCursorPos(ref p) )
         return;
 
       Point dragWinPosition = new Point(p.X, p.Y);
 
-      foreach(IDragDropToTabWindow targetWindow in dragEnteredWindows)
+      foreach ( IDragDropToTabWindow targetWindow in dragEnteredWindows )
       {
-        if(targetWindow.IsDragMouseOverTabZone(dragWinPosition))
+        if ( targetWindow.IsDragMouseOverTabZone(dragWinPosition) )
         {
           ItemCollection items = ((ITabWindow) dragWindow).TabItems;
 
-          for(int i = 0; i < items.Count; i++)
+          for ( int i = 0; i < items.Count; i++ )
           {
             TabItem item = items[i] as TabItem;
 
-            if(item != null && item.Header.Equals(targetWindow.TabAdd.Header))
+            if ( item != null && item.Header.Equals(targetWindow.TabAdd.Header) )
               continue;
 
-            if(item != null)
+            if ( item != null )
               ((ITabWindow) targetWindow).AddTabItem(item.Header.ToString(), (Control) item.Content);
           }
 
-          for(int i = items.Count; i > 0; i--)
+          for ( int i = items.Count; i > 0; i-- )
           {
             TabItem item = items[i - 1] as TabItem;
 
-            if(item != null)
+            if ( item != null )
               ((ITabWindow) dragWindow).RemoveTabItem(item);
           }
         }
@@ -191,7 +191,7 @@ namespace Org.Vs.TailForWin.UI.Utils
         targetWindow.OnDrageLeave();
       }
 
-      if(dragEnteredWindows.Count > 0 && ((ITabWindow) dragWindow).TabItems.Count == 0)
+      if ( dragEnteredWindows.Count > 0 && ((ITabWindow) dragWindow).TabItems.Count == 0 )
         ((Window) dragWindow).Close();
 
       dragEnteredWindows.Clear();
@@ -199,7 +199,7 @@ namespace Org.Vs.TailForWin.UI.Utils
 
     private void DragWindowManager_Closed(object sender, EventArgs e)
     {
-      if(sender is Window)
+      if ( sender is Window )
       {
         Window window = sender as Window;
         Unregister((IDragDropToTabWindow) window);

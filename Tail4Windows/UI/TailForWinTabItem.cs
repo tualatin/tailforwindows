@@ -93,10 +93,10 @@ namespace Org.Vs.TailForWin.UI
     {
       base.OnApplyTemplate();
 
-      if(GetTemplateChild("tabItemCloseButton") is Button closeButton)
+      if ( GetTemplateChild("tabItemCloseButton") is Button closeButton )
         closeButton.Click += CloseButton_Click;
 
-      if(GetTemplateChild("gridHeader") is Grid headerGrid)
+      if ( GetTemplateChild("gridHeader") is Grid headerGrid )
       {
         headerGrid.PreviewMouseDown += HeaderGrid_MiddleMouseButtonDown;
         headerGrid.MouseLeftButtonDown += HeaderGrid_MouseLeftButtonDown;
@@ -108,28 +108,28 @@ namespace Org.Vs.TailForWin.UI
           Content = HeaderToolTip
         };
 
-        if(HeaderToolTip != null)
+        if ( HeaderToolTip != null )
           ToolTipService.SetToolTip(headerGrid, myToolTip);
       }
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
-      if(Parent is TabControl)
+      if ( Parent is TabControl )
         RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
     }
 
     private void HeaderGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      if(e.ClickCount == 2)
+      if ( e.ClickCount == 2 )
         RaiseEvent(new RoutedEventArgs(TabHeaderDoubleClickEvent, this));
     }
 
     private void HeaderGrid_MiddleMouseButtonDown(object sender, MouseButtonEventArgs e)
     {
-      if(Parent is TabControl)
+      if ( Parent is TabControl )
       {
-        if(e.MiddleButton == MouseButtonState.Pressed)
+        if ( e.MiddleButton == MouseButtonState.Pressed )
           RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
       }
     }

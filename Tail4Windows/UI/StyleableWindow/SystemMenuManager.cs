@@ -28,7 +28,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
         x = Convert.ToInt32(menuLocation.X);
         y = Convert.ToInt32(menuLocation.Y);
       }
-      catch(OverflowException)
+      catch ( OverflowException )
       {
         x = 0;
         y = 0;
@@ -38,7 +38,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
       IntPtr wMenu = NativeMethods.GetSystemMenu(window, false);
       int command = NativeMethods.TrackPopupMenuEx(wMenu, NativeMethods.TPM_LEFTALIGN | NativeMethods.TPM_RETURNCMD, x, y, window, IntPtr.Zero);
 
-      if(command == 0)
+      if ( command == 0 )
         return;
 
       NativeMethods.PostMessage(window, NativeMethods.WM_SYSCOMMAND, new IntPtr(command), IntPtr.Zero);

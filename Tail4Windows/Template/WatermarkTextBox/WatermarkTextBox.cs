@@ -87,7 +87,7 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
     {
       base.OnGotKeyboardFocus(e);
 
-      if(SelectAllOnGotFocus)
+      if ( SelectAllOnGotFocus )
         SelectAll();
     }
 
@@ -97,7 +97,7 @@ namespace Org.Vs.TailForWin.Template.WatermarkTextBox
     /// <param name="e">MouseButtonEvent arguments</param>
     protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
     {
-      if(!IsKeyboardFocused && SelectAllOnGotFocus)
+      if ( !IsKeyboardFocused && SelectAllOnGotFocus )
       {
         e.Handled = true;
         Focus();

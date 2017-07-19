@@ -45,7 +45,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     {
       this.listBox = listBox;
 
-      if(this.listBox.IsLoaded)
+      if ( this.listBox.IsLoaded )
       {
         Register();
       }
@@ -85,14 +85,14 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     {
       ListBox listBox = d as ListBox;
 
-      if(listBox == null)
+      if ( listBox == null )
         return;
 
-      if((bool) e.NewValue)
+      if ( (bool) e.NewValue )
       {
         // If we're enabling selection by a rectangle we can assume
         // this means we want to be able to select more than one item.
-        if(listBox.SelectionMode == SelectionMode.Single)
+        if ( listBox.SelectionMode == SelectionMode.Single )
           listBox.SelectionMode = SelectionMode.Extended;
 
         AttachedControls.Add(listBox, new ListBoxSelector(listBox));
@@ -101,7 +101,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       {
         ListBoxSelector selector;
 
-        if(AttachedControls.TryGetValue(listBox, out selector))
+        if ( AttachedControls.TryGetValue(listBox, out selector) )
         {
           AttachedControls.Remove(listBox);
           selector.UnRegister();
@@ -121,16 +121,16 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       var queue = new Queue<DependencyObject>();
       queue.Enqueue(reference);
 
-      while(queue.Count > 0)
+      while ( queue.Count > 0 )
       {
         DependencyObject child = queue.Dequeue();
         T obj = child as T;
 
-        if(obj != null)
+        if ( obj != null )
           return obj;
 
         // Add the children to the queue to search through later.
-        for(int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++)
+        for ( int i = 0; i < VisualTreeHelper.GetChildrenCount(child); i++ )
         {
           queue.Enqueue(VisualTreeHelper.GetChild(child, i));
         }
@@ -142,7 +142,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     {
       scrollContent = FindChild<ScrollContentPresenter>(listBox);
 
-      if(scrollContent == null)
+      if ( scrollContent == null )
         return scrollContent != null;
 
       autoScroller = new AutoScroller(listBox);
@@ -181,7 +181,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 
     private void OnListBoxLoaded(object sender, EventArgs e)
     {
-      if(Register())
+      if ( Register() )
         listBox.Loaded -= OnListBoxLoaded;
     }
 
@@ -193,7 +193,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 
     private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-      if(mouseCaptured)
+      if ( mouseCaptured )
       {
         mouseCaptured = false;
         scrollContent.ReleaseMouseCapture();
@@ -207,11 +207,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     {
       Point mouse = e.GetPosition(scrollContent);
 
-      if(mouse.X >= 0 && mouse.X < scrollContent.ActualWidth &&
-          mouse.Y >= 0 && mouse.Y < scrollContent.ActualHeight)
+      if ( mouse.X >= 0 && mouse.X < scrollContent.ActualWidth &&
+          mouse.Y >= 0 && mouse.Y < scrollContent.ActualHeight )
       {
-        if((Keyboard.Modifiers & ModifierKeys.Control) == 0 &&
-            (Keyboard.Modifiers & ModifierKeys.Shift) == 0)
+        if ( (Keyboard.Modifiers & ModifierKeys.Control) == 0 &&
+            (Keyboard.Modifiers & ModifierKeys.Shift) == 0 )
           // Neither the shift key or control key is pressed, so
           // clear the selection.
           listBox.SelectedItems.Clear();
@@ -220,7 +220,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 
     private void OnMouseMove(object sender, MouseEventArgs e)
     {
-      if(lbdEventArgs != null)
+      if ( lbdEventArgs != null )
       {
         var e2 = lbdEventArgs;
         lbdEventArgs = null;
@@ -228,11 +228,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
         mouseCaptured = TryCaptureMouse(e2);
         Point mouse = e2.GetPosition(scrollContent);
 
-        if(mouseCaptured)
+        if ( mouseCaptured )
           StartSelection(mouse);
       }
 
-      if(!mouseCaptured)
+      if ( !mouseCaptured )
         return;
 
       // Get the position relative to the content of the ScrollViewer.
@@ -247,8 +247,8 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       // scroll bars for example).
       Point mouse = e.GetPosition(scrollContent);
 
-      if(mouse.X >= 0 && mouse.X < scrollContent.ActualWidth &&
-          mouse.Y >= 0 && mouse.Y < scrollContent.ActualHeight)
+      if ( mouse.X >= 0 && mouse.X < scrollContent.ActualWidth &&
+          mouse.Y >= 0 && mouse.Y < scrollContent.ActualHeight )
         lbdEventArgs = e;
       else
         lbdEventArgs = null;
@@ -269,7 +269,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       // Check if there is anything under the mouse.
       UIElement element = scrollContent.InputHitTest(position) as UIElement;
 
-      if(element != null)
+      if ( element != null )
       {
         // Simulate a mouse click by sending it the MouseButtonDown
         // event based on the data we received.
@@ -282,7 +282,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 
         // The ListBox will try to capture the mouse unless something
         // else captures it.
-        if(!Equals(Mouse.Captured, listBox)) // Mouse.Captured != listBox
+        if ( !Equals(Mouse.Captured, listBox) ) // Mouse.Captured != listBox
           return false; // Something else wanted the mouse, let it keep it.
       }
 
@@ -301,15 +301,15 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     {
       // We've stolen the MouseLeftButtonDown event from the ListBox
       // so we need to manually give it focus.
-      if(!listBox.IsKeyboardFocusWithin)
+      if ( !listBox.IsKeyboardFocusWithin )
         listBox.Focus();
 
       start = location;
       end = location;
 
       // Do we need to start a new selection?
-      if((Keyboard.Modifiers & ModifierKeys.Control) == 0 &&
-          (Keyboard.Modifiers & ModifierKeys.Shift) == 0)
+      if ( (Keyboard.Modifiers & ModifierKeys.Control) == 0 &&
+          (Keyboard.Modifiers & ModifierKeys.Shift) == 0 )
         // Neither the shift key or control key is pressed, so
         // clear the selection.
         listBox.SelectedItems.Clear();
@@ -392,7 +392,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
         private get => isEnabled;
         set
         {
-          if(isEnabled == value)
+          if ( isEnabled == value )
             return;
 
           isEnabled = value;
@@ -430,7 +430,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
         mouse = msPoint;
 
         // If scrolling isn't enabled then see if it needs to be.
-        if(!autoScroll.IsEnabled)
+        if ( !autoScroll.IsEnabled )
           PreformScroll();
       }
 
@@ -452,11 +452,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       {
         double sum = 0;
 
-        for(int i = startIndex; i != endIndex; i++)
+        for ( int i = startIndex; i != endIndex; i++ )
         {
           FrameworkElement container = itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
 
-          if(container != null)
+          if ( container != null )
           {
             // Height = Actual height + margin
             sum += container.ActualHeight;
@@ -469,7 +469,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
       {
         // Do we need to update the offset?
-        if(IsEnabled)
+        if ( IsEnabled )
         {
           double horizontal = e.HorizontalChange;
           double vertical = e.VerticalChange;
@@ -477,10 +477,10 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
           // VerticalOffset means two seperate things based on the CanContentScroll
           // property. If this property is true then the offset is the number of
           // items to scroll; false then it's in Device Independant Pixels (DIPs).
-          if(scrollViewer.CanContentScroll)
+          if ( scrollViewer.CanContentScroll )
           {
             // We need to either increase the offset or decrease it.
-            if(e.VerticalChange < 0)
+            if ( e.VerticalChange < 0 )
             {
               int start = (int) e.VerticalOffset;
               int end = (int) (e.VerticalOffset - e.VerticalChange);
@@ -505,23 +505,23 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       {
         bool scrolled = false;
 
-        if(mouse.X > scrollContent.ActualWidth)
+        if ( mouse.X > scrollContent.ActualWidth )
         {
           scrollViewer.LineRight();
           scrolled = true;
         }
-        else if(mouse.X < 0)
+        else if ( mouse.X < 0 )
         {
           scrollViewer.LineLeft();
           scrolled = true;
         }
 
-        if(mouse.Y > scrollContent.ActualHeight)
+        if ( mouse.Y > scrollContent.ActualHeight )
         {
           scrollViewer.LineDown();
           scrolled = true;
         }
-        else if(mouse.Y < 0)
+        else if ( mouse.Y < 0 )
         {
           scrollViewer.LineUp();
           scrolled = true;
@@ -582,11 +582,11 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       public void UpdateSelection(Rect area)
       {
         // Check each item to see if it intersects with the area.
-        for(int i = 0; i < itemsControl.Items.Count; i++)
+        for ( int i = 0; i < itemsControl.Items.Count; i++ )
         {
           FrameworkElement item = itemsControl.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
 
-          if(item != null)
+          if ( item != null )
           {
             // Get the bounds in the parent's co-ordinates.
             Point topLeft = item.TranslatePoint(new Point(0, 0), itemsControl);
@@ -594,9 +594,9 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
 
             // Only change the selection if it intersects with the area
             // (or intersected i.e. we changed the value last time).
-            if(itemBounds.IntersectsWith(area))
+            if ( itemBounds.IntersectsWith(area) )
               Selector.SetIsSelected(item, true);
-            else if(itemBounds.IntersectsWith(previousArea))
+            else if ( itemBounds.IntersectsWith(previousArea) )
             {
               // We previously changed the selection to true but it no
               // longer intersects with the area so clear the selection.
@@ -689,7 +689,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
       {
         base.OnRender(drawingContext);
 
-        if(IsEnabled)
+        if ( IsEnabled )
         {
           // Make the lines snap to pixels (add half the pen width [0.5])
           double[] x = { SelectionArea.Left + 0.5, SelectionArea.Right + 0.5 };

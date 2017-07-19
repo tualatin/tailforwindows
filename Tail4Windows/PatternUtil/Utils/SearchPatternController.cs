@@ -41,16 +41,16 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
       {
         var path = Path.GetDirectoryName(currentProperty.FileName);
 
-        if(!string.IsNullOrEmpty(path))
+        if ( !string.IsNullOrEmpty(path) )
         {
           DirectoryInfo directoryInfo = new DirectoryInfo(path);
 
-          if(!directoryInfo.Exists)
+          if ( !directoryInfo.Exists )
             return string.Empty;
 
           FileInfo[] files;
 
-          if(!currentProperty.IsRegex)
+          if ( !currentProperty.IsRegex )
           {
             files = directoryInfo.GetFiles(currentProperty.PatternString, SearchOption.TopDirectoryOnly);
           }
@@ -60,26 +60,26 @@ namespace Org.Vs.TailForWin.PatternUtil.Utils
             files = directoryInfo.GetFiles().Where(p => regex.IsMatch(p.Name)).ToArray();
           }
 
-          if(files.Length == 0)
+          if ( files.Length == 0 )
             return string.Empty;
 
           DateTime latestWrite = DateTime.MinValue;
           FileInfo latestFile = null;
 
-          foreach(var item in files)
+          foreach ( var item in files )
           {
-            if(item.LastWriteTime > latestWrite)
+            if ( item.LastWriteTime > latestWrite )
             {
               latestFile = item;
               latestWrite = item.LastWriteTime;
             }
           }
 
-          if(latestFile != null)
+          if ( latestFile != null )
             return latestFile.FullName;
         }
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }

@@ -21,24 +21,24 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <param name="ex">Exception</param>
     public static void HandleUserException(Exception ex)
     {
-      if(ex.GetType() == typeof(ArgumentNullException) || ex.GetType() == typeof(NullReferenceException))
+      if ( ex.GetType() == typeof(ArgumentNullException) || ex.GetType() == typeof(NullReferenceException) )
       {
         ShowMessageBox(ex.Message);
         return;
       }
 
-      if(ex.GetType() == typeof(WebException))
+      if ( ex.GetType() == typeof(WebException) )
       {
         var webException = ex as WebException;
 
-        if(webException == null)
+        if ( webException == null )
           return;
 
         HttpWebResponse response = (HttpWebResponse) webException.Response;
 
-        if(response != null)
+        if ( response != null )
         {
-          switch(response.StatusCode)
+          switch ( response.StatusCode )
           {
           case HttpStatusCode.ProxyAuthenticationRequired:
 
@@ -70,14 +70,14 @@ namespace Org.Vs.TailForWin.Template.UpdateController
             try
             {
               string result;
-              using(StreamReader reader = new StreamReader(response.GetResponseStream(), string.IsNullOrEmpty(response.ContentEncoding) ? Encoding.UTF8 : Encoding.GetEncoding(response.ContentEncoding)))
+              using ( StreamReader reader = new StreamReader(response.GetResponseStream(), string.IsNullOrEmpty(response.ContentEncoding) ? Encoding.UTF8 : Encoding.GetEncoding(response.ContentEncoding)) )
               {
                 result = reader.ReadToEnd();
               }
 
               ShowMessageBox(result);
             }
-            catch(Exception e)
+            catch ( Exception e )
             {
               LOG.Error(e, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, e.GetType().Name);
             }
@@ -92,7 +92,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
         return;
       }
 
-      if(ex.GetType() == typeof(UriFormatException))
+      if ( ex.GetType() == typeof(UriFormatException) )
       {
         ShowMessageBox(ex.Message);
         return;

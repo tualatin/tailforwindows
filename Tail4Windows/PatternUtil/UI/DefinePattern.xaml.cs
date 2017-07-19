@@ -37,10 +37,10 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
     /// <param name="defaultPatterns">List of default patterns</param>
     public void AddDefaultPatterns(List<Pattern> defaultPatterns)
     {
-      if(defaultPatterns == null || defaultPatterns.Count == 0)
+      if ( defaultPatterns == null || defaultPatterns.Count == 0 )
         return;
 
-      foreach(var item in defaultPatterns)
+      foreach ( var item in defaultPatterns )
       {
         ComboBoxPattern.Items.Add(item);
       }
@@ -54,13 +54,13 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
 
     private void BtnSave_Click(object sender, RoutedEventArgs e)
     {
-      if(string.IsNullOrEmpty(ComboBoxPattern.Text))
+      if ( string.IsNullOrEmpty(ComboBoxPattern.Text) )
       {
         pattern = null;
       }
       else
       {
-        if(CheckBoxRegex.IsChecked != null)
+        if ( CheckBoxRegex.IsChecked != null )
           pattern.IsRegex = CheckBoxRegex.IsChecked.Value;
 
         pattern.PatternString = ComboBoxPattern.Text;
@@ -72,14 +72,14 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
 
     private void ComboBoxPattern_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if(!IsInitialized)
+      if ( !IsInitialized )
         return;
 
-      if(e.AddedItems.Count > 0)
+      if ( e.AddedItems.Count > 0 )
       {
         var pt = e.AddedItems[0];
 
-        if(pt is Pattern pt1)
+        if ( pt is Pattern pt1 )
           CheckBoxRegex.IsChecked = pt1.IsRegex;
       }
     }
@@ -88,7 +88,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if ( e.Key == Key.Escape )
         Close();
     }
 

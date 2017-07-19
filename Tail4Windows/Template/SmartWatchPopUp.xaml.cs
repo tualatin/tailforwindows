@@ -61,7 +61,7 @@ namespace Org.Vs.TailForWin.Template
 
         Array.ForEach(substrings, item =>
         {
-          if(regex.Match(item).Success)
+          if ( regex.Match(item).Success )
           {
             Brush highlightText = new SolidColorBrush(Color.FromArgb(255, 52, 180, 227));
             Run run = new Run(item)
@@ -81,7 +81,7 @@ namespace Org.Vs.TailForWin.Template
         Focus();
         BtnOpenSameTab.Focus();
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }

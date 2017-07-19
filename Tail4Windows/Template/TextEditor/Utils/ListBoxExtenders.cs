@@ -46,17 +46,17 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     /// <param name="e">Some additional information</param>
     public static void OnAutoScrollToCurrentItemChanged(DependencyObject s, DependencyPropertyChangedEventArgs e)
     {
-      if(s is ListBox listBox)
+      if ( s is ListBox listBox )
       {
         var listBoxItems = listBox.Items;
 
-        if(listBoxItems != null)
+        if ( listBoxItems != null )
         {
           var newValue = (bool) e.NewValue;
 
           var autoScrollToCurrentItemWorker = new EventHandler((s1, e2) => OnAutoScrollToCurrentItem(listBox, listBox.Items.CurrentPosition));
 
-          if(newValue)
+          if ( newValue )
             listBoxItems.CurrentChanged += autoScrollToCurrentItemWorker;
           else
             listBoxItems.CurrentChanged -= autoScrollToCurrentItemWorker;
@@ -72,7 +72,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     /// <param name="index">The index of the item to which it should be scrolled</param>
     public static void OnAutoScrollToCurrentItem(ListBox listBox, int index)
     {
-      if(listBox?.Items != null && listBox.Items.Count > index && index >= 0)
+      if ( listBox?.Items != null && listBox.Items.Count > index && index >= 0 )
         listBox.ScrollIntoView(listBox.Items[index]);
     }
 

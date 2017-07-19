@@ -34,13 +34,13 @@ namespace Org.Vs.TailForWin.Utils
         bool bMyMutex;
         Mutex m = new Mutex(bInitialOwned, strName, out bMyMutex);
 
-        if(bMyMutex)
+        if ( bMyMutex )
         {
           Mutexes.Add(new KeyValuePair<string, Mutex>(strName, m));
           return true;
         }
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -59,20 +59,20 @@ namespace Org.Vs.TailForWin.Utils
 
     private static bool ReleaseMutexWin32(string strName)
     {
-      foreach(var item in Mutexes.Select((x, i) => new
+      foreach ( var item in Mutexes.Select((x, i) => new
       {
         Value = x,
         Index = i
-      }))
+      }) )
       {
-        if(item.Value.Key.Equals(strName, StringComparison.OrdinalIgnoreCase))
+        if ( item.Value.Key.Equals(strName, StringComparison.OrdinalIgnoreCase) )
         {
           try
           {
             item.Value.Value.ReleaseMutex();
             item.Value.Value.Close();
           }
-          catch(Exception ex)
+          catch ( Exception ex )
           {
             LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
           }
@@ -90,7 +90,7 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     public static void ReleaseAll()
     {
-      for(int i = Mutexes.Count - 1; i >= 0; --i)
+      for ( int i = Mutexes.Count - 1; i >= 0; --i )
         ReleaseMutex(Mutexes[i].Key);
     }
   }

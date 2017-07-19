@@ -43,9 +43,9 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     public void btnSave_Click(object sender, RoutedEventArgs e)
     {
-      if(checkBoxSendMail.IsChecked == true)
+      if ( checkBoxSendMail.IsChecked == true )
       {
-        if(SettingsHelper.ParseEMailAddress(watermarkTextBoxEMailAddress.Text))
+        if ( SettingsHelper.ParseEMailAddress(watermarkTextBoxEMailAddress.Text) )
         {
           SaveSettings?.Invoke(this, EventArgs.Empty);
         }
@@ -68,7 +68,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void btnOpenSoundFile_Click(object sender, RoutedEventArgs e)
     {
-      if(LogFile.OpenFileLogDialog(out string fName, "MP3 (*.mp3)|*.mp3|Wave (*.wav)|*.wav|All files (*.*)|*.*", Application.Current.FindResource("SelectSoundFile") as string))
+      if ( LogFile.OpenFileLogDialog(out string fName, "MP3 (*.mp3)|*.mp3|Wave (*.wav)|*.wav|All files (*.*)|*.*", Application.Current.FindResource("SelectSoundFile") as string) )
         textBoxSoundFile.Text = fName;
     }
 
@@ -102,7 +102,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// <param name="e">Arguments</param>
     public void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if ( e.Key == Key.Escape )
         btnCancel_Click(sender, e);
     }
 
@@ -119,7 +119,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       {
         var text = e.Data.GetData(DataFormats.FileDrop);
 
-        if(text == null)
+        if ( text == null )
           return;
 
         string fileName = string.Format("{0}", ((string[]) text)[0]);
@@ -127,7 +127,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
         Regex regex = new Regex(LogFile.REGEX_SOUNDFILE_EXTENSION);
 
-        if(!regex.IsMatch(extension))
+        if ( !regex.IsMatch(extension) )
         {
           MessageBox.Show(Application.Current.FindResource("NoSoundFile") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
           return;
@@ -135,7 +135,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
         textBoxSoundFile.Text = fileName;
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -145,7 +145,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     {
       e.Handled = true;
 
-      if(e.Source == sender)
+      if ( e.Source == sender )
         e.Effects = DragDropEffects.None;
     }
 

@@ -16,7 +16,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public void Dispose()
     {
-      if(filterFontType == null)
+      if ( filterFontType == null )
         return;
 
       filterFontType.Dispose();
@@ -110,14 +110,14 @@ namespace Org.Vs.TailForWin.Data
       {
         string result = null;
 
-        if(columnName == "Description")
+        if ( columnName == "Description" )
         {
-          if(string.IsNullOrEmpty(Description))
+          if ( string.IsNullOrEmpty(Description) )
             result = "Please enter a Description";
         }
-        if(columnName == "Filter")
+        if ( columnName == "Filter" )
         {
-          if(string.IsNullOrEmpty(Filter))
+          if ( string.IsNullOrEmpty(Filter) )
             result = "Please enter a Filterpattern";
         }
         return result;
@@ -144,7 +144,7 @@ namespace Org.Vs.TailForWin.Data
     {
       MementoFilterData other = obj as MementoFilterData;
 
-      if(other == null)
+      if ( other == null )
         return false;
 
       bool equal = true;
@@ -166,7 +166,7 @@ namespace Org.Vs.TailForWin.Data
     {
       MementoFilterData mementoFilterData = memento;
 
-      if(mementoFilterData == null)
+      if ( mementoFilterData == null )
         throw new ArgumentException(string.Format("Argument is not a MementoFilterData {0}!", memento.GetType().Name), "memento");
 
       Id = memento.Id;

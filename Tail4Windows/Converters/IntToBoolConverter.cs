@@ -27,7 +27,7 @@ namespace Org.Vs.TailForWin.Converters
       {
         return System.Convert.ToInt32(value) > 0;
       }
-      catch(InvalidCastException)
+      catch ( InvalidCastException )
       {
         return DependencyProperty.UnsetValue;
       }

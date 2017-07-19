@@ -11,9 +11,9 @@ namespace Org.Vs.TailForWin.Converters
   {
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if(value is int port)
+      if ( value is int port )
       {
-        if(port < 0)
+        if ( port < 0 )
           port = 0;
 
         return port;

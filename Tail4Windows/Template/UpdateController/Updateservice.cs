@@ -129,7 +129,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// </summary>
     public void Dispose()
     {
-      if (updateThread == null)
+      if ( updateThread == null )
         return;
 
       updateThread.Dispose();
@@ -172,7 +172,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// </summary>
     public void StartUpdate()
     {
-      if (!updateThread.IsBusy)
+      if ( !updateThread.IsBusy )
         updateThread.RunWorkerAsync();
 
       IsThreadCompleted = false;
@@ -184,7 +184,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     {
       string html;
 
-      if (!webservice.UpdateWebRequest(out html))
+      if ( !webservice.UpdateWebRequest(out html) )
         return;
 
       webData = html;
@@ -193,12 +193,12 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     private void UpdateThread_Completed(object sender, RunWorkerCompletedEventArgs e)
     {
-      if (!string.IsNullOrEmpty(webData))
+      if ( !string.IsNullOrEmpty(webData) )
       {
         UpdateController uc = new UpdateController();
         Match match = Regex.Match(UpdateUrl, @"https://github.com", RegexOptions.IgnoreCase);
 
-        if (match.Success)
+        if ( match.Success )
         {
           string tag = UpdateUrl.Substring(match.Value.Length, UpdateUrl.Length - match.Value.Length);
 

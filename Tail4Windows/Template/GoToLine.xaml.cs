@@ -40,7 +40,7 @@ namespace Org.Vs.TailForWin.Template
       textBoxLineNumber.Focus();
       var findResource = Application.Current.FindResource("GoToLineNumber");
 
-      if(findResource != null)
+      if ( findResource != null )
         labelLineNumber.Content = string.Format(findResource.ToString(), this.minLines, this.maxLines);
     }
 
@@ -55,7 +55,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnOK_Click(object sender, RoutedEventArgs e)
     {
-      if(userInput == -1)
+      if ( userInput == -1 )
         return;
 
       var lineNumber = new GoToLineData { LineNumber = userInput };
@@ -71,9 +71,9 @@ namespace Org.Vs.TailForWin.Template
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if ( e.Key == Key.Escape )
         btnCancel_Click(sender, e);
-      if(e.Key == Key.Enter)
+      if ( e.Key == Key.Enter )
         btnOK_Click(sender, e);
     }
 
@@ -81,15 +81,15 @@ namespace Org.Vs.TailForWin.Template
     {
       var regex = new Regex(@"\d");
 
-      if(regex.IsMatch(textBoxLineNumber.Text))
+      if ( regex.IsMatch(textBoxLineNumber.Text) )
       {
         int usrInput;
 
-        if(int.TryParse(textBoxLineNumber.Text, out usrInput))
+        if ( int.TryParse(textBoxLineNumber.Text, out usrInput) )
         {
-          if(usrInput < minLines)
+          if ( usrInput < minLines )
             btnOk.IsEnabled = false;
-          else if(usrInput > maxLines)
+          else if ( usrInput > maxLines )
             btnOk.IsEnabled = false;
           else
           {

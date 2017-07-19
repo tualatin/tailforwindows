@@ -60,10 +60,10 @@ namespace Org.Vs.TailForWin.Utils
       currentFileExtension = Path.GetExtension(currentProperty.FileName);
       currentFiles = GetFilesInCurrentLogDirectory();
 
-      if(currentFiles == null)
+      if ( currentFiles == null )
         return;
 
-      if(smartWorker.IsBusy)
+      if ( smartWorker.IsBusy )
       {
         ResumeSmartWatch();
         return;
@@ -79,7 +79,7 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     public void SuspendSmartWatch()
     {
-      if(smartWorker.IsBusy)
+      if ( smartWorker.IsBusy )
         resetEvent.Reset();
 
       LOG.Trace("Suspend SmartWatch");
@@ -90,7 +90,7 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     private void ResumeSmartWatch()
     {
-      if(smartWorker.IsBusy)
+      if ( smartWorker.IsBusy )
         resetEvent.Set();
     }
 
@@ -99,9 +99,9 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     public void Dispose()
     {
-      if(smartWorker != null)
+      if ( smartWorker != null )
       {
-        if(smartWorker.IsBusy)
+        if ( smartWorker.IsBusy )
           smartWorker.CancelAsync();
 
         resetEvent.Reset();
@@ -115,24 +115,24 @@ namespace Org.Vs.TailForWin.Utils
 
     private void SmartWorker_DoWork(object sender, DoWorkEventArgs e)
     {
-      while(smartWorker != null && !smartWorker.CancellationPending)
+      while ( smartWorker != null && !smartWorker.CancellationPending )
       {
         resetEvent.WaitOne();
         Thread.Sleep(2000);
 
         var newValue = GetFilesInCurrentLogDirectory();
 
-        if(newValue == null)
+        if ( newValue == null )
           continue;
 
-        if(currentFiles.Length < newValue.Length)
+        if ( currentFiles.Length < newValue.Length )
         {
           LOG.Trace("SmartWatch logfiles changed! Current '{0}' new '{1}'", currentFiles.Length, newValue.Length);
           GetLatestFile(newValue);
 
           currentFiles = newValue;
         }
-        else if(currentFiles.Length > newValue.Length)
+        else if ( currentFiles.Length > newValue.Length )
         {
           LOG.Trace("SmartWatch some logfiles deleted! Current '{0}' new '{1}'", currentFiles.Length, newValue.Length);
           currentFiles = newValue;
@@ -153,19 +153,19 @@ namespace Org.Vs.TailForWin.Utils
 
     private void GetLatestFile(string[] fileInput)
     {
-      foreach(var item in fileInput)
+      foreach ( var item in fileInput )
       {
         try
         {
-          if(!currentFiles.Contains(item))
+          if ( !currentFiles.Contains(item) )
           {
-            if(currentProperty.UsePattern)
+            if ( currentProperty.UsePattern )
             {
-              using(var patternController = new SearchPatternController())
+              using ( var patternController = new SearchPatternController() )
               {
                 var latestFile = patternController.GetCurrentFileByPattern(currentProperty);
 
-                if(latestFile.Equals(item))
+                if ( latestFile.Equals(item) )
                 {
                   LOG.Trace("SmartWatch file '{0}' match pattern!", Path.GetFileName(item));
                   SmartWatchFilesChanged?.Invoke(this, item);
@@ -182,7 +182,7 @@ namespace Org.Vs.TailForWin.Utils
             }
           }
         }
-        catch(Exception ex)
+        catch ( Exception ex )
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
@@ -196,7 +196,7 @@ namespace Org.Vs.TailForWin.Utils
         var files = Directory.GetFiles(currentLogFolder, SettingsHelper.TailSettings.SmartWatchData.FilterByExtension ? $"*{currentFileExtension}" : "*.*", SearchOption.TopDirectoryOnly);
         return files;
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }

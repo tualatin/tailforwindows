@@ -64,19 +64,19 @@ namespace Org.Vs.TailForWin.Template
       }
       set
       {
-        if(string.IsNullOrEmpty(value))
+        if ( string.IsNullOrEmpty(value) )
         {
           SetValue(ToolTipDetailProperty, value);
           return;
         }
 
         string cutStr = string.Empty;
-        
-        if (value.Length > 30)
+
+        if ( value.Length > 30 )
           cutStr = $"{value.Substring(0, 30)}...";
         else
           cutStr = value;
-        
+
         SetValue(ToolTipDetailProperty, cutStr);
       }
     }

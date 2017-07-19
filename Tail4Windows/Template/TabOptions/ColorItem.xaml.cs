@@ -96,7 +96,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     {
       SolidColorBrush b = brushColor as SolidColorBrush;
 
-      if(b == null)
+      if ( b == null )
         return string.Empty;
 
       ColorDialog color = new ColorDialog(b.Color)
@@ -110,7 +110,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     public void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if ( e.Key == Key.Escape )
         btnCancel_Click(sender, e);
     }
   }

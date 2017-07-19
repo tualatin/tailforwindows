@@ -103,12 +103,12 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
 
     private void PatternChanged(object sender, Pattern pattern)
     {
-      if(sender is DefinePattern)
+      if ( sender is DefinePattern )
       {
-        if(pattern == null)
+        if ( pattern == null )
           return;
 
-        if(pattern.IsRegex)
+        if ( pattern.IsRegex )
           isRegex = pattern.IsRegex;
 
         patternFile = $"{patternFile}{pattern.PatternString}";
@@ -120,9 +120,9 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
     {
       string result = TextBlockOriginal.Text;
 
-      if(sender is SelectPart)
+      if ( sender is SelectPart )
       {
-        if(part == null)
+        if ( part == null )
           return;
 
         patternFile = $"{patternFile}{result.Substring(part.Begin, part.End)}";
@@ -137,7 +137,7 @@ namespace Org.Vs.TailForWin.PatternUtil.UI
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if ( e.Key == Key.Escape )
         Close();
     }
 

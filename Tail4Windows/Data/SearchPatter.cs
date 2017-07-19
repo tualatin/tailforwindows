@@ -1,5 +1,4 @@
-﻿using System;
-using Org.Vs.TailForWin.Utils;
+﻿using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Data
@@ -77,7 +76,7 @@ namespace Org.Vs.TailForWin.Data
     {
       MementoSearchPattern other = obj as MementoSearchPattern;
 
-      if(other == null)
+      if ( other == null )
         return false;
 
       bool equal = true;

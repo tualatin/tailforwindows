@@ -10,9 +10,9 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
     {
       get
       {
-        if (dpiFactors == null)        
-          using (var source = new HwndSource(new HwndSourceParameters()))
-            dpiFactors = new System.Windows.Point(source.CompositionTarget.TransformToDevice.M11, source.CompositionTarget.TransformToDevice.M22);        
+        if ( dpiFactors == null )
+          using ( var source = new HwndSource(new HwndSourceParameters()) )
+            dpiFactors = new System.Windows.Point(source.CompositionTarget.TransformToDevice.M11, source.CompositionTarget.TransformToDevice.M22);
         return dpiFactors;
       }
     }
@@ -33,6 +33,6 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
         var factors = DpiFactors;
         return factors.HasValue ? factors.Value.Y : 1;
       }
-    }         
+    }
   }
 }

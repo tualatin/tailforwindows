@@ -66,7 +66,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if ( e.Key == Key.Escape )
         OnExit();
     }
 

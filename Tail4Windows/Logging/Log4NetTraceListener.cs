@@ -42,7 +42,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="message">Message to write</param>
     public override void Write(string message)
     {
-      if(LOG != null)
+      if ( LOG != null )
         LOG.Debug(message);
     }
 
@@ -53,7 +53,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="category">Category</param>
     public override void Write(string message, string category)
     {
-      if(LOG != null)
+      if ( LOG != null )
         LOG.Debug(string.Format("{0} - {1}", category, message));
     }
 
@@ -63,7 +63,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="message">Message to write</param>
     public override void WriteLine(string message)
     {
-      if(LOG != null)
+      if ( LOG != null )
         LOG.Debug(message);
     }
 
@@ -74,7 +74,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="category">Category</param>
     public override void WriteLine(string message, string category)
     {
-      if(LOG != null)
+      if ( LOG != null )
         LOG.Debug(string.Format("{0} - {1}", category, message));
     }
 
@@ -84,7 +84,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="o">Object to write</param>
     public override void Write(object o)
     {
-      if(LOG != null)
+      if ( LOG != null )
         LOG.Debug(o == null ? "NULL" : o.ToString());
     }
 
@@ -95,7 +95,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="category">Category</param>
     public override void Write(object o, string category)
     {
-      if(LOG != null)
+      if ( LOG != null )
         LOG.Debug(string.Format("{0} - {1}", category, o == null ? "NULL" : o.ToString()));
     }
 
@@ -105,7 +105,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="o">Object to write</param>
     public override void WriteLine(object o)
     {
-      if(LOG != null)
+      if ( LOG != null )
         LOG.Debug(o == null ? "NULL" : o.ToString());
     }
 
@@ -116,7 +116,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="category">Category</param>
     public override void WriteLine(object o, string category)
     {
-      if(LOG != null)
+      if ( LOG != null )
         LOG.Debug(string.Format("{0} - {1}", category, o == null ? "NULL" : o.ToString()));
     }
   }

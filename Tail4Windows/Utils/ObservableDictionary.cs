@@ -102,7 +102,7 @@ namespace Org.Vs.TailForWin.Utils
       Dictionary.TryGetValue(key, out value);
       var removed = Dictionary.Remove(key);
 
-      if(removed)
+      if ( removed )
         //OnCollectionChanged(NotifyCollectionChangedAction.Remove, new KeyValuePair<TKey, TValue>(key, value));
         OnCollectionChanged();
 
@@ -137,7 +137,7 @@ namespace Org.Vs.TailForWin.Utils
 
     public void Clear()
     {
-      if(Dictionary.Count <= 0)
+      if ( Dictionary.Count <= 0 )
         return;
 
       Dictionary.Clear();
@@ -204,17 +204,17 @@ namespace Org.Vs.TailForWin.Utils
     {
       Arg.NotNull(items, "Items");
 
-      if(items.Count <= 0)
+      if ( items.Count <= 0 )
         return;
 
-      if(Dictionary.Count > 0)
+      if ( Dictionary.Count > 0 )
       {
-        if(items.Keys.Any(k => Dictionary.ContainsKey(k)))
+        if ( items.Keys.Any(k => Dictionary.ContainsKey(k)) )
         {
           throw new ArgumentException("An item with the same key has already been added.");
         }
 
-        foreach(var item in items)
+        foreach ( var item in items )
         {
           Dictionary.Add(item);
         }
@@ -231,11 +231,11 @@ namespace Org.Vs.TailForWin.Utils
     {
       Arg.NotNull(key, "Key");
 
-      if(Dictionary.TryGetValue(key, out TValue item))
+      if ( Dictionary.TryGetValue(key, out TValue item) )
       {
-        if(add)
+        if ( add )
           throw new ArgumentException("An item with the same key has already been added.");
-        if(Equals(item, value))
+        if ( Equals(item, value) )
           return;
 
         Dictionary[key] = value;

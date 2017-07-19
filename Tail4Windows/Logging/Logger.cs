@@ -226,7 +226,7 @@ namespace Org.Vs.TailForWin.Logging
 
     private string Format(string msg, Exception t)
     {
-      if(t == null)
+      if ( t == null )
         return msg;
 
       return $"\"{msg}\"\nstack trace:\n\"{t.StackTrace}\"";

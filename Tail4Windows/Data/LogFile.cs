@@ -157,7 +157,7 @@ namespace Org.Vs.TailForWin.Data
       bool? result = openDialog.ShowDialog();
       fileName = string.Empty;
 
-      if (result != true)
+      if ( result != true )
         return false;
 
       fileName = openDialog.FileName;
@@ -170,7 +170,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public static void BringMainWindowToFront()
     {
-      if (APP_MAIN_WINDOW.WindowState == WindowState.Minimized)
+      if ( APP_MAIN_WINDOW.WindowState == WindowState.Minimized )
         APP_MAIN_WINDOW.WindowState = WindowState.Normal;
 
       APP_MAIN_WINDOW.Activate();
@@ -182,7 +182,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public static void MinimizeMainWindow()
     {
-      if (APP_MAIN_WINDOW.WindowState == WindowState.Normal || APP_MAIN_WINDOW.WindowState == WindowState.Maximized)
+      if ( APP_MAIN_WINDOW.WindowState == WindowState.Normal || APP_MAIN_WINDOW.WindowState == WindowState.Maximized )
         APP_MAIN_WINDOW.WindowState = WindowState.Minimized;
     }
 
@@ -212,13 +212,13 @@ namespace Org.Vs.TailForWin.Data
     public static void InitObservableCollectionsRrtpfe()
     {
       // ThreadRefresh rate
-      foreach (ETailRefreshRate refreshName in Enum.GetValues(typeof(ETailRefreshRate)))
+      foreach ( ETailRefreshRate refreshName in Enum.GetValues(typeof(ETailRefreshRate)) )
       {
         RefreshRate.Add(refreshName);
       }
 
       // ThreadPriority
-      foreach (System.Threading.ThreadPriority priority in Enum.GetValues(typeof(System.Threading.ThreadPriority)))
+      foreach ( System.Threading.ThreadPriority priority in Enum.GetValues(typeof(System.Threading.ThreadPriority)) )
       {
         ThreadPriority.Add(new ThreadPriorityMapping
         {
@@ -238,7 +238,7 @@ namespace Org.Vs.TailForWin.Data
       {
         const int result = 0;
 
-        if (!(x is EncodingInfo) || !(y is EncodingInfo))
+        if ( !(x is EncodingInfo) || !(y is EncodingInfo) )
           return result;
 
         var xEncodingInfo = x as EncodingInfo;

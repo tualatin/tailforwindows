@@ -57,7 +57,7 @@ namespace Org.Vs.TailForWin.Template
         ShowColor = true
       };
 
-      if(fontManager.ShowDialog() != System.Windows.Forms.DialogResult.Cancel)
+      if ( fontManager.ShowDialog() != System.Windows.Forms.DialogResult.Cancel )
       {
         filterFont = new System.Drawing.Font(fontManager.Font.FontFamily, fontManager.Font.Size, fontManager.Font.Style);
         filterData.FilterFontType = filterFont;
@@ -89,7 +89,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnCancelAdd_Click(object sender, RoutedEventArgs e)
     {
-      switch(fState)
+      switch ( fState )
       {
       case EFileManagerState.AddFile:
 
@@ -100,7 +100,7 @@ namespace Org.Vs.TailForWin.Template
 
       case EFileManagerState.EditItem:
 
-        if(mementoFilterData != null)
+        if ( mementoFilterData != null )
           filterData.RestoreFromMemento(mementoFilterData);
         break;
 
@@ -121,8 +121,8 @@ namespace Org.Vs.TailForWin.Template
     {
       var findResource = Application.Current.FindResource("QDeleteDataGridItem");
 
-      if(findResource == null || MessageBox.Show(findResource.ToString(), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo,
-            MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes)
+      if ( findResource == null || MessageBox.Show(findResource.ToString(), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo,
+            MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes )
         return;
 
       var index = dataGridFilters.SelectedIndex;
@@ -133,7 +133,7 @@ namespace Org.Vs.TailForWin.Template
 
       SaveNow?.Invoke(this, EventArgs.Empty);
 
-      if(tailLogData.ListOfFilter.Count != 0)
+      if ( tailLogData.ListOfFilter.Count != 0 )
         SelectLastItemInDataGrid();
     }
 
@@ -143,14 +143,14 @@ namespace Org.Vs.TailForWin.Template
 
     private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-      foreach(FilterData item in tailLogData.ListOfFilter)
+      foreach ( FilterData item in tailLogData.ListOfFilter )
       {
-        if(!string.IsNullOrWhiteSpace(item.Filter))
+        if ( !string.IsNullOrWhiteSpace(item.Filter) )
           continue;
 
         var findResource = Application.Current.FindResource("FilterNotEmpty");
 
-        if(findResource != null)
+        if ( findResource != null )
           MessageBox.Show(findResource.ToString(), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
         e.Cancel = true;
@@ -174,7 +174,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void textBoxFilter_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-      if(!string.IsNullOrEmpty(textBoxFilter.Text))
+      if ( !string.IsNullOrEmpty(textBoxFilter.Text) )
       {
         btnCancel.IsEnabled = true;
         ChangeState();
@@ -185,19 +185,19 @@ namespace Org.Vs.TailForWin.Template
 
     private void textBoxDescription_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
-      if(!string.IsNullOrEmpty(textBoxDescription.Text))
+      if ( !string.IsNullOrEmpty(textBoxDescription.Text) )
         ChangeState();
     }
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if ( e.Key == Key.Escape )
         btnCancel_Click(this, e);
     }
 
     private void Validation_Error(object sender, ValidationErrorEventArgs e)
     {
-      if(e.Action == ValidationErrorEventAction.Added)
+      if ( e.Action == ValidationErrorEventAction.Added )
         errors++;
       else
         errors--;
@@ -209,7 +209,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void SelectLastItemInDataGrid()
     {
-      if(dataGridFilters.Items.Count <= 0)
+      if ( dataGridFilters.Items.Count <= 0 )
         return;
 
       dataGridFilters.SelectedItem = tailLogData.ListOfFilter[tailLogData.ListOfFilter.Count - 1];
@@ -218,10 +218,10 @@ namespace Org.Vs.TailForWin.Template
 
     private void ChangeState()
     {
-      if(!IsInitialized)
+      if ( !IsInitialized )
         return;
 
-      if(fState == EFileManagerState.OpenFileManager && mementoFilterData != null && filterData != null && !filterData.EqualsProperties(mementoFilterData))
+      if ( fState == EFileManagerState.OpenFileManager && mementoFilterData != null && filterData != null && !filterData.EqualsProperties(mementoFilterData) )
         fState = EFileManagerState.EditItem;
 
       SaveNow?.Invoke(this, EventArgs.Empty);

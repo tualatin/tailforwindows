@@ -17,7 +17,7 @@ namespace Org.Vs.TailForWin.Logging
       var previousFile = File; // the file that may need to get zipped
       base.AdjustFileBeforeAppend();
 
-      if(File != previousFile)
+      if ( File != previousFile )
       {
         // ### zip the file ###
         // maybe this should be done in a background thread so the logging does not get blocked for this
@@ -62,10 +62,10 @@ namespace Org.Vs.TailForWin.Logging
     {
       var bytes = Encoding.UTF8.GetBytes(str);
 
-      using(var msi = new MemoryStream(bytes))
-      using(var mso = new MemoryStream())
+      using ( var msi = new MemoryStream(bytes) )
+      using ( var mso = new MemoryStream() )
       {
-        using(var gs = new GZipStream(mso, CompressionMode.Compress))
+        using ( var gs = new GZipStream(mso, CompressionMode.Compress) )
         {
           CopyTo(msi, gs);
         }
@@ -78,7 +78,7 @@ namespace Org.Vs.TailForWin.Logging
       byte[] bytes = new byte[4096];
       int cnt;
 
-      while((cnt = src.Read(bytes, 0, bytes.Length)) != 0)
+      while ( (cnt = src.Read(bytes, 0, bytes.Length)) != 0 )
       {
         dest.Write(bytes, 0, cnt);
       }

@@ -129,7 +129,7 @@ namespace Org.Vs.TailForWin.Data
     {
       get
       {
-        if(System.IO.File.Exists(FileName))
+        if ( System.IO.File.Exists(FileName) )
           return System.IO.File.GetCreationTime(FileName);
 
         return null;
@@ -147,12 +147,12 @@ namespace Org.Vs.TailForWin.Data
 
         try
         {
-          if(FileCreationTime != null)
+          if ( FileCreationTime != null )
             return now.Subtract((DateTime) FileCreationTime);
 
           return null;
         }
-        catch(ArgumentOutOfRangeException ex)
+        catch ( ArgumentOutOfRangeException ex )
         {
           System.Diagnostics.Debug.WriteLine(ex);
           throw;
@@ -187,7 +187,7 @@ namespace Org.Vs.TailForWin.Data
     {
       MementoFileManagerData other = obj as MementoFileManagerData;
 
-      if(other == null)
+      if ( other == null )
         return false;
 
       bool equal = true;
@@ -214,13 +214,13 @@ namespace Org.Vs.TailForWin.Data
 
     private bool CompareFilterList(ObservableCollection<FilterData> a, ObservableCollection<FilterData> b)
     {
-      if(a.Count != b.Count)
+      if ( a.Count != b.Count )
         return false;
 
       int index = 0;
       bool equal = true;
 
-      foreach(FilterData item in a)
+      foreach ( FilterData item in a )
       {
         equal &= Equals(item.Description, b[index].Description);
         equal &= Equals(item.Filter, b[index].Filter);
@@ -271,7 +271,7 @@ namespace Org.Vs.TailForWin.Data
     /// <returns>Compareable result</returns>
     public int Compare(object x, object y)
     {
-      if(x is FileManagerData && y is FileManagerData)
+      if ( x is FileManagerData && y is FileManagerData )
       {
         var xFm = x as FileManagerData;
         var yFm = y as FileManagerData;
@@ -304,9 +304,9 @@ namespace Org.Vs.TailForWin.Data
       {
         string result = null;
 
-        if(columnName == "Description")
+        if ( columnName == "Description" )
         {
-          if(string.IsNullOrEmpty(Description))
+          if ( string.IsNullOrEmpty(Description) )
             result = "Please enter a Description";
         }
         return result;

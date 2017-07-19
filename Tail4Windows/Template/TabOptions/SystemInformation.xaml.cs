@@ -59,7 +59,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if ( e.Key == Key.Escape )
         btnClose_Click(sender, e);
     }
   }

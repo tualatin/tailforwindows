@@ -25,18 +25,18 @@ namespace Org.Vs.TailForWin.Logging
     {
       string result = "null";
 
-      if(args != null)
+      if ( args != null )
       {
         StringBuilder sb = new StringBuilder();
 
-        for(int i = 0; i < args.Length; i++)
+        for ( int i = 0; i < args.Length; i++ )
         {
           object arg = args[i];
 
-          if(sb.Length > 0)
+          if ( sb.Length > 0 )
             sb.Append(", ");
 
-          if(arg == null)
+          if ( arg == null )
           {
             sb.Append("null");
           }
@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.Logging
             {
               sb.Append(arg);
             }
-            catch(SystemException e) //NOCS: IllegalCatch, because: toString() methods may be buggy, but anyway there should be logged a message
+            catch ( SystemException e ) //NOCS: IllegalCatch, because: toString() methods may be buggy, but anyway there should be logged a message
             {
               Warn(LOG, e, "Could not transform argument {0} to string. Using its class name instead.");
               sb.Append(arg.GetType().Name);
@@ -112,7 +112,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="args">Arguments for the error message. Can be <code>null</code> or empty.</param>
     public static void Debug(Logger logger, Exception error, string message, params object[] args)
     {
-      if(logger.IsDebugEnabled())
+      if ( logger.IsDebugEnabled() )
         logger.Debug(Format(message, args), error);
     }
 
@@ -136,7 +136,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="args">Arguments for the error message. Can be <code>null</code> or empty.</param>
     public static void Info(Logger logger, Exception error, string message, params object[] args)
     {
-      if(logger.IsInfoEnabled())
+      if ( logger.IsInfoEnabled() )
         logger.Info(Format(message, args), error);
     }
 
@@ -160,7 +160,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="args">Arguments for the error message. Can be <code>null</code> or empty.</param>
     public static void Warn(Logger logger, Exception error, string message, params object[] args)
     {
-      if(logger.IsWarnEnabled())
+      if ( logger.IsWarnEnabled() )
         logger.Warn(Format(message, args), error);
     }
 
@@ -173,7 +173,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="args">Arguments for the error message. Can be <code>null</code> or empty.</param>
     public static void Trace(Logger logger, Exception error, string message, params object[] args)
     {
-      if(logger.IsTraceEnabled())
+      if ( logger.IsTraceEnabled() )
         logger.Trace(Format(message, args), error);
     }
 
@@ -208,7 +208,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="args">Arguments for the error message. Can be <code>null</code> or empty.</param>
     public static void Error(Logger logger, Exception error, string message, params object[] args)
     {
-      if(logger.IsErrorEnabled())
+      if ( logger.IsErrorEnabled() )
         logger.Error(Format(message, args), error);
     }
   }

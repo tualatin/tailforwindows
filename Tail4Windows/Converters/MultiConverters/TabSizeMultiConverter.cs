@@ -16,7 +16,7 @@ namespace Org.Vs.TailForWin.Converters.MultiConverters
     {
       TabControl tabControl = values?[0] as TabControl;
 
-      if(tabControl != null)
+      if ( tabControl != null )
       {
         double width = tabControl.ActualWidth / tabControl.Items.Count;
 

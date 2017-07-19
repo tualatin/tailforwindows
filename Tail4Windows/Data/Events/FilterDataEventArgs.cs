@@ -16,7 +16,7 @@ namespace Org.Vs.TailForWin.Data.Events
     /// </summary>
     public void Dispose()
     {
-      if(filterData == null)
+      if ( filterData == null )
         return;
 
       filterData.Dispose();

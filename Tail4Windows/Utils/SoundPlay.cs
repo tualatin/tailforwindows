@@ -30,9 +30,9 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>If media file exists, returns true otherwise false</returns>
     public static bool InitSoundPlay(string soundFile)
     {
-      if(string.Compare(soundFile, LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0)
+      if ( string.Compare(soundFile, LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0 )
         return false;
-      if(!File.Exists(soundFile))
+      if ( !File.Exists(soundFile) )
         return false;
 
       try
@@ -43,13 +43,13 @@ namespace Org.Vs.TailForWin.Utils
         command = $"open \"{soundFile}\" type mpegvideo alias MediaFile";
         result = NativeMethods.MciSendString(command, null, 0, IntPtr.Zero);
 
-        if(result == 0)
+        if ( result == 0 )
           return true;
 
         command = $"open \"{soundFile}\" alias MediaFile";
         result = NativeMethods.MciSendString(command, null, 0, IntPtr.Zero);
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -63,24 +63,24 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>If media file is playing, returns false, otherwise true</returns>
     public static bool Play(bool loop)
     {
-      if(IsPlaying())
+      if ( IsPlaying() )
         return false;
 
       command = "play MediaFile";
 
-      if(loop)
+      if ( loop )
         command += " REPEAT";
 
       try
       {
         result = NativeMethods.MciSendString(command, null, 0, IntPtr.Zero);
 
-        if(result == 0)
+        if ( result == 0 )
           return true;
 
         Close();
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -108,12 +108,12 @@ namespace Org.Vs.TailForWin.Utils
       {
         result = NativeMethods.MciSendString(command, ReturnData, 128, IntPtr.Zero);
 
-        if(ReturnData.Length == 7 && string.CompareOrdinal(ReturnData.ToString().Substring(0, 7), "playing") == 0)
+        if ( ReturnData.Length == 7 && string.CompareOrdinal(ReturnData.ToString().Substring(0, 7), "playing") == 0 )
           return true;
 
         InitSoundPlay(mciMusicFile);
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -132,7 +132,7 @@ namespace Org.Vs.TailForWin.Utils
       {
         result = NativeMethods.MciSendString(command, ReturnData, 128, IntPtr.Zero);
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -147,7 +147,7 @@ namespace Org.Vs.TailForWin.Utils
       {
         result = NativeMethods.MciSendString(command, ReturnData, 128, IntPtr.Zero);
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }

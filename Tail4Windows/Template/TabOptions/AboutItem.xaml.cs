@@ -97,7 +97,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// <param name="e">Arguments</param>
     public void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if ( e.Key == Key.Escape )
         btnSave_Click(sender, e);
     }
 
@@ -109,10 +109,10 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-      if(!string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password))
+      if ( !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password) )
         updater.ProxyAuthentification = new System.Net.NetworkCredential(SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
 
-      if(!uptimeThread.IsBusy)
+      if ( !uptimeThread.IsBusy )
         uptimeThread.RunWorkerAsync();
     }
 
@@ -130,7 +130,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void DoWork_Thread(object sender, DoWorkEventArgs e)
     {
-      while(uptimeThread != null && !uptimeThread.CancellationPending)
+      while ( uptimeThread != null && !uptimeThread.CancellationPending )
       {
         TimeSpan updTime = DateTime.Now.Subtract(LogFile.APP_MAIN_WINDOW.TfWUpTimeStart);
 

@@ -47,7 +47,7 @@ namespace Org.Vs.TailForWin.Utils
           UpdateUrl = SettingsData.ApplicationWebUrl
         };
 
-        if (!string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password))
+        if ( !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password) )
           updater.ProxyAuthentification = new System.Net.NetworkCredential(SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
 
         updater.InitWebService();
@@ -55,7 +55,7 @@ namespace Org.Vs.TailForWin.Utils
 
         updater.StartUpdate();
       }
-      catch (Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -65,7 +65,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       try
       {
-        if (updater.HaveToUpdate)
+        if ( updater.HaveToUpdate )
         {
           System.Threading.Thread staThread = new System.Threading.Thread(() =>
           {
@@ -104,7 +104,7 @@ namespace Org.Vs.TailForWin.Utils
 
         LOG.Info("AutoUpdate local version '{0}' - web version '{1}", updater.AppVersion, updater.WebVersion);
       }
-      catch (Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }

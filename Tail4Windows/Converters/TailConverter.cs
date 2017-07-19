@@ -21,7 +21,7 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>True or False</returns>
     public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if(value is FileManagerData)
+      if ( value is FileManagerData )
         return true;
 
       return false;

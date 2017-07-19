@@ -14,10 +14,10 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Converters
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if(value == null)
+      if ( value == null )
         return null;
 
-      if(value.GetType() == typeof(DateTime))
+      if ( value.GetType() == typeof(DateTime) )
       {
         DateTime dt = (DateTime) value;
         return dt.ToString(StringFormatData.StringFormat);

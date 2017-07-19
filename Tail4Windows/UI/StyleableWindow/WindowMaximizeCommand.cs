@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows.Input;
 using System.Windows;
+using System.Windows.Input;
 
 
 namespace Org.Vs.TailForWin.UI.StyleableWindow
@@ -31,9 +31,9 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     /// <param name="parameter">Parameter</param>
     public void Execute(object parameter)
     {
-      if(parameter is Window window)
+      if ( parameter is Window window )
       {
-        if(window.WindowState == WindowState.Maximized)
+        if ( window.WindowState == WindowState.Maximized )
           window.WindowState = WindowState.Normal;
         else
           window.WindowState = WindowState.Maximized;

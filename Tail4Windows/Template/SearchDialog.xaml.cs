@@ -120,7 +120,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if (IsVisible)
+      if ( IsVisible )
       {
         var helper = new WindowInteropHelper(this);
         source = HwndSource.FromHwnd(helper.Handle);
@@ -129,7 +129,7 @@ namespace Org.Vs.TailForWin.Template
       }
       else
       {
-        if (source == null)
+        if ( source == null )
           return;
 
         source.RemoveHook(HwndHook);
@@ -186,7 +186,7 @@ namespace Org.Vs.TailForWin.Template
     {
       WrapAroundBool wrap = new WrapAroundBool();
 
-      if (checkBoxWrapAround.IsChecked == true)
+      if ( checkBoxWrapAround.IsChecked == true )
         wrap.Wrap = historyStructure.Wrap = true;
       else
         wrap.Wrap = historyStructure.Wrap = false;
@@ -197,7 +197,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void checkBoxBookmark_Click(object sender, RoutedEventArgs e)
     {
-      if (checkBoxBookmarkLine.IsChecked == true)
+      if ( checkBoxBookmarkLine.IsChecked == true )
       {
         checkBoxBookmarkLine.IsChecked = false;
         checkBoxBookmarkLine_Click(sender, e);
@@ -222,7 +222,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void AddSearchWordToDictionary()
     {
-      if (SearchWords.ContainsKey(comboBoxWordToFind.Text))
+      if ( SearchWords.ContainsKey(comboBoxWordToFind.Text) )
         return;
 
       SearchWords.Add(comboBoxWordToFind.Text.Trim(), comboBoxWordToFind.Text.Trim());
@@ -235,7 +235,7 @@ namespace Org.Vs.TailForWin.Template
     {
       var textBox = comboBoxWordToFind.Template.FindName("PART_EditableTextBox", comboBoxWordToFind) as TextBox;
 
-      if (textBox == null)
+      if ( textBox == null )
         return;
 
       textBox.Focus();
@@ -254,19 +254,19 @@ namespace Org.Vs.TailForWin.Template
     {
       const int WM_HOTKEY = 0x0312;
 
-      switch (msg)
+      switch ( msg )
       {
-        case WM_HOTKEY:
+      case WM_HOTKEY:
 
-          switch (wParam.ToInt32())
-          {
-            case HOTKEY_ID:
+        switch ( wParam.ToInt32() )
+        {
+        case HOTKEY_ID:
 
-              btnFindNext_Click(this, null);
-              handled = true;
-              break;
-          }
+          btnFindNext_Click(this, null);
+          handled = true;
           break;
+        }
+        break;
       }
       return IntPtr.Zero;
     }
@@ -276,7 +276,7 @@ namespace Org.Vs.TailForWin.Template
       var helper = new WindowInteropHelper(this);
       const uint VK_F3 = 0x72;
 
-      if (!NativeMethods.RegisterHotKey(helper.Handle, HOTKEY_ID, 0, VK_F3))
+      if ( !NativeMethods.RegisterHotKey(helper.Handle, HOTKEY_ID, 0, VK_F3) )
         LOG.Error("{0} can not register hotkey", System.Reflection.MethodBase.GetCurrentMethod().Name);
     }
 
@@ -292,7 +292,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if (e.Key == Key.Escape)
+      if ( e.Key == Key.Escape )
         btnClose_Click(sender, e);
     }
 
@@ -305,13 +305,13 @@ namespace Org.Vs.TailForWin.Template
         WordToFind = string.Empty
       };
 
-      if (checkBoxBookmark.IsChecked == true)
+      if ( checkBoxBookmark.IsChecked == true )
       {
         searching.SearchBookmarks = true;
       }
       else
       {
-        if (!string.IsNullOrWhiteSpace(comboBoxWordToFind.Text))
+        if ( !string.IsNullOrWhiteSpace(comboBoxWordToFind.Text) )
         {
           AddSearchWordToDictionary();
           searching.WordToFind = comboBoxWordToFind.Text;

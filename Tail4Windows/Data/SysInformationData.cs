@@ -145,7 +145,7 @@ namespace Org.Vs.TailForWin.Data
     /// <returns></returns>
     private NumberFormatInfo SetNumberFormat()
     {
-      if(string.IsNullOrEmpty(CultureNumberFormat))
+      if ( string.IsNullOrEmpty(CultureNumberFormat) )
         return new CultureInfo("de-DE", false).NumberFormat;
 
       int pos = CultureNumberFormat.IndexOf('_');

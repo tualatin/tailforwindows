@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using System.Windows.Media;
 using System.Windows.Input;
+using System.Windows.Media;
 
 
 namespace Org.Vs.TailForWin.UI.StyleableWindow
@@ -101,7 +101,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void LeftButtonShowAtChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is UIElement element)
+      if ( sender is UIElement element )
         element.MouseLeftButtonDown += LeftButtonDownShow;
     }
 
@@ -109,7 +109,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void LeftButtonDownShow(object sender, MouseButtonEventArgs e)
     {
-      if(leftButtonToggle)
+      if ( leftButtonToggle )
       {
         var element = ((UIElement) sender).GetValue(LeftButtonShowAt);
         var showMenuAt = ((Visual) element).PointToScreen(new Point(0, 0));
@@ -131,7 +131,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void RightButtonShowChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is UIElement element)
+      if ( sender is UIElement element )
         element.MouseRightButtonDown += RightButtonDownShow;
     }
 
@@ -140,7 +140,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
       var element = (UIElement) sender;
       var targetWindow = element.GetValue(TargetWindow) as Window;
 
-      if(targetWindow != null)
+      if ( targetWindow != null )
       {
         var showMenuAt = targetWindow.PointToScreen(Mouse.GetPosition(targetWindow));
         SystemMenuManager.ShowMenu(targetWindow, showMenuAt);

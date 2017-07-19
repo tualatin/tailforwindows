@@ -8,5 +8,5 @@ namespace Org.Vs.TailForWin.PatternUtil.Events
   /// </summary>
   /// <param name="sender">Sender</param>
   /// <param name="part">Part</param>
-  public delegate void PartChangedEventHandler (object sender, Part part);
+  public delegate void PartChangedEventHandler(object sender, Part part);
 }

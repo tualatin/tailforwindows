@@ -67,20 +67,20 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Utils
     {
       var listBox = obj as ListBox;
 
-      if(listBox != null)
+      if ( listBox != null )
       {
-        if((bool) e.NewValue)
+        if ( (bool) e.NewValue )
         {
           void Handler(object sender, ExecutedRoutedEventArgs arg)
           {
-            if(listBox.SelectedItem != null)
+            if ( listBox.SelectedItem != null )
             {
               var items = listBox.SelectedItems;
               StringBuilder sb = new StringBuilder();
 
-              foreach(LogEntry item in items)
+              foreach ( LogEntry item in items )
               {
-                if(addDateTime)
+                if ( addDateTime )
                   sb.Append($"{item.DateTime} - {item.Message}\n");
                 else
                   sb.Append(item.Message + "\n");

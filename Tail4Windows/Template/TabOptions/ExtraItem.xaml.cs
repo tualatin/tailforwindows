@@ -62,7 +62,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// <param name="e">Arguments</param>
     public void HandleEsc(object sender, KeyEventArgs e)
     {
-      if(e.Key == Key.Escape)
+      if ( e.Key == Key.Escape )
         btnCancel_Click(sender, e);
     }
 
@@ -73,7 +73,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     /// <param name="e">Arguments</param>
     public void btnSave_Click(object sender, RoutedEventArgs e)
     {
-      if(changedWndStyle)
+      if ( changedWndStyle )
       {
         var hintText = FindResource("WndStyleChanged");
         MessageBox.Show(string.Format(hintText.ToString(), LogFile.APPLICATION_CAPTION), LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
@@ -96,10 +96,10 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void CombBoxFileSort_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if(!IsInitialized)
+      if ( !IsInitialized )
         return;
 
-      if(SettingsHelper.TailSettings.DefaultFileSort != SettingsData.GetDescriptionEnum<EFileSort>(ComboBoxFileSort.SelectedItem as string))
+      if ( SettingsHelper.TailSettings.DefaultFileSort != SettingsData.GetDescriptionEnum<EFileSort>(ComboBoxFileSort.SelectedItem as string) )
         SettingsHelper.TailSettings.DefaultFileSort = SettingsData.GetDescriptionEnum<EFileSort>(ComboBoxFileSort.SelectedItem as string);
 
       e.Handled = true;
@@ -107,10 +107,10 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void CombBoxWindowStyle_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if(!IsInitialized)
+      if ( !IsInitialized )
         return;
 
-      if(SettingsHelper.TailSettings.CurrentWindowStyle != SettingsData.GetDescriptionEnum<EWindowStyle>(ComboBoxWindowStyle.SelectedItem as string))
+      if ( SettingsHelper.TailSettings.CurrentWindowStyle != SettingsData.GetDescriptionEnum<EWindowStyle>(ComboBoxWindowStyle.SelectedItem as string) )
       {
         SettingsHelper.TailSettings.CurrentWindowStyle = SettingsData.GetDescriptionEnum<EWindowStyle>(ComboBoxWindowStyle.SelectedItem as string);
         changedWndStyle = true;
@@ -121,10 +121,10 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void ComboBoxSmartWatchMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if(!IsInitialized)
+      if ( !IsInitialized )
         return;
 
-      if(SettingsHelper.TailSettings.SmartWatchData.Mode != SettingsData.GetDescriptionEnum<ESmartWatchMode>(ComboBoxSmartWatchMode.SelectedItem as string))
+      if ( SettingsHelper.TailSettings.SmartWatchData.Mode != SettingsData.GetDescriptionEnum<ESmartWatchMode>(ComboBoxSmartWatchMode.SelectedItem as string) )
         SettingsHelper.TailSettings.SmartWatchData.Mode = SettingsData.GetDescriptionEnum<ESmartWatchMode>(ComboBoxSmartWatchMode.SelectedItem as string);
 
       e.Handled = true;
@@ -132,7 +132,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void SliderLogLineLimit_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
-      if(!IsInitialized)
+      if ( !IsInitialized )
         return;
 
       var value = e.NewValue == LogFile.UNLIMITED_LOG_LINE_VALUE ? "Unlimited" : $"{e.NewValue:N0} lines";
@@ -152,7 +152,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void AddItemsToFileSortComboBox()
     {
-      foreach(EFileSort sort in Enum.GetValues(typeof(EFileSort)))
+      foreach ( EFileSort sort in Enum.GetValues(typeof(EFileSort)) )
       {
         var item = SettingsData.GetEnumDescription(sort);
         ComboBoxFileSort.Items.Add(item);
@@ -161,7 +161,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void AddItemsToWindowStyleComboBox()
     {
-      foreach(EWindowStyle wndStyle in Enum.GetValues(typeof(EWindowStyle)))
+      foreach ( EWindowStyle wndStyle in Enum.GetValues(typeof(EWindowStyle)) )
       {
         var item = SettingsData.GetEnumDescription(wndStyle);
         ComboBoxWindowStyle.Items.Add(item);
@@ -170,7 +170,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void AddItemToSmartWatchModeComboBox()
     {
-      foreach(ESmartWatchMode mode in Enum.GetValues(typeof(ESmartWatchMode)))
+      foreach ( ESmartWatchMode mode in Enum.GetValues(typeof(ESmartWatchMode)) )
       {
         var item = SettingsData.GetEnumDescription(mode);
         ComboBoxSmartWatchMode.Items.Add(item);

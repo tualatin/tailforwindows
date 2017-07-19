@@ -33,7 +33,7 @@ namespace Org.Vs.TailForWin.Extensions
     {
       IEnumerable<T> result = first.Except(second);
 
-      if(result.Any())
+      if ( result.Any() )
         return false;
 
       return true;

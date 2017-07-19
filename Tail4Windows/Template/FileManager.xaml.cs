@@ -90,7 +90,7 @@ namespace Org.Vs.TailForWin.Template
       InitializeComponent();
       InitFileManager();
 
-      if (fmState == EFileManagerState.AddFile)
+      if ( fmState == EFileManagerState.AddFile )
       {
         SetAddSaveButton(false);
 
@@ -110,7 +110,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void dataGridFiles_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-      if (e.ChangedButton != MouseButton.Left)
+      if ( e.ChangedButton != MouseButton.Left )
         return;
 
       //if(dataGridFiles.SelectedItem is FileManagerData fmData)
@@ -136,7 +136,7 @@ namespace Org.Vs.TailForWin.Template
         FontMustExist = true
       };
 
-      if (fontManager.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+      if ( fontManager.ShowDialog() == System.Windows.Forms.DialogResult.Cancel )
         return;
 
       fmWorkingProperties.FontType = fontManager.Font;
@@ -155,36 +155,36 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnNew_Click(object sender, RoutedEventArgs e)
     {
-      if (LogFile.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource("OpenFileDialog") as string))
+      if ( LogFile.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource("OpenFileDialog") as string) )
         AddNewFile(fName);
     }
 
     private void btnCancelAdd_Click(object sender, RoutedEventArgs e)
     {
-      switch (fmState)
+      switch ( fmState )
       {
-        case EFileManagerState.AddFile:
+      case EFileManagerState.AddFile:
 
-          FileManagerData lastItem = fmData[fmData.Count - 1];
-          fmData.Remove(lastItem);
+        FileManagerData lastItem = fmData[fmData.Count - 1];
+        fmData.Remove(lastItem);
 
-          SelectLastItemInDataGrid();
-          SetDialogTitle();
-          break;
+        SelectLastItemInDataGrid();
+        SetDialogTitle();
+        break;
 
-        case EFileManagerState.EditItem:
+      case EFileManagerState.EditItem:
 
-          if (fmMemento != null)
-            fmWorkingProperties.RestoreFromMemento(fmMemento);
+        if ( fmMemento != null )
+          fmWorkingProperties.RestoreFromMemento(fmMemento);
 
-          SetSelectedComboBoxItem(fmWorkingProperties.Category, fmWorkingProperties.ThreadPriority, fmWorkingProperties.RefreshRate, fmWorkingProperties.FileEncoding);
-          break;
+        SetSelectedComboBoxItem(fmWorkingProperties.Category, fmWorkingProperties.ThreadPriority, fmWorkingProperties.RefreshRate, fmWorkingProperties.FileEncoding);
+        break;
 
-        default:
+      default:
 
-          if (fmMemento != null)
-            fmWorkingProperties.RestoreFromMemento(fmMemento);
-          break;
+        if ( fmMemento != null )
+          fmWorkingProperties.RestoreFromMemento(fmMemento);
+        break;
       }
 
       fmState = EFileManagerState.OpenFileManager;
@@ -195,13 +195,13 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnDelete_Click(object sender, RoutedEventArgs e)
     {
-      if (MessageBox.Show(Application.Current.FindResource("QDeleteDataGridItem") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes)
+      if ( MessageBox.Show(Application.Current.FindResource("QDeleteDataGridItem") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes )
         return;
 
       // int index = dataGridFiles.SelectedIndex;
       fmWorkingProperties = dataGridFiles.SelectedItem as FileManagerData;
 
-      if (fmDoc.RemoveNode(fmWorkingProperties))
+      if ( fmDoc.RemoveNode(fmWorkingProperties) )
       {
         fmData.Remove(fmWorkingProperties);
         dataGridFiles.Items.Refresh();
@@ -210,7 +210,7 @@ namespace Org.Vs.TailForWin.Template
         RefreshCategoryComboBox();
         SortDataGrid();
 
-        if (fmDoc.FmProperties.Count != 0)
+        if ( fmDoc.FmProperties.Count != 0 )
           SelectLastItemInDataGrid();
       }
 
@@ -220,11 +220,11 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnSave_Click(object sender, RoutedEventArgs e)
     {
-      if (checkBoxInsertCategory.IsChecked != null && !checkBoxInsertCategory.IsChecked.Value)
+      if ( checkBoxInsertCategory.IsChecked != null && !checkBoxInsertCategory.IsChecked.Value )
         fmWorkingProperties.Category = comboBoxCategory.SelectedItem as string;
 
       // TODO better solution (IsEnable property) at the moment workaround
-      if (fmWorkingProperties.EqualsProperties(fmMemento) && fmState != EFileManagerState.EditFilter)
+      if ( fmWorkingProperties.EqualsProperties(fmMemento) && fmState != EFileManagerState.EditFilter )
       {
         SetAddSaveButton();
         return;
@@ -232,28 +232,28 @@ namespace Org.Vs.TailForWin.Template
 
       Cursor = Cursors.Wait;
 
-      switch (fmState)
+      switch ( fmState )
       {
-        case EFileManagerState.AddFile:
+      case EFileManagerState.AddFile:
 
-          fmDoc.AddNewNode(fmWorkingProperties);
-          break;
+        fmDoc.AddNewNode(fmWorkingProperties);
+        break;
 
-        case EFileManagerState.EditItem:
-        case EFileManagerState.EditFilter:
+      case EFileManagerState.EditItem:
+      case EFileManagerState.EditFilter:
 
-          fmDoc.UpdateNode(fmWorkingProperties);
-          break;
+        fmDoc.UpdateNode(fmWorkingProperties);
+        break;
       }
 
-      if (checkBoxInsertCategory.IsChecked != null && checkBoxInsertCategory.IsChecked.Value)
+      if ( checkBoxInsertCategory.IsChecked != null && checkBoxInsertCategory.IsChecked.Value )
       {
         fmDoc.RefreshCategories();
         RefreshCategoryComboBox();
         checkBoxInsertCategory.IsChecked = false;
       }
 
-      if (fmWorkingProperties.UsePattern)
+      if ( fmWorkingProperties.UsePattern )
         UsePatternToLogfile(fmWorkingProperties);
       else
         fmWorkingProperties.FileName = fmWorkingProperties.OriginalFileName;
@@ -273,7 +273,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void CheckBoxUsePattern_Click(object sender, RoutedEventArgs e)
     {
-      if (!IsInitialized)
+      if ( !IsInitialized )
         return;
 
       ChangeFmStateToEditItem();
@@ -281,7 +281,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void CheckBoxWrap_Click(object sender, RoutedEventArgs e)
     {
-      if (!IsInitialized)
+      if ( !IsInitialized )
         return;
 
       ChangeFmStateToEditItem();
@@ -289,7 +289,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void CheckBoxTimestamp_Click(object sender, RoutedEventArgs e)
     {
-      if (!IsInitialized)
+      if ( !IsInitialized )
         return;
 
       ChangeFmStateToEditItem();
@@ -297,7 +297,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void CheckBoxKillSpace_Click(object sender, RoutedEventArgs e)
     {
-      if (!IsInitialized)
+      if ( !IsInitialized )
         return;
 
       ChangeFmStateToEditItem();
@@ -305,7 +305,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void CheckBoxThreadNewWindow_Click(object sender, RoutedEventArgs e)
     {
-      if (!IsInitialized)
+      if ( !IsInitialized )
         return;
 
       ChangeFmStateToEditItem();
@@ -313,15 +313,15 @@ namespace Org.Vs.TailForWin.Template
 
     private void CheckBoxAlwaysGroupByCategory_Click(object sender, RoutedEventArgs e)
     {
-      if (!IsInitialized)
+      if ( !IsInitialized )
         return;
 
-      if (CheckBoxAlwaysGroupByCategory.IsChecked != null)
+      if ( CheckBoxAlwaysGroupByCategory.IsChecked != null )
         GroupByCategory = CheckBoxAlwaysGroupByCategory.IsChecked.Value;
 
       ICollectionView cvFmData = GetCurrentCollectionViewSource();
 
-      if (GroupByCategory)
+      if ( GroupByCategory )
         GridControlGroupByCategory(cvFmData);
       else
         cvFmData.GroupDescriptions.Clear();
@@ -342,13 +342,13 @@ namespace Org.Vs.TailForWin.Template
 
     private void CollapseGroups_Click(object sender, RoutedEventArgs e)
     {
-      if (sender is MenuItem)
+      if ( sender is MenuItem )
         IsExpanded = false;
     }
 
     private void ExpandGroups_Click(object sender, RoutedEventArgs e)
     {
-      if (sender is MenuItem)
+      if ( sender is MenuItem )
         IsExpanded = true;
     }
 
@@ -356,7 +356,7 @@ namespace Org.Vs.TailForWin.Template
     {
       ICollectionView cvFmData = GetCurrentCollectionViewSource();
 
-      if (GroupByCategory)
+      if ( GroupByCategory )
       {
         cvFmData.GroupDescriptions.Clear();
         GroupByCategory = false;
@@ -388,7 +388,7 @@ namespace Org.Vs.TailForWin.Template
     {
       ICollectionView cvFmData = GetCurrentCollectionViewSource();
 
-      if (SettingsHelper.TailSettings.GroupByCategory)
+      if ( SettingsHelper.TailSettings.GroupByCategory )
       {
         GroupByCategory = true;
         GridControlGroupByCategory(cvFmData);
@@ -399,7 +399,7 @@ namespace Org.Vs.TailForWin.Template
         cvFmData.GroupDescriptions.Clear();
       }
 
-      if (fmState == EFileManagerState.OpenFileManager && fmData.Count > 0)
+      if ( fmState == EFileManagerState.OpenFileManager && fmData.Count > 0 )
       {
         dataGridFiles.SelectedItem = dataGridFiles.Items[0];
         dataGridFiles.ScrollIntoView(dataGridFiles.Items[0]);
@@ -411,7 +411,7 @@ namespace Org.Vs.TailForWin.Template
 
       CheckBoxAlwaysGroupByCategory.DataContext = SettingsHelper.TailSettings;
 
-      if (fmData.Count == 0)
+      if ( fmData.Count == 0 )
         return;
 
       IsExpanded = true;
@@ -421,7 +421,7 @@ namespace Org.Vs.TailForWin.Template
     {
       fmData.CollectionChanged -= FmData_CollectionChanged;
 
-      if (dataGridFiles.IsEnabled)
+      if ( dataGridFiles.IsEnabled )
         return;
 
       MessageBox.Show(Application.Current.FindResource("FileManagerCloseUnsaveItem") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
@@ -430,12 +430,12 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if (!IsInitialized)
+      if ( !IsInitialized )
         return;
 
       e.Handled = true;
 
-      if (comboBoxCategory.SelectedItem == null || fmWorkingProperties == null)
+      if ( comboBoxCategory.SelectedItem == null || fmWorkingProperties == null )
         return;
 
       fmWorkingProperties.Category = comboBoxCategory.SelectedItem as string;
@@ -444,25 +444,25 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxRefreshRate_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if (!IsInitialized)
+      if ( !IsInitialized )
         return;
 
       e.Handled = true;
 
-      fmWorkingProperties.RefreshRate = (ETailRefreshRate)comboBoxRefreshRate.SelectedItem;
+      fmWorkingProperties.RefreshRate = (ETailRefreshRate) comboBoxRefreshRate.SelectedItem;
       ChangeFmStateToEditItem();
     }
 
     private void comboBoxThreadPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if (!IsInitialized || comboBoxThreadPriority.SelectedValue == null)
+      if ( !IsInitialized || comboBoxThreadPriority.SelectedValue == null )
         return;
 
       e.Handled = true;
 
       var threadPriorityMapping = comboBoxThreadPriority.SelectedItem as ThreadPriorityMapping;
 
-      if (threadPriorityMapping != null)
+      if ( threadPriorityMapping != null )
         fmWorkingProperties.ThreadPriority = threadPriorityMapping.ThreadPriority;
 
       ChangeFmStateToEditItem();
@@ -470,12 +470,12 @@ namespace Org.Vs.TailForWin.Template
 
     private void comboBoxFileEncode_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if (!IsInitialized)
+      if ( !IsInitialized )
         return;
 
       e.Handled = true;
 
-      fmWorkingProperties.FileEncoding = (Encoding)comboBoxFileEncode.SelectedItem;
+      fmWorkingProperties.FileEncoding = (Encoding) comboBoxFileEncode.SelectedItem;
       ChangeFmStateToEditItem();
     }
 
@@ -483,12 +483,12 @@ namespace Org.Vs.TailForWin.Template
     {
       // ICollectionView cvFmData = GetCurrentCollectionViewSource();
 
-      if (fmData.Count == 0)
+      if ( fmData.Count == 0 )
         return;
 
       SortDataGrid();
 
-      if (dataGridFiles.SelectedCells.Count == 0)
+      if ( dataGridFiles.SelectedCells.Count == 0 )
         return;
 
       var dc = GetDataGridCell(dataGridFiles.SelectedCells[0]);
@@ -497,15 +497,15 @@ namespace Org.Vs.TailForWin.Template
 
     private void dataGridFiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      if (!IsInitialized)
+      if ( !IsInitialized )
         return;
 
-      if (dataGridFiles.SelectedItem is FileManagerData locFmData)
+      if ( dataGridFiles.SelectedItem is FileManagerData locFmData )
       {
         e.Handled = true;
         fmWorkingProperties = locFmData;
 
-        if (fmWorkingProperties != null)
+        if ( fmWorkingProperties != null )
         {
           fmMemento = fmWorkingProperties.SaveToMemento();
           SetSelectedComboBoxItem(fmWorkingProperties.Category, fmWorkingProperties.ThreadPriority, fmWorkingProperties.RefreshRate, fmWorkingProperties.FileEncoding);
@@ -521,16 +521,16 @@ namespace Org.Vs.TailForWin.Template
 
     private void textBlockDescription_TextChanged(object sender, TextChangedEventArgs e)
     {
-      if (!IsInitialized)
+      if ( !IsInitialized )
         return;
 
-      if (!string.IsNullOrEmpty(textBlockDescription.Text))
+      if ( !string.IsNullOrEmpty(textBlockDescription.Text) )
         ChangeFmStateToEditItem();
     }
 
     private void textBoxNewCategorie_TextChanged(object sender, TextChangedEventArgs e)
     {
-      if (!IsInitialized)
+      if ( !IsInitialized )
         return;
 
       ChangeFmStateToEditItem();
@@ -544,13 +544,13 @@ namespace Org.Vs.TailForWin.Template
       {
         var text = e.Data.GetData(DataFormats.FileDrop);
 
-        if (text == null)
+        if ( text == null )
           return;
 
         const string fileName = "{((string[])text)[0]}";
         AddNewFile(fileName);
       }
-      catch (Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
@@ -560,7 +560,7 @@ namespace Org.Vs.TailForWin.Template
     {
       e.Handled = true;
 
-      if (e.Source == sender)
+      if ( e.Source == sender )
         e.Effects = DragDropEffects.None;
     }
 
@@ -569,7 +569,7 @@ namespace Org.Vs.TailForWin.Template
       dataGridFiles.Items.Refresh();
       FMProperties.DataContext = fmWorkingProperties;
 
-      if (fmState != EFileManagerState.AddFile)
+      if ( fmState != EFileManagerState.AddFile )
         fmState = EFileManagerState.EditFilter;
 
       SetAddSaveButton(false);
@@ -585,7 +585,7 @@ namespace Org.Vs.TailForWin.Template
     {
       FileManagerData locFmData = e.Item as FileManagerData;
 
-      if (string.IsNullOrEmpty(locFmData?.Category) || string.IsNullOrEmpty(locFmData.Description))
+      if ( string.IsNullOrEmpty(locFmData?.Category) || string.IsNullOrEmpty(locFmData.Description) )
         return;
 
       try
@@ -595,12 +595,12 @@ namespace Org.Vs.TailForWin.Template
         int descriptionResult = culturInfo.CompareInfo.IndexOf(locFmData.Description, FilterTextBox.Text, CompareOptions.IgnoreCase);
         int result = categoryResult & descriptionResult;
 
-        if (!string.IsNullOrEmpty(FilterTextBox.Text) && result < 0)
+        if ( !string.IsNullOrEmpty(FilterTextBox.Text) && result < 0 )
           e.Accepted = false;
         else
           e.Accepted = true;
       }
-      catch (ArgumentNullException)
+      catch ( ArgumentNullException )
       {
         e.Accepted = true;
       }
@@ -613,7 +613,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void Validation_Error(object sender, ValidationErrorEventArgs e)
     {
-      if (e.Action == ValidationErrorEventAction.Added)
+      if ( e.Action == ValidationErrorEventAction.Added )
         errors++;
       else
         errors--;
@@ -638,7 +638,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void GridControlGroupByCategory(ICollectionView cvFmData)
     {
-      if (cvFmData != null && cvFmData.CanGroup)
+      if ( cvFmData != null && cvFmData.CanGroup )
       {
         cvFmData.GroupDescriptions.Clear();
         cvFmData.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
@@ -647,7 +647,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void AddNewFile(string fileName)
     {
-      if (string.IsNullOrEmpty(fileName))
+      if ( string.IsNullOrEmpty(fileName) )
         return;
 
       fmState = EFileManagerState.AddFile;
@@ -684,43 +684,43 @@ namespace Org.Vs.TailForWin.Template
     {
       var cellContent = cellInfo.Column.GetCellContent(cellInfo.Item);
 
-      return (DataGridCell)cellContent?.Parent;
+      return (DataGridCell) cellContent?.Parent;
     }
 
     private void SetDialogTitle()
     {
-      if (string.Compare(Title, "FileManager", StringComparison.Ordinal) != 0)
+      if ( string.Compare(Title, "FileManager", StringComparison.Ordinal) != 0 )
         Title = "FileManager";
     }
 
     private void SortDataGrid()
     {
-      switch (SettingsHelper.TailSettings.DefaultFileSort)
+      switch ( SettingsHelper.TailSettings.DefaultFileSort )
       {
-        case EFileSort.FileCreationTime:
+      case EFileSort.FileCreationTime:
 
-          ListCollectionView view = (ListCollectionView)GetCurrentCollectionViewSource();
-          view.CustomSort = fmData;
-          break;
+        ListCollectionView view = (ListCollectionView) GetCurrentCollectionViewSource();
+        view.CustomSort = fmData;
+        break;
 
-        case EFileSort.Nothing:
+      case EFileSort.Nothing:
 
-          ICollectionView cvFmData = GetCurrentCollectionViewSource();
+        ICollectionView cvFmData = GetCurrentCollectionViewSource();
 
-          if (cvFmData.CanSort)
-            cvFmData.SortDescriptions.Add(new SortDescription("File", ListSortDirection.Ascending));
+        if ( cvFmData.CanSort )
+          cvFmData.SortDescriptions.Add(new SortDescription("File", ListSortDirection.Ascending));
 
-          break;
+        break;
       }
     }
 
     private void ChangeFmStateToEditItem()
     {
       // TODO better solution
-      if (!IsInitialized)
+      if ( !IsInitialized )
         return;
 
-      if (fmState != EFileManagerState.OpenFileManager || fmMemento == null || fmWorkingProperties == null || fmWorkingProperties.EqualsProperties(fmMemento))
+      if ( fmState != EFileManagerState.OpenFileManager || fmMemento == null || fmWorkingProperties == null || fmWorkingProperties.EqualsProperties(fmMemento) )
         return;
 
       fmState = EFileManagerState.EditItem;
@@ -729,7 +729,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void RefreshCategoryComboBox()
     {
-      if (fmDoc.Category.Count == 0)
+      if ( fmDoc.Category.Count == 0 )
         comboBoxCategory.IsEnabled = false;
       else
       {
@@ -747,7 +747,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void SelectLastItemInDataGrid()
     {
-      if (dataGridFiles.Items.Count <= 0)
+      if ( dataGridFiles.Items.Count <= 0 )
         return;
 
       dataGridFiles.SelectedItem = fmData[fmData.Count - 1];
@@ -756,7 +756,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void SetSelectedComboBoxItem(string category, ThreadPriority tp, ETailRefreshRate rr, Encoding fe)
     {
-      if (category != null)
+      if ( category != null )
         comboBoxCategory.SelectedValue = category;
 
       try
@@ -780,22 +780,22 @@ namespace Org.Vs.TailForWin.Template
       fmDoc = new FileManagerStructure();
 
       // Get a reference to FileManagerData collection
-      fmData = (FileManagerDataList)Resources["FileManagerData"];
+      fmData = (FileManagerDataList) Resources["FileManagerData"];
 
-      if (LogFile.FmHelper != null && LogFile.FmHelper.Count > 0)
+      if ( LogFile.FmHelper != null && LogFile.FmHelper.Count > 0 )
       {
         fmDoc.FmProperties.ForEach(item =>
         {
           FileManagerHelper f = LogFile.FmHelper.SingleOrDefault(x => x.ID == item.ID);
 
-          if (f != null)
+          if ( f != null )
             item.OpenFromFileManager = f.OpenFromFileManager;
         });
       }
 
-      foreach (FileManagerData item in fmDoc.FmProperties)
+      foreach ( FileManagerData item in fmDoc.FmProperties )
       {
-        if (item.UsePattern)
+        if ( item.UsePattern )
           UsePatternToLogfile(item);
 
         fmData.Add(item);
@@ -818,7 +818,7 @@ namespace Org.Vs.TailForWin.Template
 
     private static void UsePatternToLogfile(FileManagerData item)
     {
-      using (var patternController = new SearchPatternController())
+      using ( var patternController = new SearchPatternController() )
       {
         item.FileName = patternController.GetCurrentFileByPattern(item);
       }
@@ -826,20 +826,20 @@ namespace Org.Vs.TailForWin.Template
 
     private void FmData_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      if (e.NewItems != null)
+      if ( e.NewItems != null )
       {
-        foreach (FileManagerData item in e.NewItems)
+        foreach ( FileManagerData item in e.NewItems )
         {
-          if (e.Action == NotifyCollectionChangedAction.Add)
+          if ( e.Action == NotifyCollectionChangedAction.Add )
             fmDoc.FmProperties.Add(item);
         }
       }
 
-      if (e.OldItems != null)
+      if ( e.OldItems != null )
       {
-        foreach (FileManagerData item in e.OldItems)
+        foreach ( FileManagerData item in e.OldItems )
         {
-          if (e.Action == NotifyCollectionChangedAction.Remove)
+          if ( e.Action == NotifyCollectionChangedAction.Remove )
             fmDoc.FmProperties.Remove(item);
         }
       }
@@ -847,9 +847,9 @@ namespace Org.Vs.TailForWin.Template
 
     private void HandleEsc(object sender, KeyEventArgs e)
     {
-      if (e.Key == Key.Escape)
+      if ( e.Key == Key.Escape )
         OnExit();
-      if (e.Key == Key.Enter)
+      if ( e.Key == Key.Enter )
         btnOK_Click(sender, e);
     }
 
@@ -860,10 +860,10 @@ namespace Org.Vs.TailForWin.Template
 
     private void OpenFileToTail()
     {
-      if (fmWorkingProperties == null)
+      if ( fmWorkingProperties == null )
         return;
 
-      if (fmWorkingProperties.NewWindow)
+      if ( fmWorkingProperties.NewWindow )
       {
         try
         {
@@ -877,14 +877,14 @@ namespace Org.Vs.TailForWin.Template
           };
           newWindow.Start();
         }
-        catch (Exception ex)
+        catch ( Exception ex )
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
       }
       else
       {
-        if (dataGridFiles.SelectedItem is FileManagerData locFmData)
+        if ( dataGridFiles.SelectedItem is FileManagerData locFmData )
         {
           fmWorkingProperties.OpenFromFileManager = true;
           FileManagerHelper helper = new FileManagerHelper
@@ -893,16 +893,16 @@ namespace Org.Vs.TailForWin.Template
             OpenFromFileManager = locFmData.OpenFromFileManager
           };
 
-          if (LogFile.FmHelper.Count > 0)
+          if ( LogFile.FmHelper.Count > 0 )
           {
             try
             {
               FileManagerHelper item = LogFile.FmHelper.SingleOrDefault(x => x.ID == helper.ID);
 
-              if (item == null)
+              if ( item == null )
                 LogFile.FmHelper.Add(helper);
             }
-            catch (ArgumentNullException ex)
+            catch ( ArgumentNullException ex )
             {
               LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
             }

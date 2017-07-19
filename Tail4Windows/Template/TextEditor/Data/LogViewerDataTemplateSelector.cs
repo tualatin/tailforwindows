@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Org.Vs.TailForWin.Template.TextEditor.Utils;
 
 
 namespace Org.Vs.TailForWin.Template.TextEditor.Data
@@ -54,7 +53,7 @@ namespace Org.Vs.TailForWin.Template.TextEditor.Data
     /// <returns>DataTemplate</returns>
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
-      switch(TemplateData.State)
+      switch ( TemplateData.State )
       {
       case TemplateData.TemplateStates.ShowDateTime:
 

@@ -37,7 +37,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void OnTopLeftResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
         thumb.DragDelta += DragTopLeft;
     }
 
@@ -69,7 +69,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void OnTopRightResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
         thumb.DragDelta += DragTopRight;
     }
 
@@ -101,7 +101,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void OnBottomRightResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
         thumb.DragDelta += DragBottomRight;
     }
 
@@ -133,7 +133,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void OnBottomLeftResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
         thumb.DragDelta += DragBottomLeft;
     }
 
@@ -165,7 +165,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void OnLeftResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
         thumb.DragDelta += DragLeft;
     }
 
@@ -197,7 +197,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void OnRightResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
         thumb.DragDelta += DragRight;
     }
 
@@ -229,7 +229,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void OnTopResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
         thumb.DragDelta += DragTop;
     }
 
@@ -261,17 +261,17 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void OnBottomResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
         thumb.DragDelta += DragBottom;
     }
 
     private static void DragLeft(object sender, DragDeltaEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
       {
         var window = thumb.GetValue(LeftResize) as Window;
 
-        if(window != null)
+        if ( window != null )
         {
           var horizontalChange = window.SafeWidthChange(e.HorizontalChange, false);
           window.Width -= horizontalChange;
@@ -282,11 +282,11 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void DragRight(object sender, DragDeltaEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
       {
         var window = thumb.GetValue(RightResize) as Window;
 
-        if(window != null)
+        if ( window != null )
         {
           var horizontalChange = window.SafeWidthChange(e.HorizontalChange);
           window.Width += horizontalChange;
@@ -296,11 +296,11 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void DragTop(object sender, DragDeltaEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
       {
         var window = thumb.GetValue(TopResize) as Window;
 
-        if(window != null)
+        if ( window != null )
         {
           var verticalChange = window.SafeHeightChange(e.VerticalChange, false);
           window.Height -= verticalChange;
@@ -311,11 +311,11 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void DragBottom(object sender, DragDeltaEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
       {
         var window = thumb.GetValue(BottomResize) as Window;
 
-        if(window != null)
+        if ( window != null )
         {
           var verticalChange = window.SafeHeightChange(e.VerticalChange);
           window.Height += verticalChange;
@@ -325,11 +325,11 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void DragTopLeft(object sender, DragDeltaEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
       {
         var window = thumb.GetValue(TopLeftResize) as Window;
 
-        if(window != null)
+        if ( window != null )
         {
           var verticalChange = window.SafeHeightChange(e.VerticalChange, false);
           var horizontalChange = window.SafeWidthChange(e.HorizontalChange, false);
@@ -344,11 +344,11 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void DragTopRight(object sender, DragDeltaEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
       {
         var window = thumb.GetValue(TopRightResize) as Window;
 
-        if(window != null)
+        if ( window != null )
         {
           var verticalChange = window.SafeHeightChange(e.VerticalChange, false);
           var horizontalChange = window.SafeWidthChange(e.HorizontalChange);
@@ -362,11 +362,11 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void DragBottomRight(object sender, DragDeltaEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
       {
         var window = thumb.GetValue(BottomRightResize) as Window;
 
-        if(window != null)
+        if ( window != null )
         {
           var verticalChange = window.SafeHeightChange(e.VerticalChange);
           var horizontalChange = window.SafeWidthChange(e.HorizontalChange);
@@ -379,11 +379,11 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
 
     private static void DragBottomLeft(object sender, DragDeltaEventArgs e)
     {
-      if(sender is Thumb thumb)
+      if ( sender is Thumb thumb )
       {
         var window = thumb.GetValue(BottomLeftResize) as Window;
 
-        if(window != null)
+        if ( window != null )
         {
           var verticalChange = window.SafeHeightChange(e.VerticalChange);
           var horizontalChange = window.SafeWidthChange(e.HorizontalChange, false);
@@ -399,13 +399,13 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     {
       var result = positive ? window.Width + change : window.Width - change;
 
-      if(result <= window.MinWidth)
+      if ( result <= window.MinWidth )
         return 0;
 
-      if(result >= window.MaxWidth)
+      if ( result >= window.MaxWidth )
         return 0;
 
-      if(result < 0)
+      if ( result < 0 )
         return 0;
 
       return change;
@@ -415,13 +415,13 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow
     {
       var result = positive ? window.Height + change : window.Height - change;
 
-      if(result <= window.MinHeight)
+      if ( result <= window.MinHeight )
         return 0;
 
-      if(result >= window.MaxHeight)
+      if ( result >= window.MaxHeight )
         return 0;
 
-      if(result < 0)
+      if ( result < 0 )
         return 0;
 
       return change;

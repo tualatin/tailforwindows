@@ -21,14 +21,14 @@ namespace Org.Vs.TailForWin.Converters.MultiConverters
     /// <returns>Converted type</returns>
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-      if(values != null)
+      if ( values != null )
       {
         bool patternSet = false;
         bool dataGridSelection = values[0] is FileManagerData;
 
         var pattern = values[1] as string;
 
-        if(!string.IsNullOrEmpty(pattern))
+        if ( !string.IsNullOrEmpty(pattern) )
           patternSet = true;
 
         return patternSet & dataGridSelection;

@@ -21,9 +21,9 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>True or False</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if(value is int iValue)
+      if ( value is int iValue )
       {
-        if(iValue > -1)
+        if ( iValue > -1 )
           return iValue;
       }
       return LogFile.UNLIMITED_LOG_LINE_VALUE;
@@ -39,9 +39,9 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>Object</returns>
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if(value is double)
+      if ( value is double )
       {
-        if((double) value < LogFile.UNLIMITED_LOG_LINE_VALUE)
+        if ( (double) value < LogFile.UNLIMITED_LOG_LINE_VALUE )
           return value;
       }
       return -1;

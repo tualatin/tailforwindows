@@ -22,7 +22,7 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>Trim text</returns>
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if(!string.IsNullOrEmpty(value as string))
+      if ( !string.IsNullOrEmpty(value as string) )
         return true;
 
       return false;

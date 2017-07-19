@@ -21,9 +21,9 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>True or False</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if(value is ESmartWatchMode mode)
+      if ( value is ESmartWatchMode mode )
       {
-        if(mode == ESmartWatchMode.Manual)
+        if ( mode == ESmartWatchMode.Manual )
           return false;
 
         return true;
