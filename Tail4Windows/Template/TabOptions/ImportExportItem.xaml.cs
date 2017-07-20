@@ -5,8 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using log4net;
 using Microsoft.Win32;
-using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
+using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Template.TabOptions

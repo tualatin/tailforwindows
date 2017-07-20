@@ -323,7 +323,7 @@
     <Compile Include="Data\FileManagerHelper.cs" />
     <Compile Include="Data\FilterData.cs" />
     <Compile Include="Data\GoToLineData.cs" />
-    <Compile Include="Data\CentralManager.cs" />
+    <Compile Include="Utils\CentralManager.cs" />
     <Compile Include="Data\Part.cs" />
     <Compile Include="Data\Pattern.cs" />
     <Compile Include="Data\ProxySettingsData.cs" />

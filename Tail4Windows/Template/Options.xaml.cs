@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
-using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
+using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Template

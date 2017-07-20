@@ -17,6 +17,7 @@ using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Data.Events;
 using Org.Vs.TailForWin.PatternUtil.UI;
 using Org.Vs.TailForWin.PatternUtil.Utils;
+using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Template

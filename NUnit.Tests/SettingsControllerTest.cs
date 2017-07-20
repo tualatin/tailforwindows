@@ -1,8 +1,8 @@
 ﻿using NUnit.Framework;
 using Org.Vs.TailForWin.Controller;
-using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Interfaces;
+using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.NUnit.Tests

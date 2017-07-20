@@ -4,8 +4,8 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using log4net;
-using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Template.Events;
+using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Template

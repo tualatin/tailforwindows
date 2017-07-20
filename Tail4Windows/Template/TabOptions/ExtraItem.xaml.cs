@@ -7,6 +7,7 @@ using Org.Vs.TailForWin.Controller;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
+using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Template.TabOptions

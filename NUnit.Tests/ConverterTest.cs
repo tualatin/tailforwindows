@@ -7,7 +7,7 @@ using Org.Vs.TailForWin.Converters;
 using Org.Vs.TailForWin.Converters.MultiConverters;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Enums;
-
+using Org.Vs.TailForWin.Utils;
 using Brush = System.Windows.Media.Brush;
 using Color = System.Drawing.Color;
 

@@ -3,8 +3,8 @@ using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Template.TextEditor.Data;
+using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Controller
