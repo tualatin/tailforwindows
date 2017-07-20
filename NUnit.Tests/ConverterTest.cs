@@ -8,6 +8,7 @@ using Org.Vs.TailForWin.Converters.MultiConverters;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Enums;
 using Org.Vs.TailForWin.Utils;
+
 using Brush = System.Windows.Media.Brush;
 using Color = System.Drawing.Color;
 
@@ -23,6 +24,7 @@ namespace Org.Vs.NUnit.Tests
       var converter = new ColorToBrushConverter();
       var convertedBrush = converter.Convert(Color.Blue, typeof(Brush), null, CultureInfo.CurrentCulture);
       Assert.That(convertedBrush is SolidColorBrush);
+      Assert.AreEqual("#FF0000FF", convertedBrush.ToString());
     }
 
     [Test]
