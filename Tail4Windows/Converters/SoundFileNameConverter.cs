@@ -14,8 +14,10 @@ namespace Org.Vs.TailForWin.Converters
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if ( value is string )
-        return string.Compare((string) value, CentralManager.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0 ? string.Empty : value;
+      var s = value as string;
+
+      if ( s != null )
+        return string.Compare(s, CentralManager.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0 ? string.Empty : value;
 
       return string.Empty;
     }

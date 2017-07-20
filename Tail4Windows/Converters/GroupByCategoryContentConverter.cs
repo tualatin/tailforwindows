@@ -20,13 +20,10 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>Converted object</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if ( value is bool bValue )
-      {
-        if ( bValue )
-          return "Ungroup";
+      if ( !(value is bool bValue) )
+        return "Group by Category";
 
-      }
-      return "Group by Category";
+      return bValue ? "Ungroup" : "Group by Category";
     }
 
     /// <summary>

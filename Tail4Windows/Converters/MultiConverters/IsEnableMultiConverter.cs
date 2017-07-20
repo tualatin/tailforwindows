@@ -11,20 +11,16 @@ namespace Org.Vs.TailForWin.Converters.MultiConverters
   {
     public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if ( values != null )
-      {
-        bool radio = (bool) values[0];
-        int url = (int) values[1];
+      if ( values == null )
+        return true;
 
-        if ( !radio )
-          return true;
+      bool radio = (bool) values[0];
+      int url = (int) values[1];
 
-        if ( url > 0 )
-          return true;
+      if ( !radio )
+        return true;
 
-        return false;
-      }
-      return true;
+      return url > 0;
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, System.Globalization.CultureInfo culture)

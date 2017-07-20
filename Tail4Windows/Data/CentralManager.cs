@@ -13,7 +13,7 @@ using Org.Vs.TailForWin.Interfaces;
 namespace Org.Vs.TailForWin.Data
 {
   /// <summary>
-  /// LogFile class
+  /// Central manager for Tail4Windows
   /// </summary>
   public static class CentralManager
   {

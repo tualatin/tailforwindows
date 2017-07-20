@@ -21,12 +21,10 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>True or False</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if ( value is int iValue )
-      {
-        if ( iValue > -1 )
-          return iValue;
-      }
-      return CentralManager.UNLIMITED_LOG_LINE_VALUE;
+      if ( !(value is int iValue) )
+        return CentralManager.UNLIMITED_LOG_LINE_VALUE;
+
+      return iValue > -1 ? iValue : CentralManager.UNLIMITED_LOG_LINE_VALUE;
     }
 
     /// <summary>
@@ -39,11 +37,9 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>Object</returns>
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if ( value is double )
-      {
-        if ( (double) value < CentralManager.UNLIMITED_LOG_LINE_VALUE )
-          return value;
-      }
+      if ( value as double? < CentralManager.UNLIMITED_LOG_LINE_VALUE )
+        return value;
+
       return -1;
     }
   }

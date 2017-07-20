@@ -15,12 +15,11 @@ namespace Org.Vs.TailForWin.Converters.MultiConverters
 
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-      if ( values != null )
-      {
-        bool isEnable = values[0] is FileManagerData;
-        return isEnable;
-      }
-      return false;
+      if ( values == null )
+        return false;
+
+      bool isEnable = values[0] is FileManagerData;
+      return isEnable;
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
