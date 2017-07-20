@@ -356,8 +356,8 @@ namespace Org.Vs.TailForWin.UI
     private void TabWindow_Loaded(object sender, RoutedEventArgs e)
     {
       // Important for command line parameter!
-      if ( LogFile.APP_MAIN_WINDOW == null )
-        LogFile.APP_MAIN_WINDOW = (TabWindow) DragWindowManager.Instance.AllWindows.Last();// (Application.Current.MainWindow as TabWindow);
+      if ( CentralManager.APP_MAIN_WINDOW == null )
+        CentralManager.APP_MAIN_WINDOW = (TabWindow) DragWindowManager.Instance.AllWindows.Last();// (Application.Current.MainWindow as TabWindow);
 
       if ( SettingsHelper.TailSettings.AutoUpdate )
         AutoUpdate.Init();
@@ -389,9 +389,9 @@ namespace Org.Vs.TailForWin.UI
 
       if ( tailing )
       {
-        string message = string.Format(Application.Current.FindResource("ThreadIsBusy").ToString(), LogFile.APPLICATION_CAPTION);
+        string message = string.Format(Application.Current.FindResource("ThreadIsBusy").ToString(), CentralManager.APPLICATION_CAPTION);
 
-        if ( MessageBox.Show(message, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes )
+        if ( MessageBox.Show(message, CentralManager.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes )
         {
           e.Cancel = false;
         }
@@ -402,7 +402,7 @@ namespace Org.Vs.TailForWin.UI
         }
       }
 
-      LOG.Trace("{0} closing, goodbye!", LogFile.APPLICATION_CAPTION);
+      LOG.Trace("{0} closing, goodbye!", CentralManager.APPLICATION_CAPTION);
       OnExit();
     }
 
@@ -490,7 +490,7 @@ namespace Org.Vs.TailForWin.UI
 
     private static void DoubleClickNotifyIcon(object sender, EventArgs e)
     {
-      LogFile.BringMainWindowToFront();
+      CentralManager.BringMainWindowToFront();
     }
 
     private void MyNotifyIcon_TrayContextMenuOpen(object sender, RoutedEventArgs e)
@@ -550,15 +550,15 @@ namespace Org.Vs.TailForWin.UI
 
     private void AddTabItem(string tabHeader, Control content, FileManagerData properties)
     {
-      if ( tabControl.Items.Count >= LogFile.MAX_TAB_CHILDS )
+      if ( tabControl.Items.Count >= CentralManager.MAX_TAB_CHILDS )
       {
-        MessageBox.Show(Application.Current.FindResource("HCloseTab") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+        MessageBox.Show(Application.Current.FindResource("HCloseTab") as string, CentralManager.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
         return;
       }
 
       TailForWinTabItem item = new TailForWinTabItem
       {
-        Header = string.IsNullOrEmpty(tabHeader) ? LogFile.TABBAR_CHILD_EMPTY_STRING : tabHeader,
+        Header = string.IsNullOrEmpty(tabHeader) ? CentralManager.TABBAR_CHILD_EMPTY_STRING : tabHeader,
         Name = $"TabItem_{tabControl.Items.Count}",
         Style = (Style) FindResource("TabItemStopStyle")
       };
@@ -588,14 +588,14 @@ namespace Org.Vs.TailForWin.UI
         {
           if ( page.IsThreadBusy )
           {
-            if ( MessageBox.Show($"{Application.Current.FindResource("QRemoveTab")} '{tabItem.Header}'?", LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.No )
+            if ( MessageBox.Show($"{Application.Current.FindResource("QRemoveTab")} '{tabItem.Header}'?", CentralManager.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.No )
               return;
           }
 
-          FileManagerHelper item = LogFile.FmHelper.SingleOrDefault(x => x.ID == page.FileManagerProperties.ID);
+          FileManagerHelper item = CentralManager.FmHelper.SingleOrDefault(x => x.ID == page.FileManagerProperties.ID);
 
           if ( item != null )
-            LogFile.FmHelper.Remove(item);
+            CentralManager.FmHelper.Remove(item);
 
           page.Dispose();
         }
@@ -704,8 +704,8 @@ namespace Org.Vs.TailForWin.UI
 
     private void DefaultWndSettings()
     {
-      LogFile.Settings.ReadSettings();
-      LogFile.InitObservableCollectionsRrtpfe();
+      CentralManager.Settings.ReadSettings();
+      CentralManager.InitObservableCollectionsRrtpfe();
 
       switch ( SettingsHelper.TailSettings.CurrentWindowStyle )
       {
@@ -723,13 +723,13 @@ namespace Org.Vs.TailForWin.UI
       }
 
       tbIcon.ToolTipText = Application.Current.FindResource("TrayIconReady") as string;
-      fancyToolTipTfW.ApplicationText = LogFile.APPLICATION_CAPTION;
+      fancyToolTipTfW.ApplicationText = CentralManager.APPLICATION_CAPTION;
       tbIcon.TrayMouseDoubleClick += DoubleClickNotifyIcon;
 
-      Title = LogFile.APPLICATION_CAPTION;
+      Title = CentralManager.APPLICATION_CAPTION;
       Topmost = SettingsHelper.TailSettings.AlwaysOnTop;
 
-      cbStsEncoding.DataContext = LogFile.FileEncoding;
+      cbStsEncoding.DataContext = CentralManager.FileEncoding;
       cbStsEncoding.DisplayMemberPath = "HeaderName";
 
       PreviewKeyDown += HandleMainWindowKeys;
@@ -858,7 +858,7 @@ namespace Org.Vs.TailForWin.UI
       {
         var files = new DirectoryInfo("logs").GetFiles("*.log");
 
-        foreach ( var item in files.Where(f => DateTime.Now - f.LastWriteTimeUtc > TimeSpan.FromDays(LogFile.DELETE_LOG_FILES_OLDER_THAN)) )
+        foreach ( var item in files.Where(f => DateTime.Now - f.LastWriteTimeUtc > TimeSpan.FromDays(CentralManager.DELETE_LOG_FILES_OLDER_THAN)) )
         {
           try
           {
@@ -940,7 +940,7 @@ namespace Org.Vs.TailForWin.UI
         }
       }
 
-      LogFile.Settings.SaveSettings();
+      CentralManager.Settings.SaveSettings();
 
       if ( SettingsHelper.TailSettings.DeleteLogFiles )
         DeleteLogFiles();
@@ -975,7 +975,7 @@ namespace Org.Vs.TailForWin.UI
 
       // When pressing Control + Alt + M minimize main window
       if ( e.Key == Key.M && (Keyboard.Modifiers & ModifierKeys.Control) != 0 && (Keyboard.Modifiers & ModifierKeys.Alt) != 0 )
-        LogFile.MinimizeMainWindow();
+        CentralManager.MinimizeMainWindow();
       else if ( e.Key == Key.M && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control ) // When pressing Control + M shows the file manager dialogue
         currentPage.btnFileManager_Click(sender, e);
 
@@ -1018,24 +1018,24 @@ namespace Org.Vs.TailForWin.UI
 
         if ( SettingsHelper.TailSettings.SearchWndXPos.Equals(-1) )
         {
-          xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
+          xPos = CentralManager.APP_MAIN_WINDOW.Left + 50;
         }
         else
         {
           if ( SettingsHelper.TailSettings.SearchWndXPos + searchBoxWindow.Width / 2 > SystemParameters.VirtualScreenWidth )
-            xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
+            xPos = CentralManager.APP_MAIN_WINDOW.Left + 50;
           else
             xPos = SettingsHelper.TailSettings.SearchWndXPos;
         }
 
         if ( SettingsHelper.TailSettings.SearchWndYPos.Equals(-1) )
         {
-          yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
+          yPos = CentralManager.APP_MAIN_WINDOW.Top + 50;
         }
         else
         {
           if ( SettingsHelper.TailSettings.SearchWndYPos + searchBoxWindow.Height / 2 > SystemParameters.VirtualScreenHeight )
-            yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
+            yPos = CentralManager.APP_MAIN_WINDOW.Top + 50;
           else
             yPos = SettingsHelper.TailSettings.SearchWndYPos;
         }

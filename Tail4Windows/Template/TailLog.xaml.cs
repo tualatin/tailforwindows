@@ -96,7 +96,7 @@ namespace Org.Vs.TailForWin.Template
         waitWorker = null;
       }
 
-      LogFile.APP_MAIN_WINDOW.TaskBarIconContextMenu.Items.Remove(tailLogMenuItem);
+      CentralManager.APP_MAIN_WINDOW.TaskBarIconContextMenu.Items.Remove(tailLogMenuItem);
       tailLogMenuItem = null;
       childTabItem = null;
       fileManagerProperties = null;
@@ -290,7 +290,7 @@ namespace Org.Vs.TailForWin.Template
     {
       GoToLine goToLineDialog = new GoToLine(GetMinLineNumber(), GetMaxLineNumber())
       {
-        Owner = LogFile.APP_MAIN_WINDOW
+        Owner = CentralManager.APP_MAIN_WINDOW
       };
       goToLineDialog.GoToLineNumber += GoToLineNumberEvent;
 
@@ -337,7 +337,7 @@ namespace Org.Vs.TailForWin.Template
     private void checkBoxOnTop_Click(object sender, RoutedEventArgs e)
     {
       if ( checkBoxOnTop.IsChecked != null )
-        LogFile.APP_MAIN_WINDOW.MainWindowTopmost = checkBoxOnTop.IsChecked.Value;
+        CentralManager.APP_MAIN_WINDOW.MainWindowTopmost = checkBoxOnTop.IsChecked.Value;
     }
 
     /// <summary>
@@ -390,7 +390,7 @@ namespace Org.Vs.TailForWin.Template
           if ( !myReader.OpenTailFileStream(tabProperties.FileName) )
           {
             LOG.Info("{0} file not found '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, tabProperties.FileName);
-            MessageBox.Show($"{Application.Current.FindResource("FileNotFound")} '{tabProperties.File}'", $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"{Application.Current.FindResource("FileNotFound")} '{tabProperties.File}'", $"{CentralManager.APPLICATION_CAPTION} - {CentralManager.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
           }
 
@@ -401,12 +401,12 @@ namespace Org.Vs.TailForWin.Template
           if ( !myReader.OpenTailFileStream(tabProperties.FileName, tabProperties.FileEncoding) )
           {
             LOG.Info("{0} file not found '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, tabProperties.FileName);
-            MessageBox.Show($"{Application.Current.FindResource("FileNotFound")} '{tabProperties.File}'", $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"{Application.Current.FindResource("FileNotFound")} '{tabProperties.File}'", $"{CentralManager.APPLICATION_CAPTION} - {CentralManager.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
           }
         }
 
-        LogFile.APP_MAIN_WINDOW.StatusBarEncodeCb.SelectedValue = tabProperties.FileEncoding;
+        CentralManager.APP_MAIN_WINDOW.StatusBarEncodeCb.SelectedValue = tabProperties.FileEncoding;
 
         if ( FileReader.FileExists(tabProperties.FileName) )
         {
@@ -433,7 +433,7 @@ namespace Org.Vs.TailForWin.Template
               }
               catch ( ArgumentException )
               {
-                MessageBox.Show(Application.Current.FindResource("SmartWatchCanNotStart").ToString(), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Application.Current.FindResource("SmartWatchCanNotStart").ToString(), CentralManager.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
               }
             }
 
@@ -447,7 +447,7 @@ namespace Org.Vs.TailForWin.Template
         else
         {
           LOG.Info("{0} file not found '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, tabProperties.FileName);
-          MessageBox.Show(Application.Current.FindResource("FileNotFound").ToString(), $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", MessageBoxButton.OK,
+          MessageBox.Show(Application.Current.FindResource("FileNotFound").ToString(), $"{CentralManager.APPLICATION_CAPTION} - {CentralManager.MSGBOX_ERROR}", MessageBoxButton.OK,
             MessageBoxImage.Error);
         }
       }
@@ -485,7 +485,7 @@ namespace Org.Vs.TailForWin.Template
     /// <param name="e">RoutedEventArgs</param>
     public void btnOpenFile_Click(object sender, RoutedEventArgs e)
     {
-      if ( !LogFile.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*",
+      if ( !CentralManager.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*",
         Application.Current.FindResource("OpenFileDialog").ToString()) )
       {
         return;
@@ -548,7 +548,7 @@ namespace Org.Vs.TailForWin.Template
       {
         FileManager fileManager = new FileManager(EFileManagerState.OpenFileManager, tabProperties)
         {
-          Owner = LogFile.APP_MAIN_WINDOW
+          Owner = CentralManager.APP_MAIN_WINDOW
         };
         fileManager.DoUpdate += FileManagerDoUpdate;
         fileManager.OpenFileAsNewTab += FileManagerGetProperties;
@@ -564,7 +564,7 @@ namespace Org.Vs.TailForWin.Template
     {
       FileManager fileManager = new FileManager(EFileManagerState.AddFile, tabProperties)
       {
-        Owner = LogFile.APP_MAIN_WINDOW,
+        Owner = CentralManager.APP_MAIN_WINDOW,
         Title = $"FileManager - Add file '{tabProperties.File}'",
         Icon = new ImageSourceConverter().ConvertFromString(@"pack://application:,,/Res/add.ico") as ImageSource
       };
@@ -578,7 +578,7 @@ namespace Org.Vs.TailForWin.Template
     {
       Options settings = new Options
       {
-        Owner = LogFile.APP_MAIN_WINDOW
+        Owner = CentralManager.APP_MAIN_WINDOW
       };
 
       settings.UpdateEvent += DefaultPropertiesChanged;
@@ -634,7 +634,7 @@ namespace Org.Vs.TailForWin.Template
     {
       Filters filters = new Filters(tabProperties)
       {
-        Owner = LogFile.APP_MAIN_WINDOW
+        Owner = CentralManager.APP_MAIN_WINDOW
       };
 
       filters.SaveNow += FilterTrigger;
@@ -665,7 +665,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void TailLogMenuItem_Click(object sender, RoutedEventArgs e)
     {
-      LogFile.APP_MAIN_WINDOW.TabControl.SelectedItem = childTabItem;
+      CentralManager.APP_MAIN_WINDOW.TabControl.SelectedItem = childTabItem;
     }
 
     #endregion
@@ -681,20 +681,20 @@ namespace Org.Vs.TailForWin.Template
 
         Thread.CurrentThread.Priority = tabProperties.ThreadPriority;
 
-        childTabState = LogFile.STATUS_BAR_STATE_RUN;
+        childTabState = CentralManager.STATUS_BAR_STATE_RUN;
         IsThreadBusy = true;
 
-        LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
+        CentralManager.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
         {
-          LogFile.APP_MAIN_WINDOW.SetSbIconText();
+          CentralManager.APP_MAIN_WINDOW.SetSbIconText();
         }));
 
-        if ( LogFile.APP_MAIN_WINDOW.StatusBarState.Dispatcher.CheckAccess() )
-          LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
+        if ( CentralManager.APP_MAIN_WINDOW.StatusBarState.Dispatcher.CheckAccess() )
+          CentralManager.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
         else
-          LogFile.APP_MAIN_WINDOW.StatusBarState.Dispatcher.Invoke(new Action(() =>
+          CentralManager.APP_MAIN_WINDOW.StatusBarState.Dispatcher.Invoke(new Action(() =>
           {
-            LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
+            CentralManager.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
           }));
 
         if ( SettingsHelper.TailSettings.ShowNLineAtStart )
@@ -779,7 +779,7 @@ namespace Org.Vs.TailForWin.Template
       }
       catch ( ObjectDisposedException ex )
       {
-        MessageBox.Show(Application.Current.FindResource("FileObjectDisposedException").ToString(), $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show(Application.Current.FindResource("FileObjectDisposedException").ToString(), $"{CentralManager.APPLICATION_CAPTION} - {CentralManager.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         StopThread();
       }
@@ -795,15 +795,15 @@ namespace Org.Vs.TailForWin.Template
       if ( e.Error != null )
       {
         LOG.Info("{0} can not tail '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, e.Error.Message);
-        MessageBox.Show(e.Error.Message, $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show(e.Error.Message, $"{CentralManager.APPLICATION_CAPTION} - {CentralManager.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
       }
 
       if ( e.Cancelled )
       {
         try
         {
-          childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
-          LogFile.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
+          childTabState = CentralManager.STATUS_BAR_STATE_PAUSE;
+          CentralManager.APP_MAIN_WINDOW.StatusBarState.Content = childTabState;
           childTabItem.Header = tabProperties == null ? string.Empty : tabProperties.File;
           childTabItem.Style = Application.Current.FindResource("TabItemStopStyle") as Style;
 
@@ -812,9 +812,9 @@ namespace Org.Vs.TailForWin.Template
 
           IsThreadBusy = false;
 
-          LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
+          CentralManager.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
           {
-            LogFile.APP_MAIN_WINDOW.SetSbIconText();
+            CentralManager.APP_MAIN_WINDOW.SetSbIconText();
           }));
 
           if ( stopThread )
@@ -919,14 +919,14 @@ namespace Org.Vs.TailForWin.Template
 
       childTabIndex = Guid.NewGuid();
       childTabItem = (TailForWinTabItem) tabItem;
-      childTabState = LogFile.STATUS_BAR_STATE_PAUSE;
+      childTabState = CentralManager.STATUS_BAR_STATE_PAUSE;
       tailLogMenuItem = new MenuItem()
       {
         Style = Application.Current.FindResource("ContextMenuItem") as Style,
         Header = childTabItem.Header
       };
       tailLogMenuItem.Click += TailLogMenuItem_Click;
-      LogFile.APP_MAIN_WINDOW.TaskBarIconContextMenu.Items.Add(tailLogMenuItem);
+      CentralManager.APP_MAIN_WINDOW.TaskBarIconContextMenu.Items.Add(tailLogMenuItem);
 
       myReader = new FileReader();
       mySmtp = new MailClient();
@@ -952,8 +952,8 @@ namespace Org.Vs.TailForWin.Template
         {
           Dispatcher.Invoke(new Action(() =>
           {
-            var xPos = LogFile.APP_MAIN_WINDOW.Left + 50;
-            var yPos = LogFile.APP_MAIN_WINDOW.Top + 50;
+            var xPos = CentralManager.APP_MAIN_WINDOW.Left + 50;
+            var yPos = CentralManager.APP_MAIN_WINDOW.Top + 50;
 
             SmartWatchPopUp smartWatchWnd = new SmartWatchPopUp
             {
@@ -1088,8 +1088,8 @@ namespace Org.Vs.TailForWin.Template
 
     private void InitComboBoxes()
     {
-      comboBoxRefreshRate.DataContext = LogFile.RefreshRate;
-      comboBoxThreadPriority.DataContext = LogFile.ThreadPriority;
+      comboBoxRefreshRate.DataContext = CentralManager.RefreshRate;
+      comboBoxThreadPriority.DataContext = CentralManager.ThreadPriority;
     }
 
     private void SetControlVisibility(bool visible = false)
@@ -1140,22 +1140,22 @@ namespace Org.Vs.TailForWin.Template
     {
       if ( !string.IsNullOrEmpty(tabProperties.FileName) && myReader.FileEncoding != null )
       {
-        LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
+        CentralManager.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
         {
           string time = tabProperties.LastRefreshTime.ToString(SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat));
-          LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = $"Size={myReader.FileSizeKb:0.###} Kb, Last refresh time={time}";
-          LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = $"{Application.Current.FindResource("LinesRead")}{textBlockTailLog.LineCount}";
-          LogFile.APP_MAIN_WINDOW.StatusBarEncodeCb.SelectedValue = tabProperties.FileEncoding;
+          CentralManager.APP_MAIN_WINDOW.StatusBarEncoding.Content = $"Size={myReader.FileSizeKb:0.###} Kb, Last refresh time={time}";
+          CentralManager.APP_MAIN_WINDOW.StatusBarLinesRead.Content = $"{Application.Current.FindResource("LinesRead")}{textBlockTailLog.LineCount}";
+          CentralManager.APP_MAIN_WINDOW.StatusBarEncodeCb.SelectedValue = tabProperties.FileEncoding;
 
           SetToolTipDetailText();
         }), DispatcherPriority.Background);
       }
       else
       {
-        LogFile.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
+        CentralManager.APP_MAIN_WINDOW.Dispatcher.Invoke(new Action(() =>
         {
-          LogFile.APP_MAIN_WINDOW.StatusBarEncoding.Content = string.Empty;
-          LogFile.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Empty;
+          CentralManager.APP_MAIN_WINDOW.StatusBarEncoding.Content = string.Empty;
+          CentralManager.APP_MAIN_WINDOW.StatusBarLinesRead.Content = string.Empty;
 
           SetToolTipDetailText();
         }), DispatcherPriority.Background);
@@ -1214,11 +1214,11 @@ namespace Org.Vs.TailForWin.Template
     {
       if ( string.IsNullOrEmpty(tabProperties.File) )
       {
-        LogFile.APP_MAIN_WINDOW.ToolTipDetailText = string.Empty;
+        CentralManager.APP_MAIN_WINDOW.ToolTipDetailText = string.Empty;
         return;
       }
 
-      LogFile.APP_MAIN_WINDOW.ToolTipDetailText = tailWorker.IsBusy ? $"Tailing {tabProperties.File}" : $"Pause {tabProperties.File}";
+      CentralManager.APP_MAIN_WINDOW.ToolTipDetailText = tailWorker.IsBusy ? $"Tailing {tabProperties.File}" : $"Pause {tabProperties.File}";
     }
 
     #endregion
@@ -1240,10 +1240,10 @@ namespace Org.Vs.TailForWin.Template
       {
         try
         {
-          if ( LogFile.FmHelper.Any(p => p.ID.Equals(fileManagerProperties.ID)) )
+          if ( CentralManager.FmHelper.Any(p => p.ID.Equals(fileManagerProperties.ID)) )
           {
-            var itemToRemove = LogFile.FmHelper.FirstOrDefault(p => p.ID.Equals(fileManagerProperties.ID));
-            LogFile.FmHelper.Remove(itemToRemove);
+            var itemToRemove = CentralManager.FmHelper.FirstOrDefault(p => p.ID.Equals(fileManagerProperties.ID));
+            CentralManager.FmHelper.Remove(itemToRemove);
           }
         }
         catch ( ArgumentNullException ex )
@@ -1291,7 +1291,7 @@ namespace Org.Vs.TailForWin.Template
       }
       else
       {
-        childTabItem.Header = LogFile.TABBAR_CHILD_EMPTY_STRING;
+        childTabItem.Header = CentralManager.TABBAR_CHILD_EMPTY_STRING;
         btnFileManagerAdd.IsEnabled = false;
         btnShellOpen.IsEnabled = false;
         btnPrint.IsEnabled = false;
@@ -1393,7 +1393,7 @@ namespace Org.Vs.TailForWin.Template
 
       if ( tailWorker.IsBusy )
       {
-        var result = MessageBox.Show(Application.Current.FindResource("DragDropRunningWarning") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question);
+        var result = MessageBox.Show(Application.Current.FindResource("DragDropRunningWarning") as string, CentralManager.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question);
 
         if ( result == MessageBoxResult.Yes )
         {
@@ -1450,7 +1450,7 @@ namespace Org.Vs.TailForWin.Template
         alertTriggerData = alertTriggerEventArgs.GetData();
 
       if ( SettingsHelper.TailSettings.AlertSettings.BringToFront )
-        LogFile.BringMainWindowToFront();
+        CentralManager.BringMainWindowToFront();
 
       if ( SettingsHelper.TailSettings.AlertSettings.PopupWnd )
       {
@@ -1459,7 +1459,7 @@ namespace Org.Vs.TailForWin.Template
           PopUpAlert = tabProperties.File,
           PopUpAlertDetail = alertTriggerData.Message
         };
-        LogFile.APP_MAIN_WINDOW.MainWndTaskBarIcon.ShowCustomBalloon(alertPopUp, System.Windows.Controls.Primitives.PopupAnimation.Slide, 7000);
+        CentralManager.APP_MAIN_WINDOW.MainWndTaskBarIcon.ShowCustomBalloon(alertPopUp, System.Windows.Controls.Primitives.PopupAnimation.Slide, 7000);
       }
 
       if ( SettingsHelper.TailSettings.AlertSettings.PlaySoundFile )
@@ -1537,7 +1537,7 @@ namespace Org.Vs.TailForWin.Template
       if ( string.IsNullOrEmpty(currentFileName) )
         return false;
 
-      foreach ( TabItem item in LogFile.APP_MAIN_WINDOW.TabControl.Items ) // .TailTabItems)
+      foreach ( TabItem item in CentralManager.APP_MAIN_WINDOW.TabControl.Items ) // .TailTabItems)
       {
         if ( item.Content is Frame tabFrame )
         {

@@ -53,7 +53,7 @@ namespace Org.Vs.TailForWin.Controller
       flowDocument.ColumnWidth = flowDocument.PageWidth - flowDocument.ColumnGap - flowDocument.PagePadding.Left - flowDocument.PagePadding.Right;
 
       DocumentPaginator page = ((IDocumentPaginatorSource) flowDocument).DocumentPaginator;
-      printDialog.PrintDocument(page, $"{LogFile.APPLICATION_CAPTION} printing file {fileName}");
+      printDialog.PrintDocument(page, $"{CentralManager.APPLICATION_CAPTION} printing file {fileName}");
     }
 
     /// <summary>

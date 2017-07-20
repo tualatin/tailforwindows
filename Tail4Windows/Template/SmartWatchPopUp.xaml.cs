@@ -53,7 +53,7 @@ namespace Org.Vs.TailForWin.Template
     {
       try
       {
-        string message = string.Format(Application.Current.FindResource("SmartWatchHint").ToString(), NewFileOpen, LogFile.APPLICATION_CAPTION);
+        string message = string.Format(Application.Current.FindResource("SmartWatchHint").ToString(), NewFileOpen, CentralManager.APPLICATION_CAPTION);
         Regex regex = new Regex($"({NewFileOpen})", RegexOptions.IgnoreCase);
         string[] substrings = regex.Split(message);
 

@@ -155,7 +155,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnNew_Click(object sender, RoutedEventArgs e)
     {
-      if ( LogFile.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource("OpenFileDialog") as string) )
+      if ( CentralManager.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource("OpenFileDialog") as string) )
         AddNewFile(fName);
     }
 
@@ -195,7 +195,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnDelete_Click(object sender, RoutedEventArgs e)
     {
-      if ( MessageBox.Show(Application.Current.FindResource("QDeleteDataGridItem") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes )
+      if ( MessageBox.Show(Application.Current.FindResource("QDeleteDataGridItem") as string, CentralManager.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes )
         return;
 
       // int index = dataGridFiles.SelectedIndex;
@@ -326,14 +326,14 @@ namespace Org.Vs.TailForWin.Template
       else
         cvFmData.GroupDescriptions.Clear();
 
-      LogFile.Settings.SaveSettings();
+      CentralManager.Settings.SaveSettings();
     }
 
     private void btnFilters_Click(object sender, RoutedEventArgs e)
     {
       Filters filters = new Filters(fmWorkingProperties)
       {
-        Owner = LogFile.APP_MAIN_WINDOW
+        Owner = CentralManager.APP_MAIN_WINDOW
       };
 
       filters.SaveNow += SaveFilters;
@@ -424,7 +424,7 @@ namespace Org.Vs.TailForWin.Template
       if ( dataGridFiles.IsEnabled )
         return;
 
-      MessageBox.Show(Application.Current.FindResource("FileManagerCloseUnsaveItem") as string, LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+      MessageBox.Show(Application.Current.FindResource("FileManagerCloseUnsaveItem") as string, CentralManager.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
       e.Cancel = true;
     }
 
@@ -761,12 +761,12 @@ namespace Org.Vs.TailForWin.Template
 
       try
       {
-        var selectedThread = LogFile.ThreadPriority.SingleOrDefault(p => p.ThreadPriority == tp);
+        var selectedThread = CentralManager.ThreadPriority.SingleOrDefault(p => p.ThreadPriority == tp);
         comboBoxThreadPriority.SelectedItem = selectedThread;
       }
       catch
       {
-        comboBoxCategory.SelectedItem = LogFile.ThreadPriority[0];
+        comboBoxCategory.SelectedItem = CentralManager.ThreadPriority[0];
       }
 
       comboBoxRefreshRate.SelectedValue = rr;
@@ -782,11 +782,11 @@ namespace Org.Vs.TailForWin.Template
       // Get a reference to FileManagerData collection
       fmData = (FileManagerDataList) Resources["FileManagerData"];
 
-      if ( LogFile.FmHelper != null && LogFile.FmHelper.Count > 0 )
+      if ( CentralManager.FmHelper != null && CentralManager.FmHelper.Count > 0 )
       {
         fmDoc.FmProperties.ForEach(item =>
         {
-          FileManagerHelper f = LogFile.FmHelper.SingleOrDefault(x => x.ID == item.ID);
+          FileManagerHelper f = CentralManager.FmHelper.SingleOrDefault(x => x.ID == item.ID);
 
           if ( f != null )
             item.OpenFromFileManager = f.OpenFromFileManager;
@@ -808,9 +808,9 @@ namespace Org.Vs.TailForWin.Template
       SetAddSaveButton();
 
       comboBoxCategory.DataContext = fmDoc.Category;
-      comboBoxRefreshRate.DataContext = LogFile.RefreshRate;
-      comboBoxThreadPriority.DataContext = LogFile.ThreadPriority;
-      comboBoxFileEncode.DataContext = LogFile.FileEncoding;
+      comboBoxRefreshRate.DataContext = CentralManager.RefreshRate;
+      comboBoxThreadPriority.DataContext = CentralManager.ThreadPriority;
+      comboBoxFileEncode.DataContext = CentralManager.FileEncoding;
       comboBoxFileEncode.DisplayMemberPath = "HeaderName";
 
       RefreshCategoryComboBox();
@@ -893,14 +893,14 @@ namespace Org.Vs.TailForWin.Template
             OpenFromFileManager = locFmData.OpenFromFileManager
           };
 
-          if ( LogFile.FmHelper.Count > 0 )
+          if ( CentralManager.FmHelper.Count > 0 )
           {
             try
             {
-              FileManagerHelper item = LogFile.FmHelper.SingleOrDefault(x => x.ID == helper.ID);
+              FileManagerHelper item = CentralManager.FmHelper.SingleOrDefault(x => x.ID == helper.ID);
 
               if ( item == null )
-                LogFile.FmHelper.Add(helper);
+                CentralManager.FmHelper.Add(helper);
             }
             catch ( ArgumentNullException ex )
             {
@@ -909,7 +909,7 @@ namespace Org.Vs.TailForWin.Template
           }
           else
           {
-            LogFile.FmHelper.Add(helper);
+            CentralManager.FmHelper.Add(helper);
           }
 
           FileManagerDataEventArgs args = new FileManagerDataEventArgs(fmWorkingProperties);

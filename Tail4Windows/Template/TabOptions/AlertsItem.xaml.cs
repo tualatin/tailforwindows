@@ -51,7 +51,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         }
         else
         {
-          MessageBox.Show(Application.Current.FindResource("EMailAddressNotValid") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+          MessageBox.Show(Application.Current.FindResource("EMailAddressNotValid") as string, CentralManager.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
           watermarkTextBoxEMailAddress.Focus();
         }
       }
@@ -68,7 +68,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void btnOpenSoundFile_Click(object sender, RoutedEventArgs e)
     {
-      if ( LogFile.OpenFileLogDialog(out string fName, "MP3 (*.mp3)|*.mp3|Wave (*.wav)|*.wav|All files (*.*)|*.*", Application.Current.FindResource("SelectSoundFile") as string) )
+      if ( CentralManager.OpenFileLogDialog(out string fName, "MP3 (*.mp3)|*.mp3|Wave (*.wav)|*.wav|All files (*.*)|*.*", Application.Current.FindResource("SelectSoundFile") as string) )
         textBoxSoundFile.Text = fName;
     }
 
@@ -125,11 +125,11 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         string fileName = string.Format("{0}", ((string[]) text)[0]);
         string extension = System.IO.Path.GetExtension(fileName);
 
-        Regex regex = new Regex(LogFile.REGEX_SOUNDFILE_EXTENSION);
+        Regex regex = new Regex(CentralManager.REGEX_SOUNDFILE_EXTENSION);
 
         if ( !regex.IsMatch(extension) )
         {
-          MessageBox.Show(Application.Current.FindResource("NoSoundFile") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+          MessageBox.Show(Application.Current.FindResource("NoSoundFile") as string, CentralManager.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
           return;
         }
 

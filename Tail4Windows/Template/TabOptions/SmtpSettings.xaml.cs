@@ -31,7 +31,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       {
         if ( string.IsNullOrEmpty(watermarkTextBoxPort.Text) )
         {
-          MessageBox.Show(Application.Current.FindResource("SmtpPortNotValid") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+          MessageBox.Show(Application.Current.FindResource("SmtpPortNotValid") as string, CentralManager.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
           watermarkTextBoxPort.Focus();
         }
         else
@@ -43,7 +43,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
           }
           else
           {
-            MessageBox.Show(Application.Current.FindResource("EMailAddressNotValid") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(Application.Current.FindResource("EMailAddressNotValid") as string, CentralManager.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
             watermarkTextBoxFrom.Focus();
           }
         }
@@ -89,7 +89,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       DataContext = SettingsHelper.TailSettings.AlertSettings.SmtpSettings;
 
       if ( !string.IsNullOrEmpty(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password) )
-        textBoxPassword.Password = Utils.StringEncryption.Decrypt(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password, LogFile.ENCRYPT_PASSPHRASE);
+        textBoxPassword.Password = Utils.StringEncryption.Decrypt(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password, CentralManager.ENCRYPT_PASSPHRASE);
 
       if ( SettingsHelper.TailSettings.AlertSettings.SmtpSettings.SSL )
         comboBoxSecurity.SelectedIndex = 1;
@@ -136,7 +136,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         SettingsHelper.TailSettings.AlertSettings.SmtpSettings.LoginName = watermarkTextBoxUserName.Text;
 
       if ( textBoxPassword.Password.Length > 0 )
-        SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password = Utils.StringEncryption.Encrypt(textBoxPassword.Password, LogFile.ENCRYPT_PASSPHRASE);
+        SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password = Utils.StringEncryption.Encrypt(textBoxPassword.Password, CentralManager.ENCRYPT_PASSPHRASE);
 
       if ( watermarkTextBoxSubject.Text.Length > 0 )
         SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Subject = watermarkTextBoxSubject.Text;
@@ -162,7 +162,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         break;
       }
 
-      LogFile.Settings.SaveSettings();
+      CentralManager.Settings.SaveSettings();
     }
 
     #endregion

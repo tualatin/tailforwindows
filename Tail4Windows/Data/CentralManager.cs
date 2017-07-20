@@ -15,7 +15,7 @@ namespace Org.Vs.TailForWin.Data
   /// <summary>
   /// LogFile class
   /// </summary>
-  public static class LogFile
+  public static class CentralManager
   {
     /// <summary>
     /// Application caption

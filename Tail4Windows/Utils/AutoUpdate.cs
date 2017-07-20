@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.Utils
         };
 
         if ( !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password) )
-          updater.ProxyAuthentification = new System.Net.NetworkCredential(SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
+          updater.ProxyAuthentification = new System.Net.NetworkCredential(SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, CentralManager.ENCRYPT_PASSPHRASE));
 
         updater.InitWebService();
         updater.ThreadCompletedEvent += UpdateCompletedEvent;
@@ -71,7 +71,7 @@ namespace Org.Vs.TailForWin.Utils
           {
             Dispatcher.CurrentDispatcher.Invoke(new Action(() =>
             {
-              ResultDialog rd = new ResultDialog(LogFile.APPLICATION_CAPTION, updater.HaveToUpdate, updater.UpdateUrl)
+              ResultDialog rd = new ResultDialog(CentralManager.APPLICATION_CAPTION, updater.HaveToUpdate, updater.UpdateUrl)
               {
                 WebVersion = updater.WebVersion,
                 ApplicationVersion = updater.AppVersion,
@@ -93,7 +93,7 @@ namespace Org.Vs.TailForWin.Utils
             }), DispatcherPriority.Normal);
           })
           {
-            Name = $"{LogFile.APPLICATION_CAPTION}_AutoUpdateThread",
+            Name = $"{CentralManager.APPLICATION_CAPTION}_AutoUpdateThread",
             IsBackground = true
           };
 

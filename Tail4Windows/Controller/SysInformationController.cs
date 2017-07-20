@@ -36,7 +36,7 @@ namespace Org.Vs.TailForWin.Controller
 
       SysInformationData sysInfo = new SysInformationData
       {
-        ApplicationName = LogFile.APPLICATION_CAPTION,
+        ApplicationName = CentralManager.APPLICATION_CAPTION,
         BuildDateTime = buildDateTime,
         ApplicationVersion = Application.ProductVersion,
         MachineName = Environment.MachineName,

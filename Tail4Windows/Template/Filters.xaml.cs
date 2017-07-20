@@ -121,7 +121,7 @@ namespace Org.Vs.TailForWin.Template
     {
       var findResource = Application.Current.FindResource("QDeleteDataGridItem");
 
-      if ( findResource == null || MessageBox.Show(findResource.ToString(), LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo,
+      if ( findResource == null || MessageBox.Show(findResource.ToString(), CentralManager.APPLICATION_CAPTION, MessageBoxButton.YesNo,
             MessageBoxImage.Question, MessageBoxResult.No) != MessageBoxResult.Yes )
         return;
 
@@ -151,7 +151,7 @@ namespace Org.Vs.TailForWin.Template
         var findResource = Application.Current.FindResource("FilterNotEmpty");
 
         if ( findResource != null )
-          MessageBox.Show(findResource.ToString(), LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+          MessageBox.Show(findResource.ToString(), CentralManager.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
 
         e.Cancel = true;
       }

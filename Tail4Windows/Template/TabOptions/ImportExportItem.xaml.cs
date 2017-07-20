@@ -90,14 +90,14 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void btnImport_Click(object sender, RoutedEventArgs e)
     {
-      if ( !LogFile.OpenFileLogDialog(out string importSettings, "Export Settings (*export)|*.export",
+      if ( !CentralManager.OpenFileLogDialog(out string importSettings, "Export Settings (*export)|*.export",
                                     Application.Current.FindResource("OpenDialogImportSettings") as string) )
         return;
 
       if ( importSettings == null )
         return;
 
-      if ( MessageBox.Show(Application.Current.FindResource("QImportSettings") as string, LogFile.APPLICATION_CAPTION,
+      if ( MessageBox.Show(Application.Current.FindResource("QImportSettings") as string, CentralManager.APPLICATION_CAPTION,
                          MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes )
         return;
 
@@ -120,8 +120,8 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         output.Close();
         importFile.Close();
 
-        LogFile.Settings.ReloadSettings();
-        LogFile.Settings.ReadSettings();
+        CentralManager.Settings.ReloadSettings();
+        CentralManager.Settings.ReadSettings();
       }
       catch ( Exception ex )
       {

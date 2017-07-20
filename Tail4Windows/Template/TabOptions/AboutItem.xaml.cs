@@ -53,9 +53,9 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
       Assembly assembly = Assembly.GetExecutingAssembly();
       labelBuildDate.Content = BuildDate.GetBuildDateTime(assembly).ToString("dd.MM.yyyy HH:mm:ss");
-      labelAppName.Content = LogFile.APPLICATION_CAPTION;
+      labelAppName.Content = CentralManager.APPLICATION_CAPTION;
       labelVersion.Content = $"{assembly.GetName().Version} - {build} ({channel})";
-      updater.ApplicationName = LogFile.APPLICATION_CAPTION;
+      updater.ApplicationName = CentralManager.APPLICATION_CAPTION;
       updater.DataContext = SettingsHelper.TailSettings;
       checkBoxAutoUpdate.DataContext = SettingsHelper.TailSettings;
       lbCopyright.Content = $"{lbCopyright.Content} {DateTime.Now.Year}";
@@ -110,7 +110,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
       if ( !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password) )
-        updater.ProxyAuthentification = new System.Net.NetworkCredential(SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE));
+        updater.ProxyAuthentification = new System.Net.NetworkCredential(SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, CentralManager.ENCRYPT_PASSPHRASE));
 
       if ( !uptimeThread.IsBusy )
         uptimeThread.RunWorkerAsync();
@@ -132,7 +132,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     {
       while ( uptimeThread != null && !uptimeThread.CancellationPending )
       {
-        TimeSpan updTime = DateTime.Now.Subtract(LogFile.APP_MAIN_WINDOW.TfWUpTimeStart);
+        TimeSpan updTime = DateTime.Now.Subtract(CentralManager.APP_MAIN_WINDOW.TfWUpTimeStart);
 
         labelUptime.Dispatcher.Invoke(new Action(() =>
         {

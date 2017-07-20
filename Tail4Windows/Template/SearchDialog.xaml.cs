@@ -247,7 +247,7 @@ namespace Org.Vs.TailForWin.Template
       SettingsHelper.TailSettings.SearchWndXPos = Left;
       SettingsHelper.TailSettings.SearchWndYPos = Top;
 
-      LogFile.Settings.SaveSearchWindowPosition();
+      CentralManager.Settings.SaveSearchWindowPosition();
     }
 
     private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

@@ -243,7 +243,7 @@ namespace Org.Vs.TailForWin.Controller
       if ( !File.Exists(fmFile) )
       {
         System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("FileNotFound").ToString(),
-          $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+          $"{CentralManager.APPLICATION_CAPTION} - {CentralManager.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
         return null;
       }
@@ -251,7 +251,7 @@ namespace Org.Vs.TailForWin.Controller
       if ( fmProperties.Count == 0 )
       {
         System.Windows.MessageBox.Show(System.Windows.Application.Current.FindResource("NoContentFound").ToString(),
-          $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+          $"{CentralManager.APPLICATION_CAPTION} - {CentralManager.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
 
         return null;
       }
@@ -281,7 +281,7 @@ namespace Org.Vs.TailForWin.Controller
         if ( !reader.OpenTailFileStream(property.FileName) )
         {
           System.Windows.MessageBox.Show($"{System.Windows.Application.Current.FindResource("FileNotFound")} '{property.File}'",
-            $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            $"{CentralManager.APPLICATION_CAPTION} - {CentralManager.MSGBOX_ERROR}", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
           return;
         }
 
@@ -297,7 +297,7 @@ namespace Org.Vs.TailForWin.Controller
 
         if ( newNode == null )
         {
-          System.Windows.MessageBox.Show("Can not create new FileManager entry. Internal error, please try it again.", $"{LogFile.APPLICATION_CAPTION} - {LogFile.MSGBOX_ERROR}",
+          System.Windows.MessageBox.Show("Can not create new FileManager entry. Internal error, please try it again.", $"{CentralManager.APPLICATION_CAPTION} - {CentralManager.MSGBOX_ERROR}",
             System.Windows.MessageBoxButton.OK);
           return;
         }
@@ -732,7 +732,7 @@ namespace Org.Vs.TailForWin.Controller
     {
       Encoding encoding = null;
 
-      foreach ( Encoding encode in LogFile.FileEncoding )
+      foreach ( Encoding encode in CentralManager.FileEncoding )
       {
         if ( String.Compare(encode.HeaderName, sEncode, StringComparison.Ordinal) == 0 )
         {

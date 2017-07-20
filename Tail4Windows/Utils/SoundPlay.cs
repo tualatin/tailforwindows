@@ -30,7 +30,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns>If media file exists, returns true otherwise false</returns>
     public static bool InitSoundPlay(string soundFile)
     {
-      if ( string.Compare(soundFile, LogFile.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0 )
+      if ( string.Compare(soundFile, CentralManager.ALERT_SOUND_FILENAME, StringComparison.Ordinal) == 0 )
         return false;
       if ( !File.Exists(soundFile) )
         return false;

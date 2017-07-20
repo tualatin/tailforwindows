@@ -26,7 +26,7 @@ namespace Org.Vs.TailForWin.Converters
         if ( iValue > -1 )
           return iValue;
       }
-      return LogFile.UNLIMITED_LOG_LINE_VALUE;
+      return CentralManager.UNLIMITED_LOG_LINE_VALUE;
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ namespace Org.Vs.TailForWin.Converters
     {
       if ( value is double )
       {
-        if ( (double) value < LogFile.UNLIMITED_LOG_LINE_VALUE )
+        if ( (double) value < CentralManager.UNLIMITED_LOG_LINE_VALUE )
           return value;
       }
       return -1;

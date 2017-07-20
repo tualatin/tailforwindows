@@ -40,7 +40,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       InitializeComponent();
 
       PreviewKeyDown += HandleEsc;
-      sendToLnkName = $"{Environment.GetFolderPath(Environment.SpecialFolder.SendTo)}\\{LogFile.APPLICATION_CAPTION}.lnk";
+      sendToLnkName = $"{Environment.GetFolderPath(Environment.SpecialFolder.SendTo)}\\{CentralManager.APPLICATION_CAPTION}.lnk";
 
       Rename_BtnSendTo();
       SetComboBoxes();
@@ -77,7 +77,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
                          MessageBoxImage.Question) != MessageBoxResult.Yes )
         return;
 
-      LogFile.Settings.SetToDefault();
+      CentralManager.Settings.SetToDefault();
       SetControls();
     }
 
@@ -102,7 +102,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         }
         else
         {
-          string message = string.Format(Application.Current.FindResource("QAddSendTo").ToString(), LogFile.APPLICATION_CAPTION);
+          string message = string.Format(Application.Current.FindResource("QAddSendTo").ToString(), CentralManager.APPLICATION_CAPTION);
 
           if ( MessageBox.Show(message, Application.Current.FindResource("Question") as string, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No )
             return;
@@ -197,8 +197,8 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void SetComboBoxes()
     {
-      comboBoxThreadPriority.DataContext = LogFile.ThreadPriority;
-      comboBoxThreadRefreshRate.DataContext = LogFile.RefreshRate;
+      comboBoxThreadPriority.DataContext = CentralManager.ThreadPriority;
+      comboBoxThreadRefreshRate.DataContext = CentralManager.RefreshRate;
 
       foreach ( ETimeFormat timeFormat in Enum.GetValues(typeof(ETimeFormat)) )
       {

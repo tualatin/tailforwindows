@@ -106,8 +106,8 @@ namespace Org.Vs.NUnit.Tests
 
       Assert.AreNotEqual(10, SettingsHelper.TailSettings.LinesRead);
       Assert.AreNotEqual(System.Windows.WindowState.Maximized, SettingsHelper.TailSettings.CurrentWindowState);
-      Assert.AreNotEqual(LogFile.DEFAULT_FOREGROUND_COLOR, SettingsHelper.TailSettings.DefaultForegroundColor);
-      Assert.AreNotEqual(LogFile.DEFAULT_BACKGROUND_COLOR, SettingsHelper.TailSettings.DefaultBackgroundColor);
+      Assert.AreNotEqual(CentralManager.DEFAULT_FOREGROUND_COLOR, SettingsHelper.TailSettings.DefaultForegroundColor);
+      Assert.AreNotEqual(CentralManager.DEFAULT_BACKGROUND_COLOR, SettingsHelper.TailSettings.DefaultBackgroundColor);
       Assert.AreNotEqual("user", SettingsHelper.TailSettings.ProxySettings.UserName);
     }
 
@@ -165,14 +165,14 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(System.Windows.WindowState.Normal, SettingsHelper.TailSettings.CurrentWindowState);
       Assert.AreEqual(EWindowStyle.ModernBlueWindowStyle, SettingsHelper.TailSettings.CurrentWindowStyle);
 
-      Assert.AreEqual(LogFile.DEFAULT_BACKGROUND_COLOR, SettingsHelper.TailSettings.DefaultBackgroundColor);
-      Assert.AreEqual(LogFile.DEFAULT_FOREGROUND_COLOR, SettingsHelper.TailSettings.DefaultForegroundColor);
-      Assert.AreEqual(LogFile.DEFAULT_INACTIVE_BACKGROUND_COLOR, SettingsHelper.TailSettings.DefaultInactiveBackgroundColor);
-      Assert.AreEqual(LogFile.DEFAULT_INACTIVE_FOREGROUND_COLOR, SettingsHelper.TailSettings.DefaultInactiveForegroundColor);
-      Assert.AreEqual(LogFile.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR, SettingsHelper.TailSettings.DefaultHighlightBackgroundColor);
-      Assert.AreEqual(LogFile.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR, SettingsHelper.TailSettings.DefaultHighlightForegroundColor);
-      Assert.AreEqual(LogFile.DEFAULT_LINE_NUMBERS_COLOR, SettingsHelper.TailSettings.DefaultLineNumbersColor);
-      Assert.AreEqual(LogFile.DEFAULT_HIGHLIGHT_COLOR, SettingsHelper.TailSettings.DefaultHighlightColor);
+      Assert.AreEqual(CentralManager.DEFAULT_BACKGROUND_COLOR, SettingsHelper.TailSettings.DefaultBackgroundColor);
+      Assert.AreEqual(CentralManager.DEFAULT_FOREGROUND_COLOR, SettingsHelper.TailSettings.DefaultForegroundColor);
+      Assert.AreEqual(CentralManager.DEFAULT_INACTIVE_BACKGROUND_COLOR, SettingsHelper.TailSettings.DefaultInactiveBackgroundColor);
+      Assert.AreEqual(CentralManager.DEFAULT_INACTIVE_FOREGROUND_COLOR, SettingsHelper.TailSettings.DefaultInactiveForegroundColor);
+      Assert.AreEqual(CentralManager.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR, SettingsHelper.TailSettings.DefaultHighlightBackgroundColor);
+      Assert.AreEqual(CentralManager.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR, SettingsHelper.TailSettings.DefaultHighlightForegroundColor);
+      Assert.AreEqual(CentralManager.DEFAULT_LINE_NUMBERS_COLOR, SettingsHelper.TailSettings.DefaultLineNumbersColor);
+      Assert.AreEqual(CentralManager.DEFAULT_HIGHLIGHT_COLOR, SettingsHelper.TailSettings.DefaultHighlightColor);
     }
   }
 }

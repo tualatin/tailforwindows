@@ -8,32 +8,32 @@ namespace Org.Vs.TailForWin.Converters
   /// <summary>
   /// ColorToBrushConverter
   /// </summary>
-  class ColorToBrushConverter : IValueConverter
+  public class ColorToBrushConverter : IValueConverter
   {
     #region IValueConverter Members
 
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if ( value is System.Drawing.Color )
+      if ( !(value is System.Drawing.Color) )
+        return null;
+
+      int num;
+
+      if ( !int.TryParse(((System.Drawing.Color) value).Name, out num) )
       {
-        int num;
+        var convertFromString = ColorConverter.ConvertFromString(((System.Drawing.Color) value).Name);
 
-        if ( !int.TryParse(((System.Drawing.Color) value).Name, out num) )
+        if ( convertFromString != null )
         {
-          var convertFromString = ColorConverter.ConvertFromString(((System.Drawing.Color) value).Name);
+          Color mediaColor = (Color) convertFromString;
+          Brush brush = new SolidColorBrush(mediaColor);
 
-          if ( convertFromString != null )
-          {
-            Color mediaColor = (Color) convertFromString;
-            Brush brush = new SolidColorBrush(mediaColor);
-
-            return brush;
-          }
+          return brush;
         }
-        else
-        {
-          return null;
-        }
+      }
+      else
+      {
+        return null;
       }
       return null;
     }

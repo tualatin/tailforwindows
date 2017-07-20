@@ -76,7 +76,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       if ( changedWndStyle )
       {
         var hintText = FindResource("WndStyleChanged");
-        MessageBox.Show(string.Format(hintText.ToString(), LogFile.APPLICATION_CAPTION), LogFile.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
+        MessageBox.Show(string.Format(hintText.ToString(), CentralManager.APPLICATION_CAPTION), CentralManager.APPLICATION_CAPTION, MessageBoxButton.OK, MessageBoxImage.Information);
       }
 
       SaveSettings?.Invoke(this, EventArgs.Empty);
@@ -135,7 +135,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       if ( !IsInitialized )
         return;
 
-      var value = e.NewValue == LogFile.UNLIMITED_LOG_LINE_VALUE ? "Unlimited" : $"{e.NewValue:N0} lines";
+      var value = e.NewValue == CentralManager.UNLIMITED_LOG_LINE_VALUE ? "Unlimited" : $"{e.NewValue:N0} lines";
       LblSliderValue.Content = value;
       e.Handled = true;
     }
@@ -147,7 +147,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
       ComboBoxFileSort.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultFileSort);
       ComboBoxWindowStyle.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.CurrentWindowStyle);
       ComboBoxSmartWatchMode.SelectedItem = SettingsData.GetEnumDescription(SettingsHelper.TailSettings.SmartWatchData.Mode);
-      LblSliderValue.Content = SliderLogLineLimit.Value == LogFile.UNLIMITED_LOG_LINE_VALUE ? "Unlimited" : $"{SliderLogLineLimit.Value.ToString("N0")} lines";
+      LblSliderValue.Content = SliderLogLineLimit.Value == CentralManager.UNLIMITED_LOG_LINE_VALUE ? "Unlimited" : $"{SliderLogLineLimit.Value.ToString("N0")} lines";
     }
 
     private void AddItemsToFileSortComboBox()

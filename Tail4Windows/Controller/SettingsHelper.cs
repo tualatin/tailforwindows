@@ -229,14 +229,14 @@ namespace Org.Vs.TailForWin.Controller
       TailSettings.ExitWithEscape = false;
       TailSettings.DefaultTimeFormat = ETimeFormat.HHMMD;
       TailSettings.DefaultDateFormat = EDateFormat.DDMMYYYY;
-      TailSettings.DefaultBackgroundColor = LogFile.DEFAULT_BACKGROUND_COLOR;
-      TailSettings.DefaultForegroundColor = LogFile.DEFAULT_FOREGROUND_COLOR;
-      TailSettings.DefaultInactiveForegroundColor = LogFile.DEFAULT_INACTIVE_FOREGROUND_COLOR;
-      TailSettings.DefaultInactiveBackgroundColor = LogFile.DEFAULT_INACTIVE_BACKGROUND_COLOR;
-      TailSettings.DefaultHighlightForegroundColor = LogFile.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR;
-      TailSettings.DefaultHighlightBackgroundColor = LogFile.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR;
-      TailSettings.DefaultLineNumbersColor = LogFile.DEFAULT_LINE_NUMBERS_COLOR;
-      TailSettings.DefaultHighlightColor = LogFile.DEFAULT_HIGHLIGHT_COLOR;
+      TailSettings.DefaultBackgroundColor = CentralManager.DEFAULT_BACKGROUND_COLOR;
+      TailSettings.DefaultForegroundColor = CentralManager.DEFAULT_FOREGROUND_COLOR;
+      TailSettings.DefaultInactiveForegroundColor = CentralManager.DEFAULT_INACTIVE_FOREGROUND_COLOR;
+      TailSettings.DefaultInactiveBackgroundColor = CentralManager.DEFAULT_INACTIVE_BACKGROUND_COLOR;
+      TailSettings.DefaultHighlightForegroundColor = CentralManager.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR;
+      TailSettings.DefaultHighlightBackgroundColor = CentralManager.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR;
+      TailSettings.DefaultLineNumbersColor = CentralManager.DEFAULT_LINE_NUMBERS_COLOR;
+      TailSettings.DefaultHighlightColor = CentralManager.DEFAULT_HIGHLIGHT_COLOR;
       TailSettings.SearchWndXPos = -1;
       TailSettings.SearchWndYPos = -1;
       TailSettings.DefaultFileSort = EFileSort.Nothing;
@@ -316,8 +316,8 @@ namespace Org.Vs.TailForWin.Controller
       TailSettings.AlertSettings.BringToFront = true;
       TailSettings.AlertSettings.SendEMail = false;
       TailSettings.AlertSettings.PlaySoundFile = false;
-      TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
-      TailSettings.AlertSettings.EMailAddress = LogFile.ALERT_EMAIL_ADDRESS;
+      TailSettings.AlertSettings.SoundFileNameFullPath = CentralManager.ALERT_SOUND_FILENAME;
+      TailSettings.AlertSettings.EMailAddress = CentralManager.ALERT_EMAIL_ADDRESS;
       TailSettings.AlertSettings.PopupWnd = false;
     }
 
@@ -449,7 +449,7 @@ namespace Org.Vs.TailForWin.Controller
         ParseSoundFileName(GetStringFromSetting("Alert.SoundFile"));
 
         string strSetting = GetStringFromSetting("Alert.EMailAddress");
-        TailSettings.AlertSettings.EMailAddress = ParseEMailAddress(strSetting) ? strSetting : LogFile.ALERT_EMAIL_ADDRESS;
+        TailSettings.AlertSettings.EMailAddress = ParseEMailAddress(strSetting) ? strSetting : CentralManager.ALERT_EMAIL_ADDRESS;
 
       }
       catch ( ConfigurationErrorsException ex )
@@ -634,42 +634,42 @@ namespace Org.Vs.TailForWin.Controller
       {
       case ETailLogColorTypes.BackgroundColor:
 
-        TailSettings.DefaultBackgroundColor = !matched ? LogFile.DEFAULT_BACKGROUND_COLOR : s;
+        TailSettings.DefaultBackgroundColor = !matched ? CentralManager.DEFAULT_BACKGROUND_COLOR : s;
         break;
 
       case ETailLogColorTypes.ForegroundColor:
 
-        TailSettings.DefaultForegroundColor = !matched ? LogFile.DEFAULT_FOREGROUND_COLOR : s;
+        TailSettings.DefaultForegroundColor = !matched ? CentralManager.DEFAULT_FOREGROUND_COLOR : s;
         break;
 
       case ETailLogColorTypes.InactiveForegroundColor:
 
-        TailSettings.DefaultInactiveForegroundColor = !matched ? LogFile.DEFAULT_INACTIVE_FOREGROUND_COLOR : s;
+        TailSettings.DefaultInactiveForegroundColor = !matched ? CentralManager.DEFAULT_INACTIVE_FOREGROUND_COLOR : s;
         break;
 
       case ETailLogColorTypes.InactiveBackgroundColor:
 
-        TailSettings.DefaultInactiveBackgroundColor = !matched ? LogFile.DEFAULT_INACTIVE_BACKGROUND_COLOR : s;
+        TailSettings.DefaultInactiveBackgroundColor = !matched ? CentralManager.DEFAULT_INACTIVE_BACKGROUND_COLOR : s;
         break;
 
       case ETailLogColorTypes.FindHighlightForegroundColor:
 
-        TailSettings.DefaultHighlightForegroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR : s;
+        TailSettings.DefaultHighlightForegroundColor = !matched ? CentralManager.DEFAULT_FIND_HIGHLIGHT_FOREGROUND_COLOR : s;
         break;
 
       case ETailLogColorTypes.FindHighlightBackgroundColor:
 
-        TailSettings.DefaultHighlightBackgroundColor = !matched ? LogFile.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR : s;
+        TailSettings.DefaultHighlightBackgroundColor = !matched ? CentralManager.DEFAULT_FIND_HIGHLIGHT_BACKGROUND_COLOR : s;
         break;
 
       case ETailLogColorTypes.LineNumbersColor:
 
-        TailSettings.DefaultLineNumbersColor = !matched ? LogFile.DEFAULT_LINE_NUMBERS_COLOR : s;
+        TailSettings.DefaultLineNumbersColor = !matched ? CentralManager.DEFAULT_LINE_NUMBERS_COLOR : s;
         break;
 
       case ETailLogColorTypes.HighlightColor:
 
-        TailSettings.DefaultHighlightColor = !matched ? LogFile.DEFAULT_HIGHLIGHT_COLOR : s;
+        TailSettings.DefaultHighlightColor = !matched ? CentralManager.DEFAULT_HIGHLIGHT_COLOR : s;
         break;
 
       default:
@@ -705,7 +705,7 @@ namespace Org.Vs.TailForWin.Controller
     /// <returns>true if is correct, false if is not valid</returns>
     public static bool ParseEMailAddress(string emailAddress)
     {
-      Regex regex = new Regex(LogFile.REGEX_EMAIL_ADDRESS);
+      Regex regex = new Regex(CentralManager.REGEX_EMAIL_ADDRESS);
 
       return regex.IsMatch(emailAddress);
     }
@@ -718,27 +718,27 @@ namespace Org.Vs.TailForWin.Controller
 
       if ( fileName != null && fileName.Length < 3 )
       {
-        TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
+        TailSettings.AlertSettings.SoundFileNameFullPath = CentralManager.ALERT_SOUND_FILENAME;
         return;
       }
 
       if ( fileName != null && fileName.Length > 128 )
       {
-        TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
+        TailSettings.AlertSettings.SoundFileNameFullPath = CentralManager.ALERT_SOUND_FILENAME;
         return;
       }
 
       if ( reserved.Any(c => fileName != null && fileName.Contains(c.ToString(CultureInfo.InvariantCulture))) )
       {
-        TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
+        TailSettings.AlertSettings.SoundFileNameFullPath = CentralManager.ALERT_SOUND_FILENAME;
         return;
       }
 
-      Regex regex = new Regex(LogFile.REGEX_SOUNDFILE_EXTENSION);
+      Regex regex = new Regex(CentralManager.REGEX_SOUNDFILE_EXTENSION);
 
       if ( extension != null && !regex.IsMatch(extension) )
       {
-        TailSettings.AlertSettings.SoundFileNameFullPath = LogFile.ALERT_SOUND_FILENAME;
+        TailSettings.AlertSettings.SoundFileNameFullPath = CentralManager.ALERT_SOUND_FILENAME;
         return;
       }
 

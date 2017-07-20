@@ -73,7 +73,7 @@ namespace Org.Vs.TailForWin.Utils
           Timeout = 30000,
           DeliveryMethod = SmtpDeliveryMethod.Network
         };
-        string decryptPassword = StringEncryption.Decrypt(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password, LogFile.ENCRYPT_PASSPHRASE);
+        string decryptPassword = StringEncryption.Decrypt(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.Password, CentralManager.ENCRYPT_PASSPHRASE);
         NetworkCredential authInfo = new NetworkCredential(SettingsHelper.TailSettings.AlertSettings.SmtpSettings.LoginName, decryptPassword);
         mailClient.Credentials = authInfo;
         mailClient.SendCompleted += SendCompleted;
@@ -105,7 +105,7 @@ namespace Org.Vs.TailForWin.Utils
       }
       catch ( Exception ex )
       {
-        MessageBox.Show(Application.Current.FindResource("SmtpSettingsNotValid") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show(Application.Current.FindResource("SmtpSettingsNotValid") as string, CentralManager.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
@@ -128,7 +128,7 @@ namespace Org.Vs.TailForWin.Utils
           mailMessage.Body = bodyMessage;
 
         if ( string.Compare(userState, "testMessage", StringComparison.Ordinal) == 0 )
-          mailMessage.Body = $"Testmail from {LogFile.APPLICATION_CAPTION}";
+          mailMessage.Body = $"Testmail from {CentralManager.APPLICATION_CAPTION}";
 
         if ( !EMailTimer.Enabled )
         {
@@ -148,7 +148,7 @@ namespace Org.Vs.TailForWin.Utils
       }
       catch ( Exception ex )
       {
-        MessageBox.Show(Application.Current.FindResource("MailCannotSend") as string, LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show(Application.Current.FindResource("MailCannotSend") as string, CentralManager.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
@@ -173,13 +173,13 @@ namespace Org.Vs.TailForWin.Utils
 
       if ( e.Cancelled )
       {
-        MessageBox.Show($"{Application.Current.FindResource("MailCannotSend")}\n\"{token}\"", LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show($"{Application.Current.FindResource("MailCannotSend")}\n\"{token}\"", CentralManager.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
         SendMailComplete?.Invoke(sender, EventArgs.Empty);
 
         return;
       }
 
-      MessageBox.Show(e.Error != null ? $"{e.Error}\n{token}" : "Complete!", LogFile.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+      MessageBox.Show(e.Error != null ? $"{e.Error}\n{token}" : "Complete!", CentralManager.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
       SendMailComplete?.Invoke(sender, EventArgs.Empty);
     }
 

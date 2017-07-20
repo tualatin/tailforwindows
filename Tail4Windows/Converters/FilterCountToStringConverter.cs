@@ -24,14 +24,13 @@ namespace Org.Vs.TailForWin.Converters
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if ( value != null )
-      {
-        int count = ((ObservableCollection<FilterData>) value).Count;
-        string title = count == 1 ? Application.Current.FindResource("FilterLoaded").ToString() : Application.Current.FindResource("FiltersLoaded").ToString();
+      if ( value == null )
+        return string.Format(Application.Current.FindResource("FiltersLoaded").ToString(), 0);
 
-        return string.Format(title, count);
-      }
-      return string.Format(Application.Current.FindResource("FiltersLoaded").ToString(), 0);
+      int count = ((ObservableCollection<FilterData>) value).Count;
+      string title = count == 1 ? Application.Current.FindResource("FilterLoaded").ToString() : Application.Current.FindResource("FiltersLoaded").ToString();
+
+      return $"{title} {count}";
     }
 
     /// <summary>

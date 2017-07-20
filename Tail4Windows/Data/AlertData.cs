@@ -23,10 +23,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool BringToFront
     {
-      get
-      {
-        return bringToFront;
-      }
+      get => bringToFront;
       set
       {
         bringToFront = value;
@@ -41,10 +38,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool PopupWnd
     {
-      get
-      {
-        return popupWnd;
-      }
+      get => popupWnd;
       set
       {
         popupWnd = value;
@@ -59,10 +53,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool PlaySoundFile
     {
-      get
-      {
-        return playSoundFile;
-      }
+      get => playSoundFile;
       set
       {
         playSoundFile = value;
@@ -77,10 +68,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public bool SendEMail
     {
-      get
-      {
-        return sendEMail;
-      }
+      get => sendEMail;
       set
       {
         sendEMail = value;
@@ -95,10 +83,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string SoundFileNameFullPath
     {
-      get
-      {
-        return soundFileNameFullPath;
-      }
+      get => soundFileNameFullPath;
       set
       {
         soundFileNameFullPath = value;
@@ -114,10 +99,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string SoundFileName
     {
-      get
-      {
-        return soundFileName;
-      }
+      get => soundFileName;
       set
       {
         soundFileName = value;
@@ -132,10 +114,7 @@ namespace Org.Vs.TailForWin.Data
     /// </summary>
     public string EMailAddress
     {
-      get
-      {
-        return emailAddress;
-      }
+      get => emailAddress;
       set
       {
         emailAddress = value;

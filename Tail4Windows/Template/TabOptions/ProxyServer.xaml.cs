@@ -57,7 +57,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
     private void SaveSettings()
     {
       if ( textBoxPassword.Password.Length > 0 )
-        SettingsHelper.TailSettings.ProxySettings.Password = StringEncryption.Encrypt(textBoxPassword.Password, LogFile.ENCRYPT_PASSPHRASE);
+        SettingsHelper.TailSettings.ProxySettings.Password = StringEncryption.Encrypt(textBoxPassword.Password, CentralManager.ENCRYPT_PASSPHRASE);
       if ( watermarkTextBoxUserName.Text.Length > 0 )
         SettingsHelper.TailSettings.ProxySettings.UserName = watermarkTextBoxUserName.Text;
       if ( watermarkTextBoxUrl.Text.Length > 0 )
@@ -80,7 +80,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         SettingsHelper.TailSettings.ProxySettings.ProxyPort = -1;
       }
 
-      LogFile.Settings.SaveSettings();
+      CentralManager.Settings.SaveSettings();
     }
 
     private void InitRadios()
@@ -91,7 +91,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         radioButtonNoProxy.IsChecked = false;
 
       if ( !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password) )
-        textBoxPassword.Password = StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, LogFile.ENCRYPT_PASSPHRASE);
+        textBoxPassword.Password = StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, CentralManager.ENCRYPT_PASSPHRASE);
     }
 
     private void SelectAllText(WatermarkTextBox.WatermarkTextBox textBox)
