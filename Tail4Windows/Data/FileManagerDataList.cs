@@ -20,17 +20,16 @@ namespace Org.Vs.TailForWin.Data
     /// <returns>Compareable result</returns>
     public int Compare(object x, object y)
     {
-      if ( x is FileManagerData && y is FileManagerData )
-      {
-        var xFm = x as FileManagerData;
-        var yFm = y as FileManagerData;
+      if ( !(x is FileManagerData) || !(y is FileManagerData) )
+        return 1;
 
-        DateTime nx = xFm.FileCreationTime ?? DateTime.MaxValue;
-        DateTime ny = yFm.FileCreationTime ?? DateTime.MaxValue;
+      var xFm = (FileManagerData) x;
+      var yFm = (FileManagerData) y;
 
-        return -nx.CompareTo(ny);
-      }
-      return 1;
+      DateTime nx = xFm.FileCreationTime ?? DateTime.MaxValue;
+      DateTime ny = yFm.FileCreationTime ?? DateTime.MaxValue;
+
+      return -nx.CompareTo(ny);
     }
   }
 }

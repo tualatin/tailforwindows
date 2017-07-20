@@ -209,18 +209,18 @@ namespace Org.Vs.TailForWin.UI
     /// <param name="e">Arguments</param>
     public void FileManagerTab(object sender, EventArgs e)
     {
-      if ( e is FileManagerDataEventArgs properties )
-      {
-        FileManagerData item = properties.GetData();
+      if ( !(e is FileManagerDataEventArgs properties) )
+        return;
 
-        if ( item == null )
-          return;
+      FileManagerData item = properties.GetData();
 
-        AddTabItem(item);
+      if ( item == null )
+        return;
 
-        if ( tabControl.Items[tabControl.Items.Count - 3] is TabItem tab && tab.Header.Equals(Application.Current.FindResource("NoFile").ToString()) )
-          RemoveTabItem(tab);
-      }
+      AddTabItem(item);
+
+      if ( tabControl.Items[tabControl.Items.Count - 3] is TabItem tab && tab.Header.Equals(Application.Current.FindResource("NoFile").ToString()) )
+        RemoveTabItem(tab);
     }
 
     /// <summary>
@@ -262,11 +262,11 @@ namespace Org.Vs.TailForWin.UI
 
     private void TabAdd_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      if ( sender is TailForWinTabItem tabItem )
-      {
-        if ( tabItem.Equals(tabAdd) )
-          AddTabItem();
-      }
+      if ( !(sender is TailForWinTabItem tabItem) )
+        return;
+
+      if ( tabItem.Equals(tabAdd) )
+        AddTabItem();
     }
 
     private void TabControl_Drop(object sender, DragEventArgs e)
@@ -462,24 +462,24 @@ namespace Org.Vs.TailForWin.UI
 
     private void OnContentRendered(object sender, EventArgs e)
     {
-      if ( sender is Frame frame )
-      {
-        TailLog page = frame.Content as TailLog;
+      if ( !(sender is Frame frame) )
+        return;
 
-        if ( page == null )
-          return;
+      TailLog page = frame.Content as TailLog;
 
-        currentPage = page;
-        TabItemUpdateParent(page);
+      if ( page == null )
+        return;
 
-        if ( !string.IsNullOrEmpty(parameterFileName) )
-        {
-          currentPage.OpenFileFromParameter(parameterFileName);
+      currentPage = page;
+      TabItemUpdateParent(page);
 
-          // after opens file name from parameter, reset parameterFileName
-          parameterFileName = string.Empty;
-        }
-      }
+      if ( string.IsNullOrEmpty(parameterFileName) )
+        return;
+
+      currentPage.OpenFileFromParameter(parameterFileName);
+
+      // after opens file name from parameter, reset parameterFileName
+      parameterFileName = string.Empty;
     }
 
     private void CbStsEncoding_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -577,40 +577,40 @@ namespace Org.Vs.TailForWin.UI
     /// <param name="tabItem">Item to remove</param>
     public void RemoveTabItem(TabItem tabItem)
     {
-      if ( tabControl.Items.Contains(tabItem) )
+      if ( !tabControl.Items.Contains(tabItem) )
+        return;
+
+      TailLog page = GetTailLogWindow(tabItem.Content as Frame);
+
+      try
       {
-        TailLog page = GetTailLogWindow(tabItem.Content as Frame);
-
-        try
+        if ( page != null )
         {
-          if ( page != null )
+          if ( page.IsThreadBusy )
           {
-            if ( page.IsThreadBusy )
-            {
-              if ( MessageBox.Show($"{Application.Current.FindResource("QRemoveTab")} '{tabItem.Header}'?", LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.No )
-                return;
-            }
-
-            FileManagerHelper item = LogFile.FmHelper.SingleOrDefault(x => x.ID == page.FileManagerProperties.ID);
-
-            if ( item != null )
-              LogFile.FmHelper.Remove(item);
-
-            page.Dispose();
+            if ( MessageBox.Show($"{Application.Current.FindResource("QRemoveTab")} '{tabItem.Header}'?", LogFile.APPLICATION_CAPTION, MessageBoxButton.YesNo) == MessageBoxResult.No )
+              return;
           }
-        }
-        catch ( ArgumentNullException ex )
-        {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        }
 
-        ((TailForWinTabItem) tabItem).TabHeaderDoubleClick -= TabItem_TabHeaderDoubleClick;
-        ((TailForWinTabItem) tabItem).CloseTabWindow -= TabItem_CloseTabWindow;
-        tabControl.Items.Remove(tabItem);
+          FileManagerHelper item = LogFile.FmHelper.SingleOrDefault(x => x.ID == page.FileManagerProperties.ID);
 
-        if ( tabControl.Items.Count < 2 )
-          AddTabItem();
+          if ( item != null )
+            LogFile.FmHelper.Remove(item);
+
+          page.Dispose();
+        }
       }
+      catch ( ArgumentNullException ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+
+      ((TailForWinTabItem) tabItem).TabHeaderDoubleClick -= TabItem_TabHeaderDoubleClick;
+      ((TailForWinTabItem) tabItem).CloseTabWindow -= TabItem_CloseTabWindow;
+      tabControl.Items.Remove(tabItem);
+
+      if ( tabControl.Items.Count < 2 )
+        AddTabItem();
     }
 
     #endregion
@@ -713,6 +713,13 @@ namespace Org.Vs.TailForWin.UI
 
         MainWindow.Style = (Style) FindResource("Tail4WindowStyle");
         break;
+
+      case EWindowStyle.DefaultWindowStyle:
+
+        break;
+
+      default:
+        throw new ArgumentOutOfRangeException();
       }
 
       tbIcon.ToolTipText = Application.Current.FindResource("TrayIconReady") as string;
