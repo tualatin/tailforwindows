@@ -120,8 +120,8 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         output.Close();
         importFile.Close();
 
-        CentralManager.Settings.ReloadSettings();
-        CentralManager.Settings.ReadSettings();
+        CentralManager.Instance().ReloadSettings();
+        CentralManager.Instance().ReadSettings();
       }
       catch ( Exception ex )
       {

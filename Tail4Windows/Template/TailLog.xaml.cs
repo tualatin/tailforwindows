@@ -433,7 +433,7 @@ namespace Org.Vs.TailForWin.Template
               }
               catch ( ArgumentException )
               {
-                MessageBox.Show(Application.Current.FindResource("SmartWatchCanNotStart").ToString(), CentralManager.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Application.Current.FindResource("SmartWatchCanNotStart")?.ToString(), CentralManager.MSGBOX_ERROR, MessageBoxButton.OK, MessageBoxImage.Error);
               }
             }
 
@@ -447,7 +447,7 @@ namespace Org.Vs.TailForWin.Template
         else
         {
           LOG.Info("{0} file not found '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, tabProperties.FileName);
-          MessageBox.Show(Application.Current.FindResource("FileNotFound").ToString(), $"{CentralManager.APPLICATION_CAPTION} - {CentralManager.MSGBOX_ERROR}", MessageBoxButton.OK,
+          MessageBox.Show(Application.Current.FindResource("FileNotFound")?.ToString(), $"{CentralManager.APPLICATION_CAPTION} - {CentralManager.MSGBOX_ERROR}", MessageBoxButton.OK,
             MessageBoxImage.Error);
         }
       }
@@ -473,9 +473,17 @@ namespace Org.Vs.TailForWin.Template
     private void btnPrint_Click(object sender, RoutedEventArgs e)
     {
       if ( checkBoxTimestamp.IsChecked != null && !(bool) checkBoxTimestamp.IsChecked )
-        new PrintHelper(textBlockTailLog.LogEntries, tabProperties.File);
+      {
+        using ( var printHelper = new PrintHelper(textBlockTailLog.LogEntries, tabProperties.File) )
+        {
+        }
+      }
       else
-        new PrintHelper(textBlockTailLog.LogEntries, tabProperties.File, true, StringFormatData.StringFormat);
+      {
+        using ( var printHelper = new PrintHelper(textBlockTailLog.LogEntries, tabProperties.File, true, StringFormatData.StringFormat) )
+        {
+        }
+      }
     }
 
     /// <summary>
@@ -486,7 +494,7 @@ namespace Org.Vs.TailForWin.Template
     public void btnOpenFile_Click(object sender, RoutedEventArgs e)
     {
       if ( !CentralManager.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*",
-        Application.Current.FindResource("OpenFileDialog").ToString()) )
+        Application.Current.FindResource("OpenFileDialog")?.ToString()) )
       {
         return;
       }
@@ -779,7 +787,7 @@ namespace Org.Vs.TailForWin.Template
       }
       catch ( ObjectDisposedException ex )
       {
-        MessageBox.Show(Application.Current.FindResource("FileObjectDisposedException").ToString(), $"{CentralManager.APPLICATION_CAPTION} - {CentralManager.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
+        MessageBox.Show(Application.Current.FindResource("FileObjectDisposedException")?.ToString(), $"{CentralManager.APPLICATION_CAPTION} - {CentralManager.MSGBOX_ERROR}", MessageBoxButton.OK, MessageBoxImage.Error);
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         StopThread();
       }
@@ -944,47 +952,51 @@ namespace Org.Vs.TailForWin.Template
 
     private void SmartWatchFilesChanged(object sender, string file)
     {
-      if ( sender is SmartWatch )
+      if ( !(sender is SmartWatch) )
+        return;
+
+      LOG.Debug("{0} changed file is '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, file);
+
+      switch ( SettingsHelper.TailSettings.SmartWatchData.Mode )
       {
-        LOG.Debug("{0} changed file is '{1}'", System.Reflection.MethodBase.GetCurrentMethod().Name, file);
+      case ESmartWatchMode.Manual:
 
-        if ( SettingsHelper.TailSettings.SmartWatchData.Mode == ESmartWatchMode.Manual )
+        Dispatcher.Invoke(new Action(() =>
         {
-          Dispatcher.Invoke(new Action(() =>
-          {
-            var xPos = CentralManager.APP_MAIN_WINDOW.Left + 50;
-            var yPos = CentralManager.APP_MAIN_WINDOW.Top + 50;
+          var xPos = CentralManager.APP_MAIN_WINDOW.Left + 50;
+          var yPos = CentralManager.APP_MAIN_WINDOW.Top + 50;
 
-            SmartWatchPopUp smartWatchWnd = new SmartWatchPopUp
-            {
-              Left = xPos,
-              Top = yPos,
-              NewFileOpen = Path.GetFileName(file),
-              FullPath = file,
-              DataContext = tabProperties
-            };
-            smartWatchWnd.SmartWatchOpenFile += SmartWatchWnd_SmartWatchOpenFile;
-            smartWatchWnd.Show();
-            smartWatchWnd.Owner = Window.GetWindow(this);
-          }));
-        }
-        else if ( SettingsHelper.TailSettings.SmartWatchData.Mode == ESmartWatchMode.Auto )
-        {
-          SmartWatchOpenFileEventArgs e = new SmartWatchOpenFileEventArgs
+          SmartWatchPopUp smartWatchWnd = new SmartWatchPopUp
           {
-            FileFullPath = file,
-            OpenInTab = SettingsHelper.TailSettings.SmartWatchData.NewTab
+            Left = xPos,
+            Top = yPos,
+            NewFileOpen = Path.GetFileName(file),
+            FullPath = file,
+            DataContext = tabProperties
           };
+          smartWatchWnd.SmartWatchOpenFile += SmartWatchWnd_SmartWatchOpenFile;
+          smartWatchWnd.Show();
+          smartWatchWnd.Owner = Window.GetWindow(this);
+        }));
+        break;
 
-          Dispatcher.Invoke(new Action(() =>
-          {
-            SmartWatchWnd_SmartWatchOpenFile(this, e);
-          }));
-        }
-        else
+      case ESmartWatchMode.Auto:
+
+        SmartWatchOpenFileEventArgs e = new SmartWatchOpenFileEventArgs
         {
-          throw new NotImplementedException("This case is not possible!");
-        }
+          FileFullPath = file,
+          OpenInTab = SettingsHelper.TailSettings.SmartWatchData.NewTab
+        };
+
+        Dispatcher.Invoke(new Action(() =>
+        {
+          SmartWatchWnd_SmartWatchOpenFile(this, e);
+        }));
+        break;
+
+      default:
+
+        throw new NotImplementedException("This case is not possible!");
       }
     }
 
@@ -1088,8 +1100,8 @@ namespace Org.Vs.TailForWin.Template
 
     private void InitComboBoxes()
     {
-      comboBoxRefreshRate.DataContext = CentralManager.RefreshRate;
-      comboBoxThreadPriority.DataContext = CentralManager.ThreadPriority;
+      comboBoxRefreshRate.DataContext = CentralManager.Instance().RefreshRate;
+      comboBoxThreadPriority.DataContext = CentralManager.Instance().ThreadPriority;
     }
 
     private void SetControlVisibility(bool visible = false)
@@ -1240,10 +1252,10 @@ namespace Org.Vs.TailForWin.Template
       {
         try
         {
-          if ( CentralManager.FmHelper.Any(p => p.ID.Equals(fileManagerProperties.ID)) )
+          if ( CentralManager.Instance().FmHelper.Any(p => p.ID.Equals(fileManagerProperties.ID)) )
           {
-            var itemToRemove = CentralManager.FmHelper.FirstOrDefault(p => p.ID.Equals(fileManagerProperties.ID));
-            CentralManager.FmHelper.Remove(itemToRemove);
+            var itemToRemove = CentralManager.Instance().FmHelper.FirstOrDefault(p => p.ID.Equals(fileManagerProperties.ID));
+            CentralManager.Instance().FmHelper.Remove(itemToRemove);
           }
         }
         catch ( ArgumentNullException ex )

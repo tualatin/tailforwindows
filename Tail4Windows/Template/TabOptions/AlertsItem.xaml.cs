@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Controller;
-using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Template.TabOptions.Interfaces;
 using Org.Vs.TailForWin.Utils;
 
@@ -68,7 +67,8 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void btnOpenSoundFile_Click(object sender, RoutedEventArgs e)
     {
-      if ( CentralManager.OpenFileLogDialog(out string fName, "MP3 (*.mp3)|*.mp3|Wave (*.wav)|*.wav|All files (*.*)|*.*", Application.Current.FindResource("SelectSoundFile") as string) )
+      if ( CentralManager.OpenFileLogDialog(out string fName, "MP3 (*.mp3)|*.mp3|Wave (*.wav)|*.wav|All files (*.*)|*.*",
+        Application.Current.FindResource("SelectSoundFile") as string) )
         textBoxSoundFile.Text = fName;
     }
 

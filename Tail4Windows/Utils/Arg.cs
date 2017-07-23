@@ -406,7 +406,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       Type argClass = typeof(T);
 
-      if ( arg == null || !(arg is T) )
+      if ( !(arg is T) )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_EXPECTED_CLASS, argClass.Name, arg != null ? arg.GetType().Name : null));
 
       return (T) arg;
@@ -424,7 +424,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       NotNull(argClass, ARG_ARGUMENT_CLASS);
 
-      if ( arg == null || !argClass.DeclaringType.IsAssignableFrom(arg.DeclaringType) )
+      if ( argClass.DeclaringType != null && (arg == null || !argClass.DeclaringType.IsAssignableFrom(arg.DeclaringType)) )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_EXPECTED_CLASS, argClass.Name, arg != null ? arg.Name : null));
 
       return arg;
@@ -458,7 +458,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       Type argClass = typeof(T);
 
-      if ( !(arg is T) || argClass.Equals(arg.GetType()) )
+      if ( !(arg is T) || argClass == arg.GetType() )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_EXPECTED_SUB_CLASS, argClass.Name, arg != null ? arg.GetType().Name : null));
 
       return (T) arg;
@@ -476,7 +476,7 @@ namespace Org.Vs.TailForWin.Utils
     {
       NotNull(argClass, ARG_ARGUMENT_CLASS);
 
-      if ( arg == null || argClass.Equals(arg) || !argClass.IsAssignableFrom(arg) )
+      if ( arg == null || argClass == arg || !argClass.IsAssignableFrom(arg) )
         throw new ArgumentException(FormatErrorMessage(argName, ERR_EXPECTED_SUB_CLASS, argClass.Name, arg != null ? arg.Name : null));
 
       return arg;
@@ -509,19 +509,17 @@ namespace Org.Vs.TailForWin.Utils
 
       Type enumClass = typeof(T);
 
-      if ( arg != null && enumClass.IsEnum )
-      {
-        try
-        {
-          return (T) Enum.Parse(enumClass, arg, false);
-        }
-        catch ( ArgumentException )
-        {
-          throw new ArgumentException(FormatErrorMessage(argName, ERR_VALUE_NOT_VALID, enumClass.Name, string.Join(",", EnumValues<T>())));
-        }
-      }
+      if ( arg == null || !enumClass.IsEnum )
+        throw new ArgumentException(FormatErrorMessage(argName, ERR_VALUE_NOT_VALID, enumClass.Name, string.Join(",", EnumValues<T>())));
 
-      throw new ArgumentException(FormatErrorMessage(argName, ERR_VALUE_NOT_VALID, enumClass.Name, string.Join(",", EnumValues<T>())));
+      try
+      {
+        return (T) Enum.Parse(enumClass, arg, false);
+      }
+      catch ( ArgumentException )
+      {
+        throw new ArgumentException(FormatErrorMessage(argName, ERR_VALUE_NOT_VALID, enumClass.Name, string.Join(",", EnumValues<T>())));
+      }
     }
 
     #region HelperFunctions
@@ -534,26 +532,25 @@ namespace Org.Vs.TailForWin.Utils
     {
       Type enumType = typeof(T);
 
-      if ( !enumType.IsEnum )
+      if ( enumType.IsEnum )
+        throw new ArgumentException("enumType parameter is not a System.Enum");
+
+      //get the public static fields (members of the enum)
+      FieldInfo[] fi = enumType.GetFields(BindingFlags.Static | BindingFlags.Public);
+      //create a new enum array
+      string[] values = new string[fi.Length];
+
+      //populate with the values
+      for ( var iEnum = 0; iEnum < fi.Length; iEnum++ )
       {
-        //get the public static fields (members of the enum)
-        FieldInfo[] fi = enumType.GetFields(BindingFlags.Static | BindingFlags.Public);
-        //create a new enum array
-        string[] values = new string[fi.Length];
+        values[iEnum] = ((T) fi[iEnum].GetValue(null)).ToString(CultureInfo.InvariantCulture);
 
-        //populate with the values
-        for ( var iEnum = 0; iEnum < fi.Length; iEnum++ )
-        {
-          values[iEnum] = ((T) fi[iEnum].GetValue(null)).ToString(CultureInfo.InvariantCulture);
-
-          //values[iEnum] = Enum.GetName(enumType, fi[iEnum].GetValue(null));
-        }
-        //return the array
-        return values;
+        //values[iEnum] = Enum.GetName(enumType, fi[iEnum].GetValue(null));
       }
+      //return the array
+      return values;
 
       //the type supplied does not derive from enum
-      throw new ArgumentException("enumType parameter is not a System.Enum");
     }
 
     private static string FormatErrorMessage(string argumentName, string errorMessage, params object[] arguments)
@@ -602,9 +599,9 @@ namespace Org.Vs.TailForWin.Utils
       return result;
     }
 
-    private static bool IsEmpty<T>(T[] a)
+    private static bool IsEmpty<T>(ICollection<T> a)
     {
-      return a == null || a.Length == 0;
+      return a == null || a.Count == 0;
     }
 
     #endregion

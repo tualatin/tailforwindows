@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Controller;
-using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Utils;
 
 
@@ -80,7 +79,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         SettingsHelper.TailSettings.ProxySettings.ProxyPort = -1;
       }
 
-      CentralManager.Settings.SaveSettings();
+      CentralManager.Instance().SaveSettings();
     }
 
     private void InitRadios()

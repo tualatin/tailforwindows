@@ -7,7 +7,6 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using log4net;
 using Org.Vs.TailForWin.Controller;
-using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Data.Events;
 using Org.Vs.TailForWin.Native;
 using Org.Vs.TailForWin.Utils;
@@ -247,7 +246,7 @@ namespace Org.Vs.TailForWin.Template
       SettingsHelper.TailSettings.SearchWndXPos = Left;
       SettingsHelper.TailSettings.SearchWndYPos = Top;
 
-      CentralManager.Settings.SaveSearchWindowPosition();
+      CentralManager.Instance().SaveSearchWindowSettings();
     }
 
     private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

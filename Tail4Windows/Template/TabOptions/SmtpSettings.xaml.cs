@@ -162,7 +162,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
         break;
       }
 
-      CentralManager.Settings.SaveSettings();
+      CentralManager.Instance().SaveSettings();
     }
 
     #endregion

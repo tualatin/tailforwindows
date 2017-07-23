@@ -78,7 +78,7 @@ namespace Org.Vs.TailForWin.Template.TabOptions
                          MessageBoxImage.Question) != MessageBoxResult.Yes )
         return;
 
-      CentralManager.Settings.SetToDefault();
+      CentralManager.Instance().ResetSettings();
       SetControls();
     }
 
@@ -198,8 +198,8 @@ namespace Org.Vs.TailForWin.Template.TabOptions
 
     private void SetComboBoxes()
     {
-      comboBoxThreadPriority.DataContext = CentralManager.ThreadPriority;
-      comboBoxThreadRefreshRate.DataContext = CentralManager.RefreshRate;
+      comboBoxThreadPriority.DataContext = CentralManager.Instance().ThreadPriority;
+      comboBoxThreadRefreshRate.DataContext = CentralManager.Instance().RefreshRate;
 
       foreach ( ETimeFormat timeFormat in Enum.GetValues(typeof(ETimeFormat)) )
       {

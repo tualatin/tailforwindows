@@ -219,7 +219,7 @@ namespace Org.Vs.TailForWin.UI
 
       AddTabItem(item);
 
-      if ( tabControl.Items[tabControl.Items.Count - 3] is TabItem tab && tab.Header.Equals(Application.Current.FindResource("NoFile").ToString()) )
+      if ( tabControl.Items[tabControl.Items.Count - 3] is TabItem tab && tab.Header.Equals(Application.Current.FindResource("NoFile")?.ToString()) )
         RemoveTabItem(tab);
     }
 
@@ -389,7 +389,7 @@ namespace Org.Vs.TailForWin.UI
 
       if ( tailing )
       {
-        string message = string.Format(Application.Current.FindResource("ThreadIsBusy").ToString(), CentralManager.APPLICATION_CAPTION);
+        string message = string.Format(Application.Current.FindResource("ThreadIsBusy")?.ToString(), CentralManager.APPLICATION_CAPTION);
 
         if ( MessageBox.Show(message, CentralManager.APPLICATION_CAPTION, MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes )
         {
@@ -592,10 +592,10 @@ namespace Org.Vs.TailForWin.UI
               return;
           }
 
-          FileManagerHelper item = CentralManager.FmHelper.SingleOrDefault(x => x.ID == page.FileManagerProperties.ID);
+          FileManagerHelper item = CentralManager.Instance().FmHelper.SingleOrDefault(x => x.ID == page.FileManagerProperties.ID);
 
           if ( item != null )
-            CentralManager.FmHelper.Remove(item);
+            CentralManager.Instance().FmHelper.Remove(item);
 
           page.Dispose();
         }
@@ -704,8 +704,8 @@ namespace Org.Vs.TailForWin.UI
 
     private void DefaultWndSettings()
     {
-      CentralManager.Settings.ReadSettings();
-      CentralManager.InitObservableCollectionsRrtpfe();
+      CentralManager.Instance().ReadSettings();
+      CentralManager.Instance().InitObservableCollectionsRrtpfe();
 
       switch ( SettingsHelper.TailSettings.CurrentWindowStyle )
       {
@@ -729,7 +729,7 @@ namespace Org.Vs.TailForWin.UI
       Title = CentralManager.APPLICATION_CAPTION;
       Topmost = SettingsHelper.TailSettings.AlwaysOnTop;
 
-      cbStsEncoding.DataContext = CentralManager.FileEncoding;
+      cbStsEncoding.DataContext = CentralManager.Instance().FileEncoding;
       cbStsEncoding.DisplayMemberPath = "HeaderName";
 
       PreviewKeyDown += HandleMainWindowKeys;
@@ -940,7 +940,7 @@ namespace Org.Vs.TailForWin.UI
         }
       }
 
-      CentralManager.Settings.SaveSettings();
+      CentralManager.Instance().SaveSettings();
 
       if ( SettingsHelper.TailSettings.DeleteLogFiles )
         DeleteLogFiles();
@@ -1084,40 +1084,32 @@ namespace Org.Vs.TailForWin.UI
 
     private void WrapAroundEvent(object sender, EventArgs e)
     {
-      if ( e is WrapAroundBool wrap )
+      if ( !(e is WrapAroundBool wrap) )
+        return;
+
+      foreach ( TabItem item in tabControl.Items )
       {
-        foreach ( TabItem item in tabControl.Items )
-        {
-          if ( item.Content != null && item.Content.GetType() == typeof(Frame) )
-          {
-            var page = GetTailLogWindow(item.Content as Frame);
+        if ( item.Content == null || item.Content.GetType() != typeof(Frame) )
+          continue;
 
-            if ( page == null )
-              continue;
-
-            page.WrapAround(wrap.Wrap);
-          }
-        }
+        var page = GetTailLogWindow(item.Content as Frame);
+        page?.WrapAround(wrap.Wrap);
       }
     }
 
     private void BookmarkLineEvent(object sender, EventArgs e)
     {
       // TODO review me!!
-      if ( e is BookmarkLineBool bookmarkLine )
+      if ( !(e is BookmarkLineBool bookmarkLine) )
+        return;
+
+      foreach ( TabItem item in tabControl.Items )
       {
-        foreach ( TabItem item in tabControl.Items )
-        {
-          if ( item.Content != null && (item.Content != null || item.Content.GetType() == typeof(Frame)) )
-          {
-            var page = GetTailLogWindow(item.Content as Frame);
+        if ( item.Content == null || (item.Content == null && item.Content.GetType() != typeof(Frame)) )
+          continue;
 
-            if ( page == null )
-              continue;
-
-            page.BookmarkLine(bookmarkLine.BookmarkLine);
-          }
-        }
+        var page = GetTailLogWindow(item.Content as Frame);
+        page?.BookmarkLine(bookmarkLine.BookmarkLine);
       }
     }
 
@@ -1130,10 +1122,17 @@ namespace Org.Vs.TailForWin.UI
     {
       TailForWinTabItem selectedTab = null;
 
-      foreach ( TailForWinTabItem item in tabControl.Items )
+      try
       {
-        if ( item.Header.ToString() == tabHeader )
+        selectedTab = tabControl.Items.Cast<TailForWinTabItem>().FirstOrDefault(item => item.Header.ToString() == tabHeader);
+      }
+      catch ( ArgumentNullException )
+      {
+        foreach ( TailForWinTabItem item in tabControl.Items )
         {
+          if ( item.Header.ToString() != tabHeader )
+            continue;
+
           selectedTab = item;
           break;
         }

@@ -732,7 +732,7 @@ namespace Org.Vs.TailForWin.Controller
     {
       Encoding encoding = null;
 
-      foreach ( Encoding encode in CentralManager.FileEncoding )
+      foreach ( Encoding encode in CentralManager.Instance().FileEncoding )
       {
         if ( String.Compare(encode.HeaderName, sEncode, StringComparison.Ordinal) == 0 )
         {

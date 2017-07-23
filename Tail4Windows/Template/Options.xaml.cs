@@ -54,7 +54,7 @@ namespace Org.Vs.TailForWin.Template
 
     private void OnSaveSettings(object sender, EventArgs e)
     {
-      CentralManager.Settings.SaveSettings();
+      CentralManager.Instance().SaveSettings();
       OnUpdateEvent();
     }
 

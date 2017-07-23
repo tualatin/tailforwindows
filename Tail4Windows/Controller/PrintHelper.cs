@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using log4net;
 using Org.Vs.TailForWin.Template.TextEditor.Data;
 using Org.Vs.TailForWin.Utils;
 
@@ -12,8 +14,10 @@ namespace Org.Vs.TailForWin.Controller
   /// <summary>
   /// PrintHelper
   /// </summary>
-  public class PrintHelper
+  public class PrintHelper : IDisposable
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(PrintHelper));
+
     /// <summary>
     /// Constructor
     /// </summary>
@@ -94,6 +98,14 @@ namespace Org.Vs.TailForWin.Controller
         printTicket.Stapling = Stapling.StapleDualLeft;
 
       return printTicket;
+    }
+
+    /// <summary>
+    /// Release all resources used by PrintHelper class
+    /// </summary>
+    public void Dispose()
+    {
+      LOG.Trace("Diposing");
     }
   }
 }

@@ -156,7 +156,8 @@ namespace Org.Vs.TailForWin.Template
 
     private void btnNew_Click(object sender, RoutedEventArgs e)
     {
-      if ( CentralManager.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*", Application.Current.FindResource("OpenFileDialog") as string) )
+      if ( CentralManager.OpenFileLogDialog(out string fName, "Logfiles (*.log)|*.log|Textfiles (*.txt)|*.txt|All files (*.*)|*.*",
+        Application.Current.FindResource("OpenFileDialog") as string) )
         AddNewFile(fName);
     }
 
@@ -327,7 +328,7 @@ namespace Org.Vs.TailForWin.Template
       else
         cvFmData.GroupDescriptions.Clear();
 
-      CentralManager.Settings.SaveSettings();
+      CentralManager.Instance().SaveSettings();
     }
 
     private void btnFilters_Click(object sender, RoutedEventArgs e)
@@ -762,12 +763,12 @@ namespace Org.Vs.TailForWin.Template
 
       try
       {
-        var selectedThread = CentralManager.ThreadPriority.SingleOrDefault(p => p.ThreadPriority == tp);
+        var selectedThread = CentralManager.Instance().ThreadPriority.SingleOrDefault(p => p.ThreadPriority == tp);
         comboBoxThreadPriority.SelectedItem = selectedThread;
       }
       catch
       {
-        comboBoxCategory.SelectedItem = CentralManager.ThreadPriority[0];
+        comboBoxCategory.SelectedItem = CentralManager.Instance().ThreadPriority[0];
       }
 
       comboBoxRefreshRate.SelectedValue = rr;
@@ -783,11 +784,20 @@ namespace Org.Vs.TailForWin.Template
       // Get a reference to FileManagerData collection
       fmData = (FileManagerDataList) Resources["FileManagerData"];
 
-      if ( CentralManager.FmHelper != null && CentralManager.FmHelper.Count > 0 )
+      if ( CentralManager.Instance().FmHelper != null && CentralManager.Instance().FmHelper.Count > 0 )
       {
         fmDoc.FmProperties.ForEach(item =>
         {
-          FileManagerHelper f = CentralManager.FmHelper.SingleOrDefault(x => x.ID == item.ID);
+          FileManagerHelper f;
+
+          try
+          {
+            f = CentralManager.Instance().FmHelper.SingleOrDefault(x => x.ID == item.ID);
+          }
+          catch ( ArgumentNullException )
+          {
+            f = null;
+          }
 
           if ( f != null )
             item.OpenFromFileManager = f.OpenFromFileManager;
@@ -809,9 +819,9 @@ namespace Org.Vs.TailForWin.Template
       SetAddSaveButton();
 
       comboBoxCategory.DataContext = fmDoc.Category;
-      comboBoxRefreshRate.DataContext = CentralManager.RefreshRate;
-      comboBoxThreadPriority.DataContext = CentralManager.ThreadPriority;
-      comboBoxFileEncode.DataContext = CentralManager.FileEncoding;
+      comboBoxRefreshRate.DataContext = CentralManager.Instance().RefreshRate;
+      comboBoxThreadPriority.DataContext = CentralManager.Instance().ThreadPriority;
+      comboBoxFileEncode.DataContext = CentralManager.Instance().FileEncoding;
       comboBoxFileEncode.DisplayMemberPath = "HeaderName";
 
       RefreshCategoryComboBox();
@@ -894,14 +904,14 @@ namespace Org.Vs.TailForWin.Template
             OpenFromFileManager = locFmData.OpenFromFileManager
           };
 
-          if ( CentralManager.FmHelper.Count > 0 )
+          if ( CentralManager.Instance().FmHelper.Count > 0 )
           {
             try
             {
-              FileManagerHelper item = CentralManager.FmHelper.SingleOrDefault(x => x.ID == helper.ID);
+              FileManagerHelper item = CentralManager.Instance().FmHelper.SingleOrDefault(x => x.ID == helper.ID);
 
               if ( item == null )
-                CentralManager.FmHelper.Add(helper);
+                CentralManager.Instance().FmHelper.Add(helper);
             }
             catch ( ArgumentNullException ex )
             {
@@ -910,7 +920,7 @@ namespace Org.Vs.TailForWin.Template
           }
           else
           {
-            CentralManager.FmHelper.Add(helper);
+            CentralManager.Instance().FmHelper.Add(helper);
           }
 
           FileManagerDataEventArgs args = new FileManagerDataEventArgs(fmWorkingProperties);

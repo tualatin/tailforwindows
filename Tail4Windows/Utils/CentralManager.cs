@@ -16,7 +16,7 @@ namespace Org.Vs.TailForWin.Utils
   /// <summary>
   /// Central manager for Tail4Windows
   /// </summary>
-  public static class CentralManager
+  public sealed class CentralManager
   {
     /// <summary>
     /// Application caption
@@ -119,7 +119,9 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// Regex for E-Mail address
     /// </summary>
-    public const string REGEX_EMAIL_ADDRESS = @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+    public const string REGEX_EMAIL_ADDRESS =
+        @"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+      ;
 
     #endregion
 
@@ -133,11 +135,62 @@ namespace Org.Vs.TailForWin.Utils
     /// </summary>
     public const int MAX_TAB_CHILDS = 10;
 
-    /// <summary>
-    /// Current settings for Tail4Windows
-    /// </summary>
-    public static readonly ISettingsHelper Settings = new SettingsHelper();
+    private readonly ISettingsHelper settings = new SettingsHelper();
+    private static CentralManager instance;
 
+
+    private CentralManager()
+    {
+    }
+
+    /// <summary>
+    /// Get a instance of the CentralManager
+    /// </summary>
+    /// <returns></returns>
+    public static CentralManager Instance()
+    {
+      return instance ?? (instance = new CentralManager());
+    }
+
+    /// <summary>
+    /// Read current settings
+    /// </summary>
+    public void ReadSettings()
+    {
+      settings.ReadSettings();
+    }
+
+    /// <summary>
+    /// Reloads current settings
+    /// </summary>
+    public void ReloadSettings()
+    {
+      settings.ReloadSettings();
+    }
+
+    /// <summary>
+    /// Save current settings
+    /// </summary>
+    public void SaveSettings()
+    {
+      settings.SaveSettings();
+    }
+
+    /// <summary>
+    /// Save search window settings
+    /// </summary>
+    public void SaveSearchWindowSettings()
+    {
+      settings.SaveSearchWindowPosition();
+    }
+
+    /// <summary>
+    /// Reset current settings to default values
+    /// </summary>
+    public void ResetSettings()
+    {
+      settings.SetToDefault();
+    }
 
     /// <summary>
     /// Shows open file dialog
@@ -190,27 +243,31 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// List of open items from FileManager, to see, which file is already open
     /// </summary>
-    public static ObservableCollection<FileManagerHelper> FmHelper { get; } = new ObservableCollection<FileManagerHelper>();
+    public ObservableCollection<FileManagerHelper> FmHelper { get; } = new ObservableCollection<FileManagerHelper>();
 
     /// <summary>
     /// List of thread priority (static)
     /// </summary>
-    public static ObservableCollection<ThreadPriorityMapping> ThreadPriority { get; } = new ObservableCollection<ThreadPriorityMapping>();
+    public ObservableCollection<ThreadPriorityMapping> ThreadPriority
+    {
+      get;
+    } =
+      new ObservableCollection<ThreadPriorityMapping>();
 
     /// <summary>
     /// List of supported refresh rates
     /// </summary>
-    public static ObservableCollection<ETailRefreshRate> RefreshRate { get; } = new ObservableCollection<ETailRefreshRate>();
+    public ObservableCollection<ETailRefreshRate> RefreshRate { get; } = new ObservableCollection<ETailRefreshRate>();
 
     /// <summary>
     /// List of supported file encodings
     /// </summary>
-    public static ObservableCollection<Encoding> FileEncoding { get; } = new ObservableCollection<Encoding>();
+    public ObservableCollection<Encoding> FileEncoding { get; } = new ObservableCollection<Encoding>();
 
     /// <summary>
     /// Initialize the observable collections from refresh rate (RR), thread priority (TP) and file encodings (FE)
     /// </summary>
-    public static void InitObservableCollectionsRrtpfe()
+    public void InitObservableCollectionsRrtpfe()
     {
       // ThreadRefresh rate
       foreach ( ETailRefreshRate refreshName in Enum.GetValues(typeof(ETailRefreshRate)) )
@@ -257,7 +314,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <returns><c>True</c> if exists, otherwise <c>False</c></returns>
     public static bool FindDuplicateInFilterList(ObservableCollection<FilterData> listOfFilters, FilterData newItem)
     {
-      return listOfFilters.Any(item => String.Compare(item.Filter, newItem.Filter, StringComparison.Ordinal) == 0);
+      return listOfFilters.Any(item => string.Compare(item.Filter, newItem.Filter, StringComparison.Ordinal) == 0);
     }
   }
 }
