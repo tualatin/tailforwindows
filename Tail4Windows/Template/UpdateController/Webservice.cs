@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using Org.Vs.TailForWin.Controller.WebService;
 using Org.Vs.TailForWin.Template.UpdateController.Data;
 
 
@@ -11,8 +12,8 @@ namespace Org.Vs.TailForWin.Template.UpdateController
   /// </summary>
   public class Webservice
   {
-    readonly WebServiceData proxySettings;
-    HttpWebRequest request;
+    private readonly WebServiceData proxySettings;
+    private HttpWebRequest request;
 
 
     /// <summary>
@@ -46,11 +47,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
             html = sr.ReadToEnd();
           }
         }
-
-        if ( !string.IsNullOrWhiteSpace(html) )
-          return true;
-
-        return false;
+        return !string.IsNullOrWhiteSpace(html);
       }
       catch ( Exception ex )
       {
@@ -73,26 +70,19 @@ namespace Org.Vs.TailForWin.Template.UpdateController
       if ( proxySettings.UseProxy )
       {
         if ( !useSystemProxySettings )
-          request.Proxy = new WebProxy(string.Format("{0}:{1}", proxySettings.ProxyAddress, proxySettings.ProxyPort), true);
+          request.Proxy = new WebProxy($"{proxySettings.ProxyAddress}:{proxySettings.ProxyPort}", true);
 
-        if ( proxySettings.ProxyCredential != null )
-        {
-          if ( !string.IsNullOrEmpty(proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty(proxySettings.ProxyCredential.Password) )
-          {
-            request.Proxy.Credentials = proxySettings.ProxyCredential;
-          }
-        }
+        if ( !string.IsNullOrEmpty(proxySettings.ProxyCredential?.UserName) && !string.IsNullOrEmpty(proxySettings.ProxyCredential.Password) )
+          request.Proxy.Credentials = proxySettings.ProxyCredential;
       }
+
       if ( !useSystemProxySettings )
         return;
 
       WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy();
 
-      if ( proxySettings.ProxyCredential != null )
-      {
-        if ( !string.IsNullOrEmpty(proxySettings.ProxyCredential.UserName) && !string.IsNullOrEmpty(proxySettings.ProxyCredential.Password) )
-          WebRequest.DefaultWebProxy.Credentials = proxySettings.ProxyCredential;
-      }
+      if ( !string.IsNullOrEmpty(proxySettings.ProxyCredential?.UserName) && !string.IsNullOrEmpty(proxySettings.ProxyCredential.Password) )
+        WebRequest.DefaultWebProxy.Credentials = proxySettings.ProxyCredential;
     }
 
     #endregion

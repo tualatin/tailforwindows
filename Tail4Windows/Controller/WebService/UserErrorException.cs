@@ -6,7 +6,7 @@ using System.Windows;
 using log4net;
 
 
-namespace Org.Vs.TailForWin.Template.UpdateController
+namespace Org.Vs.TailForWin.Controller.WebService
 {
   /// <summary>
   /// Simple class to a show message box with error message
@@ -70,6 +70,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
             try
             {
               string result;
+
               using ( StreamReader reader = new StreamReader(response.GetResponseStream(), string.IsNullOrEmpty(response.ContentEncoding) ? Encoding.UTF8 : Encoding.GetEncoding(response.ContentEncoding)) )
               {
                 result = reader.ReadToEnd();
@@ -103,7 +104,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     private static void ShowMessageBox(string msg)
     {
-      MessageBox.Show(msg, Application.Current.FindResource("Error").ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
+      MessageBox.Show(msg, Application.Current.FindResource("Error")?.ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
     }
   }
 }

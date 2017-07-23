@@ -146,7 +146,7 @@ namespace Org.Vs.TailForWin.Utils
     /// <summary>
     /// Get a instance of the CentralManager
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Current instance of CentralManager</returns>
     public static CentralManager Instance()
     {
       return instance ?? (instance = new CentralManager());

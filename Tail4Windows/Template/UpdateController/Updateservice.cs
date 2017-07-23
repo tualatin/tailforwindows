@@ -15,6 +15,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     private BackgroundWorker updateThread;
     private string webData = string.Empty;
 
+
     /// <summary>
     /// Event, when update process finished
     /// </summary>
