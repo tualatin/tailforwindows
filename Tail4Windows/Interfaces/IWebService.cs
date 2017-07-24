@@ -3,7 +3,7 @@
   /// <summary>
   /// Data controller interface
   /// </summary>
-  public interface IDataController
+  public interface IWebService
   {
     /// <summary>
     /// HTTP GET method

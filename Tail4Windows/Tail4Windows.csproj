@@ -126,8 +126,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controller\WebService\DataController.cs" />
-    <Compile Include="Interfaces\IDataController.cs" />
+    <Compile Include="Controller\WebServices\WebService.cs" />
+    <Compile Include="Interfaces\IWebService.cs" />
     <Compile Include="Interfaces\ISettingsHelper.cs" />
     <Compile Include="Converters\LogLineLimitConverter.cs" />
     <Compile Include="Converters\SmartWatchModeToBoolConverter.cs" />
@@ -236,8 +236,7 @@
       <DependentUpon>Updater.xaml</DependentUpon>
     </Compile>
     <Compile Include="Template\UpdateController\Updateservice.cs" />
-    <Compile Include="Controller\WebService\UserErrorException.cs" />
-    <Compile Include="Template\UpdateController\Webservice.cs" />
+    <Compile Include="Controller\WebServices\UserErrorException.cs" />
     <Compile Include="Template\WatermarkTextBox\WatermarkTextBox.cs" />
     <Compile Include="UI\OverlayDragWnd.xaml.cs">
       <DependentUpon>OverlayDragWnd.xaml</DependentUpon>

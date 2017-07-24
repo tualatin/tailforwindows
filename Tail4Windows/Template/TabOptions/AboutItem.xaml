@@ -43,7 +43,7 @@
         <TextBlock Grid.Column="1" Grid.Row="5" Name="textBlockHomepage" VerticalAlignment="Center" Margin="5,0,0,0" Grid.ColumnSpan="2">
           <Hyperlink NavigateUri="https://github.com/tualatin/TailForWindows/releases" RequestNavigate="Hyperlink_RequestNavigate">https://github.com/tualatin/TailForWindows/release</Hyperlink>
         </TextBlock>
-        <my:Updater Grid.Row="7" HorizontalAlignment="Left" x:Name="updater" Grid.Column="1" Margin="5,0,0,0" UpdateURL="{Binding Path=ApplicationWebUrl}" UseProxy="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Path=ProxySettings.UseProxy}" UseSystemSettings="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Path=ProxySettings.UseSystemSettings}" Proxy="{Binding Path=ProxySettings.ProxyUrl, UpdateSourceTrigger=PropertyChanged, Mode= OneWay}" ProxyPort="{Binding Path=ProxySettings.ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" TabIndex="1" />
+        <my:Updater Grid.Row="7" HorizontalAlignment="Left" x:Name="updater" Grid.Column="1" Margin="5,0,0,0" UpdateUrl="{Binding Path=ApplicationWebUrl}" UseProxy="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Path=ProxySettings.UseProxy}" UseSystemSettings="{Binding Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Path=ProxySettings.UseSystemSettings}" Proxy="{Binding Path=ProxySettings.ProxyUrl, UpdateSourceTrigger=PropertyChanged, Mode= OneWay}" ProxyPort="{Binding Path=ProxySettings.ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" TabIndex="1" />
         <Label Content="Update:" Grid.Row="7" Name="label7" VerticalAlignment="Center" />
         <Button Content="System Info" Grid.Column="1" Grid.Row="8" Height="23" HorizontalAlignment="Left" Margin="5,0,0,0" Name="btnSysInfo" VerticalAlignment="Center" Width="75" 
                 Click="btnSysInfo_Click" TabIndex="3">
@@ -60,7 +60,7 @@
           </Button.ToolTip>
         </Button>
         <CheckBox Content="Check for update at startup" Grid.Column="2" Grid.Row="7" Height="22" HorizontalAlignment="Left" Name="checkBoxAutoUpdate" VerticalAlignment="Center" IsChecked="{Binding Path=AutoUpdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" />
-        <Label Content="Uptime:" Grid.Row="9" Name="label8" VerticalAlignment="Center" />
+        <Label Content="Uptime:" Grid.Row="9" VerticalAlignment="Center" />
         <Label Content="Label" Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Margin="0,2" Name="labelUptime" VerticalAlignment="Center"/>
       </Grid>
     </Border>

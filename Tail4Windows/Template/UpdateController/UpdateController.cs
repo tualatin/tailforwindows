@@ -62,39 +62,39 @@ namespace Org.Vs.TailForWin.Template.UpdateController
           string part = match.Value.Substring(match.Value.IndexOf(mainTag, StringComparison.Ordinal)).Substring(tag.Length);
           Regex regex = new Regex(@"\d+.\d+.\d+", RegexOptions.IgnoreCase);
 
-          if ( regex.Match(part).Success )
-          {
-            string version = regex.Match(part).Value;
-            int major = -1, minor = -1, build = -1;
+          if ( !regex.Match(part).Success )
+            continue;
 
-            Regex rxVersion = new Regex(@"\d+", RegexOptions.IgnoreCase);
+          string version = regex.Match(part).Value;
+          int major = -1, minor = -1, build = -1;
+
+          Regex rxVersion = new Regex(@"\d+", RegexOptions.IgnoreCase);
+
+          if ( rxVersion.IsMatch(version) )
+          {
+            Match mtVersion = rxVersion.Match(version);
+
+            major = int.Parse(mtVersion.Value);
+            int length = mtVersion.Length + 1;
+            version = version.Substring(length, version.Length - length);
 
             if ( rxVersion.IsMatch(version) )
             {
-              Match mtVersion = rxVersion.Match(version);
-
-              major = int.Parse(mtVersion.Value);
-              int length = mtVersion.Length + 1;
+              mtVersion = rxVersion.Match(version);
+              minor = int.Parse(mtVersion.Value);
+              length = mtVersion.Length + 1;
               version = version.Substring(length, version.Length - length);
 
               if ( rxVersion.IsMatch(version) )
               {
                 mtVersion = rxVersion.Match(version);
-                minor = int.Parse(mtVersion.Value);
-                length = mtVersion.Length + 1;
-                version = version.Substring(length, version.Length - length);
-
-                if ( rxVersion.IsMatch(version) )
-                {
-                  mtVersion = rxVersion.Match(version);
-                  build = int.Parse(mtVersion.Value);
-                }
+                build = int.Parse(mtVersion.Value);
               }
             }
-
-            Version myVersion = new Version(major, minor, build);
-            webVersions.Add(myVersion);
           }
+
+          Version myVersion = new Version(major, minor, build);
+          webVersions.Add(myVersion);
         }
 
         GetLatestWebVersion();

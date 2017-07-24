@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
-using Org.Vs.TailForWin.Template.UpdateController.Data;
+using Org.Vs.TailForWin.Interfaces;
 
 
 namespace Org.Vs.TailForWin.Template.UpdateController
@@ -11,7 +11,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
   /// </summary>
   public class Updateservice : IDisposable
   {
-    private Webservice webservice;
+    private readonly IWebService webService;
     private BackgroundWorker updateThread;
     private string webData = string.Empty;
 
@@ -25,54 +25,9 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     #region Public properties
 
     /// <summary>
-    /// Proxy server address
-    /// </summary>
-    public string Proxy
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Proxy server port
-    /// </summary>
-    public int ProxyPort
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
     /// URL with updater webaddress
     /// </summary>
     public string UpdateUrl
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Use proxy yes/no
-    /// </summary>
-    public bool UseProxy
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Use proxy settings from system
-    /// </summary>
-    public bool UseSystemSettings
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Proxy authentification
-    /// </summary>
-    public System.Net.NetworkCredential ProxyAuthentification
     {
       get;
       set;
@@ -84,7 +39,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     public bool IsThreadCompleted
     {
       get;
-      set;
+      private set;
     }
 
     /// <summary>
@@ -93,7 +48,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     public bool HaveToUpdate
     {
       get;
-      set;
+      private set;
     }
 
     /// <summary>
@@ -120,7 +75,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     public bool Success
     {
       get;
-      set;
+      private set;
     }
 
     #endregion
@@ -138,9 +93,17 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     }
 
     /// <summary>
-    /// Standard constructor
+    /// Constructor
     /// </summary>
-    public Updateservice()
+    /// <param name="webController">Webservice interface</param>
+    public Updateservice(IWebService webController)
+    {
+      webService = webController;
+
+      InitUpdateService();
+    }
+
+    private void InitUpdateService()
     {
       updateThread = new BackgroundWorker
       {
@@ -148,24 +111,6 @@ namespace Org.Vs.TailForWin.Template.UpdateController
       };
       updateThread.DoWork += UpdateThread_DoWork;
       updateThread.RunWorkerCompleted += UpdateThread_Completed;
-    }
-
-    /// <summary>
-    /// Initialize web service
-    /// </summary>
-    public void InitWebService()
-    {
-      WebServiceData data = new WebServiceData
-      {
-        ProxyAddress = Proxy,
-        ProxyPort = ProxyPort,
-        ProxyCredential = ProxyAuthentification,
-        Url = UpdateUrl,
-        UseProxy = UseProxy,
-        UseProxySystemSettings = UseSystemSettings
-      };
-
-      webservice = new Webservice(data);
     }
 
     /// <summary>
@@ -183,12 +128,10 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     private void UpdateThread_DoWork(object sender, DoWorkEventArgs e)
     {
-      string html;
-
-      if ( !webservice.UpdateWebRequest(out html) )
+      if ( webService == null )
         return;
 
-      webData = html;
+      webData = webService.HttpGet(UpdateUrl);
       Success = true;
     }
 

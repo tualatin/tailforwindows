@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using Org.Vs.TailForWin.Controller.WebServices;
 
 
 namespace Org.Vs.TailForWin.Template.UpdateController
@@ -53,16 +54,16 @@ namespace Org.Vs.TailForWin.Template.UpdateController
     /// <summary>
     /// Update URL
     /// </summary>
-    public static readonly DependencyProperty UpdateURLProperty = DependencyProperty.Register("UpdateURL", typeof(string), typeof(Updater), new PropertyMetadata(string.Empty));
+    public static readonly DependencyProperty UpdateUrlProperty = DependencyProperty.Register("UpdateUrl", typeof(string), typeof(Updater), new PropertyMetadata(string.Empty));
 
     /// <summary>
     /// Update URL
     /// </summary>
     [Category("Updater"), Description("Update Url")]
-    public string UpdateURL
+    public string UpdateUrl
     {
-      get => (string) GetValue(UpdateURLProperty);
-      set => SetValue(UpdateURLProperty, value);
+      get => (string) GetValue(UpdateUrlProperty);
+      set => SetValue(UpdateUrlProperty, value);
     }
 
     /// <summary>
@@ -151,21 +152,15 @@ namespace Org.Vs.TailForWin.Template.UpdateController
 
     private void UserControl_Loaded(object sender, RoutedEventArgs e)
     {
-      if ( updater != null )
+      if ( updater == null )
         updater = null;
 
-      updater = new Updateservice
+      updater = new Updateservice(WebService.Instance())
       {
-        UseProxy = UseProxy,
-        UseSystemSettings = UseSystemSettings,
-        Proxy = Proxy,
-        ProxyPort = ProxyPort,
-        UpdateUrl = UpdateURL,
-        ProxyAuthentification = ProxyAuthentification
+        UpdateUrl = UpdateUrl,
       };
 
       updater.ThreadCompletedEvent += UpdateCompleted;
-      updater.InitWebService();
     }
 
     private void UpdateCompleted(object sender, EventArgs e)
@@ -176,7 +171,7 @@ namespace Org.Vs.TailForWin.Template.UpdateController
         return;
 
       Window wnd = Window.GetWindow(this);
-      ResultDialog rd = new ResultDialog(ApplicationName, updater.HaveToUpdate, UpdateURL)
+      ResultDialog rd = new ResultDialog(ApplicationName, updater.HaveToUpdate, UpdateUrl)
       {
         Owner = wnd,
         WebVersion = updater.WebVersion,

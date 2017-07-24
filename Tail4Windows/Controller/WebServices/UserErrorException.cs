@@ -6,7 +6,7 @@ using System.Windows;
 using log4net;
 
 
-namespace Org.Vs.TailForWin.Controller.WebService
+namespace Org.Vs.TailForWin.Controller.WebServices
 {
   /// <summary>
   /// Simple class to a show message box with error message

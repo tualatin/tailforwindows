@@ -2,7 +2,7 @@
 using System.Timers;
 using System.Windows.Threading;
 using log4net;
-using Org.Vs.TailForWin.Controller;
+using Org.Vs.TailForWin.Controller.WebServices;
 using Org.Vs.TailForWin.Data;
 using Org.Vs.TailForWin.Template.UpdateController;
 
@@ -38,19 +38,10 @@ namespace Org.Vs.TailForWin.Utils
       {
         timer.Enabled = false;
 
-        updater = new Updateservice
+        updater = new Updateservice(WebService.Instance())
         {
-          UseSystemSettings = SettingsHelper.TailSettings.ProxySettings.UseSystemSettings,
-          UseProxy = SettingsHelper.TailSettings.ProxySettings.UseProxy,
-          Proxy = SettingsHelper.TailSettings.ProxySettings.ProxyUrl,
-          ProxyPort = SettingsHelper.TailSettings.ProxySettings.ProxyPort,
           UpdateUrl = SettingsData.ApplicationWebUrl
         };
-
-        if ( !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.UserName) && !string.IsNullOrEmpty(SettingsHelper.TailSettings.ProxySettings.Password) )
-          updater.ProxyAuthentification = new System.Net.NetworkCredential(SettingsHelper.TailSettings.ProxySettings.UserName, StringEncryption.Decrypt(SettingsHelper.TailSettings.ProxySettings.Password, CentralManager.ENCRYPT_PASSPHRASE));
-
-        updater.InitWebService();
         updater.ThreadCompletedEvent += UpdateCompletedEvent;
 
         updater.StartUpdate();
