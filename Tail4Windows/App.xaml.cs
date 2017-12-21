@@ -2,9 +2,6 @@
 using System.Text.RegularExpressions;
 using System.Windows;
 using log4net;
-using Org.Vs.TailForWin.Controller;
-using Org.Vs.TailForWin.Data;
-using Org.Vs.TailForWin.Data.Events;
 
 
 namespace Org.Vs.TailForWin
@@ -16,10 +13,10 @@ namespace Org.Vs.TailForWin
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(App));
 
-    private void Application_Startup(object sender, StartupEventArgs e)
+    private void ApplicationStartup(object sender, StartupEventArgs e)
     {
-      UI.TabWindow wnd = new UI.TabWindow();
-      AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+      UI.T4Window wnd = new UI.T4Window();
+      AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
       wnd.Show();
 
       if ( e.Args.Length <= 0 )
@@ -27,7 +24,7 @@ namespace Org.Vs.TailForWin
 
       foreach ( var arg in e.Args )
       {
-        Match m = Regex.Match(arg, @"/id=");
+        Match m = Regex.Match(arg, "/id=");
 
         if ( m.Success )
         {
@@ -45,48 +42,23 @@ namespace Org.Vs.TailForWin
           if ( string.IsNullOrEmpty(guid) )
             continue;
 
-          Match id = Regex.Match(guid, @"^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$");
+          Match id = Regex.Match(guid, "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$");
 
           if ( !id.Success )
             continue;
-
-          FileManagerStructure fm = new FileManagerStructure();
-          FileManagerData item = fm.GetNodeById(id.Value);
-
-          if ( item == null )
-            continue;
-
-          FileManagerDataEventArgs args = new FileManagerDataEventArgs(item);
-          wnd.FileManagerTab(this, args);
-          args.Dispose();
         }
         else
         {
           Regex regex = new Regex(@"(?:(?:(?:\b[a-z]:|\\\\[a-z0-9_.$]+\\[a-z0-9_.$]+)\\|\\?[^\\/:*?""<>|\r\n]+\\?)(?:[^\\/:*?""<>|\r\n]+\\)*[^\\/:*?""<>|\r\n]*)", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
-
           Match result = regex.Match(arg);
 
-          if ( result.Success )
-            wnd.OpenFileFromParameter(arg);
+          //if ( result.Success )
+          //  wnd.OpenFileFromParameter(arg);
         }
       }
-
-      //foreach (FileManagerDataEventArgs args in from arg in e.Args
-      //                                          let match = Regex.Match (arg, @"/id=")
-      //                                          where match.Success
-      //                                          select Regex.Match (arg, @"\d+") into id
-      //                                          where id.Success
-      //                                          let fm = new FileManagerStructure ( )
-      //                                          select fm.GetNodeById (id.Value) into item
-      //                                          where item != null
-      //                                          select new FileManagerDataEventArgs (item))
-      //{
-      //  wnd.FileManagerTab (this, args);
-      //  args.Dispose ( );
-      //}
     }
 
-    private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    private static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
       LOG.Error("{0} caused a(n) {1} {2}", System.Reflection.MethodBase.GetCurrentMethod().Name, e.ExceptionObject.GetType().Name, e.ExceptionObject);
     }

@@ -7,8 +7,8 @@
     <ProjectGuid>{B07BE282-4B92-4E8B-97E0-8413E9501877}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Org.Vs.TailForWin</RootNamespace>
-    <AssemblyName>TailForWin</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <AssemblyName>T4W</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -29,6 +29,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,6 +41,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,9 +51,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Res\Main.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Main.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -61,6 +65,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\x64\Debug\T4W.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -74,6 +80,7 @@
     </DocumentationFile>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -84,6 +91,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -95,12 +103,49 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Expression.Controls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Effects, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Effects.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Prototyping.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Prototyping.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Prototyping.SketchControls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Prototyping.SketchControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SDK.Expression.Blend, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.SDK.Expression.Blend.dll</HintPath>
+    </Reference>
     <Reference Include="ReachFramework" />
+    <Reference Include="SQLite-net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\sqlite-net-pcl.1.4.118\lib\netstandard1.1\SQLite-net.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_green, Version=1.0.0.0, Culture=neutral, PublicKeyToken=a84b7dcfb1391f7f, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.5\lib\net45\SQLitePCLRaw.batteries_green.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8226ea5df37bcae9, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.5\lib\net45\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1488e028ca7ab535, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.core.1.1.5\lib\net45\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.e_sqlite3, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9c301db686d0bd12, processorArchitecture=MSIL">
+      <HintPath>..\packages\SQLitePCLRaw.provider.e_sqlite3.net45.1.1.5\lib\net45\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -109,6 +154,9 @@
     <Reference Include="System.Printing" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -126,151 +174,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controller\WebServices\WebService.cs" />
-    <Compile Include="Interfaces\IWebService.cs" />
-    <Compile Include="Interfaces\ISettingsHelper.cs" />
-    <Compile Include="Converters\LogLineLimitConverter.cs" />
-    <Compile Include="Converters\SmartWatchModeToBoolConverter.cs" />
-    <Compile Include="Data\Enums\ESmartWatchMode.cs" />
-    <Compile Include="Data\Enums\EWindowStyle.cs" />
-    <Compile Include="Data\Native\Enum\SWP.cs" />
-    <Compile Include="Data\Native\MemoryObject.cs" />
-    <Compile Include="Data\Native\MINMAXINFO.cs" />
-    <Compile Include="Data\Native\MonitorInfo.cs" />
-    <Compile Include="Data\Native\Rect.cs" />
-    <Compile Include="Data\Native\Win32Point.cs" />
-    <Compile Include="Data\Native\WINDOWPOS.cs" />
-    <Compile Include="Data\ThreadPriorityMapping.cs" />
-    <Compile Include="Extensions\CloneObservableCollection.cs" />
-    <Compile Include="Extensions\CompareLists.cs" />
-    <Compile Include="NotifyIcon\Interop\SystemInfo.cs" />
-    <Compile Include="Template\ColorPicker\ColorDialog.xaml.cs">
-      <DependentUpon>ColorDialog.xaml</DependentUpon>
+    <Compile Include="Core\Controllers\SettingsHelper.cs" />
+    <Compile Include="Core\Data\Settings\AlertSetting.cs" />
+    <Compile Include="Core\Data\Settings\EnvironmentSettings.cs" />
+    <Compile Include="Core\Data\Settings\ProxySetting.cs" />
+    <Compile Include="Core\Data\Settings\SmartWatchSetting.cs" />
+    <Compile Include="Core\Data\Settings\SmtpSetting.cs" />
+    <Compile Include="Core\Extensions\EnumExtension.cs" />
+    <Compile Include="Core\Interfaces\ISettingsHelper.cs" />
+    <Compile Include="Core\Native\Data\Enum\SWP.cs" />
+    <Compile Include="Core\Native\Data\MemoryObject.cs" />
+    <Compile Include="Core\Native\Data\MINMAXINFO.cs" />
+    <Compile Include="Core\Native\Data\MonitorInfo.cs" />
+    <Compile Include="Core\Native\Data\Rect.cs" />
+    <Compile Include="Core\Native\Data\Win32Point.cs" />
+    <Compile Include="Core\Native\Data\WINDOWPOS.cs" />
+    <Compile Include="UI\NotifyIcon\Interop\SystemInfo.cs" />
+    <Compile Include="UI\T4Window.xaml.cs">
+      <DependentUpon>T4Window.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Template\ColorPicker\ColorPicker.xaml.cs">
-      <DependentUpon>ColorPicker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\Events\DragDropEventDelegate.cs" />
-    <Compile Include="Template\Events\IsOpenInTabEventDelegate.cs" />
-    <Compile Include="Template\Events\SmartWatchOpenFileEventArgs.cs" />
-    <Compile Include="Template\Events\SmartWatchOpenFileEventHandler.cs" />
-    <Compile Include="Template\FancyPopUp.xaml.cs">
-      <DependentUpon>FancyPopUp.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\FancyToolTip.xaml.cs">
-      <DependentUpon>FancyToolTip.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\FileManager.xaml.cs">
-      <DependentUpon>FileManager.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\Filters.xaml.cs">
-      <DependentUpon>Filters.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\GoToLine.xaml.cs">
-      <DependentUpon>GoToLine.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\Options.xaml.cs">
-      <DependentUpon>Options.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\SearchDialog.xaml.cs">
-      <DependentUpon>SearchDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\SmartWatchPopUp.xaml.cs">
-      <DependentUpon>SmartWatchPopUp.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\Spinner.xaml.cs">
-      <DependentUpon>Spinner.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TabOptions\AboutItem.xaml.cs">
-      <DependentUpon>AboutItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TabOptions\AlertsItem.xaml.cs">
-      <DependentUpon>AlertsItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TabOptions\ColorItem.xaml.cs">
-      <DependentUpon>ColorItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TabOptions\ExtraItem.xaml.cs">
-      <DependentUpon>ExtraItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TabOptions\ImportExportItem.xaml.cs">
-      <DependentUpon>ImportExportItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TabOptions\Interfaces\ITabOptionItems.cs" />
-    <Compile Include="Template\TabOptions\OptionsItem.xaml.cs">
-      <DependentUpon>OptionsItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TabOptions\ProxyServer.xaml.cs">
-      <DependentUpon>ProxyServer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TabOptions\SmtpSettings.xaml.cs">
-      <DependentUpon>SmtpSettings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TabOptions\SystemInformation.xaml.cs">
-      <DependentUpon>SystemInformation.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TailLog.xaml.cs">
-      <DependentUpon>TailLog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TextEditor\Converters\BoolToScrollbarVisibilityConverter.cs" />
-    <Compile Include="Template\TextEditor\Converters\BoolToTextWrapConverter.cs" />
-    <Compile Include="Template\TextEditor\Converters\StringFormatConverter.cs" />
-    <Compile Include="Template\TextEditor\Data\LogEntry.cs" />
-    <Compile Include="Template\TextEditor\Data\PropertyChangedBase.cs" />
-    <Compile Include="Template\TextEditor\Data\StringFormatData.cs" />
-    <Compile Include="Template\TextEditor\LogViewerControl.xaml.cs">
-      <DependentUpon>LogViewerControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\TextEditor\Utils\DeferredAction.cs" />
-    <Compile Include="Template\TextEditor\Utils\ListBoxCopy.cs" />
-    <Compile Include="Template\TextEditor\Utils\ListBoxExtenders.cs" />
-    <Compile Include="Template\TextEditor\Utils\ListBoxSelector.cs" />
-    <Compile Include="Template\TextEditor\Data\LogViewerDataTemplateSelector.cs" />
-    <Compile Include="Template\TextEditor\Data\TemplateData.cs" />
-    <Compile Include="Template\UpdateController\Data\WebServiceData.cs" />
-    <Compile Include="Template\UpdateController\ResultDialog.xaml.cs">
-      <DependentUpon>ResultDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\UpdateController\UpdateController.cs" />
-    <Compile Include="Template\UpdateController\Updater.xaml.cs">
-      <DependentUpon>Updater.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Template\UpdateController\Updateservice.cs" />
-    <Compile Include="Controller\WebServices\UserErrorException.cs" />
-    <Compile Include="Template\WatermarkTextBox\WatermarkTextBox.cs" />
-    <Compile Include="UI\OverlayDragWnd.xaml.cs">
-      <DependentUpon>OverlayDragWnd.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\StyleableWindow\ControlDoubleClickBehavior.cs" />
-    <Compile Include="UI\StyleableWindow\ShowSystemMenuBehavior.cs" />
-    <Compile Include="UI\StyleableWindow\SystemMenuManager.cs" />
-    <Compile Include="UI\StyleableWindow\WindowCloseCommand.cs" />
-    <Compile Include="UI\StyleableWindow\WindowDragBehavior.cs" />
-    <Compile Include="UI\StyleableWindow\WindowMaximizeCommand.cs" />
-    <Compile Include="UI\StyleableWindow\WindowMinimizeCommand.cs" />
-    <Compile Include="UI\StyleableWindow\WindowResizeBehavior.cs" />
-    <Compile Include="UI\TabWindow.xaml.cs">
-      <DependentUpon>TabWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\TailForWinTabItem.cs" />
-    <Compile Include="UI\Utils\DragSupportTabControl.cs" />
-    <Compile Include="UI\Utils\DragWindowManager.cs" />
-    <Compile Include="UserControls\TailScrollBar.cs" />
-    <Compile Include="Utils\Arg.cs" />
-    <Compile Include="Utils\AutoUpdate.cs" />
-    <Compile Include="Utils\BuildDate.cs" />
-    <Compile Include="Utils\DeferredAction.cs" />
-    <Compile Include="Utils\EncodingDetector.cs" />
-    <Compile Include="Utils\Events\SmartWatchFilesChangedEventHandler.cs" />
-    <Compile Include="Utils\FileReader.cs" />
-    <Compile Include="Utils\GlobalMutex.cs" />
-    <Compile Include="Utils\IconHelper.cs" />
-    <Compile Include="Utils\MailClient.cs" />
-    <Compile Include="Utils\ObservableDictionary.cs" />
-    <Compile Include="Utils\SmartWatch.cs" />
-    <Compile Include="Utils\SoundPlay.cs" />
-    <Compile Include="Utils\StringEncryption.cs" />
-    <Compile Include="Utils\TextBoxMaskBehavior.cs" />
+    <Compile Include="Core\Utils\Arg.cs" />
+    <Compile Include="UI\ViewModels\T4WindowViewModel.cs" />
     <Page Include="Language\en-EN.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -279,292 +203,39 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controller\DefaultPatternStructureController.cs" />
-    <Compile Include="Controller\FileManagerStructure.cs" />
-    <Compile Include="Controller\HistoryStructureController.cs" />
-    <Compile Include="Controller\PrintHelper.cs" />
-    <Compile Include="Controller\SettingsHelper.cs" />
-    <Compile Include="Controller\SysInformationController.cs" />
-    <Compile Include="Converters\ColorToBrushConverter.cs" />
-    <Compile Include="Converters\EmptyStringToBoolConverter.cs" />
-    <Compile Include="Converters\FilterCountToStringConverter.cs" />
-    <Compile Include="Converters\FilterDataToBoolConverter.cs" />
-    <Compile Include="Converters\FontToStringConverter.cs" />
-    <Compile Include="Converters\GroupByCategoryContentConverter.cs" />
-    <Compile Include="Converters\IntToBoolConverter.cs" />
-    <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="Converters\MailAddressConverter.cs" />
-    <Compile Include="Converters\MultiConverters\EnableOpenMultiConverter.cs" />
-    <Compile Include="Converters\MultiConverters\EnableUsePatternCheckBoxMultiConverter.cs" />
-    <Compile Include="Converters\MultiConverters\IsEnableMultiConverter.cs" />
-    <Compile Include="Converters\MultiConverters\TabSizeMultiConverter.cs" />
-    <Compile Include="Converters\SmtpPortConverter.cs" />
-    <Compile Include="Converters\SoundFileNameConverter.cs" />
-    <Compile Include="Converters\StringToIntConverter.cs" />
-    <Compile Include="Converters\TailConverter.cs" />
-    <Compile Include="Converters\TextTrimConverter.cs" />
-    <Compile Include="Data\AlertData.cs" />
-    <Compile Include="Data\Base\NotifyMaster.cs" />
-    <Compile Include="Data\Enums\EDateFormat.cs" />
-    <Compile Include="Data\Enums\EFileManagerState.cs" />
-    <Compile Include="Data\Enums\EFileSort.cs" />
-    <Compile Include="Data\Enums\EMaskType.cs" />
-    <Compile Include="Data\Enums\ETabState.cs" />
-    <Compile Include="Data\Enums\ETailLogColorTypes.cs" />
-    <Compile Include="Data\Enums\ETailRefreshRate.cs" />
-    <Compile Include="Data\Enums\ETimeFormat.cs" />
-    <Compile Include="Data\Events\AlertTriggerEventArgs.cs" />
-    <Compile Include="Data\Events\BookmarkLineBool.cs" />
-    <Compile Include="Data\Events\FileManagerDataEventArgs.cs" />
-    <Compile Include="Data\Events\FilterDataEventArgs.cs" />
-    <Compile Include="Data\Events\SearchData.cs" />
-    <Compile Include="Data\Events\WrapAroundBool.cs" />
-    <Compile Include="Data\FileManagerData.cs" />
-    <Compile Include="Data\FileManagerDataList.cs" />
-    <Compile Include="Data\FileManagerHelper.cs" />
-    <Compile Include="Data\FilterData.cs" />
-    <Compile Include="Data\GoToLineData.cs" />
-    <Compile Include="Utils\CentralManager.cs" />
-    <Compile Include="Data\Part.cs" />
-    <Compile Include="Data\Pattern.cs" />
-    <Compile Include="Data\ProxySettingsData.cs" />
-    <Compile Include="Data\SearchPatter.cs" />
-    <Compile Include="Data\SettingsData.cs" />
-    <Compile Include="Data\SmartWatchData.cs" />
-    <Compile Include="Data\SmtpData.cs" />
-    <Compile Include="Data\SysInformationData.cs" />
-    <Compile Include="Data\TailLogData.cs" />
-    <Compile Include="Data\XmlNames\XmlStructure.cs" />
-    <Compile Include="Interfaces\IDefaultPatternStructureController.cs" />
-    <Compile Include="Interfaces\IDragDropToTabWindow.cs" />
-    <Compile Include="Interfaces\IHistoryStructureController.cs" />
-    <Compile Include="Interfaces\ITabWindow.cs" />
-    <Compile Include="Logging\LogExtentions.cs" />
-    <Compile Include="Logging\Log4NetTraceListener.cs" />
-    <Compile Include="Logging\Logger.cs" />
-    <Compile Include="Logging\LoggerFactory.cs" />
-    <Compile Include="Logging\LogUtil.cs" />
-    <Compile Include="Logging\SingleLetterLevelConverter.cs" />
-    <Compile Include="Logging\ZippingRollingFileAppender.cs" />
-    <Page Include="PatternUtil\UI\DefineParts.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PatternUtil\UI\DefinePattern.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PatternUtil\UI\SelectPart.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\AndroidCheckBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\AndroidRadioButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\AndroidSlider.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\AndroidToggleButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Button.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\ComboBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\ContextMenuItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Label.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\ScrollbarResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\ScrollbarWithGripResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Separator.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Shared.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\TabItemToolTipStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\TailForWinTabItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\TextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\WindowStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\ColorPicker\ColorDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\ColorPicker\ColorPicker.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\FancyPopUp.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\FancyToolTip.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\FileManager.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\Filters.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\GoToLine.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\Options.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\SearchDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\SmartWatchPopUp.xaml">
+    <Compile Include="Core\Data\Base\NotifyMaster.cs" />
+    <Compile Include="Core\Logging\LogExtentions.cs" />
+    <Compile Include="Core\Logging\Log4NetTraceListener.cs" />
+    <Compile Include="Core\Logging\Logger.cs" />
+    <Compile Include="Core\Logging\LoggerFactory.cs" />
+    <Compile Include="Core\Logging\LogUtil.cs" />
+    <Compile Include="Core\Logging\SingleLetterLevelConverter.cs" />
+    <Compile Include="Core\Logging\ZippingRollingFileAppender.cs" />
+    <Page Include="UI\T4Window.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Template\Spinner.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\TabOptions\AboutItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\TabOptions\AlertsItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\TabOptions\ColorItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\TabOptions\ExtraItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\TabOptions\ImportExportItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\TabOptions\OptionsItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\TabOptions\ProxyServer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\TabOptions\SmtpSettings.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\TabOptions\SystemInformation.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\TailLog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\TextEditor\LogViewerControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\UpdateController\ResultDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\UpdateController\Updater.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Template\WatermarkTextBox\WatermarkTextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\OverlayDragWnd.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\TabWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Native\NativeMethods.cs" />
-    <Compile Include="NotifyIcon\BalloonIcon.cs" />
-    <Compile Include="NotifyIcon\Interop\BalloonFlags.cs" />
-    <Compile Include="NotifyIcon\Interop\IconDataMembers.cs" />
-    <Compile Include="NotifyIcon\Interop\IconState.cs" />
-    <Compile Include="NotifyIcon\Interop\MouseEvent.cs" />
-    <Compile Include="NotifyIcon\Interop\NotifyCommand.cs" />
-    <Compile Include="NotifyIcon\Interop\NotifyIconData.cs" />
-    <Compile Include="NotifyIcon\Interop\NotifyIconVersion.cs" />
-    <Compile Include="NotifyIcon\Interop\Point.cs" />
-    <Compile Include="NotifyIcon\Interop\TrayInfo.cs" />
-    <Compile Include="NotifyIcon\Interop\WinApi.cs" />
-    <Compile Include="NotifyIcon\Interop\WindowClass.cs" />
-    <Compile Include="NotifyIcon\Interop\WindowMessageSink.cs" />
-    <Compile Include="NotifyIcon\PopupActivationMode.cs" />
-    <Compile Include="NotifyIcon\RoutedEventHelper.cs" />
-    <Compile Include="NotifyIcon\TaskbarIcon.cs" />
-    <Compile Include="NotifyIcon\TaskbarIcon.Declarations.cs" />
-    <Compile Include="NotifyIcon\Util.cs" />
-    <Compile Include="PatternUtil\Events\PartChangedEventHandler.cs" />
-    <Compile Include="PatternUtil\Events\PatternChangedEventHandler.cs" />
-    <Compile Include="PatternUtil\Events\PatternObjectChangedEventHandler.cs" />
-    <Compile Include="PatternUtil\Interfaces\ISearchPatternController.cs" />
-    <Compile Include="PatternUtil\UI\DefineParts.xaml.cs">
-      <DependentUpon>DefineParts.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PatternUtil\UI\DefinePattern.xaml.cs">
-      <DependentUpon>DefinePattern.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PatternUtil\UI\SelectPart.xaml.cs">
-      <DependentUpon>SelectPart.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PatternUtil\Utils\SearchPatternController.cs" />
+    <Compile Include="Core\Native\NativeMethods.cs" />
+    <Compile Include="UI\NotifyIcon\BalloonIcon.cs" />
+    <Compile Include="UI\NotifyIcon\Interop\BalloonFlags.cs" />
+    <Compile Include="UI\NotifyIcon\Interop\IconDataMembers.cs" />
+    <Compile Include="UI\NotifyIcon\Interop\IconState.cs" />
+    <Compile Include="UI\NotifyIcon\Interop\MouseEvent.cs" />
+    <Compile Include="UI\NotifyIcon\Interop\NotifyCommand.cs" />
+    <Compile Include="UI\NotifyIcon\Interop\NotifyIconData.cs" />
+    <Compile Include="UI\NotifyIcon\Interop\NotifyIconVersion.cs" />
+    <Compile Include="UI\NotifyIcon\Interop\Point.cs" />
+    <Compile Include="UI\NotifyIcon\Interop\TrayInfo.cs" />
+    <Compile Include="UI\NotifyIcon\Interop\WinApi.cs" />
+    <Compile Include="UI\NotifyIcon\Interop\WindowClass.cs" />
+    <Compile Include="UI\NotifyIcon\Interop\WindowMessageSink.cs" />
+    <Compile Include="UI\NotifyIcon\PopupActivationMode.cs" />
+    <Compile Include="UI\NotifyIcon\RoutedEventHelper.cs" />
+    <Compile Include="UI\NotifyIcon\TaskbarIcon.cs" />
+    <Compile Include="UI\NotifyIcon\TaskbarIcon.Declarations.cs" />
+    <Compile Include="UI\NotifyIcon\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -597,112 +268,94 @@
     <Content Include="Config\log4net.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Res\Main_bw.ico" />
+    <Resource Include="Resources\Main_bw.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\about.ico" />
+    <Resource Include="Resources\about.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\add.ico" />
+    <Resource Include="Resources\add.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\Alert.ico" />
+    <Resource Include="Resources\Alert.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\Arrow-down.ico" />
+    <Resource Include="Resources\Arrow-down.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\Arrow-up.ico" />
+    <Resource Include="Resources\Arrow-up.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\Cancel.ico" />
+    <Resource Include="Resources\Cancel.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\Clear.ico" />
+    <Resource Include="Resources\Clear.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\colors.ico" />
+    <Resource Include="Resources\colors.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\ColorSwatch.png" />
+    <Resource Include="Resources\ColorSwatch.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\EMail.ico" />
+    <Resource Include="Resources\EMail.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\Explorer.ico" />
+    <Resource Include="Resources\Explorer.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\Export.ico" />
+    <Resource Include="Resources\Export.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\Filters.ico" />
+    <Resource Include="Resources\Filters.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\Font.ico" />
+    <Resource Include="Resources\Font.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\grip.png" />
+    <Resource Include="Resources\grip.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\Import.ico" />
+    <Resource Include="Resources\Import.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\Main.ico" />
+    <Resource Include="Resources\Main.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\notepad.ico" />
+    <Resource Include="Resources\notepad.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\openfolder.ico" />
+    <Resource Include="Resources\openfolder.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\print.ico" />
+    <Resource Include="Resources\print.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\remove.ico" />
+    <Resource Include="Resources\remove.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\save.ico" />
+    <Resource Include="Resources\save.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\script.ico" />
+    <Resource Include="Resources\script.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\Search.ico" />
+    <Resource Include="Resources\Search.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\SplitterHandle.png" />
+    <Resource Include="Resources\SplitterHandle.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\start.ico" />
+    <Resource Include="Resources\start.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\stop.ico" />
+    <Resource Include="Resources\stop.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\system.ico" />
+    <Resource Include="Resources\system.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\SystemInfo.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Template\TextEditor\Res\breakpoint.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Template\TextEditor\Res\RightArrow.cur" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Template\TextEditor\Res\trash-icon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Template\UpdateController\Res\internet.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Template\UpdateController\Res\local.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Template\UpdateController\Res\update.ico" />
+    <Resource Include="Resources\SystemInfo.ico" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DefaultPatterns.xml">
@@ -727,6 +380,28 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Business\Controllers\" />
+    <Folder Include="Business\Data\" />
+    <Folder Include="Business\Events\Args\" />
+    <Folder Include="Business\Interfaces\" />
+    <Folder Include="Core\Enums\" />
+    <Folder Include="Core\Events\Args\" />
+    <Folder Include="UI\Converters\MultiConverters\" />
+    <Folder Include="UI\Interfaces\" />
+    <Folder Include="UI\Styles\" />
+    <Folder Include="UI\UserControls\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets'))" />
+    <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets'))" />
+    <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets'))" />
+  </Target>
+  <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" />
+  <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets')" />
 </Project>

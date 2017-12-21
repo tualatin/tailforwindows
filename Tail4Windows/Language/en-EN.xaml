@@ -1,52 +1,57 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
-  <system:String x:Key="OpenFileDialog">Please select a file to tail...</system:String>
-  <system:String x:Key="FileNotFound">File not found!</system:String>
-  <system:String x:Key="NoFilenameEntered">No filename entered!</system:String>
-  <system:String x:Key="FileObjectDisposedException">Cannot access a closed File! Please check your network connection.</system:String>
-  <system:String x:Key="Error">Error</system:String>
-  <system:String x:Key="Question">Question</system:String>
-  <system:String x:Key="Record">Tail...</system:String>
-  <system:String x:Key="Pause">Pause</system:String>
-  <system:String x:Key="NoFile">No file.</system:String>
-  <system:String x:Key="LastTab">Cannot remove last tab.</system:String>
-  <system:String x:Key="QRemoveTab">Are you sure you want to remove the tab</system:String>
-  <system:String x:Key="TrayIconReady">Ready...</system:String>
-  <system:String x:Key="HCloseTab">Please close some tail windows before open a new one!</system:String>
-  <system:String x:Key="LinesRead">Lines read=</system:String>
-  <system:String x:Key="QResetSettings">Do you really want reset all settings to default?</system:String>
-  <system:String x:Key="QDeleteDataGridItem">Do you want delete selected item?</system:String>
-  <system:String x:Key="NoContentFound">The XML file is empty!</system:String>
-  <system:String x:Key="FileEncodingLabel">(If no value selected, auto file encoding is on)</system:String>
-  <system:String x:Key="OS">Operating System</system:String>
-  <system:String x:Key="FindDialogTitle">Find</system:String>
-  <system:String x:Key="SearchCount">Count: {0} matches.</system:String>
-  <system:String x:Key="SelectSoundFile">Please select a sound file</system:String>
-  <system:String x:Key="NoSoundFile">This is a unknown sound file format. Please select a valid sound file!</system:String>
-  <system:String x:Key="FilterNotEmpty">The filter value cannot be null!</system:String>
-  <system:String x:Key="FiltersLoaded">{0} filters</system:String>
-  <system:String x:Key="FilterLoaded">{0} filter</system:String>
-  <system:String x:Key="FileManagerCloseUnsaveItem">The last edit item is unsaved. Please save the item, before close the dialog.</system:String>
-  <system:String x:Key="GoToLineNumber">Line number ({0}-{1}):</system:String>
-  <system:String x:Key="NoUpdate">No update necessary</system:String>
-  <system:String x:Key="DoUpdate">New update available</system:String>
-  <system:String x:Key="DragDropRunningWarning">There is a running process! Do you want open a new TailWindow tab?</system:String>
-  <system:String x:Key="EMailAddressNotValid">The E-Mail address is not valid!</system:String>
-  <system:String x:Key="SmtpPortNotValid">The SMTP Server Port is not valid!</system:String>
-  <system:String x:Key="MailCannotSend">E-Mail can not send! Please check your SMTP settings.</system:String>
-  <system:String x:Key="SmtpSettingsNotValid">Can not set SMTP settings! Please take a look into the log file to get more information.</system:String>
-  <system:String x:Key="OpenDialogImportSettings">Please select a exported settings file...</system:String>
-  <system:String x:Key="QImportSettings">Do you really want to import this settings? Your old settings will override.</system:String>
-  <system:String x:Key="QAddSendTo">Do you really want to add {0} into the "Send to" context menu of Windows?</system:String>
-  <system:String x:Key="WndStyleChanged">Window style changed, please restart {0}, to see the changes.</system:String>
-  <system:String x:Key="Lowest">Lowest</system:String>
-  <system:String x:Key="BelowNormal">Below normal</system:String>
-  <system:String x:Key="Normal">Normal</system:String>
-  <system:String x:Key="AboveNormal">Above normal</system:String>
-  <system:String x:Key="Highest">Highest</system:String>
-  <system:String x:Key="SmartWatchHint" xml:space="preserve">File {0} detected.&#10;What should {1} do?</system:String>
-  <system:String x:Key="ThreadIsBusy">There is a running process in {0}. Are you sure to exit?</system:String>
-  <system:String x:Key="FileAlreadyOpen">File '{0}' is already open.</system:String>
-  <system:String x:Key="SmartWatchCanNotStart">SmartWatch can not start, an internal error occurred.</system:String>
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    >
+    <system:String x:Key="OpenFileDialog">Please select a file to tail...</system:String>
+    <system:String x:Key="FileNotFound">File not found!</system:String>
+    <system:String x:Key="NoFilenameEntered">No filename entered!</system:String>
+    <system:String x:Key="FileObjectDisposedException">Cannot access a closed File! Please check your network connection.</system:String>
+    <system:String x:Key="Error">Error</system:String>
+    <system:String x:Key="Question">Question</system:String>
+    <system:String x:Key="Record">Tail...</system:String>
+    <system:String x:Key="Pause">Pause</system:String>
+    <system:String x:Key="NoFile">No file.</system:String>
+    <system:String x:Key="LastTab">Cannot remove last tab.</system:String>
+    <system:String x:Key="QRemoveTab">Are you sure you want to remove the tab</system:String>
+    <system:String x:Key="TrayIconReady">Ready...</system:String>
+    <system:String x:Key="HCloseTab">Please close some tail windows before open a new one!</system:String>
+    <system:String x:Key="LinesRead">Lines read=</system:String>
+    <system:String x:Key="QResetSettings">Do you really want reset all settings to default?</system:String>
+    <system:String x:Key="QDeleteDataGridItem">Do you want delete selected item?</system:String>
+    <system:String x:Key="NoContentFound">The XML file is empty!</system:String>
+    <system:String x:Key="FileEncodingLabel">(If no value selected, auto file encoding is on)</system:String>
+    <system:String x:Key="OS">Operating System</system:String>
+    <system:String x:Key="FindDialogTitle">Find</system:String>
+    <system:String x:Key="SearchCount">Count: {0} matches.</system:String>
+    <system:String x:Key="SelectSoundFile">Please select a sound file</system:String>
+    <system:String x:Key="NoSoundFile">This is a unknown sound file format. Please select a valid sound file!</system:String>
+    <system:String x:Key="FilterNotEmpty">The filter value cannot be null!</system:String>
+    <system:String x:Key="FiltersLoaded">{0} filters</system:String>
+    <system:String x:Key="FilterLoaded">{0} filter</system:String>
+    <system:String x:Key="FileManagerCloseUnsaveItem">The last edit item is unsaved. Please save the item, before close the dialog.</system:String>
+    <system:String x:Key="GoToLineNumber">Line number ({0}-{1}):</system:String>
+    <system:String x:Key="NoUpdate">No update necessary</system:String>
+    <system:String x:Key="DoUpdate">New update available</system:String>
+    <system:String x:Key="DragDropRunningWarning">There is a running process! Do you want open a new TailWindow tab?</system:String>
+    <system:String x:Key="EMailAddressNotValid">The E-Mail address is not valid!</system:String>
+    <system:String x:Key="SmtpPortNotValid">The SMTP Server Port is not valid!</system:String>
+    <system:String x:Key="MailCannotSend">E-Mail can not send! Please check your SMTP settings.</system:String>
+    <system:String x:Key="SmtpSettingsNotValid">Can not set SMTP settings! Please take a look into the log file to get more information.</system:String>
+    <system:String x:Key="OpenDialogImportSettings">Please select a exported settings file...</system:String>
+    <system:String x:Key="QImportSettings">Do you really want to import this settings? Your old settings will override.</system:String>
+    <system:String x:Key="QAddSendTo">Do you really want to add {0} into the &quot;Send to&quot; context menu of Windows?</system:String>
+    <system:String x:Key="WndStyleChanged">Window style changed, please restart {0}, to see the changes.</system:String>
+    <system:String x:Key="Lowest">Lowest</system:String>
+    <system:String x:Key="BelowNormal">Below normal</system:String>
+    <system:String x:Key="Normal">Normal</system:String>
+    <system:String x:Key="AboveNormal">Above normal</system:String>
+    <system:String x:Key="Highest">Highest</system:String>
+    <system:String
+        x:Key="SmartWatchHint"
+        xml:space="preserve"
+        >File {0} detected.&#10;What should {1} do?</system:String>
+    <system:String x:Key="ThreadIsBusy">There is a running process in {0}. Are you sure to exit?</system:String>
+    <system:String x:Key="FileAlreadyOpen">File '{0}' is already open.</system:String>
+    <system:String x:Key="SmartWatchCanNotStart">SmartWatch can not start, an internal error occurred.</system:String>
 </ResourceDictionary>

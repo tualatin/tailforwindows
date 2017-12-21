@@ -6,12 +6,12 @@ using System.Windows.Markup;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Tail4Windows")]
+[assembly: AssemblyTitle("T4W")]
 [assembly: AssemblyDescription("Professional log reader for Windows®")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Virtual Studios")]
-[assembly: AssemblyProduct("Tail4Windows")]
-[assembly: AssemblyCopyright("Copyright ©  2013 - 2017 M. Zoennchen")]
+[assembly: AssemblyProduct("T4W")]
+[assembly: AssemblyCopyright("Copyright ©  2013 - 2018 M. Zoennchen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -53,7 +53,8 @@ using System.Windows.Markup;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.5.*")]
-[assembly: AssemblyFileVersion("1.5.15")]
+[assembly: AssemblyVersion("2.0.*")]
+[assembly: AssemblyFileVersion("2.0.0")]
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "Config/log4net.xml", Watch = true)]
+[assembly: Guid("c2612b08-dbd5-4002-a1f0-e1d789a906e7")]
 
