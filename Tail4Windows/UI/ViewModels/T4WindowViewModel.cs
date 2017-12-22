@@ -1,5 +1,9 @@
-using Org.Vs.TailForWin.Core.Controllers;
+using System.Windows;
+using System.Windows.Input;
+using log4net;
+using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Base;
+using Org.Vs.TailForWin.UI.Commands;
 
 
 namespace Org.Vs.TailForWin.UI.ViewModels
@@ -10,14 +14,13 @@ namespace Org.Vs.TailForWin.UI.ViewModels
   /// </summary>
   public class T4WindowViewModel : NotifyMaster
   {
+    // ReSharper disable once InconsistentNaming
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(T4WindowViewModel));
+
     /// <summary>
     /// Window title
     /// </summary>
-    public string WindowTitle
-    {
-      get;
-      set;
-    }
+    public string WindowTitle => ControlContainer.Instance.ApplicationTitle;
 
     /// <summary>
     /// Width of main window
@@ -42,7 +45,27 @@ namespace Org.Vs.TailForWin.UI.ViewModels
     /// </summary>
     public T4WindowViewModel()
     {
+      LOG.Trace("Start view model");
     }
 
+    #region Commands
+
+    private ICommand _goToLineCommand;
+
+    /// <summary>
+    /// Go to line xxx command
+    /// </summary>
+    public ICommand GoToLineCommand => _goToLineCommand ?? (_goToLineCommand = new RelayCommand(p => ExecuteGoToLineCommand()));
+
+    #endregion
+
+    #region Command functions
+
+    private void ExecuteGoToLineCommand()
+    {
+      MessageBox.Show("Test", "Hint", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
+    #endregion
   }
 }
