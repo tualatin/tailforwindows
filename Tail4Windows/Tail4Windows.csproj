@@ -174,12 +174,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Business\Controllers\ControllerDummy.cs" />
+    <Compile Include="Business\Data\DataDummy.cs" />
+    <Compile Include="Business\Events\Args\ArgDummy.cs" />
+    <Compile Include="Business\Interfaces\IDummy.cs" />
     <Compile Include="Core\Controllers\SettingsHelper.cs" />
     <Compile Include="Core\Data\Settings\AlertSetting.cs" />
     <Compile Include="Core\Data\Settings\EnvironmentSettings.cs" />
     <Compile Include="Core\Data\Settings\ProxySetting.cs" />
     <Compile Include="Core\Data\Settings\SmartWatchSetting.cs" />
     <Compile Include="Core\Data\Settings\SmtpSetting.cs" />
+    <Compile Include="Core\Enums\EDummy.cs" />
+    <Compile Include="Core\Events\Args\ArgDummy.cs" />
     <Compile Include="Core\Extensions\EnumExtension.cs" />
     <Compile Include="Core\Interfaces\ISettingsHelper.cs" />
     <Compile Include="Core\Native\Data\Enum\SWP.cs" />
@@ -189,6 +195,9 @@
     <Compile Include="Core\Native\Data\Rect.cs" />
     <Compile Include="Core\Native\Data\Win32Point.cs" />
     <Compile Include="Core\Native\Data\WINDOWPOS.cs" />
+    <Compile Include="UI\Converters\MultiConverters\DummyMultiConverter.cs" />
+    <Compile Include="UI\Events\Args\ArgDummy.cs" />
+    <Compile Include="UI\Interfaces\IDummy.cs" />
     <Compile Include="UI\NotifyIcon\Interop\SystemInfo.cs" />
     <Compile Include="UI\T4Window.xaml.cs">
       <DependentUpon>T4Window.xaml</DependentUpon>
@@ -462,16 +471,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Business\Controllers\" />
-    <Folder Include="Business\Data\" />
-    <Folder Include="Business\Events\Args\" />
-    <Folder Include="Business\Interfaces\" />
-    <Folder Include="Core\Enums\" />
-    <Folder Include="Core\Events\Args\" />
-    <Folder Include="UI\Converters\MultiConverters\" />
-    <Folder Include="UI\Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
