@@ -10,8 +10,6 @@ namespace Org.Vs.TailForWin.UI.ViewModels
   /// </summary>
   public class T4WindowViewModel : NotifyMaster
   {
-    private SettingsHelper _settings;
-
     /// <summary>
     /// Window title
     /// </summary>
@@ -44,8 +42,6 @@ namespace Org.Vs.TailForWin.UI.ViewModels
     /// </summary>
     public T4WindowViewModel()
     {
-      _settings = new SettingsHelper();
-      _settings.ReadSettingsAsync();
     }
 
   }

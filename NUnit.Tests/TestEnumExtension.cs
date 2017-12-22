@@ -1,6 +1,6 @@
 using NUnit.Framework;
 using Org.Vs.NUnit.Tests.Enums;
-using Org.Vs.TailForWin.Extensions;
+using Org.Vs.TailForWin.Core.Extensions;
 
 
 namespace Org.Vs.NUnit.Tests

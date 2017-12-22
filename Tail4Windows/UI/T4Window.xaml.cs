@@ -53,7 +53,6 @@ namespace Org.Vs.TailForWin.UI
     {
       handled = false;
 
-
       switch( msg )
       {
       case NativeMethods.WM_ENTERSIZEMOVE:

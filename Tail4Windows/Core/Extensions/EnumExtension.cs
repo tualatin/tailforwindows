@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Reflection;
 
 
-namespace Org.Vs.TailForWin.Extensions
+namespace Org.Vs.TailForWin.Core.Extensions
 {
   /// <summary>
   /// Enum extension
@@ -49,7 +49,7 @@ namespace Org.Vs.TailForWin.Extensions
             return (T) field.GetValue(null);
         }
       }
-      throw new ArgumentException("Not found.", nameof(value));
+      throw new ArgumentException(nameof(value));
     }
   }
 }

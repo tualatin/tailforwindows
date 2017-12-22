@@ -179,6 +179,7 @@
     <Compile Include="Business\Events\Args\ArgDummy.cs" />
     <Compile Include="Business\Interfaces\IDummy.cs" />
     <Compile Include="Core\Controllers\SettingsHelper.cs" />
+    <Compile Include="Core\Data\Base\NotifyTaskCompletion.cs" />
     <Compile Include="Core\Data\Settings\AlertSetting.cs" />
     <Compile Include="Core\Data\Settings\EnvironmentSettings.cs" />
     <Compile Include="Core\Data\Settings\ProxySetting.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="Core\Data\Settings\SmtpSetting.cs" />
     <Compile Include="Core\Enums\EDummy.cs" />
     <Compile Include="Core\Events\Args\ArgDummy.cs" />
+    <Compile Include="Core\Extensions\EnumerableExtension.cs" />
     <Compile Include="Core\Extensions\EnumExtension.cs" />
     <Compile Include="Core\Interfaces\ISettingsHelper.cs" />
     <Compile Include="Core\Native\Data\Enum\SWP.cs" />
@@ -195,9 +197,14 @@
     <Compile Include="Core\Native\Data\Rect.cs" />
     <Compile Include="Core\Native\Data\Win32Point.cs" />
     <Compile Include="Core\Native\Data\WINDOWPOS.cs" />
+    <Compile Include="Core\Utils\ControlContainer.cs" />
+    <Compile Include="UI\Commands\AsyncCommand.cs" />
+    <Compile Include="UI\Commands\Base\AsyncCommandBase.cs" />
+    <Compile Include="UI\Commands\MouseBehaviour.cs" />
+    <Compile Include="UI\Commands\RelayCommand.cs" />
     <Compile Include="UI\Converters\MultiConverters\DummyMultiConverter.cs" />
     <Compile Include="UI\Events\Args\ArgDummy.cs" />
-    <Compile Include="UI\Interfaces\IDummy.cs" />
+    <Compile Include="UI\Interfaces\IAsyncCommand.cs" />
     <Compile Include="UI\NotifyIcon\Interop\SystemInfo.cs" />
     <Compile Include="UI\T4Window.xaml.cs">
       <DependentUpon>T4Window.xaml</DependentUpon>
@@ -257,6 +264,10 @@
     <Page Include="UI\Styles\ContextMenuItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\KeyBindings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Styles\Label.xaml">
       <Generator>MSBuild:Compile</Generator>

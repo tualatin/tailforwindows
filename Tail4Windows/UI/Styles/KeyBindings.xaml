@@ -1,0 +1,19 @@
+<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  >
+  <KeyBinding x:Key="GoToLine" Gesture="CTRL+G" />
+  <KeyBinding x:Key="FindWhat" Gesture="CTRL+F" />
+  <KeyBinding x:Key="OpenFile" Gesture="CTRL+O" />
+  <KeyBinding x:Key="OpenFileManager" Gesture="CTRL+M" />
+  <KeyBinding x:Key="ClearTailWindow" Gesture="CTRL+E" />
+  <KeyBinding x:Key="StartTail" Gesture="CTRL+R" />
+  <KeyBinding x:Key="StopTail" Gesture="CTRL+S" />
+  <KeyBinding x:Key="CopyLine" Gesture="CTRL+C" />
+  <KeyBinding x:Key="NewTabItem" Gesture="CTRL+T" />
+  <KeyBinding x:Key="CloseTabItem" Gesture="CTRL+W" />
+  <KeyBinding x:Key="ToggleAlwaysOnTop" Gesture="ALT+T" />
+  <KeyBinding x:Key="ToggleFilter" Gesture="ALT+F" />
+  <KeyBinding x:Key="SearchForward" Gesture="F3" />
+  <KeyBinding x:Key="MinimizeWnd" Gesture="CTRL+ALT+M" />
+</ResourceDictionary>

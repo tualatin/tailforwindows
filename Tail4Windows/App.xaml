@@ -23,6 +23,7 @@
         <ResourceDictionary Source="UI/Styles/TailForWinTabItem.xaml" />
         <ResourceDictionary Source="UI/Styles/WindowStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/ContextMenuItem.xaml" />
+        <ResourceDictionary Source="UI/Styles/KeyBindings.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>
