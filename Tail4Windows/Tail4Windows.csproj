@@ -194,6 +194,16 @@
       <DependentUpon>T4Window.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Utils\Arg.cs" />
+    <Compile Include="UI\UserControls\StyleableWindow\ControlDoubleClickBehavior.cs" />
+    <Compile Include="UI\UserControls\StyleableWindow\ShowSystemMenuBehavior.cs" />
+    <Compile Include="UI\UserControls\StyleableWindow\SystemMenuManager.cs" />
+    <Compile Include="UI\UserControls\StyleableWindow\WindowCloseCommand.cs" />
+    <Compile Include="UI\UserControls\StyleableWindow\WindowDragBehavior.cs" />
+    <Compile Include="UI\UserControls\StyleableWindow\WindowMaximizeCommand.cs" />
+    <Compile Include="UI\UserControls\StyleableWindow\WindowMinimizeCommand.cs" />
+    <Compile Include="UI\UserControls\StyleableWindow\WindowResizeBehavior.cs" />
+    <Compile Include="UI\UserControls\TailForWinTabItem.cs" />
+    <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="UI\ViewModels\T4WindowViewModel.cs" />
     <Page Include="Language\en-EN.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -211,6 +221,78 @@
     <Compile Include="Core\Logging\LogUtil.cs" />
     <Compile Include="Core\Logging\SingleLetterLevelConverter.cs" />
     <Compile Include="Core\Logging\ZippingRollingFileAppender.cs" />
+    <Page Include="UI\Styles\AndroidCheckBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\AndroidRadioButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\AndroidSlider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\AndroidToggleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\ComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\ContextMenuItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\Label.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\ScrollbarResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\ScrollbarWithGripResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\Separator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\Shared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\TabControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\TabItemToolTipStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\TailForWinTabItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\WatermarkTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Styles\WindowStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\T4Window.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -389,8 +471,6 @@
     <Folder Include="Core\Events\Args\" />
     <Folder Include="UI\Converters\MultiConverters\" />
     <Folder Include="UI\Interfaces\" />
-    <Folder Include="UI\Styles\" />
-    <Folder Include="UI\UserControls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />

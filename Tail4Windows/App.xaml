@@ -1,29 +1,29 @@
-﻿<Application
-    x:Class="Org.Vs.TailForWin.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Startup="ApplicationStartup"
-    >
-    <Application.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <!--<ResourceDictionary Source="Language/en-EN.xaml"/>
-        <ResourceDictionary Source="Resources/AndroidCheckBox.xaml"/>
-        <ResourceDictionary Source="Resources/AndroidRadioButton.xaml"/>
-        <ResourceDictionary Source="Resources/AndroidSlider.xaml"/>
-        <ResourceDictionary Source="Resources/AndroidToggleButton.xaml"/>
-        <ResourceDictionary Source="Resources/TextBox.xaml"/>
-        <ResourceDictionary Source="Resources/Label.xaml"/>
-        <ResourceDictionary Source="Resources/Button.xaml"/>
-        <ResourceDictionary Source="Template/WatermarkTextBox/WatermarkTextBox.xaml"/>
-        <ResourceDictionary Source="Resources/ScrollbarResources.xaml"/>
-        <ResourceDictionary Source="Resources/ComboBox.xaml"/>
-        <ResourceDictionary Source="Resources/Separator.xaml"/>
-        <ResourceDictionary Source="Resources/TabItemToolTipStyle.xaml"/>
-        <ResourceDictionary Source="Resources/TailForWinTabItem.xaml"/>
-        <ResourceDictionary Source="Resources/WindowStyle.xaml"/>
-        <ResourceDictionary Source="Resources/ContextMenuItem.xaml"/>-->
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Application.Resources>
+<Application
+  x:Class="Org.Vs.TailForWin.App"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  Startup="ApplicationStartup"
+  >
+  <Application.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Language/en-EN.xaml" />
+        <ResourceDictionary Source="UI/Styles/AndroidCheckBox.xaml" />
+        <ResourceDictionary Source="UI/Styles/AndroidRadioButton.xaml" />
+        <ResourceDictionary Source="UI/Styles/AndroidSlider.xaml" />
+        <ResourceDictionary Source="UI/Styles/AndroidToggleButton.xaml" />
+        <ResourceDictionary Source="UI/Styles/TextBox.xaml" />
+        <ResourceDictionary Source="UI/Styles/Label.xaml" />
+        <ResourceDictionary Source="UI/Styles/Button.xaml" />
+        <ResourceDictionary Source="UI/Styles/WatermarkTextBox.xaml" />
+        <ResourceDictionary Source="UI/Styles/ScrollbarResources.xaml" />
+        <ResourceDictionary Source="UI/Styles/ComboBox.xaml" />
+        <ResourceDictionary Source="UI/Styles/Separator.xaml" />
+        <ResourceDictionary Source="UI/Styles/TabItemToolTipStyle.xaml" />
+        <ResourceDictionary Source="UI/Styles/TailForWinTabItem.xaml" />
+        <ResourceDictionary Source="UI/Styles/WindowStyle.xaml" />
+        <ResourceDictionary Source="UI/Styles/ContextMenuItem.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Application.Resources>
 </Application>

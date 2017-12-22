@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Reflection;
 
 
-namespace Org.Vs.TailForWin.Utils
+namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
   /// Utility class for checking method arguments.

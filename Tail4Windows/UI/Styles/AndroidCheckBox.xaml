@@ -1,0 +1,187 @@
+<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  >
+
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="Shared.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+
+  <!--  Focus Visual  -->
+  <Style x:Key="CheckBoxFocusVisual">
+    <Setter Property="Control.Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Rectangle
+            x:Name="FocusStyle"
+            Fill="Transparent"
+            RadiusX="5"
+            RadiusY="5"
+            Stroke="#81D2EB"
+            StrokeDashArray="4 4"
+            StrokeThickness="2"
+            />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <!--  CheckBox style  -->
+  <Style x:Key="{x:Type CheckBox}" TargetType="{x:Type CheckBox}">
+    <Setter Property="FocusVisualStyle" Value="{DynamicResource CheckBoxFocusVisual}" />
+    <Setter Property="Height" Value="13" />
+    <Setter Property="OverridesDefaultStyle" Value="true" />
+    <Setter Property="SnapsToDevicePixels" Value="true" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type CheckBox}">
+          <BulletDecorator>
+            <BulletDecorator.Bullet>
+              <Grid
+                Width="{Binding RelativeSource={RelativeSource Self}, Path=Height, UpdateSourceTrigger=PropertyChanged}"
+                Height="{TemplateBinding Height}"
+                MinWidth="13"
+                MinHeight="13"
+                >
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="4*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="4*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="1*" />
+                  <ColumnDefinition Width="2*" />
+                  <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="3*" />
+                  <RowDefinition Height="1*" />
+                  <RowDefinition Height="1*" />
+                  <RowDefinition Height="1*" />
+                  <RowDefinition Height="4*" />
+                  <RowDefinition Height="1*" />
+                  <RowDefinition Height="1*" />
+                  <RowDefinition Height="4*" />
+                </Grid.RowDefinitions>
+
+                <Border
+                  Name="MainBorder"
+                  Grid.RowSpan="9"
+                  Grid.ColumnSpan="9"
+                  Background="Transparent"
+                  BorderThickness="1"
+                  CornerRadius="4"
+                  />
+
+                <Border
+                  Name="InnerBorder"
+                  Grid.Row="2"
+                  Grid.RowSpan="5"
+                  Grid.Column="1"
+                  Grid.ColumnSpan="5"
+                  BorderBrush="#808080"
+                  BorderThickness="1"
+                  />
+
+                <Path
+                  Name="InnerPath"
+                  Grid.Row="2"
+                  Grid.RowSpan="5"
+                  Grid.Column="1"
+                  Grid.ColumnSpan="5"
+                  Data="M31,5 L19.5,5 19.5,19.5 34.5,19.5 34.5,11.75"
+                  Stretch="Fill"
+                  Stroke="#808080"
+                  />
+
+                <Path
+                  Name="CheckMark"
+                  Grid.Row="1"
+                  Grid.RowSpan="5"
+                  Grid.Column="2"
+                  Grid.ColumnSpan="5"
+                  Data="M9.07743946676476E-09,4.31805768640244L4.68740335877841,8.86361158398516C4.68740335877841,8.86361158398516,16.3281249985376,-2.42451336648723,16.3281249985376,-2.42451336648723L14.0622100581796,-4.77304938341948 4.68740335877846,4.31805791992662 2.22656251699567,1.93164208562579z"
+                  Fill="#3babe3"
+                  Opacity="0"
+                  Stretch="Fill"
+                  Stroke="#3babe3"
+                  />
+
+                <Path
+                  Name="InderminateMark"
+                  Grid.Row="4"
+                  Grid.Column="3"
+                  Data="M0,4 L1,5 5,1 4,0"
+                  Fill="#808080"
+                  Opacity="0"
+                  Stretch="Fill"
+                  StrokeThickness="0"
+                  />
+              </Grid>
+            </BulletDecorator.Bullet>
+            <ContentPresenter
+              Margin="4 0 4 0"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Center"
+              RecognizesAccessKey="True"
+              />
+            <VisualStateManager.VisualStateGroups>
+              <VisualStateGroup x:Name="CheckStates">
+                <VisualState x:Name="Checked">
+                  <Storyboard>
+                    <DoubleAnimation
+                      Duration="0:0:0.2"
+                      Storyboard.TargetName="CheckMark"
+                      Storyboard.TargetProperty="Opacity"
+                      To="1"
+                      />
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Unchecked">
+                  <Storyboard>
+                    <DoubleAnimation
+                      Duration="0:0:0.2"
+                      Storyboard.TargetName="CheckMark"
+                      Storyboard.TargetProperty="Opacity"
+                      To="0"
+                      />
+                  </Storyboard>
+                </VisualState>
+                <VisualState x:Name="Indeterminate">
+                  <Storyboard>
+                    <DoubleAnimation
+                      Duration="0:0:0.2"
+                      Storyboard.TargetName="InderminateMark"
+                      Storyboard.TargetProperty="Opacity"
+                      To="1"
+                      />
+                  </Storyboard>
+                </VisualState>
+              </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+          </BulletDecorator>
+
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+              <Setter TargetName="InnerBorder" Property="Visibility" Value="Collapsed" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="MainBorder" Property="Background" Value="#81d2eb" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter TargetName="CheckMark" Property="Fill" Value="#cccccc" />
+              <Setter TargetName="CheckMark" Property="Stroke" Value="#cccccc" />
+              <Setter TargetName="InderminateMark" Property="Fill" Value="#cccccc" />
+              <Setter TargetName="InnerBorder" Property="BorderBrush" Value="#cccccc" />
+              <Setter TargetName="InnerPath" Property="Stroke" Value="#cccccc" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="InnerBorder" Property="BorderBrush" Value="#BB34b4e3" />
+              <Setter TargetName="InnerPath" Property="Stroke" Value="#BB34b4e3" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+</ResourceDictionary>

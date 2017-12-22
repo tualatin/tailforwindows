@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using log4net;
 using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Settings;
-using Org.Vs.TailForWin.Utils;
 
 
 namespace Org.Vs.TailForWin.Core.Controllers
