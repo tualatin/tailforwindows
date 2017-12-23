@@ -15,7 +15,7 @@ namespace Org.Vs.TailForWin.Core.Data
   /// <summary>
   /// Tail data object
   /// </summary>
-  public class TailData : NotifyMaster, ICloneable, IDisposable, IDataErrorInfo
+  public partial class TailData : NotifyMaster, ICloneable, IDisposable, IDataErrorInfo
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(TailData));
 

@@ -1,16 +1,10 @@
 using System;
-using System.Collections.Generic;
 
 
 namespace Org.Vs.NUnit.Tests.Data
 {
-  public class TestDataObject
+  public class TestDataObject : ICloneable
   {
-    public TestDataObject()
-    {
-      TestList = new List<string>();
-    }
-
     public Guid Id
     {
       get;
@@ -35,9 +29,9 @@ namespace Org.Vs.NUnit.Tests.Data
       set;
     }
 
-    public List<string> TestList
+    public object Clone()
     {
-      get;
+      return MemberwiseClone();
     }
   }
 }

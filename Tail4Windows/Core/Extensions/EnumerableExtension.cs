@@ -65,7 +65,7 @@ namespace Org.Vs.TailForWin.Core.Extensions
     }
 
     /// <summary>
-    /// Compare generic IEnumerables
+    /// Compares generic IEnumerables
     /// </summary>
     /// <typeparam name="T">Type of IEnumerable</typeparam>
     /// <param name="first">First IEnumerable</param>
