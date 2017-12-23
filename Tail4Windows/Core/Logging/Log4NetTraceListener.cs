@@ -1,13 +1,14 @@
 using log4net;
 
 
-namespace Org.Vs.TailForWin.Logging
+namespace Org.Vs.TailForWin.Core.Logging
 {
   /// <summary>
   /// Log4Net trace listener
   /// </summary>
   public class Log4NetTraceListener : System.Diagnostics.TraceListener
   {
+    // ReSharper disable once InconsistentNaming
     private readonly ILog LOG;
 
 
@@ -42,8 +43,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="message">Message to write</param>
     public override void Write(string message)
     {
-      if ( LOG != null )
-        LOG.Debug(message);
+      LOG?.Debug(message);
     }
 
     /// <summary>
@@ -53,8 +53,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="category">Category</param>
     public override void Write(string message, string category)
     {
-      if ( LOG != null )
-        LOG.Debug(string.Format("{0} - {1}", category, message));
+      LOG?.Debug($"{category} - {message}");
     }
 
     /// <summary>
@@ -63,8 +62,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="message">Message to write</param>
     public override void WriteLine(string message)
     {
-      if ( LOG != null )
-        LOG.Debug(message);
+      LOG?.Debug(message);
     }
 
     /// <summary>
@@ -74,8 +72,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="category">Category</param>
     public override void WriteLine(string message, string category)
     {
-      if ( LOG != null )
-        LOG.Debug(string.Format("{0} - {1}", category, message));
+      LOG?.Debug($"{category} - {message}");
     }
 
     /// <summary>
@@ -84,8 +81,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="o">Object to write</param>
     public override void Write(object o)
     {
-      if ( LOG != null )
-        LOG.Debug(o == null ? "NULL" : o.ToString());
+      LOG?.Debug(o?.ToString() ?? "NULL");
     }
 
     /// <summary>
@@ -95,8 +91,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="category">Category</param>
     public override void Write(object o, string category)
     {
-      if ( LOG != null )
-        LOG.Debug(string.Format("{0} - {1}", category, o == null ? "NULL" : o.ToString()));
+      LOG?.Debug($"{category} - {o?.ToString() ?? "NULL"}");
     }
 
     /// <summary>
@@ -105,8 +100,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="o">Object to write</param>
     public override void WriteLine(object o)
     {
-      if ( LOG != null )
-        LOG.Debug(o == null ? "NULL" : o.ToString());
+      LOG?.Debug(o?.ToString() ?? "NULL");
     }
 
     /// <summary>
@@ -116,8 +110,7 @@ namespace Org.Vs.TailForWin.Logging
     /// <param name="category">Category</param>
     public override void WriteLine(object o, string category)
     {
-      if ( LOG != null )
-        LOG.Debug(string.Format("{0} - {1}", category, o == null ? "NULL" : o.ToString()));
+      LOG?.Debug($"{category} - {o?.ToString() ?? "NULL"}");
     }
   }
 }

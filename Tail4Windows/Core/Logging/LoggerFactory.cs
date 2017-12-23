@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Org.Vs.TailForWin.Logging
+namespace Org.Vs.TailForWin.Core.Logging
 {
   /// <summary>
   /// log4net LoggerFactory

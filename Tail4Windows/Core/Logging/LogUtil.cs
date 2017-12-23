@@ -2,7 +2,7 @@
 using System.Text;
 
 
-namespace Org.Vs.TailForWin.Logging
+namespace Org.Vs.TailForWin.Core.Logging
 {
   /// <summary>
   /// log4net LogUtil
@@ -29,10 +29,8 @@ namespace Org.Vs.TailForWin.Logging
       {
         StringBuilder sb = new StringBuilder();
 
-        for ( int i = 0; i < args.Length; i++ )
+        foreach ( object arg in args )
         {
-          object arg = args[i];
-
           if ( sb.Length > 0 )
             sb.Append(", ");
 

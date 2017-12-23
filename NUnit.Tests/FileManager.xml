@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fileManager>
+  <file>
+    <id>8a0c7206-7d0e-4d81-a25c-1d4accca09b7</id>
+    <fileName>D:\Tools\TailForWindows\logs\tailforwindows_2017-03-06.log</fileName>
+    <description>Tail4Windows</description>
+    <category>T4F</category>
+    <threadPriority>Lowest</threadPriority>
+    <newWindow>False</newWindow>
+    <refreshRate>Highest</refreshRate>
+    <timeStamp>False</timeStamp>
+    <killSpace>False</killSpace>
+    <lineWrap>False</lineWrap>
+    <fileEncoding>us-ascii</fileEncoding>
+    <useFilters>False</useFilters>
+    <usePattern>True</usePattern>
+    <font>
+      <name>Segoe UI</name>
+      <size>12</size>
+      <bold>False</bold>
+      <italic>False</italic>
+    </font>
+    <useSmartWatch>False</useSmartWatch>
+    <searchPattern>
+      <isRegex>false</isRegex>
+      <patternString>tailforwindows_????-??-??.log</patternString>
+    </searchPattern>
+    <filters />
+  </file>
+  <file>
+    <id>ce14d954-9336-4b8f-8160-67362f2f11a2</id>
+    <fileName>D:\Temp\dd_setup_20170308174811.log</fileName>
+    <description>Visual Studio Setup</description>
+    <category>MS Setup</category>
+    <threadPriority>Normal</threadPriority>
+    <newWindow>False</newWindow>
+    <refreshRate>Normal</refreshRate>
+    <timeStamp>False</timeStamp>
+    <killSpace>True</killSpace>
+    <lineWrap>False</lineWrap>
+    <fileEncoding>utf-8</fileEncoding>
+    <useFilters>False</useFilters>
+    <usePattern>True</usePattern>
+    <font>
+      <name>Segoe UI</name>
+      <size>12</size>
+      <bold>False</bold>
+      <italic>False</italic>
+    </font>
+    <useSmartWatch>True</useSmartWatch>
+    <searchPattern>
+      <isRegex>false</isRegex>
+      <patternString>dd_setup_??????????????.log</patternString>
+    </searchPattern>
+    <filters />
+  </file>
+</fileManager>

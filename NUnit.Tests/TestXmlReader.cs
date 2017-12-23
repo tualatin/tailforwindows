@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Threading.Tasks;
+using NUnit.Framework;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Interfaces;
 
@@ -16,29 +17,30 @@ namespace Org.Vs.NUnit.Tests
       _xmlReader = new XmlConfigReadController();
     }
 
+    [Test]
+    public async Task TestReadXmlConfigFile()
+    {
+      var files = await _xmlReader.ReadXmlFile();
+      Assert.NotNull(files);
+    }
 
     [Test]
-    public async void TestReadXmlConfigFile()
+    public async Task TestWriteXmlConfigFile()
     {
     }
 
     [Test]
-    public async void TestWriteXmlConfigFile()
+    public async Task TestGetNodeById()
     {
     }
 
     [Test]
-    public async void TestGetNodeById()
+    public async Task TestUpdateXmlConfigFile()
     {
     }
 
     [Test]
-    public async void TestUpdateXmlConfigFile()
-    {
-    }
-
-    [Test]
-    public async void TestRemoveXmlElement()
+    public async Task TestRemoveXmlElement()
     {
 
     }

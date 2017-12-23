@@ -13,7 +13,7 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// <summary>
     /// Read XML config file
     /// </summary>
-    /// <returns></returns>
+    /// <returns>List of tail settings from XML file</returns>
     Task<ObservableCollection<TailData>> ReadXmlFile();
 
     /// <summary>
