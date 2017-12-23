@@ -1,7 +1,7 @@
-using Org.Vs.TailForWin.Data.Base;
+using Org.Vs.TailForWin.Core.Data.Base;
 
 
-namespace Org.Vs.TailForWin.Data.Settings
+namespace Org.Vs.TailForWin.Core.Data.Settings
 {
   /// <summary>
   /// Proxy settings

@@ -69,11 +69,11 @@ namespace Org.Vs.NUnit.Tests
     [Test]
     public void TestEnumerableFindDublicatesNullNewValueNullComparer()
     {
-      Assert.Throws<ArgumentException>(() => _stringCollection.FindDublicates(null, null));
+      Assert.Throws<ArgumentException>(() => _stringCollection.IsAlreadyExists(null, null));
     }
 
     [Test]
-    public void TestEnumerableFindDublicates()
+    public void TestEnumerableIsAlreadyExists()
     {
       TestDataObject newValue = new TestDataObject
       {
@@ -83,14 +83,35 @@ namespace Org.Vs.NUnit.Tests
         TestString = "Test3"
       };
 
-      Assert.IsTrue(_stringCollection.FindDublicates(newValue, new Comparer()));
+      Assert.IsTrue(_stringCollection.IsAlreadyExists(newValue, new Comparer()));
     }
 
     [Test]
-    public void TestEnumerableFindDublicatesNullComparer()
+    public void TestEnumerableIsAlreadyExistsNullComparer()
     {
-      Assert.IsFalse(_testList.FindDublicates("blabla", null));
-      Assert.IsTrue(_testList.FindDublicates("test1", null));
+      Assert.IsFalse(_testList.IsAlreadyExists("blabla", null));
+      Assert.IsTrue(_testList.IsAlreadyExists("test1", null));
+    }
+
+    [Test]
+    public void TestEnumerableCompare()
+    {
+      var testList = new List<string> { "test1", "test2", "test3", "test4" };
+      Assert.IsTrue(_testList.CompareGenericObservableCollections(testList));
+
+      testList.Add("test5");
+      Assert.IsFalse(_testList.CompareGenericObservableCollections(testList));
+    }
+
+    [Test]
+    public void TestListCompare()
+    {
+      List<int> a = new List<int> { 1, 2, 3, 1, 4, 10 };
+      List<int> b = new List<int> { 1, 2, 3, 1, 4, 10 };
+      Assert.IsTrue(a.CompareGenericObservableCollections(b));
+
+      List<int> c = new List<int> { 4, 6, 10, 20, 23, 10 };
+      Assert.IsFalse(b.CompareGenericObservableCollections(c));
     }
 
     private class Comparer : IEqualityComparer<TestDataObject>

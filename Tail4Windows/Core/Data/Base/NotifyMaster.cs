@@ -2,7 +2,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 
 
-namespace Org.Vs.TailForWin.Data.Base
+namespace Org.Vs.TailForWin.Core.Data.Base
 {
   /// <inheritdoc />
   /// <summary>

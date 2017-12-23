@@ -3,9 +3,10 @@ using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using log4net;
+using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
-using Org.Vs.TailForWin.Data.Settings;
 
 
 namespace Org.Vs.TailForWin.Core.Controllers
@@ -56,7 +57,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
             CurrentSettings.ExitWithEscape = GetBoolFromSetting("ExitWithEsc");
             CurrentSettings.CurrentWindowState = GetWindowState(GetStringFromSetting("WindowState"));
           }
-          catch( ConfigurationErrorsException ex )
+          catch ( ConfigurationErrorsException ex )
           {
             LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
           }
@@ -82,7 +83,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-            if( config.AppSettings.Settings.Count <= 0 )
+            if ( config.AppSettings.Settings.Count <= 0 )
               return;
 
             WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
@@ -99,7 +100,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
           }
-          catch( ConfigurationErrorsException ex )
+          catch ( ConfigurationErrorsException ex )
           {
             LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
           }
@@ -139,26 +140,17 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private static int GetIntFromSetting(string setting, int defaultValue = -1)
     {
-      if( !int.TryParse(ConfigurationManager.AppSettings[setting], out int intSetting) )
-        intSetting = defaultValue;
-
-      return intSetting;
+      return ConfigurationManager.AppSettings[setting].ConverToInt(defaultValue);
     }
 
     private static double GetDoubleFromSetting(string setting, double defaultValue = -1)
     {
-      if( !double.TryParse(ConfigurationManager.AppSettings[setting], out double doubleSetting) )
-        doubleSetting = defaultValue;
-
-      return doubleSetting;
+      return ConfigurationManager.AppSettings[setting].ConvertToDouble(defaultValue);
     }
 
     private static bool GetBoolFromSetting(string setting, bool defaultValue = false)
     {
-      if( !bool.TryParse(ConfigurationManager.AppSettings[setting], out bool boolSetting) )
-        boolSetting = defaultValue;
-
-      return boolSetting;
+      return ConfigurationManager.AppSettings[setting].ConvertToBool(defaultValue);
     }
 
     /// <summary>
@@ -168,10 +160,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>Enum of System.Windows.WindowState</returns>
     private static System.Windows.WindowState GetWindowState(string s)
     {
-      if( string.IsNullOrEmpty(s) )
+      if ( string.IsNullOrEmpty(s) )
         return System.Windows.WindowState.Normal;
 
-      if( Enum.GetNames(typeof(System.Windows.WindowState)).All(w => string.Compare(s.ToLower(), w.ToLower(), StringComparison.Ordinal) != 0) )
+      if ( Enum.GetNames(typeof(System.Windows.WindowState)).All(w => string.Compare(s.ToLower(), w.ToLower(), StringComparison.Ordinal) != 0) )
         return System.Windows.WindowState.Normal;
 
       Enum.TryParse(s, out System.Windows.WindowState wndState);

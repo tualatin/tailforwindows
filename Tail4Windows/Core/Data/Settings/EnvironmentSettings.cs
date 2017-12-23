@@ -1,9 +1,9 @@
 using System.Globalization;
 using System.Threading;
-using Org.Vs.TailForWin.Data.Base;
+using Org.Vs.TailForWin.Core.Data.Base;
 
 
-namespace Org.Vs.TailForWin.Data.Settings
+namespace Org.Vs.TailForWin.Core.Data.Settings
 {
   /// <inheritdoc />
   /// <summary>
@@ -21,7 +21,7 @@ namespace Org.Vs.TailForWin.Data.Settings
       get => _cultureInfo ?? Thread.CurrentThread.CurrentUICulture;
       set
       {
-        if( Equals(_cultureInfo, value) )
+        if ( Equals(_cultureInfo, value) )
           return;
 
         _cultureInfo = value;
