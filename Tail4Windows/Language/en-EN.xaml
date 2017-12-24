@@ -55,4 +55,5 @@
   <system:String x:Key="ThreadIsBusy">There is a running process in {0}. Are you sure to exit?</system:String>
   <system:String x:Key="FileAlreadyOpen">File '{0}' is already open.</system:String>
   <system:String x:Key="SmartWatchCanNotStart">SmartWatch can not start, an internal error occurred.</system:String>
+  <system:String x:Key="XmlExceptionConfigFileCorrupt">The XML file is not a valid file or corrupted!</system:String>
 </ResourceDictionary>

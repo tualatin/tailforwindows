@@ -80,6 +80,9 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml.Serialization" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +113,10 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="FileManager.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="FileManager_Root.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

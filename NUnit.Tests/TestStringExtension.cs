@@ -4,7 +4,7 @@ using Org.Vs.TailForWin.Core.Extensions;
 
 namespace Org.Vs.NUnit.Tests
 {
-  [TestFixture()]
+  [TestFixture]
   public class TestStringExtension
   {
     [Test]

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -11,22 +7,25 @@ using Org.Vs.TailForWin.Core.Interfaces;
 namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
-  /// Control container for T4W
+  /// Environment container for T4W
   /// </summary>
-  public class ControlContainer
+  public class EnvironmentlContainer
   {
-    private static ControlContainer _instance;
+    private static EnvironmentlContainer instance;
 
     /// <summary>
     /// Current instance
     /// </summary>
-    public static ControlContainer Instance => _instance ?? (_instance = new ControlContainer());
+    public static EnvironmentlContainer Instance => instance ?? (instance = new EnvironmentlContainer());
 
     private readonly ISettingsHelper _settings;
+    private readonly IXmlReader _xmlReader;
 
-    private ControlContainer()
+
+    private EnvironmentlContainer()
     {
       _settings = new SettingsHelper();
+      _xmlReader = new XmlConfigReadController();
     }
 
     /// <summary>
