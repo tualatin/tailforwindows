@@ -1,9 +1,11 @@
 using System;
 using System.Configuration;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using log4net;
 using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
@@ -131,6 +133,46 @@ namespace Org.Vs.TailForWin.Core.Controllers
         }).ConfigureAwait(false);
     }
 
+    #region Public helpers
+
+    /// <summary>
+    /// Get all Enum RefreshRates
+    /// </summary>
+    /// <param name="s">Reference of refresh rate string</param>
+    /// <returns>Enum of ETailRefreshRate</returns>
+    public static ETailRefreshRate GetRefreshRate(string s)
+    {
+      if ( string.IsNullOrWhiteSpace(s) )
+        return ETailRefreshRate.Normal;
+
+      if ( Enum.GetNames(typeof(ETailRefreshRate)).All(refreshName => string.Compare(s.ToLower(), refreshName.ToLower(), StringComparison.Ordinal) != 0) )
+        return ETailRefreshRate.Normal;
+
+      Enum.TryParse(s, out ETailRefreshRate trr);
+
+      return trr;
+    }
+
+    /// <summary>
+    /// Get all Enum ThreadPriorities
+    /// </summary>
+    /// <param name="s">Reference of thread priority string</param>
+    /// <returns>Enum from thread priority</returns>
+    public static ThreadPriority GetThreadPriority(string s)
+    {
+      if ( string.IsNullOrWhiteSpace(s) )
+        return ThreadPriority.Normal;
+
+      if ( Enum.GetNames(typeof(ThreadPriority)).All(priorityName => String.Compare(s.ToLower(), priorityName.ToLower(), StringComparison.Ordinal) != 0) )
+        return ThreadPriority.Normal;
+
+      Enum.TryParse(s, out ThreadPriority tp);
+
+      return tp;
+    }
+
+    #endregion
+
     #region HelperFunctions
 
     private static string GetStringFromSetting(string setting)
@@ -175,6 +217,42 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       Arg.NotNull(config, "Configuration");
       config.AppSettings.Settings[setting].Value = value.ToString();
+    }
+
+    /// <summary>
+    /// Get current window style from Enum
+    /// </summary>
+    /// <param name="s">Enum value as string</param>
+    /// <returns>Enum of EWindowStyle</returns>
+    private static EWindowStyle GetWindowStyle(string s)
+    {
+      if ( string.IsNullOrEmpty(s) )
+        return EWindowStyle.ModernBlueWindowStyle;
+
+      if ( Enum.GetNames(typeof(EWindowStyle)).All(w => string.Compare(s.ToLower(), w.ToLower(), StringComparison.Ordinal) != 0) )
+        return EWindowStyle.ModernBlueWindowStyle;
+
+      Enum.TryParse(s, out EWindowStyle wnd);
+
+      return wnd;
+    }
+
+    /// <summary>
+    /// Get all Enum SmartWatch modes
+    /// </summary>
+    /// <param name="s">Reference of SmartWatch mode string</param>
+    /// <returns>Enum of ESmartWatchMode</returns>
+    private static ESmartWatchMode GetSmartWatchMode(string s)
+    {
+      if ( string.IsNullOrEmpty(s) )
+        return ESmartWatchMode.Manual;
+
+      if ( Enum.GetNames(typeof(ESmartWatchMode)).All(m => string.Compare(s.ToLower(), m.ToLower(), StringComparison.Ordinal) != 0) )
+        return ESmartWatchMode.Manual;
+
+      Enum.TryParse(s, out ESmartWatchMode mode);
+
+      return mode;
     }
 
     #endregion

@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Threading.Tasks;
 using NUnit.Framework;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Interfaces;
@@ -25,13 +23,13 @@ namespace Org.Vs.NUnit.Tests
     [Test]
     public async Task TestReadXmlConfigFile()
     {
-      IXmlReader xmlReader = new XmlConfigReadController(@"C:\blabla\Test.xml");
-      var reader = xmlReader;
-      Assert.That(() => reader.ReadXmlFile(), Throws.InstanceOf<FileNotFoundException>());
+      //IXmlReader xmlReader = new XmlConfigReadController(@"C:\blabla\Test.xml");
+      //var reader = xmlReader;
+      //Assert.That(() => reader.ReadXmlFile(), Throws.InstanceOf<FileNotFoundException>());
 
-      var path = _currenTestContext.TestDirectory + @"\FileManager_Root.xml";
-      xmlReader = new XmlConfigReadController(path);
-      Assert.That(() => xmlReader.ReadXmlFile(), Throws.InstanceOf<XmlException>());
+      //var path = _currenTestContext.TestDirectory + @"\FileManager_Root.xml";
+      //xmlReader = new XmlConfigReadController(path);
+      //Assert.That(() => xmlReader.ReadXmlFile(), Throws.InstanceOf<XmlException>());
 
       var files = await _xmlReader.ReadXmlFile();
       Assert.NotNull(files);

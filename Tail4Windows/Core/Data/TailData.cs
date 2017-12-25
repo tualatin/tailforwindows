@@ -121,7 +121,7 @@ namespace Org.Vs.TailForWin.Core.Data
     public string File
     {
       get => _file;
-      set
+      private set
       {
         _file = value;
         OnPropertyChanged(nameof(File));

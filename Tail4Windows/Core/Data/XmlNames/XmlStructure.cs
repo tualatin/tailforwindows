@@ -6,6 +6,11 @@
   public static class XmlStructure
   {
     /// <summary>
+    /// Current XML version
+    /// </summary>
+    public const decimal CurrentXmlVersion = 1.1m;
+
+    /// <summary>
     /// XML version
     /// </summary>
     public const string XmlVersion = "version";
@@ -36,6 +41,11 @@
     /// filter
     /// </summary>
     public const string Filter = "filter";
+
+    /// <summary>
+    /// filterColor
+    /// </summary>
+    public const string FilterColor = "filterColor";
 
     /// <summary>
     /// id

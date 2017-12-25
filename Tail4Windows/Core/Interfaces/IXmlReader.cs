@@ -17,6 +17,12 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     Task<ObservableCollection<TailData>> ReadXmlFile();
 
     /// <summary>
+    /// Get list of categories
+    /// </summary>
+    /// <returns>List of all categories</returns>
+    Task<ObservableCollection<string>> GetCategories();
+
+    /// <summary>
     /// Write XML config file
     /// </summary>
     /// <returns></returns>

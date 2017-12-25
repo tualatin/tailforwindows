@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Xml;
 using System.Xml.Linq;
 using log4net;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.XmlNames;
 using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Core.Controllers
@@ -46,71 +47,147 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// Read XML config file
     /// </summary>
     /// <returns>List of tail settings from XML file</returns>
-    public Task<ObservableCollection<TailData>> ReadXmlFile()
+    public async Task<ObservableCollection<TailData>> ReadXmlFile()
     {
       if ( !File.Exists(_fileManagerFile) )
         throw new FileNotFoundException();
 
       try
       {
-        XDocument xmlDocument = XDocument.Load(_fileManagerFile);
-
-        if ( xmlDocument.Root == null )
-          throw new XmlException(Application.Current.TryFindResource("XmlExceptionConfigFileCorrupt").ToString());
-
-        var version = xmlDocument.Root.Element(XmlStructure.XmlVersion);
-        var files = xmlDocument.Root.Descendants(XmlStructure.File).Select(p => new TailData
+        ObservableCollection<TailData> result = new ObservableCollection<TailData>();
+        await Task.Run(() =>
         {
-          Id = GetIdByElement(p.Element(XmlStructure.Id)?.Value),
-          Description = p.Element(XmlStructure.Description)?.Value,
-          File = p.Element(XmlStructure.FileName)?.Value,
-          Category = p.Element(XmlStructure.Category)?.Value,
-          Wrap = (p.Element(XmlStructure.LineWrap)?.Value).ConvertToBool(),
-          RemoveSpace = (p.Element(XmlStructure.RemoveSpace)?.Value).ConvertToBool(),
-          Timestamp = (p.Element(XmlStructure.TimeStamp)?.Value).ConvertToBool(),
-          NewWindow = (p.Element(XmlStructure.NewWindow)?.Value).ConvertToBool(),
-          SmartWatch = (p.Element(XmlStructure.UseSmartWatch)?.Value).ConvertToBool(),
-          UsePattern = (p.Element(XmlStructure.UsePattern)?.Value).ConvertToBool()
+          XDocument xmlDocument = XDocument.Load(_fileManagerFile);
+
+          if ( xmlDocument.Root == null )
+            return;
+
+          var xmlVersion = xmlDocument.Root.Element(XmlStructure.XmlVersion)?.Value.ConvertToDecimal();
+          decimal version;
+
+          if ( xmlVersion.HasValue )
+            version = xmlVersion.Value == decimal.MinValue ? XmlStructure.CurrentXmlVersion : xmlVersion.Value;
+          else
+            version = XmlStructure.CurrentXmlVersion;
+
+          var files = xmlDocument.Root.Descendants(XmlStructure.File).Select(p => new TailData
+          {
+            Version = version,
+            Id = GetIdByElement(p.Element(XmlStructure.Id)?.Value),
+            Description = p.Element(XmlStructure.Description)?.Value,
+            FileName = p.Element(XmlStructure.FileName)?.Value,
+            OriginalFileName = p.Element(XmlStructure.FileName)?.Value,
+            Category = p.Element(XmlStructure.Category)?.Value,
+            Wrap = (p.Element(XmlStructure.LineWrap)?.Value).ConvertToBool(),
+            RemoveSpace = (p.Element(XmlStructure.RemoveSpace)?.Value).ConvertToBool(),
+            Timestamp = (p.Element(XmlStructure.TimeStamp)?.Value).ConvertToBool(),
+            NewWindow = (p.Element(XmlStructure.NewWindow)?.Value).ConvertToBool(),
+            SmartWatch = (p.Element(XmlStructure.UseSmartWatch)?.Value).ConvertToBool(),
+            UsePattern = (p.Element(XmlStructure.UsePattern)?.Value).ConvertToBool(),
+            ThreadPriority = SettingsHelper.GetThreadPriority(p.Element(XmlStructure.ThreadPriority)?.Value),
+            RefreshRate = SettingsHelper.GetRefreshRate(p.Element(XmlStructure.RefreshRate)?.Value),
+            FileEncoding = GetEncoding(p.Element(XmlStructure.FileEncoding)?.Value),
+            FilterState = (p.Element(XmlStructure.UseFilters)?.Value).ConvertToBool(),
+            FontType = GetFont(p.Element(XmlStructure.Font)),
+            IsRegex = (p.Element(XmlStructure.SearchPattern)?.Element(XmlStructure.IsRegex)?.Value).ConvertToBool(),
+            PatternString = p.Element(XmlStructure.SearchPattern)?.Element(XmlStructure.PatternString)?.Value,
+            ListOfFilter = new ObservableCollection<FilterData>(p.Element(XmlStructure.Filters)?.Descendants(XmlStructure.Filter).Select(x => new FilterData
+            {
+              Id = GetIdByElement(x.Element(XmlStructure.Id)?.Value),
+              Description = x.Element(XmlStructure.FilterName)?.Value,
+              Filter = x.Element(XmlStructure.FilterPattern)?.Value,
+              FilterFontType = GetFont(x.Element(XmlStructure.Font)),
+              FilterColor = GetColor(x.Element(XmlStructure.FilterColor)?.Value)
+            }).ToList() ?? throw new InvalidOperationException())
+          }).ToList();
+
+          result = new ObservableCollection<TailData>(files);
         });
-
-
+        return result;
       }
       catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         throw;
       }
-      return null;
     }
 
-    public Task WriteXmlFile()
+    /// <summary>
+    /// Get list of categories
+    /// </summary>
+    /// <returns>List of all categories</returns>
+    public async Task<ObservableCollection<string>> GetCategories()
     {
       throw new NotImplementedException();
     }
 
-    public Task UpdateXmlFile()
+    public async Task WriteXmlFile()
     {
       throw new NotImplementedException();
     }
 
-    public Task DeleteXmlElement()
+    public async Task UpdateXmlFile()
     {
       throw new NotImplementedException();
     }
 
-    public Task<TailData> GetNodeById(string id)
+    public async Task DeleteXmlElement()
+    {
+      throw new NotImplementedException();
+    }
+
+    public async Task<TailData> GetNodeById(string id)
     {
       throw new NotImplementedException();
     }
 
     #region HelperFunctions
 
-    private Guid GetIdByElement(string id)
+    private static Guid GetIdByElement(string id)
     {
       if ( !Guid.TryParse(id, out var result) )
         result = Guid.NewGuid();
 
       return result;
+    }
+
+    private static Encoding GetEncoding(string sEncode)
+    {
+      Encoding encoding = null;
+
+      foreach ( Encoding encode in EnvironmentlContainer.Instance.FileEncoding )
+      {
+        if ( string.Compare(encode.HeaderName, sEncode, StringComparison.Ordinal) == 0 )
+        {
+          encoding = encode;
+          break;
+        }
+
+        encoding = Encoding.UTF8;
+      }
+      return encoding;
+    }
+
+    private static Font GetFont(XContainer xmlFont)
+    {
+      if ( xmlFont == null )
+        return new Font("Tahoma", 11f, FontStyle.Regular);
+
+      var name = xmlFont.Element(XmlStructure.Name)?.Value;
+      var size = (xmlFont.Element(XmlStructure.Size)?.Value).ConvertToFloat();
+      var bold = (xmlFont.Element(XmlStructure.Bold)?.Value).ConvertToBool();
+      var italic = (xmlFont.Element(XmlStructure.Italic)?.Value).ConvertToBool();
+
+      FontStyle fs = FontStyle.Regular;
+      fs |= bold ? FontStyle.Bold : FontStyle.Regular;
+      fs |= italic ? FontStyle.Italic : FontStyle.Regular;
+
+      return new Font(name, size, fs);
+    }
+
+    private static Color GetColor(string sColor)
+    {
+      return Color.Black;
     }
 
     #endregion

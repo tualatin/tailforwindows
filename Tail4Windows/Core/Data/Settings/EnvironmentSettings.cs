@@ -28,7 +28,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         Thread.CurrentThread.CurrentUICulture = value;
         Thread.CurrentThread.CurrentCulture = value;
 
-        OnPropertyChanged(nameof(CultureInfo));
+        OnPropertyChanged(nameof(CurrentCultureInfo));
       }
     }
 
