@@ -190,6 +190,7 @@
     <Compile Include="Core\Data\Settings\SmtpSetting.cs" />
     <Compile Include="Core\Data\TailData.cs" />
     <Compile Include="Core\Data\TailDataMemento.cs" />
+    <Compile Include="Core\Data\XmlNames\XmlStructure.cs" />
     <Compile Include="Core\Enums\EDateFormat.cs" />
     <Compile Include="Core\Enums\EFileManagerState.cs" />
     <Compile Include="Core\Enums\EFileSort.cs" />

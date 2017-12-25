@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml;
 using System.Xml.Linq;
 using log4net;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Data.XmlNames;
+using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Interfaces;
 
 
@@ -54,6 +57,23 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
         if ( xmlDocument.Root == null )
           throw new XmlException(Application.Current.TryFindResource("XmlExceptionConfigFileCorrupt").ToString());
+
+        var version = xmlDocument.Root.Element(XmlStructure.XmlVersion);
+        var files = xmlDocument.Root.Descendants(XmlStructure.File).Select(p => new TailData
+        {
+          Id = GetIdByElement(p.Element(XmlStructure.Id)?.Value),
+          Description = p.Element(XmlStructure.Description)?.Value,
+          File = p.Element(XmlStructure.FileName)?.Value,
+          Category = p.Element(XmlStructure.Category)?.Value,
+          Wrap = (p.Element(XmlStructure.LineWrap)?.Value).ConvertToBool(),
+          RemoveSpace = (p.Element(XmlStructure.RemoveSpace)?.Value).ConvertToBool(),
+          Timestamp = (p.Element(XmlStructure.TimeStamp)?.Value).ConvertToBool(),
+          NewWindow = (p.Element(XmlStructure.NewWindow)?.Value).ConvertToBool(),
+          SmartWatch = (p.Element(XmlStructure.UseSmartWatch)?.Value).ConvertToBool(),
+          UsePattern = (p.Element(XmlStructure.UsePattern)?.Value).ConvertToBool()
+        });
+
+
       }
       catch ( Exception ex )
       {
@@ -82,5 +102,17 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       throw new NotImplementedException();
     }
+
+    #region HelperFunctions
+
+    private Guid GetIdByElement(string id)
+    {
+      if ( !Guid.TryParse(id, out var result) )
+        result = Guid.NewGuid();
+
+      return result;
+    }
+
+    #endregion
   }
 }

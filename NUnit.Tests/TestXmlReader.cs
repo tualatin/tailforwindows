@@ -26,7 +26,8 @@ namespace Org.Vs.NUnit.Tests
     public async Task TestReadXmlConfigFile()
     {
       IXmlReader xmlReader = new XmlConfigReadController(@"C:\blabla\Test.xml");
-      Assert.That(() => xmlReader.ReadXmlFile(), Throws.InstanceOf<FileNotFoundException>());
+      var reader = xmlReader;
+      Assert.That(() => reader.ReadXmlFile(), Throws.InstanceOf<FileNotFoundException>());
 
       var path = _currenTestContext.TestDirectory + @"\FileManager_Root.xml";
       xmlReader = new XmlConfigReadController(path);

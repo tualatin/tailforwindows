@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <fileManager>
+  <version>1.1</version>
   <file>
     <id>8a0c7206-7d0e-4d81-a25c-1d4accca09b7</id>
     <fileName>D:\Tools\TailForWindows\logs\tailforwindows_2017-03-06.log</fileName>
@@ -25,7 +26,19 @@
       <isRegex>false</isRegex>
       <patternString>tailforwindows_????-??-??.log</patternString>
     </searchPattern>
-    <filters />
+    <filters>
+      <filter>
+        <id>e8378c20-c0cc-457e-872f-c4139539dec9</id>
+        <filterName>Error</filterName>
+        <filterPattern>error</filterPattern>
+        <font>
+          <name>Tahoma</name>
+          <size>12</size>
+          <bold>false</bold>
+          <italic>false</italic>
+        </font>
+      </filter>
+    </filters>
   </file>
   <file>
     <id>ce14d954-9336-4b8f-8160-67362f2f11a2</id>

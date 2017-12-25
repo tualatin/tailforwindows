@@ -13,6 +13,7 @@ namespace Org.Vs.NUnit.Tests
       Assert.IsInstanceOf<bool>("True".ConvertToBool());
       Assert.AreEqual(false, "blabla".ConvertToBool());
       Assert.AreEqual(true, "100".ConvertToBool(true));
+      Assert.AreEqual(false, ((string) null).ConvertToBool());
     }
 
     [Test]
