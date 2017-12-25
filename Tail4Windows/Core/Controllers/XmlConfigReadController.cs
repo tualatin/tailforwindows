@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 using log4net;
 using Org.Vs.TailForWin.Core.Data;
@@ -47,10 +48,14 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// Read XML config file
     /// </summary>
     /// <returns>List of tail settings from XML file</returns>
+    /// <exception cref="FileNotFoundException">If XML file does not exists</exception>
+    /// <exception cref="XmlException">If an error occurred while reading XML file</exception>
     public async Task<ObservableCollection<TailData>> ReadXmlFile()
     {
       if ( !File.Exists(_fileManagerFile) )
         throw new FileNotFoundException();
+
+      LOG.Trace("Read XML T4W config file");
 
       try
       {
@@ -115,10 +120,30 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <summary>
     /// Get list of categories
     /// </summary>
+    /// <param name="tailData">List of TailData</param>
     /// <returns>List of all categories</returns>
-    public async Task<ObservableCollection<string>> GetCategories()
+    /// <exception cref="ArgumentException">If tailData is null</exception>
+    public async Task<ObservableCollection<string>> GetCategories(ObservableCollection<TailData> tailData)
     {
-      throw new NotImplementedException();
+      Arg.NotNull(tailData, nameof(tailData));
+
+      LOG.Trace("Get all categories from XML T4W config file");
+
+      ObservableCollection<string> result = new ObservableCollection<string>();
+
+      try
+      {
+        await Task.Run(() =>
+        {
+          var categories = tailData.Select(p => p.Category).ToList();
+          result = new ObservableCollection<string>(categories);
+        });
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+      return result;
     }
 
     public async Task WriteXmlFile()

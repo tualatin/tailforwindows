@@ -36,34 +36,29 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// </summary>
     public async Task ReadSettingsAsync()
     {
-      LOG.Debug("Read T4W settings");
-      await ReadConfigurationAsync().ConfigureAwait(false);
+      LOG.Trace("Read T4W settings");
 
-    }
-
-    private Task ReadConfigurationAsync()
-    {
-      return Task.Factory.StartNew(
-        () =>
+      await Task.Run(() =>
+      {
+        try
         {
-          try
-          {
-            CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
-            CurrentSettings.AlwaysOnTop = GetBoolFromSetting("AlwaysOnTop");
-            CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
-            CurrentSettings.WindowWidth = GetDoubleFromSetting("WndWidth");
-            CurrentSettings.WindowHeight = GetDoubleFromSetting("WndHeight");
-            CurrentSettings.WindowPositionX = GetDoubleFromSetting("WndXPos");
-            CurrentSettings.WindowPositionY = GetDoubleFromSetting("WndYPos");
-            CurrentSettings.SaveWindowPosition = GetBoolFromSetting("SaveWindowPosition");
-            CurrentSettings.ExitWithEscape = GetBoolFromSetting("ExitWithEsc");
-            CurrentSettings.CurrentWindowState = GetWindowState(GetStringFromSetting("WindowState"));
-          }
-          catch ( ConfigurationErrorsException ex )
-          {
-            LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
-          }
-        });
+          CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
+          CurrentSettings.AlwaysOnTop = GetBoolFromSetting("AlwaysOnTop");
+          CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
+          CurrentSettings.WindowWidth = GetDoubleFromSetting("WndWidth");
+          CurrentSettings.WindowHeight = GetDoubleFromSetting("WndHeight");
+          CurrentSettings.WindowPositionX = GetDoubleFromSetting("WndXPos");
+          CurrentSettings.WindowPositionY = GetDoubleFromSetting("WndYPos");
+          CurrentSettings.SaveWindowPosition = GetBoolFromSetting("SaveWindowPosition");
+          CurrentSettings.ExitWithEscape = GetBoolFromSetting("ExitWithEsc");
+          CurrentSettings.CurrentWindowState = GetWindowState(GetStringFromSetting("WindowState"));
+        }
+        catch ( ConfigurationErrorsException ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        }
+
+      });
     }
 
     /// <inheritdoc />
@@ -72,41 +67,37 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// </summary>
     public async Task SaveSettingsAsync()
     {
-      LOG.Debug("Save T4W settings");
-      await SaveConfigurationAsync().ConfigureAwait(false);
-    }
+      LOG.Trace("Save T4W settings");
 
-    private Task SaveConfigurationAsync()
-    {
-      return Task.Factory.StartNew(
-        () =>
+      await Task.Run(() =>
+      {
+        try
         {
-          try
-          {
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+          Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-            if ( config.AppSettings.Settings.Count <= 0 )
-              return;
+          if ( config.AppSettings.Settings.Count <= 0 )
+            return;
 
-            WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
-            WriteValueToSetting(config, "AlwaysOnTop", CurrentSettings.AlwaysOnTop);
-            WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
-            WriteValueToSetting(config, "WndWidth", CurrentSettings.WindowWidth);
-            WriteValueToSetting(config, "WndHeight", CurrentSettings.WindowHeight);
-            WriteValueToSetting(config, "WndXPos", CurrentSettings.WindowPositionX);
-            WriteValueToSetting(config, "WndYPos", CurrentSettings.WindowPositionY);
-            WriteValueToSetting(config, "SaveWindowPosition", CurrentSettings.SaveWindowPosition);
-            WriteValueToSetting(config, "ExitWithEsc", CurrentSettings.ExitWithEscape);
-            WriteValueToSetting(config, "WindowState", CurrentSettings.CurrentWindowState);
+          WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
+          WriteValueToSetting(config, "AlwaysOnTop", CurrentSettings.AlwaysOnTop);
+          WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
+          WriteValueToSetting(config, "WndWidth", CurrentSettings.WindowWidth);
+          WriteValueToSetting(config, "WndHeight", CurrentSettings.WindowHeight);
+          WriteValueToSetting(config, "WndXPos", CurrentSettings.WindowPositionX);
+          WriteValueToSetting(config, "WndYPos", CurrentSettings.WindowPositionY);
+          WriteValueToSetting(config, "SaveWindowPosition", CurrentSettings.SaveWindowPosition);
+          WriteValueToSetting(config, "ExitWithEsc", CurrentSettings.ExitWithEscape);
+          WriteValueToSetting(config, "WindowState", CurrentSettings.CurrentWindowState);
 
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
-          }
-          catch ( ConfigurationErrorsException ex )
-          {
-            LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
-          }
-        });
+          config.Save(ConfigurationSaveMode.Modified);
+          ConfigurationManager.RefreshSection("appSettings");
+        }
+        catch ( ConfigurationErrorsException ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        }
+
+      });
     }
 
     /// <inheritdoc />
@@ -115,7 +106,12 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// </summary>
     public async Task SetDefaultSettingsAsync()
     {
-      LOG.Debug("Reset T4W settings");
+      LOG.Trace("Reset T4W settings");
+
+      await Task.Run(() =>
+      {
+
+      });
     }
 
     /// <inheritdoc />
@@ -124,13 +120,12 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// </summary>
     public async Task ReloadCurrentSettingsAsync()
     {
-      LOG.Debug("Reloads T4W settings");
-      await Task.Factory.StartNew(
-        () =>
-        {
-          ConfigurationManager.RefreshSection("appSettings");
+      LOG.Trace("Reloads T4W settings");
 
-        }).ConfigureAwait(false);
+      await Task.Run(() =>
+      {
+        ConfigurationManager.RefreshSection("appSettings");
+      });
     }
 
     #region Public helpers

@@ -29,8 +29,19 @@
     <filters>
       <filter>
         <id>e8378c20-c0cc-457e-872f-c4139539dec9</id>
-        <filterName>Error</filterName>
+        <filterName>Error filter</filterName>
         <filterPattern>error</filterPattern>
+        <font>
+          <name>Tahoma</name>
+          <size>12</size>
+          <bold>false</bold>
+          <italic>false</italic>
+        </font>
+      </filter>
+      <filter>
+        <id>e8378c20-c0cc-457e-872f-c4139539dec9</id>
+        <filterName>Debug filter</filterName>
+        <filterPattern>debug</filterPattern>
         <font>
           <name>Tahoma</name>
           <size>12</size>

@@ -21,7 +21,7 @@ namespace Org.Vs.NUnit.Tests
     [Test]
     public async Task TestSettingsHelperReadSettings()
     {
-      await _currentSettings.ReadSettingsAsync();
+      await _currentSettings.ReadSettingsAsync().ConfigureAwait(false);
 
       //Assert.IsTrue(SettingsHelper.CurrentSettings.SmartWatch);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.AlwaysScrollToEnd);
@@ -110,7 +110,7 @@ namespace Org.Vs.NUnit.Tests
       SettingsHelper.CurrentSettings.CurrentWindowState = WindowState.Maximized;
       SettingsHelper.CurrentSettings.SaveWindowPosition = true;
 
-      await _currentSettings.SaveSettingsAsync();
+      await _currentSettings.SaveSettingsAsync().ConfigureAwait(false);
 
       SettingsHelper.CurrentSettings.WindowPositionX = -1;
       SettingsHelper.CurrentSettings.WindowPositionY = -1;
@@ -120,8 +120,8 @@ namespace Org.Vs.NUnit.Tests
       SettingsHelper.CurrentSettings.CurrentWindowState = default(WindowState);
       SettingsHelper.CurrentSettings.SaveWindowPosition = false;
 
-      await _currentSettings.ReloadCurrentSettingsAsync();
-      await _currentSettings.ReadSettingsAsync();
+      await _currentSettings.ReloadCurrentSettingsAsync().ConfigureAwait(false);
+      await _currentSettings.ReadSettingsAsync().ConfigureAwait(false);
 
       Assert.AreEqual(200, SettingsHelper.CurrentSettings.WindowPositionX);
       Assert.AreEqual(150, SettingsHelper.CurrentSettings.WindowPositionY);

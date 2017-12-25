@@ -19,8 +19,9 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// <summary>
     /// Get list of categories
     /// </summary>
+    /// <param name="tailData">List of TailData</param>
     /// <returns>List of all categories</returns>
-    Task<ObservableCollection<string>> GetCategories();
+    Task<ObservableCollection<string>> GetCategories(ObservableCollection<TailData> tailData);
 
     /// <summary>
     /// Write XML config file
