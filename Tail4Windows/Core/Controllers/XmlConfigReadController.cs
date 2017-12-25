@@ -25,6 +25,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     private static readonly ILog LOG = LogManager.GetLogger(typeof(XmlConfigReadController));
 
     private readonly string _fileManagerFile;
+    private XDocument _xmlDocument;
 
 
     /// <summary>
@@ -62,12 +63,12 @@ namespace Org.Vs.TailForWin.Core.Controllers
         ObservableCollection<TailData> result = new ObservableCollection<TailData>();
         await Task.Run(() =>
         {
-          XDocument xmlDocument = XDocument.Load(_fileManagerFile);
+          _xmlDocument = XDocument.Load(_fileManagerFile);
 
-          if ( xmlDocument.Root == null )
+          if ( _xmlDocument.Root == null )
             return;
 
-          var xmlVersion = xmlDocument.Root.Element(XmlStructure.XmlVersion)?.Value.ConvertToDecimal();
+          var xmlVersion = _xmlDocument.Root.Element(XmlStructure.XmlVersion)?.Value.ConvertToDecimal();
           decimal version;
 
           if ( xmlVersion.HasValue )
@@ -75,7 +76,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           else
             version = XmlStructure.CurrentXmlVersion;
 
-          var files = xmlDocument.Root.Descendants(XmlStructure.File).Select(p => new TailData
+          var files = _xmlDocument.Root.Descendants(XmlStructure.File).Select(p => new TailData
           {
             Version = version,
             Id = GetIdByElement(p.Element(XmlStructure.Id)?.Value),
@@ -122,7 +123,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// </summary>
     /// <param name="tailData">List of TailData</param>
     /// <returns>List of all categories</returns>
-    /// <exception cref="ArgumentException">If tailData is null</exception>
+    /// <exception cref="ArgumentException">If <c>tailData</c> is null</exception>
     public async Task<ObservableCollection<string>> GetCategories(ObservableCollection<TailData> tailData)
     {
       Arg.NotNull(tailData, nameof(tailData));
@@ -146,24 +147,146 @@ namespace Org.Vs.TailForWin.Core.Controllers
       return result;
     }
 
+    /// <summary>
+    /// Write XML config file
+    /// </summary>
+    /// <returns>Task</returns>
     public async Task WriteXmlFile()
     {
-      throw new NotImplementedException();
+      await Task.Run(() =>
+      {
+        _xmlDocument.Save(_fileManagerFile, SaveOptions.None);
+      });
     }
 
-    public async Task UpdateXmlFile()
+    /// <summary>
+    /// Update XML config file
+    /// </summary>
+    /// <param name="tailData">TailData</param>
+    /// <returns>Task</returns>
+    public async Task UpdateXmlFile(TailData tailData)
+    {
+      Arg.NotNull(tailData, nameof(tailData));
+
+      await Task.Run(() =>
+      {
+        if ( !File.Exists(_fileManagerFile) )
+          _xmlDocument = new XDocument(new XElement(XmlStructure.XmlRoot));
+
+        if ( tailData.FileEncoding == null )
+        {
+          // TODO encoding
+        }
+
+        try
+        {
+          if ( tailData.FontType == null )
+            tailData.FontType = CreateDefaultFont();
+
+          XElement node = new XElement(XmlStructure.File,
+            new XElement(XmlStructure.Id, tailData.Id),
+            new XElement(XmlStructure.FileName, tailData.FileName),
+            new XElement(XmlStructure.Description, tailData.Description),
+            new XElement(XmlStructure.Category, tailData.Category),
+            new XElement(XmlStructure.ThreadPriority, tailData.ThreadPriority),
+            new XElement(XmlStructure.NewWindow, tailData.NewWindow),
+            new XElement(XmlStructure.RefreshRate, tailData.RefreshRate),
+            new XElement(XmlStructure.TimeStamp, tailData.Timestamp),
+            new XElement(XmlStructure.RemoveSpace, tailData.RemoveSpace),
+            new XElement(XmlStructure.LineWrap, tailData.Wrap),
+            new XElement(XmlStructure.FileEncoding, tailData.FileEncoding?.HeaderName),
+            new XElement(XmlStructure.UseFilters, tailData.FilterState),
+            new XElement(XmlStructure.UsePattern, tailData.UsePattern),
+            new XElement(XmlStructure.UseSmartWatch, tailData.SmartWatch),
+            new XElement(XmlStructure.Font,
+              new XElement(XmlStructure.Name, tailData.FontType.Name),
+              new XElement(XmlStructure.Size, tailData.FontType.Size),
+              new XElement(XmlStructure.Bold, tailData.FontType.Bold),
+              new XElement(XmlStructure.Italic, tailData.FontType.Italic)),
+            new XElement(XmlStructure.SearchPattern,
+              new XElement(XmlStructure.IsRegex, tailData.IsRegex),
+              new XElement(XmlStructure.PatternString, tailData.PatternString)));
+
+          var filters = new XElement(XmlStructure.Filters);
+
+          foreach ( var filter in tailData.ListOfFilter )
+          {
+            filters.Add(AddFilterToDoc(filter));
+          }
+
+          node.Add(filters);
+          _xmlDocument.Add(node);
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+      });
+      await WriteXmlFile();
+    }
+
+    /// <summary>
+    /// Delete XML node from config file
+    /// </summary>
+    /// <param name="id">Id to remove from XML scheme</param>
+    /// <returns>Task</returns>
+    /// <exception cref="ArgumentException">If <c>XML document</c> is null or <c>id</c> is empty</exception>
+    public async Task DeleteXmlElement(string id)
+    {
+      Arg.NotNull(id, nameof(id));
+      Arg.NotNull(_xmlDocument, nameof(_xmlDocument));
+
+      await Task.Run(() =>
+      {
+        if ( _xmlDocument.Root == null )
+          return;
+
+        _xmlDocument.Root.Descendants(XmlStructure.File).Where(p => p.Element(XmlStructure.Id)?.Value == id).Remove();
+      });
+      await WriteXmlFile();
+    }
+
+    /// <summary>
+    /// Delete a filter element from XML config file
+    /// </summary>
+    /// <param name="id">Id of parent XML element</param>
+    /// <param name="filterId">Id of filter to remove</param>
+    /// <returns>Task</returns>
+    public async Task DeleteFilterElement(string id, string filterId)
     {
       throw new NotImplementedException();
     }
 
-    public async Task DeleteXmlElement()
+    /// <summary>
+    /// Get XML node by certain Id
+    /// </summary>
+    /// <param name="tailData">List of TailData</param>
+    /// <param name="id">Id</param>
+    /// <returns><c>TailData</c>, otherwise <c>Null</c></returns>
+    /// <exception cref="ArgumentException">If <c>tailData</c> or <c>id</c> is empty</exception>
+    public async Task<TailData> GetNodeById(ObservableCollection<TailData> tailData, Guid id)
     {
-      throw new NotImplementedException();
-    }
+      Arg.NotNull(tailData, nameof(tailData));
 
-    public async Task<TailData> GetNodeById(string id)
-    {
-      throw new NotImplementedException();
+      if ( id == Guid.Empty )
+        throw new ArgumentException();
+
+      LOG.Trace("Get XML node by '{0}", id);
+
+      TailData result = new TailData();
+
+      try
+      {
+        await Task.Run(() =>
+        {
+          result = tailData.SingleOrDefault(p => p.Id.Equals(id));
+        });
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+      return result;
     }
 
     #region HelperFunctions
@@ -196,7 +319,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     private static Font GetFont(XContainer xmlFont)
     {
       if ( xmlFont == null )
-        return new Font("Tahoma", 11f, FontStyle.Regular);
+        return CreateDefaultFont();
 
       var name = xmlFont.Element(XmlStructure.Name)?.Value;
       var size = (xmlFont.Element(XmlStructure.Size)?.Value).ConvertToFloat();
@@ -210,9 +333,33 @@ namespace Org.Vs.TailForWin.Core.Controllers
       return new Font(name, size, fs);
     }
 
+    private static Font CreateDefaultFont()
+    {
+      return new Font("Segoe UI", 11f, FontStyle.Regular);
+    }
+
     private static Color GetColor(string sColor)
     {
       return Color.Black;
+    }
+
+    private static XElement AddFilterToDoc(FilterData filter)
+    {
+      if ( filter.FilterFontType == null )
+        filter.FilterFontType = CreateDefaultFont();
+
+      XElement newFilterElement = new XElement(XmlStructure.Filter,
+        new XElement(XmlStructure.Id, filter.Id),
+        new XElement(XmlStructure.FilterName, filter.Description),
+        new XElement(XmlStructure.FilterPattern, filter.Filter),
+        new XElement(XmlStructure.FilterColor, filter.FilterColor),
+        new XElement(XmlStructure.Font,
+          new XElement(XmlStructure.Name, filter.FilterFontType.Name),
+          new XElement(XmlStructure.Size, filter.FilterFontType.Size),
+          new XElement(XmlStructure.Bold, filter.FilterFontType.Bold),
+          new XElement(XmlStructure.Italic, filter.FilterFontType.Italic)));
+
+      return newFilterElement;
     }
 
     #endregion

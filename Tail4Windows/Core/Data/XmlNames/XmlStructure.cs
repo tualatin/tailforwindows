@@ -6,6 +6,11 @@
   public static class XmlStructure
   {
     /// <summary>
+    /// XML root name
+    /// </summary>
+    public const string XmlRoot = "fileManager";
+
+    /// <summary>
     /// Current XML version
     /// </summary>
     public const decimal CurrentXmlVersion = 1.1m;

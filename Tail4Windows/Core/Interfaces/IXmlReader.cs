@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Core.Data;
 
@@ -26,26 +27,37 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// <summary>
     /// Write XML config file
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Task</returns>
     Task WriteXmlFile();
 
     /// <summary>
     /// Update XML config file
     /// </summary>
-    /// <returns></returns>
-    Task UpdateXmlFile();
+    /// <param name="tailData">TailData</param>
+    /// <returns>Task</returns>
+    Task UpdateXmlFile(TailData tailData);
 
     /// <summary>
     /// Delete XML node from config file
     /// </summary>
-    /// <returns></returns>
-    Task DeleteXmlElement();
+    /// <param name="id">Id to remove from XML scheme</param>
+    /// <returns>Task</returns>
+    Task DeleteXmlElement(string id);
+
+    /// <summary>
+    /// Delete a filter element from XML config file
+    /// </summary>
+    /// <param name="id">Id of parent XML element</param>
+    /// <param name="filterId">Id of filter to remove</param>
+    /// <returns>Task</returns>
+    Task DeleteFilterElement(string id, string filterId);
 
     /// <summary>
     /// Get XML node by certain Id
     /// </summary>
+    /// <param name="tailData">List of TailData</param>
     /// <param name="id">Id</param>
     /// <returns><c>TailData</c>, otherwise <c>Null</c></returns>
-    Task<TailData> GetNodeById(string id);
+    Task<TailData> GetNodeById(ObservableCollection<TailData> tailData, Guid id);
   }
 }
