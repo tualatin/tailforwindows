@@ -76,7 +76,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           else
             version = XmlStructure.CurrentXmlVersion;
 
-          var files = _xmlDocument.Root.Descendants(XmlStructure.File).Select(p => new TailData
+          var files = _xmlDocument.Root.Descendants(XmlStructure.File).AsParallel().Select(p => new TailData
           {
             Version = version,
             Id = GetIdByElement(p.Element(XmlStructure.Id)?.Value),
@@ -321,16 +321,19 @@ namespace Org.Vs.TailForWin.Core.Controllers
       if ( xmlFont == null )
         return CreateDefaultFont();
 
-      var name = xmlFont.Element(XmlStructure.Name)?.Value;
-      var size = (xmlFont.Element(XmlStructure.Size)?.Value).ConvertToFloat();
-      var bold = (xmlFont.Element(XmlStructure.Bold)?.Value).ConvertToBool();
-      var italic = (xmlFont.Element(XmlStructure.Italic)?.Value).ConvertToBool();
+      var font = new
+      {
+        Name = xmlFont.Element(XmlStructure.Name)?.Value,
+        Size = (xmlFont.Element(XmlStructure.Size)?.Value).ConvertToFloat(),
+        Bold = (xmlFont.Element(XmlStructure.Bold)?.Value).ConvertToBool(),
+        Iitalic = (xmlFont.Element(XmlStructure.Italic)?.Value).ConvertToBool()
+      };
 
       FontStyle fs = FontStyle.Regular;
-      fs |= bold ? FontStyle.Bold : FontStyle.Regular;
-      fs |= italic ? FontStyle.Italic : FontStyle.Regular;
+      fs |= font.Bold ? FontStyle.Bold : FontStyle.Regular;
+      fs |= font.Iitalic ? FontStyle.Italic : FontStyle.Regular;
 
-      return new Font(name, size, fs);
+      return new Font(font.Name, font.Size, fs);
     }
 
     private static Font CreateDefaultFont()
