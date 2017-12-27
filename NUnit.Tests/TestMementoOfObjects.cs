@@ -22,7 +22,7 @@ namespace Org.Vs.NUnit.Tests
         Id = Guid.NewGuid(),
         Description = "Test Filter",
         Filter = @"^\d[A...Z]",
-        FilterColor = Color.Beige,
+        FilterColor = System.Windows.Media.Brushes.Beige,
         FilterFontType = new Font("Tahoma", 11f, FontStyle.Italic)
       };
 
@@ -36,7 +36,7 @@ namespace Org.Vs.NUnit.Tests
 
       filter.Description = "Test Filter 2";
       filter.Filter = "....";
-      filter.FilterColor = Color.Black;
+      filter.FilterColor = System.Windows.Media.Brushes.Black;
       filter.FilterFontType = new Font("Curier", 8f, FontStyle.Regular);
       filter.RestoreFromMemento(memento);
       Assert.IsInstanceOf<FilterData>(filter);
@@ -51,7 +51,7 @@ namespace Org.Vs.NUnit.Tests
         Id = Guid.NewGuid(),
         Description = "Test Filter",
         Filter = @"^\d[A...Z]",
-        FilterColor = Color.Beige,
+        FilterColor = System.Windows.Media.Brushes.Beige,
         FilterFontType = new Font("Tahoma", 11f, FontStyle.Italic)
       };
 
@@ -111,7 +111,7 @@ namespace Org.Vs.NUnit.Tests
         Id = Guid.NewGuid(),
         Description = "Test Filter 2",
         Filter = "Error",
-        FilterColor = Color.Beige
+        FilterColor = System.Windows.Media.Brushes.Beige
       };
 
       tailData.ListOfFilter.Add(filter);

@@ -46,7 +46,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     /// <summary>
-    /// Read XML config file
+    /// Read XML file
     /// </summary>
     /// <returns>List of tail settings from XML file</returns>
     /// <exception cref="FileNotFoundException">If XML file does not exists</exception>
@@ -56,7 +56,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       if ( !File.Exists(_fileManagerFile) )
         throw new FileNotFoundException();
 
-      LOG.Trace("Read XML T4W config file");
+      LOG.Trace("Read XML");
 
       try
       {
@@ -103,7 +103,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
               Description = x.Element(XmlStructure.FilterName)?.Value,
               Filter = x.Element(XmlStructure.FilterPattern)?.Value,
               FilterFontType = GetFont(x.Element(XmlStructure.Font)),
-              FilterColor = GetColor(x.Element(XmlStructure.FilterColor)?.Value)
+              FilterColor = EnvironmentContainer.ConvertHexStringToBrush(x.Element(XmlStructure.FilterColor)?.Value)
             }).ToList() ?? throw new InvalidOperationException())
           }).ToList();
 
@@ -119,16 +119,16 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     /// <summary>
-    /// Get list of categories
+    /// Get list of categories from XML file
     /// </summary>
     /// <param name="tailData">List of TailData</param>
     /// <returns>List of all categories</returns>
     /// <exception cref="ArgumentException">If <c>tailData</c> is null</exception>
-    public async Task<ObservableCollection<string>> GetCategories(ObservableCollection<TailData> tailData)
+    public async Task<ObservableCollection<string>> GetCategoriesFromXmlFile(ObservableCollection<TailData> tailData)
     {
       Arg.NotNull(tailData, nameof(tailData));
 
-      LOG.Trace("Get all categories from XML T4W config file");
+      LOG.Trace("Get all categories from XML");
 
       ObservableCollection<string> result = new ObservableCollection<string>();
 
@@ -160,18 +160,23 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     /// <summary>
-    /// Update XML config file
+    /// Add new tailData to XML file
     /// </summary>
-    /// <param name="tailData">TailData</param>
+    /// <param name="tailData">TailData to add</param>
     /// <returns>Task</returns>
-    public async Task UpdateXmlFile(TailData tailData)
+    public async Task AddTailDataToXmlFile(TailData tailData)
     {
       Arg.NotNull(tailData, nameof(tailData));
+
+      LOG.Trace("Add TailData to XML");
 
       await Task.Run(() =>
       {
         if ( !File.Exists(_fileManagerFile) )
+        {
           _xmlDocument = new XDocument(new XElement(XmlStructure.XmlRoot));
+          _xmlDocument.Root?.Add(new XElement(XmlStructure.XmlVersion, XmlStructure.CurrentXmlVersion));
+        }
 
         if ( tailData.FileEncoding == null )
         {
@@ -181,7 +186,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         try
         {
           if ( tailData.FontType == null )
-            tailData.FontType = CreateDefaultFont();
+            tailData.FontType = EnvironmentContainer.CreateDefaultFont();
 
           XElement node = new XElement(XmlStructure.File,
             new XElement(XmlStructure.Id, tailData.Id),
@@ -209,13 +214,13 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
           var filters = new XElement(XmlStructure.Filters);
 
-          foreach ( var filter in tailData.ListOfFilter )
+          Parallel.ForEach(tailData.ListOfFilter, filter =>
           {
             filters.Add(AddFilterToDoc(filter));
-          }
+          });
 
           node.Add(filters);
-          _xmlDocument.Add(node);
+          _xmlDocument.Root?.Add(node);
         }
         catch ( Exception ex )
         {
@@ -226,15 +231,27 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     /// <summary>
-    /// Delete XML node from config file
+    /// Update XML config file
+    /// </summary>
+    /// <param name="tailData">TailData to update</param>
+    /// <returns>Task</returns>
+    public async Task UpdateTailDataInXmlFile(TailData tailData)
+    {
+      throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Delete <c>TailData</c> from XML file
     /// </summary>
     /// <param name="id">Id to remove from XML scheme</param>
     /// <returns>Task</returns>
     /// <exception cref="ArgumentException">If <c>XML document</c> is null or <c>id</c> is empty</exception>
-    public async Task DeleteXmlElement(string id)
+    public async Task DeleteTailDataByIdFromXmlFile(string id)
     {
       Arg.NotNull(id, nameof(id));
       Arg.NotNull(_xmlDocument, nameof(_xmlDocument));
+
+      LOG.Trace("Delete TailData by '{0}'", id);
 
       await Task.Run(() =>
       {
@@ -247,31 +264,31 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     /// <summary>
-    /// Delete a filter element from XML config file
+    /// Delete a filter element from XML file
     /// </summary>
     /// <param name="id">Id of parent XML element</param>
     /// <param name="filterId">Id of filter to remove</param>
     /// <returns>Task</returns>
-    public async Task DeleteFilterElement(string id, string filterId)
+    public async Task DeleteFilterByIdByTailDataIdFromXmlFile(string id, string filterId)
     {
       throw new NotImplementedException();
     }
 
     /// <summary>
-    /// Get XML node by certain Id
+    /// Get <c>TailData</c> by certain Id
     /// </summary>
     /// <param name="tailData">List of TailData</param>
     /// <param name="id">Id</param>
     /// <returns><c>TailData</c>, otherwise <c>Null</c></returns>
     /// <exception cref="ArgumentException">If <c>tailData</c> or <c>id</c> is empty</exception>
-    public async Task<TailData> GetNodeById(ObservableCollection<TailData> tailData, Guid id)
+    public async Task<TailData> GetTailDataById(ObservableCollection<TailData> tailData, Guid id)
     {
       Arg.NotNull(tailData, nameof(tailData));
 
       if ( id == Guid.Empty )
         throw new ArgumentException();
 
-      LOG.Trace("Get XML node by '{0}", id);
+      LOG.Trace("Get TailData by '{0}", id);
 
       TailData result = new TailData();
 
@@ -303,7 +320,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       Encoding encoding = null;
 
-      foreach ( Encoding encode in EnvironmentlContainer.Instance.FileEncoding )
+      foreach ( Encoding encode in EnvironmentContainer.Instance.FileEncoding )
       {
         if ( string.Compare(encode.HeaderName, sEncode, StringComparison.Ordinal) == 0 )
         {
@@ -319,7 +336,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     private static Font GetFont(XContainer xmlFont)
     {
       if ( xmlFont == null )
-        return CreateDefaultFont();
+        return EnvironmentContainer.CreateDefaultFont();
 
       var font = new
       {
@@ -336,26 +353,16 @@ namespace Org.Vs.TailForWin.Core.Controllers
       return new Font(font.Name, font.Size, fs);
     }
 
-    private static Font CreateDefaultFont()
-    {
-      return new Font("Segoe UI", 11f, FontStyle.Regular);
-    }
-
-    private static Color GetColor(string sColor)
-    {
-      return Color.Black;
-    }
-
     private static XElement AddFilterToDoc(FilterData filter)
     {
       if ( filter.FilterFontType == null )
-        filter.FilterFontType = CreateDefaultFont();
+        filter.FilterFontType = EnvironmentContainer.CreateDefaultFont();
 
       XElement newFilterElement = new XElement(XmlStructure.Filter,
         new XElement(XmlStructure.Id, filter.Id),
         new XElement(XmlStructure.FilterName, filter.Description),
         new XElement(XmlStructure.FilterPattern, filter.Filter),
-        new XElement(XmlStructure.FilterColor, filter.FilterColor),
+        new XElement(XmlStructure.FilterColor, filter.FilterColor.ToString()),
         new XElement(XmlStructure.Font,
           new XElement(XmlStructure.Name, filter.FilterFontType.Name),
           new XElement(XmlStructure.Size, filter.FilterFontType.Size),

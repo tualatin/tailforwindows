@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
@@ -15,20 +17,20 @@ namespace Org.Vs.TailForWin.Core.Utils
   /// <summary>
   /// Environment container for T4W
   /// </summary>
-  public class EnvironmentlContainer
+  public class EnvironmentContainer
   {
-    private static EnvironmentlContainer instance;
+    private static EnvironmentContainer instance;
 
     /// <summary>
     /// Current instance
     /// </summary>
-    public static EnvironmentlContainer Instance => instance ?? (instance = new EnvironmentlContainer());
+    public static EnvironmentContainer Instance => instance ?? (instance = new EnvironmentContainer());
 
     private readonly ISettingsHelper _settings;
     private readonly IXmlReader _xmlReader;
 
 
-    private EnvironmentlContainer()
+    private EnvironmentContainer()
     {
       _settings = new SettingsHelper();
 
@@ -62,7 +64,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Read current settings
     /// </summary>
-    async public Task ReadSettings()
+    public async Task ReadSettings()
     {
       await _settings.ReadSettingsAsync().ConfigureAwait(false);
     }
@@ -71,7 +73,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// Save current settings
     /// </summary>
     /// <returns></returns>
-    async public Task SaveSettings()
+    public async Task SaveSettings()
     {
       await _settings.SaveSettingsAsync().ConfigureAwait(false);
     }
@@ -80,9 +82,38 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// Reload settings from config file
     /// </summary>
     /// <returns></returns>
-    async public Task ReloadSettings()
+    public async Task ReloadSettings()
     {
       await _settings.ReloadCurrentSettingsAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Create default T4W font
+    /// </summary>
+    /// <returns>Default font configuration</returns>
+    public static Font CreateDefaultFont()
+    {
+      return new Font("Segoe UI", 11f, System.Drawing.FontStyle.Regular);
+    }
+
+    /// <summary>
+    /// Converts a hex string to brush color
+    /// </summary>
+    /// <param name="hex">Color as hex string</param>
+    /// <returns>A valid brush color</returns>
+    public static System.Windows.Media.Brush ConvertHexStringToBrush(string hex)
+    {
+      if ( string.IsNullOrWhiteSpace(hex) )
+        return System.Windows.Media.Brushes.Black;
+
+      var convertFromString = System.Windows.Media.ColorConverter.ConvertFromString(hex);
+
+      if ( convertFromString == null )
+        return System.Windows.Media.Brushes.Black;
+
+      System.Windows.Media.Color color = (System.Windows.Media.Color) convertFromString;
+
+      return new SolidColorBrush(color);
     }
 
     private void IntializeObservableCollections()

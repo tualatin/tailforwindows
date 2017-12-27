@@ -76,7 +76,7 @@ namespace Org.Vs.TailForWin.Core.Data
       /// <summary>
       /// Filter color
       /// </summary>
-      public Color FilterColor
+      public System.Windows.Media.Brush FilterColor
       {
         get;
       }

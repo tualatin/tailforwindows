@@ -12,6 +12,15 @@ namespace Org.Vs.TailForWin.Core.Data
   public partial class FilterData : NotifyMaster, IDisposable, IDataErrorInfo, ICloneable
   {
     /// <summary>
+    /// Standard constructor
+    /// </summary>
+    public FilterData()
+    {
+      FilterFontType = new Font("Segoe UI", 11f, FontStyle.Regular);
+      FilterColor = System.Windows.Media.Brushes.Crimson;
+    }
+
+    /// <summary>
     /// Releases all resources used by the FilterData.
     /// </summary>
     public void Dispose()
@@ -68,12 +77,12 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
-    private Color _filterColor;
+    private System.Windows.Media.Brush _filterColor;
 
     /// <summary>
     /// Color of filter match
     /// </summary>
-    public Color FilterColor
+    public System.Windows.Media.Brush FilterColor
     {
       get => _filterColor;
       set

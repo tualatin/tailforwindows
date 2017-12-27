@@ -215,7 +215,7 @@
     <Compile Include="Core\Native\Data\Rect.cs" />
     <Compile Include="Core\Native\Data\Win32Point.cs" />
     <Compile Include="Core\Native\Data\WINDOWPOS.cs" />
-    <Compile Include="Core\Utils\EnvironmentlContainer.cs" />
+    <Compile Include="Core\Utils\EnvironmentContainer.cs" />
     <Compile Include="UI\Commands\AsyncCommand.cs" />
     <Compile Include="UI\Commands\Base\AsyncCommandBase.cs" />
     <Compile Include="UI\Commands\MouseBehaviour.cs" />
