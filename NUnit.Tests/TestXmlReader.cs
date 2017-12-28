@@ -59,7 +59,7 @@ namespace Org.Vs.NUnit.Tests
           },
           new FilterData
           {
-            Id = Guid.Parse("e8378c20-c0cc-457e-872f-c4139539dec9"),
+            Id = Guid.Parse("e8378c20-c1cc-457e-872f-c4139539dec9"),
             Description = "Debug filter",
             Filter = "debug",
             FilterFontType = new Font("Tahoma", 12f, FontStyle.Regular)
@@ -103,12 +103,15 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(_tailData.PatternString, xmlTailData.PatternString);
       Assert.AreEqual(_tailData.ListOfFilter.Count, xmlTailData.ListOfFilter.Count);
 
-      for ( int i = 0; i < _tailData.ListOfFilter.Count; i++ )
+      foreach ( FilterData t in _tailData.ListOfFilter )
       {
-        Assert.AreEqual(_tailData.ListOfFilter[i].Id, xmlTailData.ListOfFilter[i].Id);
-        Assert.AreEqual(_tailData.ListOfFilter[i].Description, xmlTailData.ListOfFilter[i].Description);
-        Assert.AreEqual(_tailData.ListOfFilter[i].FilterFontType, xmlTailData.ListOfFilter[i].FilterFontType);
-        Assert.AreEqual(_tailData.ListOfFilter[i].Filter, xmlTailData.ListOfFilter[i].Filter);
+        var filter = xmlTailData.ListOfFilter.SingleOrDefault(p => p.Id == t.Id);
+        Assert.IsNotNull(filter);
+
+        Assert.AreEqual(t.Id, filter.Id);
+        Assert.AreEqual(t.Description, filter.Description);
+        Assert.AreEqual(t.FilterFontType, filter.FilterFontType);
+        Assert.AreEqual(t.Filter, filter.Filter);
       }
     }
 
@@ -130,8 +133,8 @@ namespace Org.Vs.NUnit.Tests
       var categories = await _xmlReader.GetCategoriesFromXmlFile(files).ConfigureAwait(false);
       Assert.NotNull(categories);
       Assert.AreEqual(2, categories.Count);
-      Assert.AreEqual("T4F", categories.First());
-      Assert.AreEqual("MS Setup", categories.Last());
+      Assert.IsNotNull(categories.SingleOrDefault(p => p.Equals("T4F")));
+      Assert.IsNotNull(categories.SingleOrDefault(p => p.Equals("MS Setup")));
       Assert.That(() => _xmlReader.GetCategoriesFromXmlFile(null), Throws.InstanceOf<ArgumentException>());
     }
 
@@ -165,12 +168,15 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(_tailData.PatternString, tailData.PatternString);
       Assert.AreEqual(_tailData.ListOfFilter.Count, tailData.ListOfFilter.Count);
 
-      for ( int i = 0; i < _tailData.ListOfFilter.Count; i++ )
+      foreach ( FilterData t in _tailData.ListOfFilter )
       {
-        Assert.AreEqual(_tailData.ListOfFilter[i].Id, tailData.ListOfFilter[i].Id);
-        Assert.AreEqual(_tailData.ListOfFilter[i].Description, tailData.ListOfFilter[i].Description);
-        Assert.AreEqual(_tailData.ListOfFilter[i].FilterFontType, tailData.ListOfFilter[i].FilterFontType);
-        Assert.AreEqual(_tailData.ListOfFilter[i].Filter, tailData.ListOfFilter[i].Filter);
+        var filter = tailData.ListOfFilter.SingleOrDefault(p => p.Id == t.Id);
+        Assert.IsNotNull(filter);
+
+        Assert.AreEqual(t.Id, filter.Id);
+        Assert.AreEqual(t.Description, filter.Description);
+        Assert.AreEqual(t.FilterFontType, filter.FilterFontType);
+        Assert.AreEqual(t.Filter, filter.Filter);
       }
 
       Assert.That(() => _xmlReader.GetTailDataById(null, id), Throws.InstanceOf<ArgumentException>());
@@ -389,7 +395,16 @@ namespace Org.Vs.NUnit.Tests
 
       var id = "8a0c7206-7d0e-4d81-a25c-1d4accca09b7";
       var idFilter = "e8378c20-c0cc-457e-872f-c4139539dec9";
+
+      await _xmlReader.ReadXmlFile().ConfigureAwait(false);
       await _xmlReader.DeleteFilterByIdByTailDataIdFromXmlFile(id, idFilter).ConfigureAwait(false);
+      var files = await _xmlReader.ReadXmlFile().ConfigureAwait(false);
+
+      var xmlData = files.SingleOrDefault(p => p.Id == Guid.Parse(id));
+      Assert.IsNotNull(xmlData);
+      Assert.AreEqual(1, xmlData.ListOfFilter.Count);
+      Assert.IsNull(xmlData.ListOfFilter.SingleOrDefault(p => p.Id == Guid.Parse(idFilter)));
+      Assert.That(() => _xmlReader.DeleteFilterByIdByTailDataIdFromXmlFile(null, null), Throws.InstanceOf<ArgumentException>());
     }
   }
 }

@@ -221,7 +221,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
           node.Add(filters);
           _xmlDocument.Root?.Add(node);
         });
-
         await WriteXmlFile();
       }
       catch ( Exception ex )
@@ -310,7 +309,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
         {
           _xmlDocument.Root?.Descendants(XmlStructure.File).Where(p => p.Element(XmlStructure.Id)?.Value == id).Remove();
         });
-
         await WriteXmlFile();
       }
       catch ( Exception ex )
@@ -326,9 +324,33 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <param name="id">Id of parent XML element</param>
     /// <param name="filterId">Id of filter to remove</param>
     /// <returns>Task</returns>
+    /// <exception cref="ArgumentException">If <c>id</c> or <c>filterId</c> is null or empty</exception>
     public async Task DeleteFilterByIdByTailDataIdFromXmlFile(string id, string filterId)
     {
-      throw new NotImplementedException();
+      Arg.NotNull(id, nameof(id));
+      Arg.NotNull(filterId, nameof(filterId));
+      Arg.NotNull(_xmlDocument, nameof(_xmlDocument));
+
+      LOG.Trace("Delete filter from XML id '{0}'", id);
+
+      try
+      {
+        await Task.Run(() =>
+        {
+          var updateNode = _xmlDocument.Root?.Descendants(XmlStructure.File).SingleOrDefault(p => p.Element(XmlStructure.Id)?.Value == id);
+
+          if ( updateNode == null )
+            return;
+
+          updateNode.Element(XmlStructure.Filters)?.Descendants(XmlStructure.Filter).Where(p => p.Element(XmlStructure.Id)?.Value == filterId).Remove();
+        });
+        await WriteXmlFile();
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
+      }
     }
 
     /// <summary>
