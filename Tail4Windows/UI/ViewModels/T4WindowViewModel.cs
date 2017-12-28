@@ -20,7 +20,7 @@ namespace Org.Vs.TailForWin.UI.ViewModels
     /// <summary>
     /// Window title
     /// </summary>
-    public string WindowTitle => EnvironmentContainer.Instance.ApplicationTitle;
+    public string WindowTitle => EnvironmentContainer.ApplicationTitle;
 
     /// <summary>
     /// Width of main window

@@ -25,6 +25,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// </summary>
     public TailData()
     {
+      Id = Guid.NewGuid();
       FontType = new Font("Segoe UI", 11f, FontStyle.Regular);
       AutoRun = true;
       ListOfFilter = new ObservableCollection<FilterData>();

@@ -57,7 +57,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
         {
           LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
-
       });
     }
 

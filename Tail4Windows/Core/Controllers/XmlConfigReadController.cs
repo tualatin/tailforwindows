@@ -58,17 +58,14 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
       LOG.Trace("Read XML");
 
+      ObservableCollection<TailData> result = new ObservableCollection<TailData>();
+
       try
       {
-        ObservableCollection<TailData> result = new ObservableCollection<TailData>();
         await Task.Run(() =>
         {
           _xmlDocument = XDocument.Load(_fileManagerFile);
-
-          if ( _xmlDocument.Root == null )
-            return;
-
-          var xmlVersion = _xmlDocument.Root.Element(XmlStructure.XmlVersion)?.Value.ConvertToDecimal();
+          var xmlVersion = _xmlDocument.Root?.Element(XmlStructure.XmlVersion)?.Value.ConvertToDecimal();
           decimal version;
 
           if ( xmlVersion.HasValue )
@@ -76,7 +73,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           else
             version = XmlStructure.CurrentXmlVersion;
 
-          var files = _xmlDocument.Root.Descendants(XmlStructure.File).AsParallel().Select(p => new TailData
+          var files = _xmlDocument.Root?.Descendants(XmlStructure.File).AsParallel().Select(p => new TailData
           {
             Version = version,
             Id = GetIdByElement(p.Element(XmlStructure.Id)?.Value),
@@ -107,15 +104,16 @@ namespace Org.Vs.TailForWin.Core.Controllers
             }).ToList() ?? throw new InvalidOperationException())
           }).ToList();
 
-          result = new ObservableCollection<TailData>(files);
+          if ( files != null )
+            result = new ObservableCollection<TailData>(files);
         });
-        return result;
       }
       catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        throw;
+        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
       }
+      return result;
     }
 
     /// <summary>
@@ -143,6 +141,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
       }
       return result;
     }
@@ -170,21 +169,21 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
       LOG.Trace("Add TailData to XML");
 
-      await Task.Run(() =>
+      try
       {
-        if ( !File.Exists(_fileManagerFile) )
+        await Task.Run(() =>
         {
-          _xmlDocument = new XDocument(new XElement(XmlStructure.XmlRoot));
-          _xmlDocument.Root?.Add(new XElement(XmlStructure.XmlVersion, XmlStructure.CurrentXmlVersion));
-        }
+          if ( !File.Exists(_fileManagerFile) )
+          {
+            _xmlDocument = new XDocument(new XElement(XmlStructure.XmlRoot));
+            _xmlDocument.Root?.Add(new XElement(XmlStructure.XmlVersion, XmlStructure.CurrentXmlVersion));
+          }
 
-        if ( tailData.FileEncoding == null )
-        {
-          // TODO encoding
-        }
+          if ( tailData.FileEncoding == null )
+          {
+            // TODO encoding
+          }
 
-        try
-        {
           if ( tailData.FontType == null )
             tailData.FontType = EnvironmentContainer.CreateDefaultFont();
 
@@ -221,23 +220,75 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
           node.Add(filters);
           _xmlDocument.Root?.Add(node);
-        }
-        catch ( Exception ex )
-        {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        }
-      });
-      await WriteXmlFile();
+        });
+
+        await WriteXmlFile();
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
+      }
     }
 
     /// <summary>
     /// Update XML config file
     /// </summary>
-    /// <param name="tailData">TailData to update</param>
+    /// <param name="tailData"><c>TailData</c> to update</param>
     /// <returns>Task</returns>
+    /// <exception cref="ArgumentException">If tailData is null</exception>
     public async Task UpdateTailDataInXmlFile(TailData tailData)
     {
-      throw new NotImplementedException();
+      Arg.NotNull(tailData, nameof(tailData));
+
+      LOG.Trace("Update TailData");
+
+      try
+      {
+        await Task.Run(() =>
+        {
+          var updateNode = _xmlDocument.Root?.Descendants(XmlStructure.File).SingleOrDefault(p => p.Element(XmlStructure.Id)?.Value == tailData.Id.ToString());
+
+          if ( updateNode == null )
+            return;
+
+          updateNode.Element(XmlStructure.FileName)?.SetValue(tailData.FileName);
+          updateNode.Element(XmlStructure.Description)?.SetValue(tailData.Description);
+          updateNode.Element(XmlStructure.Category)?.SetValue(tailData.Category);
+          updateNode.Element(XmlStructure.ThreadPriority)?.SetValue(tailData.ThreadPriority);
+          updateNode.Element(XmlStructure.NewWindow)?.SetValue(tailData.NewWindow);
+          updateNode.Element(XmlStructure.RefreshRate)?.SetValue(tailData.RefreshRate);
+          updateNode.Element(XmlStructure.TimeStamp)?.SetValue(tailData.Timestamp);
+          updateNode.Element(XmlStructure.RemoveSpace)?.SetValue(tailData.RemoveSpace);
+          updateNode.Element(XmlStructure.LineWrap)?.SetValue(tailData.Wrap);
+          updateNode.Element(XmlStructure.FileEncoding)?.SetValue(tailData.FileEncoding?.HeaderName ?? string.Empty);
+          updateNode.Element(XmlStructure.UseFilters)?.SetValue(tailData.FilterState);
+          updateNode.Element(XmlStructure.UsePattern)?.SetValue(tailData.UsePattern);
+          updateNode.Element(XmlStructure.UseSmartWatch)?.SetValue(tailData.SmartWatch);
+          updateNode.Element(XmlStructure.Font)?.Element(XmlStructure.Name)?.SetValue(tailData.FontType.Name);
+          updateNode.Element(XmlStructure.Font)?.Element(XmlStructure.Size)?.SetValue(tailData.FontType.Size);
+          updateNode.Element(XmlStructure.Font)?.Element(XmlStructure.Bold)?.SetValue(tailData.FontType.Bold);
+          updateNode.Element(XmlStructure.Font)?.Element(XmlStructure.Italic)?.SetValue(tailData.FontType.Italic);
+          updateNode.Element(XmlStructure.SearchPattern)?.Element(XmlStructure.IsRegex)?.SetValue(tailData.IsRegex);
+          updateNode.Element(XmlStructure.SearchPattern)?.Element(XmlStructure.PatternString)?.SetValue(tailData.PatternString);
+
+          // Remove all filters from document
+          updateNode.Element(XmlStructure.Filters)?.RemoveAll();
+
+          var filters = updateNode.Element(XmlStructure.Filters);
+
+          Parallel.ForEach(tailData.ListOfFilter, filter =>
+          {
+            filters?.Add(AddFilterToDoc(filter));
+          });
+        });
+        await WriteXmlFile();
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
+      }
     }
 
     /// <summary>
@@ -253,14 +304,20 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
       LOG.Trace("Delete TailData by '{0}'", id);
 
-      await Task.Run(() =>
+      try
       {
-        if ( _xmlDocument.Root == null )
-          return;
+        await Task.Run(() =>
+        {
+          _xmlDocument.Root?.Descendants(XmlStructure.File).Where(p => p.Element(XmlStructure.Id)?.Value == id).Remove();
+        });
 
-        _xmlDocument.Root.Descendants(XmlStructure.File).Where(p => p.Element(XmlStructure.Id)?.Value == id).Remove();
-      });
-      await WriteXmlFile();
+        await WriteXmlFile();
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
+      }
     }
 
     /// <summary>
@@ -302,6 +359,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
       }
       return result;
     }

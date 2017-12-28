@@ -16,6 +16,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// </summary>
     public FilterData()
     {
+      Id = Guid.NewGuid();
       FilterFontType = new Font("Segoe UI", 11f, FontStyle.Regular);
       FilterColor = System.Windows.Media.Brushes.Crimson;
     }

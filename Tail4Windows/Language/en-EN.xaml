@@ -22,7 +22,7 @@
   <system:String x:Key="QDeleteDataGridItem">Do you want delete selected item?</system:String>
   <system:String x:Key="NoContentFound">The XML file is empty!</system:String>
   <system:String x:Key="FileEncodingLabel">(If no value selected, auto file encoding is on)</system:String>
-  <system:String x:Key="OS">Operating System</system:String>
+  <system:String x:Key="Os">Operating System</system:String>
   <system:String x:Key="FindDialogTitle">Find</system:String>
   <system:String x:Key="SearchCount">Count: {0} matches.</system:String>
   <system:String x:Key="SelectSoundFile">Please select a sound file</system:String>

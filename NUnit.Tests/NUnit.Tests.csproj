@@ -112,11 +112,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="FileManager.xml">
+    <Content Include="Files\FileManager.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="FileManager_Root.xml">
+    <Content Include="Files\FileManager_Root.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
