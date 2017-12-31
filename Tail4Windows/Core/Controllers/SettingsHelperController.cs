@@ -17,10 +17,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
   /// <summary>
   /// Holds settings from enviroment
   /// </summary>
-  public class SettingsHelper : ISettingsHelper
+  public class SettingsHelperController : ISettingsHelper
   {
     // ReSharper disable once InconsistentNaming
-    private static readonly ILog LOG = LogManager.GetLogger(typeof(SettingsHelper));
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(SettingsHelperController));
 
     /// <summary>
     /// Current T4W settings

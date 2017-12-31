@@ -15,7 +15,7 @@ namespace Org.Vs.NUnit.Tests
     [SetUp]
     protected void SetUp()
     {
-      _currentSettings = new SettingsHelper();
+      _currentSettings = new SettingsHelperController();
     }
 
     [Test]
@@ -26,29 +26,29 @@ namespace Org.Vs.NUnit.Tests
       //Assert.IsTrue(SettingsHelper.CurrentSettings.SmartWatch);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.AlwaysScrollToEnd);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.AutoUpdate);
-      Assert.IsTrue(SettingsHelper.CurrentSettings.RestoreWindowSize);
-      Assert.IsTrue(SettingsHelper.CurrentSettings.SaveWindowPosition);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.RestoreWindowSize);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.SaveWindowPosition);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.DeleteLogFiles);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.GroupByCategory);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.ShowLineNumbers);
 
-      Assert.IsFalse(SettingsHelper.CurrentSettings.AlwaysOnTop);
-      Assert.IsFalse(SettingsHelper.CurrentSettings.ExitWithEscape);
+      Assert.IsFalse(SettingsHelperController.CurrentSettings.AlwaysOnTop);
+      Assert.IsFalse(SettingsHelperController.CurrentSettings.ExitWithEscape);
 
       //Assert.AreEqual(25, SettingsHelper.CurrentSettings.LinesRead);
       //Assert.LessOrEqual(-1, SettingsHelper.CurrentSettings.LogLineLimit);
-      Assert.Greater(SettingsHelper.CurrentSettings.WindowWidth, -1);
-      Assert.AreEqual(1274, SettingsHelper.CurrentSettings.WindowWidth);
-      Assert.Greater(SettingsHelper.CurrentSettings.WindowHeight, -1);
-      Assert.AreEqual(1080, SettingsHelper.CurrentSettings.WindowHeight);
-      Assert.Greater(SettingsHelper.CurrentSettings.WindowPositionX, -1);
-      Assert.AreEqual(2566, SettingsHelper.CurrentSettings.WindowPositionX);
-      Assert.Greater(SettingsHelper.CurrentSettings.WindowPositionY, -1);
-      Assert.AreEqual(0, SettingsHelper.CurrentSettings.WindowPositionY);
+      Assert.Greater(SettingsHelperController.CurrentSettings.WindowWidth, -1);
+      Assert.AreEqual(1274, SettingsHelperController.CurrentSettings.WindowWidth);
+      Assert.Greater(SettingsHelperController.CurrentSettings.WindowHeight, -1);
+      Assert.AreEqual(1080, SettingsHelperController.CurrentSettings.WindowHeight);
+      Assert.Greater(SettingsHelperController.CurrentSettings.WindowPositionX, -1);
+      Assert.AreEqual(2566, SettingsHelperController.CurrentSettings.WindowPositionX);
+      Assert.Greater(SettingsHelperController.CurrentSettings.WindowPositionY, -1);
+      Assert.AreEqual(0, SettingsHelperController.CurrentSettings.WindowPositionY);
 
       //Assert.AreEqual(ETailRefreshRate.Normal, SettingsHelper.CurrentSettings.DefaultRefreshRate);
       //Assert.AreEqual(System.Threading.ThreadPriority.Normal, SettingsHelper.CurrentSettings.DefaultThreadPriority);
-      Assert.AreEqual(System.Windows.WindowState.Normal, SettingsHelper.CurrentSettings.CurrentWindowState);
+      Assert.AreEqual(System.Windows.WindowState.Normal, SettingsHelperController.CurrentSettings.CurrentWindowState);
       //Assert.AreEqual(EWindowStyle.ModernBlueWindowStyle, SettingsHelper.CurrentSettings.CurrentWindowStyle);
 
       //Assert.AreEqual(ETimeFormat.HHMMSSD, SettingsHelper.CurrentSettings.DefaultTimeFormat);
@@ -102,35 +102,35 @@ namespace Org.Vs.NUnit.Tests
     [Test]
     public async Task TestSettingsHelperSaveSettings()
     {
-      SettingsHelper.CurrentSettings.WindowPositionX = 200;
-      SettingsHelper.CurrentSettings.WindowPositionY = 150;
-      SettingsHelper.CurrentSettings.AlwaysOnTop = true;
-      SettingsHelper.CurrentSettings.ExitWithEscape = true;
-      SettingsHelper.CurrentSettings.RestoreWindowSize = true;
-      SettingsHelper.CurrentSettings.CurrentWindowState = WindowState.Maximized;
-      SettingsHelper.CurrentSettings.SaveWindowPosition = true;
+      SettingsHelperController.CurrentSettings.WindowPositionX = 200;
+      SettingsHelperController.CurrentSettings.WindowPositionY = 150;
+      SettingsHelperController.CurrentSettings.AlwaysOnTop = true;
+      SettingsHelperController.CurrentSettings.ExitWithEscape = true;
+      SettingsHelperController.CurrentSettings.RestoreWindowSize = true;
+      SettingsHelperController.CurrentSettings.CurrentWindowState = WindowState.Maximized;
+      SettingsHelperController.CurrentSettings.SaveWindowPosition = true;
 
       await _currentSettings.SaveSettingsAsync().ConfigureAwait(false);
 
-      SettingsHelper.CurrentSettings.WindowPositionX = -1;
-      SettingsHelper.CurrentSettings.WindowPositionY = -1;
-      SettingsHelper.CurrentSettings.AlwaysOnTop = false;
-      SettingsHelper.CurrentSettings.ExitWithEscape = false;
-      SettingsHelper.CurrentSettings.RestoreWindowSize = false;
-      SettingsHelper.CurrentSettings.CurrentWindowState = default(WindowState);
-      SettingsHelper.CurrentSettings.SaveWindowPosition = false;
+      SettingsHelperController.CurrentSettings.WindowPositionX = -1;
+      SettingsHelperController.CurrentSettings.WindowPositionY = -1;
+      SettingsHelperController.CurrentSettings.AlwaysOnTop = false;
+      SettingsHelperController.CurrentSettings.ExitWithEscape = false;
+      SettingsHelperController.CurrentSettings.RestoreWindowSize = false;
+      SettingsHelperController.CurrentSettings.CurrentWindowState = default(WindowState);
+      SettingsHelperController.CurrentSettings.SaveWindowPosition = false;
 
       await _currentSettings.ReloadCurrentSettingsAsync().ConfigureAwait(false);
       await _currentSettings.ReadSettingsAsync().ConfigureAwait(false);
 
-      Assert.AreEqual(200, SettingsHelper.CurrentSettings.WindowPositionX);
-      Assert.AreEqual(150, SettingsHelper.CurrentSettings.WindowPositionY);
-      Assert.AreEqual(WindowState.Maximized, SettingsHelper.CurrentSettings.CurrentWindowState);
+      Assert.AreEqual(200, SettingsHelperController.CurrentSettings.WindowPositionX);
+      Assert.AreEqual(150, SettingsHelperController.CurrentSettings.WindowPositionY);
+      Assert.AreEqual(WindowState.Maximized, SettingsHelperController.CurrentSettings.CurrentWindowState);
 
-      Assert.IsTrue(SettingsHelper.CurrentSettings.AlwaysOnTop);
-      Assert.IsTrue(SettingsHelper.CurrentSettings.ExitWithEscape);
-      Assert.IsTrue(SettingsHelper.CurrentSettings.RestoreWindowSize);
-      Assert.IsTrue(SettingsHelper.CurrentSettings.SaveWindowPosition);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.AlwaysOnTop);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.ExitWithEscape);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.RestoreWindowSize);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.SaveWindowPosition);
     }
   }
 }

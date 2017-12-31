@@ -15,41 +15,41 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// Read XML file
     /// </summary>
     /// <returns>List of tail settings from XML file</returns>
-    Task<ObservableCollection<TailData>> ReadXmlFile();
+    Task<ObservableCollection<TailData>> ReadXmlFileAsync();
 
     /// <summary>
     /// Get list of categories from XML file
     /// </summary>
     /// <param name="tailData">List of TailData</param>
     /// <returns>List of all categories</returns>
-    Task<ObservableCollection<string>> GetCategoriesFromXmlFile(ObservableCollection<TailData> tailData);
+    Task<ObservableCollection<string>> GetCategoriesFromXmlFileAsync(ObservableCollection<TailData> tailData);
 
     /// <summary>
     /// Write XML config file
     /// </summary>
     /// <returns>Task</returns>
-    Task WriteXmlFile();
+    Task WriteXmlFileAsync();
 
     /// <summary>
     /// Update XML config file
     /// </summary>
     /// <param name="tailData">TailData to update</param>
     /// <returns>Task</returns>
-    Task UpdateTailDataInXmlFile(TailData tailData);
+    Task UpdateTailDataInXmlFileAsync(TailData tailData);
 
     /// <summary>
     /// Add new tailData to XML file
     /// </summary>
     /// <param name="tailData">TailData to add</param>
     /// <returns>Task</returns>
-    Task AddTailDataToXmlFile(TailData tailData);
+    Task AddTailDataToXmlFileAsync(TailData tailData);
 
     /// <summary>
     /// Delete <c>TailData</c> from XML file
     /// </summary>
     /// <param name="id">Id to remove from XML scheme</param>
     /// <returns>Task</returns>
-    Task DeleteTailDataByIdFromXmlFile(string id);
+    Task DeleteTailDataByIdFromXmlFileAsync(string id);
 
     /// <summary>
     /// Delete a filter element from XML file
@@ -57,7 +57,7 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// <param name="id">Id of parent XML element</param>
     /// <param name="filterId">Id of filter to remove</param>
     /// <returns>Task</returns>
-    Task DeleteFilterByIdByTailDataIdFromXmlFile(string id, string filterId);
+    Task DeleteFilterByIdByTailDataIdFromXmlFileAsync(string id, string filterId);
 
     /// <summary>
     /// Get <c>TailData</c> by certain Id
@@ -65,6 +65,6 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// <param name="tailData">List of TailData</param>
     /// <param name="id">Id</param>
     /// <returns><c>TailData</c>, otherwise <c>Null</c></returns>
-    Task<TailData> GetTailDataById(ObservableCollection<TailData> tailData, Guid id);
+    Task<TailData> GetTailDataByIdAsync(ObservableCollection<TailData> tailData, Guid id);
   }
 }

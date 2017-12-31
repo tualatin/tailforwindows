@@ -56,4 +56,5 @@
   <system:String x:Key="FileAlreadyOpen">File '{0}' is already open.</system:String>
   <system:String x:Key="SmartWatchCanNotStart">SmartWatch can not start, an internal error occurred.</system:String>
   <system:String x:Key="XmlExceptionConfigFileCorrupt">The XML file is not a valid file or corrupted!</system:String>
+  <system:String x:Key="WebUrl">https://github.com/tualatin/tailforwindows/releases</system:String>
 </ResourceDictionary>

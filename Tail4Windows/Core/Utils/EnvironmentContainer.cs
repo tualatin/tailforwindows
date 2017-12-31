@@ -32,11 +32,11 @@ namespace Org.Vs.TailForWin.Core.Utils
 
     private EnvironmentContainer()
     {
-      _settings = new SettingsHelper();
+      _settings = new SettingsHelperController();
 
       // For test purposes
       if ( System.Reflection.Assembly.GetEntryAssembly() != null )
-        _xmlReader = new XmlConfigReadController();
+        _xmlReader = new XmlFileManagerController();
 
       IntializeObservableCollections();
     }
@@ -45,6 +45,11 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// Application title
     /// </summary>
     public static string ApplicationTitle => Application.Current.TryFindResource("ApplicationTitle").ToString();
+
+    /// <summary>
+    /// Application Update URL
+    /// </summary>
+    public static string ApplicationUpdateWebUrl => Application.Current.TryFindResource("WebUrl").ToString();
 
     /// <summary>
     /// List of supported file encodings

@@ -20,9 +20,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
   /// <summary>
   /// XML config read controller
   /// </summary>
-  public class XmlConfigReadController : IXmlReader
+  public class XmlFileManagerController : IXmlReader
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof(XmlConfigReadController));
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(XmlFileManagerController));
 
     private readonly string _fileManagerFile;
     private XDocument _xmlDocument;
@@ -31,7 +31,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public XmlConfigReadController()
+    public XmlFileManagerController()
     {
       _fileManagerFile = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\FileManager.xml";
     }
@@ -40,7 +40,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// Constructor for testing purposes
     /// </summary>
     /// <param name="path">Path of XML file</param>
-    public XmlConfigReadController(string path)
+    public XmlFileManagerController(string path)
     {
       _fileManagerFile = path;
     }
@@ -51,7 +51,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>List of tail settings from XML file</returns>
     /// <exception cref="FileNotFoundException">If XML file does not exists</exception>
     /// <exception cref="XmlException">If an error occurred while reading XML file</exception>
-    public async Task<ObservableCollection<TailData>> ReadXmlFile()
+    public async Task<ObservableCollection<TailData>> ReadXmlFileAsync()
     {
       if ( !File.Exists(_fileManagerFile) )
         throw new FileNotFoundException();
@@ -87,8 +87,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
             NewWindow = (p.Element(XmlStructure.NewWindow)?.Value).ConvertToBool(),
             SmartWatch = (p.Element(XmlStructure.UseSmartWatch)?.Value).ConvertToBool(),
             UsePattern = (p.Element(XmlStructure.UsePattern)?.Value).ConvertToBool(),
-            ThreadPriority = SettingsHelper.GetThreadPriority(p.Element(XmlStructure.ThreadPriority)?.Value),
-            RefreshRate = SettingsHelper.GetRefreshRate(p.Element(XmlStructure.RefreshRate)?.Value),
+            ThreadPriority = SettingsHelperController.GetThreadPriority(p.Element(XmlStructure.ThreadPriority)?.Value),
+            RefreshRate = SettingsHelperController.GetRefreshRate(p.Element(XmlStructure.RefreshRate)?.Value),
             FileEncoding = GetEncoding(p.Element(XmlStructure.FileEncoding)?.Value),
             FilterState = (p.Element(XmlStructure.UseFilters)?.Value).ConvertToBool(),
             FontType = GetFont(p.Element(XmlStructure.Font)),
@@ -122,7 +122,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <param name="tailData">List of TailData</param>
     /// <returns>List of all categories</returns>
     /// <exception cref="ArgumentException">If <c>tailData</c> is null</exception>
-    public async Task<ObservableCollection<string>> GetCategoriesFromXmlFile(ObservableCollection<TailData> tailData)
+    public async Task<ObservableCollection<string>> GetCategoriesFromXmlFileAsync(ObservableCollection<TailData> tailData)
     {
       Arg.NotNull(tailData, nameof(tailData));
 
@@ -150,7 +150,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// Write XML config file
     /// </summary>
     /// <returns>Task</returns>
-    public async Task WriteXmlFile()
+    public async Task WriteXmlFileAsync()
     {
       await Task.Run(() =>
       {
@@ -163,7 +163,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// </summary>
     /// <param name="tailData">TailData to add</param>
     /// <returns>Task</returns>
-    public async Task AddTailDataToXmlFile(TailData tailData)
+    public async Task AddTailDataToXmlFileAsync(TailData tailData)
     {
       Arg.NotNull(tailData, nameof(tailData));
 
@@ -181,6 +181,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
           if ( tailData.FileEncoding == null )
           {
+            tailData.FileEncoding = Encoding.UTF8;
             // TODO encoding
           }
 
@@ -221,7 +222,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           node.Add(filters);
           _xmlDocument.Root?.Add(node);
         });
-        await WriteXmlFile();
+        await WriteXmlFileAsync();
       }
       catch ( Exception ex )
       {
@@ -236,7 +237,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <param name="tailData"><c>TailData</c> to update</param>
     /// <returns>Task</returns>
     /// <exception cref="ArgumentException">If tailData is null</exception>
-    public async Task UpdateTailDataInXmlFile(TailData tailData)
+    public async Task UpdateTailDataInXmlFileAsync(TailData tailData)
     {
       Arg.NotNull(tailData, nameof(tailData));
 
@@ -281,7 +282,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
             filters?.Add(AddFilterToDoc(filter));
           });
         });
-        await WriteXmlFile();
+        await WriteXmlFileAsync();
       }
       catch ( Exception ex )
       {
@@ -296,7 +297,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <param name="id">Id to remove from XML scheme</param>
     /// <returns>Task</returns>
     /// <exception cref="ArgumentException">If <c>XML document</c> is null or <c>id</c> is empty</exception>
-    public async Task DeleteTailDataByIdFromXmlFile(string id)
+    public async Task DeleteTailDataByIdFromXmlFileAsync(string id)
     {
       Arg.NotNull(id, nameof(id));
       Arg.NotNull(_xmlDocument, nameof(_xmlDocument));
@@ -309,7 +310,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         {
           _xmlDocument.Root?.Descendants(XmlStructure.File).Where(p => p.Element(XmlStructure.Id)?.Value == id).Remove();
         });
-        await WriteXmlFile();
+        await WriteXmlFileAsync();
       }
       catch ( Exception ex )
       {
@@ -325,7 +326,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <param name="filterId">Id of filter to remove</param>
     /// <returns>Task</returns>
     /// <exception cref="ArgumentException">If <c>id</c> or <c>filterId</c> is null or empty</exception>
-    public async Task DeleteFilterByIdByTailDataIdFromXmlFile(string id, string filterId)
+    public async Task DeleteFilterByIdByTailDataIdFromXmlFileAsync(string id, string filterId)
     {
       Arg.NotNull(id, nameof(id));
       Arg.NotNull(filterId, nameof(filterId));
@@ -344,7 +345,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
           updateNode.Element(XmlStructure.Filters)?.Descendants(XmlStructure.Filter).Where(p => p.Element(XmlStructure.Id)?.Value == filterId).Remove();
         });
-        await WriteXmlFile();
+        await WriteXmlFileAsync();
       }
       catch ( Exception ex )
       {
@@ -360,7 +361,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <param name="id">Id</param>
     /// <returns><c>TailData</c>, otherwise <c>Null</c></returns>
     /// <exception cref="ArgumentException">If <c>tailData</c> or <c>id</c> is empty</exception>
-    public async Task<TailData> GetTailDataById(ObservableCollection<TailData> tailData, Guid id)
+    public async Task<TailData> GetTailDataByIdAsync(ObservableCollection<TailData> tailData, Guid id)
     {
       Arg.NotNull(tailData, nameof(tailData));
 

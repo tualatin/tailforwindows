@@ -178,8 +178,9 @@
     <Compile Include="Business\Data\DataDummy.cs" />
     <Compile Include="Business\Events\Args\ArgDummy.cs" />
     <Compile Include="Business\Interfaces\IDummy.cs" />
-    <Compile Include="Core\Controllers\SettingsHelper.cs" />
-    <Compile Include="Core\Controllers\XmlConfigReadController.cs" />
+    <Compile Include="Core\Controllers\SettingsHelperController.cs" />
+    <Compile Include="Core\Controllers\WebController.cs" />
+    <Compile Include="Core\Controllers\XmlFileManagerController.cs" />
     <Compile Include="Core\Data\Base\NotifyTaskCompletion.cs" />
     <Compile Include="Core\Data\FilterData.cs" />
     <Compile Include="Core\Data\FilterDataMemento.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="Core\Extensions\EnumExtension.cs" />
     <Compile Include="Core\Extensions\StringExtension.cs" />
     <Compile Include="Core\Interfaces\ISettingsHelper.cs" />
+    <Compile Include="Core\Interfaces\IWebController.cs" />
     <Compile Include="Core\Interfaces\IXmlReader.cs" />
     <Compile Include="Core\Native\Data\Enum\SWP.cs" />
     <Compile Include="Core\Native\Data\MemoryObject.cs" />
