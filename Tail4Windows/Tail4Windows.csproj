@@ -218,6 +218,8 @@
     <Compile Include="Core\Native\Data\Rect.cs" />
     <Compile Include="Core\Native\Data\Win32Point.cs" />
     <Compile Include="Core\Native\Data\WINDOWPOS.cs" />
+    <Compile Include="Core\Utils\BuildDate.cs" />
+    <Compile Include="Core\Utils\EncodingDetector.cs" />
     <Compile Include="Core\Utils\EnvironmentContainer.cs" />
     <Compile Include="UI\Commands\AsyncCommand.cs" />
     <Compile Include="UI\Commands\Base\AsyncCommandBase.cs" />
@@ -240,6 +242,7 @@
     <Compile Include="UI\UserControls\StyleableWindow\WindowMinimizeCommand.cs" />
     <Compile Include="UI\UserControls\StyleableWindow\WindowResizeBehavior.cs" />
     <Compile Include="UI\UserControls\TailForWinTabItem.cs" />
+    <Compile Include="UI\UserControls\TextBoxMaskBehavior.cs" />
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="UI\ViewModels\T4WindowViewModel.cs" />
     <Page Include="Language\en-EN.xaml">

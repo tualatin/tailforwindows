@@ -1,8 +1,8 @@
 using System;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Navigation;
 using log4net;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
@@ -26,6 +26,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     public async Task<string> GetStringByUrlAsync(string url)
     {
       Arg.NotNull(url, nameof(url));
+      CheckUrl(url);
 
       using ( var client = new HttpClient() )
       {
@@ -51,6 +52,16 @@ namespace Org.Vs.TailForWin.Core.Controllers
         }
       }
       return null;
+    }
+
+    private static void CheckUrl(string url)
+    {
+      Arg.NotNull(url, nameof(url));
+
+      Regex regex = new Regex(@"^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)");
+
+      if ( !regex.IsMatch(url) )
+        throw new NotSupportedException(nameof(url));
     }
   }
 }

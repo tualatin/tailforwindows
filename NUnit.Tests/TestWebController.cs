@@ -28,6 +28,7 @@ namespace Org.Vs.NUnit.Tests
     public async Task TestGetStringByUrl()
     {
       Assert.That(() => _webController.GetStringByUrlAsync(null), Throws.InstanceOf<ArgumentException>());
+      Assert.That(() => _webController.GetStringByUrlAsync("htpewh://blabla.info"), Throws.InstanceOf<NotSupportedException>());
 
       var webRequest = await _webController.GetStringByUrlAsync(EnvironmentContainer.ApplicationUpdateWebUrl);
       Assert.IsNotNull(webRequest);
