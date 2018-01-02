@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -157,6 +159,42 @@ namespace Org.Vs.TailForWin.Core.Utils
       var caption = $"{ApplicationTitle} - {Application.Current.TryFindResource("Question")}";
       return string.IsNullOrWhiteSpace(question) ? MessageBoxResult.None :
         MessageBox.Show(question, caption, MessageBoxButton.YesNo, MessageBoxImage.Question, defaultMessageBoxResult);
+    }
+
+    /// <summary>
+    /// Get all Enum RefreshRates
+    /// </summary>
+    /// <param name="s">Reference of refresh rate string</param>
+    /// <returns>Enum of ETailRefreshRate</returns>
+    public static ETailRefreshRate GetRefreshRate(string s)
+    {
+      if ( string.IsNullOrWhiteSpace(s) )
+        return ETailRefreshRate.Normal;
+
+      if ( Enum.GetNames(typeof(ETailRefreshRate)).All(refreshName => string.Compare(s.ToLower(), refreshName.ToLower(), StringComparison.Ordinal) != 0) )
+        return ETailRefreshRate.Normal;
+
+      Enum.TryParse(s, out ETailRefreshRate trr);
+
+      return trr;
+    }
+
+    /// <summary>
+    /// Get all Enum ThreadPriorities
+    /// </summary>
+    /// <param name="s">Reference of thread priority string</param>
+    /// <returns>Enum from thread priority</returns>
+    public static ThreadPriority GetThreadPriority(string s)
+    {
+      if ( string.IsNullOrWhiteSpace(s) )
+        return System.Threading.ThreadPriority.Normal;
+
+      if ( Enum.GetNames(typeof(ThreadPriority)).All(priorityName => String.Compare(s.ToLower(), priorityName.ToLower(), StringComparison.Ordinal) != 0) )
+        return System.Threading.ThreadPriority.Normal;
+
+      Enum.TryParse(s, out ThreadPriority tp);
+
+      return tp;
     }
 
     private void IntializeObservableCollections()

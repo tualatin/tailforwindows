@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using NUnit.Framework;
@@ -18,7 +18,7 @@ namespace Org.Vs.NUnit.Tests
     [SetUp]
     protected void Setup()
     {
-      _webController = new WebController();
+      _webController = new WebDataController();
 
       if ( Application.Current == null )
         Application.LoadComponent(new Uri("/T4W;component/app.xaml", UriKind.Relative));
