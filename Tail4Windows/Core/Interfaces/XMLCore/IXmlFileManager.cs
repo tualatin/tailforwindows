@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Org.Vs.TailForWin.Core.Data;
 
 
-namespace Org.Vs.TailForWin.Core.Interfaces.XMLCore
+namespace Org.Vs.TailForWin.Core.Interfaces.XmlCore
 {
   /// <summary>
   /// XML FileManager interface

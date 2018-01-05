@@ -98,8 +98,8 @@
     <Compile Include="TestT4WindowViewModel.cs" />
     <Compile Include="TestUpdateController.cs" />
     <Compile Include="TestWebController.cs" />
-    <Compile Include="XMLTests\TestXmlFileManagerController.cs" />
-    <Compile Include="XMLTests\TestXmlHistoryController.cs" />
+    <Compile Include="XmlTests\TestXmlFileManagerController.cs" />
+    <Compile Include="XmlTests\TestXmlHistoryController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tail4Windows\Tail4Windows.csproj">

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Org.Vs.TailForWin.Core.Interfaces.XMLCore;
+using Org.Vs.TailForWin.Core.Interfaces.XmlCore;
 using Org.Vs.TailForWin.Core.Utils;
 
 
-namespace Org.Vs.TailForWin.Core.Controllers.XMLCore
+namespace Org.Vs.TailForWin.Core.Controllers.XmlCore
 {
   /// <summary>
   /// XML history controller

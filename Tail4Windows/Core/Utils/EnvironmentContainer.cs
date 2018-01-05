@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Controllers;
-using Org.Vs.TailForWin.Core.Controllers.XMLCore;
+using Org.Vs.TailForWin.Core.Controllers.XmlCore;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
-using Org.Vs.TailForWin.Core.Interfaces.XMLCore;
+using Org.Vs.TailForWin.Core.Interfaces.XmlCore;
 
 
 namespace Org.Vs.TailForWin.Core.Utils

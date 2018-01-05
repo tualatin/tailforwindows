@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Org.Vs.TailForWin.Core.Controllers.XMLCore;
+using Org.Vs.TailForWin.Core.Controllers.XmlCore;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
-using Org.Vs.TailForWin.Core.Interfaces.XMLCore;
+using Org.Vs.TailForWin.Core.Interfaces.XmlCore;
 
 
-namespace Org.Vs.NUnit.Tests.XMLTests
+namespace Org.Vs.NUnit.Tests.XmlTests
 {
   [TestFixture]
   public class TestXmlFileManagerController

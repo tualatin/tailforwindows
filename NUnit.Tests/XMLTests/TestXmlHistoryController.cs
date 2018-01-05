@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 
 
-namespace Org.Vs.NUnit.Tests.XMLTests
+namespace Org.Vs.NUnit.Tests.XmlTests
 {
   [TestFixture]
   public class TestXmlHistoryController

@@ -3,7 +3,7 @@ using System.Xml.Linq;
 using Org.Vs.TailForWin.Core.Utils;
 
 
-namespace Org.Vs.TailForWin.Core.Interfaces.XMLCore
+namespace Org.Vs.TailForWin.Core.Interfaces.XmlCore
 {
   /// <summary>
   /// XML search history interface
