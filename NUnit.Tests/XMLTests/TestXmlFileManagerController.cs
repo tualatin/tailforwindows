@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
@@ -6,18 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Controllers.XMLCore;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
-using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Interfaces.XMLCore;
 
 
-namespace Org.Vs.NUnit.Tests
+namespace Org.Vs.NUnit.Tests.XMLTests
 {
   [TestFixture]
-  public class TestXmlReader
+  public class TestXmlFileManagerController
   {
-    private IXmlReader _xmlReader;
+    private IXmlFileManager _xmlReader;
     private TestContext _currenTestContext;
     private TailData _tailData;
     private string _path;
@@ -71,7 +71,7 @@ namespace Org.Vs.NUnit.Tests
     [Test]
     public async Task TestReadXmlConfigFile()
     {
-      IXmlReader xmlReader = new XmlFileManagerController(@"C:\blabla\Test.xml");
+      IXmlFileManager xmlReader = new XmlFileManagerController(@"C:\blabla\Test.xml");
       var reader = xmlReader;
       Assert.That(() => reader.ReadXmlFileAsync(), Throws.InstanceOf<FileNotFoundException>());
 

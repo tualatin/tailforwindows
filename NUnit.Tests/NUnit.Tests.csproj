@@ -92,12 +92,14 @@
     <Compile Include="TestEnumerableExtension.cs" />
     <Compile Include="TestEnumExtension.cs" />
     <Compile Include="TestMementoOfObjects.cs" />
+    <Compile Include="TestObservableDictionary.cs" />
     <Compile Include="TestSettingsHelper.cs" />
     <Compile Include="TestStringExtension.cs" />
     <Compile Include="TestT4WindowViewModel.cs" />
     <Compile Include="TestUpdateController.cs" />
     <Compile Include="TestWebController.cs" />
-    <Compile Include="TestXmlReader.cs" />
+    <Compile Include="XMLTests\TestXmlFileManagerController.cs" />
+    <Compile Include="XMLTests\TestXmlHistoryController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Tail4Windows\Tail4Windows.csproj">

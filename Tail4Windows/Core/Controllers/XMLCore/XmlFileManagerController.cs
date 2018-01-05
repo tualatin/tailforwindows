@@ -11,16 +11,16 @@ using log4net;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.XmlNames;
 using Org.Vs.TailForWin.Core.Extensions;
-using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Interfaces.XMLCore;
 using Org.Vs.TailForWin.Core.Utils;
 
 
-namespace Org.Vs.TailForWin.Core.Controllers
+namespace Org.Vs.TailForWin.Core.Controllers.XMLCore
 {
   /// <summary>
-  /// XML config read controller
+  /// XML FileManager controller
   /// </summary>
-  public class XmlFileManagerController : IXmlReader
+  public class XmlFileManagerController : IXmlFileManager
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(XmlFileManagerController));
 

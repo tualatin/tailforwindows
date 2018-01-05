@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Core.Data;
 
 
-namespace Org.Vs.TailForWin.Core.Interfaces
+namespace Org.Vs.TailForWin.Core.Interfaces.XMLCore
 {
   /// <summary>
-  /// XML reader interface
+  /// XML FileManager interface
   /// </summary>
-  public interface IXmlReader
+  public interface IXmlFileManager
   {
     /// <summary>
     /// Read XML file
