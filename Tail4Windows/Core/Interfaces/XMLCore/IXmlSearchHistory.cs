@@ -1,22 +1,28 @@
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Core.Interfaces.XmlCore
 {
   /// <summary>
   /// XML search history interface
-  /// 
   /// </summary>
   public interface IXmlSearchHistory
   {
     /// <summary>
+    /// Wrap at the end of search
+    /// </summary>
+    bool Wrap
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Read XML file
     /// </summary>
-    /// <param name="history"></param>
     /// <returns>Task</returns>
-    Task ReadXmlFileAsync(ref ObservableDictionary<string ,string> history);
+    Task<IObservableDictionary<string, string>> ReadXmlFileAsync();
 
     /// <summary>
     /// Save search word as XML attribute

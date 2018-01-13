@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.TailForWin.Core.Data.XmlNames
+namespace Org.Vs.TailForWin.Core.Data.XmlNames
 {
   /// <summary>
   /// Current XML names
@@ -6,9 +6,9 @@
   public static class XmlStructure
   {
     /// <summary>
-    /// XML root name
+    /// FileManager XML root name
     /// </summary>
-    public const string XmlRoot = "fileManager";
+    public const string FileManagerXmlRoot = "fileManager";
 
     /// <summary>
     /// Current XML version
@@ -167,23 +167,33 @@
     #region History XML file
 
     /// <summary>
+    /// History XML root name
+    /// </summary>
+    public const string HistoryXmlRoot = "historyFile";
+
+    /// <summary>
     /// FindHistory
     /// </summary>
     public const string FindHistory = "FindHistory";
 
     /// <summary>
-    /// Find
+    /// History find
     /// </summary>
     public const string Find = "Find";
 
     /// <summary>
-    /// wrap
+    /// History wrap
     /// </summary>
     public const string Wrap = "wrap";
 
     #endregion
 
     #region Default patterns XML file
+
+    /// <summary>
+    /// Pattern XML root name
+    /// </summary>
+    public const string PatternXmlRoot = "defaultPatternFile";
 
     /// <summary>
     /// Patterns

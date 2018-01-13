@@ -184,7 +184,7 @@ namespace Org.Vs.TailForWin.Core.Controllers.XmlCore
       {
         if ( !File.Exists(_fileManagerFile) )
         {
-          _xmlDocument = new XDocument(new XElement(XmlStructure.XmlRoot));
+          _xmlDocument = new XDocument(new XElement(XmlStructure.FileManagerXmlRoot));
           _xmlDocument.Root?.Add(new XElement(XmlStructure.XmlVersion, XmlStructure.CurrentXmlVersion));
         }
 

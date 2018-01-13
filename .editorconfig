@@ -7,6 +7,7 @@ insert_final_newline = true
 indent_style = space
 trim_trailing_whitespace = true
 charset = utf-8
+indent_size = 2
 
 # Code files
 [*.cs]
@@ -54,5 +55,3 @@ csharp_space_between_method_call_parameter_list_parentheses = false
 csharp_space_between_parentheses = control_flow_statements
 csharp_preserve_single_line_statements = false
 csharp_preserve_single_line_blocks = false
-
-indent_size = 2

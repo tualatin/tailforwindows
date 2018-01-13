@@ -1,6 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <historyFile>
   <FindHistory wrap="False">
     <Find name="error" />
+    <Find name="debug" />
+    <Find name="testsearch" />
   </FindHistory>
 </historyFile>

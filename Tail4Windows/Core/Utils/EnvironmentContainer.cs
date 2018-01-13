@@ -23,12 +23,12 @@ namespace Org.Vs.TailForWin.Core.Utils
   /// </summary>
   public class EnvironmentContainer
   {
-    private static EnvironmentContainer _instance;
+    private static EnvironmentContainer instance;
 
     /// <summary>
     /// Current instance
     /// </summary>
-    public static EnvironmentContainer Instance => _instance ?? (_instance = new EnvironmentContainer());
+    public static EnvironmentContainer Instance => instance ?? (instance = new EnvironmentContainer());
 
     private readonly ISettingsHelper _settings;
     private readonly IXmlFileManager _xmlReader;
