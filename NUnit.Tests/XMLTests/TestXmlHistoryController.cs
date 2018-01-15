@@ -61,6 +61,25 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       Assert.IsTrue(_xmlHistory.Wrap);
     }
 
+    [Test]
+    public async Task TestSaveXmlHistoryFile()
+    {
+      InitXmlReader();
+
+      await _xmlHistory.ReadXmlFileAsync();
+
+      _xmlHistory.Wrap = true;
+
+      await _xmlHistory.SaveSearchHistoryAsync("test1234");
+
+      _xmlHistory.Wrap = false;
+      var history = await _xmlHistory.ReadXmlFileAsync();
+
+      Assert.NotNull(history);
+      Assert.IsTrue(history.Values.Any(p => p.Equals("test1234")));
+      Assert.IsTrue(_xmlHistory.Wrap);
+    }
+
     private void InitXmlReader()
     {
       if ( File.Exists(_path) )

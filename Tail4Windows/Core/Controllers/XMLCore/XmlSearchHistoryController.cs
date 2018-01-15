@@ -56,7 +56,7 @@ namespace Org.Vs.TailForWin.Core.Controllers.XmlCore
       if ( !File.Exists(_historyFile) )
         throw new FileNotFoundException();
 
-      LOG.Trace("Read XML");
+      LOG.Trace("Read search history");
 
       return await Task.Run(() => ReadXmlFile()).ConfigureAwait(false);
     }
@@ -91,22 +91,43 @@ namespace Org.Vs.TailForWin.Core.Controllers.XmlCore
     /// </summary>
     /// <param name="searchWord">Search text to save into XML file</param>
     /// <returns>Task</returns>
-    public Task SaveSearchHistoryAsync(string searchWord)
+    public async Task SaveSearchHistoryAsync(string searchWord) => await Task.Run(() => SaveSearchHistory(searchWord)).ConfigureAwait(false);
+
+    private void SaveSearchHistory(string word)
     {
-      throw new NotImplementedException();
+      LOG.Trace("Save search history");
+
+      if ( string.IsNullOrWhiteSpace(word) )
+        return;
+
+      if (!File.Exists(_historyFile))
+        _xmlDocument = new XDocument(new XElement(XmlStructure.HistoryXmlRoot));
+      
+      try
+      {
+        var root = _xmlDocument.Root?.Element(XmlStructure.FindHistory) ?? SaveSearchHistoryWrapAttribute();
+        var find = new XElement(XmlStructure.Find);
+        find.Add(new XAttribute(XmlStructure.Name, word));
+        root.Add(find);
+
+        _xmlDocument.Save(_historyFile, SaveOptions.None);
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+      }
     }
 
     /// <summary>
     /// Save search history wrap as XML attribute
     /// </summary>
     /// <returns>XML element, if an error occurred, <c>null</c></returns>
-    public async Task<XElement> SaveSearchHistoryWrapAttributeAsync()
-    {
-      return await Task.Run(() => SaveSearchHistoryWrapAttribute());
-    }
+    public async Task<XElement> SaveSearchHistoryWrapAttributeAsync() => await Task.Run(() => SaveSearchHistoryWrapAttribute());
 
     private XElement SaveSearchHistoryWrapAttribute()
     {
+      LOG.Trace("Update wrap attribute in search history");
+
       if ( !File.Exists(_historyFile) )
         _xmlDocument = new XDocument(new XElement(XmlStructure.HistoryXmlRoot));
 
