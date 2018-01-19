@@ -70,6 +70,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
 
       _xmlHistory.Wrap = true;
 
+      await _xmlHistory.SaveSearchHistoryWrapAttributeAsync();
       await _xmlHistory.SaveSearchHistoryAsync("test1234");
 
       _xmlHistory.Wrap = false;
