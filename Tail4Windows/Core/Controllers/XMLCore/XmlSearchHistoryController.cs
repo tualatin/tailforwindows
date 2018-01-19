@@ -35,7 +35,7 @@ namespace Org.Vs.TailForWin.Core.Controllers.XmlCore
     /// </summary>
     public XmlSearchHistoryController()
     {
-      _historyFile = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\FileManager.xml";
+      _historyFile = EnvironmentContainer.ApplicationPath + @"\FileManager.xml";
     }
 
     /// <summary>
@@ -100,9 +100,9 @@ namespace Org.Vs.TailForWin.Core.Controllers.XmlCore
       if ( string.IsNullOrWhiteSpace(word) )
         return;
 
-      if (!File.Exists(_historyFile))
+      if ( !File.Exists(_historyFile) )
         _xmlDocument = new XDocument(new XElement(XmlStructure.HistoryXmlRoot));
-      
+
       try
       {
         var root = _xmlDocument.Root?.Element(XmlStructure.FindHistory) ?? SaveSearchHistoryWrapAttribute();

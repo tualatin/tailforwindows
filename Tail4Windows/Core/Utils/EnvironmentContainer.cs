@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -69,6 +70,11 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// List of thread priority (static)
     /// </summary>
     public ObservableCollection<ThreadPriorityMapping> ThreadPriority { get; } = new ObservableCollection<ThreadPriorityMapping>();
+
+    /// <summary>
+    /// Current application path
+    /// </summary>
+    public static string ApplicationPath => Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
 
     /// <summary>
     /// Read current settings

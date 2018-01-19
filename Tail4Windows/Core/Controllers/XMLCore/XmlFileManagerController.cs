@@ -33,7 +33,7 @@ namespace Org.Vs.TailForWin.Core.Controllers.XmlCore
     /// </summary>
     public XmlFileManagerController()
     {
-      _fileManagerFile = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\FileManager.xml";
+      _fileManagerFile = EnvironmentContainer.ApplicationPath + @"\FileManager.xml";
     }
 
     /// <summary>
