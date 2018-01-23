@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using NUnit.Framework;
-using Org.Vs.TailForWin.Core.Controllers.XmlCore;
-using Org.Vs.TailForWin.Core.Interfaces.XmlCore;
+using Org.Vs.TailForWin.PlugIns.FindModule.Controller;
+using Org.Vs.TailForWin.PlugIns.FindModule.Interfaces;
 
 
 namespace Org.Vs.NUnit.Tests.XmlTests

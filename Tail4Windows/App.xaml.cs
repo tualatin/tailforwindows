@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using log4net;
+using Org.Vs.TailForWin.BaseView;
 
 
 namespace Org.Vs.TailForWin
@@ -15,7 +16,7 @@ namespace Org.Vs.TailForWin
 
     private void ApplicationStartup(object sender, StartupEventArgs e)
     {
-      UI.T4Window wnd = new UI.T4Window();
+      T4Window wnd = new T4Window();
       AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
       wnd.Show();
 

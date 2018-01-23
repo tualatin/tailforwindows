@@ -182,13 +182,15 @@
     <Compile Include="Core\Controllers\SettingsHelperController.cs" />
     <Compile Include="Core\Controllers\UpdateController.cs" />
     <Compile Include="Core\Controllers\WebDataController.cs" />
-    <Compile Include="Core\Controllers\XmlCore\XmlFileManagerController.cs" />
-    <Compile Include="Core\Controllers\XmlCore\XmlPatternController.cs" />
-    <Compile Include="Core\Controllers\XmlCore\XmlSearchHistoryController.cs" />
+    <Compile Include="PlugIns\FileManagerModule\Controller\XmlFileManagerController.cs" />
+    <Compile Include="PlugIns\FileManagerModule\Data\XmlNames.cs" />
+    <Compile Include="PlugIns\FindModule\Data\XmlNames.cs" />
+    <Compile Include="PlugIns\PatternModule\Controller\XmlPatternController.cs" />
+    <Compile Include="PlugIns\FindModule\Controller\XmlSearchHistoryController.cs" />
     <Compile Include="Core\Data\Base\NotifyTaskCompletion.cs" />
     <Compile Include="Core\Data\FilterData.cs" />
     <Compile Include="Core\Data\FilterDataMemento.cs" />
-    <Compile Include="Core\Data\Pattern.cs" />
+    <Compile Include="PlugIns\PatternModule\Data\Pattern.cs" />
     <Compile Include="Core\Data\Settings\AlertSetting.cs" />
     <Compile Include="Core\Data\Settings\EnvironmentSettings.cs" />
     <Compile Include="Core\Data\Settings\ProxySetting.cs" />
@@ -197,7 +199,7 @@
     <Compile Include="Core\Data\TailData.cs" />
     <Compile Include="Core\Data\TailDataMemento.cs" />
     <Compile Include="Core\Data\ThreadPriorityMapping.cs" />
-    <Compile Include="Core\Data\XmlNames\XmlStructure.cs" />
+    <Compile Include="Core\Data\XmlNames\XmlBaseStructure.cs" />
     <Compile Include="Core\Enums\EDateFormat.cs" />
     <Compile Include="Core\Enums\EFileManagerState.cs" />
     <Compile Include="Core\Enums\EFileSort.cs" />
@@ -216,9 +218,10 @@
     <Compile Include="Core\Interfaces\ISettingsHelper.cs" />
     <Compile Include="Core\Interfaces\IUpdater.cs" />
     <Compile Include="Core\Interfaces\IWebController.cs" />
-    <Compile Include="Core\Interfaces\XmlCore\IXmlFileManager.cs" />
-    <Compile Include="Core\Interfaces\XmlCore\IXmlPattern.cs" />
-    <Compile Include="Core\Interfaces\XmlCore\IXmlSearchHistory.cs" />
+    <Compile Include="PlugIns\FileManagerModule\Interfaces\IXmlFileManager.cs" />
+    <Compile Include="PlugIns\PatternModule\Data\XmlNames.cs" />
+    <Compile Include="PlugIns\PatternModule\Interfaces\IXmlPattern.cs" />
+    <Compile Include="PlugIns\FindModule\Interfaces\IXmlSearchHistory.cs" />
     <Compile Include="Core\Native\Data\Enum\SWP.cs" />
     <Compile Include="Core\Native\Data\MemoryObject.cs" />
     <Compile Include="Core\Native\Data\MINMAXINFO.cs" />
@@ -238,22 +241,22 @@
     <Compile Include="UI\Events\Args\ArgDummy.cs" />
     <Compile Include="UI\Interfaces\IAsyncCommand.cs" />
     <Compile Include="UI\NotifyIcon\Interop\SystemInfo.cs" />
-    <Compile Include="UI\T4Window.xaml.cs">
+    <Compile Include="BaseView\T4Window.xaml.cs">
       <DependentUpon>T4Window.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Utils\Arg.cs" />
-    <Compile Include="UI\UserControls\StyleableWindow\ControlDoubleClickBehavior.cs" />
-    <Compile Include="UI\UserControls\StyleableWindow\ShowSystemMenuBehavior.cs" />
-    <Compile Include="UI\UserControls\StyleableWindow\SystemMenuManager.cs" />
-    <Compile Include="UI\UserControls\StyleableWindow\WindowCloseCommand.cs" />
-    <Compile Include="UI\UserControls\StyleableWindow\WindowDragBehavior.cs" />
-    <Compile Include="UI\UserControls\StyleableWindow\WindowMaximizeCommand.cs" />
-    <Compile Include="UI\UserControls\StyleableWindow\WindowMinimizeCommand.cs" />
-    <Compile Include="UI\UserControls\StyleableWindow\WindowResizeBehavior.cs" />
-    <Compile Include="UI\UserControls\TailForWinTabItem.cs" />
+    <Compile Include="BaseView\StyleableWindow\ControlDoubleClickBehavior.cs" />
+    <Compile Include="BaseView\StyleableWindow\ShowSystemMenuBehavior.cs" />
+    <Compile Include="BaseView\StyleableWindow\SystemMenuManager.cs" />
+    <Compile Include="BaseView\StyleableWindow\WindowCloseCommand.cs" />
+    <Compile Include="BaseView\StyleableWindow\WindowDragBehavior.cs" />
+    <Compile Include="BaseView\StyleableWindow\WindowMaximizeCommand.cs" />
+    <Compile Include="BaseView\StyleableWindow\WindowMinimizeCommand.cs" />
+    <Compile Include="BaseView\StyleableWindow\WindowResizeBehavior.cs" />
+    <Compile Include="BaseView\UserControls\TailForWinTabItem.cs" />
     <Compile Include="UI\UserControls\TextBoxMaskBehavior.cs" />
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
-    <Compile Include="UI\ViewModels\T4WindowViewModel.cs" />
+    <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
     <Page Include="Language\en-EN.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -330,7 +333,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Styles\TailForWinTabItem.xaml">
+    <Page Include="BaseView\UserControls\Styles\TailForWinTabItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -338,15 +341,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Styles\WatermarkTextBox.xaml">
+    <Page Include="UI\UserControls\Styles\WatermarkTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Styles\WindowStyle.xaml">
+    <Page Include="BaseView\Styles\WindowStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\T4Window.xaml">
+    <Page Include="BaseView\T4Window.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -515,7 +518,15 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="PlugIns\FileManagerModule\ViewModels\" />
+    <Folder Include="PlugIns\FindModule\ViewModels\" />
+    <Folder Include="PlugIns\PatternModule\ViewModels\" />
+    <Folder Include="PlugIns\SmartWatchModule\Controller\" />
+    <Folder Include="PlugIns\SmartWatchModule\Data\" />
+    <Folder Include="PlugIns\SmartWatchModule\Interfaces\" />
+    <Folder Include="PlugIns\SmartWatchModule\ViewModels\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.5\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

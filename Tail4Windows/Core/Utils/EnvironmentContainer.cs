@@ -10,11 +10,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Controllers;
-using Org.Vs.TailForWin.Core.Controllers.XmlCore;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
-using Org.Vs.TailForWin.Core.Interfaces.XmlCore;
 
 
 namespace Org.Vs.TailForWin.Core.Utils
@@ -24,24 +22,19 @@ namespace Org.Vs.TailForWin.Core.Utils
   /// </summary>
   public class EnvironmentContainer
   {
-    private static EnvironmentContainer instance;
+    private static EnvironmentContainer _instance;
 
     /// <summary>
     /// Current instance
     /// </summary>
-    public static EnvironmentContainer Instance => instance ?? (instance = new EnvironmentContainer());
+    public static EnvironmentContainer Instance => _instance ?? (_instance = new EnvironmentContainer());
 
     private readonly ISettingsHelper _settings;
-    private readonly IXmlFileManager _xmlReader;
 
 
     private EnvironmentContainer()
     {
       _settings = new SettingsHelperController();
-
-      // For test purposes
-      if ( System.Reflection.Assembly.GetEntryAssembly() != null )
-        _xmlReader = new XmlFileManagerController();
 
       IntializeObservableCollections();
     }

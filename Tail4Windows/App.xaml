@@ -15,13 +15,13 @@
         <ResourceDictionary Source="UI/Styles/TextBox.xaml" />
         <ResourceDictionary Source="UI/Styles/Label.xaml" />
         <ResourceDictionary Source="UI/Styles/Button.xaml" />
-        <ResourceDictionary Source="UI/Styles/WatermarkTextBox.xaml" />
+        <ResourceDictionary Source="UI/UserControls/Styles/WatermarkTextBox.xaml" />
         <ResourceDictionary Source="UI/Styles/ScrollbarResources.xaml" />
         <ResourceDictionary Source="UI/Styles/ComboBox.xaml" />
         <ResourceDictionary Source="UI/Styles/Separator.xaml" />
         <ResourceDictionary Source="UI/Styles/TabItemToolTipStyle.xaml" />
-        <ResourceDictionary Source="UI/Styles/TailForWinTabItem.xaml" />
-        <ResourceDictionary Source="UI/Styles/WindowStyle.xaml" />
+        <ResourceDictionary Source="BaseView/UserControls/Styles/TailForWinTabItem.xaml" />
+        <ResourceDictionary Source="BaseView/Styles/WindowStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/ContextMenuItem.xaml" />
         <ResourceDictionary Source="UI/Styles/KeyBindings.xaml" />
       </ResourceDictionary.MergedDictionaries>

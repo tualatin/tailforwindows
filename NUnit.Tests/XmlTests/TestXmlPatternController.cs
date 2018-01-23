@@ -1,8 +1,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Org.Vs.TailForWin.Core.Controllers.XmlCore;
-using Org.Vs.TailForWin.Core.Interfaces.XmlCore;
+using Org.Vs.TailForWin.PlugIns.PatternModule.Controller;
+using Org.Vs.TailForWin.PlugIns.PatternModule.Interfaces;
 
 
 namespace Org.Vs.NUnit.Tests.XmlTests

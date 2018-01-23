@@ -77,6 +77,9 @@ namespace Org.Vs.TailForWin.UI.Commands
       }
     }
 
+    /// <summary>
+    /// PropertyChanged event
+    /// </summary>
     public event PropertyChangedEventHandler PropertyChanged;
 
     private void OnPropertyChanged([CallerMemberName] string propertyName = null)

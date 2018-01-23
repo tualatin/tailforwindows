@@ -19,6 +19,9 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     #region Control Properties
 
+    /// <summary>
+    /// Minimum value property
+    /// </summary>
     public static readonly DependencyProperty MinimumValueProperty = DependencyProperty.RegisterAttached("MinimumValue", typeof(double), typeof(TextBoxMaskBehavior),
       new FrameworkPropertyMetadata(double.NaN, MinimumValueChangedCallback));
 
@@ -27,20 +30,14 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// </summary>
     /// <param name="obj">Dependency object</param>
     /// <returns>Minimum value</returns>
-    public static double GetMinimumValue(DependencyObject obj)
-    {
-      return (double) obj.GetValue(MinimumValueProperty);
-    }
+    public static double GetMinimumValue(DependencyObject obj) => (double) obj.GetValue(MinimumValueProperty);
 
     /// <summary>
     /// Set minimum vlaue
     /// </summary>
     /// <param name="obj">Dependency object</param>
     /// <param name="value">Value</param>
-    public static void SetMinimumValue(DependencyObject obj, double value)
-    {
-      obj.SetValue(MinimumValueProperty, value);
-    }
+    public static void SetMinimumValue(DependencyObject obj, double value) => obj.SetValue(MinimumValueProperty, value);
 
     private static void MinimumValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -48,18 +45,25 @@ namespace Org.Vs.TailForWin.UI.UserControls
       ValidateTextBox(tb);
     }
 
+    /// <summary>
+    /// Maximum value property
+    /// </summary>
     public static readonly DependencyProperty MaximumValueProperty = DependencyProperty.RegisterAttached("MaximumValue", typeof(double), typeof(TextBoxMaskBehavior),
       new FrameworkPropertyMetadata(double.NaN, MaximumValueChangedCallback));
 
-    public static double GetMaximumValue(DependencyObject obj)
-    {
-      return (double) obj.GetValue(MaximumValueProperty);
-    }
+    /// <summary>
+    /// Get maximum value
+    /// </summary>
+    /// <param name="obj">Dependency object</param>
+    /// <returns></returns>
+    public static double GetMaximumValue(DependencyObject obj) => (double) obj.GetValue(MaximumValueProperty);
 
-    public static void SetMaximumValue(DependencyObject obj, double value)
-    {
-      obj.SetValue(MaximumValueProperty, value);
-    }
+    /// <summary>
+    /// Set maximum value
+    /// </summary>
+    /// <param name="obj">Dependency object</param>
+    /// <param name="value">Maximum value</param>
+    public static void SetMaximumValue(DependencyObject obj, double value) => obj.SetValue(MaximumValueProperty, value);
 
     private static void MaximumValueChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -67,18 +71,25 @@ namespace Org.Vs.TailForWin.UI.UserControls
       ValidateTextBox(tb);
     }
 
+    /// <summary>
+    /// Mask property
+    /// </summary>
     public static readonly DependencyProperty MaskProperty = DependencyProperty.RegisterAttached("Mask", typeof(EMaskType), typeof(TextBoxMaskBehavior),
       new FrameworkPropertyMetadata(MaskChangedCallback));
 
-    public static EMaskType GetMask(DependencyObject obj)
-    {
-      return (EMaskType) obj.GetValue(MaskProperty);
-    }
+    /// <summary>
+    /// Get mask
+    /// </summary>
+    /// <param name="obj">Dependency object</param>
+    /// <returns>Enum of <see cref="EMaskType"/></returns>
+    public static EMaskType GetMask(DependencyObject obj) => (EMaskType) obj.GetValue(MaskProperty);
 
-    public static void SetMask(DependencyObject obj, EMaskType value)
-    {
-      obj.SetValue(MaskProperty, value);
-    }
+    /// <summary>
+    /// Set mask
+    /// </summary>
+    /// <param name="obj">Dependency object</param>
+    /// <param name="value">Mask of enum <see cref="EMaskType"/></param>
+    public static void SetMask(DependencyObject obj, EMaskType value) => obj.SetValue(MaskProperty, value);
 
     private static void MaskChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -253,7 +264,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
           caret--;
       }
 
-      while ( text.Length > 2 && String.CompareOrdinal(string.Empty + text[0], NumberFormatInfo.CurrentInfo.NegativeSign) == 0 &&
+      while ( text.Length > 2 && string.CompareOrdinal(string.Empty + text[0], NumberFormatInfo.CurrentInfo.NegativeSign) == 0 &&
              string.CompareOrdinal(text[1].ToString(), '0'.ToString()) == 0 &&
              string.CompareOrdinal(string.Empty + text[2], NumberFormatInfo.CurrentInfo.NumberDecimalSeparator) != 0 )
       {
@@ -280,6 +291,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
         try
         {
+          // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
           Convert.ToInt64(value);
 
           return value;
@@ -294,6 +306,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
         try
         {
+          // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
           Convert.ToDouble(value);
 
           return value;
@@ -348,7 +361,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       if ( !(mask.Equals(EMaskType.Integer) || mask.Equals(EMaskType.Decimal)) )
         return false;
 
-      return str.All(Char.IsDigit);
+      return str.All(char.IsDigit);
     }
 
     #endregion
