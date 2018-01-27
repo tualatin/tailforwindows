@@ -92,43 +92,53 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
         Parallel.ForEach(
           matches.OfType<Match>(),
-          f =>
+          (f, state) =>
           {
-            string part = f.Value.Substring(f.Value.IndexOf(mainTag, StringComparison.Ordinal)).Substring(tag.Length);
-            Regex regex = new Regex(@"\d+.\d+.\d+", RegexOptions.IgnoreCase);
-
-            if ( !regex.Match(part).Success )
-              return;
-
-            string version = regex.Match(part).Value;
-            int major = -1, minor = -1, build = -1;
-            Regex rxVersion = new Regex(@"\d+", RegexOptions.IgnoreCase);
-
-            if ( rxVersion.IsMatch(version) )
+            try
             {
-              Match mtVersion = rxVersion.Match(version);
+              string part = f.Value.Substring(f.Value.IndexOf(mainTag, StringComparison.Ordinal)).Substring(tag.Length);
+              Regex regex = new Regex(@"\d+.\d+.\d+", RegexOptions.IgnoreCase);
 
-              major = int.Parse(mtVersion.Value);
-              int length = mtVersion.Length + 1;
-              version = version.Substring(length, version.Length - length);
+              if ( !regex.Match(part).Success )
+                return;
+
+              string version = regex.Match(part).Value;
+              int major = -1, minor = -1, build = -1;
+              Regex rxVersion = new Regex(@"\d+", RegexOptions.IgnoreCase);
 
               if ( rxVersion.IsMatch(version) )
               {
-                mtVersion = rxVersion.Match(version);
-                minor = int.Parse(mtVersion.Value);
-                length = mtVersion.Length + 1;
+                Match mtVersion = rxVersion.Match(version);
+
+                major = int.Parse(mtVersion.Value);
+                int length = mtVersion.Length + 1;
                 version = version.Substring(length, version.Length - length);
 
                 if ( rxVersion.IsMatch(version) )
                 {
                   mtVersion = rxVersion.Match(version);
-                  build = int.Parse(mtVersion.Value);
+                  minor = int.Parse(mtVersion.Value);
+                  length = mtVersion.Length + 1;
+                  version = version.Substring(length, version.Length - length);
+
+                  if ( rxVersion.IsMatch(version) )
+                  {
+                    mtVersion = rxVersion.Match(version);
+                    build = int.Parse(mtVersion.Value);
+                  }
                 }
               }
-            }
 
-            Version myVersion = new Version(major, minor, build);
-            _webVersions.Add(myVersion);
+              if ( state.ShouldExitCurrentIteration )
+                state.Break();
+
+              Version myVersion = new Version(major, minor, build);
+              _webVersions.Add(myVersion);
+            }
+            catch
+            {
+              // nothing
+            }
           });
 
         SortWebVersions();
