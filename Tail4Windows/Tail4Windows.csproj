@@ -182,6 +182,7 @@
     <Compile Include="Core\Controllers\SettingsHelperController.cs" />
     <Compile Include="Core\Controllers\UpdateController.cs" />
     <Compile Include="Core\Controllers\WebDataController.cs" />
+    <Compile Include="Core\Utils\ThrottledExecution.cs" />
     <Compile Include="PlugIns\FileManagerModule\Controller\XmlFileManagerController.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\FindModule\Data\XmlNames.cs" />

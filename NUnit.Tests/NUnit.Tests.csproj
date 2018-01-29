@@ -91,6 +91,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestEnumerableExtension.cs" />
     <Compile Include="TestEnumExtension.cs" />
+    <Compile Include="TestGetFileEncoding.cs" />
     <Compile Include="TestMementoOfObjects.cs" />
     <Compile Include="TestObservableDictionary.cs" />
     <Compile Include="TestSettingsHelper.cs" />
@@ -118,6 +119,12 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Files\DefaultPatterns.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Encoding_ANSI.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Files\Encoding_UTF8wB.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Files\FileManager.xml">

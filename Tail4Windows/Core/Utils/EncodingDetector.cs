@@ -1,5 +1,6 @@
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 
 namespace Org.Vs.TailForWin.Core.Utils
@@ -9,30 +10,65 @@ namespace Org.Vs.TailForWin.Core.Utils
   /// </summary>
   public static class EncodingDetector
   {
+    private const int DefaultBufferSize = 128;
+
+    /// <summary>
+    /// Get current file encoding asnyc
+    /// </summary>
+    /// <param name="path">File path</param>
+    /// <returns>Current file encoding as <see cref="Encoding"/></returns>
+    public static async Task<Encoding> GetEncodingAsync(string path) => await Task.Run(() => GetEncoding(path)).ConfigureAwait(false);
+
     /// <summary>
     /// Get current file encoding
     /// </summary>
-    /// <param name="fs">FileStream of log file</param>
-    /// <returns>A valid file encoding</returns>
-    public static Encoding GetEncoding(FileStream fs)
+    /// <param name="path">File path</param>
+    /// <returns>Current file encoding as <see cref="Encoding"/></returns>
+    public static Encoding GetEncoding(string path)
     {
-      // Read the BOM
-      var bom = new byte[4];
-      fs.Read(bom, 0, 4);
+      Encoding encoding = Encoding.Default;
+      byte[] byteBuffer = new byte[DefaultBufferSize];
 
-      // Analyze the BOM
-      if ( bom[0] == 0x2b && bom[1] == 0x2f && bom[2] == 0x76 )
-        return Encoding.UTF7;
-      if ( bom[0] == 0xef && bom[1] == 0xbb && bom[2] == 0xbf )
-        return Encoding.UTF8;
-      if ( bom[0] == 0xff && bom[1] == 0xfe )
-        return Encoding.Unicode; //UTF-16LE
-      if ( bom[0] == 0xfe && bom[1] == 0xff )
-        return Encoding.BigEndianUnicode; //UTF-16BE
-      if ( bom[0] == 0 && bom[1] == 0 && bom[2] == 0xfe && bom[3] == 0xff )
-        return Encoding.UTF32;
+      using ( FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read) )
+      {
+        int byteLength = fs.Read(byteBuffer, 0, byteBuffer.Length);
 
-      return Encoding.ASCII;
+        if ( byteLength < 2 )
+          return null;
+
+        if ( byteBuffer[0] == 0xFE && byteBuffer[1] == 0xFF )
+        {
+          // Big Endian Unicode
+          encoding = new UnicodeEncoding(true, true);
+        }
+        else if ( byteBuffer[0] == 0xFF && byteBuffer[1] == 0xFE )
+        {
+          // Little Endian Unicode, or possibly litte endian UTF32
+          if ( byteLength < 4 || byteBuffer[2] != 0 || byteBuffer[3] != 0 )
+          {
+            encoding = new UnicodeEncoding(false, true);
+          }
+#if FEATURE_UTF32
+          else
+          {
+            encoding = new UTF32Encoding(false, true);
+          }
+#endif
+        }
+        else if ( byteLength >= 3 && byteBuffer[0] == 0xEF && byteBuffer[1] == 0xBB && byteBuffer[2] == 0xBF )
+        {
+          // UTF-8
+          encoding = Encoding.UTF8;
+        }
+#if FEATURE_UTF32
+        else if (byteLength >= 4 && byteBuffer[0] == 0 && byteBuffer[1] == 0 && byteBuffer[2] == 0xFE && byteBuffer[3] == 0xFF)
+        {
+          // Big Endian UTF32
+          encoding = new UTF32Encoding(true, true);
+        }
+#endif
+      }
+      return encoding;
     }
   }
 }
