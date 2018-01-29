@@ -4,7 +4,9 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using NUnit.Framework;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
@@ -26,6 +28,8 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     [SetUp]
     protected void SetUp()
     {
+      SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext());
+
       _currenTestContext = TestContext.CurrentContext;
       _tempPath = _currenTestContext.TestDirectory + @"\Files\FileManager.xml";
       _path = _currenTestContext.TestDirectory + @"\FileManager.xml";

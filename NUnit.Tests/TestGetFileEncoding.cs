@@ -17,34 +17,18 @@ namespace Org.Vs.NUnit.Tests
     }
 
     [Test]
-    public void TestGetEncodingUtf8Bom()
+    public async Task TestGetEncodingUtf8Bom()
     {
       string file = _currentTestDirectory + @"\Files\Encoding_UTF8wB.txt";
-      var encoding = EncodingDetector.GetEncoding(file);
+      var encoding = await EncodingDetector.GetEncodingAsync(file).ConfigureAwait(false);
       Assert.AreEqual(Encoding.UTF8, encoding);
     }
 
     [Test]
-    public void TestGetEncodingAnsi()
+    public async Task TestGetEncodingAnsi()
     {
       string file = _currentTestDirectory + @"\Files\Encoding_ANSI.txt";
-      var encoding = EncodingDetector.GetEncoding(file);
-      Assert.AreEqual(Encoding.Default, encoding);
-    }
-
-    [Test]
-    public async Task TestGetEncodingUtf8BomAsync()
-    {
-      string file = _currentTestDirectory + @"\Files\Encoding_UTF8wB.txt";
-      var encoding = await EncodingDetector.GetEncodingAsync(file);
-      Assert.AreEqual(Encoding.UTF8, encoding);
-    }
-
-    [Test]
-    public async Task TestGetEncodingAnsiAsync()
-    {
-      string file = _currentTestDirectory + @"\Files\Encoding_ANSI.txt";
-      var encoding = await EncodingDetector.GetEncodingAsync(file);
+      var encoding = await EncodingDetector.GetEncodingAsync(file).ConfigureAwait(false);
       Assert.AreEqual(Encoding.Default, encoding);
     }
   }

@@ -96,7 +96,7 @@
     <Compile Include="TestObservableDictionary.cs" />
     <Compile Include="TestSettingsHelper.cs" />
     <Compile Include="TestStringExtension.cs" />
-    <Compile Include="TestT4WindowViewModel.cs" />
+    <Compile Include="ViewModels\TestT4WindowViewModel.cs" />
     <Compile Include="TestUpdateController.cs" />
     <Compile Include="TestWebController.cs" />
     <Compile Include="XmlTests\TestXmlFileManagerController.cs" />

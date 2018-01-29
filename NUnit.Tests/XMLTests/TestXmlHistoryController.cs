@@ -1,6 +1,8 @@
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using System.Xml.Linq;
 using NUnit.Framework;
 using Org.Vs.TailForWin.PlugIns.FindModule.Controller;
@@ -20,6 +22,8 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     [SetUp]
     protected void SetUp()
     {
+      SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext());
+
       _currenTestContext = TestContext.CurrentContext;
       _path = _currenTestContext.TestDirectory + @"\History.xml";
       _tempPath = _currenTestContext.TestDirectory + @"\Files\History.xml";
@@ -34,7 +38,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
 
       InitXmlReader();
 
-      var history = await _xmlHistory.ReadXmlFileAsync();
+      var history = await _xmlHistory.ReadXmlFileAsync().ConfigureAwait(false);
       Assert.NotNull(history);
       Assert.AreEqual(3, history.Count);
       Assert.IsFalse(_xmlHistory.Wrap);
@@ -49,14 +53,14 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     {
       InitXmlReader();
 
-      await _xmlHistory.ReadXmlFileAsync();
+      await _xmlHistory.ReadXmlFileAsync().ConfigureAwait(false);
       _xmlHistory.Wrap = true;
-      var wrap = await _xmlHistory.SaveSearchHistoryWrapAttributeAsync();
+      var wrap = await _xmlHistory.SaveSearchHistoryWrapAttributeAsync().ConfigureAwait(false);
       Assert.IsNotNull(wrap);
       Assert.IsInstanceOf<XElement>(wrap);
 
       _xmlHistory.Wrap = false;
-      var history = await _xmlHistory.ReadXmlFileAsync();
+      var history = await _xmlHistory.ReadXmlFileAsync().ConfigureAwait(false);
       Assert.NotNull(history);
       Assert.IsTrue(_xmlHistory.Wrap);
     }
@@ -66,15 +70,15 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     {
       InitXmlReader();
 
-      await _xmlHistory.ReadXmlFileAsync();
+      await _xmlHistory.ReadXmlFileAsync().ConfigureAwait(false);
 
       _xmlHistory.Wrap = true;
 
-      await _xmlHistory.SaveSearchHistoryWrapAttributeAsync();
-      await _xmlHistory.SaveSearchHistoryAsync("test1234");
+      await _xmlHistory.SaveSearchHistoryWrapAttributeAsync().ConfigureAwait(false);
+      await _xmlHistory.SaveSearchHistoryAsync("test1234").ConfigureAwait(false);
 
       _xmlHistory.Wrap = false;
-      var history = await _xmlHistory.ReadXmlFileAsync();
+      var history = await _xmlHistory.ReadXmlFileAsync().ConfigureAwait(false);
 
       Assert.NotNull(history);
       Assert.IsTrue(history.Values.Any(p => p.Equals("test1234")));

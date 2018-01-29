@@ -12,26 +12,20 @@ namespace Org.Vs.TailForWin.Core.Utils
   {
     private const int DefaultBufferSize = 128;
 
-    /// <summary>
-    /// Get current file encoding asnyc
-    /// </summary>
-    /// <param name="path">File path</param>
-    /// <returns>Current file encoding as <see cref="Encoding"/></returns>
-    public static async Task<Encoding> GetEncodingAsync(string path) => await Task.Run(() => GetEncoding(path)).ConfigureAwait(false);
 
     /// <summary>
     /// Get current file encoding
     /// </summary>
     /// <param name="path">File path</param>
     /// <returns>Current file encoding as <see cref="Encoding"/></returns>
-    public static Encoding GetEncoding(string path)
+    public static async Task<Encoding> GetEncodingAsync(string path)
     {
       Encoding encoding = Encoding.Default;
       byte[] byteBuffer = new byte[DefaultBufferSize];
 
       using ( FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read) )
       {
-        int byteLength = fs.Read(byteBuffer, 0, byteBuffer.Length);
+        int byteLength = await fs.ReadAsync(byteBuffer, 0, byteBuffer.Length).ConfigureAwait(false);
 
         if ( byteLength < 2 )
           return null;
