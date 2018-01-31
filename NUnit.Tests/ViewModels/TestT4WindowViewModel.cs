@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 
-
-namespace Org.Vs.NUnit.Tests
+namespace Org.Vs.NUnit.Tests.ViewModels
 {
   [TestFixture]
   public class TestT4WindowViewModel

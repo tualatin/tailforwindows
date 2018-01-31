@@ -36,10 +36,7 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// </summary>
     /// <param name="parameter">Paremeter</param>
     /// <returns><c>True</c> if it can execute otherwise <c>false</c></returns>
-    public override bool CanExecute(object parameter)
-    {
-      return Execution == null || Execution.IsCompleted;
-    }
+    public override bool CanExecute(object parameter) => Execution == null || Execution.IsCompleted;
 
     /// <summary>
     /// Execute async
@@ -125,10 +122,7 @@ namespace Org.Vs.TailForWin.UI.Commands
         RaiseCanExecuteChanged();
       }
 
-      bool ICommand.CanExecute(object parameter)
-      {
-        return _commandExecuting && !_cts.IsCancellationRequested;
-      }
+      bool ICommand.CanExecute(object parameter) => _commandExecuting && !_cts.IsCancellationRequested;
 
       void ICommand.Execute(object parameter)
       {
@@ -145,10 +139,7 @@ namespace Org.Vs.TailForWin.UI.Commands
         remove => CommandManager.RequerySuggested -= value;
       }
 
-      private void RaiseCanExecuteChanged()
-      {
-        CommandManager.InvalidateRequerySuggested();
-      }
+      private void RaiseCanExecuteChanged() => CommandManager.InvalidateRequerySuggested();
     }
   }
 
@@ -173,10 +164,7 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// <typeparam name="TResult">Type of result</typeparam>
     /// <param name="command">Command</param>
     /// <returns>AsyncCommand of type object</returns>
-    public static AsyncCommand<TResult> Create<TResult>(Func<Task<TResult>> command)
-    {
-      return new AsyncCommand<TResult>(_ => command());
-    }
+    public static AsyncCommand<TResult> Create<TResult>(Func<Task<TResult>> command) => new AsyncCommand<TResult>(_ => command());
 
     /// <summary>
     /// Create
@@ -194,9 +182,6 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// <typeparam name="TResult">Type of result</typeparam>
     /// <param name="command">Command</param>
     /// <returns>AsyncCommand of type object</returns>
-    public static AsyncCommand<TResult> Create<TResult>(Func<CancellationToken, Task<TResult>> command)
-    {
-      return new AsyncCommand<TResult>(command);
-    }
+    public static AsyncCommand<TResult> Create<TResult>(Func<CancellationToken, Task<TResult>> command) => new AsyncCommand<TResult>(command);
   }
 }

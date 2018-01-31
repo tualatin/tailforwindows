@@ -30,7 +30,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     }
 
     [Test]
-    public async Task TestReadXmlHistoryFile()
+    public async Task TestReadXmlHistoryFileAsync()
     {
       IXmlSearchHistory xmlReader = new XmlSearchHistoryController(@"C:\blabla\HistoryTest.xml");
       var reader = xmlReader;
@@ -49,7 +49,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     }
 
     [Test]
-    public async Task TestSaveWrapAttribute()
+    public async Task TestSaveWrapAttributeAsync()
     {
       InitXmlReader();
 
@@ -66,7 +66,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     }
 
     [Test]
-    public async Task TestSaveXmlHistoryFile()
+    public async Task TestSaveXmlHistoryFileAsync()
     {
       InitXmlReader();
 

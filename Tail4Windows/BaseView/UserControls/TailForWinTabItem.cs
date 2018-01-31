@@ -12,14 +12,14 @@ namespace Org.Vs.TailForWin.BaseView.UserControls
   /// Add this XmlNamespace attribute to the root element of the markup file where it is 
   /// to be used:
   ///
-  ///     xmlns:MyNamespace="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  ///     xmlns:MyNamespace="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
   ///
   ///
   /// Step 1b) Using this custom control in a XAML file that exists in a different project.
   /// Add this XmlNamespace attribute to the root element of the markup file where it is 
   /// to be used:
   ///
-  ///     xmlns:MyNamespace="clr-namespace:Org.Vs.TailForWin.UI.UserControls;assembly=Org.Vs.TailForWin.UI.UserControls"
+  ///     xmlns:MyNamespace="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls;assembly=Org.Vs.TailForWin.BaseView.UserControls"
   ///
   /// You will also need to add a project reference from the project where the XAML file lives
   /// to this project and Rebuild to avoid compilation errors:
@@ -36,10 +36,7 @@ namespace Org.Vs.TailForWin.BaseView.UserControls
   /// </summary>
   public class TailForWinTabItem : TabItem
   {
-    static TailForWinTabItem()
-    {
-      DefaultStyleKeyProperty.OverrideMetadata(typeof(TailForWinTabItem), new FrameworkPropertyMetadata(typeof(TailForWinTabItem)));
-    }
+    static TailForWinTabItem() => DefaultStyleKeyProperty.OverrideMetadata(typeof(TailForWinTabItem), new FrameworkPropertyMetadata(typeof(TailForWinTabItem)));
 
     /// <summary>
     /// TabHeaderDoubleClicke event handler

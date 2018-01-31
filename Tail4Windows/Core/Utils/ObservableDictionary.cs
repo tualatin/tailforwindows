@@ -27,7 +27,11 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="key">Key</param>
     /// <returns>The corresponding value of given key</returns>
     /// <exception cref="ArgumentException">When add a item with a key, that is already exists</exception>
-    public TValue this[TKey key] { get => _dictionary[key]; set => Insert(key, value, false); }
+    public TValue this[TKey key]
+    {
+      get => _dictionary[key];
+      set => Insert(key, value, false);
+    }
 
     /// <summary>
     /// Collection of keys
@@ -52,19 +56,13 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public ObservableDictionary()
-    {
-      _dictionary = new Dictionary<TKey, TValue>();
-    }
+    public ObservableDictionary() => _dictionary = new Dictionary<TKey, TValue>();
 
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="dictionary">An existing dictionary</param>
-    public ObservableDictionary(IDictionary<TKey, TValue> dictionary)
-    {
-      _dictionary = new Dictionary<TKey, TValue>(dictionary);
-    }
+    public ObservableDictionary(IDictionary<TKey, TValue> dictionary) => _dictionary = new Dictionary<TKey, TValue>(dictionary);
 
     /// <summary>
     /// Occurs when a property value changes
@@ -81,24 +79,19 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// </summary>
     /// <param name="key">The key of the element to add.</param>
     /// <param name="value">The value of the element to add. The value can be <c>null</c> for reference types.</param>
-    public void Add(TKey key, TValue value)
-    {
-      Insert(key, value, true);
-    }
+    public void Add(TKey key, TValue value) => Insert(key, value, true);
 
     /// <summary>
     /// Adds the specified key and value to the dictionary.
     /// </summary>
     /// <param name="item">The item of the element to add.</param>
-    public void Add(KeyValuePair<TKey, TValue> item)
-    {
-      Insert(item.Key, item.Value, true);
-    }
+    public void Add(KeyValuePair<TKey, TValue> item) => Insert(item.Key, item.Value, true);
 
     /// <summary>
     /// Add items to Dictionary
     /// </summary>
     /// <param name="items">Items to add</param>
+    /// <exception cref="ArgumentException">If items are null or an item with the same key has already been added</exception>
     public void AddRange(IDictionary<TKey, TValue> items)
     {
       Arg.NotNull(items, nameof(items));
@@ -141,26 +134,21 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// </summary>
     /// <param name="item">KeyValue pair</param>
     /// <returns></returns>
-    public bool Contains(KeyValuePair<TKey, TValue> item)
-    {
-      return _dictionary.Contains(item);
-    }
+    public bool Contains(KeyValuePair<TKey, TValue> item) => _dictionary.Contains(item);
 
     /// <summary>
     /// Determines whether the Dictionary&lt;TKey, TValue&gt; contains the specified key.
     /// </summary>
     /// <param name="key">The key to locate in the Dictionary&lt;TKey, TValue&gt;.</param>
     /// <returns><c>true</c> if the Dictionary&lt;TKey, TValue&gt; contains an element with the specified key; otherwise, <c>false</c>.</returns>
-    public bool ContainsKey(TKey key)
-    {
-      return _dictionary.ContainsKey(key);
-    }
+    public bool ContainsKey(TKey key) => _dictionary.ContainsKey(key);
 
     /// <summary>
     /// Copies the elements of the ICollection to an Array, starting at a particular Array index
     /// </summary>
     /// <param name="array">The one-dimensional Array that is the destination of the elements copied from ICollection. The Array must have zero-based indexing.</param>
     /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
+    /// <exception cref="ArgumentException">If array is null</exception>
     public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
     {
       Arg.NotNull(array, nameof(array));
@@ -198,10 +186,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <exception cref="T:System.ArgumentNullException">
     /// <paramref name="item" /> is <see langword="null" />.</exception>
     /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IDictionary`2" /> is read-only.</exception>
-    public bool Remove(KeyValuePair<TKey, TValue> item)
-    {
-      return Remove(item.Key);
-    }
+    public bool Remove(KeyValuePair<TKey, TValue> item) => Remove(item.Key);
 
     /// <summary>
     /// Gets value associated with the specified key
@@ -211,10 +196,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// This parameter is passed uninitialized.</param>
     /// <returns><see langword="true" /> if the object that implements <see cref="T:System.Collections.Generic.IDictionary`2" /> contains an element with the specified key; otherwise, <see langword="false" />.</returns>
     /// <exception cref="T:System.ArgumentNullException"><paramref name="key" /> is <see langword="null" />.</exception>
-    public bool TryGetValue(TKey key, out TValue value)
-    {
-      return _dictionary.TryGetValue(key, out value);
-    }
+    public bool TryGetValue(TKey key, out TValue value) => _dictionary.TryGetValue(key, out value);
 
     IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable) _dictionary).GetEnumerator();
 
@@ -247,10 +229,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       OnPropertyChanged(ValuesName);
     }
 
-    private void OnPropertyChanged(string propertyName)
-    {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+    private void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     private void OnCollectionChanged()
     {

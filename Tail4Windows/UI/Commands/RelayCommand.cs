@@ -20,7 +20,10 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// </summary>
     /// <param name="execute">The execution logic.</param>
     public RelayCommand(Action<object> execute)
-        : this(null, execute) { }
+      : this(null, execute)
+    {
+
+    }
 
     /// <summary>
     /// Creates a new command
@@ -48,19 +51,13 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// </summary>
     /// <param name="parameter">Parameter</param>
     /// <returns>True if it can execute otherwise false</returns>
-    public bool CanExecute(object parameter)
-    {
-      return _canExecute == null || _canExecute(parameter);
-    }
+    public bool CanExecute(object parameter) => _canExecute == null || _canExecute(parameter);
 
     /// <inheritdoc />
     /// <summary>
     /// Execute command
     /// </summary>
     /// <param name="parameter">Parameter</param>
-    public void Execute(object parameter)
-    {
-      _execute(parameter);
-    }
+    public void Execute(object parameter) => _execute(parameter);
   }
 }

@@ -27,7 +27,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     }
 
     [Test]
-    public async Task TestReadDefaultPatterns()
+    public async Task TestReadDefaultPatternsAsync()
     {
       var defaultPattern = new XmlPatternController(@"C:\blablabla.xml");
       Assert.IsNull(await defaultPattern.ReadDefaultPatternsAsync().ConfigureAwait(false));

@@ -73,7 +73,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     }
 
     [Test]
-    public async Task TestReadXmlConfigFile()
+    public async Task TestReadXmlConfigFileAsync()
     {
       IXmlFileManager xmlReader = new XmlFileManagerController(@"C:\blabla\Test.xml");
       var reader = xmlReader;
@@ -129,7 +129,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     }
 
     [Test]
-    public async Task TestGetCategories()
+    public async Task TestGetCategoriesAsync()
     {
       InitXmlReader();
 
@@ -143,7 +143,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     }
 
     [Test]
-    public async Task TestGetTailDataById()
+    public async Task TestGetTailDataByIdAsync()
     {
       InitXmlReader();
 
@@ -188,7 +188,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     }
 
     [Test]
-    public async Task TestAddTailDataToXmlFile()
+    public async Task TestAddTailDataToXmlFileAsync()
     {
       var tailData = new TailData
       {
@@ -257,7 +257,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     }
 
     [Test]
-    public async Task TestAddTailDataWhenNotExistsXmlFile()
+    public async Task TestAddTailDataWhenNotExistsXmlFileAsync()
     {
       InitXmlReader();
 
@@ -332,7 +332,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     }
 
     [Test]
-    public async Task TestUpdateXmlConfigFile()
+    public async Task TestUpdateXmlConfigFileAsync()
     {
       InitXmlReader();
 
@@ -379,7 +379,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     }
 
     [Test]
-    public async Task TestRemoveTailDataById()
+    public async Task TestRemoveTailDataByIdAsync()
     {
       InitXmlReader();
 
@@ -393,7 +393,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     }
 
     [Test]
-    public async Task TestRemoveFilterById()
+    public async Task TestRemoveFilterByIdAsync()
     {
       InitXmlReader();
 

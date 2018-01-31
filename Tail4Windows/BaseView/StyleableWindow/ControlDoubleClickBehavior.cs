@@ -15,20 +15,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>Execute command</returns>
-    public static ICommand GetExecuteCommand(DependencyObject sender)
-    {
-      return (ICommand) sender.GetValue(ExecuteCommand);
-    }
+    public static ICommand GetExecuteCommand(DependencyObject sender) => (ICommand) sender.GetValue(ExecuteCommand);
 
     /// <summary>
     /// Set execute command
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="command">Command</param>
-    public static void SetExecuteCommand(DependencyObject sender, ICommand command)
-    {
-      sender.SetValue(ExecuteCommand, command);
-    }
+    public static void SetExecuteCommand(DependencyObject sender, ICommand command) => sender.SetValue(ExecuteCommand, command);
 
     /// <summary>
     /// Execute command property
@@ -40,20 +34,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>Execute command parameter</returns>
-    public static Window GetExecuteCommandParameter(DependencyObject sender)
-    {
-      return (Window) sender.GetValue(ExecuteCommandParameter);
-    }
+    public static Window GetExecuteCommandParameter(DependencyObject sender) => (Window) sender.GetValue(ExecuteCommandParameter);
 
     /// <summary>
     /// Set execute command parameter
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="command">Command</param>
-    public static void SetExecuteCommandParameter(DependencyObject sender, ICommand command)
-    {
-      sender.SetValue(ExecuteCommandParameter, command);
-    }
+    public static void SetExecuteCommandParameter(DependencyObject sender, ICommand command) => sender.SetValue(ExecuteCommandParameter, command);
 
     /// <summary>
     /// Execute command parameter property
@@ -83,10 +71,9 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
       if( !(sender is Border border) )
         return;
 
-      var command = border.GetValue(ExecuteCommand) as ICommand;
       var commandParameter = border.GetValue(ExecuteCommandParameter);
 
-      if( command != null && command.CanExecute(e) )
+      if ( border.GetValue(ExecuteCommand) is ICommand command && command.CanExecute(e) )
         command.Execute(commandParameter);
     }
 
@@ -95,10 +82,9 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
       if( !(sender is Control control) )
         return;
 
-      var command = control.GetValue(ExecuteCommand) as ICommand;
       var commandParameter = control.GetValue(ExecuteCommandParameter);
 
-      if( command != null && command.CanExecute(e) )
+      if ( control.GetValue(ExecuteCommand) is ICommand command && command.CanExecute(e) )
         command.Execute(commandParameter);
     }
   }

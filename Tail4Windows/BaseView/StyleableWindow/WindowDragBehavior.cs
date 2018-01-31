@@ -13,20 +13,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>Draged window by left mouse button</returns>
-    public static Window GetLeftMouseButtonDrag(DependencyObject sender)
-    {
-      return (Window) sender.GetValue(LeftMouseButtonDrag);
-    }
+    public static Window GetLeftMouseButtonDrag(DependencyObject sender) => (Window) sender.GetValue(LeftMouseButtonDrag);
 
     /// <summary>
     /// Set left mouse button drag
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="window">Window</param>
-    public static void SetLeftMouseButtonDrag(DependencyObject sender, Window window)
-    {
-      sender.SetValue(LeftMouseButtonDrag, window);
-    }
+    public static void SetLeftMouseButtonDrag(DependencyObject sender, Window window) => sender.SetValue(LeftMouseButtonDrag, window);
 
     /// <summary>
     /// Left mouse button drag property

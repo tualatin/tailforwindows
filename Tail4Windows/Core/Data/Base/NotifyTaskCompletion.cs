@@ -18,7 +18,8 @@ namespace Org.Vs.TailForWin.Core.Data.Base
     /// </summary>
     public Task<TResult> Task
     {
-      get; private set;
+      get;
+      private set;
     }
 
     /// <summary>
@@ -79,7 +80,8 @@ namespace Org.Vs.TailForWin.Core.Data.Base
     /// </summary>
     public Task TaskCompletion
     {
-      get; private set;
+      get;
+      private set;
     }
 
 
@@ -92,9 +94,7 @@ namespace Org.Vs.TailForWin.Core.Data.Base
       Task = task;
 
       if ( !task.IsCompleted )
-      {
         TaskCompletion = WatchTaskAsync(task);
-      }
     }
 
     private async Task WatchTaskAsync(Task task)
@@ -102,9 +102,8 @@ namespace Org.Vs.TailForWin.Core.Data.Base
       try
       {
         await task;
-
-        // ReSharper disable once EmptyGeneralCatchClause
       }
+      // ReSharper disable once EmptyGeneralCatchClause
       catch
       {
 
@@ -138,9 +137,6 @@ namespace Org.Vs.TailForWin.Core.Data.Base
     /// </summary>
     public event PropertyChangedEventHandler PropertyChanged;
 
-    private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
+    private void OnPropertyChanged([CallerMemberName] string propertyName = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
   }
 }

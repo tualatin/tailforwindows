@@ -15,10 +15,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="parameter">Parameter</param>
     /// <returns>Always true</returns>
-    public bool CanExecute(object parameter)
-    {
-      return true;
-    }
+    public bool CanExecute(object parameter) => true;
 
     /// <summary>
     /// Can execute changed event handler

@@ -36,20 +36,14 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// </summary>
     /// <param name="element">Control element</param>
     /// <param name="value">Command value</param>
-    public static void SetMouseUpCommand(UIElement element, ICommand value)
-    {
-      element.SetValue(MouseUpCommandProperty, value);
-    }
+    public static void SetMouseUpCommand(UIElement element, ICommand value) => element.SetValue(MouseUpCommandProperty, value);
 
     /// <summary>
     /// Get MouseUp command
     /// </summary>
     /// <param name="element">Control element</param>
     /// <returns>Current MouseUp command</returns>
-    public static ICommand GetMouseUpCommand(UIElement element)
-    {
-      return (ICommand)element.GetValue(MouseUpCommandProperty);
-    }
+    public static ICommand GetMouseUpCommand(UIElement element) => (ICommand) element.GetValue(MouseUpCommandProperty);
 
     #endregion
 
@@ -80,20 +74,14 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// </summary>
     /// <param name="element">Control element</param>
     /// <param name="value">Command value</param>
-    public static void SetMouseDownCommand(UIElement element, ICommand value)
-    {
-      element.SetValue(MouseDownCommandProperty, value);
-    }
+    public static void SetMouseDownCommand(UIElement element, ICommand value) => element.SetValue(MouseDownCommandProperty, value);
 
     /// <summary>
     /// Get MouseDown command
     /// </summary>
     /// <param name="element">Control element</param>
     /// <returns>Current MouseDown command</returns>
-    public static ICommand GetMouseDownCommand(UIElement element)
-    {
-      return (ICommand)element.GetValue(MouseDownCommandProperty);
-    }
+    public static ICommand GetMouseDownCommand(UIElement element) => (ICommand) element.GetValue(MouseDownCommandProperty);
 
     #endregion
 
@@ -124,20 +112,14 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// </summary>
     /// <param name="element">Control element</param>
     /// <param name="value">Command value</param>
-    public static void SetMouseLeaveCommand(UIElement element, ICommand value)
-    {
-      element.SetValue(MouseLeaveCommandProperty, value);
-    }
+    public static void SetMouseLeaveCommand(UIElement element, ICommand value) => element.SetValue(MouseLeaveCommandProperty, value);
 
     /// <summary>
     /// Get MouseLeave command
     /// </summary>
     /// <param name="element">Control element</param>
     /// <returns>Current MouseLeave command</returns>
-    public static ICommand GetMouseLeaveCommand(UIElement element)
-    {
-      return (ICommand)element.GetValue(MouseLeaveCommandProperty);
-    }
+    public static ICommand GetMouseLeaveCommand(UIElement element) => (ICommand) element.GetValue(MouseLeaveCommandProperty);
 
     #endregion
 
@@ -168,20 +150,14 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// </summary>
     /// <param name="element">Control element</param>
     /// <param name="value">Command value</param>
-    public static void SetMouseLeftButtonDownCommand(UIElement element, ICommand value)
-    {
-      element.SetValue(MouseLeftButtonDownCommandProperty, value);
-    }
+    public static void SetMouseLeftButtonDownCommand(UIElement element, ICommand value) => element.SetValue(MouseLeftButtonDownCommandProperty, value);
 
     /// <summary>
     /// Get MouseLeftButtonDown command
     /// </summary>
     /// <param name="element">Control element</param>
     /// <returns>Current MouseLeftButtonDown command</returns>
-    public static ICommand GetMouseLeftButtonDownCommand(UIElement element)
-    {
-      return (ICommand)element.GetValue(MouseLeftButtonDownCommandProperty);
-    }
+    public static ICommand GetMouseLeftButtonDownCommand(UIElement element) => (ICommand) element.GetValue(MouseLeftButtonDownCommandProperty);
 
     #endregion
 
@@ -212,20 +188,14 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// </summary>
     /// <param name="element">Control element</param>
     /// <param name="value">Command value</param>
-    public static void SetMouseLeftButtonUpCommand(UIElement element, ICommand value)
-    {
-      element.SetValue(MouseLeftButtonUpCommandProperty, value);
-    }
+    public static void SetMouseLeftButtonUpCommand(UIElement element, ICommand value) => element.SetValue(MouseLeftButtonUpCommandProperty, value);
 
     /// <summary>
     /// Get MouseLeftButtonUp command
     /// </summary>
     /// <param name="element">Control element</param>
     /// <returns>Current MouseLeftButtonUp command</returns>
-    public static ICommand GetMouseLeftButtonUpCommand(UIElement element)
-    {
-      return (ICommand)element.GetValue(MouseLeftButtonUpCommandProperty);
-    }
+    public static ICommand GetMouseLeftButtonUpCommand(UIElement element) => (ICommand) element.GetValue(MouseLeftButtonUpCommandProperty);
 
     #endregion
 
@@ -256,20 +226,14 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// </summary>
     /// <param name="element">Control element</param>
     /// <param name="value">Command value</param>
-    public static void SetMouseMoveCommand(UIElement element, ICommand value)
-    {
-      element.SetValue(MouseMoveCommandProperty, value);
-    }
+    public static void SetMouseMoveCommand(UIElement element, ICommand value) => element.SetValue(MouseMoveCommandProperty, value);
 
     /// <summary>
     /// Get MouseMove command
     /// </summary>
     /// <param name="element">Control element</param>
     /// <returns>Current MouseMove command</returns>
-    public static ICommand GetMouseMoveCommand(UIElement element)
-    {
-      return (ICommand)element.GetValue(MouseMoveCommandProperty);
-    }
+    public static ICommand GetMouseMoveCommand(UIElement element) => (ICommand) element.GetValue(MouseMoveCommandProperty);
 
     #endregion
 
@@ -300,20 +264,14 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// </summary>
     /// <param name="element">Control element</param>
     /// <param name="value">Command value</param>
-    public static void SetMouseRightButtonDownCommand(UIElement element, ICommand value)
-    {
-      element.SetValue(MouseRightButtonDownCommandProperty, value);
-    }
+    public static void SetMouseRightButtonDownCommand(UIElement element, ICommand value) => element.SetValue(MouseRightButtonDownCommandProperty, value);
 
     /// <summary>
     /// Get MouseRightButtonDown command
     /// </summary>
     /// <param name="element">Control element</param>
     /// <returns>Current MouseRightButtonDown command</returns>
-    public static ICommand GetMouseRightButtonDownCommand(UIElement element)
-    {
-      return (ICommand)element.GetValue(MouseRightButtonDownCommandProperty);
-    }
+    public static ICommand GetMouseRightButtonDownCommand(UIElement element) => (ICommand) element.GetValue(MouseRightButtonDownCommandProperty);
 
     #endregion
 
@@ -344,20 +302,14 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// </summary>
     /// <param name="element">Control element</param>
     /// <param name="value">Command value</param>
-    public static void SetMouseRightButtonUpCommand(UIElement element, ICommand value)
-    {
-      element.SetValue(MouseRightButtonUpCommandProperty, value);
-    }
+    public static void SetMouseRightButtonUpCommand(UIElement element, ICommand value) => element.SetValue(MouseRightButtonUpCommandProperty, value);
 
     /// <summary>
     /// Get MouseRightButtonUp
     /// </summary>
     /// <param name="element">Control element</param>
     /// <returns>Current MouseRightButtonUp command</returns>
-    public static ICommand GetMouseRightButtonUpCommand(UIElement element)
-    {
-      return (ICommand)element.GetValue(MouseRightButtonUpCommandProperty);
-    }
+    public static ICommand GetMouseRightButtonUpCommand(UIElement element) => (ICommand) element.GetValue(MouseRightButtonUpCommandProperty);
 
     #endregion
 
@@ -388,20 +340,14 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// </summary>
     /// <param name="element">Control element</param>
     /// <param name="value">Command value</param>
-    public static void SetMouseWheelCommand(UIElement element, ICommand value)
-    {
-      element.SetValue(MouseWheelCommandProperty, value);
-    }
+    public static void SetMouseWheelCommand(UIElement element, ICommand value) => element.SetValue(MouseWheelCommandProperty, value);
 
     /// <summary>
     /// Get MouseWheel command
     /// </summary>
     /// <param name="element">Control element</param>
     /// <returns>Current MouseWheel command</returns>
-    public static ICommand GetMouseWheelCommand(UIElement element)
-    {
-      return (ICommand)element.GetValue(MouseWheelCommandProperty);
-    }
+    public static ICommand GetMouseWheelCommand(UIElement element) => (ICommand) element.GetValue(MouseWheelCommandProperty);
 
     #endregion
   }

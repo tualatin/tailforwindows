@@ -19,7 +19,7 @@ namespace Org.Vs.NUnit.Tests
     }
 
     [Test]
-    public async Task TestSettingsHelperReadSettings()
+    public async Task TestSettingsHelperReadSettingsAsync()
     {
       await _currentSettings.ReadSettingsAsync().ConfigureAwait(false);
 
@@ -48,7 +48,7 @@ namespace Org.Vs.NUnit.Tests
 
       //Assert.AreEqual(ETailRefreshRate.Normal, SettingsHelper.CurrentSettings.DefaultRefreshRate);
       //Assert.AreEqual(System.Threading.ThreadPriority.Normal, SettingsHelper.CurrentSettings.DefaultThreadPriority);
-      Assert.AreEqual(System.Windows.WindowState.Normal, SettingsHelperController.CurrentSettings.CurrentWindowState);
+      Assert.AreEqual(WindowState.Normal, SettingsHelperController.CurrentSettings.CurrentWindowState);
       //Assert.AreEqual(EWindowStyle.ModernBlueWindowStyle, SettingsHelper.CurrentSettings.CurrentWindowStyle);
 
       //Assert.AreEqual(ETimeFormat.HHMMSSD, SettingsHelper.CurrentSettings.DefaultTimeFormat);
@@ -100,7 +100,7 @@ namespace Org.Vs.NUnit.Tests
     }
 
     [Test]
-    public async Task TestSettingsHelperSaveSettings()
+    public async Task TestSettingsHelperSaveSettingsAsync()
     {
       SettingsHelperController.CurrentSettings.WindowPositionX = 200;
       SettingsHelperController.CurrentSettings.WindowPositionY = 150;

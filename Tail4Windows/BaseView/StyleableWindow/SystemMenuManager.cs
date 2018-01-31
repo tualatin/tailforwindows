@@ -17,6 +17,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="targetWindow">Target window</param>
     /// <param name="menuLocation">Menu location</param>
+    /// <exception cref="ArgumentException">If targetWindow is null</exception>
     public static void ShowMenu(Window targetWindow, Point menuLocation)
     {
       Arg.NotNull(targetWindow, nameof(targetWindow));

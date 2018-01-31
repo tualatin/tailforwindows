@@ -55,10 +55,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// </param>
     /// <typeparam name="T">The type of argument.</typeparam>
     /// <returns>The checked argument.</returns>
-    public static T NotNullIf<T>(T arg, bool condition, string argName)
-    {
-      return condition ? NotNull(arg, argName) : arg;
-    }
+    public static T NotNullIf<T>(T arg, bool condition, string argName) => condition ? NotNull(arg, argName) : arg;
 
     /// <summary>
     /// Asserts, that a method argument of type array is not <code>null</code> and not empty and throws an ArgumentException if it is <code>null</code> or empty.
@@ -85,10 +82,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's</param>
     /// <typeparam name="T">The type of argument.</typeparam>
     /// <returns>The checked argument.</returns>
-    public static T[] NotEmptyIf<T>(T[] arg, bool condition, string argName)
-    {
-      return condition ? NotEmpty(arg, argName) : arg;
-    }
+    public static T[] NotEmptyIf<T>(T[] arg, bool condition, string argName) => condition ? NotEmpty(arg, argName) : arg;
 
     /// <summary>
     /// Asserts, that a method argument of type Collection is not <code>null</code> and not empty and throws an ArgumentException if it is <code>null</code> or empty.
@@ -118,10 +112,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <typeparam name="T">The type of argument.</typeparam>
     /// <typeparam name="E">The type of collection</typeparam>
     /// <returns>The checked argument.</returns>
-    public static T NotEmptyIf<T, E>(T arg, bool condition, string argName) where T : ICollection<E>
-    {
-      return condition ? NotEmpty<T, E>(arg, argName) : arg;
-    }
+    public static T NotEmptyIf<T, E>(T arg, bool condition, string argName) where T : ICollection<E> => condition ? NotEmpty<T, E>(arg, argName) : arg;
 
     /// <summary>
     /// Asserts, that a method argument of type array does not contain <code>null</code> or empty values and throws an ArgumentException if there is a <code>null</code> or empty value.
@@ -149,10 +140,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's</param>
     /// <typeparam name="T">The type of argument.</typeparam>
     /// <returns>The checked argument.</returns>
-    public static T[] NotContainsEmptyIf<T>(T[] arg, bool condition, string argName)
-    {
-      return condition ? NotContainsEmpty(arg, argName) : arg;
-    }
+    public static T[] NotContainsEmptyIf<T>(T[] arg, bool condition, string argName) => condition ? NotContainsEmpty(arg, argName) : arg;
 
     /// <summary>
     /// Asserts, that a method argument has a minimum value and throws an ArgumentException if it is lower than the checked value.
@@ -179,10 +167,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's </param>
     /// <returns>The checked argument.</returns>
-    public static int AtLeastIf(int arg, int minValue, bool condition, string argName)
-    {
-      return condition ? AtLeast(arg, minValue, argName) : arg;
-    }
+    public static int AtLeastIf(int arg, int minValue, bool condition, string argName) => condition ? AtLeast(arg, minValue, argName) : arg;
 
     /// <summary>
     /// Asserts, that a method argument has a minimum value and throws an ArgumentException if it is lower than the checked value.
@@ -209,10 +194,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's </param>
     /// <returns>The checked argument.</returns>
-    public static long AtLeastIf(long arg, long minValue, bool condition, string argName)
-    {
-      return condition ? AtLeast(arg, minValue, argName) : arg;
-    }
+    public static long AtLeastIf(long arg, long minValue, bool condition, string argName) => condition ? AtLeast(arg, minValue, argName) : arg;
 
     /// <summary>
     /// Asserts, that a method argument is greater than a minimum value and throws an {@link ArgumentException} 
@@ -239,10 +221,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's ArgumentException</param>
     /// <returns>The checked argument.</returns>
-    public static int GreaterThanIf(int arg, int minValue, bool condition, string argName)
-    {
-      return condition ? GreaterThan(arg, minValue, argName) : arg;
-    }
+    public static int GreaterThanIf(int arg, int minValue, bool condition, string argName) => condition ? GreaterThan(arg, minValue, argName) : arg;
 
     /// <summary>
     /// Asserts, that a method argument is greater than a minimum value and throws an ArgumentException if it is lower than or equal to the checked value.
@@ -269,10 +248,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's ArgumentException</param>
     /// <returns>The checked argument.</returns>
-    public static long GreaterThanIf(long arg, long minValue, bool condition, string argName)
-    {
-      return condition ? GreaterThan(arg, minValue, argName) : arg;
-    }
+    public static long GreaterThanIf(long arg, long minValue, bool condition, string argName) => condition ? GreaterThan(arg, minValue, argName) : arg;
 
     /// <summary>
     /// Asserts, that a method argument has a maximum value and throws an ArgumentException if it is greater than the checked value.
@@ -299,10 +275,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's ArgumentException</param>
     /// <returns>The checked argument.</returns>
-    public static int AtMostIf(int arg, int maxValue, bool condition, string argName)
-    {
-      return condition ? AtMost(arg, maxValue, argName) : arg;
-    }
+    public static int AtMostIf(int arg, int maxValue, bool condition, string argName) => condition ? AtMost(arg, maxValue, argName) : arg;
 
     /// <summary>
     /// Asserts, that a method argument has a maximum value and throws an ArgumentException if it is greater than the checked value.
@@ -329,10 +302,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's ArgumentException</param>
     /// <returns>The checked argument.</returns>
-    public static long AtMostIf(long arg, long maxValue, bool condition, string argName)
-    {
-      return condition ? AtMost(arg, maxValue, argName) : arg;
-    }
+    public static long AtMostIf(long arg, long maxValue, bool condition, string argName) => condition ? AtMost(arg, maxValue, argName) : arg;
 
     /// <summary>
     /// Asserts, that a method argument is lower than a maximum value and throws an ArgumentException if it is greater than or equal to the checked value.
@@ -359,10 +329,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's ArgumentException</param>
     /// <returns>The checked argument.</returns>
-    public static int LowerThanIf(int arg, int maxValue, bool condition, string argName)
-    {
-      return condition ? LowerThan(arg, maxValue, argName) : arg;
-    }
+    public static int LowerThanIf(int arg, int maxValue, bool condition, string argName) => condition ? LowerThan(arg, maxValue, argName) : arg;
 
     /// <summary>
     /// Asserts, that a method argument is lower than a maximum value and throws an ArgumentException if it is greater than or equal to the checked value.
@@ -389,10 +356,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's ArgumentException</param>
     /// <returns>The checked argument.</returns>
-    public static long LowerThanIf(long arg, long maxValue, bool condition, string argName)
-    {
-      return condition ? LowerThan(arg, maxValue, argName) : arg;
-    }
+    public static long LowerThanIf(long arg, long maxValue, bool condition, string argName) => condition ? LowerThan(arg, maxValue, argName) : arg;
 
     /// <summary>
     /// Asserts, that the given argument is of the given class. If the argument is <code>null</code>, then it is never of any given type. This is consistent with Java's <code>instanceof</code> check.
@@ -553,10 +517,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       //the type supplied does not derive from enum
     }
 
-    private static string FormatErrorMessage(string argumentName, string errorMessage, params object[] arguments)
-    {
-      return string.Format(errorMessage, argumentName, arguments);
-    }
+    private static string FormatErrorMessage(string argumentName, string errorMessage, params object[] arguments) => string.Format(errorMessage, argumentName, arguments);
 
     private static bool ContainsEmpty<T>(T[] a)
     {
@@ -599,10 +560,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       return result;
     }
 
-    private static bool IsEmpty<T>(ICollection<T> a)
-    {
-      return a == null || a.Count == 0;
-    }
+    private static bool IsEmpty<T>(ICollection<T> a) => a == null || a.Count == 0;
 
     #endregion
   }

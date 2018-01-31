@@ -17,7 +17,7 @@ namespace Org.Vs.NUnit.Tests
     }
 
     [Test]
-    public async Task TestGetEncodingUtf8Bom()
+    public async Task TestGetEncodingUtf8BomAsync()
     {
       string file = _currentTestDirectory + @"\Files\Encoding_UTF8wB.txt";
       var encoding = await EncodingDetector.GetEncodingAsync(file).ConfigureAwait(false);
@@ -25,7 +25,7 @@ namespace Org.Vs.NUnit.Tests
     }
 
     [Test]
-    public async Task TestGetEncodingAnsi()
+    public async Task TestGetEncodingAnsiAsync()
     {
       string file = _currentTestDirectory + @"\Files\Encoding_ANSI.txt";
       var encoding = await EncodingDetector.GetEncodingAsync(file).ConfigureAwait(false);

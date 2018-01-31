@@ -72,7 +72,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Read current settings
     /// </summary>
-    public async Task ReadSettings()
+    public async Task ReadSettingsAsync()
     {
       await _settings.ReadSettingsAsync().ConfigureAwait(false);
     }
@@ -81,7 +81,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// Save current settings
     /// </summary>
     /// <returns></returns>
-    public async Task SaveSettings()
+    public async Task SaveSettingsAsync()
     {
       await _settings.SaveSettingsAsync().ConfigureAwait(false);
     }
@@ -90,7 +90,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// Reload settings from config file
     /// </summary>
     /// <returns></returns>
-    public async Task ReloadSettings()
+    public async Task ReloadSettingsAsync()
     {
       await _settings.ReloadCurrentSettingsAsync().ConfigureAwait(false);
     }

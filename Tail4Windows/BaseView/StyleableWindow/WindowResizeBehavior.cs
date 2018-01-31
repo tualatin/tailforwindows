@@ -14,20 +14,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>Resized window</returns>
-    public static Window GetTopLeftResize(DependencyObject sender)
-    {
-      return (Window) sender.GetValue(TopLeftResize);
-    }
+    public static Window GetTopLeftResize(DependencyObject sender) => (Window) sender.GetValue(TopLeftResize);
 
     /// <summary>
     /// Set top left resize
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="window">Window</param>
-    public static void SetTopLeftResize(DependencyObject sender, Window window)
-    {
-      sender.SetValue(TopLeftResize, window);
-    }
+    public static void SetTopLeftResize(DependencyObject sender, Window window) => sender.SetValue(TopLeftResize, window);
 
     /// <summary>
     /// Top left resize property
@@ -46,20 +40,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>Resized window</returns>
-    public static Window GetTopRightResize(DependencyObject sender)
-    {
-      return (Window) sender.GetValue(TopRightResize);
-    }
+    public static Window GetTopRightResize(DependencyObject sender) => (Window) sender.GetValue(TopRightResize);
 
     /// <summary>
     /// Set top right resize
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="window">Window</param>
-    public static void SetTopRightResize(DependencyObject sender, Window window)
-    {
-      sender.SetValue(TopRightResize, window);
-    }
+    public static void SetTopRightResize(DependencyObject sender, Window window) => sender.SetValue(TopRightResize, window);
 
     /// <summary>
     /// Top right resize property
@@ -78,20 +66,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>Resized window</returns>
-    public static Window GetBottomRightResize(DependencyObject sender)
-    {
-      return (Window) sender.GetValue(BottomRightResize);
-    }
+    public static Window GetBottomRightResize(DependencyObject sender) => (Window) sender.GetValue(BottomRightResize);
 
     /// <summary>
     /// Set bottom right resize
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="window">Window</param>
-    public static void SetBottomRightResize(DependencyObject sender, Window window)
-    {
-      sender.SetValue(BottomRightResize, window);
-    }
+    public static void SetBottomRightResize(DependencyObject sender, Window window) => sender.SetValue(BottomRightResize, window);
 
     /// <summary>
     /// Bottom right resize property
@@ -110,20 +92,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>Resized window</returns>
-    public static Window GetBottomLeftResize(DependencyObject sender)
-    {
-      return (Window) sender.GetValue(BottomLeftResize);
-    }
+    public static Window GetBottomLeftResize(DependencyObject sender) => (Window) sender.GetValue(BottomLeftResize);
 
     /// <summary>
     /// Set bottom left resize
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="window">Window</param>
-    public static void SetBottomLeftResize(DependencyObject sender, Window window)
-    {
-      sender.SetValue(BottomLeftResize, window);
-    }
+    public static void SetBottomLeftResize(DependencyObject sender, Window window) => sender.SetValue(BottomLeftResize, window);
 
     /// <summary>
     /// Bottom left resize property
@@ -142,20 +118,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>Resized window</returns>
-    public static Window GetLeftResize(DependencyObject sender)
-    {
-      return (Window) sender.GetValue(LeftResize);
-    }
+    public static Window GetLeftResize(DependencyObject sender) => (Window) sender.GetValue(LeftResize);
 
     /// <summary>
     /// Set left resize
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="window">Window</param>
-    public static void SetLeftResize(DependencyObject sender, Window window)
-    {
-      sender.SetValue(LeftResize, window);
-    }
+    public static void SetLeftResize(DependencyObject sender, Window window) => sender.SetValue(LeftResize, window);
 
     /// <summary>
     /// Left resize property
@@ -174,20 +144,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>Resized window</returns>
-    public static Window GetRightResize(DependencyObject sender)
-    {
-      return (Window) sender.GetValue(RightResize);
-    }
+    public static Window GetRightResize(DependencyObject sender) => (Window) sender.GetValue(RightResize);
 
     /// <summary>
     /// Set right resize
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="window">Window</param>
-    public static void SetRightResize(DependencyObject sender, Window window)
-    {
-      sender.SetValue(RightResize, window);
-    }
+    public static void SetRightResize(DependencyObject sender, Window window) => sender.SetValue(RightResize, window);
 
     /// <summary>
     /// Right resize property
@@ -206,20 +170,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>Resized window</returns>
-    public static Window GetTopResize(DependencyObject sender)
-    {
-      return (Window) sender.GetValue(TopResize);
-    }
+    public static Window GetTopResize(DependencyObject sender) => (Window) sender.GetValue(TopResize);
 
     /// <summary>
     /// Set top window
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="window">Window</param>
-    public static void SetTopResize(DependencyObject sender, Window window)
-    {
-      sender.SetValue(TopResize, window);
-    }
+    public static void SetTopResize(DependencyObject sender, Window window) => sender.SetValue(TopResize, window);
 
     /// <summary>
     /// Top resize window
@@ -238,20 +196,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>Resized window</returns>
-    public static Window GetBottomResize(DependencyObject sender)
-    {
-      return (Window) sender.GetValue(BottomResize);
-    }
+    public static Window GetBottomResize(DependencyObject sender) => (Window) sender.GetValue(BottomResize);
 
     /// <summary>
     /// Set bottom resize
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="window">Window</param>
-    public static void SetBottomResize(DependencyObject sender, Window window)
-    {
-      sender.SetValue(BottomResize, window);
-    }
+    public static void SetBottomResize(DependencyObject sender, Window window) => sender.SetValue(BottomResize, window);
 
     /// <summary>
     /// Bottom resize property
@@ -272,7 +224,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
       if ( !(thumb.GetValue(LeftResize) is Window window) )
         return;
 
-      var horizontalChange = window.SafeWidthChange(e.HorizontalChange, false);
+      double horizontalChange = window.SafeWidthChange(e.HorizontalChange, false);
       window.Width -= horizontalChange;
       window.Left += horizontalChange;
     }
@@ -284,7 +236,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
       if ( !(thumb.GetValue(RightResize) is Window window) )
         return;
 
-      var horizontalChange = window.SafeWidthChange(e.HorizontalChange);
+      double horizontalChange = window.SafeWidthChange(e.HorizontalChange);
       window.Width += horizontalChange;
     }
 
@@ -295,7 +247,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
       if ( !(thumb.GetValue(TopResize) is Window window) )
         return;
 
-      var verticalChange = window.SafeHeightChange(e.VerticalChange, false);
+      double verticalChange = window.SafeHeightChange(e.VerticalChange, false);
       window.Height -= verticalChange;
       window.Top += verticalChange;
     }
@@ -307,7 +259,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
       if ( !(thumb.GetValue(BottomResize) is Window window) )
         return;
 
-      var verticalChange = window.SafeHeightChange(e.VerticalChange);
+      double verticalChange = window.SafeHeightChange(e.VerticalChange);
       window.Height += verticalChange;
     }
 
@@ -318,8 +270,8 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
       if ( !(thumb.GetValue(TopLeftResize) is Window window) )
         return;
 
-      var verticalChange = window.SafeHeightChange(e.VerticalChange, false);
-      var horizontalChange = window.SafeWidthChange(e.HorizontalChange, false);
+      double verticalChange = window.SafeHeightChange(e.VerticalChange, false);
+      double horizontalChange = window.SafeWidthChange(e.HorizontalChange, false);
 
       window.Width -= horizontalChange;
       window.Left += horizontalChange;
@@ -334,8 +286,8 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
       if ( !(thumb.GetValue(TopRightResize) is Window window) )
         return;
 
-      var verticalChange = window.SafeHeightChange(e.VerticalChange, false);
-      var horizontalChange = window.SafeWidthChange(e.HorizontalChange);
+      double verticalChange = window.SafeHeightChange(e.VerticalChange, false);
+      double horizontalChange = window.SafeWidthChange(e.HorizontalChange);
 
       window.Width += horizontalChange;
       window.Height -= verticalChange;
@@ -349,8 +301,8 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
       if ( !(thumb.GetValue(BottomRightResize) is Window window) )
         return;
 
-      var verticalChange = window.SafeHeightChange(e.VerticalChange);
-      var horizontalChange = window.SafeWidthChange(e.HorizontalChange);
+      double verticalChange = window.SafeHeightChange(e.VerticalChange);
+      double horizontalChange = window.SafeWidthChange(e.HorizontalChange);
 
       window.Width += horizontalChange;
       window.Height += verticalChange;
@@ -363,8 +315,8 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
       if ( !(thumb.GetValue(BottomLeftResize) is Window window) )
         return;
 
-      var verticalChange = window.SafeHeightChange(e.VerticalChange);
-      var horizontalChange = window.SafeWidthChange(e.HorizontalChange, false);
+      double verticalChange = window.SafeHeightChange(e.VerticalChange);
+      double horizontalChange = window.SafeWidthChange(e.HorizontalChange, false);
 
       window.Width -= horizontalChange;
       window.Left += horizontalChange;
@@ -373,7 +325,10 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
 
     private static double SafeWidthChange(this Window window, double change, bool positive = true)
     {
-      var result = positive ? window.Width + change : window.Width - change;
+      if ( window == null )
+        throw new System.ArgumentNullException(nameof(window));
+
+      double result = positive ? window.Width + change : window.Width - change;
 
       if ( result <= window.MinWidth )
         return 0;
@@ -386,7 +341,10 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
 
     private static double SafeHeightChange(this Window window, double change, bool positive = true)
     {
-      var result = positive ? window.Height + change : window.Height - change;
+      if ( window == null )
+        throw new System.ArgumentNullException(nameof(window));
+
+      double result = positive ? window.Height + change : window.Height - change;
 
       if ( result <= window.MinHeight )
         return 0;
