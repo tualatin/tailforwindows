@@ -25,12 +25,12 @@ namespace Org.Vs.NUnit.Tests
     }
 
     [Test]
-    public async Task TestGetStringByUrl()
+    public async Task TestGetStringByUrlAsync()
     {
       Assert.That(() => _webController.GetStringByUrlAsync(null), Throws.InstanceOf<ArgumentException>());
       Assert.That(() => _webController.GetStringByUrlAsync("htpewh://blabla.info"), Throws.InstanceOf<NotSupportedException>());
 
-      var webRequest = await _webController.GetStringByUrlAsync(EnvironmentContainer.ApplicationUpdateWebUrl);
+      var webRequest = await _webController.GetStringByUrlAsync(EnvironmentContainer.ApplicationUpdateWebUrl).ConfigureAwait(false);
       Assert.IsNotNull(webRequest);
       Assert.IsTrue(webRequest.Contains("TfW_x64.zip"));
     }

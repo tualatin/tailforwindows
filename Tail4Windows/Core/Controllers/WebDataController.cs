@@ -36,7 +36,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           {
             var downloadTask = client.GetStringAsync(url);
             var timeoutTask = Task.Delay(TimeSpan.FromMinutes(2), cts.Token);
-            var completedTask = await Task.WhenAny(downloadTask, timeoutTask);
+            var completedTask = await Task.WhenAny(downloadTask, timeoutTask).ConfigureAwait(false);
 
             if ( completedTask == timeoutTask )
               return null;

@@ -25,14 +25,13 @@ namespace Org.Vs.TailForWin.UI.Commands.Base
     /// <returns></returns>
     public abstract Task ExecuteAsync(object parameter);
 
+#pragma warning disable _MissingAsync // TAP methods must end with Async.
     /// <summary>
     /// Execute
     /// </summary>
     /// <param name="parameter">Parameter</param>
-    public async void Execute(object parameter)
-    {
-      await ExecuteAsync(parameter).ConfigureAwait(false);
-    }
+    public async void Execute(object parameter) => await ExecuteAsync(parameter).ConfigureAwait(false);
+#pragma warning restore _MissingAsync // TAP methods must end with Async.
 
     /// <summary>
     /// Can execute changed event
@@ -47,9 +46,6 @@ namespace Org.Vs.TailForWin.UI.Commands.Base
     /// Raise can execute changed
     /// </summary>
     // ReSharper disable once MemberCanBeMadeStatic.Global
-    protected void RaiseCanExecuteChanged()
-    {
-      CommandManager.InvalidateRequerySuggested();
-    }
+    protected void RaiseCanExecuteChanged() => CommandManager.InvalidateRequerySuggested();
   }
 }

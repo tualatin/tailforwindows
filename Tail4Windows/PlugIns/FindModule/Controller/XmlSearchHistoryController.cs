@@ -123,7 +123,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
     /// Save search history wrap as XML attribute
     /// </summary>
     /// <returns>XML element, if an error occurred, <c>null</c></returns>
-    public async Task<XElement> SaveSearchHistoryWrapAttributeAsync() => await Task.Run(() => SaveSearchHistoryWrapAttribute());
+    public async Task<XElement> SaveSearchHistoryWrapAttributeAsync() => await Task.Run(() => SaveSearchHistoryWrapAttribute()).ConfigureAwait(false);
 
     private XElement SaveSearchHistoryWrapAttribute()
     {

@@ -17,20 +17,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>Target window</returns>
-    public static Window GetTargetWindow(DependencyObject sender)
-    {
-      return (Window) sender.GetValue(TargetWindow);
-    }
+    public static Window GetTargetWindow(DependencyObject sender) => (Window) sender.GetValue(TargetWindow);
 
     /// <summary>
     /// Set target window
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="window">Window</param>
-    public static void SetTargetWindow(DependencyObject sender, Window window)
-    {
-      sender.SetValue(TargetWindow, window);
-    }
+    public static void SetTargetWindow(DependencyObject sender, Window window) => sender.SetValue(TargetWindow, window);
 
     /// <summary>
     /// Target window property
@@ -46,20 +40,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>UIEelement</returns>
-    public static UIElement GetLeftButtonShowAt(DependencyObject sender)
-    {
-      return (UIElement) sender.GetValue(LeftButtonShowAt);
-    }
+    public static UIElement GetLeftButtonShowAt(DependencyObject sender) => (UIElement) sender.GetValue(LeftButtonShowAt);
 
     /// <summary>
     /// Set left button show at
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="element">UIElement</param>
-    public static void SetLeftButtonShowAt(DependencyObject sender, UIElement element)
-    {
-      sender.SetValue(LeftButtonShowAt, element);
-    }
+    public static void SetLeftButtonShowAt(DependencyObject sender, UIElement element) => sender.SetValue(LeftButtonShowAt, element);
 
     /// <summary>
     /// Left button show at property
@@ -75,20 +63,14 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <returns>If right button is shown <c>true</c> otherwise <c>false</c></returns>
-    public static bool GetRightButtonShow(DependencyObject sender)
-    {
-      return (bool) sender.GetValue(RightButtonShow);
-    }
+    public static bool GetRightButtonShow(DependencyObject sender) => (bool) sender.GetValue(RightButtonShow);
 
     /// <summary>
     /// Set right button show
     /// </summary>
     /// <param name="sender">Sender</param>
     /// <param name="arg">Argument</param>
-    public static void SetRightButtonShow(DependencyObject sender, bool arg)
-    {
-      sender.SetValue(RightButtonShow, arg);
-    }
+    public static void SetRightButtonShow(DependencyObject sender, bool arg) => sender.SetValue(RightButtonShow, arg);
 
     /// <summary>
     /// Right button show property
@@ -105,7 +87,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
         element.MouseLeftButtonDown += LeftButtonDownShow;
     }
 
-    static bool _leftButtonToggle = true;
+    private static bool _leftButtonToggle = true;
 
     private static void LeftButtonDownShow(object sender, MouseButtonEventArgs e)
     {

@@ -4,7 +4,6 @@ using System.Windows;
 using NUnit.Framework;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Interfaces;
-using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.NUnit.Tests
@@ -25,9 +24,9 @@ namespace Org.Vs.NUnit.Tests
     }
 
     [Test]
-    public async Task TestGetUpdateStringFromGit()
+    public async Task TestGetUpdateStringFromGitAsync()
     {
-      var shouldUpdate = await _updateController.UpdateNecessaryAsync();
+      var shouldUpdate = await _updateController.UpdateNecessaryAsync().ConfigureAwait(false);
 
       Assert.IsInstanceOf<bool>(shouldUpdate);
     }
