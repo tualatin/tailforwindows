@@ -130,5 +130,10 @@ namespace Org.Vs.TailForWin.BaseView
     }
 
     #endregion
+
+    private void Window_Initialized()
+    {
+
+    }
   }
 }

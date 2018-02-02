@@ -72,28 +72,19 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Read current settings
     /// </summary>
-    public async Task ReadSettingsAsync()
-    {
-      await _settings.ReadSettingsAsync().ConfigureAwait(false);
-    }
+    public async Task ReadSettingsAsync() => await _settings.ReadSettingsAsync().ConfigureAwait(false);
 
     /// <summary>
     /// Save current settings
     /// </summary>
     /// <returns></returns>
-    public async Task SaveSettingsAsync()
-    {
-      await _settings.SaveSettingsAsync().ConfigureAwait(false);
-    }
+    public async Task SaveSettingsAsync() => await _settings.SaveSettingsAsync().ConfigureAwait(false);
 
     /// <summary>
     /// Reload settings from config file
     /// </summary>
     /// <returns></returns>
-    public async Task ReloadSettingsAsync()
-    {
-      await _settings.ReloadCurrentSettingsAsync().ConfigureAwait(false);
-    }
+    public async Task ReloadSettingsAsync() => await _settings.ReloadCurrentSettingsAsync().ConfigureAwait(false);
 
     /// <summary>
     /// Create default T4W font
