@@ -46,11 +46,11 @@ namespace Org.Vs.TailForWin.UI.Commands
     public override async Task ExecuteAsync(object parameter)
     {
       _cancelCommand.NotifyCommandStarting();
-      Execution = new NotifyTaskCompletion<TResult>(_command(_cancelCommand.Token));
+      Execution = NotifyTaskCompletion.Create(_command(_cancelCommand.Token));
 
       RaiseCanExecuteChanged();
 
-      await Execution.TaskCompletion;
+      await Execution.TaskCompleted;
       _cancelCommand.NotifyCommandFinished();
 
       RaiseCanExecuteChanged();
@@ -106,7 +106,7 @@ namespace Org.Vs.TailForWin.UI.Commands
       {
         _commandExecuting = true;
 
-        if (!_cts.IsCancellationRequested)
+        if ( !_cts.IsCancellationRequested )
           return;
 
         _cts = new CancellationTokenSource();
@@ -155,7 +155,11 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// <returns>AsyncCommand of type object</returns>
     public static AsyncCommand<object> Create(Func<Task> command)
     {
-      return new AsyncCommand<object>(async _ => { await command(); return null; });
+      return new AsyncCommand<object>(async _ =>
+      {
+        await command();
+        return null;
+      });
     }
 
     /// <summary>
@@ -173,7 +177,11 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// <returns>AsyncCommand of type object</returns>
     public static AsyncCommand<object> Create(Func<CancellationToken, Task> command)
     {
-      return new AsyncCommand<object>(async token => { await command(token); return null; });
+      return new AsyncCommand<object>(async token =>
+      {
+        await command(token);
+        return null;
+      });
     }
 
     /// <summary>

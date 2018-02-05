@@ -1,9 +1,14 @@
+using System;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -19,6 +24,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
   {
     // ReSharper disable once InconsistentNaming
     private static readonly ILog LOG = LogManager.GetLogger(typeof(T4WindowViewModel));
+
+    private readonly NotifyTaskCompletion _notifyTaskCompletion;
 
     /// <summary>
     /// Window title
@@ -116,13 +123,60 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
+    private bool _topmost;
+
+    /// <summary>
+    /// Topmost window
+    /// </summary>
+    public bool Topmost
+    {
+      get => _topmost;
+      set
+      {
+        _topmost = value;
+        OnPropertyChanged(nameof(Topmost));
+      }
+    }
+
+    private Style _t4WindowsStyle;
+
+    /// <summary>
+    /// Window style
+    /// </summary>
+    public Style T4WindowsStyle
+    {
+      get => _t4WindowsStyle;
+      set
+      {
+        _t4WindowsStyle = value;
+        OnPropertyChanged(nameof(T4WindowsStyle));
+      }
+    }
+
     /// <summary>
     /// Standard constructor
     /// </summary>
     public T4WindowViewModel()
     {
-      WindowPositionX = 100;
-      WindowPositionY = 100;
+      _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
+      _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
+    }
+
+    private void TaskPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !(sender is NotifyTaskCompletion task) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      _notifyTaskCompletion.PropertyChanged -= TaskPropertyChanged;
+    }
+
+    private async Task StartUpAsync()
+    {
+      await EnvironmentContainer.Instance.ReadSettingsAsync().ConfigureAwait(false);
+
+      SetDefaultWindowSettings();
+      MoveIntoView();
+      RestoreWindowSizeAndPosition();
     }
 
     #region Commands
@@ -155,6 +209,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private async Task ExecuteWndClosingCommandAsync()
     {
       LOG.Trace($"{WindowTitle} closing, goodbye!");
+
+      if ( SettingsHelperController.CurrentSettings.DeleteLogFiles )
+        await DeleteLogFilesAsync().ConfigureAwait(false);
+
       await EnvironmentContainer.Instance.SaveSettingsAsync().ConfigureAwait(false);
     }
 
@@ -172,8 +230,49 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region HelperFunctions
 
+    private void SetDefaultWindowSettings()
+    {
+
+      Topmost = SettingsHelperController.CurrentSettings.AlwaysOnTop;
+
+      switch ( SettingsHelperController.CurrentSettings.CurrentWindowStyle )
+      {
+      case EWindowStyle.DefaultWindowStyle:
+
+        T4WindowsStyle = null;
+        break;
+
+      case EWindowStyle.ModernBlueWindowStyle:
+
+        T4WindowsStyle = (Style) Application.Current.FindResource("Tail4WindowStyle");
+        break;
+
+      default:
+
+        throw new ArgumentOutOfRangeException();
+      }
+    }
+
+    private void MoveIntoView()
+    {
+      LOG.Trace($"Move {WindowTitle} into view, if required.");
+
+      if ( SettingsHelperController.CurrentSettings.WindowPositionY + SettingsHelperController.CurrentSettings.WindowHeight / 2 > SystemParameters.VirtualScreenHeight )
+        SettingsHelperController.CurrentSettings.WindowPositionY = SystemParameters.VirtualScreenHeight - SettingsHelperController.CurrentSettings.WindowHeight;
+
+      if ( SettingsHelperController.CurrentSettings.WindowPositionX + SettingsHelperController.CurrentSettings.WindowWidth / 2 > SystemParameters.VirtualScreenWidth )
+        SettingsHelperController.CurrentSettings.WindowPositionX = SystemParameters.VirtualScreenWidth - SettingsHelperController.CurrentSettings.WindowWidth;
+
+      if ( SettingsHelperController.CurrentSettings.WindowPositionY < 0 )
+        SettingsHelperController.CurrentSettings.WindowPositionY = 0;
+
+      if ( SettingsHelperController.CurrentSettings.WindowPositionX < 0 )
+        SettingsHelperController.CurrentSettings.WindowPositionX = 0;
+    }
+
     private void RestoreWindowSizeAndPosition()
     {
+
       if ( SettingsHelperController.CurrentSettings.CurrentWindowState == WindowState.Normal )
       {
         if ( SettingsHelperController.CurrentSettings.RestoreWindowSize )
@@ -199,6 +298,39 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
         WindowState = SettingsHelperController.CurrentSettings.CurrentWindowState;
       }
+    }
+
+    private async Task DeleteLogFilesAsync()
+    {
+      LOG.Trace($"Delete log files older than {EnvironmentContainer.DeleteLogFilesOlderThan} days...");
+
+      if ( !Directory.Exists("logs") )
+        return;
+
+      await Task.Run(
+        () =>
+        {
+          try
+          {
+            var files = new DirectoryInfo("logs").GetFiles("*.log");
+
+            Parallel.ForEach(files.Where(p => DateTime.Now - p.LastWriteTimeUtc > TimeSpan.FromDays(EnvironmentContainer.DeleteLogFilesOlderThan)), item =>
+            {
+              try
+              {
+                item.Delete();
+              }
+              catch ( Exception ex )
+              {
+                LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+              }
+            });
+          }
+          catch ( Exception ex )
+          {
+            LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+          }
+        }).ConfigureAwait(false);
     }
 
     #endregion

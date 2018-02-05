@@ -255,7 +255,7 @@
 
     <ControlTemplate.Triggers>
       <Trigger Property="Window.IsActive" Value="False">
-        <Setter TargetName="WndIcon" Property="Source" Value="/TailForWin;component/Res/Main_bw.ico" />
+        <Setter TargetName="WndIcon" Property="Source" Value="/T4W;component/Resources/Main_bw.ico" />
         <Setter TargetName="WndTitle" Property="Foreground" Value="Gray" />
       </Trigger>
 

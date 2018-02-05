@@ -53,6 +53,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
         CurrentSettings.SaveWindowPosition = GetBoolFromSetting("SaveWindowPosition");
         CurrentSettings.ExitWithEscape = GetBoolFromSetting("ExitWithEsc");
         CurrentSettings.CurrentWindowState = GetWindowState(GetStringFromSetting("WindowState"));
+        CurrentSettings.DeleteLogFiles = GetBoolFromSetting("DeleteLogFiles");
+        CurrentSettings.CurrentWindowStyle = GetWindowStyle(GetStringFromSetting("CurrentWindowStyle"));
       }
       catch ( ConfigurationErrorsException ex )
       {

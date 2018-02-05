@@ -235,6 +235,7 @@
     <Compile Include="Core\Utils\EncodingDetector.cs" />
     <Compile Include="Core\Utils\EnvironmentContainer.cs" />
     <Compile Include="Core\Utils\ObservableDictionary.cs" />
+    <Compile Include="UI\Behaviors\DialogBehavior.cs" />
     <Compile Include="UI\Commands\AsyncCommand.cs" />
     <Compile Include="UI\Commands\Base\AsyncCommandBase.cs" />
     <Compile Include="UI\Commands\MouseBehaviour.cs" />

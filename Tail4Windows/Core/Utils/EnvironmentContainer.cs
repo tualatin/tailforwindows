@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using Microsoft.Win32;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
@@ -35,7 +36,8 @@ namespace Org.Vs.TailForWin.Core.Utils
     private EnvironmentContainer()
     {
       _settings = new SettingsHelperController();
-
+      UpTime = DateTime.Now;
+      
       IntializeObservableCollections();
     }
 
@@ -48,6 +50,11 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// Application Update URL
     /// </summary>
     public static string ApplicationUpdateWebUrl => Application.Current.TryFindResource("WebUrl").ToString();
+
+    /// <summary>
+    /// Delete log files older than a certain time span
+    /// </summary>
+    public static int DeleteLogFilesOlderThan = 5;
 
     /// <summary>
     /// List of supported file encodings
@@ -90,9 +97,36 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// Create default T4W font
     /// </summary>
     /// <returns>Default font configuration</returns>
-    public static Font CreateDefaultFont()
+    public static Font CreateDefaultFont() => new Font("Segoe UI", 11f, System.Drawing.FontStyle.Regular);
+
+    /// <summary>
+    /// Current installed .NET version
+    /// </summary>
+    public static int NetFrameworkKey
     {
-      return new Font("Segoe UI", 11f, System.Drawing.FontStyle.Regular);
+      get
+      {
+        using ( var netFrameworkKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(@"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\") )
+        {
+          try
+          {
+            return Convert.ToInt32(netFrameworkKey?.GetValue("Release"));
+          }
+          catch
+          {
+            return -1;
+          }
+        }
+      }
+    }
+
+    /// <summary>
+    /// Current up time
+    /// </summary>
+    public DateTime UpTime
+    {
+      get;
+      private set;
     }
 
     /// <summary>
@@ -136,7 +170,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       if ( string.IsNullOrWhiteSpace(errorMessage) )
         return;
 
-      var caption = $"{ApplicationTitle} - {Application.Current.TryFindResource("Error")}";
+      string caption = $"{ApplicationTitle} - {Application.Current.TryFindResource("Error")}";
       MessageBox.Show(errorMessage, caption, MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
@@ -148,7 +182,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <returns>MessageBoxResult</returns>
     public static MessageBoxResult ShowQuestionMessageBox(string question, MessageBoxResult defaultMessageBoxResult = MessageBoxResult.Yes)
     {
-      var caption = $"{ApplicationTitle} - {Application.Current.TryFindResource("Question")}";
+      string caption = $"{ApplicationTitle} - {Application.Current.TryFindResource("Question")}";
       return string.IsNullOrWhiteSpace(question) ? MessageBoxResult.None :
         MessageBox.Show(question, caption, MessageBoxButton.YesNo, MessageBoxImage.Question, defaultMessageBoxResult);
     }
@@ -181,7 +215,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       if ( string.IsNullOrWhiteSpace(s) )
         return System.Threading.ThreadPriority.Normal;
 
-      if ( Enum.GetNames(typeof(ThreadPriority)).All(priorityName => String.Compare(s.ToLower(), priorityName.ToLower(), StringComparison.Ordinal) != 0) )
+      if ( Enum.GetNames(typeof(ThreadPriority)).All(priorityName => string.Compare(s.ToLower(), priorityName.ToLower(), StringComparison.Ordinal) != 0) )
         return System.Threading.ThreadPriority.Normal;
 
       Enum.TryParse(s, out ThreadPriority tp);
@@ -198,7 +232,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       }
 
       // ThreadPriority
-      foreach ( System.Threading.ThreadPriority priority in Enum.GetValues(typeof(System.Threading.ThreadPriority)) )
+      foreach ( ThreadPriority priority in Enum.GetValues(typeof(ThreadPriority)) )
       {
         ThreadPriority.Add(new ThreadPriorityMapping
         {

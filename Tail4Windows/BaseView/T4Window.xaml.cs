@@ -42,7 +42,7 @@ namespace Org.Vs.TailForWin.BaseView
     {
       handled = false;
 
-      switch( msg )
+      switch ( msg )
       {
       case NativeMethods.WM_ENTERSIZEMOVE:
 
@@ -66,29 +66,29 @@ namespace Org.Vs.TailForWin.BaseView
 
         WINDOWPOS pos = (WINDOWPOS) Marshal.PtrToStructure(lParam, typeof(WINDOWPOS));
 
-        if( (pos.flags & (int) SWP.NOMOVE) != 0 )
+        if ( (pos.flags & (int) SWP.NOMOVE) != 0 )
           return IntPtr.Zero;
 
         Window wnd = (Window) HwndSource.FromHwnd(hWnd)?.RootVisual;
 
-        if( wnd == null )
+        if ( wnd == null )
           return IntPtr.Zero;
 
         bool changedPos = false;
 
-        if( pos.cx < MinWidth )
+        if ( pos.cx < MinWidth )
         {
           pos.cx = (int) MinWidth;
           changedPos = true;
         }
 
-        if( pos.cy < MinHeight )
+        if ( pos.cy < MinHeight )
         {
           pos.cy = (int) MinHeight;
           changedPos = true;
         }
 
-        if( !changedPos )
+        if ( !changedPos )
           return IntPtr.Zero;
 
         Marshal.StructureToPtr(pos, lParam, true);
@@ -112,7 +112,7 @@ namespace Org.Vs.TailForWin.BaseView
       int MONITOR_DEFAULTTONEAREST = 0x00000002;
       IntPtr monitor = NativeMethods.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
 
-      if( monitor != IntPtr.Zero )
+      if ( monitor != IntPtr.Zero )
       {
         MonitorInfo monitorInfo = new MonitorInfo();
 
@@ -130,10 +130,5 @@ namespace Org.Vs.TailForWin.BaseView
     }
 
     #endregion
-
-    private void Window_Initialized()
-    {
-
-    }
   }
 }

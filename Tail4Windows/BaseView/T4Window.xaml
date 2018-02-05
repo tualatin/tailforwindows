@@ -7,19 +7,21 @@
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
   mc:Ignorable="d"
+  Name="MainWindow"
   Title="{Binding WindowTitle}"
   Width="{Binding Width, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Height="{Binding Height, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   MinWidth="800"
   MinHeight="400"
-  DataContext="{DynamicResource ViewModelMainWindow}"
+  Icon="/T4W;component/Resources/Main.ico"
   Left="{Binding WindowPositionX, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Top="{Binding WindowPositionY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+  Topmost="{Binding Topmost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   WindowState="{Binding WindowState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   >
-  <Window.Resources>
-    <viewModels:T4WindowViewModel x:Key="ViewModelMainWindow" />
-  </Window.Resources>
+  <Window.DataContext>
+    <viewModels:T4WindowViewModel />
+  </Window.DataContext>
 
   <intr:Interaction.Triggers>
     <intr:EventTrigger EventName="Closing">

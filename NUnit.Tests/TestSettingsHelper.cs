@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using NUnit.Framework;
 using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
 
 
@@ -28,7 +29,7 @@ namespace Org.Vs.NUnit.Tests
       //Assert.IsTrue(SettingsHelper.CurrentSettings.AutoUpdate);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.RestoreWindowSize);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.SaveWindowPosition);
-      //Assert.IsTrue(SettingsHelper.CurrentSettings.DeleteLogFiles);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.DeleteLogFiles);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.GroupByCategory);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.ShowLineNumbers);
 
@@ -49,7 +50,7 @@ namespace Org.Vs.NUnit.Tests
       //Assert.AreEqual(ETailRefreshRate.Normal, SettingsHelper.CurrentSettings.DefaultRefreshRate);
       //Assert.AreEqual(System.Threading.ThreadPriority.Normal, SettingsHelper.CurrentSettings.DefaultThreadPriority);
       Assert.AreEqual(WindowState.Normal, SettingsHelperController.CurrentSettings.CurrentWindowState);
-      //Assert.AreEqual(EWindowStyle.ModernBlueWindowStyle, SettingsHelper.CurrentSettings.CurrentWindowStyle);
+      Assert.AreEqual(EWindowStyle.ModernBlueWindowStyle, SettingsHelperController.CurrentSettings.CurrentWindowStyle);
 
       //Assert.AreEqual(ETimeFormat.HHMMSSD, SettingsHelper.CurrentSettings.DefaultTimeFormat);
       //Assert.AreEqual(EDateFormat.DDMMYYYY, SettingsHelper.CurrentSettings.DefaultDateFormat);

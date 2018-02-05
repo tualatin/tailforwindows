@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Threading;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Enums;
 
 
 namespace Org.Vs.TailForWin.Core.Data.Settings
@@ -168,6 +169,36 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       {
         _alwaysOnTop = value;
         OnPropertyChanged(nameof(AlwaysOnTop));
+      }
+    }
+
+    private bool _deleteLogFiles;
+
+    /// <summary>
+    /// Delete old T4W log files
+    /// </summary>
+    public bool DeleteLogFiles
+    {
+      get => _deleteLogFiles;
+      set
+      {
+        _deleteLogFiles = value;
+        OnPropertyChanged(nameof(DeleteLogFiles));
+      }
+    }
+
+    private EWindowStyle _currentWindowStyle;
+
+    /// <summary>
+    /// Current window style
+    /// </summary>
+    public EWindowStyle CurrentWindowStyle
+    {
+      get => _currentWindowStyle;
+      set
+      {
+        _currentWindowStyle = value;
+        OnPropertyChanged(nameof(CurrentWindowStyle));
       }
     }
   }
