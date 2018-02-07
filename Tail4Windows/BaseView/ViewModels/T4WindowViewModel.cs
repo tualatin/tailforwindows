@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.BaseView.UserControls.ViewModels;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
@@ -207,6 +208,13 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand GoToLineCommand => _goToLineCommand ?? (_goToLineCommand = new RelayCommand(p => ExecuteGoToLineCommand()));
 
+    private ICommand _quickSearchCommand;
+
+    /// <summary>
+    /// Quick search command
+    /// </summary>
+    public ICommand QuickSearchCommand => _quickSearchCommand ?? (_quickSearchCommand = new RelayCommand(p => ExecuteQuickSearchCommand()));
+
     private ICommand _wndLoadedCommand;
 
     /// <summary>
@@ -240,6 +248,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       LOG.Trace($"{WindowTitle} startup completed!");
     }
 
+    private void ExecuteQuickSearchCommand()
+    {
+      LOG.Trace("Set focus to QuickSearchBar");
+      MainWindowQuickSearchViewModel.CurrentInstance.IsFocused = true;
+    }
+
     private void ExecuteGoToLineCommand()
     {
       MessageBox.Show("Test", "Hint", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -267,7 +281,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       default:
 
-        throw new ArgumentOutOfRangeException();
+        T4WindowsStyle = (Style) Application.Current.TryFindResource("Tail4LightWindowStyle");
+        SettingsHelperController.CurrentSettings.CurrentWindowStyle = EWindowStyle.ModernLightWindowStyle;
+        break;
       }
     }
 

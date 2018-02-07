@@ -16,4 +16,5 @@
   <KeyBinding x:Key="ToggleFilterKeyBinding" Gesture="ALT+F" />
   <KeyBinding x:Key="SearchForwardKeyBinding" Gesture="F3" />
   <KeyBinding x:Key="MinimizeWndKeyBinding" Gesture="CTRL+ALT+M" />
+  <KeyBinding x:Key="QuickSearchBinding" Gesture="CTRL+Q" />
 </ResourceDictionary>

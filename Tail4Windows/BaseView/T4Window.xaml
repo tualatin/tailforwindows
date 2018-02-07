@@ -4,6 +4,8 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:baseViewControls="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
+  xmlns:baseViewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
   mc:Ignorable="d"
@@ -35,8 +37,15 @@
     </intr:EventTrigger>
   </intr:Interaction.Triggers>
 
+  <Window.Resources>
+    <DataTemplate DataType="{x:Type baseViewModels:MainWindowQuickSearchViewModel}">
+      <baseViewControls:MainWindowQuickSearchBar />
+    </DataTemplate>
+  </Window.Resources>
+
   <Window.InputBindings>
     <KeyBinding Key="{Binding Key, Source={StaticResource GoToLineKeyBinding}, Mode=OneTime}" Command="{Binding GoToLineCommand}" Modifiers="{Binding Modifiers, Source={StaticResource GoToLineKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource QuickSearchBinding}, Mode=OneTime}" Command="{Binding QuickSearchCommand}" Modifiers="{Binding Modifiers, Source={StaticResource QuickSearchBinding}, Mode=OneTime}" />
   </Window.InputBindings>
   <Grid />
 </Window>

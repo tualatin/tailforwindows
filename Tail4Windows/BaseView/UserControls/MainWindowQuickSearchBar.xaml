@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
+  xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   mc:Ignorable="d"
@@ -57,6 +58,9 @@
           <Trigger Property="IsMouseOver" Value="False">
             <Setter Property="BorderBrush" Value="{Binding Source={StaticResource BorderLightColor}, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
           </Trigger>
+          <DataTrigger Value="True" Binding="{Binding IsFocused, ElementName=QuickSearchTextBox}">
+            <Setter Property="BorderBrush" Value="#FFE5C365" />
+          </DataTrigger>
         </Style.Triggers>
       </Style>
     </ResourceDictionary>
@@ -71,13 +75,20 @@
         </Grid.ColumnDefinitions>
 
         <userControls:WatermarkTextBox
+          x:Name="QuickSearchTextBox"
           BorderThickness="0"
           Watermark="{StaticResource QuickSearchWatermark}"
-          />
+          local:MainWindowQuickSearchBar.IsQuickSearchTextBoxFocused="{Binding IsFocused, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+          >
+          <userControls:WatermarkTextBox.InputBindings>
+            <KeyBinding Key="Enter" Command="{Binding QuickSearchCommand}" />
+          </userControls:WatermarkTextBox.InputBindings>
+        </userControls:WatermarkTextBox>
         <Button
           Grid.Column="1"
           Width="20"
           Height="21"
+          Command="{Binding QuickSearchCommand}"
           Style="{StaticResource QuickSearchButtonStyle}"
           >
           <StackPanel>
