@@ -21,7 +21,10 @@
         <ResourceDictionary Source="UI/Styles/Separator.xaml" />
         <ResourceDictionary Source="UI/Styles/TabItemToolTipStyle.xaml" />
         <ResourceDictionary Source="BaseView/UserControls/Styles/TailForWinTabItem.xaml" />
-        <ResourceDictionary Source="BaseView/Styles/WindowStyle.xaml" />
+        <ResourceDictionary Source="BaseView/Styles/TitleBarWindowIconStyle.xaml" />
+        <ResourceDictionary Source="BaseView/Styles/TitleBarButtonsStyle.xaml" />
+        <ResourceDictionary Source="BaseView/Styles/BlueWindowStyle.xaml" />
+        <ResourceDictionary Source="BaseView/Styles/LightWindowStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/ContextMenuItem.xaml" />
         <ResourceDictionary Source="UI/Styles/KeyBindings.xaml" />
       </ResourceDictionary.MergedDictionaries>

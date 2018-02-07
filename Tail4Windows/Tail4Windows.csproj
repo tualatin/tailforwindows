@@ -175,6 +175,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseView\UserControls\MainWindowQuickSearchBar.xaml.cs">
+      <DependentUpon>MainWindowQuickSearchBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseView\UserControls\MainWindowToolbarButtons.xaml.cs">
+      <DependentUpon>MainWindowToolbarButtons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BaseView\UserControls\ViewModels\MainWindowQuickSearchViewModel.cs" />
     <Compile Include="Business\Controllers\ControllerDummy.cs" />
     <Compile Include="Business\Data\DataDummy.cs" />
     <Compile Include="Business\Events\Args\ArgDummy.cs" />
@@ -240,6 +247,7 @@
     <Compile Include="UI\Commands\Base\AsyncCommandBase.cs" />
     <Compile Include="UI\Commands\MouseBehaviour.cs" />
     <Compile Include="UI\Commands\RelayCommand.cs" />
+    <Compile Include="UI\Converters\ColorToSolidColorBrushConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\DummyMultiConverter.cs" />
     <Compile Include="UI\Events\Args\ArgDummy.cs" />
     <Compile Include="UI\Interfaces\IAsyncCommand.cs" />
@@ -260,6 +268,26 @@
     <Compile Include="UI\UserControls\TextBoxMaskBehavior.cs" />
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
+    <Page Include="BaseView\Styles\LightWindowStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseView\Styles\TitleBarButtonsStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BaseView\Styles\TitleBarWindowIconStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BaseView\UserControls\MainWindowQuickSearchBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BaseView\UserControls\MainWindowToolbarButtons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Language\en-EN.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -348,7 +376,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BaseView\Styles\WindowStyle.xaml">
+    <Page Include="BaseView\Styles\BlueWindowStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -409,6 +437,7 @@
     <Content Include="Config\log4net.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\QuickSearch.png" />
     <Resource Include="Resources\Main_bw.ico" />
   </ItemGroup>
   <ItemGroup>

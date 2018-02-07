@@ -22,10 +22,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
   /// </summary>
   public class T4WindowViewModel : NotifyMaster
   {
-    // ReSharper disable once InconsistentNaming
     private static readonly ILog LOG = LogManager.GetLogger(typeof(T4WindowViewModel));
 
     private readonly NotifyTaskCompletion _notifyTaskCompletion;
+
+    #region Properties
 
     /// <summary>
     /// Window title
@@ -46,7 +47,23 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     public double DefaultHeight
     {
       get;
-    } = 900;
+    } = 600;
+
+    /// <summary>
+    /// Default window position X
+    /// </summary>
+    public double DefaultWindowPositionX
+    {
+      get;
+    } = 100;
+
+    /// <summary>
+    /// Default window position Y
+    /// </summary>
+    public double DefaultWindowPositionY
+    {
+      get;
+    } = 100;
 
     private double _width;
 
@@ -153,6 +170,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
+    #endregion
+
     /// <summary>
     /// Standard constructor
     /// </summary>
@@ -164,7 +183,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void TaskPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !(sender is NotifyTaskCompletion task) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
       _notifyTaskCompletion.PropertyChanged -= TaskPropertyChanged;
@@ -232,19 +251,18 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void SetDefaultWindowSettings()
     {
-
       Topmost = SettingsHelperController.CurrentSettings.AlwaysOnTop;
 
       switch ( SettingsHelperController.CurrentSettings.CurrentWindowStyle )
       {
-      case EWindowStyle.DefaultWindowStyle:
+      case EWindowStyle.ModernLightWindowStyle:
 
-        T4WindowsStyle = null;
+        T4WindowsStyle = (Style) Application.Current.TryFindResource("Tail4LightWindowStyle");
         break;
 
       case EWindowStyle.ModernBlueWindowStyle:
 
-        T4WindowsStyle = (Style) Application.Current.FindResource("Tail4WindowStyle");
+        T4WindowsStyle = (Style) Application.Current.TryFindResource("Tail4BlueWindowStyle");
         break;
 
       default:
@@ -287,12 +305,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         }
 
         if ( !SettingsHelperController.CurrentSettings.SaveWindowPosition )
+        {
+          WindowPositionX = DefaultWindowPositionX;
+          WindowPositionY = DefaultWindowPositionY;
           return;
+        }
 
-        if ( !SettingsHelperController.CurrentSettings.WindowPositionY.Equals(-1) )
-          WindowPositionY = SettingsHelperController.CurrentSettings.WindowPositionY;
-        if ( !SettingsHelperController.CurrentSettings.WindowPositionX.Equals(-1) )
-          WindowPositionX = SettingsHelperController.CurrentSettings.WindowPositionX;
+        WindowPositionY = !SettingsHelperController.CurrentSettings.WindowPositionY.Equals(-1) ? SettingsHelperController.CurrentSettings.WindowPositionY : DefaultWindowPositionY;
+        WindowPositionX = !SettingsHelperController.CurrentSettings.WindowPositionX.Equals(-1) ? SettingsHelperController.CurrentSettings.WindowPositionX : DefaultWindowPositionX;
       }
       else
       {

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 
 namespace Org.Vs.TailForWin.Core.Enums
@@ -11,13 +11,13 @@ namespace Org.Vs.TailForWin.Core.Enums
     /// <summary>
     /// Modern blue style
     /// </summary>
-    [Description("Modern blue style")]
+    [Description("Blue window style")]
     ModernBlueWindowStyle,
 
     /// <summary>
     /// Default window style
     /// </summary>
-    [Description("Default window style")]
-    DefaultWindowStyle
+    [Description("Light window style")]
+    ModernLightWindowStyle
   }
 }
