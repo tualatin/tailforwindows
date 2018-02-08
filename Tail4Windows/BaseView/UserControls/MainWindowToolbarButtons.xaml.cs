@@ -1,28 +1,82 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace Org.Vs.TailForWin.BaseView.UserControls
 {
   /// <summary>
   /// Interaction logic for MainWindowToolbarButtons.xaml
   /// </summary>
-  public partial class MainWindowToolbarButtons : UserControl
+  public partial class MainWindowToolbarButtons
   {
-    public MainWindowToolbarButtons()
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
+    public MainWindowToolbarButtons() => InitializeComponent();
+
+    #region DependencyProperties
+
+    /// <summary>
+    /// MaximizeButton visibility property
+    /// </summary>
+    public static readonly DependencyProperty MaximizeButtonVisibilityProperty = DependencyProperty.RegisterAttached("MaximizeButtonVisibility", typeof(Visibility), typeof(MainWindowToolbarButtons),
+      new UIPropertyMetadata(Visibility.Visible, OnButtonVisibilityPropertyChanged));
+
+
+    /// <summary>
+    /// Get MaximizeButton visibility
+    /// </summary>
+    /// <param name="obj">Object</param>
+    /// <returns>Visibility</returns>
+    public static Visibility GetMaximizeButtonVisibility(DependencyObject obj) => (Visibility) obj.GetValue(MaximizeButtonVisibilityProperty);
+
+    /// <summary>
+    /// Set MaximizeButton visibility
+    /// </summary>
+    /// <param name="obj">Object</param>
+    /// <param name="value">Visibility value</param>
+    public static void SetMaximizeButtonVisibility(DependencyObject obj, Visibility value) => obj.SetValue(MaximizeButtonVisibilityProperty, value);
+
+    /// <summary>
+    /// RestoreButton visibility property
+    /// </summary>
+    public static readonly DependencyProperty RestoreButtonVisibilityProperty = DependencyProperty.RegisterAttached("RestoreButtonVisibility", typeof(Visibility), typeof(MainWindowToolbarButtons),
+      new UIPropertyMetadata(Visibility.Visible, OnButtonVisibilityPropertyChanged));
+
+
+    /// <summary>
+    /// Get RestoreButton visibility
+    /// </summary>
+    /// <param name="obj">Object</param>
+    /// <returns>Visibility</returns>
+    public static Visibility GetRestoreButtonVisibility(DependencyObject obj) => (Visibility) obj.GetValue(RestoreButtonVisibilityProperty);
+
+    /// <summary>
+    /// Set RestoreButton visibility
+    /// </summary>
+    /// <param name="obj">Object</param>
+    /// <param name="value">Visibility value</param>
+    public static void SetRestoreButtonVisibility(DependencyObject obj, Visibility value) => obj.SetValue(RestoreButtonVisibilityProperty, value);
+
+    private static void OnButtonVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      InitializeComponent();
+      if ( !(d is MainWindowToolbarButtons toolbarButtons) )
+        return;
+
+      if ( e.Property.Name.Equals("MaximizeButtonVisibility") )
+      {
+        Enum.TryParse<Visibility>(e.NewValue.ToString(), out var visibility);
+        toolbarButtons.MaximizeButton.Visibility = visibility;
+      }
+
+      if ( e.Property.Name.Equals("RestoreButtonVisibility") )
+      {
+        Enum.TryParse<Visibility>(e.NewValue.ToString(), out var visibility);
+        toolbarButtons.RestoreButton.Visibility = visibility;
+      }
     }
+
+    #endregion
+
   }
 }

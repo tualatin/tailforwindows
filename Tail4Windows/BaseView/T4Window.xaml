@@ -18,6 +18,7 @@
   AllowsTransparency="True"
   Icon="/T4W;component/Resources/Main.ico"
   Left="{Binding WindowPositionX, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+  ResizeMode="CanResizeWithGrip"
   Style="{Binding T4WindowsStyle, UpdateSourceTrigger=PropertyChanged}"
   Top="{Binding WindowPositionY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Topmost="{Binding Topmost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -47,5 +48,12 @@
     <KeyBinding Key="{Binding Key, Source={StaticResource GoToLineKeyBinding}, Mode=OneTime}" Command="{Binding GoToLineCommand}" Modifiers="{Binding Modifiers, Source={StaticResource GoToLineKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource QuickSearchBinding}, Mode=OneTime}" Command="{Binding QuickSearchCommand}" Modifiers="{Binding Modifiers, Source={StaticResource QuickSearchBinding}, Mode=OneTime}" />
   </Window.InputBindings>
-  <Grid />
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition Height="25" />
+    </Grid.RowDefinitions>
+
+    <baseViewControls:MainWindowStatusBar Grid.Row="1" />
+  </Grid>
 </Window>

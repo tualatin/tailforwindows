@@ -75,7 +75,10 @@
               Height="23"
               Margin="5 0"
               />
-            <userControls:MainWindowToolbarButtons Grid.Column="3" />
+            <userControls:MainWindowToolbarButtons
+              x:Name="MainWindowToolbarButtons"
+              Grid.Column="3"
+              />
           </Grid>
 
           <Border Grid.Row="1">
@@ -179,6 +182,16 @@
       <Trigger Property="Window.IsActive" Value="False">
         <Setter TargetName="WndIcon" Property="Source" Value="/T4W;component/Resources/Main_bw.ico" />
         <Setter TargetName="WndTitle" Property="Foreground" Value="Gray" />
+      </Trigger>
+
+      <Trigger Property="WindowState" Value="Maximized">
+        <Setter TargetName="MainWindowToolbarButtons" Property="MaximizeButtonVisibility" Value="Collapsed" />
+        <Setter TargetName="MainWindowToolbarButtons" Property="RestoreButtonVisibility" Value="Visible" />
+      </Trigger>
+
+      <Trigger Property="WindowState" Value="Normal">
+        <Setter TargetName="MainWindowToolbarButtons" Property="MaximizeButtonVisibility" Value="Visible" />
+        <Setter TargetName="MainWindowToolbarButtons" Property="RestoreButtonVisibility" Value="Collapsed" />
       </Trigger>
 
       <MultiTrigger>

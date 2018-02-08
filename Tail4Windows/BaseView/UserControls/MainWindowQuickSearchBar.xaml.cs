@@ -11,16 +11,16 @@ namespace Org.Vs.TailForWin.BaseView.UserControls
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public MainWindowQuickSearchBar()
-    {
-      InitializeComponent();
-    }
+    public MainWindowQuickSearchBar() => InitializeComponent();
+
+    #region DependencyProperties
 
     /// <summary>
     /// Is focused property
     /// </summary>
     public static readonly DependencyProperty IsQuickSearchTextBoxFocusedProperty = DependencyProperty.RegisterAttached("IsQuickSearchTextBoxFocused", typeof(bool), typeof(MainWindowQuickSearchBar),
       new UIPropertyMetadata(false, OnIsQuickSearchTextBoxFocusedPropertyChanged));
+
 
     /// <summary>
     /// Get is quick search textbox focused
@@ -41,7 +41,9 @@ namespace Org.Vs.TailForWin.BaseView.UserControls
       var uie = (UIElement) d;
 
       if ( (bool) e.NewValue )
-        uie.Focus(); // Don't care about false values.
+        uie.Focus();
     }
+
+    #endregion
   }
 }

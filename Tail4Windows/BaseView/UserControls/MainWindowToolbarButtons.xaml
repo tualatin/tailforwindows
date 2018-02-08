@@ -4,6 +4,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
   mc:Ignorable="d"
   d:DesignHeight="24"
   d:DesignWidth="75"
@@ -17,11 +18,22 @@
       Style="{StaticResource MinimizeButton}"
       />
     <Button
+      x:Name="MaximizeButton"
       Width="24"
       Command="{StaticResource MaximizeCommand}"
       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
       DockPanel.Dock="Right"
       Style="{StaticResource MaximizeButton}"
+      Visibility="Visible"
+      />
+    <Button
+      x:Name="RestoreButton"
+      Width="24"
+      Command="{StaticResource MaximizeCommand}"
+      CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+      DockPanel.Dock="Right"
+      Style="{StaticResource RestoreButton}"
+      Visibility="Collapsed"
       />
     <Button
       Width="24"

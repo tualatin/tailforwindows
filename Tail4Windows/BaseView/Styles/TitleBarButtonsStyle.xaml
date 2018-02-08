@@ -63,7 +63,6 @@
     </Style.Triggers>
   </Style>
 
-  <!--  F1M0,10L0,3 3,3 3,0 10,0 10,2 4,2 4,3 7,3 7,6 6,6 6,5 1,5 1,10z M1,10L7,10 7,7 10,7 10,2 9,2 9,6 6,6 6,9 1,9z  -->
   <Style x:Key="MaximizeButton" TargetType="{x:Type Button}">
     <Setter Property="Background" Value="Transparent" />
     <Setter Property="Foreground" Value="Black" />
@@ -94,6 +93,61 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
                 Data="F1M0,0L0,9 9,9 9,0 0,0 0,3 8,3 8,8 1,8 1,3z"
+                Fill="Black"
+                Stretch="None"
+                />
+            </Grid>
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Chrome" Property="Background" Value="#FFFFFCF4" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="#FFE5C365" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="Chrome" Property="Background" Value="#FFFFE8A6" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="#FFE5C365" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="Foreground" Value="Gray" />
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <Style x:Key="RestoreButton" TargetType="{x:Type Button}">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Foreground" Value="Black" />
+    <Setter Property="Margin" Value="0 2 3 0" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type ButtonBase}">
+          <Border
+            x:Name="Chrome"
+            Background="{TemplateBinding Background}"
+            BorderBrush="Transparent"
+            BorderThickness="1"
+            SnapsToDevicePixels="True"
+            >
+            <Grid>
+              <ContentPresenter
+                Margin="{TemplateBinding Padding}"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                Content="{TemplateBinding Content}"
+                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                RecognizesAccessKey="True"
+                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                />
+              <Path
+                Margin="0 0 0 5"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Data="F1M0,10L0,3 3,3 3,0 10,0 10,2 4,2 4,3 7,3 7,6 6,6 6,5 1,5 1,10z M1,10L7,10 7,7 10,7 10,2 9,2 9,6 6,6 6,9 1,9z"
                 Fill="Black"
                 Stretch="None"
                 />

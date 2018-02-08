@@ -178,10 +178,14 @@
     <Compile Include="BaseView\UserControls\MainWindowQuickSearchBar.xaml.cs">
       <DependentUpon>MainWindowQuickSearchBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BaseView\UserControls\MainWindowStatusBar.xaml.cs">
+      <DependentUpon>MainWindowStatusBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BaseView\UserControls\MainWindowToolbarButtons.xaml.cs">
       <DependentUpon>MainWindowToolbarButtons.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowQuickSearchViewModel.cs" />
+    <Compile Include="BaseView\UserControls\ViewModels\MainWindowStatusBarViewModel.cs" />
     <Compile Include="Business\Controllers\ControllerDummy.cs" />
     <Compile Include="Business\Data\DataDummy.cs" />
     <Compile Include="Business\Data\Messages\QuickSearchTextBoxGetFocusMessage.cs" />
@@ -250,6 +254,7 @@
     <Compile Include="UI\Commands\Base\AsyncCommandBase.cs" />
     <Compile Include="UI\Commands\MouseBehaviour.cs" />
     <Compile Include="UI\Commands\RelayCommand.cs" />
+    <Compile Include="UI\Converters\BackgroundToForegroundConverter.cs" />
     <Compile Include="UI\Converters\ColorToSolidColorBrushConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\DummyMultiConverter.cs" />
     <Compile Include="UI\Events\Args\ArgDummy.cs" />
@@ -284,6 +289,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BaseView\UserControls\MainWindowQuickSearchBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BaseView\UserControls\MainWindowStatusBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

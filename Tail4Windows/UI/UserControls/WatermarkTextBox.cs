@@ -10,10 +10,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
   /// </summary>
   public class WatermarkTextBox : TextBox
   {
-    static WatermarkTextBox()
-    {
-      DefaultStyleKeyProperty.OverrideMetadata(typeof(WatermarkTextBox), new FrameworkPropertyMetadata(typeof(WatermarkTextBox)));
-    }
+    static WatermarkTextBox() => DefaultStyleKeyProperty.OverrideMetadata(typeof(WatermarkTextBox), new FrameworkPropertyMetadata(typeof(WatermarkTextBox)));
 
     #region Public Properties
 
