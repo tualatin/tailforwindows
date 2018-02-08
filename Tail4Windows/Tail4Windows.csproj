@@ -184,13 +184,17 @@
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowQuickSearchViewModel.cs" />
     <Compile Include="Business\Controllers\ControllerDummy.cs" />
     <Compile Include="Business\Data\DataDummy.cs" />
+    <Compile Include="Business\Data\Messages\QuickSearchTextBoxGetFocusMessage.cs" />
     <Compile Include="Business\Events\Args\ArgDummy.cs" />
     <Compile Include="Business\Interfaces\IDummy.cs" />
     <Compile Include="Core\Controllers\SettingsHelperController.cs" />
     <Compile Include="Core\Controllers\UpdateController.cs" />
     <Compile Include="Core\Controllers\WebDataController.cs" />
+    <Compile Include="Core\Interfaces\IEventAggregator.cs" />
+    <Compile Include="Core\Utils\EventAggregator.cs" />
     <Compile Include="Core\Utils\Execution.cs" />
     <Compile Include="Core\Utils\ThrottledExecution.cs" />
+    <Compile Include="Core\Utils\WeakEventListener.cs" />
     <Compile Include="PlugIns\FileManagerModule\Controller\XmlFileManagerController.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\FindModule\Data\XmlNames.cs" />
@@ -219,7 +223,6 @@
     <Compile Include="Core\Enums\ETailRefreshRate.cs" />
     <Compile Include="Core\Enums\ETimeFormat.cs" />
     <Compile Include="Core\Enums\EWindowStyle.cs" />
-    <Compile Include="Core\Events\Args\ArgDummy.cs" />
     <Compile Include="Core\Extensions\EnumerableExtension.cs" />
     <Compile Include="Core\Extensions\EnumExtension.cs" />
     <Compile Include="Core\Extensions\StringExtension.cs" />
@@ -551,6 +554,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Core\Events\Args\" />
+    <Folder Include="Core\Events\Delegates\" />
+    <Folder Include="Core\Events\EventManagers\" />
     <Folder Include="PlugIns\FileManagerModule\ViewModels\" />
     <Folder Include="PlugIns\FindModule\ViewModels\" />
     <Folder Include="PlugIns\PatternModule\ViewModels\" />

@@ -1,6 +1,9 @@
 using System.Threading.Tasks;
 using log4net;
+using Org.Vs.TailForWin.BaseView.ViewModels;
+using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 
@@ -29,15 +32,6 @@ namespace Org.Vs.TailForWin.BaseView.UserControls.ViewModels
       }
     }
 
-    /// <summary>
-    /// Current MainWindowQuickSearchViewModel instance
-    /// </summary>
-    public static MainWindowQuickSearchViewModel CurrentInstance
-    {
-      get;
-      private set;
-    }
-
     #region Commands
 
     private IAsyncCommand _quickSearchCommand;
@@ -54,7 +48,13 @@ namespace Org.Vs.TailForWin.BaseView.UserControls.ViewModels
     /// </summary>
     public MainWindowQuickSearchViewModel()
     {
-      CurrentInstance = this;
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<QuickSearchTextBoxGetFocusMessage>(FocusChangedMessage);
+    }
+
+    private void FocusChangedMessage(QuickSearchTextBoxGetFocusMessage args)
+    {
+      if ( args.Sender is T4WindowViewModel )
+        IsFocused = args.IsFocused;
     }
 
     #region Command functions

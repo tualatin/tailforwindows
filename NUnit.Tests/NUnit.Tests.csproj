@@ -104,6 +104,7 @@
     <Compile Include="TestSettingsHelper.cs" />
     <Compile Include="TestStringExtension.cs" />
     <Compile Include="TestThrottledExecution.cs" />
+    <Compile Include="TestWeakEventListener.cs" />
     <Compile Include="ViewModels\TestT4WindowViewModel.cs" />
     <Compile Include="TestUpdateController.cs" />
     <Compile Include="TestWebController.cs" />

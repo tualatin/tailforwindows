@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using log4net;
-using Org.Vs.TailForWin.BaseView.UserControls.ViewModels;
+using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
@@ -26,6 +26,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private static readonly ILog LOG = LogManager.GetLogger(typeof(T4WindowViewModel));
 
     private readonly NotifyTaskCompletion _notifyTaskCompletion;
+
+    #region Events
+
+    #endregion
 
     #region Properties
 
@@ -250,8 +254,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteQuickSearchCommand()
     {
-      LOG.Trace("Set focus to QuickSearchBar");
-      MainWindowQuickSearchViewModel.CurrentInstance.IsFocused = true;
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new QuickSearchTextBoxGetFocusMessage(this, true));
     }
 
     private void ExecuteGoToLineCommand()

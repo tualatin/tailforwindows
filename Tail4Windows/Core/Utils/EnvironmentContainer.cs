@@ -37,6 +37,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     {
       _settings = new SettingsHelperController();
       UpTime = DateTime.Now;
+      CurrentEventManager = new EventAggregator();
       
       IntializeObservableCollections();
     }
@@ -54,7 +55,12 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Delete log files older than a certain time span
     /// </summary>
-    public static int DeleteLogFilesOlderThan = 5;
+    public const int DeleteLogFilesOlderThan = 5;
+
+    /// <summary>
+    /// Current event manager
+    /// </summary>
+    public readonly IEventAggregator CurrentEventManager;
 
     /// <summary>
     /// List of supported file encodings
