@@ -5,6 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
+  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="23"
@@ -14,5 +15,17 @@
     <viewModels:MainWindowStatusBarViewModel />
   </UserControl.DataContext>
 
-  <Grid Background="{Binding StatusBarBackgroundColor, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+  <UserControl.Resources>
+    <converters:BackgroundToForegroundConverter x:Key="BackgroundToForegroundConverter" />
+  </UserControl.Resources>
+
+  <Grid Background="{Binding StatusBarBackgroundColor, RelativeSource={RelativeSource AncestorType=UserControl}}">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition />
+      <ColumnDefinition />
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
+
+
+  </Grid>
 </UserControl>
