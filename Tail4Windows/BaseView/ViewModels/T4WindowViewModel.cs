@@ -35,11 +35,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     #region Properties
 
     /// <summary>
-    /// Window title
-    /// </summary>
-    public string WindowTitle => EnvironmentContainer.ApplicationTitle;
-
-    /// <summary>
     /// Default width
     /// </summary>
     public double DefaultWidth
@@ -146,21 +141,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
-    private bool _topmost;
-
-    /// <summary>
-    /// Topmost window
-    /// </summary>
-    public bool Topmost
-    {
-      get => _topmost;
-      set
-      {
-        _topmost = value;
-        OnPropertyChanged(nameof(Topmost));
-      }
-    }
-
     private Style _t4WindowsStyle;
 
     /// <summary>
@@ -255,7 +235,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private async Task ExecuteWndClosingCommandAsync()
     {
-      LOG.Trace($"{WindowTitle} closing, goodbye!");
+      LOG.Trace($"{EnvironmentContainer.ApplicationTitle} closing, goodbye!");
 
       if ( SettingsHelperController.CurrentSettings.DeleteLogFiles )
         await DeleteLogFilesAsync().ConfigureAwait(false);
@@ -265,7 +245,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteWndLoadedCommand()
     {
-      LOG.Trace($"{WindowTitle} startup completed!");
+      LOG.Trace($"{EnvironmentContainer.ApplicationTitle} startup completed!");
     }
 
     private void ExecuteQuickSearchCommand()
@@ -284,7 +264,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void SetDefaultWindowSettings()
     {
-      Topmost = SettingsHelperController.CurrentSettings.AlwaysOnTop;
       MainWindowStatusBarBackgroundColor = SettingsHelperController.CurrentSettings.StatusBarInactiveBackgroundColor;
       MainWindowStatusBarBackgroundColor.Freeze();
 
@@ -310,7 +289,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void MoveIntoView()
     {
-      LOG.Trace($"Move {WindowTitle} into view, if required.");
+      LOG.Trace($"Move {EnvironmentContainer.ApplicationTitle} into view, if required.");
 
       if ( SettingsHelperController.CurrentSettings.WindowPositionY + SettingsHelperController.CurrentSettings.WindowHeight / 2 > SystemParameters.VirtualScreenHeight )
         SettingsHelperController.CurrentSettings.WindowPositionY = SystemParameters.VirtualScreenHeight - SettingsHelperController.CurrentSettings.WindowHeight;

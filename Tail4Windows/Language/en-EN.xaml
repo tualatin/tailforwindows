@@ -48,10 +48,13 @@
   <system:String x:Key="Normal">Normal</system:String>
   <system:String x:Key="AboveNormal">Above normal</system:String>
   <system:String x:Key="Highest">Highest</system:String>
-  <system:String x:Key="MinimizeWindow">Minimize</system:String>
-  <system:String x:Key="MaximizeWindow">Maximize</system:String>
-  <system:String x:Key="RestoreWindow">Restore Down</system:String>
-  <system:String x:Key="CloseWindow">Close</system:String>
+  <system:String x:Key="MinimizeWindowToolTip">Minimize</system:String>
+  <system:String x:Key="MaximizeWindowToolTip">Maximize</system:String>
+  <system:String x:Key="RestoreWindowToolTip">Restore Down</system:String>
+  <system:String x:Key="CloseWindowToolTip">Close</system:String>
+  <system:String x:Key="AlwaysOnTopToolTip">Always on top</system:String>
+  <system:String x:Key="QuickSearchToolTip">Quick search in current TailWindow</system:String>
+  <system:String x:Key="QuickSearchEnterToolTip">Search</system:String>
   <system:String
     x:Key="SmartWatchHint"
     xml:space="preserve"

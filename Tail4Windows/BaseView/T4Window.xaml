@@ -8,10 +8,11 @@
   xmlns:baseViewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   xmlns:environment="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
   mc:Ignorable="d"
   x:Name="MainWindow"
-  Title="{Binding WindowTitle}"
+  Title="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=ApplicationTitle}"
   Width="{Binding Width, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Height="{Binding Height, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   MinWidth="800"
@@ -22,7 +23,7 @@
   ResizeMode="CanResizeWithGrip"
   Style="{Binding T4WindowsStyle, UpdateSourceTrigger=PropertyChanged}"
   Top="{Binding WindowPositionY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-  Topmost="{Binding Topmost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+  Topmost="{Binding Source={x:Static environment:SettingsHelperController.CurrentSettings}, Path=AlwaysOnTop, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   WindowState="{Binding WindowState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   WindowStyle="None"
   >
@@ -51,9 +52,6 @@
       <RowDefinition Height="25" />
     </Grid.RowDefinitions>
 
-    <baseViewControls:MainWindowStatusBar
-      Grid.Row="1"
-      StatusBarBackgroundColor="{Binding MainWindowStatusBarBackgroundColor, UpdateSourceTrigger=PropertyChanged}"
-      />
+    <baseViewControls:MainWindowStatusBar Grid.Row="1" />
   </Grid>
 </Window>

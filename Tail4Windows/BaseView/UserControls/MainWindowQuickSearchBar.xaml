@@ -77,6 +77,7 @@
         <userControls:WatermarkTextBox
           x:Name="QuickSearchTextBox"
           BorderThickness="0"
+          ToolTip="{StaticResource QuickSearchToolTip}"
           Watermark="{StaticResource QuickSearchWatermark}"
           local:MainWindowQuickSearchBar.IsQuickSearchTextBoxFocused="{Binding IsFocused, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           >
@@ -99,6 +100,7 @@
               RenderOptions.BitmapScalingMode="NearestNeighbor"
               RenderOptions.EdgeMode="Aliased"
               Source="/T4W;component/Resources/QuickSearch.png"
+              ToolTip="{StaticResource QuickSearchEnterToolTip}"
               />
           </StackPanel>
         </Button>

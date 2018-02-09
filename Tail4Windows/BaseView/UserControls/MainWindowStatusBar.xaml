@@ -5,17 +5,21 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="23"
   d:DesignWidth="400"
   >
+  <UserControl.DataContext>
+    <viewModels:MainWindowStatusBarViewModel />
+  </UserControl.DataContext>
   <UserControl.Resources>
     <converters:BackgroundToForegroundConverter x:Key="BackgroundToForegroundConverter" />
   </UserControl.Resources>
 
-  <Grid Background="{Binding StatusBarBackgroundColor, RelativeSource={RelativeSource AncestorType=UserControl}}">
+  <Grid Background="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=StatusBarTailBackgroundColor, UpdateSourceTrigger=PropertyChanged}">
     <Grid.ColumnDefinitions>
       <ColumnDefinition />
       <ColumnDefinition />

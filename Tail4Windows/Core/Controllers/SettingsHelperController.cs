@@ -145,10 +145,15 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       CurrentSettings.StatusBarInactiveBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(GetStringFromSetting("StatusBarInactiveBackgroundColor"),
         EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor));
+      CurrentSettings.StatusBarInactiveBackgroundColor.Freeze();
+
       CurrentSettings.StatusBarFileLoadedBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(GetStringFromSetting("StatusBarFileLoadedBackgroundColor"),
         EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor));
+      CurrentSettings.StatusBarFileLoadedBackgroundColor.Freeze();
+
       CurrentSettings.StatusBarTailBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(GetStringFromSetting("StatusBarTailBackgroundColor"),
         EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarTailBackgroundColor));
+      CurrentSettings.StatusBarTailBackgroundColor.Freeze();
     }
 
     private static string GetStringFromSetting(string setting)
