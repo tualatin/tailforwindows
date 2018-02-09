@@ -11,10 +11,6 @@
   d:DesignHeight="23"
   d:DesignWidth="400"
   >
-  <UserControl.DataContext>
-    <viewModels:MainWindowStatusBarViewModel />
-  </UserControl.DataContext>
-
   <UserControl.Resources>
     <converters:BackgroundToForegroundConverter x:Key="BackgroundToForegroundConverter" />
   </UserControl.Resources>
@@ -25,7 +21,5 @@
       <ColumnDefinition />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
-
-
   </Grid>
 </UserControl>

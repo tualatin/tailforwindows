@@ -140,19 +140,21 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// </summary>
     /// <param name="hex">Color as hex string</param>
     /// <returns>A valid brush color</returns>
-    public static System.Windows.Media.Brush ConvertHexStringToBrush(string hex)
+    public static System.Windows.Media.Brush ConvertHexStringToBrush(string hex) => ConvertHexStringToBrush(hex, System.Windows.Media.Brushes.Black);
+
+    /// <summary>
+    /// Converts a hex string to brush color
+    /// </summary>
+    /// <param name="hex">Color as hex string</param>
+    /// <param name="defaultValue">Default brush</param>
+    /// <returns>A valid brush color</returns>
+    public static System.Windows.Media.Brush ConvertHexStringToBrush(string hex, System.Windows.Media.Brush defaultValue)
     {
       if ( string.IsNullOrWhiteSpace(hex) )
-        return System.Windows.Media.Brushes.Black;
+        return defaultValue;
 
       var convertFromString = System.Windows.Media.ColorConverter.ConvertFromString(hex);
-
-      if ( convertFromString == null )
-        return System.Windows.Media.Brushes.Black;
-
-      System.Windows.Media.Color color = (System.Windows.Media.Color) convertFromString;
-
-      return new SolidColorBrush(color);
+      return convertFromString == null ? defaultValue : new SolidColorBrush((System.Windows.Media.Color) convertFromString);
     }
 
     /// <summary>

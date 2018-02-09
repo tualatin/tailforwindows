@@ -6,10 +6,11 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:baseViewControls="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
   xmlns:baseViewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
+  xmlns:environment="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
   mc:Ignorable="d"
-  Name="MainWindow"
+  x:Name="MainWindow"
   Title="{Binding WindowTitle}"
   Width="{Binding Width, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Height="{Binding Height, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -38,11 +39,7 @@
     </intr:EventTrigger>
   </intr:Interaction.Triggers>
 
-  <Window.Resources>
-    <DataTemplate DataType="{x:Type baseViewModels:MainWindowQuickSearchViewModel}">
-      <baseViewControls:MainWindowQuickSearchBar />
-    </DataTemplate>
-  </Window.Resources>
+  <Window.Resources />
 
   <Window.InputBindings>
     <KeyBinding Key="{Binding Key, Source={StaticResource GoToLineKeyBinding}, Mode=OneTime}" Command="{Binding GoToLineCommand}" Modifiers="{Binding Modifiers, Source={StaticResource GoToLineKeyBinding}, Mode=OneTime}" />
@@ -54,6 +51,9 @@
       <RowDefinition Height="25" />
     </Grid.RowDefinitions>
 
-    <baseViewControls:MainWindowStatusBar Grid.Row="1" />
+    <baseViewControls:MainWindowStatusBar
+      Grid.Row="1"
+      StatusBarBackgroundColor="{Binding MainWindowStatusBarBackgroundColor, UpdateSourceTrigger=PropertyChanged}"
+      />
   </Grid>
 </Window>

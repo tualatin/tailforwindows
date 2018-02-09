@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Threading;
+using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
 
@@ -137,6 +138,55 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       {
         _currentWindowState = value;
         OnPropertyChanged(nameof(CurrentWindowState));
+      }
+    }
+
+    #endregion
+
+    #region StatusBar settings
+
+    private Brush _statusBarInactiveBackgroundColor;
+
+    /// <summary>
+    /// StatusBar inactive background color
+    /// </summary>
+    public Brush StatusBarInactiveBackgroundColor
+    {
+      get => _statusBarInactiveBackgroundColor;
+      set
+      {
+        _statusBarInactiveBackgroundColor = value;
+        OnPropertyChanged(nameof(StatusBarInactiveBackgroundColor));
+      }
+    }
+
+    private Brush _statusBarFileLoadedBackgroundColor;
+
+    /// <summary>
+    /// StatusBar file loaded background color
+    /// </summary>
+    public Brush StatusBarFileLoadedBackgroundColor
+    {
+      get => _statusBarFileLoadedBackgroundColor;
+      set
+      {
+        _statusBarFileLoadedBackgroundColor = value;
+        OnPropertyChanged(nameof(StatusBarFileLoadedBackgroundColor));
+      }
+    }
+
+    private Brush _statusBarTailBackgroundColor;
+
+    /// <summary>
+    /// StatusBar tail background color
+    /// </summary>
+    public Brush StatusBarTailBackgroundColor
+    {
+      get => _statusBarTailBackgroundColor;
+      set
+      {
+        _statusBarTailBackgroundColor = value;
+        OnPropertyChanged(nameof(StatusBarTailBackgroundColor));
       }
     }
 

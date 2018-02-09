@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using log4net;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -175,6 +176,21 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
+    private Brush _mainWindowStatusBarBackgroundColor;
+
+    /// <summary>
+    /// MainWindow StatusBar background color
+    /// </summary>
+    public Brush MainWindowStatusBarBackgroundColor
+    {
+      get => _mainWindowStatusBarBackgroundColor;
+      set
+      {
+        _mainWindowStatusBarBackgroundColor = value;
+        OnPropertyChanged(nameof(MainWindowStatusBarBackgroundColor));
+      }
+    }
+
     #endregion
 
     /// <summary>
@@ -269,6 +285,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private void SetDefaultWindowSettings()
     {
       Topmost = SettingsHelperController.CurrentSettings.AlwaysOnTop;
+      MainWindowStatusBarBackgroundColor = SettingsHelperController.CurrentSettings.StatusBarInactiveBackgroundColor;
+      MainWindowStatusBarBackgroundColor.Freeze();
 
       switch ( SettingsHelperController.CurrentSettings.CurrentWindowStyle )
       {

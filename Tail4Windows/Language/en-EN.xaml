@@ -48,6 +48,10 @@
   <system:String x:Key="Normal">Normal</system:String>
   <system:String x:Key="AboveNormal">Above normal</system:String>
   <system:String x:Key="Highest">Highest</system:String>
+  <system:String x:Key="MinimizeWindow">Minimize</system:String>
+  <system:String x:Key="MaximizeWindow">Maximize</system:String>
+  <system:String x:Key="RestoreWindow">Restore Down</system:String>
+  <system:String x:Key="CloseWindow">Close</system:String>
   <system:String
     x:Key="SmartWatchHint"
     xml:space="preserve"

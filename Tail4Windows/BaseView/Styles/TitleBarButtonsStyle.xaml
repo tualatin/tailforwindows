@@ -21,6 +21,7 @@
             BorderBrush="Transparent"
             BorderThickness="1"
             SnapsToDevicePixels="True"
+            ToolTip="{StaticResource MinimizeWindow}"
             >
             <Grid>
               <ContentPresenter
@@ -76,6 +77,7 @@
             BorderBrush="Transparent"
             BorderThickness="1"
             SnapsToDevicePixels="True"
+            ToolTip="{StaticResource MaximizeWindow}"
             >
             <Grid>
               <ContentPresenter
@@ -131,6 +133,7 @@
             BorderBrush="Transparent"
             BorderThickness="1"
             SnapsToDevicePixels="True"
+            ToolTip="{StaticResource RestoreWindow}"
             >
             <Grid>
               <ContentPresenter
@@ -186,6 +189,7 @@
             BorderBrush="Transparent"
             BorderThickness="1"
             SnapsToDevicePixels="True"
+            ToolTip="{StaticResource CloseWindow}"
             >
             <Grid>
               <ContentPresenter

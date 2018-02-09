@@ -46,10 +46,7 @@ namespace Org.Vs.TailForWin.BaseView.UserControls.ViewModels
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public MainWindowQuickSearchViewModel()
-    {
-      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<QuickSearchTextBoxGetFocusMessage>(FocusChangedMessage);
-    }
+    public MainWindowQuickSearchViewModel() => EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<QuickSearchTextBoxGetFocusMessage>(FocusChangedMessage);
 
     private void FocusChangedMessage(QuickSearchTextBoxGetFocusMessage args)
     {

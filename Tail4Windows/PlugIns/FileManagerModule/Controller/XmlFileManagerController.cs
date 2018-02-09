@@ -104,7 +104,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
             Description = x.Element(XmlNames.FilterName)?.Value,
             Filter = x.Element(XmlNames.FilterPattern)?.Value,
             FilterFontType = GetFont(x.Element(XmlNames.Font)),
-            FilterColor = EnvironmentContainer.ConvertHexStringToBrush(x.Element(XmlNames.FilterColor)?.Value)
+            FilterColor = EnvironmentContainer.ConvertHexStringToBrush(x.Element(XmlNames.FilterColor)?.Value, System.Windows.Media.Brushes.Black)
           }).ToList() ?? throw new InvalidOperationException())
         }).ToList();
 

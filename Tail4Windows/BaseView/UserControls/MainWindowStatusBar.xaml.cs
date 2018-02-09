@@ -18,9 +18,13 @@ namespace Org.Vs.TailForWin.BaseView.UserControls
 
     /// <summary>
     /// StatusBar background color property
+    /// Default: 104, 33, 122
+    /// File loaded: 0, 122, 204
+    /// Tailing: 202, 81, 0
+    /// take a look at <see cref="Core.Data.Settings.DefaultEnvironmentSettings"/>
     /// </summary>
     public static readonly DependencyProperty StatusBarBackgroundColorProperty = DependencyProperty.Register("StatusBarBackgroundColor", typeof(Brush), typeof(MainWindowStatusBar),
-      new PropertyMetadata(new SolidColorBrush(Color.FromRgb(0, 122, 204))));
+      new PropertyMetadata(new SolidColorBrush(Color.FromRgb(104, 33, 122))));
 
     /// <summary>
     /// StatusBar background color

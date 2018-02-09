@@ -185,7 +185,6 @@
       <DependentUpon>MainWindowToolbarButtons.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowQuickSearchViewModel.cs" />
-    <Compile Include="BaseView\UserControls\ViewModels\MainWindowStatusBarViewModel.cs" />
     <Compile Include="Business\Controllers\ControllerDummy.cs" />
     <Compile Include="Business\Data\DataDummy.cs" />
     <Compile Include="Business\Data\Messages\QuickSearchTextBoxGetFocusMessage.cs" />
@@ -194,6 +193,7 @@
     <Compile Include="Core\Controllers\SettingsHelperController.cs" />
     <Compile Include="Core\Controllers\UpdateController.cs" />
     <Compile Include="Core\Controllers\WebDataController.cs" />
+    <Compile Include="Core\Data\Settings\DefaultEnvironmentSettings.cs" />
     <Compile Include="Core\Interfaces\IEventAggregator.cs" />
     <Compile Include="Core\Utils\EventAggregator.cs" />
     <Compile Include="Core\Utils\Execution.cs" />

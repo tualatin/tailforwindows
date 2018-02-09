@@ -43,18 +43,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       try
       {
-        CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
-        CurrentSettings.AlwaysOnTop = GetBoolFromSetting("AlwaysOnTop");
-        CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
-        CurrentSettings.WindowWidth = GetDoubleFromSetting("WndWidth");
-        CurrentSettings.WindowHeight = GetDoubleFromSetting("WndHeight");
-        CurrentSettings.WindowPositionX = GetDoubleFromSetting("WndXPos");
-        CurrentSettings.WindowPositionY = GetDoubleFromSetting("WndYPos");
-        CurrentSettings.SaveWindowPosition = GetBoolFromSetting("SaveWindowPosition");
-        CurrentSettings.ExitWithEscape = GetBoolFromSetting("ExitWithEsc");
-        CurrentSettings.CurrentWindowState = GetWindowState(GetStringFromSetting("WindowState"));
-        CurrentSettings.DeleteLogFiles = GetBoolFromSetting("DeleteLogFiles");
-        CurrentSettings.CurrentWindowStyle = GetWindowStyle(GetStringFromSetting("CurrentWindowStyle"));
+        ReadWindowSettings();
+        ReadStatusBarSettings();
       }
       catch ( ConfigurationErrorsException ex )
       {
@@ -134,6 +124,32 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     #region HelperFunctions
+
+    private void ReadWindowSettings()
+    {
+      CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
+      CurrentSettings.AlwaysOnTop = GetBoolFromSetting("AlwaysOnTop");
+      CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
+      CurrentSettings.WindowWidth = GetDoubleFromSetting("WndWidth");
+      CurrentSettings.WindowHeight = GetDoubleFromSetting("WndHeight");
+      CurrentSettings.WindowPositionX = GetDoubleFromSetting("WndXPos");
+      CurrentSettings.WindowPositionY = GetDoubleFromSetting("WndYPos");
+      CurrentSettings.SaveWindowPosition = GetBoolFromSetting("SaveWindowPosition");
+      CurrentSettings.ExitWithEscape = GetBoolFromSetting("ExitWithEsc");
+      CurrentSettings.CurrentWindowState = GetWindowState(GetStringFromSetting("WindowState"));
+      CurrentSettings.DeleteLogFiles = GetBoolFromSetting("DeleteLogFiles");
+      CurrentSettings.CurrentWindowStyle = GetWindowStyle(GetStringFromSetting("CurrentWindowStyle"));
+    }
+
+    private void ReadStatusBarSettings()
+    {
+      CurrentSettings.StatusBarInactiveBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(GetStringFromSetting("StatusBarInactiveBackgroundColor"),
+        EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor));
+      CurrentSettings.StatusBarFileLoadedBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(GetStringFromSetting("StatusBarFileLoadedBackgroundColor"),
+        EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor));
+      CurrentSettings.StatusBarTailBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(GetStringFromSetting("StatusBarTailBackgroundColor"),
+        EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarTailBackgroundColor));
+    }
 
     private static string GetStringFromSetting(string setting)
     {
