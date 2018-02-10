@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using log4net;
+using Org.Vs.TailForWin.Business.Controllers;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -156,21 +156,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
-    private Brush _mainWindowStatusBarBackgroundColor;
-
-    /// <summary>
-    /// MainWindow StatusBar background color
-    /// </summary>
-    public Brush MainWindowStatusBarBackgroundColor
-    {
-      get => _mainWindowStatusBarBackgroundColor;
-      set
-      {
-        _mainWindowStatusBarBackgroundColor = value;
-        OnPropertyChanged(nameof(MainWindowStatusBarBackgroundColor));
-      }
-    }
-
     #endregion
 
     /// <summary>
@@ -229,6 +214,13 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public IAsyncCommand WndClosingCommand => _wndClosingCommand ?? (_wndClosingCommand = AsyncCommand.Create(p => ExecuteWndClosingCommandAsync()));
 
+    private ICommand _toggleAlwaysOnTopCommand;
+
+    /// <summary>
+    /// Toggle always on top command
+    /// </summary>
+    public ICommand ToggleAlwaysOnTopCommand => _toggleAlwaysOnTopCommand ?? (_toggleAlwaysOnTopCommand = new RelayCommand(p => ExecuteToggleAlwaysOnTopCommand()));
+
     #endregion
 
     #region Command functions
@@ -248,15 +240,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       LOG.Trace($"{EnvironmentContainer.ApplicationTitle} startup completed!");
     }
 
-    private void ExecuteQuickSearchCommand()
-    {
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new QuickSearchTextBoxGetFocusMessage(this, true));
-    }
+    private void ExecuteQuickSearchCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new QuickSearchTextBoxGetFocusMessage(this, true));
 
     private void ExecuteGoToLineCommand()
     {
       MessageBox.Show("Test", "Hint", MessageBoxButton.OK, MessageBoxImage.Information);
     }
+
+    private void ExecuteToggleAlwaysOnTopCommand() => SettingsHelperController.CurrentSettings.AlwaysOnTop = !SettingsHelperController.CurrentSettings.AlwaysOnTop;
 
     #endregion
 
@@ -264,8 +255,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void SetDefaultWindowSettings()
     {
-      MainWindowStatusBarBackgroundColor = SettingsHelperController.CurrentSettings.StatusBarInactiveBackgroundColor;
-      MainWindowStatusBarBackgroundColor.Freeze();
+      BusinessMainWndToMainWndStatusBarController.Instance.CurrentData.CurrentStatusBarBackgroundColor = SettingsHelperController.CurrentSettings.StatusBarInactiveBackgroundColor;
 
       switch ( SettingsHelperController.CurrentSettings.CurrentWindowStyle )
       {

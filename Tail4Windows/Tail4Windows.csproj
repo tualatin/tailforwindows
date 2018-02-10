@@ -186,8 +186,8 @@
     </Compile>
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowQuickSearchViewModel.cs" />
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowStatusBarViewModel.cs" />
-    <Compile Include="Business\Controllers\ControllerDummy.cs" />
-    <Compile Include="Business\Data\DataDummy.cs" />
+    <Compile Include="Business\Controllers\BusinessMainWndToMainWndStatusBarController.cs" />
+    <Compile Include="Business\Data\BusinessMainWndToMainWndStatusBarData.cs" />
     <Compile Include="Business\Data\Messages\QuickSearchTextBoxGetFocusMessage.cs" />
     <Compile Include="Business\Events\Args\ArgDummy.cs" />
     <Compile Include="Business\Interfaces\IDummy.cs" />

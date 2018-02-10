@@ -52,8 +52,8 @@
   <system:String x:Key="MaximizeWindowToolTip">Maximize</system:String>
   <system:String x:Key="RestoreWindowToolTip">Restore Down</system:String>
   <system:String x:Key="CloseWindowToolTip">Close</system:String>
-  <system:String x:Key="AlwaysOnTopToolTip">Always on top</system:String>
-  <system:String x:Key="QuickSearchToolTip">Quick search in current TailWindow</system:String>
+  <system:String x:Key="AlwaysOnTopToolTip">Always on top (ALT+T)</system:String>
+  <system:String x:Key="QuickSearchToolTip">Quick search in current TailWindow (CTRL+Q)</system:String>
   <system:String x:Key="QuickSearchEnterToolTip">Search</system:String>
   <system:String
     x:Key="SmartWatchHint"

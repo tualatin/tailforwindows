@@ -19,16 +19,16 @@ using Org.Vs.TailForWin.Core.Interfaces;
 namespace Org.Vs.TailForWin.Core.Utils
 {
   /// <summary>
-  /// Environment container for T4W
+  /// Environment container for T4W as singelton
   /// </summary>
   public class EnvironmentContainer
   {
-    private static EnvironmentContainer _instance;
+    private static EnvironmentContainer instance;
 
     /// <summary>
     /// Current instance
     /// </summary>
-    public static EnvironmentContainer Instance => _instance ?? (_instance = new EnvironmentContainer());
+    public static EnvironmentContainer Instance => instance ?? (instance = new EnvironmentContainer());
 
     private readonly ISettingsHelper _settings;
 
@@ -38,7 +38,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       _settings = new SettingsHelperController();
       UpTime = DateTime.Now;
       CurrentEventManager = new EventAggregator();
-      
+
       IntializeObservableCollections();
     }
 
