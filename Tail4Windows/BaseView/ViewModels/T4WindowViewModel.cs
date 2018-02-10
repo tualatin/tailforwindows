@@ -232,7 +232,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// Window closing command
     /// </summary>
-    public IAsyncCommand WndClosingCommand => _wndClosingCommand ?? (_wndClosingCommand = AsyncCommand.Create(p => ExecuteWndClosingCommandAsync()));
+    public IAsyncCommand WndClosingCommand => _wndClosingCommand ?? (_wndClosingCommand = AsyncCommand.Create(ExecuteWndClosingCommandAsync));
 
     private ICommand _toggleAlwaysOnTopCommand;
 
@@ -253,8 +253,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// PreviewTrayContextMenuOpen command
     /// </summary>
-    public ICommand PreviewTrayContextMenuOpenCommand => _previewTrayContextMenuOpenCommand ?? (_previewTrayContextMenuOpenCommand =
-                                                           new RelayCommand(p => ExecutePreviewTrayContextMenuOpenCommand()));
+    public ICommand PreviewTrayContextMenuOpenCommand => _previewTrayContextMenuOpenCommand ?? (_previewTrayContextMenuOpenCommand = new RelayCommand(p => ExecutePreviewTrayContextMenuOpenCommand()));
 
     #endregion
 

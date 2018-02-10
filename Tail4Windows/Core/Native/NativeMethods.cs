@@ -19,6 +19,21 @@ namespace Org.Vs.TailForWin.Core.Native
     internal const int GWL_EXSTYLE = -20;
 
     /// <summary>
+    /// Sets a new window style.
+    /// </summary>
+    internal const int GWL_STYLE = -16;
+
+    /// <summary>
+    /// The window has a maximize button. Cannot be combined with the <c>WS_EX_CONTEXTHELP</c> style. The <c>WS_SYSMENU</c> style must also be specified. 
+    /// </summary>
+    internal const int WS_MAXIMIZEBOX = 0x10000;
+
+    /// <summary>
+    /// The window has a minimize button. Cannot be combined with the <c>WS_EX_CONTEXTHELP</c> style. The <c>WS_SYSMENU</c> style must also be specified. 
+    /// </summary>
+    internal const int WS_MINIMIZEBOX = 0x20000;
+
+    /// <summary>
     /// The window has a double border; the window can, optionally, be created with a title bar by specifying the WS_CAPTION style in the dwStyle parameter.
     /// </summary>
     internal const int WS_EX_DLGMODALFRAME = 0x0001;

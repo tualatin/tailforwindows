@@ -8,7 +8,7 @@ Ctrl+S		                          Stop tail
 Ctrl+C		                          Copy line in TextEditor
 Ctrl+T		                          New tab window
 Ctrl+W		                          Close tab window
-ALT+T			                              Always on top on/off
+ALT+T			                          Always on top on/off
 F			                              Filter on/off
 Ctrl+Alt+M	                        Minimize mainwindow
 F3                                  Searching forward()

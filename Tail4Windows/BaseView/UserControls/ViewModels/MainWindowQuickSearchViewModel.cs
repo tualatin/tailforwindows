@@ -39,7 +39,7 @@ namespace Org.Vs.TailForWin.BaseView.UserControls.ViewModels
     /// <summary>
     /// Quick search command
     /// </summary>
-    public IAsyncCommand QuickSearchCommand => _quickSearchCommand ?? (_quickSearchCommand = AsyncCommand.Create(p => ExecuteQuickSearchCommandAsync()));
+    public IAsyncCommand QuickSearchCommand => _quickSearchCommand ?? (_quickSearchCommand = AsyncCommand.Create(ExecuteQuickSearchCommandAsync));
 
     #endregion
 

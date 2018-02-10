@@ -22,7 +22,6 @@ namespace Org.Vs.TailForWin.UI.Commands
     public RelayCommand(Action<object> execute)
       : this(null, execute)
     {
-
     }
 
     /// <summary>

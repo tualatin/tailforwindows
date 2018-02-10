@@ -53,7 +53,11 @@ namespace Org.Vs.TailForWin.BaseView
 
         if ( wParam.ToInt32() == 1000 )
         {
-          MessageBox.Show("Settings...");
+          var options = new Options
+          {
+            Owner = this
+          };
+          options.ShowDialog();
           handled = true;
         }
         break;

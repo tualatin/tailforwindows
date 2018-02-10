@@ -17,7 +17,7 @@ namespace Org.Vs.TailForWin.UI.Commands
   // ReSharper disable once InheritdocConsiderUsage
   public class AsyncCommand<TResult> : AsyncCommandBase, INotifyPropertyChanged
   {
-    private readonly Func<CancellationToken, Task<TResult>> _command;
+    private readonly Func<object, CancellationToken, Task<TResult>> _command;
     private readonly CancelAsyncCommand _cancelCommand;
     private NotifyTaskCompletion<TResult> _execution;
 
@@ -25,7 +25,7 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// Standard constructor
     /// </summary>
     /// <param name="command">Command</param>
-    public AsyncCommand(Func<CancellationToken, Task<TResult>> command)
+    public AsyncCommand(Func<object, CancellationToken, Task<TResult>> command)
     {
       _command = command;
       _cancelCommand = new CancelAsyncCommand();
@@ -46,7 +46,7 @@ namespace Org.Vs.TailForWin.UI.Commands
     public override async Task ExecuteAsync(object parameter)
     {
       _cancelCommand.NotifyCommandStarting();
-      Execution = NotifyTaskCompletion.Create(_command(_cancelCommand.Token));
+      Execution = NotifyTaskCompletion.Create(_command(parameter, _cancelCommand.Token));
 
       RaiseCanExecuteChanged();
 
@@ -155,7 +155,7 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// <returns>AsyncCommand of type object</returns>
     public static AsyncCommand<object> Create(Func<Task> command)
     {
-      return new AsyncCommand<object>(async _ =>
+      return new AsyncCommand<object>(async (param, _) =>
       {
         await command();
         return null;
@@ -165,21 +165,13 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// <summary>
     /// Create
     /// </summary>
-    /// <typeparam name="TResult">Type of result</typeparam>
     /// <param name="command">Command</param>
     /// <returns>AsyncCommand of type object</returns>
-    public static AsyncCommand<TResult> Create<TResult>(Func<Task<TResult>> command) => new AsyncCommand<TResult>(_ => command());
-
-    /// <summary>
-    /// Create
-    /// </summary>
-    /// <param name="command">Command of cancellation token</param>
-    /// <returns>AsyncCommand of type object</returns>
-    public static AsyncCommand<object> Create(Func<CancellationToken, Task> command)
+    public static AsyncCommand<object> Create(Func<object, Task> command)
     {
-      return new AsyncCommand<object>(async token =>
+      return new AsyncCommand<object>(async (param, _) =>
       {
-        await command(token);
+        await command(param);
         return null;
       });
     }
@@ -190,6 +182,58 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// <typeparam name="TResult">Type of result</typeparam>
     /// <param name="command">Command</param>
     /// <returns>AsyncCommand of type object</returns>
-    public static AsyncCommand<TResult> Create<TResult>(Func<CancellationToken, Task<TResult>> command) => new AsyncCommand<TResult>(command);
+    public static AsyncCommand<TResult> Create<TResult>(Func<Task<TResult>> command) => new AsyncCommand<TResult>((param, _) => command());
+
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <typeparam name="TResult">Type of result</typeparam>
+    /// <param name="command">Command</param>
+    /// <returns>AsyncCommand of type object</returns>
+    public static AsyncCommand<TResult> Create<TResult>(Func<object, Task<TResult>> command) => new AsyncCommand<TResult>((param, _) => command(param));
+
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <param name="command">Command of cancellation token</param>
+    /// <returns>AsyncCommand of type object</returns>
+    public static AsyncCommand<object> Create(Func<CancellationToken, Task> command)
+    {
+      return new AsyncCommand<object>(async (param, token) =>
+      {
+        await command(token);
+        return null;
+      });
+    }
+
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <param name="command">Command</param>
+    /// <returns>AsyncCmmand of type object</returns>
+    public static AsyncCommand<object> Create(Func<object, CancellationToken, Task> command)
+    {
+      return new AsyncCommand<object>(async (param, token) =>
+      {
+        await command(param, token);
+        return null;
+      });
+    }
+
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <typeparam name="TResult">Type of result</typeparam>
+    /// <param name="command">Command</param>
+    /// <returns>AsyncCommand of type object</returns>
+    public static AsyncCommand<TResult> Create<TResult>(Func<CancellationToken, Task<TResult>> command) => new AsyncCommand<TResult>(async (param, token) => await command(token));
+
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <typeparam name="TResult">Type of result</typeparam>
+    /// <param name="command">Command</param>
+    /// <returns>AsyncCommand of type object</returns>
+    public static AsyncCommand<TResult> Create<TResult>(Func<object, CancellationToken, Task<TResult>> command) => new AsyncCommand<TResult>(command);
   }
 }

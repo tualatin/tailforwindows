@@ -175,6 +175,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseView\Options.xaml.cs">
+      <DependentUpon>Options.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BaseView\UserControls\MainWindowQuickSearchBar.xaml.cs">
       <DependentUpon>MainWindowQuickSearchBar.xaml</DependentUpon>
     </Compile>
@@ -186,11 +189,12 @@
     </Compile>
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowQuickSearchViewModel.cs" />
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowStatusBarViewModel.cs" />
+    <Compile Include="BaseView\ViewModels\OptionsViewModel.cs" />
     <Compile Include="Business\Controllers\BusinessMainWndToMainWndStatusBarController.cs" />
     <Compile Include="Business\Data\BusinessMainWndToMainWndStatusBarData.cs" />
     <Compile Include="Business\Data\Messages\QuickSearchTextBoxGetFocusMessage.cs" />
     <Compile Include="Business\Events\Args\ArgDummy.cs" />
-    <Compile Include="Business\Interfaces\IDummy.cs" />
+    <Compile Include="Business\Interfaces\IOptionPage.cs" />
     <Compile Include="Core\Controllers\SettingsHelperController.cs" />
     <Compile Include="Core\Controllers\UpdateController.cs" />
     <Compile Include="Core\Controllers\WebDataController.cs" />
@@ -203,6 +207,14 @@
     <Compile Include="PlugIns\FileManagerModule\Controller\XmlFileManagerController.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\FindModule\Data\XmlNames.cs" />
+    <Compile Include="PlugIns\OptionModules\AboutOption\AboutOption.xaml.cs">
+      <DependentUpon>AboutOption.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\EnvironmentOption.xaml.cs">
+      <DependentUpon>EnvironmentOption.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\EnvironmentOptionViewModel.cs" />
     <Compile Include="PlugIns\PatternModule\Controller\XmlPatternController.cs" />
     <Compile Include="PlugIns\FindModule\Controller\XmlSearchHistoryController.cs" />
     <Compile Include="Core\Data\Base\NotifyTaskCompletion.cs" />
@@ -259,6 +271,7 @@
     <Compile Include="UI\Converters\ColorToSolidColorBrushConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\DummyMultiConverter.cs" />
     <Compile Include="UI\Events\Args\ArgDummy.cs" />
+    <Compile Include="UI\Extensions\WindowExtension.cs" />
     <Compile Include="UI\Interfaces\IAsyncCommand.cs" />
     <Compile Include="UI\NotifyIcon\Interop\SystemInfo.cs" />
     <Compile Include="BaseView\T4Window.xaml.cs">
@@ -283,6 +296,10 @@
     <Compile Include="UI\UserControls\TextBoxMaskBehavior.cs" />
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
+    <Page Include="BaseView\Options.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BaseView\Styles\LightWindowStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -323,6 +340,14 @@
     <Compile Include="Core\Logging\LogUtil.cs" />
     <Compile Include="Core\Logging\SingleLetterLevelConverter.cs" />
     <Compile Include="Core\Logging\ZippingRollingFileAppender.cs" />
+    <Page Include="PlugIns\OptionModules\AboutOption\AboutOption.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\OptionModules\EnvironmentOption\EnvironmentOption.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UI\Styles\AndroidCheckBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -583,6 +608,11 @@
     <Folder Include="Core\Events\EventManagers\" />
     <Folder Include="PlugIns\FileManagerModule\ViewModels\" />
     <Folder Include="PlugIns\FindModule\ViewModels\" />
+    <Folder Include="PlugIns\OptionModules\AlertOption\ViewModels\" />
+    <Folder Include="PlugIns\OptionModules\ColorsOption\ViewModels\" />
+    <Folder Include="PlugIns\OptionModules\ExtraOption\ViewModels\" />
+    <Folder Include="PlugIns\OptionModules\ImportExportOption\ViewModels\" />
+    <Folder Include="PlugIns\OptionModules\SmartWatchOption\ViewModels\" />
     <Folder Include="PlugIns\PatternModule\ViewModels\" />
     <Folder Include="PlugIns\SmartWatchModule\Controller\" />
     <Folder Include="PlugIns\SmartWatchModule\Data\" />
