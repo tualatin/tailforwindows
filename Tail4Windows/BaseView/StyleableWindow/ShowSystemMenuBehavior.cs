@@ -1,6 +1,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.BaseView.StyleableWindow
@@ -83,15 +84,15 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
 
     private static void LeftButtonShowAtChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if( sender is UIElement element )
+      if ( sender is UIElement element )
         element.MouseLeftButtonDown += LeftButtonDownShow;
     }
 
-    private static bool _leftButtonToggle = true;
+    private static bool leftButtonToggle = true;
 
     private static void LeftButtonDownShow(object sender, MouseButtonEventArgs e)
     {
-      if( _leftButtonToggle )
+      if ( leftButtonToggle )
       {
         var element = ((UIElement) sender).GetValue(LeftButtonShowAt);
         var showMenuAt = ((Visual) element).PointToScreen(new Point(0, 0));
@@ -99,12 +100,19 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
 
         SystemMenuManager.ShowMenu(targetWindow, showMenuAt);
 
-        _leftButtonToggle = !_leftButtonToggle;
+        leftButtonToggle = !leftButtonToggle;
       }
       else
       {
-        _leftButtonToggle = !_leftButtonToggle;
+        leftButtonToggle = !leftButtonToggle;
       }
+
+      // Throttled execution to set leftButtonToggle to true again...
+      new ThrottledExecution().InMs(250).Do(() =>
+      {
+        if ( !leftButtonToggle )
+          leftButtonToggle = true;
+      });
     }
 
     #endregion
@@ -113,7 +121,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
 
     private static void RightButtonShowChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-      if( sender is UIElement element )
+      if ( sender is UIElement element )
         element.MouseRightButtonDown += RightButtonDownShow;
     }
 
@@ -121,7 +129,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     {
       var element = (UIElement) sender;
 
-      if( !(element.GetValue(TargetWindow) is Window targetWindow) )
+      if ( !(element.GetValue(TargetWindow) is Window targetWindow) )
         return;
 
       var showMenuAt = targetWindow.PointToScreen(Mouse.GetPosition(targetWindow));

@@ -1,9 +1,12 @@
 using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Business.Controllers;
@@ -156,6 +159,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
+    /// <summary>
+    /// Tray icon items source
+    /// </summary>
+    public ObservableCollection<MenuItem> TrayIconItemsSource
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     /// <summary>
@@ -165,6 +177,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
       _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
+
+      TrayIconItemsSource = new ObservableCollection<MenuItem>();
+      TrayIconItemsSource.CollectionChanged += TrayIconItemsSourceCollectionChanged;
+    }
+
+    private void TrayIconItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      OnPropertyChanged(nameof(TrayIconItemsSource));
     }
 
     private void TaskPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -221,9 +241,34 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand ToggleAlwaysOnTopCommand => _toggleAlwaysOnTopCommand ?? (_toggleAlwaysOnTopCommand = new RelayCommand(p => ExecuteToggleAlwaysOnTopCommand()));
 
+    private ICommand _trayContextMenuOpenCommand;
+
+    /// <summary>
+    /// TrayContextMenuOpen command
+    /// </summary>
+    public ICommand TrayContextMenuOpenCommand => _trayContextMenuOpenCommand ?? (_trayContextMenuOpenCommand = new RelayCommand(p => ExecuteTrayContextMenuOpenCommand()));
+
+    private ICommand _previewTrayContextMenuOpenCommand;
+
+    /// <summary>
+    /// PreviewTrayContextMenuOpen command
+    /// </summary>
+    public ICommand PreviewTrayContextMenuOpenCommand => _previewTrayContextMenuOpenCommand ?? (_previewTrayContextMenuOpenCommand =
+                                                           new RelayCommand(p => ExecutePreviewTrayContextMenuOpenCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteTrayContextMenuOpenCommand()
+    {
+      LOG.Trace("Tray context menu open command");
+    }
+
+    private void ExecutePreviewTrayContextMenuOpenCommand()
+    {
+      LOG.Trace("Preview tray context menu open command");
+    }
 
     private async Task ExecuteWndClosingCommandAsync()
     {
@@ -256,6 +301,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private void SetDefaultWindowSettings()
     {
       BusinessMainWndToMainWndStatusBarController.Instance.CurrentData.CurrentStatusBarBackgroundColor = SettingsHelperController.CurrentSettings.StatusBarInactiveBackgroundColor;
+      BusinessMainWndToMainWndStatusBarController.Instance.CurrentData.CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
 
       switch ( SettingsHelperController.CurrentSettings.CurrentWindowStyle )
       {

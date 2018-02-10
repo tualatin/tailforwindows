@@ -5,9 +5,11 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:baseViewControls="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
-  xmlns:baseViewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Business.Controllers"
   xmlns:environment="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+  xmlns:taskbarNotification="clr-namespace:Hardcodet.Wpf.TaskbarNotification"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
   mc:Ignorable="d"
@@ -54,5 +56,40 @@
     </Grid.RowDefinitions>
 
     <baseViewControls:MainWindowStatusBar Grid.Row="1" />
+
+    <!--  TaskbarIcon part  -->
+    <taskbarNotification:TaskbarIcon
+      x:Name="TbIcon"
+      IconSource="/T4W;component/Resources/Main.ico"
+      >
+      <intr:Interaction.Triggers>
+        <intr:EventTrigger EventName="TrayContextMenuOpen">
+          <intr:InvokeCommandAction Command="{Binding TrayContextMenuOpenCommand}" />
+        </intr:EventTrigger>
+        <intr:EventTrigger EventName="PreviewTrayContextMenuOpen">
+          <intr:InvokeCommandAction Command="{Binding PreviewTrayContextMenuOpenCommand}" />
+        </intr:EventTrigger>
+      </intr:Interaction.Triggers>
+      <taskbarNotification:TaskbarIcon.ContextMenu>
+        <ContextMenu
+          Name="ContextMnu"
+          ItemsSource="{Binding TrayIconItemsSource, UpdateSourceTrigger=PropertyChanged}"
+          />
+      </taskbarNotification:TaskbarIcon.ContextMenu>
+      <taskbarNotification:TaskbarIcon.TrayToolTip>
+        <userControls:FancyToolTip
+          x:Name="FancyToolTipTfW"
+          InfoText="{Binding Source={x:Static controllers:BusinessMainWndToMainWndStatusBarController.Instance}, Path=CurrentData.CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
+          Opacity="0.85"
+          />
+      </taskbarNotification:TaskbarIcon.TrayToolTip>
+    </taskbarNotification:TaskbarIcon>
   </Grid>
 </Window>
+
+
+
+
+
+
+

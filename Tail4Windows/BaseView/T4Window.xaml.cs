@@ -30,7 +30,12 @@ namespace Org.Vs.TailForWin.BaseView
 
     private void T4WindowSourceInitialized(object sender, EventArgs e)
     {
-      HwndSource source = HwndSource.FromHwnd(new WindowInteropHelper(this).Handle);
+      IntPtr handle = new WindowInteropHelper(this).Handle;
+      IntPtr sysMenuHandle = NativeMethods.GetSystemMenu(handle, false);
+      NativeMethods.InsertMenu(sysMenuHandle, 5, NativeMethods.MF_BYPOSITION | NativeMethods.MF_SEPARATOR, 0, string.Empty);
+      NativeMethods.InsertMenu(sysMenuHandle, 6, NativeMethods.MF_BYPOSITION, 1000, Application.Current.TryFindResource("OptionsSystemMenu").ToString());
+
+      HwndSource source = HwndSource.FromHwnd(handle);
       source?.AddHook(WndProc);
     }
 
@@ -44,6 +49,15 @@ namespace Org.Vs.TailForWin.BaseView
 
       switch ( msg )
       {
+      case NativeMethods.WM_SYSCOMMAND:
+
+        if ( wParam.ToInt32() == 1000 )
+        {
+          MessageBox.Show("Settings...");
+          handled = true;
+        }
+        break;
+
       case NativeMethods.WM_ENTERSIZEMOVE:
 
         break;

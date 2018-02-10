@@ -1,0 +1,88 @@
+<UserControl
+  x:Class="Org.Vs.TailForWin.UI.UserControls.FancyPopUp"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:tb="clr-namespace:Hardcodet.Wpf.TaskbarNotification"
+  mc:Ignorable="d"
+  x:Name="Me"
+  Width="300"
+  Height="180"
+  >
+  <UserControl.Resources>
+    <Storyboard x:Key="FadeInAndOut">
+      <DoubleAnimationUsingKeyFrames
+        BeginTime="00:00:00"
+        Storyboard.TargetName="Grid"
+        Storyboard.TargetProperty="(UIElement.Opacity)"
+        >
+        <SplineDoubleKeyFrame
+          Value="0"
+          KeyTime="00:00:00"
+          />
+        <SplineDoubleKeyFrame
+          Value="0.895"
+          KeyTime="00:00:01"
+          />
+        <SplineDoubleKeyFrame
+          Value="0.895"
+          KeyTime="00:00:4"
+          />
+        <SplineDoubleKeyFrame
+          Value="0"
+          KeyTime="00:00:6.6000000"
+          />
+      </DoubleAnimationUsingKeyFrames>
+    </Storyboard>
+  </UserControl.Resources>
+  <UserControl.Triggers>
+    <EventTrigger RoutedEvent="tb:TaskbarIcon.BalloonShowing">
+      <BeginStoryboard
+        x:Name="FadeInAndOutBeginStoryboard"
+        Storyboard="{StaticResource FadeInAndOut}"
+        />
+    </EventTrigger>
+  </UserControl.Triggers>
+  <Grid x:Name="Grid">
+    <Border
+      x:Name="Border"
+      Margin="0 0 5 5"
+      CornerRadius="10,10,10,10"
+      >
+      <Border.Background>
+        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+          <GradientStop Offset="1" Color="#FF8C80" />
+          <GradientStop Offset="0" Color="#FD3627" />
+        </LinearGradientBrush>
+      </Border.Background>
+      <Border.Effect>
+        <DropShadowEffect />
+      </Border.Effect>
+    </Border>
+    <TextBlock
+      Margin="10 10 15 0"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Top"
+      FontSize="14"
+      FontWeight="Bold"
+      TextWrapping="Wrap"
+      >
+      <Run Text="Alert occours:" />
+    </TextBlock>
+    <TextBlock
+      Margin="10 38 10 0"
+      HorizontalAlignment="Left"
+      VerticalAlignment="Top"
+      TextWrapping="Wrap"
+      >
+      <Run Text="{Binding ElementName=Me, Path=PopUpAlert}" />
+      <LineBreak />
+      <Run
+        Text="{Binding ElementName=Me, Path=PopUpAlertDetail}"
+        FontSize="10"
+        FontStyle="Italic"
+        />
+    </TextBlock>
+  </Grid>
+</UserControl>

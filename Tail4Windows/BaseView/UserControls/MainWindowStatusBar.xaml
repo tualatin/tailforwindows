@@ -4,9 +4,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
   xmlns:businessMainWnd="clr-namespace:Org.Vs.TailForWin.Business.Controllers"
-  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   mc:Ignorable="d"
@@ -20,8 +18,7 @@
     <converters:BackgroundToForegroundConverter x:Key="BackgroundToForegroundConverter" />
   </UserControl.Resources>
 
-  <Grid Background="{Binding Source={x:Static businessMainWnd:BusinessMainWndToMainWndStatusBarController.Instance}, Path=CurrentData.CurrentStatusBarBackgroundColor,
-    UpdateSourceTrigger=PropertyChanged}">
+  <Grid Background="{Binding Source={x:Static businessMainWnd:BusinessMainWndToMainWndStatusBarController.Instance}, Path=CurrentData.CurrentStatusBarBackgroundColor, UpdateSourceTrigger=PropertyChanged}">
     <Grid.ColumnDefinitions>
       <ColumnDefinition />
       <ColumnDefinition />

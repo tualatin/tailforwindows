@@ -194,6 +194,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       {
         Execute.BeginInvokeOnUiThread(() => throw ex);
       }
+
       Dispose();
     }
 

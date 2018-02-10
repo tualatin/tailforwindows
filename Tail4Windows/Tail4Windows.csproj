@@ -274,6 +274,12 @@
     <Compile Include="BaseView\StyleableWindow\WindowMinimizeCommand.cs" />
     <Compile Include="BaseView\StyleableWindow\WindowResizeBehavior.cs" />
     <Compile Include="BaseView\UserControls\TailForWinTabItem.cs" />
+    <Compile Include="UI\UserControls\FancyPopUp.xaml.cs">
+      <DependentUpon>FancyPopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\FancyToolTip.xaml.cs">
+      <DependentUpon>FancyToolTip.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControls\TextBoxMaskBehavior.cs" />
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
@@ -382,6 +388,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Styles\TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\UserControls\FancyPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\UserControls\FancyToolTip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -106,7 +106,23 @@ namespace Org.Vs.TailForWin.Core.Native
     /// A window receives this message when the user chooses a command from the Window menu (formerly known as the system or control menu) or when the user chooses the maximize button,
     /// minimize button, restore button, or close button.
     /// </summary>
-    internal const uint WM_SYSCOMMAND = 0x112;
+    internal const int WM_SYSCOMMAND = 0x112;
+
+    /// <summary>
+    /// Draws a horizontal dividing line. This flag is used only in a drop-down menu, submenu, or shortcut menu. The line cannot be grayed, disabled, or highlighted.
+    /// The lpNewItem and uIDNewItem parameters are ignored. 
+    /// </summary>
+    internal const int MF_SEPARATOR = 0x800;
+
+    /// <summary>
+    /// Indicates that the uPosition parameter gives the zero-based relative position of the new menu item. If uPosition is -1, the new menu item is appended to the end of the menu.
+    /// </summary>
+    internal const int MF_BYPOSITION = 0x400;
+
+    /// <summary>
+    /// Specifies that the menu item is a text string; the lpNewItem parameter is a pointer to the string.
+    /// </summary>
+    internal const int MF_STRING = 0x0;
 
     /// <summary>
     /// Sent to a window whose size, position, or place in the Z order is about to change as a result of a call to the SetWindowPos function or another window-management function.
@@ -133,7 +149,7 @@ namespace Org.Vs.TailForWin.Core.Native
     /// If the window was not brought to the foreground, the return value is <c>zero</c>.
     /// </returns>
     [DllImport("User32.dll")]
-    internal static extern Int32 SetForegroundWindow(IntPtr hWnd);
+    internal static extern int SetForegroundWindow(IntPtr hWnd);
 
     /// <summary>
     /// Brings the specified window to the top of the Z order. If the window is a top-level window, it is activated. 
@@ -275,6 +291,21 @@ namespace Org.Vs.TailForWin.Core.Native
     /// <returns>If the bRevert parameter is <c>FALSE</c>, the return value is a handle to a copy of the window menu. If the bRevert parameter is <c>TRUE</c>, the return value is <c>NULL</c>.</returns>
     [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
     internal static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+    /// <summary>
+    /// Inserts a new menu item into a menu, moving other items down the menu.
+    /// </summary>
+    /// <param name="hMenu">A handle to the menu to be changed.</param>
+    /// <param name="wPosition">The menu item before which the new menu item is to be inserted, as determined by the uFlags parameter.</param>
+    /// <param name="wFlags">Controls the interpretation of the uPosition parameter and the content, appearance, and behavior of the new menu item. 
+    /// This parameter must include one of the following required values. </param>
+    /// <param name="wIdNewItem">The identifier of the new menu item or, if the uFlags parameter has the <c>MF_POPUP</c> flag set, a handle to the drop-down menu or submenu. </param>
+    /// <param name="lpNewItem">The content of the new menu item. The interpretation of lpNewItem depends on whether the uFlags parameter includes the
+    /// <c>MF_BITMAP</c>, <c>MF_OWNERDRAW</c>, or <c>MF_STRING</c> flag, as follows.</param>
+    /// <returns>If the function succeeds, the return value is nonzero.
+    /// If the function fails, the return value is zero.To get extended error information, call GetLastError.</returns>
+    [DllImport("user32.dll")]
+    internal static extern bool InsertMenu(IntPtr hMenu, int wPosition, int wFlags, int wIdNewItem, string lpNewItem);
 
     /// <summary>
     /// Displays a shortcut menu at the specified location and tracks the selection of items on the shortcut menu. The shortcut menu can appear anywhere on the screen.

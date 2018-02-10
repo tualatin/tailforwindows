@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.BaseView.StyleableWindow
@@ -325,8 +326,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
 
     private static double SafeWidthChange(this Window window, double change, bool positive = true)
     {
-      if ( window == null )
-        throw new System.ArgumentNullException(nameof(window));
+      Arg.NotNull(window, nameof(window));
 
       double result = positive ? window.Width + change : window.Width - change;
 
@@ -341,8 +341,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
 
     private static double SafeHeightChange(this Window window, double change, bool positive = true)
     {
-      if ( window == null )
-        throw new System.ArgumentNullException(nameof(window));
+      Arg.NotNull(window, nameof(window));
 
       double result = positive ? window.Height + change : window.Height - change;
 

@@ -23,5 +23,20 @@ namespace Org.Vs.TailForWin.Business.Data
         OnPropertyChanged(nameof(CurrentStatusBarBackgroundColor));
       }
     }
+
+    private string _currentBusyState;
+
+    /// <summary>
+    /// Current busy state
+    /// </summary>
+    public string CurrentBusyState
+    {
+      get => _currentBusyState;
+      set
+      {
+        _currentBusyState = value;
+        OnPropertyChanged(nameof(CurrentBusyState));
+      }
+    }
   }
 }
