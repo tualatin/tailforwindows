@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -13,11 +13,8 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Save data to memenento
     /// </summary>
-    /// <returns>Copy of FilterData</returns>
-    public MementoFilterData SaveToMemento()
-    {
-      return new MementoFilterData(this);
-    }
+    /// <returns>Copy of <see cref="FilterData"/></returns>
+    public MementoFilterData SaveToMemento() => new MementoFilterData(this);
 
     /// <summary>
     /// Roll object back to the state of the provided memento
@@ -25,8 +22,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <param name="memento">The memento to roll back to</param>
     public void RestoreFromMemento(MementoFilterData memento)
     {
-      MementoFilterData mementoFilterData = memento;
-      Arg.NotNull(mementoFilterData, nameof(mementoFilterData));
+      Arg.NotNull(memento, nameof(memento));
 
       Id = memento.Id;
       Filter = memento.Filter;

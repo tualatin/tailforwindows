@@ -7,11 +7,10 @@ using Org.Vs.TailForWin.Core.Enums;
 
 namespace Org.Vs.TailForWin.Core.Data.Settings
 {
-  /// <inheritdoc />
   /// <summary>
   /// Enviroment settings object
   /// </summary>
-  public class EnvironmentSettings : NotifyMaster
+  public partial class EnvironmentSettings : NotifyMaster
   {
     private CultureInfo _cultureInfo;
 

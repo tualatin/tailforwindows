@@ -1,3 +1,4 @@
+using System;
 using Org.Vs.TailForWin.Business.Data;
 
 
@@ -15,14 +16,15 @@ namespace Org.Vs.TailForWin.Business.Controllers
     /// </summary>
     public static BusinessMainWndToMainWndStatusBarController Instance => instance ?? (instance = new BusinessMainWndToMainWndStatusBarController());
 
+    private BusinessMainWndToMainWndStatusBarController()
+    {
+    }
+
+    private static readonly Lazy<BusinessMainWndToMainWndStatusBarData> CurrentData = new Lazy<BusinessMainWndToMainWndStatusBarData>(() => new BusinessMainWndToMainWndStatusBarData());
+
     /// <summary>
     /// Current business MainWnd to MainWndStatusBar data
     /// </summary>
-    public BusinessMainWndToMainWndStatusBarData CurrentData
-    {
-      get;
-    }
-
-    private BusinessMainWndToMainWndStatusBarController() => CurrentData = new BusinessMainWndToMainWndStatusBarData();
+    public static BusinessMainWndToMainWndStatusBarData CurrentBusinessData => CurrentData.Value;
   }
 }

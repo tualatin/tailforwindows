@@ -18,7 +18,7 @@
     <converters:BackgroundToForegroundConverter x:Key="BackgroundToForegroundConverter" />
   </UserControl.Resources>
 
-  <Grid Background="{Binding Source={x:Static businessMainWnd:BusinessMainWndToMainWndStatusBarController.Instance}, Path=CurrentData.CurrentStatusBarBackgroundColor, UpdateSourceTrigger=PropertyChanged}">
+  <Grid Background="{Binding Source={x:Static businessMainWnd:BusinessMainWndToMainWndStatusBarController.CurrentBusinessData}, Path=CurrentStatusBarBackgroundColor, UpdateSourceTrigger=PropertyChanged}">
     <Grid.ColumnDefinitions>
       <ColumnDefinition />
       <ColumnDefinition />

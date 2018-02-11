@@ -57,9 +57,10 @@
   <system:String x:Key="QuickSearchEnterToolTip">Search</system:String>
   <system:String x:Key="OptionsSystemMenu">Settings...</system:String>
   <system:String x:Key="CancelText">Cancel</system:String>
-  <system:String x:Key="AboutPageTitle">About</system:String>
+  <system:String x:Key="AboutOptionPageTitle">About</system:String>
   <system:String x:Key="OptionsPageTitle">Options - {0}</system:String>
-  <system:String x:Key="EnvironmentPageTitle">Environment</system:String>
+  <system:String x:Key="EnvironmentOptionPageTitle">Environment</system:String>
+  <system:String x:Key="AlertOptionPageTitle">Alert</system:String>
   <system:String
     x:Key="SmartWatchHint"
     xml:space="preserve"

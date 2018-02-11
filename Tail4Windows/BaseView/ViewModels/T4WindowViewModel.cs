@@ -299,8 +299,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void SetDefaultWindowSettings()
     {
-      BusinessMainWndToMainWndStatusBarController.Instance.CurrentData.CurrentStatusBarBackgroundColor = SettingsHelperController.CurrentSettings.StatusBarInactiveBackgroundColor;
-      BusinessMainWndToMainWndStatusBarController.Instance.CurrentData.CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
+      BusinessMainWndToMainWndStatusBarController.CurrentBusinessData.CurrentStatusBarBackgroundColor = SettingsHelperController.CurrentSettings.StatusBarInactiveBackgroundColor;
+      BusinessMainWndToMainWndStatusBarController.CurrentBusinessData.CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
 
       switch ( SettingsHelperController.CurrentSettings.CurrentWindowStyle )
       {

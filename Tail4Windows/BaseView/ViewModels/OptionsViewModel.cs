@@ -1,10 +1,16 @@
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Business.Interfaces;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Utils;
-using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels;
+using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption;
+using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption;
+using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 
@@ -16,6 +22,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
   /// </summary>
   public class OptionsViewModel : NotifyMaster
   {
+    private readonly NotifyTaskCompletion _notifyTaskCompletion;
+    private EnvironmentSettings.MementoEnvironmentSettings _mementoSettings;
+    private ObservableCollection<IOptionPage> _options;
+
     #region Properties
 
     private string _title;
@@ -55,8 +65,37 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public OptionsViewModel()
     {
-      CurrentViewModel = new AboutOptionViewModel();
+      _mementoSettings = SettingsHelperController.CurrentSettings.SaveToMemento();
+      _notifyTaskCompletion = NotifyTaskCompletion.Create(OptionsViewModelAsync);
+      _notifyTaskCompletion.PropertyChanged += TaskCompletionPropertyChanged;
+    }
+
+    private void TaskCompletionPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+      if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      CurrentViewModel = _options.First();
       Title = string.Format(Application.Current.TryFindResource("OptionsPageTitle").ToString(), CurrentViewModel.PageTitle);
+
+      _notifyTaskCompletion.PropertyChanged -= TaskCompletionPropertyChanged;
+    }
+
+    private async Task OptionsViewModelAsync()
+    {
+      await Task.Run(() =>
+      {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+          _options = new ObservableCollection<IOptionPage>
+          {
+            new AboutOptionPage(),
+            new EnvironmentOptionPage(),
+            new AlertOptionPage()
+
+          };
+        });
+      }).ConfigureAwait(false);
     }
 
     #region Commands
@@ -66,7 +105,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// Save options command
     /// </summary>
-    public IAsyncCommand SaveOptionsCommand => _saveOptionsCommand ?? (_saveOptionsCommand = AsyncCommand.Create((param, token) => ExecuteSaveOptionsCommandAsync(param as Window, token)));
+    public IAsyncCommand SaveOptionsCommand => _saveOptionsCommand ?? (_saveOptionsCommand = AsyncCommand.Create((param, token) => ExecuteSaveOptionsCommandAsync(param as Window)));
 
     private ICommand _closeOptionsCommand;
 
@@ -79,11 +118,19 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region Command functions
 
-    private void ExecuteCloseOptionsCommand(Window window) => window?.Close();
+    private void ExecuteCloseOptionsCommand(Window window)
+    {
+      if ( _mementoSettings != null )
+        SettingsHelperController.CurrentSettings.RestoreFromMemento(_mementoSettings);
 
-    private async Task ExecuteSaveOptionsCommandAsync(Window window, object _)
+      window?.Close();
+    }
+
+    private async Task ExecuteSaveOptionsCommandAsync(Window window)
     {
       await EnvironmentContainer.Instance.SaveSettingsAsync().ConfigureAwait(false);
+
+      _mementoSettings = null;
       window?.Dispatcher.Invoke(window.Close);
     }
 

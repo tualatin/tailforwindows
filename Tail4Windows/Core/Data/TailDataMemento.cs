@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Text;
@@ -16,11 +16,8 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Save data to memento
     /// </summary>
-    /// <returns>Copy of TailData</returns>
-    public MementoTailData SaveToMemento()
-    {
-      return new MementoTailData(this);
-    }
+    /// <returns>Copy of <see cref="TailData"/></returns>
+    public MementoTailData SaveToMemento() => new MementoTailData(this);
 
     /// <summary>
     /// Roll object back to state of provided memento
@@ -28,30 +25,29 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <param name="memento">The memento to roll back to</param>
     public void RestoreFromMemento(MementoTailData memento)
     {
-      MementoTailData mementoTailData = memento;
-      Arg.NotNull(mementoTailData, nameof(mementoTailData));
+      Arg.NotNull(memento, nameof(memento));
 
-      Id = mementoTailData.Id;
-      Category = mementoTailData.Category;
-      Description = mementoTailData.Description;
-      NewWindow = mementoTailData.NewWindow;
-      FileEncoding = mementoTailData.FileEncoding;
-      RefreshRate = mementoTailData.RefreshRate;
-      SmartWatch = mementoTailData.SmartWatch;
-      OpenFromSmartWatch = mementoTailData.OpenFromSmartWatch;
-      RemoveSpace = mementoTailData.RemoveSpace;
-      FileName = mementoTailData.FileName;
-      Wrap = mementoTailData.Wrap;
-      Timestamp = mementoTailData.TimeStamp;
-      FontType = mementoTailData.FontType;
-      ThreadPriority = mementoTailData.ThreadPriority;
-      PatternString = mementoTailData.PatternString;
-      IsRegex = mementoTailData.IsRegex;
-      UsePattern = mementoTailData.UsePattern;
-      AutoRun = mementoTailData.AutoRun;
-      FilterState = mementoTailData.FilterState;
-      LastRefreshTime = mementoTailData.LastRefreshTime;
-      ListOfFilter = new ObservableCollection<FilterData>(mementoTailData.ListOfFilter);
+      Id = memento.Id;
+      Category = memento.Category;
+      Description = memento.Description;
+      NewWindow = memento.NewWindow;
+      FileEncoding = memento.FileEncoding;
+      RefreshRate = memento.RefreshRate;
+      SmartWatch = memento.SmartWatch;
+      OpenFromSmartWatch = memento.OpenFromSmartWatch;
+      RemoveSpace = memento.RemoveSpace;
+      FileName = memento.FileName;
+      Wrap = memento.Wrap;
+      Timestamp = memento.TimeStamp;
+      FontType = memento.FontType;
+      ThreadPriority = memento.ThreadPriority;
+      PatternString = memento.PatternString;
+      IsRegex = memento.IsRegex;
+      UsePattern = memento.UsePattern;
+      AutoRun = memento.AutoRun;
+      FilterState = memento.FilterState;
+      LastRefreshTime = memento.LastRefreshTime;
+      ListOfFilter = new ObservableCollection<FilterData>(memento.ListOfFilter);
     }
 
     /// <summary>

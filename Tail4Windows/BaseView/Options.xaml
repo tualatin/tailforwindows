@@ -7,7 +7,6 @@
   xmlns:aboutOption="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
-  xmlns:vmOptions="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels"
   mc:Ignorable="d"
   Name="OptionsDialog"
   Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
@@ -22,10 +21,6 @@
   >
   <Window.Resources>
     <converters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
-
-    <DataTemplate DataType="{x:Type vmOptions:AboutOptionViewModel}">
-      <aboutOption:AboutOption />
-    </DataTemplate>
   </Window.Resources>
 
   <Window.DataContext>
