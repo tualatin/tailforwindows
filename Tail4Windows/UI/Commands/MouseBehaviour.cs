@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 
 
@@ -19,13 +19,13 @@ namespace Org.Vs.TailForWin.UI.Commands
 
     private static void MouseUpCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)d;
+      FrameworkElement element = (FrameworkElement) d;
       element.MouseUp += ElementMouseUp;
     }
 
     private static void ElementMouseUp(object sender, MouseButtonEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)sender;
+      FrameworkElement element = (FrameworkElement) sender;
       ICommand command = GetMouseUpCommand(element);
 
       command.Execute(e);
@@ -57,13 +57,13 @@ namespace Org.Vs.TailForWin.UI.Commands
 
     private static void MouseDownCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)d;
+      FrameworkElement element = (FrameworkElement) d;
       element.MouseDown += ElementMouseDown;
     }
 
     private static void ElementMouseDown(object sender, MouseButtonEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)sender;
+      FrameworkElement element = (FrameworkElement) sender;
       ICommand command = GetMouseDownCommand(element);
 
       command.Execute(e);
@@ -95,13 +95,13 @@ namespace Org.Vs.TailForWin.UI.Commands
 
     private static void MouseLeaveCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)d;
+      FrameworkElement element = (FrameworkElement) d;
       element.MouseLeave += ElementMouseLeave;
     }
 
     private static void ElementMouseLeave(object sender, MouseEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)sender;
+      FrameworkElement element = (FrameworkElement) sender;
       ICommand command = GetMouseLeaveCommand(element);
 
       command.Execute(e);
@@ -133,13 +133,13 @@ namespace Org.Vs.TailForWin.UI.Commands
 
     private static void MouseLeftButtonDownCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)d;
+      FrameworkElement element = (FrameworkElement) d;
       element.MouseLeftButtonDown += ElementMouseLeftButtonDown;
     }
 
     private static void ElementMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)sender;
+      FrameworkElement element = (FrameworkElement) sender;
       ICommand command = GetMouseLeftButtonDownCommand(element);
 
       command.Execute(e);
@@ -171,13 +171,13 @@ namespace Org.Vs.TailForWin.UI.Commands
 
     private static void MouseLeftButtonUpCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)d;
+      FrameworkElement element = (FrameworkElement) d;
       element.MouseLeftButtonUp += ElementMouseLeftButtonUp;
     }
 
     private static void ElementMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)sender;
+      FrameworkElement element = (FrameworkElement) sender;
       ICommand command = GetMouseLeftButtonUpCommand(element);
 
       command.Execute(e);
@@ -209,13 +209,13 @@ namespace Org.Vs.TailForWin.UI.Commands
 
     private static void MouseMoveCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)d;
+      FrameworkElement element = (FrameworkElement) d;
       element.MouseMove += ElementMouseMove;
     }
 
     private static void ElementMouseMove(object sender, MouseEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)sender;
+      FrameworkElement element = (FrameworkElement) sender;
       ICommand command = GetMouseMoveCommand(element);
 
       command.Execute(e);
@@ -247,13 +247,13 @@ namespace Org.Vs.TailForWin.UI.Commands
 
     private static void MouseRightButtonDownCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)d;
+      FrameworkElement element = (FrameworkElement) d;
       element.MouseRightButtonDown += ElementMouseRightButtonDown;
     }
 
     private static void ElementMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)sender;
+      FrameworkElement element = (FrameworkElement) sender;
       ICommand command = GetMouseRightButtonDownCommand(element);
 
       command.Execute(e);
@@ -285,13 +285,13 @@ namespace Org.Vs.TailForWin.UI.Commands
 
     private static void MouseRightButtonUpCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)d;
+      FrameworkElement element = (FrameworkElement) d;
       element.MouseRightButtonUp += ElementMouseRightButtonUp;
     }
 
     private static void ElementMouseRightButtonUp(object sender, MouseButtonEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)sender;
+      FrameworkElement element = (FrameworkElement) sender;
       ICommand command = GetMouseRightButtonUpCommand(element);
 
       command.Execute(e);
@@ -323,13 +323,13 @@ namespace Org.Vs.TailForWin.UI.Commands
 
     private static void MouseWheelCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)d;
+      FrameworkElement element = (FrameworkElement) d;
       element.MouseWheel += ElementMouseWheel;
     }
 
     private static void ElementMouseWheel(object sender, MouseWheelEventArgs e)
     {
-      FrameworkElement element = (FrameworkElement)sender;
+      FrameworkElement element = (FrameworkElement) sender;
       ICommand command = GetMouseWheelCommand(element);
 
       command.Execute(e);
