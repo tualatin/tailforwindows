@@ -9,7 +9,6 @@ using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption;
-using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -22,7 +21,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
   /// </summary>
   public class OptionsViewModel : NotifyMaster
   {
-    private readonly NotifyTaskCompletion _notifyTaskCompletion;
     private EnvironmentSettings.MementoEnvironmentSettings _mementoSettings;
     private ObservableCollection<IOptionPage> _options;
 
@@ -54,6 +52,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       set
       {
         _currentViewModel = value;
+
+        if ( _currentViewModel != null )
+          Title = string.Format(Application.Current.TryFindResource("OptionsPageTitle").ToString(), _currentViewModel.PageTitle);
+
         OnPropertyChanged(nameof(CurrentViewModel));
       }
     }
@@ -66,36 +68,13 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     public OptionsViewModel()
     {
       _mementoSettings = SettingsHelperController.CurrentSettings.SaveToMemento();
-      _notifyTaskCompletion = NotifyTaskCompletion.Create(OptionsViewModelAsync);
-      _notifyTaskCompletion.PropertyChanged += TaskCompletionPropertyChanged;
-    }
-
-    private void TaskCompletionPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-      if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
-        return;
+      _options = new ObservableCollection<IOptionPage>
+      {
+        new AboutOptionPage(),
+        new EnvironmentOptionPage()
+      };
 
       CurrentViewModel = _options.First();
-      Title = string.Format(Application.Current.TryFindResource("OptionsPageTitle").ToString(), CurrentViewModel.PageTitle);
-
-      _notifyTaskCompletion.PropertyChanged -= TaskCompletionPropertyChanged;
-    }
-
-    private async Task OptionsViewModelAsync()
-    {
-      await Task.Run(() =>
-      {
-        Application.Current.Dispatcher.Invoke(() =>
-        {
-          _options = new ObservableCollection<IOptionPage>
-          {
-            new AboutOptionPage(),
-            new EnvironmentOptionPage(),
-            new AlertOptionPage()
-
-          };
-        });
-      }).ConfigureAwait(false);
     }
 
     #region Commands

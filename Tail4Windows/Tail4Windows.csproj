@@ -201,6 +201,7 @@
     <Compile Include="Core\Data\Settings\DefaultEnvironmentSettings.cs" />
     <Compile Include="Core\Data\Settings\EnvironmentSettingsMemento.cs" />
     <Compile Include="Core\Interfaces\IEventAggregator.cs" />
+    <Compile Include="Core\Interfaces\INotifyTaskCompletion.cs" />
     <Compile Include="Core\Utils\EventAggregator.cs" />
     <Compile Include="Core\Utils\Execution.cs" />
     <Compile Include="Core\Utils\ThrottledExecution.cs" />

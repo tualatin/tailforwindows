@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using Org.Vs.TailForWin.Core.Interfaces;
 
 
 namespace Org.Vs.TailForWin.Core.Data.Base
@@ -9,7 +10,7 @@ namespace Org.Vs.TailForWin.Core.Data.Base
   /// Watches a task and raises property-changed notifications when the task completes.
   /// Thanks to Stephen Cleary
   /// </summary>
-  public sealed class NotifyTaskCompletion : INotifyPropertyChanged
+  public sealed class NotifyTaskCompletion : INotifyTaskCompletion
   {
     /// <summary>
     /// Initializes a task notifier watching the specified task.
