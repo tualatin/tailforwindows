@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -276,7 +277,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( SettingsHelperController.CurrentSettings.DeleteLogFiles )
         await DeleteLogFilesAsync().ConfigureAwait(false);
 
-      await EnvironmentContainer.Instance.SaveSettingsAsync().ConfigureAwait(false);
+      await EnvironmentContainer.Instance.SaveSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2))).ConfigureAwait(false);
     }
 
     private void ExecuteWndLoadedCommand()

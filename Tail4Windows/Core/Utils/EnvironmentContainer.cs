@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Drawing;
@@ -85,19 +85,28 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Read current settings
     /// </summary>
+    /// <returns>Task</returns>
     public async Task ReadSettingsAsync() => await _settings.ReadSettingsAsync().ConfigureAwait(false);
 
     /// <summary>
     /// Save current settings
     /// </summary>
-    /// <returns></returns>
-    public async Task SaveSettingsAsync() => await _settings.SaveSettingsAsync().ConfigureAwait(false);
+    /// <param name="cts">CancellationTokenSource</param>
+    /// <returns>Task</returns>
+    public async Task SaveSettingsAsync(CancellationTokenSource cts) => await _settings.SaveSettingsAsync(cts).ConfigureAwait(false);
 
     /// <summary>
     /// Reload settings from config file
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Task</returns>
     public async Task ReloadSettingsAsync() => await _settings.ReloadCurrentSettingsAsync().ConfigureAwait(false);
+
+    /// <summary>
+    /// Reset current setting to default values
+    /// </summary>
+    /// <param name="cts">CancellationTokenSource</param>
+    /// <returns>Task</returns>
+    public async Task ResetCurrentSettingsAsync(CancellationTokenSource cts) => await _settings.SetDefaultSettingsAsync(cts).ConfigureAwait(false);
 
     /// <summary>
     /// Create default T4W font

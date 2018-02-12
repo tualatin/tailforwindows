@@ -1,4 +1,4 @@
-using Org.Vs.TailForWin.UI.Extensions;
+﻿using Org.Vs.TailForWin.UI.Extensions;
 
 
 namespace Org.Vs.TailForWin.BaseView

@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Configuration;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using log4net;
 using Org.Vs.TailForWin.Core.Data.Settings;
@@ -28,14 +29,13 @@ namespace Org.Vs.TailForWin.Core.Controllers
       get;
     } = new EnvironmentSettings();
 
-    /// <inheritdoc />
     /// <summary>
     /// Reads current settings
     /// </summary>
+    /// <returns>Task</returns>
     public async Task ReadSettingsAsync()
     {
       LOG.Trace("Read T4W settings");
-
       await Task.Run(() => ReadSettings()).ConfigureAwait(false);
     }
 
@@ -52,15 +52,21 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
     }
 
-    /// <inheritdoc />
     /// <summary>
     /// Writes current settings
     /// </summary>
-    public async Task SaveSettingsAsync()
+    /// <returns>Task</returns>
+    public async Task SaveSettingsAsync() => await SaveSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(5)));
+
+    /// <summary>
+    /// Writes current settings
+    /// </summary>
+    /// <param name="cts">CancellationTokenSource</param>
+    /// <returns>Task</returns>
+    public async Task SaveSettingsAsync(CancellationTokenSource cts)
     {
       LOG.Trace("Save T4W settings");
-
-      await Task.Run(() => SaveSettings()).ConfigureAwait(false);
+      await Task.Run(() => SaveSettings(), cts.Token).ConfigureAwait(false);
     }
 
     private void SaveSettings()
@@ -92,29 +98,34 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
     }
 
-    /// <inheritdoc />
     /// <summary>
     /// Reset current settings
     /// </summary>
-    public async Task SetDefaultSettingsAsync()
+    /// <returns>Task</returns>
+    public async Task SetDefaultSettingsAsync() => await SetDefaultSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(5)));
+
+    /// <summary>
+    /// Reset current settings
+    /// </summary>
+    /// <param name="cts">CancellationTokenSource</param>
+    /// <returns>Task</returns>
+    public async Task SetDefaultSettingsAsync(CancellationTokenSource cts)
     {
       LOG.Trace("Reset T4W settings");
-
-      await Task.Run(() => SetDefaultSettings()).ConfigureAwait(false);
+      await Task.Run(() => SetDefaultSettings(), cts.Token).ConfigureAwait(false);
     }
 
     private void SetDefaultSettings()
     {
     }
 
-    /// <inheritdoc />
     /// <summary>
     /// Reloads current settings
     /// </summary>
+    /// <returns>Task</returns>
     public async Task ReloadCurrentSettingsAsync()
     {
       LOG.Trace("Reloads T4W settings");
-
       await Task.Run(() => ReloadCurrentSettings()).ConfigureAwait(false);
     }
 

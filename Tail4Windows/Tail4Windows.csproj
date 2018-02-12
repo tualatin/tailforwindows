@@ -175,6 +175,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="UI\ExtendedControls\WindowEx.cs" />
     <Compile Include="BaseView\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
     </Compile>
@@ -290,6 +291,7 @@
     <Compile Include="BaseView\StyleableWindow\WindowMinimizeCommand.cs" />
     <Compile Include="BaseView\StyleableWindow\WindowResizeBehavior.cs" />
     <Compile Include="BaseView\UserControls\TailForWinTabItem.cs" />
+    <Compile Include="UI\Services\MouseService.cs" />
     <Compile Include="UI\UserControls\FancyPopUp.xaml.cs">
       <DependentUpon>FancyPopUp.xaml</DependentUpon>
     </Compile>

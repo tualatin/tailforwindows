@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -12,6 +14,7 @@ using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
+using Org.Vs.TailForWin.UI.Services;
 
 
 namespace Org.Vs.TailForWin.BaseView.ViewModels
@@ -23,6 +26,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
   {
     private EnvironmentSettings.MementoEnvironmentSettings _mementoSettings;
     private ObservableCollection<IOptionPage> _options;
+    private readonly CancellationTokenSource _cts;
 
     #region Properties
 
@@ -68,6 +72,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     public OptionsViewModel()
     {
       _mementoSettings = SettingsHelperController.CurrentSettings.SaveToMemento();
+      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
       _options = new ObservableCollection<IOptionPage>
       {
         new AboutOptionPage(),
@@ -84,7 +89,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// Save options command
     /// </summary>
-    public IAsyncCommand SaveOptionsCommand => _saveOptionsCommand ?? (_saveOptionsCommand = AsyncCommand.Create((param, token) => ExecuteSaveOptionsCommandAsync(param as Window)));
+    public IAsyncCommand SaveOptionsCommand => _saveOptionsCommand ?? (_saveOptionsCommand = AsyncCommand.Create((p, t) => ExecuteSaveOptionsCommandAsync()));
 
     private ICommand _closeOptionsCommand;
 
@@ -99,18 +104,23 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteCloseOptionsCommand(Window window)
     {
+      MouseService.SetBusyState();
+
       if ( _mementoSettings != null )
         SettingsHelperController.CurrentSettings.RestoreFromMemento(_mementoSettings);
 
+      _mementoSettings = null;
+
+      _cts.Cancel();
       window?.Close();
     }
 
-    private async Task ExecuteSaveOptionsCommandAsync(Window window)
+    private async Task ExecuteSaveOptionsCommandAsync()
     {
-      await EnvironmentContainer.Instance.SaveSettingsAsync().ConfigureAwait(false);
+      MouseService.SetBusyState();
 
       _mementoSettings = null;
-      window?.Dispatcher.Invoke(window.Close);
+      await EnvironmentContainer.Instance.SaveSettingsAsync(_cts).ConfigureAwait(false);
     }
 
     #endregion
