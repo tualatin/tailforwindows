@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,8 +9,6 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Utils;
-using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption;
-using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Services;
@@ -25,7 +22,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
   public class OptionsViewModel : NotifyMaster
   {
     private EnvironmentSettings.MementoEnvironmentSettings _mementoSettings;
-    private ObservableCollection<IOptionPage> _options;
+    private ObservableCollection<TreeNodeViewModel> _root;
     private readonly CancellationTokenSource _cts;
 
     #region Properties
@@ -73,13 +70,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       _mementoSettings = SettingsHelperController.CurrentSettings.SaveToMemento();
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-      _options = new ObservableCollection<IOptionPage>
-      {
-        new AboutOptionPage(),
-        new EnvironmentOptionPage()
-      };
-
-      CurrentViewModel = _options.First();
     }
 
     #region Commands
@@ -98,9 +88,20 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand CloseOptionsCommand => _closeOptionsCommand ?? (_closeOptionsCommand = new RelayCommand(p => ExecuteCloseOptionsCommand((Window) p)));
 
+    private ICommand _setSelectedItemCommand;
+
+    /// <summary>
+    /// Set selected item command
+    /// </summary>
+    public ICommand SetSelectedItemCommand => _setSelectedItemCommand ?? (_setSelectedItemCommand = new RelayCommand(ExecuteSelectedItemCommand));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteSelectedItemCommand(object parameter)
+    {
+    }
 
     private void ExecuteCloseOptionsCommand(Window window)
     {

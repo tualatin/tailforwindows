@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -9,6 +9,7 @@ namespace Org.Vs.TailForWin.UI.Converters
   /// <summary>
   /// Color to solid color brush converter
   /// </summary>
+  [ValueConversion(typeof(Color), typeof(SolidColorBrush))]
   public class ColorToSolidColorBrushConverter : IValueConverter
   {
     /// <summary>

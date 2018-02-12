@@ -7,6 +7,7 @@
   xmlns:aboutOption="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
   mc:Ignorable="d"
   x:Name="OptionsDialog"
@@ -47,10 +48,7 @@
       Grid.Column="0"
       Margin="0 0 0 4"
       >
-      <TreeView
-        BorderBrush="{Binding Source={StaticResource DisabledForegroundColor}, Converter={StaticResource ColorToSolidColorBrushConverter}}"
-        BorderThickness="1"
-        >
+      <TreeView x:Name="TreeView">
         <TreeViewItem Header="Employee1">
           <TreeViewItem Header="Jesper" />
           <TreeViewItem Header="Aaberg" />
@@ -61,6 +59,14 @@
           <TreeViewItem Header="Paiha" />
           <TreeViewItem Header="98765" />
         </TreeViewItem>
+        <intr:Interaction.Triggers>
+          <intr:EventTrigger EventName="SelectedItemChanged">
+            <intr:InvokeCommandAction
+              Command="{Binding SetSelectedItemCommand}"
+              CommandParameter="{Binding SelectedItem, ElementName=TreeView}"
+              />
+          </intr:EventTrigger>
+        </intr:Interaction.Triggers>
       </TreeView>
     </Grid>
 

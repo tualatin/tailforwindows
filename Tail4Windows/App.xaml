@@ -19,6 +19,7 @@
         <ResourceDictionary Source="UI/Styles/ScrollbarResources.xaml" />
         <ResourceDictionary Source="UI/Styles/ComboBox.xaml" />
         <!--<ResourceDictionary Source="UI/Styles/Separator.xaml" />-->
+        <ResourceDictionary Source="UI/Styles/TreeView.xaml" />
         <ResourceDictionary Source="UI/Styles/TabItemToolTipStyle.xaml" />
         <ResourceDictionary Source="BaseView/UserControls/Styles/TailForWinTabItem.xaml" />
         <ResourceDictionary Source="BaseView/Styles/TitleBarWindowIconStyle.xaml" />

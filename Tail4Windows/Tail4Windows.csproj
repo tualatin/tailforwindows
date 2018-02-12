@@ -175,6 +175,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseView\ViewModels\TreeNodeViewModel.cs" />
+    <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\ExtendedControls\WindowEx.cs" />
     <Compile Include="BaseView\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
@@ -424,6 +426,10 @@
     <Page Include="UI\Styles\TextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\Styles\TreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\UserControls\FancyPopUp.xaml">
       <Generator>MSBuild:Compile</Generator>
