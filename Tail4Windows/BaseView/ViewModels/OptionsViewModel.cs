@@ -86,20 +86,20 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       var environment = new EnvironmentOptionPage();
       var optionPage1 = new TreeNodeOptionViewModel(environment, new[]
       {
-        new TreeNodeOptionViewModel(environment)
-      });
+        new TreeNodeOptionViewModel(environment, null)
+      }, "system.ico");
 
       var alert = new AlertOptionPage();
       var optionPage2 = new TreeNodeOptionViewModel(alert, new[]
       {
-        new TreeNodeOptionViewModel(alert)
-      });
+        new TreeNodeOptionViewModel(alert, null)
+      }, "alert.ico");
 
       var about = new AboutOptionPage();
       var optionPage3 = new TreeNodeOptionViewModel(about, new[]
       {
-        new TreeNodeOptionViewModel(about)
-      });
+        new TreeNodeOptionViewModel(about, null)
+      }, "about.ico");
 
       Root = new ObservableCollection<TreeNodeOptionViewModel>
       {

@@ -24,6 +24,8 @@
   >
   <extendedControls:WindowEx.Resources>
     <converters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
+    <converters:TreeNodeToImageConverter x:Key="TreeNodeToImageConverter" />
+    <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
   </extendedControls:WindowEx.Resources>
 
   <intr:Interaction.Triggers>
@@ -67,6 +69,16 @@
               Margin="2 0 4 0"
               Orientation="Horizontal"
               >
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 4 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="{Binding Icon, Converter={StaticResource TreeNodeToImageConverter}}"
+                Stretch="Fill"
+                Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Source, Converter={StaticResource StringToVisibilityConverter}}"
+                />
               <TextBlock Text="{Binding Path=Name, Mode=OneWay}" />
             </StackPanel>
           </HierarchicalDataTemplate>

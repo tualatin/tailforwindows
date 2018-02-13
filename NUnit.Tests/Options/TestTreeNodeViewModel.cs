@@ -20,27 +20,27 @@ namespace Org.Vs.NUnit.Tests.Options
 
       var optionPage1 = new TreeNodeOptionViewModel(general, new[]
       {
-        new TreeNodeOptionViewModel(general),
-        new TreeNodeOptionViewModel(new GeneralProxyOptions()),
-        new TreeNodeOptionViewModel(new GeneralResetOptions())
-      });
+        new TreeNodeOptionViewModel(general, null),
+        new TreeNodeOptionViewModel(new GeneralProxyOptions(), null),
+        new TreeNodeOptionViewModel(new GeneralResetOptions(), null)
+      }, null);
 
       var extras = new ExtraOptions();
 
       var optionPage2 = new TreeNodeOptionViewModel(extras, new[]
       {
-        new TreeNodeOptionViewModel(extras),
-        new TreeNodeOptionViewModel(new ExtraSmartWatch())
+        new TreeNodeOptionViewModel(extras, null),
+        new TreeNodeOptionViewModel(new ExtraSmartWatch(), null)
 
-      });
+      }, null);
 
       var aboutOptions = new AboutOptions();
 
       var optionPage3 = new TreeNodeOptionViewModel(aboutOptions, new[]
       {
-        new TreeNodeOptionViewModel(new AboutSystemInformations()),
-        new TreeNodeOptionViewModel(new AboutUpdate())
-      });
+        new TreeNodeOptionViewModel(new AboutSystemInformations(), null),
+        new TreeNodeOptionViewModel(new AboutUpdate(), null)
+      }, null);
 
       Assert.AreEqual(3, optionPage1.Children.Count());
       Assert.AreEqual(2, optionPage2.Children.Count());

@@ -38,7 +38,8 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// </summary>
     bool IsExpanded
     {
-      get; set;
+      get;
+      set;
     }
 
     /// <summary>
@@ -46,7 +47,8 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// </summary>
     bool IsSelected
     {
-      get; set;
+      get;
+      set;
     }
 
     /// <summary>
@@ -54,7 +56,17 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// </summary>
     bool IsEnabled
     {
-      get; set;
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Icon of node
+    /// </summary>
+    string Icon
+    {
+      get;
+      set;
     }
 
     /// <summary>

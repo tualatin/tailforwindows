@@ -93,17 +93,34 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
+    private string _icon;
+
+    /// <summary>
+    /// Icon of node
+    /// </summary>
+    public string Icon
+    {
+      get => _icon;
+      set
+      {
+        _icon = value;
+        OnPropertyChanged(nameof(Icon));
+      }
+    }
+
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="optionRoot">Root option</param>
     /// <param name="children">IEnumerable of <see cref="TreeNodeOptionViewModel"/></param>
+    /// <param name="iconSource">Icon source</param>
     /// <param name="isEnabled">Node is enabled</param>
-    public TreeNodeOptionViewModel(IOptionPage optionRoot, IEnumerable<TreeNodeOptionViewModel> children, bool isEnabled = true)
+    public TreeNodeOptionViewModel(IOptionPage optionRoot, IEnumerable<TreeNodeOptionViewModel> children, string iconSource, bool isEnabled = true)
     {
       Name = optionRoot.PageTitle;
       OptionPage = optionRoot;
       IsEnabled = isEnabled;
+      Icon = iconSource;
       _children = new ObservableCollection<TreeNodeOptionViewModel>(children);
     }
 
@@ -111,9 +128,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// Constructor
     /// </summary>
     /// <param name="option">Option page</param>
+    /// <param name="iconSource">Icon source</param>
     /// <param name="isEnabled">Node is enabled</param>
-    public TreeNodeOptionViewModel(IOptionPage option, bool isEnabled = true)
-      : this(option, Enumerable.Empty<TreeNodeOptionViewModel>(), isEnabled)
+    public TreeNodeOptionViewModel(IOptionPage option, string iconSource, bool isEnabled = true)
+      : this(option, Enumerable.Empty<TreeNodeOptionViewModel>(), iconSource, isEnabled)
     {
     }
 

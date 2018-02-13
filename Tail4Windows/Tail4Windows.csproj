@@ -176,8 +176,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
-    <Compile Include="BaseView\ViewModels\TreeNodeViewModel.cs" />
+    <Compile Include="BaseView\ViewModels\TreeNodeOptionViewModel.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="UI\Converters\TreeNodeToImageConverter.cs" />
     <Compile Include="UI\ExtendedControls\WindowEx.cs" />
     <Compile Include="BaseView\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
