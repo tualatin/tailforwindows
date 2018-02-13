@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Org.Vs.TailForWin.UI.Extensions;
 
 
 namespace Org.Vs.TailForWin.UI.ExtendedControls
@@ -8,6 +9,18 @@ namespace Org.Vs.TailForWin.UI.ExtendedControls
   /// </summary>
   public class WindowEx : Window
   {
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
+    // ReSharper disable once MemberCanBeProtected.Global
+    public WindowEx()
+    {
+      SourceInitialized += (o, e) =>
+      {
+        this.HideMinimizeMaximizeButtons();
+      };
+    }
+
     /// <summary>
     /// Dialog can close
     /// </summary>

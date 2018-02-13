@@ -26,6 +26,12 @@
     <converters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
   </extendedControls:WindowEx.Resources>
 
+  <intr:Interaction.Triggers>
+    <intr:EventTrigger EventName="Closing">
+      <intr:InvokeCommandAction Command="{Binding CloseOptionsCommand}" />
+    </intr:EventTrigger>
+  </intr:Interaction.Triggers>
+
   <extendedControls:WindowEx.DataContext>
     <viewModels:OptionsViewModel />
   </extendedControls:WindowEx.DataContext>
@@ -125,6 +131,7 @@
           Content="{StaticResource CancelText}"
           Command="{Binding CloseOptionsCommand, Mode=OneWay}"
           CommandParameter="{Binding ElementName=OptionsDialog}"
+          IsCancel="True"
           />
       </StackPanel>
     </Grid>

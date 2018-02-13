@@ -1,6 +1,4 @@
-﻿using Org.Vs.TailForWin.UI.Extensions;
-
-
+﻿
 namespace Org.Vs.TailForWin.BaseView
 {
   /// <summary>
@@ -11,14 +9,6 @@ namespace Org.Vs.TailForWin.BaseView
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public Options()
-    {
-      InitializeComponent();
-
-      SourceInitialized += (o, e) =>
-      {
-        this.HideMinimizeMaximizeButtons();
-      };
-    }
+    public Options() => InitializeComponent();
   }
 }
