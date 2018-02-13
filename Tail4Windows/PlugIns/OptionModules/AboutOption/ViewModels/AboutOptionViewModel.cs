@@ -151,10 +151,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
         await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
       }
     }
-    private void ExecuteUnloadedCommand()
-    {
-      _cts.Cancel();
-    }
+    private void ExecuteUnloadedCommand() => _cts.Cancel();
 
     private void ExecuteRequestNavigateCommand(object parameter)
     {
