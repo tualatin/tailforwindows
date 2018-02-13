@@ -18,28 +18,28 @@ namespace Org.Vs.NUnit.Tests.Options
     {
       var general = new GeneralOptions();
 
-      var optionPage1 = new TreeNodeViewModel(general.PageTitle, new[]
+      var optionPage1 = new TreeNodeOptionViewModel(general, new[]
       {
-        new TreeNodeViewModel(general),
-        new TreeNodeViewModel(new GeneralProxyOptions()),
-        new TreeNodeViewModel(new GeneralResetOptions())
+        new TreeNodeOptionViewModel(general),
+        new TreeNodeOptionViewModel(new GeneralProxyOptions()),
+        new TreeNodeOptionViewModel(new GeneralResetOptions())
       });
 
       var extras = new ExtraOptions();
 
-      var optionPage2 = new TreeNodeViewModel(extras.PageTitle, new[]
+      var optionPage2 = new TreeNodeOptionViewModel(extras, new[]
       {
-        new TreeNodeViewModel(extras),
-        new TreeNodeViewModel(new ExtraSmartWatch())
+        new TreeNodeOptionViewModel(extras),
+        new TreeNodeOptionViewModel(new ExtraSmartWatch())
 
       });
 
       var aboutOptions = new AboutOptions();
 
-      var optionPage3 = new TreeNodeViewModel(aboutOptions.PageTitle, new[]
+      var optionPage3 = new TreeNodeOptionViewModel(aboutOptions, new[]
       {
-        new TreeNodeViewModel(new AboutSystemInformations()),
-        new TreeNodeViewModel(new AboutUpdate())
+        new TreeNodeOptionViewModel(new AboutSystemInformations()),
+        new TreeNodeOptionViewModel(new AboutUpdate())
       });
 
       Assert.AreEqual(3, optionPage1.Children.Count());
@@ -48,7 +48,7 @@ namespace Org.Vs.NUnit.Tests.Options
 
       Assert.AreEqual("Reset current settings", optionPage1.Children.Last().Name);
 
-      var root = new ObservableCollection<TreeNodeViewModel>
+      var root = new ObservableCollection<TreeNodeOptionViewModel>
       {
         optionPage1,
         optionPage2,

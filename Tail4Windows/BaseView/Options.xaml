@@ -48,17 +48,23 @@
       Grid.Column="0"
       Margin="0 0 0 4"
       >
-      <TreeView x:Name="TreeView">
-        <TreeViewItem Header="Employee1">
-          <TreeViewItem Header="Jesper" />
-          <TreeViewItem Header="Aaberg" />
-          <TreeViewItem Header="12345" />
-        </TreeViewItem>
-        <TreeViewItem Header="Employee2">
-          <TreeViewItem Header="Dominik" />
-          <TreeViewItem Header="Paiha" />
-          <TreeViewItem Header="98765" />
-        </TreeViewItem>
+      <TreeView
+        x:Name="TreeView"
+        ItemsSource="{Binding Root}"
+        >
+        <TreeView.ItemTemplate>
+          <HierarchicalDataTemplate
+            DataType="{x:Type viewModels:TreeNodeOptionViewModel}"
+            ItemsSource="{Binding Path=Children, Mode=OneWay}"
+            >
+            <StackPanel
+              Margin="2 0 4 0"
+              Orientation="Horizontal"
+              >
+              <TextBlock Text="{Binding Path=Name, Mode=OneWay}" />
+            </StackPanel>
+          </HierarchicalDataTemplate>
+        </TreeView.ItemTemplate>
         <intr:Interaction.Triggers>
           <intr:EventTrigger EventName="SelectedItemChanged">
             <intr:InvokeCommandAction

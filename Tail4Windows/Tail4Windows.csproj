@@ -175,6 +175,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseView\Interfaces\ITreeNodeViewModel.cs" />
     <Compile Include="BaseView\ViewModels\TreeNodeViewModel.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\ExtendedControls\WindowEx.cs" />

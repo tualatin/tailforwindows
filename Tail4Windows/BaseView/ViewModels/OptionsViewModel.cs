@@ -9,6 +9,9 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption;
+using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption;
+using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Services;
@@ -22,7 +25,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
   public class OptionsViewModel : NotifyMaster
   {
     private EnvironmentSettings.MementoEnvironmentSettings _mementoSettings;
-    private ObservableCollection<TreeNodeViewModel> _root;
     private readonly CancellationTokenSource _cts;
 
     #region Properties
@@ -61,6 +63,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
+    /// <summary>
+    /// TreeView items
+    /// </summary>
+    public ObservableCollection<TreeNodeOptionViewModel> Root
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     /// <summary>
@@ -70,6 +81,31 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       _mementoSettings = SettingsHelperController.CurrentSettings.SaveToMemento();
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+
+      var environment = new EnvironmentOptionPage();
+      var optionPage1 = new TreeNodeOptionViewModel(environment, new[]
+      {
+        new TreeNodeOptionViewModel(environment)
+      });
+
+      var alert = new AlertOptionPage();
+      var optionPage2 = new TreeNodeOptionViewModel(alert, new[]
+      {
+        new TreeNodeOptionViewModel(alert)
+      });
+
+      var about = new AboutOptionPage();
+      var optionPage3 = new TreeNodeOptionViewModel(about, new[]
+      {
+        new TreeNodeOptionViewModel(about)
+      });
+
+      Root = new ObservableCollection<TreeNodeOptionViewModel>
+      {
+        optionPage1,
+        optionPage2,
+        optionPage3
+      };
     }
 
     #region Commands
@@ -101,6 +137,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteSelectedItemCommand(object parameter)
     {
+      if ( !(parameter is TreeNodeOptionViewModel node) )
+        return;
+
+      CurrentViewModel = node.OptionPage;
     }
 
     private void ExecuteCloseOptionsCommand(Window window)

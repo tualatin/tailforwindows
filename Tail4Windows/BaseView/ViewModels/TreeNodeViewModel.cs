@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Org.Vs.TailForWin.BaseView.Interfaces;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Core.Data.Base;
 
@@ -10,14 +12,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
   /// <summary>
   /// TreeNode view model
   /// </summary>
-  public class TreeNodeViewModel : NotifyMaster
+  public class TreeNodeOptionViewModel : NotifyMaster, ITreeNodeViewModel
   {
-    private readonly ObservableCollection<TreeNodeViewModel> _children;
+    private readonly ObservableCollection<TreeNodeOptionViewModel> _children;
 
     /// <summary>
     /// Children
     /// </summary>
-    public IEnumerable<TreeNodeViewModel> Children => _children;
+    public IEnumerable<ITreeNodeViewModel> Children => _children;
 
     /// <summary>
     /// Name
@@ -73,22 +75,96 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
+    private bool _isEnabled;
+
+    /// <summary>
+    /// Is node enabled
+    /// </summary>
+    public bool IsEnabled
+    {
+      get => _isEnabled;
+      set
+      {
+        if ( _isEnabled == value )
+          return;
+
+        _isEnabled = value;
+        OnPropertyChanged(nameof(IsEnabled));
+      }
+    }
+
     /// <summary>
     /// Constructor
     /// </summary>
-    /// <param name="name">Name of node</param>
-    /// <param name="children">IEnumerable of <see cref="TreeNodeViewModel"/></param>
-    public TreeNodeViewModel(string name, IEnumerable<TreeNodeViewModel> children)
+    /// <param name="optionRoot">Root option</param>
+    /// <param name="children">IEnumerable of <see cref="TreeNodeOptionViewModel"/></param>
+    /// <param name="isEnabled">Node is enabled</param>
+    public TreeNodeOptionViewModel(IOptionPage optionRoot, IEnumerable<TreeNodeOptionViewModel> children, bool isEnabled = true)
     {
-      Name = name;
-      _children = new ObservableCollection<TreeNodeViewModel>(children);
+      Name = optionRoot.PageTitle;
+      OptionPage = optionRoot;
+      IsEnabled = isEnabled;
+      _children = new ObservableCollection<TreeNodeOptionViewModel>(children);
     }
 
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="option">Option page</param>
-    public TreeNodeViewModel(IOptionPage option)
-      : this(option.PageTitle, Enumerable.Empty<TreeNodeViewModel>()) => OptionPage = option;
+    /// <param name="isEnabled">Node is enabled</param>
+    public TreeNodeOptionViewModel(IOptionPage option, bool isEnabled = true)
+      : this(option, Enumerable.Empty<TreeNodeOptionViewModel>(), isEnabled)
+    {
+    }
+
+    /// <summary>
+    /// Finish
+    /// </summary>
+    ~TreeNodeOptionViewModel()
+    {
+      Dispose();
+    }
+
+    /// <summary>
+    /// Expand all childs
+    /// </summary>
+    public void Expand()
+    {
+      Children.Where(p => !p.IsLeaf).ToList().ForEach(
+        p =>
+        {
+          p.IsExpanded = true;
+          p.Expand();
+        });
+    }
+
+    /// <summary>
+    /// Collapse all childs
+    /// </summary>
+    public void Collapse()
+    {
+      Children.Where(p => p.IsExpanded).ToList().ForEach(
+        p =>
+        {
+          p.IsExpanded = false;
+          p.Collapse();
+        });
+    }
+
+    /// <summary>
+    /// Release all resources used by <see cref="TreeNodeOptionViewModel"/>
+    /// </summary>
+    public void Dispose()
+    {
+      if ( Children != null )
+      {
+        foreach ( var child in Children )
+        {
+          child.Dispose();
+        }
+      }
+
+      GC.SuppressFinalize(this);
+    }
   }
 }
