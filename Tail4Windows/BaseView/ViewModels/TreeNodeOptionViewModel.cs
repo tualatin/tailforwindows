@@ -148,7 +148,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public void Expand()
     {
-      Children.Where(p => p.IsLeaf).ToList().ForEach(
+      Children.Where(p => !p.IsLeaf).ToList().ForEach(
         p =>
         {
           p.IsExpanded = true;

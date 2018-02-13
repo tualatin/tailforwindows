@@ -5,18 +5,21 @@ using Org.Vs.TailForWin.Business.Interfaces;
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption
 {
   /// <summary>
-  /// Interaction logic for AboutOptionPage.xaml
+  /// Interaction logic for SysInfoOptionPage.xaml
   /// </summary>
-  public partial class AboutOptionPage : IOptionPage
+  public partial class SysInfoOptionPage : IOptionPage
   {
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public AboutOptionPage() => InitializeComponent();
+    public SysInfoOptionPage()
+    {
+      InitializeComponent();
+    }
 
     /// <summary>
     /// Current page title
     /// </summary>
-    public string PageTitle => Application.Current.TryFindResource("AboutOptionPageTitle").ToString();
+    public string PageTitle => Application.Current.TryFindResource("AboutOptionSysInfoTitle").ToString();
   }
 }

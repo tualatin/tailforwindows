@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using Org.Vs.TailForWin.Business.Interfaces;
 
 
@@ -12,17 +12,11 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public AlertOptionPage()
-    {
-      InitializeComponent();
-    }
+    public AlertOptionPage() => InitializeComponent();
 
     /// <summary>
     /// Current page title
     /// </summary>
-    public string PageTitle
-    {
-      get;
-    } = Application.Current.TryFindResource("AlertOptionPageTitle").ToString();
+    public string PageTitle => Application.Current.TryFindResource("AlertOptionPageTitle").ToString();
   }
 }

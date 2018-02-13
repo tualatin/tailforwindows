@@ -128,9 +128,9 @@
     <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
     <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
     <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-    <Setter Property="IsEnabled" Value="{Binding Path=IsEnabled, Mode=TwoWay}" />
-    <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}" />
-    <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+    <Setter Property="IsEnabled" Value="{Binding Path=IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
     <Setter Property="Padding" Value="1 0 0 0" />
     <Setter Property="Template">
       <Setter.Value>

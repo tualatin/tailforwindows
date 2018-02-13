@@ -1,22 +1,21 @@
 ﻿using System.Windows;
 using Org.Vs.TailForWin.Business.Interfaces;
 
-
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption
 {
   /// <summary>
-  /// Interaction logic for AboutOptionPage.xaml
+  /// Interaction logic for UpdateOptionPage.xaml
   /// </summary>
-  public partial class AboutOptionPage : IOptionPage
+  public partial class UpdateOptionPage : IOptionPage
   {
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public AboutOptionPage() => InitializeComponent();
+    public UpdateOptionPage() => InitializeComponent();
 
     /// <summary>
     /// Current page title
     /// </summary>
-    public string PageTitle => Application.Current.TryFindResource("AboutOptionPageTitle").ToString();
+    public string PageTitle => Application.Current.TryFindResource("AboutOptionUpdatePageTitle").ToString();
   }
 }

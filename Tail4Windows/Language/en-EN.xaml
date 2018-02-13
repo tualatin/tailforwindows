@@ -58,6 +58,8 @@
   <system:String x:Key="OptionsSystemMenu">Settings...</system:String>
   <system:String x:Key="CancelText">Cancel</system:String>
   <system:String x:Key="AboutOptionPageTitle">About</system:String>
+  <system:String x:Key="AboutOptionUpdatePageTitle">Update</system:String>
+  <system:String x:Key="AboutOptionSysInfoTitle">System Info</system:String>
   <system:String x:Key="OptionsPageTitle">Options - {0}</system:String>
   <system:String x:Key="EnvironmentOptionPageTitle">Environment</system:String>
   <system:String x:Key="AlertOptionPageTitle">Alert</system:String>

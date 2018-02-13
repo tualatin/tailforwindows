@@ -177,6 +177,12 @@
     </ApplicationDefinition>
     <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
     <Compile Include="BaseView\ViewModels\TreeNodeOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\AboutOption\SysInfoOptionPage.xaml.cs">
+      <DependentUpon>SysInfoOptionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\OptionModules\AboutOption\UpdateOptionPage.xaml.cs">
+      <DependentUpon>UpdateOptionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\TreeNodeToImageConverter.cs" />
@@ -351,6 +357,14 @@
     <Compile Include="Core\Logging\SingleLetterLevelConverter.cs" />
     <Compile Include="Core\Logging\ZippingRollingFileAppender.cs" />
     <Page Include="PlugIns\OptionModules\AboutOption\AboutOptionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\OptionModules\AboutOption\SysInfoOptionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\OptionModules\AboutOption\UpdateOptionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

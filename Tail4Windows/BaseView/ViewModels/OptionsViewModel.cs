@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using log4net;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -25,6 +26,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
   /// </summary>
   public class OptionsViewModel : NotifyMaster
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(OptionsViewModel));
+
     private EnvironmentSettings.MementoEnvironmentSettings _mementoSettings;
     private readonly CancellationTokenSource _cts;
 
@@ -83,32 +86,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _mementoSettings = SettingsHelperController.CurrentSettings.SaveToMemento();
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
 
-      var environment = new EnvironmentOptionPage();
-      var optionPage1 = new TreeNodeOptionViewModel(environment, new[]
-      {
-        new TreeNodeOptionViewModel(environment, null)
-      }, "system.ico");
-
-      var alert = new AlertOptionPage();
-      var optionPage2 = new TreeNodeOptionViewModel(alert, new[]
-      {
-        new TreeNodeOptionViewModel(alert, null)
-      }, "alert.ico");
-
-      var about = new AboutOptionPage();
-      var optionPage3 = new TreeNodeOptionViewModel(about, new[]
-      {
-        new TreeNodeOptionViewModel(about, null)
-      }, "about.ico");
-
-      Root = new ObservableCollection<TreeNodeOptionViewModel>
-      {
-        optionPage1,
-        optionPage2,
-        optionPage3
-      };
-
-      Root.First().Expand();
+      InitializeOptionPages();
+      InitializeOptionView();
     }
 
     #region Commands
@@ -165,6 +144,59 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _mementoSettings = null;
       await EnvironmentContainer.Instance.SaveSettingsAsync(_cts).ConfigureAwait(false);
+    }
+
+    #endregion
+
+    #region HelperFunctions
+
+    private void InitializeOptionPages()
+    {
+      var environment = new EnvironmentOptionPage();
+      var optionPage1 = new TreeNodeOptionViewModel(environment, new[]
+      {
+        new TreeNodeOptionViewModel(environment, null)
+      }, "system.ico");
+
+      var alert = new AlertOptionPage();
+      var optionPage2 = new TreeNodeOptionViewModel(alert, new[]
+      {
+        new TreeNodeOptionViewModel(alert, null)
+      }, "alert.ico");
+
+      var about = new AboutOptionPage();
+      var optionPage3 = new TreeNodeOptionViewModel(about, new[]
+      {
+        new TreeNodeOptionViewModel(about, null),
+        new TreeNodeOptionViewModel(new UpdateOptionPage(), null),
+        new TreeNodeOptionViewModel(new SysInfoOptionPage(), null)
+      }, "about.ico");
+
+      Root = new ObservableCollection<TreeNodeOptionViewModel>
+      {
+        optionPage1,
+        optionPage2,
+        optionPage3
+      };
+    }
+
+    private void InitializeOptionView()
+    {
+      if ( Root == null || Root.Count == 0 )
+        return;
+
+      try
+      {
+        // Expand and select the first node
+        Root.First().IsExpanded = true;
+        Root.First().IsSelected = true;
+
+        CurrentViewModel = Root.First().OptionPage;
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+      }
     }
 
     #endregion
