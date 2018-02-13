@@ -141,7 +141,6 @@ namespace Org.Vs.TailForWin.Core.Utils
     public DateTime UpTime
     {
       get;
-      private set;
     }
 
     /// <summary>

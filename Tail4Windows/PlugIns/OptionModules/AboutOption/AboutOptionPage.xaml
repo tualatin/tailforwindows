@@ -1,15 +1,165 @@
-<UserControl
+﻿<UserControl
   x:Class="Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.AboutOptionPage"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption"
+  xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels"
   mc:Ignorable="d"
-  d:DesignHeight="300"
-  d:DesignWidth="300"
+  d:DesignHeight="250"
+  d:DesignWidth="500"
   >
+  <UserControl.DataContext>
+    <viewModels:AboutOptionViewModel />
+  </UserControl.DataContext>
+
+  <intr:Interaction.Triggers>
+    <intr:EventTrigger EventName="Loaded">
+      <intr:InvokeCommandAction Command="{Binding LoadedCommand}" />
+    </intr:EventTrigger>
+    <intr:EventTrigger EventName="Unloaded">
+      <intr:InvokeCommandAction Command="{Binding UnloadedCommand}" />
+    </intr:EventTrigger>
+  </intr:Interaction.Triggers>
+
   <Grid>
-    <Label Content="About a lot of shit" />
+    <Grid.RowDefinitions>
+      <RowDefinition Height="40" />
+      <RowDefinition Height="30" />
+      <RowDefinition Height="30" />
+      <RowDefinition Height="30" />
+      <RowDefinition Height="25" />
+      <RowDefinition Height="30" />
+      <RowDefinition Height="30" />
+    </Grid.RowDefinitions>
+
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="73" />
+      <ColumnDefinition Width="90" />
+      <ColumnDefinition Width="229*" />
+    </Grid.ColumnDefinitions>
+
+    <Label
+      Grid.ColumnSpan="3"
+      Margin="0 3"
+      VerticalAlignment="Center"
+      Content="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationTitle}}"
+      FontSize="18"
+      FontStretch="Normal"
+      FontWeight="Bold"
+      />
+
+    <Label
+      Grid.Row="1"
+      Grid.Column="0"
+      Margin="0"
+      VerticalAlignment="Center"
+      Content="{StaticResource AboutVersionString}"
+      />
+    <Label
+      Grid.Row="1"
+      Grid.Column="1"
+      Grid.ColumnSpan="2"
+      Margin="0 2"
+      VerticalAlignment="Center"
+      Content="{Binding Version}"
+      FontWeight="Bold"
+      />
+
+    <!--  ReSharper disable once Xaml.MissingGridIndex  -->
+    <Image
+      Grid.RowSpan="2"
+      Grid.Column="2"
+      HorizontalAlignment="Right"
+      VerticalAlignment="Center"
+      Source="/T4W;component/Resources/Main.ico"
+      Stretch="Uniform"
+      />
+
+    <Label
+      Grid.Row="2"
+      Grid.Column="0"
+      Margin="0"
+      VerticalAlignment="Center"
+      Content="{StaticResource AboutBuildDateString}"
+      />
+    <Label
+      Grid.Row="2"
+      Grid.Column="1"
+      Grid.ColumnSpan="2"
+      Margin="0 2"
+      VerticalAlignment="Center"
+      Content="{Binding BuildDate}"
+      />
+
+    <Label
+      Grid.Row="3"
+      Grid.Column="0"
+      Margin="0"
+      VerticalAlignment="Center"
+      Content="{StaticResource AboutAuthorString}"
+      />
+    <Label
+      Grid.Row="3"
+      Grid.Column="1"
+      Grid.ColumnSpan="2"
+      Margin="0 2"
+      VerticalAlignment="Center"
+      Content="{Binding Author}"
+      />
+
+    <Label
+      Grid.Row="4"
+      Grid.Column="1"
+      Grid.ColumnSpan="2"
+      Margin="0 2"
+      VerticalAlignment="Center"
+      Content="{StaticResource AboutAllRightReservedString}"
+      />
+
+    <!--  ReSharper disable once Xaml.MissingGridIndex  -->
+    <Label
+      Grid.Row="5"
+      VerticalAlignment="Center"
+      Content="{StaticResource AboutHomepageString}"
+      />
+    <TextBlock
+      Grid.Row="5"
+      Grid.Column="1"
+      Grid.ColumnSpan="2"
+      VerticalAlignment="Center"
+      >
+      <Hyperlink
+        Name="Hyperlink"
+        NavigateUri="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationUpdateWebUrl}}"
+        >
+        <TextBlock Text="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationUpdateWebUrl}}" />
+        <intr:Interaction.Triggers>
+          <intr:EventTrigger EventName="RequestNavigate">
+            <intr:InvokeCommandAction
+              Command="{Binding RequestNavigateCommand}"
+              CommandParameter="{Binding NavigateUri, ElementName=Hyperlink}"
+              />
+          </intr:EventTrigger>
+        </intr:Interaction.Triggers>
+      </Hyperlink>
+    </TextBlock>
+
+    <!--  ReSharper disable once Xaml.MissingGridIndex  -->
+    <Label
+      Grid.Row="6"
+      VerticalAlignment="Center"
+      Content="{StaticResource AboutUptimeString}"
+      />
+    <Label
+      Grid.Row="6"
+      Grid.Column="1"
+      Grid.ColumnSpan="2"
+      Margin="0 2"
+      VerticalAlignment="Center"
+      Content="{Binding UpTime, UpdateSourceTrigger=PropertyChanged}"
+      />
   </Grid>
 </UserControl>

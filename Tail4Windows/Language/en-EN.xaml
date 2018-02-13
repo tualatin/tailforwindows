@@ -63,6 +63,15 @@
   <system:String x:Key="OptionsPageTitle">Options - {0}</system:String>
   <system:String x:Key="EnvironmentOptionPageTitle">Environment</system:String>
   <system:String x:Key="AlertOptionPageTitle">Alert</system:String>
+
+  <system:String x:Key="AboutVersionString">Version:</system:String>
+  <system:String x:Key="AboutBuildDateString">Build date:</system:String>
+  <system:String x:Key="AboutAuthorString">Author:</system:String>
+  <system:String x:Key="AboutAllRightReservedString">All rights reserved</system:String>
+  <system:String x:Key="AboutHomepageString">Homepage:</system:String>
+  <system:String x:Key="AboutUptimeString">Uptime:</system:String>
+  <system:String x:Key="AboutUptimeHours">hour(s)</system:String>
+  <system:String x:Key="AboutUptimeDays">day(s)</system:String>
   <system:String
     x:Key="SmartWatchHint"
     xml:space="preserve"

@@ -183,6 +183,7 @@
     <Compile Include="PlugIns\OptionModules\AboutOption\UpdateOptionPage.xaml.cs">
       <DependentUpon>UpdateOptionPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\TreeNodeToImageConverter.cs" />
