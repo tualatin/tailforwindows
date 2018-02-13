@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Org.Vs.TailForWin.BaseView.Interfaces;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Interfaces;
 
 
 namespace Org.Vs.TailForWin.BaseView.ViewModels
@@ -130,7 +130,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public void Expand()
     {
-      Children.Where(p => !p.IsLeaf).ToList().ForEach(
+      Children.Where(p => p.IsLeaf).ToList().ForEach(
         p =>
         {
           p.IsExpanded = true;

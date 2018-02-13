@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace Org.Vs.TailForWin.BaseView.Interfaces
+namespace Org.Vs.TailForWin.Core.Interfaces
 {
   /// <summary>
   /// Tree node view model interface

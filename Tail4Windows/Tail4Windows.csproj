@@ -175,7 +175,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BaseView\Interfaces\ITreeNodeViewModel.cs" />
+    <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
     <Compile Include="BaseView\ViewModels\TreeNodeViewModel.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\ExtendedControls\WindowEx.cs" />
@@ -619,6 +619,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="BaseView\Interfaces\" />
     <Folder Include="Core\Events\Args\" />
     <Folder Include="Core\Events\Delegates\" />
     <Folder Include="Core\Events\EventManagers\" />
