@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Threading;
 using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -20,7 +20,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public CultureInfo CurrentCultureInfo
     {
       get => _cultureInfo ?? Thread.CurrentThread.CurrentUICulture;
-      set
+      private set
       {
         if ( Equals(_cultureInfo, value) )
           return;
@@ -30,6 +30,21 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         Thread.CurrentThread.CurrentCulture = value;
 
         OnPropertyChanged(nameof(CurrentCultureInfo));
+      }
+    }
+
+    private EUiLanguage _language;
+
+    /// <summary>
+    /// Current UI language
+    /// </summary>
+    public EUiLanguage Language
+    {
+      get => _language;
+      set
+      {
+        _language = value;
+        OnPropertyChanged(nameof(Language));
       }
     }
 

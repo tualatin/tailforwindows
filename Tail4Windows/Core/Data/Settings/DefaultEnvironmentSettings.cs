@@ -1,3 +1,5 @@
+﻿using Org.Vs.TailForWin.Core.Enums;
+
 namespace Org.Vs.TailForWin.Core.Data.Settings
 {
   /// <summary>
@@ -6,6 +8,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
   public static class DefaultEnvironmentSettings
   {
     #region Window default settings
+
+    /// <summary>
+    /// Default value Language;
+    /// </summary>
+    public static EUiLanguage Language = EUiLanguage.English;
 
     /// <summary>
     /// Default value Always on top

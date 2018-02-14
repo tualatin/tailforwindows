@@ -1,4 +1,4 @@
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -32,6 +32,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       ExitWithEscape = memento.ExitWithEscape;
       DeleteLogFiles = memento.DeleteLogFiles;
       CurrentWindowStyle = memento.CurrentWindowStyle;
+      Language = memento.Language;
     }
 
     /// <summary>
@@ -49,9 +50,18 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         ExitWithEscape = obj.ExitWithEscape;
         DeleteLogFiles = obj.DeleteLogFiles;
         CurrentWindowStyle = obj.CurrentWindowStyle;
+        Language = obj.Language;
       }
 
       #region Window settings
+
+      /// <summary>
+      /// Current UI language
+      /// </summary>
+      public EUiLanguage Language
+      {
+        get;
+      }
 
       /// <summary>
       /// Restore window size at startup

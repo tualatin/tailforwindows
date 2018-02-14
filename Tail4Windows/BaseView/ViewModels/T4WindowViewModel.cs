@@ -203,6 +203,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       SetDefaultWindowSettings();
       MoveIntoView();
       RestoreWindowSizeAndPosition();
+      SetUiLanguage();
     }
 
     #region Commands
@@ -321,6 +322,31 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         SettingsHelperController.CurrentSettings.CurrentWindowStyle = EWindowStyle.ModernLightWindowStyle;
         break;
       }
+    }
+
+    private void SetUiLanguage()
+    {
+      ResourceDictionary dictionary = new ResourceDictionary();
+
+      switch ( SettingsHelperController.CurrentSettings.Language )
+      {
+      case EUiLanguage.English:
+
+        dictionary.Source = new Uri(@"..\Language\en-EN.xaml", UriKind.Relative);
+        break;
+
+      case EUiLanguage.German:
+
+        dictionary.Source = new Uri(@"..\Language\de-DE.xaml", UriKind.Relative);
+        break;
+
+      default:
+
+        dictionary.Source = new Uri(@"..\Language\en-EN.xaml", UriKind.Relative);
+        break;
+      }
+
+      Application.Current.Resources.MergedDictionaries.Add(dictionary);
     }
 
     private void MoveIntoView()

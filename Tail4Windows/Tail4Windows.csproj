@@ -175,6 +175,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\Enums\EUiLanguage.cs" />
     <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
     <Compile Include="BaseView\ViewModels\TreeNodeOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\SysInfoOptionPage.xaml.cs">
