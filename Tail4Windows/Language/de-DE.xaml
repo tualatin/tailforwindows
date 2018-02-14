@@ -14,26 +14,26 @@
   <system:String x:Key="Pause">Pause</system:String>
   <system:String x:Key="NoFile">Keine Datei.</system:String>
   <system:String x:Key="LastTab">Der letzte Tab kann nicht entfernt werden.</system:String>
-  <system:String x:Key="QRemoveTab">Are you sure you want to remove the tab</system:String>
+  <system:String x:Key="QRemoveTab">Möchten Sie den Reiter wirklich schliesen</system:String>
   <system:String x:Key="TrayIconReady">Bereit...</system:String>
   <system:String x:Key="HCloseTab">Please close some tail windows before open a new one!</system:String>
   <system:String x:Key="LinesRead">Zeilen gelesen=</system:String>
-  <system:String x:Key="QResetSettings">Do you really want reset all settings to default?</system:String>
-  <system:String x:Key="QDeleteDataGridItem">Do you want delete selected item?</system:String>
-  <system:String x:Key="NoContentFound">The XML file is empty!</system:String>
+  <system:String x:Key="QResetSettings">Möchten Sie wirklich alle Einstellungen zurücksetzen?</system:String>
+  <system:String x:Key="QDeleteDataGridItem">Möchten Sie die Auswahl wirklich löschen?</system:String>
+  <system:String x:Key="NoContentFound">Die XML Datei ist leer!</system:String>
   <system:String x:Key="FileEncodingLabel">(If no value selected, auto file encoding is on)</system:String>
   <system:String x:Key="Os">Betriebssystem</system:String>
   <system:String x:Key="FindDialogTitle">Suche</system:String>
   <system:String x:Key="SearchCount">Anzahl: {0} Treffer.</system:String>
-  <system:String x:Key="SelectSoundFile">Please select a sound file</system:String>
+  <system:String x:Key="SelectSoundFile">Bitte eine Mediendatei auswählen</system:String>
   <system:String x:Key="NoSoundFile">This is a unknown sound file format. Please select a valid sound file!</system:String>
-  <system:String x:Key="FilterNotEmpty">The filter value cannot be null!</system:String>
-  <system:String x:Key="FiltersLoaded">{0} filters</system:String>
-  <system:String x:Key="FilterLoaded">{0} filter</system:String>
-  <system:String x:Key="FileManagerCloseUnsaveItem">The last edit item is unsaved. Please save the item, before close the dialog.</system:String>
-  <system:String x:Key="GoToLineNumber">Line number ({0}-{1}):</system:String>
+  <system:String x:Key="FilterNotEmpty">Der Filter darf nicht leer sein!</system:String>
+  <system:String x:Key="FiltersLoaded">{0} Filter</system:String>
+  <system:String x:Key="FilterLoaded">{0} Filter</system:String>
+  <system:String x:Key="FileManagerCloseUnsaveItem">Die letzten Änderungen wurde noch nicht gespeichert. Bitte speichern Sie alle Änderungen, bevor der Dialog geschlossen werden kann.</system:String>
+  <system:String x:Key="GoToLineNumber">Linien Nummer ({0}-{1}):</system:String>
   <system:String x:Key="NoUpdate">Kein Update notwendig</system:String>
-  <system:String x:Key="DoUpdate">Neues update steht zur verfügung</system:String>
+  <system:String x:Key="DoUpdate">Ein neues update steht zur verfügung</system:String>
   <system:String x:Key="DragDropRunningWarning">There is a running process! Do you want open a new TailWindow tab?</system:String>
   <system:String x:Key="EMailAddressNotValid">The E-Mail address is not valid!</system:String>
   <system:String x:Key="SmtpPortNotValid">The SMTP Server Port is not valid!</system:String>
@@ -42,7 +42,7 @@
   <system:String x:Key="OpenDialogImportSettings">Please select a exported settings file...</system:String>
   <system:String x:Key="QImportSettings">Do you really want to import this settings? Your old settings will override.</system:String>
   <system:String x:Key="QAddSendTo">Do you really want to add {0} into the &quot;Send to&quot; context menu of Windows?</system:String>
-  <system:String x:Key="WndStyleChanged">Window style changed, please restart {0}, to see the changes.</system:String>
+  <system:String x:Key="WndStyleChanged">Das Window Design wurde geändern, bitte starten Sie {0} neu, damit die Änderungen wirksam werden.</system:String>
   <system:String x:Key="Lowest">Lowest</system:String>
   <system:String x:Key="BelowNormal">Below normal</system:String>
   <system:String x:Key="Normal">Normal</system:String>
@@ -50,9 +50,9 @@
   <system:String x:Key="Highest">Highest</system:String>
   <system:String x:Key="MinimizeWindowToolTip">Minimieren</system:String>
   <system:String x:Key="MaximizeWindowToolTip">Maximieren</system:String>
-  <system:String x:Key="RestoreWindowToolTip">Restore Down</system:String>
+  <system:String x:Key="RestoreWindowToolTip">Wiederherstellen</system:String>
   <system:String x:Key="CloseWindowToolTip">Schliesen</system:String>
-  <system:String x:Key="AlwaysOnTopToolTip">Always on top (ALT+T)</system:String>
+  <system:String x:Key="AlwaysOnTopToolTip">Immer im Vordergrund (ALT+T)</system:String>
   <system:String x:Key="QuickSearchToolTip">Schnellsuche im aktuellen Tail-Fenster (CTRL+Q)</system:String>
   <system:String x:Key="QuickSearchEnterToolTip">Suche</system:String>
   <system:String x:Key="OptionsSystemMenu">Einstellungen...</system:String>
@@ -77,9 +77,9 @@
     xml:space="preserve"
     >File {0} detected.&#10;What should {1} do?</system:String>
   <system:String x:Key="ThreadIsBusy">There is a running process in {0}. Are you sure to exit?</system:String>
-  <system:String x:Key="FileAlreadyOpen">File '{0}' is already open.</system:String>
-  <system:String x:Key="SmartWatchCanNotStart">SmartWatch can not start, an internal error occurred.</system:String>
-  <system:String x:Key="XmlExceptionConfigFileCorrupt">The XML file is not a valid file or corrupted!</system:String>
+  <system:String x:Key="FileAlreadyOpen">Die Datei '{0}' ist bereits geöffnet.</system:String>
+  <system:String x:Key="SmartWatchCanNotStart">SmartWatch kann nicht gestartet werden, es trat ein interner Fehler auf.</system:String>
+  <system:String x:Key="XmlExceptionConfigFileCorrupt">Die XML Datei ist ungültig oder beschädigt!</system:String>
   <system:String x:Key="WebUrl">https://github.com/tualatin/tailforwindows/releases</system:String>
   <system:String x:Key="QuickSearchWatermark">Schnellsuche</system:String>
 </ResourceDictionary>
