@@ -148,10 +148,17 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
         var uptime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
         UpTime = $"{uptime.Days} {_days}, {uptime.Hours:00}:{uptime.Minutes:00}:{uptime.Seconds:00} {_hours}";
 
-        await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
+        try
+        {
+          await Task.Delay(TimeSpan.FromSeconds(1), _cts.Token).ConfigureAwait(false);
+        }
+        catch
+        {
+          // Nothing
+        }
       }
     }
-    private void ExecuteUnloadedCommand() => _cts.Cancel();
+    private void ExecuteUnloadedCommand() => _cts?.Cancel();
 
     private void ExecuteRequestNavigateCommand(object parameter)
     {

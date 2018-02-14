@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Org.Vs.TailForWin.Business.Interfaces;
+using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
 
 
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption
@@ -12,10 +12,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public SysInfoOptionPage()
-    {
-      InitializeComponent();
-    }
+    public SysInfoOptionPage() => InitializeComponent();
 
     /// <summary>
     /// Current page title

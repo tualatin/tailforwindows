@@ -207,7 +207,7 @@
     <Compile Include="Business\Data\BusinessMainWndToMainWndStatusBarData.cs" />
     <Compile Include="Business\Data\Messages\QuickSearchTextBoxGetFocusMessage.cs" />
     <Compile Include="Business\Events\Args\ArgDummy.cs" />
-    <Compile Include="Business\Interfaces\IOptionPage.cs" />
+    <Compile Include="PlugIns\OptionModules\Interfaces\IOptionPage.cs" />
     <Compile Include="Core\Controllers\SettingsHelperController.cs" />
     <Compile Include="Core\Controllers\UpdateController.cs" />
     <Compile Include="Core\Controllers\WebDataController.cs" />
@@ -340,6 +340,10 @@
     <Page Include="BaseView\UserControls\MainWindowToolbarButtons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Language\de-DE.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Language\en-EN.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -637,6 +641,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BaseView\Interfaces\" />
+    <Folder Include="Business\Interfaces\" />
     <Folder Include="Core\Events\Args\" />
     <Folder Include="Core\Events\Delegates\" />
     <Folder Include="Core\Events\EventManagers\" />

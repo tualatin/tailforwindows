@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
 
 
 namespace Org.Vs.TailForWin.BaseView.ViewModels

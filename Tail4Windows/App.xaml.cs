@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using log4net;
@@ -32,7 +32,7 @@ namespace Org.Vs.TailForWin
       if ( e.Args.Length <= 0 )
         return;
 
-      foreach ( var arg in e.Args )
+      foreach ( string arg in e.Args )
       {
         Match m = Regex.Match(arg, "/id=");
 

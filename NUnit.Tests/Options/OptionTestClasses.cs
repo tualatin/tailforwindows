@@ -1,4 +1,4 @@
-﻿using Org.Vs.TailForWin.Business.Interfaces;
+﻿using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
 
 namespace Org.Vs.NUnit.Tests.Options
 {

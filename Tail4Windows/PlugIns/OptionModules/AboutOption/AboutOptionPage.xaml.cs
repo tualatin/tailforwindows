@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Org.Vs.TailForWin.Business.Interfaces;
+using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
 
 
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption
