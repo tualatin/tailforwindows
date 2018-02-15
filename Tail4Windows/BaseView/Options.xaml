@@ -97,8 +97,8 @@
     <ContentControl
       Grid.Row="0"
       Grid.Column="2"
-      HorizontalAlignment="Center"
-      VerticalAlignment="Center"
+      HorizontalAlignment="Left"
+      VerticalAlignment="Top"
       Content="{Binding CurrentViewModel, UpdateSourceTrigger=PropertyChanged}"
       />
 

@@ -56,7 +56,7 @@
       Grid.Column="0"
       Margin="0"
       VerticalAlignment="Center"
-      Content="{StaticResource AboutVersionString}"
+      Content="{DynamicResource AboutVersionString}"
       />
     <Label
       Grid.Row="1"
@@ -83,7 +83,7 @@
       Grid.Column="0"
       Margin="0"
       VerticalAlignment="Center"
-      Content="{StaticResource AboutBuildDateString}"
+      Content="{DynamicResource AboutBuildDateString}"
       />
     <Label
       Grid.Row="2"
@@ -99,7 +99,7 @@
       Grid.Column="0"
       Margin="0"
       VerticalAlignment="Center"
-      Content="{StaticResource AboutAuthorString}"
+      Content="{DynamicResource AboutAuthorString}"
       />
     <Label
       Grid.Row="3"
@@ -116,14 +116,14 @@
       Grid.ColumnSpan="2"
       Margin="0 2"
       VerticalAlignment="Center"
-      Content="{StaticResource AboutAllRightReservedString}"
+      Content="{DynamicResource AboutAllRightReservedString}"
       />
 
     <!--  ReSharper disable once Xaml.MissingGridIndex  -->
     <Label
       Grid.Row="5"
       VerticalAlignment="Center"
-      Content="{StaticResource AboutHomepageString}"
+      Content="{DynamicResource AboutHomepageString}"
       />
     <TextBlock
       Grid.Row="5"
@@ -151,7 +151,7 @@
     <Label
       Grid.Row="6"
       VerticalAlignment="Center"
-      Content="{StaticResource AboutUptimeString}"
+      Content="{DynamicResource AboutUptimeString}"
       />
     <Label
       Grid.Row="6"

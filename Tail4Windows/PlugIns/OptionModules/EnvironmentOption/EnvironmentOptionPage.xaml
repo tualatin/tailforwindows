@@ -6,19 +6,33 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
-  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   mc:Ignorable="d"
-  d:DesignHeight="300"
-  d:DesignWidth="300"
+  d:DesignHeight="400"
+  d:DesignWidth="400"
   >
-  <UserControl.Resources>
-    <converters:LanguageMappingToEnumLanguageConverter x:Key="EnumLanguageConverter" />
-  </UserControl.Resources>
   <Grid>
-    <Label Content="{StaticResource UiLanguage}" />
+    <Grid.RowDefinitions>
+      <RowDefinition Height="26" />
+      <RowDefinition Height="26" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="150" />
+      <ColumnDefinition Width="200" />
+    </Grid.ColumnDefinitions>
+
+    <Label
+      Grid.Row="0"
+      Grid.Column="0"
+      Margin="5 0 0 0"
+      VerticalAlignment="Center"
+      Content="{DynamicResource UiLanguage}"
+      />
     <ComboBox
+      Grid.Row="0"
+      Grid.Column="1"
       Height="23"
+      Margin="6 0 0 0"
       DisplayMemberPath="Description"
       Foreground="Black"
       ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=Languages}"
@@ -30,11 +44,11 @@
         <StackPanel>
           <TextBlock
             Margin="0 0 0 5"
-            Text="{StaticResource UiLanguage}"
+            Text="{DynamicResource UiLanguage}"
             FontSize="12"
             FontWeight="Bold"
             />
-          <TextBlock>Always on top toggle on/off (T)</TextBlock>
+          <TextBlock Text="{DynamicResource EnvironmentLanguageToolTip}" />
           <Border
             Margin="0 8"
             BorderBrush="Silver"
@@ -50,12 +64,92 @@
               Source="/T4W;component/Resources/Search.ico"
               />
             <TextBlock
-              Text="{StaticResource GeneralToolTipHint}"
+              Text="{DynamicResource GeneralToolTipHint}"
               FontStyle="Italic"
               />
           </WrapPanel>
         </StackPanel>
       </ComboBox.ToolTip>
     </ComboBox>
+
+    <CheckBox
+      Grid.Row="1"
+      Grid.Column="0"
+      Height="22"
+      Content="{DynamicResource EnvironmentAlwaysOnTop}"
+      IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlwaysOnTop, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+      TabIndex="1"
+      >
+      <CheckBox.ToolTip>
+        <StackPanel>
+          <TextBlock
+            Margin="0 0 0 5"
+            Text="{DynamicResource EnvironmentAlwaysOnTop}"
+            FontSize="12"
+            FontWeight="Bold"
+            />
+          <TextBlock Text="{DynamicResource EnvironmentAlwaysOnTopToolTip}" />
+          <Border
+            Margin="0 8"
+            BorderBrush="Silver"
+            BorderThickness="0 1 0 0"
+            />
+          <WrapPanel>
+            <Image
+              Width="16"
+              Height="16"
+              Margin="0 0 5 0"
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/Search.ico"
+              />
+            <TextBlock
+              Text="{DynamicResource GeneralToolTipHint}"
+              FontStyle="Italic"
+              />
+          </WrapPanel>
+        </StackPanel>
+      </CheckBox.ToolTip>
+    </CheckBox>
+
+    <CheckBox
+      Grid.Row="1"
+      Grid.Column="1"
+      Height="22"
+      Content="{DynamicResource EnvironmentExitWithEscape}"
+      IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ExitWithEscape, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+      TabIndex="1"
+      >
+      <CheckBox.ToolTip>
+        <StackPanel>
+          <TextBlock
+            Margin="0 0 0 5"
+            Text="{DynamicResource EnvironmentExitWithEscape}"
+            FontSize="12"
+            FontWeight="Bold"
+            />
+          <TextBlock Text="{DynamicResource EnvironmentExitWithEscapeTopToolTip}" />
+          <Border
+            Margin="0 8"
+            BorderBrush="Silver"
+            BorderThickness="0 1 0 0"
+            />
+          <WrapPanel>
+            <Image
+              Width="16"
+              Height="16"
+              Margin="0 0 5 0"
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/Search.ico"
+              />
+            <TextBlock
+              Text="{DynamicResource GeneralToolTipHint}"
+              FontStyle="Italic"
+              />
+          </WrapPanel>
+        </StackPanel>
+      </CheckBox.ToolTip>
+    </CheckBox>
   </Grid>
 </UserControl>

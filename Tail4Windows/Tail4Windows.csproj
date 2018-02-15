@@ -187,7 +187,6 @@
     </Compile>
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="UI\Converters\LanguageMappingToEnumLanguageConverter.cs" />
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\TreeNodeToImageConverter.cs" />
     <Compile Include="UI\ExtendedControls\WindowEx.cs" />

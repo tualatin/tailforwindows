@@ -87,4 +87,10 @@
   <system:String x:Key="QuickSearchWatermark">Quick search</system:String>
 
   <system:String x:Key="GeneralToolTipHint">Take a look into Readme file for more informations</system:String>
+
+  <system:String x:Key="EnvironmentLanguageToolTip">Set application wide language</system:String>
+  <system:String x:Key="EnvironmentAlwaysOnTop">Always on top</system:String>
+  <system:String x:Key="EnvironmentAlwaysOnTopToolTip">Application is always on top</system:String>
+  <system:String x:Key="EnvironmentExitWithEscape">Exit with Escape</system:String>
+  <system:String x:Key="EnvironmentExitWithEscapeTopToolTip">Exit Application by pressing the Escape key</system:String>
 </ResourceDictionary>

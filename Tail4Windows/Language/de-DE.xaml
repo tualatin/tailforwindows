@@ -64,7 +64,7 @@
   <system:String x:Key="AboutOptionUpdatePageTitle">Update</system:String>
   <system:String x:Key="AboutOptionSysInfoTitle">System Info</system:String>
   <system:String x:Key="OptionsPageTitle">Options - {0}</system:String>
-  <system:String x:Key="EnvironmentOptionPageTitle">Environment</system:String>
+  <system:String x:Key="EnvironmentOptionPageTitle">Umgebung</system:String>
   <system:String x:Key="AlertOptionPageTitle">Alarm</system:String>
 
   <system:String x:Key="AboutVersionString">Version:</system:String>
@@ -87,4 +87,10 @@
   <system:String x:Key="QuickSearchWatermark">Schnellsuche</system:String>
 
   <system:String x:Key="GeneralToolTipHint">Für zusätzliche Informationen, schauen Sie in die Readme Datei</system:String>
+
+  <system:String x:Key="EnvironmentLanguageToolTip">Programmsprache setzen</system:String>
+  <system:String x:Key="EnvironmentAlwaysOnTop">Immer im Vordergrund</system:String>
+  <system:String x:Key="EnvironmentAlwaysOnTopToolTip">Das Programm befindet sich immer im Vordergrund</system:String>
+  <system:String x:Key="EnvironmentExitWithEscape">Beenden mit Escape</system:String>
+  <system:String x:Key="EnvironmentExitWithEscapeTopToolTip">Das Programm mit Escape beenden</system:String>
 </ResourceDictionary>
