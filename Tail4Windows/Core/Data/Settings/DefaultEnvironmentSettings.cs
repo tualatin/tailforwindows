@@ -24,6 +24,36 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// </summary>
     public static bool RestoreWindowSize = false;
 
+    /// <summary>
+    /// Default value ExitWithEscape
+    /// </summary>
+    public static bool ExitWithEscape = false;
+
+    /// <summary>
+    /// Default value SaveWindowPositon
+    /// </summary>
+    public static bool SaveWindowPosition = false;
+
+    /// <summary>
+    /// Default value WindowWidth
+    /// </summary>
+    public static double WindowWidth = -1;
+
+    /// <summary>
+    /// Default value WindowHeight
+    /// </summary>
+    public static double WindowHeight = -1;
+
+    /// <summary>
+    /// Default value WindowPosition X
+    /// </summary>
+    public static double WindowPositionX = -1;
+
+    /// <summary>
+    /// Default value WindowPosition Y
+    /// </summary>
+    public static double WindowPositionY = -1;
+    
     #endregion
 
     #region StatusBar default settings

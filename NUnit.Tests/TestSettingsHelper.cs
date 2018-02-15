@@ -1,3 +1,8 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using NUnit.Framework;
@@ -26,6 +31,7 @@ namespace Org.Vs.NUnit.Tests
     {
       await _currentSettings.ReadSettingsAsync().ConfigureAwait(false);
 
+      Assert.AreEqual(EUiLanguage.English, SettingsHelperController.CurrentSettings.Language);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.SmartWatch);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.AlwaysScrollToEnd);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.AutoUpdate);
@@ -116,6 +122,7 @@ namespace Org.Vs.NUnit.Tests
       SettingsHelperController.CurrentSettings.RestoreWindowSize = true;
       SettingsHelperController.CurrentSettings.CurrentWindowState = WindowState.Maximized;
       SettingsHelperController.CurrentSettings.SaveWindowPosition = true;
+      SettingsHelperController.CurrentSettings.Language = EUiLanguage.German;
 
       await _currentSettings.SaveSettingsAsync().ConfigureAwait(false);
 
@@ -126,6 +133,7 @@ namespace Org.Vs.NUnit.Tests
       SettingsHelperController.CurrentSettings.RestoreWindowSize = false;
       SettingsHelperController.CurrentSettings.CurrentWindowState = default(WindowState);
       SettingsHelperController.CurrentSettings.SaveWindowPosition = false;
+      SettingsHelperController.CurrentSettings.Language = EUiLanguage.English;
 
       await _currentSettings.ReloadCurrentSettingsAsync().ConfigureAwait(false);
       await _currentSettings.ReadSettingsAsync().ConfigureAwait(false);
@@ -138,6 +146,32 @@ namespace Org.Vs.NUnit.Tests
       Assert.IsTrue(SettingsHelperController.CurrentSettings.ExitWithEscape);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.RestoreWindowSize);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.SaveWindowPosition);
+      Assert.AreEqual(EUiLanguage.German, SettingsHelperController.CurrentSettings.Language);
+    }
+
+    [Test]
+    public async Task TestSettingsHelperAddSettingsToConfigAsync()
+    {
+      Dictionary<string, string> newSetting = new Dictionary<string, string>
+      {
+        { "TestKey", "TestValue" }
+      };
+
+      await _currentSettings.AddNewPropertyAsync(newSetting, new CancellationTokenSource(TimeSpan.FromMinutes(1))).ConfigureAwait(false);
+      await _currentSettings.ReadSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(1))).ConfigureAwait(false);
+
+      Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+      Assert.IsTrue(config.AppSettings.Settings.AllKeys.Contains("TestKey"));
+      Assert.IsFalse(config.AppSettings.Settings.AllKeys.Contains("blablabla"));
+
+      await _currentSettings.AddNewPropertyAsync(newSetting, new CancellationTokenSource(TimeSpan.FromMinutes(1))).ConfigureAwait(false);
+      await _currentSettings.ReadSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(1))).ConfigureAwait(false);
+
+      config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+      var count = config.AppSettings.Settings.AllKeys.Where(p => p.Equals("TestKey")).ToList();
+      Assert.AreEqual(1, count.Count);
     }
   }
 }

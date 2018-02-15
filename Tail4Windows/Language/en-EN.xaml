@@ -3,6 +3,8 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:system="clr-namespace:System;assembly=mscorlib"
   >
+  <system:String x:Key="LanguageEnglish">English</system:String>
+  <system:String x:Key="LanguageGerman">German</system:String>
   <system:String x:Key="ApplicationTitle">Tail4Windows</system:String>
   <system:String x:Key="OpenFileDialog">Please select a file to tail...</system:String>
   <system:String x:Key="FileNotFound">File not found!</system:String>

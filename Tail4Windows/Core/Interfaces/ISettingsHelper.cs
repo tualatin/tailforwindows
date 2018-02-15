@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 
@@ -14,6 +15,13 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// </summary>
     /// <returns>Task</returns>
     Task ReadSettingsAsync();
+
+    /// <summary>
+    /// Reads current settings
+    /// </summary>
+    /// <param name="cts">CancellationTokenSource</param>
+    /// <returns>Task</returns>
+    Task ReadSettingsAsync(CancellationTokenSource cts);
 
     /// <summary>
     /// Writes current settings
@@ -46,5 +54,13 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// </summary>
     /// <returns>Task</returns>
     Task ReloadCurrentSettingsAsync();
+
+    /// <summary>
+    /// Adds a new property to config file
+    /// </summary>
+    /// <param name="newSettings">List of configuration pair</param>
+    /// <param name="cts">CancellationTokenSource</param>
+    /// <returns>Task</returns>
+    Task AddNewPropertyAsync(Dictionary<string, string> newSettings, CancellationTokenSource cts);
   }
 }
