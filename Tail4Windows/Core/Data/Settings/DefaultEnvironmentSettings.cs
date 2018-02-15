@@ -12,27 +12,32 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value Language;
     /// </summary>
-    public static EUiLanguage Language = EUiLanguage.English;
+    public const EUiLanguage Language = EUiLanguage.English;
 
     /// <summary>
-    /// Default value Always on top
+    /// Default value AlwaysScrollToEnd
     /// </summary>
-    public static bool AlwaysOnTop = false;
+    public const bool AlwaysScrollToEnd = false;
+
+    /// <summary>
+    /// Default value AlwaysOnTop
+    /// </summary>
+    public const bool AlwaysOnTop = false;
 
     /// <summary>
     /// Default value RestoreWindowSize
     /// </summary>
-    public static bool RestoreWindowSize = false;
+    public const bool RestoreWindowSize = false;
 
     /// <summary>
     /// Default value ExitWithEscape
     /// </summary>
-    public static bool ExitWithEscape = false;
+    public const bool ExitWithEscape = false;
 
     /// <summary>
     /// Default value SaveWindowPositon
     /// </summary>
-    public static bool SaveWindowPosition = false;
+    public const bool SaveWindowPosition = false;
 
     /// <summary>
     /// Default value WindowWidth
@@ -47,13 +52,28 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value WindowPosition X
     /// </summary>
-    public static double WindowPositionX = -1;
+    public const double WindowPositionX = -1;
 
     /// <summary>
     /// Default value WindowPosition Y
     /// </summary>
-    public static double WindowPositionY = -1;
-    
+    public const double WindowPositionY = -1;
+
+    /// <summary>
+    /// Default value ShowLineNumbers
+    /// </summary>
+    public const bool ShowLineNumbers = false;
+
+    /// <summary>
+    /// Default value ShowNumberLineAtStart
+    /// </summary>
+    public const bool ShowNumberLineAtStart = false;
+
+    /// <summary>
+    /// Default value LinesRead
+    /// </summary>
+    public const int LinesRead = 10;
+
     #endregion
 
     #region StatusBar default settings

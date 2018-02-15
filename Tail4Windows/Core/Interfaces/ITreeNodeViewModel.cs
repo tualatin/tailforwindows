@@ -70,6 +70,22 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     }
 
     /// <summary>
+    /// Is match
+    /// </summary>
+    bool IsMatch
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Apply search criteria
+    /// </summary>
+    /// <param name="criteria">Criteria</param>
+    /// <param name="ancestors">Ancestors</param>
+    void ApplyCriteria(string criteria, Stack<ITreeNodeViewModel> ancestors);
+
+    /// <summary>
     /// Expand all childs
     /// </summary>
     void Expand();

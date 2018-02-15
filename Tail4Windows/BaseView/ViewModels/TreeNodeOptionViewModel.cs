@@ -70,6 +70,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       get => _isSelected;
       set
       {
+        if ( value == _isSelected )
+          return;
+
         _isSelected = value;
         OnPropertyChanged(nameof(IsSelected));
       }
@@ -85,7 +88,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       get => _isEnabled;
       set
       {
-        if ( _isEnabled == value )
+        if ( value == _isEnabled )
           return;
 
         _isEnabled = value;
@@ -103,8 +106,29 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       get => _icon;
       set
       {
+        if ( value == _icon )
+          return;
+
         _icon = value;
         OnPropertyChanged(nameof(Icon));
+      }
+    }
+
+    private bool _isMatch;
+
+    /// <summary>
+    /// Is match
+    /// </summary>
+    public bool IsMatch
+    {
+      get => _isMatch;
+      set
+      {
+        if ( value == _isMatch )
+          return;
+
+        _isMatch = value;
+        OnPropertyChanged(nameof(IsMatch));
       }
     }
 
@@ -142,6 +166,56 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       Dispose();
     }
+
+    /// <summary>
+    /// Apply search criteria
+    /// </summary>
+    /// <param name="criteria">Criteria</param>
+    /// <param name="ancestors">Ancestors</param>
+    public void ApplyCriteria(string criteria, Stack<ITreeNodeViewModel> ancestors)
+    {
+      if ( IsCriteriaMatched(criteria) )
+      {
+        IsMatch = true;
+
+        foreach ( var ancestor in ancestors )
+        {
+          ancestor.IsMatch = true;
+          ancestor.IsExpanded = !string.IsNullOrEmpty(criteria);
+          CheckChildren(criteria, ancestor);
+        }
+
+        IsExpanded = false;
+      }
+      else
+      {
+        IsMatch = false;
+      }
+
+      ancestors.Push(this);
+
+      foreach ( var child in Children )
+      {
+        child.ApplyCriteria(criteria, ancestors);
+      }
+
+      ancestors.Pop();
+    }
+
+    private void CheckChildren(string criteria, ITreeNodeViewModel parent)
+    {
+      foreach ( var treeNodeViewModel in parent.Children )
+      {
+        var child = (TreeNodeOptionViewModel) treeNodeViewModel;
+
+        if ( child.IsLeaf && !child.IsCriteriaMatched(criteria) )
+          child.IsMatch = false;
+
+        CheckChildren(criteria, child);
+      }
+    }
+
+    private bool IsCriteriaMatched(string criteria) => string.IsNullOrEmpty(criteria) || Name.Contains(criteria);
 
     /// <summary>
     /// Expand all childs

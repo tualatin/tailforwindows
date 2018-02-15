@@ -43,6 +43,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _language;
       set
       {
+        if ( value == _language )
+          return;
+
         _language = value;
         OnPropertyChanged(nameof(Language));
       }
@@ -60,6 +63,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _restoreWindowSize;
       set
       {
+        if ( value == _restoreWindowSize )
+          return;
+
         _restoreWindowSize = value;
         OnPropertyChanged(nameof(RestoreWindowSize));
       }
@@ -75,6 +81,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _saveWindowPosition;
       set
       {
+        if ( value == _saveWindowPosition )
+          return;
+
         _saveWindowPosition = value;
         OnPropertyChanged(nameof(SaveWindowPosition));
       }
@@ -150,6 +159,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _currentWindowState;
       set
       {
+        if ( value == _currentWindowState )
+          return;
+
         _currentWindowState = value;
         OnPropertyChanged(nameof(CurrentWindowState));
       }
@@ -169,6 +181,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _statusBarInactiveBackgroundColor;
       set
       {
+        if ( Equals(value, _statusBarInactiveBackgroundColor) )
+          return;
+
         _statusBarInactiveBackgroundColor = value;
         OnPropertyChanged(nameof(StatusBarInactiveBackgroundColor));
       }
@@ -184,6 +199,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _statusBarFileLoadedBackgroundColor;
       set
       {
+        if ( Equals(value, _statusBarFileLoadedBackgroundColor) )
+          return;
+
         _statusBarFileLoadedBackgroundColor = value;
         OnPropertyChanged(nameof(StatusBarFileLoadedBackgroundColor));
       }
@@ -199,6 +217,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _statusBarTailBackgroundColor;
       set
       {
+        if ( Equals(value, _statusBarTailBackgroundColor) )
+          return;
+
         _statusBarTailBackgroundColor = value;
         OnPropertyChanged(nameof(StatusBarTailBackgroundColor));
       }
@@ -216,6 +237,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _exitWithEscape;
       set
       {
+        if ( value == _exitWithEscape )
+          return;
+
         _exitWithEscape = value;
         OnPropertyChanged(nameof(ExitWithEscape));
       }
@@ -231,6 +255,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _alwaysOnTop;
       set
       {
+        if ( value == _alwaysOnTop )
+          return;
+
         _alwaysOnTop = value;
         OnPropertyChanged(nameof(AlwaysOnTop));
       }
@@ -246,6 +273,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _deleteLogFiles;
       set
       {
+        if ( value == _deleteLogFiles )
+          return;
+
         _deleteLogFiles = value;
         OnPropertyChanged(nameof(DeleteLogFiles));
       }
@@ -261,8 +291,83 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _currentWindowStyle;
       set
       {
+        if ( value == _currentWindowStyle )
+          return;
+
         _currentWindowStyle = value;
         OnPropertyChanged(nameof(CurrentWindowStyle));
+      }
+    }
+
+    private bool _alwaysScrollToEnd;
+
+    /// <summary>
+    /// Always scroll to end
+    /// </summary>
+    public bool AlwaysScrollToEnd
+    {
+      get => _alwaysScrollToEnd;
+      set
+      {
+        if ( value == _alwaysScrollToEnd )
+          return;
+
+        _alwaysScrollToEnd = value;
+        OnPropertyChanged(nameof(AlwaysScrollToEnd));
+      }
+    }
+
+    private bool _showLineNumbers;
+
+    /// <summary>
+    /// Show line numbers
+    /// </summary>
+    public bool ShowLineNumbers
+    {
+      get => _showLineNumbers;
+      set
+      {
+        if ( value == _showLineNumbers )
+          return;
+
+        _showLineNumbers = value;
+        OnPropertyChanged(nameof(ShowLineNumbers));
+      }
+    }
+
+    private bool _showNumberLineAtStart;
+
+    /// <summary>
+    /// Show n numbers at start
+    /// </summary>
+    public bool ShowNumberLineAtStart
+    {
+      get => _showNumberLineAtStart;
+      set
+      {
+        if ( value == _showNumberLineAtStart )
+          return;
+
+        _showNumberLineAtStart = value;
+        OnPropertyChanged(nameof(ShowNumberLineAtStart));
+      }
+    }
+
+    private int _linesRead;
+
+    /// <summary>
+    /// Lines read at start
+    /// </summary>
+    public int LinesRead
+    {
+      get => _linesRead;
+      set
+      {
+        if ( value == _linesRead )
+          return;
+
+        _linesRead = value;
+        OnPropertyChanged(nameof(LinesRead));
       }
     }
   }

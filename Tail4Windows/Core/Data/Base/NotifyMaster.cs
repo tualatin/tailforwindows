@@ -1,4 +1,4 @@
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.ComponentModel;
 
 
@@ -23,7 +23,6 @@ namespace Org.Vs.TailForWin.Core.Data.Base
     protected void OnPropertyChanged(string name)
     {
       PropertyChangedEventHandler handler = PropertyChanged;
-
       handler?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 

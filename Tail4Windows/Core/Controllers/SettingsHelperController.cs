@@ -100,17 +100,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         if ( config.AppSettings.Settings.Count <= 0 )
           return;
 
-        WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
-        WriteValueToSetting(config, "AlwaysOnTop", CurrentSettings.AlwaysOnTop);
-        WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
-        WriteValueToSetting(config, "WndWidth", CurrentSettings.WindowWidth);
-        WriteValueToSetting(config, "WndHeight", CurrentSettings.WindowHeight);
-        WriteValueToSetting(config, "WndXPos", CurrentSettings.WindowPositionX);
-        WriteValueToSetting(config, "WndYPos", CurrentSettings.WindowPositionY);
-        WriteValueToSetting(config, "SaveWindowPosition", CurrentSettings.SaveWindowPosition);
-        WriteValueToSetting(config, "ExitWithEsc", CurrentSettings.ExitWithEscape);
-        WriteValueToSetting(config, "WindowState", CurrentSettings.CurrentWindowState);
-        WriteValueToSetting(config, "Language", CurrentSettings.Language);
+        SaveWindowSettings(config);
 
         config.Save(ConfigurationSaveMode.Modified);
         ConfigurationManager.RefreshSection("appSettings");
@@ -119,6 +109,25 @@ namespace Org.Vs.TailForWin.Core.Controllers
       {
         LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
       }
+    }
+
+    private void SaveWindowSettings(Configuration config)
+    {
+      WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
+      WriteValueToSetting(config, "AlwaysOnTop", CurrentSettings.AlwaysOnTop);
+      WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
+      WriteValueToSetting(config, "WndWidth", CurrentSettings.WindowWidth);
+      WriteValueToSetting(config, "WndHeight", CurrentSettings.WindowHeight);
+      WriteValueToSetting(config, "WndXPos", CurrentSettings.WindowPositionX);
+      WriteValueToSetting(config, "WndYPos", CurrentSettings.WindowPositionY);
+      WriteValueToSetting(config, "SaveWindowPosition", CurrentSettings.SaveWindowPosition);
+      WriteValueToSetting(config, "ExitWithEsc", CurrentSettings.ExitWithEscape);
+      WriteValueToSetting(config, "WindowState", CurrentSettings.CurrentWindowState);
+      WriteValueToSetting(config, "Language", CurrentSettings.Language);
+      WriteValueToSetting(config, "AlwaysScrollToEnd", CurrentSettings.AlwaysScrollToEnd);
+      WriteValueToSetting(config, "ShowNLineAtStart", CurrentSettings.ShowNumberLineAtStart);
+      WriteValueToSetting(config, "ShowLineNumbers", CurrentSettings.ShowLineNumbers);
+      WriteValueToSetting(config, "LinesRead", CurrentSettings.LinesRead);
     }
 
     /// <summary>
@@ -204,6 +213,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.DeleteLogFiles = GetBoolFromSetting("DeleteLogFiles");
       CurrentSettings.CurrentWindowStyle = GetWindowStyle(GetStringFromSetting("CurrentWindowStyle"));
       CurrentSettings.Language = GetUiLanguage(GetStringFromSetting("Language"));
+      CurrentSettings.AlwaysScrollToEnd = GetBoolFromSetting("AlwaysScrollToEnd");
+      CurrentSettings.ShowNumberLineAtStart = GetBoolFromSetting("ShowNLineAtStart");
+      CurrentSettings.ShowLineNumbers = GetBoolFromSetting("ShowLineNumbers");
+      CurrentSettings.LinesRead = GetIntFromSetting("LinesRead");
     }
 
     private void ReadStatusBarSettings()

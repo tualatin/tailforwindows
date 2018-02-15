@@ -92,5 +92,13 @@
   <system:String x:Key="EnvironmentAlwaysOnTop">Immer im Vordergrund</system:String>
   <system:String x:Key="EnvironmentAlwaysOnTopToolTip">Das Programm befindet sich immer im Vordergrund</system:String>
   <system:String x:Key="EnvironmentExitWithEscape">Beenden mit Escape</system:String>
-  <system:String x:Key="EnvironmentExitWithEscapeTopToolTip">Das Programm mit Escape beenden</system:String>
+  <system:String x:Key="EnvironmentExitWithEscapeToolTip">Das Programm mit Escape beenden</system:String>
+  <system:String x:Key="EnvironmentAlwaysScrollToEnd">Immer zum Ende scrollen</system:String>
+  <system:String x:Key="EnvironmentAlwaysScrolltoEndToolTip">Immer zum Ende scrollen, wenn neue Logauschriften im Log-Fenster erscheinen</system:String>
+  <system:String x:Key="EnvironmentShowLineNumbers">Editornummern anzeigen</system:String>
+  <system:String x:Key="EnvironmentShowLineNumbersToolTip">Zeige Zeilennummern im Log-Fenster an</system:String>
+  <system:String x:Key="EnvironmentShowNumberLineNumbers">Zeige n Zeilen beim Start</system:String>
+  <system:String x:Key="EnvironmentShowNumberLineNumbersToolTip">Zeige eine bestimmte Anzahl von Zeilen an, am Anfang des loggens</system:String>
+  <system:String x:Key="EnvironmentLinesRead">Einstellung lesen der Logzeilen</system:String>
+  <system:String x:Key="EnvironmentLinesReadToolTip">Stellt ein, wie viele Logzeilen am Anfang gelesen werden sollen, min ist 10, max ist 100</system:String>
 </ResourceDictionary>

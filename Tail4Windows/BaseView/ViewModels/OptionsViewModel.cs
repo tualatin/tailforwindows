@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -9,6 +10,7 @@ using log4net;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption;
@@ -187,10 +189,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       try
       {
+        foreach ( var node in Root )
+        {
+          node.ApplyCriteria(string.Empty, new Stack<ITreeNodeViewModel>());
+        }
+
         // Expand and select the first node
         Root.First().IsExpanded = true;
         Root.First().IsSelected = true;
-
         CurrentViewModel = Root.First().OptionPage;
       }
       catch ( Exception ex )

@@ -33,18 +33,19 @@ namespace Org.Vs.NUnit.Tests
 
       Assert.AreEqual(EUiLanguage.English, SettingsHelperController.CurrentSettings.Language);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.SmartWatch);
-      //Assert.IsTrue(SettingsHelper.CurrentSettings.AlwaysScrollToEnd);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.AlwaysScrollToEnd);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.AutoUpdate);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.RestoreWindowSize);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.SaveWindowPosition);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.DeleteLogFiles);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.GroupByCategory);
-      //Assert.IsTrue(SettingsHelper.CurrentSettings.ShowLineNumbers);
+      Assert.IsFalse(SettingsHelperController.CurrentSettings.ShowLineNumbers);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.ShowNumberLineAtStart);
 
       Assert.IsFalse(SettingsHelperController.CurrentSettings.AlwaysOnTop);
       Assert.IsFalse(SettingsHelperController.CurrentSettings.ExitWithEscape);
 
-      //Assert.AreEqual(25, SettingsHelper.CurrentSettings.LinesRead);
+      Assert.AreEqual(25, SettingsHelperController.CurrentSettings.LinesRead);
       //Assert.LessOrEqual(-1, SettingsHelper.CurrentSettings.LogLineLimit);
       Assert.Greater(SettingsHelperController.CurrentSettings.WindowWidth, -1);
       Assert.AreEqual(1274, SettingsHelperController.CurrentSettings.WindowWidth);
@@ -123,17 +124,25 @@ namespace Org.Vs.NUnit.Tests
       SettingsHelperController.CurrentSettings.CurrentWindowState = WindowState.Maximized;
       SettingsHelperController.CurrentSettings.SaveWindowPosition = true;
       SettingsHelperController.CurrentSettings.Language = EUiLanguage.German;
+      SettingsHelperController.CurrentSettings.AlwaysScrollToEnd = true;
+      SettingsHelperController.CurrentSettings.ShowLineNumbers = true;
+      SettingsHelperController.CurrentSettings.ShowNumberLineAtStart = true;
+      SettingsHelperController.CurrentSettings.LinesRead = 100;
 
       await _currentSettings.SaveSettingsAsync().ConfigureAwait(false);
 
-      SettingsHelperController.CurrentSettings.WindowPositionX = -1;
-      SettingsHelperController.CurrentSettings.WindowPositionY = -1;
-      SettingsHelperController.CurrentSettings.AlwaysOnTop = false;
-      SettingsHelperController.CurrentSettings.ExitWithEscape = false;
-      SettingsHelperController.CurrentSettings.RestoreWindowSize = false;
+      SettingsHelperController.CurrentSettings.WindowPositionX = DefaultEnvironmentSettings.WindowPositionX;
+      SettingsHelperController.CurrentSettings.WindowPositionY = DefaultEnvironmentSettings.WindowPositionY;
+      SettingsHelperController.CurrentSettings.AlwaysOnTop = DefaultEnvironmentSettings.AlwaysOnTop;
+      SettingsHelperController.CurrentSettings.ExitWithEscape = DefaultEnvironmentSettings.ExitWithEscape;
+      SettingsHelperController.CurrentSettings.RestoreWindowSize = DefaultEnvironmentSettings.RestoreWindowSize;
       SettingsHelperController.CurrentSettings.CurrentWindowState = default(WindowState);
-      SettingsHelperController.CurrentSettings.SaveWindowPosition = false;
-      SettingsHelperController.CurrentSettings.Language = EUiLanguage.English;
+      SettingsHelperController.CurrentSettings.SaveWindowPosition = DefaultEnvironmentSettings.SaveWindowPosition;
+      SettingsHelperController.CurrentSettings.Language = DefaultEnvironmentSettings.Language;
+      SettingsHelperController.CurrentSettings.AlwaysScrollToEnd = DefaultEnvironmentSettings.AlwaysScrollToEnd;
+      SettingsHelperController.CurrentSettings.ShowLineNumbers = DefaultEnvironmentSettings.ShowLineNumbers;
+      SettingsHelperController.CurrentSettings.ShowNumberLineAtStart = DefaultEnvironmentSettings.ShowNumberLineAtStart;
+      SettingsHelperController.CurrentSettings.LinesRead = DefaultEnvironmentSettings.LinesRead;
 
       await _currentSettings.ReloadCurrentSettingsAsync().ConfigureAwait(false);
       await _currentSettings.ReadSettingsAsync().ConfigureAwait(false);
@@ -142,10 +151,14 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(150, SettingsHelperController.CurrentSettings.WindowPositionY);
       Assert.AreEqual(WindowState.Maximized, SettingsHelperController.CurrentSettings.CurrentWindowState);
 
+      Assert.AreEqual(100, SettingsHelperController.CurrentSettings.LinesRead);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.AlwaysOnTop);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.ExitWithEscape);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.RestoreWindowSize);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.SaveWindowPosition);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.AlwaysScrollToEnd);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.ShowLineNumbers);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.ShowNumberLineAtStart);
       Assert.AreEqual(EUiLanguage.German, SettingsHelperController.CurrentSettings.Language);
     }
 

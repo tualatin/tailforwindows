@@ -88,9 +88,17 @@
 
   <system:String x:Key="GeneralToolTipHint">Take a look into Readme file for more informations</system:String>
 
-  <system:String x:Key="EnvironmentLanguageToolTip">Set application wide language</system:String>
+  <system:String x:Key="EnvironmentLanguageToolTip">Set Application wide language</system:String>
   <system:String x:Key="EnvironmentAlwaysOnTop">Always on top</system:String>
   <system:String x:Key="EnvironmentAlwaysOnTopToolTip">Application is always on top</system:String>
   <system:String x:Key="EnvironmentExitWithEscape">Exit with Escape</system:String>
-  <system:String x:Key="EnvironmentExitWithEscapeTopToolTip">Exit Application by pressing the Escape key</system:String>
+  <system:String x:Key="EnvironmentExitWithEscapeToolTip">Exit Application by pressing the Escape key</system:String>
+  <system:String x:Key="EnvironmentAlwaysScrollToEnd">Always scroll to end</system:String>
+  <system:String x:Key="EnvironmentAlwaysScrolltoEndToolTip">Scroll to end, when new log files appears in log window</system:String>
+  <system:String x:Key="EnvironmentShowLineNumbers">Show line numbers</system:String>
+  <system:String x:Key="EnvironmentShowLineNumbersToolTip">Show line numbers in log window</system:String>
+  <system:String x:Key="EnvironmentShowNumberLineNumbers">Show n lines at start</system:String>
+  <system:String x:Key="EnvironmentShowNumberLineNumbersToolTip">Show a number of lines at tail start</system:String>
+  <system:String x:Key="EnvironmentLinesRead">Setup lines read</system:String>
+  <system:String x:Key="EnvironmentLinesReadToolTip">Setup how much lines are read at beginning, min is 10, max is 100</system:String>
 </ResourceDictionary>

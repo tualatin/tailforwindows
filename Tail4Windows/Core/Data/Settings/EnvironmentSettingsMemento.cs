@@ -33,6 +33,10 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       DeleteLogFiles = memento.DeleteLogFiles;
       CurrentWindowStyle = memento.CurrentWindowStyle;
       Language = memento.Language;
+      AlwaysScrollToEnd = memento.AlwaysScrollToEnd;
+      ShowNumberLineAtStart = memento.ShowNumberLineAtStart;
+      ShowLineNumbers = memento.ShowLineNumbers;
+      LinesRead = memento.LinesRead;
     }
 
     /// <summary>
@@ -51,6 +55,10 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         DeleteLogFiles = obj.DeleteLogFiles;
         CurrentWindowStyle = obj.CurrentWindowStyle;
         Language = obj.Language;
+        AlwaysScrollToEnd = obj.AlwaysScrollToEnd;
+        ShowNumberLineAtStart = obj.ShowNumberLineAtStart;
+        ShowLineNumbers = obj.ShowLineNumbers;
+        LinesRead = obj.LinesRead;
       }
 
       #region Window settings
@@ -129,6 +137,38 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Current window style
       /// </summary>
       public EWindowStyle CurrentWindowStyle
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Always scroll to end
+      /// </summary>
+      public bool AlwaysScrollToEnd
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Show number lines at start
+      /// </summary>
+      public bool ShowNumberLineAtStart
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Show line number
+      /// </summary>
+      public bool ShowLineNumbers
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Lines read
+      /// </summary>
+      public int LinesRead
       {
         get;
       }

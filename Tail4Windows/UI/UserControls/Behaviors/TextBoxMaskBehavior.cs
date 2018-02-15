@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -8,7 +8,7 @@ using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
 
 
-namespace Org.Vs.TailForWin.UI.UserControls
+namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
 {
   /// <summary>
   /// TextBoxMaskBehavior

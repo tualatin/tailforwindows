@@ -4,8 +4,8 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   mc:Ignorable="d"
   d:DesignHeight="400"
@@ -13,6 +13,8 @@
   >
   <Grid>
     <Grid.RowDefinitions>
+      <RowDefinition Height="26" />
+      <RowDefinition Height="26" />
       <RowDefinition Height="26" />
       <RowDefinition Height="26" />
     </Grid.RowDefinitions>
@@ -118,7 +120,7 @@
       Height="22"
       Content="{DynamicResource EnvironmentExitWithEscape}"
       IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ExitWithEscape, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-      TabIndex="1"
+      TabIndex="2"
       >
       <CheckBox.ToolTip>
         <StackPanel>
@@ -128,7 +130,7 @@
             FontSize="12"
             FontWeight="Bold"
             />
-          <TextBlock Text="{DynamicResource EnvironmentExitWithEscapeTopToolTip}" />
+          <TextBlock Text="{DynamicResource EnvironmentExitWithEscapeToolTip}" />
           <Border
             Margin="0 8"
             BorderBrush="Silver"
@@ -151,5 +153,174 @@
         </StackPanel>
       </CheckBox.ToolTip>
     </CheckBox>
+
+    <CheckBox
+      Grid.Row="2"
+      Grid.Column="0"
+      Height="22"
+      Content="{DynamicResource EnvironmentAlwaysScrollToEnd}"
+      IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlwaysScrollToEnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+      TabIndex="3"
+      >
+      <CheckBox.ToolTip>
+        <StackPanel>
+          <TextBlock
+            Margin="0 0 0 5"
+            Text="{DynamicResource EnvironmentAlwaysScrollToEnd}"
+            FontSize="12"
+            FontWeight="Bold"
+            />
+          <TextBlock Text="{DynamicResource EnvironmentAlwaysScrolltoEndToolTip}" />
+          <Border
+            Margin="0 8"
+            BorderBrush="Silver"
+            BorderThickness="0 1 0 0"
+            />
+          <WrapPanel>
+            <Image
+              Width="16"
+              Height="16"
+              Margin="0 0 5 0"
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/Search.ico"
+              />
+            <TextBlock
+              Text="{DynamicResource GeneralToolTipHint}"
+              FontStyle="Italic"
+              />
+          </WrapPanel>
+        </StackPanel>
+      </CheckBox.ToolTip>
+    </CheckBox>
+
+    <CheckBox
+      Grid.Row="2"
+      Grid.Column="1"
+      Height="22"
+      Content="{DynamicResource EnvironmentShowLineNumbers}"
+      IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowLineNumbers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+      TabIndex="3"
+      >
+      <CheckBox.ToolTip>
+        <StackPanel>
+          <TextBlock
+            Margin="0 0 0 5"
+            Text="{DynamicResource EnvironmentShowLineNumbers}"
+            FontSize="12"
+            FontWeight="Bold"
+            />
+          <TextBlock Text="{DynamicResource EnvironmentShowLineNumbersToolTip}" />
+          <Border
+            Margin="0 8"
+            BorderBrush="Silver"
+            BorderThickness="0 1 0 0"
+            />
+          <WrapPanel>
+            <Image
+              Width="16"
+              Height="16"
+              Margin="0 0 5 0"
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/Search.ico"
+              />
+            <TextBlock
+              Text="{DynamicResource GeneralToolTipHint}"
+              FontStyle="Italic"
+              />
+          </WrapPanel>
+        </StackPanel>
+      </CheckBox.ToolTip>
+    </CheckBox>
+
+    <CheckBox
+      Name="CheckBoxShowLineNumbers"
+      Grid.Row="3"
+      Grid.Column="0"
+      Height="22"
+      Content="{DynamicResource EnvironmentShowNumberLineNumbers}"
+      IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowNumberLineAtStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+      TabIndex="4"
+      >
+      <CheckBox.ToolTip>
+        <StackPanel>
+          <TextBlock
+            Margin="0 0 0 5"
+            Text="{DynamicResource EnvironmentShowNumberLineNumbers}"
+            FontSize="12"
+            FontWeight="Bold"
+            />
+          <TextBlock Text="{DynamicResource EnvironmentShowNumberLineNumbersToolTip}" />
+          <Border
+            Margin="0 8"
+            BorderBrush="Silver"
+            BorderThickness="0 1 0 0"
+            />
+          <WrapPanel>
+            <Image
+              Width="16"
+              Height="16"
+              Margin="0 0 5 0"
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/Search.ico"
+              />
+            <TextBlock
+              Text="{DynamicResource GeneralToolTipHint}"
+              FontStyle="Italic"
+              />
+          </WrapPanel>
+        </StackPanel>
+      </CheckBox.ToolTip>
+    </CheckBox>
+
+    <userControls:Spinner
+      Grid.Row="3"
+      Grid.Column="1"
+      Width="50"
+      Margin="6 0 0 0"
+      HorizontalAlignment="Left"
+      VerticalAlignment="Center"
+      Increment="5"
+      IsEnabled="{Binding ElementName=CheckBoxShowLineNumbers, Path=IsChecked}"
+      MaxSpinValue="100"
+      MinSpinValue="10"
+      StartIndex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=LinesRead, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+      TabIndex="5"
+      TextBoxMaxValue="100"
+      TextBoxMinValue="10"
+      >
+      <userControls:Spinner.ToolTip>
+        <StackPanel>
+          <TextBlock
+            Margin="0 0 0 5"
+            Text="{DynamicResource EnvironmentLinesRead}"
+            FontSize="12"
+            FontWeight="Bold"
+            />
+          <TextBlock Text="{DynamicResource EnvironmentLinesReadToolTip}" />
+          <Border
+            Margin="0 8"
+            BorderBrush="Silver"
+            BorderThickness="0 1 0 0"
+            />
+          <WrapPanel>
+            <Image
+              Width="16"
+              Height="16"
+              Margin="0 0 5 0"
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/Search.ico"
+              />
+            <TextBlock
+              Text="{DynamicResource GeneralToolTipHint}"
+              FontStyle="Italic"
+              />
+          </WrapPanel>
+        </StackPanel>
+      </userControls:Spinner.ToolTip>
+    </userControls:Spinner>
   </Grid>
 </UserControl>
