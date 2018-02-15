@@ -3,8 +3,9 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:system="clr-namespace:System;assembly=mscorlib"
   >
-  <system:String x:Key="LanguageEnglish">English</system:String>
-  <system:String x:Key="LanguageGerman">German</system:String>
+  <system:String x:Key="English">English</system:String>
+  <system:String x:Key="German">German</system:String>
+  <system:String x:Key="UiLanguage">Language</system:String>
   <system:String x:Key="ApplicationTitle">Tail4Windows</system:String>
   <system:String x:Key="OpenFileDialog">Please select a file to tail...</system:String>
   <system:String x:Key="FileNotFound">File not found!</system:String>
@@ -84,4 +85,6 @@
   <system:String x:Key="XmlExceptionConfigFileCorrupt">The XML file is not a valid file or corrupted!</system:String>
   <system:String x:Key="WebUrl">https://github.com/tualatin/tailforwindows/releases</system:String>
   <system:String x:Key="QuickSearchWatermark">Quick search</system:String>
+
+  <system:String x:Key="GeneralToolTipHint">Take a look into Readme file for more informations</system:String>
 </ResourceDictionary>

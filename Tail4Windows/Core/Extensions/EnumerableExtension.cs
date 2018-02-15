@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Org.Vs.TailForWin.Core.Utils;
 // ReSharper disable PossibleMultipleEnumeration
@@ -17,10 +17,7 @@ namespace Org.Vs.TailForWin.Core.Extensions
     /// <typeparam name="T">Type of enumerable</typeparam>
     /// <param name="subjects">Enumerable</param>
     /// <returns><c>True</c> if it has dublicates, otherwise <c>False</c></returns>
-    public static bool HasDuplicates<T>(this IEnumerable<T> subjects)
-    {
-      return HasDuplicates(subjects, EqualityComparer<T>.Default);
-    }
+    public static bool HasDuplicates<T>(this IEnumerable<T> subjects) => HasDuplicates(subjects, EqualityComparer<T>.Default);
 
     /// <summary>
     /// Has duplicates
@@ -71,9 +68,6 @@ namespace Org.Vs.TailForWin.Core.Extensions
     /// <param name="first">First IEnumerable</param>
     /// <param name="second">Second IEnumerable</param>
     /// <returns>If IEnumerables equal <c>True</c> otherwise <c>False</c></returns>
-    public static bool CompareGenericObservableCollections<T>(this IEnumerable<T> first, IEnumerable<T> second)
-    {
-      return first.Count() == second.Count() && (!first.Except(second).Any() || !second.Except(first).Any());
-    }
+    public static bool CompareGenericObservableCollections<T>(this IEnumerable<T> first, IEnumerable<T> second) => first.Count() == second.Count() && (!first.Except(second).Any() || !second.Except(first).Any());
   }
 }

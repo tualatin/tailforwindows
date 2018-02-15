@@ -1,15 +1,61 @@
-<UserControl
+﻿<UserControl
   x:Class="Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.EnvironmentOptionPage"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
+  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   mc:Ignorable="d"
   d:DesignHeight="300"
   d:DesignWidth="300"
   >
+  <UserControl.Resources>
+    <converters:LanguageMappingToEnumLanguageConverter x:Key="EnumLanguageConverter" />
+  </UserControl.Resources>
   <Grid>
-    <Label Content="Environment settings..." />
+    <Label Content="{StaticResource UiLanguage}" />
+    <ComboBox
+      Height="23"
+      DisplayMemberPath="Description"
+      Foreground="Black"
+      ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=Languages}"
+      SelectedValue="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=Language, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+      SelectedValuePath="Language"
+      TabIndex="0"
+      >
+      <ComboBox.ToolTip>
+        <StackPanel>
+          <TextBlock
+            Margin="0 0 0 5"
+            Text="{StaticResource UiLanguage}"
+            FontSize="12"
+            FontWeight="Bold"
+            />
+          <TextBlock>Always on top toggle on/off (T)</TextBlock>
+          <Border
+            Margin="0 8"
+            BorderBrush="Silver"
+            BorderThickness="0 1 0 0"
+            />
+          <WrapPanel>
+            <Image
+              Width="16"
+              Height="16"
+              Margin="0 0 5 0"
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/Search.ico"
+              />
+            <TextBlock
+              Text="{StaticResource GeneralToolTipHint}"
+              FontStyle="Italic"
+              />
+          </WrapPanel>
+        </StackPanel>
+      </ComboBox.ToolTip>
+    </ComboBox>
   </Grid>
 </UserControl>

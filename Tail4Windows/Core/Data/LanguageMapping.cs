@@ -1,17 +1,18 @@
 ﻿using System.Windows;
+using Org.Vs.TailForWin.Core.Enums;
 
 
 namespace Org.Vs.TailForWin.Core.Data
 {
   /// <summary>
-  /// System Threading priority enum mapping 
+  /// Language mapping
   /// </summary>
-  public class ThreadPriorityMapping
+  public class LanguageMapping
   {
     /// <summary>
-    /// Thread priority
+    /// Language as Enum <see cref="EUiLanguage"/>
     /// </summary>
-    public System.Threading.ThreadPriority ThreadPriority
+    public EUiLanguage Language
     {
       get;
       set;
@@ -26,7 +27,7 @@ namespace Org.Vs.TailForWin.Core.Data
       {
         try
         {
-          var resourceKey = Application.Current.TryFindResource(ThreadPriority.ToString());
+          var resourceKey = Application.Current.TryFindResource(Language.ToString());
 
           return resourceKey?.ToString() ?? string.Empty;
         }

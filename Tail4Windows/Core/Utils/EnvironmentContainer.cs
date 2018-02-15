@@ -12,6 +12,7 @@ using System.Windows.Media;
 using Microsoft.Win32;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
 
@@ -39,7 +40,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       UpTime = DateTime.Now;
       CurrentEventManager = new EventAggregator();
 
-      IntializeObservableCollections();
+      NotifyTaskCompletion.Create(IntializeObservableCollectionsAsync());
     }
 
     /// <summary>
@@ -65,17 +66,35 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// List of supported file encodings
     /// </summary>
-    public ObservableCollection<Encoding> FileEncoding { get; } = new ObservableCollection<Encoding>();
+    public ObservableCollection<Encoding> FileEncoding
+    {
+      get;
+    } = new ObservableCollection<Encoding>();
 
     /// <summary>
     /// List of supported refresh rates
     /// </summary>
-    public ObservableCollection<ETailRefreshRate> RefreshRate { get; } = new ObservableCollection<ETailRefreshRate>();
+    public ObservableCollection<ETailRefreshRate> RefreshRate
+    {
+      get;
+    } = new ObservableCollection<ETailRefreshRate>();
 
     /// <summary>
     /// List of thread priority (static)
     /// </summary>
-    public ObservableCollection<ThreadPriorityMapping> ThreadPriority { get; } = new ObservableCollection<ThreadPriorityMapping>();
+    public ObservableCollection<ThreadPriorityMapping> ThreadPriority
+    {
+      get;
+    } = new ObservableCollection<ThreadPriorityMapping>();
+
+    /// <summary>
+    /// List of languages
+    /// </summary>
+    public ObservableCollection<LanguageMapping> Languages
+    {
+      get;
+      private set;
+    }
 
     /// <summary>
     /// Current application path
@@ -239,27 +258,45 @@ namespace Org.Vs.TailForWin.Core.Utils
       return tp;
     }
 
-    private void IntializeObservableCollections()
+    private async Task IntializeObservableCollectionsAsync()
     {
-      // ThreadRefresh rate
-      foreach ( ETailRefreshRate refreshName in Enum.GetValues(typeof(ETailRefreshRate)) )
-      {
-        RefreshRate.Add(refreshName);
-      }
-
-      // ThreadPriority
-      foreach ( ThreadPriority priority in Enum.GetValues(typeof(ThreadPriority)) )
-      {
-        ThreadPriority.Add(new ThreadPriorityMapping
+      await Task.Run(
+        () =>
         {
-          ThreadPriority = priority
-        });
-      }
+          // ThreadRefresh rate
+          foreach ( ETailRefreshRate refreshName in Enum.GetValues(typeof(ETailRefreshRate)) )
+          {
+            RefreshRate.Add(refreshName);
+          }
 
-      // Fileencoding
-      EncodingInfo[] encodings = Encoding.GetEncodings();
-      Array.Sort(encodings, new CaseInsensitiveEncodingInfoNameComparer());
-      Array.ForEach(encodings, fileEncode => FileEncoding.Add(fileEncode.GetEncoding()));
+          // ThreadPriority
+          foreach ( ThreadPriority priority in Enum.GetValues(typeof(ThreadPriority)) )
+          {
+            ThreadPriority.Add(
+              new ThreadPriorityMapping
+              {
+                ThreadPriority = priority
+              });
+          }
+
+          var languages = new ObservableCollection<LanguageMapping>();
+
+          foreach ( EUiLanguage language in Enum.GetValues(typeof(EUiLanguage)) )
+          {
+            languages.Add(
+              new LanguageMapping
+              {
+                Language = language
+              });
+          }
+
+          Languages = new ObservableCollection<LanguageMapping>(languages.OrderBy(p => p.Description));
+
+          // Fileencoding
+          EncodingInfo[] encodings = Encoding.GetEncodings();
+          Array.Sort(encodings, new CaseInsensitiveEncodingInfoNameComparer());
+          Array.ForEach(encodings, fileEncode => FileEncoding.Add(fileEncode.GetEncoding()));
+        }).ConfigureAwait(false);
     }
 
     #region CaseInsentiveEncodingInfoNameComparer

@@ -164,7 +164,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       if ( settings == null || settings.Count == 0 )
         return;
 
-      LOG.Trace("Adds missing config properties");
+      LOG.Trace("Add missing config properties");
 
       try
       {
