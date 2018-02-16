@@ -88,6 +88,22 @@ namespace Org.Vs.TailForWin.Core.Utils
     } = new ObservableCollection<ThreadPriorityMapping>();
 
     /// <summary>
+    /// List of DateFormats
+    /// </summary>
+    public ObservableCollection<DateFormatMapping> DateFormat
+    {
+      get;
+    } = new ObservableCollection<DateFormatMapping>();
+
+    /// <summary>
+    /// List of TimeFormats
+    /// </summary>
+    public ObservableCollection<TimeFormatMapping> TimeFormat
+    {
+      get;
+    } = new ObservableCollection<TimeFormatMapping>();
+
+    /// <summary>
     /// List of languages
     /// </summary>
     public ObservableCollection<LanguageMapping> Languages
@@ -287,6 +303,26 @@ namespace Org.Vs.TailForWin.Core.Utils
               new ThreadPriorityMapping
               {
                 ThreadPriority = priority
+              });
+          }
+
+          // DateFormat
+          foreach ( EDateFormat format in Enum.GetValues(typeof(EDateFormat)) )
+          {
+            DateFormat.Add(
+              new DateFormatMapping
+              {
+                DateFormat = format
+              });
+          }
+
+          // TimeFormat
+          foreach ( ETimeFormat format in Enum.GetValues(typeof(ETimeFormat)) )
+          {
+            TimeFormat.Add(
+              new TimeFormatMapping
+              {
+                TimeFormat = format
               });
           }
 

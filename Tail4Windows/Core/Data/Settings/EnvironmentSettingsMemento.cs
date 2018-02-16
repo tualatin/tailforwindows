@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.Threading;
+using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -39,6 +40,10 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       LinesRead = memento.LinesRead;
       GroupByCategory = memento.GroupByCategory;
       AutoUpdate = memento.AutoUpdate;
+      DefaultRefreshRate = memento.DefaultRefreshRate;
+      DefaultThreadPriority = memento.DefaultThreadPriority;
+      DefaultTimeFormat = memento.DefaultTimeFormat;
+      DefaultDateFormat = memento.DefaultDateFormat;
     }
 
     /// <summary>
@@ -63,6 +68,10 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         LinesRead = obj.LinesRead;
         GroupByCategory = obj.GroupByCategory;
         AutoUpdate = obj.AutoUpdate;
+        DefaultRefreshRate = obj.DefaultRefreshRate;
+        DefaultThreadPriority = obj.DefaultThreadPriority;
+        DefaultTimeFormat = obj.DefaultTimeFormat;
+        DefaultDateFormat = obj.DefaultDateFormat;
       }
 
       #region Window settings
@@ -189,6 +198,38 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// AutoUpdate
       /// </summary>
       public bool AutoUpdate
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Default refresh rate
+      /// </summary>
+      public ETailRefreshRate DefaultRefreshRate
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Default thread priority
+      /// </summary>
+      public ThreadPriority DefaultThreadPriority
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Default time format
+      /// </summary>
+      public ETimeFormat DefaultTimeFormat
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Default date format
+      /// </summary>
+      public EDateFormat DefaultDateFormat
       {
         get;
       }

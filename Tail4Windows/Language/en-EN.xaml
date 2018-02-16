@@ -100,5 +100,20 @@
   <system:String x:Key="EnvironmentShowNumberLineNumbers">Show n lines at start</system:String>
   <system:String x:Key="EnvironmentShowNumberLineNumbersToolTip">Show a number of lines at tail start</system:String>
   <system:String x:Key="EnvironmentLinesRead">Setup lines read</system:String>
+  <system:String x:Key="EnvironmentLinesReadLines">lines</system:String>
   <system:String x:Key="EnvironmentLinesReadToolTip">Setup how much lines are read at beginning, min is 10, max is 100</system:String>
+  <system:String x:Key="EnvironmentSaveWindowPosition">Restore window position</system:String>
+  <system:String x:Key="EnvironmentSaveWindowPositionToolTip">Restore window position after startup</system:String>
+  <system:String x:Key="EnvironmentRestoreWindowSize">Restore window size</system:String>
+  <system:String x:Key="EnvironmentRestoreWindowSizeToolTip">Restore window size after startup</system:String>
+  <system:String x:Key="EnvironmentDefaultThreadPriority">Default Thread Priority</system:String>
+  <system:String x:Key="EnvironmentDefaultThreadPriorityToolTip">The default thread priority value</system:String>
+  <system:String x:Key="EnvironmentDefaultRefreshRate">Default Refresh rate</system:String>
+  <system:String x:Key="EnvironmentDefaultRefreshRateToolTip">The default refresh rate value</system:String>
+  <system:String x:Key="EnvironmentDefaultTimeFormat">Default time format</system:String>
+  <system:String x:Key="EnvironmentDefaultTimeFormatToolTip">The default time format value</system:String>
+  <system:String x:Key="EnvironmentDefaultDateFormat">Default date format</system:String>
+  <system:String x:Key="EnvironmentDefaultDateFormatToolTip">The default date format value</system:String>
+  <system:String x:Key="EnvironmentSendTo">Add to 'Send to'</system:String>
+  <system:String x:Key="EnvironmentSendToToolTip">Add application to send to menu of Windows</system:String>
 </ResourceDictionary>

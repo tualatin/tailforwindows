@@ -131,6 +131,11 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "LinesRead", CurrentSettings.LinesRead);
       WriteValueToSetting(config, "GroupByCategory", CurrentSettings.GroupByCategory);
       WriteValueToSetting(config, "AutoUpdate", CurrentSettings.AutoUpdate);
+      WriteValueToSetting(config, "DefaultRefreshRate", CurrentSettings.DefaultRefreshRate.ToString());
+      WriteValueToSetting(config, "DefaultThreadPriority", CurrentSettings.DefaultThreadPriority.ToString());
+      WriteValueToSetting(config, "CurrentWindowStyle", CurrentSettings.CurrentWindowStyle.ToString());
+      WriteValueToSetting(config, "TimeFormat", CurrentSettings.DefaultTimeFormat.ToString());
+      WriteValueToSetting(config, "DateFormat", CurrentSettings.DefaultDateFormat.ToString());
     }
 
     private void SaveStatusBarSettings(Configuration config)
@@ -164,10 +169,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
     private void SetDefaultWindowSettings()
     {
       CurrentSettings.Language = DefaultEnvironmentSettings.Language;
+      CurrentSettings.CurrentWindowStyle = DefaultEnvironmentSettings.CurrentWindowStyle;
       CurrentSettings.AlwaysOnTop = DefaultEnvironmentSettings.AlwaysOnTop;
       CurrentSettings.AlwaysScrollToEnd = DefaultEnvironmentSettings.AlwaysScrollToEnd;
       CurrentSettings.CurrentWindowState = DefaultEnvironmentSettings.CurrentWindowState;
-      CurrentSettings.CurrentWindowStyle = DefaultEnvironmentSettings.CurrentWindowStyle;
       CurrentSettings.DeleteLogFiles = DefaultEnvironmentSettings.DeleteLogFiles;
       CurrentSettings.ExitWithEscape = DefaultEnvironmentSettings.ExitWithEscape;
       CurrentSettings.LinesRead = DefaultEnvironmentSettings.LinesRead;
@@ -181,6 +186,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.WindowWidth = DefaultEnvironmentSettings.WindowWidth;
       CurrentSettings.GroupByCategory = DefaultEnvironmentSettings.GroupByCategory;
       CurrentSettings.AutoUpdate = DefaultEnvironmentSettings.AutoUpdate;
+      CurrentSettings.DefaultRefreshRate = DefaultEnvironmentSettings.DefaultRefreshRate;
+      CurrentSettings.DefaultThreadPriority = DefaultEnvironmentSettings.DefaultThreadPriority;
+      CurrentSettings.DefaultTimeFormat = DefaultEnvironmentSettings.DefaultTimeFormat;
+      CurrentSettings.DefaultDateFormat = DefaultEnvironmentSettings.DefaultDateFormat;
     }
 
     private void SetDefaultStatusBarSettings()
@@ -261,6 +270,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.LinesRead = GetIntFromSetting("LinesRead");
       CurrentSettings.GroupByCategory = GetBoolFromSetting("GroupByCategory");
       CurrentSettings.AutoUpdate = GetBoolFromSetting("AutoUpdate");
+      CurrentSettings.DefaultRefreshRate = GetRefreshRate(GetStringFromSetting("DefaultRefreshRate"));
+      CurrentSettings.DefaultThreadPriority = GetThreadPriority(GetStringFromSetting("DefaultThreadPriority"));
+      CurrentSettings.DefaultTimeFormat = ReadTimeFormat(GetStringFromSetting("TimeFormat"));
+      CurrentSettings.DefaultDateFormat = ReadDateFormat(GetStringFromSetting("DateFormat"));
     }
 
     private void ReadStatusBarSettings()
@@ -347,6 +360,42 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     /// <summary>
+    /// Get all Enum ThreadPriorities
+    /// </summary>
+    /// <param name="s">Reference of thread priority string</param>
+    /// <returns>Enum from thread priority</returns>
+    private static ThreadPriority GetThreadPriority(string s)
+    {
+      if ( s == null )
+        return ThreadPriority.Normal;
+
+      if ( Enum.GetNames(typeof(ThreadPriority)).All(priorityName => string.Compare(s.ToLower(), priorityName.ToLower(), StringComparison.Ordinal) != 0) )
+        return ThreadPriority.Normal;
+
+      Enum.TryParse(s, out ThreadPriority tp);
+
+      return tp;
+    }
+
+    /// <summary>
+    /// Get all Enum RefreshRates
+    /// </summary>
+    /// <param name="s">Reference of refresh rate string</param>
+    /// <returns>Enum of ETailRefreshRate</returns>
+    private static ETailRefreshRate GetRefreshRate(string s)
+    {
+      if ( string.IsNullOrEmpty(s) )
+        return ETailRefreshRate.Normal;
+
+      if ( Enum.GetNames(typeof(ETailRefreshRate)).All(refreshName => string.Compare(s.ToLower(), refreshName.ToLower(), StringComparison.Ordinal) != 0) )
+        return ETailRefreshRate.Normal;
+
+      Enum.TryParse(s, out ETailRefreshRate trr);
+
+      return trr;
+    }
+
+    /// <summary>
     /// Gets current language from Enum
     /// </summary>
     /// <param name="s">Enum value as string</param>
@@ -362,6 +411,38 @@ namespace Org.Vs.TailForWin.Core.Controllers
       Enum.TryParse(s, out EUiLanguage language);
 
       return language;
+    }
+
+    private static EDateFormat ReadDateFormat(string s)
+    {
+      if ( s == null )
+        return EDateFormat.DDMMYYYY;
+
+      foreach ( string dateFormat in Enum.GetNames(typeof(EDateFormat)) )
+      {
+        if ( string.Compare(s, dateFormat, StringComparison.Ordinal) != 0 )
+          return EDateFormat.DDMMYYYY;
+
+        Enum.TryParse(s, out EDateFormat df);
+        return df;
+      }
+      return EDateFormat.DDMMYYYY;
+    }
+
+    private static ETimeFormat ReadTimeFormat(string s)
+    {
+      if ( s == null )
+        return ETimeFormat.HHMMD;
+
+      foreach ( string timeFormat in Enum.GetNames(typeof(ETimeFormat)) )
+      {
+        if ( string.Compare(s, timeFormat, StringComparison.Ordinal) != 0 )
+          return ETimeFormat.HHMMD;
+
+        Enum.TryParse(s, out ETimeFormat tf);
+        return tf;
+      }
+      return ETimeFormat.HHMMD;
     }
 
     #endregion

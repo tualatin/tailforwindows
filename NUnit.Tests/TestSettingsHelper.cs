@@ -56,8 +56,8 @@ namespace Org.Vs.NUnit.Tests
       Assert.Greater(SettingsHelperController.CurrentSettings.WindowPositionY, -1);
       Assert.AreEqual(0, SettingsHelperController.CurrentSettings.WindowPositionY);
 
-      //Assert.AreEqual(ETailRefreshRate.Normal, SettingsHelper.CurrentSettings.DefaultRefreshRate);
-      //Assert.AreEqual(System.Threading.ThreadPriority.Normal, SettingsHelper.CurrentSettings.DefaultThreadPriority);
+      Assert.AreEqual(ETailRefreshRate.Normal, SettingsHelperController.CurrentSettings.DefaultRefreshRate);
+      Assert.AreEqual(ThreadPriority.Normal, SettingsHelperController.CurrentSettings.DefaultThreadPriority);
       Assert.AreEqual(WindowState.Normal, SettingsHelperController.CurrentSettings.CurrentWindowState);
       Assert.AreEqual(EWindowStyle.ModernBlueWindowStyle, SettingsHelperController.CurrentSettings.CurrentWindowStyle);
 
@@ -65,8 +65,8 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor).ToString(), SettingsHelperController.CurrentSettings.StatusBarFileLoadedBackgroundColor.ToString());
       Assert.AreEqual(EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarTailBackgroundColor).ToString(), SettingsHelperController.CurrentSettings.StatusBarTailBackgroundColor.ToString());
 
-      //Assert.AreEqual(ETimeFormat.HHMMSSD, SettingsHelper.CurrentSettings.DefaultTimeFormat);
-      //Assert.AreEqual(EDateFormat.DDMMYYYY, SettingsHelper.CurrentSettings.DefaultDateFormat);
+      Assert.AreEqual(ETimeFormat.HHMMSSD, SettingsHelperController.CurrentSettings.DefaultTimeFormat);
+      Assert.AreEqual(EDateFormat.DDMMYYYY, SettingsHelperController.CurrentSettings.DefaultDateFormat);
 
       //Assert.AreEqual("#FFFFFFFF", SettingsHelper.CurrentSettings.DefaultForegroundColor);
       //Assert.AreEqual("#FF001825", SettingsHelper.CurrentSettings.DefaultBackgroundColor);

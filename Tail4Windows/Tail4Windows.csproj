@@ -175,7 +175,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\Data\DateFormatMapping.cs" />
     <Compile Include="Core\Data\LanguageMapping.cs" />
+    <Compile Include="Core\Data\TimeFormatMapping.cs" />
     <Compile Include="Core\Enums\EUiLanguage.cs" />
     <Compile Include="Core\Extensions\ColorExtension.cs" />
     <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
@@ -187,8 +189,10 @@
       <DependentUpon>UpdateOptionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\EnvironmentOptionViewModel.cs" />
     <Compile Include="UI\Commands\InvokeDelegateCommandAction.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\TreeNodeToImageConverter.cs" />
     <Compile Include="UI\ExtendedControls\WindowEx.cs" />

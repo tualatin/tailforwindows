@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading;
+using System.Windows;
 using Org.Vs.TailForWin.Core.Enums;
 
 namespace Org.Vs.TailForWin.Core.Data.Settings
@@ -99,6 +100,26 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// Default value AutoUpdate
     /// </summary>
     public const bool AutoUpdate = false;
+
+    /// <summary>
+    /// Default value DefaultRefreshRate
+    /// </summary>
+    public const ETailRefreshRate DefaultRefreshRate = ETailRefreshRate.Normal;
+
+    /// <summary>
+    /// Default value DefaultThreadPriority
+    /// </summary>
+    public const ThreadPriority DefaultThreadPriority = ThreadPriority.Normal;
+
+    /// <summary>
+    /// Default value DefaultTimeFormat
+    /// </summary>
+    public const ETimeFormat DefaultTimeFormat = ETimeFormat.HHMMD;
+
+    /// <summary>
+    /// Default value DefaultDateFormat
+    /// </summary>
+    public const EDateFormat DefaultDateFormat = EDateFormat.DDMMYYYY;
 
     #endregion
 

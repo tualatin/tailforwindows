@@ -381,7 +381,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _groupByCategory;
       set
       {
-        if (value == _groupByCategory)
+        if ( value == _groupByCategory )
           return;
 
         _groupByCategory = value;
@@ -404,6 +404,78 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
         _autoUpdate = value;
         OnPropertyChanged(nameof(AutoUpdate));
+      }
+    }
+
+    private ETailRefreshRate _defaultRefreshRate;
+
+    /// <summary>
+    /// Default refresh rate
+    /// </summary>
+    public ETailRefreshRate DefaultRefreshRate
+    {
+      get => _defaultRefreshRate;
+      set
+      {
+        if ( value == _defaultRefreshRate )
+          return;
+
+        _defaultRefreshRate = value;
+        OnPropertyChanged(nameof(DefaultRefreshRate));
+      }
+    }
+
+    private ThreadPriority _defaulThreadPriority;
+
+    /// <summary>
+    /// Default thread priority
+    /// </summary>
+    public ThreadPriority DefaultThreadPriority
+    {
+      get => _defaulThreadPriority;
+      set
+      {
+        if ( value == _defaulThreadPriority )
+          return;
+
+        _defaulThreadPriority = value;
+        OnPropertyChanged(nameof(DefaultThreadPriority));
+      }
+    }
+
+    private ETimeFormat _defaultTimeFormat;
+
+    /// <summary>
+    /// Default time format
+    /// </summary>
+    public ETimeFormat DefaultTimeFormat
+    {
+      get => _defaultTimeFormat;
+      set
+      {
+        if ( value == _defaultTimeFormat )
+          return;
+
+        _defaultTimeFormat = value;
+        OnPropertyChanged(nameof(DefaultTimeFormat));
+      }
+    }
+
+    private EDateFormat _defaultDateFormat;
+
+    /// <summary>
+    /// Default date format
+    /// </summary>
+    public EDateFormat DefaultDateFormat
+    {
+      get => _defaultDateFormat;
+      set
+      {
+        if ( value == _defaultDateFormat )
+          return;
+
+        _defaultDateFormat = value;
+        OnPropertyChanged(nameof(DefaultDateFormat));
       }
     }
   }
