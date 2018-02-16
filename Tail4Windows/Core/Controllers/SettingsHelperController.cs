@@ -129,6 +129,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "ShowNLineAtStart", CurrentSettings.ShowNumberLineAtStart);
       WriteValueToSetting(config, "ShowLineNumbers", CurrentSettings.ShowLineNumbers);
       WriteValueToSetting(config, "LinesRead", CurrentSettings.LinesRead);
+      WriteValueToSetting(config, "GroupByCategory", CurrentSettings.GroupByCategory);
+      WriteValueToSetting(config, "AutoUpdate", CurrentSettings.AutoUpdate);
     }
 
     private void SaveStatusBarSettings(Configuration config)
@@ -177,6 +179,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.WindowPositionX = DefaultEnvironmentSettings.WindowPositionX;
       CurrentSettings.WindowHeight = DefaultEnvironmentSettings.WindowHeight;
       CurrentSettings.WindowWidth = DefaultEnvironmentSettings.WindowWidth;
+      CurrentSettings.GroupByCategory = DefaultEnvironmentSettings.GroupByCategory;
+      CurrentSettings.AutoUpdate = DefaultEnvironmentSettings.AutoUpdate;
     }
 
     private void SetDefaultStatusBarSettings()
@@ -255,6 +259,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ShowNumberLineAtStart = GetBoolFromSetting("ShowNLineAtStart");
       CurrentSettings.ShowLineNumbers = GetBoolFromSetting("ShowLineNumbers");
       CurrentSettings.LinesRead = GetIntFromSetting("LinesRead");
+      CurrentSettings.GroupByCategory = GetBoolFromSetting("GroupByCategory");
+      CurrentSettings.AutoUpdate = GetBoolFromSetting("AutoUpdate");
     }
 
     private void ReadStatusBarSettings()

@@ -370,5 +370,41 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         OnPropertyChanged(nameof(LinesRead));
       }
     }
+
+    private bool _groupByCategory;
+
+    /// <summary>
+    /// DataGrid group by category
+    /// </summary>
+    public bool GroupByCategory
+    {
+      get => _groupByCategory;
+      set
+      {
+        if (value == _groupByCategory)
+          return;
+
+        _groupByCategory = value;
+        OnPropertyChanged(nameof(GroupByCategory));
+      }
+    }
+
+    private bool _autoUpdate;
+
+    /// <summary>
+    /// AutoUpdate
+    /// </summary>
+    public bool AutoUpdate
+    {
+      get => _autoUpdate;
+      set
+      {
+        if ( value == _autoUpdate )
+          return;
+
+        _autoUpdate = value;
+        OnPropertyChanged(nameof(AutoUpdate));
+      }
+    }
   }
 }

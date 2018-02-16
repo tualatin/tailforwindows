@@ -90,6 +90,16 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// </summary>
     public const int LinesRead = 10;
 
+    /// <summary>
+    /// Default value GroupByCategory
+    /// </summary>
+    public const bool GroupByCategory = true;
+
+    /// <summary>
+    /// Default value AutoUpdate
+    /// </summary>
+    public const bool AutoUpdate = false;
+
     #endregion
 
     #region StatusBar default settings

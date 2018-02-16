@@ -34,11 +34,11 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(EUiLanguage.English, SettingsHelperController.CurrentSettings.Language);
       //Assert.IsTrue(SettingsHelper.CurrentSettings.SmartWatch);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.AlwaysScrollToEnd);
-      //Assert.IsTrue(SettingsHelper.CurrentSettings.AutoUpdate);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.AutoUpdate);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.RestoreWindowSize);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.SaveWindowPosition);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.DeleteLogFiles);
-      //Assert.IsTrue(SettingsHelper.CurrentSettings.GroupByCategory);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.GroupByCategory);
       Assert.IsFalse(SettingsHelperController.CurrentSettings.ShowLineNumbers);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.ShowNumberLineAtStart);
 
@@ -128,6 +128,7 @@ namespace Org.Vs.NUnit.Tests
       SettingsHelperController.CurrentSettings.ShowLineNumbers = true;
       SettingsHelperController.CurrentSettings.ShowNumberLineAtStart = true;
       SettingsHelperController.CurrentSettings.LinesRead = 100;
+      SettingsHelperController.CurrentSettings.GroupByCategory = false;
 
       await _currentSettings.SaveSettingsAsync().ConfigureAwait(false);
 
@@ -143,6 +144,7 @@ namespace Org.Vs.NUnit.Tests
       SettingsHelperController.CurrentSettings.ShowLineNumbers = DefaultEnvironmentSettings.ShowLineNumbers;
       SettingsHelperController.CurrentSettings.ShowNumberLineAtStart = DefaultEnvironmentSettings.ShowNumberLineAtStart;
       SettingsHelperController.CurrentSettings.LinesRead = DefaultEnvironmentSettings.LinesRead;
+      SettingsHelperController.CurrentSettings.GroupByCategory = DefaultEnvironmentSettings.GroupByCategory;
 
       await _currentSettings.ReloadCurrentSettingsAsync().ConfigureAwait(false);
       await _currentSettings.ReadSettingsAsync().ConfigureAwait(false);
@@ -160,6 +162,7 @@ namespace Org.Vs.NUnit.Tests
       Assert.IsTrue(SettingsHelperController.CurrentSettings.ShowLineNumbers);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.ShowNumberLineAtStart);
       Assert.AreEqual(EUiLanguage.German, SettingsHelperController.CurrentSettings.Language);
+      Assert.IsFalse(SettingsHelperController.CurrentSettings.GroupByCategory);
     }
 
     [Test]

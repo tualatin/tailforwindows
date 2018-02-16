@@ -37,6 +37,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       ShowNumberLineAtStart = memento.ShowNumberLineAtStart;
       ShowLineNumbers = memento.ShowLineNumbers;
       LinesRead = memento.LinesRead;
+      GroupByCategory = memento.GroupByCategory;
+      AutoUpdate = memento.AutoUpdate;
     }
 
     /// <summary>
@@ -59,6 +61,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         ShowNumberLineAtStart = obj.ShowNumberLineAtStart;
         ShowLineNumbers = obj.ShowLineNumbers;
         LinesRead = obj.LinesRead;
+        GroupByCategory = obj.GroupByCategory;
+        AutoUpdate = obj.AutoUpdate;
       }
 
       #region Window settings
@@ -169,6 +173,22 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Lines read
       /// </summary>
       public int LinesRead
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Group by category
+      /// </summary>
+      public bool GroupByCategory
+      {
+        get;
+      }
+
+      /// <summary>
+      /// AutoUpdate
+      /// </summary>
+      public bool AutoUpdate
       {
         get;
       }
