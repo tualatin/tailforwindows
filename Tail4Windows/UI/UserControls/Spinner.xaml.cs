@@ -20,6 +20,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     private CancellationTokenSource _cts;
     private bool _leftmouseButtonDown;
 
+
     /// <summary>
     /// Standard constructor
     /// </summary>
@@ -29,7 +30,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       _cts = new CancellationTokenSource();
     }
 
-    private void UserControl_Loaded(object sender, RoutedEventArgs e)
+    private void UserControlLoaded(object sender, RoutedEventArgs e)
     {
       if ( StartIndex > MaxSpinValue )
         StartIndex = MaxSpinValue;
@@ -39,7 +40,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     #region MouseEvents
 
-    private void BtnUp_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void BtnUpPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
       _leftmouseButtonDown = true;
 
@@ -50,7 +51,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       BtnUp.CaptureMouse();
     }
 
-    private void BtnUp_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    private void BtnUpPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
       _leftmouseButtonDown = false;
 
@@ -58,7 +59,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       BtnUp.ReleaseMouseCapture();
     }
 
-    private void BtnUp_PreviewMouseMove(object sender, MouseEventArgs e)
+    private void BtnUpPreviewMouseMove(object sender, MouseEventArgs e)
     {
       if ( !_leftmouseButtonDown )
         return;
@@ -75,15 +76,10 @@ namespace Org.Vs.TailForWin.UI.UserControls
       System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) sizeBtn.Width, (int) sizeBtn.Height);
 
       if ( !rc.Contains((int) mousePoint.X, (int) mousePoint.Y) )
-      {
         _cts.Cancel(false);
-        return;
-      }
-
-      _cts.Cancel(false);
     }
 
-    private void BtnDown_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    private void BtnDownPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
       _leftmouseButtonDown = true;
 
@@ -94,7 +90,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       BtnDown.CaptureMouse();
     }
 
-    private void BtnDown_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    private void BtnDownPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
       _leftmouseButtonDown = false;
 
@@ -102,7 +98,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       BtnDown.ReleaseMouseCapture();
     }
 
-    private void BtnDown_PreviewMouseMove(object sender, MouseEventArgs e)
+    private void BtnDownPreviewMouseMove(object sender, MouseEventArgs e)
     {
       if ( !_leftmouseButtonDown )
         return;
@@ -119,12 +115,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       System.Drawing.Rectangle rc = new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) sizeBtn.Width, (int) sizeBtn.Height);
 
       if ( !rc.Contains((int) mousePoint.X, (int) mousePoint.Y) )
-      {
         _cts.Cancel(false);
-        return;
-      }
-
-      _cts.Cancel(false);
     }
 
     #endregion
@@ -269,7 +260,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     #endregion
 
-    private void TextBoxSpinValue_TextChanged(object sender, TextChangedEventArgs e)
+    private void TextBoxSpinValueTextChanged(object sender, TextChangedEventArgs e)
     {
       if ( !int.TryParse(Value, out int i) )
         i = MinSpinValue;
@@ -281,9 +272,9 @@ namespace Org.Vs.TailForWin.UI.UserControls
       StartIndex = i;
     }
 
-    private void TextBoxSpinValue_LostFocus(object sender, RoutedEventArgs e) => Value = StartIndex.ToString(CultureInfo.InvariantCulture);
+    private void TextBoxSpinValueLostFocus(object sender, RoutedEventArgs e) => Value = StartIndex.ToString(CultureInfo.InvariantCulture);
 
-    private void TextBoxSpinValue_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    private void TextBoxSpinValuePreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
       if ( !(sender is TextBox) )
         return;
@@ -300,8 +291,11 @@ namespace Org.Vs.TailForWin.UI.UserControls
     {
       try
       {
-        UpValue();
-        await Task.Delay(TimeSpan.FromMilliseconds(50), _cts.Token).ConfigureAwait(false);
+        while ( !_cts.IsCancellationRequested )
+        {
+          UpValue();
+          await Task.Delay(TimeSpan.FromMilliseconds(120), _cts.Token).ConfigureAwait(false);
+        }
       }
       catch
       {
@@ -311,16 +305,23 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private void UpValue()
     {
-      if ( StartIndex <= MaxSpinValue )
-        StartIndex += Increment;
+      Dispatcher.InvokeAsync(
+        () =>
+        {
+          if ( StartIndex <= MaxSpinValue )
+            StartIndex += Increment;
+        });
     }
 
     private async Task DownValueAsync()
     {
       try
       {
-        DownValue();
-        await Task.Delay(TimeSpan.FromMilliseconds(50), _cts.Token).ConfigureAwait(false);
+        while ( !_cts.IsCancellationRequested )
+        {
+          DownValue();
+          await Task.Delay(TimeSpan.FromMilliseconds(120), _cts.Token).ConfigureAwait(false);
+        }
       }
       catch
       {
@@ -330,8 +331,12 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private void DownValue()
     {
-      if ( StartIndex > MinSpinValue )
-        StartIndex -= Increment;
+      Dispatcher.InvokeAsync(
+        () =>
+        {
+          if ( StartIndex > MinSpinValue )
+            StartIndex -= Increment;
+        });
     }
 
     #endregion

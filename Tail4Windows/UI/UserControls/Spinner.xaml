@@ -9,7 +9,7 @@
   d:DesignHeight="22"
   d:DesignWidth="50"
   x:Name="TailSpinner"
-  Loaded="UserControl_Loaded"
+  Loaded="UserControlLoaded"
   >
   <UserControl.Resources>
     <ResourceDictionary>
@@ -140,9 +140,9 @@
         Name="BtnUp"
         Width="12"
         HorizontalAlignment="Right"
-        PreviewMouseLeftButtonDown="BtnUp_PreviewMouseLeftButtonDown"
-        PreviewMouseLeftButtonUp="BtnUp_PreviewMouseLeftButtonUp"
-        PreviewMouseMove="BtnUp_PreviewMouseMove"
+        PreviewMouseLeftButtonDown="BtnUpPreviewMouseLeftButtonDown"
+        PreviewMouseLeftButtonUp="BtnUpPreviewMouseLeftButtonUp"
+        PreviewMouseMove="BtnUpPreviewMouseMove"
         Style="{DynamicResource ButtonStyle}"
         TabIndex="2"
         >
@@ -158,9 +158,9 @@
         Width="12"
         HorizontalAlignment="Right"
         VerticalAlignment="Bottom"
-        PreviewMouseLeftButtonDown="BtnDown_PreviewMouseLeftButtonDown"
-        PreviewMouseLeftButtonUp="BtnDown_PreviewMouseLeftButtonUp"
-        PreviewMouseMove="BtnDown_PreviewMouseMove"
+        PreviewMouseLeftButtonDown="BtnDownPreviewMouseLeftButtonDown"
+        PreviewMouseLeftButtonUp="BtnDownPreviewMouseLeftButtonUp"
+        PreviewMouseMove="BtnDownPreviewMouseMove"
         Style="{DynamicResource ButtonStyle}"
         TabIndex="3"
         >
@@ -176,10 +176,10 @@
       Height="22"
       VerticalAlignment="Center"
       Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ElementName=TailSpinner}"
-      LostFocus="TextBoxSpinValue_LostFocus"
-      PreviewMouseWheel="TextBoxSpinValue_PreviewMouseWheel"
+      LostFocus="TextBoxSpinValueLostFocus"
+      PreviewMouseWheel="TextBoxSpinValuePreviewMouseWheel"
       TabIndex="1"
-      TextChanged="TextBoxSpinValue_TextChanged"
+      TextChanged="TextBoxSpinValueTextChanged"
       behaviors:TextBoxMaskBehavior.Mask="{Binding Path=TextBoxMask, ElementName=TailSpinner}"
       behaviors:TextBoxMaskBehavior.MaximumValue="{Binding Path=TextBoxMaxValue, ElementName=TailSpinner}"
       behaviors:TextBoxMaskBehavior.MinimumValue="{Binding Path=TextBoxMinValue, ElementName=TailSpinner}"
