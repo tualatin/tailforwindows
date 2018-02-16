@@ -52,7 +52,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       var settings = new Dictionary<string, string>
       {
-        { "Language", EUiLanguage.English.ToString() },
+        { "Language", DefaultEnvironmentSettings.Language.ToString() },
         { "StatusBarInactiveBackgroundColor", DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor },
         { "StatusBarFileLoadedBackgroundColor", DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor },
         { "StatusBarTailBackgroundColor", DefaultEnvironmentSettings.StatusBarTailBackgroundColor }
@@ -101,6 +101,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           return;
 
         SaveWindowSettings(config);
+        SaveStatusBarSettings(config);
 
         config.Save(ConfigurationSaveMode.Modified);
         ConfigurationManager.RefreshSection("appSettings");
@@ -130,6 +131,13 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "LinesRead", CurrentSettings.LinesRead);
     }
 
+    private void SaveStatusBarSettings(Configuration config)
+    {
+      WriteValueToSetting(config, "StatusBarInactiveBackgroundColor", EnvironmentContainer.ConvertMediaBrushToDrawingColor(CurrentSettings.StatusBarInactiveBackgroundColor).ToHexString());
+      WriteValueToSetting(config, "StatusBarFileLoadedBackgroundColor", EnvironmentContainer.ConvertMediaBrushToDrawingColor(CurrentSettings.StatusBarFileLoadedBackgroundColor).ToHexString());
+      WriteValueToSetting(config, "StatusBarTailBackgroundColor", EnvironmentContainer.ConvertMediaBrushToDrawingColor(CurrentSettings.StatusBarTailBackgroundColor).ToHexString());
+    }
+
     /// <summary>
     /// Reset current settings
     /// </summary>
@@ -146,6 +154,36 @@ namespace Org.Vs.TailForWin.Core.Controllers
     private void SetDefaultSettings()
     {
       LOG.Trace("Reset T4W settings");
+
+      SetDefaultWindowSettings();
+      SetDefaultStatusBarSettings();
+    }
+
+    private void SetDefaultWindowSettings()
+    {
+      CurrentSettings.Language = DefaultEnvironmentSettings.Language;
+      CurrentSettings.AlwaysOnTop = DefaultEnvironmentSettings.AlwaysOnTop;
+      CurrentSettings.AlwaysScrollToEnd = DefaultEnvironmentSettings.AlwaysScrollToEnd;
+      CurrentSettings.CurrentWindowState = DefaultEnvironmentSettings.CurrentWindowState;
+      CurrentSettings.CurrentWindowStyle = DefaultEnvironmentSettings.CurrentWindowStyle;
+      CurrentSettings.DeleteLogFiles = DefaultEnvironmentSettings.DeleteLogFiles;
+      CurrentSettings.ExitWithEscape = DefaultEnvironmentSettings.ExitWithEscape;
+      CurrentSettings.LinesRead = DefaultEnvironmentSettings.LinesRead;
+      CurrentSettings.RestoreWindowSize = DefaultEnvironmentSettings.RestoreWindowSize;
+      CurrentSettings.SaveWindowPosition = DefaultEnvironmentSettings.SaveWindowPosition;
+      CurrentSettings.ShowLineNumbers = DefaultEnvironmentSettings.ShowLineNumbers;
+      CurrentSettings.ShowNumberLineAtStart = DefaultEnvironmentSettings.ShowNumberLineAtStart;
+      CurrentSettings.WindowPositionY = DefaultEnvironmentSettings.WindowPositionY;
+      CurrentSettings.WindowPositionX = DefaultEnvironmentSettings.WindowPositionX;
+      CurrentSettings.WindowHeight = DefaultEnvironmentSettings.WindowHeight;
+      CurrentSettings.WindowWidth = DefaultEnvironmentSettings.WindowWidth;
+    }
+
+    private void SetDefaultStatusBarSettings()
+    {
+      CurrentSettings.StatusBarInactiveBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor);
+      CurrentSettings.StatusBarFileLoadedBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor);
+      CurrentSettings.StatusBarTailBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarTailBackgroundColor);
     }
 
     /// <summary>

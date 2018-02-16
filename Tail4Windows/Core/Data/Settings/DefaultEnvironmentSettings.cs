@@ -1,4 +1,5 @@
-﻿using Org.Vs.TailForWin.Core.Enums;
+﻿using System.Windows;
+using Org.Vs.TailForWin.Core.Enums;
 
 namespace Org.Vs.TailForWin.Core.Data.Settings
 {
@@ -13,6 +14,21 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// Default value Language;
     /// </summary>
     public const EUiLanguage Language = EUiLanguage.English;
+
+    /// <summary>
+    /// Default value CurrentWindowState
+    /// </summary>
+    public const WindowState CurrentWindowState = WindowState.Normal;
+
+    /// <summary>
+    /// Default value CurrentWindowStyle
+    /// </summary>
+    public const EWindowStyle CurrentWindowStyle = EWindowStyle.ModernBlueWindowStyle;
+
+    /// <summary>
+    /// Default value DeleteLogFiles
+    /// </summary>
+    public const bool DeleteLogFiles = true;
 
     /// <summary>
     /// Default value AlwaysScrollToEnd

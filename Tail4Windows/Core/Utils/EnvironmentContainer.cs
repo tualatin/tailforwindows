@@ -185,6 +185,17 @@ namespace Org.Vs.TailForWin.Core.Utils
     }
 
     /// <summary>
+    /// Converts a <see cref="System.Windows.Media.Brush"/> to <see cref="System.Drawing.Color"/>
+    /// </summary>
+    /// <param name="brush">Brush to convert</param>
+    /// <returns>Color of type <see cref="System.Drawing.Color"/></returns>
+    public static System.Drawing.Color ConvertMediaBrushToDrawingColor(System.Windows.Media.Brush brush)
+    {
+      var mediaColor = ((SolidColorBrush) brush).Color;
+      return System.Drawing.Color.FromArgb(mediaColor.A, mediaColor.R, mediaColor.G, mediaColor.B);
+    }
+
+    /// <summary>
     /// Shows a information MessageBox
     /// </summary>
     /// <param name="message">Message to show</param>

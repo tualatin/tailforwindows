@@ -255,18 +255,41 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// PreviewTrayContextMenuOpen command
     /// </summary>
-    public ICommand PreviewTrayContextMenuOpenCommand => _previewTrayContextMenuOpenCommand ?? (_previewTrayContextMenuOpenCommand = new RelayCommand(p => ExecutePreviewTrayContextMenuOpenCommand()));
+    public ICommand PreviewTrayContextMenuOpenCommand => _previewTrayContextMenuOpenCommand ?? (_previewTrayContextMenuOpenCommand = new RelayCommand(ExecutePreviewTrayContextMenuOpenCommand));
+
+    private ICommand _previewKeyDownCommand;
+
+    /// <summary>
+    /// PreviewKeyDown command
+    /// </summary>
+    public ICommand PreviewKeyDownCommand => _previewKeyDownCommand ?? (_previewKeyDownCommand = new RelayCommand(ExecutePreviewKeyDownCommand));
 
     #endregion
 
     #region Command functions
+
+    private void ExecutePreviewKeyDownCommand(object parameter)
+    {
+      if ( !(parameter is KeyEventArgs args) )
+        return;
+
+      switch ( args.Key )
+      {
+      case Key.Escape:
+
+        if (SettingsHelperController.CurrentSettings.ExitWithEscape)
+          Application.Current.Shutdown(0);
+
+        break;
+      }
+    }
 
     private void ExecuteTrayContextMenuOpenCommand()
     {
       LOG.Trace("Tray context menu open command");
     }
 
-    private void ExecutePreviewTrayContextMenuOpenCommand()
+    private void ExecutePreviewTrayContextMenuOpenCommand(object parameter)
     {
       LOG.Trace("Preview tray context menu open command");
     }

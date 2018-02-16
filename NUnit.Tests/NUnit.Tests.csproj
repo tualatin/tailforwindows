@@ -96,6 +96,7 @@
     <Compile Include="Data\TestDataObject.cs" />
     <Compile Include="Enums\ETestGetDescription.cs" />
     <Compile Include="Options\OptionTestClasses.cs" />
+    <Compile Include="TestColorExtension.cs" />
     <Compile Include="TestExecute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestEnumerableExtension.cs" />

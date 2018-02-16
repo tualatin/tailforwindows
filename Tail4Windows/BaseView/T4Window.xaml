@@ -9,6 +9,7 @@
   xmlns:environment="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:taskbarNotification="clr-namespace:Hardcodet.Wpf.TaskbarNotification"
+  xmlns:ui="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
@@ -40,6 +41,12 @@
     <intr:EventTrigger EventName="Loaded">
       <intr:InvokeCommandAction Command="{Binding WndLoadedCommand}" />
     </intr:EventTrigger>
+    <intr:EventTrigger EventName="PreviewKeyDown">
+      <ui:InvokeDelegateCommandAction
+        Command="{Binding PreviewKeyDownCommand}"
+        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+        />
+    </intr:EventTrigger>
   </intr:Interaction.Triggers>
 
   <Window.Resources />
@@ -67,7 +74,10 @@
           <intr:InvokeCommandAction Command="{Binding TrayContextMenuOpenCommand}" />
         </intr:EventTrigger>
         <intr:EventTrigger EventName="PreviewTrayContextMenuOpen">
-          <intr:InvokeCommandAction Command="{Binding PreviewTrayContextMenuOpenCommand}" />
+          <ui:InvokeDelegateCommandAction
+            Command="{Binding PreviewTrayContextMenuOpenCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+            />
         </intr:EventTrigger>
       </intr:Interaction.Triggers>
       <taskbarNotification:TaskbarIcon.ContextMenu>
