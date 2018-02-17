@@ -60,21 +60,7 @@
   <system:String x:Key="QuickSearchEnterToolTip">Search</system:String>
   <system:String x:Key="OptionsSystemMenu">Settings...</system:String>
   <system:String x:Key="CancelText">Cancel</system:String>
-  <system:String x:Key="AboutOptionPageTitle">About</system:String>
-  <system:String x:Key="AboutOptionUpdatePageTitle">Update</system:String>
-  <system:String x:Key="AboutOptionSysInfoTitle">System Info</system:String>
-  <system:String x:Key="OptionsPageTitle">Options - {0}</system:String>
-  <system:String x:Key="EnvironmentOptionPageTitle">Environment</system:String>
-  <system:String x:Key="AlertOptionPageTitle">Alert</system:String>
 
-  <system:String x:Key="AboutVersionString">Version:</system:String>
-  <system:String x:Key="AboutBuildDateString">Build date:</system:String>
-  <system:String x:Key="AboutAuthorString">Author:</system:String>
-  <system:String x:Key="AboutAllRightReservedString">All rights reserved</system:String>
-  <system:String x:Key="AboutHomepageString">Homepage:</system:String>
-  <system:String x:Key="AboutUptimeString">Uptime:</system:String>
-  <system:String x:Key="AboutUptimeHours">hour(s)</system:String>
-  <system:String x:Key="AboutUptimeDays">day(s)</system:String>
   <system:String
     x:Key="SmartWatchHint"
     xml:space="preserve"
@@ -87,6 +73,16 @@
   <system:String x:Key="QuickSearchWatermark">Quick search</system:String>
 
   <system:String x:Key="GeneralToolTipHint">Take a look into Readme file for more informations</system:String>
+
+  <system:String x:Key="OptionsPageTitle">Options - {0}</system:String>
+  <system:String x:Key="EnvironmentOptionPageTitle">Environment</system:String>
+  <system:String x:Key="EnvironmentProxyOptionPageTitle">Proxy</system:String>
+  <system:String x:Key="EnvironmentImportExportPageTitle">Import/Export settings</system:String>
+
+  <system:String x:Key="AboutOptionPageTitle">About</system:String>
+  <system:String x:Key="AboutOptionUpdatePageTitle">Update</system:String>
+  <system:String x:Key="AboutOptionSysInfoTitle">System Info</system:String>
+  <system:String x:Key="AlertOptionPageTitle">Alert</system:String>
 
   <system:String x:Key="EnvironmentLanguageToolTip">Set Application wide language</system:String>
   <system:String x:Key="EnvironmentAlwaysOnTop">Always on top</system:String>
@@ -117,4 +113,13 @@
   <system:String x:Key="EnvironmentSendTo">Add to 'Send to'</system:String>
   <system:String x:Key="EnvironmentRemoveSentTo">Remove from 'Send to'</system:String>
   <system:String x:Key="EnvironmentSendToToolTip">Add application to send to menu of Windows</system:String>
+
+  <system:String x:Key="AboutVersionString">Version:</system:String>
+  <system:String x:Key="AboutBuildDateString">Build date:</system:String>
+  <system:String x:Key="AboutAuthorString">Author:</system:String>
+  <system:String x:Key="AboutAllRightReservedString">All rights reserved</system:String>
+  <system:String x:Key="AboutHomepageString">Homepage:</system:String>
+  <system:String x:Key="AboutUptimeString">Uptime:</system:String>
+  <system:String x:Key="AboutUptimeHours">hour(s)</system:String>
+  <system:String x:Key="AboutUptimeDays">day(s)</system:String>
 </ResourceDictionary>

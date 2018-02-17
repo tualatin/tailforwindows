@@ -189,7 +189,14 @@
       <DependentUpon>UpdateOptionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ImportExportOptionPage.xaml.cs">
+      <DependentUpon>ImportExportOptionPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ProxyOptionPage.xaml.cs">
+      <DependentUpon>ProxyOptionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\EnvironmentOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ImportExportViewModel.cs" />
     <Compile Include="UI\Commands\InvokeDelegateCommandAction.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
@@ -391,6 +398,14 @@
     <Page Include="PlugIns\OptionModules\EnvironmentOption\EnvironmentOptionPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PlugIns\OptionModules\EnvironmentOption\ImportExportOptionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\OptionModules\EnvironmentOption\ProxyOptionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Styles\AndroidCheckBox.xaml">
       <Generator>MSBuild:Compile</Generator>

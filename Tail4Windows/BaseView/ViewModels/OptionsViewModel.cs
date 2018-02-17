@@ -157,7 +157,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       var environment = new EnvironmentOptionPage();
       var optionPage1 = new TreeNodeOptionViewModel(environment, new[]
       {
-        new TreeNodeOptionViewModel(environment, null)
+        new TreeNodeOptionViewModel(environment, null),
+        new TreeNodeOptionViewModel(new ProxyOptionPage(), null),
+        new TreeNodeOptionViewModel(new ImportExportOptionPage(), null)
       }, "system.ico");
 
       var alert = new AlertOptionPage();

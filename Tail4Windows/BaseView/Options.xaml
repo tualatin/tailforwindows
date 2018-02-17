@@ -12,7 +12,7 @@
   mc:Ignorable="d"
   x:Name="OptionsDialog"
   Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
-  Width="600"
+  Width="650"
   Height="500"
   MinWidth="600"
   MinHeight="500"
@@ -37,6 +37,7 @@
   <extendedControls:WindowEx.DataContext>
     <viewModels:OptionsViewModel />
   </extendedControls:WindowEx.DataContext>
+
   <Grid Margin="5 5 5 0">
     <Grid.RowDefinitions>
       <RowDefinition />
@@ -46,7 +47,7 @@
     </Grid.RowDefinitions>
 
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="150" />
+      <ColumnDefinition Width="200" />
       <ColumnDefinition Width="10" />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
