@@ -25,7 +25,6 @@
   <system:String x:Key="QDeleteDataGridItem">Do you want delete selected item?</system:String>
   <system:String x:Key="NoContentFound">The XML file is empty!</system:String>
   <system:String x:Key="FileEncodingLabel">(If no value selected, auto file encoding is on)</system:String>
-  <system:String x:Key="Os">Operating System</system:String>
   <system:String x:Key="FindDialogTitle">Find</system:String>
   <system:String x:Key="SearchCount">Count: {0} matches.</system:String>
   <system:String x:Key="SelectSoundFile">Please select a sound file</system:String>
@@ -122,4 +121,23 @@
   <system:String x:Key="AboutUptimeString">Uptime:</system:String>
   <system:String x:Key="AboutUptimeHours">hour(s)</system:String>
   <system:String x:Key="AboutUptimeDays">day(s)</system:String>
+
+  <system:String x:Key="SystemInfoKey">Key</system:String>
+  <system:String x:Key="SystemInfoValue">Value</system:String>
+  <system:String x:Key="Os">Operating System</system:String>
+  <system:String x:Key="SystemInfoApplicationName">Applicationname</system:String>
+  <system:String x:Key="SystemInfoApplicationVersion">Application version</system:String>
+  <system:String x:Key="SystemInfoApplicationBuildDate">Application build date</system:String>
+  <system:String x:Key="SystemInfoMachineName">Machinename</system:String>
+  <system:String x:Key="SystemInfoVersion">Version</system:String>
+  <system:String x:Key="SystemInfoCpuName">CPU name</system:String>
+  <system:String x:Key="SystemInfoCpuManufacturer">CPU manufacturer</system:String>
+  <system:String x:Key="SystemInfoCpuSpeed">CPU speed</system:String>
+  <system:String x:Key="SystemInfoCpuPhysCores">CPU physical number of processors</system:String>
+  <system:String x:Key="SystemInfoCpuLogicCores">CPU logical number of processors</system:String>
+  <system:String x:Key="SystemInfoIpAddress">Host IP address Ipv4/Ipv6</system:String>
+  <system:String x:Key="SystemInfoPhysMem">Physical memory total</system:String>
+  <system:String x:Key="SystemInfoPhysAvailable">Physical memory available</system:String>
+  <system:String x:Key="SystemInfoVirtMemTotal">Virtual memory total</system:String>
+  <system:String x:Key="SystemInfoVirtMemAvailable">Virtual memory available</system:String>
 </ResourceDictionary>

@@ -1,12 +1,47 @@
-﻿<UserControl x:Class="Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.SysInfoOptionPage"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
-    </Grid>
+﻿<UserControl
+  x:Class="Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.SysInfoOptionPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels"
+  mc:Ignorable="d"
+  d:DesignHeight="300"
+  d:DesignWidth="300"
+  >
+  <UserControl.DataContext>
+    <viewModels:SysInfoViewModel />
+  </UserControl.DataContext>
+
+  <intr:Interaction.Triggers>
+    <intr:EventTrigger EventName="Loaded">
+      <intr:InvokeCommandAction Command="{Binding SysInfoLoadedCommand}" />
+    </intr:EventTrigger>
+    <intr:EventTrigger EventName="Unloaded">
+      <intr:InvokeCommandAction Command="{Binding SysInfoUnloadedCommand}" />
+    </intr:EventTrigger>
+  </intr:Interaction.Triggers>
+
+  <Grid>
+    <ListView
+      BorderThickness="0"
+      ItemsSource="{Binding SysInfoLoadedCommand.Execution.Result}"
+      >
+      <ListView.View>
+        <GridView>
+          <GridViewColumn
+            Width="Auto"
+            Header="{DynamicResource SystemInfoKey}"
+            DisplayMemberBinding="{Binding Key}"
+            />
+          <GridViewColumn
+            Width="Auto"
+            Header="{DynamicResource SystemInfoValue}"
+            DisplayMemberBinding="{Binding Value}"
+            />
+        </GridView>
+      </ListView.View>
+    </ListView>
+  </Grid>
 </UserControl>

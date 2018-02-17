@@ -5,49 +5,55 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
-using Org.Vs.TailForWin.Data;
-using Org.Vs.TailForWin.Data.Native;
-using Org.Vs.TailForWin.Native;
-using Org.Vs.TailForWin.Utils;
+using Org.Vs.TailForWin.Business.Data.SystemInformation;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Extensions;
+using Org.Vs.TailForWin.Core.Native;
+using Org.Vs.TailForWin.Core.Native.Data;
+using Org.Vs.TailForWin.Core.Utils;
 
 
-namespace Org.Vs.TailForWin.Controller
+namespace Org.Vs.TailForWin.Business.Controllers
 {
   /// <summary>
   /// System information controller
   /// </summary>
-  public class SysInformationController
+  public class SystemInformationController
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof(SysInformationController));
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(SystemInformationController));
 
     /// <summary>
     /// Get systeminformations from computer
     /// </summary>
     /// <returns>Object with systeminformations</returns>
-    public static SysInformationData GetAllSystemInformation()
+    public async Task<SystemInformationData> GetAllSystemInformationsAsync(CancellationToken token)
     {
       LOG.Trace("Get System informations");
+      SystemInformationData sysInfo = new SystemInformationData();
 
-      Assembly assembly = Assembly.GetExecutingAssembly();
-      string format = $"{SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat)} {SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat)}";
-      string buildDateTime = BuildDate.GetBuildDateTime(assembly).ToString(format);
-
-      SysInformationData sysInfo = new SysInformationData
+      await Task.Run(() =>
       {
-        ApplicationName = CentralManager.APPLICATION_CAPTION,
-        BuildDateTime = buildDateTime,
-        ApplicationVersion = Application.ProductVersion,
-        MachineName = Environment.MachineName,
-        OsName = GetOsFriendlyName().Trim(),
-        OsVersion = string.Format("{0} {1} Build {2}", Environment.OSVersion.Version, Environment.OSVersion.ServicePack, Environment.OSVersion.Version.Build),
-        OsType = string.Format("{0} Bit-{1}", GetOsArchitecture(), System.Windows.Application.Current.FindResource("OS")),
-        HostIpAddress = GetIpAddress(),
-        MachineMemory = GetMachineMemoryInfo(),
-        Language = GetSystemLanguage(),
-        CpuInfo = GetCpuInfo(),
-      };
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        string format = $"{SettingsHelperController.CurrentSettings.DefaultDateFormat.GetEnumDescription()}" +
+                        $"{SettingsHelperController.CurrentSettings.DefaultTimeFormat.GetEnumDescription()}";
+        string buildDateTime = BuildDate.GetBuildDateTime(assembly).ToString(format);
+
+        sysInfo.ApplicationName = EnvironmentContainer.ApplicationTitle;
+        sysInfo.BuildDateTime = buildDateTime;
+        sysInfo.ApplicationVersion = Application.ProductVersion;
+        sysInfo.MachineName = Environment.MachineName;
+        sysInfo.OsName = GetOsFriendlyName().Trim();
+        sysInfo.OsVersion = $"{Environment.OSVersion.Version} {Environment.OSVersion.ServicePack} Build {Environment.OSVersion.Version.Build}";
+        sysInfo.OsType = $"{GetOsArchitecture()} Bit-{System.Windows.Application.Current.TryFindResource("Os")}";
+        sysInfo.HostIpAddress = GetIpAddress();
+        sysInfo.MachineMemory = GetMachineMemoryInfo();
+        sysInfo.Language = GetSystemLanguage();
+        sysInfo.CpuInfo = GetCpuInfo();
+      }, token).ConfigureAwait(false);
+
       return sysInfo;
     }
 
@@ -83,7 +89,7 @@ namespace Org.Vs.TailForWin.Controller
 
         Array.ForEach(lvsHost.AddressList, currentAddress =>
         {
-          if ( String.CompareOrdinal(currentAddress.AddressFamily.ToString(), ProtocolFamily.InterNetworkV6.ToString()) == 0 )
+          if ( string.CompareOrdinal(currentAddress.AddressFamily.ToString(), ProtocolFamily.InterNetworkV6.ToString()) == 0 )
             ipAddress.Ipv6 = currentAddress.ToString();
           else
             ipAddress.Ipv4 = currentAddress.ToString();
@@ -128,9 +134,6 @@ namespace Org.Vs.TailForWin.Controller
       return myCpu;
     }
 
-    private static string GetSystemLanguage()
-    {
-      return Thread.CurrentThread.CurrentCulture.DisplayName;
-    }
+    private static string GetSystemLanguage() => Thread.CurrentThread.CurrentCulture.DisplayName;
   }
 }

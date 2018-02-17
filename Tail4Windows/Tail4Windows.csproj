@@ -175,6 +175,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Business\Controllers\SystemInformationController.cs" />
+    <Compile Include="Business\Data\SystemInformation\IpAddress.cs" />
+    <Compile Include="Business\Data\SystemInformation\CpuInfo.cs" />
+    <Compile Include="Business\Data\SystemInformation\SystemInformationData.cs" />
     <Compile Include="Core\Data\DateFormatMapping.cs" />
     <Compile Include="Core\Data\LanguageMapping.cs" />
     <Compile Include="Core\Data\TimeFormatMapping.cs" />
@@ -189,6 +193,7 @@
       <DependentUpon>UpdateOptionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\SysInfoViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ImportExportOptionPage.xaml.cs">
       <DependentUpon>ImportExportOptionPage.xaml</DependentUpon>
     </Compile>
