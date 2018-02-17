@@ -76,7 +76,7 @@
   <system:String x:Key="OptionsPageTitle">Options - {0}</system:String>
   <system:String x:Key="EnvironmentOptionPageTitle">Umgebung</system:String>
   <system:String x:Key="EnvironmentProxyOptionPageTitle">Proxy</system:String>
-  <system:String x:Key="EnvironmentImportExportPageTitle">Import/Export Einstellungen</system:String>
+  <system:String x:Key="EnvironmentImportExportPageTitle">Import/Export</system:String>
 
   <system:String x:Key="AboutOptionPageTitle">Über</system:String>
   <system:String x:Key="AboutOptionUpdatePageTitle">Update</system:String>

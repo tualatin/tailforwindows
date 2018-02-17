@@ -21,19 +21,6 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
   {
     private CancellationTokenSource _cts;
 
-    #region Properties
-
-    /// <summary>
-    /// System informations
-    /// </summary>
-    public ObservableCollection<KeyValuePair<string, string>> SystemInformations
-    {
-      get;
-      private set;
-    }
-
-    #endregion
-
     #region Commands
 
     private IAsyncCommand _sysInfoLoadedCommand;
