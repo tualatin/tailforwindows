@@ -202,8 +202,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <summary>
     /// Reloads current settings
     /// </summary>
+    /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task ReloadCurrentSettingsAsync() => await Task.Run(() => ReloadCurrentSettings()).ConfigureAwait(false);
+    public async Task ReloadCurrentSettingsAsync(CancellationTokenSource cts) => await Task.Run(() => ReloadCurrentSettings(), cts.Token).ConfigureAwait(false);
 
     private void ReloadCurrentSettings()
     {

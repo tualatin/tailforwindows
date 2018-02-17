@@ -37,7 +37,7 @@ namespace Org.Vs.TailForWin.Business.Controllers
       await Task.Run(() =>
       {
         Assembly assembly = Assembly.GetExecutingAssembly();
-        string format = $"{SettingsHelperController.CurrentSettings.DefaultDateFormat.GetEnumDescription()}" +
+        string format = $"{SettingsHelperController.CurrentSettings.DefaultDateFormat.GetEnumDescription()} " +
                         $"{SettingsHelperController.CurrentSettings.DefaultTimeFormat.GetEnumDescription()}";
         string buildDateTime = BuildDate.GetBuildDateTime(assembly).ToString(format);
 

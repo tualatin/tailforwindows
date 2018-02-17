@@ -124,6 +124,13 @@ namespace Org.Vs.TailForWin.Core.Utils
     public async Task ReadSettingsAsync() => await _settings.ReadSettingsAsync().ConfigureAwait(false);
 
     /// <summary>
+    /// Read current settings
+    /// </summary>
+    /// <param name="cts"><see cref="CancellationTokenSource"/></param>
+    /// <returns>Task</returns>
+    public async Task ReadSettingsAsync(CancellationTokenSource cts) => await _settings.ReadSettingsAsync(cts).ConfigureAwait(false);
+
+    /// <summary>
     /// Save current settings
     /// </summary>
     /// <param name="cts">CancellationTokenSource</param>
@@ -133,8 +140,9 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Reload settings from config file
     /// </summary>
+    /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task ReloadSettingsAsync() => await _settings.ReloadCurrentSettingsAsync().ConfigureAwait(false);
+    public async Task ReloadSettingsAsync(CancellationTokenSource cts) => await _settings.ReloadCurrentSettingsAsync(cts).ConfigureAwait(false);
 
     /// <summary>
     /// Reset current setting to default values
@@ -240,13 +248,40 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// Show a question MessageBox
     /// </summary>
     /// <param name="question">Question to show</param>
-    /// <param name="defaultMessageBoxResult">default MessageBoxResult is <c>MessageBoxResult.Yes</c></param>
+    /// <param name="defaultMessageBoxResult">default MessageBoxResult is <see cref="MessageBoxResult.Yes"/></param>
     /// <returns>MessageBoxResult</returns>
     public static MessageBoxResult ShowQuestionMessageBox(string question, MessageBoxResult defaultMessageBoxResult = MessageBoxResult.Yes)
     {
       string caption = $"{ApplicationTitle} - {Application.Current.TryFindResource("Question")}";
       return string.IsNullOrWhiteSpace(question) ? MessageBoxResult.None :
         MessageBox.Show(question, caption, MessageBoxButton.YesNo, MessageBoxImage.Question, defaultMessageBoxResult);
+    }
+
+    /// <summary>
+    /// Shows open file dialog
+    /// </summary>
+    /// <param name="fileName">Output of filename</param>
+    /// <param name="filter">Filter</param>
+    /// <param name="title">Title</param>
+    /// <returns>If success true otherwise false</returns>
+    public static bool OpenFileLogDialog(out string fileName, string filter, string title)
+    {
+      OpenFileDialog openDialog = new OpenFileDialog
+      {
+        Filter = filter,
+        RestoreDirectory = true,
+        Title = title
+      };
+
+      bool? result = openDialog.ShowDialog();
+      fileName = string.Empty;
+
+      if ( result != true )
+        return false;
+
+      fileName = openDialog.FileName;
+
+      return true;
     }
 
     /// <summary>

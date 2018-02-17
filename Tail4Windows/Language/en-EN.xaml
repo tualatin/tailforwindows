@@ -140,4 +140,12 @@
   <system:String x:Key="SystemInfoPhysAvailable">Physical memory available</system:String>
   <system:String x:Key="SystemInfoVirtMemTotal">Virtual memory total</system:String>
   <system:String x:Key="SystemInfoVirtMemAvailable">Virtual memory available</system:String>
+
+  <system:String x:Key="ImportExportExportLabel">Export settings</system:String>
+  <system:String x:Key="ImportExportExportToolTip">Export current settings</system:String>
+  <system:String x:Key="ImportExportImportLabel">Import settings</system:String>
+  <system:String x:Key="ImportExportImportToolTip">Import exported settings and override current settings</system:String>
+  <system:String x:Key="ImportExportConfigurationPath">Configuration Path</system:String>
+  <system:String x:Key="ImportExportResetConfiguration">Reset settings</system:String>
+  <system:String x:Key="ImportExportResetConfigurationToolTip">Reset current settings to default values</system:String>
 </ResourceDictionary>

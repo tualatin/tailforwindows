@@ -52,8 +52,9 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// <summary>
     /// Reloads current settings
     /// </summary>
+    /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    Task ReloadCurrentSettingsAsync();
+    Task ReloadCurrentSettingsAsync(CancellationTokenSource cts);
 
     /// <summary>
     /// Adds a new property to config file

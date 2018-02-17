@@ -1,4 +1,16 @@
-﻿using Org.Vs.TailForWin.Core.Data.Base;
+﻿using System;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using log4net;
+using Microsoft.Win32;
+using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.UI.Commands;
+using Org.Vs.TailForWin.UI.Interfaces;
+using Org.Vs.TailForWin.UI.Services;
 
 
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
@@ -8,5 +20,184 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
   /// </summary>
   public class ImportExportViewModel : NotifyMaster
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(ImportExportViewModel));
+
+    private CancellationTokenSource _cts;
+
+    #region Properties
+
+    private string _currentSettingsPath;
+
+    /// <summary>
+    /// Current settings path
+    /// </summary>
+    public string CurrentSettingsPath
+    {
+      get => _currentSettingsPath;
+      set
+      {
+        if ( Equals(value, _currentSettingsPath) )
+          return;
+
+        _currentSettingsPath = value;
+        OnPropertyChanged(nameof(CurrentSettingsPath));
+      }
+    }
+
+    #endregion
+
+    #region Commands
+
+    private ICommand _importLoadedCommand;
+
+    /// <summary>
+    /// Import/Export loaded command
+    /// </summary>
+    public ICommand ImportLoadedCommand => _importLoadedCommand ?? (_importLoadedCommand = new RelayCommand(p => ExecuteImportLoadedCommand()));
+
+    private ICommand _importUnloadedCommand;
+
+    /// <summary>
+    /// Import/Export unloaded command
+    /// </summary>
+    public ICommand ImportUnloadedCommand => _importUnloadedCommand ?? (_importUnloadedCommand = new RelayCommand(p => ExecuteImportUnloadedCommand()));
+
+    private IAsyncCommand _resetSettingsCommand;
+
+    /// <summary>
+    /// Reset current settings command
+    /// </summary>
+    public IAsyncCommand ResetSettingsCommand => _resetSettingsCommand ?? (_resetSettingsCommand = AsyncCommand.Create((p, t) => ExecuteResetSettingsCommandAsync()));
+
+    private IAsyncCommand _exportCommand;
+
+    /// <summary>
+    /// Export current settings command
+    /// </summary>
+    public IAsyncCommand ExportCommand => _exportCommand ?? (_exportCommand = AsyncCommand.Create((p, t) => ExecuteExportCommandAsync()));
+
+    private IAsyncCommand _importCommand;
+
+    /// <summary>
+    /// Import new settings command
+    /// </summary>
+    public IAsyncCommand ImportCommand => _importCommand ?? (_importCommand = AsyncCommand.Create((p, t) => ExecuteImportCommandAsync()));
+
+    #endregion
+
+    #region Command functions
+
+    private void ExecuteImportLoadedCommand()
+    {
+      CurrentSettingsPath = $"{AppDomain.CurrentDomain.BaseDirectory}{AppDomain.CurrentDomain.FriendlyName}.Config";
+    }
+
+    private void ExecuteImportUnloadedCommand() => _cts?.Cancel();
+
+    private async Task ExecuteResetSettingsCommandAsync()
+    {
+      if ( EnvironmentContainer.ShowQuestionMessageBox(Application.Current.TryFindResource("QResetSettings").ToString()) == MessageBoxResult.No )
+        return;
+
+      MouseService.SetBusyState();
+
+      _cts?.Dispose();
+      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
+
+      await EnvironmentContainer.Instance.ResetCurrentSettingsAsync(_cts).ConfigureAwait(false);
+    }
+
+    private async Task ExecuteExportCommandAsync()
+    {
+      string appName = AppDomain.CurrentDomain.FriendlyName;
+      string appSettings = $"{AppDomain.CurrentDomain.BaseDirectory}{appName}.Config";
+      string date = DateTime.Now.ToString("yyyy_MM_dd_hh_mm");
+
+      SaveFileDialog saveDialog = new SaveFileDialog
+      {
+        FileName = $"{date}_{appName}.Config",
+        DefaultExt = ".export",
+        Filter = "Export Settings (*.export)|*.export"
+      };
+
+      bool? result = saveDialog.ShowDialog();
+
+      if ( result != true )
+        return;
+
+      _cts?.Dispose();
+      _cts = new CancellationTokenSource();
+
+      MouseService.SetBusyState();
+
+      try
+      {
+        FileStream saveFile = new FileStream(appSettings, FileMode.Open);
+        Stream output = File.Create($"{saveDialog.FileName}.{saveDialog.DefaultExt}");
+        byte[] buffer = new byte[1024];
+        int len;
+
+        while ( (len = await saveFile.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0 )
+        {
+          await output.WriteAsync(buffer, 0, len, _cts.Token).ConfigureAwait(false);
+        }
+
+        saveFile.Flush();
+        output.Flush();
+
+        saveFile.Close();
+        output.Close();
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+    }
+
+    private async Task ExecuteImportCommandAsync()
+    {
+      _cts?.Dispose();
+      _cts = new CancellationTokenSource();
+
+      if ( !EnvironmentContainer.OpenFileLogDialog(out string importSettings, "Export Settings (*export)|*.export",
+        Application.Current.FindResource("OpenDialogImportSettings") as string) )
+        return;
+
+      if ( importSettings == null )
+        return;
+
+      if ( EnvironmentContainer.ShowQuestionMessageBox(Application.Current.TryFindResource("QImportSettings").ToString()) == MessageBoxResult.No )
+        return;
+
+      MouseService.SetBusyState();
+
+      try
+      {
+        string appName = AppDomain.CurrentDomain.FriendlyName;
+        FileStream importFile = new FileStream(importSettings, FileMode.Open);
+        Stream output = File.Create($"{AppDomain.CurrentDomain.BaseDirectory}{appName}.Config");
+        byte[] buffer = new byte[1024];
+        int len;
+
+        while ( (len = await importFile.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0 )
+        {
+          await output.WriteAsync(buffer, 0, len, _cts.Token).ConfigureAwait(false);
+        }
+
+        output.Flush();
+        importFile.Flush();
+
+        output.Close();
+        importFile.Close();
+
+        await EnvironmentContainer.Instance.ReloadSettingsAsync(_cts).ContinueWith(p => EnvironmentContainer.Instance.ReadSettingsAsync(_cts)).ConfigureAwait(false);
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+    }
+
+    #endregion
   }
 }

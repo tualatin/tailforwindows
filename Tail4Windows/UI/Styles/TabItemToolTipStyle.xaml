@@ -1,6 +1,7 @@
-<ResourceDictionary
+﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   >
 
   <Style x:Key="TabItemToolTipStyle" TargetType="ToolTip">
@@ -22,7 +23,7 @@
             <StackPanel Margin="3">
               <TextBlock
                 Margin="5 5 5 0"
-                Text="Tail4Windows"
+                Text="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationTitle}}"
                 FontWeight="Bold"
                 Foreground="#FF292929"
                 />
@@ -33,7 +34,7 @@
                   Margin="0 0 5 0"
                   RenderOptions.BitmapScalingMode="HighQuality"
                   RenderOptions.EdgeMode="Aliased"
-                  Source="/TailForWin;component/Res/Main.ico"
+                  Source="/T4W;component/Resources/Main.ico"
                   />
                 <TextBlock
                   Margin="5"

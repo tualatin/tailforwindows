@@ -4,7 +4,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption"
+  xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="400"
@@ -14,5 +14,219 @@
     <viewModels:ImportExportViewModel />
   </UserControl.DataContext>
 
-  <Grid />
+  <intr:Interaction.Triggers>
+    <intr:EventTrigger EventName="Loaded">
+      <intr:InvokeCommandAction Command="{Binding ImportLoadedCommand}" />
+    </intr:EventTrigger>
+    <intr:EventTrigger EventName="Unloaded">
+      <intr:InvokeCommandAction Command="{Binding ImportUnloadedCommand}" />
+    </intr:EventTrigger>
+  </intr:Interaction.Triggers>
+
+  <Grid Margin="5">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition MinWidth="100" />
+      <ColumnDefinition Width="45" />
+      <ColumnDefinition Width="50*" />
+      <ColumnDefinition MinWidth="100" />
+      <ColumnDefinition Width="45" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="45" />
+      <RowDefinition Height="10" />
+      <RowDefinition Height="45" />
+      <RowDefinition Height="100" />
+      <RowDefinition Height="206*" />
+    </Grid.RowDefinitions>
+
+    <Label
+      VerticalAlignment="Center"
+      Content="{DynamicResource ImportExportExportLabel}"
+      />
+    <Button
+      Grid.Row="0"
+      Grid.Column="1"
+      Width="33"
+      Height="33"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      Command="{Binding ExportCommand}"
+      TabIndex="0"
+      >
+      <Button.ToolTip>
+        <StackPanel>
+          <TextBlock
+            Margin="0 0 0 5"
+            Text="{DynamicResource ImportExportExportLabel}"
+            FontSize="12"
+            FontWeight="Bold"
+            />
+          <TextBlock Text="{DynamicResource ImportExportExportToolTip}" />
+          <Border
+            Margin="0 8"
+            BorderBrush="Silver"
+            BorderThickness="0 1 0 0"
+            />
+          <WrapPanel>
+            <Image
+              Width="16"
+              Height="16"
+              Margin="0 0 5 0"
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/Search.ico"
+              />
+            <TextBlock
+              Text="{DynamicResource GeneralToolTipHint}"
+              FontStyle="Italic"
+              />
+          </WrapPanel>
+        </StackPanel>
+      </Button.ToolTip>
+      <StackPanel>
+        <Image
+          RenderOptions.BitmapScalingMode="HighQuality"
+          RenderOptions.EdgeMode="Aliased"
+          Source="/T4W;component/Resources/Export.ico"
+          />
+      </StackPanel>
+    </Button>
+
+    <Label
+      Grid.Row="0"
+      Grid.Column="3"
+      VerticalAlignment="Center"
+      Content="{DynamicResource ImportExportImportLabel}"
+      />
+    <Button
+      Grid.Row="0"
+      Grid.Column="4"
+      Width="33"
+      Height="33"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      Command="{Binding ImportCommand}"
+      TabIndex="1"
+      >
+      <Button.ToolTip>
+        <StackPanel>
+          <TextBlock
+            Margin="0 0 0 5"
+            Text="{DynamicResource ImportExportImportLabel}"
+            FontSize="12"
+            FontWeight="Bold"
+            />
+          <TextBlock Text="{DynamicResource ImportExportImportToolTip}" />
+          <Border
+            Margin="0 8"
+            BorderBrush="Silver"
+            BorderThickness="0 1 0 0"
+            />
+          <WrapPanel>
+            <Image
+              Width="16"
+              Height="16"
+              Margin="0 0 5 0"
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/Search.ico"
+              />
+            <TextBlock
+              Text="{DynamicResource GeneralToolTipHint}"
+              FontStyle="Italic"
+              />
+          </WrapPanel>
+        </StackPanel>
+      </Button.ToolTip>
+      <StackPanel>
+        <Image
+          RenderOptions.BitmapScalingMode="HighQuality"
+          RenderOptions.EdgeMode="Aliased"
+          Source="/T4W;component/Resources/Import.ico"
+          />
+      </StackPanel>
+    </Button>
+
+    <Separator
+      Grid.Row="1"
+      Grid.Column="0"
+      Grid.ColumnSpan="5"
+      Width="300"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      />
+
+    <Label
+      Grid.Row="2"
+      Grid.Column="0"
+      Grid.ColumnSpan="2"
+      VerticalAlignment="Center"
+      Content="{DynamicResource ImportExportConfigurationPath}"
+      />
+    <TextBox
+      Grid.Row="2"
+      Grid.Column="1"
+      Grid.ColumnSpan="4"
+      Height="23"
+      MaxWidth="280"
+      Margin="8 0 5 0"
+      VerticalAlignment="Center"
+      Text="{Binding CurrentSettingsPath, UpdateSourceTrigger=PropertyChanged}"
+      IsReadOnly="True"
+      >
+      <TextBox.ToolTip>
+        <ToolTip
+          Content="{Binding CurrentSettingsPath, UpdateSourceTrigger=PropertyChanged}"
+          Style="{StaticResource TabItemToolTipStyle}"
+          />
+      </TextBox.ToolTip>
+    </TextBox>
+
+    <Grid
+      Grid.Row="3"
+      Grid.Column="0"
+      Grid.ColumnSpan="5"
+      >
+      <Button
+        Width="100"
+        Height="23"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Content="{DynamicResource ImportExportResetConfiguration}"
+        Command="{Binding ResetSettingsCommand}"
+        TabIndex="3"
+        >
+        <Button.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource ImportExportResetConfiguration}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource ImportExportResetConfigurationToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </Button.ToolTip>
+      </Button>
+    </Grid>
+  </Grid>
 </UserControl>
