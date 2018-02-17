@@ -115,5 +115,6 @@
   <system:String x:Key="EnvironmentDefaultDateFormat">Standard Datumsformat</system:String>
   <system:String x:Key="EnvironmentDefaultDateFormatToolTip">Das standard Datumsformat</system:String>
   <system:String x:Key="EnvironmentSendTo">Zu 'Senden zu' hinzufügen</system:String>
+  <system:String x:Key="EnvironmentRemoveSentTo">Aus 'Send zu' entfernen</system:String>
   <system:String x:Key="EnvironmentSendToToolTip">Füge das Programm zum 'Senden zu' Menü von Windows hinzu</system:String>
 </ResourceDictionary>

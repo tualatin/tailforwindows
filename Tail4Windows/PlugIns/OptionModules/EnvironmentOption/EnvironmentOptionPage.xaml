@@ -34,7 +34,10 @@
       <RowDefinition Height="26" />
       <RowDefinition Height="26" />
       <RowDefinition Height="26" />
-      <RowDefinition Height="*" />
+      <RowDefinition Height="26" />
+      <RowDefinition Height="26" />
+      <RowDefinition Height="26" />
+      <RowDefinition Height="26" />
       <RowDefinition Height="26" />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
@@ -634,47 +637,49 @@
       </ComboBox.ToolTip>
     </ComboBox>
 
-    <Button
-      Grid.Row="10"
-      Grid.Column="1"
-      Width="120"
-      Height="23"
-      HorizontalAlignment="Right"
-      VerticalAlignment="Bottom"
-      Content="{Binding SendToButtonText, UpdateSourceTrigger=PropertyChanged}"
-      Command="{Binding AddToSendToCommand}"
-      TabIndex="13"
+    <Grid
+      Grid.Row="13"
+      Grid.Column="0"
+      Grid.ColumnSpan="2"
       >
-      <Button.ToolTip>
-        <StackPanel>
-          <TextBlock
-            Margin="0 0 0 5"
-            Text="{DynamicResource EnvironmentSendTo}"
-            FontSize="12"
-            FontWeight="Bold"
-            />
-          <TextBlock Text="{DynamicResource EnvironmentSendToToolTip}" />
-          <Border
-            Margin="0 8"
-            BorderBrush="Silver"
-            BorderThickness="0 1 0 0"
-            />
-          <WrapPanel>
-            <Image
-              Width="16"
-              Height="16"
-              Margin="0 0 5 0"
-              RenderOptions.BitmapScalingMode="HighQuality"
-              RenderOptions.EdgeMode="Aliased"
-              Source="/T4W;component/Resources/Search.ico"
-              />
+      <Button
+        Width="140"
+        Height="23"
+        Content="{Binding SendToButtonText, UpdateSourceTrigger=PropertyChanged}"
+        Command="{Binding AddToSendToCommand}"
+        TabIndex="13"
+        >
+        <Button.ToolTip>
+          <StackPanel>
             <TextBlock
-              Text="{DynamicResource GeneralToolTipHint}"
-              FontStyle="Italic"
+              Margin="0 0 0 5"
+              Text="{DynamicResource EnvironmentSendTo}"
+              FontSize="12"
+              FontWeight="Bold"
               />
-          </WrapPanel>
-        </StackPanel>
-      </Button.ToolTip>
-    </Button>
+            <TextBlock Text="{DynamicResource EnvironmentSendToToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </Button.ToolTip>
+      </Button>
+    </Grid>
   </Grid>
 </UserControl>

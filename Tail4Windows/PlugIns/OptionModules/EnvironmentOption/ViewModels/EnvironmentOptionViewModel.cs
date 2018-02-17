@@ -9,6 +9,7 @@ using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
+using Org.Vs.TailForWin.UI.Services;
 
 
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
@@ -52,7 +53,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     public EnvironmentOptionViewModel()
     {
       _sendToLinkName = $"{Environment.GetFolderPath(Environment.SpecialFolder.SendTo)}\\{EnvironmentContainer.ApplicationTitle}.lnk";
-      SendToButtonText = Application.Current.TryFindResource("EnvironmentSendTo").ToString();
+
+      SetButtonContentByState();
     }
 
     #region Commands
@@ -88,6 +90,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         {
           if ( File.Exists(_sendToLinkName) )
           {
+            MouseService.SetBusyState();
             File.Delete(_sendToLinkName);
           }
           else
@@ -97,6 +100,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
             if ( EnvironmentContainer.ShowQuestionMessageBox(message) == MessageBoxResult.No )
               return;
 
+            MouseService.SetBusyState();
             IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
             IWshRuntimeLibrary.IWshShortcut shortCut = shell.CreateShortcut(_sendToLinkName);
             shortCut.TargetPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -107,8 +111,19 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
+        finally
+        {
+          SetButtonContentByState();
+        }
       }, _cts.Token).ConfigureAwait(false);
     }
+
+    #endregion
+
+    #region HelperFunctions
+
+    private void SetButtonContentByState() => SendToButtonText = !File.Exists(_sendToLinkName) ? Application.Current.TryFindResource("EnvironmentSendTo").ToString() :
+        Application.Current.TryFindResource("EnvironmentRemoveSentTo").ToString();
 
     #endregion
   }
