@@ -47,6 +47,7 @@ namespace Org.Vs.TailForWin.UI.Commands
     {
       _cancelCommand.NotifyCommandStarting();
       Execution = NotifyTaskCompletion.Create(_command(parameter, _cancelCommand.Token));
+      Execution.PropertyChanged += ExecutionPropertyChanged;
 
       RaiseCanExecuteChanged();
 
@@ -54,6 +55,11 @@ namespace Org.Vs.TailForWin.UI.Commands
       _cancelCommand.NotifyCommandFinished();
 
       RaiseCanExecuteChanged();
+    }
+
+    private void ExecutionPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      OnPropertyChanged(e.PropertyName);
     }
 
     /// <summary>

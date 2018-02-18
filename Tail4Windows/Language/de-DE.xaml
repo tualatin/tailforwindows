@@ -146,4 +146,5 @@
   <system:String x:Key="ImportExportConfigurationPath">Pfad</system:String>
   <system:String x:Key="ImportExportResetConfiguration">Einstellungen zurücksetzen</system:String>
   <system:String x:Key="ImportExportResetConfigurationToolTip">Alles aktuellen Einstellungen werden auf die Standardwerte zurück gesetzt</system:String>
+  <system:String x:Key="ImportExportExportSettingsFilter">Einstellungen exportieren (*.export)|*.export</system:String>
 </ResourceDictionary>

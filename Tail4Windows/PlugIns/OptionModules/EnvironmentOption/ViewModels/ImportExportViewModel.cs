@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,11 +7,13 @@ using System.Windows;
 using System.Windows.Input;
 using log4net;
 using Microsoft.Win32;
+using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Services;
+using Org.Vs.TailForWin.UI.UserControls;
 
 
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
@@ -90,6 +93,9 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     private void ExecuteImportLoadedCommand()
     {
       CurrentSettingsPath = $"{AppDomain.CurrentDomain.BaseDirectory}{AppDomain.CurrentDomain.FriendlyName}.Config";
+      ((AsyncCommand<object>) ImportCommand).PropertyChanged += ImportCommandPropertyChanged;
+      ((AsyncCommand<object>) ExportCommand).PropertyChanged += ExportCommandPropertyChanged;
+      ((AsyncCommand<object>) ResetSettingsCommand).PropertyChanged += ResetCommandPropertyChanged;
     }
 
     private void ExecuteImportUnloadedCommand() => _cts?.Cancel();
@@ -117,7 +123,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       {
         FileName = $"{date}_{appName}.Config",
         DefaultExt = ".export",
-        Filter = "Export Settings (*.export)|*.export"
+        Filter = Application.Current.TryFindResource("ImportExportExportSettingsFilter").ToString()
       };
 
       bool? result = saveDialog.ShowDialog();
@@ -159,8 +165,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       _cts?.Dispose();
       _cts = new CancellationTokenSource();
 
-      if ( !EnvironmentContainer.OpenFileLogDialog(out string importSettings, "Export Settings (*export)|*.export",
-        Application.Current.FindResource("OpenDialogImportSettings") as string) )
+      if ( !EnvironmentContainer.OpenFileLogDialog(out string importSettings, Application.Current.TryFindResource("ImportExportExportSettingsFilter").ToString(),
+        Application.Current.TryFindResource("OpenDialogImportSettings").ToString()) )
         return;
 
       if ( importSettings == null )
@@ -196,6 +202,45 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
+    }
+
+    #endregion
+
+    #region HelperFunctions
+
+    private void ImportCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      CreatePopUpWindow(Application.Current.TryFindResource("ImportExportImportLabel").ToString(), Application.Current.TryFindResource("ImportExportImportFinishedMessage").ToString());
+    }
+
+    private void ResetCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      CreatePopUpWindow(Application.Current.TryFindResource("ImportExportResetConfiguration").ToString(),
+        Application.Current.TryFindResource("ImportExportResetFinishedMessage").ToString());
+    }
+
+    private void ExportCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      CreatePopUpWindow(Application.Current.TryFindResource("ImportExportExportLabel").ToString(), Application.Current.TryFindResource("ImportExportExportFinishedMessage").ToString());
+    }
+
+    private void CreatePopUpWindow(string alert, string detail)
+    {
+      var alertPopUp = new FancyPopUp
+      {
+        PopUpAlert = alert,
+        PopUpAlertDetail = detail
+      };
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowPopUpMessage(alertPopUp));
     }
 
     #endregion

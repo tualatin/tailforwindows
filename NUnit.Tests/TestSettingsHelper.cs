@@ -146,7 +146,7 @@ namespace Org.Vs.NUnit.Tests
       SettingsHelperController.CurrentSettings.LinesRead = DefaultEnvironmentSettings.LinesRead;
       SettingsHelperController.CurrentSettings.GroupByCategory = DefaultEnvironmentSettings.GroupByCategory;
 
-      await _currentSettings.ReloadCurrentSettingsAsync().ConfigureAwait(false);
+      await _currentSettings.ReloadCurrentSettingsAsync(new CancellationTokenSource()).ConfigureAwait(false);
       await _currentSettings.ReadSettingsAsync().ConfigureAwait(false);
 
       Assert.AreEqual(200, SettingsHelperController.CurrentSettings.WindowPositionX);

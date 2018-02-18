@@ -148,4 +148,8 @@
   <system:String x:Key="ImportExportConfigurationPath">Configuration Path</system:String>
   <system:String x:Key="ImportExportResetConfiguration">Reset settings</system:String>
   <system:String x:Key="ImportExportResetConfigurationToolTip">Reset current settings to default values</system:String>
+  <system:String x:Key="ImportExportExportSettingsFilter">Export Settings (*.export)|*.export</system:String>
+  <system:String x:Key="ImportExportImportFinishedMessage">Settings successfully imported</system:String>
+  <system:String x:Key="ImportExportExportFinishedMessage">Settings successfully exported</system:String>
+  <system:String x:Key="ImportExportResetFinishedMessage">Settings successfully reseted</system:String>
 </ResourceDictionary>

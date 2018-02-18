@@ -1,11 +1,13 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using log4net;
+using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
-
+using Org.Vs.TailForWin.Core.Utils;
 using Rect = Org.Vs.TailForWin.Core.Native.Data.Rect;
 
 
@@ -16,6 +18,8 @@ namespace Org.Vs.TailForWin.BaseView
   /// </summary>
   public partial class T4Window
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(T4Window));
+
     /// <summary>
     /// Standard constructor
     /// </summary>
@@ -24,6 +28,7 @@ namespace Org.Vs.TailForWin.BaseView
       InitializeComponent();
 
       SourceInitialized += T4WindowSourceInitialized;
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowPopUpMessage>(PopUpVisibilityChanged);
     }
 
     #region Events
@@ -145,6 +150,25 @@ namespace Org.Vs.TailForWin.BaseView
       }
 
       Marshal.StructureToPtr(mmi, lParam, true);
+    }
+
+    #endregion
+
+    #region Messages
+
+    private void PopUpVisibilityChanged(ShowPopUpMessage args)
+    {
+      if ( args == null )
+        return;
+
+      try
+      {
+        TbIcon.ShowCustomBalloon(args.Balloon, args.Animation, args.Timeout);
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
     }
 
     #endregion

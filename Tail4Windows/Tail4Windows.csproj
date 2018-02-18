@@ -176,6 +176,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Business\Controllers\SystemInformationController.cs" />
+    <Compile Include="Business\Data\Messages\ShowPopUpMessage.cs" />
     <Compile Include="Business\Data\SystemInformation\IpAddress.cs" />
     <Compile Include="Business\Data\SystemInformation\CpuInfo.cs" />
     <Compile Include="Business\Data\SystemInformation\SystemInformationData.cs" />

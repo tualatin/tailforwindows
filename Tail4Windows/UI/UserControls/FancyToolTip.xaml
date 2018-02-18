@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
   x:Class="Org.Vs.TailForWin.UI.UserControls.FancyToolTip"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -100,7 +100,7 @@
       HorizontalAlignment="Stretch"
       VerticalAlignment="Stretch"
       BorderThickness="3 3 3 3"
-      CornerRadius="6,6,6,6"
+      CornerRadius="4,4,4,4"
       >
       <Border.Effect>
         <DropShadowEffect Color="#FF7A7A7A" />
@@ -148,7 +148,6 @@
     </TextBlock>
     <TextBlock
       d:LayoutOverrides="Height"
-      x:Name="TxtToolTipDetail"
       Margin="10 0 20 19"
       VerticalAlignment="Bottom"
       Text="{Binding ElementName=Me, Path=InfoText}"
@@ -158,7 +157,6 @@
       TextWrapping="Wrap"
       />
     <TextBlock
-      x:Name="TxtToolTipDetailCopy"
       Margin="82 42 20 41"
       FontSize="12"
       FontWeight="Normal"
