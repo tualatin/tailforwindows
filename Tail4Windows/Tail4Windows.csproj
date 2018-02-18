@@ -325,6 +325,9 @@
     <Compile Include="BaseView\StyleableWindow\WindowResizeBehavior.cs" />
     <Compile Include="BaseView\UserControls\TailForWinTabItem.cs" />
     <Compile Include="UI\Services\MouseService.cs" />
+    <Compile Include="UI\UserControls\FancyNotificationPopUp.xaml.cs">
+      <DependentUpon>FancyNotificationPopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControls\FancyPopUp.xaml.cs">
       <DependentUpon>FancyPopUp.xaml</DependentUpon>
     </Compile>
@@ -482,6 +485,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Styles\TreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\UserControls\FancyNotificationPopUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

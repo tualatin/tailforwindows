@@ -36,11 +36,13 @@
       </DoubleAnimationUsingKeyFrames>
     </Storyboard>
   </UserControl.Resources>
+
   <UserControl.Triggers>
     <EventTrigger RoutedEvent="tb:TaskbarIcon.BalloonShowing">
       <BeginStoryboard Storyboard="{StaticResource FadeInAndOut}" />
     </EventTrigger>
   </UserControl.Triggers>
+
   <Grid x:Name="Grid">
     <Border
       Margin="0 0 5 5"
@@ -56,6 +58,7 @@
         <DropShadowEffect />
       </Border.Effect>
     </Border>
+
     <TextBlock
       Margin="10 10 15 0"
       HorizontalAlignment="Center"
@@ -66,6 +69,7 @@
       >
       <Run Text="Alert occours:" />
     </TextBlock>
+
     <TextBlock
       Margin="10 38 10 0"
       HorizontalAlignment="Left"

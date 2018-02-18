@@ -235,7 +235,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
     private void CreatePopUpWindow(string alert, string detail)
     {
-      var alertPopUp = new FancyPopUp
+      var alertPopUp = new FancyNotificationPopUp
       {
         PopUpAlert = alert,
         PopUpAlertDetail = detail
