@@ -5,9 +5,9 @@ using System.Windows.Controls.Primitives;
 namespace Org.Vs.TailForWin.Business.Data.Messages
 {
   /// <summary>
-  /// Show PopUp message
+  /// Show notification PopUp message
   /// </summary>
-  public class ShowPopUpMessage
+  public class ShowNotificationPopUpMessage
   {
     /// <summary>
     /// Balloon <see cref="UIElement"/>
@@ -37,7 +37,7 @@ namespace Org.Vs.TailForWin.Business.Data.Messages
     /// Constructor
     /// </summary>
     /// <param name="balloon">Balloon control</param>
-    public ShowPopUpMessage(UIElement balloon)
+    public ShowNotificationPopUpMessage(UIElement balloon)
     {
       Balloon = balloon;
       Timeout = 5000;
@@ -49,7 +49,7 @@ namespace Org.Vs.TailForWin.Business.Data.Messages
     /// </summary>
     /// <param name="balloon">Balloon control</param>
     /// <param name="timeout">Timeout in ms</param>
-    public ShowPopUpMessage(UIElement balloon, int timeout)
+    public ShowNotificationPopUpMessage(UIElement balloon, int timeout)
     {
       Balloon = balloon;
       Timeout = timeout;
@@ -62,7 +62,7 @@ namespace Org.Vs.TailForWin.Business.Data.Messages
     /// <param name="balloon">Balloon control</param>
     /// <param name="timeout">Timeout in ms</param>
     /// <param name="animation">Animation <see cref="PopupAnimation"/></param>
-    public ShowPopUpMessage(UIElement balloon, int timeout, PopupAnimation animation)
+    public ShowNotificationPopUpMessage(UIElement balloon, int timeout, PopupAnimation animation)
     {
       Balloon = balloon;
       Timeout = timeout;

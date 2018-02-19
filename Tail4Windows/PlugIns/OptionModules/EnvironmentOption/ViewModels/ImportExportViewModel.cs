@@ -240,7 +240,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         PopUpAlert = alert,
         PopUpAlertDetail = detail
       };
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowPopUpMessage(alertPopUp));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowNotificationPopUpMessage(alertPopUp));
     }
 
     #endregion

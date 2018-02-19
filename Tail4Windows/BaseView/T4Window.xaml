@@ -89,6 +89,7 @@
       <taskbarNotification:TaskbarIcon.TrayToolTip>
         <userControls:FancyToolTip
           x:Name="FancyToolTipTfW"
+          ApplicationText="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationTitle}}"
           InfoText="{Binding Source={x:Static controllers:BusinessMainWndToMainWndStatusBarController.CurrentBusinessData}, Path=CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
           Opacity="0.85"
           />

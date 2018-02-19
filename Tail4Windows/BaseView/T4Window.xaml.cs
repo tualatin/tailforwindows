@@ -28,7 +28,7 @@ namespace Org.Vs.TailForWin.BaseView
       InitializeComponent();
 
       SourceInitialized += T4WindowSourceInitialized;
-      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowPopUpMessage>(PopUpVisibilityChanged);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowNotificationPopUpMessage>(PopUpVisibilityChanged);
     }
 
     #region Events
@@ -156,7 +156,7 @@ namespace Org.Vs.TailForWin.BaseView
 
     #region Messages
 
-    private void PopUpVisibilityChanged(ShowPopUpMessage args)
+    private void PopUpVisibilityChanged(ShowNotificationPopUpMessage args)
     {
       if ( args == null )
         return;

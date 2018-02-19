@@ -7,8 +7,8 @@
   xmlns:tb="clr-namespace:Hardcodet.Wpf.TaskbarNotification"
   mc:Ignorable="d"
   x:Name="Me"
-  Width="300"
-  Height="180"
+  Width="250"
+  Height="150"
   >
   <UserControl.Resources>
     <Storyboard x:Key="FadeInAndOut">
@@ -43,46 +43,53 @@
     </EventTrigger>
   </UserControl.Triggers>
 
-  <Grid x:Name="Grid">
-    <Border
-      Margin="0 0 5 5"
-      CornerRadius="5,5,5,5"
-      >
-      <Border.Background>
-        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-          <GradientStop Offset="1" Color="#FF8C80" />
-          <GradientStop Offset="0" Color="#FD3627" />
-        </LinearGradientBrush>
-      </Border.Background>
-      <Border.Effect>
-        <DropShadowEffect />
-      </Border.Effect>
-    </Border>
+  <Border
+    BorderBrush="Crimson"
+    BorderThickness="1"
+    CornerRadius="2"
+    >
+    <Border.Background>
+      <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Offset="2" Color="#FD3627" />
+        <GradientStop Offset="0" Color="GhostWhite" />
+      </LinearGradientBrush>
+    </Border.Background>
+    <Border.Effect>
+      <DropShadowEffect />
+    </Border.Effect>
 
-    <TextBlock
-      Margin="10 10 15 0"
-      HorizontalAlignment="Center"
-      VerticalAlignment="Top"
-      FontSize="14"
-      FontWeight="Bold"
-      TextWrapping="Wrap"
-      >
-      <Run Text="Alert occours:" />
-    </TextBlock>
+    <Grid x:Name="Grid">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="35" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
 
-    <TextBlock
-      Margin="10 38 10 0"
-      HorizontalAlignment="Left"
-      VerticalAlignment="Top"
-      TextWrapping="Wrap"
-      >
-      <Run Text="{Binding ElementName=Me, Path=PopUpAlert}" />
-      <LineBreak />
-      <Run
-        Text="{Binding ElementName=Me, Path=PopUpAlertDetail}"
-        FontSize="10"
-        FontStyle="Italic"
-        />
-    </TextBlock>
-  </Grid>
+      <TextBlock
+        Grid.Row="0"
+        Margin="0 5"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        FontSize="14"
+        FontWeight="Bold"
+        TextWrapping="Wrap"
+        >
+        <Run Text="{DynamicResource AlertOptionPageTitle}" />
+      </TextBlock>
+
+      <TextBlock
+        Grid.Row="1"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        TextWrapping="Wrap"
+        >
+        <Run Text="{Binding ElementName=Me, Path=PopUpAlert}" />
+        <LineBreak />
+        <Run
+          Text="{Binding ElementName=Me, Path=PopUpAlertDetail}"
+          FontSize="10"
+          FontStyle="Italic"
+          />
+      </TextBlock>
+    </Grid>
+  </Border>
 </UserControl>
