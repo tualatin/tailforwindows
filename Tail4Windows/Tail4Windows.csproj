@@ -569,11 +569,9 @@
     <Content Include="Config\log4net.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\about.png" />
     <Resource Include="Resources\QuickSearch.png" />
     <Resource Include="Resources\Main_bw.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\about.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\add.ico" />

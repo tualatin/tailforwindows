@@ -174,7 +174,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         new TreeNodeOptionViewModel(about, null),
         new TreeNodeOptionViewModel(new UpdateOptionPage(), null),
         new TreeNodeOptionViewModel(new SysInfoOptionPage(), null)
-      }, "about.ico");
+      }, "about.png");
 
       Root = new ObservableCollection<TreeNodeOptionViewModel>
       {
