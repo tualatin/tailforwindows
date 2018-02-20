@@ -5,9 +5,185 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption"
+  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   mc:Ignorable="d"
   d:DesignHeight="400"
   d:DesignWidth="400"
   >
-  <Grid />
+  <UserControl.Resources>
+    <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    <converters:StringToIntConverter x:Key="StringToIntConverter" />
+  </UserControl.Resources>
+
+  <ScrollViewer
+    HorizontalScrollBarVisibility="Auto"
+    VerticalScrollBarVisibility="Auto"
+    >
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <GroupBox
+        Margin="5 0 5 1"
+        Header="Server"
+        >
+        <Grid Margin="3">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="25" />
+            <RowDefinition Height="35" />
+          </Grid.RowDefinitions>
+          <RadioButton
+            Name="RadioButtonNoProxy"
+            Height="15"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Content="{DynamicResource ProxySettingsNoProxy}"
+            TabIndex="0"
+            />
+          <RadioButton
+            Grid.Row="1"
+            Height="15"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Content="{DynamicResource ProxySettingsUseSystemProxy}"
+            IsChecked="{Binding Path=UseSystemSettings, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            TabIndex="1"
+            />
+          <RadioButton
+            Name="RadioButtonManualProxy"
+            Grid.Row="2"
+            Height="15"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Content="{DynamicResource ProxySettingsManualProxy}"
+            IsChecked="{Binding Path=UseProxy, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            TabIndex="2"
+            />
+
+          <Grid
+            Grid.Row="3"
+            IsEnabled="{Binding ElementName=RadioButtonManualProxy, Path=IsChecked}"
+            >
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="70" />
+              <ColumnDefinition Width="180*" />
+              <ColumnDefinition Width="50" />
+              <ColumnDefinition Width="60" />
+            </Grid.ColumnDefinitions>
+
+            <Label
+              Margin="0 0 5 0"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Center"
+              Content="{DynamicResource ProxySettingsProxyAddress}"
+              />
+            <userControls:WatermarkTextBox
+              Grid.Column="1"
+              Height="23"
+              VerticalAlignment="Center"
+              Text="{Binding Path=ProxyUrl, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+              TabIndex="3"
+              >
+              <userControls:WatermarkTextBox.Watermark>
+                <TextBlock
+                  Margin="5 0 0 0"
+                  Text="Url"
+                  FontStyle="Italic"
+                  />
+              </userControls:WatermarkTextBox.Watermark>
+            </userControls:WatermarkTextBox>
+
+            <Label
+              Grid.Column="2"
+              Margin="0 0 5 0"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Center"
+              Content="{DynamicResource ProxySettingsProxyPort}"
+              />
+            <userControls:WatermarkTextBox
+              Grid.Column="3"
+              Height="23"
+              VerticalAlignment="Center"
+              Text="{Binding Path=ProxyPort, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToIntConverter}}"
+              TabIndex="4"
+              >
+              <userControls:WatermarkTextBox.Watermark>
+                <TextBlock
+                  Margin="5 0 0 0"
+                  Text="{DynamicResource ProxySettingsProxyPort}"
+                  FontStyle="Italic"
+                  />
+              </userControls:WatermarkTextBox.Watermark>
+            </userControls:WatermarkTextBox>
+
+          </Grid>
+        </Grid>
+      </GroupBox>
+
+      <GroupBox
+        Grid.Row="1"
+        Margin="5 1 5 0"
+        Header="Authentification"
+        IsEnabled="{Binding ElementName=RadioButtonNoProxy, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
+        >
+        <Grid
+          Height="64"
+          Margin="3"
+          >
+          <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="70" />
+            <ColumnDefinition Width="200*" />
+          </Grid.ColumnDefinitions>
+
+          <Label
+            Margin="0 0 5 0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Content="{DynamicResource ProxySettingsUserName}"
+            />
+          <userControls:WatermarkTextBox
+            Grid.Column="1"
+            Height="23"
+            Margin="0 0 10 0"
+            VerticalAlignment="Center"
+            Text="{Binding Path=UserName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            TabIndex="5"
+            >
+            <userControls:WatermarkTextBox.Watermark>
+              <TextBlock
+                Margin="5 0 0 0"
+                Text="{DynamicResource ProxySettingsUserName}"
+                FontStyle="Italic"
+                />
+            </userControls:WatermarkTextBox.Watermark>
+          </userControls:WatermarkTextBox>
+
+          <Label
+            Grid.Row="1"
+            Margin="0 0 5 0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Content="{DynamicResource ProxySettingsPassword}"
+            />
+          <PasswordBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Height="23"
+            Margin="0 0 10 0"
+            VerticalAlignment="Center"
+            TabIndex="6"
+            />
+        </Grid>
+      </GroupBox>
+    </Grid>
+  </ScrollViewer>
 </UserControl>

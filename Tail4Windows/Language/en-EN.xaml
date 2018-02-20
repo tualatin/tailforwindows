@@ -152,4 +152,14 @@
   <system:String x:Key="ImportExportImportFinishedMessage">Settings successfully imported</system:String>
   <system:String x:Key="ImportExportExportFinishedMessage">Settings successfully exported</system:String>
   <system:String x:Key="ImportExportResetFinishedMessage">Settings successfully reseted</system:String>
+
+  <system:String x:Key="ProxySettingsServerGroup">Server</system:String>
+  <system:String x:Key="ProxySettingsAuthentificationGroup">Authentification</system:String>
+  <system:String x:Key="ProxySettingsNoProxy">No Proxy</system:String>
+  <system:String x:Key="ProxySettingsUseSystemProxy">Use system proxy settings</system:String>
+  <system:String x:Key="ProxySettingsManualProxy">Manual proxy configuration</system:String>
+  <system:String x:Key="ProxySettingsProxyAddress">Address</system:String>
+  <system:String x:Key="ProxySettingsProxyPort">Port</system:String>
+  <system:String x:Key="ProxySettingsUserName">User name</system:String>
+  <system:String x:Key="ProxySettingsPassword">Password</system:String>
 </ResourceDictionary>

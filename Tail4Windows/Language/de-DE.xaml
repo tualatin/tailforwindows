@@ -147,4 +147,14 @@
   <system:String x:Key="ImportExportResetConfiguration">Einstellungen zurücksetzen</system:String>
   <system:String x:Key="ImportExportResetConfigurationToolTip">Alles aktuellen Einstellungen werden auf die Standardwerte zurück gesetzt</system:String>
   <system:String x:Key="ImportExportExportSettingsFilter">Einstellungen exportieren (*.export)|*.export</system:String>
+
+  <system:String x:Key="ProxySettingsServerGroup">Server</system:String>
+  <system:String x:Key="ProxySettingsAuthentificationGroup">Authentifizierung</system:String>
+  <system:String x:Key="ProxySettingsNoProxy">Kein Proxy</system:String>
+  <system:String x:Key="ProxySettingsUseSystemProxy">Verwende System Proxy Einstellungen</system:String>
+  <system:String x:Key="ProxySettingsManualProxy">Manuelle Proxykonfiguration</system:String>
+  <system:String x:Key="ProxySettingsProxyAddress">Adresse</system:String>
+  <system:String x:Key="ProxySettingsProxyPort">Port</system:String>
+  <system:String x:Key="ProxySettingsUserName">Nutzername</system:String>
+  <system:String x:Key="ProxySettingsPassword">Passwort</system:String>
 </ResourceDictionary>

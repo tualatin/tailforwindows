@@ -205,7 +205,9 @@
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ImportExportViewModel.cs" />
     <Compile Include="UI\Commands\InvokeDelegateCommandAction.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="UI\Converters\InverseBooleanConverter.cs" />
     <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="UI\Converters\StringToIntConverter.cs" />
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\TreeNodeToImageConverter.cs" />
     <Compile Include="UI\ExtendedControls\WindowEx.cs" />
