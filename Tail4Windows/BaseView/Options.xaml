@@ -98,6 +98,7 @@
     <ContentControl
       Grid.Row="0"
       Grid.Column="2"
+      Margin="2"
       HorizontalAlignment="Left"
       VerticalAlignment="Top"
       Content="{Binding CurrentViewModel, UpdateSourceTrigger=PropertyChanged}"

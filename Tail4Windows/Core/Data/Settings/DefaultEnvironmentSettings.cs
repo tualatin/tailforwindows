@@ -141,5 +141,40 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public const string StatusBarTailBackgroundColor = "#CA5100";
 
     #endregion
+
+    #region ProxySettings
+
+    /// <summary>
+    /// Default value proxy use system settings
+    /// </summary>
+    public const bool ProxyUseSystemSettings = true;
+
+    /// <summary>
+    /// Default value proxy use proxy
+    /// </summary>
+    public const bool ProxyUseProxy = false;
+
+    /// <summary>
+    /// Default value proxy port
+    /// </summary>
+    public const int ProxyPort = -1;
+
+    /// <summary>
+    /// Default value proxy URL
+    /// </summary>
+    public const string ProxyUrl = "";
+
+    /// <summary>
+    /// Default value proxy Username
+    /// </summary>
+    public const string ProxyUserName = "";
+
+    /// <summary>
+    /// Default value proxy password
+    /// </summary>
+    public const string ProxyPassword = "";
+
+
+    #endregion
   }
 }

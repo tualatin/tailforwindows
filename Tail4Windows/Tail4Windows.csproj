@@ -330,8 +330,8 @@
     <Compile Include="UI\UserControls\FancyNotificationPopUp.xaml.cs">
       <DependentUpon>FancyNotificationPopUp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\UserControls\FancyPopUp.xaml.cs">
-      <DependentUpon>FancyPopUp.xaml</DependentUpon>
+    <Compile Include="UI\UserControls\FancyAlertPopUp.xaml.cs">
+      <DependentUpon>FancyAlertPopUp.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\UserControls\FancyToolTip.xaml.cs">
       <DependentUpon>FancyToolTip.xaml</DependentUpon>
@@ -494,7 +494,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\UserControls\FancyPopUp.xaml">
+    <Page Include="UI\UserControls\FancyAlertPopUp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

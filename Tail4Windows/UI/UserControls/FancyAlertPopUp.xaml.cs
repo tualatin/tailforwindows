@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls
@@ -6,17 +6,17 @@ namespace Org.Vs.TailForWin.UI.UserControls
   /// <summary>
   /// Interaction logic for FancyPopUp.xaml
   /// </summary>
-  public partial class FancyPopUp
+  public partial class FancyAlertPopUp
   {
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public FancyPopUp() => InitializeComponent();
+    public FancyAlertPopUp() => InitializeComponent();
 
     /// <summary>
     /// PopUpAlertProperty
     /// </summary>
-    public static readonly DependencyProperty PopUpAlertProperty = DependencyProperty.Register("PopUpAlert", typeof(string), typeof(FancyPopUp),
+    public static readonly DependencyProperty PopUpAlertProperty = DependencyProperty.Register("PopUpAlert", typeof(string), typeof(FancyAlertPopUp),
       new FrameworkPropertyMetadata(string.Empty));
 
     /// <summary>
@@ -31,7 +31,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// <summary>
     /// PopUpAlertDetailProperty
     /// </summary>
-    public static readonly DependencyProperty PopUpAlertDetailProperty = DependencyProperty.Register("PopUpAlertDetail", typeof(string), typeof(FancyPopUp),
+    public static readonly DependencyProperty PopUpAlertDetailProperty = DependencyProperty.Register("PopUpAlertDetail", typeof(string), typeof(FancyAlertPopUp),
       new FrameworkPropertyMetadata(string.Empty));
 
     /// <summary>

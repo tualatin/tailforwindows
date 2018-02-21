@@ -12,6 +12,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
   /// </summary>
   public partial class EnvironmentSettings : NotifyMaster
   {
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
+    public EnvironmentSettings()
+    {
+      ProxySettings = new ProxySetting();
+    }
+
     private CultureInfo _cultureInfo;
 
     /// <summary>
@@ -478,5 +486,18 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         OnPropertyChanged(nameof(DefaultDateFormat));
       }
     }
+
+    #region ProxySettings 
+
+    /// <summary>
+    /// Current proxy settings
+    /// </summary>
+    public ProxySetting ProxySettings
+    {
+      get;
+      set;
+    }
+
+    #endregion
   }
 }

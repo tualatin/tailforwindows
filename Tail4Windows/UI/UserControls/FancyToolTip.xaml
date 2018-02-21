@@ -95,7 +95,7 @@
     Height="Auto"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
-    BorderBrush="DodgerBlue"
+    BorderBrush="#6DC2E9"
     BorderThickness="1"
     CornerRadius="2"
     >

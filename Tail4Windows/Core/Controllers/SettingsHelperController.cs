@@ -69,6 +69,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       {
         ReadWindowSettings();
         ReadStatusBarSettings();
+        ReadProxySettings();
       }
       catch ( ConfigurationErrorsException ex )
       {
@@ -102,6 +103,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
         SaveWindowSettings(config);
         SaveStatusBarSettings(config);
+        SaveProxySettings(config);
 
         config.Save(ConfigurationSaveMode.Modified);
         ConfigurationManager.RefreshSection("appSettings");
@@ -145,6 +147,11 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "StatusBarTailBackgroundColor", EnvironmentContainer.ConvertMediaBrushToDrawingColor(CurrentSettings.StatusBarTailBackgroundColor).ToHexString());
     }
 
+    private void SaveProxySettings(Configuration config)
+    {
+
+    }
+
     /// <summary>
     /// Reset current settings
     /// </summary>
@@ -164,6 +171,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
       SetDefaultWindowSettings();
       SetDefaultStatusBarSettings();
+      SetDefaultProxySettings();
     }
 
     private void SetDefaultWindowSettings()
@@ -197,6 +205,16 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.StatusBarInactiveBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor);
       CurrentSettings.StatusBarFileLoadedBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor);
       CurrentSettings.StatusBarTailBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarTailBackgroundColor);
+    }
+
+    private void SetDefaultProxySettings()
+    {
+      CurrentSettings.ProxySettings.Password = DefaultEnvironmentSettings.ProxyPassword;
+      CurrentSettings.ProxySettings.UserName = DefaultEnvironmentSettings.ProxyUserName;
+      CurrentSettings.ProxySettings.ProxyPort = DefaultEnvironmentSettings.ProxyPort;
+      CurrentSettings.ProxySettings.ProxyUrl = DefaultEnvironmentSettings.ProxyUrl;
+      CurrentSettings.ProxySettings.UseSystemSettings = DefaultEnvironmentSettings.ProxyUseSystemSettings;
+      CurrentSettings.ProxySettings.UseProxy = DefaultEnvironmentSettings.ProxyUseProxy;
     }
 
     /// <summary>
@@ -290,6 +308,11 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.StatusBarTailBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(GetStringFromSetting("StatusBarTailBackgroundColor"),
         EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarTailBackgroundColor));
       CurrentSettings.StatusBarTailBackgroundColor.Freeze();
+    }
+
+    private void ReadProxySettings()
+    {
+
     }
 
     private static string GetStringFromSetting(string setting) => string.IsNullOrWhiteSpace(setting) ? string.Empty : ConfigurationManager.AppSettings[setting];

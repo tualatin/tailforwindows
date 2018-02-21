@@ -37,6 +37,7 @@
             <RowDefinition Height="25" />
             <RowDefinition Height="35" />
           </Grid.RowDefinitions>
+
           <RadioButton
             Name="RadioButtonNoProxy"
             Height="15"
@@ -45,6 +46,7 @@
             Content="{DynamicResource ProxySettingsNoProxy}"
             TabIndex="0"
             />
+
           <RadioButton
             Grid.Row="1"
             Height="15"
@@ -54,6 +56,7 @@
             IsChecked="{Binding Path=UseSystemSettings, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             TabIndex="1"
             />
+
           <RadioButton
             Name="RadioButtonManualProxy"
             Grid.Row="2"
@@ -71,7 +74,7 @@
             >
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="70" />
-              <ColumnDefinition Width="180*" />
+              <ColumnDefinition MinWidth="180" />
               <ColumnDefinition Width="50" />
               <ColumnDefinition Width="60" />
             </Grid.ColumnDefinitions>
@@ -141,7 +144,7 @@
           </Grid.RowDefinitions>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70" />
-            <ColumnDefinition Width="200*" />
+            <ColumnDefinition MinWidth="200" />
           </Grid.ColumnDefinitions>
 
           <Label
@@ -151,6 +154,7 @@
             Content="{DynamicResource ProxySettingsUserName}"
             />
           <userControls:WatermarkTextBox
+            Grid.Row="0"
             Grid.Column="1"
             Height="23"
             Margin="0 0 10 0"
@@ -169,6 +173,7 @@
 
           <Label
             Grid.Row="1"
+            Grid.Column="0"
             Margin="0 0 5 0"
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
