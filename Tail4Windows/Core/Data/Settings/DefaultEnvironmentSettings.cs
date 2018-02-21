@@ -157,7 +157,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value proxy port
     /// </summary>
-    public const int ProxyPort = -1;
+    public const int ProxyPort = 8080;
 
     /// <summary>
     /// Default value proxy URL

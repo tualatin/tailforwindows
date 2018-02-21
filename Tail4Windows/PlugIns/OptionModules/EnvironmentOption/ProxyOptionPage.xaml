@@ -7,6 +7,7 @@
   xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
+  xmlns:multiConverters="clr-namespace:Org.Vs.TailForWin.UI.Converters.MultiConverters"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   mc:Ignorable="d"
   d:DesignHeight="400"
@@ -14,7 +15,7 @@
   >
   <UserControl.Resources>
     <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-    <converters:StringToIntConverter x:Key="StringToIntConverter" />
+    <multiConverters:UseProxyMultiConverter x:Key="UseProxyMultiConverter" />
   </UserControl.Resources>
 
   <ScrollViewer
@@ -46,7 +47,11 @@
             VerticalAlignment="Center"
             Content="{DynamicResource ProxySettingsNoProxy}"
             TabIndex="0"
-            />
+            >
+            <RadioButton.IsChecked>
+              <MultiBinding Converter="{StaticResource UseProxyMultiConverter}" />
+            </RadioButton.IsChecked>
+          </RadioButton>
 
           <RadioButton
             Grid.Row="1"
@@ -54,7 +59,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="{DynamicResource ProxySettingsUseSystemProxy}"
-            IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.UseSystemSettings, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.UseSystemSettings, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             TabIndex="1"
             />
 
@@ -65,7 +70,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="{DynamicResource ProxySettingsManualProxy}"
-            IsChecked="{Binding Path=UseProxy, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.UseProxy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             TabIndex="2"
             />
 
@@ -90,7 +95,7 @@
               Grid.Column="1"
               Height="23"
               VerticalAlignment="Center"
-              Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.ProxyUrl, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+              Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.ProxyUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
               TabIndex="3"
               >
               <userControls:WatermarkTextBox.Watermark>
@@ -109,21 +114,14 @@
               VerticalAlignment="Center"
               Content="{DynamicResource ProxySettingsProxyPort}"
               />
-            <userControls:WatermarkTextBox
+            <userControls:Spinner
               Grid.Column="3"
-              Height="23"
               VerticalAlignment="Center"
-              Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.ProxyPort, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToIntConverter}}"
-              TabIndex="4"
-              >
-              <userControls:WatermarkTextBox.Watermark>
-                <TextBlock
-                  Margin="5 0 0 0"
-                  Text="{DynamicResource ProxySettingsProxyPort}"
-                  FontStyle="Italic"
-                  />
-              </userControls:WatermarkTextBox.Watermark>
-            </userControls:WatermarkTextBox>
+              Increment="5"
+              MaxSpinValue="99999"
+              MinSpinValue="1"
+              StartIndex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+              />
 
           </Grid>
         </Grid>
@@ -160,7 +158,7 @@
             Height="23"
             Margin="0 0 10 0"
             VerticalAlignment="Center"
-            Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.UserName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             TabIndex="5"
             >
             <userControls:WatermarkTextBox.Watermark>

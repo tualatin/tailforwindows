@@ -308,7 +308,7 @@
     <Compile Include="UI\Commands\RelayCommand.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundConverter.cs" />
     <Compile Include="UI\Converters\ColorToSolidColorBrushConverter.cs" />
-    <Compile Include="UI\Converters\MultiConverters\DummyMultiConverter.cs" />
+    <Compile Include="UI\Converters\MultiConverters\UseProxyMultiConverter.cs" />
     <Compile Include="UI\Events\Args\ArgDummy.cs" />
     <Compile Include="UI\Extensions\WindowExtension.cs" />
     <Compile Include="UI\Interfaces\IAsyncCommand.cs" />

@@ -19,6 +19,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _useSystemSettings;
       set
       {
+        if ( value == _useSystemSettings )
+          return;
+
         _useSystemSettings = value;
         OnPropertyChanged(nameof(UseSystemSettings));
       }
@@ -34,6 +37,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _useProxy;
       set
       {
+        if ( value == _useProxy )
+          return;
+
         _useProxy = value;
         OnPropertyChanged(nameof(UseProxy));
       }
@@ -49,6 +55,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _proxyPort;
       set
       {
+        if ( value == _proxyPort )
+          return;
+
         _proxyPort = value;
         OnPropertyChanged(nameof(ProxyPort));
       }
@@ -64,6 +73,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _proxyUrl;
       set
       {
+        if ( Equals(value, _proxyUrl) )
+          return;
+
         _proxyUrl = value;
         OnPropertyChanged(nameof(ProxyUrl));
       }
@@ -79,6 +91,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _userName;
       set
       {
+        if ( Equals(value, _userName) )
+          return;
+
         _userName = value;
         OnPropertyChanged(nameof(UserName));
       }
@@ -94,6 +109,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _password;
       set
       {
+        if ( Equals(value, _password) )
+          return;
+
         _password = value;
         OnPropertyChanged(nameof(Password));
       }
