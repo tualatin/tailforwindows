@@ -5,6 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   mc:Ignorable="d"
@@ -53,7 +54,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="{DynamicResource ProxySettingsUseSystemProxy}"
-            IsChecked="{Binding Path=UseSystemSettings, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.UseSystemSettings, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             TabIndex="1"
             />
 
@@ -89,7 +90,7 @@
               Grid.Column="1"
               Height="23"
               VerticalAlignment="Center"
-              Text="{Binding Path=ProxyUrl, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+              Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.ProxyUrl, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
               TabIndex="3"
               >
               <userControls:WatermarkTextBox.Watermark>
@@ -112,7 +113,7 @@
               Grid.Column="3"
               Height="23"
               VerticalAlignment="Center"
-              Text="{Binding Path=ProxyPort, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToIntConverter}}"
+              Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.ProxyPort, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToIntConverter}}"
               TabIndex="4"
               >
               <userControls:WatermarkTextBox.Watermark>
@@ -159,7 +160,7 @@
             Height="23"
             Margin="0 0 10 0"
             VerticalAlignment="Center"
-            Text="{Binding Path=UserName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+            Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.UserName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
             TabIndex="5"
             >
             <userControls:WatermarkTextBox.Watermark>
@@ -185,6 +186,7 @@
             Height="23"
             Margin="0 0 10 0"
             VerticalAlignment="Center"
+            Password="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             TabIndex="6"
             />
         </Grid>

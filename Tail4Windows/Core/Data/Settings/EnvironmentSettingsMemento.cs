@@ -44,6 +44,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       DefaultThreadPriority = memento.DefaultThreadPriority;
       DefaultTimeFormat = memento.DefaultTimeFormat;
       DefaultDateFormat = memento.DefaultDateFormat;
+
+      ProxySettings = (ProxySetting) memento.ProxySettings.Clone();
     }
 
     /// <summary>
@@ -72,6 +74,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         DefaultThreadPriority = obj.DefaultThreadPriority;
         DefaultTimeFormat = obj.DefaultTimeFormat;
         DefaultDateFormat = obj.DefaultDateFormat;
+
+        ProxySettings = (ProxySetting) ProxySettings.Clone();
       }
 
       #region Window settings
@@ -129,6 +133,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
 
       #endregion
+
+      /// <summary>
+      /// Current proxy settings
+      /// </summary>
+      public ProxySetting ProxySettings
+      {
+        get;
+      }
 
       /// <summary>
       /// Close/exist T4W by pressing Escape key

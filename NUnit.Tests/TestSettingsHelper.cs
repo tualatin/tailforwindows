@@ -65,7 +65,7 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor).ToString(), SettingsHelperController.CurrentSettings.StatusBarFileLoadedBackgroundColor.ToString());
       Assert.AreEqual(EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarTailBackgroundColor).ToString(), SettingsHelperController.CurrentSettings.StatusBarTailBackgroundColor.ToString());
 
-      Assert.AreEqual(ETimeFormat.HHMMSSD, SettingsHelperController.CurrentSettings.DefaultTimeFormat);
+      Assert.AreEqual(ETimeFormat.HHMMD, SettingsHelperController.CurrentSettings.DefaultTimeFormat);
       Assert.AreEqual(EDateFormat.DDMMYYYY, SettingsHelperController.CurrentSettings.DefaultDateFormat);
 
       //Assert.AreEqual("#FFFFFFFF", SettingsHelper.CurrentSettings.DefaultForegroundColor);
@@ -82,14 +82,14 @@ namespace Org.Vs.NUnit.Tests
 
       //Assert.AreEqual(EFileSort.FileCreationTime, SettingsHelper.CurrentSettings.DefaultFileSort);
 
-      //Assert.IsNotEmpty(SettingsHelper.CurrentSettings.ProxySettings.UserName);
-      //Assert.AreEqual("testuser", SettingsHelper.CurrentSettings.ProxySettings.UserName);
-      //Assert.NotNull(SettingsHelper.CurrentSettings.ProxySettings.Password);
-      //Assert.IsNotEmpty(SettingsHelper.CurrentSettings.ProxySettings.Password);
-      //Assert.IsFalse(SettingsHelper.CurrentSettings.ProxySettings.UseProxy);
-      //Assert.IsTrue(SettingsHelper.CurrentSettings.ProxySettings.UseSystemSettings);
-      //Assert.AreEqual(0, SettingsHelper.CurrentSettings.ProxySettings.ProxyPort);
-      //Assert.IsEmpty(SettingsHelper.CurrentSettings.ProxySettings.ProxyUrl);
+      Assert.IsNotEmpty(SettingsHelperController.CurrentSettings.ProxySettings.UserName);
+      Assert.AreEqual("testuser", SettingsHelperController.CurrentSettings.ProxySettings.UserName);
+      Assert.NotNull(SettingsHelperController.CurrentSettings.ProxySettings.Password);
+      Assert.IsNotEmpty(SettingsHelperController.CurrentSettings.ProxySettings.Password);
+      Assert.IsFalse(SettingsHelperController.CurrentSettings.ProxySettings.UseProxy);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.ProxySettings.UseSystemSettings);
+      Assert.AreEqual(0, SettingsHelperController.CurrentSettings.ProxySettings.ProxyPort);
+      Assert.IsEmpty(SettingsHelperController.CurrentSettings.ProxySettings.ProxyUrl);
 
       //Assert.IsFalse(SettingsHelper.CurrentSettings.AlertSettings.BringToFront);
       //Assert.IsFalse(SettingsHelper.CurrentSettings.AlertSettings.PlaySoundFile);

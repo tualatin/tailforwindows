@@ -1,4 +1,5 @@
-﻿using Org.Vs.TailForWin.Core.Data.Base;
+﻿using System;
+using Org.Vs.TailForWin.Core.Data.Base;
 
 
 namespace Org.Vs.TailForWin.Core.Data.Settings
@@ -6,7 +7,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
   /// <summary>
   /// Proxy settings
   /// </summary>
-  public class ProxySetting : NotifyMaster
+  public class ProxySetting : NotifyMaster, ICloneable
   {
     private bool _useSystemSettings;
 
@@ -97,5 +98,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         OnPropertyChanged(nameof(Password));
       }
     }
+
+    /// <summary>
+    /// Clone the object
+    /// </summary>
+    /// <returns>Cloned object</returns>
+    public object Clone() => MemberwiseClone();
   }
 }

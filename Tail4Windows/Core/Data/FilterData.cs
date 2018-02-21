@@ -150,9 +150,6 @@ namespace Org.Vs.TailForWin.Core.Data
     /// Creates a shallow copy of the current Object.
     /// </summary>
     /// <returns>A shallow copy of the current Object.</returns>
-    public object Clone()
-    {
-      return MemberwiseClone();
-    }
+    public object Clone() => MemberwiseClone();
   }
 }

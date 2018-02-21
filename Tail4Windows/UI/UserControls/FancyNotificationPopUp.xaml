@@ -44,18 +44,19 @@
   </UserControl.Triggers>
 
   <Border
+    Background="#FCFCFC"
     BorderBrush="#6DC2E9"
     BorderThickness="1"
     >
-    <Border.Background>
-      <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Offset="1" Color="GhostWhite" />
+    <!--<Border.Background>
+      <LinearGradientBrush StartPoint="0.7,0" EndPoint="0.7,1">
+        <GradientStop Offset="1" Color="#FCFCFC" />
         <GradientStop Offset="0" Color="Gainsboro" />
       </LinearGradientBrush>
-    </Border.Background>
-    <Border.Effect>
+    </Border.Background>-->
+    <!--<Border.Effect>
       <DropShadowEffect />
-    </Border.Effect>
+    </Border.Effect>-->
 
     <Grid x:Name="Grid">
       <Grid.RowDefinitions>

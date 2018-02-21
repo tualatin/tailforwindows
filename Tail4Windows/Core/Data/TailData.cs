@@ -454,10 +454,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// Creates a new object that is a copy of the current instance.
     /// </summary>
     /// <returns>A new object that is a copy of this instance.</returns>
-    public object Clone()
-    {
-      return MemberwiseClone();
-    }
+    public object Clone() => MemberwiseClone();
 
     /// <summary>
     /// Releases all resources used by the TailData.

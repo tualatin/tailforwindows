@@ -95,19 +95,19 @@
     Height="Auto"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
+    Background="#FCFCFC"
     BorderBrush="#6DC2E9"
     BorderThickness="1"
-    CornerRadius="2"
     >
-    <Border.Effect>
+    <!--<Border.Effect>
       <DropShadowEffect Color="#FF7A7A7A" />
-    </Border.Effect>
-    <Border.Background>
+    </Border.Effect>-->
+    <!--<Border.Background>
       <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
         <GradientStop Offset="1" Color="GhostWhite" />
         <GradientStop Offset="0" Color="Gainsboro" />
       </LinearGradientBrush>
-    </Border.Background>
+    </Border.Background>-->
 
     <Grid
       x:Name="LayoutRoot"

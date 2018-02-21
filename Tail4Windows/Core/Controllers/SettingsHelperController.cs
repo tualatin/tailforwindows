@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -149,7 +150,12 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SaveProxySettings(Configuration config)
     {
-
+      WriteValueToSetting(config, "Proxy.UserName", CurrentSettings.ProxySettings.UserName);
+      WriteValueToSetting(config, "Proxy.Password", CurrentSettings.ProxySettings.Password);
+      WriteValueToSetting(config, "Proxy.Use", CurrentSettings.ProxySettings.UseProxy.ToString());
+      WriteValueToSetting(config, "Proxy.Port", CurrentSettings.ProxySettings.ProxyPort.ToString(CultureInfo.InvariantCulture));
+      WriteValueToSetting(config, "Proxy.Url", CurrentSettings.ProxySettings.ProxyUrl);
+      WriteValueToSetting(config, "Proxy.UseSystem", CurrentSettings.ProxySettings.UseSystemSettings.ToString());
     }
 
     /// <summary>
@@ -312,7 +318,12 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void ReadProxySettings()
     {
-
+      CurrentSettings.ProxySettings.UseProxy = GetBoolFromSetting("Proxy.Use");
+      CurrentSettings.ProxySettings.UseSystemSettings = GetBoolFromSetting("Proxy.UseSystem", true);
+      CurrentSettings.ProxySettings.ProxyPort = GetIntFromSetting("Proxy.Port");
+      CurrentSettings.ProxySettings.ProxyUrl = GetStringFromSetting("Proxy.Url");
+      CurrentSettings.ProxySettings.UserName = GetStringFromSetting("Proxy.UserName");
+      CurrentSettings.ProxySettings.Password = GetStringFromSetting("Proxy.Password");
     }
 
     private static string GetStringFromSetting(string setting) => string.IsNullOrWhiteSpace(setting) ? string.Empty : ConfigurationManager.AppSettings[setting];
