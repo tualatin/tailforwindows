@@ -186,7 +186,6 @@
             Height="23"
             Margin="0 0 10 0"
             VerticalAlignment="Center"
-            Password="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             TabIndex="6"
             />
         </Grid>

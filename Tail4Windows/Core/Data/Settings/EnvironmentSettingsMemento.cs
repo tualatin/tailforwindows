@@ -75,7 +75,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         DefaultTimeFormat = obj.DefaultTimeFormat;
         DefaultDateFormat = obj.DefaultDateFormat;
 
-        ProxySettings = (ProxySetting) ProxySettings.Clone();
+        ProxySettings = (ProxySetting) obj.ProxySettings.Clone();
       }
 
       #region Window settings

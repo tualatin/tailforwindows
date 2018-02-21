@@ -37,32 +37,9 @@ namespace Org.Vs.TailForWin.Business.Data.Messages
     /// Constructor
     /// </summary>
     /// <param name="balloon">Balloon control</param>
-    public ShowNotificationPopUpMessage(UIElement balloon)
-    {
-      Balloon = balloon;
-      Timeout = 5000;
-      Animation = PopupAnimation.Slide;
-    }
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="balloon">Balloon control</param>
-    /// <param name="timeout">Timeout in ms</param>
-    public ShowNotificationPopUpMessage(UIElement balloon, int timeout)
-    {
-      Balloon = balloon;
-      Timeout = timeout;
-      Animation = PopupAnimation.Slide;
-    }
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="balloon">Balloon control</param>
     /// <param name="timeout">Timeout in ms</param>
     /// <param name="animation">Animation <see cref="PopupAnimation"/></param>
-    public ShowNotificationPopUpMessage(UIElement balloon, int timeout, PopupAnimation animation)
+    public ShowNotificationPopUpMessage(UIElement balloon, int timeout = 5000, PopupAnimation animation = PopupAnimation.Fade)
     {
       Balloon = balloon;
       Timeout = timeout;
