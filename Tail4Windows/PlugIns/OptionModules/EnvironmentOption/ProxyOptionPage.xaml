@@ -163,6 +163,7 @@
             Margin="0 0 10 0"
             VerticalAlignment="Center"
             Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            SnapsToDevicePixels="True"
             TabIndex="5"
             >
             <userControls:WatermarkTextBox.Watermark>
