@@ -150,11 +150,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public const bool ProxyUseSystemSettings = true;
 
     /// <summary>
-    /// Default value proxy use proxy
-    /// </summary>
-    public const bool ProxyUseProxy = false;
-
-    /// <summary>
     /// Default value proxy port
     /// </summary>
     public const int ProxyPort = 8080;

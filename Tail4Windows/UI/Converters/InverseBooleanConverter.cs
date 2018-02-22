@@ -7,6 +7,7 @@ namespace Org.Vs.TailForWin.UI.Converters
   /// <summary>
   /// InverseBooleanConverter
   /// </summary>
+  [ValueConversion(typeof(bool), typeof(bool))]
   public class InverseBooleanConverter : IValueConverter
   {
     /// <summary>

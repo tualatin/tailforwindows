@@ -86,7 +86,6 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual("testuser", SettingsHelperController.CurrentSettings.ProxySettings.UserName);
       Assert.NotNull(SettingsHelperController.CurrentSettings.ProxySettings.Password);
       Assert.IsNotEmpty(SettingsHelperController.CurrentSettings.ProxySettings.Password);
-      Assert.IsFalse(SettingsHelperController.CurrentSettings.ProxySettings.UseProxy);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.ProxySettings.UseSystemSettings);
       Assert.AreEqual(0, SettingsHelperController.CurrentSettings.ProxySettings.ProxyPort);
       Assert.IsEmpty(SettingsHelperController.CurrentSettings.ProxySettings.ProxyUrl);

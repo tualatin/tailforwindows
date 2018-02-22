@@ -44,5 +44,14 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(3.56m, "3.56".ConvertToDecimal());
       Assert.AreEqual(decimal.MinValue, "blabla".ConvertToDecimal());
     }
+
+    [Test]
+    public void TestStringToThreeStateBool()
+    {
+      Assert.IsInstanceOf<bool>("True".ConvertToThreeStateBool());
+      Assert.IsFalse("False".ConvertToThreeStateBool());
+      Assert.IsNull("".ConvertToThreeStateBool());
+      Assert.IsNull("blablabla".ConvertToThreeStateBool());
+    }
   }
 }

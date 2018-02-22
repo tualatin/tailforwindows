@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Data;
 
 
 namespace Org.Vs.TailForWin.UI.Converters
 {
   /// <summary>
-  /// StringToIntConverter
+  /// Null to bool converter
   /// </summary>
-  [ValueConversion(typeof(string), typeof(int))]
-  public class StringToIntConverter : IValueConverter
+  public class NullToBoolConverter : IValueConverter
   {
     /// <summary>
     /// Convert
@@ -18,25 +18,16 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
-    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-    {
-      if ( !(value is int port) )
-        return null;
-
-      if ( port < 0 )
-        port = 0;
-
-      return port;
-    }
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => !(value is bool);
 
     /// <summary>
-    /// Convert back
+    /// Convert
     /// </summary>
     /// <param name="value">Value</param>
     /// <param name="targetType">Target type</param>
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
-    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => value;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => null;
   }
 }

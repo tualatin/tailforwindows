@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using NUnit.Framework;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Extensions;
 
@@ -38,6 +39,7 @@ namespace Org.Vs.NUnit.Tests
       filter.Filter = "....";
       filter.FilterColor = System.Windows.Media.Brushes.Black;
       filter.FilterFontType = new Font("Curier", 8f, FontStyle.Regular);
+
       filter.RestoreFromMemento(memento);
       Assert.IsInstanceOf<FilterData>(filter);
       Assert.AreEqual(memento.Description, filter.Description);
@@ -119,6 +121,7 @@ namespace Org.Vs.NUnit.Tests
       tailData.NewWindow = true;
       tailData.FileName = @"C:\Test3";
       tailData.FileEncoding = Encoding.ASCII;
+
       tailData.RestoreFromMemento(memento);
       Assert.IsInstanceOf<TailData>(tailData);
       Assert.AreEqual(memento.Description, tailData.Description);
@@ -126,6 +129,50 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(memento.FileName, tailData.FileName);
       Assert.AreEqual(memento.FileEncoding, tailData.FileEncoding);
       Assert.IsTrue(memento.ListOfFilter.CompareGenericObservableCollections(tailData.ListOfFilter));
+    }
+
+    [Test]
+    public void TestMementoEnvironmentData()
+    {
+      var proxy = new ProxySetting
+      {
+        UseSystemSettings = false,
+        UserName = "tail4windows",
+        Password = "blablabla",
+        ProxyPort = 8888,
+        ProxyUrl = "myhostname.com"
+      };
+
+      var settings = new EnvironmentSettings
+      {
+        ProxySettings = proxy,
+        RestoreWindowSize = true,
+        SaveWindowPosition = true,
+        ShowNumberLineAtStart = true,
+        LinesRead = 20,
+        ExitWithEscape = true
+      };
+
+      var memento = settings.SaveToMemento();
+      Assert.IsInstanceOf<EnvironmentSettings.MementoEnvironmentSettings>(memento);
+      Assert.AreEqual(proxy.UseSystemSettings, memento.ProxySettings.UseSystemSettings);
+      Assert.AreEqual(proxy.UserName, memento.ProxySettings.UserName);
+      Assert.AreEqual(proxy.Password, memento.ProxySettings.Password);
+      Assert.AreEqual(proxy.ProxyPort, memento.ProxySettings.ProxyPort);
+      Assert.AreEqual(proxy.ProxyUrl, memento.ProxySettings.ProxyUrl);
+
+      proxy.UseSystemSettings = null;
+      proxy.ProxyPort = 4560;
+      settings.RestoreWindowSize = false;
+      settings.LinesRead = 40;
+      settings.ExitWithEscape = false;
+
+      settings.RestoreFromMemento(memento);
+      Assert.AreEqual(memento.ProxySettings.UseSystemSettings, settings.ProxySettings.UseSystemSettings);
+      Assert.AreEqual(memento.ProxySettings.ProxyPort, settings.ProxySettings.ProxyPort);
+      Assert.AreEqual(memento.RestoreWindowSize, settings.RestoreWindowSize);
+      Assert.AreEqual(memento.LinesRead, settings.LinesRead);
+      Assert.AreEqual(memento.ExitWithEscape, settings.ExitWithEscape);
     }
   }
 }

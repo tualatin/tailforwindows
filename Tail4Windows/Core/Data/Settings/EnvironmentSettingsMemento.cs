@@ -44,7 +44,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       DefaultThreadPriority = memento.DefaultThreadPriority;
       DefaultTimeFormat = memento.DefaultTimeFormat;
       DefaultDateFormat = memento.DefaultDateFormat;
-
       ProxySettings = (ProxySetting) memento.ProxySettings.Clone();
     }
 
@@ -74,7 +73,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         DefaultThreadPriority = obj.DefaultThreadPriority;
         DefaultTimeFormat = obj.DefaultTimeFormat;
         DefaultDateFormat = obj.DefaultDateFormat;
-
         ProxySettings = (ProxySetting) obj.ProxySettings.Clone();
       }
 

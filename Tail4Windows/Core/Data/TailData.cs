@@ -29,10 +29,10 @@ namespace Org.Vs.TailForWin.Core.Data
       FontType = new Font("Segoe UI", 11f, FontStyle.Regular);
       AutoRun = true;
       ListOfFilter = new ObservableCollection<FilterData>();
-      ListOfFilter.CollectionChanged += ListOfFilter_CollectionChanged;
+      ListOfFilter.CollectionChanged += ListOfFilterCollectionChanged;
     }
 
-    private void ListOfFilter_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void ListOfFilterCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       switch ( e.Action )
       {

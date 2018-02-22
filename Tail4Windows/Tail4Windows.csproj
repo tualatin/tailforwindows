@@ -206,6 +206,8 @@
     <Compile Include="UI\Commands\InvokeDelegateCommandAction.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\InverseBooleanConverter.cs" />
+    <Compile Include="UI\Converters\InverseNullToBoolConverter.cs" />
+    <Compile Include="UI\Converters\NullToBoolConverter.cs" />
     <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\StringToIntConverter.cs" />
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />

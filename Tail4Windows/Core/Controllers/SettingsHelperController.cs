@@ -45,6 +45,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>Task</returns>
     public async Task ReadSettingsAsync(CancellationTokenSource cts)
     {
+      await RemovePropertiesIfExistsAsync(cts).ConfigureAwait(false);
       await AddPropertiesIfNotExistsAsync(cts).ConfigureAwait(false);
       await Task.Run(() => ReadSettings(), cts.Token).ConfigureAwait(false);
     }
@@ -60,6 +61,41 @@ namespace Org.Vs.TailForWin.Core.Controllers
       };
 
       await AddNewPropertyAsync(settings, cts).ConfigureAwait(false);
+    }
+
+    private async Task RemovePropertiesIfExistsAsync(CancellationTokenSource cts)
+    {
+      await Task.Run(
+        () =>
+        {
+          LOG.Trace("Remove obsolete properties from config file");
+
+          var settings = new List<string>
+          {
+            "Proxy.Use"
+          };
+
+          try
+          {
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+            foreach ( string key in settings )
+            {
+              if ( !config.AppSettings.Settings.AllKeys.Contains(key) )
+                continue;
+
+              config.AppSettings.Settings.Remove(key);
+            }
+
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("appSettings");
+          }
+          catch ( ConfigurationErrorsException ex )
+          {
+            LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+          }
+        },
+        cts.Token).ConfigureAwait(false);
     }
 
     private void ReadSettings()
@@ -152,7 +188,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       WriteValueToSetting(config, "Proxy.UserName", CurrentSettings.ProxySettings.UserName);
       WriteValueToSetting(config, "Proxy.Password", CurrentSettings.ProxySettings.Password);
-      WriteValueToSetting(config, "Proxy.Use", CurrentSettings.ProxySettings.UseProxy.ToString());
       WriteValueToSetting(config, "Proxy.Port", CurrentSettings.ProxySettings.ProxyPort.ToString(CultureInfo.InvariantCulture));
       WriteValueToSetting(config, "Proxy.Url", CurrentSettings.ProxySettings.ProxyUrl);
       WriteValueToSetting(config, "Proxy.UseSystem", CurrentSettings.ProxySettings.UseSystemSettings.ToString());
@@ -220,7 +255,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ProxySettings.ProxyPort = DefaultEnvironmentSettings.ProxyPort;
       CurrentSettings.ProxySettings.ProxyUrl = DefaultEnvironmentSettings.ProxyUrl;
       CurrentSettings.ProxySettings.UseSystemSettings = DefaultEnvironmentSettings.ProxyUseSystemSettings;
-      CurrentSettings.ProxySettings.UseProxy = DefaultEnvironmentSettings.ProxyUseProxy;
     }
 
     /// <summary>
@@ -318,8 +352,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void ReadProxySettings()
     {
-      CurrentSettings.ProxySettings.UseProxy = GetBoolFromSetting("Proxy.Use");
-      CurrentSettings.ProxySettings.UseSystemSettings = GetBoolFromSetting("Proxy.UseSystem", true);
+      CurrentSettings.ProxySettings.UseSystemSettings = GetThreeStateBoolFromSetting("Proxy.UseSystem");
       CurrentSettings.ProxySettings.ProxyPort = GetIntFromSetting("Proxy.Port");
       CurrentSettings.ProxySettings.ProxyUrl = GetStringFromSetting("Proxy.Url");
       CurrentSettings.ProxySettings.UserName = GetStringFromSetting("Proxy.UserName");
@@ -333,6 +366,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
     private static double GetDoubleFromSetting(string setting, double defaultValue = -1) => ConfigurationManager.AppSettings[setting].ConvertToDouble(defaultValue);
 
     private static bool GetBoolFromSetting(string setting, bool defaultValue = false) => ConfigurationManager.AppSettings[setting].ConvertToBool(defaultValue);
+
+    private static bool? GetThreeStateBoolFromSetting(string setting) => ConfigurationManager.AppSettings[setting].ConvertToThreeStateBool();
 
     /// <summary>
     /// Get current window state from Enum

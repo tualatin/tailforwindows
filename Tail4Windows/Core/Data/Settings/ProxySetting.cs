@@ -9,12 +9,16 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
   /// </summary>
   public class ProxySetting : NotifyMaster, ICloneable
   {
-    private bool _useSystemSettings;
+    private bool? _useSystemSettings;
 
     /// <summary>
     /// Use system settings
+    /// Three state <see cref="bool"/> 
+    /// 1. <c>Null</c> == No Proxy
+    /// 2. <c>False</c> == Manual proxy setting
+    /// 3. <c>True</c> == use system proxy settings
     /// </summary>
-    public bool UseSystemSettings
+    public bool? UseSystemSettings
     {
       get => _useSystemSettings;
       set
@@ -24,24 +28,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
         _useSystemSettings = value;
         OnPropertyChanged(nameof(UseSystemSettings));
-      }
-    }
-
-    private bool _useProxy;
-
-    /// <summary>
-    /// Use proxy server
-    /// </summary>
-    public bool UseProxy
-    {
-      get => _useProxy;
-      set
-      {
-        if ( value == _useProxy )
-          return;
-
-        _useProxy = value;
-        OnPropertyChanged(nameof(UseProxy));
       }
     }
 
