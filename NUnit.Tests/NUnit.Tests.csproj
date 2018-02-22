@@ -105,6 +105,7 @@
     <Compile Include="TestMementoOfObjects.cs" />
     <Compile Include="TestObservableDictionary.cs" />
     <Compile Include="TestSettingsHelper.cs" />
+    <Compile Include="TestStringEncryption.cs" />
     <Compile Include="TestStringExtension.cs" />
     <Compile Include="TestThrottledExecution.cs" />
     <Compile Include="Options\TestTreeNodeViewModel.cs" />

@@ -24,6 +24,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SettingsHelperController));
 
+    private static readonly object MyLock = new object();
+
     /// <summary>
     /// Current T4W settings
     /// </summary>
@@ -68,31 +70,34 @@ namespace Org.Vs.TailForWin.Core.Controllers
       await Task.Run(
         () =>
         {
-          LOG.Trace("Remove obsolete properties from config file");
-
-          var settings = new List<string>
+          lock ( MyLock )
           {
-            "Proxy.Use"
-          };
+            LOG.Trace("Remove obsolete properties from config file");
 
-          try
-          {
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
-            foreach ( string key in settings )
+            var settings = new List<string>
             {
-              if ( !config.AppSettings.Settings.AllKeys.Contains(key) )
-                continue;
+              "Proxy.Use"
+            };
 
-              config.AppSettings.Settings.Remove(key);
+            try
+            {
+              Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+              foreach ( string key in settings )
+              {
+                if ( !config.AppSettings.Settings.AllKeys.Contains(key) )
+                  continue;
+
+                config.AppSettings.Settings.Remove(key);
+              }
+
+              config.Save(ConfigurationSaveMode.Modified);
+              ConfigurationManager.RefreshSection("appSettings");
             }
-
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
-          }
-          catch ( ConfigurationErrorsException ex )
-          {
-            LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            catch ( ConfigurationErrorsException ex )
+            {
+              LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
           }
         },
         cts.Token).ConfigureAwait(false);
@@ -100,17 +105,20 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void ReadSettings()
     {
-      LOG.Trace("Read T4W settings");
+      lock ( MyLock )
+      {
+        try
+        {
+          LOG.Trace("Read T4W settings");
 
-      try
-      {
-        ReadWindowSettings();
-        ReadStatusBarSettings();
-        ReadProxySettings();
-      }
-      catch ( ConfigurationErrorsException ex )
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+          ReadWindowSettings();
+          ReadStatusBarSettings();
+          ReadProxySettings();
+        }
+        catch ( ConfigurationErrorsException ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        }
       }
     }
 
@@ -129,25 +137,28 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SaveSettings()
     {
-      LOG.Trace("Save T4W settings");
-
-      try
+      lock ( MyLock )
       {
-        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        try
+        {
+          LOG.Trace("Save T4W settings");
 
-        if ( config.AppSettings.Settings.Count <= 0 )
-          return;
+          Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-        SaveWindowSettings(config);
-        SaveStatusBarSettings(config);
-        SaveProxySettings(config);
+          if ( config.AppSettings.Settings.Count <= 0 )
+            return;
 
-        config.Save(ConfigurationSaveMode.Modified);
-        ConfigurationManager.RefreshSection("appSettings");
-      }
-      catch ( ConfigurationErrorsException ex )
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+          SaveWindowSettings(config);
+          SaveStatusBarSettings(config);
+          SaveProxySettings(config);
+
+          config.Save(ConfigurationSaveMode.Modified);
+          ConfigurationManager.RefreshSection("appSettings");
+        }
+        catch ( ConfigurationErrorsException ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        }
       }
     }
 
@@ -208,11 +219,14 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SetDefaultSettings()
     {
-      LOG.Trace("Reset T4W settings");
+      lock ( MyLock )
+      {
+        LOG.Trace("Reset T4W settings");
 
-      SetDefaultWindowSettings();
-      SetDefaultStatusBarSettings();
-      SetDefaultProxySettings();
+        SetDefaultWindowSettings();
+        SetDefaultStatusBarSettings();
+        SetDefaultProxySettings();
+      }
     }
 
     private void SetDefaultWindowSettings()
@@ -266,8 +280,11 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void ReloadCurrentSettings()
     {
-      LOG.Trace("Reloads T4W settings");
-      ConfigurationManager.RefreshSection("appSettings");
+      lock ( MyLock )
+      {
+        LOG.Trace("Reloads T4W settings");
+        ConfigurationManager.RefreshSection("appSettings");
+      }
     }
 
     /// <summary>
@@ -283,26 +300,29 @@ namespace Org.Vs.TailForWin.Core.Controllers
       if ( settings == null || settings.Count == 0 )
         return;
 
-      LOG.Trace("Add missing config properties");
-
-      try
+      lock ( MyLock )
       {
-        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        LOG.Trace("Add missing config properties");
 
-        foreach ( var pair in settings )
+        try
         {
-          if ( config.AppSettings.Settings.AllKeys.Contains(pair.Key) )
-            continue;
+          Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-          config.AppSettings.Settings.Add(pair.Key, pair.Value);
+          foreach ( var pair in settings )
+          {
+            if ( config.AppSettings.Settings.AllKeys.Contains(pair.Key) )
+              continue;
+
+            config.AppSettings.Settings.Add(pair.Key, pair.Value);
+          }
+
+          config.Save(ConfigurationSaveMode.Modified);
+          ConfigurationManager.RefreshSection("appSettings");
         }
-
-        config.Save(ConfigurationSaveMode.Modified);
-        ConfigurationManager.RefreshSection("appSettings");
-      }
-      catch ( ConfigurationErrorsException ex )
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        catch ( ConfigurationErrorsException ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        }
       }
     }
 

@@ -215,6 +215,8 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <returns>Color of type <see cref="System.Drawing.Color"/></returns>
     public static System.Drawing.Color ConvertMediaBrushToDrawingColor(System.Windows.Media.Brush brush)
     {
+      brush.Freeze();
+
       var mediaColor = ((SolidColorBrush) brush).Color;
       return System.Drawing.Color.FromArgb(mediaColor.A, mediaColor.R, mediaColor.G, mediaColor.B);
     }

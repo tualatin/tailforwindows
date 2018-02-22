@@ -6,11 +6,19 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
+  xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+  xmlns:ui="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="400"
   d:DesignWidth="400"
+  Loaded="UserControlLoaded"
   >
+  <UserControl.DataContext>
+    <viewModels:ProxyOptionViewModel />
+  </UserControl.DataContext>
+
   <UserControl.Resources>
     <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
@@ -175,13 +183,23 @@
             Content="{DynamicResource ProxySettingsPassword}"
             />
           <PasswordBox
+            Name="PasswordBox"
             Grid.Row="1"
             Grid.Column="1"
             Height="23"
             Margin="0 0 10 0"
             VerticalAlignment="Center"
             TabIndex="6"
-            />
+            >
+            <intr:Interaction.Triggers>
+              <intr:EventTrigger EventName="PasswordChanged">
+                <ui:InvokeDelegateCommandAction
+                  Command="{Binding PasswordChangedCommand}"
+                  CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+                  />
+              </intr:EventTrigger>
+            </intr:Interaction.Triggers>
+          </PasswordBox>
         </Grid>
       </GroupBox>
     </Grid>

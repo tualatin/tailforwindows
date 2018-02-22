@@ -187,6 +187,7 @@
     <Compile Include="Core\Extensions\ColorExtension.cs" />
     <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
     <Compile Include="BaseView\ViewModels\TreeNodeOptionViewModel.cs" />
+    <Compile Include="Core\Utils\StringEncryption.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\SysInfoOptionPage.xaml.cs">
       <DependentUpon>SysInfoOptionPage.xaml</DependentUpon>
     </Compile>
@@ -203,6 +204,7 @@
     </Compile>
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\EnvironmentOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ImportExportViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ProxyOptionViewModel.cs" />
     <Compile Include="UI\Commands\InvokeDelegateCommandAction.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\InverseBooleanConverter.cs" />
