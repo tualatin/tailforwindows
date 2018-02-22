@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -28,7 +29,12 @@ namespace Org.Vs.TailForWin.Core.Controllers
       Arg.NotNull(url, nameof(url));
       CheckUrl(url);
 
-      using ( var client = new HttpClient() )
+      HttpClientHandler handler = null;
+
+      if ( SettingsHelperController.CurrentSettings.ProxySettings.UseSystemSettings != null )
+        handler = await CreateHttpClientHandlerAsync().ConfigureAwait(false);
+
+      using ( var client = new HttpClient(handler) )
       {
         try
         {
@@ -48,10 +54,47 @@ namespace Org.Vs.TailForWin.Core.Controllers
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
           EnvironmentContainer.ShowErrorMessageBox(ex.Message);
-
         }
       }
       return null;
+    }
+
+    private async Task<HttpClientHandler> CreateHttpClientHandlerAsync()
+    {
+      string proxyUrl = $"{SettingsHelperController.CurrentSettings.ProxySettings.ProxyUrl}:{SettingsHelperController.CurrentSettings.ProxySettings.ProxyPort}";
+      string pw = await StringEncryption.DecryptAsync(SettingsHelperController.CurrentSettings.ProxySettings.Password).ConfigureAwait(false);
+      bool usedefaultCredentials = true;
+      NetworkCredential proxyCredential = null;
+
+      if ( !string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.ProxySettings.UserName) && !string.IsNullOrWhiteSpace(pw) )
+      {
+        usedefaultCredentials = false;
+        proxyCredential = new NetworkCredential(SettingsHelperController.CurrentSettings.ProxySettings.UserName, pw);
+      }
+
+      IWebProxy proxy;
+
+      if ( SettingsHelperController.CurrentSettings.ProxySettings.UseSystemSettings != null && SettingsHelperController.CurrentSettings.ProxySettings.UseSystemSettings.Value )
+      {
+        proxy = WebRequest.GetSystemWebProxy();
+        proxy.Credentials = usedefaultCredentials ? null : proxyCredential;
+      }
+      else
+      {
+        proxy = new WebProxy(proxyUrl, false)
+        {
+          UseDefaultCredentials = usedefaultCredentials,
+          Credentials = usedefaultCredentials ? null : proxyCredential
+        };
+      }
+
+      var httpClientHandler = new HttpClientHandler
+      {
+        Proxy = proxy,
+        PreAuthenticate = true,
+        UseDefaultCredentials = usedefaultCredentials
+      };
+      return httpClientHandler;
     }
 
     private static void CheckUrl(string url)

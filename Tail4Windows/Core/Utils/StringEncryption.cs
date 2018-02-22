@@ -17,7 +17,7 @@ namespace Org.Vs.TailForWin.Core.Utils
 
     private const string Password = "7#S&,fD0EcJt+%sf~9/Q";
     private static readonly byte[] Salt = { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 };
-    
+
 
     /// <summary>
     /// Encrypt a plain string
