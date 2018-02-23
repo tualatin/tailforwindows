@@ -18,6 +18,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public EnvironmentSettings()
     {
       ProxySettings = new ProxySetting();
+      AlertSettings = new AlertSetting();
+      SmartWatchSettings = new SmartWatchSetting();
     }
 
     private CultureInfo _cultureInfo;
@@ -487,12 +489,38 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
-    #region ProxySettings 
+    #region ProxySettings
 
     /// <summary>
     /// Current proxy settings
     /// </summary>
     public ProxySetting ProxySettings
+    {
+      get;
+      set;
+    }
+
+    #endregion
+
+    #region AlertSettings
+
+    /// <summary>
+    /// Current alert settings
+    /// </summary>
+    public AlertSetting AlertSettings
+    {
+      get;
+      set;
+    }
+
+    #endregion
+
+    #region SmartWatchSettings
+
+    /// <summary>
+    /// Current SmartWatch settings
+    /// </summary>
+    public SmartWatchSetting SmartWatchSettings
     {
       get;
       set;

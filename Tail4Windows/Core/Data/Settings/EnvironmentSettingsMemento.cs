@@ -44,7 +44,10 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       DefaultThreadPriority = memento.DefaultThreadPriority;
       DefaultTimeFormat = memento.DefaultTimeFormat;
       DefaultDateFormat = memento.DefaultDateFormat;
+
       ProxySettings = (ProxySetting) memento.ProxySettings.Clone();
+      AlertSettings = (AlertSetting) memento.AlertSettings.Clone();
+      SmartWatchSettings = (SmartWatchSetting) memento.SmartWatchSettings.Clone();
     }
 
     /// <summary>
@@ -73,7 +76,10 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         DefaultThreadPriority = obj.DefaultThreadPriority;
         DefaultTimeFormat = obj.DefaultTimeFormat;
         DefaultDateFormat = obj.DefaultDateFormat;
+
         ProxySettings = (ProxySetting) obj.ProxySettings.Clone();
+        AlertSettings = (AlertSetting) obj.AlertSettings.Clone();
+        SmartWatchSettings = (SmartWatchSetting) obj.SmartWatchSettings.Clone();
       }
 
       #region Window settings
@@ -136,6 +142,22 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Current proxy settings
       /// </summary>
       public ProxySetting ProxySettings
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Current alert settings
+      /// </summary>
+      public AlertSetting AlertSettings
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Current SmartWatch settings
+      /// </summary>
+      public SmartWatchSetting SmartWatchSettings
       {
         get;
       }

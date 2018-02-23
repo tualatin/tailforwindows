@@ -1,3 +1,4 @@
+﻿using System;
 using Org.Vs.TailForWin.Core.Data.Base;
 
 
@@ -6,7 +7,157 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
   /// <summary>
   /// SMTP settings
   /// </summary>
-  public class SmtpSetting : NotifyMaster
+  public class SmtpSetting : NotifyMaster, ICloneable
   {
+    private string _smtpServerName;
+
+    /// <summary>
+    /// SMTP server name
+    /// </summary>
+    public string SmtpServerName
+    {
+      get => _smtpServerName;
+      set
+      {
+        if ( Equals(_smtpServerName, value) )
+          return;
+
+        _smtpServerName = value;
+        OnPropertyChanged(nameof(SmtpServerName));
+      }
+    }
+
+    private int _smtpPort;
+
+    /// <summary>
+    /// SMTP server port
+    /// </summary>
+    public int SmtpPort
+    {
+      get => _smtpPort;
+      set
+      {
+        if ( _smtpPort == value )
+          return;
+
+        _smtpPort = value;
+        OnPropertyChanged(nameof(SmtpPort));
+      }
+    }
+
+    private string _loginName;
+
+    /// <summary>
+    /// E-Mail-Server login name
+    /// </summary>
+    public string LoginName
+    {
+      get => _loginName;
+      set
+      {
+        if ( Equals(_loginName, value) )
+          return;
+
+        _loginName = value;
+        OnPropertyChanged(nameof(LoginName));
+      }
+
+    }
+
+    private string _password;
+
+    /// <summary>
+    /// E-Mail-Server password
+    /// </summary>
+    public string Password
+    {
+      get => _password;
+      set
+      {
+        if ( Equals(_password, value) )
+          return;
+
+        _password = value;
+        OnPropertyChanged(nameof(Password));
+      }
+    }
+
+    private string _fromAddress;
+
+    /// <summary>
+    /// E-Mail address From
+    /// </summary>
+    public string FromAddress
+    {
+      get => _fromAddress;
+      set
+      {
+        if ( Equals(_fromAddress, value) )
+          return;
+
+        _fromAddress = value;
+        OnPropertyChanged(nameof(FromAddress));
+      }
+    }
+
+    private string _subject;
+
+    /// <summary>
+    /// Subject
+    /// </summary>
+    public string Subject
+    {
+      get => _subject;
+      set
+      {
+        if ( Equals(_subject, value) )
+          return;
+
+        _subject = value;
+        OnPropertyChanged(nameof(Subject));
+      }
+    }
+
+    private bool _ssl;
+
+    /// <summary>
+    /// Use SSL
+    /// </summary>
+    public bool Ssl
+    {
+      get => _ssl;
+      set
+      {
+        if ( _ssl == value )
+          return;
+
+        _ssl = value;
+        OnPropertyChanged(nameof(Ssl));
+      }
+    }
+
+    private bool _tls;
+
+    /// <summary>
+    /// Use TLS
+    /// </summary>
+    public bool Tls
+    {
+      get => _tls;
+      set
+      {
+        if ( _tls == value )
+          return;
+
+        _tls = value;
+        OnPropertyChanged(nameof(Tls));
+      }
+    }
+
+    /// <summary>
+    /// Clone the object
+    /// </summary>
+    /// <returns>Cloned object</returns>
+    public object Clone() => MemberwiseClone();
   }
 }
