@@ -192,13 +192,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SaveStatusBarSettings(Configuration config)
     {
-      CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColor.Freeze();
       WriteValueToSetting(config, "StatusBarInactiveBackgroundColor", EnvironmentContainer.ConvertMediaBrushToDrawingColor(CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColor).ToHexString());
 
-      CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColor.Freeze();
       WriteValueToSetting(config, "StatusBarFileLoadedBackgroundColor", EnvironmentContainer.ConvertMediaBrushToDrawingColor(CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColor).ToHexString());
 
-      CurrentSettings.ColorSettings.StatusBarTailBackgroundColor.Freeze();
       WriteValueToSetting(config, "StatusBarTailBackgroundColor", EnvironmentContainer.ConvertMediaBrushToDrawingColor(CurrentSettings.ColorSettings.StatusBarTailBackgroundColor).ToHexString());
     }
 
