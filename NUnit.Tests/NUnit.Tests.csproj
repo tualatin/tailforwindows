@@ -93,6 +93,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConverterTests\ConverterTest.cs" />
     <Compile Include="Data\TestDataObject.cs" />
     <Compile Include="Enums\ETestGetDescription.cs" />
     <Compile Include="Options\OptionTestClasses.cs" />

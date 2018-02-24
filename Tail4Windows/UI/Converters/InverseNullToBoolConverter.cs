@@ -8,7 +8,7 @@ namespace Org.Vs.TailForWin.UI.Converters
   /// <summary>
   /// Inverse null to bool converter
   /// </summary>
-  class InverseNullToBoolConverter : IValueConverter
+  public class InverseNullToBoolConverter : IValueConverter
   {
     /// <summary>
     /// Convert

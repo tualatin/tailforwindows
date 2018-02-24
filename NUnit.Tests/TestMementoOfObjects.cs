@@ -15,6 +15,21 @@ namespace Org.Vs.NUnit.Tests
   [TestFixture]
   public class TestMementoOfObjects
   {
+    private EnvironmentSettings _settings;
+
+    [SetUp]
+    protected void SetUp()
+    {
+      _settings = new EnvironmentSettings
+      {
+        RestoreWindowSize = true,
+        SaveWindowPosition = true,
+        ShowNumberLineAtStart = true,
+        LinesRead = 20,
+        ExitWithEscape = true
+      };
+    }
+
     [Test]
     public void TestMementoFilterDate()
     {
@@ -132,7 +147,7 @@ namespace Org.Vs.NUnit.Tests
     }
 
     [Test]
-    public void TestMementoEnvironmentData()
+    public void TestMementoProxySettings()
     {
       var proxy = new ProxySetting
       {
@@ -143,17 +158,9 @@ namespace Org.Vs.NUnit.Tests
         ProxyUrl = "myhostname.com"
       };
 
-      var settings = new EnvironmentSettings
-      {
-        ProxySettings = proxy,
-        RestoreWindowSize = true,
-        SaveWindowPosition = true,
-        ShowNumberLineAtStart = true,
-        LinesRead = 20,
-        ExitWithEscape = true
-      };
+      _settings.ProxySettings = proxy;
 
-      var memento = settings.SaveToMemento();
+      var memento = _settings.SaveToMemento();
       Assert.IsInstanceOf<EnvironmentSettings.MementoEnvironmentSettings>(memento);
       Assert.AreEqual(proxy.UseSystemSettings, memento.ProxySettings.UseSystemSettings);
       Assert.AreEqual(proxy.UserName, memento.ProxySettings.UserName);
@@ -163,16 +170,90 @@ namespace Org.Vs.NUnit.Tests
 
       proxy.UseSystemSettings = null;
       proxy.ProxyPort = 4560;
-      settings.RestoreWindowSize = false;
-      settings.LinesRead = 40;
-      settings.ExitWithEscape = false;
+      _settings.RestoreWindowSize = false;
+      _settings.LinesRead = 40;
+      _settings.ExitWithEscape = false;
 
-      settings.RestoreFromMemento(memento);
-      Assert.AreEqual(memento.ProxySettings.UseSystemSettings, settings.ProxySettings.UseSystemSettings);
-      Assert.AreEqual(memento.ProxySettings.ProxyPort, settings.ProxySettings.ProxyPort);
-      Assert.AreEqual(memento.RestoreWindowSize, settings.RestoreWindowSize);
-      Assert.AreEqual(memento.LinesRead, settings.LinesRead);
-      Assert.AreEqual(memento.ExitWithEscape, settings.ExitWithEscape);
+      _settings.RestoreFromMemento(memento);
+      Assert.AreEqual(memento.ProxySettings.UseSystemSettings, _settings.ProxySettings.UseSystemSettings);
+      Assert.AreEqual(memento.ProxySettings.ProxyPort, _settings.ProxySettings.ProxyPort);
+      Assert.AreEqual(memento.RestoreWindowSize, _settings.RestoreWindowSize);
+      Assert.AreEqual(memento.LinesRead, _settings.LinesRead);
+      Assert.AreEqual(memento.ExitWithEscape, _settings.ExitWithEscape);
+    }
+
+    [Test]
+    public void TestMementoSmartWatchSettings()
+    {
+      var smartWatch = new SmartWatchSetting
+      {
+        AutoRun = true,
+        NewTab = true,
+        FilterByExtension = true,
+        Mode = ESmartWatchMode.Manual
+      };
+
+      _settings.SmartWatchSettings = smartWatch;
+
+      var memento = _settings.SaveToMemento();
+      Assert.IsInstanceOf<EnvironmentSettings.MementoEnvironmentSettings>(memento);
+      Assert.AreEqual(_settings.SmartWatchSettings.Mode, memento.SmartWatchSettings.Mode);
+      Assert.AreEqual(_settings.SmartWatchSettings.AutoRun, memento.SmartWatchSettings.AutoRun);
+      Assert.AreEqual(_settings.SmartWatchSettings.NewTab, memento.SmartWatchSettings.NewTab);
+      Assert.AreEqual(_settings.SmartWatchSettings.FilterByExtension, memento.SmartWatchSettings.FilterByExtension);
+
+      smartWatch.AutoRun = false;
+      smartWatch.Mode = ESmartWatchMode.Auto;
+
+      _settings.RestoreFromMemento(memento);
+      Assert.AreEqual(memento.SmartWatchSettings.AutoRun, _settings.SmartWatchSettings.AutoRun);
+      Assert.AreEqual(memento.SmartWatchSettings.Mode, _settings.SmartWatchSettings.Mode);
+    }
+
+    [Test]
+    public void TestMementoAlertSettings()
+    {
+      var smtp = new SmtpSetting
+      {
+        FromAddress = "blabla@test.org",
+        Tls = true,
+        Subject = "Alert!",
+        SmtpServerName = "hostname.test.local",
+        LoginName = "testname",
+        Password = "test",
+        SmtpPort = 25
+      };
+
+      var alert = new AlertSetting
+      {
+        SmtpSettings = smtp,
+        PopupWnd = true,
+        MailAddress = "blablaTo@test.org",
+        BringToFront = true,
+        SendMail = true
+      };
+
+      _settings.AlertSettings = alert;
+
+      var memento = _settings.SaveToMemento();
+      Assert.IsInstanceOf<EnvironmentSettings.MementoEnvironmentSettings>(memento);
+      Assert.AreEqual(_settings.AlertSettings.BringToFront, memento.AlertSettings.BringToFront);
+      Assert.AreEqual(_settings.AlertSettings.MailAddress, memento.AlertSettings.MailAddress);
+      Assert.AreEqual(_settings.AlertSettings.PopupWnd, memento.AlertSettings.PopupWnd);
+      Assert.AreEqual(_settings.AlertSettings.SmtpSettings.FromAddress, memento.AlertSettings.SmtpSettings.FromAddress);
+      Assert.AreEqual(_settings.AlertSettings.SmtpSettings.LoginName, memento.AlertSettings.SmtpSettings.LoginName);
+      Assert.AreEqual(_settings.AlertSettings.SmtpSettings.Tls, memento.AlertSettings.SmtpSettings.Tls);
+      Assert.AreEqual(_settings.AlertSettings.SmtpSettings.Subject, memento.AlertSettings.SmtpSettings.Subject);
+      Assert.AreEqual(_settings.AlertSettings.SmtpSettings.Password, memento.AlertSettings.SmtpSettings.Password);
+
+      _settings.AlertSettings.SmtpSettings.FromAddress = "phew@123.org";
+      _settings.AlertSettings.SmtpSettings.Tls = false;
+      _settings.AlertSettings.SmtpSettings.SmtpServerName = "hostname1234.test.local";
+
+      _settings.RestoreFromMemento(memento);
+      Assert.AreEqual(memento.AlertSettings.SmtpSettings.FromAddress, _settings.AlertSettings.SmtpSettings.FromAddress);
+      Assert.AreEqual(memento.AlertSettings.SmtpSettings.Tls, _settings.AlertSettings.SmtpSettings.Tls);
+      Assert.AreEqual(memento.AlertSettings.SmtpSettings.SmtpServerName, _settings.AlertSettings.SmtpSettings.SmtpServerName);
     }
   }
 }

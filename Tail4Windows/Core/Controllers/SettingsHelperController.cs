@@ -190,9 +190,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SaveStatusBarSettings(Configuration config)
     {
-      WriteValueToSetting(config, "StatusBarInactiveBackgroundColor", EnvironmentContainer.ConvertMediaBrushToDrawingColor(CurrentSettings.StatusBarInactiveBackgroundColor).ToHexString());
-      WriteValueToSetting(config, "StatusBarFileLoadedBackgroundColor", EnvironmentContainer.ConvertMediaBrushToDrawingColor(CurrentSettings.StatusBarFileLoadedBackgroundColor).ToHexString());
-      WriteValueToSetting(config, "StatusBarTailBackgroundColor", EnvironmentContainer.ConvertMediaBrushToDrawingColor(CurrentSettings.StatusBarTailBackgroundColor).ToHexString());
+      WriteValueToSetting(config, "StatusBarInactiveBackgroundColor", EnvironmentContainer.ConvertMediaBrushToDrawingColor(CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColor).ToHexString());
+      WriteValueToSetting(config, "StatusBarFileLoadedBackgroundColor", EnvironmentContainer.ConvertMediaBrushToDrawingColor(CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColor).ToHexString());
+      WriteValueToSetting(config, "StatusBarTailBackgroundColor", EnvironmentContainer.ConvertMediaBrushToDrawingColor(CurrentSettings.ColorSettings.StatusBarTailBackgroundColor).ToHexString());
     }
 
     private void SaveProxySettings(Configuration config)
@@ -257,9 +257,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SetDefaultStatusBarSettings()
     {
-      CurrentSettings.StatusBarInactiveBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor);
-      CurrentSettings.StatusBarFileLoadedBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor);
-      CurrentSettings.StatusBarTailBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarTailBackgroundColor);
+      CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor);
+      CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor);
+      CurrentSettings.ColorSettings.StatusBarTailBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarTailBackgroundColor);
     }
 
     private void SetDefaultProxySettings()
@@ -357,17 +357,17 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void ReadStatusBarSettings()
     {
-      CurrentSettings.StatusBarInactiveBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(GetStringFromSetting("StatusBarInactiveBackgroundColor"),
+      CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(GetStringFromSetting("StatusBarInactiveBackgroundColor"),
         EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor));
-      CurrentSettings.StatusBarInactiveBackgroundColor.Freeze();
+      CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColor.Freeze();
 
-      CurrentSettings.StatusBarFileLoadedBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(GetStringFromSetting("StatusBarFileLoadedBackgroundColor"),
+      CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(GetStringFromSetting("StatusBarFileLoadedBackgroundColor"),
         EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor));
-      CurrentSettings.StatusBarFileLoadedBackgroundColor.Freeze();
+      CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColor.Freeze();
 
-      CurrentSettings.StatusBarTailBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(GetStringFromSetting("StatusBarTailBackgroundColor"),
+      CurrentSettings.ColorSettings.StatusBarTailBackgroundColor = EnvironmentContainer.ConvertHexStringToBrush(GetStringFromSetting("StatusBarTailBackgroundColor"),
         EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarTailBackgroundColor));
-      CurrentSettings.StatusBarTailBackgroundColor.Freeze();
+      CurrentSettings.ColorSettings.StatusBarTailBackgroundColor.Freeze();
     }
 
     private void ReadProxySettings()

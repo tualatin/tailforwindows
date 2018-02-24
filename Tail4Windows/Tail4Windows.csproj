@@ -182,6 +182,7 @@
     <Compile Include="Business\Data\SystemInformation\SystemInformationData.cs" />
     <Compile Include="Core\Data\DateFormatMapping.cs" />
     <Compile Include="Core\Data\LanguageMapping.cs" />
+    <Compile Include="Core\Data\Settings\EnvironmentColorSettings.cs" />
     <Compile Include="Core\Data\TimeFormatMapping.cs" />
     <Compile Include="Core\Enums\EUiLanguage.cs" />
     <Compile Include="Core\Extensions\ColorExtension.cs" />
@@ -312,7 +313,6 @@
     <Compile Include="UI\Commands\RelayCommand.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundConverter.cs" />
     <Compile Include="UI\Converters\ColorToSolidColorBrushConverter.cs" />
-    <Compile Include="UI\Converters\MultiConverters\UseProxyMultiConverter.cs" />
     <Compile Include="UI\Events\Args\ArgDummy.cs" />
     <Compile Include="UI\Extensions\WindowExtension.cs" />
     <Compile Include="UI\Interfaces\IAsyncCommand.cs" />
@@ -703,6 +703,7 @@
     <Folder Include="PlugIns\SmartWatchModule\Data\" />
     <Folder Include="PlugIns\SmartWatchModule\Interfaces\" />
     <Folder Include="PlugIns\SmartWatchModule\ViewModels\" />
+    <Folder Include="UI\Converters\MultiConverters\" />
     <Folder Include="UI\UserControls\ViewModels\" />
   </ItemGroup>
   <ItemGroup>

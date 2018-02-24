@@ -277,7 +277,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
       case Key.Escape:
 
-        if (SettingsHelperController.CurrentSettings.ExitWithEscape)
+        if ( SettingsHelperController.CurrentSettings.ExitWithEscape )
           Application.Current.Shutdown(0);
 
         break;
@@ -324,7 +324,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void SetDefaultWindowSettings()
     {
-      BusinessMainWndToMainWndStatusBarController.CurrentBusinessData.CurrentStatusBarBackgroundColor = SettingsHelperController.CurrentSettings.StatusBarInactiveBackgroundColor;
+      BusinessMainWndToMainWndStatusBarController.CurrentBusinessData.CurrentStatusBarBackgroundColor = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColor;
       BusinessMainWndToMainWndStatusBarController.CurrentBusinessData.CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
 
       switch ( SettingsHelperController.CurrentSettings.CurrentWindowStyle )

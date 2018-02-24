@@ -1,5 +1,4 @@
 ﻿using System.Threading;
-using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -27,9 +26,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
       RestoreWindowSize = memento.RestoreWindowSize;
       SaveWindowPosition = memento.SaveWindowPosition;
-      StatusBarInactiveBackgroundColor = memento.StatusBarInactiveBackgroundColor;
-      StatusBarFileLoadedBackgroundColor = memento.StatusBarFileLoadedBackgroundColor;
-      StatusBarTailBackgroundColor = memento.StatusBarTailBackgroundColor;
       ExitWithEscape = memento.ExitWithEscape;
       DeleteLogFiles = memento.DeleteLogFiles;
       CurrentWindowStyle = memento.CurrentWindowStyle;
@@ -48,6 +44,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       ProxySettings = (ProxySetting) memento.ProxySettings.Clone();
       AlertSettings = (AlertSetting) memento.AlertSettings.Clone();
       SmartWatchSettings = (SmartWatchSetting) memento.SmartWatchSettings.Clone();
+      ColorSettings = (EnvironmentColorSettings) memento.ColorSettings.Clone();
     }
 
     /// <summary>
@@ -59,9 +56,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       {
         RestoreWindowSize = obj.RestoreWindowSize;
         SaveWindowPosition = obj.SaveWindowPosition;
-        StatusBarInactiveBackgroundColor = obj.StatusBarInactiveBackgroundColor;
-        StatusBarFileLoadedBackgroundColor = obj.StatusBarFileLoadedBackgroundColor;
-        StatusBarTailBackgroundColor = obj.StatusBarTailBackgroundColor;
         ExitWithEscape = obj.ExitWithEscape;
         DeleteLogFiles = obj.DeleteLogFiles;
         CurrentWindowStyle = obj.CurrentWindowStyle;
@@ -80,6 +74,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         ProxySettings = (ProxySetting) obj.ProxySettings.Clone();
         AlertSettings = (AlertSetting) obj.AlertSettings.Clone();
         SmartWatchSettings = (SmartWatchSetting) obj.SmartWatchSettings.Clone();
+        ColorSettings = (EnvironmentColorSettings) obj.ColorSettings.Clone();
       }
 
       #region Window settings
@@ -110,34 +105,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
       #endregion
 
-      #region StatusBar settings
-
-      /// <summary>
-      /// StatusBar inactive background color
-      /// </summary>
-      public Brush StatusBarInactiveBackgroundColor
-      {
-        get;
-      }
-
-      /// <summary>
-      /// StatusBar file loaded background color
-      /// </summary>
-      public Brush StatusBarFileLoadedBackgroundColor
-      {
-        get;
-      }
-
-      /// <summary>
-      /// StatusBar tail background color
-      /// </summary>
-      public Brush StatusBarTailBackgroundColor
-      {
-        get;
-      }
-
-      #endregion
-
       /// <summary>
       /// Current proxy settings
       /// </summary>
@@ -150,6 +117,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Current alert settings
       /// </summary>
       public AlertSetting AlertSettings
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Environment color settings
+      /// </summary>
+      public EnvironmentColorSettings ColorSettings
       {
         get;
       }

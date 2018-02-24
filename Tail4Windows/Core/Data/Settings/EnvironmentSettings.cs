@@ -1,6 +1,5 @@
 ﻿using System.Globalization;
 using System.Threading;
-using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
 
@@ -20,6 +19,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       ProxySettings = new ProxySetting();
       AlertSettings = new AlertSetting();
       SmartWatchSettings = new SmartWatchSetting();
+      ColorSettings = new EnvironmentColorSettings();
     }
 
     private CultureInfo _cultureInfo;
@@ -174,64 +174,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
         _currentWindowState = value;
         OnPropertyChanged(nameof(CurrentWindowState));
-      }
-    }
-
-    #endregion
-
-    #region StatusBar settings
-
-    private Brush _statusBarInactiveBackgroundColor;
-
-    /// <summary>
-    /// StatusBar inactive background color
-    /// </summary>
-    public Brush StatusBarInactiveBackgroundColor
-    {
-      get => _statusBarInactiveBackgroundColor;
-      set
-      {
-        if ( Equals(value, _statusBarInactiveBackgroundColor) )
-          return;
-
-        _statusBarInactiveBackgroundColor = value;
-        OnPropertyChanged(nameof(StatusBarInactiveBackgroundColor));
-      }
-    }
-
-    private Brush _statusBarFileLoadedBackgroundColor;
-
-    /// <summary>
-    /// StatusBar file loaded background color
-    /// </summary>
-    public Brush StatusBarFileLoadedBackgroundColor
-    {
-      get => _statusBarFileLoadedBackgroundColor;
-      set
-      {
-        if ( Equals(value, _statusBarFileLoadedBackgroundColor) )
-          return;
-
-        _statusBarFileLoadedBackgroundColor = value;
-        OnPropertyChanged(nameof(StatusBarFileLoadedBackgroundColor));
-      }
-    }
-
-    private Brush _statusBarTailBackgroundColor;
-
-    /// <summary>
-    /// StatusBar tail background color
-    /// </summary>
-    public Brush StatusBarTailBackgroundColor
-    {
-      get => _statusBarTailBackgroundColor;
-      set
-      {
-        if ( Equals(value, _statusBarTailBackgroundColor) )
-          return;
-
-        _statusBarTailBackgroundColor = value;
-        OnPropertyChanged(nameof(StatusBarTailBackgroundColor));
       }
     }
 
@@ -521,6 +463,19 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// Current SmartWatch settings
     /// </summary>
     public SmartWatchSetting SmartWatchSettings
+    {
+      get;
+      set;
+    }
+
+    #endregion
+
+    #region EnvironmentColorSettings
+
+    /// <summary>
+    /// Environment color settings
+    /// </summary>
+    public EnvironmentColorSettings ColorSettings
     {
       get;
       set;
