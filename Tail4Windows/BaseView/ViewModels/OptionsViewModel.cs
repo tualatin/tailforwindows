@@ -16,6 +16,7 @@ using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
+using Org.Vs.TailForWin.PlugIns.OptionModules.SmartWatchOption;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Services;
@@ -45,6 +46,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       get => _title;
       set
       {
+        if ( Equals(_title, value) )
+          return;
+
         _title = value;
         OnPropertyChanged(nameof(Title));
       }
@@ -60,6 +64,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       get => _currentViewModel;
       set
       {
+        if ( value == _currentViewModel )
+          return;
+
         _currentViewModel = value;
 
         if ( _currentViewModel != null )
@@ -158,18 +165,25 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       var optionPage1 = new TreeNodeOptionViewModel(environment, new[]
       {
         new TreeNodeOptionViewModel(environment, null),
+        new TreeNodeOptionViewModel(new ExtraOptionPage(), null),
         new TreeNodeOptionViewModel(new ProxyOptionPage(), null),
         new TreeNodeOptionViewModel(new ImportExportOptionPage(), null)
       }, "system.ico");
 
+      var smartWatch = new SmartWatchOptionPage();
+      var optionPage2 = new TreeNodeOptionViewModel(smartWatch, new[]
+      {
+        new TreeNodeOptionViewModel(smartWatch, null)
+      }, "main.ico");
+
       var alert = new AlertOptionPage();
-      var optionPage2 = new TreeNodeOptionViewModel(alert, new[]
+      var optionPage3 = new TreeNodeOptionViewModel(alert, new[]
       {
         new TreeNodeOptionViewModel(alert, null)
       }, "alert.ico");
 
       var about = new AboutOptionPage();
-      var optionPage3 = new TreeNodeOptionViewModel(about, new[]
+      var optionPage4 = new TreeNodeOptionViewModel(about, new[]
       {
         new TreeNodeOptionViewModel(about, null),
         new TreeNodeOptionViewModel(new UpdateOptionPage(), null),
@@ -180,7 +194,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
         optionPage1,
         optionPage2,
-        optionPage3
+        optionPage3,
+        optionPage4
       };
     }
 

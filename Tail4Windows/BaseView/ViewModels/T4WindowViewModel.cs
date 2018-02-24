@@ -183,10 +183,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       TrayIconItemsSource.CollectionChanged += TrayIconItemsSourceCollectionChanged;
     }
 
-    private void TrayIconItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      OnPropertyChanged(nameof(TrayIconItemsSource));
-    }
+    private void TrayIconItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(TrayIconItemsSource));
 
     private void TaskPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -280,6 +277,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         if ( SettingsHelperController.CurrentSettings.ExitWithEscape )
           Application.Current.Shutdown(0);
 
+        args.Handled = true;
         break;
       }
     }

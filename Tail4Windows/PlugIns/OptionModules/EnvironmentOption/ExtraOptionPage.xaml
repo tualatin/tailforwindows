@@ -1,0 +1,229 @@
+﻿<UserControl
+  x:Class="Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ExtraOptionPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
+  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
+  xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+  xmlns:ui="clr-namespace:Org.Vs.TailForWin.UI.Commands"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels"
+  mc:Ignorable="d"
+  d:DesignHeight="300"
+  d:DesignWidth="300"
+  >
+  <UserControl.DataContext>
+    <viewModels:ExtraOptionViewModel />
+  </UserControl.DataContext>
+
+  <UserControl.Resources>
+    <converters:LogLineLimitConverter x:Key="LogLineLimitConverter" />
+  </UserControl.Resources>
+
+  <ScrollViewer
+    HorizontalScrollBarVisibility="Auto"
+    VerticalScrollBarVisibility="Auto"
+    >
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition MinWidth="200" />
+      </Grid.ColumnDefinitions>
+
+      <Grid.RowDefinitions>
+        <RowDefinition Height="30" />
+        <RowDefinition Height="30" />
+        <RowDefinition Height="40" />
+        <RowDefinition Height="20" />
+        <RowDefinition Height="146" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+
+      <Label
+        Grid.Column="0"
+        Width="92"
+        Height="16"
+        Margin="0 7"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Content="{DynamicResource ExtrasFileSort}"
+        />
+      <ComboBox
+        Grid.Row="0"
+        Grid.Column="1"
+        MinWidth="180"
+        Margin="10 4"
+        HorizontalAlignment="Left"
+        DisplayMemberPath="Description"
+        ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=FileSort}"
+        SelectedValue="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=DefaultFileSort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+        SelectedValuePath="FileSort"
+        TabIndex="0"
+        >
+        <ComboBox.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource ExtrasFileSort}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource ExtrasFileSortToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </ComboBox.ToolTip>
+      </ComboBox>
+
+      <Label
+        Grid.Row="1"
+        Grid.Column="0"
+        Width="72"
+        Height="16"
+        Margin="0 7"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Content="{DynamicResource ExtrasWindowStyleLabel}"
+        />
+      <ComboBox
+        Grid.Row="1"
+        Grid.Column="1"
+        MinWidth="180"
+        Margin="10 4"
+        HorizontalAlignment="Left"
+        DisplayMemberPath="Description"
+        ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=WindowStyles}"
+        SelectedValue="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=CurrentWindowStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+        SelectedValuePath="WindowStyle"
+        TabIndex="1"
+        >
+        <ComboBox.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource ExtrasWindowStyleLabel}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource ExtrasWindowStyleToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </ComboBox.ToolTip>
+      </ComboBox>
+
+      <Label
+        Grid.Row="2"
+        Grid.Column="0"
+        Width="72"
+        Height="16"
+        Margin="0 7"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Content="{DynamicResource ExtrasLogLineLimit}"
+        />
+      <Slider
+        Grid.Row="2"
+        Grid.Column="1"
+        VerticalAlignment="Center"
+        Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=LogLineLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource LogLineLimitConverter}}"
+        Interval="50000"
+        IsSnapToTickEnabled="True"
+        Maximum="400000"
+        Minimum="50000"
+        Orientation="Horizontal"
+        SmallChange="50000"
+        TabIndex="2"
+        TickFrequency="50000"
+        TickPlacement="BottomRight"
+        >
+
+        <intr:Interaction.Triggers>
+          <intr:EventTrigger EventName="ValueChanged">
+            <ui:InvokeDelegateCommandAction
+              Command="{Binding SliderValueChangedCommand}"
+              CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+              />
+          </intr:EventTrigger>
+        </intr:Interaction.Triggers>
+
+        <Slider.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource ExtrasLogLineLimit}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource ExtrasLogLineLimitToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </Slider.ToolTip>
+      </Slider>
+
+      <Label
+        Grid.Row="3"
+        Grid.Column="1"
+        Margin="0 0 10 0"
+        HorizontalAlignment="Right"
+        Content="{Binding LogLineLimit, UpdateSourceTrigger=PropertyChanged}"
+        FontSize="10"
+        FontWeight="SemiBold"
+        />
+    </Grid>
+  </ScrollViewer>
+</UserControl>

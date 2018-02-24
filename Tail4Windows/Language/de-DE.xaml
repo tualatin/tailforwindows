@@ -83,6 +83,10 @@
   <system:String x:Key="AboutOptionSysInfoTitle">System Info</system:String>
   <system:String x:Key="AlertOptionPageTitle">Alarm</system:String>
 
+  <system:String x:Key="SmartWatchPageTitle">SmartWatch</system:String>
+
+  <system:String x:Key="ExtrasPageTitle">Extras</system:String>
+
   <system:String x:Key="EnvironmentLanguageToolTip">Programmsprache setzen</system:String>
   <system:String x:Key="EnvironmentAlwaysOnTop">Immer im Vordergrund</system:String>
   <system:String x:Key="EnvironmentAlwaysOnTopToolTip">Das Programm befindet sich immer im Vordergrund</system:String>
@@ -157,4 +161,13 @@
   <system:String x:Key="ProxySettingsProxyPort">Port</system:String>
   <system:String x:Key="ProxySettingsUserName">Nutzername</system:String>
   <system:String x:Key="ProxySettingsPassword">Passwort</system:String>
+
+  <system:String x:Key="ExtrasWindowStyleLabel">Fensterstil</system:String>
+  <system:String x:Key="ExtrasWindowStyleToolTip">Den aktuellen Fensterstil setzen</system:String>
+  <system:String x:Key="ExtrasFileSort">Dateisortierung</system:String>
+  <system:String x:Key="ExtrasFileSortToolTip">Dateisortierungsverhalten setzen für das DataGrid im FileManager</system:String>
+  <system:String x:Key="ExtrasLogLineLimit">Logzeilenlimitierung</system:String>
+  <system:String x:Key="ExtrasLogLineLimitToolTip">Das maximale Logzeilenlimit in der Logansicht</system:String>
+  <system:String x:Key="ExtrasLogLineLines">Zeilen</system:String>
+  <system:String x:Key="ExtrasLogLineUnlimited">Unbegrenzt</system:String>
 </ResourceDictionary>

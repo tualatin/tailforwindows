@@ -431,6 +431,44 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private EFileSort _defaultFileSort;
+
+    /// <summary>
+    /// Default file sort
+    /// </summary>
+    public EFileSort DefaultFileSort
+    {
+      get => _defaultFileSort;
+      set
+      {
+        if ( value == _defaultFileSort )
+          return;
+
+        _defaultFileSort = value;
+        OnPropertyChanged(nameof(DefaultFileSort));
+      }
+    }
+
+    private int _logLineLimit;
+
+    /// <summary>
+    /// Log line limitation
+    /// </summary>
+    public int LogLineLimit
+    {
+      get => _logLineLimit;
+      set
+      {
+        if ( value == _logLineLimit )
+          return;
+
+        _logLineLimit = value;
+        OnPropertyChanged(nameof(LogLineLimit));
+      }
+    }
+
+
+
     #region ProxySettings
 
     /// <summary>

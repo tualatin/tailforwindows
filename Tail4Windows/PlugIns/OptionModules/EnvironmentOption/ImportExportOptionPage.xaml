@@ -11,7 +11,7 @@
   d:DesignWidth="400"
   >
   <UserControl.DataContext>
-    <viewModels:ImportExportViewModel />
+    <viewModels:ImportExportOptionViewModel />
   </UserControl.DataContext>
 
   <intr:Interaction.Triggers>

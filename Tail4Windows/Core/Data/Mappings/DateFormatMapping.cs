@@ -2,17 +2,17 @@
 using Org.Vs.TailForWin.Core.Extensions;
 
 
-namespace Org.Vs.TailForWin.Core.Data
+namespace Org.Vs.TailForWin.Core.Data.Mappings
 {
   /// <summary>
-  /// TimeFormatMapping
+  /// DateFormatMapping
   /// </summary>
-  public class TimeFormatMapping
+  public class DateFormatMapping
   {
     /// <summary>
-    /// TimeFormat as <see cref="ETimeFormat"/>
+    /// Date format as <see cref="EDateFormat"/>
     /// </summary>
-    public ETimeFormat TimeFormat
+    public EDateFormat DateFormat
     {
       get;
       set;
@@ -21,6 +21,6 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Description
     /// </summary>
-    public string Description => TimeFormat.GetEnumDescription();
+    public string Description => DateFormat.GetEnumDescription();
   }
 }

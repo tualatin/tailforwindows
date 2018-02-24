@@ -59,12 +59,12 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value WindowWidth
     /// </summary>
-    public static double WindowWidth = -1;
+    public const double WindowWidth = -1;
 
     /// <summary>
     /// Default value WindowHeight
     /// </summary>
-    public static double WindowHeight = -1;
+    public const double WindowHeight = -1;
 
     /// <summary>
     /// Default value WindowPosition X
@@ -120,6 +120,16 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// Default value DefaultDateFormat
     /// </summary>
     public const EDateFormat DefaultDateFormat = EDateFormat.DDMMYYYY;
+
+    /// <summary>
+    /// Default value DefaultFileSort
+    /// </summary>
+    public const EFileSort DefaultFileSort = EFileSort.FileCreationTime;
+
+    /// <summary>
+    /// Default value LogLineLimit
+    /// </summary>
+    public const int LogLineLimit = -1;
 
     #endregion
 

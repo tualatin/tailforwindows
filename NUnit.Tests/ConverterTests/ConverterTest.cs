@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Media;
 using NUnit.Framework;
+using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.Converters;
 
 
@@ -25,6 +26,21 @@ namespace Org.Vs.NUnit.Tests.ConverterTests
       var convertedValue = converter.Convert(null, null, null, CultureInfo.CurrentCulture);
       Assert.That(convertedValue is bool);
       Assert.AreEqual(false, convertedValue);
+    }
+
+    [Test]
+    public void TestLogLineLimitConverter()
+    {
+      var converter = new LogLineLimitConverter();
+      var convertedLogLineLimit = converter.Convert(20, typeof(int), null, CultureInfo.CurrentCulture);
+      Assert.That(convertedLogLineLimit is int);
+      Assert.AreEqual(20, convertedLogLineLimit);
+
+      convertedLogLineLimit = converter.Convert("test", typeof(int), null, CultureInfo.CurrentCulture);
+      Assert.AreEqual(EnvironmentContainer.UnlimitedLogLineValue, convertedLogLineLimit);
+
+      convertedLogLineLimit = converter.ConvertBack(-1, typeof(int), null, CultureInfo.CurrentCulture);
+      Assert.AreEqual(-1, convertedLogLineLimit);
     }
 
     [Test]

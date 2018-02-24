@@ -11,8 +11,8 @@ using System.Windows;
 using System.Windows.Media;
 using Microsoft.Win32;
 using Org.Vs.TailForWin.Core.Controllers;
-using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Data.Mappings;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
 
@@ -59,6 +59,11 @@ namespace Org.Vs.TailForWin.Core.Utils
     public const int DeleteLogFilesOlderThan = 5;
 
     /// <summary>
+    /// Unlimited log line value
+    /// </summary>
+    public const int UnlimitedLogLineValue = 400000;
+
+    /// <summary>
     /// Current event manager
     /// </summary>
     public readonly IEventAggregator CurrentEventManager;
@@ -80,7 +85,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     } = new ObservableCollection<ETailRefreshRate>();
 
     /// <summary>
-    /// List of thread priority (static)
+    /// List of thread priority of type <see cref="ThreadPriorityMapping"/>
     /// </summary>
     public ObservableCollection<ThreadPriorityMapping> ThreadPriority
     {
@@ -88,7 +93,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     } = new ObservableCollection<ThreadPriorityMapping>();
 
     /// <summary>
-    /// List of DateFormats
+    /// List of DateFormats of type <see cref="DateFormatMapping"/>
     /// </summary>
     public ObservableCollection<DateFormatMapping> DateFormat
     {
@@ -96,7 +101,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     } = new ObservableCollection<DateFormatMapping>();
 
     /// <summary>
-    /// List of TimeFormats
+    /// List of TimeFormats of type <see cref="TimeFormatMapping"/>
     /// </summary>
     public ObservableCollection<TimeFormatMapping> TimeFormat
     {
@@ -104,13 +109,29 @@ namespace Org.Vs.TailForWin.Core.Utils
     } = new ObservableCollection<TimeFormatMapping>();
 
     /// <summary>
-    /// List of languages
+    /// List of languages of type <see cref="LanguageMapping"/>
     /// </summary>
     public ObservableCollection<LanguageMapping> Languages
     {
       get;
       private set;
     }
+
+    /// <summary>
+    /// List of window styles if type <see cref="WindowStyleMapping"/>
+    /// </summary>
+    public ObservableCollection<WindowStyleMapping> WindowStyles
+    {
+      get;
+    } = new ObservableCollection<WindowStyleMapping>();
+
+    /// <summary>
+    /// FileSort of type <see cref="FileSortMapping"/>
+    /// </summary>
+    public ObservableCollection<FileSortMapping> FileSort
+    {
+      get;
+    } = new ObservableCollection<FileSortMapping>();
 
     /// <summary>
     /// Current application path
@@ -364,6 +385,7 @@ namespace Org.Vs.TailForWin.Core.Utils
               });
           }
 
+          // Languages
           var languages = new ObservableCollection<LanguageMapping>();
 
           foreach ( EUiLanguage language in Enum.GetValues(typeof(EUiLanguage)) )
@@ -376,6 +398,24 @@ namespace Org.Vs.TailForWin.Core.Utils
           }
 
           Languages = new ObservableCollection<LanguageMapping>(languages.OrderBy(p => p.Description));
+
+          // WindowStyle
+          foreach ( EWindowStyle style in Enum.GetValues(typeof(EWindowStyle)) )
+          {
+            WindowStyles.Add(new WindowStyleMapping
+            {
+              WindowStyle = style
+            });
+          }
+
+          // FileSort
+          foreach ( EFileSort fileSort in Enum.GetValues(typeof(EFileSort)) )
+          {
+            FileSort.Add(new FileSortMapping
+            {
+              FileSort = fileSort
+            });
+          }
 
           // Fileencoding
           EncodingInfo[] encodings = Encoding.GetEncodings();

@@ -46,7 +46,7 @@ namespace Org.Vs.NUnit.Tests
       Assert.IsFalse(SettingsHelperController.CurrentSettings.ExitWithEscape);
 
       Assert.AreEqual(25, SettingsHelperController.CurrentSettings.LinesRead);
-      //Assert.LessOrEqual(-1, SettingsHelper.CurrentSettings.LogLineLimit);
+      Assert.LessOrEqual(-1, SettingsHelperController.CurrentSettings.LogLineLimit);
       Assert.Greater(SettingsHelperController.CurrentSettings.WindowWidth, -1);
       Assert.AreEqual(1274, SettingsHelperController.CurrentSettings.WindowWidth);
       Assert.Greater(SettingsHelperController.CurrentSettings.WindowHeight, -1);
@@ -80,7 +80,7 @@ namespace Org.Vs.NUnit.Tests
       //Assert.LessOrEqual(SettingsHelper.CurrentSettings.SearchWndXPos, -1);
       //Assert.LessOrEqual(SettingsHelper.CurrentSettings.SearchWndYPos, -1);
 
-      //Assert.AreEqual(EFileSort.FileCreationTime, SettingsHelper.CurrentSettings.DefaultFileSort);
+      Assert.AreEqual(EFileSort.FileCreationTime, SettingsHelperController.CurrentSettings.DefaultFileSort);
 
       Assert.IsNotEmpty(SettingsHelperController.CurrentSettings.ProxySettings.UserName);
       Assert.AreEqual("testuser", SettingsHelperController.CurrentSettings.ProxySettings.UserName);

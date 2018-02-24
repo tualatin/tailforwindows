@@ -186,6 +186,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "CurrentWindowStyle", CurrentSettings.CurrentWindowStyle.ToString());
       WriteValueToSetting(config, "TimeFormat", CurrentSettings.DefaultTimeFormat.ToString());
       WriteValueToSetting(config, "DateFormat", CurrentSettings.DefaultDateFormat.ToString());
+      WriteValueToSetting(config, "FileManagerSort", CurrentSettings.DefaultFileSort.ToString());
+      WriteValueToSetting(config, "LogLineLimit", CurrentSettings.LogLineLimit.ToString());
     }
 
     private void SaveStatusBarSettings(Configuration config)
@@ -253,6 +255,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.DefaultThreadPriority = DefaultEnvironmentSettings.DefaultThreadPriority;
       CurrentSettings.DefaultTimeFormat = DefaultEnvironmentSettings.DefaultTimeFormat;
       CurrentSettings.DefaultDateFormat = DefaultEnvironmentSettings.DefaultDateFormat;
+      CurrentSettings.DefaultFileSort = DefaultEnvironmentSettings.DefaultFileSort;
+      CurrentSettings.LogLineLimit = DefaultEnvironmentSettings.LogLineLimit;
     }
 
     private void SetDefaultStatusBarSettings()
@@ -353,6 +357,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.DefaultThreadPriority = GetThreadPriority(GetStringFromSetting("DefaultThreadPriority"));
       CurrentSettings.DefaultTimeFormat = ReadTimeFormat(GetStringFromSetting("TimeFormat"));
       CurrentSettings.DefaultDateFormat = ReadDateFormat(GetStringFromSetting("DateFormat"));
+      CurrentSettings.DefaultFileSort = ReadFileSortFormat(GetStringFromSetting("FileManagerSort"));
+      CurrentSettings.LogLineLimit = GetIntFromSetting("LogLineLimit");
     }
 
     private void ReadStatusBarSettings()
@@ -456,7 +462,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>Enum from thread priority</returns>
     private static ThreadPriority GetThreadPriority(string s)
     {
-      if ( s == null )
+      if ( string.IsNullOrEmpty(s) )
         return ThreadPriority.Normal;
 
       if ( Enum.GetNames(typeof(ThreadPriority)).All(priorityName => string.Compare(s.ToLower(), priorityName.ToLower(), StringComparison.Ordinal) != 0) )
@@ -505,7 +511,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private static EDateFormat ReadDateFormat(string s)
     {
-      if ( s == null )
+      if ( string.IsNullOrEmpty(s) )
         return EDateFormat.DDMMYYYY;
 
       foreach ( string dateFormat in Enum.GetNames(typeof(EDateFormat)) )
@@ -521,7 +527,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private static ETimeFormat ReadTimeFormat(string s)
     {
-      if ( s == null )
+      if ( string.IsNullOrEmpty(s) )
         return ETimeFormat.HHMMD;
 
       foreach ( string timeFormat in Enum.GetNames(typeof(ETimeFormat)) )
@@ -533,6 +539,19 @@ namespace Org.Vs.TailForWin.Core.Controllers
         return tf;
       }
       return ETimeFormat.HHMMD;
+    }
+
+    private static EFileSort ReadFileSortFormat(string s)
+    {
+      if ( string.IsNullOrEmpty(s) )
+        return EFileSort.FileCreationTime;
+
+      if ( Enum.GetNames(typeof(EFileSort)).All(p => string.Compare(s.ToLower(), p.ToLower(), StringComparison.Ordinal) != 0) )
+        return EFileSort.FileCreationTime;
+
+      Enum.TryParse(s, out EFileSort fileSort);
+
+      return fileSort;
     }
 
     #endregion

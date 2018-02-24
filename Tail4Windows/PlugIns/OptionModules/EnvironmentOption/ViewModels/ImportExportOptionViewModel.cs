@@ -21,9 +21,9 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
   /// <summary>
   /// Import/Export view model
   /// </summary>
-  public class ImportExportViewModel : NotifyMaster
+  public class ImportExportOptionViewModel : NotifyMaster
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof(ImportExportViewModel));
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(ImportExportOptionViewModel));
 
     private CancellationTokenSource _cts;
 

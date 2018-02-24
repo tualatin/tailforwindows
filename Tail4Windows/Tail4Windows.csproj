@@ -180,10 +180,12 @@
     <Compile Include="Business\Data\SystemInformation\IpAddress.cs" />
     <Compile Include="Business\Data\SystemInformation\CpuInfo.cs" />
     <Compile Include="Business\Data\SystemInformation\SystemInformationData.cs" />
-    <Compile Include="Core\Data\DateFormatMapping.cs" />
-    <Compile Include="Core\Data\LanguageMapping.cs" />
+    <Compile Include="Core\Data\Mappings\DateFormatMapping.cs" />
+    <Compile Include="Core\Data\Mappings\FileSortMapping.cs" />
+    <Compile Include="Core\Data\Mappings\LanguageMapping.cs" />
+    <Compile Include="Core\Data\Mappings\WindowStyleMapping.cs" />
     <Compile Include="Core\Data\Settings\EnvironmentColorSettings.cs" />
-    <Compile Include="Core\Data\TimeFormatMapping.cs" />
+    <Compile Include="Core\Data\Mappings\TimeFormatMapping.cs" />
     <Compile Include="Core\Enums\EUiLanguage.cs" />
     <Compile Include="Core\Extensions\ColorExtension.cs" />
     <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
@@ -197,6 +199,9 @@
     </Compile>
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\SysInfoViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ExtraOptionPage.xaml.cs">
+      <DependentUpon>ExtraOptionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ImportExportOptionPage.xaml.cs">
       <DependentUpon>ImportExportOptionPage.xaml</DependentUpon>
     </Compile>
@@ -204,12 +209,17 @@
       <DependentUpon>ProxyOptionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\EnvironmentOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ImportExportViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ExtraOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ImportExportOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ProxyOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\SmartWatchOption\SmartWatchOptionPage.xaml.cs">
+      <DependentUpon>SmartWatchOptionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Commands\InvokeDelegateCommandAction.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\InverseBooleanConverter.cs" />
     <Compile Include="UI\Converters\InverseNullToBoolConverter.cs" />
+    <Compile Include="UI\Converters\LogLineLimitConverter.cs" />
     <Compile Include="UI\Converters\NullToBoolConverter.cs" />
     <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\StringToIntConverter.cs" />
@@ -272,7 +282,7 @@
     <Compile Include="Core\Data\Settings\SmtpSetting.cs" />
     <Compile Include="Core\Data\TailData.cs" />
     <Compile Include="Core\Data\TailDataMemento.cs" />
-    <Compile Include="Core\Data\ThreadPriorityMapping.cs" />
+    <Compile Include="Core\Data\Mappings\ThreadPriorityMapping.cs" />
     <Compile Include="Core\Data\XmlNames\XmlBaseStructure.cs" />
     <Compile Include="Core\Enums\EDateFormat.cs" />
     <Compile Include="Core\Enums\EFileManagerState.cs" />
@@ -414,11 +424,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="PlugIns\OptionModules\EnvironmentOption\ExtraOptionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PlugIns\OptionModules\EnvironmentOption\ImportExportOptionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlugIns\OptionModules\EnvironmentOption\ProxyOptionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\OptionModules\SmartWatchOption\SmartWatchOptionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -697,7 +715,6 @@
     <Folder Include="PlugIns\OptionModules\ColorsOption\" />
     <Folder Include="PlugIns\OptionModules\ExtraOption\" />
     <Folder Include="PlugIns\OptionModules\ImportExportOption\" />
-    <Folder Include="PlugIns\OptionModules\SmartWatchOption\" />
     <Folder Include="PlugIns\PatternModule\ViewModels\" />
     <Folder Include="PlugIns\SmartWatchModule\Controller\" />
     <Folder Include="PlugIns\SmartWatchModule\Data\" />

@@ -40,6 +40,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       DefaultThreadPriority = memento.DefaultThreadPriority;
       DefaultTimeFormat = memento.DefaultTimeFormat;
       DefaultDateFormat = memento.DefaultDateFormat;
+      DefaultFileSort = memento.DefaultFileSort;
+      LogLineLimit = memento.LogLineLimit;
 
       ProxySettings = (ProxySetting) memento.ProxySettings.Clone();
       AlertSettings = (AlertSetting) memento.AlertSettings.Clone();
@@ -70,6 +72,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         DefaultThreadPriority = obj.DefaultThreadPriority;
         DefaultTimeFormat = obj.DefaultTimeFormat;
         DefaultDateFormat = obj.DefaultDateFormat;
+        DefaultFileSort = obj.DefaultFileSort;
+        LogLineLimit = obj.LogLineLimit;
 
         ProxySettings = (ProxySetting) obj.ProxySettings.Clone();
         AlertSettings = (AlertSetting) obj.AlertSettings.Clone();
@@ -237,6 +241,22 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Default date format
       /// </summary>
       public EDateFormat DefaultDateFormat
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Default file sort
+      /// </summary>
+      public EFileSort DefaultFileSort
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Log line limitation
+      /// </summary>
+      public int LogLineLimit
       {
         get;
       }
