@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Xml;
 using System.Xml.Linq;
 using log4net;
@@ -14,6 +15,8 @@ using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
+
+using FontStyle = System.Drawing.FontStyle;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
@@ -175,68 +178,74 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       Arg.NotNull(tailData, nameof(tailData));
       LOG.Trace("Add TailData to XML");
 
-      await Task.Run(() => AddTailDataToXmlFile(tailData)).ConfigureAwait(false);
+      await Task.Run(async () =>
+      {
+        try
+        {
+          if ( !File.Exists(_fileManagerFile) )
+          {
+            _xmlDocument = new XDocument(new XElement(XmlNames.FileManagerXmlRoot));
+            _xmlDocument.Root?.Add(new XElement(XmlNames.XmlVersion, XmlNames.CurrentXmlVersion));
+          }
+
+          if ( tailData.FileEncoding == null )
+          {
+            try
+            {
+              tailData.FileEncoding = await EncodingDetector.GetEncodingAsync(tailData.FileName).ConfigureAwait(false);
+            }
+            catch
+            {
+              EnvironmentContainer.ShowErrorMessageBox(Application.Current.TryFindResource("FileNotFound").ToString());
+              return;
+            }
+          }
+
+          if ( tailData.FontType == null )
+            tailData.FontType = EnvironmentContainer.CreateDefaultFont();
+
+          XElement node = new XElement(XmlNames.File,
+            new XElement(XmlNames.Id, tailData.Id),
+            new XElement(XmlNames.FileName, tailData.FileName),
+            new XElement(XmlNames.Description, tailData.Description),
+            new XElement(XmlNames.Category, tailData.Category),
+            new XElement(XmlNames.ThreadPriority, tailData.ThreadPriority),
+            new XElement(XmlNames.NewWindow, tailData.NewWindow),
+            new XElement(XmlNames.RefreshRate, tailData.RefreshRate),
+            new XElement(XmlNames.TimeStamp, tailData.Timestamp),
+            new XElement(XmlNames.RemoveSpace, tailData.RemoveSpace),
+            new XElement(XmlNames.LineWrap, tailData.Wrap),
+            new XElement(XmlNames.FileEncoding, tailData.FileEncoding?.HeaderName),
+            new XElement(XmlNames.UseFilters, tailData.FilterState),
+            new XElement(XmlNames.UsePattern, tailData.UsePattern),
+            new XElement(XmlNames.UseSmartWatch, tailData.SmartWatch),
+            new XElement(XmlNames.Font,
+              new XElement(XmlBaseStructure.Name, tailData.FontType.Name),
+              new XElement(XmlNames.Size, tailData.FontType.Size),
+              new XElement(XmlNames.Bold, tailData.FontType.Bold),
+              new XElement(XmlNames.Italic, tailData.FontType.Italic)),
+            new XElement(XmlNames.SearchPattern,
+              new XElement(XmlBaseStructure.IsRegex, tailData.IsRegex),
+              new XElement(XmlBaseStructure.PatternString, tailData.PatternString)));
+
+          var filters = new XElement(XmlNames.Filters);
+
+          Parallel.ForEach(tailData.ListOfFilter, filter =>
+          {
+            filters.Add(AddFilterToDoc(filter));
+          });
+
+          node.Add(filters);
+          _xmlDocument.Root?.Add(node);
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          EnvironmentContainer.ShowErrorMessageBox(ex.Message);
+        }
+      }).ConfigureAwait(false);
+
       await WriteXmlFileAsync().ConfigureAwait(false);
-    }
-
-    private void AddTailDataToXmlFile(TailData tailData)
-    {
-      try
-      {
-        if ( !File.Exists(_fileManagerFile) )
-        {
-          _xmlDocument = new XDocument(new XElement(XmlNames.FileManagerXmlRoot));
-          _xmlDocument.Root?.Add(new XElement(XmlNames.XmlVersion, XmlNames.CurrentXmlVersion));
-        }
-
-        if ( tailData.FileEncoding == null )
-        {
-          tailData.FileEncoding = Encoding.UTF8;
-          // TODO encoding
-        }
-
-        if ( tailData.FontType == null )
-          tailData.FontType = EnvironmentContainer.CreateDefaultFont();
-
-        XElement node = new XElement(XmlNames.File,
-          new XElement(XmlNames.Id, tailData.Id),
-          new XElement(XmlNames.FileName, tailData.FileName),
-          new XElement(XmlNames.Description, tailData.Description),
-          new XElement(XmlNames.Category, tailData.Category),
-          new XElement(XmlNames.ThreadPriority, tailData.ThreadPriority),
-          new XElement(XmlNames.NewWindow, tailData.NewWindow),
-          new XElement(XmlNames.RefreshRate, tailData.RefreshRate),
-          new XElement(XmlNames.TimeStamp, tailData.Timestamp),
-          new XElement(XmlNames.RemoveSpace, tailData.RemoveSpace),
-          new XElement(XmlNames.LineWrap, tailData.Wrap),
-          new XElement(XmlNames.FileEncoding, tailData.FileEncoding?.HeaderName),
-          new XElement(XmlNames.UseFilters, tailData.FilterState),
-          new XElement(XmlNames.UsePattern, tailData.UsePattern),
-          new XElement(XmlNames.UseSmartWatch, tailData.SmartWatch),
-          new XElement(XmlNames.Font,
-            new XElement(XmlBaseStructure.Name, tailData.FontType.Name),
-            new XElement(XmlNames.Size, tailData.FontType.Size),
-            new XElement(XmlNames.Bold, tailData.FontType.Bold),
-            new XElement(XmlNames.Italic, tailData.FontType.Italic)),
-          new XElement(XmlNames.SearchPattern,
-            new XElement(XmlBaseStructure.IsRegex, tailData.IsRegex),
-            new XElement(XmlBaseStructure.PatternString, tailData.PatternString)));
-
-        var filters = new XElement(XmlNames.Filters);
-
-        Parallel.ForEach(tailData.ListOfFilter, filter =>
-        {
-          filters.Add(AddFilterToDoc(filter));
-        });
-
-        node.Add(filters);
-        _xmlDocument.Root?.Add(node);
-      }
-      catch ( Exception ex )
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
-      }
     }
 
     /// <summary>

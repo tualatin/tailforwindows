@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
@@ -6,12 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 using NUnit.Framework;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
+using FontStyle = System.Drawing.FontStyle;
 
 
 namespace Org.Vs.NUnit.Tests.XmlTests
@@ -29,6 +31,9 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     protected void SetUp()
     {
       SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext());
+
+      if ( Application.Current == null )
+        Application.LoadComponent(new Uri("/T4W;component/app.xaml", UriKind.Relative));
 
       _currenTestContext = TestContext.CurrentContext;
       _tempPath = _currenTestContext.TestDirectory + @"\Files\FileManager.xml";
@@ -201,8 +206,8 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         Timestamp = true,
         RemoveSpace = true,
         Wrap = true,
-        PatternString = string.Empty,
         FileEncoding = Encoding.UTF8,
+        PatternString = string.Empty,
         FilterState = true,
         UsePattern = true,
         FontType = new Font("Segoe UI", 12f, FontStyle.Bold),
