@@ -71,11 +71,18 @@ namespace Org.Vs.NUnit.Tests.ConverterTests
     public void TestLogLineLimitToLabelConverter()
     {
       var converter = new LogLineLimitToLabelConverter();
-      var labelText = converter.Convert(40000, typeof(int), null, CultureInfo.CurrentCulture);
+      var labelText = converter.Convert(40000D, typeof(string), null, CultureInfo.CurrentCulture);
       Assert.AreEqual("40.000 lines", labelText);
 
-      labelText = converter.Convert(-1, typeof(int), null, CultureInfo.CurrentCulture);
+      labelText = converter.Convert(-1D, typeof(string), null, CultureInfo.CurrentCulture);
       Assert.AreEqual("Unlimited", labelText);
+    }
+
+    [Test]
+    public void TestStringToWindowMediaBrushConverter()
+    {
+      var converter = new StringToWindowMediaBrushConverter();
+      var convertedBrush = converter.Convert("#FFFFFF", typeof(System.Windows.Media.Brush), null, CultureInfo.CurrentCulture);
     }
   }
 }

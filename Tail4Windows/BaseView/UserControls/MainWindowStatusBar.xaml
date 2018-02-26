@@ -1,4 +1,4 @@
-<UserControl
+﻿<UserControl
   x:Class="Org.Vs.TailForWin.BaseView.UserControls.MainWindowStatusBar"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -16,9 +16,10 @@
   </UserControl.DataContext>
   <UserControl.Resources>
     <converters:BackgroundToForegroundConverter x:Key="BackgroundToForegroundConverter" />
+    <converters:StringToWindowMediaBrushConverter x:Key="StringToWindowMediaBrushConverter" />
   </UserControl.Resources>
 
-  <Grid Background="{Binding Source={x:Static businessMainWnd:BusinessMainWndToMainWndStatusBarController.CurrentBusinessData}, Path=CurrentStatusBarBackgroundColor, UpdateSourceTrigger=PropertyChanged}">
+  <Grid Background="{Binding Source={x:Static businessMainWnd:BusinessMainWndToMainWndStatusBarController.CurrentBusinessData}, Path=CurrentStatusBarBackgroundColorHex, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}">
     <Grid.ColumnDefinitions>
       <ColumnDefinition />
       <ColumnDefinition />

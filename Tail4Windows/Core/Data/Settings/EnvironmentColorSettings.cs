@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Data.Base;
 
 
@@ -12,57 +11,57 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
   {
     #region StatusBar settings
 
-    private Brush _statusBarInactiveBackgroundColor;
+    private string _statusBarInactiveBackgroundColorHex;
 
     /// <summary>
-    /// StatusBar inactive background color
+    /// StatusBar inactive background color as hex string
     /// </summary>
-    public Brush StatusBarInactiveBackgroundColor
+    public string StatusBarInactiveBackgroundColorHex
     {
-      get => _statusBarInactiveBackgroundColor;
+      get => _statusBarInactiveBackgroundColorHex;
       set
       {
-        if ( Equals(value, _statusBarInactiveBackgroundColor) )
+        if ( Equals(value, _statusBarInactiveBackgroundColorHex) )
           return;
 
-        _statusBarInactiveBackgroundColor = value;
-        OnPropertyChanged(nameof(StatusBarInactiveBackgroundColor));
+        _statusBarInactiveBackgroundColorHex = value;
+        OnPropertyChanged(nameof(StatusBarInactiveBackgroundColorHex));
       }
     }
 
-    private Brush _statusBarFileLoadedBackgroundColor;
+    private string _statusBarFileLoadedBackgroundColorHex;
 
     /// <summary>
-    /// StatusBar file loaded background color
+    /// StatusBar file loaded background color as hex string
     /// </summary>
-    public Brush StatusBarFileLoadedBackgroundColor
+    public string StatusBarFileLoadedBackgroundColorHex
     {
-      get => _statusBarFileLoadedBackgroundColor;
+      get => _statusBarFileLoadedBackgroundColorHex;
       set
       {
-        if ( Equals(value, _statusBarFileLoadedBackgroundColor) )
+        if ( Equals(value, _statusBarFileLoadedBackgroundColorHex) )
           return;
 
-        _statusBarFileLoadedBackgroundColor = value;
-        OnPropertyChanged(nameof(StatusBarFileLoadedBackgroundColor));
+        _statusBarFileLoadedBackgroundColorHex = value;
+        OnPropertyChanged(nameof(StatusBarFileLoadedBackgroundColorHex));
       }
     }
 
-    private Brush _statusBarTailBackgroundColor;
+    private string _statusBarTailBackgroundColorHex;
 
     /// <summary>
     /// StatusBar tail background color
     /// </summary>
-    public Brush StatusBarTailBackgroundColor
+    public string StatusBarTailBackgroundColorHex
     {
-      get => _statusBarTailBackgroundColor;
+      get => _statusBarTailBackgroundColorHex;
       set
       {
-        if ( Equals(value, _statusBarTailBackgroundColor) )
+        if ( Equals(value, _statusBarTailBackgroundColorHex) )
           return;
 
-        _statusBarTailBackgroundColor = value;
-        OnPropertyChanged(nameof(StatusBarTailBackgroundColor));
+        _statusBarTailBackgroundColorHex = value;
+        OnPropertyChanged(nameof(StatusBarTailBackgroundColorHex));
       }
     }
 

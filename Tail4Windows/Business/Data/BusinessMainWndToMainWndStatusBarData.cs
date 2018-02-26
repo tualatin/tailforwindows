@@ -1,5 +1,4 @@
-using System.Windows.Media;
-using Org.Vs.TailForWin.Core.Data.Base;
+﻿using Org.Vs.TailForWin.Core.Data.Base;
 
 
 namespace Org.Vs.TailForWin.Business.Data
@@ -9,18 +8,21 @@ namespace Org.Vs.TailForWin.Business.Data
   /// </summary>
   public class BusinessMainWndToMainWndStatusBarData : NotifyMaster
   {
-    private Brush _currentStatusBarBackgroundColor;
+    private string _currentStatusBarBackgroundColorHex;
 
     /// <summary>
     /// Current StatusBar background color;
     /// </summary>
-    public Brush CurrentStatusBarBackgroundColor
+    public string CurrentStatusBarBackgroundColorHex
     {
-      get => _currentStatusBarBackgroundColor;
+      get => _currentStatusBarBackgroundColorHex;
       set
       {
-        _currentStatusBarBackgroundColor = value;
-        OnPropertyChanged(nameof(CurrentStatusBarBackgroundColor));
+        if ( Equals(value, _currentStatusBarBackgroundColorHex) )
+          return;
+
+        _currentStatusBarBackgroundColorHex = value;
+        OnPropertyChanged(nameof(CurrentStatusBarBackgroundColorHex));
       }
     }
 
