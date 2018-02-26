@@ -6,8 +6,6 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
-  xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-  xmlns:ui="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   mc:Ignorable="d"
   d:DesignHeight="300"
@@ -170,16 +168,6 @@
         TickFrequency="50000"
         TickPlacement="BottomRight"
         >
-
-        <intr:Interaction.Triggers>
-          <intr:EventTrigger EventName="ValueChanged">
-            <ui:InvokeDelegateCommandAction
-              Command="{Binding SliderValueChangedCommand}"
-              CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
-              />
-          </intr:EventTrigger>
-        </intr:Interaction.Triggers>
-
         <Slider.ToolTip>
           <StackPanel>
             <TextBlock
