@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Media;
 using NUnit.Framework;
 using Org.Vs.TailForWin.Core.Utils;
@@ -10,6 +12,13 @@ namespace Org.Vs.NUnit.Tests.ConverterTests
   [TestFixture]
   public class ConverterTest
   {
+    [SetUp]
+    protected void SetUp()
+    {
+      if ( Application.Current == null )
+        Application.LoadComponent(new Uri("/T4W;component/app.xaml", UriKind.Relative));
+    }
+
     [Test]
     public void TestColorToBrushConverter()
     {
@@ -56,6 +65,17 @@ namespace Org.Vs.NUnit.Tests.ConverterTests
 
       convertedInt = converter.Convert(1080, typeof(int), null, CultureInfo.CurrentCulture);
       Assert.AreEqual(1080, convertedInt);
+    }
+
+    [Test]
+    public void TestLogLineLimitToLabelConverter()
+    {
+      var converter = new LogLineLimitToLabelConverter();
+      var labelText = converter.Convert(40000, typeof(int), null, CultureInfo.CurrentCulture);
+      Assert.AreEqual("40.000 lines", labelText);
+
+      labelText = converter.Convert(-1, typeof(int), null, CultureInfo.CurrentCulture);
+      Assert.AreEqual("Unlimited", labelText);
     }
   }
 }

@@ -9,17 +9,13 @@
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:ui="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
-  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="300"
   d:DesignWidth="300"
   >
-  <UserControl.DataContext>
-    <viewModels:ExtraOptionViewModel />
-  </UserControl.DataContext>
-
   <UserControl.Resources>
     <converters:LogLineLimitConverter x:Key="LogLineLimitConverter" />
+    <converters:LogLineLimitToLabelConverter x:Key="LogLineLimitToLabelConverter" />
   </UserControl.Resources>
 
   <ScrollViewer
@@ -159,6 +155,7 @@
         Content="{DynamicResource ExtrasLogLineLimit}"
         />
       <Slider
+        Name="LogLineLimit"
         Grid.Row="2"
         Grid.Column="1"
         VerticalAlignment="Center"
@@ -220,7 +217,7 @@
         Grid.Column="1"
         Margin="0 0 10 0"
         HorizontalAlignment="Right"
-        Content="{Binding LogLineLimit, UpdateSourceTrigger=PropertyChanged}"
+        Content="{Binding ElementName=LogLineLimit, Path=Value, Converter={StaticResource LogLineLimitToLabelConverter}, UpdateSourceTrigger=PropertyChanged}"
         FontSize="10"
         FontWeight="SemiBold"
         />

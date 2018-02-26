@@ -21,10 +21,7 @@ namespace Org.Vs.NUnit.Tests
     private ISettingsHelper _currentSettings;
 
     [SetUp]
-    protected void SetUp()
-    {
-      _currentSettings = new SettingsHelperController();
-    }
+    protected void SetUp() => _currentSettings = new SettingsHelperController();
 
     [Test]
     public async Task TestSettingsHelperReadSettingsAsync()

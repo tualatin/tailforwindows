@@ -209,7 +209,6 @@
       <DependentUpon>ProxyOptionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\EnvironmentOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ExtraOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ImportExportOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ProxyOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\SmartWatchOption\SmartWatchOptionPage.xaml.cs">
@@ -220,6 +219,7 @@
     <Compile Include="UI\Converters\InverseBooleanConverter.cs" />
     <Compile Include="UI\Converters\InverseNullToBoolConverter.cs" />
     <Compile Include="UI\Converters\LogLineLimitConverter.cs" />
+    <Compile Include="UI\Converters\LogLineLimitToLabelConverter.cs" />
     <Compile Include="UI\Converters\NullToBoolConverter.cs" />
     <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\StringToIntConverter.cs" />
