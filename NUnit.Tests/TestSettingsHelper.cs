@@ -58,9 +58,9 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(WindowState.Normal, SettingsHelperController.CurrentSettings.CurrentWindowState);
       Assert.AreEqual(EWindowStyle.ModernBlueWindowStyle, SettingsHelperController.CurrentSettings.CurrentWindowStyle);
 
-      Assert.AreEqual(EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor).ToString(), SettingsHelperController.CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColor.ToString());
-      Assert.AreEqual(EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor).ToString(), SettingsHelperController.CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColor.ToString());
-      Assert.AreEqual(EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarTailBackgroundColor).ToString(), SettingsHelperController.CurrentSettings.ColorSettings.StatusBarTailBackgroundColor.ToString());
+      Assert.AreEqual(EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor).ToString(), SettingsHelperController.CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex);
+      Assert.AreEqual(EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor).ToString(), SettingsHelperController.CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex);
+      Assert.AreEqual(EnvironmentContainer.ConvertHexStringToBrush(DefaultEnvironmentSettings.StatusBarTailBackgroundColor).ToString(), SettingsHelperController.CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex);
 
       Assert.AreEqual(ETimeFormat.HHMMD, SettingsHelperController.CurrentSettings.DefaultTimeFormat);
       Assert.AreEqual(EDateFormat.DDMMYYYY, SettingsHelperController.CurrentSettings.DefaultDateFormat);

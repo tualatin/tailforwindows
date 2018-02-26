@@ -24,6 +24,7 @@
         <ResourceDictionary Source="BaseView/UserControls/Styles/TailForWinTabItem.xaml" />
         <ResourceDictionary Source="BaseView/Styles/TitleBarWindowIconStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/TitleBarButtonsStyle.xaml" />
+        <ResourceDictionary Source="BaseView/Styles/SettingsGridStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/BlueWindowStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/LightWindowStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/ContextMenuItem.xaml" />

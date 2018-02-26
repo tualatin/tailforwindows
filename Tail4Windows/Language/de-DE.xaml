@@ -58,6 +58,7 @@
   <system:String x:Key="QuickSearchToolTip">Schnellsuche im aktuellen Tail-Fenster (CTRL+Q)</system:String>
   <system:String x:Key="QuickSearchEnterToolTip">Suche</system:String>
   <system:String x:Key="OptionsSystemMenu">Einstellungen...</system:String>
+  <system:String x:Key="OptionsSystemMenuToolTip">Öffnet die Einstellungen</system:String>
   <system:String x:Key="CancelText">Abbruch</system:String>
 
   <system:String

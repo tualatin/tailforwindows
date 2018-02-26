@@ -58,6 +58,7 @@
   <system:String x:Key="QuickSearchToolTip">Quick search in current TailWindow (CTRL+Q)</system:String>
   <system:String x:Key="QuickSearchEnterToolTip">Search</system:String>
   <system:String x:Key="OptionsSystemMenu">Settings...</system:String>
+  <system:String x:Key="OptionsSystemMenuToolTip">Opens the settings dialog</system:String>
   <system:String x:Key="CancelText">Cancel</system:String>
 
   <system:String

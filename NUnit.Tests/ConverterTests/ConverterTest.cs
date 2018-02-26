@@ -83,6 +83,7 @@ namespace Org.Vs.NUnit.Tests.ConverterTests
     {
       var converter = new StringToWindowMediaBrushConverter();
       var convertedBrush = converter.Convert("#FFFFFF", typeof(System.Windows.Media.Brush), null, CultureInfo.CurrentCulture);
+      Assert.AreEqual(System.Windows.Media.Brushes.White.ToString(), convertedBrush?.ToString());
     }
   }
 }

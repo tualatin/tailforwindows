@@ -29,6 +29,7 @@ namespace Org.Vs.TailForWin.BaseView
 
       SourceInitialized += T4WindowSourceInitialized;
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowNotificationPopUpMessage>(PopUpVisibilityChanged);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSettingsDialogMessage>(OpenSettingsDialog);
     }
 
     #region Events
@@ -58,11 +59,7 @@ namespace Org.Vs.TailForWin.BaseView
 
         if ( wParam.ToInt32() == 1000 )
         {
-          var options = new Options
-          {
-            Owner = this
-          };
-          options.ShowDialog();
+          OpenSettingsDialog();
           handled = true;
         }
         break;
@@ -121,6 +118,15 @@ namespace Org.Vs.TailForWin.BaseView
       return IntPtr.Zero;
     }
 
+    private void OpenSettingsDialog()
+    {
+      var options = new Options
+      {
+        Owner = this
+      };
+      options.ShowDialog();
+    }
+
     /// <summary>
     /// This is required, when the window has own WPF style, it's maximized, that the window hides taskbar
     /// The reason is, the window style <c>None</c>
@@ -155,6 +161,15 @@ namespace Org.Vs.TailForWin.BaseView
     #endregion
 
     #region Messages
+
+    private void OpenSettingsDialog(OpenSettingsDialogMessage args)
+    {
+      if ( args == null )
+        return;
+
+      if ( args.OpenSettings )
+        OpenSettingsDialog();
+    }
 
     private void PopUpVisibilityChanged(ShowNotificationPopUpMessage args)
     {

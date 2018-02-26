@@ -175,7 +175,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseView\StyleableWindow\OpenSettingsDialogBehavior.cs" />
     <Compile Include="Business\Controllers\SystemInformationController.cs" />
+    <Compile Include="Business\Data\Messages\OpenSettingsDialogMessage.cs" />
     <Compile Include="Business\Data\Messages\ShowNotificationPopUpMessage.cs" />
     <Compile Include="Business\Data\SystemInformation\IpAddress.cs" />
     <Compile Include="Business\Data\SystemInformation\CpuInfo.cs" />
@@ -364,6 +366,10 @@
     <Page Include="BaseView\Styles\LightWindowStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="BaseView\Styles\SettingsGridStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="BaseView\Styles\TitleBarButtonsStyle.xaml">
       <SubType>Designer</SubType>
