@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
 
 
@@ -18,5 +19,10 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption
     /// Current page title
     /// </summary>
     public string PageTitle => Application.Current.TryFindResource("AlertOptionPageTitle").ToString();
+
+    /// <summary>
+    /// Page GuId
+    /// </summary>
+    public Guid PageId => Guid.Parse("a9c97f17-c00e-405a-a6ae-5834230ee4c6");
   }
 }

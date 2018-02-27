@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
 
 
@@ -18,5 +19,10 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption
     /// Current page title
     /// </summary>
     public string PageTitle => Application.Current.TryFindResource("AboutOptionPageTitle").ToString();
+
+    /// <summary>
+    /// Page GuId
+    /// </summary>
+    public Guid PageId => Guid.Parse("bf8d441f-14f9-42f4-bcb5-db3e0ec3e774");
   }
 }

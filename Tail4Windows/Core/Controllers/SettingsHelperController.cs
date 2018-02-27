@@ -56,6 +56,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       var settings = new Dictionary<string, string>
       {
+        { "LastViewedOptionPage", Guid.Empty.ToString() },
         { "Language", DefaultEnvironmentSettings.Language.ToString() },
         { "StatusBarInactiveBackgroundColor", DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor },
         { "StatusBarFileLoadedBackgroundColor", DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor },
@@ -164,6 +165,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SaveWindowSettings(Configuration config)
     {
+      WriteValueToSetting(config, "LastViewedOptionPage", CurrentSettings.LastViewedOptionPage.ToString());
       WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
       WriteValueToSetting(config, "AlwaysOnTop", CurrentSettings.AlwaysOnTop);
       WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
@@ -233,6 +235,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SetDefaultWindowSettings()
     {
+      CurrentSettings.LastViewedOptionPage = Guid.Empty;
       CurrentSettings.Language = DefaultEnvironmentSettings.Language;
       CurrentSettings.CurrentWindowStyle = DefaultEnvironmentSettings.CurrentWindowStyle;
       CurrentSettings.AlwaysOnTop = DefaultEnvironmentSettings.AlwaysOnTop;
@@ -334,6 +337,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void ReadWindowSettings()
     {
+      CurrentSettings.LastViewedOptionPage = Guid.Parse(GetStringFromSetting("LastViewedOptionPage"));
       CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
       CurrentSettings.AlwaysOnTop = GetBoolFromSetting("AlwaysOnTop");
       CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");

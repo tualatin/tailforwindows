@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Threading;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
@@ -467,7 +468,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
-
+    /// <summary>
+    /// Last viewed option page
+    /// </summary>
+    public Guid LastViewedOptionPage
+    {
+      get;
+      set;
+    }
 
     #region ProxySettings
 

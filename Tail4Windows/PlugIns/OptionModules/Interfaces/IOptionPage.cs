@@ -1,4 +1,7 @@
-﻿namespace Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces
+﻿using System;
+
+
+namespace Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces
 {
   /// <summary>
   /// Interface for option pages
@@ -9,6 +12,14 @@
     /// Current page title
     /// </summary>
     string PageTitle
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Page GuId
+    /// </summary>
+    Guid PageId
     {
       get;
     }

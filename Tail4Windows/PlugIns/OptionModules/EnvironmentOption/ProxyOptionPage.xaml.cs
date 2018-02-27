@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -25,6 +26,11 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption
     /// Current page title
     /// </summary>
     public string PageTitle => Application.Current.TryFindResource("EnvironmentProxyOptionPageTitle").ToString();
+
+    /// <summary>
+    /// Page GuId
+    /// </summary>
+    public Guid PageId => Guid.Parse("f4353144-21ba-4c61-a32d-539312079377");
 
     private void UserControlLoaded(object sender, RoutedEventArgs e)
     {

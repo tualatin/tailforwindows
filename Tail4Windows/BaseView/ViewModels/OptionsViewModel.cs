@@ -96,7 +96,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
 
       InitializeOptionPages();
-      InitializeOptionView();
+      NotifyTaskCompletion.Create(InitializeOptionViewAsync);
     }
 
     #region Commands
@@ -141,6 +141,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( _mementoSettings != null )
         SettingsHelperController.CurrentSettings.RestoreFromMemento(_mementoSettings);
 
+      SettingsHelperController.CurrentSettings.LastViewedOptionPage = CurrentViewModel.PageId;
       _mementoSettings = null;
 
       _cts.Cancel();
@@ -151,7 +152,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       MouseService.SetBusyState();
 
+      SettingsHelperController.CurrentSettings.LastViewedOptionPage = CurrentViewModel.PageId;
       _mementoSettings = null;
+
       await EnvironmentContainer.Instance.SaveSettingsAsync(_cts).ConfigureAwait(false);
     }
 
@@ -199,27 +202,87 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       };
     }
 
-    private void InitializeOptionView()
+    private async Task InitializeOptionViewAsync()
     {
       if ( Root == null || Root.Count == 0 )
         return;
 
-      try
-      {
-        foreach ( var node in Root )
-        {
-          node.ApplyCriteria(string.Empty, new Stack<ITreeNodeViewModel>());
-        }
+      MouseService.SetBusyState();
 
-        // Expand and select the first node
-        Root.First().IsExpanded = true;
-        Root.First().IsSelected = true;
-        CurrentViewModel = Root.First().OptionPage;
-      }
-      catch ( Exception ex )
+      await Task.Run(
+        () =>
+        {
+          try
+          {
+            foreach ( var node in Root )
+            {
+              node.ApplyCriteria(string.Empty, new Stack<ITreeNodeViewModel>());
+            }
+
+            TreeNodeOptionViewModel isSelected = null;
+            TreeNodeOptionViewModel parent = null;
+
+            if ( SettingsHelperController.CurrentSettings.LastViewedOptionPage == Guid.Empty )
+            {
+              OpenRootNode();
+              return;
+            }
+
+            foreach ( var treeNodeOptionViewModel in Root )
+            {
+              if ( treeNodeOptionViewModel.OptionPage.PageId == SettingsHelperController.CurrentSettings.LastViewedOptionPage )
+              {
+                isSelected = treeNodeOptionViewModel;
+                parent = treeNodeOptionViewModel;
+                break;
+              }
+              else if ( treeNodeOptionViewModel.Children.Count() != 0 )
+              {
+                isSelected = SelectLastOpenOption((IEnumerable<TreeNodeOptionViewModel>) treeNodeOptionViewModel.Children);
+
+                if ( isSelected == null )
+                  continue;
+
+                parent = treeNodeOptionViewModel;
+                break;
+              }
+            }
+
+            if ( isSelected == null )
+            {
+              OpenRootNode();
+              return;
+            }
+
+            parent.IsExpanded = true;
+            isSelected.IsSelected = true;
+            CurrentViewModel = isSelected.OptionPage;
+          }
+          catch ( Exception ex )
+          {
+            LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+          }
+        }, _cts.Token).ConfigureAwait(false);
+    }
+
+    private void OpenRootNode()
+    {
+      // Expand and select the first node
+      Root.First().IsExpanded = true;
+      Root.First().IsSelected = true;
+      CurrentViewModel = Root.First().OptionPage;
+    }
+
+    private TreeNodeOptionViewModel SelectLastOpenOption(IEnumerable<TreeNodeOptionViewModel> node)
+    {
+      foreach ( var treeNodeOptionViewModel in node )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        if ( treeNodeOptionViewModel.OptionPage.PageId == SettingsHelperController.CurrentSettings.LastViewedOptionPage )
+          return treeNodeOptionViewModel;
+        else if ( treeNodeOptionViewModel.Children.Count() != 0 )
+          return SelectLastOpenOption((IEnumerable<TreeNodeOptionViewModel>) treeNodeOptionViewModel.Children);
       }
+      return null;
     }
 
     #endregion
