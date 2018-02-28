@@ -206,7 +206,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
     #endregion
 
-    #region ProxySettings
+    #region Proxy settings
 
     /// <summary>
     /// Default value proxy use system settings
@@ -233,6 +233,83 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// </summary>
     public const string ProxyPassword = "";
 
+    #endregion
+
+    #region Alert settings
+
+    /// <summary>
+    /// Default value alert bring to front
+    /// </summary>
+    public const bool AlertBringToFront = false;
+
+    /// <summary>
+    /// Default value alert play sound file
+    /// </summary>
+    public const bool AlertPlaySoundFile = false;
+
+    /// <summary>
+    /// Default value alert send E-Mail
+    /// </summary>
+    public const bool AlertSendMail = false;
+
+    /// <summary>
+    /// Default value alert PopUp window
+    /// </summary>
+    public const bool AlertPopUpWindow = false;
+
+    /// <summary>
+    /// Default value E-Mail address
+    /// </summary>
+    public const string AlertMailAddress = "NoMail";
+
+    /// <summary>
+    /// Default value sound file
+    /// </summary>
+    public const string AlertSoundFile = "NoFile";
+
+    #endregion
+
+    #region SMTP settings
+
+    /// <summary>
+    /// Default value SMTP SSL
+    /// </summary>
+    public const bool SmtpSsl = true;
+
+    /// <summary>
+    /// Default value SMTP TLS
+    /// </summary>
+    public const bool SmtpTls = false;
+
+    /// <summary>
+    /// Default value SMTP port
+    /// </summary>
+    public const int SmtpPort = 25;
+
+    /// <summary>
+    /// Default value SMTP server
+    /// </summary>
+    public const string SmtpServer = "";
+
+    /// <summary>
+    /// Default value SMTP login name
+    /// </summary>
+    public const string SmtpUsername = "";
+
+    /// <summary>
+    /// Default value SMTP password
+    /// </summary>
+    public const string SmtpPassword = "";
+
+    /// <summary>
+    /// Default value SMTP from E-Mail address
+    /// </summary>
+    public const string SmtpFromMailAddress = "";
+
+    /// <summary>
+    /// Default value SMTP E-Mail subject
+    /// </summary>
+    public const string SmtpSubject = "";
 
     #endregion
   }

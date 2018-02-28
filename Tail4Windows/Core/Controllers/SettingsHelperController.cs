@@ -318,11 +318,24 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SetDefaultAlertSettings()
     {
-
+      CurrentSettings.AlertSettings.BringToFront = DefaultEnvironmentSettings.AlertBringToFront;
+      CurrentSettings.AlertSettings.PlaySoundFile = DefaultEnvironmentSettings.AlertPlaySoundFile;
+      CurrentSettings.AlertSettings.SendMail = DefaultEnvironmentSettings.AlertSendMail;
+      CurrentSettings.AlertSettings.PopupWnd = DefaultEnvironmentSettings.AlertPopUpWindow;
+      CurrentSettings.AlertSettings.MailAddress = DefaultEnvironmentSettings.AlertMailAddress;
+      CurrentSettings.AlertSettings.SoundFileName = DefaultEnvironmentSettings.AlertSoundFile;
     }
 
     private void SetDefaultSmptSettings()
     {
+      CurrentSettings.SmtpSettings.Ssl = DefaultEnvironmentSettings.SmtpSsl;
+      CurrentSettings.SmtpSettings.Tls = DefaultEnvironmentSettings.SmtpTls;
+      CurrentSettings.SmtpSettings.SmtpPort = DefaultEnvironmentSettings.SmtpPort;
+      CurrentSettings.SmtpSettings.SmtpServerName = DefaultEnvironmentSettings.SmtpServer;
+      CurrentSettings.SmtpSettings.LoginName = DefaultEnvironmentSettings.SmtpUsername;
+      CurrentSettings.SmtpSettings.Password = DefaultEnvironmentSettings.SmtpPassword;
+      CurrentSettings.SmtpSettings.FromAddress = DefaultEnvironmentSettings.SmtpFromMailAddress;
+      CurrentSettings.SmtpSettings.Subject = DefaultEnvironmentSettings.SmtpSubject;
     }
 
     private void SetDefaultProxySettings()

@@ -9,11 +9,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
   /// </summary>
   public class AlertSetting : NotifyMaster, ICloneable
   {
-    /// <summary>
-    /// Standard constructor
-    /// </summary>
-    public AlertSetting() => SmtpSettings = new SmtpSetting();
-
     private bool _bringToFront;
 
     /// <summary>
@@ -141,19 +136,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         OnPropertyChanged(nameof(MailAddress));
       }
     }
-
-    #region SMTPSettings
-
-    /// <summary>
-    /// SMTP server settings
-    /// </summary>
-    public SmtpSetting SmtpSettings
-    {
-      get;
-      set;
-    }
-
-    #endregion
 
     /// <summary>
     /// Clone the object
