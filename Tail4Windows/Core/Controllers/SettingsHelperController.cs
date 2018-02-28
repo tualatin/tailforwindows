@@ -230,6 +230,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
         SetDefaultWindowSettings();
         SetDefaultStatusBarSettings();
         SetDefaultProxySettings();
+        SetDefaultLogViewerSettings();
+        SetDefaultAlertSettings();
+        SetDefaultSmptSettings();
       }
     }
 
@@ -260,6 +263,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.DefaultDateFormat = DefaultEnvironmentSettings.DefaultDateFormat;
       CurrentSettings.DefaultFileSort = DefaultEnvironmentSettings.DefaultFileSort;
       CurrentSettings.LogLineLimit = DefaultEnvironmentSettings.LogLineLimit;
+      CurrentSettings.SmartWatch = DefaultEnvironmentSettings.SmartWatch;
     }
 
     private void SetDefaultStatusBarSettings()
@@ -267,6 +271,27 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex = DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor;
       CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex = DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor;
       CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex = DefaultEnvironmentSettings.StatusBarTailBackgroundColor;
+    }
+
+    private void SetDefaultLogViewerSettings()
+    {
+      CurrentSettings.ColorSettings.ForegroundColorHex = DefaultEnvironmentSettings.ForegroundColor;
+      CurrentSettings.ColorSettings.BackgroundColorHex = DefaultEnvironmentSettings.BackgroundColor;
+      CurrentSettings.ColorSettings.FindHighlightForegroundColorHex = DefaultEnvironmentSettings.HighlightForegroundColor;
+      CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex = DefaultEnvironmentSettings.HighlightBackgroundColor;
+      CurrentSettings.ColorSettings.InactiveForegroundColorHex = DefaultEnvironmentSettings.InactiveForegroundColor;
+      CurrentSettings.ColorSettings.InactiveBackgroundColorHex = DefaultEnvironmentSettings.InactiveBackgroundColor;
+      CurrentSettings.ColorSettings.LineNumberColorHex = DefaultEnvironmentSettings.LineNumberColor;
+      CurrentSettings.ColorSettings.LineNumberHighlightColorHex = DefaultEnvironmentSettings.HighlightLineNumberColor;
+    }
+
+    private void SetDefaultAlertSettings()
+    {
+
+    }
+
+    private void SetDefaultSmptSettings()
+    {
     }
 
     private void SetDefaultProxySettings()

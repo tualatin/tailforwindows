@@ -21,6 +21,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       AlertSettings = new AlertSetting();
       SmartWatchSettings = new SmartWatchSetting();
       ColorSettings = new EnvironmentColorSettings();
+      SmtpSettings = new SmtpSetting();
     }
 
     private CultureInfo _cultureInfo;
@@ -477,7 +478,25 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       set;
     }
 
-    #region ProxySettings
+    private bool _smartWatch;
+
+    /// <summary>
+    /// Enable SmartWatch
+    /// </summary>
+    public bool SmartWatch
+    {
+      get => _smartWatch;
+      set
+      {
+        if ( value == _smartWatch )
+          return;
+
+        _smartWatch = value;
+        OnPropertyChanged(nameof(SmartWatch));
+      }
+    }
+
+    #region Proxy settings
 
     /// <summary>
     /// Current proxy settings
@@ -490,7 +509,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
     #endregion
 
-    #region AlertSettings
+    #region Alert settings
 
     /// <summary>
     /// Current alert settings
@@ -503,7 +522,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
     #endregion
 
-    #region SmartWatchSettings
+    #region SmartWatch settings
 
     /// <summary>
     /// Current SmartWatch settings
@@ -516,12 +535,25 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
     #endregion
 
-    #region EnvironmentColorSettings
+    #region EnvironmentColor settings
 
     /// <summary>
     /// Environment color settings
     /// </summary>
     public EnvironmentColorSettings ColorSettings
+    {
+      get;
+      set;
+    }
+
+    #endregion
+
+    #region SMTP settings
+
+    /// <summary>
+    /// Current SMTP settings
+    /// </summary>
+    public SmtpSetting SmtpSettings
     {
       get;
       set;

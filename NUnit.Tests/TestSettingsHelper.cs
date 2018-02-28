@@ -29,7 +29,7 @@ namespace Org.Vs.NUnit.Tests
       await _currentSettings.ReadSettingsAsync().ConfigureAwait(false);
 
       Assert.AreEqual(EUiLanguage.English, SettingsHelperController.CurrentSettings.Language);
-      //Assert.IsTrue(SettingsHelper.CurrentSettings.SmartWatch);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.SmartWatch);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.AlwaysScrollToEnd);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.AutoUpdate);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.RestoreWindowSize);
@@ -65,17 +65,14 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(ETimeFormat.HHMMD, SettingsHelperController.CurrentSettings.DefaultTimeFormat);
       Assert.AreEqual(EDateFormat.DDMMYYYY, SettingsHelperController.CurrentSettings.DefaultDateFormat);
 
-      //Assert.AreEqual("#FFFFFFFF", SettingsHelper.CurrentSettings.DefaultForegroundColor);
-      //Assert.AreEqual("#FF001825", SettingsHelper.CurrentSettings.DefaultBackgroundColor);
-      //Assert.AreEqual("#000000", SettingsHelper.CurrentSettings.DefaultInactiveForegroundColor);
-      //Assert.AreEqual("#FFFCFAF5", SettingsHelper.CurrentSettings.DefaultInactiveBackgroundColor);
-      //Assert.AreEqual("#000000", SettingsHelper.CurrentSettings.DefaultHighlightForegroundColor);
-      //Assert.AreEqual("#FFCC00", SettingsHelper.CurrentSettings.DefaultHighlightBackgroundColor);
-      //Assert.AreEqual("#FF41A1FF", SettingsHelper.CurrentSettings.DefaultLineNumbersColor);
-      //Assert.AreEqual("#FF3B7FFE", SettingsHelper.CurrentSettings.DefaultHighlightColor);
-
-      //Assert.LessOrEqual(SettingsHelper.CurrentSettings.SearchWndXPos, -1);
-      //Assert.LessOrEqual(SettingsHelper.CurrentSettings.SearchWndYPos, -1);
+      Assert.AreEqual("#FFFFFFFF", SettingsHelperController.CurrentSettings.ColorSettings.ForegroundColorHex);
+      Assert.AreEqual("#FF001825", SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex);
+      Assert.AreEqual("#000000", SettingsHelperController.CurrentSettings.ColorSettings.InactiveForegroundColorHex);
+      Assert.AreEqual("#FFFCFAF5", SettingsHelperController.CurrentSettings.ColorSettings.InactiveBackgroundColorHex);
+      Assert.AreEqual("#000000", SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightForegroundColorHex);
+      Assert.AreEqual("#FFCC00", SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex);
+      Assert.AreEqual("#FF41A1FF", SettingsHelperController.CurrentSettings.ColorSettings.LineNumberColorHex);
+      Assert.AreEqual("#FF3B7FFE", SettingsHelperController.CurrentSettings.ColorSettings.LineNumberHighlightColorHex);
 
       Assert.AreEqual(EFileSort.FileCreationTime, SettingsHelperController.CurrentSettings.DefaultFileSort);
 

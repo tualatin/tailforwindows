@@ -9,7 +9,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
   /// </summary>
   public class EnvironmentColorSettings : NotifyMaster, ICloneable
   {
-    #region StatusBar settings
+    #region StatusBar colors
 
     private string _statusBarInactiveBackgroundColorHex;
 
@@ -62,6 +62,162 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
         _statusBarTailBackgroundColorHex = value;
         OnPropertyChanged(nameof(StatusBarTailBackgroundColorHex));
+      }
+    }
+
+    #endregion
+
+    #region TailLog viewer colors
+
+    private string _foregroundColorHex;
+
+    /// <summary>
+    /// Log viewer foreground color
+    /// </summary>
+    public string ForegroundColorHex
+    {
+      get => _foregroundColorHex;
+      set
+      {
+        if ( Equals(value, _foregroundColorHex) )
+          return;
+
+        _foregroundColorHex = value;
+        OnPropertyChanged(nameof(ForegroundColorHex));
+      }
+    }
+
+    private string _backgroundColorHex;
+
+    /// <summary>
+    /// Log viewer background color
+    /// </summary>
+    public string BackgroundColorHex
+    {
+      get => _backgroundColorHex;
+      set
+      {
+        if ( Equals(value, _backgroundColorHex) )
+          return;
+
+        _backgroundColorHex = value;
+        OnPropertyChanged(nameof(BackgroundColorHex));
+      }
+    }
+
+    private string _inactiveForegroundColorHex;
+
+    /// <summary>
+    /// Log viewer inactive foreground color
+    /// </summary>
+    public string InactiveForegroundColorHex
+    {
+      get => _inactiveForegroundColorHex;
+      set
+      {
+        if ( Equals(value, _inactiveForegroundColorHex) )
+          return;
+
+        _inactiveForegroundColorHex = value;
+        OnPropertyChanged(nameof(InactiveForegroundColorHex));
+      }
+    }
+
+    private string _inactiveBackgroundColorHex;
+
+    /// <summary>
+    /// Log viewer inactive background color
+    /// </summary>
+    public string InactiveBackgroundColorHex
+    {
+      get => _inactiveBackgroundColorHex;
+      set
+      {
+        if ( Equals(value, _inactiveBackgroundColorHex) )
+          return;
+
+        _inactiveBackgroundColorHex = value;
+        OnPropertyChanged(nameof(InactiveBackgroundColorHex));
+      }
+    }
+
+    #endregion
+
+    #region Find highlight colors
+
+    private string _findHighlightForegroundColorHex;
+
+    /// <summary>
+    /// Find highlight foreground color
+    /// </summary>
+    public string FindHighlightForegroundColorHex
+    {
+      get => _findHighlightForegroundColorHex;
+      set
+      {
+        if ( Equals(value, _findHighlightForegroundColorHex) )
+          return;
+
+        _findHighlightForegroundColorHex = value;
+        OnPropertyChanged(nameof(FindHighlightForegroundColorHex));
+      }
+    }
+
+    private string _findHighlightBackgroundColorHex;
+
+    /// <summary>
+    /// Find highlight background color
+    /// </summary>
+    public string FindHighlightBackgroundColorHex
+    {
+      get => _findHighlightBackgroundColorHex;
+      set
+      {
+        if ( Equals(value, _findHighlightBackgroundColorHex) )
+          return;
+
+        _findHighlightBackgroundColorHex = value;
+        OnPropertyChanged(nameof(FindHighlightBackgroundColorHex));
+      }
+    }
+
+    #endregion
+
+    #region Line number colors
+
+    private string _lineNumberColorHex;
+
+    /// <summary>
+    /// Line number color
+    /// </summary>
+    public string LineNumberColorHex
+    {
+      get => _lineNumberColorHex;
+      set
+      {
+        if ( Equals(value, _lineNumberColorHex) )
+          return;
+
+        _lineNumberColorHex = value;
+        OnPropertyChanged(nameof(LineNumberColorHex));
+      }
+    }
+
+    private string _lineNumberHighlightColorHex;
+
+    /// <summary>
+    /// Line number highlight color
+    /// </summary>
+    public string LineNumberHighlightColorHex
+    {
+      get => _lineNumberHighlightColorHex;
+      set
+      {
+        if ( Equals(value, _lineNumberHighlightColorHex) )
+          return;
+
+        _lineNumberHighlightColorHex = value;
+        OnPropertyChanged(nameof(LineNumberHighlightColorHex));
       }
     }
 

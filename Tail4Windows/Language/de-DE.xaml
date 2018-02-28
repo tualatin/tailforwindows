@@ -78,11 +78,14 @@
   <system:String x:Key="EnvironmentOptionPageTitle">Umgebung</system:String>
   <system:String x:Key="EnvironmentProxyOptionPageTitle">Proxy</system:String>
   <system:String x:Key="EnvironmentImportExportPageTitle">Import/Export</system:String>
+  <system:String x:Key="EnvironmentColorOptionPageTitle">Farben</system:String>
 
   <system:String x:Key="AboutOptionPageTitle">Über</system:String>
   <system:String x:Key="AboutOptionUpdatePageTitle">Update</system:String>
   <system:String x:Key="AboutOptionSysInfoTitle">System Info</system:String>
+
   <system:String x:Key="AlertOptionPageTitle">Alarm</system:String>
+  <system:String x:Key="AlertSmtpOptionPageTitle">SMTP</system:String>
 
   <system:String x:Key="SmartWatchPageTitle">SmartWatch</system:String>
 

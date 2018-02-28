@@ -131,6 +131,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// </summary>
     public const int LogLineLimit = -1;
 
+    /// <summary>
+    /// Default value SmartWatch
+    /// </summary>
+    public const bool SmartWatch = false;
+
     #endregion
 
     #region StatusBar default settings
@@ -149,6 +154,50 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// Default value StatusBarTailBackgroundColor
     /// </summary>
     public const string StatusBarTailBackgroundColor = "#CA5100";
+
+    #endregion
+
+    #region Log viewer default settings
+
+    /// <summary>
+    /// Default value foreground color
+    /// </summary>
+    public const string ForegroundColor = "#000000";
+
+    /// <summary>
+    /// Default value background color
+    /// </summary>
+    public const string BackgroundColor = "#FFFFFF";
+
+    /// <summary>
+    /// Default value inactive foreground color
+    /// </summary>
+    public const string InactiveForegroundColor = "#000000";
+
+    /// <summary>
+    /// Default value inactive background color
+    /// </summary>
+    public const string InactiveBackgroundColor = "#FFFCFAF5";
+
+    /// <summary>
+    /// Default value highlight foreground color
+    /// </summary>
+    public const string HighlightForegroundColor = "#000000";
+
+    /// <summary>
+    /// Default value highlight background color
+    /// </summary>
+    public const string HighlightBackgroundColor = "#FFCC00";
+
+    /// <summary>
+    /// Default value line number color
+    /// </summary>
+    public const string LineNumberColor = "#808080";
+
+    /// <summary>
+    /// Default value highlight line number color
+    /// </summary>
+    public const string HighlightLineNumberColor = "#FF0000FF";
 
     #endregion
 

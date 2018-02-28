@@ -42,11 +42,13 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       DefaultDateFormat = memento.DefaultDateFormat;
       DefaultFileSort = memento.DefaultFileSort;
       LogLineLimit = memento.LogLineLimit;
+      SmartWatch = memento.SmartWatch;
 
       ProxySettings = (ProxySetting) memento.ProxySettings.Clone();
       AlertSettings = (AlertSetting) memento.AlertSettings.Clone();
       SmartWatchSettings = (SmartWatchSetting) memento.SmartWatchSettings.Clone();
       ColorSettings = (EnvironmentColorSettings) memento.ColorSettings.Clone();
+      SmtpSettings = (SmtpSetting) memento.SmtpSettings.Clone();
     }
 
     /// <summary>
@@ -74,11 +76,13 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         DefaultDateFormat = obj.DefaultDateFormat;
         DefaultFileSort = obj.DefaultFileSort;
         LogLineLimit = obj.LogLineLimit;
+        SmartWatch = obj.SmartWatch;
 
         ProxySettings = (ProxySetting) obj.ProxySettings.Clone();
         AlertSettings = (AlertSetting) obj.AlertSettings.Clone();
         SmartWatchSettings = (SmartWatchSetting) obj.SmartWatchSettings.Clone();
         ColorSettings = (EnvironmentColorSettings) obj.ColorSettings.Clone();
+        SmtpSettings = (SmtpSetting) obj.SmtpSettings.Clone();
       }
 
       #region Window settings
@@ -137,6 +141,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Current SmartWatch settings
       /// </summary>
       public SmartWatchSetting SmartWatchSettings
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Current SMTP settings
+      /// </summary>
+      public SmtpSetting SmtpSettings
       {
         get;
       }
@@ -257,6 +269,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Log line limitation
       /// </summary>
       public int LogLineLimit
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Enable SmartWatch
+      /// </summary>
+      public bool SmartWatch
       {
         get;
       }
