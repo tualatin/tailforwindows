@@ -496,6 +496,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private bool _statistics;
+
+    /// <summary>
+    /// Statistics for nerds
+    /// </summary>
+    public bool Statistics
+    {
+      get => _statistics;
+      set
+      {
+        if ( value == _statistics )
+          return;
+
+        _statistics = value;
+        OnPropertyChanged(nameof(Statistics));
+      }
+    }
+
     #region Proxy settings
 
     /// <summary>

@@ -179,4 +179,6 @@
   <system:String x:Key="ExtrasLogLineLimitToolTip">Change the max log lines in log view</system:String>
   <system:String x:Key="ExtrasLogLineLines">lines</system:String>
   <system:String x:Key="ExtrasLogLineUnlimited">Unlimited</system:String>
+  <system:String x:Key="ExtrasStatistics">Statistics</system:String>
+  <system:String x:Key="ExtrasStatisticsToolTip">Switch on/off statistics for nerds</system:String>
 </ResourceDictionary>

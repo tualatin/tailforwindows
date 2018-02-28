@@ -52,7 +52,7 @@
       <Label
         Grid.Row="0"
         Grid.Column="0"
-        Margin="5 0 0 0"
+        Margin="6 0 0 0"
         VerticalAlignment="Center"
         Content="{DynamicResource UiLanguage}"
         />

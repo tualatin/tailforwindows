@@ -115,6 +115,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
           ReadWindowSettings();
           ReadStatusBarSettings();
           ReadProxySettings();
+          ReadLogViewerSettings();
+          ReadAlertSettings();
+          ReadSmtpSettings();
         }
         catch ( ConfigurationErrorsException ex )
         {
@@ -152,6 +155,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
           SaveWindowSettings(config);
           SaveStatusBarSettings(config);
           SaveProxySettings(config);
+          SaveLogViewerSettings(config);
+          SaveAlertSettings(config);
+          SaveSmtpSettings(config);
 
           config.Save(ConfigurationSaveMode.Modified);
           ConfigurationManager.RefreshSection("appSettings");
@@ -190,6 +196,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "DateFormat", CurrentSettings.DefaultDateFormat.ToString());
       WriteValueToSetting(config, "FileManagerSort", CurrentSettings.DefaultFileSort.ToString());
       WriteValueToSetting(config, "LogLineLimit", CurrentSettings.LogLineLimit.ToString());
+      WriteValueToSetting(config, "SmartWatch", CurrentSettings.SmartWatch.ToString());
+      WriteValueToSetting(config, "Statics", CurrentSettings.Statistics.ToString());
     }
 
     private void SaveStatusBarSettings(Configuration config)
@@ -197,6 +205,28 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "StatusBarInactiveBackgroundColor", CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex);
       WriteValueToSetting(config, "StatusBarFileLoadedBackgroundColor", CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex);
       WriteValueToSetting(config, "StatusBarTailBackgroundColor", CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex);
+    }
+
+    private void SaveLogViewerSettings(Configuration config)
+    {
+      WriteValueToSetting(config, "ForegroundColor", CurrentSettings.ColorSettings.ForegroundColorHex);
+      WriteValueToSetting(config, "BackgroundColor", CurrentSettings.ColorSettings.BackgroundColorHex);
+      WriteValueToSetting(config, "InactiveForegroundColor", CurrentSettings.ColorSettings.InactiveForegroundColorHex);
+      WriteValueToSetting(config, "InactiveBackgroundColor", CurrentSettings.ColorSettings.InactiveBackgroundColorHex);
+      WriteValueToSetting(config, "FindHighlightForegroundColor", CurrentSettings.ColorSettings.FindHighlightForegroundColorHex);
+      WriteValueToSetting(config, "FindHighlightBackgroundColor", CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex);
+      WriteValueToSetting(config, "LineNumbersColor", CurrentSettings.ColorSettings.LineNumberColorHex);
+      WriteValueToSetting(config, "HighlightColor", CurrentSettings.ColorSettings.LineNumberHighlightColorHex);
+    }
+
+    private void SaveAlertSettings(Configuration config)
+    {
+
+    }
+
+    private void SaveSmtpSettings(Configuration config)
+    {
+
     }
 
     private void SaveProxySettings(Configuration config)
@@ -264,6 +294,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.DefaultFileSort = DefaultEnvironmentSettings.DefaultFileSort;
       CurrentSettings.LogLineLimit = DefaultEnvironmentSettings.LogLineLimit;
       CurrentSettings.SmartWatch = DefaultEnvironmentSettings.SmartWatch;
+      CurrentSettings.Statistics = DefaultEnvironmentSettings.Statistics;
     }
 
     private void SetDefaultStatusBarSettings()
@@ -388,6 +419,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.DefaultDateFormat = ReadDateFormat(GetStringFromSetting("DateFormat"));
       CurrentSettings.DefaultFileSort = ReadFileSortFormat(GetStringFromSetting("FileManagerSort"));
       CurrentSettings.LogLineLimit = GetIntFromSetting("LogLineLimit");
+      CurrentSettings.Statistics = GetBoolFromSetting("Statics");
     }
 
     private void ReadStatusBarSettings()
@@ -395,6 +427,28 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex = GetStringFromSetting("StatusBarInactiveBackgroundColor");
       CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex = GetStringFromSetting("StatusBarFileLoadedBackgroundColor");
       CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex = GetStringFromSetting("StatusBarTailBackgroundColor");
+    }
+
+    private void ReadLogViewerSettings()
+    {
+      CurrentSettings.ColorSettings.ForegroundColorHex = GetStringFromSetting("ForegroundColor");
+      CurrentSettings.ColorSettings.BackgroundColorHex = GetStringFromSetting("BackgroundColor");
+      CurrentSettings.ColorSettings.InactiveForegroundColorHex = GetStringFromSetting("InactiveForegroundColor");
+      CurrentSettings.ColorSettings.InactiveBackgroundColorHex = GetStringFromSetting("InactiveBackgroundColor");
+      CurrentSettings.ColorSettings.FindHighlightForegroundColorHex = GetStringFromSetting("FindHighlightForegroundColor");
+      CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex = GetStringFromSetting("FindHighlightBackgroundColor");
+      CurrentSettings.ColorSettings.LineNumberColorHex = GetStringFromSetting("LineNumbersColor");
+      CurrentSettings.ColorSettings.LineNumberHighlightColorHex = GetStringFromSetting("HighlightColor");
+    }
+
+    private void ReadAlertSettings()
+    {
+
+    }
+
+    private void ReadSmtpSettings()
+    {
+
     }
 
     private void ReadProxySettings()

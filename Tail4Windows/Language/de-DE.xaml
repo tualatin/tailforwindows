@@ -174,4 +174,6 @@
   <system:String x:Key="ExtrasLogLineLimitToolTip">Das maximale Logzeilenlimit in der Logansicht</system:String>
   <system:String x:Key="ExtrasLogLineLines">Zeilen</system:String>
   <system:String x:Key="ExtrasLogLineUnlimited">Unbegrenzt</system:String>
+  <system:String x:Key="ExtrasStatistics">Statistik</system:String>
+  <system:String x:Key="ExtrasStatisticsToolTip">Statistik für Nerds ein- und ausschalten</system:String>
 </ResourceDictionary>

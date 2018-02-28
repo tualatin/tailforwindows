@@ -8,8 +8,8 @@
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   mc:Ignorable="d"
-  d:DesignHeight="300"
-  d:DesignWidth="300"
+  d:DesignHeight="400"
+  d:DesignWidth="400"
   >
   <UserControl.Resources>
     <converters:LogLineLimitConverter x:Key="LogLineLimitConverter" />
@@ -22,34 +22,30 @@
     >
     <Grid>
       <Grid.ColumnDefinitions>
-        <ColumnDefinition />
+        <ColumnDefinition MinWidth="160" />
         <ColumnDefinition MinWidth="200" />
       </Grid.ColumnDefinitions>
-
       <Grid.RowDefinitions>
-        <RowDefinition Height="30" />
-        <RowDefinition Height="30" />
+        <RowDefinition Height="26" />
+        <RowDefinition Height="26" />
         <RowDefinition Height="40" />
         <RowDefinition Height="20" />
-        <RowDefinition Height="146" />
+        <RowDefinition Height="26" />
+        <RowDefinition Height="*" />
         <RowDefinition />
       </Grid.RowDefinitions>
 
       <Label
         Grid.Column="0"
-        Width="92"
-        Height="16"
-        Margin="0 7"
-        HorizontalAlignment="Left"
+        Margin="6 0 0 0"
         VerticalAlignment="Center"
         Content="{DynamicResource ExtrasFileSort}"
         />
       <ComboBox
         Grid.Row="0"
         Grid.Column="1"
-        MinWidth="180"
-        Margin="10 4"
-        HorizontalAlignment="Left"
+        Height="23"
+        Margin="6 0 0 0"
         DisplayMemberPath="Description"
         ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=FileSort}"
         SelectedValue="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=DefaultFileSort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -91,19 +87,15 @@
       <Label
         Grid.Row="1"
         Grid.Column="0"
-        Width="72"
-        Height="16"
-        Margin="0 7"
-        HorizontalAlignment="Left"
+        Margin="6 0 0 0"
         VerticalAlignment="Center"
         Content="{DynamicResource ExtrasWindowStyleLabel}"
         />
       <ComboBox
         Grid.Row="1"
         Grid.Column="1"
-        MinWidth="180"
-        Margin="10 4"
-        HorizontalAlignment="Left"
+        Height="23"
+        Margin="6 0 0 0"
         DisplayMemberPath="Description"
         ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=WindowStyles}"
         SelectedValue="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=CurrentWindowStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -145,10 +137,7 @@
       <Label
         Grid.Row="2"
         Grid.Column="0"
-        Width="72"
-        Height="16"
-        Margin="0 7"
-        HorizontalAlignment="Left"
+        Margin="6 0 0 0"
         VerticalAlignment="Center"
         Content="{DynamicResource ExtrasLogLineLimit}"
         />
@@ -209,6 +198,46 @@
         FontSize="10"
         FontWeight="SemiBold"
         />
+
+      <CheckBox
+        Grid.Row="4"
+        Grid.Column="0"
+        Height="22"
+        Content="{DynamicResource ExtrasStatistics}"
+        IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=Statistics, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+        TabIndex="1"
+        >
+        <CheckBox.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource ExtrasStatistics}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource ExtrasStatisticsToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </CheckBox.ToolTip>
+      </CheckBox>
     </Grid>
   </ScrollViewer>
 </UserControl>

@@ -136,6 +136,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// </summary>
     public const bool SmartWatch = false;
 
+    /// <summary>
+    /// Default value Statistics
+    /// </summary>
+    public const bool Statistics = false;
+
     #endregion
 
     #region StatusBar default settings

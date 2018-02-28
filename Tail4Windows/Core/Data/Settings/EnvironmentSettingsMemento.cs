@@ -43,6 +43,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       DefaultFileSort = memento.DefaultFileSort;
       LogLineLimit = memento.LogLineLimit;
       SmartWatch = memento.SmartWatch;
+      Statistics = memento.Statistics;
 
       ProxySettings = (ProxySetting) memento.ProxySettings.Clone();
       AlertSettings = (AlertSetting) memento.AlertSettings.Clone();
@@ -77,6 +78,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         DefaultFileSort = obj.DefaultFileSort;
         LogLineLimit = obj.LogLineLimit;
         SmartWatch = obj.SmartWatch;
+        Statistics = obj.Statistics;
 
         ProxySettings = (ProxySetting) obj.ProxySettings.Clone();
         AlertSettings = (AlertSetting) obj.AlertSettings.Clone();
@@ -277,6 +279,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Enable SmartWatch
       /// </summary>
       public bool SmartWatch
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Statistics for nerds
+      /// </summary>
+      public bool Statistics
       {
         get;
       }
