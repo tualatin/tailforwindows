@@ -171,6 +171,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         new TreeNodeOptionViewModel(new ExtraOptionPage(), null),
         new TreeNodeOptionViewModel(new ColorOptionPage(), null),
         new TreeNodeOptionViewModel(new ProxyOptionPage(), null),
+        new TreeNodeOptionViewModel(new SmtpOptionPage(), null),
         new TreeNodeOptionViewModel(new ImportExportOptionPage(), null)
       }, "system.ico");
 
@@ -184,7 +185,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       var optionPage3 = new TreeNodeOptionViewModel(alert, new[]
       {
         new TreeNodeOptionViewModel(alert, null),
-        new TreeNodeOptionViewModel(new SmtpOptionPage(), null)
       }, "alert.ico");
 
       var about = new AboutOptionPage();

@@ -85,5 +85,16 @@ namespace Org.Vs.NUnit.Tests.ConverterTests
       var convertedBrush = converter.Convert("#FFFFFF", typeof(System.Windows.Media.Brush), null, CultureInfo.CurrentCulture);
       Assert.AreEqual(System.Windows.Media.Brushes.White.ToString(), convertedBrush?.ToString());
     }
+
+    [Test]
+    public void TestSmtpPortConverter()
+    {
+      var converter = new SmtpPortConverter();
+      var convertedPort = converter.Convert(0, typeof(int), null, CultureInfo.CurrentCulture);
+      Assert.AreEqual(25, convertedPort);
+
+      convertedPort = converter.Convert(587, typeof(int), null, CultureInfo.CurrentCulture);
+      Assert.AreEqual(587, convertedPort);
+    }
   }
 }

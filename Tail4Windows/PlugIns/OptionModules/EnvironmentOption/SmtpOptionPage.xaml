@@ -1,0 +1,231 @@
+﻿<UserControl
+  x:Class="Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.SmtpOptionPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
+  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  mc:Ignorable="d"
+  d:DesignHeight="400"
+  d:DesignWidth="400"
+  >
+  <UserControl.Resources>
+    <converters:SmtpPortConverter x:Key="SmtpPortConverter" />
+    <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+  </UserControl.Resources>
+
+  <ScrollViewer
+    HorizontalScrollBarVisibility="Auto"
+    VerticalScrollBarVisibility="Auto"
+    >
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="26" />
+        <RowDefinition Height="26" />
+        <RowDefinition Height="10" />
+        <RowDefinition Height="26" />
+        <RowDefinition Height="26" />
+        <RowDefinition Height="26" />
+        <RowDefinition Height="26" />
+        <RowDefinition Height="34*" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="90" />
+        <ColumnDefinition />
+        <ColumnDefinition Width="118" />
+      </Grid.ColumnDefinitions>
+
+      <Label
+        Margin="6 0 0 0"
+        VerticalAlignment="Center"
+        Content="{DynamicResource SmtpServer}"
+        />
+      <Label
+        Grid.Row="0"
+        Grid.Column="2"
+        Margin="6 0 0 0"
+        VerticalAlignment="Center"
+        Content="{DynamicResource SmtpPort}"
+        />
+
+      <userControls:WatermarkTextBox
+        Grid.Row="1"
+        Grid.Column="0"
+        Grid.ColumnSpan="2"
+        Height="23"
+        Margin="6 0"
+        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.SmtpServerName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+        SnapsToDevicePixels="True"
+        TabIndex="1"
+        >
+        <userControls:WatermarkTextBox.Watermark>
+          <TextBlock
+            Margin="5 0 0 0"
+            Text="{DynamicResource SmtpServerWatermark}"
+            FontStyle="Italic"
+            />
+        </userControls:WatermarkTextBox.Watermark>
+      </userControls:WatermarkTextBox>
+      <userControls:WatermarkTextBox
+        Grid.Row="1"
+        Grid.Column="2"
+        Height="23"
+        Margin="6 0"
+        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.SmtpPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SmtpPortConverter}}"
+        SnapsToDevicePixels="True"
+        TabIndex="2"
+        >
+        <userControls:WatermarkTextBox.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource SmtpPort}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource SmtpPortToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </userControls:WatermarkTextBox.ToolTip>
+        <userControls:WatermarkTextBox.Watermark>
+          <TextBlock
+            Margin="5 0 0 0"
+            Text="{DynamicResource SmtpPortWatermark}"
+            FontStyle="Italic"
+            />
+        </userControls:WatermarkTextBox.Watermark>
+      </userControls:WatermarkTextBox>
+
+      <Label
+        Grid.Row="3"
+        Grid.Column="0"
+        VerticalAlignment="Center"
+        Content="{DynamicResource SmtpLogin}"
+        />
+      <Label
+        Grid.Row="4"
+        Grid.Column="0"
+        VerticalAlignment="Center"
+        Content="{DynamicResource SmtpPassword}"
+        />
+
+      <userControls:WatermarkTextBox
+        Grid.Row="3"
+        Grid.Column="1"
+        Height="23"
+        VerticalAlignment="Center"
+        Text="{Binding Path=SmtpSettings.LoginName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Source={x:Static controllers:SettingsHelperController.CurrentSettings}}"
+        TabIndex="3"
+        >
+        <userControls:WatermarkTextBox.Watermark>
+          <TextBlock
+            Margin="5 0 0 0"
+            Text="Login name"
+            FontStyle="Italic"
+            />
+        </userControls:WatermarkTextBox.Watermark>
+      </userControls:WatermarkTextBox>
+      <PasswordBox
+        Grid.Row="4"
+        Grid.Column="1"
+        Height="22"
+        VerticalAlignment="Center"
+        TabIndex="4"
+        />
+
+      <Label
+        Grid.Row="5"
+        Grid.Column="0"
+        VerticalAlignment="Center"
+        Content="From:"
+        />
+      <userControls:WatermarkTextBox
+        Grid.Row="5"
+        Grid.Column="1"
+        Height="22"
+        VerticalAlignment="Center"
+        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.FromAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        IsEnabled="{Binding ElementName=CheckBoxSameLogin, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
+        TabIndex="6"
+        >
+        <userControls:WatermarkTextBox.Watermark>
+          <TextBlock
+            Margin="5 0 0 0"
+            Text="From E-Mail address"
+            FontStyle="Italic"
+            />
+        </userControls:WatermarkTextBox.Watermark>
+      </userControls:WatermarkTextBox>
+
+      <Label
+        Grid.Row="6"
+        Grid.Column="0"
+        VerticalAlignment="Center"
+        Content="E-Mail Subject:"
+        />
+      <userControls:WatermarkTextBox
+        Grid.Row="6"
+        Grid.Column="1"
+        Height="22"
+        VerticalAlignment="Center"
+        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.Subject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        TabIndex="8"
+        >
+        <userControls:WatermarkTextBox.Watermark>
+          <TextBlock
+            Margin="5 0 0 0"
+            Text="E-Mail subject text"
+            FontStyle="Italic"
+            />
+        </userControls:WatermarkTextBox.Watermark>
+      </userControls:WatermarkTextBox>
+      <Label
+        Grid.Row="3"
+        Grid.Column="2"
+        VerticalAlignment="Center"
+        Content="Security:"
+        />
+      <ComboBox
+        Grid.Row="4"
+        Grid.Column="2"
+        Height="22"
+        VerticalAlignment="Center"
+        SelectedIndex="1"
+        TabIndex="5"
+        >
+        <ComboBoxItem Name="NoSecurity">None</ComboBoxItem>
+        <ComboBoxItem Name="SSL">SSL</ComboBoxItem>
+        <ComboBoxItem Name="TLS">TLS</ComboBoxItem>
+      </ComboBox>
+      <CheckBox
+        Name="CheckBoxSameLogin"
+        Grid.Row="5"
+        Grid.Column="2"
+        Height="22"
+        VerticalAlignment="Center"
+        Content="Same like Login"
+        TabIndex="7"
+        />
+    </Grid>
+  </ScrollViewer>
+</UserControl>

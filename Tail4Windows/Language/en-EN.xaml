@@ -181,4 +181,12 @@
   <system:String x:Key="ExtrasLogLineUnlimited">Unlimited</system:String>
   <system:String x:Key="ExtrasStatistics">Statistics</system:String>
   <system:String x:Key="ExtrasStatisticsToolTip">Switch on/off statistics for nerds</system:String>
+
+  <system:String x:Key="SmtpServer">SMTP server</system:String>
+  <system:String x:Key="SmtpPort">SMTP port</system:String>
+  <system:String x:Key="SmtpServerWatermark">E-Mail server address</system:String>
+  <system:String x:Key="SmtpPortWatermark">SMTP server port</system:String>
+  <system:String x:Key="SmtpPortToolTip">Default SMTP server port is 25</system:String>
+  <system:String x:Key="SmtpLogin">Login</system:String>
+  <system:String x:Key="SmtpPassword">Password</system:String>
 </ResourceDictionary>

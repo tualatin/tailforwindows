@@ -3,7 +3,7 @@ using System.Windows;
 using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
 
 
-namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption
+namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption
 {
   /// <summary>
   /// Interaction logic for SmtpOptionPage.xaml

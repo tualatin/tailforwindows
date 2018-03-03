@@ -203,7 +203,7 @@
     </Compile>
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\SysInfoViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\AlertOption\SmtpOptionPage.xaml.cs">
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\SmtpOptionPage.xaml.cs">
       <DependentUpon>SmtpOptionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ColorOptionPage.xaml.cs">
@@ -232,6 +232,7 @@
     <Compile Include="UI\Converters\LogLineLimitToLabelConverter.cs" />
     <Compile Include="UI\Converters\NullToBoolConverter.cs" />
     <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="UI\Converters\SmtpPortConverter.cs" />
     <Compile Include="UI\Converters\StringToIntConverter.cs" />
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\StringToWindowMediaBrushConverter.cs" />
@@ -435,7 +436,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PlugIns\OptionModules\AlertOption\SmtpOptionPage.xaml">
+    <Page Include="PlugIns\OptionModules\EnvironmentOption\SmtpOptionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
