@@ -84,26 +84,26 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(0, SettingsHelperController.CurrentSettings.ProxySettings.ProxyPort);
       Assert.IsEmpty(SettingsHelperController.CurrentSettings.ProxySettings.ProxyUrl);
 
-      //Assert.IsFalse(SettingsHelper.CurrentSettings.AlertSettings.BringToFront);
-      //Assert.IsFalse(SettingsHelper.CurrentSettings.AlertSettings.PlaySoundFile);
-      //Assert.IsFalse(SettingsHelper.CurrentSettings.AlertSettings.SendEMail);
-      //Assert.AreEqual("NoFile", SettingsHelper.CurrentSettings.AlertSettings.SoundFileName);
-      //Assert.AreEqual("NoMail", SettingsHelper.CurrentSettings.AlertSettings.EMailAddress);
-      //Assert.IsTrue(SettingsHelper.CurrentSettings.AlertSettings.PopupWnd);
+      Assert.IsFalse(SettingsHelperController.CurrentSettings.AlertSettings.BringToFront);
+      Assert.IsFalse(SettingsHelperController.CurrentSettings.AlertSettings.PlaySoundFile);
+      Assert.IsFalse(SettingsHelperController.CurrentSettings.AlertSettings.SendMail);
+      Assert.AreEqual("NoFile", SettingsHelperController.CurrentSettings.AlertSettings.SoundFileName);
+      Assert.AreEqual("NoMail", SettingsHelperController.CurrentSettings.AlertSettings.MailAddress);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.AlertSettings.PopupWnd);
 
-      //Assert.IsEmpty(SettingsHelper.CurrentSettings.AlertSettings.SmtpSettings.SmtpServerName);
-      //Assert.AreEqual(-1, SettingsHelper.CurrentSettings.AlertSettings.SmtpSettings.SmtpPort);
-      //Assert.IsEmpty(SettingsHelper.CurrentSettings.AlertSettings.SmtpSettings.LoginName);
-      //Assert.IsEmpty(SettingsHelper.CurrentSettings.AlertSettings.SmtpSettings.Password);
-      //Assert.IsEmpty(SettingsHelper.CurrentSettings.AlertSettings.SmtpSettings.FromAddress);
-      //Assert.IsEmpty(SettingsHelper.CurrentSettings.AlertSettings.SmtpSettings.Subject);
-      //Assert.IsTrue(SettingsHelper.CurrentSettings.AlertSettings.SmtpSettings.SSL);
-      //Assert.IsFalse(SettingsHelper.CurrentSettings.AlertSettings.SmtpSettings.TLS);
+      Assert.IsEmpty(SettingsHelperController.CurrentSettings.SmtpSettings.SmtpServerName);
+      Assert.AreEqual(-1, SettingsHelperController.CurrentSettings.SmtpSettings.SmtpPort);
+      Assert.IsEmpty(SettingsHelperController.CurrentSettings.SmtpSettings.LoginName);
+      Assert.IsEmpty(SettingsHelperController.CurrentSettings.SmtpSettings.Password);
+      Assert.IsEmpty(SettingsHelperController.CurrentSettings.SmtpSettings.FromAddress);
+      Assert.IsEmpty(SettingsHelperController.CurrentSettings.SmtpSettings.Subject);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.SmtpSettings.Ssl);
+      Assert.IsFalse(SettingsHelperController.CurrentSettings.SmtpSettings.Tls);
 
-      //Assert.IsTrue(SettingsHelper.CurrentSettings.SmartWatchData.FilterByExtension);
-      //Assert.IsFalse(SettingsHelper.CurrentSettings.SmartWatchData.NewTab);
-      //Assert.AreEqual(ESmartWatchMode.Auto, SettingsHelper.CurrentSettings.SmartWatchData.Mode);
-      //Assert.IsTrue(SettingsHelper.CurrentSettings.SmartWatchData.AutoRun);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.SmartWatchSettings.FilterByExtension);
+      Assert.IsFalse(SettingsHelperController.CurrentSettings.SmartWatchSettings.NewTab);
+      Assert.AreEqual(ESmartWatchMode.Auto, SettingsHelperController.CurrentSettings.SmartWatchSettings.Mode);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.SmartWatchSettings.AutoRun);
     }
 
     [Test]

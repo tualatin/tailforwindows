@@ -68,6 +68,16 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private async Task RemovePropertiesIfExistsAsync(CancellationTokenSource cts)
     {
+      var settings = new List<string>
+      {
+        "Proxy.Use"
+      };
+
+      await RemoveObsoletePropertiesAsync(settings, cts.Token).ConfigureAwait(false);
+    }
+
+    private async Task RemoveObsoletePropertiesAsync(List<string> obsoleteSettings, CancellationToken token)
+    {
       await Task.Run(
         () =>
         {
@@ -75,16 +85,11 @@ namespace Org.Vs.TailForWin.Core.Controllers
           {
             LOG.Trace("Remove obsolete properties from config file");
 
-            var settings = new List<string>
-            {
-              "Proxy.Use"
-            };
-
             try
             {
               Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-              foreach ( string key in settings )
+              foreach ( string key in obsoleteSettings )
               {
                 if ( !config.AppSettings.Settings.AllKeys.Contains(key) )
                   continue;
@@ -101,7 +106,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
             }
           }
         },
-        cts.Token).ConfigureAwait(false);
+        token).ConfigureAwait(false);
     }
 
     private void ReadSettings()
@@ -118,6 +123,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           ReadLogViewerSettings();
           ReadAlertSettings();
           ReadSmtpSettings();
+          ReadSmartWatchSettings();
         }
         catch ( ConfigurationErrorsException ex )
         {
@@ -158,6 +164,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           SaveLogViewerSettings(config);
           SaveAlertSettings(config);
           SaveSmtpSettings(config);
+          SaveSmartWatchSettings(config);
 
           config.Save(ConfigurationSaveMode.Modified);
           ConfigurationManager.RefreshSection("appSettings");
@@ -221,12 +228,24 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SaveAlertSettings(Configuration config)
     {
-
+      WriteValueToSetting(config, "Alert.BringToFront", CurrentSettings.AlertSettings.BringToFront);
+      WriteValueToSetting(config, "Alert.EMailAddress", CurrentSettings.AlertSettings.MailAddress);
+      WriteValueToSetting(config, "Alert.SendEMail", CurrentSettings.AlertSettings.SendMail);
+      WriteValueToSetting(config, "Alert.PlaySoundFile", CurrentSettings.AlertSettings.PlaySoundFile);
+      WriteValueToSetting(config, "Alert.PopupWindow", CurrentSettings.AlertSettings.PopupWnd);
+      WriteValueToSetting(config, "Alert.SoundFile", CurrentSettings.AlertSettings.SoundFileName);
     }
 
     private void SaveSmtpSettings(Configuration config)
     {
-
+      WriteValueToSetting(config, "Smtp.Ssl", CurrentSettings.SmtpSettings.Ssl);
+      WriteValueToSetting(config, "Smtp.Tls", CurrentSettings.SmtpSettings.Tls);
+      WriteValueToSetting(config, "Smtp.FromEMail", CurrentSettings.SmtpSettings.FromAddress);
+      WriteValueToSetting(config, "Smtp.Subject", CurrentSettings.SmtpSettings.Subject);
+      WriteValueToSetting(config, "Smtp.Login", CurrentSettings.SmtpSettings.LoginName);
+      WriteValueToSetting(config, "Smtp.Password", CurrentSettings.SmtpSettings.Password);
+      WriteValueToSetting(config, "Smtp.Port", CurrentSettings.SmtpSettings.SmtpPort);
+      WriteValueToSetting(config, "Smtp.Server", CurrentSettings.SmtpSettings.SmtpServerName);
     }
 
     private void SaveProxySettings(Configuration config)
@@ -236,6 +255,14 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "Proxy.Port", CurrentSettings.ProxySettings.ProxyPort.ToString(CultureInfo.InvariantCulture));
       WriteValueToSetting(config, "Proxy.Url", CurrentSettings.ProxySettings.ProxyUrl);
       WriteValueToSetting(config, "Proxy.UseSystem", CurrentSettings.ProxySettings.UseSystemSettings.ToString());
+    }
+
+    private void SaveSmartWatchSettings(Configuration config)
+    {
+      WriteValueToSetting(config, "SmartWatch.AutoRun", CurrentSettings.SmartWatchSettings.AutoRun);
+      WriteValueToSetting(config, "SmartWatch.FilterByExtension", CurrentSettings.SmartWatchSettings.FilterByExtension);
+      WriteValueToSetting(config, "SmartWatch.Mode", CurrentSettings.SmartWatchSettings.Mode);
+      WriteValueToSetting(config, "SmartWatch.NewTab", CurrentSettings.SmartWatchSettings.NewTab);
     }
 
     /// <summary>
@@ -263,6 +290,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         SetDefaultLogViewerSettings();
         SetDefaultAlertSettings();
         SetDefaultSmptSettings();
+        SetDefaultSmartWatchSettings();
       }
     }
 
@@ -345,6 +373,14 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ProxySettings.ProxyPort = DefaultEnvironmentSettings.ProxyPort;
       CurrentSettings.ProxySettings.ProxyUrl = DefaultEnvironmentSettings.ProxyUrl;
       CurrentSettings.ProxySettings.UseSystemSettings = DefaultEnvironmentSettings.ProxyUseSystemSettings;
+    }
+
+    private void SetDefaultSmartWatchSettings()
+    {
+      CurrentSettings.SmartWatchSettings.AutoRun = DefaultEnvironmentSettings.SmartWatchAutoRun;
+      CurrentSettings.SmartWatchSettings.NewTab = DefaultEnvironmentSettings.SmartWatchNewTab;
+      CurrentSettings.SmartWatchSettings.Mode = DefaultEnvironmentSettings.SmartWatchMode;
+      CurrentSettings.SmartWatchSettings.FilterByExtension = DefaultEnvironmentSettings.SmartWatchFilterByExension;
     }
 
     /// <summary>
@@ -456,12 +492,24 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void ReadAlertSettings()
     {
-
+      CurrentSettings.AlertSettings.BringToFront = GetBoolFromSetting("Alert.BringToFront", true);
+      CurrentSettings.AlertSettings.MailAddress = GetStringFromSetting("Alert.EMailAddress");
+      CurrentSettings.AlertSettings.PlaySoundFile = GetBoolFromSetting("Alert.PlaySoundFile");
+      CurrentSettings.AlertSettings.PopupWnd = GetBoolFromSetting("Alert.PopupWindow");
+      CurrentSettings.AlertSettings.SendMail = GetBoolFromSetting("Alert.SendEMail");
+      CurrentSettings.AlertSettings.SoundFileName = GetStringFromSetting("Alert.SoundFile");
     }
 
     private void ReadSmtpSettings()
     {
-
+      CurrentSettings.SmtpSettings.Ssl = GetBoolFromSetting("Smtp.Ssl", true);
+      CurrentSettings.SmtpSettings.Tls = GetBoolFromSetting("Smtp.Tls");
+      CurrentSettings.SmtpSettings.FromAddress = GetStringFromSetting("Smtp.FromEMail");
+      CurrentSettings.SmtpSettings.LoginName = GetStringFromSetting("Smtp.Login");
+      CurrentSettings.SmtpSettings.Password = GetStringFromSetting("Smtp.Password");
+      CurrentSettings.SmtpSettings.SmtpPort = GetIntFromSetting("Smtp.Port");
+      CurrentSettings.SmtpSettings.SmtpServerName = GetStringFromSetting("Smtp.Server");
+      CurrentSettings.SmtpSettings.Subject = GetStringFromSetting("Smtp.Subject");
     }
 
     private void ReadProxySettings()
@@ -471,6 +519,14 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ProxySettings.ProxyUrl = GetStringFromSetting("Proxy.Url");
       CurrentSettings.ProxySettings.UserName = GetStringFromSetting("Proxy.UserName");
       CurrentSettings.ProxySettings.Password = GetStringFromSetting("Proxy.Password");
+    }
+
+    private void ReadSmartWatchSettings()
+    {
+      CurrentSettings.SmartWatchSettings.AutoRun = GetBoolFromSetting("SmartWatch.AutoRun", true);
+      CurrentSettings.SmartWatchSettings.FilterByExtension = GetBoolFromSetting("SmartWatch.FilterByExtension", true);
+      CurrentSettings.SmartWatchSettings.NewTab = GetBoolFromSetting("SmartWatch.NewTab", true);
+      CurrentSettings.SmartWatchSettings.Mode = GetSmartWatchMode(GetStringFromSetting("SmartWatch.Mode"));
     }
 
     private static string GetStringFromSetting(string setting) => string.IsNullOrWhiteSpace(setting) ? string.Empty : ConfigurationManager.AppSettings[setting];

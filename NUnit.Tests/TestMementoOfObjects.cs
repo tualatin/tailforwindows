@@ -226,7 +226,6 @@ namespace Org.Vs.NUnit.Tests
 
       var alert = new AlertSetting
       {
-        SmtpSettings = smtp,
         PopupWnd = true,
         MailAddress = "blablaTo@test.org",
         BringToFront = true,
@@ -234,26 +233,27 @@ namespace Org.Vs.NUnit.Tests
       };
 
       _settings.AlertSettings = alert;
+      _settings.SmtpSettings = smtp;
 
       var memento = _settings.SaveToMemento();
       Assert.IsInstanceOf<EnvironmentSettings.MementoEnvironmentSettings>(memento);
       Assert.AreEqual(_settings.AlertSettings.BringToFront, memento.AlertSettings.BringToFront);
       Assert.AreEqual(_settings.AlertSettings.MailAddress, memento.AlertSettings.MailAddress);
       Assert.AreEqual(_settings.AlertSettings.PopupWnd, memento.AlertSettings.PopupWnd);
-      Assert.AreEqual(_settings.AlertSettings.SmtpSettings.FromAddress, memento.AlertSettings.SmtpSettings.FromAddress);
-      Assert.AreEqual(_settings.AlertSettings.SmtpSettings.LoginName, memento.AlertSettings.SmtpSettings.LoginName);
-      Assert.AreEqual(_settings.AlertSettings.SmtpSettings.Tls, memento.AlertSettings.SmtpSettings.Tls);
-      Assert.AreEqual(_settings.AlertSettings.SmtpSettings.Subject, memento.AlertSettings.SmtpSettings.Subject);
-      Assert.AreEqual(_settings.AlertSettings.SmtpSettings.Password, memento.AlertSettings.SmtpSettings.Password);
+      Assert.AreEqual(_settings.SmtpSettings.FromAddress, memento.SmtpSettings.FromAddress);
+      Assert.AreEqual(_settings.SmtpSettings.LoginName, memento.SmtpSettings.LoginName);
+      Assert.AreEqual(_settings.SmtpSettings.Tls, memento.SmtpSettings.Tls);
+      Assert.AreEqual(_settings.SmtpSettings.Subject, memento.SmtpSettings.Subject);
+      Assert.AreEqual(_settings.SmtpSettings.Password, memento.SmtpSettings.Password);
 
-      _settings.AlertSettings.SmtpSettings.FromAddress = "phew@123.org";
-      _settings.AlertSettings.SmtpSettings.Tls = false;
-      _settings.AlertSettings.SmtpSettings.SmtpServerName = "hostname1234.test.local";
+      _settings.SmtpSettings.FromAddress = "phew@123.org";
+      _settings.SmtpSettings.Tls = false;
+      _settings.SmtpSettings.SmtpServerName = "hostname1234.test.local";
 
       _settings.RestoreFromMemento(memento);
-      Assert.AreEqual(memento.AlertSettings.SmtpSettings.FromAddress, _settings.AlertSettings.SmtpSettings.FromAddress);
-      Assert.AreEqual(memento.AlertSettings.SmtpSettings.Tls, _settings.AlertSettings.SmtpSettings.Tls);
-      Assert.AreEqual(memento.AlertSettings.SmtpSettings.SmtpServerName, _settings.AlertSettings.SmtpSettings.SmtpServerName);
+      Assert.AreEqual(memento.SmtpSettings.FromAddress, _settings.SmtpSettings.FromAddress);
+      Assert.AreEqual(memento.SmtpSettings.Tls, _settings.SmtpSettings.Tls);
+      Assert.AreEqual(memento.SmtpSettings.SmtpServerName, _settings.SmtpSettings.SmtpServerName);
     }
   }
 }

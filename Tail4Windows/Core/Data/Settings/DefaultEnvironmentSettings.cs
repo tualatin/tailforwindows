@@ -312,5 +312,29 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public const string SmtpSubject = "";
 
     #endregion
+
+    #region SmartWatch settings
+
+    /// <summary>
+    /// Default value AutoRun
+    /// </summary>
+    public const bool SmartWatchAutoRun = true;
+
+    /// <summary>
+    /// Default value open in new tab
+    /// </summary>
+    public const bool SmartWatchNewTab = true;
+
+    /// <summary>
+    /// Default value <see cref="ESmartWatchMode"/>
+    /// </summary>
+    public const ESmartWatchMode SmartWatchMode = ESmartWatchMode.Manual;
+
+    /// <summary>
+    /// Default value filter by extension
+    /// </summary>
+    public const bool SmartWatchFilterByExension = true;
+
+    #endregion
   }
 }

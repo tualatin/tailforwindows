@@ -1,4 +1,5 @@
-﻿using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
+﻿using System;
+using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
 
 namespace Org.Vs.NUnit.Tests.Options
 {
@@ -8,6 +9,11 @@ namespace Org.Vs.NUnit.Tests.Options
     {
       get;
     } = "Generial options";
+
+    public Guid PageId
+    {
+      get;
+    }
   }
 
   public class GeneralProxyOptions : IOptionPage
@@ -16,6 +22,11 @@ namespace Org.Vs.NUnit.Tests.Options
     {
       get;
     } = "Proxy settings";
+
+    public Guid PageId
+    {
+      get;
+    }
   }
 
   public class GeneralResetOptions : IOptionPage
@@ -24,6 +35,11 @@ namespace Org.Vs.NUnit.Tests.Options
     {
       get;
     } = "Reset current settings";
+
+    public Guid PageId
+    {
+      get;
+    }
   }
 
   public class ExtraOptions : IOptionPage
@@ -32,6 +48,11 @@ namespace Org.Vs.NUnit.Tests.Options
     {
       get;
     } = "Extra settings";
+
+    public Guid PageId
+    {
+      get;
+    }
   }
 
   public class ExtraSmartWatch : IOptionPage
@@ -40,6 +61,11 @@ namespace Org.Vs.NUnit.Tests.Options
     {
       get;
     } = "SmartWatch";
+
+    public Guid PageId
+    {
+      get;
+    }
   }
 
   public class AboutOptions : IOptionPage
@@ -48,6 +74,11 @@ namespace Org.Vs.NUnit.Tests.Options
     {
       get;
     } = "About";
+
+    public Guid PageId
+    {
+      get;
+    }
   }
 
   public class AboutSystemInformations : IOptionPage
@@ -56,6 +87,11 @@ namespace Org.Vs.NUnit.Tests.Options
     {
       get;
     } = "System information";
+
+    public Guid PageId
+    {
+      get;
+    }
   }
 
   public class AboutUpdate : IOptionPage
@@ -64,5 +100,10 @@ namespace Org.Vs.NUnit.Tests.Options
     {
       get;
     } = "Update configuration";
+
+    public Guid PageId
+    {
+      get;
+    }
   }
 }
