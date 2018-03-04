@@ -14,6 +14,7 @@
   d:DesignHeight="400"
   d:DesignWidth="400"
   Loaded="UserControlLoaded"
+  Unloaded="UserControlUnloaded"
   >
   <UserControl.DataContext>
     <viewModels:ProxyOptionViewModel />

@@ -10,9 +10,10 @@
   mc:Ignorable="d"
   d:DesignHeight="400"
   d:DesignWidth="400"
+  Loaded="UserControlLoaded"
+  Unloaded="UserControlUnloaded"
   >
   <UserControl.Resources>
-    <converters:SmtpPortConverter x:Key="SmtpPortConverter" />
     <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
   </UserControl.Resources>
 
@@ -33,8 +34,8 @@
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="90" />
+        <ColumnDefinition MinWidth="200" />
         <ColumnDefinition />
-        <ColumnDefinition Width="118" />
       </Grid.ColumnDefinitions>
 
       <Label
@@ -68,16 +69,20 @@
             />
         </userControls:WatermarkTextBox.Watermark>
       </userControls:WatermarkTextBox>
-      <userControls:WatermarkTextBox
+
+      <userControls:Spinner
         Grid.Row="1"
         Grid.Column="2"
         Height="23"
         Margin="6 0"
-        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.SmtpPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SmtpPortConverter}}"
+        Increment="5"
+        MaxSpinValue="99999"
+        MinSpinValue="1"
         SnapsToDevicePixels="True"
+        StartIndex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.SmtpPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         TabIndex="2"
         >
-        <userControls:WatermarkTextBox.ToolTip>
+        <userControls:Spinner.ToolTip>
           <StackPanel>
             <TextBlock
               Margin="0 0 0 5"
@@ -106,49 +111,48 @@
                 />
             </WrapPanel>
           </StackPanel>
-        </userControls:WatermarkTextBox.ToolTip>
-        <userControls:WatermarkTextBox.Watermark>
-          <TextBlock
-            Margin="5 0 0 0"
-            Text="{DynamicResource SmtpPortWatermark}"
-            FontStyle="Italic"
-            />
-        </userControls:WatermarkTextBox.Watermark>
-      </userControls:WatermarkTextBox>
+        </userControls:Spinner.ToolTip>
+      </userControls:Spinner>
 
       <Label
         Grid.Row="3"
         Grid.Column="0"
+        Margin="6 0 0 0"
         VerticalAlignment="Center"
         Content="{DynamicResource SmtpLogin}"
         />
-      <Label
-        Grid.Row="4"
-        Grid.Column="0"
-        VerticalAlignment="Center"
-        Content="{DynamicResource SmtpPassword}"
-        />
-
       <userControls:WatermarkTextBox
         Grid.Row="3"
         Grid.Column="1"
         Height="23"
+        Margin="6 0"
         VerticalAlignment="Center"
         Text="{Binding Path=SmtpSettings.LoginName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Source={x:Static controllers:SettingsHelperController.CurrentSettings}}"
+        SnapsToDevicePixels="True"
         TabIndex="3"
         >
         <userControls:WatermarkTextBox.Watermark>
           <TextBlock
             Margin="5 0 0 0"
-            Text="Login name"
+            Text="{DynamicResource SmtpLoginWatermark}"
             FontStyle="Italic"
             />
         </userControls:WatermarkTextBox.Watermark>
       </userControls:WatermarkTextBox>
+
+      <Label
+        Grid.Row="4"
+        Grid.Column="0"
+        Margin="6 0 0 0"
+        VerticalAlignment="Center"
+        Content="{DynamicResource SmtpPassword}"
+        />
       <PasswordBox
+        Name="PasswordBox"
         Grid.Row="4"
         Grid.Column="1"
-        Height="22"
+        Height="23"
+        Margin="6 0"
         VerticalAlignment="Center"
         TabIndex="4"
         />
@@ -156,22 +160,25 @@
       <Label
         Grid.Row="5"
         Grid.Column="0"
+        Margin="6 0 0 0"
         VerticalAlignment="Center"
-        Content="From:"
+        Content="{DynamicResource SmtpFrom}"
         />
       <userControls:WatermarkTextBox
         Grid.Row="5"
         Grid.Column="1"
-        Height="22"
+        Height="23"
+        Margin="6 0"
         VerticalAlignment="Center"
         Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.FromAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         IsEnabled="{Binding ElementName=CheckBoxSameLogin, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
+        SnapsToDevicePixels="True"
         TabIndex="6"
         >
         <userControls:WatermarkTextBox.Watermark>
           <TextBlock
             Margin="5 0 0 0"
-            Text="From E-Mail address"
+            Text="{DynamicResource SmtpFromWatermark}"
             FontStyle="Italic"
             />
         </userControls:WatermarkTextBox.Watermark>
@@ -180,50 +187,57 @@
       <Label
         Grid.Row="6"
         Grid.Column="0"
+        Margin="6 0 0 0"
         VerticalAlignment="Center"
-        Content="E-Mail Subject:"
+        Content="{DynamicResource SmtpMailSubject}"
         />
       <userControls:WatermarkTextBox
         Grid.Row="6"
         Grid.Column="1"
-        Height="22"
+        Height="23"
+        Margin="6 0"
         VerticalAlignment="Center"
         Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.Subject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        SnapsToDevicePixels="True"
         TabIndex="8"
         >
         <userControls:WatermarkTextBox.Watermark>
           <TextBlock
             Margin="5 0 0 0"
-            Text="E-Mail subject text"
+            Text="{DynamicResource SmtpMailSubjectWatermark}"
             FontStyle="Italic"
             />
         </userControls:WatermarkTextBox.Watermark>
       </userControls:WatermarkTextBox>
+
       <Label
         Grid.Row="3"
         Grid.Column="2"
+        Margin="6 0 0 0"
         VerticalAlignment="Center"
-        Content="Security:"
+        Content="{DynamicResource SmtpSecurity}"
         />
       <ComboBox
         Grid.Row="4"
         Grid.Column="2"
-        Height="22"
+        Height="23"
+        Margin="6 0"
         VerticalAlignment="Center"
         SelectedIndex="1"
         TabIndex="5"
         >
-        <ComboBoxItem Name="NoSecurity">None</ComboBoxItem>
-        <ComboBoxItem Name="SSL">SSL</ComboBoxItem>
-        <ComboBoxItem Name="TLS">TLS</ComboBoxItem>
+        <ComboBoxItem Content="{DynamicResource SmtpSecurityNone}" />
+        <ComboBoxItem Content="{DynamicResource SmtpSecuritySsl}" />
+        <ComboBoxItem Content="{DynamicResource SmtpSecurityTsl}" />
       </ComboBox>
+
       <CheckBox
         Name="CheckBoxSameLogin"
         Grid.Row="5"
         Grid.Column="2"
-        Height="22"
+        Height="23"
         VerticalAlignment="Center"
-        Content="Same like Login"
+        Content="{DynamicResource SmtpCheckBoxSameLogin}"
         TabIndex="7"
         />
     </Grid>

@@ -176,4 +176,21 @@
   <system:String x:Key="ExtrasLogLineUnlimited">Unbegrenzt</system:String>
   <system:String x:Key="ExtrasStatistics">Statistik</system:String>
   <system:String x:Key="ExtrasStatisticsToolTip">Statistik für Nerds ein- und ausschalten</system:String>
+
+  <system:String x:Key="SmtpServer">SMTP Server</system:String>
+  <system:String x:Key="SmtpPort">SMTP Port</system:String>
+  <system:String x:Key="SmtpServerWatermark">E-Mail Server Adresse</system:String>
+  <system:String x:Key="SmtpPortToolTip">Standard SMTP Server Port ist 25</system:String>
+  <system:String x:Key="SmtpLogin">Login</system:String>
+  <system:String x:Key="SmtpPassword">Passwort</system:String>
+  <system:String x:Key="SmtpLoginWatermark">Login Name</system:String>
+  <system:String x:Key="SmtpFrom">Von</system:String>
+  <system:String x:Key="SmtpFromWatermark">E-Mail Adresse</system:String>
+  <system:String x:Key="SmtpMailSubject">E-Mail Betreff</system:String>
+  <system:String x:Key="SmtpMailSubjectWatermark">Betrefftext</system:String>
+  <system:String x:Key="SmtpSecurity">Sicherheit</system:String>
+  <system:String x:Key="SmtpSecurityNone">Keine</system:String>
+  <system:String x:Key="SmtpSecuritySsl">SSL</system:String>
+  <system:String x:Key="SmtpSecurityTsl">TLS</system:String>
+  <system:String x:Key="SmtpCheckBoxSameLogin">Gleiche wie Login</system:String>
 </ResourceDictionary>

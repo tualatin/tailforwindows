@@ -49,9 +49,19 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption
       _notifyTaskCompletion.PropertyChanged -= NotifyTaskCompletionPropertyChanged;
     }
 
-    private async Task SetPasswordAsync()
+    private async Task SetPasswordAsync() => _pw = await StringEncryption.DecryptAsync(SettingsHelperController.CurrentSettings.ProxySettings.Password).ConfigureAwait(false);
+
+    private void UserControlUnloaded(object sender, RoutedEventArgs e) => NotifyTaskCompletion.Create(SavePasswordAsync);
+
+    private async Task SavePasswordAsync()
     {
-      _pw = await StringEncryption.DecryptAsync(SettingsHelperController.CurrentSettings.ProxySettings.Password).ConfigureAwait(false);
+      if ( string.IsNullOrWhiteSpace(PasswordBox.Password) )
+      {
+        SettingsHelperController.CurrentSettings.ProxySettings.Password = string.Empty;
+        return;
+      }
+
+      SettingsHelperController.CurrentSettings.ProxySettings.Password = await StringEncryption.EncryptAsync(PasswordBox.Password).ConfigureAwait(false);
     }
   }
 }

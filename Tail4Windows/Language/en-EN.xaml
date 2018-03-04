@@ -185,8 +185,17 @@
   <system:String x:Key="SmtpServer">SMTP server</system:String>
   <system:String x:Key="SmtpPort">SMTP port</system:String>
   <system:String x:Key="SmtpServerWatermark">E-Mail server address</system:String>
-  <system:String x:Key="SmtpPortWatermark">SMTP server port</system:String>
   <system:String x:Key="SmtpPortToolTip">Default SMTP server port is 25</system:String>
   <system:String x:Key="SmtpLogin">Login</system:String>
   <system:String x:Key="SmtpPassword">Password</system:String>
+  <system:String x:Key="SmtpLoginWatermark">Login name</system:String>
+  <system:String x:Key="SmtpFrom">From</system:String>
+  <system:String x:Key="SmtpFromWatermark">E-Mail address</system:String>
+  <system:String x:Key="SmtpMailSubject">E-Mail subject</system:String>
+  <system:String x:Key="SmtpMailSubjectWatermark">Subject text</system:String>
+  <system:String x:Key="SmtpSecurity">Security</system:String>
+  <system:String x:Key="SmtpSecurityNone">None</system:String>
+  <system:String x:Key="SmtpSecuritySsl">SSL</system:String>
+  <system:String x:Key="SmtpSecurityTsl">TLS</system:String>
+  <system:String x:Key="SmtpCheckBoxSameLogin">Same like login</system:String>
 </ResourceDictionary>
