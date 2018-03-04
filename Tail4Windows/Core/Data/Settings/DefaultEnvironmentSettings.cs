@@ -34,7 +34,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value AlwaysScrollToEnd
     /// </summary>
-    public const bool AlwaysScrollToEnd = false;
+    public const bool AlwaysScrollToEnd = true;
 
     /// <summary>
     /// Default value AlwaysOnTop
@@ -84,7 +84,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value ShowNumberLineAtStart
     /// </summary>
-    public const bool ShowNumberLineAtStart = false;
+    public const bool ShowNumberLineAtStart = true;
 
     /// <summary>
     /// Default value LinesRead

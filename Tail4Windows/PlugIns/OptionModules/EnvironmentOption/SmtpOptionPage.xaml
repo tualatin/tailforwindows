@@ -15,6 +15,7 @@
   >
   <UserControl.Resources>
     <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+    <converters:SmtpSecurityConverter x:Key="SmtpSecurityConverter" />
   </UserControl.Resources>
 
   <ScrollViewer
@@ -223,7 +224,7 @@
         Height="23"
         Margin="6 0"
         VerticalAlignment="Center"
-        SelectedIndex="1"
+        SelectedIndex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.Ssl, Converter={StaticResource SmtpSecurityConverter}}"
         TabIndex="5"
         >
         <ComboBoxItem Content="{DynamicResource SmtpSecurityNone}" />

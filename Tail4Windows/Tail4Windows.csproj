@@ -232,7 +232,7 @@
     <Compile Include="UI\Converters\LogLineLimitToLabelConverter.cs" />
     <Compile Include="UI\Converters\NullToBoolConverter.cs" />
     <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
-    <Compile Include="UI\Converters\SmtpPortConverter.cs" />
+    <Compile Include="UI\Converters\SmtpSecurityConverter.cs" />
     <Compile Include="UI\Converters\StringToIntConverter.cs" />
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\StringToWindowMediaBrushConverter.cs" />
