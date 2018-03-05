@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Interop;
 using log4net;
 using Org.Vs.TailForWin.Business.Data.Messages;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
@@ -20,6 +21,7 @@ namespace Org.Vs.TailForWin.BaseView
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(T4Window));
 
+
     /// <summary>
     /// Standard constructor
     /// </summary>
@@ -28,11 +30,25 @@ namespace Org.Vs.TailForWin.BaseView
       InitializeComponent();
 
       SourceInitialized += T4WindowSourceInitialized;
+
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowNotificationPopUpMessage>(PopUpVisibilityChanged);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSettingsDialogMessage>(OpenSettingsDialog);
     }
 
     #region Events
+    private void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e) => OnExit();
+
+    private void MainWindowStateChanged(object sender, EventArgs e)
+    {
+      if ( SettingsHelperController.CurrentSettings.CurrentWindowState != WindowState.Maximized || WindowState != WindowState.Normal )
+        return;
+
+      MainWindow.Width = SettingsHelperController.CurrentSettings.WindowWidth;
+      MainWindow.Height = SettingsHelperController.CurrentSettings.WindowHeight;
+
+      MainWindow.Left = SettingsHelperController.CurrentSettings.WindowPositionX;
+      MainWindow.Top = SettingsHelperController.CurrentSettings.WindowPositionY;
+    }
 
     private void T4WindowSourceInitialized(object sender, EventArgs e)
     {
@@ -48,6 +64,22 @@ namespace Org.Vs.TailForWin.BaseView
     #endregion
 
     #region HelperFunctions
+
+    private void OnExit()
+    {
+      LOG.Trace("Try to save window size, position and state");
+
+      SettingsHelperController.CurrentSettings.CurrentWindowState = MainWindow.WindowState;
+
+      if ( WindowState != WindowState.Normal )
+        return;
+
+      SettingsHelperController.CurrentSettings.WindowHeight = SettingsHelperController.CurrentSettings.RestoreWindowSize ? MainWindow.Height : -1;
+      SettingsHelperController.CurrentSettings.WindowWidth = SettingsHelperController.CurrentSettings.RestoreWindowSize ? MainWindow.Width : -1;
+
+      SettingsHelperController.CurrentSettings.WindowPositionX = SettingsHelperController.CurrentSettings.SaveWindowPosition ? MainWindow.Left : -1;
+      SettingsHelperController.CurrentSettings.WindowPositionY = SettingsHelperController.CurrentSettings.SaveWindowPosition ? MainWindow.Top : -1;
+    }
 
     private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {

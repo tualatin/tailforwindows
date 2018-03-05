@@ -7,7 +7,7 @@
   >
   <!--  Window template  -->
   <ControlTemplate
-    x:Key="WindowTemplate"
+    x:Key="WindowBlueTemplate"
     TargetType="{x:Type Window}"
     >
     <Border
@@ -224,7 +224,7 @@
     <Setter Property="Background" Value="White" />
     <Setter Property="BorderBrush" Value="#999999" />
     <Setter Property="BorderThickness" Value="1" />
-    <Setter Property="Template" Value="{StaticResource WindowTemplate}" />
+    <Setter Property="Template" Value="{StaticResource WindowBlueTemplate}" />
   </Style>
 
 </ResourceDictionary>
