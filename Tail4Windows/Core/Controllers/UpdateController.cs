@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -57,6 +57,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>Should update <c>True</c> otherwise <c>False</c></returns>
     public async Task<bool> UpdateNecessaryAsync()
     {
+      // TODO new update algorightm!!!
       Stopwatch stopUpdate = new Stopwatch();
       stopUpdate.Start();
       LOG.Trace("Check if update is necessary...");

@@ -70,6 +70,7 @@
   <system:String x:Key="SmartWatchCanNotStart">SmartWatch kann nicht gestartet werden, es trat ein interner Fehler auf.</system:String>
   <system:String x:Key="XmlExceptionConfigFileCorrupt">Die XML Datei ist ungültig oder beschädigt!</system:String>
   <system:String x:Key="WebUrl">https://github.com/tualatin/tailforwindows/releases</system:String>
+  <system:String x:Key="UpdateUrl">https://www.virtual-studios.de/tail4wnd/releases.txt</system:String>
   <system:String x:Key="QuickSearchWatermark">Schnellsuche</system:String>
 
   <system:String x:Key="EFileSortFileCreationTime">Datei Erstelldatum</system:String>
