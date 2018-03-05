@@ -191,6 +191,7 @@
     <Compile Include="Core\Data\Mappings\WindowStyleMapping.cs" />
     <Compile Include="Core\Data\Settings\EnvironmentColorSettings.cs" />
     <Compile Include="Core\Data\Mappings\TimeFormatMapping.cs" />
+    <Compile Include="Core\Data\UpdateData.cs" />
     <Compile Include="Core\Enums\EUiLanguage.cs" />
     <Compile Include="Core\Extensions\ColorExtension.cs" />
     <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />

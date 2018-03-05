@@ -33,6 +33,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
       if ( SettingsHelperController.CurrentSettings.ProxySettings.UseSystemSettings != null )
         handler = await CreateHttpClientHandlerAsync().ConfigureAwait(false);
+      else
+        handler = new HttpClientHandler();
 
       using ( var client = new HttpClient(handler) )
       {

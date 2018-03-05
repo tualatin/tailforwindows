@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
 using NUnit.Framework;
 using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Interfaces;
 
 
@@ -28,7 +29,10 @@ namespace Org.Vs.NUnit.Tests
     {
       var shouldUpdate = await _updateController.UpdateNecessaryAsync().ConfigureAwait(false);
 
-      Assert.IsInstanceOf<bool>(shouldUpdate);
+      Assert.IsInstanceOf<UpdateData>(shouldUpdate);
+      Assert.IsInstanceOf<Version>(shouldUpdate.ApplicationVersion);
+      Assert.IsInstanceOf<Version>(shouldUpdate.WebVersion);
+      Assert.IsFalse(shouldUpdate.Update);
     }
   }
 }

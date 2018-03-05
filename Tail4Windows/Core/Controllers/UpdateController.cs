@@ -6,6 +6,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using log4net;
+using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -21,25 +22,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private readonly IWebController _webController;
     private readonly List<Version> _webVersions;
-
-
-    /// <summary>
-    /// Current Web version
-    /// </summary>
-    public Version WebVersion
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Current Application version
-    /// </summary>
-    public Version AppVersion
-    {
-      get;
-      set;
-    } = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+    private UpdateData _result;
 
     /// <summary>
     /// Standard constructor with WebController injection
@@ -55,102 +38,57 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// Do check if main application needs to update
     /// </summary>
     /// <returns>Should update <c>True</c> otherwise <c>False</c></returns>
-    public async Task<bool> UpdateNecessaryAsync()
+    public async Task<UpdateData> UpdateNecessaryAsync()
     {
-      // TODO new update algorightm!!!
       Stopwatch stopUpdate = new Stopwatch();
       stopUpdate.Start();
       LOG.Trace("Check if update is necessary...");
 
-      Match matchUrl = Regex.Match(EnvironmentContainer.ApplicationUpdateWebUrl, "https://github.com", RegexOptions.IgnoreCase);
+      var matchUrl = Regex.Match(EnvironmentContainer.ApplicationUpdateWebUrl, "https://www.virtual-studios.de", RegexOptions.IgnoreCase);
+      _result = new UpdateData
+      {
+        ApplicationVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version
+      };
 
       if ( !matchUrl.Success )
         throw new WebException("Not a valid update URL, operation aborted!");
 
-      string tag = EnvironmentContainer.ApplicationUpdateWebUrl.Substring(matchUrl.Value.Length, EnvironmentContainer.ApplicationUpdateWebUrl.Length - matchUrl.Value.Length);
       string webRequest = await _webController.GetStringByUrlAsync(EnvironmentContainer.ApplicationUpdateWebUrl).ConfigureAwait(false);
-      bool result = await Task.Run(() => UpdateNecessary(webRequest, tag)).ConfigureAwait(false);
+      await Task.Run(() => UpdateNecessary(webRequest)).ConfigureAwait(false);
       stopUpdate.Stop();
 
       LOG.Trace("Checked in {0} ms", stopUpdate.ElapsedMilliseconds);
 
-      return result;
+      return _result;
     }
 
-    private bool UpdateNecessary(string webData, string tag)
+    private void UpdateNecessary(string webData)
     {
       if ( string.IsNullOrWhiteSpace(webData) )
         throw new WebException("WebRequest was empty, operation aborted!");
 
       try
       {
-        string mainTag = $"{tag}/tag/";
-        string pattern = $"<a[^>]*href=(?:\"|\'){tag}([^>]*)";
-        MatchCollection matches = Regex.Matches(webData, pattern, RegexOptions.IgnoreCase);
+        if ( !webData.Contains("\n") )
+          return;
 
-        if ( matches.Count == 0 )
-          return false;
+        var versions = webData.Split('\n').ToList();
 
         Parallel.ForEach(
-          matches.OfType<Match>(),
-          (f, state) =>
+          versions,
+          p =>
           {
-            try
-            {
-              string part = f.Value.Substring(f.Value.IndexOf(mainTag, StringComparison.Ordinal)).Substring(tag.Length);
-              Regex regex = new Regex(@"\d+.\d+.\d+", RegexOptions.IgnoreCase);
-
-              if ( !regex.Match(part).Success )
-                return;
-
-              string version = regex.Match(part).Value;
-              int major = -1, minor = -1, build = -1;
-              Regex rxVersion = new Regex(@"\d+", RegexOptions.IgnoreCase);
-
-              if ( rxVersion.IsMatch(version) )
-              {
-                Match mtVersion = rxVersion.Match(version);
-
-                major = int.Parse(mtVersion.Value);
-                int length = mtVersion.Length + 1;
-                version = version.Substring(length, version.Length - length);
-
-                if ( rxVersion.IsMatch(version) )
-                {
-                  mtVersion = rxVersion.Match(version);
-                  minor = int.Parse(mtVersion.Value);
-                  length = mtVersion.Length + 1;
-                  version = version.Substring(length, version.Length - length);
-
-                  if ( rxVersion.IsMatch(version) )
-                  {
-                    mtVersion = rxVersion.Match(version);
-                    build = int.Parse(mtVersion.Value);
-                  }
-                }
-              }
-
-              if ( state.ShouldExitCurrentIteration )
-                state.Break();
-
-              Version myVersion = new Version(major, minor, build);
-              _webVersions.Add(myVersion);
-            }
-            catch
-            {
-              // nothing
-            }
+            if ( Version.TryParse(p, out var v) )
+              _webVersions.Add(v);
           });
 
         SortWebVersions();
-
-        return DoCompareWebVersionWithApplicationVersion();
+        DoCompareWebVersionWithApplicationVersion();
       }
       catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
       }
-      return false;
     }
 
     private void SortWebVersions()
@@ -159,29 +97,26 @@ namespace Org.Vs.TailForWin.Core.Controllers
         return;
 
       _webVersions.Sort(new VersionComparer());
-      WebVersion = _webVersions.Last();
+      _result.WebVersion = _webVersions.Last();
     }
 
-    private bool DoCompareWebVersionWithApplicationVersion()
+    private void DoCompareWebVersionWithApplicationVersion()
     {
       if ( _webVersions.Count == 0 )
-        return false;
-
-      bool result = false;
+        return;
 
       Parallel.ForEach(
         _webVersions,
         (f, state) =>
         {
-          int res = f.CompareTo(AppVersion);
+          int res = f.CompareTo(_result.ApplicationVersion);
 
           if ( res <= 0 )
             return;
 
-          result = true;
+          _result.Update = true;
           state.Break();
         });
-      return result;
     }
 
     #region VersionComparer
