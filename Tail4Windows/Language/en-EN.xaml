@@ -72,6 +72,13 @@
   <system:String x:Key="WebUrl">https://github.com/tualatin/tailforwindows/releases</system:String>
   <system:String x:Key="QuickSearchWatermark">Quick search</system:String>
 
+  <system:String x:Key="EFileSortFileCreationTime">File creation time</system:String>
+  <system:String x:Key="EFileSortDefault">Default</system:String>
+
+  <system:String x:Key="ETailRefreshRateNormal">Normal</system:String>
+  <system:String x:Key="ETailRefreshRateFast">Fast</system:String>
+  <system:String x:Key="ETailRefreshRateHighest">Highest</system:String>
+
   <system:String x:Key="GeneralToolTipHint">Take a look into Readme file for more informations</system:String>
 
   <system:String x:Key="OptionsPageTitle">Options - {0}</system:String>

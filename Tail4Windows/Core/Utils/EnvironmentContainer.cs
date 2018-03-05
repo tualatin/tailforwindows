@@ -79,10 +79,10 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// List of supported refresh rates
     /// </summary>
-    public ObservableCollection<ETailRefreshRate> RefreshRate
+    public ObservableCollection<RefreshRateMapping> RefreshRate
     {
       get;
-    } = new ObservableCollection<ETailRefreshRate>();
+    } = new ObservableCollection<RefreshRateMapping>();
 
     /// <summary>
     /// List of thread priority of type <see cref="ThreadPriorityMapping"/>
@@ -349,7 +349,11 @@ namespace Org.Vs.TailForWin.Core.Utils
           // ThreadRefresh rate
           foreach ( ETailRefreshRate refreshName in Enum.GetValues(typeof(ETailRefreshRate)) )
           {
-            RefreshRate.Add(refreshName);
+            RefreshRate.Add(
+              new RefreshRateMapping
+              {
+                RefreshRate = refreshName
+              });
           }
 
           // ThreadPriority

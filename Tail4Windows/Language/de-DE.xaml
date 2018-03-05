@@ -45,11 +45,11 @@
   <system:String x:Key="QImportSettings">Do you really want to import this settings? Your old settings will override.</system:String>
   <system:String x:Key="QAddSendTo">Do you really want to add {0} into the &quot;Send to&quot; context menu of Windows?</system:String>
   <system:String x:Key="WndStyleChanged">Das Window Design wurde geändern, bitte starten Sie {0} neu, damit die Änderungen wirksam werden.</system:String>
-  <system:String x:Key="Lowest">Lowest</system:String>
-  <system:String x:Key="BelowNormal">Below normal</system:String>
+  <system:String x:Key="Lowest">Niedrigste</system:String>
+  <system:String x:Key="BelowNormal">Niedriger als normal</system:String>
   <system:String x:Key="Normal">Normal</system:String>
-  <system:String x:Key="AboveNormal">Above normal</system:String>
-  <system:String x:Key="Highest">Highest</system:String>
+  <system:String x:Key="AboveNormal">Höhe als normal</system:String>
+  <system:String x:Key="Highest">Höchste</system:String>
   <system:String x:Key="MinimizeWindowToolTip">Minimieren</system:String>
   <system:String x:Key="MaximizeWindowToolTip">Maximieren</system:String>
   <system:String x:Key="RestoreWindowToolTip">Wiederherstellen</system:String>
@@ -71,6 +71,13 @@
   <system:String x:Key="XmlExceptionConfigFileCorrupt">Die XML Datei ist ungültig oder beschädigt!</system:String>
   <system:String x:Key="WebUrl">https://github.com/tualatin/tailforwindows/releases</system:String>
   <system:String x:Key="QuickSearchWatermark">Schnellsuche</system:String>
+
+  <system:String x:Key="EFileSortFileCreationTime">Datei Erstelldatum</system:String>
+  <system:String x:Key="EFileSortDefault">Standard</system:String>
+
+  <system:String x:Key="ETailRefreshRateNormal">Normal</system:String>
+  <system:String x:Key="ETailRefreshRateFast">Schnell</system:String>
+  <system:String x:Key="ETailRefreshRateHighest">Sehr schnell</system:String>
 
   <system:String x:Key="GeneralToolTipHint">Für zusätzliche Informationen, schauen Sie in die Readme Datei</system:String>
 

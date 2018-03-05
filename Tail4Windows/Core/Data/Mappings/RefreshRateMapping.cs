@@ -6,22 +6,22 @@ using Org.Vs.TailForWin.Core.Extensions;
 namespace Org.Vs.TailForWin.Core.Data.Mappings
 {
   /// <summary>
-  /// FileSortMapping
+  /// Tail refresh rate mapping
   /// </summary>
-  public class FileSortMapping
+  public class RefreshRateMapping
   {
     /// <summary>
-    /// FileSort <see cref="EFileSort"/>
+    /// Tail refresh rate <see cref="ETailRefreshRate"/>
     /// </summary>
-    public EFileSort FileSort
+    public ETailRefreshRate RefreshRate
     {
       get;
       set;
     }
 
     /// <summary>
-    /// Description
+    /// Descritpion
     /// </summary>
-    public string Description => Application.Current.TryFindResource(FileSort.GetEnumDescription()).ToString();
+    public string Description => Application.Current.TryFindResource(RefreshRate.GetEnumDescription()).ToString();
   }
 }

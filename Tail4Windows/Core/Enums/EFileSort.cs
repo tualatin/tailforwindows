@@ -10,13 +10,13 @@ namespace Org.Vs.TailForWin.Core.Enums
     /// <summary>
     /// File creation time
     /// </summary>
-    [Description("File creation time")]
+    [Description("EFileSortFileCreationTime")]
     FileCreationTime,
 
     /// <summary>
     /// No file sort
     /// </summary>
-    [Description("Default")]
+    [Description("EFileSortDefault")]
     Nothing
   }
 }

@@ -187,6 +187,7 @@
     <Compile Include="Core\Data\Mappings\DateFormatMapping.cs" />
     <Compile Include="Core\Data\Mappings\FileSortMapping.cs" />
     <Compile Include="Core\Data\Mappings\LanguageMapping.cs" />
+    <Compile Include="Core\Data\Mappings\RefreshRateMapping.cs" />
     <Compile Include="Core\Data\Mappings\WindowStyleMapping.cs" />
     <Compile Include="Core\Data\Settings\EnvironmentColorSettings.cs" />
     <Compile Include="Core\Data\Mappings\TimeFormatMapping.cs" />
