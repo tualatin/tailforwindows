@@ -1,10 +1,10 @@
-﻿<Window
+﻿<extendedControls:WindowEx
   x:Class="Org.Vs.TailForWin.UI.AutoUpdatePopUp"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:Org.Vs.TailForWin.UI"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.UI.ViewModels"
   mc:Ignorable="d"
@@ -24,7 +24,4 @@
       </userControls:UpdateControl.DataContext>
     </userControls:UpdateControl>
   </Grid>
-</Window>
-
-
-
+</extendedControls:WindowEx>
