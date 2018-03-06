@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using log4net;
 using Org.Vs.TailForWin.Core.Data;
@@ -37,8 +38,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <summary>
     /// Do check if main application needs to update
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>Should update <c>True</c> otherwise <c>False</c></returns>
-    public async Task<UpdateData> UpdateNecessaryAsync()
+    public async Task<UpdateData> UpdateNecessaryAsync(CancellationToken token)
     {
       Stopwatch stopUpdate = new Stopwatch();
       stopUpdate.Start();
@@ -54,7 +56,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         throw new WebException("Not a valid update URL, operation aborted!");
 
       string webRequest = await _webController.GetStringByUrlAsync(EnvironmentContainer.ApplicationUpdateWebUrl).ConfigureAwait(false);
-      await Task.Run(() => UpdateNecessary(webRequest)).ConfigureAwait(false);
+      await Task.Run(() => UpdateNecessary(webRequest), token).ConfigureAwait(false);
       stopUpdate.Stop();
 
       LOG.Trace("Checked in {0} ms", stopUpdate.ElapsedMilliseconds);

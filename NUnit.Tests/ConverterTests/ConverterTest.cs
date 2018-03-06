@@ -85,5 +85,19 @@ namespace Org.Vs.NUnit.Tests.ConverterTests
       var convertedBrush = converter.Convert("#FFFFFF", typeof(System.Windows.Media.Brush), null, CultureInfo.CurrentCulture);
       Assert.AreEqual(System.Windows.Media.Brushes.White.ToString(), convertedBrush?.ToString());
     }
+
+    [Test]
+    public void TestBoolToUpdateHintConverter()
+    {
+      var converter = new BoolToUpdateHintConverter();
+      var hint = converter.Convert(true, typeof(bool), null, CultureInfo.CurrentCulture);
+      Assert.AreEqual("There is an update available", hint);
+
+      hint = converter.Convert(false, typeof(bool), null, CultureInfo.CurrentCulture);
+      Assert.AreEqual("No update necessary", hint);
+
+      hint = converter.Convert("blabla", typeof(string), null, CultureInfo.CurrentCulture);
+      Assert.AreEqual(string.Empty, hint);
+    }
   }
 }

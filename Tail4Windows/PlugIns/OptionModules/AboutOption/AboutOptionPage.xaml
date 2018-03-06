@@ -133,9 +133,9 @@
       >
       <Hyperlink
         Name="Hyperlink"
-        NavigateUri="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationUpdateWebUrl}}"
+        NavigateUri="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationReleaseWebUrl}}"
         >
-        <TextBlock Text="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationUpdateWebUrl}}" />
+        <TextBlock Text="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationReleaseWebUrl}}" />
         <intr:Interaction.Triggers>
           <intr:EventTrigger EventName="RequestNavigate">
             <intr:InvokeCommandAction

@@ -4,9 +4,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.UI.UserControls.ViewModels"
   mc:Ignorable="d"
-  d:DataContext="{d:DesignInstance {x:Type viewModels:MockUpdateControlViewModel}}"
   d:DesignHeight="80"
   d:DesignWidth="300"
   >
@@ -63,7 +61,7 @@
       <Label
         Grid.Row="1"
         VerticalAlignment="Top"
-        Content="{Binding ApplicationVersion, UpdateSourceTrigger=PropertyChanged}"
+        Content="{Binding ApplicationVersion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
         FontWeight="DemiBold"
         />
     </Grid>
@@ -85,7 +83,7 @@
       <Label
         Grid.Row="1"
         VerticalAlignment="Top"
-        Content="{Binding WebVersion, UpdateSourceTrigger=PropertyChanged}"
+        Content="{Binding WebVersion, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
         FontWeight="Bold"
         />
     </Grid>
@@ -105,8 +103,9 @@
       Grid.Row="1"
       Grid.Column="1"
       Grid.ColumnSpan="3"
+      Margin="5 0"
       VerticalAlignment="Center"
-      Content="{Binding UpdateHint, UpdateSourceTrigger=PropertyChanged}"
+      Content="{Binding UpdateHint, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
       FontSize="13"
       FontWeight="Bold"
       />

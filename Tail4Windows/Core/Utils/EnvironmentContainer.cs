@@ -54,6 +54,11 @@ namespace Org.Vs.TailForWin.Core.Utils
     public static string ApplicationUpdateWebUrl => Application.Current.TryFindResource("UpdateUrl").ToString();
 
     /// <summary>
+    /// Application release URL
+    /// </summary>
+    public static string ApplicationReleaseWebUrl => Application.Current.TryFindResource("WebUrl").ToString();
+
+    /// <summary>
     /// Delete log files older than a certain time span
     /// </summary>
     public const int DeleteLogFilesOlderThan = 5;

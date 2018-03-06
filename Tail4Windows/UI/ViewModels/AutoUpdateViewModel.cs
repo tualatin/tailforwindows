@@ -1,5 +1,4 @@
 ﻿using Org.Vs.TailForWin.Core.Data.Base;
-using Org.Vs.TailForWin.UI.UserControls.Interfaces;
 
 
 namespace Org.Vs.TailForWin.UI.ViewModels
@@ -7,7 +6,7 @@ namespace Org.Vs.TailForWin.UI.ViewModels
   /// <summary>
   /// Auto update view model
   /// </summary>
-  public class AutoUpdateViewModel : NotifyMaster, IUpdateControlViewModel
+  public class AutoUpdateViewModel : NotifyMaster
   {
     private string _applicationVersion;
 

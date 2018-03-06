@@ -50,8 +50,8 @@
       <Button
         Grid.Row="0"
         Grid.Column="1"
-        Width="33"
-        Height="33"
+        Width="32"
+        Height="32"
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         Command="{Binding ExportCommand}"
@@ -105,8 +105,8 @@
       <Button
         Grid.Row="0"
         Grid.Column="4"
-        Width="33"
-        Height="33"
+        Width="32"
+        Height="32"
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         Command="{Binding ImportCommand}"

@@ -4,26 +4,195 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
+  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="300"
-  d:DesignWidth="300"
+  d:DesignWidth="320"
   >
   <UserControl.DataContext>
     <viewModels:UpdateOptionViewModel />
   </UserControl.DataContext>
 
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition />
-      <RowDefinition />
-    </Grid.RowDefinitions>
+  <UserControl.Resources>
+    <converters:BoolToUpdateHintConverter x:Key="BoolToUpdateHintConverter" />
+  </UserControl.Resources>
 
-    <userControls:UpdateControl Grid.Row="0">
-      <userControls:UpdateControl.DataContext>
-        <viewModels:UpdateOptionViewModel />
-      </userControls:UpdateControl.DataContext>
-    </userControls:UpdateControl>
-  </Grid>
+  <i:Interaction.Triggers>
+    <i:EventTrigger EventName="Unloaded">
+      <i:InvokeCommandAction Command="{Binding UnloadedCommand}" />
+    </i:EventTrigger>
+  </i:Interaction.Triggers>
+
+  <ScrollViewer
+    HorizontalScrollBarVisibility="Auto"
+    VerticalScrollBarVisibility="Auto"
+    >
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="100" />
+        <RowDefinition Height="40" />
+        <RowDefinition Height="10" />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+
+      <userControls:UpdateControl
+        Grid.Row="0"
+        ApplicationVersion="{Binding CheckUpdateCommand.Execution.Result.ApplicationVersion}"
+        UpdateHint="{Binding CheckUpdateCommand.Execution.Result.Update, Converter={StaticResource BoolToUpdateHintConverter}}"
+        WebVersion="{Binding CheckUpdateCommand.Execution.Result.WebVersion}"
+        />
+
+      <Grid Grid.Row="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="80" />
+          <ColumnDefinition Width="50" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Label
+          Grid.Column="0"
+          Margin="0 6"
+          VerticalAlignment="Center"
+          Content="{DynamicResource UpdateOptionUpdate}"
+          />
+
+        <Button
+          Grid.Column="1"
+          Width="32"
+          Height="32"
+          VerticalAlignment="Center"
+          Command="{Binding CheckUpdateCommand}"
+          SnapsToDevicePixels="True"
+          TabIndex="0"
+          >
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource UpdateOptionUpdate}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource UpdateOptionUpdateToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
+          <StackPanel>
+            <Image
+              RenderOptions.BitmapScalingMode="LowQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/update.png"
+              />
+          </StackPanel>
+        </Button>
+
+        <CheckBox
+          Grid.Column="2"
+          Height="22"
+          Margin="0 6"
+          VerticalAlignment="Center"
+          Content="{DynamicResource UpdateOptionCheckUpdateAtStartup}"
+          IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AutoUpdate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+          TabIndex="1"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource UpdateOptionUpdate}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource UpdateOptionCheckUpdateAtStartupToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+      </Grid>
+
+      <Button
+        Grid.Row="3"
+        Height="23"
+        MinWidth="100"
+        HorizontalAlignment="Center"
+        Content="{DynamicResource UpdateOptionVisitWebsite}"
+        Command="{Binding VisitWebsiteCommand}"
+        IsEnabled="{Binding CheckUpdateCommand.Execution.Result.Update}"
+        >
+        <Button.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource UpdateOptionUpdate}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource UpdateOptionVisitWebsiteToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </Button.ToolTip>
+      </Button>
+    </Grid>
+  </ScrollViewer>
 </UserControl>
+
+
+

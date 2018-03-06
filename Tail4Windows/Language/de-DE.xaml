@@ -204,6 +204,15 @@
 
   <system:String x:Key="UpdateControlLocalVersion">Aktuelle Version</system:String>
   <system:String x:Key="UpdateControlWebVersion">Web Version</system:String>
+  <system:String x:Key="UpdateControlUpdateExits">Es ist ein Update vorhanden</system:String>
+  <system:String x:Key="UpdateControlNoUpdate">Kein Update notwendig</system:String>
+
+  <system:String x:Key="UpdateOptionUpdate">Update</system:String>
+  <system:String x:Key="UpdateOptionUpdateToolTip">Prüft, ob Updates online zur Verfügung stehen</system:String>
+  <system:String x:Key="UpdateOptionCheckUpdateAtStartup">Beim Start nach Updates suchen</system:String>
+  <system:String x:Key="UpdateOptionCheckUpdateAtStartupToolTip">Sucht automatisch nach Update, wenn das Programm gestartet wird</system:String>
+  <system:String x:Key="UpdateOptionVisitWebsite">Webseite besuchen</system:String>
+  <system:String x:Key="UpdateOptionVisitWebsiteToolTip">Öffne sie aktuelle Release Webseite</system:String>
 
   <system:String x:Key="AutoUpdateWndTitle">Autoupdate</system:String>
 </ResourceDictionary>
