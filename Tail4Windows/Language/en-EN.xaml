@@ -209,4 +209,6 @@
 
   <system:String x:Key="UpdateControlLocalVersion">Local version</system:String>
   <system:String x:Key="UpdateControlWebVersion">Web version</system:String>
+
+  <system:String x:Key="AutoUpdateWndTitle">Autoupdate</system:String>
 </ResourceDictionary>

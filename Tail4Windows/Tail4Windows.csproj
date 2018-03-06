@@ -227,6 +227,9 @@
     <Compile Include="PlugIns\OptionModules\SmartWatchOption\SmartWatchOptionPage.xaml.cs">
       <DependentUpon>SmartWatchOptionPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\AutoUpdatePopUp.xaml.cs">
+      <DependentUpon>AutoUpdatePopUp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Commands\InvokeDelegateCommandAction.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\InverseBooleanConverter.cs" />
@@ -376,6 +379,7 @@
     <Compile Include="UI\UserControls\ViewModels\MockUpdateControlViewModel.cs" />
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
+    <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
     <Page Include="BaseView\Options.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -469,6 +473,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlugIns\OptionModules\SmartWatchOption\SmartWatchOptionPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\AutoUpdatePopUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -204,4 +204,6 @@
 
   <system:String x:Key="UpdateControlLocalVersion">Aktuelle Version</system:String>
   <system:String x:Key="UpdateControlWebVersion">Web Version</system:String>
+
+  <system:String x:Key="AutoUpdateWndTitle">Autoupdate</system:String>
 </ResourceDictionary>

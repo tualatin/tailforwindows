@@ -105,6 +105,7 @@
       Grid.Row="1"
       Grid.Column="1"
       Grid.ColumnSpan="3"
+      VerticalAlignment="Center"
       Content="{Binding UpdateHint, UpdateSourceTrigger=PropertyChanged}"
       FontSize="13"
       FontWeight="Bold"
