@@ -4,10 +4,26 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="300"
   d:DesignWidth="300"
   >
-  <Grid />
+  <UserControl.DataContext>
+    <viewModels:UpdateOptionViewModel />
+  </UserControl.DataContext>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+
+    <userControls:UpdateControl Grid.Row="0">
+      <userControls:UpdateControl.DataContext>
+        <viewModels:UpdateOptionViewModel />
+      </userControls:UpdateControl.DataContext>
+    </userControls:UpdateControl>
+  </Grid>
 </UserControl>

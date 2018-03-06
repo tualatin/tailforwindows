@@ -206,4 +206,7 @@
   <system:String x:Key="SmtpSecuritySsl">SSL</system:String>
   <system:String x:Key="SmtpSecurityTsl">TLS</system:String>
   <system:String x:Key="SmtpCheckBoxSameLogin">Same like login</system:String>
+
+  <system:String x:Key="UpdateControlLocalVersion">Local version</system:String>
+  <system:String x:Key="UpdateControlWebVersion">Web version</system:String>
 </ResourceDictionary>

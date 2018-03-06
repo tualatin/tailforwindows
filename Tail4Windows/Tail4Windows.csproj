@@ -205,6 +205,7 @@
     </Compile>
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\SysInfoViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\UpdateOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\SmtpOptionPage.xaml.cs">
       <DependentUpon>SmtpOptionPage.xaml</DependentUpon>
     </Compile>
@@ -364,10 +365,15 @@
     <Compile Include="UI\UserControls\FancyToolTip.xaml.cs">
       <DependentUpon>FancyToolTip.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\UserControls\Interfaces\IUpdateControlViewModel.cs" />
     <Compile Include="UI\UserControls\Spinner.xaml.cs">
       <DependentUpon>Spinner.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\UserControls\Behaviors\TextBoxMaskBehavior.cs" />
+    <Compile Include="UI\UserControls\UpdateControl.xaml.cs">
+      <DependentUpon>UpdateControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\ViewModels\MockUpdateControlViewModel.cs" />
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
     <Page Include="BaseView\Options.xaml">
@@ -566,6 +572,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\UserControls\UpdateControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Native\NativeMethods.cs" />
@@ -619,6 +629,9 @@
     <Content Include="Config\log4net.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\internet.ico" />
+    <Resource Include="Resources\local.ico" />
+    <Resource Include="Resources\update.ico" />
     <Resource Include="Resources\about.png" />
     <Resource Include="Resources\QuickSearch.png" />
     <Resource Include="Resources\Main_bw.ico" />
@@ -747,7 +760,6 @@
     <Folder Include="PlugIns\SmartWatchModule\Interfaces\" />
     <Folder Include="PlugIns\SmartWatchModule\ViewModels\" />
     <Folder Include="UI\Converters\MultiConverters\" />
-    <Folder Include="UI\UserControls\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\AsyncAnalyzers.1.1.7.0\analyzers\dotnet\cs\AsyncAnalyzers.dll" />
