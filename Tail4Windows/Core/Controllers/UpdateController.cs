@@ -21,6 +21,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(UpdateController));
 
+    private static readonly object Lock = new object();
     private readonly IWebController _webController;
     private readonly List<Version> _webVersions;
     private UpdateData _result;
@@ -42,7 +43,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>Should update <c>True</c> otherwise <c>False</c></returns>
     public async Task<UpdateData> UpdateNecessaryAsync(CancellationToken token)
     {
-      Stopwatch stopUpdate = new Stopwatch();
+      var stopUpdate = new Stopwatch();
       stopUpdate.Start();
       LOG.Trace("Check if update is necessary...");
 
@@ -71,21 +72,28 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
       try
       {
-        if ( !webData.Contains("\n") )
-          return;
+        lock ( Lock )
+        {
+          if ( !webData.Contains("\n") )
+            return;
 
-        var versions = webData.Split('\n').ToList();
+          _webVersions.Clear();
+          var versions = webData.Split('\n').ToList();
 
-        Parallel.ForEach(
-          versions,
-          p =>
-          {
-            if ( Version.TryParse(p, out var v) )
-              _webVersions.Add(v);
-          });
+          Parallel.ForEach(
+            versions,
+            p =>
+            {
+              if ( p == null )
+                return;
 
-        SortWebVersions();
-        DoCompareWebVersionWithApplicationVersion();
+              if ( Version.TryParse(p, out var v) )
+                _webVersions.Add(v);
+            });
+
+          SortWebVersions();
+          DoCompareWebVersionWithApplicationVersion();
+        }
       }
       catch ( Exception ex )
       {
@@ -111,6 +119,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
         _webVersions,
         (f, state) =>
         {
+          if ( f == null )
+            return;
+
           int res = f.CompareTo(_result.ApplicationVersion);
 
           if ( res <= 0 )

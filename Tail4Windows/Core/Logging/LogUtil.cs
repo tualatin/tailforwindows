@@ -96,10 +96,7 @@ namespace Org.Vs.TailForWin.Core.Logging
     /// <param name="logger">The logger. Not <code>null</code></param>
     /// <param name="message">Message to log</param>
     /// <param name="args">an array of arguments</param>
-    public static void Debug(Logger logger, string message, params object[] args)
-    {
-      Debug(logger, null, message, args);
-    }
+    public static void Debug(Logger logger, string message, params object[] args) => Debug(logger, null, message, args);
 
     /// <summary>
     /// Logs a message on DEBUG level with or without error.
@@ -120,10 +117,7 @@ namespace Org.Vs.TailForWin.Core.Logging
     /// <param name="logger">The logger. Not <code>null</code></param>
     /// <param name="message">The logged message. Not <code>null</code> and not empty. Characters are given unescaped. Placeholders are given as {0}, {1}, etc.</param>
     /// <param name="args">Arguments for the error message. Can be <code>null</code> or empty.</param>
-    public static void Info(Logger logger, string message, params object[] args)
-    {
-      Info(logger, null, message, args);
-    }
+    public static void Info(Logger logger, string message, params object[] args) => Info(logger, null, message, args);
 
     /// <summary>
     /// Logs a message on INFO level with or without error.
@@ -144,10 +138,7 @@ namespace Org.Vs.TailForWin.Core.Logging
     /// <param name="logger">The logger. Not <code>null</code></param>
     /// <param name="message">The logged message. Not <code>null</code> and not empty. Characters are given unescaped. Placeholders are given as {0}, {1}, etc.</param>
     /// <param name="args">Arguments for the error message. Can be <code>null</code> or empty.</param>
-    public static void Warn(Logger logger, string message, params object[] args)
-    {
-      Warn(logger, null, message, args);
-    }
+    public static void Warn(Logger logger, string message, params object[] args) => Warn(logger, null, message, args);
 
     /// <summary>
     /// Logs a message on WARN level with or without error.
@@ -181,10 +172,7 @@ namespace Org.Vs.TailForWin.Core.Logging
     /// <param name="logger">The logger. Not <code>null</code></param>
     /// <param name="message">The logged message. Not <code>null</code> and not empty. Characters are given unescaped. Placeholders are given as {0}, {1}, etc.</param>
     /// <param name="args">Arguments for the error message. Can be <code>null</code> or empty.</param>
-    public static void Trace(Logger logger, string message, params object[] args)
-    {
-      Trace(logger, null, message, args);
-    }
+    public static void Trace(Logger logger, string message, params object[] args) => Trace(logger, null, message, args);
 
     /// <summary>
     /// Logs a message on ERROR level with or without error.
@@ -192,10 +180,7 @@ namespace Org.Vs.TailForWin.Core.Logging
     /// <param name="logger">The logger. Not <code>null</code></param>
     /// <param name="message">The logged message. Not <code>null</code> and not empty. Characters are given unescaped. Placeholders are given as {0}, {1}, etc.</param>
     /// <param name="args">Arguments for the error message. Can be <code>null</code> or empty.</param>
-    public static void Error(Logger logger, string message, params object[] args)
-    {
-      Error(logger, null, message, args);
-    }
+    public static void Error(Logger logger, string message, params object[] args) => Error(logger, null, message, args);
 
     /// <summary>
     /// Logs a message on ERROR level with or without error.

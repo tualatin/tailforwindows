@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.Business.Controllers;
 using Org.Vs.TailForWin.Business.Data.Messages;
@@ -16,6 +17,7 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.UI;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 
@@ -201,6 +203,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       MoveIntoView();
       RestoreWindowSizeAndPosition();
       SetUiLanguage();
+
+      await AutoUpdateAsync().ConfigureAwait(false);
     }
 
     #region Commands
@@ -302,10 +306,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       await EnvironmentContainer.Instance.SaveSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2))).ConfigureAwait(false);
     }
 
-    private void ExecuteWndLoadedCommand()
-    {
-      LOG.Trace($"{EnvironmentContainer.ApplicationTitle} startup completed!");
-    }
+    private void ExecuteWndLoadedCommand() => LOG.Trace($"{EnvironmentContainer.ApplicationTitle} startup completed!");
 
     private void ExecuteQuickSearchCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new QuickSearchTextBoxGetFocusMessage(this, true));
 
@@ -368,6 +369,54 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
 
       Application.Current.Resources.MergedDictionaries.Add(dictionary);
+    }
+
+    private async Task AutoUpdateAsync()
+    {
+      if ( !SettingsHelperController.CurrentSettings.AutoUpdate )
+        return;
+
+      var updateController = new UpdateController(new WebDataController());
+      var result = await updateController.UpdateNecessaryAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
+
+      if ( !result.Update )
+        return;
+
+      new ThrottledExecution().InMs(5000).Do(
+        () =>
+        {
+          var staThread = new Thread(() =>
+          {
+            Dispatcher.CurrentDispatcher.Invoke(() =>
+            {
+              var updateDialog = new AutoUpdatePopUp
+              {
+                ApplicationVersion = result.ApplicationVersion.ToString(),
+                WebVersion = result.WebVersion.ToString(),
+                UpdateHint = Application.Current.TryFindResource("UpdateControlUpdateExits").ToString()
+              };
+
+              var wnd = new Window
+              {
+                Visibility = Visibility.Hidden,
+                WindowState = WindowState.Minimized,
+                ShowInTaskbar = false
+              };
+
+              wnd.Show();
+              updateDialog.Owner = wnd;
+              updateDialog.ShowDialog();
+            }, DispatcherPriority.Normal);
+          })
+          {
+            Name = $"{EnvironmentContainer.ApplicationTitle}_AutoUpdateThread",
+            IsBackground = true
+          };
+
+          staThread.SetApartmentState(ApartmentState.STA);
+          staThread.Start();
+          staThread.Join();
+        });
     }
 
     private void MoveIntoView()

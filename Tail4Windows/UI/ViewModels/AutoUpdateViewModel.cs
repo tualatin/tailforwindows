@@ -1,4 +1,11 @@
-﻿using Org.Vs.TailForWin.Core.Data.Base;
+﻿using System;
+using System.Diagnostics;
+using System.Windows.Input;
+using log4net;
+using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.UI.Commands;
+using Org.Vs.TailForWin.UI.ExtendedControls;
 
 
 namespace Org.Vs.TailForWin.UI.ViewModels
@@ -8,58 +15,43 @@ namespace Org.Vs.TailForWin.UI.ViewModels
   /// </summary>
   public class AutoUpdateViewModel : NotifyMaster
   {
-    private string _applicationVersion;
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(AutoUpdateViewModel));
+
+    #region Commands
+
+    private ICommand _closeCommand;
 
     /// <summary>
-    /// Current application version
+    /// Close command
     /// </summary>
-    public string ApplicationVersion
-    {
-      get => _applicationVersion;
-      set
-      {
-        if ( Equals(_applicationVersion, value) )
-          return;
+    public ICommand CloseCommand => _closeCommand ?? (_closeCommand = new RelayCommand(p => ExecuteCloseCommand((WindowEx) p)));
 
-        _applicationVersion = value;
-        OnPropertyChanged(nameof(ApplicationVersion));
+    private ICommand _visitWebsiteCommand;
+
+    /// <summary>
+    /// Visivit website command
+    /// </summary>
+    public ICommand VisitWebsiteCommand => _visitWebsiteCommand ?? (_visitWebsiteCommand = new RelayCommand(p => ExecuteVisitWebsiteCommand()));
+
+    #endregion
+
+    #region Command functions
+
+    private void ExecuteCloseCommand(WindowEx window) => window?.Close();
+
+    private void ExecuteVisitWebsiteCommand()
+    {
+      try
+      {
+        var url = new Uri(EnvironmentContainer.ApplicationReleaseWebUrl);
+        Process.Start(new ProcessStartInfo(url.AbsoluteUri));
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
       }
     }
 
-    private string _webVersion;
-
-    /// <summary>
-    /// Current web version
-    /// </summary>
-    public string WebVersion
-    {
-      get => _webVersion;
-      set
-      {
-        if ( Equals(_webVersion, value) )
-          return;
-
-        _webVersion = value;
-        OnPropertyChanged(nameof(WebVersion));
-      }
-    }
-
-    private string _updateHint;
-
-    /// <summary>
-    /// Update hint text
-    /// </summary>
-    public string UpdateHint
-    {
-      get => _updateHint;
-      set
-      {
-        if ( Equals(_updateHint, value) )
-          return;
-
-        _updateHint = value;
-        OnPropertyChanged(nameof(UpdateHint));
-      }
-    }
+    #endregion
   }
 }

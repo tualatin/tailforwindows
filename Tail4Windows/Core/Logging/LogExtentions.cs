@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using log4net.Core;
 
 
@@ -15,10 +15,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Fatal(this ILog log, string message, params object[] args)
-    {
-      log.Fatal(null, message, args);
-    }
+    public static void Fatal(this ILog log, string message, params object[] args) => log.Fatal(null, message, args);
 
     /// <summary>
     /// Fatal
@@ -26,10 +23,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
-    public static void Fatal(this ILog log, Exception exception, string message)
-    {
-      log.Fatal(exception, message, null);
-    }
+    public static void Fatal(this ILog log, Exception exception, string message) => log.Fatal(exception, message, null);
 
     /// <summary>
     /// Fatal
@@ -38,10 +32,7 @@ namespace log4net
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Fatal(this ILog log, Exception exception, string message, params object[] args)
-    {
-      log.Fatal(FormatMessage(message, args), exception);
-    }
+    public static void Fatal(this ILog log, Exception exception, string message, params object[] args) => log.Fatal(FormatMessage(message, args), exception);
 
     /// <summary>
     /// Error
@@ -49,10 +40,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Error(this ILog log, string message, params object[] args)
-    {
-      log.Error(null, message, args);
-    }
+    public static void Error(this ILog log, string message, params object[] args) => log.Error(null, message, args);
 
     /// <summary>
     /// Error
@@ -60,10 +48,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
-    public static void Error(this ILog log, Exception exception, string message)
-    {
-      log.Error(exception, message, null);
-    }
+    public static void Error(this ILog log, Exception exception, string message) => log.Error(exception, message, null);
 
     /// <summary>
     /// Error
@@ -72,10 +57,7 @@ namespace log4net
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Error(this ILog log, Exception exception, string message, params object[] args)
-    {
-      log.Error(FormatMessage(message, args), exception);
-    }
+    public static void Error(this ILog log, Exception exception, string message, params object[] args) => log.Error(FormatMessage(message, args), exception);
 
     /// <summary>
     /// Warn
@@ -83,10 +65,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Warn(this ILog log, string message, params object[] args)
-    {
-      log.Warn(null, message, args);
-    }
+    public static void Warn(this ILog log, string message, params object[] args) => log.Warn(null, message, args);
 
     /// <summary>
     /// Warn
@@ -94,10 +73,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
-    public static void Warn(this ILog log, Exception exception, string message)
-    {
-      log.Warn(exception, message, null);
-    }
+    public static void Warn(this ILog log, Exception exception, string message) => log.Warn(exception, message, null);
 
     /// <summary>
     /// Warn
@@ -106,10 +82,7 @@ namespace log4net
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Warn(this ILog log, Exception exception, string message, params object[] args)
-    {
-      log.Warn(FormatMessage(message, args), exception);
-    }
+    public static void Warn(this ILog log, Exception exception, string message, params object[] args) => log.Warn(FormatMessage(message, args), exception);
 
     /// <summary>
     /// Info
@@ -117,10 +90,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Info(this ILog log, string message, params object[] args)
-    {
-      log.Info(null, message, args);
-    }
+    public static void Info(this ILog log, string message, params object[] args) => log.Info(null, message, args);
 
     /// <summary>
     /// Info
@@ -128,10 +98,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
-    public static void Info(this ILog log, Exception exception, string message)
-    {
-      log.Info(exception, message, null);
-    }
+    public static void Info(this ILog log, Exception exception, string message) => log.Info(exception, message, null);
 
     /// <summary>
     /// Info
@@ -140,10 +107,7 @@ namespace log4net
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Info(this ILog log, Exception exception, string message, params object[] args)
-    {
-      log.Info(FormatMessage(message, args), exception);
-    }
+    public static void Info(this ILog log, Exception exception, string message, params object[] args) => log.Info(FormatMessage(message, args), exception);
 
     /// <summary>
     /// Debug
@@ -151,10 +115,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Debug(this ILog log, string message, params object[] args)
-    {
-      log.Debug(null, message, args);
-    }
+    public static void Debug(this ILog log, string message, params object[] args) => log.Debug(null, message, args);
 
     /// <summary>
     /// Debug
@@ -162,10 +123,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
-    public static void Debug(this ILog log, Exception exception, string message)
-    {
-      log.Debug(exception, message, null);
-    }
+    public static void Debug(this ILog log, Exception exception, string message) => log.Debug(exception, message, null);
 
     /// <summary>
     /// Debug
@@ -174,20 +132,14 @@ namespace log4net
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Debug(this ILog log, Exception exception, string message, params object[] args)
-    {
-      log.Debug(FormatMessage(message, args), exception);
-    }
+    public static void Debug(this ILog log, Exception exception, string message, params object[] args) => log.Debug(FormatMessage(message, args), exception);
 
     /// <summary>
     /// Trace
     /// </summary>
     /// <param name="log">Logger</param>
     /// <param name="message">Message</param>
-    public static void Trace(this ILog log, string message)
-    {
-      log.Trace(null, message, null);
-    }
+    public static void Trace(this ILog log, string message) => log.Trace(null, message, null);
 
     /// <summary>
     /// Trace
@@ -195,10 +147,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Trace(this ILog log, string message, params object[] args)
-    {
-      log.Trace(null, message, args);
-    }
+    public static void Trace(this ILog log, string message, params object[] args) => log.Trace(null, message, args);
 
     /// <summary>
     /// Trace
@@ -206,10 +155,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
-    public static void Trace(this ILog log, Exception exception, string message)
-    {
-      log.Trace(exception, message, null);
-    }
+    public static void Trace(this ILog log, Exception exception, string message) => log.Trace(exception, message, null);
 
     /// <summary>
     /// Trace
@@ -218,20 +164,14 @@ namespace log4net
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Trace(this ILog log, Exception exception, string message, params object[] args)
-    {
-      log.Logger.Log(Type.GetType(log.Logger.Name), Level.Trace, FormatMessage(message, args), exception);
-    }
+    public static void Trace(this ILog log, Exception exception, string message, params object[] args) => log.Logger.Log(Type.GetType(log.Logger.Name), Level.Trace, FormatMessage(message, args), exception);
 
     /// <summary>
     /// Verbose
     /// </summary>
     /// <param name="log">Logger</param>
     /// <param name="message">Message</param>
-    public static void Verbose(this ILog log, string message)
-    {
-      log.Verbose(null, message, null);
-    }
+    public static void Verbose(this ILog log, string message) => log.Verbose(null, message, null);
 
     /// <summary>
     /// Verbose
@@ -239,10 +179,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Verbose(this ILog log, string message, params object[] args)
-    {
-      log.Verbose(null, message, args);
-    }
+    public static void Verbose(this ILog log, string message, params object[] args) => log.Verbose(null, message, args);
 
     /// <summary>
     /// Verbose
@@ -250,10 +187,7 @@ namespace log4net
     /// <param name="log">Logger</param>
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
-    public static void Verbose(this ILog log, Exception exception, string message)
-    {
-      log.Verbose(exception, message, null);
-    }
+    public static void Verbose(this ILog log, Exception exception, string message) => log.Verbose(exception, message, null);
 
     /// <summary>
     /// Verbose
@@ -262,10 +196,7 @@ namespace log4net
     /// <param name="exception">Exception</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void Verbose(this ILog log, Exception exception, string message, params object[] args)
-    {
-      log.Logger.Log(Type.GetType(log.Logger.Name), log4net.Core.Level.Verbose, FormatMessage(message, args), exception);
-    }
+    public static void Verbose(this ILog log, Exception exception, string message, params object[] args) => log.Logger.Log(Type.GetType(log.Logger.Name), Level.Verbose, FormatMessage(message, args), exception);
 
     /// <summary>
     /// Is trace enabled
@@ -282,20 +213,14 @@ namespace log4net
     /// </summary>
     /// <param name="log">Logger</param>
     /// <returns>If is enabled true, otherwise false</returns>
-    public static bool IsVerboseEnabled(this ILog log)
-    {
-      return log.Logger.IsEnabledFor(log4net.Core.Level.Verbose);
-    }
+    public static bool IsVerboseEnabled(this ILog log) => log.Logger.IsEnabledFor(Core.Level.Verbose);
 
     /// <summary>
     /// Begin method
     /// </summary>
     /// <param name="log">Logger</param>
     /// <param name="methodName">Name of method</param>
-    public static void BeginMethod(this ILog log, string methodName)
-    {
-      log.Debug(methodName + " START");
-    }
+    public static void BeginMethod(this ILog log, string methodName) => log.Debug(methodName + " START");
 
     /// <summary>
     /// Begin method
@@ -304,10 +229,7 @@ namespace log4net
     /// <param name="methodName">Name of method</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void BeginMethod(this ILog log, string methodName, string message, params object[] args)
-    {
-      log.Debug($"{methodName} START - {message}", args);
-    }
+    public static void BeginMethod(this ILog log, string methodName, string message, params object[] args) => log.Debug($"{methodName} START - {message}", args);
 
     /// <summary>
     /// Begin method
@@ -338,10 +260,7 @@ namespace log4net
     /// </summary>
     /// <param name="log">Logger</param>
     /// <param name="methodName">Name of method</param>
-    public static void EndMethod(this ILog log, string methodName)
-    {
-      log.Debug(methodName + " END");
-    }
+    public static void EndMethod(this ILog log, string methodName) => log.Debug(methodName + " END");
 
     /// <summary>
     /// End method
@@ -350,10 +269,7 @@ namespace log4net
     /// <param name="methodName">Name of method</param>
     /// <param name="message">Message</param>
     /// <param name="args">Arguments</param>
-    public static void EndMethod(this ILog log, string methodName, string message, params object[] args)
-    {
-      log.Debug($"{methodName} END   - {message}", args);
-    }
+    public static void EndMethod(this ILog log, string methodName, string message, params object[] args) => log.Debug($"{methodName} END   - {message}", args);
 
     /// <summary>
     /// End method
@@ -379,9 +295,6 @@ namespace log4net
         log.Debug($"{methodName} END   - {message}", args);
     }
 
-    private static string FormatMessage(string message, params object[] args)
-    {
-      return args == null || args.Length < 1 ? message : String.Format(message, args);
-    }
+    private static string FormatMessage(string message, params object[] args) => args == null || args.Length < 1 ? message : string.Format(message, args);
   }
 }
