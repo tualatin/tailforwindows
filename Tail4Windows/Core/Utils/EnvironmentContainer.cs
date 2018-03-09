@@ -59,11 +59,6 @@ namespace Org.Vs.TailForWin.Core.Utils
     public static string ApplicationReleaseWebUrl => Application.Current.TryFindResource("WebUrl").ToString();
 
     /// <summary>
-    /// Delete log files older than a certain time span
-    /// </summary>
-    public const int DeleteLogFilesOlderThan = 5;
-
-    /// <summary>
     /// Unlimited log line value
     /// </summary>
     public const int UnlimitedLogLineValue = 400000;

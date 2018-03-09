@@ -58,6 +58,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       {
         { "LastViewedOptionPage", Guid.Empty.ToString() },
         { "Language", DefaultEnvironmentSettings.Language.ToString() },
+        { "DeleteLogFileOlderThan", DefaultEnvironmentSettings.DeleteLogFilesOlderThan.ToString() },
         { "StatusBarInactiveBackgroundColor", DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor },
         { "StatusBarFileLoadedBackgroundColor", DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor },
         { "StatusBarTailBackgroundColor", DefaultEnvironmentSettings.StatusBarTailBackgroundColor }
@@ -178,7 +179,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SaveWindowSettings(Configuration config)
     {
-      WriteValueToSetting(config, "LastViewedOptionPage", CurrentSettings.LastViewedOptionPage.ToString());
+      WriteValueToSetting(config, "LastViewedOptionPage", CurrentSettings.LastViewedOptionPage);
       WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
       WriteValueToSetting(config, "AlwaysOnTop", CurrentSettings.AlwaysOnTop);
       WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
@@ -196,15 +197,17 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "LinesRead", CurrentSettings.LinesRead);
       WriteValueToSetting(config, "GroupByCategory", CurrentSettings.GroupByCategory);
       WriteValueToSetting(config, "AutoUpdate", CurrentSettings.AutoUpdate);
-      WriteValueToSetting(config, "DefaultRefreshRate", CurrentSettings.DefaultRefreshRate.ToString());
-      WriteValueToSetting(config, "DefaultThreadPriority", CurrentSettings.DefaultThreadPriority.ToString());
-      WriteValueToSetting(config, "CurrentWindowStyle", CurrentSettings.CurrentWindowStyle.ToString());
-      WriteValueToSetting(config, "TimeFormat", CurrentSettings.DefaultTimeFormat.ToString());
-      WriteValueToSetting(config, "DateFormat", CurrentSettings.DefaultDateFormat.ToString());
-      WriteValueToSetting(config, "FileManagerSort", CurrentSettings.DefaultFileSort.ToString());
-      WriteValueToSetting(config, "LogLineLimit", CurrentSettings.LogLineLimit.ToString());
-      WriteValueToSetting(config, "SmartWatch", CurrentSettings.SmartWatch.ToString());
-      WriteValueToSetting(config, "Statics", CurrentSettings.Statistics.ToString());
+      WriteValueToSetting(config, "DefaultRefreshRate", CurrentSettings.DefaultRefreshRate);
+      WriteValueToSetting(config, "DefaultThreadPriority", CurrentSettings.DefaultThreadPriority);
+      WriteValueToSetting(config, "CurrentWindowStyle", CurrentSettings.CurrentWindowStyle);
+      WriteValueToSetting(config, "TimeFormat", CurrentSettings.DefaultTimeFormat);
+      WriteValueToSetting(config, "DateFormat", CurrentSettings.DefaultDateFormat);
+      WriteValueToSetting(config, "FileManagerSort", CurrentSettings.DefaultFileSort);
+      WriteValueToSetting(config, "LogLineLimit", CurrentSettings.LogLineLimit);
+      WriteValueToSetting(config, "SmartWatch", CurrentSettings.SmartWatch);
+      WriteValueToSetting(config, "Statics", CurrentSettings.Statistics);
+      WriteValueToSetting(config, "DeleteLogFileOlderThan", CurrentSettings.LogFilesOlderThan);
+      WriteValueToSetting(config, "DeleteLogFiles", CurrentSettings.DeleteLogFiles);
     }
 
     private void SaveStatusBarSettings(Configuration config)
@@ -303,6 +306,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.AlwaysScrollToEnd = DefaultEnvironmentSettings.AlwaysScrollToEnd;
       CurrentSettings.CurrentWindowState = DefaultEnvironmentSettings.CurrentWindowState;
       CurrentSettings.DeleteLogFiles = DefaultEnvironmentSettings.DeleteLogFiles;
+      CurrentSettings.LogFilesOlderThan = DefaultEnvironmentSettings.DeleteLogFilesOlderThan;
       CurrentSettings.ExitWithEscape = DefaultEnvironmentSettings.ExitWithEscape;
       CurrentSettings.LinesRead = DefaultEnvironmentSettings.LinesRead;
       CurrentSettings.RestoreWindowSize = DefaultEnvironmentSettings.RestoreWindowSize;
@@ -454,6 +458,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ExitWithEscape = GetBoolFromSetting("ExitWithEsc");
       CurrentSettings.CurrentWindowState = GetWindowState(GetStringFromSetting("WindowState"));
       CurrentSettings.DeleteLogFiles = GetBoolFromSetting("DeleteLogFiles");
+      CurrentSettings.LogFilesOlderThan = GetIntFromSetting("DeleteLogFileOlderThan");
       CurrentSettings.CurrentWindowStyle = GetWindowStyle(GetStringFromSetting("CurrentWindowStyle"));
       CurrentSettings.Language = GetUiLanguage(GetStringFromSetting("Language"));
       CurrentSettings.AlwaysScrollToEnd = GetBoolFromSetting("AlwaysScrollToEnd");

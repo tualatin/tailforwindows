@@ -470,7 +470,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private async Task DeleteLogFilesAsync()
     {
-      LOG.Trace($"Delete log files older than {EnvironmentContainer.DeleteLogFilesOlderThan} days...");
+      LOG.Trace($"Delete log files older than {SettingsHelperController.CurrentSettings.LogFilesOlderThan} days...");
 
       if ( !Directory.Exists("logs") )
         return;
@@ -482,7 +482,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
           {
             var files = new DirectoryInfo("logs").GetFiles("*.log");
 
-            Parallel.ForEach(files.Where(p => DateTime.Now - p.LastWriteTimeUtc > TimeSpan.FromDays(EnvironmentContainer.DeleteLogFilesOlderThan)), item =>
+            Parallel.ForEach(files.Where(p => DateTime.Now - p.LastWriteTimeUtc > TimeSpan.FromDays(SettingsHelperController.CurrentSettings.LogFilesOlderThan)), item =>
             {
               try
               {

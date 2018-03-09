@@ -32,6 +32,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public const bool DeleteLogFiles = true;
 
     /// <summary>
+    /// Default value DeleteLogFilesOlderThan
+    /// </summary>
+    public const int DeleteLogFilesOlderThan = 5;
+
+    /// <summary>
     /// Default value AlwaysScrollToEnd
     /// </summary>
     public const bool AlwaysScrollToEnd = true;

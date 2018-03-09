@@ -235,6 +235,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private int _logFilesOlderThan;
+
+    /// <summary>
+    /// Log files older than xxx days
+    /// </summary>
+    public int LogFilesOlderThan
+    {
+      get => _logFilesOlderThan;
+      set
+      {
+        if ( value == _logFilesOlderThan )
+          return;
+
+        _logFilesOlderThan = value;
+        OnPropertyChanged(nameof(LogFilesOlderThan));
+      }
+    }
+
     private EWindowStyle _currentWindowStyle;
 
     /// <summary>

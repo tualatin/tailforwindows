@@ -28,6 +28,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       SaveWindowPosition = memento.SaveWindowPosition;
       ExitWithEscape = memento.ExitWithEscape;
       DeleteLogFiles = memento.DeleteLogFiles;
+      LogFilesOlderThan = memento.LogFilesOlderThan;
       CurrentWindowStyle = memento.CurrentWindowStyle;
       Language = memento.Language;
       AlwaysScrollToEnd = memento.AlwaysScrollToEnd;
@@ -63,6 +64,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         SaveWindowPosition = obj.SaveWindowPosition;
         ExitWithEscape = obj.ExitWithEscape;
         DeleteLogFiles = obj.DeleteLogFiles;
+        LogFilesOlderThan = obj.LogFilesOlderThan;
         CurrentWindowStyle = obj.CurrentWindowStyle;
         Language = obj.Language;
         AlwaysScrollToEnd = obj.AlwaysScrollToEnd;
@@ -287,6 +289,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Statistics for nerds
       /// </summary>
       public bool Statistics
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Log files older than xxx days
+      /// </summary>
+      public int LogFilesOlderThan
       {
         get;
       }

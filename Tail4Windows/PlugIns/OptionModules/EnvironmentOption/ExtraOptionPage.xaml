@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   mc:Ignorable="d"
   d:DesignHeight="400"
@@ -30,6 +31,7 @@
         <RowDefinition Height="26" />
         <RowDefinition Height="40" />
         <RowDefinition Height="20" />
+        <RowDefinition Height="26" />
         <RowDefinition Height="26" />
         <RowDefinition Height="*" />
         <RowDefinition />
@@ -200,12 +202,100 @@
         />
 
       <CheckBox
+        Name="CheckBoxDeleteLogFiles"
         Grid.Row="4"
+        Grid.Column="0"
+        Height="22"
+        Content="{DynamicResource ExtrasDeleteLogFile}"
+        IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=DeleteLogFiles, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+        TabIndex="3"
+        >
+        <CheckBox.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource ExtrasDeleteLogFile}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource ExtrasDeleteLogFileToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </CheckBox.ToolTip>
+      </CheckBox>
+
+      <userControls:Spinner
+        Grid.Row="4"
+        Grid.Column="1"
+        Width="50"
+        Height="23"
+        Margin="6 0"
+        HorizontalAlignment="Left"
+        Increment="1"
+        IsEnabled="{Binding ElementName=CheckBoxDeleteLogFiles, Path=IsChecked}"
+        MaxSpinValue="20"
+        MinSpinValue="1"
+        SnapsToDevicePixels="True"
+        StartIndex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=LogFilesOlderThan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        TabIndex="4"
+        >
+        <userControls:Spinner.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource ExtrasDeleteLogFile}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource ExtrasDeleteLogFileOlderThanToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </userControls:Spinner.ToolTip>
+      </userControls:Spinner>
+
+      <CheckBox
+        Grid.Row="5"
         Grid.Column="0"
         Height="22"
         Content="{DynamicResource ExtrasStatistics}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=Statistics, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-        TabIndex="1"
+        TabIndex="5"
         >
         <CheckBox.ToolTip>
           <StackPanel>
