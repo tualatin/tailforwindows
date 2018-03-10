@@ -223,4 +223,13 @@
   <system:String x:Key="UpdateOptionVisitWebsiteToolTip">Go to current application release website</system:String>
 
   <system:String x:Key="AutoUpdateWndTitle">Autoupdate</system:String>
+
+  <system:String x:Key="ColorOptionGroupLogWindow">Log window</system:String>
+  <system:String x:Key="ColorOptionGroupStatusBar">Statusbar</system:String>
+  <system:String x:Key="ColorOptionFontColor">Font color</system:String>
+  <system:String x:Key="ColorOptionBackgroundColor">Background color</system:String>
+
+  <system:String x:Key="ColorOptionStatusBarInactiveColor">Statusbar inactive color</system:String>
+  <system:String x:Key="ColorOptionStatusBarLoadedColor">Statusbar file loaded color</system:String>
+  <system:String x:Key="ColorOptionStatusBarBusyColor">Statusbar busy color</system:String>
 </ResourceDictionary>

@@ -218,4 +218,13 @@
   <system:String x:Key="UpdateOptionVisitWebsiteToolTip">Öffne sie aktuelle Release Webseite</system:String>
 
   <system:String x:Key="AutoUpdateWndTitle">Autoupdate</system:String>
+
+  <system:String x:Key="ColorOptionGroupLogWindow">Log Fenster</system:String>
+  <system:String x:Key="ColorOptionGroupStatusBar">Statusbar</system:String>
+  <system:String x:Key="ColorOptionFontColor">Zeichenfarbe</system:String>
+  <system:String x:Key="ColorOptionBackgroundColor">Hintergrundfarbe</system:String>
+
+  <system:String x:Key="ColorOptionStatusBarInactiveColor">Statusbar inaktive Farbe</system:String>
+  <system:String x:Key="ColorOptionStatusBarLoadedColor">Statusbar Datei geladen Farbe</system:String>
+  <system:String x:Key="ColorOptionStatusBarBusyColor">Statusbar beschäftigt Farbe</system:String>
 </ResourceDictionary>

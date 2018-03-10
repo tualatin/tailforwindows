@@ -1,12 +1,149 @@
-﻿<UserControl x:Class="Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ColorOptionPage"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+﻿<UserControl
+  x:Class="Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ColorOptionPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+  xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
+  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
+  mc:Ignorable="d"
+  d:DesignHeight="300"
+  d:DesignWidth="400"
+  >
+  <UserControl.Resources>
+    <converters:StringToWindowsMediaColorConverter x:Key="StringToWindowsMediaColorConverter" />
+  </UserControl.Resources>
+
+  <ScrollViewer
+    HorizontalScrollBarVisibility="Auto"
+    VerticalScrollBarVisibility="Auto"
+    >
     <Grid>
-            
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+
+      <GroupBox
+        MinWidth="300"
+        Margin="2"
+        Header="{DynamicResource ColorOptionGroupLogWindow}"
+        >
+        <Grid Margin="3">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+
+          <Grid.RowDefinitions>
+            <RowDefinition Height="26" />
+            <RowDefinition Height="26" />
+          </Grid.RowDefinitions>
+
+          <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Content="{DynamicResource ColorOptionFontColor}"
+            />
+          <xctk:ColorPicker
+            Grid.Row="0"
+            Grid.Column="1"
+            Width="90"
+            Margin="10 1 0 1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            SelectedColor="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.ForegroundColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            />
+
+          <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Content="{DynamicResource ColorOptionBackgroundColor}"
+            />
+          <xctk:ColorPicker
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="90"
+            Margin="10 1 0 1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            SelectedColor="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.BackgroundColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            />
+        </Grid>
+      </GroupBox>
+
+      <GroupBox
+        Grid.Row="1"
+        MinWidth="300"
+        Margin="2"
+        Header="{DynamicResource ColorOptionGroupStatusBar}"
+        >
+        <Grid Margin="3">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+
+          <Grid.RowDefinitions>
+            <RowDefinition Height="26" />
+            <RowDefinition Height="26" />
+            <RowDefinition Height="26" />
+          </Grid.RowDefinitions>
+
+          <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Content="{DynamicResource ColorOptionStatusBarInactiveColor}"
+            />
+          <xctk:ColorPicker
+            Grid.Row="0"
+            Grid.Column="1"
+            Width="90"
+            Margin="10 1 0 1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            SelectedColor="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.StatusBarInactiveBackgroundColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            />
+
+          <Label
+            Grid.Row="1"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Content="{DynamicResource ColorOptionStatusBarLoadedColor}"
+            />
+          <xctk:ColorPicker
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="90"
+            Margin="10 1 0 1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            SelectedColor="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.StatusBarFileLoadedBackgroundColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            />
+
+          <Label
+            Grid.Row="2"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Content="{DynamicResource ColorOptionStatusBarBusyColor}"
+            />
+          <xctk:ColorPicker
+            Grid.Row="2"
+            Grid.Column="1"
+            Width="90"
+            Margin="10 1 0 1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            SelectedColor="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.StatusBarTailBackgroundColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            />
+        </Grid>
+      </GroupBox>
     </Grid>
+  </ScrollViewer>
 </UserControl>
+
