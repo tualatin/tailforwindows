@@ -111,6 +111,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
 
       await EnvironmentContainer.Instance.ResetCurrentSettingsAsync(_cts).ConfigureAwait(false);
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ResetDataMessage(this));
     }
 
     private async Task ExecuteExportCommandAsync()

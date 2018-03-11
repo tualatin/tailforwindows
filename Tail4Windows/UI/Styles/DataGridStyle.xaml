@@ -1,0 +1,47 @@
+﻿<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:local="clr-namespace:Org.Vs.TailForWin.UI.Styles"
+  >
+
+  <Style x:Key="EditableDataGrid" TargetType="{x:Type DataGrid}">
+    <Setter Property="AlternatingRowBackground" Value="Azure" />
+    <Setter Property="AutoGenerateColumns" Value="False" />
+    <Setter Property="CanUserReorderColumns" Value="False" />
+    <Setter Property="CanUserSortColumns" Value="False" />
+    <Setter Property="EnableRowVirtualization" Value="True" />
+    <Setter Property="HorizontalGridLinesBrush" Value="#FFBEBEBE" />
+    <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+    <Setter Property="ScrollViewer.PanningMode" Value="Both" />
+    <Setter Property="SelectionMode" Value="Single" />
+    <Setter Property="SnapsToDevicePixels" Value="True" />
+    <Setter Property="VerticalGridLinesBrush" Value="#FFBEBEBE" />
+  </Style>
+
+  <Style TargetType="{x:Type DataGridRow}">
+    <Setter Property="Background">
+      <Setter.Value>
+        <SolidColorBrush Color="{DynamicResource ControlLightColor}" />
+      </Setter.Value>
+    </Setter>
+    <Setter Property="SnapsToDevicePixels" Value="True" />
+    <Setter Property="ValidationErrorTemplate">
+      <Setter.Value>
+        <ControlTemplate>
+          <TextBlock
+            Margin="2 0 0 0"
+            VerticalAlignment="Center"
+            Text="!"
+            Foreground="Red"
+            />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="Background" Value="Beige" />
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+</ResourceDictionary>
