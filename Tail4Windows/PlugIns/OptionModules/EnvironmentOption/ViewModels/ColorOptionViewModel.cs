@@ -102,18 +102,13 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       }
     }
 
-    #region Commands
-
-    #endregion
-
-    #region Command functions
-
-    #endregion
-
     #region HelperFunctions
 
     private void ResetData(object sender)
     {
+      if ( !(sender is ImportExportOptionViewModel) )
+        return;
+
       LogViewerColorData.Clear();
       StatusbarColorData.Clear();
 

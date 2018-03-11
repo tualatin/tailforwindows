@@ -323,8 +323,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void SetDefaultWindowSettings()
     {
-      BusinessMainWndToMainWndStatusBarController.CurrentBusinessData.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex;
-      BusinessMainWndToMainWndStatusBarController.CurrentBusinessData.CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
+      BusinessMainWndToMainWndStatusBarController.Instance.SetCurrentBusinessData(EStatusbarState.Default);
 
       switch ( SettingsHelperController.CurrentSettings.CurrentWindowStyle )
       {
