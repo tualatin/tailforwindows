@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using log4net;
 using Xceed.Wpf.Toolkit;
 
 
@@ -9,6 +10,9 @@ namespace Org.Vs.TailForWin.UI.ExtendedControls
   /// </summary>
   public class ColorPicker : Xceed.Wpf.Toolkit.ColorPicker
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(ColorPicker));
+
+
     /// <summary>
     /// Standard constructor
     /// </summary>

@@ -245,4 +245,7 @@
   <system:String x:Key="ColorOptionStatusBarInactiveColor">Statusbar inactive color</system:String>
   <system:String x:Key="ColorOptionStatusBarLoadedColor">Statusbar file loaded color</system:String>
   <system:String x:Key="ColorOptionStatusBarBusyColor">Statusbar busy color</system:String>
+
+  <system:String x:Key="StatusbarEncoding">Encoding</system:String>
+  <system:String x:Key="StatusbarEncodingToolTip">Select files encoding for current log file</system:String>
 </ResourceDictionary>

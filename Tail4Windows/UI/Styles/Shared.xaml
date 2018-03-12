@@ -54,6 +54,8 @@
     </Setter>
   </Style>
 
+  <Color x:Key="ColorGrey03Alpha">#4CF7F7F7</Color>
+
   <Color x:Key="ColorGrey03">#FFF7F7F7</Color>
   <Color x:Key="ColorGrey10">#FFE5E5E5</Color>
   <Color x:Key="ColorGrey20">#FFCCCCCC</Color>

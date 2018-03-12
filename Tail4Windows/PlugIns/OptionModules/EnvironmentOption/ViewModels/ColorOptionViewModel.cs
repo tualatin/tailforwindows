@@ -139,9 +139,9 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
     #region HelperFunctions
 
-    private void ResetData(object sender)
+    private void ResetData(ResetDataMessage args)
     {
-      if ( !(sender is ImportExportOptionViewModel) )
+      if ( !(args.Sender is ImportExportOptionViewModel) )
         return;
 
       LogViewerColorData.Clear();

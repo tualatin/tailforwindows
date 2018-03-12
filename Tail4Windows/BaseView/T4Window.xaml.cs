@@ -43,8 +43,8 @@ namespace Org.Vs.TailForWin.BaseView
       if ( SettingsHelperController.CurrentSettings.CurrentWindowState != WindowState.Maximized || WindowState != WindowState.Normal )
         return;
 
-      MainWindow.Width = SettingsHelperController.CurrentSettings.WindowWidth;
-      MainWindow.Height = SettingsHelperController.CurrentSettings.WindowHeight;
+      MainWindow.Width = (int) SettingsHelperController.CurrentSettings.WindowWidth == -1 ? 800 : SettingsHelperController.CurrentSettings.WindowWidth;
+      MainWindow.Height = (int) SettingsHelperController.CurrentSettings.WindowHeight == -1 ? 400 : SettingsHelperController.CurrentSettings.WindowHeight;
 
       MainWindow.Left = SettingsHelperController.CurrentSettings.WindowPositionX;
       MainWindow.Top = SettingsHelperController.CurrentSettings.WindowPositionY;

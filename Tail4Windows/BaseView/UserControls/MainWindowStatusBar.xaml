@@ -6,10 +6,11 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:businessMainWnd="clr-namespace:Org.Vs.TailForWin.Business.Controllers"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="23"
-  d:DesignWidth="400"
+  d:DesignWidth="700"
   >
   <UserControl.DataContext>
     <viewModels:MainWindowStatusBarViewModel />
@@ -19,11 +20,112 @@
     <converters:StringToWindowMediaBrushConverter x:Key="StringToWindowMediaBrushConverter" />
   </UserControl.Resources>
 
-  <Grid Background="{Binding Source={x:Static businessMainWnd:BusinessMainWndToMainWndStatusBarController.CurrentBusinessData}, Path=CurrentStatusBarBackgroundColorHex, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}">
+  <Grid
+    Name="StatusbarGrid"
+    Background="{Binding Source={x:Static businessMainWnd:BusinessMainWndToMainWndStatusBarController.CurrentBusinessData}, Path=CurrentStatusBarBackgroundColorHex, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+    >
     <Grid.ColumnDefinitions>
-      <ColumnDefinition />
-      <ColumnDefinition />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="90" />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
+
+    <TextBlock
+      Grid.Column="0"
+      Margin="5 0"
+      VerticalAlignment="Center"
+      Text="{Binding Source={x:Static businessMainWnd:BusinessMainWndToMainWndStatusBarController.CurrentBusinessData}, Path=CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
+      FontSize="11"
+      Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
+      SnapsToDevicePixels="True"
+      />
+
+    <Grid
+      Grid.Column="2"
+      HorizontalAlignment="Right"
+      >
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="20" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="20" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="15" />
+      </Grid.ColumnDefinitions>
+
+      <TextBlock
+        Grid.Column="0"
+        Margin="5 0"
+        VerticalAlignment="Center"
+        Text="Size=4355,33 Kb, Last refresh time=14:30"
+        FontSize="11"
+        Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
+        SnapsToDevicePixels="True"
+        />
+
+      <StackPanel
+        Grid.Column="2"
+        Orientation="Horizontal"
+        >
+        <TextBlock
+          Margin="5 0"
+          VerticalAlignment="Center"
+          Text="{DynamicResource StatusbarEncoding}"
+          FontSize="11"
+          Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
+          />
+        <ComboBox
+          Width="165"
+          DisplayMemberPath="HeaderName"
+          FontSize="11"
+          IsEditable="True"
+          ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=FileEncoding}"
+          MaxDropDownHeight="200"
+          Style="{StaticResource StatusbarComboBoxStyle}"
+          >
+          <ComboBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource StatusbarEncoding}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource StatusbarEncodingToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </ComboBox.ToolTip>
+        </ComboBox>
+      </StackPanel>
+
+      <TextBlock
+        Grid.Column="4"
+        Margin="5 0"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Center"
+        Text="Lines read=123045865"
+        FontSize="11"
+        Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
+        SnapsToDevicePixels="True"
+        />
+    </Grid>
   </Grid>
 </UserControl>
