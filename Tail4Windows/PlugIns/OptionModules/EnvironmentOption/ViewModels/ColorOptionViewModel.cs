@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 using Org.Vs.TailForWin.Business.Data.Messages;
@@ -85,6 +86,36 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex = mydata.Color;
         break;
 
+      case "InactiveForegroundColorHex":
+
+        SettingsHelperController.CurrentSettings.ColorSettings.InactiveForegroundColorHex = mydata.Color;
+        break;
+
+      case "InactiveBackgroundColorHex":
+
+        SettingsHelperController.CurrentSettings.ColorSettings.InactiveBackgroundColorHex = mydata.Color;
+        break;
+
+      case "FindHighlightForegroundColorHex":
+
+        SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightForegroundColorHex = mydata.Color;
+        break;
+
+      case "FindHighlightBackgroundColorHex":
+
+        SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex = mydata.Color;
+        break;
+
+      case "LineNumberColorHex":
+
+        SettingsHelperController.CurrentSettings.ColorSettings.LineNumberColorHex = mydata.Color;
+        break;
+
+      case "LineNumberHighlightColorHex":
+
+        SettingsHelperController.CurrentSettings.ColorSettings.LineNumberHighlightColorHex = mydata.Color;
+        break;
+
       case "StatusBarInactiveBackgroundColorHex":
 
         SettingsHelperController.CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex = mydata.Color;
@@ -99,6 +130,10 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
         SettingsHelperController.CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex = mydata.Color;
         break;
+
+      default:
+
+        throw new NotImplementedException();
       }
     }
 
@@ -131,6 +166,48 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
           ConfigurationName = "BackgroundColorHex",
           Name = Application.Current.TryFindResource("ColorOptionBackgroundColor").ToString(),
           Color = SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex
+        });
+      LogViewerColorData.Add(
+        new ControlColorData
+        {
+          ConfigurationName = "InactiveForegroundColorHex",
+          Name = Application.Current.TryFindResource("ColorOptionInactiveFontColor").ToString(),
+          Color = SettingsHelperController.CurrentSettings.ColorSettings.InactiveForegroundColorHex
+        });
+      LogViewerColorData.Add(
+        new ControlColorData
+        {
+          ConfigurationName = "InactiveBackgroundColorHex",
+          Name = Application.Current.TryFindResource("ColorOptionInactiveBackgroundColor").ToString(),
+          Color = SettingsHelperController.CurrentSettings.ColorSettings.InactiveBackgroundColorHex
+        });
+      LogViewerColorData.Add(
+        new ControlColorData
+        {
+          ConfigurationName = "FindHighlightForegroundColorHex",
+          Name = Application.Current.TryFindResource("ColorOptionHighlightFontColor").ToString(),
+          Color = SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightForegroundColorHex
+        });
+      LogViewerColorData.Add(
+        new ControlColorData
+        {
+          ConfigurationName = "FindHighlightBackgroundColorHex",
+          Name = Application.Current.TryFindResource("ColorOptionHighlightBackgroundColor").ToString(),
+          Color = SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex
+        });
+      LogViewerColorData.Add(
+        new ControlColorData
+        {
+          ConfigurationName = "LineNumberColorHex",
+          Name = Application.Current.TryFindResource("ColorOptionLineNumberColor").ToString(),
+          Color = SettingsHelperController.CurrentSettings.ColorSettings.LineNumberColorHex
+        });
+      LogViewerColorData.Add(
+        new ControlColorData
+        {
+          ConfigurationName = "LineNumberHighlightColorHex",
+          Name = Application.Current.TryFindResource("ColorOptionLineNumberHighlightColor").ToString(),
+          Color = SettingsHelperController.CurrentSettings.ColorSettings.LineNumberHighlightColorHex
         });
     }
 
