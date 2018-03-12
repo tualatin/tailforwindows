@@ -273,6 +273,7 @@
     <Compile Include="UI\Converters\StringToWindowMediaBrushConverter.cs" />
     <Compile Include="UI\Converters\StringToWindowsMediaColorConverter.cs" />
     <Compile Include="UI\Converters\TreeNodeToImageConverter.cs" />
+    <Compile Include="UI\ExtendedControls\ColorPicker.cs" />
     <Compile Include="UI\ExtendedControls\WindowEx.cs" />
     <Compile Include="BaseView\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>

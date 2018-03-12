@@ -80,6 +80,11 @@
   <system:String x:Key="ETailRefreshRateFast">Schnell</system:String>
   <system:String x:Key="ETailRefreshRateHighest">Sehr schnell</system:String>
 
+  <system:String x:Key="ColorPickerAvailableColorsHeader">Vorhandene Farben</system:String>
+  <system:String x:Key="ColorPickerStandardColorsHeader">Standard Farben</system:String>
+  <system:String x:Key="ColorPickerAdvancedButtonHeader">Erweitert</system:String>
+  <system:String x:Key="ColorPickerStandardButtonHeader">Standard</system:String>
+
   <system:String x:Key="GeneralToolTipHint">Für zusätzliche Informationen, schauen Sie in die Readme Datei</system:String>
 
   <system:String x:Key="OptionsPageTitle">Options - {0}</system:String>

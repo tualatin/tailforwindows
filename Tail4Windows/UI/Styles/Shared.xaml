@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
   >
 
   <Style x:Key="VerticalHic" TargetType="{x:Type HeaderedItemsControl}">
@@ -53,10 +54,31 @@
     </Setter>
   </Style>
 
+  <Color x:Key="ColorGrey03">#FFF7F7F7</Color>
+  <Color x:Key="ColorGrey10">#FFE5E5E5</Color>
+  <Color x:Key="ColorGrey20">#FFCCCCCC</Color>
+  <Color x:Key="ColorGrey35">#FFBBBBBB</Color>
+  <Color x:Key="ColorGrey55">#FF919191</Color>
+  <Color x:Key="ColorGrey65">#FF7B7B7B</Color>
+  <Color x:Key="ColorGrey75">#FF636363</Color>
+  <Color x:Key="ColorBlack">Black</Color>
+  <Color x:Key="ColorWhite">White</Color>
+
+  <SolidColorBrush x:Key="BrushSolidGrey03" Color="{StaticResource ColorGrey03}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey10" Color="{StaticResource ColorGrey10}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey20" Color="{StaticResource ColorGrey20}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey35" Color="{StaticResource ColorGrey35}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey55" Color="{StaticResource ColorGrey55}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey65" Color="{StaticResource ColorGrey65}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey75" Color="{StaticResource ColorGrey75}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidBlack" Color="{StaticResource ColorBlack}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidWhite" Color="{StaticResource ColorWhite}" po:Freeze="True" />
+
+
   <!--  Some color definitions  -->
   <Color x:Key="DisabledForegroundColor">#CACBD3</Color>
-  <SolidColorBrush x:Key="ScrollBarLightColor">#E8E8EC</SolidColorBrush>
-  <SolidColorBrush x:Key="BorderHighlight">#FFF0D0</SolidColorBrush>
+  <SolidColorBrush x:Key="ScrollBarLightColor" po:Freeze="True">#E8E8EC</SolidColorBrush>
+  <SolidColorBrush x:Key="BorderHighlight" po:Freeze="True">#FFF0D0</SolidColorBrush>
   <Color x:Key="DefaultScrollBarColor">#D0D1D7</Color>
   <Color x:Key="ScrollBarPressed">#888888</Color>
 
@@ -72,6 +94,7 @@
   <Color x:Key="SelectedUnfocusedColor">#FFDDDDDD</Color>
 
   <Color x:Key="ControlLightColor">White</Color>
+  <SolidColorBrush x:Key="ControlLightBrush" Color="{StaticResource ControlLightColor}" po:Freeze="True" />
   <Color x:Key="ControlMediumColor">#FF7381F9</Color>
   <Color x:Key="ControlDarkColor">#FF211AA9</Color>
 
