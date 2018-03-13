@@ -4,6 +4,7 @@
   xmlns:system="clr-namespace:System;assembly=mscorlib"
   >
   <system:String x:Key="ResourceDictionaryName">Lang-en-EN</system:String>
+
   <system:String x:Key="English">English</system:String>
   <system:String x:Key="German">German</system:String>
   <system:String x:Key="UiLanguage">Language</system:String>

@@ -4,6 +4,7 @@
   xmlns:system="clr-namespace:System;assembly=mscorlib"
   >
   <system:String x:Key="ResourceDictionaryName">Lang-de-DE</system:String>
+
   <system:String x:Key="English">Englisch</system:String>
   <system:String x:Key="German">Deutsch</system:String>
   <system:String x:Key="UiLanguage">Sprache</system:String>
@@ -169,6 +170,9 @@
   <system:String x:Key="ImportExportResetConfiguration">Einstellungen zurücksetzen</system:String>
   <system:String x:Key="ImportExportResetConfigurationToolTip">Alles aktuellen Einstellungen werden auf die Standardwerte zurück gesetzt</system:String>
   <system:String x:Key="ImportExportExportSettingsFilter">Einstellungen exportieren (*.export)|*.export</system:String>
+  <system:String x:Key="ImportExportImportFinishedMessage">Einstellungen erfolgreich importiert</system:String>
+  <system:String x:Key="ImportExportExportFinishedMessage">Einstellungen erfolgreich exportiert</system:String>
+  <system:String x:Key="ImportExportResetFinishedMessage">Einstellungen erfolgreich zurück gesetzt</system:String>
 
   <system:String x:Key="ProxySettingsServerGroup">Server</system:String>
   <system:String x:Key="ProxySettingsAuthentificationGroup">Authentifizierung</system:String>

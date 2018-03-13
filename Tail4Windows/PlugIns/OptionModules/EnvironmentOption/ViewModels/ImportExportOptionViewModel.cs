@@ -222,8 +222,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      CreatePopUpWindow(Application.Current.TryFindResource("ImportExportResetConfiguration").ToString(),
-        Application.Current.TryFindResource("ImportExportResetFinishedMessage").ToString());
+      CreatePopUpWindow(Application.Current.TryFindResource("ImportExportResetConfiguration").ToString(), Application.Current.TryFindResource("ImportExportResetFinishedMessage").ToString());
     }
 
     private void ExportCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
