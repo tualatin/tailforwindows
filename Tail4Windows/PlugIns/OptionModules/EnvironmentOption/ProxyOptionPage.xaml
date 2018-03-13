@@ -30,7 +30,7 @@
     HorizontalScrollBarVisibility="Auto"
     VerticalScrollBarVisibility="Auto"
     >
-    <Grid>
+    <Grid UseLayoutRounding="True">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
@@ -84,7 +84,7 @@
             IsEnabled="{Binding ElementName=RadioButtonManualProxy, Path=IsChecked}"
             >
             <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="70" />
+              <ColumnDefinition Width="70" SharedSizeGroup="LabelText" />
               <ColumnDefinition MinWidth="180" />
               <ColumnDefinition Width="50" />
               <ColumnDefinition Width="60" />
@@ -148,7 +148,7 @@
             <RowDefinition Height="30" />
           </Grid.RowDefinitions>
           <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="70" />
+            <ColumnDefinition Width="70" SharedSizeGroup="LabelText" />
             <ColumnDefinition MinWidth="200" />
           </Grid.ColumnDefinitions>
 

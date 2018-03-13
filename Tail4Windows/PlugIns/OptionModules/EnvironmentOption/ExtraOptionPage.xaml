@@ -21,7 +21,7 @@
     HorizontalScrollBarVisibility="Auto"
     VerticalScrollBarVisibility="Auto"
     >
-    <Grid>
+    <Grid UseLayoutRounding="True">
       <Grid.ColumnDefinitions>
         <ColumnDefinition MinWidth="160" />
         <ColumnDefinition MinWidth="200" />
