@@ -13,7 +13,10 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public ColorOptionPage() => InitializeComponent();
+    public ColorOptionPage()
+    {
+      InitializeComponent();
+    }
 
     /// <summary>
     /// Current page title

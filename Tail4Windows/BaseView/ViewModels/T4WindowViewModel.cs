@@ -199,10 +199,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       await EnvironmentContainer.Instance.ReadSettingsAsync().ConfigureAwait(false);
 
+      SetUiLanguage();
       SetDefaultWindowSettings();
       MoveIntoView();
       RestoreWindowSizeAndPosition();
-      SetUiLanguage();
 
       await AutoUpdateAsync().ConfigureAwait(false);
     }
@@ -347,27 +347,23 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void SetUiLanguage()
     {
-      ResourceDictionary dictionary = new ResourceDictionary();
-
       switch ( SettingsHelperController.CurrentSettings.Language )
       {
       case EUiLanguage.English:
 
-        dictionary.Source = new Uri(@"..\Language\en-EN.xaml", UriKind.Relative);
+        LanguageSelector.SetLanguageResourceDictionary(EnvironmentContainer.ApplicationPath + @"\Language\en-EN.xaml");
         break;
 
       case EUiLanguage.German:
 
-        dictionary.Source = new Uri(@"..\Language\de-DE.xaml", UriKind.Relative);
+        LanguageSelector.SetLanguageResourceDictionary(EnvironmentContainer.ApplicationPath + @"\Language\de-DE.xaml");
         break;
 
       default:
 
-        dictionary.Source = new Uri(@"..\Language\en-EN.xaml", UriKind.Relative);
+        LanguageSelector.SetLanguageResourceDictionary(EnvironmentContainer.ApplicationPath + @"\Language\en-EN.xaml");
         break;
       }
-
-      Application.Current.Resources.MergedDictionaries.Add(dictionary);
     }
 
     private async Task AutoUpdateAsync()

@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -73,9 +75,37 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     /// </summary>
     public ICommand UnloadedCommand => _unloadedCommand ?? (_unloadedCommand = new RelayCommand(p => ExecuteUnloadedCommand()));
 
+    private ICommand _selectionChangedCommand;
+
+    /// <summary>
+    /// Selection changed command
+    /// </summary>
+    public ICommand SelectionChangedCommand => _selectionChangedCommand ?? (_selectionChangedCommand = new RelayCommand(p => ExecuteSelectionChangedCommand()));
+
     #endregion
 
     #region Command functions
+    
+    private void ExecuteSelectionChangedCommand()
+    {
+      switch ( SettingsHelperController.CurrentSettings.Language )
+      {
+      case EUiLanguage.English:
+
+        LanguageSelector.SetLanguageResourceDictionary(EnvironmentContainer.ApplicationPath + @"\Language\en-EN.xaml");
+        break;
+
+      case EUiLanguage.German:
+
+        LanguageSelector.SetLanguageResourceDictionary(EnvironmentContainer.ApplicationPath + @"\Language\de-DE.xaml");
+        break;
+
+      default:
+
+        LanguageSelector.SetLanguageResourceDictionary(EnvironmentContainer.ApplicationPath + @"\Language\en-EN.xaml");
+        break;
+      }
+    }
 
     private void ExecuteUnloadedCommand() => _cts?.Cancel();
 

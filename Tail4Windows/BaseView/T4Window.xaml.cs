@@ -54,6 +54,7 @@ namespace Org.Vs.TailForWin.BaseView
     {
       IntPtr handle = new WindowInteropHelper(this).Handle;
       IntPtr sysMenuHandle = NativeMethods.GetSystemMenu(handle, false);
+
       NativeMethods.InsertMenu(sysMenuHandle, 5, NativeMethods.MF_BYPOSITION | NativeMethods.MF_SEPARATOR, 0, string.Empty);
       NativeMethods.InsertMenu(sysMenuHandle, 6, NativeMethods.MF_BYPOSITION, 1000, Application.Current.TryFindResource("OptionsSystemMenu").ToString());
 

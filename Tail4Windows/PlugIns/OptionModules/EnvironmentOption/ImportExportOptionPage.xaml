@@ -163,7 +163,6 @@
       <Label
         Grid.Row="2"
         Grid.Column="0"
-        Grid.ColumnSpan="2"
         VerticalAlignment="Center"
         Content="{DynamicResource ImportExportConfigurationPath}"
         />
@@ -193,8 +192,9 @@
         Grid.ColumnSpan="5"
         >
         <Button
-          Width="100"
           Height="23"
+          MinWidth="140"
+          MaxWidth="170"
           HorizontalAlignment="Center"
           VerticalAlignment="Center"
           Content="{DynamicResource ImportExportResetConfiguration}"

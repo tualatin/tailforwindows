@@ -6,7 +6,6 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
-  xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   mc:Ignorable="d"
@@ -77,8 +76,8 @@
         <userControls:WatermarkTextBox
           x:Name="QuickSearchTextBox"
           BorderThickness="0"
-          ToolTip="{StaticResource QuickSearchToolTip}"
-          Watermark="{StaticResource QuickSearchWatermark}"
+          ToolTip="{DynamicResource QuickSearchToolTip}"
+          Watermark="{DynamicResource QuickSearchWatermark}"
           local:MainWindowQuickSearchBar.IsQuickSearchTextBoxFocused="{Binding IsFocused, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           >
           <userControls:WatermarkTextBox.InputBindings>
@@ -100,7 +99,7 @@
               RenderOptions.BitmapScalingMode="NearestNeighbor"
               RenderOptions.EdgeMode="Aliased"
               Source="/T4W;component/Resources/QuickSearch.png"
-              ToolTip="{StaticResource QuickSearchEnterToolTip}"
+              ToolTip="{DynamicResource QuickSearchEnterToolTip}"
               />
           </StackPanel>
         </Button>

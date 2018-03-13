@@ -3,6 +3,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:system="clr-namespace:System;assembly=mscorlib"
   >
+  <system:String x:Key="ResourceDictionaryName">Lang-de-DE</system:String>
   <system:String x:Key="English">Englisch</system:String>
   <system:String x:Key="German">Deutsch</system:String>
   <system:String x:Key="UiLanguage">Sprache</system:String>

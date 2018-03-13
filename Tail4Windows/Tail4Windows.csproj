@@ -222,6 +222,7 @@
     <Compile Include="Core\Extensions\ColorExtension.cs" />
     <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
     <Compile Include="BaseView\ViewModels\TreeNodeOptionViewModel.cs" />
+    <Compile Include="Core\Utils\LanguageSelector.cs" />
     <Compile Include="Core\Utils\StringEncryption.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\SysInfoOptionPage.xaml.cs">
       <DependentUpon>SysInfoOptionPage.xaml</DependentUpon>
@@ -441,14 +442,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Language\de-DE.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Content Include="Language\de-DE.xaml">
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Language\en-EN.xaml">
-      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Language\en-EN.xaml">
       <SubType>Designer</SubType>
-    </Page>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

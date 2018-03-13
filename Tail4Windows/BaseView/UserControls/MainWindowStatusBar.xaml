@@ -26,7 +26,8 @@
     >
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
-      <ColumnDefinition Width="90" />
+      <ColumnDefinition Width="100" />
+      <ColumnDefinition Width="Auto" />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
 
@@ -40,31 +41,29 @@
       SnapsToDevicePixels="True"
       />
 
-    <Grid
+    <TextBlock
       Grid.Column="2"
+      Margin="5 0"
+      VerticalAlignment="Center"
+      Text="Size=4355,33 Kb, Last refresh time=14:30"
+      FontSize="11"
+      Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
+      SnapsToDevicePixels="True"
+      />
+
+    <Grid
+      Grid.Column="3"
       HorizontalAlignment="Right"
       >
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="20" />
         <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="20" />
-        <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="15" />
       </Grid.ColumnDefinitions>
 
-      <TextBlock
-        Grid.Column="0"
-        Margin="5 0"
-        VerticalAlignment="Center"
-        Text="Size=4355,33 Kb, Last refresh time=14:30"
-        FontSize="11"
-        Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
-        SnapsToDevicePixels="True"
-        />
-
       <StackPanel
-        Grid.Column="2"
+        Grid.Column="0"
         Orientation="Horizontal"
         >
         <TextBlock
@@ -117,7 +116,7 @@
       </StackPanel>
 
       <TextBlock
-        Grid.Column="4"
+        Grid.Column="2"
         Margin="5 0"
         HorizontalAlignment="Right"
         VerticalAlignment="Center"
