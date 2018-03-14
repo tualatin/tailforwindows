@@ -23,7 +23,7 @@
     </intr:EventTrigger>
   </intr:Interaction.Triggers>
 
-  <Grid>
+  <Grid UseLayoutRounding="True">
     <ListView
       BorderThickness="0"
       ItemsSource="{Binding SysInfoLoadedCommand.Execution.Result}"

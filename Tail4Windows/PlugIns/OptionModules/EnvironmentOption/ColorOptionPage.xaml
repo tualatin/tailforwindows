@@ -23,7 +23,7 @@
     HorizontalScrollBarVisibility="Auto"
     VerticalScrollBarVisibility="Auto"
     >
-    <Grid>
+    <Grid UseLayoutRounding="True">
       <Grid.RowDefinitions>
         <RowDefinition />
         <RowDefinition />

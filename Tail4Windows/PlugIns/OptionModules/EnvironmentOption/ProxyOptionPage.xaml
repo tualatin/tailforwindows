@@ -125,7 +125,6 @@
               Increment="5"
               MaxSpinValue="99999"
               MinSpinValue="1"
-              SnapsToDevicePixels="True"
               StartIndex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
               />
 
@@ -165,7 +164,6 @@
             Margin="0 0 10 0"
             VerticalAlignment="Center"
             Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            SnapsToDevicePixels="True"
             TabIndex="5"
             >
             <userControls:WatermarkTextBox.Watermark>

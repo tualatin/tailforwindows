@@ -22,7 +22,7 @@
     HorizontalScrollBarVisibility="Auto"
     VerticalScrollBarVisibility="Auto"
     >
-    <Grid>
+    <Grid UseLayoutRounding="True">
       <Grid.RowDefinitions>
         <RowDefinition Height="26" />
         <RowDefinition Height="26" />
@@ -59,7 +59,6 @@
         Height="23"
         Margin="6 0"
         Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.SmtpServerName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-        SnapsToDevicePixels="True"
         TabIndex="1"
         >
         <userControls:WatermarkTextBox.Watermark>
@@ -79,7 +78,6 @@
         Increment="5"
         MaxSpinValue="99999"
         MinSpinValue="1"
-        SnapsToDevicePixels="True"
         StartIndex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.SmtpPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         TabIndex="2"
         >
@@ -129,7 +127,6 @@
         Margin="6 0"
         VerticalAlignment="Center"
         Text="{Binding Path=SmtpSettings.LoginName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Source={x:Static controllers:SettingsHelperController.CurrentSettings}}"
-        SnapsToDevicePixels="True"
         TabIndex="3"
         >
         <userControls:WatermarkTextBox.Watermark>
@@ -173,7 +170,6 @@
         VerticalAlignment="Center"
         Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.FromAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         IsEnabled="{Binding ElementName=CheckBoxSameLogin, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
-        SnapsToDevicePixels="True"
         TabIndex="6"
         >
         <userControls:WatermarkTextBox.Watermark>
@@ -199,7 +195,6 @@
         Margin="6 0"
         VerticalAlignment="Center"
         Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.Subject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-        SnapsToDevicePixels="True"
         TabIndex="8"
         >
         <userControls:WatermarkTextBox.Watermark>
