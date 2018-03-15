@@ -1,12 +1,226 @@
-﻿<UserControl x:Class="Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.AlertOptionPage"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-            
+﻿<UserControl
+  x:Class="Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.AlertOptionPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
+  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
+  xmlns:my="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels"
+  mc:Ignorable="d"
+  d:DesignHeight="400"
+  d:DesignWidth="400"
+  >
+  <UserControl.DataContext>
+    <viewModels:AlertOptionViewModel />
+  </UserControl.DataContext>
+
+  <UserControl.Resources>
+    <converters:MailAddressConverter x:Key="MailAddressConverter" />
+    <converters:SoundFileNameConverter x:Key="SoundFileNameConverter" />
+  </UserControl.Resources>
+
+  <ScrollViewer
+    HorizontalScrollBarVisibility="Auto"
+    VerticalScrollBarVisibility="Auto"
+    >
+    <Grid UseLayoutRounding="True">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="110" />
+        <ColumnDefinition Width="224*" />
+        <ColumnDefinition Width="30" />
+      </Grid.ColumnDefinitions>
+
+      <Grid.RowDefinitions>
+        <RowDefinition Height="26" />
+        <RowDefinition Height="26" />
+        <RowDefinition Height="26" />
+        <RowDefinition Height="26" />
+        <RowDefinition Height="26" />
+        <RowDefinition Height="26" />
+        <RowDefinition Height="26" />
+        <RowDefinition Height="122*" />
+      </Grid.RowDefinitions>
+
+      <CheckBox
+        Grid.ColumnSpan="3"
+        Height="22"
+        VerticalAlignment="Center"
+        Content="Bring Mainwindow to front when Alert occurs"
+        IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.BringToFront, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        TabIndex="1"
+        />
+
+      <CheckBox
+        Grid.Row="1"
+        Grid.Column="0"
+        Grid.ColumnSpan="3"
+        Height="22"
+        VerticalAlignment="Center"
+        Content="Show a popup window when Alert occurs"
+        IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.PopupWnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        TabIndex="2"
+        />
+
+      <CheckBox
+        Grid.Row="2"
+        Grid.Column="0"
+        Grid.ColumnSpan="3"
+        Height="22"
+        VerticalAlignment="Center"
+        Content="Play sound when Alert occurs"
+        IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.PlaySoundFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        TabIndex="3"
+        />
+
+      <Label
+        Grid.Row="3"
+        Grid.Column="0"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Center"
+        Content="Alert sound file:"
+        />
+      <TextBox
+        Grid.Row="3"
+        Grid.Column="1"
+        Height="23"
+        Margin="5 0 0 0"
+        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.SoundFileNameFullPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SoundFileNameConverter}}"
+        />
+
+      <Button
+        Grid.Row="3"
+        Grid.Column="2"
+        Width="23"
+        Height="23"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Center"
+        TabIndex="4"
+        >
+        <Button.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource UiLanguage}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource EnvironmentLanguageToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </Button.ToolTip>
+        <StackPanel>
+          <Image
+            RenderOptions.BitmapScalingMode="HighQuality"
+            RenderOptions.EdgeMode="Aliased"
+            Source="/T4W;component/Resources/openfolder.ico"
+            />
+        </StackPanel>
+      </Button>
+
+      <CheckBox
+        Name="CheckBoxSendMail"
+        Grid.Row="4"
+        Grid.Column="0"
+        Grid.ColumnSpan="2"
+        Height="22"
+        Content="Send an E-Mail when Alert occours"
+        IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.SendMail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        TabIndex="5"
+        />
+
+      <Label
+        Grid.Row="5"
+        Grid.Column="0"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Center"
+        Content="E-Mail-Address:"
+        />
+      <my:WatermarkTextBox
+        Grid.Row="5"
+        Grid.Column="1"
+        Height="23"
+        Margin="5 0 0 0"
+        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.MailAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource MailAddressConverter}}"
+        IsEnabled="{Binding ElementName=CheckBoxSendMail, Path=IsChecked}"
+        TabIndex="6"
+        >
+        <my:WatermarkTextBox.Watermark>
+          <TextBlock
+            Margin="5 0 0 0"
+            Text="E-Mail Address"
+            FontStyle="Italic"
+            />
+        </my:WatermarkTextBox.Watermark>
+      </my:WatermarkTextBox>
+
+      <Button
+        Grid.Row="5"
+        Grid.Column="2"
+        Width="23"
+        Height="23"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Center"
+        IsEnabled="{Binding ElementName=CheckBoxSendMail, Path=IsChecked}"
+        TabIndex="7"
+        >
+        <Button.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource UiLanguage}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource EnvironmentLanguageToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </Button.ToolTip>
+        <StackPanel>
+          <Image
+            RenderOptions.BitmapScalingMode="HighQuality"
+            RenderOptions.EdgeMode="Aliased"
+            Source="/T4W;component/Resources/EMail.ico"
+            />
+        </StackPanel>
+      </Button>
     </Grid>
+  </ScrollViewer>
 </UserControl>

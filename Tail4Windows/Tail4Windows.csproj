@@ -235,6 +235,7 @@
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\SysInfoViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\UpdateOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\AlertOption\ViewModels\AlertOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Data\ControlColorData.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\SmtpOptionPage.xaml.cs">
       <DependentUpon>SmtpOptionPage.xaml</DependentUpon>
@@ -268,10 +269,12 @@
     <Compile Include="UI\Converters\InverseNullToBoolConverter.cs" />
     <Compile Include="UI\Converters\LogLineLimitConverter.cs" />
     <Compile Include="UI\Converters\LogLineLimitToLabelConverter.cs" />
+    <Compile Include="UI\Converters\MailAddressConverter.cs" />
     <Compile Include="UI\Converters\NullToBoolConverter.cs" />
     <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\SmartWatchModeToBoolConverter.cs" />
     <Compile Include="UI\Converters\SmtpSecurityConverter.cs" />
+    <Compile Include="UI\Converters\SoundFileNameConverter.cs" />
     <Compile Include="UI\Converters\StringToIntConverter.cs" />
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\StringToWindowMediaBrushConverter.cs" />
@@ -801,8 +804,6 @@
     <Folder Include="Core\Events\EventManagers\" />
     <Folder Include="PlugIns\FileManagerModule\ViewModels\" />
     <Folder Include="PlugIns\FindModule\ViewModels\" />
-    <Folder Include="PlugIns\OptionModules\ColorsOption\" />
-    <Folder Include="PlugIns\OptionModules\ExtraOption\" />
     <Folder Include="PlugIns\PatternModule\ViewModels\" />
     <Folder Include="PlugIns\SmartWatchModule\Controller\" />
     <Folder Include="PlugIns\SmartWatchModule\Data\" />
