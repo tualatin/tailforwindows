@@ -250,4 +250,17 @@
 
   <system:String x:Key="StatusbarEncoding">Encoding</system:String>
   <system:String x:Key="StatusbarEncodingToolTip">Select files encoding for current log file</system:String>
+
+  <system:String x:Key="SmartWatchManual">Manual mode</system:String>
+  <system:String x:Key="SmartWatchAuto">Auto mode</system:String>
+  <system:String x:Key="SmartWatchOptionToolTip">Enables or disbales SmartWatch</system:String>
+  <system:String x:Key="SmartWatchOptionMode">SmartWatch mode</system:String>
+  <system:String x:Key="SmartWatchOptionModeToolTip">Set SmartWatch mode to Manual or Auto</system:String>
+  <system:String x:Key="SmartWatchOptionOpenNewTab">Open in new Tab</system:String>
+  <system:String x:Key="SmartWatchOptionOpenNewTabToolTip">Opens detected file automatically in new tab</system:String>
+  <system:String x:Key="SmartWatchOptionSameTab">Open in same tab</system:String>
+  <system:String x:Key="SmartWatchOptionSameTabToolTip">Opens detected file automatically in same tab</system:String>
+  <system:String x:Key="SmartWatchOptionFilerByExtension">Filter by extension</system:String>
+  <system:String x:Key="SmartWatchOptionFilerByExtensionToolTip">Filter by last log file extension</system:String>
+  <system:String x:Key="SmartWatchOptionAutoRunToolTip">If Autorun is enabled, Tail4Windows starts automatically tailing of new file</system:String>
 </ResourceDictionary>

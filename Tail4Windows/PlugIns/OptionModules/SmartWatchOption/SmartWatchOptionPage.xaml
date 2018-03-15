@@ -4,10 +4,316 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.SmartWatchOption"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
+  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   mc:Ignorable="d"
-  d:DesignHeight="300"
-  d:DesignWidth="300"
+  d:DesignHeight="400"
+  d:DesignWidth="400"
   >
-  <Grid />
+  <UserControl.Resources>
+    <converters:SmartWatchModeToBoolConverter x:Key="SmartWatchModeToBoolConverter" />
+    <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+  </UserControl.Resources>
+
+  <ScrollViewer
+    HorizontalScrollBarVisibility="Auto"
+    VerticalScrollBarVisibility="Auto"
+    >
+    <Grid UseLayoutRounding="True">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+
+      <Grid.RowDefinitions>
+        <RowDefinition Height="26" />
+        <RowDefinition Height="10" />
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+
+      <CheckBox
+        Name="CheckBoxEnableSmartWatch"
+        Grid.Row="0"
+        Grid.Column="0"
+        Height="22"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Content="SmartWatch"
+        IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+        TabIndex="0"
+        >
+        <CheckBox.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="SmartWatch"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource SmartWatchOptionToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </CheckBox.ToolTip>
+      </CheckBox>
+
+      <Grid
+        Grid.Row="2"
+        Grid.Column="0"
+        Grid.ColumnSpan="2"
+        IsEnabled="{Binding ElementName=CheckBoxEnableSmartWatch, Path=IsChecked}"
+        >
+        <Grid.RowDefinitions>
+          <RowDefinition Height="26" />
+          <RowDefinition Height="26" />
+          <RowDefinition Height="26" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Label
+          Margin="6 0"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Center"
+          Content="{DynamicResource SmartWatchOptionMode}"
+          />
+        <ComboBox
+          Grid.Row="0"
+          Grid.Column="1"
+          Width="150"
+          Margin="6 2"
+          HorizontalAlignment="Left"
+          DisplayMemberPath="Description"
+          ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=SmartWatchModes}"
+          SelectedValue="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatchSettings.Mode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+          SelectedValuePath="SmartWatchMode"
+          TabIndex="1"
+          >
+          <ComboBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource SmartWatchOptionMode}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource SmartWatchOptionModeToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </ComboBox.ToolTip>
+        </ComboBox>
+
+        <RadioButton
+          Grid.Row="1"
+          Grid.Column="0"
+          Margin="4 0 0 0"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Center"
+          Content="{DynamicResource SmartWatchOptionOpenNewTab}"
+          IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatchSettings.NewTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          IsEnabled="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatchSettings.Mode, Converter={StaticResource SmartWatchModeToBoolConverter}}"
+          TabIndex="2"
+          >
+          <RadioButton.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="SmartWatch"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource SmartWatchOptionOpenNewTabToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </RadioButton.ToolTip>
+        </RadioButton>
+
+        <RadioButton
+          Grid.Row="1"
+          Grid.Column="1"
+          Margin="4 0 0 0"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Center"
+          Content="{DynamicResource SmartWatchOptionSameTab}"
+          IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatchSettings.NewTab, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}"
+          IsEnabled="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatchSettings.Mode, Converter={StaticResource SmartWatchModeToBoolConverter}}"
+          TabIndex="3"
+          >
+          <RadioButton.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="SmartWatch"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource SmartWatchOptionSameTabToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </RadioButton.ToolTip>
+        </RadioButton>
+
+        <CheckBox
+          Grid.Row="2"
+          Grid.Column="0"
+          Height="22"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Center"
+          Content="{DynamicResource SmartWatchOptionFilerByExtension}"
+          IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatchSettings.FilterByExtension, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+          TabIndex="4"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource UiLanguage}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource SmartWatchOptionFilerByExtensionToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+
+        <CheckBox
+          Grid.Row="2"
+          Grid.Column="1"
+          Height="22"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Center"
+          Content="Autorun"
+          IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatchSettings.AutoRun, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+          IsEnabled="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatchSettings.Mode, Converter={StaticResource SmartWatchModeToBoolConverter}}"
+          TabIndex="5"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="SmartWatch"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource SmartWatchOptionAutoRunToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+      </Grid>
+    </Grid>
+  </ScrollViewer>
 </UserControl>

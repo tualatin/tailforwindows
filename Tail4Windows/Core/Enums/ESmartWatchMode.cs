@@ -11,13 +11,13 @@ namespace Org.Vs.TailForWin.Core.Enums
     /// <summary>
     /// Manual SmartWatch mode
     /// </summary>
-    [Description("Manual mode")]
+    [Description("SmartWatchManual")]
     Manual,
 
     /// <summary>
     /// Auto SmartWatch mode
     /// </summary>
-    [Description("Auto mode")]
+    [Description("SmartWatchAuto")]
     Auto
   }
 }
