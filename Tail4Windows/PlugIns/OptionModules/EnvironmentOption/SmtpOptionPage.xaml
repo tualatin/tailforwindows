@@ -7,6 +7,7 @@
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  xmlns:validationRules="clr-namespace:Org.Vs.TailForWin.UI.ValidationRules"
   mc:Ignorable="d"
   d:DesignHeight="400"
   d:DesignWidth="400"
@@ -171,11 +172,22 @@
         Height="23"
         Margin="6 0"
         VerticalAlignment="Center"
-        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.FromAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         IsEnabled="{Binding ElementName=CheckBoxSameLogin, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
         SnapsToDevicePixels="True"
         TabIndex="6"
         >
+        <userControls:WatermarkTextBox.Text>
+          <Binding
+            Mode="TwoWay"
+            Path="SmtpSettings.FromAddress"
+            Source="{x:Static controllers:SettingsHelperController.CurrentSettings}"
+            UpdateSourceTrigger="PropertyChanged"
+            >
+            <Binding.ValidationRules>
+              <validationRules:MailAddressValidation />
+            </Binding.ValidationRules>
+          </Binding>
+        </userControls:WatermarkTextBox.Text>
         <userControls:WatermarkTextBox.Watermark>
           <TextBlock
             Margin="5 0 0 0"

@@ -103,6 +103,7 @@
     <Compile Include="TestEnumerableExtension.cs" />
     <Compile Include="TestEnumExtension.cs" />
     <Compile Include="TestGetFileEncoding.cs" />
+    <Compile Include="TestMailController.cs" />
     <Compile Include="TestMementoOfObjects.cs" />
     <Compile Include="TestObservableDictionary.cs" />
     <Compile Include="TestSettingsHelper.cs" />

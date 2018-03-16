@@ -210,6 +210,7 @@
     <Compile Include="Business\Data\SystemInformation\IpAddress.cs" />
     <Compile Include="Business\Data\SystemInformation\CpuInfo.cs" />
     <Compile Include="Business\Data\SystemInformation\SystemInformationData.cs" />
+    <Compile Include="Core\Controllers\MailController.cs" />
     <Compile Include="Core\Data\Mappings\DateFormatMapping.cs" />
     <Compile Include="Core\Data\Mappings\FileSortMapping.cs" />
     <Compile Include="Core\Data\Mappings\LanguageMapping.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Core\Enums\EStatusbarState.cs" />
     <Compile Include="Core\Enums\EUiLanguage.cs" />
     <Compile Include="Core\Extensions\ColorExtension.cs" />
+    <Compile Include="Core\Interfaces\IMailController.cs" />
     <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
     <Compile Include="BaseView\ViewModels\TreeNodeOptionViewModel.cs" />
     <Compile Include="Core\Utils\LanguageSelector.cs" />
@@ -410,6 +412,7 @@
     </Compile>
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
+    <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
     <Page Include="BaseView\Options.xaml">
       <SubType>Designer</SubType>
