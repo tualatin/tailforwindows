@@ -134,6 +134,14 @@ namespace Org.Vs.TailForWin.Core.Utils
     } = new ObservableCollection<FileSortMapping>();
 
     /// <summary>
+    /// List of <see cref="ESmartWatchMode"/>
+    /// </summary>
+    public ObservableCollection<SmartWatchMapping> SmartWatchModes
+    {
+      get;
+    } = new ObservableCollection<SmartWatchMapping>();
+
+    /// <summary>
     /// Current application path
     /// </summary>
     public static string ApplicationPath => Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
@@ -415,6 +423,14 @@ namespace Org.Vs.TailForWin.Core.Utils
             FileSort.Add(new FileSortMapping
             {
               FileSort = fileSort
+            });
+          }
+
+          foreach ( ESmartWatchMode smMode in Enum.GetValues(typeof(ESmartWatchMode)) )
+          {
+            SmartWatchModes.Add(new SmartWatchMapping
+            {
+              SmartWatchMode = smMode
             });
           }
 

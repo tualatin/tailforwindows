@@ -248,4 +248,17 @@
 
   <system:String x:Key="StatusbarEncoding">Kodierung</system:String>
   <system:String x:Key="StatusbarEncodingToolTip">Wählt die Kodierung der aktuellen Logdatei</system:String>
+
+  <system:String x:Key="SmartWatchManual">Manueller Modus</system:String>
+  <system:String x:Key="SmartWatchAuto">Auto Modus</system:String>
+  <system:String x:Key="SmartWatchOptionToolTip">Aktiviert oder deaktiviert SmartWatch</system:String>
+  <system:String x:Key="SmartWatchOptionMode">SmartWatch Modus</system:String>
+  <system:String x:Key="SmartWatchOptionModeToolTip">Setzt den SmartWatch Modus auf Manuell oder Auto</system:String>
+  <system:String x:Key="SmartWatchOptionOpenNewTab">Öffnen im neuen Tab</system:String>
+  <system:String x:Key="SmartWatchOptionOpenNewTabToolTip">Öffnet erkannte Dateien automatisch in einem neuen Tab</system:String>
+  <system:String x:Key="SmartWatchOptionSameTab">Öffnen im selben Tab</system:String>
+  <system:String x:Key="SmartWatchOptionSameTabToolTip">Öffnet erkannte Dateien automatisch im selben Tab</system:String>
+  <system:String x:Key="SmartWatchOptionFilerByExtension">Filtern mit Hilfe der Erweiterung</system:String>
+  <system:String x:Key="SmartWatchOptionFilerByExtensionToolTip">Filtern durch die Dateierweiterung der Logdatei</system:String>
+  <system:String x:Key="SmartWatchOptionAutoRunToolTip">Wenn Autorun aktiviert ist, startet T4 automatisch protokollieren einer neuen Datei</system:String>
 </ResourceDictionary>

@@ -253,7 +253,6 @@
         IsEnabled="{Binding ElementName=CheckBoxDeleteLogFiles, Path=IsChecked}"
         MaxSpinValue="20"
         MinSpinValue="1"
-        SnapsToDevicePixels="True"
         StartIndex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=LogFilesOlderThan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         TabIndex="4"
         >
