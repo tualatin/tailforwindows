@@ -11,7 +11,7 @@ namespace Org.Vs.NUnit.Tests
     public async Task TestSendMailAsync()
     {
       IMailController mailController = new MailController();
-      await mailController.SendMailAsync("TestToken", "Hello world").ConfigureAwait(false);
+      await mailController.SendLogMailAsync("Hello world").ConfigureAwait(false);
     }
   }
 }

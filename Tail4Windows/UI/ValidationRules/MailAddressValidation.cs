@@ -22,6 +22,9 @@ namespace Org.Vs.TailForWin.UI.ValidationRules
       if ( !(value is string address) )
         return new ValidationResult(false, Application.Current.TryFindResource("EMailAddressNotValid").ToString());
 
+      if ( string.IsNullOrWhiteSpace(address) )
+        return new ValidationResult(true, Application.Current.TryFindResource("EMailAddressNotValid").ToString());
+
       Regex mailAddress = new Regex(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
 
       return new ValidationResult(mailAddress.IsMatch(address), Application.Current.TryFindResource("EMailAddressNotValid").ToString());
