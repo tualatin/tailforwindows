@@ -11,7 +11,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using log4net;
-using Org.Vs.TailForWin.Business.Controllers;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -173,6 +172,46 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #endregion
 
+    #region Statusbar properties
+
+    private string _currentStatusBarBackgroundColorHex;
+
+    /// <summary>
+    /// CurrentStatusBarBackground color as string
+    /// </summary>
+    public string CurrentStatusBarBackgroundColorHex
+    {
+      get => _currentStatusBarBackgroundColorHex;
+      set
+      {
+        if ( Equals(value, _currentStatusBarBackgroundColorHex) )
+          return;
+
+        _currentStatusBarBackgroundColorHex = value;
+        OnPropertyChanged(nameof(CurrentStatusBarBackgroundColorHex));
+      }
+    }
+
+    private string _currentBusyState;
+
+    /// <summary>
+    /// CurrentBusy state
+    /// </summary>
+    public string CurrentBusyState
+    {
+      get => _currentBusyState;
+      set
+      {
+        if ( Equals(value, _currentBusyState) )
+          return;
+
+        _currentBusyState = value;
+        OnPropertyChanged(nameof(CurrentBusyState));
+      }
+    }
+
+    #endregion
+
     /// <summary>
     /// Standard constructor
     /// </summary>
@@ -323,7 +362,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void SetDefaultWindowSettings()
     {
-      BusinessMainWndToMainWndStatusBarController.Instance.SetCurrentBusinessData(EStatusbarState.Default);
+      SetCurrentBusinessData(EStatusbarState.Default);
 
       switch ( SettingsHelperController.CurrentSettings.CurrentWindowStyle )
       {
@@ -494,6 +533,36 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
             LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
           }
         }).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Set current business data
+    /// </summary>
+    /// <param name="statusbarState"><see cref="EStatusbarState"/></param>
+    private void SetCurrentBusinessData(EStatusbarState statusbarState)
+    {
+      switch ( statusbarState )
+      {
+      case EStatusbarState.FileLoaded:
+
+        CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex;
+        break;
+
+      case EStatusbarState.Busy:
+
+        CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex;
+        break;
+
+      case EStatusbarState.Default:
+
+        CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex;
+        CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
+        break;
+
+      default:
+
+        throw new NotImplementedException();
+      }
     }
 
     #endregion

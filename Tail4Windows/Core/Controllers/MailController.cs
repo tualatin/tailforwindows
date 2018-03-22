@@ -63,19 +63,16 @@ namespace Org.Vs.TailForWin.Core.Controllers
       throw new NotImplementedException();
     }
 
-    private async Task CreateSecurePasswordAsync()
+    private async Task<NetworkCredential> CreateSecurePasswordAsync()
     {
-      var result = await StringEncryption.DecryptAsync(SettingsHelperController.CurrentSettings.SmtpSettings.Password).ConfigureAwait(false);
-
+      string result = await StringEncryption.DecryptAsync(SettingsHelperController.CurrentSettings.SmtpSettings.Password).ConfigureAwait(false);
       SecureString password = new SecureString();
 
-      foreach ( var t in result )
+      foreach ( char t in result )
       {
         password.AppendChar(t);
       }
-
-      NetworkCredential credential = new NetworkCredential(SettingsHelperController.CurrentSettings.SmtpSettings.LoginName, password);
-      _mailClient.Credentials = credential;
+      return new NetworkCredential(SettingsHelperController.CurrentSettings.SmtpSettings.LoginName, password);
     }
 
     /// <summary>
@@ -87,7 +84,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       try
       {
-        await CreateSecurePasswordAsync().ConfigureAwait(false);
+        _mailClient.Credentials = await CreateSecurePasswordAsync().ConfigureAwait(false);
 
         if ( !string.IsNullOrWhiteSpace(message) )
           _mailMessage.Body = message;

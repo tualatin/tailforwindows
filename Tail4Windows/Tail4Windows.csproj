@@ -299,8 +299,6 @@
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowQuickSearchViewModel.cs" />
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowStatusBarViewModel.cs" />
     <Compile Include="BaseView\ViewModels\OptionsViewModel.cs" />
-    <Compile Include="Business\Controllers\BusinessMainWndToMainWndStatusBarController.cs" />
-    <Compile Include="Business\Data\BusinessMainWndToMainWndStatusBarData.cs" />
     <Compile Include="Business\Data\Messages\QuickSearchTextBoxGetFocusMessage.cs" />
     <Compile Include="Business\Events\Args\ArgDummy.cs" />
     <Compile Include="PlugIns\OptionModules\Interfaces\IOptionPage.cs" />

@@ -4,17 +4,17 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:businessMainWnd="clr-namespace:Org.Vs.TailForWin.Business.Controllers"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
-  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="23"
   d:DesignWidth="700"
   >
   <UserControl.DataContext>
-    <viewModels:MainWindowStatusBarViewModel />
+    <viewModels:T4WindowViewModel />
   </UserControl.DataContext>
+
   <UserControl.Resources>
     <converters:BackgroundToForegroundConverter x:Key="BackgroundToForegroundConverter" />
     <converters:StringToWindowMediaBrushConverter x:Key="StringToWindowMediaBrushConverter" />
@@ -22,7 +22,7 @@
 
   <Grid
     Name="StatusbarGrid"
-    Background="{Binding Source={x:Static businessMainWnd:BusinessMainWndToMainWndStatusBarController.CurrentBusinessData}, Path=CurrentStatusBarBackgroundColorHex, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+    Background="{Binding CurrentStatusBarBackgroundColorHex, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}"
     >
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
@@ -35,7 +35,7 @@
       Grid.Column="0"
       Margin="5 0"
       VerticalAlignment="Center"
-      Text="{Binding Source={x:Static businessMainWnd:BusinessMainWndToMainWndStatusBarController.CurrentBusinessData}, Path=CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
+      Text="{Binding CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
       FontSize="11"
       Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
       SnapsToDevicePixels="True"
