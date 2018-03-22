@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 
 namespace Org.Vs.TailForWin.Core.Data.Base
@@ -20,7 +21,7 @@ namespace Org.Vs.TailForWin.Core.Data.Base
     /// OnPropertyChanged
     /// </summary>
     /// <param name="name">Name of property</param>
-    protected void OnPropertyChanged(string name)
+    protected void OnPropertyChanged([CallerMemberName] string name = "")
     {
       PropertyChangedEventHandler handler = PropertyChanged;
       handler?.Invoke(this, new PropertyChangedEventArgs(name));

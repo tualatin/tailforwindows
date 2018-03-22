@@ -231,6 +231,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
+      SettingsHelperController.CurrentSettings.ColorSettings.PropertyChanged += ColorSettingsPropertyChanged;
       _notifyTaskCompletion.PropertyChanged -= TaskPropertyChanged;
     }
 
@@ -533,6 +534,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
             LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
           }
         }).ConfigureAwait(false);
+    }
+
+    private void ColorSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("StatusBarInactiveBackgroundColorHex") && !e.PropertyName.Equals("StatusBarFileLoadedBackgroundColorHex")
+                                                                         && !e.PropertyName.Equals("StatusBarTailBackgroundColorHex") && !e.PropertyName.Equals("RaiseOnPropertyChanged") )
+        return;
+
+      SetCurrentBusinessData(EStatusbarState.Default);
     }
 
     /// <summary>

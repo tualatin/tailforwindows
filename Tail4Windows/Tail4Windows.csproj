@@ -224,6 +224,7 @@
     <Compile Include="Core\Enums\EUiLanguage.cs" />
     <Compile Include="Core\Extensions\ColorExtension.cs" />
     <Compile Include="Core\Interfaces\IMailController.cs" />
+    <Compile Include="Core\Interfaces\IPropertyNotify.cs" />
     <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
     <Compile Include="BaseView\ViewModels\TreeNodeOptionViewModel.cs" />
     <Compile Include="Core\Utils\LanguageSelector.cs" />

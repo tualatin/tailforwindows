@@ -1,5 +1,6 @@
 ﻿using System;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Interfaces;
 
 
 namespace Org.Vs.TailForWin.Core.Data.Settings
@@ -7,7 +8,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
   /// <summary>
   /// Environment color settings
   /// </summary>
-  public class EnvironmentColorSettings : NotifyMaster, ICloneable
+  public class EnvironmentColorSettings : NotifyMaster, ICloneable, IPropertyNotify
   {
     #region StatusBar colors
 
@@ -228,5 +229,10 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// </summary>
     /// <returns>Cloned object</returns>
     public object Clone() => MemberwiseClone();
+
+    /// <summary>
+    /// Call OnPropertyChanged
+    /// </summary>
+    public void RaiseOnPropertyChanged() => OnPropertyChanged();
   }
 }

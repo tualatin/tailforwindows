@@ -51,6 +51,12 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       SmartWatchSettings = (SmartWatchSetting) memento.SmartWatchSettings.Clone();
       ColorSettings = (EnvironmentColorSettings) memento.ColorSettings.Clone();
       SmtpSettings = (SmtpSetting) memento.SmtpSettings.Clone();
+
+      ProxySettings.RaiseOnPropertyChanged();
+      AlertSettings.RaiseOnPropertyChanged();
+      SmartWatchSettings.RaiseOnPropertyChanged();
+      ColorSettings.RaiseOnPropertyChanged();
+      SmtpSettings.RaiseOnPropertyChanged();
     }
 
     /// <summary>
