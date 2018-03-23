@@ -272,4 +272,5 @@
   <system:String x:Key="AlertOptionMailTest">Teste E-Mail Einstellungen</system:String>
   <system:String x:Key="AlertOptionMailTestToolTip">Senden einer Test E-Mail</system:String>
   <system:String x:Key="AlertOptionTestMail">Eine Testnachricht</system:String>
+  <system:String x:Key="AlertOptionSmtpSettingsNotValid">Bitte überprüfen Sie die SMTP Einstellungen! Möchte Sie diese jetzt öffnen?</system:String>
 </ResourceDictionary>

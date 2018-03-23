@@ -245,7 +245,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value alert bring to front
     /// </summary>
-    public const bool AlertBringToFront = false;
+    public const bool AlertBringToFront = true;
 
     /// <summary>
     /// Default value alert play sound file

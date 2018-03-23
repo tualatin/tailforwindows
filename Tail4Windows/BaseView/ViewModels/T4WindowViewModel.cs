@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using log4net;
+using Org.Vs.TailForWin.BaseView.UserControls.Interfaces;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -27,7 +28,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
   /// <summary>
   /// T4Window view model
   /// </summary>
-  public class T4WindowViewModel : NotifyMaster
+  public class T4WindowViewModel : NotifyMaster, IT4WindowViewModel
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(T4WindowViewModel));
 
@@ -265,12 +266,17 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand QuickSearchCommand => _quickSearchCommand ?? (_quickSearchCommand = new RelayCommand(p => ExecuteQuickSearchCommand()));
 
-    private ICommand _wndLoadedCommand;
+    private IAsyncCommand _loadedCommand;
 
     /// <summary>
     /// Window loaded command
     /// </summary>
-    public ICommand WndLoadedCommand => _wndLoadedCommand ?? (_wndLoadedCommand = new RelayCommand(p => ExecuteWndLoadedCommand()));
+    public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create((p, t) => ExecuteWndLoadedCommandAsync()));
+
+    /// <summary>
+    /// Unloaded command
+    /// </summary>
+    public ICommand UnloadedCommand => throw new NotImplementedException();
 
     private IAsyncCommand _wndClosingCommand;
 
@@ -348,7 +354,13 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       await EnvironmentContainer.Instance.SaveSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2))).ConfigureAwait(false);
     }
 
-    private void ExecuteWndLoadedCommand() => LOG.Trace($"{EnvironmentContainer.ApplicationTitle} startup completed!");
+    private async Task ExecuteWndLoadedCommandAsync()
+    {
+      await Task.Run(() =>
+      {
+        LOG.Trace($"{EnvironmentContainer.ApplicationTitle} startup completed!");
+      }).ConfigureAwait(false);
+    }
 
     private void ExecuteQuickSearchCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new QuickSearchTextBoxGetFocusMessage(this, true));
 

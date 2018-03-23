@@ -274,4 +274,5 @@
   <system:String x:Key="AlertOptionMailTest">Test E-Mail settings</system:String>
   <system:String x:Key="AlertOptionMailTestToolTip">Send a test E-Mail</system:String>
   <system:String x:Key="AlertOptionTestMail">A test message</system:String>
+  <system:String x:Key="AlertOptionSmtpSettingsNotValid">Please check the SMTP settings! Do you want open to this now?</system:String>
 </ResourceDictionary>

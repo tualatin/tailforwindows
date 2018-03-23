@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
@@ -71,6 +72,16 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels
 
     private async Task ExecuteSendTestMailAsync()
     {
+      if ( string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.SmtpSettings.FromAddress)
+          || string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.SmtpSettings.SmtpServerName) )
+      {
+        if ( EnvironmentContainer.ShowQuestionMessageBox(Application.Current.TryFindResource("AlertOptionSmtpSettingsNotValid").ToString()) == MessageBoxResult.No )
+          return;
+
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSmtpSettingMessage(this));
+        return;
+      }
+
       IMailController mailController = new MailController();
       await mailController.SendLogMailAsync(Application.Current.TryFindResource("AlertOptionTestMail").ToString()).ConfigureAwait(false);
     }

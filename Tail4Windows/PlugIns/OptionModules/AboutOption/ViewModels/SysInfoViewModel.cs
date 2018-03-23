@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Business.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
-using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Services;
@@ -18,7 +18,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
   /// <summary>
   /// System information view model
   /// </summary>
-  public class SysInfoViewModel : NotifyMaster, IViewModelBase
+  public class SysInfoViewModel : NotifyMaster, ISysInfoViewModel
   {
     private CancellationTokenSource _cts;
 

@@ -41,7 +41,7 @@
       <intr:InvokeCommandAction Command="{Binding WndClosingCommand}" />
     </intr:EventTrigger>
     <intr:EventTrigger EventName="Loaded">
-      <intr:InvokeCommandAction Command="{Binding WndLoadedCommand}" />
+      <intr:InvokeCommandAction Command="{Binding LoadedCommand}" />
     </intr:EventTrigger>
     <intr:EventTrigger EventName="PreviewKeyDown">
       <ui:InvokeDelegateCommandAction

@@ -203,8 +203,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BaseView\StyleableWindow\OpenSettingsDialogBehavior.cs" />
+    <Compile Include="BaseView\UserControls\Interfaces\IOptionsViewModel.cs" />
+    <Compile Include="BaseView\UserControls\Interfaces\IT4WindowViewModel.cs" />
     <Compile Include="Business\Controllers\SystemInformationController.cs" />
     <Compile Include="Business\Data\Messages\OpenSettingsDialogMessage.cs" />
+    <Compile Include="Business\Data\Messages\OpenSmtpSettingMessage.cs" />
     <Compile Include="Business\Data\Messages\ResetDataMessage.cs" />
     <Compile Include="Business\Data\Messages\ShowNotificationPopUpMessage.cs" />
     <Compile Include="Business\Data\SystemInformation\IpAddress.cs" />
@@ -240,6 +243,7 @@
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\IAboutOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\IUpdateOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\ISysInfoViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\SysInfoViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\UpdateOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AlertOption\ViewModels\AlertOptionViewModel.cs" />

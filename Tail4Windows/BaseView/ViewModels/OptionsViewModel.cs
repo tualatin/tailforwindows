@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.BaseView.UserControls.Interfaces;
+using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
@@ -14,6 +16,7 @@ using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption;
+using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels;
 using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
 using Org.Vs.TailForWin.PlugIns.OptionModules.SmartWatchOption;
@@ -27,7 +30,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
   /// <summary>
   /// Options view model
   /// </summary>
-  public class OptionsViewModel : NotifyMaster
+  public class OptionsViewModel : NotifyMaster, IOptionsViewModel
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(OptionsViewModel));
 
@@ -95,6 +98,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _mementoSettings = SettingsHelperController.CurrentSettings.SaveToMemento();
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
 
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
+
       InitializeOptionPages();
       NotifyTaskCompletion.Create(InitializeOptionViewAsync);
     }
@@ -121,6 +127,16 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// Set selected item command
     /// </summary>
     public ICommand SetSelectedItemCommand => _setSelectedItemCommand ?? (_setSelectedItemCommand = new RelayCommand(ExecuteSelectedItemCommand));
+
+    /// <summary>
+    /// Loaded command
+    /// </summary>
+    public IAsyncCommand LoadedCommand => throw new NotImplementedException();
+
+    /// <summary>
+    /// Unloaded command
+    /// </summary>
+    public ICommand UnloadedCommand => throw new NotImplementedException();
 
     #endregion
 
@@ -221,44 +237,13 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
               node.ApplyCriteria(string.Empty, new Stack<ITreeNodeViewModel>());
             }
 
-            TreeNodeOptionViewModel isSelected = null;
-            TreeNodeOptionViewModel parent = null;
-
             if ( SettingsHelperController.CurrentSettings.LastViewedOptionPage == Guid.Empty )
             {
               OpenRootNode();
               return;
             }
 
-            foreach ( var treeNodeOptionViewModel in Root )
-            {
-              if ( treeNodeOptionViewModel.OptionPage.PageId == SettingsHelperController.CurrentSettings.LastViewedOptionPage )
-              {
-                isSelected = treeNodeOptionViewModel;
-                parent = treeNodeOptionViewModel;
-                break;
-              }
-              else if ( treeNodeOptionViewModel.Children.Count() != 0 )
-              {
-                isSelected = SelectLastOpenOption((IEnumerable<TreeNodeOptionViewModel>) treeNodeOptionViewModel.Children);
-
-                if ( isSelected == null )
-                  continue;
-
-                parent = treeNodeOptionViewModel;
-                break;
-              }
-            }
-
-            if ( isSelected == null )
-            {
-              OpenRootNode();
-              return;
-            }
-
-            parent.IsExpanded = true;
-            isSelected.IsSelected = true;
-            CurrentViewModel = isSelected.OptionPage;
+            GetCertainSettingsPage(SettingsHelperController.CurrentSettings.LastViewedOptionPage);
           }
           catch ( Exception ex )
           {
@@ -275,16 +260,62 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       CurrentViewModel = Root.First().OptionPage;
     }
 
-    private TreeNodeOptionViewModel SelectLastOpenOption(IEnumerable<TreeNodeOptionViewModel> node)
+    private void GetCertainSettingsPage(Guid idToOpen)
+    {
+      TreeNodeOptionViewModel isSelected = null;
+      TreeNodeOptionViewModel parent = null;
+
+      foreach ( var treeNodeOptionViewModel in Root )
+      {
+        if ( treeNodeOptionViewModel.OptionPage.PageId == idToOpen )
+        {
+          isSelected = treeNodeOptionViewModel;
+          parent = treeNodeOptionViewModel;
+          break;
+        }
+
+        if ( !treeNodeOptionViewModel.Children.Any() )
+          continue;
+
+        isSelected = SelectLastOpenOption((IEnumerable<TreeNodeOptionViewModel>) treeNodeOptionViewModel.Children, idToOpen);
+
+        if ( isSelected == null )
+          continue;
+
+        parent = treeNodeOptionViewModel;
+        break;
+      }
+
+      if ( isSelected == null )
+      {
+        OpenRootNode();
+        return;
+      }
+
+      parent.IsExpanded = true;
+      isSelected.IsSelected = true;
+      CurrentViewModel = isSelected.OptionPage;
+    }
+
+    private TreeNodeOptionViewModel SelectLastOpenOption(IEnumerable<TreeNodeOptionViewModel> node, Guid idToOpen)
     {
       foreach ( var treeNodeOptionViewModel in node )
       {
-        if ( treeNodeOptionViewModel.OptionPage.PageId == SettingsHelperController.CurrentSettings.LastViewedOptionPage )
+        if ( treeNodeOptionViewModel.OptionPage.PageId == idToOpen )
           return treeNodeOptionViewModel;
-        else if ( treeNodeOptionViewModel.Children.Count() != 0 )
-          return SelectLastOpenOption((IEnumerable<TreeNodeOptionViewModel>) treeNodeOptionViewModel.Children);
+
+        if ( treeNodeOptionViewModel.Children.Count() != 0 )
+          return SelectLastOpenOption((IEnumerable<TreeNodeOptionViewModel>) treeNodeOptionViewModel.Children, idToOpen);
       }
       return null;
+    }
+
+    private void OnOpenSmtpSettings(OpenSmtpSettingMessage args)
+    {
+      if ( !(args.Sender is AlertOptionViewModel) )
+        return;
+
+      GetCertainSettingsPage(Guid.Parse("cfc162ef-5755-4958-a559-ab893ca8e1ed"));
     }
 
     #endregion
