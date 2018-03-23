@@ -236,7 +236,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "Alert.SendEMail", CurrentSettings.AlertSettings.SendMail);
       WriteValueToSetting(config, "Alert.PlaySoundFile", CurrentSettings.AlertSettings.PlaySoundFile);
       WriteValueToSetting(config, "Alert.PopupWindow", CurrentSettings.AlertSettings.PopupWnd);
-      WriteValueToSetting(config, "Alert.SoundFile", CurrentSettings.AlertSettings.SoundFileName);
+      WriteValueToSetting(config, "Alert.SoundFile", CurrentSettings.AlertSettings.SoundFileNameFullPath);
     }
 
     private void SaveSmtpSettings(Configuration config)
@@ -355,7 +355,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.AlertSettings.SendMail = DefaultEnvironmentSettings.AlertSendMail;
       CurrentSettings.AlertSettings.PopupWnd = DefaultEnvironmentSettings.AlertPopUpWindow;
       CurrentSettings.AlertSettings.MailAddress = DefaultEnvironmentSettings.AlertMailAddress;
-      CurrentSettings.AlertSettings.SoundFileName = DefaultEnvironmentSettings.AlertSoundFile;
+      CurrentSettings.AlertSettings.SoundFileNameFullPath = DefaultEnvironmentSettings.AlertSoundFile;
     }
 
     private void SetDefaultSmptSettings()
@@ -502,7 +502,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.AlertSettings.PlaySoundFile = GetBoolFromSetting("Alert.PlaySoundFile");
       CurrentSettings.AlertSettings.PopupWnd = GetBoolFromSetting("Alert.PopupWindow");
       CurrentSettings.AlertSettings.SendMail = GetBoolFromSetting("Alert.SendEMail");
-      CurrentSettings.AlertSettings.SoundFileName = GetStringFromSetting("Alert.SoundFile");
+      CurrentSettings.AlertSettings.SoundFileNameFullPath = GetStringFromSetting("Alert.SoundFile");
     }
 
     private void ReadSmtpSettings()

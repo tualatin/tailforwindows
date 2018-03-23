@@ -110,7 +110,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public string SoundFileName
     {
       get => _soundFileName;
-      set
+      private set
       {
         if ( Equals(_soundFileName, value) )
           return;

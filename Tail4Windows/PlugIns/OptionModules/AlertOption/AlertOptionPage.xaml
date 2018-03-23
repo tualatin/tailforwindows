@@ -93,8 +93,16 @@
         Height="23"
         MinWidth="100"
         Margin="5 0 0 0"
-        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.SoundFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SoundFileNameConverter}}"
+        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.SoundFileName, UpdateSourceTrigger=PropertyChanged, Mode=OneWay, Converter={StaticResource SoundFileNameConverter}}"
+        IsReadOnly="True"
         >
+        <TextBox.ToolTip>
+          <ToolTip
+            Content="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.SoundFileNameFullPath, UpdateSourceTrigger=PropertyChanged}"
+            Style="{StaticResource TabItemToolTipStyle}"
+            />
+        </TextBox.ToolTip>
+
         <i:Interaction.Triggers>
           <i:EventTrigger EventName="PreviewDragOver">
             <ui:InvokeDelegateCommandAction
