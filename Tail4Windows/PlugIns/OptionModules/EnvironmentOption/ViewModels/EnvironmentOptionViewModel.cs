@@ -9,6 +9,7 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Services;
@@ -19,7 +20,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
   /// <summary>
   /// EnvironmentOption view model
   /// </summary>
-  public class EnvironmentOptionViewModel : NotifyMaster
+  public class EnvironmentOptionViewModel : NotifyMaster, IEnvironmentOptionViewModel
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(EnvironmentOptionViewModel));
 
@@ -82,10 +83,15 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     /// </summary>
     public ICommand SelectionChangedCommand => _selectionChangedCommand ?? (_selectionChangedCommand = new RelayCommand(p => ExecuteSelectionChangedCommand()));
 
+    /// <summary>
+    /// Loaded command
+    /// </summary>
+    public IAsyncCommand LoadedCommand => throw new NotImplementedException();
+
     #endregion
 
     #region Command functions
-    
+
     private void ExecuteSelectionChangedCommand()
     {
       switch ( SettingsHelperController.CurrentSettings.Language )

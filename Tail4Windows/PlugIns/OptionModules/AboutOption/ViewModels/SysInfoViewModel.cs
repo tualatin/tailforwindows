@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Business.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Services;
@@ -17,25 +18,25 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
   /// <summary>
   /// System information view model
   /// </summary>
-  public class SysInfoViewModel : NotifyMaster
+  public class SysInfoViewModel : NotifyMaster, IViewModelBase
   {
     private CancellationTokenSource _cts;
 
     #region Commands
 
-    private IAsyncCommand _sysInfoLoadedCommand;
+    private IAsyncCommand _loadedCommand;
 
     /// <summary>
     /// SystemInformation loaded command
     /// </summary>
-    public IAsyncCommand SysInfoLoadedCommand => _sysInfoLoadedCommand ?? (_sysInfoLoadedCommand = AsyncCommand.Create(GetSystemInformationsAsync));
+    public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(GetSystemInformationsAsync));
 
-    private ICommand _sysInfoUnloadedCommand;
+    private ICommand _unloadedCommand;
 
     /// <summary>
     /// SystemInformation unloaded command
     /// </summary>
-    public ICommand SysInfoUnloadedCommand => _sysInfoUnloadedCommand ?? (_sysInfoUnloadedCommand = new RelayCommand(p => ExecuteSystemInfoUnloaded()));
+    public ICommand UnloadedCommand => _unloadedCommand ?? (_unloadedCommand = new RelayCommand(p => ExecuteSystemInfoUnloaded()));
 
     #endregion
 

@@ -16,10 +16,10 @@
 
   <intr:Interaction.Triggers>
     <intr:EventTrigger EventName="Loaded">
-      <intr:InvokeCommandAction Command="{Binding ImportLoadedCommand}" />
+      <intr:InvokeCommandAction Command="{Binding LoadedCommand}" />
     </intr:EventTrigger>
     <intr:EventTrigger EventName="Unloaded">
-      <intr:InvokeCommandAction Command="{Binding ImportUnloadedCommand}" />
+      <intr:InvokeCommandAction Command="{Binding UnloadedCommand}" />
     </intr:EventTrigger>
   </intr:Interaction.Triggers>
 

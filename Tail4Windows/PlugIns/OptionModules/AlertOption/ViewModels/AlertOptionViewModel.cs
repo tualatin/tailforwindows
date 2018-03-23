@@ -9,6 +9,7 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 
@@ -18,7 +19,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels
   /// <summary>
   /// AlertOption view model
   /// </summary>
-  public class AlertOptionViewModel : NotifyMaster, IFileDragDropTarget
+  public class AlertOptionViewModel : NotifyMaster, IFileDragDropTarget, IAlertOptionViewModel
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(AlertOptionViewModel));
 
@@ -44,6 +45,16 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels
     /// Preview drag enter command
     /// </summary>
     public ICommand PreviewDragEnterCommand => _previewDragEnterCommand ?? (_previewDragEnterCommand = new RelayCommand(ExecutePreviewDragEnterCommand));
+
+    /// <summary>
+    /// Loaded command
+    /// </summary>
+    public IAsyncCommand LoadedCommand => throw new NotImplementedException();
+
+    /// <summary>
+    /// Unloaded command
+    /// </summary>
+    public ICommand UnloadedCommand => throw new NotImplementedException();
 
     #endregion
 

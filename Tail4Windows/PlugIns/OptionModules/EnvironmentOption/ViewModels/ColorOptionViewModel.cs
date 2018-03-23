@@ -2,19 +2,21 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.Data;
-
+using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.Interfaces;
+using Org.Vs.TailForWin.UI.Interfaces;
 
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 {
   /// <summary>
   /// ColorOption view model
   /// </summary>
-  public class ColorOptionViewModel : NotifyMaster
+  public class ColorOptionViewModel : NotifyMaster, IColorOptionViewModel
   {
     /// <summary>
     /// Log viewer color data collection
@@ -31,6 +33,16 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     {
       get;
     }
+
+    /// <summary>
+    /// Loaded command
+    /// </summary>
+    public IAsyncCommand LoadedCommand => throw new NotImplementedException();
+
+    /// <summary>
+    /// Unloaded command
+    /// </summary>
+    public ICommand UnloadedCommand => throw new NotImplementedException();
 
     /// <summary>
     /// Standard constructor

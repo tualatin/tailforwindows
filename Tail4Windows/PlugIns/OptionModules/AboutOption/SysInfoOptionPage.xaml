@@ -16,17 +16,17 @@
 
   <intr:Interaction.Triggers>
     <intr:EventTrigger EventName="Loaded">
-      <intr:InvokeCommandAction Command="{Binding SysInfoLoadedCommand}" />
+      <intr:InvokeCommandAction Command="{Binding LoadedCommand}" />
     </intr:EventTrigger>
     <intr:EventTrigger EventName="Unloaded">
-      <intr:InvokeCommandAction Command="{Binding SysInfoUnloadedCommand}" />
+      <intr:InvokeCommandAction Command="{Binding UnloadedCommand}" />
     </intr:EventTrigger>
   </intr:Interaction.Triggers>
 
   <Grid UseLayoutRounding="True">
     <ListView
       BorderThickness="0"
-      ItemsSource="{Binding SysInfoLoadedCommand.Execution.Result}"
+      ItemsSource="{Binding LoadedCommand.Execution.Result}"
       >
       <ListView.View>
         <GridView>

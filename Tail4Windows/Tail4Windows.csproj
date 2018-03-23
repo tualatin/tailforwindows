@@ -227,6 +227,7 @@
     <Compile Include="Core\Interfaces\IPropertyNotify.cs" />
     <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
     <Compile Include="BaseView\ViewModels\TreeNodeOptionViewModel.cs" />
+    <Compile Include="Core\Interfaces\IViewModelBase.cs" />
     <Compile Include="Core\Utils\FileOpenDialog.cs" />
     <Compile Include="Core\Utils\LanguageSelector.cs" />
     <Compile Include="Core\Utils\StringEncryption.cs" />
@@ -237,9 +238,12 @@
       <DependentUpon>UpdateOptionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\IAboutOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\IUpdateOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\SysInfoViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\UpdateOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AlertOption\ViewModels\AlertOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\AlertOption\Interfaces\IAlertOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Data\ControlColorData.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\SmtpOptionPage.xaml.cs">
       <DependentUpon>SmtpOptionPage.xaml</DependentUpon>
@@ -258,7 +262,11 @@
     </Compile>
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ColorOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\EnvironmentOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IColorOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IEnvironmentOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IImportExportOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ImportExportOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IProxyOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ProxyOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\SmartWatchOption\SmartWatchOptionPage.xaml.cs">
       <DependentUpon>SmartWatchOptionPage.xaml</DependentUpon>

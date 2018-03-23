@@ -9,6 +9,7 @@ using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Services;
@@ -19,7 +20,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
   /// <summary>
   /// Update option view model
   /// </summary>
-  public class UpdateOptionViewModel : NotifyMaster
+  public class UpdateOptionViewModel : NotifyMaster, IUpdateOptionViewModel
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(UpdateOptionViewModel));
 
@@ -33,6 +34,11 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
     public UpdateOptionViewModel() => _updateController = new UpdateController(new WebDataController());
 
     #region Commands
+
+    /// <summary>
+    /// Loaded command
+    /// </summary>
+    public IAsyncCommand LoadedCommand => throw new NotImplementedException();
 
     private IAsyncCommand _checkUpdateCommand;
 

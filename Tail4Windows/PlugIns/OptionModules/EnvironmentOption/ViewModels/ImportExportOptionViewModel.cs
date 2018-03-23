@@ -10,6 +10,7 @@ using Microsoft.Win32;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Services;
@@ -21,7 +22,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
   /// <summary>
   /// Import/Export view model
   /// </summary>
-  public class ImportExportOptionViewModel : NotifyMaster
+  public class ImportExportOptionViewModel : NotifyMaster, IImportExportOptionViewModel
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(ImportExportOptionViewModel));
 
@@ -51,19 +52,19 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
     #region Commands
 
-    private ICommand _importLoadedCommand;
+    private IAsyncCommand _loadedCommand;
 
     /// <summary>
     /// Import/Export loaded command
     /// </summary>
-    public ICommand ImportLoadedCommand => _importLoadedCommand ?? (_importLoadedCommand = new RelayCommand(p => ExecuteImportLoadedCommand()));
+    public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create((p, t) => ExecuteImportLoadedCommandAsync()));
 
-    private ICommand _importUnloadedCommand;
+    private ICommand _unloadedCommand;
 
     /// <summary>
     /// Import/Export unloaded command
     /// </summary>
-    public ICommand ImportUnloadedCommand => _importUnloadedCommand ?? (_importUnloadedCommand = new RelayCommand(p => ExecuteImportUnloadedCommand()));
+    public ICommand UnloadedCommand => _unloadedCommand ?? (_unloadedCommand = new RelayCommand(p => ExecuteImportUnloadedCommand()));
 
     private IAsyncCommand _resetSettingsCommand;
 
@@ -90,12 +91,16 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
     #region Command functions
 
-    private void ExecuteImportLoadedCommand()
+    private async Task ExecuteImportLoadedCommandAsync()
     {
-      CurrentSettingsPath = $"{AppDomain.CurrentDomain.BaseDirectory}{AppDomain.CurrentDomain.FriendlyName}.Config";
-      ((AsyncCommand<object>) ImportCommand).PropertyChanged += ImportCommandPropertyChanged;
-      ((AsyncCommand<object>) ExportCommand).PropertyChanged += ExportCommandPropertyChanged;
-      ((AsyncCommand<object>) ResetSettingsCommand).PropertyChanged += ResetCommandPropertyChanged;
+      await Task.Run(
+        () =>
+        {
+          CurrentSettingsPath = $"{AppDomain.CurrentDomain.BaseDirectory}{AppDomain.CurrentDomain.FriendlyName}.Config";
+          ((AsyncCommand<object>) ImportCommand).PropertyChanged += ImportCommandPropertyChanged;
+          ((AsyncCommand<object>) ExportCommand).PropertyChanged += ExportCommandPropertyChanged;
+          ((AsyncCommand<object>) ResetSettingsCommand).PropertyChanged += ResetCommandPropertyChanged;
+        }).ConfigureAwait(false);
     }
 
     private void ExecuteImportUnloadedCommand() => _cts?.Cancel();
