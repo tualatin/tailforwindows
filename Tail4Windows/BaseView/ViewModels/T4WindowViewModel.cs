@@ -32,6 +32,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private static readonly ILog LOG = LogManager.GetLogger(typeof(T4WindowViewModel));
 
     private readonly NotifyTaskCompletion _notifyTaskCompletion;
+    private EStatusbarState _currentStatusbarState;
 
     #region Events
 
@@ -217,6 +218,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public T4WindowViewModel()
     {
+      _currentStatusbarState = EStatusbarState.Default;
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
       _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
 
@@ -363,7 +365,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void SetDefaultWindowSettings()
     {
-      SetCurrentBusinessData(EStatusbarState.Default);
+      SetCurrentBusinessData();
 
       switch ( SettingsHelperController.CurrentSettings.CurrentWindowStyle )
       {
@@ -542,16 +544,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
                                                                          && !e.PropertyName.Equals("StatusBarTailBackgroundColorHex") && !e.PropertyName.Equals("RaiseOnPropertyChanged") )
         return;
 
-      SetCurrentBusinessData(EStatusbarState.Default);
+      SetCurrentBusinessData();
     }
 
-    /// <summary>
-    /// Set current business data
-    /// </summary>
-    /// <param name="statusbarState"><see cref="EStatusbarState"/></param>
-    private void SetCurrentBusinessData(EStatusbarState statusbarState)
+    private void SetCurrentBusinessData()
     {
-      switch ( statusbarState )
+      switch ( _currentStatusbarState )
       {
       case EStatusbarState.FileLoaded:
 

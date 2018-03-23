@@ -263,4 +263,15 @@
   <system:String x:Key="SmartWatchOptionFilerByExtension">Filter by extension</system:String>
   <system:String x:Key="SmartWatchOptionFilerByExtensionToolTip">Filter by last log file extension</system:String>
   <system:String x:Key="SmartWatchOptionAutoRunToolTip">If Autorun is enabled, Tail4Windows starts automatically tailing of new file</system:String>
+
+  <system:String x:Key="AlertOptionBringIntoFront">Bring mainwindow to front when alert occurs</system:String>
+  <system:String x:Key="AlertOptionPopupWindow">Show a popup window when alert occurs</system:String>
+  <system:String x:Key="AlertOptionPlaySound">Play sound when alert occurs</system:String>
+  <system:String x:Key="AlertOptionSoundFile">Alert sound file</system:String>
+  <system:String x:Key="AlertOptionSoundFileToolTip">Browse for alert sound file</system:String>
+  <system:String x:Key="AlertOptionSendMail">Send an E-Mail when alert occours</system:String>
+  <system:String x:Key="AlertOptionMailAddress">E-Mail-Address</system:String>
+  <system:String x:Key="AlertOptionMailTest">Test E-Mail settings</system:String>
+  <system:String x:Key="AlertOptionMailTestToolTip">Send a test E-Mail</system:String>
+  <system:String x:Key="AlertOptionTestMail">A test message</system:String>
 </ResourceDictionary>

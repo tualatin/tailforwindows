@@ -227,6 +227,7 @@
     <Compile Include="Core\Interfaces\IPropertyNotify.cs" />
     <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
     <Compile Include="BaseView\ViewModels\TreeNodeOptionViewModel.cs" />
+    <Compile Include="Core\Utils\FileOpenDialog.cs" />
     <Compile Include="Core\Utils\LanguageSelector.cs" />
     <Compile Include="Core\Utils\StringEncryption.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\SysInfoOptionPage.xaml.cs">
@@ -383,6 +384,7 @@
     <Compile Include="UI\Events\Args\ArgDummy.cs" />
     <Compile Include="UI\Extensions\WindowExtension.cs" />
     <Compile Include="UI\Interfaces\IAsyncCommand.cs" />
+    <Compile Include="UI\Interfaces\IFileDragDropTarget.cs" />
     <Compile Include="UI\NotifyIcon\Interop\SystemInfo.cs" />
     <Compile Include="BaseView\T4Window.xaml.cs">
       <DependentUpon>T4Window.xaml</DependentUpon>
@@ -416,6 +418,7 @@
     </Compile>
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
+    <Compile Include="UI\Utils\FileDragDropHelper.cs" />
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
     <Page Include="BaseView\Options.xaml">
@@ -452,11 +455,11 @@
     </Page>
     <Content Include="Language\de-DE.xaml">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Language\en-EN.xaml">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

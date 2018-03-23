@@ -30,7 +30,7 @@
   <system:String x:Key="FindDialogTitle">Suche</system:String>
   <system:String x:Key="SearchCount">Anzahl: {0} Treffer.</system:String>
   <system:String x:Key="SelectSoundFile">Bitte eine Mediendatei auswählen</system:String>
-  <system:String x:Key="NoSoundFile">This is a unknown sound file format. Please select a valid sound file!</system:String>
+  <system:String x:Key="NoSoundFile">Das ist ein unbekanntes Musikformat. Bitte wählen Sie ein gültiges Format aus!</system:String>
   <system:String x:Key="FilterNotEmpty">Der Filter darf nicht leer sein!</system:String>
   <system:String x:Key="FiltersLoaded">{0} Filter</system:String>
   <system:String x:Key="FilterLoaded">{0} Filter</system:String>
@@ -261,4 +261,15 @@
   <system:String x:Key="SmartWatchOptionFilerByExtension">Filtern mit Hilfe der Erweiterung</system:String>
   <system:String x:Key="SmartWatchOptionFilerByExtensionToolTip">Filtern durch die Dateierweiterung der Logdatei</system:String>
   <system:String x:Key="SmartWatchOptionAutoRunToolTip">Wenn Autorun aktiviert ist, startet T4 automatisch protokollieren einer neuen Datei</system:String>
+
+  <system:String x:Key="AlertOptionBringIntoFront">Das Hauptfenster in den Vordergrund bringen</system:String>
+  <system:String x:Key="AlertOptionPopupWindow">Ein Popup Fenster anzeigen</system:String>
+  <system:String x:Key="AlertOptionPlaySound">Abspielen eines Musiktitels</system:String>
+  <system:String x:Key="AlertOptionSoundFile">Musiktitel</system:String>
+  <system:String x:Key="AlertOptionSoundFileToolTip">Nach einem Musiktitel suchen</system:String>
+  <system:String x:Key="AlertOptionSendMail">Sende eine E-Mail</system:String>
+  <system:String x:Key="AlertOptionMailAddress">E-Mail-Adresse</system:String>
+  <system:String x:Key="AlertOptionMailTest">Teste E-Mail Einstellungen</system:String>
+  <system:String x:Key="AlertOptionMailTestToolTip">Senden einer Test E-Mail</system:String>
+  <system:String x:Key="AlertOptionTestMail">Eine Testnachricht</system:String>
 </ResourceDictionary>

@@ -66,7 +66,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     private async Task<NetworkCredential> CreateSecurePasswordAsync()
     {
       string result = await StringEncryption.DecryptAsync(SettingsHelperController.CurrentSettings.SmtpSettings.Password).ConfigureAwait(false);
-      SecureString password = new SecureString();
+      var password = new SecureString();
 
       foreach ( char t in result )
       {

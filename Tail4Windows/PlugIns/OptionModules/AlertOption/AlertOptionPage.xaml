@@ -4,13 +4,19 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:my="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  xmlns:ui="clr-namespace:Org.Vs.TailForWin.UI.Commands"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.UI.Utils"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="400"
   d:DesignWidth="400"
+  AllowDrop="True"
+  utils:FileDragDropHelper.FileDragDropTarget="{Binding}"
+  utils:FileDragDropHelper.IsFileDragDropEnabled="True"
   >
   <UserControl.DataContext>
     <viewModels:AlertOptionViewModel />
@@ -28,7 +34,7 @@
     <Grid UseLayoutRounding="True">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="110" />
-        <ColumnDefinition Width="224*" />
+        <ColumnDefinition MinWidth="250" />
         <ColumnDefinition Width="30" />
       </Grid.ColumnDefinitions>
 
@@ -47,9 +53,9 @@
         Grid.ColumnSpan="3"
         Height="22"
         VerticalAlignment="Center"
-        Content="Bring Mainwindow to front when Alert occurs"
+        Content="{DynamicResource AlertOptionBringIntoFront}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.BringToFront, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-        TabIndex="1"
+        TabIndex="0"
         />
 
       <CheckBox
@@ -58,9 +64,9 @@
         Grid.ColumnSpan="3"
         Height="22"
         VerticalAlignment="Center"
-        Content="Show a popup window when Alert occurs"
+        Content="{DynamicResource AlertOptionPopupWindow}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.PopupWnd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-        TabIndex="2"
+        TabIndex="1"
         />
 
       <CheckBox
@@ -69,9 +75,9 @@
         Grid.ColumnSpan="3"
         Height="22"
         VerticalAlignment="Center"
-        Content="Play sound when Alert occurs"
+        Content="{DynamicResource AlertOptionPlaySound}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.PlaySoundFile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-        TabIndex="3"
+        TabIndex="2"
         />
 
       <Label
@@ -79,15 +85,32 @@
         Grid.Column="0"
         HorizontalAlignment="Right"
         VerticalAlignment="Center"
-        Content="Alert sound file:"
+        Content="{DynamicResource AlertOptionSoundFile}"
         />
       <TextBox
         Grid.Row="3"
         Grid.Column="1"
         Height="23"
+        MinWidth="100"
         Margin="5 0 0 0"
-        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.SoundFileNameFullPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SoundFileNameConverter}}"
-        />
+        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.SoundFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource SoundFileNameConverter}}"
+        >
+        <i:Interaction.Triggers>
+          <i:EventTrigger EventName="PreviewDragOver">
+            <ui:InvokeDelegateCommandAction
+              Command="{Binding PreviewDragEnterCommand}"
+              CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+              />
+          </i:EventTrigger>
+
+          <i:EventTrigger EventName="PreviewDragEnter">
+            <ui:InvokeDelegateCommandAction
+              Command="{Binding PreviewDragEnterCommand}"
+              CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+              />
+          </i:EventTrigger>
+        </i:Interaction.Triggers>
+      </TextBox>
 
       <Button
         Grid.Row="3"
@@ -96,17 +119,18 @@
         Height="23"
         HorizontalAlignment="Right"
         VerticalAlignment="Center"
-        TabIndex="4"
+        Command="{Binding SelectSoundFileCommand}"
+        TabIndex="3"
         >
         <Button.ToolTip>
           <StackPanel>
             <TextBlock
               Margin="0 0 0 5"
-              Text="{DynamicResource UiLanguage}"
+              Text="{DynamicResource AlertOptionSoundFile}"
               FontSize="12"
               FontWeight="Bold"
               />
-            <TextBlock Text="{DynamicResource EnvironmentLanguageToolTip}" />
+            <TextBlock Text="{DynamicResource AlertOptionSoundFileToolTip}" />
             <Border
               Margin="0 8"
               BorderBrush="Silver"
@@ -143,9 +167,9 @@
         Grid.Column="0"
         Grid.ColumnSpan="2"
         Height="22"
-        Content="Send an E-Mail when Alert occours"
+        Content="{DynamicResource AlertOptionSendMail}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.SendMail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-        TabIndex="5"
+        TabIndex="4"
         />
 
       <Label
@@ -153,16 +177,17 @@
         Grid.Column="0"
         HorizontalAlignment="Right"
         VerticalAlignment="Center"
-        Content="E-Mail-Address:"
+        Content="{DynamicResource AlertOptionMailAddress}"
         />
       <my:WatermarkTextBox
         Grid.Row="5"
         Grid.Column="1"
         Height="23"
+        MinWidth="100"
         Margin="5 0 0 0"
         Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.MailAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource MailAddressConverter}}"
         IsEnabled="{Binding ElementName=CheckBoxSendMail, Path=IsChecked}"
-        TabIndex="6"
+        TabIndex="5"
         >
         <my:WatermarkTextBox.Watermark>
           <TextBlock
@@ -180,18 +205,19 @@
         Height="23"
         HorizontalAlignment="Right"
         VerticalAlignment="Center"
+        Command="{Binding SendTestMailCommand}"
         IsEnabled="{Binding ElementName=CheckBoxSendMail, Path=IsChecked}"
-        TabIndex="7"
+        TabIndex="6"
         >
         <Button.ToolTip>
           <StackPanel>
             <TextBlock
               Margin="0 0 0 5"
-              Text="{DynamicResource UiLanguage}"
+              Text="{DynamicResource AlertOptionMailTest}"
               FontSize="12"
               FontWeight="Bold"
               />
-            <TextBlock Text="{DynamicResource EnvironmentLanguageToolTip}" />
+            <TextBlock Text="{DynamicResource AlertOptionMailTestToolTip}" />
             <Border
               Margin="0 8"
               BorderBrush="Silver"
