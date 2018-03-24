@@ -255,6 +255,8 @@
         MinSpinValue="1"
         StartIndex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=LogFilesOlderThan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         TabIndex="4"
+        TextBoxMaxValue="20"
+        TextBoxMinValue="1"
         >
         <userControls:Spinner.ToolTip>
           <StackPanel>

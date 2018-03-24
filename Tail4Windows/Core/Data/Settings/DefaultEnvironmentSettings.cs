@@ -289,7 +289,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value SMTP port
     /// </summary>
-    public const int SmtpPort = 25;
+    public const int SmtpPort = 587;
 
     /// <summary>
     /// Default value SMTP server

@@ -5,6 +5,7 @@ using System.Net.Mail;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using log4net;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
@@ -40,6 +41,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           EnableSsl = SettingsHelperController.CurrentSettings.SmtpSettings.Ssl,
         };
         _mailClient.SendCompleted += MailSendCompleted;
+        ServicePointManager.ServerCertificateValidationCallback += (s, cert, chain, sslPolicyError) => true;
 
         if ( SettingsHelperController.CurrentSettings.SmtpSettings.Tls )
           ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
@@ -60,7 +62,19 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void MailSendCompleted(object sender, AsyncCompletedEventArgs e)
     {
-      throw new NotImplementedException();
+      if ( e.Cancelled )
+      {
+        EnvironmentContainer.ShowErrorMessageBox(Application.Current.TryFindResource("MailCannotSend").ToString());
+        return;
+      }
+
+      if ( e.Error != null )
+      {
+        EnvironmentContainer.ShowErrorMessageBox(e.Error.Message);
+        return;
+      }
+
+      EnvironmentContainer.ShowInformationMessageBox(Application.Current.TryFindResource("MailSendSuccess").ToString());
     }
 
     private async Task<NetworkCredential> CreateSecurePasswordAsync()

@@ -291,6 +291,7 @@
     <Compile Include="UI\Converters\SmartWatchModeToBoolConverter.cs" />
     <Compile Include="UI\Converters\SmtpSecurityConverter.cs" />
     <Compile Include="UI\Converters\SoundFileNameConverter.cs" />
+    <Compile Include="UI\Converters\StringEmptyToDotConverter.cs" />
     <Compile Include="UI\Converters\StringToIntConverter.cs" />
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\StringToWindowMediaBrushConverter.cs" />
@@ -432,6 +433,7 @@
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
     <Compile Include="UI\Utils\FileDragDropHelper.cs" />
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
+    <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
     <Page Include="BaseView\Options.xaml">
       <SubType>Designer</SubType>

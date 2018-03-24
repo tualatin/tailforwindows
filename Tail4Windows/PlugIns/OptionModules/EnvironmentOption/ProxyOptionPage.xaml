@@ -126,6 +126,8 @@
               MaxSpinValue="99999"
               MinSpinValue="1"
               StartIndex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.ProxyPort, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+              TextBoxMaxValue="99999"
+              TextBoxMinValue="1"
               />
 
           </Grid>

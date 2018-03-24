@@ -39,9 +39,11 @@
   <system:String x:Key="NoUpdate">No update necessary</system:String>
   <system:String x:Key="DoUpdate">New update available</system:String>
   <system:String x:Key="DragDropRunningWarning">There is a running process! Do you want open a new TailWindow tab?</system:String>
-  <system:String x:Key="EMailAddressNotValid">The E-Mail address is not valid!</system:String>
+  <system:String x:Key="EMailAddressNotValid">The e-mail address is not valid!</system:String>
+  <system:String x:Key="SmtpServerAddressNecessary">SMTP server address necessary!</system:String>
   <system:String x:Key="SmtpPortNotValid">The SMTP Server Port is not valid!</system:String>
-  <system:String x:Key="MailCannotSend">E-Mail can not send! Please check your SMTP settings.</system:String>
+  <system:String x:Key="MailCannotSend">The e-mail can not send! Please check your SMTP settings.</system:String>
+  <system:String x:Key="MailSendSuccess">The e-mail was sent successfully.</system:String>
   <system:String x:Key="SmtpSettingsNotValid">Can not set SMTP settings! Please take a look into the log file to get more information.</system:String>
   <system:String x:Key="OpenDialogImportSettings">Please select a exported settings file...</system:String>
   <system:String x:Key="QImportSettings">Do you really want to import this settings? Your old settings will override.</system:String>

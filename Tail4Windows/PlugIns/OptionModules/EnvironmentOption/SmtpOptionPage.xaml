@@ -17,6 +17,7 @@
   <UserControl.Resources>
     <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     <converters:SmtpSecurityConverter x:Key="SmtpSecurityConverter" />
+    <converters:StringEmptyToDotConverter x:Key="StringEmptyToDotConverter" />
   </UserControl.Resources>
 
   <ScrollViewer
@@ -59,9 +60,26 @@
         Grid.ColumnSpan="2"
         Height="23"
         Margin="6 0"
-        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.SmtpServerName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
         TabIndex="1"
         >
+        <userControls:WatermarkTextBox.ToolTip>
+          <ToolTip
+            Content="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.SmtpServerName, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringEmptyToDotConverter}}"
+            Style="{StaticResource TabItemToolTipStyle}"
+            />
+        </userControls:WatermarkTextBox.ToolTip>
+        <userControls:WatermarkTextBox.Text>
+          <Binding
+            Mode="TwoWay"
+            Path="SmtpSettings.SmtpServerName"
+            Source="{x:Static controllers:SettingsHelperController.CurrentSettings}"
+            UpdateSourceTrigger="PropertyChanged"
+            >
+            <Binding.ValidationRules>
+              <validationRules:SmtpServerAddressValidation />
+            </Binding.ValidationRules>
+          </Binding>
+        </userControls:WatermarkTextBox.Text>
         <userControls:WatermarkTextBox.Watermark>
           <TextBlock
             Margin="5 0 0 0"
@@ -81,6 +99,8 @@
         MinSpinValue="1"
         StartIndex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.SmtpPort, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         TabIndex="2"
+        TextBoxMaxValue="99999"
+        TextBoxMinValue="1"
         >
         <userControls:Spinner.ToolTip>
           <StackPanel>
@@ -167,11 +187,18 @@
         Grid.Row="5"
         Grid.Column="1"
         Height="23"
+        MaxWidth="190"
         Margin="6 0"
         VerticalAlignment="Center"
         IsEnabled="{Binding ElementName=CheckBoxSameLogin, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
         TabIndex="6"
         >
+        <userControls:WatermarkTextBox.ToolTip>
+          <ToolTip
+            Content="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.FromAddress, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringEmptyToDotConverter}}"
+            Style="{StaticResource TabItemToolTipStyle}"
+            />
+        </userControls:WatermarkTextBox.ToolTip>
         <userControls:WatermarkTextBox.Text>
           <Binding
             Mode="TwoWay"
