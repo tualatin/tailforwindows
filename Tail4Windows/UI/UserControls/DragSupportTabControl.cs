@@ -68,10 +68,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     #region Events
 
-    private void DragSupportTabControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-      _startPoint = e.GetPosition(this);
-    }
+    private void DragSupportTabControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => _startPoint = e.GetPosition(this);
 
     private void DragSupportTabControl_Drop(object sender, DragEventArgs e)
     {
@@ -95,7 +92,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       Point mpos = e.GetPosition(null);
       Vector diff = _startPoint - mpos;
 
-      if ( e.LeftButton != MouseButtonState.Pressed || (!(Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance) && !(Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)) )
+      if ( e.LeftButton != MouseButtonState.Pressed || !(Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance) && !(Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance) )
         return;
 
       if ( !(e.Source is TailForWinTabItem tabItem) )
