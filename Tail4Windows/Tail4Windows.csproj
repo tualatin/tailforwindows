@@ -203,6 +203,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BaseView\StyleableWindow\OpenSettingsDialogBehavior.cs" />
+    <Compile Include="UI\UserControls\DragSupportTabControl.cs" />
     <Compile Include="BaseView\UserControls\Interfaces\IOptionsViewModel.cs" />
     <Compile Include="BaseView\UserControls\Interfaces\IT4WindowViewModel.cs" />
     <Compile Include="Business\Controllers\SystemInformationController.cs" />
@@ -411,7 +412,7 @@
     <Compile Include="BaseView\StyleableWindow\WindowMaximizeCommand.cs" />
     <Compile Include="BaseView\StyleableWindow\WindowMinimizeCommand.cs" />
     <Compile Include="BaseView\StyleableWindow\WindowResizeBehavior.cs" />
-    <Compile Include="BaseView\UserControls\TailForWinTabItem.cs" />
+    <Compile Include="UI\UserControls\TailForWinTabItem.cs" />
     <Compile Include="UI\Services\MouseService.cs" />
     <Compile Include="UI\UserControls\FancyNotificationPopUp.xaml.cs">
       <DependentUpon>FancyNotificationPopUp.xaml</DependentUpon>
@@ -487,6 +488,10 @@
     <Compile Include="Core\Logging\LogUtil.cs" />
     <Compile Include="Core\Logging\SingleLetterLevelConverter.cs" />
     <Compile Include="Core\Logging\ZippingRollingFileAppender.cs" />
+    <Page Include="UI\UserControls\Styles\DragSupportTabControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PlugIns\OptionModules\AboutOption\AboutOptionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -603,7 +608,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="BaseView\UserControls\Styles\TailForWinTabItem.xaml">
+    <Page Include="UI\UserControls\Styles\TailForWinTabItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -817,6 +822,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BaseView\Interfaces\" />
+    <Folder Include="BaseView\UserControls\Styles\" />
     <Folder Include="Business\Interfaces\" />
     <Folder Include="Core\Events\Args\" />
     <Folder Include="Core\Events\Delegates\" />

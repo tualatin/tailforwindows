@@ -22,7 +22,8 @@
         <ResourceDictionary Source="UI/Styles/DataGridStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/TreeView.xaml" />
         <ResourceDictionary Source="UI/Styles/TabItemToolTipStyle.xaml" />
-        <ResourceDictionary Source="BaseView/UserControls/Styles/TailForWinTabItem.xaml" />
+        <ResourceDictionary Source="UI/UserControls/Styles/TailForWinTabItem.xaml" />
+        <ResourceDictionary Source="UI/UserControls/Styles/DragSupportTabControl.xaml" />
         <ResourceDictionary Source="BaseView/Styles/TitleBarWindowIconStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/TitleBarButtonsStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/SettingsGridStyle.xaml" />

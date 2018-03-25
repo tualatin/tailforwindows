@@ -64,6 +64,14 @@
       <RowDefinition Height="25" />
     </Grid.RowDefinitions>
 
+    <userControls:DragSupportTabControl
+      Grid.Row="0"
+      Style="{StaticResource DragSupportTabControlStyle}"
+      >
+      <TabItem Header="1. log window example" />
+      <TabItem Header="2. log window example" />
+    </userControls:DragSupportTabControl>
+
     <baseViewControls:MainWindowStatusBar Grid.Row="1" />
 
     <!--  TaskbarIcon part  -->

@@ -1,9 +1,9 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 
-namespace Org.Vs.TailForWin.BaseView.UserControls
+namespace Org.Vs.TailForWin.UI.UserControls
 {
   /// <summary>
   /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
