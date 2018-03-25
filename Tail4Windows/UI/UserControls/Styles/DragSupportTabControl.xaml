@@ -9,7 +9,6 @@
   </ResourceDictionary.MergedDictionaries>
 
   <SolidColorBrush x:Key="BrushSolidBlue" Color="#293955" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidLightBlue" Color="#4C75BC" po:Freeze="True" />
 
   <Style x:Key="OptionTabControlButtonStyle" TargetType="{x:Type Button}">
     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -46,6 +45,36 @@
     <Setter Property="Width" Value="16" />
   </Style>
 
+  <Style x:Key="ContentControlAddButton" TargetType="{x:Type ContentControl}">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type ContentControl}">
+          <Button
+            Margin="0 0 5 0"
+            Style="{StaticResource OptionTabControlButtonStyle}"
+            ToolTip="{DynamicResource TabControlAddNew}"
+            >
+            <Path
+              Name="PlusPath"
+              Margin="2"
+              Data="M3.875,0 L5.125,0 5.125,3.875 9,3.875 9,5.125 5.125,5.125 5.125,9 3.875,9 3.875,5.125 0,5.125 0,3.875 3.875,3.875 3.875,0 z"
+              Fill="{StaticResource BrushSolidGrey10}"
+              Stretch="Fill"
+              Stroke="{x:Null}"
+              StrokeThickness="0.5"
+              />
+          </Button>
+
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="PlusPath" Property="Fill" Value="Black" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
   <Style x:Key="DragSupportTabControlStyle" TargetType="{x:Type userControls:DragSupportTabControl}">
     <Setter Property="OverridesDefaultStyle" Value="True" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -67,28 +96,16 @@
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
 
-              <Button
+              <ContentControl
                 Grid.Column="1"
-                Margin="0 0 5 0"
-                Style="{StaticResource OptionTabControlButtonStyle}"
-                ToolTip="{DynamicResource TabControlAddNew}"
-                >
-                <Path
-                  Margin="1"
-                  Data="M3.875,0 L5.125,0 5.125,3.875 9,3.875 9,5.125 5.125,5.125 5.125,9 3.875,9 3.875,5.125 0,5.125 0,3.875 3.875,3.875 3.875,0 z"
-                  Fill="{StaticResource BrushSolidLightBlue}"
-                  Stretch="Fill"
-                  Stroke="{x:Null}"
-                  StrokeThickness="0.5"
-                  />
-              </Button>
+                Style="{StaticResource ContentControlAddButton}"
+                />
 
               <TabPanel
                 x:Name="HeaderPanel"
                 Grid.Column="0"
                 Height="25"
                 Panel.ZIndex="1"
-                Background="{StaticResource BrushSolidBlue}"
                 IsItemsHost="True"
                 KeyboardNavigation.TabIndex="1"
                 />
