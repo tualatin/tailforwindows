@@ -47,12 +47,12 @@
           </Border>
           <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-              <Setter TargetName="Chrome" Property="Background" Value="#FFFFFCF4" />
-              <Setter TargetName="Chrome" Property="BorderBrush" Value="#FFE5C365" />
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidCustomBeige}" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
               <Setter TargetName="Chrome" Property="Background" Value="#FFFFE8A6" />
-              <Setter TargetName="Chrome" Property="BorderBrush" Value="#FFE5C365" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -103,12 +103,12 @@
           </Border>
           <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-              <Setter TargetName="Chrome" Property="Background" Value="#FFFFFCF4" />
-              <Setter TargetName="Chrome" Property="BorderBrush" Value="#FFE5C365" />
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidCustomBeige}" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
               <Setter TargetName="Chrome" Property="Background" Value="#FFFFE8A6" />
-              <Setter TargetName="Chrome" Property="BorderBrush" Value="#FFE5C365" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -159,12 +159,12 @@
           </Border>
           <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-              <Setter TargetName="Chrome" Property="Background" Value="#FFFFFCF4" />
-              <Setter TargetName="Chrome" Property="BorderBrush" Value="#FFE5C365" />
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidCustomBeige}" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
               <Setter TargetName="Chrome" Property="Background" Value="#FFFFE8A6" />
-              <Setter TargetName="Chrome" Property="BorderBrush" Value="#FFE5C365" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -215,12 +215,12 @@
           </Border>
           <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-              <Setter TargetName="Chrome" Property="Background" Value="#FFFFFCF4" />
-              <Setter TargetName="Chrome" Property="BorderBrush" Value="#FFE5C365" />
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidCustomBeige}" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
               <Setter TargetName="Chrome" Property="Background" Value="#FFFFE8A6" />
-              <Setter TargetName="Chrome" Property="BorderBrush" Value="#FFE5C365" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>

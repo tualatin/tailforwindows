@@ -203,6 +203,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BaseView\StyleableWindow\OpenSettingsDialogBehavior.cs" />
+    <Compile Include="Business\Data\Messages\AddNewTabItemMessage.cs" />
+    <Compile Include="UI\UserControls\Commands\AddNewTabItemCommand.cs" />
     <Compile Include="UI\UserControls\DragSupportTabControl.cs" />
     <Compile Include="BaseView\UserControls\Interfaces\IOptionsViewModel.cs" />
     <Compile Include="BaseView\UserControls\Interfaces\IT4WindowViewModel.cs" />

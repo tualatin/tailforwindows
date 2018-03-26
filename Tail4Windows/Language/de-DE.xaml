@@ -64,7 +64,7 @@
   <system:String x:Key="OptionsSystemMenu">Einstellungen...</system:String>
   <system:String x:Key="OptionsSystemMenuToolTip">Öffnet die Einstellungen</system:String>
   <system:String x:Key="CancelText">Abbruch</system:String>
-  <system:String x:Key="TabControlAddNew">Fügt ein neues Log-Fenster Tab hinzu</system:String>
+  <system:String x:Key="TabControlAddNew">Fügt ein neues Log-Fenster Tab hinzu (STRG+T)</system:String>
   <system:String
     x:Key="SmartWatchHint"
     xml:space="preserve"

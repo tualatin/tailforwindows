@@ -20,11 +20,11 @@ using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
+using Org.Vs.TailForWin.UI.UserControls;
 
 
 namespace Org.Vs.TailForWin.BaseView.ViewModels
 {
-  /// <inheritdoc />
   /// <summary>
   /// T4Window view model
   /// </summary>
@@ -313,9 +313,21 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand PreviewKeyDownCommand => _previewKeyDownCommand ?? (_previewKeyDownCommand = new RelayCommand(ExecutePreviewKeyDownCommand));
 
+    private ICommand _addNewTabItemCommand;
+
+    /// <summary>
+    /// Adds a new <see cref="TabItem"/> to <see cref="DragSupportTabControl"/>
+    /// </summary>
+    public ICommand AddNewTabItemCommand => _addNewTabItemCommand ?? (_addNewTabItemCommand = new RelayCommand(p => ExecuteAddNewTabItemCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteAddNewTabItemCommand()
+    {
+      LOG.Trace("Add new TabItem");
+    }
 
     private void ExecutePreviewKeyDownCommand(object parameter)
     {
@@ -359,6 +371,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       await Task.Run(() =>
       {
         LOG.Trace($"{EnvironmentContainer.ApplicationTitle} startup completed!");
+
+        EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<AddNewTabItemMessage>(OnAddNewTabItem);
       }).ConfigureAwait(false);
     }
 
@@ -374,6 +388,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     #endregion
 
     #region HelperFunctions
+
+    private void OnAddNewTabItem(AddNewTabItemMessage args)
+    {
+      if ( !(args.Sender is UI.UserControls.Commands.AddNewTabItemCommand) )
+        return;
+
+      ExecuteAddNewTabItemCommand();
+    }
 
     private void SetDefaultWindowSettings()
     {

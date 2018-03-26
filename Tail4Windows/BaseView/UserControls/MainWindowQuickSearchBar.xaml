@@ -52,13 +52,13 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Style.Triggers>
           <Trigger Property="IsMouseOver" Value="True">
-            <Setter Property="BorderBrush" Value="#FFE5C365" />
+            <Setter Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
           </Trigger>
           <Trigger Property="IsMouseOver" Value="False">
             <Setter Property="BorderBrush" Value="{Binding Source={StaticResource BorderLightColor}, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
           </Trigger>
           <DataTrigger Value="True" Binding="{Binding IsFocused, ElementName=QuickSearchTextBox}">
-            <Setter Property="BorderBrush" Value="#FFE5C365" />
+            <Setter Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
           </DataTrigger>
         </Style.Triggers>
       </Style>

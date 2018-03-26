@@ -23,9 +23,9 @@ namespace Org.Vs.TailForWin.UI.UserControls
     public DragSupportTabControl()
     {
       AllowDrop = true;
-      MouseMove += DragSupportTabControl_MouseMove;
-      Drop += DragSupportTabControl_Drop;
-      PreviewMouseLeftButtonDown += DragSupportTabControl_PreviewMouseLeftButtonDown;
+      MouseMove += DragSupportTabControlMouseMove;
+      Drop += DragSupportTabControlDrop;
+      PreviewMouseLeftButtonDown += DragSupportTabControlPreviewMouseLeftButtonDown;
     }
 
     /// <summary>
@@ -68,11 +68,11 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     #region Events
 
-    private void DragSupportTabControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => _startPoint = e.GetPosition(this);
+    private void DragSupportTabControlPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) => _startPoint = e.GetPosition(this);
 
-    private void DragSupportTabControl_Drop(object sender, DragEventArgs e)
+    private void DragSupportTabControlDrop(object sender, DragEventArgs e)
     {
-      QueryContinueDrag -= DragSupportTabControl_QueryContinueDrag;
+      QueryContinueDrag -= DragSupportTabControlQueryContinueDrag;
 
       if ( !(e.Source is TabItem tabItemTarget) )
         return;
@@ -83,7 +83,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       SwapTabItems(tabItemSource, tabItemTarget);
     }
 
-    private void DragSupportTabControl_MouseMove(object sender, MouseEventArgs e)
+    private void DragSupportTabControlMouseMove(object sender, MouseEventArgs e)
     {
       // One tab with add tab is open, no draging
       if ( Items.Count <= 2 )
@@ -98,15 +98,15 @@ namespace Org.Vs.TailForWin.UI.UserControls
       if ( !(e.Source is TailForWinTabItem tabItem) )
         return;
 
-      QueryContinueDrag += DragSupportTabControl_QueryContinueDrag;
-      GiveFeedback += DragSupportTabControl_GiveFeedback;
+      QueryContinueDrag += DragSupportTabControlQueryContinueDrag;
+      GiveFeedback += DragSupportTabControlGiveFeedback;
 
       DragDrop.DoDragDrop(tabItem, tabItem, DragDropEffects.All);
 
-      GiveFeedback -= DragSupportTabControl_GiveFeedback;
+      GiveFeedback -= DragSupportTabControlGiveFeedback;
     }
 
-    private void DragSupportTabControl_GiveFeedback(object sender, GiveFeedbackEventArgs e)
+    private void DragSupportTabControlGiveFeedback(object sender, GiveFeedbackEventArgs e)
     {
       if ( _dragToWindow == null )
         return;
@@ -115,7 +115,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       e.Handled = true;
     }
 
-    private void DragSupportTabControl_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+    private void DragSupportTabControlQueryContinueDrag(object sender, QueryContinueDragEventArgs e)
     {
       switch ( e.KeyStates )
       {
@@ -142,7 +142,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
       case DragDropKeyStates.None:
 
-        QueryContinueDrag -= DragSupportTabControl_QueryContinueDrag;
+        QueryContinueDrag -= DragSupportTabControlQueryContinueDrag;
         e.Handled = true;
 
         if ( _dragToWindow != null )
@@ -153,6 +153,10 @@ namespace Org.Vs.TailForWin.UI.UserControls
             RemoveTabItem(item);
         }
         break;
+
+      default:
+
+        throw new ArgumentOutOfRangeException();
       }
     }
 
