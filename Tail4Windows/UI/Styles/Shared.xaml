@@ -78,6 +78,7 @@
 
   <SolidColorBrush x:Key="BrushSolidCustomBeige" Color="#FFFFFCF4" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidOrange" Color="#FFE5C365" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidYellow" Color="#FFF29D" po:Freeze="True" />
 
   <!--  Some color definitions  -->
   <Color x:Key="DisabledForegroundColor">#CACBD3</Color>

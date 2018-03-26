@@ -6,43 +6,16 @@ using System.Windows.Input;
 namespace Org.Vs.TailForWin.UI.UserControls
 {
   /// <summary>
-  /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-  ///
-  /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-  /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-  /// to be used:
-  ///
-  ///     xmlns:MyNamespace="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
-  ///
-  ///
-  /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-  /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-  /// to be used:
-  ///
-  ///     xmlns:MyNamespace="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls;assembly=Org.Vs.TailForWin.BaseView.UserControls"
-  ///
-  /// You will also need to add a project reference from the project where the XAML file lives
-  /// to this project and Rebuild to avoid compilation errors:
-  ///
-  ///     Right click on the target project in the Solution Explorer and
-  ///     "Add Reference"->"Projects"->[Browse to and select this project]
-  ///
-  ///
-  /// Step 2)
-  /// Go ahead and use your control in the XAML file.
-  ///
-  ///     <MyNamespace:TailForWinTabItem/>
-  ///
+  /// Drag support TabItem
   /// </summary>
-  public class TailForWinTabItem : TabItem
+  public class DragSupportTabItem : TabItem
   {
-    static TailForWinTabItem() => DefaultStyleKeyProperty.OverrideMetadata(typeof(TailForWinTabItem), new FrameworkPropertyMetadata(typeof(TailForWinTabItem)));
+    static DragSupportTabItem() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DragSupportTabItem), new FrameworkPropertyMetadata(typeof(DragSupportTabItem)));
 
     /// <summary>
     /// TabHeaderDoubleClicke event handler
     /// </summary>
-    public static readonly RoutedEvent TabHeaderDoubleClickEvent = EventManager.RegisterRoutedEvent("TabHeaderDoubleClick", RoutingStrategy.Bubble,
-                                                                      typeof(RoutedEventHandler), typeof(TailForWinTabItem));
+    public static readonly RoutedEvent TabHeaderDoubleClickEvent = EventManager.RegisterRoutedEvent("TabHeaderDoubleClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabItem));
 
     /// <summary>
     /// TabHeaderDoubleClick
@@ -56,8 +29,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// <summary>
     /// CloseTabWindow event handler
     /// </summary>
-    public static readonly RoutedEvent CloseTabWindowEvent = EventManager.RegisterRoutedEvent("CloseTabWindow", RoutingStrategy.Bubble,
-                                                                  typeof(RoutedEventHandler), typeof(TailForWinTabItem));
+    public static readonly RoutedEvent CloseTabWindowEvent = EventManager.RegisterRoutedEvent("CloseTabWindow", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabItem));
 
     /// <summary>
     /// Close tab window when user press the close button in TabHeader
@@ -71,7 +43,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// <summary>
     /// Set HeaderToolTipProperty property
     /// </summary>
-    public static readonly DependencyProperty HeaderToolTipProperty = DependencyProperty.Register("HeaderToolTip", typeof(object), typeof(TailForWinTabItem), new UIPropertyMetadata(null));
+    public static readonly DependencyProperty HeaderToolTipProperty = DependencyProperty.Register("HeaderToolTip", typeof(object), typeof(DragSupportTabItem), new UIPropertyMetadata(null));
 
     /// <summary>
     /// Set HeaderToolTip
@@ -82,7 +54,6 @@ namespace Org.Vs.TailForWin.UI.UserControls
       set => SetValue(HeaderToolTipProperty, value);
     }
 
-
     /// <summary>
     /// When overridden in a derived class, is invoked whenever application code or internal proc esses call <code>ApplyTemplate</code>.
     /// </summary>
@@ -90,13 +61,13 @@ namespace Org.Vs.TailForWin.UI.UserControls
     {
       base.OnApplyTemplate();
 
-      if ( GetTemplateChild("tabItemCloseButton") is Button closeButton )
-        closeButton.Click += CloseButtonClick;
+      if ( GetTemplateChild("TabItemCloseButton") is Button closeButton )
+        closeButton.PreviewMouseDown += CloseButtonClick;
 
-      if ( !(GetTemplateChild("gridHeader") is Grid headerGrid) )
+      if ( !(GetTemplateChild("GridHeader") is Grid headerGrid) )
         return;
 
-      headerGrid.PreviewMouseDown += HeaderGridMiddleMouseButtonDown;
+      headerGrid.MouseDown += HeaderGridMiddleMouseButtonDown;
       headerGrid.MouseLeftButtonDown += HeaderGridMouseLeftButtonDown;
 
       // set special ToolTip for TabItemHeader

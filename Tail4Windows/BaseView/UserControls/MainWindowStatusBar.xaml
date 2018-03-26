@@ -24,6 +24,7 @@
   <Grid
     Name="StatusbarGrid"
     Background="{Binding Source={x:Static viewModels1:BaseWindowStatusbarViewModel.Instance}, Path=CurrentStatusBarBackgroundColorHex, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+    UseLayoutRounding="True"
     >
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />

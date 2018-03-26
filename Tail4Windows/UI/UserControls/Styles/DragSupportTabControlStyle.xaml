@@ -62,7 +62,7 @@
             >
             <Path
               Name="PlusPath"
-              Margin="2"
+              Margin="1"
               Data="M3.875,0 L5.125,0 5.125,3.875 9,3.875 9,5.125 5.125,5.125 5.125,9 3.875,9 3.875,5.125 0,5.125 0,3.875 3.875,3.875 3.875,0 z"
               Fill="{StaticResource BrushSolidGrey10}"
               Stretch="Fill"
@@ -93,29 +93,32 @@
               <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Grid
+            <Border
               Grid.Row="0"
-              Background="{StaticResource BrushSolidBlue}"
+              BorderBrush="{StaticResource BrushSolidYellow}"
+              BorderThickness="0 0 0 2"
               >
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-              </Grid.ColumnDefinitions>
+              <Grid Background="{StaticResource BrushSolidBlue}">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-              <ContentControl
-                Grid.Column="1"
-                Style="{StaticResource ContentControlAddButton}"
-                />
+                <ContentControl
+                  Grid.Column="1"
+                  Style="{StaticResource ContentControlAddButton}"
+                  />
 
-              <TabPanel
-                x:Name="HeaderPanel"
-                Grid.Column="0"
-                Height="25"
-                Panel.ZIndex="1"
-                IsItemsHost="True"
-                KeyboardNavigation.TabIndex="1"
-                />
-            </Grid>
+                <TabPanel
+                  x:Name="HeaderPanel"
+                  Grid.Column="0"
+                  Height="27"
+                  Panel.ZIndex="1"
+                  IsItemsHost="True"
+                  KeyboardNavigation.TabIndex="1"
+                  />
+              </Grid>
+            </Border>
 
             <Border
               x:Name="Border"

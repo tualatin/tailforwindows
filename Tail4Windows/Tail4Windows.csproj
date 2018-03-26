@@ -416,8 +416,8 @@
     <Compile Include="BaseView\StyleableWindow\WindowMaximizeCommand.cs" />
     <Compile Include="BaseView\StyleableWindow\WindowMinimizeCommand.cs" />
     <Compile Include="BaseView\StyleableWindow\WindowResizeBehavior.cs" />
-    <Compile Include="UI\UserControls\TailForWinTabItem.cs" />
     <Compile Include="UI\Services\MouseService.cs" />
+    <Compile Include="UI\UserControls\DragSupportTabItem.cs" />
     <Compile Include="UI\UserControls\FancyNotificationPopUp.xaml.cs">
       <DependentUpon>FancyNotificationPopUp.xaml</DependentUpon>
     </Compile>
@@ -492,7 +492,7 @@
     <Compile Include="Core\Logging\LogUtil.cs" />
     <Compile Include="Core\Logging\SingleLetterLevelConverter.cs" />
     <Compile Include="Core\Logging\ZippingRollingFileAppender.cs" />
-    <Page Include="UI\UserControls\Styles\DragSupportTabControl.xaml">
+    <Page Include="UI\UserControls\Styles\DragSupportTabControlStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -612,7 +612,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\UserControls\Styles\TailForWinTabItem.xaml">
+    <Page Include="UI\UserControls\Styles\DragSupportTabItemStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

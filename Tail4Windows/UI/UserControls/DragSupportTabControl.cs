@@ -77,7 +77,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       if ( !(e.Source is TabItem tabItemTarget) )
         return;
 
-      if ( !(e.Data.GetData(typeof(TailForWinTabItem)) is TabItem tabItemSource) )
+      if ( !(e.Data.GetData(typeof(DragSupportTabItem)) is TabItem tabItemSource) )
         return;
 
       SwapTabItems(tabItemSource, tabItemTarget);
@@ -85,17 +85,13 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private void DragSupportTabControlMouseMove(object sender, MouseEventArgs e)
     {
-      // One tab with add tab is open, no draging
-      if ( Items.Count <= 2 )
-        return;
-
       Point mpos = e.GetPosition(null);
       Vector diff = _startPoint - mpos;
 
       if ( e.LeftButton != MouseButtonState.Pressed || !(Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance) && !(Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance) )
         return;
 
-      if ( !(e.Source is TailForWinTabItem tabItem) )
+      if ( !(e.Source is DragSupportTabItem tabItem) )
         return;
 
       QueryContinueDrag += DragSupportTabControlQueryContinueDrag;
