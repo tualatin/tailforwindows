@@ -59,25 +59,29 @@
     <KeyBinding Key="{Binding Key, Source={StaticResource ToggleAlwaysOnTopKeyBinding}, Mode=OneTime}" Command="{Binding ToggleAlwaysOnTopCommand}" Modifiers="{Binding Modifiers, Source={StaticResource ToggleAlwaysOnTopKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource NewTabItemKeyBinding}, Mode=OneTime}" Command="{Binding AddNewTabItemCommand}" Modifiers="{Binding Modifiers, Source={StaticResource NewTabItemKeyBinding}, Mode=OneTime}" />
   </Window.InputBindings>
+
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition />
       <RowDefinition Height="25" />
     </Grid.RowDefinitions>
 
-    <userControls:DragSupportTabControl
+    <Border
       Grid.Row="0"
-      Style="{StaticResource DragSupportTabControlStyle}"
+      BorderBrush="{StaticResource BrushSolidBlue}"
+      BorderThickness="3 0"
       >
-      <userControls:DragSupportTabItem
-        Header="1. log window example"
-        Style="{StaticResource DragSupportTabItemStyle}"
-        />
-      <userControls:DragSupportTabItem
-        Header="2. log window example"
-        Style="{StaticResource DragSupportTabItemBusyStyle}"
-        />
-    </userControls:DragSupportTabControl>
+      <userControls:DragSupportTabControl Style="{StaticResource DragSupportTabControlStyle}">
+        <userControls:DragSupportTabItem
+          Header="1. log window example"
+          Style="{StaticResource DragSupportTabItemStyle}"
+          />
+        <userControls:DragSupportTabItem
+          Header="2. log window example"
+          Style="{StaticResource DragSupportTabItemBusyStyle}"
+          />
+      </userControls:DragSupportTabControl>
+    </Border>
 
     <baseViewControls:MainWindowStatusBar Grid.Row="1" />
 
