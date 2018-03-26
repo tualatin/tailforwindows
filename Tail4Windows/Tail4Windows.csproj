@@ -203,11 +203,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BaseView\StyleableWindow\OpenSettingsDialogBehavior.cs" />
+    <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
+    <Compile Include="BaseView\Interfaces\IBaseWindowStatusbarViewModel.cs" />
     <Compile Include="Business\Data\Messages\AddNewTabItemMessage.cs" />
     <Compile Include="UI\UserControls\Commands\AddNewTabItemCommand.cs" />
     <Compile Include="UI\UserControls\DragSupportTabControl.cs" />
-    <Compile Include="BaseView\UserControls\Interfaces\IOptionsViewModel.cs" />
-    <Compile Include="BaseView\UserControls\Interfaces\IT4WindowViewModel.cs" />
+    <Compile Include="BaseView\Interfaces\IOptionsViewModel.cs" />
+    <Compile Include="BaseView\Interfaces\IT4WindowViewModel.cs" />
     <Compile Include="Business\Controllers\SystemInformationController.cs" />
     <Compile Include="Business\Data\Messages\OpenSettingsDialogMessage.cs" />
     <Compile Include="Business\Data\Messages\OpenSmtpSettingMessage.cs" />
@@ -823,7 +825,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BaseView\Interfaces\" />
+    <Folder Include="BaseView\UserControls\Interfaces\" />
     <Folder Include="BaseView\UserControls\Styles\" />
     <Folder Include="Business\Interfaces\" />
     <Folder Include="Core\Events\Args\" />

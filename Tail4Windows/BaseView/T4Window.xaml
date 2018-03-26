@@ -101,7 +101,7 @@
         <userControls:FancyToolTip
           x:Name="FancyToolTipTfW"
           ApplicationText="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationTitle}}"
-          InfoText="{Binding CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
+          InfoText="{Binding Source={x:Static viewModels:BaseWindowStatusbarViewModel.Instance}, Path=CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
           Opacity="0.85"
           />
       </taskbarNotification:TaskbarIcon.TrayToolTip>

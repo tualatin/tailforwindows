@@ -6,31 +6,13 @@ using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.UI.Interfaces;
 
 
-namespace Org.Vs.TailForWin.BaseView.UserControls.Interfaces
+namespace Org.Vs.TailForWin.BaseView.Interfaces
 {
   /// <summary>
   /// T4Window view model interface
   /// </summary>
   public interface IT4WindowViewModel : IViewModelBase
   {
-    /// <summary>
-    /// CurrentBusy state
-    /// </summary>
-    string CurrentBusyState
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// CurrentStatusBarBackground color as string
-    /// </summary>
-    string CurrentStatusBarBackgroundColorHex
-    {
-      get;
-      set;
-    }
-
     /// <summary>
     /// Go to line xxx command
     /// </summary>

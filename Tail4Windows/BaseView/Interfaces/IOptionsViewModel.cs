@@ -6,7 +6,7 @@ using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
 using Org.Vs.TailForWin.UI.Interfaces;
 
 
-namespace Org.Vs.TailForWin.BaseView.UserControls.Interfaces
+namespace Org.Vs.TailForWin.BaseView.Interfaces
 {
   /// <summary>
   /// Options view model interface

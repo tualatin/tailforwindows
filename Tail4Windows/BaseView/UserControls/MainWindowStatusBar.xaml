@@ -6,13 +6,14 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
-  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
+  xmlns:viewModels1="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="23"
   d:DesignWidth="700"
   >
   <UserControl.DataContext>
-    <viewModels:T4WindowViewModel />
+    <viewModels:MainWindowStatusBarViewModel />
   </UserControl.DataContext>
 
   <UserControl.Resources>
@@ -22,7 +23,7 @@
 
   <Grid
     Name="StatusbarGrid"
-    Background="{Binding CurrentStatusBarBackgroundColorHex, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+    Background="{Binding Source={x:Static viewModels1:BaseWindowStatusbarViewModel.Instance}, Path=CurrentStatusBarBackgroundColorHex, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}"
     >
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
@@ -35,7 +36,7 @@
       Grid.Column="0"
       Margin="5 0"
       VerticalAlignment="Center"
-      Text="{Binding CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
+      Text="{Binding Source={x:Static viewModels1:BaseWindowStatusbarViewModel.Instance}, Path=CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
       FontSize="11"
       Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
       SnapsToDevicePixels="True"

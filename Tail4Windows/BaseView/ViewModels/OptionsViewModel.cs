@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using log4net;
-using Org.Vs.TailForWin.BaseView.UserControls.Interfaces;
+using Org.Vs.TailForWin.BaseView.Interfaces;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;

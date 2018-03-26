@@ -11,7 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using log4net;
-using Org.Vs.TailForWin.BaseView.UserControls.Interfaces;
+using Org.Vs.TailForWin.BaseView.Interfaces;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -170,46 +170,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       get;
       set;
-    }
-
-    #endregion
-
-    #region Statusbar properties
-
-    private string _currentStatusBarBackgroundColorHex;
-
-    /// <summary>
-    /// CurrentStatusBarBackground color as string
-    /// </summary>
-    public string CurrentStatusBarBackgroundColorHex
-    {
-      get => _currentStatusBarBackgroundColorHex;
-      set
-      {
-        if ( Equals(value, _currentStatusBarBackgroundColorHex) )
-          return;
-
-        _currentStatusBarBackgroundColorHex = value;
-        OnPropertyChanged(nameof(CurrentStatusBarBackgroundColorHex));
-      }
-    }
-
-    private string _currentBusyState;
-
-    /// <summary>
-    /// CurrentBusy state
-    /// </summary>
-    public string CurrentBusyState
-    {
-      get => _currentBusyState;
-      set
-      {
-        if ( Equals(value, _currentBusyState) )
-          return;
-
-        _currentBusyState = value;
-        OnPropertyChanged(nameof(CurrentBusyState));
-      }
     }
 
     #endregion
@@ -587,18 +547,18 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
       case EStatusbarState.FileLoaded:
 
-        CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex;
+        BaseWindowStatusbarViewModel.Instance.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex;
         break;
 
       case EStatusbarState.Busy:
 
-        CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex;
+        BaseWindowStatusbarViewModel.Instance.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex;
         break;
 
       case EStatusbarState.Default:
 
-        CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex;
-        CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
+        BaseWindowStatusbarViewModel.Instance.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex;
+        BaseWindowStatusbarViewModel.Instance.CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
         break;
 
       default:
