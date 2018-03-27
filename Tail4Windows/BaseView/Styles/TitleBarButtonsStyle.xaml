@@ -51,8 +51,7 @@
               <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-              <Setter TargetName="Chrome" Property="Background" Value="#FFFFE8A6" />
-              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -107,8 +106,7 @@
               <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-              <Setter TargetName="Chrome" Property="Background" Value="#FFFFE8A6" />
-              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -163,8 +161,7 @@
               <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-              <Setter TargetName="Chrome" Property="Background" Value="#FFFFE8A6" />
-              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -219,8 +216,7 @@
               <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-              <Setter TargetName="Chrome" Property="Background" Value="#FFFFE8A6" />
-              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>

@@ -116,7 +116,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
         return;
 
       // added margin left for sure that the item will be scrolled
-      double rightItemOffset = Math.Min(_scrollViewer.HorizontalOffset + _scrollViewer.ViewportWidth + _headerPanel.Margin.Left, _scrollViewer.ExtentWidth);
+      double rightItemOffset = Math.Min(_scrollViewer.HorizontalOffset + _scrollViewer.ViewportWidth + 2, _scrollViewer.ExtentWidth);
       var rightItem = GetItemByOffset(rightItemOffset);
       ScrollToItem(rightItem);
     }
@@ -260,10 +260,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     private void ScrollToItem(TabItem si)
     {
       var tabItems = Items.Cast<object>().Select(item => ItemContainerGenerator.ContainerFromItem(item) as TabItem);
-
-      var leftItems = tabItems
-        .Where(ti => ti != null)
-        .TakeWhile(ti => !Equals(ti, si)).ToList();
+      var leftItems = tabItems.Where(ti => ti != null).TakeWhile(ti => !Equals(ti, si)).ToList();
 
       double leftItemsWidth = leftItems.Sum(ti => ti.ActualWidth);
 
@@ -291,10 +288,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private TabItem GetItemByOffset(double offset)
     {
-      var tabItems = Items.Cast<object>()
-        .Select(item => ItemContainerGenerator.ContainerFromItem(item) as TabItem)
-        .ToList();
-
+      var tabItems = Items.Cast<object>().Select(item => ItemContainerGenerator.ContainerFromItem(item) as TabItem).ToList();
       double currentItemsWidth = 0;
 
       // get tabs one by one and calculate their aggregated width until the offset value is reached

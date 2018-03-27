@@ -6,7 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   mc:Ignorable="d"
   d:DesignHeight="24"
-  d:DesignWidth="75"
+  d:DesignWidth="78"
   >
   <StackPanel Orientation="Horizontal">
     <Button
