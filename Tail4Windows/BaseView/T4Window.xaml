@@ -69,18 +69,12 @@
     <Border
       Grid.Row="0"
       BorderBrush="{StaticResource BrushSolidBlue}"
-      BorderThickness="3 0"
+      BorderThickness="3 0 3 1"
       >
-      <userControls:DragSupportTabControl Style="{StaticResource DragSupportTabControlStyle}">
-        <userControls:DragSupportTabItem
-          Header="1. log window example"
-          Style="{StaticResource DragSupportTabItemStyle}"
-          />
-        <userControls:DragSupportTabItem
-          Header="2. log window example"
-          Style="{StaticResource DragSupportTabItemBusyStyle}"
-          />
-      </userControls:DragSupportTabControl>
+      <userControls:DragSupportTabControl
+        ItemsSource="{Binding TabItemsSource}"
+        Style="{StaticResource DragSupportTabControlStyle}"
+        />
     </Border>
 
     <baseViewControls:MainWindowStatusBar Grid.Row="1" />
@@ -104,7 +98,7 @@
       <taskbarNotification:TaskbarIcon.ContextMenu>
         <ContextMenu
           Name="ContextMnu"
-          ItemsSource="{Binding TrayIconItemsSource, UpdateSourceTrigger=PropertyChanged}"
+          ItemsSource="{Binding TrayIconItemsSource}"
           />
       </taskbarNotification:TaskbarIcon.ContextMenu>
       <taskbarNotification:TaskbarIcon.TrayToolTip>

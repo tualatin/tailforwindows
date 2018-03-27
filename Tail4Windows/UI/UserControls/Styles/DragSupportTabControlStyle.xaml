@@ -14,7 +14,7 @@
     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
     <Setter Property="Height" Value="16" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
-    <Setter Property="Margin" Value="2 4" />
+    <Setter Property="Margin" Value="2 4 0 4" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
@@ -32,10 +32,15 @@
               SnapsToDevicePixels="True"
               />
           </Border>
+
           <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
+            <Trigger Property="IsMouseOver" Value="True">
               <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidCustomBeige}" />
               <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
+            </Trigger>
+
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -51,7 +56,6 @@
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type ContentControl}">
           <Button
-            Margin="0 0 5 0"
             Command="{StaticResource AddNewTabItemCommand}"
             CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
             Style="{StaticResource OptionTabControlButtonStyle}"
@@ -78,6 +82,88 @@
     </Setter>
   </Style>
 
+  <Style x:Key="RepeatButtonLeftStyle" TargetType="{x:Type RepeatButton}">
+    <Setter Property="Focusable" Value="False" />
+    <Setter Property="Height" Value="16" />
+    <Setter Property="Margin" Value="0 4 2 4" />
+    <Setter Property="SnapsToDevicePixels" Value="True" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type RepeatButton}">
+          <Border
+            Name="Chrome"
+            Background="Transparent"
+            BorderThickness="1"
+            >
+            <Path
+              Name="RepeatPathLeft"
+              Margin="0 1 2 0"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Data="M5,0L5,9 4,9 4,8 3,8 3,7 2,7 2,6 1,6 1,5 0,5 0,4 1,4 1,3 2,3 2,2 3,2 3,1 4,1 4,0z"
+              Fill="{StaticResource BrushSolidGrey10}"
+              StrokeThickness="1"
+              />
+          </Border>
+
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidCustomBeige}" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
+              <Setter TargetName="RepeatPathLeft" Property="Fill" Value="Black" />
+            </Trigger>
+
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Width" Value="16" />
+  </Style>
+
+  <Style x:Key="RepeatButtonRightStyle" TargetType="{x:Type RepeatButton}">
+    <Setter Property="Focusable" Value="False" />
+    <Setter Property="Height" Value="16" />
+    <Setter Property="Margin" Value="0 4 2 4" />
+    <Setter Property="SnapsToDevicePixels" Value="True" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type RepeatButton}">
+          <Border
+            Name="Chrome"
+            Background="Transparent"
+            BorderThickness="1"
+            >
+            <Path
+              Name="RepeatPathLeft"
+              Margin="1 1 0 0"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Data="M0,0L0,9 1,9 1,8 2,8 2,7 3,7 3,6 4,6 4,5 5,5 5,4 4,4 4,3 3,3 3,2 2,2 2,1 1,1 1,0z"
+              Fill="{StaticResource BrushSolidGrey10}"
+              StrokeThickness="1"
+              />
+          </Border>
+
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidCustomBeige}" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
+              <Setter TargetName="RepeatPathLeft" Property="Fill" Value="Black" />
+            </Trigger>
+
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="Width" Value="16" />
+  </Style>
+
   <Style x:Key="DragSupportTabControlStyle" TargetType="{x:Type userControls:DragSupportTabControl}">
     <Setter Property="OverridesDefaultStyle" Value="True" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -97,22 +183,46 @@
               >
               <Grid Background="{StaticResource BrushSolidBlue}">
                 <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <ContentControl
-                  Grid.Column="1"
-                  Style="{StaticResource ContentControlAddButton}"
+                <RepeatButton
+                  Name="RepeatButtonLeft"
+                  Grid.Column="0"
+                  Padding="0"
+                  Style="{StaticResource RepeatButtonLeftStyle}"
                   />
 
-                <TabPanel
-                  x:Name="HeaderPanel"
-                  Grid.Column="0"
-                  Height="27"
-                  Panel.ZIndex="1"
-                  IsItemsHost="True"
-                  KeyboardNavigation.TabIndex="1"
+                <ScrollViewer
+                  Name="ScrollViewerTabControl"
+                  Grid.Column="1"
+                  HorizontalScrollBarVisibility="Hidden"
+                  IsTabStop="False"
+                  VerticalScrollBarVisibility="Disabled"
+                  >
+                  <TabPanel
+                    x:Name="HeaderPanel"
+                    Height="27"
+                    Margin="0 0 0 -1"
+                    Panel.ZIndex="1"
+                    IsItemsHost="True"
+                    KeyboardNavigation.TabIndex="1"
+                    />
+                </ScrollViewer>
+
+                <RepeatButton
+                  Name="RepeatButtonRight"
+                  Grid.Column="2"
+                  Padding="0"
+                  Style="{StaticResource RepeatButtonRightStyle}"
+                  />
+
+                <ContentControl
+                  Grid.Column="3"
+                  Style="{StaticResource ContentControlAddButton}"
                   />
               </Grid>
             </Border>

@@ -172,6 +172,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       set;
     }
 
+    /// <summary>
+    /// Tab item source
+    /// </summary>
+    public ObservableCollection<DragSupportTabItem> TabItemsSource
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     /// <summary>
@@ -185,6 +194,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       TrayIconItemsSource = new ObservableCollection<MenuItem>();
       TrayIconItemsSource.CollectionChanged += TrayIconItemsSourceCollectionChanged;
+
+      TabItemsSource = new ObservableCollection<DragSupportTabItem>();
     }
 
     private void TrayIconItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(TrayIconItemsSource));
@@ -193,6 +204,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
+
+      ExecuteAddNewTabItemCommand();
 
       SettingsHelperController.CurrentSettings.ColorSettings.PropertyChanged += ColorSettingsPropertyChanged;
       _notifyTaskCompletion.PropertyChanged -= TaskPropertyChanged;
@@ -286,7 +299,16 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteAddNewTabItemCommand()
     {
-      LOG.Trace("Add new TabItem");
+      var emptyItem = new DragSupportTabItem
+      {
+        Header = $"{Application.Current.TryFindResource("NoFile")} {TabItemsSource.Count}",
+        Name = $"TabItem_{TabItemsSource.Count}",
+        Style = (Style) Application.Current.TryFindResource("DragSupportTabItemStyle"),
+        IsSelected = true
+      };
+      emptyItem.CloseTabWindow += OnTabItemCloseWindow;
+
+      TabItemsSource.Add(emptyItem);
     }
 
     private void ExecutePreviewKeyDownCommand(object parameter)
@@ -320,6 +342,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       LOG.Trace($"{EnvironmentContainer.ApplicationTitle} closing, goodbye!");
 
+      TrayIconItemsSource.Clear();
+      TabItemsSource.Clear();
+
       if ( SettingsHelperController.CurrentSettings.DeleteLogFiles )
         await DeleteLogFilesAsync().ConfigureAwait(false);
 
@@ -340,10 +365,20 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteGoToLineCommand()
     {
-      MessageBox.Show("Test", "Hint", MessageBoxButton.OK, MessageBoxImage.Information);
+      LOG.Trace("Go to certain line...");
     }
 
     private void ExecuteToggleAlwaysOnTopCommand() => SettingsHelperController.CurrentSettings.AlwaysOnTop = !SettingsHelperController.CurrentSettings.AlwaysOnTop;
+
+    #endregion
+
+    #region Events
+
+    private void OnTabItemCloseWindow(object sender, RoutedEventArgs e)
+    {
+      if (e.Source is DragSupportTabItem tabItem)
+        TabItemsSource.Remove(tabItem);
+    }
 
     #endregion
 

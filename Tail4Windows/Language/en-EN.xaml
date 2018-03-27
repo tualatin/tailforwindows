@@ -17,7 +17,7 @@
   <system:String x:Key="Question">Question</system:String>
   <system:String x:Key="Record">Tail...</system:String>
   <system:String x:Key="Pause">Pause</system:String>
-  <system:String x:Key="NoFile">No file.</system:String>
+  <system:String x:Key="NoFile">No file</system:String>
   <system:String x:Key="LastTab">Cannot remove last tab.</system:String>
   <system:String x:Key="QRemoveTab">Are you sure you want to remove the tab</system:String>
   <system:String x:Key="TrayIconReady">Ready...</system:String>
