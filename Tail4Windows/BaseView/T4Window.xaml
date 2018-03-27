@@ -72,6 +72,7 @@
       BorderThickness="3 0 3 1"
       >
       <userControls:DragSupportTabControl
+        ItemTemplate="{StaticResource TabItemDataTemplate}"
         ItemsSource="{Binding TabItemsSource}"
         Style="{StaticResource DragSupportTabControlStyle}"
         />
