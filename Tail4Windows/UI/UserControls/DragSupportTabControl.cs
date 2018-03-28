@@ -45,7 +45,6 @@ namespace Org.Vs.TailForWin.UI.UserControls
       _repeatButtonRight = GetTemplateChild("RepeatButtonRight") as RepeatButton;
       _scrollViewer = GetTemplateChild("ScrollViewerTabControl") as ScrollViewer;
       _headerPanel = GetTemplateChild("HeaderPanel") as Panel;
-      SelectionChanged += (s, e) => ScrollToSelectedItem();
 
       if ( _repeatButtonLeft != null )
         _repeatButtonLeft.Click += RepeatButtonLeftClick;
@@ -56,6 +55,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       if ( _scrollViewer == null )
         return;
 
+      SelectionChanged += (s, e) => ScrollToSelectedItem();
       _scrollViewer.Loaded += (s, e) => UpdateScrollButtonsVisibility();
       _scrollViewer.ScrollChanged += (s, e) => UpdateScrollButtonsVisibility();
     }

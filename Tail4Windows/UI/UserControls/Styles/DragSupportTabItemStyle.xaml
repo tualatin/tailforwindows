@@ -215,28 +215,4 @@
     </Setter>
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
   </Style>
-
-  <DataTemplate x:Key="TabItemDataTemplate" DataType="{x:Type userControls:DragSupportTabItem}">
-    <!--<Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="Auto" />
-      </Grid.ColumnDefinitions>
-      <TextBlock
-        Text="{Binding Header}"
-        Foreground="Black"
-        />
-      <Button
-        Grid.Column="1"
-        Width="15"
-        Height="15"
-        Margin="5 0 0 0"
-        Padding="0"
-        Content="X"
-        Command="{Binding CloseCommand}"
-        FontSize="9"
-        />
-    </Grid>-->
-  </DataTemplate>
-
 </ResourceDictionary>

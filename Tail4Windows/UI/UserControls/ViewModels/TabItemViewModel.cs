@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Input;
-using Org.Vs.TailForWin.UI.Commands;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls.ViewModels
@@ -41,6 +40,9 @@ namespace Org.Vs.TailForWin.UI.UserControls.ViewModels
     /// Standard constructor
     /// </summary>
     /// <param name="onClose">OnClose <see cref="Action"/></param>
-    public TabItemViewModel(Action<TabItemViewModel> onClose) => CloseCommand = new RelayCommand(p => onClose(this));
+    public TabItemViewModel()
+    {
+
+    }
   }
 }

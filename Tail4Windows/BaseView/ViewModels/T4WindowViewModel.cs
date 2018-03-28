@@ -21,7 +21,6 @@ using Org.Vs.TailForWin.UI;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls;
-using Org.Vs.TailForWin.UI.UserControls.ViewModels;
 
 
 namespace Org.Vs.TailForWin.BaseView.ViewModels
@@ -176,7 +175,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// Tab item source
     /// </summary>
-    public ObservableCollection<TabItemViewModel> TabItemsSource
+    public ObservableCollection<DragSupportTabItem> TabItemsSource
     {
       get;
       set;
@@ -196,7 +195,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       TrayIconItemsSource = new ObservableCollection<MenuItem>();
       TrayIconItemsSource.CollectionChanged += TrayIconItemsSourceCollectionChanged;
 
-      TabItemsSource = new ObservableCollection<TabItemViewModel>();
+      TabItemsSource = new ObservableCollection<DragSupportTabItem>();
     }
 
     private void TrayIconItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(TrayIconItemsSource));
@@ -300,28 +299,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteAddNewTabItemCommand()
     {
-      var item = new TabItemViewModel(CloseItem)
+      var tabItem = new DragSupportTabItem
       {
         Header = $"{Application.Current.TryFindResource("NoFile")} {TabItemsSource.Count}",
-        Name = $"TabItem_{TabItemsSource.Count}"
+        Name = $"TabItem_{TabItemsSource.Count}",
+        IsSelected = true
       };
+      tabItem.CloseTabWindow += TabItemCloseTabWindow;
 
-      TabItemsSource.Add(item);
-      //var emptyItem = new DragSupportTabItem
-      //{
-      //  Header = $"{Application.Current.TryFindResource("NoFile")} {TabItemsSource.Count}",
-      //  Name = $"TabItem_{TabItemsSource.Count}",
-      //  Style = (Style) Application.Current.TryFindResource("DragSupportTabItemStyle"),
-      //  IsSelected = true
-      //};
-      //emptyItem.CloseTabWindow += OnTabItemCloseWindow;
-
-      //TabItemsSource.Add(emptyItem);
-    }
-
-    private void CloseItem(TabItemViewModel item)
-    {
-      TabItemsSource.Remove(item);
+      TabItemsSource.Add(tabItem);
     }
 
     private void ExecutePreviewKeyDownCommand(object parameter)
@@ -387,10 +373,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region Events
 
-    private void OnTabItemCloseWindow(object sender, RoutedEventArgs e)
+    private void TabItemCloseTabWindow(object sender, RoutedEventArgs e)
     {
-      //if ( e.Source is DragSupportTabItem tabItem )
-      //  TabItemsSource.Remove(tabItem);
+      if ( e.Source is DragSupportTabItem item )
+        TabItemsSource.Remove(item);
     }
 
     #endregion

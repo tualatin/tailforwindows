@@ -55,6 +55,11 @@ namespace Org.Vs.TailForWin.UI.UserControls
     }
 
     /// <summary>
+    /// Standard constructor
+    /// </summary>
+    public DragSupportTabItem() => Style = (Style) Application.Current.TryFindResource("DragSupportTabItemStyle");
+
+    /// <summary>
     /// When overridden in a derived class, is invoked whenever application code or internal proc esses call <code>ApplyTemplate</code>.
     /// </summary>
     public override void OnApplyTemplate()
@@ -83,7 +88,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private void CloseButtonClick(object sender, RoutedEventArgs e)
     {
-      if ( Parent is TabControl )
+     if ( Parent is TabControl )
         RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
     }
 

@@ -85,7 +85,7 @@
   <Style x:Key="RepeatButtonLeftStyle" TargetType="{x:Type RepeatButton}">
     <Setter Property="Focusable" Value="False" />
     <Setter Property="Height" Value="16" />
-    <Setter Property="Margin" Value="0 4 2 4" />
+    <Setter Property="Margin" Value="0 8 2 4" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
@@ -126,7 +126,7 @@
   <Style x:Key="RepeatButtonRightStyle" TargetType="{x:Type RepeatButton}">
     <Setter Property="Focusable" Value="False" />
     <Setter Property="Height" Value="16" />
-    <Setter Property="Margin" Value="0 4 2 4" />
+    <Setter Property="Margin" Value="2 8 2 4" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
@@ -222,6 +222,7 @@
 
                 <ContentControl
                   Grid.Column="3"
+                  Margin="0 4 0 0"
                   Style="{StaticResource ContentControlAddButton}"
                   />
               </Grid>
