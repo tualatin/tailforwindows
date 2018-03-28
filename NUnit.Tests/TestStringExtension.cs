@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Windows;
+using System.Windows.Media;
+using NUnit.Framework;
 using Org.Vs.TailForWin.Core.Extensions;
 
 
@@ -52,6 +54,18 @@ namespace Org.Vs.NUnit.Tests
       Assert.IsFalse("False".ConvertToThreeStateBool());
       Assert.IsNull("".ConvertToThreeStateBool());
       Assert.IsNull("blablabla".ConvertToThreeStateBool());
+    }
+
+    [Test]
+    public void TestStringMeasureAndCutIt()
+    {
+      var fontFamily = new FontFamily("Tahoma");
+      var typeface = new Typeface(fontFamily, FontStyles.Normal, FontWeights.Bold, FontStretch.FromOpenTypeStretch(1));
+
+      Assert.AreEqual("hello world", "hello world".MeasureTextAndCutIt(typeface, 12f, 150));
+
+      string item = "Hello world this a long test, please cut it.".MeasureTextAndCutIt(typeface, 12f, 150);
+      Assert.AreEqual("Hello world this a long...", item);
     }
   }
 }

@@ -1,4 +1,7 @@
 ﻿using System.Globalization;
+using System.Windows;
+using System.Windows.Media;
+using Org.Vs.TailForWin.Core.Controllers;
 
 
 namespace Org.Vs.TailForWin.Core.Extensions
@@ -60,5 +63,53 @@ namespace Org.Vs.TailForWin.Core.Extensions
     /// <param name="defaultValue">Default value is <c>decimal.MinValue</c></param>
     /// <returns>Real decimal value, otherwise defaultValue</returns>
     public static decimal ConvertToDecimal(this string value, decimal defaultValue = decimal.MinValue) => !decimal.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out decimal result) ? defaultValue : result;
+
+    /// <summary>
+    /// Measure a certain text
+    /// </summary>
+    /// <param name="value">String to measure</param>
+    /// <param name="typeface"><see cref="Typeface"/></param>
+    /// <param name="fontSize">Font size</param>
+    /// <param name="maxsize">Max pixel size</param>
+    /// <returns>A cuted string if necessary</returns>
+    public static string MeasureTextAndCutIt(this string value, Typeface typeface, double fontSize, int maxsize)
+    {
+      var size = GetMeasureTextSize(value, typeface, fontSize);
+
+      if ( size.Width < maxsize )
+        return value;
+
+      string cuttext = string.Empty;
+
+      foreach ( char c in value )
+      {
+        cuttext += c;
+        size = GetMeasureTextSize(cuttext, typeface, fontSize);
+
+        if ( !(size.Width >= maxsize) )
+          continue;
+
+        cuttext = cuttext.Substring(0, cuttext.Length - 3).Trim();
+        cuttext += "...";
+        break;
+      }
+      return cuttext;
+    }
+
+    private static Size GetMeasureTextSize(string value, Typeface typeface, double fontSize)
+    {
+      var formattedText = new FormattedText(
+        value,
+        SettingsHelperController.CurrentSettings.CurrentCultureInfo,
+        FlowDirection.LeftToRight,
+        typeface,
+        fontSize,
+        Brushes.Black,
+        new NumberSubstitution(),
+        TextFormattingMode.Display);
+
+      var size = new Size(formattedText.Width, formattedText.Height);
+      return size;
+    }
   }
 }

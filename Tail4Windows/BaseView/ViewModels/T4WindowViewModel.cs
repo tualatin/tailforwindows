@@ -301,11 +301,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       var tabItem = new DragSupportTabItem
       {
-        Header = $"{Application.Current.TryFindResource("NoFile")} {TabItemsSource.Count}",
-        Name = $"TabItem_{TabItemsSource.Count}",
-        IsSelected = true
+        HeaderContent = $"{Application.Current.TryFindResource("NoFile")}",
+        IsSelected = true,
+        HeaderToolTip = $"{Application.Current.TryFindResource("NoFile")}"
       };
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
+      tabItem.TabHeaderDoubleClick += TabItemDoubleClick;
 
       TabItemsSource.Add(tabItem);
     }
@@ -376,7 +377,20 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private void TabItemCloseTabWindow(object sender, RoutedEventArgs e)
     {
       if ( e.Source is DragSupportTabItem item )
+      {
+        item.TabHeaderDoubleClick -= TabItemDoubleClick;
+        item.CloseTabWindow -= TabItemCloseTabWindow;
+
         TabItemsSource.Remove(item);
+      }
+
+      if ( TabItemsSource.Count == 0 )
+        ExecuteAddNewTabItemCommand();
+    }
+
+    private void TabItemDoubleClick(object sender, RoutedEventArgs e)
+    {
+      LOG.Trace("MouseDoubleClick");
     }
 
     #endregion

@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using Org.Vs.TailForWin.Core.Extensions;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls
@@ -55,6 +57,29 @@ namespace Org.Vs.TailForWin.UI.UserControls
     }
 
     /// <summary>
+    /// Set HeaderToolContentProperty property
+    /// </summary>
+    public static readonly DependencyProperty HeaderToolContentProperty = DependencyProperty.Register("HeaderContent", typeof(string), typeof(DragSupportTabItem));
+
+    /// <summary>
+    /// Set HeaderToolContent
+    /// </summary>
+    public string HeaderContent
+    {
+      private get => (string) GetValue(HeaderToolContentProperty);
+      set
+      {
+        if ( string.IsNullOrWhiteSpace(value) )
+          return;
+
+        var typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
+        string item = value.MeasureTextAndCutIt(typeface, FontSize, 160);
+
+        SetValue(HeaderToolContentProperty, item);
+      }
+    }
+
+    /// <summary>
     /// Standard constructor
     /// </summary>
     public DragSupportTabItem() => Style = (Style) Application.Current.TryFindResource("DragSupportTabItemStyle");
@@ -76,7 +101,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       headerGrid.MouseLeftButtonDown += HeaderGridMouseLeftButtonDown;
 
       // set special ToolTip for TabItemHeader
-      ToolTip myToolTip = new ToolTip()
+      var myToolTip = new ToolTip()
       {
         Style = (Style) FindResource("TabItemToolTipStyle"),
         Content = HeaderToolTip
@@ -86,11 +111,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
         ToolTipService.SetToolTip(headerGrid, myToolTip);
     }
 
-    private void CloseButtonClick(object sender, RoutedEventArgs e)
-    {
-     if ( Parent is TabControl )
-        RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
-    }
+    private void CloseButtonClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
 
     private void HeaderGridMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
@@ -100,9 +121,6 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private void HeaderGridMiddleMouseButtonDown(object sender, MouseButtonEventArgs e)
     {
-      if ( !(Parent is TabControl) )
-        return;
-
       if ( e.MiddleButton == MouseButtonState.Pressed )
         RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
     }

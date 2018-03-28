@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 
@@ -64,7 +66,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// Remove a TabItem
     /// </summary>
     /// <param name="tabItem">TabItem to remove</param>
-    public void RemoveTabItem(TabItem tabItem)
+    private void RemoveTabItem(TabItem tabItem)
     {
       if ( Items.Contains(tabItem) )
         Items.Remove(tabItem);
@@ -76,26 +78,22 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// <param name="source">Soure TabItem</param>
     /// <param name="target">Target TabItem</param>
     /// <returns>If success <c>true</c> otherwise <c>false</c></returns>
-    public bool SwapTabItems(TabItem source, TabItem target)
+    private void SwapTabItems(DragSupportTabItem source, DragSupportTabItem target)
     {
       if ( source == null || target == null )
-        return false;
+        return;
 
       if ( target.Equals(source) )
-        return false;
+        return;
 
-      if ( !(target.Parent is TabControl tabControl) )
-        return false;
+      //int sourceIndex = Items.IndexOf(source);
+      int targetIndex = Items.IndexOf(target);
 
-      int sourceIndex = tabControl.Items.IndexOf(source);
-      int targetIndex = tabControl.Items.IndexOf(target);
+      var list = ItemsSource as ObservableCollection<DragSupportTabItem>;
+      list?.Remove(source);
+      list?.Insert(targetIndex, source);
 
-      tabControl.Items.Remove(source);
-      tabControl.Items.Insert(targetIndex, source);
-
-      tabControl.SelectedIndex = targetIndex;
-
-      return true;
+      SelectedIndex = targetIndex;
     }
 
     #region Events
@@ -127,27 +125,54 @@ namespace Org.Vs.TailForWin.UI.UserControls
     {
       QueryContinueDrag -= DragSupportTabControlQueryContinueDrag;
 
-      if ( !(e.Source is TabItem tabItemTarget) )
+      if ( !(e.Data.GetData(typeof(DragSupportTabItem)) is DragSupportTabItem tabItemSource) )
         return;
 
-      if ( !(e.Data.GetData(typeof(DragSupportTabItem)) is TabItem tabItemSource) )
-        return;
+      try
+      {
+        DragSupportTabItem tabItemTarget = null;
 
-      SwapTabItems(tabItemSource, tabItemTarget);
+        foreach ( DragSupportTabItem tabItem in ItemsSource )
+        {
+          var pt = e.GetPosition(tabItem);
+          var result = VisualTreeHelper.HitTest(tabItem, pt);
+
+          if ( result == null )
+            continue;
+
+          tabItemTarget = tabItem;
+          break;
+        }
+
+        if ( tabItemTarget == null )
+          return;
+
+        SwapTabItems(tabItemSource, tabItemTarget);
+      }
+      catch
+      {
+        // Nothing
+      }
     }
 
     private void DragSupportTabControlMouseMove(object sender, MouseEventArgs e)
     {
-      Point mpos = e.GetPosition(null);
-      Vector diff = _startPoint - mpos;
-
-      if ( e.LeftButton != MouseButtonState.Pressed || !(Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance) && !(Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance) )
+      if ( Items.Count <= 1 )
         return;
 
-      if ( !(e.Source is DragSupportTabItem tabItem) )
+      var mpos = e.GetPosition(null);
+      var diff = _startPoint - mpos;
+      const int offset = 28;
+
+      if ( e.LeftButton != MouseButtonState.Pressed || !(Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance + offset) && !(Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance + offset) )
         return;
 
-      QueryContinueDrag += DragSupportTabControlQueryContinueDrag;
+      var tabControl = e.Source as DragSupportTabControl;
+
+      if ( !(tabControl?.SelectedItem is TabItem tabItem) )
+        return;
+
+      //QueryContinueDrag += DragSupportTabControlQueryContinueDrag;
       GiveFeedback += DragSupportTabControlGiveFeedback;
 
       DragDrop.DoDragDrop(tabItem, tabItem, DragDropEffects.All);
@@ -166,6 +191,8 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private void DragSupportTabControlQueryContinueDrag(object sender, QueryContinueDragEventArgs e)
     {
+      var tabControl = e.Source as DragSupportTabControl;
+
       switch ( e.KeyStates )
       {
       case DragDropKeyStates.LeftMouseButton:
@@ -178,7 +205,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
           if ( !(p.X >= tabPos.X && p.X <= tabPos.X + ActualWidth && p.Y >= tabPos.Y && p.Y <= tabPos.Y + ActualHeight) )
           {
-            if ( e.Source is TabItem item )
+            if ( tabControl?.SelectedItem is TabItem item )
               UpdateWindowLocation(p.X - 50, p.Y - 10, item);
           }
           else
@@ -198,7 +225,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
         {
           _dragToWindow = null;
 
-          if ( e.Source is TabItem item )
+          if ( tabControl?.SelectedItem is TabItem item )
             RemoveTabItem(item);
         }
         break;
@@ -304,20 +331,20 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private void UpdateWindowLocation(double left, double top, TabItem tabItem)
     {
-      //if(dragToWindow == null)
-      //{
-      //  lock(synLockTabWindow)
-      //  {
-      //    if(dragToWindow == null)
-      //      dragToWindow = TabWindow.CreateTabWindow(left, top, ActualWidth, ActualHeight, tabItem);
-      //  }
-      //}
+      if ( _dragToWindow == null )
+      {
+        lock ( MyLockWindow )
+        {
+          //if ( _dragToWindow == null )
+          //  _dragToWindow = TabWindow.CreateTabWindow(left, top, ActualWidth, ActualHeight, tabItem);
+        }
+      }
 
-      //if(dragToWindow != null)
-      //{
-      //  dragToWindow.Left = left;
-      //  dragToWindow.Top = top;
-      //}
+      if ( _dragToWindow == null )
+        return;
+
+      _dragToWindow.Left = left;
+      _dragToWindow.Top = top;
     }
 
     #endregion
