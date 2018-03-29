@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using log4net;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 
@@ -17,6 +18,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
   /// </summary>
   public class DragSupportTabControl : TabControl
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(DragSupportTabItem));
+
     private static readonly object MyLockWindow = new object();
     private Point _startPoint;
     private Window _dragToWindow;
@@ -172,7 +175,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( !(tabControl?.SelectedItem is TabItem tabItem) )
         return;
 
-      //QueryContinueDrag += DragSupportTabControlQueryContinueDrag;
+      QueryContinueDrag += DragSupportTabControlQueryContinueDrag;
       GiveFeedback += DragSupportTabControlGiveFeedback;
 
       DragDrop.DoDragDrop(tabItem, tabItem, DragDropEffects.All);
@@ -197,11 +200,12 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       {
       case DragDropKeyStates.LeftMouseButton:
 
-        Win32Point p = new Win32Point();
+        LOG.Trace($"DragSupportTabControlQueryContinueDrag action {e.Action}");
+        var p = new Win32Point();
 
         if ( NativeMethods.GetCursorPos(ref p) )
         {
-          Point tabPos = PointToScreen(new Point(0, 0));
+          var tabPos = PointToScreen(new Point(0, 0));
 
           if ( !(p.X >= tabPos.X && p.X <= tabPos.X + ActualWidth && p.Y >= tabPos.Y && p.Y <= tabPos.Y + ActualHeight) )
           {

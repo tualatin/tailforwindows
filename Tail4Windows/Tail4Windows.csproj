@@ -206,6 +206,11 @@
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
     <Compile Include="BaseView\Interfaces\IBaseWindowStatusbarViewModel.cs" />
     <Compile Include="Business\Data\Messages\AddNewTabItemMessage.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Interfaces\ILogWindow.cs" />
+    <Compile Include="PlugIns\LogWindowModule\LogWindow.xaml.cs">
+      <DependentUpon>LogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\LogWindowModule\ViewModels\LogWindowViewModel.cs" />
     <Compile Include="UI\UserControls\Commands\AddNewTabItemCommand.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\DragSupportTabControl.cs" />
     <Compile Include="BaseView\Interfaces\IOptionsViewModel.cs" />
@@ -418,6 +423,10 @@
     <Compile Include="BaseView\StyleableWindow\WindowResizeBehavior.cs" />
     <Compile Include="UI\Services\MouseService.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\DragSupportTabItem.cs" />
+    <Compile Include="UI\UserControls\DragSupportUtils\DragWindow.xaml.cs">
+      <DependentUpon>DragWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\UserControls\DragSupportUtils\Interfaces\IDragWindow.cs" />
     <Compile Include="UI\UserControls\FancyNotificationPopUp.xaml.cs">
       <DependentUpon>FancyNotificationPopUp.xaml</DependentUpon>
     </Compile>
@@ -492,6 +501,14 @@
     <Compile Include="Core\Logging\LogUtil.cs" />
     <Compile Include="Core\Logging\SingleLetterLevelConverter.cs" />
     <Compile Include="Core\Logging\ZippingRollingFileAppender.cs" />
+    <Page Include="PlugIns\LogWindowModule\LogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\UserControls\DragSupportUtils\DragWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\UserControls\DragSupportUtils\Styles\DragSupportTabControlStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -833,13 +850,14 @@
     <Folder Include="Core\Events\EventManagers\" />
     <Folder Include="PlugIns\FileManagerModule\ViewModels\" />
     <Folder Include="PlugIns\FindModule\ViewModels\" />
+    <Folder Include="PlugIns\LogWindowModule\Controller\" />
+    <Folder Include="PlugIns\LogWindowModule\Data\" />
     <Folder Include="PlugIns\PatternModule\ViewModels\" />
     <Folder Include="PlugIns\SmartWatchModule\Controller\" />
     <Folder Include="PlugIns\SmartWatchModule\Data\" />
     <Folder Include="PlugIns\SmartWatchModule\Interfaces\" />
     <Folder Include="PlugIns\SmartWatchModule\ViewModels\" />
     <Folder Include="UI\Converters\MultiConverters\" />
-    <Folder Include="UI\UserControls\DragSupportUtils\Interfaces\" />
     <Folder Include="UI\UserControls\Interfaces\" />
     <Folder Include="UI\UserControls\ViewModels\" />
   </ItemGroup>

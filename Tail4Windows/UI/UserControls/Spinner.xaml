@@ -16,7 +16,7 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary>
 
-          <Style x:Key="ButtonStyle" TargetType="Button">
+          <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="BorderBrush" Value="Black" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="FontFamily" Value="Microsoft Sans Serif" />
@@ -27,7 +27,7 @@
             <Setter Property="Margin" Value="0" />
             <Setter Property="Template">
               <Setter.Value>
-                <ControlTemplate TargetType="Button">
+                <ControlTemplate TargetType="{x:Type Button}">
                   <Grid x:Name="grid">
                     <Border
                       x:Name="border"

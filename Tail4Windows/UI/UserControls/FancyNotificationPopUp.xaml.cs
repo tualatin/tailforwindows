@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
-using Org.Vs.TailForWin.Core.Controllers;
-using FlowDirection = System.Windows.FlowDirection;
+using Org.Vs.TailForWin.Core.Extensions;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls
@@ -42,17 +41,8 @@ namespace Org.Vs.TailForWin.UI.UserControls
       if ( !(e.NewValue is string text) || !(sender is FancyNotificationPopUp popUp) )
         return;
 
-      var formattedText = new FormattedText(
-        text,
-        SettingsHelperController.CurrentSettings.CurrentCultureInfo,
-        FlowDirection.LeftToRight,
-        new Typeface(popUp.TextBlockDetail.FontFamily, popUp.TextBlockDetail.FontStyle, popUp.TextBlockDetail.FontWeight, popUp.TextBlockDetail.FontStretch),
-        popUp.TextBlockDetail.FontSize,
-        Brushes.Black,
-        new NumberSubstitution(),
-        TextFormattingMode.Display);
-
-      var size = new Size(formattedText.Width, formattedText.Height);
+      var typeface = new Typeface(popUp.TextBlockDetail.FontFamily, popUp.TextBlockDetail.FontStyle, popUp.TextBlockDetail.FontWeight, popUp.TextBlockDetail.FontStretch);
+      var size = text.GetMeasureTextSize(typeface, popUp.TextBlockDetail.FontSize);
 
       if ( size.Width > popUp.Width )
         popUp.Width = size.Width + 45;

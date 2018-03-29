@@ -96,7 +96,14 @@ namespace Org.Vs.TailForWin.Core.Extensions
       return cuttext;
     }
 
-    private static Size GetMeasureTextSize(string value, Typeface typeface, double fontSize)
+    /// <summary>
+    /// Get size of a text
+    /// </summary>
+    /// <param name="value">String to measure</param>
+    /// <param name="typeface"><see cref="Typeface"/></param>
+    /// <param name="fontSize">Font size</param>
+    /// <returns><see cref="Size"/></returns>
+    public static Size GetMeasureTextSize(this string value, Typeface typeface, double fontSize)
     {
       var formattedText = new FormattedText(
         value,
