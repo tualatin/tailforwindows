@@ -209,7 +209,7 @@
   <Style x:Key="DragSupportWindowStyle" TargetType="{x:Type Window}">
     <Setter Property="Background" Value="White" />
     <Setter Property="BorderBrush" Value="{StaticResource BrushSolidGrey35}" />
-    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="BorderThickness" Value="1" />
     <Setter Property="Template" Value="{StaticResource WindowTemplate}" />
   </Style>
 </ResourceDictionary>

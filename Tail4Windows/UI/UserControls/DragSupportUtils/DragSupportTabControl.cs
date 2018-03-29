@@ -9,6 +9,7 @@ using System.Windows.Media;
 using log4net;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
@@ -25,6 +26,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     private Window _dragToWindow;
     private RepeatButton _repeatButtonLeft;
     private RepeatButton _repeatButtonRight;
+    private Button _addTabItemButton;
     private ScrollViewer _scrollViewer;
     private Panel _headerPanel;
 
@@ -37,6 +39,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       MouseMove += DragSupportTabControlMouseMove;
       Drop += DragSupportTabControlDrop;
       PreviewMouseLeftButtonDown += DragSupportTabControlPreviewMouseLeftButtonDown;
+      Loaded += DragSupportTabControlLoaded;
     }
 
     /// <summary>
@@ -57,12 +60,26 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( _repeatButtonRight != null )
         _repeatButtonRight.Click += RepeatButtonRightClick;
 
+      if ( _addTabItemButton != null )
+        _addTabItemButton.Click += AddTabItemButtonClick;
+
       if ( _scrollViewer == null )
         return;
 
       SelectionChanged += (s, e) => ScrollToSelectedItem();
       _scrollViewer.Loaded += (s, e) => UpdateScrollButtonsVisibility();
       _scrollViewer.ScrollChanged += (s, e) => UpdateScrollButtonsVisibility();
+    }
+
+    private void DragSupportTabControlLoaded(object sender, RoutedEventArgs e)
+    {
+      if ( !(GetTemplateChild("ContentControlAddButton") is ContentControl contentControl) )
+        return;
+
+      _addTabItemButton = (Button) UiHelpers.RecursiveVisualChildFinder<Button>(contentControl);
+
+      if ( _addTabItemButton != null )
+        _addTabItemButton.Click += AddTabItemButtonClick;
     }
 
     /// <summary>
@@ -103,6 +120,11 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     #region Events
+
+    private void AddTabItemButtonClick(object sender, RoutedEventArgs e)
+    {
+      throw new NotImplementedException();
+    }
 
     private void RepeatButtonLeftClick(object sender, RoutedEventArgs e)
     {
