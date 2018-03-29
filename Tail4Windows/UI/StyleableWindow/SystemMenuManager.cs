@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Interop;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Utils;
 
 
-namespace Org.Vs.TailForWin.BaseView.StyleableWindow
+namespace Org.Vs.TailForWin.UI.StyleableWindow
 {
   /// <summary>
   /// System menu manager
@@ -35,8 +35,8 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
         y = 0;
       }
 
-      IntPtr window = new WindowInteropHelper(targetWindow).Handle;
-      IntPtr wMenu = NativeMethods.GetSystemMenu(window, false);
+      var window = new WindowInteropHelper(targetWindow).Handle;
+      var wMenu = NativeMethods.GetSystemMenu(window, false);
       int command = NativeMethods.TrackPopupMenuEx(wMenu, NativeMethods.TPM_LEFTALIGN | NativeMethods.TPM_RETURNCMD, x, y, window, IntPtr.Zero);
 
       if ( command == 0 )

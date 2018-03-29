@@ -69,10 +69,13 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// Remove a TabItem
     /// </summary>
     /// <param name="tabItem">TabItem to remove</param>
-    private void RemoveTabItem(TabItem tabItem)
+    private void RemoveTabItem(DragSupportTabItem tabItem)
     {
-      if ( Items.Contains(tabItem) )
-        Items.Remove(tabItem);
+      if ( !Items.Contains(tabItem) )
+        return;
+
+      var list = ItemsSource as ObservableCollection<DragSupportTabItem>;
+      list?.Remove(tabItem);
     }
 
     /// <summary>
@@ -209,7 +212,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
           if ( !(p.X >= tabPos.X && p.X <= tabPos.X + ActualWidth && p.Y >= tabPos.Y && p.Y <= tabPos.Y + ActualHeight) )
           {
-            if ( tabControl?.SelectedItem is TabItem item )
+            if ( tabControl?.SelectedItem is DragSupportTabItem item )
               UpdateWindowLocation(p.X - 50, p.Y - 10, item);
           }
           else
@@ -229,7 +232,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         {
           _dragToWindow = null;
 
-          if ( tabControl?.SelectedItem is TabItem item )
+          if ( tabControl?.SelectedItem is DragSupportTabItem item )
             RemoveTabItem(item);
         }
         break;
@@ -333,14 +336,13 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       return tabItems.LastOrDefault();
     }
 
-    private void UpdateWindowLocation(double left, double top, TabItem tabItem)
+    private void UpdateWindowLocation(double left, double top, DragSupportTabItem tabItem)
     {
       if ( _dragToWindow == null )
       {
         lock ( MyLockWindow )
         {
-          //if ( _dragToWindow == null )
-          //  _dragToWindow = TabWindow.CreateTabWindow(left, top, ActualWidth, ActualHeight, tabItem);
+          _dragToWindow = DragWindow.CreateTabWindow(left, top, ActualWidth, ActualHeight, tabItem);
         }
       }
 

@@ -1,12 +1,19 @@
-﻿<Window x:Class="Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.DragWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
-        mc:Ignorable="d"
-        Title="DragWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+﻿<Window
+  x:Class="Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.DragWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
+  mc:Ignorable="d"
+  Title="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationTitle}}"
+  Width="800"
+  Height="450"
+  AllowsTransparency="True"
+  Icon="/T4W;component/Resources/Main.ico"
+  ResizeMode="CanResizeWithGrip"
+  Style="{StaticResource DragSupportWindowStyle}"
+  WindowStyle="None"
+  >
+  <Grid />
 </Window>

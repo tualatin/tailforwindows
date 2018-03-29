@@ -1,10 +1,10 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Utils;
 
 
-namespace Org.Vs.TailForWin.BaseView.StyleableWindow
+namespace Org.Vs.TailForWin.UI.StyleableWindow.Behaviors
 {
   /// <summary>
   /// Show system menu behavior

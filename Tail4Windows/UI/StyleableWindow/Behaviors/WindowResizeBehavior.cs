@@ -1,9 +1,9 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls.Primitives;
 using Org.Vs.TailForWin.Core.Utils;
 
 
-namespace Org.Vs.TailForWin.BaseView.StyleableWindow
+namespace Org.Vs.TailForWin.UI.StyleableWindow.Behaviors
 {
   /// <summary>
   /// Window resize behavior
@@ -28,7 +28,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// Top left resize property
     /// </summary>
     public static readonly DependencyProperty TopLeftResize = DependencyProperty.RegisterAttached("TopLeftResize", typeof(Window), typeof(WindowResizeBehavior),
-                                                                new UIPropertyMetadata(null, OnTopLeftResizeChanged));
+      new UIPropertyMetadata(null, OnTopLeftResizeChanged));
 
     private static void OnTopLeftResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
@@ -54,7 +54,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// Top right resize property
     /// </summary>
     public static readonly DependencyProperty TopRightResize = DependencyProperty.RegisterAttached("TopRightResize", typeof(Window), typeof(WindowResizeBehavior),
-                                                                new UIPropertyMetadata(null, OnTopRightResizeChanged));
+      new UIPropertyMetadata(null, OnTopRightResizeChanged));
 
     private static void OnTopRightResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
@@ -80,7 +80,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// Bottom right resize property
     /// </summary>
     public static readonly DependencyProperty BottomRightResize = DependencyProperty.RegisterAttached("BottomRightResize", typeof(Window), typeof(WindowResizeBehavior),
-                                                                    new UIPropertyMetadata(null, OnBottomRightResizeChanged));
+      new UIPropertyMetadata(null, OnBottomRightResizeChanged));
 
     private static void OnBottomRightResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
@@ -106,7 +106,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// Bottom left resize property
     /// </summary>
     public static readonly DependencyProperty BottomLeftResize = DependencyProperty.RegisterAttached("BottomLeftResize", typeof(Window), typeof(WindowResizeBehavior),
-                                                                  new UIPropertyMetadata(null, OnBottomLeftResizeChanged));
+      new UIPropertyMetadata(null, OnBottomLeftResizeChanged));
 
     private static void OnBottomLeftResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
@@ -132,7 +132,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// Left resize property
     /// </summary>
     public static readonly DependencyProperty LeftResize = DependencyProperty.RegisterAttached("LeftResize", typeof(Window), typeof(WindowResizeBehavior),
-                                                            new UIPropertyMetadata(null, OnLeftResizeChanged));
+      new UIPropertyMetadata(null, OnLeftResizeChanged));
 
     private static void OnLeftResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
@@ -158,7 +158,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// Right resize property
     /// </summary>
     public static readonly DependencyProperty RightResize = DependencyProperty.RegisterAttached("RightResize", typeof(Window), typeof(WindowResizeBehavior),
-                                                              new UIPropertyMetadata(null, OnRightResizeChanged));
+      new UIPropertyMetadata(null, OnRightResizeChanged));
 
     private static void OnRightResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
@@ -184,7 +184,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// Top resize window
     /// </summary>
     public static readonly DependencyProperty TopResize = DependencyProperty.RegisterAttached("TopResize", typeof(Window), typeof(WindowResizeBehavior),
-                                                            new UIPropertyMetadata(null, OnTopResizeChanged));
+      new UIPropertyMetadata(null, OnTopResizeChanged));
 
     private static void OnTopResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
@@ -210,7 +210,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// Bottom resize property
     /// </summary>
     public static readonly DependencyProperty BottomResize = DependencyProperty.RegisterAttached("BottomResize", typeof(Window), typeof(WindowResizeBehavior),
-                                                              new UIPropertyMetadata(null, OnBottomResizeChanged));
+      new UIPropertyMetadata(null, OnBottomResizeChanged));
 
     private static void OnBottomResizeChanged(object sender, DependencyPropertyChangedEventArgs e)
     {

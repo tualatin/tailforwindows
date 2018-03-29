@@ -1,14 +1,14 @@
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 
 
-namespace Org.Vs.TailForWin.BaseView.StyleableWindow
+namespace Org.Vs.TailForWin.UI.StyleableWindow.Commands
 {
   /// <summary>
-  /// Window maximize command
+  /// Window close command
   /// </summary>
-  public class WindowMaximizeCommand : ICommand
+  public class WindowCloseCommand : ICommand
   {
     /// <summary>
     /// Can execute
@@ -23,13 +23,13 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     public event EventHandler CanExecuteChanged;
 
     /// <summary>
-    /// Execute
+    /// Execute 
     /// </summary>
     /// <param name="parameter">Parameter</param>
     public void Execute(object parameter)
     {
-      if ( parameter is Window window )
-        window.WindowState = window.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+      var window = parameter as Window;
+      window?.Close();
     }
   }
 }

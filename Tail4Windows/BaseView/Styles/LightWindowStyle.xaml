@@ -1,10 +1,11 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.StyleableWindow.Behaviors"
   xmlns:environment="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
-  xmlns:styleableWindow="clr-namespace:Org.Vs.TailForWin.BaseView.StyleableWindow"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
   >
+
   <!--  Window template  -->
   <ControlTemplate
     x:Key="WindowLightTemplate"
@@ -36,16 +37,16 @@
               Margin="0 2 0 0"
               Padding="0"
               HorizontalAlignment="Center"
-              styleableWindow:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource CloseCommand}"
-              styleableWindow:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+              behaviors:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource CloseCommand}"
+              behaviors:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
               >
               <Image
                 x:Name="WndIcon"
                 Width="16"
                 Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=Icon}"
                 Style="{StaticResource WindowIcon}"
-                styleableWindow:ShowSystemMenuBehavior.LeftButtonShowAt="{Binding ElementName=WindowContent}"
-                styleableWindow:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                behaviors:ShowSystemMenuBehavior.LeftButtonShowAt="{Binding ElementName=WindowContent}"
+                behaviors:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                 />
             </Label>
 
@@ -53,11 +54,11 @@
               Grid.Column="1"
               HorizontalAlignment="Stretch"
               Background="Transparent"
-              styleableWindow:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource MaximizeCommand}"
-              styleableWindow:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-              styleableWindow:ShowSystemMenuBehavior.RightButtonShow="true"
-              styleableWindow:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-              styleableWindow:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+              behaviors:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource MaximizeCommand}"
+              behaviors:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+              behaviors:ShowSystemMenuBehavior.RightButtonShow="true"
+              behaviors:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+              behaviors:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
               >
 
               <Label
@@ -122,7 +123,7 @@
           VerticalAlignment="Top"
           Cursor="SizeNS"
           Opacity="0"
-          styleableWindow:WindowResizeBehavior.TopResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          behaviors:WindowResizeBehavior.TopResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
           />
         <Thumb
           x:Name="ThumbTopLeft"
@@ -132,7 +133,7 @@
           VerticalAlignment="Top"
           Cursor="SizeNWSE"
           Opacity="0"
-          styleableWindow:WindowResizeBehavior.TopLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          behaviors:WindowResizeBehavior.TopLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
           />
         <Thumb
           x:Name="ThumbBottom"
@@ -141,7 +142,7 @@
           VerticalAlignment="Bottom"
           Cursor="SizeNS"
           Opacity="0"
-          styleableWindow:WindowResizeBehavior.BottomResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          behaviors:WindowResizeBehavior.BottomResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
           />
         <Thumb
           x:Name="ThumbTopRight"
@@ -151,7 +152,7 @@
           VerticalAlignment="Top"
           Cursor="SizeNESW"
           Opacity="0"
-          styleableWindow:WindowResizeBehavior.TopRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          behaviors:WindowResizeBehavior.TopRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
           />
         <Thumb
           x:Name="ThumbRight"
@@ -160,7 +161,7 @@
           HorizontalAlignment="Right"
           Cursor="SizeWE"
           Opacity="0"
-          styleableWindow:WindowResizeBehavior.RightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          behaviors:WindowResizeBehavior.RightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
           />
         <Thumb
           x:Name="ThumbBottomRight"
@@ -170,7 +171,7 @@
           VerticalAlignment="Bottom"
           Cursor="SizeNWSE"
           Opacity="0"
-          styleableWindow:WindowResizeBehavior.BottomRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          behaviors:WindowResizeBehavior.BottomRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
           />
         <Thumb
           x:Name="ThumbLeft"
@@ -179,7 +180,7 @@
           HorizontalAlignment="Left"
           Cursor="SizeWE"
           Opacity="0"
-          styleableWindow:WindowResizeBehavior.LeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          behaviors:WindowResizeBehavior.LeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
           />
         <Thumb
           x:Name="ThumbBottomLeft"
@@ -189,7 +190,7 @@
           VerticalAlignment="Bottom"
           Cursor="SizeNESW"
           Opacity="0"
-          styleableWindow:WindowResizeBehavior.BottomLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          behaviors:WindowResizeBehavior.BottomLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
           />
       </Grid>
     </Border>
@@ -222,9 +223,8 @@
 
   <Style x:Key="Tail4LightWindowStyle" TargetType="{x:Type Window}">
     <Setter Property="Background" Value="White" />
-    <Setter Property="BorderBrush" Value="#999999" />
+    <Setter Property="BorderBrush" Value="{StaticResource BrushSolidGrey35}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="Template" Value="{StaticResource WindowLightTemplate}" />
   </Style>
-
 </ResourceDictionary>

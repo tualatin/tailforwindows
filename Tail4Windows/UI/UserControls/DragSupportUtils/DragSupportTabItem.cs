@@ -66,7 +66,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// </summary>
     public string HeaderContent
     {
-      private get => (string) GetValue(HeaderToolContentProperty);
+      get => (string) GetValue(HeaderToolContentProperty);
       set
       {
         if ( string.IsNullOrWhiteSpace(value) )

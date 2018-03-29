@@ -1,14 +1,14 @@
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 
 
-namespace Org.Vs.TailForWin.BaseView.StyleableWindow
+namespace Org.Vs.TailForWin.UI.StyleableWindow.Commands
 {
   /// <summary>
-  /// Window close command
+  /// Window minimize command
   /// </summary>
-  public class WindowCloseCommand : ICommand
+  public class WindowMinimizeCommand : ICommand
   {
     /// <summary>
     /// Can execute
@@ -23,13 +23,13 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     public event EventHandler CanExecuteChanged;
 
     /// <summary>
-    /// Execute 
+    /// Execute
     /// </summary>
     /// <param name="parameter">Parameter</param>
     public void Execute(object parameter)
     {
-      var window = parameter as Window;
-      window?.Close();
+      if ( parameter is Window window )
+        window.WindowState = WindowState.Minimized;
     }
   }
 }

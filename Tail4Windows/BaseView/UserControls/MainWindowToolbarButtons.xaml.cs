@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows;
 
 
@@ -58,6 +58,27 @@ namespace Org.Vs.TailForWin.BaseView.UserControls
     /// <param name="value">Visibility value</param>
     public static void SetRestoreButtonVisibility(DependencyObject obj, Visibility value) => obj.SetValue(RestoreButtonVisibilityProperty, value);
 
+    /// <summary>
+    /// MinimizeButton visibility property
+    /// </summary>
+    public static readonly DependencyProperty MinimizeButtonVisibilityProperty = DependencyProperty.RegisterAttached("MinimizeButtonVisibility", typeof(Visibility), typeof(MainWindowToolbarButtons),
+      new UIPropertyMetadata(Visibility.Visible, OnButtonVisibilityPropertyChanged));
+
+
+    /// <summary>
+    /// Get MinimizeButton visibility
+    /// </summary>
+    /// <param name="obj">Object</param>
+    /// <returns>Visibility</returns>
+    public static Visibility GetMinimizeButtonVisibility(DependencyObject obj) => (Visibility) obj.GetValue(MinimizeButtonVisibilityProperty);
+
+    /// <summary>
+    /// Set MinimizeButton visibility
+    /// </summary>
+    /// <param name="obj">Object</param>
+    /// <param name="value">Visibility value</param>
+    public static void SetMinimizeButtonVisibility(DependencyObject obj, Visibility value) => obj.SetValue(MinimizeButtonVisibilityProperty, value);
+
     private static void OnButtonVisibilityPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       if ( !(d is MainWindowToolbarButtons toolbarButtons) )
@@ -74,9 +95,14 @@ namespace Org.Vs.TailForWin.BaseView.UserControls
         Enum.TryParse<Visibility>(e.NewValue.ToString(), out var visibility);
         toolbarButtons.RestoreButton.Visibility = visibility;
       }
+
+      if ( e.Property.Name.Equals("MinimizeButtonVisibility") )
+      {
+        Enum.TryParse<Visibility>(e.NewValue.ToString(), out var visibility);
+        toolbarButtons.MinimizeButton.Visibility = visibility;
+      }
     }
 
     #endregion
-
   }
 }

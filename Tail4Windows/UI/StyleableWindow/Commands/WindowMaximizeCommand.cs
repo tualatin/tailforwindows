@@ -1,14 +1,14 @@
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 
 
-namespace Org.Vs.TailForWin.BaseView.StyleableWindow
+namespace Org.Vs.TailForWin.UI.StyleableWindow.Commands
 {
   /// <summary>
-  /// Window minimize command
+  /// Window maximize command
   /// </summary>
-  public class WindowMinimizeCommand : ICommand
+  public class WindowMaximizeCommand : ICommand
   {
     /// <summary>
     /// Can execute
@@ -29,7 +29,7 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     public void Execute(object parameter)
     {
       if ( parameter is Window window )
-        window.WindowState = WindowState.Minimized;
+        window.WindowState = window.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
     }
   }
 }

@@ -202,7 +202,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BaseView\StyleableWindow\OpenSettingsDialogBehavior.cs" />
+    <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
     <Compile Include="BaseView\Interfaces\IBaseWindowStatusbarViewModel.cs" />
     <Compile Include="Business\Data\Messages\AddNewTabItemMessage.cs" />
@@ -413,14 +413,14 @@
       <DependentUpon>T4Window.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Utils\Arg.cs" />
-    <Compile Include="BaseView\StyleableWindow\ControlDoubleClickBehavior.cs" />
-    <Compile Include="BaseView\StyleableWindow\ShowSystemMenuBehavior.cs" />
-    <Compile Include="BaseView\StyleableWindow\SystemMenuManager.cs" />
-    <Compile Include="BaseView\StyleableWindow\WindowCloseCommand.cs" />
-    <Compile Include="BaseView\StyleableWindow\WindowDragBehavior.cs" />
-    <Compile Include="BaseView\StyleableWindow\WindowMaximizeCommand.cs" />
-    <Compile Include="BaseView\StyleableWindow\WindowMinimizeCommand.cs" />
-    <Compile Include="BaseView\StyleableWindow\WindowResizeBehavior.cs" />
+    <Compile Include="UI\StyleableWindow\Behaviors\ControlDoubleClickBehavior.cs" />
+    <Compile Include="UI\StyleableWindow\Behaviors\ShowSystemMenuBehavior.cs" />
+    <Compile Include="UI\StyleableWindow\SystemMenuManager.cs" />
+    <Compile Include="UI\StyleableWindow\Commands\WindowCloseCommand.cs" />
+    <Compile Include="UI\StyleableWindow\Behaviors\WindowDragBehavior.cs" />
+    <Compile Include="UI\StyleableWindow\Commands\WindowMaximizeCommand.cs" />
+    <Compile Include="UI\StyleableWindow\Commands\WindowMinimizeCommand.cs" />
+    <Compile Include="UI\StyleableWindow\Behaviors\WindowResizeBehavior.cs" />
     <Compile Include="UI\Services\MouseService.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\DragSupportTabItem.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\DragWindow.xaml.cs">
@@ -638,6 +638,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UI\Styles\TreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\UserControls\DragSupportUtils\Styles\DragSupportWindowStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

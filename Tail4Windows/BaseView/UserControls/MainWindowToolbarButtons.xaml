@@ -10,11 +10,13 @@
   >
   <StackPanel Orientation="Horizontal">
     <Button
+      x:Name="MinimizeButton"
       Width="24"
       Command="{StaticResource MinimizeCommand}"
       CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
       DockPanel.Dock="Right"
       Style="{StaticResource MinimizeButton}"
+      Visibility="Visible"
       />
     <Button
       x:Name="MaximizeButton"

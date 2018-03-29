@@ -1,9 +1,9 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 
-namespace Org.Vs.TailForWin.BaseView.StyleableWindow
+namespace Org.Vs.TailForWin.UI.StyleableWindow.Behaviors
 {
   /// <summary>
   /// Double click behavior
@@ -28,7 +28,8 @@ namespace Org.Vs.TailForWin.BaseView.StyleableWindow
     /// Execute command property
     /// </summary>
     public static readonly DependencyProperty ExecuteCommand = DependencyProperty.RegisterAttached("ExecuteCommand", typeof(ICommand), typeof(ControlDoubleClickBehavior),
-                                                                new UIPropertyMetadata(null, OnExecuteCommandChanged));
+      new UIPropertyMetadata(null, OnExecuteCommandChanged));
+
     /// <summary>
     /// Get execute command parameter
     /// </summary>
