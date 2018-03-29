@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls.Commands

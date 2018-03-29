@@ -5,7 +5,7 @@ using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Extensions;
 
 
-namespace Org.Vs.TailForWin.UI.UserControls
+namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 {
   /// <summary>
   /// Drag support TabItem

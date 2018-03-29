@@ -207,7 +207,7 @@
     <Compile Include="BaseView\Interfaces\IBaseWindowStatusbarViewModel.cs" />
     <Compile Include="Business\Data\Messages\AddNewTabItemMessage.cs" />
     <Compile Include="UI\UserControls\Commands\AddNewTabItemCommand.cs" />
-    <Compile Include="UI\UserControls\DragSupportTabControl.cs" />
+    <Compile Include="UI\UserControls\DragSupportUtils\DragSupportTabControl.cs" />
     <Compile Include="BaseView\Interfaces\IOptionsViewModel.cs" />
     <Compile Include="BaseView\Interfaces\IT4WindowViewModel.cs" />
     <Compile Include="Business\Controllers\SystemInformationController.cs" />
@@ -417,7 +417,7 @@
     <Compile Include="BaseView\StyleableWindow\WindowMinimizeCommand.cs" />
     <Compile Include="BaseView\StyleableWindow\WindowResizeBehavior.cs" />
     <Compile Include="UI\Services\MouseService.cs" />
-    <Compile Include="UI\UserControls\DragSupportTabItem.cs" />
+    <Compile Include="UI\UserControls\DragSupportUtils\DragSupportTabItem.cs" />
     <Compile Include="UI\UserControls\FancyNotificationPopUp.xaml.cs">
       <DependentUpon>FancyNotificationPopUp.xaml</DependentUpon>
     </Compile>
@@ -492,7 +492,7 @@
     <Compile Include="Core\Logging\LogUtil.cs" />
     <Compile Include="Core\Logging\SingleLetterLevelConverter.cs" />
     <Compile Include="Core\Logging\ZippingRollingFileAppender.cs" />
-    <Page Include="UI\UserControls\Styles\DragSupportTabControlStyle.xaml">
+    <Page Include="UI\UserControls\DragSupportUtils\Styles\DragSupportTabControlStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -612,7 +612,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\UserControls\Styles\DragSupportTabItemStyle.xaml">
+    <Page Include="UI\UserControls\DragSupportUtils\Styles\DragSupportTabItemStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -839,6 +839,7 @@
     <Folder Include="PlugIns\SmartWatchModule\Interfaces\" />
     <Folder Include="PlugIns\SmartWatchModule\ViewModels\" />
     <Folder Include="UI\Converters\MultiConverters\" />
+    <Folder Include="UI\UserControls\DragSupportUtils\Interfaces\" />
     <Folder Include="UI\UserControls\Interfaces\" />
     <Folder Include="UI\UserControls\ViewModels\" />
   </ItemGroup>

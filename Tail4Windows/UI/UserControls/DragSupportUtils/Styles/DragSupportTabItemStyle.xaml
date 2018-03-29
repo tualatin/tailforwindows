@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  xmlns:dragSupportUtils="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
   >
 
   <LinearGradientBrush x:Key="ButtonNormalBackground" StartPoint="0,0" EndPoint="0,1">
@@ -64,11 +64,11 @@
     <Setter Property="VerticalContentAlignment" Value="Center" />
   </Style>
 
-  <Style x:Key="DragSupportTabItemBusyStyle" TargetType="{x:Type userControls:DragSupportTabItem}">
+  <Style x:Key="DragSupportTabItemBusyStyle" TargetType="{x:Type dragSupportUtils:DragSupportTabItem}">
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="Template">
       <Setter.Value>
-        <ControlTemplate TargetType="{x:Type userControls:DragSupportTabItem}">
+        <ControlTemplate TargetType="{x:Type dragSupportUtils:DragSupportTabItem}">
           <Grid
             x:Name="GridHeader"
             IsHitTestVisible="True"
@@ -89,7 +89,7 @@
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
                   Command="{Binding CloseCommand}"
-                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type userControls:DragSupportTabItem}}, Path=Name}"
+                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=Name}"
                   DockPanel.Dock="Right"
                   Style="{DynamicResource CloseableTabItemButtonStyle}"
                   ToolTip="{DynamicResource CloseWindowToolTip}"
@@ -142,11 +142,11 @@
     <Setter Property="VerticalContentAlignment" Value="Stretch" />
   </Style>
 
-  <Style x:Key="DragSupportTabItemStyle" TargetType="{x:Type userControls:DragSupportTabItem}">
+  <Style x:Key="DragSupportTabItemStyle" TargetType="{x:Type dragSupportUtils:DragSupportTabItem}">
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="Template">
       <Setter.Value>
-        <ControlTemplate TargetType="{x:Type userControls:DragSupportTabItem}">
+        <ControlTemplate TargetType="{x:Type dragSupportUtils:DragSupportTabItem}">
           <Grid
             x:Name="GridHeader"
             IsHitTestVisible="True"
@@ -166,7 +166,7 @@
                   Padding="4"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
-                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type userControls:DragSupportTabItem}}, Path=Name}"
+                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=Name}"
                   DockPanel.Dock="Right"
                   Style="{DynamicResource CloseableTabItemButtonStyle}"
                   ToolTip="{DynamicResource CloseWindowToolTip}"

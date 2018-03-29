@@ -20,7 +20,7 @@ using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
-using Org.Vs.TailForWin.UI.UserControls;
+using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
 
 namespace Org.Vs.TailForWin.BaseView.ViewModels
@@ -181,6 +181,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       set;
     }
 
+    /// <summary>
+    /// Selected <see cref="DragSupportTabItem"/>
+    /// </summary>
+    public DragSupportTabItem SelectedTabItem
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     /// <summary>
@@ -293,9 +302,24 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand AddNewTabItemCommand => _addNewTabItemCommand ?? (_addNewTabItemCommand = new RelayCommand(p => ExecuteAddNewTabItemCommand()));
 
+    private ICommand _closeTabItemCommand;
+
+    /// <summary>
+    /// Close a <see cref="DragSupportTabItem"/>
+    /// </summary>
+    public ICommand CloseTabItemCommand => _closeTabItemCommand ?? (_closeTabItemCommand = new RelayCommand(p => ExecuteCloseTabItemCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteCloseTabItemCommand()
+    {
+      if ( SelectedTabItem == null )
+        return;
+
+      CloseTabItem(SelectedTabItem);
+    }
 
     private void ExecuteAddNewTabItemCommand()
     {
@@ -377,15 +401,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private void TabItemCloseTabWindow(object sender, RoutedEventArgs e)
     {
       if ( e.Source is DragSupportTabItem item )
-      {
-        item.TabHeaderDoubleClick -= TabItemDoubleClick;
-        item.CloseTabWindow -= TabItemCloseTabWindow;
-
-        TabItemsSource.Remove(item);
-      }
-
-      if ( TabItemsSource.Count == 0 )
-        ExecuteAddNewTabItemCommand();
+        CloseTabItem(item);
     }
 
     private void TabItemDoubleClick(object sender, RoutedEventArgs e)
@@ -396,6 +412,17 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     #endregion
 
     #region HelperFunctions
+
+    private void CloseTabItem(DragSupportTabItem item)
+    {
+      item.TabHeaderDoubleClick -= TabItemDoubleClick;
+      item.CloseTabWindow -= TabItemCloseTabWindow;
+
+      TabItemsSource.Remove(item);
+
+      if ( TabItemsSource.Count == 0 )
+        ExecuteAddNewTabItemCommand();
+    }
 
     private void OnAddNewTabItem(AddNewTabItemMessage args)
     {

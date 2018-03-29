@@ -10,7 +10,7 @@ using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 
 
-namespace Org.Vs.TailForWin.UI.UserControls
+namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 {
   /// <summary>
   /// Drag support tab control
