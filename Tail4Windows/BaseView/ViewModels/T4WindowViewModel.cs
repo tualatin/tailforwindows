@@ -380,8 +380,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       await Task.Run(() =>
       {
         LOG.Trace($"{EnvironmentContainer.ApplicationTitle} startup completed!");
-
-        EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<AddNewTabItemMessage>(OnAddNewTabItem);
       }).ConfigureAwait(false);
     }
 
@@ -422,14 +420,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       if ( TabItemsSource.Count == 0 )
         ExecuteAddNewTabItemCommand();
-    }
-
-    private void OnAddNewTabItem(AddNewTabItemMessage args)
-    {
-      if ( !(args.Sender is UI.UserControls.Commands.AddNewTabItemCommand) )
-        return;
-
-      ExecuteAddNewTabItemCommand();
     }
 
     private void SetDefaultWindowSettings()

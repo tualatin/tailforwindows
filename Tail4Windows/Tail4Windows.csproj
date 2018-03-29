@@ -206,13 +206,11 @@
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
     <Compile Include="BaseView\Interfaces\IBaseWindowStatusbarViewModel.cs" />
-    <Compile Include="Business\Data\Messages\AddNewTabItemMessage.cs" />
     <Compile Include="PlugIns\LogWindowModule\Interfaces\ILogWindow.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindow.xaml.cs">
       <DependentUpon>LogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\LogWindowModule\ViewModels\LogWindowViewModel.cs" />
-    <Compile Include="UI\UserControls\Commands\AddNewTabItemCommand.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\DragSupportTabControl.cs" />
     <Compile Include="BaseView\Interfaces\IOptionsViewModel.cs" />
     <Compile Include="BaseView\Interfaces\IT4WindowViewModel.cs" />
@@ -427,6 +425,8 @@
     <Compile Include="UI\UserControls\DragSupportUtils\DragWindow.xaml.cs">
       <DependentUpon>DragWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\UserControls\DragSupportUtils\DragWindowManager.cs" />
+    <Compile Include="UI\UserControls\DragSupportUtils\Interfaces\IDragDropToTabWindow.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\Interfaces\IDragWindow.cs" />
     <Compile Include="UI\UserControls\FancyNotificationPopUp.xaml.cs">
       <DependentUpon>FancyNotificationPopUp.xaml</DependentUpon>
@@ -864,6 +864,7 @@
     <Folder Include="PlugIns\SmartWatchModule\Interfaces\" />
     <Folder Include="PlugIns\SmartWatchModule\ViewModels\" />
     <Folder Include="UI\Converters\MultiConverters\" />
+    <Folder Include="UI\UserControls\Commands\" />
     <Folder Include="UI\UserControls\Interfaces\" />
     <Folder Include="UI\UserControls\ViewModels\" />
   </ItemGroup>

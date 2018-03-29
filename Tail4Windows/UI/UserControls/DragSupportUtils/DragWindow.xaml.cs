@@ -15,7 +15,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
   /// <summary>
   /// Interaction logic for DragWindow.xaml
   /// </summary>
-  public partial class DragWindow : IDragWindow
+  public partial class DragWindow : IDragWindow, IDragDropToTabWindow
   {
     /// <summary>
     /// Standard constructor
@@ -125,14 +125,62 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       return dragWindow;
     }
 
+    /// <summary>
+    /// TabItem source
+    /// </summary>
     public ItemCollection TabItems => throw new NotImplementedException();
 
+    /// <summary>
+    /// Add TabItem
+    /// </summary>
+    /// <param name="tabHeader">Name of tab header</param>
+    /// <param name="content">TabItem content</param>
     public void AddTabItem(string tabHeader, Control content)
     {
       throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Remove TabItem
+    /// </summary>
+    /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
     public void RemoveTabItem(DragSupportTabItem tabItem)
+    {
+      throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// On Drag enter
+    /// </summary>
+    public void OnDragEnter()
+    {
+      throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// On Drag leave
+    /// </summary>
+    public void OnDrageLeave()
+    {
+      throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Is drag mouse ober
+    /// </summary>
+    /// <param name="mousePosition">Current mouse position</param>
+    /// <returns>If it is over<c>True</c> otherwise <c>False</c></returns>
+    public bool IsDragMouseOver(Point mousePosition)
+    {
+      throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Is drag mouse over tab zone
+    /// </summary>
+    /// <param name="mousePosition">Current mouse position</param>
+    /// <returns>If it is over <c>True</c> otherwise <c>False</c></returns>
+    public bool IsDragMouseOverTabZone(Point mousePosition)
     {
       throw new NotImplementedException();
     }

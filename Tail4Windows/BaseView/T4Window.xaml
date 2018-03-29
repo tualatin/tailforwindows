@@ -19,7 +19,7 @@
   Width="{Binding Width, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Height="{Binding Height, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   MinWidth="800"
-  MinHeight="400"
+  MinHeight="600"
   AllowsTransparency="True"
   Closing="MainWindowClosing"
   Icon="/T4W;component/Resources/Main.ico"
@@ -76,7 +76,13 @@
         ItemsSource="{Binding TabItemsSource}"
         SelectedItem="{Binding SelectedTabItem}"
         Style="{StaticResource DragSupportTabControlStyle}"
-        />
+        >
+        <intr:Interaction.Triggers>
+          <intr:EventTrigger EventName="AddTabItemEvent">
+            <intr:InvokeCommandAction Command="{Binding AddNewTabItemCommand}" />
+          </intr:EventTrigger>
+        </intr:Interaction.Triggers>
+      </dragSupportUtils:DragSupportTabControl>
     </Border>
 
     <baseViewControls:MainWindowStatusBar Grid.Row="1" />

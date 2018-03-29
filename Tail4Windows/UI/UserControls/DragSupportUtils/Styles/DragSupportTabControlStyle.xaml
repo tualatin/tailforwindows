@@ -1,14 +1,11 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.UserControls.Commands"
   xmlns:dragSupportUtils="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
   >
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="/UI/Styles/Shared.xaml" />
   </ResourceDictionary.MergedDictionaries>
-
-  <commands:AddNewTabItemCommand x:Key="AddNewTabItemCommand" />
 
   <Style x:Key="OptionTabControlButtonStyle" TargetType="{x:Type Button}">
     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -57,8 +54,6 @@
         <ControlTemplate TargetType="{x:Type ContentControl}">
           <Button
             Name="AddTabItemButton"
-            Command="{StaticResource AddNewTabItemCommand}"
-            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
             Style="{StaticResource OptionTabControlButtonStyle}"
             ToolTip="{DynamicResource TabControlAddNew}"
             >

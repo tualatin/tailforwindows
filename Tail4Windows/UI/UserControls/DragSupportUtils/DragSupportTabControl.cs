@@ -30,6 +30,24 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     private ScrollViewer _scrollViewer;
     private Panel _headerPanel;
 
+    #region RoutedEvents
+
+    /// <summary>
+    /// AddTabItem event handler
+    /// </summary>
+    public static readonly RoutedEvent AddTabItemRoutedEvent = EventManager.RegisterRoutedEvent("AddTabItemEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabControl));
+
+    /// <summary>
+    /// Add TabItem
+    /// </summary>
+    public event RoutedEventHandler AddTabItemEvent
+    {
+      add => AddHandler(AddTabItemRoutedEvent, value);
+      remove => RemoveHandler(AddTabItemRoutedEvent, value);
+    }
+
+    #endregion
+
     /// <summary>
     /// Standard constructor
     /// </summary>
@@ -78,8 +96,11 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       _addTabItemButton = (Button) UiHelpers.RecursiveVisualChildFinder<Button>(contentControl);
 
-      if ( _addTabItemButton != null )
-        _addTabItemButton.Click += AddTabItemButtonClick;
+      if ( _addTabItemButton == null )
+        return;
+
+      _addTabItemButton.Click -= AddTabItemButtonClick;
+      _addTabItemButton.Click += AddTabItemButtonClick;
     }
 
     /// <summary>
@@ -121,10 +142,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     #region Events
 
-    private void AddTabItemButtonClick(object sender, RoutedEventArgs e)
-    {
-      throw new NotImplementedException();
-    }
+    private void AddTabItemButtonClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(AddTabItemRoutedEvent, this));
 
     private void RepeatButtonLeftClick(object sender, RoutedEventArgs e)
     {
