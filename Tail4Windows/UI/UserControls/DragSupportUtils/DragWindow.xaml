@@ -7,6 +7,7 @@
   xmlns:dragSupportUtils="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   mc:Ignorable="d"
+  d:DataContext="{Binding RelativeSource={RelativeSource Self}}"
   Title="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationTitle}}"
   Width="800"
   Height="450"
@@ -24,7 +25,8 @@
       BorderThickness="8 0 8 8"
       >
       <dragSupportUtils:DragSupportTabControl
-        ItemsSource="{Binding TabItemsSource}"
+        AddTabItemEvent="TabControlOnAddTabItemEvent"
+        ItemsSource="{Binding TabItems, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
         SelectedItem="{Binding SelectedTabItem}"
         Style="{StaticResource DragSupportTabControlStyle}"
         />

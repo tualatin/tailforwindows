@@ -1,4 +1,4 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.ObjectModel;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces
@@ -11,16 +11,16 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces
     /// <summary>
     /// Add TabItem
     /// </summary>
-    /// <param name="tabHeader">Name of tab header</param>
-    /// <param name="content">TabItem content</param>
-    void AddTabItem(string tabHeader, Control content);
+    /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
+    void AddTabItem(DragSupportTabItem tabItem);
 
     /// <summary>
     /// TabItem source
     /// </summary>
-    ItemCollection TabItems
+    ObservableCollection<DragSupportTabItem> TabItems
     {
       get;
+      set;
     }
 
     /// <summary>

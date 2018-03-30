@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Interop;
 using log4net;
 using Org.Vs.TailForWin.Core.Native;
@@ -185,7 +184,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils
           foreach ( var t in items )
           {
             if ( t is DragSupportTabItem item )
-              ((IDragWindow) targetWin).AddTabItem(item.Header.ToString(), (Control) item.Content);
+              ((IDragWindow) targetWin).AddTabItem(item);
           }
 
           for ( int i = items.Count; i > 0; i-- )

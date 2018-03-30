@@ -21,7 +21,7 @@ namespace Org.Vs.TailForWin.Core.Data.Base
     /// OnPropertyChanged
     /// </summary>
     /// <param name="name">Name of property</param>
-    protected void OnPropertyChanged([CallerMemberName] string name = "")
+    protected void OnPropertyChanged([CallerMemberName] string name = null)
     {
       PropertyChangedEventHandler handler = PropertyChanged;
       handler?.Invoke(this, new PropertyChangedEventArgs(name));

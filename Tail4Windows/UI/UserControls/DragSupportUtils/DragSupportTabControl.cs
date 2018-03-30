@@ -7,8 +7,10 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using log4net;
+using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
+using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.Utils;
 
 
@@ -112,6 +114,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( !Items.Contains(tabItem) )
         return;
 
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new RemoveTabItemMessage(tabItem));
+
       var list = ItemsSource as ObservableCollection<DragSupportTabItem>;
       list?.Remove(tabItem);
     }
@@ -178,6 +182,9 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       {
         DragSupportTabItem tabItemTarget = null;
 
+        if ( ItemsSource == null )
+          return;
+
         foreach ( DragSupportTabItem tabItem in ItemsSource )
         {
           var pt = e.GetPosition(tabItem);
@@ -237,13 +244,15 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     private void DragSupportTabControlQueryContinueDrag(object sender, QueryContinueDragEventArgs e)
     {
-      var tabControl = e.Source as DragSupportTabControl;
+      DragSupportTabControl tabControl = null;
 
-      switch ( e.KeyStates )
+      if ( e.Source is DragSupportTabControl control )
+        tabControl = control;
+
+      if ( e.KeyStates == DragDropKeyStates.LeftMouseButton )
       {
-      case DragDropKeyStates.LeftMouseButton:
-
         LOG.Trace($"DragSupportTabControlQueryContinueDrag action {e.Action}");
+
         var p = new Win32Point();
 
         if ( NativeMethods.GetCursorPos(ref p) )
@@ -261,25 +270,21 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
               UpdateWindowLocation(p.X - 50, p.Y - 10, null);
           }
         }
-        break;
-
-      case DragDropKeyStates.None:
+      }
+      else if ( e.KeyStates == DragDropKeyStates.None )
+      {
+        LOG.Trace($"DragSupportTabControlQueryContinueDrag action {e.Action}");
 
         QueryContinueDrag -= DragSupportTabControlQueryContinueDrag;
         e.Handled = true;
 
-        if ( _dragToWindow != null )
-        {
-          _dragToWindow = null;
+        if ( _dragToWindow == null )
+          return;
 
-          if ( tabControl?.SelectedItem is DragSupportTabItem item )
-            RemoveTabItem(item);
-        }
-        break;
+        _dragToWindow = null;
 
-      default:
-
-        throw new ArgumentOutOfRangeException();
+        if ( tabControl?.SelectedItem is DragSupportTabItem item )
+          RemoveTabItem(item);
       }
     }
 
@@ -388,6 +393,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       if ( _dragToWindow == null )
         return;
+
 
       _dragToWindow.Left = left;
       _dragToWindow.Top = top;

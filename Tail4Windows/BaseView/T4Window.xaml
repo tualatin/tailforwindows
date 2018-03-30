@@ -73,7 +73,7 @@
       BorderThickness="3 0 3 1"
       >
       <dragSupportUtils:DragSupportTabControl
-        ItemsSource="{Binding TabItemsSource}"
+        ItemsSource="{Binding TabItemsSource, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
         SelectedItem="{Binding SelectedTabItem}"
         Style="{StaticResource DragSupportTabControlStyle}"
         >

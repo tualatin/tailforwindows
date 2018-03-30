@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Interop;
+using log4net;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
@@ -18,6 +19,21 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
   /// </summary>
   public partial class DragWindow : IDragWindow, IDragDropToTabWindow
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(DragWindow));
+
+    private bool _hasFocus;
+    private DropOverlayWindow _overlayWindow;
+
+    /// <summary>
+    /// Selected <see cref="DragSupportTabItem"/>
+    /// </summary>
+    public DragSupportTabItem SelectedTabItem
+    {
+      get;
+      set;
+    }
+
+
     /// <summary>
     /// Standard constructor
     /// </summary>
@@ -25,17 +41,17 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       InitializeComponent();
 
-      SourceInitialized += DragWindowSourceInitialized;
+      TabItems = new ObservableCollection<DragSupportTabItem>();
+
       DragWindowManager.Instance.Register(this);
+      SourceInitialized += DragWindowSourceInitialized;
+
+      DataContext = this;
     }
 
     private void DragWindowSourceInitialized(object sender, EventArgs e)
     {
       var handle = new WindowInteropHelper(this).Handle;
-      var sysMenuHandle = NativeMethods.GetSystemMenu(handle, false);
-
-      NativeMethods.InsertMenu(sysMenuHandle, 5, NativeMethods.MF_BYPOSITION | NativeMethods.MF_SEPARATOR, 0, string.Empty);
-
       HwndSource source = HwndSource.FromHwnd(handle);
       source?.AddHook(WndProc);
     }
@@ -48,20 +64,24 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       {
       case NativeMethods.WM_ENTERSIZEMOVE:
 
+        _hasFocus = true;
         break;
 
       case NativeMethods.WM_EXITSIZEMOVE:
 
+        _hasFocus = false;
+        DragWindowManager.Instance.DragEnd(this);
         break;
 
       case NativeMethods.WM_MOVE:
 
+        if ( _hasFocus )
+          DragWindowManager.Instance.DragMove(this);
         break;
 
       case NativeMethods.WM_GETMINMAXINFO:
 
         WindowGetMinMaxInfo.WmGetMinMaxInfo(hWnd, lParam);
-        handled = true;
         break;
 
       case NativeMethods.WM_WINDOWPOSCHANGING:
@@ -94,7 +114,6 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
           return IntPtr.Zero;
 
         Marshal.StructureToPtr(pos, lParam, true);
-        handled = true;
         break;
       }
       return IntPtr.Zero;
@@ -120,6 +139,9 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         WindowStartupLocation = WindowStartupLocation.Manual
       };
 
+      if ( tabItem != null )
+        ((IDragWindow) dragWindow).AddTabItem(tabItem);
+
       dragWindow.Show();
       dragWindow.Activate();
       dragWindow.Focus();
@@ -130,17 +152,17 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// TabItem source
     /// </summary>
-    public ItemCollection TabItems => throw new NotImplementedException();
+    public ObservableCollection<DragSupportTabItem> TabItems
+    {
+      get;
+      set;
+    }
 
     /// <summary>
     /// Add TabItem
     /// </summary>
-    /// <param name="tabHeader">Name of tab header</param>
-    /// <param name="content">TabItem content</param>
-    public void AddTabItem(string tabHeader, Control content)
-    {
-      throw new NotImplementedException();
-    }
+    /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
+    public void AddTabItem(DragSupportTabItem tabItem) => AddTabItem(tabItem.HeaderContent, tabItem.HeaderToolTip);
 
     /// <summary>
     /// Remove TabItem
@@ -148,7 +170,16 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
     public void RemoveTabItem(DragSupportTabItem tabItem)
     {
-      throw new NotImplementedException();
+      if ( !TabItems.Contains(tabItem) )
+        return;
+
+      tabItem.TabHeaderDoubleClick -= TabItemTabHeaderDoubleClick;
+      tabItem.CloseTabWindow -= TabItemCloseTabWindow;
+
+      TabItems.Remove(tabItem);
+
+      if ( TabItems.Count == 0 )
+        Close();
     }
 
     /// <summary>
@@ -156,7 +187,24 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// </summary>
     public void OnDragEnter()
     {
-      throw new NotImplementedException();
+      if ( _overlayWindow == null )
+        _overlayWindow = new DropOverlayWindow();
+
+      if ( WindowState == WindowState.Maximized )
+      {
+        _overlayWindow.Left = 0;
+        _overlayWindow.Top = 0;
+      }
+      else
+      {
+        _overlayWindow.Left = Left;
+        _overlayWindow.Top = Top;
+      }
+      _overlayWindow.Width = ActualWidth;
+      _overlayWindow.Height = ActualHeight;
+      _overlayWindow.Topmost = true;
+
+      _overlayWindow.Show();
     }
 
     /// <summary>
@@ -164,7 +212,11 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// </summary>
     public void OnDrageLeave()
     {
-      throw new NotImplementedException();
+      if ( _overlayWindow == null )
+        return;
+
+      _overlayWindow.Close();
+      _overlayWindow = null;
     }
 
     /// <summary>
@@ -174,7 +226,25 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <returns>If it is over<c>True</c> otherwise <c>False</c></returns>
     public bool IsDragMouseOver(Point mousePosition)
     {
-      throw new NotImplementedException();
+      if ( WindowState == WindowState.Minimized )
+        return false;
+
+      double left, top;
+
+      if ( WindowState == WindowState.Maximized )
+      {
+        left = 0;
+        top = 0;
+      }
+      else
+      {
+        left = Left;
+        top = Top;
+      }
+
+      bool isMouseOver = (mousePosition.X > left && mousePosition.X < (left + ActualWidth) && mousePosition.Y > top && mousePosition.Y < (top + ActualHeight));
+
+      return isMouseOver;
     }
 
     /// <summary>
@@ -182,9 +252,41 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// </summary>
     /// <param name="mousePosition">Current mouse position</param>
     /// <returns>If it is over <c>True</c> otherwise <c>False</c></returns>
-    public bool IsDragMouseOverTabZone(Point mousePosition)
+    public bool IsDragMouseOverTabZone(Point mousePosition) => _overlayWindow?.IsMouseOverTabTarget(mousePosition) ?? false;
+
+    #region Events
+
+    private void TabItemTabHeaderDoubleClick(object sender, RoutedEventArgs e)
     {
-      throw new NotImplementedException();
+      LOG.Trace("MouseDoubleClick");
+    }
+
+    private void TabItemCloseTabWindow(object sender, RoutedEventArgs e)
+    {
+      if ( e.Source is DragSupportTabItem item )
+        RemoveTabItem(item);
+
+      if ( TabItems.Count == 0 )
+        AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}");
+    }
+
+    private void TabControlOnAddTabItemEvent(object sender, RoutedEventArgs e) => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}");
+
+    #endregion
+
+    private void AddTabItem(string header, object toolTip, object content = null)
+    {
+      var tabItem = new DragSupportTabItem
+      {
+        HeaderContent = header,
+        IsSelected = true,
+        HeaderToolTip = toolTip,
+        Content = content
+      };
+      tabItem.CloseTabWindow += TabItemCloseTabWindow;
+      tabItem.TabHeaderDoubleClick += TabItemTabHeaderDoubleClick;
+
+      TabItems.Add(tabItem);
     }
   }
 }

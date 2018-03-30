@@ -52,7 +52,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// </summary>
     public object HeaderToolTip
     {
-      private get => GetValue(HeaderToolTipProperty);
+      get => GetValue(HeaderToolTipProperty);
       set => SetValue(HeaderToolTipProperty, value);
     }
 

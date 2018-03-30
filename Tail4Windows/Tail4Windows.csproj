@@ -202,6 +202,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Business\Data\Messages\RemoveTabItemMessage.cs" />
     <Compile Include="Core\Utils\WindowGetMinMaxInfo.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
@@ -425,6 +426,9 @@
     <Compile Include="UI\UserControls\DragSupportUtils\DragWindow.xaml.cs">
       <DependentUpon>DragWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\UserControls\DragSupportUtils\DropOverlayWindow.xaml.cs">
+      <DependentUpon>DropOverlayWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControls\DragSupportUtils\Utils\DragWindowManager.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\Interfaces\IDragDropToTabWindow.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\Interfaces\IDragWindow.cs" />
@@ -508,6 +512,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\UserControls\DragSupportUtils\DragWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\UserControls\DragSupportUtils\DropOverlayWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

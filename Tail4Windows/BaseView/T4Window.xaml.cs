@@ -37,6 +37,7 @@ namespace Org.Vs.TailForWin.BaseView
     }
 
     #region Events
+
     private void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e) => OnExit();
 
     private void MainWindowStateChanged(object sender, EventArgs e)
