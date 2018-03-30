@@ -425,7 +425,7 @@
     <Compile Include="UI\UserControls\DragSupportUtils\DragWindow.xaml.cs">
       <DependentUpon>DragWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\UserControls\DragSupportUtils\DragWindowManager.cs" />
+    <Compile Include="UI\UserControls\DragSupportUtils\Utils\DragWindowManager.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\Interfaces\IDragDropToTabWindow.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\Interfaces\IDragWindow.cs" />
     <Compile Include="UI\UserControls\FancyNotificationPopUp.xaml.cs">

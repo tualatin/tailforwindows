@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using log4net;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces;
 
 
-namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
+namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils
 {
   /// <summary>
   /// Drag window manager
   /// </summary>
   public class DragWindowManager
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(DragWindow));
+
     private static DragWindowManager instance;
 
     /// <summary>
@@ -32,7 +35,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     /// <summary>
-    /// Register a <see cref="IDragWindow"/>
+    /// Register a <see cref="IDragDropToTabWindow"/>
     /// </summary>
     /// <param name="window">Window of <see cref="IDragWindow"/></param>
     public void Register(IDragDropToTabWindow window)
@@ -45,7 +48,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     /// <summary>
-    /// Unregister a <see cref="IDragWindow"/>
+    /// Unregister a <see cref="IDragDropToTabWindow"/>
     /// </summary>
     /// <param name="window">Window of <see cref="IDragWindow"/></param>
     public void Unregister(IDragDropToTabWindow window)
@@ -55,9 +58,25 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     /// <summary>
+    /// Close all <see cref="IDragDropToTabWindow"/>
+    /// </summary>
+    public void Clear()
+    {
+      LOG.Trace($"Close all DragDropWindow {_allWindows.Count} items");
+
+      var listWnd = new List<IDragDropToTabWindow>(_allWindows);
+
+      foreach ( var dropToTabWindow in listWnd )
+      {
+        var wnd = _allWindows.Find(p => p == dropToTabWindow);
+        ((Window) wnd)?.Close();
+      }
+    }
+
+    /// <summary>
     /// Drag move
     /// </summary>
-    /// <param name="dragWin">DragWindow of <see cref="IDragWindow"/></param>
+    /// <param name="dragWin">DragWindow of <see cref="IDragDropToTabWindow"/></param>
     public void DragMove(IDragDropToTabWindow dragWin)
     {
       if ( dragWin == null )

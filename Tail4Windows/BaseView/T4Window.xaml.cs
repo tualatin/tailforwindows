@@ -9,6 +9,8 @@ using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.UI.Services;
+using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils;
 
 
 namespace Org.Vs.TailForWin.BaseView
@@ -68,6 +70,9 @@ namespace Org.Vs.TailForWin.BaseView
     private void OnExit()
     {
       LOG.Trace("Try to save window size, position and state");
+
+      MouseService.SetBusyState();
+      DragWindowManager.Instance.Clear();
 
       SettingsHelperController.CurrentSettings.CurrentWindowState = MainWindow.WindowState;
 

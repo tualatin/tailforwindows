@@ -120,7 +120,7 @@
           <ControlTemplate.Triggers>
             <Trigger Property="IsSelected" Value="True">
               <Setter Property="Foreground" Value="Green" />
-              <Setter TargetName="Border" Property="Background" Value="#D6DBE9" />
+              <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushSolidLightBlue}" />
               <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />
             </Trigger>
             <Trigger Property="IsSelected" Value="False">
@@ -132,7 +132,7 @@
                 <Condition Property="IsMouseOver" Value="True" />
                 <Condition Property="IsSelected" Value="False" />
               </MultiTrigger.Conditions>
-              <Setter TargetName="Border" Property="Background" Value="#B0CBF1" />
+              <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushSolidBorderLightBlue}" />
               <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />
             </MultiTrigger>
           </ControlTemplate.Triggers>
@@ -197,7 +197,7 @@
           <ControlTemplate.Triggers>
             <Trigger Property="IsSelected" Value="True">
               <Setter Property="Foreground" Value="Black" />
-              <Setter TargetName="Border" Property="Background" Value="#D6DBE9" />
+              <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushSolidLightBlue}" />
               <Setter TargetName="ContentSite" Property="TextBlock.FontWeight" Value="Bold" />
               <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />
             </Trigger>
@@ -210,7 +210,7 @@
                 <Condition Property="IsMouseOver" Value="True" />
                 <Condition Property="IsSelected" Value="False" />
               </MultiTrigger.Conditions>
-              <Setter TargetName="Border" Property="Background" Value="#B0CBF1" />
+              <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushSolidBorderLightBlue}" />
               <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />
             </MultiTrigger>
           </ControlTemplate.Triggers>

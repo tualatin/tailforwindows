@@ -16,7 +16,7 @@
       BorderBrush="{TemplateBinding BorderBrush}"
       BorderThickness="{TemplateBinding BorderThickness}"
       >
-      <Grid Background="#D6DBE9">
+      <Grid Background="{StaticResource BrushSolidLightBlue}">
         <Grid>
           <Grid.RowDefinitions>
             <RowDefinition Height="28" />

@@ -8,6 +8,7 @@ using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces;
+using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
@@ -25,6 +26,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       InitializeComponent();
 
       SourceInitialized += DragWindowSourceInitialized;
+      DragWindowManager.Instance.Register(this);
     }
 
     private void DragWindowSourceInitialized(object sender, EventArgs e)
@@ -112,7 +114,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       var dragWindow = new DragWindow
       {
         Left = left,
-        Top =  top,
+        Top = top,
         Width = width,
         Height = height,
         WindowStartupLocation = WindowStartupLocation.Manual

@@ -13,7 +13,7 @@ namespace Org.Vs.TailForWin.UI.Services
     /// <summary>
     ///   A value indicating whether the UI is currently busy
     /// </summary>
-    private static bool _isBusy;
+    private static bool isBusy;
 
     /// <summary>
     /// Sets the busystate as busy.
@@ -26,13 +26,13 @@ namespace Org.Vs.TailForWin.UI.Services
     /// <param name="busy">if set to <c>true</c> the application is now busy.</param>
     private static void SetBusyState(bool busy)
     {
-      if ( busy == _isBusy )
+      if ( busy == isBusy )
         return;
 
-      _isBusy = busy;
+      isBusy = busy;
       Mouse.OverrideCursor = busy ? Cursors.Wait : null;
 
-      if ( _isBusy )
+      if ( isBusy )
         new DispatcherTimer(TimeSpan.FromSeconds(0), DispatcherPriority.ApplicationIdle, DispatcherTimerTick, System.Windows.Application.Current.Dispatcher);
     }
 
