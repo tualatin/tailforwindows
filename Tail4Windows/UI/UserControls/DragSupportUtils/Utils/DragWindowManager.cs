@@ -67,6 +67,9 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils
 
       foreach ( var dropToTabWindow in listWnd )
       {
+        if ( dropToTabWindow.IsParent )
+          continue;
+
         var wnd = _allWindows.Find(p => p == dropToTabWindow);
         ((Window) wnd)?.Close();
       }

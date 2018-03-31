@@ -9,6 +9,14 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces
   public interface IDragDropToTabWindow
   {
     /// <summary>
+    /// Is parent window
+    /// </summary>
+    bool IsParent
+    {
+      get;
+    }
+
+    /// <summary>
     /// On Drag enter
     /// </summary>
     void OnDragEnter();

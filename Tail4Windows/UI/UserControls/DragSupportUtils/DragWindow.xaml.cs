@@ -46,6 +46,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       DragWindowManager.Instance.Register(this);
       SourceInitialized += DragWindowSourceInitialized;
 
+      IsParent = false;
       DataContext = this;
     }
 
@@ -56,6 +57,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       source?.AddHook(WndProc);
     }
 
+    // ReSharper disable once RedundantAssignment
     private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
       handled = false;
@@ -183,6 +185,14 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     /// <summary>
+    /// Is parent window
+    /// </summary>
+    public bool IsParent
+    {
+      get;
+    }
+
+    /// <summary>
     /// On Drag enter
     /// </summary>
     public void OnDragEnter()
@@ -242,7 +252,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         top = Top;
       }
 
-      bool isMouseOver = (mousePosition.X > left && mousePosition.X < (left + ActualWidth) && mousePosition.Y > top && mousePosition.Y < (top + ActualHeight));
+      bool isMouseOver = mousePosition.X > left && mousePosition.X < left + ActualWidth && mousePosition.Y > top && mousePosition.Y < top + ActualHeight;
 
       return isMouseOver;
     }

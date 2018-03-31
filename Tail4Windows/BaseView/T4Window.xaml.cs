@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -10,6 +11,8 @@ using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.Services;
+using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
+using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils;
 
 
@@ -18,9 +21,21 @@ namespace Org.Vs.TailForWin.BaseView
   /// <summary>
   /// Interaction logic for T4Window.xaml
   /// </summary>
-  public partial class T4Window
+  public partial class T4Window : IDragDropToTabWindow, IDragWindow
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(T4Window));
+
+    private DropOverlayWindow _overlayWindow;
+
+    /// <summary>
+    /// TabItem source
+    /// </summary>
+    // ReSharper disable once UnassignedGetOnlyAutoProperty
+    public ObservableCollection<DragSupportTabItem> TabItems
+    {
+      get;
+      set;
+    }
 
 
     /// <summary>
@@ -30,10 +45,13 @@ namespace Org.Vs.TailForWin.BaseView
     {
       InitializeComponent();
 
+      DragWindowManager.Instance.Register(this);
       SourceInitialized += T4WindowSourceInitialized;
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowNotificationPopUpMessage>(PopUpVisibilityChanged);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSettingsDialogMessage>(OpenSettingsDialog);
+
+      IsParent = true;
     }
 
     #region Events
@@ -87,6 +105,7 @@ namespace Org.Vs.TailForWin.BaseView
       SettingsHelperController.CurrentSettings.WindowPositionY = SettingsHelperController.CurrentSettings.SaveWindowPosition ? MainWindow.Top : -1;
     }
 
+    // ReSharper disable once RedundantAssignment
     private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
       handled = false;
@@ -194,5 +213,99 @@ namespace Org.Vs.TailForWin.BaseView
     }
 
     #endregion
+
+    /// <summary>
+    /// Is parent window
+    /// </summary>
+    public bool IsParent
+    {
+      get;
+    }
+
+    /// <summary>
+    /// On Drag enter
+    /// </summary>
+    public void OnDragEnter()
+    {
+      if ( _overlayWindow == null )
+        _overlayWindow = new DropOverlayWindow();
+
+      if ( WindowState == WindowState.Maximized )
+      {
+        _overlayWindow.Left = 0;
+        _overlayWindow.Top = 0;
+      }
+      else
+      {
+        _overlayWindow.Left = Left - 7;
+        _overlayWindow.Top = Top;
+      }
+      _overlayWindow.Width = ActualWidth + 14;
+      _overlayWindow.Height = ActualHeight - 15;
+      _overlayWindow.Topmost = true;
+
+      _overlayWindow.Show();
+    }
+
+    /// <summary>
+    /// On Drag leave
+    /// </summary>
+    public void OnDrageLeave()
+    {
+      if ( _overlayWindow == null )
+        return;
+
+      _overlayWindow.Close();
+      _overlayWindow = null;
+    }
+
+
+    /// <summary>
+    /// Is drag mouse ober
+    /// </summary>
+    /// <param name="mousePosition">Current mouse position</param>
+    /// <returns>If it is over<c>True</c> otherwise <c>False</c></returns>
+    public bool IsDragMouseOver(Point mousePosition)
+    {
+      if ( WindowState == WindowState.Minimized )
+        return false;
+
+      double left, top;
+
+      if ( WindowState == WindowState.Maximized )
+      {
+        left = 0;
+        top = 0;
+      }
+      else
+      {
+        left = Left;
+        top = Top;
+      }
+
+      bool isMouseOver = mousePosition.X > left && mousePosition.X < left + ActualWidth && mousePosition.Y > top && mousePosition.Y < top + ActualHeight;
+
+      return isMouseOver;
+    }
+
+    /// <summary>
+    /// Is drag mouse over tab zone
+    /// </summary>
+    /// <param name="mousePosition">Current mouse position</param>
+    /// <returns>If it is over <c>True</c> otherwise <c>False</c></returns>
+    public bool IsDragMouseOverTabZone(Point mousePosition) => _overlayWindow?.IsMouseOverTabTarget(mousePosition) ?? false;
+
+    /// <summary>
+    /// Add TabItem
+    /// </summary>
+    /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
+    public void AddTabItem(DragSupportTabItem tabItem) => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new AddTabItemMessage(this, tabItem));
+
+    /// <summary>
+    /// Remove TabItem
+    /// </summary>
+    /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void RemoveTabItem(DragSupportTabItem tabItem) => throw new NotImplementedException();
   }
 }

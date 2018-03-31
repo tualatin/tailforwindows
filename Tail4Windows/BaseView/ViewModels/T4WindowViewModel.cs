@@ -197,6 +197,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public T4WindowViewModel()
     {
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<AddTabItemMessage>(OnAddTabItemFromMainWindow);
+
       _currentStatusbarState = EStatusbarState.Default;
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
       _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
@@ -321,19 +323,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       CloseTabItem(SelectedTabItem);
     }
 
-    private void ExecuteAddNewTabItemCommand()
-    {
-      var tabItem = new DragSupportTabItem
-      {
-        HeaderContent = $"{Application.Current.TryFindResource("NoFile")}",
-        IsSelected = true,
-        HeaderToolTip = $"{Application.Current.TryFindResource("NoFile")}"
-      };
-      tabItem.CloseTabWindow += TabItemCloseTabWindow;
-      tabItem.TabHeaderDoubleClick += TabItemDoubleClick;
-
-      TabItemsSource.Add(tabItem);
-    }
+    private void ExecuteAddNewTabItemCommand() => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}");
 
     private void ExecutePreviewKeyDownCommand(object parameter)
     {
@@ -410,6 +400,29 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     #endregion
 
     #region HelperFunctions
+
+    private void AddTabItem(string header, object toolTip, object content = null)
+    {
+      var tabItem = new DragSupportTabItem
+      {
+        HeaderContent = header,
+        IsSelected = true,
+        HeaderToolTip = toolTip,
+        Content = content
+      };
+      tabItem.CloseTabWindow += TabItemCloseTabWindow;
+      tabItem.TabHeaderDoubleClick += TabItemDoubleClick;
+
+      TabItemsSource.Add(tabItem);
+    }
+
+    private void OnAddTabItemFromMainWindow(AddTabItemMessage args)
+    {
+      if ( !(args?.Sender is T4Window) )
+        return;
+
+      AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.Content);
+    }
 
     private void CloseTabItem(DragSupportTabItem item)
     {

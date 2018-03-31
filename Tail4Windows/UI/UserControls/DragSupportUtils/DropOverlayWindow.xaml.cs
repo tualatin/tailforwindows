@@ -35,7 +35,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       return isMouseOver;
     }
 
-    bool _isTabTargetOver;
+    private bool _isTabTargetOver;
 
     /// <summary>
     /// Is tabtarget over
