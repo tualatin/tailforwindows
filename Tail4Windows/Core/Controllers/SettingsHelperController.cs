@@ -61,7 +61,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
         { "DeleteLogFileOlderThan", DefaultEnvironmentSettings.DeleteLogFilesOlderThan.ToString() },
         { "StatusBarInactiveBackgroundColor", DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor },
         { "StatusBarFileLoadedBackgroundColor", DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor },
-        { "StatusBarTailBackgroundColor", DefaultEnvironmentSettings.StatusBarTailBackgroundColor }
+        { "StatusBarTailBackgroundColor", DefaultEnvironmentSettings.StatusBarTailBackgroundColor },
+        { "DragDropWindow", DefaultEnvironmentSettings.ActivateDragDropWindow.ToString() }
       };
 
       await AddNewPropertyAsync(settings, cts).ConfigureAwait(false);
@@ -208,6 +209,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "Statics", CurrentSettings.Statistics);
       WriteValueToSetting(config, "DeleteLogFileOlderThan", CurrentSettings.LogFilesOlderThan);
       WriteValueToSetting(config, "DeleteLogFiles", CurrentSettings.DeleteLogFiles);
+      WriteValueToSetting(config, "DragDropWindow", CurrentSettings.ActivateDragDropWindow);
     }
 
     private void SaveStatusBarSettings(Configuration config)
@@ -327,6 +329,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.LogLineLimit = DefaultEnvironmentSettings.LogLineLimit;
       CurrentSettings.SmartWatch = DefaultEnvironmentSettings.SmartWatch;
       CurrentSettings.Statistics = DefaultEnvironmentSettings.Statistics;
+      CurrentSettings.ActivateDragDropWindow = DefaultEnvironmentSettings.ActivateDragDropWindow;
     }
 
     private void SetDefaultStatusBarSettings()
@@ -474,6 +477,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.DefaultFileSort = ReadFileSortFormat(GetStringFromSetting("FileManagerSort"));
       CurrentSettings.LogLineLimit = GetIntFromSetting("LogLineLimit");
       CurrentSettings.Statistics = GetBoolFromSetting("Statics");
+      CurrentSettings.ActivateDragDropWindow = GetBoolFromSetting("DragDropWindow");
     }
 
     private void ReadStatusBarSettings()

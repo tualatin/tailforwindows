@@ -205,7 +205,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       TrayIconItemsSource.CollectionChanged += TrayIconItemsSourceCollectionChanged;
 
       TabItemsSource = new ObservableCollection<DragSupportTabItem>();
-      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<RemoveTabItemMessage>(OnRemoveTabItem);
     }
 
     private void TrayIconItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(TrayIconItemsSource));
@@ -411,14 +410,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     #endregion
 
     #region HelperFunctions
-
-    private void OnRemoveTabItem(RemoveTabItemMessage args)
-    {
-      if ( args == null )
-        return;
-
-      CloseTabItem(args.ItemToRemove);
-    }
 
     private void CloseTabItem(DragSupportTabItem item)
     {

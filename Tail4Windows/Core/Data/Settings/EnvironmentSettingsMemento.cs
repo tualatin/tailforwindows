@@ -27,6 +27,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       RestoreWindowSize = memento.RestoreWindowSize;
       SaveWindowPosition = memento.SaveWindowPosition;
       ExitWithEscape = memento.ExitWithEscape;
+      ActivateDragDropWindow = memento.ActivateDragDropWindow;
       DeleteLogFiles = memento.DeleteLogFiles;
       LogFilesOlderThan = memento.LogFilesOlderThan;
       CurrentWindowStyle = memento.CurrentWindowStyle;
@@ -69,6 +70,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         RestoreWindowSize = obj.RestoreWindowSize;
         SaveWindowPosition = obj.SaveWindowPosition;
         ExitWithEscape = obj.ExitWithEscape;
+        ActivateDragDropWindow = obj.ActivateDragDropWindow;
         DeleteLogFiles = obj.DeleteLogFiles;
         LogFilesOlderThan = obj.LogFilesOlderThan;
         CurrentWindowStyle = obj.CurrentWindowStyle;
@@ -117,6 +119,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Save window position
       /// </summary>
       public bool SaveWindowPosition
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Activate Drag'n'Drop window behavior
+      /// </summary>
+      public bool ActivateDragDropWindow
       {
         get;
       }

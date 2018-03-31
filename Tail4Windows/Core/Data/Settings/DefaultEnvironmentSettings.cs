@@ -42,6 +42,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public const bool AlwaysScrollToEnd = true;
 
     /// <summary>
+    /// Default value ActivateDragDropWindow
+    /// </summary>
+    public const bool ActivateDragDropWindow = true;
+
+    /// <summary>
     /// Default value AlwaysOnTop
     /// </summary>
     public const bool AlwaysOnTop = false;

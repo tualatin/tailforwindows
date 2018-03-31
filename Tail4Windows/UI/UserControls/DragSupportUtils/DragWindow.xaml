@@ -22,7 +22,7 @@
   <Grid>
     <Border
       BorderBrush="{StaticResource BrushSolidBlue}"
-      BorderThickness="8 0 8 8"
+      BorderThickness="10 0 10 10"
       >
       <dragSupportUtils:DragSupportTabControl
         AddTabItemEvent="TabControlOnAddTabItemEvent"

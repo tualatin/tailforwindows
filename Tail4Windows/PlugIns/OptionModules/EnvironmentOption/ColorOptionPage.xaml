@@ -41,7 +41,6 @@
             CanUserDeleteRows="False"
             ItemsSource="{Binding LogViewerColorData}"
             SelectionUnit="Cell"
-            Style="{StaticResource EditableDataGrid}"
             >
             <DataGrid.Columns>
               <DataGridTextColumn
@@ -77,7 +76,6 @@
             CanUserDeleteRows="False"
             ItemsSource="{Binding StatusbarColorData}"
             SelectionUnit="Cell"
-            Style="{StaticResource EditableDataGrid}"
             >
             <DataGrid.Columns>
               <DataGridTextColumn

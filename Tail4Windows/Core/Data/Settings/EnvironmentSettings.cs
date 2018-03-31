@@ -179,6 +179,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private bool _activateDragDropWindow;
+
+    /// <summary>
+    /// Activate Drag'n'Drop window behavior
+    /// </summary>
+    public bool ActivateDragDropWindow
+    {
+      get => _activateDragDropWindow;
+      set
+      {
+        if ( value == _activateDragDropWindow )
+          return;
+
+        _activateDragDropWindow = value;
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     private bool _exitWithEscape;

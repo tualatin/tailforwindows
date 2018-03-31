@@ -199,6 +199,8 @@
   <system:String x:Key="ExtrasDeleteLogFile">Log Dateien löschen</system:String>
   <system:String x:Key="ExtrasDeleteLogFileToolTip">Alte Log Dateien von Ihrem System löschen</system:String>
   <system:String x:Key="ExtrasDeleteLogFileOlderThanToolTip">Setzt die Zeitspanne in Tagen, wie alt die Log Dateien sein sollen, die gelösch werden sollen</system:String>
+  <system:String x:Key="ExtrasActivateDragDropWindow">Drag'n'Drop Fensterverhalten</system:String>
+  <system:String x:Key="ExtrasActivateDragDropWindowToolTip">Aktiviert/Deaktiviert das Drag'n'Drop Fensterverhalten</system:String>
 
   <system:String x:Key="SmtpServer">SMTP Server</system:String>
   <system:String x:Key="SmtpPort">SMTP Port</system:String>

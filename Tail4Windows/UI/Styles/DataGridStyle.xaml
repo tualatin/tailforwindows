@@ -420,7 +420,7 @@
     </Setter>
   </Style>
 
-  <Style x:Key="EditableDataGrid" TargetType="{x:Type DataGrid}">
+  <Style x:Key="{x:Type DataGrid}" TargetType="{x:Type DataGrid}">
     <Setter Property="AlternatingRowBackground" Value="Azure" />
     <Setter Property="AutoGenerateColumns" Value="False" />
     <Setter Property="BorderThickness" Value="0" />

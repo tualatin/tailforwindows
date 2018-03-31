@@ -7,10 +7,9 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using log4net;
-using Org.Vs.TailForWin.Business.Data.Messages;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
-using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.Utils;
 
 
@@ -113,8 +112,6 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       if ( !Items.Contains(tabItem) )
         return;
-
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new RemoveTabItemMessage(tabItem));
 
       var list = ItemsSource as ObservableCollection<DragSupportTabItem>;
       list?.Remove(tabItem);
@@ -244,6 +241,9 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     private void DragSupportTabControlQueryContinueDrag(object sender, QueryContinueDragEventArgs e)
     {
+      if ( !SettingsHelperController.CurrentSettings.ActivateDragDropWindow )
+        return;
+
       DragSupportTabControl tabControl = null;
 
       if ( e.Source is DragSupportTabControl control )

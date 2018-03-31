@@ -29,6 +29,7 @@
       <Grid.RowDefinitions>
         <RowDefinition Height="26" />
         <RowDefinition Height="26" />
+        <RowDefinition Height="26" />
         <RowDefinition Height="40" />
         <RowDefinition Height="20" />
         <RowDefinition Height="26" />
@@ -136,8 +137,48 @@
         </ComboBox.ToolTip>
       </ComboBox>
 
-      <Label
+      <CheckBox
         Grid.Row="2"
+        Grid.Column="0"
+        Height="22"
+        Content="{DynamicResource ExtrasActivateDragDropWindow}"
+        IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ActivateDragDropWindow, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+        TabIndex="2"
+        >
+        <CheckBox.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource ExtrasActivateDragDropWindow}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource ExtrasActivateDragDropWindowToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </CheckBox.ToolTip>
+      </CheckBox>
+
+      <Label
+        Grid.Row="3"
         Grid.Column="0"
         Margin="6 0 0 0"
         VerticalAlignment="Center"
@@ -145,7 +186,7 @@
         />
       <Slider
         Name="LogLineLimit"
-        Grid.Row="2"
+        Grid.Row="3"
         Grid.Column="1"
         VerticalAlignment="Center"
         Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=LogLineLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource LogLineLimitConverter}}"
@@ -155,7 +196,7 @@
         Minimum="50000"
         Orientation="Horizontal"
         SmallChange="50000"
-        TabIndex="2"
+        TabIndex="3"
         TickFrequency="50000"
         TickPlacement="BottomRight"
         >
@@ -192,7 +233,7 @@
       </Slider>
 
       <Label
-        Grid.Row="3"
+        Grid.Row="4"
         Grid.Column="1"
         Margin="0 0 10 0"
         HorizontalAlignment="Right"
@@ -203,12 +244,12 @@
 
       <CheckBox
         Name="CheckBoxDeleteLogFiles"
-        Grid.Row="4"
+        Grid.Row="5"
         Grid.Column="0"
         Height="22"
         Content="{DynamicResource ExtrasDeleteLogFile}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=DeleteLogFiles, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-        TabIndex="3"
+        TabIndex="4"
         >
         <CheckBox.ToolTip>
           <StackPanel>
@@ -243,7 +284,7 @@
       </CheckBox>
 
       <userControls:Spinner
-        Grid.Row="4"
+        Grid.Row="5"
         Grid.Column="1"
         Width="50"
         Height="23"
@@ -254,7 +295,7 @@
         MaxSpinValue="20"
         MinSpinValue="1"
         StartIndex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=LogFilesOlderThan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-        TabIndex="4"
+        TabIndex="5"
         TextBoxMaxValue="20"
         TextBoxMinValue="1"
         >
@@ -291,12 +332,12 @@
       </userControls:Spinner>
 
       <CheckBox
-        Grid.Row="5"
+        Grid.Row="6"
         Grid.Column="0"
         Height="22"
         Content="{DynamicResource ExtrasStatistics}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=Statistics, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-        TabIndex="5"
+        TabIndex="6"
         >
         <CheckBox.ToolTip>
           <StackPanel>
