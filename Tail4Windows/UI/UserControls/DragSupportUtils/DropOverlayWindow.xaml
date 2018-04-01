@@ -14,7 +14,7 @@
   >
   <Window.Resources>
     <Style x:Key="DropOverlayButton" TargetType="{x:Type Button}">
-      <Setter Property="Height" Value="35" />
+      <Setter Property="Height" Value="37" />
       <Setter Property="HorizontalAlignment" Value="Center" />
       <Setter Property="Opacity" Value="0.7" />
       <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -22,42 +22,59 @@
         <Setter.Value>
           <ControlTemplate TargetType="{x:Type Button}">
             <Border
+              Name="Chrome"
               BorderBrush="{StaticResource BrushSolidGrey55}"
               BorderThickness="1"
-              CornerRadius="1"
+              CornerRadius="2"
               >
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="6" />
-                  <RowDefinition />
-                </Grid.RowDefinitions>
+              <Border.Background>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,0.5">
+                  <GradientStop Color="{StaticResource ColorGrey03}" />
+                  <GradientStop Offset="1" Color="{StaticResource ColorGrey10}" />
+                </LinearGradientBrush>
+              </Border.Background>
 
-                <Border
-                  Grid.Row="0"
-                  Background="{StaticResource BrushSolidBorderLightBlue}"
-                  BorderBrush="{StaticResource BrushSolidGrey35}"
-                  BorderThickness="0 0 0 1"
-                  CornerRadius="1 1 0 0"
-                  />
+              <Border
+                Margin="3"
+                BorderBrush="{StaticResource BrushSolidGrey55}"
+                BorderThickness="1"
+                CornerRadius="0 0 1 1"
+                >
+                <Grid>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="6" />
+                    <RowDefinition />
+                  </Grid.RowDefinitions>
 
-                <Border
-                  Grid.Row="1"
-                  CornerRadius="0 0 1 1"
-                  >
-                  <Border.Background>
-                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,0.8">
-                      <GradientStop Offset="1" Color="{StaticResource ColorOrange}" />
-                      <GradientStop Color="{StaticResource ColorOrangePressed}" />
-                    </LinearGradientBrush>
-                  </Border.Background>
-                </Border>
-              </Grid>
+                  <Border
+                    Grid.Row="0"
+                    Background="#225FB2"
+                    BorderBrush="{StaticResource BrushSolidGrey35}"
+                    BorderThickness="0 0 0 1"
+                    />
+
+                  <Border Grid.Row="1">
+                    <Border.Background>
+                      <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,0.8">
+                        <GradientStop Offset="1" Color="{StaticResource ColorOrange}" />
+                        <GradientStop Color="{StaticResource ColorOrangePressed}" />
+                      </LinearGradientBrush>
+                    </Border.Background>
+                  </Border>
+                </Grid>
+              </Border>
             </Border>
+
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="DodgerBlue" />
+              </Trigger>
+            </ControlTemplate.Triggers>
           </ControlTemplate>
         </Setter.Value>
       </Setter>
       <Setter Property="VerticalAlignment" Value="Center" />
-      <Setter Property="Width" Value="35" />
+      <Setter Property="Width" Value="37" />
     </Style>
   </Window.Resources>
 
@@ -66,11 +83,12 @@
       <RowDefinition Height="{x:Static local:SystemParameters.WindowCaptionHeight}" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
+
     <Border
       Grid.Row="1"
       Height="auto"
       Margin="12 13 12 12"
-      BorderThickness="5"
+      BorderThickness="3"
       Opacity="0.5"
       >
       <Border.Style>
@@ -86,6 +104,7 @@
         </Style>
       </Border.Style>
     </Border>
+
     <Button
       x:Name="BtnDropTarget"
       Grid.Row="1"

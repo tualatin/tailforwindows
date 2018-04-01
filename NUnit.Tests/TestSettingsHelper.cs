@@ -29,7 +29,7 @@ namespace Org.Vs.NUnit.Tests
       await _currentSettings.ReadSettingsAsync().ConfigureAwait(false);
 
       Assert.AreEqual(EUiLanguage.English, SettingsHelperController.CurrentSettings.Language);
-      Assert.IsTrue(SettingsHelperController.CurrentSettings.SmartWatch);
+      Assert.IsFalse(SettingsHelperController.CurrentSettings.SmartWatch);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.AlwaysScrollToEnd);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.AutoUpdate);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.RestoreWindowSize);
@@ -38,6 +38,7 @@ namespace Org.Vs.NUnit.Tests
       Assert.IsTrue(SettingsHelperController.CurrentSettings.GroupByCategory);
       Assert.IsFalse(SettingsHelperController.CurrentSettings.ShowLineNumbers);
       Assert.IsTrue(SettingsHelperController.CurrentSettings.ShowNumberLineAtStart);
+      Assert.IsTrue(SettingsHelperController.CurrentSettings.ActivateDragDropWindow);
 
       Assert.IsFalse(SettingsHelperController.CurrentSettings.AlwaysOnTop);
       Assert.IsFalse(SettingsHelperController.CurrentSettings.ExitWithEscape);
@@ -122,6 +123,7 @@ namespace Org.Vs.NUnit.Tests
       SettingsHelperController.CurrentSettings.ShowNumberLineAtStart = true;
       SettingsHelperController.CurrentSettings.LinesRead = 100;
       SettingsHelperController.CurrentSettings.GroupByCategory = false;
+      SettingsHelperController.CurrentSettings.ActivateDragDropWindow = false;
 
       await _currentSettings.SaveSettingsAsync().ConfigureAwait(false);
 
@@ -138,6 +140,7 @@ namespace Org.Vs.NUnit.Tests
       SettingsHelperController.CurrentSettings.ShowNumberLineAtStart = DefaultEnvironmentSettings.ShowNumberLineAtStart;
       SettingsHelperController.CurrentSettings.LinesRead = DefaultEnvironmentSettings.LinesRead;
       SettingsHelperController.CurrentSettings.GroupByCategory = DefaultEnvironmentSettings.GroupByCategory;
+      SettingsHelperController.CurrentSettings.ActivateDragDropWindow = DefaultEnvironmentSettings.ActivateDragDropWindow;
 
       await _currentSettings.ReloadCurrentSettingsAsync(new CancellationTokenSource()).ConfigureAwait(false);
       await _currentSettings.ReadSettingsAsync().ConfigureAwait(false);
@@ -156,6 +159,7 @@ namespace Org.Vs.NUnit.Tests
       Assert.IsTrue(SettingsHelperController.CurrentSettings.ShowNumberLineAtStart);
       Assert.AreEqual(EUiLanguage.German, SettingsHelperController.CurrentSettings.Language);
       Assert.IsFalse(SettingsHelperController.CurrentSettings.GroupByCategory);
+      Assert.IsFalse(SettingsHelperController.CurrentSettings.ActivateDragDropWindow);
     }
 
     [Test]

@@ -158,17 +158,17 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value StatusBarInactiveBackgroundColor
     /// </summary>
-    public const string StatusBarInactiveBackgroundColor = "#68217A";
+    public const string StatusBarInactiveBackgroundColor = "#FF68217A";
 
     /// <summary>
     /// Default value StatusBarFileLoadedBackgroundColor
     /// </summary>
-    public const string StatusBarFileLoadedBackgroundColor = "#007ACC";
+    public const string StatusBarFileLoadedBackgroundColor = "#FF007ACC";
 
     /// <summary>
     /// Default value StatusBarTailBackgroundColor
     /// </summary>
-    public const string StatusBarTailBackgroundColor = "#CA5100";
+    public const string StatusBarTailBackgroundColor = "#FFCA5100";
 
     #endregion
 
