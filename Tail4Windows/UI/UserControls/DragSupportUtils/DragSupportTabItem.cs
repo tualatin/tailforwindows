@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using Org.Vs.TailForWin.Core.Extensions;
 
 
@@ -12,6 +13,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
   /// </summary>
   public class DragSupportTabItem : TabItem
   {
+    private Polygon _tabItemBusyIndicator;
+
     static DragSupportTabItem() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DragSupportTabItem), new FrameworkPropertyMetadata(typeof(DragSupportTabItem)));
 
     /// <summary>
@@ -80,6 +83,31 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     /// <summary>
+    /// Set TabItemBusyIndicator property
+    /// </summary>
+    public static readonly DependencyProperty TabItemBusyIndicatorProperty = DependencyProperty.Register("TabItemBusyIndicator", typeof(Visibility), typeof(DragSupportTabItem), new UIPropertyMetadata(Visibility.Collapsed, TabItemBusyIndicatorVisibilityChanged));
+
+    private static void TabItemBusyIndicatorVisibilityChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+    {
+      if ( !(dependencyObject is DragSupportTabItem tabItem) )
+        return;
+
+      if ( tabItem._tabItemBusyIndicator == null )
+        return;
+
+      tabItem._tabItemBusyIndicator.Visibility = dependencyPropertyChangedEventArgs.NewValue is Visibility visibility ? visibility : Visibility.Visible;
+    }
+
+    /// <summary>
+    /// Set TabItemBusyIndicator
+    /// </summary>
+    public Visibility TabItemBusyIndicator
+    {
+      get => (Visibility) GetValue(TabItemBusyIndicatorProperty);
+      set => SetValue(TabItemBusyIndicatorProperty, value);
+    }
+
+    /// <summary>
     /// Standard constructor
     /// </summary>
     public DragSupportTabItem() => Style = (Style) Application.Current.TryFindResource("DragSupportTabItemStyle");
@@ -93,6 +121,11 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       if ( GetTemplateChild("TabItemCloseButton") is Button closeButton )
         closeButton.PreviewMouseDown += CloseButtonClick;
+
+      _tabItemBusyIndicator = GetTemplateChild("TabItemBusyIndicator") as Polygon;
+
+      if ( _tabItemBusyIndicator != null )
+        _tabItemBusyIndicator.Visibility = TabItemBusyIndicator;
 
       if ( !(GetTemplateChild("GridHeader") is Grid headerGrid) )
         return;

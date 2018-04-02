@@ -8,6 +8,5 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
   /// </summary>
   public class LogWindowViewModel : NotifyMaster
   {
-    
   }
 }

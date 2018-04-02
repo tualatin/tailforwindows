@@ -1,7 +1,9 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
   xmlns:dragSupportUtils="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   >
 
   <LinearGradientBrush x:Key="ButtonNormalBackground" StartPoint="0,0" EndPoint="0,1">
@@ -36,8 +38,9 @@
               BorderBrush="{TemplateBinding BorderBrush}"
               BorderThickness="{TemplateBinding BorderThickness}"
               Opacity="0"
-              SnapsToDevicePixels="true"
+              SnapsToDevicePixels="True"
               />
+
             <ContentPresenter
               Margin="{TemplateBinding Padding}"
               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -64,19 +67,83 @@
     <Setter Property="VerticalContentAlignment" Value="Center" />
   </Style>
 
+  <Style x:Key="ColorPickerToggleButtonStyle" TargetType="{x:Type ToggleButton}">
+    <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}" />
+    <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+    <Setter Property="Padding" Value="3" />
+    <Setter Property="SnapsToDevicePixels" Value="True" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type ToggleButton}">
+          <Grid>
+            <Border
+              x:Name="Chrome"
+              Background="{TemplateBinding Background}"
+              BorderBrush="{TemplateBinding BorderBrush}"
+              BorderThickness="{TemplateBinding BorderThickness}"
+              Opacity="0"
+              SnapsToDevicePixels="True"
+              />
+
+            <Ellipse
+              x:Name="ColorEllipse"
+              Margin="4"
+              Stretch="Uniform"
+              Stroke="Black"
+              StrokeThickness="0.8"
+              >
+              <Ellipse.Fill>
+                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                  <GradientStop Offset="0.5" Color="Black" />
+                  <GradientStop Offset="0.5" Color="Transparent" />
+                </LinearGradientBrush>
+              </Ellipse.Fill>
+            </Ellipse>
+
+            <ContentPresenter
+              Margin="{TemplateBinding Padding}"
+              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+              Content="{TemplateBinding Content}"
+              ContentTemplate="{TemplateBinding ContentTemplate}"
+              />
+          </Grid>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource ButtonOverBackground}" />
+              <Setter TargetName="Chrome" Property="Opacity" Value="1" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="True">
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+              <Setter TargetName="Chrome" Property="Opacity" Value="1" />
+              <Setter TargetName="ColorEllipse" Property="Fill" Value="Black" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
   <Style x:Key="DragSupportTabItemStyle" TargetType="{x:Type dragSupportUtils:DragSupportTabItem}">
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type dragSupportUtils:DragSupportTabItem}">
           <Grid
             x:Name="GridHeader"
             IsHitTestVisible="True"
-            SnapsToDevicePixels="True"
             >
             <Border
-              Name="Border"
+              x:Name="Chrome"
               Margin="0 5 1 0"
+              Background="{StaticResource BrushSolidLightBlue}"
               BorderBrush="Transparent"
               >
               <DockPanel>
@@ -86,9 +153,6 @@
                   Height="16"
                   Margin="1 0 3 0"
                   Padding="4"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=Name}"
                   DockPanel.Dock="Right"
                   Style="{DynamicResource CloseableTabItemButtonStyle}"
                   ToolTip="{DynamicResource CloseWindowToolTip}"
@@ -103,6 +167,16 @@
                     />
                 </Button>
 
+                <Polygon
+                  x:Name="TabItemBusyIndicator"
+                  Margin="5 0 3 0"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  DockPanel.Dock="Left"
+                  Fill="{StaticResource BrushSolidStartGreen}"
+                  Points="0,0 7,5, 0,10"
+                  />
+
                 <ContentPresenter
                   x:Name="ContentSite"
                   MaxWidth="180"
@@ -113,27 +187,56 @@
                   SnapsToDevicePixels="True"
                   TextBlock.FontWeight="Normal"
                   />
+
+                <ToggleButton
+                  x:Name="ToggleColorPicker"
+                  Width="16"
+                  Height="16"
+                  Margin="1 0"
+                  Padding="4"
+                  Style="{StaticResource ColorPickerToggleButtonStyle}"
+                  ToolTip="{DynamicResource TabItemColorPickerToolTip}"
+                  Visibility="Hidden"
+                  />
+
+                <extendedControls:PopupEx
+                  IsOpen="{Binding ElementName=ToggleColorPicker, Path=IsChecked}"
+                  PlacementTarget="{Binding ElementName=ToggleColorPicker}"
+                  >
+                  <Grid>
+                    <Border
+                      Width="200"
+                      Height="200"
+                      Background="Transparent"
+                      BorderBrush="{StaticResource BrushSolidGrey55}"
+                      BorderThickness="1"
+                      />
+
+                    <xctk:ColorCanvas />
+                  </Grid>
+                </extendedControls:PopupEx>
               </DockPanel>
             </Border>
           </Grid>
           <ControlTemplate.Triggers>
             <Trigger Property="IsSelected" Value="True">
-              <Setter Property="Foreground" Value="{Binding ElementName=Border, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}}" />
-              <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushSolidLightBlue}" />
               <Setter TargetName="ContentSite" Property="TextBlock.FontWeight" Value="Bold" />
               <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />
             </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="ToggleColorPicker" Property="Visibility" Value="Visible" />
+            </Trigger>
             <Trigger Property="IsSelected" Value="False">
-              <Setter Property="Foreground" Value="{Binding ElementName=Border, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}}" />
-              <Setter TargetName="Border" Property="Background" Value="#8DA3C1" />
+              <Setter TargetName="Chrome" Property="Background" Value="#8DA3C1" />
             </Trigger>
             <MultiTrigger>
               <MultiTrigger.Conditions>
                 <Condition Property="IsMouseOver" Value="True" />
                 <Condition Property="IsSelected" Value="False" />
               </MultiTrigger.Conditions>
-              <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushSolidBorderLightBlue}" />
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidBorderLightBlue}" />
               <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />
+              <Setter TargetName="ToggleColorPicker" Property="Visibility" Value="Visible" />
             </MultiTrigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>

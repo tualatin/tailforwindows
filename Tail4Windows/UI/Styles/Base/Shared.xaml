@@ -65,6 +65,7 @@
   <Color x:Key="ColorGrey75">#FF636363</Color>
   <Color x:Key="ColorBlack">Black</Color>
   <Color x:Key="ColorWhite">White</Color>
+  <Color x:Key="ColorStartGreen">#FF317A2E</Color>
 
   <Color x:Key="ColorLightBlue">#D6DBE9</Color>
   <Color x:Key="ColorBorderLightBlue">#B0CBF1</Color>
@@ -91,6 +92,8 @@
   <SolidColorBrush x:Key="BrushSolidLightBlue" Color="{StaticResource ColorLightBlue}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidBorderLightBlue" Color="{StaticResource ColorBorderLightBlue}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidAndroidIsMouseOverBlue" Color="{StaticResource ColorAndroidIsMouseOverBlue}" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="BrushSolidStartGreen" Color="{StaticResource ColorStartGreen}" po:Freeze="True" />
 
   <!--  Some color definitions  -->
   <Color x:Key="DisabledForegroundColor">#CACBD3</Color>

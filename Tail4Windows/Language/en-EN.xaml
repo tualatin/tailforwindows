@@ -58,6 +58,7 @@
   <system:String x:Key="MaximizeWindowToolTip">Maximize</system:String>
   <system:String x:Key="RestoreWindowToolTip">Restore Down</system:String>
   <system:String x:Key="CloseWindowToolTip">Close</system:String>
+  <system:String x:Key="TabItemColorPickerToolTip">Set color of tab background</system:String>
   <system:String x:Key="AlwaysOnTopToolTip">Always on top (ALT+T)</system:String>
   <system:String x:Key="QuickSearchToolTip">Quick search in current TailWindow (CTRL+Q)</system:String>
   <system:String x:Key="QuickSearchEnterToolTip">Search</system:String>

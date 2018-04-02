@@ -204,6 +204,7 @@
     </ApplicationDefinition>
     <Compile Include="Business\Data\Messages\AddTabItemMessage.cs" />
     <Compile Include="Core\Utils\WindowGetMinMaxInfo.cs" />
+    <Compile Include="UI\ExtendedControls\PopupEx.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
     <Compile Include="BaseView\Interfaces\IBaseWindowStatusbarViewModel.cs" />
@@ -511,7 +512,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Styles\Converters.xaml">
+    <Page Include="UI\Styles\Base\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -623,7 +624,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Styles\Shared.xaml">
+    <Page Include="UI\Styles\Base\Shared.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
