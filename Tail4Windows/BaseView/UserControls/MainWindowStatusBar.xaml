@@ -4,7 +4,6 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   xmlns:viewModels1="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
@@ -15,11 +14,6 @@
   <UserControl.DataContext>
     <viewModels:MainWindowStatusBarViewModel />
   </UserControl.DataContext>
-
-  <UserControl.Resources>
-    <converters:BackgroundToForegroundConverter x:Key="BackgroundToForegroundConverter" />
-    <converters:StringToWindowMediaBrushConverter x:Key="StringToWindowMediaBrushConverter" />
-  </UserControl.Resources>
 
   <Grid
     Name="StatusbarGrid"

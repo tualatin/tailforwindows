@@ -7,6 +7,8 @@
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="UI/Styles/Converters.xaml" />
+        <ResourceDictionary Source="UI/STyles/Shared.xaml" />
         <ResourceDictionary Source="Language/en-EN.xaml" />
         <ResourceDictionary Source="UI/Styles/AndroidCheckBox.xaml" />
         <ResourceDictionary Source="UI/Styles/AndroidRadioButton.xaml" />

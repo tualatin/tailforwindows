@@ -6,10 +6,6 @@
   mc:Ignorable="d"
   >
 
-  <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="Shared.xaml" />
-  </ResourceDictionary.MergedDictionaries>
-
   <!--  SimpleStyles: ComboBox  -->
   <ControlTemplate
     x:Key="ComboBoxToggleButton"

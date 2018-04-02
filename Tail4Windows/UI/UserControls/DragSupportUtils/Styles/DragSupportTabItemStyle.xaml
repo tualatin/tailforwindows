@@ -64,84 +64,6 @@
     <Setter Property="VerticalContentAlignment" Value="Center" />
   </Style>
 
-  <Style x:Key="DragSupportTabItemBusyStyle" TargetType="{x:Type dragSupportUtils:DragSupportTabItem}">
-    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="{x:Type dragSupportUtils:DragSupportTabItem}">
-          <Grid
-            x:Name="GridHeader"
-            IsHitTestVisible="True"
-            SnapsToDevicePixels="True"
-            >
-            <Border
-              Name="Border"
-              Margin="0 5 1 0"
-              BorderBrush="Transparent"
-              >
-              <DockPanel>
-                <Button
-                  x:Name="TabItemCloseButton"
-                  Width="16"
-                  Height="16"
-                  Margin="1 0 3 0"
-                  Padding="4"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  Command="{Binding CloseCommand}"
-                  CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=Name}"
-                  DockPanel.Dock="Right"
-                  Style="{DynamicResource CloseableTabItemButtonStyle}"
-                  ToolTip="{DynamicResource CloseWindowToolTip}"
-                  Visibility="Hidden"
-                  >
-                  <Path
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Data="F1M0,0L2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0z"
-                    Fill="Black"
-                    Stretch="None"
-                    />
-                </Button>
-
-                <ContentPresenter
-                  x:Name="ContentSite"
-                  MaxWidth="180"
-                  Margin="5 2 5 4"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  ContentSource="HeaderContent"
-                  SnapsToDevicePixels="True"
-                  TextBlock.FontWeight="Bold"
-                  />
-              </DockPanel>
-            </Border>
-          </Grid>
-          <ControlTemplate.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-              <Setter Property="Foreground" Value="Green" />
-              <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushSolidLightBlue}" />
-              <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />
-            </Trigger>
-            <Trigger Property="IsSelected" Value="False">
-              <Setter Property="Foreground" Value="White" />
-              <Setter TargetName="Border" Property="Background" Value="#8DA3C1" />
-            </Trigger>
-            <MultiTrigger>
-              <MultiTrigger.Conditions>
-                <Condition Property="IsMouseOver" Value="True" />
-                <Condition Property="IsSelected" Value="False" />
-              </MultiTrigger.Conditions>
-              <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushSolidBorderLightBlue}" />
-              <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />
-            </MultiTrigger>
-          </ControlTemplate.Triggers>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-    <Setter Property="VerticalContentAlignment" Value="Stretch" />
-  </Style>
-
   <Style x:Key="DragSupportTabItemStyle" TargetType="{x:Type dragSupportUtils:DragSupportTabItem}">
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="Template">
@@ -196,13 +118,13 @@
           </Grid>
           <ControlTemplate.Triggers>
             <Trigger Property="IsSelected" Value="True">
-              <Setter Property="Foreground" Value="Black" />
+              <Setter Property="Foreground" Value="{Binding ElementName=Border, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}}" />
               <Setter TargetName="Border" Property="Background" Value="{StaticResource BrushSolidLightBlue}" />
               <Setter TargetName="ContentSite" Property="TextBlock.FontWeight" Value="Bold" />
               <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />
             </Trigger>
             <Trigger Property="IsSelected" Value="False">
-              <Setter Property="Foreground" Value="Black" />
+              <Setter Property="Foreground" Value="{Binding ElementName=Border, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}}" />
               <Setter TargetName="Border" Property="Background" Value="#8DA3C1" />
             </Trigger>
             <MultiTrigger>

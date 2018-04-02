@@ -5,7 +5,6 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
-  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   mc:Ignorable="d"
@@ -18,12 +17,6 @@
 
   <UserControl.Resources>
     <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/UI/Styles/Shared.xaml" />
-      </ResourceDictionary.MergedDictionaries>
-
-      <converters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
-
       <Style x:Key="QuickSearchButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="White" />
         <Setter Property="BorderThickness" Value="0" />

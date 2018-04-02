@@ -4,7 +4,6 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels"
   mc:Ignorable="d"
@@ -14,10 +13,6 @@
   <UserControl.DataContext>
     <viewModels:ColorOptionViewModel />
   </UserControl.DataContext>
-
-  <UserControl.Resources>
-    <converters:StringToWindowsMediaColorConverter x:Key="StringToWindowsMediaColorConverter" />
-  </UserControl.Resources>
 
   <ScrollViewer
     HorizontalScrollBarVisibility="Auto"

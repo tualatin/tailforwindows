@@ -5,7 +5,6 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
-  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:validationRules="clr-namespace:Org.Vs.TailForWin.UI.ValidationRules"
   mc:Ignorable="d"
@@ -14,11 +13,6 @@
   Loaded="UserControlLoaded"
   Unloaded="UserControlUnloaded"
   >
-  <UserControl.Resources>
-    <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-    <converters:SmtpSecurityConverter x:Key="SmtpSecurityConverter" />
-    <converters:StringEmptyToDotConverter x:Key="StringEmptyToDotConverter" />
-  </UserControl.Resources>
 
   <ScrollViewer
     HorizontalScrollBarVisibility="Auto"

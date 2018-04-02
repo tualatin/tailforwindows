@@ -6,7 +6,6 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
-  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:my="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:ui="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.UI.Utils"
@@ -21,11 +20,6 @@
   <UserControl.DataContext>
     <viewModels:AlertOptionViewModel />
   </UserControl.DataContext>
-
-  <UserControl.Resources>
-    <converters:MailAddressConverter x:Key="MailAddressConverter" />
-    <converters:SoundFileNameConverter x:Key="SoundFileNameConverter" />
-  </UserControl.Resources>
 
   <ScrollViewer
     HorizontalScrollBarVisibility="Auto"

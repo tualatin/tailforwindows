@@ -5,16 +5,11 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
-  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   mc:Ignorable="d"
   d:DesignHeight="400"
   d:DesignWidth="400"
   >
-  <UserControl.Resources>
-    <converters:SmartWatchModeToBoolConverter x:Key="SmartWatchModeToBoolConverter" />
-    <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-  </UserControl.Resources>
 
   <ScrollViewer
     HorizontalScrollBarVisibility="Auto"

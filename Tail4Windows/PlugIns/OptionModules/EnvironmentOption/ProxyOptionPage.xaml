@@ -5,7 +5,6 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
-  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:ui="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
@@ -19,12 +18,6 @@
   <UserControl.DataContext>
     <viewModels:ProxyOptionViewModel />
   </UserControl.DataContext>
-
-  <UserControl.Resources>
-    <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-    <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
-    <converters:InverseNullToBoolConverter x:Key="InverseNullToBoolConverter" />
-  </UserControl.Resources>
 
   <ScrollViewer
     HorizontalScrollBarVisibility="Auto"

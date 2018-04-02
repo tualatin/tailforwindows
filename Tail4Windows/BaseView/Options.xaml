@@ -4,8 +4,6 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:aboutOption="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption"
-  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
@@ -22,11 +20,6 @@
   ShowInTaskbar="False"
   WindowStartupLocation="CenterOwner"
   >
-  <extendedControls:WindowEx.Resources>
-    <converters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
-    <converters:TreeNodeToImageConverter x:Key="TreeNodeToImageConverter" />
-    <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
-  </extendedControls:WindowEx.Resources>
 
   <intr:Interaction.Triggers>
     <intr:EventTrigger EventName="Closing">

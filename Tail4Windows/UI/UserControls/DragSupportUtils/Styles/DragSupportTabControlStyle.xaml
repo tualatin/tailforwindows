@@ -3,9 +3,6 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:dragSupportUtils="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
   >
-  <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="/UI/Styles/Shared.xaml" />
-  </ResourceDictionary.MergedDictionaries>
 
   <Style x:Key="OptionTabControlButtonStyle" TargetType="{x:Type Button}">
     <Setter Property="FocusVisualStyle" Value="{x:Null}" />

@@ -1,0 +1,26 @@
+﻿<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
+  >
+
+  <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+  <converters:BackgroundToForegroundConverter x:Key="BackgroundToForegroundConverter" />
+  <converters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
+  <converters:TreeNodeToImageConverter x:Key="TreeNodeToImageConverter" />
+  <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+  <converters:StringToWindowMediaBrushConverter x:Key="StringToWindowMediaBrushConverter" />
+  <converters:BoolToUpdateHintConverter x:Key="BoolToUpdateHintConverter" />
+  <converters:MailAddressConverter x:Key="MailAddressConverter" />
+  <converters:SoundFileNameConverter x:Key="SoundFileNameConverter" />
+  <converters:StringToWindowsMediaColorConverter x:Key="StringToWindowsMediaColorConverter" />
+  <converters:LogLineLimitConverter x:Key="LogLineLimitConverter" />
+  <converters:LogLineLimitToLabelConverter x:Key="LogLineLimitToLabelConverter" />
+  <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+  <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
+  <converters:InverseNullToBoolConverter x:Key="InverseNullToBoolConverter" />
+  <converters:SmtpSecurityConverter x:Key="SmtpSecurityConverter" />
+  <converters:StringEmptyToDotConverter x:Key="StringEmptyToDotConverter" />
+  <converters:SmartWatchModeToBoolConverter x:Key="SmartWatchModeToBoolConverter" />
+
+</ResourceDictionary>

@@ -6,7 +6,6 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
-  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels"
   mc:Ignorable="d"
@@ -16,10 +15,6 @@
   <UserControl.DataContext>
     <viewModels:UpdateOptionViewModel />
   </UserControl.DataContext>
-
-  <UserControl.Resources>
-    <converters:BoolToUpdateHintConverter x:Key="BoolToUpdateHintConverter" />
-  </UserControl.Resources>
 
   <i:Interaction.Triggers>
     <i:EventTrigger EventName="Unloaded">
