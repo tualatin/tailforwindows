@@ -1,9 +1,13 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Org.Vs.TailForWin.Core.Extensions;
+using Org.Vs.TailForWin.UI.Converters;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
@@ -11,9 +15,10 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
   /// <summary>
   /// Drag support TabItem
   /// </summary>
-  public class DragSupportTabItem : TabItem
+  public class DragSupportTabItem : TabItem, INotifyPropertyChanged
   {
     private Polygon _tabItemBusyIndicator;
+    private readonly StringToWindowMediaBrushConverter _stringToWindowMediaBrushConverter;
 
     static DragSupportTabItem() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DragSupportTabItem), new FrameworkPropertyMetadata(typeof(DragSupportTabItem)));
 
@@ -51,7 +56,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     public static readonly DependencyProperty HeaderToolTipProperty = DependencyProperty.Register("HeaderToolTip", typeof(object), typeof(DragSupportTabItem), new UIPropertyMetadata(null));
 
     /// <summary>
-    /// Set HeaderToolTip
+    /// Gets/sets HeaderToolTip
     /// </summary>
     public object HeaderToolTip
     {
@@ -65,7 +70,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     public static readonly DependencyProperty HeaderToolContentProperty = DependencyProperty.Register("HeaderContent", typeof(string), typeof(DragSupportTabItem));
 
     /// <summary>
-    /// Set HeaderToolContent
+    /// Gets/sets HeaderToolContent
     /// </summary>
     public string HeaderContent
     {
@@ -87,19 +92,19 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// </summary>
     public static readonly DependencyProperty TabItemBusyIndicatorProperty = DependencyProperty.Register("TabItemBusyIndicator", typeof(Visibility), typeof(DragSupportTabItem), new UIPropertyMetadata(Visibility.Collapsed, TabItemBusyIndicatorVisibilityChanged));
 
-    private static void TabItemBusyIndicatorVisibilityChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+    private static void TabItemBusyIndicatorVisibilityChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
-      if ( !(dependencyObject is DragSupportTabItem tabItem) )
+      if ( !(sender is DragSupportTabItem tabItem) )
         return;
 
       if ( tabItem._tabItemBusyIndicator == null )
         return;
 
-      tabItem._tabItemBusyIndicator.Visibility = dependencyPropertyChangedEventArgs.NewValue is Visibility visibility ? visibility : Visibility.Visible;
+      tabItem._tabItemBusyIndicator.Visibility = e.NewValue is Visibility visibility ? visibility : Visibility.Visible;
     }
 
     /// <summary>
-    /// Set TabItemBusyIndicator
+    /// Gets/sets TabItemBusyIndicator
     /// </summary>
     public Visibility TabItemBusyIndicator
     {
@@ -108,9 +113,72 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     /// <summary>
+    /// Set ColorPopupIsOpen property
+    /// </summary>
+    public static readonly DependencyProperty ColorPopupIsOpenProperty = DependencyProperty.Register("ColorPopupIsOpenProperty", typeof(bool), typeof(DragSupportTabItem), new UIPropertyMetadata(false));
+
+    /// <summary>
+    /// Gets/sets ColorPopupIsOpen
+    /// </summary>
+    public bool ColorPopupIsOpen
+    {
+      get => (bool) GetValue(ColorPopupIsOpenProperty);
+      set => SetValue(ColorPopupIsOpenProperty, value);
+    }
+
+    /// <summary>
+    /// Set TabItem background color as string property
+    /// </summary>
+    public static readonly DependencyProperty TabItemBackgroundColorStringHexProperty = DependencyProperty.Register("TabItemBackgroundColorStringHexProperty", typeof(string), typeof(DragSupportTabItem), new UIPropertyMetadata("#FFD6DBE9", OnTabItemColorStringHexChanged));
+
+    private static void OnTabItemColorStringHexChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    {
+      if ( !(sender is DragSupportTabItem tabItem) )
+        return;
+
+      var color = (SolidColorBrush) tabItem._stringToWindowMediaBrushConverter.Convert(tabItem.TabItemBackgroundColorStringHex, typeof(Brush), null, CultureInfo.CurrentCulture);
+      tabItem.TabItemBackgroundColor = color;
+    }
+
+    /// <summary>
+    /// Gets/sets background color as string
+    /// </summary>
+    public string TabItemBackgroundColorStringHex
+    {
+      get => (string) GetValue(TabItemBackgroundColorStringHexProperty);
+      set
+      {
+        SetValue(TabItemBackgroundColorStringHexProperty, value);
+        OnPropertyChanged(nameof(TabItemBackgroundColorStringHex));
+      }
+    }
+
+    /// <summary>
+    /// Set TabItem background color property
+    /// </summary>
+    public static readonly DependencyProperty TabItemBackgroundColorProperty = DependencyProperty.Register("TabItemBackgroundColorProperty", typeof(SolidColorBrush), typeof(DragSupportTabItem), new UIPropertyMetadata(Application.Current.TryFindResource("BrushSolidLightBlue")));
+
+    /// <summary>
+    /// Gets/sets background color
+    /// </summary>
+    public SolidColorBrush TabItemBackgroundColor
+    {
+      get => (SolidColorBrush) GetValue(TabItemBackgroundColorProperty);
+      set
+      {
+        SetValue(TabItemBackgroundColorProperty, value);
+        OnPropertyChanged(nameof(TabItemBackgroundColor));
+      }
+    }
+
+    /// <summary>
     /// Standard constructor
     /// </summary>
-    public DragSupportTabItem() => Style = (Style) Application.Current.TryFindResource("DragSupportTabItemStyle");
+    public DragSupportTabItem()
+    {
+      Style = (Style) Application.Current.TryFindResource("DragSupportTabItemStyle");
+      _stringToWindowMediaBrushConverter = new StringToWindowMediaBrushConverter();
+    }
 
     /// <summary>
     /// When overridden in a derived class, is invoked whenever application code or internal proc esses call <code>ApplyTemplate</code>.
@@ -156,6 +224,21 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       if ( e.MiddleButton == MouseButtonState.Pressed )
         RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
+    }
+
+    /// <summary>
+    /// Declare the event
+    /// </summary>
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    /// <summary>
+    /// OnPropertyChanged
+    /// </summary>
+    /// <param name="name">Name of property</param>
+    private void OnPropertyChanged([CallerMemberName] string name = null)
+    {
+      var handler = PropertyChanged;
+      handler?.Invoke(this, new PropertyChangedEventArgs(name));
     }
   }
 }

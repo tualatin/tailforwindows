@@ -94,8 +94,8 @@ namespace Org.Vs.NUnit.Tests
         FilterState = true,
         LastRefreshTime = DateTime.Now,
         OpenFromFileManager = true,
-        OpenFromSmartWatch = true,
         Version = 2.1m,
+        TabItemBackgroundColorStringHex = "#FFD6DBE9",
         ListOfFilter = new ObservableCollection<FilterData> { filter }
       };
 
@@ -120,7 +120,7 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(tailData.FileEncoding, memento.FileEncoding);
       Assert.AreEqual(tailData.FilterState, memento.FilterState);
       Assert.AreEqual(tailData.LastRefreshTime, memento.LastRefreshTime);
-      Assert.AreEqual(tailData.OpenFromSmartWatch, memento.OpenFromSmartWatch);
+      Assert.AreEqual(tailData.TabItemBackgroundColorStringHex, memento.TabItemBackgroundColorStringHex);
       Assert.IsTrue(tailData.ListOfFilter.CompareGenericObservableCollections(memento.ListOfFilter));
 
       filter = new FilterData

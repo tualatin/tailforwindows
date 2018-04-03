@@ -94,6 +94,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
           NewWindow = (p.Element(XmlNames.NewWindow)?.Value).ConvertToBool(),
           SmartWatch = (p.Element(XmlNames.UseSmartWatch)?.Value).ConvertToBool(),
           UsePattern = (p.Element(XmlNames.UsePattern)?.Value).ConvertToBool(),
+          TabItemBackgroundColorStringHex = GetColorAsString(p.Element(XmlNames.TabItemBackgroundColor)?.Value),
           ThreadPriority = EnvironmentContainer.GetThreadPriority(p.Element(XmlNames.ThreadPriority)?.Value),
           RefreshRate = EnvironmentContainer.GetRefreshRate(p.Element(XmlNames.RefreshRate)?.Value),
           FileEncoding = GetEncoding(p.Element(XmlNames.FileEncoding)?.Value),
@@ -121,6 +122,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       }
       return result;
     }
+
+    private string GetColorAsString(string value) => string.IsNullOrWhiteSpace(value) ? "#FFD6DBE9" : value;
 
     /// <summary>
     /// Get list of categories from XML file
@@ -219,6 +222,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
             new XElement(XmlNames.UseFilters, tailData.FilterState),
             new XElement(XmlNames.UsePattern, tailData.UsePattern),
             new XElement(XmlNames.UseSmartWatch, tailData.SmartWatch),
+            new XElement(XmlNames.TabItemBackgroundColor, tailData.TabItemBackgroundColorStringHex),
             new XElement(XmlNames.Font,
               new XElement(XmlBaseStructure.Name, tailData.FontType.Name),
               new XElement(XmlNames.Size, tailData.FontType.Size),
@@ -285,6 +289,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         updateNode.Element(XmlNames.FileEncoding)?.SetValue(tailData.FileEncoding?.HeaderName ?? string.Empty);
         updateNode.Element(XmlNames.UseFilters)?.SetValue(tailData.FilterState);
         updateNode.Element(XmlNames.UsePattern)?.SetValue(tailData.UsePattern);
+        updateNode.Element(XmlNames.TabItemBackgroundColor)?.SetValue(tailData.TabItemBackgroundColorStringHex);
         updateNode.Element(XmlNames.UseSmartWatch)?.SetValue(tailData.SmartWatch);
         updateNode.Element(XmlNames.Font)?.Element(XmlBaseStructure.Name)?.SetValue(tailData.FontType.Name);
         updateNode.Element(XmlNames.Font)?.Element(XmlNames.Size)?.SetValue(tailData.FontType.Size);

@@ -401,14 +401,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region HelperFunctions
 
-    private void AddTabItem(string header, object toolTip, object content = null)
+    private void AddTabItem(string header, object toolTip, string backgroundColor = "#FFD6DBE9", object content = null)
     {
       var tabItem = new DragSupportTabItem
       {
         HeaderContent = header,
         IsSelected = true,
         HeaderToolTip = toolTip,
-        Content = content
+        Content = content,
+        TabItemBackgroundColorStringHex = backgroundColor
       };
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemDoubleClick;
@@ -421,7 +422,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !(args?.Sender is T4Window) )
         return;
 
-      AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.Content);
+      AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.TabItemBackgroundColorStringHex, args.TabItem.Content);
     }
 
     private void CloseTabItem(DragSupportTabItem item)

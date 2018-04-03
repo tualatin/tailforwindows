@@ -67,9 +67,9 @@
   <Color x:Key="ColorWhite">White</Color>
   <Color x:Key="ColorStartGreen">#FF317A2E</Color>
 
-  <Color x:Key="ColorLightBlue">#D6DBE9</Color>
-  <Color x:Key="ColorBorderLightBlue">#B0CBF1</Color>
-  <Color x:Key="ColorAndroidIsMouseOverBlue">#BB34b4e3</Color>
+  <Color x:Key="ColorLightBlue">#FFD6DBE9</Color>
+  <Color x:Key="ColorBorderLightBlue">#FFB0CBF1</Color>
+  <Color x:Key="ColorAndroidIsMouseOverBlue">#FFBB34B4E3</Color>
   <Color x:Key="ColorOrange">#FFE5C365</Color>
   <Color x:Key="ColorOrangePressed">#FFE8A6</Color>
 

@@ -164,7 +164,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// Add TabItem
     /// </summary>
     /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
-    public void AddTabItem(DragSupportTabItem tabItem) => AddTabItem(tabItem.HeaderContent, tabItem.HeaderToolTip);
+    public void AddTabItem(DragSupportTabItem tabItem) => AddTabItem(tabItem.HeaderContent, tabItem.HeaderToolTip, tabItem.TabItemBackgroundColorStringHex);
 
     /// <summary>
     /// Remove TabItem
@@ -284,14 +284,15 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     #endregion
 
-    private void AddTabItem(string header, object toolTip, object content = null)
+    private void AddTabItem(string header, object toolTip, string backgroundColor = "#FFD6DBE9", object content = null)
     {
       var tabItem = new DragSupportTabItem
       {
         HeaderContent = header,
         IsSelected = true,
         HeaderToolTip = toolTip,
-        Content = content
+        Content = content,
+        TabItemBackgroundColorStringHex = backgroundColor
       };
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemTabHeaderDoubleClick;

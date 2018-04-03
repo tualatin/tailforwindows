@@ -219,7 +219,10 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       var tabControl = e.Source as DragSupportTabControl;
 
-      if ( !(tabControl?.SelectedItem is TabItem tabItem) )
+      if ( !(tabControl?.SelectedItem is DragSupportTabItem tabItem) )
+        return;
+
+      if ( tabItem.ColorPopupIsOpen )
         return;
 
       QueryContinueDrag += DragSupportTabControlQueryContinueDrag;

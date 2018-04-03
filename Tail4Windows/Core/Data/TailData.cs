@@ -441,6 +441,24 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
+    private string _tabItemBackgroundColorStringHex;
+
+    /// <summary>
+    /// TabItem background color as hex string
+    /// </summary>
+    public string TabItemBackgroundColorStringHex
+    {
+      get => _tabItemBackgroundColorStringHex;
+      set
+      {
+        if (Equals(value, _tabItemBackgroundColorStringHex))
+          return;
+
+        _tabItemBackgroundColorStringHex = value;
+        OnPropertyChanged(nameof(TabItemBackgroundColorStringHex));
+      }
+    }
+
     /// <summary>
     /// Properties comes from SmartWatch
     /// </summary>

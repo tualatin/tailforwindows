@@ -92,12 +92,12 @@
               x:Name="ColorEllipse"
               Margin="4"
               Stretch="Uniform"
-              Stroke="Black"
+              Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}"
               StrokeThickness="0.8"
               >
               <Ellipse.Fill>
                 <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                  <GradientStop Offset="0.5" Color="Black" />
+                  <GradientStop Offset="0.5" Color="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundColorConverter}}" />
                   <GradientStop Offset="0.5" Color="Transparent" />
                 </LinearGradientBrush>
               </Ellipse.Fill>
@@ -122,7 +122,7 @@
             <Trigger Property="IsChecked" Value="True">
               <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
               <Setter TargetName="Chrome" Property="Opacity" Value="1" />
-              <Setter TargetName="ColorEllipse" Property="Fill" Value="Black" />
+              <Setter TargetName="ColorEllipse" Property="Fill" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -143,7 +143,7 @@
             <Border
               x:Name="Chrome"
               Margin="0 5 1 0"
-              Background="{StaticResource BrushSolidLightBlue}"
+              Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColorStringHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
               BorderBrush="Transparent"
               >
               <DockPanel>
@@ -162,7 +162,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Data="F1M0,0L2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0z"
-                    Fill="Black"
+                    Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}"
                     Stretch="None"
                     />
                 </Button>
@@ -186,6 +186,7 @@
                   ContentSource="HeaderContent"
                   SnapsToDevicePixels="True"
                   TextBlock.FontWeight="Normal"
+                  TextBlock.Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}"
                   />
 
                 <ToggleButton
@@ -194,6 +195,7 @@
                   Height="16"
                   Margin="1 0"
                   Padding="4"
+                  IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=ColorPopupIsOpen}"
                   Style="{StaticResource ColorPickerToggleButtonStyle}"
                   ToolTip="{DynamicResource TabItemColorPickerToolTip}"
                   Visibility="Hidden"
@@ -212,7 +214,7 @@
                       BorderThickness="1"
                       />
 
-                    <xctk:ColorCanvas />
+                    <xctk:ColorCanvas SelectedColor="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColorStringHex, Converter={StaticResource StringToWindowsMediaColorConverter}}" />
                   </Grid>
                 </extendedControls:PopupEx>
               </DockPanel>

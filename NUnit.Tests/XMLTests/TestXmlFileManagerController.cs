@@ -44,7 +44,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         FileName = @"D:\Tools\TailForWindows\logs\tailforwindows_2017-03-06.log",
         Description = "Tail4Windows",
         Category = "T4F",
-        ThreadPriority = System.Threading.ThreadPriority.Lowest,
+        ThreadPriority = ThreadPriority.Lowest,
         NewWindow = false,
         RefreshRate = ETailRefreshRate.Highest,
         Timestamp = false,
@@ -56,6 +56,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         FontType = new Font("Segoe UI", 12f, FontStyle.Regular),
         SmartWatch = false,
         IsRegex = false,
+        TabItemBackgroundColorStringHex = "#FFE5C365",
         PatternString = "tailforwindows_????-??-??.log",
         ListOfFilter = new ObservableCollection<FilterData>
         {
@@ -200,7 +201,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         FileName = @"D:\Tools\TailForWindows\logs\testLogFile.log",
         Description = "Test item",
         Category = "Testing",
-        ThreadPriority = System.Threading.ThreadPriority.Lowest,
+        ThreadPriority = ThreadPriority.Lowest,
         NewWindow = false,
         RefreshRate = ETailRefreshRate.Normal,
         Timestamp = true,
@@ -213,6 +214,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         FontType = new Font("Segoe UI", 12f, FontStyle.Bold),
         SmartWatch = true,
         IsRegex = false,
+        TabItemBackgroundColorStringHex = "#FFE5C365",
         ListOfFilter = new ObservableCollection<FilterData>
         {
           new FilterData
@@ -278,7 +280,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         FileName = @"D:\Tools\TailForWindows\logs\testLogFile.log",
         Description = "Test item",
         Category = "Testing",
-        ThreadPriority = System.Threading.ThreadPriority.Lowest,
+        ThreadPriority = ThreadPriority.Lowest,
         NewWindow = false,
         RefreshRate = ETailRefreshRate.Normal,
         Timestamp = true,

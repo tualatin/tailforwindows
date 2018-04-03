@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Text;
@@ -34,7 +34,6 @@ namespace Org.Vs.TailForWin.Core.Data
       FileEncoding = memento.FileEncoding;
       RefreshRate = memento.RefreshRate;
       SmartWatch = memento.SmartWatch;
-      OpenFromSmartWatch = memento.OpenFromSmartWatch;
       RemoveSpace = memento.RemoveSpace;
       FileName = memento.FileName;
       Wrap = memento.Wrap;
@@ -47,6 +46,8 @@ namespace Org.Vs.TailForWin.Core.Data
       AutoRun = memento.AutoRun;
       FilterState = memento.FilterState;
       LastRefreshTime = memento.LastRefreshTime;
+      TabItemBackgroundColorStringHex = memento.TabItemBackgroundColorStringHex;
+
       ListOfFilter = new ObservableCollection<FilterData>(memento.ListOfFilter);
     }
 
@@ -64,7 +65,6 @@ namespace Org.Vs.TailForWin.Core.Data
         FileEncoding = value.FileEncoding;
         RefreshRate = value.RefreshRate;
         SmartWatch = value.SmartWatch;
-        OpenFromSmartWatch = value.OpenFromSmartWatch;
         RemoveSpace = value.RemoveSpace;
         FileName = value.FileName;
         Wrap = value.Wrap;
@@ -77,6 +77,7 @@ namespace Org.Vs.TailForWin.Core.Data
         AutoRun = value.AutoRun;
         FilterState = value.FilterState;
         LastRefreshTime = value.LastRefreshTime;
+        TabItemBackgroundColorStringHex = value.TabItemBackgroundColorStringHex;
         ListOfFilter = new ObservableCollection<FilterData>(value.ListOfFilter);
       }
 
@@ -241,9 +242,9 @@ namespace Org.Vs.TailForWin.Core.Data
       }
 
       /// <summary>
-      /// Properties comes from SmartWatch
+      /// TabItem background color as hex string
       /// </summary>
-      public bool OpenFromSmartWatch
+      public string TabItemBackgroundColorStringHex
       {
         get;
       }

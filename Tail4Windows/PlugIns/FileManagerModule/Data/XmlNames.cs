@@ -1,4 +1,4 @@
-namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Data
+﻿namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Data
 {
   /// <summary>
   /// FileManager module XML structure
@@ -144,5 +144,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Data
     /// useSmartWatch
     /// </summary>
     public const string UseSmartWatch = "useSmartWatch";
+
+    /// <summary>
+    /// tabItemBackgroundClr
+    /// </summary>
+    public const string TabItemBackgroundColor = "tabItemBackgroundClr";
   }
 }
