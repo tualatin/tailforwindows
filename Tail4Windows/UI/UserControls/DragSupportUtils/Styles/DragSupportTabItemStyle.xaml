@@ -229,7 +229,7 @@
               <Setter TargetName="ToggleColorPicker" Property="Visibility" Value="Visible" />
             </Trigger>
             <Trigger Property="IsSelected" Value="False">
-              <Setter TargetName="Chrome" Property="Background" Value="#8DA3C1" />
+              <Setter TargetName="Chrome" Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundColorToIsNotSelectedConverter}}" />
             </Trigger>
             <MultiTrigger>
               <MultiTrigger.Conditions>

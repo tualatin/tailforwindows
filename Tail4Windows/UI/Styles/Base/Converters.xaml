@@ -7,6 +7,7 @@
   <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
   <converters:BackgroundToForegroundConverter x:Key="BackgroundToForegroundConverter" />
   <converters:BackgroundToForegroundColorConverter x:Key="BackgroundToForegroundColorConverter" />
+  <converters:BackgroundColorToIsNotSelectedConverter x:Key="BackgroundColorToIsNotSelectedConverter" />
   <converters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
   <converters:TreeNodeToImageConverter x:Key="TreeNodeToImageConverter" />
   <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />

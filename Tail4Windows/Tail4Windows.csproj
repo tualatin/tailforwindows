@@ -204,6 +204,7 @@
     </ApplicationDefinition>
     <Compile Include="Business\Data\Messages\AddTabItemMessage.cs" />
     <Compile Include="Core\Utils\WindowGetMinMaxInfo.cs" />
+    <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
     <Compile Include="UI\ExtendedControls\PopupEx.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
