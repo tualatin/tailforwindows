@@ -37,8 +37,8 @@ namespace Org.Vs.TailForWin.UI.Converters
       if ( Equals(EnvironmentContainer.ConvertMediaBrushToDrawingColor(brush).ToHexString(), "#D6DBE9") )
         return _defaultIsNotSelectedColor;
 
-      var lighterColor = LighterColor(EnvironmentContainer.ConvertMediaBrushToDrawingColor(brush));
-      
+      var lighterColor = DarkerColor(EnvironmentContainer.ConvertMediaBrushToDrawingColor(brush));
+
       return new SolidColorBrush(Color.FromRgb(lighterColor.R, lighterColor.G, lighterColor.B));
     }
 
@@ -61,6 +61,13 @@ namespace Org.Vs.TailForWin.UI.Converters
       const float rgb255 = 255f;
 
       return System.Drawing.Color.FromArgb((int) (color.R + (rgb255 - color.R) * correctionfactory), (int) (color.G + (rgb255 - color.G) * correctionfactory), (int) (color.B + (rgb255 - color.B) * correctionfactory));
+    }
+
+    private System.Drawing.Color DarkerColor(System.Drawing.Color color, float correctionfactory = 50f)
+    {
+      const float hundredpercent = 100f;
+
+      return System.Drawing.Color.FromArgb((int) (color.R / hundredpercent * correctionfactory), (int) (color.G / hundredpercent * correctionfactory), (int) (color.B / hundredpercent * correctionfactory));
     }
   }
 }
