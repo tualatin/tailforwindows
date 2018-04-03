@@ -204,6 +204,9 @@
     </ApplicationDefinition>
     <Compile Include="Business\Data\Messages\AddTabItemMessage.cs" />
     <Compile Include="Core\Utils\WindowGetMinMaxInfo.cs" />
+    <Compile Include="PlugIns\LogWindowModule\LogWindowControl.xaml.cs">
+      <DependentUpon>LogWindowControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
     <Compile Include="UI\ExtendedControls\PopupEx.cs" />
@@ -511,6 +514,10 @@
     <Compile Include="Core\Logging\SingleLetterLevelConverter.cs" />
     <Compile Include="Core\Logging\ZippingRollingFileAppender.cs" />
     <Page Include="PlugIns\LogWindowModule\LogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\LogWindowModule\LogWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

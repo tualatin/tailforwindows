@@ -8,6 +8,7 @@ using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils;
 
@@ -141,12 +142,12 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         WindowStartupLocation = WindowStartupLocation.Manual
       };
 
-      if ( tabItem != null )
-        ((IDragWindow) dragWindow).AddTabItem(tabItem);
-
       dragWindow.Show();
       dragWindow.Activate();
       dragWindow.Focus();
+
+      if ( tabItem != null )
+        ((IDragWindow) dragWindow).AddTabItem(tabItem);
 
       return dragWindow;
     }
@@ -164,7 +165,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// Add TabItem
     /// </summary>
     /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
-    public void AddTabItem(DragSupportTabItem tabItem) => AddTabItem(tabItem.HeaderContent, tabItem.HeaderToolTip, tabItem.TabItemBackgroundColorStringHex);
+    public void AddTabItem(DragSupportTabItem tabItem) => AddTabItem(tabItem.HeaderContent, tabItem.HeaderToolTip, tabItem.TabItemBackgroundColorStringHex, (LogWindowControl) tabItem.Content);
 
     /// <summary>
     /// Remove TabItem
@@ -275,25 +276,35 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       if ( e.Source is DragSupportTabItem item )
         RemoveTabItem(item);
-
-      if ( TabItems.Count == 0 )
-        AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}");
     }
 
     private void TabControlOnAddTabItemEvent(object sender, RoutedEventArgs e) => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}");
 
     #endregion
 
-    private void AddTabItem(string header, object toolTip, string backgroundColor = "#FFD6DBE9", object content = null)
+    private void AddTabItem(string header, object toolTip, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
     {
       var tabItem = new DragSupportTabItem
       {
         HeaderContent = header,
         IsSelected = true,
         HeaderToolTip = toolTip,
-        Content = content,
         TabItemBackgroundColorStringHex = backgroundColor
       };
+
+      if ( content != null )
+      {
+        content.LogWindowTabItem = tabItem;
+        tabItem.Content = content;
+      }
+      else
+      {
+        tabItem.Content = new LogWindowControl
+        {
+          LogWindowTabItem = tabItem
+        };
+      }
+
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemTabHeaderDoubleClick;
 

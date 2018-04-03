@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -19,6 +20,14 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
   {
     private Polygon _tabItemBusyIndicator;
     private readonly StringToWindowMediaBrushConverter _stringToWindowMediaBrushConverter;
+
+    /// <summary>
+    /// TabItem id
+    /// </summary>
+    public Guid TabItemId
+    {
+      get;
+    }
 
     static DragSupportTabItem() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DragSupportTabItem), new FrameworkPropertyMetadata(typeof(DragSupportTabItem)));
 
@@ -178,6 +187,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       Style = (Style) Application.Current.TryFindResource("DragSupportTabItemStyle");
       _stringToWindowMediaBrushConverter = new StringToWindowMediaBrushConverter();
+      TabItemId = Guid.NewGuid();
     }
 
     /// <summary>

@@ -17,6 +17,7 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.UI;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -181,13 +182,24 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       set;
     }
 
+    private DragSupportTabItem _selectedTabItem;
+
     /// <summary>
     /// Selected <see cref="DragSupportTabItem"/>
     /// </summary>
     public DragSupportTabItem SelectedTabItem
     {
-      get;
-      set;
+      get => _selectedTabItem;
+      set
+      {
+        _selectedTabItem = value;
+
+        if ( _selectedTabItem == null )
+          return;
+
+        var content = (LogWindowControl) _selectedTabItem.Content;
+        _currentStatusbarState = content.LogWindowState;
+      }
     }
 
     #endregion
@@ -401,16 +413,29 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region HelperFunctions
 
-    private void AddTabItem(string header, object toolTip, string backgroundColor = "#FFD6DBE9", object content = null)
+    private void AddTabItem(string header, object toolTip, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
     {
       var tabItem = new DragSupportTabItem
       {
         HeaderContent = header,
         IsSelected = true,
         HeaderToolTip = toolTip,
-        Content = content,
         TabItemBackgroundColorStringHex = backgroundColor
       };
+
+      if ( content != null )
+      {
+        content.LogWindowTabItem = tabItem;
+        tabItem.Content = content;
+      }
+      else
+      {
+        tabItem.Content = new LogWindowControl
+        {
+          LogWindowTabItem = tabItem
+        };
+      }
+
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemDoubleClick;
 
@@ -422,7 +447,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !(args?.Sender is T4Window) )
         return;
 
-      AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.TabItemBackgroundColorStringHex, args.TabItem.Content);
+      AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.TabItemBackgroundColorStringHex, (LogWindowControl) args.TabItem.Content);
     }
 
     private void CloseTabItem(DragSupportTabItem item)

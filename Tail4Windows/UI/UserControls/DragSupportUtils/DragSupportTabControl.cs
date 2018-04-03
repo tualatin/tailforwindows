@@ -203,6 +203,10 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       {
         // Nothing
       }
+      finally
+      {
+        e.Handled = true;
+      }
     }
 
     private void DragSupportTabControlMouseMove(object sender, MouseEventArgs e)
