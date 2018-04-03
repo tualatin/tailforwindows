@@ -12,7 +12,7 @@
     <Setter Property="SnapsToDevicePixels" Value="true" />
     <Setter Property="Template">
       <Setter.Value>
-        <ControlTemplate TargetType="RadioButton">
+        <ControlTemplate TargetType="{x:Type RadioButton}">
           <BulletDecorator>
             <BulletDecorator.Bullet>
               <Grid
