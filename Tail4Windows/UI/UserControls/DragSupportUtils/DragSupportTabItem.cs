@@ -202,7 +202,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       headerGrid.MouseLeftButtonDown += HeaderGridMouseLeftButtonDown;
 
       // set special ToolTip for TabItemHeader
-      var myToolTip = new ToolTip()
+      var myToolTip = new ToolTip
       {
         Style = (Style) FindResource("TabItemToolTipStyle"),
         Content = HeaderToolTip
