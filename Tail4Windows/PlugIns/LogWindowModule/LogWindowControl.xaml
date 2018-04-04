@@ -16,6 +16,23 @@
   DataContext="{Binding RelativeSource={RelativeSource Self}}"
   >
   <UserControl.Resources>
+    <Storyboard x:Key="ExtendedSettingsShowAnimation">
+      <DoubleAnimation
+        BeginTime="0:0:0.5"
+        Duration="0:0:0.2"
+        Storyboard.TargetProperty="MinHeight"
+        To="23"
+        />
+    </Storyboard>
+
+    <Storyboard x:Key="ExtendedSettingsHideAnimation">
+      <DoubleAnimation
+        Duration="0:0:0.2"
+        Storyboard.TargetProperty="MinHeight"
+        To="0"
+        />
+    </Storyboard>
+
     <Style x:Key="AddFileToFileManagerStyle" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
       <Setter Property="Template">
         <Setter.Value>
@@ -267,6 +284,25 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition />
+      <RowDefinition Height="0">
+        <RowDefinition.Style>
+          <Style>
+            <Style.Triggers>
+              <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                  <Condition Value="True" Binding="{Binding IsChecked, ElementName=ShowExtendedTailSettingsMenuItem}" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.EnterActions>
+                  <BeginStoryboard Storyboard="{StaticResource ExtendedSettingsShowAnimation}" />
+                </MultiDataTrigger.EnterActions>
+                <MultiDataTrigger.ExitActions>
+                  <BeginStoryboard Storyboard="{StaticResource ExtendedSettingsHideAnimation}" />
+                </MultiDataTrigger.ExitActions>
+              </MultiDataTrigger>
+            </Style.Triggers>
+          </Style>
+        </RowDefinition.Style>
+      </RowDefinition>
     </Grid.RowDefinitions>
 
     <Grid
@@ -279,6 +315,7 @@
       </Grid.RowDefinitions>
 
       <Grid
+        x:Name="TestGrid"
         Grid.Row="0"
         Margin="3 1"
         >
@@ -818,12 +855,70 @@
             >
             <Grid>
               <Border
-                Width="200"
-                Height="200"
+                Width="Auto"
+                Height="Auto"
                 Background="White"
                 BorderBrush="{StaticResource BrushSolidGrey55}"
                 BorderThickness="1"
                 />
+
+              <StackPanel
+                Margin="5"
+                Orientation="Vertical"
+                >
+                <MenuItem
+                  Header="{DynamicResource ExtendedTailSettingsFileManagerLabel}"
+                  InputGestureText="{DynamicResource ExtendedTailSettingsFileManagerShortCut}"
+                  >
+                  <MenuItem.Icon>
+                    <Image
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/Explorer.ico"
+                      />
+                  </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="{DynamicResource ExtendedTailSettingsFilterLabel}">
+                  <MenuItem.Icon>
+                    <Image
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/Filters.ico"
+                      />
+                  </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="{DynamicResource ExtendedTailSettingsOpenInExplorer}">
+                  <MenuItem.Icon>
+                    <Image
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/notepad.ico"
+                      />
+                  </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="{DynamicResource ExtendedTailSettingsPrintTailLog}">
+                  <MenuItem.Icon>
+                    <Image
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/print.ico"
+                      />
+                  </MenuItem.Icon>
+                </MenuItem>
+
+                <Separator />
+
+                <MenuItem
+                  x:Name="ShowExtendedTailSettingsMenuItem"
+                  Header="{DynamicResource ExtendedTailSettingsLabel}"
+                  IsCheckable="True"
+                  />
+
+              </StackPanel>
+
             </Grid>
           </extendedControls:PopupEx>
         </StackPanel>
@@ -839,6 +934,76 @@
           HorizontalAlignment="Center"
           VerticalAlignment="Center"
           />
+      </Border>
+    </Grid>
+
+    <Grid
+      Grid.Row="2"
+      Background="{StaticResource BrushSolidLightBlue}"
+      >
+      <Border
+        BorderBrush="{StaticResource BrushSolidBlue}"
+        BorderThickness="0 1 0 0"
+        >
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <Button
+            Grid.Column="1"
+            Width="18"
+            Height="18"
+            Margin="2 2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            >
+            <StackPanel>
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+            </StackPanel>
+          </Button>
+
+          <Button
+            Grid.Column="2"
+            Width="18"
+            Height="18"
+            Margin="2 2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            >
+            <StackPanel>
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Clear.ico"
+                />
+            </StackPanel>
+          </Button>
+
+          <Button
+            Grid.Column="3"
+            Width="18"
+            Height="18"
+            Margin="2 2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            >
+            <StackPanel>
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Font.ico"
+                />
+            </StackPanel>
+          </Button>
+        </Grid>
       </Border>
     </Grid>
   </Grid>

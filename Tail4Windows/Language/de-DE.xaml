@@ -94,6 +94,14 @@
   <system:String x:Key="ComboBoxFilter">Filter</system:String>
   <system:String x:Key="ToggleMenuButtonToolTip">Erweiterte tail Einstellungen</system:String>
 
+  <system:String x:Key="ExtendedTailSettingsLabel">Zeit erweiterte Einstellungen</system:String>
+  <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Zeige die erweiterten Einstellungen des aktuellen tail Tabs</system:String>
+  <system:String x:Key="ExtendedTailSettingsFileManagerLabel">Öffne FileManager</system:String>
+  <system:String x:Key="ExtendedTailSettingsFileManagerShortCut">STRG+M</system:String>
+  <system:String x:Key="ExtendedTailSettingsFilterLabel">Filter Einstellungen</system:String>
+  <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Öffne in Explorer</system:String>
+  <system:String x:Key="ExtendedTailSettingsPrintTailLog">Drucke aktuelle Logdatei</system:String>
+
   <system:String x:Key="EFileSortFileCreationTime">Datei Erstelldatum</system:String>
   <system:String x:Key="EFileSortDefault">Standard</system:String>
 
