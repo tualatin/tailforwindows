@@ -77,6 +77,22 @@
   <system:String x:Key="WebUrl">https://github.com/tualatin/tailforwindows/releases</system:String>
   <system:String x:Key="UpdateUrl">https://www.virtual-studios.de/tail4wnd/releases.txt</system:String>
   <system:String x:Key="QuickSearchWatermark">Schnellsuche</system:String>
+  <system:String x:Key="ButtonStartTail">Start</system:String>
+  <system:String x:Key="ButtonStartTailToolTip">Startet tail (STRG+R)</system:String>
+  <system:String x:Key="ButtonStopTailToolTip">Beendet tail (STRG+S)</system:String>
+  <system:String x:Key="ButtonAddsFileToFileManager">Datei hinzufügen zu...</system:String>
+  <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Fügt die aktuelle Datei zum FileManager hinzu</system:String>
+  <system:String x:Key="ButtonOpenFile">Datei öffnen...</system:String>
+  <system:String x:Key="ButtonOpenFileToolTip">Öffnet eine Datei zum tail...</system:String>
+  <system:String x:Key="TextBoxFileNameWatermark">Logdatei</system:String>
+  <system:String x:Key="LabelFile">Datei</system:String>
+  <system:String x:Key="LabelRefreshRate">Akt. Rate</system:String>
+  <system:String x:Key="LabelThreadPriority">Thread Priorität</system:String>
+  <system:String x:Key="ComboBoxTimeStamp">Zeit</system:String>
+  <system:String x:Key="ComboBoxLineWrap">Zeilenumbruch</system:String>
+  <system:String x:Key="ComboBoxRemoveSpace">Leerzeilen entfernen</system:String>
+  <system:String x:Key="ComboBoxFilter">Filter</system:String>
+  <system:String x:Key="ToggleMenuButtonToolTip">Erweiterte tail Einstellungen</system:String>
 
   <system:String x:Key="EFileSortFileCreationTime">Datei Erstelldatum</system:String>
   <system:String x:Key="EFileSortDefault">Standard</system:String>

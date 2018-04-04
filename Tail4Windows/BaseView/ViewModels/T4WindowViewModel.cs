@@ -13,6 +13,7 @@ using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.BaseView.Interfaces;
 using Org.Vs.TailForWin.Business.Data.Messages;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
@@ -48,7 +49,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     public double DefaultWidth
     {
       get;
-    } = 800;
+    } = 820;
 
     /// <summary>
     /// Default height
@@ -199,6 +200,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
         var content = (LogWindowControl) _selectedTabItem.Content;
         _currentStatusbarState = content.LogWindowState;
+
+        SetCurrentBusinessData();
       }
     }
 
@@ -335,7 +338,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       CloseTabItem(SelectedTabItem);
     }
 
-    private void ExecuteAddNewTabItemCommand() => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}");
+    private void ExecuteAddNewTabItemCommand() => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}", Visibility.Collapsed);
 
     private void ExecutePreviewKeyDownCommand(object parameter)
     {
@@ -413,28 +416,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region HelperFunctions
 
-    private void AddTabItem(string header, object toolTip, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
+    private void AddTabItem(string header, object toolTip, Visibility busyIndicator, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
     {
-      var tabItem = new DragSupportTabItem
-      {
-        HeaderContent = header,
-        IsSelected = true,
-        HeaderToolTip = toolTip,
-        TabItemBackgroundColorStringHex = backgroundColor
-      };
-
-      if ( content != null )
-      {
-        content.LogWindowTabItem = tabItem;
-        tabItem.Content = content;
-      }
-      else
-      {
-        tabItem.Content = new LogWindowControl
-        {
-          LogWindowTabItem = tabItem
-        };
-      }
+      var tabItem = BusinessHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, backgroundColor, content);
 
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemDoubleClick;
@@ -447,7 +431,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !(args?.Sender is T4Window) )
         return;
 
-      AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.TabItemBackgroundColorStringHex, (LogWindowControl) args.TabItem.Content);
+      AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.TabItemBusyIndicator, args.TabItem.TabItemBackgroundColorStringHex, (LogWindowControl) args.TabItem.Content);
     }
 
     private void CloseTabItem(DragSupportTabItem item)
@@ -660,6 +644,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       case EStatusbarState.Busy:
 
         BaseWindowStatusbarViewModel.Instance.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex;
+        BaseWindowStatusbarViewModel.Instance.CurrentBusyState = Application.Current.TryFindResource("Record").ToString();
         break;
 
       case EStatusbarState.Default:

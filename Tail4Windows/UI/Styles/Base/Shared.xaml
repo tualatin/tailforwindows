@@ -72,6 +72,7 @@
   <Color x:Key="ColorAndroidIsMouseOverBlue">#BB34B4E3</Color>
   <Color x:Key="ColorOrange">#FFE5C365</Color>
   <Color x:Key="ColorOrangePressed">#FFE8A6</Color>
+  <Color x:Key="ColorStopRed">#FF8E210B</Color>
 
   <SolidColorBrush x:Key="BrushSolidGrey03" Color="{StaticResource ColorGrey03}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey10" Color="{StaticResource ColorGrey10}" po:Freeze="True" />
@@ -92,6 +93,7 @@
   <SolidColorBrush x:Key="BrushSolidLightBlue" Color="{StaticResource ColorLightBlue}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidBorderLightBlue" Color="{StaticResource ColorBorderLightBlue}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidAndroidIsMouseOverBlue" Color="{StaticResource ColorAndroidIsMouseOverBlue}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidStopRed" Color="{StaticResource ColorStopRed}" po:Freeze="True" />
 
   <SolidColorBrush x:Key="BrushSolidStartGreen" Color="{StaticResource ColorStartGreen}" po:Freeze="True" />
 

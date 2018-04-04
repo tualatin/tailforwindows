@@ -19,7 +19,7 @@
             Name="Chrome"
             Background="{TemplateBinding Background}"
             BorderThickness="{TemplateBinding BorderThickness}"
-            SnapsToDevicePixels="true"
+            SnapsToDevicePixels="True"
             >
             <Border.BorderBrush>
               <SolidColorBrush Color="{DynamicResource BorderMediumColor}" po:Freeze="True" />
@@ -35,8 +35,8 @@
               />
           </Border>
           <ControlTemplate.Triggers>
-            <Trigger Property="IsEnabled" Value="false">
-              <Setter Property="Foreground" Value="#333333" />
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
               <Setter Property="Background" Value="#dddddd" />
@@ -48,7 +48,7 @@
               <Setter Property="BorderBrush" Value="#1ba1e2" />
               <Setter Property="Foreground" Value="#ffffff" />
             </Trigger>
-            <Trigger Property="IsFocused" Value="true">
+            <Trigger Property="IsFocused" Value="True">
               <Setter TargetName="Chrome" Property="BorderBrush" Value="#1ba1e2" />
             </Trigger>
           </ControlTemplate.Triggers>

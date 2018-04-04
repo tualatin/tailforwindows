@@ -14,30 +14,30 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <summary>
     /// Is file Drag and Drop enabled
     /// </summary>
-    /// <param name="obj"><see cref="DependencyObject"/></param>
+    /// <param name="sender"><see cref="DependencyObject"/></param>
     /// <returns><c>True</c> if it is enabled, otherwise <c>False</c></returns>
-    public static bool GetIsFileDragDropEnabled(DependencyObject obj) => (bool) obj.GetValue(IsFileDragDropEnabledProperty);
+    public static bool GetIsFileDragDropEnabled(DependencyObject sender) => (bool) sender.GetValue(IsFileDragDropEnabledProperty);
 
     /// <summary>
     /// Set Drag and Drop
     /// </summary>
-    /// <param name="obj"><see cref="DependencyObject"/></param>
+    /// <param name="sender"><see cref="DependencyObject"/></param>
     /// <param name="value">To enable <c>True</c>, otherwise <c>False</c></param>
-    public static void SetIsFileDragDropEnabled(DependencyObject obj, bool value) => obj.SetValue(IsFileDragDropEnabledProperty, value);
+    public static void SetIsFileDragDropEnabled(DependencyObject sender, bool value) => sender.SetValue(IsFileDragDropEnabledProperty, value);
 
     /// <summary>
     /// Gets file Drag and Drop target
     /// </summary>
-    /// <param name="obj"><see cref="DependencyObject"/></param>
+    /// <param name="sender"><see cref="DependencyObject"/></param>
     /// <returns>If success <c>True</c>, otherwise <c>False</c></returns>
-    public static bool GetFileDragDropTarget(DependencyObject obj) => (bool) obj.GetValue(FileDragDropTargetProperty);
+    public static bool GetFileDragDropTarget(DependencyObject sender) => (bool) sender.GetValue(FileDragDropTargetProperty);
 
     /// <summary>
     /// Set file Drag and Drop target
     /// </summary>
-    /// <param name="obj"><see cref="DependencyObject"/></param>
+    /// <param name="sender"><see cref="DependencyObject"/></param>
     /// <param name="value"><see cref="bool"/></param>
-    public static void SetFileDragDropTarget(DependencyObject obj, bool value) => obj.SetValue(FileDragDropTargetProperty, value);
+    public static void SetFileDragDropTarget(DependencyObject sender, bool value) => sender.SetValue(FileDragDropTargetProperty, value);
 
     /// <summary>
     /// Is file Drag and Drop enabled property
@@ -49,16 +49,16 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// </summary>
     public static readonly DependencyProperty FileDragDropTargetProperty = DependencyProperty.RegisterAttached("FileDragDropTarget", typeof(object), typeof(FileDragDropHelper), null);
 
-    private static void OnFileDragDropEnabled(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void OnFileDragDropEnabled(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
       if ( e.NewValue == e.OldValue )
         return;
 
-      if ( d is Control control )
+      if ( sender is Control control )
         control.Drop += OnDrop;
     }
 
-    private static void OnDrop(object sender, DragEventArgs dragEventArgs)
+    private static void OnDrop(object sender, DragEventArgs e)
     {
       if ( !(sender is DependencyObject d) )
         return;
@@ -67,8 +67,10 @@ namespace Org.Vs.TailForWin.UI.Utils
 
       if ( target is IFileDragDropTarget fileTarget )
       {
-        if ( dragEventArgs.Data.GetDataPresent(DataFormats.FileDrop) )
-          fileTarget.OnFileDrop((string[]) dragEventArgs.Data.GetData(DataFormats.FileDrop));
+        if ( e.Data.GetDataPresent(DataFormats.FileDrop) )
+          fileTarget.OnFileDrop((string[]) e.Data.GetData(DataFormats.FileDrop));
+
+        e.Handled = true;
       }
       else
       {

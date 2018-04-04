@@ -226,7 +226,7 @@
               x:Name="Border"
               Grid.Row="1"
               Grid.Column="0"
-              BorderThickness="1"
+              BorderThickness="0"
               KeyboardNavigation.DirectionalNavigation="Contained"
               KeyboardNavigation.TabIndex="2"
               KeyboardNavigation.TabNavigation="Local"
@@ -237,7 +237,6 @@
 
               <ContentPresenter
                 x:Name="PART_SelectedContentHost"
-                Margin="4"
                 ContentSource="SelectedContent"
                 />
             </Border>

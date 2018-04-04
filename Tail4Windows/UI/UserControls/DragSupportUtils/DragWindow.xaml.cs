@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using log4net;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
@@ -165,7 +166,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// Add TabItem
     /// </summary>
     /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
-    public void AddTabItem(DragSupportTabItem tabItem) => AddTabItem(tabItem.HeaderContent, tabItem.HeaderToolTip, tabItem.TabItemBackgroundColorStringHex, (LogWindowControl) tabItem.Content);
+    public void AddTabItem(DragSupportTabItem tabItem) => AddTabItem(tabItem.HeaderContent, tabItem.HeaderToolTip, tabItem.TabItemBusyIndicator, tabItem.TabItemBackgroundColorStringHex, (LogWindowControl) tabItem.Content);
 
     /// <summary>
     /// Remove TabItem
@@ -278,32 +279,13 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         RemoveTabItem(item);
     }
 
-    private void TabControlOnAddTabItemEvent(object sender, RoutedEventArgs e) => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}");
+    private void TabControlOnAddTabItemEvent(object sender, RoutedEventArgs e) => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}", Visibility.Collapsed);
 
     #endregion
 
-    private void AddTabItem(string header, object toolTip, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
+    private void AddTabItem(string header, object toolTip, Visibility busyIndicator, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
     {
-      var tabItem = new DragSupportTabItem
-      {
-        HeaderContent = header,
-        IsSelected = true,
-        HeaderToolTip = toolTip,
-        TabItemBackgroundColorStringHex = backgroundColor
-      };
-
-      if ( content != null )
-      {
-        content.LogWindowTabItem = tabItem;
-        tabItem.Content = content;
-      }
-      else
-      {
-        tabItem.Content = new LogWindowControl
-        {
-          LogWindowTabItem = tabItem
-        };
-      }
+      var tabItem = BusinessHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, backgroundColor, content);
 
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemTabHeaderDoubleClick;

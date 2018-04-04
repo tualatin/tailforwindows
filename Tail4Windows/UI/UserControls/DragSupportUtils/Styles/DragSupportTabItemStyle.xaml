@@ -54,7 +54,7 @@
               <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource ButtonOverBackground}" />
               <Setter TargetName="Chrome" Property="Opacity" Value="1" />
             </Trigger>
-            <Trigger Property="IsEnabled" Value="false">
+            <Trigger Property="IsEnabled" Value="False">
               <Setter Property="Foreground" Value="#ADADAD" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
@@ -225,7 +225,7 @@
               <Setter TargetName="ContentSite" Property="TextBlock.FontWeight" Value="Bold" />
               <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />
             </Trigger>
-            <Trigger Property="IsMouseOver" Value="True">
+            <Trigger Property="IsMouseOver" Value="True" SourceName="Chrome">
               <Setter TargetName="ToggleColorPicker" Property="Visibility" Value="Visible" />
             </Trigger>
             <Trigger Property="IsSelected" Value="False">

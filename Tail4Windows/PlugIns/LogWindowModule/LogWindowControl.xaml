@@ -4,25 +4,842 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:logWindowModule="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule"
+  xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   mc:Ignorable="d"
   d:DesignHeight="450"
   d:DesignWidth="800"
   HorizontalAlignment="Stretch"
   VerticalAlignment="Stretch"
+  DataContext="{Binding RelativeSource={RelativeSource Self}}"
   >
-  <Grid>
-    <Label
-      HorizontalAlignment="Center"
-      VerticalAlignment="Center"
-      Content="LogWindowControl"
-      />
-    <Button
-      Width="75"
-      Margin="55 35 0 0"
-      HorizontalAlignment="Left"
-      VerticalAlignment="Top"
-      Content="Button" Click="Button_Click"
-      />
+  <UserControl.Resources>
+    <Style x:Key="AddFileToFileManagerStyle" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Border
+              Name="Chrome"
+              Background="{TemplateBinding Background}"
+              BorderThickness="{TemplateBinding BorderThickness}"
+              SnapsToDevicePixels="True"
+              >
+              <Border.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource BorderMediumColor}" po:Freeze="True" />
+              </Border.BorderBrush>
+
+              <Grid>
+                <Path
+                  x:Name="PlusPath"
+                  Margin="3"
+                  Data="M3.875,0 L5.125,0 5.125,3.875 9,3.875 9,5.125 5.125,5.125 5.125,9 3.875,9 3.875,5.125 0,5.125 0,3.875 3.875,3.875 3.875,0 z"
+                  Fill="{StaticResource BrushSolidBlue}"
+                  Stretch="Fill"
+                  Stroke="{StaticResource BrushSolidBorderLightBlue}"
+                  StrokeThickness="0.6"
+                  />
+
+              </Grid>
+            </Border>
+
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
+                <Setter TargetName="PlusPath" Property="Fill" Value="{StaticResource BrushSolidGrey35}" />
+              </Trigger>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#dddddd" />
+                <Setter Property="BorderBrush" Value="#cccccc" />
+                <Setter Property="Foreground" Value="#333333" />
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="#1ba1e2" />
+                <Setter Property="BorderBrush" Value="#1ba1e2" />
+                <Setter Property="Foreground" Value="#ffffff" />
+              </Trigger>
+              <Trigger Property="IsFocused" Value="True">
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="#1ba1e2" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="StartButtonStyle" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Border
+              Name="Chrome"
+              Background="{TemplateBinding Background}"
+              BorderThickness="{TemplateBinding BorderThickness}"
+              SnapsToDevicePixels="True"
+              >
+              <Border.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource BorderMediumColor}" po:Freeze="True" />
+              </Border.BorderBrush>
+
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="25" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Polygon
+                  x:Name="TrianglePolygon"
+                  Grid.Column="0"
+                  Margin="2 0 2 0"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Fill="{StaticResource BrushSolidStartGreen}"
+                  Points="0,0 8,5, 0,10"
+                  />
+
+                <TextBlock
+                  Grid.Column="1"
+                  VerticalAlignment="Center"
+                  Text="{TemplateBinding Content}"
+                  />
+              </Grid>
+            </Border>
+
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
+                <Setter TargetName="TrianglePolygon" Property="Fill" Value="{StaticResource BrushSolidGrey35}" />
+              </Trigger>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#dddddd" />
+                <Setter Property="BorderBrush" Value="#cccccc" />
+                <Setter Property="Foreground" Value="#333333" />
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="#1ba1e2" />
+                <Setter Property="BorderBrush" Value="#1ba1e2" />
+                <Setter Property="Foreground" Value="#ffffff" />
+              </Trigger>
+              <Trigger Property="IsFocused" Value="True">
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="#1ba1e2" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="StopButtonStyle" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Border
+              Name="Chrome"
+              Background="{TemplateBinding Background}"
+              BorderThickness="{TemplateBinding BorderThickness}"
+              SnapsToDevicePixels="True"
+              >
+              <Border.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource BorderMediumColor}" po:Freeze="True" />
+              </Border.BorderBrush>
+
+              <Grid>
+                <Polygon
+                  x:Name="StopPolygon"
+                  Grid.Column="0"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Fill="{StaticResource BrushSolidStopRed}"
+                  Points="0,0 10,0 10,10 0,10"
+                  />
+              </Grid>
+            </Border>
+
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
+                <Setter TargetName="StopPolygon" Property="Fill" Value="{StaticResource BrushSolidGrey35}" />
+              </Trigger>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#dddddd" />
+                <Setter Property="BorderBrush" Value="#cccccc" />
+                <Setter Property="Foreground" Value="#333333" />
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter Property="Background" Value="#1ba1e2" />
+                <Setter Property="BorderBrush" Value="#1ba1e2" />
+                <Setter Property="Foreground" Value="#ffffff" />
+              </Trigger>
+              <Trigger Property="IsFocused" Value="True">
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="#1ba1e2" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+
+    <Style x:Key="ToggleMenuButtonStye" TargetType="{x:Type ToggleButton}">
+      <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}" />
+      <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+      <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+      <Setter Property="Height" Value="22" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="Margin" Value="5 0 0 0" />
+      <Setter Property="SnapsToDevicePixels" Value="True" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type ToggleButton}">
+            <Grid>
+              <Border
+                x:Name="Chrome"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                Opacity="0"
+                SnapsToDevicePixels="True"
+                />
+
+              <DockPanel>
+                <Ellipse
+                  Width="2"
+                  Height="2"
+                  Margin="0 5 0 0"
+                  DockPanel.Dock="Top"
+                  Fill="Black"
+                  Stretch="Uniform"
+                  />
+
+                <Ellipse
+                  Width="2"
+                  Height="2"
+                  Margin="0 0 0 5"
+                  DockPanel.Dock="Bottom"
+                  Fill="Black"
+                  Stretch="Uniform"
+                  />
+
+                <Ellipse
+                  Width="2"
+                  Height="2"
+                  Fill="Black"
+                  Stretch="Uniform"
+                  />
+              </DockPanel>
+
+              <ContentPresenter
+                Margin="{TemplateBinding Padding}"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                Content="{TemplateBinding Content}"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                />
+            </Grid>
+
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource ButtonOverBackground}" />
+                <Setter TargetName="Chrome" Property="Opacity" Value="1" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="#ADADAD" />
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+              </Trigger>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+                <Setter TargetName="Chrome" Property="Opacity" Value="1" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Width" Value="22" />
+    </Style>
+  </UserControl.Resources>
+
+  <Grid UseLayoutRounding="True">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+
+    <Grid
+      Grid.Row="0"
+      Background="{StaticResource BrushSolidLightBlue}"
+      >
+      <Grid.RowDefinitions>
+        <RowDefinition Height="28" />
+        <RowDefinition Height="28" />
+      </Grid.RowDefinitions>
+
+      <Grid
+        Grid.Row="0"
+        Margin="3 1"
+        >
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel
+          Grid.Column="0"
+          Orientation="Horizontal"
+          >
+          <Label
+            Margin="0 0 5 0"
+            VerticalAlignment="Center"
+            Content="{DynamicResource LabelFile}"
+            />
+
+          <Button
+            Width="24"
+            Height="24"
+            Margin="0 0 5 0"
+            VerticalAlignment="Center"
+            Click="ButtonOpenFileClick"
+            IsEnabled="{Binding LogWindowState, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StatusBarStateToBoolConverter}}"
+            >
+            <StackPanel>
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/openfolder.ico"
+                />
+            </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource ButtonOpenFile}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource ButtonOpenFileToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+
+          <Button
+            Width="24"
+            Height="24"
+            Margin="0 0 5 0"
+            VerticalAlignment="Center"
+            Click="ButtonAddToFileManagerClick"
+            Style="{StaticResource AddFileToFileManagerStyle}"
+            >
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource ButtonAddsFileToFileManager}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource ButtonAddsFileToFileManagerToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+        </StackPanel>
+
+        <userControls:WatermarkTextBox
+          Grid.Column="1"
+          Height="24"
+          VerticalAlignment="Center"
+          >
+          <userControls:WatermarkTextBox.Watermark>
+            <TextBlock
+              Margin="5 0 0 0"
+              Text="{DynamicResource TextBoxFileNameWatermark}"
+              FontStyle="Italic"
+              />
+          </userControls:WatermarkTextBox.Watermark>
+        </userControls:WatermarkTextBox>
+
+        <StackPanel
+          Grid.Column="2"
+          Orientation="Horizontal"
+          >
+          <Button
+            Width="75"
+            Height="24"
+            Margin="5 0"
+            VerticalAlignment="Center"
+            Content="{DynamicResource ButtonStartTail}"
+            Click="ButtonStartTailClick"
+            IsEnabled="{Binding LogWindowState, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StatusBarStateToBoolConverter}}"
+            Style="{StaticResource StartButtonStyle}"
+            >
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="Tail"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource ButtonStartTailToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+
+          <Button
+            Width="24"
+            Height="24"
+            VerticalAlignment="Center"
+            Click="ButtonStopTailClick"
+            IsEnabled="{Binding LogWindowState, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StatusBarStateToBoolInverseConverter}}"
+            Style="{StaticResource StopButtonStyle}"
+            >
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="Tail"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource ButtonStopTailToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+        </StackPanel>
+      </Grid>
+
+      <Grid
+        Grid.Row="1"
+        Margin="3 1"
+        >
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel
+          Grid.Column="0"
+          Orientation="Horizontal"
+          >
+          <CheckBox
+            Height="22"
+            Content="{DynamicResource ComboBoxTimeStamp}"
+            >
+            <CheckBox.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource ComboBoxTimeStamp}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource EnvironmentAlwaysOnTopToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </CheckBox.ToolTip>
+          </CheckBox>
+
+          <CheckBox
+            Height="22"
+            Content="{DynamicResource ComboBoxLineWrap}"
+            >
+            <CheckBox.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource ComboBoxLineWrap}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource EnvironmentAlwaysOnTopToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </CheckBox.ToolTip>
+          </CheckBox>
+
+          <CheckBox
+            Height="22"
+            Content="{DynamicResource ComboBoxRemoveSpace}"
+            >
+            <CheckBox.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource ComboBoxRemoveSpace}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource EnvironmentAlwaysOnTopToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </CheckBox.ToolTip>
+          </CheckBox>
+
+          <CheckBox
+            Height="22"
+            Content="{DynamicResource ComboBoxFilter}"
+            >
+            <CheckBox.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource ComboBoxFilter}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource EnvironmentAlwaysOnTopToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </CheckBox.ToolTip>
+          </CheckBox>
+
+          <Line
+            Margin="3 3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            SnapsToDevicePixels="True"
+            Stroke="Black"
+            StrokeThickness="0.1"
+            X1="0"
+            X2="0"
+            Y1="0"
+            Y2="20"
+            />
+        </StackPanel>
+
+        <StackPanel
+          Grid.Column="1"
+          Orientation="Horizontal"
+          >
+          <StackPanel Orientation="Horizontal">
+            <Label
+              Margin="2 0 2 0"
+              VerticalAlignment="Center"
+              Content="{DynamicResource LabelRefreshRate}"
+              />
+            <ComboBox
+              Height="22"
+              MinWidth="90"
+              Margin="6 0 0 0"
+              Foreground="Black"
+              TabIndex="0"
+              >
+              <ComboBox.ToolTip>
+                <StackPanel>
+                  <TextBlock
+                    Margin="0 0 0 5"
+                    Text="{DynamicResource LabelRefreshRate}"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    />
+                  <TextBlock Text="{DynamicResource EnvironmentLanguageToolTip}" />
+                  <Border
+                    Margin="0 8"
+                    BorderBrush="Silver"
+                    BorderThickness="0 1 0 0"
+                    />
+                  <WrapPanel>
+                    <Image
+                      Width="16"
+                      Height="16"
+                      Margin="0 0 5 0"
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/Search.ico"
+                      />
+                    <TextBlock
+                      Text="{DynamicResource GeneralToolTipHint}"
+                      FontStyle="Italic"
+                      />
+                  </WrapPanel>
+                </StackPanel>
+              </ComboBox.ToolTip>
+            </ComboBox>
+          </StackPanel>
+
+          <StackPanel Orientation="Horizontal">
+            <Label
+              Margin="5 0 2 0"
+              VerticalAlignment="Center"
+              Content="{DynamicResource LabelThreadPriority}"
+              />
+            <ComboBox
+              Height="22"
+              MinWidth="90"
+              Margin="6 0 0 0"
+              Foreground="Black"
+              TabIndex="0"
+              >
+              <ComboBox.ToolTip>
+                <StackPanel>
+                  <TextBlock
+                    Margin="0 0 0 5"
+                    Text="{DynamicResource LabelThreadPriority}"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    />
+                  <TextBlock Text="{DynamicResource EnvironmentLanguageToolTip}" />
+                  <Border
+                    Margin="0 8"
+                    BorderBrush="Silver"
+                    BorderThickness="0 1 0 0"
+                    />
+                  <WrapPanel>
+                    <Image
+                      Width="16"
+                      Height="16"
+                      Margin="0 0 5 0"
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/Search.ico"
+                      />
+                    <TextBlock
+                      Text="{DynamicResource GeneralToolTipHint}"
+                      FontStyle="Italic"
+                      />
+                  </WrapPanel>
+                </StackPanel>
+              </ComboBox.ToolTip>
+            </ComboBox>
+          </StackPanel>
+        </StackPanel>
+
+        <StackPanel
+          Grid.Column="3"
+          HorizontalAlignment="Right"
+          Orientation="Horizontal"
+          >
+          <CheckBox
+            Height="22"
+            Content="SmartWatch"
+            >
+            <CheckBox.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="SmartWatch"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource EnvironmentAlwaysOnTopToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </CheckBox.ToolTip>
+          </CheckBox>
+
+          <ToggleButton
+            x:Name="ToggleMenuButton"
+            Style="{StaticResource ToggleMenuButtonStye}"
+            >
+            <ToggleButton.ToolTip>
+              <ToolTip
+                Content="{DynamicResource ToggleMenuButtonToolTip}"
+                Style="{StaticResource TabItemToolTipStyle}"
+                />
+            </ToggleButton.ToolTip>
+          </ToggleButton>
+
+          <extendedControls:PopupEx
+            IsOpen="{Binding ElementName=ToggleMenuButton, Path=IsChecked}"
+            PlacementTarget="{Binding ElementName=ToggleMenuButton}"
+            >
+            <Grid>
+              <Border
+                Width="200"
+                Height="200"
+                Background="White"
+                BorderBrush="{StaticResource BrushSolidGrey55}"
+                BorderThickness="1"
+                />
+            </Grid>
+          </extendedControls:PopupEx>
+        </StackPanel>
+      </Grid>
+    </Grid>
+
+    <Grid Grid.Row="1">
+      <Border
+        BorderBrush="{StaticResource BrushSolidBlue}"
+        BorderThickness="0 1 0 0"
+        >
+        <logWindowModule:LogWindow
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center"
+          />
+      </Border>
+    </Grid>
   </Grid>
 </UserControl>

@@ -77,6 +77,22 @@
   <system:String x:Key="WebUrl">https://github.com/tualatin/tailforwindows/releases</system:String>
   <system:String x:Key="UpdateUrl">https://www.virtual-studios.de/tail4wnd/releases.txt</system:String>
   <system:String x:Key="QuickSearchWatermark">Quick search</system:String>
+  <system:String x:Key="ButtonStartTail">Start</system:String>
+  <system:String x:Key="ButtonStartTailToolTip">Starts tail (CTRL+R)</system:String>
+  <system:String x:Key="ButtonStopTailToolTip">Stops tail (CTRL+S)</system:String>
+  <system:String x:Key="ButtonAddsFileToFileManager">Adds file to...</system:String>
+  <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Adds current file to FileManager</system:String>
+  <system:String x:Key="ButtonOpenFile">Open file...</system:String>
+  <system:String x:Key="ButtonOpenFileToolTip">Opens a file to tail...</system:String>
+  <system:String x:Key="TextBoxFileNameWatermark">Logfile</system:String>
+  <system:String x:Key="LabelFile">File</system:String>
+  <system:String x:Key="LabelRefreshRate">Refresh rate</system:String>
+  <system:String x:Key="LabelThreadPriority">Thread priority</system:String>
+  <system:String x:Key="ComboBoxTimeStamp">Timestamp</system:String>
+  <system:String x:Key="ComboBoxLineWrap">Linewrap</system:String>
+  <system:String x:Key="ComboBoxRemoveSpace">Remove space</system:String>
+  <system:String x:Key="ComboBoxFilter">Filter</system:String>
+  <system:String x:Key="ToggleMenuButtonToolTip">Extended tail settings</system:String>
 
   <system:String x:Key="EFileSortFileCreationTime">File creation time</system:String>
   <system:String x:Key="EFileSortDefault">Default</system:String>
