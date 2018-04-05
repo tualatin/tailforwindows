@@ -348,22 +348,40 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
+    private bool _openFromFileManager;
+
     /// <summary>
     /// Is item opened from FileManager
     /// </summary>
     public bool OpenFromFileManager
     {
-      get;
-      set;
+      get => _openFromFileManager;
+      set
+      {
+        if ( value == _openFromFileManager )
+          return;
+
+        _openFromFileManager = value;
+        OnPropertyChanged();
+      }
     }
+
+    private bool _filterState;
 
     /// <summary>
     /// Is filter checkbox on/off
     /// </summary>
     public bool FilterState
     {
-      get;
-      set;
+      get => _filterState;
+      set
+      {
+        if ( value == _filterState )
+          return;
+
+        _filterState = value;
+        OnPropertyChanged();
+      }
     }
 
     private string _patternString;
@@ -459,13 +477,22 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
+    private bool _openFromSmartWatch;
+
     /// <summary>
     /// Properties comes from SmartWatch
     /// </summary>
     public bool OpenFromSmartWatch
     {
-      get;
-      set;
+      get => _openFromSmartWatch;
+      set
+      {
+        if (value == _openFromSmartWatch)
+          return;
+
+        _openFromSmartWatch = value;
+        OnPropertyChanged();
+      }
     }
 
     /// <summary>

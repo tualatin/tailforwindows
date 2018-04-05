@@ -47,6 +47,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           return;
 
         _currentLogFile = value;
+        CurrenTailData.FileName = value;
         LogWindowState = !string.IsNullOrWhiteSpace(_currentLogFile) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
 
         OnPropertyChanged();
@@ -97,7 +98,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         _logWindowState = value;
 
-        OnStatusChanged?.Invoke(this, new StatusChangedArgs(LogWindowState));
+        if (IsSelected)
+          OnStatusChanged?.Invoke(this, new StatusChangedArgs(LogWindowState));
+
         OnPropertyChanged();
       }
     }
@@ -114,7 +117,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       get;
       set;
-    }
+    } = new TailData();
 
     #region Commands
 

@@ -10,7 +10,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args
   public class StatusChangedArgs : EventArgs
   {
     /// <summary>
-    /// State
+    /// State <see cref="EStatusbarState"/>
     /// </summary>
     public EStatusbarState State
     {

@@ -23,7 +23,6 @@
   <UserControl.Resources>
     <Storyboard x:Key="ExtendedSettingsShowAnimation">
       <DoubleAnimation
-        BeginTime="0:0:0.5"
         Duration="0:0:0.2"
         Storyboard.TargetProperty="MinHeight"
         To="23"
@@ -337,10 +336,7 @@
                   ElementName="LogFileTextBox"
                   Path="Text.Length"
                   />
-                <Binding
-                  FallbackValue="False"
-                  Path="CurrenTailData.OpenFromFileManager"
-                  />
+                <Binding Path="CurrenTailData.OpenFromFileManager" />
               </MultiBinding>
             </Button.IsEnabled>
           </Button>
@@ -673,9 +669,28 @@
             </CheckBox.ToolTip>
           </CheckBox>
 
+          <Line
+            Margin="3 3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            SnapsToDevicePixels="True"
+            Stroke="Black"
+            StrokeThickness="0.1"
+            X1="0"
+            X2="0"
+            Y1="0"
+            Y2="20"
+            />
+        </StackPanel>
+
+        <StackPanel
+          Grid.Column="1"
+          Orientation="Horizontal"
+          >
           <CheckBox
             Height="22"
             Content="{DynamicResource ComboBoxFilter}"
+            IsChecked="{Binding CurrenTailData.FilterState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             >
             <CheckBox.ToolTip>
               <StackPanel>
@@ -709,27 +724,47 @@
             </CheckBox.ToolTip>
           </CheckBox>
 
-          <Line
-            Margin="3 3"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            SnapsToDevicePixels="True"
-            Stroke="Black"
-            StrokeThickness="0.1"
-            X1="0"
-            X2="0"
-            Y1="0"
-            Y2="20"
-            />
-        </StackPanel>
+          <CheckBox
+            Height="22"
+            Content="SmartWatch"
+            IsChecked="{Binding CurrenTailData.SmartWatch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, FallbackValue=False}"
+            IsEnabled="{Binding LogWindowState, Converter={StaticResource StatusBarStateToBoolConverter}}"
+            >
+            <CheckBox.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="SmartWatch"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource CheckBoxUseSmartWatchToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </CheckBox.ToolTip>
+          </CheckBox>
 
-        <StackPanel
-          Grid.Column="1"
-          Orientation="Horizontal"
-          >
           <StackPanel Orientation="Horizontal">
             <Label
-              Margin="2 0 2 0"
+              Margin="5 0 2 0"
               VerticalAlignment="Center"
               Content="{DynamicResource LabelRefreshRate}"
               />
@@ -738,6 +773,7 @@
               MinWidth="90"
               Margin="6 0 0 0"
               Foreground="Black"
+              SelectedValue="{Binding CurrenTailData.RefreshRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
               TabIndex="0"
               >
               <ComboBox.ToolTip>
@@ -784,6 +820,7 @@
               MinWidth="90"
               Margin="6 0 0 0"
               Foreground="Black"
+              SelectedValue="{Binding CurrenTailData.ThreadPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
               TabIndex="0"
               >
               <ComboBox.ToolTip>
@@ -825,42 +862,6 @@
           HorizontalAlignment="Right"
           Orientation="Horizontal"
           >
-          <CheckBox
-            Height="22"
-            Content="SmartWatch"
-            >
-            <CheckBox.ToolTip>
-              <StackPanel>
-                <TextBlock
-                  Margin="0 0 0 5"
-                  Text="SmartWatch"
-                  FontSize="12"
-                  FontWeight="Bold"
-                  />
-                <TextBlock Text="{DynamicResource EnvironmentAlwaysOnTopToolTip}" />
-                <Border
-                  Margin="0 8"
-                  BorderBrush="Silver"
-                  BorderThickness="0 1 0 0"
-                  />
-                <WrapPanel>
-                  <Image
-                    Width="16"
-                    Height="16"
-                    Margin="0 0 5 0"
-                    RenderOptions.BitmapScalingMode="HighQuality"
-                    RenderOptions.EdgeMode="Aliased"
-                    Source="/T4W;component/Resources/Search.ico"
-                    />
-                  <TextBlock
-                    Text="{DynamicResource GeneralToolTipHint}"
-                    FontStyle="Italic"
-                    />
-                </WrapPanel>
-              </StackPanel>
-            </CheckBox.ToolTip>
-          </CheckBox>
-
           <Button Style="{StaticResource MenuButtonStye}">
             <i:Interaction.Behaviors>
               <behaviors:DropDownButtonBehavior />
@@ -870,7 +871,7 @@
               <ContextMenu>
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsFilterLabel}"
-                  IsEnabled="{Binding CurrentLogFile.Length, Converter={StaticResource IntToBoolConverter}, UpdateSourceTrigger=PropertyChanged}"
+                  IsEnabled="{Binding CurrenTailData.File.Length, Converter={StaticResource IntToBoolConverter}, UpdateSourceTrigger=PropertyChanged}"
                   >
                   <MenuItem.Icon>
                     <Image
@@ -883,7 +884,7 @@
 
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsOpenInExplorer}"
-                  IsEnabled="{Binding CurrentLogFile.Length, Converter={StaticResource IntToBoolConverter}, UpdateSourceTrigger=PropertyChanged}"
+                  IsEnabled="{Binding CurrenTailData.File.Length, Converter={StaticResource IntToBoolConverter}, UpdateSourceTrigger=PropertyChanged}"
                   >
                   <MenuItem.Icon>
                     <Image
@@ -896,7 +897,7 @@
 
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsPrintTailLog}"
-                  IsEnabled="{Binding CurrentLogFile.Length, Converter={StaticResource IntToBoolConverter}, UpdateSourceTrigger=PropertyChanged}"
+                  IsEnabled="{Binding CurrenTailData.File.Length, Converter={StaticResource IntToBoolConverter}, UpdateSourceTrigger=PropertyChanged}"
                   >
                   <MenuItem.Icon>
                     <Image

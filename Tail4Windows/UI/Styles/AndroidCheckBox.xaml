@@ -165,6 +165,7 @@
               <Setter TargetName="MainBorder" Property="Background" Value="#81d2eb" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
+              <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey55}" />
               <Setter TargetName="CheckMark" Property="Fill" Value="#cccccc" />
               <Setter TargetName="CheckMark" Property="Stroke" Value="#cccccc" />
               <Setter TargetName="InderminateMark" Property="Fill" Value="#cccccc" />

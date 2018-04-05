@@ -95,6 +95,7 @@
   <system:String x:Key="ToggleMenuButtonToolTip">Erweiterte tail Einstellungen</system:String>
   <system:String x:Key="ButtonFileManager">FileManager</system:String>
   <system:String x:Key="ButtonFileManagerToolTip">Öffnet den FileManager (STRG+M)</system:String>
+  <system:String x:Key="CheckBoxUseSmartWatchToolTip">Activate SmartWatch for current log file</system:String>
 
   <system:String x:Key="ExtendedTailSettingsLabel">Zeit erweiterte Einstellungen</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Zeige die erweiterten Einstellungen des aktuellen tail Tabs</system:String>
