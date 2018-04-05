@@ -13,6 +13,8 @@ using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -45,9 +47,20 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           return;
 
         _currentLogFile = value;
+        LogWindowState = !string.IsNullOrWhiteSpace(_currentLogFile) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
+
         OnPropertyChanged();
       }
     }
+
+    #region Events
+
+    /// <summary>
+    /// On status changed event
+    /// </summary>
+    public event StatusChangedEventHandler OnStatusChanged;
+
+    #endregion
 
     /// <summary>
     /// Standard constructor
@@ -83,6 +96,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           return;
 
         _logWindowState = value;
+
+        OnStatusChanged?.Invoke(this, new StatusChangedArgs(LogWindowState));
         OnPropertyChanged();
       }
     }
@@ -164,7 +179,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
-      LogWindowState = EStatusbarState.Default;
+      LogWindowState = string.IsNullOrWhiteSpace(CurrentLogFile) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
     }
 
     private void ExecuteOpenFileCommand()

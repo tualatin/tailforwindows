@@ -19,6 +19,7 @@ using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.UI;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -193,12 +194,16 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       get => _selectedTabItem;
       set
       {
+        if (_selectedTabItem != null)
+          ((LogWindowControl) _selectedTabItem.Content).OnStatusChanged -= OnStatusChangedCurrentLogWindow;
+
         _selectedTabItem = value;
 
         if ( _selectedTabItem == null )
           return;
 
         var content = (LogWindowControl) _selectedTabItem.Content;
+        content.OnStatusChanged += OnStatusChangedCurrentLogWindow;
         _currentStatusbarState = content.LogWindowState;
 
         SetCurrentBusinessData();
@@ -410,6 +415,16 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private void TabItemDoubleClick(object sender, RoutedEventArgs e)
     {
       LOG.Trace("MouseDoubleClick");
+    }
+
+    private void OnStatusChangedCurrentLogWindow(object sender, StatusChangedArgs e)
+    {
+      if ( !(sender is LogWindowControl) )
+        return;
+
+      _currentStatusbarState = e.State;
+
+      SetCurrentBusinessData();
     }
 
     #endregion
@@ -639,6 +654,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       case EStatusbarState.FileLoaded:
 
         BaseWindowStatusbarViewModel.Instance.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex;
+        BaseWindowStatusbarViewModel.Instance.CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
         break;
 
       case EStatusbarState.Busy:

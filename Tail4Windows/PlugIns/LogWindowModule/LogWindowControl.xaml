@@ -352,6 +352,7 @@
           Height="24"
           VerticalAlignment="Center"
           Text="{Binding CurrentLogFile, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+          IsReadOnly="{Binding LogWindowState, Converter={StaticResource StatusBarStateToBoolInverseConverter}}"
           >
           <userControls:WatermarkTextBox.Watermark>
             <TextBlock

@@ -26,7 +26,7 @@ namespace Org.Vs.TailForWin.UI.Converters
       if ( !(value is EStatusbarState state) )
         return false;
 
-      return state != EStatusbarState.Default;
+      return state == EStatusbarState.Busy;
     }
 
     /// <summary>

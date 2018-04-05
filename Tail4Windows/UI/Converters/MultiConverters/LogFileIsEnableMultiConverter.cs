@@ -27,7 +27,7 @@ namespace Org.Vs.TailForWin.UI.Converters.MultiConverters
       if ( !(values.Last() is int i) )
         return false;
 
-      return state == EStatusbarState.Default && i > 0;
+      return state != EStatusbarState.Busy && i > 0;
     }
 
     /// <summary>
