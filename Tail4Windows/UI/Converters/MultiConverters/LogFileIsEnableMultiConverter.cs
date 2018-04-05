@@ -24,10 +24,10 @@ namespace Org.Vs.TailForWin.UI.Converters.MultiConverters
     {
       if ( !(values.First() is EStatusbarState state) )
         return false;
-      if ( !(values.Last() is int i) )
+      if ( !(values.Last() is bool i) )
         return false;
 
-      return state != EStatusbarState.Busy && i > 0;
+      return state != EStatusbarState.Busy && i;
     }
 
     /// <summary>

@@ -194,7 +194,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       get => _selectedTabItem;
       set
       {
-        if (_selectedTabItem != null)
+        if ( _selectedTabItem != null )
           ((LogWindowControl) _selectedTabItem.Content).OnStatusChanged -= OnStatusChangedCurrentLogWindow;
 
         _selectedTabItem = value;
@@ -431,7 +431,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region HelperFunctions
 
-    private void AddTabItem(string header, object toolTip, Visibility busyIndicator, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
+    private void AddTabItem(string header, string toolTip, Visibility busyIndicator, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
     {
       var tabItem = BusinessHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, backgroundColor, content);
 

@@ -9,7 +9,7 @@ namespace Org.Vs.TailForWin.UI.Converters.MultiConverters
   /// <summary>
   /// Log file length / FileManager multi converter
   /// </summary>
-  public class LogFileLengthFileManagerMultiConverter : IMultiValueConverter
+  public class LogFileFileManagerMultiConverter : IMultiValueConverter
   {
     /// <summary>
     /// Convert
@@ -21,12 +21,12 @@ namespace Org.Vs.TailForWin.UI.Converters.MultiConverters
     /// <returns>Converted value</returns>
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
-      if ( !(values.First() is int i) )
+      if ( !(values.First() is bool i) )
         return false;
       if ( !(values.Last() is bool b) )
         return false;
 
-      return i > 0 && !b;
+      return i && !b;
     }
 
     /// <summary>

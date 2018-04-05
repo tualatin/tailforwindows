@@ -219,7 +219,7 @@
     <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
     <Compile Include="UI\Converters\IntToBoolConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\LogFileIsEnableMultiConverter.cs" />
-    <Compile Include="UI\Converters\MultiConverters\LogFileLengthFileManagerMultiConverter.cs" />
+    <Compile Include="UI\Converters\MultiConverters\LogFileFileManagerMultiConverter.cs" />
     <Compile Include="UI\Converters\StatusBarStateToBoolConverter.cs" />
     <Compile Include="UI\Converters\StatusBarStateToBoolInverseConverter.cs" />
     <Compile Include="UI\ExtendedControls\PopupEx.cs" />

@@ -19,7 +19,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// <param name="backgroundColor">BackgroundColor as hex string</param>
     /// <param name="content">Content as <see cref="LogWindowControl"/></param>
     /// <returns><see cref="DragSupportTabItem"/></returns>
-    public static DragSupportTabItem CreateDragSupportTabItem(string header, object toolTip, Visibility busyIndicator, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
+    public static DragSupportTabItem CreateDragSupportTabItem(string header, string toolTip, Visibility busyIndicator, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
     {
       var tabItem = new DragSupportTabItem
       {

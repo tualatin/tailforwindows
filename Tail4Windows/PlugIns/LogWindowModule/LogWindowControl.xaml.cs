@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule;
-using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
-using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
-using Org.Vs.TailForWin.UI.Services;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
 
@@ -30,29 +27,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   public partial class LogWindowControl : ILogWindow, IFileDragDropTarget
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogWindowControl));
-
-    private readonly IXmlFileManager _xmlFileManagerReader;
-
-    private string _currentLogFile;
-
-    /// <summary>
-    /// Current log file
-    /// </summary>
-    public string CurrentLogFile
-    {
-      get => _currentLogFile;
-      set
-      {
-        if ( Equals(value, _currentLogFile) )
-          return;
-
-        _currentLogFile = value;
-        CurrenTailData.FileName = value;
-        LogWindowState = !string.IsNullOrWhiteSpace(_currentLogFile) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
-
-        OnPropertyChanged();
-      }
-    }
 
     #region Events
 
@@ -69,9 +43,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     public LogWindowControl()
     {
       InitializeComponent();
-
-      _xmlFileManagerReader = new XmlFileManagerController();
-      CurrentLogFile = string.Empty;
     }
 
     /// <summary>
@@ -98,7 +69,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         _logWindowState = value;
 
-        if (IsSelected)
+        if ( IsSelected )
           OnStatusChanged?.Invoke(this, new StatusChangedArgs(LogWindowState));
 
         OnPropertyChanged();
@@ -118,6 +89,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       get;
       set;
     } = new TailData();
+
+    private bool _fileIsValid;
+
+    /// <summary>
+    /// Current file is valid
+    /// </summary>
+    public bool FileIsValid
+    {
+      get => _fileIsValid;
+      set
+      {
+        if ( value == _fileIsValid )
+          return;
+
+        _fileIsValid = value;
+        OnPropertyChanged();
+      }
+    }
 
     #region Commands
 
@@ -142,19 +131,19 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand StopTailCommand => _stopTailCommand ?? (_stopTailCommand = new RelayCommand(p => ExecuteStopTailCommand()));
 
-    private IAsyncCommand _addToFileManagerCommand;
+    private ICommand _addToFileManagerCommand;
 
     /// <summary>
     /// Add to FileManager command
     /// </summary>
-    public IAsyncCommand AddToFileManagerCommand => _addToFileManagerCommand ?? (_addToFileManagerCommand = AsyncCommand.Create(ExecuteAddToFileManagerCommandAsync));
+    public ICommand AddToFileManagerCommand => _addToFileManagerCommand ?? (_addToFileManagerCommand = new RelayCommand(p => ExecuteAddToFileManagerCommand()));
 
-    private IAsyncCommand _openFileManagerCommand;
+    private ICommand _openFileManagerCommand;
 
     /// <summary>
     /// Open FileManager command
     /// </summary>
-    public IAsyncCommand OpenFileManagerCommand => _openFileManagerCommand ?? (_openFileManagerCommand = AsyncCommand.Create(ExecuteOpenFileManagerCommandAsync));
+    public ICommand OpenFileManagerCommand => _openFileManagerCommand ?? (_openFileManagerCommand = new RelayCommand(p => ExecuteOpenFileManagerCommand()));
 
     private ICommand _previewDragEnterCommand;
 
@@ -163,9 +152,34 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand PreviewDragEnterCommand => _previewDragEnterCommand ?? (_previewDragEnterCommand = new RelayCommand(ExecutePreviewDragEnterCommand));
 
+    private ICommand _logFileTextBoxTextChangedCommand;
+
+    /// <summary>
+    /// LogFile text box text changed command
+    /// </summary>
+    public ICommand LogFileTextBoxTextChangedCommand => _logFileTextBoxTextChangedCommand ?? (_logFileTextBoxTextChangedCommand = new RelayCommand(ExecuteLogFileTextBoxTextChangedCommand));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteLogFileTextBoxTextChangedCommand(object param)
+    {
+      if ( !(param is TextChangedEventArgs) )
+        return;
+
+      if ( !File.Exists(CurrenTailData.FileName) )
+      {
+        FileIsValid = false;
+        LogWindowState = EStatusbarState.Default;
+        return;
+      }
+
+      LogWindowTabItem.HeaderContent = CurrenTailData.File;
+      LogWindowTabItem.HeaderToolTip = CurrenTailData.FileName;
+      FileIsValid = true;
+      LogWindowState = !string.IsNullOrWhiteSpace(CurrenTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
+    }
 
     private void ExecuteStartTailCommand()
     {
@@ -182,21 +196,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
-      LogWindowState = string.IsNullOrWhiteSpace(CurrentLogFile) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
+      LogWindowState = string.IsNullOrWhiteSpace(CurrenTailData.File) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
     }
 
     private void ExecuteOpenFileCommand()
     {
       if ( FileOpenDialog.OpenDialog("All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle, out string fileName) )
-        CurrentLogFile = fileName;
+        CurrenTailData.FileName = fileName;
     }
 
-    private async Task ExecuteAddToFileManagerCommandAsync()
-    {
-      await OpenFileManagerAsync();
-    }
+    private void ExecuteAddToFileManagerCommand() => OpenFileManager(CurrenTailData);
 
-    private async Task ExecuteOpenFileManagerCommandAsync() => await OpenFileManagerAsync();
+    private void ExecuteOpenFileManagerCommand() => OpenFileManager();
 
     private void ExecutePreviewDragEnterCommand(object parameter)
     {
@@ -211,21 +222,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #region HelperFunctions
 
-    private async Task OpenFileManagerAsync(TailData tailData = null)
+    private void OpenFileManager(TailData tailData = null)
     {
-      MouseService.SetBusyState();
-
-      ObservableCollection<TailData> result = null;
-
-      try
-      {
-        result = await _xmlFileManagerReader.ReadXmlFileAsync().ConfigureAwait(false);
-      }
-      catch
-      {
-        // Nothing
-      }
-
       var fileManager = new FileManager
       {
         Owner = Application.Current.MainWindow
@@ -267,7 +265,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         if ( string.IsNullOrWhiteSpace(extension) )
           return;
 
-        CurrentLogFile = fileName;
+        CurrenTailData.FileName = fileName;
       }
       catch ( Exception ex )
       {

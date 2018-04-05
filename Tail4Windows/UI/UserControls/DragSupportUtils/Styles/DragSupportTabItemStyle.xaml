@@ -125,6 +125,13 @@
             x:Name="GridHeader"
             IsHitTestVisible="True"
             >
+            <Grid.ToolTip>
+              <ToolTip
+                Content="{TemplateBinding HeaderToolTip}"
+                Style="{StaticResource TabItemToolTipStyle}"
+                />
+            </Grid.ToolTip>
+
             <Border
               x:Name="Chrome"
               Margin="0 5 1 0"

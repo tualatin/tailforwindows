@@ -283,7 +283,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     #endregion
 
-    private void AddTabItem(string header, object toolTip, Visibility busyIndicator, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
+    private void AddTabItem(string header, string toolTip, Visibility busyIndicator, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
     {
       var tabItem = BusinessHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, backgroundColor, content);
 

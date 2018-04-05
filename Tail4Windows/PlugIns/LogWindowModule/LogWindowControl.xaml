@@ -332,10 +332,7 @@
 
             <Button.IsEnabled>
               <MultiBinding Converter="{StaticResource LogFileLengthFileManagerMultiConverter}">
-                <Binding
-                  ElementName="LogFileTextBox"
-                  Path="Text.Length"
-                  />
+                <Binding Path="FileIsValid" />
                 <Binding Path="CurrenTailData.OpenFromFileManager" />
               </MultiBinding>
             </Button.IsEnabled>
@@ -347,7 +344,7 @@
           Grid.Column="1"
           Height="24"
           VerticalAlignment="Center"
-          Text="{Binding CurrentLogFile, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+          Text="{Binding CurrenTailData.FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           IsReadOnly="{Binding LogWindowState, Converter={StaticResource StatusBarStateToBoolInverseConverter}}"
           >
           <userControls:WatermarkTextBox.Watermark>
@@ -365,10 +362,15 @@
                 CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
                 />
             </i:EventTrigger>
-
             <i:EventTrigger EventName="PreviewDragEnter">
               <commands:InvokeDelegateCommandAction
                 Command="{Binding PreviewDragEnterCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+                />
+            </i:EventTrigger>
+            <i:EventTrigger EventName="TextChanged">
+              <commands:InvokeDelegateCommandAction
+                Command="{Binding LogFileTextBoxTextChangedCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
                 />
             </i:EventTrigger>
@@ -391,10 +393,7 @@
             <Button.IsEnabled>
               <MultiBinding Converter="{StaticResource LogFileIsEnableMultiConverter}">
                 <Binding Path="LogWindowState" />
-                <Binding
-                  ElementName="LogFileTextBox"
-                  Path="Text.Length"
-                  />
+                <Binding Path="FileIsValid" />
               </MultiBinding>
             </Button.IsEnabled>
             <Button.ToolTip>
@@ -871,7 +870,7 @@
               <ContextMenu>
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsFilterLabel}"
-                  IsEnabled="{Binding CurrenTailData.File.Length, Converter={StaticResource IntToBoolConverter}, UpdateSourceTrigger=PropertyChanged}"
+                  IsEnabled="{Binding FileIsValid, UpdateSourceTrigger=PropertyChanged}"
                   >
                   <MenuItem.Icon>
                     <Image
@@ -884,7 +883,7 @@
 
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsOpenInExplorer}"
-                  IsEnabled="{Binding CurrenTailData.File.Length, Converter={StaticResource IntToBoolConverter}, UpdateSourceTrigger=PropertyChanged}"
+                  IsEnabled="{Binding FileIsValid, UpdateSourceTrigger=PropertyChanged}"
                   >
                   <MenuItem.Icon>
                     <Image
@@ -897,7 +896,7 @@
 
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsPrintTailLog}"
-                  IsEnabled="{Binding CurrenTailData.File.Length, Converter={StaticResource IntToBoolConverter}, UpdateSourceTrigger=PropertyChanged}"
+                  IsEnabled="{Binding FileIsValid, UpdateSourceTrigger=PropertyChanged}"
                   >
                   <MenuItem.Icon>
                     <Image

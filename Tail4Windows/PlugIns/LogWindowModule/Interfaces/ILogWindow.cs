@@ -42,5 +42,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     {
       get;
     }
+
+    /// <summary>
+    /// Current file is valid
+    /// </summary>
+    bool FileIsValid
+    {
+      get;
+    }
   }
 }

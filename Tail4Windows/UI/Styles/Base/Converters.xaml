@@ -30,6 +30,6 @@
   <converters:IntToBoolConverter x:Key="IntToBoolConverter" />
 
   <multiConverters:LogFileIsEnableMultiConverter x:Key="LogFileIsEnableMultiConverter" />
-  <multiConverters:LogFileLengthFileManagerMultiConverter x:Key="LogFileLengthFileManagerMultiConverter" />
+  <multiConverters:LogFileFileManagerMultiConverter x:Key="LogFileLengthFileManagerMultiConverter" />
 
 </ResourceDictionary>

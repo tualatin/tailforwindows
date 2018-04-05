@@ -62,15 +62,19 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Set HeaderToolTipProperty property
     /// </summary>
-    public static readonly DependencyProperty HeaderToolTipProperty = DependencyProperty.Register("HeaderToolTip", typeof(object), typeof(DragSupportTabItem), new UIPropertyMetadata(null));
+    public static readonly DependencyProperty HeaderToolTipProperty = DependencyProperty.Register("HeaderToolTip", typeof(string), typeof(DragSupportTabItem), new UIPropertyMetadata(null));
 
     /// <summary>
     /// Gets/sets HeaderToolTip
     /// </summary>
-    public object HeaderToolTip
+    public string HeaderToolTip
     {
-      get => GetValue(HeaderToolTipProperty);
-      set => SetValue(HeaderToolTipProperty, value);
+      get => (string) GetValue(HeaderToolTipProperty);
+      set
+      {
+        SetValue(HeaderToolTipProperty, value);
+        OnPropertyChanged(nameof(HeaderToolTip));
+      }
     }
 
     /// <summary>
@@ -210,16 +214,6 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       headerGrid.MouseDown += HeaderGridMiddleMouseButtonDown;
       headerGrid.MouseLeftButtonDown += HeaderGridMouseLeftButtonDown;
-
-      // set special ToolTip for TabItemHeader
-      var myToolTip = new ToolTip
-      {
-        Style = (Style) FindResource("TabItemToolTipStyle"),
-        Content = HeaderToolTip
-      };
-
-      if ( HeaderToolTip != null )
-        ToolTipService.SetToolTip(headerGrid, myToolTip);
     }
 
     private void CloseButtonClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
