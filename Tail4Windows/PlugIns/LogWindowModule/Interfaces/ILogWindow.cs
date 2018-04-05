@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
@@ -30,6 +31,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     /// Is selected
     /// </summary>
     bool IsSelected
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Current tail data <see cref="TailData"/>
+    /// </summary>
+    TailData CurrenTailData
     {
       get;
     }

@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Media;
 
 
 namespace Org.Vs.TailForWin.UI.Converters
 {
   /// <summary>
-  /// Color to solid color brush converter
+  /// Integer to bool converter
   /// </summary>
-  [ValueConversion(typeof(Color), typeof(SolidColorBrush))]
-  public class ColorToSolidColorBrushConverter : IValueConverter
+  [ValueConversion(typeof(int), typeof(bool))]
+  public class IntToBoolConverter : IValueConverter
   {
     /// <summary>
     /// Convert
@@ -22,10 +21,10 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if ( !(value is Color color) )
-        return null;
+      if ( !(value is int i) )
+        return false;
 
-      return new SolidColorBrush(color);
+      return i > 0;
     }
 
     /// <summary>

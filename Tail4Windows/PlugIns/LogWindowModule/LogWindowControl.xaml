@@ -6,14 +6,19 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:logWindowModule="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.UI.Utils"
   mc:Ignorable="d"
   d:DesignHeight="450"
   d:DesignWidth="800"
   HorizontalAlignment="Stretch"
   VerticalAlignment="Stretch"
+  AllowDrop="True"
   DataContext="{Binding RelativeSource={RelativeSource Self}}"
+  utils:FileDragDropHelper.FileDragDropTarget="{Binding}"
+  utils:FileDragDropHelper.IsFileDragDropEnabled="True"
   >
   <UserControl.Resources>
     <Storyboard x:Key="ExtendedSettingsShowAnimation">
@@ -235,7 +240,7 @@
             Height="24"
             Margin="0 0 5 0"
             VerticalAlignment="Center"
-            Click="ButtonOpenFileClick"
+            Command="{Binding OpenFileCommand}"
             IsEnabled="{Binding LogWindowState, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StatusBarStateToBoolConverter}}"
             >
             <StackPanel>
@@ -292,7 +297,7 @@
             Height="24"
             Margin="0 0 5 0"
             VerticalAlignment="Center"
-            Click="ButtonAddToFileManagerClick"
+            Command="{Binding AddToFileManagerCommand}"
             Style="{StaticResource AddFileToFileManagerStyle}"
             >
             <Button.ToolTip>
@@ -325,13 +330,28 @@
                 </WrapPanel>
               </StackPanel>
             </Button.ToolTip>
+
+            <Button.IsEnabled>
+              <MultiBinding Converter="{StaticResource LogFileLengthFileManagerMultiConverter}">
+                <Binding
+                  ElementName="LogFileTextBox"
+                  Path="Text.Length"
+                  />
+                <Binding
+                  FallbackValue="False"
+                  Path="CurrenTailData.OpenFromFileManager"
+                  />
+              </MultiBinding>
+            </Button.IsEnabled>
           </Button>
         </StackPanel>
 
         <userControls:WatermarkTextBox
+          x:Name="LogFileTextBox"
           Grid.Column="1"
           Height="24"
           VerticalAlignment="Center"
+          Text="{Binding CurrentLogFile, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           >
           <userControls:WatermarkTextBox.Watermark>
             <TextBlock
@@ -340,6 +360,22 @@
               FontStyle="Italic"
               />
           </userControls:WatermarkTextBox.Watermark>
+
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="PreviewDragOver">
+              <commands:InvokeDelegateCommandAction
+                Command="{Binding PreviewDragEnterCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+                />
+            </i:EventTrigger>
+
+            <i:EventTrigger EventName="PreviewDragEnter">
+              <commands:InvokeDelegateCommandAction
+                Command="{Binding PreviewDragEnterCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+                />
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
         </userControls:WatermarkTextBox>
 
         <StackPanel
@@ -352,10 +388,18 @@
             Margin="5 0"
             VerticalAlignment="Center"
             Content="{DynamicResource ButtonStartTail}"
-            Click="ButtonStartTailClick"
-            IsEnabled="{Binding LogWindowState, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StatusBarStateToBoolConverter}}"
+            Command="{Binding StartTailCommand}"
             Style="{StaticResource StartButtonStyle}"
             >
+            <Button.IsEnabled>
+              <MultiBinding Converter="{StaticResource LogFileIsEnableMultiConverter}">
+                <Binding Path="LogWindowState" />
+                <Binding
+                  ElementName="LogFileTextBox"
+                  Path="Text.Length"
+                  />
+              </MultiBinding>
+            </Button.IsEnabled>
             <Button.ToolTip>
               <StackPanel>
                 <TextBlock
@@ -392,7 +436,7 @@
             Width="24"
             Height="24"
             VerticalAlignment="Center"
-            Click="ButtonStopTailClick"
+            Command="{Binding StopTailCommand}"
             IsEnabled="{Binding LogWindowState, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StatusBarStateToBoolInverseConverter}}"
             Style="{StaticResource StopButtonStyle}"
             >
@@ -451,6 +495,7 @@
             Width="24"
             Height="24"
             VerticalAlignment="Center"
+            Command="{Binding OpenFileManagerCommand}"
             >
             <StackPanel>
               <Image
@@ -822,7 +867,10 @@
 
             <Button.ContextMenu>
               <ContextMenu>
-                <MenuItem Header="{DynamicResource ExtendedTailSettingsFilterLabel}">
+                <MenuItem
+                  Header="{DynamicResource ExtendedTailSettingsFilterLabel}"
+                  IsEnabled="{Binding CurrentLogFile.Length, Converter={StaticResource IntToBoolConverter}, UpdateSourceTrigger=PropertyChanged}"
+                  >
                   <MenuItem.Icon>
                     <Image
                       RenderOptions.BitmapScalingMode="HighQuality"
@@ -832,7 +880,10 @@
                   </MenuItem.Icon>
                 </MenuItem>
 
-                <MenuItem Header="{DynamicResource ExtendedTailSettingsOpenInExplorer}">
+                <MenuItem
+                  Header="{DynamicResource ExtendedTailSettingsOpenInExplorer}"
+                  IsEnabled="{Binding CurrentLogFile.Length, Converter={StaticResource IntToBoolConverter}, UpdateSourceTrigger=PropertyChanged}"
+                  >
                   <MenuItem.Icon>
                     <Image
                       RenderOptions.BitmapScalingMode="HighQuality"
@@ -842,7 +893,10 @@
                   </MenuItem.Icon>
                 </MenuItem>
 
-                <MenuItem Header="{DynamicResource ExtendedTailSettingsPrintTailLog}">
+                <MenuItem
+                  Header="{DynamicResource ExtendedTailSettingsPrintTailLog}"
+                  IsEnabled="{Binding CurrentLogFile.Length, Converter={StaticResource IntToBoolConverter}, UpdateSourceTrigger=PropertyChanged}"
+                  >
                   <MenuItem.Icon>
                     <Image
                       RenderOptions.BitmapScalingMode="HighQuality"

@@ -1,0 +1,32 @@
+﻿<extendedControls:WindowEx
+  x:Class="Org.Vs.TailForWin.PlugIns.FileManagerModule.FileManager"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+  xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
+  mc:Ignorable="d"
+  Title="FileManager"
+  Width="600"
+  Height="500"
+  MinWidth="600"
+  MinHeight="600"
+  ResizeMode="CanResizeWithGrip"
+  ShowInTaskbar="False"
+  WindowStartupLocation="CenterOwner"
+  >
+  <i:Interaction.Triggers>
+    <i:EventTrigger EventName="Closing">
+      <i:InvokeCommandAction Command="{Binding CloseOptionsCommand}" />
+    </i:EventTrigger>
+  </i:Interaction.Triggers>
+
+  <extendedControls:WindowEx.DataContext>
+    <viewModels:FileManagerViewModel />
+  </extendedControls:WindowEx.DataContext>
+
+  <Grid />
+</extendedControls:WindowEx>

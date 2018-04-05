@@ -205,12 +205,19 @@
     <Compile Include="Business\Data\Messages\AddTabItemMessage.cs" />
     <Compile Include="Business\Utils\BusinessHelper.cs" />
     <Compile Include="Core\Utils\WindowGetMinMaxInfo.cs" />
+    <Compile Include="PlugIns\FileManagerModule\FileManager.xaml.cs">
+      <DependentUpon>FileManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\FileManagerModule\ViewModels\FileManagerViewModel.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowControl.xaml.cs">
       <DependentUpon>LogWindowControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Behaviors\DropDownButtonBehavior.cs" />
     <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
+    <Compile Include="UI\Converters\IntToBoolConverter.cs" />
+    <Compile Include="UI\Converters\MultiConverters\LogFileIsEnableMultiConverter.cs" />
+    <Compile Include="UI\Converters\MultiConverters\LogFileLengthFileManagerMultiConverter.cs" />
     <Compile Include="UI\Converters\StatusBarStateToBoolConverter.cs" />
     <Compile Include="UI\Converters\StatusBarStateToBoolInverseConverter.cs" />
     <Compile Include="UI\ExtendedControls\PopupEx.cs" />
@@ -517,6 +524,10 @@
     <Compile Include="Core\Logging\LogUtil.cs" />
     <Compile Include="Core\Logging\SingleLetterLevelConverter.cs" />
     <Compile Include="Core\Logging\ZippingRollingFileAppender.cs" />
+    <Page Include="PlugIns\FileManagerModule\FileManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PlugIns\LogWindowModule\LogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -872,7 +883,6 @@
     <Folder Include="Core\Events\Args\" />
     <Folder Include="Core\Events\Delegates\" />
     <Folder Include="Core\Events\EventManagers\" />
-    <Folder Include="PlugIns\FileManagerModule\ViewModels\" />
     <Folder Include="PlugIns\FindModule\ViewModels\" />
     <Folder Include="PlugIns\LogWindowModule\Controller\" />
     <Folder Include="PlugIns\LogWindowModule\Data\" />
@@ -881,7 +891,6 @@
     <Folder Include="PlugIns\SmartWatchModule\Data\" />
     <Folder Include="PlugIns\SmartWatchModule\Interfaces\" />
     <Folder Include="PlugIns\SmartWatchModule\ViewModels\" />
-    <Folder Include="UI\Converters\MultiConverters\" />
     <Folder Include="UI\UserControls\Commands\" />
     <Folder Include="UI\UserControls\Interfaces\" />
     <Folder Include="UI\UserControls\ViewModels\" />
