@@ -98,6 +98,7 @@
           Grid.Row="0"
           Grid.Column="1"
           Width="150"
+          Height="22"
           Margin="6 2"
           HorizontalAlignment="Left"
           DisplayMemberPath="Description"
@@ -141,6 +142,7 @@
         <RadioButton
           Grid.Row="1"
           Grid.Column="0"
+          Height="16"
           Margin="4 0 0 0"
           HorizontalAlignment="Left"
           VerticalAlignment="Center"
@@ -184,6 +186,7 @@
         <RadioButton
           Grid.Row="1"
           Grid.Column="1"
+          Height="16"
           Margin="4 0 0 0"
           HorizontalAlignment="Left"
           VerticalAlignment="Center"

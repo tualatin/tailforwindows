@@ -19,24 +19,15 @@
       <Border
         x:Name="Border"
         Grid.ColumnSpan="2"
+        Background="{StaticResource BrushSolidWhite}"
+        BorderBrush="{StaticResource BrushSolidBorderMedium}"
         BorderThickness="1"
-        >
-        <Border.BorderBrush>
-          <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
-        </Border.BorderBrush>
-        <Border.Background>
-          <SolidColorBrush Color="{DynamicResource ControlLightColor}" />
-        </Border.Background>
-      </Border>
+        />
       <Border
         Grid.Column="0"
         Margin="1"
-        CornerRadius="2,0,0,2"
-        >
-        <Border.Background>
-          <SolidColorBrush Color="{DynamicResource ControlLightColor}" />
-        </Border.Background>
-      </Border>
+        Background="{StaticResource BrushSolidWhite}"
+        />
       <Path
         x:Name="Arrow"
         Grid.Column="1"
@@ -45,7 +36,7 @@
         Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 Z"
         >
         <Path.Fill>
-          <SolidColorBrush Color="{DynamicResource GlyphColor}" />
+          <SolidColorBrush Color="{StaticResource GlyphColor}" />
         </Path.Fill>
       </Path>
       <VisualStateManager.VisualStateGroups>
@@ -141,11 +132,11 @@
   <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
     <Setter Property="MinHeight" Value="10" />
     <Setter Property="MinWidth" Value="50" />
-    <Setter Property="OverridesDefaultStyle" Value="true" />
-    <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+    <Setter Property="OverridesDefaultStyle" Value="True" />
+    <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-    <Setter Property="SnapsToDevicePixels" Value="true" />
+    <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type ComboBox}">
@@ -153,7 +144,7 @@
             <ToggleButton
               x:Name="ToggleButton"
               ClickMode="Press"
-              Focusable="false"
+              Focusable="False"
               IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
               Template="{StaticResource ComboBoxToggleButton}"
               />
@@ -195,15 +186,10 @@
                 >
                 <Border
                   x:Name="DropDownBorder"
+                  Background="{StaticResource BrushSolidWhite}"
+                  BorderBrush="{StaticResource BrushSolidBorderMedium}"
                   BorderThickness="1"
-                  >
-                  <Border.BorderBrush>
-                    <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
-                  </Border.BorderBrush>
-                  <Border.Background>
-                    <SolidColorBrush Color="{DynamicResource ControlLightColor}" />
-                  </Border.Background>
-                </Border>
+                  />
                 <ScrollViewer
                   Margin="1 0 1 1"
                   SnapsToDevicePixels="True"
@@ -261,14 +247,13 @@
             </VisualStateManager.VisualStateGroups>
           </Grid>
           <ControlTemplate.Triggers>
-            <Trigger Property="HasItems" Value="false">
+            <Trigger Property="HasItems" Value="False">
               <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
             </Trigger>
-            <Trigger Property="IsGrouping" Value="true">
-              <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+            <Trigger Property="IsGrouping" Value="True">
+              <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
             </Trigger>
-            <Trigger Property="AllowsTransparency" Value="true" SourceName="Popup">
-              <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="2" />
+            <Trigger Property="AllowsTransparency" Value="True" SourceName="Popup">
               <Setter TargetName="DropDownBorder" Property="Margin" Value="0 -2 0 0" />
             </Trigger>
           </ControlTemplate.Triggers>
@@ -278,8 +263,8 @@
   </Style>
 
   <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
-    <Setter Property="OverridesDefaultStyle" Value="true" />
-    <Setter Property="SnapsToDevicePixels" Value="true" />
+    <Setter Property="OverridesDefaultStyle" Value="True" />
+    <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type ComboBoxItem}">
@@ -287,7 +272,7 @@
             x:Name="Border"
             Padding="2"
             Background="Transparent"
-            SnapsToDevicePixels="true"
+            SnapsToDevicePixels="True"
             >
             <ContentPresenter />
             <VisualStateManager.VisualStateGroups>

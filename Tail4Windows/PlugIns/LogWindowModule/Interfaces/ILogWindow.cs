@@ -25,5 +25,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     {
       get;
     }
+
+    /// <summary>
+    /// Is selected
+    /// </summary>
+    bool IsSelected
+    {
+      get;
+    }
   }
 }

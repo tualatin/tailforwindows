@@ -170,7 +170,7 @@
         Grid.Row="2"
         Grid.Column="1"
         Grid.ColumnSpan="4"
-        Height="23"
+        Height="22"
         MinWidth="250"
         MaxWidth="280"
         Margin="8 0 5 0"
@@ -192,7 +192,7 @@
         Grid.ColumnSpan="5"
         >
         <Button
-          Height="23"
+          Height="24"
           MinWidth="140"
           MaxWidth="170"
           HorizontalAlignment="Center"

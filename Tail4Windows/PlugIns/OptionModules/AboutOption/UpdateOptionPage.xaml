@@ -29,7 +29,7 @@
     <Grid UseLayoutRounding="True">
       <Grid.RowDefinitions>
         <RowDefinition Height="80" />
-        <RowDefinition Height="40" />
+        <RowDefinition Height="Auto" />
         <RowDefinition Height="10" />
         <RowDefinition />
       </Grid.RowDefinitions>
@@ -44,7 +44,7 @@
       <Grid Grid.Row="1">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="70" />
-          <ColumnDefinition Width="60" />
+          <ColumnDefinition Width="40" />
           <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
@@ -57,8 +57,8 @@
 
         <Button
           Grid.Column="1"
-          Width="32"
-          Height="32"
+          Width="24"
+          Height="24"
           VerticalAlignment="Center"
           Command="{Binding CheckUpdateCommand}"
           TabIndex="0"
@@ -98,7 +98,17 @@
               RenderOptions.BitmapScalingMode="LowQuality"
               RenderOptions.EdgeMode="Aliased"
               Source="/T4W;component/Resources/update.png"
-              />
+              >
+              <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                  <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                      <Setter Property="Opacity" Value="0.5" />
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </Image.Style>
+            </Image>
           </StackPanel>
         </Button>
 
@@ -146,7 +156,7 @@
 
       <Button
         Grid.Row="3"
-        Height="23"
+        Height="24"
         MinWidth="100"
         HorizontalAlignment="Center"
         Content="{DynamicResource UpdateOptionVisitWebsite}"

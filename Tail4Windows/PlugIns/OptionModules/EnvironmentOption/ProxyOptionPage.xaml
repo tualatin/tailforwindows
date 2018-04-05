@@ -35,15 +35,15 @@
         >
         <Grid Margin="3">
           <Grid.RowDefinitions>
-            <RowDefinition Height="25" />
-            <RowDefinition Height="25" />
-            <RowDefinition Height="25" />
+            <RowDefinition Height="26" />
+            <RowDefinition Height="26" />
+            <RowDefinition Height="26" />
             <RowDefinition Height="35" />
           </Grid.RowDefinitions>
 
           <RadioButton
             Name="RadioButtonNoProxy"
-            Height="15"
+            Height="16"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="{DynamicResource ProxySettingsNoProxy}"
@@ -53,7 +53,7 @@
 
           <RadioButton
             Grid.Row="1"
-            Height="15"
+            Height="16"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="{DynamicResource ProxySettingsUseSystemProxy}"
@@ -64,7 +64,7 @@
           <RadioButton
             Name="RadioButtonManualProxy"
             Grid.Row="2"
-            Height="15"
+            Height="16"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="{DynamicResource ProxySettingsManualProxy}"
@@ -91,7 +91,7 @@
               />
             <userControls:WatermarkTextBox
               Grid.Column="1"
-              Height="23"
+              Height="22"
               VerticalAlignment="Center"
               Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.ProxyUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
               TabIndex="3"
@@ -134,12 +134,12 @@
         IsEnabled="{Binding ElementName=RadioButtonNoProxy, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
         >
         <Grid
-          Height="64"
+          Height="Auto"
           Margin="3"
           >
           <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition Height="30" />
+            <RowDefinition Height="26" />
+            <RowDefinition Height="26" />
           </Grid.RowDefinitions>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70" SharedSizeGroup="LabelText" />
@@ -155,7 +155,7 @@
           <userControls:WatermarkTextBox
             Grid.Row="0"
             Grid.Column="1"
-            Height="23"
+            Height="22"
             Margin="0 0 10 0"
             VerticalAlignment="Center"
             Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -182,7 +182,7 @@
             Name="PasswordBox"
             Grid.Row="1"
             Grid.Column="1"
-            Height="23"
+            Height="22"
             Margin="0 0 10 0"
             VerticalAlignment="Center"
             TabIndex="6"

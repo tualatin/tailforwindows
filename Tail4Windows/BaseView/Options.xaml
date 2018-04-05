@@ -121,7 +121,7 @@
         >
         <Button
           Width="75"
-          Height="23"
+          Height="24"
           Margin="0 0 5 0"
           VerticalAlignment="Center"
           Content="OK"
@@ -133,7 +133,7 @@
         </Button>
         <Button
           Width="75"
-          Height="23"
+          Height="24"
           VerticalAlignment="Center"
           Content="{StaticResource CancelText}"
           Command="{Binding CloseOptionsCommand, Mode=OneWay}"

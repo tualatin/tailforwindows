@@ -9,6 +9,7 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="UI/Styles/Base/Converters.xaml" />
         <ResourceDictionary Source="UI/Styles/Base/Shared.xaml" />
+        <ResourceDictionary Source="UI/Styles/Base/KeyBindings.xaml" />
 
         <ResourceDictionary Source="Language/en-EN.xaml" />
         <ResourceDictionary Source="UI/Styles/AndroidCheckBox.xaml" />
@@ -30,11 +31,11 @@
         <ResourceDictionary Source="BaseView/Styles/SettingsGridStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/BlueWindowStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/LightWindowStyle.xaml" />
+        <ResourceDictionary Source="UI/Styles/ContextMenuItem.xaml" />
+        <ResourceDictionary Source="UI/Styles/EllipsisMenuButtonStyle.xaml" />
         <ResourceDictionary Source="UI/UserControls/DragSupportUtils/Styles/DragSupportTabItemStyle.xaml" />
         <ResourceDictionary Source="UI/UserControls/DragSupportUtils/Styles/DragSupportTabControlStyle.xaml" />
         <ResourceDictionary Source="UI/UserControls/DragSupportUtils/Styles/DragSupportWindowStyle.xaml" />
-        <ResourceDictionary Source="UI/Styles/ContextMenuItem.xaml" />
-        <ResourceDictionary Source="UI/Styles/KeyBindings.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

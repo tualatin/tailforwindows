@@ -49,6 +49,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
+    /// <summary>
+    /// Is selected
+    /// </summary>
+    public bool IsSelected => LogWindowTabItem != null && LogWindowTabItem.IsSelected;
+
     #region Click events
 
     private void ButtonStartTailClick(object sender, RoutedEventArgs e)

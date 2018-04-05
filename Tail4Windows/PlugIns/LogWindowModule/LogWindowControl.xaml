@@ -4,9 +4,9 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:logWindowModule="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule"
-  xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   mc:Ignorable="d"
   d:DesignHeight="450"
@@ -40,44 +40,37 @@
             <Border
               Name="Chrome"
               Background="{TemplateBinding Background}"
+              BorderBrush="{StaticResource BrushSolidBorderMedium}"
               BorderThickness="{TemplateBinding BorderThickness}"
               SnapsToDevicePixels="True"
               >
-              <Border.BorderBrush>
-                <SolidColorBrush Color="{DynamicResource BorderMediumColor}" po:Freeze="True" />
-              </Border.BorderBrush>
-
               <Grid>
                 <Path
                   x:Name="PlusPath"
-                  Margin="3"
+                  Margin="4"
                   Data="M3.875,0 L5.125,0 5.125,3.875 9,3.875 9,5.125 5.125,5.125 5.125,9 3.875,9 3.875,5.125 0,5.125 0,3.875 3.875,3.875 3.875,0 z"
                   Fill="{StaticResource BrushSolidBlue}"
+                  SnapsToDevicePixels="True"
                   Stretch="Fill"
                   Stroke="{StaticResource BrushSolidBorderLightBlue}"
-                  StrokeThickness="0.6"
+                  StrokeThickness="0.5"
                   />
 
               </Grid>
             </Border>
 
             <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource ButtonOverBackground}" />
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
+              </Trigger>
               <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
                 <Setter TargetName="PlusPath" Property="Fill" Value="{StaticResource BrushSolidGrey35}" />
               </Trigger>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#dddddd" />
-                <Setter Property="BorderBrush" Value="#cccccc" />
-                <Setter Property="Foreground" Value="#333333" />
-              </Trigger>
               <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="#1ba1e2" />
-                <Setter Property="BorderBrush" Value="#1ba1e2" />
-                <Setter Property="Foreground" Value="#ffffff" />
-              </Trigger>
-              <Trigger Property="IsFocused" Value="True">
-                <Setter TargetName="Chrome" Property="BorderBrush" Value="#1ba1e2" />
+                <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
@@ -92,13 +85,10 @@
             <Border
               Name="Chrome"
               Background="{TemplateBinding Background}"
+              BorderBrush="{StaticResource BrushSolidBorderMedium}"
               BorderThickness="{TemplateBinding BorderThickness}"
               SnapsToDevicePixels="True"
               >
-              <Border.BorderBrush>
-                <SolidColorBrush Color="{DynamicResource BorderMediumColor}" po:Freeze="True" />
-              </Border.BorderBrush>
-
               <Grid>
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="25" />
@@ -124,22 +114,17 @@
             </Border>
 
             <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource ButtonOverBackground}" />
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
+              </Trigger>
               <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
                 <Setter TargetName="TrianglePolygon" Property="Fill" Value="{StaticResource BrushSolidGrey35}" />
               </Trigger>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#dddddd" />
-                <Setter Property="BorderBrush" Value="#cccccc" />
-                <Setter Property="Foreground" Value="#333333" />
-              </Trigger>
               <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="#1ba1e2" />
-                <Setter Property="BorderBrush" Value="#1ba1e2" />
-                <Setter Property="Foreground" Value="#ffffff" />
-              </Trigger>
-              <Trigger Property="IsFocused" Value="True">
-                <Setter TargetName="Chrome" Property="BorderBrush" Value="#1ba1e2" />
+                <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
@@ -154,13 +139,10 @@
             <Border
               Name="Chrome"
               Background="{TemplateBinding Background}"
+              BorderBrush="{StaticResource BrushSolidBorderMedium}"
               BorderThickness="{TemplateBinding BorderThickness}"
               SnapsToDevicePixels="True"
               >
-              <Border.BorderBrush>
-                <SolidColorBrush Color="{DynamicResource BorderMediumColor}" po:Freeze="True" />
-              </Border.BorderBrush>
-
               <Grid>
                 <Polygon
                   x:Name="StopPolygon"
@@ -174,109 +156,22 @@
             </Border>
 
             <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource ButtonOverBackground}" />
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
+              </Trigger>
               <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
                 <Setter TargetName="StopPolygon" Property="Fill" Value="{StaticResource BrushSolidGrey35}" />
               </Trigger>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#dddddd" />
-                <Setter Property="BorderBrush" Value="#cccccc" />
-                <Setter Property="Foreground" Value="#333333" />
-              </Trigger>
               <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="#1ba1e2" />
-                <Setter Property="BorderBrush" Value="#1ba1e2" />
-                <Setter Property="Foreground" Value="#ffffff" />
-              </Trigger>
-              <Trigger Property="IsFocused" Value="True">
-                <Setter TargetName="Chrome" Property="BorderBrush" Value="#1ba1e2" />
+                <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
               </Trigger>
             </ControlTemplate.Triggers>
           </ControlTemplate>
         </Setter.Value>
       </Setter>
-    </Style>
-
-    <Style x:Key="ToggleMenuButtonStye" TargetType="{x:Type ToggleButton}">
-      <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}" />
-      <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
-      <Setter Property="BorderThickness" Value="1" />
-      <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-      <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-      <Setter Property="Height" Value="22" />
-      <Setter Property="HorizontalAlignment" Value="Center" />
-      <Setter Property="Margin" Value="5 0 0 0" />
-      <Setter Property="SnapsToDevicePixels" Value="True" />
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="{x:Type ToggleButton}">
-            <Grid>
-              <Border
-                x:Name="Chrome"
-                Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                Opacity="0"
-                SnapsToDevicePixels="True"
-                />
-
-              <DockPanel>
-                <Ellipse
-                  Width="2"
-                  Height="2"
-                  Margin="0 5 0 0"
-                  DockPanel.Dock="Top"
-                  Fill="Black"
-                  Stretch="Uniform"
-                  />
-
-                <Ellipse
-                  Width="2"
-                  Height="2"
-                  Margin="0 0 0 5"
-                  DockPanel.Dock="Bottom"
-                  Fill="Black"
-                  Stretch="Uniform"
-                  />
-
-                <Ellipse
-                  Width="2"
-                  Height="2"
-                  Fill="Black"
-                  Stretch="Uniform"
-                  />
-              </DockPanel>
-
-              <ContentPresenter
-                Margin="{TemplateBinding Padding}"
-                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                Content="{TemplateBinding Content}"
-                ContentTemplate="{TemplateBinding ContentTemplate}"
-                />
-            </Grid>
-
-            <ControlTemplate.Triggers>
-              <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource ButtonOverBackground}" />
-                <Setter TargetName="Chrome" Property="Opacity" Value="1" />
-              </Trigger>
-              <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="#ADADAD" />
-              </Trigger>
-              <Trigger Property="IsPressed" Value="True">
-                <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
-              </Trigger>
-              <Trigger Property="IsChecked" Value="True">
-                <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
-                <Setter TargetName="Chrome" Property="Opacity" Value="1" />
-              </Trigger>
-            </ControlTemplate.Triggers>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
-      <Setter Property="VerticalAlignment" Value="Center" />
-      <Setter Property="Width" Value="22" />
     </Style>
   </UserControl.Resources>
 
@@ -315,13 +210,13 @@
       </Grid.RowDefinitions>
 
       <Grid
-        x:Name="TestGrid"
         Grid.Row="0"
         Margin="3 1"
         >
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
@@ -348,7 +243,17 @@
                 RenderOptions.BitmapScalingMode="HighQuality"
                 RenderOptions.EdgeMode="Aliased"
                 Source="/T4W;component/Resources/openfolder.ico"
-                />
+                >
+                <Image.Style>
+                  <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                      <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Image.Style>
+              </Image>
             </StackPanel>
             <Button.ToolTip>
               <StackPanel>
@@ -500,6 +405,79 @@
                   FontWeight="Bold"
                   />
                 <TextBlock Text="{DynamicResource ButtonStopTailToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+        </StackPanel>
+
+        <StackPanel
+          Grid.Column="3"
+          Margin="5 0 0 0"
+          Orientation="Horizontal"
+          >
+          <Line
+            Margin="0 3 6 3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            SnapsToDevicePixels="True"
+            Stroke="Black"
+            StrokeThickness="0.1"
+            X1="0"
+            X2="0"
+            Y1="0"
+            Y2="20"
+            />
+
+          <Button
+            Width="24"
+            Height="24"
+            VerticalAlignment="Center"
+            >
+            <StackPanel>
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Explorer.ico"
+                >
+                <Image.Style>
+                  <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                      <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Image.Style>
+              </Image>
+            </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource ButtonFileManager}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource ButtonFileManagerToolTip}" />
                 <Border
                   Margin="0 8"
                   BorderBrush="Silver"
@@ -837,48 +815,13 @@
             </CheckBox.ToolTip>
           </CheckBox>
 
-          <ToggleButton
-            x:Name="ToggleMenuButton"
-            Style="{StaticResource ToggleMenuButtonStye}"
-            >
-            <ToggleButton.ToolTip>
-              <ToolTip
-                Content="{DynamicResource ToggleMenuButtonToolTip}"
-                Style="{StaticResource TabItemToolTipStyle}"
-                />
-            </ToggleButton.ToolTip>
-          </ToggleButton>
+          <Button Style="{StaticResource MenuButtonStye}">
+            <i:Interaction.Behaviors>
+              <behaviors:DropDownButtonBehavior />
+            </i:Interaction.Behaviors>
 
-          <extendedControls:PopupEx
-            IsOpen="{Binding ElementName=ToggleMenuButton, Path=IsChecked}"
-            PlacementTarget="{Binding ElementName=ToggleMenuButton}"
-            >
-            <Grid>
-              <Border
-                Width="Auto"
-                Height="Auto"
-                Background="White"
-                BorderBrush="{StaticResource BrushSolidGrey55}"
-                BorderThickness="1"
-                />
-
-              <StackPanel
-                Margin="5"
-                Orientation="Vertical"
-                >
-                <MenuItem
-                  Header="{DynamicResource ExtendedTailSettingsFileManagerLabel}"
-                  InputGestureText="{DynamicResource ExtendedTailSettingsFileManagerShortCut}"
-                  >
-                  <MenuItem.Icon>
-                    <Image
-                      RenderOptions.BitmapScalingMode="HighQuality"
-                      RenderOptions.EdgeMode="Aliased"
-                      Source="/T4W;component/Resources/Explorer.ico"
-                      />
-                  </MenuItem.Icon>
-                </MenuItem>
-
+            <Button.ContextMenu>
+              <ContextMenu>
                 <MenuItem Header="{DynamicResource ExtendedTailSettingsFilterLabel}">
                   <MenuItem.Icon>
                     <Image
@@ -916,11 +859,16 @@
                   Header="{DynamicResource ExtendedTailSettingsLabel}"
                   IsCheckable="True"
                   />
+              </ContextMenu>
+            </Button.ContextMenu>
 
-              </StackPanel>
-
-            </Grid>
-          </extendedControls:PopupEx>
+            <Button.ToolTip>
+              <ToolTip
+                Content="{DynamicResource ToggleMenuButtonToolTip}"
+                Style="{StaticResource TabItemToolTipStyle}"
+                />
+            </Button.ToolTip>
+          </Button>
         </StackPanel>
       </Grid>
     </Grid>

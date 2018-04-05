@@ -5,21 +5,6 @@
   xmlns:dragSupportUtils="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   >
-
-  <LinearGradientBrush x:Key="ButtonNormalBackground" StartPoint="0,0" EndPoint="0,1">
-    <GradientStop Color="#F3F3F3" />
-    <GradientStop Offset="0.5" Color="#EBEBEB" />
-    <GradientStop Offset="0.5" Color="#DDDDDD" />
-    <GradientStop Offset="1" Color="#CDCDCD" />
-  </LinearGradientBrush>
-
-  <SolidColorBrush x:Key="ButtonNormalBorder" Color="#FFBC7B" />
-
-  <LinearGradientBrush x:Key="ButtonOverBackground" StartPoint="0,0" EndPoint="0,1">
-    <GradientStop Color="#FFFAFAFA" />
-    <GradientStop Offset="1" Color="#FFE0E0E3" />
-  </LinearGradientBrush>
-
   <Style x:Key="CloseableTabItemButtonStyle" TargetType="{x:Type Button}">
     <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}" />
     <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />

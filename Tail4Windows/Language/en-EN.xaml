@@ -93,11 +93,11 @@
   <system:String x:Key="ComboBoxRemoveSpace">Remove space</system:String>
   <system:String x:Key="ComboBoxFilter">Filter</system:String>
   <system:String x:Key="ToggleMenuButtonToolTip">Extended tail settings</system:String>
+  <system:String x:Key="ButtonFileManager">FileManager</system:String>
+  <system:String x:Key="ButtonFileManagerToolTip">Opens the FileManager (CTRL+M)</system:String>
 
   <system:String x:Key="ExtendedTailSettingsLabel">Show extended settings</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Shows the extended tail settings for current tab</system:String>
-  <system:String x:Key="ExtendedTailSettingsFileManagerLabel">Open FileManager</system:String>
-  <system:String x:Key="ExtendedTailSettingsFileManagerShortCut">CTRL+M</system:String>
   <system:String x:Key="ExtendedTailSettingsFilterLabel">Filter settings</system:String>
   <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Open in Explorer</system:String>
   <system:String x:Key="ExtendedTailSettingsPrintTailLog">Print current log file</system:String>

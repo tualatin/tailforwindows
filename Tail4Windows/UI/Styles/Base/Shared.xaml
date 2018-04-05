@@ -54,56 +54,6 @@
     </Setter>
   </Style>
 
-  <Color x:Key="ColorGrey03Alpha">#4CF7F7F7</Color>
-
-  <Color x:Key="ColorGrey03">#FFF7F7F7</Color>
-  <Color x:Key="ColorGrey10">#FFE5E5E5</Color>
-  <Color x:Key="ColorGrey20">#FFCCCCCC</Color>
-  <Color x:Key="ColorGrey35">#FFBBBBBB</Color>
-  <Color x:Key="ColorGrey55">#FF919191</Color>
-  <Color x:Key="ColorGrey65">#FF7B7B7B</Color>
-  <Color x:Key="ColorGrey75">#FF636363</Color>
-  <Color x:Key="ColorBlack">Black</Color>
-  <Color x:Key="ColorWhite">White</Color>
-  <Color x:Key="ColorStartGreen">#FF317A2E</Color>
-
-  <Color x:Key="ColorLightBlue">#FFD6DBE9</Color>
-  <Color x:Key="ColorBorderLightBlue">#FFB0CBF1</Color>
-  <Color x:Key="ColorAndroidIsMouseOverBlue">#BB34B4E3</Color>
-  <Color x:Key="ColorOrange">#FFE5C365</Color>
-  <Color x:Key="ColorOrangePressed">#FFE8A6</Color>
-  <Color x:Key="ColorStopRed">#FF8E210B</Color>
-
-  <SolidColorBrush x:Key="BrushSolidGrey03" Color="{StaticResource ColorGrey03}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidGrey10" Color="{StaticResource ColorGrey10}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidGrey20" Color="{StaticResource ColorGrey20}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidGrey35" Color="{StaticResource ColorGrey35}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidGrey55" Color="{StaticResource ColorGrey55}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidGrey65" Color="{StaticResource ColorGrey65}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidGrey75" Color="{StaticResource ColorGrey75}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidBlack" Color="{StaticResource ColorBlack}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidWhite" Color="{StaticResource ColorWhite}" po:Freeze="True" />
-
-  <SolidColorBrush x:Key="BrushSolidCustomBeige" Color="#FFFFFCF4" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidOrange" Color="{StaticResource ColorOrange}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidOrangePressed" Color="{StaticResource ColorOrangePressed}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidYellow" Color="#FFF29D" po:Freeze="True" />
-
-  <SolidColorBrush x:Key="BrushSolidBlue" Color="#293955" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidLightBlue" Color="{StaticResource ColorLightBlue}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidBorderLightBlue" Color="{StaticResource ColorBorderLightBlue}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidAndroidIsMouseOverBlue" Color="{StaticResource ColorAndroidIsMouseOverBlue}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidStopRed" Color="{StaticResource ColorStopRed}" po:Freeze="True" />
-
-  <SolidColorBrush x:Key="BrushSolidStartGreen" Color="{StaticResource ColorStartGreen}" po:Freeze="True" />
-
-  <!--  Some color definitions  -->
-  <Color x:Key="DisabledForegroundColor">#CACBD3</Color>
-  <SolidColorBrush x:Key="ScrollBarLightColor" po:Freeze="True">#E8E8EC</SolidColorBrush>
-  <SolidColorBrush x:Key="BorderHighlight" po:Freeze="True">#FFF0D0</SolidColorBrush>
-  <Color x:Key="DefaultScrollBarColor">#D0D1D7</Color>
-  <Color x:Key="ScrollBarPressed">#888888</Color>
-
   <!--  Control colors.  -->
   <Color x:Key="WindowColor">#FFE8EDF9</Color>
   <Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color>
@@ -115,8 +65,6 @@
   <Color x:Key="SelectedBackgroundColor">#FFC5CBF9</Color>
   <Color x:Key="SelectedUnfocusedColor">#FFDDDDDD</Color>
 
-  <Color x:Key="ControlLightColor">White</Color>
-  <SolidColorBrush x:Key="ControlLightBrush" Color="{StaticResource ControlLightColor}" po:Freeze="True" />
   <Color x:Key="ControlMediumColor">#FF7381F9</Color>
   <Color x:Key="ControlDarkColor">#FF211AA9</Color>
 
@@ -149,10 +97,66 @@
 
   <Color x:Key="NavButtonFrameColor">#FF3843C4</Color>
 
+  <Color x:Key="ColorGrey03Alpha">#4CF7F7F7</Color>
+
+  <Color x:Key="ColorWhite">White</Color>
+  <Color x:Key="ColorGrey02">#FFFAFAFA</Color>
+  <Color x:Key="ColorGrey03">#FFF7F7F7</Color>
+  <Color x:Key="ColorGrey10">#FFE5E5E5</Color>
+  <Color x:Key="ColorGrey20">#FFCCCCCC</Color>
+  <Color x:Key="ColorGrey35">#FFBBBBBB</Color>
+  <Color x:Key="ColorGrey55">#FF919191</Color>
+  <Color x:Key="ColorGrey65">#FF7B7B7B</Color>
+  <Color x:Key="ColorGrey75">#FF636363</Color>
+  <Color x:Key="ColorBlack">Black</Color>
+
+  <Color x:Key="ColorLightBlue">#FFD6DBE9</Color>
+  <Color x:Key="ColorBorderLightBlue">#FFB0CBF1</Color>
+  <Color x:Key="ColorAndroidIsMouseOverBlue">#BB34B4E3</Color>
+  <Color x:Key="ColorOrange">#FFE5C365</Color>
+  <Color x:Key="ColorOrangePressed">#FFE8A6</Color>
+
+  <Color x:Key="ColorStopRed">#FF8E210B</Color>
+  <Color x:Key="ColorStartGreen">#FF317A2E</Color>
+
+  <Color x:Key="DisabledForegroundColor">#CACBD3</Color>
+  <Color x:Key="DefaultScrollBarColor">#D0D1D7</Color>
+  <Color x:Key="ScrollBarPressed">#888888</Color>
+
+  <SolidColorBrush x:Key="BrushSolidWhite" Color="{StaticResource ColorWhite}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey02" Color="{StaticResource ColorGrey02}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey03" Color="{StaticResource ColorGrey03}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey10" Color="{StaticResource ColorGrey10}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey20" Color="{StaticResource ColorGrey20}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey35" Color="{StaticResource ColorGrey35}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey55" Color="{StaticResource ColorGrey55}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey65" Color="{StaticResource ColorGrey65}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidGrey75" Color="{StaticResource ColorGrey75}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidBlack" Color="{StaticResource ColorBlack}" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="ButtonNormalBorder" Color="#FFBC7B" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidCustomBeige" Color="#FFFFFCF4" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidOrange" Color="{StaticResource ColorOrange}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidOrangePressed" Color="{StaticResource ColorOrangePressed}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidYellow" Color="#FFF29D" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="BrushSolidBlue" Color="#293955" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidLightBlue" Color="{StaticResource ColorLightBlue}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidBorderLightBlue" Color="{StaticResource ColorBorderLightBlue}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidAndroidIsMouseOverBlue" Color="{StaticResource ColorAndroidIsMouseOverBlue}" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="BrushSolidBorderMedium" Color="{StaticResource BorderMediumColor}" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="BrushSolidStopRed" Color="{StaticResource ColorStopRed}" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidStartGreen" Color="{StaticResource ColorStartGreen}" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="ScrollBarLightColor" po:Freeze="True">#E8E8EC</SolidColorBrush>
+  <SolidColorBrush x:Key="BorderHighlight" po:Freeze="True">#FFF0D0</SolidColorBrush>
+
   <LinearGradientBrush x:Key="MenuPopupBrush" StartPoint="0.5,0" EndPoint="0.5,1">
-    <GradientStop Offset="0" Color="{DynamicResource ControlLightColor}" />
-    <GradientStop Offset="0.5" Color="{DynamicResource ControlMediumColor}" />
-    <GradientStop Offset="1" Color="{DynamicResource ControlLightColor}" />
+    <GradientStop Offset="0" Color="{StaticResource ColorWhite}" />
+    <GradientStop Offset="0.5" Color="{StaticResource ControlMediumColor}" />
+    <GradientStop Offset="1" Color="{StaticResource ColorWhite}" />
   </LinearGradientBrush>
 
   <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" StartPoint="0,0" EndPoint="1,0">
@@ -164,5 +168,17 @@
         <GradientStop Offset="1" Color="#000000FF" />
       </GradientStopCollection>
     </LinearGradientBrush.GradientStops>
+  </LinearGradientBrush>
+
+  <LinearGradientBrush x:Key="ButtonNormalBackground" StartPoint="0,0" EndPoint="0,1">
+    <GradientStop Color="#F3F3F3" />
+    <GradientStop Offset="0.5" Color="#EBEBEB" />
+    <GradientStop Offset="0.5" Color="#DDDDDD" />
+    <GradientStop Offset="1" Color="#CDCDCD" />
+  </LinearGradientBrush>
+
+  <LinearGradientBrush x:Key="ButtonOverBackground" StartPoint="0,0" EndPoint="0,1">
+    <GradientStop Color="{StaticResource ColorGrey02}" />
+    <GradientStop Offset="1" Color="#FFE0E0E3" />
   </LinearGradientBrush>
 </ResourceDictionary>
