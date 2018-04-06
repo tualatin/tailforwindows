@@ -40,6 +40,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
     {
       var history = new QueueSet<string>(MaxQueueSize);
 
+      history.Add("test");
+      history.Add("sdfgsdfsf");
+      history.Add("sgfsdgsdfgsgd");
+      history.Add("fuvg bdhgf");
+
       return history;
     }
 

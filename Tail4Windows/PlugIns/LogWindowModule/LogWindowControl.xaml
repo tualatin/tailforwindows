@@ -11,6 +11,7 @@
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:logWindowModule="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.UI.Utils"
+  xmlns:utils1="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   mc:Ignorable="d"
   d:DesignHeight="450"
   d:DesignWidth="800"
@@ -353,7 +354,8 @@
           VerticalAlignment="Center"
           Text="{Binding CurrenTailData.FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           IsEditable="True"
-          IsReadOnly="{Binding LogWindowState, Converter={StaticResource StatusBarStateToBoolInverseConverter}}"
+          IsEnabled="{Binding LogWindowState, Converter={StaticResource StatusBarStateToBoolConverter}}"
+          ItemsSource="{Binding LoadedCommand.Execution.Result, UpdateSourceTrigger=PropertyChanged}"
           behaviors1:FocusBehavior.IsFocused="{Binding LogFileComboBoxHasFocus, UpdateSourceTrigger=PropertyChanged}"
           >
           <i:Interaction.Behaviors>
@@ -704,43 +706,6 @@
           >
           <CheckBox
             Height="22"
-            Content="{DynamicResource ComboBoxFilter}"
-            IsChecked="{Binding CurrenTailData.FilterState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-            >
-            <CheckBox.ToolTip>
-              <StackPanel>
-                <TextBlock
-                  Margin="0 0 0 5"
-                  Text="{DynamicResource ComboBoxFilter}"
-                  FontSize="12"
-                  FontWeight="Bold"
-                  />
-                <TextBlock Text="{DynamicResource EnvironmentAlwaysOnTopToolTip}" />
-                <Border
-                  Margin="0 8"
-                  BorderBrush="Silver"
-                  BorderThickness="0 1 0 0"
-                  />
-                <WrapPanel>
-                  <Image
-                    Width="16"
-                    Height="16"
-                    Margin="0 0 5 0"
-                    RenderOptions.BitmapScalingMode="HighQuality"
-                    RenderOptions.EdgeMode="Aliased"
-                    Source="/T4W;component/Resources/Search.ico"
-                    />
-                  <TextBlock
-                    Text="{DynamicResource GeneralToolTipHint}"
-                    FontStyle="Italic"
-                    />
-                </WrapPanel>
-              </StackPanel>
-            </CheckBox.ToolTip>
-          </CheckBox>
-
-          <CheckBox
-            Height="22"
             Content="SmartWatch"
             IsChecked="{Binding CurrenTailData.SmartWatch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, FallbackValue=False}"
             >
@@ -786,25 +751,65 @@
             </CheckBox.ToolTip>
           </CheckBox>
 
+          <CheckBox
+            Height="22"
+            Content="{DynamicResource ComboBoxFilter}"
+            IsChecked="{Binding CurrenTailData.FilterState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            >
+            <CheckBox.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource ComboBoxFilter}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource EnvironmentAlwaysOnTopToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </CheckBox.ToolTip>
+          </CheckBox>
+
           <StackPanel Orientation="Horizontal">
             <Label
-              Margin="5 0 2 0"
+              Margin="8 0 2 0"
               VerticalAlignment="Center"
-              Content="{DynamicResource LabelRefreshRate}"
+              Content="{DynamicResource LabelThreadPriority}"
               />
             <ComboBox
               Height="22"
               MinWidth="90"
               Margin="6 0 0 0"
+              DisplayMemberPath="Description"
               Foreground="Black"
-              SelectedValue="{Binding CurrenTailData.RefreshRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+              ItemsSource="{Binding Source={x:Static utils1:EnvironmentContainer.Instance}, Path=ThreadPriority}"
+              SelectedValue="{Binding CurrenTailData.ThreadPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+              SelectedValuePath="ThreadPriority"
               TabIndex="0"
               >
               <ComboBox.ToolTip>
                 <StackPanel>
                   <TextBlock
                     Margin="0 0 0 5"
-                    Text="{DynamicResource LabelRefreshRate}"
+                    Text="{DynamicResource LabelThreadPriority}"
                     FontSize="12"
                     FontWeight="Bold"
                     />
@@ -837,21 +842,24 @@
             <Label
               Margin="5 0 2 0"
               VerticalAlignment="Center"
-              Content="{DynamicResource LabelThreadPriority}"
+              Content="{DynamicResource LabelRefreshRate}"
               />
             <ComboBox
               Height="22"
               MinWidth="90"
               Margin="6 0 0 0"
+              DisplayMemberPath="Description"
               Foreground="Black"
-              SelectedValue="{Binding CurrenTailData.ThreadPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+              ItemsSource="{Binding Source={x:Static utils1:EnvironmentContainer.Instance}, Path=RefreshRate}"
+              SelectedValue="{Binding CurrenTailData.RefreshRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+              SelectedValuePath="RefreshRate"
               TabIndex="0"
               >
               <ComboBox.ToolTip>
                 <StackPanel>
                   <TextBlock
                     Margin="0 0 0 5"
-                    Text="{DynamicResource LabelThreadPriority}"
+                    Text="{DynamicResource LabelRefreshRate}"
                     FontSize="12"
                     FontWeight="Bold"
                     />

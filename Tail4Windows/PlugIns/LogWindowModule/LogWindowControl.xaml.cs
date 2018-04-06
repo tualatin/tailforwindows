@@ -131,6 +131,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
+    /// <summary>
+    /// Current LogFile history
+    /// </summary>
+    public QueueSet<string> LogFileHistory
+    {
+      get;
+      set;
+    }
+
     #region Commands
 
     private ICommand _openFileCommand;
@@ -193,9 +202,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #region Command functions
 
-    private async Task ExecuteLoadedCommandAsync()
+    private async Task<QueueSet<string>> ExecuteLoadedCommandAsync()
     {
-      var result = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
+      LogFileHistory = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
+      return LogFileHistory;
     }
 
     private void ExecuteLogFileTextBoxTextChangedCommand(object param)
@@ -226,6 +236,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       MouseService.SetBusyState();
 
+      LogFileHistory.Add(CurrenTailData.FileName);
       await _historyController.SaveSearchHistoryAsync(CurrenTailData.FileName).ConfigureAwait(false);
     }
 

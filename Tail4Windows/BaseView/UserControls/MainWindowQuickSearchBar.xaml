@@ -4,7 +4,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.UserControls.Behaviors"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   mc:Ignorable="d"
@@ -71,7 +71,7 @@
           BorderThickness="0"
           ToolTip="{DynamicResource QuickSearchToolTip}"
           Watermark="{DynamicResource QuickSearchWatermark}"
-          local:MainWindowQuickSearchBar.IsQuickSearchTextBoxFocused="{Binding IsFocused, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+          behaviors:FocusBehavior.IsFocused="{Binding IsFocused, UpdateSourceTrigger=PropertyChanged}"
           >
           <userControls:WatermarkTextBox.InputBindings>
             <KeyBinding Key="Enter" Command="{Binding QuickSearchCommand}" />

@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using log4net;
 using Org.Vs.TailForWin.BaseView.ViewModels;
 using Org.Vs.TailForWin.Business.Data.Messages;
@@ -50,6 +50,8 @@ namespace Org.Vs.TailForWin.BaseView.UserControls.ViewModels
 
     private void FocusChangedMessage(QuickSearchTextBoxGetFocusMessage args)
     {
+      IsFocused = false;
+
       if ( args.Sender is T4WindowViewModel )
         IsFocused = args.IsFocused;
     }

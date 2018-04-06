@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using log4net;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
 
@@ -30,6 +31,8 @@ namespace Org.Vs.TailForWin.Core.Data
       AutoRun = true;
       ListOfFilter = new ObservableCollection<FilterData>();
       ListOfFilter.CollectionChanged += ListOfFilterCollectionChanged;
+      RefreshRate = SettingsHelperController.CurrentSettings.DefaultRefreshRate;
+      ThreadPriority = SettingsHelperController.CurrentSettings.DefaultThreadPriority;
     }
 
     private void ListOfFilterCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
