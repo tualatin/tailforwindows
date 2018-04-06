@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 
 
 namespace Org.Vs.TailForWin.Core.Utils
@@ -15,15 +14,6 @@ namespace Org.Vs.TailForWin.Core.Utils
     private readonly ObservableCollection<T> _queue = new ObservableCollection<T>();
     private readonly int _maximumSize;
 
-    #region Events
-
-    /// <summary>
-    /// Collection changed event
-    /// </summary>
-    public event NotifyCollectionChangedEventHandler OnCollectionChanged;
-
-    #endregion
-
 
     /// <summary>
     /// Constructor
@@ -35,11 +25,8 @@ namespace Org.Vs.TailForWin.Core.Utils
       if ( maximumSize < 0 )
         throw new ArgumentOutOfRangeException(nameof(maximumSize));
 
-      _queue.CollectionChanged += CollectionChanged;
       _maximumSize = maximumSize;
     }
-
-    private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnCollectionChanged?.Invoke(this, e);
 
     /// <summary>
     /// Dequeue first element in queue

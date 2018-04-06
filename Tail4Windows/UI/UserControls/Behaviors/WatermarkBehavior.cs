@@ -80,9 +80,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
       AssociatedObject.Loaded += OnLoaded;
       AssociatedObject.GotFocus += OnFocus;
       AssociatedObject.LostFocus += OnLostFocus;
-      AssociatedObject.Drop += OnDrop;
     }
-
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
@@ -103,21 +101,6 @@ namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
       }
 
     }
-    private void OnDrop(object sender, DragEventArgs e)
-    {
-      if ( !string.IsNullOrWhiteSpace(AssociatedObject.Text) )
-        return;
-
-      try
-      {
-        var layer = AdornerLayer.GetAdornerLayer(AssociatedObject);
-        layer.Remove(_adorner);
-      }
-      catch
-      {
-        // Nothing
-      }
-    }
 
     private void OnLostFocus(object sender, RoutedEventArgs e)
     {
@@ -127,6 +110,11 @@ namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
       try
       {
         var layer = AdornerLayer.GetAdornerLayer(AssociatedObject);
+
+        if ( layer == null )
+          return;
+
+        layer.Remove(_adorner);
         layer.Add(_adorner);
       }
       catch

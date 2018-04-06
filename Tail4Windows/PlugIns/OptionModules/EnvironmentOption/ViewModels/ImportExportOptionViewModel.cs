@@ -103,7 +103,14 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         }).ConfigureAwait(false);
     }
 
-    private void ExecuteImportUnloadedCommand() => _cts?.Cancel();
+    private void ExecuteImportUnloadedCommand()
+    {
+      ((AsyncCommand<object>) ImportCommand).PropertyChanged -= ImportCommandPropertyChanged;
+      ((AsyncCommand<object>) ExportCommand).PropertyChanged -= ExportCommandPropertyChanged;
+      ((AsyncCommand<object>) ResetSettingsCommand).PropertyChanged -= ResetCommandPropertyChanged;
+
+      _cts?.Cancel();
+    }
 
     private async Task ExecuteResetSettingsCommandAsync()
     {

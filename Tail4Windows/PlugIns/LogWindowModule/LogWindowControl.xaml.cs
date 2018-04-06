@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -33,6 +34,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogWindowControl));
 
     private readonly IXmlSearchHistory<QueueSet<string>> _historyController;
+    private QueueSet<string> _logFileHistory;
 
     #region Events
 
@@ -131,13 +133,19 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
+    private ObservableCollection<string> _logFileHistoryCollection;
+
     /// <summary>
     /// Current LogFile history
     /// </summary>
-    public QueueSet<string> LogFileHistory
+    public ObservableCollection<string> LogFileHistory
     {
-      get;
-      set;
+      get => _logFileHistoryCollection;
+      set
+      {
+        _logFileHistoryCollection = value;
+        OnPropertyChanged();
+      }
     }
 
     #region Commands
@@ -202,10 +210,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #region Command functions
 
-    private async Task<QueueSet<string>> ExecuteLoadedCommandAsync()
+    private async Task ExecuteLoadedCommandAsync()
     {
-      LogFileHistory = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
-      return LogFileHistory;
+      ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedCommandPropertyChanged;
+      ((AsyncCommand<object>) StartTailCommand).PropertyChanged += LoadedCommandPropertyChanged;
+
+      _logFileHistory = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
     }
 
     private void ExecuteLogFileTextBoxTextChangedCommand(object param)
@@ -215,6 +225,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( !File.Exists(CurrenTailData.FileName) )
       {
+        LogWindowTabItem.HeaderContent = $"{Application.Current.TryFindResource("NoFile")}";
+        LogWindowTabItem.HeaderToolTip = $"{Application.Current.TryFindResource("NoFile")}";
         FileIsValid = false;
         LogWindowState = EStatusbarState.Default;
         return;
@@ -236,8 +248,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       MouseService.SetBusyState();
 
-      LogFileHistory.Add(CurrenTailData.FileName);
       await _historyController.SaveSearchHistoryAsync(CurrenTailData.FileName).ConfigureAwait(false);
+      _logFileHistory = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
     }
 
     private void ExecuteStopTailCommand()
@@ -301,6 +313,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       var handler = PropertyChanged;
       handler?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+
+    private void LoadedCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      LogFileHistory = new ObservableCollection<string>(_logFileHistory);
     }
 
     /// <summary>
