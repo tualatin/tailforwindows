@@ -19,9 +19,9 @@
         <ResourceDictionary Source="UI/Styles/TextBox.xaml" />
         <ResourceDictionary Source="UI/Styles/Label.xaml" />
         <ResourceDictionary Source="UI/Styles/Button.xaml" />
-        <ResourceDictionary Source="UI/UserControls/Styles/WatermarkTextBox.xaml" />
-        <ResourceDictionary Source="UI/Styles/ScrollbarResources.xaml" />
         <ResourceDictionary Source="UI/Styles/ComboBox.xaml" />
+        <ResourceDictionary Source="UI/UserControls/Styles/WatermarkTextBoxStyle.xaml" />
+        <ResourceDictionary Source="UI/Styles/ScrollbarResources.xaml" />
         <ResourceDictionary Source="UI/Styles/StatusbarComboBoxStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/DataGridStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/TreeView.xaml" />

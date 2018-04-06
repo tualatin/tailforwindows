@@ -3,19 +3,23 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
+using Org.Vs.TailForWin.UI.Services;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
 
@@ -27,6 +31,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   public partial class LogWindowControl : ILogWindow, IFileDragDropTarget
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogWindowControl));
+
+    private readonly IXmlSearchHistory<QueueSet<string>> _historyController;
 
     #region Events
 
@@ -43,6 +49,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     public LogWindowControl()
     {
       InitializeComponent();
+
+      _historyController = new XmlHistoryController();
     }
 
     /// <summary>
@@ -108,6 +116,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
+    private bool _logFileComboBoxHasFocus;
+
+    /// <summary>
+    /// LogFileComboBox has focus
+    /// </summary>
+    public bool LogFileComboBoxHasFocus
+    {
+      get => _logFileComboBoxHasFocus;
+      set
+      {
+        _logFileComboBoxHasFocus = value;
+        OnPropertyChanged();
+      }
+    }
+
     #region Commands
 
     private ICommand _openFileCommand;
@@ -117,12 +140,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new RelayCommand(p => ExecuteOpenFileCommand()));
 
-    private ICommand _startTailCommand;
+    private IAsyncCommand _startTailCommand;
 
     /// <summary>
     /// Start tail command
     /// </summary>
-    public ICommand StartTailCommand => _startTailCommand ?? (_startTailCommand = new RelayCommand(p => ExecuteStartTailCommand()));
+    public IAsyncCommand StartTailCommand => _startTailCommand ?? (_startTailCommand = AsyncCommand.Create(ExecuteStartTailCommandAsync));
 
     private ICommand _stopTailCommand;
 
@@ -159,9 +182,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand LogFileTextBoxTextChangedCommand => _logFileTextBoxTextChangedCommand ?? (_logFileTextBoxTextChangedCommand = new RelayCommand(ExecuteLogFileTextBoxTextChangedCommand));
 
+    private IAsyncCommand _loadedCommand;
+
+    /// <summary>
+    /// Window loaded command
+    /// </summary>
+    public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create((p, t) => ExecuteLoadedCommandAsync()));
+
     #endregion
 
     #region Command functions
+
+    private async Task ExecuteLoadedCommandAsync()
+    {
+      var result = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
+    }
 
     private void ExecuteLogFileTextBoxTextChangedCommand(object param)
     {
@@ -181,13 +216,17 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowState = !string.IsNullOrWhiteSpace(CurrenTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
     }
 
-    private void ExecuteStartTailCommand()
+    private async Task ExecuteStartTailCommandAsync()
     {
       if ( LogWindowTabItem == null )
         return;
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Visible;
       LogWindowState = EStatusbarState.Busy;
+
+      MouseService.SetBusyState();
+
+      await _historyController.SaveSearchHistoryAsync(CurrenTailData.FileName).ConfigureAwait(false);
     }
 
     private void ExecuteStopTailCommand()
@@ -201,8 +240,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteOpenFileCommand()
     {
-      if ( FileOpenDialog.OpenDialog("All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle, out string fileName) )
-        CurrenTailData.FileName = fileName;
+      LogFileComboBoxHasFocus = false;
+
+      if ( !FileOpenDialog.OpenDialog("All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle, out string fileName) )
+        return;
+
+      CurrenTailData.FileName = fileName;
+      LogFileComboBoxHasFocus = true;
     }
 
     private void ExecuteAddToFileManagerCommand() => OpenFileManager(CurrenTailData);
@@ -260,12 +304,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       try
       {
         string fileName = filePaths.First();
-        string extension = System.IO.Path.GetExtension(fileName);
+        string extension = Path.GetExtension(fileName);
 
         if ( string.IsNullOrWhiteSpace(extension) )
           return;
 
         CurrenTailData.FileName = fileName;
+        LogFileComboBoxHasFocus = true;
       }
       catch ( Exception ex )
       {

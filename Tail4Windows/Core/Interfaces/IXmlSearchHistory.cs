@@ -1,14 +1,14 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Xml.Linq;
-using Org.Vs.TailForWin.Core.Interfaces;
 
 
-namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
+namespace Org.Vs.TailForWin.Core.Interfaces
 {
   /// <summary>
   /// XML search history interface
   /// </summary>
-  public interface IXmlSearchHistory
+  /// <typeparam name="T">Type of interface</typeparam>
+  public interface IXmlSearchHistory<T>
   {
     /// <summary>
     /// Wrap at the end of search
@@ -23,7 +23,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
     /// Read XML file
     /// </summary>
     /// <returns>Task</returns>
-    Task<IObservableDictionary<string, string>> ReadXmlFileAsync();
+    Task<T> ReadXmlFileAsync();
 
     /// <summary>
     /// Save search word as XML attribute

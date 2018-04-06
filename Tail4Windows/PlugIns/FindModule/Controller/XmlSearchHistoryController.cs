@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -7,7 +7,6 @@ using Org.Vs.TailForWin.Core.Data.XmlNames;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FindModule.Data;
-using Org.Vs.TailForWin.PlugIns.FindModule.Interfaces;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
@@ -15,7 +14,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
   /// <summary>
   /// XML history controller
   /// </summary>
-  public class XmlSearchHistoryController : IXmlSearchHistory
+  public class XmlSearchHistoryController : IXmlSearchHistory<IObservableDictionary<string, string>>
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(XmlSearchHistoryController));
 

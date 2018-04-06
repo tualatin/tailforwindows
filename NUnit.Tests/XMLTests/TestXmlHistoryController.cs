@@ -1,12 +1,12 @@
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Xml.Linq;
 using NUnit.Framework;
+using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.PlugIns.FindModule.Controller;
-using Org.Vs.TailForWin.PlugIns.FindModule.Interfaces;
 
 
 namespace Org.Vs.NUnit.Tests.XmlTests
@@ -14,7 +14,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
   [TestFixture]
   public class TestXmlHistoryController
   {
-    private IXmlSearchHistory _xmlHistory;
+    private IXmlSearchHistory<IObservableDictionary<string, string>> _xmlHistory;
     private TestContext _currenTestContext;
     private string _path;
     private string _tempPath;
@@ -32,7 +32,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     [Test]
     public async Task TestReadXmlHistoryFileAsync()
     {
-      IXmlSearchHistory xmlReader = new XmlSearchHistoryController(@"C:\blabla\HistoryTest.xml");
+      IXmlSearchHistory<IObservableDictionary<string, string>> xmlReader = new XmlSearchHistoryController(@"C:\blabla\HistoryTest.xml");
       var reader = xmlReader;
       Assert.That(() => reader.ReadXmlFileAsync(), Throws.InstanceOf<FileNotFoundException>());
 

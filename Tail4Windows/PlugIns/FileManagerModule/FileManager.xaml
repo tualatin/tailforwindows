@@ -14,6 +14,7 @@
   Height="500"
   MinWidth="600"
   MinHeight="600"
+  Icon="/T4W;component/Resources/Explorer.ico"
   ResizeMode="CanResizeWithGrip"
   ShowInTaskbar="False"
   WindowStartupLocation="CenterOwner"
@@ -28,5 +29,10 @@
     <viewModels:FileManagerViewModel />
   </extendedControls:WindowEx.DataContext>
 
-  <Grid />
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+  </Grid>
 </extendedControls:WindowEx>
