@@ -20,6 +20,7 @@ using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -245,6 +246,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private async Task StartUpAsync()
     {
       await EnvironmentContainer.Instance.ReadSettingsAsync().ConfigureAwait(false);
+      await EnvironmentContainer.Instance.IntializeObservableCollectionsAsync().ConfigureAwait(false);
 
       SetUiLanguage();
       SetDefaultWindowSettings();
@@ -431,9 +433,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region HelperFunctions
 
-    private void AddTabItem(string header, string toolTip, Visibility busyIndicator, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
+    private void AddTabItem(string header, string toolTip, Visibility busyIndicator, ILogWindow content = null, string backgroundColor = "#FFD6DBE9")
     {
-      var tabItem = BusinessHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, backgroundColor, content);
+      var tabItem = BusinessHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, content, backgroundColor);
 
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemDoubleClick;
@@ -446,7 +448,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !(args?.Sender is T4Window) )
         return;
 
-      AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.TabItemBusyIndicator, args.TabItem.TabItemBackgroundColorStringHex, (LogWindowControl) args.TabItem.Content);
+      AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.TabItemBusyIndicator, (LogWindowControl) args.TabItem.Content, args.TabItem.TabItemBackgroundColorStringHex);
     }
 
     private void CloseTabItem(DragSupportTabItem item)

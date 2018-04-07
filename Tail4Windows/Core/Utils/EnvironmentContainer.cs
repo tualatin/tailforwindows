@@ -11,7 +11,6 @@ using System.Windows;
 using System.Windows.Media;
 using Microsoft.Win32;
 using Org.Vs.TailForWin.Core.Controllers;
-using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Mappings;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
@@ -39,8 +38,6 @@ namespace Org.Vs.TailForWin.Core.Utils
       _settings = new SettingsHelperController();
       UpTime = DateTime.Now;
       CurrentEventManager = new EventAggregator();
-
-      NotifyTaskCompletion.Create(IntializeObservableCollectionsAsync());
     }
 
     /// <summary>
@@ -349,7 +346,11 @@ namespace Org.Vs.TailForWin.Core.Utils
       return tp;
     }
 
-    private async Task IntializeObservableCollectionsAsync()
+    /// <summary>
+    /// Init all collections
+    /// </summary>
+    /// <returns>Task</returns>
+    public async Task IntializeObservableCollectionsAsync()
     {
       await Task.Run(
         () =>

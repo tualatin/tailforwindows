@@ -17,6 +17,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     DragSupportTabItem LogWindowTabItem
     {
       get;
+      set;
     }
 
     /// <summary>
@@ -25,6 +26,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     EStatusbarState LogWindowState
     {
       get;
+      set;
     }
 
     /// <summary>
@@ -41,6 +43,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     TailData CurrenTailData
     {
       get;
+      set;
     }
 
     /// <summary>
@@ -49,6 +52,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     bool FileIsValid
     {
       get;
+      set;
     }
   }
 }

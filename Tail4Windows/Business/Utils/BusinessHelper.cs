@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
 
@@ -16,10 +17,10 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// <param name="header">Name of header</param>
     /// <param name="toolTip">ToolTip</param>
     /// <param name="busyIndicator">State of busy indicator</param>
-    /// <param name="backgroundColor">BackgroundColor as hex string</param>
     /// <param name="content">Content as <see cref="LogWindowControl"/></param>
+    /// <param name="backgroundColor">BackgroundColor as hex string</param>
     /// <returns><see cref="DragSupportTabItem"/></returns>
-    public static DragSupportTabItem CreateDragSupportTabItem(string header, string toolTip, Visibility busyIndicator, string backgroundColor = "#FFD6DBE9", LogWindowControl content = null)
+    public static DragSupportTabItem CreateDragSupportTabItem(string header, string toolTip, Visibility busyIndicator, ILogWindow content = null, string backgroundColor = "#FFD6DBE9")
     {
       var tabItem = new DragSupportTabItem
       {
@@ -30,18 +31,25 @@ namespace Org.Vs.TailForWin.Business.Utils
         TabItemBusyIndicator = busyIndicator
       };
 
-      if ( content != null )
+      ILogWindow logWindowControl;
+
+      if ( content == null )
       {
-        content.LogWindowTabItem = tabItem;
-        tabItem.Content = content;
+        logWindowControl = new LogWindowControl();
       }
       else
       {
-        tabItem.Content = new LogWindowControl
+        logWindowControl = new LogWindowControl
         {
-          LogWindowTabItem = tabItem
+          LogWindowTabItem = tabItem,
+          CurrenTailData = content.CurrenTailData,
+          LogWindowState = content.LogWindowState,
+          FileIsValid = content.FileIsValid
         };
       }
+
+      tabItem.Content = logWindowControl;
+
       return tabItem;
     }
   }

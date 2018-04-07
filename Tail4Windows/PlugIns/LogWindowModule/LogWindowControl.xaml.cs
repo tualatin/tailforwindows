@@ -72,7 +72,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     public EStatusbarState LogWindowState
     {
       get => _logWindowState;
-      private set
+      set
       {
         if ( value == _logWindowState )
           return;
@@ -133,20 +133,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
-    private ObservableCollection<string> _logFileHistoryCollection;
-
     /// <summary>
     /// Current LogFile history
     /// </summary>
     public ObservableCollection<string> LogFileHistory
     {
-      get => _logFileHistoryCollection;
-      set
-      {
-        _logFileHistoryCollection = value;
-        OnPropertyChanged();
-      }
-    }
+      get;
+      set;
+    } = new ObservableCollection<string>();
 
     #region Commands
 
@@ -320,7 +314,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      LogFileHistory = new ObservableCollection<string>(_logFileHistory);
+      LogFileHistory.Clear();
+
+      foreach ( var item in _logFileHistory )
+      {
+        LogFileHistory.Add(item);
+      }
+
+      OnPropertyChanged(nameof(LogFileHistory));
     }
 
     /// <summary>
