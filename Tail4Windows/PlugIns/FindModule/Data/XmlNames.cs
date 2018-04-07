@@ -1,7 +1,4 @@
-using Org.Vs.TailForWin.Core.Data.XmlNames;
-
-
-namespace Org.Vs.TailForWin.PlugIns.FindModule.Data
+﻿namespace Org.Vs.TailForWin.PlugIns.FindModule.Data
 {
   /// <summary>
   /// Find module XML structure

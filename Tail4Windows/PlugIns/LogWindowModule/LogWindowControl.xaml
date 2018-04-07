@@ -22,12 +22,6 @@
   utils:FileDragDropHelper.FileDragDropTarget="{Binding}"
   utils:FileDragDropHelper.IsFileDragDropEnabled="True"
   >
-  <i:Interaction.Triggers>
-    <i:EventTrigger EventName="Loaded">
-      <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-    </i:EventTrigger>
-  </i:Interaction.Triggers>
-
   <UserControl.Resources>
     <Storyboard x:Key="ExtendedSettingsShowAnimation">
       <DoubleAnimation

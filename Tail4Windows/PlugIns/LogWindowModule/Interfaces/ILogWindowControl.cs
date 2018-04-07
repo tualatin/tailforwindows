@@ -9,7 +9,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
   /// <summary>
   /// LogWindow interface
   /// </summary>
-  public interface ILogWindow : INotifyPropertyChanged
+  public interface ILogWindowControl : INotifyPropertyChanged
   {
     /// <summary>
     /// LogWindowTabItem <see cref="DragSupportTabItem"/>

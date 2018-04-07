@@ -246,7 +246,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private async Task StartUpAsync()
     {
       await EnvironmentContainer.Instance.ReadSettingsAsync().ConfigureAwait(false);
-      await EnvironmentContainer.Instance.IntializeObservableCollectionsAsync().ConfigureAwait(false);
+      //await EnvironmentContainer.Instance.IntializeObservableCollectionsAsync().ConfigureAwait(false);
 
       SetUiLanguage();
       SetDefaultWindowSettings();
@@ -433,7 +433,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region HelperFunctions
 
-    private void AddTabItem(string header, string toolTip, Visibility busyIndicator, ILogWindow content = null, string backgroundColor = "#FFD6DBE9")
+    private void AddTabItem(string header, string toolTip, Visibility busyIndicator, ILogWindowControl content = null, string backgroundColor = "#FFD6DBE9")
     {
       var tabItem = BusinessHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, content, backgroundColor);
 

@@ -20,7 +20,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// <param name="content">Content as <see cref="LogWindowControl"/></param>
     /// <param name="backgroundColor">BackgroundColor as hex string</param>
     /// <returns><see cref="DragSupportTabItem"/></returns>
-    public static DragSupportTabItem CreateDragSupportTabItem(string header, string toolTip, Visibility busyIndicator, ILogWindow content = null, string backgroundColor = "#FFD6DBE9")
+    public static DragSupportTabItem CreateDragSupportTabItem(string header, string toolTip, Visibility busyIndicator, ILogWindowControl content = null, string backgroundColor = "#FFD6DBE9")
     {
       var tabItem = new DragSupportTabItem
       {
@@ -31,11 +31,14 @@ namespace Org.Vs.TailForWin.Business.Utils
         TabItemBusyIndicator = busyIndicator
       };
 
-      ILogWindow logWindowControl;
+      ILogWindowControl logWindowControl;
 
       if ( content == null )
       {
-        logWindowControl = new LogWindowControl();
+        logWindowControl = new LogWindowControl
+        {
+          LogWindowTabItem = tabItem
+        };
       }
       else
       {

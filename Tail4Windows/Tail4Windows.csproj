@@ -211,6 +211,7 @@
     </Compile>
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FileManagerViewModel.cs" />
     <Compile Include="PlugIns\LogWindowModule\Controller\XmlHistoryController.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Args\StatusChangedArgs.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Delegates\StatusChangedEventHandler.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowControl.xaml.cs">
@@ -228,7 +229,7 @@
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
     <Compile Include="BaseView\Interfaces\IBaseWindowStatusbarViewModel.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Interfaces\ILogWindow.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Interfaces\ILogWindowControl.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindow.xaml.cs">
       <DependentUpon>LogWindow.xaml</DependentUpon>
     </Compile>
@@ -891,7 +892,6 @@
     <Folder Include="Core\Events\EventManagers\" />
     <Folder Include="PlugIns\FindModule\Interfaces\" />
     <Folder Include="PlugIns\FindModule\ViewModels\" />
-    <Folder Include="PlugIns\LogWindowModule\Data\" />
     <Folder Include="PlugIns\PatternModule\ViewModels\" />
     <Folder Include="PlugIns\SmartWatchModule\Controller\" />
     <Folder Include="PlugIns\SmartWatchModule\Data\" />

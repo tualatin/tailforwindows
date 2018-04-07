@@ -33,10 +33,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public XmlSearchHistoryController()
-    {
-      _historyFile = EnvironmentContainer.ApplicationPath + @"\FileManager.xml";
-    }
+    public XmlSearchHistoryController() => _historyFile = EnvironmentContainer.ApplicationPath + @"\FileManager.xml";
 
     /// <summary>
     /// Constructor for testing purposes
@@ -54,7 +51,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
     public async Task<IObservableDictionary<string, string>> ReadXmlFileAsync()
     {
       if ( !File.Exists(_historyFile) )
-        throw new FileNotFoundException();
+        return new ObservableDictionary<string, string>();
 
       LOG.Trace("Read search history");
 
