@@ -131,12 +131,13 @@
             <KeyBinding Key="Enter" Command="{Binding SaveOptionsCommand}" />
           </Button.InputBindings>
         </Button>
+
         <Button
           Width="75"
           Height="24"
           VerticalAlignment="Center"
-          Content="{StaticResource CancelText}"
-          Command="{Binding CloseOptionsCommand, Mode=OneWay}"
+          Content="{DynamicResource CancelText}"
+          Command="{Binding CloseOptionsCommand}"
           CommandParameter="{Binding ElementName=OptionsDialog}"
           IsCancel="True"
           />

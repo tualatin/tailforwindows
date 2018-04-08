@@ -97,11 +97,25 @@
   <system:String x:Key="ButtonFileManagerToolTip">Opens the FileManager (CTRL+M)</system:String>
   <system:String x:Key="CheckBoxUseSmartWatchToolTip">Activate SmartWatch for current log file</system:String>
 
+  <system:String x:Key="FileManagerExtendedSettingsToolTipt">Shows extended tail settings for current selection</system:String>
+  <system:String x:Key="FileManagerGroupByCategory">Group data by category</system:String>
+  <system:String x:Key="FileManagerGroupByCategoryToolTip">Group grid data by category</system:String>
+  <system:String x:Key="FileManagerSave">Save</system:String>
+  <system:String x:Key="FileManagerSaveToolTip">Saves current data</system:String>
+  <system:String x:Key="FileManagerUndo">Undo</system:String>
+  <system:String x:Key="FileManagerUndoToolTip">Undo current changes</system:String>
+  <system:String x:Key="FileManagerRemove">Delete</system:String>
+  <system:String x:Key="FileManagerRemoveToolTip">Deletes current selected data</system:String>
+  <system:String x:Key="FileManagerAdd">Add</system:String>
+  <system:String x:Key="FileManagerAddToolTip">Adds new data</system:String>
+
   <system:String x:Key="ExtendedTailSettingsLabel">Show extended settings</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Shows the extended tail settings for current tab</system:String>
   <system:String x:Key="ExtendedTailSettingsFilterLabel">Filter settings</system:String>
   <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Open in Explorer</system:String>
   <system:String x:Key="ExtendedTailSettingsPrintTailLog">Print current log file</system:String>
+  <system:String x:Key="ExtendedTailSettingsQuickSave">Quick save</system:String>
+  <system:String x:Key="ExtendedTailSettingsQuickSaveInputGestureText">CTRL+S</system:String>
 
   <system:String x:Key="EFileSortFileCreationTime">File creation time</system:String>
   <system:String x:Key="EFileSortDefault">Default</system:String>

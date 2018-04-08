@@ -204,23 +204,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteLogFileTextBoxTextChangedCommand(object param)
     {
-      if ( !(param is TextChangedEventArgs) )
+      if ( !(param is TextChangedEventArgs e) )
         return;
 
-      if ( !File.Exists(CurrenTailData.FileName) )
-      {
-        LogWindowTabItem.HeaderContent = $"{Application.Current.TryFindResource("NoFile")}";
-        LogWindowTabItem.HeaderToolTip = $"{Application.Current.TryFindResource("NoFile")}";
-        CurrenTailData = new TailData();
-        FileIsValid = false;
-        LogWindowState = EStatusbarState.Default;
-        return;
-      }
-
-      LogWindowTabItem.HeaderContent = CurrenTailData.File;
-      LogWindowTabItem.HeaderToolTip = CurrenTailData.FileName;
-      FileIsValid = true;
-      LogWindowState = !string.IsNullOrWhiteSpace(CurrenTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
+      CurrenTailData.FileName = ((TextBox) e.Source).Text;
+      SetCurrentLogFileName();
     }
 
     private async Task ExecuteStartTailCommandAsync()
@@ -280,6 +268,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     #endregion
 
     #region HelperFunctions
+
+    private void SetCurrentLogFileName()
+    {
+      if ( !File.Exists(CurrenTailData.FileName) )
+      {
+        LogWindowTabItem.HeaderContent = $"{Application.Current.TryFindResource("NoFile")}";
+        LogWindowTabItem.HeaderToolTip = $"{Application.Current.TryFindResource("NoFile")}";
+        CurrenTailData = new TailData();
+        FileIsValid = false;
+        LogWindowState = EStatusbarState.Default;
+        return;
+      }
+
+      LogWindowTabItem.HeaderContent = CurrenTailData.File;
+      LogWindowTabItem.HeaderToolTip = CurrenTailData.FileName;
+      FileIsValid = true;
+      LogWindowState = !string.IsNullOrWhiteSpace(CurrenTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
+    }
 
     private async Task StartUpAsync() => _logFileHistory = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
 
@@ -345,6 +351,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       LogFileHistory.Add(CurrenTailData.FileName);
+      OnPropertyChanged(nameof(LogFileHistory));
     }
 
     /// <summary>

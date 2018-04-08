@@ -5,10 +5,11 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-  xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
   mc:Ignorable="d"
+  x:Name="FileManagerWindow"
   Title="FileManager"
   Width="600"
   Height="500"
@@ -21,7 +22,7 @@
   >
   <i:Interaction.Triggers>
     <i:EventTrigger EventName="Closing">
-      <i:InvokeCommandAction Command="{Binding CloseOptionsCommand}" />
+      <i:InvokeCommandAction Command="{Binding CloseCommand}" />
     </i:EventTrigger>
   </i:Interaction.Triggers>
 
@@ -29,10 +30,403 @@
     <viewModels:FileManagerViewModel />
   </extendedControls:WindowEx.DataContext>
 
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition />
-      <RowDefinition />
-    </Grid.RowDefinitions>
-  </Grid>
+  <extendedControls:WindowEx.Resources>
+    <Storyboard x:Key="ExtendedSettingsShowAnimation">
+      <DoubleAnimation
+        Duration="0:0:0.2"
+        Storyboard.TargetProperty="MinHeight"
+        To="150"
+        />
+    </Storyboard>
+
+    <Storyboard x:Key="ExtendedSettingsHideAnimation">
+      <DoubleAnimation
+        Duration="0:0:0.2"
+        Storyboard.TargetProperty="MinHeight"
+        To="0"
+        />
+    </Storyboard>
+  </extendedControls:WindowEx.Resources>
+
+  <Border
+    BorderBrush="{StaticResource BrushSolidBlue}"
+    BorderThickness="2 0 2 0"
+    >
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition />
+        <RowDefinition Height="0">
+          <RowDefinition.Style>
+            <Style>
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="True" Binding="{Binding IsChecked, ElementName=ExtendedSettingsToggleButton}" />
+                  </MultiDataTrigger.Conditions>
+                  <MultiDataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource ExtendedSettingsShowAnimation}" />
+                  </MultiDataTrigger.EnterActions>
+                  <MultiDataTrigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource ExtendedSettingsHideAnimation}" />
+                  </MultiDataTrigger.ExitActions>
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </RowDefinition.Style>
+        </RowDefinition>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="17" />
+      </Grid.RowDefinitions>
+
+      <Border
+        Grid.Row="0"
+        Background="{StaticResource BrushSolidLightBlue}"
+        BorderBrush="{StaticResource BrushSolidBlue}"
+        BorderThickness="0 0 0 1"
+        >
+        <Grid Margin="5">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <Button
+            Grid.Column="0"
+            Width="24"
+            Height="24"
+            Margin="0 0 2 0"
+            >
+            <StackPanel Margin="3">
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/save.ico"
+                />
+            </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource FileManagerSave}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource FileManagerSaveToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+
+          <Button
+            Grid.Column="1"
+            Width="24"
+            Height="24"
+            Margin="0 0 2 0"
+            >
+            <Path
+              Margin="3"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Data="M3.875,0 L5.125,0 5.125,3.875 9,3.875 9,5.125 5.125,5.125 5.125,9 3.875,9 3.875,5.125 0,5.125 0,3.875 3.875,3.875 3.875,0 z"
+              Fill="RoyalBlue"
+              Stretch="Uniform"
+              >
+              <Path.Effect>
+                <DropShadowEffect
+                  Opacity="0.6"
+                  ShadowDepth="1"
+                  />
+              </Path.Effect>
+            </Path>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource FileManagerAdd}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource FileManagerAddToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+
+          <Button
+            Grid.Column="2"
+            Width="24"
+            Height="24"
+            Margin="0 0 2 0"
+            >
+            <StackPanel Margin="3">
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Cancel.ico"
+                />
+            </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource FileManagerUndo}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource FileManagerUndoToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+
+          <Button
+            Grid.Column="3"
+            Width="24"
+            Height="24"
+            Margin="0 0 2 0"
+            >
+            <Path
+              Margin="3"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Data="F1M0,0L2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0z"
+              Fill="DarkRed"
+              Stretch="Uniform"
+              >
+              <Path.Effect>
+                <DropShadowEffect
+                  Opacity="0.6"
+                  ShadowDepth="1"
+                  />
+              </Path.Effect>
+            </Path>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource FileManagerRemove}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource FileManagerRemoveToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+
+          <CheckBox
+            Name="CheckBoxAlwaysGroupByCategory"
+            Grid.Column="5"
+            Height="22"
+            Content="{DynamicResource FileManagerGroupByCategory}"
+            IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=GroupByCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            >
+            <CheckBox.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource FileManagerGroupByCategory}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource FileManagerGroupByCategoryToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </CheckBox.ToolTip>
+          </CheckBox>
+        </Grid>
+      </Border>
+
+      <DataGrid Grid.Row="1" />
+
+      <Border
+        Grid.Row="2"
+        BorderBrush="{StaticResource BrushSolidBlue}"
+        BorderThickness="0 1 0 1"
+        >
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+        </Grid>
+
+      </Border>
+      <Grid Grid.Row="3">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Button
+          Grid.Column="0"
+          Width="75"
+          Height="24"
+          Margin="0 5 5 5"
+          HorizontalAlignment="Right"
+          VerticalAlignment="Center"
+          Content="OK"
+          Command="{Binding OpenCommand}"
+          TabIndex="0"
+          >
+          <Button.InputBindings>
+            <KeyBinding Key="Enter" Command="{Binding OpenCommand}" />
+          </Button.InputBindings>
+        </Button>
+
+        <Button
+          Grid.Column="1"
+          Width="75"
+          Height="24"
+          Margin="5 5 0 5"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Center"
+          Content="{DynamicResource CancelText}"
+          Command="{Binding CloseCommand}"
+          CommandParameter="{Binding ElementName=FileManagerWindow}"
+          IsCancel="True"
+          TabIndex="1"
+          />
+
+        <ToggleButton
+          x:Name="ExtendedSettingsToggleButton"
+          Grid.Column="1"
+          Height="14"
+          Margin="0 5 15 5"
+          HorizontalAlignment="Right"
+          >
+          <ToggleButton.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource ExtendedTailSettingsLabel}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FileManagerExtendedSettingsToolTipt}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </ToggleButton.ToolTip>
+        </ToggleButton>
+      </Grid>
+
+      <Border
+        Grid.Row="4"
+        Background="{StaticResource BrushSolidBlue}"
+        />
+    </Grid>
+  </Border>
 </extendedControls:WindowEx>

@@ -32,6 +32,7 @@
         <ResourceDictionary Source="BaseView/Styles/BlueWindowStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/LightWindowStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/ContextMenuItem.xaml" />
+        <ResourceDictionary Source="UI/Styles/MenuStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/EllipsisMenuButtonStyle.xaml" />
         <ResourceDictionary Source="UI/UserControls/DragSupportUtils/Styles/DragSupportTabItemStyle.xaml" />
         <ResourceDictionary Source="UI/UserControls/DragSupportUtils/Styles/DragSupportTabControlStyle.xaml" />

@@ -60,8 +60,14 @@
                   Stretch="Fill"
                   Stroke="{StaticResource BrushSolidBorderLightBlue}"
                   StrokeThickness="0.5"
-                  />
-
+                  >
+                  <Path.Effect>
+                    <DropShadowEffect
+                      Opacity="0.5"
+                      ShadowDepth="0"
+                      />
+                  </Path.Effect>
+                </Path>
               </Grid>
             </Border>
 
@@ -72,7 +78,13 @@
               </Trigger>
               <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
+                <Setter TargetName="PlusPath" Property="Effect">
+                  <Setter.Value>
+                    <DropShadowEffect Opacity="0" />
+                  </Setter.Value>
+                </Setter>
                 <Setter TargetName="PlusPath" Property="Fill" Value="{StaticResource BrushSolidGrey35}" />
+
               </Trigger>
               <Trigger Property="IsPressed" Value="True">
                 <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
@@ -349,7 +361,7 @@
           Text="{Binding CurrenTailData.FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           IsEditable="True"
           IsEnabled="{Binding LogWindowState, Converter={StaticResource StatusBarStateToBoolConverter}}"
-          ItemsSource="{Binding LogFileHistory, UpdateSourceTrigger=PropertyChanged}"
+          ItemsSource="{Binding LogFileHistory}"
           behaviors1:FocusBehavior.IsFocused="{Binding LogFileComboBoxHasFocus, UpdateSourceTrigger=PropertyChanged}"
           >
           <i:Interaction.Behaviors>
@@ -895,6 +907,26 @@
 
             <Button.ContextMenu>
               <ContextMenu>
+                <MenuItem
+                  Header="{DynamicResource ExtendedTailSettingsQuickSave}"
+                  InputGestureText="{DynamicResource ExtendedTailSettingsQuickSaveInputGestureText}"
+                  >
+                  <MenuItem.IsEnabled>
+                    <MultiBinding Converter="{StaticResource LogFileIsEnableMultiConverter}">
+                      <Binding Path="FileIsValid" />
+                      <Binding Path="CurrenTailData.OpenFromFileManager" />
+                    </MultiBinding>
+                  </MenuItem.IsEnabled>
+
+                  <MenuItem.Icon>
+                    <Image
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/Save.ico"
+                      />
+                  </MenuItem.Icon>
+                </MenuItem>
+
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsFilterLabel}"
                   IsEnabled="{Binding FileIsValid, UpdateSourceTrigger=PropertyChanged}"
