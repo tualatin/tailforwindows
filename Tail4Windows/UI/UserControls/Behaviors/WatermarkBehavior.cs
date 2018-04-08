@@ -93,6 +93,11 @@ namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
       try
       {
         var layer = AdornerLayer.GetAdornerLayer(AssociatedObject);
+
+        if ( layer == null )
+          return;
+
+        layer.Remove(_adorner);
         layer.Add(_adorner);
       }
       catch
@@ -128,6 +133,10 @@ namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
       try
       {
         var layer = AdornerLayer.GetAdornerLayer(AssociatedObject);
+
+        if ( layer == null )
+          return;
+
         layer.Remove(_adorner);
       }
       catch

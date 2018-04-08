@@ -34,7 +34,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// TabHeaderDoubleClicke event handler
     /// </summary>
-    public static readonly RoutedEvent TabHeaderDoubleClickEvent = EventManager.RegisterRoutedEvent("TabHeaderDoubleClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabItem));
+    private static readonly RoutedEvent TabHeaderDoubleClickEvent = EventManager.RegisterRoutedEvent("TabHeaderDoubleClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabItem));
 
     /// <summary>
     /// TabHeaderDoubleClick
@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// CloseTabWindow event handler
     /// </summary>
-    public static readonly RoutedEvent CloseTabWindowEvent = EventManager.RegisterRoutedEvent("CloseTabWindow", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabItem));
+    private static readonly RoutedEvent CloseTabWindowEvent = EventManager.RegisterRoutedEvent("CloseTabWindow", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabItem));
 
     /// <summary>
     /// Close tab window when user press the close button in TabHeader
@@ -151,6 +151,22 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       var color = (SolidColorBrush) tabItem._stringToWindowMediaBrushConverter.Convert(tabItem.TabItemBackgroundColorStringHex, typeof(Brush), null, CultureInfo.CurrentCulture);
       tabItem.TabItemBackgroundColor = color;
+
+      tabItem.RaiseEvent(new RoutedEventArgs(TabHeaderBackgroundChangedEvent, tabItem));
+    }
+
+    /// <summary>
+    /// TabHeaderBackgroundChanged event handler
+    /// </summary>
+    private static readonly RoutedEvent TabHeaderBackgroundChangedEvent = EventManager.RegisterRoutedEvent("TabHeaderBackgroundChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabItem));
+
+    /// <summary>
+    /// TabHeaderBackgroundChanged
+    /// </summary>
+    public event RoutedEventHandler TabHeaderBackgroundChanged
+    {
+      add => AddHandler(TabHeaderBackgroundChangedEvent, value);
+      remove => RemoveHandler(TabHeaderBackgroundChangedEvent, value);
     }
 
     /// <summary>

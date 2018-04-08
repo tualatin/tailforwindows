@@ -13,12 +13,12 @@
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.UI.Utils"
   xmlns:utils1="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   mc:Ignorable="d"
+  d:DataContext="{Binding RelativeSource={RelativeSource Self}}"
   d:DesignHeight="450"
   d:DesignWidth="850"
   HorizontalAlignment="Stretch"
   VerticalAlignment="Stretch"
   AllowDrop="True"
-  DataContext="{Binding RelativeSource={RelativeSource Self}}"
   utils:FileDragDropHelper.FileDragDropTarget="{Binding}"
   utils:FileDragDropHelper.IsFileDragDropEnabled="True"
   >

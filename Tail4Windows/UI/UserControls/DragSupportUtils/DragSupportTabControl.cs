@@ -163,6 +163,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       // added margin left for sure that the item will be scrolled
       double rightItemOffset = Math.Min(_scrollViewer.HorizontalOffset + _scrollViewer.ViewportWidth + 2, _scrollViewer.ExtentWidth);
       var rightItem = GetItemByOffset(rightItemOffset);
+
       ScrollToItem(rightItem);
     }
 

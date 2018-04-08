@@ -54,6 +54,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       InitializeComponent();
 
+      DataContext = this;
       _historyController = new XmlHistoryController();
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
       _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
@@ -323,9 +324,17 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       OnPropertyChanged(nameof(LogFileHistory));
 
       ((AsyncCommand<object>) StartTailCommand).PropertyChanged += SaveHistoryCompleted;
+      LogWindowTabItem.TabHeaderBackgroundChanged += TabItemTabHeaderBackgroundChanged;
       _notifyTaskCompletion.PropertyChanged -= TaskPropertyChanged;
     }
 
+    private void TabItemTabHeaderBackgroundChanged(object sender, RoutedEventArgs e)
+    {
+      if ( !(sender is TabItem) )
+        return;
+
+      CurrenTailData.TabItemBackgroundColorStringHex = LogWindowTabItem.TabItemBackgroundColorStringHex;
+    }
 
     private void SaveHistoryCompleted(object sender, PropertyChangedEventArgs e)
     {
