@@ -287,7 +287,7 @@
           Grid.Column="0"
           Width="16"
           Height="16"
-          Margin="6 0 10 0"
+          Margin="4 0 10 0"
           VerticalAlignment="Center"
           ContentSource="Icon"
           />
@@ -297,7 +297,7 @@
           Grid.Column="0"
           Width="16"
           Height="16"
-          Margin="6 -2 6 0"
+          Margin="3 -2 10 0"
           BorderThickness="1"
           Visibility="Collapsed"
           >
@@ -310,7 +310,14 @@
             SnapsToDevicePixels="False"
             StrokeThickness="1"
             Visibility="Hidden"
-            />
+            >
+            <Path.Effect>
+              <DropShadowEffect
+                Opacity="0.4"
+                ShadowDepth="2"
+                />
+            </Path.Effect>
+          </Path>
         </Border>
 
         <ContentPresenter
