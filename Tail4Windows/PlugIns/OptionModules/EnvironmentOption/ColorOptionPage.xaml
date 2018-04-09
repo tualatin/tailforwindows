@@ -50,7 +50,11 @@
                 >
                 <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
-                    <extendedControls:ColorPicker SelectedColor="{Binding Color, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToWindowsMediaColorConverter}}" />
+                    <extendedControls:ColorPicker
+                      ColorMode="ColorCanvas"
+                      SelectedColor="{Binding Color, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToWindowsMediaColorConverter}}"
+                      ShowTabHeaders="False"
+                      />
                   </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
               </DataGridTemplateColumn>
@@ -85,7 +89,11 @@
                 >
                 <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
-                    <extendedControls:ColorPicker SelectedColor="{Binding Color, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToWindowsMediaColorConverter}}" />
+                    <extendedControls:ColorPicker
+                      ColorMode="ColorCanvas"
+                      SelectedColor="{Binding Color, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToWindowsMediaColorConverter}}"
+                      ShowTabHeaders="False"
+                      />
                   </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
               </DataGridTemplateColumn>
