@@ -63,7 +63,7 @@
                   >
                   <Path.Effect>
                     <DropShadowEffect
-                      Opacity="0.5"
+                      Opacity="0.4"
                       ShadowDepth="0"
                       />
                   </Path.Effect>

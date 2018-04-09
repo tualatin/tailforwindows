@@ -207,7 +207,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(param is TextChangedEventArgs e) )
         return;
 
-      CurrenTailData.FileName = ((TextBox) e.Source).Text;
       SetCurrentLogFileName();
     }
 
@@ -250,6 +249,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       CurrenTailData.FileName = fileName;
       LogFileComboBoxHasFocus = true;
+
+      OnPropertyChanged(nameof(CurrenTailData));
     }
 
     private void ExecuteAddToFileManagerCommand() => OpenFileManager(CurrenTailData);
@@ -275,7 +276,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         LogWindowTabItem.HeaderContent = $"{Application.Current.TryFindResource("NoFile")}";
         LogWindowTabItem.HeaderToolTip = $"{Application.Current.TryFindResource("NoFile")}";
+
         CurrenTailData = new TailData();
+        OnPropertyChanged(nameof(CurrenTailData));
+
         FileIsValid = false;
         LogWindowState = EStatusbarState.Default;
         return;
@@ -322,7 +326,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       LogFileHistory.Clear();
 
-      foreach ( var item in _logFileHistory )
+      foreach ( string item in _logFileHistory )
       {
         LogFileHistory.Add(item);
       }
@@ -373,6 +377,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         CurrenTailData.FileName = fileName;
         LogFileComboBoxHasFocus = true;
+
+        OnPropertyChanged(nameof(CurrenTailData));
       }
       catch ( Exception ex )
       {
