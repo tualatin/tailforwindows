@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml;
@@ -52,22 +53,23 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
     /// <summary>
     /// Read XML file
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>List of tail settings from XML file</returns>
     /// <exception cref="FileNotFoundException">If XML file does not exists</exception>
     /// <exception cref="XmlException">If an error occurred while reading XML file</exception>
-    public async Task<ObservableCollection<TailData>> ReadXmlFileAsync()
+    public async Task<ObservableCollection<TailData>> ReadXmlFileAsync(CancellationToken token)
     {
       if ( !File.Exists(_fileManagerFile) )
         throw new FileNotFoundException();
 
       LOG.Trace("Read XML");
 
-      return await Task.Run(() => ReadXmlFile()).ConfigureAwait(false);
+      return await Task.Run(() => ReadXmlFile(), token).ConfigureAwait(false);
     }
 
     private ObservableCollection<TailData> ReadXmlFile()
     {
-      ObservableCollection<TailData> result = new ObservableCollection<TailData>();
+      var result = new ObservableCollection<TailData>();
 
       try
       {
@@ -141,7 +143,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
 
     private ObservableCollection<string> GetCategoriesFromXmlFile(ObservableCollection<TailData> tailData)
     {
-      ObservableCollection<string> result = new ObservableCollection<string>();
+      var result = new ObservableCollection<string>();
 
       try
       {
@@ -159,11 +161,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
     /// <summary>
     /// Write XML config file
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>Task</returns>
-    public async Task WriteXmlFileAsync()
+    public async Task WriteXmlFileAsync(CancellationToken token)
     {
       LOG.Trace("Writing XML file");
-      await Task.Run(() => WriteXmlFile()).ConfigureAwait(false);
+      await Task.Run(() => WriteXmlFile(), token).ConfigureAwait(false);
     }
 
     private void WriteXmlFile()
@@ -174,9 +177,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
     /// <summary>
     /// Add new tailData to XML file
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <param name="tailData">TailData to add</param>
     /// <returns>Task</returns>
-    public async Task AddTailDataToXmlFileAsync(TailData tailData)
+    public async Task AddTailDataToXmlFileAsync(CancellationToken token, TailData tailData)
     {
       Arg.NotNull(tailData, nameof(tailData));
       LOG.Trace("Add TailData to XML");
@@ -207,7 +211,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
           if ( tailData.FontType == null )
             tailData.FontType = EnvironmentContainer.CreateDefaultFont();
 
-          XElement node = new XElement(XmlNames.File,
+          var node = new XElement(XmlNames.File,
             new XElement(XmlNames.Id, tailData.Id),
             new XElement(XmlNames.FileName, tailData.FileName),
             new XElement(XmlNames.Description, tailData.Description),
@@ -247,24 +251,25 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
           EnvironmentContainer.ShowErrorMessageBox(ex.Message);
         }
-      }).ConfigureAwait(false);
+      }, token).ConfigureAwait(false);
 
-      await WriteXmlFileAsync().ConfigureAwait(false);
+      await WriteXmlFileAsync(token).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Update XML config file
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <param name="tailData"><c>TailData</c> to update</param>
     /// <returns>Task</returns>
     /// <exception cref="ArgumentException">If tailData is null</exception>
-    public async Task UpdateTailDataInXmlFileAsync(TailData tailData)
+    public async Task UpdateTailDataInXmlFileAsync(CancellationToken token, TailData tailData)
     {
       Arg.NotNull(tailData, nameof(tailData));
       LOG.Trace("Update TailData");
 
-      await Task.Run(() => UpdateTailDataInXmlFile(tailData)).ConfigureAwait(false);
-      await WriteXmlFileAsync().ConfigureAwait(false);
+      await Task.Run(() => UpdateTailDataInXmlFile(tailData), token).ConfigureAwait(false);
+      await WriteXmlFileAsync(token).ConfigureAwait(false);
     }
 
     private void UpdateTailDataInXmlFile(TailData tailData)
@@ -320,17 +325,18 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
     /// <summary>
     /// Delete <c>TailData</c> from XML file
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <param name="id">Id to remove from XML scheme</param>
     /// <returns>Task</returns>
     /// <exception cref="ArgumentException">If <c>XML document</c> is null or <c>id</c> is empty</exception>
-    public async Task DeleteTailDataByIdFromXmlFileAsync(string id)
+    public async Task DeleteTailDataByIdFromXmlFileAsync(CancellationToken token, string id)
     {
       Arg.NotNull(id, nameof(id));
       Arg.NotNull(_xmlDocument, nameof(_xmlDocument));
       LOG.Trace("Delete TailData by '{0}'", id);
 
-      await Task.Run(() => DeleteTailDataByIdFromXmlFile(id)).ConfigureAwait(false);
-      await WriteXmlFileAsync().ConfigureAwait(false);
+      await Task.Run(() => DeleteTailDataByIdFromXmlFile(id), token).ConfigureAwait(false);
+      await WriteXmlFileAsync(token).ConfigureAwait(false);
     }
 
     private void DeleteTailDataByIdFromXmlFile(string id)
@@ -349,19 +355,20 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
     /// <summary>
     /// Delete a filter element from XML file
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <param name="id">Id of parent XML element</param>
     /// <param name="filterId">Id of filter to remove</param>
     /// <returns>Task</returns>
     /// <exception cref="ArgumentException">If <c>id</c> or <c>filterId</c> is null or empty</exception>
-    public async Task DeleteFilterByIdByTailDataIdFromXmlFileAsync(string id, string filterId)
+    public async Task DeleteFilterByIdByTailDataIdFromXmlFileAsync(CancellationToken token, string id, string filterId)
     {
       Arg.NotNull(id, nameof(id));
       Arg.NotNull(filterId, nameof(filterId));
       Arg.NotNull(_xmlDocument, nameof(_xmlDocument));
       LOG.Trace("Delete filter from XML id '{0}'", id);
 
-      await Task.Run(() => DeleteFilterByIdByTailDataIdFromXmlFile(id, filterId)).ConfigureAwait(false);
-      await WriteXmlFileAsync().ConfigureAwait(false);
+      await Task.Run(() => DeleteFilterByIdByTailDataIdFromXmlFile(id, filterId), token).ConfigureAwait(false);
+      await WriteXmlFileAsync(token).ConfigureAwait(false);
     }
 
     private void DeleteFilterByIdByTailDataIdFromXmlFile(string id, string filterId)

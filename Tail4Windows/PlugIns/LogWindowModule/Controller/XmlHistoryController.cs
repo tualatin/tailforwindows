@@ -18,6 +18,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(XmlHistoryController));
 
+    private static readonly object MyLock = new object();
+
     private readonly string _historyFile;
     private XDocument _xmlDocument;
 
@@ -41,35 +43,35 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
     /// Read XML file
     /// </summary>
     /// <returns>Task</returns>
-    public async Task<QueueSet<string>> ReadXmlFileAsync()
-    {
-      if ( !File.Exists(_historyFile) )
-        return new QueueSet<string>(MaxQueueSize);
-
-      LOG.Trace("Read history");
-
-      return await Task.Run(() => ReadXmlFile()).ConfigureAwait(false);
-    }
+    public async Task<QueueSet<string>> ReadXmlFileAsync() => await Task.Run(() => ReadXmlFile()).ConfigureAwait(false);
 
     private QueueSet<string> ReadXmlFile()
     {
-      var history = new QueueSet<string>(MaxQueueSize);
-
-      try
+      lock ( MyLock )
       {
-        _xmlDocument = XDocument.Load(_historyFile);
-        var historyRoot = _xmlDocument.Root?.Element(XmlNames.LogfileHistory);
+        if ( !File.Exists(_historyFile) )
+          return new QueueSet<string>(MaxQueueSize);
 
-        if ( historyRoot == null )
-          return history;
+        LOG.Trace("Read history");
 
-        Parallel.ForEach(historyRoot.Elements(XmlNames.History), f => history.Add(f.Attribute(XmlBaseStructure.Name)?.Value));
+        var history = new QueueSet<string>(MaxQueueSize);
+
+        try
+        {
+          _xmlDocument = XDocument.Load(_historyFile);
+          var historyRoot = _xmlDocument.Root?.Element(XmlNames.LogfileHistory);
+
+          if ( historyRoot == null )
+            return history;
+
+          Parallel.ForEach(historyRoot.Elements(XmlNames.History), f => history.Add(f.Attribute(XmlBaseStructure.Name)?.Value));
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+        return history;
       }
-      catch ( Exception ex )
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-      }
-      return history;
     }
 
     /// <summary>
@@ -77,40 +79,40 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
     /// </summary>
     /// <param name="searchWord">Search text to save into XML file</param>
     /// <returns>Task</returns>
-    public async Task SaveSearchHistoryAsync(string searchWord)
-    {
-      LOG.Trace("Save history");
-
-      await Task.Run(() => SaveSearchHistory(searchWord)).ConfigureAwait(false);
-    }
+    public async Task SaveSearchHistoryAsync(string searchWord) => await Task.Run(() => SaveSearchHistory(searchWord)).ConfigureAwait(false);
 
     private void SaveSearchHistory(string fileName)
     {
-      if ( string.IsNullOrWhiteSpace(fileName) )
-        return;
-
-      if ( !File.Exists(_historyFile) )
-        _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
-
-      try
+      lock ( MyLock )
       {
-        var root = _xmlDocument.Root?.Element(XmlNames.LogfileHistory);
+        LOG.Trace("Save history");
 
-        if ( root == null )
+        if ( string.IsNullOrWhiteSpace(fileName) )
+          return;
+
+        if ( !File.Exists(_historyFile) )
+          _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
+
+        try
         {
-          root = new XElement(XmlNames.LogfileHistory);
-          _xmlDocument.Root?.Add(root);
+          var root = _xmlDocument.Root?.Element(XmlNames.LogfileHistory);
+
+          if ( root == null )
+          {
+            root = new XElement(XmlNames.LogfileHistory);
+            _xmlDocument.Root?.Add(root);
+          }
+
+          var find = new XElement(XmlNames.History);
+          find.Add(new XAttribute(XmlBaseStructure.Name, fileName));
+          root.Add(find);
+
+          _xmlDocument.Save(_historyFile, SaveOptions.None);
         }
-
-        var find = new XElement(XmlNames.History);
-        find.Add(new XAttribute(XmlBaseStructure.Name, fileName));
-        root.Add(find);
-
-        _xmlDocument.Save(_historyFile, SaveOptions.None);
-      }
-      catch ( Exception ex )
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        }
       }
     }
 

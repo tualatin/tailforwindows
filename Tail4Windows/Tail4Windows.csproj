@@ -206,6 +206,7 @@
     <Compile Include="Business\Utils\BusinessHelper.cs" />
     <Compile Include="Core\Utils\QueueSet.cs" />
     <Compile Include="Core\Utils\WindowGetMinMaxInfo.cs" />
+    <Compile Include="PlugIns\FileManagerModule\Data\FileManagerData.cs" />
     <Compile Include="PlugIns\FileManagerModule\FileManager.xaml.cs">
       <DependentUpon>FileManager.xaml</DependentUpon>
     </Compile>

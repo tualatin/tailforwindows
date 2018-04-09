@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Core.Data;
 
@@ -14,8 +15,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces
     /// <summary>
     /// Read XML file
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>List of tail settings from XML file</returns>
-    Task<ObservableCollection<TailData>> ReadXmlFileAsync();
+    Task<ObservableCollection<TailData>> ReadXmlFileAsync(CancellationToken token);
 
     /// <summary>
     /// Get list of categories from XML file
@@ -27,37 +29,42 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces
     /// <summary>
     /// Write XML config file
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>Task</returns>
-    Task WriteXmlFileAsync();
+    Task WriteXmlFileAsync(CancellationToken token);
 
     /// <summary>
     /// Update XML config file
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <param name="tailData">TailData to update</param>
     /// <returns>Task</returns>
-    Task UpdateTailDataInXmlFileAsync(TailData tailData);
+    Task UpdateTailDataInXmlFileAsync(CancellationToken token, TailData tailData);
 
     /// <summary>
     /// Add new tailData to XML file
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <param name="tailData">TailData to add</param>
     /// <returns>Task</returns>
-    Task AddTailDataToXmlFileAsync(TailData tailData);
+    Task AddTailDataToXmlFileAsync(CancellationToken token, TailData tailData);
 
     /// <summary>
     /// Delete <c>TailData</c> from XML file
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <param name="id">Id to remove from XML scheme</param>
     /// <returns>Task</returns>
-    Task DeleteTailDataByIdFromXmlFileAsync(string id);
+    Task DeleteTailDataByIdFromXmlFileAsync(CancellationToken token, string id);
 
     /// <summary>
     /// Delete a filter element from XML file
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <param name="id">Id of parent XML element</param>
     /// <param name="filterId">Id of filter to remove</param>
     /// <returns>Task</returns>
-    Task DeleteFilterByIdByTailDataIdFromXmlFileAsync(string id, string filterId);
+    Task DeleteFilterByIdByTailDataIdFromXmlFileAsync(CancellationToken token, string id, string filterId);
 
     /// <summary>
     /// Get <c>TailData</c> by certain Id

@@ -26,6 +26,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     private TailData _tailData;
     private string _path;
     private string _tempPath;
+    private CancellationTokenSource _cts;
 
     [SetUp]
     protected void SetUp()
@@ -35,6 +36,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       if ( Application.Current == null )
         Application.LoadComponent(new Uri("/T4W;component/app.xaml", UriKind.Relative));
 
+      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
       _currenTestContext = TestContext.CurrentContext;
       _tempPath = _currenTestContext.TestDirectory + @"\Files\FileManager.xml";
       _path = _currenTestContext.TestDirectory + @"\FileManager.xml";
@@ -83,11 +85,11 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     {
       IXmlFileManager xmlReader = new XmlFileManagerController(@"C:\blabla\Test.xml");
       var reader = xmlReader;
-      Assert.That(() => reader.ReadXmlFileAsync(), Throws.InstanceOf<FileNotFoundException>());
+      Assert.That(() => reader.ReadXmlFileAsync(_cts.Token), Throws.InstanceOf<FileNotFoundException>());
 
       InitXmlReader();
 
-      var files = await _xmlReader.ReadXmlFileAsync().ConfigureAwait(false);
+      var files = await _xmlReader.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
       Assert.NotNull(files);
       Assert.AreEqual(2, files.Count);
       Assert.IsInstanceOf<TailData>(files.First());
@@ -139,7 +141,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     {
       InitXmlReader();
 
-      var files = await _xmlReader.ReadXmlFileAsync().ConfigureAwait(false);
+      var files = await _xmlReader.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
       var categories = await _xmlReader.GetCategoriesFromXmlFileAsync(files).ConfigureAwait(false);
       Assert.NotNull(categories);
       Assert.AreEqual(2, categories.Count);
@@ -155,7 +157,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
 
       var id = Guid.Parse("8a0c7206-7d0e-4d81-a25c-1d4accca09b7");
 
-      var files = await _xmlReader.ReadXmlFileAsync().ConfigureAwait(false);
+      var files = await _xmlReader.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
       var tailData = await _xmlReader.GetTailDataByIdAsync(files, id).ConfigureAwait(false);
       Assert.NotNull(tailData);
 
@@ -228,9 +230,9 @@ namespace Org.Vs.NUnit.Tests.XmlTests
 
       InitXmlReader();
 
-      await _xmlReader.ReadXmlFileAsync().ConfigureAwait(false);
-      await _xmlReader.AddTailDataToXmlFileAsync(tailData).ConfigureAwait(false);
-      var files = await _xmlReader.ReadXmlFileAsync().ConfigureAwait(false);
+      await _xmlReader.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
+      await _xmlReader.AddTailDataToXmlFileAsync(_cts.Token, tailData).ConfigureAwait(false);
+      var files = await _xmlReader.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
       Assert.AreEqual(3, files.Count);
 
       var xmlTailData = files.SingleOrDefault(p => p.Id.Equals(tailData.Id));
@@ -268,7 +270,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
     {
       InitXmlReader();
 
-      Assert.That(() => _xmlReader.AddTailDataToXmlFileAsync(null), Throws.InstanceOf<ArgumentException>());
+      Assert.That(() => _xmlReader.AddTailDataToXmlFileAsync(_cts.Token, null), Throws.InstanceOf<ArgumentException>());
 
       var path = _currenTestContext.TestDirectory + @"\FileManager.xml";
 
@@ -304,8 +306,8 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         }
       };
 
-      await _xmlReader.AddTailDataToXmlFileAsync(tailData).ConfigureAwait(false);
-      var files = await _xmlReader.ReadXmlFileAsync().ConfigureAwait(false);
+      await _xmlReader.AddTailDataToXmlFileAsync(_cts.Token, tailData).ConfigureAwait(false);
+      var files = await _xmlReader.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
       Assert.AreEqual(1, files.Count);
 
       var xmlTailData = files.SingleOrDefault(p => p.Id.Equals(tailData.Id));
@@ -349,11 +351,11 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       _tailData.FileName = @"C:\Test\Test.log";
       _tailData.ListOfFilter.Clear();
 
-      Assert.That(() => _xmlReader.UpdateTailDataInXmlFileAsync(null), Throws.InstanceOf<ArgumentException>());
+      Assert.That(() => _xmlReader.UpdateTailDataInXmlFileAsync(_cts.Token, null), Throws.InstanceOf<ArgumentException>());
 
-      await _xmlReader.ReadXmlFileAsync().ConfigureAwait(false);
-      await _xmlReader.UpdateTailDataInXmlFileAsync(_tailData).ConfigureAwait(false);
-      var files = await _xmlReader.ReadXmlFileAsync().ConfigureAwait(false);
+      await _xmlReader.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
+      await _xmlReader.UpdateTailDataInXmlFileAsync(_cts.Token, _tailData).ConfigureAwait(false);
+      var files = await _xmlReader.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
       var xmlData = files.SingleOrDefault(p => p.Id.Equals(_tailData.Id));
 
       Assert.IsNotNull(xmlData);
@@ -370,8 +372,8 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         FilterFontType = new Font("Tahoma", 9f, FontStyle.Italic)
       });
 
-      await _xmlReader.UpdateTailDataInXmlFileAsync(_tailData).ConfigureAwait(false);
-      files = await _xmlReader.ReadXmlFileAsync().ConfigureAwait(false);
+      await _xmlReader.UpdateTailDataInXmlFileAsync(_cts.Token, _tailData).ConfigureAwait(false);
+      files = await _xmlReader.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
       xmlData = files.SingleOrDefault(p => p.Id.Equals(_tailData.Id));
 
       Assert.IsNotNull(xmlData);
@@ -391,12 +393,12 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       InitXmlReader();
 
       var id = "8a0c7206-7d0e-4d81-a25c-1d4accca09b7";
-      await _xmlReader.ReadXmlFileAsync().ConfigureAwait(false);
-      await _xmlReader.DeleteTailDataByIdFromXmlFileAsync(id).ConfigureAwait(false);
-      var files = await _xmlReader.ReadXmlFileAsync().ConfigureAwait(false);
+      await _xmlReader.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
+      await _xmlReader.DeleteTailDataByIdFromXmlFileAsync(_cts.Token, id).ConfigureAwait(false);
+      var files = await _xmlReader.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
 
       Assert.AreEqual(1, files.Count);
-      Assert.That(() => _xmlReader.DeleteTailDataByIdFromXmlFileAsync(null), Throws.InstanceOf<ArgumentException>());
+      Assert.That(() => _xmlReader.DeleteTailDataByIdFromXmlFileAsync(_cts.Token, null), Throws.InstanceOf<ArgumentException>());
     }
 
     [Test]
@@ -407,15 +409,15 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       var id = "8a0c7206-7d0e-4d81-a25c-1d4accca09b7";
       var idFilter = "e8378c20-c0cc-457e-872f-c4139539dec9";
 
-      await _xmlReader.ReadXmlFileAsync().ConfigureAwait(false);
-      await _xmlReader.DeleteFilterByIdByTailDataIdFromXmlFileAsync(id, idFilter).ConfigureAwait(false);
-      var files = await _xmlReader.ReadXmlFileAsync().ConfigureAwait(false);
+      await _xmlReader.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
+      await _xmlReader.DeleteFilterByIdByTailDataIdFromXmlFileAsync(_cts.Token, id, idFilter).ConfigureAwait(false);
+      var files = await _xmlReader.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
 
       var xmlData = files.SingleOrDefault(p => p.Id == Guid.Parse(id));
       Assert.IsNotNull(xmlData);
       Assert.AreEqual(1, xmlData.ListOfFilter.Count);
       Assert.IsNull(xmlData.ListOfFilter.SingleOrDefault(p => p.Id == Guid.Parse(idFilter)));
-      Assert.That(() => _xmlReader.DeleteFilterByIdByTailDataIdFromXmlFileAsync(null, null), Throws.InstanceOf<ArgumentException>());
+      Assert.That(() => _xmlReader.DeleteFilterByIdByTailDataIdFromXmlFileAsync(_cts.Token, null, null), Throws.InstanceOf<ArgumentException>());
     }
   }
 }

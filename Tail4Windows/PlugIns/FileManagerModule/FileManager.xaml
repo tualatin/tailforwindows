@@ -5,7 +5,9 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+  xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
+  xmlns:data="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.Data"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
   mc:Ignorable="d"
@@ -21,6 +23,10 @@
   WindowStartupLocation="CenterOwner"
   >
   <i:Interaction.Triggers>
+    <i:EventTrigger EventName="Loaded">
+      <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+    </i:EventTrigger>
+
     <i:EventTrigger EventName="Closing">
       <i:InvokeCommandAction Command="{Binding CloseCommand}" />
     </i:EventTrigger>
@@ -46,11 +52,23 @@
         To="0"
         />
     </Storyboard>
+
+    <CollectionViewSource
+      x:Key="CvsFileManagerData"
+      Source="{Binding LoadedCommand.Execution.Result}"
+      >
+      <CollectionViewSource.SortDescriptions>
+        <componentModel:SortDescription PropertyName="File" />
+      </CollectionViewSource.SortDescriptions>
+      <CollectionViewSource.GroupDescriptions>
+        <PropertyGroupDescription PropertyName="Category" />
+      </CollectionViewSource.GroupDescriptions>
+    </CollectionViewSource>
   </extendedControls:WindowEx.Resources>
 
   <Border
     BorderBrush="{StaticResource BrushSolidBlue}"
-    BorderThickness="2 0 2 0"
+    BorderThickness="2 2 2 0"
     >
     <Grid>
       <Grid.RowDefinitions>
@@ -97,9 +115,10 @@
 
           <Button
             Grid.Column="0"
-            Width="24"
-            Height="24"
+            Width="22"
+            Height="22"
             Margin="0 0 2 0"
+            Command="{Binding SaveCommand}"
             >
             <StackPanel Margin="3">
               <Image
@@ -142,9 +161,10 @@
 
           <Button
             Grid.Column="1"
-            Width="24"
-            Height="24"
+            Width="22"
+            Height="22"
             Margin="0 0 2 0"
+            Command="{Binding AddTailDataCommand}"
             >
             <Path
               Margin="3"
@@ -195,9 +215,10 @@
 
           <Button
             Grid.Column="2"
-            Width="24"
-            Height="24"
+            Width="22"
+            Height="22"
             Margin="0 0 2 0"
+            Command="{Binding UndoCommand}"
             >
             <StackPanel Margin="3">
               <Image
@@ -240,9 +261,10 @@
 
           <Button
             Grid.Column="3"
-            Width="24"
-            Height="24"
+            Width="22"
+            Height="22"
             Margin="0 0 2 0"
+            Command="{Binding DeleteTailDataCommand}"
             >
             <Path
               Margin="3"
@@ -332,7 +354,49 @@
         </Grid>
       </Border>
 
-      <DataGrid Grid.Row="1" />
+      <DataGrid
+        Grid.Row="1"
+        ItemsSource="{Binding Source={StaticResource CvsFileManagerData}}"
+        SelectedItem="{Binding SelectedItem}"
+        >
+        <DataGrid.Columns>
+          <DataGridTextColumn
+            MinWidth="130"
+            Header="Filename"
+            Binding="{Binding Path=File}"
+            />
+          <DataGridTextColumn
+            MinWidth="130"
+            Header="Description"
+            Binding="{Binding Path=Description}"
+            />
+          <DataGridTextColumn
+            MinWidth="130"
+            Header="Category"
+            Binding="{Binding Path=Category}"
+            />
+          <DataGridTextColumn
+            MinWidth="190"
+            Header="Pattern"
+            Binding="{Binding Path=PatternString}"
+            />
+          <DataGridCheckBoxColumn
+            MinWidth="50"
+            Header="Regex"
+            Binding="{Binding Path=IsRegex}"
+            />
+          <DataGridTextColumn
+            MinWidth="90"
+            Header="Refresh Rate"
+            Binding="{Binding Path=RefreshRate}"
+            />
+          <DataGridTextColumn
+            MinWidth="120"
+            Header="Thread Priority"
+            Binding="{Binding Path=ThreadPriority}"
+            />
+        </DataGrid.Columns>
+      </DataGrid>
 
       <Border
         Grid.Row="2"
