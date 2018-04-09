@@ -123,6 +123,8 @@
   <Color x:Key="DefaultScrollBarColor">#D0D1D7</Color>
   <Color x:Key="ScrollBarPressed">#888888</Color>
 
+  <Color x:Key="ColorMenuIconPlaceColor">#FFDCE0EC</Color>
+
   <SolidColorBrush x:Key="BrushSolidWhite" Color="{StaticResource ColorWhite}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey02" Color="{StaticResource ColorGrey02}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey03" Color="{StaticResource ColorGrey03}" po:Freeze="True" />
@@ -152,6 +154,8 @@
 
   <SolidColorBrush x:Key="ScrollBarLightColor" po:Freeze="True">#E8E8EC</SolidColorBrush>
   <SolidColorBrush x:Key="BorderHighlight" po:Freeze="True">#FFF0D0</SolidColorBrush>
+
+  <SolidColorBrush x:Key="BrushSolidMenuIconPlaceColor" Color="{StaticResource ColorMenuIconPlaceColor}" po:Freeze="True" />
 
   <LinearGradientBrush x:Key="MenuPopupBrush" StartPoint="0.5,0" EndPoint="0.5,1">
     <GradientStop Offset="0" Color="{StaticResource ColorWhite}" />
