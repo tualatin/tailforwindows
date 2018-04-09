@@ -909,6 +909,7 @@
               <ContextMenu>
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsQuickSave}"
+                  Command="{Binding QuickSaveCommand}"
                   InputGestureText="{DynamicResource ExtendedTailSettingsQuickSaveInputGestureText}"
                   >
                   <MenuItem.IsEnabled>
@@ -929,6 +930,7 @@
 
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsFilterLabel}"
+                  Command="{Binding OpenTailDataFilterCommand}"
                   IsEnabled="{Binding FileIsValid, UpdateSourceTrigger=PropertyChanged}"
                   >
                   <MenuItem.Icon>
@@ -942,6 +944,7 @@
 
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsOpenInExplorer}"
+                  Command="{Binding OpenInEditorCommand}"
                   IsEnabled="{Binding FileIsValid, UpdateSourceTrigger=PropertyChanged}"
                   >
                   <MenuItem.Icon>
@@ -955,6 +958,7 @@
 
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsPrintTailLog}"
+                  Command="{Binding PrintTailDataCommand}"
                   IsEnabled="{Binding FileIsValid, UpdateSourceTrigger=PropertyChanged}"
                   >
                   <MenuItem.Icon>
@@ -1022,6 +1026,7 @@
             Margin="2 2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            Command="{Binding OpenSearchDialogCommand}"
             >
             <StackPanel>
               <Image
@@ -1056,6 +1061,7 @@
             Margin="2 2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            Command="{Binding OpenFontDialogCommand}"
             >
             <StackPanel>
               <Image

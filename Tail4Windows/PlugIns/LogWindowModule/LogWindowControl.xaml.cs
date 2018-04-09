@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +17,8 @@ using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule;
+using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
+using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
@@ -35,7 +39,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogWindowControl));
 
     private readonly NotifyTaskCompletion _notifyTaskCompletion;
+
+    private readonly CancellationTokenSource _cts;
     private readonly IXmlSearchHistory<QueueSet<string>> _historyController;
+    private readonly IXmlFileManager _xmlFileManagerController;
     private QueueSet<string> _logFileHistory;
 
     #region Events
@@ -55,7 +62,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       InitializeComponent();
 
       DataContext = this;
+
+      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
       _historyController = new XmlHistoryController();
+      _xmlFileManagerController = new XmlFileManagerController();
+
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
       _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
     }
@@ -198,9 +209,91 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand LogFileTextBoxTextChangedCommand => _logFileTextBoxTextChangedCommand ?? (_logFileTextBoxTextChangedCommand = new RelayCommand(ExecuteLogFileTextBoxTextChangedCommand));
 
+    private ICommand _openInEditorCommand;
+
+    /// <summary>
+    /// Open in editor command
+    /// </summary>
+    public ICommand OpenInEditorCommand => _openInEditorCommand ?? (_openInEditorCommand = new RelayCommand(p => ExecuteOpenInEditorCommand()));
+
+    private ICommand _openTailDataFilterCommand;
+
+    /// <summary>
+    /// Open <see cref="TailData"/> filter
+    /// </summary>
+    public ICommand OpenTailDataFilterCommand => _openTailDataFilterCommand ?? (_openTailDataFilterCommand = new RelayCommand(p => ExecuteOpenTailDataFilterCommand()));
+
+    private IAsyncCommand _quickSaveCommand;
+
+    /// <summary>
+    /// Quick save command
+    /// </summary>
+    public IAsyncCommand QuickSaveCommand => _quickSaveCommand ?? (_quickSaveCommand = AsyncCommand.Create(ExecuteQuickSaveCommandAsync));
+
+    private IAsyncCommand _printTailDataCommand;
+
+    /// <summary>
+    /// Print <see cref="TailData"/>
+    /// </summary>
+    public IAsyncCommand PrintTailDataCommand => _printTailDataCommand ?? (_printTailDataCommand = AsyncCommand.Create(ExecutePrintTailDataCommandAsync));
+
+    private ICommand _openSearchDialogCommand;
+
+    /// <summary>
+    /// Open search dialog command
+    /// </summary>
+    public ICommand OpenSearchDialogCommand => _openSearchDialogCommand ?? (_openSearchDialogCommand = new RelayCommand(p => ExecuteOpenSearchDialogCommand()));
+
+    private ICommand _openFontDialogCommand;
+
+    /// <summary>
+    /// Open font dialog command
+    /// </summary>
+    public ICommand OpenFontDialogCommand => _openFontDialogCommand ?? (_openFontDialogCommand = new RelayCommand(p => ExecuteOpenFontDialogCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteOpenFontDialogCommand()
+    {
+
+    }
+
+    private void ExecuteOpenSearchDialogCommand()
+    {
+
+    }
+
+    private async Task ExecutePrintTailDataCommandAsync()
+    {
+
+    }
+
+    private async Task ExecuteQuickSaveCommandAsync()
+    {
+      if ( !CurrenTailData.OpenFromFileManager )
+        return;
+
+      await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, CurrenTailData).ConfigureAwait(false);
+    }
+
+    private void ExecuteOpenTailDataFilterCommand()
+    {
+
+    }
+
+    private void ExecuteOpenInEditorCommand()
+    {
+      if ( string.IsNullOrWhiteSpace(CurrenTailData.FileName) )
+        return;
+
+      var shellOpen = new ProcessStartInfo(CurrenTailData.FileName)
+      {
+        UseShellExecute = true
+      };
+      Process.Start(shellOpen);
+    }
 
     private void ExecuteLogFileTextBoxTextChangedCommand(object param)
     {
