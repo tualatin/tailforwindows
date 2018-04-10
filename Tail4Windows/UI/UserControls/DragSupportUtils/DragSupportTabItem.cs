@@ -93,11 +93,21 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         if ( string.IsNullOrWhiteSpace(value) )
           return;
 
+        HeaderFullText = value;
         var typeface = new Typeface(FontFamily, FontStyle, FontWeight, FontStretch);
         string item = value.MeasureTextAndCutIt(typeface, FontSize, 160);
 
         SetValue(HeaderToolContentProperty, item);
       }
+    }
+
+    /// <summary>
+    /// TabHeader full text
+    /// </summary>
+    public string HeaderFullText
+    {
+      get;
+      private set;
     }
 
     /// <summary>

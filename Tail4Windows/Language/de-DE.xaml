@@ -108,6 +108,11 @@
   <system:String x:Key="FileManagerRemoveToolTip">Löscht die aktuell ausgewählte Zeile</system:String>
   <system:String x:Key="FileManagerAdd">Hinzufügen</system:String>
   <system:String x:Key="FileManagerAddToolTip">Fügt neue Daten hinzu</system:String>
+  <system:String x:Key="FileManagerDataGridFileName">Dateiname</system:String>
+  <system:String x:Key="FileManagerDataGridDescription">Bezeichnung</system:String>
+  <system:String x:Key="FileManagerDataGridCategory">Kategorie</system:String>
+  <system:String x:Key="FileManagerDataGridPattern">Pattern</system:String>
+  <system:String x:Key="FileManagerDataGridIsRegex">Regex</system:String>
 
   <system:String x:Key="ExtendedTailSettingsLabel">Zeit erweiterte Einstellungen</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Zeige die erweiterten Einstellungen des aktuellen tail Tabs</system:String>

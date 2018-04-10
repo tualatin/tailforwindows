@@ -360,40 +360,53 @@
         SelectedItem="{Binding SelectedItem}"
         >
         <DataGrid.Columns>
+          <DataGridTemplateColumn
+            MinWidth="130"
+            Header="{DynamicResource FileManagerDataGridFileName}"
+            >
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <DockPanel>
+                  <TextBlock
+                    Text="{Binding Path=File}"
+                    DockPanel.Dock="Left"
+                    ToolTip="{Binding Path=FileName}"
+                    />
+                  <Button
+                    Width="20"
+                    Content="..."
+                    Command="{Binding OpenFileCommand}"
+                    DockPanel.Dock="Right"
+                    />
+                </DockPanel>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+
           <DataGridTextColumn
             MinWidth="130"
-            Header="Filename"
-            Binding="{Binding Path=File}"
-            />
-          <DataGridTextColumn
-            MinWidth="130"
-            Header="Description"
+            Header="{DynamicResource FileManagerDataGridDescription}"
             Binding="{Binding Path=Description}"
             />
+
           <DataGridTextColumn
             MinWidth="130"
-            Header="Category"
+            Header="{DynamicResource FileManagerDataGridCategory}"
             Binding="{Binding Path=Category}"
             />
+
           <DataGridTextColumn
             MinWidth="190"
-            Header="Pattern"
+            Header="{DynamicResource FileManagerDataGridPattern}"
             Binding="{Binding Path=PatternString}"
+            IsReadOnly="True"
             />
+
           <DataGridCheckBoxColumn
             MinWidth="50"
-            Header="Regex"
+            Header="{DynamicResource FileManagerDataGridIsRegex}"
             Binding="{Binding Path=IsRegex}"
-            />
-          <DataGridTextColumn
-            MinWidth="90"
-            Header="Refresh Rate"
-            Binding="{Binding Path=RefreshRate}"
-            />
-          <DataGridTextColumn
-            MinWidth="120"
-            Header="Thread Priority"
-            Binding="{Binding Path=ThreadPriority}"
+            IsReadOnly="True"
             />
         </DataGrid.Columns>
       </DataGrid>

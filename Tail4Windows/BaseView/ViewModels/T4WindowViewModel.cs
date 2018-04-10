@@ -456,9 +456,18 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !TabItemsSource.Contains(item) )
         return;
 
+      if ( SelectedTabItem.TabItemBusyIndicator == Visibility.Visible )
+      {
+        string message = $"{Application.Current.TryFindResource("QRemoveTab")} \n {SelectedTabItem.HeaderFullText}";
+
+        if ( EnvironmentContainer.ShowQuestionMessageBox(message) == MessageBoxResult.No )
+          return;
+      }
+
       item.TabHeaderDoubleClick -= TabItemDoubleClick;
       item.CloseTabWindow -= TabItemCloseTabWindow;
 
+      BusinessHelper.UnregisterTabItem(item);
       TabItemsSource.Remove(item);
 
       if ( TabItemsSource.Count == 0 )

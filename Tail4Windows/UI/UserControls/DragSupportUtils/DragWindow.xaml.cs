@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
 using log4net;
 using Org.Vs.TailForWin.Business.Utils;
@@ -11,6 +12,7 @@ using Org.Vs.TailForWin.Core.Native.Data.Enum;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
+using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils;
 
@@ -178,9 +180,18 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( !TabItems.Contains(tabItem) )
         return;
 
+      if ( SelectedTabItem.TabItemBusyIndicator == Visibility.Visible )
+      {
+        string message = $"{Application.Current.TryFindResource("QRemoveTab")} \n {SelectedTabItem.HeaderFullText}";
+
+        if ( EnvironmentContainer.ShowQuestionMessageBox(message) == MessageBoxResult.No )
+          return;
+      }
+
       tabItem.TabHeaderDoubleClick -= TabItemTabHeaderDoubleClick;
       tabItem.CloseTabWindow -= TabItemCloseTabWindow;
 
+      BusinessHelper.UnregisterTabItem(tabItem);
       TabItems.Remove(tabItem);
 
       if ( TabItems.Count == 0 )
@@ -293,5 +304,37 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       TabItems.Add(tabItem);
     }
+
+    #region Commands
+
+    private ICommand _addNewTabItemCommand;
+
+    /// <summary>
+    /// Add new tab item command
+    /// </summary>
+    public ICommand AddNewTabItemCommand => _addNewTabItemCommand ?? (_addNewTabItemCommand = new RelayCommand(p =>ExecuteAddNewTabItemCommand()));
+
+    private ICommand _closeTabItemCommand;
+
+    /// <summary>
+    /// Add new tab item command
+    /// </summary>
+    public ICommand CloseTabItemCommand => _closeTabItemCommand ?? (_closeTabItemCommand = new RelayCommand(p => ExecuteCloseTabItemCommand()));
+
+    #endregion
+
+    #region Command functions
+
+    private void ExecuteAddNewTabItemCommand() => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}", Visibility.Collapsed);
+
+    private void ExecuteCloseTabItemCommand()
+    {
+      if ( SelectedTabItem == null )
+        return;
+
+      RemoveTabItem(SelectedTabItem);
+    }
+
+    #endregion
   }
 }

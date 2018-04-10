@@ -283,11 +283,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private async Task<ObservableCollection<string>> ExecuteLoadedCommandAsync()
     {
       var result = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
-      
-      foreach ( string s in result )
-      {
-        LogFileHistory.Add(s);
-      }
+
+      //LogFileHistory.Clear();
+
+      //foreach ( string s in result )
+      //{
+      //  LogFileHistory.Add(s);
+      //}
       return LogFileHistory;
     }
 

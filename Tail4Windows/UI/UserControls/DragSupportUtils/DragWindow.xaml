@@ -19,6 +19,11 @@
   Style="{StaticResource DragSupportWindowStyle}"
   WindowStyle="None"
   >
+  <Window.InputBindings>
+    <KeyBinding Key="{Binding Key, Source={StaticResource NewTabItemKeyBinding}, Mode=OneTime}" Command="{Binding AddNewTabItemCommand}" Modifiers="{Binding Modifiers, Source={StaticResource NewTabItemKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource CloseTabItemKeyBinding}, Mode=OneTime}" Command="{Binding CloseTabItemCommand}" Modifiers="{Binding Modifiers, Source={StaticResource CloseTabItemKeyBinding}, Mode=OneTime}" />
+  </Window.InputBindings>
+
   <Grid>
     <Border
       BorderBrush="{StaticResource BrushSolidBlue}"

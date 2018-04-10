@@ -7,6 +7,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using log4net;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
@@ -113,6 +114,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( !Items.Contains(tabItem) )
         return;
 
+      BusinessHelper.UnregisterTabItem(tabItem);
       var list = ItemsSource as ObservableCollection<DragSupportTabItem>;
       list?.Remove(tabItem);
     }

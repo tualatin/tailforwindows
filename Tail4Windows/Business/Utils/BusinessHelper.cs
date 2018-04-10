@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
@@ -11,6 +12,24 @@ namespace Org.Vs.TailForWin.Business.Utils
   /// </summary>
   public static class BusinessHelper
   {
+    private static readonly List<DragSupportTabItem> TabItemList = new List<DragSupportTabItem>();
+
+    /// <summary>
+    /// Get current tab item list
+    /// </summary>
+    /// <returns>List of <see cref="DragSupportTabItem"/></returns>
+    public static List<DragSupportTabItem> GetTabItemList() => TabItemList;
+
+    /// <summary>
+    /// Unregister a <see cref="DragSupportTabItem"/>
+    /// </summary>
+    /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
+    public static void UnregisterTabItem(DragSupportTabItem tabItem)
+    {
+      if ( TabItemList.Contains(tabItem) )
+        TabItemList.Remove(tabItem);
+    }
+
     /// <summary>
     /// Creates a <see cref="DragSupportTabItem"/>
     /// </summary>
@@ -52,6 +71,7 @@ namespace Org.Vs.TailForWin.Business.Utils
       }
 
       tabItem.Content = logWindowControl;
+      TabItemList.Add(tabItem);
 
       return tabItem;
     }

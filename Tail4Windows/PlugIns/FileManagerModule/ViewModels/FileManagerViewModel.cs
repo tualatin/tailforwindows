@@ -7,6 +7,7 @@ using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
@@ -115,11 +116,30 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public ICommand AddTailDataCommand => _addTailDataCommand ?? (_addTailDataCommand = new RelayCommand(p => ExecuteAddTailDataCommand()));
 
+    private ICommand _openFileCommand;
+
+    /// <summary>
+    /// Open file command
+    /// </summary>
+    public ICommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new RelayCommand(p => ExecuteOpenFileCommand()));
+
     #endregion
 
     #region Command functions
 
-    private void ExecuteAddTailDataCommand() => FileManagerCollection.Add(new TailData());
+    private void ExecuteOpenFileCommand()
+    {
+      if ( !FileOpenDialog.OpenDialog("All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle, out string fileName) )
+        return;
+
+      SelectedItem.FileName = fileName;
+    }
+
+    private void ExecuteAddTailDataCommand()
+    {
+      SelectedItem = new TailData();
+      FileManagerCollection.Add(SelectedItem);
+    }
 
     private void ExecuteUndoCommand()
     {
@@ -136,6 +156,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         return;
 
       MouseService.SetBusyState();
+
+      FileManagerCollection.Remove(SelectedItem);
       await _xmlFileManagerController.DeleteTailDataByIdFromXmlFileAsync(_cts.Token, SelectedItem.Id.ToString()).ConfigureAwait(false);
     }
 
