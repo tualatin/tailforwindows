@@ -27,7 +27,7 @@ namespace Org.Vs.TailForWin.Core.Utils
 
       _maximumSize = maximumSize;
     }
-
+  
     /// <summary>
     /// Dequeue first element in queue
     /// </summary>
@@ -101,7 +101,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="arrayIndex"></param>
     public void CopyTo(T[] array, int arrayIndex)
     {
-      foreach ( T value in _queue )
+      foreach ( var value in _queue )
       {
         if ( arrayIndex >= array.Length )
           break;

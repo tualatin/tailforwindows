@@ -22,6 +22,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
 
     private readonly string _historyFile;
     private XDocument _xmlDocument;
+    private QueueSet<string> _historyList;
 
     private const int MaxQueueSize = 15;
 
@@ -54,7 +55,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
 
         LOG.Trace("Read history");
 
-        var history = new QueueSet<string>(MaxQueueSize);
+        _historyList = new QueueSet<string>(MaxQueueSize);
 
         try
         {
@@ -62,15 +63,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
           var historyRoot = _xmlDocument.Root?.Element(XmlNames.LogfileHistory);
 
           if ( historyRoot == null )
-            return history;
+            return _historyList;
 
-          Parallel.ForEach(historyRoot.Elements(XmlNames.History), f => history.Add(f.Attribute(XmlBaseStructure.Name)?.Value));
+          Parallel.ForEach(historyRoot.Elements(XmlNames.History), f => _historyList.Add(f.Attribute(XmlBaseStructure.Name)?.Value));
         }
         catch ( Exception ex )
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
-        return history;
+        return _historyList;
       }
     }
 
@@ -90,11 +91,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
         if ( string.IsNullOrWhiteSpace(fileName) )
           return;
 
-        if ( !File.Exists(_historyFile) )
-          _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
+        if ( File.Exists(_historyFile) )
+          File.Delete(_historyFile);
 
         try
         {
+          _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
+
+          if ( _historyList == null )
+            _historyList = new QueueSet<string>(MaxQueueSize);
+
+          _historyList.Enqueue(fileName);
+
           var root = _xmlDocument.Root?.Element(XmlNames.LogfileHistory);
 
           if ( root == null )
@@ -103,9 +111,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
             _xmlDocument.Root?.Add(root);
           }
 
-          var find = new XElement(XmlNames.History);
-          find.Add(new XAttribute(XmlBaseStructure.Name, fileName));
-          root.Add(find);
+          foreach ( string s in _historyList )
+          {
+            var find = new XElement(XmlNames.History);
+            find.Add(new XAttribute(XmlBaseStructure.Name, s));
+            root.Add(find);
+          }
 
           _xmlDocument.Save(_historyFile, SaveOptions.None);
         }

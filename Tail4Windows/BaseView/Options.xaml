@@ -35,7 +35,7 @@
     <Grid.RowDefinitions>
       <RowDefinition />
       <RowDefinition Height="10" />
-      <RowDefinition Height="25" />
+      <RowDefinition Height="Auto" />
       <RowDefinition Height="17" />
     </Grid.RowDefinitions>
 
@@ -122,7 +122,7 @@
         <Button
           Width="75"
           Height="24"
-          Margin="0 0 5 0"
+          Margin="0 5 5 5"
           VerticalAlignment="Center"
           Content="OK"
           Command="{Binding SaveOptionsCommand}"
@@ -135,6 +135,7 @@
         <Button
           Width="75"
           Height="24"
+          Margin="0 5 0 5"
           VerticalAlignment="Center"
           Content="{DynamicResource CancelText}"
           Command="{Binding CloseOptionsCommand}"

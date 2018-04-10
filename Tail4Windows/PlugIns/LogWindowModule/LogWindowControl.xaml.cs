@@ -12,7 +12,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
@@ -38,12 +37,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogWindowControl));
 
-    private readonly NotifyTaskCompletion _notifyTaskCompletion;
-
     private readonly CancellationTokenSource _cts;
     private readonly IXmlSearchHistory<QueueSet<string>> _historyController;
     private readonly IXmlFileManager _xmlFileManagerController;
-    private QueueSet<string> _logFileHistory;
 
     #region Events
 
@@ -67,17 +63,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _historyController = new XmlHistoryController();
       _xmlFileManagerController = new XmlFileManagerController();
 
-      _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
-      _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
+      ((AsyncCommand<object>) StartTailCommand).PropertyChanged += SaveHistoryCompleted;
     }
+
+    private DragSupportTabItem _logWindowTabItem;
 
     /// <summary>
     /// LogWindowTabItem <see cref="DragSupportTabItem"/>
     /// </summary>
     public DragSupportTabItem LogWindowTabItem
     {
-      get;
-      set;
+      get => _logWindowTabItem;
+      set
+      {
+        _logWindowTabItem = value;
+
+        _logWindowTabItem.TabHeaderBackgroundChanged -= TabItemTabHeaderBackgroundChanged;
+        _logWindowTabItem.TabHeaderBackgroundChanged += TabItemTabHeaderBackgroundChanged;
+      }
     }
 
     private EStatusbarState _logWindowState;
@@ -157,6 +160,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       get;
       set;
     } = new ObservableCollection<string>();
+
+    private string _selectedItem;
+
+    /// <summary>
+    /// Selected item
+    /// </summary>
+    public string SelectedItem
+    {
+      get => _selectedItem;
+      set
+      {
+        _selectedItem = value;
+        OnPropertyChanged();
+      }
+    }
 
     #region Commands
 
@@ -251,9 +269,27 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand OpenFontDialogCommand => _openFontDialogCommand ?? (_openFontDialogCommand = new RelayCommand(p => ExecuteOpenFontDialogCommand()));
 
+    private IAsyncCommand _loadedCommand;
+
+    /// <summary>
+    /// Loaded command
+    /// </summary>
+    public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
+
     #endregion
 
     #region Command functions
+
+    private async Task<ObservableCollection<string>> ExecuteLoadedCommandAsync()
+    {
+      var result = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
+      
+      foreach ( string s in result )
+      {
+        LogFileHistory.Add(s);
+      }
+      return LogFileHistory;
+    }
 
     private void ExecuteOpenFontDialogCommand()
     {
@@ -315,12 +351,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( CurrenTailData.OpenFromFileManager )
         return;
 
-      // If Logfile is in queue, do not save it again
-      if ( _logFileHistory.Contains(CurrenTailData.FileName) )
-        return;
-
       MouseService.SetBusyState();
-
       await _historyController.SaveSearchHistoryAsync(CurrenTailData.FileName).ConfigureAwait(false);
     }
 
@@ -384,8 +415,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowState = !string.IsNullOrWhiteSpace(CurrenTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
     }
 
-    private async Task StartUpAsync() => _logFileHistory = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
-
     private void OpenFileManager(TailData tailData = null)
     {
       var fileManager = new FileManager
@@ -412,25 +441,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       handler?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
-    private void TaskPropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
-        return;
-
-      LogFileHistory.Clear();
-
-      foreach ( string item in _logFileHistory )
-      {
-        LogFileHistory.Add(item);
-      }
-
-      OnPropertyChanged(nameof(LogFileHistory));
-
-      ((AsyncCommand<object>) StartTailCommand).PropertyChanged += SaveHistoryCompleted;
-      LogWindowTabItem.TabHeaderBackgroundChanged += TabItemTabHeaderBackgroundChanged;
-      _notifyTaskCompletion.PropertyChanged -= TaskPropertyChanged;
-    }
-
     private void TabItemTabHeaderBackgroundChanged(object sender, RoutedEventArgs e)
     {
       if ( !(sender is TabItem) )
@@ -442,9 +452,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private void SaveHistoryCompleted(object sender, PropertyChangedEventArgs e)
     {
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
-        return;
-
-      if ( LogFileHistory.Contains(CurrenTailData.FileName) )
         return;
 
       LogFileHistory.Add(CurrenTailData.FileName);

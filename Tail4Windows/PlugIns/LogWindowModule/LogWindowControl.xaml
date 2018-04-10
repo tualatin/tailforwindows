@@ -22,6 +22,12 @@
   utils:FileDragDropHelper.FileDragDropTarget="{Binding}"
   utils:FileDragDropHelper.IsFileDragDropEnabled="True"
   >
+  <i:Interaction.Triggers>
+    <i:EventTrigger EventName="Loaded">
+      <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+    </i:EventTrigger>
+  </i:Interaction.Triggers>
+
   <UserControl.Resources>
     <Storyboard x:Key="ExtendedSettingsShowAnimation">
       <DoubleAnimation
@@ -361,7 +367,8 @@
           Text="{Binding CurrenTailData.FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           IsEditable="True"
           IsEnabled="{Binding LogWindowState, Converter={StaticResource StatusBarStateToBoolConverter}}"
-          ItemsSource="{Binding LogFileHistory}"
+          ItemsSource="{Binding LoadedCommand.Execution.Result}"
+          SelectedItem="{Binding SelectedItem}"
           behaviors1:FocusBehavior.IsFocused="{Binding LogFileComboBoxHasFocus, UpdateSourceTrigger=PropertyChanged}"
           >
           <i:Interaction.Behaviors>
