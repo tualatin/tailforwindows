@@ -367,7 +367,7 @@
           Text="{Binding CurrenTailData.FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           IsEditable="True"
           IsEnabled="{Binding LogWindowState, Converter={StaticResource StatusBarStateToBoolConverter}}"
-          ItemsSource="{Binding LoadedCommand.Execution.Result}"
+          ItemsSource="{Binding LogFileHistory}"
           SelectedItem="{Binding SelectedItem}"
           behaviors1:FocusBehavior.IsFocused="{Binding LogFileComboBoxHasFocus, UpdateSourceTrigger=PropertyChanged}"
           >

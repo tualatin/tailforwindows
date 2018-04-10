@@ -37,9 +37,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogWindowControl));
 
-    private readonly CancellationTokenSource _cts;
+    private CancellationTokenSource _cts;
     private readonly IXmlSearchHistory<QueueSet<string>> _historyController;
     private readonly IXmlFileManager _xmlFileManagerController;
+    private QueueSet<string> _historyQueueSet;
 
     #region Events
 
@@ -59,11 +60,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       DataContext = this;
 
-      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
       _historyController = new XmlHistoryController();
       _xmlFileManagerController = new XmlFileManagerController();
 
       ((AsyncCommand<object>) StartTailCommand).PropertyChanged += SaveHistoryCompleted;
+      ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedCompleted;
     }
 
     private DragSupportTabItem _logWindowTabItem;
@@ -280,17 +281,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #region Command functions
 
-    private async Task<ObservableCollection<string>> ExecuteLoadedCommandAsync()
+    private async Task ExecuteLoadedCommandAsync()
     {
-      var result = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
-
-      //LogFileHistory.Clear();
-
-      //foreach ( string s in result )
-      //{
-      //  LogFileHistory.Add(s);
-      //}
-      return LogFileHistory;
+      _cts?.Dispose();
+      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
+      _historyQueueSet = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
     }
 
     private void ExecuteOpenFontDialogCommand()
@@ -457,6 +452,22 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       LogFileHistory.Add(CurrenTailData.FileName);
+      OnPropertyChanged(nameof(LogFileHistory));
+    }
+
+    private void LoadedCompleted(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      foreach ( string s in _historyQueueSet )
+      {
+        if (LogFileHistory.Contains(s))
+          continue;
+
+        LogFileHistory.Add(s);
+      }
+
       OnPropertyChanged(nameof(LogFileHistory));
     }
 
