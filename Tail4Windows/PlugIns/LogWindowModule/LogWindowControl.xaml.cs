@@ -184,28 +184,28 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Open file command
     /// </summary>
-    public ICommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new RelayCommand(p => ExecuteOpenFileCommand()));
+    public ICommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new RelayCommand(p => LogWindowState != EStatusbarState.Busy, p => ExecuteOpenFileCommand()));
 
     private IAsyncCommand _startTailCommand;
 
     /// <summary>
     /// Start tail command
     /// </summary>
-    public IAsyncCommand StartTailCommand => _startTailCommand ?? (_startTailCommand = AsyncCommand.Create(ExecuteStartTailCommandAsync));
+    public IAsyncCommand StartTailCommand => _startTailCommand ?? (_startTailCommand = AsyncCommand.Create(p => FileIsValid && LogWindowState != EStatusbarState.Busy,  ExecuteStartTailCommandAsync));
 
     private ICommand _stopTailCommand;
 
     /// <summary>
     /// Stop tail command
     /// </summary>
-    public ICommand StopTailCommand => _stopTailCommand ?? (_stopTailCommand = new RelayCommand(p => ExecuteStopTailCommand()));
+    public ICommand StopTailCommand => _stopTailCommand ?? (_stopTailCommand = new RelayCommand(p => LogWindowState == EStatusbarState.Busy, p => ExecuteStopTailCommand()));
 
     private ICommand _addToFileManagerCommand;
 
     /// <summary>
     /// Add to FileManager command
     /// </summary>
-    public ICommand AddToFileManagerCommand => _addToFileManagerCommand ?? (_addToFileManagerCommand = new RelayCommand(p => ExecuteAddToFileManagerCommand()));
+    public ICommand AddToFileManagerCommand => _addToFileManagerCommand ?? (_addToFileManagerCommand = new RelayCommand(p => FileIsValid && !CurrenTailData.OpenFromFileManager, p => ExecuteAddToFileManagerCommand()));
 
     private ICommand _openFileManagerCommand;
 
@@ -233,14 +233,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Open in editor command
     /// </summary>
-    public ICommand OpenInEditorCommand => _openInEditorCommand ?? (_openInEditorCommand = new RelayCommand(p => ExecuteOpenInEditorCommand()));
+    public ICommand OpenInEditorCommand => _openInEditorCommand ?? (_openInEditorCommand = new RelayCommand(p => FileIsValid, p => ExecuteOpenInEditorCommand()));
 
     private ICommand _openTailDataFilterCommand;
 
     /// <summary>
     /// Open <see cref="TailData"/> filter
     /// </summary>
-    public ICommand OpenTailDataFilterCommand => _openTailDataFilterCommand ?? (_openTailDataFilterCommand = new RelayCommand(p => ExecuteOpenTailDataFilterCommand()));
+    public ICommand OpenTailDataFilterCommand => _openTailDataFilterCommand ?? (_openTailDataFilterCommand = new RelayCommand(p => FileIsValid,p => ExecuteOpenTailDataFilterCommand()));
 
     private IAsyncCommand _quickSaveCommand;
 
@@ -254,7 +254,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Print <see cref="TailData"/>
     /// </summary>
-    public IAsyncCommand PrintTailDataCommand => _printTailDataCommand ?? (_printTailDataCommand = AsyncCommand.Create(ExecutePrintTailDataCommandAsync));
+    public IAsyncCommand PrintTailDataCommand => _printTailDataCommand ?? (_printTailDataCommand = AsyncCommand.Create(p => FileIsValid, ExecutePrintTailDataCommandAsync));
 
     private ICommand _openSearchDialogCommand;
 

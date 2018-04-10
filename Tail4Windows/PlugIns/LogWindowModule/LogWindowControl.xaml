@@ -260,7 +260,6 @@
             Margin="0 0 5 0"
             VerticalAlignment="Center"
             Command="{Binding OpenFileCommand}"
-            IsEnabled="{Binding LogWindowState, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StatusBarStateToBoolConverter}}"
             >
             <StackPanel>
               <Image
@@ -314,8 +313,8 @@
           <Button
             Width="24"
             Height="24"
-            Margin="0 0 5 0"
-            VerticalAlignment="Center"
+            Margin="0 0 5 1"
+            VerticalAlignment="Bottom"
             Command="{Binding AddToFileManagerCommand}"
             Style="{StaticResource AddFileToFileManagerStyle}"
             >
@@ -349,13 +348,6 @@
                 </WrapPanel>
               </StackPanel>
             </Button.ToolTip>
-
-            <Button.IsEnabled>
-              <MultiBinding Converter="{StaticResource LogFileLengthFileManagerMultiConverter}">
-                <Binding Path="FileIsValid" />
-                <Binding Path="CurrenTailData.OpenFromFileManager" />
-              </MultiBinding>
-            </Button.IsEnabled>
           </Button>
         </StackPanel>
 
@@ -421,12 +413,6 @@
             Command="{Binding StartTailCommand}"
             Style="{StaticResource StartButtonStyle}"
             >
-            <Button.IsEnabled>
-              <MultiBinding Converter="{StaticResource LogFileIsEnableMultiConverter}">
-                <Binding Path="LogWindowState" />
-                <Binding Path="FileIsValid" />
-              </MultiBinding>
-            </Button.IsEnabled>
             <Button.ToolTip>
               <StackPanel>
                 <TextBlock
@@ -464,7 +450,6 @@
             Height="24"
             VerticalAlignment="Center"
             Command="{Binding StopTailCommand}"
-            IsEnabled="{Binding LogWindowState, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StatusBarStateToBoolInverseConverter}}"
             Style="{StaticResource StopButtonStyle}"
             >
             <Button.ToolTip>
@@ -938,7 +923,6 @@
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsFilterLabel}"
                   Command="{Binding OpenTailDataFilterCommand}"
-                  IsEnabled="{Binding FileIsValid, UpdateSourceTrigger=PropertyChanged}"
                   >
                   <MenuItem.Icon>
                     <Image
@@ -952,7 +936,6 @@
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsOpenInExplorer}"
                   Command="{Binding OpenInEditorCommand}"
-                  IsEnabled="{Binding FileIsValid, UpdateSourceTrigger=PropertyChanged}"
                   >
                   <MenuItem.Icon>
                     <Image
@@ -966,7 +949,6 @@
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsPrintTailLog}"
                   Command="{Binding PrintTailDataCommand}"
-                  IsEnabled="{Binding FileIsValid, UpdateSourceTrigger=PropertyChanged}"
                   >
                   <MenuItem.Icon>
                     <Image

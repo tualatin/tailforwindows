@@ -20,6 +20,7 @@ namespace Org.Vs.TailForWin.UI.Commands
     private readonly Func<object, CancellationToken, Task<TResult>> _command;
     private readonly CancelAsyncCommand _cancelCommand;
     private NotifyTaskCompletion<TResult> _execution;
+    private readonly Predicate<object> _canExecute;
 
     /// <summary>
     /// Standard constructor
@@ -32,11 +33,23 @@ namespace Org.Vs.TailForWin.UI.Commands
     }
 
     /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="canExecute">Can execute predicate</param>
+    /// <param name="command">Command</param>
+    public AsyncCommand(Predicate<object> canExecute, Func<object, CancellationToken, Task<TResult>> command)
+    {
+      _command = command;
+      _cancelCommand = new CancelAsyncCommand();
+      _canExecute = canExecute;
+    }
+
+    /// <summary>
     /// Can execute
     /// </summary>
     /// <param name="parameter">Paremeter</param>
     /// <returns><c>True</c> if it can execute otherwise <c>false</c></returns>
-    public override bool CanExecute(object parameter) => Execution == null || Execution.IsCompleted;
+    public override bool CanExecute(object parameter) => (Execution == null || Execution.IsCompleted) && (_canExecute == null || _canExecute(parameter));
 
     /// <summary>
     /// Execute async
@@ -155,13 +168,28 @@ namespace Org.Vs.TailForWin.UI.Commands
   public static class AsyncCommand
   {
     /// <summary>
-    /// Create
+    /// Create async command
     /// </summary>
     /// <param name="command">Command</param>
     /// <returns>AsyncCommand of type object</returns>
     public static AsyncCommand<object> Create(Func<Task> command)
     {
       return new AsyncCommand<object>(async (param, _) =>
+      {
+        await command();
+        return null;
+      });
+    }
+
+    /// <summary>
+    /// Create async command
+    /// </summary>
+    /// <param name="canExecute">CanExecute</param>
+    /// <param name="command">Comand</param>
+    /// <returns>AsyncCommand of type object</returns>
+    public static AsyncCommand<object> Create(Predicate<object> canExecute, Func<Task> command)
+    {
+      return new AsyncCommand<object>(canExecute, async (param, _) =>
       {
         await command();
         return null;
