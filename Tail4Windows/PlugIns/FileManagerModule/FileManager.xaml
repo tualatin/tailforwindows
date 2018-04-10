@@ -5,9 +5,9 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.UserControls.Behaviors"
   xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
-  xmlns:data="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.Data"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
   mc:Ignorable="d"
@@ -52,6 +52,62 @@
         To="0"
         />
     </Storyboard>
+
+    <Style x:Key="RemoveItemButtonStyle" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Border
+              Name="Chrome"
+              Background="{TemplateBinding Background}"
+              BorderBrush="{StaticResource BrushSolidBorderMedium}"
+              BorderThickness="{TemplateBinding BorderThickness}"
+              SnapsToDevicePixels="True"
+              >
+              <Grid>
+                <Path
+                  x:Name="RemovePath"
+                  Margin="3"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Data="F1M0,0L2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0z"
+                  Fill="DarkRed"
+                  Stretch="Uniform"
+                  >
+                  <Path.Effect>
+                    <DropShadowEffect
+                      Opacity="0.6"
+                      ShadowDepth="1"
+                      />
+                  </Path.Effect>
+                </Path>
+              </Grid>
+            </Border>
+
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource ButtonOverBackground}" />
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
+                <Setter TargetName="RemovePath" Property="Effect">
+                  <Setter.Value>
+                    <DropShadowEffect Opacity="0" />
+                  </Setter.Value>
+                </Setter>
+                <Setter TargetName="RemovePath" Property="Fill" Value="{StaticResource BrushSolidGrey35}" />
+
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
 
     <CollectionViewSource
       x:Key="CvsFileManagerData"
@@ -125,7 +181,17 @@
                 RenderOptions.BitmapScalingMode="HighQuality"
                 RenderOptions.EdgeMode="Aliased"
                 Source="/T4W;component/Resources/save.ico"
-                />
+                >
+                <Image.Style>
+                  <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                      <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Image.Style>
+              </Image>
             </StackPanel>
             <Button.ToolTip>
               <StackPanel>
@@ -225,7 +291,17 @@
                 RenderOptions.BitmapScalingMode="HighQuality"
                 RenderOptions.EdgeMode="Aliased"
                 Source="/T4W;component/Resources/Cancel.ico"
-                />
+                >
+                <Image.Style>
+                  <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                      <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Image.Style>
+              </Image>
             </StackPanel>
             <Button.ToolTip>
               <StackPanel>
@@ -265,22 +341,8 @@
             Height="22"
             Margin="0 0 2 0"
             Command="{Binding DeleteTailDataCommand}"
+            Style="{StaticResource RemoveItemButtonStyle}"
             >
-            <Path
-              Margin="3"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Center"
-              Data="F1M0,0L2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0z"
-              Fill="DarkRed"
-              Stretch="Uniform"
-              >
-              <Path.Effect>
-                <DropShadowEffect
-                  Opacity="0.6"
-                  ShadowDepth="1"
-                  />
-              </Path.Effect>
-            </Path>
             <Button.ToolTip>
               <StackPanel>
                 <TextBlock
@@ -358,6 +420,7 @@
         Grid.Row="1"
         ItemsSource="{Binding Source={StaticResource CvsFileManagerData}}"
         SelectedItem="{Binding SelectedItem}"
+        behaviors:FocusBehavior.IsFocused="{Binding DataGridHasFocus, UpdateSourceTrigger=PropertyChanged}"
         >
         <DataGrid.Columns>
           <DataGridTemplateColumn

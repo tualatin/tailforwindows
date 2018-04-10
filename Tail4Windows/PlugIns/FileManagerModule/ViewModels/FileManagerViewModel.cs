@@ -54,6 +54,21 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
     }
 
+    private bool _dataGridHasFocus;
+
+    /// <summary>
+    /// DataGrid has focus
+    /// </summary>
+    public bool DataGridHasFocus
+    {
+      get => _dataGridHasFocus;
+      set
+      {
+        _dataGridHasFocus = value;
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     /// <summary>
@@ -63,6 +78,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
       _xmlFileManagerController = new XmlFileManagerController();
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+
+      DataGridHasFocus = true;
     }
 
     #region Commands
@@ -93,21 +110,21 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// Save command
     /// </summary>
-    public IAsyncCommand SaveCommand => _saveCommand ?? (_saveCommand = AsyncCommand.Create(ExecuteSaveCommandAsync));
+    public IAsyncCommand SaveCommand => _saveCommand ?? (_saveCommand = AsyncCommand.Create(p => SelectedItem != null, ExecuteSaveCommandAsync));
 
     private IAsyncCommand _deleteTailDataCommand;
 
     /// <summary>
     /// Delete <see cref="TailData"/> from FileManager
     /// </summary>
-    public IAsyncCommand DeleteTailDataCommand => _deleteTailDataCommand ?? (_deleteTailDataCommand = AsyncCommand.Create(ExecuteDeleteCommandAsync));
+    public IAsyncCommand DeleteTailDataCommand => _deleteTailDataCommand ?? (_deleteTailDataCommand = AsyncCommand.Create(p => SelectedItem != null, ExecuteDeleteCommandAsync));
 
     private ICommand _undoCommand;
 
     /// <summary>
     /// Undo command
     /// </summary>
-    public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new RelayCommand(p => ExecuteUndoCommand()));
+    public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteUndoCommand()));
 
     private ICommand _addTailDataCommand;
 

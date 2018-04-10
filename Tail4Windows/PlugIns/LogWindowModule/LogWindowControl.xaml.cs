@@ -469,6 +469,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
 
       OnPropertyChanged(nameof(LogFileHistory));
+
+      // Set focus to ComboBox
+      LogFileComboBoxHasFocus = true;
     }
 
     /// <summary>
