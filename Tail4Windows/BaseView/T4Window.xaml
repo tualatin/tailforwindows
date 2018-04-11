@@ -38,11 +38,16 @@
 
   <intr:Interaction.Triggers>
     <intr:EventTrigger EventName="Closing">
-      <intr:InvokeCommandAction Command="{Binding WndClosingCommand}" />
+      <ui:InvokeDelegateCommandAction
+        Command="{Binding WndClosingCommand}"
+        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+        />
     </intr:EventTrigger>
+
     <intr:EventTrigger EventName="Loaded">
       <intr:InvokeCommandAction Command="{Binding LoadedCommand}" />
     </intr:EventTrigger>
+
     <intr:EventTrigger EventName="PreviewKeyDown">
       <ui:InvokeDelegateCommandAction
         Command="{Binding PreviewKeyDownCommand}"

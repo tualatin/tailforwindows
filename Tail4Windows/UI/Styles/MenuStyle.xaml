@@ -219,7 +219,7 @@
         <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
       </Trigger>
       <Trigger Property="IsHighlighted" Value="True">
-        <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+        <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidYellow}" />
         <Setter TargetName="Chrome" Property="BorderBrush" Value="Transparent" />
       </Trigger>
       <Trigger Property="AllowsTransparency" Value="True" SourceName="Popup">
@@ -252,7 +252,7 @@
     </Border>
     <ControlTemplate.Triggers>
       <Trigger Property="IsHighlighted" Value="True">
-        <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+        <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidYellow}" />
       </Trigger>
       <Trigger Property="IsEnabled" Value="False">
         <Setter Property="Foreground">
@@ -349,7 +349,7 @@
         <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
       </Trigger>
       <Trigger Property="IsHighlighted" Value="True">
-        <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+        <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidYellow}" />
         <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
       </Trigger>
       <Trigger Property="IsEnabled" Value="False">

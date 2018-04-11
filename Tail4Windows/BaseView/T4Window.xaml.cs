@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using log4net;
 using Org.Vs.TailForWin.Business.Data.Messages;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
@@ -56,7 +58,34 @@ namespace Org.Vs.TailForWin.BaseView
 
     #region Events
 
-    private void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e) => OnExit();
+    private void MainWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+    {
+      try
+      {
+        var busyTabItems = BusinessHelper.GetTabItemList().Where(p => p.TabItemBusyIndicator == Visibility.Visible).ToList();
+
+        if ( busyTabItems.Count > 0 )
+        {
+          string message = string.Format(Application.Current.TryFindResource("ThreadIsBusy").ToString(), EnvironmentContainer.ApplicationTitle);
+
+          if ( EnvironmentContainer.ShowQuestionMessageBox(message) == MessageBoxResult.Yes )
+          {
+            e.Cancel = false;
+          }
+          else
+          {
+            e.Cancel = true;
+            return;
+          }
+        }
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+      }
+
+      OnExit();
+    }
 
     private void MainWindowStateChanged(object sender, EventArgs e)
     {

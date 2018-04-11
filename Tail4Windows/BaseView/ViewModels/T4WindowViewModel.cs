@@ -289,7 +289,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// Window closing command
     /// </summary>
-    public IAsyncCommand WndClosingCommand => _wndClosingCommand ?? (_wndClosingCommand = AsyncCommand.Create(ExecuteWndClosingCommandAsync));
+    public IAsyncCommand WndClosingCommand => _wndClosingCommand ?? (_wndClosingCommand = AsyncCommand.Create((p, t) => ExecuteWndClosingCommandAsync(p)));
 
     private ICommand _toggleAlwaysOnTopCommand;
 
@@ -374,8 +374,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       LOG.Trace("Preview tray context menu open command");
     }
 
-    private async Task ExecuteWndClosingCommandAsync()
+    private async Task ExecuteWndClosingCommandAsync(object param)
     {
+      if ( !(param is CancelEventArgs e) )
+        return;
+
+      if ( e.Cancel )
+        return;
+
       LOG.Trace($"{EnvironmentContainer.ApplicationTitle} closing, goodbye!");
 
       TrayIconItemsSource.Clear();
