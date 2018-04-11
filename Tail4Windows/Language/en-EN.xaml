@@ -121,6 +121,7 @@
   <system:String x:Key="ExtendedTailSettingsPrintTailLog">Print current log file</system:String>
   <system:String x:Key="ExtendedTailSettingsQuickSave">Quick save</system:String>
   <system:String x:Key="ExtendedTailSettingsQuickSaveInputGestureText">CTRL+S</system:String>
+  <system:String x:Key="ExtendedTailSettingsDeleteHistory">Delete history</system:String>
 
   <system:String x:Key="EFileSortFileCreationTime">File creation time</system:String>
   <system:String x:Key="EFileSortDefault">Default</system:String>

@@ -456,9 +456,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !TabItemsSource.Contains(item) )
         return;
 
-      if ( SelectedTabItem.TabItemBusyIndicator == Visibility.Visible )
+      if ( item.TabItemBusyIndicator == Visibility.Visible )
       {
-        string message = $"{Application.Current.TryFindResource("QRemoveTab")} \n {SelectedTabItem.HeaderFullText}";
+        string message = $"{Application.Current.TryFindResource("QRemoveTab")} \n {item.HeaderFullText}";
 
         if ( EnvironmentContainer.ShowQuestionMessageBox(message) == MessageBoxResult.No )
           return;

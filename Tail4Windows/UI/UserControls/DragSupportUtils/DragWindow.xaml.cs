@@ -180,9 +180,9 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( !TabItems.Contains(tabItem) )
         return;
 
-      if ( SelectedTabItem.TabItemBusyIndicator == Visibility.Visible )
+      if ( tabItem.TabItemBusyIndicator == Visibility.Visible )
       {
-        string message = $"{Application.Current.TryFindResource("QRemoveTab")} \n {SelectedTabItem.HeaderFullText}";
+        string message = $"{Application.Current.TryFindResource("QRemoveTab")} \n {tabItem.HeaderFullText}";
 
         if ( EnvironmentContainer.ShowQuestionMessageBox(message) == MessageBoxResult.No )
           return;

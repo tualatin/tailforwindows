@@ -37,5 +37,11 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// </summary>
     /// <returns>XML element, if an error occurred, <c>null</c></returns>
     Task<XElement> SaveSearchHistoryWrapAttributeAsync();
+
+    /// <summary>
+    /// Deletes current history
+    /// </summary>
+    /// <returns>Task</returns>
+    Task DeleteHistoryAsync();
   }
 }

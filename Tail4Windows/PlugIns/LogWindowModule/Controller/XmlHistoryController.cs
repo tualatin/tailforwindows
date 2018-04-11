@@ -65,7 +65,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
           if ( historyRoot == null )
             return _historyList;
 
-          Parallel.ForEach(historyRoot.Elements(XmlNames.History), f => _historyList.Add(f.Attribute(XmlBaseStructure.Name)?.Value));
+          foreach ( var f in historyRoot.Elements(XmlNames.History) )
+          {
+            _historyList.Add(f.Attribute(XmlBaseStructure.Name)?.Value);
+          }
         }
         catch ( Exception ex )
         {
@@ -132,5 +135,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
     /// </summary>
     /// <returns>XML element, if an error occurred, <c>null</c></returns>
     public Task<XElement> SaveSearchHistoryWrapAttributeAsync() => throw new NotImplementedException();
+
+    /// <summary>
+    /// Deletes current history
+    /// </summary>
+    /// <returns>Task</returns>
+    public async Task DeleteHistoryAsync() => await Task.Run(() => DeleteHistory()).ConfigureAwait(false);
+
+    private void DeleteHistory()
+    {
+      lock ( MyLock )
+      {
+        _historyList?.Clear();
+
+        if ( !File.Exists(_historyFile) )
+          return;
+
+        File.Delete(_historyFile);
+      }
+    }
   }
 }

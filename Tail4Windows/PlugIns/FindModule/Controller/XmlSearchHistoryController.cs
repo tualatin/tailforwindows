@@ -152,5 +152,11 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
       }
       return null;
     }
+
+    /// <summary>
+    /// Deletes current history
+    /// </summary>
+    /// <returns>Task</returns>
+    public Task DeleteHistoryAsync() => throw new NotImplementedException();
   }
 }

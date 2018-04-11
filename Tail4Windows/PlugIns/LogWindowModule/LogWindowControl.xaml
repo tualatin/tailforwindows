@@ -959,6 +959,11 @@
                   </MenuItem.Icon>
                 </MenuItem>
 
+                <MenuItem
+                  Header="{DynamicResource ExtendedTailSettingsDeleteHistory}"
+                  Command="{Binding DeleteHistoryCommand}"
+                  />
+
                 <Separator />
 
                 <MenuItem

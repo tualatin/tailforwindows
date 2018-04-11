@@ -277,9 +277,27 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
 
+    private IAsyncCommand _deleteHistoryCommand;
+
+    /// <summary>
+    /// Delete history command
+    /// </summary>
+    public IAsyncCommand DeleteHistoryCommand => _deleteHistoryCommand ?? (_deleteHistoryCommand = AsyncCommand.Create(p => CanExecuteDeleteHistoryCommand(), ExecuteDeleteHistoryCommandAsync));
+
     #endregion
 
     #region Command functions
+
+    private bool CanExecuteDeleteHistoryCommand() => _historyQueueSet != null && _historyQueueSet.Count != 0;
+
+    private async Task ExecuteDeleteHistoryCommandAsync()
+    {
+      LogFileHistory.Clear();
+      _historyQueueSet.Clear();
+
+      MouseService.SetBusyState();
+      await _historyController.DeleteHistoryAsync().ConfigureAwait(false);
+    }
 
     private async Task ExecuteLoadedCommandAsync()
     {

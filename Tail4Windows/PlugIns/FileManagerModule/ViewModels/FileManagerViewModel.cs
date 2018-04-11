@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -96,7 +97,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// Open command
     /// </summary>
-    public ICommand OpenCommand => _openCommand ?? (_openCommand = new RelayCommand(p => ExecuteOpenCommand()));
+    public ICommand OpenCommand => _openCommand ?? (_openCommand = new RelayCommand(p => CanExecuteOpenCommand(), p => ExecuteOpenCommand()));
 
     private ICommand _closeCommand;
 
@@ -199,6 +200,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
       return FileManagerCollection;
     }
+
+    private bool CanExecuteOpenCommand() => !string.IsNullOrWhiteSpace(SelectedItem?.FileName) && File.Exists(SelectedItem.FileName);
 
     private void ExecuteOpenCommand()
     {
