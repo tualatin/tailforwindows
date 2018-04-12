@@ -14,11 +14,19 @@ namespace Org.Vs.TailForWin.Business.Utils
   {
     private static readonly List<DragSupportTabItem> TabItemList = new List<DragSupportTabItem>();
 
+    private static readonly object MyLock = new object();
+
     /// <summary>
     /// Get current tab item list
     /// </summary>
     /// <returns>List of <see cref="DragSupportTabItem"/></returns>
-    public static List<DragSupportTabItem> GetTabItemList() => TabItemList;
+    public static IEnumerable<DragSupportTabItem> GetTabItemList()
+    {
+      lock ( MyLock )
+      {
+        return TabItemList;
+      }
+    }
 
     /// <summary>
     /// Unregister a <see cref="DragSupportTabItem"/>
@@ -26,8 +34,11 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
     public static void UnregisterTabItem(DragSupportTabItem tabItem)
     {
-      if ( TabItemList.Contains(tabItem) )
-        TabItemList.Remove(tabItem);
+      lock ( MyLock )
+      {
+        if ( TabItemList.Contains(tabItem) )
+          TabItemList.Remove(tabItem);
+      }
     }
 
     /// <summary>
@@ -41,39 +52,42 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// <returns><see cref="DragSupportTabItem"/></returns>
     public static DragSupportTabItem CreateDragSupportTabItem(string header, string toolTip, Visibility busyIndicator, ILogWindowControl content = null, string backgroundColor = "#FFD6DBE9")
     {
-      var tabItem = new DragSupportTabItem
+      lock ( MyLock )
       {
-        HeaderContent = header,
-        IsSelected = true,
-        HeaderToolTip = toolTip,
-        TabItemBackgroundColorStringHex = backgroundColor,
-        TabItemBusyIndicator = busyIndicator
-      };
-
-      ILogWindowControl logWindowControl;
-
-      if ( content == null )
-      {
-        logWindowControl = new LogWindowControl
+        var tabItem = new DragSupportTabItem
         {
-          LogWindowTabItem = tabItem
+          HeaderContent = header,
+          IsSelected = true,
+          HeaderToolTip = toolTip,
+          TabItemBackgroundColorStringHex = backgroundColor,
+          TabItemBusyIndicator = busyIndicator
         };
-      }
-      else
-      {
-        logWindowControl = new LogWindowControl
+
+        ILogWindowControl logWindowControl;
+
+        if ( content == null )
         {
-          LogWindowTabItem = tabItem,
-          CurrenTailData = content.CurrenTailData,
-          LogWindowState = content.LogWindowState,
-          FileIsValid = content.FileIsValid
-        };
+          logWindowControl = new LogWindowControl
+          {
+            LogWindowTabItem = tabItem
+          };
+        }
+        else
+        {
+          logWindowControl = new LogWindowControl
+          {
+            LogWindowTabItem = tabItem,
+            CurrenTailData = content.CurrenTailData,
+            LogWindowState = content.LogWindowState,
+            FileIsValid = content.FileIsValid
+          };
+        }
+
+        tabItem.Content = logWindowControl;
+        TabItemList.Add(tabItem);
+
+        return tabItem;
       }
-
-      tabItem.Content = logWindowControl;
-      TabItemList.Add(tabItem);
-
-      return tabItem;
     }
   }
 }

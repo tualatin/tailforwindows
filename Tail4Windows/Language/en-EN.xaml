@@ -8,6 +8,7 @@
   <system:String x:Key="English">English</system:String>
   <system:String x:Key="German">German</system:String>
   <system:String x:Key="UiLanguage">Language</system:String>
+
   <system:String x:Key="ApplicationTitle">Tail4Windows</system:String>
   <system:String x:Key="OpenFileDialog">Please select a file to tail...</system:String>
   <system:String x:Key="FileNotFound">File not found!</system:String>
@@ -244,8 +245,8 @@
   <system:String x:Key="ExtrasLogLineUnlimited">Unlimited</system:String>
   <system:String x:Key="ExtrasStatistics">Statistics</system:String>
   <system:String x:Key="ExtrasStatisticsToolTip">Switch on/off statistics for nerds</system:String>
-  <system:String x:Key="ExtrasDeleteLogFile">Delete log files</system:String>
-  <system:String x:Key="ExtrasDeleteLogFileToolTip">Delete old log files from your system</system:String>
+  <system:String x:Key="ExtrasDeleteLogFile">Delete program log files</system:String>
+  <system:String x:Key="ExtrasDeleteLogFileToolTip">Delete old program log files from your system</system:String>
   <system:String x:Key="ExtrasDeleteLogFileOlderThanToolTip">Set a timespan in days, when log files should deleted</system:String>
   <system:String x:Key="ExtrasActivateDragDropWindow">Drag'n'Drop window behavior</system:String>
   <system:String x:Key="ExtrasActivateDragDropWindowToolTip">Enable/disable the Drag'n'Drop window behavior</system:String>

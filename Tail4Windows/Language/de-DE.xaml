@@ -8,6 +8,7 @@
   <system:String x:Key="English">Englisch</system:String>
   <system:String x:Key="German">Deutsch</system:String>
   <system:String x:Key="UiLanguage">Sprache</system:String>
+
   <system:String x:Key="ApplicationTitle">Tail4Windows</system:String>
   <system:String x:Key="OpenFileDialog">Bitte eine Datei zum protokollieren auswählen...</system:String>
   <system:String x:Key="FileNotFound">Datei wurde nicht gefunden!</system:String>
@@ -19,7 +20,7 @@
   <system:String x:Key="Pause">Pause</system:String>
   <system:String x:Key="NoFile">Keine Datei.</system:String>
   <system:String x:Key="LastTab">Der letzte Tab kann nicht entfernt werden.</system:String>
-  <system:String x:Key="QRemoveTab">Möchten Sie den Reiter wirklich schliesen</system:String>
+  <system:String x:Key="QRemoveTab">Möchten Sie den Reiter wirklich schließen</system:String>
   <system:String x:Key="TrayIconReady">Bereit...</system:String>
   <system:String x:Key="HCloseTab">Please close some tail windows before open a new one!</system:String>
   <system:String x:Key="LinesRead">Zeilen gelesen=</system:String>
@@ -44,9 +45,9 @@
   <system:String x:Key="SmtpPortNotValid">The SMTP Server Port is not valid!</system:String>
   <system:String x:Key="MailCannotSend">Die E-Mail konnte nicht versendet werden! Bitte überprüfen Sie Ihre SMTP Einstellungen.</system:String>
   <system:String x:Key="MailSendSuccess">Die E-Mail wurde erfolgreich versendet.</system:String>
-  <system:String x:Key="SmtpSettingsNotValid">Can not set SMTP settings! Please take a look into the log file to get more information.</system:String>
-  <system:String x:Key="OpenDialogImportSettings">Please select a exported settings file...</system:String>
-  <system:String x:Key="QImportSettings">Do you really want to import this settings? Your old settings will override.</system:String>
+  <system:String x:Key="SmtpSettingsNotValid">SMTP Einstellungen konnten nicht gespeichert werden! Bitte überprüfen Sie die Logdatei für mehr Informationen.</system:String>
+  <system:String x:Key="OpenDialogImportSettings">Bitte wählen Sie eine Datei zum exportieren aus...</system:String>
+  <system:String x:Key="QImportSettings">Möchten Sie diese Einstellungen wirklich importieren? Alte Einstellungen werden überschrieben.</system:String>
   <system:String x:Key="QAddSendTo">Do you really want to add {0} into the &quot;Send to&quot; context menu of Windows?</system:String>
   <system:String x:Key="WndStyleChanged">Das Window Design wurde geändern, bitte starten Sie {0} neu, damit die Änderungen wirksam werden.</system:String>
   <system:String x:Key="Lowest">Niedrigste</system:String>
@@ -70,7 +71,7 @@
     x:Key="SmartWatchHint"
     xml:space="preserve"
     >File {0} detected.&#10;What should {1} do?</system:String>
-  <system:String x:Key="ThreadIsBusy">There is a running process in {0}. Are you sure to exit?</system:String>
+  <system:String x:Key="ThreadIsBusy">Einige Prozesse sind in {0} noch aktiv. Möchten Sie wirklich beenden?</system:String>
   <system:String x:Key="FileAlreadyOpen">Die Datei '{0}' ist bereits geöffnet.</system:String>
   <system:String x:Key="SmartWatchCanNotStart">SmartWatch kann nicht gestartet werden, es trat ein interner Fehler auf.</system:String>
   <system:String x:Key="XmlExceptionConfigFileCorrupt">Die XML Datei ist ungültig oder beschädigt!</system:String>
@@ -189,7 +190,7 @@
   <system:String x:Key="AboutAuthorString">Autor:</system:String>
   <system:String x:Key="AboutAllRightReservedString">All rights reserved</system:String>
   <system:String x:Key="AboutHomepageString">Homepage:</system:String>
-  <system:String x:Key="AboutUptimeString">Uptime:</system:String>
+  <system:String x:Key="AboutUptimeString">Laufzeit:</system:String>
   <system:String x:Key="AboutUptimeHours">Stunde(n)</system:String>
   <system:String x:Key="AboutUptimeDays">Tag(e)</system:String>
 
@@ -242,8 +243,8 @@
   <system:String x:Key="ExtrasLogLineUnlimited">Unbegrenzt</system:String>
   <system:String x:Key="ExtrasStatistics">Statistik</system:String>
   <system:String x:Key="ExtrasStatisticsToolTip">Statistik für Nerds ein- und ausschalten</system:String>
-  <system:String x:Key="ExtrasDeleteLogFile">Log Dateien löschen</system:String>
-  <system:String x:Key="ExtrasDeleteLogFileToolTip">Alte Log Dateien von Ihrem System löschen</system:String>
+  <system:String x:Key="ExtrasDeleteLogFile">Programm Logdateien löschen</system:String>
+  <system:String x:Key="ExtrasDeleteLogFileToolTip">Alte Programm Logdateien von Ihrem System löschen</system:String>
   <system:String x:Key="ExtrasDeleteLogFileOlderThanToolTip">Setzt die Zeitspanne in Tagen, wie alt die Log Dateien sein sollen, die gelösch werden sollen</system:String>
   <system:String x:Key="ExtrasActivateDragDropWindow">Drag'n'Drop Fensterverhalten</system:String>
   <system:String x:Key="ExtrasActivateDragDropWindowToolTip">Aktiviert/Deaktiviert das Drag'n'Drop Fensterverhalten</system:String>
