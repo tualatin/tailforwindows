@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
@@ -191,7 +192,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Start tail command
     /// </summary>
-    public IAsyncCommand StartTailCommand => _startTailCommand ?? (_startTailCommand = AsyncCommand.Create(p => FileIsValid && LogWindowState != EStatusbarState.Busy,  ExecuteStartTailCommandAsync));
+    public IAsyncCommand StartTailCommand => _startTailCommand ?? (_startTailCommand = AsyncCommand.Create(p => FileIsValid && LogWindowState != EStatusbarState.Busy, ExecuteStartTailCommandAsync));
 
     private ICommand _stopTailCommand;
 
@@ -240,7 +241,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Open <see cref="TailData"/> filter
     /// </summary>
-    public ICommand OpenTailDataFilterCommand => _openTailDataFilterCommand ?? (_openTailDataFilterCommand = new RelayCommand(p => FileIsValid,p => ExecuteOpenTailDataFilterCommand()));
+    public ICommand OpenTailDataFilterCommand => _openTailDataFilterCommand ?? (_openTailDataFilterCommand = new RelayCommand(p => FileIsValid, p => ExecuteOpenTailDataFilterCommand()));
 
     private IAsyncCommand _quickSaveCommand;
 
@@ -288,7 +289,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #region Command functions
 
-    private bool CanExecuteDeleteHistoryCommand() => _historyQueueSet != null && _historyQueueSet.Count != 0;
+    private bool CanExecuteDeleteHistoryCommand()
+    {
+      if ( !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
+        return false;
+
+      return _historyQueueSet != null && _historyQueueSet.Count != 0;
+    }
 
     private async Task ExecuteDeleteHistoryCommandAsync()
     {
@@ -302,7 +309,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private async Task ExecuteLoadedCommandAsync()
     {
       _cts?.Dispose();
-      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
+      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+
+      if ( !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
+        return;
+
       _historyQueueSet = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
     }
 
@@ -362,8 +373,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Visible;
       LogWindowState = EStatusbarState.Busy;
 
-      // If Logfile comes from the FileManager, do not save it in the history
-      if ( CurrenTailData.OpenFromFileManager )
+      // If Logfile comes from the FileManager or settings does not allow to save the history, do not save it in the history
+      if ( CurrenTailData.OpenFromFileManager || !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
         return;
 
       MouseService.SetBusyState();
@@ -478,15 +489,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      foreach ( string s in _historyQueueSet )
+      if ( SettingsHelperController.CurrentSettings.SaveLogFileHistory )
       {
-        if (LogFileHistory.Contains(s))
-          continue;
+        foreach ( string s in _historyQueueSet )
+        {
+          if ( LogFileHistory.Contains(s) )
+            continue;
 
-        LogFileHistory.Add(s);
+          LogFileHistory.Add(s);
+        }
+
+        OnPropertyChanged(nameof(LogFileHistory));
       }
-
-      OnPropertyChanged(nameof(LogFileHistory));
 
       // Set focus to ComboBox
       LogFileComboBoxHasFocus = true;

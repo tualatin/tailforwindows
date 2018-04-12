@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using log4net;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.XmlNames;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
@@ -23,8 +24,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
     private readonly string _historyFile;
     private XDocument _xmlDocument;
     private QueueSet<string> _historyList;
-
-    private const int MaxQueueSize = 15;
 
     /// <summary>
     /// Wrap at the end of search: Not implemented!
@@ -51,11 +50,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
       lock ( MyLock )
       {
         if ( !File.Exists(_historyFile) )
-          return new QueueSet<string>(MaxQueueSize);
+          return new QueueSet<string>(SettingsHelperController.CurrentSettings.HistoryMaxSize);
 
         LOG.Trace("Read history");
 
-        _historyList = new QueueSet<string>(MaxQueueSize);
+        _historyList = new QueueSet<string>(SettingsHelperController.CurrentSettings.HistoryMaxSize);
 
         try
         {
@@ -102,7 +101,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
           _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
 
           if ( _historyList == null )
-            _historyList = new QueueSet<string>(MaxQueueSize);
+            _historyList = new QueueSet<string>(SettingsHelperController.CurrentSettings.HistoryMaxSize);
 
           _historyList.Enqueue(fileName);
 

@@ -46,6 +46,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       LogLineLimit = memento.LogLineLimit;
       SmartWatch = memento.SmartWatch;
       Statistics = memento.Statistics;
+      SaveLogFileHistory = memento.SaveLogFileHistory;
+      HistoryMaxSize = memento.HistoryMaxSize;
 
       ProxySettings = (ProxySetting) memento.ProxySettings.Clone();
       AlertSettings = (AlertSetting) memento.AlertSettings.Clone();
@@ -89,6 +91,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         LogLineLimit = obj.LogLineLimit;
         SmartWatch = obj.SmartWatch;
         Statistics = obj.Statistics;
+        SaveLogFileHistory = obj.SaveLogFileHistory;
+        HistoryMaxSize = obj.HistoryMaxSize;
 
         ProxySettings = (ProxySetting) obj.ProxySettings.Clone();
         AlertSettings = (AlertSetting) obj.AlertSettings.Clone();
@@ -127,6 +131,22 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Activate Drag'n'Drop window behavior
       /// </summary>
       public bool ActivateDragDropWindow
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Save LogFile history
+      /// </summary>
+      public bool SaveLogFileHistory
+      {
+        get;
+      }
+
+      /// <summary>
+      /// LogFile history max size
+      /// </summary>
+      public int HistoryMaxSize
       {
         get;
       }

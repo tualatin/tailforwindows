@@ -62,7 +62,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
         { "StatusBarInactiveBackgroundColor", DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor },
         { "StatusBarFileLoadedBackgroundColor", DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor },
         { "StatusBarTailBackgroundColor", DefaultEnvironmentSettings.StatusBarTailBackgroundColor },
-        { "DragDropWindow", DefaultEnvironmentSettings.ActivateDragDropWindow.ToString() }
+        { "DragDropWindow", DefaultEnvironmentSettings.ActivateDragDropWindow.ToString() },
+        { "SaveLogFileHistory", DefaultEnvironmentSettings.SaveLogFileHistory.ToString() },
+        { "LogFileHistorySize", DefaultEnvironmentSettings.HistoryMaxSize.ToString() }
       };
 
       await AddNewPropertyAsync(settings, cts).ConfigureAwait(false);
@@ -89,7 +91,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
             try
             {
-              Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+              var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
               foreach ( string key in obsoleteSettings )
               {
@@ -155,7 +157,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         {
           LOG.Trace("Save T4W settings");
 
-          Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+          var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
           if ( config.AppSettings.Settings.Count <= 0 )
             return;
@@ -210,6 +212,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "DeleteLogFileOlderThan", CurrentSettings.LogFilesOlderThan);
       WriteValueToSetting(config, "DeleteLogFiles", CurrentSettings.DeleteLogFiles);
       WriteValueToSetting(config, "DragDropWindow", CurrentSettings.ActivateDragDropWindow);
+      WriteValueToSetting(config, "SaveLogFileHistory", CurrentSettings.SaveLogFileHistory);
+      WriteValueToSetting(config, "LogFileHistorySize", CurrentSettings.HistoryMaxSize);
     }
 
     private void SaveStatusBarSettings(Configuration config)
@@ -330,6 +334,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.SmartWatch = DefaultEnvironmentSettings.SmartWatch;
       CurrentSettings.Statistics = DefaultEnvironmentSettings.Statistics;
       CurrentSettings.ActivateDragDropWindow = DefaultEnvironmentSettings.ActivateDragDropWindow;
+      CurrentSettings.SaveLogFileHistory = DefaultEnvironmentSettings.SaveLogFileHistory;
+      CurrentSettings.HistoryMaxSize = DefaultEnvironmentSettings.HistoryMaxSize;
     }
 
     private void SetDefaultStatusBarSettings()
@@ -478,6 +484,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.LogLineLimit = GetIntFromSetting("LogLineLimit");
       CurrentSettings.Statistics = GetBoolFromSetting("Statics");
       CurrentSettings.ActivateDragDropWindow = GetBoolFromSetting("DragDropWindow");
+      CurrentSettings.SaveLogFileHistory = GetBoolFromSetting("SaveLogFileHistory");
+      CurrentSettings.HistoryMaxSize = GetIntFromSetting("LogFileHistorySize");
     }
 
     private void ReadStatusBarSettings()

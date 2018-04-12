@@ -151,6 +151,16 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// </summary>
     public const bool Statistics = false;
 
+    /// <summary>
+    /// Default value SaveLogFileHistory
+    /// </summary>
+    public const bool SaveLogFileHistory = true;
+
+    /// <summary>
+    /// Default value HistoryMaxSize
+    /// </summary>
+    public const int HistoryMaxSize = 15;
+
     #endregion
 
     #region StatusBar default settings

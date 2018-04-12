@@ -197,6 +197,42 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private bool _saveLogFileHistory;
+
+    /// <summary>
+    /// Save current log file history
+    /// </summary>
+    public bool SaveLogFileHistory
+    {
+      get => _saveLogFileHistory;
+      set
+      {
+        if ( value == _saveLogFileHistory )
+          return;
+
+        _saveLogFileHistory = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private int _historyMaxSize;
+
+    /// <summary>
+    /// LogFile history max size
+    /// </summary>
+    public int HistoryMaxSize
+    {
+      get => _historyMaxSize;
+      set
+      {
+        if (value == _historyMaxSize)
+          return;
+
+        _historyMaxSize = value;
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     private bool _exitWithEscape;
