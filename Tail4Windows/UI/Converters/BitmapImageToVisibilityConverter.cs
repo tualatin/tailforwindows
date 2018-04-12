@@ -2,15 +2,16 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media.Imaging;
 
 
 namespace Org.Vs.TailForWin.UI.Converters
 {
   /// <summary>
-  /// String to visibility converter
+  /// BitmapImage to visibility converter
   /// </summary>
-  [ValueConversion(typeof(string), typeof(Visibility))]
-  public class StringToVisibilityConverter : IValueConverter
+  [ValueConversion(typeof(BitmapImage), typeof(Visibility))]
+  public class BitmapImageToVisibilityConverter : IValueConverter
   {
     /// <summary>
     /// Convert
@@ -22,10 +23,10 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if ( !(value is string s) )
-        return Visibility.Hidden;
+      if ( !(value is BitmapImage source) )
+        return Visibility.Collapsed;
 
-      return string.IsNullOrWhiteSpace(s) ? Visibility.Hidden : Visibility.Visible;
+      return Visibility.Visible;
     }
 
     /// <summary>

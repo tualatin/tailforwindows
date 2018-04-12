@@ -71,7 +71,7 @@
                 RenderOptions.EdgeMode="Aliased"
                 Source="{Binding Icon, Converter={StaticResource TreeNodeToImageConverter}}"
                 Stretch="Fill"
-                Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Source, Converter={StaticResource StringToVisibilityConverter}}"
+                Visibility="{Binding RelativeSource={RelativeSource Self}, Path=Source, Converter={StaticResource BitmapImageToVisibilityConverter}}"
                 />
               <TextBlock Text="{Binding Path=Name, Mode=OneWay}" />
             </StackPanel>

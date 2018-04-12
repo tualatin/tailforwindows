@@ -219,6 +219,7 @@
       <DependentUpon>LogWindowControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Behaviors\DropDownButtonBehavior.cs" />
+    <Compile Include="UI\Behaviors\MultiSelectionBehavior.cs" />
     <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
     <Compile Include="UI\Converters\IntToBoolConverter.cs" />
@@ -226,6 +227,7 @@
     <Compile Include="UI\Converters\MultiConverters\LogFileFileManagerMultiConverter.cs" />
     <Compile Include="UI\Converters\StatusBarStateToBoolConverter.cs" />
     <Compile Include="UI\Converters\StatusBarStateToBoolInverseConverter.cs" />
+    <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="UI\ExtendedControls\PopupEx.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
@@ -235,7 +237,7 @@
       <DependentUpon>LogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\LogWindowModule\ViewModels\LogWindowViewModel.cs" />
-    <Compile Include="UI\UserControls\Behaviors\FocusBehavior.cs" />
+    <Compile Include="UI\Behaviors\FocusBehavior.cs" />
     <Compile Include="UI\UserControls\Behaviors\WatermarkBehavior.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\DragSupportTabControl.cs" />
     <Compile Include="BaseView\Interfaces\IOptionsViewModel.cs" />
@@ -328,7 +330,7 @@
     <Compile Include="UI\Converters\SoundFileNameConverter.cs" />
     <Compile Include="UI\Converters\StringEmptyToDotConverter.cs" />
     <Compile Include="UI\Converters\StringToIntConverter.cs" />
-    <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="UI\Converters\BitmapImageToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\StringToWindowMediaBrushConverter.cs" />
     <Compile Include="UI\Converters\StringToWindowsMediaColorConverter.cs" />
     <Compile Include="UI\Converters\TreeNodeToImageConverter.cs" />
@@ -545,6 +547,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\Styles\Base\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Styles\EllipsisHorizontalButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

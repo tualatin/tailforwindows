@@ -3,15 +3,14 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   >
 
-  <Style x:Key="MenuButtonStyle" TargetType="{x:Type Button}">
+  <Style x:Key="EllipsisHorizontalButtonStyle" TargetType="{x:Type Button}">
     <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}" />
     <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
     <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-    <Setter Property="Height" Value="22" />
     <Setter Property="HorizontalAlignment" Value="Center" />
-    <Setter Property="Margin" Value="5 0 0 0" />
+    <Setter Property="Margin" Value="5 0" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
@@ -30,8 +29,8 @@
               <Ellipse
                 Width="2"
                 Height="2"
-                Margin="0 5 0 0"
-                DockPanel.Dock="Top"
+                Margin="3 0 0 0"
+                DockPanel.Dock="Left"
                 Fill="Black"
                 Stretch="Uniform"
                 />
@@ -39,8 +38,8 @@
               <Ellipse
                 Width="2"
                 Height="2"
-                Margin="0 0 0 5"
-                DockPanel.Dock="Bottom"
+                Margin="0 0 3 0"
+                DockPanel.Dock="Right"
                 Fill="Black"
                 Stretch="Uniform"
                 />
@@ -78,6 +77,5 @@
       </Setter.Value>
     </Setter>
     <Setter Property="VerticalAlignment" Value="Center" />
-    <Setter Property="Width" Value="22" />
   </Style>
 </ResourceDictionary>

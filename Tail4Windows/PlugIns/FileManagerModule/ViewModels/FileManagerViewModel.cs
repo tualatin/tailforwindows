@@ -4,12 +4,14 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
+using Org.Vs.TailForWin.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -28,28 +30,57 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     private TailData.MementoTailData _mementoTailData;
     private readonly CancellationTokenSource _cts;
     private readonly IXmlFileManager _xmlFileManagerController;
+    private readonly CollectionView _collectionView;
 
     #region Properties
+
+    private ObservableCollection<TailData> _fileManagerCollection;
 
     /// <summary>
     /// FileManager collection
     /// </summary>
     public ObservableCollection<TailData> FileManagerCollection
     {
-      get;
-      set;
-    } = new ObservableCollection<TailData>();
+      get => _fileManagerCollection;
+      set
+      {
+        if ( value == _fileManagerCollection )
+          return;
+
+        _fileManagerCollection = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private ObservableCollection<TailData> _selectedItems;
+
+    /// <summary>
+    /// SelectedItems
+    /// </summary>
+    public ObservableCollection<TailData> SelectedItems
+    {
+      get => _selectedItems;
+      set
+      {
+        if ( value == _selectedItems )
+          return;
+
+        _selectedItems = value;
+        OnPropertyChanged();
+      }
+    }
+
 
     private TailData _selectedItem;
 
-    /// <summary>
-    /// Current selected item
-    /// </summary>
-    public TailData SelectedItem
+    private TailData SelectedItem
     {
-      get => _selectedItem;
+      get => _collectionView.CurrentItem as TailData;
       set
       {
+        if ( value == _selectedItem )
+          return;
+
         _selectedItem = value;
         OnPropertyChanged();
       }
@@ -79,8 +110,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
       _xmlFileManagerController = new XmlFileManagerController();
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-
+      FileManagerCollection = new FileManagerData { new TailData() };
       DataGridHasFocus = true;
+
+      _collectionView = (CollectionView) CollectionViewSource.GetDefaultView(FileManagerCollection);
     }
 
     #region Commands
@@ -141,9 +174,22 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public ICommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new RelayCommand(p => ExecuteOpenFileCommand()));
 
+    private ICommand _dataGridMouseDoubleClickCommand;
+
+    /// <summary>
+    /// MouseDoubleClick command
+    /// </summary>
+    public ICommand DataGridMouseDoubleClickCommand => _dataGridMouseDoubleClickCommand ?? (_dataGridMouseDoubleClickCommand = new RelayCommand(p => FileManagerCollection.Count > 0, ExecuteMouseDoubleClickCommmand));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteMouseDoubleClickCommmand(object param)
+    {
+      if ( !(param is MouseButtonEventArgs e) )
+        return;
+    }
 
     private void ExecuteOpenFileCommand()
     {

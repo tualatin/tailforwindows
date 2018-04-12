@@ -11,7 +11,7 @@
   <converters:BackgroundColorToIsNotSelectedConverter x:Key="BackgroundColorToIsNotSelectedConverter" />
   <converters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
   <converters:TreeNodeToImageConverter x:Key="TreeNodeToImageConverter" />
-  <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+  <converters:BitmapImageToVisibilityConverter x:Key="BitmapImageToVisibilityConverter" />
   <converters:StringToWindowMediaBrushConverter x:Key="StringToWindowMediaBrushConverter" />
   <converters:BoolToUpdateHintConverter x:Key="BoolToUpdateHintConverter" />
   <converters:MailAddressConverter x:Key="MailAddressConverter" />
@@ -28,6 +28,7 @@
   <converters:StatusBarStateToBoolConverter x:Key="StatusBarStateToBoolConverter" />
   <converters:StatusBarStateToBoolInverseConverter x:Key="StatusBarStateToBoolInverseConverter" />
   <converters:IntToBoolConverter x:Key="IntToBoolConverter" />
+  <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
 
   <multiConverters:LogFileIsEnableMultiConverter x:Key="LogFileIsEnableMultiConverter" />
   <multiConverters:LogFileFileManagerMultiConverter x:Key="LogFileLengthFileManagerMultiConverter" />

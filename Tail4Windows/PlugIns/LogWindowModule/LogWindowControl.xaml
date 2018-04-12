@@ -361,7 +361,7 @@
           IsEnabled="{Binding LogWindowState, Converter={StaticResource StatusBarStateToBoolConverter}}"
           ItemsSource="{Binding LogFileHistory}"
           SelectedItem="{Binding SelectedItem}"
-          behaviors1:FocusBehavior.IsFocused="{Binding LogFileComboBoxHasFocus, UpdateSourceTrigger=PropertyChanged}"
+          behaviors:FocusBehavior.IsFocused="{Binding LogFileComboBoxHasFocus, UpdateSourceTrigger=PropertyChanged}"
           >
           <i:Interaction.Behaviors>
             <behaviors1:WatermarkBehavior
@@ -892,7 +892,7 @@
           HorizontalAlignment="Right"
           Orientation="Horizontal"
           >
-          <Button Style="{StaticResource MenuButtonStye}">
+          <Button Style="{StaticResource MenuButtonStyle}">
             <i:Interaction.Behaviors>
               <behaviors:DropDownButtonBehavior />
             </i:Interaction.Behaviors>

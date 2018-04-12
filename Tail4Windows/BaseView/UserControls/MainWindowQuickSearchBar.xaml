@@ -7,6 +7,7 @@
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.UserControls.Behaviors"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
+  xmlns:behaviors1="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   mc:Ignorable="d"
   d:DesignHeight="22"
   d:DesignWidth="200"
@@ -71,7 +72,7 @@
           BorderThickness="0"
           ToolTip="{DynamicResource QuickSearchToolTip}"
           Watermark="{DynamicResource QuickSearchWatermark}"
-          behaviors:FocusBehavior.IsFocused="{Binding IsFocused, UpdateSourceTrigger=PropertyChanged}"
+          behaviors1:FocusBehavior.IsFocused="{Binding IsFocused, UpdateSourceTrigger=PropertyChanged}"
           >
           <userControls:WatermarkTextBox.InputBindings>
             <KeyBinding Key="Enter" Command="{Binding QuickSearchCommand}" />

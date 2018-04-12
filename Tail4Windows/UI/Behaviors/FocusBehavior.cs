@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 
-
-namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
+namespace Org.Vs.TailForWin.UI.Behaviors
 {
   /// <summary>
   /// Focus behavior
