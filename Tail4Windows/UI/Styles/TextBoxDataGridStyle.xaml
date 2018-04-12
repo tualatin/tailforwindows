@@ -3,9 +3,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   >
 
-  <!--<SnippetRichTextBox>-->
-  <!--<SnippetTextBox>-->
-  <Style TargetType="{x:Type TextBox}">
+  <Style x:Key="TextBoxDataGridStyle" TargetType="{x:Type TextBox}">
     <Setter Property="AllowDrop" Value="true" />
     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
     <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
@@ -19,14 +17,9 @@
           <Border
             Name="Border"
             Padding="2"
-            BorderThickness="1"
+            Background="{StaticResource BrushSolidWhite}"
+            BorderThickness="0"
             >
-            <Border.Background>
-              <SolidColorBrush Color="{DynamicResource ColorWhite}" />
-            </Border.Background>
-            <Border.BorderBrush>
-              <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
-            </Border.BorderBrush>
             <ScrollViewer
               x:Name="PART_ContentHost"
               Margin="0"
@@ -41,7 +34,7 @@
                       Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
                       >
                       <EasingColorKeyFrame
-                        Value="{StaticResource DisabledControlLightColor}"
+                        Value="Transparent"
                         KeyTime="0"
                         />
                     </ColorAnimationUsingKeyFrames>
@@ -54,7 +47,7 @@
                       Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
                       >
                       <EasingColorKeyFrame
-                        Value="{StaticResource DisabledControlDarkColor}"
+                        Value="Transparent"
                         KeyTime="0"
                         />
                     </ColorAnimationUsingKeyFrames>

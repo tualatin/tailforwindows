@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +12,6 @@ using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
-using Org.Vs.TailForWin.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -149,9 +149,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       _xmlFileManagerController = new XmlFileManagerController();
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
 
-      FileManagerCollection = new FileManagerData { new TailData() };
       Categories = new ObservableCollection<string>();
       _collectionView = (CollectionView) CollectionViewSource.GetDefaultView(FileManagerCollection);
+
+      ((AsyncCommand<object>) DeleteTailDataCommand).PropertyChanged += OnDeleteTailDataPropertyChanged;
+      ((AsyncCommand<object>) SaveCommand).PropertyChanged += OnSaveTailDataPropertyChanged;
+      ((AsyncCommand<object>) LoadedCommand).PropertyChanged += OnSaveTailDataPropertyChanged;
 
       DataGridHasFocus = true;
     }
@@ -184,7 +187,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// Save command
     /// </summary>
-    public IAsyncCommand SaveCommand => _saveCommand ?? (_saveCommand = AsyncCommand.Create(p => FileManagerCollection != null && FileManagerCollection.Count > 0, ExecuteSaveCommandAsync));
+    public IAsyncCommand SaveCommand => _saveCommand ?? (_saveCommand = AsyncCommand.Create(p => FileManagerCollection != null, ExecuteSaveCommandAsync));
 
     private IAsyncCommand _deleteTailDataCommand;
 
@@ -257,8 +260,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       MouseService.SetBusyState();
 
-      FileManagerCollection.Remove(SelectedItem);
-      await _xmlFileManagerController.DeleteTailDataByIdFromXmlFileAsync(_cts.Token, SelectedItem.Id.ToString()).ConfigureAwait(false);
+      if ( SelectedItem.IsLoadedByXml )
+        await _xmlFileManagerController.DeleteTailDataByIdFromXmlFileAsync(_cts.Token, SelectedItem.Id.ToString()).ConfigureAwait(false);
     }
 
     private async Task ExecuteSaveCommandAsync()
@@ -278,21 +281,20 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         }
       }
 
-      await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(FileManagerCollection).ConfigureAwait(false);
+      _categories = await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(FileManagerCollection).ConfigureAwait(false);
     }
 
-    private async Task<ObservableCollection<TailData>> ExecuteLoadedCommandAsync()
+    private async Task ExecuteLoadedCommandAsync()
     {
       try
       {
-        FileManagerCollection = await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
-        await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(FileManagerCollection).ConfigureAwait(false);
+        _fileManagerCollection = await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
+        _categories = await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(FileManagerCollection).ConfigureAwait(false);
       }
       catch
       {
         // Nothing
       }
-      return FileManagerCollection;
     }
 
     private bool CanExecuteOpenCommand() => !string.IsNullOrWhiteSpace(SelectedItem?.FileName) && File.Exists(SelectedItem.FileName);
@@ -315,5 +317,41 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     }
 
     #endregion
+
+    private void OnDeleteTailDataPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      if ( SelectedItem == null )
+        return;
+
+      if ( FileManagerCollection.Contains(SelectedItem) )
+        FileManagerCollection.Remove(SelectedItem);
+
+      OnPropertyChanged(nameof(FileManagerCollection));
+    }
+
+    private void OnSaveTailDataPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      if ( _fileManagerCollection != null && _fileManagerCollection.Count > 0 )
+      {
+        FileManagerCollection = _fileManagerCollection;
+        OnPropertyChanged(nameof(FileManagerCollection));
+      }
+      else
+      {
+        FileManagerCollection = new ObservableCollection<TailData> { new TailData() };
+      }
+
+      if ( _categories != null && _categories.Count > 0 )
+      {
+        Categories = _categories;
+        OnPropertyChanged(nameof(Categories));
+      }
+    }
   }
 }

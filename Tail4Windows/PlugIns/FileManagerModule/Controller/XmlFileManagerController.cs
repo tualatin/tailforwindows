@@ -148,7 +148,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
 
       try
       {
-        var categories = tailData.Select(p => p.Category).ToList();
+        var categories = tailData.Select(p => p.Category).Distinct().ToList();
         result = new ObservableCollection<string>(categories);
       }
       catch ( Exception ex )

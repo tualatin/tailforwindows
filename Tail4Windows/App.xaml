@@ -17,6 +17,7 @@
         <ResourceDictionary Source="UI/Styles/AndroidSlider.xaml" />
         <ResourceDictionary Source="UI/Styles/AndroidToggleButton.xaml" />
         <ResourceDictionary Source="UI/Styles/TextBox.xaml" />
+        <ResourceDictionary Source="UI/Styles/TextBoxDataGridStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/Label.xaml" />
         <ResourceDictionary Source="UI/Styles/Button.xaml" />
         <ResourceDictionary Source="UI/Styles/ComboBox.xaml" />

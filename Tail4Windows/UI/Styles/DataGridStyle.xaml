@@ -15,14 +15,14 @@
               >
               <Rectangle.Stroke>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                  <GradientStop Offset="0" Color="{DynamicResource BorderLightColor}" />
-                  <GradientStop Offset="1" Color="{DynamicResource ColorGrey03}" />
+                  <GradientStop Offset="0" Color="{StaticResource ColorGrey10}" />
+                  <GradientStop Offset="1" Color="{StaticResource ColorGrey20}" />
                 </LinearGradientBrush>
               </Rectangle.Stroke>
               <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                  <GradientStop Offset="0" Color="{DynamicResource ControlLightColor}" />
-                  <GradientStop Offset="1" Color="{DynamicResource ColorGrey03}" />
+                  <GradientStop Offset="0" Color="{StaticResource ColorWhite}" />
+                  <GradientStop Offset="1" Color="{StaticResource ColorGrey10}" />
                 </LinearGradientBrush>
               </Rectangle.Fill>
             </Rectangle>
@@ -36,7 +36,7 @@
               Stretch="Uniform"
               >
               <Polygon.Fill>
-                <SolidColorBrush Color="{DynamicResource GlyphColor}" />
+                <SolidColorBrush Color="{StaticResource ColorGrey10}" />
               </Polygon.Fill>
             </Polygon>
             <VisualStateManager.VisualStateGroups>
@@ -46,19 +46,10 @@
                   <Storyboard>
                     <ColorAnimationUsingKeyFrames
                       Storyboard.TargetName="Border"
-                      Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)"
-                      >
-                      <EasingColorKeyFrame
-                        Value="#CAE5ED"
-                        KeyTime="0"
-                        />
-                    </ColorAnimationUsingKeyFrames>
-                    <ColorAnimationUsingKeyFrames
-                      Storyboard.TargetName="Border"
                       Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)"
                       >
                       <EasingColorKeyFrame
-                        Value="#029cc7"
+                        Value="{StaticResource ColorOrange}"
                         KeyTime="0"
                         />
                     </ColorAnimationUsingKeyFrames>
@@ -68,19 +59,10 @@
                   <Storyboard>
                     <ColorAnimationUsingKeyFrames
                       Storyboard.TargetName="Border"
-                      Storyboard.TargetProperty="(Panel.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)"
-                      >
-                      <EasingColorKeyFrame
-                        Value="#CAE5ED"
-                        KeyTime="0"
-                        />
-                    </ColorAnimationUsingKeyFrames>
-                    <ColorAnimationUsingKeyFrames
-                      Storyboard.TargetName="Border"
                       Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)"
                       >
                       <EasingColorKeyFrame
-                        Value="#029cc7"
+                        Value="{StaticResource ColorOrangePressed}"
                         KeyTime="0"
                         />
                     </ColorAnimationUsingKeyFrames>
@@ -175,14 +157,14 @@
               >
               <Border.BorderBrush>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                  <GradientStop Offset="0" Color="{DynamicResource BorderLightColor}" />
-                  <GradientStop Offset="1" Color="{DynamicResource ColorGrey03}" />
+                  <GradientStop Offset="0" Color="{StaticResource BorderLightColor}" />
+                  <GradientStop Offset="1" Color="{StaticResource ColorGrey03}" />
                 </LinearGradientBrush>
               </Border.BorderBrush>
               <Border.Background>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                  <GradientStop Offset="0" Color="{DynamicResource ControlLightColor}" />
-                  <GradientStop Offset="1" Color="{DynamicResource ColorGrey03}" />
+                  <GradientStop Offset="0" Color="{StaticResource ColorWhite}" />
+                  <GradientStop Offset="1" Color="{StaticResource ColorGrey03}" />
                 </LinearGradientBrush>
               </Border.Background>
               <StackPanel Orientation="Horizontal">
@@ -350,8 +332,8 @@
     <Setter Property="Background">
       <Setter.Value>
         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-          <GradientStop Offset="0" Color="{DynamicResource ControlLightColor}" />
-          <GradientStop Offset="1" Color="{DynamicResource ColorGrey03}" />
+          <GradientStop Offset="0" Color="{StaticResource ColorWhite}" />
+          <GradientStop Offset="1" Color="{StaticResource ColorGrey03}" />
         </LinearGradientBrush>
       </Setter.Value>
     </Setter>
@@ -367,14 +349,14 @@
               >
               <Border.BorderBrush>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                  <GradientStop Offset="0" Color="{DynamicResource BorderLightColor}" />
-                  <GradientStop Offset="1" Color="{DynamicResource ColorGrey20}" />
+                  <GradientStop Offset="0" Color="{StaticResource BorderLightColor}" />
+                  <GradientStop Offset="1" Color="{StaticResource ColorGrey20}" />
                 </LinearGradientBrush>
               </Border.BorderBrush>
               <Border.Background>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                  <GradientStop Offset="0" Color="{DynamicResource ControlLightColor}" />
-                  <GradientStop Offset="1" Color="{DynamicResource ColorGrey03}" />
+                  <GradientStop Offset="0" Color="{StaticResource ColorWhite}" />
+                  <GradientStop Offset="1" Color="{StaticResource ColorGrey03}" />
                 </LinearGradientBrush>
               </Border.Background>
               <ContentPresenter
@@ -431,6 +413,7 @@
     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
     <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" />
     <Setter Property="HorizontalGridLinesBrush" Value="#FFBEBEBE" />
+    <Setter Property="MinRowHeight" Value="15" />
     <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
     <Setter Property="RowHeaderStyle" Value="{StaticResource DataGridRowHeaderStyle}" />
     <Setter Property="RowHeight" Value="25" />

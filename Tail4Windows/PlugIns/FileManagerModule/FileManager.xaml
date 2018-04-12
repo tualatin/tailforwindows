@@ -112,7 +112,7 @@
 
     <CollectionViewSource
       x:Key="CvsFileManagerData"
-      Source="{Binding LoadedCommand.Execution.Result}"
+      Source="{Binding FileManagerCollection}"
       >
       <CollectionViewSource.SortDescriptions>
         <componentModel:SortDescription PropertyName="File" />
@@ -458,6 +458,7 @@
                     Grid.Column="0"
                     Text="{Binding File, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                     IsReadOnly="True"
+                    Style="{StaticResource TextBoxDataGridStyle}"
                     >
                     <TextBox.ToolTip>
                       <ToolTip
@@ -483,7 +484,7 @@
           <DataGridTextColumn
             MinWidth="130"
             Header="{DynamicResource FileManagerDataGridDescription}"
-            Binding="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            Binding="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnExceptions=True}"
             />
 
           <DataGridTemplateColumn
@@ -496,7 +497,6 @@
                   Text="{Binding Category, UpdateSourceTrigger=LostFocus}"
                   IsEditable="True"
                   ItemsSource="{Binding Path=DataContext.Categories, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
-                  SelectedItem="{Binding Path=DataContext.SelectedCategory, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
                   />
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
