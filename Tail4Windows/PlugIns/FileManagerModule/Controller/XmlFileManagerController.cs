@@ -86,6 +86,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         {
           Version = version,
           Id = GetIdByElement(p.Element(XmlNames.Id)?.Value),
+          IsLoadedByXml = true,
           Description = p.Element(XmlNames.Description)?.Value,
           FileName = p.Element(XmlNames.FileName)?.Value,
           OriginalFileName = p.Element(XmlNames.FileName)?.Value,
@@ -214,8 +215,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
           var node = new XElement(XmlNames.File,
             new XElement(XmlNames.Id, tailData.Id),
             new XElement(XmlNames.FileName, tailData.FileName),
-            new XElement(XmlNames.Description, tailData.Description),
-            new XElement(XmlNames.Category, tailData.Category),
+            new XElement(XmlNames.Description, tailData.Description?.Trim()),
+            new XElement(XmlNames.Category, tailData.Category?.Trim()),
             new XElement(XmlNames.ThreadPriority, tailData.ThreadPriority),
             new XElement(XmlNames.NewWindow, tailData.NewWindow),
             new XElement(XmlNames.RefreshRate, tailData.RefreshRate),

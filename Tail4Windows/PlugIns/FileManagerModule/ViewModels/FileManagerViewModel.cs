@@ -70,12 +70,50 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
     }
 
+    private ObservableCollection<string> _categories;
+
+    /// <summary>
+    /// Categories
+    /// </summary>
+    public ObservableCollection<string> Categories
+    {
+      get => _categories;
+      set
+      {
+        if ( value == _categories )
+          return;
+
+        _categories = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private string _selectedCategory;
+
+    /// <summary>
+    /// Selected category
+    /// </summary>
+    public string SelectedCategory
+    {
+      get => _selectedCategory;
+      set
+      {
+        if ( Equals(value, _selectedCategory) )
+          return;
+
+        _selectedCategory = value;
+        OnPropertyChanged();
+      }
+    }
 
     private TailData _selectedItem;
 
-    private TailData SelectedItem
+    /// <summary>
+    /// Selected item
+    /// </summary>
+    public TailData SelectedItem
     {
-      get => _collectionView.CurrentItem as TailData;
+      get => _selectedItem;
       set
       {
         if ( value == _selectedItem )
@@ -110,10 +148,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
       _xmlFileManagerController = new XmlFileManagerController();
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-      FileManagerCollection = new FileManagerData { new TailData() };
-      DataGridHasFocus = true;
 
+      FileManagerCollection = new FileManagerData { new TailData() };
+      Categories = new ObservableCollection<string>();
       _collectionView = (CollectionView) CollectionViewSource.GetDefaultView(FileManagerCollection);
+
+      DataGridHasFocus = true;
     }
 
     #region Commands
@@ -144,7 +184,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// Save command
     /// </summary>
-    public IAsyncCommand SaveCommand => _saveCommand ?? (_saveCommand = AsyncCommand.Create(p => SelectedItem != null, ExecuteSaveCommandAsync));
+    public IAsyncCommand SaveCommand => _saveCommand ?? (_saveCommand = AsyncCommand.Create(p => FileManagerCollection != null && FileManagerCollection.Count > 0, ExecuteSaveCommandAsync));
 
     private IAsyncCommand _deleteTailDataCommand;
 
@@ -199,11 +239,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       SelectedItem.FileName = fileName;
     }
 
-    private void ExecuteAddTailDataCommand()
-    {
-      SelectedItem = new TailData();
-      FileManagerCollection.Add(SelectedItem);
-    }
+    private void ExecuteAddTailDataCommand() => FileManagerCollection.Add(new TailData());
 
     private void ExecuteUndoCommand()
     {
@@ -227,11 +263,22 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private async Task ExecuteSaveCommandAsync()
     {
-      if ( SelectedItem == null )
-        return;
-
       MouseService.SetBusyState();
-      await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, SelectedItem).ConfigureAwait(false);
+
+      foreach ( var tailData in FileManagerCollection )
+      {
+        if ( tailData.IsLoadedByXml )
+        {
+          await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, tailData).ConfigureAwait(false);
+        }
+        else
+        {
+          tailData.IsLoadedByXml = true;
+          await _xmlFileManagerController.AddTailDataToXmlFileAsync(_cts.Token, tailData).ConfigureAwait(false);
+        }
+      }
+
+      await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(FileManagerCollection).ConfigureAwait(false);
     }
 
     private async Task<ObservableCollection<TailData>> ExecuteLoadedCommandAsync()
@@ -239,6 +286,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       try
       {
         FileManagerCollection = await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
+        await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(FileManagerCollection).ConfigureAwait(false);
       }
       catch
       {

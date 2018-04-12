@@ -93,6 +93,24 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
+    private bool _isLoadedByXml;
+
+    /// <summary>
+    /// This data comes from saved XML file
+    /// </summary>
+    public bool IsLoadedByXml
+    {
+      get => _isLoadedByXml;
+      set
+      {
+        if ( value == _isLoadedByXml )
+          return;
+
+        _isLoadedByXml = value;
+        OnPropertyChanged();
+      }
+    }
+
     private string _fileName;
 
     /// <summary>
@@ -140,7 +158,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// </summary>
     public string Description
     {
-      get => _description?.Trim();
+      get => _description;
       set
       {
         _description = value;
@@ -155,7 +173,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// </summary>
     public string Category
     {
-      get => _category?.Trim();
+      get => _category;
       set
       {
         _category = value;

@@ -5,8 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.UserControls.Behaviors"
-  xmlns:behaviors1="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
@@ -420,11 +419,15 @@
 
       <DataGrid
         Grid.Row="1"
+        CanUserAddRows="False"
+        CanUserReorderColumns="True"
+        CanUserSortColumns="True"
         IsSynchronizedWithCurrentItem="True"
         ItemsSource="{Binding Source={StaticResource CvsFileManagerData}}"
+        SelectedItem="{Binding SelectedItem}"
         SelectionMode="Extended"
         SelectionUnit="FullRow"
-        behaviors1:FocusBehavior.IsFocused="{Binding DataGridHasFocus, UpdateSourceTrigger=PropertyChanged}"
+        behaviors:FocusBehavior.IsFocused="{Binding DataGridHasFocus, UpdateSourceTrigger=PropertyChanged}"
         >
         <i:Interaction.Triggers>
           <i:EventTrigger EventName="MouseDoubleClick">
@@ -435,7 +438,7 @@
           </i:EventTrigger>
         </i:Interaction.Triggers>
         <i:Interaction.Behaviors>
-          <behaviors1:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />
+          <behaviors:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />
         </i:Interaction.Behaviors>
 
         <DataGrid.Columns>
@@ -473,7 +476,6 @@
                     Style="{StaticResource EllipsisHorizontalButtonStyle}"
                     />
                 </Grid>
-
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
@@ -484,12 +486,21 @@
             Binding="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             />
 
-          <DataGridTextColumn
-            MinWidth="130"
+          <DataGridTemplateColumn
+            MinWidth="150"
             Header="{DynamicResource FileManagerDataGridCategory}"
-            Binding="{Binding Path=Category}"
-            IsReadOnly="True"
-            />
+            >
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <ComboBox
+                  Text="{Binding Category, UpdateSourceTrigger=LostFocus}"
+                  IsEditable="True"
+                  ItemsSource="{Binding Path=DataContext.Categories, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                  SelectedItem="{Binding Path=DataContext.SelectedCategory, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                  />
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
 
           <DataGridTextColumn
             MinWidth="190"
