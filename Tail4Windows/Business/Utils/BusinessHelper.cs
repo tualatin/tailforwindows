@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
+using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
@@ -50,7 +51,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// <param name="content">Content as <see cref="LogWindowControl"/></param>
     /// <param name="backgroundColor">BackgroundColor as hex string</param>
     /// <returns><see cref="DragSupportTabItem"/></returns>
-    public static DragSupportTabItem CreateDragSupportTabItem(string header, string toolTip, Visibility busyIndicator, ILogWindowControl content = null, string backgroundColor = "#FFD6DBE9")
+    public static DragSupportTabItem CreateDragSupportTabItem(string header, string toolTip, Visibility busyIndicator, ILogWindowControl content = null, string backgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor)
     {
       lock ( MyLock )
       {

@@ -8,6 +8,7 @@ using System.Text;
 using log4net;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
 
 
@@ -29,10 +30,12 @@ namespace Org.Vs.TailForWin.Core.Data
       Id = Guid.NewGuid();
       FontType = new Font("Segoe UI", 11f, FontStyle.Regular);
       AutoRun = true;
-      ListOfFilter = new ObservableCollection<FilterData>();
-      ListOfFilter.CollectionChanged += ListOfFilterCollectionChanged;
+      TabItemBackgroundColorStringHex = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor;
       RefreshRate = SettingsHelperController.CurrentSettings.DefaultRefreshRate;
       ThreadPriority = SettingsHelperController.CurrentSettings.DefaultThreadPriority;
+
+      ListOfFilter = new ObservableCollection<FilterData>();
+      ListOfFilter.CollectionChanged += ListOfFilterCollectionChanged;
     }
 
     private void ListOfFilterCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

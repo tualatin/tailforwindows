@@ -182,6 +182,15 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
     #endregion
 
+    #region TabItemHeader
+
+    /// <summary>
+    /// Default value TabItemHeaderBackgroundColor
+    /// </summary>
+    public const string TabItemHeaderBackgroundColor = "#FFD6DBE9";
+
+    #endregion
+
     #region Log viewer default settings
 
     /// <summary>

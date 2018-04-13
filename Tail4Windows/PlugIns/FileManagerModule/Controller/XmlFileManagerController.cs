@@ -11,6 +11,7 @@ using System.Xml;
 using System.Xml.Linq;
 using log4net;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Data.XmlNames;
 using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Utils;
@@ -123,7 +124,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       return result;
     }
 
-    private string GetColorAsString(string value) => string.IsNullOrWhiteSpace(value) ? "#FFD6DBE9" : value;
+    private string GetColorAsString(string value) => string.IsNullOrWhiteSpace(value) ? DefaultEnvironmentSettings.TabItemHeaderBackgroundColor : value;
 
     /// <summary>
     /// Get list of categories from XML file

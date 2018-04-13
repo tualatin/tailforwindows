@@ -95,7 +95,7 @@ namespace Org.Vs.NUnit.Tests
         LastRefreshTime = DateTime.Now,
         OpenFromFileManager = true,
         Version = 2.1m,
-        TabItemBackgroundColorStringHex = "#FFD6DBE9",
+        TabItemBackgroundColorStringHex = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor,
         ListOfFilter = new ObservableCollection<FilterData> { filter }
       };
 

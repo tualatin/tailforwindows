@@ -14,6 +14,7 @@ using log4net;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
@@ -419,12 +420,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !FileOpenDialog.OpenDialog("All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle, out string fileName) )
         return;
 
-      CurrenTailData = new TailData
-      {
-        FileName = fileName
-      };
-      OnPropertyChanged(nameof(CurrenTailData));
-
+      SelectedItem = fileName;
       LogFileComboBoxHasFocus = true;
     }
 
@@ -461,21 +457,27 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void SetCurrentLogFileName()
     {
-      if ( !File.Exists(CurrenTailData.FileName) )
+      if ( !File.Exists(SelectedItem) )
       {
         LogWindowTabItem.HeaderContent = $"{Application.Current.TryFindResource("NoFile")}";
         LogWindowTabItem.HeaderToolTip = $"{Application.Current.TryFindResource("NoFile")}";
+        LogWindowTabItem.TabItemBackgroundColorStringHex = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor;
 
         CurrenTailData = new TailData();
-        OnPropertyChanged(nameof(CurrenTailData));
 
         FileIsValid = false;
         LogWindowState = EStatusbarState.Default;
         return;
       }
 
+      CurrenTailData = new TailData
+      {
+        FileName = SelectedItem
+      };
+
       LogWindowTabItem.HeaderContent = CurrenTailData.File;
       LogWindowTabItem.HeaderToolTip = CurrenTailData.FileName;
+      LogWindowTabItem.TabItemBackgroundColorStringHex = CurrenTailData.TabItemBackgroundColorStringHex;
       FileIsValid = true;
       LogWindowState = !string.IsNullOrWhiteSpace(CurrenTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
     }
@@ -570,10 +572,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         if ( string.IsNullOrWhiteSpace(extension) )
           return;
 
-        CurrenTailData = new TailData
-        {
-          FileName = fileName
-        };
+        SelectedItem = fileName;
         OnPropertyChanged(nameof(CurrenTailData));
 
         LogFileComboBoxHasFocus = true;
