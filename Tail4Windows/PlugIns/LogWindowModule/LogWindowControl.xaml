@@ -32,6 +32,10 @@
     </i:EventTrigger>
   </i:Interaction.Triggers>
 
+  <UserControl.InputBindings>
+    <KeyBinding Key="S" Command="{Binding QuickSaveCommand}" Modifiers="Control" />
+  </UserControl.InputBindings>
+
   <UserControl.Resources>
     <Storyboard x:Key="ExtendedSettingsShowAnimation">
       <DoubleAnimation
@@ -908,13 +912,6 @@
                   Command="{Binding QuickSaveCommand}"
                   InputGestureText="{DynamicResource ExtendedTailSettingsQuickSaveInputGestureText}"
                   >
-                  <MenuItem.IsEnabled>
-                    <MultiBinding Converter="{StaticResource LogFileIsEnableMultiConverter}">
-                      <Binding Path="FileIsValid" />
-                      <Binding Path="CurrenTailData.OpenFromFileManager" />
-                    </MultiBinding>
-                  </MenuItem.IsEnabled>
-
                   <MenuItem.Icon>
                     <Image
                       RenderOptions.BitmapScalingMode="HighQuality"

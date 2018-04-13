@@ -251,7 +251,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Quick save command
     /// </summary>
-    public IAsyncCommand QuickSaveCommand => _quickSaveCommand ?? (_quickSaveCommand = AsyncCommand.Create(ExecuteQuickSaveCommandAsync));
+    public IAsyncCommand QuickSaveCommand => _quickSaveCommand ?? (_quickSaveCommand = AsyncCommand.Create(p => CanExecuteQuickSaveCommand(), ExecuteQuickSaveCommandAsync));
 
     private IAsyncCommand _printTailDataCommand;
 
@@ -319,8 +319,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private async Task ExecuteLoadedCommandAsync()
     {
-      _cts?.Dispose();
-      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+      SetCancellationTokenSource();
 
       if ( !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
         return;
@@ -346,13 +345,20 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     }
 
+    private bool CanExecuteQuickSaveCommand() => FileIsValid && CurrenTailData.OpenFromFileManager;
+
     private async Task ExecuteQuickSaveCommandAsync()
     {
       if ( !CurrenTailData.OpenFromFileManager )
         return;
 
+      MouseService.SetBusyState();
+      SetCancellationTokenSource();
+
+      await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
       await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, CurrenTailData).ConfigureAwait(false);
     }
+
 
     private void ExecuteOpenTailDataFilterCommand()
     {
@@ -392,6 +398,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       MouseService.SetBusyState();
+      SetCancellationTokenSource();
+
       await _historyController.SaveSearchHistoryAsync(CurrenTailData.FileName).ConfigureAwait(false);
     }
 
@@ -444,6 +452,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     #endregion
 
     #region HelperFunctions
+
+    private void SetCancellationTokenSource()
+    {
+      _cts?.Dispose();
+      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+    }
 
     private void SetCurrentLogFileName()
     {

@@ -13,7 +13,7 @@
     /// <summary>
     /// Current XML version
     /// </summary>
-    public const decimal CurrentXmlVersion = 1.1m;
+    public const decimal CurrentXmlVersion = 1.2m;
 
     /// <summary>
     /// XML version

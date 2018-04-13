@@ -36,10 +36,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public XmlFileManagerController()
-    {
-      _fileManagerFile = EnvironmentContainer.ApplicationPath + @"\FileManager.xml";
-    }
+    public XmlFileManagerController() => _fileManagerFile = EnvironmentContainer.ApplicationPath + @"\FileManager.xml";
 
     /// <summary>
     /// Constructor for testing purposes
@@ -285,7 +282,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
 
         updateNode.Element(XmlNames.FileName)?.SetValue(tailData.FileName);
         updateNode.Element(XmlNames.Description)?.SetValue(tailData.Description);
-        updateNode.Element(XmlNames.Category)?.SetValue(tailData.Category);
+        updateNode.Element(XmlNames.Category)?.SetValue(tailData.Category ?? string.Empty);
         updateNode.Element(XmlNames.ThreadPriority)?.SetValue(tailData.ThreadPriority);
         updateNode.Element(XmlNames.NewWindow)?.SetValue(tailData.NewWindow);
         updateNode.Element(XmlNames.RefreshRate)?.SetValue(tailData.RefreshRate);
@@ -295,14 +292,14 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         updateNode.Element(XmlNames.FileEncoding)?.SetValue(tailData.FileEncoding?.HeaderName ?? string.Empty);
         updateNode.Element(XmlNames.UseFilters)?.SetValue(tailData.FilterState);
         updateNode.Element(XmlNames.UsePattern)?.SetValue(tailData.UsePattern);
-        updateNode.Element(XmlNames.TabItemBackgroundColor)?.SetValue(tailData.TabItemBackgroundColorStringHex);
+        updateNode.Element(XmlNames.TabItemBackgroundColor)?.SetValue(tailData.TabItemBackgroundColorStringHex ?? string.Empty);
         updateNode.Element(XmlNames.UseSmartWatch)?.SetValue(tailData.SmartWatch);
         updateNode.Element(XmlNames.Font)?.Element(XmlBaseStructure.Name)?.SetValue(tailData.FontType.Name);
         updateNode.Element(XmlNames.Font)?.Element(XmlNames.Size)?.SetValue(tailData.FontType.Size);
         updateNode.Element(XmlNames.Font)?.Element(XmlNames.Bold)?.SetValue(tailData.FontType.Bold);
         updateNode.Element(XmlNames.Font)?.Element(XmlNames.Italic)?.SetValue(tailData.FontType.Italic);
         updateNode.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.IsRegex)?.SetValue(tailData.IsRegex);
-        updateNode.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.PatternString)?.SetValue(tailData.PatternString);
+        updateNode.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.PatternString)?.SetValue(tailData.PatternString ?? string.Empty);
 
         // Remove all filters from document
         updateNode.Element(XmlNames.Filters)?.RemoveAll();
