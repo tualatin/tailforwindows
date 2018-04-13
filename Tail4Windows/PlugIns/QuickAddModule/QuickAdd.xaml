@@ -5,6 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels"
@@ -69,6 +70,7 @@
           VerticalAlignment="Center"
           Text="{Binding Mode=TwoWay, Path=CurrentTailData.Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
           TabIndex="0"
+          behaviors:FocusBehavior.IsFocused="{Binding HasFocus, UpdateSourceTrigger=PropertyChanged}"
           >
           <userControls:WatermarkTextBox.Watermark>
             <TextBlock

@@ -411,10 +411,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !FileOpenDialog.OpenDialog("All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle, out string fileName) )
         return;
 
-      CurrenTailData.FileName = fileName;
-      LogFileComboBoxHasFocus = true;
-
+      CurrenTailData = new TailData
+      {
+        FileName = fileName
+      };
       OnPropertyChanged(nameof(CurrenTailData));
+
+      LogFileComboBoxHasFocus = true;
     }
 
     private void ExecuteAddToFileManagerCommand()
@@ -534,7 +537,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       CurrenTailData.OpenFromFileManager = args.OpenFromFileManager;
-      OnPropertyChanged(nameof(CurrenTailData));
     }
 
     /// <summary>
@@ -554,10 +556,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         if ( string.IsNullOrWhiteSpace(extension) )
           return;
 
-        CurrenTailData.FileName = fileName;
-        LogFileComboBoxHasFocus = true;
-
+        CurrenTailData = new TailData
+        {
+          FileName = fileName
+        };
         OnPropertyChanged(nameof(CurrenTailData));
+
+        LogFileComboBoxHasFocus = true;
       }
       catch ( Exception ex )
       {

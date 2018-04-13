@@ -68,6 +68,24 @@ namespace Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels
       }
     }
 
+    private bool _hasFocus;
+
+    /// <summary>
+    /// Has focus
+    /// </summary>
+    public bool HasFocus
+    {
+      get => _hasFocus;
+      set
+      {
+        if ( value == _hasFocus )
+          return;
+
+        _hasFocus = value;
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     /// <summary>
@@ -170,6 +188,7 @@ namespace Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
+      HasFocus = true;
       OnPropertyChanged(nameof(Categories));
     }
   }
