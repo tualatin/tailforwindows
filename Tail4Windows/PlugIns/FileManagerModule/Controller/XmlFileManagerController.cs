@@ -57,7 +57,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
     public async Task<ObservableCollection<TailData>> ReadXmlFileAsync(CancellationToken token)
     {
       if ( !File.Exists(_fileManagerFile) )
-        throw new FileNotFoundException();
+        return new ObservableCollection<TailData>();
 
       LOG.Trace("Read XML");
 
