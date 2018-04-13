@@ -199,6 +199,21 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// <summary>
     /// Create
     /// </summary>
+    /// <param name="canExecute">CanExecute</param>
+    /// <param name="command">Command</param>
+    /// <returns>AsyncCmmand of type object</returns>
+    public static AsyncCommand<object> Create(Predicate<object> canExecute, Func<object, CancellationToken, Task> command)
+    {
+      return new AsyncCommand<object>(canExecute, async (param, token) =>
+      {
+        await command(param, token);
+        return null;
+      });
+    }
+
+    /// <summary>
+    /// Create
+    /// </summary>
     /// <param name="command">Command</param>
     /// <returns>AsyncCommand of type object</returns>
     public static AsyncCommand<object> Create(Func<object, Task> command)

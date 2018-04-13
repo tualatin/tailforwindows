@@ -82,7 +82,7 @@
   <system:String x:Key="ButtonStartTailToolTip">Starts tail (CTRL+R)</system:String>
   <system:String x:Key="ButtonStopTailToolTip">Stops tail (CTRL+S)</system:String>
   <system:String x:Key="ButtonAddsFileToFileManager">Adds file to...</system:String>
-  <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Adds current file to FileManager</system:String>
+  <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Adds current file to TailManager</system:String>
   <system:String x:Key="ButtonOpenFile">Open file...</system:String>
   <system:String x:Key="ButtonOpenFileToolTip">Opens a file to tail...</system:String>
   <system:String x:Key="TextBoxFileNameWatermark">Logfile</system:String>
@@ -94,8 +94,8 @@
   <system:String x:Key="ComboBoxRemoveSpace">Remove space</system:String>
   <system:String x:Key="ComboBoxFilter">Filter</system:String>
   <system:String x:Key="ToggleMenuButtonToolTip">Extended tail settings</system:String>
-  <system:String x:Key="ButtonFileManager">FileManager</system:String>
-  <system:String x:Key="ButtonFileManagerToolTip">Opens the FileManager (CTRL+M)</system:String>
+  <system:String x:Key="ButtonFileManager">TailManager</system:String>
+  <system:String x:Key="ButtonFileManagerToolTip">Opens the TailManager (CTRL+M)</system:String>
   <system:String x:Key="CheckBoxUseSmartWatchToolTip">Activate SmartWatch for current log file</system:String>
 
   <system:String x:Key="FileManagerExtendedSettingsToolTipt">Shows extended tail settings for current selection</system:String>
@@ -238,7 +238,7 @@
   <system:String x:Key="ExtrasWindowStyleLabel">Window style</system:String>
   <system:String x:Key="ExtrasWindowStyleToolTip">Set current window style</system:String>
   <system:String x:Key="ExtrasFileSort">File sort direction</system:String>
-  <system:String x:Key="ExtrasFileSortToolTip">File sort behaviour in FileManager DataGrid</system:String>
+  <system:String x:Key="ExtrasFileSortToolTip">File sort behaviour in TailManager DataGrid</system:String>
   <system:String x:Key="ExtrasLogLineLimit">Log line limit</system:String>
   <system:String x:Key="ExtrasLogLineLimitToolTip">Change the max log lines in log view</system:String>
   <system:String x:Key="ExtrasLogLineLines">lines</system:String>
@@ -329,4 +329,6 @@
   <system:String x:Key="AlertOptionMailTestToolTip">Send a test E-Mail</system:String>
   <system:String x:Key="AlertOptionTestMail">A test message</system:String>
   <system:String x:Key="AlertOptionSmtpSettingsNotValid">Please check the SMTP settings! Do you want open to this now?</system:String>
+
+  <system:String x:Key="QuickAddDialogTitle">QuickAdd</system:String>
 </ResourceDictionary>

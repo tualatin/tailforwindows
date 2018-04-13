@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
@@ -23,6 +24,8 @@ using Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
+using Org.Vs.TailForWin.PlugIns.QuickAddModule;
+using Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Services;
@@ -278,6 +281,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
 
+    private ICommand _unloadedCommand;
+
+    /// <summary>
+    /// Open font dialog command
+    /// </summary>
+    public ICommand UnloadedCommand => _unloadedCommand ?? (_unloadedCommand = new RelayCommand(p => ExecuteUnloadedCommand()));
+
+
     private IAsyncCommand _deleteHistoryCommand;
 
     /// <summary>
@@ -314,8 +325,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
         return;
 
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DisableQuickAddInTailDataMessage>(OnDisableQuickAddFlag);
       _historyQueueSet = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
     }
+
+    private void ExecuteUnloadedCommand() => EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<DisableQuickAddInTailDataMessage>(OnDisableQuickAddFlag);
 
     private void ExecuteOpenFontDialogCommand()
     {
@@ -403,7 +417,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       OnPropertyChanged(nameof(CurrenTailData));
     }
 
-    private void ExecuteAddToFileManagerCommand() => OpenFileManager(CurrenTailData);
+    private void ExecuteAddToFileManagerCommand()
+    {
+      var quickAddManager = new QuickAdd
+      {
+        Owner = Window.GetWindow(this)
+      };
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new AddTailDataToQuickAddMessage(this, CurrenTailData));
+      quickAddManager.ShowDialog();
+    }
 
     private void ExecuteOpenFileManagerCommand() => OpenFileManager();
 
@@ -441,11 +463,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowState = !string.IsNullOrWhiteSpace(CurrenTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
     }
 
-    private void OpenFileManager(TailData tailData = null)
+    private void OpenFileManager()
     {
       var fileManager = new FileManager
       {
-        Owner = Application.Current.MainWindow
+        Owner = Window.GetWindow(this)
       };
       fileManager.ShowDialog();
     }
@@ -504,6 +526,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       // Set focus to ComboBox
       LogFileComboBoxHasFocus = true;
+    }
+
+    private void OnDisableQuickAddFlag(DisableQuickAddInTailDataMessage args)
+    {
+      if ( !(args.Sender is QuickAddViewModel) )
+        return;
+
+      CurrenTailData.OpenFromFileManager = args.OpenFromFileManager;
+      OnPropertyChanged(nameof(CurrenTailData));
     }
 
     /// <summary>

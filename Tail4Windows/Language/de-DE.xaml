@@ -82,7 +82,7 @@
   <system:String x:Key="ButtonStartTailToolTip">Startet tail (STRG+R)</system:String>
   <system:String x:Key="ButtonStopTailToolTip">Beendet tail (STRG+S)</system:String>
   <system:String x:Key="ButtonAddsFileToFileManager">Datei hinzufügen zu...</system:String>
-  <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Fügt die aktuelle Datei zum FileManager hinzu</system:String>
+  <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Fügt die aktuelle Datei zum TailManager hinzu</system:String>
   <system:String x:Key="ButtonOpenFile">Datei öffnen...</system:String>
   <system:String x:Key="ButtonOpenFileToolTip">Öffnet eine Datei zum tail...</system:String>
   <system:String x:Key="TextBoxFileNameWatermark">Logdatei</system:String>
@@ -94,8 +94,8 @@
   <system:String x:Key="ComboBoxRemoveSpace">Leerzeilen entfernen</system:String>
   <system:String x:Key="ComboBoxFilter">Filter</system:String>
   <system:String x:Key="ToggleMenuButtonToolTip">Erweiterte tail Einstellungen</system:String>
-  <system:String x:Key="ButtonFileManager">FileManager</system:String>
-  <system:String x:Key="ButtonFileManagerToolTip">Öffnet den FileManager (STRG+M)</system:String>
+  <system:String x:Key="ButtonFileManager">TailManager</system:String>
+  <system:String x:Key="ButtonFileManagerToolTip">Öffnet den TailManager (STRG+M)</system:String>
   <system:String x:Key="CheckBoxUseSmartWatchToolTip">Activate SmartWatch for current log file</system:String>
 
   <system:String x:Key="FileManagerExtendedSettingsToolTipt">Zeigt die erweiterten Einstellungen der aktuellen tail Auswahl an</system:String>
@@ -236,7 +236,7 @@
   <system:String x:Key="ExtrasWindowStyleLabel">Fensterstil</system:String>
   <system:String x:Key="ExtrasWindowStyleToolTip">Den aktuellen Fensterstil setzen</system:String>
   <system:String x:Key="ExtrasFileSort">Dateisortierung</system:String>
-  <system:String x:Key="ExtrasFileSortToolTip">Dateisortierungsverhalten setzen für das DataGrid im FileManager</system:String>
+  <system:String x:Key="ExtrasFileSortToolTip">Dateisortierungsverhalten setzen für das DataGrid im TailManager</system:String>
   <system:String x:Key="ExtrasLogLineLimit">Logzeilenlimitierung</system:String>
   <system:String x:Key="ExtrasLogLineLimitToolTip">Das maximale Logzeilenlimit in der Logansicht</system:String>
   <system:String x:Key="ExtrasLogLineLines">Zeilen</system:String>
@@ -327,4 +327,6 @@
   <system:String x:Key="AlertOptionMailTestToolTip">Senden einer Test E-Mail</system:String>
   <system:String x:Key="AlertOptionTestMail">Eine Testnachricht</system:String>
   <system:String x:Key="AlertOptionSmtpSettingsNotValid">Bitte überprüfen Sie die SMTP Einstellungen! Möchte Sie diese jetzt öffnen?</system:String>
+
+  <system:String x:Key="QuickAddDialogTitle">Schnellhinzufügen</system:String>
 </ResourceDictionary>

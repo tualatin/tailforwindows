@@ -1,0 +1,138 @@
+﻿<extendedControls:WindowEx
+  x:Class="Org.Vs.TailForWin.PlugIns.QuickAddModule.QuickAdd"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels"
+  mc:Ignorable="d"
+  x:Name="QuickAddWindow"
+  Title="{DynamicResource QuickAddDialogTitle}"
+  Width="320"
+  Height="140"
+  Icon="/T4W;component/Resources/Explorer.ico"
+  ResizeMode="NoResize"
+  ShowInTaskbar="False"
+  WindowStartupLocation="CenterOwner"
+  >
+  <i:Interaction.Triggers>
+    <i:EventTrigger EventName="Loaded">
+      <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+    </i:EventTrigger>
+
+    <i:EventTrigger EventName="Closing">
+      <i:InvokeCommandAction Command="{Binding CloseCommand}" />
+    </i:EventTrigger>
+  </i:Interaction.Triggers>
+
+  <extendedControls:WindowEx.DataContext>
+    <viewModels:QuickAddViewModel />
+  </extendedControls:WindowEx.DataContext>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <Border
+      Grid.Row="0"
+      Margin="0 5 0 0"
+      BorderBrush="{StaticResource BrushSolidBlue}"
+      BorderThickness="0 0 0 1"
+      >
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label
+          Grid.Row="0"
+          Grid.Column="0"
+          Margin="5 0"
+          VerticalAlignment="Center"
+          Content="{DynamicResource FileManagerDataGridDescription}"
+          />
+        <userControls:WatermarkTextBox
+          Grid.Row="0"
+          Grid.Column="1"
+          Margin="5 0"
+          VerticalAlignment="Center"
+          Text="{Binding Mode=TwoWay, Path=CurrentTailData.Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+          TabIndex="0"
+          >
+          <userControls:WatermarkTextBox.Watermark>
+            <TextBlock
+              Margin="5 0 0 0"
+              Text="{DynamicResource FileManagerDataGridDescription}"
+              FontStyle="Italic"
+              />
+          </userControls:WatermarkTextBox.Watermark>
+        </userControls:WatermarkTextBox>
+
+        <Label
+          Grid.Row="1"
+          Grid.Column="0"
+          Margin="5 0"
+          VerticalAlignment="Center"
+          Content="{DynamicResource FileManagerDataGridCategory}"
+          />
+
+        <ComboBox
+          Grid.Row="1"
+          Grid.Column="1"
+          Height="22"
+          Margin="5 0"
+          Text="{Binding CurrentTailData.Category, UpdateSourceTrigger=LostFocus}"
+          IsEditable="True"
+          ItemsSource="{Binding Categories}"
+          TabIndex="1"
+          />
+      </Grid>
+    </Border>
+
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+
+      <Button
+        Grid.Column="0"
+        Width="75"
+        Height="24"
+        Margin="0 5 5 5"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Center"
+        Content="{DynamicResource FileManagerSave}"
+        Command="{Binding SaveCommand}"
+        CommandParameter="{Binding ElementName=QuickAddWindow}"
+        TabIndex="0"
+        />
+
+      <Button
+        Grid.Column="1"
+        Width="75"
+        Height="24"
+        Margin="5 5 0 5"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Content="{DynamicResource CancelText}"
+        Command="{Binding CloseCommand}"
+        CommandParameter="{Binding ElementName=QuickAddWindow}"
+        IsCancel="True"
+        TabIndex="1"
+        />
+    </Grid>
+  </Grid>
+</extendedControls:WindowEx>
+

@@ -14,7 +14,7 @@
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
   mc:Ignorable="d"
   x:Name="FileManagerWindow"
-  Title="FileManager"
+  Title="TailManager"
   Width="600"
   Height="500"
   MinWidth="600"

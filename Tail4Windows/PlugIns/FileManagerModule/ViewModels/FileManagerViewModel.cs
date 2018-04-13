@@ -282,7 +282,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       try
       {
         _fileManagerCollection = await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
-        _categories = await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(FileManagerCollection).ConfigureAwait(false);
+        _categories = await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(_fileManagerCollection).ConfigureAwait(false);
       }
       catch
       {
@@ -299,8 +299,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteCloseCommand(Window window)
     {
-      MouseService.SetBusyState();
-
       _cts.Cancel();
       window?.Close();
     }
