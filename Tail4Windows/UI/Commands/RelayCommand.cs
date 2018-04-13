@@ -4,7 +4,6 @@ using System.Windows.Input;
 
 namespace Org.Vs.TailForWin.UI.Commands
 {
-  /// <inheritdoc />
   /// <summary>
   /// Relay command class
   /// </summary>
@@ -14,7 +13,6 @@ namespace Org.Vs.TailForWin.UI.Commands
     private readonly Action<object> _execute;
 
 
-    /// <inheritdoc />
     /// <summary>
     /// Creates a new command that can always execute.
     /// </summary>
@@ -44,7 +42,6 @@ namespace Org.Vs.TailForWin.UI.Commands
       remove => CommandManager.RequerySuggested -= value;
     }
 
-    /// <inheritdoc />
     /// <summary>
     /// Can execute
     /// </summary>
@@ -52,7 +49,6 @@ namespace Org.Vs.TailForWin.UI.Commands
     /// <returns>True if it can execute otherwise false</returns>
     public bool CanExecute(object parameter) => _canExecute == null || _canExecute(parameter);
 
-    /// <inheritdoc />
     /// <summary>
     /// Execute command
     /// </summary>

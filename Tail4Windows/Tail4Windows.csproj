@@ -205,6 +205,10 @@
     <Compile Include="Business\Data\Messages\AddTabItemMessage.cs" />
     <Compile Include="Business\Utils\BusinessHelper.cs" />
     <Compile Include="Core\Utils\QueueSet.cs" />
+    <Compile Include="Core\Utils\UndoRedoManager\CommandStateManager.cs" />
+    <Compile Include="Core\Utils\UndoRedoManager\Commands\RedoCommand.cs" />
+    <Compile Include="Core\Utils\UndoRedoManager\Commands\UndoCommand.cs" />
+    <Compile Include="Core\Utils\UndoRedoManager\Interfaces\IUndoCommand.cs" />
     <Compile Include="Core\Utils\WindowGetMinMaxInfo.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\FileManagerData.cs" />
     <Compile Include="PlugIns\FileManagerModule\FileManager.xaml.cs">
@@ -908,6 +912,7 @@
     <Folder Include="PlugIns\FindModule\Interfaces\" />
     <Folder Include="PlugIns\FindModule\ViewModels\" />
     <Folder Include="PlugIns\PatternModule\ViewModels\" />
+    <Folder Include="PlugIns\QuickAddModule\" />
     <Folder Include="PlugIns\SmartWatchModule\Controller\" />
     <Folder Include="PlugIns\SmartWatchModule\Data\" />
     <Folder Include="PlugIns\SmartWatchModule\Interfaces\" />

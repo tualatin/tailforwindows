@@ -550,6 +550,12 @@ namespace Org.Vs.TailForWin.Core.Data
           if ( string.IsNullOrEmpty(Description) )
             result = "Please enter a Description";
         }
+
+        if ( columnName == nameof(FileName) )
+        {
+          if ( string.IsNullOrWhiteSpace(FileName) )
+            result = "Please enter a FileName";
+        }
         return result;
       }
     }

@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,7 +28,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(FileManagerViewModel));
 
-    private TailData.MementoTailData _mementoTailData;
     private readonly CancellationTokenSource _cts;
     private readonly IXmlFileManager _xmlFileManagerController;
     private readonly CollectionView _collectionView;
@@ -187,7 +187,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// Save command
     /// </summary>
-    public IAsyncCommand SaveCommand => _saveCommand ?? (_saveCommand = AsyncCommand.Create(p => FileManagerCollection != null, ExecuteSaveCommandAsync));
+    public IAsyncCommand SaveCommand => _saveCommand ?? (_saveCommand = AsyncCommand.Create(p => CanExecuteSaveCommand(), ExecuteSaveCommandAsync));
 
     private IAsyncCommand _deleteTailDataCommand;
 
@@ -195,13 +195,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// Delete <see cref="TailData"/> from FileManager
     /// </summary>
     public IAsyncCommand DeleteTailDataCommand => _deleteTailDataCommand ?? (_deleteTailDataCommand = AsyncCommand.Create(p => SelectedItem != null, ExecuteDeleteCommandAsync));
-
-    private ICommand _undoCommand;
-
-    /// <summary>
-    /// Undo command
-    /// </summary>
-    public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteUndoCommand()));
 
     private ICommand _addTailDataCommand;
 
@@ -244,15 +237,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteAddTailDataCommand() => FileManagerCollection.Add(new TailData());
 
-    private void ExecuteUndoCommand()
-    {
-      if ( _mementoTailData == null || SelectedItem == null )
-        return;
-
-      MouseService.SetBusyState();
-      SelectedItem.RestoreFromMemento(_mementoTailData);
-    }
-
     private async Task ExecuteDeleteCommandAsync()
     {
       if ( SelectedItem == null )
@@ -262,6 +246,15 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       if ( SelectedItem.IsLoadedByXml )
         await _xmlFileManagerController.DeleteTailDataByIdFromXmlFileAsync(_cts.Token, SelectedItem.Id.ToString()).ConfigureAwait(false);
+    }
+
+    private bool CanExecuteSaveCommand()
+    {
+      if ( FileManagerCollection == null || FileManagerCollection.Count == 0 )
+        return false;
+
+      var errors = FileManagerCollection.Where(p => p["Description"] != null || p["FileName"] != null).ToList();
+      return errors.Count <= 0;
     }
 
     private async Task ExecuteSaveCommandAsync()
@@ -308,10 +301,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
       MouseService.SetBusyState();
 
-      if ( _mementoTailData != null )
-        SelectedItem.RestoreFromMemento(_mementoTailData);
-
-      _mementoTailData = null;
       _cts.Cancel();
       window?.Close();
     }
@@ -337,21 +326,11 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      if ( _fileManagerCollection != null && _fileManagerCollection.Count > 0 )
-      {
-        FileManagerCollection = _fileManagerCollection;
-        OnPropertyChanged(nameof(FileManagerCollection));
-      }
-      else
-      {
+      if ( _fileManagerCollection == null || _fileManagerCollection.Count == 0 )
         FileManagerCollection = new ObservableCollection<TailData> { new TailData() };
-      }
 
-      if ( _categories != null && _categories.Count > 0 )
-      {
-        Categories = _categories;
-        OnPropertyChanged(nameof(Categories));
-      }
+      OnPropertyChanged(nameof(Categories));
+      OnPropertyChanged(nameof(FileManagerCollection));
     }
   }
 }
