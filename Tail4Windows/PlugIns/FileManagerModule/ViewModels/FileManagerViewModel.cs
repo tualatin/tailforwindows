@@ -9,11 +9,14 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.Business.Data.Messages;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Services;
@@ -173,7 +176,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// Open command
     /// </summary>
-    public ICommand OpenCommand => _openCommand ?? (_openCommand = new RelayCommand(p => CanExecuteOpenCommand(), p => ExecuteOpenCommand()));
+    public ICommand OpenCommand => _openCommand ?? (_openCommand = new RelayCommand(p => CanExecuteOpenCommand(), p => ExecuteOpenCommand((Window) p)));
 
     private ICommand _closeCommand;
 
@@ -215,17 +218,13 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// MouseDoubleClick command
     /// </summary>
-    public ICommand DataGridMouseDoubleClickCommand => _dataGridMouseDoubleClickCommand ?? (_dataGridMouseDoubleClickCommand = new RelayCommand(p => FileManagerCollection.Count > 0, ExecuteMouseDoubleClickCommmand));
+    public ICommand DataGridMouseDoubleClickCommand => _dataGridMouseDoubleClickCommand ?? (_dataGridMouseDoubleClickCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteMouseDoubleClickCommmand((Window) p)));
 
     #endregion
 
     #region Command functions
 
-    private void ExecuteMouseDoubleClickCommmand(object param)
-    {
-      if ( !(param is MouseButtonEventArgs e) )
-        return;
-    }
+    private void ExecuteMouseDoubleClickCommmand(Window window) => OpenSelectedItem(window);
 
     private void ExecuteOpenFileCommand()
     {
@@ -292,9 +291,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private bool CanExecuteOpenCommand() => !string.IsNullOrWhiteSpace(SelectedItem?.FileName) && File.Exists(SelectedItem.FileName);
 
-    private void ExecuteOpenCommand()
+    private void ExecuteOpenCommand(Window window)
     {
+      if ( SelectedItem == null )
+        return;
 
+      OpenSelectedItem(window);
     }
 
     private void ExecuteCloseCommand(Window window)
@@ -304,6 +306,21 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     }
 
     #endregion
+
+    private void OpenSelectedItem(Window window)
+    {
+      // Is this file already open?
+      var result = BusinessHelper.GetTabItemList().Where(p => ((LogWindowControl) p.Content).CurrenTailData.Id == SelectedItem.Id).ToList();
+
+      if ( result.Count > 0 )
+      {
+        EnvironmentContainer.ShowInformationMessageBox(Application.Current.TryFindResource("FileManagerFileAlreadyOpen").ToString());
+        return;
+      }
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, SelectedItem));
+      ExecuteCloseCommand(window);
+    }
 
     private void OnDeleteTailDataPropertyChanged(object sender, PropertyChangedEventArgs e)
     {

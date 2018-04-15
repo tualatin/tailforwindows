@@ -6,7 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
-  xmlns:viewModels1="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
+  xmlns:vm="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="23"
   d:DesignWidth="700"
@@ -17,7 +17,7 @@
 
   <Grid
     Name="StatusbarGrid"
-    Background="{Binding Source={x:Static viewModels1:BaseWindowStatusbarViewModel.Instance}, Path=CurrentStatusBarBackgroundColorHex, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+    Background="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=CurrentStatusBarBackgroundColorHex, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}"
     UseLayoutRounding="True"
     >
     <Grid.ColumnDefinitions>
@@ -31,7 +31,7 @@
       Grid.Column="0"
       Margin="5 0"
       VerticalAlignment="Center"
-      Text="{Binding Source={x:Static viewModels1:BaseWindowStatusbarViewModel.Instance}, Path=CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
+      Text="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
       FontSize="11"
       Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
       SnapsToDevicePixels="True"
@@ -76,6 +76,7 @@
           IsEditable="True"
           ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=FileEncoding}"
           MaxDropDownHeight="200"
+          SelectedItem="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=CurrentEncoding, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           Style="{StaticResource StatusbarComboBoxStyle}"
           >
           <ComboBox.ToolTip>

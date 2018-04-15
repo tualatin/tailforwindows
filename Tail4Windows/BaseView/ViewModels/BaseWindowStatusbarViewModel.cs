@@ -1,4 +1,5 @@
-﻿using Org.Vs.TailForWin.BaseView.Interfaces;
+﻿using System.Text;
+using Org.Vs.TailForWin.BaseView.Interfaces;
 using Org.Vs.TailForWin.Core.Data.Base;
 
 
@@ -55,6 +56,21 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
         _currentBusyState = value;
         OnPropertyChanged(nameof(CurrentBusyState));
+      }
+    }
+
+    private Encoding _currentEncoding;
+
+    /// <summary>
+    /// Current file <see cref="Encoding"/>
+    /// </summary>
+    public Encoding CurrentEncoding
+    {
+      get => _currentEncoding;
+      set
+      {
+        _currentEncoding = value;
+        OnPropertyChanged();
       }
     }
 

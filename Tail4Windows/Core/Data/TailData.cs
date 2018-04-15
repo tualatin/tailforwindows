@@ -493,7 +493,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _tabItemBackgroundColorStringHex;
       set
       {
-        if (Equals(value, _tabItemBackgroundColorStringHex))
+        if ( Equals(value, _tabItemBackgroundColorStringHex) )
           return;
 
         _tabItemBackgroundColorStringHex = value;
@@ -511,7 +511,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _openFromSmartWatch;
       set
       {
-        if (value == _openFromSmartWatch)
+        if ( value == _openFromSmartWatch )
           return;
 
         _openFromSmartWatch = value;

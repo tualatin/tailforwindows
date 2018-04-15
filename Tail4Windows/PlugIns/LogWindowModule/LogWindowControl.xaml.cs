@@ -21,6 +21,7 @@ using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
+using Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
@@ -99,13 +100,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       get => _logWindowState;
       set
       {
-        if ( value == _logWindowState )
-          return;
-
         _logWindowState = value;
 
         if ( IsSelected )
-          OnStatusChanged?.Invoke(this, new StatusChangedArgs(LogWindowState));
+          OnStatusChanged?.Invoke(this, new StatusChangedArgs(LogWindowState, CurrenTailData.FileEncoding));
 
         OnPropertyChanged();
       }
@@ -326,10 +324,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DisableQuickAddInTailDataMessage>(OnDisableQuickAddFlag);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataMessage>(OnOpenTailData);
+
       _historyQueueSet = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
     }
 
-    private void ExecuteUnloadedCommand() => EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<DisableQuickAddInTailDataMessage>(OnDisableQuickAddFlag);
+    private void ExecuteUnloadedCommand()
+    {
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<DisableQuickAddInTailDataMessage>(OnDisableQuickAddFlag);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenTailDataMessage>(OnOpenTailData);
+    }
 
     private void ExecuteOpenFontDialogCommand()
     {
@@ -359,7 +363,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
       await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, CurrenTailData).ConfigureAwait(false);
     }
-
 
     private void ExecuteOpenTailDataFilterCommand()
     {
@@ -457,6 +460,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void SetCurrentLogFileName()
     {
+      MouseService.SetBusyState();
+
       if ( !File.Exists(SelectedItem) )
       {
         LogWindowTabItem.HeaderContent = $"{Application.Current.TryFindResource("NoFile")}";
@@ -464,16 +469,19 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         LogWindowTabItem.TabItemBackgroundColorStringHex = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor;
 
         CurrenTailData = new TailData();
-
         FileIsValid = false;
         LogWindowState = EStatusbarState.Default;
         return;
       }
 
-      CurrenTailData = new TailData
+      if ( !CurrenTailData.OpenFromFileManager || !Equals(SelectedItem, CurrenTailData.FileName) )
       {
-        FileName = SelectedItem
-      };
+        CurrenTailData = new TailData
+        {
+          FileName = SelectedItem,
+          FileEncoding = EncodingDetector.GetEncodingAsync(SelectedItem).Result
+        };
+      }
 
       LogWindowTabItem.HeaderContent = CurrenTailData.File;
       LogWindowTabItem.HeaderToolTip = CurrenTailData.FileName;
@@ -488,7 +496,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         Owner = Window.GetWindow(this)
       };
+
+      LogFileComboBoxHasFocus = false;
+
       fileManager.ShowDialog();
+
+      LogFileComboBoxHasFocus = WaitAsync().Result;
     }
 
     #endregion
@@ -545,6 +558,25 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       // Set focus to ComboBox
       LogFileComboBoxHasFocus = true;
+    }
+
+    private void OnOpenTailData(OpenTailDataMessage args)
+    {
+      if ( !(args.Sender is FileManagerViewModel) )
+        return;
+
+      CurrenTailData = args.TailData;
+      CurrenTailData.OpenFromFileManager = true;
+      SelectedItem = CurrenTailData.FileName;
+
+      OnPropertyChanged(nameof(CurrenTailData));
+    }
+
+    private async Task<bool> WaitAsync()
+    {
+      // Wait some ms to set the correct focus
+      await Task.Delay(TimeSpan.FromMilliseconds(25)).ConfigureAwait(false);
+      return true;
     }
 
     private void OnDisableQuickAddFlag(DisableQuickAddInTailDataMessage args)

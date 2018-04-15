@@ -213,6 +213,7 @@
     <Compile Include="Core\Utils\UndoRedoManager\Interfaces\IUndoCommand.cs" />
     <Compile Include="Core\Utils\WindowGetMinMaxInfo.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\FileManagerData.cs" />
+    <Compile Include="Business\Data\Messages\OpenTailDataMessage.cs" />
     <Compile Include="PlugIns\FileManagerModule\FileManager.xaml.cs">
       <DependentUpon>FileManager.xaml</DependentUpon>
     </Compile>

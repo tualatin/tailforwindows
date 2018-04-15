@@ -114,6 +114,9 @@
   <system:String x:Key="FileManagerDataGridCategory">Kategorie</system:String>
   <system:String x:Key="FileManagerDataGridPattern">Pattern</system:String>
   <system:String x:Key="FileManagerDataGridIsRegex">Regex</system:String>
+  <system:String x:Key="FileManagerOpenTailData">Öffnen</system:String>
+  <system:String x:Key="FileManagerUseSmartWatch">Benutze SmartWatch</system:String>
+  <system:String x:Key="FileManagerFileAlreadyOpen">Diese Datei ist bereits geöffnet.</system:String>
 
   <system:String x:Key="ExtendedTailSettingsLabel">Zeit erweiterte Einstellungen</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Zeige die erweiterten Einstellungen des aktuellen tail Tabs</system:String>

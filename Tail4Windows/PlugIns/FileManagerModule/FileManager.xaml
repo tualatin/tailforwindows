@@ -15,7 +15,7 @@
   mc:Ignorable="d"
   x:Name="FileManagerWindow"
   Title="TailManager"
-  Width="600"
+  Width="700"
   Height="500"
   MinWidth="600"
   MinHeight="600"
@@ -429,18 +429,19 @@
         CanUserAddRows="False"
         CanUserReorderColumns="True"
         CanUserSortColumns="True"
+        FrozenColumnCount="2"
         IsSynchronizedWithCurrentItem="True"
         ItemsSource="{Binding Source={StaticResource CvsFileManagerData}}"
         SelectedItem="{Binding SelectedItem}"
         SelectionMode="Extended"
-        SelectionUnit="FullRow"
+        SelectionUnit="CellOrRowHeader"
         behaviors:FocusBehavior.IsFocused="{Binding DataGridHasFocus, UpdateSourceTrigger=PropertyChanged}"
         >
         <i:Interaction.Triggers>
           <i:EventTrigger EventName="MouseDoubleClick">
             <commands:InvokeDelegateCommandAction
               Command="{Binding DataGridMouseDoubleClickCommand}"
-              CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+              CommandParameter="{Binding ElementName=FileManagerWindow}"
               />
           </i:EventTrigger>
         </i:Interaction.Triggers>
@@ -450,7 +451,7 @@
 
         <DataGrid.Columns>
           <DataGridTemplateColumn
-            MinWidth="150"
+            MinWidth="190"
             Header="{DynamicResource FileManagerDataGridFileName}"
             >
             <DataGridTemplateColumn.CellTemplate>
@@ -501,7 +502,7 @@
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <ComboBox
-                  Text="{Binding Category, UpdateSourceTrigger=LostFocus}"
+                  Text="{Binding Path=Category, UpdateSourceTrigger=LostFocus}"
                   IsEditable="True"
                   ItemsSource="{Binding Path=DataContext.Categories, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
                   />
@@ -509,12 +510,35 @@
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
 
-          <DataGridTextColumn
-            MinWidth="190"
-            Header="{DynamicResource FileManagerDataGridPattern}"
-            Binding="{Binding Path=PatternString}"
-            IsReadOnly="True"
+          <DataGridCheckBoxColumn
+            MinWidth="90"
+            Header="{DynamicResource FileManagerUseSmartWatch}"
+            Binding="{Binding Path=SmartWatch}"
+            IsReadOnly="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatch, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}"
             />
+
+          <DataGridTemplateColumn
+            MinWidth="150"
+            Header="{DynamicResource FileManagerDataGridPattern}"
+            >
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <TextBox
+                  Text="{Binding Path=PatternString, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                  IsReadOnly="True"
+                  Style="{StaticResource TextBoxDataGridStyle}"
+                  >
+                  <TextBox.ToolTip>
+                    <ToolTip
+                      Content="{Binding Path=PatternString, UpdateSourceTrigger=PropertyChanged}"
+                      Style="{StaticResource TabItemToolTipStyle}"
+                      Visibility="{Binding Path=PatternString, Converter={StaticResource StringToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                      />
+                  </TextBox.ToolTip>
+                </TextBox>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
 
           <DataGridCheckBoxColumn
             MinWidth="50"
@@ -551,8 +575,9 @@
           Margin="0 5 5 5"
           HorizontalAlignment="Right"
           VerticalAlignment="Center"
-          Content="OK"
+          Content="{DynamicResource FileManagerOpenTailData}"
           Command="{Binding OpenCommand}"
+          CommandParameter="{Binding ElementName=FileManagerWindow}"
           TabIndex="0"
           >
           <Button.InputBindings>

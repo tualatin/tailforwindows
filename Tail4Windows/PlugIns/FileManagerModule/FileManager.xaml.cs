@@ -8,9 +8,6 @@
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public FileManager()
-    {
-      InitializeComponent();
-    }
+    public FileManager() => InitializeComponent();
   }
 }

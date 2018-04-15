@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -39,6 +40,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private readonly NotifyTaskCompletion _notifyTaskCompletion;
     private EStatusbarState _currentStatusbarState;
+    private Encoding _currentEncoding;
 
     #region Events
 
@@ -432,6 +434,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         return;
 
       _currentStatusbarState = e.State;
+      _currentEncoding = e.LogFileEncoding;
 
       SetCurrentBusinessData();
     }
@@ -691,6 +694,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
         throw new NotImplementedException();
       }
+
+      BaseWindowStatusbarViewModel.Instance.CurrentEncoding = _currentEncoding;
     }
 
     #endregion
