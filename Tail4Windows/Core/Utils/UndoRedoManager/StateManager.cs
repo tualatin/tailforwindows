@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using log4net;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils.UndoRedoManager.Interfaces;
 
@@ -10,6 +11,8 @@ namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
   /// </summary>
   public class StateManager : NotifyMaster, IStateManager
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(StateManager));
+
     private readonly Stack<Command> _undos = new Stack<Command>();
     private readonly Stack<Command> _redos = new Stack<Command>();
 
@@ -48,6 +51,7 @@ namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
       _redos.Push(command);
       command.Undo();
 
+      LOG.Trace($"Undo, stack count {_undos.Count}");
       OnPropertyChanged(nameof(CanUndo));
     }
 
@@ -64,6 +68,7 @@ namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
       _undos.Push(command);
       command.Execute();
 
+      LOG.Trace($"Redo, stack count {_redos.Count}");
       OnPropertyChanged(nameof(CanRedo));
     }
 

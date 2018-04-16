@@ -240,7 +240,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteUndoCommand()
     {
+      foreach ( var tailData in FileManagerCollection )
+      {
+        tailData.Undo();
+      }
 
+      OnPropertyChanged(nameof(FileManagerCollection));
     }
 
     private void ExecuteMouseDoubleClickCommmand(Window window) => OpenSelectedItem(window);
