@@ -10,7 +10,6 @@
   xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
-  xmlns:undoRedo="clr-namespace:Org.Vs.TailForWin.Core.Utils.UndoRedoManager.Commands"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
   mc:Ignorable="d"
   x:Name="FileManagerWindow"
@@ -39,8 +38,6 @@
   </extendedControls:WindowEx.DataContext>
 
   <extendedControls:WindowEx.Resources>
-    <undoRedo:UndoCommand x:Key="UndoCommand" />
-
     <Storyboard x:Key="ExtendedSettingsShowAnimation">
       <DoubleAnimation
         Duration="0:0:0.2"
@@ -125,10 +122,6 @@
       </CollectionViewSource.GroupDescriptions>
     </CollectionViewSource>
   </extendedControls:WindowEx.Resources>
-
-  <extendedControls:WindowEx.InputBindings>
-    <KeyBinding Key="Z" Command="{StaticResource UndoCommand}" Modifiers="Control" />
-  </extendedControls:WindowEx.InputBindings>
 
   <Border
     BorderBrush="{StaticResource BrushSolidBlue}"
@@ -292,7 +285,7 @@
             Width="22"
             Height="22"
             Margin="0 0 2 0"
-            Command="{StaticResource UndoCommand}"
+            Command="{Binding UndoCommand}"
             >
             <StackPanel Margin="3">
               <Image

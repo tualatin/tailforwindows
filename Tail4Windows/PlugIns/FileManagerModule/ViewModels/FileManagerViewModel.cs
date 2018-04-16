@@ -220,9 +220,28 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public ICommand DataGridMouseDoubleClickCommand => _dataGridMouseDoubleClickCommand ?? (_dataGridMouseDoubleClickCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteMouseDoubleClickCommmand((Window) p)));
 
+    private ICommand _undoCommand;
+
+    /// <summary>
+    /// Undo command
+    /// </summary>
+    public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new RelayCommand(p => CanExecuteUndo(), p => ExecuteUndoCommand()));
+
     #endregion
 
     #region Command functions
+
+    private bool CanExecuteUndo()
+    {
+      var result = FileManagerCollection?.Where(p => p.CanUndo).ToList();
+
+      return result?.Count > 0;
+    }
+
+    private void ExecuteUndoCommand()
+    {
+
+    }
 
     private void ExecuteMouseDoubleClickCommmand(Window window) => OpenSelectedItem(window);
 
@@ -253,7 +272,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         return false;
 
       var errors = FileManagerCollection.Where(p => p["Description"] != null || p["FileName"] != null).ToList();
-      return errors.Count <= 0;
+      bool undo = CanExecuteUndo();
+
+      return errors.Count <= 0 && undo;
     }
 
     private async Task ExecuteSaveCommandAsync()
@@ -282,6 +303,14 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       {
         _fileManagerCollection = await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
         _categories = await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(_fileManagerCollection).ConfigureAwait(false);
+
+        if ( _fileManagerCollection != null )
+        {
+          foreach ( var tailData in _fileManagerCollection )
+          {
+            tailData.Clear();
+          }
+        }
       }
       catch
       {

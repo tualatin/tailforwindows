@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -7,9 +8,9 @@ using System.IO;
 using System.Text;
 using log4net;
 using Org.Vs.TailForWin.Core.Controllers;
-using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
 
 namespace Org.Vs.TailForWin.Core.Data
@@ -17,7 +18,7 @@ namespace Org.Vs.TailForWin.Core.Data
   /// <summary>
   /// Tail data object
   /// </summary>
-  public partial class TailData : NotifyMaster, ICloneable, IDisposable, IDataErrorInfo
+  public class TailData : StateManager, ICloneable, IDisposable, IDataErrorInfo, IComparer
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(TailData));
 
@@ -124,9 +125,12 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _fileName;
       set
       {
-        _fileName = value;
-        File = Path.GetFileName(FileName);
+        string currentValue = _fileName;
+
+        ChangeState(new Command(() => _fileName = value, () => _fileName = currentValue));
         OnPropertyChanged(nameof(FileName));
+
+        File = Path.GetFileName(FileName);
       }
     }
 
@@ -164,7 +168,9 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _description;
       set
       {
-        _description = value;
+        string currentValue = _description;
+
+        ChangeState(new Command(() => _description = value, () => _description = currentValue));
         OnPropertyChanged(nameof(Description));
       }
     }
@@ -179,7 +185,9 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _category;
       set
       {
-        _category = value;
+        string currentValue = _category;
+
+        ChangeState(new Command(() => _category = value, () => _category = currentValue));
         OnPropertyChanged(nameof(Category));
       }
     }
@@ -567,5 +575,25 @@ namespace Org.Vs.TailForWin.Core.Data
     /// Gets an error message indicating what is wrong with this object.
     /// </summary>
     public string Error => throw new NotImplementedException();
+
+    /// <summary>
+    /// Compare
+    /// </summary>
+    /// <param name="x">FileManagerData x</param>
+    /// <param name="y">FileManagerData y</param>
+    /// <returns>Compareable result</returns>
+    public int Compare(object x, object y)
+    {
+      if ( !(x is TailData) || !(y is TailData) )
+        return 1;
+
+      var xFm = (TailData) x;
+      var yFm = (TailData) y;
+
+      var nx = xFm.FileCreationTime ?? DateTime.MaxValue;
+      var ny = yFm.FileCreationTime ?? DateTime.MaxValue;
+
+      return -nx.CompareTo(ny);
+    }
   }
 }

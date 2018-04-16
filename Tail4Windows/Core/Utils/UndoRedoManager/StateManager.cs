@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils.UndoRedoManager.Interfaces;
 
@@ -7,20 +6,12 @@ using Org.Vs.TailForWin.Core.Utils.UndoRedoManager.Interfaces;
 namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
 {
   /// <summary>
-  /// Command state manager
+  /// StateManager
   /// </summary>
-  public class CommandStateManager : NotifyMaster
+  public class StateManager : NotifyMaster, IStateManager
   {
-    // ReSharper disable once InconsistentNaming
-    private static readonly Lazy<CommandStateManager> _instance = new Lazy<CommandStateManager>(() => new CommandStateManager());
-
-    private readonly Stack<IUndoCommand> _undos = new Stack<IUndoCommand>();
-    private readonly Stack<IUndoCommand> _redos = new Stack<IUndoCommand>();
-
-    /// <summary>
-    /// Current CommandStateManager instance
-    /// </summary>
-    public static CommandStateManager Instance => _instance.Value;
+    private readonly Stack<Command> _undos = new Stack<Command>();
+    private readonly Stack<Command> _redos = new Stack<Command>();
 
     /// <summary>
     /// Can undo
@@ -32,17 +23,15 @@ namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
     /// </summary>
     public bool CanRedo => _redos.Count > 0;
 
-    private CommandStateManager()
-    {
-    }
-
     /// <summary>
-    /// Execute
+    /// Change current state
     /// </summary>
-    /// <param name="command">Command of <see cref="IUndoCommand"/></param>
-    public void Executed(IUndoCommand command)
+    /// <param name="command"><see cref="Command"/></param>
+    protected void ChangeState(Command command)
     {
+      command.Execute();
       _undos.Push(command);
+
       OnPropertyChanged(nameof(CanUndo));
     }
 
@@ -58,7 +47,8 @@ namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
 
       _redos.Push(command);
       command.Undo();
-      OnPropertyChanged(nameof(CanRedo));
+
+      OnPropertyChanged(nameof(CanUndo));
     }
 
     /// <summary>
@@ -72,8 +62,21 @@ namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
       var command = _redos.Pop();
 
       _undos.Push(command);
-      command.Execute(null);
+      command.Execute();
+
+      OnPropertyChanged(nameof(CanRedo));
+    }
+
+    /// <summary>
+    /// Clears whole stack
+    /// </summary>
+    public void Clear()
+    {
+      _undos.Clear();
+      _redos.Clear();
+
       OnPropertyChanged(nameof(CanUndo));
+      OnPropertyChanged(nameof(CanRedo));
     }
   }
 }

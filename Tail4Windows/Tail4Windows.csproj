@@ -207,12 +207,10 @@
     <Compile Include="Business\Data\Messages\DisableQuickAddInTailDataMessage.cs" />
     <Compile Include="Business\Utils\BusinessHelper.cs" />
     <Compile Include="Core\Utils\QueueSet.cs" />
-    <Compile Include="Core\Utils\UndoRedoManager\CommandStateManager.cs" />
-    <Compile Include="Core\Utils\UndoRedoManager\Commands\RedoCommand.cs" />
-    <Compile Include="Core\Utils\UndoRedoManager\Commands\UndoCommand.cs" />
-    <Compile Include="Core\Utils\UndoRedoManager\Interfaces\IUndoCommand.cs" />
+    <Compile Include="Core\Utils\UndoRedoManager\Command.cs" />
+    <Compile Include="Core\Utils\UndoRedoManager\Interfaces\IStateManager.cs" />
+    <Compile Include="Core\Utils\UndoRedoManager\StateManager.cs" />
     <Compile Include="Core\Utils\WindowGetMinMaxInfo.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Data\FileManagerData.cs" />
     <Compile Include="Business\Data\Messages\OpenTailDataMessage.cs" />
     <Compile Include="PlugIns\FileManagerModule\FileManager.xaml.cs">
       <DependentUpon>FileManager.xaml</DependentUpon>
@@ -400,7 +398,6 @@
     <Compile Include="Core\Data\Settings\SmartWatchSetting.cs" />
     <Compile Include="Core\Data\Settings\SmtpSetting.cs" />
     <Compile Include="Core\Data\TailData.cs" />
-    <Compile Include="Core\Data\TailDataMemento.cs" />
     <Compile Include="Core\Data\Mappings\ThreadPriorityMapping.cs" />
     <Compile Include="Core\Data\XmlNames\XmlBaseStructure.cs" />
     <Compile Include="Core\Enums\EDateFormat.cs" />
