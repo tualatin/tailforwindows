@@ -565,6 +565,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(args.Sender is FileManagerViewModel) )
         return;
 
+      //if (LogWindowTabItem.TabItemBusyIndicator == Visibility.Visible)
+
       CurrenTailData = args.TailData;
       CurrenTailData.OpenFromFileManager = true;
       SelectedItem = CurrenTailData.FileName;

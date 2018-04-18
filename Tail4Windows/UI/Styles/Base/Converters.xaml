@@ -29,6 +29,7 @@
   <converters:StatusBarStateToBoolInverseConverter x:Key="StatusBarStateToBoolInverseConverter" />
   <converters:IntToBoolConverter x:Key="IntToBoolConverter" />
   <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+  <converters:RowFromObject x:Key="RowFromObjectConverter" />
 
   <multiConverters:LogFileIsEnableMultiConverter x:Key="LogFileIsEnableMultiConverter" />
   <multiConverters:LogFileFileManagerMultiConverter x:Key="LogFileLengthFileManagerMultiConverter" />

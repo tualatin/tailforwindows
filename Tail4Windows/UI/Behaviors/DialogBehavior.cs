@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 
 
 namespace Org.Vs.TailForWin.UI.Behaviors
@@ -11,7 +11,8 @@ namespace Org.Vs.TailForWin.UI.Behaviors
     /// <summary>
     /// Dialog visible property
     /// </summary>
-    public static readonly DependencyProperty DialogVisibleProperty = DependencyProperty.RegisterAttached("DialogVisible", typeof(bool), typeof(DialogBehavior), new PropertyMetadata(false, OnDialogVisibleChanged));
+    public static readonly DependencyProperty DialogVisibleProperty = DependencyProperty.RegisterAttached("DialogVisible", typeof(bool), typeof(DialogBehavior),
+      new PropertyMetadata(false, OnDialogVisibleChanged));
 
     /// <summary>
     /// Get current dialog visibility

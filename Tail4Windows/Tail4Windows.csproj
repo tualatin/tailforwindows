@@ -206,12 +206,15 @@
     <Compile Include="Business\Data\Messages\AddTailDataToQuickAddMessage.cs" />
     <Compile Include="Business\Data\Messages\DisableQuickAddInTailDataMessage.cs" />
     <Compile Include="Business\Utils\BusinessHelper.cs" />
+    <Compile Include="Core\Data\TailDataMemento.cs" />
     <Compile Include="Core\Utils\QueueSet.cs" />
     <Compile Include="Core\Utils\UndoRedoManager\Command.cs" />
     <Compile Include="Core\Utils\UndoRedoManager\Interfaces\IStateManager.cs" />
     <Compile Include="Core\Utils\UndoRedoManager\StateManager.cs" />
     <Compile Include="Core\Utils\WindowGetMinMaxInfo.cs" />
     <Compile Include="Business\Data\Messages\OpenTailDataMessage.cs" />
+    <Compile Include="PlugIns\FileManagerModule\Controller\TailDataComparer.cs" />
+    <Compile Include="PlugIns\FileManagerModule\Data\CollectionViewHolder.cs" />
     <Compile Include="PlugIns\FileManagerModule\FileManager.xaml.cs">
       <DependentUpon>FileManager.xaml</DependentUpon>
     </Compile>
@@ -227,13 +230,16 @@
       <DependentUpon>QuickAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\QuickAddModule\ViewModels\QuickAddViewModel.cs" />
+    <Compile Include="UI\Behaviors\DataGridRowBehavior.cs" />
     <Compile Include="UI\Behaviors\DropDownButtonBehavior.cs" />
     <Compile Include="UI\Behaviors\MultiSelectionBehavior.cs" />
+    <Compile Include="UI\Behaviors\ScrollDataGridRowIntoView.cs" />
     <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
     <Compile Include="UI\Converters\IntToBoolConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\LogFileIsEnableMultiConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\LogFileFileManagerMultiConverter.cs" />
+    <Compile Include="UI\Converters\RowFromObject.cs" />
     <Compile Include="UI\Converters\StatusBarStateToBoolConverter.cs" />
     <Compile Include="UI\Converters\StatusBarStateToBoolInverseConverter.cs" />
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />

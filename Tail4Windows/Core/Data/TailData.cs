@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -8,9 +7,9 @@ using System.IO;
 using System.Text;
 using log4net;
 using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
-using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
 
 namespace Org.Vs.TailForWin.Core.Data
@@ -18,7 +17,7 @@ namespace Org.Vs.TailForWin.Core.Data
   /// <summary>
   /// Tail data object
   /// </summary>
-  public class TailData : StateManager, ICloneable, IDisposable, IDataErrorInfo, IComparer
+  public partial class TailData : NotifyMaster, ICloneable, IDisposable, IDataErrorInfo
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(TailData));
 
@@ -125,12 +124,9 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _fileName;
       set
       {
-        string currentValue = _fileName;
-
-        ChangeState(new Command(() => _fileName = value, () => FileName = currentValue));
-        OnPropertyChanged(nameof(FileName));
-
+        _fileName = value;
         File = Path.GetFileName(FileName);
+        OnPropertyChanged(nameof(FileName));
       }
     }
 
@@ -168,9 +164,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _description;
       set
       {
-        string currentValue = _description;
-
-        ChangeState(new Command(() => _description = value, () => Description = currentValue));
+        _description = value;
         OnPropertyChanged(nameof(Description));
       }
     }
@@ -185,9 +179,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _category;
       set
       {
-        string currentValue = _category;
-
-        ChangeState(new Command(() => _category = value, () => Category = currentValue));
+        _category = value;
         OnPropertyChanged(nameof(Category));
       }
     }
@@ -202,9 +194,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _newWindow;
       set
       {
-        bool currentValue = _newWindow;
-
-        ChangeState(new Command(() => _newWindow = value, () => NewWindow = currentValue));
+        _newWindow = value;
         OnPropertyChanged(nameof(NewWindow));
       }
     }
@@ -257,9 +247,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _wrap;
       set
       {
-        bool currentValue = _wrap;
-
-        ChangeState(new Command(() => _wrap = value, () => Wrap = currentValue));
+        _wrap = value;
         OnPropertyChanged(nameof(Wrap));
       }
     }
@@ -274,9 +262,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _removeSpace;
       set
       {
-        bool currentValue = _removeSpace;
-
-        ChangeState(new Command(() => _removeSpace = value, () => RemoveSpace = currentValue));
+        _removeSpace = value;
         OnPropertyChanged(nameof(RemoveSpace));
       }
     }
@@ -291,9 +277,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _refreshRate;
       set
       {
-        var currentValue = _refreshRate;
-
-        ChangeState(new Command(() => _refreshRate = value, () => RefreshRate = currentValue));
+        _refreshRate = value;
         OnPropertyChanged(nameof(RefreshRate));
       }
     }
@@ -308,9 +292,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _timeStamp;
       set
       {
-        bool currentValue = _timeStamp;
-
-        ChangeState(new Command(() => _timeStamp = value, () => Timestamp = currentValue));
+        _timeStamp = value;
         OnPropertyChanged(nameof(Timestamp));
       }
     }
@@ -325,9 +307,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _fontType;
       set
       {
-        var currentValue = _fontType;
-
-        ChangeState(new Command(() => _fontType = value, () => FontType = currentValue));
+        _fontType = value;
         OnPropertyChanged(nameof(FontType));
       }
     }
@@ -342,9 +322,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _threadPriority;
       set
       {
-        var currentValue = _threadPriority;
-
-        ChangeState(new Command(() => _threadPriority = value, () => ThreadPriority = currentValue));
+        _threadPriority = value;
         OnPropertyChanged(nameof(ThreadPriority));
       }
     }
@@ -389,9 +367,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _fileEncoding;
       set
       {
-        var currentValue = _fileEncoding;
-
-        ChangeState(new Command(() => _fileEncoding = value, () => FileEncoding = currentValue));
+        _fileEncoding = value;
         OnPropertyChanged(nameof(FileEncoding));
       }
     }
@@ -424,9 +400,10 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _filterState;
       set
       {
-        bool currentValue = _filterState;
+        if ( value == _filterState )
+          return;
 
-        ChangeState(new Command(() => _filterState = value, () => FilterState = currentValue));
+        _filterState = value;
         OnPropertyChanged();
       }
     }
@@ -441,9 +418,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _patternString;
       set
       {
-        string currentValue = _patternString;
-
-        ChangeState(new Command(() => _patternString = value, () => PatternString = currentValue));
+        _patternString = value;
         OnPropertyChanged(nameof(PatternString));
       }
     }
@@ -458,9 +433,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _isRegex;
       set
       {
-        bool currentValue = _isRegex;
-
-        ChangeState(new Command(() => _isRegex = value, () => IsRegex = currentValue));
+        _isRegex = value;
         OnPropertyChanged(nameof(IsRegex));
       }
     }
@@ -475,9 +448,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _usePattern;
       set
       {
-        bool currentValue = _usePattern;
-
-        ChangeState(new Command(() => _usePattern = value, () => UsePattern = currentValue));
+        _usePattern = value;
         OnPropertyChanged(nameof(UsePattern));
       }
     }
@@ -492,9 +463,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _smartWatch;
       set
       {
-        bool currentValue = _smartWatch;
-
-        ChangeState(new Command(() => _smartWatch = value, () => SmartWatch = currentValue));
+        _smartWatch = value;
         OnPropertyChanged(nameof(SmartWatch));
       }
     }
@@ -509,9 +478,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _autoRun;
       set
       {
-        bool currentValue = _autoRun;
-
-        ChangeState(new Command(() => _autoRun = value, () => AutoRun = currentValue));
+        _autoRun = value;
         OnPropertyChanged(nameof(AutoRun));
       }
     }
@@ -526,9 +493,10 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _tabItemBackgroundColorStringHex;
       set
       {
-        string currentValue = _tabItemBackgroundColorStringHex;
+        if ( Equals(value, _tabItemBackgroundColorStringHex) )
+          return;
 
-        ChangeState(new Command(() => _tabItemBackgroundColorStringHex = value, () => TabItemBackgroundColorStringHex = currentValue));
+        _tabItemBackgroundColorStringHex = value;
         OnPropertyChanged(nameof(TabItemBackgroundColorStringHex));
       }
     }
@@ -543,6 +511,9 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _openFromSmartWatch;
       set
       {
+        if ( value == _openFromSmartWatch )
+          return;
+
         _openFromSmartWatch = value;
         OnPropertyChanged();
       }
@@ -596,25 +567,5 @@ namespace Org.Vs.TailForWin.Core.Data
     /// Gets an error message indicating what is wrong with this object.
     /// </summary>
     public string Error => throw new NotImplementedException();
-
-    /// <summary>
-    /// Compare
-    /// </summary>
-    /// <param name="x">FileManagerData x</param>
-    /// <param name="y">FileManagerData y</param>
-    /// <returns>Compareable result</returns>
-    public int Compare(object x, object y)
-    {
-      if ( !(x is TailData) || !(y is TailData) )
-        return 1;
-
-      var xFm = (TailData) x;
-      var yFm = (TailData) y;
-
-      var nx = xFm.FileCreationTime ?? DateTime.MaxValue;
-      var ny = yFm.FileCreationTime ?? DateTime.MaxValue;
-
-      return -nx.CompareTo(ny);
-    }
   }
 }

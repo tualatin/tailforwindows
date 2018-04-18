@@ -412,6 +412,7 @@
     <Setter Property="EnableRowVirtualization" Value="True" />
     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
     <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.ControlTextBrushKey}}" />
+    <Setter Property="HeadersVisibility" Value="Column" />
     <Setter Property="HorizontalGridLinesBrush" Value="#FFBEBEBE" />
     <Setter Property="MinRowHeight" Value="15" />
     <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />

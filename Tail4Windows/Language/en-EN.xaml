@@ -113,10 +113,13 @@
   <system:String x:Key="FileManagerDataGridDescription">Description</system:String>
   <system:String x:Key="FileManagerDataGridCategory">Category</system:String>
   <system:String x:Key="FileManagerDataGridPattern">Pattern</system:String>
+  <system:String x:Key="FileManagerDataGridNo">No</system:String>
   <system:String x:Key="FileManagerDataGridIsRegex">Regex</system:String>
   <system:String x:Key="FileManagerOpenTailData">Open</system:String>
   <system:String x:Key="FileManagerUseSmartWatch">Use SmartWatch</system:String>
   <system:String x:Key="FileManagerFileAlreadyOpen">This file is already open.</system:String>
+  <system:String x:Key="FileManagerFilterBy">Filter by Description or Category</system:String>
+  <system:String x:Key="FileManagerFilter">Filter</system:String>
 
   <system:String x:Key="ExtendedTailSettingsLabel">Show extended settings</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Shows the extended tail settings for current tab</system:String>

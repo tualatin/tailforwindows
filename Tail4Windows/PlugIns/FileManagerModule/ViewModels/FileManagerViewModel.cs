@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -15,6 +16,7 @@ using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
+using Org.Vs.TailForWin.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.UI.Commands;
@@ -33,16 +35,25 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private readonly CancellationTokenSource _cts;
     private readonly IXmlFileManager _xmlFileManagerController;
-    private readonly CollectionView _collectionView;
+    private readonly List<Predicate<TailData>> _criteria = new List<Predicate<TailData>>();
 
     #region Properties
+
+    /// <summary>
+    /// FileManager view
+    /// </summary>
+    public ListCollectionView FileManagerView
+    {
+      get;
+      set;
+    }
 
     private ObservableCollection<TailData> _fileManagerCollection;
 
     /// <summary>
     /// FileManager collection
     /// </summary>
-    public ObservableCollection<TailData> FileManagerCollection
+    private ObservableCollection<TailData> FileManagerCollection
     {
       get => _fileManagerCollection;
       set
@@ -109,20 +120,15 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
     }
 
-    private TailData _selectedItem;
-
     /// <summary>
     /// Selected item
     /// </summary>
-    public TailData SelectedItem
+    private TailData SelectedItem
     {
-      get => _selectedItem;
+      get => FileManagerView?.CurrentItem as TailData;
       set
       {
-        if ( value == _selectedItem )
-          return;
-
-        _selectedItem = value;
+        FileManagerView.MoveCurrentTo(value);
         OnPropertyChanged();
       }
     }
@@ -142,6 +148,39 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
     }
 
+    private string _filterText;
+
+    /// <summary>
+    /// Current filter text
+    /// </summary>
+    public string FilterText
+    {
+      get => _filterText;
+      set
+      {
+        if ( Equals(value, _filterText) )
+          return;
+
+        _filterText = value;
+        OnPropertyChanged();
+
+        _criteria.Clear();
+        _criteria.Add(p => p.Category.StartsWith(_filterText));
+        //_criteria.Add(p => p.Description.StartsWith(_filterText));
+
+        FileManagerView.Filter = DynamicFilter;
+        OnPropertyChanged(nameof(FileManagerView));
+
+        if ( SelectedItem == null )
+          return;
+
+        // Bring the current TailData back into view in case it moved
+        TailData currentTailData = SelectedItem;
+        FileManagerView.MoveCurrentToFirst();
+        FileManagerView.MoveCurrentTo(currentTailData);
+      }
+    }
+
     #endregion
 
     /// <summary>
@@ -151,9 +190,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
       _xmlFileManagerController = new XmlFileManagerController();
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-
       Categories = new ObservableCollection<string>();
-      _collectionView = (CollectionView) CollectionViewSource.GetDefaultView(FileManagerCollection);
 
       ((AsyncCommand<object>) DeleteTailDataCommand).PropertyChanged += OnDeleteTailDataPropertyChanged;
       ((AsyncCommand<object>) SaveCommand).PropertyChanged += OnSaveTailDataPropertyChanged;
@@ -233,19 +270,11 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private bool CanExecuteUndo()
     {
-      var result = FileManagerCollection?.Where(p => p.CanUndo).ToList();
-
-      return result?.Count > 0;
+      return true;
     }
 
     private void ExecuteUndoCommand()
     {
-      foreach ( var tailData in FileManagerCollection )
-      {
-        tailData.Undo();
-      }
-
-      OnPropertyChanged(nameof(FileManagerCollection));
     }
 
     private void ExecuteMouseDoubleClickCommmand(Window window) => OpenSelectedItem(window);
@@ -258,7 +287,14 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       SelectedItem.FileName = fileName;
     }
 
-    private void ExecuteAddTailDataCommand() => FileManagerCollection.Add(new TailData());
+    private void ExecuteAddTailDataCommand()
+    {
+      var newItem = new TailData();
+      FileManagerCollection.Add(newItem);
+      SelectedItem = FileManagerCollection.Last();
+
+      OnPropertyChanged(nameof(FileManagerView));
+    }
 
     private async Task ExecuteDeleteCommandAsync()
     {
@@ -308,14 +344,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       {
         _fileManagerCollection = await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
         _categories = await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(_fileManagerCollection).ConfigureAwait(false);
-
-        if ( _fileManagerCollection != null )
-        {
-          foreach ( var tailData in _fileManagerCollection )
-          {
-            tailData.Clear();
-          }
-        }
       }
       catch
       {
@@ -378,8 +406,27 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( _fileManagerCollection == null || _fileManagerCollection.Count == 0 )
         FileManagerCollection = new ObservableCollection<TailData> { new TailData() };
 
+      FileManagerView = (ListCollectionView) new CollectionViewSource { Source = FileManagerCollection }.View;
+      FileManagerView.CustomSort = new TailDataComparer();
+      FileManagerView.Filter = DynamicFilter;
+      CollectionViewHolder.Cv = FileManagerView;
+      SelectedItem = FileManagerCollection.First();
+
+      OnPropertyChanged(nameof(FileManagerView));
       OnPropertyChanged(nameof(Categories));
       OnPropertyChanged(nameof(FileManagerCollection));
+    }
+
+    private bool DynamicFilter(object item)
+    {
+      TailData t = item as TailData;
+
+      if ( _criteria.Count == 0 )
+        return true;
+
+      var result = _criteria.TrueForAll(p => p(t));
+
+      return result;
     }
   }
 }

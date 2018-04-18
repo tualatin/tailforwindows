@@ -7,9 +7,9 @@
   xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
-  xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
   mc:Ignorable="d"
   x:Name="FileManagerWindow"
@@ -109,18 +109,6 @@
         </Setter.Value>
       </Setter>
     </Style>
-
-    <CollectionViewSource
-      x:Key="CvsFileManagerData"
-      Source="{Binding FileManagerCollection}"
-      >
-      <CollectionViewSource.SortDescriptions>
-        <componentModel:SortDescription PropertyName="File" />
-      </CollectionViewSource.SortDescriptions>
-      <CollectionViewSource.GroupDescriptions>
-        <PropertyGroupDescription PropertyName="Category" />
-      </CollectionViewSource.GroupDescriptions>
-    </CollectionViewSource>
   </extendedControls:WindowEx.Resources>
 
   <Border
@@ -129,6 +117,7 @@
     >
     <Grid>
       <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
         <RowDefinition />
         <RowDefinition Height="0">
@@ -417,32 +406,74 @@
         </Grid>
       </Border>
 
+      <Grid Grid.Row="1">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Label
+          Grid.Column="0"
+          VerticalAlignment="Center"
+          Content="{DynamicResource FileManagerFilterBy}"
+          />
+        <userControls:WatermarkTextBox
+          Grid.Column="1"
+          Height="22"
+          Margin="5 3"
+          VerticalAlignment="Center"
+          Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"
+          >
+          <userControls:WatermarkTextBox.Watermark>
+            <TextBlock
+              Margin="5 0 0 0"
+              Text="{DynamicResource FileManagerFilter}"
+              FontStyle="Italic"
+              />
+          </userControls:WatermarkTextBox.Watermark>
+        </userControls:WatermarkTextBox>
+      </Grid>
+
       <DataGrid
-        Grid.Row="1"
+        Grid.Row="2"
         CanUserAddRows="False"
         CanUserReorderColumns="True"
         CanUserSortColumns="True"
         FrozenColumnCount="2"
         IsSynchronizedWithCurrentItem="True"
-        ItemsSource="{Binding Source={StaticResource CvsFileManagerData}}"
-        SelectedItem="{Binding SelectedItem}"
+        ItemsSource="{Binding FileManagerView}"
         SelectionMode="Extended"
-        SelectionUnit="CellOrRowHeader"
         behaviors:FocusBehavior.IsFocused="{Binding DataGridHasFocus, UpdateSourceTrigger=PropertyChanged}"
         >
-        <i:Interaction.Triggers>
+        <!--<i:Interaction.Triggers>
           <i:EventTrigger EventName="MouseDoubleClick">
             <commands:InvokeDelegateCommandAction
               Command="{Binding DataGridMouseDoubleClickCommand}"
               CommandParameter="{Binding ElementName=FileManagerWindow}"
               />
           </i:EventTrigger>
-        </i:Interaction.Triggers>
+        </i:Interaction.Triggers>-->
+
         <i:Interaction.Behaviors>
           <behaviors:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />
+          <behaviors:ScrollDataGridRowIntoView />
         </i:Interaction.Behaviors>
+        <DataGrid.RowStyle>
+          <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
+          <Style TargetType="{x:Type DataGridRow}">
+            <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocussedWhenSelected" Value="true" />
+          </Style>
+        </DataGrid.RowStyle>
 
         <DataGrid.Columns>
+          <DataGridTextColumn
+            MinWidth="50"
+            Header="{DynamicResource FileManagerDataGridNo}"
+            Binding="{Binding ., Converter={StaticResource RowFromObjectConverter}, StringFormat=#;;#}"
+            CanUserSort="False"
+            IsReadOnly="True"
+            />
+
           <DataGridTemplateColumn
             MinWidth="190"
             Header="{DynamicResource FileManagerDataGridFileName}"
@@ -457,15 +488,15 @@
 
                   <TextBox
                     Grid.Column="0"
-                    Text="{Binding Path=File, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                    Text="{Binding File, Mode=OneWay}"
                     IsReadOnly="True"
                     Style="{StaticResource TextBoxDataGridStyle}"
                     >
                     <TextBox.ToolTip>
                       <ToolTip
-                        Content="{Binding Path=FileName, UpdateSourceTrigger=PropertyChanged}"
+                        Content="{Binding FileName}"
                         Style="{StaticResource TabItemToolTipStyle}"
-                        Visibility="{Binding Path=FileName, Converter={StaticResource StringToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                        Visibility="{Binding FileName, Converter={StaticResource StringToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
                         />
                     </TextBox.ToolTip>
                   </TextBox>
@@ -485,7 +516,7 @@
           <DataGridTextColumn
             MinWidth="130"
             Header="{DynamicResource FileManagerDataGridDescription}"
-            Binding="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+            Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
             />
 
           <DataGridTemplateColumn
@@ -495,7 +526,7 @@
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <ComboBox
-                  Text="{Binding Path=Category, UpdateSourceTrigger=LostFocus}"
+                  Text="{Binding Category, UpdateSourceTrigger=LostFocus}"
                   IsEditable="True"
                   ItemsSource="{Binding Path=DataContext.Categories, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
                   />
@@ -506,7 +537,7 @@
           <DataGridCheckBoxColumn
             MinWidth="90"
             Header="{DynamicResource FileManagerUseSmartWatch}"
-            Binding="{Binding Path=SmartWatch}"
+            Binding="{Binding SmartWatch}"
             IsReadOnly="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatch, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}"
             />
 
@@ -517,13 +548,13 @@
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <TextBox
-                  Text="{Binding Path=PatternString, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                  Text="{Binding PatternString}"
                   IsReadOnly="True"
                   Style="{StaticResource TextBoxDataGridStyle}"
                   >
                   <TextBox.ToolTip>
                     <ToolTip
-                      Content="{Binding Path=PatternString, UpdateSourceTrigger=PropertyChanged}"
+                      Content="{Binding Path=PatternString}"
                       Style="{StaticResource TabItemToolTipStyle}"
                       Visibility="{Binding Path=PatternString, Converter={StaticResource StringToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
                       />
@@ -536,14 +567,14 @@
           <DataGridCheckBoxColumn
             MinWidth="50"
             Header="{DynamicResource FileManagerDataGridIsRegex}"
-            Binding="{Binding Path=IsRegex}"
+            Binding="{Binding IsRegex}"
             IsReadOnly="True"
             />
         </DataGrid.Columns>
       </DataGrid>
 
       <Border
-        Grid.Row="2"
+        Grid.Row="3"
         BorderBrush="{StaticResource BrushSolidBlue}"
         BorderThickness="0 1 0 1"
         >
@@ -555,7 +586,7 @@
         </Grid>
 
       </Border>
-      <Grid Grid.Row="3">
+      <Grid Grid.Row="4">
         <Grid.ColumnDefinitions>
           <ColumnDefinition />
           <ColumnDefinition />
@@ -633,7 +664,7 @@
       </Grid>
 
       <Border
-        Grid.Row="4"
+        Grid.Row="5"
         Background="{StaticResource BrushSolidBlue}"
         />
     </Grid>
