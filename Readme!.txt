@@ -8,6 +8,14 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
+v.2.0.xxxx.x
+* add more Options
+* add Logfile history
+* new Icon design
+* FileManager is TailManager now
+* complete new Options design
+* complete Code redesign
+
 v1.5.6312.x
 * add SmartWatch
 * add Log line limitation, if needed

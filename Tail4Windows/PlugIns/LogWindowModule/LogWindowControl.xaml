@@ -713,7 +713,7 @@
           <CheckBox
             Height="22"
             Content="SmartWatch"
-            IsChecked="{Binding CurrenTailData.SmartWatch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, FallbackValue=False}"
+            IsChecked="{Binding CurrentTailData.SmartWatch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, FallbackValue=False}"
             >
             <CheckBox.IsEnabled>
               <MultiBinding Converter="{StaticResource LogFileIsEnableMultiConverter}">
@@ -760,7 +760,7 @@
           <CheckBox
             Height="22"
             Content="{DynamicResource ComboBoxFilter}"
-            IsChecked="{Binding CurrenTailData.FilterState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            IsChecked="{Binding CurrentTailData.FilterState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             >
             <CheckBox.ToolTip>
               <StackPanel>
@@ -807,7 +807,7 @@
               DisplayMemberPath="Description"
               Foreground="Black"
               ItemsSource="{Binding Source={x:Static utils1:EnvironmentContainer.Instance}, Path=ThreadPriority}"
-              SelectedValue="{Binding CurrenTailData.ThreadPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+              SelectedValue="{Binding CurrentTailData.ThreadPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
               SelectedValuePath="ThreadPriority"
               TabIndex="0"
               >
@@ -857,7 +857,7 @@
               DisplayMemberPath="Description"
               Foreground="Black"
               ItemsSource="{Binding Source={x:Static utils1:EnvironmentContainer.Instance}, Path=RefreshRate}"
-              SelectedValue="{Binding CurrenTailData.RefreshRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+              SelectedValue="{Binding CurrentTailData.RefreshRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
               SelectedValuePath="RefreshRate"
               TabIndex="0"
               >

@@ -78,7 +78,7 @@ namespace Org.Vs.TailForWin.Business.Utils
           logWindowControl = new LogWindowControl
           {
             LogWindowTabItem = tabItem,
-            CurrenTailData = content.CurrenTailData,
+            CurrentTailData = content.CurrentTailData,
             LogWindowState = content.LogWindowState,
             FileIsValid = content.FileIsValid
           };

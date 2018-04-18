@@ -103,7 +103,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         _logWindowState = value;
 
         if ( IsSelected )
-          OnStatusChanged?.Invoke(this, new StatusChangedArgs(LogWindowState, CurrenTailData.FileEncoding));
+          OnStatusChanged?.Invoke(this, new StatusChangedArgs(LogWindowState, CurrentTailData.FileEncoding));
 
         OnPropertyChanged();
       }
@@ -117,7 +117,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Current tail data <see cref="TailData"/>
     /// </summary>
-    public TailData CurrenTailData
+    public TailData CurrentTailData
     {
       get;
       set;
@@ -208,7 +208,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Add to FileManager command
     /// </summary>
-    public ICommand AddToFileManagerCommand => _addToFileManagerCommand ?? (_addToFileManagerCommand = new RelayCommand(p => FileIsValid && !CurrenTailData.OpenFromFileManager, p => ExecuteAddToFileManagerCommand()));
+    public ICommand AddToFileManagerCommand => _addToFileManagerCommand ?? (_addToFileManagerCommand = new RelayCommand(p => FileIsValid && !CurrentTailData.OpenFromFileManager, p => ExecuteAddToFileManagerCommand()));
 
     private ICommand _openFileManagerCommand;
 
@@ -350,18 +350,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     }
 
-    private bool CanExecuteQuickSaveCommand() => FileIsValid && CurrenTailData.OpenFromFileManager;
+    private bool CanExecuteQuickSaveCommand() => FileIsValid && CurrentTailData.OpenFromFileManager;
 
     private async Task ExecuteQuickSaveCommandAsync()
     {
-      if ( !CurrenTailData.OpenFromFileManager )
+      if ( !CurrentTailData.OpenFromFileManager )
         return;
 
       MouseService.SetBusyState();
       SetCancellationTokenSource();
 
       await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
-      await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, CurrenTailData).ConfigureAwait(false);
+      await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, CurrentTailData).ConfigureAwait(false);
     }
 
     private void ExecuteOpenTailDataFilterCommand()
@@ -371,10 +371,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteOpenInEditorCommand()
     {
-      if ( string.IsNullOrWhiteSpace(CurrenTailData.FileName) )
+      if ( string.IsNullOrWhiteSpace(CurrentTailData.FileName) )
         return;
 
-      var shellOpen = new ProcessStartInfo(CurrenTailData.FileName)
+      var shellOpen = new ProcessStartInfo(CurrentTailData.FileName)
       {
         UseShellExecute = true
       };
@@ -398,13 +398,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowState = EStatusbarState.Busy;
 
       // If Logfile comes from the FileManager or settings does not allow to save the history, do not save it in the history
-      if ( CurrenTailData.OpenFromFileManager || !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
+      if ( CurrentTailData.OpenFromFileManager || !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
         return;
 
       MouseService.SetBusyState();
       SetCancellationTokenSource();
 
-      await _historyController.SaveSearchHistoryAsync(CurrenTailData.FileName).ConfigureAwait(false);
+      await _historyController.SaveSearchHistoryAsync(CurrentTailData.FileName).ConfigureAwait(false);
     }
 
     private void ExecuteStopTailCommand()
@@ -413,7 +413,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
-      LogWindowState = string.IsNullOrWhiteSpace(CurrenTailData.File) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
+      LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.File) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
     }
 
     private void ExecuteOpenFileCommand()
@@ -433,7 +433,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         Owner = Window.GetWindow(this)
       };
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new AddTailDataToQuickAddMessage(this, CurrenTailData));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new AddTailDataToQuickAddMessage(this, CurrentTailData));
       quickAddManager.ShowDialog();
     }
 
@@ -468,26 +468,26 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         LogWindowTabItem.HeaderToolTip = $"{Application.Current.TryFindResource("NoFile")}";
         LogWindowTabItem.TabItemBackgroundColorStringHex = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor;
 
-        CurrenTailData = new TailData();
+        CurrentTailData = new TailData();
         FileIsValid = false;
         LogWindowState = EStatusbarState.Default;
         return;
       }
 
-      if ( !CurrenTailData.OpenFromFileManager || !Equals(SelectedItem, CurrenTailData.FileName) )
+      if ( !CurrentTailData.OpenFromFileManager || !Equals(SelectedItem, CurrentTailData.FileName) )
       {
-        CurrenTailData = new TailData
+        CurrentTailData = new TailData
         {
           FileName = SelectedItem,
           FileEncoding = EncodingDetector.GetEncodingAsync(SelectedItem).Result
         };
       }
 
-      LogWindowTabItem.HeaderContent = CurrenTailData.File;
-      LogWindowTabItem.HeaderToolTip = CurrenTailData.FileName;
-      LogWindowTabItem.TabItemBackgroundColorStringHex = CurrenTailData.TabItemBackgroundColorStringHex;
+      LogWindowTabItem.HeaderContent = CurrentTailData.File;
+      LogWindowTabItem.HeaderToolTip = CurrentTailData.FileName;
+      LogWindowTabItem.TabItemBackgroundColorStringHex = CurrentTailData.TabItemBackgroundColorStringHex;
       FileIsValid = true;
-      LogWindowState = !string.IsNullOrWhiteSpace(CurrenTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
+      LogWindowState = !string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
     }
 
     private void OpenFileManager()
@@ -526,7 +526,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is TabItem) )
         return;
 
-      CurrenTailData.TabItemBackgroundColorStringHex = LogWindowTabItem.TabItemBackgroundColorStringHex;
+      CurrentTailData.TabItemBackgroundColorStringHex = LogWindowTabItem.TabItemBackgroundColorStringHex;
     }
 
     private void SaveHistoryCompleted(object sender, PropertyChangedEventArgs e)
@@ -534,7 +534,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      LogFileHistory.Add(CurrenTailData.FileName);
+      LogFileHistory.Add(CurrentTailData.FileName);
       OnPropertyChanged(nameof(LogFileHistory));
     }
 
@@ -565,13 +565,25 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(args.Sender is FileManagerViewModel) )
         return;
 
-      //if (LogWindowTabItem.TabItemBusyIndicator == Visibility.Visible)
+      if ( LogWindowTabItem.TabItemBusyIndicator == Visibility.Visible )
+      {
+        return;
+      }
 
-      CurrenTailData = args.TailData;
-      CurrenTailData.OpenFromFileManager = true;
-      SelectedItem = CurrenTailData.FileName;
+      CreateTailDataWindow(args.TailData);
+    }
 
-      OnPropertyChanged(nameof(CurrenTailData));
+    /// <summary>
+    /// Create tail data window
+    /// </summary>
+    /// <param name="item"><see cref="TailData"/></param>
+    public void CreateTailDataWindow(TailData item)
+    {
+      CurrentTailData = item;
+      CurrentTailData.OpenFromFileManager = true;
+      SelectedItem = CurrentTailData.FileName;
+
+      OnPropertyChanged(nameof(CurrentTailData));
     }
 
     private async Task<bool> WaitAsync()
@@ -586,7 +598,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(args.Sender is QuickAddViewModel) )
         return;
 
-      CurrenTailData.OpenFromFileManager = args.OpenFromFileManager;
+      CurrentTailData.OpenFromFileManager = args.OpenFromFileManager;
     }
 
     /// <summary>
@@ -607,7 +619,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           return;
 
         SelectedItem = fileName;
-        OnPropertyChanged(nameof(CurrenTailData));
+        OnPropertyChanged(nameof(CurrentTailData));
 
         LogFileComboBoxHasFocus = true;
       }

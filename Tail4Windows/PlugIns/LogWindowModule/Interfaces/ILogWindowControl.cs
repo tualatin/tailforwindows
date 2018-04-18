@@ -40,7 +40,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     /// <summary>
     /// Current tail data <see cref="TailData"/>
     /// </summary>
-    TailData CurrenTailData
+    TailData CurrentTailData
     {
       get;
       set;
@@ -54,5 +54,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
       get;
       set;
     }
+
+    /// <summary>
+    /// Create tail data window
+    /// </summary>
+    /// <param name="item"><see cref="TailData"/></param>
+    void CreateTailDataWindow(TailData item);
   }
 }

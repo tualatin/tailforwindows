@@ -37,7 +37,7 @@ namespace Org.Vs.TailForWin.Core.Data
       RemoveSpace = memento.RemoveSpace;
       FileName = memento.FileName;
       Wrap = memento.Wrap;
-      Timestamp = memento.TimeStamp;
+      Timestamp = memento.Timestamp;
       FontType = memento.FontType;
       ThreadPriority = memento.ThreadPriority;
       PatternString = memento.PatternString;
@@ -68,7 +68,7 @@ namespace Org.Vs.TailForWin.Core.Data
         RemoveSpace = value.RemoveSpace;
         FileName = value.FileName;
         Wrap = value.Wrap;
-        TimeStamp = value.Timestamp;
+        Timestamp = value.Timestamp;
         FontType = value.FontType;
         ThreadPriority = value.ThreadPriority;
         PatternString = value.PatternString;
@@ -164,7 +164,7 @@ namespace Org.Vs.TailForWin.Core.Data
       /// <summary>
       /// Timestamp in taillog
       /// </summary>
-      public bool TimeStamp
+      public bool Timestamp
       {
         get;
       }

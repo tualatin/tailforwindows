@@ -165,8 +165,15 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         OnPropertyChanged();
 
         _criteria.Clear();
-        _criteria.Add(p => p.Category.StartsWith(_filterText));
-        //_criteria.Add(p => p.Description.StartsWith(_filterText));
+
+        if ( string.IsNullOrWhiteSpace(_filterText) )
+        {
+          FileManagerView.Filter = DynamicFilter;
+          return;
+        }
+
+        _criteria.Add(p => !string.IsNullOrEmpty(p.Category) && !string.IsNullOrEmpty(p.Description)
+                           && (p.Category.ToLower().StartsWith(_filterText) || p.Description.ToLower().StartsWith(_filterText)));
 
         FileManagerView.Filter = DynamicFilter;
         OnPropertyChanged(nameof(FileManagerView));
@@ -372,7 +379,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     private void OpenSelectedItem(Window window)
     {
       // Is this file already open?
-      var result = BusinessHelper.GetTabItemList().Where(p => ((LogWindowControl) p.Content).CurrenTailData.Id == SelectedItem.Id).ToList();
+      var result = BusinessHelper.GetTabItemList().Where(p => ((LogWindowControl) p.Content).CurrentTailData.Id == SelectedItem.Id).ToList();
 
       if ( result.Count > 0 )
       {
