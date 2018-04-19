@@ -208,7 +208,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
         var content = (LogWindowControl) _selectedTabItem.Content;
         content.OnStatusChanged += OnStatusChangedCurrentLogWindow;
+
         _currentStatusbarState = content.LogWindowState;
+        _currentEncoding = content.CurrentTailData?.FileEncoding;
 
         SetCurrentBusinessData();
       }
