@@ -364,7 +364,7 @@
           Grid.Column="1"
           Height="24"
           VerticalAlignment="Center"
-          Text="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+          Text="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
           IsEditable="True"
           IsEnabled="{Binding LogWindowState, Converter={StaticResource StatusBarStateToBoolConverter}}"
           ItemsSource="{Binding LogFileHistory}"
@@ -393,20 +393,6 @@
             </i:EventTrigger>
           </i:Interaction.Triggers>
         </ComboBox>
-        <TextBox
-          Grid.Column="1"
-          Text="{Binding ElementName=ComboBoxLogFile, Path=Text, UpdateSourceTrigger=PropertyChanged}"
-          Visibility="Collapsed"
-          >
-          <i:Interaction.Triggers>
-            <i:EventTrigger EventName="TextChanged">
-              <commands:InvokeDelegateCommandAction
-                Command="{Binding LogFileTextBoxTextChangedCommand}"
-                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
-                />
-            </i:EventTrigger>
-          </i:Interaction.Triggers>
-        </TextBox>
 
         <StackPanel
           Grid.Column="2"

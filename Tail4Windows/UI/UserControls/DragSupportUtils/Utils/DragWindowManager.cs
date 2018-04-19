@@ -193,7 +193,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils
           for ( int i = items.Count; i > 0; i-- )
           {
             if ( items[i - 1] is DragSupportTabItem item )
-              ((IDragWindow) dragWin).RemoveTabItem(item);
+              ((IDragWindow) dragWin).RemoveTabItem(item, true);
           }
         }
 

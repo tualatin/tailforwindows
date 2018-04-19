@@ -38,6 +38,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     }
 
     /// <summary>
+    /// Selected item
+    /// </summary>
+    string SelectedItem
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Current tail data <see cref="TailData"/>
     /// </summary>
     TailData CurrentTailData

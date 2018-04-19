@@ -27,6 +27,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces
     /// Remove TabItem
     /// </summary>
     /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
-    void RemoveTabItem(DragSupportTabItem tabItem);
+    /// <param name="dragWndRemove">Drag window remove</param>
+    void RemoveTabItem(DragSupportTabItem tabItem, bool dragWndRemove);
   }
 }

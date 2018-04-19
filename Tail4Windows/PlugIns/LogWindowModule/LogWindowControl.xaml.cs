@@ -177,6 +177,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         _selectedItem = value;
         OnPropertyChanged();
+
+        SetCurrentLogFileName();
       }
     }
 
@@ -223,13 +225,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// Preview drag enter command
     /// </summary>
     public ICommand PreviewDragEnterCommand => _previewDragEnterCommand ?? (_previewDragEnterCommand = new RelayCommand(ExecutePreviewDragEnterCommand));
-
-    private ICommand _logFileTextBoxTextChangedCommand;
-
-    /// <summary>
-    /// LogFile text box text changed command
-    /// </summary>
-    public ICommand LogFileTextBoxTextChangedCommand => _logFileTextBoxTextChangedCommand ?? (_logFileTextBoxTextChangedCommand = new RelayCommand(ExecuteLogFileTextBoxTextChangedCommand));
 
     private ICommand _openInEditorCommand;
 
@@ -379,14 +374,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         UseShellExecute = true
       };
       Process.Start(shellOpen);
-    }
-
-    private void ExecuteLogFileTextBoxTextChangedCommand(object param)
-    {
-      if ( !(param is TextChangedEventArgs e) )
-        return;
-
-      SetCurrentLogFileName();
     }
 
     private async Task ExecuteStartTailCommandAsync()

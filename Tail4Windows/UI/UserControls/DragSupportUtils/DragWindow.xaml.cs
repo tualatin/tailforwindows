@@ -175,12 +175,13 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// Remove TabItem
     /// </summary>
     /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
-    public void RemoveTabItem(DragSupportTabItem tabItem)
+    /// <param name="dragWndRemove">Drag window remove</param>
+    public void RemoveTabItem(DragSupportTabItem tabItem, bool dragWndRemove)
     {
       if ( !TabItems.Contains(tabItem) )
         return;
 
-      if ( tabItem.TabItemBusyIndicator == Visibility.Visible )
+      if ( !dragWndRemove && tabItem.TabItemBusyIndicator == Visibility.Visible )
       {
         string message = $"{Application.Current.TryFindResource("QRemoveTab")} \n {tabItem.HeaderFullText}";
 
@@ -288,7 +289,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     private void TabItemCloseTabWindow(object sender, RoutedEventArgs e)
     {
       if ( e.Source is DragSupportTabItem item )
-        RemoveTabItem(item);
+        RemoveTabItem(item, false);
     }
 
     private void TabControlOnAddTabItemEvent(object sender, RoutedEventArgs e) => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}", Visibility.Collapsed);
@@ -312,7 +313,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Add new tab item command
     /// </summary>
-    public ICommand AddNewTabItemCommand => _addNewTabItemCommand ?? (_addNewTabItemCommand = new RelayCommand(p =>ExecuteAddNewTabItemCommand()));
+    public ICommand AddNewTabItemCommand => _addNewTabItemCommand ?? (_addNewTabItemCommand = new RelayCommand(p => ExecuteAddNewTabItemCommand()));
 
     private ICommand _closeTabItemCommand;
 
@@ -332,7 +333,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( SelectedTabItem == null )
         return;
 
-      RemoveTabItem(SelectedTabItem);
+      RemoveTabItem(SelectedTabItem, false);
     }
 
     #endregion

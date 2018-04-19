@@ -39,7 +39,6 @@ namespace Org.Vs.TailForWin.BaseView
       set;
     }
 
-
     /// <summary>
     /// Standard constructor
     /// </summary>
@@ -334,7 +333,7 @@ namespace Org.Vs.TailForWin.BaseView
     /// Remove TabItem
     /// </summary>
     /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
-    /// <exception cref="NotImplementedException"></exception>
-    public void RemoveTabItem(DragSupportTabItem tabItem) => throw new NotImplementedException();
+    /// <param name="dragWndRemove">Drag window remove</param>
+    public void RemoveTabItem(DragSupportTabItem tabItem, bool dragWndRemove) => throw new NotImplementedException();
   }
 }

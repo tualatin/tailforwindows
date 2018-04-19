@@ -80,7 +80,8 @@ namespace Org.Vs.TailForWin.Business.Utils
             LogWindowTabItem = tabItem,
             CurrentTailData = content.CurrentTailData,
             LogWindowState = content.LogWindowState,
-            FileIsValid = content.FileIsValid
+            FileIsValid = content.FileIsValid,
+            SelectedItem = content.SelectedItem
           };
         }
 

@@ -139,7 +139,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Set ColorPopupIsOpen property
     /// </summary>
-    public static readonly DependencyProperty ColorPopupIsOpenProperty = DependencyProperty.Register("ColorPopupIsOpenProperty", typeof(bool), typeof(DragSupportTabItem), new UIPropertyMetadata(false));
+    public static readonly DependencyProperty ColorPopupIsOpenProperty = DependencyProperty.Register("ColorPopupIsOpenProperty", typeof(bool), typeof(DragSupportTabItem),
+      new UIPropertyMetadata(false));
 
     /// <summary>
     /// Gets/sets ColorPopupIsOpen
