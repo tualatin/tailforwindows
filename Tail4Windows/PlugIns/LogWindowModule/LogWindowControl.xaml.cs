@@ -564,6 +564,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( window == null )
         return;
 
+      // Is it the right window?
       if ( ((IDragWindow) window).DragWindowGuid != args.ParentGuid )
         return;
 

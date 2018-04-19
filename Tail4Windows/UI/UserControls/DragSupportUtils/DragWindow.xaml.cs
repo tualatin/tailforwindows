@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
@@ -59,6 +60,30 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     private void DragWindowOnClosing(object sender, CancelEventArgs e)
     {
+      try
+      {
+        var busyTabItems = TabItems.Where(p => p.TabItemBusyIndicator == Visibility.Visible).ToList();
+
+        if ( busyTabItems.Count > 0 )
+        {
+          string message = string.Format(Application.Current.TryFindResource("ThreadIsBusy").ToString(), EnvironmentContainer.ApplicationTitle);
+
+          if ( EnvironmentContainer.ShowQuestionMessageBox(message) == MessageBoxResult.Yes )
+          {
+            e.Cancel = false;
+          }
+          else
+          {
+            e.Cancel = true;
+            return;
+          }
+        }
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+
       foreach ( var tabItem in TabItems )
       {
         BusinessHelper.UnregisterTabItem(tabItem);
