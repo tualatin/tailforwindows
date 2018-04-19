@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces
@@ -21,6 +22,14 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces
     {
       get;
       set;
+    }
+
+    /// <summary>
+    /// Drag window <see cref="Guid"/>
+    /// </summary>
+    Guid DragWindowGuid
+    {
+      get;
     }
 
     /// <summary>

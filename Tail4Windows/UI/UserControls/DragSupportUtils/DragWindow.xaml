@@ -14,6 +14,7 @@
   MinWidth="850"
   MinHeight="600"
   AllowsTransparency="True"
+  Closing="DragWindowOnClosing"
   Icon="/T4W;component/Resources/Main.ico"
   ResizeMode="CanResizeWithGrip"
   Style="{StaticResource DragSupportWindowStyle}"

@@ -40,12 +40,21 @@ namespace Org.Vs.TailForWin.BaseView
     }
 
     /// <summary>
+    /// Drag window <see cref="Guid"/>
+    /// </summary>
+    public Guid DragWindowGuid
+    {
+      get;
+    }
+
+    /// <summary>
     /// Standard constructor
     /// </summary>
     public T4Window()
     {
       InitializeComponent();
 
+      DragWindowGuid = Guid.NewGuid();
       DragWindowManager.Instance.Register(this);
       SourceInitialized += T4WindowSourceInitialized;
 

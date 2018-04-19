@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
@@ -47,12 +48,21 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       InitializeComponent();
 
       TabItems = new ObservableCollection<DragSupportTabItem>();
+      DragWindowGuid = Guid.NewGuid();
 
       DragWindowManager.Instance.Register(this);
       SourceInitialized += DragWindowSourceInitialized;
 
       IsParent = false;
       DataContext = this;
+    }
+
+    private void DragWindowOnClosing(object sender, CancelEventArgs e)
+    {
+      foreach ( var tabItem in TabItems )
+      {
+        BusinessHelper.UnregisterTabItem(tabItem);
+      }
     }
 
     private void DragWindowSourceInitialized(object sender, EventArgs e)
@@ -163,6 +173,14 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       get;
       set;
+    }
+
+    /// <summary>
+    /// Drag window <see cref="Guid"/>
+    /// </summary>
+    public Guid DragWindowGuid
+    {
+      get;
     }
 
     /// <summary>
