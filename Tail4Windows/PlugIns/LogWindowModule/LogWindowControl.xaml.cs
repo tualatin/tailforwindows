@@ -32,6 +32,7 @@ using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Services;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
+using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
@@ -479,14 +480,20 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OpenFileManager()
     {
-      var fileManager = new FileManager
+      var window = Window.GetWindow(this);
+
+      if ( window != null )
       {
-        Owner = Window.GetWindow(this)
-      };
+        var fileManager = new FileManager
+        {
+          Owner = window,
+          ParentGuid = ((IDragWindow) window).DragWindowGuid
+        };
 
-      LogFileComboBoxHasFocus = false;
+        LogFileComboBoxHasFocus = false;
 
-      fileManager.ShowDialog();
+        fileManager.ShowDialog();
+      }
 
       LogFileComboBoxHasFocus = WaitAsync().Result;
     }
@@ -550,6 +557,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private void OnOpenTailData(OpenTailDataMessage args)
     {
       if ( !(args.Sender is FileManagerViewModel) )
+        return;
+
+      var window = Window.GetWindow(this);
+
+      if ( window == null )
+        return;
+
+      if ( ((IDragWindow) window).DragWindowGuid != args.ParentGuid )
         return;
 
       if ( LogWindowTabItem.TabItemBusyIndicator == Visibility.Visible )

@@ -133,17 +133,17 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
     }
 
-    private bool _dataGridHasFocus;
+    private bool _filterHasFocus;
 
     /// <summary>
-    /// DataGrid has focus
+    /// Filter has focus
     /// </summary>
-    public bool DataGridHasFocus
+    public bool FilterHasFocus
     {
-      get => _dataGridHasFocus;
+      get => _filterHasFocus;
       set
       {
-        _dataGridHasFocus = value;
+        _filterHasFocus = value;
         OnPropertyChanged();
       }
     }
@@ -176,7 +176,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
                            && (p.Category.ToLower().StartsWith(_filterText) || p.Description.ToLower().StartsWith(_filterText)));
 
         FileManagerView.Filter = DynamicFilter;
-        OnPropertyChanged(nameof(FileManagerView));
 
         if ( SelectedItem == null )
           return;
@@ -186,6 +185,15 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         FileManagerView.MoveCurrentToFirst();
         FileManagerView.MoveCurrentTo(currentTailData);
       }
+    }
+
+    /// <summary>
+    /// Parent Guid
+    /// </summary>
+    public Guid ParentGuid
+    {
+      get;
+      set;
     }
 
     #endregion
@@ -202,8 +210,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       ((AsyncCommand<object>) DeleteTailDataCommand).PropertyChanged += OnDeleteTailDataPropertyChanged;
       ((AsyncCommand<object>) SaveCommand).PropertyChanged += OnSaveTailDataPropertyChanged;
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += OnSaveTailDataPropertyChanged;
-
-      DataGridHasFocus = true;
     }
 
     #region Commands
@@ -387,7 +393,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         return;
       }
 
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, SelectedItem));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, SelectedItem, ParentGuid));
       ExecuteCloseCommand(window);
     }
 
@@ -422,6 +428,13 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       OnPropertyChanged(nameof(FileManagerView));
       OnPropertyChanged(nameof(Categories));
       OnPropertyChanged(nameof(FileManagerCollection));
+    }
+
+    private async Task<bool> WaitAsync()
+    {
+      // Wait some ms to set the correct focus
+      await Task.Delay(TimeSpan.FromMilliseconds(25)).ConfigureAwait(false);
+      return true;
     }
 
     private bool DynamicFilter(object item)

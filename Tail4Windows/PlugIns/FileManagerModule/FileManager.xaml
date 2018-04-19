@@ -6,7 +6,6 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
-  xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
@@ -19,6 +18,7 @@
   MinWidth="600"
   MinHeight="600"
   Icon="/T4W;component/Resources/Explorer.ico"
+  ParentGuid="{Binding ParentGuid, Mode=OneWayToSource}"
   ResizeMode="CanResizeWithGrip"
   ShowInTaskbar="False"
   WindowStartupLocation="CenterOwner"
@@ -424,6 +424,7 @@
           Margin="5 3"
           VerticalAlignment="Center"
           Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"
+          behaviors:FocusBehavior.IsFocused="{Binding FilterHasFocus, UpdateSourceTrigger=PropertyChanged}"
           >
           <userControls:WatermarkTextBox.Watermark>
             <TextBlock
@@ -444,7 +445,6 @@
         IsSynchronizedWithCurrentItem="True"
         ItemsSource="{Binding FileManagerView}"
         SelectionMode="Extended"
-        behaviors:FocusBehavior.IsFocused="{Binding DataGridHasFocus, UpdateSourceTrigger=PropertyChanged}"
         >
         <!--<i:Interaction.Triggers>
           <i:EventTrigger EventName="MouseDoubleClick">
@@ -462,7 +462,7 @@
         <DataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
           <Style TargetType="{x:Type DataGridRow}">
-            <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocussedWhenSelected" Value="true" />
+            <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocussedWhenSelected" Value="True" />
           </Style>
         </DataGrid.RowStyle>
 
