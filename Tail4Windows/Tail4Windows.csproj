@@ -209,6 +209,7 @@
     <Compile Include="Business\Utils\BusinessHelper.cs" />
     <Compile Include="Core\Data\TailDataMemento.cs" />
     <Compile Include="Core\Utils\QueueSet.cs" />
+    <Compile Include="Core\Utils\SafeObservable.cs" />
     <Compile Include="Core\Utils\UndoRedoManager\Command.cs" />
     <Compile Include="Core\Utils\UndoRedoManager\Interfaces\IStateManager.cs" />
     <Compile Include="Core\Utils\UndoRedoManager\StateManager.cs" />
@@ -244,6 +245,7 @@
     <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
     <Compile Include="UI\Converters\FontToStringConverter.cs" />
     <Compile Include="UI\Converters\IntToBoolConverter.cs" />
+    <Compile Include="UI\Converters\MediaBrushToMediaColorConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\LogFileIsEnableMultiConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\LogFileFileManagerMultiConverter.cs" />
     <Compile Include="UI\Converters\RowFromFilterManagerCollectionConverter.cs" />

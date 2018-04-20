@@ -30,13 +30,19 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     #region Properties
 
+    private TailData _currenTailData;
+
     /// <summary>
     /// Current <see cref="TailData"/>
     /// </summary>
-    public TailData CurrentTailData
+    private TailData CurrentTailData
     {
-      get;
-      set;
+      get => _currenTailData;
+      set
+      {
+        _currenTailData = value;
+        OnPropertyChanged();
+      }
     }
 
     /// <summary>
@@ -66,7 +72,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       get => FilterManagerView?.CurrentItem as FilterData;
       set
       {
-        FilterManagerView.MoveCurrentTo(value);
+        FilterManagerView?.MoveCurrentTo(value);
         OnPropertyChanged();
       }
     }
@@ -79,8 +85,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     public FilterManagerViewModel()
     {
       _xmlFileManagerController = new XmlFileManagerController();
-      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFilterDataFromTailDataMessage>(OnOpenTailData);
 
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFilterDataFromTailDataMessage>(OnOpenTailData);
       SetCancellationTokenSource();
     }
 
@@ -91,18 +97,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       CurrentTailData = args.TailData;
 
-      if ( CurrentTailData == null )
-        return;
-
       if ( CurrentTailData.ListOfFilter.Count == 0 )
         CurrentTailData.ListOfFilter.Add(new FilterData());
-
-      FilterManagerView = (ListCollectionView) new CollectionViewSource { Source = FilterManagerCollection }.View;
-      FilterManagerCollectionViewHolder.Cv = FilterManagerView;
-      SelectedItem = FilterManagerCollection.First();
-
-      OnPropertyChanged(nameof(FilterManagerView));
-      OnPropertyChanged(nameof(FilterManagerCollection));
     }
 
     #region Commands
@@ -149,9 +145,26 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public ICommand FontCommand => _fontCommand ?? (_fontCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteFontCommand()));
 
+    private ICommand _loadedCommand;
+
+    /// <summary>
+    /// Loaded command
+    /// </summary>
+    public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(p => ExecuteLoadedCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteLoadedCommand()
+    {
+      FilterManagerView = (ListCollectionView) new CollectionViewSource { Source = FilterManagerCollection }.View;
+      FilterManagerCollectionViewHolder.Cv = FilterManagerView;
+      SelectedItem = FilterManagerCollection.First();
+
+      OnPropertyChanged(nameof(FilterManagerCollection));
+      OnPropertyChanged(nameof(FilterManagerView));
+    }
 
     private void ExecuteFontCommand()
     {
@@ -184,7 +197,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteUndoCommand()
     {
-
     }
 
     private bool CanExecuteSaveCommand()

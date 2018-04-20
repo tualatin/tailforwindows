@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using Org.Vs.TailForWin.Core.Data.Base;
+using FontStyle = System.Drawing.FontStyle;
 
 
 namespace Org.Vs.TailForWin.Core.Data
@@ -89,6 +90,8 @@ namespace Org.Vs.TailForWin.Core.Data
       set
       {
         _filterColor = value;
+
+        _filterColor.Freeze();
         OnPropertyChanged(nameof(FilterColor));
       }
     }

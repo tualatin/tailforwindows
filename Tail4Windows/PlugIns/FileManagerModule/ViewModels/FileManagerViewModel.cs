@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using log4net;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -32,8 +31,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
   /// </summary>
   public class FileManagerViewModel : NotifyMaster
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof(FileManagerViewModel));
-
     private CancellationTokenSource _cts;
     private readonly IXmlFileManager _xmlFileManagerController;
     private readonly List<Predicate<TailData>> _criteria = new List<Predicate<TailData>>();
