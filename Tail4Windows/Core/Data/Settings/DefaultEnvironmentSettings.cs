@@ -104,7 +104,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value GroupByCategory
     /// </summary>
-    public const bool GroupByCategory = true;
+    public const bool GroupByCategory = false;
 
     /// <summary>
     /// Default value AutoUpdate

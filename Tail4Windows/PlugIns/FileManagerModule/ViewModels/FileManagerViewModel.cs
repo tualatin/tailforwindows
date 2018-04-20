@@ -12,6 +12,7 @@ using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
@@ -33,7 +34,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(FileManagerViewModel));
 
-    private readonly CancellationTokenSource _cts;
+    private CancellationTokenSource _cts;
     private readonly IXmlFileManager _xmlFileManagerController;
     private readonly List<Predicate<TailData>> _criteria = new List<Predicate<TailData>>();
 
@@ -204,8 +205,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     public FileManagerViewModel()
     {
       _xmlFileManagerController = new XmlFileManagerController();
-      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
       Categories = new ObservableCollection<string>();
+
+      SetCancellationTokenSource();
 
       ((AsyncCommand<object>) DeleteTailDataCommand).PropertyChanged += OnDeleteTailDataPropertyChanged;
       ((AsyncCommand<object>) SaveCommand).PropertyChanged += OnSaveTailDataPropertyChanged;
@@ -334,6 +336,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     private async Task ExecuteSaveCommandAsync()
     {
       MouseService.SetBusyState();
+      SetCancellationTokenSource();
 
       foreach ( var tailData in FileManagerCollection )
       {
@@ -382,6 +385,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     #endregion
 
+    private void SetCancellationTokenSource()
+    {
+      _cts?.Dispose();
+      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+    }
+
     private void OpenSelectedItem(Window window)
     {
       // Is this file already open?
@@ -423,6 +432,13 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       FileManagerView = (ListCollectionView) new CollectionViewSource { Source = FileManagerCollection }.View;
       FileManagerView.CustomSort = new TailDataComparer();
       FileManagerView.Filter = DynamicFilter;
+
+      if ( SettingsHelperController.CurrentSettings.GroupByCategory )
+      {
+        FileManagerView.GroupDescriptions.Clear();
+        FileManagerView.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
+      }
+
       CollectionViewHolder.Cv = FileManagerView;
       SelectedItem = FileManagerCollection.First();
 

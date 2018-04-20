@@ -366,7 +366,6 @@
           </Button>
 
           <CheckBox
-            Name="CheckBoxAlwaysGroupByCategory"
             Grid.Column="5"
             Height="22"
             Content="{DynamicResource FileManagerGroupByCategory}"
