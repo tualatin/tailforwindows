@@ -419,6 +419,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( _fileManagerCollection == null || _fileManagerCollection.Count == 0 )
         FileManagerCollection = new ObservableCollection<TailData> { new TailData() };
 
+      FilterHasFocus = false;
       FileManagerView = (ListCollectionView) new CollectionViewSource { Source = FileManagerCollection }.View;
       FileManagerView.CustomSort = new TailDataComparer();
       FileManagerView.Filter = DynamicFilter;
@@ -428,6 +429,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       OnPropertyChanged(nameof(FileManagerView));
       OnPropertyChanged(nameof(Categories));
       OnPropertyChanged(nameof(FileManagerCollection));
+
+      FilterHasFocus = WaitAsync().Result;
     }
 
     private async Task<bool> WaitAsync()
