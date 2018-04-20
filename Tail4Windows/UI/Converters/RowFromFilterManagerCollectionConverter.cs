@@ -8,7 +8,7 @@ namespace Org.Vs.TailForWin.UI.Converters
   /// <summary>
   /// Row from object converter
   /// </summary>
-  public class RowFromObject : IValueConverter
+  public class RowFromFilterManagerCollectionConverter : IValueConverter
   {
     /// <summary>
     /// Convert
@@ -21,10 +21,10 @@ namespace Org.Vs.TailForWin.UI.Converters
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       int rn = 0;
-      if ( CollectionViewHolder.Cv == null || value == null )
+      if ( FilterManagerCollectionViewHolder.Cv == null || value == null )
         return rn;
 
-      rn = CollectionViewHolder.Cv.IndexOf(value);
+      rn = FilterManagerCollectionViewHolder.Cv.IndexOf(value);
 
       return rn + 1;
     }

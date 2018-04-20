@@ -1,0 +1,325 @@
+﻿<extendedControls:WindowEx
+  x:Class="Org.Vs.TailForWin.PlugIns.FileManagerModule.FilterManager"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
+  mc:Ignorable="d"
+  x:Name="FilterManagerWindow"
+  Title="FilterManager"
+  Width="400"
+  Height="300"
+  Icon="/T4W;component/Resources/Filters.ico"
+  ResizeMode="NoResize"
+  ShowInTaskbar="False"
+  WindowStartupLocation="CenterOwner"
+  >
+  <i:Interaction.Triggers>
+    <i:EventTrigger EventName="Closing">
+      <i:InvokeCommandAction Command="{Binding CloseCommand}" />
+    </i:EventTrigger>
+  </i:Interaction.Triggers>
+
+  <extendedControls:WindowEx.DataContext>
+    <viewModels:FilterManagerViewModel />
+  </extendedControls:WindowEx.DataContext>
+
+  <Border
+    BorderBrush="{StaticResource BrushSolidBlue}"
+    BorderThickness="1"
+    >
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <Border
+        Grid.Row="0"
+        Background="{StaticResource BrushSolidLightBlue}"
+        BorderBrush="{StaticResource BrushSolidBlue}"
+        BorderThickness="0 0 0 1"
+        >
+        <Grid Margin="5">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <Button
+            Grid.Column="0"
+            Width="22"
+            Height="22"
+            Margin="0 0 2 0"
+            Command="{Binding SaveCommand}"
+            >
+            <StackPanel Margin="3">
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/save.ico"
+                >
+                <Image.Style>
+                  <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                      <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Image.Style>
+              </Image>
+            </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource FileManagerSave}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource FileManagerSaveToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+
+          <Button
+            Grid.Column="1"
+            Width="22"
+            Height="22"
+            Margin="0 0 2 0"
+            Command="{Binding AddFilterDataCommand}"
+            >
+            <Path
+              Margin="3"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Data="M3.875,0 L5.125,0 5.125,3.875 9,3.875 9,5.125 5.125,5.125 5.125,9 3.875,9 3.875,5.125 0,5.125 0,3.875 3.875,3.875 3.875,0 z"
+              Fill="RoyalBlue"
+              Stretch="Uniform"
+              >
+              <Path.Effect>
+                <DropShadowEffect
+                  Opacity="0.6"
+                  ShadowDepth="1"
+                  />
+              </Path.Effect>
+            </Path>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource FileManagerAdd}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource FileManagerAddToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+
+          <Button
+            Grid.Column="2"
+            Width="22"
+            Height="22"
+            Margin="0 0 2 0"
+            Command="{Binding UndoCommand}"
+            >
+            <StackPanel Margin="3">
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Cancel.ico"
+                >
+                <Image.Style>
+                  <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                      <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Image.Style>
+              </Image>
+            </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource FileManagerUndo}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource FileManagerUndoToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+
+          <Button
+            Grid.Column="3"
+            Width="22"
+            Height="22"
+            Margin="0 0 2 0"
+            Command="{Binding DeleteFilterDataCommand}"
+            Style="{StaticResource RemoveItemButtonStyle}"
+            >
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource FileManagerRemove}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource FileManagerRemoveToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+        </Grid>
+      </Border>
+
+      <Border
+        Grid.Row="1"
+        BorderBrush="{StaticResource BrushSolidBlue}"
+        BorderThickness="0 0 0 1"
+        >
+        <DataGrid
+          CanUserAddRows="False"
+          CanUserReorderColumns="True"
+          CanUserSortColumns="True"
+          IsSynchronizedWithCurrentItem="True"
+          ItemsSource="{Binding FilterManagerView}"
+          SelectionMode="Single"
+          >
+          <DataGrid.RowStyle>
+            <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
+            <Style TargetType="{x:Type DataGridRow}">
+              <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocussedWhenSelected" Value="True" />
+            </Style>
+          </DataGrid.RowStyle>
+
+          <DataGrid.Columns>
+            <DataGridTextColumn
+              MinWidth="50"
+              Header="{DynamicResource FileManagerDataGridNo}"
+              Binding="{Binding ., Converter={StaticResource RowFromFilterManagerCollectionConverter}, StringFormat=#;;#}"
+              CanUserSort="False"
+              IsReadOnly="True"
+              />
+
+            <DataGridTextColumn
+              MinWidth="130"
+              Header="{DynamicResource FileManagerDataGridDescription}"
+              Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+              />
+
+            <DataGridTextColumn
+              MinWidth="130"
+              Header="{DynamicResource FileManagerFilter}"
+              Binding="{Binding Filter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+              />
+          </DataGrid.Columns>
+        </DataGrid>
+      </Border>
+
+      <Grid Grid.Row="2">
+        <Button
+          Width="75"
+          Height="24"
+          Margin="0 5"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center"
+          Content="{DynamicResource CloseWindowToolTip}"
+          Command="{Binding CloseCommand}"
+          CommandParameter="{Binding ElementName=FilterManagerWindow}"
+          IsCancel="True"
+          />
+      </Grid>
+    </Grid>
+  </Border>
+</extendedControls:WindowEx>

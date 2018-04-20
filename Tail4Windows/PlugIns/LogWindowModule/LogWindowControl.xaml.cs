@@ -366,7 +366,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteOpenTailDataFilterCommand()
     {
-
+      FilterManager filterManager = new FilterManager
+      {
+        Owner = Window.GetWindow(this)
+      };
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFilterDataFromTailDataMessage(this, CurrentTailData));
+      filterManager.ShowDialog();
     }
 
     private void ExecuteOpenInEditorCommand()

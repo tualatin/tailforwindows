@@ -279,9 +279,19 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new RelayCommand(p => CanExecuteUndo(), p => ExecuteUndoCommand()));
 
+    private ICommand _groupByClickCommand;
+
+    /// <summary>
+    /// Group by click command
+    /// </summary>
+    public ICommand GroupByClickCommand => _groupByClickCommand ?? (_groupByClickCommand = new RelayCommand(p => FileManagerCollection != null && FileManagerCollection.Count >= 2,
+                                             p => ExecuteGroupByClickCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteGroupByClickCommand() => SetFileManagerViewGrouping();
 
     private bool CanExecuteUndo()
     {
@@ -433,13 +443,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       FileManagerView.CustomSort = new TailDataComparer();
       FileManagerView.Filter = DynamicFilter;
 
-      if ( SettingsHelperController.CurrentSettings.GroupByCategory )
-      {
-        FileManagerView.GroupDescriptions.Clear();
-        FileManagerView.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
-      }
+      if ( FileManagerCollection.Count >= 2 )
+        SetFileManagerViewGrouping();
 
-      CollectionViewHolder.Cv = FileManagerView;
+      TailManagerCollectionViewHolder.Cv = FileManagerView;
       SelectedItem = FileManagerCollection.First();
 
       OnPropertyChanged(nameof(FileManagerView));
@@ -447,6 +454,14 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       OnPropertyChanged(nameof(FileManagerCollection));
 
       FilterHasFocus = WaitAsync().Result;
+    }
+
+    private void SetFileManagerViewGrouping()
+    {
+      FileManagerView.GroupDescriptions.Clear();
+
+      if ( SettingsHelperController.CurrentSettings.GroupByCategory )
+        FileManagerView.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
     }
 
     private async Task<bool> WaitAsync()
