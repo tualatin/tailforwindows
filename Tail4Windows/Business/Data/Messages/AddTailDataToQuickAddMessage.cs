@@ -17,7 +17,7 @@ namespace Org.Vs.TailForWin.Business.Data.Messages
     }
 
     /// <summary>
-    /// Who sends the message
+    /// Who is sending the message
     /// </summary>
     public object Sender
     {

@@ -176,6 +176,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       get => _selectedItem;
       set
       {
+        // Strange workaround! Sometimes SelectedItem will set twice and value is null - no clue why!
+        if ( string.IsNullOrWhiteSpace(value) && !string.IsNullOrWhiteSpace(CurrentTailData.FileName) )
+          value = CurrentTailData.FileName;
+
         _selectedItem = value;
         OnPropertyChanged();
 
@@ -475,7 +479,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowTabItem.HeaderToolTip = CurrentTailData.FileName;
       LogWindowTabItem.TabItemBackgroundColorStringHex = CurrentTailData.TabItemBackgroundColorStringHex;
       FileIsValid = true;
-      LogWindowState = !string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
+
+      if ( LogWindowTabItem.TabItemBusyIndicator != Visibility.Visible )
+        LogWindowState = !string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
     }
 
     private void OpenFileManager()
