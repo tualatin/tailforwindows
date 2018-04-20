@@ -1,16 +1,15 @@
 ﻿using System;
+using System.Drawing;
 using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Media;
-
 
 namespace Org.Vs.TailForWin.UI.Converters
 {
   /// <summary>
-  /// Color to solid color brush converter
+  /// Font to string converter
   /// </summary>
-  [ValueConversion(typeof(Color), typeof(SolidColorBrush))]
-  public class ColorToSolidColorBrushConverter : IValueConverter
+  [ValueConversion(typeof(Font), typeof(string))]
+  public class FontToStringConverter : IValueConverter
   {
     /// <summary>
     /// Convert
@@ -22,10 +21,10 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if ( !(value is Color color) )
-        return null;
+      if ( value is Font font )
+        return $"{font.Name} ({font.Size}) {(font.Italic ? "Italic" : string.Empty)} {(font.Bold ? "Bold" : string.Empty)}";
 
-      return new SolidColorBrush(color);
+      return string.Empty;
     }
 
     /// <summary>

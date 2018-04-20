@@ -63,7 +63,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private FilterData SelectedItem
     {
-      get => FilterManagerView?.CurrentAddItem as FilterData;
+      get => FilterManagerView?.CurrentItem as FilterData;
       set
       {
         FilterManagerView.MoveCurrentTo(value);
@@ -142,9 +142,40 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new RelayCommand(p => CanExecuteUndo(), p => ExecuteUndoCommand()));
 
+    private ICommand _fontCommand;
+
+    /// <summary>
+    /// Font command
+    /// </summary>
+    public ICommand FontCommand => _fontCommand ?? (_fontCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteFontCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteFontCommand()
+    {
+      if ( SelectedItem == null )
+        return;
+
+      System.Drawing.Font filterFont = new System.Drawing.Font(SelectedItem.FilterFontType.FontFamily, SelectedItem.FilterFontType.Size, SelectedItem.FilterFontType.Style);
+
+      System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
+      {
+        ShowEffects = true,
+        Font = filterFont,
+        FontMustExist = true,
+        Color = EnvironmentContainer.ConvertMediaBrushToDrawingColor(SelectedItem.FilterColor),
+        ShowColor = true
+      };
+
+      if ( fontManager.ShowDialog() == System.Windows.Forms.DialogResult.Cancel )
+        return;
+
+      filterFont = new System.Drawing.Font(fontManager.Font.FontFamily, fontManager.Font.Size, fontManager.Font.Style);
+      SelectedItem.FilterFontType = filterFont;
+      SelectedItem.FilterColor = EnvironmentContainer.ConvertDrawingColorToMediaBrush(fontManager.Color);
+    }
 
     private bool CanExecuteUndo()
     {

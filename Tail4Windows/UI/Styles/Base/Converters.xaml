@@ -31,6 +31,7 @@
   <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
   <converters:RowFromFilterManagerCollectionConverter x:Key="RowFromFilterManagerCollectionConverter" />
   <converters:RowFromTailManagerCollectionConverter x:Key="RowFromTailManagerCollectionConverter" />
+  <converters:FontToStringConverter x:Key="FontToStringConverter" />
 
   <multiConverters:LogFileIsEnableMultiConverter x:Key="LogFileIsEnableMultiConverter" />
   <multiConverters:LogFileFileManagerMultiConverter x:Key="LogFileLengthFileManagerMultiConverter" />

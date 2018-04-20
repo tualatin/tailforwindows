@@ -242,6 +242,7 @@
     <Compile Include="UI\Behaviors\ScrollDataGridRowIntoView.cs" />
     <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
+    <Compile Include="UI\Converters\FontToStringConverter.cs" />
     <Compile Include="UI\Converters\IntToBoolConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\LogFileIsEnableMultiConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\LogFileFileManagerMultiConverter.cs" />

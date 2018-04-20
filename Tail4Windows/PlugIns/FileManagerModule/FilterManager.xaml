@@ -28,6 +28,24 @@
     <viewModels:FilterManagerViewModel />
   </extendedControls:WindowEx.DataContext>
 
+  <extendedControls:WindowEx.Resources>
+    <Storyboard x:Key="ExtendedSettingsShowAnimation">
+      <DoubleAnimation
+        Duration="0:0:0.2"
+        Storyboard.TargetProperty="MinHeight"
+        To="50"
+        />
+    </Storyboard>
+
+    <Storyboard x:Key="ExtendedSettingsHideAnimation">
+      <DoubleAnimation
+        Duration="0:0:0.2"
+        Storyboard.TargetProperty="MinHeight"
+        To="0"
+        />
+    </Storyboard>
+  </extendedControls:WindowEx.Resources>
+
   <Border
     BorderBrush="{StaticResource BrushSolidBlue}"
     BorderThickness="1"
@@ -36,6 +54,25 @@
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition />
+        <RowDefinition Height="0">
+          <RowDefinition.Style>
+            <Style>
+              <Style.Triggers>
+                <MultiDataTrigger>
+                  <MultiDataTrigger.Conditions>
+                    <Condition Value="True" Binding="{Binding IsChecked, ElementName=ExtendedSettingsToggleButton}" />
+                  </MultiDataTrigger.Conditions>
+                  <MultiDataTrigger.EnterActions>
+                    <BeginStoryboard Storyboard="{StaticResource ExtendedSettingsShowAnimation}" />
+                  </MultiDataTrigger.EnterActions>
+                  <MultiDataTrigger.ExitActions>
+                    <BeginStoryboard Storyboard="{StaticResource ExtendedSettingsHideAnimation}" />
+                  </MultiDataTrigger.ExitActions>
+                </MultiDataTrigger>
+              </Style.Triggers>
+            </Style>
+          </RowDefinition.Style>
+        </RowDefinition>
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
 
@@ -263,51 +300,125 @@
         </Grid>
       </Border>
 
-      <Border
+      <DataGrid
+        x:Name="FilterDataGrid"
         Grid.Row="1"
-        BorderBrush="{StaticResource BrushSolidBlue}"
-        BorderThickness="0 0 0 1"
+        CanUserAddRows="False"
+        CanUserReorderColumns="True"
+        CanUserSortColumns="True"
+        IsSynchronizedWithCurrentItem="True"
+        ItemsSource="{Binding FilterManagerView}"
+        SelectionMode="Single"
         >
-        <DataGrid
-          CanUserAddRows="False"
-          CanUserReorderColumns="True"
-          CanUserSortColumns="True"
-          IsSynchronizedWithCurrentItem="True"
-          ItemsSource="{Binding FilterManagerView}"
-          SelectionMode="Single"
-          >
-          <DataGrid.RowStyle>
-            <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
-            <Style TargetType="{x:Type DataGridRow}">
-              <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocussedWhenSelected" Value="True" />
-            </Style>
-          </DataGrid.RowStyle>
+        <DataGrid.RowStyle>
+          <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
+          <Style TargetType="{x:Type DataGridRow}">
+            <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocussedWhenSelected" Value="True" />
+          </Style>
+        </DataGrid.RowStyle>
 
-          <DataGrid.Columns>
-            <DataGridTextColumn
-              MinWidth="50"
-              Header="{DynamicResource FileManagerDataGridNo}"
-              Binding="{Binding ., Converter={StaticResource RowFromFilterManagerCollectionConverter}, StringFormat=#;;#}"
-              CanUserSort="False"
-              IsReadOnly="True"
-              />
+        <DataGrid.Columns>
+          <DataGridTextColumn
+            MinWidth="50"
+            Header="{DynamicResource FileManagerDataGridNo}"
+            Binding="{Binding ., Converter={StaticResource RowFromFilterManagerCollectionConverter}, StringFormat=#;;#}"
+            CanUserSort="False"
+            IsReadOnly="True"
+            />
 
-            <DataGridTextColumn
-              MinWidth="130"
-              Header="{DynamicResource FileManagerDataGridDescription}"
-              Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-              />
+          <DataGridTextColumn
+            MinWidth="130"
+            Header="{DynamicResource FileManagerDataGridDescription}"
+            Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+            />
 
-            <DataGridTextColumn
-              MinWidth="130"
-              Header="{DynamicResource FileManagerFilter}"
-              Binding="{Binding Filter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-              />
-          </DataGrid.Columns>
-        </DataGrid>
+          <DataGridTextColumn
+            MinWidth="130"
+            Header="{DynamicResource FileManagerFilter}"
+            Binding="{Binding Filter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+            />
+        </DataGrid.Columns>
+      </DataGrid>
+
+      <Border
+        Grid.Row="2"
+        BorderBrush="{StaticResource BrushSolidBlue}"
+        BorderThickness="0 1 0 1"
+        >
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+
+          <Button
+            Grid.Column="0"
+            Width="18"
+            Height="18"
+            Margin="5"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Command="{Binding FontCommand}"
+            >
+            <StackPanel>
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Font.ico"
+                >
+                <Image.Style>
+                  <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                      <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Image.Style>
+              </Image>
+            </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource FilterManagerFont}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource FilterManagerFontToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+
+          <Label
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Content="{Binding Path=SelectedItem.FilterFontType, ElementName=FilterDataGrid, Converter={StaticResource FontToStringConverter}, UpdateSourceTrigger=PropertyChanged}"
+            Foreground="{Binding Path=SelectedItem.FilterColor, ElementName=FilterDataGrid, UpdateSourceTrigger=PropertyChanged}"
+            />
+        </Grid>
       </Border>
 
-      <Grid Grid.Row="2">
+      <Grid Grid.Row="3">
         <Button
           Width="75"
           Height="24"
@@ -319,6 +430,44 @@
           CommandParameter="{Binding ElementName=FilterManagerWindow}"
           IsCancel="True"
           />
+
+        <ToggleButton
+          x:Name="ExtendedSettingsToggleButton"
+          Height="14"
+          Margin="0 5 15 5"
+          HorizontalAlignment="Right"
+          >
+          <ToggleButton.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource ExtendedTailSettingsLabel}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FileManagerExtendedSettingsToolTipt}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </ToggleButton.ToolTip>
+        </ToggleButton>
       </Grid>
     </Grid>
   </Border>

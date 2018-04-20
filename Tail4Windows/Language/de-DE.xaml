@@ -121,6 +121,9 @@
   <system:String x:Key="FileManagerFilterBy">Filtern nach Bezeichnung oder Kategorie</system:String>
   <system:String x:Key="FileManagerFilter">Filter</system:String>
 
+  <system:String x:Key="FilterManagerFont">Schrifteinstellungen</system:String>
+  <system:String x:Key="FilterManagerFontToolTip">Setzt die aktuelle Filterschrift</system:String>
+
   <system:String x:Key="ExtendedTailSettingsLabel">Zeit erweiterte Einstellungen</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Zeige die erweiterten Einstellungen des aktuellen tail Tabs</system:String>
   <system:String x:Key="ExtendedTailSettingsFilterLabel">Filter Einstellungen</system:String>
