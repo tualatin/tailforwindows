@@ -249,11 +249,19 @@ namespace Org.Vs.TailForWin.Core.Utils
     }
 
     /// <summary>
-    /// Converts a <see cref="System.Drawing.Color"/> to <see cref="System.Windows.Media.Brush"/>
+    /// Converts a string to <see cref="System.Drawing.Color"/>
     /// </summary>
-    /// <param name="color">Color to convert</param>
-    /// <returns>Brush of type <see cref="System.Windows.Media.Brush"/></returns>
-    public static System.Windows.Media.Brush ConvertDrawingColorToMediaBrush(System.Drawing.Color color) => new SolidColorBrush(System.Windows.Media.Color.FromRgb(color.R, color.G, color.B));
+    /// <param name="hex">Color to convert</param>
+    /// <param name="defaultValue">Default color</param>
+    /// <returns>Color of type <see cref="System.Drawing.Color"/></returns>
+    public static System.Drawing.Color ConvertStringToDrawingColor(string hex, System.Drawing.Color defaultValue)
+    {
+      if ( string.IsNullOrWhiteSpace(hex) )
+        return defaultValue;
+
+      var convertFromString = ColorTranslator.FromHtml(hex);
+      return convertFromString;
+    }
 
     /// <summary>
     /// Shows a information MessageBox

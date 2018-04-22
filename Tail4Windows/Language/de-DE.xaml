@@ -260,6 +260,8 @@
   <system:String x:Key="ExtrasSaveLogFileHistory">Logdatei Historie speichern</system:String>
   <system:String x:Key="ExtrasSaveLogFileHistoryToolTip">Speichert die aktuelle Logdatei in einem internen Speicher ab</system:String>
   <system:String x:Key="ExtrasSaveLogFileHistorySpinnerToolTip">Legt die maximale Speichertiefe fest</system:String>
+  <system:String x:Key="ExtrasShowExtendedSettings">Zeige erweitere Einstellungen</system:String>
+  <system:String x:Key="ExtrasShowExtendedSettingsToolTip">Zeige die erweiterten Einstellungen in bestimmten Modulen an</system:String>
 
   <system:String x:Key="SmtpServer">SMTP Server</system:String>
   <system:String x:Key="SmtpPort">SMTP Port</system:String>

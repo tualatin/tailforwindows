@@ -225,7 +225,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _historyMaxSize;
       set
       {
-        if (value == _historyMaxSize)
+        if ( value == _historyMaxSize )
           return;
 
         _historyMaxSize = value;
@@ -583,6 +583,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
         _statistics = value;
         OnPropertyChanged(nameof(Statistics));
+      }
+    }
+
+    private bool _showExtendedSettings;
+
+    /// <summary>
+    /// Show extended settings
+    /// </summary>
+    public bool ShowExtendedSettings
+    {
+      get => _showExtendedSettings;
+      set
+      {
+        if ( value == _showExtendedSettings )
+          return;
+
+        _showExtendedSettings = value;
+        OnPropertyChanged();
       }
     }
 

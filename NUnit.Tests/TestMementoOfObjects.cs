@@ -34,7 +34,7 @@ namespace Org.Vs.NUnit.Tests
         Id = Guid.NewGuid(),
         Description = "Test Filter",
         Filter = @"^\d[A...Z]",
-        FilterColor = System.Windows.Media.Brushes.Beige,
+        FilterColorHex = "#FFE1E1E1E1",
         FilterFontType = new Font("Tahoma", 11f, FontStyle.Italic)
       };
 
@@ -43,12 +43,12 @@ namespace Org.Vs.NUnit.Tests
       Assert.AreEqual(filter.Id, memento.Id);
       Assert.AreEqual(filter.Description, memento.Description);
       Assert.AreEqual(filter.Filter, memento.Filter);
-      Assert.AreEqual(filter.FilterColor, memento.FilterColor);
+      Assert.AreEqual(filter.FilterColorHex, memento.FilterColorHex);
       Assert.AreEqual(filter.FilterFontType, memento.FilterFontType);
 
       filter.Description = "Test Filter 2";
       filter.Filter = "....";
-      filter.FilterColor = System.Windows.Media.Brushes.Black;
+      filter.FilterColorHex = "#FFFFFFFF";
       filter.FilterFontType = new Font("Curier", 8f, FontStyle.Regular);
 
       filter.RestoreFromMemento(memento);

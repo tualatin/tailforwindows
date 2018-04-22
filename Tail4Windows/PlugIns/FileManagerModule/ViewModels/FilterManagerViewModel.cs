@@ -9,6 +9,7 @@ using System.Windows.Input;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Data;
@@ -178,7 +179,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         ShowEffects = true,
         Font = filterFont,
         FontMustExist = true,
-        Color = EnvironmentContainer.ConvertMediaBrushToDrawingColor(SelectedItem.FilterColor),
+        Color = EnvironmentContainer.ConvertStringToDrawingColor(SelectedItem.FilterColorHex, System.Drawing.Color.Crimson),
         ShowColor = true
       };
 
@@ -187,7 +188,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       filterFont = new System.Drawing.Font(fontManager.Font.FontFamily, fontManager.Font.Size, fontManager.Font.Style);
       SelectedItem.FilterFontType = filterFont;
-      SelectedItem.FilterColor = EnvironmentContainer.ConvertDrawingColorToMediaBrush(fontManager.Color);
+      SelectedItem.FilterColorHex = fontManager.Color.ToHexString();
     }
 
     private bool CanExecuteUndo()

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -28,7 +28,7 @@ namespace Org.Vs.TailForWin.Core.Data
       Filter = memento.Filter;
       Description = memento.Description;
       FilterFontType = memento.FilterFontType;
-      FilterColor = memento.FilterColor;
+      FilterColorHex = memento.FilterColorHex;
     }
 
     /// <summary>
@@ -41,7 +41,7 @@ namespace Org.Vs.TailForWin.Core.Data
         Id = obj.Id;
         Filter = obj.Filter;
         Description = obj.Description;
-        FilterColor = obj.FilterColor;
+        FilterColorHex = obj.FilterColorHex;
         FilterFontType = obj.FilterFontType;
       }
 
@@ -72,7 +72,7 @@ namespace Org.Vs.TailForWin.Core.Data
       /// <summary>
       /// Filter color
       /// </summary>
-      public System.Windows.Media.Brush FilterColor
+      public string FilterColorHex
       {
         get;
       }

@@ -109,7 +109,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
             Description = x.Element(XmlNames.FilterName)?.Value,
             Filter = x.Element(XmlNames.FilterPattern)?.Value,
             FilterFontType = GetFont(x.Element(XmlNames.Font)),
-            FilterColor = EnvironmentContainer.ConvertHexStringToBrush(x.Element(XmlNames.FilterColor)?.Value, System.Windows.Media.Brushes.Black)
+            FilterColorHex = x.Element(XmlNames.FilterColor)?.Value ?? DefaultEnvironmentSettings.FilterFontColor
           }).ToList() ?? throw new InvalidOperationException())
         }).ToList();
 
@@ -479,7 +479,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         new XElement(XmlNames.Id, filter.Id),
         new XElement(XmlNames.FilterName, filter.Description),
         new XElement(XmlNames.FilterPattern, filter.Filter),
-        new XElement(XmlNames.FilterColor, filter.FilterColor.ToString()),
+        new XElement(XmlNames.FilterColor, filter.FilterColorHex),
         new XElement(XmlNames.Font,
           new XElement(XmlBaseStructure.Name, filter.FilterFontType.Name),
           new XElement(XmlNames.Size, filter.FilterFontType.Size),

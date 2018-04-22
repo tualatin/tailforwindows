@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
   mc:Ignorable="d"
@@ -349,8 +350,8 @@
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <extendedControls:ColorPicker
-                  ColorMode="ColorCanvas"
-                  SelectedColor="{Binding FilterColor, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource MediaBrushToMediaColorConverter}}"
+                  ColorMode="ColorPalette"
+                  SelectedColor="{Binding FilterColorHex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToWindowsMediaColorConverter}}"
                   ShowTabHeaders="False"
                   />
               </DataTemplate>
@@ -432,7 +433,7 @@
             Grid.Column="1"
             VerticalAlignment="Center"
             Content="{Binding Path=SelectedItem.FilterFontType, ElementName=FilterDataGrid, Converter={StaticResource FontToStringConverter}, UpdateSourceTrigger=PropertyChanged}"
-            Foreground="{Binding Path=SelectedItem.FilterColor, ElementName=FilterDataGrid, UpdateSourceTrigger=PropertyChanged}"
+            Foreground="{Binding Path=SelectedItem.FilterColorHex, ElementName=FilterDataGrid, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}"
             />
         </Grid>
       </Border>
@@ -455,6 +456,7 @@
           Height="14"
           Margin="0 5 15 5"
           HorizontalAlignment="Right"
+          IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowExtendedSettings, UpdateSourceTrigger=PropertyChanged}"
           >
           <ToggleButton.ToolTip>
             <StackPanel>

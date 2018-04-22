@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Data.Settings;
+
 using FontStyle = System.Drawing.FontStyle;
 
 
@@ -19,7 +21,7 @@ namespace Org.Vs.TailForWin.Core.Data
     {
       Id = Guid.NewGuid();
       FilterFontType = new Font("Segoe UI", 11f, FontStyle.Regular);
-      FilterColor = System.Windows.Media.Brushes.Crimson;
+      FilterColorHex = DefaultEnvironmentSettings.FilterFontColor;
     }
 
     /// <summary>
@@ -79,20 +81,18 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
-    private System.Windows.Media.Brush _filterColor;
+    private string _filterColorHex;
 
     /// <summary>
-    /// Color of filter match
+    /// Font foreground color
     /// </summary>
-    public System.Windows.Media.Brush FilterColor
+    public string FilterColorHex
     {
-      get => _filterColor;
+      get => _filterColorHex;
       set
       {
-        _filterColor = value;
-
-        _filterColor.Freeze();
-        OnPropertyChanged(nameof(FilterColor));
+        _filterColorHex = value;
+        OnPropertyChanged();
       }
     }
 

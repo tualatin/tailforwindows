@@ -368,7 +368,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       {
         Description = "Test Filter",
         Filter = "filter",
-        FilterColor = System.Windows.Media.Brushes.Bisque,
+        FilterColorHex = "#FFF3F3F3F3",
         FilterFontType = new Font("Tahoma", 9f, FontStyle.Italic)
       });
 
@@ -383,7 +383,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       Assert.IsNotNull(filter);
       Assert.AreEqual(_tailData.ListOfFilter.First().Description, filter.Description);
       Assert.AreEqual(_tailData.ListOfFilter.First().Filter, filter.Filter);
-      Assert.AreEqual(_tailData.ListOfFilter.First().FilterColor.ToString(), filter.FilterColor.ToString());
+      Assert.AreEqual(_tailData.ListOfFilter.First().FilterColorHex, filter.FilterColorHex);
       Assert.AreEqual(_tailData.ListOfFilter.First().FilterFontType, filter.FilterFontType);
     }
 

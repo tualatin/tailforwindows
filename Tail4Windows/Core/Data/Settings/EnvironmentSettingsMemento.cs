@@ -48,6 +48,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       Statistics = memento.Statistics;
       SaveLogFileHistory = memento.SaveLogFileHistory;
       HistoryMaxSize = memento.HistoryMaxSize;
+      ShowExtendedSettings = memento.ShowExtendedSettings;
 
       ProxySettings = (ProxySetting) memento.ProxySettings.Clone();
       AlertSettings = (AlertSetting) memento.AlertSettings.Clone();
@@ -93,6 +94,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         Statistics = obj.Statistics;
         SaveLogFileHistory = obj.SaveLogFileHistory;
         HistoryMaxSize = obj.HistoryMaxSize;
+        ShowExtendedSettings = obj.ShowExtendedSettings;
 
         ProxySettings = (ProxySetting) obj.ProxySettings.Clone();
         AlertSettings = (AlertSetting) obj.AlertSettings.Clone();
@@ -333,6 +335,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Log files older than xxx days
       /// </summary>
       public int LogFilesOlderThan
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Show extended settings
+      /// </summary>
+      public bool ShowExtendedSettings
       {
         get;
       }

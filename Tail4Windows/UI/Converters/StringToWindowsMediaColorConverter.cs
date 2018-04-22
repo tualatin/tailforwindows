@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
+using Org.Vs.TailForWin.Core.Extensions;
 
 
 namespace Org.Vs.TailForWin.UI.Converters
@@ -41,7 +42,7 @@ namespace Org.Vs.TailForWin.UI.Converters
       if ( !(value is Color color) )
         return "#FFFFFF";
 
-      return Color.FromArgb(color.A, color.R, color.G, color.B);
+      return Color.FromArgb(color.A, color.R, color.G, color.B).ToHexString();
     }
   }
 }

@@ -161,7 +161,17 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// </summary>
     public const int HistoryMaxSize = 15;
 
+    /// <summary>
+    /// Default value ShowExtendedSettings
+    /// </summary>
+    public const bool ShowExtendedSettings = false;
+
     #endregion
+
+    /// <summary>
+    /// Default value Filter font color
+    /// </summary>
+    public const string FilterFontColor = "#FFDC143C";
 
     #region StatusBar default settings
 

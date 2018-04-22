@@ -262,6 +262,8 @@
   <system:String x:Key="ExtrasSaveLogFileHistory">Save log file history</system:String>
   <system:String x:Key="ExtrasSaveLogFileHistoryToolTip">Saves current used log file into a internal history</system:String>
   <system:String x:Key="ExtrasSaveLogFileHistorySpinnerToolTip">Set a maximum history depth</system:String>
+  <system:String x:Key="ExtrasShowExtendedSettings">Show extended settings</system:String>
+  <system:String x:Key="ExtrasShowExtendedSettingsToolTip">Show extended settings in certain modules</system:String>
 
   <system:String x:Key="SmtpServer">SMTP server</system:String>
   <system:String x:Key="SmtpPort">SMTP port</system:String>

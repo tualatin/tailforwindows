@@ -64,7 +64,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
         { "StatusBarTailBackgroundColor", DefaultEnvironmentSettings.StatusBarTailBackgroundColor },
         { "DragDropWindow", DefaultEnvironmentSettings.ActivateDragDropWindow.ToString() },
         { "SaveLogFileHistory", DefaultEnvironmentSettings.SaveLogFileHistory.ToString() },
-        { "LogFileHistorySize", DefaultEnvironmentSettings.HistoryMaxSize.ToString() }
+        { "LogFileHistorySize", DefaultEnvironmentSettings.HistoryMaxSize.ToString() },
+        { "ShowExtendedSettings", DefaultEnvironmentSettings.ShowExtendedSettings.ToString() }
       };
 
       await AddNewPropertyAsync(settings, cts).ConfigureAwait(false);
@@ -214,6 +215,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "DragDropWindow", CurrentSettings.ActivateDragDropWindow);
       WriteValueToSetting(config, "SaveLogFileHistory", CurrentSettings.SaveLogFileHistory);
       WriteValueToSetting(config, "LogFileHistorySize", CurrentSettings.HistoryMaxSize);
+      WriteValueToSetting(config, "ShowExtendedSettings", CurrentSettings.ShowExtendedSettings);
     }
 
     private void SaveStatusBarSettings(Configuration config)
@@ -336,6 +338,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ActivateDragDropWindow = DefaultEnvironmentSettings.ActivateDragDropWindow;
       CurrentSettings.SaveLogFileHistory = DefaultEnvironmentSettings.SaveLogFileHistory;
       CurrentSettings.HistoryMaxSize = DefaultEnvironmentSettings.HistoryMaxSize;
+      CurrentSettings.ShowExtendedSettings = DefaultEnvironmentSettings.ShowExtendedSettings;
     }
 
     private void SetDefaultStatusBarSettings()
@@ -486,6 +489,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ActivateDragDropWindow = GetBoolFromSetting("DragDropWindow");
       CurrentSettings.SaveLogFileHistory = GetBoolFromSetting("SaveLogFileHistory");
       CurrentSettings.HistoryMaxSize = GetIntFromSetting("LogFileHistorySize");
+      CurrentSettings.ShowExtendedSettings = GetBoolFromSetting("ShowExtendedSettings");
     }
 
     private void ReadStatusBarSettings()

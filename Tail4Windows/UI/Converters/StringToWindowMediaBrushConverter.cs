@@ -9,7 +9,7 @@ using Org.Vs.TailForWin.Core.Utils;
 namespace Org.Vs.TailForWin.UI.Converters
 {
   /// <summary>
-  /// Hex string to <see cref="System.Windows.Media.Brush"/> converter
+  /// Hex string to <see cref="Brush"/> converter
   /// </summary>
   [ValueConversion(typeof(string), typeof(Brush))]
   public class StringToWindowMediaBrushConverter : IValueConverter
