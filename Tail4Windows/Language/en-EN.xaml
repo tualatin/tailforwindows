@@ -80,7 +80,7 @@
   <system:String x:Key="QuickSearchWatermark">Quick search</system:String>
   <system:String x:Key="ButtonStartTail">Start</system:String>
   <system:String x:Key="ButtonStartTailToolTip">Starts tail (CTRL+R)</system:String>
-  <system:String x:Key="ButtonStopTailToolTip">Stops tail (CTRL+S)</system:String>
+  <system:String x:Key="ButtonStopTailToolTip">Stops tail (CTRL+U)</system:String>
   <system:String x:Key="ButtonAddsFileToFileManager">Adds file to...</system:String>
   <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Adds current file to TailManager</system:String>
   <system:String x:Key="ButtonOpenFile">Open file...</system:String>

@@ -42,6 +42,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       set
       {
         _currenTailData = value;
+
+        if ( _currenTailData == null )
+          SaveButtonVisibility = Visibility.Collapsed;
+        else
+          SaveButtonVisibility = CurrentTailData.IsLoadedByXml ? Visibility.Visible : Visibility.Collapsed;
+
         OnPropertyChanged();
       }
     }
@@ -74,6 +80,21 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       set
       {
         FilterManagerView?.MoveCurrentTo(value);
+        OnPropertyChanged();
+      }
+    }
+
+    private Visibility _saveButtonVisibility;
+
+    /// <summary>
+    /// SaveButtonVisibility
+    /// </summary>
+    public Visibility SaveButtonVisibility
+    {
+      get => _saveButtonVisibility;
+      set
+      {
+        _saveButtonVisibility = value;
         OnPropertyChanged();
       }
     }

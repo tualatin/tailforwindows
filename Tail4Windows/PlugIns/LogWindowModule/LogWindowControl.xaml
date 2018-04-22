@@ -33,7 +33,10 @@
   </i:Interaction.Triggers>
 
   <UserControl.InputBindings>
-    <KeyBinding Key="S" Command="{Binding QuickSaveCommand}" Modifiers="Control" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource QuickSaveKeyBinding}}" Command="{Binding QuickSaveCommand}" Modifiers="{Binding Modifiers, Source={StaticResource QuickSaveKeyBinding}}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource OpenFileManagerKeyBinding}}" Command="{Binding OpenFileManagerCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenFileManagerKeyBinding}}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource StartTailKeyBinding}}" Command="{Binding StartTailCommand}" Modifiers="{Binding Modifiers, Source={StaticResource StartTailKeyBinding}}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource StopTailKeyBinding}}" Command="{Binding StopTailCommand}" Modifiers="{Binding Modifiers, Source={StaticResource StopTailKeyBinding}}" />
   </UserControl.InputBindings>
 
   <UserControl.Resources>
