@@ -19,7 +19,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       AssociatedObject.SelectionChanged += AssociatedObject_SelectionChanged;
     }
 
-    static void AssociatedObject_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private static void AssociatedObject_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       DataGrid datagrid = sender as DataGrid;
 

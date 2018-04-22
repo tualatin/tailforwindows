@@ -271,7 +271,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Open font dialog command
     /// </summary>
-    public ICommand OpenFontDialogCommand => _openFontDialogCommand ?? (_openFontDialogCommand = new RelayCommand(p => ExecuteOpenFontDialogCommand()));
+    public ICommand OpenFontDialogCommand => _openFontDialogCommand ?? (_openFontDialogCommand = new RelayCommand(p => CanExecuteOpenFontDialog(), p => ExecuteOpenFontDialogCommand()));
 
     private IAsyncCommand _loadedCommand;
 
@@ -335,9 +335,28 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenTailDataMessage>(OnOpenTailData);
     }
 
+    private bool CanExecuteOpenFontDialog() => !string.IsNullOrWhiteSpace(CurrentTailData.FileName);
+
     private void ExecuteOpenFontDialogCommand()
     {
+      if ( CurrentTailData == null )
+        return;
 
+      System.Drawing.Font tailFont = new System.Drawing.Font(CurrentTailData.FontType.FontFamily, CurrentTailData.FontType.Size, CurrentTailData.FontType.Style);
+
+      System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
+      {
+        ShowEffects = true,
+        Font = tailFont,
+        FontMustExist = true,
+        ShowColor = false
+      };
+
+      if ( fontManager.ShowDialog() == System.Windows.Forms.DialogResult.Cancel )
+        return;
+
+      tailFont = new System.Drawing.Font(fontManager.Font.FontFamily, fontManager.Font.Size, fontManager.Font.Style);
+      CurrentTailData.FontType = tailFont;
     }
 
     private void ExecuteOpenSearchDialogCommand()
