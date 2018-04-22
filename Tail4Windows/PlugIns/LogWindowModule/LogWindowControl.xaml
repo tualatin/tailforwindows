@@ -749,6 +749,7 @@
             Height="22"
             Content="{DynamicResource ComboBoxFilter}"
             IsChecked="{Binding CurrentTailData.FilterState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            IsEnabled="{Binding CurrentTailData.ListOfFilter.Count, Converter={StaticResource TailDataListOfFilterToBoolConverter}, UpdateSourceTrigger=PropertyChanged}"
             >
             <CheckBox.ToolTip>
               <StackPanel>

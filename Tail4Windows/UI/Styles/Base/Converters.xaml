@@ -33,6 +33,7 @@
   <converters:RowFromTailManagerCollectionConverter x:Key="RowFromTailManagerCollectionConverter" />
   <converters:FontToStringConverter x:Key="FontToStringConverter" />
   <converters:MediaBrushToMediaColorConverter x:Key="MediaBrushToMediaColorConverter" />
+  <converters:TailDataListOfFilterToBoolConverter x:Key="TailDataListOfFilterToBoolConverter" />
 
   <multiConverters:LogFileIsEnableMultiConverter x:Key="LogFileIsEnableMultiConverter" />
   <multiConverters:LogFileFileManagerMultiConverter x:Key="LogFileLengthFileManagerMultiConverter" />

@@ -372,6 +372,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       };
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFilterDataFromTailDataMessage(this, CurrentTailData));
       filterManager.ShowDialog();
+
+      OnPropertyChanged(nameof(CurrentTailData));
     }
 
     private void ExecuteOpenInEditorCommand()

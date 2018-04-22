@@ -250,7 +250,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         return;
 
       FilterManagerCollection.Remove(SelectedItem);
-      await ExecuteSaveCommandAsync().ConfigureAwait(false);
+
+      if ( CurrentTailData.IsLoadedByXml )
+        await ExecuteSaveCommandAsync().ConfigureAwait(false);
 
       OnPropertyChanged(nameof(FilterManagerView));
     }
@@ -260,6 +262,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       MouseService.SetBusyState();
       SetCancellationTokenSource();
 
+      await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
       await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, CurrentTailData).ConfigureAwait(false);
     }
 

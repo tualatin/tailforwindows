@@ -253,6 +253,7 @@
     <Compile Include="UI\Converters\StatusBarStateToBoolConverter.cs" />
     <Compile Include="UI\Converters\StatusBarStateToBoolInverseConverter.cs" />
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="UI\Converters\TailDataListOfFilterToBoolConverter.cs" />
     <Compile Include="UI\ExtendedControls\PopupEx.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
