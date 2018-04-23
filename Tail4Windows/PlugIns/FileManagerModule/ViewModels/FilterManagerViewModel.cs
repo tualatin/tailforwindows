@@ -193,9 +193,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( SelectedItem == null )
         return;
 
-      System.Drawing.Font filterFont = new System.Drawing.Font(SelectedItem.FilterFontType.FontFamily, SelectedItem.FilterFontType.Size, SelectedItem.FilterFontType.Style);
-
-      System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
+      var filterFont = new System.Drawing.Font(SelectedItem.FilterFontType.FontFamily, SelectedItem.FilterFontType.Size, SelectedItem.FilterFontType.Style);
+      var fontManager = new System.Windows.Forms.FontDialog
       {
         ShowEffects = true,
         Font = filterFont,
@@ -268,6 +267,14 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteCloseCommand(Window window)
     {
+      var errors = FilterManagerCollection.Where(p => p["Description"] != null || p["Filter"] != null).ToList();
+
+      if ( errors.Count > 0 )
+      {
+        FilterManagerCollection.Clear();
+        OnPropertyChanged(nameof(FilterManagerView));
+      }
+
       _cts.Cancel();
       window?.Close();
     }

@@ -60,6 +60,18 @@ namespace Org.Vs.TailForWin.Core.Data
         }
         break;
 
+      case NotifyCollectionChangedAction.Replace:
+
+        break;
+
+      case NotifyCollectionChangedAction.Move:
+
+        break;
+
+      case NotifyCollectionChangedAction.Reset:
+
+        break;
+
       default:
 
         throw new ArgumentOutOfRangeException();

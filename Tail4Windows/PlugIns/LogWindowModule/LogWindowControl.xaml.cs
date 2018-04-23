@@ -271,7 +271,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Open search dialog command
     /// </summary>
-    public ICommand OpenSearchDialogCommand => _openSearchDialogCommand ?? (_openSearchDialogCommand = new RelayCommand(p => ExecuteOpenSearchDialogCommand()));
+    public ICommand OpenSearchDialogCommand => _openSearchDialogCommand ?? (_openSearchDialogCommand = new RelayCommand(p => CanExecuteOpenFontDialog(), p => ExecuteOpenSearchDialogCommand()));
 
     private ICommand _openFontDialogCommand;
 
@@ -301,6 +301,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// Delete history command
     /// </summary>
     public IAsyncCommand DeleteHistoryCommand => _deleteHistoryCommand ?? (_deleteHistoryCommand = AsyncCommand.Create(p => CanExecuteDeleteHistoryCommand(), ExecuteDeleteHistoryCommandAsync));
+
+    private ICommand _clearLogWindowCommand;
+
+    /// <summary>
+    /// Clear log window command
+    /// </summary>
+    public ICommand ClearLogWindowCommand => _clearLogWindowCommand ?? (_clearLogWindowCommand = new RelayCommand(p => CanExecuteOpenFontDialog(), p => ExecuteClearLogWindowCommand()));
 
     #endregion
 
@@ -342,16 +349,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenTailDataMessage>(OnOpenTailData);
     }
 
-    private bool CanExecuteOpenFontDialog() => !string.IsNullOrWhiteSpace(CurrentTailData.FileName);
+    private bool CanExecuteOpenFontDialog() => LogWindowState == EStatusbarState.FileLoaded || LogWindowState == EStatusbarState.Busy;
 
     private void ExecuteOpenFontDialogCommand()
     {
       if ( CurrentTailData == null )
         return;
 
-      System.Drawing.Font tailFont = new System.Drawing.Font(CurrentTailData.FontType.FontFamily, CurrentTailData.FontType.Size, CurrentTailData.FontType.Style);
-
-      System.Windows.Forms.FontDialog fontManager = new System.Windows.Forms.FontDialog
+      var tailFont = new System.Drawing.Font(CurrentTailData.FontType.FontFamily, CurrentTailData.FontType.Size, CurrentTailData.FontType.Style);
+      var fontManager = new System.Windows.Forms.FontDialog
       {
         ShowEffects = true,
         Font = tailFont,
@@ -364,6 +370,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       tailFont = new System.Drawing.Font(fontManager.Font.FontFamily, fontManager.Font.Size, fontManager.Font.Style);
       CurrentTailData.FontType = tailFont;
+    }
+
+    private void ExecuteClearLogWindowCommand()
+    {
+
     }
 
     private void ExecuteOpenSearchDialogCommand()

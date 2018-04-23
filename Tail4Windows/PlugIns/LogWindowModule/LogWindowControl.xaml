@@ -1044,6 +1044,7 @@
             Margin="2 2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
+            Command="{Binding ClearLogWindowCommand}"
             >
             <StackPanel>
               <Image
