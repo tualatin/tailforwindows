@@ -231,6 +231,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand PreviewDragEnterCommand => _previewDragEnterCommand ?? (_previewDragEnterCommand = new RelayCommand(ExecutePreviewDragEnterCommand));
 
+    private ICommand _keyDownCommand;
+
+    /// <summary>
+    /// KeyDown command
+    /// </summary>
+    public ICommand KeyDownCommand => _keyDownCommand ?? (_keyDownCommand = new RelayCommand(ExecuteKeyDownCommand));
+
     private ICommand _openInEditorCommand;
 
     /// <summary>
@@ -464,6 +471,27 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       e.Handled = true;
       e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Move : DragDropEffects.None;
+    }
+
+    private void ExecuteKeyDownCommand(object parameter)
+    {
+      if ( !(parameter is KeyEventArgs e) )
+        return;
+
+      // We need this, that the workaround in SelectedItem works correct
+      switch ( e.Key )
+      {
+      case Key.Back:
+
+        CurrentTailData.FileName = string.Empty;
+        SelectedItem = string.Empty;
+        break;
+
+      default:
+
+        LOG.Trace("Useless KeyDown");
+        break;
+      }
     }
 
     #endregion

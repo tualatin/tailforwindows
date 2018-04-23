@@ -393,6 +393,12 @@
                 CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
                 />
             </i:EventTrigger>
+            <i:EventTrigger EventName="PreviewKeyDown">
+              <commands:InvokeDelegateCommandAction
+                Command="{Binding KeyDownCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+                />
+            </i:EventTrigger>
           </i:Interaction.Triggers>
         </ComboBox>
 
