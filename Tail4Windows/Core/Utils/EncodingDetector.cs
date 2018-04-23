@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,10 +20,10 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <returns>Current file encoding as <see cref="Encoding"/></returns>
     public static async Task<Encoding> GetEncodingAsync(string path)
     {
-      Encoding encoding = Encoding.Default;
-      byte[] byteBuffer = new byte[DefaultBufferSize];
+      var encoding = Encoding.Default;
+      var byteBuffer = new byte[DefaultBufferSize];
 
-      using ( FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read) )
+      using ( var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite) )
       {
         int byteLength = await fs.ReadAsync(byteBuffer, 0, byteBuffer.Length).ConfigureAwait(false);
 

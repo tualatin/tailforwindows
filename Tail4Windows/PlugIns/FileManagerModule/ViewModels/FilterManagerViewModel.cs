@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -225,7 +226,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( CurrentTailData == null )
         return false;
 
-      var errors = FilterManagerCollection.Where(p => p["Description"] != null || p["Filter"] != null).ToList();
+      var errors = GetFilterErrors();
       bool undo = CanExecuteUndo();
 
       return errors.Count <= 0 && undo && CurrentTailData.IsLoadedByXml && FilterManagerCollection != null && FilterManagerCollection.Count > 0;
@@ -267,16 +268,26 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteCloseCommand(Window window)
     {
-      var errors = FilterManagerCollection.Where(p => p["Description"] != null || p["Filter"] != null).ToList();
+      var errors = GetFilterErrors();
 
       if ( errors.Count > 0 )
       {
-        FilterManagerCollection.Clear();
+        foreach ( var filterData in errors )
+        {
+          FilterManagerCollection.Remove(filterData);
+        }
+
         OnPropertyChanged(nameof(FilterManagerView));
       }
 
       _cts.Cancel();
       window?.Close();
+    }
+
+    private List<FilterData> GetFilterErrors()
+    {
+      var errors = FilterManagerCollection.Where(p => p["Description"] != null || p["Filter"] != null).ToList();
+      return errors;
     }
 
     #endregion
