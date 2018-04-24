@@ -284,9 +284,55 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     public ICommand GroupByClickCommand => _groupByClickCommand ?? (_groupByClickCommand = new RelayCommand(p => FileManagerCollection != null && FileManagerCollection.Count >= 2,
                                              p => ExecuteGroupByClickCommand()));
 
+    private ICommand _fontCommand;
+
+    /// <summary>
+    /// Font command
+    /// </summary>
+    public ICommand FontCommand => _fontCommand ?? (_fontCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteFontCommand()));
+
+    private ICommand _filterCommand;
+
+    /// <summary>
+    /// Filter command
+    /// </summary>
+    public ICommand FilterCommand => _filterCommand ?? (_filterCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteFilterCommand((Window) p)));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteFilterCommand(Window window)
+    {
+      var filterManager = new FilterManager
+      {
+        Owner = window
+      };
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFilterDataFromTailDataMessage(this, SelectedItem));
+      filterManager.ShowDialog();
+
+      OnPropertyChanged(nameof(SelectedItem));
+    }
+
+    private void ExecuteFontCommand()
+    {
+      if ( SelectedItem == null )
+        return;
+
+      var filterFont = new System.Drawing.Font(SelectedItem.FontType.FontFamily, SelectedItem.FontType.Size, SelectedItem.FontType.Style);
+      var fontManager = new System.Windows.Forms.FontDialog
+      {
+        ShowEffects = true,
+        Font = filterFont,
+        FontMustExist = true,
+      };
+
+      if ( fontManager.ShowDialog() == System.Windows.Forms.DialogResult.Cancel )
+        return;
+
+      filterFont = new System.Drawing.Font(fontManager.Font.FontFamily, fontManager.Font.Size, fontManager.Font.Style);
+      SelectedItem.FontType = filterFont;
+    }
 
     private void ExecuteGroupByClickCommand() => SetFileManagerViewGrouping();
 

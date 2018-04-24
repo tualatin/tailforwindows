@@ -403,7 +403,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteOpenTailDataFilterCommand()
     {
-      FilterManager filterManager = new FilterManager
+      var filterManager = new FilterManager
       {
         Owner = Window.GetWindow(this)
       };

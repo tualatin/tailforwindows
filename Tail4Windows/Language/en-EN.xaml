@@ -120,6 +120,7 @@
   <system:String x:Key="FileManagerFileAlreadyOpen">This file is already open.</system:String>
   <system:String x:Key="FileManagerFilterBy">Filter by Description or Category</system:String>
   <system:String x:Key="FileManagerFilter">Filter</system:String>
+  <system:String x:Key="FileManagerUsePattern">Use pattern</system:String>
 
   <system:String x:Key="FilterManagerFont">Font settings</system:String>
   <system:String x:Key="FilterManagerFontToolTip">Set current filter font</system:String>
