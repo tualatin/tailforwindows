@@ -30,5 +30,10 @@
     /// Redo
     /// </summary>
     void Redo();
+
+    /// <summary>
+    /// Commit changes
+    /// </summary>
+    void CommitChanges();
   }
 }

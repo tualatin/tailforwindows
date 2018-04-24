@@ -407,7 +407,6 @@
     <Compile Include="PlugIns\FindModule\Controller\XmlSearchHistoryController.cs" />
     <Compile Include="Core\Data\Base\NotifyTaskCompletion.cs" />
     <Compile Include="Core\Data\FilterData.cs" />
-    <Compile Include="Core\Data\FilterDataMemento.cs" />
     <Compile Include="PlugIns\PatternModule\Data\Pattern.cs" />
     <Compile Include="Core\Data\Settings\AlertSetting.cs" />
     <Compile Include="Core\Data\Settings\EnvironmentSettings.cs" />

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Drawing;
-using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
 using FontStyle = System.Drawing.FontStyle;
 
@@ -12,7 +12,7 @@ namespace Org.Vs.TailForWin.Core.Data
   /// <summary>
   /// Filter data object
   /// </summary>
-  public partial class FilterData : NotifyMaster, IDisposable, IDataErrorInfo, ICloneable
+  public class FilterData : StateManager, IDisposable, IDataErrorInfo, ICloneable
   {
     /// <summary>
     /// Standard constructor
@@ -61,8 +61,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _description;
       set
       {
-        _description = value;
-        OnPropertyChanged(nameof(Description));
+        if ( Equals(value, _description) )
+          return;
+
+        string currentValue = _description;
+        ChangeState(new Command(() => _description = value, () => _description = currentValue, nameof(Description), Notification));
       }
     }
 
@@ -76,8 +79,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _filter;
       set
       {
-        _filter = value;
-        OnPropertyChanged(nameof(Filter));
+        if ( Equals(value, _filter) )
+          return;
+
+        string currentValue = _filter;
+        ChangeState(new Command(() => _filter = value, () => _filter = currentValue, nameof(Filter), Notification));
       }
     }
 
@@ -91,8 +97,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _filterColorHex;
       set
       {
-        _filterColorHex = value;
-        OnPropertyChanged();
+        if ( Equals(value, _filterColorHex) )
+          return;
+
+        string currentValue = _filterColorHex;
+        ChangeState(new Command(() => _filterColorHex = value, () => _filterColorHex = currentValue, nameof(FilterColorHex), Notification));
       }
     }
 
@@ -106,10 +115,12 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _filterFontType;
       set
       {
-        _filterFontType = value;
-        OnPropertyChanged(nameof(FilterFontType));
+        var currentValue = _filterFontType;
+        ChangeState(new Command(() => _filterFontType = value, () => _filterFontType = currentValue, nameof(FilterFontType), Notification));
       }
     }
+
+    private void Notification(string propertyName) => OnPropertyChanged(propertyName);
 
     #region IDataErrorInfo interface
 

@@ -171,7 +171,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value Filter font color
     /// </summary>
-    public const string FilterFontColor = "#FFDC143C";
+    public const string FilterFontColor = "#DC143C";
 
     #region StatusBar default settings
 

@@ -122,6 +122,11 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       if ( CurrentTailData.ListOfFilter.Count == 0 )
         CurrentTailData.ListOfFilter.Add(new FilterData());
+
+      foreach ( var item in CurrentTailData.ListOfFilter )
+      {
+        item.CommitChanges();
+      }
     }
 
     #region Commands
@@ -212,29 +217,15 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       SelectedItem.FilterColorHex = fontManager.Color.ToHexString();
     }
 
-    private bool CanExecuteUndo()
-    {
-      return true;
-    }
+    private bool CanExecuteUndo() => SelectedItem != null && SelectedItem.CanUndo;
 
-    private void ExecuteUndoCommand()
-    {
-    }
-
-    private bool CanExecuteSaveCommand()
-    {
-      if ( CurrentTailData == null )
-        return false;
-
-      var errors = GetFilterErrors();
-      bool undo = CanExecuteUndo();
-
-      return errors.Count <= 0 && undo && CurrentTailData.IsLoadedByXml && FilterManagerCollection != null && FilterManagerCollection.Count > 0;
-    }
+    private void ExecuteUndoCommand() => SelectedItem?.Undo();
 
     private void ExecuteAddFilterDataCommand()
     {
       var newItem = new FilterData();
+      newItem.CommitChanges();
+
       FilterManagerCollection.Add(newItem);
       SelectedItem = FilterManagerCollection.Last();
 
@@ -257,6 +248,17 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       OnPropertyChanged(nameof(FilterManagerView));
     }
 
+    private bool CanExecuteSaveCommand()
+    {
+      if ( CurrentTailData == null )
+        return false;
+
+      var errors = GetFilterErrors();
+      bool undo = CanExecuteUndo();
+
+      return errors.Count <= 0 && undo && CurrentTailData.IsLoadedByXml && FilterManagerCollection != null && FilterManagerCollection.Count > 0;
+    }
+
     private async Task ExecuteSaveCommandAsync()
     {
       MouseService.SetBusyState();
@@ -264,6 +266,11 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
       await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, CurrentTailData).ConfigureAwait(false);
+
+      foreach ( var item in FilterManagerCollection )
+      {
+        item.CommitChanges();
+      }
     }
 
     private void ExecuteCloseCommand(Window window)
@@ -278,6 +285,23 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         }
 
         OnPropertyChanged(nameof(FilterManagerView));
+      }
+
+      var unsavedItems = FilterManagerCollection.Where(p => p.CanUndo).ToList();
+
+      if ( SaveButtonVisibility == Visibility.Visible && unsavedItems.Count > 0 )
+      {
+        if ( EnvironmentContainer.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerCloseUnsaveItem").ToString()) == MessageBoxResult.Yes )
+        {
+          ExecuteSaveCommandAsync().GetAwaiter().GetResult();
+        }
+        else
+        {
+          foreach ( var item in unsavedItems )
+          {
+            FilterManagerCollection.Remove(item);
+          }
+        }
       }
 
       _cts.Cancel();

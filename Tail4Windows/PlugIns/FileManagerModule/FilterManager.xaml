@@ -422,7 +422,7 @@
           <Label
             Grid.Column="1"
             VerticalAlignment="Center"
-            Content="{Binding Path=SelectedItem.FilterFontType, ElementName=FilterDataGrid, Converter={StaticResource FontToStringConverter}, UpdateSourceTrigger=PropertyChanged}"
+            Content="{Binding Path=SelectedItem.FilterFontType, ElementName=FilterDataGrid, Mode=TwoWay, Converter={StaticResource FontToStringConverter}, UpdateSourceTrigger=PropertyChanged}"
             Foreground="{Binding Path=SelectedItem.FilterColorHex, ElementName=FilterDataGrid, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}"
             />
         </Grid>
