@@ -490,19 +490,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       // We need this, that the workaround in SelectedItem works correct
-      switch ( e.Key )
-      {
-      case Key.Back:
+      if ( e.Key != Key.Back )
+        return;
 
-        CurrentTailData.FileName = string.Empty;
-        SelectedItem = string.Empty;
-        break;
+      var myComboBox = e.Source as ComboBox;
+      var textBox = (TextBox) myComboBox?.Template.FindName("PART_EditableTextBox", myComboBox);
 
-      default:
+      if ( !Equals(SelectedItem, textBox?.SelectedText) )
+        return;
 
-        LOG.Trace("Useless KeyDown");
-        break;
-      }
+      CurrentTailData.FileName = string.Empty;
+      SelectedItem = string.Empty;
+      e.Handled = true;
     }
 
     #endregion
