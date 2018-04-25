@@ -533,7 +533,7 @@
 
           <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="130" />
+              <ColumnDefinition Width="Auto" />
               <ColumnDefinition Width="Auto" />
               <ColumnDefinition Width="130" />
               <ColumnDefinition />
