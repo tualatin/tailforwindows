@@ -120,7 +120,12 @@
   <system:String x:Key="FileManagerFileAlreadyOpen">Diese Datei ist bereits geöffnet.</system:String>
   <system:String x:Key="FileManagerFilterBy">Filtern nach Bezeichnung oder Kategorie</system:String>
   <system:String x:Key="FileManagerFilter">Filter</system:String>
+  <system:String x:Key="FileManagerUseFilter">Benutzer Filter</system:String>
   <system:String x:Key="FileManagerUsePattern">Pattern nutzen</system:String>
+  <system:String x:Key="FileManagerOpenInNewWindow">Öffne in neuem Fenster</system:String>
+  <system:String x:Key="FileManagerLineWrap">Textumbruch</system:String>
+  <system:String x:Key="FileManagerTabBackgroundColor">Tabheader Farbe</system:String>
+  <system:String x:Key="FileManagerDeleteItemQuestion">Möchten Sie den ausgewählten Datensatz löschen?</system:String>
 
   <system:String x:Key="FilterManagerFont">Schrifteinstellungen</system:String>
   <system:String x:Key="FilterManagerFontToolTip">Setzt die aktuelle Filterschrift</system:String>

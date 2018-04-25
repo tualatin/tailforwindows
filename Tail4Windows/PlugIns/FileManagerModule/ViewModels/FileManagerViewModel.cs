@@ -352,7 +352,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( !FileOpenDialog.OpenDialog("All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle, out string fileName) )
         return;
 
+      MouseService.SetBusyState();
+
       SelectedItem.FileName = fileName;
+      SelectedItem.FileEncoding = EncodingDetector.GetEncodingAsync(SelectedItem.FileName).Result;
     }
 
     private void ExecuteAddTailDataCommand()
@@ -369,10 +372,24 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( SelectedItem == null )
         return;
 
+      if ( !FileManagerCollection.Contains(SelectedItem) )
+        return;
+      
+      bool errors = SelectedItem["Description"] != null || SelectedItem["FileName"] != null;
+
+      if ( !errors || SelectedItem.IsLoadedByXml )
+      {
+        if ( EnvironmentContainer.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerDeleteItemQuestion").ToString()) == MessageBoxResult.No )
+          return;
+      }
+
       MouseService.SetBusyState();
 
       if ( SelectedItem.IsLoadedByXml )
         await _xmlFileManagerController.DeleteTailDataByIdFromXmlFileAsync(_cts.Token, SelectedItem.Id.ToString()).ConfigureAwait(false);
+
+      FileManagerCollection.Remove(SelectedItem);
+      OnPropertyChanged(nameof(FileManagerView));
     }
 
     private bool CanExecuteSaveCommand()

@@ -240,6 +240,16 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( !FilterManagerCollection.Contains(SelectedItem) )
         return;
 
+      bool errors = SelectedItem["Description"] != null || SelectedItem["Filter"] != null;
+
+      if ( !errors )
+      {
+        if ( EnvironmentContainer.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerDeleteItemQuestion").ToString()) == MessageBoxResult.No )
+          return;
+      }
+
+      MouseService.SetBusyState();
+
       FilterManagerCollection.Remove(SelectedItem);
 
       if ( CurrentTailData.IsLoadedByXml )
