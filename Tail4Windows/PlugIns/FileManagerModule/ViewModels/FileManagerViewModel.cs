@@ -181,7 +181,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
           return;
 
         // Bring the current TailData back into view in case it moved
-        TailData currentTailData = SelectedItem;
+        var currentTailData = SelectedItem;
         FileManagerView.MoveCurrentToFirst();
         FileManagerView.MoveCurrentTo(currentTailData);
       }
@@ -338,14 +338,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteGroupByClickCommand() => SetFileManagerViewGrouping();
 
-    private bool CanExecuteUndo()
-    {
-      return true;
-    }
+    private bool CanExecuteUndo() => SelectedItem != null && SelectedItem.CanUndo;
 
-    private void ExecuteUndoCommand()
-    {
-    }
+    private void ExecuteUndoCommand() => SelectedItem?.Undo();
 
     private void ExecuteMouseDoubleClickCommmand(object param)
     {
@@ -411,11 +406,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       MouseService.SetBusyState();
 
-      if ( SelectedItem.IsLoadedByXml )
-        await _xmlFileManagerController.DeleteTailDataByIdFromXmlFileAsync(_cts.Token, SelectedItem.Id.ToString()).ConfigureAwait(false);
+      string id = SelectedItem.Id.ToString();
 
-      FileManagerCollection.Remove(SelectedItem);
-      OnPropertyChanged(nameof(FileManagerView));
+      if ( SelectedItem.IsLoadedByXml )
+        await _xmlFileManagerController.DeleteTailDataByIdFromXmlFileAsync(_cts.Token, id).ConfigureAwait(false);
     }
 
     private bool CanExecuteSaveCommand()
@@ -423,10 +417,14 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( FileManagerCollection == null || FileManagerCollection.Count == 0 )
         return false;
 
-      var errors = FileManagerCollection.Where(p => p["Description"] != null || p["FileName"] != null).ToList();
+      var errors = GetErrors();
       bool undo = CanExecuteUndo();
+      var unsavedItems = new List<TailData>();
 
-      return errors.Count <= 0 && undo;
+      if ( errors.Count == 0 )
+        unsavedItems = FileManagerCollection.Where(p => !p.IsLoadedByXml).ToList();
+
+      return errors.Count != 0 || undo || unsavedItems.Count != 0;
     }
 
     private async Task ExecuteSaveCommandAsync()
@@ -448,6 +446,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
 
       _categories = await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(FileManagerCollection).ConfigureAwait(false);
+
+      CommitChanges();
     }
 
     private async Task ExecuteLoadedCommandAsync()
@@ -456,6 +456,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       {
         _fileManagerCollection = await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
         _categories = await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(_fileManagerCollection).ConfigureAwait(false);
+
+        CommitChanges();
       }
       catch
       {
@@ -475,6 +477,35 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteCloseCommand(Window window)
     {
+      var errors = GetErrors();
+
+      if ( errors.Count > 0 )
+      {
+        foreach ( var filterData in errors )
+        {
+          FileManagerCollection.Remove(filterData);
+        }
+
+        OnPropertyChanged(nameof(FileManagerView));
+      }
+
+      var unsavedItems = FileManagerCollection.Where(p => p.CanUndo).ToList();
+
+      if ( unsavedItems.Count > 0 )
+      {
+        if ( EnvironmentContainer.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerCloseUnsaveItem").ToString()) == MessageBoxResult.Yes )
+        {
+          ExecuteSaveCommandAsync().GetAwaiter().GetResult();
+        }
+        else
+        {
+          foreach ( var item in unsavedItems )
+          {
+            FileManagerCollection.Remove(item);
+          }
+        }
+      }
+
       _cts.Cancel();
       window?.Close();
     }
@@ -514,6 +545,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         FileManagerCollection.Remove(SelectedItem);
 
       OnPropertyChanged(nameof(FileManagerCollection));
+      OnPropertyChanged(nameof(FileManagerView));
     }
 
     private void OnSaveTailDataPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -555,6 +587,19 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       // Wait some ms to set the correct focus
       await Task.Delay(TimeSpan.FromMilliseconds(25)).ConfigureAwait(false);
       return true;
+    }
+
+    private void CommitChanges()
+    {
+      foreach ( var item in _fileManagerCollection )
+      {
+        item.CommitChanges();
+      }
+    }
+    private List<TailData> GetErrors()
+    {
+      var errors = FileManagerCollection.Where(p => p["Description"] != null || p["FileName"] != null).ToList();
+      return errors;
     }
 
     private bool DynamicFilter(object item)

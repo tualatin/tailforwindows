@@ -24,6 +24,12 @@ namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
     public bool CanRedo => _redos.Count > 0;
 
     /// <summary>
+    /// OnPropertyChanged notification
+    /// </summary>
+    /// <param name="propertyName">Name of property</param>
+    protected void Notification(string propertyName) => OnPropertyChanged(propertyName);
+
+    /// <summary>
     /// Change current state
     /// </summary>
     /// <param name="command"><see cref="Command"/></param>

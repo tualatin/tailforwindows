@@ -115,12 +115,13 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _filterFontType;
       set
       {
+        if ( Equals(value, _filterFontType) )
+          return;
+
         var currentValue = _filterFontType;
         ChangeState(new Command(() => _filterFontType = value, () => _filterFontType = currentValue, nameof(FilterFontType), Notification));
       }
     }
-
-    private void Notification(string propertyName) => OnPropertyChanged(propertyName);
 
     #region IDataErrorInfo interface
 

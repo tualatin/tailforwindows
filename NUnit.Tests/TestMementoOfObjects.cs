@@ -1,7 +1,4 @@
-﻿using System;
-using System.Drawing;
-using NUnit.Framework;
-using Org.Vs.TailForWin.Core.Data;
+﻿using NUnit.Framework;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
 
@@ -24,36 +21,6 @@ namespace Org.Vs.NUnit.Tests
         LinesRead = 20,
         ExitWithEscape = true
       };
-    }
-
-    [Test]
-    public void TestMementoFilterDate()
-    {
-      FilterData filter = new FilterData
-      {
-        Id = Guid.NewGuid(),
-        Description = "Test Filter",
-        Filter = @"^\d[A...Z]",
-        FilterColorHex = "#FFE1E1E1E1",
-        FilterFontType = new Font("Tahoma", 11f, FontStyle.Italic)
-      };
-
-      var memento = filter.SaveToMemento();
-      Assert.IsInstanceOf<FilterData.MementoFilterData>(memento);
-      Assert.AreEqual(filter.Id, memento.Id);
-      Assert.AreEqual(filter.Description, memento.Description);
-      Assert.AreEqual(filter.Filter, memento.Filter);
-      Assert.AreEqual(filter.FilterColorHex, memento.FilterColorHex);
-      Assert.AreEqual(filter.FilterFontType, memento.FilterFontType);
-
-      filter.Description = "Test Filter 2";
-      filter.Filter = "....";
-      filter.FilterColorHex = "#FFFFFFFF";
-      filter.FilterFontType = new Font("Curier", 8f, FontStyle.Regular);
-
-      filter.RestoreFromMemento(memento);
-      Assert.IsInstanceOf<FilterData>(filter);
-      Assert.AreEqual(memento.Description, filter.Description);
     }
 
     [Test]

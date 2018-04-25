@@ -431,6 +431,7 @@
 
           <DataGridTemplateColumn
             MinWidth="190"
+            MaxWidth="250"
             Header="{DynamicResource FileManagerDataGridFileName}"
             >
             <DataGridTemplateColumn.CellTemplate>
@@ -443,7 +444,7 @@
 
                   <TextBox
                     Grid.Column="0"
-                    Text="{Binding File, Mode=OneWay}"
+                    Text="{Binding File, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                     IsReadOnly="True"
                     Style="{StaticResource TextBoxDataGridStyle}"
                     >
@@ -609,6 +610,7 @@
               </Button>
 
               <Label
+                Margin="0 0 5 0"
                 VerticalAlignment="Center"
                 Content="{Binding Path=SelectedItem.FontType, ElementName=TailManagerDataGrid, Mode=TwoWay, Converter={StaticResource FontToStringConverter}, UpdateSourceTrigger=PropertyChanged}"
                 />

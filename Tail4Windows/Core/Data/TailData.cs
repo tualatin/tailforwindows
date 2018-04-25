@@ -7,9 +7,9 @@ using System.IO;
 using System.Text;
 using log4net;
 using Org.Vs.TailForWin.Core.Controllers;
-using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
 
 namespace Org.Vs.TailForWin.Core.Data
@@ -17,7 +17,7 @@ namespace Org.Vs.TailForWin.Core.Data
   /// <summary>
   /// Tail data object
   /// </summary>
-  public partial class TailData : NotifyMaster, ICloneable, IDisposable, IDataErrorInfo
+  public class TailData : StateManager, ICloneable, IDisposable, IDataErrorInfo
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(TailData));
 
@@ -136,10 +136,22 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _fileName;
       set
       {
-        _fileName = value;
-        File = Path.GetFileName(FileName);
-        OnPropertyChanged(nameof(FileName));
+        if ( Equals(value, _fileName) )
+          return;
+
+        string currentValue = _fileName;
+        ChangeState(new Command(() => _fileName = value, () => _fileName = currentValue, nameof(FileName), FileNameChangedNotification));
       }
+    }
+
+    /// <summary>
+    /// To set the file name without path, we need a special notification handler
+    /// </summary>
+    /// <param name="propertyName">Name of property</param>
+    private void FileNameChangedNotification(string propertyName)
+    {
+      File = Path.GetFileName(_fileName);
+      OnPropertyChanged(propertyName);
     }
 
     /// <summary>
@@ -176,8 +188,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _description;
       set
       {
-        _description = value;
-        OnPropertyChanged(nameof(Description));
+        if ( value == _description )
+          return;
+
+        string currentValue = _description;
+        ChangeState(new Command(() => _description = value, () => _description = currentValue, nameof(Description), Notification));
       }
     }
 
@@ -191,8 +206,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _category;
       set
       {
-        _category = value;
-        OnPropertyChanged(nameof(Category));
+        if ( value == _category )
+          return;
+
+        string currentValue = _category;
+        ChangeState(new Command(() => _category = value, () => _category = currentValue, nameof(Category), Notification));
       }
     }
 
@@ -206,8 +224,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _newWindow;
       set
       {
-        _newWindow = value;
-        OnPropertyChanged(nameof(NewWindow));
+        if ( value == _newWindow )
+          return;
+
+        bool currentValue = _newWindow;
+        ChangeState(new Command(() => _newWindow = value, () => _newWindow = currentValue, nameof(NewWindow), Notification));
       }
     }
 
@@ -232,7 +253,7 @@ namespace Org.Vs.TailForWin.Core.Data
     {
       get
       {
-        DateTime now = DateTime.Now;
+        var now = DateTime.Now;
 
         try
         {
@@ -259,8 +280,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _wrap;
       set
       {
-        _wrap = value;
-        OnPropertyChanged(nameof(Wrap));
+        if ( value == _wrap )
+          return;
+
+        bool currentValue = _wrap;
+        ChangeState(new Command(() => _wrap = value, () => _wrap = currentValue, nameof(Wrap), Notification));
       }
     }
 
@@ -274,8 +298,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _removeSpace;
       set
       {
-        _removeSpace = value;
-        OnPropertyChanged(nameof(RemoveSpace));
+        if ( value == _removeSpace )
+          return;
+
+        bool currentValue = _removeSpace;
+        ChangeState(new Command(() => _removeSpace = value, () => _removeSpace = currentValue, nameof(RemoveSpace), Notification));
       }
     }
 
@@ -289,8 +316,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _refreshRate;
       set
       {
-        _refreshRate = value;
-        OnPropertyChanged(nameof(RefreshRate));
+        if ( value == _refreshRate )
+          return;
+
+        var currentValue = _refreshRate;
+        ChangeState(new Command(() => _refreshRate = value, () => _refreshRate = currentValue, nameof(RefreshRate), Notification));
       }
     }
 
@@ -304,8 +334,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _timeStamp;
       set
       {
-        _timeStamp = value;
-        OnPropertyChanged(nameof(Timestamp));
+        if ( value == _timeStamp )
+          return;
+
+        bool currentValue = _timeStamp;
+        ChangeState(new Command(() => _timeStamp = value, () => _timeStamp = currentValue, nameof(Timestamp), Notification));
       }
     }
 
@@ -319,8 +352,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _fontType;
       set
       {
-        _fontType = value;
-        OnPropertyChanged(nameof(FontType));
+        if ( Equals(value, _fontType) )
+          return;
+
+        var currentValue = _fontType;
+        ChangeState(new Command(() => _fontType = value, () => _fontType = currentValue, nameof(FontType), Notification));
       }
     }
 
@@ -334,8 +370,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _threadPriority;
       set
       {
-        _threadPriority = value;
-        OnPropertyChanged(nameof(ThreadPriority));
+        if ( value == _threadPriority )
+          return;
+
+        var currentValue = _threadPriority;
+        ChangeState(new Command(() => _threadPriority = value, () => _threadPriority = currentValue, nameof(ThreadPriority), Notification));
       }
     }
 
@@ -379,8 +418,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _fileEncoding;
       set
       {
-        _fileEncoding = value;
-        OnPropertyChanged(nameof(FileEncoding));
+        if ( Equals(value, _fileEncoding) )
+          return;
+
+        var currentValue = _fileEncoding;
+        ChangeState(new Command(() => _fileEncoding = value, () => _fileEncoding = currentValue, nameof(FileEncoding), Notification));
       }
     }
 
@@ -415,8 +457,8 @@ namespace Org.Vs.TailForWin.Core.Data
         if ( value == _filterState )
           return;
 
-        _filterState = value;
-        OnPropertyChanged();
+        bool currentValue = _filterState;
+        ChangeState(new Command(() => _filterState = value, () => _filterState = currentValue, nameof(FilterState), Notification));
       }
     }
 
@@ -430,8 +472,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _patternString;
       set
       {
-        _patternString = value;
-        OnPropertyChanged(nameof(PatternString));
+        if ( Equals(value, _patternString) )
+          return;
+
+        string currentValue = _patternString;
+        ChangeState(new Command(() => _patternString = value, () => _patternString = currentValue, nameof(PatternString), Notification));
       }
     }
 
@@ -460,8 +505,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _usePattern;
       set
       {
-        _usePattern = value;
-        OnPropertyChanged(nameof(UsePattern));
+        if ( value == _usePattern )
+          return;
+
+        bool currentValue = _usePattern;
+        ChangeState(new Command(() => _usePattern = value, () => _usePattern = currentValue, nameof(UsePattern), Notification));
       }
     }
 
@@ -475,8 +523,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _smartWatch;
       set
       {
-        _smartWatch = value;
-        OnPropertyChanged(nameof(SmartWatch));
+        if ( value == _smartWatch )
+          return;
+
+        bool currentValue = _smartWatch;
+        ChangeState(new Command(() => _smartWatch = value, () => _smartWatch = currentValue, nameof(SmartWatch), Notification));
       }
     }
 
@@ -490,8 +541,11 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _autoRun;
       set
       {
-        _autoRun = value;
-        OnPropertyChanged(nameof(AutoRun));
+        if ( value == _autoRun )
+          return;
+
+        bool currentValue = _autoRun;
+        ChangeState(new Command(() => _autoRun = value, () => _autoRun = currentValue, nameof(AutoRun), Notification));
       }
     }
 
@@ -508,8 +562,8 @@ namespace Org.Vs.TailForWin.Core.Data
         if ( Equals(value, _tabItemBackgroundColorStringHex) )
           return;
 
-        _tabItemBackgroundColorStringHex = value;
-        OnPropertyChanged(nameof(TabItemBackgroundColorStringHex));
+        string currentValue = _tabItemBackgroundColorStringHex;
+        ChangeState(new Command(() => _tabItemBackgroundColorStringHex = value, () => _tabItemBackgroundColorStringHex = currentValue, nameof(TabItemBackgroundColorStringHex), Notification));
       }
     }
 
