@@ -7,8 +7,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -267,7 +269,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// MouseDoubleClick command
     /// </summary>
-    public ICommand DataGridMouseDoubleClickCommand => _dataGridMouseDoubleClickCommand ?? (_dataGridMouseDoubleClickCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteMouseDoubleClickCommmand((Window) p)));
+    public ICommand DataGridMouseDoubleClickCommand => _dataGridMouseDoubleClickCommand ?? (_dataGridMouseDoubleClickCommand = new RelayCommand(p => SelectedItem != null, ExecuteMouseDoubleClickCommmand));
 
     private ICommand _undoCommand;
 
@@ -345,7 +347,31 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
     }
 
-    private void ExecuteMouseDoubleClickCommmand(Window window) => OpenSelectedItem(window);
+    private void ExecuteMouseDoubleClickCommmand(object param)
+    {
+      if ( !(param is object[] o) )
+        return;
+
+      if ( !(o.First() is MouseButtonEventArgs e) || !(o.Last() is Window) )
+        return;
+
+      var dep = e.OriginalSource as DependencyObject;
+
+      while ( dep != null && !(dep is DataGridCell) )
+      {
+        dep = VisualTreeHelper.GetParent(dep);
+      }
+
+      if ( dep == null )
+        return;
+
+      var cell = dep as DataGridCell;
+
+      if ( !Equals(cell.Column.Header, Application.Current.TryFindResource("FileManagerDataGridNo").ToString()) )
+        return;
+
+      OpenSelectedItem(o.Last() as Window);
+    }
 
     private void ExecuteOpenFileCommand()
     {
@@ -374,7 +400,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       if ( !FileManagerCollection.Contains(SelectedItem) )
         return;
-      
+
       bool errors = SelectedItem["Description"] != null || SelectedItem["FileName"] != null;
 
       if ( !errors || SelectedItem.IsLoadedByXml )

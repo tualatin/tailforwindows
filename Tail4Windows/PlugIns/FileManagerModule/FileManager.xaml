@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
@@ -392,14 +393,21 @@
         ItemsSource="{Binding FileManagerView}"
         SelectionMode="Extended"
         >
-        <!--<i:Interaction.Triggers>
+        <i:Interaction.Triggers>
           <i:EventTrigger EventName="MouseDoubleClick">
-            <commands:InvokeDelegateCommandAction
-              Command="{Binding DataGridMouseDoubleClickCommand}"
-              CommandParameter="{Binding ElementName=FileManagerWindow}"
-              />
+            <commands:InvokeDelegateCommandAction Command="{Binding DataGridMouseDoubleClickCommand}">
+              <commands:InvokeDelegateCommandAction.CommandParameter>
+                <MultiBinding Converter="{StaticResource TailManagerMouseDoubleClickMultiConverter}">
+                  <Binding
+                    Path="InvokeParameter"
+                    RelativeSource="{RelativeSource Self}"
+                    />
+                  <Binding ElementName="FileManagerWindow" />
+                </MultiBinding>
+              </commands:InvokeDelegateCommandAction.CommandParameter>
+            </commands:InvokeDelegateCommandAction>
           </i:EventTrigger>
-        </i:Interaction.Triggers>-->
+        </i:Interaction.Triggers>
 
         <i:Interaction.Behaviors>
           <behaviors:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />

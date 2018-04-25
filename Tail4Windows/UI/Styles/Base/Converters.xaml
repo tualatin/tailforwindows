@@ -38,5 +38,6 @@
 
   <multiConverters:LogFileIsEnableMultiConverter x:Key="LogFileIsEnableMultiConverter" />
   <multiConverters:LogFileFileManagerMultiConverter x:Key="LogFileLengthFileManagerMultiConverter" />
+  <multiConverters:TailManagerMouseDoubleClickMultiConverter x:Key="TailManagerMouseDoubleClickMultiConverter" />
 
 </ResourceDictionary>
