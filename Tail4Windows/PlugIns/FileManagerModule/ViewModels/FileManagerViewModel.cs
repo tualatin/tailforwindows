@@ -424,7 +424,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( errors.Count == 0 )
         unsavedItems = FileManagerCollection.Where(p => !p.IsLoadedByXml).ToList();
 
-      return errors.Count != 0 || undo || unsavedItems.Count != 0;
+      if ( errors.Count > 0 )
+        return false;
+
+      return unsavedItems.Count > 0 || undo;
     }
 
     private async Task ExecuteSaveCommandAsync()
@@ -529,6 +532,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         return;
       }
 
+      if ( string.IsNullOrWhiteSpace(SelectedItem?.FileName) )
+        return;
+
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, SelectedItem, ParentGuid));
       ExecuteCloseCommand(window);
     }
@@ -554,7 +560,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         return;
 
       if ( _fileManagerCollection == null || _fileManagerCollection.Count == 0 )
-        FileManagerCollection = new ObservableCollection<TailData> { new TailData() };
+      {
+        FileManagerCollection = new ObservableCollection<TailData> {new TailData()};
+        FileManagerCollection.First().CommitChanges();
+      }
 
       FilterHasFocus = false;
       FileManagerView = (ListCollectionView) new CollectionViewSource { Source = FileManagerCollection }.View;
