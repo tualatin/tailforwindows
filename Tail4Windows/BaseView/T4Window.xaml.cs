@@ -76,7 +76,7 @@ namespace Org.Vs.TailForWin.BaseView
         {
           string message = string.Format(Application.Current.TryFindResource("ThreadIsBusy").ToString(), EnvironmentContainer.ApplicationTitle);
 
-          if ( EnvironmentContainer.ShowQuestionMessageBox(message) == MessageBoxResult.Yes )
+          if ( InteractionService.ShowQuestionMessageBox(message) == MessageBoxResult.Yes )
           {
             e.Cancel = false;
           }

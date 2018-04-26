@@ -472,7 +472,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
         string message = $"{Application.Current.TryFindResource("QRemoveTab")} \n {item.HeaderFullText}";
 
-        if ( EnvironmentContainer.ShowQuestionMessageBox(message) == MessageBoxResult.No )
+        if ( InteractionService.ShowQuestionMessageBox(message) == MessageBoxResult.No )
           return;
       }
 

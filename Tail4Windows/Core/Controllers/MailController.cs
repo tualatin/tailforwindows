@@ -64,17 +64,17 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       if ( e.Cancelled )
       {
-        EnvironmentContainer.ShowErrorMessageBox(Application.Current.TryFindResource("MailCannotSend").ToString());
+        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("MailCannotSend").ToString());
         return;
       }
 
       if ( e.Error != null )
       {
-        EnvironmentContainer.ShowErrorMessageBox(e.Error.Message);
+        InteractionService.ShowErrorMessageBox(e.Error.Message);
         return;
       }
 
-      EnvironmentContainer.ShowInformationMessageBox(Application.Current.TryFindResource("MailSendSuccess").ToString());
+      InteractionService.ShowInformationMessageBox(Application.Current.TryFindResource("MailSendSuccess").ToString());
     }
 
     private async Task<NetworkCredential> CreateSecurePasswordAsync()

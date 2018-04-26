@@ -114,7 +114,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
     private async Task ExecuteResetSettingsCommandAsync()
     {
-      if ( EnvironmentContainer.ShowQuestionMessageBox(Application.Current.TryFindResource("QResetSettings").ToString()) == MessageBoxResult.No )
+      if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("QResetSettings").ToString()) == MessageBoxResult.No )
         return;
 
       MouseService.SetBusyState();
@@ -178,14 +178,14 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       _cts?.Dispose();
       _cts = new CancellationTokenSource();
 
-      if ( !EnvironmentContainer.OpenFileLogDialog(out string importSettings, Application.Current.TryFindResource("ImportExportExportSettingsFilter").ToString(),
+      if ( !InteractionService.OpenFileDialog(out string importSettings, Application.Current.TryFindResource("ImportExportExportSettingsFilter").ToString(),
         Application.Current.TryFindResource("OpenDialogImportSettings").ToString()) )
         return;
 
       if ( importSettings == null )
         return;
 
-      if ( EnvironmentContainer.ShowQuestionMessageBox(Application.Current.TryFindResource("QImportSettings").ToString()) == MessageBoxResult.No )
+      if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("QImportSettings").ToString()) == MessageBoxResult.No )
         return;
 
       MouseService.SetBusyState();

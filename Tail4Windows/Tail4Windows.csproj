@@ -295,7 +295,6 @@
     <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
     <Compile Include="BaseView\ViewModels\TreeNodeOptionViewModel.cs" />
     <Compile Include="Core\Interfaces\IViewModelBase.cs" />
-    <Compile Include="Core\Utils\FileOpenDialog.cs" />
     <Compile Include="Core\Utils\LanguageSelector.cs" />
     <Compile Include="Core\Utils\StringEncryption.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\SysInfoOptionPage.xaml.cs">
@@ -503,6 +502,7 @@
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
     <Compile Include="UI\Utils\FileDragDropHelper.cs" />
+    <Compile Include="Core\Utils\InteractionService.cs" />
     <Compile Include="UI\Utils\UiHelpers.cs" />
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />

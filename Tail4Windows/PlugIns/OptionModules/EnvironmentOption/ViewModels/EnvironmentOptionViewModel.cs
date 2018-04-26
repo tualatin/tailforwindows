@@ -133,7 +133,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
           {
             string message = string.Format(Application.Current.TryFindResource("QAddSendTo").ToString(), EnvironmentContainer.ApplicationTitle);
 
-            if ( EnvironmentContainer.ShowQuestionMessageBox(message) == MessageBoxResult.No )
+            if ( InteractionService.ShowQuestionMessageBox(message) == MessageBoxResult.No )
               return;
 
             MouseService.SetBusyState();

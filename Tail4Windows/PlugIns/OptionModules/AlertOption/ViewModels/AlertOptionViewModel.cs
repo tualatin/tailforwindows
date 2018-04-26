@@ -75,7 +75,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels
       if ( string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.SmtpSettings.FromAddress)
           || string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.SmtpSettings.SmtpServerName) )
       {
-        if ( EnvironmentContainer.ShowQuestionMessageBox(Application.Current.TryFindResource("AlertOptionSmtpSettingsNotValid").ToString()) == MessageBoxResult.No )
+        if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("AlertOptionSmtpSettingsNotValid").ToString()) == MessageBoxResult.No )
           return;
 
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSmtpSettingMessage(this));
@@ -88,7 +88,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels
 
     private void ExecuteSelectSoundFile()
     {
-      if ( FileOpenDialog.OpenDialog("MP3(*.mp3)|*.mp3|Wave(*.wav)|*.wav|All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle, out string fileName) )
+      if ( InteractionService.OpenFileDialog(out string fileName, "MP3(*.mp3)|*.mp3|Wave(*.wav)|*.wav|All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle) )
         SettingsHelperController.CurrentSettings.AlertSettings.SoundFileNameFullPath = fileName;
     }
 
@@ -115,7 +115,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels
 
         if ( !regex.IsMatch(extension) )
         {
-          EnvironmentContainer.ShowErrorMessageBox(Application.Current.TryFindResource("NoSoundFile").ToString());
+          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("NoSoundFile").ToString());
           return;
         }
 

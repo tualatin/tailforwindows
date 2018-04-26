@@ -55,7 +55,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       }
       else
       {
-        EnvironmentContainer.ShowErrorMessageBox($"{'"'} {languageFile} {'"'}  not found");
+        InteractionService.ShowErrorMessageBox($"{'"'} {languageFile} {'"'}  not found");
       }
     }
   }

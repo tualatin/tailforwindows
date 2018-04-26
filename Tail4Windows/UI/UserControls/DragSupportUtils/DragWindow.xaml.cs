@@ -68,7 +68,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         {
           string message = string.Format(Application.Current.TryFindResource("ThreadIsBusy").ToString(), EnvironmentContainer.ApplicationTitle);
 
-          if ( EnvironmentContainer.ShowQuestionMessageBox(message) == MessageBoxResult.Yes )
+          if ( InteractionService.ShowQuestionMessageBox(message) == MessageBoxResult.Yes )
           {
             e.Cancel = false;
           }
@@ -228,7 +228,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       {
         string message = $"{Application.Current.TryFindResource("QRemoveTab")} \n {tabItem.HeaderFullText}";
 
-        if ( EnvironmentContainer.ShowQuestionMessageBox(message) == MessageBoxResult.No )
+        if ( InteractionService.ShowQuestionMessageBox(message) == MessageBoxResult.No )
           return;
       }
 

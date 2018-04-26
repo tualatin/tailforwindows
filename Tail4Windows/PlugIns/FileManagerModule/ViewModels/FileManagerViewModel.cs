@@ -370,7 +370,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteOpenFileCommand()
     {
-      if ( !FileOpenDialog.OpenDialog("All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle, out string fileName) )
+      if ( !InteractionService.OpenFileDialog(out string fileName, "All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle) )
         return;
 
       MouseService.SetBusyState();
@@ -400,7 +400,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       if ( !errors || SelectedItem.IsLoadedByXml )
       {
-        if ( EnvironmentContainer.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerDeleteItemQuestion").ToString()) == MessageBoxResult.No )
+        if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerDeleteItemQuestion").ToString()) == MessageBoxResult.No )
           return;
       }
 
@@ -496,7 +496,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       if ( unsavedItems.Count > 0 )
       {
-        if ( EnvironmentContainer.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerCloseUnsaveItem").ToString()) == MessageBoxResult.Yes )
+        if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerCloseUnsaveItem").ToString()) == MessageBoxResult.Yes )
         {
           ExecuteSaveCommandAsync().GetAwaiter().GetResult();
         }
@@ -528,7 +528,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       if ( result.Count > 0 )
       {
-        EnvironmentContainer.ShowInformationMessageBox(Application.Current.TryFindResource("FileManagerFileAlreadyOpen").ToString());
+        InteractionService.ShowInformationMessageBox(Application.Current.TryFindResource("FileManagerFileAlreadyOpen").ToString());
         return;
       }
 
@@ -561,7 +561,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       if ( _fileManagerCollection == null || _fileManagerCollection.Count == 0 )
       {
-        FileManagerCollection = new ObservableCollection<TailData> {new TailData()};
+        FileManagerCollection = new ObservableCollection<TailData> { new TailData() };
         FileManagerCollection.First().CommitChanges();
       }
 

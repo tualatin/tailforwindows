@@ -119,7 +119,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
+        InteractionService.ShowErrorMessageBox(ex.Message);
       }
       return result;
     }
@@ -152,7 +152,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
+        InteractionService.ShowErrorMessageBox(ex.Message);
       }
       return result;
     }
@@ -202,7 +202,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
             }
             catch
             {
-              EnvironmentContainer.ShowErrorMessageBox(Application.Current.TryFindResource("FileNotFound").ToString());
+              InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileNotFound").ToString());
               return;
             }
           }
@@ -248,7 +248,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         catch ( Exception ex )
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-          EnvironmentContainer.ShowErrorMessageBox(ex.Message);
+          InteractionService.ShowErrorMessageBox(ex.Message);
         }
       }, token).ConfigureAwait(false);
 
@@ -317,7 +317,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
+        InteractionService.ShowErrorMessageBox(ex.Message);
       }
     }
 
@@ -347,7 +347,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
+        InteractionService.ShowErrorMessageBox(ex.Message);
       }
     }
 
@@ -384,7 +384,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
+        InteractionService.ShowErrorMessageBox(ex.Message);
       }
     }
 
@@ -418,7 +418,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        EnvironmentContainer.ShowErrorMessageBox(ex.Message);
+        InteractionService.ShowErrorMessageBox(ex.Message);
       }
       return result;
     }

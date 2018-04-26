@@ -458,7 +458,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       LogFileComboBoxHasFocus = false;
 
-      if ( !FileOpenDialog.OpenDialog("All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle, out string fileName) )
+      if ( !InteractionService.OpenFileDialog(out string fileName, "All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle) )
         return;
 
       SelectedItem = fileName;
@@ -642,34 +642,44 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( args.TailData.NewWindow )
       {
-        DragWindow dragWindow;
-
-        lock ( LogWindowControlLock )
-        {
-          const int offset = 100;
-          args.TailData.OpenFromFileManager = true;
-          ILogWindowControl content = new LogWindowControl
-          {
-            CurrentTailData = args.TailData
-          };
-          var tabItem = BusinessHelper.CreateDragSupportTabItem(args.TailData.File, args.TailData.FileName, Visibility.Collapsed, content);
-          dragWindow = DragWindow.CreateTabWindow(window.Left + offset, window.Top + offset, window.Width, window.Height, tabItem);
-
-          // Unregister tab item, we do not need it again!
-          BusinessHelper.UnregisterTabItem(tabItem);
-        }
-
-        dragWindow?.Activate();
-        dragWindow?.Focus();
+        CreateDragWindow(args.TailData, window);
         return;
       }
 
       if ( LogWindowTabItem.TabItemBusyIndicator == Visibility.Visible )
       {
+        ILogWindowControl content = new LogWindowControl
+        {
+          CurrentTailData = args.TailData
+        };
+        var tabItem = BusinessHelper.CreateDragSupportTabItem(args.TailData.File, args.TailData.FileName, Visibility.Collapsed, content);
         return;
       }
 
       CreateTailDataWindow(args.TailData);
+    }
+
+    private static void CreateDragWindow(TailData tailData, Window window)
+    {
+      DragWindow dragWindow;
+
+      lock ( LogWindowControlLock )
+      {
+        const int offset = 100;
+        tailData.OpenFromFileManager = true;
+        ILogWindowControl content = new LogWindowControl
+        {
+          CurrentTailData = tailData
+        };
+        var tabItem = BusinessHelper.CreateDragSupportTabItem(tailData.File, tailData.FileName, Visibility.Collapsed, content);
+        dragWindow = DragWindow.CreateTabWindow(window.Left + offset, window.Top + offset, window.Width, window.Height, tabItem);
+
+        // Unregister tab item, we do not need it again!
+        BusinessHelper.UnregisterTabItem(tabItem);
+      }
+
+      dragWindow?.Activate();
+      dragWindow?.Focus();
     }
 
     /// <summary>
