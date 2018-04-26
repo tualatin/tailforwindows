@@ -11,5 +11,81 @@
   HorizontalAlignment="Stretch"
   VerticalAlignment="Stretch"
   >
-  <Grid />
+  <UserControl.Resources>
+    <Style x:Key="AddFileToFileManagerStyle" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type Button}">
+            <Border
+              Name="Chrome"
+              Background="{TemplateBinding Background}"
+              BorderBrush="{StaticResource BrushSolidBorderMedium}"
+              BorderThickness="{TemplateBinding BorderThickness}"
+              SnapsToDevicePixels="True"
+              >
+              <Grid>
+                <Path
+                  x:Name="PlusPath"
+                  Width="11"
+                  Height="13"
+                  Margin="4"
+                  Data="M0,7L10.8,7 10.8,8.1999998 6,8.1999998 6,11.2204 7.1999998,10.0204 7.1999998,11.2204 5.4000001,13 3.5999999,11.2204 3.5999999,10.0204 4.8000002,11.2204 4.8000002,8.1999998 0,8.1999998z M5.4000001,0L7.2000003,1.7796001 7.2000003,2.9796002 6,1.7796001 6,4.8000002 10.8,4.8000002 10.8,6 0,6 0,4.8000002 4.8000002,4.8000002 4.8000002,1.7796001 3.6000001,2.9796002 3.6000001,1.7796001z"
+                  Fill="{StaticResource BrushSolidBlue}"
+                  SnapsToDevicePixels="True"
+                  />
+              </Grid>
+            </Border>
+
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource ButtonOverBackground}" />
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
+              </Trigger>
+              <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
+                <Setter TargetName="PlusPath" Property="Effect">
+                  <Setter.Value>
+                    <DropShadowEffect Opacity="0" />
+                  </Setter.Value>
+                </Setter>
+                <Setter TargetName="PlusPath" Property="Fill" Value="{StaticResource BrushSolidGrey35}" />
+
+              </Trigger>
+              <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
+                <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </UserControl.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <Button
+      Grid.Row="0"
+      Width="75"
+      Height="22"
+      HorizontalAlignment="Left"
+      />
+
+    <GridSplitter
+      Grid.Row="1"
+      Height="5"
+      HorizontalAlignment="Stretch"
+      Background="{StaticResource BrushSolidBlue}"
+      />
+
+    <Button
+      Grid.Row="2"
+      Width="75"
+      Height="22"
+      HorizontalAlignment="Left"
+      />
+  </Grid>
 </UserControl>

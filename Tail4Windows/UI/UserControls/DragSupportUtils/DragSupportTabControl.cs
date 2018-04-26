@@ -403,8 +403,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       if ( _dragToWindow == null )
         return;
-
-
+      
       _dragToWindow.Left = left;
       _dragToWindow.Top = top;
     }

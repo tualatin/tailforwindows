@@ -987,8 +987,8 @@
         BorderThickness="0 1 0 0"
         >
         <logWindowModule:LogWindow
-          HorizontalAlignment="Center"
-          VerticalAlignment="Center"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
           />
       </Border>
     </Grid>

@@ -122,7 +122,7 @@
   <system:String x:Key="FileManagerFilter">Filter</system:String>
   <system:String x:Key="FileManagerUseFilter">Use filters</system:String>
   <system:String x:Key="FileManagerUsePattern">Use pattern</system:String>
-  <system:String x:Key="FileManagerOpenInNewWindow">Open in new window</system:String>
+  <system:String x:Key="FileManagerOpenInNewWindow">Open in new DragWindow</system:String>
   <system:String x:Key="FileManagerLineWrap">Line wrap</system:String>
   <system:String x:Key="FileManagerTabBackgroundColor">Tab header color</system:String>
   <system:String x:Key="FileManagerDeleteItemQuestion">Do you want delete selected item?</system:String>

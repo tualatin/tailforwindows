@@ -122,7 +122,7 @@
   <system:String x:Key="FileManagerFilter">Filter</system:String>
   <system:String x:Key="FileManagerUseFilter">Benutzer Filter</system:String>
   <system:String x:Key="FileManagerUsePattern">Pattern nutzen</system:String>
-  <system:String x:Key="FileManagerOpenInNewWindow">Öffne in neuem Fenster</system:String>
+  <system:String x:Key="FileManagerOpenInNewWindow">Öffne in neuem DragFenster</system:String>
   <system:String x:Key="FileManagerLineWrap">Textumbruch</system:String>
   <system:String x:Key="FileManagerTabBackgroundColor">Tabheader Farbe</system:String>
   <system:String x:Key="FileManagerDeleteItemQuestion">Möchten Sie den ausgewählten Datensatz löschen?</system:String>

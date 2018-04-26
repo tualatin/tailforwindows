@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Business.Data.Messages;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
@@ -43,6 +44,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   public partial class LogWindowControl : ILogWindowControl, IFileDragDropTarget
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogWindowControl));
+    private static readonly object LogWindowControlLock = new object();
 
     private CancellationTokenSource _cts;
     private readonly IXmlSearchHistory<QueueSet<string>> _historyController;
@@ -637,6 +639,30 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       // Is it the right window?
       if ( ((IDragWindow) window).DragWindowGuid != args.ParentGuid )
         return;
+
+      if ( args.TailData.NewWindow )
+      {
+        DragWindow dragWindow;
+
+        lock ( LogWindowControlLock )
+        {
+          const int offset = 100;
+          args.TailData.OpenFromFileManager = true;
+          ILogWindowControl content = new LogWindowControl
+          {
+            CurrentTailData = args.TailData
+          };
+          var tabItem = BusinessHelper.CreateDragSupportTabItem(args.TailData.File, args.TailData.FileName, Visibility.Collapsed, content);
+          dragWindow = DragWindow.CreateTabWindow(window.Left + offset, window.Top + offset, window.Width, window.Height, tabItem);
+
+          // Unregister tab item, we do not need it again!
+          BusinessHelper.UnregisterTabItem(tabItem);
+        }
+
+        dragWindow?.Activate();
+        dragWindow?.Focus();
+        return;
+      }
 
       if ( LogWindowTabItem.TabItemBusyIndicator == Visibility.Visible )
       {
