@@ -88,11 +88,17 @@
   <system:String x:Key="TextBoxFileNameWatermark">Logdatei</system:String>
   <system:String x:Key="LabelFile">Datei</system:String>
   <system:String x:Key="LabelRefreshRate">Akt. Rate</system:String>
+  <system:String x:Key="LabelRefreshRateToolTip">Setzt die aktuelle Aktualisierungsrate</system:String>
   <system:String x:Key="LabelThreadPriority">Thread Priorität</system:String>
+  <system:String x:Key="LabelThreadPriorityToolTip">Setzt die aktuelle Thread Priorität</system:String>
   <system:String x:Key="ComboBoxTimeStamp">Zeit</system:String>
+  <system:String x:Key="ComboBoxTimeStampToolTip">Falls eine Logdatei keinen Zeitstempel besitzt, fügt ihn Tail4Windows hinzu</system:String>
   <system:String x:Key="ComboBoxLineWrap">Zeilenumbruch</system:String>
+  <system:String x:Key="ComboBoxLineWrapToolTip">Fügt einen Zeilenumbruch hinzu</system:String>
   <system:String x:Key="ComboBoxRemoveSpace">Leerzeilen entfernen</system:String>
+  <system:String x:Key="ComboBoxRemoveSpaceToolTip">Entfernt unnötige Leerzeilen</system:String>
   <system:String x:Key="ComboBoxFilter">Filter</system:String>
+  <system:String x:Key="ComboBoxFilterToolTip">Aktiviert/Deaktiviert die Filter</system:String>
   <system:String x:Key="ToggleMenuButtonToolTip">Erweiterte tail Einstellungen</system:String>
   <system:String x:Key="ButtonFileManager">TailManager</system:String>
   <system:String x:Key="ButtonFileManagerToolTip">Öffnet den TailManager (STRG+M)</system:String>
@@ -121,8 +127,10 @@
   <system:String x:Key="FileManagerFilterBy">Filtern nach Bezeichnung oder Kategorie</system:String>
   <system:String x:Key="FileManagerFilter">Filter</system:String>
   <system:String x:Key="FileManagerUseFilter">Benutzer Filter</system:String>
+  <system:String x:Key="FileManagerUseFilterToolTip">Konfiguriert die aktuellen Filter</system:String>
   <system:String x:Key="FileManagerUsePattern">Pattern nutzen</system:String>
   <system:String x:Key="FileManagerOpenInNewWindow">Öffne in neuem DragFenster</system:String>
+  <system:String x:Key="FileManagerOpenInNewWindowToolTip">Öffnet die aktuellen Einstellung in einem neuen DragFenster</system:String>
   <system:String x:Key="FileManagerLineWrap">Textumbruch</system:String>
   <system:String x:Key="FileManagerTabBackgroundColor">Tabheader Farbe</system:String>
   <system:String x:Key="FileManagerDeleteItemQuestion">Möchten Sie den ausgewählten Datensatz löschen?</system:String>
@@ -130,7 +138,7 @@
   <system:String x:Key="FilterManagerFont">Schrifteinstellungen</system:String>
   <system:String x:Key="FilterManagerFontToolTip">Setzt die aktuelle Filterschrift</system:String>
 
-  <system:String x:Key="ExtendedTailSettingsLabel">Zeit erweiterte Einstellungen</system:String>
+  <system:String x:Key="ExtendedTailSettingsLabel">Zeige erweiterte Einstellungen</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Zeige die erweiterten Einstellungen des aktuellen tail Tabs</system:String>
   <system:String x:Key="ExtendedTailSettingsFilterLabel">Filter Einstellungen</system:String>
   <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Öffne in Explorer</system:String>
@@ -266,7 +274,7 @@
   <system:String x:Key="ExtrasSaveLogFileHistory">Logdatei Historie speichern</system:String>
   <system:String x:Key="ExtrasSaveLogFileHistoryToolTip">Speichert die aktuelle Logdatei in einem internen Speicher ab</system:String>
   <system:String x:Key="ExtrasSaveLogFileHistorySpinnerToolTip">Legt die maximale Speichertiefe fest</system:String>
-  <system:String x:Key="ExtrasShowExtendedSettings">Zeige erweitere Einstellungen</system:String>
+  <system:String x:Key="ExtrasShowExtendedSettings">Zeige erweiterte Einstellungen</system:String>
   <system:String x:Key="ExtrasShowExtendedSettingsToolTip">Zeige die erweiterten Einstellungen in bestimmten Modulen an</system:String>
 
   <system:String x:Key="SmtpServer">SMTP Server</system:String>

@@ -590,7 +590,7 @@
                   FontSize="12"
                   FontWeight="Bold"
                   />
-                <TextBlock Text="{DynamicResource EnvironmentAlwaysOnTopToolTip}" />
+                <TextBlock Text="{DynamicResource ComboBoxTimeStampToolTip}" />
                 <Border
                   Margin="0 8"
                   BorderBrush="Silver"
@@ -626,7 +626,7 @@
                   FontSize="12"
                   FontWeight="Bold"
                   />
-                <TextBlock Text="{DynamicResource EnvironmentAlwaysOnTopToolTip}" />
+                <TextBlock Text="{DynamicResource ComboBoxLineWrapToolTip}" />
                 <Border
                   Margin="0 8"
                   BorderBrush="Silver"
@@ -662,7 +662,7 @@
                   FontSize="12"
                   FontWeight="Bold"
                   />
-                <TextBlock Text="{DynamicResource EnvironmentAlwaysOnTopToolTip}" />
+                <TextBlock Text="{DynamicResource ComboBoxRemoveSpaceToolTip}" />
                 <Border
                   Margin="0 8"
                   BorderBrush="Silver"
@@ -765,7 +765,7 @@
                   FontSize="12"
                   FontWeight="Bold"
                   />
-                <TextBlock Text="{DynamicResource EnvironmentAlwaysOnTopToolTip}" />
+                <TextBlock Text="{DynamicResource ComboBoxFilterToolTip}" />
                 <Border
                   Margin="0 8"
                   BorderBrush="Silver"
@@ -814,7 +814,7 @@
                     FontSize="12"
                     FontWeight="Bold"
                     />
-                  <TextBlock Text="{DynamicResource EnvironmentLanguageToolTip}" />
+                  <TextBlock Text="{DynamicResource LabelThreadPriorityToolTip}" />
                   <Border
                     Margin="0 8"
                     BorderBrush="Silver"
@@ -864,7 +864,7 @@
                     FontSize="12"
                     FontWeight="Bold"
                     />
-                  <TextBlock Text="{DynamicResource EnvironmentLanguageToolTip}" />
+                  <TextBlock Text="{DynamicResource LabelRefreshRateToolTip}" />
                   <Border
                     Margin="0 8"
                     BorderBrush="Silver"
