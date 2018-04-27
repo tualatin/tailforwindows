@@ -71,6 +71,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       _historyController = new XmlHistoryController();
       _xmlFileManagerController = new XmlFileManagerController();
+      CurrentTailData = new TailData();
 
       ((AsyncCommand<object>) StartTailCommand).PropertyChanged += SaveHistoryCompleted;
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedCompleted;
@@ -117,14 +118,20 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public bool IsSelected => LogWindowTabItem != null && LogWindowTabItem.IsSelected;
 
+    private TailData _currentTailData;
+
     /// <summary>
     /// Current tail data <see cref="TailData"/>
     /// </summary>
     public TailData CurrentTailData
     {
-      get;
-      set;
-    } = new TailData();
+      get => _currentTailData;
+      set
+      {
+        _currentTailData = value;
+        OnPropertyChanged();
+      }
+    }
 
     private bool _fileIsValid;
 
