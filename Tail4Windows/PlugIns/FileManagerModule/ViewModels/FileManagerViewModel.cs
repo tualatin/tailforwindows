@@ -407,9 +407,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       MouseService.SetBusyState();
 
       string id = SelectedItem.Id.ToString();
-
-      if ( SelectedItem.IsLoadedByXml )
-        await _xmlFileManagerController.DeleteTailDataByIdFromXmlFileAsync(_cts.Token, id).ConfigureAwait(false);
+      await _xmlFileManagerController.DeleteTailDataByIdFromXmlFileAsync(_cts.Token, id).ConfigureAwait(false);
     }
 
     private bool CanExecuteSaveCommand()
