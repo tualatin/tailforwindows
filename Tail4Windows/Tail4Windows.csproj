@@ -202,6 +202,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Business\Controllers\PrintController.cs" />
+    <Compile Include="Business\Data\LogEntry.cs" />
     <Compile Include="Business\Data\Messages\AddTabItemMessage.cs" />
     <Compile Include="Business\Data\Messages\AddTailDataToQuickAddMessage.cs" />
     <Compile Include="Business\Data\Messages\DisableQuickAddInTailDataMessage.cs" />

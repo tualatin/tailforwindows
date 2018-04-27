@@ -11,6 +11,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.Business.Controllers;
+using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -47,6 +49,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private static readonly object LogWindowControlLock = new object();
 
     private CancellationTokenSource _cts;
+    private readonly PrintController _printerController;
     private readonly IXmlSearchHistory<QueueSet<string>> _historyController;
     private readonly IXmlFileManager _xmlFileManagerController;
     private QueueSet<string> _historyQueueSet;
@@ -69,6 +72,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       DataContext = this;
 
+      _printerController = new PrintController();
       _historyController = new XmlHistoryController();
       _xmlFileManagerController = new XmlFileManagerController();
       CurrentTailData = new TailData();
@@ -268,12 +272,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public IAsyncCommand QuickSaveCommand => _quickSaveCommand ?? (_quickSaveCommand = AsyncCommand.Create(p => CanExecuteQuickSaveCommand(), ExecuteQuickSaveCommandAsync));
 
-    private IAsyncCommand _printTailDataCommand;
+    private ICommand _printTailDataCommand;
 
     /// <summary>
     /// Print <see cref="TailData"/>
     /// </summary>
-    public IAsyncCommand PrintTailDataCommand => _printTailDataCommand ?? (_printTailDataCommand = AsyncCommand.Create(p => FileIsValid, ExecutePrintTailDataCommandAsync));
+    public ICommand PrintTailDataCommand => _printTailDataCommand ?? (_printTailDataCommand = new RelayCommand(p => FileIsValid, p => ExecutePrintTailDataCommand()));
 
     private ICommand _openSearchDialogCommand;
 
@@ -391,9 +395,17 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     }
 
-    private async Task ExecutePrintTailDataCommandAsync()
+    private void ExecutePrintTailDataCommand()
     {
+      // TODO real data!
+      var test = new ObservableCollection<LogEntry>
+      {
+        new LogEntry{ Index = 0, Message = "test 1"},
+        new LogEntry{ Index = 1, Message = "test 2"},
+        new LogEntry{ Index = 2, Message = "test 3"}
+      };
 
+      _printerController.PrintDocument(test, CurrentTailData);
     }
 
     private bool CanExecuteQuickSaveCommand() => FileIsValid && CurrentTailData.OpenFromFileManager;
