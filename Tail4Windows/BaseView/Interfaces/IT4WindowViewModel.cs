@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.UI.Interfaces;
+using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
 
 namespace Org.Vs.TailForWin.BaseView.Interfaces
@@ -91,7 +91,7 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
     /// <summary>
     /// Tray icon items source
     /// </summary>
-    ObservableCollection<MenuItem> TrayIconItemsSource
+    ObservableCollection<DragSupportMenuItem> TrayIconItemsSource
     {
       get;
       set;

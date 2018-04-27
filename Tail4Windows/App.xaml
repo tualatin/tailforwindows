@@ -39,6 +39,7 @@
         <ResourceDictionary Source="UI/UserControls/DragSupportUtils/Styles/DragSupportTabItemStyle.xaml" />
         <ResourceDictionary Source="UI/UserControls/DragSupportUtils/Styles/DragSupportTabControlStyle.xaml" />
         <ResourceDictionary Source="UI/UserControls/DragSupportUtils/Styles/DragSupportWindowStyle.xaml" />
+        <ResourceDictionary Source="UI/UserControls/DragSupportUtils/Styles/DragSupportMenuItemStyle.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Application.Resources>

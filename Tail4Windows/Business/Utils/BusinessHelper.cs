@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
@@ -13,7 +14,10 @@ namespace Org.Vs.TailForWin.Business.Utils
   /// </summary>
   public static class BusinessHelper
   {
-    private static readonly List<DragSupportTabItem> TabItemList = new List<DragSupportTabItem>();
+    /// <summary>
+    /// List of registered <see cref="DragSupportTabItem"/>
+    /// </summary>
+    public static readonly ObservableCollection<DragSupportTabItem> TabItemList = new ObservableCollection<DragSupportTabItem>();
 
     private static readonly object MyLock = new object();
 

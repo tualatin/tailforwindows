@@ -266,6 +266,7 @@
     <Compile Include="PlugIns\LogWindowModule\ViewModels\LogWindowViewModel.cs" />
     <Compile Include="UI\Behaviors\FocusBehavior.cs" />
     <Compile Include="UI\UserControls\Behaviors\WatermarkBehavior.cs" />
+    <Compile Include="UI\UserControls\DragSupportUtils\DragSupportMenuItem.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\DragSupportTabControl.cs" />
     <Compile Include="BaseView\Interfaces\IOptionsViewModel.cs" />
     <Compile Include="BaseView\Interfaces\IT4WindowViewModel.cs" />
@@ -604,6 +605,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\UserControls\DragSupportUtils\DropOverlayWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\UserControls\DragSupportUtils\Styles\DragSupportMenuItemStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

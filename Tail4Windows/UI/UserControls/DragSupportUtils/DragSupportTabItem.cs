@@ -15,7 +15,7 @@ using Org.Vs.TailForWin.UI.Converters;
 namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 {
   /// <summary>
-  /// Drag support TabItem
+  /// Drag support <see cref="TabItem"/>
   /// </summary>
   public class DragSupportTabItem : TabItem, INotifyPropertyChanged
   {
@@ -99,6 +99,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         string item = value.MeasureTextAndCutIt(typeface, FontSize, 160);
 
         SetValue(HeaderToolContentProperty, item);
+        OnPropertyChanged(nameof(HeaderFullText));
       }
     }
 
@@ -125,6 +126,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         return;
 
       tabItem._tabItemBusyIndicator.Visibility = e.NewValue is Visibility visibility ? visibility : Visibility.Visible;
+      tabItem.OnPropertyChanged(nameof(tabItem.TabItemBusyIndicator));
     }
 
     /// <summary>

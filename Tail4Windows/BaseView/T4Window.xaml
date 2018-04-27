@@ -109,14 +109,10 @@
         </intr:EventTrigger>
       </intr:Interaction.Triggers>
       <taskbarNotification:TaskbarIcon.ContextMenu>
-        <ContextMenu
-          Name="ContextMnu"
-          ItemsSource="{Binding TrayIconItemsSource}"
-          />
+        <ContextMenu ItemsSource="{Binding TrayIconItemsSource}" />
       </taskbarNotification:TaskbarIcon.ContextMenu>
       <taskbarNotification:TaskbarIcon.TrayToolTip>
         <userControls:FancyToolTip
-          x:Name="FancyToolTipTfW"
           ApplicationText="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationTitle}}"
           InfoText="{Binding Source={x:Static viewModels:BaseWindowStatusbarViewModel.Instance}, Path=CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
           Opacity="0.85"

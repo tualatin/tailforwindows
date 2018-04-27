@@ -173,7 +173,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// Tray icon items source
     /// </summary>
-    public ObservableCollection<MenuItem> TrayIconItemsSource
+    public ObservableCollection<DragSupportMenuItem> TrayIconItemsSource
     {
       get;
       set;
@@ -228,14 +228,44 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _currentStatusbarState = EStatusbarState.Default;
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
       _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
+      BusinessHelper.TabItemList.CollectionChanged += RegisteredTabItemsSourceCollectionChanged;
 
-      TrayIconItemsSource = new ObservableCollection<MenuItem>();
-      TrayIconItemsSource.CollectionChanged += TrayIconItemsSourceCollectionChanged;
-
+      TrayIconItemsSource = new ObservableCollection<DragSupportMenuItem>();
       TabItemsSource = new ObservableCollection<DragSupportTabItem>();
     }
 
-    private void TrayIconItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnPropertyChanged(nameof(TrayIconItemsSource));
+    private void RegisteredTabItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      switch ( e.Action )
+      {
+      case NotifyCollectionChangedAction.Add:
+
+        foreach ( var item in e.NewItems )
+        {
+          TrayIconItemsSource.Add(new DragSupportMenuItem
+          {
+            TabItem = item as DragSupportTabItem
+          });
+        }
+        break;
+
+      case NotifyCollectionChangedAction.Remove:
+
+        foreach ( var item in e.OldItems )
+        {
+          var toRemove = TrayIconItemsSource.SingleOrDefault(p => p.TabItem.TabItemId == ((DragSupportTabItem) item).TabItemId);
+          TrayIconItemsSource.Remove(toRemove);
+        }
+        break;
+
+      case NotifyCollectionChangedAction.Reset:
+
+        TrayIconItemsSource.Clear();
+        break;
+      }
+
+      OnPropertyChanged(nameof(TrayIconItemsSource));
+    }
 
     private void TaskPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
@@ -251,7 +281,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private async Task StartUpAsync()
     {
       await EnvironmentContainer.Instance.ReadSettingsAsync().ConfigureAwait(false);
-      //await EnvironmentContainer.Instance.IntializeObservableCollectionsAsync().ConfigureAwait(false);
 
       SetUiLanguage();
       SetDefaultWindowSettings();

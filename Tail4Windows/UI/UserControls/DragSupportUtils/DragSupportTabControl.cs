@@ -17,7 +17,7 @@ using Org.Vs.TailForWin.UI.Utils;
 namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 {
   /// <summary>
-  /// Drag support tab control
+  /// Drag support <see cref="TabControl"/>
   /// </summary>
   public class DragSupportTabControl : TabControl
   {
