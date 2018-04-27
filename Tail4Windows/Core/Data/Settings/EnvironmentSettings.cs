@@ -24,6 +24,15 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       SmtpSettings = new SmtpSetting();
     }
 
+    /// <summary>
+    /// Current application should close now
+    /// </summary>
+    public bool ShouldClose
+    {
+      get;
+      set;
+    }
+
     private CultureInfo _cultureInfo;
 
     /// <summary>

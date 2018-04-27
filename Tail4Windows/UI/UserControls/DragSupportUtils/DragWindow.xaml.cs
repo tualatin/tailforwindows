@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using log4net;
 using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
@@ -62,20 +63,23 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       try
       {
-        var busyTabItems = TabItems.Where(p => p.TabItemBusyIndicator == Visibility.Visible).ToList();
-
-        if ( busyTabItems.Count > 0 )
+        if ( !SettingsHelperController.CurrentSettings.ShouldClose )
         {
-          string message = string.Format(Application.Current.TryFindResource("ThreadIsBusy").ToString(), EnvironmentContainer.ApplicationTitle);
+          var busyTabItems = TabItems.Where(p => p.TabItemBusyIndicator == Visibility.Visible).ToList();
 
-          if ( InteractionService.ShowQuestionMessageBox(message) == MessageBoxResult.Yes )
+          if ( busyTabItems.Count > 0 )
           {
-            e.Cancel = false;
-          }
-          else
-          {
-            e.Cancel = true;
-            return;
+            string message = string.Format(Application.Current.TryFindResource("ThreadIsBusy").ToString(), EnvironmentContainer.ApplicationTitle);
+
+            if ( InteractionService.ShowQuestionMessageBox(message) == MessageBoxResult.Yes )
+            {
+              e.Cancel = false;
+            }
+            else
+            {
+              e.Cancel = true;
+              return;
+            }
           }
         }
       }

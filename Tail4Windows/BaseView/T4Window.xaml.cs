@@ -70,20 +70,24 @@ namespace Org.Vs.TailForWin.BaseView
     {
       try
       {
-        var busyTabItems = BusinessHelper.GetTabItemList().Where(p => p.TabItemBusyIndicator == Visibility.Visible).ToList();
-
-        if ( busyTabItems.Count > 0 )
+        if ( !SettingsHelperController.CurrentSettings.ShouldClose )
         {
-          string message = string.Format(Application.Current.TryFindResource("ThreadIsBusy").ToString(), EnvironmentContainer.ApplicationTitle);
+          var busyTabItems = BusinessHelper.GetTabItemList().Where(p => p.TabItemBusyIndicator == Visibility.Visible).ToList();
 
-          if ( InteractionService.ShowQuestionMessageBox(message) == MessageBoxResult.Yes )
+          if ( busyTabItems.Count > 0 )
           {
-            e.Cancel = false;
-          }
-          else
-          {
-            e.Cancel = true;
-            return;
+            string message = string.Format(Application.Current.TryFindResource("ThreadIsBusy").ToString(), EnvironmentContainer.ApplicationTitle);
+
+            if ( InteractionService.ShowQuestionMessageBox(message) == MessageBoxResult.Yes )
+            {
+              SettingsHelperController.CurrentSettings.ShouldClose = true;
+              e.Cancel = false;
+            }
+            else
+            {
+              e.Cancel = true;
+              return;
+            }
           }
         }
       }
