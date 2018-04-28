@@ -12,6 +12,8 @@ using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.Services;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces;
@@ -60,6 +62,7 @@ namespace Org.Vs.TailForWin.BaseView
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowNotificationPopUpMessage>(PopUpVisibilityChanged);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSettingsDialogMessage>(OpenSettingsDialog);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataAsNewTabItem>(OnOpenTailDataAsNewTabItem);
 
       IsParent = true;
     }
@@ -348,5 +351,26 @@ namespace Org.Vs.TailForWin.BaseView
     /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
     /// <param name="dragWndRemove">Drag window remove</param>
     public void RemoveTabItem(DragSupportTabItem tabItem, bool dragWndRemove) => throw new NotImplementedException();
+
+    private void OnOpenTailDataAsNewTabItem(OpenTailDataAsNewTabItem args)
+    {
+      if ( !(args.Sender is LogWindowControl) )
+        return;
+
+      if ( args.ParentGuid != DragWindowGuid )
+        return;
+
+      ILogWindowControl content = new LogWindowControl
+      {
+        LogWindowTabItem = new DragSupportTabItem(),
+        CurrentTailData = args.TailData,
+        SelectedItem = args.TailData.FileName
+      };
+      var tabItem = new DragSupportTabItem
+      {
+        Content = content
+      };
+      AddTabItem(tabItem);
+    }
   }
 }

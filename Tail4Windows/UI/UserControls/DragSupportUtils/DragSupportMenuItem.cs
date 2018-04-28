@@ -13,6 +13,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
   public class DragSupportMenuItem : MenuItem, INotifyPropertyChanged
   {
     private Polygon _menuItemBusyIndicator;
+    private Path _menuItemPauseIndicator;
 
     static DragSupportMenuItem() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DragSupportMenuItem), new FrameworkPropertyMetadata(typeof(DragSupportMenuItem)));
 
@@ -29,9 +30,13 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       base.OnApplyTemplate();
 
       _menuItemBusyIndicator = GetTemplateChild("MenuItemBusyIndicator") as Polygon;
+      _menuItemPauseIndicator = GetTemplateChild("MenuItemPauseIndicator") as Path;
 
       if ( _menuItemBusyIndicator != null )
         _menuItemBusyIndicator.Visibility = MenuItemBusyIndicator;
+
+      if ( _menuItemPauseIndicator != null )
+        _menuItemPauseIndicator.Visibility = Visibility.Collapsed;
     }
 
     private void TabItemPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -41,11 +46,12 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       case "HeaderFullText":
 
         HeaderContent = TabItem.HeaderFullText;
+        SetBusyIndicator();
         break;
 
       case "TabItemBusyIndicator":
 
-        MenuItemBusyIndicator = TabItem.TabItemBusyIndicator;
+        SetBusyIndicator();
         break;
       }
     }
@@ -65,10 +71,39 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
         _tabItem = value;
         HeaderContent = _tabItem.HeaderFullText;
-        MenuItemBusyIndicator = _tabItem.TabItemBusyIndicator;
+
+        SetBusyIndicator();
 
         _tabItem.PropertyChanged -= TabItemPropertyChanged;
         _tabItem.PropertyChanged += TabItemPropertyChanged;
+      }
+    }
+
+    private void SetBusyIndicator()
+    {
+      if ( Equals(HeaderContent, Application.Current.TryFindResource("NoFile").ToString()) )
+      {
+        MenuItemBusyIndicator = Visibility.Hidden;
+
+        if ( _menuItemPauseIndicator != null )
+          _menuItemPauseIndicator.Visibility = Visibility.Collapsed;
+      }
+      else
+      {
+        if ( _tabItem.TabItemBusyIndicator == Visibility.Collapsed )
+        {
+          MenuItemBusyIndicator = Visibility.Collapsed;
+
+          if ( _menuItemPauseIndicator != null )
+            _menuItemPauseIndicator.Visibility = Visibility.Visible;
+        }
+        else
+        {
+          MenuItemBusyIndicator = _tabItem.TabItemBusyIndicator == Visibility.Collapsed ? Visibility.Hidden : _tabItem.TabItemBusyIndicator;
+
+          if ( _menuItemPauseIndicator != null )
+            _menuItemPauseIndicator.Visibility = Visibility.Collapsed;
+        }
       }
     }
 
@@ -89,7 +124,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Set MenuItemBusyIndicator property
     /// </summary>
-    public static readonly DependencyProperty TabItemBusyIndicatorProperty = DependencyProperty.Register("MenuItemBusyIndicator", typeof(Visibility), typeof(DragSupportMenuItem), new UIPropertyMetadata(Visibility.Collapsed, MenuItemBusyIndicatorVisibilityChanged));
+    public static readonly DependencyProperty TabItemBusyIndicatorProperty = DependencyProperty.Register("MenuItemBusyIndicator", typeof(Visibility), typeof(DragSupportMenuItem), new UIPropertyMetadata(Visibility.Hidden, MenuItemBusyIndicatorVisibilityChanged));
 
     private static void MenuItemBusyIndicatorVisibilityChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {

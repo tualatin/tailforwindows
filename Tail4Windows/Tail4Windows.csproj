@@ -208,6 +208,7 @@
     <Compile Include="Business\Data\Messages\AddTailDataToQuickAddMessage.cs" />
     <Compile Include="Business\Data\Messages\DisableQuickAddInTailDataMessage.cs" />
     <Compile Include="Business\Data\Messages\OpenFilterDataFromTailDataMessage.cs" />
+    <Compile Include="Business\Data\Messages\OpenTailDataAsNewTabItem.cs" />
     <Compile Include="Business\Utils\BusinessHelper.cs" />
     <Compile Include="Core\Utils\QueueSet.cs" />
     <Compile Include="Core\Utils\SafeObservable.cs" />

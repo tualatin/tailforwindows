@@ -655,23 +655,19 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( window == null )
         return;
 
-      // Is it the right window?
-      if ( ((IDragWindow) window).DragWindowGuid != args.ParentGuid )
-        return;
-
       if ( args.TailData.NewWindow )
       {
         CreateDragWindow(args.TailData, window);
         return;
       }
 
+      // Is it the right window?
+      if ( ((IDragWindow) window).DragWindowGuid != args.ParentGuid )
+        return;
+
       if ( LogWindowTabItem.TabItemBusyIndicator == Visibility.Visible )
       {
-        ILogWindowControl content = new LogWindowControl
-        {
-          CurrentTailData = args.TailData
-        };
-        var tabItem = BusinessHelper.CreateDragSupportTabItem(args.TailData.File, args.TailData.FileName, Visibility.Collapsed, content);
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataAsNewTabItem(this, args.TailData, args.ParentGuid));
         return;
       }
 

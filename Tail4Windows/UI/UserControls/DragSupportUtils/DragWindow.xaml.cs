@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using log4net;
+using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Native;
@@ -53,6 +54,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       DragWindowGuid = Guid.NewGuid();
 
       DragWindowManager.Instance.Register(this);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataAsNewTabItem>(OnOpenTailDataAsNewTabItem);
       SourceInitialized += DragWindowSourceInitialized;
 
       IsParent = false;
@@ -384,5 +386,32 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     #endregion
+
+    private void OnOpenTailDataAsNewTabItem(OpenTailDataAsNewTabItem args)
+    {
+      if ( !(args.Sender is LogWindowControl) )
+        return;
+
+      if ( args.ParentGuid != DragWindowGuid )
+        return;
+
+      // Workaround unregister OpenTailDataAsNewTabItem to prevent open this message more than one times. Very, very ugly!
+      // Register this message again, after waiting some ms...
+      // TODO better solution?
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenTailDataAsNewTabItem>(OnOpenTailDataAsNewTabItem);
+
+      ILogWindowControl content = new LogWindowControl
+      {
+        LogWindowTabItem = new DragSupportTabItem(),
+        CurrentTailData = args.TailData,
+        SelectedItem = args.TailData.FileName
+      };
+      AddTabItem(args.TailData.File, args.TailData.FileName, Visibility.Collapsed, content: content);
+
+      new ThrottledExecution().InMs(100).Do(() =>
+      {
+        EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataAsNewTabItem>(OnOpenTailDataAsNewTabItem);
+      });
+    }
   }
 }

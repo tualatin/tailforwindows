@@ -10,10 +10,10 @@
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type dragSupportUtils:DragSupportMenuItem}">
           <Grid>
-            <DockPanel>
+            <DockPanel Margin="5 0">
               <Polygon
                 x:Name="MenuItemBusyIndicator"
-                Margin="5 0 3 0"
+                Margin="8 0 3 0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 DockPanel.Dock="Left"
@@ -21,11 +21,23 @@
                 Points="0,0 7,5, 0,10"
                 />
 
+              <Path
+                x:Name="MenuItemPauseIndicator"
+                Width="10"
+                Height="10"
+                Margin="6 0 3 0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Data="M7 5c-.551 0-1 .449-1 1v14c0 .551.449 1 1 1h3c.551 0 1-.449 1-1V6c0-.551-.449-1-1-1H7zm9 0c-.551 0-1 .449-1 1v14c0 .551.449 1 1 1h3c.551 0 1-.449 1-1V6c0-.551-.449-1-1-1h-3z"
+                DockPanel.Dock="Left"
+                Fill="{StaticResource BrushSolidBlue}"
+                Stretch="UniformToFill"
+                />
+
               <ContentPresenter
                 x:Name="ContentSite"
-                MaxWidth="180"
-                Margin="5 2 5 4"
-                HorizontalAlignment="Center"
+                Margin="15 2 10 4"
+                HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 ContentSource="HeaderContent"
                 SnapsToDevicePixels="True"
