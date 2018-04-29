@@ -71,7 +71,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       InitializeComponent();
 
       DataContext = this;
-
       _printerController = new PrintController();
       _historyController = new XmlHistoryController();
       _xmlFileManagerController = new XmlFileManagerController();

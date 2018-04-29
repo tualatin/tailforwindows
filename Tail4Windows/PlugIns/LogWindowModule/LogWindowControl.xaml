@@ -986,7 +986,7 @@
         BorderBrush="{StaticResource BrushSolidBlue}"
         BorderThickness="0 1 0 0"
         >
-        <logWindowModule:LogWindow
+        <logWindowModule:SplitWindowControl
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch"
           />

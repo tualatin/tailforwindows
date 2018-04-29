@@ -84,25 +84,19 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( Equals(HeaderContent, Application.Current.TryFindResource("NoFile").ToString()) )
       {
         MenuItemBusyIndicator = Visibility.Hidden;
-
-        if ( _menuItemPauseIndicator != null )
-          _menuItemPauseIndicator.Visibility = Visibility.Collapsed;
+        MenuItemPauseIndicator = Visibility.Collapsed;
       }
       else
       {
         if ( _tabItem.TabItemBusyIndicator == Visibility.Collapsed )
         {
           MenuItemBusyIndicator = Visibility.Collapsed;
-
-          if ( _menuItemPauseIndicator != null )
-            _menuItemPauseIndicator.Visibility = Visibility.Visible;
+          MenuItemPauseIndicator = Visibility.Visible;
         }
         else
         {
           MenuItemBusyIndicator = _tabItem.TabItemBusyIndicator == Visibility.Collapsed ? Visibility.Hidden : _tabItem.TabItemBusyIndicator;
-
-          if ( _menuItemPauseIndicator != null )
-            _menuItemPauseIndicator.Visibility = Visibility.Collapsed;
+          MenuItemPauseIndicator = Visibility.Collapsed;
         }
       }
     }
@@ -144,6 +138,31 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       get => (Visibility) GetValue(TabItemBusyIndicatorProperty);
       set => SetValue(TabItemBusyIndicatorProperty, value);
+    }
+
+    /// <summary>
+    /// Set MenuItemPauseIndicator property
+    /// </summary>
+    public static readonly DependencyProperty TabItemPauseIndicatorProperty = DependencyProperty.Register("MenuItemPauseIndicator", typeof(Visibility), typeof(DragSupportMenuItem), new UIPropertyMetadata(Visibility.Collapsed, MenuItemPauseIndicatorVisibilityChanged));
+
+    private static void MenuItemPauseIndicatorVisibilityChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    {
+      if ( !(sender is DragSupportMenuItem menuItem) )
+        return;
+
+      if ( menuItem._menuItemPauseIndicator == null )
+        return;
+
+      menuItem._menuItemPauseIndicator.Visibility = e.NewValue is Visibility visibility ? visibility : Visibility.Visible;
+    }
+
+    /// <summary>
+    /// Gets/sets MenuItemPauseIndicator
+    /// </summary>
+    public Visibility MenuItemPauseIndicator
+    {
+      get => (Visibility) GetValue(TabItemPauseIndicatorProperty);
+      set => SetValue(TabItemPauseIndicatorProperty, value);
     }
 
     /// <summary>

@@ -235,6 +235,15 @@
     <Compile Include="PlugIns\LogWindowModule\LogWindowControl.xaml.cs">
       <DependentUpon>LogWindowControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\ListBoxCopy.cs" />
+    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\ListBoxExtenders.cs" />
+    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\ListBoxSelector.cs" />
+    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\LogViewerDataTemplateSelector.cs" />
+    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\TemplateData.cs" />
+    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\LogWindow.cs" />
+    <Compile Include="PlugIns\LogWindowModule\SplitWindowControl.xaml.cs">
+      <DependentUpon>SplitWindowControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlugIns\QuickAddModule\QuickAdd.xaml.cs">
       <DependentUpon>QuickAdd.xaml</DependentUpon>
     </Compile>
@@ -263,9 +272,6 @@
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
     <Compile Include="BaseView\Interfaces\IBaseWindowStatusbarViewModel.cs" />
     <Compile Include="PlugIns\LogWindowModule\Interfaces\ILogWindowControl.cs" />
-    <Compile Include="PlugIns\LogWindowModule\LogWindow.xaml.cs">
-      <DependentUpon>LogWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="PlugIns\LogWindowModule\ViewModels\LogWindowViewModel.cs" />
     <Compile Include="UI\Behaviors\FocusBehavior.cs" />
     <Compile Include="UI\UserControls\Behaviors\WatermarkBehavior.cs" />
@@ -511,6 +517,9 @@
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
+    <Resource Include="PlugIns\LogWindowModule\LogWindowUserControl\Resources\breakpoint.png" />
+    <Resource Include="PlugIns\LogWindowModule\LogWindowUserControl\Resources\RightArrow.cur" />
+    <Resource Include="PlugIns\LogWindowModule\LogWindowUserControl\Resources\trash-icon.png" />
     <Page Include="BaseView\Options.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -571,11 +580,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PlugIns\LogWindowModule\LogWindow.xaml">
+    <Page Include="PlugIns\LogWindowModule\LogWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PlugIns\LogWindowModule\LogWindowControl.xaml">
+    <Page Include="PlugIns\LogWindowModule\LogWindowUserControl\Styles\LogWindowStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\LogWindowModule\SplitWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
