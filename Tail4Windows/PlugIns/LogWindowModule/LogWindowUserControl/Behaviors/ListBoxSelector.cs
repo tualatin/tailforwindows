@@ -77,9 +77,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
 
     private static void IsEnabledChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      ListBox listBox = d as ListBox;
-
-      if ( listBox == null )
+      if ( !(d is ListBox listBox) )
         return;
 
       if ( (bool) e.NewValue )

@@ -50,10 +50,7 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="parameter">Paramter</param>
     /// <param name="culture">Current culture</param>
     /// <returns>Back converted value</returns>
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-      throw new NotImplementedException();
-    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 
     private System.Drawing.Color LighterColor(System.Drawing.Color color, float correctionfactory = 50f)
     {

@@ -239,9 +239,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public const string LineNumberColor = "#808080";
 
     /// <summary>
+    /// Default value line background color
+    /// </summary>
+    public const string LineNumberBackgroundColor = "#FFD3D3D3";
+
+    /// <summary>
     /// Default value highlight line number color
     /// </summary>
     public const string HighlightLineNumberColor = "#FF0000FF";
+
+    /// <summary>
+    /// Default value search hightlight background color
+    /// </summary>
+    public const string SearchHighlightBackgroundColor = "#FFFF0000";
+
+    /// <summary>
+    /// Default value search hightlight foreground color
+    /// </summary>
+    public const string SearchHighlightForegroundColor = "#FFF5F5F5";
 
     #endregion
 

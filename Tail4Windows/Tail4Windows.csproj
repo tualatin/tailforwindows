@@ -240,7 +240,7 @@
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\ListBoxSelector.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\LogViewerDataTemplateSelector.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\TemplateData.cs" />
-    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\LogWindow.cs" />
+    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\LogWindowListBox.cs" />
     <Compile Include="PlugIns\LogWindowModule\SplitWindowControl.xaml.cs">
       <DependentUpon>SplitWindowControl.xaml</DependentUpon>
     </Compile>
@@ -254,6 +254,7 @@
     <Compile Include="UI\Behaviors\ScrollDataGridRowIntoView.cs" />
     <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
+    <Compile Include="UI\Converters\BoolToTextWrapConverter.cs" />
     <Compile Include="UI\Converters\FilterCountToStringConverter.cs" />
     <Compile Include="UI\Converters\FontToStringConverter.cs" />
     <Compile Include="UI\Converters\IntToBoolConverter.cs" />
@@ -517,9 +518,9 @@
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
-    <Resource Include="PlugIns\LogWindowModule\LogWindowUserControl\Resources\breakpoint.png" />
-    <Resource Include="PlugIns\LogWindowModule\LogWindowUserControl\Resources\RightArrow.cur" />
-    <Resource Include="PlugIns\LogWindowModule\LogWindowUserControl\Resources\trash-icon.png" />
+    <Resource Include="Resources\breakpoint.png" />
+    <Resource Include="Resources\RightArrow.cur" />
+    <Resource Include="Resources\trash-icon.png" />
     <Page Include="BaseView\Options.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
