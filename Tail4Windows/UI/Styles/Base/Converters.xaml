@@ -36,6 +36,7 @@
   <converters:TailDataListOfFilterToBoolConverter x:Key="TailDataListOfFilterToBoolConverter" />
   <converters:FilterCountToStringConverter x:Key="FilterCountToStringConverter" />
   <converters:BoolToTextWrapConverter x:Key="BoolToTextWrapConverter" />
+  <converters:DoubleToGridLengthConverter x:Key="DoubleToGridLengthConverter" />
 
   <multiConverters:LogFileIsEnableMultiConverter x:Key="LogFileIsEnableMultiConverter" />
   <multiConverters:LogFileFileManagerMultiConverter x:Key="LogFileLengthFileManagerMultiConverter" />

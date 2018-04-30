@@ -4,17 +4,41 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behaviors"
+  xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
+  xmlns:genericBehaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:logWindowListBox="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="450"
   d:DesignWidth="800"
+  HorizontalAlignment="Stretch"
+  VerticalAlignment="Stretch"
+  genericBehaviors:SizeObserver.Observe="True"
+  genericBehaviors:SizeObserver.ObservedHeight="{Binding Height, Mode=OneWayToSource}"
   >
+  <UserControl.DataContext>
+    <viewModels:SplitWindowControlViewModel />
+  </UserControl.DataContext>
+
+  <i:Interaction.Triggers>
+    <i:EventTrigger EventName="Loaded">
+      <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+    </i:EventTrigger>
+
+    <i:EventTrigger EventName="SizeChanged">
+      <commands:InvokeDelegateCommandAction
+        Command="{Binding SizeChangedCommand}"
+        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+        />
+    </i:EventTrigger>
+  </i:Interaction.Triggers>
 
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition />
-      <RowDefinition Height="5" />
+      <RowDefinition Height="{Binding SplitterHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource DoubleToGridLengthConverter}}" />
+      <RowDefinition Height="Auto" />
       <RowDefinition />
     </Grid.RowDefinitions>
 
@@ -25,6 +49,13 @@
       behaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
       behaviors:ListBoxCopy.AutoCopy="True"
       behaviors:ListBoxSelector.Enabled="True"
+      />
+
+    <GridSplitter
+      Grid.Row="1"
+      Height="5"
+      HorizontalAlignment="Stretch"
+      Background="{StaticResource BrushSolidBlue}"
       />
 
     <logWindowListBox:LogWindowListBox

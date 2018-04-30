@@ -34,36 +34,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     /// <summary>
-    /// Line number color property
-    /// </summary>
-    public static readonly DependencyProperty LineNumberColorHexProperty = DependencyProperty.Register("LineNumberHexColor", typeof(string), typeof(LogWindowListBox),
-      new PropertyMetadata(DefaultEnvironmentSettings.LineNumberColor));
-
-    /// <summary>
-    /// Text editor line number color
-    /// </summary>
-    public string LineNumberColorHex
-    {
-      get => (string) GetValue(LineNumberColorHexProperty);
-      set => SetValue(LineNumberColorHexProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor line number background color
-    /// </summary>
-    public static readonly DependencyProperty LineNumbersBackgroundColorHexProperty = DependencyProperty.Register("LineNumberBackgroundColorHex", typeof(string), typeof(LogWindowListBox),
-      new PropertyMetadata(DefaultEnvironmentSettings.LineNumberBackgroundColor));
-
-    /// <summary>
-    /// Text editor line number background color
-    /// </summary>
-    public string LineNumberBackgroundColorHex
-    {
-      get => (string) GetValue(LineNumbersBackgroundColorHexProperty);
-      set => SetValue(LineNumbersBackgroundColorHexProperty, value);
-    }
-
-    /// <summary>
     /// Word wrap property
     /// </summary>
     public static readonly DependencyProperty WordWrappingProperty = DependencyProperty.Register("WordWrapping", typeof(bool), typeof(LogWindowListBox),
@@ -91,36 +61,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       get => (ScrollBarVisibility) GetValue(VerticalScrollbarVisibleProperty);
       set => SetValue(VerticalScrollbarVisibleProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor background color property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorBackgroundColorHexProperty = DependencyProperty.Register("TextEditorBackgroundColorHex", typeof(string), typeof(LogWindowListBox),
-      new PropertyMetadata(DefaultEnvironmentSettings.BackgroundColor));
-
-    /// <summary>
-    /// Text editor background color
-    /// </summary>
-    public string TextEditorBackgroundColorHex
-    {
-      get => (string) GetValue(TextEditorBackgroundColorHexProperty);
-      set => SetValue(TextEditorBackgroundColorHexProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor forground color property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorForegroundColorHexProperty = DependencyProperty.Register("TextEditorForegroundColorHex", typeof(string), typeof(LogWindowListBox),
-      new PropertyMetadata(DefaultEnvironmentSettings.ForegroundColor));
-
-    /// <summary>
-    /// Text editor foreground color
-    /// </summary>
-    public string TextEditorForegroundColorHex
-    {
-      get => (string) GetValue(TextEditorForegroundColorHexProperty);
-      set => SetValue(TextEditorForegroundColorHexProperty, value);
     }
 
     /// <summary>

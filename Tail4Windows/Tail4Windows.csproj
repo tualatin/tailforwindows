@@ -244,6 +244,7 @@
     <Compile Include="PlugIns\LogWindowModule\SplitWindowControl.xaml.cs">
       <DependentUpon>SplitWindowControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlugIns\LogWindowModule\ViewModels\SplitWindowControlViewModel.cs" />
     <Compile Include="PlugIns\QuickAddModule\QuickAdd.xaml.cs">
       <DependentUpon>QuickAdd.xaml</DependentUpon>
     </Compile>
@@ -252,9 +253,11 @@
     <Compile Include="UI\Behaviors\DropDownButtonBehavior.cs" />
     <Compile Include="UI\Behaviors\MultiSelectionBehavior.cs" />
     <Compile Include="UI\Behaviors\ScrollDataGridRowIntoView.cs" />
+    <Compile Include="UI\Behaviors\SizeObserver.cs" />
     <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
     <Compile Include="UI\Converters\BoolToTextWrapConverter.cs" />
+    <Compile Include="UI\Converters\DoubleToGridLengthConverter.cs" />
     <Compile Include="UI\Converters\FilterCountToStringConverter.cs" />
     <Compile Include="UI\Converters\FontToStringConverter.cs" />
     <Compile Include="UI\Converters\IntToBoolConverter.cs" />

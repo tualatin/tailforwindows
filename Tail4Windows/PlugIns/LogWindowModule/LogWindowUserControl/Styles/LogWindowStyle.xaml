@@ -10,7 +10,7 @@
     <Setter Property="FontFamily" Value="{Binding Path=TextEditorFontFamily, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
     <Setter Property="FontSize" Value="{Binding Path=TextEditorFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
     <Setter Property="FontWeight" Value="{Binding Path=TextEditorFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
-    <Setter Property="Foreground" Value="{Binding Path=LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
+    <Setter Property="Foreground" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
     <Setter Property="Text" Value="{Binding Index, Mode=OneWay}" />
     <Setter Property="TextAlignment" Value="Right" />
   </Style>
@@ -87,15 +87,11 @@
     <Grid IsSharedSizeScope="True">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" SharedSizeGroup="Bookmark" />
-        <ColumnDefinition Width="Auto" MinWidth="150" SharedSizeGroup="Index" />
+        <ColumnDefinition Width="Auto" MinWidth="35" SharedSizeGroup="Index" />
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
 
       <Grid Grid.Column="0">
-        <Rectangle
-          Fill="{Binding Path=LineNumberBackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}"
-          Opacity="0.5"
-          />
         <Image
           x:Name="TextBoxBreakpoint"
           Grid.Column="0"
@@ -106,14 +102,7 @@
           />
       </Grid>
 
-      <Grid
-        Grid.Column="1"
-        Cursor="/T4W;component/Resources/RightArrow.cur"
-        >
-        <Rectangle
-          Fill="{Binding Path=LineNumberBackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}"
-          Opacity="0.4"
-          />
+      <Grid Grid.Column="1">
         <TextBlock
           x:Name="TextBoxLineNumbers"
           Margin="5 0 5 0"
@@ -147,10 +136,6 @@
       </Grid.ColumnDefinitions>
 
       <Grid Grid.Column="0">
-        <Rectangle
-          Fill="{Binding Path=LineNumberBackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}"
-          Opacity="0.5"
-          />
         <Image
           x:Name="TextBoxBreakpoint"
           Grid.Column="0"
@@ -161,14 +146,7 @@
           />
       </Grid>
 
-      <Grid
-        Grid.Column="1"
-        Cursor="/T4W;component/Resources/RightArrow.cur"
-        >
-        <Rectangle
-          Fill="{Binding Path=LineNumberBackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}"
-          Opacity="0.4"
-          />
+      <Grid Grid.Column="1">
         <TextBlock
           x:Name="TextBoxLineNumbers"
           Margin="5 0 5 0"
@@ -206,10 +184,6 @@
       </Grid.ColumnDefinitions>
 
       <Grid Grid.Column="0">
-        <Rectangle
-          Fill="{Binding Path=LineNumberBackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}"
-          Opacity="0.5"
-          />
         <Image
           x:Name="txtBoxBreakpoint"
           Grid.Column="0"
@@ -247,10 +221,6 @@
       </Grid.ColumnDefinitions>
 
       <Grid Grid.Column="0">
-        <Rectangle
-          Fill="{Binding Path=LineNumberBackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}"
-          Opacity="0.5"
-          />
         <Image
           x:Name="TextBoxBreakpoint"
           Grid.Column="0"
@@ -297,13 +267,14 @@
 
   <Style x:Key="{x:Type logWindowListBox:LogWindowListBox}" TargetType="{x:Type logWindowListBox:LogWindowListBox}">
     <Setter Property="AlwaysScrollIntoView" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlwaysScrollToEnd}" />
-    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Path=TextEditorBackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
-    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=TextEditorForegroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
+    <Setter Property="Background" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.BackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
+    <Setter Property="Foreground" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.ForegroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
     <Setter Property="IsSynchronizedWithCurrentItem" Value="True" />
     <Setter Property="ItemContainerStyle" Value="{StaticResource ItemStyle}" />
     <Setter Property="ItemTemplateSelector" Value="{StaticResource TemplateSelector}" />
     <Setter Property="SelectionMode" Value="Extended" />
     <Setter Property="ShowLineNumbers" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowLineNumbers}" />
+    <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate>
@@ -314,14 +285,48 @@
               HorizontalScrollBarVisibility="{Binding Path=WordWrapping, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Converter={StaticResource BoolToVisibilityConverter}}"
               VerticalScrollBarVisibility="{Binding Path=VerticalScrollbarVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}"
               >
-              <ItemsPresenter SnapsToDevicePixels="True" />
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Border
+                  x:Name="BookmarkBorder"
+                  Grid.Column="0"
+                  Width="20"
+                  Background="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+                  Opacity="0.3"
+                  />
+
+                <Border
+                  x:Name="LineNumberBorder"
+                  Grid.Column="1"
+                  Width="40"
+                  Background="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+                  Cursor="/T4W;component/Resources/RightArrow.cur"
+                  Opacity="0.1"
+                  Visibility="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowLineNumbers, Converter={StaticResource BoolToVisibilityConverter}}"
+                  />
+
+                <Border
+                  x:Name="DateTimeBorder"
+                  Grid.Column="2"
+                  Visibility="Visible"
+                  />
+
+                <ItemsPresenter
+                  Grid.Column="3"
+                  SnapsToDevicePixels="True"
+                  />
+              </Grid>
             </ScrollViewer>
           </Grid>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
-    <Setter Property="TextEditorBackgroundColorHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.BackgroundColorHex}" />
-    <Setter Property="TextEditorForegroundColorHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.ForegroundColorHex}" />
     <Setter Property="TextEditorSearchHighlightBackgroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex}" />
     <Setter Property="TextEditorSearchHighlightForegroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightForegroundColorHex}" />
     <Setter Property="TextEditorSelectionColorHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberHighlightColorHex}" />
