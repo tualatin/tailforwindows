@@ -199,6 +199,25 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
+    private double _splitterPosition;
+
+    /// <summary>
+    /// Splitter height
+    /// </summary>
+    public double SplitterPosition
+    {
+      get => _splitterPosition;
+      set
+      {
+        if ( Equals(value, _splitterPosition) )
+          return;
+
+        _splitterPosition = value;
+        LOG.Trace($"LogWindowControl: {_splitterPosition}");
+        OnPropertyChanged();
+      }
+    }
+
     #region Commands
 
     private ICommand _openFileCommand;

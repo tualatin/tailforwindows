@@ -364,7 +364,7 @@ namespace Org.Vs.TailForWin.BaseView
       {
         LogWindowTabItem = new DragSupportTabItem(),
         CurrentTailData = args.TailData,
-        SelectedItem = args.TailData.FileName
+        SelectedItem = args.TailData.FileName,
       };
       var tabItem = new DragSupportTabItem
       {

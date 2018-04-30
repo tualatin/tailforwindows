@@ -102,7 +102,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     /// <summary>
-    /// Set HeaderToolContentProperty property
+    /// HeaderToolContentProperty property
     /// </summary>
     public static readonly DependencyProperty HeaderToolContentProperty = DependencyProperty.Register("HeaderContent", typeof(string), typeof(DragSupportMenuItem));
 

@@ -85,7 +85,8 @@ namespace Org.Vs.TailForWin.Business.Utils
             CurrentTailData = content.CurrentTailData,
             LogWindowState = content.LogWindowState,
             FileIsValid = content.FileIsValid,
-            SelectedItem = content.SelectedItem
+            SelectedItem = content.SelectedItem,
+            SplitterPosition = content.SplitterPosition
           };
         }
 

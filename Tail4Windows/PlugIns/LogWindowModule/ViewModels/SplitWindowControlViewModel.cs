@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
-using log4net;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.UI.Commands;
 
@@ -13,8 +12,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
   /// </summary>
   public class SplitWindowControlViewModel : NotifyMaster
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof(SplitWindowControlViewModel));
-
     private const double Offset = 5;
 
     #region Properties
@@ -50,11 +47,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
     }
 
     #endregion
-
-    /// <summary>
-    /// Standard constructor
-    /// </summary>
-    public SplitWindowControlViewModel() => SplitterHeight = 0;
 
     #region Commands
 

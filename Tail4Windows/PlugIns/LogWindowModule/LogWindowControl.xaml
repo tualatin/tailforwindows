@@ -982,6 +982,7 @@
         <logWindowModule:SplitWindowControl
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch"
+          SplitterPosition="{Binding SplitterPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           />
       </Border>
     </Grid>
