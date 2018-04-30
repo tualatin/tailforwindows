@@ -38,7 +38,7 @@
 
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="{Binding SplitterHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource DoubleToGridLengthConverter}}" />
+      <RowDefinition Height="{Binding SplitterPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource DoubleToGridLengthConverter}}" />
       <RowDefinition Height="Auto" />
       <RowDefinition />
     </Grid.RowDefinitions>

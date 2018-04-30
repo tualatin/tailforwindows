@@ -213,7 +213,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           return;
 
         _splitterPosition = value;
-        LOG.Trace($"LogWindowControl: {_splitterPosition}");
         OnPropertyChanged();
       }
     }

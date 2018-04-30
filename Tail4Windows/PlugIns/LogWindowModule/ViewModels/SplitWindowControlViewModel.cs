@@ -16,23 +16,23 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
 
     #region Properties
 
-    private double _splitterHeight;
+    private double _splitterPosition;
 
     /// <summary>
     /// Current splitter height
     /// </summary>
-    public double SplitterHeight
+    public double SplitterPosition
     {
-      get => _splitterHeight;
+      get => _splitterPosition;
       set
       {
-        if ( Equals(value, _splitterHeight) )
+        if ( Equals(value, _splitterPosition) )
           return;
 
         if ( value + (Offset - 1) > Height )
           return;
 
-        _splitterHeight = value;
+        _splitterPosition = value;
         OnPropertyChanged();
       }
     }
@@ -76,7 +76,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
     private void ExecuteSizeChangedCommand(SizeChangedEventArgs e)
     {
       // Calculate the distance position of GridSplitter
-      double result = Math.Abs(SplitterHeight + Offset);
+      double result = Math.Abs(SplitterPosition + Offset);
 
       if ( (int) result == (int) Offset )
         return;
@@ -85,7 +85,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
 
       if ( percentage >= 100 )
       {
-        SplitterHeight = Height - Offset;
+        SplitterPosition = Height - Offset;
         return;
       }
 
@@ -94,11 +94,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
 
       if ( newPosition - Offset < 0 )
       {
-        SplitterHeight = 0;
+        SplitterPosition = 0;
         return;
       }
 
-      SplitterHeight = newPosition - Offset;
+      SplitterPosition = newPosition - Offset;
     }
 
     #endregion
