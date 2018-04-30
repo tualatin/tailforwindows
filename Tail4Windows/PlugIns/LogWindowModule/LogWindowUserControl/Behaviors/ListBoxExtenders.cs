@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
         return;
 
       var listBoxItems = listBox.Items;
-      var newValue = (bool) e.NewValue;
+      bool newValue = (bool) e.NewValue;
       var autoScrollToCurrentItemWorker = new EventHandler((s1, e2) => OnAutoScrollToCurrentItem(listBox, listBox.Items.CurrentPosition));
 
       if ( newValue )

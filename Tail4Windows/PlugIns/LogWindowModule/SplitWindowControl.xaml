@@ -15,6 +15,7 @@
   d:DesignWidth="800"
   HorizontalAlignment="Stretch"
   VerticalAlignment="Stretch"
+  behaviors:GridSplitterMouseExtension.IsParentControl="True"
   genericBehaviors:SizeObserver.Observe="True"
   genericBehaviors:SizeObserver.ObservedHeight="{Binding Height, Mode=OneWayToSource}"
   >
@@ -56,6 +57,8 @@
       Height="5"
       HorizontalAlignment="Stretch"
       Background="{StaticResource BrushSolidBlue}"
+      Visibility="Collapsed"
+      behaviors:GridSplitterMouseExtension.Enabled="True"
       />
 
     <logWindowListBox:LogWindowListBox

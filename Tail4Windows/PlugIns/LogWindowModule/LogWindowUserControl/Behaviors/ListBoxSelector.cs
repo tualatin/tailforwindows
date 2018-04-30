@@ -17,12 +17,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
   public sealed class ListBoxSelector
   {
     /// <summary>
-    /// Identifies the IsEnabled attached property.
-    /// </summary>
-    public static readonly DependencyProperty EnabledProperty = DependencyProperty.RegisterAttached("Enabled", typeof(bool), typeof(ListBoxSelector),
-      new UIPropertyMetadata(false, IsEnabledChangedCallback));
-
-    /// <summary>
     /// This stores the ListBoxSelector for each ListBox so we can unregister it.
     /// </summary>
     private static readonly Dictionary<ListBox, ListBoxSelector> AttachedControls = new Dictionary<ListBox, ListBoxSelector>();
@@ -40,22 +34,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
     private Point _start;
     private Point _end;
 
-
-    private ListBoxSelector(ListBox listBox)
-    {
-      _listBox = listBox;
-
-      if ( _listBox.IsLoaded )
-      {
-        Register();
-      }
-      else
-      {
-        // We need to wait for it to be loaded so we can find the
-        // child controls.
-        _listBox.Loaded += OnListBoxLoaded;
-      }
-    }
+    /// <summary>
+    /// Identifies the IsEnabled attached property.
+    /// </summary>
+    public static readonly DependencyProperty EnabledProperty = DependencyProperty.RegisterAttached("Enabled", typeof(bool), typeof(ListBoxSelector),
+      new UIPropertyMetadata(false, IsEnabledChangedCallback));
 
     /// <summary>
     /// Gets the value of the IsEnabled attached property that indicates
@@ -95,7 +78,23 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
           return;
 
         AttachedControls.Remove(listBox);
-        selector.UnRegister();
+        selector.Unregister();
+      }
+    }
+
+    private ListBoxSelector(ListBox listBox)
+    {
+      _listBox = listBox;
+
+      if ( _listBox.IsLoaded )
+      {
+        Register();
+      }
+      else
+      {
+        // We need to wait for it to be loaded so we can find the
+        // child controls.
+        _listBox.Loaded += OnListBoxLoaded;
       }
     }
 
@@ -113,7 +112,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
 
       while ( queue.Count > 0 )
       {
-        DependencyObject child = queue.Dequeue();
+        var child = queue.Dequeue();
         T obj = child as T;
 
         if ( obj != null )
@@ -156,7 +155,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
       return _scrollContent != null;
     }
 
-    private void UnRegister()
+    private void Unregister()
     {
       StopSelection();
 
@@ -166,7 +165,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
       _listBox.MouseMove -= OnMouseMove;
       _listBox.MouseLeftButtonDown -= OnMouseLeftButtonDown;
 
-      _autoScroller.UnRegister();
+      _autoScroller.Unregister();
     }
 
     private void OnListBoxLoaded(object sender, EventArgs e)
@@ -195,7 +194,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
 
     private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-      Point mouse = e.GetPosition(_scrollContent);
+      var mouse = e.GetPosition(_scrollContent);
 
       if ( mouse.X >= 0 && mouse.X < _scrollContent.ActualWidth &&
           mouse.Y >= 0 && mouse.Y < _scrollContent.ActualHeight )
@@ -216,7 +215,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
         _lbdEventArgs = null;
 
         _mouseCaptured = TryCaptureMouse(e2);
-        Point mouse = e2.GetPosition(_scrollContent);
+        var mouse = e2.GetPosition(_scrollContent);
 
         if ( _mouseCaptured )
           StartSelection(mouse);
@@ -235,7 +234,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
     {
       // Check that the mouse is inside the scroll content (could be on the
       // scroll bars for example).
-      Point mouse = e.GetPosition(_scrollContent);
+      var mouse = e.GetPosition(_scrollContent);
 
       if ( mouse.X >= 0 && mouse.X < _scrollContent.ActualWidth &&
           mouse.Y >= 0 && mouse.Y < _scrollContent.ActualHeight )
@@ -252,9 +251,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
       //  this.StartSelection (mouse);
     }
 
-    private bool TryCaptureMouse(MouseButtonEventArgs e)
+    private bool TryCaptureMouse(MouseEventArgs e)
     {
-      Point position = e.GetPosition(_scrollContent);
+      var position = e.GetPosition(_scrollContent);
 
       // Check if there is anything under the mouse.
       if ( !(_scrollContent.InputHitTest(position) is UIElement element) )
@@ -271,8 +270,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
 
       // The ListBox will try to capture the mouse unless something
       // else captures it.
-      return Equals(Mouse.Captured, _listBox) && _scrollContent.CaptureMouse();
       // Either there's nothing under the mouse or the element doesn't want the mouse.
+      return Equals(Mouse.Captured, _listBox) && _scrollContent.CaptureMouse();
     }
 
     private void StopSelection()
@@ -309,7 +308,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
     private void UpdateSelection()
     {
       // Offset the start point based on the scroll offset.
-      Point st = _autoScroller.TranslatePoint(_start);
+      var st = _autoScroller.TranslatePoint(_start);
 
       // Draw the selecion rectangle.
       // Rect can't have a negative width/height...
@@ -317,13 +316,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
       double y = Math.Min(st.Y, _end.Y);
       double width = Math.Abs(_end.X - st.X);
       double height = Math.Abs(_end.Y - st.Y);
-      Rect area = new Rect(x, y, width, height);
+      var area = new Rect(x, y, width, height);
       _selectionRect.SelectionArea = area;
 
       // Select the items.
       // Transform the points to be relative to the ListBox.
-      Point topLeft = _scrollContent.TranslatePoint(area.TopLeft, _listBox);
-      Point bottomRight = _scrollContent.TranslatePoint(area.BottomRight, _listBox);
+      var topLeft = _scrollContent.TranslatePoint(area.TopLeft, _listBox);
+      var bottomRight = _scrollContent.TranslatePoint(area.BottomRight, _listBox);
 
       // And select the items.
       _selector.UpdateSelection(new Rect(topLeft, bottomRight));
@@ -398,7 +397,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
       /// <summary>
       /// Removes all the event handlers registered on the control.
       /// </summary>
-      public void UnRegister() => _scrollViewer.ScrollChanged -= OnScrollChanged;
+      public void Unregister() => _scrollViewer.ScrollChanged -= OnScrollChanged;
 
       /// <summary>
       /// Updates the location of the mouse and automatically scrolls if required.
@@ -556,8 +555,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
             continue;
 
           // Get the bounds in the parent's co-ordinates.
-          Point topLeft = item.TranslatePoint(new Point(0, 0), _itemsControl);
-          Rect itemBounds = new Rect(topLeft.X, topLeft.Y, item.ActualWidth, item.ActualHeight);
+          var topLeft = item.TranslatePoint(new Point(0, 0), _itemsControl);
+          var itemBounds = new Rect(topLeft.X, topLeft.Y, item.ActualWidth, item.ActualHeight);
 
           // Only change the selection if it intersects with the area
           // (or intersected i.e. we changed the value last time).

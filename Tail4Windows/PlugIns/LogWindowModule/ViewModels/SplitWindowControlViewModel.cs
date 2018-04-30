@@ -51,6 +51,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
 
     #endregion
 
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
+    public SplitWindowControlViewModel() => SplitterHeight = 0;
+
     #region Commands
 
     private ICommand _loadedCommand;
@@ -71,7 +76,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
 
     #region Command functions
 
-    private void ExecuteLoadedCommand() => SplitterHeight = 0;
+    private void ExecuteLoadedCommand()
+    {
+
+    }
 
     private void ExecuteSizeChangedCommand(SizeChangedEventArgs e)
     {

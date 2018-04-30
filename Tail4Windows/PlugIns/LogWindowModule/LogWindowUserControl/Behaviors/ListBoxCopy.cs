@@ -14,7 +14,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
   {
     private static bool addDateTime;
 
-
     #region Properties
 
     /// <summary>

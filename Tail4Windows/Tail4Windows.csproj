@@ -235,6 +235,7 @@
     <Compile Include="PlugIns\LogWindowModule\LogWindowControl.xaml.cs">
       <DependentUpon>LogWindowControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\GridSplitterMouseExtension.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\ListBoxCopy.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\ListBoxExtenders.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\ListBoxSelector.cs" />

@@ -232,6 +232,10 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( tabItem.ColorPopupIsOpen )
         return;
 
+      // Is mouse over GridHeader?
+      if ( tabItem.Template.FindName("GridHeader", tabItem) is Grid gridHeader && !gridHeader.IsMouseOver )
+        return;
+
       QueryContinueDrag += DragSupportTabControlQueryContinueDrag;
       GiveFeedback += DragSupportTabControlGiveFeedback;
 
@@ -403,7 +407,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       if ( _dragToWindow == null )
         return;
-      
+
       _dragToWindow.Left = left;
       _dragToWindow.Top = top;
     }
