@@ -242,6 +242,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private bool _splitterWindowBehavior;
+
+    /// <summary>
+    /// SplitterWindow behavior
+    /// </summary>
+    public bool SplitterWindowBehavior
+    {
+      get => _splitterWindowBehavior;
+      set
+      {
+        if ( value == _splitterWindowBehavior )
+          return;
+
+        _splitterWindowBehavior = value;
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     private bool _exitWithEscape;

@@ -166,6 +166,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// </summary>
     public const bool ShowExtendedSettings = false;
 
+    /// <summary>
+    /// Default value SplitterWindowBehavior
+    /// </summary>
+    public const bool SplitterWindowBehavior = true;
+
     #endregion
 
     /// <summary>
@@ -257,6 +262,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// Default value search hightlight foreground color
     /// </summary>
     public const string SearchHighlightForegroundColor = "#FFF5F5F5";
+
+    /// <summary>
+    /// Default value Splitter background color
+    /// </summary>
+    public const string SplitterBackgroundColor = "#FF293955";
 
     #endregion
 

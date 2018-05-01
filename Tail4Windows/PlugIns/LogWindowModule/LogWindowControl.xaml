@@ -10,6 +10,7 @@
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:logWindowModule="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule"
+  xmlns:splitterBehaviors="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behaviors"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.UI.Utils"
   xmlns:utils1="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   mc:Ignorable="d"

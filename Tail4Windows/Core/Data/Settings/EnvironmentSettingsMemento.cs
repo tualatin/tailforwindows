@@ -49,6 +49,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       SaveLogFileHistory = memento.SaveLogFileHistory;
       HistoryMaxSize = memento.HistoryMaxSize;
       ShowExtendedSettings = memento.ShowExtendedSettings;
+      SplitterWindowBehavior = memento.SplitterWindowBehavior;
 
       ProxySettings = (ProxySetting) memento.ProxySettings.Clone();
       AlertSettings = (AlertSetting) memento.AlertSettings.Clone();
@@ -95,6 +96,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         SaveLogFileHistory = obj.SaveLogFileHistory;
         HistoryMaxSize = obj.HistoryMaxSize;
         ShowExtendedSettings = obj.ShowExtendedSettings;
+        SplitterWindowBehavior = obj.SplitterWindowBehavior;
 
         ProxySettings = (ProxySetting) obj.ProxySettings.Clone();
         AlertSettings = (AlertSetting) obj.AlertSettings.Clone();
@@ -149,6 +151,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// LogFile history max size
       /// </summary>
       public int HistoryMaxSize
+      {
+        get;
+      }
+
+      /// <summary>
+      /// SplitterWindow behavior
+      /// </summary>
+      public bool SplitterWindowBehavior
       {
         get;
       }

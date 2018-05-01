@@ -65,7 +65,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
         { "DragDropWindow", DefaultEnvironmentSettings.ActivateDragDropWindow.ToString() },
         { "SaveLogFileHistory", DefaultEnvironmentSettings.SaveLogFileHistory.ToString() },
         { "LogFileHistorySize", DefaultEnvironmentSettings.HistoryMaxSize.ToString() },
-        { "ShowExtendedSettings", DefaultEnvironmentSettings.ShowExtendedSettings.ToString() }
+        { "ShowExtendedSettings", DefaultEnvironmentSettings.ShowExtendedSettings.ToString() },
+        { "SplitterBackgroundColor", DefaultEnvironmentSettings.SplitterBackgroundColor },
+        { "SplitterWindowBehavior", DefaultEnvironmentSettings.SplitterWindowBehavior.ToString() }
       };
 
       await AddNewPropertyAsync(settings, cts).ConfigureAwait(false);
@@ -216,6 +218,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "SaveLogFileHistory", CurrentSettings.SaveLogFileHistory);
       WriteValueToSetting(config, "LogFileHistorySize", CurrentSettings.HistoryMaxSize);
       WriteValueToSetting(config, "ShowExtendedSettings", CurrentSettings.ShowExtendedSettings);
+      WriteValueToSetting(config, "SplitterWindowBehavior", CurrentSettings.SplitterWindowBehavior);
     }
 
     private void SaveStatusBarSettings(Configuration config)
@@ -235,6 +238,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "FindHighlightBackgroundColor", CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex);
       WriteValueToSetting(config, "LineNumbersColor", CurrentSettings.ColorSettings.LineNumberColorHex);
       WriteValueToSetting(config, "HighlightColor", CurrentSettings.ColorSettings.LineNumberHighlightColorHex);
+      WriteValueToSetting(config, "SplitterBackgroundColor", CurrentSettings.ColorSettings.SplitterBackgroundColorHex);
     }
 
     private void SaveAlertSettings(Configuration config)
@@ -339,6 +343,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.SaveLogFileHistory = DefaultEnvironmentSettings.SaveLogFileHistory;
       CurrentSettings.HistoryMaxSize = DefaultEnvironmentSettings.HistoryMaxSize;
       CurrentSettings.ShowExtendedSettings = DefaultEnvironmentSettings.ShowExtendedSettings;
+      CurrentSettings.SplitterWindowBehavior = DefaultEnvironmentSettings.SplitterWindowBehavior;
     }
 
     private void SetDefaultStatusBarSettings()
@@ -358,6 +363,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ColorSettings.InactiveBackgroundColorHex = DefaultEnvironmentSettings.InactiveBackgroundColor;
       CurrentSettings.ColorSettings.LineNumberColorHex = DefaultEnvironmentSettings.LineNumberColor;
       CurrentSettings.ColorSettings.LineNumberHighlightColorHex = DefaultEnvironmentSettings.HighlightLineNumberColor;
+      CurrentSettings.ColorSettings.SplitterBackgroundColorHex = DefaultEnvironmentSettings.SplitterBackgroundColor;
     }
 
     private void SetDefaultAlertSettings()
@@ -490,6 +496,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.SaveLogFileHistory = GetBoolFromSetting("SaveLogFileHistory");
       CurrentSettings.HistoryMaxSize = GetIntFromSetting("LogFileHistorySize");
       CurrentSettings.ShowExtendedSettings = GetBoolFromSetting("ShowExtendedSettings");
+      CurrentSettings.SplitterWindowBehavior = GetBoolFromSetting("SplitterWindowBehavior");
     }
 
     private void ReadStatusBarSettings()
@@ -509,6 +516,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex = GetStringFromSetting("FindHighlightBackgroundColor");
       CurrentSettings.ColorSettings.LineNumberColorHex = GetStringFromSetting("LineNumbersColor");
       CurrentSettings.ColorSettings.LineNumberHighlightColorHex = GetStringFromSetting("HighlightColor");
+      CurrentSettings.ColorSettings.SplitterBackgroundColorHex = GetStringFromSetting("SplitterBackgroundColor");
     }
 
     private void ReadAlertSettings()

@@ -7,6 +7,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behaviors"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:genericBehaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:logWindowListBox="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels"
@@ -56,7 +57,7 @@
       Grid.Row="1"
       Height="5"
       HorizontalAlignment="Stretch"
-      Background="{StaticResource BrushSolidBlue}"
+      Background="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.SplitterBackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
       Visibility="Collapsed"
       behaviors:GridSplitterMouseExtension.Enabled="True"
       />

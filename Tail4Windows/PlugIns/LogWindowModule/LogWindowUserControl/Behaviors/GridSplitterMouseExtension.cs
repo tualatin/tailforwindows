@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using log4net;
+using Org.Vs.TailForWin.Core.Controllers;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behaviors
@@ -26,7 +27,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
     /// Identifies the IsEnabled attached property.
     /// </summary>
     public static readonly DependencyProperty EnabledProperty = DependencyProperty.RegisterAttached("Enabled", typeof(bool), typeof(GridSplitterMouseExtension),
-      new UIPropertyMetadata(false, IsEnabledChangedCallback));
+      new UIPropertyMetadata(false, IsEnabledChanged));
 
     /// <summary>
     /// Gets the value of the IsEnabled attached property that indicates
@@ -46,7 +47,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
     /// <param name="value">Value to set.</param>
     public static void SetEnabled(DependencyObject obj, bool value) => obj.SetValue(EnabledProperty, value);
 
-    private static void IsEnabledChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void IsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       if ( !(d is GridSplitter gridSplitter) )
         return;
@@ -97,7 +98,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
 
     private static void OnMouseMove(object sender, MouseEventArgs e)
     {
-      if ( AttachedControls.Count == 0 )
+      if ( AttachedControls.Count == 0 || !SettingsHelperController.CurrentSettings.SplitterWindowBehavior )
         return;
 
       var frameworkElement = (FrameworkElement) sender;

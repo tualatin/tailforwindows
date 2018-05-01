@@ -224,6 +224,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
     #endregion
 
+    private string _splitterBackgroundColorHex;
+
+    /// <summary>
+    /// Splitter background color hex
+    /// </summary>
+    public string SplitterBackgroundColorHex
+    {
+      get => _splitterBackgroundColorHex;
+      set
+      {
+        if ( Equals(value, _backgroundColorHex) )
+          return;
+
+        _splitterBackgroundColorHex = value;
+        OnPropertyChanged();
+      }
+    }
+
     /// <summary>
     /// Clone the object
     /// </summary>

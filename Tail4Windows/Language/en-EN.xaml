@@ -278,6 +278,8 @@
   <system:String x:Key="ExtrasSaveLogFileHistorySpinnerToolTip">Set a maximum history depth</system:String>
   <system:String x:Key="ExtrasShowExtendedSettings">Show extended settings</system:String>
   <system:String x:Key="ExtrasShowExtendedSettingsToolTip">Show extended settings in certain modules</system:String>
+  <system:String x:Key="ExtrasSplitterWindowBehavior">Splitter window behavior</system:String>
+  <system:String x:Key="ExtrasSplitterWindowBehaviorToolTip">Enable/disable Splitter window behavior</system:String>
 
   <system:String x:Key="SmtpServer">SMTP server</system:String>
   <system:String x:Key="SmtpPort">SMTP port</system:String>
@@ -322,6 +324,7 @@
   <system:String x:Key="ColorOptionHighlightBackgroundColor">Highlight background color</system:String>
   <system:String x:Key="ColorOptionLineNumberColor">Line number color</system:String>
   <system:String x:Key="ColorOptionLineNumberHighlightColor">Line number highlight color</system:String>
+  <system:String x:Key="ColorOptionSplitterBackgroundColor">Splitter background color</system:String>
 
   <system:String x:Key="ColorOptionStatusBarInactiveColor">Statusbar inactive color</system:String>
   <system:String x:Key="ColorOptionStatusBarLoadedColor">Statusbar file loaded color</system:String>

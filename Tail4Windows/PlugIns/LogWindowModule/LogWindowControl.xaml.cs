@@ -658,6 +658,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         OnPropertyChanged(nameof(LogFileHistory));
       }
 
+      SplitterPosition = 20;
+
       // Set focus to ComboBox
       LogFileComboBoxHasFocus = true;
     }

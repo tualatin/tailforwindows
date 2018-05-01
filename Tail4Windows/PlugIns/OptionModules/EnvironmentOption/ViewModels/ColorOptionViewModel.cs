@@ -128,6 +128,11 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         SettingsHelperController.CurrentSettings.ColorSettings.LineNumberHighlightColorHex = mydata.Color;
         break;
 
+      case "SplitterBackgroundColorHex":
+
+        SettingsHelperController.CurrentSettings.ColorSettings.SplitterBackgroundColorHex = mydata.Color;
+        break;
+
       case "StatusBarInactiveBackgroundColorHex":
 
         SettingsHelperController.CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex = mydata.Color;
@@ -220,6 +225,13 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
           ConfigurationName = "LineNumberHighlightColorHex",
           Name = Application.Current.TryFindResource("ColorOptionLineNumberHighlightColor").ToString(),
           Color = SettingsHelperController.CurrentSettings.ColorSettings.LineNumberHighlightColorHex
+        });
+      LogViewerColorData.Add(
+        new ControlColorData
+        {
+          ConfigurationName = "SplitterBackgroundColorHex",
+          Name = Application.Current.TryFindResource("ColorOptionSplitterBackgroundColor").ToString(),
+          Color = SettingsHelperController.CurrentSettings.ColorSettings.SplitterBackgroundColorHex
         });
     }
 
