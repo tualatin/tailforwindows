@@ -1,6 +1,11 @@
 ﻿using System.Text;
+using System.Windows.Controls;
+using System.Windows.Input;
+using Org.Vs.TailForWin.BaseView.Events.Args;
+using Org.Vs.TailForWin.BaseView.Events.Delegates;
 using Org.Vs.TailForWin.BaseView.Interfaces;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.UI.Commands;
 
 
 namespace Org.Vs.TailForWin.BaseView.ViewModels
@@ -20,6 +25,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private BaseWindowStatusbarViewModel()
     {
     }
+
+    #region Events
+
+    /// <summary>
+    /// File encoding changed event
+    /// </summary>
+    public event FileEncodingChangedEventHandler FileEncodingChanged;
+
+    #endregion
 
     #region Statusbar properties
 
@@ -72,6 +86,61 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         _currentEncoding = value;
         OnPropertyChanged();
       }
+    }
+
+    private string _linesRead;
+
+    /// <summary>
+    /// Lines read
+    /// </summary>
+    public string LinesRead
+    {
+      get => _linesRead;
+      set
+      {
+        _linesRead = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private string _sizeRefreshTime;
+
+    /// <summary>
+    /// Size and refresh time
+    /// </summary>
+    public string SizeRefreshTime
+    {
+      get => _sizeRefreshTime;
+      set
+      {
+        _sizeRefreshTime = value;
+        OnPropertyChanged();
+      }
+    }
+
+    #endregion
+
+    #region Commands
+
+    private ICommand _selectionChangedCommand;
+
+    /// <summary>
+    /// SelectionChanged command
+    /// </summary>
+    public ICommand SelectionChangedCommand => _selectionChangedCommand ?? (_selectionChangedCommand = new RelayCommand(ExecuteSelectionChangedCommand));
+
+    #endregion
+
+    #region Command functions
+
+    private void ExecuteSelectionChangedCommand(object param)
+    {
+      if ( !(param is SelectionChangedEventArgs e) )
+        return;
+
+      var cb = e.OriginalSource as ComboBox;
+      FileEncodingChanged?.Invoke(this, new FileEncodingArgs(cb?.SelectedItem as Encoding));
+      _currentEncoding = cb?.SelectedItem as Encoding;
     }
 
     #endregion

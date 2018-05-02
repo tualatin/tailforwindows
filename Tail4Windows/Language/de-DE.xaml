@@ -23,7 +23,8 @@
   <system:String x:Key="QRemoveTab">Möchten Sie den Reiter wirklich schließen</system:String>
   <system:String x:Key="TrayIconReady">Bereit...</system:String>
   <system:String x:Key="HCloseTab">Please close some tail windows before open a new one!</system:String>
-  <system:String x:Key="LinesRead">Zeilen gelesen=</system:String>
+  <system:String x:Key="LinesRead">Zeilen gelesen={0}</system:String>
+  <system:String x:Key="SizeRefreshTime">Größe={0} kb, letzte Aktualisierung={1}</system:String>
   <system:String x:Key="QResetSettings">Möchten Sie wirklich alle Einstellungen zurücksetzen?</system:String>
   <system:String x:Key="QDeleteDataGridItem">Möchten Sie die Auswahl wirklich löschen?</system:String>
   <system:String x:Key="NoContentFound">Die XML Datei ist leer!</system:String>

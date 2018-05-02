@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
 
@@ -11,6 +12,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
   /// </summary>
   public interface ILogWindowControl : INotifyPropertyChanged
   {
+    /// <summary>
+    /// On status changed event
+    /// </summary>
+    event StatusChangedEventHandler OnStatusChanged;
+
     /// <summary>
     /// LogWindowTabItem <see cref="DragSupportTabItem"/>
     /// </summary>

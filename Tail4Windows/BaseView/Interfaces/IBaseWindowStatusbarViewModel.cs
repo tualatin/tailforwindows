@@ -1,4 +1,7 @@
-﻿namespace Org.Vs.TailForWin.BaseView.Interfaces
+﻿using System.Text;
+using Org.Vs.TailForWin.BaseView.Events.Delegates;
+
+namespace Org.Vs.TailForWin.BaseView.Interfaces
 {
   /// <summary>
   /// BaseWindowStatusbar view model interface
@@ -6,11 +9,17 @@
   public interface IBaseWindowStatusbarViewModel
   {
     /// <summary>
+    /// File encoding changed event
+    /// </summary>
+    event FileEncodingChangedEventHandler FileEncodingChanged;
+
+    /// <summary>
     /// CurrentStatusBarBackground color as string
     /// </summary>
     string CurrentBusyState
     {
-      get; set;
+      get;
+      set;
     }
 
     /// <summary>
@@ -18,7 +27,35 @@
     /// </summary>
     string CurrentStatusBarBackgroundColorHex
     {
-      get; set;
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Current file <see cref="Encoding"/>
+    /// </summary>
+    Encoding CurrentEncoding
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Lines read
+    /// </summary>
+    string LinesRead
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Size and refresh time
+    /// </summary>
+    string SizeRefreshTime
+    {
+      get;
+      set;
     }
   }
 }

@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using log4net;
+using Org.Vs.TailForWin.BaseView.Events.Args;
 using Org.Vs.TailForWin.BaseView.Interfaces;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Business.Utils;
@@ -41,6 +42,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private readonly NotifyTaskCompletion _notifyTaskCompletion;
     private EStatusbarState _currentStatusbarState;
     private Encoding _currentEncoding;
+    private readonly IBaseWindowStatusbarViewModel _baseWindowStatusbarViewModel;
 
     #region Events
 
@@ -199,14 +201,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       set
       {
         if ( _selectedTabItem != null )
-          ((LogWindowControl) _selectedTabItem.Content).OnStatusChanged -= OnStatusChangedCurrentLogWindow;
+          ((ILogWindowControl) _selectedTabItem.Content).OnStatusChanged -= OnStatusChangedCurrentLogWindow;
 
         _selectedTabItem = value;
 
         if ( _selectedTabItem == null )
           return;
 
-        var content = (LogWindowControl) _selectedTabItem.Content;
+        var content = (ILogWindowControl) _selectedTabItem.Content;
         content.OnStatusChanged += OnStatusChangedCurrentLogWindow;
 
         _currentStatusbarState = content.LogWindowState;
@@ -230,8 +232,27 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
       BusinessHelper.TabItemList.CollectionChanged += RegisteredTabItemsSourceCollectionChanged;
 
+      _baseWindowStatusbarViewModel = BaseWindowStatusbarViewModel.Instance;
+      _baseWindowStatusbarViewModel.FileEncodingChanged += OnFileEncodingChanged;
+
       TrayIconItemsSource = new ObservableCollection<DragSupportMenuItem>();
       TabItemsSource = new ObservableCollection<DragSupportTabItem>();
+    }
+
+    private void OnFileEncodingChanged(object sender, FileEncodingArgs e)
+    {
+      if ( !(sender is BaseWindowStatusbarViewModel) || SelectedTabItem == null )
+        return;
+
+      var content = (ILogWindowControl) SelectedTabItem.Content;
+
+      if ( content.CurrentTailData == null )
+        return;
+
+      if ( Equals(content.CurrentTailData.FileEncoding, e.Encoding) )
+        return;
+
+      content.CurrentTailData.FileEncoding = e.Encoding;
     }
 
     private void RegisteredTabItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -705,20 +726,20 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
       case EStatusbarState.FileLoaded:
 
-        BaseWindowStatusbarViewModel.Instance.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex;
-        BaseWindowStatusbarViewModel.Instance.CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
+        _baseWindowStatusbarViewModel.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex;
+        _baseWindowStatusbarViewModel.CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
         break;
 
       case EStatusbarState.Busy:
 
-        BaseWindowStatusbarViewModel.Instance.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex;
-        BaseWindowStatusbarViewModel.Instance.CurrentBusyState = Application.Current.TryFindResource("Record").ToString();
+        _baseWindowStatusbarViewModel.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex;
+        _baseWindowStatusbarViewModel.CurrentBusyState = Application.Current.TryFindResource("Record").ToString();
         break;
 
       case EStatusbarState.Default:
 
-        BaseWindowStatusbarViewModel.Instance.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex;
-        BaseWindowStatusbarViewModel.Instance.CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
+        _baseWindowStatusbarViewModel.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex;
+        _baseWindowStatusbarViewModel.CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
         break;
 
       default:
@@ -726,7 +747,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         throw new NotImplementedException();
       }
 
-      BaseWindowStatusbarViewModel.Instance.CurrentEncoding = _currentEncoding;
+      _baseWindowStatusbarViewModel.CurrentEncoding = _currentEncoding;
     }
 
     #endregion

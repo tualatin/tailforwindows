@@ -202,6 +202,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseView\Events\Args\FileEncodingArgs.cs" />
+    <Compile Include="BaseView\Events\Delegates\FileEncodingChangedEventHandler.cs" />
     <Compile Include="Business\Controllers\PrintController.cs" />
     <Compile Include="Business\Data\LogEntry.cs" />
     <Compile Include="Business\Data\Messages\AddTabItemMessage.cs" />

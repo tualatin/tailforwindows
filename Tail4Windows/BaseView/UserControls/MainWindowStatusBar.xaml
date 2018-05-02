@@ -4,6 +4,8 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
@@ -27,21 +29,21 @@
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
 
-    <TextBlock
+    <Label
       Grid.Column="0"
       Margin="5 0"
       VerticalAlignment="Center"
-      Text="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
+      Content="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
       FontSize="11"
       Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
       SnapsToDevicePixels="True"
       />
 
-    <TextBlock
+    <Label
       Grid.Column="2"
       Margin="5 0"
       VerticalAlignment="Center"
-      Text="Size=4355,33 Kb, Last refresh time=14:30"
+      Content="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=SizeRefreshTime, UpdateSourceTrigger=PropertyChanged}"
       FontSize="11"
       Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
       SnapsToDevicePixels="True"
@@ -62,10 +64,10 @@
         Grid.Column="0"
         Orientation="Horizontal"
         >
-        <TextBlock
+        <Label
           Margin="5 0"
           VerticalAlignment="Center"
-          Text="{DynamicResource StatusbarEncoding}"
+          Content="{DynamicResource StatusbarEncoding}"
           FontSize="11"
           Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
           />
@@ -76,9 +78,18 @@
           IsEditable="True"
           ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=FileEncoding}"
           MaxDropDownHeight="200"
-          SelectedItem="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=CurrentEncoding, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+          SelectedItem="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=CurrentEncoding, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
           Style="{StaticResource StatusbarComboBoxStyle}"
           >
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="SelectionChanged">
+              <commands:InvokeDelegateCommandAction
+                Command="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=SelectionChangedCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+                />
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+
           <ComboBox.ToolTip>
             <StackPanel>
               <TextBlock
@@ -112,12 +123,13 @@
         </ComboBox>
       </StackPanel>
 
-      <TextBlock
+      <Label
         Grid.Column="2"
         Margin="5 0"
         HorizontalAlignment="Right"
         VerticalAlignment="Center"
-        Text="Lines read=123045865"
+        Content="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=LinesRead, UpdateSourceTrigger=PropertyChanged}"
+        ContentStringFormat="{DynamicResource LinesRead}"
         FontSize="11"
         Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
         SnapsToDevicePixels="True"
