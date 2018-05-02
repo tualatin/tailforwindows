@@ -211,6 +211,7 @@
     <Compile Include="Business\Data\Messages\DisableQuickAddInTailDataMessage.cs" />
     <Compile Include="Business\Data\Messages\OpenFilterDataFromTailDataMessage.cs" />
     <Compile Include="Business\Data\Messages\OpenTailDataAsNewTabItem.cs" />
+    <Compile Include="Business\Events\Delegates\LogEntryCreated.cs" />
     <Compile Include="Business\Interfaces\ILogReadService.cs" />
     <Compile Include="Business\Services\LogReadService.cs" />
     <Compile Include="Business\Utils\BusinessHelper.cs" />
@@ -397,7 +398,7 @@
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowStatusBarViewModel.cs" />
     <Compile Include="BaseView\ViewModels\OptionsViewModel.cs" />
     <Compile Include="Business\Data\Messages\QuickSearchTextBoxGetFocusMessage.cs" />
-    <Compile Include="Business\Events\Args\ArgDummy.cs" />
+    <Compile Include="Business\Events\Args\LogEntryCreatedArgs.cs" />
     <Compile Include="PlugIns\OptionModules\Interfaces\IOptionPage.cs" />
     <Compile Include="Core\Controllers\SettingsHelperController.cs" />
     <Compile Include="Core\Controllers\UpdateController.cs" />

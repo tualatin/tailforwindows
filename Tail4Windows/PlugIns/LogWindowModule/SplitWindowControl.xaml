@@ -66,6 +66,7 @@
       Grid.Row="2"
       HorizontalAlignment="Stretch"
       VerticalAlignment="Stretch"
+      AlwaysScrollIntoView="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlwaysScrollToEnd, UpdateSourceTrigger=PropertyChanged}"
       behaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
       behaviors:ListBoxCopy.AutoCopy="True"
       behaviors:ListBoxExtenders.AutoScrollToCurrentItem="{Binding RelativeSource={RelativeSource Self}, Path=AlwaysScrollIntoView}"

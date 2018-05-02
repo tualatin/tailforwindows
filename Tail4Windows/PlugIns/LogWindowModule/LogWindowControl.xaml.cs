@@ -14,6 +14,7 @@ using log4net;
 using Org.Vs.TailForWin.Business.Controllers;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Data.Messages;
+using Org.Vs.TailForWin.Business.Events.Args;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Business.Utils;
@@ -78,8 +79,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _xmlFileManagerController = new XmlFileManagerController();
 
       TailReader = new LogReadService();
-      CurrentTailData = new TailData();
+      TailReader.OnLogEntryCreated += OnLogEntryCreated;
 
+      CurrentTailData = new TailData();
+      
       ((AsyncCommand<object>) StartTailCommand).PropertyChanged += SaveHistoryCompleted;
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedCompleted;
     }
@@ -350,7 +353,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Clear log window command
     /// </summary>
-    public ICommand ClearLogWindowCommand => _clearLogWindowCommand ?? (_clearLogWindowCommand = new RelayCommand(p => CanExecuteOpenFontDialog(), p => ExecuteClearLogWindowCommand()));
+    public ICommand ClearLogWindowCommand => _clearLogWindowCommand ?? (_clearLogWindowCommand = new RelayCommand(p => CanExecuteClearLogWindowCommand(), p => ExecuteClearLogWindowCommand()));
 
     #endregion
 
@@ -415,9 +418,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       CurrentTailData.FontType = tailFont;
     }
 
+    private bool CanExecuteClearLogWindowCommand()
+    {
+      return false;
+    }
+
     private void ExecuteClearLogWindowCommand()
     {
-
+      MouseService.SetBusyState();
     }
 
     private void ExecuteOpenSearchDialogCommand()
@@ -484,13 +492,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Visible;
       LogWindowState = EStatusbarState.Busy;
 
+      SetCancellationTokenSource();
+
+      TailReader.TailData = CurrentTailData;
+      TailReader.StartTail(_cts.Token);
+
       // If Logfile comes from the FileManager or settings does not allow to save the history, do not save it in the history
       if ( CurrentTailData.OpenFromFileManager || !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
         return;
 
       MouseService.SetBusyState();
-      SetCancellationTokenSource();
-
       await _historyController.SaveSearchHistoryAsync(CurrentTailData.FileName).ConfigureAwait(false);
     }
 
@@ -498,6 +509,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       if ( LogWindowTabItem == null )
         return;
+
+      TailReader.StopTail();
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
       LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.File) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
@@ -783,6 +796,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
       }
+    }
+
+    private void OnLogEntryCreated(object sender, LogEntryCreatedArgs e)
+    {
+      throw new NotImplementedException();
     }
   }
 }

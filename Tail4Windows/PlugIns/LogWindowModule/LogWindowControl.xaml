@@ -575,6 +575,7 @@
           <CheckBox
             Height="22"
             Content="{DynamicResource ComboBoxTimeStamp}"
+            IsChecked="{Binding CurrentTailData.Timestamp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             >
             <CheckBox.ToolTip>
               <StackPanel>
@@ -611,6 +612,7 @@
           <CheckBox
             Height="22"
             Content="{DynamicResource ComboBoxLineWrap}"
+            IsChecked="{Binding CurrentTailData.Wrap, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             >
             <CheckBox.ToolTip>
               <StackPanel>
@@ -647,6 +649,7 @@
           <CheckBox
             Height="22"
             Content="{DynamicResource ComboBoxRemoveSpace}"
+            IsChecked="{Binding CurrentTailData.RemoveSpace, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             >
             <CheckBox.ToolTip>
               <StackPanel>
