@@ -27,14 +27,34 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args
     }
 
     /// <summary>
+    /// Lines read
+    /// </summary>
+    public string LinesRead
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Size and refresh time
+    /// </summary>
+    public string SizeRefreshTime
+    {
+      get;
+    }
+
+    /// <summary>
     /// Standard constructor
     /// </summary>
     /// <param name="state"><see cref="EStatusbarState"/></param>
     /// <param name="encoding"><see cref="Encoding"/></param>
-    public StatusChangedArgs(EStatusbarState state, Encoding encoding)
+    /// <param name="linesRead">Lines read</param>
+    /// <param name="sizeRefreshTime">Size and refresh time</param>
+    public StatusChangedArgs(EStatusbarState state, Encoding encoding, string linesRead, string sizeRefreshTime)
     {
       State = state;
       LogFileEncoding = encoding;
+      LinesRead = linesRead;
+      SizeRefreshTime = sizeRefreshTime;
     }
   }
 }

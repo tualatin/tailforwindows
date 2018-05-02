@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
@@ -16,6 +17,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     /// On status changed event
     /// </summary>
     event StatusChangedEventHandler OnStatusChanged;
+
+    /// <summary>
+    /// <see cref="ILogReadService"/>
+    /// </summary>
+    ILogReadService TailReader
+    {
+      get;
+    }
 
     /// <summary>
     /// LogWindowTabItem <see cref="DragSupportTabItem"/>

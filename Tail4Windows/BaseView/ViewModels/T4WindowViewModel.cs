@@ -42,6 +42,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private readonly NotifyTaskCompletion _notifyTaskCompletion;
     private EStatusbarState _currentStatusbarState;
     private Encoding _currentEncoding;
+    private string _currentLinesRead;
+    private string _currentSizeRefreshTime;
     private readonly IBaseWindowStatusbarViewModel _baseWindowStatusbarViewModel;
 
     #region Events
@@ -211,6 +213,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         var content = (ILogWindowControl) _selectedTabItem.Content;
         content.OnStatusChanged += OnStatusChangedCurrentLogWindow;
 
+        _currentLinesRead = content.TailReader.LinesRead;
+        _currentSizeRefreshTime = content.TailReader.SizeRefreshTime;
         _currentStatusbarState = content.LogWindowState;
         _currentEncoding = content.CurrentTailData?.FileEncoding;
 
@@ -487,6 +491,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _currentStatusbarState = e.State;
       _currentEncoding = e.LogFileEncoding;
+      _currentLinesRead = e.LinesRead;
+      _currentSizeRefreshTime = e.SizeRefreshTime;
 
       SetCurrentBusinessData();
     }
@@ -747,6 +753,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         throw new NotImplementedException();
       }
 
+      _baseWindowStatusbarViewModel.SizeRefreshTime = _currentSizeRefreshTime;
+      _baseWindowStatusbarViewModel.LinesRead = _currentLinesRead;
       _baseWindowStatusbarViewModel.CurrentEncoding = _currentEncoding;
     }
 

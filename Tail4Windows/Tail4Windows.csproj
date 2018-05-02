@@ -211,6 +211,8 @@
     <Compile Include="Business\Data\Messages\DisableQuickAddInTailDataMessage.cs" />
     <Compile Include="Business\Data\Messages\OpenFilterDataFromTailDataMessage.cs" />
     <Compile Include="Business\Data\Messages\OpenTailDataAsNewTabItem.cs" />
+    <Compile Include="Business\Interfaces\ILogReadService.cs" />
+    <Compile Include="Business\Services\LogReadService.cs" />
     <Compile Include="Business\Utils\BusinessHelper.cs" />
     <Compile Include="Core\Utils\QueueSet.cs" />
     <Compile Include="Core\Utils\SafeObservable.cs" />
@@ -962,7 +964,6 @@
   <ItemGroup>
     <Folder Include="BaseView\UserControls\Interfaces\" />
     <Folder Include="BaseView\UserControls\Styles\" />
-    <Folder Include="Business\Interfaces\" />
     <Folder Include="Core\Events\Args\" />
     <Folder Include="Core\Events\Delegates\" />
     <Folder Include="Core\Events\EventManagers\" />

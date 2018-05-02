@@ -14,6 +14,8 @@ using log4net;
 using Org.Vs.TailForWin.Business.Controllers;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Data.Messages;
+using Org.Vs.TailForWin.Business.Interfaces;
+using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
@@ -74,10 +76,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _printerController = new PrintController();
       _historyController = new XmlHistoryController();
       _xmlFileManagerController = new XmlFileManagerController();
+
+      TailReader = new LogReadService();
       CurrentTailData = new TailData();
 
       ((AsyncCommand<object>) StartTailCommand).PropertyChanged += SaveHistoryCompleted;
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedCompleted;
+    }
+
+    /// <summary>
+    /// <see cref="ILogReadService"/>
+    /// </summary>
+    public ILogReadService TailReader
+    {
+      get;
+      set;
     }
 
     private DragSupportTabItem _logWindowTabItem;
@@ -110,7 +123,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         _logWindowState = value;
 
         if ( IsSelected )
-          OnStatusChanged?.Invoke(this, new StatusChangedArgs(LogWindowState, CurrentTailData.FileEncoding));
+          OnStatusChanged?.Invoke(this, new StatusChangedArgs(LogWindowState, CurrentTailData.FileEncoding, TailReader.LinesRead, TailReader.SizeRefreshTime));
 
         OnPropertyChanged();
       }
