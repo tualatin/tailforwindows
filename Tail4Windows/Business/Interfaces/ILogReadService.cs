@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Events.Delegates;
 using Org.Vs.TailForWin.Core.Data;
@@ -45,7 +46,7 @@ namespace Org.Vs.TailForWin.Business.Interfaces
     /// Starts tail
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
-    void StartTail(CancellationToken token);
+    Task StartTailAsync(CancellationToken token);
 
     /// <summary>
     /// Stop tail

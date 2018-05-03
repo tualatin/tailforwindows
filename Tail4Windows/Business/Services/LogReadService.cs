@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using log4net;
 using Org.Vs.TailForWin.Business.Data;
@@ -75,21 +76,37 @@ namespace Org.Vs.TailForWin.Business.Services
     /// Starts tail
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
-    public void StartTail(CancellationToken token)
+    public async Task StartTailAsync(CancellationToken token)
     {
       LOG.Trace("Start tail...");
 
+      Thread.CurrentThread.Priority = TailData.ThreadPriority;
       _token = token;
 
-      LinesRead = 10;
-      SizeRefreshTime = string.Format(Application.Current.TryFindResource("SizeRefreshTime").ToString(), 123, DateTime.Now);
-      var log = new LogEntry
+      await ReadLogFileAsync().ConfigureAwait(false);
+    }
+
+    private async Task ReadLogFileAsync()
+    {
+      int index = 1;
+
+      while ( !_token.IsCancellationRequested )
       {
-        Index = 0,
-        Message = "Hallo welt",
-        DateTime = DateTime.Now
-      };
-      OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, LinesRead, SizeRefreshTime));
+        await Task.Delay(TimeSpan.FromMilliseconds((int) TailData.RefreshRate), _token).ConfigureAwait(false);
+
+        var log = new LogEntry
+        {
+          Index = index,
+          Message = $"Log - {index}",
+          DateTime = DateTime.Now
+        };
+
+        LinesRead = index;
+        SizeRefreshTime = string.Format(Application.Current.TryFindResource("SizeRefreshTime").ToString(), 123, DateTime.Now);
+
+        OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, LinesRead, SizeRefreshTime));
+        index++;
+      }
     }
 
     /// <summary>
@@ -98,7 +115,6 @@ namespace Org.Vs.TailForWin.Business.Services
     public void StopTail()
     {
       MouseService.SetBusyState();
-
       LOG.Trace("Stop tail.");
     }
   }

@@ -132,6 +132,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           OnStatusChanged?.Invoke(this, new StatusChangedArgs(LogWindowState, CurrentTailData.FileEncoding, TailReader.LinesRead, TailReader.SizeRefreshTime));
 
         OnPropertyChanged();
+        OnPropertyChanged(nameof(ThreadPriorityIsEnable));
       }
     }
 
@@ -244,6 +245,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       get;
       set;
     } = new ObservableCollection<LogEntry>();
+
+    /// <summary>
+    /// Thread priority is enable
+    /// </summary>
+    public bool ThreadPriorityIsEnable => LogWindowState != EStatusbarState.Busy;
 
     #region Commands
 
@@ -423,11 +429,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         ShowColor = false
       };
 
-      if ( fontManager.ShowDialog() == System.Windows.Forms.DialogResult.Cancel )
-        return;
+      try
+      {
+        if ( fontManager.ShowDialog() == System.Windows.Forms.DialogResult.Cancel )
+          return;
 
-      tailFont = new System.Drawing.Font(fontManager.Font.FontFamily, fontManager.Font.Size, fontManager.Font.Style);
-      CurrentTailData.FontType = tailFont;
+        tailFont = new System.Drawing.Font(fontManager.Font.FontFamily, fontManager.Font.Size, fontManager.Font.Style);
+        CurrentTailData.FontType = tailFont;
+      }
+      catch
+      {
+        // Nothing
+      }
     }
 
     private bool CanExecuteClearLogWindowCommand() => LogEntries.Count != 0;
@@ -496,7 +509,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       SetCancellationTokenSource();
 
       TailReader.TailData = CurrentTailData;
-      TailReader.StartTail(_cts.Token);
+
+      await TailReader.StartTailAsync(_cts.Token).ConfigureAwait(false);
 
       // If Logfile comes from the FileManager or settings does not allow to save the history, do not save it in the history
       if ( CurrentTailData.OpenFromFileManager || !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
@@ -512,6 +526,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       TailReader.StopTail();
+      _cts.Cancel();
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
       LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.File) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
@@ -810,10 +825,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is ILogReadService) )
         return;
 
-      LogEntries.Add(e.Log);
+      Dispatcher.InvokeAsync(
+        () =>
+        {
+          LogEntries.Add(e.Log);
 
-      if ( IsSelected )
-        OnLinesRefreshTimeChanged?.Invoke(this, new LinesRefreshTimeChangedArgs(e.LinesRead, e.SizeRefreshTime));
+          if ( IsSelected )
+            OnLinesRefreshTimeChanged?.Invoke(this, new LinesRefreshTimeChangedArgs(e.LinesRead, e.SizeRefreshTime));
+        });
     }
   }
 }

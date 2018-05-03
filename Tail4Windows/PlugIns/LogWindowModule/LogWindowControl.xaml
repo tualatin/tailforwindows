@@ -18,6 +18,7 @@
   d:DataContext="{Binding RelativeSource={RelativeSource Self}}"
   d:DesignHeight="450"
   d:DesignWidth="850"
+  x:Name="LogWindow"
   HorizontalAlignment="Stretch"
   VerticalAlignment="Stretch"
   AllowDrop="True"
@@ -799,6 +800,7 @@
               Margin="6 0 0 0"
               DisplayMemberPath="Description"
               Foreground="Black"
+              IsEnabled="{Binding ThreadPriorityIsEnable, UpdateSourceTrigger=PropertyChanged}"
               ItemsSource="{Binding Source={x:Static utils1:EnvironmentContainer.Instance}, Path=ThreadPriority}"
               SelectedValue="{Binding CurrentTailData.ThreadPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
               SelectedValuePath="ThreadPriority"
@@ -987,6 +989,10 @@
         <logWindowModule:SplitWindowControl
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch"
+          LogEntries="{Binding ElementName=LogWindow, Path=LogEntries}"
+          TextEditorFontFamily="{Binding ElementName=LogWindow, Path=CurrentTailData.FontType.FontFamily, UpdateSourceTrigger=PropertyChanged}"
+          TextEditorFontSize="{Binding ElementName=LogWindow, Path=CurrentTailData.FontType.Size, UpdateSourceTrigger=PropertyChanged}"
+          TextEditorFontStyle="{Binding ElementName=LogWindow, Path=CurrentTailData.FontType.Style, UpdateSourceTrigger=PropertyChanged}"
           />
       </Border>
     </Grid>

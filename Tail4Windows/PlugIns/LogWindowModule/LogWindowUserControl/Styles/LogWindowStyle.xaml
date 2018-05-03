@@ -7,26 +7,19 @@
   xmlns:logWindowListBox="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl"
   >
   <Style x:Key="MyLineNumberText" TargetType="{x:Type TextBlock}">
-    <Setter Property="FontFamily" Value="{Binding Path=TextEditorFontFamily, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
-    <Setter Property="FontSize" Value="{Binding Path=TextEditorFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
-    <Setter Property="FontWeight" Value="{Binding Path=TextEditorFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
-    <Setter Property="Foreground" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
+    <Setter Property="Foreground" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
     <Setter Property="Text" Value="{Binding Index, Mode=OneWay}" />
     <Setter Property="TextAlignment" Value="Right" />
   </Style>
 
   <Style x:Key="MyTextEditor" TargetType="{x:Type TextBlock}">
-    <Setter Property="FontFamily" Value="{Binding Path=TextEditorFontFamily, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
-    <Setter Property="FontSize" Value="{Binding Path=TextEditorFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
-    <Setter Property="FontStyle" Value="{Binding Path=TextEditorFontStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
-    <Setter Property="FontWeight" Value="{Binding Path=TextEditorFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
     <Setter Property="Text" Value="{Binding Message, Mode=OneWay}" />
     <Setter Property="TextWrapping" Value="{Binding Path=WordWrapping, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Converter={StaticResource BoolToTextWrapConverter}}" />
     <Style.Triggers>
       <DataTrigger Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}">
         <Setter Property="Background">
           <Setter.Value>
-            <SolidColorBrush Color="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=TextEditorSelectionColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}}" Opacity="0.4" />
+            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
           </Setter.Value>
         </Setter>
       </DataTrigger>
@@ -34,10 +27,6 @@
   </Style>
 
   <Style x:Key="MyEditTextEditor" TargetType="{x:Type TextBox}">
-    <Setter Property="FontFamily" Value="{Binding Path=TextEditorFontFamily, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
-    <Setter Property="FontSize" Value="{Binding Path=TextEditorFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
-    <Setter Property="FontStyle" Value="{Binding Path=TextEditorFontStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
-    <Setter Property="FontWeight" Value="{Binding Path=TextEditorFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
     <Setter Property="IsReadOnly" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
@@ -59,7 +48,7 @@
       <DataTrigger Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}">
         <Setter Property="Background">
           <Setter.Value>
-            <SolidColorBrush Color="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=TextEditorSelectionColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}}" Opacity="0.4" />
+            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
           </Setter.Value>
         </Setter>
       </DataTrigger>
@@ -67,10 +56,6 @@
   </Style>
 
   <Style x:Key="MyDateTimeEditor" TargetType="{x:Type TextBlock}">
-    <Setter Property="FontFamily" Value="{Binding Path=TextEditorFontFamily, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
-    <Setter Property="FontSize" Value="{Binding Path=TextEditorFontSize, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
-    <Setter Property="FontStyle" Value="{Binding Path=TextEditorFontStyle, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
-    <Setter Property="FontWeight" Value="{Binding Path=TextEditorFontWeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}" />
     <Setter Property="Text" Value="{Binding DateTime, Mode=OneWay, Converter={StaticResource StringFormat}}" />
     <Style.Triggers>
       <DataTrigger Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}">

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.UI.Commands;
 
@@ -17,12 +15,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
     private const double Offset = 5;
 
     #region Properties
-
-    public ObservableCollection<LogEntry> LogEntries
-    {
-      get;
-      set;
-    }
 
     private double _splitterPosition;
 
@@ -56,10 +48,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
 
     #endregion
 
-    public SplitWindowControlViewModel()
-    {
-    }
-
     #region Commands
 
     private ICommand _loadedCommand;
@@ -82,21 +70,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
 
     private void ExecuteLoadedCommand()
     {
-      LogEntries = new ObservableCollection<LogEntry>();
-      LogEntries.Add(new LogEntry
-      {
-        DateTime = DateTime.Now,
-        Message = "Test welt",
-        Index = 1
-      });
-      LogEntries.Add(new LogEntry
-      {
-        DateTime = DateTime.Now,
-        Message = "Blubb",
-        Index = 2
-      });
-
-      OnPropertyChanged(nameof(LogEntries));
     }
 
     private void ExecuteSizeChangedCommand(SizeChangedEventArgs e)
