@@ -233,6 +233,7 @@
     </Compile>
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FileManagerViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FilterManagerViewModel.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Behaviors\LogEntryItems.cs" />
     <Compile Include="PlugIns\LogWindowModule\Controller\XmlHistoryController.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Args\LinesRefreshTimeChangedArgs.cs" />

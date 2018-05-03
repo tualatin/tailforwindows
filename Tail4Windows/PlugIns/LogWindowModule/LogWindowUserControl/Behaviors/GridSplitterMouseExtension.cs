@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using log4net;
 using Org.Vs.TailForWin.Core.Controllers;
 
 
@@ -14,8 +13,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
   /// </summary>
   public class GridSplitterMouseExtension
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof(GridSplitterMouseExtension));
-
     /// <summary>
     /// This stores the GridSplitterMouseExtension for each GridSplitter so we can unregister it.
     /// </summary>

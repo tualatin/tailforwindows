@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Windows;
 using log4net;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Events.Args;
@@ -81,7 +82,7 @@ namespace Org.Vs.TailForWin.Business.Services
       _token = token;
 
       LinesRead = 10;
-      SizeRefreshTime = "Size=217,435 Kb Last refresh time=07:46";
+      SizeRefreshTime = string.Format(Application.Current.TryFindResource("SizeRefreshTime").ToString(), 123, DateTime.Now);
       var log = new LogEntry
       {
         Index = 0,

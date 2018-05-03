@@ -14,7 +14,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
   /// <summary>
   /// LogWindow control
   /// </summary>
-  public class LogWindowListBox : ListBox
+  public class LogWindowListBox : ListView
   {
     #region Public properties
 
