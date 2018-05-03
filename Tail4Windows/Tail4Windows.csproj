@@ -235,7 +235,9 @@
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FilterManagerViewModel.cs" />
     <Compile Include="PlugIns\LogWindowModule\Controller\XmlHistoryController.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\XmlNames.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Events\Args\LinesRefreshTimeChangedArgs.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Args\StatusChangedArgs.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Events\Delegates\LinesRefreshTimeChangedEventHandler.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Delegates\StatusChangedEventHandler.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowControl.xaml.cs">
       <DependentUpon>LogWindowControl.xaml</DependentUpon>
@@ -267,6 +269,7 @@
     <Compile Include="UI\Converters\FilterCountToStringConverter.cs" />
     <Compile Include="UI\Converters\FontToStringConverter.cs" />
     <Compile Include="UI\Converters\IntToBoolConverter.cs" />
+    <Compile Include="UI\Converters\IntToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\MediaBrushToMediaColorConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\LogFileIsEnableMultiConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\LogFileFileManagerMultiConverter.cs" />

@@ -42,7 +42,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private readonly NotifyTaskCompletion _notifyTaskCompletion;
     private EStatusbarState _currentStatusbarState;
     private Encoding _currentEncoding;
-    private string _currentLinesRead;
+    private int _currentLinesRead;
     private string _currentSizeRefreshTime;
     private readonly IBaseWindowStatusbarViewModel _baseWindowStatusbarViewModel;
 
@@ -203,7 +203,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       set
       {
         if ( _selectedTabItem != null )
+        {
           ((ILogWindowControl) _selectedTabItem.Content).OnStatusChanged -= OnStatusChangedCurrentLogWindow;
+          ((ILogWindowControl) _selectedTabItem.Content).OnLinesRefreshTimeChanged -= OnLinesRefreshTimeChangedCurrentLogWindow;
+        }
 
         _selectedTabItem = value;
 
@@ -212,6 +215,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
         var content = (ILogWindowControl) _selectedTabItem.Content;
         content.OnStatusChanged += OnStatusChangedCurrentLogWindow;
+        content.OnLinesRefreshTimeChanged += OnLinesRefreshTimeChangedCurrentLogWindow;
 
         _currentLinesRead = content.TailReader.LinesRead;
         _currentSizeRefreshTime = content.TailReader.SizeRefreshTime;
@@ -495,6 +499,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _currentSizeRefreshTime = e.SizeRefreshTime;
 
       SetCurrentBusinessData();
+    }
+
+    private void OnLinesRefreshTimeChangedCurrentLogWindow(object sender, LinesRefreshTimeChangedArgs e)
+    {
+      if ( !(sender is LogWindowControl) )
+        return;
+
+      _baseWindowStatusbarViewModel.SizeRefreshTime = _currentSizeRefreshTime = e.SizeRefreshTime;
+      _baseWindowStatusbarViewModel.LinesRead = _currentLinesRead = e.LinesRead;
     }
 
     #endregion

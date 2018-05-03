@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
@@ -17,6 +19,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     /// On status changed event
     /// </summary>
     event StatusChangedEventHandler OnStatusChanged;
+
+    /// <summary>
+    /// On lines refresh time changed event
+    /// </summary>
+    event LinesRefreshTimeChangedEventHandler OnLinesRefreshTimeChanged;
 
     /// <summary>
     /// <see cref="ILogReadService"/>
@@ -83,6 +90,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     /// Splitter position
     /// </summary>
     double SplitterPosition
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// List of <see cref="ObservableCollection{T}"/> <see cref="LogEntry"/>
+    /// </summary>
+    ObservableCollection<LogEntry> LogEntries
     {
       get;
       set;

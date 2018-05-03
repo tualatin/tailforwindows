@@ -19,7 +19,7 @@ namespace Org.Vs.TailForWin.Business.Interfaces
     /// <summary>
     /// Lines read
     /// </summary>
-    string LinesRead
+    int LinesRead
     {
       get;
     }

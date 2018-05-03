@@ -1,22 +1,13 @@
 ﻿using System;
-using Org.Vs.TailForWin.Business.Data;
 
 
-namespace Org.Vs.TailForWin.Business.Events.Args
+namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args
 {
   /// <summary>
-  /// <see cref="LogEntry"/> created <see cref="EventArgs"/>
+  /// Lines refresh time changed event args
   /// </summary>
-  public class LogEntryCreatedArgs : EventArgs
+  public class LinesRefreshTimeChangedArgs : EventArgs
   {
-    /// <summary>
-    /// <see cref="LogEntry"/>
-    /// </summary>
-    public LogEntry Log
-    {
-      get;
-    }
-
     /// <summary>
     /// Lines read
     /// </summary>
@@ -34,14 +25,12 @@ namespace Org.Vs.TailForWin.Business.Events.Args
     }
 
     /// <summary>
-    /// Standard constructor
+    /// Standard constructur
     /// </summary>
-    /// <param name="log"><see cref="LogEntry"/></param>
     /// <param name="linesRead">Lines read</param>
     /// <param name="sizeRefreshTime">Size refresh time</param>
-    public LogEntryCreatedArgs(LogEntry log, int linesRead, string sizeRefreshTime)
+    public LinesRefreshTimeChangedArgs(int linesRead, string sizeRefreshTime)
     {
-      Log = log;
       LinesRead = linesRead;
       SizeRefreshTime = sizeRefreshTime;
     }

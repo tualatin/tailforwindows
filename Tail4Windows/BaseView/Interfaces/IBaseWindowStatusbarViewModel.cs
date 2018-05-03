@@ -43,7 +43,7 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
     /// <summary>
     /// Lines read
     /// </summary>
-    string LinesRead
+    int LinesRead
     {
       get;
       set;

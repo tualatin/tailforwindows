@@ -1,8 +1,11 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using log4net;
 using Org.Vs.TailForWin.Business.Data;
+using Org.Vs.TailForWin.Business.Events.Args;
 using Org.Vs.TailForWin.Business.Events.Delegates;
 using Org.Vs.TailForWin.Business.Interfaces;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.UI.Services;
 
@@ -17,6 +20,7 @@ namespace Org.Vs.TailForWin.Business.Services
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogReadService));
 
     private CancellationToken _token;
+    private int _startOffset;
 
     #region Events
 
@@ -32,7 +36,7 @@ namespace Org.Vs.TailForWin.Business.Services
     /// <summary>
     /// Lines read
     /// </summary>
-    public string LinesRead
+    public int LinesRead
     {
       get;
       private set;
@@ -59,6 +63,14 @@ namespace Org.Vs.TailForWin.Business.Services
     #endregion
 
     /// <summary>
+    /// Standard constructor
+    /// </summary>
+    public LogReadService()
+    {
+      _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
+    }
+
+    /// <summary>
     /// Starts tail
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
@@ -67,6 +79,16 @@ namespace Org.Vs.TailForWin.Business.Services
       LOG.Trace("Start tail...");
 
       _token = token;
+
+      LinesRead = 10;
+      SizeRefreshTime = "Size=217,435 Kb Last refresh time=07:46";
+      var log = new LogEntry
+      {
+        Index = 0,
+        Message = "Hallo welt",
+        DateTime = DateTime.Now
+      };
+      OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, LinesRead, SizeRefreshTime));
     }
 
     /// <summary>

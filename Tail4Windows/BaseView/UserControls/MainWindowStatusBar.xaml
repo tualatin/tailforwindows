@@ -133,6 +133,7 @@
         FontSize="11"
         Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
         SnapsToDevicePixels="True"
+        Visibility="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=LinesRead, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntToVisibilityConverter}}"
         />
     </Grid>
   </Grid>

@@ -64,6 +64,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public event StatusChangedEventHandler OnStatusChanged;
 
+    /// <summary>
+    /// On lines refresh time changed event
+    /// </summary>
+    public event LinesRefreshTimeChangedEventHandler OnLinesRefreshTimeChanged;
+
     #endregion
 
     /// <summary>
@@ -79,10 +84,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _xmlFileManagerController = new XmlFileManagerController();
 
       TailReader = new LogReadService();
-      TailReader.OnLogEntryCreated += OnLogEntryCreated;
-
       CurrentTailData = new TailData();
-      
+
       ((AsyncCommand<object>) StartTailCommand).PropertyChanged += SaveHistoryCompleted;
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedCompleted;
     }
@@ -233,6 +236,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
+    /// <summary>
+    /// List of <see cref="ObservableCollection{T}"/> <see cref="LogEntry"/>
+    /// </summary>
+    public ObservableCollection<LogEntry> LogEntries
+    {
+      get;
+      set;
+    } = new ObservableCollection<LogEntry>();
+
     #region Commands
 
     private ICommand _openFileCommand;
@@ -310,7 +322,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Print <see cref="TailData"/>
     /// </summary>
-    public ICommand PrintTailDataCommand => _printTailDataCommand ?? (_printTailDataCommand = new RelayCommand(p => FileIsValid, p => ExecutePrintTailDataCommand()));
+    public ICommand PrintTailDataCommand => _printTailDataCommand ?? (_printTailDataCommand = new RelayCommand(p => CanExecutePrintTailDataCommand(), p => ExecutePrintTailDataCommand()));
 
     private ICommand _openSearchDialogCommand;
 
@@ -418,14 +430,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       CurrentTailData.FontType = tailFont;
     }
 
-    private bool CanExecuteClearLogWindowCommand()
-    {
-      return false;
-    }
+    private bool CanExecuteClearLogWindowCommand() => LogEntries.Count != 0;
 
     private void ExecuteClearLogWindowCommand()
     {
       MouseService.SetBusyState();
+      LogEntries.Clear();
     }
 
     private void ExecuteOpenSearchDialogCommand()
@@ -433,18 +443,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     }
 
-    private void ExecutePrintTailDataCommand()
-    {
-      // TODO real data!
-      var test = new ObservableCollection<LogEntry>
-      {
-        new LogEntry{ Index = 0, Message = "test 1"},
-        new LogEntry{ Index = 1, Message = "test 2"},
-        new LogEntry{ Index = 2, Message = "test 3"}
-      };
+    private bool CanExecutePrintTailDataCommand() => LogEntries.Count != 0 && FileIsValid;
 
-      _printerController.PrintDocument(test, CurrentTailData);
-    }
+    private void ExecutePrintTailDataCommand() => _printerController.PrintDocument(LogEntries, CurrentTailData);
 
     private bool CanExecuteQuickSaveCommand() => FileIsValid && CurrentTailData.OpenFromFileManager;
 
@@ -581,6 +582,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private void SetCurrentLogFileName()
     {
       MouseService.SetBusyState();
+
+      TailReader = new LogReadService();
+      TailReader.OnLogEntryCreated -= OnLogEntryCreated;
+      TailReader.OnLogEntryCreated += OnLogEntryCreated;
+
+      LogEntries.Clear();
 
       if ( !File.Exists(SelectedItem) )
       {
@@ -800,7 +807,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnLogEntryCreated(object sender, LogEntryCreatedArgs e)
     {
-      throw new NotImplementedException();
+      if ( !(sender is ILogReadService) )
+        return;
+
+      LogEntries.Add(e.Log);
+
+      if ( IsSelected )
+        OnLinesRefreshTimeChanged?.Invoke(this, new LinesRefreshTimeChangedArgs(e.LinesRead, e.SizeRefreshTime));
     }
   }
 }

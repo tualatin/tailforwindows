@@ -88,12 +88,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
-    private string _linesRead;
+    private int _linesRead;
 
     /// <summary>
     /// Lines read
     /// </summary>
-    public string LinesRead
+    public int LinesRead
     {
       get => _linesRead;
       set
