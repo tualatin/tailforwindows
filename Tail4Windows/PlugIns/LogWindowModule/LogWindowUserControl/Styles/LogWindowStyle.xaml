@@ -139,12 +139,12 @@
           />
       </Grid>
 
-      <TextBlock
+      <!--<TextBlock
         Grid.Column="2"
         Margin="5 0 0 0"
         Padding="0 0 5 0"
         Style="{StaticResource MyDateTimeEditor}"
-        />
+        />-->
 
       <TextBlock
         x:Name="TextBoxMessage"
@@ -179,12 +179,13 @@
           />
       </Grid>
 
-      <TextBlock
+      <!--<TextBlock
         Grid.Column="1"
         Margin="5 0 0 0"
         Padding="0 0 5 0"
         Style="{StaticResource MyDateTimeEditor}"
-        />
+        />-->
+
       <TextBlock
         x:Name="txtBoxMessage"
         Grid.Column="2"
