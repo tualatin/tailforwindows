@@ -1,6 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using log4net;
 using Org.Vs.TailForWin.Business.Data;
@@ -21,7 +21,7 @@ namespace Org.Vs.TailForWin.Business.Services
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogReadService));
 
-    private CancellationToken _token;
+    private readonly BackgroundWorker _tailBackgroundWorker;
     private int _startOffset;
 
     #region Events
@@ -62,6 +62,11 @@ namespace Org.Vs.TailForWin.Business.Services
       set;
     }
 
+    /// <summary>
+    /// <see cref="BackgroundWorker"/> is busy
+    /// </summary>
+    public bool IsBusy => _tailBackgroundWorker.IsBusy;
+
     #endregion
 
     /// <summary>
@@ -69,44 +74,62 @@ namespace Org.Vs.TailForWin.Business.Services
     /// </summary>
     public LogReadService()
     {
+      _tailBackgroundWorker = new BackgroundWorker
+      {
+        WorkerSupportsCancellation = true
+      };
+      _tailBackgroundWorker.DoWork += LogReaderServiceDoWork;
+      _tailBackgroundWorker.RunWorkerCompleted += LogReaderServiceRunWorkerCompleted;
+
       _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
     }
 
     /// <summary>
     /// Starts tail
     /// </summary>
-    /// <param name="token"><see cref="CancellationToken"/></param>
-    public async Task StartTailAsync(CancellationToken token)
+    public void StartTail()
     {
       LOG.Trace("Start tail...");
 
       Thread.CurrentThread.Priority = TailData.ThreadPriority;
-      _token = token;
-
-      await ReadLogFileAsync().ConfigureAwait(false);
+      _tailBackgroundWorker.RunWorkerAsync();
     }
 
-    private async Task ReadLogFileAsync()
+    private void LogReaderServiceDoWork(object sender, DoWorkEventArgs e)
     {
       int index = 1;
 
-      while ( !_token.IsCancellationRequested )
+      while ( _tailBackgroundWorker != null && !_tailBackgroundWorker.CancellationPending )
       {
-        await Task.Delay(TimeSpan.FromMilliseconds((int) TailData.RefreshRate), _token).ConfigureAwait(false);
+        Thread.Sleep((int) TailData.RefreshRate);
+
+        //if ( SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMd || SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMD )
+        //  StringFormatData.StringFormat = $"{SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat)} {SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat)}:ss.fff";
+        //if ( SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMSSd || SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMSSD )
+        //  StringFormatData.StringFormat = $"{SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat)} {SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat)}.fff";
+
 
         var log = new LogEntry
         {
           Index = index,
-          Message = $"Log - {index}",
+          Message = $"Log - {index * 24}",
           DateTime = DateTime.Now
         };
 
         LinesRead = index;
-        SizeRefreshTime = string.Format(Application.Current.TryFindResource("SizeRefreshTime").ToString(), 123, DateTime.Now);
+        SizeRefreshTime = string.Format(Application.Current.TryFindResource("SizeRefreshTime").ToString(), $"{12 + index * 12}", DateTime.Now);
 
         OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, LinesRead, SizeRefreshTime));
         index++;
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
       }
+    }
+
+    private void LogReaderServiceRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+      LOG.Trace("Stop finished");
     }
 
     /// <summary>
@@ -116,6 +139,8 @@ namespace Org.Vs.TailForWin.Business.Services
     {
       MouseService.SetBusyState();
       LOG.Trace("Stop tail.");
+
+      _tailBackgroundWorker.CancelAsync();
     }
   }
 }

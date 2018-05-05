@@ -6,7 +6,6 @@ using System.Windows.Documents;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.Services;
 
@@ -52,11 +51,9 @@ namespace Org.Vs.TailForWin.Business.Controllers
 
       foreach ( var item in logItems )
       {
-        string format = SettingsHelperController.CurrentSettings.DefaultDateFormat.GetEnumDescription();
-
         _flowDocument.Blocks.Add(!tailData.Timestamp
           ? new Paragraph(new Run($"{item.Index}\t{item.Message}"))
-          : new Paragraph(new Run($"{item.Index}\t{item.DateTime.ToString(format)} {item.Message}")));
+          : new Paragraph(new Run($"{item.Index}\t{item.DateTime.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat)} {item.Message}")));
       }
 
       _flowDocument.ColumnWidth = _flowDocument.PageWidth - _flowDocument.ColumnGap - _flowDocument.PagePadding.Left - _flowDocument.PagePadding.Right;

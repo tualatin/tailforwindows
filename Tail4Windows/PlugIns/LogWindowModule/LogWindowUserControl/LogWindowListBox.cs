@@ -1,10 +1,13 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using Org.Vs.TailForWin.Business.Data;
+using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Data;
 
@@ -16,6 +19,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
   /// </summary>
   public class LogWindowListBox : ListBox
   {
+    private ScrollViewer _scrollViewer;
+
     #region Public properties
 
     /// <summary>
@@ -291,15 +296,43 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     /// <summary>
-    /// Is a valid FileName entered
+    /// Current <see cref="TailData"/> property
     /// </summary>
-    public bool FileNameAvailable
+    public static readonly DependencyProperty TailDataProperty = DependencyProperty.Register("TailData", typeof(TailData), typeof(LogWindowListBox),
+      new PropertyMetadata(new TailData()));
+
+    /// <summary>
+    /// <see cref="TailData"/>
+    /// </summary>
+    public TailData TailData
     {
-      get;
-      set;
+      get => (TailData) GetValue(TailDataProperty);
+      set => SetValue(TailDataProperty, value);
     }
 
     #endregion
+
+    public override void OnApplyTemplate()
+    {
+      base.OnApplyTemplate();
+
+      _scrollViewer = GetTemplateChild("Part_ScrollViewer") as ScrollViewer;
+    }
+
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    {
+      base.OnItemsChanged(e);
+
+      switch ( e.Action )
+      {
+      case NotifyCollectionChangedAction.Add:
+
+        if ( SettingsHelperController.CurrentSettings.AlwaysScrollToEnd )
+          _scrollViewer?.ScrollToEnd();
+
+        break;
+      }
+    }
 
     #region PropertyCallback functions
 

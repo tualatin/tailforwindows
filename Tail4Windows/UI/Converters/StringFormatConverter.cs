@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
+using Org.Vs.TailForWin.Core.Controllers;
 
 
 namespace Org.Vs.TailForWin.UI.Converters
 {
   /// <summary>
-  /// Bool to update hint converter
+  /// StringFormatConverter
   /// </summary>
-  [ValueConversion(typeof(bool), typeof(string))]
-  public class BoolToUpdateHintConverter : IValueConverter
+  public class StringFormatConverter : IValueConverter
   {
     /// <summary>
     /// Convert
@@ -20,12 +18,12 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
-      if ( !(value is bool update) )
-        return string.Empty;
+      if ( !(value is DateTime dt) )
+        return null;
 
-      return update ? Application.Current.TryFindResource("UpdateControlUpdateExits").ToString() : Application.Current.TryFindResource("UpdateControlNoUpdate").ToString();
+      return dt.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat);
     }
 
     /// <summary>
@@ -36,6 +34,6 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) => throw new NotImplementedException();
   }
 }

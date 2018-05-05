@@ -38,6 +38,7 @@
   <converters:BoolToTextWrapConverter x:Key="BoolToTextWrapConverter" />
   <converters:DoubleToGridLengthConverter x:Key="DoubleToGridLengthConverter" />
   <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
+  <converters:StringFormatConverter x:Key="StringFormatConverter" />
 
   <multiConverters:LogFileIsEnableMultiConverter x:Key="LogFileIsEnableMultiConverter" />
   <multiConverters:LogFileFileManagerMultiConverter x:Key="LogFileLengthFileManagerMultiConverter" />

@@ -506,17 +506,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Visible;
       LogWindowState = EStatusbarState.Busy;
 
-      SetCancellationTokenSource();
-
       TailReader.TailData = CurrentTailData;
-
-      await TailReader.StartTailAsync(_cts.Token).ConfigureAwait(false);
+      TailReader.StartTail();
 
       // If Logfile comes from the FileManager or settings does not allow to save the history, do not save it in the history
       if ( CurrentTailData.OpenFromFileManager || !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
         return;
 
       MouseService.SetBusyState();
+      SetCancellationTokenSource();
       await _historyController.SaveSearchHistoryAsync(CurrentTailData.FileName).ConfigureAwait(false);
     }
 
@@ -526,7 +524,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       TailReader.StopTail();
-      _cts.Cancel();
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
       LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.File) ? EStatusbarState.Default : EStatusbarState.FileLoaded;

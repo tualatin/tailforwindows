@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Threading;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.Extensions;
 
 
 namespace Org.Vs.TailForWin.Core.Data.Settings
@@ -31,6 +32,15 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     {
       get;
       set;
+    }
+
+    /// <summary>
+    /// Currrent string format
+    /// </summary>
+    public string CurrentStringFormat
+    {
+      get;
+      private set;
     }
 
     private CultureInfo _cultureInfo;
@@ -527,8 +537,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         if ( value == _defaultDateFormat )
           return;
 
+
         _defaultDateFormat = value;
         OnPropertyChanged(nameof(DefaultDateFormat));
+
+        CurrentStringFormat = DefaultDateFormat.GetEnumDescription();
       }
     }
 
