@@ -513,6 +513,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( CurrentTailData.OpenFromFileManager || !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
         return;
 
+      if ( LogFileHistory.Contains(CurrentTailData.FileName) )
+        return;
+
       MouseService.SetBusyState();
       SetCancellationTokenSource();
       await _historyController.SaveSearchHistoryAsync(CurrentTailData.FileName).ConfigureAwait(false);
@@ -526,7 +529,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       TailReader.StopTail();
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
-      LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.File) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
+      LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
     }
 
     private void ExecuteOpenFileCommand()

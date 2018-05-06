@@ -331,6 +331,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
           _scrollViewer?.ScrollToEnd();
 
         break;
+
+      case NotifyCollectionChangedAction.Move:
+
+
+        break;
       }
     }
 

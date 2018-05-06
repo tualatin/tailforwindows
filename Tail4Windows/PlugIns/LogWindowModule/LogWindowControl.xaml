@@ -403,7 +403,7 @@
           Orientation="Horizontal"
           >
           <Button
-            Width="75"
+            Width="70"
             Height="24"
             Margin="5 0"
             VerticalAlignment="Center"

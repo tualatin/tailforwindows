@@ -48,8 +48,6 @@
 
     <logWindowListBox:LogWindowListBox
       Grid.Row="0"
-      HorizontalAlignment="Stretch"
-      VerticalAlignment="Stretch"
       ItemsSource="{Binding ElementName=SplitWindow, Path=LogEntries}"
       behaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
       behaviors:ListBoxCopy.AutoCopy="True"
@@ -67,13 +65,9 @@
 
     <logWindowListBox:LogWindowListBox
       Grid.Row="2"
-      HorizontalAlignment="Stretch"
-      VerticalAlignment="Stretch"
-      AlwaysScrollIntoView="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlwaysScrollToEnd, UpdateSourceTrigger=PropertyChanged}"
       ItemsSource="{Binding ElementName=SplitWindow, Path=LogEntries}"
       behaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
       behaviors:ListBoxCopy.AutoCopy="True"
-      behaviors:ListBoxExtenders.AutoScrollToCurrentItem="{Binding RelativeSource={RelativeSource Self}, Path=AlwaysScrollIntoView}"
       behaviors:ListBoxSelector.Enabled="True"
       />
   </Grid>
