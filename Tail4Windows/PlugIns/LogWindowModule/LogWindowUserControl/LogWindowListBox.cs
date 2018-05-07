@@ -10,6 +10,7 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Data;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
@@ -316,7 +317,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       base.OnApplyTemplate();
 
-      _scrollViewer = GetTemplateChild("Part_ScrollViewer") as ScrollViewer;
+      _scrollViewer = UiHelpers.GetChildOfType<ScrollViewer>(this);
     }
 
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
@@ -328,6 +329,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       case NotifyCollectionChangedAction.Add:
 
         if ( SettingsHelperController.CurrentSettings.AlwaysScrollToEnd )
+          
           _scrollViewer?.ScrollToEnd();
 
         break;
