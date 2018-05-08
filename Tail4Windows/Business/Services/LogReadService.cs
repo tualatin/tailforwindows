@@ -98,10 +98,14 @@ namespace Org.Vs.TailForWin.Business.Services
     private void LogReaderServiceDoWork(object sender, DoWorkEventArgs e)
     {
       int index = 1;
+      string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
 
       while ( _tailBackgroundWorker != null && !_tailBackgroundWorker.CancellationPending )
       {
         Thread.Sleep((int) TailData.RefreshRate);
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
 
         //if ( SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMd || SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMD )
         //  StringFormatData.StringFormat = $"{SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat)} {SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat)}:ss.fff";
@@ -117,13 +121,12 @@ namespace Org.Vs.TailForWin.Business.Services
         };
 
         LinesRead = index;
-        SizeRefreshTime = string.Format(Application.Current.TryFindResource("SizeRefreshTime").ToString(), $"{12 + index * 12}", DateTime.Now);
-
+        SizeRefreshTime = string.Format(message, $"{12 + index * 12}", DateTime.Now);
         OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, LinesRead, SizeRefreshTime));
+
         index++;
 
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
+        LOG.Trace($"{index}");
       }
     }
 

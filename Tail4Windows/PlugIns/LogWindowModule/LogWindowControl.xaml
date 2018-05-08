@@ -989,10 +989,9 @@
         <logWindowModule:SplitWindowControl
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch"
-          LogEntries="{Binding ElementName=LogWindow, Path=LogEntries}"
-          TextEditorFontFamily="{Binding ElementName=LogWindow, Path=CurrentTailData.FontType.FontFamily, UpdateSourceTrigger=PropertyChanged}"
-          TextEditorFontSize="{Binding ElementName=LogWindow, Path=CurrentTailData.FontType.Size, UpdateSourceTrigger=PropertyChanged}"
-          TextEditorFontStyle="{Binding ElementName=LogWindow, Path=CurrentTailData.FontType.Style, UpdateSourceTrigger=PropertyChanged}"
+          CurrentTailData="{Binding ElementName=LogWindow, Path=CurrentTailData, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+          IsSelected="{Binding ElementName=LogWindow, Path=IsSelected, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+          LogReaderService="{Binding ElementName=LogWindow, UpdateSourceTrigger=PropertyChanged, Path=TailReader, Mode=OneWay}"
           />
       </Border>
     </Grid>

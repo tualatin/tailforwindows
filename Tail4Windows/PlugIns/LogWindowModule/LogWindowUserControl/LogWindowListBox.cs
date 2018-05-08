@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -205,14 +204,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     /// <summary>
-    /// All log entries
-    /// </summary>
-    public ObservableCollection<LogEntry> LogEntries
-    {
-      get;
-    }
-
-    /// <summary>
     /// AddDateTime property
     /// </summary>
     public static readonly DependencyProperty AddDateTimeProperty = DependencyProperty.Register("AddDateTime", typeof(bool), typeof(LogWindowListBox),
@@ -230,7 +221,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Filter on property
     /// </summary>
-    public static readonly DependencyProperty FilterOnProperty = DependencyProperty.Register("FilterOn", typeof(bool), typeof(LogWindowListBox),
+    public static readonly DependencyProperty FilterOnProperty = DependencyProperty.Register(nameof(FilterOn), typeof(bool), typeof(LogWindowListBox),
       new PropertyMetadata(false, OnFilterOnChanged));
 
     /// <summary>
@@ -297,18 +288,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     /// <summary>
-    /// Current <see cref="TailData"/> property
+    /// Current <see cref="CurrentTailData"/> property
     /// </summary>
-    public static readonly DependencyProperty TailDataProperty = DependencyProperty.Register("TailData", typeof(TailData), typeof(LogWindowListBox),
-      new PropertyMetadata(new TailData()));
+    public static readonly DependencyProperty CurrentTailDataProperty = DependencyProperty.Register(nameof(CurrentTailData), typeof(TailData), typeof(LogWindowListBox),
+      new PropertyMetadata(null));
 
     /// <summary>
-    /// <see cref="TailData"/>
+    /// <see cref="CurrentTailData"/>
     /// </summary>
-    public TailData TailData
+    public TailData CurrentTailData
     {
-      get => (TailData) GetValue(TailDataProperty);
-      set => SetValue(TailDataProperty, value);
+      get => (TailData) GetValue(CurrentTailDataProperty);
+      set => SetValue(CurrentTailDataProperty, value);
     }
 
     #endregion
@@ -329,7 +320,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       case NotifyCollectionChangedAction.Add:
 
         if ( SettingsHelperController.CurrentSettings.AlwaysScrollToEnd )
-          
           _scrollViewer?.ScrollToEnd();
 
         break;
@@ -345,9 +335,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private static void OnDataTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
-      if ( sender.GetType() != typeof(LogWindowListBox) )
-        return;
-
       if ( !(sender is LogWindowListBox control) )
         return;
 

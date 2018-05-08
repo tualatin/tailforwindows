@@ -239,7 +239,6 @@
     <Compile Include="PlugIns\LogWindowModule\SplitWindowControl.xaml.cs">
       <DependentUpon>SplitWindowControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PlugIns\LogWindowModule\ViewModels\SplitWindowControlViewModel.cs" />
     <Compile Include="PlugIns\QuickAddModule\QuickAdd.xaml.cs">
       <DependentUpon>QuickAdd.xaml</DependentUpon>
     </Compile>

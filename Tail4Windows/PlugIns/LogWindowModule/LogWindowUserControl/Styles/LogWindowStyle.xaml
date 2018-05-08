@@ -257,14 +257,14 @@
               <Setter TargetName="Chrome" Property="Background" Value="LightBlue" />
             </Trigger>
 
-            <MultiTrigger>
+            <!--<MultiTrigger>
               <MultiTrigger.Conditions>
                 <Condition Property="IsMouseOver" Value="True" />
                 <Condition Property="IsSelected" Value="False" />
               </MultiTrigger.Conditions>
 
               <Setter TargetName="Chrome" Property="Background" Value="Azure" />
-            </MultiTrigger>
+            </MultiTrigger>-->
           </ControlTemplate.Triggers>
         </ControlTemplate>
       </Setter.Value>
@@ -272,7 +272,6 @@
   </Style>
 
   <Style x:Key="{x:Type logWindowListBox:LogWindowListBox}" TargetType="{x:Type logWindowListBox:LogWindowListBox}">
-    <Setter Property="AlwaysScrollIntoView" Value="True" />
     <Setter Property="Background" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.BackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
     <Setter Property="Foreground" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.ForegroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
     <Setter Property="IsSynchronizedWithCurrentItem" Value="True" />
@@ -281,64 +280,34 @@
     <Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
-          <VirtualizingStackPanel VirtualizingPanel.ScrollUnit="Pixel" />
+          <VirtualizingStackPanel VirtualizingPanel.ScrollUnit="Item" />
         </ItemsPanelTemplate>
       </Setter.Value>
     </Setter>
     <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
-    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Visible" />
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
     <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True" />
-    <Setter Property="SelectionMode" Value="Extended" />
     <Setter Property="ShowLineNumbers" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowLineNumbers}" />
-    <Setter Property="SnapsToDevicePixels" Value="True" />
-    <Setter Property="Template">
+    <!--<Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type logWindowListBox:LogWindowListBox}">
           <Border Background="{TemplateBinding Background}">
-            <ScrollViewer
-              x:Name="Part_ScrollViewer"
-              Padding="{TemplateBinding Padding}"
-              CanContentScroll="True"
-              HorizontalScrollBarVisibility="{Binding Path=WordWrapping, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Converter={StaticResource BoolToVisibilityConverter}}"
-              IsDeferredScrollingEnabled="True"
-              VerticalScrollBarVisibility="{Binding Path=VerticalScrollbarVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}}"
-              >
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-
-                <Border
-                  x:Name="BookmarkMargin"
-                  Grid.Column="0"
-                  Width="20"
-                  Background="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
-                  Opacity="0.3"
-                  >
-                  <ItemsControl
-                    ItemTemplate="{StaticResource BookmarkTemplate}"
-                    ItemsSource="{TemplateBinding ItemsSource}"
-                    />
-                </Border>
-
-                <ItemsPresenter
-                  Grid.Column="1"
-                  SnapsToDevicePixels="True"
-                  />
-              </Grid>
-            </ScrollViewer>
+            <ItemsControl
+              ItemsSource="{TemplateBinding ItemsSource}"
+              ScrollViewer.CanContentScroll="True"
+              />
           </Border>
         </ControlTemplate>
       </Setter.Value>
-    </Setter>
+    </Setter>-->
     <Setter Property="TextEditorSearchHighlightBackgroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex}" />
     <Setter Property="TextEditorSearchHighlightForegroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightForegroundColorHex}" />
     <Setter Property="TextEditorSelectionColorHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberHighlightColorHex}" />
     <Setter Property="VerticalAlignment" Value="Stretch" />
-    <Setter Property="VirtualizingStackPanel.CacheLength" Value="2,3" />
+    <Setter Property="VirtualizingStackPanel.CacheLength" Value="2,2" />
     <Setter Property="VirtualizingStackPanel.CacheLengthUnit" Value="Page" />
     <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
     <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
+
   </Style>
 </ResourceDictionary>

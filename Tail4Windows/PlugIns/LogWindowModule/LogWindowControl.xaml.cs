@@ -12,9 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Business.Controllers;
-using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Data.Messages;
-using Org.Vs.TailForWin.Business.Events.Args;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Business.Utils;
@@ -63,11 +61,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// On status changed event
     /// </summary>
     public event StatusChangedEventHandler OnStatusChanged;
-
-    /// <summary>
-    /// On lines refresh time changed event
-    /// </summary>
-    public event LinesRefreshTimeChangedEventHandler OnLinesRefreshTimeChanged;
 
     #endregion
 
@@ -236,15 +229,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         OnPropertyChanged();
       }
     }
-
-    /// <summary>
-    /// List of <see cref="ObservableCollection{T}"/> <see cref="LogEntry"/>
-    /// </summary>
-    public ObservableCollection<LogEntry> LogEntries
-    {
-      get;
-      set;
-    } = new ObservableCollection<LogEntry>();
 
     /// <summary>
     /// Thread priority is enable
@@ -443,12 +427,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
-    private bool CanExecuteClearLogWindowCommand() => LogEntries.Count != 0;
+    private bool CanExecuteClearLogWindowCommand()
+    {
+      return true;}// LogEntries.Count != 0;
 
     private void ExecuteClearLogWindowCommand()
     {
       MouseService.SetBusyState();
-      LogEntries.Clear();
+      //LogEntries.Clear();
     }
 
     private void ExecuteOpenSearchDialogCommand()
@@ -456,9 +442,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     }
 
-    private bool CanExecutePrintTailDataCommand() => LogEntries.Count != 0 && FileIsValid;
+    private bool CanExecutePrintTailDataCommand() => /* LogEntries.Count != 0 && */ FileIsValid;
 
-    private void ExecutePrintTailDataCommand() => _printerController.PrintDocument(LogEntries, CurrentTailData);
+    private void ExecutePrintTailDataCommand() => _printerController.PrintDocument(null, CurrentTailData);
 
     private bool CanExecuteQuickSaveCommand() => FileIsValid && CurrentTailData.OpenFromFileManager;
 
@@ -599,10 +585,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       MouseService.SetBusyState();
 
       TailReader = new LogReadService();
-      TailReader.OnLogEntryCreated -= OnLogEntryCreated;
-      TailReader.OnLogEntryCreated += OnLogEntryCreated;
+      OnPropertyChanged(nameof(TailReader));
+      //TailReader.OnLogEntryCreated -= OnLogEntryCreated;
+      //TailReader.OnLogEntryCreated += OnLogEntryCreated;
 
-      LogEntries.Clear();
+      //LogEntries.Clear();
 
       if ( !File.Exists(SelectedItem) )
       {
@@ -818,21 +805,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
       }
-    }
-
-    private void OnLogEntryCreated(object sender, LogEntryCreatedArgs e)
-    {
-      if ( !(sender is ILogReadService) )
-        return;
-
-      Dispatcher.InvokeAsync(
-        () =>
-        {
-          LogEntries.Add(e.Log);
-
-          if ( IsSelected )
-            OnLinesRefreshTimeChanged?.Invoke(this, new LinesRefreshTimeChangedArgs(e.LinesRead, e.SizeRefreshTime));
-        });
     }
   }
 }

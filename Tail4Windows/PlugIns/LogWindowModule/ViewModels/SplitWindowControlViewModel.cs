@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Business.Data;
+using Org.Vs.TailForWin.Business.Events.Args;
+using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.UI.Commands;
 
 
@@ -13,6 +19,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
   public class SplitWindowControlViewModel : NotifyMaster
   {
     private const double Offset = 5;
+
+    #region Events
+
+    /// <summary>
+    /// On lines refresh time changed event
+    /// </summary>
+    public event LinesRefreshTimeChangedEventHandler OnLinesRefreshTimeChanged;
+
+    #endregion
 
     #region Properties
 
@@ -41,6 +56,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
     /// Current height
     /// </summary>
     public double Height
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
+    /// </summary>
+    public ObservableCollection<LogEntry> LogEntries
     {
       get;
       set;
@@ -101,5 +125,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels
     }
 
     #endregion
+
+    private void OnLogEntryCreated(object sender, LogEntryCreatedArgs e)
+    {
+      if ( !(sender is ILogReadService) )
+        return;
+
+      LogEntries.Add(e.Log);
+
+      //if ( IsSelected )
+        OnLinesRefreshTimeChanged?.Invoke(this, new LinesRefreshTimeChangedArgs(e.LinesRead, e.SizeRefreshTime));
+    }
   }
 }

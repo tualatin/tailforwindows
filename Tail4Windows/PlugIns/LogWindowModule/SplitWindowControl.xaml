@@ -13,6 +13,7 @@
   xmlns:logWindowListBox="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels"
   mc:Ignorable="d"
+  d:DataContext="{Binding RelativeSource={RelativeSource Self}}"
   d:DesignHeight="450"
   d:DesignWidth="800"
   x:Name="SplitWindow"
@@ -20,12 +21,8 @@
   VerticalAlignment="Stretch"
   behaviors:GridSplitterMouseExtension.IsParentControl="True"
   genericBehaviors:SizeObserver.Observe="True"
-  genericBehaviors:SizeObserver.ObservedHeight="{Binding Height, Mode=OneWayToSource}"
+  genericBehaviors:SizeObserver.ObservedHeight="{Binding CurrentHeight, Mode=OneWayToSource}"
   >
-  <UserControl.DataContext>
-    <viewModels:SplitWindowControlViewModel />
-  </UserControl.DataContext>
-
   <i:Interaction.Triggers>
     <i:EventTrigger EventName="Loaded">
       <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
@@ -48,7 +45,6 @@
 
     <logWindowListBox:LogWindowListBox
       Grid.Row="0"
-      ItemsSource="{Binding ElementName=SplitWindow, Path=LogEntries}"
       behaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
       behaviors:ListBoxCopy.AutoCopy="True"
       behaviors:ListBoxSelector.Enabled="True"
@@ -65,7 +61,8 @@
 
     <logWindowListBox:LogWindowListBox
       Grid.Row="2"
-      ItemsSource="{Binding ElementName=SplitWindow, Path=LogEntries}"
+      CurrentTailData="{Binding ElementName=SplitWindow, Path=CurrentTailData}"
+      ItemsSource="{Binding LogEntries}"
       behaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
       behaviors:ListBoxCopy.AutoCopy="True"
       behaviors:ListBoxSelector.Enabled="True"

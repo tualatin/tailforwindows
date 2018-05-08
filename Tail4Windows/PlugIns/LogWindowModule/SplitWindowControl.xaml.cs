@@ -1,8 +1,17 @@
-﻿using System.Collections.ObjectModel;
-using System.Drawing;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Threading;
 using Org.Vs.TailForWin.Business.Data;
-using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Business.Events.Args;
+using Org.Vs.TailForWin.Business.Interfaces;
+using Org.Vs.TailForWin.Business.Services;
+using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.UI.Commands;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
@@ -10,166 +19,220 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   /// <summary>
   /// Interaction logic for SplitWindowControl.xaml
   /// </summary>
-  public partial class SplitWindowControl
+  public partial class SplitWindowControl : INotifyPropertyChanged
   {
+    private const double Offset = 5;
+
+    #region Properties
+
+    private double _splitterPosition;
+
     /// <summary>
-    /// Standard constructor
+    /// Current splitter height
     /// </summary>
-    public SplitWindowControl() => InitializeComponent();
+    public double SplitterPosition
+    {
+      get => _splitterPosition;
+      set
+      {
+        if ( Equals(value, _splitterPosition) )
+          return;
 
+        if ( value + (Offset - 1) > Height )
+          return;
 
-    #region Public properties
+        _splitterPosition = value;
+        OnPropertyChanged();
+      }
+    }
 
     /// <summary>
-    /// LogEntries property
+    /// Current height
     /// </summary>
-    public static readonly DependencyProperty LogEntriesProperty = DependencyProperty.Register("LogEntries", typeof(ObservableCollection<LogEntry>), typeof(SplitWindowControl),
-      new PropertyMetadata(new ObservableCollection<LogEntry>()));
+    public double CurrentHeight
+    {
+      get;
+      set;
+    }
 
     /// <summary>
-    /// LogEntries
+    /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
     /// </summary>
     public ObservableCollection<LogEntry> LogEntries
     {
-      get => (ObservableCollection<LogEntry>) GetValue(LogEntriesProperty);
-      set => SetValue(LogEntriesProperty, value);
-    }
+      get;
+      set;
+    } = new ObservableCollection<LogEntry>();
 
     /// <summary>
-    /// Word wrap property
+    /// <see cref="CollectionViewSource"/> of <see cref="LogEntry"/>
     /// </summary>
-    public static readonly DependencyProperty WordWrappingProperty = DependencyProperty.Register("WordWrapping", typeof(bool), typeof(SplitWindowControl),
-      new PropertyMetadata(false));
-
-    /// <summary>
-    /// Text editor word wrapping
-    /// </summary>
-    public bool WordWrapping
+    private CollectionViewSource CollectionView
     {
-      get => (bool) GetValue(WordWrappingProperty);
-      set => SetValue(WordWrappingProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor font style property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorFontStyleProperty = DependencyProperty.Register("TextEditorFontStyle", typeof(System.Drawing.FontStyle), typeof(SplitWindowControl),
-      new PropertyMetadata(System.Drawing.FontStyle.Regular));
-
-    /// <summary>
-    /// Text editor font style
-    /// </summary>
-    public System.Drawing.FontStyle TextEditorFontStyle
-    {
-      get => (System.Drawing.FontStyle) GetValue(TextEditorFontStyleProperty);
-      set => SetValue(TextEditorFontStyleProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor font family property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorFontFamilyProperty = DependencyProperty.Register("TextEditorFontFamily", typeof(FontFamily), typeof(SplitWindowControl),
-      new PropertyMetadata(new FontFamily("Segoe UI")));
-
-    /// <summary>
-    /// Text editor font family
-    /// </summary>
-    public FontFamily TextEditorFontFamily
-    {
-      get => (FontFamily) GetValue(TextEditorFontFamilyProperty);
-      set => SetValue(TextEditorFontFamilyProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor font weight property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorFontWeightProperty = DependencyProperty.Register("TextEditorFontWeight", typeof(FontWeight), typeof(SplitWindowControl),
-      new PropertyMetadata(FontWeights.Normal));
-
-    /// <summary>
-    /// Text editor font weight
-    /// </summary>
-    public FontWeight TextEditorFontWeight
-    {
-      get => (FontWeight) GetValue(TextEditorFontWeightProperty);
-      set => SetValue(TextEditorFontWeightProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor font size property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorFontSizeProperty = DependencyProperty.Register("TextEditorFontSize", typeof(int), typeof(SplitWindowControl),
-      new PropertyMetadata(12));
-
-    /// <summary>
-    /// Text editor font size
-    /// </summary>
-    public int TextEditorFontSize
-    {
-      get => (int) GetValue(TextEditorFontSizeProperty);
-      set => SetValue(TextEditorFontSizeProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor selection color porperty
-    /// </summary>
-    public static readonly DependencyProperty TextEditorSelectionColorHexProperty = DependencyProperty.Register("TextEditorSelectionColorHex", typeof(string), typeof(SplitWindowControl),
-      new PropertyMetadata(DefaultEnvironmentSettings.HighlightLineNumberColor));
-
-    /// <summary>
-    /// Text editor selection color
-    /// </summary>
-    public string TextEditorSelectionColorHex
-    {
-      get => (string) GetValue(TextEditorSelectionColorHexProperty);
-      set => SetValue(TextEditorSelectionColorHexProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor search highlight background property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorSearchHighlightBackgroundHexProperty = DependencyProperty.Register("TextEditorSearchHighlightBackgroundHex", typeof(string),
-      typeof(SplitWindowControl), new PropertyMetadata(DefaultEnvironmentSettings.SearchHighlightBackgroundColor));
-
-    /// <summary>
-    /// Text editor search highlight background
-    /// </summary>
-    public string TextEditorSearchHighlightBackgroundHex
-    {
-      get => (string) GetValue(TextEditorSearchHighlightBackgroundHexProperty);
-      set => SetValue(TextEditorSearchHighlightBackgroundHexProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor search highlight foreground property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorSearchHighlightForegroundHexProperty = DependencyProperty.Register("TextEditorSearchHighlightForegroundHex", typeof(string),
-      typeof(SplitWindowControl), new PropertyMetadata(DefaultEnvironmentSettings.SearchHighlightForegroundColor));
-
-    /// <summary>
-    /// Text editor search highlight foreground
-    /// </summary>
-    public string TextEditorSearchHighlightForegroundHex
-    {
-      get => (string) GetValue(TextEditorSearchHighlightForegroundHexProperty);
-      set => SetValue(TextEditorSearchHighlightForegroundHexProperty, value);
-    }
-
-    /// <summary>
-    /// AddDateTime property
-    /// </summary>
-    public static readonly DependencyProperty AddDateTimeProperty = DependencyProperty.Register("AddDateTime", typeof(bool), typeof(SplitWindowControl),
-      new PropertyMetadata(true));
-
-    /// <summary>
-    /// AddDateTime
-    /// </summary>
-    public bool AddDateTime
-    {
-      get => (bool) GetValue(AddDateTimeProperty);
-      set => SetValue(AddDateTimeProperty, value);
+      get;
     }
 
     #endregion
+
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
+    public SplitWindowControl()
+    {
+      InitializeComponent();
+
+      DataContext = this;
+      CollectionView = new CollectionViewSource
+      {
+        Source = LogEntries
+      };
+    }
+
+    #region Dependency properties
+
+    /// <summary>
+    /// IsSelected property
+    /// </summary>
+    public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(SplitWindowControl),
+      new PropertyMetadata(false));
+
+    /// <summary>
+    /// IsSelected
+    /// </summary>
+    public bool IsSelected
+    {
+      get => (bool) GetValue(IsSelectedProperty);
+      set => SetValue(IsSelectedProperty, value);
+    }
+
+    /// <summary>
+    /// property
+    /// </summary>
+    public static readonly DependencyProperty LogReaderServiceProperty = DependencyProperty.Register(nameof(LogReaderService), typeof(LogReadService), typeof(SplitWindowControl),
+      new PropertyMetadata(null, PropertyChangedCallback));
+
+    private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+      if ( !(d is SplitWindowControl sender) )
+        return;
+
+      sender.LogReaderService = e.NewValue as LogReadService;
+
+      if ( sender.LogReaderService == null )
+        return;
+
+      sender.LogReaderService.OnLogEntryCreated += sender.OnLogEntryCreated;
+    }
+
+    private void OnLogEntryCreated(object sender, LogEntryCreatedArgs e)
+    {
+      if ( !(sender is ILogReadService) )
+        return;
+
+      Dispatcher.InvokeAsync(
+        () =>
+        {
+          LogEntries.Add(e.Log);
+        }, DispatcherPriority.Background);
+
+      //if ( IsSelected )
+      //sOnLinesRefreshTimeChanged?.Invoke(this, new LinesRefreshTimeChangedArgs(e.LinesRead, e.SizeRefreshTime));
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public LogReadService LogReaderService
+    {
+      get => (LogReadService) GetValue(LogReaderServiceProperty);
+      set => SetValue(LogReaderServiceProperty, value);
+    }
+
+    /// <summary>
+    /// <see cref="TailData"/> property
+    /// </summary>
+    public static readonly DependencyProperty CurrentTailDataProperty = DependencyProperty.Register(nameof(CurrentTailData), typeof(TailData), typeof(SplitWindowControl),
+      new PropertyMetadata(new TailData()));
+
+    /// <summary>
+    /// Current <see cref="TailData"/>
+    /// </summary>
+    public TailData CurrentTailData
+    {
+      get => (TailData) GetValue(CurrentTailDataProperty);
+      set => SetValue(CurrentTailDataProperty, value);
+    }
+
+    #endregion
+
+    #region Commands
+
+    private ICommand _loadedCommand;
+
+    /// <summary>
+    /// Loaded command
+    /// </summary>
+    public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(p => ExecuteLoadedCommand()));
+
+    private ICommand _sizeChangedCommand;
+
+    /// <summary>
+    /// Size changed command
+    /// </summary>
+    public ICommand SizeChangedCommand => _sizeChangedCommand ?? (_sizeChangedCommand = new RelayCommand(p => ExecuteSizeChangedCommand((SizeChangedEventArgs) p)));
+
+    #endregion
+
+    #region Command functions
+
+    private void ExecuteLoadedCommand()
+    {
+    }
+
+    private void ExecuteSizeChangedCommand(SizeChangedEventArgs e)
+    {
+      // Calculate the distance position of GridSplitter
+      double result = Math.Abs(SplitterPosition + Offset);
+
+      if ( (int) result == (int) Offset )
+        return;
+
+      double percentage = (result * 100) / e.PreviousSize.Height;
+
+      if ( percentage >= 100 )
+      {
+        SplitterPosition = CurrentHeight - Offset;
+        return;
+      }
+
+      double distance = e.PreviousSize.Height - result;
+      double newPosition = CurrentHeight - distance;
+
+      if ( newPosition - Offset < 0 )
+      {
+        SplitterPosition = 0;
+        return;
+      }
+
+      SplitterPosition = newPosition - Offset;
+    }
+
+    #endregion
+
+    /// <summary>
+    /// Declare the event
+    /// </summary>
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    /// <summary>
+    /// OnPropertyChanged
+    /// </summary>
+    /// <param name="name">Name of property</param>
+    private void OnPropertyChanged([CallerMemberName] string name = null)
+    {
+      var handler = PropertyChanged;
+      handler?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
   }
 }
