@@ -17,14 +17,6 @@ namespace Org.Vs.TailForWin.Business.Interfaces
     event LogEntryCreated OnLogEntryCreated;
 
     /// <summary>
-    /// Lines read
-    /// </summary>
-    int LinesRead
-    {
-      get;
-    }
-
-    /// <summary>
     /// Size refresh time
     /// </summary>
     string SizeRefreshTime

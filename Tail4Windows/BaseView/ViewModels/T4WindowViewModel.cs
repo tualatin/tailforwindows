@@ -217,7 +217,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         content.OnStatusChanged += OnStatusChangedCurrentLogWindow;
         content.OnLinesTimeChanged += OnLinesRefreshTimeChangedCurrentLogWindow;
 
-        _currentLinesRead = content.TailReader.LinesRead;
+        _currentLinesRead = content.LinesRead;
         _currentSizeRefreshTime = content.TailReader.SizeRefreshTime;
         _currentStatusbarState = content.LogWindowState;
         _currentEncoding = content.CurrentTailData?.FileEncoding;

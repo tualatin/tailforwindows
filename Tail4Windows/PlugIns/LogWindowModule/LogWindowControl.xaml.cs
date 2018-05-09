@@ -126,7 +126,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         _logWindowState = value;
 
         if ( IsSelected )
-          OnStatusChanged?.Invoke(this, new StatusChangedArgs(LogWindowState, CurrentTailData.FileEncoding, TailReader.LinesRead, TailReader.SizeRefreshTime));
+          OnStatusChanged?.Invoke(this, new StatusChangedArgs(LogWindowState, CurrentTailData.FileEncoding, LinesRead, TailReader.SizeRefreshTime));
 
         OnPropertyChanged();
         OnPropertyChanged(nameof(ThreadPriorityIsEnable));
@@ -233,6 +233,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         OnPropertyChanged();
       }
     }
+
+    /// <summary>
+    /// Lines read
+    /// </summary>
+    public int LinesRead => SplitWindowControl.LinesRead;
 
     /// <summary>
     /// Thread priority is enable

@@ -94,6 +94,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set;
     }
 
+    /// <summary>
+    /// Lines read
+    /// </summary>
+    public int LinesRead => LogEntries.Count;
+
     #endregion
 
     /// <summary>
@@ -139,8 +144,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       Dispatcher.InvokeAsync(
         () =>
         {
+          e.Log.Index = LinesRead + 1;
+
           LogEntries.Add(e.Log);
-          RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, e.LinesRead, e.SizeRefreshTime));
+          RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LogEntries.Count, e.SizeRefreshTime));
         }, DispatcherPriority.Background);
     }
 

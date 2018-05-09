@@ -5,11 +5,21 @@
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:data="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Data"
   xmlns:logWindowListBox="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl"
+  xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
   >
   <Style x:Key="MyLineNumberText" TargetType="{x:Type TextBlock}">
     <Setter Property="Foreground" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
     <Setter Property="Text" Value="{Binding Index, Mode=OneWay}" />
     <Setter Property="TextAlignment" Value="Right" />
+    <Style.Triggers>
+      <DataTrigger Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}">
+        <Setter Property="Foreground">
+          <Setter.Value>
+            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberHighlightColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}}" po:Freeze="True" />
+          </Setter.Value>
+        </Setter>
+      </DataTrigger>
+    </Style.Triggers>
   </Style>
 
   <Style x:Key="MyTextEditor" TargetType="{x:Type TextBlock}">
@@ -19,7 +29,7 @@
       <DataTrigger Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}">
         <Setter Property="Background">
           <Setter.Value>
-            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
+            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}}" Opacity="0.4" po:Freeze="True" />
           </Setter.Value>
         </Setter>
       </DataTrigger>
@@ -48,7 +58,7 @@
       <DataTrigger Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}">
         <Setter Property="Background">
           <Setter.Value>
-            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
+            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}}" Opacity="0.4" po:Freeze="True" />
           </Setter.Value>
         </Setter>
       </DataTrigger>
@@ -61,7 +71,7 @@
       <DataTrigger Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}">
         <Setter Property="Background">
           <Setter.Value>
-            <SolidColorBrush Color="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=TextEditorSelectionColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}}" Opacity="0.4" />
+            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}}" Opacity="0.4" po:Freeze="True" />
           </Setter.Value>
         </Setter>
       </DataTrigger>
@@ -71,156 +81,9 @@
   <DataTemplate x:Key="LineNumberTemplate" DataType="{x:Type business:LogEntry}">
     <Grid IsSharedSizeScope="True">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" MinWidth="35" SharedSizeGroup="Index" />
-        <ColumnDefinition />
-      </Grid.ColumnDefinitions>
-
-      <Border
-        x:Name="BorderLineNumber"
-        Grid.Column="0"
-        MinWidth="80"
-        BorderThickness="0 0 1 0"
-        >
-        <Border.BorderBrush>
-          <VisualBrush>
-            <VisualBrush.Visual>
-              <Rectangle
-                Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
-                Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"
-                Stroke="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
-                StrokeDashArray="2 6"
-                StrokeThickness="0.6"
-                />
-            </VisualBrush.Visual>
-          </VisualBrush>
-        </Border.BorderBrush>
-
-        <TextBlock
-          x:Name="TextBoxLineNumbers"
-          Margin="1 0 10 0"
-          Style="{StaticResource MyLineNumberText}"
-          />
-      </Border>
-
-      <TextBlock
-        x:Name="TextBoxMessage"
-        Grid.Column="1"
-        Margin="10 0 0 0"
-        Style="{StaticResource MyTextEditor}"
-        />
-
-      <TextBox
-        x:Name="TextEditMessage"
-        Grid.Column="1"
-        Margin="10 0 0 0"
-        Style="{StaticResource MyEditTextEditor}"
-        />
-    </Grid>
-  </DataTemplate>
-
-  <DataTemplate x:Key="DateTimeLineNumberTemplate" DataType="{x:Type business:LogEntry}">
-    <Grid IsSharedSizeScope="True">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" MinWidth="150" SharedSizeGroup="Index" />
-        <ColumnDefinition Width="Auto" SharedSizeGroup="Date" />
-        <ColumnDefinition />
-      </Grid.ColumnDefinitions>
-
-      <Border
-        x:Name="BorderLineNumber"
-        Grid.Column="0"
-        MinWidth="80"
-        BorderThickness="0 0 1 0"
-        >
-        <Border.BorderBrush>
-          <VisualBrush>
-            <VisualBrush.Visual>
-              <Rectangle
-                Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
-                Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"
-                Stroke="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
-                StrokeDashArray="2 6"
-                StrokeThickness="0.6"
-                />
-            </VisualBrush.Visual>
-          </VisualBrush>
-        </Border.BorderBrush>
-
-        <TextBlock
-          x:Name="TextBoxLineNumbers"
-          Margin="1 0 10 0"
-          Style="{StaticResource MyLineNumberText}"
-          />
-      </Border>
-
-      <TextBlock
-        Grid.Column="1"
-        Margin="10 0 0 0"
-        Padding="0 0 5 0"
-        Style="{StaticResource MyDateTimeEditor}"
-        />
-
-      <TextBlock
-        x:Name="TextBoxMessage"
-        Grid.Column="2"
-        Style="{StaticResource MyTextEditor}"
-        />
-
-      <TextBox
-        x:Name="TextEditMessage"
-        Grid.Column="2"
-        Style="{StaticResource MyEditTextEditor}"
-        />
-    </Grid>
-  </DataTemplate>
-
-  <DataTemplate x:Key="DateTimeTemplate" DataType="{x:Type business:LogEntry}">
-    <Grid IsSharedSizeScope="True">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" SharedSizeGroup="Date" />
-        <ColumnDefinition />
-      </Grid.ColumnDefinitions>
-
-      <TextBlock
-        Grid.Column="0"
-        Margin="10 0 0 0"
-        Padding="0 0 5 0"
-        Style="{StaticResource MyDateTimeEditor}"
-        />
-
-      <TextBlock
-        x:Name="txtBoxMessage"
-        Grid.Column="1"
-        Style="{StaticResource MyTextEditor}"
-        />
-      <TextBox
-        x:Name="txtEditMessage"
-        Grid.Column="1"
-        Style="{StaticResource MyEditTextEditor}"
-        />
-    </Grid>
-  </DataTemplate>
-
-  <DataTemplate x:Key="DefaultTemplate" DataType="{x:Type business:LogEntry}">
-    <Grid IsSharedSizeScope="True">
-      <TextBlock
-        x:Name="TextBoxMessage"
-        Margin="5 0 0 0"
-        Style="{StaticResource MyTextEditor}"
-        />
-
-      <TextBox
-        x:Name="TextEditMessage"
-        Margin="5 0 0 0"
-        Style="{StaticResource MyEditTextEditor}"
-        />
-    </Grid>
-  </DataTemplate>
-
-  <DataTemplate x:Key="BookmarkTemplate" DataType="{x:Type business:LogEntry}">
-    <Grid IsSharedSizeScope="True">
-      <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" SharedSizeGroup="Bookmark" />
+        <ColumnDefinition Width="Auto" MinWidth="80" SharedSizeGroup="Index" />
+        <ColumnDefinition />
       </Grid.ColumnDefinitions>
 
       <Grid Grid.Column="0">
@@ -233,6 +96,165 @@
           Source="{Binding Path=BookmarkPoint}"
           />
       </Grid>
+
+      <Border
+        x:Name="BorderLineNumber"
+        Grid.Column="1"
+        MinWidth="70"
+        BorderThickness="0 0 1 0"
+        Cursor="/T4W;component/Resources/RightArrow.cur"
+        >
+        <Border.BorderBrush>
+          <VisualBrush>
+            <VisualBrush.Visual>
+              <Rectangle
+                Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
+                Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"
+                Stroke="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+                StrokeDashArray="2 6"
+                StrokeThickness="0.6"
+                />
+            </VisualBrush.Visual>
+          </VisualBrush>
+        </Border.BorderBrush>
+
+        <TextBlock
+          x:Name="TextBoxLineNumbers"
+          Margin="1 0 10 0"
+          Style="{StaticResource MyLineNumberText}"
+          />
+      </Border>
+
+      <TextBlock
+        x:Name="TextBoxMessage"
+        Grid.Column="2"
+        Margin="10 0 0 0"
+        Style="{StaticResource MyTextEditor}"
+        />
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="DateTimeLineNumberTemplate" DataType="{x:Type business:LogEntry}">
+    <Grid IsSharedSizeScope="True">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" SharedSizeGroup="Bookmark" />
+        <ColumnDefinition Width="Auto" MinWidth="80" SharedSizeGroup="Index" />
+        <ColumnDefinition Width="Auto" SharedSizeGroup="Date" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+
+      <Grid Grid.Column="0">
+        <Image
+          x:Name="TextBoxBreakpoint"
+          Grid.Column="0"
+          Width="16"
+          Height="16"
+          Margin="2 0"
+          Source="{Binding Path=BookmarkPoint}"
+          />
+      </Grid>
+
+      <Border
+        x:Name="BorderLineNumber"
+        Grid.Column="1"
+        MinWidth="70"
+        BorderThickness="0 0 1 0"
+        Cursor="/T4W;component/Resources/RightArrow.cur"
+        >
+        <Border.BorderBrush>
+          <VisualBrush>
+            <VisualBrush.Visual>
+              <Rectangle
+                Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
+                Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"
+                Stroke="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+                StrokeDashArray="2 6"
+                StrokeThickness="0.6"
+                />
+            </VisualBrush.Visual>
+          </VisualBrush>
+        </Border.BorderBrush>
+
+        <TextBlock
+          x:Name="TextBoxLineNumbers"
+          Margin="1 0 10 0"
+          Style="{StaticResource MyLineNumberText}"
+          />
+      </Border>
+
+      <TextBlock
+        Grid.Column="2"
+        Margin="10 0 0 0"
+        Padding="0 0 5 0"
+        Style="{StaticResource MyDateTimeEditor}"
+        />
+
+      <TextBlock
+        x:Name="TextBoxMessage"
+        Grid.Column="3"
+        Style="{StaticResource MyTextEditor}"
+        />
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="DateTimeTemplate" DataType="{x:Type business:LogEntry}">
+    <Grid IsSharedSizeScope="True">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" SharedSizeGroup="Bookmark" />
+        <ColumnDefinition Width="Auto" SharedSizeGroup="Date" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+
+      <Grid Grid.Column="0">
+        <Image
+          x:Name="TextBoxBreakpoint"
+          Grid.Column="0"
+          Width="16"
+          Height="16"
+          Margin="2 0"
+          Source="{Binding Path=BookmarkPoint}"
+          />
+      </Grid>
+
+      <TextBlock
+        Grid.Column="1"
+        Margin="5 0 0 0"
+        Padding="0 0 5 0"
+        Style="{StaticResource MyDateTimeEditor}"
+        />
+
+      <TextBlock
+        x:Name="txtBoxMessage"
+        Grid.Column="2"
+        Style="{StaticResource MyTextEditor}"
+        />
+    </Grid>
+  </DataTemplate>
+
+  <DataTemplate x:Key="DefaultTemplate" DataType="{x:Type business:LogEntry}">
+    <Grid IsSharedSizeScope="True">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" SharedSizeGroup="Bookmark" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+
+      <Grid Grid.Column="0">
+        <Image
+          x:Name="TextBoxBreakpoint"
+          Grid.Column="0"
+          Width="16"
+          Height="16"
+          Margin="2 0"
+          Source="{Binding Path=BookmarkPoint}"
+          />
+      </Grid>
+
+      <TextBlock
+        x:Name="TextBoxMessage"
+        Grid.Column="1"
+        Margin="5 0 0 0"
+        Style="{StaticResource MyTextEditor}"
+        />
     </Grid>
   </DataTemplate>
 
@@ -248,24 +270,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type ListBoxItem}">
-          <Border x:Name="Chrome">
-            <ContentPresenter />
-          </Border>
-
-          <ControlTemplate.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-              <Setter TargetName="Chrome" Property="Background" Value="LightBlue" />
-            </Trigger>
-
-            <!--<MultiTrigger>
-              <MultiTrigger.Conditions>
-                <Condition Property="IsMouseOver" Value="True" />
-                <Condition Property="IsSelected" Value="False" />
-              </MultiTrigger.Conditions>
-
-              <Setter TargetName="Chrome" Property="Background" Value="Azure" />
-            </MultiTrigger>-->
-          </ControlTemplate.Triggers>
+          <ContentPresenter x:Name="Presenter" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>
@@ -284,22 +289,31 @@
         </ItemsPanelTemplate>
       </Setter.Value>
     </Setter>
-    <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
-    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
-    <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True" />
     <Setter Property="ShowLineNumbers" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowLineNumbers}" />
-    <!--<Setter Property="Template">
+    <Setter Property="SnapsToDevicePixels" Value="True" />
+    <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type logWindowListBox:LogWindowListBox}">
-          <Border Background="{TemplateBinding Background}">
-            <ItemsControl
-              ItemsSource="{TemplateBinding ItemsSource}"
-              ScrollViewer.CanContentScroll="True"
+          <Grid Background="{TemplateBinding Background}">
+            <Rectangle
+              Width="20"
+              HorizontalAlignment="Left"
+              Fill="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+              Opacity="0.3"
               />
-          </Border>
+
+            <ScrollViewer
+              Padding="{TemplateBinding Padding}"
+              CanContentScroll="True"
+              HorizontalScrollBarVisibility="Auto"
+              IsDeferredScrollingEnabled="True"
+              >
+              <ItemsPresenter SnapsToDevicePixels="True" />
+            </ScrollViewer>
+          </Grid>
         </ControlTemplate>
       </Setter.Value>
-    </Setter>-->
+    </Setter>
     <Setter Property="TextEditorSearchHighlightBackgroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex}" />
     <Setter Property="TextEditorSearchHighlightForegroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightForegroundColorHex}" />
     <Setter Property="TextEditorSelectionColorHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberHighlightColorHex}" />
@@ -308,6 +322,5 @@
     <Setter Property="VirtualizingStackPanel.CacheLengthUnit" Value="Page" />
     <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
     <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
-
   </Style>
 </ResourceDictionary>

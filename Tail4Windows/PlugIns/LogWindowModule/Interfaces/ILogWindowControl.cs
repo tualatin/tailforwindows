@@ -94,6 +94,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     }
 
     /// <summary>
+    /// Lines read
+    /// </summary>
+    int LinesRead
+    {
+      get;
+    }
+
+    /// <summary>
     /// Create tail data window
     /// </summary>
     /// <param name="item"><see cref="TailData"/></param>

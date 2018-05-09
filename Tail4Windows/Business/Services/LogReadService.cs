@@ -36,16 +36,7 @@ namespace Org.Vs.TailForWin.Business.Services
     #region Properties
 
     /// <summary>
-    /// Lines read
-    /// </summary>
-    public int LinesRead
-    {
-      get;
-      private set;
-    }
-
-    /// <summary>
-    /// Size and refresh time
+    /// Size refresh time
     /// </summary>
     public string SizeRefreshTime
     {
@@ -100,6 +91,7 @@ namespace Org.Vs.TailForWin.Business.Services
       int index = 1;
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
 
+
       while ( _tailBackgroundWorker != null && !_tailBackgroundWorker.CancellationPending )
       {
         Thread.Sleep((int) TailData.RefreshRate);
@@ -120,10 +112,8 @@ namespace Org.Vs.TailForWin.Business.Services
           DateTime = DateTime.Now
         };
 
-        LinesRead = index;
         SizeRefreshTime = string.Format(message, $"{12 + index * 12}", DateTime.Now);
-        OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, LinesRead, SizeRefreshTime));
-
+        OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, -1, SizeRefreshTime));
         index++;
 
         LOG.Trace($"{index}");
