@@ -100,7 +100,7 @@
       <Border
         x:Name="BorderLineNumber"
         Grid.Column="1"
-        MinWidth="70"
+        MinWidth="50"
         BorderThickness="0 0 1 0"
         Cursor="/T4W;component/Resources/RightArrow.cur"
         >
@@ -157,7 +157,7 @@
       <Border
         x:Name="BorderLineNumber"
         Grid.Column="1"
-        MinWidth="70"
+        MinWidth="50"
         BorderThickness="0 0 1 0"
         Cursor="/T4W;component/Resources/RightArrow.cur"
         >

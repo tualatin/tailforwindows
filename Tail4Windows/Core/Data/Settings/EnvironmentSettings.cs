@@ -39,8 +39,17 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// </summary>
     public string CurrentStringFormat
     {
-      get;
-      private set;
+      get
+      {
+        string currentFormat = string.Empty;
+
+        if ( DefaultTimeFormat == ETimeFormat.HHMMd || DefaultTimeFormat == ETimeFormat.HHMMD )
+          currentFormat = $"{DefaultDateFormat.GetEnumDescription()} {DefaultTimeFormat.GetEnumDescription()}";
+        else if ( DefaultTimeFormat == ETimeFormat.HHMMSSd || DefaultTimeFormat == ETimeFormat.HHMMSSD )
+          currentFormat = $"{DefaultDateFormat.GetEnumDescription()} {DefaultTimeFormat.GetEnumDescription()}.fff";
+
+        return currentFormat;
+      }
     }
 
     private CultureInfo _cultureInfo;
@@ -540,8 +549,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
         _defaultDateFormat = value;
         OnPropertyChanged(nameof(DefaultDateFormat));
-
-        CurrentStringFormat = DefaultDateFormat.GetEnumDescription();
       }
     }
 
