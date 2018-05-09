@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Threading.Tasks;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
@@ -106,5 +107,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     /// </summary>
     /// <param name="item"><see cref="TailData"/></param>
     void CreateTailDataWindow(TailData item);
+
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
+    Task DisposeAsync();
   }
 }

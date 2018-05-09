@@ -97,7 +97,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Lines read
     /// </summary>
-    public int LinesRead => LogEntries.Count;
+    public int LinesRead => LogEntries?.Count ?? 0;
 
     #endregion
 
@@ -145,6 +145,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         () =>
         {
           e.Log.Index = LinesRead + 1;
+
+          if ( LogEntries == null )
+            return;
 
           LogEntries.Add(e.Log);
           RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LogEntries.Count, e.SizeRefreshTime));

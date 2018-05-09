@@ -272,7 +272,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Add to FileManager command
     /// </summary>
-    public ICommand AddToFileManagerCommand => _addToFileManagerCommand ?? (_addToFileManagerCommand = new RelayCommand(p => FileIsValid && !CurrentTailData.OpenFromFileManager, p => ExecuteAddToFileManagerCommand()));
+    public ICommand AddToFileManagerCommand => _addToFileManagerCommand ?? (_addToFileManagerCommand = new RelayCommand(p => FileIsValid && CurrentTailData != null && !CurrentTailData.OpenFromFileManager, p => ExecuteAddToFileManagerCommand()));
 
     private ICommand _openFileManagerCommand;
 
@@ -451,12 +451,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
-    private bool CanExecuteClearLogWindowCommand() => SplitWindowControl.LogEntries.Count != 0;
+    private bool CanExecuteClearLogWindowCommand() => SplitWindowControl.LogEntries != null &&  SplitWindowControl.LogEntries.Count != 0;
 
     private void ExecuteClearLogWindowCommand()
     {
-      MouseService.SetBusyState();
-      SplitWindowControl.LogEntries.Clear();
+      lock ( LogWindowControlLock )
+      {
+        MouseService.SetBusyState();
+        SplitWindowControl.LogEntries.Clear();
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+      }
     }
 
     private void ExecuteOpenSearchDialogCommand()
@@ -780,6 +786,35 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       SelectedItem = CurrentTailData.FileName;
 
       OnPropertyChanged(nameof(CurrentTailData));
+    }
+
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
+    public async Task DisposeAsync()
+    {
+      LOG.Trace("Dispose useless resources");
+
+      MouseService.SetBusyState();
+
+      if ( TailReader.IsBusy )
+      {
+        TailReader.StopTail();
+
+        while ( TailReader.IsBusy )
+        {
+          await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
+        }
+      }
+
+      lock ( LogWindowControlLock )
+      {
+        SplitWindowControl.LogEntries = null;
+        CurrentTailData = null;
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+      }
     }
 
     private async Task<bool> WaitAsync()

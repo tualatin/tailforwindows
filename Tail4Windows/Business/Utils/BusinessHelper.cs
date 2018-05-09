@@ -44,8 +44,10 @@ namespace Org.Vs.TailForWin.Business.Utils
         if ( !TabItemList.Contains(tabItem) )
           return;
 
-        tabItem.Content = null;
         TabItemList.Remove(tabItem);
+
+        var control = tabItem.Content as ILogWindowControl;
+        control?.DisposeAsync().GetAwaiter();
       }
     }
 

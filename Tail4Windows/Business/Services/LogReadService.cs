@@ -91,7 +91,6 @@ namespace Org.Vs.TailForWin.Business.Services
       int index = 1;
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
 
-
       while ( _tailBackgroundWorker != null && !_tailBackgroundWorker.CancellationPending )
       {
         Thread.Sleep((int) TailData.RefreshRate);
@@ -99,11 +98,8 @@ namespace Org.Vs.TailForWin.Business.Services
         GC.Collect();
         GC.WaitForPendingFinalizers();
 
-        //if ( SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMd || SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMD )
-        //  StringFormatData.StringFormat = $"{SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat)} {SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat)}:ss.fff";
-        //if ( SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMSSd || SettingsHelper.TailSettings.DefaultTimeFormat == ETimeFormat.HHMMSSD )
-        //  StringFormatData.StringFormat = $"{SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultDateFormat)} {SettingsData.GetEnumDescription(SettingsHelper.TailSettings.DefaultTimeFormat)}.fff";
-
+        if ( _tailBackgroundWorker.CancellationPending )
+          return;
 
         var log = new LogEntry
         {
@@ -112,7 +108,11 @@ namespace Org.Vs.TailForWin.Business.Services
           DateTime = DateTime.Now
         };
 
-        SizeRefreshTime = string.Format(message, $"{12 + index * 12}", DateTime.Now);
+        SizeRefreshTime = string.Format(message, $"{12 + index * 12}", DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
+
+        if ( _tailBackgroundWorker.CancellationPending )
+          return;
+
         OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, -1, SizeRefreshTime));
         index++;
 
