@@ -82,7 +82,7 @@
     <Grid IsSharedSizeScope="True">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" SharedSizeGroup="Bookmark" />
-        <ColumnDefinition Width="Auto" MinWidth="80" SharedSizeGroup="Index" />
+        <ColumnDefinition Width="Auto" MinWidth="60" SharedSizeGroup="Index" />
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
 
@@ -100,7 +100,6 @@
       <Border
         x:Name="BorderLineNumber"
         Grid.Column="1"
-        MinWidth="50"
         BorderThickness="0 0 1 0"
         Cursor="/T4W;component/Resources/RightArrow.cur"
         >
@@ -138,7 +137,7 @@
     <Grid IsSharedSizeScope="True">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" SharedSizeGroup="Bookmark" />
-        <ColumnDefinition Width="Auto" MinWidth="80" SharedSizeGroup="Index" />
+        <ColumnDefinition Width="Auto" MinWidth="60" SharedSizeGroup="Index" />
         <ColumnDefinition Width="Auto" SharedSizeGroup="Date" />
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
@@ -157,7 +156,6 @@
       <Border
         x:Name="BorderLineNumber"
         Grid.Column="1"
-        MinWidth="50"
         BorderThickness="0 0 1 0"
         Cursor="/T4W;component/Resources/RightArrow.cur"
         >

@@ -690,7 +690,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       foreach ( string dateFormat in Enum.GetNames(typeof(EDateFormat)) )
       {
         if ( string.Compare(s, dateFormat, StringComparison.Ordinal) != 0 )
-          return EDateFormat.DDMMYYYY;
+          continue;
 
         Enum.TryParse(s, out EDateFormat df);
         return df;
@@ -706,7 +706,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       foreach ( string timeFormat in Enum.GetNames(typeof(ETimeFormat)) )
       {
         if ( string.Compare(s, timeFormat, StringComparison.Ordinal) != 0 )
-          return ETimeFormat.HHMMD;
+          continue;
 
         Enum.TryParse(s, out ETimeFormat tf);
         return tf;
