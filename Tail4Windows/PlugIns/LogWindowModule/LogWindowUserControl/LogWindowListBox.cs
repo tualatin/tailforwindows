@@ -8,7 +8,6 @@ using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
-using Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Data;
 using Org.Vs.TailForWin.UI.Utils;
 
 
@@ -22,21 +21,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     private ScrollViewer _scrollViewer;
 
     #region Public properties
-
-    /// <summary>
-    /// Show line number property
-    /// </summary>
-    public static readonly DependencyProperty ShowLineNumbersProperty = DependencyProperty.Register("ShowLineNumbers", typeof(bool), typeof(LogWindowListBox),
-      new PropertyMetadata(false, OnDataTemplateChanged));
-
-    /// <summary>
-    /// Text editor show line numbers
-    /// </summary>
-    public bool ShowLineNumbers
-    {
-      get => (bool) GetValue(ShowLineNumbersProperty);
-      set => SetValue(ShowLineNumbersProperty, value);
-    }
 
     /// <summary>
     /// Word wrap property
@@ -66,21 +50,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       get => (ScrollBarVisibility) GetValue(VerticalScrollbarVisibleProperty);
       set => SetValue(VerticalScrollbarVisibleProperty, value);
-    }
-
-    /// <summary>
-    /// Show date time property
-    /// </summary>
-    public static readonly DependencyProperty ShowDateTimeProperty = DependencyProperty.Register("ShowDateTime", typeof(bool), typeof(LogWindowListBox),
-      new PropertyMetadata(false, OnDataTemplateChanged));
-
-    /// <summary>
-    /// TextEditor show datetime
-    /// </summary>
-    public bool ShowDateTime
-    {
-      get => (bool) GetValue(ShowDateTimeProperty);
-      set => SetValue(ShowDateTimeProperty, value);
     }
 
     /// <summary>
@@ -367,15 +336,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       control.RaiseEvent(new RoutedEventArgs(ClearItemsRoutedEvent, control));
     }
 
-    private static void OnDataTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-    {
-      if ( !(sender is LogWindowListBox control) )
-        return;
-
-      control.SetTemplateState();
-      control.RefreshCollectionViewSource();
-    }
-
     private static void OnFilterOnChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
       if ( sender is LogWindowListBox control )
@@ -383,30 +343,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     #endregion
-
-    private void SetTemplateState()
-    {
-      if ( ShowDateTime && ShowLineNumbers )
-      {
-        TemplateData.State = TemplateData.TemplateStates.ShowDateTimeLineNumber;
-        AddDateTime = true;
-      }
-      else if ( ShowLineNumbers )
-      {
-        TemplateData.State = TemplateData.TemplateStates.ShowLineNumber;
-        AddDateTime = false;
-      }
-      else if ( ShowDateTime )
-      {
-        TemplateData.State = TemplateData.TemplateStates.ShowDateTime;
-        AddDateTime = true;
-      }
-      else
-      {
-        TemplateData.State = TemplateData.TemplateStates.ShowDefault;
-        AddDateTime = false;
-      }
-    }
 
     private void RefreshCollectionViewSource()
     {

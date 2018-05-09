@@ -63,7 +63,6 @@
       Grid.Row="2"
       CurrentTailData="{Binding ElementName=SplitWindow, Path=CurrentTailData}"
       ItemsSource="{Binding LogEntries}"
-      ShowDateTime="{Binding ElementName=SplitWindow, Path=CurrentTailData.Timestamp, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
       behaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
       behaviors:ListBoxCopy.AutoCopy="True"
       behaviors:ListBoxSelector.Enabled="True"

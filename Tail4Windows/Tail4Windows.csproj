@@ -233,8 +233,6 @@
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\ListBoxCopy.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\ListBoxExtenders.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\ListBoxSelector.cs" />
-    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\LogViewerDataTemplateSelector.cs" />
-    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\TemplateData.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\LogWindowListBox.cs" />
     <Compile Include="PlugIns\LogWindowModule\SplitWindowControl.xaml.cs">
       <DependentUpon>SplitWindowControl.xaml</DependentUpon>
@@ -267,6 +265,7 @@
     <Compile Include="UI\Converters\StringFormatConverter.cs" />
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\TailDataListOfFilterToBoolConverter.cs" />
+    <Compile Include="UI\Converters\MultiConverters\VisibilityToMarginConverter.cs" />
     <Compile Include="UI\ExtendedControls\PopupEx.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
@@ -960,6 +959,7 @@
     <Folder Include="Core\Events\EventManagers\" />
     <Folder Include="PlugIns\FindModule\Interfaces\" />
     <Folder Include="PlugIns\FindModule\ViewModels\" />
+    <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
     <Folder Include="PlugIns\PatternModule\ViewModels\" />
     <Folder Include="PlugIns\SmartWatchModule\Controller\" />
     <Folder Include="PlugIns\SmartWatchModule\Data\" />
