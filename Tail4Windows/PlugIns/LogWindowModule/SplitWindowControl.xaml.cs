@@ -11,6 +11,8 @@ using Org.Vs.TailForWin.Business.Events.Args;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.UI.Commands;
 
 
@@ -22,6 +24,25 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   public partial class SplitWindowControl : INotifyPropertyChanged
   {
     private const double Offset = 5;
+
+    #region RoutedEvents
+
+    /// <summary>
+    /// Clears ItemsSource event handler
+    /// </summary>
+    private static readonly RoutedEvent LinesRefreshTimeChangedRoutedEvent = EventManager.RegisterRoutedEvent(nameof(LinesRefreshTimeChangedRoutedEvent), RoutingStrategy.Bubble,
+      typeof(LinesRefreshTimeChangedEventHandler), typeof(SplitWindowControl));
+
+    /// <summary>
+    /// Clears ItemsSource event
+    /// </summary>
+    public event LinesRefreshTimeChangedEventHandler LinesRefreshTimeChangedEvent
+    {
+      add => AddHandler(LinesRefreshTimeChangedRoutedEvent, value);
+      remove => RemoveHandler(LinesRefreshTimeChangedRoutedEvent, value);
+    }
+
+    #endregion
 
     #region Properties
 
@@ -70,6 +91,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private CollectionViewSource CollectionView
     {
       get;
+      set;
     }
 
     #endregion
@@ -91,27 +113,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     #region Dependency properties
 
     /// <summary>
-    /// IsSelected property
-    /// </summary>
-    public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(SplitWindowControl),
-      new PropertyMetadata(false));
-
-    /// <summary>
-    /// IsSelected
-    /// </summary>
-    public bool IsSelected
-    {
-      get => (bool) GetValue(IsSelectedProperty);
-      set => SetValue(IsSelectedProperty, value);
-    }
-
-    /// <summary>
     /// property
     /// </summary>
     public static readonly DependencyProperty LogReaderServiceProperty = DependencyProperty.Register(nameof(LogReaderService), typeof(LogReadService), typeof(SplitWindowControl),
-      new PropertyMetadata(null, PropertyChangedCallback));
+      new PropertyMetadata(null, OnLogReaderServiceChanged));
 
-    private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void OnLogReaderServiceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       if ( !(d is SplitWindowControl sender) )
         return;
@@ -133,12 +140,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         () =>
         {
           LogEntries.Add(e.Log);
+          RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, e.LinesRead, e.SizeRefreshTime));
         }, DispatcherPriority.Background);
-
-      //if ( IsSelected )
-      //sOnLinesRefreshTimeChanged?.Invoke(this, new LinesRefreshTimeChangedArgs(e.LinesRead, e.SizeRefreshTime));
     }
-
 
     /// <summary>
     /// 
@@ -182,9 +186,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand SizeChangedCommand => _sizeChangedCommand ?? (_sizeChangedCommand = new RelayCommand(p => ExecuteSizeChangedCommand((SizeChangedEventArgs) p)));
 
+    private ICommand _clearItemsCommand;
+
+    /// <summary>
+    /// Clear items
+    /// </summary>
+    public ICommand ClearItemsCommand => _clearItemsCommand ?? (_clearItemsCommand = new RelayCommand(p => ExecuteClearItemsCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteClearItemsCommand()
+    {
+      if ( LogEntries == null )
+        LogEntries = new ObservableCollection<LogEntry>();
+
+      LogEntries.Clear();
+    }
 
     private void ExecuteLoadedCommand()
     {

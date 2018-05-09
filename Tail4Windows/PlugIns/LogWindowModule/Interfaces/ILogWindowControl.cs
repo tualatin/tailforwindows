@@ -14,6 +14,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
   public interface ILogWindowControl : INotifyPropertyChanged
   {
     /// <summary>
+    /// Lines and time changed event
+    /// </summary>
+    event LinesRefreshTimeChangedEventHandler OnLinesTimeChanged;
+
+    /// <summary>
     /// On status changed event
     /// </summary>
     event StatusChangedEventHandler OnStatusChanged;

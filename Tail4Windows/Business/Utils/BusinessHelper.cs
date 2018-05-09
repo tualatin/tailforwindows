@@ -41,8 +41,11 @@ namespace Org.Vs.TailForWin.Business.Utils
     {
       lock ( MyLock )
       {
-        if ( TabItemList.Contains(tabItem) )
-          TabItemList.Remove(tabItem);
+        if ( !TabItemList.Contains(tabItem) )
+          return;
+
+        tabItem.Content = null;
+        TabItemList.Remove(tabItem);
       }
     }
 
@@ -86,8 +89,7 @@ namespace Org.Vs.TailForWin.Business.Utils
             LogWindowState = content.LogWindowState,
             FileIsValid = content.FileIsValid,
             SelectedItem = content.SelectedItem,
-            SplitterPosition = content.SplitterPosition,
-            TailReader =  content.TailReader
+            SplitterPosition = content.SplitterPosition
           };
         }
 

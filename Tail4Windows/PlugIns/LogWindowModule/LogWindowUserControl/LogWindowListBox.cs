@@ -291,7 +291,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// Current <see cref="CurrentTailData"/> property
     /// </summary>
     public static readonly DependencyProperty CurrentTailDataProperty = DependencyProperty.Register(nameof(CurrentTailData), typeof(TailData), typeof(LogWindowListBox),
-      new PropertyMetadata(null));
+      new PropertyMetadata(null, OnTailDataChanged));
 
     /// <summary>
     /// <see cref="CurrentTailData"/>
@@ -304,6 +304,28 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     #endregion
 
+    #region RoutedEvents
+
+    /// <summary>
+    /// Clears ItemsSource event handler
+    /// </summary>
+    private static readonly RoutedEvent ClearItemsRoutedEvent = EventManager.RegisterRoutedEvent(nameof(ClearItemsRoutedEvent), RoutingStrategy.Bubble,
+      typeof(RoutedEventHandler), typeof(LogWindowListBox));
+
+    /// <summary>
+    /// Clears ItemsSource event
+    /// </summary>
+    public event RoutedEventHandler ClearItemsEvent
+    {
+      add => AddHandler(ClearItemsRoutedEvent, value);
+      remove => RemoveHandler(ClearItemsRoutedEvent, value);
+    }
+
+    #endregion
+
+    /// <summary>
+    /// When overridden in a derived class, is invoked whenever application code or internal processes call <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" />.
+    /// </summary>
     public override void OnApplyTemplate()
     {
       base.OnApplyTemplate();
@@ -311,6 +333,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       _scrollViewer = UiHelpers.GetChildOfType<ScrollViewer>(this);
     }
 
+    /// <summary>
+    /// Updates the current selection when an item in the <see cref="T:System.Windows.Controls.Primitives.Selector" /> has changed
+    /// </summary>
+    /// <param name="e">The event data.</param>
     protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
     {
       base.OnItemsChanged(e);
@@ -332,6 +358,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     #region PropertyCallback functions
+
+    private static void OnTailDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+      if ( !(d is LogWindowListBox control) )
+        return;
+
+      control.RaiseEvent(new RoutedEventArgs(ClearItemsRoutedEvent, control));
+    }
 
     private static void OnDataTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {

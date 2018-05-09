@@ -202,10 +202,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       get => _selectedTabItem;
       set
       {
-        if ( _selectedTabItem != null )
+        if ( _selectedTabItem?.Content != null )
         {
           ((ILogWindowControl) _selectedTabItem.Content).OnStatusChanged -= OnStatusChangedCurrentLogWindow;
-          //((ILogWindowControl) _selectedTabItem.Content).OnLinesRefreshTimeChanged -= OnLinesRefreshTimeChangedCurrentLogWindow;
+          ((ILogWindowControl) _selectedTabItem.Content).OnLinesTimeChanged -= OnLinesRefreshTimeChangedCurrentLogWindow;
         }
 
         _selectedTabItem = value;
@@ -215,7 +215,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
         var content = (ILogWindowControl) _selectedTabItem.Content;
         content.OnStatusChanged += OnStatusChangedCurrentLogWindow;
-        //content.OnLinesRefreshTimeChanged += OnLinesRefreshTimeChangedCurrentLogWindow;
+        content.OnLinesTimeChanged += OnLinesRefreshTimeChangedCurrentLogWindow;
 
         _currentLinesRead = content.TailReader.LinesRead;
         _currentSizeRefreshTime = content.TailReader.SizeRefreshTime;

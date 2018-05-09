@@ -58,6 +58,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     #region Events
 
     /// <summary>
+    /// On lines and time changed event
+    /// </summary>
+    public event LinesRefreshTimeChangedEventHandler OnLinesTimeChanged;
+
+    /// <summary>
     /// On status changed event
     /// </summary>
     public event StatusChangedEventHandler OnStatusChanged;
@@ -103,7 +108,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set
       {
         _logWindowTabItem = value;
-
         _logWindowTabItem.TabHeaderBackgroundChanged -= TabItemTabHeaderBackgroundChanged;
         _logWindowTabItem.TabHeaderBackgroundChanged += TabItemTabHeaderBackgroundChanged;
       }
@@ -357,9 +361,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand ClearLogWindowCommand => _clearLogWindowCommand ?? (_clearLogWindowCommand = new RelayCommand(p => CanExecuteClearLogWindowCommand(), p => ExecuteClearLogWindowCommand()));
 
+    private ICommand _linesRefreshTimeChangedCommand;
+
+    /// <summary>
+    /// LinesRefreshTimeChanged command
+    /// </summary>
+    public ICommand LinesRefreshTimeChangedCommand => _linesRefreshTimeChangedCommand ?? (_linesRefreshTimeChangedCommand = new RelayCommand(ExecuteLinesRefreshTimeChangedCommand));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteLinesRefreshTimeChangedCommand(object param)
+    {
+      if ( !(param is LinesRefreshTimeChangedArgs e) )
+        return;
+
+      OnLinesTimeChanged?.Invoke(this, e);
+    }
 
     private bool CanExecuteDeleteHistoryCommand()
     {
@@ -427,14 +446,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
-    private bool CanExecuteClearLogWindowCommand()
-    {
-      return true;}// LogEntries.Count != 0;
+    private bool CanExecuteClearLogWindowCommand() => SplitWindowControl.LogEntries.Count != 0;
 
     private void ExecuteClearLogWindowCommand()
     {
       MouseService.SetBusyState();
-      //LogEntries.Clear();
+      SplitWindowControl.LogEntries.Clear();
     }
 
     private void ExecuteOpenSearchDialogCommand()
@@ -442,9 +459,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     }
 
-    private bool CanExecutePrintTailDataCommand() => /* LogEntries.Count != 0 && */ FileIsValid;
+    private bool CanExecutePrintTailDataCommand() => SplitWindowControl.LogEntries.Count != 0 && FileIsValid;
 
-    private void ExecutePrintTailDataCommand() => _printerController.PrintDocument(null, CurrentTailData);
+    private void ExecutePrintTailDataCommand() => _printerController.PrintDocument(SplitWindowControl.LogEntries, CurrentTailData);
 
     private bool CanExecuteQuickSaveCommand() => FileIsValid && CurrentTailData.OpenFromFileManager;
 
@@ -586,10 +603,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       TailReader = new LogReadService();
       OnPropertyChanged(nameof(TailReader));
-      //TailReader.OnLogEntryCreated -= OnLogEntryCreated;
-      //TailReader.OnLogEntryCreated += OnLogEntryCreated;
-
-      //LogEntries.Clear();
 
       if ( !File.Exists(SelectedItem) )
       {

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Windows;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args
@@ -6,7 +6,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args
   /// <summary>
   /// Lines refresh time changed event args
   /// </summary>
-  public class LinesRefreshTimeChangedArgs : EventArgs
+  public class LinesRefreshTimeChangedArgs : RoutedEventArgs
   {
     /// <summary>
     /// Lines read
@@ -27,9 +27,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args
     /// <summary>
     /// Standard constructur
     /// </summary>
+    /// <param name="routedEvent"><see cref="RoutedEvent"/></param>
     /// <param name="linesRead">Lines read</param>
     /// <param name="sizeRefreshTime">Size refresh time</param>
-    public LinesRefreshTimeChangedArgs(int linesRead, string sizeRefreshTime)
+    public LinesRefreshTimeChangedArgs(RoutedEvent routedEvent, int linesRead, string sizeRefreshTime)
+      : base(routedEvent)
     {
       LinesRead = linesRead;
       SizeRefreshTime = sizeRefreshTime;

@@ -66,6 +66,12 @@
       behaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
       behaviors:ListBoxCopy.AutoCopy="True"
       behaviors:ListBoxSelector.Enabled="True"
-      />
+      >
+      <i:Interaction.Triggers>
+        <i:EventTrigger EventName="ClearItemsEvent">
+          <i:InvokeCommandAction Command="{Binding ClearItemsCommand}" />
+        </i:EventTrigger>
+      </i:Interaction.Triggers>
+    </logWindowListBox:LogWindowListBox>
   </Grid>
 </UserControl>

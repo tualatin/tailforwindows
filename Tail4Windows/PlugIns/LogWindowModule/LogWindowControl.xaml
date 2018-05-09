@@ -383,12 +383,14 @@
                 CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
                 />
             </i:EventTrigger>
+
             <i:EventTrigger EventName="PreviewDragEnter">
               <commands:InvokeDelegateCommandAction
                 Command="{Binding PreviewDragEnterCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
                 />
             </i:EventTrigger>
+
             <i:EventTrigger EventName="PreviewKeyDown">
               <commands:InvokeDelegateCommandAction
                 Command="{Binding KeyDownCommand}"
@@ -987,12 +989,21 @@
         BorderThickness="0 1 0 0"
         >
         <logWindowModule:SplitWindowControl
+          x:Name="SplitWindowControl"
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch"
           CurrentTailData="{Binding ElementName=LogWindow, Path=CurrentTailData, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-          IsSelected="{Binding ElementName=LogWindow, Path=IsSelected, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
           LogReaderService="{Binding ElementName=LogWindow, UpdateSourceTrigger=PropertyChanged, Path=TailReader, Mode=OneWay}"
-          />
+          >
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="LinesRefreshTimeChangedEvent">
+              <commands:InvokeDelegateCommandAction
+                Command="{Binding ElementName=LogWindow, Path=LinesRefreshTimeChangedCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+                />
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </logWindowModule:SplitWindowControl>
       </Border>
     </Grid>
 
