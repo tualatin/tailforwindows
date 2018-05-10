@@ -127,8 +127,6 @@ namespace Org.Vs.TailForWin.Business.Services
 
         OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, -1, SizeRefreshTime));
         index++;
-
-        LOG.Trace($"{index}");
       }
     }
 #endif

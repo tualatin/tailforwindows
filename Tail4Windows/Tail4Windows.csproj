@@ -244,6 +244,7 @@
     <Compile Include="UI\Behaviors\DataGridRowBehavior.cs" />
     <Compile Include="UI\Behaviors\DropDownButtonBehavior.cs" />
     <Compile Include="UI\Behaviors\MultiSelectionBehavior.cs" />
+    <Compile Include="UI\Behaviors\ScrollbarSplitGripControlBehavior.cs" />
     <Compile Include="UI\Behaviors\ScrollDataGridRowIntoView.cs" />
     <Compile Include="UI\Behaviors\SizeObserver.cs" />
     <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />
@@ -268,6 +269,7 @@
     <Compile Include="UI\Converters\MultiConverters\VisibilityToMarginConverter.cs" />
     <Compile Include="UI\Debuging\DebugBuild.cs" />
     <Compile Include="UI\ExtendedControls\PopupEx.cs" />
+    <Compile Include="UI\Extensions\VisualTreeEnumerationExtension.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
     <Compile Include="BaseView\Interfaces\IBaseWindowStatusbarViewModel.cs" />

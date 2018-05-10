@@ -1,12 +1,13 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl;
+using Org.Vs.TailForWin.UI.Extensions;
 
 
 namespace Org.Vs.TailForWin.UI.Behaviors
 {
-  /// <summary>
-  /// Focus behavior
-  /// </summary>
-  public class FocusBehavior
+  public class ScrollbarSplitGripControlBehavior
   {
     /// <summary>
     /// Get IsFocused
@@ -25,14 +26,19 @@ namespace Org.Vs.TailForWin.UI.Behaviors
     /// <summary>
     /// IsFocused property
     /// </summary>
-    public static readonly DependencyProperty IsFocusedProperty = DependencyProperty.RegisterAttached("IsFocused", typeof(bool), typeof(FocusBehavior), new UIPropertyMetadata(false, OnIsFocusedPropertyChanged));
+    public static readonly DependencyProperty IsFocusedProperty = DependencyProperty.RegisterAttached("IsFocused", typeof(bool), typeof(ScrollbarSplitGripControlBehavior), new UIPropertyMetadata(false, OnIsFocusedPropertyChanged));
 
     private static void OnIsFocusedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      var uie = (UIElement) d;
+      if ( !(d is LogWindowListBox lb) )
+        return;
 
-      if ( (bool) e.NewValue )
-        uie.Focus(); // Don't care about false values.
+      var test = lb.Descendents().OfType<ScrollViewer>();
+
+      foreach ( var blubb in test )
+      {
+
+      }
     }
   }
 }

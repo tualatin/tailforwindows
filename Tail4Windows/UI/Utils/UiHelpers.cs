@@ -7,7 +7,7 @@ namespace Org.Vs.TailForWin.UI.Utils
   /// <summary>
   /// UI helpers
   /// </summary>
-  public class UiHelpers
+  public static class UiHelpers
   {
     /// <summary>
     /// Finds visual childs
@@ -21,6 +21,12 @@ namespace Org.Vs.TailForWin.UI.Utils
       return child.GetType() == typeof(T) ? child : RecursiveVisualChildFinder<T>(child);
     }
 
+    /// <summary>
+    /// Get child of type
+    /// </summary>
+    /// <typeparam name="T">Type</typeparam>
+    /// <param name="depObj"><see cref="DependencyObject"/></param>
+    /// <returns>Type</returns>
     public static T GetChildOfType<T>(DependencyObject depObj)
       where T : DependencyObject
     {

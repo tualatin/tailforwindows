@@ -196,8 +196,9 @@
               CanContentScroll="True"
               HorizontalScrollBarVisibility="Auto"
               IsDeferredScrollingEnabled="True"
+              VerticalScrollBarVisibility="Auto"
               >
-              <ItemsPresenter SnapsToDevicePixels="True" />
+              <ItemsPresenter />
             </ScrollViewer>
           </Grid>
         </ControlTemplate>

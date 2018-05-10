@@ -1,13 +1,18 @@
 ﻿using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
+using log4net;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.UI.Extensions;
 using Org.Vs.TailForWin.UI.Utils;
 
 
@@ -18,9 +23,28 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
   /// </summary>
   public class LogWindowListBox : ListBox
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(LogWindowListBox));
+
     private ScrollViewer _scrollViewer;
+    private Grid _splitGripControl;
+    private bool _mouseDown;
 
     #region Public properties
+
+    /// <summary>
+    /// ShowGridSplitControl property
+    /// </summary>
+    public static readonly DependencyProperty ShowGridSplitControlProperty = DependencyProperty.Register("ShowGridSplitControl", typeof(bool), typeof(LogWindowListBox),
+      new PropertyMetadata(false));
+
+    /// <summary>
+    /// ShowGridSplitControl
+    /// </summary>
+    public bool ShowGridSplitControl
+    {
+      get => (bool) GetValue(ShowGridSplitControlProperty);
+      set => SetValue(ShowGridSplitControlProperty, value);
+    }
 
     /// <summary>
     /// Word wrap property
@@ -299,7 +323,81 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       base.OnApplyTemplate();
 
+      //Loaded += OnLoaded;
       _scrollViewer = UiHelpers.GetChildOfType<ScrollViewer>(this);
+
+      if ( _scrollViewer == null )
+        return;
+
+      _scrollViewer.ScrollChanged += OnScrollChanged;
+    }
+
+    private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
+    {
+      if ( _splitGripControl == null && ShowGridSplitControl && SettingsHelperController.CurrentSettings.SplitterWindowBehavior )
+        LoadSplitGripControl();
+    }
+
+    private void LoadSplitGripControl()
+    {
+      var scrollBars = _scrollViewer.Descendents().OfType<ScrollBar>().Where(p => p.Visibility == Visibility.Visible);
+
+      foreach ( var scrollBar in scrollBars )
+      {
+        _splitGripControl = scrollBar.Descendents().OfType<Grid>().FirstOrDefault(p => p.Name == "PART_SplitGripControl");
+
+        if ( _splitGripControl == null || !ShowGridSplitControl )
+          continue;
+
+        _splitGripControl.Visibility = Visibility.Visible;
+        _splitGripControl.MouseLeftButtonDown += SplitGripControlOnMouseLeftButtonDown;
+        _splitGripControl.MouseLeftButtonUp += SplitGripControlOnMouseLeftButtonUp;
+        _splitGripControl.MouseMove += SplitGripControlOnMouseMove;
+        break;
+      }
+    }
+
+    private void SplitGripControlOnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      LOG.Trace("Mouse left button down");
+      _mouseDown = true;
+
+      _splitGripControl.CaptureMouse();
+    }
+
+    private void SplitGripControlOnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+      LOG.Trace("Mouse left button up");
+      _mouseDown = false;
+
+      _splitGripControl.ReleaseMouseCapture();
+    }
+
+    private void SplitGripControlOnMouseMove(object sender, MouseEventArgs e)
+    {
+      if ( !_mouseDown )
+        return;
+
+      var splitWindow = _scrollViewer.Ancestors().OfType<SplitWindowControl>().FirstOrDefault();
+      var gridSplitter = splitWindow?.Descendents().OfType<GridSplitter>().FirstOrDefault();
+
+      if ( gridSplitter == null )
+        return;
+
+      var mouse = e.GetPosition(splitWindow);
+
+      if ( mouse.Y <= 0 )
+      {
+        gridSplitter.Visibility = Visibility.Collapsed;
+        splitWindow.SplitterPosition = 0;
+      }
+      else
+      {
+        gridSplitter.Visibility = Visibility.Visible;
+        splitWindow.SplitterPosition = mouse.Y;
+      }
+
+      LOG.Trace($"Current mouse position {mouse.Y}");
     }
 
     /// <summary>
@@ -320,7 +418,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         break;
 
       case NotifyCollectionChangedAction.Move:
-
 
         break;
       }

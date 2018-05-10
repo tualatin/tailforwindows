@@ -59,7 +59,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         if ( Equals(value, _splitterPosition) )
           return;
 
-        if ( value + (Offset - 1) > Height )
+        if ( value + (Offset - 1) > CurrentHeight )
           return;
 
         _splitterPosition = value;
