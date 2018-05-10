@@ -94,7 +94,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     public ILogReadService TailReader
     {
       get;
-      set;
+      private set;
     }
 
     private DragSupportTabItem _logWindowTabItem;
@@ -451,7 +451,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
-    private bool CanExecuteClearLogWindowCommand() => SplitWindowControl.LogEntries != null &&  SplitWindowControl.LogEntries.Count != 0;
+    private bool CanExecuteClearLogWindowCommand() => SplitWindowControl.LogEntries != null && SplitWindowControl.LogEntries.Count != 0;
 
     private void ExecuteClearLogWindowCommand()
     {
@@ -613,7 +613,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       MouseService.SetBusyState();
 
       TailReader = new LogReadService();
-      OnPropertyChanged(nameof(TailReader));
+      SplitWindowControl.LogReaderService = (LogReadService) TailReader;
 
       if ( !File.Exists(SelectedItem) )
       {

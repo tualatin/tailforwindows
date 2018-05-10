@@ -244,7 +244,6 @@
     <Compile Include="UI\Behaviors\DataGridRowBehavior.cs" />
     <Compile Include="UI\Behaviors\DropDownButtonBehavior.cs" />
     <Compile Include="UI\Behaviors\MultiSelectionBehavior.cs" />
-    <Compile Include="UI\Behaviors\ScrollbarSplitGripControlBehavior.cs" />
     <Compile Include="UI\Behaviors\ScrollDataGridRowIntoView.cs" />
     <Compile Include="UI\Behaviors\SizeObserver.cs" />
     <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />

@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:behavios="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   >
 
   <!--  SrollViewer ScrollBar Repeat Buttons (at each end  -->
@@ -168,7 +167,6 @@
         Grid.Row="0"
         Background="{StaticResource BrushSolidLightBlue}"
         Visibility="Collapsed"
-        behavios:ScrollbarSplitGripControlBehavior.IsFocused="True"
         >
         <Border
           BorderBrush="{StaticResource BrushSolidGrey55}"

@@ -5,14 +5,12 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-  xmlns:behav="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.Behaviors"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:behaviors1="clr-namespace:Org.Vs.TailForWin.UI.UserControls.Behaviors"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:debuging="clr-namespace:Org.Vs.TailForWin.UI.Debuging"
   xmlns:logWindowModule="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule"
-  xmlns:splitterBehaviors="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behaviors"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.UI.Utils"
   xmlns:utils1="clr-namespace:Org.Vs.TailForWin.Core.Utils"
   mc:Ignorable="d"
@@ -1001,7 +999,6 @@
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch"
           CurrentTailData="{Binding ElementName=LogWindow, Path=CurrentTailData, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-          LogReaderService="{Binding ElementName=LogWindow, UpdateSourceTrigger=PropertyChanged, Path=TailReader, Mode=OneWay}"
           >
           <i:Interaction.Triggers>
             <i:EventTrigger EventName="LinesRefreshTimeChangedEvent">
