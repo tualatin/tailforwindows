@@ -91,6 +91,18 @@ namespace Org.Vs.TailForWin.Business.Services
       int index = 1;
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
 
+#if DEBUG
+      if ( SettingsHelperController.CurrentSettings.DebugTailReader )
+        SimulateTailReading();
+#endif
+    }
+
+#if DEBUG
+    private void SimulateTailReading()
+    {
+      int index = 1;
+      string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
+
       while ( _tailBackgroundWorker != null && !_tailBackgroundWorker.CancellationPending )
       {
         Thread.Sleep((int) TailData.RefreshRate);
@@ -119,6 +131,7 @@ namespace Org.Vs.TailForWin.Business.Services
         LOG.Trace($"{index}");
       }
     }
+#endif
 
     private void LogReaderServiceRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {

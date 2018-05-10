@@ -23,12 +23,25 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       SmartWatchSettings = new SmartWatchSetting();
       ColorSettings = new EnvironmentColorSettings();
       SmtpSettings = new SmtpSetting();
+
+#if DEBUG
+      DebugTailReader = true;
+#endif
     }
 
     /// <summary>
     /// Current application should close now
     /// </summary>
     public bool ShouldClose
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Use debug tail reader
+    /// </summary>
+    public bool DebugTailReader
     {
       get;
       set;
