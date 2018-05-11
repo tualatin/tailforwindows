@@ -386,7 +386,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       var mouse = e.GetPosition(splitWindow);
 
-      if ( mouse.Y <= 0 )
+      if ( mouse.Y <= 5 )
       {
         gridSplitter.Visibility = Visibility.Collapsed;
         splitWindow.SplitterPosition = 0;
@@ -412,7 +412,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       {
       case NotifyCollectionChangedAction.Add:
 
-        if ( SettingsHelperController.CurrentSettings.AlwaysScrollToEnd )
+        if ( SettingsHelperController.CurrentSettings.AlwaysScrollToEnd && ShowGridSplitControl )
           _scrollViewer?.ScrollToEnd();
 
         break;

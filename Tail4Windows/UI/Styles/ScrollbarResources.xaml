@@ -169,7 +169,8 @@
         Visibility="Collapsed"
         >
         <Border
-          BorderBrush="{StaticResource BrushSolidGrey55}"
+          x:Name="Chrome"
+          BorderBrush="{StaticResource BrushSolidGrey35}"
           BorderThickness="1"
           >
           <Path
@@ -236,6 +237,7 @@
           <Condition Property="Visibility" Value="Visible" SourceName="PART_SplitGripControl" />
           <Condition Property="IsMouseOver" Value="True" SourceName="PART_SplitGripControl" />
         </MultiTrigger.Conditions>
+        <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
         <Setter TargetName="PART_SplitGripControl" Property="Background" Value="{StaticResource BrushSolidYellow}" />
       </MultiTrigger>
     </ControlTemplate.Triggers>
