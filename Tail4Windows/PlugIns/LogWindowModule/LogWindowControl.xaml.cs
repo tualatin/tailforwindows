@@ -27,7 +27,6 @@ using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels;
 using Org.Vs.TailForWin.PlugIns.FontChooserModule;
-using Org.Vs.TailForWin.PlugIns.FontChooserModule.Data;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;

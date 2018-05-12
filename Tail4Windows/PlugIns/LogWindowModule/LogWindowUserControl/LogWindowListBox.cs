@@ -336,7 +336,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         Icon = new Image
         {
           Source = icon
-        }
+        },
+        FontWeight = SystemFonts.MenuFontWeight,
+        FontStyle = SystemFonts.MenuFontStyle,
+        FontSize = SystemFonts.MenuFontSize,
+        FontStretch = FontStretches.Normal,
+        FontFamily = SystemFonts.MenuFontFamily,
+        Foreground = Brushes.Black
       };
 
       menuItem.Click += OnRemoveBookmarks;

@@ -220,7 +220,7 @@
     </Compile>
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FileManagerViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FilterManagerViewModel.cs" />
-    <Compile Include="PlugIns\FontChooserModule\Data\FontInfo.cs" />
+    <Compile Include="Core\Data\FontInfo.cs" />
     <Compile Include="PlugIns\FontChooserModule\FontChooseDialog.xaml.cs">
       <DependentUpon>FontChooseDialog.xaml</DependentUpon>
     </Compile>

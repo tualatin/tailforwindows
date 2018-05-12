@@ -424,6 +424,9 @@
             Grid.Column="1"
             VerticalAlignment="Center"
             Content="{Binding Path=SelectedItem.FontType, ElementName=FilterDataGrid, Mode=TwoWay, Converter={StaticResource FontToStringConverter}, UpdateSourceTrigger=PropertyChanged}"
+            FontFamily="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FontType.FontFamily}"
+            FontStyle="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FontType.FontStyle}"
+            FontWeight="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FontType.FontWeight}"
             Foreground="{Binding Path=SelectedItem.FilterColorHex, ElementName=FilterDataGrid, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}"
             />
         </Grid>

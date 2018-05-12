@@ -1,5 +1,4 @@
 ﻿using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.PlugIns.FontChooserModule.Data;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FontChooserModule

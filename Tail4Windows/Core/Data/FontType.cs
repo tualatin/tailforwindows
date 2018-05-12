@@ -15,10 +15,10 @@ namespace Org.Vs.TailForWin.Core.Data
     /// </summary>
     public FontType()
     {
-      FontSize = 11f;
+      FontSize = 12;
       FontStyle = FontStyles.Normal;
       FontWeight = FontWeights.Normal;
-      FontFamily = new FontFamily("Segoe UI");
+      FontFamily = new FontFamily("Consolas");
       FontStretch = FontStretches.Normal;
     }
 

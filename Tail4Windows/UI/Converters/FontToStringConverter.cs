@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Drawing;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Data;
 
 
 namespace Org.Vs.TailForWin.UI.Converters
 {
   /// <summary>
-  /// Font to string converter
+  /// <see cref="FontType"/> to string converter
   /// </summary>
-  [ValueConversion(typeof(Font), typeof(string))]
+  [ValueConversion(typeof(FontType), typeof(string))]
   public class FontToStringConverter : IValueConverter
   {
     /// <summary>
@@ -23,10 +23,16 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if ( value is FontType font )
-        return $"{font.FontFamily.Source} ({font.FontSize:0.#})";
+      if ( !(value is FontType font) )
+        return string.Empty;
 
-      return string.Empty;
+      FamilyTypeface ftf = new FamilyTypeface
+      {
+        Stretch = font.FontStretch,
+        Weight = font.FontWeight,
+        Style = font.FontStyle
+      };
+      return $"{font.FontFamily.Source} ({font.FontSize:0.#}) {FontInfo.TypefaceToString(ftf)}";
     }
 
     /// <summary>

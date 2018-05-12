@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Org.Vs.TailForWin.PlugIns.FontChooserModule.Data;
+using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.UI.Commands;
 
 

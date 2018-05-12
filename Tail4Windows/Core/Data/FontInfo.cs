@@ -2,11 +2,10 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 
 
-namespace Org.Vs.TailForWin.PlugIns.FontChooserModule.Data
+namespace Org.Vs.TailForWin.Core.Data
 {
   /// <summary>
   /// FontInfo
@@ -82,9 +81,9 @@ namespace Org.Vs.TailForWin.PlugIns.FontChooserModule.Data
     public static string TypefaceToString(FamilyTypeface ttf)
     {
       StringBuilder sb = new StringBuilder(ttf.Stretch.ToString());
-      sb.Append("-");
+      sb.Append(" / ");
       sb.Append(ttf.Weight.ToString());
-      sb.Append("-");
+      sb.Append(" / ");
       sb.Append(ttf.Style.ToString());
 
       return sb.ToString();

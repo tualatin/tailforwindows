@@ -96,14 +96,14 @@
     public const string Size = "size";
 
     /// <summary>
-    /// bold
+    /// weight
     /// </summary>
-    public const string Bold = "bold";
+    public const string Weight = "weight";
 
     /// <summary>
-    /// italic
+    /// style
     /// </summary>
-    public const string Italic = "italic";
+    public const string Style = "style";
 
     /// <summary>
     /// description

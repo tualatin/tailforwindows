@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Xml;
 using System.Xml.Linq;
 using log4net;
@@ -225,12 +226,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
             new XElement(XmlNames.TabItemBackgroundColor, tailData.TabItemBackgroundColorStringHex),
             new XElement(XmlNames.Font,
               new XElement(XmlBaseStructure.Name, tailData.FontType.FontFamily.Source),
-              new XElement(XmlNames.Size, tailData.FontType.FontSize)),
-            //new XElement(XmlNames.Bold, tailData.FontType.Bold),
-            //new XElement(XmlNames.Italic, tailData.FontType.Italic)),
-            new XElement(XmlNames.SearchPattern,
-              new XElement(XmlBaseStructure.IsRegex, tailData.IsRegex),
-              new XElement(XmlBaseStructure.PatternString, tailData.PatternString)));
+              new XElement(XmlNames.Size, tailData.FontType.FontSize),
+              new XElement(XmlNames.Weight, tailData.FontType.FontWeight),
+              new XElement(XmlNames.Style, tailData.FontType.FontStyle)),
+              new XElement(XmlNames.SearchPattern,
+                new XElement(XmlBaseStructure.IsRegex, tailData.IsRegex),
+                new XElement(XmlBaseStructure.PatternString, tailData.PatternString)));
 
           var filters = new XElement(XmlNames.Filters);
 
@@ -294,8 +295,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         updateNode.Element(XmlNames.UseSmartWatch)?.SetValue(tailData.SmartWatch);
         updateNode.Element(XmlNames.Font)?.Element(XmlBaseStructure.Name)?.SetValue(tailData.FontType.FontFamily.Source);
         updateNode.Element(XmlNames.Font)?.Element(XmlNames.Size)?.SetValue(tailData.FontType.FontSize);
-        //updateNode.Element(XmlNames.Font)?.Element(XmlNames.Bold)?.SetValue(tailData.FontType.Bold);
-        //updateNode.Element(XmlNames.Font)?.Element(XmlNames.Italic)?.SetValue(tailData.FontType.Italic);
+        updateNode.Element(XmlNames.Font)?.Element(XmlNames.Weight)?.SetValue(tailData.FontType.FontWeight);
+        updateNode.Element(XmlNames.Font)?.Element(XmlNames.Style)?.SetValue(tailData.FontType.FontStyle);
         updateNode.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.IsRegex)?.SetValue(tailData.IsRegex);
         updateNode.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.PatternString)?.SetValue(tailData.PatternString ?? string.Empty);
 
@@ -456,16 +457,41 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       {
         Name = xmlFont.Element(XmlBaseStructure.Name)?.Value,
         Size = (xmlFont.Element(XmlNames.Size)?.Value).ConvertToFloat(),
-        Bold = (xmlFont.Element(XmlNames.Bold)?.Value).ConvertToBool(),
-        Iitalic = (xmlFont.Element(XmlNames.Italic)?.Value).ConvertToBool()
+        Weight = xmlFont.Element(XmlNames.Weight)?.Value,
+        Style = xmlFont.Element(XmlNames.Style)?.Value
       };
 
-      //FontStyle fs = FontStyle.Regular;
-      //fs |= font.Bold ? FontStyle.Bold : FontStyle.Regular;
-      //fs |= font.Iitalic ? FontStyle.Italic : FontStyle.Regular;
+      FontWeight fontWeight;
+      FontStyle fontStyle;
 
-      //return new Font(font.Name, font.Size, fs);
-      return new FontType();
+      try
+      {
+        // ReSharper disable once PossibleNullReferenceException
+        fontWeight = (FontWeight) new FontWeightConverter().ConvertFromString(font.Weight);
+      }
+      catch
+      {
+        fontWeight = FontWeights.Normal;
+      }
+
+      try
+      {
+        // ReSharper disable once PossibleNullReferenceException
+        fontStyle = (FontStyle) new FontStyleConverter().ConvertFromString(font.Style);
+      }
+      catch
+      {
+        fontStyle = FontStyles.Normal;
+      }
+
+      return new FontType
+      {
+        FontFamily = new FontFamily(font.Name),
+        FontSize = font.Size,
+        FontStretch = FontStretches.Normal,
+        FontWeight = fontWeight,
+        FontStyle = fontStyle
+      };
     }
 
     private static XElement AddFilterToDoc(FilterData filter)
@@ -480,9 +506,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         new XElement(XmlNames.FilterColor, filter.FilterColorHex),
         new XElement(XmlNames.Font,
           new XElement(XmlBaseStructure.Name, filter.FontType.FontFamily.Source),
-          new XElement(XmlNames.Size, filter.FontType.FontSize)));
-      //new XElement(XmlNames.Bold, filter.FilterFontType.Bold),
-      //new XElement(XmlNames.Italic, filter.FilterFontType.Italic)));
+          new XElement(XmlNames.Size, filter.FontType.FontSize),
+          new XElement(XmlNames.Weight, filter.FontType.FontWeight),
+          new XElement(XmlNames.Style, filter.FontType.FontStyle)));
 
       return newFilterElement;
     }
