@@ -103,6 +103,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     }
 
     /// <summary>
+    /// SplitWindow control
+    /// </summary>
+    ISplitWindowControl SplitWindow
+    {
+      get;
+    }
+
+    /// <summary>
     /// Create tail data window
     /// </summary>
     /// <param name="item"><see cref="TailData"/></param>

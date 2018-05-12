@@ -13,6 +13,7 @@ using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 
 
@@ -21,7 +22,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   /// <summary>
   /// Interaction logic for SplitWindowControl.xaml
   /// </summary>
-  public partial class SplitWindowControl : INotifyPropertyChanged
+  public partial class SplitWindowControl : INotifyPropertyChanged, ISplitWindowControl
   {
     private const double Offset = 5;
 
@@ -118,7 +119,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     #region Dependency properties
 
     /// <summary>
-    /// property
+    /// LogReaderService property
     /// </summary>
     public static readonly DependencyProperty LogReaderServiceProperty = DependencyProperty.Register(nameof(LogReaderService), typeof(LogReadService), typeof(SplitWindowControl),
       new PropertyMetadata(null, OnLogReaderServiceChanged));
@@ -155,7 +156,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     /// <summary>
-    /// 
+    /// LogReaderService
     /// </summary>
     public LogReadService LogReaderService
     {

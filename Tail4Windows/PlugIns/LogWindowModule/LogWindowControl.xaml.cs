@@ -237,7 +237,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Lines read
     /// </summary>
-    public int LinesRead => SplitWindowControl.LinesRead;
+    public int LinesRead => SplitWindow.LinesRead;
+
+    /// <summary>
+    /// SplitWindow control
+    /// </summary>
+    public ISplitWindowControl SplitWindow => SplitWindowControl;
 
     /// <summary>
     /// Thread priority is enable
@@ -451,14 +456,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
-    private bool CanExecuteClearLogWindowCommand() => SplitWindowControl.LogEntries != null && SplitWindowControl.LogEntries.Count != 0;
+    private bool CanExecuteClearLogWindowCommand() => SplitWindow.LogEntries != null && SplitWindow.LogEntries.Count != 0;
 
     private void ExecuteClearLogWindowCommand()
     {
       lock ( LogWindowControlLock )
       {
         MouseService.SetBusyState();
-        SplitWindowControl.LogEntries.Clear();
+        SplitWindow.LogEntries.Clear();
 
         GC.Collect();
         GC.WaitForPendingFinalizers();
@@ -470,9 +475,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     }
 
-    private bool CanExecutePrintTailDataCommand() => SplitWindowControl.LogEntries.Count != 0 && FileIsValid;
+    private bool CanExecutePrintTailDataCommand() => SplitWindow.LogEntries.Count != 0 && FileIsValid;
 
-    private void ExecutePrintTailDataCommand() => _printerController.PrintDocument(SplitWindowControl.LogEntries, CurrentTailData);
+    private void ExecutePrintTailDataCommand() => _printerController.PrintDocument(SplitWindow.LogEntries, CurrentTailData);
 
     private bool CanExecuteQuickSaveCommand() => FileIsValid && CurrentTailData.OpenFromFileManager;
 
@@ -613,7 +618,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       MouseService.SetBusyState();
 
       TailReader = new LogReadService();
-      SplitWindowControl.LogReaderService = (LogReadService) TailReader;
+      SplitWindow.LogReaderService = (LogReadService) TailReader;
 
       if ( !File.Exists(SelectedItem) )
       {
@@ -809,7 +814,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       lock ( LogWindowControlLock )
       {
-        SplitWindowControl.LogEntries = null;
+        SplitWindow.LogEntries = null;
         CurrentTailData = null;
 
         GC.Collect();
