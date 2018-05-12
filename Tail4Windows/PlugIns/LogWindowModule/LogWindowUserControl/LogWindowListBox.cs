@@ -297,17 +297,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// </summary>
     public LogWindowListBox()
     {
-      MouseLeftButtonDown += LogWindowListBox_MouseLeftButtonDown;
       PreviewMouseLeftButtonDown += LogWindowListBoxOnPreviewMouseLeftButtonDown;
       PreviewMouseLeftButtonUp += LogWindowListBoxOnPreviewMouseLeftButtonUp;
 
       PreviewMouseRightButtonDown += LogWindowListBoxOnPreviewMouseRightButtonDown;
       PreviewMouseRightButtonUp += LogWindowListBoxOnPreviewMouseRightButtonUp;
-    }
-
-    private void LogWindowListBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-    {
-      LOG.Debug("MouseLeftButtonDown");
     }
 
     #region Mouse events
@@ -352,7 +346,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage();
       bp.BeginInit();
-      bp.UriSource = new Uri("/T4W;component/Resources/breakpoint.png", UriKind.Relative);
+      bp.UriSource = new Uri("/T4W;component/Resources/Boomark.png", UriKind.Relative);
       bp.EndInit();
 
       RenderOptions.SetBitmapScalingMode(bp, BitmapScalingMode.NearestNeighbor);
@@ -389,7 +383,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       System.Windows.Media.Imaging.BitmapImage icon = new System.Windows.Media.Imaging.BitmapImage();
       icon.BeginInit();
-      icon.UriSource = new Uri("/T4W;component/Resources/trash-icon.png", UriKind.Relative);
+      icon.UriSource = new Uri("/T4W;component/Resources/Delete_Bookmark.png", UriKind.Relative);
       icon.EndInit();
 
       RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
@@ -483,6 +477,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         return;
 
       var mouse = e.GetPosition(splitWindow);
+      LOG.Debug($"Current mouse position {mouse.Y}");
 
       if ( mouse.Y <= 5 )
       {
@@ -494,8 +489,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         gridSplitter.Visibility = Visibility.Visible;
         splitWindow.SplitterPosition = mouse.Y;
       }
-
-      LOG.Trace($"Current mouse position {mouse.Y}");
     }
 
     /// <summary>

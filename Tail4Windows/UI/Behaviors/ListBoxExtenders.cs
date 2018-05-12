@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 
-namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behaviors
+namespace Org.Vs.TailForWin.UI.Behaviors
 {
   /// <summary>
   /// This class contains a few useful extenders for the ListBox

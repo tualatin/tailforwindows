@@ -5,7 +5,7 @@ using System.Windows.Input;
 using Org.Vs.TailForWin.Business.Data;
 
 
-namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behaviors
+namespace Org.Vs.TailForWin.UI.Behaviors
 {
   /// <summary>
   /// ListBoxCopy

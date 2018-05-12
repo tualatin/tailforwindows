@@ -5,13 +5,11 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-  xmlns:behav="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.Behaviors"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behaviors"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:genericBehaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:logWindowListBox="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl"
-  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.ViewModels"
   mc:Ignorable="d"
   d:DataContext="{Binding RelativeSource={RelativeSource Self}}"
   d:DesignHeight="450"
@@ -45,9 +43,10 @@
 
     <logWindowListBox:LogWindowListBox
       Grid.Row="0"
-      behaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
-      behaviors:ListBoxCopy.AutoCopy="True"
-      behaviors:ListBoxSelector.Enabled="True"
+      genericBehaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
+      genericBehaviors:ListBoxCopy.AutoCopy="True"
+      genericBehaviors:ListBoxSelector.Enabled="True"
+      genericBehaviors:ListBoxSelector.Offset="20"
       />
 
     <GridSplitter
@@ -64,9 +63,10 @@
       CurrentTailData="{Binding ElementName=SplitWindow, Path=CurrentTailData}"
       ItemsSource="{Binding LogEntries}"
       ShowGridSplitControl="True"
-      behaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
-      behaviors:ListBoxCopy.AutoCopy="True"
-      behaviors:ListBoxSelector.Enabled="True"
+      genericBehaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
+      genericBehaviors:ListBoxCopy.AutoCopy="True"
+      genericBehaviors:ListBoxSelector.Enabled="True"
+      genericBehaviors:ListBoxSelector.Offset="20"
       >
       <i:Interaction.Triggers>
         <i:EventTrigger EventName="ClearItemsEvent">

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -9,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 
 
-namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behaviors
+namespace Org.Vs.TailForWin.UI.Behaviors
 {
   /// <summary>
   /// ListBoxSelector
@@ -57,6 +58,38 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
     /// <param name="obj">Object on which to set the property.</param>
     /// <param name="value">Value to set.</param>
     public static void SetEnabled(DependencyObject obj, bool value) => obj.SetValue(EnabledProperty, value);
+
+    /// <summary>
+    /// Identifies the Offset attached property.
+    /// </summary>
+    public static readonly DependencyProperty OffsetProperty = DependencyProperty.RegisterAttached("Offset", typeof(int), typeof(ListBoxSelector),
+      new UIPropertyMetadata(0, OffsetChanged));
+
+    /// <summary>
+    /// Gets the value of the Offset attached property that indicates
+    /// whether a selection rectangle can be used to select items or not.
+    /// </summary>
+    /// <param name="obj">Object on which to get the property.</param>
+    /// <returns>
+    /// true if items can be selected by a selection rectangle; otherwise, false.
+    /// </returns>
+    public static int GetOffset(DependencyObject obj) => (int) obj.GetValue(OffsetProperty);
+
+    /// <summary>
+    /// Sets the value of the Offset attached property that indicates
+    /// whether a selection rectangle can be used to select items or not.
+    /// </summary>
+    /// <param name="obj">Object on which to set the property.</param>
+    /// <param name="value">Value to set.</param>
+    public static void SetOffset(DependencyObject obj, int value) => obj.SetValue(OffsetProperty, value);
+
+    private static void OffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+      if ( !(d is ListBox listBox) )
+        return;
+
+
+    }
 
     private static void IsEnabledChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -196,7 +229,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
     {
       var mouse = e.GetPosition(_scrollContent);
 
-      if ( mouse.X >= 0 && mouse.X < _scrollContent.ActualWidth &&
+      var listBoxPair = AttachedControls.FirstOrDefault(p => Equals(p.Key, sender as ListBox));
+      var offset = GetOffset(listBoxPair.Key);
+
+      if ( mouse.X >= offset && mouse.X < _scrollContent.ActualWidth &&
           mouse.Y >= 0 && mouse.Y < _scrollContent.ActualHeight )
       {
         if ( (Keyboard.Modifiers & ModifierKeys.Control) == 0 &&
@@ -236,19 +272,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
       // scroll bars for example).
       var mouse = e.GetPosition(_scrollContent);
 
-      if ( mouse.X >= 0 && mouse.X < _scrollContent.ActualWidth &&
+      var listBoxPair = AttachedControls.FirstOrDefault(p => Equals(p.Key, sender as ListBox));
+      var offset = GetOffset(listBoxPair.Key);
+
+      if ( mouse.X >= offset && mouse.X < _scrollContent.ActualWidth &&
           mouse.Y >= 0 && mouse.Y < _scrollContent.ActualHeight )
         _lbdEventArgs = e;
       else
         _lbdEventArgs = null;
-
-      //if (mouse.X < 0 || mouse.X >= this.scrollContent.ActualWidth || mouse.Y < 0 || mouse.Y >= this.scrollContent.ActualHeight)
-      //  return;
-
-      //this.mouseCaptured = this.TryCaptureMouse (e);
-
-      //if (this.mouseCaptured)
-      //  this.StartSelection (mouse);
     }
 
     private bool TryCaptureMouse(MouseEventArgs e)

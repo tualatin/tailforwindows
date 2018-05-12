@@ -230,9 +230,9 @@
       <DependentUpon>LogWindowControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\GridSplitterMouseExtension.cs" />
-    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\ListBoxCopy.cs" />
-    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\ListBoxExtenders.cs" />
-    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\ListBoxSelector.cs" />
+    <Compile Include="UI\Behaviors\ListBoxCopy.cs" />
+    <Compile Include="UI\Behaviors\ListBoxExtenders.cs" />
+    <Compile Include="UI\Behaviors\ListBoxSelector.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\LogWindowListBox.cs" />
     <Compile Include="PlugIns\LogWindowModule\SplitWindowControl.xaml.cs">
       <DependentUpon>SplitWindowControl.xaml</DependentUpon>
@@ -519,9 +519,9 @@
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
-    <Resource Include="Resources\breakpoint.png" />
+    <Resource Include="Resources\Boomark.png" />
+    <Resource Include="Resources\Delete_Bookmark.png" />
     <Resource Include="Resources\RightArrow.cur" />
-    <Resource Include="Resources\trash-icon.png" />
     <Page Include="BaseView\Options.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -842,22 +842,12 @@
     <Resource Include="Resources\update.png" />
     <Resource Include="Resources\internet.ico" />
     <Resource Include="Resources\local.ico" />
-    <Resource Include="Resources\update.ico" />
     <Resource Include="Resources\about.png" />
     <Resource Include="Resources\QuickSearch.png" />
     <Resource Include="Resources\Main_bw.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\add.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Alert.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Arrow-down.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Arrow-up.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Cancel.ico" />
@@ -867,9 +857,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\colors.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\ColorSwatch.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\EMail.ico" />
@@ -885,9 +872,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Font.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\grip.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Import.ico" />
@@ -915,15 +899,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Search.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\SplitterHandle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\start.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\stop.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\system.ico" />
