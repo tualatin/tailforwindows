@@ -20,6 +20,8 @@ using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
+using Org.Vs.TailForWin.PlugIns.FontChooserModule;
+using Org.Vs.TailForWin.PlugIns.FontChooserModule.Data;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -291,7 +293,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// Font command
     /// </summary>
-    public ICommand FontCommand => _fontCommand ?? (_fontCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteFontCommand()));
+    public ICommand FontCommand => _fontCommand ?? (_fontCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteFontCommand((Window) p)));
 
     private ICommand _filterCommand;
 
@@ -316,24 +318,20 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       OnPropertyChanged(nameof(SelectedItem));
     }
 
-    private void ExecuteFontCommand()
+    private void ExecuteFontCommand(Window window)
     {
       if ( SelectedItem == null )
         return;
 
-      var filterFont = new System.Drawing.Font(SelectedItem.FontType.FontFamily, SelectedItem.FontType.Size, SelectedItem.FontType.Style);
-      var fontManager = new System.Windows.Forms.FontDialog
+      var fontManager = new FontChooseDialog
       {
-        ShowEffects = true,
-        Font = filterFont,
-        FontMustExist = true,
+        Owner = window,
+        SelectedFont = new FontInfo(SelectedItem.FontType.FontFamily, SelectedItem.FontType.FontSize, SelectedItem.FontType.FontStyle,
+          SelectedItem.FontType.FontWeight, SelectedItem.FontType.FontStretch)
       };
 
-      if ( fontManager.ShowDialog() == System.Windows.Forms.DialogResult.Cancel )
-        return;
-
-      filterFont = new System.Drawing.Font(fontManager.Font.FontFamily, fontManager.Font.Size, fontManager.Font.Style);
-      SelectedItem.FontType = filterFont;
+      if ( fontManager.ShowDialog() == true )
+        SelectedItem.FontType = fontManager.SelectedFont.FontType;
     }
 
     private void ExecuteGroupByClickCommand() => SetFileManagerViewGrouping();

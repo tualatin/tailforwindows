@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -17,8 +16,6 @@ using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
-
-using FontStyle = System.Drawing.FontStyle;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
@@ -108,7 +105,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
             Id = GetIdByElement(x.Element(XmlNames.Id)?.Value),
             Description = x.Element(XmlNames.FilterName)?.Value,
             Filter = x.Element(XmlNames.FilterPattern)?.Value,
-            FilterFontType = GetFont(x.Element(XmlNames.Font)),
+            FontType = GetFont(x.Element(XmlNames.Font)),
             FilterColorHex = x.Element(XmlNames.FilterColor)?.Value ?? DefaultEnvironmentSettings.FilterFontColor
           }).ToList() ?? throw new InvalidOperationException())
         }).ToList();
@@ -208,7 +205,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
           }
 
           if ( tailData.FontType == null )
-            tailData.FontType = EnvironmentContainer.CreateDefaultFont();
+            tailData.FontType = new FontType();
 
           var node = new XElement(XmlNames.File,
             new XElement(XmlNames.Id, tailData.Id),
@@ -227,10 +224,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
             new XElement(XmlNames.UseSmartWatch, tailData.SmartWatch),
             new XElement(XmlNames.TabItemBackgroundColor, tailData.TabItemBackgroundColorStringHex),
             new XElement(XmlNames.Font,
-              new XElement(XmlBaseStructure.Name, tailData.FontType.Name),
-              new XElement(XmlNames.Size, tailData.FontType.Size),
-              new XElement(XmlNames.Bold, tailData.FontType.Bold),
-              new XElement(XmlNames.Italic, tailData.FontType.Italic)),
+              new XElement(XmlBaseStructure.Name, tailData.FontType.FontFamily.Source),
+              new XElement(XmlNames.Size, tailData.FontType.FontSize)),
+            //new XElement(XmlNames.Bold, tailData.FontType.Bold),
+            //new XElement(XmlNames.Italic, tailData.FontType.Italic)),
             new XElement(XmlNames.SearchPattern,
               new XElement(XmlBaseStructure.IsRegex, tailData.IsRegex),
               new XElement(XmlBaseStructure.PatternString, tailData.PatternString)));
@@ -295,10 +292,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         updateNode.Element(XmlNames.UsePattern)?.SetValue(tailData.UsePattern);
         updateNode.Element(XmlNames.TabItemBackgroundColor)?.SetValue(tailData.TabItemBackgroundColorStringHex ?? string.Empty);
         updateNode.Element(XmlNames.UseSmartWatch)?.SetValue(tailData.SmartWatch);
-        updateNode.Element(XmlNames.Font)?.Element(XmlBaseStructure.Name)?.SetValue(tailData.FontType.Name);
-        updateNode.Element(XmlNames.Font)?.Element(XmlNames.Size)?.SetValue(tailData.FontType.Size);
-        updateNode.Element(XmlNames.Font)?.Element(XmlNames.Bold)?.SetValue(tailData.FontType.Bold);
-        updateNode.Element(XmlNames.Font)?.Element(XmlNames.Italic)?.SetValue(tailData.FontType.Italic);
+        updateNode.Element(XmlNames.Font)?.Element(XmlBaseStructure.Name)?.SetValue(tailData.FontType.FontFamily.Source);
+        updateNode.Element(XmlNames.Font)?.Element(XmlNames.Size)?.SetValue(tailData.FontType.FontSize);
+        //updateNode.Element(XmlNames.Font)?.Element(XmlNames.Bold)?.SetValue(tailData.FontType.Bold);
+        //updateNode.Element(XmlNames.Font)?.Element(XmlNames.Italic)?.SetValue(tailData.FontType.Italic);
         updateNode.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.IsRegex)?.SetValue(tailData.IsRegex);
         updateNode.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.PatternString)?.SetValue(tailData.PatternString ?? string.Empty);
 
@@ -450,10 +447,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       return encoding;
     }
 
-    private static Font GetFont(XContainer xmlFont)
+    private static FontType GetFont(XContainer xmlFont)
     {
       if ( xmlFont == null )
-        return EnvironmentContainer.CreateDefaultFont();
+        return new FontType();
 
       var font = new
       {
@@ -463,17 +460,18 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         Iitalic = (xmlFont.Element(XmlNames.Italic)?.Value).ConvertToBool()
       };
 
-      FontStyle fs = FontStyle.Regular;
-      fs |= font.Bold ? FontStyle.Bold : FontStyle.Regular;
-      fs |= font.Iitalic ? FontStyle.Italic : FontStyle.Regular;
+      //FontStyle fs = FontStyle.Regular;
+      //fs |= font.Bold ? FontStyle.Bold : FontStyle.Regular;
+      //fs |= font.Iitalic ? FontStyle.Italic : FontStyle.Regular;
 
-      return new Font(font.Name, font.Size, fs);
+      //return new Font(font.Name, font.Size, fs);
+      return new FontType();
     }
 
     private static XElement AddFilterToDoc(FilterData filter)
     {
-      if ( filter.FilterFontType == null )
-        filter.FilterFontType = EnvironmentContainer.CreateDefaultFont();
+      if ( filter.FontType == null )
+        filter.FontType = new FontType();
 
       XElement newFilterElement = new XElement(XmlNames.Filter,
         new XElement(XmlNames.Id, filter.Id),
@@ -481,10 +479,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         new XElement(XmlNames.FilterPattern, filter.Filter),
         new XElement(XmlNames.FilterColor, filter.FilterColorHex),
         new XElement(XmlNames.Font,
-          new XElement(XmlBaseStructure.Name, filter.FilterFontType.Name),
-          new XElement(XmlNames.Size, filter.FilterFontType.Size),
-          new XElement(XmlNames.Bold, filter.FilterFontType.Bold),
-          new XElement(XmlNames.Italic, filter.FilterFontType.Italic)));
+          new XElement(XmlBaseStructure.Name, filter.FontType.FontFamily.Source),
+          new XElement(XmlNames.Size, filter.FontType.FontSize)));
+      //new XElement(XmlNames.Bold, filter.FilterFontType.Bold),
+      //new XElement(XmlNames.Italic, filter.FilterFontType.Italic)));
 
       return newFilterElement;
     }

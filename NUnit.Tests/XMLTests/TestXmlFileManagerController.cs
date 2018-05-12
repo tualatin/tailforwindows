@@ -55,7 +55,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         FileEncoding = Encoding.ASCII,
         FilterState = false,
         UsePattern = true,
-        FontType = new Font("Segoe UI", 12f, FontStyle.Regular),
+        //FontType = new Font("Segoe UI", 12f, FontStyle.Regular),
         SmartWatch = false,
         IsRegex = false,
         TabItemBackgroundColorStringHex = "#FFE5C365",
@@ -67,14 +67,14 @@ namespace Org.Vs.NUnit.Tests.XmlTests
             Id = Guid.Parse("e8378c20-c0cc-457e-872f-c4139539dec9"),
             Description = "Error filter",
             Filter = "error",
-            FilterFontType = new Font("Tahoma", 12f, FontStyle.Regular)
+            //FilterFontType = new Font("Tahoma", 12f, FontStyle.Regular)
           },
           new FilterData
           {
             Id = Guid.Parse("e8378c20-c1cc-457e-872f-c4139539dec9"),
             Description = "Debug filter",
             Filter = "debug",
-            FilterFontType = new Font("Tahoma", 12f, FontStyle.Regular)
+            //FilterFontType = new Font("Tahoma", 12f, FontStyle.Regular)
           }
         }
       };
@@ -122,7 +122,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
 
         Assert.AreEqual(t.Id, filter.Id);
         Assert.AreEqual(t.Description, filter.Description);
-        Assert.AreEqual(t.FilterFontType, filter.FilterFontType);
+        //Assert.AreEqual(t.FilterFontType, filter.FilterFontType);
         Assert.AreEqual(t.Filter, filter.Filter);
       }
     }
@@ -187,7 +187,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
 
         Assert.AreEqual(t.Id, filter.Id);
         Assert.AreEqual(t.Description, filter.Description);
-        Assert.AreEqual(t.FilterFontType, filter.FilterFontType);
+        //Assert.AreEqual(t.FilterFontType, filter.FilterFontType);
         Assert.AreEqual(t.Filter, filter.Filter);
       }
 
@@ -213,7 +213,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         PatternString = string.Empty,
         FilterState = true,
         UsePattern = true,
-        FontType = new Font("Segoe UI", 12f, FontStyle.Bold),
+        //FontType = new Font("Segoe UI", 12f, FontStyle.Bold),
         SmartWatch = true,
         IsRegex = false,
         TabItemBackgroundColorStringHex = "#FFE5C365",
@@ -223,7 +223,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
           {
             Description = "Test filter",
             Filter = "test",
-            FilterFontType = new Font("Tahoma", 12f, FontStyle.Italic)
+            //FilterFontType = new Font("Tahoma", 12f, FontStyle.Italic)
           }
         }
       };
@@ -260,7 +260,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       {
         Assert.AreEqual(tailData.ListOfFilter[i].Id, xmlTailData.ListOfFilter[i].Id);
         Assert.AreEqual(tailData.ListOfFilter[i].Description, xmlTailData.ListOfFilter[i].Description);
-        Assert.AreEqual(tailData.ListOfFilter[i].FilterFontType, xmlTailData.ListOfFilter[i].FilterFontType);
+        //Assert.AreEqual(tailData.ListOfFilter[i].FilterFontType, xmlTailData.ListOfFilter[i].FilterFontType);
         Assert.AreEqual(tailData.ListOfFilter[i].Filter, xmlTailData.ListOfFilter[i].Filter);
       }
     }
@@ -292,7 +292,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         FileEncoding = Encoding.UTF8,
         FilterState = true,
         UsePattern = true,
-        FontType = new Font("Segoe UI", 12f, FontStyle.Bold),
+        //FontType = new Font("Segoe UI", 12f, FontStyle.Bold),
         SmartWatch = true,
         IsRegex = false,
         ListOfFilter = new ObservableCollection<FilterData>
@@ -301,7 +301,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
           {
             Description = "Test filter",
             Filter = "test",
-            FilterFontType = new Font("Tahoma", 12f, FontStyle.Italic)
+            //FilterFontType = new Font("Tahoma", 12f, FontStyle.Italic)
           }
         }
       };
@@ -335,7 +335,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       {
         Assert.AreEqual(tailData.ListOfFilter[i].Id, xmlTailData.ListOfFilter[i].Id);
         Assert.AreEqual(tailData.ListOfFilter[i].Description, xmlTailData.ListOfFilter[i].Description);
-        Assert.AreEqual(tailData.ListOfFilter[i].FilterFontType, xmlTailData.ListOfFilter[i].FilterFontType);
+        //Assert.AreEqual(tailData.ListOfFilter[i].FilterFontType, xmlTailData.ListOfFilter[i].FilterFontType);
         Assert.AreEqual(tailData.ListOfFilter[i].Filter, xmlTailData.ListOfFilter[i].Filter);
       }
     }
@@ -347,7 +347,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
 
       _tailData.Description = "Windows";
       _tailData.Category = "For testing";
-      _tailData.FontType = new Font("Tahoma", 10f, FontStyle.Bold);
+      //_tailData.FontType = new Font("Tahoma", 10f, FontStyle.Bold);
       _tailData.FileName = @"C:\Test\Test.log";
       _tailData.ListOfFilter.Clear();
 
@@ -369,7 +369,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         Description = "Test Filter",
         Filter = "filter",
         FilterColorHex = "#FFF3F3F3F3",
-        FilterFontType = new Font("Tahoma", 9f, FontStyle.Italic)
+        //FilterFontType = new Font("Tahoma", 9f, FontStyle.Italic)
       });
 
       await _xmlReader.UpdateTailDataInXmlFileAsync(_cts.Token, _tailData).ConfigureAwait(false);
@@ -384,7 +384,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       Assert.AreEqual(_tailData.ListOfFilter.First().Description, filter.Description);
       Assert.AreEqual(_tailData.ListOfFilter.First().Filter, filter.Filter);
       Assert.AreEqual(_tailData.ListOfFilter.First().FilterColorHex, filter.FilterColorHex);
-      Assert.AreEqual(_tailData.ListOfFilter.First().FilterFontType, filter.FilterFontType);
+      //Assert.AreEqual(_tailData.ListOfFilter.First().FilterFontType, filter.FilterFontType);
     }
 
     [Test]

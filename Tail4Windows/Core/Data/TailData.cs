@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Drawing;
 using System.IO;
 using System.Text;
 using log4net;
@@ -28,7 +27,8 @@ namespace Org.Vs.TailForWin.Core.Data
     public TailData()
     {
       Id = Guid.NewGuid();
-      FontType = new Font("Segoe UI", 11f, FontStyle.Regular);
+
+      FontType = new FontType();
       AutoRun = true;
       TabItemBackgroundColorStringHex = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor;
       RefreshRate = SettingsHelperController.CurrentSettings.DefaultRefreshRate;
@@ -342,12 +342,12 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
-    private Font _fontType;
+    private FontType _fontType;
 
     /// <summary>
-    /// Font type
+    /// <see cref="Data.FontType"/>
     /// </summary>
-    public Font FontType
+    public FontType FontType
     {
       get => _fontType;
       set
@@ -594,14 +594,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Releases all resources used by the TailData.
     /// </summary>
-    public void Dispose()
-    {
-      if ( FontType == null )
-        return;
-
-      FontType.Dispose();
-      FontType = null;
-    }
+    public void Dispose() => FontType = null;
 
     /// <summary>
     /// Gets the error message for the property with the given name.

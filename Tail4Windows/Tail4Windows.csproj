@@ -201,6 +201,7 @@
     <Compile Include="Business\Interfaces\ILogReadService.cs" />
     <Compile Include="Business\Services\LogReadService.cs" />
     <Compile Include="Business\Utils\BusinessHelper.cs" />
+    <Compile Include="Core\Data\FontType.cs" />
     <Compile Include="Core\Utils\QueueSet.cs" />
     <Compile Include="Core\Utils\SafeObservable.cs" />
     <Compile Include="Core\Utils\UndoRedoManager\Command.cs" />
@@ -219,6 +220,13 @@
     </Compile>
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FileManagerViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FilterManagerViewModel.cs" />
+    <Compile Include="PlugIns\FontChooserModule\Data\FontInfo.cs" />
+    <Compile Include="PlugIns\FontChooserModule\FontChooseDialog.xaml.cs">
+      <DependentUpon>FontChooseDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\FontChooserModule\FontChooser.xaml.cs">
+      <DependentUpon>FontChooser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlugIns\LogWindowModule\Behaviors\LogEntryItems.cs" />
     <Compile Include="PlugIns\LogWindowModule\Controller\XmlHistoryController.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\XmlNames.cs" />
@@ -520,6 +528,7 @@
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
+    <Resource Include="Resources\colorfont_icon.png" />
     <Resource Include="Resources\Boomark.png" />
     <Resource Include="Resources\Delete_Bookmark.png" />
     <Resource Include="Resources\RightArrow.cur" />
@@ -580,6 +589,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlugIns\FileManagerModule\FilterManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\FontChooserModule\FontChooseDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\FontChooserModule\FontChooser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

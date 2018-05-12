@@ -563,6 +563,7 @@
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
                   Command="{Binding FontCommand}"
+                  CommandParameter="{Binding ElementName=FileManagerWindow}"
                   >
                   <StackPanel>
                     <Image

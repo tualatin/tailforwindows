@@ -1,10 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Drawing;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
-
-using FontStyle = System.Drawing.FontStyle;
 
 
 namespace Org.Vs.TailForWin.Core.Data
@@ -20,21 +17,14 @@ namespace Org.Vs.TailForWin.Core.Data
     public FilterData()
     {
       Id = Guid.NewGuid();
-      FilterFontType = new Font("Segoe UI", 11f, FontStyle.Regular);
+      FontType = new FontType();
       FilterColorHex = DefaultEnvironmentSettings.FilterFontColor;
     }
 
     /// <summary>
     /// Releases all resources used by the FilterData.
     /// </summary>
-    public void Dispose()
-    {
-      if ( _filterFontType == null )
-        return;
-
-      _filterFontType.Dispose();
-      _filterFontType = null;
-    }
+    public void Dispose() => FontType = null;
 
     private Guid _id;
 
@@ -105,21 +95,21 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
-    private Font _filterFontType;
+    private FontType _fontType;
 
     /// <summary>
-    /// Font type
+    /// <see cref="Data.FontType"/>
     /// </summary>
-    public Font FilterFontType
+    public FontType FontType
     {
-      get => _filterFontType;
+      get => _fontType;
       set
       {
-        if ( Equals(value, _filterFontType) )
+        if ( Equals(value, _fontType) )
           return;
 
-        var currentValue = _filterFontType;
-        ChangeState(new Command(() => _filterFontType = value, () => _filterFontType = currentValue, nameof(FilterFontType), Notification));
+        var currentValue = _fontType;
+        ChangeState(new Command(() => _fontType = value, () => _fontType = currentValue, nameof(FontType), Notification));
       }
     }
 

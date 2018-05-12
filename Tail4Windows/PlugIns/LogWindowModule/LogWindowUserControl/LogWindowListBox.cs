@@ -68,66 +68,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     /// <summary>
-    /// Text editor font style property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorFontStyleProperty = DependencyProperty.Register("TextEditorFontStyle", typeof(FontStyle), typeof(LogWindowListBox),
-      new PropertyMetadata(FontStyles.Normal));
-
-    /// <summary>
-    /// Text editor font style
-    /// </summary>
-    public FontStyle TextEditorFontStyle
-    {
-      get => (FontStyle) GetValue(TextEditorFontStyleProperty);
-      set => SetValue(TextEditorFontStyleProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor font family property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorFontFamilyProperty = DependencyProperty.Register("TextEditorFontFamily", typeof(FontFamily), typeof(LogWindowListBox),
-      new PropertyMetadata(new FontFamily("Segoe UI")));
-
-    /// <summary>
-    /// Text editor font family
-    /// </summary>
-    public FontFamily TextEditorFontFamily
-    {
-      get => (FontFamily) GetValue(TextEditorFontFamilyProperty);
-      set => SetValue(TextEditorFontFamilyProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor font weight property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorFontWeightProperty = DependencyProperty.Register("TextEditorFontWeight", typeof(FontWeight), typeof(LogWindowListBox),
-      new PropertyMetadata(FontWeights.Normal));
-
-    /// <summary>
-    /// Text editor font weight
-    /// </summary>
-    public FontWeight TextEditorFontWeight
-    {
-      get => (FontWeight) GetValue(TextEditorFontWeightProperty);
-      set => SetValue(TextEditorFontWeightProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor font size property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorFontSizeProperty = DependencyProperty.Register("TextEditorFontSize", typeof(int), typeof(LogWindowListBox),
-      new PropertyMetadata(12));
-
-    /// <summary>
-    /// Text editor font size
-    /// </summary>
-    public int TextEditorFontSize
-    {
-      get => (int) GetValue(TextEditorFontSizeProperty);
-      set => SetValue(TextEditorFontSizeProperty, value);
-    }
-
-    /// <summary>
     /// Text editor selection color porperty
     /// </summary>
     public static readonly DependencyProperty TextEditorSelectionColorHexProperty = DependencyProperty.Register("TextEditorSelectionColorHex", typeof(string), typeof(LogWindowListBox),

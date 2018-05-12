@@ -2,6 +2,8 @@
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Data;
+using Org.Vs.TailForWin.Core.Data;
+
 
 namespace Org.Vs.TailForWin.UI.Converters
 {
@@ -21,8 +23,8 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if ( value is Font font )
-        return $"{font.Name} ({font.Size}) {(font.Italic ? "Italic" : string.Empty)} {(font.Bold ? "Bold" : string.Empty)}";
+      if ( value is FontType font )
+        return $"{font.FontFamily.Source} ({font.FontSize:0.#})";
 
       return string.Empty;
     }

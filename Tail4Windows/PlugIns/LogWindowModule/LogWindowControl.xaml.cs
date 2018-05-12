@@ -26,6 +26,8 @@ using Org.Vs.TailForWin.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels;
+using Org.Vs.TailForWin.PlugIns.FontChooserModule;
+using Org.Vs.TailForWin.PlugIns.FontChooserModule.Data;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
@@ -433,27 +435,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( CurrentTailData == null )
         return;
 
-      var tailFont = new System.Drawing.Font(CurrentTailData.FontType.FontFamily, CurrentTailData.FontType.Size, CurrentTailData.FontType.Style);
-      var fontManager = new System.Windows.Forms.FontDialog
+      var fontManager = new FontChooseDialog
       {
-        ShowEffects = true,
-        Font = tailFont,
-        FontMustExist = true,
-        ShowColor = false
+        Owner = Window.GetWindow(this),
+        SelectedFont = new FontInfo(CurrentTailData.FontType.FontFamily, CurrentTailData.FontType.FontSize, CurrentTailData.FontType.FontStyle,
+          CurrentTailData.FontType.FontWeight, CurrentTailData.FontType.FontStretch)
       };
 
-      try
-      {
-        if ( fontManager.ShowDialog() == System.Windows.Forms.DialogResult.Cancel )
-          return;
-
-        tailFont = new System.Drawing.Font(fontManager.Font.FontFamily, fontManager.Font.Size, fontManager.Font.Style);
-        CurrentTailData.FontType = tailFont;
-      }
-      catch
-      {
-        // Nothing
-      }
+      if ( fontManager.ShowDialog() == true )
+        CurrentTailData.FontType = fontManager.SelectedFont.FontType;
     }
 
     private bool CanExecuteClearLogWindowCommand() => SplitWindow.LogEntries != null && SplitWindow.LogEntries.Count != 0;

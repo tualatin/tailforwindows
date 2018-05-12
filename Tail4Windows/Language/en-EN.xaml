@@ -359,6 +359,11 @@
   <system:String x:Key="AlertOptionTestMail">A test message</system:String>
   <system:String x:Key="AlertOptionSmtpSettingsNotValid">Please check the SMTP settings! Do you want open to this now?</system:String>
 
+  <system:String x:Key="FontChooserTitle">Select font</system:String>
+  <system:String x:Key="FontChooserSampleText">Sample Text</system:String>
+  <system:String x:Key="FontChooserFontFamily">Font family</system:String>
+  <system:String x:Key="FontChooserStyleWeight">Style, weight, stretch</system:String>
+
   <system:String x:Key="QuickAddDialogTitle">QuickAdd</system:String>
   <system:String x:Key="DeleteBookmarks">Delete all bookmarks</system:String>
 </ResourceDictionary>

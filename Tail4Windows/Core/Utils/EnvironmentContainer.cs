@@ -181,12 +181,6 @@ namespace Org.Vs.TailForWin.Core.Utils
     public async Task ResetCurrentSettingsAsync(CancellationTokenSource cts) => await _settings.SetDefaultSettingsAsync(cts).ConfigureAwait(false);
 
     /// <summary>
-    /// Create default T4W font
-    /// </summary>
-    /// <returns>Default font configuration</returns>
-    public static Font CreateDefaultFont() => new Font("Segoe UI", 11f, System.Drawing.FontStyle.Regular);
-
-    /// <summary>
     /// Current installed .NET version
     /// </summary>
     public static int NetFrameworkKey
