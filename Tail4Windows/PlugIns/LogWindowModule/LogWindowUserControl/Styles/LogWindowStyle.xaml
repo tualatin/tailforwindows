@@ -58,9 +58,12 @@
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
 
-      <Grid Grid.Column="0">
+      <Grid
+        Grid.Column="0"
+        Background="Transparent"
+        >
         <Image
-          x:Name="TextBoxBreakpoint"
+          x:Name="TextBoxBookmarkPoint"
           Grid.Column="0"
           Width="16"
           Height="16"

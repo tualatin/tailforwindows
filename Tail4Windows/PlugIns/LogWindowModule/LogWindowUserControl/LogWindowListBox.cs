@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -12,6 +13,7 @@ using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.UI.Extensions;
 using Org.Vs.TailForWin.UI.Utils;
 
@@ -27,7 +29,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private ScrollViewer _scrollViewer;
     private Grid _splitGripControl;
+
     private bool _mouseDown;
+    private bool _isMouseLeftDownClick;
+    private bool _isMouseRightDownClick;
+
 
     #region Public properties
 
@@ -59,21 +65,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       get => (bool) GetValue(WordWrappingProperty);
       set => SetValue(WordWrappingProperty, value);
-    }
-
-    /// <summary>
-    /// Vertical scroll bar visibility property
-    /// </summary>
-    public static readonly DependencyProperty VerticalScrollbarVisibleProperty = DependencyProperty.Register("VerticalScrollbarVisible", typeof(ScrollBarVisibility), typeof(LogWindowListBox),
-      new PropertyMetadata(ScrollBarVisibility.Auto));
-
-    /// <summary>
-    /// TextEditor vertical scroll visible
-    /// </summary>
-    public ScrollBarVisibility VerticalScrollbarVisible
-    {
-      get => (ScrollBarVisibility) GetValue(VerticalScrollbarVisibleProperty);
-      set => SetValue(VerticalScrollbarVisibleProperty, value);
     }
 
     /// <summary>
@@ -149,21 +140,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       get => (string) GetValue(TextEditorSelectionColorHexProperty);
       set => SetValue(TextEditorSelectionColorHexProperty, value);
-    }
-
-    /// <summary>
-    /// Always scroll into view property
-    /// </summary>
-    public static readonly DependencyProperty AlwaysScrollIntoViewProperty = DependencyProperty.Register("AlwaysScrollIntoView", typeof(bool), typeof(LogWindowListBox),
-      new PropertyMetadata(true));
-
-    /// <summary>
-    /// Text editor scroll into view
-    /// </summary>
-    public bool AlwaysScrollIntoView
-    {
-      get => (bool) GetValue(AlwaysScrollIntoViewProperty);
-      set => SetValue(AlwaysScrollIntoViewProperty, value);
     }
 
     /// <summary>
@@ -317,13 +293,135 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     #endregion
 
     /// <summary>
+    /// Standard constructor
+    /// </summary>
+    public LogWindowListBox()
+    {
+      MouseLeftButtonDown += LogWindowListBox_MouseLeftButtonDown;
+      PreviewMouseLeftButtonDown += LogWindowListBoxOnPreviewMouseLeftButtonDown;
+      PreviewMouseLeftButtonUp += LogWindowListBoxOnPreviewMouseLeftButtonUp;
+
+      PreviewMouseRightButtonDown += LogWindowListBoxOnPreviewMouseRightButtonDown;
+      PreviewMouseRightButtonUp += LogWindowListBoxOnPreviewMouseRightButtonUp;
+    }
+
+    private void LogWindowListBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      LOG.Debug("MouseLeftButtonDown");
+    }
+
+    #region Mouse events
+
+    private void LogWindowListBoxOnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      if ( e.ClickCount == 2 || _isMouseRightDownClick )
+        return;
+
+      _isMouseLeftDownClick = true;
+      var mousePoint = PointToScreen(Mouse.GetPosition(this));
+      Image image = null;
+      ContextMenu = null;
+
+      switch ( e.OriginalSource )
+      {
+      case Grid myGrid:
+
+        var enumerator = myGrid.Children.GetEnumerator();
+
+        if ( enumerator.MoveNext() )
+          image = enumerator.Current as Image;
+
+        break;
+
+      case Image img:
+
+        image = img;
+        break;
+      }
+
+      if ( !(image?.DataContext is LogEntry item) )
+        return;
+
+      System.Drawing.Rectangle? rcBookmarkpoint = MouseButtonDownHelper(item);
+
+      if ( rcBookmarkpoint == null )
+        return;
+
+      if ( !rcBookmarkpoint.Value.Contains((int) mousePoint.X, (int) mousePoint.Y) && _isMouseLeftDownClick )
+        return;
+
+      System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage();
+      bp.BeginInit();
+      bp.UriSource = new Uri("/T4W;component/Resources/breakpoint.png", UriKind.Relative);
+      bp.EndInit();
+
+      RenderOptions.SetBitmapScalingMode(bp, BitmapScalingMode.NearestNeighbor);
+      RenderOptions.SetEdgeMode(bp, EdgeMode.Aliased);
+
+      item.BookmarkPoint = item.BookmarkPoint == null ? bp : null;
+    }
+
+    private void LogWindowListBoxOnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) => _isMouseLeftDownClick = false;
+
+    private void LogWindowListBoxOnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+    {
+      if ( _isMouseLeftDownClick )
+        return;
+
+      _isMouseRightDownClick = true;
+
+      if ( !(e.OriginalSource is Image image) )
+        return;
+
+      if ( !(image.DataContext is LogEntry item) )
+        return;
+      if ( item.BookmarkPoint == null )
+        return;
+
+      System.Drawing.Rectangle? rcBookmarkpoint = MouseButtonDownHelper(item);
+      var mousePoint = PointToScreen(Mouse.GetPosition(this));
+
+      if ( rcBookmarkpoint == null )
+        return;
+
+      if ( !rcBookmarkpoint.Value.Contains((int) mousePoint.X, (int) mousePoint.Y) && _isMouseLeftDownClick )
+        return;
+
+      System.Windows.Media.Imaging.BitmapImage icon = new System.Windows.Media.Imaging.BitmapImage();
+      icon.BeginInit();
+      icon.UriSource = new Uri("/T4W;component/Resources/trash-icon.png", UriKind.Relative);
+      icon.EndInit();
+
+      RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
+      RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
+
+      ContextMenu contenContextMenu = new ContextMenu();
+      MenuItem menuItem = new MenuItem
+      {
+        Header = Application.Current.TryFindResource("DeleteBookmarks").ToString(),
+        Icon = new Image
+        {
+          Source = icon
+        }
+      };
+
+      menuItem.Click += OnRemoveBookmarks;
+      contenContextMenu.Items.Add(menuItem);
+
+      ContextMenu = contenContextMenu;
+    }
+
+    private void LogWindowListBoxOnPreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e) => _isMouseRightDownClick = false;
+
+    #endregion
+
+    /// <summary>
     /// When overridden in a derived class, is invoked whenever application code or internal processes call <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" />.
     /// </summary>
     public override void OnApplyTemplate()
     {
       base.OnApplyTemplate();
 
-      //Loaded += OnLoaded;
       _scrollViewer = UiHelpers.GetChildOfType<ScrollViewer>(this);
 
       if ( _scrollViewer == null )
@@ -440,6 +538,61 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     #endregion
+
+    private void OnRemoveBookmarks(object sender, RoutedEventArgs e)
+    {
+      var enumerator = ItemsSource.GetEnumerator();
+
+      while ( enumerator.MoveNext() )
+      {
+        if ( !(enumerator.Current is LogEntry logEntry) )
+          continue;
+
+        if ( logEntry.BookmarkPoint == null )
+          continue;
+
+        logEntry.BookmarkPoint = null;
+      }
+
+      ContextMenu = null;
+      e.Handled = true;
+    }
+
+    private System.Drawing.Rectangle? MouseButtonDownHelper(LogEntry item)
+    {
+      ListBoxItem myListBoxItem = (ListBoxItem) ItemContainerGenerator.ContainerFromItem(item);
+      ContentPresenter myContentPresenter = UiHelpers.GetChildOfType<ContentPresenter>(myListBoxItem);
+      DataTemplate myDataTemplate = myContentPresenter?.ContentTemplate;
+
+      if ( myDataTemplate == null )
+        return null;
+
+      TextBlock textBlock = (TextBlock) myDataTemplate.FindName("TextBoxMessage", myContentPresenter);
+      Image target = (Image) myDataTemplate.FindName("TextBoxBookmarkPoint", myContentPresenter);
+
+      if ( target == null || textBlock == null )
+        return null;
+
+      Point relativePoint = target.PointToScreen(new Point(0, 0));
+      Size s = new Size(16, 16);
+      Size textSize = textBlock.Text.GetMeasureTextSize(new Typeface(textBlock.FontFamily, textBlock.FontStyle, textBlock.FontWeight, textBlock.FontStretch), textBlock.FontSize);
+
+      if ( textSize.Height >= 16 )
+        s.Height = textSize.Height;
+
+      // very strange behaviour! when image is shown, no correction is needed, otherwise it is needed??? WTF!
+      if ( item.BookmarkPoint != null )
+      {
+        LOG.Debug($"BookmarkPoint is null X {relativePoint.X} Y {relativePoint.Y} Width {s.Width} Height {s.Height}");
+        return new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
+      }
+
+      relativePoint.X = relativePoint.X - s.Width / 2;
+      relativePoint.Y = relativePoint.Y - s.Height / 2;
+      LOG.Debug($"BookmarkPoint is not null X {relativePoint.X} Y {relativePoint.Y} Width {s.Width} Height {s.Height}");
+
+      return new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
+    }
 
     private void RefreshCollectionViewSource()
     {

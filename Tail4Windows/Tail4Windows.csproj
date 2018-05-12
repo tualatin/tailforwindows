@@ -241,6 +241,7 @@
       <DependentUpon>QuickAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\QuickAddModule\ViewModels\QuickAddViewModel.cs" />
+    <Compile Include="UI\Behaviors\ClickBehavior.cs" />
     <Compile Include="UI\Behaviors\DataGridRowBehavior.cs" />
     <Compile Include="UI\Behaviors\DropDownButtonBehavior.cs" />
     <Compile Include="UI\Behaviors\MultiSelectionBehavior.cs" />

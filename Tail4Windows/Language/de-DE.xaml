@@ -358,4 +358,5 @@
   <system:String x:Key="AlertOptionSmtpSettingsNotValid">Bitte überprüfen Sie die SMTP Einstellungen! Möchte Sie diese jetzt öffnen?</system:String>
 
   <system:String x:Key="QuickAddDialogTitle">Schnellhinzufügen</system:String>
+  <system:String x:Key="DeleteBookmarks">Alle Bookmarks löschen</system:String>
 </ResourceDictionary>

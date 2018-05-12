@@ -184,6 +184,7 @@
           ContentSource="Header"
           RecognizesAccessKey="True"
           />
+
         <Popup
           x:Name="Popup"
           AllowsTransparency="True"
@@ -379,12 +380,14 @@
           <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
           <ColumnDefinition Width="13" />
         </Grid.ColumnDefinitions>
+
         <ContentPresenter
           x:Name="Icon"
           Margin="6 0 6 0"
           VerticalAlignment="Center"
           ContentSource="Icon"
           />
+
         <ContentPresenter
           x:Name="HeaderHost"
           Grid.Column="1"
@@ -392,12 +395,14 @@
           ContentSource="Header"
           RecognizesAccessKey="True"
           />
+
         <TextBlock
           x:Name="InputGestureText"
           Grid.Column="2"
           Text="{TemplateBinding InputGestureText}"
           DockPanel.Dock="Right"
           />
+
         <Path
           Grid.Column="3"
           HorizontalAlignment="Center"
@@ -408,6 +413,7 @@
             <SolidColorBrush Color="{DynamicResource GlyphColor}" />
           </Path.Fill>
         </Path>
+
         <Popup
           x:Name="Popup"
           Grid.Column="0"

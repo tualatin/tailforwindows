@@ -360,4 +360,5 @@
   <system:String x:Key="AlertOptionSmtpSettingsNotValid">Please check the SMTP settings! Do you want open to this now?</system:String>
 
   <system:String x:Key="QuickAddDialogTitle">QuickAdd</system:String>
+  <system:String x:Key="DeleteBookmarks">Delete all bookmarks</system:String>
 </ResourceDictionary>
