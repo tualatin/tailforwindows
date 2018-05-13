@@ -227,7 +227,6 @@
     <Compile Include="PlugIns\FontChooserModule\FontChooser.xaml.cs">
       <DependentUpon>FontChooser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PlugIns\LogWindowModule\Behaviors\LogEntryItems.cs" />
     <Compile Include="PlugIns\LogWindowModule\Controller\XmlHistoryController.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Args\LinesRefreshTimeChangedArgs.cs" />
@@ -239,6 +238,7 @@
       <DependentUpon>LogWindowControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\GridSplitterMouseExtension.cs" />
+    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\LogEntryScrollBehavior.cs" />
     <Compile Include="UI\Behaviors\ListBoxCopy.cs" />
     <Compile Include="UI\Behaviors\ListBoxExtenders.cs" />
     <Compile Include="UI\Behaviors\ListBoxSelector.cs" />
@@ -955,6 +955,7 @@
     <Folder Include="Core\Events\EventManagers\" />
     <Folder Include="PlugIns\FindModule\Interfaces\" />
     <Folder Include="PlugIns\FindModule\ViewModels\" />
+    <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
     <Folder Include="PlugIns\PatternModule\ViewModels\" />
     <Folder Include="PlugIns\SmartWatchModule\Controller\" />

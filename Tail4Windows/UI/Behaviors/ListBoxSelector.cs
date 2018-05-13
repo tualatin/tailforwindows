@@ -87,8 +87,6 @@ namespace Org.Vs.TailForWin.UI.Behaviors
     {
       if ( !(d is ListBox listBox) )
         return;
-
-
     }
 
     private static void IsEnabledChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
