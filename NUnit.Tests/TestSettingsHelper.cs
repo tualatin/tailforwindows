@@ -68,8 +68,6 @@ namespace Org.Vs.NUnit.Tests
 
       Assert.AreEqual("#FFFFFFFF", SettingsHelperController.CurrentSettings.ColorSettings.ForegroundColorHex);
       Assert.AreEqual("#FF001825", SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex);
-      Assert.AreEqual("#000000", SettingsHelperController.CurrentSettings.ColorSettings.InactiveForegroundColorHex);
-      Assert.AreEqual("#FFFCFAF5", SettingsHelperController.CurrentSettings.ColorSettings.InactiveBackgroundColorHex);
       Assert.AreEqual("#000000", SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightForegroundColorHex);
       Assert.AreEqual("#FFCC00", SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex);
       Assert.AreEqual("#FF41A1FF", SettingsHelperController.CurrentSettings.ColorSettings.LineNumberColorHex);

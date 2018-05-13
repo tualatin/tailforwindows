@@ -219,16 +219,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public const string BackgroundColor = "#FFFFFF";
 
     /// <summary>
-    /// Default value inactive foreground color
-    /// </summary>
-    public const string InactiveForegroundColor = "#000000";
-
-    /// <summary>
-    /// Default value inactive background color
-    /// </summary>
-    public const string InactiveBackgroundColor = "#FFFCFAF5";
-
-    /// <summary>
     /// Default value highlight foreground color
     /// </summary>
     public const string HighlightForegroundColor = "#000000";

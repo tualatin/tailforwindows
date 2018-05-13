@@ -98,16 +98,6 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex = mydata.Color;
         break;
 
-      case "InactiveForegroundColorHex":
-
-        SettingsHelperController.CurrentSettings.ColorSettings.InactiveForegroundColorHex = mydata.Color;
-        break;
-
-      case "InactiveBackgroundColorHex":
-
-        SettingsHelperController.CurrentSettings.ColorSettings.InactiveBackgroundColorHex = mydata.Color;
-        break;
-
       case "FindHighlightForegroundColorHex":
 
         SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightForegroundColorHex = mydata.Color;
@@ -183,20 +173,6 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
           ConfigurationName = "BackgroundColorHex",
           Name = Application.Current.TryFindResource("ColorOptionBackgroundColor").ToString(),
           Color = SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex
-        });
-      LogViewerColorData.Add(
-        new ControlColorData
-        {
-          ConfigurationName = "InactiveForegroundColorHex",
-          Name = Application.Current.TryFindResource("ColorOptionInactiveFontColor").ToString(),
-          Color = SettingsHelperController.CurrentSettings.ColorSettings.InactiveForegroundColorHex
-        });
-      LogViewerColorData.Add(
-        new ControlColorData
-        {
-          ConfigurationName = "InactiveBackgroundColorHex",
-          Name = Application.Current.TryFindResource("ColorOptionInactiveBackgroundColor").ToString(),
-          Color = SettingsHelperController.CurrentSettings.ColorSettings.InactiveBackgroundColorHex
         });
       LogViewerColorData.Add(
         new ControlColorData

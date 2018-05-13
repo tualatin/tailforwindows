@@ -77,7 +77,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       var settings = new List<string>
       {
-        "Proxy.Use"
+        "Proxy.Use",
+        "InactiveBackgroundColor",
+        "InactiveForegroundColor"
       };
 
       await RemoveObsoletePropertiesAsync(settings, cts.Token).ConfigureAwait(false);
@@ -232,8 +234,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       WriteValueToSetting(config, "ForegroundColor", CurrentSettings.ColorSettings.ForegroundColorHex);
       WriteValueToSetting(config, "BackgroundColor", CurrentSettings.ColorSettings.BackgroundColorHex);
-      WriteValueToSetting(config, "InactiveForegroundColor", CurrentSettings.ColorSettings.InactiveForegroundColorHex);
-      WriteValueToSetting(config, "InactiveBackgroundColor", CurrentSettings.ColorSettings.InactiveBackgroundColorHex);
       WriteValueToSetting(config, "FindHighlightForegroundColor", CurrentSettings.ColorSettings.FindHighlightForegroundColorHex);
       WriteValueToSetting(config, "FindHighlightBackgroundColor", CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex);
       WriteValueToSetting(config, "LineNumbersColor", CurrentSettings.ColorSettings.LineNumberColorHex);
@@ -359,8 +359,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ColorSettings.BackgroundColorHex = DefaultEnvironmentSettings.BackgroundColor;
       CurrentSettings.ColorSettings.FindHighlightForegroundColorHex = DefaultEnvironmentSettings.HighlightForegroundColor;
       CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex = DefaultEnvironmentSettings.HighlightBackgroundColor;
-      CurrentSettings.ColorSettings.InactiveForegroundColorHex = DefaultEnvironmentSettings.InactiveForegroundColor;
-      CurrentSettings.ColorSettings.InactiveBackgroundColorHex = DefaultEnvironmentSettings.InactiveBackgroundColor;
       CurrentSettings.ColorSettings.LineNumberColorHex = DefaultEnvironmentSettings.LineNumberColor;
       CurrentSettings.ColorSettings.LineNumberHighlightColorHex = DefaultEnvironmentSettings.HighlightLineNumberColor;
       CurrentSettings.ColorSettings.SplitterBackgroundColorHex = DefaultEnvironmentSettings.SplitterBackgroundColor;
@@ -510,8 +508,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       CurrentSettings.ColorSettings.ForegroundColorHex = GetStringFromSetting("ForegroundColor");
       CurrentSettings.ColorSettings.BackgroundColorHex = GetStringFromSetting("BackgroundColor");
-      CurrentSettings.ColorSettings.InactiveForegroundColorHex = GetStringFromSetting("InactiveForegroundColor");
-      CurrentSettings.ColorSettings.InactiveBackgroundColorHex = GetStringFromSetting("InactiveBackgroundColor");
       CurrentSettings.ColorSettings.FindHighlightForegroundColorHex = GetStringFromSetting("FindHighlightForegroundColor");
       CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex = GetStringFromSetting("FindHighlightBackgroundColor");
       CurrentSettings.ColorSettings.LineNumberColorHex = GetStringFromSetting("LineNumbersColor");

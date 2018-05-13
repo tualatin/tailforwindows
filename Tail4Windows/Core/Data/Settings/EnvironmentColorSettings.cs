@@ -106,42 +106,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
-    private string _inactiveForegroundColorHex;
-
-    /// <summary>
-    /// Log viewer inactive foreground color
-    /// </summary>
-    public string InactiveForegroundColorHex
-    {
-      get => _inactiveForegroundColorHex;
-      set
-      {
-        if ( Equals(value, _inactiveForegroundColorHex) )
-          return;
-
-        _inactiveForegroundColorHex = value;
-        OnPropertyChanged(nameof(InactiveForegroundColorHex));
-      }
-    }
-
-    private string _inactiveBackgroundColorHex;
-
-    /// <summary>
-    /// Log viewer inactive background color
-    /// </summary>
-    public string InactiveBackgroundColorHex
-    {
-      get => _inactiveBackgroundColorHex;
-      set
-      {
-        if ( Equals(value, _inactiveBackgroundColorHex) )
-          return;
-
-        _inactiveBackgroundColorHex = value;
-        OnPropertyChanged(nameof(InactiveBackgroundColorHex));
-      }
-    }
-
     #endregion
 
     #region Find highlight colors

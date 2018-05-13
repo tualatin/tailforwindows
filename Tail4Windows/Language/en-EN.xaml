@@ -319,8 +319,6 @@
   <system:String x:Key="ColorOptionLogWindowGridColor">Color</system:String>
   <system:String x:Key="ColorOptionFontColor">Font color</system:String>
   <system:String x:Key="ColorOptionBackgroundColor">Background color</system:String>
-  <system:String x:Key="ColorOptionInactiveFontColor">Inactive font color</system:String>
-  <system:String x:Key="ColorOptionInactiveBackgroundColor">Inactive background color</system:String>
   <system:String x:Key="ColorOptionHighlightFontColor">Highlight font color</system:String>
   <system:String x:Key="ColorOptionHighlightBackgroundColor">Highlight background color</system:String>
   <system:String x:Key="ColorOptionLineNumberColor">Line number color</system:String>
