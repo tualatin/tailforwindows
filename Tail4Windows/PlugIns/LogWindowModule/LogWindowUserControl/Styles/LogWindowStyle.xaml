@@ -191,7 +191,7 @@
               Width="20"
               HorizontalAlignment="Left"
               Fill="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
-              Opacity="0.3"
+              Opacity="0.12"
               />
 
             <ScrollViewer
