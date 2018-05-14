@@ -23,7 +23,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
     /// </summary>
     private static readonly Dictionary<LogWindowListBox, LogEntryScrollBehavior> AttachedControls = new Dictionary<LogWindowListBox, LogEntryScrollBehavior>();
     private readonly LogWindowListBox _listBox;
-    private ScrollContentPresenter _scrollContent;
+    private ScrollViewer _scrollViewer;
     private SplitWindowControl _splitWindow;
     private double _currentHeight;
 
@@ -75,24 +75,33 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
       _listBox = listBox;
 
       if ( _listBox.IsLoaded )
+      {
+        InitializeComponents();
         Register();
+      }
       else
+      {
         _listBox.Loaded += OnLoaded;
+      }
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
+      InitializeComponents();
       Register();
 
       _listBox.Loaded -= OnLoaded;
     }
 
-    private void Register()
+    private void Register() => _listBox.SizeChanged += OnSizeChanged;
+
+
+    private void InitializeComponents()
     {
-      _scrollContent = _listBox.Descendents().OfType<ScrollContentPresenter>().FirstOrDefault();
+      _scrollViewer = _listBox.Descendents().OfType<ScrollViewer>().FirstOrDefault();
       _splitWindow = _listBox.Ancestors().OfType<SplitWindowControl>().FirstOrDefault();
 
-      _listBox.SizeChanged += OnSizeChanged;
+
     }
 
     private void Unregister() => _listBox.SizeChanged -= OnSizeChanged;
@@ -103,14 +112,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Behavio
       listBoxPair.Value._currentHeight = e.NewSize.Height;
 
       double height = GetControlTextHeight(listBoxPair.Key);
+      double totalHeight = GetTotalHeight(listBoxPair.Value._splitWindow.LogEntries.Count, height);
       int index = (int) Math.Round(listBoxPair.Value._currentHeight / height, 0, MidpointRounding.ToEven);
 
-      var logEntries = listBoxPair.Value._splitWindow.LogEntries.Take(index + 1).ToList();
-      listBoxPair.Value._listBox.ItemsSource = logEntries;
-
-      LOG.Debug($"CurrentHeight {_currentHeight}, TextHeight {height}, Index {index}");
+      //var logEntries = listBoxPair.Value._splitWindow.LogEntries.Take(index + 1).ToList();
+      //listBoxPair.Value._listBox.ItemsSource = logEntries;
     }
 
     private double GetControlTextHeight(Control listBox) => Math.Ceiling(listBox.FontSize * listBox.FontFamily.LineSpacing);
+
+    private double GetTotalHeight(int itemsCount, double height)
+    {
+      double totalHeight = 0;
+
+      for ( int i = 0; i < itemsCount; i++ )
+      {
+        totalHeight += height;
+      }
+      return totalHeight;
+    }
   }
 }
