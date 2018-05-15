@@ -75,7 +75,7 @@
     <Border
       Grid.Row="0"
       BorderBrush="{StaticResource BrushSolidBlue}"
-      BorderThickness="3 0 3 1"
+      BorderThickness="1 0 1 1"
       >
       <dragSupportUtils:DragSupportTabControl
         ItemsSource="{Binding TabItemsSource, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"

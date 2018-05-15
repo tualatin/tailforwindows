@@ -70,6 +70,9 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       if ( !(sender is FrameworkElement frameworkElement) )
         return;
 
+      if ( _horizontalScrollBarGrid != null )
+        return;
+
       var scrollViewer = frameworkElement.Descendents().OfType<ScrollViewer>().FirstOrDefault();
 
       if ( scrollViewer == null )
@@ -80,8 +83,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       if ( !Equals(scrollViewer, scrollView) )
         return;
 
-      if ( _horizontalScrollBarGrid == null )
-        GetHorizontalScrollBarGrid(scrollViewer);
+      GetHorizontalScrollBarGrid(scrollViewer);
     }
 
     private void GetHorizontalScrollBarGrid(DependencyObject scrollViewer)

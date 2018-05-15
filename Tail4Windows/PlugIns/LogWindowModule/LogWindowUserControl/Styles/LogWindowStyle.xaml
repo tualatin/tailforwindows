@@ -204,10 +204,6 @@
               HorizontalScrollBarVisibility="{Binding Path=CurrentTailData.Wrap, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Converter={StaticResource BoolToScrollbarVisibility}}"
               IsDeferredScrollingEnabled="True"
               VerticalScrollBarVisibility="Auto"
-              VirtualizingStackPanel.CacheLength="2,2"
-              VirtualizingStackPanel.CacheLengthUnit="Item"
-              VirtualizingStackPanel.IsVirtualizing="True"
-              VirtualizingStackPanel.VirtualizationMode="Recycling"
               >
               <ItemsPresenter />
             </ScrollViewer>
@@ -224,9 +220,9 @@
     <Setter Property="TextEditorSearchHighlightForegroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightForegroundColorHex}" />
     <Setter Property="TextEditorSelectionColorHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberHighlightColorHex}" />
     <Setter Property="VerticalAlignment" Value="Stretch" />
-    <!--<Setter Property="VirtualizingStackPanel.CacheLength" Value="2,2" />
+    <Setter Property="VirtualizingStackPanel.CacheLength" Value="1,3" />
     <Setter Property="VirtualizingStackPanel.CacheLengthUnit" Value="Page" />
     <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
-    <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />-->
+    <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
   </Style>
 </ResourceDictionary>

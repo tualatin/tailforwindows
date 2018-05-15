@@ -12,6 +12,8 @@ namespace Org.Vs.TailForWin.UI.Behaviors
   /// </summary>
   public class SynchronizeOffsetBehavior : Behavior<FrameworkElement>
   {
+    private ScrollViewer _scrollViewer;
+
     /// <summary>
     /// Called after the behavior is attached to an AssociatedObject.
     /// </summary>
@@ -43,7 +45,13 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       AssociatedObject.Unloaded -= OnUnloaded;
     }
 
-    private void OnLoaded(object sender, RoutedEventArgs e) => AssociatedObject?.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(OnScrollChanged));
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+      if ( sender is FrameworkElement frameworkElement )
+        _scrollViewer = frameworkElement.Descendents().OfType<ScrollViewer>().FirstOrDefault();
+
+      AssociatedObject?.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(OnScrollChanged));
+    }
 
     private void OnUnloaded(object sender, RoutedEventArgs e) => AssociatedObject?.RemoveHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(OnScrollChanged));
 
@@ -64,25 +72,15 @@ namespace Org.Vs.TailForWin.UI.Behaviors
 
     private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
     {
-      if ( !(sender is FrameworkElement frameworkElement) )
-        return;
-
-      var scrollViewer = frameworkElement.Descendents().OfType<ScrollViewer>().FirstOrDefault();
-
-      if ( scrollViewer == null )
-        return;
-
-      var scrollView = e.OriginalSource as ScrollViewer;
-
-      if ( !Equals(scrollViewer, scrollView) )
+      if ( _scrollViewer == null )
         return;
 
       if ( e.HorizontalOffset <= 16 && e.HorizontalChange > 0 )
-        scrollView.ScrollToHorizontalOffset(e.HorizontalOffset * 2);
+        _scrollViewer.ScrollToHorizontalOffset(e.HorizontalOffset * 2);
       else if ( e.HorizontalOffset <= 16 && e.HorizontalChange < 0 )
-        scrollView.ScrollToHorizontalOffset(0);
+        _scrollViewer.ScrollToHorizontalOffset(0);
 
-      scrollViewer.Padding = scrollView.HorizontalOffset <= 0 ? new Thickness(0, 0, 0, 0) : new Thickness(21, 0, 0, 0);
+      _scrollViewer.Padding = _scrollViewer.HorizontalOffset <= 0 ? new Thickness(0, 0, 0, 0) : new Thickness(21, 0, 0, 0);
     }
   }
 }
