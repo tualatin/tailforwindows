@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Interactivity;
 using Org.Vs.TailForWin.UI.Extensions;
 
@@ -8,10 +9,27 @@ using Org.Vs.TailForWin.UI.Extensions;
 namespace Org.Vs.TailForWin.UI.Behaviors
 {
   /// <summary>
-  /// SynchronizeOffset behavior
+  /// Fix horizontal scrollbar position
   /// </summary>
-  public class SynchronizeOffsetBehavior : Behavior<FrameworkElement>
+  public class FixHorizontalScrollbarPosition : Behavior<FrameworkElement>
   {
+    private Grid _horizontalScrollBarGrid;
+
+    /// <summary>
+    /// Dependency-Property FixedMargin
+    /// </summary>
+    public static readonly DependencyProperty FixedMarginProperty = DependencyProperty.Register(nameof(FixedMargin), typeof(Thickness), typeof(FixHorizontalScrollbarPosition),
+      new PropertyMetadata(new Thickness(0, 0, 0, 0)));
+
+    /// <summary>
+    /// Gets / sets fixed margin
+    /// </summary>
+    public Thickness FixedMargin
+    {
+      get => (Thickness) GetValue(FixedMarginProperty);
+      set => SetValue(FixedMarginProperty, value);
+    }
+
     /// <summary>
     /// Called after the behavior is attached to an AssociatedObject.
     /// </summary>
@@ -47,21 +65,6 @@ namespace Org.Vs.TailForWin.UI.Behaviors
 
     private void OnUnloaded(object sender, RoutedEventArgs e) => AssociatedObject?.RemoveHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(OnScrollChanged));
 
-    /// <summary>
-    /// Dependency-Property TargetElement
-    /// </summary>
-    public static readonly DependencyProperty TargetElementProperty = DependencyProperty.Register(nameof(TargetElement), typeof(FrameworkElement), typeof(SynchronizeOffsetBehavior),
-      new PropertyMetadata(null));
-
-    /// <summary>
-    /// Gets / sets target element
-    /// </summary>
-    public FrameworkElement TargetElement
-    {
-      get => (FrameworkElement) GetValue(TargetElementProperty);
-      set => SetValue(TargetElementProperty, value);
-    }
-
     private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
     {
       if ( !(sender is FrameworkElement frameworkElement) )
@@ -77,12 +80,27 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       if ( !Equals(scrollViewer, scrollView) )
         return;
 
-      if ( e.HorizontalOffset <= 16 && e.HorizontalChange > 0 )
-        scrollView.ScrollToHorizontalOffset(e.HorizontalOffset * 2);
-      else if ( e.HorizontalOffset <= 16 && e.HorizontalChange < 0 )
-        scrollView.ScrollToHorizontalOffset(0);
+      if ( _horizontalScrollBarGrid == null )
+        GetHorizontalScrollBarGrid(scrollViewer);
+    }
 
-      scrollViewer.Padding = scrollView.HorizontalOffset <= 0 ? new Thickness(0, 0, 0, 0) : new Thickness(21, 0, 0, 0);
+    private void GetHorizontalScrollBarGrid(DependencyObject scrollViewer)
+    {
+      if ( scrollViewer == null )
+        return;
+
+      var scrollBars = scrollViewer.Descendents().OfType<ScrollBar>().Where(p => p.Visibility == Visibility.Visible);
+
+      foreach ( var scrollBar in scrollBars )
+      {
+        _horizontalScrollBarGrid = scrollBar.Descendents().OfType<Grid>().FirstOrDefault(p => p.Name == "GridHorizontalScrollBar");
+
+        if ( _horizontalScrollBarGrid == null )
+          continue;
+
+        _horizontalScrollBarGrid.Margin = FixedMargin;
+        break;
+      }
     }
   }
 }

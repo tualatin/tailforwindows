@@ -240,6 +240,7 @@
     </Compile>
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\GridSplitterMouseExtension.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\LogEntryScrollBehavior.cs" />
+    <Compile Include="UI\Behaviors\FixHorizontalScrollbarPosition.cs" />
     <Compile Include="UI\Behaviors\ListBoxCopy.cs" />
     <Compile Include="UI\Behaviors\ListBoxExtenders.cs" />
     <Compile Include="UI\Behaviors\ListBoxSelector.cs" />
@@ -279,6 +280,7 @@
     <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\TailDataListOfFilterToBoolConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\VisibilityToMarginConverter.cs" />
+    <Compile Include="UI\Converters\MultiConverters\WidthToMarginConverter.cs" />
     <Compile Include="UI\Debuging\DebugBuild.cs" />
     <Compile Include="UI\ExtendedControls\PopupEx.cs" />
     <Compile Include="UI\Extensions\VisualTreeEnumerationExtension.cs" />

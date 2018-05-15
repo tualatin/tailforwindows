@@ -214,6 +214,7 @@
 
             <i:Interaction.Behaviors>
               <behaviors:SynchronizeOffsetBehavior TargetElement="{Binding ElementName=ScrollViewer}" />
+              <behaviors:FixHorizontalScrollbarPosition FixedMargin="20 0 0 0" />
             </i:Interaction.Behaviors>
           </Grid>
         </ControlTemplate>

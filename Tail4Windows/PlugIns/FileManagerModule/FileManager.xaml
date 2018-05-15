@@ -412,6 +412,20 @@
         <i:Interaction.Behaviors>
           <behaviors:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />
           <behaviors:ScrollDataGridRowIntoView />
+          <behaviors:FixHorizontalScrollbarPosition>
+            <behaviors:FixHorizontalScrollbarPosition.FixedMargin>
+              <MultiBinding Converter="{StaticResource WidthToMarginMultiConverter}">
+                <Binding
+                  ElementName="ColumnFileName"
+                  Path="Width"
+                  />
+                <Binding
+                  ElementName="ColumnNo"
+                  Path="Width"
+                  />
+              </MultiBinding>
+            </behaviors:FixHorizontalScrollbarPosition.FixedMargin>
+          </behaviors:FixHorizontalScrollbarPosition>
         </i:Interaction.Behaviors>
         <DataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
@@ -422,7 +436,9 @@
 
         <DataGrid.Columns>
           <DataGridTextColumn
+            x:Name="ColumnNo"
             MinWidth="50"
+            MaxWidth="100"
             Header="{DynamicResource FileManagerDataGridNo}"
             Binding="{Binding ., Converter={StaticResource RowFromTailManagerCollectionConverter}, StringFormat=#;;#}"
             CanUserSort="False"
@@ -430,6 +446,7 @@
             />
 
           <DataGridTemplateColumn
+            x:Name="ColumnFileName"
             MinWidth="190"
             MaxWidth="250"
             Header="{DynamicResource FileManagerDataGridFileName}"
