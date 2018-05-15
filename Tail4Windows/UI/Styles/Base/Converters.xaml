@@ -39,6 +39,7 @@
   <converters:DoubleToGridLengthConverter x:Key="DoubleToGridLengthConverter" />
   <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
   <converters:StringFormatConverter x:Key="StringFormatConverter" />
+  <converters:BoolToScrollbarVisibility x:Key="BoolToScrollbarVisibility" />
 
   <multiConverters:VisibilityToMarginMultiConverter x:Key="VisibilityToMarginConverter" />
   <multiConverters:LogFileIsEnableMultiConverter x:Key="LogFileIsEnableMultiConverter" />

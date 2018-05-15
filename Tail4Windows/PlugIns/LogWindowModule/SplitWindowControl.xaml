@@ -49,7 +49,6 @@
       FontStretch="{Binding CurrentTailData.FontType.FontStretch, UpdateSourceTrigger=PropertyChanged}"
       FontStyle="{Binding CurrentTailData.FontType.FontStyle, UpdateSourceTrigger=PropertyChanged}"
       FontWeight="{Binding CurrentTailData.FontType.FontWeight, UpdateSourceTrigger=PropertyChanged}"
-      behaviors:LogEntryScrollBehavior.Enabled="True"
       genericBehaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
       genericBehaviors:ListBoxCopy.AutoCopy="True"
       genericBehaviors:ListBoxSelector.Enabled="True"

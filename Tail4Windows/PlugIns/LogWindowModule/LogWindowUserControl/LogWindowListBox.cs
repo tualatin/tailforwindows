@@ -53,21 +53,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     /// <summary>
-    /// Word wrap property
-    /// </summary>
-    public static readonly DependencyProperty WordWrappingProperty = DependencyProperty.Register("WordWrapping", typeof(bool), typeof(LogWindowListBox),
-      new PropertyMetadata(false));
-
-    /// <summary>
-    /// Text editor word wrapping
-    /// </summary>
-    public bool WordWrapping
-    {
-      get => (bool) GetValue(WordWrappingProperty);
-      set => SetValue(WordWrappingProperty, value);
-    }
-
-    /// <summary>
     /// Text editor selection color porperty
     /// </summary>
     public static readonly DependencyProperty TextEditorSelectionColorHexProperty = DependencyProperty.Register("TextEditorSelectionColorHex", typeof(string), typeof(LogWindowListBox),

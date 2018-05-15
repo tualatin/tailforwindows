@@ -116,7 +116,7 @@ namespace Org.Vs.TailForWin.Business.Services
         var log = new LogEntry
         {
           Index = index,
-          Message = $"Log - {index * 24}",
+          Message = $"Log - {index * 24} / Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
           DateTime = DateTime.Now
         };
 

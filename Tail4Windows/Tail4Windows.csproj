@@ -234,6 +234,7 @@
     <Compile Include="PlugIns\LogWindowModule\Events\Delegates\LinesRefreshTimeChangedEventHandler.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Delegates\StatusChangedEventHandler.cs" />
     <Compile Include="PlugIns\LogWindowModule\Interfaces\ISplitWindowControl.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Panels\LogEntryVirtualPanel.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowControl.xaml.cs">
       <DependentUpon>LogWindowControl.xaml</DependentUpon>
     </Compile>
@@ -256,8 +257,10 @@
     <Compile Include="UI\Behaviors\MultiSelectionBehavior.cs" />
     <Compile Include="UI\Behaviors\ScrollDataGridRowIntoView.cs" />
     <Compile Include="UI\Behaviors\SizeObserver.cs" />
+    <Compile Include="UI\Behaviors\SynchronizeOffsetBehavior.cs" />
     <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
+    <Compile Include="UI\Converters\BoolToScrollbarVisibility.cs" />
     <Compile Include="UI\Converters\BoolToTextWrapConverter.cs" />
     <Compile Include="UI\Converters\DoubleToGridLengthConverter.cs" />
     <Compile Include="UI\Converters\FilterCountToStringConverter.cs" />
