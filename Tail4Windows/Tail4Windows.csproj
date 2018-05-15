@@ -234,7 +234,6 @@
     <Compile Include="PlugIns\LogWindowModule\Events\Delegates\LinesRefreshTimeChangedEventHandler.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Delegates\StatusChangedEventHandler.cs" />
     <Compile Include="PlugIns\LogWindowModule\Interfaces\ISplitWindowControl.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Panels\LogEntryVirtualPanel.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowControl.xaml.cs">
       <DependentUpon>LogWindowControl.xaml</DependentUpon>
     </Compile>

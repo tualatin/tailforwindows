@@ -180,8 +180,6 @@
     <Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
-          <!--<panels:LogEntryVirtualPanel />-->
-
           <VirtualizingStackPanel VirtualizingPanel.ScrollUnit="Item" />
         </ItemsPanelTemplate>
       </Setter.Value>
@@ -220,8 +218,8 @@
     <Setter Property="TextEditorSearchHighlightForegroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightForegroundColorHex}" />
     <Setter Property="TextEditorSelectionColorHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberHighlightColorHex}" />
     <Setter Property="VerticalAlignment" Value="Stretch" />
-    <Setter Property="VirtualizingStackPanel.CacheLength" Value="1,3" />
-    <Setter Property="VirtualizingStackPanel.CacheLengthUnit" Value="Page" />
+    <Setter Property="VirtualizingStackPanel.CacheLength" Value="1,2" />
+    <Setter Property="VirtualizingStackPanel.CacheLengthUnit" Value="Item" />
     <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
     <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
   </Style>

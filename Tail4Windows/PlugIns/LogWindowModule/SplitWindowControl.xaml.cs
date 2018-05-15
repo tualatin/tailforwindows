@@ -152,7 +152,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
           LogEntries.Add(e.Log);
           RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LogEntries.Count, e.SizeRefreshTime));
-        }, DispatcherPriority.Background);
+        }, DispatcherPriority.Normal);
     }
 
     /// <summary>
