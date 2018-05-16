@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
+using log4net;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Events.Args;
 using Org.Vs.TailForWin.Business.Interfaces;
@@ -25,8 +26,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   /// </summary>
   public partial class SplitWindowControl : INotifyPropertyChanged, ISplitWindowControl
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(SplitWindowControl));
+
     private const double Offset = 5;
-    private readonly ObservableCollection<LogEntry> _entryCache = new ObservableCollection<LogEntry>();
+    private ObservableCollection<LogEntry> _entryCache = new ObservableCollection<LogEntry>();
+    private LogEntry _lastSeenEntry;
 
     #region RoutedEvents
 
@@ -67,6 +71,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         _splitterPosition = value;
         OnPropertyChanged();
+        SetSplitWindowItemSource();
       }
     }
 
@@ -101,6 +106,33 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// Lines read
     /// </summary>
     public int LinesRead => LogReaderService?.Index ?? 0;
+
+    /// <summary>
+    /// Last visible <see cref="LogEntry"/> index
+    /// </summary>
+    public int LastVisibleLogEntryIndex
+    {
+      get;
+      set;
+    }
+
+    private LogEntry _selectedItem;
+
+    /// <summary>
+    /// Selected <see cref="LogEntry"/> item
+    /// </summary>
+    public LogEntry SelectedItem
+    {
+      get => _selectedItem;
+      set
+      {
+        if ( value == null )
+          return;
+
+        _selectedItem = value;
+        OnPropertyChanged();
+      }
+    }
 
     #endregion
 
@@ -215,8 +247,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       if ( LogEntries == null )
         LogEntries = new ObservableCollection<LogEntry>();
+      if ( _entryCache == null )
+        _entryCache = new ObservableCollection<LogEntry>();
 
       LogEntries.Clear();
+      _entryCache.Clear();
     }
 
     private void ExecuteLoadedCommand()
@@ -252,6 +287,33 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     #endregion
+
+    private void SetSplitWindowItemSource()
+    {
+      if ( _splitterPosition > 0 && LogWindowSplitElement.ItemsSource == null )
+      {
+        LogWindowSplitElement.ItemsSource = LogEntries;
+
+        if ( _lastSeenEntry == null )
+        {
+          if ( LogEntries.Count < LastVisibleLogEntryIndex )
+            LastVisibleLogEntryIndex = LogEntries.Count - 1;
+
+          _lastSeenEntry = LogEntries[LastVisibleLogEntryIndex];
+        }
+        else
+        {
+          if ( SelectedItem != null )
+            _lastSeenEntry = SelectedItem;
+        }
+
+        LogWindowSplitElement.ScrollIntoView(_lastSeenEntry);
+      }
+      else if ( _splitterPosition <= 0 && LogWindowSplitElement.ItemsSource != null )
+      {
+        LogWindowSplitElement.ItemsSource = null;
+      }
+    }
 
     /// <summary>
     /// Declare the event

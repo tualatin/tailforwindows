@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -22,7 +23,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
   /// <summary>
   /// LogWindow control
   /// </summary>
-  public class LogWindowListBox : ListBox
+  public class LogWindowListBox : ListBox, INotifyPropertyChanged
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogWindowListBox));
 
@@ -99,7 +100,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// AddDateTime property
     /// </summary>
-    public static readonly DependencyProperty AddDateTimeProperty = DependencyProperty.Register("AddDateTime", typeof(bool), typeof(LogWindowListBox),
+    public static readonly DependencyProperty AddDateTimeProperty = DependencyProperty.Register(nameof(AddDateTime), typeof(bool), typeof(LogWindowListBox),
       new PropertyMetadata(true));
 
     /// <summary>
@@ -120,11 +121,25 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Set filter on
     /// </summary>
-    [Category("TextEditor")]
     public bool FilterOn
     {
       get => (bool) GetValue(FilterOnProperty);
       set => SetValue(FilterOnProperty, value);
+    }
+
+    /// <summary>
+    /// Last visible <see cref="LogEntry"/> index property
+    /// </summary>
+    public static readonly DependencyProperty LastVisibleLogEntryIndexProperty = DependencyProperty.Register(nameof(LastVisibleLogEntryIndex), typeof(int), typeof(LogWindowListBox),
+      new PropertyMetadata(0));
+
+    /// <summary>
+    /// AddDateTime
+    /// </summary>
+    public int LastVisibleLogEntryIndex
+    {
+      get => (int) GetValue(LastVisibleLogEntryIndexProperty);
+      set => SetValue(LastVisibleLogEntryIndexProperty, value);
     }
 
     /// <summary>
@@ -358,6 +373,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       if ( _splitGripControl == null && ShowGridSplitControl && SettingsHelperController.CurrentSettings.SplitterWindowBehavior )
         LoadSplitGripControl();
+
+      LastVisibleLogEntryIndex = ((int) _scrollViewer.ViewportHeight + (int) _scrollViewer.VerticalOffset) - 1;
+      OnPropertyChanged(nameof(LastVisibleLogEntryIndex));
     }
 
     private void LoadSplitGripControl()
@@ -521,6 +539,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       if ( ItemsSource != null )
         CollectionViewSource.GetDefaultView(ItemsSource).Refresh();
+    }
+
+    /// <summary>
+    /// Declare the event
+    /// </summary>
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    /// <summary>
+    /// OnPropertyChanged
+    /// </summary>
+    /// <param name="name">Name of property</param>
+    private void OnPropertyChanged([CallerMemberName] string name = null)
+    {
+      var handler = PropertyChanged;
+      handler?.Invoke(this, new PropertyChangedEventArgs(name));
     }
   }
 }
