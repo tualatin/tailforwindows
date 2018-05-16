@@ -38,8 +38,8 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       if ( !(depObj is DataGridRow item) )
         return;
 
-      if ( e.NewValue is bool == false )
-        return;
+      //if ( e.NewValue is bool == false )
+      //  return;
 
       if ( (bool) e.NewValue )
         item.Selected += OndataGridRowSelected;

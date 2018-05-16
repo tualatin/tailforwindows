@@ -14,6 +14,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
   public class VsDataGrid : DataGrid
   {
     private Grid _horizontalScrollbarGrid;
+    private ScrollViewer _scrollViewer;
 
 
     static VsDataGrid() => DefaultStyleKeyProperty.OverrideMetadata(typeof(VsDataGrid), new FrameworkPropertyMetadata(typeof(VsDataGrid)));
@@ -31,25 +32,51 @@ namespace Org.Vs.TailForWin.UI.UserControls
     {
       DataGridColumnWidthBehavior.AddColumnWidthChangedEventHandler(this, OnWidthChanged);
 
-      var scrollViewer = this.Descendents().OfType<ScrollViewer>().FirstOrDefault();
-      _horizontalScrollbarGrid = UiHelpers.GetHorizontalScrollBarGrid(scrollViewer);
+      _scrollViewer = this.Descendents().OfType<ScrollViewer>().FirstOrDefault();
+
+      if ( _scrollViewer == null )
+        return;
+
+      _scrollViewer.ScrollChanged += OnScrollChanged;
     }
 
-    private void OnUnloaded(object sender, RoutedEventArgs e) => DataGridColumnWidthBehavior.RemoveColumnWidthChangedEventHandler(this, OnWidthChanged);
+    private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
+    {
+      if ( _scrollViewer == null )
+        return;
 
+      if ( _horizontalScrollbarGrid != null )
+        return;
+
+      _horizontalScrollbarGrid = UiHelpers.GetHorizontalScrollBarGrid(_scrollViewer);
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+      if ( _scrollViewer != null )
+      {
+        _scrollViewer.ScrollChanged -= OnScrollChanged;
+        _scrollViewer = null;
+      }
+
+      _horizontalScrollbarGrid = null;
+
+      DataGridColumnWidthBehavior.RemoveColumnWidthChangedEventHandler(this, OnWidthChanged);
+      DataGridColumnWidthBehavior.AttachedControls.Clear();
+    }
 
     private void OnWidthChanged(object sender, RoutedEventArgs e)
     {
       if ( _horizontalScrollbarGrid == null )
-      {
-        var scrollViewer = this.Descendents().OfType<ScrollViewer>().FirstOrDefault();
-        _horizontalScrollbarGrid = UiHelpers.GetHorizontalScrollBarGrid(scrollViewer);
-      }
-
-      if ( _horizontalScrollbarGrid == null )
         return;
 
-      double width = ((DataGridLength) e.OriginalSource).Value;
+      double width = 0;
+
+      foreach ( var dataGridColumn in DataGridColumnWidthBehavior.AttachedControls )
+      {
+        width += dataGridColumn.Key.ActualWidth;
+      }
+
       _horizontalScrollbarGrid.Margin = new Thickness(width, 0, 0, 0);
     }
   }

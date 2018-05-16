@@ -53,7 +53,11 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       AssociatedObject?.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(OnScrollChanged));
     }
 
-    private void OnUnloaded(object sender, RoutedEventArgs e) => AssociatedObject?.RemoveHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(OnScrollChanged));
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+      _scrollViewer = null;
+      AssociatedObject?.RemoveHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(OnScrollChanged));
+    }
 
     /// <summary>
     /// Dependency-Property TargetElement

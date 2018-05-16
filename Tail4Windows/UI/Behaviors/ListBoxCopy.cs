@@ -71,7 +71,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
           return;
 
         var items = listBox.SelectedItems;
-        StringBuilder sb = new StringBuilder();
+        var sb = new StringBuilder();
 
         foreach ( LogEntry item in items )
         {

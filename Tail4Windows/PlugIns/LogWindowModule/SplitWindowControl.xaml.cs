@@ -26,6 +26,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   public partial class SplitWindowControl : INotifyPropertyChanged, ISplitWindowControl
   {
     private const double Offset = 5;
+    private readonly ObservableCollection<LogEntry> _entryCache = new ObservableCollection<LogEntry>();
 
     #region RoutedEvents
 

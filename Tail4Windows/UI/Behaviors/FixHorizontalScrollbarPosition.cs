@@ -63,16 +63,20 @@ namespace Org.Vs.TailForWin.UI.Behaviors
 
     private void OnLoaded(object sender, RoutedEventArgs e) => AssociatedObject?.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(OnScrollChanged));
 
-    private void OnUnloaded(object sender, RoutedEventArgs e) => AssociatedObject?.RemoveHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(OnScrollChanged));
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+      _horizontalScrollBarGrid = null;
+      AssociatedObject?.RemoveHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(OnScrollChanged));
+    }
 
     private void OnScrollChanged(object sender, ScrollChangedEventArgs e)
     {
-      if ( !(sender is FrameworkElement frameworkElement) )
-        return;
-
       if ( _horizontalScrollBarGrid != null )
         return;
 
+      if ( !(sender is FrameworkElement frameworkElement) )
+        return;
+      
       var scrollViewer = frameworkElement.Descendents().OfType<ScrollViewer>().FirstOrDefault();
 
       if ( scrollViewer == null )

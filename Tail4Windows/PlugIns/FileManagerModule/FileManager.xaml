@@ -429,6 +429,7 @@
             CanUserSort="False"
             IsReadOnly="True"
             behaviors:DataGridColumnWidthBehavior.DataGridColumnWidth="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
+            behaviors:DataGridColumnWidthBehavior.Enabled="True"
             />
 
           <DataGridTemplateColumn
@@ -436,6 +437,7 @@
             MaxWidth="250"
             Header="{DynamicResource FileManagerDataGridFileName}"
             behaviors:DataGridColumnWidthBehavior.DataGridColumnWidth="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
+            behaviors:DataGridColumnWidthBehavior.Enabled="True"
             >
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
