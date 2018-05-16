@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Interactivity;
 using Org.Vs.TailForWin.UI.Extensions;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.UI.Behaviors
@@ -83,26 +83,12 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       if ( !Equals(scrollViewer, scrollView) )
         return;
 
-      GetHorizontalScrollBarGrid(scrollViewer);
-    }
+      _horizontalScrollBarGrid = UiHelpers.GetHorizontalScrollBarGrid(scrollViewer);
 
-    private void GetHorizontalScrollBarGrid(DependencyObject scrollViewer)
-    {
-      if ( scrollViewer == null )
+      if ( _horizontalScrollBarGrid == null )
         return;
 
-      var scrollBars = scrollViewer.Descendents().OfType<ScrollBar>().Where(p => p.Visibility == Visibility.Visible);
-
-      foreach ( var scrollBar in scrollBars )
-      {
-        _horizontalScrollBarGrid = scrollBar.Descendents().OfType<Grid>().FirstOrDefault(p => p.Name == "GridHorizontalScrollBar");
-
-        if ( _horizontalScrollBarGrid == null )
-          continue;
-
-        _horizontalScrollBarGrid.Margin = FixedMargin;
-        break;
-      }
+      _horizontalScrollBarGrid.Margin = FixedMargin;
     }
   }
 }

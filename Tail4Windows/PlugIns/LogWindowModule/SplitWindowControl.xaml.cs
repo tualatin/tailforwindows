@@ -10,6 +10,7 @@ using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Events.Args;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Business.Services;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
@@ -98,7 +99,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Lines read
     /// </summary>
-    public int LinesRead => LogEntries?.Count ?? 0;
+    public int LinesRead => LogReaderService?.Index ?? 0;
 
     #endregion
 
@@ -145,13 +146,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       Dispatcher.InvokeAsync(
         () =>
         {
-          e.Log.Index = LinesRead + 1;
-
           if ( LogEntries == null )
             return;
 
+          if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 && LogEntries.Count >= SettingsHelperController.CurrentSettings.LogLineLimit )
+            LogEntries.RemoveAt(0);
+
           LogEntries.Add(e.Log);
-          RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LogEntries.Count, e.SizeRefreshTime));
+          RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LinesRead, e.SizeRefreshTime));
         }, DispatcherPriority.Normal);
     }
 

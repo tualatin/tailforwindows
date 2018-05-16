@@ -58,6 +58,15 @@ namespace Org.Vs.TailForWin.Business.Services
     /// </summary>
     public bool IsBusy => _tailBackgroundWorker.IsBusy;
 
+    /// <summary>
+    /// Current log line index
+    /// </summary>
+    public int Index
+    {
+      get;
+      private set;
+    }
+
     #endregion
 
     /// <summary>
@@ -72,6 +81,7 @@ namespace Org.Vs.TailForWin.Business.Services
       _tailBackgroundWorker.DoWork += LogReaderServiceDoWork;
       _tailBackgroundWorker.RunWorkerCompleted += LogReaderServiceRunWorkerCompleted;
 
+      Index = 0;
       _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
     }
 
@@ -88,7 +98,6 @@ namespace Org.Vs.TailForWin.Business.Services
 
     private void LogReaderServiceDoWork(object sender, DoWorkEventArgs e)
     {
-      int index = 1;
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
 
 #if DEBUG
@@ -100,7 +109,6 @@ namespace Org.Vs.TailForWin.Business.Services
 #if DEBUG
     private void SimulateTailReading()
     {
-      int index = 1;
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
 
       while ( _tailBackgroundWorker != null && !_tailBackgroundWorker.CancellationPending )
@@ -113,20 +121,20 @@ namespace Org.Vs.TailForWin.Business.Services
         if ( _tailBackgroundWorker.CancellationPending )
           return;
 
+        Index++;
         var log = new LogEntry
         {
-          Index = index,
-          Message = $"Log - {index * 24} / Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+          Index = Index,
+          Message = $"Log - {Index * 24} / Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
           DateTime = DateTime.Now
         };
 
-        SizeRefreshTime = string.Format(message, $"{12 + index * 12}", DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
+        SizeRefreshTime = string.Format(message, $"{12 + Index * 12}", DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
 
         if ( _tailBackgroundWorker.CancellationPending )
           return;
 
         OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, -1, SizeRefreshTime));
-        index++;
       }
     }
 #endif

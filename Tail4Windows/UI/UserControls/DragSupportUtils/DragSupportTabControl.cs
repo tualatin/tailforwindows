@@ -11,7 +11,7 @@ using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
-using Org.Vs.TailForWin.UI.Utils;
+using Org.Vs.TailForWin.UI.Extensions;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
@@ -96,7 +96,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( !(GetTemplateChild("ContentControlAddButton") is ContentControl contentControl) )
         return;
 
-      _addTabItemButton = (Button) UiHelpers.RecursiveVisualChildFinder<Button>(contentControl);
+      _addTabItemButton = contentControl.Descendents().OfType<Button>().FirstOrDefault();
 
       if ( _addTabItemButton == null )
         return;

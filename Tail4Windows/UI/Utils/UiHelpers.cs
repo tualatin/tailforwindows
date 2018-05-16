@@ -1,5 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Media;
+﻿using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using Org.Vs.TailForWin.UI.Extensions;
 
 
 namespace Org.Vs.TailForWin.UI.Utils
@@ -10,38 +13,27 @@ namespace Org.Vs.TailForWin.UI.Utils
   public static class UiHelpers
   {
     /// <summary>
-    /// Finds visual childs
+    /// Get horizontal scrollbar grid
     /// </summary>
-    /// <typeparam name="T">Typeof control to find</typeparam>
-    /// <param name="rootObject">Root object as <see cref="DependencyObject"/></param>
-    /// <returns><see cref="DependencyObject"/></returns>
-    public static DependencyObject RecursiveVisualChildFinder<T>(DependencyObject rootObject)
+    /// <param name="scrollViewer"><see cref="DependencyObject"/></param>
+    /// <returns><see cref="Grid"/> horizontal scrollbar grid</returns>
+    public static Grid GetHorizontalScrollBarGrid(DependencyObject scrollViewer)
     {
-      var child = VisualTreeHelper.GetChild(rootObject, 0);
-      return child.GetType() == typeof(T) ? child : RecursiveVisualChildFinder<T>(child);
-    }
-
-    /// <summary>
-    /// Get child of type
-    /// </summary>
-    /// <typeparam name="T">Type</typeparam>
-    /// <param name="depObj"><see cref="DependencyObject"/></param>
-    /// <returns>Type</returns>
-    public static T GetChildOfType<T>(DependencyObject depObj)
-      where T : DependencyObject
-    {
-      if ( depObj == null )
+      if ( scrollViewer == null )
         return null;
 
-      for ( int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++ )
+      var scrollBars = scrollViewer.Descendents().OfType<ScrollBar>().Where(p => p.Visibility == Visibility.Visible);
+
+      foreach ( var scrollBar in scrollBars )
       {
-        var child = VisualTreeHelper.GetChild(depObj, i);
+        var grid = scrollBar.Descendents().OfType<Grid>().FirstOrDefault(p => p.Name == "GridHorizontalScrollBar");
 
-        var result = child as T ?? GetChildOfType<T>(child);
+        if ( grid == null )
+          continue;
 
-        if ( result != null )
-          return result;
+        return grid;
       }
+
       return null;
     }
   }

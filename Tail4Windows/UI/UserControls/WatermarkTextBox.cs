@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -17,7 +17,8 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// <summary>
     /// Select all on got focus property
     /// </summary>
-    public static readonly DependencyProperty SelectAllOnGotFocusProperty = DependencyProperty.Register("SelectAllOnGotFocus", typeof(bool), typeof(WatermarkTextBox), new PropertyMetadata(false));
+    public static readonly DependencyProperty SelectAllOnGotFocusProperty = DependencyProperty.Register(nameof(SelectAllOnGotFocus), typeof(bool), typeof(WatermarkTextBox),
+      new PropertyMetadata(false));
 
     /// <summary>
     /// Select all on got focus
@@ -31,7 +32,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// <summary>
     /// Set watermark property
     /// </summary>
-    public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register("Watermark", typeof(object), typeof(WatermarkTextBox), new UIPropertyMetadata(null));
+    public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register(nameof(Watermark), typeof(object), typeof(WatermarkTextBox), new UIPropertyMetadata(null));
 
     /// <summary>
     /// Set watermark
@@ -45,7 +46,8 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// <summary>
     /// Watermark template property
     /// </summary>
-    public static readonly DependencyProperty WatermarkTemplateProperty = DependencyProperty.Register("WatermarkTemplate", typeof(DataTemplate), typeof(WatermarkTextBox), new UIPropertyMetadata(null));
+    public static readonly DependencyProperty WatermarkTemplateProperty = DependencyProperty.Register(nameof(WatermarkTemplate), typeof(DataTemplate), typeof(WatermarkTextBox),
+      new UIPropertyMetadata(null));
 
     /// <summary>
     /// Watermark template

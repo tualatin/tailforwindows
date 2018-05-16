@@ -15,7 +15,6 @@ using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.UI.Extensions;
-using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
@@ -347,7 +346,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       base.OnApplyTemplate();
 
-      _scrollViewer = UiHelpers.GetChildOfType<ScrollViewer>(this);
+      _scrollViewer = this.Descendents().OfType<ScrollViewer>().FirstOrDefault();
 
       if ( _scrollViewer == null )
         return;
@@ -484,22 +483,22 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private System.Drawing.Rectangle? MouseButtonDownHelper(LogEntry item)
     {
-      ListBoxItem myListBoxItem = (ListBoxItem) ItemContainerGenerator.ContainerFromItem(item);
-      ContentPresenter myContentPresenter = UiHelpers.GetChildOfType<ContentPresenter>(myListBoxItem);
-      DataTemplate myDataTemplate = myContentPresenter?.ContentTemplate;
+      var myListBoxItem = (ListBoxItem) ItemContainerGenerator.ContainerFromItem(item);
+      var myContentPresenter = myListBoxItem.Descendents().OfType<ContentPresenter>().FirstOrDefault();
+      var myDataTemplate = myContentPresenter?.ContentTemplate;
 
       if ( myDataTemplate == null )
         return null;
 
-      TextBlock textBlock = (TextBlock) myDataTemplate.FindName("TextBoxMessage", myContentPresenter);
-      Image target = (Image) myDataTemplate.FindName("TextBoxBookmarkPoint", myContentPresenter);
+      var textBlock = (TextBlock) myDataTemplate.FindName("TextBoxMessage", myContentPresenter);
+      var target = (Image) myDataTemplate.FindName("TextBoxBookmarkPoint", myContentPresenter);
 
       if ( target == null || textBlock == null )
         return null;
 
-      Point relativePoint = target.PointToScreen(new Point(0, 0));
-      Size s = new Size(16, 16);
-      Size textSize = textBlock.Text.GetMeasureTextSize(new Typeface(textBlock.FontFamily, textBlock.FontStyle, textBlock.FontWeight, textBlock.FontStretch), textBlock.FontSize);
+      var relativePoint = target.PointToScreen(new Point(0, 0));
+      var s = new Size(16, 16);
+      var textSize = textBlock.Text.GetMeasureTextSize(new Typeface(textBlock.FontFamily, textBlock.FontStyle, textBlock.FontWeight, textBlock.FontStretch), textBlock.FontSize);
 
       if ( textSize.Height >= 16 )
         s.Height = textSize.Height;

@@ -42,6 +42,14 @@ namespace Org.Vs.TailForWin.Business.Interfaces
     }
 
     /// <summary>
+    /// Current log line index
+    /// </summary>
+    int Index
+    {
+      get;
+    }
+
+    /// <summary>
     /// Starts tail
     /// </summary>
     void StartTail();

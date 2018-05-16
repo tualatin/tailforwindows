@@ -428,12 +428,14 @@
             Binding="{Binding ., Converter={StaticResource RowFromTailManagerCollectionConverter}, StringFormat=#;;#}"
             CanUserSort="False"
             IsReadOnly="True"
+            behaviors:DataGridColumnWidthBehavior.DataGridColumnWidth="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
             />
 
           <DataGridTemplateColumn
             MinWidth="190"
             MaxWidth="250"
             Header="{DynamicResource FileManagerDataGridFileName}"
+            behaviors:DataGridColumnWidthBehavior.DataGridColumnWidth="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
             >
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>

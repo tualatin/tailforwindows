@@ -239,6 +239,7 @@
     </Compile>
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\GridSplitterMouseExtension.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\LogEntryScrollBehavior.cs" />
+    <Compile Include="UI\Behaviors\DataGridColumnWidthBehavior.cs" />
     <Compile Include="UI\Behaviors\FixHorizontalScrollbarPosition.cs" />
     <Compile Include="UI\Behaviors\ListBoxCopy.cs" />
     <Compile Include="UI\Behaviors\ListBoxExtenders.cs" />

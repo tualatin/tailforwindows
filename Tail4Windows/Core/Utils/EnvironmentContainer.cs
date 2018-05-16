@@ -61,7 +61,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Unlimited log line value
     /// </summary>
-    public const int UnlimitedLogLineValue = 400000;
+    public const int UnlimitedLogLineValue = 30000;
 
     /// <summary>
     /// Current event manager

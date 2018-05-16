@@ -16,12 +16,12 @@ namespace Org.Vs.TailForWin.UI.Behaviors
     protected override void OnAttached()
     {
       base.OnAttached();
-      AssociatedObject.SelectionChanged += AssociatedObject_SelectionChanged;
+      AssociatedObject.SelectionChanged += AssociatedObjectSelectionChanged;
     }
 
-    private static void AssociatedObject_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private static void AssociatedObjectSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      DataGrid datagrid = sender as DataGrid;
+      var datagrid = sender as DataGrid;
 
       if ( datagrid?.SelectedItem != null )
       {
@@ -41,7 +41,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
     protected override void OnDetaching()
     {
       base.OnDetaching();
-      AssociatedObject.SelectionChanged -= AssociatedObject_SelectionChanged;
+      AssociatedObject.SelectionChanged -= AssociatedObjectSelectionChanged;
     }
   }
 }
