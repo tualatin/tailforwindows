@@ -28,7 +28,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SplitWindowControl));
 
+    /// <summary>
+    /// Splitter offset
+    /// </summary>
     private const double Offset = 5;
+
+    /// <summary>
+    /// Max capacity of <see cref="LogEntries"/>
+    /// </summary>
+    private const int MaxCapacity = 7000;
+
     private ObservableCollection<LogEntry> _entryCache = new ObservableCollection<LogEntry>();
     private LogEntry _lastSeenEntry;
 
@@ -148,6 +157,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         Source = LogEntries
       };
+
+      LOG.Debug($"Current max logline capacity is {MaxCapacity}");
     }
 
     #region Dependency properties
@@ -185,6 +196,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 && LogEntries.Count >= SettingsHelperController.CurrentSettings.LogLineLimit )
             LogEntries.RemoveAt(0);
 
+          SetupCache();
           LogEntries.Add(e.Log);
           RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LinesRead, e.SizeRefreshTime));
         }, DispatcherPriority.Normal);
@@ -250,6 +262,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( _entryCache == null )
         _entryCache = new ObservableCollection<LogEntry>();
 
+      LOG.Trace("Clear items and cache");
+
       LogEntries.Clear();
       _entryCache.Clear();
     }
@@ -287,6 +301,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     #endregion
+
+    private void SetupCache()
+    {
+      if ( LogEntries.Count < MaxCapacity )
+        return;
+
+      LOG.Debug("Insert into cache");
+
+      var logEntry = LogEntries[0];
+      _entryCache.Add(logEntry);
+
+      LOG.Debug($"Current cache size {_entryCache.Count}");
+
+      LogEntries.RemoveAt(0);
+    }
 
     private void SetSplitWindowItemSource()
     {
