@@ -61,12 +61,12 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Unlimited log line value
     /// </summary>
-    public const int UnlimitedLogLineValue = 20000;
+    public const int UnlimitedLogLineValue = 15000;
 
     /// <summary>
     /// Minimum log line value
     /// </summary>
-    public const int MinLogLineValue = 5000;
+    public const int MinLogLineValue = 3000;
 
     /// <summary>
     /// Current event manager

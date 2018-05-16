@@ -36,7 +36,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Max capacity of <see cref="LogEntries"/>
     /// </summary>
-    private const int MaxCapacity = 7000;
+    private const int MaxCapacity = 5000;
 
     private ObservableCollection<LogEntry> _entryCache = new ObservableCollection<LogEntry>();
     private LogEntry _lastSeenEntry;
@@ -199,7 +199,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           SetupCache();
           LogEntries.Add(e.Log);
           RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LinesRead, e.SizeRefreshTime));
-        }, DispatcherPriority.Normal);
+        }, DispatcherPriority.Background);
     }
 
     /// <summary>
@@ -304,12 +304,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void SetupCache()
     {
-      if ( LogEntries.Count < MaxCapacity )
+      if ( LogEntries.Count <= MaxCapacity )
         return;
 
       LOG.Debug("Insert into cache");
 
       var logEntry = LogEntries[0];
+
+      if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 && _entryCache.Count + MaxCapacity >= SettingsHelperController.CurrentSettings.LogLineLimit )
+        _entryCache.RemoveAt(0);
+
       _entryCache.Add(logEntry);
 
       LOG.Debug($"Current cache size {_entryCache.Count}");
