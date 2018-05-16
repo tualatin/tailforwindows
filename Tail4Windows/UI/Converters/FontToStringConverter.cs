@@ -26,13 +26,13 @@ namespace Org.Vs.TailForWin.UI.Converters
       if ( !(value is FontType font) )
         return string.Empty;
 
-      FamilyTypeface ftf = new FamilyTypeface
+      var ftf = new FamilyTypeface
       {
         Stretch = font.FontStretch,
         Weight = font.FontWeight,
         Style = font.FontStyle
       };
-      return $"{font.FontFamily.Source} ({font.FontSize:0.#}) {FontInfo.TypefaceToString(ftf)}";
+      return $"{font.FontFamily.Source} ({font.FontSize:0.#})";
     }
 
     /// <summary>

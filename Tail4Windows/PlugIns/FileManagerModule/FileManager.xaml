@@ -382,7 +382,7 @@
         </userControls:WatermarkTextBox>
       </Grid>
 
-      <DataGrid
+      <userControls:VsDataGrid
         x:Name="TailManagerDataGrid"
         Grid.Row="2"
         CanUserAddRows="False"
@@ -412,31 +412,16 @@
         <i:Interaction.Behaviors>
           <behaviors:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />
           <behaviors:ScrollDataGridRowIntoView />
-          <behaviors:FixHorizontalScrollbarPosition>
-            <behaviors:FixHorizontalScrollbarPosition.FixedMargin>
-              <MultiBinding Converter="{StaticResource WidthToMarginMultiConverter}">
-                <Binding
-                  ElementName="ColumnFileName"
-                  Path="Width"
-                  />
-                <Binding
-                  ElementName="ColumnNo"
-                  Path="Width"
-                  />
-              </MultiBinding>
-            </behaviors:FixHorizontalScrollbarPosition.FixedMargin>
-          </behaviors:FixHorizontalScrollbarPosition>
         </i:Interaction.Behaviors>
-        <DataGrid.RowStyle>
+        <userControls:VsDataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
           <Style TargetType="{x:Type DataGridRow}">
             <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocussedWhenSelected" Value="True" />
           </Style>
-        </DataGrid.RowStyle>
+        </userControls:VsDataGrid.RowStyle>
 
-        <DataGrid.Columns>
+        <userControls:VsDataGrid.Columns>
           <DataGridTextColumn
-            x:Name="ColumnNo"
             MinWidth="50"
             MaxWidth="100"
             Header="{DynamicResource FileManagerDataGridNo}"
@@ -446,7 +431,6 @@
             />
 
           <DataGridTemplateColumn
-            x:Name="ColumnFileName"
             MinWidth="190"
             MaxWidth="250"
             Header="{DynamicResource FileManagerDataGridFileName}"
@@ -543,8 +527,8 @@
             Binding="{Binding IsRegex}"
             IsReadOnly="True"
             />
-        </DataGrid.Columns>
-      </DataGrid>
+        </userControls:VsDataGrid.Columns>
+      </userControls:VsDataGrid>
 
       <Border
         Grid.Row="3"

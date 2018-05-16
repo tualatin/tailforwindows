@@ -407,7 +407,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
 
     private TailData GetTailDataById(ObservableCollection<TailData> tailData, Guid id)
     {
-      TailData result = new TailData();
+      var result = new TailData();
 
       try
       {
@@ -499,7 +499,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       if ( filter.FontType == null )
         filter.FontType = new FontType();
 
-      XElement newFilterElement = new XElement(XmlNames.Filter,
+      var newFilterElement = new XElement(XmlNames.Filter,
         new XElement(XmlNames.Id, filter.Id),
         new XElement(XmlNames.FilterName, filter.Description),
         new XElement(XmlNames.FilterPattern, filter.Filter),

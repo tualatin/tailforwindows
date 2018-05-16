@@ -5,6 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="300"
@@ -25,19 +26,19 @@
       </Grid.RowDefinitions>
 
       <GroupBox
-        MinWidth="300"
+        MinWidth="350"
         MinHeight="200"
         Margin="2"
         Header="{DynamicResource ColorOptionGroupLogWindow}"
         >
         <Grid Margin="3">
-          <DataGrid
+          <userControls:VsDataGrid
             CanUserAddRows="False"
             CanUserDeleteRows="False"
             ItemsSource="{Binding LogViewerColorData}"
             SelectionUnit="Cell"
             >
-            <DataGrid.Columns>
+            <userControls:VsDataGrid.Columns>
               <DataGridTextColumn
                 MinWidth="200"
                 Header="{DynamicResource ColorOptionLogWindowGridName}"
@@ -58,25 +59,25 @@
                   </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
               </DataGridTemplateColumn>
-            </DataGrid.Columns>
-          </DataGrid>
+            </userControls:VsDataGrid.Columns>
+          </userControls:VsDataGrid>
         </Grid>
       </GroupBox>
 
       <GroupBox
         Grid.Row="1"
-        MinWidth="300"
+        MinWidth="350"
         Margin="2"
         Header="{DynamicResource ColorOptionGroupStatusBar}"
         >
         <Grid Margin="3">
-          <DataGrid
+          <userControls:VsDataGrid
             CanUserAddRows="False"
             CanUserDeleteRows="False"
             ItemsSource="{Binding StatusbarColorData}"
             SelectionUnit="Cell"
             >
-            <DataGrid.Columns>
+            <userControls:VsDataGrid.Columns>
               <DataGridTextColumn
                 MinWidth="200"
                 Header="{DynamicResource ColorOptionLogWindowGridName}"
@@ -97,8 +98,8 @@
                   </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
               </DataGridTemplateColumn>
-            </DataGrid.Columns>
-          </DataGrid>
+            </userControls:VsDataGrid.Columns>
+          </userControls:VsDataGrid>
         </Grid>
       </GroupBox>
     </Grid>

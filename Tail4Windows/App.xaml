@@ -21,12 +21,12 @@
         <ResourceDictionary Source="UI/Styles/Label.xaml" />
         <ResourceDictionary Source="UI/Styles/Button.xaml" />
         <ResourceDictionary Source="UI/Styles/ComboBox.xaml" />
-        <ResourceDictionary Source="UI/UserControls/Styles/WatermarkTextBoxStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/ScrollbarResources.xaml" />
         <ResourceDictionary Source="UI/Styles/StatusbarComboBoxStyle.xaml" />
-        <ResourceDictionary Source="UI/Styles/DataGridStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/TreeView.xaml" />
         <ResourceDictionary Source="UI/Styles/TabItemToolTipStyle.xaml" />
+        <ResourceDictionary Source="UI/UserControls/Styles/WatermarkTextBoxStyle.xaml" />
+        <ResourceDictionary Source="UI/UserControls/Styles/VsDataGridStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/TitleBarWindowIconStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/TitleBarButtonsStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/SettingsGridStyle.xaml" />

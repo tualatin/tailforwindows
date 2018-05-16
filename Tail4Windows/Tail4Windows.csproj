@@ -524,6 +524,7 @@
     <Compile Include="UI\UserControls\UpdateControl.xaml.cs">
       <DependentUpon>UpdateControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\UserControls\VsDataGrid.cs" />
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
     <Compile Include="UI\Utils\FileDragDropHelper.cs" />
@@ -732,7 +733,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\Styles\DataGridStyle.xaml">
+    <Page Include="UI\UserControls\Styles\VsDataGridStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

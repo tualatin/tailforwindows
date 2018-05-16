@@ -80,7 +80,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <returns><see cref="FamilyTypeface"/> as string</returns>
     public static string TypefaceToString(FamilyTypeface ttf)
     {
-      StringBuilder sb = new StringBuilder(ttf.Stretch.ToString());
+      var sb = new StringBuilder(ttf.Stretch.ToString());
       sb.Append(" / ");
       sb.Append(ttf.Weight.ToString());
       sb.Append(" / ");

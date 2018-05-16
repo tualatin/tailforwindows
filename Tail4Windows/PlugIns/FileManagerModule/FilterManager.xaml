@@ -8,6 +8,7 @@
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
   mc:Ignorable="d"
   x:Name="FilterManagerWindow"
@@ -295,7 +296,7 @@
         </Grid>
       </Border>
 
-      <DataGrid
+      <userControls:VsDataGrid
         x:Name="FilterDataGrid"
         Grid.Row="1"
         CanUserAddRows="False"
@@ -305,14 +306,14 @@
         ItemsSource="{Binding FilterManagerView}"
         SelectionMode="Single"
         >
-        <DataGrid.RowStyle>
+        <userControls:VsDataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
           <Style TargetType="{x:Type DataGridRow}">
             <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocussedWhenSelected" Value="True" />
           </Style>
-        </DataGrid.RowStyle>
+        </userControls:VsDataGrid.RowStyle>
 
-        <DataGrid.Columns>
+        <userControls:VsDataGrid.Columns>
           <DataGridTextColumn
             MinWidth="50"
             Header="{DynamicResource FileManagerDataGridNo}"
@@ -347,8 +348,8 @@
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
-        </DataGrid.Columns>
-      </DataGrid>
+        </userControls:VsDataGrid.Columns>
+      </userControls:VsDataGrid>
 
       <Border
         Grid.Row="2"
