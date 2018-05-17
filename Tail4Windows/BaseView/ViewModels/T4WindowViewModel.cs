@@ -345,14 +345,17 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private async Task CleanGarbageCollectorAsync()
     {
-      while ( true )
+      while ( !_cts.IsCancellationRequested )
       {
         await Task.Delay(TimeSpan.FromMinutes(5), _cts.Token).ConfigureAwait(false);
 
         LOG.Trace("CleanUp GC..");
+        LOG.Trace($"TotalMemory before clean up: {GC.GetTotalMemory(true)}");
 
         GC.Collect();
         GC.WaitForPendingFinalizers();
+
+        LOG.Trace($"TotalMemory after clean up: {GC.GetTotalMemory(true)}");
       }
     }
 

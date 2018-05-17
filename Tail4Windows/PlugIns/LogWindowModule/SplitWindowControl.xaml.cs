@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
+using Org.Vs.TailForWin.UI.Services;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
@@ -32,6 +34,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SplitWindowControl));
 
+    private int _index;
     private CancellationTokenSource _cts;
 
     /// <summary>
@@ -42,7 +45,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Max capacity of <see cref="LogEntries"/>
     /// </summary>
-    private const int MaxCapacity = 7000;
+    private const int MaxCapacity = 6500;
 
     private LogEntry _lastSeenEntry;
 
@@ -207,11 +210,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( LogEntries == null )
             return;
 
-          if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 && LogEntries.Count >= SettingsHelperController.CurrentSettings.LogLineLimit )
+          if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 && LogEntries.Count >= SettingsHelperController.CurrentSettings.LogLineLimit && _splitterPosition <= 0 )
             LogEntries.RemoveAt(0);
 
           SetupCache();
           LogEntries.Add(e.Log);
+
           RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LinesRead, e.SizeRefreshTime));
         }, DispatcherPriority.Background);
     }
@@ -299,7 +303,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private async Task PrintCacheSizeAsync()
     {
-      while ( true )
+      while ( !_cts.IsCancellationRequested )
       {
         await Task.Delay(TimeSpan.FromMinutes(10), _cts.Token).ConfigureAwait(false);
         LOG.Trace($"Current cache size is {EntryCache.Count}");
@@ -346,14 +350,29 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( EntryCache.Count == 0 )
         LOG.Debug("Start caching...");
 
-      var logEntry = LogEntries[0];
+      LogEntry logEntry;
 
-      if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 && EntryCache.Count + MaxCapacity >= SettingsHelperController.CurrentSettings.LogLineLimit )
+      if ( _splitterPosition <= 0 )
+      {
+        _index = 0;
+        logEntry = LogEntries.First();
+      }
+      else
+      {
+        logEntry = LogEntries[_index];
+        _index++;
+      }
+
+      if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 && EntryCache.Count + MaxCapacity >= SettingsHelperController.CurrentSettings.LogLineLimit
+                                                                       && _splitterPosition <= 0 )
+      {
         EntryCache.RemoveAt(0);
+      }
 
       EntryCache.Add(logEntry);
 
-      LogEntries.RemoveAt(0);
+      if ( _splitterPosition <= 0 )
+        LogEntries.RemoveAt(0);
     }
 
     private void SetSplitWindowItemSource()
@@ -380,6 +399,22 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       else if ( _splitterPosition <= 0 && LogWindowSplitElement.ItemsSource != null )
       {
         LogWindowSplitElement.ItemsSource = null;
+
+        MouseService.SetBusyState();
+
+        try
+        {
+          var result = EntryCache.Intersect(LogEntries);
+
+          foreach ( var logEntry in result )
+          {
+            LogEntries.Remove(logEntry);
+          }
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        }
       }
     }
 

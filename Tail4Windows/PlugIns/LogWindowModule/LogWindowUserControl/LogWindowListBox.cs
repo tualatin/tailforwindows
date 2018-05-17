@@ -425,7 +425,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         return;
 
       var mouse = e.GetPosition(splitWindow);
-      LOG.Debug($"Current mouse position {mouse.Y}");
+      //LOG.Debug($"Current mouse position {mouse.Y}");
 
       if ( mouse.Y <= 5 )
       {
