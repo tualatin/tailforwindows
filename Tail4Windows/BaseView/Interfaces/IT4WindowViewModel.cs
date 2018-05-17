@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Core.Interfaces;
@@ -130,6 +131,33 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
     IAsyncCommand WndClosingCommand
     {
       get;
+    }
+
+    /// <summary>
+    /// Tab item source
+    /// </summary>
+    ObservableCollection<DragSupportTabItem> TabItemsSource
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Selected <see cref="DragSupportTabItem"/>
+    /// </summary>
+    DragSupportTabItem SelectedTabItem
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Close action
+    /// </summary>
+    Action CloseAction
+    {
+      get;
+      set;
     }
   }
 }

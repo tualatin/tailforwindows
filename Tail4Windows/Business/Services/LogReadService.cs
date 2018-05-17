@@ -115,9 +115,6 @@ namespace Org.Vs.TailForWin.Business.Services
       {
         Thread.Sleep((int) TailData.RefreshRate);
 
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
-
         if ( _tailBackgroundWorker.CancellationPending )
           return;
 

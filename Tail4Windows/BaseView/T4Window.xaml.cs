@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using log4net;
+using Org.Vs.TailForWin.BaseView.ViewModels;
 using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -65,6 +66,7 @@ namespace Org.Vs.TailForWin.BaseView
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataAsNewTabItem>(OnOpenTailDataAsNewTabItem);
 
       IsParent = true;
+      ((T4WindowViewModel) DataContext).CloseAction = Close;
     }
 
     #region Events

@@ -45,6 +45,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private int _currentLinesRead;
     private string _currentSizeRefreshTime;
     private readonly IBaseWindowStatusbarViewModel _baseWindowStatusbarViewModel;
+    private readonly CancellationTokenSource _cts;
 
     #region Events
 
@@ -55,7 +56,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// Default width
     /// </summary>
-    public double DefaultWidth
+    private double DefaultWidth
     {
       get;
     } = 820;
@@ -63,7 +64,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// Default height
     /// </summary>
-    public double DefaultHeight
+    private double DefaultHeight
     {
       get;
     } = 600;
@@ -71,7 +72,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// Default window position X
     /// </summary>
-    public double DefaultWindowPositionX
+    private double DefaultWindowPositionX
     {
       get;
     } = 100;
@@ -79,7 +80,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// Default window position Y
     /// </summary>
-    public double DefaultWindowPositionY
+    private double DefaultWindowPositionY
     {
       get;
     } = 100;
@@ -226,6 +227,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
+    /// <summary>
+    /// Close action
+    /// </summary>
+    public Action CloseAction
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     /// <summary>
@@ -235,6 +245,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<AddTabItemMessage>(OnAddTabItemFromMainWindow);
 
+      _cts = new CancellationTokenSource();
       _currentStatusbarState = EStatusbarState.Default;
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
       _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
@@ -243,8 +254,21 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _baseWindowStatusbarViewModel = BaseWindowStatusbarViewModel.Instance;
       _baseWindowStatusbarViewModel.FileEncodingChanged += OnFileEncodingChanged;
 
-      TrayIconItemsSource = new ObservableCollection<DragSupportMenuItem>();
+      CreateTrayIconSystemMenu();
+
       TabItemsSource = new ObservableCollection<DragSupportTabItem>();
+    }
+
+    private void CreateTrayIconSystemMenu()
+    {
+      TrayIconItemsSource = new ObservableCollection<DragSupportMenuItem>
+      {
+        new DragSupportMenuItem
+        {
+          HeaderContent = Application.Current.TryFindResource("ApplicationExit").ToString(),
+          Command = new RelayCommand(p => ExecuteExitApplication())
+        }
+      };
     }
 
     private void OnFileEncodingChanged(object sender, FileEncodingArgs e)
@@ -271,7 +295,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
         foreach ( var item in e.NewItems )
         {
-          TrayIconItemsSource.Add(new DragSupportMenuItem
+          TrayIconItemsSource.Insert(0, new DragSupportMenuItem
           {
             TabItem = item as DragSupportTabItem
           });
@@ -282,7 +306,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
         foreach ( var item in e.OldItems )
         {
-          var toRemove = TrayIconItemsSource.SingleOrDefault(p => p.TabItem.TabItemId == ((DragSupportTabItem) item).TabItemId);
+          var toRemove = TrayIconItemsSource.SingleOrDefault(p => p.TabItem != null && p.TabItem.TabItemId == ((DragSupportTabItem) item).TabItemId);
           TrayIconItemsSource.Remove(toRemove);
         }
         break;
@@ -317,6 +341,19 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       RestoreWindowSizeAndPosition();
 
       await AutoUpdateAsync().ConfigureAwait(false);
+    }
+
+    private async Task CleanGarbageCollectorAsync()
+    {
+      while ( true )
+      {
+        await Task.Delay(TimeSpan.FromMinutes(5), _cts.Token).ConfigureAwait(false);
+
+        LOG.Trace("CleanUp GC..");
+
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
+      }
     }
 
     #region Commands
@@ -400,6 +437,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region Command functions
 
+    private void ExecuteExitApplication() => CloseAction();
+
     private void ExecuteCloseTabItemCommand()
     {
       if ( SelectedTabItem == null )
@@ -447,6 +486,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       LOG.Trace($"{EnvironmentContainer.ApplicationTitle} closing, goodbye!");
 
+      _cts.Cancel();
       TrayIconItemsSource.Clear();
       TabItemsSource.Clear();
 
@@ -462,6 +502,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
         LOG.Trace($"{EnvironmentContainer.ApplicationTitle} startup completed!");
       }).ConfigureAwait(false);
+
+      await CleanGarbageCollectorAsync().ConfigureAwait(false);
     }
 
     private void ExecuteQuickSearchCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new QuickSearchTextBoxGetFocusMessage(this, true));

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -17,6 +20,7 @@ using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
+using Org.Vs.TailForWin.UI.Interfaces;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
@@ -28,6 +32,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SplitWindowControl));
 
+    private CancellationTokenSource _cts;
+
     /// <summary>
     /// Splitter offset
     /// </summary>
@@ -36,9 +42,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Max capacity of <see cref="LogEntries"/>
     /// </summary>
-    private const int MaxCapacity = 5000;
+    private const int MaxCapacity = 7000;
 
-    private ObservableCollection<LogEntry> _entryCache = new ObservableCollection<LogEntry>();
     private LogEntry _lastSeenEntry;
 
     #region RoutedEvents
@@ -143,6 +148,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
+    /// <summary>
+    /// <see cref="LogEntry"/> cache
+    /// </summary>
+    public List<LogEntry> EntryCache
+    {
+      get;
+      set;
+    } = new List<LogEntry>();
+
     #endregion
 
     /// <summary>
@@ -230,12 +244,19 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #region Commands
 
-    private ICommand _loadedCommand;
+    private IAsyncCommand _loadedCommand;
 
     /// <summary>
     /// Loaded command
     /// </summary>
-    public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(p => ExecuteLoadedCommand()));
+    public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create((p, t) => ExecuteLoadedCommandAsync()));
+
+    private ICommand _unloadedCommand;
+
+    /// <summary>
+    /// Unloaded command
+    /// </summary>
+    public ICommand UnloadedCommand => _unloadedCommand ?? (_unloadedCommand = new RelayCommand(p => ExecuteUnloadedCommand()));
 
     private ICommand _sizeChangedCommand;
 
@@ -259,18 +280,33 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       if ( LogEntries == null )
         LogEntries = new ObservableCollection<LogEntry>();
-      if ( _entryCache == null )
-        _entryCache = new ObservableCollection<LogEntry>();
+      if ( EntryCache == null )
+        EntryCache = new List<LogEntry>();
 
       LOG.Trace("Clear items and cache");
 
       LogEntries.Clear();
-      _entryCache.Clear();
+      EntryCache.Clear();
     }
 
-    private void ExecuteLoadedCommand()
+    private async Task ExecuteLoadedCommandAsync()
     {
+      _cts?.Dispose();
+      _cts = new CancellationTokenSource();
+
+      await PrintCacheSizeAsync().ConfigureAwait(false);
     }
+
+    private async Task PrintCacheSizeAsync()
+    {
+      while ( true )
+      {
+        await Task.Delay(TimeSpan.FromMinutes(10), _cts.Token).ConfigureAwait(false);
+        LOG.Trace($"Current cache size is {EntryCache.Count}");
+      }
+    }
+
+    private void ExecuteUnloadedCommand() => _cts.Cancel();
 
     private void ExecuteSizeChangedCommand(SizeChangedEventArgs e)
     {
@@ -307,16 +343,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( LogEntries.Count <= MaxCapacity )
         return;
 
-      LOG.Debug("Insert into cache");
+      if ( EntryCache.Count == 0 )
+        LOG.Debug("Start caching...");
 
       var logEntry = LogEntries[0];
 
-      if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 && _entryCache.Count + MaxCapacity >= SettingsHelperController.CurrentSettings.LogLineLimit )
-        _entryCache.RemoveAt(0);
+      if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 && EntryCache.Count + MaxCapacity >= SettingsHelperController.CurrentSettings.LogLineLimit )
+        EntryCache.RemoveAt(0);
 
-      _entryCache.Add(logEntry);
-
-      LOG.Debug($"Current cache size {_entryCache.Count}");
+      EntryCache.Add(logEntry);
 
       LogEntries.RemoveAt(0);
     }

@@ -26,6 +26,10 @@
       <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
     </i:EventTrigger>
 
+    <i:EventTrigger EventName="Unloaded">
+      <i:InvokeCommandAction Command="{Binding UnloadedCommand}" />
+    </i:EventTrigger>
+
     <i:EventTrigger EventName="SizeChanged">
       <commands:InvokeDelegateCommandAction
         Command="{Binding SizeChangedCommand}"

@@ -10,6 +10,7 @@
   <system:String x:Key="UiLanguage">Language</system:String>
 
   <system:String x:Key="ApplicationTitle">Tail4Windows</system:String>
+  <system:String x:Key="ApplicationExit">Exit</system:String>
   <system:String x:Key="OpenFileDialog">Please select a file to tail...</system:String>
   <system:String x:Key="FileNotFound">File not found!</system:String>
   <system:String x:Key="NoFilenameEntered">No filename entered!</system:String>

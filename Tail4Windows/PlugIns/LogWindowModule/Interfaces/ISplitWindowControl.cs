@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Core.Data;
@@ -59,6 +60,33 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     /// Current splitter height
     /// </summary>
     double SplitterPosition
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Last visible <see cref="LogEntry"/> index
+    /// </summary>
+    int LastVisibleLogEntryIndex
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Selected <see cref="LogEntry"/> item
+    /// </summary>
+    LogEntry SelectedItem
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// <see cref="LogEntry"/> cache
+    /// </summary>
+    List<LogEntry> EntryCache
     {
       get;
       set;

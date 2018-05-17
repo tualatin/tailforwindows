@@ -10,6 +10,7 @@
   <system:String x:Key="UiLanguage">Sprache</system:String>
 
   <system:String x:Key="ApplicationTitle">Tail4Windows</system:String>
+  <system:String x:Key="ApplicationExit">Beenden</system:String>
   <system:String x:Key="OpenFileDialog">Bitte eine Datei zum protokollieren auswählen...</system:String>
   <system:String x:Key="FileNotFound">Datei wurde nicht gefunden!</system:String>
   <system:String x:Key="NoFilenameEntered">Kein Dateiname angegeben!</system:String>
