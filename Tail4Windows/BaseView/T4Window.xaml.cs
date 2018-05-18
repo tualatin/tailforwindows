@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Interop;
 using log4net;
 using Org.Vs.TailForWin.BaseView.ViewModels;
-using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
@@ -18,6 +17,7 @@ using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.BaseView

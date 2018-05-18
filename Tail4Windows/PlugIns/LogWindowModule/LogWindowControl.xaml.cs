@@ -14,7 +14,6 @@ using log4net;
 using Org.Vs.TailForWin.Business.Controllers;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Business.Services;
-using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
@@ -37,6 +36,7 @@ using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule

@@ -11,7 +11,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -24,6 +23,7 @@ using Org.Vs.TailForWin.PlugIns.FontChooserModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels

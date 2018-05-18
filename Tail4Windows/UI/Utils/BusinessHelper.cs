@@ -7,7 +7,7 @@ using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
 
-namespace Org.Vs.TailForWin.Business.Utils
+namespace Org.Vs.TailForWin.UI.Utils
 {
   /// <summary>
   /// BusinessHelper

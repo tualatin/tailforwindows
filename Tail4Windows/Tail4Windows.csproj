@@ -191,9 +191,6 @@
     </ApplicationDefinition>
     <Compile Include="BaseView\Events\Args\FileEncodingArgs.cs" />
     <Compile Include="BaseView\Events\Delegates\FileEncodingChangedEventHandler.cs" />
-    <Compile Include="Business\Controllers\PrintController.cs" />
-    <Compile Include="Business\Controllers\SystemInformationController.cs" />
-    <Compile Include="Business\Data\LogEntry.cs" />
     <Compile Include="Data\Messages\AddTabItemMessage.cs" />
     <Compile Include="Data\Messages\AddTailDataToQuickAddMessage.cs" />
     <Compile Include="Data\Messages\DisableQuickAddInTailDataMessage.cs" />
@@ -205,16 +202,6 @@
     <Compile Include="Data\Messages\QuickSearchTextBoxGetFocusMessage.cs" />
     <Compile Include="Data\Messages\ResetDataMessage.cs" />
     <Compile Include="Data\Messages\ShowNotificationPopUpMessage.cs" />
-    <Compile Include="Business\Data\SystemInformation\CpuInfo.cs" />
-    <Compile Include="Business\Data\SystemInformation\IpAddress.cs" />
-    <Compile Include="Business\Data\SystemInformation\SystemInformationData.cs" />
-    <Compile Include="Business\Events\Args\LogEntryCreatedArgs.cs" />
-    <Compile Include="Business\Events\Delegates\LogEntryCreated.cs" />
-    <Compile Include="Business\Interfaces\ICacheManager.cs" />
-    <Compile Include="Business\Interfaces\ILogReadService.cs" />
-    <Compile Include="Business\Services\LogReadService.cs" />
-    <Compile Include="Business\Utils\BusinessHelper.cs" />
-    <Compile Include="Business\Utils\CacheManager.cs" />
     <Compile Include="PlugIns\FileManagerModule\Controller\TailDataComparer.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\CollectionViewHolder.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\FilterManagerCollectionViewHolder.cs" />
@@ -455,6 +442,7 @@
     <Compile Include="UI\UserControls\VsDataGrid.cs" />
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
+    <Compile Include="UI\Utils\BusinessHelper.cs" />
     <Compile Include="UI\Utils\FileDragDropHelper.cs" />
     <Compile Include="UI\Utils\UiHelpers.cs" />
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
@@ -895,6 +883,10 @@
     <Analyzer Include="..\packages\AsyncAnalyzers.1.1.7.0\analyzers\dotnet\cs\AsyncAnalyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tail4WindowsBusiness\Tail4WindowsBusiness.csproj">
+      <Project>{c81d4747-d467-42fa-a998-0b8e68131e46}</Project>
+      <Name>Tail4WindowsBusiness</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj">
       <Project>{7e255b50-cfb7-4ad8-9694-e569427fe866}</Project>
       <Name>Tail4WindowsCore</Name>
