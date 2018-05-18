@@ -91,5 +91,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
       get;
       set;
     }
+
+    /// <summary>
+    /// Clears current items
+    /// </summary>
+    void ClearItems();
   }
 }

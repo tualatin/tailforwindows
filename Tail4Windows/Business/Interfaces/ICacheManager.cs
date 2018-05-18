@@ -56,5 +56,11 @@ namespace Org.Vs.TailForWin.Business.Interfaces
     /// <param name="count">Count of items</param>
     /// <returns><c>True</c> if cache is necessary, otherwise <c>False</c></returns>
     bool HaveToCache(int count);
+
+    /// <summary>
+    /// Fix current cache size
+    /// </summary>
+    /// <param name="count">Count of items</param>
+    void FixCacheSize(int count);
   }
 }

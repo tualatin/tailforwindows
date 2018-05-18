@@ -4,9 +4,7 @@
   xmlns:local="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
   >
   <Style x:Key="{x:Type local:VsFloatingWindow}" TargetType="{x:Type local:VsFloatingWindow}">
-    <Setter Property="Height" Value="{TemplateBinding Height}" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
-    <Setter Property="Width" Value="{TemplateBinding Width}" />
   </Style>
 
 </ResourceDictionary>

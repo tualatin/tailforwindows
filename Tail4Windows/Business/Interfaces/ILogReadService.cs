@@ -58,5 +58,10 @@ namespace Org.Vs.TailForWin.Business.Interfaces
     /// Stop tail
     /// </summary>
     void StopTail();
+
+    /// <summary>
+    /// Reset current index
+    /// </summary>
+    void ResetIndex();
   }
 }

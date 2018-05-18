@@ -105,6 +105,26 @@ namespace Org.Vs.TailForWin.Business.Utils
     }
 
     /// <summary>
+    /// Fix current cache size
+    /// </summary>
+    /// <param name="count">Count of items</param>
+    public void FixCacheSize(int count)
+    {
+      if ( count == MaxCapacity )
+      {
+        _cacheData.Clear();
+        return;
+      }
+
+      int index = SettingsHelperController.CurrentSettings.LogLineLimit - count;
+
+      for ( int i = 0; i < index; i++ )
+      {
+        _cacheData.RemoveAt(i);
+      }
+    }
+
+    /// <summary>
     /// Produces the set intersection of two sequences by using the default equality comparer to compare values.
     /// </summary>
     /// <param name="other">An <see cref="IEnumerable{T}" /> whose distinct elements that also appear in the first sequence will be returned.</param>

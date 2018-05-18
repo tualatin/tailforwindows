@@ -452,10 +452,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       lock ( LogWindowControlLock )
       {
         MouseService.SetBusyState();
-        SplitWindow.LogEntries.Clear();
-
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
+        SplitWindow.ClearItems();
+        TailReader.ResetIndex();
       }
     }
 
@@ -805,9 +803,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         SplitWindow.LogEntries = null;
         CurrentTailData = null;
-
-        GC.Collect();
-        GC.WaitForPendingFinalizers();
       }
     }
 

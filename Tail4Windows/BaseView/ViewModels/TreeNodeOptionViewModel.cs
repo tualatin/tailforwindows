@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -248,15 +247,13 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public void Dispose()
     {
-      if ( Children != null )
-      {
-        foreach ( var child in Children )
-        {
-          child.Dispose();
-        }
-      }
+      if ( Children == null )
+        return;
 
-      GC.SuppressFinalize(this);
+      foreach ( var child in Children )
+      {
+        child.Dispose();
+      }
     }
   }
 }

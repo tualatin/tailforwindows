@@ -328,6 +328,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #endregion
 
+    /// <summary>
+    /// Clears current items
+    /// </summary>
+    public void ClearItems() => ExecuteClearItemsCommand();
+
     private void SetupCache()
     {
       if ( !CacheManager.HaveToCache(LogEntries.Count) )
@@ -376,22 +381,38 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       else if ( _splitterPosition <= 0 && LogWindowSplitElement.ItemsSource != null )
       {
         LogWindowSplitElement.ItemsSource = null;
+        FixLogEntries();
+      }
+    }
 
-        MouseService.SetBusyState();
+    private void FixLogEntries()
+    {
+      MouseService.SetBusyState();
 
-        try
+      try
+      {
+        var result = CacheManager.GetIntersectData(LogEntries);
+
+        foreach ( var logEntry in result )
         {
-          var result = CacheManager.GetIntersectData(LogEntries);
+          LogEntries.Remove(logEntry);
+        }
 
-          foreach ( var logEntry in result )
-          {
-            LogEntries.Remove(logEntry);
-          }
-        }
-        catch ( Exception ex )
+        if ( SettingsHelperController.CurrentSettings.LogLineLimit == -1 || LogEntries.Count < SettingsHelperController.CurrentSettings.LogLineLimit )
+          return;
+
+        int count = LogEntries.Count - SettingsHelperController.CurrentSettings.LogLineLimit;
+
+        for ( int i = 0; i < count; i++ )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+          LogEntries.RemoveAt(i);
         }
+
+        CacheManager.FixCacheSize(LogEntries.Count);
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
       }
     }
 

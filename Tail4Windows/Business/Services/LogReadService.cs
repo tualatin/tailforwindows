@@ -151,5 +151,10 @@ namespace Org.Vs.TailForWin.Business.Services
 
       _tailBackgroundWorker.CancelAsync();
     }
+
+    /// <summary>
+    /// Reset current index
+    /// </summary>
+    public void ResetIndex() => Index = 0;
   }
 }
