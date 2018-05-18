@@ -5,7 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:dragSupportUtils="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
-  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils;assembly=T4WCore"
   mc:Ignorable="d"
   d:DataContext="{Binding RelativeSource={RelativeSource Self}}"
   Title="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationTitle}}"

@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 
 namespace Org.Vs.TailForWin.Core.Native.Data
@@ -62,9 +62,6 @@ namespace Org.Vs.TailForWin.Core.Native.Data
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public MemoryObject()
-    {
-      dwLength = (uint) Marshal.SizeOf(typeof(MemoryObject));
-    }
+    public MemoryObject() => dwLength = (uint) Marshal.SizeOf(typeof(MemoryObject));
   }
 }

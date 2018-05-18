@@ -1,9 +1,12 @@
-using System;
+﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using Org.Vs.TailForWin.Core.Native.Data;
 
 // ReSharper disable InconsistentNaming
+
+[assembly: InternalsVisibleTo("T4W")]
 
 
 namespace Org.Vs.TailForWin.Core.Native

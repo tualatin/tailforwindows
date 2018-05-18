@@ -4,7 +4,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:validationRules="clr-namespace:Org.Vs.TailForWin.UI.ValidationRules"
   mc:Ignorable="d"

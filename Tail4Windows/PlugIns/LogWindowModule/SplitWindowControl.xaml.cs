@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -15,6 +14,7 @@ using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Events.Args;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Business.Services;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
@@ -43,10 +43,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private const double Offset = 5;
 
     /// <summary>
-    /// Max capacity of <see cref="LogEntries"/>
+    /// Last seen <see cref="LogEntry"/>
     /// </summary>
-    private const int MaxCapacity = 6500;
-
     private LogEntry _lastSeenEntry;
 
     #region RoutedEvents
@@ -116,7 +114,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private CollectionViewSource CollectionView
     {
       get;
-      set;
     }
 
     /// <summary>
@@ -152,13 +149,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     /// <summary>
-    /// <see cref="LogEntry"/> cache
+    /// CacheManager interface
     /// </summary>
-    public List<LogEntry> EntryCache
+    public ICacheManager CacheManager
     {
       get;
       set;
-    } = new List<LogEntry>();
+    }
 
     #endregion
 
@@ -174,8 +171,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         Source = LogEntries
       };
-
-      LOG.Debug($"Current max logline capacity is {MaxCapacity}");
+      CacheManager = new CacheManager();
     }
 
     #region Dependency properties
@@ -284,13 +280,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       if ( LogEntries == null )
         LogEntries = new ObservableCollection<LogEntry>();
-      if ( EntryCache == null )
-        EntryCache = new List<LogEntry>();
 
       LOG.Trace("Clear items and cache");
 
       LogEntries.Clear();
-      EntryCache.Clear();
+      CacheManager.ClearCacheData();
     }
 
     private async Task ExecuteLoadedCommandAsync()
@@ -298,17 +292,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _cts?.Dispose();
       _cts = new CancellationTokenSource();
 
-      await PrintCacheSizeAsync().ConfigureAwait(false);
+      await CacheManager.PrintCacheSizeAsync(_cts.Token).ConfigureAwait(false);
     }
 
-    private async Task PrintCacheSizeAsync()
-    {
-      while ( !_cts.IsCancellationRequested )
-      {
-        await Task.Delay(TimeSpan.FromMinutes(10), _cts.Token).ConfigureAwait(false);
-        LOG.Trace($"Current cache size is {EntryCache.Count}");
-      }
-    }
 
     private void ExecuteUnloadedCommand() => _cts.Cancel();
 
@@ -344,11 +330,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void SetupCache()
     {
-      if ( LogEntries.Count <= MaxCapacity )
+      if ( !CacheManager.HaveToCache(LogEntries.Count) )
         return;
-
-      if ( EntryCache.Count == 0 )
-        LOG.Debug("Start caching...");
 
       LogEntry logEntry;
 
@@ -363,13 +346,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         _index++;
       }
 
-      if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 && EntryCache.Count + MaxCapacity >= SettingsHelperController.CurrentSettings.LogLineLimit
-                                                                       && _splitterPosition <= 0 )
-      {
-        EntryCache.RemoveAt(0);
-      }
-
-      EntryCache.Add(logEntry);
+      CacheManager.SetupCache(LogEntries.Count, logEntry, _splitterPosition);
 
       if ( _splitterPosition <= 0 )
         LogEntries.RemoveAt(0);
@@ -404,7 +381,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         try
         {
-          var result = EntryCache.Intersect(LogEntries);
+          var result = CacheManager.GetIntersectData(LogEntries);
 
           foreach ( var logEntry in result )
           {

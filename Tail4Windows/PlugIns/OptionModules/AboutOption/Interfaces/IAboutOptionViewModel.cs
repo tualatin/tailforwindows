@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.UI.Interfaces;
 
 
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.Interfaces
@@ -14,7 +14,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.Interfaces
     /// </summary>
     string Author
     {
-      get; set;
+      get;
+      set;
     }
 
     /// <summary>
@@ -22,7 +23,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.Interfaces
     /// </summary>
     string BuildDate
     {
-      get; set;
+      get;
+      set;
     }
 
     /// <summary>
@@ -38,7 +40,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.Interfaces
     /// </summary>
     string UpTime
     {
-      get; set;
+      get;
+      set;
     }
 
     /// <summary>
@@ -46,7 +49,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.Interfaces
     /// </summary>
     string Version
     {
-      get; set;
+      get;
+      set;
     }
   }
 }

@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Org.Vs.TailForWin</RootNamespace>
     <AssemblyName>T4W</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -144,6 +144,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -201,13 +202,8 @@
     <Compile Include="Business\Interfaces\ILogReadService.cs" />
     <Compile Include="Business\Services\LogReadService.cs" />
     <Compile Include="Business\Utils\BusinessHelper.cs" />
-    <Compile Include="Core\Data\FontType.cs" />
-    <Compile Include="Core\Utils\QueueSet.cs" />
-    <Compile Include="Core\Utils\SafeObservable.cs" />
-    <Compile Include="Core\Utils\UndoRedoManager\Command.cs" />
-    <Compile Include="Core\Utils\UndoRedoManager\Interfaces\IStateManager.cs" />
-    <Compile Include="Core\Utils\UndoRedoManager\StateManager.cs" />
-    <Compile Include="Core\Utils\WindowGetMinMaxInfo.cs" />
+    <Compile Include="Business\Interfaces\ICacheManager.cs" />
+    <Compile Include="Business\Utils\CacheManager.cs" />
     <Compile Include="Business\Data\Messages\OpenTailDataMessage.cs" />
     <Compile Include="PlugIns\FileManagerModule\Controller\TailDataComparer.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\CollectionViewHolder.cs" />
@@ -220,7 +216,6 @@
     </Compile>
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FileManagerViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FilterManagerViewModel.cs" />
-    <Compile Include="Core\Data\FontInfo.cs" />
     <Compile Include="PlugIns\FontChooserModule\FontChooseDialog.xaml.cs">
       <DependentUpon>FontChooseDialog.xaml</DependentUpon>
     </Compile>
@@ -304,26 +299,8 @@
     <Compile Include="Business\Data\SystemInformation\IpAddress.cs" />
     <Compile Include="Business\Data\SystemInformation\CpuInfo.cs" />
     <Compile Include="Business\Data\SystemInformation\SystemInformationData.cs" />
-    <Compile Include="Core\Controllers\MailController.cs" />
-    <Compile Include="Core\Data\Mappings\DateFormatMapping.cs" />
-    <Compile Include="Core\Data\Mappings\FileSortMapping.cs" />
-    <Compile Include="Core\Data\Mappings\LanguageMapping.cs" />
-    <Compile Include="Core\Data\Mappings\RefreshRateMapping.cs" />
-    <Compile Include="Core\Data\Mappings\SmartWatchMapping.cs" />
-    <Compile Include="Core\Data\Mappings\WindowStyleMapping.cs" />
-    <Compile Include="Core\Data\Settings\EnvironmentColorSettings.cs" />
-    <Compile Include="Core\Data\Mappings\TimeFormatMapping.cs" />
-    <Compile Include="Core\Data\UpdateData.cs" />
-    <Compile Include="Core\Enums\EStatusbarState.cs" />
-    <Compile Include="Core\Enums\EUiLanguage.cs" />
-    <Compile Include="Core\Extensions\ColorExtension.cs" />
-    <Compile Include="Core\Interfaces\IMailController.cs" />
-    <Compile Include="Core\Interfaces\IPropertyNotify.cs" />
-    <Compile Include="Core\Interfaces\ITreeNodeViewModel.cs" />
     <Compile Include="BaseView\ViewModels\TreeNodeOptionViewModel.cs" />
-    <Compile Include="Core\Interfaces\IViewModelBase.cs" />
-    <Compile Include="Core\Utils\LanguageSelector.cs" />
-    <Compile Include="Core\Utils\StringEncryption.cs" />
+    <Compile Include="UI\Interfaces\IViewModelBase.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\SysInfoOptionPage.xaml.cs">
       <DependentUpon>SysInfoOptionPage.xaml</DependentUpon>
     </Compile>
@@ -407,17 +384,6 @@
     <Compile Include="Business\Data\Messages\QuickSearchTextBoxGetFocusMessage.cs" />
     <Compile Include="Business\Events\Args\LogEntryCreatedArgs.cs" />
     <Compile Include="PlugIns\OptionModules\Interfaces\IOptionPage.cs" />
-    <Compile Include="Core\Controllers\SettingsHelperController.cs" />
-    <Compile Include="Core\Controllers\UpdateController.cs" />
-    <Compile Include="Core\Controllers\WebDataController.cs" />
-    <Compile Include="Core\Data\Settings\DefaultEnvironmentSettings.cs" />
-    <Compile Include="Core\Data\Settings\EnvironmentSettingsMemento.cs" />
-    <Compile Include="Core\Interfaces\IEventAggregator.cs" />
-    <Compile Include="Core\Interfaces\INotifyTaskCompletion.cs" />
-    <Compile Include="Core\Utils\EventAggregator.cs" />
-    <Compile Include="Core\Utils\Execution.cs" />
-    <Compile Include="Core\Utils\ThrottledExecution.cs" />
-    <Compile Include="Core\Utils\WeakEventListener.cs" />
     <Compile Include="PlugIns\FileManagerModule\Controller\XmlFileManagerController.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\FindModule\Data\XmlNames.cs" />
@@ -432,49 +398,10 @@
     </Compile>
     <Compile Include="PlugIns\PatternModule\Controller\XmlPatternController.cs" />
     <Compile Include="PlugIns\FindModule\Controller\XmlSearchHistoryController.cs" />
-    <Compile Include="Core\Data\Base\NotifyTaskCompletion.cs" />
-    <Compile Include="Core\Data\FilterData.cs" />
     <Compile Include="PlugIns\PatternModule\Data\Pattern.cs" />
-    <Compile Include="Core\Data\Settings\AlertSetting.cs" />
-    <Compile Include="Core\Data\Settings\EnvironmentSettings.cs" />
-    <Compile Include="Core\Data\Settings\ProxySetting.cs" />
-    <Compile Include="Core\Data\Settings\SmartWatchSetting.cs" />
-    <Compile Include="Core\Data\Settings\SmtpSetting.cs" />
-    <Compile Include="Core\Data\TailData.cs" />
-    <Compile Include="Core\Data\Mappings\ThreadPriorityMapping.cs" />
-    <Compile Include="Core\Data\XmlNames\XmlBaseStructure.cs" />
-    <Compile Include="Core\Enums\EDateFormat.cs" />
-    <Compile Include="Core\Enums\EFileManagerState.cs" />
-    <Compile Include="Core\Enums\EFileSort.cs" />
-    <Compile Include="Core\Enums\EMaskType.cs" />
-    <Compile Include="Core\Enums\ESmartWatchMode.cs" />
-    <Compile Include="Core\Enums\ETabState.cs" />
-    <Compile Include="Core\Enums\ETailLogColorTypes.cs" />
-    <Compile Include="Core\Enums\ETailRefreshRate.cs" />
-    <Compile Include="Core\Enums\ETimeFormat.cs" />
-    <Compile Include="Core\Enums\EWindowStyle.cs" />
-    <Compile Include="Core\Extensions\EnumerableExtension.cs" />
-    <Compile Include="Core\Extensions\EnumExtension.cs" />
-    <Compile Include="Core\Extensions\StringExtension.cs" />
-    <Compile Include="Core\Interfaces\IObservableDictionary.cs" />
-    <Compile Include="Core\Interfaces\ISettingsHelper.cs" />
-    <Compile Include="Core\Interfaces\IUpdater.cs" />
-    <Compile Include="Core\Interfaces\IWebController.cs" />
     <Compile Include="PlugIns\FileManagerModule\Interfaces\IXmlFileManager.cs" />
     <Compile Include="PlugIns\PatternModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\PatternModule\Interfaces\IXmlPattern.cs" />
-    <Compile Include="Core\Interfaces\IXmlSearchHistory.cs" />
-    <Compile Include="Core\Native\Data\Enum\SWP.cs" />
-    <Compile Include="Core\Native\Data\MemoryObject.cs" />
-    <Compile Include="Core\Native\Data\MINMAXINFO.cs" />
-    <Compile Include="Core\Native\Data\MonitorInfo.cs" />
-    <Compile Include="Core\Native\Data\Rect.cs" />
-    <Compile Include="Core\Native\Data\Win32Point.cs" />
-    <Compile Include="Core\Native\Data\WINDOWPOS.cs" />
-    <Compile Include="Core\Utils\BuildDate.cs" />
-    <Compile Include="Core\Utils\EncodingDetector.cs" />
-    <Compile Include="Core\Utils\EnvironmentContainer.cs" />
-    <Compile Include="Core\Utils\ObservableDictionary.cs" />
     <Compile Include="UI\Behaviors\DialogBehavior.cs" />
     <Compile Include="UI\Commands\AsyncCommand.cs" />
     <Compile Include="UI\Commands\Base\AsyncCommandBase.cs" />
@@ -490,7 +417,6 @@
     <Compile Include="BaseView\T4Window.xaml.cs">
       <DependentUpon>T4Window.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\Utils\Arg.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\ControlDoubleClickBehavior.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\ShowSystemMenuBehavior.cs" />
     <Compile Include="UI\StyleableWindow\SystemMenuManager.cs" />
@@ -530,7 +456,6 @@
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
     <Compile Include="UI\Utils\FileDragDropHelper.cs" />
-    <Compile Include="Core\Utils\InteractionService.cs" />
     <Compile Include="UI\Utils\UiHelpers.cs" />
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
@@ -583,14 +508,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\Data\Base\NotifyMaster.cs" />
-    <Compile Include="Core\Logging\LogExtentions.cs" />
-    <Compile Include="Core\Logging\Log4NetTraceListener.cs" />
-    <Compile Include="Core\Logging\Logger.cs" />
-    <Compile Include="Core\Logging\LoggerFactory.cs" />
-    <Compile Include="Core\Logging\LogUtil.cs" />
-    <Compile Include="Core\Logging\SingleLetterLevelConverter.cs" />
-    <Compile Include="Core\Logging\ZippingRollingFileAppender.cs" />
     <Page Include="PlugIns\FileManagerModule\FileManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -813,7 +730,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Native\NativeMethods.cs" />
     <Compile Include="UI\NotifyIcon\BalloonIcon.cs" />
     <Compile Include="UI\NotifyIcon\Interop\BalloonFlags.cs" />
     <Compile Include="UI\NotifyIcon\Interop\IconDataMembers.cs" />
@@ -957,9 +873,6 @@
   <ItemGroup>
     <Folder Include="BaseView\UserControls\Interfaces\" />
     <Folder Include="BaseView\UserControls\Styles\" />
-    <Folder Include="Core\Events\Args\" />
-    <Folder Include="Core\Events\Delegates\" />
-    <Folder Include="Core\Events\EventManagers\" />
     <Folder Include="PlugIns\FindModule\Interfaces\" />
     <Folder Include="PlugIns\FindModule\ViewModels\" />
     <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
@@ -975,6 +888,12 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\AsyncAnalyzers.1.1.7.0\analyzers\dotnet\cs\AsyncAnalyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj">
+      <Project>{7e255b50-cfb7-4ad8-9694-e569427fe866}</Project>
+      <Name>Tail4WindowsCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

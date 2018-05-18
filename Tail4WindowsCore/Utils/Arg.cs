@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,7 +11,7 @@ namespace Org.Vs.TailForWin.Core.Utils
   /// Utility class for checking method arguments.
   /// Thanks to S.F. from p.
   /// </summary>
-  public sealed class Arg
+  public static class Arg
   {
     private const string ErrAtleast = "{0} must be at least {1}, but was {2}.";
     private const string ErrIsgreater = "{0} must be greater than {1}, but was {2}.";
@@ -24,10 +24,6 @@ namespace Org.Vs.TailForWin.Core.Utils
     private const string ErrEmpty = "{0} must not be null or empty.";
     private const string ErrContainsEmpty = "{0} must not contain null or empty values.";
     private const string ErrValueNotValid = "{0}'s value '{1}' is not valid for {2}. Valid values are {3}.";
-
-    private Arg()
-    {
-    }
 
     /// <summary>
     /// Asserts, that a method argument is not <code>null</code> and throws an ArgumentException if it is <code>null</code>.

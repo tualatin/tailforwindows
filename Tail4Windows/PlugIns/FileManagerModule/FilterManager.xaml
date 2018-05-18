@@ -6,7 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
-  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"

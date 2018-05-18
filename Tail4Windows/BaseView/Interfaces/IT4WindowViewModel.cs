@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 

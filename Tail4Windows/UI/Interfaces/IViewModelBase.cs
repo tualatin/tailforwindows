@@ -1,8 +1,7 @@
 ﻿using System.Windows.Input;
-using Org.Vs.TailForWin.UI.Interfaces;
 
 
-namespace Org.Vs.TailForWin.Core.Interfaces
+namespace Org.Vs.TailForWin.UI.Interfaces
 {
   /// <summary>
   /// View model base interface

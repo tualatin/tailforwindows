@@ -77,5 +77,23 @@ namespace Org.Vs.TailForWin.Business.Data
         OnPropertyChanged();
       }
     }
+
+    private bool _isCacheData;
+
+    /// <summary>
+    /// This <see cref="LogEntry"/> is cache data
+    /// </summary>
+    public bool IsCacheData
+    {
+      get => _isCacheData;
+      set
+      {
+        if ( value == _isCacheData )
+          return;
+
+        _isCacheData = value;
+        OnPropertyChanged();
+      }
+    }
   }
 }
