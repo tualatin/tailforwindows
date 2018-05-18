@@ -14,13 +14,13 @@ using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.BaseView.Events.Args;
 using Org.Vs.TailForWin.BaseView.Interfaces;
-using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
@@ -347,9 +347,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       while ( !_cts.IsCancellationRequested )
       {
-        await Task.Delay(TimeSpan.FromMinutes(5), _cts.Token).ConfigureAwait(false);
+        await Task.Delay(TimeSpan.FromMinutes(15), _cts.Token).ConfigureAwait(false);
 
-        LOG.Trace("CleanUp GC..");
+        LOG.Info("CleanUp GC..");
         LOG.Trace($"TotalMemory before clean up: {GC.GetTotalMemory(true)}");
 
         GC.Collect();

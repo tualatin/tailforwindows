@@ -8,12 +8,12 @@ using System.Windows;
 using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.BaseView.Interfaces;
-using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels;
@@ -22,7 +22,6 @@ using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
 using Org.Vs.TailForWin.PlugIns.OptionModules.SmartWatchOption;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
-using Org.Vs.TailForWin.UI.Services;
 
 
 namespace Org.Vs.TailForWin.BaseView.ViewModels

@@ -1,7 +1,7 @@
 ﻿using Org.Vs.TailForWin.Core.Data;
 
 
-namespace Org.Vs.TailForWin.Business.Data.Messages
+namespace Org.Vs.TailForWin.Data.Messages
 {
   /// <summary>
   /// AddTailDataToQuickAdd message

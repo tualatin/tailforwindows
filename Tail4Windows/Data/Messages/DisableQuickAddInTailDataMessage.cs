@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.TailForWin.Business.Data.Messages
+﻿namespace Org.Vs.TailForWin.Data.Messages
 {
   /// <summary>
   /// Disable quick add flag in <see cref="Core.Data.TailData"/>

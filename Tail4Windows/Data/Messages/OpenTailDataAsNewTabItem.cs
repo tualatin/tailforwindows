@@ -3,7 +3,7 @@ using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
 
-namespace Org.Vs.TailForWin.Business.Data.Messages
+namespace Org.Vs.TailForWin.Data.Messages
 {
   /// <summary>
   /// Open <see cref="TailData"/> in new <see cref="DragSupportTabItem"/>

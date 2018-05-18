@@ -7,13 +7,12 @@ using System.Windows;
 using System.Windows.Input;
 using log4net;
 using Microsoft.Win32;
-using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
-using Org.Vs.TailForWin.UI.Services;
 using Org.Vs.TailForWin.UI.UserControls;
 
 

@@ -148,6 +148,7 @@
     <Compile Include="Utils\Execution.cs" />
     <Compile Include="Utils\InteractionService.cs" />
     <Compile Include="Utils\LanguageSelector.cs" />
+    <Compile Include="Utils\MouseService.cs" />
     <Compile Include="Utils\ObservableDictionary.cs" />
     <Compile Include="Utils\QueueSet.cs" />
     <Compile Include="Utils\SafeObservable.cs" />

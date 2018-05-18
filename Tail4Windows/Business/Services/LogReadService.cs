@@ -9,7 +9,7 @@ using Org.Vs.TailForWin.Business.Events.Delegates;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.UI.Services;
+using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Business.Services

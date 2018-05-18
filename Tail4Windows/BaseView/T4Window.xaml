@@ -100,6 +100,7 @@
       <taskbarNotification:TaskbarIcon.ContextMenu>
         <ContextMenu ItemsSource="{Binding TrayIconItemsSource}" />
       </taskbarNotification:TaskbarIcon.ContextMenu>
+
       <taskbarNotification:TaskbarIcon.TrayToolTip>
         <userControls:FancyToolTip
           ApplicationText="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationTitle}}"

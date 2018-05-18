@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
-using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
 
 
 namespace Org.Vs.TailForWin.UI.StyleableWindow.Behaviors

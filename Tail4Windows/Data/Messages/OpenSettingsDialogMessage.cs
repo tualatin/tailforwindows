@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.TailForWin.Business.Data.Messages
+﻿namespace Org.Vs.TailForWin.Data.Messages
 {
   /// <summary>
   /// Open settings dialog message

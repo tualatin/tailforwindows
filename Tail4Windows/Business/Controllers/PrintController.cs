@@ -7,7 +7,6 @@ using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Utils;
-using Org.Vs.TailForWin.UI.Services;
 
 
 namespace Org.Vs.TailForWin.Business.Controllers
