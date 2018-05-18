@@ -1,4 +1,4 @@
-﻿<extendedControls:WindowEx
+﻿<extendedControls:VsWindowEx
   x:Class="Org.Vs.TailForWin.UI.AutoUpdatePopUp"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -20,9 +20,9 @@
   Topmost="True"
   WindowStartupLocation="CenterOwner"
   >
-  <extendedControls:WindowEx.DataContext>
+  <extendedControls:VsWindowEx.DataContext>
     <viewModels:AutoUpdateViewModel />
-  </extendedControls:WindowEx.DataContext>
+  </extendedControls:VsWindowEx.DataContext>
 
   <Grid Margin="5">
     <Grid.RowDefinitions>
@@ -78,4 +78,4 @@
       </StackPanel>
     </Grid>
   </Grid>
-</extendedControls:WindowEx>
+</extendedControls:VsWindowEx>

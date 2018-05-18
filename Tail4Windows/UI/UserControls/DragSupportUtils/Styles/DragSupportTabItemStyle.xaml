@@ -193,7 +193,7 @@
                   Visibility="Hidden"
                   />
 
-                <extendedControls:PopupEx
+                <extendedControls:VsPopupEx
                   IsOpen="{Binding ElementName=ToggleColorPicker, Path=IsChecked}"
                   PlacementTarget="{Binding ElementName=ToggleColorPicker}"
                   >
@@ -208,7 +208,7 @@
 
                     <xctk:ColorCanvas SelectedColor="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColorStringHex, Converter={StaticResource StringToWindowsMediaColorConverter}}" />
                   </Grid>
-                </extendedControls:PopupEx>
+                </extendedControls:VsPopupEx>
               </DockPanel>
             </Border>
           </Grid>

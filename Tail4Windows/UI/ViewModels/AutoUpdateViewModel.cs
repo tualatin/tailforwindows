@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.UI.ViewModels
     /// <summary>
     /// Close command
     /// </summary>
-    public ICommand CloseCommand => _closeCommand ?? (_closeCommand = new RelayCommand(p => ExecuteCloseCommand((WindowEx) p)));
+    public ICommand CloseCommand => _closeCommand ?? (_closeCommand = new RelayCommand(p => ExecuteCloseCommand((VsWindowEx) p)));
 
     private ICommand _visitWebsiteCommand;
 
@@ -37,7 +37,7 @@ namespace Org.Vs.TailForWin.UI.ViewModels
 
     #region Command functions
 
-    private void ExecuteCloseCommand(WindowEx window) => window?.Close();
+    private void ExecuteCloseCommand(VsWindowEx window) => window?.Close();
 
     private void ExecuteVisitWebsiteCommand()
     {

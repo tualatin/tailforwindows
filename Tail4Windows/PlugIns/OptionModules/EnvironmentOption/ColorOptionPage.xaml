@@ -51,7 +51,7 @@
                 >
                 <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
-                    <extendedControls:ColorPicker
+                    <extendedControls:VsColorPicker
                       ColorMode="ColorCanvas"
                       SelectedColor="{Binding Color, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToWindowsMediaColorConverter}}"
                       ShowTabHeaders="False"
@@ -90,7 +90,7 @@
                 >
                 <DataGridTemplateColumn.CellTemplate>
                   <DataTemplate>
-                    <extendedControls:ColorPicker
+                    <extendedControls:VsColorPicker
                       ColorMode="ColorCanvas"
                       SelectedColor="{Binding Color, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToWindowsMediaColorConverter}}"
                       ShowTabHeaders="False"

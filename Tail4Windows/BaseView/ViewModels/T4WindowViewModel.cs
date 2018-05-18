@@ -401,20 +401,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand ToggleAlwaysOnTopCommand => _toggleAlwaysOnTopCommand ?? (_toggleAlwaysOnTopCommand = new RelayCommand(p => ExecuteToggleAlwaysOnTopCommand()));
 
-    private ICommand _trayContextMenuOpenCommand;
-
-    /// <summary>
-    /// TrayContextMenuOpen command
-    /// </summary>
-    public ICommand TrayContextMenuOpenCommand => _trayContextMenuOpenCommand ?? (_trayContextMenuOpenCommand = new RelayCommand(p => ExecuteTrayContextMenuOpenCommand()));
-
-    private ICommand _previewTrayContextMenuOpenCommand;
-
-    /// <summary>
-    /// PreviewTrayContextMenuOpen command
-    /// </summary>
-    public ICommand PreviewTrayContextMenuOpenCommand => _previewTrayContextMenuOpenCommand ?? (_previewTrayContextMenuOpenCommand = new RelayCommand(ExecutePreviewTrayContextMenuOpenCommand));
-
     private ICommand _previewKeyDownCommand;
 
     /// <summary>
@@ -440,7 +426,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region Command functions
 
-    private void ExecuteExitApplication() => CloseAction();
+    private void ExecuteExitApplication()
+    {
+      if ( Application.Current.MainWindow != null )
+        Application.Current.MainWindow.Close();
+    }
 
     private void ExecuteCloseTabItemCommand()
     {
@@ -467,16 +457,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         args.Handled = true;
         break;
       }
-    }
-
-    private void ExecuteTrayContextMenuOpenCommand()
-    {
-      LOG.Trace("Tray context menu open command");
-    }
-
-    private void ExecutePreviewTrayContextMenuOpenCommand(object parameter)
-    {
-      LOG.Trace("Preview tray context menu open command");
     }
 
     private async Task ExecuteWndClosingCommandAsync(object param)

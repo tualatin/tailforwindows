@@ -1,4 +1,4 @@
-﻿<extendedControls:WindowEx
+﻿<extendedControls:VsWindowEx
   x:Class="Org.Vs.TailForWin.PlugIns.QuickAddModule.QuickAdd"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -29,9 +29,9 @@
     </i:EventTrigger>
   </i:Interaction.Triggers>
 
-  <extendedControls:WindowEx.DataContext>
+  <extendedControls:VsWindowEx.DataContext>
     <viewModels:QuickAddViewModel />
-  </extendedControls:WindowEx.DataContext>
+  </extendedControls:VsWindowEx.DataContext>
 
   <Grid>
     <Grid.RowDefinitions>
@@ -136,5 +136,5 @@
         />
     </Grid>
   </Grid>
-</extendedControls:WindowEx>
+</extendedControls:VsWindowEx>
 

@@ -30,14 +30,6 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
     }
 
     /// <summary>
-    /// PreviewTrayContextMenuOpen command
-    /// </summary>
-    ICommand PreviewTrayContextMenuOpenCommand
-    {
-      get;
-    }
-
-    /// <summary>
     /// Quick search command
     /// </summary>
     ICommand QuickSearchCommand
@@ -58,14 +50,6 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
     /// Toggle always on top command
     /// </summary>
     ICommand ToggleAlwaysOnTopCommand
-    {
-      get;
-    }
-
-    /// <summary>
-    /// TrayContextMenuOpen command
-    /// </summary>
-    ICommand TrayContextMenuOpenCommand
     {
       get;
     }

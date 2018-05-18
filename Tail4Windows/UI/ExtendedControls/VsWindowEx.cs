@@ -8,13 +8,13 @@ namespace Org.Vs.TailForWin.UI.ExtendedControls
   /// <summary>
   /// WindowEx class
   /// </summary>
-  public class WindowEx : Window
+  public class VsWindowEx : Window
   {
     /// <summary>
     /// Standard constructor
     /// </summary>
     // ReSharper disable once MemberCanBeProtected.Global
-    public WindowEx()
+    public VsWindowEx()
     {
       SourceInitialized += (o, e) =>
       {
@@ -25,14 +25,14 @@ namespace Org.Vs.TailForWin.UI.ExtendedControls
     /// <summary>
     /// Dialog can close
     /// </summary>
-    public static readonly DependencyProperty CanCloseProperty = DependencyProperty.Register("CanClose", typeof(bool), typeof(WindowEx), new PropertyMetadata(false, CanCloseChanged));
+    public static readonly DependencyProperty CanCloseProperty = DependencyProperty.Register("CanClose", typeof(bool), typeof(VsWindowEx), new PropertyMetadata(false, CanCloseChanged));
 
     private static void CanCloseChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
       if ( e.Property != CanCloseProperty || !(e.NewValue is bool canClose) )
         return;
 
-      if ( canClose && sender is WindowEx wnd )
+      if ( canClose && sender is VsWindowEx wnd )
         wnd.Close();
     }
 
@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.UI.ExtendedControls
     /// <summary>
     /// Parent Guid property
     /// </summary>
-    public static readonly DependencyProperty ParentGuidProperty = DependencyProperty.Register("ParentGuid", typeof(Guid), typeof(WindowEx), new PropertyMetadata(Guid.Empty));
+    public static readonly DependencyProperty ParentGuidProperty = DependencyProperty.Register("ParentGuid", typeof(Guid), typeof(VsWindowEx), new PropertyMetadata(Guid.Empty));
 
     /// <summary>
     /// Parent Guid

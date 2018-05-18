@@ -97,17 +97,6 @@
       x:Name="TbIcon"
       IconSource="/T4W;component/Resources/Main.ico"
       >
-      <intr:Interaction.Triggers>
-        <intr:EventTrigger EventName="TrayContextMenuOpen">
-          <intr:InvokeCommandAction Command="{Binding TrayContextMenuOpenCommand}" />
-        </intr:EventTrigger>
-        <intr:EventTrigger EventName="PreviewTrayContextMenuOpen">
-          <ui:InvokeDelegateCommandAction
-            Command="{Binding PreviewTrayContextMenuOpenCommand}"
-            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
-            />
-        </intr:EventTrigger>
-      </intr:Interaction.Triggers>
       <taskbarNotification:TaskbarIcon.ContextMenu>
         <ContextMenu ItemsSource="{Binding TrayIconItemsSource}" />
       </taskbarNotification:TaskbarIcon.ContextMenu>

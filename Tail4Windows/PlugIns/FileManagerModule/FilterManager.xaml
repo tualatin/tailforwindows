@@ -1,4 +1,4 @@
-﻿<extendedControls:WindowEx
+﻿<extendedControls:VsWindowEx
   x:Class="Org.Vs.TailForWin.PlugIns.FileManagerModule.FilterManager"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -30,11 +30,11 @@
     </i:EventTrigger>
   </i:Interaction.Triggers>
 
-  <extendedControls:WindowEx.DataContext>
+  <extendedControls:VsWindowEx.DataContext>
     <viewModels:FilterManagerViewModel />
-  </extendedControls:WindowEx.DataContext>
+  </extendedControls:VsWindowEx.DataContext>
 
-  <extendedControls:WindowEx.Resources>
+  <extendedControls:VsWindowEx.Resources>
     <Storyboard x:Key="ExtendedSettingsShowAnimation">
       <DoubleAnimation
         Duration="0:0:0.2"
@@ -50,7 +50,7 @@
         To="0"
         />
     </Storyboard>
-  </extendedControls:WindowEx.Resources>
+  </extendedControls:VsWindowEx.Resources>
 
   <Border
     BorderBrush="{StaticResource BrushSolidBlue}"
@@ -340,7 +340,7 @@
             >
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <extendedControls:ColorPicker
+                <extendedControls:VsColorPicker
                   ColorMode="ColorPalette"
                   SelectedColor="{Binding FilterColorHex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToWindowsMediaColorConverter}}"
                   ShowTabHeaders="False"
@@ -487,4 +487,4 @@
       </Grid>
     </Grid>
   </Border>
-</extendedControls:WindowEx>
+</extendedControls:VsWindowEx>

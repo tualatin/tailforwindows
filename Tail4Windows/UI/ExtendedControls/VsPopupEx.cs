@@ -7,12 +7,12 @@ namespace Org.Vs.TailForWin.UI.ExtendedControls
   /// <summary>
   /// Popup extended
   /// </summary>
-  public class PopupEx : Popup
+  public class VsPopupEx : Popup
   {
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public PopupEx()
+    public VsPopupEx()
     {
       Placement = PlacementMode.Bottom;
       PopupAnimation = PopupAnimation.Slide;

@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using log4net;
 using Xceed.Wpf.Toolkit;
 
 
@@ -8,15 +7,12 @@ namespace Org.Vs.TailForWin.UI.ExtendedControls
   /// <summary>
   /// Extended ColorPicker
   /// </summary>
-  public class ColorPicker : Xceed.Wpf.Toolkit.ColorPicker
+  public class VsColorPicker : ColorPicker
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof(ColorPicker));
-
-
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public ColorPicker()
+    public VsColorPicker()
     {
       UsingAlphaChannel = false;
       AvailableColorsSortingMode = ColorSortingMode.HueSaturationBrightness;

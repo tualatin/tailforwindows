@@ -278,8 +278,9 @@
     <Compile Include="UI\Converters\MultiConverters\VisibilityToMarginConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\WidthToMarginConverter.cs" />
     <Compile Include="UI\Debuging\DebugBuild.cs" />
-    <Compile Include="UI\ExtendedControls\PopupEx.cs" />
+    <Compile Include="UI\ExtendedControls\VsPopupEx.cs" />
     <Compile Include="UI\Extensions\VisualTreeEnumerationExtension.cs" />
+    <Compile Include="UI\FloatWindow\VsFloatingWindow.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
     <Compile Include="BaseView\Interfaces\IBaseWindowStatusbarViewModel.cs" />
@@ -364,8 +365,8 @@
     <Compile Include="UI\Converters\StringToWindowMediaBrushConverter.cs" />
     <Compile Include="UI\Converters\StringToWindowsMediaColorConverter.cs" />
     <Compile Include="UI\Converters\TreeNodeToImageConverter.cs" />
-    <Compile Include="UI\ExtendedControls\ColorPicker.cs" />
-    <Compile Include="UI\ExtendedControls\WindowEx.cs" />
+    <Compile Include="UI\ExtendedControls\VsColorPicker.cs" />
+    <Compile Include="UI\ExtendedControls\VsWindowEx.cs" />
     <Compile Include="BaseView\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
     </Compile>
@@ -537,6 +538,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlugIns\QuickAddModule\QuickAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\FloatWindow\Styles\VsFloatingWindowStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
