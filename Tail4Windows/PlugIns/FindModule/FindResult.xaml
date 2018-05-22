@@ -18,7 +18,13 @@
   </floatWindow:VsFloatingWindow.DataContext>
 
   <Grid>
-    <userControls:VsDataGrid />
+    <userControls:VsDataGrid
+      CanUserAddRows="False"
+      CanUserReorderColumns="True"
+      CanUserSortColumns="True"
+      IsSynchronizedWithCurrentItem="True"
+      ItemsSource="{Binding FindResultCollectionView}"
+      />
   </Grid>
 </floatWindow:VsFloatingWindow>
 

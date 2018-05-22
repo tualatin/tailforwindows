@@ -13,7 +13,7 @@ namespace Org.Vs.TailForWin.UI.FloatWindow
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public VsFloatingWindow()
+    protected VsFloatingWindow()
     {
       WindowStyle = WindowStyle.None;
       AllowsTransparency = true;

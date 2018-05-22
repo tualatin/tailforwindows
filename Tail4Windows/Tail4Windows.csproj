@@ -210,6 +210,7 @@
     </Compile>
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FileManagerViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FilterManagerViewModel.cs" />
+    <Compile Include="PlugIns\FindModule\Controller\LogEntryComparer.cs" />
     <Compile Include="PlugIns\FindModule\FindResult.xaml.cs">
       <DependentUpon>FindResult.xaml</DependentUpon>
     </Compile>

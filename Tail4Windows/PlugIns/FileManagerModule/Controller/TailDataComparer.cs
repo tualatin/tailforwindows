@@ -24,8 +24,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       var xFm = (TailData) x;
       var yFm = (TailData) y;
 
-      DateTime nx = xFm.FileCreationTime ?? DateTime.MaxValue;
-      DateTime ny = yFm.FileCreationTime ?? DateTime.MaxValue;
+      var nx = xFm.FileCreationTime ?? DateTime.MaxValue;
+      var ny = yFm.FileCreationTime ?? DateTime.MaxValue;
 
       return -nx.CompareTo(ny);
     }
