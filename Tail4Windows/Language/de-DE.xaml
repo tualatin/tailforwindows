@@ -363,4 +363,9 @@
 
   <system:String x:Key="QuickAddDialogTitle">Schnellhinzufügen</system:String>
   <system:String x:Key="DeleteBookmarks">Alle Bookmarks löschen</system:String>
+
+  <system:String x:Key="FindResultLineNumbers">Zeilennummer</system:String>
+  <system:String x:Key="FindResultMessage">Logtext</system:String>
+  <system:String x:Key="FindResultBookmark">Lesezeichen gesetzt</system:String>
+  <system:String x:Key="FindResultFilterBy">Filtern nach Logtext</system:String>
 </ResourceDictionary>

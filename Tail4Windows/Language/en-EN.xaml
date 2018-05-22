@@ -365,4 +365,9 @@
 
   <system:String x:Key="QuickAddDialogTitle">QuickAdd</system:String>
   <system:String x:Key="DeleteBookmarks">Delete all bookmarks</system:String>
+
+  <system:String x:Key="FindResultLineNumbers">Linenumber</system:String>
+  <system:String x:Key="FindResultMessage">Logtext</system:String>
+  <system:String x:Key="FindResultBookmark">Bookmarked</system:String>
+  <system:String x:Key="FindResultFilterBy">Filter by logtext</system:String>
 </ResourceDictionary>

@@ -413,6 +413,7 @@
           <behaviors:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />
           <behaviors:ScrollDataGridRowIntoView />
         </i:Interaction.Behaviors>
+
         <userControls:VsDataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
           <Style TargetType="{x:Type DataGridRow}">

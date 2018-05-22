@@ -4,27 +4,105 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.FindModule"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FindModule.ViewModels"
   mc:Ignorable="d"
   Title="FindResult"
   Width="800"
-  Height="450"
+  Height="300"
+  MinWidth="700"
+  MinHeight="250"
+  Left="{Binding LeftPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+  Top="{Binding TopPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   >
   <floatWindow:VsFloatingWindow.DataContext>
     <viewModels:FindResultViewModel />
   </floatWindow:VsFloatingWindow.DataContext>
 
   <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+
+    <Grid Grid.Row="0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+
+      <Label
+        Grid.Column="0"
+        Margin="2 0"
+        VerticalAlignment="Center"
+        Content="{DynamicResource FindResultFilterBy}"
+        />
+
+      <userControls:WatermarkTextBox
+        Grid.Column="1"
+        Height="22"
+        Margin="5 3"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Center"
+        Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"
+        behaviors:FocusBehavior.IsFocused="{Binding FilterHasFocus, UpdateSourceTrigger=PropertyChanged}"
+        >
+        <userControls:WatermarkTextBox.Watermark>
+          <TextBlock
+            Margin="5 0 0 0"
+            Text="{DynamicResource FileManagerFilter}"
+            FontStyle="Italic"
+            />
+        </userControls:WatermarkTextBox.Watermark>
+      </userControls:WatermarkTextBox>
+    </Grid>
+
     <userControls:VsDataGrid
+      Grid.Row="1"
       CanUserAddRows="False"
       CanUserReorderColumns="True"
       CanUserSortColumns="True"
+      IsReadOnly="True"
       IsSynchronizedWithCurrentItem="True"
       ItemsSource="{Binding FindResultCollectionView}"
-      />
+      >
+      <i:Interaction.Behaviors>
+        <behaviors:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />
+        <behaviors:ScrollDataGridRowIntoView />
+      </i:Interaction.Behaviors>
+
+      <userControls:VsDataGrid.RowStyle>
+        <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
+        <Style TargetType="{x:Type DataGridRow}">
+          <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocussedWhenSelected" Value="True" />
+        </Style>
+      </userControls:VsDataGrid.RowStyle>
+
+      <userControls:VsDataGrid.Columns>
+        <DataGridTextColumn
+          MinWidth="130"
+          Header="{DynamicResource FindResultLineNumbers}"
+          Binding="{Binding Index, UpdateSourceTrigger=PropertyChanged}"
+          Foreground="{Binding IsCacheData, Converter={StaticResource BoolToForegroundConverter}}"
+          />
+
+        <DataGridCheckBoxColumn
+          MinWidth="90"
+          Header="{DynamicResource FindResultBookmark}"
+          Binding="{Binding BookmarkPoint, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ImageToBoolConverter}}"
+          />
+
+        <DataGridTextColumn
+          MinWidth="400"
+          Header="{DynamicResource FindResultMessage}"
+          Binding="{Binding Message, UpdateSourceTrigger=PropertyChanged}"
+          Foreground="{Binding IsCacheData, Converter={StaticResource BoolToForegroundConverter}}"
+          />
+      </userControls:VsDataGrid.Columns>
+    </userControls:VsDataGrid>
   </Grid>
 </floatWindow:VsFloatingWindow>
 

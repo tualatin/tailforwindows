@@ -174,7 +174,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
         _criteria.Add(p => !string.IsNullOrEmpty(p.Category) && !string.IsNullOrEmpty(p.Description)
                            && (p.Category.ToLower().StartsWith(_filterText) || p.Description.ToLower().StartsWith(_filterText)));
-
         FileManagerView.Filter = DynamicFilter;
 
         if ( SelectedItem == null )

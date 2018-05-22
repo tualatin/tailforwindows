@@ -40,11 +40,12 @@
   <converters:IntToVisibilityConverter x:Key="IntToVisibilityConverter" />
   <converters:StringFormatConverter x:Key="StringFormatConverter" />
   <converters:BoolToScrollbarVisibility x:Key="BoolToScrollbarVisibility" />
+  <converters:ImageToBoolConverter x:Key="ImageToBoolConverter" />
+  <converters:BoolToForegroundConverter x:Key="BoolToForegroundConverter" />
 
   <multiConverters:WidthToMarginMultiConverter x:Key="WidthToMarginMultiConverter" />
   <multiConverters:VisibilityToMarginMultiConverter x:Key="VisibilityToMarginConverter" />
   <multiConverters:LogFileIsEnableMultiConverter x:Key="LogFileIsEnableMultiConverter" />
   <multiConverters:LogFileFileManagerMultiConverter x:Key="LogFileLengthFileManagerMultiConverter" />
   <multiConverters:TailManagerMouseDoubleClickMultiConverter x:Key="TailManagerMouseDoubleClickMultiConverter" />
-
 </ResourceDictionary>

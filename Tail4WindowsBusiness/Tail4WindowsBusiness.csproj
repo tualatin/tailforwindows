@@ -80,6 +80,9 @@
     <Compile Include="Data\SystemInformation\CpuInfo.cs" />
     <Compile Include="Data\SystemInformation\IpAddress.cs" />
     <Compile Include="Data\SystemInformation\SystemInformationData.cs" />
+    <Compile Include="DbEngine\Controllers\SettingsDbController.cs" />
+    <Compile Include="DbEngine\Data\DatabaseSetting.cs" />
+    <Compile Include="DbEngine\Interfaces\ISettingsDbController.cs" />
     <Compile Include="Events\Args\LogEntryCreatedArgs.cs" />
     <Compile Include="Events\Delegates\LogEntryCreated.cs" />
     <Compile Include="Interfaces\ICacheManager.cs" />
@@ -99,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Attributes\" />
+    <Folder Include="DbEngine\Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
