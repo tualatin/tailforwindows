@@ -631,7 +631,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         return;
 
       var updateController = new UpdateController(new WebDataController());
-      var result = await updateController.UpdateNecessaryAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
+      var result = await updateController.UpdateNecessaryAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token,
+        System.Reflection.Assembly.GetExecutingAssembly().GetName().Version).ConfigureAwait(false);
 
       if ( !result.Update )
         return;

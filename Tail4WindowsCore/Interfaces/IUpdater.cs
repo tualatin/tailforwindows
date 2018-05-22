@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Core.Data;
 
@@ -14,7 +15,8 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// Do check if main application needs to update
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <param name="version">Current main application version</param>
     /// <returns>Should update <c>True</c> otherwise <c>False</c></returns>
-    Task<UpdateData> UpdateNecessaryAsync(CancellationToken token);
+    Task<UpdateData> UpdateNecessaryAsync(CancellationToken token, Version version);
   }
 }

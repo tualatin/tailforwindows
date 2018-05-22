@@ -28,7 +28,8 @@ namespace Org.Vs.NUnit.Tests
     [Test]
     public async Task TestGetUpdateStringFromGitAsync()
     {
-      var shouldUpdate = await _updateController.UpdateNecessaryAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
+      var shouldUpdate = await _updateController.UpdateNecessaryAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token,
+        System.Reflection.Assembly.GetExecutingAssembly().GetName().Version).ConfigureAwait(false);
 
       Assert.IsInstanceOf<UpdateData>(shouldUpdate);
       Assert.IsInstanceOf<Version>(shouldUpdate.ApplicationVersion);

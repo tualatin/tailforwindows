@@ -75,7 +75,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
 
       try
       {
-        result = await _updateController.UpdateNecessaryAsync(_cts.Token).ConfigureAwait(false);
+        result = await _updateController.UpdateNecessaryAsync(_cts.Token, System.Reflection.Assembly.GetExecutingAssembly().GetName().Version).ConfigureAwait(false);
       }
       catch ( Exception ex )
       {

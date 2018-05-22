@@ -40,8 +40,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// Do check if main application needs to update
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <param name="version">Current main application version</param>
     /// <returns>Should update <c>True</c> otherwise <c>False</c></returns>
-    public async Task<UpdateData> UpdateNecessaryAsync(CancellationToken token)
+    public async Task<UpdateData> UpdateNecessaryAsync(CancellationToken token, Version version)
     {
       var stopUpdate = new Stopwatch();
       stopUpdate.Start();
@@ -50,7 +51,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       var matchUrl = Regex.Match(EnvironmentContainer.ApplicationUpdateWebUrl, "https://www.virtual-studios.de", RegexOptions.IgnoreCase);
       _result = new UpdateData
       {
-        ApplicationVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version
+        ApplicationVersion = version
       };
 
       if ( !matchUrl.Success )
