@@ -2,9 +2,183 @@
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.StyleableWindow.Behaviors"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
   >
-  <Style x:Key="{x:Type local:VsFloatingWindow}" TargetType="{x:Type local:VsFloatingWindow}">
-    <Setter Property="SnapsToDevicePixels" Value="True" />
-  </Style>
+  <!--  Window template  -->
+  <ControlTemplate
+    x:Key="FloatingWindowTemplate"
+    TargetType="{x:Type local:VsFloatingWindow}"
+    >
+    <Border
+      Name="Chrome"
+      Background="{TemplateBinding Background}"
+      BorderBrush="{TemplateBinding BorderBrush}"
+      BorderThickness="{TemplateBinding BorderThickness}"
+      >
+      <Grid Background="White">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="21" />
+            <RowDefinition />
+          </Grid.RowDefinitions>
 
+          <Grid
+            Background="{StaticResource BrushSolidYellow}"
+            >
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Border
+              Grid.Column="0"
+              HorizontalAlignment="Stretch"
+              Background="Transparent"
+              behaviors:ControlDoubleClickBehavior.ExecuteCommand="{StaticResource MaximizeCommand}"
+              behaviors:ControlDoubleClickBehavior.ExecuteCommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+              behaviors:ShowSystemMenuBehavior.RightButtonShow="true"
+              behaviors:ShowSystemMenuBehavior.TargetWindow="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+              behaviors:WindowDragBehavior.LeftMouseButtonDrag="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+              >
+
+              <Label
+                x:Name="WndTitle"
+                Margin="8 0 0 0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
+                VerticalContentAlignment="Center"
+                Content="{TemplateBinding Property=Title}"
+                FontSize="{TemplateBinding FontSize}"
+                Foreground="{TemplateBinding Foreground}"
+                />
+            </Border>
+
+            <userControls:MainWindowToolbarButtons
+              x:Name="FloatingWindowToolbarButtons"
+              Grid.Column="1"
+              />
+          </Grid>
+
+          <Border Grid.Row="1">
+            <Grid
+              Margin="1"
+              Background="{TemplateBinding Background}"
+              >
+              <AdornerDecorator>
+                <ContentPresenter x:Name="WindowContent" />
+              </AdornerDecorator>
+            </Grid>
+          </Border>
+        </Grid>
+        <Thumb
+          x:Name="ThumbTop"
+          Height="6"
+          Margin="14 0"
+          VerticalAlignment="Top"
+          Cursor="SizeNS"
+          Opacity="0"
+          behaviors:WindowResizeBehavior.TopResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          />
+        <Thumb
+          x:Name="ThumbTopLeft"
+          Width="6"
+          Height="6"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Top"
+          Cursor="SizeNWSE"
+          Opacity="0"
+          behaviors:WindowResizeBehavior.TopLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          />
+        <Thumb
+          x:Name="ThumbBottom"
+          Height="6"
+          Margin="14 0"
+          VerticalAlignment="Bottom"
+          Cursor="SizeNS"
+          Opacity="0"
+          behaviors:WindowResizeBehavior.BottomResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          />
+        <Thumb
+          x:Name="ThumbTopRight"
+          Width="6"
+          Height="6"
+          HorizontalAlignment="Right"
+          VerticalAlignment="Top"
+          Cursor="SizeNESW"
+          Opacity="0"
+          behaviors:WindowResizeBehavior.TopRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          />
+        <Thumb
+          x:Name="ThumbRight"
+          Width="6"
+          Margin="0 14"
+          HorizontalAlignment="Right"
+          Cursor="SizeWE"
+          Opacity="0"
+          behaviors:WindowResizeBehavior.RightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          />
+        <Thumb
+          x:Name="ThumbBottomRight"
+          Width="6"
+          Height="6"
+          HorizontalAlignment="Right"
+          VerticalAlignment="Bottom"
+          Cursor="SizeNWSE"
+          Opacity="0"
+          behaviors:WindowResizeBehavior.BottomRightResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          />
+        <Thumb
+          x:Name="ThumbLeft"
+          Width="6"
+          Margin="0 14"
+          HorizontalAlignment="Left"
+          Cursor="SizeWE"
+          Opacity="0"
+          behaviors:WindowResizeBehavior.LeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          />
+        <Thumb
+          x:Name="ThumbBottomLeft"
+          Width="6"
+          Height="6"
+          HorizontalAlignment="Left"
+          VerticalAlignment="Bottom"
+          Cursor="SizeNESW"
+          Opacity="0"
+          behaviors:WindowResizeBehavior.BottomLeftResize="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+          />
+      </Grid>
+    </Border>
+
+    <ControlTemplate.Triggers>
+      <Trigger Property="Window.IsActive" Value="False">
+        <Setter TargetName="WndTitle" Property="Foreground" Value="Gray" />
+      </Trigger>
+
+      <Trigger Property="Window.IsActive" Value="True">
+        <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidBlue}" />
+      </Trigger>
+
+      <Trigger Property="WindowState" Value="Maximized">
+        <Setter TargetName="FloatingWindowToolbarButtons" Property="MaximizeButtonVisibility" Value="Collapsed" />
+        <Setter TargetName="FloatingWindowToolbarButtons" Property="MinimizeButtonVisibility" Value="Visible" />
+        <Setter TargetName="FloatingWindowToolbarButtons" Property="RestoreButtonVisibility" Value="Collapsed" />
+      </Trigger>
+
+      <Trigger Property="WindowState" Value="Normal">
+        <Setter TargetName="FloatingWindowToolbarButtons" Property="MaximizeButtonVisibility" Value="Collapsed" />
+        <Setter TargetName="FloatingWindowToolbarButtons" Property="MinimizeButtonVisibility" Value="Visible" />
+        <Setter TargetName="FloatingWindowToolbarButtons" Property="RestoreButtonVisibility" Value="Collapsed" />
+      </Trigger>
+    </ControlTemplate.Triggers>
+  </ControlTemplate>
+
+  <Style x:Key="VsFloatingWindowStyle" TargetType="{x:Type local:VsFloatingWindow}">
+    <Setter Property="Background" Value="White" />
+    <Setter Property="BorderBrush" Value="{StaticResource BrushSolidGrey35}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="SnapsToDevicePixels" Value="True" />
+    <Setter Property="Template" Value="{StaticResource FloatingWindowTemplate}" />
+  </Style>
 </ResourceDictionary>

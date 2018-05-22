@@ -23,11 +23,11 @@
             <RowDefinition />
           </Grid.RowDefinitions>
 
-          <Grid Margin="7 2 7 0">
+          <Grid Margin="7 2">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
               <ColumnDefinition />
-              <ColumnDefinition Width="78" />
+              <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <Label

@@ -6,11 +6,19 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.FindModule"
   xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FindModule.ViewModels"
   mc:Ignorable="d"
   Title="FindResult"
   Width="800"
   Height="450"
   >
-  <Grid />
+  <floatWindow:VsFloatingWindow.DataContext>
+    <viewModels:FindResultViewModel />
+  </floatWindow:VsFloatingWindow.DataContext>
+
+  <Grid>
+    <userControls:VsDataGrid />
+  </Grid>
 </floatWindow:VsFloatingWindow>
 
