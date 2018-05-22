@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
@@ -93,6 +94,14 @@ namespace Org.Vs.TailForWin.UI.Utils
             SelectedItem = content.SelectedItem,
             SplitterPosition = content.SplitterPosition
           };
+
+          logWindowControl.SplitWindow.LogEntries = content.SplitWindow.LogEntries ?? new ObservableCollection<LogEntry>();
+          logWindowControl.SplitWindow.SelectedItem = content.SplitWindow.SelectedItem;
+          logWindowControl.TailReader.TailData = content.CurrentTailData;
+          
+          logWindowControl.TailReader.SetIndex(content.TailReader.Index);
+          logWindowControl.SplitWindow.CacheManager.SetCacheData(content.SplitWindow.CacheManager.GetCacheData());
+          logWindowControl.TailReader.StartTail();
         }
 
         tabItem.Content = logWindowControl;

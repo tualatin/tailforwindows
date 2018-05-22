@@ -156,5 +156,11 @@ namespace Org.Vs.TailForWin.Business.Services
     /// Reset current index
     /// </summary>
     public void ResetIndex() => Index = 0;
+
+    /// <summary>
+    /// Set current index to special value
+    /// </summary>
+    /// <param name="index">Index</param>
+    public void SetIndex(int index) => Index = index;
   }
 }

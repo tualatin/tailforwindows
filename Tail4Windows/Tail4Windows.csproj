@@ -108,9 +108,6 @@
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiteDB, Version=4.1.2.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiteDB.4.1.2\lib\net40\LiteDB.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -213,6 +210,9 @@
     </Compile>
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FileManagerViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FilterManagerViewModel.cs" />
+    <Compile Include="PlugIns\FindModule\FindResult.xaml.cs">
+      <DependentUpon>FindResult.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlugIns\FontChooserModule\FontChooseDialog.xaml.cs">
       <DependentUpon>FontChooseDialog.xaml</DependentUpon>
     </Compile>
@@ -501,6 +501,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlugIns\FileManagerModule\FilterManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\FindModule\FindResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

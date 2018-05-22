@@ -1,0 +1,16 @@
+﻿<floatWindow:VsFloatingWindow
+  x:Class="Org.Vs.TailForWin.PlugIns.FindModule.FindResult"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.FindModule"
+  xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
+  mc:Ignorable="d"
+  Title="FindResult"
+  Width="800"
+  Height="450"
+  >
+  <Grid />
+</floatWindow:VsFloatingWindow>
+

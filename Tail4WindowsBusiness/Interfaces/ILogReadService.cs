@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using Org.Vs.TailForWin.Business.Data;
-using Org.Vs.TailForWin.Business.Events.Delegates;
+﻿using Org.Vs.TailForWin.Business.Events.Delegates;
 using Org.Vs.TailForWin.Core.Data;
 
 
@@ -63,5 +61,11 @@ namespace Org.Vs.TailForWin.Business.Interfaces
     /// Reset current index
     /// </summary>
     void ResetIndex();
+
+    /// <summary>
+    /// Set current index to special value
+    /// </summary>
+    /// <param name="index">Index</param>
+    void SetIndex(int index);
   }
 }
