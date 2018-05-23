@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
+using System.Windows.Input;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.PlugIns.FindModule.Controller;
+using Org.Vs.TailForWin.UI.Commands;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
@@ -17,7 +20,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
   public class FindResultViewModel : NotifyMaster
   {
     private readonly List<Predicate<LogEntry>> _criteria = new List<Predicate<LogEntry>>();
-    private ISettingsDbController _dbController;
+    private readonly ISettingsDbController _dbController;
 
     #region Properties
 
@@ -47,6 +50,36 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       set
       {
         _leftPosition = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _windowHeight;
+
+    /// <summary>
+    /// Window height
+    /// </summary>
+    public double WindowHeight
+    {
+      get => _windowHeight;
+      set
+      {
+        _windowHeight = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _windowWidth;
+
+    /// <summary>
+    /// Window width
+    /// </summary>
+    public double WindowWidth
+    {
+      get => _windowWidth;
+      set
+      {
+        _windowWidth = value;
         OnPropertyChanged();
       }
     }
@@ -138,10 +171,54 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     /// </summary>
     public FindResultViewModel()
     {
-      _dbController = new SettingsDbController();
-      _dbController.ReadDbSettings();
+      _dbController = SettingsDbController.Instance;
+
       SetupFindResultCollecitonView();
     }
+
+    #region Commands
+
+    private ICommand _loadeCommand;
+
+    /// <summary>
+    /// Loaded command
+    /// </summary>
+    public ICommand LoadedCommand => _loadeCommand ?? (_loadeCommand = new RelayCommand(p => ExecuteLoadedCommand()));
+
+    private ICommand _closingCommand;
+
+    /// <summary>
+    /// Cloasing command
+    /// </summary>
+    public ICommand ClosingCommand => _closingCommand ?? (_closingCommand = new RelayCommand(p => ExecuteClosingCommand()));
+
+    #endregion
+
+    #region Command functions
+
+    private void ExecuteClosingCommand()
+    {
+      SettingsHelperController.CurrentSettings.FindResultPositionX = LeftPosition;
+      SettingsHelperController.CurrentSettings.FindResultPositionY = TopPosition;
+
+      SettingsHelperController.CurrentSettings.FindResultHeight = WindowHeight;
+      SettingsHelperController.CurrentSettings.FindResultWidth = WindowWidth;
+
+      _dbController.UpdateFindResultDbSettings();
+    }
+
+    private void ExecuteLoadedCommand()
+    {
+      TopPosition = SettingsHelperController.CurrentSettings.FindResultPositionY;
+      LeftPosition = SettingsHelperController.CurrentSettings.FindResultPositionX;
+
+      WindowHeight = SettingsHelperController.CurrentSettings.FindResultHeight;
+      WindowWidth = SettingsHelperController.CurrentSettings.FindResultWidth;
+
+      FilterHasFocus = true;
+    }
+
+    #endregion
 
     private void SetupFindResultCollecitonView()
     {
@@ -154,12 +231,12 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
     private bool DynamicFilter(object item)
     {
-      LogEntry t = item as LogEntry;
+      var t = item as LogEntry;
 
       if ( _criteria.Count == 0 )
         return true;
 
-      var result = _criteria.TrueForAll(p => p(t));
+      bool result = _criteria.TrueForAll(p => p(t));
 
       return result;
     }

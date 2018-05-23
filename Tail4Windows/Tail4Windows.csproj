@@ -211,9 +211,13 @@
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FileManagerViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FilterManagerViewModel.cs" />
     <Compile Include="PlugIns\FindModule\Controller\LogEntryComparer.cs" />
+    <Compile Include="PlugIns\FindModule\FindDialog.xaml.cs">
+      <DependentUpon>FindDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlugIns\FindModule\FindResult.xaml.cs">
       <DependentUpon>FindResult.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlugIns\FindModule\ViewModels\FindDialogViewModel.cs" />
     <Compile Include="PlugIns\FindModule\ViewModels\FindResultViewModel.cs" />
     <Compile Include="PlugIns\FontChooserModule\FontChooseDialog.xaml.cs">
       <DependentUpon>FontChooseDialog.xaml</DependentUpon>
@@ -505,6 +509,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlugIns\FileManagerModule\FilterManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\FindModule\FindDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -10,9 +10,11 @@
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FindModule.ViewModels"
   mc:Ignorable="d"
-  Title="FindResult"
-  Width="800"
-  Height="300"
+  d:DesignHeight="300"
+  d:DesignWidth="800"
+  Title="{DynamicResource FindResultWindowTitle}"
+  Width="{Binding WindowWidth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+  Height="{Binding WindowHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   MinWidth="700"
   MinHeight="250"
   Left="{Binding LeftPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -21,6 +23,16 @@
   <floatWindow:VsFloatingWindow.DataContext>
     <viewModels:FindResultViewModel />
   </floatWindow:VsFloatingWindow.DataContext>
+
+  <i:Interaction.Triggers>
+    <i:EventTrigger EventName="Loaded">
+      <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+    </i:EventTrigger>
+
+    <i:EventTrigger EventName="Closing">
+      <i:InvokeCommandAction Command="{Binding ClosingCommand}" />
+    </i:EventTrigger>
+  </i:Interaction.Triggers>
 
   <Grid>
     <Grid.RowDefinitions>
@@ -62,6 +74,7 @@
 
     <userControls:VsDataGrid
       Grid.Row="1"
+      Margin="2"
       CanUserAddRows="False"
       CanUserReorderColumns="True"
       CanUserSortColumns="True"

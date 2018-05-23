@@ -172,6 +172,96 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private double _findResultPositionX;
+
+    /// <summary>
+    /// FindResult window X position
+    /// </summary>
+    public double FindResultPositionX
+    {
+      get => _findResultPositionX;
+      set
+      {
+        _findResultPositionX = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _findResultPositionY;
+
+    /// <summary>
+    /// FindResult window Y position
+    /// </summary>
+    public double FindResultPositionY
+    {
+      get => _findResultPositionY;
+      set
+      {
+        _findResultPositionY = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _findResultHeight;
+
+    /// <summary>
+    /// FindResult window height
+    /// </summary>
+    public double FindResultHeight
+    {
+      get => _findResultHeight;
+      set
+      {
+        _findResultHeight = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _findResultWidth;
+
+    /// <summary>
+    /// FindResult window width
+    /// </summary>
+    public double FindResultWidth
+    {
+      get => _findResultWidth;
+      set
+      {
+        _findResultWidth = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _findDialogPositionX;
+
+    /// <summary>
+    /// FindDialog window X position
+    /// </summary>
+    public double FindDialogPositionX
+    {
+      get => _findDialogPositionX;
+      set
+      {
+        _findDialogPositionX = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _findDialogPositionY;
+
+    /// <summary>
+    /// FindDialog window Y position
+    /// </summary>
+    public double FindDialogPositionY
+    {
+      get => _findDialogPositionY;
+      set
+      {
+        _findDialogPositionY = value;
+        OnPropertyChanged();
+      }
+    }
+
     private double _windowHeight;
 
     /// <summary>

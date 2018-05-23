@@ -370,4 +370,5 @@
   <system:String x:Key="FindResultMessage">Logtext</system:String>
   <system:String x:Key="FindResultBookmark">Bookmarked</system:String>
   <system:String x:Key="FindResultFilterBy">Filter by logtext</system:String>
+  <system:String x:Key="FindResultWindowTitle">Find result</system:String>
 </ResourceDictionary>

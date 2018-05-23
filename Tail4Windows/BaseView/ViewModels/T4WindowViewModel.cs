@@ -14,6 +14,8 @@ using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.BaseView.Events.Args;
 using Org.Vs.TailForWin.BaseView.Interfaces;
+using Org.Vs.TailForWin.Business.DbEngine.Controllers;
+using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
@@ -47,6 +49,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private string _currentSizeRefreshTime;
     private readonly IBaseWindowStatusbarViewModel _baseWindowStatusbarViewModel;
     private readonly CancellationTokenSource _cts;
+    private readonly FindResult _findResultWindow;
+    private readonly FindDialog _findDialogWindow;
+    private readonly ISettingsDbController _dbSettingsController;
 
     #region Events
 
@@ -228,15 +233,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
-    /// <summary>
-    /// Close action
-    /// </summary>
-    public Action CloseAction
-    {
-      get;
-      set;
-    }
-
     #endregion
 
     /// <summary>
@@ -247,6 +243,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<AddTabItemMessage>(OnAddTabItemFromMainWindow);
 
       _cts = new CancellationTokenSource();
+      _findResultWindow = new FindResult();
+      _findDialogWindow = new FindDialog();
+      _dbSettingsController = SettingsDbController.Instance;
       _currentStatusbarState = EStatusbarState.Default;
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
       _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
@@ -254,6 +253,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _baseWindowStatusbarViewModel = BaseWindowStatusbarViewModel.Instance;
       _baseWindowStatusbarViewModel.FileEncodingChanged += OnFileEncodingChanged;
+      ((AsyncCommand<object>) WndClosingCommand).PropertyChanged += WndClosingCommandChanged;
 
       CreateTrayIconSystemMenu();
 
@@ -331,8 +331,20 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       SettingsHelperController.CurrentSettings.ColorSettings.PropertyChanged += ColorSettingsPropertyChanged;
       _notifyTaskCompletion.PropertyChanged -= TaskPropertyChanged;
 
-      var blubb = new FindResult();
-      blubb.Show();
+      _findResultWindow.Show();
+      _findDialogWindow.Show();
+    }
+
+    private void WndClosingCommandChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      _findResultWindow.ShouldClose = true;
+      _findResultWindow.Close();
+
+      _findDialogWindow.ShouldClose = true;
+      _findDialogWindow.Close();
     }
 
     private async Task StartUpAsync()
@@ -343,6 +355,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       SetDefaultWindowSettings();
       MoveIntoView();
       RestoreWindowSizeAndPosition();
+      _dbSettingsController.ReadDbSettings();
 
       await AutoUpdateAsync().ConfigureAwait(false);
     }

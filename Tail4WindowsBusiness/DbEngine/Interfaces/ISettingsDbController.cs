@@ -9,5 +9,15 @@
     /// Read current DataBase settings
     /// </summary>
     void ReadDbSettings();
+
+    /// <summary>
+    /// Updates FindResult DataBase settings
+    /// </summary>
+    void UpdateFindResultDbSettings();
+
+    /// <summary>
+    /// Updates FindDialog DataBase settings
+    /// </summary>
+    void UpdateFindDialogDbSettings();
   }
 }

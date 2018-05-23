@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -129,15 +128,6 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
     /// Selected <see cref="DragSupportTabItem"/>
     /// </summary>
     DragSupportTabItem SelectedTabItem
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Close action
-    /// </summary>
-    Action CloseAction
     {
       get;
       set;
