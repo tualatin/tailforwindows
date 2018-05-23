@@ -154,8 +154,8 @@
 
     <ControlTemplate.Triggers>
       <Trigger Property="Window.IsActive" Value="False">
-        <Setter TargetName="GridTitleBar" Property="Background" Value="{StaticResource BrushSolidLightBlue}" />
-        <Setter TargetName="WndTitle" Property="Foreground" Value="Gray" />
+        <Setter TargetName="GridTitleBar" Property="Background" Value="{StaticResource BrushSolidInactiveBlue}" />
+        <Setter TargetName="WndTitle" Property="Foreground" Value="White" />
       </Trigger>
 
       <Trigger Property="Window.IsActive" Value="True">

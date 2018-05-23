@@ -143,6 +143,7 @@
   <SolidColorBrush x:Key="BrushSolidYellow" Color="#FFF29D" po:Freeze="True" />
 
   <SolidColorBrush x:Key="BrushSolidBlue" Color="#293955" po:Freeze="True" />
+  <SolidColorBrush x:Key="BrushSolidInactiveBlue" Color="#4B5E7F" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidLightBlue" Color="{StaticResource ColorLightBlue}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidBorderLightBlue" Color="{StaticResource ColorBorderLightBlue}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidAndroidIsMouseOverBlue" Color="{StaticResource ColorAndroidIsMouseOverBlue}" po:Freeze="True" />
