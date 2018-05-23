@@ -24,6 +24,7 @@
           </Grid.RowDefinitions>
 
           <Grid
+            Name="GridTitleBar"
             Background="{StaticResource BrushSolidYellow}"
             >
             <Grid.ColumnDefinitions>
@@ -153,6 +154,7 @@
 
     <ControlTemplate.Triggers>
       <Trigger Property="Window.IsActive" Value="False">
+        <Setter TargetName="GridTitleBar" Property="Background" Value="{StaticResource BrushSolidLightBlue}" />
         <Setter TargetName="WndTitle" Property="Foreground" Value="Gray" />
       </Trigger>
 
