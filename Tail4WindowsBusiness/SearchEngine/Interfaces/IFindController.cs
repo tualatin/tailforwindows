@@ -11,6 +11,14 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Interfaces
   public interface IFindController
   {
     /// <summary>
+    /// FindControll is busy indicator
+    /// </summary>
+    bool IsBusy
+    {
+      get;
+    }
+
+    /// <summary>
     /// Mathes a text
     /// </summary>
     /// <param name="findSettings">Current find settings <see cref="FindData"/></param>

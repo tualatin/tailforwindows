@@ -51,7 +51,14 @@ namespace Org.Vs.NUnit.Tests
       settings.CaseSensitive = false;
       settings.UseWildcard = false;
       settings.UseRegex = true;
+      settings.WholeWord = false;
+      result = await _findController.MatchTextAsync(settings, _textWorker, @"\w*[ip]", _cts.Token).ConfigureAwait(false);
+      Assert.IsTrue(result);
 
+      settings.WholeWord = true;
+      settings.UseRegex = true;
+      result = await _findController.MatchTextAsync(settings, _textWorker, "sed|invidunt", _cts.Token).ConfigureAwait(false);
+      Assert.IsTrue(result);
     }
 
     private void InitTokenSource()

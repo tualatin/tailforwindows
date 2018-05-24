@@ -15,6 +15,15 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
     private static readonly object FindControllerLock = new object();
 
     /// <summary>
+    /// FindControll is busy indicator
+    /// </summary>
+    public bool IsBusy
+    {
+      get;
+      private set;
+    }
+
+    /// <summary>
     /// Mathes a text
     /// </summary>
     /// <param name="findSettings">Current find settings <see cref="FindData"/></param>
@@ -28,21 +37,18 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
         return false;
 
       bool result = false;
+      IsBusy = true;
 
       await Task.Run(
         () =>
         {
           lock ( FindControllerLock )
           {
+            // if not case sensitive
             if ( !findSettings.CaseSensitive )
               value = value.ToLower();
 
-            if ( findSettings.WholeWord )
-            {
-              result = value.Contains(pattern);
-              return;
-            }
-
+            // use wild cards as '*' or '?'
             if ( findSettings.UseWildcard )
             {
               string regString = WildCardToRegular(pattern);
@@ -50,14 +56,33 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
               return;
             }
 
+            Regex regex;
+
+            // searching a whole word with regex
+            if ( findSettings.WholeWord && findSettings.UseRegex )
+            {
+              regex = new Regex($"\\b({pattern})\\b");
+              result = regex.IsMatch(value);
+              return;
+            }
+
+            // searching a whole word
+            if ( findSettings.WholeWord )
+            {
+              result = value.Contains(pattern);
+              return;
+            }
+
+            // searching with regex
             if ( !findSettings.UseRegex )
               return;
 
-            var regex = new Regex(pattern);
+            regex = new Regex(pattern);
             result = regex.IsMatch(value);
           }
         }, token).ConfigureAwait(false);
 
+      IsBusy = false;
       return result;
     }
 
