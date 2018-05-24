@@ -14,6 +14,8 @@
   Height="450"
   MinWidth="350"
   MinHeight="400"
+  MaxWidth="500"
+  MaxHeight="550"
   Left="{Binding LeftPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Top="{Binding TopPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   >

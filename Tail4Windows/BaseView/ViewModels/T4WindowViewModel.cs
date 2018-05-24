@@ -330,9 +330,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       SettingsHelperController.CurrentSettings.ColorSettings.PropertyChanged += ColorSettingsPropertyChanged;
       _notifyTaskCompletion.PropertyChanged -= TaskPropertyChanged;
-
-      _findResultWindow.Show();
-      _findDialogWindow.Show();
     }
 
     private void WndClosingCommandChanged(object sender, PropertyChangedEventArgs e)
@@ -545,7 +542,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void TabItemDoubleClick(object sender, RoutedEventArgs e)
     {
-      LOG.Trace("MouseDoubleClick");
+      DragWindow.CreateTabWindow(WindowPositionX + 10, WindowPositionY + 10, Width, height: Height, tabItem: SelectedTabItem);
+      CloseTabItem(SelectedTabItem, true);
     }
 
     private void OnStatusChangedCurrentLogWindow(object sender, StatusChangedArgs e)
@@ -592,12 +590,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.TabItemBusyIndicator, (LogWindowControl) args.TabItem.Content, args.TabItem.TabItemBackgroundColorStringHex);
     }
 
-    private void CloseTabItem(DragSupportTabItem item)
+    private void CloseTabItem(DragSupportTabItem item, bool tabItemDoubleClick = false)
     {
       if ( !TabItemsSource.Contains(item) )
         return;
 
-      if ( item.TabItemBusyIndicator == Visibility.Visible )
+      if ( item.TabItemBusyIndicator == Visibility.Visible && !tabItemDoubleClick )
       {
         string message = $"{Application.Current.TryFindResource("QRemoveTab")} \n {item.HeaderFullText}";
 

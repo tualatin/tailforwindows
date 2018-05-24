@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using log4net;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -31,8 +32,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
   /// <summary>
   /// FileManager view model
   /// </summary>
-  public class FileManagerViewModel : NotifyMaster
+  public class FileManagerViewModel : NotifyMaster, IFileDragDropTarget
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof( FileManagerViewModel));
+
     private CancellationTokenSource _cts;
     private readonly IXmlFileManager _xmlFileManagerController;
     private readonly List<Predicate<TailData>> _criteria = new List<Predicate<TailData>>();
@@ -299,9 +302,25 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public ICommand FilterCommand => _filterCommand ?? (_filterCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteFilterCommand((Window) p)));
 
+    private ICommand _previewDragEnterCommand;
+
+    /// <summary>
+    /// Preview drag enter command
+    /// </summary>
+    public ICommand PreviewDragEnterCommand => _previewDragEnterCommand ?? (_previewDragEnterCommand = new RelayCommand(ExecutePreviewDragEnterCommand));
+
     #endregion
 
     #region Command functions
+
+    private void ExecutePreviewDragEnterCommand(object parameter)
+    {
+      if ( !(parameter is DragEventArgs e) )
+        return;
+
+      e.Handled = true;
+      e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Move : DragDropEffects.None;
+    }
 
     private void ExecuteFilterCommand(Window window)
     {
@@ -614,6 +633,32 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       var result = _criteria.TrueForAll(p => p(t));
 
       return result;
+    }
+
+    /// <summary>
+    /// On file drop
+    /// </summary>
+    /// <param name="filePaths">Array of file pathes</param>
+    public void OnFileDrop(string[] filePaths)
+    {
+      if ( filePaths.Length == 0 )
+        return;
+
+      try
+      {
+        string fileName = filePaths.First();
+        string extension = Path.GetExtension(fileName);
+
+        if ( string.IsNullOrWhiteSpace(extension) )
+          return;
+
+        SelectedItem.FileName = fileName;
+        OnPropertyChanged(nameof(SelectedItem));
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+      }
     }
   }
 }
