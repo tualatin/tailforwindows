@@ -439,9 +439,27 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand CloseTabItemCommand => _closeTabItemCommand ?? (_closeTabItemCommand = new RelayCommand(p => ExecuteCloseTabItemCommand()));
 
+    private ICommand _activatedCommand;
+
+    /// <summary>
+    /// Close a <see cref="DragSupportTabItem"/>
+    /// </summary>
+    public ICommand ActivatedCommand => _activatedCommand ?? (_activatedCommand = new RelayCommand(p => ExecuteActivatedCommand()));
+
+    private ICommand _deactivatedCommand;
+
+    /// <summary>
+    /// Close a <see cref="DragSupportTabItem"/>
+    /// </summary>
+    public ICommand DeactivatedCommand => _deactivatedCommand ?? (_deactivatedCommand = new RelayCommand(p => ExecuteDeactivatedCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteActivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
+
+    private void ExecuteDeactivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(false));
 
     private void ExecuteExitApplication()
     {

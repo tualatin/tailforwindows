@@ -54,6 +54,14 @@
         CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
         />
     </intr:EventTrigger>
+
+    <intr:EventTrigger EventName="Activated">
+      <intr:InvokeCommandAction Command="{Binding ActivatedCommand}" />
+    </intr:EventTrigger>
+
+    <intr:EventTrigger EventName="Deactivated">
+      <intr:InvokeCommandAction Command="{Binding DeactivatedCommand}" />
+    </intr:EventTrigger>
   </intr:Interaction.Triggers>
 
   <Window.Resources />

@@ -88,6 +88,9 @@
     <Compile Include="Interfaces\ICacheManager.cs" />
     <Compile Include="Interfaces\ILogReadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchEngine\Controllers\FindController.cs" />
+    <Compile Include="SearchEngine\Data\FindData.cs" />
+    <Compile Include="SearchEngine\Interfaces\IFindController.cs" />
     <Compile Include="Services\LogReadService.cs" />
     <Compile Include="Utils\CacheManager.cs" />
   </ItemGroup>

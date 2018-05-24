@@ -99,7 +99,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     private void DragWindowSourceInitialized(object sender, EventArgs e)
     {
       var handle = new WindowInteropHelper(this).Handle;
-      HwndSource source = HwndSource.FromHwnd(handle);
+      var source = HwndSource.FromHwnd(handle);
       source?.AddHook(WndProc);
     }
 
@@ -413,5 +413,9 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataAsNewTabItem>(OnOpenTailDataAsNewTabItem);
       });
     }
+
+    private void DragWindowOnActivated(object sender, EventArgs e) => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
+
+    private void DragWindowOnDeactivated(object sender, EventArgs e) => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(false));
   }
 }

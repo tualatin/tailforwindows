@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
 
 
 namespace Org.Vs.TailForWin.UI.FloatWindow
@@ -35,7 +37,10 @@ namespace Org.Vs.TailForWin.UI.FloatWindow
       Topmost = true;
 
       Closing += VsFloatingWindowClosing;
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<SetFloatingTopmostFlagMessage>(TopmostChanged);
     }
+
+    private void TopmostChanged(SetFloatingTopmostFlagMessage obj) => Topmost = obj.Topmost;
 
     private void VsFloatingWindowClosing(object sender, CancelEventArgs e)
     {

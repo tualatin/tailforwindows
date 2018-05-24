@@ -198,6 +198,7 @@
     <Compile Include="Data\Messages\OpenTailDataMessage.cs" />
     <Compile Include="Data\Messages\QuickSearchTextBoxGetFocusMessage.cs" />
     <Compile Include="Data\Messages\ResetDataMessage.cs" />
+    <Compile Include="Data\Messages\SetFloatingTopmostFlagMessage.cs" />
     <Compile Include="Data\Messages\ShowNotificationPopUpMessage.cs" />
     <Compile Include="PlugIns\FileManagerModule\Controller\TailDataComparer.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\CollectionViewHolder.cs" />
