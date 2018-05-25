@@ -119,7 +119,7 @@ namespace Org.Vs.TailForWin.PlugIns.GoToLineModule.ViewModels
       if ( string.IsNullOrWhiteSpace(GoToLine) )
         return false;
 
-      var regex = new Regex(@"^\d{1,10}$");
+      var regex = new Regex(@"^\d{1,9}$");
 
       if ( !regex.IsMatch(GoToLine) )
         return false;
