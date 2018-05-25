@@ -123,6 +123,7 @@
   <system:String x:Key="FileManagerDataGridPattern">Pattern</system:String>
   <system:String x:Key="FileManagerDataGridNo">No</system:String>
   <system:String x:Key="FileManagerDataGridIsRegex">Regex</system:String>
+  <system:String x:Key="FileManagerDataGridIsRegexToolTip">Use regex pattern to find something</system:String>
   <system:String x:Key="FileManagerOpenTailData">Open</system:String>
   <system:String x:Key="FileManagerUseSmartWatch">Use SmartWatch</system:String>
   <system:String x:Key="FileManagerFileAlreadyOpen">This file is already open.</system:String>
@@ -139,6 +140,10 @@
 
   <system:String x:Key="FilterManagerFont">Font settings</system:String>
   <system:String x:Key="FilterManagerFontToolTip">Set current filter font</system:String>
+  <system:String x:Key="FilterManagerFindWholeWord">Match whole word</system:String>
+  <system:String x:Key="FilterManagerFindWholeWordToolTip">Match a exact word</system:String>
+  <system:String x:Key="FilterManagerMatchCase">Match case</system:String>
+  <system:String x:Key="FilterManagerMatchCaseToolTip">Note uppercase / lowercase description</system:String>
 
   <system:String x:Key="ExtendedTailSettingsLabel">Show extended settings</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Shows the extended tail settings for current tab</system:String>

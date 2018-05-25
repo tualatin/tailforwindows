@@ -77,6 +77,7 @@
     <Compile Include="Data\Base\NotifyMaster.cs" />
     <Compile Include="Data\Base\NotifyTaskCompletion.cs" />
     <Compile Include="Data\FilterData.cs" />
+    <Compile Include="Data\FindData.cs" />
     <Compile Include="Data\FontInfo.cs" />
     <Compile Include="Data\FontType.cs" />
     <Compile Include="Data\Mappings\DateFormatMapping.cs" />

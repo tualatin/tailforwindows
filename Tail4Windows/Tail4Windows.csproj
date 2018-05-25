@@ -226,6 +226,10 @@
     <Compile Include="PlugIns\FontChooserModule\FontChooser.xaml.cs">
       <DependentUpon>FontChooser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlugIns\GoToLineModule\GoToLine.xaml.cs">
+      <DependentUpon>GoToLine.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\GoToLineModule\ViewModels\GoToLineViewModel.cs" />
     <Compile Include="PlugIns\LogWindowModule\Controller\XmlHistoryController.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Args\LinesRefreshTimeChangedArgs.cs" />
@@ -526,6 +530,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlugIns\FontChooserModule\FontChooser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\GoToLineModule\GoToLine.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -886,10 +894,6 @@
     <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
     <Folder Include="PlugIns\PatternModule\ViewModels\" />
-    <Folder Include="PlugIns\SmartWatchModule\Controller\" />
-    <Folder Include="PlugIns\SmartWatchModule\Data\" />
-    <Folder Include="PlugIns\SmartWatchModule\Interfaces\" />
-    <Folder Include="PlugIns\SmartWatchModule\ViewModels\" />
     <Folder Include="UI\Services\" />
     <Folder Include="UI\UserControls\Commands\" />
     <Folder Include="UI\UserControls\Interfaces\" />

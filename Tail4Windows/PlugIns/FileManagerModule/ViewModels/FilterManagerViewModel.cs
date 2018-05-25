@@ -209,9 +209,13 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         SelectedItem.FontType = fontManager.SelectedFont.FontType;
     }
 
-    private bool CanExecuteUndo() => SelectedItem != null && SelectedItem.CanUndo;
+    private bool CanExecuteUndo() => SelectedItem != null && (SelectedItem.CanUndo || SelectedItem.FindSettingsData.CanUndo);
 
-    private void ExecuteUndoCommand() => SelectedItem?.Undo();
+    private void ExecuteUndoCommand()
+    {
+      SelectedItem?.Undo();
+      SelectedItem?.FindSettingsData.Undo();
+    }
 
     private void ExecuteAddFilterDataCommand()
     {
@@ -272,6 +276,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       foreach ( var item in FilterManagerCollection )
       {
         item.CommitChanges();
+        item.FindSettingsData.CommitChanges();
       }
     }
 

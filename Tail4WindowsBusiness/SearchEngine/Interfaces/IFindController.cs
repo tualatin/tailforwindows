@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Org.Vs.TailForWin.Business.SearchEngine.Data;
+using Org.Vs.TailForWin.Core.Data;
 
 
 namespace Org.Vs.TailForWin.Business.SearchEngine.Interfaces

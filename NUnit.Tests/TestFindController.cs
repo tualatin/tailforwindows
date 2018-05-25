@@ -3,8 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Org.Vs.TailForWin.Business.SearchEngine.Controllers;
-using Org.Vs.TailForWin.Business.SearchEngine.Data;
 using Org.Vs.TailForWin.Business.SearchEngine.Interfaces;
+using Org.Vs.TailForWin.Core.Data;
 
 namespace Org.Vs.NUnit.Tests
 {

@@ -18,6 +18,8 @@ namespace Org.Vs.TailForWin.Core.Data
     {
       Id = Guid.NewGuid();
       FontType = new FontType();
+      FindSettingsData = new FindData();
+
       FilterColorHex = DefaultEnvironmentSettings.FilterFontColor;
     }
 
@@ -110,6 +112,24 @@ namespace Org.Vs.TailForWin.Core.Data
 
         var currentValue = _fontType;
         ChangeState(new Command(() => _fontType = value, () => _fontType = currentValue, nameof(FontType), Notification));
+      }
+    }
+
+    private FindData _findSettingsData;
+
+    /// <summary>
+    /// FindSettings data
+    /// </summary>
+    public FindData FindSettingsData
+    {
+      get => _findSettingsData;
+      set
+      {
+        if ( Equals(value, _findSettingsData) )
+          return;
+
+        var currentValue = _findSettingsData;
+        ChangeState(new Command(() => _findSettingsData = value, () => _findSettingsData = currentValue, nameof(FindSettingsData), Notification));
       }
     }
 

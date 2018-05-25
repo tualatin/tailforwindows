@@ -39,7 +39,7 @@
       <DoubleAnimation
         Duration="0:0:0.2"
         Storyboard.TargetProperty="MinHeight"
-        To="40"
+        To="65"
         />
     </Storyboard>
 
@@ -305,6 +305,7 @@
         IsSynchronizedWithCurrentItem="True"
         ItemsSource="{Binding FilterManagerView}"
         SelectionMode="Single"
+        TabIndex="0"
         >
         <userControls:VsDataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
@@ -362,7 +363,13 @@
             <ColumnDefinition />
           </Grid.ColumnDefinitions>
 
+          <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+          </Grid.RowDefinitions>
+
           <Button
+            Grid.Row="0"
             Grid.Column="0"
             Width="18"
             Height="18"
@@ -371,6 +378,7 @@
             VerticalAlignment="Center"
             Command="{Binding FontCommand}"
             CommandParameter="{Binding ElementName=FilterManagerWindow}"
+            TabIndex="1"
             >
             <StackPanel>
               <Image
@@ -422,14 +430,137 @@
           </Button>
 
           <Label
+            Grid.Row="0"
             Grid.Column="1"
+            HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="{Binding Path=SelectedItem.FontType, ElementName=FilterDataGrid, Mode=TwoWay, Converter={StaticResource FontToStringConverter}, UpdateSourceTrigger=PropertyChanged}"
             FontFamily="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FontType.FontFamily}"
             FontStyle="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FontType.FontStyle}"
             FontWeight="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FontType.FontWeight}"
-            Foreground="{Binding Path=SelectedItem.FilterColorHex, ElementName=FilterDataGrid, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}"
             />
+
+          <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal"
+            >
+            <CheckBox
+              Height="22"
+              Margin="2 0 0 0"
+              Content="{DynamicResource FilterManagerMatchCase}"
+              IsChecked="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FindSettingsData.CaseSensitive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              TabIndex="2"
+              >
+              <CheckBox.ToolTip>
+                <StackPanel>
+                  <TextBlock
+                    Margin="0 0 0 5"
+                    Text="{DynamicResource FilterManagerMatchCase}"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    />
+                  <TextBlock Text="{DynamicResource FilterManagerMatchCaseToolTip}" />
+                  <Border
+                    Margin="0 8"
+                    BorderBrush="Silver"
+                    BorderThickness="0 1 0 0"
+                    />
+                  <WrapPanel>
+                    <Image
+                      Width="16"
+                      Height="16"
+                      Margin="0 0 5 0"
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/Search.ico"
+                      />
+                    <TextBlock
+                      Text="{DynamicResource GeneralToolTipHint}"
+                      FontStyle="Italic"
+                      />
+                  </WrapPanel>
+                </StackPanel>
+              </CheckBox.ToolTip>
+            </CheckBox>
+
+            <CheckBox
+              Height="22"
+              Content="{DynamicResource FilterManagerFindWholeWord}"
+              IsChecked="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FindSettingsData.WholeWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              TabIndex="3"
+              >
+              <CheckBox.ToolTip>
+                <StackPanel>
+                  <TextBlock
+                    Margin="0 0 0 5"
+                    Text="{DynamicResource FilterManagerFindWholeWord}"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    />
+                  <TextBlock Text="{DynamicResource FilterManagerFindWholeWordToolTip}" />
+                  <Border
+                    Margin="0 8"
+                    BorderBrush="Silver"
+                    BorderThickness="0 1 0 0"
+                    />
+                  <WrapPanel>
+                    <Image
+                      Width="16"
+                      Height="16"
+                      Margin="0 0 5 0"
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/Search.ico"
+                      />
+                    <TextBlock
+                      Text="{DynamicResource GeneralToolTipHint}"
+                      FontStyle="Italic"
+                      />
+                  </WrapPanel>
+                </StackPanel>
+              </CheckBox.ToolTip>
+            </CheckBox>
+
+            <CheckBox
+              Height="22"
+              Content="{DynamicResource FileManagerDataGridIsRegex}"
+              IsChecked="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FindSettingsData.UseRegex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              TabIndex="4"
+              >
+              <CheckBox.ToolTip>
+                <StackPanel>
+                  <TextBlock
+                    Margin="0 0 0 5"
+                    Text="{DynamicResource FileManagerDataGridIsRegex}"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    />
+                  <TextBlock Text="{DynamicResource FileManagerDataGridIsRegexToolTip}" />
+                  <Border
+                    Margin="0 8"
+                    BorderBrush="Silver"
+                    BorderThickness="0 1 0 0"
+                    />
+                  <WrapPanel>
+                    <Image
+                      Width="16"
+                      Height="16"
+                      Margin="0 0 5 0"
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/Search.ico"
+                      />
+                    <TextBlock
+                      Text="{DynamicResource GeneralToolTipHint}"
+                      FontStyle="Italic"
+                      />
+                  </WrapPanel>
+                </StackPanel>
+              </CheckBox.ToolTip>
+            </CheckBox>
+          </StackPanel>
         </Grid>
       </Border>
 
