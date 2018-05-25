@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -107,8 +108,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
             Description = x.Element(XmlNames.FilterName)?.Value,
             Filter = x.Element(XmlNames.FilterPattern)?.Value,
             FontType = GetFont(x.Element(XmlNames.Font)),
-            FilterColorHex = x.Element(XmlNames.FilterColor)?.Value ?? DefaultEnvironmentSettings.FilterFontColor
-          }).ToList() ?? throw new InvalidOperationException())
+            FilterColorHex = x.Element(XmlNames.FilterColor)?.Value ?? DefaultEnvironmentSettings.FilterFontColor,
+            FindSettingsData = GetFilterSettingsData(x)
+          }).ToList() ?? new List<FilterData>())
         }).ToList();
 
         if ( files != null )
@@ -120,6 +122,17 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         InteractionService.ShowErrorMessageBox(ex.Message);
       }
       return result;
+    }
+
+    private FindData GetFilterSettingsData(XElement settings)
+    {
+      var findSettings = new FindData
+      {
+        CaseSensitive = settings.Element(XmlNames.FilterMatchCase)?.Value.ConvertToBool() ?? false,
+        WholeWord = settings.Element(XmlNames.FilterMatchWholeWord)?.Value.ConvertToBool() ?? false,
+        UseRegex = settings.Element(XmlNames.FilterRegex)?.Value.ConvertToBool() ?? false
+      };
+      return findSettings;
     }
 
     private string GetColorAsString(string value) => string.IsNullOrWhiteSpace(value) ? DefaultEnvironmentSettings.TabItemHeaderBackgroundColor : value;
@@ -504,6 +517,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         new XElement(XmlNames.FilterName, filter.Description),
         new XElement(XmlNames.FilterPattern, filter.Filter),
         new XElement(XmlNames.FilterColor, filter.FilterColorHex),
+        new XElement(XmlNames.FilterMatchCase, filter.FindSettingsData.CaseSensitive),
+        new XElement(XmlNames.FilterMatchWholeWord, filter.FindSettingsData.WholeWord),
+        new XElement(XmlNames.FilterRegex, filter.FindSettingsData.UseRegex),
         new XElement(XmlNames.Font,
           new XElement(XmlBaseStructure.Name, filter.FontType.FontFamily.Source),
           new XElement(XmlNames.Size, filter.FontType.FontSize),

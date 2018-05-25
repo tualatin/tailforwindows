@@ -81,6 +81,21 @@
     public const string FilterPattern = "filterPattern";
 
     /// <summary>
+    /// filterMatchCase
+    /// </summary>
+    public const string FilterMatchCase = "filterMatchCase";
+
+    /// <summary>
+    /// filterRegex
+    /// </summary>
+    public const string FilterRegex = "filterRegex";
+
+    /// <summary>
+    /// filterMatchWholeWord
+    /// </summary>
+    public const string FilterMatchWholeWord = "filterMatchWholeWord";
+
+    /// <summary>
     /// lineWrap
     /// </summary>
     public const string LineWrap = "lineWrap";
