@@ -26,6 +26,7 @@ using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels;
 using Org.Vs.TailForWin.PlugIns.FontChooserModule;
+using Org.Vs.TailForWin.PlugIns.GoToLineModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
@@ -168,6 +169,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         _fileIsValid = value;
         OnPropertyChanged();
+      }
+    }
+
+    /// <summary>
+    /// Gets parent window id
+    /// </summary>
+    public Guid ParentWindowId
+    {
+      get
+      {
+        var window = Window.GetWindow(this);
+        return ((IDragWindow) window)?.DragWindowGuid ?? Guid.Empty;
       }
     }
 
@@ -416,6 +429,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DisableQuickAddInTailDataMessage>(OnDisableQuickAddFlag);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataMessage>(OnOpenTailData);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenGoToLineDialogMessage>(OnOpenGoToLineDialog);
 
       _historyQueueSet = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
     }
@@ -424,6 +438,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<DisableQuickAddInTailDataMessage>(OnDisableQuickAddFlag);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenTailDataMessage>(OnOpenTailData);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenGoToLineDialogMessage>(OnOpenGoToLineDialog);
     }
 
     private bool CanExecuteOpenFontDialog() => LogWindowState == EStatusbarState.FileLoaded || LogWindowState == EStatusbarState.Busy;
@@ -456,10 +471,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
-    private void ExecuteOpenSearchDialogCommand()
-    {
-
-    }
+    private void ExecuteOpenSearchDialogCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this));
 
     private bool CanExecutePrintTailDataCommand() => SplitWindow.LogEntries.Count != 0 && FileIsValid;
 
@@ -645,11 +657,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         var fileManager = new FileManager
         {
           Owner = window,
-          ParentGuid = ((IDragWindow) window).DragWindowGuid
+          ParentGuid = ParentWindowId
         };
 
         LogFileComboBoxHasFocus = false;
-
         fileManager.ShowDialog();
       }
 
@@ -731,7 +742,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
 
       // Is it the right window?
-      if ( ((IDragWindow) window).DragWindowGuid != args.ParentGuid )
+      if ( ParentWindowId != args.ParentGuid )
         return;
 
       if ( LogWindowTabItem.TabItemBusyIndicator == Visibility.Visible )
@@ -810,6 +821,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       // Wait some ms to set the correct focus
       await Task.Delay(TimeSpan.FromMilliseconds(25)).ConfigureAwait(false);
       return true;
+    }
+
+    private void OnOpenGoToLineDialog(OpenGoToLineDialogMessage args)
+    {
+      if ( !CanExecuteOpenFontDialog() )
+        return;
+
+      if ( ParentWindowId != args.ParentGuid )
+        return;
+
+      var goToLine = new GoToLine
+      {
+        Owner = Window.GetWindow(this)
+      };
+      goToLine.ShowDialog();
     }
 
     private void OnDisableQuickAddFlag(DisableQuickAddInTailDataMessage args)

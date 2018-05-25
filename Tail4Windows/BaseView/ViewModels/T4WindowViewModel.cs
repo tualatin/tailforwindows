@@ -241,6 +241,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     public T4WindowViewModel()
     {
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<AddTabItemMessage>(OnAddTabItemFromMainWindow);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSearchDialogMessage>(OnOpenSearchDialog);
 
       _cts = new CancellationTokenSource();
       _findResultWindow = new FindResult();
@@ -450,9 +451,18 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand DeactivatedCommand => _deactivatedCommand ?? (_deactivatedCommand = new RelayCommand(p => ExecuteDeactivatedCommand()));
 
+    private ICommand _findWhatCommand;
+
+    /// <summary>
+    /// Call find dialog
+    /// </summary>
+    public ICommand FindWhatCommand => _findWhatCommand ?? (_findWhatCommand = new RelayCommand(p => ExecuteFindWhatCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteFindWhatCommand() => OnOpenSearchDialog(new OpenSearchDialogMessage(this));
 
     private void ExecuteActivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
 
@@ -525,7 +535,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteGoToLineCommand()
     {
-      LOG.Trace("Go to certain line...");
+      if ( SelectedTabItem == null )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenGoToLineDialogMessage(((ILogWindowControl) SelectedTabItem.Content).ParentWindowId));
     }
 
     private void ExecuteToggleAlwaysOnTopCommand() => SettingsHelperController.CurrentSettings.AlwaysOnTop = !SettingsHelperController.CurrentSettings.AlwaysOnTop;
@@ -588,6 +601,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         return;
 
       AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.TabItemBusyIndicator, (LogWindowControl) args.TabItem.Content, args.TabItem.TabItemBackgroundColorStringHex);
+    }
+
+    private void OnOpenSearchDialog(OpenSearchDialogMessage args)
+    {
+      _findDialogWindow.Show();
+      _findDialogWindow.Focus();
     }
 
     private void CloseTabItem(DragSupportTabItem item, bool tabItemDoubleClick = false)

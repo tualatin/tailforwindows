@@ -357,6 +357,13 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     #region Commands
 
+    private ICommand _goToLineCommand;
+
+    /// <summary>
+    /// Go to line xxx command
+    /// </summary>
+    public ICommand GoToLineCommand => _goToLineCommand ?? (_goToLineCommand = new RelayCommand(p => ExecuteGoToLineCommand()));
+
     private ICommand _addNewTabItemCommand;
 
     /// <summary>
@@ -371,9 +378,26 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// </summary>
     public ICommand CloseTabItemCommand => _closeTabItemCommand ?? (_closeTabItemCommand = new RelayCommand(p => ExecuteCloseTabItemCommand()));
 
+    private ICommand _findWhatCommand;
+
+    /// <summary>
+    /// Call find dialog
+    /// </summary>
+    public ICommand FindWhatCommand => _findWhatCommand ?? (_findWhatCommand = new RelayCommand(p => ExecuteOpenSearchDialogCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteOpenSearchDialogCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this));
+
+    private void ExecuteGoToLineCommand()
+    {
+      if ( SelectedTabItem == null )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenGoToLineDialogMessage(((ILogWindowControl) SelectedTabItem.Content).ParentWindowId));
+    }
 
     private void ExecuteAddNewTabItemCommand() => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}", Visibility.Collapsed);
 

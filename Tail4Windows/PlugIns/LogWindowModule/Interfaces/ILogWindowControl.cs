@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
@@ -120,5 +121,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
     Task DisposeAsync();
+
+    /// <summary>
+    /// Gets parent window id
+    /// </summary>
+    Guid ParentWindowId
+    {
+      get;
+    }
   }
 }

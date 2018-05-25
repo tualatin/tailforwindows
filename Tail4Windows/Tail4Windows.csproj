@@ -192,6 +192,8 @@
     <Compile Include="Data\Messages\AddTailDataToQuickAddMessage.cs" />
     <Compile Include="Data\Messages\DisableQuickAddInTailDataMessage.cs" />
     <Compile Include="Data\Messages\OpenFilterDataFromTailDataMessage.cs" />
+    <Compile Include="Data\Messages\OpenGoToLineDialogMessage.cs" />
+    <Compile Include="Data\Messages\OpenSearchDialogMessage.cs" />
     <Compile Include="Data\Messages\OpenSettingsDialogMessage.cs" />
     <Compile Include="Data\Messages\OpenSmtpSettingMessage.cs" />
     <Compile Include="Data\Messages\OpenTailDataAsNewTabItem.cs" />
@@ -894,7 +896,6 @@
     <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
     <Folder Include="PlugIns\PatternModule\ViewModels\" />
-    <Folder Include="UI\Services\" />
     <Folder Include="UI\UserControls\Commands\" />
     <Folder Include="UI\UserControls\Interfaces\" />
     <Folder Include="UI\UserControls\ViewModels\" />

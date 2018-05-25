@@ -374,4 +374,8 @@
   <system:String x:Key="FindResultBookmark">Lesezeichen gesetzt</system:String>
   <system:String x:Key="FindResultFilterBy">Filtern nach Logtext</system:String>
   <system:String x:Key="FindResultWindowTitle">Suchergebnisse</system:String>
+
+  <system:String x:Key="FindDialogWindowTitle">Suchen</system:String>
+
+  <system:String x:Key="GoToLineWindowTitle">Gehe zur Zeile</system:String>
 </ResourceDictionary>

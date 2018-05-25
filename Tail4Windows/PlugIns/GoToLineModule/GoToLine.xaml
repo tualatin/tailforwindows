@@ -1,12 +1,22 @@
-﻿<Window x:Class="Org.Vs.TailForWin.PlugIns.GoToLineModule.GoToLine"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.GoToLineModule"
-        mc:Ignorable="d"
-        Title="GoToLine" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
-</Window>
+﻿<extendedControls:VsWindowEx
+  x:Class="Org.Vs.TailForWin.PlugIns.GoToLineModule.GoToLine"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.GoToLineModule.ViewModels"
+  mc:Ignorable="d"
+  Title="{DynamicResource GoToLineWindowTitle}"
+  Width="400"
+  Height="200"
+  Icon="{x:Null}"
+  ShowInTaskbar="False"
+  WindowStartupLocation="CenterOwner"
+  >
+  <extendedControls:VsWindowEx.DataContext>
+    <viewModels:GoToLineViewModel />
+  </extendedControls:VsWindowEx.DataContext>
+
+  <Grid />
+</extendedControls:VsWindowEx>

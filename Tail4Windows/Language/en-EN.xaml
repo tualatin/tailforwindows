@@ -376,4 +376,8 @@
   <system:String x:Key="FindResultBookmark">Bookmarked</system:String>
   <system:String x:Key="FindResultFilterBy">Filter by logtext</system:String>
   <system:String x:Key="FindResultWindowTitle">Find result</system:String>
+
+  <system:String x:Key="FindDialogWindowTitle">Find</system:String>
+
+  <system:String x:Key="GoToLineWindowTitle">Go to line</system:String>
 </ResourceDictionary>
