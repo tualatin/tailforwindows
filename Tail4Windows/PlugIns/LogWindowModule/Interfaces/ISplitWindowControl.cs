@@ -93,6 +93,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     }
 
     /// <summary>
+    /// GoToLine
+    /// </summary>
+    /// <param name="index">Index</param>
+    void GoToLine(int index);
+
+    /// <summary>
     /// Clears current items
     /// </summary>
     void ClearItems();

@@ -191,6 +191,7 @@
     <Compile Include="Data\Messages\AddTabItemMessage.cs" />
     <Compile Include="Data\Messages\AddTailDataToQuickAddMessage.cs" />
     <Compile Include="Data\Messages\DisableQuickAddInTailDataMessage.cs" />
+    <Compile Include="Data\Messages\GoToLineMessage.cs" />
     <Compile Include="Data\Messages\OpenFilterDataFromTailDataMessage.cs" />
     <Compile Include="Data\Messages\OpenGoToLineDialogMessage.cs" />
     <Compile Include="Data\Messages\OpenSearchDialogMessage.cs" />

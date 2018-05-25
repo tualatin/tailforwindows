@@ -825,17 +825,32 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnOpenGoToLineDialog(OpenGoToLineDialogMessage args)
     {
-      if ( !CanExecuteOpenFontDialog() )
+      if ( !CanExecuteOpenFontDialog() || LinesRead == 0 )
         return;
 
       if ( ParentWindowId != args.ParentGuid )
         return;
 
-      var goToLine = new GoToLine
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<GoToLineMessage>(OnGoToLine);
+      var goToLine = new GoToLine(SplitWindow.LogEntries[0].Index, LinesRead, args.ParentGuid)
       {
         Owner = Window.GetWindow(this)
       };
       goToLine.ShowDialog();
+
+      new ThrottledExecution().InMs(100).Do(() =>
+      {
+        // Unregister message, we do not need it again!
+        EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<GoToLineMessage>(OnGoToLine);
+      });
+    }
+
+    private void OnGoToLine(GoToLineMessage args)
+    {
+      if ( ParentWindowId != args.ParentGuid )
+        return;
+
+      SplitWindow.GoToLine(args.Index);
     }
 
     private void OnDisableQuickAddFlag(DisableQuickAddInTailDataMessage args)

@@ -329,6 +329,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     #endregion
 
     /// <summary>
+    /// GoToLine
+    /// </summary>
+    /// <param name="index">Index</param>
+    public void GoToLine(int index)
+    {
+      if ( SplitterPosition <= 0 )
+      {
+        LogWindowMainElement.GoToItemByIndex(index);
+        return;
+      }
+
+      LogWindowSplitElement.GoToItemByIndex(index);
+    }
+
+    /// <summary>
     /// Clears current items
     /// </summary>
     public void ClearItems() => ExecuteClearItemsCommand();

@@ -71,6 +71,7 @@
       />
 
     <logWindowListBox:LogWindowListBox
+      x:Name="LogWindowMainElement"
       Grid.Row="2"
       CurrentTailData="{Binding ElementName=SplitWindow, Path=CurrentTailData}"
       FontFamily="{Binding CurrentTailData.FontType.FontFamily, UpdateSourceTrigger=PropertyChanged}"

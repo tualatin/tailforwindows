@@ -38,7 +38,7 @@
   <system:String x:Key="FiltersLoaded">{0} Filter</system:String>
   <system:String x:Key="FilterLoaded">{0} Filter</system:String>
   <system:String x:Key="FileManagerCloseUnsaveItem">Es sind ungespeicherte Änderungen vorhanden. Möchte Sie diese jetzt speichern?</system:String>
-  <system:String x:Key="GoToLineNumber">Linien Nummer ({0}-{1}):</system:String>
+  <system:String x:Key="GoToLineNumber">Zeilennummer ({0}-{1}):</system:String>
   <system:String x:Key="NoUpdate">Kein Update notwendig</system:String>
   <system:String x:Key="DoUpdate">Ein neues update steht zur verfügung</system:String>
   <system:String x:Key="DragDropRunningWarning">There is a running process! Do you want open a new TailWindow tab?</system:String>

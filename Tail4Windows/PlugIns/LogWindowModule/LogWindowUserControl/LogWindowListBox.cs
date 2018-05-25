@@ -143,59 +143,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     /// <summary>
-    /// Is control visible yes/no
-    /// </summary>
-    public bool IsActiv
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Searchbox open yes/no
-    /// </summary>
-    public bool IsSearching
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// NextSearch counter
-    /// </summary>
-    public LogEntry NextSearch
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Wrap around while searching
-    /// </summary>
-    public bool WrapAround
-    {
-      get;
-      set;
-    }
-
-    private bool _bookmarLine;
-
-    /// <summary>
-    /// Bookmark lines
-    /// </summary>
-    public bool BookmarkLine
-    {
-      get => _bookmarLine;
-      set
-      {
-        _bookmarLine = value;
-
-        //if ( _bookmarLine )
-        //  FindWhatTextChanged();
-      }
-    }
-
-    /// <summary>
     /// Current <see cref="CurrentTailData"/> property
     /// </summary>
     public static readonly DependencyProperty CurrentTailDataProperty = DependencyProperty.Register(nameof(CurrentTailData), typeof(TailData), typeof(LogWindowListBox),
@@ -241,6 +188,17 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       PreviewMouseRightButtonDown += LogWindowListBoxOnPreviewMouseRightButtonDown;
       PreviewMouseRightButtonUp += LogWindowListBoxOnPreviewMouseRightButtonUp;
+    }
+
+    /// <summary>
+    /// Go to item by index
+    /// </summary>
+    /// <param name="index">Index to go</param>
+    public void GoToItemByIndex(int index)
+    {
+      _scrollViewer?.ScrollToVerticalOffset(index - 1);
+      var item = Items.GetItemAt(index - 1);
+      SelectedItem = item;
     }
 
     #region Mouse events
@@ -311,7 +269,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( item.BookmarkPoint == null )
         return;
 
-      System.Drawing.Rectangle? rcBookmarkpoint = MouseButtonDownHelper(item);
+      var rcBookmarkpoint = MouseButtonDownHelper(item);
       var mousePoint = PointToScreen(Mouse.GetPosition(this));
 
       if ( rcBookmarkpoint == null )
@@ -320,7 +278,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( !rcBookmarkpoint.Value.Contains((int) mousePoint.X, (int) mousePoint.Y) && _isMouseLeftDownClick )
         return;
 
-      System.Windows.Media.Imaging.BitmapImage icon = new System.Windows.Media.Imaging.BitmapImage();
+      var icon = new System.Windows.Media.Imaging.BitmapImage();
       icon.BeginInit();
       icon.UriSource = new Uri("/T4W;component/Resources/Delete_Bookmark.png", UriKind.Relative);
       icon.EndInit();
@@ -328,8 +286,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
       RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
 
-      ContextMenu contenContextMenu = new ContextMenu();
-      MenuItem menuItem = new MenuItem
+      var contenContextMenu = new ContextMenu();
+      var menuItem = new MenuItem
       {
         Header = Application.Current.TryFindResource("DeleteBookmarks").ToString(),
         Icon = new Image
