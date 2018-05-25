@@ -79,7 +79,11 @@ namespace Org.Vs.TailForWin.Core.Controllers
       {
         "Proxy.Use",
         "InactiveBackgroundColor",
-        "InactiveForegroundColor"
+        "InactiveForegroundColor",
+        "SearchwndYPos",
+        "SearchwndXPos",
+        "Smtp.Password",
+        "Proxy.Password"
       };
 
       await RemoveObsoletePropertiesAsync(settings, cts.Token).ConfigureAwait(false);
@@ -258,7 +262,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "Smtp.FromEMail", CurrentSettings.SmtpSettings.FromAddress);
       WriteValueToSetting(config, "Smtp.Subject", CurrentSettings.SmtpSettings.Subject);
       WriteValueToSetting(config, "Smtp.Login", CurrentSettings.SmtpSettings.LoginName);
-      WriteValueToSetting(config, "Smtp.Password", CurrentSettings.SmtpSettings.Password);
       WriteValueToSetting(config, "Smtp.Port", CurrentSettings.SmtpSettings.SmtpPort);
       WriteValueToSetting(config, "Smtp.Server", CurrentSettings.SmtpSettings.SmtpServerName);
     }
@@ -266,7 +269,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
     private void SaveProxySettings(Configuration config)
     {
       WriteValueToSetting(config, "Proxy.UserName", CurrentSettings.ProxySettings.UserName);
-      WriteValueToSetting(config, "Proxy.Password", CurrentSettings.ProxySettings.Password);
       WriteValueToSetting(config, "Proxy.Port", CurrentSettings.ProxySettings.ProxyPort.ToString(CultureInfo.InvariantCulture));
       WriteValueToSetting(config, "Proxy.Url", CurrentSettings.ProxySettings.ProxyUrl);
       WriteValueToSetting(config, "Proxy.UseSystem", CurrentSettings.ProxySettings.UseSystemSettings.ToString());
@@ -381,14 +383,12 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.SmtpSettings.SmtpPort = DefaultEnvironmentSettings.SmtpPort;
       CurrentSettings.SmtpSettings.SmtpServerName = DefaultEnvironmentSettings.SmtpServer;
       CurrentSettings.SmtpSettings.LoginName = DefaultEnvironmentSettings.SmtpUsername;
-      CurrentSettings.SmtpSettings.Password = DefaultEnvironmentSettings.SmtpPassword;
       CurrentSettings.SmtpSettings.FromAddress = DefaultEnvironmentSettings.SmtpFromMailAddress;
       CurrentSettings.SmtpSettings.Subject = DefaultEnvironmentSettings.SmtpSubject;
     }
 
     private void SetDefaultProxySettings()
     {
-      CurrentSettings.ProxySettings.Password = DefaultEnvironmentSettings.ProxyPassword;
       CurrentSettings.ProxySettings.UserName = DefaultEnvironmentSettings.ProxyUserName;
       CurrentSettings.ProxySettings.ProxyPort = DefaultEnvironmentSettings.ProxyPort;
       CurrentSettings.ProxySettings.ProxyUrl = DefaultEnvironmentSettings.ProxyUrl;
@@ -531,7 +531,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.SmtpSettings.Tls = GetBoolFromSetting("Smtp.Tls");
       CurrentSettings.SmtpSettings.FromAddress = GetStringFromSetting("Smtp.FromEMail");
       CurrentSettings.SmtpSettings.LoginName = GetStringFromSetting("Smtp.Login");
-      CurrentSettings.SmtpSettings.Password = GetStringFromSetting("Smtp.Password");
       CurrentSettings.SmtpSettings.SmtpPort = GetIntFromSetting("Smtp.Port");
       CurrentSettings.SmtpSettings.SmtpServerName = GetStringFromSetting("Smtp.Server");
       CurrentSettings.SmtpSettings.Subject = GetStringFromSetting("Smtp.Subject");
@@ -543,7 +542,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ProxySettings.ProxyPort = GetIntFromSetting("Proxy.Port");
       CurrentSettings.ProxySettings.ProxyUrl = GetStringFromSetting("Proxy.Url");
       CurrentSettings.ProxySettings.UserName = GetStringFromSetting("Proxy.UserName");
-      CurrentSettings.ProxySettings.Password = GetStringFromSetting("Proxy.Password");
     }
 
     private void ReadSmartWatchSettings()

@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Input;
 using log4net;
 using Microsoft.Win32;
+using Org.Vs.TailForWin.Business.DbEngine.Controllers;
+using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
@@ -26,6 +28,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     private static readonly ILog LOG = LogManager.GetLogger(typeof(ImportExportOptionViewModel));
 
     private CancellationTokenSource _cts;
+    private readonly ISettingsDbController _dbSettingsController;
 
     #region Properties
 
@@ -48,6 +51,11 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     }
 
     #endregion
+
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
+    public ImportExportOptionViewModel() => _dbSettingsController = SettingsDbController.Instance;
 
     #region Commands
 
@@ -122,6 +130,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
 
       await EnvironmentContainer.Instance.ResetCurrentSettingsAsync(_cts).ConfigureAwait(false);
+      await _dbSettingsController.ResetDbSettingsAsync(_cts.Token).ConfigureAwait(false);
+
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ResetDataMessage(this));
     }
 
@@ -131,14 +141,14 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       string appSettings = $"{AppDomain.CurrentDomain.BaseDirectory}{appName}.Config";
       string date = DateTime.Now.ToString("yyyy_MM_dd_hh_mm");
 
-      SaveFileDialog saveDialog = new SaveFileDialog
+      var saveDialog = new SaveFileDialog
       {
         FileName = $"{date}_{appName}.Config",
         DefaultExt = ".export",
         Filter = Application.Current.TryFindResource("ImportExportExportSettingsFilter").ToString()
       };
 
-      bool? result = saveDialog.ShowDialog();
+      var result = saveDialog.ShowDialog();
 
       if ( result != true )
         return;
@@ -150,9 +160,9 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
       try
       {
-        FileStream saveFile = new FileStream(appSettings, FileMode.Open);
+        var saveFile = new FileStream(appSettings, FileMode.Open);
         Stream output = File.Create($"{saveDialog.FileName}.{saveDialog.DefaultExt}");
-        byte[] buffer = new byte[1024];
+        var buffer = new byte[1024];
         int len;
 
         while ( (len = await saveFile.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0 )
@@ -192,9 +202,9 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       try
       {
         string appName = AppDomain.CurrentDomain.FriendlyName;
-        FileStream importFile = new FileStream(importSettings, FileMode.Open);
+        var importFile = new FileStream(importSettings, FileMode.Open);
         Stream output = File.Create($"{AppDomain.CurrentDomain.BaseDirectory}{appName}.Config");
-        byte[] buffer = new byte[1024];
+        var buffer = new byte[1024];
         int len;
 
         while ( (len = await importFile.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0 )

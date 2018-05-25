@@ -1,4 +1,8 @@
-﻿namespace Org.Vs.TailForWin.Business.DbEngine.Interfaces
+﻿using System.Threading;
+using System.Threading.Tasks;
+
+
+namespace Org.Vs.TailForWin.Business.DbEngine.Interfaces
 {
   /// <summary>
   /// Settings DataBase controller interface
@@ -8,7 +12,8 @@
     /// <summary>
     /// Read current DataBase settings
     /// </summary>
-    void ReadDbSettings();
+    /// <returns>Task</returns>
+    Task ReadDbSettingsAsync();
 
     /// <summary>
     /// Updates FindResult DataBase settings
@@ -19,5 +24,17 @@
     /// Updates FindDialog DataBase settings
     /// </summary>
     void UpdateFindDialogDbSettings();
+
+    /// <summary>
+    /// Updates password settings
+    /// </summary>
+    void UpdatePasswordSettings();
+
+    /// <summary>
+    /// Resets DataBase settings
+    /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <returns>Task</returns>
+    Task ResetDbSettingsAsync(CancellationToken token);
   }
 }

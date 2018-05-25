@@ -352,8 +352,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       SetDefaultWindowSettings();
       MoveIntoView();
       RestoreWindowSizeAndPosition();
-      _dbSettingsController.ReadDbSettings();
 
+      await _dbSettingsController.ReadDbSettingsAsync().ConfigureAwait(false);
       await AutoUpdateAsync().ConfigureAwait(false);
     }
 

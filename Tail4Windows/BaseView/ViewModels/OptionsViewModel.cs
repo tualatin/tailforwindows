@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.BaseView.Interfaces;
+using Org.Vs.TailForWin.Business.DbEngine.Controllers;
+using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
@@ -35,6 +37,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private EnvironmentSettings.MementoEnvironmentSettings _mementoSettings;
     private readonly CancellationTokenSource _cts;
+    private readonly ISettingsDbController _dbSettingsDbController;
 
     #region Properties
 
@@ -96,6 +99,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       _mementoSettings = SettingsHelperController.CurrentSettings.SaveToMemento();
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+      _dbSettingsDbController = SettingsDbController.Instance;
 
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
@@ -170,6 +174,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       SettingsHelperController.CurrentSettings.LastViewedOptionPage = CurrentViewModel.PageId;
       _mementoSettings = null;
 
+      _dbSettingsDbController.UpdatePasswordSettings();
       await EnvironmentContainer.Instance.SaveSettingsAsync(_cts).ConfigureAwait(false);
     }
 

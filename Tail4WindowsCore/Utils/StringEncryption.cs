@@ -26,22 +26,25 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <returns>The encrypt string</returns>
     public static async Task<string> EncryptAsync(string plainText)
     {
+      if ( string.IsNullOrWhiteSpace(plainText) )
+        return null;
+
       try
       {
-        byte[] bytesBuffer = Encoding.Unicode.GetBytes(plainText);
+        var bytesBuffer = Encoding.Unicode.GetBytes(plainText);
 
         using ( var aes = Aes.Create() )
         {
-          Rfc2898DeriveBytes k1 = new Rfc2898DeriveBytes(Password, Salt);
+          var k1 = new Rfc2898DeriveBytes(Password, Salt);
 
           if ( aes != null )
           {
             aes.Key = k1.GetBytes(32);
             aes.IV = k1.GetBytes(16);
 
-            using ( MemoryStream encryptionStream = new MemoryStream() )
+            using ( var encryptionStream = new MemoryStream() )
             {
-              using ( CryptoStream encrypt = new CryptoStream(encryptionStream, aes.CreateEncryptor(), CryptoStreamMode.Write) )
+              using ( var encrypt = new CryptoStream(encryptionStream, aes.CreateEncryptor(), CryptoStreamMode.Write) )
               {
                 await encrypt.WriteAsync(bytesBuffer, 0, bytesBuffer.Length).ConfigureAwait(false);
                 encrypt.Close();
@@ -66,23 +69,26 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <returns>The plain string</returns>
     public static async Task<string> DecryptAsync(string cipherText)
     {
+      if ( string.IsNullOrWhiteSpace(cipherText) )
+        return null;
+
       try
       {
         cipherText = cipherText.Replace(" ", "+");
-        byte[] cipherTextBytes = Convert.FromBase64String(cipherText);
+        var cipherTextBytes = Convert.FromBase64String(cipherText);
 
         using ( var aes = Aes.Create() )
         {
-          Rfc2898DeriveBytes k1 = new Rfc2898DeriveBytes(Password, Salt);
+          var k1 = new Rfc2898DeriveBytes(Password, Salt);
 
           if ( aes != null )
           {
             aes.Key = k1.GetBytes(32);
             aes.IV = k1.GetBytes(16);
 
-            using ( MemoryStream encryptionStream = new MemoryStream() )
+            using ( var encryptionStream = new MemoryStream() )
             {
-              using ( CryptoStream decrypt = new CryptoStream(encryptionStream, aes.CreateDecryptor(), CryptoStreamMode.Write) )
+              using ( var decrypt = new CryptoStream(encryptionStream, aes.CreateDecryptor(), CryptoStreamMode.Write) )
               {
                 await decrypt.WriteAsync(cipherTextBytes, 0, cipherTextBytes.Length).ConfigureAwait(false);
                 decrypt.Close();
