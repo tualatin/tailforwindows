@@ -34,7 +34,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
   /// </summary>
   public class FileManagerViewModel : NotifyMaster, IFileDragDropTarget
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof( FileManagerViewModel));
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(FileManagerViewModel));
 
     private CancellationTokenSource _cts;
     private readonly IXmlFileManager _xmlFileManagerController;
@@ -176,7 +176,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         }
 
         _criteria.Add(p => !string.IsNullOrEmpty(p.Category) && !string.IsNullOrEmpty(p.Description)
-                           && (p.Category.ToLower().StartsWith(_filterText) || p.Description.ToLower().StartsWith(_filterText)));
+                                                             && (p.Category.ToLower().StartsWith(_filterText) || p.Description.ToLower().StartsWith(_filterText)));
         FileManagerView.Filter = DynamicFilter;
 
         if ( SelectedItem == null )
@@ -612,11 +612,17 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void CommitChanges()
     {
-      foreach ( var item in _fileManagerCollection )
+      Parallel.ForEach(_fileManagerCollection, f =>
       {
-        item.CommitChanges();
-      }
+        f.CommitChanges();
+
+        Parallel.ForEach(f.ListOfFilter, p =>
+        {
+          p.FindSettingsData.CommitChanges();
+        });
+      });
     }
+
     private List<TailData> GetErrors()
     {
       var errors = FileManagerCollection.Where(p => p["Description"] != null || p["FileName"] != null).ToList();
