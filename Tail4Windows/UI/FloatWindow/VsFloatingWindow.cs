@@ -29,7 +29,8 @@ namespace Org.Vs.TailForWin.UI.FloatWindow
     /// <summary>
     /// Standard constructor
     /// </summary>
-    protected VsFloatingWindow()
+    // ReSharper disable once MemberCanBeProtected.Global
+    public VsFloatingWindow()
     {
       WindowStyle = WindowStyle.None;
       AllowsTransparency = true;

@@ -1,6 +1,7 @@
 ﻿using System;
 using Org.Vs.TailForWin.PlugIns.GoToLineModule.ViewModels;
 
+
 namespace Org.Vs.TailForWin.PlugIns.GoToLineModule
 {
   /// <summary>
@@ -9,7 +10,7 @@ namespace Org.Vs.TailForWin.PlugIns.GoToLineModule
   public partial class GoToLine
   {
     /// <summary>
-    /// Standard constructor
+    /// constructor
     /// </summary>
     /// <param name="min">Min line number</param>
     /// <param name="max">Max line number</param>

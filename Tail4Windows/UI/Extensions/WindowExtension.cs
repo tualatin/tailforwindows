@@ -10,8 +10,10 @@ namespace Org.Vs.TailForWin.UI.Extensions
   /// </summary>
   public static class WindowExtension
   {
+    private const int WsExDlgmodalframe = 0x0001;
+
     /// <summary>
-    /// Hide the minimize and maximize buttons
+    /// Hides the minimize and maximize buttons
     /// </summary>
     /// <param name="window">The window, where the buttons are hide</param>
     public static void HideMinimizeMaximizeButtons(this Window window)
