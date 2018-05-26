@@ -121,10 +121,10 @@ namespace Org.Vs.TailForWin.PlugIns.GoToLineModule.ViewModels
 
       var regex = new Regex(@"^\d{1,9}$");
 
-      if ( !regex.IsMatch(GoToLine) )
+      if ( !regex.IsMatch(GoToLine.Trim()) )
         return false;
 
-      int index = Convert.ToInt32(GoToLine);
+      int index = Convert.ToInt32(GoToLine.Trim());
       return index >= MinLines && index <= MaxLines;
     }
 

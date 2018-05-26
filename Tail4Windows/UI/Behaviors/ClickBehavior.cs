@@ -58,6 +58,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
     protected override void OnAttached()
     {
       base.OnAttached();
+
       AssociatedObject.Loaded += AssociatedObject_Loaded;
       AssociatedObject.Unloaded += AssociatedObject_Unloaded;
     }

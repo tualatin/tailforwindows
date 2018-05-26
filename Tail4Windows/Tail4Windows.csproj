@@ -266,6 +266,7 @@
     <Compile Include="UI\Behaviors\ScrollDataGridRowIntoView.cs" />
     <Compile Include="UI\Behaviors\SizeObserver.cs" />
     <Compile Include="UI\Behaviors\SynchronizeOffsetBehavior.cs" />
+    <Compile Include="UI\Behaviors\TextBoxMaskBehavior.cs" />
     <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
     <Compile Include="UI\Converters\BoolToForegroundConverter.cs" />

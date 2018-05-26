@@ -63,6 +63,13 @@
             />
         </userControls:WatermarkTextBox.Watermark>
 
+        <i:Interaction.Behaviors>
+          <behaviors:TextBoxMaskBehavior
+            InputMask="000000000"
+            PromptChar=" "
+            />
+        </i:Interaction.Behaviors>
+
         <userControls:WatermarkTextBox.InputBindings>
           <KeyBinding Key="Enter" Command="{Binding GoToLineCommand}" CommandParameter="{Binding ElementName=GoToLineWindow}" />
         </userControls:WatermarkTextBox.InputBindings>
