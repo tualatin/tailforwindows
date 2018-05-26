@@ -15,6 +15,7 @@
   Width="300"
   Height="130"
   Icon="{x:Null}"
+  ResizeMode="NoResize"
   ShowInTaskbar="False"
   WindowStartupLocation="CenterOwner"
   >

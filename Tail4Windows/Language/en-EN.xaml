@@ -144,6 +144,9 @@
   <system:String x:Key="FilterManagerFindWholeWordToolTip">Match a exact word</system:String>
   <system:String x:Key="FilterManagerMatchCase">Match case</system:String>
   <system:String x:Key="FilterManagerMatchCaseToolTip">Note uppercase / lowercase description</system:String>
+  <system:String x:Key="FilterManagerWildCard">Use wildcards</system:String>
+  <system:String x:Key="FilterManagerWildCardToolTip">Use wildcards to find something</system:String>
+  <system:String x:Key="FilterManagerIsHighlight">Highlight</system:String>
 
   <system:String x:Key="ExtendedTailSettingsLabel">Show extended settings</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Shows the extended tail settings for current tab</system:String>

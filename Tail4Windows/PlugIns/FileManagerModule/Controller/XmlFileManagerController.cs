@@ -109,7 +109,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
             Filter = x.Element(XmlNames.FilterPattern)?.Value,
             FontType = GetFont(x.Element(XmlNames.Font)),
             FilterColorHex = x.Element(XmlNames.FilterColor)?.Value ?? DefaultEnvironmentSettings.FilterFontColor,
-            FindSettingsData = GetFilterSettingsData(x)
+            FindSettingsData = GetFilterSettingsData(x),
+            IsHighlight = (x.Element(XmlNames.FilterIsHighlight)?.Value).ConvertToBool()
           }).ToList() ?? new List<FilterData>())
         }).ToList();
 
@@ -124,13 +125,14 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       return result;
     }
 
-    private FindData GetFilterSettingsData(XElement settings)
+    private FindData GetFilterSettingsData(XContainer settings)
     {
       var findSettings = new FindData
       {
         CaseSensitive = settings.Element(XmlNames.FilterMatchCase)?.Value.ConvertToBool() ?? false,
         WholeWord = settings.Element(XmlNames.FilterMatchWholeWord)?.Value.ConvertToBool() ?? false,
-        UseRegex = settings.Element(XmlNames.FilterRegex)?.Value.ConvertToBool() ?? false
+        UseRegex = settings.Element(XmlNames.FilterRegex)?.Value.ConvertToBool() ?? false,
+        UseWildcard = settings.Element(XmlNames.FilterUseWildcard)?.Value.ConvertToBool() ?? false
       };
       return findSettings;
     }
@@ -520,6 +522,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         new XElement(XmlNames.FilterMatchCase, filter.FindSettingsData.CaseSensitive),
         new XElement(XmlNames.FilterMatchWholeWord, filter.FindSettingsData.WholeWord),
         new XElement(XmlNames.FilterRegex, filter.FindSettingsData.UseRegex),
+        new XElement(XmlNames.FilterUseWildcard, filter.FindSettingsData.UseWildcard),
+        new XElement(XmlNames.FilterIsHighlight, filter.IsHighlight),
         new XElement(XmlNames.Font,
           new XElement(XmlBaseStructure.Name, filter.FontType.FontFamily.Source),
           new XElement(XmlNames.Size, filter.FontType.FontSize),

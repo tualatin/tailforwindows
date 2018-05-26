@@ -96,6 +96,16 @@
     public const string FilterMatchWholeWord = "filterMatchWholeWord";
 
     /// <summary>
+    /// filterIsHighlight
+    /// </summary>
+    public const string FilterIsHighlight = "filterIsHighlight";
+
+    /// <summary>
+    /// filterWildCard
+    /// </summary>
+    public const string FilterUseWildcard = "filterWildCard";
+
+    /// <summary>
     /// lineWrap
     /// </summary>
     public const string LineWrap = "lineWrap";

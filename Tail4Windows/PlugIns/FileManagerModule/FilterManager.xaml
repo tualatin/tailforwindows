@@ -13,8 +13,8 @@
   mc:Ignorable="d"
   x:Name="FilterManagerWindow"
   Title="FilterManager"
-  Width="500"
-  Height="300"
+  Width="540"
+  Height="350"
   Icon="/T4W;component/Resources/Filters.ico"
   ResizeMode="NoResize"
   ShowInTaskbar="False"
@@ -39,7 +39,7 @@
       <DoubleAnimation
         Duration="0:0:0.2"
         Storyboard.TargetProperty="MinHeight"
-        To="65"
+        To="85"
         />
     </Storyboard>
 
@@ -335,6 +335,12 @@
             Binding="{Binding Filter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
             />
 
+          <DataGridCheckBoxColumn
+            MinWidth="60"
+            Header="{DynamicResource FilterManagerIsHighlight}"
+            Binding="{Binding IsHighlight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            />
+
           <DataGridTemplateColumn
             MinWidth="150"
             Header="{DynamicResource ColorOptionLogWindowGridColor}"
@@ -364,6 +370,7 @@
           </Grid.ColumnDefinitions>
 
           <Grid.RowDefinitions>
+            <RowDefinition />
             <RowDefinition />
             <RowDefinition />
           </Grid.RowDefinitions>
@@ -522,12 +529,57 @@
                 </StackPanel>
               </CheckBox.ToolTip>
             </CheckBox>
+          </StackPanel>
+
+          <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal"
+            >
+            <CheckBox
+              Height="22"
+              Content="{DynamicResource FilterManagerWildCard}"
+              IsChecked="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FindSettingsData.UseWildcard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              TabIndex="4"
+              >
+              <CheckBox.ToolTip>
+                <StackPanel>
+                  <TextBlock
+                    Margin="0 0 0 5"
+                    Text="{DynamicResource FilterManagerWildCard}"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    />
+                  <TextBlock Text="{DynamicResource FilterManagerWildCardToolTip}" />
+                  <Border
+                    Margin="0 8"
+                    BorderBrush="Silver"
+                    BorderThickness="0 1 0 0"
+                    />
+                  <WrapPanel>
+                    <Image
+                      Width="16"
+                      Height="16"
+                      Margin="0 0 5 0"
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/Search.ico"
+                      />
+                    <TextBlock
+                      Text="{DynamicResource GeneralToolTipHint}"
+                      FontStyle="Italic"
+                      />
+                  </WrapPanel>
+                </StackPanel>
+              </CheckBox.ToolTip>
+            </CheckBox>
 
             <CheckBox
               Height="22"
               Content="{DynamicResource FileManagerDataGridIsRegex}"
               IsChecked="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FindSettingsData.UseRegex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              TabIndex="4"
+              TabIndex="5"
               >
               <CheckBox.ToolTip>
                 <StackPanel>

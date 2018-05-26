@@ -43,6 +43,24 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
+    private bool _isHightlight;
+
+    /// <summary>
+    /// Is Hightlight
+    /// </summary>
+    public bool IsHighlight
+    {
+      get => _isHightlight;
+      set
+      {
+        if ( value == _isHightlight )
+          return;
+
+        bool currentValue = _isHightlight;
+        ChangeState(new Command(() => _isHightlight = value, () => _isHightlight = currentValue, nameof(IsHighlight), Notification));
+      }
+    }
+
     private string _description;
 
     /// <summary>
