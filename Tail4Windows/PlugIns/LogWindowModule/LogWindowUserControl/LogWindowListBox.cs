@@ -29,10 +29,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private ScrollViewer _scrollViewer;
     private Grid _splitGripControl;
-
     private bool _mouseDown;
     private bool _isMouseLeftDownClick;
     private bool _isMouseRightDownClick;
+    private bool _isMouseDoubleClick;
+
+    private TextBlock _defaultTextMessage;
+    private TextBox _readOnlyTextMessage;
 
 
     #region Public properties
@@ -188,6 +191,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       PreviewMouseRightButtonDown += LogWindowListBoxOnPreviewMouseRightButtonDown;
       PreviewMouseRightButtonUp += LogWindowListBoxOnPreviewMouseRightButtonUp;
+
+      PreviewMouseDoubleClick += LogWindowListBoxOnPreviewMouseDoubleClick;
+
+      SelectionChanged += LogWindowListBoxOnSelectionChanged;
     }
 
     /// <summary>
@@ -202,6 +209,27 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     #region Mouse events
+
+    private void LogWindowListBoxOnPreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+      if ( Items.Count == 0 )
+        return;
+
+      var item = SelectedItem as LogEntry;
+
+      if ( string.IsNullOrWhiteSpace(item?.Message) )
+        return;
+
+      _defaultTextMessage = FindDataTemplate<TextBlock>(item, "TextBoxMessage");
+      _readOnlyTextMessage = FindDataTemplate<TextBox>(item, "TextBoxReadOnly");
+
+      if ( _defaultTextMessage == null || _readOnlyTextMessage == null )
+        return;
+
+      _isMouseDoubleClick = true;
+      _defaultTextMessage.Visibility = Visibility.Collapsed;
+      _readOnlyTextMessage.Visibility = Visibility.Visible;
+    }
 
     private void LogWindowListBoxOnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
@@ -252,7 +280,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       item.BookmarkPoint = item.BookmarkPoint == null ? bp : null;
     }
 
-    private void LogWindowListBoxOnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) => _isMouseLeftDownClick = false;
+    private void LogWindowListBoxOnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    {
+      _isMouseDoubleClick = false;
+      _isMouseLeftDownClick = false;
+    }
 
     private void LogWindowListBoxOnPreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
@@ -308,7 +340,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       ContextMenu = contenContextMenu;
     }
 
-    private void LogWindowListBoxOnPreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e) => _isMouseRightDownClick = false;
+    private void LogWindowListBoxOnPreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+    {
+      _isMouseDoubleClick = false;
+      _isMouseRightDownClick = false;
+    }
+
+    #endregion
+
+    #region  Events
+
+    private void LogWindowListBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+      if ( _defaultTextMessage == null || _readOnlyTextMessage == null || _isMouseDoubleClick )
+        return;
+
+      _defaultTextMessage.Visibility = Visibility.Visible;
+      _readOnlyTextMessage.Visibility = Visibility.Collapsed;
+    }
 
     #endregion
 
@@ -457,17 +506,20 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       e.Handled = true;
     }
 
-    private System.Drawing.Rectangle? MouseButtonDownHelper(LogEntry item)
+    private T FindDataTemplate<T>(LogEntry item, string templateName) where T : FrameworkElement
     {
       var myListBoxItem = (ListBoxItem) ItemContainerGenerator.ContainerFromItem(item);
       var myContentPresenter = myListBoxItem.Descendents().OfType<ContentPresenter>().FirstOrDefault();
       var myDataTemplate = myContentPresenter?.ContentTemplate;
+      T control = (T) myDataTemplate?.FindName(templateName, myContentPresenter);
 
-      if ( myDataTemplate == null )
-        return null;
+      return control;
+    }
 
-      var textBlock = (TextBlock) myDataTemplate.FindName("TextBoxMessage", myContentPresenter);
-      var target = (Image) myDataTemplate.FindName("TextBoxBookmarkPoint", myContentPresenter);
+    private System.Drawing.Rectangle? MouseButtonDownHelper(LogEntry item)
+    {
+      var textBlock = FindDataTemplate<TextBlock>(item, "TextBoxMessage");
+      var target = FindDataTemplate<Image>(item, "TextBoxBookmarkPoint");
 
       if ( target == null || textBlock == null )
         return null;

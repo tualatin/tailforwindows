@@ -834,7 +834,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<GoToLineMessage>(OnGoToLine);
       var goToLine = new GoToLine(SplitWindow.LogEntries[0].Index, LinesRead, args.ParentGuid)
       {
-        Owner = Window.GetWindow(this)
+        Owner = Window.GetWindow(this),
+        ShouldClose = true
       };
       goToLine.ShowDialog();
 
