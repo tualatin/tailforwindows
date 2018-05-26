@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using log4net;
@@ -15,6 +17,7 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Extensions;
+using Org.Vs.TailForWin.UI.Converters;
 using Org.Vs.TailForWin.UI.Extensions;
 
 
@@ -36,6 +39,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private TextBlock _defaultTextMessage;
     private TextBox _readOnlyTextMessage;
+
+    private readonly StringToWindowMediaBrushConverter _stringToWindowMediaBrushConverter;
 
 
     #region Public properties
@@ -195,6 +200,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       PreviewMouseDoubleClick += LogWindowListBoxOnPreviewMouseDoubleClick;
 
       SelectionChanged += LogWindowListBoxOnSelectionChanged;
+
+      _stringToWindowMediaBrushConverter = new StringToWindowMediaBrushConverter();
     }
 
     /// <summary>
@@ -504,6 +511,41 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       ContextMenu = null;
       e.Handled = true;
+    }
+
+    private void HighlightTextInTextBlock(TextBlock tb)
+    {
+      if ( tb == null )
+        return;
+
+      string text = tb.Text;
+      tb.Inlines.Clear();
+      tb.Inlines.Add(text);
+
+      Brush searchHighlightOpacity = (Brush) _stringToWindowMediaBrushConverter.Convert(TextEditorSearchHighlightBackgroundHex, typeof(Brush), null, CultureInfo.InvariantCulture);
+
+      if ( searchHighlightOpacity != null )
+      {
+        searchHighlightOpacity.Opacity = 0.5;
+        Run run = new Run(text)
+        {
+          Foreground = (Brush) _stringToWindowMediaBrushConverter.Convert(TextEditorSearchHighlightForegroundHex, typeof(Brush), null, CultureInfo.InvariantCulture),
+          Background = searchHighlightOpacity
+        };
+
+        tb.Inlines.Add(run);
+      }
+    }
+
+    private void RemoveHighlightTextInTextBlock(TextBlock tb)
+    {
+      if ( tb == null )
+        return;
+
+      string text = tb.Text;
+      tb.Inlines.Clear();
+      tb.Inlines.Add(text);
+
     }
 
     private T FindDataTemplate<T>(LogEntry item, string templateName) where T : FrameworkElement
