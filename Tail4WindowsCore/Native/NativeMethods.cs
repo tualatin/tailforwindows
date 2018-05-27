@@ -159,6 +159,11 @@ namespace Org.Vs.TailForWin.Core.Native
     internal const uint TPM_RETURNCMD = 0x0100;
 
     /// <summary>
+    /// Retrieves the window menu as a result of a keystroke. For more information, see the Remarks section.
+    /// </summary>
+    internal const int SC_KEYMENU = 0xF100;
+
+    /// <summary>
     /// Brings the thread that created the specified window into the foreground and activates the window. 
     /// Keyboard input is directed to the window, and various visual cues are changed for the user. The system assigns a slightly 
     /// higher priority to the thread that created the foreground window than it does to other threads. 

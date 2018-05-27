@@ -12,6 +12,8 @@ namespace Org.Vs.TailForWin.UI.FloatWindow
   /// </summary>
   public class VsFloatingWindow : Window
   {
+    private const int NoKeypress = 0;
+
     #region Dependency properties
 
     /// <summary>
