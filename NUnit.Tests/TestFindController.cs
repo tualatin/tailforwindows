@@ -32,33 +32,36 @@ namespace Org.Vs.NUnit.Tests
         CaseSensitive = true,
         UseWildcard = true
       };
-      bool result = await _findController.MatchTextAsync(settings, _textWorker, "lorem*", _cts.Token).ConfigureAwait(false);
-      Assert.IsFalse(result);
+      var result = await _findController.MatchTextAsync(settings, _textWorker, "lorem*", _cts.Token).ConfigureAwait(false);
+      Assert.IsFalse(result != null);
 
       settings.CaseSensitive = false;
       result = await _findController.MatchTextAsync(settings, _textWorker, "*ip??m*", _cts.Token).ConfigureAwait(false);
-      Assert.IsTrue(result);
+      Assert.IsTrue(result.Count > 0);
 
       settings.WholeWord = true;
       settings.UseWildcard = false;
       result = await _findController.MatchTextAsync(settings, _textWorker, "sed", _cts.Token).ConfigureAwait(false);
-      Assert.IsTrue(result);
+      Assert.IsTrue(result.Count > 0);
 
       settings.CaseSensitive = true;
       result = await _findController.MatchTextAsync(settings, _textWorker, "Diam", _cts.Token).ConfigureAwait(false);
-      Assert.IsFalse(result);
+      Assert.IsFalse(result != null);
 
       settings.CaseSensitive = false;
       settings.UseWildcard = false;
       settings.UseRegex = true;
       settings.WholeWord = false;
       result = await _findController.MatchTextAsync(settings, _textWorker, @"\w*[ip]", _cts.Token).ConfigureAwait(false);
-      Assert.IsTrue(result);
+      Assert.IsTrue(result.Count > 0);
 
       settings.WholeWord = true;
       settings.UseRegex = true;
       result = await _findController.MatchTextAsync(settings, _textWorker, "sed|invidunt", _cts.Token).ConfigureAwait(false);
-      Assert.IsTrue(result);
+      Assert.IsTrue(result.Count > 0);
+      Assert.IsTrue(result.Count == 3);
+      Assert.IsTrue(result.Contains("sed"));
+      Assert.IsFalse(result.Contains("lorem"));
     }
 
     private void InitTokenSource()

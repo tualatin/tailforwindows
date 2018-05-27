@@ -18,7 +18,9 @@
   MinHeight="130"
   MaxWidth="300"
   MaxHeight="130"
+  MinimizeButtonVisibility="Collapsed"
   ShowInTaskbar="False"
+  TitleBackgroundColor="{StaticResource BrushSolidBorderLightBlue}"
   WindowStartupLocation="CenterOwner"
   >
   <floatWindow:VsFloatingWindow.DataContext>

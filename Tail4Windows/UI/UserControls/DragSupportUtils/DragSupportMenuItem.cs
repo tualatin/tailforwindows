@@ -104,7 +104,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// HeaderToolContentProperty property
     /// </summary>
-    public static readonly DependencyProperty HeaderToolContentProperty = DependencyProperty.Register("HeaderContent", typeof(string), typeof(DragSupportMenuItem));
+    public static readonly DependencyProperty HeaderToolContentProperty = DependencyProperty.Register(nameof(HeaderContent), typeof(string), typeof(DragSupportMenuItem));
 
     /// <summary>
     /// Gets/sets HeaderToolContent
@@ -118,7 +118,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Set MenuItemBusyIndicator property
     /// </summary>
-    public static readonly DependencyProperty TabItemBusyIndicatorProperty = DependencyProperty.Register("MenuItemBusyIndicator", typeof(Visibility), typeof(DragSupportMenuItem), new UIPropertyMetadata(Visibility.Hidden, MenuItemBusyIndicatorVisibilityChanged));
+    public static readonly DependencyProperty TabItemBusyIndicatorProperty = DependencyProperty.Register(nameof(MenuItemBusyIndicator), typeof(Visibility), typeof(DragSupportMenuItem), new UIPropertyMetadata(Visibility.Hidden, MenuItemBusyIndicatorVisibilityChanged));
 
     private static void MenuItemBusyIndicatorVisibilityChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
@@ -143,7 +143,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Set MenuItemPauseIndicator property
     /// </summary>
-    public static readonly DependencyProperty TabItemPauseIndicatorProperty = DependencyProperty.Register("MenuItemPauseIndicator", typeof(Visibility), typeof(DragSupportMenuItem), new UIPropertyMetadata(Visibility.Collapsed, MenuItemPauseIndicatorVisibilityChanged));
+    public static readonly DependencyProperty TabItemPauseIndicatorProperty = DependencyProperty.Register(nameof(MenuItemPauseIndicator), typeof(Visibility), typeof(DragSupportMenuItem), new UIPropertyMetadata(Visibility.Collapsed, MenuItemPauseIndicatorVisibilityChanged));
 
     private static void MenuItemPauseIndicatorVisibilityChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {

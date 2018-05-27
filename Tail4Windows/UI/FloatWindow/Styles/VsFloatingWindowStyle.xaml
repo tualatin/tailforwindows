@@ -25,7 +25,7 @@
 
           <Grid
             Name="GridTitleBar"
-            Background="{StaticResource BrushSolidYellow}"
+            Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:VsFloatingWindow}}, Path=TitleBackgroundColor}"
             >
             <Grid.ColumnDefinitions>
               <ColumnDefinition />
@@ -164,13 +164,13 @@
 
       <Trigger Property="WindowState" Value="Maximized">
         <Setter TargetName="FloatingWindowToolbarButtons" Property="MaximizeButtonVisibility" Value="Collapsed" />
-        <Setter TargetName="FloatingWindowToolbarButtons" Property="MinimizeButtonVisibility" Value="Visible" />
+        <Setter TargetName="FloatingWindowToolbarButtons" Property="MinimizeButtonVisibility" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:VsFloatingWindow}}, Path=MinimizeButtonVisibility}" />
         <Setter TargetName="FloatingWindowToolbarButtons" Property="RestoreButtonVisibility" Value="Collapsed" />
       </Trigger>
 
       <Trigger Property="WindowState" Value="Normal">
         <Setter TargetName="FloatingWindowToolbarButtons" Property="MaximizeButtonVisibility" Value="Collapsed" />
-        <Setter TargetName="FloatingWindowToolbarButtons" Property="MinimizeButtonVisibility" Value="Visible" />
+        <Setter TargetName="FloatingWindowToolbarButtons" Property="MinimizeButtonVisibility" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:VsFloatingWindow}}, Path=MinimizeButtonVisibility}" />
         <Setter TargetName="FloatingWindowToolbarButtons" Property="RestoreButtonVisibility" Value="Collapsed" />
       </Trigger>
     </ControlTemplate.Triggers>
