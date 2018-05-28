@@ -61,7 +61,7 @@ namespace Org.Vs.TailForWin.Business.Services
     /// <summary>
     /// Current log line index
     /// </summary>
-    public int Index
+    public int LineIndex
     {
       get;
       private set;
@@ -81,7 +81,7 @@ namespace Org.Vs.TailForWin.Business.Services
       _tailBackgroundWorker.DoWork += LogReaderServiceDoWork;
       _tailBackgroundWorker.RunWorkerCompleted += LogReaderServiceRunWorkerCompleted;
 
-      Index = 0;
+      LineIndex = 0;
       _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
     }
 
@@ -118,34 +118,38 @@ namespace Org.Vs.TailForWin.Business.Services
         if ( _tailBackgroundWorker.CancellationPending )
           return;
 
-        Index++;
-        LogEntry log;
+        LineIndex++;
+        LogEntry log = new LogEntry();
 
-        if ( Index % 2 == 0 )
+        LOG.Trace($"Current index is {LineIndex}");
+
+        var mod = LineIndex % 2;
+
+        if ( mod == 0 )
         {
           log = new LogEntry
           {
-            Index = Index,
-            Message = $"Log - {Index * 24} / Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+            Index = LineIndex,
+            Message = $"Log - {LineIndex * 24} / Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
             DateTime = DateTime.Now
           };
         }
-        else
+        else if ( mod == 1 )
         {
           log = new LogEntry
           {
-            Index = Index,
+            Index = LineIndex,
             Message = "Log - Debug message for a log, you know that better!",
             DateTime = DateTime.Now
           };
         }
 
-        SizeRefreshTime = string.Format(message, $"{12 + Index * 12}", DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
+        SizeRefreshTime = string.Format(message, $"{LineIndex * 12}", DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
 
         if ( _tailBackgroundWorker.CancellationPending )
           return;
 
-        OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, -1, SizeRefreshTime));
+        OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, SizeRefreshTime));
       }
     }
 #endif
@@ -169,12 +173,12 @@ namespace Org.Vs.TailForWin.Business.Services
     /// <summary>
     /// Reset current index
     /// </summary>
-    public void ResetIndex() => Index = 0;
+    public void ResetIndex() => LineIndex = 0;
 
     /// <summary>
     /// Set current index to special value
     /// </summary>
     /// <param name="index">Index</param>
-    public void SetIndex(int index) => Index = index;
+    public void SetIndex(int index) => LineIndex = index;
   }
 }

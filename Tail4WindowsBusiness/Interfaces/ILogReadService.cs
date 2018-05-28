@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using Org.Vs.TailForWin.Business.Data;
-using Org.Vs.TailForWin.Business.Events.Delegates;
+﻿using Org.Vs.TailForWin.Business.Events.Delegates;
 using Org.Vs.TailForWin.Core.Data;
 
 
@@ -12,7 +10,7 @@ namespace Org.Vs.TailForWin.Business.Interfaces
   public interface ILogReadService
   {
     /// <summary>
-    /// A new <see cref="LogEntry"/> is created
+    /// A new <see cref="Data.LogEntry"/> is created
     /// </summary>
     event LogEntryCreated OnLogEntryCreated;
 
@@ -34,7 +32,7 @@ namespace Org.Vs.TailForWin.Business.Interfaces
     }
 
     /// <summary>
-    /// <see cref="BackgroundWorker"/> is busy
+    /// <see cref="System.ComponentModel.BackgroundWorker"/> is busy
     /// </summary>
     bool IsBusy
     {
@@ -44,7 +42,7 @@ namespace Org.Vs.TailForWin.Business.Interfaces
     /// <summary>
     /// Current log line index
     /// </summary>
-    int Index
+    int LineIndex
     {
       get;
     }

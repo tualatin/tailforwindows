@@ -547,10 +547,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <param name="words"><see cref="List{T}"/> of words</param>
     public void SetHighlightInTextBlock(LogEntry logEntry, List<string> words)
     {
-      if ( words == null || words.Count == 0 )
-        return;
-
       var tb = FindDataTemplate<TextBlock>(logEntry, "TextBoxMessage");
+      // TODO wrong DataTemplate!!! Do not know why
+      tb.Text = logEntry.Message;
 
       if ( _textHighlightColorBrush == null )
         _textHighlightColorBrush = (Brush) _stringToWindowMediaBrushConverter.Convert(TextEditorHighlightForegroundHex, typeof(Brush), null, CultureInfo.InvariantCulture);
@@ -564,6 +563,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     private void HighlightTextInTextBlock(TextBlock tb, IEnumerable<string> words, Brush highlightForegroundColor, Brush highlightBackgroundColor = null)
     {
       if ( tb == null )
+        return;
+
+      if ( words == null )
         return;
 
       var regex = new Regex($"({string.Join("|", words)})");
@@ -597,7 +599,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       string text = tb.Text;
       tb.Inlines.Clear();
       tb.Inlines.Add(text);
-
     }
 
     private T FindDataTemplate<T>(LogEntry item, string templateName) where T : FrameworkElement
@@ -610,6 +611,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       var myContentPresenter = myListBoxItem.Descendents().OfType<ContentPresenter>().FirstOrDefault();
       var myDataTemplate = myContentPresenter?.ContentTemplate;
       var control = (T) myDataTemplate?.FindName(templateName, myContentPresenter);
+
+      var blzbb = (T) myContentPresenter?.ContentTemplate.FindName(templateName, myContentPresenter);
 
       return control;
     }

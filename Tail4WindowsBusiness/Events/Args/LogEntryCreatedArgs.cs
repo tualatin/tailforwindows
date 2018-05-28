@@ -18,14 +18,6 @@ namespace Org.Vs.TailForWin.Business.Events.Args
     }
 
     /// <summary>
-    /// Lines read
-    /// </summary>
-    public int LinesRead
-    {
-      get;
-    }
-
-    /// <summary>
     /// Size refresh time
     /// </summary>
     public string SizeRefreshTime
@@ -37,12 +29,10 @@ namespace Org.Vs.TailForWin.Business.Events.Args
     /// Standard constructor
     /// </summary>
     /// <param name="log"><see cref="LogEntry"/></param>
-    /// <param name="linesRead">Lines read</param>
     /// <param name="sizeRefreshTime">Size refresh time</param>
-    public LogEntryCreatedArgs(LogEntry log, int linesRead, string sizeRefreshTime)
+    public LogEntryCreatedArgs(LogEntry log, string sizeRefreshTime)
     {
       Log = log;
-      LinesRead = linesRead;
       SizeRefreshTime = sizeRefreshTime;
     }
   }
