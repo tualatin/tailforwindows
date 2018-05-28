@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
@@ -513,6 +514,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       e.Handled = true;
     }
 
+    /// <summary>
+    /// Highlights certain words in Control
+    /// </summary>
+    /// <param name="words"><see cref="List{T}"/> of words</param>
+    public void SetHighlightInTextBlock(List<string> words)
+    {
+      if ( words == null || words.Count == 0 )
+        return;
+    }
+
     private void HighlightTextInTextBlock(TextBlock tb)
     {
       if ( tb == null )
@@ -522,12 +533,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       tb.Inlines.Clear();
       tb.Inlines.Add(text);
 
-      Brush searchHighlightOpacity = (Brush) _stringToWindowMediaBrushConverter.Convert(TextEditorSearchHighlightBackgroundHex, typeof(Brush), null, CultureInfo.InvariantCulture);
+      var searchHighlightOpacity = (Brush) _stringToWindowMediaBrushConverter.Convert(TextEditorSearchHighlightBackgroundHex, typeof(Brush), null, CultureInfo.InvariantCulture);
 
       if ( searchHighlightOpacity != null )
       {
         searchHighlightOpacity.Opacity = 0.5;
-        Run run = new Run(text)
+        var run = new Run(text)
         {
           Foreground = (Brush) _stringToWindowMediaBrushConverter.Convert(TextEditorSearchHighlightForegroundHex, typeof(Brush), null, CultureInfo.InvariantCulture),
           Background = searchHighlightOpacity
@@ -553,7 +564,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       var myListBoxItem = (ListBoxItem) ItemContainerGenerator.ContainerFromItem(item);
       var myContentPresenter = myListBoxItem.Descendents().OfType<ContentPresenter>().FirstOrDefault();
       var myDataTemplate = myContentPresenter?.ContentTemplate;
-      T control = (T) myDataTemplate?.FindName(templateName, myContentPresenter);
+      var control = (T) myDataTemplate?.FindName(templateName, myContentPresenter);
 
       return control;
     }

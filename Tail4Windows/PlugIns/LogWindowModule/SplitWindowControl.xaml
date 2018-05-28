@@ -79,7 +79,7 @@
       FontStretch="{Binding CurrentTailData.FontType.FontStretch, UpdateSourceTrigger=PropertyChanged}"
       FontStyle="{Binding CurrentTailData.FontType.FontStyle, UpdateSourceTrigger=PropertyChanged}"
       FontWeight="{Binding CurrentTailData.FontType.FontWeight, UpdateSourceTrigger=PropertyChanged}"
-      ItemsSource="{Binding LogEntries}"
+      ItemsSource="{Binding CollectionView}"
       LastVisibleLogEntryIndex="{Binding ElementName=SplitWindow, Path=LastVisibleLogEntryIndex, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"
       ShowGridSplitControl="True"
       genericBehaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"

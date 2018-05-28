@@ -30,7 +30,7 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow.Behaviors
     /// <summary>
     /// Target window property
     /// </summary>
-    public static readonly DependencyProperty TargetWindow = DependencyProperty.RegisterAttached("TargetWindow", typeof(Window), typeof(ShowSystemMenuBehavior));
+    public static readonly DependencyProperty TargetWindow = DependencyProperty.RegisterAttached(nameof(TargetWindow), typeof(Window), typeof(ShowSystemMenuBehavior));
 
     #endregion
 
@@ -53,8 +53,9 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow.Behaviors
     /// <summary>
     /// Left button show at property
     /// </summary>
-    public static readonly DependencyProperty LeftButtonShowAt = DependencyProperty.RegisterAttached("LeftButtonShowAt", typeof(UIElement), typeof(ShowSystemMenuBehavior),
-                                                                  new UIPropertyMetadata(null, LeftButtonShowAtChanged));
+    public static readonly DependencyProperty LeftButtonShowAt = DependencyProperty.RegisterAttached(nameof(LeftButtonShowAt), typeof(UIElement), typeof(ShowSystemMenuBehavior),
+      new UIPropertyMetadata(null, LeftButtonShowAtChanged));
+
     #endregion
 
     #region RightButtonShow
@@ -76,8 +77,9 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow.Behaviors
     /// <summary>
     /// Right button show property
     /// </summary>
-    public static readonly DependencyProperty RightButtonShow = DependencyProperty.RegisterAttached("RightButtonShow", typeof(bool), typeof(ShowSystemMenuBehavior),
-                                                                  new UIPropertyMetadata(false, RightButtonShowChanged));
+    public static readonly DependencyProperty RightButtonShow = DependencyProperty.RegisterAttached(nameof(RightButtonShow), typeof(bool), typeof(ShowSystemMenuBehavior),
+      new UIPropertyMetadata(false, RightButtonShowChanged));
+
     #endregion
 
     #region LeftButtonShowAt changed

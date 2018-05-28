@@ -148,6 +148,15 @@
   <system:String x:Key="FilterManagerWildCardToolTip">Benutzer Platzhalter, um etwas zu finden</system:String>
   <system:String x:Key="FilterManagerIsHighlight">Hervorheben</system:String>
   <system:String x:Key="FilterManagerNotification">Benachrichtigung</system:String>
+  <system:String
+    x:Key="FilterManagerNotificationInformation"
+    xml:space="preserve"
+    >{0}  Benachrichtigung aufgrund:&#10;{1}</system:String>
+  <system:String
+    x:Key="FilterManagerSendMailDetail"
+    xml:space="preserve"
+    >&#10;{0} {1}&#10;Grund:&#10;{2}</system:String>
+  <system:String x:Key="FilterManagerSendMailMessage">Dies ist eine Benachrichtung, die Sie konfiguriert haben. Es ist folgendes Ereignis aufgetreten:{0}</system:String>
 
   <system:String x:Key="ExtendedTailSettingsLabel">Zeige erweiterte Einstellungen</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Zeige die erweiterten Einstellungen des aktuellen tail Tabs</system:String>

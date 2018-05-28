@@ -636,7 +636,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( _criteria.Count == 0 )
         return true;
 
-      var result = _criteria.TrueForAll(p => p(t));
+      bool result = _criteria.TrueForAll(p => p(t));
 
       return result;
     }
@@ -663,7 +663,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
   }

@@ -115,7 +115,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
             }
             catch ( ConfigurationErrorsException ex )
             {
-              LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+              LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
             }
           }
         },
@@ -140,7 +140,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         }
         catch ( ConfigurationErrorsException ex )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
       }
     }
@@ -184,7 +184,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         }
         catch ( ConfigurationErrorsException ex )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
       }
     }
@@ -453,7 +453,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         }
         catch ( ConfigurationErrorsException ex )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
       }
     }

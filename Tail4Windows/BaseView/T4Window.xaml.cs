@@ -62,6 +62,7 @@ namespace Org.Vs.TailForWin.BaseView
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowNotificationPopUpMessage>(PopUpVisibilityChanged);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSettingsDialogMessage>(OpenSettingsDialog);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataAsNewTabItem>(OnOpenTailDataAsNewTabItem);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<BringMainWindowToFrontMessage>(OnBringMainWindowToFront);
 
       IsParent = true;
     }
@@ -95,7 +96,7 @@ namespace Org.Vs.TailForWin.BaseView
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
 
       OnExit();
@@ -350,6 +351,18 @@ namespace Org.Vs.TailForWin.BaseView
     /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
     /// <param name="dragWndRemove">Drag window remove</param>
     public void RemoveTabItem(DragSupportTabItem tabItem, bool dragWndRemove) => throw new NotImplementedException();
+
+    private void OnBringMainWindowToFront(BringMainWindowToFrontMessage args)
+    {
+      if ( args.Sender == null )
+        return;
+
+      if ( WindowState == WindowState.Minimized )
+        WindowState = SettingsHelperController.CurrentSettings.CurrentWindowState;
+
+      Activate();
+      Focus();
+    }
 
     private void OnOpenTailDataAsNewTabItem(OpenTailDataAsNewTabItem args)
     {

@@ -190,6 +190,7 @@
     <Compile Include="BaseView\Events\Delegates\FileEncodingChangedEventHandler.cs" />
     <Compile Include="Data\Messages\AddTabItemMessage.cs" />
     <Compile Include="Data\Messages\AddTailDataToQuickAddMessage.cs" />
+    <Compile Include="Data\Messages\BringMainWindowToFrontMessage.cs" />
     <Compile Include="Data\Messages\DisableQuickAddInTailDataMessage.cs" />
     <Compile Include="Data\Messages\GoToLineMessage.cs" />
     <Compile Include="Data\Messages\OpenFilterDataFromTailDataMessage.cs" />
@@ -234,17 +235,20 @@
     </Compile>
     <Compile Include="PlugIns\GoToLineModule\ViewModels\GoToLineViewModel.cs" />
     <Compile Include="PlugIns\LogWindowModule\Controller\XmlHistoryController.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Data\MessageFloodData.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Args\LinesRefreshTimeChangedArgs.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Args\StatusChangedArgs.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Delegates\LinesRefreshTimeChangedEventHandler.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Delegates\StatusChangedEventHandler.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Interfaces\IPreventMessageFlood.cs" />
     <Compile Include="PlugIns\LogWindowModule\Interfaces\ISplitWindowControl.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowControl.xaml.cs">
       <DependentUpon>LogWindowControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\GridSplitterMouseExtension.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\LogEntryScrollBehavior.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Utils\PreventMessageFlood.cs" />
     <Compile Include="UI\Behaviors\Base\BehaviorBase.cs" />
     <Compile Include="UI\Behaviors\DataGridColumnWidthBehavior.cs" />
     <Compile Include="UI\Behaviors\FixHorizontalScrollbarPosition.cs" />

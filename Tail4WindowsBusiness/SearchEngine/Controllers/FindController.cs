@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
 using Org.Vs.TailForWin.Business.SearchEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 
@@ -13,6 +15,8 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
   /// </summary>
   public class FindController : IFindController
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(FindController));
+
     private static readonly object FindControllerLock = new object();
 
     /// <summary>
@@ -88,8 +92,11 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
             }
 
             // searching with regex
-            if ( !findSettings.UseRegex )
-              return;
+            if ( findSettings.UseRegex )
+            {
+              if ( !VerifyRegex(pattern) )
+                return;
+            }
 
             regex = new Regex(pattern);
 
@@ -102,6 +109,33 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
 
       IsBusy = false;
       return result;
+    }
+
+    private bool VerifyRegex(string pattern)
+    {
+      bool isValid = true;
+
+      if ( pattern != null && pattern.Trim().Length > 0 )
+      {
+        try
+        {
+          // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
+          Regex.Match("", pattern);
+        }
+        catch ( ArgumentException )
+        {
+          // BAD PATTERN: Syntax error
+          isValid = false;
+          LOG.Error("{0} wrong Regex pattern!", System.Reflection.MethodBase.GetCurrentMethod().Name);
+        }
+      }
+      else
+      {
+        //BAD PATTERN: Pattern is null or blank
+        isValid = false;
+        LOG.Error("{0} wrong Regex pattern!", System.Reflection.MethodBase.GetCurrentMethod().Name);
+      }
+      return isValid;
     }
 
     private static List<string> GetStringResult(string value, Regex regex)

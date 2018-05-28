@@ -148,6 +148,15 @@
   <system:String x:Key="FilterManagerWildCardToolTip">Use wildcards to find something</system:String>
   <system:String x:Key="FilterManagerIsHighlight">Highlight</system:String>
   <system:String x:Key="FilterManagerNotification">Notification</system:String>
+  <system:String
+    x:Key="FilterManagerNotificationInformation"
+    xml:space="preserve"
+    >{0} Notification by reason of:&#10;&#x09;{1}</system:String>
+  <system:String
+    x:Key="FilterManagerSendMailDetail"
+    xml:space="preserve"
+    >&#10;{0} {1}&#10;Reason:&#10;&#x09;{2}</system:String>
+  <system:String x:Key="FilterManagerSendMailMessage">This is a notification that you have configured. The following event has occurred:{0}</system:String>
 
   <system:String x:Key="ExtendedTailSettingsLabel">Show extended settings</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Shows the extended tail settings for current tab</system:String>

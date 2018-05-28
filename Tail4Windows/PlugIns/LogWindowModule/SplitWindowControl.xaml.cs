@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,16 +15,24 @@ using log4net;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Events.Args;
 using Org.Vs.TailForWin.Business.Interfaces;
+using Org.Vs.TailForWin.Business.SearchEngine.Controllers;
+using Org.Vs.TailForWin.Business.SearchEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Data;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Utils;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
+using Org.Vs.TailForWin.UI.UserControls;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
@@ -36,6 +46,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private int _index;
     private CancellationTokenSource _cts;
+    private readonly IFindController _searchController;
+    private readonly IPreventMessageFlood _preventMessageFlood;
 
     /// <summary>
     /// Splitter offset
@@ -109,9 +121,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     } = new ObservableCollection<LogEntry>();
 
     /// <summary>
-    /// <see cref="CollectionViewSource"/> of <see cref="LogEntry"/>
+    /// <see cref="ListCollectionView"/> of <see cref="LogEntry"/>
     /// </summary>
-    private CollectionViewSource CollectionView
+    public ListCollectionView CollectionView
     {
       get;
     }
@@ -157,6 +169,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set;
     }
 
+    /// <summary>
+    /// <see cref="List{T}"/> of <see cref="MessageFloodData"/>
+    /// </summary>
+    public List<MessageFloodData> FloodData
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     /// <summary>
@@ -167,11 +188,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       InitializeComponent();
 
       DataContext = this;
-      CollectionView = new CollectionViewSource
-      {
-        Source = LogEntries
-      };
+
+      FloodData = new List<MessageFloodData>();
+      CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogEntries }.View;
+      CollectionView.Filter = DynamicFilter;
       CacheManager = new CacheManager();
+
+      _searchController = new FindController();
+      _preventMessageFlood = new PreventMessageFlood();
     }
 
     #region Dependency properties
@@ -328,6 +352,137 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #endregion
 
+    private bool DynamicFilter(object item)
+    {
+      if ( !(item is LogEntry logEntry) )
+        return false;
+
+      if ( CurrentTailData.ListOfFilter == null || CurrentTailData.ListOfFilter.Count == 0 || !CurrentTailData.FilterState )
+        return true;
+
+      bool result = false;
+
+      foreach ( var filterData in CurrentTailData.ListOfFilter )
+      {
+        try
+        {
+          var stringResult = _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter, _cts.Token).GetAwaiter().GetResult();
+
+          if ( (stringResult == null || stringResult.Count == 0) && !filterData.IsHighlight )
+            continue;
+
+          if ( filterData.IsHighlight )
+            LogWindowMainElement.SetHighlightInTextBlock(stringResult);
+
+          HandleAlertSettings(filterData, stringResult, logEntry);
+
+          result = true;
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+      }
+      return result;
+    }
+
+    private void HandleAlertSettings(FilterData filter, IReadOnlyCollection<string> stringResult, LogEntry item)
+    {
+      if ( stringResult == null || stringResult.Count == 0 )
+        return;
+
+      if ( _preventMessageFlood.IsBusy )
+      {
+        FloodData.Add(new MessageFloodData
+        {
+          Filter = filter,
+          LogEntry = item,
+          Results = stringResult.ToList()
+        });
+        return;
+      }
+      else if ( FloodData.Count > 0 )
+      {
+        HandleClearingFloodData();
+        return;
+      }
+
+      if ( filter.UseNotification && SettingsHelperController.CurrentSettings.AlertSettings.PopupWnd )
+        HandleNotification(item.DateTime, stringResult.ToArray());
+
+      if ( SettingsHelperController.CurrentSettings.AlertSettings.BringToFront )
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new BringMainWindowToFrontMessage(this));
+
+      if ( SettingsHelperController.CurrentSettings.AlertSettings.SendMail )
+        HandleMailSend(stringResult.ToArray(), item);
+
+      _preventMessageFlood.UpdateBusyState();
+    }
+
+    private void HandleClearingFloodData()
+    {
+      if ( FloodData.First().Filter.UseNotification && SettingsHelperController.CurrentSettings.AlertSettings.PopupWnd )
+        HandleNotification(FloodData.First().LogEntry.DateTime, FloodData.First().Results.ToArray());
+
+      if ( SettingsHelperController.CurrentSettings.AlertSettings.BringToFront )
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new BringMainWindowToFrontMessage(this));
+
+      string messageTitle = Application.Current.TryFindResource("FilterManagerSendMailMessage").ToString();
+      var msgBuild = new StringBuilder();
+
+      foreach ( var flood in FloodData )
+      {
+        string detail = Application.Current.TryFindResource("FilterManagerSendMailDetail").ToString();
+        msgBuild.Append(string.Format(detail, flood.LogEntry.Index, flood.LogEntry.Message, string.Join("\n\t", flood.Results)));
+      }
+
+      string mailMessage = string.Format(messageTitle, msgBuild);
+
+      NotifyTaskCompletion.Create(HandleSendMailAsync(mailMessage));
+
+      FloodData.Clear();
+      _preventMessageFlood.UpdateBusyState();
+    }
+
+    private void HandleMailSend(string[] notifications, LogEntry item)
+    {
+      if ( notifications == null || notifications.Length == 0 )
+        return;
+
+      string messageTitle = Application.Current.TryFindResource("FilterManagerSendMailMessage").ToString();
+      string detail = Application.Current.TryFindResource("FilterManagerSendMailDetail").ToString();
+      string mailMessage = string.Format(messageTitle, string.Format(detail, item.Index, item.Message, string.Join("\n\t", notifications)));
+
+      NotifyTaskCompletion.Create(HandleSendMailAsync(mailMessage));
+    }
+
+    private async Task HandleSendMailAsync(string message)
+    {
+      IMailController mailController = new MailController();
+      await mailController.SendLogMailAsync(message).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Sets the notification message
+    /// </summary>
+    /// <param name="time"><see cref="DateTime"/> of message</param>
+    /// <param name="notifications">List of matches</param>
+    private void HandleNotification(DateTime time, string[] notifications)
+    {
+      if ( notifications == null || notifications.Length == 0 )
+        return;
+
+      string message = Application.Current.TryFindResource("FilterManagerNotificationInformation").ToString();
+      var alertPopUp = new FancyNotificationPopUp
+      {
+        Height = 100,
+        Width = 300,
+        PopUpAlert = CurrentTailData.File,
+        PopUpAlertDetail = string.Format(message, time.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat), string.Join("\n\t", notifications))
+      };
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowNotificationPopUpMessage(alertPopUp));
+    }
+
     /// <summary>
     /// GoToLine
     /// </summary>
@@ -427,7 +582,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", ex.GetType().Name, System.Reflection.MethodBase.GetCurrentMethod().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 

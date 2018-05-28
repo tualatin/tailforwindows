@@ -97,6 +97,7 @@ namespace Org.Vs.TailForWin.UI.Utils
 
           logWindowControl.SplitWindow.LogEntries = content.SplitWindow.LogEntries ?? new ObservableCollection<LogEntry>();
           logWindowControl.SplitWindow.SelectedItem = content.SplitWindow.SelectedItem;
+          logWindowControl.SplitWindow.FloodData = content.SplitWindow.FloodData;
           logWindowControl.TailReader.TailData = content.CurrentTailData;
 
           logWindowControl.TailReader.SetIndex(content.TailReader.Index);
