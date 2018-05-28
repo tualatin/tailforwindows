@@ -221,22 +221,12 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value highlight foreground color
     /// </summary>
-    public const string HighlightForegroundColor = "#000000";
-
-    /// <summary>
-    /// Default value highlight background color
-    /// </summary>
-    public const string HighlightBackgroundColor = "#FFCC00";
+    public const string HighlightForegroundColor = "#FFFF64FF";
 
     /// <summary>
     /// Default value line number color
     /// </summary>
     public const string LineNumberColor = "#808080";
-
-    /// <summary>
-    /// Default value line background color
-    /// </summary>
-    public const string LineNumberBackgroundColor = "#FFD3D3D3";
 
     /// <summary>
     /// Default value highlight line number color

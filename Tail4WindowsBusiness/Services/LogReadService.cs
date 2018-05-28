@@ -119,12 +119,26 @@ namespace Org.Vs.TailForWin.Business.Services
           return;
 
         Index++;
-        var log = new LogEntry
+        LogEntry log;
+
+        if ( Index % 2 == 0 )
         {
-          Index = Index,
-          Message = $"Log - {Index * 24} / Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
-          DateTime = DateTime.Now
-        };
+          log = new LogEntry
+          {
+            Index = Index,
+            Message = $"Log - {Index * 24} / Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+            DateTime = DateTime.Now
+          };
+        }
+        else
+        {
+          log = new LogEntry
+          {
+            Index = Index,
+            Message = "Log - Debug message for a log, you know that better!",
+            DateTime = DateTime.Now
+          };
+        }
 
         SizeRefreshTime = string.Format(message, $"{12 + Index * 12}", DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
 

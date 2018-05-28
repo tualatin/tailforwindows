@@ -49,6 +49,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private readonly IFindController _searchController;
     private readonly IPreventMessageFlood _preventMessageFlood;
 
+    private MessageFloodData _highlight;
+
     /// <summary>
     /// Splitter offset
     /// </summary>
@@ -196,6 +198,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       _searchController = new FindController();
       _preventMessageFlood = new PreventMessageFlood();
+
+      LogWindowMainElement.ItemVisibleChanged += OnNewItemIsVisibleChanged;
     }
 
     #region Dependency properties
@@ -354,11 +358,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private bool DynamicFilter(object item)
     {
-      if ( !(item is LogEntry logEntry) )
-        return false;
-
       if ( CurrentTailData.ListOfFilter == null || CurrentTailData.ListOfFilter.Count == 0 || !CurrentTailData.FilterState )
         return true;
+
+      if ( !(item is LogEntry logEntry) )
+        return false;
 
       bool result = false;
 
@@ -372,7 +376,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             continue;
 
           if ( filterData.IsHighlight )
-            LogWindowMainElement.SetHighlightInTextBlock(stringResult);
+          {
+            _highlight = new MessageFloodData
+            {
+              Filter = filterData,
+              Results = stringResult,
+              LogEntry = logEntry
+            };
+          }
 
           HandleAlertSettings(filterData, stringResult, logEntry);
 
@@ -584,6 +595,17 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
+    }
+
+    private void OnNewItemIsVisibleChanged(object sender, EventArgs e)
+    {
+      if ( _highlight == null )
+        return;
+
+      if ( _highlight.Filter.IsHighlight )
+        LogWindowMainElement.SetHighlightInTextBlock(_highlight.LogEntry, _highlight.Results);
+
+      _highlight = null;
     }
 
     /// <summary>

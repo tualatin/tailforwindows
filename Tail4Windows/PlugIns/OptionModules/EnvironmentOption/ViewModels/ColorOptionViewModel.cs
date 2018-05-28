@@ -93,6 +93,11 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         SettingsHelperController.CurrentSettings.ColorSettings.ForegroundColorHex = mydata.Color;
         break;
 
+      case "ForegroundHighlightColorHex":
+
+        SettingsHelperController.CurrentSettings.ColorSettings.ForegroundHighlightColorHex = mydata.Color;
+        break;
+
       case "BackgroundColorHex":
 
         SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex = mydata.Color;
@@ -166,6 +171,13 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
           ConfigurationName = "ForegroundColorHex",
           Name = Application.Current.TryFindResource("ColorOptionFontColor").ToString(),
           Color = SettingsHelperController.CurrentSettings.ColorSettings.ForegroundColorHex
+        });
+      LogViewerColorData.Add(
+        new ControlColorData
+        {
+          ConfigurationName = "ForegroundHighlightColorHex",
+          Name = Application.Current.TryFindResource("ColorOptionForegroundHighlightColor").ToString(),
+          Color = SettingsHelperController.CurrentSettings.ColorSettings.ForegroundHighlightColorHex
         });
       LogViewerColorData.Add(
         new ControlColorData

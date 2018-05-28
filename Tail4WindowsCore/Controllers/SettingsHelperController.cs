@@ -67,7 +67,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
         { "LogFileHistorySize", DefaultEnvironmentSettings.HistoryMaxSize.ToString() },
         { "ShowExtendedSettings", DefaultEnvironmentSettings.ShowExtendedSettings.ToString() },
         { "SplitterBackgroundColor", DefaultEnvironmentSettings.SplitterBackgroundColor },
-        { "SplitterWindowBehavior", DefaultEnvironmentSettings.SplitterWindowBehavior.ToString() }
+        { "SplitterWindowBehavior", DefaultEnvironmentSettings.SplitterWindowBehavior.ToString() },
+        { "ForegroundHighlightColor", DefaultEnvironmentSettings.HighlightForegroundColor }
       };
 
       await AddNewPropertyAsync(settings, cts).ConfigureAwait(false);
@@ -237,6 +238,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     private void SaveLogViewerSettings(Configuration config)
     {
       WriteValueToSetting(config, "ForegroundColor", CurrentSettings.ColorSettings.ForegroundColorHex);
+      WriteValueToSetting(config, "ForegroundHighlightColor", CurrentSettings.ColorSettings.ForegroundHighlightColorHex);
       WriteValueToSetting(config, "BackgroundColor", CurrentSettings.ColorSettings.BackgroundColorHex);
       WriteValueToSetting(config, "FindHighlightForegroundColor", CurrentSettings.ColorSettings.FindHighlightForegroundColorHex);
       WriteValueToSetting(config, "FindHighlightBackgroundColor", CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex);
@@ -359,8 +361,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       CurrentSettings.ColorSettings.ForegroundColorHex = DefaultEnvironmentSettings.ForegroundColor;
       CurrentSettings.ColorSettings.BackgroundColorHex = DefaultEnvironmentSettings.BackgroundColor;
-      CurrentSettings.ColorSettings.FindHighlightForegroundColorHex = DefaultEnvironmentSettings.HighlightForegroundColor;
-      CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex = DefaultEnvironmentSettings.HighlightBackgroundColor;
+      CurrentSettings.ColorSettings.ForegroundHighlightColorHex = DefaultEnvironmentSettings.HighlightForegroundColor;
+      CurrentSettings.ColorSettings.FindHighlightForegroundColorHex = DefaultEnvironmentSettings.SearchHighlightForegroundColor;
+      CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex = DefaultEnvironmentSettings.SearchHighlightBackgroundColor;
       CurrentSettings.ColorSettings.LineNumberColorHex = DefaultEnvironmentSettings.LineNumberColor;
       CurrentSettings.ColorSettings.LineNumberHighlightColorHex = DefaultEnvironmentSettings.HighlightLineNumberColor;
       CurrentSettings.ColorSettings.SplitterBackgroundColorHex = DefaultEnvironmentSettings.SplitterBackgroundColor;
@@ -507,6 +510,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     private void ReadLogViewerSettings()
     {
       CurrentSettings.ColorSettings.ForegroundColorHex = GetStringFromSetting("ForegroundColor");
+      CurrentSettings.ColorSettings.ForegroundHighlightColorHex = GetStringFromSetting("ForegroundHighlightColor");
       CurrentSettings.ColorSettings.BackgroundColorHex = GetStringFromSetting("BackgroundColor");
       CurrentSettings.ColorSettings.FindHighlightForegroundColorHex = GetStringFromSetting("FindHighlightForegroundColor");
       CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex = GetStringFromSetting("FindHighlightBackgroundColor");

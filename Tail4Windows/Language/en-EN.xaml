@@ -337,9 +337,10 @@
   <system:String x:Key="ColorOptionLogWindowGridName">Name</system:String>
   <system:String x:Key="ColorOptionLogWindowGridColor">Color</system:String>
   <system:String x:Key="ColorOptionFontColor">Font color</system:String>
+  <system:String x:Key="ColorOptionForegroundHighlightColor">Highlight color</system:String>
   <system:String x:Key="ColorOptionBackgroundColor">Background color</system:String>
-  <system:String x:Key="ColorOptionHighlightFontColor">Highlight font color</system:String>
-  <system:String x:Key="ColorOptionHighlightBackgroundColor">Highlight background color</system:String>
+  <system:String x:Key="ColorOptionHighlightFontColor">Search highlight font color</system:String>
+  <system:String x:Key="ColorOptionHighlightBackgroundColor">Search highlight background color</system:String>
   <system:String x:Key="ColorOptionLineNumberColor">Line number color</system:String>
   <system:String x:Key="ColorOptionLineNumberHighlightColor">Line number highlight color</system:String>
   <system:String x:Key="ColorOptionSplitterBackgroundColor">Splitter background color</system:String>

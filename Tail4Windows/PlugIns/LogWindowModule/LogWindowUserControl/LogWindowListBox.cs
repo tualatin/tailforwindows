@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -42,14 +43,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     private TextBox _readOnlyTextMessage;
 
     private readonly StringToWindowMediaBrushConverter _stringToWindowMediaBrushConverter;
-
+    private Brush _textHighlightColorBrush;
 
     #region Public properties
 
     /// <summary>
     /// ShowGridSplitControl property
     /// </summary>
-    public static readonly DependencyProperty ShowGridSplitControlProperty = DependencyProperty.Register("ShowGridSplitControl", typeof(bool), typeof(LogWindowListBox),
+    public static readonly DependencyProperty ShowGridSplitControlProperty = DependencyProperty.Register(nameof(ShowGridSplitControl), typeof(bool), typeof(LogWindowListBox),
       new PropertyMetadata(false));
 
     /// <summary>
@@ -64,7 +65,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Text editor selection color porperty
     /// </summary>
-    public static readonly DependencyProperty TextEditorSelectionColorHexProperty = DependencyProperty.Register("TextEditorSelectionColorHex", typeof(string), typeof(LogWindowListBox),
+    public static readonly DependencyProperty TextEditorSelectionColorHexProperty = DependencyProperty.Register(nameof(TextEditorSelectionColorHex), typeof(string), typeof(LogWindowListBox),
       new PropertyMetadata(DefaultEnvironmentSettings.HighlightLineNumberColor));
 
     /// <summary>
@@ -79,7 +80,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Text editor search highlight background property
     /// </summary>
-    public static readonly DependencyProperty TextEditorSearchHighlightBackgroundHexProperty = DependencyProperty.Register("TextEditorSearchHighlightBackgroundHex", typeof(string),
+    public static readonly DependencyProperty TextEditorSearchHighlightBackgroundHexProperty = DependencyProperty.Register(nameof(TextEditorSearchHighlightBackgroundHex), typeof(string),
       typeof(LogWindowListBox), new PropertyMetadata(DefaultEnvironmentSettings.SearchHighlightBackgroundColor));
 
     /// <summary>
@@ -94,7 +95,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Text editor search highlight foreground property
     /// </summary>
-    public static readonly DependencyProperty TextEditorSearchHighlightForegroundHexProperty = DependencyProperty.Register("TextEditorSearchHighlightForegroundHex", typeof(string),
+    public static readonly DependencyProperty TextEditorSearchHighlightForegroundHexProperty = DependencyProperty.Register(nameof(TextEditorSearchHighlightForegroundHex), typeof(string),
       typeof(LogWindowListBox), new PropertyMetadata(DefaultEnvironmentSettings.SearchHighlightForegroundColor));
 
     /// <summary>
@@ -105,6 +106,22 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       get => (string) GetValue(TextEditorSearchHighlightForegroundHexProperty);
       set => SetValue(TextEditorSearchHighlightForegroundHexProperty, value);
     }
+
+    /// <summary>
+    /// Text editor highlight foreground property
+    /// </summary>
+    public static readonly DependencyProperty TextEditorHighlightForegroundHexProperty = DependencyProperty.Register(nameof(TextEditorHighlightForegroundHex), typeof(string),
+      typeof(LogWindowListBox), new PropertyMetadata(DefaultEnvironmentSettings.HighlightForegroundColor));
+
+    /// <summary>
+    /// Text editor highlight foreground
+    /// </summary>
+    public string TextEditorHighlightForegroundHex
+    {
+      get => (string) GetValue(TextEditorHighlightForegroundHexProperty);
+      set => SetValue(TextEditorHighlightForegroundHexProperty, value);
+    }
+
 
     /// <summary>
     /// AddDateTime property
@@ -143,7 +160,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       new PropertyMetadata(0));
 
     /// <summary>
-    /// AddDateTime
+    /// Last visible <see cref="LogEntry"/> index property
     /// </summary>
     public int LastVisibleLogEntryIndex
     {
@@ -165,6 +182,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       get => (TailData) GetValue(CurrentTailDataProperty);
       set => SetValue(CurrentTailDataProperty, value);
     }
+
+    #endregion
+
+    #region Events
+
+    /// <summary>
+    ///Item visible changed event, that fires, when the new item is visible in UI
+    /// </summary>
+    public event EventHandler ItemVisibleChanged;
 
     #endregion
 
@@ -201,7 +227,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       PreviewMouseDoubleClick += LogWindowListBoxOnPreviewMouseDoubleClick;
 
       SelectionChanged += LogWindowListBoxOnSelectionChanged;
-
       _stringToWindowMediaBrushConverter = new StringToWindowMediaBrushConverter();
     }
 
@@ -391,6 +416,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       LastVisibleLogEntryIndex = ((int) _scrollViewer.ViewportHeight + (int) _scrollViewer.VerticalOffset) - 1;
       OnPropertyChanged(nameof(LastVisibleLogEntryIndex));
+      ItemVisibleChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void LoadSplitGripControl()
@@ -517,34 +543,49 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Highlights certain words in Control
     /// </summary>
+    /// <param name="logEntry"><see cref="LogEntry"/></param>
     /// <param name="words"><see cref="List{T}"/> of words</param>
-    public void SetHighlightInTextBlock(List<string> words)
+    public void SetHighlightInTextBlock(LogEntry logEntry, List<string> words)
     {
       if ( words == null || words.Count == 0 )
         return;
+
+      var tb = FindDataTemplate<TextBlock>(logEntry, "TextBoxMessage");
+
+      if ( _textHighlightColorBrush == null )
+        _textHighlightColorBrush = (Brush) _stringToWindowMediaBrushConverter.Convert(TextEditorHighlightForegroundHex, typeof(Brush), null, CultureInfo.InvariantCulture);
+
+      if ( _textHighlightColorBrush == null )
+        return;
+
+      HighlightTextInTextBlock(tb, words, _textHighlightColorBrush);
     }
 
-    private void HighlightTextInTextBlock(TextBlock tb)
+    private void HighlightTextInTextBlock(TextBlock tb, IEnumerable<string> words, Brush highlightForegroundColor, Brush highlightBackgroundColor = null)
     {
       if ( tb == null )
         return;
 
-      string text = tb.Text;
+      var regex = new Regex($"({string.Join("|", words)})");
+      var splits = regex.Split(tb.Text);
+
       tb.Inlines.Clear();
-      tb.Inlines.Add(text);
 
-      var searchHighlightOpacity = (Brush) _stringToWindowMediaBrushConverter.Convert(TextEditorSearchHighlightBackgroundHex, typeof(Brush), null, CultureInfo.InvariantCulture);
-
-      if ( searchHighlightOpacity != null )
+      foreach ( string item in splits )
       {
-        searchHighlightOpacity.Opacity = 0.5;
-        var run = new Run(text)
+        if ( regex.Match(item).Success )
         {
-          Foreground = (Brush) _stringToWindowMediaBrushConverter.Convert(TextEditorSearchHighlightForegroundHex, typeof(Brush), null, CultureInfo.InvariantCulture),
-          Background = searchHighlightOpacity
-        };
-
-        tb.Inlines.Add(run);
+          var run = new Run(item)
+          {
+            Foreground = highlightForegroundColor,
+            Background = highlightBackgroundColor ?? Brushes.Transparent
+          };
+          tb.Inlines.Add(run);
+        }
+        else
+        {
+          tb.Inlines.Add(item);
+        }
       }
     }
 
@@ -562,6 +603,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     private T FindDataTemplate<T>(LogEntry item, string templateName) where T : FrameworkElement
     {
       var myListBoxItem = (ListBoxItem) ItemContainerGenerator.ContainerFromItem(item);
+
+      if ( myListBoxItem == null )
+        return null;
+
       var myContentPresenter = myListBoxItem.Descendents().OfType<ContentPresenter>().FirstOrDefault();
       var myDataTemplate = myContentPresenter?.ContentTemplate;
       var control = (T) myDataTemplate?.FindName(templateName, myContentPresenter);

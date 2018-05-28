@@ -256,6 +256,7 @@
         </ControlTemplate>
       </Setter.Value>
     </Setter>
+    <Setter Property="TextEditorHighlightForegroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.ForegroundHighlightColorHex}" />
     <Setter Property="TextEditorSearchHighlightBackgroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex}" />
     <Setter Property="TextEditorSearchHighlightForegroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightForegroundColorHex}" />
     <Setter Property="TextEditorSelectionColorHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberHighlightColorHex}" />
