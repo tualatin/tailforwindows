@@ -147,6 +147,7 @@
   <system:String x:Key="FilterManagerWildCard">Benutze Platzhalter</system:String>
   <system:String x:Key="FilterManagerWildCardToolTip">Benutzer Platzhalter, um etwas zu finden</system:String>
   <system:String x:Key="FilterManagerIsHighlight">Hervorheben</system:String>
+  <system:String x:Key="FilterManagerNotification">Benachrichtigung</system:String>
 
   <system:String x:Key="ExtendedTailSettingsLabel">Zeige erweiterte Einstellungen</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Zeige die erweiterten Einstellungen des aktuellen tail Tabs</system:String>

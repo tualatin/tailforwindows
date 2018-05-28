@@ -61,6 +61,24 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
+    private bool _useNotification;
+
+    /// <summary>
+    /// Popup a notification information
+    /// </summary>
+    public bool UseNotification
+    {
+      get => _useNotification;
+      set
+      {
+        if ( value == _useNotification )
+          return;
+
+        bool currentValue = _useNotification;
+        ChangeState(new Command(() => _useNotification = value, () => _useNotification = currentValue, nameof(UseNotification), Notification));
+      }
+    }
+
     private string _description;
 
     /// <summary>

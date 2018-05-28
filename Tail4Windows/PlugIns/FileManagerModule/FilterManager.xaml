@@ -13,7 +13,7 @@
   mc:Ignorable="d"
   x:Name="FilterManagerWindow"
   Title="FilterManager"
-  Width="540"
+  Width="620"
   Height="350"
   Icon="/T4W;component/Resources/Filters.ico"
   ResizeMode="NoResize"
@@ -95,6 +95,7 @@
               Height="22"
               Margin="0 0 2 0"
               Command="{Binding SaveCommand}"
+              TabIndex="0"
               Visibility="{Binding SaveButtonVisibility, UpdateSourceTrigger=PropertyChanged}"
               >
               <StackPanel Margin="3">
@@ -151,6 +152,7 @@
               Height="22"
               Margin="0 0 2 0"
               Command="{Binding AddFilterDataCommand}"
+              TabIndex="1"
               >
               <Path
                 Margin="3"
@@ -204,6 +206,7 @@
               Height="22"
               Margin="0 0 2 0"
               Command="{Binding UndoCommand}"
+              TabIndex="2"
               >
               <StackPanel Margin="3">
                 <Image
@@ -260,6 +263,7 @@
               Margin="0 0 2 0"
               Command="{Binding DeleteFilterDataCommand}"
               Style="{StaticResource RemoveItemButtonStyle}"
+              TabIndex="3"
               >
               <Button.ToolTip>
                 <StackPanel>
@@ -339,6 +343,12 @@
             MinWidth="60"
             Header="{DynamicResource FilterManagerIsHighlight}"
             Binding="{Binding IsHighlight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            />
+
+          <DataGridCheckBoxColumn
+            MinWidth="60"
+            Header="{DynamicResource FilterManagerNotification}"
+            Binding="{Binding UseNotification, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             />
 
           <DataGridTemplateColumn
@@ -458,7 +468,7 @@
               Margin="2 0 0 0"
               Content="{DynamicResource FilterManagerMatchCase}"
               IsChecked="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FindSettingsData.CaseSensitive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              TabIndex="2"
+              TabIndex="6"
               >
               <CheckBox.ToolTip>
                 <StackPanel>
@@ -496,7 +506,7 @@
               Height="22"
               Content="{DynamicResource FilterManagerFindWholeWord}"
               IsChecked="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FindSettingsData.WholeWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              TabIndex="3"
+              TabIndex="7"
               >
               <CheckBox.ToolTip>
                 <StackPanel>
@@ -541,7 +551,7 @@
               Height="22"
               Content="{DynamicResource FilterManagerWildCard}"
               IsChecked="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FindSettingsData.UseWildcard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              TabIndex="4"
+              TabIndex="8"
               >
               <CheckBox.ToolTip>
                 <StackPanel>
@@ -579,7 +589,7 @@
               Height="22"
               Content="{DynamicResource FileManagerDataGridIsRegex}"
               IsChecked="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FindSettingsData.UseRegex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              TabIndex="5"
+              TabIndex="9"
               >
               <CheckBox.ToolTip>
                 <StackPanel>
@@ -627,6 +637,7 @@
           Command="{Binding CloseCommand}"
           CommandParameter="{Binding ElementName=FilterManagerWindow}"
           IsCancel="True"
+          TabIndex="4"
           />
 
         <ToggleButton
@@ -635,6 +646,7 @@
           Margin="0 5 15 5"
           HorizontalAlignment="Right"
           IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowExtendedSettings, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+          TabIndex="5"
           >
           <ToggleButton.ToolTip>
             <StackPanel>

@@ -106,6 +106,11 @@
     public const string FilterUseWildcard = "filterWildCard";
 
     /// <summary>
+    /// filterNotification
+    /// </summary>
+    public const string FilterNotification = "filterNotification";
+
+    /// <summary>
     /// lineWrap
     /// </summary>
     public const string LineWrap = "lineWrap";
