@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using log4net;
@@ -19,7 +15,6 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Extensions;
-using Org.Vs.TailForWin.UI.Converters;
 using Org.Vs.TailForWin.UI.Extensions;
 
 
@@ -41,9 +36,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private TextBlock _defaultTextMessage;
     private TextBox _readOnlyTextMessage;
-
-    private readonly StringToWindowMediaBrushConverter _stringToWindowMediaBrushConverter;
-    private Brush _textHighlightColorBrush;
 
     #region Public properties
 
@@ -93,22 +85,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     /// <summary>
-    /// Text editor highlight foreground property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorHighlightForegroundHexProperty = DependencyProperty.Register(nameof(TextEditorHighlightForegroundHex), typeof(string),
-      typeof(LogWindowListBox), new PropertyMetadata(DefaultEnvironmentSettings.HighlightForegroundColor));
-
-    /// <summary>
-    /// Text editor highlight foreground
-    /// </summary>
-    public string TextEditorHighlightForegroundHex
-    {
-      get => (string) GetValue(TextEditorHighlightForegroundHexProperty);
-      set => SetValue(TextEditorHighlightForegroundHexProperty, value);
-    }
-
-
-    /// <summary>
     /// AddDateTime property
     /// </summary>
     public static readonly DependencyProperty AddDateTimeProperty = DependencyProperty.Register(nameof(AddDateTime), typeof(bool), typeof(LogWindowListBox),
@@ -121,21 +97,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       get => (bool) GetValue(AddDateTimeProperty);
       set => SetValue(AddDateTimeProperty, value);
-    }
-
-    /// <summary>
-    /// Filter on property
-    /// </summary>
-    public static readonly DependencyProperty FilterOnProperty = DependencyProperty.Register(nameof(FilterOn), typeof(bool), typeof(LogWindowListBox),
-      new PropertyMetadata(false, OnFilterOnChanged));
-
-    /// <summary>
-    /// Set filter on
-    /// </summary>
-    public bool FilterOn
-    {
-      get => (bool) GetValue(FilterOnProperty);
-      set => SetValue(FilterOnProperty, value);
     }
 
     /// <summary>
@@ -168,14 +129,20 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       set => SetValue(CurrentTailDataProperty, value);
     }
 
-    #endregion
-
-    #region Events
+    /// <summary>
+    /// 
+    /// </summary>
+    public static readonly DependencyProperty SearchResultProperty = DependencyProperty.Register(nameof(SearchResult), typeof(object), typeof(LogWindowListBox),
+      new PropertyMetadata(null));
 
     /// <summary>
-    ///Item visible changed event, that fires, when the new item is visible in UI
+    /// 
     /// </summary>
-    public event EventHandler ItemVisibleChanged;
+    public object SearchResult
+    {
+      get => GetValue(SearchResultProperty);
+      set => SetValue(SearchResultProperty, value);
+    }
 
     #endregion
 
@@ -212,7 +179,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       PreviewMouseDoubleClick += LogWindowListBoxOnPreviewMouseDoubleClick;
 
       SelectionChanged += LogWindowListBoxOnSelectionChanged;
-      _stringToWindowMediaBrushConverter = new StringToWindowMediaBrushConverter();
     }
 
     /// <summary>
@@ -401,7 +367,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       LastVisibleLogEntryIndex = ((int) _scrollViewer.ViewportHeight + (int) _scrollViewer.VerticalOffset) - 1;
       OnPropertyChanged(nameof(LastVisibleLogEntryIndex));
-      ItemVisibleChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private void LoadSplitGripControl()
@@ -498,12 +463,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       control.RaiseEvent(new RoutedEventArgs(ClearItemsRoutedEvent, control));
     }
 
-    private static void OnFilterOnChanged(object sender, DependencyPropertyChangedEventArgs e)
-    {
-      if ( sender is LogWindowListBox control )
-        control.RefreshCollectionViewSource();
-    }
-
     #endregion
 
     private void OnRemoveBookmarks(object sender, RoutedEventArgs e)
@@ -525,67 +484,67 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       e.Handled = true;
     }
 
-    /// <summary>
-    /// Highlights certain words in Control
-    /// </summary>
-    /// <param name="logEntry"><see cref="LogEntry"/></param>
-    /// <param name="words"><see cref="List{T}"/> of words</param>
-    public void SetHighlightInTextBlock(LogEntry logEntry, IEnumerable<string> words)
-    {
-      var tb = FindDataTemplate<TextBlock>(logEntry, "TextBoxMessage");
+    ///// <summary>
+    ///// Highlights certain words in Control
+    ///// </summary>
+    ///// <param name="logEntry"><see cref="LogEntry"/></param>
+    ///// <param name="words"><see cref="List{T}"/> of words</param>
+    //public void SetHighlightInTextBlock(LogEntry logEntry, IEnumerable<string> words)
+    //{
+    //  var tb = FindDataTemplate<TextBlock>(logEntry, "TextBoxMessage");
 
-      if ( _textHighlightColorBrush == null )
-        _textHighlightColorBrush = (Brush) _stringToWindowMediaBrushConverter.Convert(TextEditorHighlightForegroundHex, typeof(Brush), null, CultureInfo.InvariantCulture);
+    //  if ( _textHighlightColorBrush == null )
+    //    _textHighlightColorBrush = (Brush) _stringToWindowMediaBrushConverter.Convert(TextEditorHighlightForegroundHex, typeof(Brush), null, CultureInfo.InvariantCulture);
 
-      if ( _textHighlightColorBrush == null )
-        return;
+    //  if ( _textHighlightColorBrush == null )
+    //    return;
 
-      HighlightTextInTextBlock(tb, words, logEntry, _textHighlightColorBrush);
-    }
+    //  HighlightTextInTextBlock(tb, words, logEntry, _textHighlightColorBrush);
+    //}
 
-    private void HighlightTextInTextBlock(TextBlock tb, IEnumerable<string> words, LogEntry logEntry, Brush highlightForegroundColor, Brush highlightBackgroundColor = null)
-    {
-      if ( tb == null )
-        return;
+    //private void HighlightTextInTextBlock(TextBlock tb, IEnumerable<string> words, LogEntry logEntry, Brush highlightForegroundColor, Brush highlightBackgroundColor = null)
+    //{
+    //  if ( tb == null )
+    //    return;
 
-      if ( words == null )
-      {
-        tb.Text = logEntry.Message;
-        return;
-      }
+    //  if ( words == null )
+    //  {
+    //    tb.Text = logEntry.Message;
+    //    return;
+    //  }
 
-      var regex = new Regex($"({string.Join("|", words)})");
-      var splits = regex.Split(logEntry.Message);
+    //  var regex = new Regex($"({string.Join("|", words)})");
+    //  var splits = regex.Split(logEntry.Message);
 
-      tb.Inlines.Clear();
+    //  tb.Inlines.Clear();
 
-      foreach ( string item in splits )
-      {
-        if ( regex.Match(item).Success )
-        {
-          var run = new Run(item)
-          {
-            Foreground = highlightForegroundColor,
-            Background = highlightBackgroundColor ?? Brushes.Transparent
-          };
-          tb.Inlines.Add(run);
-        }
-        else
-        {
-          tb.Inlines.Add(item);
-        }
-      }
-    }
+    //  foreach ( string item in splits )
+    //  {
+    //    if ( regex.Match(item).Success )
+    //    {
+    //      var run = new Run(item)
+    //      {
+    //        Foreground = highlightForegroundColor,
+    //        Background = highlightBackgroundColor ?? Brushes.Transparent
+    //      };
+    //      tb.Inlines.Add(run);
+    //    }
+    //    else
+    //    {
+    //      tb.Inlines.Add(item);
+    //    }
+    //  }
+    //}
 
-    private void RemoveHighlightTextInTextBlock(TextBlock tb)
-    {
-      if ( tb == null )
-        return;
+    //private void RemoveHighlightTextInTextBlock(TextBlock tb)
+    //{
+    //  if ( tb == null )
+    //    return;
 
-      string text = tb.Text;
-      tb.Inlines.Clear();
-      tb.Inlines.Add(text);
-    }
+    //  string text = tb.Text;
+    //  tb.Inlines.Clear();
+    //  tb.Inlines.Add(text);
+    //}
 
     private T FindDataTemplate<T>(LogEntry item, string templateName) where T : FrameworkElement
     {

@@ -49,8 +49,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private readonly IFindController _searchController;
     private readonly IPreventMessageFlood _preventMessageFlood;
 
-    private MessageFloodData _highlight;
-
     /// <summary>
     /// Splitter offset
     /// </summary>
@@ -81,6 +79,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Search result
+    /// </summary>
+    public List<string> SearchResult
+    {
+      get;
+      set;
+    }
 
     private double _splitterPosition;
 
@@ -198,8 +205,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       _searchController = new FindController();
       _preventMessageFlood = new PreventMessageFlood();
-
-      LogWindowMainElement.ItemVisibleChanged += OnNewItemIsVisibleChanged;
     }
 
     #region Dependency properties
@@ -370,24 +375,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         try
         {
-          var stringResult = _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter, _cts.Token).GetAwaiter().GetResult();
+          SearchResult = _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter, _cts.Token).GetAwaiter().GetResult();
 
-          if ( (stringResult == null || stringResult.Count == 0) && !filterData.IsHighlight )
+          if ( (SearchResult == null || SearchResult.Count == 0) && !filterData.IsHighlight )
             continue;
 
-          if ( filterData.IsHighlight )
-          {
-            _highlight = new MessageFloodData
-            {
-              Filter = filterData,
-              Results = stringResult,
-              LogEntry = logEntry
-            };
-          }
-
-          HandleAlertSettings(filterData, stringResult, logEntry);
+          HandleAlertSettings(filterData, SearchResult, logEntry);
 
           result = true;
+          OnPropertyChanged(nameof(SearchResult));
         }
         catch ( Exception ex )
         {
@@ -599,17 +595,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
-    }
-
-    private void OnNewItemIsVisibleChanged(object sender, EventArgs e)
-    {
-      if ( _highlight == null )
-        return;
-
-      if ( _highlight.Filter.IsHighlight )
-        LogWindowMainElement.SetHighlightInTextBlock(_highlight.LogEntry, _highlight.Results);
-
-      _highlight = null;
     }
 
     /// <summary>

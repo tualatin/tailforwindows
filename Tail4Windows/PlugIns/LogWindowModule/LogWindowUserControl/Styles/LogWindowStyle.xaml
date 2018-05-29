@@ -7,6 +7,7 @@
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:logWindowListBox="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl"
   xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   >
   <Style x:Key="MyLineNumberText" TargetType="{x:Type TextBlock}">
     <Setter Property="Foreground" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
@@ -23,7 +24,7 @@
     </Style.Triggers>
   </Style>
 
-  <Style x:Key="MyTextEditor" TargetType="{x:Type TextBlock}">
+  <Style x:Key="MyTextEditor" TargetType="{x:Type userControls:HighlightTextBlock}">
     <Setter Property="Text" Value="{Binding Message, Mode=OneWay}" />
     <Setter Property="TextWrapping" Value="{Binding Path=CurrentTailData.Wrap, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Converter={StaticResource BoolToTextWrapConverter}}" />
   </Style>
@@ -172,12 +173,14 @@
             </TextBox.Margin>
           </TextBox>
 
-          <TextBlock
+          <userControls:HighlightTextBlock
             x:Name="TextBoxMessage"
             Grid.Column="1"
+            HighlightForeground="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.ForegroundHighlightColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+            HighlightText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=SearchResult}"
             Style="{StaticResource MyTextEditor}"
             >
-            <TextBlock.Margin>
+            <userControls:HighlightTextBlock.Margin>
               <MultiBinding Converter="{StaticResource VisibilityToMarginConverter}" ConverterParameter="TextBoxMessage">
                 <Binding
                   ElementName="BorderLineNumber"
@@ -188,8 +191,8 @@
                   Path="Visibility"
                   />
               </MultiBinding>
-            </TextBlock.Margin>
-          </TextBlock>
+            </userControls:HighlightTextBlock.Margin>
+          </userControls:HighlightTextBlock>
         </Grid>
       </Border>
     </Grid>
@@ -256,7 +259,6 @@
         </ControlTemplate>
       </Setter.Value>
     </Setter>
-    <Setter Property="TextEditorHighlightForegroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.ForegroundHighlightColorHex}" />
     <Setter Property="TextEditorSearchHighlightBackgroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex}" />
     <Setter Property="TextEditorSearchHighlightForegroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightForegroundColorHex}" />
     <Setter Property="VerticalAlignment" Value="Stretch" />

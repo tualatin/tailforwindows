@@ -454,6 +454,7 @@
     <Compile Include="UI\UserControls\FancyToolTip.xaml.cs">
       <DependentUpon>FancyToolTip.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\UserControls\HighlightTextBlock.cs" />
     <Compile Include="UI\UserControls\Spinner.xaml.cs">
       <DependentUpon>Spinner.xaml</DependentUpon>
     </Compile>
