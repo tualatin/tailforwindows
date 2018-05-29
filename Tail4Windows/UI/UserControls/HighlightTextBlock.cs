@@ -16,11 +16,58 @@ namespace Org.Vs.TailForWin.UI.UserControls
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(HighlightTextBlock));
 
+    private new string Text
+    {
+      set
+      {
+        var words = (List<string>) HighlightText;
+
+        if ( words == null || words.Count == 0 )
+        {
+          base.Text = value;
+          return;
+        }
+
+        Inlines.Clear();
+        var regex = new Regex($"({string.Join("|", words)})");
+        var splits = regex.Split(value);
+
+
+        //tb.Inlines.Clear();
+
+        //if ( splits.Length > 0 )
+        //{
+        foreach ( string item in splits )
+        {
+          if ( regex.Match(item).Success )
+          {
+            var run = new Run(item)
+            {
+              Foreground = HighlightForeground
+            };
+            Inlines.Add(run);
+          }
+          else
+          {
+            Inlines.Add(item);
+          }
+        }
+        //  }
+          //}
+          //else
+          //{
+          //  tb.Inlines.Add(completeText);
+          //}
+
+
+        }
+      }
+
     #region Dependency properties
 
-    /// <summary>
-    /// Highlight foreground property
-    /// </summary>
+      /// <summary>
+      /// Highlight foreground property
+      /// </summary>
     public static readonly DependencyProperty HighlightForegroundProperty = DependencyProperty.Register(nameof(HighlightForeground), typeof(Brush), typeof(HighlightTextBlock));
 
     /// <summary>
@@ -47,56 +94,99 @@ namespace Org.Vs.TailForWin.UI.UserControls
       set => SetValue(HighlightTextroperty, value);
     }
 
+    public string HighlightableText
+    {
+      get
+      {
+        return (string) GetValue(HighlightableTextProperty);
+      }
+      set
+      {
+        SetValue(HighlightableTextProperty, value);
+      }
+    }
+
+    // Using a DependencyProperty as the backing store for HighlightableText.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty HighlightableTextProperty =
+      DependencyProperty.Register("HighlightableText", typeof(string), typeof(HighlightTextBlock), new PropertyMetadata(new PropertyChangedCallback(HighlightableTextChanged)));
+
+    public static void HighlightableTextChanged(DependencyObject inDO, DependencyPropertyChangedEventArgs inArgs)
+    {
+      HighlightTextBlock stb = inDO as HighlightTextBlock;
+      stb.Text = stb.HighlightableText;
+    }
+
     #endregion
 
-    #region Property callbacks
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
+    public HighlightTextBlock()
+    {
+    }
 
-    private static int index;
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="inline"><see cref="Inline"/></param>
+    public HighlightTextBlock(Inline inline)
+    : base(inline)
+    {
+    }
+
+    #region Property callbacks
 
     private static void HighlightTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
       if ( !(sender is HighlightTextBlock tb) )
         return;
-      if ( index == 2 )
-        return;
 
-      LOG.Trace($"{tb.Text}");
+      tb.UpdateText();
+      //if ( index == 2 )
+      //  return;
 
-      if ( !(e.NewValue is List<string> words) || words.Count == 0 )
-        return;
+      //LOG.Trace($"{tb.Text}");
 
-      string completeText = tb.Text;
-      var regex = new Regex($"({string.Join("|", words)})");
-      var splits = regex.Split(completeText);
+      //if ( !(e.NewValue is List<string> words) || words.Count == 0 )
+      //  return;
 
-      tb.Inlines.Clear();
+      //string completeText = tb.Text;
+      //var regex = new Regex($"({string.Join("|", words)})");
+      //var splits = regex.Split(completeText);
 
-      if ( splits.Length > 0 )
-      {
-        foreach ( string item in splits )
-        {
-          if ( regex.Match(item).Success )
-          {
-            var run = new Run(item)
-            {
-              Foreground = tb.HighlightForeground
-            };
-            tb.Inlines.Add(run);
-          }
-          else
-          {
-            tb.Inlines.Add(item);
-          }
-        }
-      }
-      else
-      {
-        tb.Inlines.Add(completeText);
-      }
+      //tb.Inlines.Clear();
 
-      index++;
+      //if ( splits.Length > 0 )
+      //{
+      //  foreach ( string item in splits )
+      //  {
+      //    if ( regex.Match(item).Success )
+      //    {
+      //      var run = new Run(item)
+      //      {
+      //        Foreground = tb.HighlightForeground
+      //      };
+      //      tb.Inlines.Add(run);
+      //    }
+      //    else
+      //    {
+      //      tb.Inlines.Add(item);
+      //    }
+      //  }
+      //}
+      //else
+      //{
+      //  tb.Inlines.Add(completeText);
+      //}
+
+      //index++;
     }
 
     #endregion
+
+    private void UpdateText()
+    {
+      Text = base.Text;
+    }
   }
 }
