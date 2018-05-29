@@ -9,6 +9,7 @@
   xmlns:my="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:ui="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.UI.Utils"
+  xmlns:validationRules="clr-namespace:Org.Vs.TailForWin.UI.ValidationRules"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="400"
@@ -172,7 +173,24 @@
         Content="{DynamicResource AlertOptionSendMail}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.SendMail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         TabIndex="4"
-        />
+        >
+        <CheckBox.IsEnabled>
+          <MultiBinding Converter="{StaticResource AlertEnableMailMultiConverter}">
+            <Binding
+              Path="SmtpSettings.FromAddress"
+              Source="{x:Static controllers:SettingsHelperController.CurrentSettings}"
+              />
+            <Binding
+              Path="SmtpSettings.SmtpServerName"
+              Source="{x:Static controllers:SettingsHelperController.CurrentSettings}"
+              />
+            <Binding
+              Path="SmtpSettings.Subject"
+              Source="{x:Static controllers:SettingsHelperController.CurrentSettings}"
+              />
+          </MultiBinding>
+        </CheckBox.IsEnabled>
+      </CheckBox>
 
       <Label
         Grid.Row="5"
@@ -187,10 +205,22 @@
         Height="24"
         MinWidth="100"
         Margin="5 0 0 0"
-        Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=AlertSettings.MailAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource MailAddressConverter}}"
         IsEnabled="{Binding ElementName=CheckBoxSendMail, Path=IsChecked}"
         TabIndex="5"
         >
+        <my:WatermarkTextBox.Text>
+          <Binding
+            Converter="{StaticResource MailAddressConverter}"
+            Mode="TwoWay"
+            Path="AlertSettings.MailAddress"
+            Source="{x:Static controllers:SettingsHelperController.CurrentSettings}"
+            UpdateSourceTrigger="PropertyChanged"
+            >
+            <Binding.ValidationRules>
+              <validationRules:MailAddressValidation />
+            </Binding.ValidationRules>
+          </Binding>
+        </my:WatermarkTextBox.Text>
         <my:WatermarkTextBox.Watermark>
           <TextBlock
             Margin="5 0 0 0"

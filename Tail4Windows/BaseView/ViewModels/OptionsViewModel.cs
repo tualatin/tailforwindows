@@ -36,7 +36,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private static readonly ILog LOG = LogManager.GetLogger(typeof(OptionsViewModel));
 
     private EnvironmentSettings.MementoEnvironmentSettings _mementoSettings;
-    private readonly CancellationTokenSource _cts;
+    private CancellationTokenSource _cts;
     private readonly ISettingsDbController _dbSettingsDbController;
 
     #region Properties
@@ -98,7 +98,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     public OptionsViewModel()
     {
       _mementoSettings = SettingsHelperController.CurrentSettings.SaveToMemento();
-      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
       _dbSettingsDbController = SettingsDbController.Instance;
 
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
@@ -174,6 +173,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       SettingsHelperController.CurrentSettings.LastViewedOptionPage = CurrentViewModel.PageId;
       _mementoSettings = null;
 
+      SetCancellationTokenSource();
       _dbSettingsDbController.UpdatePasswordSettings();
       await EnvironmentContainer.Instance.SaveSettingsAsync(_cts).ConfigureAwait(false);
     }
@@ -230,6 +230,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         return;
 
       MouseService.SetBusyState();
+      SetCancellationTokenSource();
 
       await Task.Run(
         () =>
@@ -320,6 +321,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         return;
 
       GetCertainSettingsPage(Guid.Parse("cfc162ef-5755-4958-a559-ab893ca8e1ed"));
+    }
+
+    private void SetCancellationTokenSource()
+    {
+      _cts?.Dispose();
+      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
     }
 
     #endregion
