@@ -224,6 +224,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public const string HighlightForegroundColor = "#FFFF64FF";
 
     /// <summary>
+    /// Default value selection background color
+    /// </summary>
+    public const string SelectionBackgroundColor = "#FFA4DCFF";
+
+    /// <summary>
     /// Default value line number color
     /// </summary>
     public const string LineNumberColor = "#808080";

@@ -197,7 +197,7 @@
       <DataTrigger Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}">
         <Setter TargetName="Chrome" Property="Background">
           <Setter.Value>
-            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}}" Opacity="0.4" po:Freeze="True" />
+            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.SelectionBackgroundColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}}" Opacity="0.4" po:Freeze="True" />
           </Setter.Value>
         </Setter>
       </DataTrigger>
@@ -259,7 +259,6 @@
     <Setter Property="TextEditorHighlightForegroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.ForegroundHighlightColorHex}" />
     <Setter Property="TextEditorSearchHighlightBackgroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex}" />
     <Setter Property="TextEditorSearchHighlightForegroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightForegroundColorHex}" />
-    <Setter Property="TextEditorSelectionColorHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberHighlightColorHex}" />
     <Setter Property="VerticalAlignment" Value="Stretch" />
     <Setter Property="VirtualizingStackPanel.CacheLength" Value="1,2" />
     <Setter Property="VirtualizingStackPanel.CacheLengthUnit" Value="Item" />

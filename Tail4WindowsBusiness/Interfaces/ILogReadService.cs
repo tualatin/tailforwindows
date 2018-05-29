@@ -40,9 +40,9 @@ namespace Org.Vs.TailForWin.Business.Interfaces
     }
 
     /// <summary>
-    /// Current log line index
+    /// Current log index
     /// </summary>
-    int LineIndex
+    int Index
     {
       get;
     }

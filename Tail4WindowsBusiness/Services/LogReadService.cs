@@ -61,7 +61,7 @@ namespace Org.Vs.TailForWin.Business.Services
     /// <summary>
     /// Current log line index
     /// </summary>
-    public int LineIndex
+    public int Index
     {
       get;
       private set;
@@ -81,7 +81,7 @@ namespace Org.Vs.TailForWin.Business.Services
       _tailBackgroundWorker.DoWork += LogReaderServiceDoWork;
       _tailBackgroundWorker.RunWorkerCompleted += LogReaderServiceRunWorkerCompleted;
 
-      LineIndex = 0;
+      Index = 0;
       _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
     }
 
@@ -118,33 +118,30 @@ namespace Org.Vs.TailForWin.Business.Services
         if ( _tailBackgroundWorker.CancellationPending )
           return;
 
-        LineIndex++;
-        LogEntry log = new LogEntry();
-
-        LOG.Trace($"Current index is {LineIndex}");
-
-        var mod = LineIndex % 2;
+        Index++;
+        LogEntry log;
+        int mod = Index % 2;
 
         if ( mod == 0 )
         {
           log = new LogEntry
           {
-            Index = LineIndex,
-            Message = $"Log - {LineIndex * 24} / Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
+            Index = Index,
+            Message = $"Log - {Index * 24} / Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
             DateTime = DateTime.Now
           };
         }
-        else if ( mod == 1 )
+        else
         {
           log = new LogEntry
           {
-            Index = LineIndex,
-            Message = "Log - Debug message for a log, you know that better!",
+            Index = Index,
+            Message = "Christabel strips and slips like a dream breaking ice with arms that gleam with pain disdain... She throws her head and glides against the stream throwing me her bravest smile defiant glittering shivering guile",
             DateTime = DateTime.Now
           };
         }
 
-        SizeRefreshTime = string.Format(message, $"{LineIndex * 12}", DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
+        SizeRefreshTime = string.Format(message, $"{24 + Index * 12}", DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
 
         if ( _tailBackgroundWorker.CancellationPending )
           return;
@@ -173,12 +170,12 @@ namespace Org.Vs.TailForWin.Business.Services
     /// <summary>
     /// Reset current index
     /// </summary>
-    public void ResetIndex() => LineIndex = 0;
+    public void ResetIndex() => Index = 0;
 
     /// <summary>
     /// Set current index to special value
     /// </summary>
     /// <param name="index">Index</param>
-    public void SetIndex(int index) => LineIndex = index;
+    public void SetIndex(int index) => Index = index;
   }
 }

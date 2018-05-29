@@ -88,6 +88,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private string _selectionBackgroundColorHex;
+
+    /// <summary>
+    /// Selection background color
+    /// </summary>
+    public string SelectionBackgroundColorHex
+    {
+      get => _selectionBackgroundColorHex;
+      set
+      {
+        if ( Equals(value, _selectionBackgroundColorHex) )
+          return;
+
+        _selectionBackgroundColorHex = value;
+        OnPropertyChanged();
+      }
+    }
+
     private string _foregroundColorHex;
 
     /// <summary>

@@ -100,7 +100,7 @@ namespace Org.Vs.TailForWin.UI.Utils
           logWindowControl.SplitWindow.FloodData = content.SplitWindow.FloodData;
           logWindowControl.TailReader.TailData = content.CurrentTailData;
 
-          logWindowControl.TailReader.SetIndex(content.TailReader.LineIndex);
+          logWindowControl.TailReader.SetIndex(content.TailReader.Index);
           logWindowControl.SplitWindow.CacheManager.SetCacheData(content.SplitWindow.CacheManager.GetCacheData());
 
           if ( content.TailReader.IsBusy )

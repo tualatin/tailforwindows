@@ -93,14 +93,19 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         SettingsHelperController.CurrentSettings.ColorSettings.ForegroundColorHex = mydata.Color;
         break;
 
-      case "ForegroundHighlightColorHex":
-
-        SettingsHelperController.CurrentSettings.ColorSettings.ForegroundHighlightColorHex = mydata.Color;
-        break;
-
       case "BackgroundColorHex":
 
         SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex = mydata.Color;
+        break;
+
+      case "SelectionBackgroundColorHex":
+
+        SettingsHelperController.CurrentSettings.ColorSettings.SelectionBackgroundColorHex = mydata.Color;
+        break;
+
+      case "ForegroundHighlightColorHex":
+
+        SettingsHelperController.CurrentSettings.ColorSettings.ForegroundHighlightColorHex = mydata.Color;
         break;
 
       case "FindHighlightForegroundColorHex":
@@ -175,6 +180,13 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       LogViewerColorData.Add(
         new ControlColorData
         {
+          ConfigurationName = "BackgroundColorHex",
+          Name = Application.Current.TryFindResource("ColorOptionBackgroundColor").ToString(),
+          Color = SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex
+        });
+      LogViewerColorData.Add(
+        new ControlColorData
+        {
           ConfigurationName = "ForegroundHighlightColorHex",
           Name = Application.Current.TryFindResource("ColorOptionForegroundHighlightColor").ToString(),
           Color = SettingsHelperController.CurrentSettings.ColorSettings.ForegroundHighlightColorHex
@@ -182,9 +194,9 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       LogViewerColorData.Add(
         new ControlColorData
         {
-          ConfigurationName = "BackgroundColorHex",
-          Name = Application.Current.TryFindResource("ColorOptionBackgroundColor").ToString(),
-          Color = SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex
+          ConfigurationName = "SelectionBackgroundColorHex",
+          Name = Application.Current.TryFindResource("ColorOptionSelectionColor").ToString(),
+          Color = SettingsHelperController.CurrentSettings.ColorSettings.SelectionBackgroundColorHex
         });
       LogViewerColorData.Add(
         new ControlColorData

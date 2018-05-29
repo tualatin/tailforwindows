@@ -63,21 +63,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     /// <summary>
-    /// Text editor selection color porperty
-    /// </summary>
-    public static readonly DependencyProperty TextEditorSelectionColorHexProperty = DependencyProperty.Register(nameof(TextEditorSelectionColorHex), typeof(string), typeof(LogWindowListBox),
-      new PropertyMetadata(DefaultEnvironmentSettings.HighlightLineNumberColor));
-
-    /// <summary>
-    /// Text editor selection color
-    /// </summary>
-    public string TextEditorSelectionColorHex
-    {
-      get => (string) GetValue(TextEditorSelectionColorHexProperty);
-      set => SetValue(TextEditorSelectionColorHexProperty, value);
-    }
-
-    /// <summary>
     /// Text editor search highlight background property
     /// </summary>
     public static readonly DependencyProperty TextEditorSearchHighlightBackgroundHexProperty = DependencyProperty.Register(nameof(TextEditorSearchHighlightBackgroundHex), typeof(string),
@@ -545,11 +530,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// </summary>
     /// <param name="logEntry"><see cref="LogEntry"/></param>
     /// <param name="words"><see cref="List{T}"/> of words</param>
-    public void SetHighlightInTextBlock(LogEntry logEntry, List<string> words)
+    public void SetHighlightInTextBlock(LogEntry logEntry, IEnumerable<string> words)
     {
       var tb = FindDataTemplate<TextBlock>(logEntry, "TextBoxMessage");
-      // TODO wrong DataTemplate!!! Do not know why
-      tb.Text = logEntry.Message;
 
       if ( _textHighlightColorBrush == null )
         _textHighlightColorBrush = (Brush) _stringToWindowMediaBrushConverter.Convert(TextEditorHighlightForegroundHex, typeof(Brush), null, CultureInfo.InvariantCulture);
@@ -557,19 +540,22 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( _textHighlightColorBrush == null )
         return;
 
-      HighlightTextInTextBlock(tb, words, _textHighlightColorBrush);
+      HighlightTextInTextBlock(tb, words, logEntry, _textHighlightColorBrush);
     }
 
-    private void HighlightTextInTextBlock(TextBlock tb, IEnumerable<string> words, Brush highlightForegroundColor, Brush highlightBackgroundColor = null)
+    private void HighlightTextInTextBlock(TextBlock tb, IEnumerable<string> words, LogEntry logEntry, Brush highlightForegroundColor, Brush highlightBackgroundColor = null)
     {
       if ( tb == null )
         return;
 
       if ( words == null )
+      {
+        tb.Text = logEntry.Message;
         return;
+      }
 
       var regex = new Regex($"({string.Join("|", words)})");
-      var splits = regex.Split(tb.Text);
+      var splits = regex.Split(logEntry.Message);
 
       tb.Inlines.Clear();
 
@@ -611,8 +597,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       var myContentPresenter = myListBoxItem.Descendents().OfType<ContentPresenter>().FirstOrDefault();
       var myDataTemplate = myContentPresenter?.ContentTemplate;
       var control = (T) myDataTemplate?.FindName(templateName, myContentPresenter);
-
-      var blzbb = (T) myContentPresenter?.ContentTemplate.FindName(templateName, myContentPresenter);
 
       return control;
     }

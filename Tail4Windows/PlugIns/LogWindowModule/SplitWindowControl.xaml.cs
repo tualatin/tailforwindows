@@ -133,7 +133,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Lines read
     /// </summary>
-    public int LinesRead => LogReaderService?.LineIndex ?? 0;
+    public int LinesRead => LogReaderService?.Index ?? 0;
 
     /// <summary>
     /// Last visible <see cref="LogEntry"/> index

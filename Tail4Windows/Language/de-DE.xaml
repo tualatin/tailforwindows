@@ -337,6 +337,7 @@
   <system:String x:Key="ColorOptionFontColor">Zeichenfarbe</system:String>
   <system:String x:Key="ColorOptionForegroundHighlightColor">Hervorheben Zeichenfarbe</system:String>
   <system:String x:Key="ColorOptionBackgroundColor">Hintergrundfarbe</system:String>
+  <system:String x:Key="ColorOptionSelectionColor">Auswahlfarbe</system:String>
   <system:String x:Key="ColorOptionHighlightFontColor">Suchhervorheben Zeichenfarbe</system:String>
   <system:String x:Key="ColorOptionHighlightBackgroundColor">Suchhervorheben Hintergrundfarbe</system:String>
   <system:String x:Key="ColorOptionLineNumberColor">Editornummernfarbe</system:String>
