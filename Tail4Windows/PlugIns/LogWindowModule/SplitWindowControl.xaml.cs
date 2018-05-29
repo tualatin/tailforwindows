@@ -432,24 +432,28 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void HandleClearingFloodData()
     {
+      LOG.Info("Clearing flood data messages");
+
       if ( FloodData.First().Filter.UseNotification && SettingsHelperController.CurrentSettings.AlertSettings.PopupWnd )
         HandleNotification(FloodData.First().LogEntry.DateTime, FloodData.First().Results.ToArray());
 
       if ( SettingsHelperController.CurrentSettings.AlertSettings.BringToFront )
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new BringMainWindowToFrontMessage(this));
 
-      string messageTitle = Application.Current.TryFindResource("FilterManagerSendMailMessage").ToString();
-      var msgBuild = new StringBuilder();
-
-      foreach ( var flood in FloodData )
+      if ( SettingsHelperController.CurrentSettings.AlertSettings.SendMail )
       {
-        string detail = Application.Current.TryFindResource("FilterManagerSendMailDetail").ToString();
-        msgBuild.Append(string.Format(detail, flood.LogEntry.Index, flood.LogEntry.Message, string.Join("\n\t", flood.Results)));
+        string messageTitle = Application.Current.TryFindResource("FilterManagerSendMailMessage").ToString();
+        var msgBuild = new StringBuilder();
+
+        foreach ( var flood in FloodData )
+        {
+          string detail = Application.Current.TryFindResource("FilterManagerSendMailDetail").ToString();
+          msgBuild.Append(string.Format(detail, flood.LogEntry.Index, flood.LogEntry.Message, string.Join("\n\t", flood.Results)));
+        }
+
+        string mailMessage = string.Format(messageTitle, msgBuild);
+        NotifyTaskCompletion.Create(HandleSendMailAsync(mailMessage));
       }
-
-      string mailMessage = string.Format(messageTitle, msgBuild);
-
-      NotifyTaskCompletion.Create(HandleSendMailAsync(mailMessage));
 
       FloodData.Clear();
       _preventMessageFlood.UpdateBusyState();
