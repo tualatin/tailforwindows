@@ -36,16 +36,14 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public XmlFileManagerController() => _fileManagerFile = EnvironmentContainer.ApplicationPath + @"\FileManager.xml";
+    public XmlFileManagerController() => _fileManagerFile = EnvironmentContainer.TailStorePath + @"\FileManager.xml";
 
     /// <summary>
     /// Constructor for testing purposes
     /// </summary>
     /// <param name="path">Path of XML file</param>
-    public XmlFileManagerController(string path)
-    {
-      _fileManagerFile = path;
-    }
+    public XmlFileManagerController(string path) => _fileManagerFile = path;
+
 
     /// <summary>
     /// Read XML file

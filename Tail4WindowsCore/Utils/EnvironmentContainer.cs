@@ -152,6 +152,11 @@ namespace Org.Vs.TailForWin.Core.Utils
     public static string ApplicationPath => Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
 
     /// <summary>
+    /// TailStore path
+    /// </summary>
+    public static string TailStorePath => ApplicationPath + @"\Users\" + Environment.UserName;
+
+    /// <summary>
     /// Read current settings
     /// </summary>
     /// <returns>Task</returns>

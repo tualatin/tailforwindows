@@ -32,7 +32,6 @@ namespace Org.Vs.TailForWin.UI.UserControls
         var regex = new Regex($"({string.Join("|", words)})");
         var splits = regex.Split(value);
 
-
         //tb.Inlines.Clear();
 
         //if ( splits.Length > 0 )
@@ -53,21 +52,21 @@ namespace Org.Vs.TailForWin.UI.UserControls
           }
         }
         //  }
-          //}
-          //else
-          //{
-          //  tb.Inlines.Add(completeText);
-          //}
+        //}
+        //else
+        //{
+        //  tb.Inlines.Add(completeText);
+        //}
 
 
-        }
       }
+    }
 
     #region Dependency properties
 
-      /// <summary>
-      /// Highlight foreground property
-      /// </summary>
+    /// <summary>
+    /// Highlight foreground property
+    /// </summary>
     public static readonly DependencyProperty HighlightForegroundProperty = DependencyProperty.Register(nameof(HighlightForeground), typeof(Brush), typeof(HighlightTextBlock));
 
     /// <summary>
@@ -94,26 +93,19 @@ namespace Org.Vs.TailForWin.UI.UserControls
       set => SetValue(HighlightTextroperty, value);
     }
 
+    /// <summary>
+    /// Using a DependencyProperty as the backing store for HighlightableText.  This enables animation, styling, binding, etc...
+    /// </summary>
+    public static readonly DependencyProperty HighlightableTextProperty = DependencyProperty.Register(nameof(HighlightableText), typeof(string), typeof(HighlightTextBlock),
+      new PropertyMetadata(HighlightableTextChanged));
+
+    /// <summary>
+    /// Highlightablbe text
+    /// </summary>
     public string HighlightableText
     {
-      get
-      {
-        return (string) GetValue(HighlightableTextProperty);
-      }
-      set
-      {
-        SetValue(HighlightableTextProperty, value);
-      }
-    }
-
-    // Using a DependencyProperty as the backing store for HighlightableText.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty HighlightableTextProperty =
-      DependencyProperty.Register("HighlightableText", typeof(string), typeof(HighlightTextBlock), new PropertyMetadata(new PropertyChangedCallback(HighlightableTextChanged)));
-
-    public static void HighlightableTextChanged(DependencyObject inDO, DependencyPropertyChangedEventArgs inArgs)
-    {
-      HighlightTextBlock stb = inDO as HighlightTextBlock;
-      stb.Text = stb.HighlightableText;
+      get => (string) GetValue(HighlightableTextProperty);
+      set => SetValue(HighlightableTextProperty, value);
     }
 
     #endregion
@@ -135,6 +127,12 @@ namespace Org.Vs.TailForWin.UI.UserControls
     }
 
     #region Property callbacks
+
+    private static void HighlightableTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs inArgs)
+    {
+      if ( sender is HighlightTextBlock tb )
+        tb.Text = tb.HighlightableText;
+    }
 
     private static void HighlightTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
@@ -184,9 +182,6 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     #endregion
 
-    private void UpdateText()
-    {
-      Text = base.Text;
-    }
+    private void UpdateText() => Text = base.Text;
   }
 }

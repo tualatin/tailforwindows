@@ -354,6 +354,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       MoveIntoView();
       RestoreWindowSizeAndPosition();
 
+      await MoveUserFilesToTailStoreAsync().ConfigureAwait(false);
       await _dbSettingsController.ReadDbSettingsAsync().ConfigureAwait(false);
       await AutoUpdateAsync().ConfigureAwait(false);
     }
@@ -372,6 +373,36 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
         LOG.Trace($"TotalMemory after clean up: {GC.GetTotalMemory(true)}");
       }
+    }
+
+    /// <summary>
+    /// Move some user files to new TailStore
+    /// </summary>
+    /// <see cref="Task"/>
+    public async Task MoveUserFilesToTailStoreAsync()
+    {
+      LOG.Info("Try to move old user settings");
+
+      await Task.Run(
+        () =>
+        {
+          try
+          {
+            if ( !Directory.Exists(EnvironmentContainer.TailStorePath) )
+              Directory.CreateDirectory(EnvironmentContainer.TailStorePath);
+
+            string fileManager = EnvironmentContainer.ApplicationPath + @"\FileManager.xml";
+
+            if ( !File.Exists(fileManager) )
+              return;
+
+            File.Move(fileManager, EnvironmentContainer.TailStorePath + @"\FileManager.xml");
+          }
+          catch ( Exception ex )
+          {
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          }
+        }).ConfigureAwait(false);
     }
 
     #region Commands

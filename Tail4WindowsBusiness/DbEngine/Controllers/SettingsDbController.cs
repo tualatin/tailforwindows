@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +9,7 @@ using Org.Vs.TailForWin.Business.DbEngine.Data;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// </summary>
     public static SettingsDbController Instance => instance ?? (instance = new SettingsDbController());
 
-    private SettingsDbController() => _dbFile = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\T4W.db";
+    private SettingsDbController() => _dbFile = EnvironmentContainer.TailStorePath + @"\T4W.db";
 
     /// <summary>
     /// Read current DataBase settings

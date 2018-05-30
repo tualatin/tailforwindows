@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -140,5 +141,11 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
       get;
       set;
     }
+
+    /// <summary>
+    /// Move some user files to new TailStore
+    /// </summary>
+    /// <see cref="Task"/>
+    Task MoveUserFilesToTailStoreAsync();
   }
 }
