@@ -32,11 +32,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
         var regex = new Regex($"({string.Join("|", words)})");
         var splits = regex.Split(value);
 
-        //tb.Inlines.Clear();
-
-        //if ( splits.Length > 0 )
-        //{
-        foreach ( string item in splits )
+        foreach ( var item in splits )
         {
           if ( regex.Match(item).Success )
           {
@@ -51,14 +47,6 @@ namespace Org.Vs.TailForWin.UI.UserControls
             Inlines.Add(item);
           }
         }
-        //  }
-        //}
-        //else
-        //{
-        //  tb.Inlines.Add(completeText);
-        //}
-
-
       }
     }
 
@@ -140,44 +128,6 @@ namespace Org.Vs.TailForWin.UI.UserControls
         return;
 
       tb.UpdateText();
-      //if ( index == 2 )
-      //  return;
-
-      //LOG.Trace($"{tb.Text}");
-
-      //if ( !(e.NewValue is List<string> words) || words.Count == 0 )
-      //  return;
-
-      //string completeText = tb.Text;
-      //var regex = new Regex($"({string.Join("|", words)})");
-      //var splits = regex.Split(completeText);
-
-      //tb.Inlines.Clear();
-
-      //if ( splits.Length > 0 )
-      //{
-      //  foreach ( string item in splits )
-      //  {
-      //    if ( regex.Match(item).Success )
-      //    {
-      //      var run = new Run(item)
-      //      {
-      //        Foreground = tb.HighlightForeground
-      //      };
-      //      tb.Inlines.Add(run);
-      //    }
-      //    else
-      //    {
-      //      tb.Inlines.Add(item);
-      //    }
-      //  }
-      //}
-      //else
-      //{
-      //  tb.Inlines.Add(completeText);
-      //}
-
-      //index++;
     }
 
     #endregion

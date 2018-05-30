@@ -262,7 +262,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <see cref="TailData"/> property
     /// </summary>
     public static readonly DependencyProperty CurrentTailDataProperty = DependencyProperty.Register(nameof(CurrentTailData), typeof(TailData), typeof(SplitWindowControl),
-      new PropertyMetadata(new TailData()));
+      new PropertyMetadata(new TailData(), TailDataOnChanged));
 
     /// <summary>
     /// Current <see cref="TailData"/>
@@ -274,6 +274,26 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     #endregion
+
+    private static void TailDataOnChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    {
+      if ( !(sender is SplitWindowControl control) )
+        return;
+
+      if ( e.OldValue is TailData oldValue )
+        oldValue.PropertyChanged -= control.CurrentTailDataChanged;
+      if ( e.NewValue is TailData newValue )
+        newValue.PropertyChanged += control.CurrentTailDataChanged;
+    }
+
+    private void CurrentTailDataChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( e.PropertyName != "FilterState" )
+        return;
+
+      SearchResult = null;
+      OnPropertyChanged(nameof(SearchResult));
+    }
 
     #region Commands
 
@@ -383,7 +403,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           HandleAlertSettings(filterData, SearchResult, logEntry);
 
           result = true;
-          OnPropertyChanged(nameof(SearchResult));
+
+          if ( SearchResult != null && SearchResult.Count > 0 )
+            OnPropertyChanged(nameof(SearchResult));
         }
         catch ( Exception ex )
         {
