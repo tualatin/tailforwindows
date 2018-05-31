@@ -244,18 +244,16 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
     private async Task ExecuteFindNextCommandAsync()
     {
-      MouseService.SetBusyState();
+      FindSettings.CountFind = false;
 
-      if ( !SearchHistory.ContainsKey(SearchText) )
-      {
-        _searchHistory.Add(new KeyValuePair<string, string>(SearchText, SearchText));
-        await _searchHistoryController.SaveSearchHistoryAsync(SearchText).ConfigureAwait(false);
-      }
+      await HandleFindAsync();
     }
 
     private async Task ExecuteCountCommandAsync()
     {
-      MouseService.SetBusyState();
+      FindSettings.CountFind = true;
+
+      await HandleFindAsync();
     }
 
     private async Task ExecuteWrapAroundCommandAsync()
@@ -264,6 +262,21 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
       _searchHistoryController.Wrap = FindSettings.Wrap;
       await _searchHistoryController.SaveSearchHistoryWrapAttributeAsync().ConfigureAwait(false);
+    }
+
+    #endregion
+
+    #region HelperFunctions
+
+    private async Task HandleFindAsync()
+    {
+      MouseService.SetBusyState();
+
+      if ( !SearchHistory.ContainsKey(SearchText) )
+      {
+        _searchHistory.Add(new KeyValuePair<string, string>(SearchText, SearchText));
+        await _searchHistoryController.SaveSearchHistoryAsync(SearchText).ConfigureAwait(false);
+      }
     }
 
     #endregion

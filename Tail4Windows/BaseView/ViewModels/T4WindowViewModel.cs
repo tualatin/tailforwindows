@@ -393,10 +393,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
             string fileManager = EnvironmentContainer.ApplicationPath + @"\FileManager.xml";
 
-            if ( !File.Exists(fileManager) )
+            if ( File.Exists(fileManager) )
+              File.Move(fileManager, EnvironmentContainer.TailStorePath + @"\FileManager.xml");
+
+            string history = EnvironmentContainer.ApplicationPath + @"\History.xml";
+
+            if ( !File.Exists(history) )
               return;
 
-            File.Move(fileManager, EnvironmentContainer.TailStorePath + @"\FileManager.xml");
+            File.Move(history, EnvironmentContainer.TailStorePath + @"\History.xml");
           }
           catch ( Exception ex )
           {
