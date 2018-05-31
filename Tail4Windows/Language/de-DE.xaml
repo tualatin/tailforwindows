@@ -394,6 +394,7 @@
   <system:String x:Key="FindDialogWrap">Am Ende von vorne beginnen</system:String>
   <system:String x:Key="FindDialogOptions">Suchoptionen</system:String>
   <system:String x:Key="FindDialogFindNext">Suche weiter</system:String>
+  <system:String x:Key="FindDialogFindAll">Suche alles</system:String>
   <system:String x:Key="FindDialogCount">Zählen</system:String>
   <system:String x:Key="FindDialogSearchBookmarks">Suche Bookmarks</system:String>
   <system:String x:Key="FindDialogSearchBookmarksToolTip">Suche alle Bookmarks, die der Nutzer gesetzt hat</system:String>

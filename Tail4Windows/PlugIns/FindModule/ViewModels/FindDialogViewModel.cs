@@ -180,14 +180,21 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     /// <summary>
     /// FindNext command
     /// </summary>
-    public IAsyncCommand FindNextCommand => _findNextCommand ?? (_findNextCommand = AsyncCommand.Create(ExecuteFindNextCommandAsync));
+    public IAsyncCommand FindNextCommand => _findNextCommand ?? (_findNextCommand = AsyncCommand.Create(p => CanExecuteFindCommand(), ExecuteFindNextCommandAsync));
+
+    private IAsyncCommand _findAllCommand;
+
+    /// <summary>
+    /// FindAll command
+    /// </summary>
+    public IAsyncCommand FindAllCommand => _findAllCommand ?? (_findAllCommand = AsyncCommand.Create(p => CanExecuteFindCommand(), ExecuteFindAllCommandAsync));
 
     private IAsyncCommand _countCommand;
 
     /// <summary>
     /// Count command
     /// </summary>
-    public IAsyncCommand CountCommand => _countCommand ?? (_countCommand = AsyncCommand.Create(ExecuteCountCommandAsync));
+    public IAsyncCommand CountCommand => _countCommand ?? (_countCommand = AsyncCommand.Create(p => CanExecuteFindCommand(), ExecuteCountCommandAsync));
 
     private ICommand _previewKeyDownCommand;
 
@@ -242,7 +249,16 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       _dbController.UpdateFindDialogDbSettings();
     }
 
+    private bool CanExecuteFindCommand() => !string.IsNullOrWhiteSpace(SearchText);
+
     private async Task ExecuteFindNextCommandAsync()
+    {
+      FindSettings.CountFind = false;
+
+      await HandleFindAsync();
+    }
+
+    private async Task ExecuteFindAllCommandAsync()
     {
       FindSettings.CountFind = false;
 

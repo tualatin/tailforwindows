@@ -396,6 +396,7 @@
   <system:String x:Key="FindDialogWrap">Wrap around</system:String>
   <system:String x:Key="FindDialogOptions">Find options</system:String>
   <system:String x:Key="FindDialogFindNext">Find next</system:String>
+  <system:String x:Key="FindDialogFindAll">Find all</system:String>
   <system:String x:Key="FindDialogCount">Count</system:String>
   <system:String x:Key="FindDialogSearchBookmarks">Search bookmarks</system:String>
   <system:String x:Key="FindDialogSearchBookmarksToolTip">Find all bookmarks the user has set</system:String>

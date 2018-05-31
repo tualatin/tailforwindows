@@ -348,26 +348,39 @@
     <Grid Grid.Row="3">
       <Grid.ColumnDefinitions>
         <ColumnDefinition />
-        <ColumnDefinition />
+        <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
 
       <Label
         Grid.Column="0"
+        Grid.ColumnSpan="2"
         HorizontalAlignment="Left"
         VerticalAlignment="Bottom"
         Content="{Binding CountMatches, UpdateSourceTrigger=PropertyChanged}"
         />
 
       <StackPanel Grid.Column="1">
-        <Button
-          Width="90"
-          Height="22"
-          Margin="0 0 0 5"
-          HorizontalAlignment="Right"
-          Content="{DynamicResource FindDialogFindNext}"
-          Command="{Binding FindNextCommand}"
-          TabIndex="8"
-          />
+        <StackPanel Orientation="Horizontal">
+          <Button
+            Width="90"
+            Height="22"
+            Margin="0 0 5 5"
+            HorizontalAlignment="Left"
+            Content="{DynamicResource FindDialogFindNext}"
+            Command="{Binding FindNextCommand}"
+            TabIndex="8"
+            />
+
+          <Button
+            Width="90"
+            Height="22"
+            Margin="0 0 0 5"
+            HorizontalAlignment="Right"
+            Content="{DynamicResource FindDialogFindAll}"
+            Command="{Binding FindAllCommand}"
+            TabIndex="9"
+            />
+        </StackPanel>
 
         <Button
           Width="90"
@@ -375,7 +388,7 @@
           HorizontalAlignment="Right"
           Content="{DynamicResource FindDialogCount}"
           Command="{Binding CountCommand}"
-          TabIndex="9"
+          TabIndex="10"
           />
       </StackPanel>
     </Grid>
