@@ -493,7 +493,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region Command functions
 
-    private void ExecuteFindWhatCommand() => OnOpenSearchDialog(new OpenSearchDialogMessage(this));
+    private void ExecuteFindWhatCommand() => OnOpenSearchDialog(new OpenSearchDialogMessage(this, SelectedTabItem.HeaderContent));
 
     private void ExecuteActivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
 
@@ -517,17 +517,17 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecutePreviewKeyDownCommand(object parameter)
     {
-      if ( !(parameter is KeyEventArgs args) )
+      if ( !(parameter is KeyEventArgs e) )
         return;
 
-      switch ( args.Key )
+      switch ( e.Key )
       {
       case Key.Escape:
 
         if ( SettingsHelperController.CurrentSettings.ExitWithEscape )
           Application.Current.Shutdown(0);
 
-        args.Handled = true;
+        e.Handled = true;
         break;
       }
     }
@@ -636,6 +636,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void OnOpenSearchDialog(OpenSearchDialogMessage args)
     {
+      _findDialogWindow.DialogTitle = args.Title;
+
       _findDialogWindow.Show();
       _findDialogWindow.Focus();
     }

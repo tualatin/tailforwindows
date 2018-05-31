@@ -5,16 +5,18 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:behaviors1="clr-namespace:Org.Vs.TailForWin.UI.UserControls.Behaviors"
+  xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FindModule.ViewModels"
   mc:Ignorable="d"
+  x:Name="FindDialogWindow"
   Title="{DynamicResource FindDialogWindowTitle}"
-  Width="400"
-  Height="450"
-  MinWidth="350"
-  MinHeight="400"
-  MaxWidth="500"
-  MaxHeight="550"
+  Width="315"
+  Height="350"
+  MinWidth="315"
+  MinHeight="350"
   Left="{Binding LeftPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Top="{Binding TopPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   >
@@ -30,7 +32,352 @@
     <i:EventTrigger EventName="Closing">
       <i:InvokeCommandAction Command="{Binding ClosingCommand}" />
     </i:EventTrigger>
+
+    <i:EventTrigger EventName="PreviewKeyDown">
+      <commands:InvokeDelegateCommandAction Command="{Binding PreviewKeyDownCommand}">
+        <commands:InvokeDelegateCommandAction.CommandParameter>
+          <MultiBinding Converter="{StaticResource TailManagerMouseDoubleClickMultiConverter}">
+            <Binding
+              Path="InvokeParameter"
+              RelativeSource="{RelativeSource Self}"
+              />
+            <Binding ElementName="FindDialogWindow" />
+          </MultiBinding>
+        </commands:InvokeDelegateCommandAction.CommandParameter>
+      </commands:InvokeDelegateCommandAction>
+    </i:EventTrigger>
   </i:Interaction.Triggers>
 
-  <Grid />
+  <Grid Margin="5">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <StackPanel Grid.Row="0">
+      <Label
+        Margin="0 0 0 5"
+        Content="{DynamicResource FindDialogFindWhat}"
+        />
+
+      <ComboBox
+        Height="24"
+        VerticalAlignment="Center"
+        Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+        DisplayMemberPath="Key"
+        IsEditable="True"
+        ItemsSource="{Binding SearchHistory}"
+        SelectedItem="{Binding SearchText}"
+        SelectedValuePath="Value"
+        TabIndex="0"
+        behaviors:FocusBehavior.IsFocused="{Binding SearchFieldHasFocus, UpdateSourceTrigger=PropertyChanged}"
+        >
+        <i:Interaction.Behaviors>
+          <behaviors1:WatermarkBehavior
+            Text="{DynamicResource FindDialogFindWhat}"
+            Foreground="Gray"
+            />
+        </i:Interaction.Behaviors>
+
+        <i:Interaction.Triggers>
+          <i:EventTrigger EventName="PreviewKeyDown">
+            <commands:InvokeDelegateCommandAction
+              Command="{Binding KeyDownCommand}"
+              CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+              />
+          </i:EventTrigger>
+        </i:Interaction.Triggers>
+      </ComboBox>
+    </StackPanel>
+
+    <CheckBox
+      Grid.Row="1"
+      Height="22"
+      Margin="-5 5 0 5"
+      Content="{DynamicResource FindDialogWrap}"
+      Command="{Binding WrapAroundCommand}"
+      IsChecked="{Binding FindSettings.Wrap, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+      TabIndex="1"
+      />
+
+    <Expander
+      Grid.Row="2"
+      Margin="0 5"
+      Header="{DynamicResource FindDialogOptions}"
+      IsExpanded="True"
+      >
+      <StackPanel>
+        <CheckBox
+          Height="22"
+          Margin="0 5 0 0"
+          Content="{DynamicResource FilterManagerMatchCase}"
+          IsChecked="{Binding FindSettings.CaseSensitive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          TabIndex="2"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FilterManagerMatchCase}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FilterManagerMatchCaseToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+
+        <CheckBox
+          Height="22"
+          Content="{DynamicResource FilterManagerFindWholeWord}"
+          IsChecked="{Binding FindSettings.WholeWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          TabIndex="3"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FilterManagerFindWholeWord}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FilterManagerFindWholeWordToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+
+        <CheckBox
+          Height="22"
+          Content="{DynamicResource FilterManagerWildCard}"
+          IsChecked="{Binding FindSettings.UseWildcard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          TabIndex="4"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FilterManagerWildCard}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FilterManagerWildCardToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+
+        <CheckBox
+          Height="22"
+          Content="{DynamicResource FileManagerDataGridIsRegex}"
+          IsChecked="{Binding FindSettings.UseRegex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          TabIndex="5"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FileManagerDataGridIsRegex}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FileManagerDataGridIsRegexToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+
+        <Separator
+          Margin="10 5"
+          HorizontalAlignment="Stretch"
+          />
+
+        <CheckBox
+          Height="22"
+          Content="{DynamicResource FindDialogSearchBookmarks}"
+          IsChecked="{Binding FindSettings.SearchBookmarks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          TabIndex="6"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FindDialogSearchBookmarks}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FindDialogSearchBookmarksToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+
+        <CheckBox
+          Height="22"
+          Content="{DynamicResource FindDialogBookmarkLine}"
+          IsChecked="{Binding FindSettings.MarkLineAsBookmark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          TabIndex="7"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FindDialogBookmarkLine}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FindDialogBookmarkLineToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+      </StackPanel>
+    </Expander>
+
+    <Grid Grid.Row="3">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+
+      <Label
+        Grid.Column="0"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Bottom"
+        Content="{Binding CountMatches, UpdateSourceTrigger=PropertyChanged}"
+        />
+
+      <StackPanel Grid.Column="1">
+        <Button
+          Width="90"
+          Height="22"
+          Margin="0 0 0 5"
+          HorizontalAlignment="Right"
+          Content="{DynamicResource FindDialogFindNext}"
+          Command="{Binding FindNextCommand}"
+          TabIndex="8"
+          />
+
+        <Button
+          Width="90"
+          Height="22"
+          HorizontalAlignment="Right"
+          Content="{DynamicResource FindDialogCount}"
+          Command="{Binding CountCommand}"
+          TabIndex="9"
+          />
+      </StackPanel>
+    </Grid>
+  </Grid>
 </floatWindow:VsFloatingWindow>

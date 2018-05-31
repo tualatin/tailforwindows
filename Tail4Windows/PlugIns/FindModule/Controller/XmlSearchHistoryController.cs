@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using log4net;
 using Org.Vs.TailForWin.Core.Data.XmlNames;
+using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.FindModule.Data;
@@ -17,6 +18,8 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
   public class XmlSearchHistoryController : IXmlSearchHistory<IObservableDictionary<string, string>>
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(XmlSearchHistoryController));
+
+    private static readonly object MyLock = new object();
 
     private readonly string _historyFile;
     private XDocument _xmlDocument;
@@ -33,7 +36,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public XmlSearchHistoryController() => _historyFile = EnvironmentContainer.TailStorePath + @"\FileManager.xml";
+    public XmlSearchHistoryController() => _historyFile = EnvironmentContainer.TailStorePath + @"\History.xml";
 
     /// <summary>
     /// Constructor for testing purposes
@@ -48,39 +51,40 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
     /// Read XML file
     /// </summary>
     /// <returns>Task</returns>
-    public async Task<IObservableDictionary<string, string>> ReadXmlFileAsync()
-    {
-      if ( !File.Exists(_historyFile) )
-        return new ObservableDictionary<string, string>();
-
-      LOG.Trace("Read search history");
-
-      return await Task.Run(() => ReadXmlFile()).ConfigureAwait(false);
-    }
+    public async Task<IObservableDictionary<string, string>> ReadXmlFileAsync() => await Task.Run(() => ReadXmlFile()).ConfigureAwait(false);
 
     private IObservableDictionary<string, string> ReadXmlFile()
     {
-      IObservableDictionary<string, string> history = new ObservableDictionary<string, string>();
-
-      try
+      lock ( MyLock )
       {
-        _xmlDocument = XDocument.Load(_historyFile);
-        var historyRoot = _xmlDocument.Root?.Element(XmlNames.FindHistory);
+        IObservableDictionary<string, string> history = new ObservableDictionary<string, string>();
 
-        if ( historyRoot == null )
-          return null;
+        if ( !File.Exists(_historyFile) )
+          return new ObservableDictionary<string, string>();
 
-        string wrap = historyRoot.Attribute(XmlNames.Wrap)?.Value;
-        Wrap = bool.TryParse(wrap, out bool wrapHistory) && wrapHistory;
-        Parallel.ForEach(historyRoot.Elements(XmlNames.Find), f => history.Add(f.Attribute(XmlBaseStructure.Name)?.Value, f.Attribute(XmlBaseStructure.Name)?.Value));
+        LOG.Trace("Read search history");
 
-        return history;
+        try
+        {
+          _xmlDocument = XDocument.Load(_historyFile);
+          XElement historyRoot = _xmlDocument.Root?.Element(XmlNames.FindHistory);
+
+          if ( historyRoot == null )
+            return null;
+
+          string wrap = historyRoot.Attribute(XmlNames.Wrap)?.Value;
+          Wrap = wrap.ConvertToBool();
+
+          Parallel.ForEach(historyRoot.Elements(XmlNames.Find), f => history.Add(f.Attribute(XmlBaseStructure.Name)?.Value, f.Attribute(XmlBaseStructure.Name)?.Value));
+
+          return history;
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+        return null;
       }
-      catch ( Exception ex )
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-      }
-      return null;
     }
 
     /// <summary>
@@ -92,26 +96,29 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
 
     private void SaveSearchHistory(string word)
     {
-      LOG.Trace("Save search history");
-
-      if ( string.IsNullOrWhiteSpace(word) )
-        return;
-
-      if ( !File.Exists(_historyFile) )
-        _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
-
-      try
+      lock ( MyLock )
       {
-        var root = _xmlDocument.Root?.Element(XmlNames.FindHistory) ?? SaveSearchHistoryWrapAttribute();
-        var find = new XElement(XmlNames.Find);
-        find.Add(new XAttribute(XmlBaseStructure.Name, word));
-        root.Add(find);
+        LOG.Trace("Save search history");
 
-        _xmlDocument.Save(_historyFile, SaveOptions.None);
-      }
-      catch ( Exception ex )
-      {
-         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        if ( string.IsNullOrWhiteSpace(word) )
+          return;
+
+        if ( !File.Exists(_historyFile) )
+          _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
+
+        try
+        {
+          XElement root = _xmlDocument.Root?.Element(XmlNames.FindHistory) ?? SaveSearchHistoryWrapAttribute();
+          var find = new XElement(XmlNames.Find);
+          find.Add(new XAttribute(XmlBaseStructure.Name, word));
+          root.Add(find);
+
+          _xmlDocument.Save(_historyFile, SaveOptions.None);
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
       }
     }
 
@@ -123,34 +130,38 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
 
     private XElement SaveSearchHistoryWrapAttribute()
     {
-      LOG.Trace("Update wrap attribute in search history");
-
-      if ( !File.Exists(_historyFile) )
-        _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
-
-      try
+      lock ( MyLock )
       {
-        XElement root = _xmlDocument.Root?.Element(XmlNames.FindHistory);
+        LOG.Trace("Update wrap attribute in search history");
 
-        if ( root != null )
-        {
-          root.Attribute(XmlNames.Wrap)?.SetValue(Wrap.ToString());
-        }
-        else
-        {
-          root = new XElement(XmlNames.FindHistory);
-          root.Add(new XAttribute(XmlNames.Wrap, Wrap.ToString()));
-          _xmlDocument.Root?.Add(root);
-        }
+        if ( !File.Exists(_historyFile) )
+          _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
 
-        _xmlDocument.Save(_historyFile, SaveOptions.None);
-        return root;
+        try
+        {
+          XElement root = _xmlDocument.Root?.Element(XmlNames.FindHistory);
+
+          if ( root != null )
+          {
+            root.Attribute(XmlNames.Wrap)?.SetValue(Wrap.ToString());
+          }
+          else
+          {
+            root = new XElement(XmlNames.FindHistory);
+
+            root.Add(new XAttribute(XmlNames.Wrap, Wrap.ToString()));
+            _xmlDocument.Root?.Add(root);
+          }
+
+          _xmlDocument.Save(_historyFile, SaveOptions.None);
+          return root;
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+        return null;
       }
-      catch ( Exception ex )
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-      }
-      return null;
     }
 
     /// <summary>

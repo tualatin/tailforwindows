@@ -175,8 +175,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
           return;
         }
 
-        _criteria.Add(p => !string.IsNullOrEmpty(p.Category) && !string.IsNullOrEmpty(p.Description)
-                                                             && (p.Category.ToLower().StartsWith(_filterText) || p.Description.ToLower().StartsWith(_filterText)));
+        _criteria.Add(p => !string.IsNullOrEmpty(p.Category) && !string.IsNullOrEmpty(p.Description) &&
+                           (p.Category.ToLower().StartsWith(_filterText) || p.Description.ToLower().StartsWith(_filterText)));
+
         FileManagerView.Filter = DynamicFilter;
 
         if ( SelectedItem == null )
@@ -474,9 +475,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
         CommitChanges();
       }
-      catch
+      catch(Exception ex)
       {
-        // Nothing
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 

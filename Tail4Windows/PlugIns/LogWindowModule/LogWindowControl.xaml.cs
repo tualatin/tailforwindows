@@ -471,7 +471,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
-    private void ExecuteOpenSearchDialogCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this));
+    private void ExecuteOpenSearchDialogCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this, CurrentTailData.File));
 
     private bool CanExecutePrintTailDataCommand() => SplitWindow.LogEntries.Count != 0 && FileIsValid;
 

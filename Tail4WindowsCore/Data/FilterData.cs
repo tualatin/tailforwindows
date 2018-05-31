@@ -61,6 +61,24 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
+    private bool _filterSource;
+
+    /// <summary>
+    /// Filter source
+    /// </summary>
+    public bool FilterSource
+    {
+      get => _filterSource;
+      set
+      {
+        if ( value == _filterSource )
+          return;
+
+        bool currentValue = _filterSource;
+        ChangeState(new Command(() => _filterSource = value, () => _filterSource = currentValue, nameof(FilterSource), Notification));
+      }
+    }
+
     private bool _useNotification;
 
     /// <summary>

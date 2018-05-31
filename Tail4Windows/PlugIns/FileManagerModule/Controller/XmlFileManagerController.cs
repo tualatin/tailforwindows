@@ -109,7 +109,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
             FilterColorHex = x.Element(XmlNames.FilterColor)?.Value ?? DefaultEnvironmentSettings.FilterFontColor,
             FindSettingsData = GetFilterSettingsData(x),
             IsHighlight = (x.Element(XmlNames.FilterIsHighlight)?.Value).ConvertToBool(),
-            UseNotification = (x.Element(XmlNames.FilterNotification)?.Value).ConvertToBool()
+            UseNotification = (x.Element(XmlNames.FilterNotification)?.Value).ConvertToBool(),
+            FilterSource = (x.Element(XmlNames.FilterSource)?.Value).ConvertToBool()
           }).ToList() ?? new List<FilterData>())
         }).ToList();
 
@@ -524,6 +525,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         new XElement(XmlNames.FilterUseWildcard, filter.FindSettingsData.UseWildcard),
         new XElement(XmlNames.FilterIsHighlight, filter.IsHighlight),
         new XElement(XmlNames.FilterNotification, filter.UseNotification),
+        new XElement(XmlNames.FilterSource, filter.FilterSource),
         new XElement(XmlNames.Font,
           new XElement(XmlBaseStructure.Name, filter.FontType.FontFamily.Source),
           new XElement(XmlNames.Size, filter.FontType.FontSize),

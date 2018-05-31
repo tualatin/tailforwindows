@@ -30,8 +30,6 @@
   <system:String x:Key="QDeleteDataGridItem">Do you want delete selected item?</system:String>
   <system:String x:Key="NoContentFound">The XML file is empty!</system:String>
   <system:String x:Key="FileEncodingLabel">(If no value selected, auto file encoding is on)</system:String>
-  <system:String x:Key="FindDialogTitle">Find</system:String>
-  <system:String x:Key="SearchCount">Count: {0} matches.</system:String>
   <system:String x:Key="SelectSoundFile">Please select a sound file</system:String>
   <system:String x:Key="NoSoundFile">This is a unknown sound file format. Please select a valid sound file!</system:String>
   <system:String x:Key="FilterNotEmpty">The filter value cannot be null!</system:String>
@@ -147,6 +145,7 @@
   <system:String x:Key="FilterManagerWildCard">Use wildcards</system:String>
   <system:String x:Key="FilterManagerWildCardToolTip">Use wildcards to find something</system:String>
   <system:String x:Key="FilterManagerIsHighlight">Highlight</system:String>
+  <system:String x:Key="FilterManagerFilterSource">Filter result</system:String>
   <system:String x:Key="FilterManagerNotification">Notification</system:String>
   <system:String
     x:Key="FilterManagerNotificationInformation"
@@ -393,6 +392,16 @@
   <system:String x:Key="FindResultWindowTitle">Find result</system:String>
 
   <system:String x:Key="FindDialogWindowTitle">Find</system:String>
+  <system:String x:Key="FindDialogFindWhat">Find what</system:String>
+  <system:String x:Key="FindDialogWrap">Wrap around</system:String>
+  <system:String x:Key="FindDialogOptions">Find options</system:String>
+  <system:String x:Key="FindDialogFindNext">Find next</system:String>
+  <system:String x:Key="FindDialogCount">Count</system:String>
+  <system:String x:Key="FindDialogSearchBookmarks">Search bookmarks</system:String>
+  <system:String x:Key="FindDialogSearchBookmarksToolTip">Find all bookmarks the user has set</system:String>
+  <system:String x:Key="FindDialogBookmarkLine">Bookmark line</system:String>
+  <system:String x:Key="FindDialogBookmarkLineToolTip">Bookmark all result automatically</system:String>
+  <system:String x:Key="FindDialogSearchCount">Count: {0} matches.</system:String>
 
   <system:String x:Key="GoToLineWindowTitle">Go to line</system:String>
 </ResourceDictionary>

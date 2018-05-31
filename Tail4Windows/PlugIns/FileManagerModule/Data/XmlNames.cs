@@ -111,6 +111,11 @@
     public const string FilterNotification = "filterNotification";
 
     /// <summary>
+    /// filterSource
+    /// </summary>
+    public const string FilterSource = "filterSource";
+
+    /// <summary>
     /// lineWrap
     /// </summary>
     public const string LineWrap = "lineWrap";

@@ -9,6 +9,7 @@ using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.PlugIns.FindModule.Controller;
+using Org.Vs.TailForWin.PlugIns.FindModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 
 
@@ -17,7 +18,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
   /// <summary>
   /// FindResult view model
   /// </summary>
-  public class FindResultViewModel : NotifyMaster
+  public class FindResultViewModel : NotifyMaster, IFindResultViewModel
   {
     private readonly List<Predicate<LogEntry>> _criteria = new List<Predicate<LogEntry>>();
     private readonly ISettingsDbController _dbController;

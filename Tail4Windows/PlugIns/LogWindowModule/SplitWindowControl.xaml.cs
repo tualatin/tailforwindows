@@ -282,6 +282,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( e.OldValue is TailData oldValue )
         oldValue.PropertyChanged -= control.CurrentTailDataChanged;
+
       if ( e.NewValue is TailData newValue )
         newValue.PropertyChanged += control.CurrentTailDataChanged;
     }
@@ -292,6 +293,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       SearchResult = null;
+      CollectionView.Filter = DynamicFilter;
+
       OnPropertyChanged(nameof(SearchResult));
     }
 
@@ -348,7 +351,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       await CacheManager.PrintCacheSizeAsync(_cts.Token).ConfigureAwait(false);
     }
 
-
     private void ExecuteUnloadedCommand() => _cts.Cancel();
 
     private void ExecuteSizeChangedCommand(SizeChangedEventArgs e)
@@ -389,22 +391,22 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(item is LogEntry logEntry) )
         return false;
 
-      bool result = false;
+      var result = false;
 
-      foreach ( var filterData in CurrentTailData.ListOfFilter )
+      foreach ( FilterData filterData in CurrentTailData.ListOfFilter )
       {
         try
         {
           SearchResult = _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter, _cts.Token).GetAwaiter().GetResult();
 
-          if ( (SearchResult == null || SearchResult.Count == 0) && !filterData.IsHighlight )
+          if ( (SearchResult == null || SearchResult.Count == 0) && filterData.FilterSource )
             continue;
 
           HandleAlertSettings(filterData, SearchResult, logEntry);
 
           result = true;
 
-          if ( SearchResult != null && SearchResult.Count > 0 )
+          if ( SearchResult != null && SearchResult.Count > 0 && filterData.IsHighlight )
             OnPropertyChanged(nameof(SearchResult));
         }
         catch ( Exception ex )
@@ -420,6 +422,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( stringResult == null || stringResult.Count == 0 )
         return;
 
+      // Jump out, if no alert settings set
+      if ( !SettingsHelperController.CurrentSettings.AlertSettings.PopupWnd && !SettingsHelperController.CurrentSettings.AlertSettings.BringToFront &&
+          !SettingsHelperController.CurrentSettings.AlertSettings.SendMail )
+        return;
+
       if ( _preventMessageFlood.IsBusy )
       {
         FloodData.Add(new MessageFloodData
@@ -430,7 +437,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         });
         return;
       }
-      else if ( FloodData.Count > 0 )
+
+      if ( FloodData.Count > 0 )
       {
         HandleClearingFloodData();
         return;

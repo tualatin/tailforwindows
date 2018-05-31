@@ -49,6 +49,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
         return;
 
       _horizontalScrollbarGrid = UiHelpers.GetHorizontalScrollBarGrid(_scrollViewer);
+      OnWidthChanged(this, null);
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)

@@ -30,8 +30,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
     /// </summary>
     public bool Wrap
     {
-      get;
-      set;
+      get => throw  new NotImplementedException();
+      set => throw  new NotImplementedException();
     }
 
     /// <summary>

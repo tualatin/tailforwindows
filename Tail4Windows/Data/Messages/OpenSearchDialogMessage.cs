@@ -16,9 +16,22 @@
     }
 
     /// <summary>
+    /// Title message
+    /// </summary>
+    public string Title
+    {
+      get;
+    }
+
+    /// <summary>
     /// Standard constructor
     /// </summary>
     /// <param name="sender">Who sends the message</param>
-    public OpenSearchDialogMessage(object sender) => Sender = sender;
+    /// <param name="title">Title message</param>
+    public OpenSearchDialogMessage(object sender, string title)
+    {
+      Sender = sender;
+      Title = title;
+    }
   }
 }

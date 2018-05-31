@@ -398,7 +398,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     private void ExecuteToggleAlwaysOnTopCommand() => SettingsHelperController.CurrentSettings.AlwaysOnTop = !SettingsHelperController.CurrentSettings.AlwaysOnTop;
 
-    private void ExecuteOpenSearchDialogCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this));
+    private void ExecuteOpenSearchDialogCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this, SelectedTabItem.HeaderContent));
 
     private void ExecuteGoToLineCommand()
     {

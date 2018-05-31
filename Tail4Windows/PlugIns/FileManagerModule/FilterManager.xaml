@@ -13,7 +13,7 @@
   mc:Ignorable="d"
   x:Name="FilterManagerWindow"
   Title="FilterManager"
-  Width="620"
+  Width="510"
   Height="350"
   Icon="/T4W;component/Resources/Filters.ico"
   ResizeMode="NoResize"
@@ -306,10 +306,11 @@
         CanUserAddRows="False"
         CanUserReorderColumns="True"
         CanUserSortColumns="True"
+        FrozenColumnCount="2"
         IsSynchronizedWithCurrentItem="True"
         ItemsSource="{Binding FilterManagerView}"
         SelectionMode="Single"
-        TabIndex="0"
+        TabIndex="4"
         >
         <userControls:VsDataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
@@ -321,22 +322,33 @@
         <userControls:VsDataGrid.Columns>
           <DataGridTextColumn
             MinWidth="50"
+            MaxWidth="100"
             Header="{DynamicResource FileManagerDataGridNo}"
             Binding="{Binding ., Converter={StaticResource RowFromFilterManagerCollectionConverter}, StringFormat=#;;#}"
             CanUserSort="False"
             IsReadOnly="True"
+            behaviors:DataGridColumnWidthBehavior.DataGridColumnWidth="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
+            behaviors:DataGridColumnWidthBehavior.Enabled="True"
             />
 
           <DataGridTextColumn
             MinWidth="130"
             Header="{DynamicResource FileManagerDataGridDescription}"
             Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+            behaviors:DataGridColumnWidthBehavior.DataGridColumnWidth="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
+            behaviors:DataGridColumnWidthBehavior.Enabled="True"
             />
 
           <DataGridTextColumn
             MinWidth="130"
             Header="{DynamicResource FileManagerFilter}"
             Binding="{Binding Filter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+            />
+
+          <DataGridCheckBoxColumn
+            MinWidth="70"
+            Header="{DynamicResource FilterManagerFilterSource}"
+            Binding="{Binding FilterSource, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             />
 
           <DataGridCheckBoxColumn
@@ -395,7 +407,7 @@
             VerticalAlignment="Center"
             Command="{Binding FontCommand}"
             CommandParameter="{Binding ElementName=FilterManagerWindow}"
-            TabIndex="1"
+            TabIndex="7"
             >
             <StackPanel>
               <Image
@@ -468,7 +480,7 @@
               Margin="2 0 0 0"
               Content="{DynamicResource FilterManagerMatchCase}"
               IsChecked="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FindSettingsData.CaseSensitive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              TabIndex="6"
+              TabIndex="8"
               >
               <CheckBox.ToolTip>
                 <StackPanel>
@@ -506,7 +518,7 @@
               Height="22"
               Content="{DynamicResource FilterManagerFindWholeWord}"
               IsChecked="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FindSettingsData.WholeWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              TabIndex="7"
+              TabIndex="9"
               >
               <CheckBox.ToolTip>
                 <StackPanel>
@@ -551,7 +563,7 @@
               Height="22"
               Content="{DynamicResource FilterManagerWildCard}"
               IsChecked="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FindSettingsData.UseWildcard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              TabIndex="8"
+              TabIndex="10"
               >
               <CheckBox.ToolTip>
                 <StackPanel>
@@ -589,7 +601,7 @@
               Height="22"
               Content="{DynamicResource FileManagerDataGridIsRegex}"
               IsChecked="{Binding ElementName=FilterDataGrid, Path=SelectedItem.FindSettingsData.UseRegex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              TabIndex="9"
+              TabIndex="11"
               >
               <CheckBox.ToolTip>
                 <StackPanel>
@@ -637,7 +649,7 @@
           Command="{Binding CloseCommand}"
           CommandParameter="{Binding ElementName=FilterManagerWindow}"
           IsCancel="True"
-          TabIndex="4"
+          TabIndex="5"
           />
 
         <ToggleButton
@@ -646,7 +658,7 @@
           Margin="0 5 15 5"
           HorizontalAlignment="Right"
           IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowExtendedSettings, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-          TabIndex="5"
+          TabIndex="6"
           >
           <ToggleButton.ToolTip>
             <StackPanel>

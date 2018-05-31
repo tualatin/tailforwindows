@@ -30,8 +30,6 @@
   <system:String x:Key="QDeleteDataGridItem">Möchten Sie die Auswahl wirklich löschen?</system:String>
   <system:String x:Key="NoContentFound">Die XML Datei ist leer!</system:String>
   <system:String x:Key="FileEncodingLabel">(If no value selected, auto file encoding is on)</system:String>
-  <system:String x:Key="FindDialogTitle">Suche</system:String>
-  <system:String x:Key="SearchCount">Anzahl: {0} Treffer.</system:String>
   <system:String x:Key="SelectSoundFile">Bitte eine Mediendatei auswählen</system:String>
   <system:String x:Key="NoSoundFile">Das ist ein unbekanntes Musikformat. Bitte wählen Sie ein gültiges Format aus!</system:String>
   <system:String x:Key="FilterNotEmpty">Der Filter darf nicht leer sein!</system:String>
@@ -147,6 +145,7 @@
   <system:String x:Key="FilterManagerWildCard">Benutze Platzhalter</system:String>
   <system:String x:Key="FilterManagerWildCardToolTip">Benutzer Platzhalter, um etwas zu finden</system:String>
   <system:String x:Key="FilterManagerIsHighlight">Hervorheben</system:String>
+  <system:String x:Key="FilterManagerFilterSource">Filter Ergebnis</system:String>
   <system:String x:Key="FilterManagerNotification">Benachrichtigung</system:String>
   <system:String
     x:Key="FilterManagerNotificationInformation"
@@ -391,6 +390,16 @@
   <system:String x:Key="FindResultWindowTitle">Suchergebnisse</system:String>
 
   <system:String x:Key="FindDialogWindowTitle">Suchen</system:String>
+  <system:String x:Key="FindDialogFindWhat">Suchen nach</system:String>
+  <system:String x:Key="FindDialogWrap">Am Ende von vorne beginnen</system:String>
+  <system:String x:Key="FindDialogOptions">Suchoptionen</system:String>
+  <system:String x:Key="FindDialogFindNext">Suche weiter</system:String>
+  <system:String x:Key="FindDialogCount">Zählen</system:String>
+  <system:String x:Key="FindDialogSearchBookmarks">Suche Bookmarks</system:String>
+  <system:String x:Key="FindDialogSearchBookmarksToolTip">Suche alle Bookmarks, die der Nutzer gesetzt hat</system:String>
+  <system:String x:Key="FindDialogBookmarkLine">Bookmark Suche</system:String>
+  <system:String x:Key="FindDialogBookmarkLineToolTip">Bookmark alle Ergebnisse automatisch</system:String>
+  <system:String x:Key="FindDialogSearchCount">Anzahl: {0} Treffer.</system:String>
 
   <system:String x:Key="GoToLineWindowTitle">Gehe zur Zeile</system:String>
 </ResourceDictionary>

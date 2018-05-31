@@ -106,6 +106,7 @@
     <Folder Include="Data\Attributes\" />
     <Folder Include="DbEngine\Utils\" />
     <Folder Include="SearchEngine\Data\" />
+    <Folder Include="SmartWatchEngine\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

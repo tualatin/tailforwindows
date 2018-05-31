@@ -222,8 +222,10 @@
     <Compile Include="PlugIns\FindModule\FindResult.xaml.cs">
       <DependentUpon>FindResult.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlugIns\FindModule\Interfaces\IFindDialogViewModel.cs" />
     <Compile Include="PlugIns\FindModule\ViewModels\FindDialogViewModel.cs" />
     <Compile Include="PlugIns\FindModule\ViewModels\FindResultViewModel.cs" />
+    <Compile Include="PlugIns\FindModule\Interfaces\IFindResultViewModel.cs" />
     <Compile Include="PlugIns\FontChooserModule\FontChooseDialog.xaml.cs">
       <DependentUpon>FontChooseDialog.xaml</DependentUpon>
     </Compile>
@@ -900,7 +902,6 @@
   <ItemGroup>
     <Folder Include="BaseView\UserControls\Interfaces\" />
     <Folder Include="BaseView\UserControls\Styles\" />
-    <Folder Include="PlugIns\FindModule\Interfaces\" />
     <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
     <Folder Include="PlugIns\PatternModule\ViewModels\" />
