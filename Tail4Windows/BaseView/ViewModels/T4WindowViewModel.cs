@@ -369,6 +369,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         LOG.Trace($"TotalMemory before clean up: {GC.GetTotalMemory(true)}");
 
         GC.Collect();
+        GC.WaitForFullGCComplete();
         GC.WaitForPendingFinalizers();
 
         LOG.Trace($"TotalMemory after clean up: {GC.GetTotalMemory(true)}");
