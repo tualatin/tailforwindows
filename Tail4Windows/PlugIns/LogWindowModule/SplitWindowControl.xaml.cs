@@ -393,13 +393,25 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       var result = false;
 
+      // TODO Does not work correct!
       foreach ( FilterData filterData in CurrentTailData.ListOfFilter )
       {
         try
         {
-          SearchResult = _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter, _cts.Token).GetAwaiter().GetResult();
+          var sr = _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter, _cts.Token).GetAwaiter().GetResult();
 
-          if ( (SearchResult == null || SearchResult.Count == 0) && filterData.FilterSource )
+          if ( sr != null )
+          {
+            if ( SearchResult == null )
+              SearchResult = new List<string>();
+
+            var r = sr.Where(p => SearchResult.All(s => s != p)).ToList();
+
+            if ( r.Count > 0 )
+              SearchResult.AddRange(r);
+          }
+
+          if ( (sr == null || sr.Count == 0) && filterData.FilterSource )
             continue;
 
           HandleAlertSettings(filterData, SearchResult, logEntry);

@@ -177,7 +177,6 @@
           <userControls:HighlightTextBlock
             x:Name="TextBoxMessage"
             Grid.Column="1"
-            HighlightForeground="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.ForegroundHighlightColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
             HighlightText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=SearchResult}"
             Style="{StaticResource MyTextEditor}"
             >

@@ -219,11 +219,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public const string BackgroundColor = "#FFFFFF";
 
     /// <summary>
-    /// Default value highlight foreground color
-    /// </summary>
-    public const string HighlightForegroundColor = "#FFFF64FF";
-
-    /// <summary>
     /// Default value selection background color
     /// </summary>
     public const string SelectionBackgroundColor = "#FFA4DCFF";

@@ -68,7 +68,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
         { "ShowExtendedSettings", DefaultEnvironmentSettings.ShowExtendedSettings.ToString() },
         { "SplitterBackgroundColor", DefaultEnvironmentSettings.SplitterBackgroundColor },
         { "SplitterWindowBehavior", DefaultEnvironmentSettings.SplitterWindowBehavior.ToString() },
-        { "ForegroundHighlightColor", DefaultEnvironmentSettings.HighlightForegroundColor },
         { "SelectionBackgroundColor", DefaultEnvironmentSettings.SelectionBackgroundColor }
       };
 
@@ -239,7 +238,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
     private void SaveLogViewerSettings(Configuration config)
     {
       WriteValueToSetting(config, "ForegroundColor", CurrentSettings.ColorSettings.ForegroundColorHex);
-      WriteValueToSetting(config, "ForegroundHighlightColor", CurrentSettings.ColorSettings.ForegroundHighlightColorHex);
       WriteValueToSetting(config, "BackgroundColor", CurrentSettings.ColorSettings.BackgroundColorHex);
       WriteValueToSetting(config, "SelectionBackgroundColor", CurrentSettings.ColorSettings.SelectionBackgroundColorHex);
       WriteValueToSetting(config, "FindHighlightForegroundColor", CurrentSettings.ColorSettings.FindHighlightForegroundColorHex);
@@ -363,7 +361,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       CurrentSettings.ColorSettings.ForegroundColorHex = DefaultEnvironmentSettings.ForegroundColor;
       CurrentSettings.ColorSettings.BackgroundColorHex = DefaultEnvironmentSettings.BackgroundColor;
-      CurrentSettings.ColorSettings.ForegroundHighlightColorHex = DefaultEnvironmentSettings.HighlightForegroundColor;
       CurrentSettings.ColorSettings.SelectionBackgroundColorHex = DefaultEnvironmentSettings.SelectionBackgroundColor;
       CurrentSettings.ColorSettings.FindHighlightForegroundColorHex = DefaultEnvironmentSettings.SearchHighlightForegroundColor;
       CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex = DefaultEnvironmentSettings.SearchHighlightBackgroundColor;
@@ -514,7 +511,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       CurrentSettings.ColorSettings.ForegroundColorHex = GetStringFromSetting("ForegroundColor");
       CurrentSettings.ColorSettings.BackgroundColorHex = GetStringFromSetting("BackgroundColor");
-      CurrentSettings.ColorSettings.ForegroundHighlightColorHex = GetStringFromSetting("ForegroundHighlightColor");
       CurrentSettings.ColorSettings.SelectionBackgroundColorHex = GetStringFromSetting("SelectionBackgroundColor");
       CurrentSettings.ColorSettings.FindHighlightForegroundColorHex = GetStringFromSetting("FindHighlightForegroundColor");
       CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex = GetStringFromSetting("FindHighlightBackgroundColor");

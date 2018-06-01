@@ -70,24 +70,6 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
     #region TailLog viewer colors
 
-    private string _foregroundHighlightColorHex;
-
-    /// <summary>
-    /// Log viewer foreground hilight color
-    /// </summary>
-    public string ForegroundHighlightColorHex
-    {
-      get => _foregroundHighlightColorHex;
-      set
-      {
-        if ( Equals(value, _foregroundHighlightColorHex) )
-          return;
-
-        _foregroundHighlightColorHex = value;
-        OnPropertyChanged();
-      }
-    }
-
     private string _selectionBackgroundColorHex;
 
     /// <summary>
