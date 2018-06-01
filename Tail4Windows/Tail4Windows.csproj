@@ -425,7 +425,6 @@
     <Compile Include="UI\Commands\RelayCommand.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundConverter.cs" />
     <Compile Include="UI\Converters\ColorToSolidColorBrushConverter.cs" />
-    <Compile Include="UI\Events\Args\ArgDummy.cs" />
     <Compile Include="UI\Extensions\WindowExtension.cs" />
     <Compile Include="UI\Interfaces\IAsyncCommand.cs" />
     <Compile Include="UI\Interfaces\IFileDragDropTarget.cs" />
@@ -909,6 +908,7 @@
     <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
     <Folder Include="PlugIns\PatternModule\ViewModels\" />
+    <Folder Include="UI\Events\Args\" />
     <Folder Include="UI\UserControls\Commands\" />
     <Folder Include="UI\UserControls\Interfaces\" />
     <Folder Include="UI\UserControls\ViewModels\" />

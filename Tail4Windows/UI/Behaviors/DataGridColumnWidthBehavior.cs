@@ -11,38 +11,14 @@ namespace Org.Vs.TailForWin.UI.Behaviors
   /// <summary>
   /// DataGridCoumnWidthBehavior
   /// </summary>
-  public class DataGridColumnWidthBehavior : Behavior<DataGridColumn>
+  public class DataGridColumnWidthBehavior : Behavior<DataGrid>
   {
     /// <summary>
-    /// Current attached controls
+    /// Current attchaed columns
     /// </summary>
-    public static readonly Dictionary<DataGridColumn, DataGridLength> AttachedControls = new Dictionary<DataGridColumn, DataGridLength>();
+    public static readonly Dictionary<DataGridColumn, DataGrid> AttacheDataGridColumns = new Dictionary<DataGridColumn, DataGrid>();
 
     #region Dependency properties
-
-    /// <summary>
-    /// Identifies the IsEnabled attached property.
-    /// </summary>
-    public static readonly DependencyProperty EnabledProperty = DependencyProperty.RegisterAttached("Enabled", typeof(bool), typeof(DataGridColumnWidthBehavior),
-      new UIPropertyMetadata(false, IsEnabledChanged));
-
-    /// <summary>
-    /// Gets the value of the IsEnabled attached property that indicates
-    /// whether a selection rectangle can be used to select items or not.
-    /// </summary>
-    /// <param name="obj">Object on which to get the property.</param>
-    /// <returns>
-    /// true if items can be selected by a selection rectangle; otherwise, false.
-    /// </returns>
-    public static bool GetEnabled(DependencyObject obj) => (bool) obj.GetValue(EnabledProperty);
-
-    /// <summary>
-    /// Sets the value of the IsEnabled attached property that indicates
-    /// whether a selection rectangle can be used to select items or not.
-    /// </summary>
-    /// <param name="obj">Object on which to set the property.</param>
-    /// <param name="value">Value to set.</param>
-    public static void SetEnabled(DependencyObject obj, bool value) => obj.SetValue(EnabledProperty, value);
 
     /// <summary>
     /// DataGridColumnWidth property
@@ -104,24 +80,6 @@ namespace Org.Vs.TailForWin.UI.Behaviors
 
     #region Callback functions
 
-    private static void IsEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-      if ( !(d is DataGridColumn column) )
-        return;
-
-      if ( (bool) e.NewValue )
-      {
-        AttachedControls.Add(column, column.Width);
-      }
-      else
-      {
-        if ( !AttachedControls.ContainsKey(column) )
-          return;
-
-        AttachedControls.Remove(column);
-      }
-    }
-
     private static void OnColumnWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       if ( !(d is DataGridColumn column) )
@@ -130,10 +88,13 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       if ( !column.IsFrozen )
         return;
 
-      var propertyInfo = column.GetType().GetProperty("DataGridOwner", BindingFlags.Instance | BindingFlags.NonPublic);
+      PropertyInfo propertyInfo = column.GetType().GetProperty("DataGridOwner", BindingFlags.Instance | BindingFlags.NonPublic);
       var owner = propertyInfo?.GetValue(column, null) as VsDataGrid;
 
-      owner?.RaiseEvent(new RoutedEventArgs(ColumnWidthChangedRoutedEvent, column.ActualWidth));
+      if ( !AttacheDataGridColumns.ContainsKey(column) )
+        AttacheDataGridColumns.Add(column, owner);
+
+      owner?.RaiseEvent(new RoutedEventArgs(ColumnWidthChangedRoutedEvent, owner));
     }
 
     #endregion

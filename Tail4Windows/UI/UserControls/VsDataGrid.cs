@@ -63,7 +63,15 @@ namespace Org.Vs.TailForWin.UI.UserControls
       _horizontalScrollbarGrid = null;
 
       DataGridColumnWidthBehavior.RemoveColumnWidthChangedEventHandler(this, OnWidthChanged);
-      DataGridColumnWidthBehavior.AttachedControls.Clear();
+      var control = DataGridColumnWidthBehavior.AttacheDataGridColumns.Where(p => Equals(this, p.Value)).ToList();
+
+      if ( control.Count == 0 )
+        return;
+
+      control.ForEach(p =>
+      {
+        DataGridColumnWidthBehavior.AttacheDataGridColumns.Remove(p.Key);
+      });
     }
 
     private void OnWidthChanged(object sender, RoutedEventArgs e)
@@ -71,11 +79,14 @@ namespace Org.Vs.TailForWin.UI.UserControls
       if ( _horizontalScrollbarGrid == null )
         return;
 
+      if ( !(sender is VsDataGrid dg) )
+        return;
+
       double width = 0;
 
-      foreach ( var dataGridColumn in DataGridColumnWidthBehavior.AttachedControls )
+      foreach ( var column in DataGridColumnWidthBehavior.AttacheDataGridColumns.Where(p => Equals(p.Value, dg)).ToList() )
       {
-        width += dataGridColumn.Key.ActualWidth;
+        width += column.Key.ActualWidth;
       }
 
       _horizontalScrollbarGrid.Margin = new Thickness(width, 0, 0, 0);
