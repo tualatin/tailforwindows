@@ -7,6 +7,8 @@ using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Events.Args;
 using Org.Vs.TailForWin.Business.Events.Delegates;
 using Org.Vs.TailForWin.Business.Interfaces;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Utils;
@@ -22,6 +24,7 @@ namespace Org.Vs.TailForWin.Business.Services
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogReadService));
 
     private readonly BackgroundWorker _tailBackgroundWorker;
+    private readonly ISmartWatchController _smartWatch;
     private int _startOffset;
 
     #region Events
@@ -83,6 +86,7 @@ namespace Org.Vs.TailForWin.Business.Services
 
       Index = 0;
       _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
+      _smartWatch = new SmartWatchController();
     }
 
     /// <summary>

@@ -91,6 +91,8 @@
     <Compile Include="SearchEngine\Controllers\FindController.cs" />
     <Compile Include="SearchEngine\Interfaces\IFindController.cs" />
     <Compile Include="Services\LogReadService.cs" />
+    <Compile Include="SmartWatchEngine\Controlleres\SmartWatchController.cs" />
+    <Compile Include="SmartWatchEngine\Interfaces\ISmartWatchController.cs" />
     <Compile Include="Utils\CacheManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,7 +108,6 @@
     <Folder Include="Data\Attributes\" />
     <Folder Include="DbEngine\Utils\" />
     <Folder Include="SearchEngine\Data\" />
-    <Folder Include="SmartWatchEngine\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
