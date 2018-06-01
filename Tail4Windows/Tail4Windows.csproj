@@ -129,6 +129,9 @@
     <Reference Include="Microsoft.Expression.Prototyping.SketchControls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Prototyping.SketchControls.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="Microsoft.SDK.Expression.Blend, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.SDK.Expression.Blend.dll</HintPath>
     </Reference>
@@ -192,6 +195,7 @@
     <Compile Include="Data\Messages\AddTailDataToQuickAddMessage.cs" />
     <Compile Include="Data\Messages\BringMainWindowToFrontMessage.cs" />
     <Compile Include="Data\Messages\DisableQuickAddInTailDataMessage.cs" />
+    <Compile Include="Data\Messages\DragWindowTabItemChangedMessage.cs" />
     <Compile Include="Data\Messages\GoToLineMessage.cs" />
     <Compile Include="Data\Messages\OpenFilterDataFromTailDataMessage.cs" />
     <Compile Include="Data\Messages\OpenGoToLineDialogMessage.cs" />

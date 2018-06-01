@@ -154,6 +154,7 @@
     <Compile Include="Utils\QueueSet.cs" />
     <Compile Include="Utils\SafeObservable.cs" />
     <Compile Include="Utils\StringEncryption.cs" />
+    <Compile Include="Utils\Threading\ServiceSynchronizationContext.cs" />
     <Compile Include="Utils\ThrottledExecution.cs" />
     <Compile Include="Utils\UndoRedoManager\Command.cs" />
     <Compile Include="Utils\UndoRedoManager\Interfaces\IStateManager.cs" />

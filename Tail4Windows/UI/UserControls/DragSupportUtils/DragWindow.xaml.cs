@@ -33,14 +33,28 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     private bool _hasFocus;
     private DropOverlayWindow _overlayWindow;
 
+    #region Properties
+
+    private DragSupportTabItem _selectedItem;
+
     /// <summary>
     /// Selected <see cref="DragSupportTabItem"/>
     /// </summary>
     public DragSupportTabItem SelectedTabItem
     {
-      get;
-      set;
+      get => _selectedItem;
+      set
+      {
+        _selectedItem = value;
+
+        if ( _selectedItem == null )
+          return;
+
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new DragWindowTabItemChangedMessage(this, _selectedItem.HeaderContent));
+      }
     }
+
+    #endregion
 
 
     /// <summary>

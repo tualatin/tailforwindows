@@ -229,6 +229,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         _currentStatusbarState = content.LogWindowState;
         _currentEncoding = content.CurrentTailData?.FileEncoding;
 
+        OnFindDialogTitleChanged(new DragWindowTabItemChangedMessage(this, _selectedTabItem.HeaderContent));
         SetCurrentBusinessData();
       }
     }
@@ -242,6 +243,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<AddTabItemMessage>(OnAddTabItemFromMainWindow);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSearchDialogMessage>(OnOpenSearchDialog);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DragWindowTabItemChangedMessage>(OnFindDialogTitleChanged);
 
       _cts = new CancellationTokenSource();
       _findResultWindow = new FindResult();
@@ -647,6 +649,16 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _findDialogWindow.Show();
       _findDialogWindow.Focus();
     }
+
+    private void OnFindDialogTitleChanged(DragWindowTabItemChangedMessage args)
+    {
+      if ( args.Sender == null )
+        return;
+
+      if ( _findDialogWindow.Visibility == Visibility.Visible )
+        _findDialogWindow.DialogTitle = args.NewTitle;
+    }
+
 
     private void CloseTabItem(DragSupportTabItem item, bool tabItemDoubleClick = false)
     {
