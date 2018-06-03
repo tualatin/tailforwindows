@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using log4net;
@@ -15,6 +14,7 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Extensions;
+using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Extensions;
 
 
@@ -36,6 +36,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private TextBlock _defaultTextMessage;
     private TextBox _readOnlyTextMessage;
+
+    private ContextMenu _readOnlyTextBoxContextMenu;
 
     #region Public properties
 
@@ -168,8 +170,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public LogWindowListBox()
+    public LogWindowListBox() => Loaded += LogWindowListBoxOnLoaded;
+
+    private void LogWindowListBoxOnLoaded(object sender, RoutedEventArgs e)
     {
+      CreateReadOnlyTextBoxContextMenu();
+
       PreviewMouseLeftButtonDown += LogWindowListBoxOnPreviewMouseLeftButtonDown;
       PreviewMouseLeftButtonUp += LogWindowListBoxOnPreviewMouseLeftButtonUp;
 
@@ -212,7 +218,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       _isMouseDoubleClick = true;
       _defaultTextMessage.Visibility = Visibility.Collapsed;
+
       _readOnlyTextMessage.Visibility = Visibility.Visible;
+      _readOnlyTextMessage.ContextMenu = _readOnlyTextBoxContextMenu;
     }
 
     private void LogWindowListBoxOnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -303,24 +311,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
 
       var contenContextMenu = new ContextMenu();
-      var menuItem = new MenuItem
-      {
-        Header = Application.Current.TryFindResource("DeleteBookmarks").ToString(),
-        Icon = new Image
-        {
-          Source = icon
-        },
-        FontWeight = SystemFonts.MenuFontWeight,
-        FontStyle = SystemFonts.MenuFontStyle,
-        FontSize = SystemFonts.MenuFontSize,
-        FontStretch = FontStretches.Normal,
-        FontFamily = SystemFonts.MenuFontFamily,
-        Foreground = Brushes.Black
-      };
+      var menuItem = CreateMenuItem(Application.Current.TryFindResource("DeleteBookmarks").ToString(), icon);
+      menuItem.Command = RemoveBookmarksCommand;
 
-      menuItem.Click += OnRemoveBookmarks;
       contenContextMenu.Items.Add(menuItem);
-
       ContextMenu = contenContextMenu;
     }
 
@@ -340,7 +334,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         return;
 
       _defaultTextMessage.Visibility = Visibility.Visible;
+
       _readOnlyTextMessage.Visibility = Visibility.Collapsed;
+      _readOnlyTextMessage.ContextMenu = null;
     }
 
     #endregion
@@ -465,7 +461,63 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     #endregion
 
-    private void OnRemoveBookmarks(object sender, RoutedEventArgs e)
+    #region Commands
+
+    private ICommand _addToFilterCommand;
+
+    /// <summary>
+    /// Add to filter command
+    /// </summary>
+    private ICommand AddToFilterCommand => _addToFilterCommand ?? (_addToFilterCommand = new RelayCommand(p => CanExecuteAddToFilterCommand(), p => ExecuteAddToFilterCommand()));
+
+    private ICommand _addToFindWhatCommand;
+
+    /// <summary>
+    /// Add to find what command
+    /// </summary>
+    private ICommand AddToFindWhatCommand => _addToFindWhatCommand ?? (_addToFindWhatCommand = new RelayCommand(p => CanExecuteAddToFindWhatCommand(), p => ExecuteAddToFindWhatCommand()));
+
+    private ICommand _removeBookmarksCommand;
+
+    /// <summary>
+    /// Remove bookmarks command
+    /// </summary>
+    private ICommand RemoveBookmarksCommand => _removeBookmarksCommand ?? (_removeBookmarksCommand = new RelayCommand(p => CanExecuteRemoveBookmarksCommand(),
+                                                 p => ExecuteRemoveBookmarksCommand()));
+
+    #endregion
+
+    #region Command functions
+
+    private bool CanExecuteAddToFilterCommand()
+    {
+      if ( _readOnlyTextMessage == null || _readOnlyTextMessage.Visibility == Visibility.Collapsed )
+        return false;
+
+      return _readOnlyTextMessage.SelectionLength > 0;
+    }
+
+    private void ExecuteAddToFilterCommand()
+    {
+
+    }
+
+    private bool CanExecuteAddToFindWhatCommand()
+    {
+      if ( _readOnlyTextMessage == null || _readOnlyTextMessage.Visibility == Visibility.Collapsed )
+        return false;
+
+      return _readOnlyTextMessage.SelectionLength > 0;
+    }
+
+    private void ExecuteAddToFindWhatCommand()
+    {
+
+    }
+
+    private bool CanExecuteRemoveBookmarksCommand() => Items.Count > 0;
+
+    private void ExecuteRemoveBookmarksCommand()
     {
       var enumerator = ItemsSource.GetEnumerator();
 
@@ -481,70 +533,45 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       }
 
       ContextMenu = null;
-      e.Handled = true;
     }
 
-    ///// <summary>
-    ///// Highlights certain words in Control
-    ///// </summary>
-    ///// <param name="logEntry"><see cref="LogEntry"/></param>
-    ///// <param name="words"><see cref="List{T}"/> of words</param>
-    //public void SetHighlightInTextBlock(LogEntry logEntry, IEnumerable<string> words)
-    //{
-    //  var tb = FindDataTemplate<TextBlock>(logEntry, "TextBoxMessage");
+    #endregion
 
-    //  if ( _textHighlightColorBrush == null )
-    //    _textHighlightColorBrush = (Brush) _stringToWindowMediaBrushConverter.Convert(TextEditorHighlightForegroundHex, typeof(Brush), null, CultureInfo.InvariantCulture);
+    private void CreateReadOnlyTextBoxContextMenu()
+    {
+      _readOnlyTextBoxContextMenu = new ContextMenu();
+      var menuItem = CreateMenuItem(Application.Current.TryFindResource("AddToFilter").ToString());
+      menuItem.Command = AddToFilterCommand;
 
-    //  if ( _textHighlightColorBrush == null )
-    //    return;
+      _readOnlyTextBoxContextMenu.Items.Add(menuItem);
 
-    //  HighlightTextInTextBlock(tb, words, logEntry, _textHighlightColorBrush);
-    //}
+      menuItem = CreateMenuItem(Application.Current.TryFindResource("AddToFindWhat").ToString());
+      menuItem.Command = AddToFindWhatCommand;
 
-    //private void HighlightTextInTextBlock(TextBlock tb, IEnumerable<string> words, LogEntry logEntry, Brush highlightForegroundColor, Brush highlightBackgroundColor = null)
-    //{
-    //  if ( tb == null )
-    //    return;
+      _readOnlyTextBoxContextMenu.Items.Add(menuItem);
+    }
 
-    //  if ( words == null )
-    //  {
-    //    tb.Text = logEntry.Message;
-    //    return;
-    //  }
+    private MenuItem CreateMenuItem(string header, ImageSource image = null)
+    {
+      if ( string.IsNullOrWhiteSpace(header) )
+        throw new ArgumentNullException(nameof(header));
 
-    //  var regex = new Regex($"({string.Join("|", words)})");
-    //  var splits = regex.Split(logEntry.Message);
-
-    //  tb.Inlines.Clear();
-
-    //  foreach ( string item in splits )
-    //  {
-    //    if ( regex.Match(item).Success )
-    //    {
-    //      var run = new Run(item)
-    //      {
-    //        Foreground = highlightForegroundColor,
-    //        Background = highlightBackgroundColor ?? Brushes.Transparent
-    //      };
-    //      tb.Inlines.Add(run);
-    //    }
-    //    else
-    //    {
-    //      tb.Inlines.Add(item);
-    //    }
-    //  }
-    //}
-
-    //private void RemoveHighlightTextInTextBlock(TextBlock tb)
-    //{
-    //  if ( tb == null )
-    //    return;
-
-    //  string text = tb.Text;
-    //  tb.Inlines.Clear();
-    //  tb.Inlines.Add(text);
-    //}
+      var menuItem = new MenuItem
+      {
+        Header = header,
+        Icon = image == null ? null : new Image
+        {
+          Source = image
+        },
+        FontWeight = SystemFonts.MenuFontWeight,
+        FontStyle = SystemFonts.MenuFontStyle,
+        FontSize = SystemFonts.MenuFontSize,
+        FontStretch = FontStretches.Normal,
+        FontFamily = SystemFonts.MenuFontFamily,
+        Foreground = Brushes.Black
+      };
+      return menuItem;
+    }
 
     private T FindDataTemplate<T>(LogEntry item, string templateName) where T : FrameworkElement
     {
@@ -587,12 +614,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       LOG.Debug($"BookmarkPoint is not null X {relativePoint.X} Y {relativePoint.Y} Width {s.Width} Height {s.Height}");
 
       return new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
-    }
-
-    private void RefreshCollectionViewSource()
-    {
-      if ( ItemsSource != null )
-        CollectionViewSource.GetDefaultView(ItemsSource).Refresh();
     }
 
     /// <summary>

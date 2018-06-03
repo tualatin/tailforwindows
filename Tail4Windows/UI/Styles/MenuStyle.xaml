@@ -219,14 +219,17 @@
       <Trigger Property="IsSuspendingPopupAnimation" Value="True">
         <Setter TargetName="Popup" Property="PopupAnimation" Value="None" />
       </Trigger>
+
       <Trigger Property="IsHighlighted" Value="True">
         <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidYellow}" />
         <Setter TargetName="Chrome" Property="BorderBrush" Value="Transparent" />
       </Trigger>
+
       <Trigger Property="AllowsTransparency" Value="True" SourceName="Popup">
         <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0,0,4,4" />
         <Setter TargetName="SubmenuBorder" Property="Padding" Value="0 0 0 3" />
       </Trigger>
+
       <Trigger Property="IsEnabled" Value="False">
         <Setter Property="Foreground">
           <Setter.Value>
@@ -255,6 +258,7 @@
       <Trigger Property="IsHighlighted" Value="True">
         <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidYellow}" />
       </Trigger>
+
       <Trigger Property="IsEnabled" Value="False">
         <Setter Property="Foreground">
           <Setter.Value>
@@ -343,17 +347,21 @@
       <Trigger Property="Icon" Value="{x:Null}">
         <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
       </Trigger>
+
       <Trigger Property="IsChecked" Value="True">
         <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
       </Trigger>
+
       <Trigger Property="IsCheckable" Value="True">
         <Setter TargetName="Check" Property="Visibility" Value="Visible" />
         <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
       </Trigger>
+
       <Trigger Property="IsHighlighted" Value="True">
         <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidYellow}" />
         <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
       </Trigger>
+
       <Trigger Property="IsEnabled" Value="False">
         <Setter Property="Foreground">
           <Setter.Value>
@@ -450,6 +458,7 @@
       <Trigger Property="Icon" Value="{x:Null}">
         <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
       </Trigger>
+
       <Trigger Property="IsHighlighted" Value="True">
         <Setter TargetName="Border" Property="Background">
           <Setter.Value>
@@ -459,6 +468,7 @@
             </LinearGradientBrush>
           </Setter.Value>
         </Setter>
+
         <Setter TargetName="Border" Property="BorderBrush">
           <Setter.Value>
             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
@@ -468,10 +478,12 @@
           </Setter.Value>
         </Setter>
       </Trigger>
+
       <Trigger Property="AllowsTransparency" Value="True" SourceName="Popup">
         <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="4" />
         <Setter TargetName="SubmenuBorder" Property="Padding" Value="0 3 0 3" />
       </Trigger>
+
       <Trigger Property="IsEnabled" Value="False">
         <Setter Property="Foreground">
           <Setter.Value>
@@ -490,12 +502,15 @@
         <Setter Property="Grid.IsSharedSizeScope" Value="True" />
         <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelHeaderTemplateKey}}" />
       </Trigger>
+
       <Trigger Property="Role" Value="TopLevelItem">
         <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.TopLevelItemTemplateKey}}" />
       </Trigger>
+
       <Trigger Property="Role" Value="SubmenuHeader">
         <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuHeaderTemplateKey}}" />
       </Trigger>
+
       <Trigger Property="Role" Value="SubmenuItem">
         <Setter Property="Template" Value="{StaticResource {x:Static MenuItem.SubmenuItemTemplateKey}}" />
       </Trigger>
