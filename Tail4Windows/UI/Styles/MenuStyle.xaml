@@ -278,19 +278,20 @@
     >
     <Grid
       x:Name="TemplateRoot"
+      Margin="1"
       SnapsToDevicePixels="True"
       >
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" SharedSizeGroup="Icon" />
+        <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIconColumnGroup" />
         <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
+        <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup" />
         <ColumnDefinition Width="13" />
       </Grid.ColumnDefinitions>
 
       <Rectangle
         x:Name="Bg"
         Grid.ColumnSpan="4"
-        Margin="2 -1"
+        Margin="0 -1"
         />
 
       <Border
@@ -392,19 +393,20 @@
     >
     <Grid
       x:Name="TemplateRoot"
+      Margin="1"
       SnapsToDevicePixels="True"
       >
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" SharedSizeGroup="Icon" />
+        <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIconColumnGroup" />
         <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="Auto" SharedSizeGroup="Shortcut" />
+        <ColumnDefinition Width="Auto" SharedSizeGroup="MenuItemIGTColumnGroup" />
         <ColumnDefinition Width="13" />
       </Grid.ColumnDefinitions>
 
       <Rectangle
         x:Name="Bg"
         Grid.ColumnSpan="4"
-        Margin="2 -1"
+        Margin="0 -1"
         />
 
       <Border
