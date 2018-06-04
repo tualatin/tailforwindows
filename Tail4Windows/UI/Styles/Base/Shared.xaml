@@ -158,12 +158,6 @@
 
   <SolidColorBrush x:Key="BrushSolidMenuIconPlaceColor" Color="{StaticResource ColorMenuIconPlaceColor}" po:Freeze="True" />
 
-  <LinearGradientBrush x:Key="MenuPopupBrush" StartPoint="0.5,0" EndPoint="0.5,1">
-    <GradientStop Offset="0" Color="{StaticResource ColorWhite}" />
-    <GradientStop Offset="0.5" Color="{StaticResource ControlMediumColor}" />
-    <GradientStop Offset="1" Color="{StaticResource ColorWhite}" />
-  </LinearGradientBrush>
-
   <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" StartPoint="0,0" EndPoint="1,0">
     <LinearGradientBrush.GradientStops>
       <GradientStopCollection>

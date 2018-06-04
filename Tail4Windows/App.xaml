@@ -12,6 +12,7 @@
         <ResourceDictionary Source="UI/Styles/Base/KeyBindings.xaml" />
 
         <ResourceDictionary Source="Language/en-EN.xaml" />
+        <ResourceDictionary Source="UI/Styles/RepeatButtonStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/AndroidCheckBox.xaml" />
         <ResourceDictionary Source="UI/Styles/AndroidRadioButton.xaml" />
         <ResourceDictionary Source="UI/Styles/AndroidSlider.xaml" />
