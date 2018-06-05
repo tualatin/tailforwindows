@@ -539,13 +539,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private void CreateReadOnlyTextBoxContextMenu()
     {
+      var icon = new System.Windows.Media.Imaging.BitmapImage();
+      icon.BeginInit();
+      icon.UriSource = new Uri("/T4W;component/Resources/transparent.png", UriKind.Relative);
+      icon.EndInit();
+
+      RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
+      RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
+
       _readOnlyTextBoxContextMenu = new ContextMenu();
-      var menuItem = CreateMenuItem(Application.Current.TryFindResource("AddToFilter").ToString());
+      var menuItem = CreateMenuItem(Application.Current.TryFindResource("AddToFilter").ToString(), icon);
       menuItem.Command = AddToFilterCommand;
 
       _readOnlyTextBoxContextMenu.Items.Add(menuItem);
 
-      menuItem = CreateMenuItem(Application.Current.TryFindResource("AddToFindWhat").ToString());
+      menuItem = CreateMenuItem(Application.Current.TryFindResource("AddToFindWhat").ToString(), icon);
       menuItem.Command = AddToFindWhatCommand;
 
       _readOnlyTextBoxContextMenu.Items.Add(menuItem);

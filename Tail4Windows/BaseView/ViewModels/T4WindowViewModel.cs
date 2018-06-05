@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.BaseView.Events.Args;
@@ -268,11 +270,27 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       TrayIconItemsSource = new ObservableCollection<DragSupportMenuItem>
       {
         new DragSupportMenuItem
-        {
-          HeaderContent = Application.Current.TryFindResource("ApplicationExit").ToString(),
-          Command = new RelayCommand(p => ExecuteExitApplication())
-        }
+          {
+            HeaderContent = Application.Current.TryFindResource("ApplicationExit").ToString(),
+            Icon = new Image
+            {
+              Source = CreateTransparentIcon()
+            },
+            Command = new RelayCommand(p => ExecuteExitApplication())
+          }
       };
+    }
+
+    private static BitmapImage CreateTransparentIcon()
+    {
+      var icon = new BitmapImage();
+      icon.BeginInit();
+      icon.UriSource = new Uri(@"../../../Resources/transparent.png", UriKind.Relative);
+      icon.EndInit();
+
+      RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
+      RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
+      return icon;
     }
 
     private void OnFileEncodingChanged(object sender, FileEncodingArgs e)
@@ -301,7 +319,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         {
           TrayIconItemsSource.Insert(0, new DragSupportMenuItem
           {
-            TabItem = item as DragSupportTabItem
+            TabItem = item as DragSupportTabItem,
+            Icon = new Image
+            {
+              Source = CreateTransparentIcon()
+            }
           });
         }
         break;

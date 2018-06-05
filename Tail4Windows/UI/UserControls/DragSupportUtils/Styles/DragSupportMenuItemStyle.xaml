@@ -27,7 +27,6 @@
               />
 
             <Border
-              x:Name="IconBorder"
               Grid.Column="0"
               Margin="2 0 10 0"
               Padding="1"
@@ -58,6 +57,21 @@
                 DockPanel.Dock="Left"
                 Fill="{StaticResource BrushSolidBlue}"
                 Stretch="UniformToFill"
+                />
+            </Border>
+
+            <Border
+              x:Name="IconBorder"
+              Grid.Column="0"
+              Margin="2 0 10 0"
+              Padding="1"
+              >
+              <ContentPresenter
+                x:Name="Icon"
+                Width="16"
+                Height="16"
+                VerticalAlignment="Center"
+                ContentSource="Icon"
                 />
             </Border>
 

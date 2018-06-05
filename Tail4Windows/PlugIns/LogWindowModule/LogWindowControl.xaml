@@ -959,7 +959,15 @@
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsDeleteHistory}"
                   Command="{Binding DeleteHistoryCommand}"
-                  />
+                  >
+                  <MenuItem.Icon>
+                    <Image
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/transparent.png"
+                      />
+                  </MenuItem.Icon>
+                </MenuItem>
 
                 <Separator />
 
