@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Text;
+using System.Windows;
 using log4net;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Settings;
@@ -607,17 +608,21 @@ namespace Org.Vs.TailForWin.Core.Data
       {
         string result = null;
 
-        if ( columnName == nameof(Description) )
+        switch ( columnName )
         {
+        case nameof(Description):
+
           if ( string.IsNullOrEmpty(Description) )
-            result = "Please enter a Description";
+            result = Application.Current.TryFindResource("ErrorEnterDescription").ToString();
+          break;
+
+        case nameof(FileName):
+
+          if ( string.IsNullOrWhiteSpace(FileName) )
+            result = Application.Current.TryFindResource("ErrorEnterFileName").ToString();
+          break;
         }
 
-        if ( columnName == nameof(FileName) )
-        {
-          if ( string.IsNullOrWhiteSpace(FileName) )
-            result = "Please enter a FileName";
-        }
         return result;
       }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Windows;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
@@ -210,13 +211,25 @@ namespace Org.Vs.TailForWin.Core.Data
         case nameof(Description):
 
           if ( string.IsNullOrEmpty(Description) )
-            result = "Please enter a Description";
+            result = Application.Current.TryFindResource("ErrorEnterDescription").ToString();
           break;
 
         case nameof(Filter):
 
           if ( string.IsNullOrEmpty(Filter) )
-            result = "Please enter a Filterpattern";
+            result = Application.Current.TryFindResource("ErrorEnterFilterPattern").ToString();
+          break;
+
+        case nameof(FilterSource):
+
+          if ( !FilterSource && !IsHighlight )
+            result = Application.Current.TryFindResource("ErrorEnterHighlightFilterSource").ToString();
+          break;
+
+        case nameof(IsHighlight):
+
+          if ( !FilterSource && !IsHighlight )
+            result = Application.Current.TryFindResource("ErrorEnterHighlightFilterSource").ToString();
           break;
         }
         return result;

@@ -407,4 +407,9 @@
   <system:String x:Key="FindDialogSearchCount">Count: {0} matches.</system:String>
 
   <system:String x:Key="GoToLineWindowTitle">Go to line</system:String>
+
+  <system:String x:Key="ErrorEnterDescription">Please enter a Description</system:String>
+  <system:String x:Key="ErrorEnterFileName">Please enter a FileName</system:String>
+  <system:String x:Key="ErrorEnterFilterPattern">Please enter a Filterpattern</system:String>
+  <system:String x:Key="ErrorEnterHighlightFilterSource">Please check Filter or Highlight</system:String>
 </ResourceDictionary>

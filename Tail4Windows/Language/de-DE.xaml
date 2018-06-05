@@ -405,4 +405,9 @@
   <system:String x:Key="FindDialogSearchCount">Anzahl: {0} Treffer.</system:String>
 
   <system:String x:Key="GoToLineWindowTitle">Gehe zur Zeile</system:String>
+
+  <system:String x:Key="ErrorEnterDescription">Bitte eine Bezeichnung angeben</system:String>
+  <system:String x:Key="ErrorEnterFileName">Bitte einen Dateinamen angeben</system:String>
+  <system:String x:Key="ErrorEnterFilterPattern">Bitte einen Filter angeben</system:String>
+  <system:String x:Key="ErrorEnterHighlightFilterSource">Bitte Filtern oder Hervorheben aktivieren</system:String>
 </ResourceDictionary>

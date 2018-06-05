@@ -347,19 +347,19 @@
           <DataGridCheckBoxColumn
             MinWidth="70"
             Header="{DynamicResource FilterManagerFilterSource}"
-            Binding="{Binding FilterSource, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            Binding="{Binding FilterSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
             />
 
           <DataGridCheckBoxColumn
             MinWidth="60"
             Header="{DynamicResource FilterManagerIsHighlight}"
-            Binding="{Binding IsHighlight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            Binding="{Binding IsHighlight, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
             />
 
           <DataGridCheckBoxColumn
             MinWidth="60"
             Header="{DynamicResource FilterManagerNotification}"
-            Binding="{Binding UseNotification, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            Binding="{Binding UseNotification, UpdateSourceTrigger=PropertyChanged}"
             />
 
           <DataGridTemplateColumn

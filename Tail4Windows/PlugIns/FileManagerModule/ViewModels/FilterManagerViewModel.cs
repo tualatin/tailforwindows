@@ -317,7 +317,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private List<FilterData> GetFilterErrors()
     {
-      var errors = FilterManagerCollection.Where(p => p["Description"] != null || p["Filter"] != null).ToList();
+      var errors = FilterManagerCollection.Where(p => p["Description"] != null || p["Filter"] != null || p["FilterSource"] != null || p["IsHighlight"] != null).ToList();
       return errors;
     }
 
