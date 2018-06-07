@@ -57,6 +57,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
     string SearchText
     {
       get;
+      set;
     }
 
     /// <summary>

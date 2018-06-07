@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using Org.Vs.TailForWin.PlugIns.FindModule.Interfaces;
+using Org.Vs.TailForWin.PlugIns.FindModule.ViewModels;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FindModule
@@ -8,6 +10,8 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
   /// </summary>
   public partial class FindDialog
   {
+    private readonly IFindDialogViewModel _findDialogViewModel;
+
     #region Properties
 
     private string _dialogTitle;
@@ -34,11 +38,31 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
       }
     }
 
+    /// <summary>
+    /// Search text
+    /// </summary>
+    public string SearchText
+    {
+      get => _findDialogViewModel == null ? string.Empty : _findDialogViewModel.SearchText;
+      set
+      {
+        if ( _findDialogViewModel == null )
+          return;
+
+        _findDialogViewModel.SearchText = value;
+      }
+    }
+
     #endregion
 
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public FindDialog() => InitializeComponent();
+    public FindDialog()
+    {
+      InitializeComponent();
+
+      _findDialogViewModel = (FindDialogViewModel) DataContext;
+    }
   }
 }

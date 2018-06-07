@@ -509,10 +509,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       return _readOnlyTextMessage.SelectionLength > 0;
     }
 
-    private void ExecuteAddToFindWhatCommand()
-    {
-
-    }
+    private void ExecuteAddToFindWhatCommand() =>
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this, CurrentTailData.File, _readOnlyTextMessage.SelectedText));
 
     private bool CanExecuteRemoveBookmarksCommand() => Items.Count > 0;
 

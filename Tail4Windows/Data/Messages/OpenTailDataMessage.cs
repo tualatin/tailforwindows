@@ -7,12 +7,28 @@ namespace Org.Vs.TailForWin.Data.Messages
   /// <summary>
   /// Open <see cref="TailData"/>
   /// </summary>
-  public class OpenTailDataMessage : AddTailDataToQuickAddMessage
+  public class OpenTailDataMessage
   {
     /// <summary>
     /// Parent Guid
     /// </summary>
     public Guid ParentGuid
+    {
+      get;
+    }
+
+    /// <summary>
+    /// <see cref="TailData"/>
+    /// </summary>
+    public TailData TailData
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Who is sending the message
+    /// </summary>
+    public object Sender
     {
       get;
     }
@@ -24,6 +40,10 @@ namespace Org.Vs.TailForWin.Data.Messages
     /// <param name="tailData"><see cref="TailData"/></param>
     /// <param name="id"><see cref="Guid"/></param>
     public OpenTailDataMessage(object sender, TailData tailData, Guid id)
-    : base(sender, tailData) => ParentGuid = id;
+    {
+      Sender = sender;
+      TailData = tailData;
+      ParentGuid = id;
+    }
   }
 }

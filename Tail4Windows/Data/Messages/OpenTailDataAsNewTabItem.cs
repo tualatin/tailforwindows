@@ -8,8 +8,32 @@ namespace Org.Vs.TailForWin.Data.Messages
   /// <summary>
   /// Open <see cref="TailData"/> in new <see cref="DragSupportTabItem"/>
   /// </summary>
-  public class OpenTailDataAsNewTabItem : OpenTailDataMessage
+  public class OpenTailDataAsNewTabItem
   {
+    /// <summary>
+    /// Parent Guid
+    /// </summary>
+    public Guid ParentGuid
+    {
+      get;
+    }
+
+    /// <summary>
+    /// <see cref="TailData"/>
+    /// </summary>
+    public TailData TailData
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Who is sending the message
+    /// </summary>
+    public object Sender
+    {
+      get;
+    }
+
     /// <summary>
     /// Standard constructor
     /// </summary>
@@ -17,8 +41,10 @@ namespace Org.Vs.TailForWin.Data.Messages
     /// <param name="tailData"><see cref="TailData"/></param>
     /// <param name="id"><see cref="Guid"/></param>
     public OpenTailDataAsNewTabItem(object sender, TailData tailData, Guid id)
-      : base(sender, tailData, id)
     {
+      Sender = sender;
+      TailData = tailData;
+      ParentGuid = id;
     }
   }
 }

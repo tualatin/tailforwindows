@@ -120,14 +120,25 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set;
     }
 
+    private ObservableCollection<LogEntry> _logEntries;
+
     /// <summary>
     /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
     /// </summary>
     public ObservableCollection<LogEntry> LogEntries
     {
-      get;
-      set;
-    } = new ObservableCollection<LogEntry>();
+      get => _logEntries;
+      set
+      {
+        _logEntries = value;
+
+        if ( _logEntries == null )
+          return;
+
+        CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogEntries }.View;
+        CollectionView.Filter = DynamicFilter;
+      }
+    }
 
     /// <summary>
     /// <see cref="ListCollectionView"/> of <see cref="LogEntry"/>
@@ -135,6 +146,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     public ListCollectionView CollectionView
     {
       get;
+      private set;
     }
 
     /// <summary>
@@ -197,10 +209,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       InitializeComponent();
 
       DataContext = this;
-
       FloodData = new List<MessageFloodData>();
-      CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogEntries }.View;
-      CollectionView.Filter = DynamicFilter;
+      LogEntries = new ObservableCollection<LogEntry>();
       CacheManager = new CacheManager();
 
       _searchController = new FindController();
@@ -283,8 +293,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( e.OldValue is TailData oldValue )
         oldValue.PropertyChanged -= control.CurrentTailDataChanged;
 
-      if ( e.NewValue is TailData newValue )
-        newValue.PropertyChanged += control.CurrentTailDataChanged;
+      if ( !(e.NewValue is TailData newValue) )
+        return;
+
+      control.CurrentTailData = newValue;
+      control.LogWindowMainElement.CurrentTailData = newValue;
+      control.LogWindowSplitElement.CurrentTailData = newValue;
+
+      control.CurrentTailData.PropertyChanged += control.CurrentTailDataChanged;
     }
 
     private void CurrentTailDataChanged(object sender, PropertyChangedEventArgs e)

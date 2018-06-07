@@ -24,14 +24,26 @@
     }
 
     /// <summary>
+    /// FindWhat word
+    /// </summary>
+    public string FindWhat
+    {
+      get;
+    }
+
+    /// <summary>
     /// Standard constructor
     /// </summary>
     /// <param name="sender">Who sends the message</param>
     /// <param name="title">Title message</param>
-    public OpenSearchDialogMessage(object sender, string title)
+    /// <param name="findWhat">Find word</param>
+    public OpenSearchDialogMessage(object sender, string title, string findWhat = null)
     {
       Sender = sender;
       Title = title;
+
+      if ( !string.IsNullOrWhiteSpace(findWhat) )
+        FindWhat = findWhat;
     }
   }
 }

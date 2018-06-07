@@ -308,7 +308,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
             TabItem = item as DragSupportTabItem,
             Icon = new Image
             {
-              Source = BusinessHelper.CreateBitmapIcon(@"../../../ Resources / transparent.png")
+              Source = BusinessHelper.CreateBitmapIcon(@"../../../Resources/transparent.png")
             }
           });
         }
@@ -652,7 +652,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void OnOpenSearchDialog(OpenSearchDialogMessage args)
     {
-      _findDialogWindow.DialogTitle = args.Title;
+      if ( !string.IsNullOrWhiteSpace(args.Title) )
+        _findDialogWindow.DialogTitle = args.Title;
+
+      if ( !string.IsNullOrWhiteSpace(args.FindWhat) )
+        _findDialogWindow.SearchText = args.FindWhat;
 
       _findDialogWindow.Show();
       _findDialogWindow.Focus();
