@@ -254,6 +254,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     private async Task ExecuteFindNextCommandAsync()
     {
       FindSettings.CountFind = false;
+      SearchFieldHasFocus = false;
 
       await HandleFindAsync();
     }
@@ -261,6 +262,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     private async Task ExecuteFindAllCommandAsync()
     {
       FindSettings.CountFind = false;
+      SearchFieldHasFocus = false;
 
       await HandleFindAsync();
     }
@@ -268,6 +270,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     private async Task ExecuteCountCommandAsync()
     {
       FindSettings.CountFind = true;
+      SearchFieldHasFocus = false;
 
       await HandleFindAsync();
     }

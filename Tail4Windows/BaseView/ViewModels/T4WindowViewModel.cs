@@ -50,7 +50,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private readonly IBaseWindowStatusbarViewModel _baseWindowStatusbarViewModel;
     private readonly CancellationTokenSource _cts;
     private readonly FindResult _findResultWindow;
-    private readonly FindDialog _findDialogWindow;
+    private FindDialog _findDialogWindow;
     private readonly ISettingsDbController _dbSettingsController;
 
     #region Events
@@ -247,7 +247,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _cts = new CancellationTokenSource();
       _findResultWindow = new FindResult();
-      _findDialogWindow = new FindDialog();
       _dbSettingsController = SettingsDbController.Instance;
       _currentStatusbarState = EStatusbarState.Default;
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
@@ -652,11 +651,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void OnOpenSearchDialog(OpenSearchDialogMessage args)
     {
+      _findDialogWindow = new FindDialog
+      {
+        ShouldClose = true,
+        SearchText = !string.IsNullOrWhiteSpace(args.FindWhat) ? args.FindWhat : null
+      };
+
       if ( !string.IsNullOrWhiteSpace(args.Title) )
         _findDialogWindow.DialogTitle = args.Title;
-
-      if ( !string.IsNullOrWhiteSpace(args.FindWhat) )
-        _findDialogWindow.SearchText = args.FindWhat;
 
       _findDialogWindow.Show();
       _findDialogWindow.Focus();

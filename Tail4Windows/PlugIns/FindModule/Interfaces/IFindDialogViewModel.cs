@@ -33,6 +33,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
     bool SearchFieldHasFocus
     {
       get;
+      set;
     }
 
     /// <summary>

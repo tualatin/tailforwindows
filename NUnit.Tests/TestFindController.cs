@@ -32,32 +32,32 @@ namespace Org.Vs.NUnit.Tests
         CaseSensitive = true,
         UseWildcard = true
       };
-      var result = await _findController.MatchTextAsync(settings, _textWorker, "lorem*", _cts.Token).ConfigureAwait(false);
+      var result = await _findController.MatchTextAsync(settings, _textWorker, "lorem*").ConfigureAwait(false);
       Assert.IsFalse(result != null);
 
       settings.CaseSensitive = false;
-      result = await _findController.MatchTextAsync(settings, _textWorker, "*ip??m*", _cts.Token).ConfigureAwait(false);
+      result = await _findController.MatchTextAsync(settings, _textWorker, "*ip??m*").ConfigureAwait(false);
       Assert.IsTrue(result.Count > 0);
 
       settings.WholeWord = true;
       settings.UseWildcard = false;
-      result = await _findController.MatchTextAsync(settings, _textWorker, "sed", _cts.Token).ConfigureAwait(false);
+      result = await _findController.MatchTextAsync(settings, _textWorker, "sed").ConfigureAwait(false);
       Assert.IsTrue(result.Count > 0);
 
       settings.CaseSensitive = true;
-      result = await _findController.MatchTextAsync(settings, _textWorker, "Diam", _cts.Token).ConfigureAwait(false);
+      result = await _findController.MatchTextAsync(settings, _textWorker, "Diam").ConfigureAwait(false);
       Assert.IsFalse(result != null);
 
       settings.CaseSensitive = false;
       settings.UseWildcard = false;
       settings.UseRegex = true;
       settings.WholeWord = false;
-      result = await _findController.MatchTextAsync(settings, _textWorker, @"\w*[ip]", _cts.Token).ConfigureAwait(false);
+      result = await _findController.MatchTextAsync(settings, _textWorker, @"\w*[ip]").ConfigureAwait(false);
       Assert.IsTrue(result.Count > 0);
 
       settings.WholeWord = true;
       settings.UseRegex = true;
-      result = await _findController.MatchTextAsync(settings, _textWorker, "sed|invidunt", _cts.Token).ConfigureAwait(false);
+      result = await _findController.MatchTextAsync(settings, _textWorker, "sed|invidunt").ConfigureAwait(false);
       Assert.IsTrue(result.Count > 0);
       Assert.IsTrue(result.Count == 3);
       Assert.IsTrue(result.Contains("sed"));
