@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -8,14 +9,19 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using log4net;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Extensions;
+using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Extensions;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
@@ -261,14 +267,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( !rcBookmarkpoint.Value.Contains((int) mousePoint.X, (int) mousePoint.Y) && _isMouseLeftDownClick )
         return;
 
-      System.Windows.Media.Imaging.BitmapImage bp = new System.Windows.Media.Imaging.BitmapImage();
-      bp.BeginInit();
-      bp.UriSource = new Uri("/T4W;component/Resources/Boomark.png", UriKind.Relative);
-      bp.EndInit();
-
-      RenderOptions.SetBitmapScalingMode(bp, BitmapScalingMode.NearestNeighbor);
-      RenderOptions.SetEdgeMode(bp, EdgeMode.Aliased);
-
+      BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Boomark.png");
       item.BookmarkPoint = item.BookmarkPoint == null ? bp : null;
     }
 
@@ -302,16 +301,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( !rcBookmarkpoint.Value.Contains((int) mousePoint.X, (int) mousePoint.Y) && _isMouseLeftDownClick )
         return;
 
-      var icon = new System.Windows.Media.Imaging.BitmapImage();
-      icon.BeginInit();
-      icon.UriSource = new Uri("/T4W;component/Resources/Delete_Bookmark.png", UriKind.Relative);
-      icon.EndInit();
-
-      RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
-      RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
-
+      BitmapImage icon = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Delete_Bookmark.png");
       var contenContextMenu = new ContextMenu();
-      var menuItem = CreateMenuItem(Application.Current.TryFindResource("DeleteBookmarks").ToString(), icon);
+      MenuItem menuItem = CreateMenuItem(Application.Current.TryFindResource("DeleteBookmarks").ToString(), icon);
       menuItem.Command = RemoveBookmarksCommand;
 
       contenContextMenu.Items.Add(menuItem);
@@ -499,7 +491,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private void ExecuteAddToFilterCommand()
     {
+      var filterManager = new FilterManager
+      {
+        Owner = Window.GetWindow(this)
+      };
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFilterDataFromTailDataMessage(this, CurrentTailData, _readOnlyTextMessage.SelectedText));
+      filterManager.ShowDialog();
 
+      OnPropertyChanged(nameof(CurrentTailData));
     }
 
     private bool CanExecuteAddToFindWhatCommand()
@@ -519,7 +518,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private void ExecuteRemoveBookmarksCommand()
     {
-      var enumerator = ItemsSource.GetEnumerator();
+      IEnumerator enumerator = ItemsSource.GetEnumerator();
 
       while ( enumerator.MoveNext() )
       {
@@ -539,22 +538,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private void CreateReadOnlyTextBoxContextMenu()
     {
-      var icon = new System.Windows.Media.Imaging.BitmapImage();
-      icon.BeginInit();
-      icon.UriSource = new Uri("/T4W;component/Resources/transparent.png", UriKind.Relative);
-      icon.EndInit();
-
-      RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
-      RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
-
+      BitmapImage icon = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/transparent.png");
       _readOnlyTextBoxContextMenu = new ContextMenu();
-      var menuItem = CreateMenuItem(Application.Current.TryFindResource("AddToFilter").ToString(), icon);
+      MenuItem menuItem = CreateMenuItem(Application.Current.TryFindResource("AddToFilter").ToString(), icon);
       menuItem.Command = AddToFilterCommand;
 
       _readOnlyTextBoxContextMenu.Items.Add(menuItem);
 
       menuItem = CreateMenuItem(Application.Current.TryFindResource("AddToFindWhat").ToString(), icon);
       menuItem.Command = AddToFindWhatCommand;
+      menuItem.InputGestureText = Application.Current.TryFindResource("FindWhatInputGesture").ToString();
 
       _readOnlyTextBoxContextMenu.Items.Add(menuItem);
     }

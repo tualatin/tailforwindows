@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
@@ -111,6 +114,27 @@ namespace Org.Vs.TailForWin.UI.Utils
         TabItemList.Add(tabItem);
 
         return tabItem;
+      }
+    }
+
+    /// <summary>
+    /// Create icon of type <see cref="BitmapImage"/>
+    /// </summary>
+    /// <param name="url">Url</param>
+    /// <returns><see cref="BitmapImage"/></returns>
+    public static BitmapImage CreateBitmapIcon(string url)
+    {
+      lock ( MyLock )
+      {
+        var icon = new BitmapImage();
+        icon.BeginInit();
+        icon.UriSource = new Uri(url, UriKind.Relative);
+        icon.EndInit();
+
+        RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
+        RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
+
+        return icon;
       }
     }
   }

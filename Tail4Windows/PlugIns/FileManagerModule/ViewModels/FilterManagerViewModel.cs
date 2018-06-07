@@ -126,6 +126,14 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       {
         item.CommitChanges();
       }
+
+      if ( string.IsNullOrWhiteSpace(args.FilterPattern) )
+        return;
+
+      if ( CurrentTailData.ListOfFilter.Count > 1 )
+        CurrentTailData.ListOfFilter.Add(new FilterData { Filter = args.FilterPattern });
+      else
+        CurrentTailData.ListOfFilter.First().Filter = args.FilterPattern;
     }
 
     #region Commands
@@ -236,7 +244,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( !FilterManagerCollection.Contains(SelectedItem) )
         return;
 
-      bool errors = SelectedItem["Description"] != null || SelectedItem["Filter"] != null;
+      bool errors = SelectedItem["Description"] != null || SelectedItem["Filter"] != null || SelectedItem["FilterSource"] != null || SelectedItem["IsHighlight"] != null;
 
       if ( !errors )
       {
@@ -311,6 +319,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         }
       }
 
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenFilterDataFromTailDataMessage>(OnOpenTailData);
       _cts.Cancel();
       window?.Close();
     }
