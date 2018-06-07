@@ -120,24 +120,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set;
     }
 
-    private ObservableCollection<LogEntry> _logEntries;
-
     /// <summary>
     /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
     /// </summary>
     public ObservableCollection<LogEntry> LogEntries
     {
-      get => _logEntries;
-      set
-      {
-        _logEntries = value;
-
-        if ( _logEntries == null )
-          return;
-
-        CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogEntries }.View;
-        CollectionView.Filter = DynamicFilter;
-      }
+      get;
+      set;
     }
 
     /// <summary>
@@ -146,7 +135,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     public ListCollectionView CollectionView
     {
       get;
-      private set;
+      set;
     }
 
     /// <summary>
@@ -212,6 +201,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       FloodData = new List<MessageFloodData>();
       LogEntries = new ObservableCollection<LogEntry>();
       CacheManager = new CacheManager();
+
+      CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogEntries }.View;
+      CollectionView.Filter = DynamicFilter;
 
       _searchController = new FindController();
       _preventMessageFlood = new PreventMessageFlood();
@@ -414,7 +406,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         try
         {
-          var sr = _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter, _cts.Token).GetAwaiter().GetResult();
+          var sr = _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).GetAwaiter().GetResult();
 
           if ( sr != null )
           {

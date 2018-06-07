@@ -286,7 +286,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       if ( !(e.OriginalSource is Image image) )
         return;
-
       if ( !(image.DataContext is LogEntry item) )
         return;
       if ( item.BookmarkPoint == null )

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Core.Data;
 
@@ -25,8 +24,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Interfaces
     /// <param name="findSettings">Current find settings <see cref="FindData"/></param>
     /// <param name="value">Value as string</param>
     /// <param name="pattern">Search pattern</param>
-    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>List of valid strings, otherwise null</returns>
-    Task<List<string>> MatchTextAsync(FindData findSettings, string value, string pattern, CancellationToken token);
+    Task<List<string>> MatchTextAsync(FindData findSettings, string value, string pattern);
   }
 }

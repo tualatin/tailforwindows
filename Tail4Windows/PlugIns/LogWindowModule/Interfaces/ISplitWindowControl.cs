@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Data;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Business.Services;
@@ -94,7 +95,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
       set;
     }
 
-      /// <summary>
+    /// <summary>
+    /// <see cref="ListCollectionView"/> of <see cref="LogEntry"/>
+    /// </summary>
+    ListCollectionView CollectionView
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// CacheManager interface
     /// </summary>
     ICacheManager CacheManager

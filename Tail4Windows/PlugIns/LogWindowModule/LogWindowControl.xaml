@@ -1006,7 +1006,6 @@
           x:Name="SplitWindowControl"
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch"
-          CurrentTailData="{Binding ElementName=LogWindow, Path=CurrentTailData, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
           >
           <i:Interaction.Triggers>
             <i:EventTrigger EventName="LinesRefreshTimeChangedEvent">

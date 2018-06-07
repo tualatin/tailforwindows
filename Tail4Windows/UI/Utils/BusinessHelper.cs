@@ -88,23 +88,7 @@ namespace Org.Vs.TailForWin.UI.Utils
         }
         else
         {
-          logWindowControl = new LogWindowControl
-          {
-            LogWindowTabItem = tabItem,
-            CurrentTailData = content.CurrentTailData,
-            LogWindowState = content.LogWindowState,
-            FileIsValid = content.FileIsValid,
-            SelectedItem = content.SelectedItem,
-            SplitterPosition = content.SplitterPosition
-          };
-
-          logWindowControl.SplitWindow.LogEntries = content.SplitWindow.LogEntries ?? new ObservableCollection<LogEntry>();
-          logWindowControl.SplitWindow.SelectedItem = content.SplitWindow.SelectedItem;
-          logWindowControl.SplitWindow.FloodData = content.SplitWindow.FloodData;
-          logWindowControl.TailReader.TailData = content.CurrentTailData;
-
-          logWindowControl.TailReader.SetIndex(content.TailReader.Index);
-          logWindowControl.SplitWindow.CacheManager.SetCacheData(content.SplitWindow.CacheManager.GetCacheData());
+          logWindowControl = SetLogWindowControl(content, tabItem);
 
           if ( content.TailReader.IsBusy )
             logWindowControl.TailReader.StartTail();
@@ -115,6 +99,30 @@ namespace Org.Vs.TailForWin.UI.Utils
 
         return tabItem;
       }
+    }
+
+    private static ILogWindowControl SetLogWindowControl(ILogWindowControl content, DragSupportTabItem tabItem)
+    {
+      ILogWindowControl logWindowControl = new LogWindowControl
+      {
+        LogWindowTabItem = tabItem,
+        LogWindowState = content.LogWindowState,
+        FileIsValid = content.FileIsValid,
+        SelectedItem = content.SelectedItem,
+        SplitterPosition = content.SplitterPosition,
+        CurrentTailData = content.CurrentTailData
+      };
+
+      logWindowControl.SplitWindow.LogEntries = content.SplitWindow.LogEntries ?? new ObservableCollection<LogEntry>();
+      logWindowControl.SplitWindow.SelectedItem = content.SplitWindow.SelectedItem;
+      logWindowControl.SplitWindow.FloodData = content.SplitWindow.FloodData;
+      logWindowControl.TailReader.TailData = content.CurrentTailData;
+      logWindowControl.SplitWindow.CollectionView = content.SplitWindow.CollectionView;
+
+      logWindowControl.TailReader.SetIndex(content.TailReader.Index);
+      logWindowControl.SplitWindow.CacheManager.SetCacheData(content.SplitWindow.CacheManager.GetCacheData());
+
+      return logWindowControl;
     }
 
     /// <summary>

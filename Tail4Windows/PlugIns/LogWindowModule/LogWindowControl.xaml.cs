@@ -627,6 +627,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         CurrentTailData = new TailData();
         FileIsValid = false;
         LogWindowState = EStatusbarState.Default;
+        SplitWindow.CurrentTailData = CurrentTailData;
         return;
       }
 
@@ -643,6 +644,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowTabItem.HeaderToolTip = CurrentTailData.FileName;
       LogWindowTabItem.TabItemBackgroundColorStringHex = CurrentTailData.TabItemBackgroundColorStringHex;
       FileIsValid = true;
+      SplitWindow.CurrentTailData = CurrentTailData;
 
       if ( LogWindowTabItem.TabItemBusyIndicator != Visibility.Visible )
         LogWindowState = !string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;

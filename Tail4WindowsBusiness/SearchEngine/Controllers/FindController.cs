@@ -34,9 +34,8 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
     /// <param name="findSettings">Current find settings <see cref="FindData"/></param>
     /// <param name="value">Value as string</param>
     /// <param name="pattern">Search pattern</param>
-    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>List of valid strings, otherwise null</returns>
-    public async Task<List<string>> MatchTextAsync(FindData findSettings, string value, string pattern, CancellationToken token)
+    public async Task<List<string>> MatchTextAsync(FindData findSettings, string value, string pattern)
     {
       if ( string.IsNullOrWhiteSpace(value) || string.IsNullOrWhiteSpace(pattern) )
         return null;
@@ -105,7 +104,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
 
             result = GetStringResult(value, regex);
           }
-        }, token).ConfigureAwait(false);
+        }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
 
       IsBusy = false;
       return result;
