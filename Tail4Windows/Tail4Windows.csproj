@@ -461,6 +461,10 @@
       <DependentUpon>FancyToolTip.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\UserControls\HighlightTextBlock.cs" />
+    <Compile Include="UI\UserControls\Interfaces\IRegexHelper.cs" />
+    <Compile Include="UI\UserControls\RegexHelper.xaml.cs">
+      <DependentUpon>RegexHelper.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControls\Spinner.xaml.cs">
       <DependentUpon>Spinner.xaml</DependentUpon>
     </Compile>
@@ -685,6 +689,10 @@
     <Page Include="UI\Styles\ComboBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UI\UserControls\RegexHelper.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\UserControls\Styles\VsDataGridStyle.xaml">
       <SubType>Designer</SubType>
@@ -912,7 +920,6 @@
     <Folder Include="PlugIns\PatternModule\ViewModels\" />
     <Folder Include="UI\Events\Args\" />
     <Folder Include="UI\UserControls\Commands\" />
-    <Folder Include="UI\UserControls\Interfaces\" />
     <Folder Include="UI\UserControls\ViewModels\" />
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,23 @@
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.StyleableWindow.Behaviors"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
   >
+  <Style x:Key="WindowTitleLabel" TargetType="{x:Type Label}">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type Label}">
+          <Border SnapsToDevicePixels="True">
+            <ContentPresenter
+              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+              VerticalAlignment="{TemplateBinding VerticalAlignment}"
+              RecognizesAccessKey="False"
+              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+              />
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
   <!--  Window template  -->
   <ControlTemplate
     x:Key="FloatingWindowTemplate"
@@ -49,6 +66,7 @@
                 Content="{TemplateBinding Property=Title}"
                 FontSize="{TemplateBinding FontSize}"
                 Foreground="{TemplateBinding Foreground}"
+                Style="{StaticResource WindowTitleLabel}"
                 />
             </Border>
 

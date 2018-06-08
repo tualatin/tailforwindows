@@ -659,7 +659,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private void OnOpenFindDialog(OpenSearchDialogMessage args)
     {
       if ( _findDialogWindow != null && _findDialogWindow.IsVisible )
+      {
+        _findDialogWindow.SearchText = !string.IsNullOrWhiteSpace(args.FindWhat) ? args.FindWhat : null;
+        _findDialogWindow.WindowGuid = args.WindowGuid;
         return;
+      }
 
       _findDialogWindow = new FindDialog
       {
@@ -680,7 +684,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( args.Sender == null || _findDialogWindow == null )
         return;
 
-      if ( _findDialogWindow.Visibility != Visibility.Visible )
+      if ( !_findDialogWindow.IsVisible )
         return;
 
       _findDialogWindow.DialogTitle = args.NewTitle;

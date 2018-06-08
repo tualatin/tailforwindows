@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -239,35 +238,9 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     /// </summary>
     public IAsyncCommand KeyDownCommand => _keyDownCommand ?? (_keyDownCommand = AsyncCommand.Create((p, t) => ExecuteKeyDownCommandAsync(p)));
 
-    private ICommand _regexContextMenuItemCommand;
-
-    /// <summary>
-    /// RegexContextMenuItem command
-    /// </summary>
-    public ICommand RegexContextMenuItemCommand => _regexContextMenuItemCommand ?? (_regexContextMenuItemCommand = new RelayCommand(ExecuteRegexConteMenuItemCommand));
-
-    private ICommand _regexContextMenuHelpCommand;
-
-    /// <summary>
-    /// RegexContextMenuHelp command
-    /// </summary>
-    public ICommand RegexContextMenuHelpCommand => _regexContextMenuHelpCommand ?? (_regexContextMenuHelpCommand = new RelayCommand(p => ExecuteRegexConteMenuHelpCommand()));
-
     #endregion
 
     #region Command functions
-
-    private void ExecuteRegexConteMenuHelpCommand() => Process.Start(new ProcessStartInfo(new Uri("https://regexr.com/").AbsoluteUri));
-
-    private void ExecuteRegexConteMenuItemCommand(object param)
-    {
-      if ( !(param is string str) )
-        return;
-
-      SearchFieldHasFocus = false;
-      SearchText = $"{SearchText}{str}";
-      SearchFieldHasFocus = true;
-    }
 
     private async Task ExecuteKeyDownCommandAsync(object param)
     {
