@@ -658,7 +658,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void OnOpenFindDialog(OpenSearchDialogMessage args)
     {
-      if ( _findDialogWindow != null && _findDialogWindow.Visibility == Visibility.Visible )
+      if ( _findDialogWindow != null && _findDialogWindow.IsVisible )
         return;
 
       _findDialogWindow = new FindDialog
