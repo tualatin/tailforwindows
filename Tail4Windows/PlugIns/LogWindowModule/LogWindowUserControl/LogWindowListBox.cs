@@ -152,6 +152,25 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       set => SetValue(SearchResultProperty, value);
     }
 
+    /// <summary>
+    /// SelectedText property
+    /// </summary>
+    public static readonly DependencyProperty SelectedTextProperty = DependencyProperty.Register(nameof(SelectedText), typeof(string),
+      typeof(LogWindowListBox), new PropertyMetadata(null));
+
+    /// <summary>
+    /// SelectedText
+    /// </summary>
+    public string SelectedText
+    {
+      get => (string) GetValue(SelectedTextProperty);
+      set
+      {
+        SetValue(SelectedTextProperty, value);
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     #region RoutedEvents
@@ -227,7 +246,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       _readOnlyTextMessage.Visibility = Visibility.Visible;
       _readOnlyTextMessage.ContextMenu = _readOnlyTextBoxContextMenu;
+      _readOnlyTextMessage.SelectionChanged += ReadOnlyTextMessageOnSelectionChanged;
     }
+
+    private void ReadOnlyTextMessageOnSelectionChanged(object sender, RoutedEventArgs e) => SelectedText = _readOnlyTextMessage.SelectedText;
 
     private void LogWindowListBoxOnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
@@ -328,6 +350,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       _readOnlyTextMessage.Visibility = Visibility.Collapsed;
       _readOnlyTextMessage.ContextMenu = null;
+      _readOnlyTextMessage.SelectionChanged -= ReadOnlyTextMessageOnSelectionChanged;
+
+      SelectedText = null;
     }
 
     #endregion
@@ -447,7 +472,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( !(d is LogWindowListBox control) )
         return;
 
-      if (!(e.NewValue is TailData newValue))
+      if ( !(e.NewValue is TailData newValue) )
         return;
 
       control.CurrentTailData = newValue;

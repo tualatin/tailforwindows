@@ -279,6 +279,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
+    /// <summary>
+    /// SelectedText
+    /// </summary>
+    public string SelectedText
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     private static void TailDataOnChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)

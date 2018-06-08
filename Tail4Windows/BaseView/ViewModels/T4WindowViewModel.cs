@@ -242,7 +242,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     public T4WindowViewModel()
     {
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<AddTabItemMessage>(OnAddTabItemFromMainWindow);
-      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSearchDialogMessage>(OnOpenSearchDialog);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSearchDialogMessage>(OnOpenFindDialog);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DragWindowTabItemChangedMessage>(OnFindDialogTitleChanged);
 
       _cts = new CancellationTokenSource();
@@ -505,7 +505,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region Command functions
 
-    private void ExecuteFindWhatCommand() => OnOpenSearchDialog(new OpenSearchDialogMessage(this, SelectedTabItem.HeaderContent));
+    private void ExecuteFindWhatCommand()
+    {
+      string findWhat = string.Empty;
+
+      if ( SelectedTabItem.Content is ILogWindowControl control )
+        findWhat = control.SplitWindow.SelectedText;
+
+      OnOpenFindDialog(new OpenSearchDialogMessage(this, SelectedTabItem.HeaderContent, findWhat));
+    }
 
     private void ExecuteActivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
 
@@ -646,7 +654,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.TabItemBusyIndicator, (LogWindowControl) args.TabItem.Content, args.TabItem.TabItemBackgroundColorStringHex);
     }
 
-    private void OnOpenSearchDialog(OpenSearchDialogMessage args)
+    private void OnOpenFindDialog(OpenSearchDialogMessage args)
     {
       _findDialogWindow = new FindDialog
       {

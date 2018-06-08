@@ -87,6 +87,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     }
 
     /// <summary>
+    /// Selected text in ListBox
+    /// </summary>
+    string SelectedText
+    {
+      get;
+    }
+
+    /// <summary>
     /// <see cref="List{T}"/> of <see cref="MessageFloodData"/>
     /// </summary>
     List<MessageFloodData> FloodData

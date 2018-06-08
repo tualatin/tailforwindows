@@ -412,7 +412,15 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     private void ExecuteToggleAlwaysOnTopCommand() => SettingsHelperController.CurrentSettings.AlwaysOnTop = !SettingsHelperController.CurrentSettings.AlwaysOnTop;
 
-    private void ExecuteOpenSearchDialogCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this, SelectedTabItem.HeaderContent));
+    private void ExecuteOpenSearchDialogCommand()
+    {
+      string findWhat = string.Empty;
+
+      if ( SelectedTabItem.Content is ILogWindowControl control )
+        findWhat = control.SplitWindow.SelectedText;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this, SelectedTabItem.HeaderContent, findWhat));
+    }
 
     private void ExecuteGoToLineCommand()
     {
