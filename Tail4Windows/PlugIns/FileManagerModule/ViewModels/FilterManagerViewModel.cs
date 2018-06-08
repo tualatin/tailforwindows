@@ -28,6 +28,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
   {
     private CancellationTokenSource _cts;
     private readonly IXmlFileManager _xmlFileManagerController;
+    private bool _filterAdded;
 
     #region Properties
 
@@ -130,10 +131,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( string.IsNullOrWhiteSpace(args.FilterPattern) )
         return;
 
-      if ( CurrentTailData.ListOfFilter.Count > 1 )
+      if ( CurrentTailData.ListOfFilter.Count >= 1 )
         CurrentTailData.ListOfFilter.Add(new FilterData { Filter = args.FilterPattern });
       else
         CurrentTailData.ListOfFilter.First().Filter = args.FilterPattern;
+
+      _filterAdded = true;
     }
 
     #region Commands
@@ -195,10 +198,14 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
       FilterManagerView = (ListCollectionView) new CollectionViewSource { Source = FilterManagerCollection }.View;
       FilterManagerCollectionViewHolder.Cv = FilterManagerView;
-      SelectedItem = FilterManagerCollection.First();
 
       OnPropertyChanged(nameof(FilterManagerCollection));
       OnPropertyChanged(nameof(FilterManagerView));
+
+      if ( FilterManagerView.Count == 0 )
+        return;
+
+      SelectedItem = !_filterAdded ? FilterManagerCollection.First() : FilterManagerCollection.Last();
     }
 
     private void ExecuteFontCommand(Window window)
@@ -217,12 +224,22 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         SelectedItem.FontType = fontManager.SelectedFont.FontType;
     }
 
-    private bool CanExecuteUndo() => SelectedItem != null && (SelectedItem.CanUndo || SelectedItem.FindSettingsData.CanUndo);
+    private bool CanExecuteUndo()
+    {
+      try
+      {
+        return SelectedItem != null && (SelectedItem.CanUndo || SelectedItem.FindSettingsData.CanUndo);
+      }
+      catch
+      {
+        return false;
+      }
+    }
 
     private void ExecuteUndoCommand()
     {
       SelectedItem?.Undo();
-      SelectedItem?.FindSettingsData.Undo();
+      SelectedItem?.FindSettingsData?.Undo();
     }
 
     private void ExecuteAddFilterDataCommand()
@@ -244,9 +261,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( !FilterManagerCollection.Contains(SelectedItem) )
         return;
 
-      bool errors = SelectedItem["Description"] != null || SelectedItem["Filter"] != null || SelectedItem["FilterSource"] != null || SelectedItem["IsHighlight"] != null;
+      bool error = SelectedItem["Description"] != null || SelectedItem["Filter"] != null || SelectedItem["FilterSource"] != null || SelectedItem["IsHighlight"] != null;
 
-      if ( !errors )
+      if ( !error )
       {
         if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerDeleteItemQuestion").ToString()) == MessageBoxResult.No )
           return;
@@ -290,17 +307,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteCloseCommand(Window window)
     {
-      var errors = GetFilterErrors();
-
-      if ( errors.Count > 0 )
-      {
-        foreach ( var filterData in errors )
-        {
-          FilterManagerCollection.Remove(filterData);
-        }
-
-        OnPropertyChanged(nameof(FilterManagerView));
-      }
+      RemoveErrorsFromList();
 
       var unsavedItems = FilterManagerCollection.Where(p => p.CanUndo).ToList();
 
@@ -322,6 +329,21 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenFilterDataFromTailDataMessage>(OnOpenTailData);
       _cts.Cancel();
       window?.Close();
+    }
+
+    private void RemoveErrorsFromList()
+    {
+      var errors = GetFilterErrors();
+
+      if ( errors.Count <= 0 )
+        return;
+
+      foreach ( var filterData in errors )
+      {
+        FilterManagerCollection.Remove(filterData);
+      }
+
+      OnPropertyChanged(nameof(FilterManagerView));
     }
 
     private List<FilterData> GetFilterErrors()

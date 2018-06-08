@@ -288,7 +288,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
     {
       try
       {
-        var updateNode = _xmlDocument.Root?.Descendants(XmlNames.File)
+        XElement updateNode = _xmlDocument.Root?.Descendants(XmlNames.File)
           .SingleOrDefault(p => p.Element(XmlNames.Id)?.Value == tailData.Id.ToString());
 
         if ( updateNode == null )
@@ -318,12 +318,17 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         // Remove all filters from document
         updateNode.Element(XmlNames.Filters)?.RemoveAll();
 
-        var filters = updateNode.Element(XmlNames.Filters);
+        XElement filters = updateNode.Element(XmlNames.Filters);
 
         Parallel.ForEach(
           tailData.ListOfFilter,
           filter =>
           {
+            bool error = filter["Description"] != null || filter["Filter"] != null || filter["FilterSource"] != null || filter["IsHighlight"] != null;
+
+            if ( error )
+              return;
+
             filters?.Add(AddFilterToDoc(filter));
           });
       }

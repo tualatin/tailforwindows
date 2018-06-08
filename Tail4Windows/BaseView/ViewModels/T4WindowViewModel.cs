@@ -349,9 +349,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _findResultWindow.ShouldClose = true;
       _findResultWindow.Close();
-
-      _findDialogWindow.ShouldClose = true;
-      _findDialogWindow.Close();
     }
 
     private async Task StartUpAsync()
@@ -666,7 +663,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void OnFindDialogTitleChanged(DragWindowTabItemChangedMessage args)
     {
-      if ( args.Sender == null )
+      if ( args.Sender == null || _findDialogWindow == null )
         return;
 
       if ( _findDialogWindow.Visibility == Visibility.Visible )

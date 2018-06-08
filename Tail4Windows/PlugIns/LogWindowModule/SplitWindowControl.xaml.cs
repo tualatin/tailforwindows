@@ -272,7 +272,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     public TailData CurrentTailData
     {
       get => (TailData) GetValue(CurrentTailDataProperty);
-      set => SetValue(CurrentTailDataProperty, value);
+      set
+      {
+        SetValue(CurrentTailDataProperty, value);
+        OnPropertyChanged();
+      }
     }
 
     #endregion
@@ -289,8 +293,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       control.CurrentTailData = newValue;
-      control.LogWindowMainElement.CurrentTailData = newValue;
       control.LogWindowSplitElement.CurrentTailData = newValue;
+      control.LogWindowMainElement.CurrentTailData = newValue;
 
       control.CurrentTailData.PropertyChanged += control.CurrentTailDataChanged;
     }
