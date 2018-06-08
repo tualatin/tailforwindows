@@ -349,6 +349,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _findResultWindow.ShouldClose = true;
       _findResultWindow.Close();
+
+      if ( _findDialogWindow != null && _findDialogWindow.Visibility == Visibility.Visible )
+        _findDialogWindow.Close();
     }
 
     private async Task StartUpAsync()
@@ -655,6 +658,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void OnOpenFindDialog(OpenSearchDialogMessage args)
     {
+      if ( _findDialogWindow != null && _findDialogWindow.Visibility == Visibility.Visible )
+        return;
+
       _findDialogWindow = new FindDialog
       {
         ShouldClose = true,
