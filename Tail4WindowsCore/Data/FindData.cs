@@ -58,6 +58,10 @@ namespace Org.Vs.TailForWin.Core.Data
           return;
 
         _searchBookmarks = value;
+
+        if ( _searchBookmarks )
+          MarkLineAsBookmark = false;
+
         OnPropertyChanged();
       }
     }

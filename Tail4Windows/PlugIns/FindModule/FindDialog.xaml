@@ -68,8 +68,9 @@
         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
         DisplayMemberPath="Key"
         IsEditable="True"
+        IsEnabled="{Binding ElementName=CheckBoxSearchBookmarks, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
         ItemsSource="{Binding SearchHistory}"
-        SelectedItem="{Binding SearchText}"
+        SelectedItem="{Binding SelectedItem}"
         SelectedValuePath="Value"
         TabIndex="0"
         behaviors:FocusBehavior.IsFocused="{Binding SearchFieldHasFocus, UpdateSourceTrigger=PropertyChanged}"
@@ -114,6 +115,7 @@
           Margin="0 5 0 0"
           Content="{DynamicResource FilterManagerMatchCase}"
           IsChecked="{Binding FindSettings.CaseSensitive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          IsEnabled="{Binding ElementName=CheckBoxSearchBookmarks, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
           TabIndex="2"
           >
           <CheckBox.ToolTip>
@@ -152,6 +154,7 @@
           Height="22"
           Content="{DynamicResource FilterManagerFindWholeWord}"
           IsChecked="{Binding FindSettings.WholeWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          IsEnabled="{Binding ElementName=CheckBoxSearchBookmarks, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
           TabIndex="3"
           >
           <CheckBox.ToolTip>
@@ -190,6 +193,7 @@
           Height="22"
           Content="{DynamicResource FilterManagerWildCard}"
           IsChecked="{Binding FindSettings.UseWildcard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          IsEnabled="{Binding ElementName=CheckBoxSearchBookmarks, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
           TabIndex="4"
           >
           <CheckBox.ToolTip>
@@ -228,6 +232,7 @@
           Height="22"
           Content="{DynamicResource FileManagerDataGridIsRegex}"
           IsChecked="{Binding FindSettings.UseRegex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          IsEnabled="{Binding ElementName=CheckBoxSearchBookmarks, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
           TabIndex="5"
           >
           <CheckBox.ToolTip>
@@ -268,6 +273,7 @@
           />
 
         <CheckBox
+          x:Name="CheckBoxSearchBookmarks"
           Height="22"
           Content="{DynamicResource FindDialogSearchBookmarks}"
           IsChecked="{Binding FindSettings.SearchBookmarks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -309,6 +315,7 @@
           Height="22"
           Content="{DynamicResource FindDialogBookmarkLine}"
           IsChecked="{Binding FindSettings.MarkLineAsBookmark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          IsEnabled="{Binding ElementName=CheckBoxSearchBookmarks, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
           TabIndex="7"
           >
           <CheckBox.ToolTip>

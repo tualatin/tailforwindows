@@ -142,6 +142,21 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       }
     }
 
+    private KeyValuePair<string, string> _selectedItem;
+
+    /// <summary>
+    /// Selected item
+    /// </summary>
+    public KeyValuePair<string, string> SelectedItem
+    {
+      get => _selectedItem;
+      set
+      {
+        _selectedItem = value;
+        OnPropertyChanged();
+      }
+    }
+
     /// <summary>
     /// ParentWindow <see cref="Guid"/>
     /// </summary>
@@ -216,9 +231,27 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     /// </summary>
     public IAsyncCommand WrapAroundCommand => _wrapAroundCommand ?? (_wrapAroundCommand = AsyncCommand.Create(ExecuteWrapAroundCommandAsync));
 
+    private IAsyncCommand _keyDownCommand;
+
+    /// <summary>
+    /// KeyDown command
+    /// </summary>
+    public IAsyncCommand KeyDownCommand => _keyDownCommand ?? (_keyDownCommand = AsyncCommand.Create((p, t) => ExecuteKeyDownCommandAsync(p)));
+
     #endregion
 
     #region Command functions
+
+    private async Task ExecuteKeyDownCommandAsync(object param)
+    {
+      if ( !(param is KeyEventArgs e) )
+        return;
+
+      if ( string.IsNullOrWhiteSpace(SearchText) || e.Key != Key.Enter )
+        return;
+
+      await ExecuteFindAllCommandAsync();
+    }
 
     private void ExecutePreviewKeyDownCommand(object param)
     {
@@ -255,7 +288,13 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       _dbController.UpdateFindDialogDbSettings();
     }
 
-    private bool CanExecuteFindCommand() => !string.IsNullOrWhiteSpace(SearchText);
+    private bool CanExecuteFindCommand()
+    {
+      if ( FindSettings != null && FindSettings.SearchBookmarks )
+        return true;
+
+      return !string.IsNullOrWhiteSpace(SearchText);
+    }
 
     private async Task ExecuteFindNextCommandAsync()
     {

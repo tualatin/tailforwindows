@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Interfaces;
@@ -60,6 +61,14 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
     {
       get;
       set;
+    }
+
+    /// <summary>
+    /// Selected item
+    /// </summary>
+    KeyValuePair<string, string> SelectedItem
+    {
+      get;
     }
 
     /// <summary>

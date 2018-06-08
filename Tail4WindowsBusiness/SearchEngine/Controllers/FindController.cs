@@ -50,7 +50,10 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
           {
             // if not case sensitive
             if ( !findSettings.CaseSensitive )
+            {
+              pattern = pattern.ToLower();
               value = value.ToLower();
+            }
 
             Regex regex;
 
@@ -82,10 +85,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
             // searching a whole word
             if ( findSettings.WholeWord )
             {
-              if ( !value.Contains(pattern) )
-                return;
-
-              regex = new Regex(pattern);
+              regex = new Regex($"\\b{pattern}\\b");
               result = GetStringResult(value, regex);
               return;
             }
