@@ -404,6 +404,7 @@
   <system:String x:Key="FindDialogBookmarkLineToolTip">Bookmark alle Ergebnisse automatisch</system:String>
   <system:String x:Key="FindDialogSearchCount">Anzahl: {0} Treffer.</system:String>
   <system:String x:Key="FindWhatInputGesture">STRG+F</system:String>
+  <system:String x:Key="FindDialogRegexHelp">Regular Expression Hilfe</system:String>
 
   <system:String x:Key="GoToLineWindowTitle">Gehe zur Zeile</system:String>
 

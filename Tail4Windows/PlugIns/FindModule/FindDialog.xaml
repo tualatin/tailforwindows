@@ -9,6 +9,7 @@
   xmlns:behaviors1="clr-namespace:Org.Vs.TailForWin.UI.UserControls.Behaviors"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
+  xmlns:tailForWin="clr-namespace:Org.Vs.TailForWin"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FindModule.ViewModels"
   mc:Ignorable="d"
   x:Name="FindDialogWindow"
@@ -62,35 +63,91 @@
         Content="{DynamicResource FindDialogFindWhat}"
         />
 
-      <ComboBox
-        Height="24"
-        VerticalAlignment="Center"
-        Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-        DisplayMemberPath="Key"
-        IsEditable="True"
-        IsEnabled="{Binding ElementName=CheckBoxSearchBookmarks, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
-        ItemsSource="{Binding SearchHistory}"
-        SelectedItem="{Binding SelectedItem}"
-        SelectedValuePath="Value"
-        TabIndex="0"
-        behaviors:FocusBehavior.IsFocused="{Binding SearchFieldHasFocus, UpdateSourceTrigger=PropertyChanged}"
-        >
-        <i:Interaction.Behaviors>
-          <behaviors1:WatermarkBehavior
-            Text="{DynamicResource FindDialogFindWhat}"
-            Foreground="Gray"
-            />
-        </i:Interaction.Behaviors>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="28" />
+        </Grid.ColumnDefinitions>
 
-        <i:Interaction.Triggers>
-          <i:EventTrigger EventName="PreviewKeyDown">
-            <commands:InvokeDelegateCommandAction
-              Command="{Binding KeyDownCommand}"
-              CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+        <ComboBox
+          Grid.Column="0"
+          Height="24"
+          HorizontalAlignment="Stretch"
+          Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+          DisplayMemberPath="Key"
+          IsEditable="True"
+          IsEnabled="{Binding ElementName=CheckBoxSearchBookmarks, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
+          ItemsSource="{Binding SearchHistory}"
+          SelectedItem="{Binding SelectedItem}"
+          SelectedValuePath="Value"
+          TabIndex="0"
+          behaviors:FocusBehavior.IsFocused="{Binding SearchFieldHasFocus, UpdateSourceTrigger=PropertyChanged}"
+          >
+          <i:Interaction.Behaviors>
+            <behaviors1:WatermarkBehavior
+              Text="{DynamicResource FindDialogFindWhat}"
+              Foreground="Gray"
               />
-          </i:EventTrigger>
-        </i:Interaction.Triggers>
-      </ComboBox>
+          </i:Interaction.Behaviors>
+
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="PreviewKeyDown">
+              <commands:InvokeDelegateCommandAction
+                Command="{Binding KeyDownCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+                />
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+        </ComboBox>
+
+        <Button
+          Grid.Column="1"
+          Width="24"
+          Height="24"
+          HorizontalAlignment="Right"
+          Content="(a)+"
+          IsEnabled="{Binding ElementName=CheckBoxRegex, Path=IsChecked}"
+          >
+          <i:Interaction.Behaviors>
+            <behaviors:DropDownButtonBehavior />
+          </i:Interaction.Behaviors>
+
+          <Button.ContextMenu>
+            <ContextMenu>
+              <MenuItem Header="." />
+              <MenuItem Header=".*" />
+              <MenuItem Header=".+" />
+              <MenuItem Header="[abc]" />
+              <MenuItem Header="[^abc]" />
+              <MenuItem Header="[a-f]" />
+              <MenuItem Header="\w" />
+              <MenuItem Header="\d" />
+              <MenuItem Header="(?([^\r\n])\s)" />
+              <Separator />
+              <MenuItem Header="?" />
+              <MenuItem Header="*" />
+              <MenuItem Header="+" />
+              <MenuItem Header="\d{3}" />
+              <Separator />
+              <MenuItem Header="\b" />
+              <MenuItem Header="^" />
+              <MenuItem Header=".$" />
+              <MenuItem Header="\w\r?\n" />
+              <Separator />
+              <MenuItem Header="(dog|cat)" />
+              <MenuItem Header="\1" />
+              <MenuItem Header="(?dog|cat)" />
+              <MenuItem Header="\k" />
+              <Separator />
+              <MenuItem Header="(" />
+              <MenuItem Header="0[xX][0-9a-fA-F]+" />
+              <MenuItem Header="\b[0-9]*\.*[0-9]+\b" />
+              <Separator />
+              <MenuItem Header="{DynamicResource FindDialogRegexHelp}" />
+            </ContextMenu>
+          </Button.ContextMenu>
+        </Button>
+      </Grid>
     </StackPanel>
 
     <CheckBox
@@ -229,6 +286,7 @@
         </CheckBox>
 
         <CheckBox
+          x:Name="CheckBoxRegex"
           Height="22"
           Content="{DynamicResource FileManagerDataGridIsRegex}"
           IsChecked="{Binding FindSettings.UseRegex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
