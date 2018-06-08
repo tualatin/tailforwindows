@@ -397,7 +397,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Call find dialog
     /// </summary>
-    public ICommand FindWhatCommand => _findWhatCommand ?? (_findWhatCommand = new RelayCommand(p => ExecuteOpenSearchDialogCommand()));
+    public ICommand FindWhatCommand => _findWhatCommand ?? (_findWhatCommand = new RelayCommand(p => ExecuteFindWhatCommand()));
 
     private ICommand _toggleAlwaysOnTopCommand;
 
@@ -412,7 +412,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     private void ExecuteToggleAlwaysOnTopCommand() => SettingsHelperController.CurrentSettings.AlwaysOnTop = !SettingsHelperController.CurrentSettings.AlwaysOnTop;
 
-    private void ExecuteOpenSearchDialogCommand()
+    private void ExecuteFindWhatCommand()
     {
       string findWhat = string.Empty;
 
