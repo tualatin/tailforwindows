@@ -1,4 +1,7 @@
-﻿namespace Org.Vs.TailForWin.Data.Messages
+﻿using System;
+
+
+namespace Org.Vs.TailForWin.Data.Messages
 {
   /// <summary>
   /// <see cref="UI.UserControls.DragSupportUtils.DragWindow"/> TabItem changed message
@@ -22,14 +25,24 @@
     }
 
     /// <summary>
+    /// Which window calls the find dialog
+    /// </summary>
+    public Guid WindowGuid
+    {
+      get;
+    }
+
+    /// <summary>
     /// Standard constructor
     /// </summary>
     /// <param name="sender">Who sends the message</param>
     /// <param name="title">New title</param>
-    public DragWindowTabItemChangedMessage(object sender, string title)
+    /// <param name="windowGuid">Which window calls the FindWhat dialog</param>
+    public DragWindowTabItemChangedMessage(object sender, string title, Guid windowGuid)
     {
       Sender = sender;
       NewTitle = title;
+      WindowGuid = windowGuid;
     }
   }
 }

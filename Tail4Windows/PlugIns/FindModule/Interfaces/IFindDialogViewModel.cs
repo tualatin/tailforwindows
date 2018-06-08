@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -56,6 +57,15 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
     /// Search text
     /// </summary>
     string SearchText
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Window <see cref="Guid"/>
+    /// </summary>
+    Guid WindowGuid
     {
       get;
       set;

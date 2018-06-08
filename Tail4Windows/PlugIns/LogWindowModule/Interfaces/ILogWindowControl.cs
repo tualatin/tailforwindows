@@ -129,5 +129,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     {
       get;
     }
+
+    /// <summary>
+    /// Window id
+    /// </summary>
+    Guid WindowId
+    {
+      get;
+    }
   }
 }

@@ -8,13 +8,12 @@ using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
-using Org.Vs.TailForWin.Business.SearchEngine.Controllers;
-using Org.Vs.TailForWin.Business.SearchEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.FindModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FindModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
@@ -32,7 +31,6 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
     private readonly ISettingsDbController _dbController;
     private readonly IXmlSearchHistory<IObservableDictionary<string, string>> _searchHistoryController;
-    private readonly IFindController _findController;
 
     #region Properties
 
@@ -144,6 +142,15 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       }
     }
 
+    /// <summary>
+    /// ParentWindow <see cref="Guid"/>
+    /// </summary>
+    public Guid WindowGuid
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     /// <summary>
@@ -153,7 +160,6 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     {
       _dbController = SettingsDbController.Instance;
       _searchHistoryController = new XmlSearchHistoryController();
-      _findController = new FindController();
 
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedPropertyChanged;
       ((AsyncCommand<object>) FindNextCommand).PropertyChanged += FindNextCommandPropertyChanged;
@@ -264,6 +270,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       FindSettings.CountFind = false;
       SearchFieldHasFocus = false;
 
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StartSearchAllMessage(WindowGuid, FindSettings, SearchText));
       await HandleFindAsync();
     }
 

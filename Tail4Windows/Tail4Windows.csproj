@@ -208,6 +208,7 @@
     <Compile Include="Data\Messages\ResetDataMessage.cs" />
     <Compile Include="Data\Messages\SetFloatingTopmostFlagMessage.cs" />
     <Compile Include="Data\Messages\ShowNotificationPopUpMessage.cs" />
+    <Compile Include="Data\Messages\StartSearchAllMessage.cs" />
     <Compile Include="PlugIns\FileManagerModule\Controller\TailDataComparer.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\CollectionViewHolder.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\FilterManagerCollectionViewHolder.cs" />

@@ -84,6 +84,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       TailReader = new LogReadService();
       CurrentTailData = new TailData();
+      WindowId = Guid.NewGuid();
 
       ((AsyncCommand<object>) StartTailCommand).PropertyChanged += SaveHistoryCompleted;
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedCompleted;
@@ -261,6 +262,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// Thread priority is enable
     /// </summary>
     public bool ThreadPriorityIsEnable => LogWindowState != EStatusbarState.Busy;
+
+    /// <summary>
+    /// Window id
+    /// </summary>
+    public Guid WindowId
+    {
+      get;
+    }
 
     #region Commands
 
@@ -471,7 +480,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
-    private void ExecuteOpenSearchDialogCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this, CurrentTailData.File));
+    private void ExecuteOpenSearchDialogCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this, CurrentTailData.File, WindowId));
 
     private bool CanExecutePrintTailDataCommand() => SplitWindow.LogEntries.Count != 0 && FileIsValid;
 

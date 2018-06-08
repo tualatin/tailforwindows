@@ -47,10 +47,10 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       {
         _selectedItem = value;
 
-        if ( _selectedItem == null )
+        if ( !(_selectedItem?.Content is ILogWindowControl control) )
           return;
 
-        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new DragWindowTabItemChangedMessage(this, _selectedItem.HeaderContent));
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new DragWindowTabItemChangedMessage(this, _selectedItem.HeaderContent, control.WindowId));
       }
     }
 
@@ -414,12 +414,11 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     private void ExecuteFindWhatCommand()
     {
-      string findWhat = string.Empty;
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
 
-      if ( SelectedTabItem.Content is ILogWindowControl control )
-        findWhat = control.SplitWindow.SelectedText;
-
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this, SelectedTabItem.HeaderContent, findWhat));
+      string findWhat = control.SplitWindow.SelectedText;
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this, SelectedTabItem.HeaderContent, control.WindowId, findWhat));
     }
 
     private void ExecuteGoToLineCommand()

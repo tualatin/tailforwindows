@@ -31,6 +31,7 @@ using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Utils;
 using Org.Vs.TailForWin.UI.Commands;
+using Org.Vs.TailForWin.UI.Extensions;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls;
 
@@ -48,6 +49,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private CancellationTokenSource _cts;
     private readonly IFindController _searchController;
     private readonly IPreventMessageFlood _preventMessageFlood;
+    private readonly IFindController _findController;
 
     /// <summary>
     /// Splitter offset
@@ -207,6 +209,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       _searchController = new FindController();
       _preventMessageFlood = new PreventMessageFlood();
+
+      _findController = new FindController();
     }
 
     #region Dependency properties
@@ -369,10 +373,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _cts?.Dispose();
       _cts = new CancellationTokenSource();
 
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchAllMessage>(OnStartSearchAll);
       await CacheManager.PrintCacheSizeAsync(_cts.Token).ConfigureAwait(false);
     }
 
-    private void ExecuteUnloadedCommand() => _cts.Cancel();
+    private void ExecuteUnloadedCommand()
+    {
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchAllMessage>(OnStartSearchAll);
+      _cts.Cancel();
+    }
 
     private void ExecuteSizeChangedCommand(SizeChangedEventArgs e)
     {
@@ -403,6 +412,45 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     #endregion
+
+    private void OnStartSearchAll(StartSearchAllMessage args)
+    {
+      var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
+
+      if ( logWindow.Count == 0 || logWindow.First().WindowId != args.WindowGuid )
+        return;
+
+      NotifyTaskCompletion.Create(StartAllSearchingAsync(args.FindData, args.SearchText));
+    }
+
+    private async Task StartAllSearchingAsync(FindData findData, string searchText)
+    {
+      MouseService.SetBusyState();
+
+      var searchAllResult = new ObservableCollection<LogEntry>();
+
+      foreach ( LogEntry log in LogEntries )
+      {
+        var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
+
+        if ( result == null || result.Count == 0 )
+          continue;
+
+        searchAllResult.Add(log);
+      }
+
+      foreach ( LogEntry log in CacheManager.GetCacheData() )
+      {
+        var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
+
+        if ( result == null || result.Count == 0 )
+          continue;
+
+        searchAllResult.Add(log);
+      }
+
+      LOG.Trace($"Find all result count {searchAllResult.Count}");
+    }
 
     private bool DynamicFilter(object item)
     {

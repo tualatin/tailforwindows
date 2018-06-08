@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Org.Vs.TailForWin.PlugIns.FindModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.FindModule.ViewModels;
 
@@ -50,6 +51,20 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
           return;
 
         _findDialogViewModel.SearchText = value;
+      }
+    }
+
+    /// <summary>
+    /// Which window call the find dialog
+    /// </summary>
+    public Guid WindowGuid
+    {
+      set
+      {
+        if ( _findDialogViewModel == null )
+          return;
+
+        _findDialogViewModel.WindowGuid = value;
       }
     }
 

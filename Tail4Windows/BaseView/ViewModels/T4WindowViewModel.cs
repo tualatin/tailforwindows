@@ -229,7 +229,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         _currentStatusbarState = content.LogWindowState;
         _currentEncoding = content.CurrentTailData?.FileEncoding;
 
-        OnFindDialogTitleChanged(new DragWindowTabItemChangedMessage(this, _selectedTabItem.HeaderContent));
+        OnFindDialogTitleChanged(new DragWindowTabItemChangedMessage(this, _selectedTabItem.HeaderContent, content.WindowId));
         SetCurrentBusinessData();
       }
     }
@@ -507,12 +507,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteFindWhatCommand()
     {
-      string findWhat = string.Empty;
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
 
-      if ( SelectedTabItem.Content is ILogWindowControl control )
-        findWhat = control.SplitWindow.SelectedText;
-
-      OnOpenFindDialog(new OpenSearchDialogMessage(this, SelectedTabItem.HeaderContent, findWhat));
+      string findWhat = control.SplitWindow.SelectedText;
+      OnOpenFindDialog(new OpenSearchDialogMessage(this, SelectedTabItem.HeaderContent, control.WindowId, findWhat));
     }
 
     private void ExecuteActivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
@@ -659,7 +658,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _findDialogWindow = new FindDialog
       {
         ShouldClose = true,
-        SearchText = !string.IsNullOrWhiteSpace(args.FindWhat) ? args.FindWhat : null
+        SearchText = !string.IsNullOrWhiteSpace(args.FindWhat) ? args.FindWhat : null,
+        WindowGuid = args.WindowGuid
       };
 
       if ( !string.IsNullOrWhiteSpace(args.Title) )
@@ -674,10 +674,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( args.Sender == null || _findDialogWindow == null )
         return;
 
-      if ( _findDialogWindow.Visibility == Visibility.Visible )
-        _findDialogWindow.DialogTitle = args.NewTitle;
-    }
+      if ( _findDialogWindow.Visibility != Visibility.Visible )
+        return;
 
+      _findDialogWindow.DialogTitle = args.NewTitle;
+      _findDialogWindow.WindowGuid = args.WindowGuid;
+    }
 
     private void CloseTabItem(DragSupportTabItem item, bool tabItemDoubleClick = false)
     {

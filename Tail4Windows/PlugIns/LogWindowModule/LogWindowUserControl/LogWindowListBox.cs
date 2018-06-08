@@ -19,6 +19,7 @@ using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Extensions;
 using Org.Vs.TailForWin.UI.Utils;
@@ -537,8 +538,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       return _readOnlyTextMessage.SelectionLength > 0;
     }
 
-    private void ExecuteAddToFindWhatCommand() =>
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this, CurrentTailData.File, _readOnlyTextMessage.SelectedText));
+    private void ExecuteAddToFindWhatCommand()
+    {
+      var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
+
+      if ( logWindow.Count == 0 )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this, CurrentTailData.File, logWindow.First().WindowId, _readOnlyTextMessage.SelectedText));
+    }
 
     private bool CanExecuteRemoveBookmarksCommand() => Items.Count > 0;
 
