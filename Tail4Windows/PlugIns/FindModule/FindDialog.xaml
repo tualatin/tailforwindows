@@ -114,36 +114,360 @@
 
           <Button.ContextMenu>
             <ContextMenu>
-              <MenuItem Header="." />
-              <MenuItem Header=".*" />
-              <MenuItem Header=".+" />
-              <MenuItem Header="[abc]" />
-              <MenuItem Header="[^abc]" />
-              <MenuItem Header="[a-f]" />
-              <MenuItem Header="\w" />
-              <MenuItem Header="\d" />
-              <MenuItem Header="(?([^\r\n])\s)" />
+              <MenuItem
+                Header="."
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="."
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header=".*"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter=".*"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header=".+"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter=".+"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="[abc]"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="[abc]"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="[^abc]"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="[^abc]"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="[a-f]"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="[a-f]"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="\w"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="\w"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="\d"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="\d"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="(?([^\r\n])\s)"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="(?([^\r\n])\s)"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
               <Separator />
-              <MenuItem Header="?" />
-              <MenuItem Header="*" />
-              <MenuItem Header="+" />
-              <MenuItem Header="\d{3}" />
+
+              <MenuItem
+                Header="?"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="?"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="*"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="*"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="+"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="+"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="\d{3}"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="\d{3}"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
               <Separator />
-              <MenuItem Header="\b" />
-              <MenuItem Header="^" />
-              <MenuItem Header=".$" />
-              <MenuItem Header="\w\r?\n" />
+
+              <MenuItem
+                Header="\b"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="\b"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="^"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="^"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header=".$"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter=".$"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="\w\r?\n"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="\w\r?\n"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
               <Separator />
-              <MenuItem Header="(dog|cat)" />
-              <MenuItem Header="\1" />
-              <MenuItem Header="(?dog|cat)" />
-              <MenuItem Header="\k" />
+
+              <MenuItem
+                Header="(dog|cat)"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="(dog|cat)"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="\1"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="\1"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="(?dog|cat)"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="(?dog|cat)"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="\k"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="\k"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
               <Separator />
-              <MenuItem Header="(" />
-              <MenuItem Header="0[xX][0-9a-fA-F]+" />
-              <MenuItem Header="\b[0-9]*\.*[0-9]+\b" />
+
+              <MenuItem Header="(">
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="0[xX][0-9a-fA-F]+"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="0[xX][0-9a-fA-F]+"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
+              <MenuItem
+                Header="\b[0-9]*\.*[0-9]+\b"
+                Command="{Binding RegexContextMenuItemCommand}"
+                CommandParameter="\b[0-9]*\.*[0-9]+\b"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+
               <Separator />
-              <MenuItem Header="{DynamicResource FindDialogRegexHelp}" />
+
+              <MenuItem
+                Header="{DynamicResource FindDialogRegexHelp}"
+                Command="{Binding RegexContextMenuHelpCommand}"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
             </ContextMenu>
           </Button.ContextMenu>
         </Button>
