@@ -131,7 +131,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( string.IsNullOrWhiteSpace(args.FilterPattern) )
         return;
 
-      if ( CurrentTailData.ListOfFilter.Count >= 1 )
+      var errors = GetFilterErrors();
+
+      if ( CurrentTailData.ListOfFilter.Count >= 1 && errors.Count == 0 )
         CurrentTailData.ListOfFilter.Add(new FilterData { Filter = args.FilterPattern });
       else
         CurrentTailData.ListOfFilter.First().Filter = args.FilterPattern;
