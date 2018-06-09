@@ -497,8 +497,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       var result = false;
       var filterSource = CurrentTailData.ListOfFilter.Where(p => p.FilterSource).ToList();
+      var highlightSource = CurrentTailData.ListOfFilter.Where(p => p.IsHighlight).ToList();
 
-      // If no FilterSource is defined, we assume only Highlighting is activated
+      // If no FilterSource is defined, we assume only Highlighting is active
       if ( filterSource.Count == 0 )
         result = true;
 
@@ -522,7 +523,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         }
       }
 
-      foreach ( var filterData in CurrentTailData.ListOfFilter.Where(p => p.IsHighlight).ToList() )
+      foreach ( var filterData in highlightSource )
       {
         try
         {
