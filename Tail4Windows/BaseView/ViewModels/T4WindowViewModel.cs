@@ -49,8 +49,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private string _currentSizeRefreshTime;
     private readonly IBaseWindowStatusbarViewModel _baseWindowStatusbarViewModel;
     private readonly CancellationTokenSource _cts;
-    private readonly FindResult _findResultWindow;
-    private FindDialog _findDialogWindow;
+    private readonly FindResult _findWhatResultWindow;
+    private FindDialog _findWhatWindow;
     private readonly ISettingsDbController _dbSettingsController;
 
     #region Events
@@ -229,7 +229,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         _currentStatusbarState = content.LogWindowState;
         _currentEncoding = content.CurrentTailData?.FileEncoding;
 
-        OnFindDialogTitleChanged(new DragWindowTabItemChangedMessage(this, _selectedTabItem.HeaderContent, content.WindowId));
+        OnFindWhatWindowTitleChanged(new DragWindowTabItemChangedMessage(this, _selectedTabItem.HeaderContent, content.WindowId));
         SetCurrentBusinessData();
       }
     }
@@ -242,11 +242,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     public T4WindowViewModel()
     {
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<AddTabItemMessage>(OnAddTabItemFromMainWindow);
-      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSearchDialogMessage>(OnOpenFindDialog);
-      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DragWindowTabItemChangedMessage>(OnFindDialogTitleChanged);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFindWhatWindowMessage>(OnOpenFindWhatWindow);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DragWindowTabItemChangedMessage>(OnFindWhatWindowTitleChanged);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFindWhatResultWindowMessage>(OnOpenFindWhatResultWindow);
 
       _cts = new CancellationTokenSource();
-      _findResultWindow = new FindResult();
+      _findWhatResultWindow = new FindResult();
       _dbSettingsController = SettingsDbController.Instance;
       _currentStatusbarState = EStatusbarState.Default;
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
@@ -347,11 +348,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      _findResultWindow.ShouldClose = true;
-      _findResultWindow.Close();
+      _findWhatResultWindow.ShouldClose = true;
+      _findWhatResultWindow.Close();
 
-      if ( _findDialogWindow != null && _findDialogWindow.Visibility == Visibility.Visible )
-        _findDialogWindow.Close();
+      if ( _findWhatWindow != null && _findWhatWindow.Visibility == Visibility.Visible )
+        _findWhatWindow.Close();
     }
 
     private async Task StartUpAsync()
@@ -500,13 +501,28 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private ICommand _findWhatCommand;
 
     /// <summary>
-    /// Call find dialog
+    /// FindWhat command
     /// </summary>
     public ICommand FindWhatCommand => _findWhatCommand ?? (_findWhatCommand = new RelayCommand(p => ExecuteFindWhatCommand()));
+
+    private ICommand _findWhatResultCommand;
+
+    /// <summary>
+    /// FindWhatResult command
+    /// </summary>
+    public ICommand FindWhatResultCommand => _findWhatResultCommand ?? (_findWhatResultCommand = new RelayCommand(p => ExecuteFindWhatResultCommand()));
 
     #endregion
 
     #region Command functions
+
+    private void ExecuteFindWhatResultCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      OnOpenFindWhatResultWindow(new OpenFindWhatResultWindowMessage(control.SplitWindow.FindWhatResults, control.WindowId));
+    }
 
     private void ExecuteFindWhatCommand()
     {
@@ -514,7 +530,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         return;
 
       string findWhat = control.SplitWindow.SelectedText;
-      OnOpenFindDialog(new OpenSearchDialogMessage(this, SelectedTabItem.HeaderContent, control.WindowId, findWhat));
+      OnOpenFindWhatWindow(new OpenFindWhatWindowMessage(this, SelectedTabItem.HeaderContent, control.WindowId, findWhat));
     }
 
     private void ExecuteActivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
@@ -656,16 +672,16 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.TabItemBusyIndicator, (LogWindowControl) args.TabItem.Content, args.TabItem.TabItemBackgroundColorStringHex);
     }
 
-    private void OnOpenFindDialog(OpenSearchDialogMessage args)
+    private void OnOpenFindWhatWindow(OpenFindWhatWindowMessage args)
     {
-      if ( _findDialogWindow != null && _findDialogWindow.IsVisible )
+      if ( _findWhatWindow != null && _findWhatWindow.IsVisible )
       {
-        _findDialogWindow.SearchText = !string.IsNullOrWhiteSpace(args.FindWhat) ? args.FindWhat : null;
-        _findDialogWindow.WindowGuid = args.WindowGuid;
+        _findWhatWindow.SearchText = !string.IsNullOrWhiteSpace(args.FindWhat) ? args.FindWhat : null;
+        _findWhatWindow.WindowGuid = args.WindowGuid;
         return;
       }
 
-      _findDialogWindow = new FindDialog
+      _findWhatWindow = new FindDialog
       {
         ShouldClose = true,
         SearchText = !string.IsNullOrWhiteSpace(args.FindWhat) ? args.FindWhat : null,
@@ -673,22 +689,41 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       };
 
       if ( !string.IsNullOrWhiteSpace(args.Title) )
-        _findDialogWindow.DialogTitle = args.Title;
+        _findWhatWindow.DialogTitle = args.Title;
 
-      _findDialogWindow.Show();
-      _findDialogWindow.Focus();
+      _findWhatWindow.Show();
+      _findWhatWindow.Focus();
     }
 
-    private void OnFindDialogTitleChanged(DragWindowTabItemChangedMessage args)
+    private void OnFindWhatWindowTitleChanged(DragWindowTabItemChangedMessage args)
     {
-      if ( args.Sender == null || _findDialogWindow == null )
+      if ( args.Sender == null || _findWhatWindow == null )
         return;
 
-      if ( !_findDialogWindow.IsVisible )
+      if ( !_findWhatWindow.IsVisible )
+      {
+        _findWhatWindow.Activate();
+        _findWhatWindow.Focus();
         return;
+      }
 
-      _findDialogWindow.DialogTitle = args.NewTitle;
-      _findDialogWindow.WindowGuid = args.WindowGuid;
+      _findWhatWindow.DialogTitle = args.NewTitle;
+      _findWhatWindow.WindowGuid = args.WindowGuid;
+    }
+
+    private void OnOpenFindWhatResultWindow(OpenFindWhatResultWindowMessage args)
+    {
+      if ( _findWhatResultWindow.IsVisible )
+      {
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new FindWhatResultMessage(args.FindWhatResults));
+
+        _findWhatResultWindow.Activate();
+        _findWhatResultWindow.Focus();
+        return;
+      }
+
+      _findWhatResultWindow.Show();
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new FindWhatResultMessage(args.FindWhatResults));
     }
 
     private void CloseTabItem(DragSupportTabItem item, bool tabItemDoubleClick = false)

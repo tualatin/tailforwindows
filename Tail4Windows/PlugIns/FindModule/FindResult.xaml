@@ -17,6 +17,7 @@
   Height="{Binding WindowHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   MinWidth="700"
   MinHeight="250"
+  IsVisibleChanged="FindResultOnIsVisibleChanged"
   Left="{Binding LeftPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Top="{Binding TopPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   >
@@ -83,10 +84,9 @@
       CanUserSortColumns="True"
       IsReadOnly="True"
       IsSynchronizedWithCurrentItem="True"
-      ItemsSource="{Binding FindResultCollectionView}"
+      ItemsSource="{Binding FindWhatResultCollectionView}"
       >
       <i:Interaction.Behaviors>
-        <behaviors:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />
         <behaviors:ScrollDataGridRowIntoView />
       </i:Interaction.Behaviors>
 

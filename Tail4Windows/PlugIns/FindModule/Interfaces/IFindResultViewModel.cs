@@ -46,7 +46,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
     /// <summary>
     /// FindResult view
     /// </summary>
-    ListCollectionView FindResultCollectionView
+    ListCollectionView FindWhatResultCollectionView
     {
       get;
     }
@@ -56,7 +56,16 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
     /// </summary>
     ObservableCollection<LogEntry> SelectedItems
     {
-      get; set;
+      get;
+    }
+
+    /// <summary>
+    /// List of <see cref="LogEntry"/> data source
+    /// </summary>
+    ObservableCollection<LogEntry> FindWhatResultSource
+    {
+      get;
+      set;
     }
 
     /// <summary>
@@ -75,9 +84,9 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
       get;
     }
 
-   /// <summary>
-   /// Window height
-   /// </summary>
+    /// <summary>
+    /// Window height
+    /// </summary>
     double WindowHeight
     {
       get;

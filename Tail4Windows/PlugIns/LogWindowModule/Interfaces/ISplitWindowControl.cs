@@ -51,6 +51,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     }
 
     /// <summary>
+    /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
+    /// </summary>
+    ObservableCollection<LogEntry> FindWhatResults
+    {
+      get;
+    }
+
+    /// <summary>
     /// LogReaderService
     /// </summary>
     LogReadService LogReaderService

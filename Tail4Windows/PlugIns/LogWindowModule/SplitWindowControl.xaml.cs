@@ -45,11 +45,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SplitWindowControl));
 
+    private NotifyTaskCompletion _notifyTaskCompletion;
     private int _index;
     private CancellationTokenSource _cts;
     private readonly IFindController _searchController;
     private readonly IPreventMessageFlood _preventMessageFlood;
     private readonly IFindController _findController;
+    private List<LogEntry> _findWhatResults;
 
     /// <summary>
     /// Splitter offset
@@ -132,6 +134,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     /// <summary>
+    /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
+    /// </summary>
+    public ObservableCollection<LogEntry> FindWhatResults
+    {
+      get;
+      private set;
+    }
+
+    /// <summary>
     /// <see cref="ListCollectionView"/> of <see cref="LogEntry"/>
     /// </summary>
     public ListCollectionView CollectionView
@@ -202,6 +213,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       DataContext = this;
       FloodData = new List<MessageFloodData>();
       LogEntries = new ObservableCollection<LogEntry>();
+      _findWhatResults = new List<LogEntry>();
       CacheManager = new CacheManager();
 
       CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogEntries }.View;
@@ -366,6 +378,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       LogEntries.Clear();
       CacheManager.ClearCacheData();
+      _findWhatResults.Clear();
+      FindWhatResults?.Clear();
     }
 
     private async Task ExecuteLoadedCommandAsync()
@@ -420,36 +434,57 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( logWindow.Count == 0 || logWindow.First().WindowId != args.WindowGuid )
         return;
 
-      NotifyTaskCompletion.Create(StartAllSearchingAsync(args.FindData, args.SearchText));
+      _notifyTaskCompletion = NotifyTaskCompletion.Create(StartAllSearchingAsync(args.FindData, args.SearchText));
+      _notifyTaskCompletion.PropertyChanged += FindWhatPropertyChanged;
+    }
+
+    private void FindWhatPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
+
+      if ( logWindow.Count == 0 )
+        return;
+
+      FindWhatResults = new ObservableCollection<LogEntry>(_findWhatResults);
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatResultWindowMessage(FindWhatResults, logWindow.First().WindowId));
+
+      _notifyTaskCompletion.PropertyChanged -= FindWhatPropertyChanged;
+      _notifyTaskCompletion = null;
     }
 
     private async Task StartAllSearchingAsync(FindData findData, string searchText)
     {
       MouseService.SetBusyState();
+      _findWhatResults.Clear();
 
-      var searchAllResult = new ObservableCollection<LogEntry>();
-
-      foreach ( LogEntry log in LogEntries )
+      // ReSharper disable once ForCanBeConvertedToForeach
+      for ( int i = 0; i < LogEntries.Count; i++ )
       {
+        LogEntry log = LogEntries[i];
         var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
 
         if ( result == null || result.Count == 0 )
           continue;
 
-        searchAllResult.Add(log);
+        _findWhatResults.Add(log);
       }
 
-      foreach ( LogEntry log in CacheManager.GetCacheData() )
+      for ( int i = 0; i < CacheManager.GetCacheData().Count; i++ )
       {
+        LogEntry log = CacheManager.GetCacheData()[i];
+
         var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
 
         if ( result == null || result.Count == 0 )
           continue;
 
-        searchAllResult.Add(log);
+        _findWhatResults.Add(log);
       }
 
-      LOG.Trace($"Find all result count {searchAllResult.Count}");
+      LOG.Trace($"Find all result count {_findWhatResults.Count}");
     }
 
     private bool DynamicFilter(object item)

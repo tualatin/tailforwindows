@@ -78,7 +78,6 @@ namespace Org.Vs.TailForWin.Core.Utils
     public void UnregisterHandler<T>(Action<T> eventHandler)
     {
       Arg.NotNull(eventHandler, nameof(eventHandler));
-
       _handlers.Remove(eventHandler);
     }
 

@@ -88,20 +88,28 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     /// <summary>
     /// FindResult view
     /// </summary>
-    public ListCollectionView FindResultCollectionView
+    public ListCollectionView FindWhatResultCollectionView
     {
       get;
       set;
     }
 
+    private ObservableCollection<LogEntry> _findWhatResultSource;
+
     /// <summary>
     /// List of <see cref="LogEntry"/> data source
     /// </summary>
-    private ObservableCollection<LogEntry> FindResultSource
+    public ObservableCollection<LogEntry> FindWhatResultSource
     {
-      get;
-      set;
-    } = new ObservableCollection<LogEntry>();
+      get => _findWhatResultSource;
+      set
+      {
+        _findWhatResultSource = value;
+
+        OnPropertyChanged();
+        SetupFindResultCollectionView();
+      }
+    }
 
     private ObservableCollection<LogEntry> _selectedItems;
 
@@ -141,12 +149,12 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
         if ( string.IsNullOrWhiteSpace(_filterText) )
         {
-          FindResultCollectionView.Filter = DynamicFilter;
+          FindWhatResultCollectionView.Filter = DynamicFilter;
           return;
         }
 
         _criteria.Add(p => p.Message.ToLower().Contains(_filterText));
-        FindResultCollectionView.Filter = DynamicFilter;
+        FindWhatResultCollectionView.Filter = DynamicFilter;
       }
     }
 
@@ -173,8 +181,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     public FindResultViewModel()
     {
       _dbController = SettingsDbController.Instance;
-
-      SetupFindResultCollecitonView();
+      FindWhatResultSource = new ObservableCollection<LogEntry>();
     }
 
     #region Commands
@@ -221,13 +228,22 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
     #endregion
 
-    private void SetupFindResultCollecitonView()
+    private void SetupFindResultCollectionView()
     {
-      FindResultCollectionView = (ListCollectionView) new CollectionViewSource { Source = FindResultSource }.View;
-      FindResultCollectionView.CustomSort = new LogEntryComparer();
-      FindResultCollectionView.Filter = DynamicFilter;
+      FilterHasFocus = false;
+
+      if ( FindWhatResultSource == null )
+      {
+        FilterHasFocus = true;
+        return;
+      }
+
+      FindWhatResultCollectionView = (ListCollectionView) new CollectionViewSource { Source = FindWhatResultSource }.View;
+      FindWhatResultCollectionView.CustomSort = new LogEntryComparer();
+      FindWhatResultCollectionView.Filter = DynamicFilter;
 
       FilterHasFocus = true;
+      OnPropertyChanged(nameof(FindWhatResultCollectionView));
     }
 
     private bool DynamicFilter(object item)

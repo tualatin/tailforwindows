@@ -3,9 +3,9 @@
 namespace Org.Vs.TailForWin.Data.Messages
 {
   /// <summary>
-  /// Open search dialog message
+  /// Open FindWhat window message
   /// </summary>
-  public class OpenSearchDialogMessage
+  public class OpenFindWhatWindowMessage
   {
     /// <summary>
     /// Who sends the message
@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.Data.Messages
     /// <param name="title">Title message</param>
     /// <param name="windowGuid">Which window calls the FindWhat dialog</param>
     /// <param name="findWhat">Find word</param>
-    public OpenSearchDialogMessage(object sender, string title, Guid windowGuid, string findWhat = null)
+    public OpenFindWhatWindowMessage(object sender, string title, Guid windowGuid, string findWhat = null)
     {
       Sender = sender;
       Title = title;

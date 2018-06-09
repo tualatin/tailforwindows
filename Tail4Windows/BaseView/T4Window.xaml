@@ -73,6 +73,7 @@
     <KeyBinding Key="{Binding Key, Source={StaticResource NewTabItemKeyBinding}, Mode=OneTime}" Command="{Binding AddNewTabItemCommand}" Modifiers="{Binding Modifiers, Source={StaticResource NewTabItemKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource CloseTabItemKeyBinding}, Mode=OneTime}" Command="{Binding CloseTabItemCommand}" Modifiers="{Binding Modifiers, Source={StaticResource CloseTabItemKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource FindWhatKeyBinding}, Mode=OneTime}" Command="{Binding FindWhatCommand}" Modifiers="{Binding Modifiers, Source={StaticResource FindWhatKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource FindWhatResultKeyBinding}, Mode=OneTime}" Command="{Binding FindWhatResultCommand}" Modifiers="{Binding Modifiers, Source={StaticResource FindWhatResultKeyBinding}, Mode=OneTime}" />
   </Window.InputBindings>
 
   <Grid>

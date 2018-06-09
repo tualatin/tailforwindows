@@ -4,6 +4,7 @@
   >
   <KeyBinding x:Key="GoToLineKeyBinding" Gesture="CTRL+G" />
   <KeyBinding x:Key="FindWhatKeyBinding" Gesture="CTRL+F" />
+  <KeyBinding x:Key="FindWhatResultKeyBinding" Gesture="CTRL+ALT+F" />
   <KeyBinding x:Key="OpenFileKeyBinding" Gesture="CTRL+O" />
   <KeyBinding x:Key="OpenFileManagerKeyBinding" Gesture="CTRL+M" />
   <KeyBinding x:Key="ClearTailWindowKeyBinding" Gesture="CTRL+E" />

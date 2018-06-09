@@ -26,7 +26,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
       int nx = xFm.Index;
       int ny = yFm.Index;
 
-      return -nx.CompareTo(ny);
+      return nx.CompareTo(ny);
     }
   }
 }

@@ -395,9 +395,16 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     private ICommand _findWhatCommand;
 
     /// <summary>
-    /// Call find dialog
+    /// FindWhat command
     /// </summary>
     public ICommand FindWhatCommand => _findWhatCommand ?? (_findWhatCommand = new RelayCommand(p => ExecuteFindWhatCommand()));
+
+    private ICommand _findWhatResultCommand;
+
+    /// <summary>
+    /// FindWhatResult command
+    /// </summary>
+    public ICommand FindWhatResultCommand => _findWhatResultCommand ?? (_findWhatResultCommand = new RelayCommand(p => ExecuteFindWhatResultCommand()));
 
     private ICommand _toggleAlwaysOnTopCommand;
 
@@ -410,6 +417,14 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     #region Command functions
 
+    private void ExecuteFindWhatResultCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatResultWindowMessage(control.SplitWindow.FindWhatResults, control.WindowId));
+    }
+
     private void ExecuteToggleAlwaysOnTopCommand() => SettingsHelperController.CurrentSettings.AlwaysOnTop = !SettingsHelperController.CurrentSettings.AlwaysOnTop;
 
     private void ExecuteFindWhatCommand()
@@ -418,7 +433,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         return;
 
       string findWhat = control.SplitWindow.SelectedText;
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this, SelectedTabItem.HeaderContent, control.WindowId, findWhat));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatWindowMessage(this, SelectedTabItem.HeaderContent, control.WindowId, findWhat));
     }
 
     private void ExecuteGoToLineCommand()

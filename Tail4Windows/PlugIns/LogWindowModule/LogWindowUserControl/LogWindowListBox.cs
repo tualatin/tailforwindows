@@ -545,7 +545,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( logWindow.Count == 0 )
         return;
 
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenSearchDialogMessage(this, CurrentTailData.File, logWindow.First().WindowId, _readOnlyTextMessage.SelectedText));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatWindowMessage(this, CurrentTailData.File, logWindow.First().WindowId, _readOnlyTextMessage.SelectedText));
     }
 
     private bool CanExecuteRemoveBookmarksCommand() => Items.Count > 0;

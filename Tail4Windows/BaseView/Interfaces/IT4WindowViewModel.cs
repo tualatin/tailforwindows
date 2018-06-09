@@ -22,6 +22,14 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
     }
 
     /// <summary>
+    /// FindWhatResult command
+    /// </summary>
+    ICommand FindWhatResultCommand
+    {
+      get;
+    }
+
+    /// <summary>
     /// Go to line xxx command
     /// </summary>
     ICommand GoToLineCommand

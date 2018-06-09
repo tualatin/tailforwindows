@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.PlugIns.FindModule.Interfaces;
+using Org.Vs.TailForWin.PlugIns.FindModule.ViewModels;
+
 
 namespace Org.Vs.TailForWin.PlugIns.FindModule
 {
@@ -19,12 +13,42 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
   /// </summary>
   public partial class FindResult
   {
+    private readonly IFindResultViewModel _findWhatResultViewModel;
+    private Action<FindWhatResultMessage> _findWhatResultHandler;
+
     /// <summary>
     /// Standard constructor
     /// </summary>
     public FindResult()
     {
       InitializeComponent();
+
+      _findWhatResultViewModel = (FindResultViewModel) DataContext;
+      _findWhatResultHandler = EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<FindWhatResultMessage>(OnShowFindWhatResults);
+    }
+
+    private void FindResultOnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+      if ( IsVisible )
+      {
+        if ( _findWhatResultHandler != null )
+          return;
+
+        _findWhatResultHandler = EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<FindWhatResultMessage>(OnShowFindWhatResults);
+      }
+      else
+      {
+        EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<FindWhatResultMessage>(OnShowFindWhatResults);
+        _findWhatResultHandler = null;
+      }
+    }
+
+    private void OnShowFindWhatResults(FindWhatResultMessage args)
+    {
+      if ( _findWhatResultViewModel == null )
+        return;
+
+      _findWhatResultViewModel.FindWhatResultSource = args.FindWhatResults;
     }
   }
 }
