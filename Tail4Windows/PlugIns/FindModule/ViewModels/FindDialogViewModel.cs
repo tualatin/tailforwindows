@@ -337,7 +337,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     {
       MouseService.SetBusyState();
 
-      if ( !SearchHistory.ContainsKey(SearchText) )
+      if ( !SearchHistory.ContainsKey(SearchText) && !string.IsNullOrWhiteSpace(SearchText) )
       {
         _searchHistory.Add(new KeyValuePair<string, string>(SearchText, SearchText));
         await _searchHistoryController.SaveSearchHistoryAsync(SearchText).ConfigureAwait(false);
