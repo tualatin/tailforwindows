@@ -51,7 +51,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private readonly IFindController _searchController;
     private readonly IPreventMessageFlood _preventMessageFlood;
     private readonly IFindController _findController;
-    private List<LogEntry> _findWhatResults;
+    private readonly List<LogEntry> _findWhatResults;
 
     /// <summary>
     /// Splitter offset
@@ -448,6 +448,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( logWindow.Count == 0 )
         return;
 
+      FindWhatResults?.Clear();
       FindWhatResults = new ObservableCollection<LogEntry>(_findWhatResults);
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatResultWindowMessage(FindWhatResults, logWindow.First().WindowId));
 
@@ -475,7 +476,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       for ( int i = 0; i < CacheManager.GetCacheData().Count; i++ )
       {
         LogEntry log = CacheManager.GetCacheData()[i];
-
         var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
 
         if ( result == null || result.Count == 0 )
@@ -496,34 +496,44 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return false;
 
       var result = false;
+      var filterSource = CurrentTailData.ListOfFilter.Where(p => p.FilterSource).ToList();
 
-      // TODO Does not work correct!
-      foreach ( FilterData filterData in CurrentTailData.ListOfFilter )
+      // If no FilterSource is defined, we assume only Highlighting is activated
+      if ( filterSource.Count == 0 )
+        result = true;
+
+      foreach ( var filterData in filterSource )
       {
         try
         {
           var sr = _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).GetAwaiter().GetResult();
 
-          if ( sr != null )
-          {
-            if ( SearchResult == null )
-              SearchResult = new List<string>();
-
-            var r = sr.Where(p => SearchResult.All(s => s != p)).ToList();
-
-            if ( r.Count > 0 )
-              SearchResult.AddRange(r);
-          }
-
-          if ( (sr == null || sr.Count == 0) && filterData.FilterSource )
+          if ( sr == null || sr.Count == 0 )
             continue;
 
-          HandleAlertSettings(filterData, SearchResult, logEntry);
+          HandleAlertSettings(filterData, sr, logEntry);
 
           result = true;
+          break;
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+      }
 
-          if ( SearchResult != null && SearchResult.Count > 0 && filterData.IsHighlight )
-            OnPropertyChanged(nameof(SearchResult));
+      foreach ( var filterData in CurrentTailData.ListOfFilter.Where(p => p.IsHighlight).ToList() )
+      {
+        try
+        {
+          var sr = _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).GetAwaiter().GetResult();
+
+          if ( sr == null || sr.Count == 0 )
+            continue;
+
+          // If no FilterSource is defined, handle all alert settings here
+          if ( filterSource.Count == 0 )
+            HandleAlertSettings(filterData, sr, logEntry);
         }
         catch ( Exception ex )
         {
