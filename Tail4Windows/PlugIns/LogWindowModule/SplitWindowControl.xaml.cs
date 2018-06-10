@@ -25,6 +25,7 @@ using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.Data.Messages.FindWhat;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Data;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
@@ -389,6 +390,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchAllMessage>(OnStartSearchAll);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<JumpToSelectedLogEntryMessage>(OnJumpToSelectedLogEntry);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchCountMessage>(OnStartSearchCount);
 
       await CacheManager.PrintCacheSizeAsync(_cts.Token).ConfigureAwait(false);
     }
@@ -397,6 +399,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchAllMessage>(OnStartSearchAll);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<JumpToSelectedLogEntryMessage>(OnJumpToSelectedLogEntry);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchCountMessage>(OnStartSearchCount);
 
       _cts.Cancel();
     }
@@ -433,9 +436,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnJumpToSelectedLogEntry(JumpToSelectedLogEntryMessage args)
     {
-      var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
-
-      if ( logWindow.Count == 0 || logWindow.First().WindowId != args.WindowGuid )
+      if ( !IsRightWindow(args.WindowGuid) )
         return;
 
       LogWindowMainElement.SelectedItem = args.SelectedLogEntry;
@@ -448,11 +449,34 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowSplitElement.ScrollIntoView(args.SelectedLogEntry);
     }
 
-    private void OnStartSearchAll(StartSearchAllMessage args)
+    private void OnStartSearchCount(StartSearchCountMessage args)
     {
+      if ( !IsRightWindow(args.WindowGuid) )
+        return;
+
+      _notifyTaskCompletion = NotifyTaskCompletion.Create(StartAllSearchingAsync(args.FindData, args.SearchText));
+      _notifyTaskCompletion.PropertyChanged += FindWhatCountPropertyChanged;
+    }
+
+    private void FindWhatCountPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
       var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
 
-      if ( logWindow.Count == 0 || logWindow.First().WindowId != args.WindowGuid )
+      if ( logWindow.Count == 0 )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new FindWhatCountResponseMessage(logWindow.First().WindowId, _findWhatResults.Count));
+
+      _notifyTaskCompletion.PropertyChanged -= FindWhatCountPropertyChanged;
+      _notifyTaskCompletion = null;
+    }
+
+    private void OnStartSearchAll(StartSearchAllMessage args)
+    {
+      if ( !IsRightWindow(args.WindowGuid) )
         return;
 
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartAllSearchingAsync(args.FindData, args.SearchText));
@@ -482,27 +506,48 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       MouseService.SetBusyState();
       _findWhatResults.Clear();
 
-      // ReSharper disable once ForCanBeConvertedToForeach
-      for ( int i = 0; i < LogEntries.Count; i++ )
+      if ( !findData.SearchBookmarks )
       {
-        LogEntry log = LogEntries[i];
-        var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
+        // ReSharper disable once ForCanBeConvertedToForeach
+        for ( int i = 0; i < LogEntries.Count; i++ )
+        {
+          LogEntry log = LogEntries[i];
 
-        if ( result == null || result.Count == 0 )
-          continue;
+          var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
 
-        _findWhatResults.Add(log);
+          if ( result == null || result.Count == 0 )
+            continue;
+
+          _findWhatResults.Add(log);
+        }
+
+        for ( int i = 0; i < CacheManager.GetCacheData().Count; i++ )
+        {
+          LogEntry log = CacheManager.GetCacheData()[i];
+
+          var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
+
+          if ( result == null || result.Count == 0 )
+            continue;
+
+          _findWhatResults.Add(log);
+        }
       }
-
-      for ( int i = 0; i < CacheManager.GetCacheData().Count; i++ )
+      else
       {
-        LogEntry log = CacheManager.GetCacheData()[i];
-        var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
+        await Task.Run(() =>
+        {
+          var result = LogEntries.Where(p => p.BookmarkPoint != null).ToList();
 
-        if ( result == null || result.Count == 0 )
-          continue;
+          if ( result.Count > 0 )
+            _findWhatResults.AddRange(result);
 
-        _findWhatResults.Add(log);
+          result = CacheManager.GetCacheData().Where(p => p.BookmarkPoint != null).ToList();
+
+          if ( result.Count > 0 )
+            _findWhatResults.AddRange(result);
+
+        }).ConfigureAwait(false);
       }
 
       LOG.Trace($"Find all result count {_findWhatResults.Count}");
@@ -777,6 +822,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
+    }
+
+    private bool IsRightWindow(Guid windowGuid)
+    {
+      var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
+      return logWindow.Count != 0 && logWindow.First().WindowId == windowGuid;
     }
 
     /// <summary>

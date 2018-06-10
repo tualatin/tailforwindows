@@ -3,7 +3,7 @@ using log4net;
 using Org.Vs.TailForWin.BaseView.ViewModels;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
-using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.Data.Messages.FindWhat;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 

@@ -13,7 +13,7 @@ using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
-using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.Data.Messages.FindWhat;
 using Org.Vs.TailForWin.PlugIns.FindModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FindModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
@@ -282,6 +282,8 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
     private void ExecuteClosingCommand()
     {
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<FindWhatCountResponseMessage>(OnFindWhatCountResponse);
+
       SettingsHelperController.CurrentSettings.FindDialogPositionX = LeftPosition;
       SettingsHelperController.CurrentSettings.FindDialogPositionY = TopPosition;
 
@@ -308,9 +310,12 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     {
       FindSettings.CountFind = false;
       SearchFieldHasFocus = false;
+      CountMatches = string.Empty;
 
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StartSearchAllMessage(WindowGuid, FindSettings, SearchText));
-      await HandleFindAsync();
+
+      if ( !FindSettings.SearchBookmarks )
+        await HandleFindAsync();
     }
 
     private async Task ExecuteCountCommandAsync()
@@ -318,7 +323,10 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       FindSettings.CountFind = true;
       SearchFieldHasFocus = false;
 
-      await HandleFindAsync();
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StartSearchCountMessage(WindowGuid, FindSettings, SearchText));
+
+      if ( !FindSettings.SearchBookmarks )
+        await HandleFindAsync();
     }
 
     private async Task ExecuteWrapAroundCommandAsync()
@@ -368,7 +376,16 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
       SearchFieldHasFocus = true;
 
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<FindWhatCountResponseMessage>(OnFindWhatCountResponse);
       OnPropertyChanged(nameof(SearchHistory));
+    }
+
+    private void OnFindWhatCountResponse(FindWhatCountResponseMessage args)
+    {
+      if ( WindowGuid != args.WindowGuid )
+        return;
+
+      CountMatches = string.Format(Application.Current.TryFindResource("FindDialogSearchCount").ToString(), args.Count);
     }
   }
 }

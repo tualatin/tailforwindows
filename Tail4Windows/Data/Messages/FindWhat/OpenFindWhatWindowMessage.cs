@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace Org.Vs.TailForWin.Data.Messages
+
+namespace Org.Vs.TailForWin.Data.Messages.FindWhat
 {
   /// <summary>
   /// Open FindWhat window message

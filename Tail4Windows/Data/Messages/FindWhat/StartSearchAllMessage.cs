@@ -2,7 +2,7 @@
 using Org.Vs.TailForWin.Core.Data;
 
 
-namespace Org.Vs.TailForWin.Data.Messages
+namespace Org.Vs.TailForWin.Data.Messages.FindWhat
 {
   /// <summary>
   /// Starts searching

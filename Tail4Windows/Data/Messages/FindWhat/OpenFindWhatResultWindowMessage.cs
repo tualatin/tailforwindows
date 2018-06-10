@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using Org.Vs.TailForWin.Business.Data;
 
 
-namespace Org.Vs.TailForWin.Data.Messages
+namespace Org.Vs.TailForWin.Data.Messages.FindWhat
 {
   /// <summary>
   /// Open FindWhat result window message
