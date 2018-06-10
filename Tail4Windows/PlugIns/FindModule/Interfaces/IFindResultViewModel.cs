@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Business.Data;
@@ -63,6 +64,15 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
     /// List of <see cref="LogEntry"/> data source
     /// </summary>
     ObservableCollection<LogEntry> FindWhatResultSource
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Which window calls the find dialog
+    /// </summary>
+    Guid WindowGuid
     {
       get;
       set;

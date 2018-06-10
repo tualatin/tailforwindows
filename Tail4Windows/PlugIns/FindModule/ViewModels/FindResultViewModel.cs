@@ -8,9 +8,12 @@ using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.FindModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FindModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
+using Org.Vs.TailForWin.UI.UserControls;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
@@ -173,6 +176,15 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       }
     }
 
+    /// <summary>
+    /// Which window calls the find dialog
+    /// </summary>
+    public Guid WindowGuid
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     /// <summary>
@@ -196,13 +208,35 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     private ICommand _closingCommand;
 
     /// <summary>
-    /// Cloasing command
+    /// Closing command
     /// </summary>
     public ICommand ClosingCommand => _closingCommand ?? (_closingCommand = new RelayCommand(p => ExecuteClosingCommand()));
+
+    private ICommand _findWhatResultMouseDoubleClickCommand;
+
+    /// <summary>
+    /// Mouse double click command
+    /// </summary>
+    public ICommand FindWhatResultMouseDoubleClickCommand => _findWhatResultMouseDoubleClickCommand ?? (_findWhatResultMouseDoubleClickCommand =
+                                                               new RelayCommand(ExecuteFindWhatResultMouseDoubleClickCommand));
 
     #endregion
 
     #region Command functions
+
+    private void ExecuteFindWhatResultMouseDoubleClickCommand(object param)
+    {
+      if ( !(param is MouseButtonEventArgs e) )
+        return;
+
+      if ( !(e.Source is VsDataGrid dg) )
+        return;
+
+      if ( !(dg.CurrentItem is LogEntry selectedItem) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new JumpToSelectedLogEntryMessage(WindowGuid, selectedItem));
+    }
 
     private void ExecuteClosingCommand()
     {

@@ -198,6 +198,7 @@
     <Compile Include="Data\Messages\DragWindowTabItemChangedMessage.cs" />
     <Compile Include="Data\Messages\FindWhatResultMessage.cs" />
     <Compile Include="Data\Messages\GoToLineMessage.cs" />
+    <Compile Include="Data\Messages\JumpToSelectedLogEntryMessage.cs" />
     <Compile Include="Data\Messages\OpenFilterDataFromTailDataMessage.cs" />
     <Compile Include="Data\Messages\OpenFindWhatResultWindowMessage.cs" />
     <Compile Include="Data\Messages\OpenGoToLineDialogMessage.cs" />

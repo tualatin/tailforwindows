@@ -388,12 +388,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _cts = new CancellationTokenSource();
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchAllMessage>(OnStartSearchAll);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<JumpToSelectedLogEntryMessage>(OnJumpToSelectedLogEntry);
+
       await CacheManager.PrintCacheSizeAsync(_cts.Token).ConfigureAwait(false);
     }
 
     private void ExecuteUnloadedCommand()
     {
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchAllMessage>(OnStartSearchAll);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<JumpToSelectedLogEntryMessage>(OnJumpToSelectedLogEntry);
+
       _cts.Cancel();
     }
 
@@ -426,6 +430,23 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     #endregion
+
+    private void OnJumpToSelectedLogEntry(JumpToSelectedLogEntryMessage args)
+    {
+      var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
+
+      if ( logWindow.Count == 0 || logWindow.First().WindowId != args.WindowGuid )
+        return;
+
+      LogWindowMainElement.SelectedItem = args.SelectedLogEntry;
+      LogWindowMainElement.ScrollIntoView(args.SelectedLogEntry);
+
+      if ( _splitterPosition <= 0 )
+        return;
+
+      LogWindowSplitElement.SelectedItem = args.SelectedLogEntry;
+      LogWindowSplitElement.ScrollIntoView(args.SelectedLogEntry);
+    }
 
     private void OnStartSearchAll(StartSearchAllMessage args)
     {
@@ -523,6 +544,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         }
       }
 
+      // If result is false OR no highlighting is defined, return the current result
+      if ( !result || highlightSource.Count == 0 )
+        return result;
+
       foreach ( var filterData in highlightSource )
       {
         try
@@ -541,7 +566,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
       }
-      return result;
+      return true;
     }
 
     private void HandleAlertSettings(FilterData filter, IReadOnlyCollection<string> stringResult, LogEntry item)

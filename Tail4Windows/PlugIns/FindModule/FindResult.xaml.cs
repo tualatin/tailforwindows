@@ -49,6 +49,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
         return;
 
       _findWhatResultViewModel.FindWhatResultSource = args.FindWhatResults;
+      _findWhatResultViewModel.WindowGuid = args.WindowGuid;
     }
   }
 }

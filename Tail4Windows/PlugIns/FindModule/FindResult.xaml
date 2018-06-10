@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FindModule.ViewModels"
@@ -78,7 +79,7 @@
 
     <userControls:VsDataGrid
       Grid.Row="1"
-      Margin="2"
+      Margin="2 2 2 12"
       CanUserAddRows="False"
       CanUserReorderColumns="True"
       CanUserSortColumns="True"
@@ -89,6 +90,15 @@
       <i:Interaction.Behaviors>
         <behaviors:ScrollDataGridRowIntoView />
       </i:Interaction.Behaviors>
+
+      <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseDoubleClick">
+          <commands:InvokeDelegateCommandAction
+            Command="{Binding FindWhatResultMouseDoubleClickCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+            />
+        </i:EventTrigger>
+      </i:Interaction.Triggers>
 
       <userControls:VsDataGrid.RowStyle>
         <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->

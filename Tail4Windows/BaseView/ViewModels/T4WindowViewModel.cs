@@ -713,9 +713,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void OnOpenFindWhatResultWindow(OpenFindWhatResultWindowMessage args)
     {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
       if ( _findWhatResultWindow.IsVisible )
       {
-        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new FindWhatResultMessage(args.FindWhatResults));
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new FindWhatResultMessage(args.FindWhatResults, control.WindowId));
 
         _findWhatResultWindow.Activate();
         _findWhatResultWindow.Focus();
@@ -723,7 +726,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
 
       _findWhatResultWindow.Show();
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new FindWhatResultMessage(args.FindWhatResults));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new FindWhatResultMessage(args.FindWhatResults, control.WindowId));
     }
 
     private void CloseTabItem(DragSupportTabItem item, bool tabItemDoubleClick = false)

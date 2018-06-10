@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using Org.Vs.TailForWin.Business.Data;
 
 
 namespace Org.Vs.TailForWin.Data.Messages
 {
   /// <summary>
-  /// FindWhat result message
+  /// Jump to selected <see cref="LogEntry"/> from FindWhatResult window message
   /// </summary>
-  public class FindWhatResultMessage
+  public class JumpToSelectedLogEntryMessage
   {
     /// <summary>
-    /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
+    /// Selected <see cref="LogEntry"/>
     /// </summary>
-    public ObservableCollection<LogEntry> FindWhatResults
+    public LogEntry SelectedLogEntry
     {
       get;
     }
@@ -29,12 +28,12 @@ namespace Org.Vs.TailForWin.Data.Messages
     /// <summary>
     /// Standard constructor
     /// </summary>
-    /// <param name="findWhatResults"><see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/></param>
     /// <param name="windowGuid">Which window calls the find dialog</param>
-    public FindWhatResultMessage(ObservableCollection<LogEntry> findWhatResults, Guid windowGuid)
+    /// <param name="logEntry">Selected <see cref="LogEntry"/></param>
+    public JumpToSelectedLogEntryMessage(Guid windowGuid, LogEntry logEntry)
     {
-      FindWhatResults = findWhatResults;
       WindowGuid = windowGuid;
+      SelectedLogEntry = logEntry;
     }
   }
 }
