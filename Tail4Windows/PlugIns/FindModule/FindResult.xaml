@@ -79,7 +79,7 @@
 
     <userControls:VsDataGrid
       Grid.Row="1"
-      Margin="2 2 2 12"
+      Margin="2 2 2 5"
       CanUserAddRows="False"
       CanUserReorderColumns="True"
       CanUserSortColumns="True"

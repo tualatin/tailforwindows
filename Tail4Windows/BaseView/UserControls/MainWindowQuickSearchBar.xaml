@@ -4,7 +4,6 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.UserControls.Behaviors"
   xmlns:behaviors1="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
@@ -68,7 +67,7 @@
         </Grid.ColumnDefinitions>
 
         <userControls:WatermarkTextBox
-          x:Name="QuickSearchTextBox"
+          Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           BorderThickness="0"
           ToolTip="{DynamicResource QuickSearchToolTip}"
           Watermark="{DynamicResource QuickSearchWatermark}"
@@ -78,6 +77,7 @@
             <KeyBinding Key="Enter" Command="{Binding QuickSearchCommand}" />
           </userControls:WatermarkTextBox.InputBindings>
         </userControls:WatermarkTextBox>
+
         <Button
           Grid.Column="1"
           Width="20"

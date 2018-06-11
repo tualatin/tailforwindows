@@ -382,6 +382,7 @@
         HorizontalAlignment="Left"
         VerticalAlignment="Bottom"
         Content="{Binding CountMatches, UpdateSourceTrigger=PropertyChanged}"
+        Foreground="{Binding CountMatches, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CountToForegroundConverter}}"
         />
 
       <StackPanel Grid.Column="1">

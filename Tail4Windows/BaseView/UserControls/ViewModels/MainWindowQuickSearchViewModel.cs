@@ -1,11 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.BaseView.UserControls.Interfaces;
 using Org.Vs.TailForWin.BaseView.ViewModels;
+using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
+using Org.Vs.TailForWin.Data.Messages.QuickSearchbar;
 using Org.Vs.TailForWin.UI.Commands;
-using Org.Vs.TailForWin.UI.Interfaces;
 
 
 namespace Org.Vs.TailForWin.BaseView.UserControls.ViewModels
@@ -13,7 +16,7 @@ namespace Org.Vs.TailForWin.BaseView.UserControls.ViewModels
   /// <summary>
   /// MainWindowQuickSearch view model
   /// </summary>
-  public class MainWindowQuickSearchViewModel : NotifyMaster
+  public class MainWindowQuickSearchViewModel : NotifyMaster, IMainWindowQuickSearchViewModel
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(MainWindowQuickSearchViewModel));
 
@@ -32,23 +35,53 @@ namespace Org.Vs.TailForWin.BaseView.UserControls.ViewModels
       }
     }
 
+    private string _searchText;
+
+    /// <summary>
+    /// Search text
+    /// </summary>
+    public string SearchText
+    {
+      get => _searchText;
+      set
+      {
+        _searchText = value;
+        OnPropertyChanged();
+      }
+    }
+
+    /// <summary>
+    /// Window id
+    /// </summary>
+    public Guid WindowGuid
+    {
+      get;
+      set;
+    }
+
     #region Commands
 
-    private IAsyncCommand _quickSearchCommand;
+    private ICommand _quickSearchCommand;
 
     /// <summary>
     /// Quick search command
     /// </summary>
-    public IAsyncCommand QuickSearchCommand => _quickSearchCommand ?? (_quickSearchCommand = AsyncCommand.Create(ExecuteQuickSearchCommandAsync));
+    public ICommand QuickSearchCommand => _quickSearchCommand ?? (_quickSearchCommand = new RelayCommand(p => ExecuteQuickSearchCommand()));
 
     #endregion
 
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public MainWindowQuickSearchViewModel() => EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<QuickSearchTextBoxGetFocusMessage>(FocusChangedMessage);
+    public MainWindowQuickSearchViewModel()
+    {
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<QuickSearchTextBoxGetFocusMessage>(OnFocusChangedMessage);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ChangeWindowGuiMessage>(OnChangeWindowGuid);
+    }
 
-    private void FocusChangedMessage(QuickSearchTextBoxGetFocusMessage args)
+    private void OnChangeWindowGuid(ChangeWindowGuiMessage args) => WindowGuid = args.WindowGuid;
+
+    private void OnFocusChangedMessage(QuickSearchTextBoxGetFocusMessage args)
     {
       IsFocused = false;
 
@@ -58,15 +91,21 @@ namespace Org.Vs.TailForWin.BaseView.UserControls.ViewModels
 
     #region Command functions
 
-    private async Task ExecuteQuickSearchCommandAsync()
+    private void ExecuteQuickSearchCommand()
     {
+      if ( string.IsNullOrWhiteSpace(SearchText) )
+        return;
+
       LOG.Trace("Execute quick search...");
 
-      await Task.Run(
-        () =>
-        {
-          IsFocused = false;
-        }).ConfigureAwait(false);
+      var findSettings = new FindData
+      {
+        WholeWord = true
+      };
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StartSearchAllMessage(WindowGuid, findSettings, SearchText));
+
+      IsFocused = false;
+      SearchText = string.Empty;
     }
 
     #endregion

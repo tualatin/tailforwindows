@@ -23,6 +23,7 @@ using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
+using Org.Vs.TailForWin.Data.Messages.QuickSearchbar;
 using Org.Vs.TailForWin.PlugIns.FindModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
@@ -230,6 +231,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         _currentStatusbarState = content.LogWindowState;
         _currentEncoding = content.CurrentTailData?.FileEncoding;
 
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ChangeWindowGuiMessage(content.WindowId));
         OnFindWhatWindowTitleChanged(new DragWindowTabItemChangedMessage(this, _selectedTabItem.HeaderContent, content.WindowId));
         SetCurrentBusinessData();
       }
@@ -269,14 +271,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       TrayIconItemsSource = new ObservableCollection<DragSupportMenuItem>
       {
         new DragSupportMenuItem
-          {
-            HeaderContent = Application.Current.TryFindResource("ApplicationExit").ToString(),
-            Icon = new Image
-            {
-              Source = BusinessHelper.CreateBitmapIcon(@"../../../Resources/transparent.png")
-            },
-            Command = new RelayCommand(p => ExecuteExitApplication())
-          }
+        {
+          HeaderContent = Application.Current.TryFindResource("ApplicationExit").ToString(),
+          Icon = new Image { Source = BusinessHelper.CreateBitmapIcon(@"../../../Resources/transparent.png") },
+          Command = new RelayCommand(p => ExecuteExitApplication())
+        }
       };
     }
 
@@ -540,8 +539,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteExitApplication()
     {
-      if ( Application.Current.MainWindow != null )
-        Application.Current.MainWindow.Close();
+      new ThrottledExecution().InMs(220).Do(() =>
+      {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+          if ( Application.Current.MainWindow != null )
+            Application.Current.MainWindow.Close();
+        });
+      });
     }
 
     private void ExecuteCloseTabItemCommand()

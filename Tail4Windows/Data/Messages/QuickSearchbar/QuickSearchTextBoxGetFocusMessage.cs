@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.TailForWin.Data.Messages.FindWhat
+﻿namespace Org.Vs.TailForWin.Data.Messages.QuickSearchbar
 {
   /// <summary>
   /// QuickSearch textbox get focus message

@@ -42,6 +42,7 @@
   <converters:BoolToScrollbarVisibility x:Key="BoolToScrollbarVisibility" />
   <converters:ImageToBoolConverter x:Key="ImageToBoolConverter" />
   <converters:BoolToForegroundConverter x:Key="BoolToForegroundConverter" />
+  <converters:CountToForegroundConverter x:Key="CountToForegroundConverter" />
 
   <multiConverters:WidthToMarginMultiConverter x:Key="WidthToMarginMultiConverter" />
   <multiConverters:VisibilityToMarginMultiConverter x:Key="VisibilityToMarginConverter" />

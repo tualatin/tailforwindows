@@ -191,6 +191,7 @@
     </ApplicationDefinition>
     <Compile Include="BaseView\Events\Args\FileEncodingArgs.cs" />
     <Compile Include="BaseView\Events\Delegates\FileEncodingChangedEventHandler.cs" />
+    <Compile Include="BaseView\UserControls\Interfaces\IMainWindowQuickSearchViewModel.cs" />
     <Compile Include="Data\Messages\AddTabItemMessage.cs" />
     <Compile Include="Data\Messages\AddTailDataToQuickAddMessage.cs" />
     <Compile Include="Data\Messages\BringMainWindowToFrontMessage.cs" />
@@ -208,7 +209,8 @@
     <Compile Include="Data\Messages\OpenSmtpSettingMessage.cs" />
     <Compile Include="Data\Messages\OpenTailDataAsNewTabItem.cs" />
     <Compile Include="Data\Messages\OpenTailDataMessage.cs" />
-    <Compile Include="Data\Messages\FindWhat\QuickSearchTextBoxGetFocusMessage.cs" />
+    <Compile Include="Data\Messages\QuickSearchbar\ChangeWindowGuiMessage.cs" />
+    <Compile Include="Data\Messages\QuickSearchbar\QuickSearchTextBoxGetFocusMessage.cs" />
     <Compile Include="Data\Messages\ResetDataMessage.cs" />
     <Compile Include="Data\Messages\SetFloatingTopmostFlagMessage.cs" />
     <Compile Include="Data\Messages\ShowNotificationPopUpMessage.cs" />
@@ -288,6 +290,7 @@
     <Compile Include="UI\Converters\BoolToForegroundConverter.cs" />
     <Compile Include="UI\Converters\BoolToScrollbarVisibility.cs" />
     <Compile Include="UI\Converters\BoolToTextWrapConverter.cs" />
+    <Compile Include="UI\Converters\CountToForegroundConverter.cs" />
     <Compile Include="UI\Converters\DoubleToGridLengthConverter.cs" />
     <Compile Include="UI\Converters\FilterCountToStringConverter.cs" />
     <Compile Include="UI\Converters\FontToStringConverter.cs" />
@@ -918,7 +921,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BaseView\UserControls\Interfaces\" />
     <Folder Include="BaseView\UserControls\Styles\" />
     <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />

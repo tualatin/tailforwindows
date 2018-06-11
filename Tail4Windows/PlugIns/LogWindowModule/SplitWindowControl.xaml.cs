@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.Business.Data;
@@ -35,6 +36,7 @@ using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Extensions;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
@@ -439,11 +441,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !IsRightWindow(args.WindowGuid) )
         return;
 
-      LogWindowMainElement.SelectedItem = args.SelectedLogEntry;
-      LogWindowMainElement.ScrollIntoView(args.SelectedLogEntry);
-
       if ( _splitterPosition <= 0 )
+      {
+        LogWindowMainElement.SelectedItem = args.SelectedLogEntry;
+        LogWindowMainElement.ScrollIntoView(args.SelectedLogEntry);
         return;
+      }
 
       LogWindowSplitElement.SelectedItem = args.SelectedLogEntry;
       LogWindowSplitElement.ScrollIntoView(args.SelectedLogEntry);
@@ -512,11 +515,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         for ( int i = 0; i < LogEntries.Count; i++ )
         {
           LogEntry log = LogEntries[i];
-
           var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
 
           if ( result == null || result.Count == 0 )
             continue;
+
+          if ( findData.MarkLineAsBookmark )
+            SetBookmarkFromFindWhat(log);
 
           _findWhatResults.Add(log);
         }
@@ -524,11 +529,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         for ( int i = 0; i < CacheManager.GetCacheData().Count; i++ )
         {
           LogEntry log = CacheManager.GetCacheData()[i];
-
           var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
 
           if ( result == null || result.Count == 0 )
             continue;
+
+          if ( findData.MarkLineAsBookmark )
+            SetBookmarkFromFindWhat(log);
 
           _findWhatResults.Add(log);
         }
@@ -822,6 +829,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
+    }
+
+    private void SetBookmarkFromFindWhat(LogEntry log)
+    {
+      Dispatcher.Invoke(() =>
+      {
+        BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Boomark.png");
+        log.BookmarkPoint = bp;
+      });
     }
 
     private bool IsRightWindow(Guid windowGuid)
