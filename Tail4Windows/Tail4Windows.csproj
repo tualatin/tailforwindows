@@ -228,16 +228,16 @@
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FileManagerViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FilterManagerViewModel.cs" />
     <Compile Include="PlugIns\FindModule\Controller\LogEntryComparer.cs" />
-    <Compile Include="PlugIns\FindModule\FindDialog.xaml.cs">
-      <DependentUpon>FindDialog.xaml</DependentUpon>
+    <Compile Include="PlugIns\FindModule\FindWhat.xaml.cs">
+      <DependentUpon>FindWhat.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PlugIns\FindModule\FindResult.xaml.cs">
-      <DependentUpon>FindResult.xaml</DependentUpon>
+    <Compile Include="PlugIns\FindModule\FindWhatResult.xaml.cs">
+      <DependentUpon>FindWhatResult.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PlugIns\FindModule\Interfaces\IFindDialogViewModel.cs" />
-    <Compile Include="PlugIns\FindModule\ViewModels\FindDialogViewModel.cs" />
-    <Compile Include="PlugIns\FindModule\ViewModels\FindResultViewModel.cs" />
-    <Compile Include="PlugIns\FindModule\Interfaces\IFindResultViewModel.cs" />
+    <Compile Include="PlugIns\FindModule\Interfaces\IFindWhatViewModel.cs" />
+    <Compile Include="PlugIns\FindModule\ViewModels\FindWhatViewModel.cs" />
+    <Compile Include="PlugIns\FindModule\ViewModels\FindWhatResultViewModel.cs" />
+    <Compile Include="PlugIns\FindModule\Interfaces\IFindWhatResultViewModel.cs" />
     <Compile Include="PlugIns\FontChooserModule\FontChooseDialog.xaml.cs">
       <DependentUpon>FontChooseDialog.xaml</DependentUpon>
     </Compile>
@@ -546,11 +546,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PlugIns\FindModule\FindDialog.xaml">
+    <Page Include="PlugIns\FindModule\FindWhat.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PlugIns\FindModule\FindResult.xaml">
+    <Page Include="PlugIns\FindModule\FindWhatResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

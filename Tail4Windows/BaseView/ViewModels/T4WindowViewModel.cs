@@ -51,8 +51,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private string _currentSizeRefreshTime;
     private readonly IBaseWindowStatusbarViewModel _baseWindowStatusbarViewModel;
     private readonly CancellationTokenSource _cts;
-    private readonly FindResult _findWhatResultWindow;
-    private FindDialog _findWhatWindow;
+    private readonly FindWhatResult _findWhatResultWindow;
+    private FindWhat _findWhatWindow;
     private readonly ISettingsDbController _dbSettingsController;
 
     #region Events
@@ -250,7 +250,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFindWhatResultWindowMessage>(OnOpenFindWhatResultWindow);
 
       _cts = new CancellationTokenSource();
-      _findWhatResultWindow = new FindResult();
+      _findWhatResultWindow = new FindWhatResult();
       _dbSettingsController = SettingsDbController.Instance;
       _currentStatusbarState = EStatusbarState.Default;
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
@@ -512,9 +512,20 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand FindWhatResultCommand => _findWhatResultCommand ?? (_findWhatResultCommand = new RelayCommand(p => ExecuteFindWhatResultCommand()));
 
+    private ICommand _openFileManagerCommand;
+
+    /// <summary>
+    /// OpenFileManager command
+    /// </summary>
+    public ICommand OpenFileManagerCommand => _openFileManagerCommand ?? (_openFileManagerCommand = new RelayCommand(p => ExecuteOpenFileManagerCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteOpenFileManagerCommand()
+    {
+    }
 
     private void ExecuteFindWhatResultCommand()
     {
@@ -687,7 +698,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         return;
       }
 
-      _findWhatWindow = new FindDialog
+      _findWhatWindow = new FindWhat
       {
         ShouldClose = true,
         SearchText = !string.IsNullOrWhiteSpace(args.FindWhat) ? args.FindWhat : null,

@@ -11,19 +11,19 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
   /// <summary>
   /// Interaction logic for FindResult.xaml
   /// </summary>
-  public partial class FindResult
+  public partial class FindWhatResult
   {
-    private readonly IFindResultViewModel _findWhatResultViewModel;
+    private readonly IFindWhatResultViewModel _findWhatResultViewModel;
     private Action<FindWhatResultMessage> _findWhatResultHandler;
 
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public FindResult()
+    public FindWhatResult()
     {
       InitializeComponent();
 
-      _findWhatResultViewModel = (FindResultViewModel) DataContext;
+      _findWhatResultViewModel = (FindWhatResultViewModel) DataContext;
       _findWhatResultHandler = EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<FindWhatResultMessage>(OnShowFindWhatResults);
     }
 

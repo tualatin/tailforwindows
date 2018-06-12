@@ -313,7 +313,7 @@
           </MenuItem>
 
           <MenuItem
-            Header="\b[0-9]*\.*[0-9]+\b"
+            Header="{DynamicResource RegexHelper1}"
             Command="{Binding RegexContextMenuItemCommand}"
             CommandParameter="\b[0-9]*\.*[0-9]+\b"
             >
@@ -329,7 +329,7 @@
           <Separator />
 
           <MenuItem
-            Header="{DynamicResource FindDialogRegexHelp}"
+            Header="{DynamicResource RegexHelperUrl}"
             Command="{Binding RegexContextMenuHelpCommand}"
             >
             <MenuItem.Icon>

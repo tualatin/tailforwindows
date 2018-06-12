@@ -414,9 +414,20 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// </summary>
     public ICommand ToggleAlwaysOnTopCommand => _toggleAlwaysOnTopCommand ?? (_toggleAlwaysOnTopCommand = new RelayCommand(p => ExecuteToggleAlwaysOnTopCommand()));
 
+    private ICommand _openFileManagerCommand;
+
+    /// <summary>
+    /// OpenFileManager command
+    /// </summary>
+    public ICommand OpenFileManagerCommand => _openFileManagerCommand ?? (_openFileManagerCommand = new RelayCommand(p => ExecuteOpenFileManagerCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteOpenFileManagerCommand()
+    {
+    }
 
     private void ExecuteFindWhatResultCommand()
     {

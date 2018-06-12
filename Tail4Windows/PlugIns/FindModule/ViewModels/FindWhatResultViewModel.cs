@@ -21,7 +21,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
   /// <summary>
   /// FindResult view model
   /// </summary>
-  public class FindResultViewModel : NotifyMaster, IFindResultViewModel
+  public class FindWhatResultViewModel : NotifyMaster, IFindWhatResultViewModel
   {
     private readonly List<Predicate<LogEntry>> _criteria = new List<Predicate<LogEntry>>();
     private readonly ISettingsDbController _dbController;
@@ -190,7 +190,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public FindResultViewModel()
+    public FindWhatResultViewModel()
     {
       _dbController = SettingsDbController.Instance;
       FindWhatResultSource = new ObservableCollection<LogEntry>();

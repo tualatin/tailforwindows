@@ -1,5 +1,5 @@
 ﻿<floatWindow:VsFloatingWindow
-  x:Class="Org.Vs.TailForWin.PlugIns.FindModule.FindDialog"
+  x:Class="Org.Vs.TailForWin.PlugIns.FindModule.FindWhat"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -22,7 +22,7 @@
   Top="{Binding TopPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   >
   <floatWindow:VsFloatingWindow.DataContext>
-    <viewModels:FindDialogViewModel />
+    <viewModels:FindWhatViewModel />
   </floatWindow:VsFloatingWindow.DataContext>
 
   <i:Interaction.Triggers>

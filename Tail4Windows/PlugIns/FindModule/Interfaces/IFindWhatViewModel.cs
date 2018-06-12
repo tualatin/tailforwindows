@@ -11,7 +11,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
   /// <summary>
   /// FindDialog view model interface
   /// </summary>
-  public interface IFindDialogViewModel
+  public interface IFindWhatViewModel
   {
     /// <summary>
     /// Top position

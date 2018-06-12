@@ -10,7 +10,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
   /// <summary>
   /// FindResult view model interface
   /// </summary>
-  public interface IFindResultViewModel
+  public interface IFindWhatResultViewModel
   {
     /// <summary>
     /// Closing command

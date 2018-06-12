@@ -406,7 +406,12 @@
   <system:String x:Key="FindDialogBookmarkLineToolTip">Bookmark all result automatically</system:String>
   <system:String x:Key="FindDialogSearchCount">Count: {0} matches.</system:String>
   <system:String x:Key="FindWhatInputGesture">CTRL+F</system:String>
-  <system:String x:Key="FindDialogRegexHelp">Regular Expression Help</system:String>
+
+  <system:String
+    x:Key="RegexHelper1"
+    xml:space="preserve"
+    >\b[0-9]*\.*[0-9]+\b&#x09;Match integers and decimals</system:String>
+  <system:String x:Key="RegexHelperUrl">Regular Expression Help</system:String>
 
   <system:String x:Key="GoToLineWindowTitle">Go to line</system:String>
 

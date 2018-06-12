@@ -25,9 +25,9 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
   /// <summary>
   /// FindDialog view model
   /// </summary>
-  public class FindDialogViewModel : NotifyMaster, IFindDialogViewModel
+  public class FindWhatViewModel : NotifyMaster, IFindWhatViewModel
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof(FindDialogViewModel));
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(FindWhatViewModel));
 
     private readonly ISettingsDbController _dbController;
     private readonly IXmlSearchHistory<IObservableDictionary<string, string>> _searchHistoryController;
@@ -171,7 +171,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public FindDialogViewModel()
+    public FindWhatViewModel()
     {
       _dbController = SettingsDbController.Instance;
       _searchHistoryController = new XmlSearchHistoryController();

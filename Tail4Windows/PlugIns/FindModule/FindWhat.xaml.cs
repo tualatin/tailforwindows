@@ -9,9 +9,9 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
   /// <summary>
   /// Interaction logic for FindDialog.xaml
   /// </summary>
-  public partial class FindDialog
+  public partial class FindWhat
   {
-    private readonly IFindDialogViewModel _findDialogViewModel;
+    private readonly IFindWhatViewModel _findDialogViewModel;
 
     #region Properties
 
@@ -73,11 +73,11 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public FindDialog()
+    public FindWhat()
     {
       InitializeComponent();
 
-      _findDialogViewModel = (FindDialogViewModel) DataContext;
+      _findDialogViewModel = (FindWhatViewModel) DataContext;
     }
   }
 }
