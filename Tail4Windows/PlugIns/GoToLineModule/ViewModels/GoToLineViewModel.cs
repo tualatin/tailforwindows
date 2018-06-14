@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
-using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.UI.Commands;
 
 

@@ -23,6 +23,7 @@ using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
+using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.Data.Messages.QuickSearchbar;
 using Org.Vs.TailForWin.PlugIns.FindModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
@@ -423,20 +424,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     #region Commands
 
-    private ICommand _goToLineCommand;
-
-    /// <summary>
-    /// Go to line xxx command
-    /// </summary>
-    public ICommand GoToLineCommand => _goToLineCommand ?? (_goToLineCommand = new RelayCommand(p => ExecuteGoToLineCommand()));
-
-    private ICommand _quickSearchCommand;
-
-    /// <summary>
-    /// Quick search command
-    /// </summary>
-    public ICommand QuickSearchCommand => _quickSearchCommand ?? (_quickSearchCommand = new RelayCommand(p => ExecuteQuickSearchCommand()));
-
     private IAsyncCommand _loadedCommand;
 
     /// <summary>
@@ -455,13 +442,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// Window closing command
     /// </summary>
     public IAsyncCommand WndClosingCommand => _wndClosingCommand ?? (_wndClosingCommand = AsyncCommand.Create((p, t) => ExecuteWndClosingCommandAsync(p)));
-
-    private ICommand _toggleAlwaysOnTopCommand;
-
-    /// <summary>
-    /// Toggle always on top command
-    /// </summary>
-    public ICommand ToggleAlwaysOnTopCommand => _toggleAlwaysOnTopCommand ?? (_toggleAlwaysOnTopCommand = new RelayCommand(p => ExecuteToggleAlwaysOnTopCommand()));
 
     private ICommand _previewKeyDownCommand;
 
@@ -498,85 +478,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand DeactivatedCommand => _deactivatedCommand ?? (_deactivatedCommand = new RelayCommand(p => ExecuteDeactivatedCommand()));
 
-    private ICommand _findWhatCommand;
-
-    /// <summary>
-    /// FindWhat command
-    /// </summary>
-    public ICommand FindWhatCommand => _findWhatCommand ?? (_findWhatCommand = new RelayCommand(p => ExecuteFindWhatCommand()));
-
-    private ICommand _findWhatResultCommand;
-
-    /// <summary>
-    /// FindWhatResult command
-    /// </summary>
-    public ICommand FindWhatResultCommand => _findWhatResultCommand ?? (_findWhatResultCommand = new RelayCommand(p => ExecuteFindWhatResultCommand()));
-
-    private ICommand _openFileManagerCommand;
-
-    /// <summary>
-    /// OpenFileManager command
-    /// </summary>
-    public ICommand OpenFileManagerCommand => _openFileManagerCommand ?? (_openFileManagerCommand = new RelayCommand(p => ExecuteOpenFileManagerCommand()));
-
-    private ICommand _openFilterManagerCommand;
-
-    /// <summary>
-    /// OpenFilterManager command
-    /// </summary>
-    public ICommand OpenFilterManagerCommand => _openFilterManagerCommand ?? (_openFilterManagerCommand = new RelayCommand(p => ExecuteOpenFilterManagerCommand()));
-
-    private ICommand _toggleFilterCommand;
-
-    /// <summary>
-    /// ToggleFilter command
-    /// </summary>
-    public ICommand ToggleFilterCommand => _toggleFilterCommand ?? (_toggleFilterCommand = new RelayCommand(p => ExecuteToggleFilterCommand()));
-
     #endregion
 
     #region Command functions
-
-    private void ExecuteToggleFilterCommand()
-    {
-      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
-        return;
-
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ToggleFilterMessage(control.WindowId));
-    }
-
-    private void ExecuteOpenFilterManagerCommand()
-    {
-      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
-        return;
-
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFilterManagerMessage(control.WindowId));
-    }
-
-    private void ExecuteOpenFileManagerCommand()
-    {
-      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
-        return;
-
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailManagerMessage(control.WindowId));
-    }
-
-    private void ExecuteFindWhatResultCommand()
-    {
-      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
-        return;
-
-      OnOpenFindWhatResultWindow(new OpenFindWhatResultWindowMessage(control.SplitWindow.FindWhatResults, control.WindowId));
-    }
-
-    private void ExecuteFindWhatCommand()
-    {
-      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
-        return;
-
-      string findWhat = control.SplitWindow.SelectedText;
-      OnOpenFindWhatWindow(new OpenFindWhatWindowMessage(this, SelectedTabItem.HeaderContent, control.WindowId, findWhat));
-    }
 
     private void ExecuteActivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
 
@@ -649,6 +553,126 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }).ConfigureAwait(false);
 
       await CleanGarbageCollectorAsync().ConfigureAwait(false);
+    }
+
+    #endregion
+
+    #region KeyBinding commands
+
+    private ICommand _toggleAlwaysOnTopCommand;
+
+    /// <summary>
+    /// Toggle always on top command
+    /// </summary>
+    public ICommand ToggleAlwaysOnTopCommand => _toggleAlwaysOnTopCommand ?? (_toggleAlwaysOnTopCommand = new RelayCommand(p => ExecuteToggleAlwaysOnTopCommand()));
+
+    private ICommand _goToLineCommand;
+
+    /// <summary>
+    /// Go to line xxx command
+    /// </summary>
+    public ICommand GoToLineCommand => _goToLineCommand ?? (_goToLineCommand = new RelayCommand(p => ExecuteGoToLineCommand()));
+
+    private ICommand _quickSearchCommand;
+
+    /// <summary>
+    /// Quick search command
+    /// </summary>
+    public ICommand QuickSearchCommand => _quickSearchCommand ?? (_quickSearchCommand = new RelayCommand(p => ExecuteQuickSearchCommand()));
+
+    private ICommand _findWhatCommand;
+
+    /// <summary>
+    /// FindWhat command
+    /// </summary>
+    public ICommand FindWhatCommand => _findWhatCommand ?? (_findWhatCommand = new RelayCommand(p => ExecuteFindWhatCommand()));
+
+    private ICommand _findWhatResultCommand;
+
+    /// <summary>
+    /// FindWhatResult command
+    /// </summary>
+    public ICommand FindWhatResultCommand => _findWhatResultCommand ?? (_findWhatResultCommand = new RelayCommand(p => ExecuteFindWhatResultCommand()));
+
+    private ICommand _openFileManagerCommand;
+
+    /// <summary>
+    /// OpenFileManager command
+    /// </summary>
+    public ICommand OpenFileManagerCommand => _openFileManagerCommand ?? (_openFileManagerCommand = new RelayCommand(p => ExecuteOpenFileManagerCommand()));
+
+    private ICommand _openFilterManagerCommand;
+
+    /// <summary>
+    /// OpenFilterManager command
+    /// </summary>
+    public ICommand OpenFilterManagerCommand => _openFilterManagerCommand ?? (_openFilterManagerCommand = new RelayCommand(p => ExecuteOpenFilterManagerCommand()));
+
+    private ICommand _toggleFilterCommand;
+
+    /// <summary>
+    /// ToggleFilter command
+    /// </summary>
+    public ICommand ToggleFilterCommand => _toggleFilterCommand ?? (_toggleFilterCommand = new RelayCommand(p => ExecuteToggleFilterCommand()));
+
+    private ICommand _quickSaveCommand;
+
+    /// <summary>
+    /// Quick save command
+    /// </summary>
+    public ICommand QuickSaveCommand => _quickSaveCommand ?? (_quickSaveCommand = new RelayCommand(p => ExecuteQuickSaveCommand()));
+
+    #endregion
+
+    #region KeyBinding command functions
+
+    private void ExecuteQuickSaveCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new QuickSaveMessage(control.WindowId));
+    }
+
+    private void ExecuteToggleFilterCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ToggleFilterMessage(control.WindowId));
+    }
+
+    private void ExecuteOpenFilterManagerCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFilterManagerMessage(control.WindowId));
+    }
+
+    private void ExecuteOpenFileManagerCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailManagerMessage(control.WindowId));
+    }
+
+    private void ExecuteFindWhatResultCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      OnOpenFindWhatResultWindow(new OpenFindWhatResultWindowMessage(control.SplitWindow.FindWhatResults, control.WindowId));
+    }
+
+    private void ExecuteFindWhatCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      string findWhat = control.SplitWindow.SelectedText;
+      OnOpenFindWhatWindow(new OpenFindWhatWindowMessage(this, SelectedTabItem.HeaderContent, control.WindowId, findWhat));
     }
 
     private void ExecuteQuickSearchCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new QuickSearchTextBoxGetFocusMessage(this, true));

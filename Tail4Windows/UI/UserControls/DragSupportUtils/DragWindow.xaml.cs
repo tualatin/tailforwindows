@@ -14,6 +14,7 @@ using Org.Vs.TailForWin.Core.Native.Data.Enum;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
+using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
@@ -372,6 +373,14 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     #region Commands
 
+    #endregion
+
+    #region Command functions
+
+    #endregion
+
+    #region KeyBinding commands
+
     private ICommand _goToLineCommand;
 
     /// <summary>
@@ -435,9 +444,24 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// </summary>
     public ICommand ToggleFilterCommand => _toggleFilterCommand ?? (_toggleFilterCommand = new RelayCommand(p => ExecuteToggleFilterCommand()));
 
+    private ICommand _quickSaveCommand;
+
+    /// <summary>
+    /// Quick save command
+    /// </summary>
+    public ICommand QuickSaveCommand => _quickSaveCommand ?? (_quickSaveCommand = new RelayCommand(p => ExecuteQuickSaveCommand()));
+
     #endregion
 
-    #region Command functions
+    #region KeyBinding command functions
+
+    private void ExecuteQuickSaveCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new QuickSaveMessage(control.WindowId));
+    }
 
     private void ExecuteToggleFilterCommand()
     {

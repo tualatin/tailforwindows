@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Org.Vs.TailForWin.Data.Messages
+namespace Org.Vs.TailForWin.Data.Messages.Keybindings
 {
   /// <summary>
   /// Open FilterManager message

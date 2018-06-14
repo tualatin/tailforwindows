@@ -16,12 +16,14 @@ using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
+using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
@@ -443,6 +445,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailManagerMessage>(OnOpenTailManager);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFilterManagerMessage>(OnOpenFilterManager);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ToggleFilterMessage>(OnToggleFilter);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<QuickSaveMessage>(OnQuickSave);
 
       _historyQueueSet = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
     }
@@ -455,6 +458,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenTailManagerMessage>(OnOpenTailManager);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenFilterManagerMessage>(OnOpenFilterManager);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ToggleFilterMessage>(OnToggleFilter);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<QuickSaveMessage>(OnQuickSave);
     }
 
     private bool CanExecuteOpenFontDialog() => LogWindowState == EStatusbarState.FileLoaded || LogWindowState == EStatusbarState.Busy;
@@ -839,6 +843,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       // Wait some ms to set the correct focus
       await Task.Delay(TimeSpan.FromMilliseconds(25)).ConfigureAwait(false);
       return true;
+    }
+
+    private void OnQuickSave(QuickSaveMessage args)
+    {
+      if ( args.WindowGuid != WindowId || !CanExecuteQuickSaveCommand() )
+        return;
+
+      NotifyTaskCompletion.Create(ExecuteQuickSaveCommandAsync());
     }
 
     private void OnToggleFilter(ToggleFilterMessage args)

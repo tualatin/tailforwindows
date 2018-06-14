@@ -160,7 +160,6 @@
   <system:String x:Key="ExtendedTailSettingsLabel">Zeige erweiterte Einstellungen</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Zeige die erweiterten Einstellungen des aktuellen tail Tabs</system:String>
   <system:String x:Key="ExtendedTailSettingsFilterLabel">Filter Einstellungen</system:String>
-  <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Open in Explorer</system:String>
   <system:String x:Key="ExtendedTailSettingsFilterInputGestureText">STRG+SHIFT+F</system:String>
   <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Öffne in Explorer</system:String>
   <system:String x:Key="ExtendedTailSettingsPrintTailLog">Drucke aktuelle Logdatei</system:String>
@@ -407,6 +406,90 @@
   <system:String x:Key="FindDialogSearchCount">Anzahl: {0} Treffer.</system:String>
   <system:String x:Key="FindWhatInputGesture">STRG+F</system:String>
 
+  <system:String
+    x:Key="RegexHelper1"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Trifft jedes einzelne Zeichen</system:String>
+  <system:String
+    x:Key="RegexHelper2"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Trifft jedes Zeichen null mal oder häufiger</system:String>
+  <system:String
+    x:Key="RegexHelper3"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Trifft jedes Zeichen ein mal oder häufiger</system:String>
+  <system:String
+    x:Key="RegexHelper4"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Trifft jedes Zeichen im Set 'abc'</system:String>
+  <system:String
+    x:Key="RegexHelper5"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Trifft jedes Zeichen NICHT im Set 'abc'</system:String>
+  <system:String
+    x:Key="RegexHelper6"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Trifft jedes Zeichen zwischen a und f</system:String>
+  <system:String
+    x:Key="RegexHelper7"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Trifft jeden Buchstaben</system:String>
+  <system:String
+    x:Key="RegexHelper8"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Trifft jedes nummerische Zeichen</system:String>
+  <system:String
+    x:Key="RegexHelper9"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;Trifft jedes Leerzeichen</system:String>
+  <system:String
+    x:Key="RegexHelper10"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match preceding character zero or one times</system:String>
+  <system:String
+    x:Key="RegexHelper11"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match preceding character zero or more times</system:String>
+  <system:String
+    x:Key="RegexHelper12"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match preceding character one or more times</system:String>
+  <system:String
+    x:Key="RegexHelper13"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Trifft drei fortlaufende Decimale Zeichen</system:String>
+  <system:String
+    x:Key="RegexHelper14"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Trifft den Anfang oder das Ende eines Wortes</system:String>
+  <system:String
+    x:Key="RegexHelper15"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Trifft den Anfang einer Zeile</system:String>
+  <system:String
+    x:Key="RegexHelper16"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Trifft jeden Zeilenumbruch</system:String>
+  <system:String
+    x:Key="RegexHelper17"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Trifft ein Zeichen am Ende</system:String>
+  <system:String
+    x:Key="RegexHelper18"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Capture and implicity number the subexpression 'dog|cat'</system:String>
+  <system:String
+    x:Key="RegexHelper19"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Backreference the first captured subexpression</system:String>
+  <system:String
+    x:Key="RegexHelper20"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;Trifft eine Hexadecimal Nummer</system:String>
+  <system:String
+    x:Key="RegexHelper21"
+    xml:space="preserve"
+    >{0}&#x09;Trifft Integer und Decimal</system:String>
   <system:String x:Key="RegexHelperUrl">Regular Expression Hilfe</system:String>
 
   <system:String x:Key="GoToLineWindowTitle">Gehe zur Zeile</system:String>

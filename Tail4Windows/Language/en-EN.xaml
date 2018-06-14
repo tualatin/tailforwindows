@@ -411,7 +411,87 @@
   <system:String
     x:Key="RegexHelper1"
     xml:space="preserve"
-    >\b[0-9]*\.*[0-9]+\b&#x09;Match integers and decimals</system:String>
+    >{0}&#x09;&#x09;&#x09;Match any single character</system:String>
+  <system:String
+    x:Key="RegexHelper2"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match any character zero or more times</system:String>
+  <system:String
+    x:Key="RegexHelper3"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match any character one or more times</system:String>
+  <system:String
+    x:Key="RegexHelper4"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match any character in the set 'abc'</system:String>
+  <system:String
+    x:Key="RegexHelper5"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match any character NOT in the set 'abc'</system:String>
+  <system:String
+    x:Key="RegexHelper6"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match any character in the range a to f</system:String>
+  <system:String
+    x:Key="RegexHelper7"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match any word character</system:String>
+  <system:String
+    x:Key="RegexHelper8"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match any numeric character</system:String>
+  <system:String
+    x:Key="RegexHelper9"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;Match any whitespace character</system:String>
+  <system:String
+    x:Key="RegexHelper10"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match preceding character zero or one times</system:String>
+  <system:String
+    x:Key="RegexHelper11"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match preceding character zero or more times</system:String>
+  <system:String
+    x:Key="RegexHelper12"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match preceding character one or more times</system:String>
+  <system:String
+    x:Key="RegexHelper13"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match three consecutive decimal digits</system:String>
+  <system:String
+    x:Key="RegexHelper14"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match at beginning or end of word</system:String>
+  <system:String
+    x:Key="RegexHelper15"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match at beginning of line</system:String>
+  <system:String
+    x:Key="RegexHelper16"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match any line break</system:String>
+  <system:String
+    x:Key="RegexHelper17"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Match a word character at end of line</system:String>
+  <system:String
+    x:Key="RegexHelper18"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Capture and implicity number the subexpression 'dog|cat'</system:String>
+  <system:String
+    x:Key="RegexHelper19"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;&#x09;Backreference the first captured subexpression</system:String>
+  <system:String
+    x:Key="RegexHelper20"
+    xml:space="preserve"
+    >{0}&#x09;&#x09;Match a hexadecimal number</system:String>
+  <system:String
+    x:Key="RegexHelper21"
+    xml:space="preserve"
+    >{0}&#x09;Match integers and decimals</system:String>
   <system:String x:Key="RegexHelperUrl">Regular Expression Help</system:String>
 
   <system:String x:Key="GoToLineWindowTitle">Go to line</system:String>

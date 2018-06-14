@@ -78,6 +78,14 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
     }
 
     /// <summary>
+    /// Quick save command
+    /// </summary>
+    ICommand QuickSaveCommand
+    {
+      get;
+    }
+
+    /// <summary>
     /// Window style
     /// </summary>
     Style T4WindowsStyle

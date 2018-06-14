@@ -1,15 +1,18 @@
 Ctrl+G		                          Go To Line
 Ctrl+F		                          Find what
+Ctrl+Alt+F                          Find what result
 Ctrl+O		                          Open file
-Ctrl+M		                          Open FileManager
+Ctrl+M		                          Open TailManager
+Ctrl+Shift+F                        Open FilterManager
 Ctrl+E		                          Clear TextEditor window
 Ctrl+R		                          Start tail
-Ctrl+S		                          Stop tail
+Ctrl+U		                          Stop tail
 Ctrl+C		                          Copy line in TextEditor
 Ctrl+T		                          New tab window
 Ctrl+W		                          Close tab window
-ALT+T			                          Always on top on/off
-F			                              Filter on/off
+Ctrl+S                              Quick save
+Alt+T			                          Always on top on/off
+Alt+F	                              Filter on/off
 Ctrl+Alt+M	                        Minimize mainwindow
 F3                                  Searching forward()
 MiddleMouse button over TailWindow  New tab window

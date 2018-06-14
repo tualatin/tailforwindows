@@ -32,6 +32,7 @@
     <KeyBinding Key="{Binding Key, Source={StaticResource OpenFileManagerKeyBinding}, Mode=OneTime}" Command="{Binding OpenFileManagerCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenFileManagerKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource OpenFilterManagerKeyBinding}, Mode=OneTime}" Command="{Binding OpenFilterManagerCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenFilterManagerKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource ToggleFilterKeyBinding}, Mode=OneTime}" Command="{Binding ToggleFilterCommand}" Modifiers="{Binding Modifiers, Source={StaticResource ToggleFilterKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource QuickSaveKeyBinding}, Mode=OneTime}" Command="{Binding QuickSaveCommand}" Modifiers="{Binding Modifiers, Source={StaticResource QuickSaveKeyBinding}, Mode=OneTime}" />
   </Window.InputBindings>
 
   <Grid>
