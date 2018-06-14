@@ -98,7 +98,7 @@
   <system:String x:Key="ComboBoxRemoveSpace">Leerzeilen entfernen</system:String>
   <system:String x:Key="ComboBoxRemoveSpaceToolTip">Entfernt unnötige Leerzeilen</system:String>
   <system:String x:Key="ComboBoxFilter">Filter</system:String>
-  <system:String x:Key="ComboBoxFilterToolTip">Aktiviert/Deaktiviert die Filter</system:String>
+  <system:String x:Key="ComboBoxFilterToolTip">Aktiviert/Deaktiviert die Filter ALT+F</system:String>
   <system:String x:Key="ToggleMenuButtonToolTip">Erweiterte tail Einstellungen</system:String>
   <system:String x:Key="ButtonFileManager">TailManager</system:String>
   <system:String x:Key="ButtonFileManagerToolTip">Öffnet den TailManager (STRG+M)</system:String>
@@ -160,6 +160,8 @@
   <system:String x:Key="ExtendedTailSettingsLabel">Zeige erweiterte Einstellungen</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Zeige die erweiterten Einstellungen des aktuellen tail Tabs</system:String>
   <system:String x:Key="ExtendedTailSettingsFilterLabel">Filter Einstellungen</system:String>
+  <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Open in Explorer</system:String>
+  <system:String x:Key="ExtendedTailSettingsFilterInputGestureText">STRG+SHIFT+F</system:String>
   <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Öffne in Explorer</system:String>
   <system:String x:Key="ExtendedTailSettingsPrintTailLog">Drucke aktuelle Logdatei</system:String>
   <system:String x:Key="ExtendedTailSettingsQuickSave">Schnell Speichern</system:String>

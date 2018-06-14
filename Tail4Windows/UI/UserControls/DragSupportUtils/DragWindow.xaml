@@ -30,6 +30,8 @@
     <KeyBinding Key="{Binding Key, Source={StaticResource NewTabItemKeyBinding}, Mode=OneTime}" Command="{Binding AddNewTabItemCommand}" Modifiers="{Binding Modifiers, Source={StaticResource NewTabItemKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource CloseTabItemKeyBinding}, Mode=OneTime}" Command="{Binding CloseTabItemCommand}" Modifiers="{Binding Modifiers, Source={StaticResource CloseTabItemKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource OpenFileManagerKeyBinding}, Mode=OneTime}" Command="{Binding OpenFileManagerCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenFileManagerKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource OpenFilterManagerKeyBinding}, Mode=OneTime}" Command="{Binding OpenFilterManagerCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenFilterManagerKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource ToggleFilterKeyBinding}, Mode=OneTime}" Command="{Binding ToggleFilterCommand}" Modifiers="{Binding Modifiers, Source={StaticResource ToggleFilterKeyBinding}, Mode=OneTime}" />
   </Window.InputBindings>
 
   <Grid>

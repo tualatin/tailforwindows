@@ -98,7 +98,7 @@
   <system:String x:Key="ComboBoxRemoveSpace">Remove space</system:String>
   <system:String x:Key="ComboBoxRemoveSpaceToolTip">Remove extra spaces from each log line</system:String>
   <system:String x:Key="ComboBoxFilter">Filter</system:String>
-  <system:String x:Key="ComboBoxFilterToolTip">Activate/deactivate filter(s)</system:String>
+  <system:String x:Key="ComboBoxFilterToolTip">Activate/deactivate filter(s) ALT+F</system:String>
   <system:String x:Key="ToggleMenuButtonToolTip">Extended tail settings</system:String>
   <system:String x:Key="ButtonFileManager">TailManager</system:String>
   <system:String x:Key="ButtonFileManagerToolTip">Opens the TailManager (CTRL+M)</system:String>
@@ -160,6 +160,7 @@
   <system:String x:Key="ExtendedTailSettingsLabel">Show extended settings</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Shows the extended tail settings for current tab</system:String>
   <system:String x:Key="ExtendedTailSettingsFilterLabel">Filter settings</system:String>
+  <system:String x:Key="ExtendedTailSettingsFilterInputGestureText">CTRL+SHIFT+F</system:String>
   <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Open in Explorer</system:String>
   <system:String x:Key="ExtendedTailSettingsPrintTailLog">Print current log file</system:String>
   <system:String x:Key="ExtendedTailSettingsQuickSave">Quick save</system:String>

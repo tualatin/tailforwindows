@@ -19,7 +19,7 @@ namespace Org.Vs.TailForWin.Data.Messages.FindWhat
     }
 
     /// <summary>
-    /// Which window calls the find dialog
+    /// Which window calls the FindWhat result dialog
     /// </summary>
     public Guid WindowGuid
     {
@@ -30,7 +30,7 @@ namespace Org.Vs.TailForWin.Data.Messages.FindWhat
     /// Standard constructor
     /// </summary>
     /// <param name="findWhatResults"><see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/></param>
-    /// <param name="windowGuid">Which window calls the FindWhat dialog</param>
+    /// <param name="windowGuid">Which window calls the FindWhat result dialog</param>
     public OpenFindWhatResultWindowMessage(ObservableCollection<LogEntry> findWhatResults, Guid windowGuid)
     {
       FindWhatResults = findWhatResults;

@@ -440,6 +440,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DisableQuickAddInTailDataMessage>(OnDisableQuickAddFlag);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataMessage>(OnOpenTailData);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenGoToLineDialogMessage>(OnOpenGoToLineDialog);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailManagerMessage>(OnOpenTailManager);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFilterManagerMessage>(OnOpenFilterManager);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ToggleFilterMessage>(OnToggleeFilter);
 
       _historyQueueSet = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
     }
@@ -449,6 +452,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<DisableQuickAddInTailDataMessage>(OnDisableQuickAddFlag);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenTailDataMessage>(OnOpenTailData);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenGoToLineDialogMessage>(OnOpenGoToLineDialog);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenTailManagerMessage>(OnOpenTailManager);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenFilterManagerMessage>(OnOpenFilterManager);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ToggleFilterMessage>(OnToggleeFilter);
     }
 
     private bool CanExecuteOpenFontDialog() => LogWindowState == EStatusbarState.FileLoaded || LogWindowState == EStatusbarState.Busy;
@@ -833,6 +839,31 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       // Wait some ms to set the correct focus
       await Task.Delay(TimeSpan.FromMilliseconds(25)).ConfigureAwait(false);
       return true;
+    }
+
+    private void OnToggleeFilter(ToggleFilterMessage args)
+    {
+      if ( args.WindowGuid != WindowId && CurrentTailData != null && CurrentTailData.ListOfFilter.Count > 0 )
+        return;
+
+      if ( CurrentTailData != null )
+        CurrentTailData.FilterState = !CurrentTailData.FilterState;
+    }
+
+    private void OnOpenFilterManager(OpenFilterManagerMessage args)
+    {
+      if ( args.WindowGuid != WindowId || !FileIsValid )
+        return;
+
+      ExecuteOpenTailDataFilterCommand();
+    }
+
+    private void OnOpenTailManager(OpenTailManagerMessage args)
+    {
+      if ( args.WindowGuid != WindowId )
+        return;
+
+      OpenFileManager();
     }
 
     private void OnOpenGoToLineDialog(OpenGoToLineDialogMessage args)

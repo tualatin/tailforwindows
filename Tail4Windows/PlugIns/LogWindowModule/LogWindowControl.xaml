@@ -920,6 +920,7 @@
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsFilterLabel}"
                   Command="{Binding OpenTailDataFilterCommand}"
+                  InputGestureText="{DynamicResource ExtendedTailSettingsFilterInputGestureText}"
                   >
                   <MenuItem.Icon>
                     <Image

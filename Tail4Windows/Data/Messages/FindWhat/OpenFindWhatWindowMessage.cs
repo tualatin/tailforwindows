@@ -35,7 +35,7 @@ namespace Org.Vs.TailForWin.Data.Messages.FindWhat
     }
 
     /// <summary>
-    /// Which window calls the find dialog
+    /// Which window calls the FindWhat dialog
     /// </summary>
     public Guid WindowGuid
     {

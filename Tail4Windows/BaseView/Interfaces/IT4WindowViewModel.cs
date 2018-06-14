@@ -14,6 +14,22 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
   public interface IT4WindowViewModel : IViewModelBase
   {
     /// <summary>
+    /// ToggleFilter command
+    /// </summary>
+    ICommand ToggleFilterCommand
+    {
+      get;
+    }
+
+    /// <summary>
+    /// OpenFilterManager command
+    /// </summary>
+    ICommand OpenFilterManagerCommand
+    {
+      get;
+    }
+
+    /// <summary>
     /// OpenFileManager command
     /// </summary>
     ICommand OpenFileManagerCommand

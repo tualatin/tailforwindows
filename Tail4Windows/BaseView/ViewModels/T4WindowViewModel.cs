@@ -519,12 +519,46 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand OpenFileManagerCommand => _openFileManagerCommand ?? (_openFileManagerCommand = new RelayCommand(p => ExecuteOpenFileManagerCommand()));
 
+    private ICommand _openFilterManagerCommand;
+
+    /// <summary>
+    /// OpenFilterManager command
+    /// </summary>
+    public ICommand OpenFilterManagerCommand => _openFilterManagerCommand ?? (_openFilterManagerCommand = new RelayCommand(p => ExecuteOpenFilterManagerCommand()));
+
+    private ICommand _toggleFilterCommand;
+
+    /// <summary>
+    /// ToggleFilter command
+    /// </summary>
+    public ICommand ToggleFilterCommand => _toggleFilterCommand ?? (_toggleFilterCommand = new RelayCommand(p => ExecuteToggleFilterCommand()));
+
     #endregion
 
     #region Command functions
 
+    private void ExecuteToggleFilterCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ToggleFilterMessage(control.WindowId));
+    }
+
+    private void ExecuteOpenFilterManagerCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFilterManagerMessage(control.WindowId));
+    }
+
     private void ExecuteOpenFileManagerCommand()
     {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailManagerMessage(control.WindowId));
     }
 
     private void ExecuteFindWhatResultCommand()

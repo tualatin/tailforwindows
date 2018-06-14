@@ -17,7 +17,7 @@ namespace Org.Vs.TailForWin.Data.Messages.FindWhat
     }
 
     /// <summary>
-    /// Which window calls the find dialog
+    /// Which window calls the FindWhat dialog
     /// </summary>
     public Guid WindowGuid
     {
@@ -27,7 +27,7 @@ namespace Org.Vs.TailForWin.Data.Messages.FindWhat
     /// <summary>
     /// Standard constructor
     /// </summary>
-    /// <param name="windowGuid">Which window calls the find dialog</param>
+    /// <param name="windowGuid">Which window calls the FindWhat dialog</param>
     /// <param name="count">Count result</param>
     public FindWhatCountResponseMessage(Guid windowGuid, int count)
     {

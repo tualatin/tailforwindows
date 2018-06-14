@@ -10,7 +10,7 @@ namespace Org.Vs.TailForWin.Data.Messages.FindWhat
   public class StartSearchAllMessage
   {
     /// <summary>
-    /// Which window calls the find dialog
+    /// Which window calls the FindWhat dialog
     /// </summary>
     public Guid WindowGuid
     {
@@ -36,7 +36,7 @@ namespace Org.Vs.TailForWin.Data.Messages.FindWhat
     /// <summary>
     /// Standard constructor
     /// </summary>
-    /// <param name="windowGuid">Which window calls the find dialog</param>
+    /// <param name="windowGuid">Which window calls the FindWhat dialog</param>
     /// <param name="findData"><see cref="FindData"/></param>
     /// <param name="searchText">Search text</param>
     public StartSearchAllMessage(Guid windowGuid, FindData findData, string searchText)

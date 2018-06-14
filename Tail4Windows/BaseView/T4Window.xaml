@@ -75,6 +75,8 @@
     <KeyBinding Key="{Binding Key, Source={StaticResource FindWhatKeyBinding}, Mode=OneTime}" Command="{Binding FindWhatCommand}" Modifiers="{Binding Modifiers, Source={StaticResource FindWhatKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource FindWhatResultKeyBinding}, Mode=OneTime}" Command="{Binding FindWhatResultCommand}" Modifiers="{Binding Modifiers, Source={StaticResource FindWhatResultKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource OpenFileManagerKeyBinding}, Mode=OneTime}" Command="{Binding OpenFileManagerCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenFileManagerKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource OpenFilterManagerKeyBinding}, Mode=OneTime}" Command="{Binding OpenFilterManagerCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenFilterManagerKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource ToggleFilterKeyBinding}, Mode=OneTime}" Command="{Binding ToggleFilterCommand}" Modifiers="{Binding Modifiers, Source={StaticResource ToggleFilterKeyBinding}, Mode=OneTime}" />
   </Window.InputBindings>
 
   <Grid>
