@@ -442,7 +442,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenGoToLineDialogMessage>(OnOpenGoToLineDialog);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailManagerMessage>(OnOpenTailManager);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFilterManagerMessage>(OnOpenFilterManager);
-      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ToggleFilterMessage>(OnToggleeFilter);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ToggleFilterMessage>(OnToggleFilter);
 
       _historyQueueSet = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
     }
@@ -454,7 +454,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenGoToLineDialogMessage>(OnOpenGoToLineDialog);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenTailManagerMessage>(OnOpenTailManager);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenFilterManagerMessage>(OnOpenFilterManager);
-      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ToggleFilterMessage>(OnToggleeFilter);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ToggleFilterMessage>(OnToggleFilter);
     }
 
     private bool CanExecuteOpenFontDialog() => LogWindowState == EStatusbarState.FileLoaded || LogWindowState == EStatusbarState.Busy;
@@ -841,7 +841,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       return true;
     }
 
-    private void OnToggleeFilter(ToggleFilterMessage args)
+    private void OnToggleFilter(ToggleFilterMessage args)
     {
       if ( args.WindowGuid != WindowId && CurrentTailData != null && CurrentTailData.ListOfFilter.Count > 0 )
         return;
