@@ -103,6 +103,38 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
     }
 
     /// <summary>
+    /// Open file command
+    /// </summary>
+    ICommand OpenFileCommand
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Clear tail log command
+    /// </summary>
+    ICommand ClearTailLogCommand
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Start tail command
+    /// </summary>
+    ICommand StartTailCommand
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Stop tail command
+    /// </summary>
+    ICommand StopTailCommand
+    {
+      get;
+    }
+
+    /// <summary>
     /// Width of main window
     /// </summary>
     double Width

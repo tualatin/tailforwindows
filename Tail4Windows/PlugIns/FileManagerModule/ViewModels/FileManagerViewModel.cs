@@ -529,7 +529,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         OnPropertyChanged(nameof(FileManagerView));
       }
 
-      var unsavedItems = FileManagerCollection.Where(p => p.CanUndo).ToList();
+      var unsavedItems = FileManagerCollection.Where(p => p.CanUndo || p.FindSettings.CanUndo).ToList();
 
       if ( unsavedItems.Count > 0 )
       {

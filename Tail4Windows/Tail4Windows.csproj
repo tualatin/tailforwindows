@@ -199,9 +199,13 @@
     <Compile Include="Data\Messages\DragWindowTabItemChangedMessage.cs" />
     <Compile Include="Data\Messages\FindWhat\FindWhatResultMessage.cs" />
     <Compile Include="Data\Messages\FindWhat\FindWhatCountResponseMessage.cs" />
+    <Compile Include="Data\Messages\Keybindings\ClearTailLogMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\GoToLineMessage.cs" />
     <Compile Include="Data\Messages\JumpToSelectedLogEntryMessage.cs" />
+    <Compile Include="Data\Messages\Keybindings\OpenFileMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\QuickSaveMessage.cs" />
+    <Compile Include="Data\Messages\Keybindings\StartTailMessage.cs" />
+    <Compile Include="Data\Messages\Keybindings\StopTailMessage.cs" />
     <Compile Include="Data\Messages\OpenFilterDataFromTailDataMessage.cs" />
     <Compile Include="Data\Messages\FindWhat\OpenFindWhatResultWindowMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\OpenFilterManagerMessage.cs" />

@@ -33,6 +33,10 @@
     <KeyBinding Key="{Binding Key, Source={StaticResource OpenFilterManagerKeyBinding}, Mode=OneTime}" Command="{Binding OpenFilterManagerCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenFilterManagerKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource ToggleFilterKeyBinding}, Mode=OneTime}" Command="{Binding ToggleFilterCommand}" Modifiers="{Binding Modifiers, Source={StaticResource ToggleFilterKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource QuickSaveKeyBinding}, Mode=OneTime}" Command="{Binding QuickSaveCommand}" Modifiers="{Binding Modifiers, Source={StaticResource QuickSaveKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource OpenFileKeyBinding}, Mode=OneTime}" Command="{Binding OpenFileCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenFileKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource ClearTailWindowKeyBinding}, Mode=OneTime}" Command="{Binding ClearTailLogCommand}" Modifiers="{Binding Modifiers, Source={StaticResource ClearTailWindowKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource StartTailKeyBinding}, Mode=OneTime}" Command="{Binding StartTailCommand}" Modifiers="{Binding Modifiers, Source={StaticResource StartTailKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource StopTailKeyBinding}, Mode=OneTime}" Command="{Binding StopTailCommand}" Modifiers="{Binding Modifiers, Source={StaticResource StopTailKeyBinding}, Mode=OneTime}" />
   </Window.InputBindings>
 
   <Grid>

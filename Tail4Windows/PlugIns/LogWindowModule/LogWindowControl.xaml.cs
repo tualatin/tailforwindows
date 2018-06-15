@@ -446,6 +446,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFilterManagerMessage>(OnOpenFilterManager);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ToggleFilterMessage>(OnToggleFilter);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<QuickSaveMessage>(OnQuickSave);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFileMessage>(OnOpenFile);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ClearTailLogMessage>(OnClearTailLog);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartTailMessage>(OnStartTail);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StopTailMessage>(OnStopTail);
 
       _historyQueueSet = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
     }
@@ -459,6 +463,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenFilterManagerMessage>(OnOpenFilterManager);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ToggleFilterMessage>(OnToggleFilter);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<QuickSaveMessage>(OnQuickSave);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenFileMessage>(OnOpenFile);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ClearTailLogMessage>(OnClearTailLog);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartTailMessage>(OnStartTail);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StopTailMessage>(OnStopTail);
     }
 
     private bool CanExecuteOpenFontDialog() => LogWindowState == EStatusbarState.FileLoaded || LogWindowState == EStatusbarState.Busy;
@@ -845,6 +853,40 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       return true;
     }
 
+    #region Keybindings
+
+    private void OnStopTail(StopTailMessage args)
+    {
+      if ( args.WindowGuid != WindowId || LogWindowState != EStatusbarState.Busy )
+        return;
+
+      ExecuteStopTailCommand();
+    }
+
+    private void OnStartTail(StartTailMessage args)
+    {
+      if ( args.WindowGuid != WindowId || !FileIsValid || LogWindowState == EStatusbarState.Busy )
+        return;
+
+      NotifyTaskCompletion.Create(ExecuteStartTailCommandAsync);
+    }
+
+    private void OnClearTailLog(ClearTailLogMessage args)
+    {
+      if ( args.WindowGuid != WindowId )
+        return;
+
+      ExecuteClearLogWindowCommand();
+    }
+
+    private void OnOpenFile(OpenFileMessage args)
+    {
+      if ( args.WindowGuid != WindowId )
+        return;
+
+      ExecuteOpenFileCommand();
+    }
+
     private void OnQuickSave(QuickSaveMessage args)
     {
       if ( args.WindowGuid != WindowId || !CanExecuteQuickSaveCommand() )
@@ -908,6 +950,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       SplitWindow.GoToLine(args.Index);
     }
+
+    #endregion
 
     private void OnDisableQuickAddFlag(DisableQuickAddInTailDataMessage args)
     {

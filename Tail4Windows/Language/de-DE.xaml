@@ -84,7 +84,7 @@
   <system:String x:Key="ButtonAddsFileToFileManager">Datei hinzufügen zu...</system:String>
   <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Fügt die aktuelle Datei zum TailManager hinzu</system:String>
   <system:String x:Key="ButtonOpenFile">Datei öffnen...</system:String>
-  <system:String x:Key="ButtonOpenFileToolTip">Öffnet eine Datei zum tail...</system:String>
+  <system:String x:Key="ButtonOpenFileToolTip">Öffnet eine Datei zum tail... (STRG+O)</system:String>
   <system:String x:Key="TextBoxFileNameWatermark">Logdatei</system:String>
   <system:String x:Key="LabelFile">Datei</system:String>
   <system:String x:Key="LabelRefreshRate">Akt. Rate</system:String>
@@ -497,9 +497,6 @@
   <system:String x:Key="PatternControlTitle">Pattern definieren</system:String>
   <system:String x:Key="PatternControlGroupLogFile">Aktuelle Logdatei</system:String>
   <system:String x:Key="PatternControlGroupResult">Pattern Ergebnis</system:String>
-  <system:String x:Key="PatternControlPart">Teil</system:String>
-  <system:String x:Key="PatternControlPattern">Pattern</system:String>
-  <system:String x:Key="PatternControlSelectPartTitle">Teil auswählen</system:String>
 
   <system:String x:Key="ErrorEnterDescription">Bitte eine Bezeichnung angeben</system:String>
   <system:String x:Key="ErrorEnterFileName">Bitte einen Dateinamen angeben</system:String>

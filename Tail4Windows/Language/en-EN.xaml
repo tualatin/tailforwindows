@@ -84,7 +84,7 @@
   <system:String x:Key="ButtonAddsFileToFileManager">Adds file to...</system:String>
   <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Adds current file to TailManager</system:String>
   <system:String x:Key="ButtonOpenFile">Open file...</system:String>
-  <system:String x:Key="ButtonOpenFileToolTip">Opens a file to tail...</system:String>
+  <system:String x:Key="ButtonOpenFileToolTip">Opens a file to tail... (CTRL+O)</system:String>
   <system:String x:Key="TextBoxFileNameWatermark">Logfile</system:String>
   <system:String x:Key="LabelFile">File</system:String>
   <system:String x:Key="LabelRefreshRate">Refresh rate</system:String>
@@ -499,9 +499,6 @@
   <system:String x:Key="PatternControlTitle">Define pattern</system:String>
   <system:String x:Key="PatternControlGroupLogFile">Current log file</system:String>
   <system:String x:Key="PatternControlGroupResult">Pattern result</system:String>
-  <system:String x:Key="PatternControlPart">Part</system:String>
-  <system:String x:Key="PatternControlPattern">Pattern</system:String>
-  <system:String x:Key="PatternControlSelectPartTitle">Select part</system:String>
 
   <system:String x:Key="ErrorEnterDescription">Please enter a Description</system:String>
   <system:String x:Key="ErrorEnterFileName">Please enter a FileName</system:String>

@@ -201,13 +201,13 @@
 
         <Button
           Grid.Column="1"
-          Width="24"
-          Height="24"
+          Width="18"
+          Height="18"
           Margin="5 0"
           Command="{Binding UndoCommand}"
           TabIndex="4"
           >
-          <StackPanel Margin="3">
+          <StackPanel Margin="2">
             <Image
               RenderOptions.BitmapScalingMode="HighQuality"
               RenderOptions.EdgeMode="Aliased"

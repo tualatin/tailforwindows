@@ -622,9 +622,69 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand QuickSaveCommand => _quickSaveCommand ?? (_quickSaveCommand = new RelayCommand(p => ExecuteQuickSaveCommand()));
 
+    private ICommand _openFileCommand;
+
+    /// <summary>
+    /// Open file command
+    /// </summary>
+    public ICommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new RelayCommand(p => ExecuteOpenFileCommand()));
+
+    private ICommand _clearTailLogCommand;
+
+    /// <summary>
+    /// Clear tail log command
+    /// </summary>
+    public ICommand ClearTailLogCommand => _clearTailLogCommand ?? (_clearTailLogCommand = new RelayCommand(p => ExecuteClearTailLogCommand()));
+
+    private ICommand _startTailCommand;
+
+    /// <summary>
+    /// Start tail command
+    /// </summary>
+    public ICommand StartTailCommand => _startTailCommand ?? (_startTailCommand = new RelayCommand(p => ExecuteStartTailCommand()));
+
+    private ICommand _stopTailCommand;
+
+    /// <summary>
+    /// Stop tail command
+    /// </summary>
+    public ICommand StopTailCommand => _stopTailCommand ?? (_stopTailCommand = new RelayCommand(p => ExecuteStopTailCommand()));
+
     #endregion
 
     #region KeyBinding command functions
+
+    private void ExecuteStopTailCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StopTailMessage(control.WindowId));
+    }
+
+    private void ExecuteStartTailCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StartTailMessage(control.WindowId));
+    }
+
+    private void ExecuteClearTailLogCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ClearTailLogMessage(control.WindowId));
+    }
+
+    private void ExecuteOpenFileCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFileMessage(control.WindowId));
+    }
 
     private void ExecuteQuickSaveCommand()
     {
