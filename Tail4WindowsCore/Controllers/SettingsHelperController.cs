@@ -498,6 +498,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.HistoryMaxSize = GetIntFromSetting("LogFileHistorySize");
       CurrentSettings.ShowExtendedSettings = GetBoolFromSetting("ShowExtendedSettings");
       CurrentSettings.SplitterWindowBehavior = GetBoolFromSetting("SplitterWindowBehavior");
+      CurrentSettings.SmartWatch = GetBoolFromSetting("SmartWatch");
     }
 
     private void ReadStatusBarSettings()

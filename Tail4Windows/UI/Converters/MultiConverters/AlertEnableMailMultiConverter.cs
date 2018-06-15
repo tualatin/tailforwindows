@@ -39,9 +39,6 @@ namespace Org.Vs.TailForWin.UI.Converters.MultiConverters
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Current culture</param>
     /// <returns>Back converted value</returns>
-    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-    {
-      throw new NotImplementedException();
-    }
+    public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();
   }
 }

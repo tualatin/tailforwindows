@@ -307,6 +307,7 @@
     <Compile Include="UI\Converters\IntToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\MediaBrushToMediaColorConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\AlertEnableMailMultiConverter.cs" />
+    <Compile Include="UI\Converters\MultiConverters\IsEnableMultiConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\LogFileIsEnableMultiConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\LogFileFileManagerMultiConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\TailManagerMouseDoubleClickMultiConverter.cs" />

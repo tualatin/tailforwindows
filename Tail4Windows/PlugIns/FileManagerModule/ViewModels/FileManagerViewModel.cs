@@ -22,6 +22,7 @@ using Org.Vs.TailForWin.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.FontChooserModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
+using Org.Vs.TailForWin.PlugIns.PatternModule;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Utils;
@@ -310,9 +311,25 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public ICommand PreviewDragEnterCommand => _previewDragEnterCommand ?? (_previewDragEnterCommand = new RelayCommand(ExecutePreviewDragEnterCommand));
 
+    private ICommand _patternControlCommand;
+
+    /// <summary>
+    /// PatternControl command
+    /// </summary>
+    public ICommand PatternControlCommand => _patternControlCommand ?? (_patternControlCommand = new RelayCommand(p => ExecutePatternControlCommand((Window) p)));
+
     #endregion
 
     #region Command functions
+
+    private void ExecutePatternControlCommand(Window window)
+    {
+      var patternControl = new PatternControl
+      {
+        Owner = window
+      };
+      patternControl.ShowDialog();
+    }
 
     private void ExecutePreviewDragEnterCommand(object parameter)
     {
@@ -475,7 +492,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
         CommitChanges();
       }
-      catch(Exception ex)
+      catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }

@@ -496,6 +496,9 @@
 
   <system:String x:Key="GoToLineWindowTitle">Go to line</system:String>
 
+  <system:String x:Key="PatternControlTitle">Define pattern</system:String>
+  <system:String x:Key="PatternControlGroupLogFile">Current log file</system:String>
+
   <system:String x:Key="ErrorEnterDescription">Please enter a Description</system:String>
   <system:String x:Key="ErrorEnterFileName">Please enter a FileName</system:String>
   <system:String x:Key="ErrorEnterFilterPattern">Please enter a Filterpattern</system:String>

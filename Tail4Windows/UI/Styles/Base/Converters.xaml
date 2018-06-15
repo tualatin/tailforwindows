@@ -50,4 +50,5 @@
   <multiConverters:LogFileFileManagerMultiConverter x:Key="LogFileLengthFileManagerMultiConverter" />
   <multiConverters:TailManagerMouseDoubleClickMultiConverter x:Key="TailManagerMouseDoubleClickMultiConverter" />
   <multiConverters:AlertEnableMailMultiConverter x:Key="AlertEnableMailMultiConverter" />
+  <multiConverters:IsEnableMultiConverter x:Key="IsEnableMultiConverter" />
 </ResourceDictionary>

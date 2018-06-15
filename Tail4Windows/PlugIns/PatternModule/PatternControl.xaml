@@ -1,19 +1,82 @@
-﻿<floatWindow:VsFloatingWindow
+﻿<extendedControls:VsWindowEx
   x:Class="Org.Vs.TailForWin.PlugIns.PatternModule.PatternControl"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.PatternModule.ViewModels"
   mc:Ignorable="d"
-  Title="PatternControl"
+  Title="{DynamicResource PatternControlTitle}"
   Width="800"
   Height="450"
+  Icon="/T4W;component/Resources/script.ico"
+  ResizeMode="NoResize"
+  WindowStartupLocation="CenterOwner"
   >
-  <floatWindow:VsFloatingWindow.DataContext>
+  <extendedControls:VsWindowEx.DataContext>
     <viewModels:PatternControlViewModel />
-  </floatWindow:VsFloatingWindow.DataContext>
+  </extendedControls:VsWindowEx.DataContext>
 
-  <Grid />
-</floatWindow:VsFloatingWindow>
+  <Grid Margin="5">
+    <Grid.RowDefinitions>
+      <RowDefinition SharedSizeGroup="GroupLogFile" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition SharedSizeGroup="GroupLogFile" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <GroupBox
+      Grid.Row="0"
+      Header="{DynamicResource PatternControlGroupLogFile}"
+      >
+      <Label
+        Margin="5"
+        VerticalAlignment="Center"
+        Content="{Binding LogFile, UpdateSourceTrigger=PropertyChanged}"
+        />
+    </GroupBox>
+
+    <Grid Grid.Row="1">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+
+      <Button
+        Grid.Column="0"
+        Width="75"
+        Height="24"
+        Margin="0 5 5 5"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Center"
+        Content="OK"
+        Command="{Binding GoToLineCommand}"
+        CommandParameter="{Binding ElementName=GoToLineWindow}"
+        TabIndex="0"
+        >
+        <Button.InputBindings>
+          <KeyBinding Key="Enter" Command="{Binding GoToLineCommand}" CommandParameter="{Binding ElementName=GoToLineWindow}" />
+        </Button.InputBindings>
+      </Button>
+
+      <Button
+        Grid.Column="1"
+        Width="75"
+        Height="24"
+        Margin="0 5"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Content="OK"
+        Command="{Binding GoToLineCommand}"
+        CommandParameter="{Binding ElementName=GoToLineWindow}"
+        TabIndex="1"
+        >
+        <Button.InputBindings>
+          <KeyBinding Key="Enter" Command="{Binding GoToLineCommand}" CommandParameter="{Binding ElementName=GoToLineWindow}" />
+        </Button.InputBindings>
+      </Button>
+    </Grid>
+  </Grid>
+</extendedControls:VsWindowEx>
+

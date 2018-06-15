@@ -763,8 +763,9 @@
                   Margin="5"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Center"
+                  Command="{Binding PatternControlCommand}"
                   CommandParameter="{Binding ElementName=FileManagerWindow}"
-                  IsEnabled="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.SmartWatch, UpdateSourceTrigger=PropertyChanged}"
+                  IsEnabled="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatch, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                   >
                   <StackPanel>
                     <Image
@@ -819,7 +820,23 @@
                   Height="22"
                   Content="{DynamicResource FileManagerUsePattern}"
                   IsChecked="{Binding Path=SelectedItem.UsePattern, ElementName=TailManagerDataGrid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  />
+                  >
+                  <CheckBox.IsEnabled>
+                    <MultiBinding Converter="{StaticResource IsEnableMultiConverter}">
+                      <Binding
+                        Mode="OneWay"
+                        Path="SmartWatch"
+                        Source="{x:Static controllers:SettingsHelperController.CurrentSettings}"
+                        UpdateSourceTrigger="PropertyChanged"
+                        />
+                      <Binding
+                        ElementName="TailManagerDataGrid"
+                        Path="SelectedItem.SmartWatch"
+                        UpdateSourceTrigger="PropertyChanged"
+                        />
+                    </MultiBinding>
+                  </CheckBox.IsEnabled>
+                </CheckBox>
               </StackPanel>
             </Grid>
 
