@@ -27,33 +27,19 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule.Controller
     /// <summary> 
     /// Standard constructor
     /// </summary>
-    public XmlPatternController()
-    {
-      _xmlPatternFile = EnvironmentContainer.ApplicationPath + @"\Files\DefaultPatterns.xml";
-    }
+    public XmlPatternController() => _xmlPatternFile = EnvironmentContainer.ApplicationPath + @"\DefaultPatterns.xml";
 
     /// <summary>
     /// Constructor for testing purposes
     /// </summary>
     /// <param name="path">Path of XML file</param>
-    public XmlPatternController(string path)
-    {
-      _xmlPatternFile = path;
-    }
+    public XmlPatternController(string path) => _xmlPatternFile = path;
 
     /// <summary>
     /// Reads default patterns for SmartWatch
     /// </summary>
     /// <returns>List of default patterns</returns>
-    public async Task<List<PatternData>> ReadDefaultPatternsAsync()
-    {
-      if ( !File.Exists(_xmlPatternFile) )
-        return null;
-
-      LOG.Trace("Read DefaultPatterns");
-
-      return await Task.Run(() => ReadDefaultPatterns()).ConfigureAwait(false);
-    }
+    public async Task<List<PatternData>> ReadDefaultPatternsAsync() => await Task.Run(() => ReadDefaultPatterns()).ConfigureAwait(false);
 
     private List<PatternData> ReadDefaultPatterns()
     {
@@ -61,6 +47,11 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule.Controller
 
       try
       {
+        if ( !File.Exists(_xmlPatternFile) )
+          return null;
+
+        LOG.Trace("Read DefaultPatterns");
+
         _xmlDocument = XDocument.Load(_xmlPatternFile);
         Parallel.ForEach(
           _xmlDocument.Root?.Descendants(XmlNames.Pattern) ?? throw new InvalidOperationException(),
@@ -79,7 +70,7 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule.Controller
       return defaultPatterns;
     }
 
-    private PatternData GetPattern(XElement xPattern)
+    private PatternData GetPattern(XContainer xPattern)
     {
       var patternString = xPattern.Element(XmlBaseStructure.PatternString);
       var patternIsRegex = xPattern.Element(XmlBaseStructure.IsRegex)?.Value.ConvertToBool();

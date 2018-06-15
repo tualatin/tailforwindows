@@ -4,79 +4,276 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.PatternModule.ViewModels"
   mc:Ignorable="d"
+  x:Name="PatternControlWindow"
   Title="{DynamicResource PatternControlTitle}"
-  Width="800"
-  Height="450"
+  Width="350"
+  Height="285"
+  MinWidth="350"
+  MinHeight="285"
   Icon="/T4W;component/Resources/script.ico"
-  ResizeMode="NoResize"
+  ResizeMode="CanResize"
+  ShowInTaskbar="False"
   WindowStartupLocation="CenterOwner"
   >
   <extendedControls:VsWindowEx.DataContext>
     <viewModels:PatternControlViewModel />
   </extendedControls:VsWindowEx.DataContext>
 
-  <Grid Margin="5">
+  <i:Interaction.Triggers>
+    <i:EventTrigger EventName="Loaded">
+      <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+    </i:EventTrigger>
+  </i:Interaction.Triggers>
+
+  <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition SharedSizeGroup="GroupLogFile" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition SharedSizeGroup="GroupLogFile" />
+      <RowDefinition Height="60" SharedSizeGroup="GroupLogFile" />
+      <RowDefinition Height="90" />
+      <RowDefinition Height="60" SharedSizeGroup="GroupLogFile" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
     <GroupBox
       Grid.Row="0"
+      Margin="5"
       Header="{DynamicResource PatternControlGroupLogFile}"
       >
       <Label
         Margin="5"
         VerticalAlignment="Center"
-        Content="{Binding LogFile, UpdateSourceTrigger=PropertyChanged}"
+        Content="{Binding CurrenTailData.File, UpdateSourceTrigger=PropertyChanged}"
+        Style="{StaticResource WindowTitleLabel}"
         />
     </GroupBox>
 
-    <Grid Grid.Row="1">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition />
-        <ColumnDefinition />
-      </Grid.ColumnDefinitions>
+    <Expander
+      Grid.Row="1"
+      IsExpanded="True"
+      >
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition />
+          <RowDefinition />
+        </Grid.RowDefinitions>
 
-      <Button
-        Grid.Column="0"
-        Width="75"
-        Height="24"
-        Margin="0 5 5 5"
-        HorizontalAlignment="Right"
-        VerticalAlignment="Center"
-        Content="OK"
-        Command="{Binding GoToLineCommand}"
-        CommandParameter="{Binding ElementName=GoToLineWindow}"
-        TabIndex="0"
-        >
-        <Button.InputBindings>
-          <KeyBinding Key="Enter" Command="{Binding GoToLineCommand}" CommandParameter="{Binding ElementName=GoToLineWindow}" />
-        </Button.InputBindings>
-      </Button>
+        <Grid Grid.Row="0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
 
-      <Button
-        Grid.Column="1"
-        Width="75"
-        Height="24"
-        Margin="0 5"
-        HorizontalAlignment="Left"
-        VerticalAlignment="Center"
-        Content="OK"
-        Command="{Binding GoToLineCommand}"
-        CommandParameter="{Binding ElementName=GoToLineWindow}"
-        TabIndex="1"
-        >
-        <Button.InputBindings>
-          <KeyBinding Key="Enter" Command="{Binding GoToLineCommand}" CommandParameter="{Binding ElementName=GoToLineWindow}" />
-        </Button.InputBindings>
-      </Button>
-    </Grid>
+          <TextBox
+            Grid.Column="0"
+            Height="24"
+            Margin="15 5 0 5"
+            Text="{Binding WorkingPattern, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            TabIndex="0"
+            behaviors:FocusBehavior.IsFocused="{Binding TextBoxHasFocus, UpdateSourceTrigger=PropertyChanged}"
+            />
+
+          <userControls:RegexHelper
+            Grid.Column="1"
+            Margin="5 5 15 5"
+            DataContext="{Binding RelativeSource={RelativeSource Self}}"
+            ElementHasFocus="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsWindowEx}}, Path=DataContext.TextBoxHasFocus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            ElementText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsWindowEx}}, Path=DataContext.WorkingPattern, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            ExtendedMenuItems="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsWindowEx}}, Path=DataContext.MenuItems, UpdateSourceTrigger=PropertyChanged}"
+            IsEnabled="{Binding ElementName=RegexCheckBox, Path=IsChecked}"
+            />
+        </Grid>
+
+        <Grid Grid.Row="1">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition />
+              <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <CheckBox
+              Grid.Column="0"
+              Height="22"
+              Margin="10 5"
+              Content="{DynamicResource FilterManagerWildCard}"
+              IsChecked="{Binding CurrenTailData.FindSettings.UseWildcard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              TabIndex="2"
+              >
+              <CheckBox.ToolTip>
+                <StackPanel>
+                  <TextBlock
+                    Margin="0 0 0 5"
+                    Text="{DynamicResource FilterManagerWildCard}"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    />
+                  <TextBlock Text="{DynamicResource FilterManagerWildCardToolTip}" />
+                  <Border
+                    Margin="0 8"
+                    BorderBrush="Silver"
+                    BorderThickness="0 1 0 0"
+                    />
+                  <WrapPanel>
+                    <Image
+                      Width="16"
+                      Height="16"
+                      Margin="0 0 5 0"
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/Search.ico"
+                      />
+                    <TextBlock
+                      Text="{DynamicResource GeneralToolTipHint}"
+                      FontStyle="Italic"
+                      />
+                  </WrapPanel>
+                </StackPanel>
+              </CheckBox.ToolTip>
+            </CheckBox>
+
+            <CheckBox
+              x:Name="RegexCheckBox"
+              Grid.Column="1"
+              Height="22"
+              Margin="0 5"
+              Content="{DynamicResource FileManagerDataGridIsRegex}"
+              IsChecked="{Binding CurrenTailData.FindSettings.UseRegex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              TabIndex="3"
+              >
+              <CheckBox.ToolTip>
+                <StackPanel>
+                  <TextBlock
+                    Margin="0 0 0 5"
+                    Text="{DynamicResource FileManagerDataGridIsRegex}"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    />
+                  <TextBlock Text="{DynamicResource FileManagerDataGridIsRegexToolTip}" />
+                  <Border
+                    Margin="0 8"
+                    BorderBrush="Silver"
+                    BorderThickness="0 1 0 0"
+                    />
+                  <WrapPanel>
+                    <Image
+                      Width="16"
+                      Height="16"
+                      Margin="0 0 5 0"
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/Search.ico"
+                      />
+                    <TextBlock
+                      Text="{DynamicResource GeneralToolTipHint}"
+                      FontStyle="Italic"
+                      />
+                  </WrapPanel>
+                </StackPanel>
+              </CheckBox.ToolTip>
+            </CheckBox>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Expander>
+
+    <GroupBox
+      Grid.Row="2"
+      Margin="5"
+      Header="{DynamicResource PatternControlGroupResult}"
+      >
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Label
+          Grid.Column="0"
+          Margin="5"
+          VerticalAlignment="Center"
+          Content="{Binding WorkingPattern, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+          Style="{StaticResource WindowTitleLabel}"
+          />
+
+        <Button
+          Grid.Column="1"
+          Width="24"
+          Height="24"
+          Margin="5 0"
+          Command="{Binding UndoCommand}"
+          TabIndex="4"
+          >
+          <StackPanel Margin="3">
+            <Image
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/Cancel.ico"
+              >
+              <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                  <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                      <Setter Property="Opacity" Value="0.5" />
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </Image.Style>
+            </Image>
+          </StackPanel>
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FileManagerUndo}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FileManagerUndoToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
+        </Button>
+      </Grid>
+    </GroupBox>
+
+    <Button
+      Grid.Row="3"
+      Width="75"
+      Height="24"
+      Margin="0 5"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      Content="OK"
+      Command="{Binding CloseCommand}"
+      CommandParameter="{Binding ElementName=PatternControlWindow}"
+      TabIndex="5"
+      >
+      <Button.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=PatternControlWindow}" />
+      </Button.InputBindings>
+    </Button>
   </Grid>
 </extendedControls:VsWindowEx>
 

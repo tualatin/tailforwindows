@@ -23,7 +23,7 @@
       </i:Interaction.Behaviors>
 
       <Button.ContextMenu>
-        <ContextMenu>
+        <ContextMenu x:Name="RegexContextMenu">
           <MenuItem
             Header="{Binding Regex1, Mode=OneWay}"
             Command="{Binding RegexContextMenuItemCommand}"
@@ -331,6 +331,7 @@
           <MenuItem
             Header="{DynamicResource RegexHelperUrl}"
             Command="{Binding RegexContextMenuHelpCommand}"
+            Tag="RegexHelp"
             >
             <MenuItem.Icon>
               <Image

@@ -30,6 +30,7 @@ namespace Org.Vs.TailForWin.Core.Data
       Id = Guid.NewGuid();
 
       FontType = new FontType();
+      FindSettings = new FindData();
       AutoRun = true;
       TabItemBackgroundColorStringHex = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor;
       RefreshRate = SettingsHelperController.CurrentSettings.DefaultRefreshRate;
@@ -481,18 +482,21 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
-    private bool _isRegex;
+    private FindData _findSettings;
 
     /// <summary>
-    /// Is regex pattern
+    /// FindSettings
     /// </summary>
-    public bool IsRegex
+    public FindData FindSettings
     {
-      get => _isRegex;
+      get => _findSettings;
       set
       {
-        _isRegex = value;
-        OnPropertyChanged(nameof(IsRegex));
+        if ( Equals(value, _findSettings) )
+          return;
+
+        var currentValue = _findSettings;
+        ChangeState(new Command(() => _findSettings = value, () => _findSettings = currentValue, nameof(FindSettings), Notification));
       }
     }
 

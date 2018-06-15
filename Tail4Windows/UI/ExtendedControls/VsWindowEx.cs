@@ -25,7 +25,7 @@ namespace Org.Vs.TailForWin.UI.ExtendedControls
     /// <summary>
     /// Dialog can close
     /// </summary>
-    public static readonly DependencyProperty CanCloseProperty = DependencyProperty.Register("CanClose", typeof(bool), typeof(VsWindowEx), new PropertyMetadata(false, CanCloseChanged));
+    public static readonly DependencyProperty CanCloseProperty = DependencyProperty.Register(nameof(CanClose), typeof(bool), typeof(VsWindowEx), new PropertyMetadata(false, CanCloseChanged));
 
     private static void CanCloseChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.UI.ExtendedControls
     /// <summary>
     /// Parent Guid property
     /// </summary>
-    public static readonly DependencyProperty ParentGuidProperty = DependencyProperty.Register("ParentGuid", typeof(Guid), typeof(VsWindowEx), new PropertyMetadata(Guid.Empty));
+    public static readonly DependencyProperty ParentGuidProperty = DependencyProperty.Register(nameof(ParentGuid), typeof(Guid), typeof(VsWindowEx), new PropertyMetadata(Guid.Empty));
 
     /// <summary>
     /// Parent Guid

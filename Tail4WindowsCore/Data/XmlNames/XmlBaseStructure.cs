@@ -1,4 +1,4 @@
-namespace Org.Vs.TailForWin.Core.Data.XmlNames
+﻿namespace Org.Vs.TailForWin.Core.Data.XmlNames
 {
   /// <summary>
   /// Current XML names
@@ -19,5 +19,10 @@ namespace Org.Vs.TailForWin.Core.Data.XmlNames
     /// patternString
     /// </summary>
     public const string PatternString = "patternString";
+
+    /// <summary>
+    /// useWildcard
+    /// </summary>
+    public const string UseWildcard = "useWildcard";
   }
 }

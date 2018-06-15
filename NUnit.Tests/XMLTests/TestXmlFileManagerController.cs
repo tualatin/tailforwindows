@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,7 +12,6 @@ using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
-using FontStyle = System.Drawing.FontStyle;
 
 
 namespace Org.Vs.NUnit.Tests.XmlTests
@@ -57,7 +55,6 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         UsePattern = true,
         //FontType = new Font("Segoe UI", 12f, FontStyle.Regular),
         SmartWatch = false,
-        IsRegex = false,
         TabItemBackgroundColorStringHex = "#FFE5C365",
         PatternString = "tailforwindows_????-??-??.log",
         ListOfFilter = new ObservableCollection<FilterData>
@@ -111,7 +108,6 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       Assert.AreEqual(_tailData.UsePattern, xmlTailData.UsePattern);
       Assert.AreEqual(_tailData.FontType, xmlTailData.FontType);
       Assert.AreEqual(_tailData.SmartWatch, xmlTailData.SmartWatch);
-      Assert.AreEqual(_tailData.IsRegex, xmlTailData.IsRegex);
       Assert.AreEqual(_tailData.PatternString, xmlTailData.PatternString);
       Assert.AreEqual(_tailData.ListOfFilter.Count, xmlTailData.ListOfFilter.Count);
 
@@ -176,7 +172,6 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       Assert.AreEqual(_tailData.UsePattern, tailData.UsePattern);
       Assert.AreEqual(_tailData.FontType, tailData.FontType);
       Assert.AreEqual(_tailData.SmartWatch, tailData.SmartWatch);
-      Assert.AreEqual(_tailData.IsRegex, tailData.IsRegex);
       Assert.AreEqual(_tailData.PatternString, tailData.PatternString);
       Assert.AreEqual(_tailData.ListOfFilter.Count, tailData.ListOfFilter.Count);
 
@@ -215,7 +210,6 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         UsePattern = true,
         //FontType = new Font("Segoe UI", 12f, FontStyle.Bold),
         SmartWatch = true,
-        IsRegex = false,
         TabItemBackgroundColorStringHex = "#FFE5C365",
         ListOfFilter = new ObservableCollection<FilterData>
         {
@@ -252,7 +246,6 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       Assert.AreEqual(tailData.UsePattern, xmlTailData.UsePattern);
       Assert.AreEqual(tailData.FontType, xmlTailData.FontType);
       Assert.AreEqual(tailData.SmartWatch, xmlTailData.SmartWatch);
-      Assert.AreEqual(tailData.IsRegex, xmlTailData.IsRegex);
       Assert.AreEqual(tailData.PatternString, xmlTailData.PatternString);
       Assert.AreEqual(tailData.ListOfFilter.Count, xmlTailData.ListOfFilter.Count);
 
@@ -294,7 +287,6 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         UsePattern = true,
         //FontType = new Font("Segoe UI", 12f, FontStyle.Bold),
         SmartWatch = true,
-        IsRegex = false,
         ListOfFilter = new ObservableCollection<FilterData>
         {
           new FilterData
@@ -327,7 +319,6 @@ namespace Org.Vs.NUnit.Tests.XmlTests
       Assert.AreEqual(tailData.UsePattern, xmlTailData.UsePattern);
       Assert.AreEqual(tailData.FontType, xmlTailData.FontType);
       Assert.AreEqual(tailData.SmartWatch, xmlTailData.SmartWatch);
-      Assert.AreEqual(tailData.IsRegex, xmlTailData.IsRegex);
       Assert.AreEqual(tailData.PatternString, xmlTailData.PatternString);
       Assert.AreEqual(tailData.ListOfFilter.Count, xmlTailData.ListOfFilter.Count);
 

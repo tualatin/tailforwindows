@@ -24,10 +24,23 @@ namespace Org.Vs.TailForWin.UI.Converters.MultiConverters
 
       foreach ( var value in values )
       {
-        if ( !(value is bool b1) )
+        switch ( value )
+        {
+        case bool b:
+
+          result &= b;
+          break;
+
+        case string s:
+
+          result &= !string.IsNullOrWhiteSpace(s);
+          break;
+
+        default:
+
           result = false;
-        else
-          result &= b1;
+          break;
+        }
       }
       return result;
     }

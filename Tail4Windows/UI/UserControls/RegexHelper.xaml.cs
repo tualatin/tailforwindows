@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.UserControls.Interfaces;
@@ -41,6 +43,44 @@ namespace Org.Vs.TailForWin.UI.UserControls
     {
       get => (string) GetValue(ElementTextProperty);
       set => SetValue(ElementTextProperty, value);
+    }
+
+    /// <summary>
+    /// ExtendedMenuItems property
+    /// </summary>
+    public static readonly DependencyProperty ExtendedMenuItemsProperty = DependencyProperty.Register(nameof(ExtendedMenuItems), typeof(ObservableCollection<MenuItem>), typeof(RegexHelper),
+      new PropertyMetadata(OnMenuItemsChanged));
+
+    private static void OnMenuItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    {
+      if ( !(e.NewValue is ObservableCollection<MenuItem> items) )
+        return;
+
+      if ( !(sender is RegexHelper control) )
+        return;
+
+      var menuSource = control.RegexContextMenu;
+      int index = 0;
+
+      foreach ( var item in items )
+      {
+        item.CommandParameter = item.Header;
+        item.Command = control.RegexContextMenuItemCommand;
+
+        menuSource.Items.Insert(index, item);
+        index++;
+      }
+
+      menuSource.Items.Insert(index, new Separator());
+    }
+
+    /// <summary>
+    /// ExtendedMenuItems
+    /// </summary>
+    public ObservableCollection<MenuItem> ExtendedMenuItems
+    {
+      get => (ObservableCollection<MenuItem>) GetValue(ElementHasFocusProperty);
+      set => SetValue(ElementHasFocusProperty, value);
     }
 
     #endregion

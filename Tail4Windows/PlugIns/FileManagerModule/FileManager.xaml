@@ -545,7 +545,7 @@
           <DataGridCheckBoxColumn
             MinWidth="50"
             Header="{DynamicResource FileManagerDataGridIsRegex}"
-            Binding="{Binding IsRegex}"
+            Binding="{Binding FindSettings.UseRegex}"
             IsReadOnly="True"
             />
         </userControls:VsDataGrid.Columns>
@@ -832,6 +832,11 @@
                       <Binding
                         ElementName="TailManagerDataGrid"
                         Path="SelectedItem.SmartWatch"
+                        UpdateSourceTrigger="PropertyChanged"
+                        />
+                      <Binding
+                        ElementName="TailManagerDataGrid"
+                        Path="SelectedItem.PatternString"
                         UpdateSourceTrigger="PropertyChanged"
                         />
                     </MultiBinding>

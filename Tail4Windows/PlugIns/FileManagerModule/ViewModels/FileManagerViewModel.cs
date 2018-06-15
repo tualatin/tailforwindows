@@ -326,7 +326,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
       var patternControl = new PatternControl
       {
-        Owner = window
+        Owner = window,
+        CurrentTailData = SelectedItem
       };
       patternControl.ShowDialog();
     }
@@ -370,7 +371,13 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteGroupByClickCommand() => SetFileManagerViewGrouping();
 
-    private bool CanExecuteUndo() => SelectedItem != null && SelectedItem.CanUndo;
+    private bool CanExecuteUndo()
+    {
+      if ( SelectedItem == null )
+        return false;
+
+      return SelectedItem.FindSettings.CanUndo || SelectedItem.CanUndo;
+    }
 
     private void ExecuteUndoCommand() => SelectedItem?.Undo();
 
@@ -633,6 +640,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       Parallel.ForEach(_fileManagerCollection, f =>
       {
         f.CommitChanges();
+        f.FindSettings.CommitChanges();
 
         Parallel.ForEach(f.ListOfFilter, p =>
         {

@@ -98,7 +98,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
           FileEncoding = GetEncoding(p.Element(XmlNames.FileEncoding)?.Value),
           FilterState = (p.Element(XmlNames.UseFilters)?.Value).ConvertToBool(),
           FontType = GetFont(p.Element(XmlNames.Font)),
-          IsRegex = (p.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.IsRegex)?.Value).ConvertToBool(),
+          FindSettings = GetSearchPatternFindSettings(p.Element(XmlNames.SearchPattern)),
           PatternString = p.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.PatternString)?.Value,
           ListOfFilter = new ObservableCollection<FilterData>(p.Element(XmlNames.Filters)?.Descendants(XmlNames.Filter).Select(x => new FilterData
           {
@@ -123,6 +123,16 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         InteractionService.ShowErrorMessageBox(ex.Message);
       }
       return result;
+    }
+
+    private FindData GetSearchPatternFindSettings(XContainer settings)
+    {
+      var searchSettings = new FindData
+      {
+        UseRegex = settings.Element(XmlBaseStructure.IsRegex)?.Value.ConvertToBool() ?? false,
+        UseWildcard = settings.Element(XmlBaseStructure.UseWildcard)?.Value.ConvertToBool() ?? false
+      };
+      return searchSettings;
     }
 
     private FindData GetFilterSettingsData(XContainer settings)
@@ -245,7 +255,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
               new XElement(XmlNames.Weight, tailData.FontType.FontWeight),
               new XElement(XmlNames.Style, tailData.FontType.FontStyle)),
               new XElement(XmlNames.SearchPattern,
-                new XElement(XmlBaseStructure.IsRegex, tailData.IsRegex),
+                new XElement(XmlBaseStructure.IsRegex, tailData.FindSettings.UseRegex),
+                new XElement(XmlBaseStructure.UseWildcard, tailData.FindSettings.UseWildcard),
                 new XElement(XmlBaseStructure.PatternString, tailData.PatternString)));
 
           var filters = new XElement(XmlNames.Filters);
@@ -312,7 +323,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
         updateNode.Element(XmlNames.Font)?.Element(XmlNames.Size)?.SetValue(tailData.FontType.FontSize);
         updateNode.Element(XmlNames.Font)?.Element(XmlNames.Weight)?.SetValue(tailData.FontType.FontWeight);
         updateNode.Element(XmlNames.Font)?.Element(XmlNames.Style)?.SetValue(tailData.FontType.FontStyle);
-        updateNode.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.IsRegex)?.SetValue(tailData.IsRegex);
+        updateNode.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.IsRegex)?.SetValue(tailData.FindSettings.UseRegex);
+        updateNode.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.UseWildcard)?.SetValue(tailData.FindSettings.UseWildcard);
         updateNode.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.PatternString)?.SetValue(tailData.PatternString ?? string.Empty);
 
         // Remove all filters from document
