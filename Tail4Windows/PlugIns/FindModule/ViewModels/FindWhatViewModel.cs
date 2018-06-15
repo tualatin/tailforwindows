@@ -290,7 +290,11 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       _dbController.UpdateFindDialogDbSettings();
     }
 
-    private bool CanExecuteFindCommand()
+    /// <summary>
+    /// Can execute find command
+    /// </summary>
+    /// <returns><c>True</c> if it can execute otherwise <c>False</c></returns>
+    public bool CanExecuteFindCommand()
     {
       if ( FindSettings != null && FindSettings.SearchBookmarks )
         return true;

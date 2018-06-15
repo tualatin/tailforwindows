@@ -55,6 +55,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private readonly IPreventMessageFlood _preventMessageFlood;
     private readonly IFindController _findController;
     private readonly List<LogEntry> _findWhatResults;
+    private readonly IPlaySoundFile _playSoundFile;
+
+    /// <summary>
+    /// Configured sound file exists
+    /// </summary>
+    private readonly bool _soundFileExists;
 
     /// <summary>
     /// Splitter offset
@@ -218,6 +224,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogEntries = new ObservableCollection<LogEntry>();
       _findWhatResults = new List<LogEntry>();
       CacheManager = new CacheManager();
+      _playSoundFile = new PlaySoundFile();
+      _soundFileExists = _playSoundFile.InitSoundPlay(SettingsHelperController.CurrentSettings.AlertSettings.SoundFileNameFullPath);
 
       CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogEntries }.View;
       CollectionView.Filter = DynamicFilter;
@@ -628,7 +636,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       // Jump out, if no alert settings set
       if ( !SettingsHelperController.CurrentSettings.AlertSettings.PopupWnd && !SettingsHelperController.CurrentSettings.AlertSettings.BringToFront &&
-          !SettingsHelperController.CurrentSettings.AlertSettings.SendMail )
+          !SettingsHelperController.CurrentSettings.AlertSettings.SendMail && !SettingsHelperController.CurrentSettings.AlertSettings.PlaySoundFile )
         return;
 
       if ( _preventMessageFlood.IsBusy )
@@ -657,6 +665,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( SettingsHelperController.CurrentSettings.AlertSettings.SendMail )
         HandleMailSend(stringResult.ToArray(), item);
 
+      if ( SettingsHelperController.CurrentSettings.AlertSettings.PlaySoundFile && _soundFileExists && !_playSoundFile.IsPlaying() )
+        _playSoundFile.Play(false);
+
       _preventMessageFlood.UpdateBusyState();
     }
 
@@ -666,6 +677,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( FloodData.First().Filter.UseNotification && SettingsHelperController.CurrentSettings.AlertSettings.PopupWnd )
         HandleNotification(FloodData.First().LogEntry.DateTime, FloodData.First().Results.ToArray());
+
+      if ( SettingsHelperController.CurrentSettings.AlertSettings.PlaySoundFile && _soundFileExists && !_playSoundFile.IsPlaying() )
+        _playSoundFile.Play(false);
 
       if ( SettingsHelperController.CurrentSettings.AlertSettings.BringToFront )
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new BringMainWindowToFrontMessage(this));

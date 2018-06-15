@@ -267,6 +267,10 @@
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\GridSplitterMouseExtension.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\LogEntryScrollBehavior.cs" />
     <Compile Include="PlugIns\LogWindowModule\Utils\PreventMessageFlood.cs" />
+    <Compile Include="PlugIns\PatternModule\PatternControl.xaml.cs">
+      <DependentUpon>PatternControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\PatternModule\ViewModels\PatternControlViewModel.cs" />
     <Compile Include="UI\Behaviors\Base\BehaviorBase.cs" />
     <Compile Include="UI\Behaviors\DataGridColumnWidthBehavior.cs" />
     <Compile Include="UI\Behaviors\FixHorizontalScrollbarPosition.cs" />
@@ -579,6 +583,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlugIns\LogWindowModule\SplitWindowControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\PatternModule\PatternControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -928,7 +936,6 @@
     <Folder Include="BaseView\UserControls\Styles\" />
     <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
-    <Folder Include="PlugIns\PatternModule\ViewModels\" />
     <Folder Include="UI\Events\Args\" />
     <Folder Include="UI\UserControls\Commands\" />
     <Folder Include="UI\UserControls\ViewModels\" />

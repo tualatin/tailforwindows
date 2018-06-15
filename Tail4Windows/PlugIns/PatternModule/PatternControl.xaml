@@ -1,0 +1,19 @@
+﻿<floatWindow:VsFloatingWindow
+  x:Class="Org.Vs.TailForWin.PlugIns.PatternModule.PatternControl"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.PatternModule.ViewModels"
+  mc:Ignorable="d"
+  Title="PatternControl"
+  Width="800"
+  Height="450"
+  >
+  <floatWindow:VsFloatingWindow.DataContext>
+    <viewModels:PatternControlViewModel />
+  </floatWindow:VsFloatingWindow.DataContext>
+
+  <Grid />
+</floatWindow:VsFloatingWindow>

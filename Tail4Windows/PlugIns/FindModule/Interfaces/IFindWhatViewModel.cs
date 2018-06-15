@@ -97,11 +97,49 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
     }
 
     /// <summary>
+    /// FindNext command
+    /// </summary>
+    IAsyncCommand FindNextCommand
+    {
+      get;
+    }
+
+    /// <summary>
+    /// FindAll command
+    /// </summary>
+    IAsyncCommand FindAllCommand
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Count command
+    /// </summary>
+    IAsyncCommand CountCommand
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Wrap around command
+    /// </summary>
+    IAsyncCommand WrapAroundCommand
+    {
+      get;
+    }
+
+    /// <summary>
     /// Search history
     /// </summary>
     IObservableDictionary<string, string> SearchHistory
     {
       get;
     }
+
+    /// <summary>
+    /// Can execute find command
+    /// </summary>
+    /// <returns><c>True</c> if it can execute otherwise <c>False</c></returns>
+    bool CanExecuteFindCommand();
   }
 }
