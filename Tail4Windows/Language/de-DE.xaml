@@ -82,7 +82,7 @@
   <system:String x:Key="ButtonStartTailToolTip">Startet tail (STRG+R)</system:String>
   <system:String x:Key="ButtonStopTailToolTip">Beendet tail (STRG+U)</system:String>
   <system:String x:Key="ButtonAddsFileToFileManager">Datei hinzufügen zu...</system:String>
-  <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Fügt die aktuelle Datei zum TailManager hinzu</system:String>
+  <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Fügt die aktuelle Datei zum TailManager hinzu (STRG+N)</system:String>
   <system:String x:Key="ButtonOpenFile">Datei öffnen...</system:String>
   <system:String x:Key="ButtonOpenFileToolTip">Öffnet eine Datei zum tail... (STRG+O)</system:String>
   <system:String x:Key="TextBoxFileNameWatermark">Logdatei</system:String>
@@ -98,7 +98,7 @@
   <system:String x:Key="ComboBoxRemoveSpace">Leerzeilen entfernen</system:String>
   <system:String x:Key="ComboBoxRemoveSpaceToolTip">Entfernt unnötige Leerzeilen</system:String>
   <system:String x:Key="ComboBoxFilter">Filter</system:String>
-  <system:String x:Key="ComboBoxFilterToolTip">Aktiviert/Deaktiviert die Filter ALT+F</system:String>
+  <system:String x:Key="ComboBoxFilterToolTip">Aktiviert/Deaktiviert die Filter (ALT+F)</system:String>
   <system:String x:Key="ToggleMenuButtonToolTip">Erweiterte tail Einstellungen</system:String>
   <system:String x:Key="ButtonFileManager">TailManager</system:String>
   <system:String x:Key="ButtonFileManagerToolTip">Öffnet den TailManager (STRG+M)</system:String>
@@ -136,6 +136,8 @@
   <system:String x:Key="FileManagerTabBackgroundColor">Tabheader Farbe</system:String>
   <system:String x:Key="FileManagerDeleteItemQuestion">Möchten Sie den ausgewählten Datensatz löschen?</system:String>
 
+  <system:String x:Key="FilterManagerPatternTool">Patternwerkzeug</system:String>
+  <system:String x:Key="FilterManagerPatternToolToolTip">Definiere ein Pattern, um eine dynamische Logdatei zu finden</system:String>
   <system:String x:Key="FilterManagerFont">Schrifteinstellungen</system:String>
   <system:String x:Key="FilterManagerFontToolTip">Setzt die aktuelle Filterschrift</system:String>
   <system:String x:Key="FilterManagerFindWholeWord">Finde ganzes Wort</system:String>

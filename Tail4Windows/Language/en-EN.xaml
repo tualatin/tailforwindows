@@ -82,7 +82,7 @@
   <system:String x:Key="ButtonStartTailToolTip">Starts tail (CTRL+R)</system:String>
   <system:String x:Key="ButtonStopTailToolTip">Stops tail (CTRL+U)</system:String>
   <system:String x:Key="ButtonAddsFileToFileManager">Adds file to...</system:String>
-  <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Adds current file to TailManager</system:String>
+  <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Adds current file to TailManager (CTRL+N)</system:String>
   <system:String x:Key="ButtonOpenFile">Open file...</system:String>
   <system:String x:Key="ButtonOpenFileToolTip">Opens a file to tail... (CTRL+O)</system:String>
   <system:String x:Key="TextBoxFileNameWatermark">Logfile</system:String>
@@ -98,7 +98,7 @@
   <system:String x:Key="ComboBoxRemoveSpace">Remove space</system:String>
   <system:String x:Key="ComboBoxRemoveSpaceToolTip">Remove extra spaces from each log line</system:String>
   <system:String x:Key="ComboBoxFilter">Filter</system:String>
-  <system:String x:Key="ComboBoxFilterToolTip">Activate/deactivate filter(s) ALT+F</system:String>
+  <system:String x:Key="ComboBoxFilterToolTip">Activate/deactivate filter(s) (ALT+F)</system:String>
   <system:String x:Key="ToggleMenuButtonToolTip">Extended tail settings</system:String>
   <system:String x:Key="ButtonFileManager">TailManager</system:String>
   <system:String x:Key="ButtonFileManagerToolTip">Opens the TailManager (CTRL+M)</system:String>
@@ -136,6 +136,8 @@
   <system:String x:Key="FileManagerTabBackgroundColor">Tab header color</system:String>
   <system:String x:Key="FileManagerDeleteItemQuestion">Do you want delete selected item?</system:String>
 
+  <system:String x:Key="FilterManagerPatternTool">Pattern tool</system:String>
+  <system:String x:Key="FilterManagerPatternToolToolTip">Define a pattern to find a dynamic log file</system:String>
   <system:String x:Key="FilterManagerFont">Font settings</system:String>
   <system:String x:Key="FilterManagerFontToolTip">Set current filter font</system:String>
   <system:String x:Key="FilterManagerFindWholeWord">Match whole word</system:String>

@@ -20,4 +20,5 @@
   <KeyBinding x:Key="MinimizeWndKeyBinding" Gesture="CTRL+ALT+M" />
   <KeyBinding x:Key="QuickSearchKeyBinding" Gesture="CTRL+Q" />
   <KeyBinding x:Key="QuickSaveKeyBinding" Gesture="CTRL+S" />
+  <KeyBinding x:Key="QuickAddKeyBinding" Gesture="CTRL+N" />
 </ResourceDictionary>

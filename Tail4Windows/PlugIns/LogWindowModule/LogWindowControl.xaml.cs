@@ -435,10 +435,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private async Task ExecuteLoadedCommandAsync()
     {
       SetCancellationTokenSource();
+      RegisterKeybindingEvents();
 
       if ( !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
         return;
 
+      _historyQueueSet = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
+    }
+
+    private void RegisterKeybindingEvents()
+    {
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DisableQuickAddInTailDataMessage>(OnDisableQuickAddFlag);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataMessage>(OnOpenTailData);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenGoToLineDialogMessage>(OnOpenGoToLineDialog);
@@ -450,11 +456,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ClearTailLogMessage>(OnClearTailLog);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartTailMessage>(OnStartTail);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StopTailMessage>(OnStopTail);
-
-      _historyQueueSet = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<QuickAddMessage>(OnQuickAdd);
     }
 
-    private void ExecuteUnloadedCommand()
+    private void ExecuteUnloadedCommand() => UnregisterKeybindingEvents();
+
+    private void UnregisterKeybindingEvents()
     {
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<DisableQuickAddInTailDataMessage>(OnDisableQuickAddFlag);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenTailDataMessage>(OnOpenTailData);
@@ -467,6 +474,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ClearTailLogMessage>(OnClearTailLog);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartTailMessage>(OnStartTail);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StopTailMessage>(OnStopTail);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<QuickAddMessage>(OnQuickAdd);
     }
 
     private bool CanExecuteOpenFontDialog() => LogWindowState == EStatusbarState.FileLoaded || LogWindowState == EStatusbarState.Busy;
@@ -854,6 +862,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     #region Keybindings
+
+    private void OnQuickAdd(QuickAddMessage args)
+    {
+      if ( FileIsValid && CurrentTailData != null && !CurrentTailData.OpenFromFileManager && args.WindowGuid == WindowId )
+        ExecuteAddToFileManagerCommand();
+    }
 
     private void OnStopTail(StopTailMessage args)
     {

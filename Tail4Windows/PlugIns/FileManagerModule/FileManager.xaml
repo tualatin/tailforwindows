@@ -788,11 +788,11 @@
                     <StackPanel>
                       <TextBlock
                         Margin="0 0 0 5"
-                        Text="{DynamicResource FilterManagerFont}"
+                        Text="{DynamicResource FilterManagerPatternTool}"
                         FontSize="12"
                         FontWeight="Bold"
                         />
-                      <TextBlock Text="{DynamicResource FilterManagerFontToolTip}" />
+                      <TextBlock Text="{DynamicResource FilterManagerPatternToolToolTip}" />
                       <Border
                         Margin="0 8"
                         BorderBrush="Silver"

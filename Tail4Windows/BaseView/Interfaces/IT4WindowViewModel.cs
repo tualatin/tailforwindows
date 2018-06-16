@@ -135,6 +135,14 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
     }
 
     /// <summary>
+    /// Quick add command
+    /// </summary>
+    ICommand QuickAddCommand
+    {
+      get;
+    }
+
+    /// <summary>
     /// Width of main window
     /// </summary>
     double Width

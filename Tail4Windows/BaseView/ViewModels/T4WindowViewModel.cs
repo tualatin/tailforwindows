@@ -650,9 +650,24 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand StopTailCommand => _stopTailCommand ?? (_stopTailCommand = new RelayCommand(p => ExecuteStopTailCommand()));
 
+    private ICommand _quickAddCommand;
+
+    /// <summary>
+    /// Quick add command
+    /// </summary>
+    public ICommand QuickAddCommand => _quickAddCommand ?? (_quickAddCommand = new RelayCommand(p => ExecuteQuickAddCommand()));
+
     #endregion
 
     #region KeyBinding command functions
+
+    private void ExecuteQuickAddCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new QuickAddMessage(control.WindowId));
+    }
 
     private void ExecuteStopTailCommand()
     {

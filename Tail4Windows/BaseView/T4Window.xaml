@@ -82,6 +82,7 @@
     <KeyBinding Key="{Binding Key, Source={StaticResource ClearTailWindowKeyBinding}, Mode=OneTime}" Command="{Binding ClearTailLogCommand}" Modifiers="{Binding Modifiers, Source={StaticResource ClearTailWindowKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource StartTailKeyBinding}, Mode=OneTime}" Command="{Binding StartTailCommand}" Modifiers="{Binding Modifiers, Source={StaticResource StartTailKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource StopTailKeyBinding}, Mode=OneTime}" Command="{Binding StopTailCommand}" Modifiers="{Binding Modifiers, Source={StaticResource StopTailKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource QuickAddKeyBinding}, Mode=OneTime}" Command="{Binding QuickAddCommand}" Modifiers="{Binding Modifiers, Source={StaticResource QuickAddKeyBinding}, Mode=OneTime}" />
   </Window.InputBindings>
 
   <Grid>
