@@ -203,6 +203,7 @@
     <Compile Include="Data\Messages\Keybindings\GoToLineMessage.cs" />
     <Compile Include="Data\Messages\JumpToSelectedLogEntryMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\OpenFileMessage.cs" />
+    <Compile Include="Data\Messages\Keybindings\OpenFontSettingsMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\QuickAddMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\QuickSaveMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\StartTailMessage.cs" />

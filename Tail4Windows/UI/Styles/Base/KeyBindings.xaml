@@ -21,4 +21,5 @@
   <KeyBinding x:Key="QuickSearchKeyBinding" Gesture="CTRL+Q" />
   <KeyBinding x:Key="QuickSaveKeyBinding" Gesture="CTRL+S" />
   <KeyBinding x:Key="QuickAddKeyBinding" Gesture="CTRL+N" />
+  <KeyBinding x:Key="OpenFontKeyBinding" Gesture="ALT+A" />
 </ResourceDictionary>

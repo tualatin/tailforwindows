@@ -657,9 +657,24 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand QuickAddCommand => _quickAddCommand ?? (_quickAddCommand = new RelayCommand(p => ExecuteQuickAddCommand()));
 
+    private ICommand _openFontCommand;
+
+    /// <summary>
+    /// Open font command
+    /// </summary>
+    public ICommand OpenFontCommand => _openFontCommand ?? (_openFontCommand = new RelayCommand(p => ExeucteOpenFontCommand()));
+
     #endregion
 
     #region KeyBinding command functions
+
+    private void ExeucteOpenFontCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFontSettingsMessage(control.WindowId));
+    }
 
     private void ExecuteQuickAddCommand()
     {

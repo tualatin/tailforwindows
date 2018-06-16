@@ -15,6 +15,7 @@ Ctrl+S                              Quick save
 Alt+T                               Always on top on/off
 Alt+F                               Filter on/off
 Ctrl+Alt+M                          Minimize mainwindow
-F3                                  Searching forward()
+F3                                  Searching forward
+Alt+A                               Open font settings
 MiddleMouse button over TailWindow  New tab window
 MiddleMouse button over TabHeader   Close tab window

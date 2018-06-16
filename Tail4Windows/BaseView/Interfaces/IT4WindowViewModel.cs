@@ -14,6 +14,25 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
   public interface IT4WindowViewModel : IViewModelBase
   {
     /// <summary>
+    /// PreviewKeyDown command
+    /// </summary>
+    ICommand PreviewKeyDownCommand
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Window style
+    /// </summary>
+    Style T4WindowsStyle
+    {
+      get;
+      set;
+    }
+
+    #region KeyBindings
+
+    /// <summary>
     /// ToggleFilter command
     /// </summary>
     ICommand ToggleFilterCommand
@@ -62,14 +81,6 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
     }
 
     /// <summary>
-    /// PreviewKeyDown command
-    /// </summary>
-    ICommand PreviewKeyDownCommand
-    {
-      get;
-    }
-
-    /// <summary>
     /// Quick search command
     /// </summary>
     ICommand QuickSearchCommand
@@ -83,15 +94,6 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
     ICommand QuickSaveCommand
     {
       get;
-    }
-
-    /// <summary>
-    /// Window style
-    /// </summary>
-    Style T4WindowsStyle
-    {
-      get;
-      set;
     }
 
     /// <summary>
@@ -141,6 +143,16 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
     {
       get;
     }
+
+    /// <summary>
+    /// Open font command
+    /// </summary>
+    ICommand OpenFontCommand
+    {
+      get;
+    }
+
+    #endregion
 
     /// <summary>
     /// Width of main window
