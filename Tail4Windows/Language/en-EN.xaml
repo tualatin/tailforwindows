@@ -67,10 +67,6 @@
   <system:String x:Key="OptionsSystemMenuToolTip">Opens the settings dialog</system:String>
   <system:String x:Key="CancelText">Cancel</system:String>
   <system:String x:Key="TabControlAddNew">Add new log window tab (CTRL+T)</system:String>
-  <system:String
-    x:Key="SmartWatchHint"
-    xml:space="preserve"
-    >File {0} detected.&#10;What should {1} do?</system:String>
   <system:String x:Key="ThreadIsBusy">There is a running process in {0}. Are you sure to exit?</system:String>
   <system:String x:Key="FileAlreadyOpen">File '{0}' is already open.</system:String>
   <system:String x:Key="SmartWatchCanNotStart">SmartWatch can not start, an internal error occurred.</system:String>
@@ -501,6 +497,18 @@
   <system:String x:Key="PatternControlTitle">Define pattern</system:String>
   <system:String x:Key="PatternControlGroupLogFile">Current log file</system:String>
   <system:String x:Key="PatternControlGroupResult">Pattern result</system:String>
+
+  <system:String x:Key="SmartWatchAutorun">Autorun</system:String>
+  <system:String x:Key="SmartWatchIgnore">Ignore</system:String>
+  <system:String x:Key="SmartWatchIgnoreToolTip">Ignore current SmartWatch window</system:String>
+  <system:String x:Key="SmartWatchOpenInSameTab">Open in same tab</system:String>
+  <system:String x:Key="SmartWatchOpenInSameTabToolTip">Open file in same tab window</system:String>
+  <system:String x:Key="SmartWatchOpenInNewTab">Open in new tab</system:String>
+  <system:String x:Key="SmartWatchOpenInNewTabToolTip">Open file in new tab window</system:String>
+  <system:String
+    x:Key="SmartWatchHint"
+    xml:space="preserve"
+    >File {0} detected.&#10;What should {1} do?</system:String>
 
   <system:String x:Key="ErrorEnterDescription">Please enter a Description</system:String>
   <system:String x:Key="ErrorEnterFileName">Please enter a FileName</system:String>

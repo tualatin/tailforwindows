@@ -67,10 +67,6 @@
   <system:String x:Key="OptionsSystemMenuToolTip">Öffnet die Einstellungen</system:String>
   <system:String x:Key="CancelText">Abbruch</system:String>
   <system:String x:Key="TabControlAddNew">Fügt ein neues Log-Fenster Tab hinzu (STRG+T)</system:String>
-  <system:String
-    x:Key="SmartWatchHint"
-    xml:space="preserve"
-    >File {0} detected.&#10;What should {1} do?</system:String>
   <system:String x:Key="ThreadIsBusy">Einige Prozesse sind in {0} noch aktiv. Möchten Sie wirklich beenden?</system:String>
   <system:String x:Key="FileAlreadyOpen">Die Datei '{0}' ist bereits geöffnet.</system:String>
   <system:String x:Key="SmartWatchCanNotStart">SmartWatch kann nicht gestartet werden, es trat ein interner Fehler auf.</system:String>
@@ -499,6 +495,18 @@
   <system:String x:Key="PatternControlTitle">Pattern definieren</system:String>
   <system:String x:Key="PatternControlGroupLogFile">Aktuelle Logdatei</system:String>
   <system:String x:Key="PatternControlGroupResult">Pattern Ergebnis</system:String>
+
+  <system:String x:Key="SmartWatchAutorun">Autostart</system:String>
+  <system:String x:Key="SmartWatchIgnore">Ignorieren</system:String>
+  <system:String x:Key="SmartWatchIgnoreToolTip">Ignoriere aktuelles SmartWatch Fenster</system:String>
+  <system:String x:Key="SmartWatchOpenInSameTab">Öffne im selben Tab</system:String>
+  <system:String x:Key="SmartWatchOpenInSameTabToolTip">Öffne die Datei im selben Tabfenster</system:String>
+  <system:String x:Key="SmartWatchOpenInNewTab">Öffne in neuem Tab</system:String>
+  <system:String x:Key="SmartWatchOpenInNewTabToolTip">Öffne die Datei in neuem Tabfenster</system:String>
+  <system:String
+    x:Key="SmartWatchHint"
+    xml:space="preserve"
+    >Datei {0} entdeckt.&#10;Was soll {1} damit machen?</system:String>
 
   <system:String x:Key="ErrorEnterDescription">Bitte eine Bezeichnung angeben</system:String>
   <system:String x:Key="ErrorEnterFileName">Bitte einen Dateinamen angeben</system:String>

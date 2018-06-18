@@ -278,6 +278,11 @@
       <DependentUpon>PatternControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\PatternModule\ViewModels\PatternControlViewModel.cs" />
+    <Compile Include="PlugIns\SmartWatchPopupModule\Interfaces\ISmartWatchPopupViewModel.cs" />
+    <Compile Include="PlugIns\SmartWatchPopupModule\SmartWatchPopup.xaml.cs">
+      <DependentUpon>SmartWatchPopup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\SmartWatchPopupModule\ViewModels\SmartWatchPopupViewModel.cs" />
     <Compile Include="UI\Behaviors\Base\BehaviorBase.cs" />
     <Compile Include="UI\Behaviors\DataGridColumnWidthBehavior.cs" />
     <Compile Include="UI\Behaviors\FixHorizontalScrollbarPosition.cs" />
@@ -600,6 +605,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlugIns\QuickAddModule\QuickAdd.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\SmartWatchPopupModule\SmartWatchPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

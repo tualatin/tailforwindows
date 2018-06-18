@@ -12,10 +12,11 @@
   mc:Ignorable="d"
   x:Name="PatternControlWindow"
   Title="{DynamicResource PatternControlTitle}"
-  Width="350"
+  Width="400"
   Height="285"
   MinWidth="350"
   MinHeight="285"
+  MaxHeight="285"
   Icon="/T4W;component/Resources/script.ico"
   ResizeMode="CanResize"
   ShowInTaskbar="False"
@@ -268,12 +269,21 @@
       Content="OK"
       Command="{Binding CloseCommand}"
       CommandParameter="{Binding ElementName=PatternControlWindow}"
-      TabIndex="5"
+      TabIndex="6"
       >
       <Button.InputBindings>
         <KeyBinding Key="Enter" Command="{Binding CloseCommand}" CommandParameter="{Binding ElementName=PatternControlWindow}" />
       </Button.InputBindings>
     </Button>
+
+    <CheckBox
+      Grid.Row="3"
+      Height="22"
+      Margin="10 5"
+      Content="{DynamicResource FileManagerUsePattern}"
+      IsChecked="{Binding CurrenTailData.UsePattern, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+      TabIndex="5"
+      />
   </Grid>
 </extendedControls:VsWindowEx>
 

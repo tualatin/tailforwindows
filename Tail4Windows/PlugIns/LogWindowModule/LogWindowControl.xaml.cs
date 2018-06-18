@@ -34,6 +34,7 @@ using Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
+using Org.Vs.TailForWin.PlugIns.PatternModule;
 using Org.Vs.TailForWin.PlugIns.QuickAddModule;
 using Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels;
 using Org.Vs.TailForWin.UI.Commands;
@@ -403,9 +404,26 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand LinesRefreshTimeChangedCommand => _linesRefreshTimeChangedCommand ?? (_linesRefreshTimeChangedCommand = new RelayCommand(ExecuteLinesRefreshTimeChangedCommand));
 
+    private ICommand _patternControlCommand;
+
+    /// <summary>
+    /// Open pattern util command
+    /// </summary>
+    public ICommand PatternControlCommand => _patternControlCommand ?? (_patternControlCommand = new RelayCommand(p => FileIsValid, p => ExecutePatternControlCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecutePatternControlCommand()
+    {
+      var patternControl = new PatternControl
+      {
+        Owner = Window.GetWindow(this),
+        CurrentTailData = CurrentTailData
+      };
+      patternControl.ShowDialog();
+    }
 
     private void ExecuteLinesRefreshTimeChangedCommand(object param)
     {

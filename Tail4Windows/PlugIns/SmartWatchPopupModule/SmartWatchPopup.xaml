@@ -1,0 +1,212 @@
+﻿<Window
+  x:Class="Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.SmartWatchPopup"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels"
+  mc:Ignorable="d"
+  x:Name="SmartWatchPopupWindow"
+  Title="SmartWatch"
+  Width="420"
+  Height="135"
+  ResizeMode="NoResize"
+  Topmost="True"
+  WindowStyle="ToolWindow"
+  >
+  <Window.DataContext>
+    <viewModels:SmartWatchPopupViewModel />
+  </Window.DataContext>
+
+  <i:Interaction.Triggers>
+    <i:EventTrigger EventName="Loaded">
+      <i:InvokeCommandAction
+        Command="{Binding LoadedCommand}"
+        CommandParameter="{Binding ElementName=SmartWatchPopupWindow}"
+        />
+    </i:EventTrigger>
+  </i:Interaction.Triggers>
+
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <Grid Grid.Row="0">
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition Height="5" />
+      </Grid.RowDefinitions>
+
+      <TextBlock
+        Grid.Row="0"
+        Margin="5"
+        Text="{Binding SmartWatchText, UpdateSourceTrigger=PropertyChanged}"
+        TextWrapping="Wrap"
+        />
+
+      <Separator
+        Grid.Row="1"
+        Margin="20 0"
+        />
+    </Grid>
+
+    <StackPanel
+      Grid.Row="1"
+      Margin="5 0"
+      HorizontalAlignment="Right"
+      Orientation="Horizontal"
+      >
+      <Button
+        Height="24"
+        MinWidth="105"
+        Content="{DynamicResource SmartWatchOpenInNewTab}"
+        Command="{Binding OpenSmartWatchInNewTabCommand}"
+        CommandParameter="{Binding ElementName=SmartWatchPopupWindow}"
+        TabIndex="0"
+        behaviors:FocusBehavior.IsFocused="{Binding ButtonHasFocus, UpdateSourceTrigger=PropertyChanged}"
+        >
+        <Button.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource SmartWatchOpenInNewTab}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource SmartWatchOpenInNewTabToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </Button.ToolTip>
+      </Button>
+
+      <Button
+        Width="24"
+        Height="24"
+        Margin="5"
+        VerticalAlignment="Center"
+        Command="{Binding OpenSmartWatchInSameTabCommand}"
+        TabIndex="1"
+        >
+        <StackPanel>
+          <Image
+            RenderOptions.BitmapScalingMode="HighQuality"
+            RenderOptions.EdgeMode="Aliased"
+            Source="/T4W;component/Resources/openfolder.ico"
+            >
+            <Image.Style>
+              <Style TargetType="{x:Type Image}">
+                <Style.Triggers>
+                  <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5" />
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </Image.Style>
+          </Image>
+        </StackPanel>
+        <Button.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource SmartWatchOpenInSameTab}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource SmartWatchOpenInSameTabToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </Button.ToolTip>
+      </Button>
+
+      <Button
+        Width="24"
+        Height="24"
+        Margin="0 5 5 5"
+        Command="{Binding IgnoreSmartWatchCommand}"
+        CommandParameter="{Binding ElementName=SmartWatchPopupWindow}"
+        Style="{StaticResource RemoveItemButtonStyle}"
+        TabIndex="2"
+        >
+        <Button.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource SmartWatchIgnore}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource SmartWatchIgnoreToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </Button.ToolTip>
+      </Button>
+
+      <CheckBox
+        Height="22"
+        Margin="-5 5"
+        Content="{DynamicResource SmartWatchAutorun}"
+        Command="{Binding AutorunCommand}"
+        IsChecked="{Binding CurrenTailData.AutoRun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        TabIndex="3"
+        />
+    </StackPanel>
+  </Grid>
+</Window>
