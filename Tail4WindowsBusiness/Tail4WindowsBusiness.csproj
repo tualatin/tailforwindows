@@ -84,8 +84,8 @@
     <Compile Include="DbEngine\Controllers\SettingsDbController.cs" />
     <Compile Include="DbEngine\Data\DatabaseSetting.cs" />
     <Compile Include="DbEngine\Interfaces\ISettingsDbController.cs" />
-    <Compile Include="Events\Args\LogEntryCreatedArgs.cs" />
-    <Compile Include="Events\Delegates\LogEntryCreated.cs" />
+    <Compile Include="Services\Events\Args\LogEntryCreatedArgs.cs" />
+    <Compile Include="Services\Events\Delegates\LogEntryCreated.cs" />
     <Compile Include="Interfaces\ICacheManager.cs" />
     <Compile Include="Interfaces\ILogReadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -109,6 +109,8 @@
     <Folder Include="Data\Attributes\" />
     <Folder Include="DbEngine\Utils\" />
     <Folder Include="SearchEngine\Data\" />
+    <Folder Include="StatisticEngine\Controllers\" />
+    <Folder Include="StatisticEngine\Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

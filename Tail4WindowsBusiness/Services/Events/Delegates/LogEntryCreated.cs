@@ -1,7 +1,7 @@
-﻿using Org.Vs.TailForWin.Business.Events.Args;
+﻿using Org.Vs.TailForWin.Business.Services.Events.Args;
 
 
-namespace Org.Vs.TailForWin.Business.Events.Delegates
+namespace Org.Vs.TailForWin.Business.Services.Events.Delegates
 {
   /// <summary>
   /// Log entry created event handler

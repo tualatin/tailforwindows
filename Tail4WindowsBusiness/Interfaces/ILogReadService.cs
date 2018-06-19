@@ -1,4 +1,4 @@
-﻿using Org.Vs.TailForWin.Business.Events.Delegates;
+﻿using Org.Vs.TailForWin.Business.Services.Events.Delegates;
 using Org.Vs.TailForWin.Core.Data;
 
 

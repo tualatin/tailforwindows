@@ -2,7 +2,7 @@
 using Org.Vs.TailForWin.Business.Data;
 
 
-namespace Org.Vs.TailForWin.Business.Events.Args
+namespace Org.Vs.TailForWin.Business.Services.Events.Args
 {
   /// <summary>
   /// <see cref="LogEntry"/> created <see cref="EventArgs"/>
