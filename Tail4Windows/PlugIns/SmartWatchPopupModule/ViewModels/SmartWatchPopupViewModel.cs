@@ -48,6 +48,24 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels
       }
     }
 
+    private string _title;
+
+    /// <summary>
+    /// Gets window title
+    /// </summary>
+    public string Title
+    {
+      get => _title;
+      set
+      {
+        if ( Equals(value, _title) )
+          return;
+
+        _title = value;
+        OnPropertyChanged();
+      }
+    }
+
     private TailData _currenTailData;
 
     /// <summary>
@@ -63,7 +81,68 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels
       }
     }
 
+    private double _top;
+
+    /// <summary>
+    /// Top window position
+    /// </summary>
+    public double Top
+    {
+      get => _top;
+      set
+      {
+        _top = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _left;
+
+    /// <summary>
+    /// Left window position
+    /// </summary>
+    public double Left
+    {
+      get => _left;
+      set
+      {
+        _left = value;
+        OnPropertyChanged();
+      }
+    }
+
+    /// <summary>
+    /// Height
+    /// </summary>
+    public double Height
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Width
+    /// </summary>
+    public double Width
+    {
+      get;
+      set;
+    }
+
     #endregion
+
+    /// <summary>
+    /// Standard constructor
+    /// </summary>
+    public SmartWatchPopupViewModel()
+    {
+      Height = 135;
+      OnPropertyChanged(nameof(Height));
+      Width = 420;
+      OnPropertyChanged(nameof(Width));
+
+      Title = "SmartWatch";
+    }
 
     #region Commands
 
@@ -110,9 +189,11 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels
 
     private void ExecuteLoadedCommand(Window window)
     {
+      SetWindowPosition();
       window.Activate();
       window.Focus();
 
+      Title = $"{Title} - {CurrenTailData.File}";
       ButtonHasFocus = true;
     }
 
@@ -130,5 +211,30 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels
     }
 
     #endregion
+
+    private void SetWindowPosition()
+    {
+      var mainHeight = Application.Current.MainWindow?.Height;
+      var mainWidth = Application.Current.MainWindow?.Width;
+
+      if ( !mainWidth.HasValue || !mainHeight.HasValue )
+        return;
+
+      var top = mainHeight.Value / 2 - Height / 2;
+      var left = mainWidth.Value / 2 - Width / 2;
+
+      if ( Application.Current.MainWindow?.WindowState == WindowState.Maximized )
+      {
+        Top = top;
+        Left = left;
+      }
+      else
+      {
+        var mainLeft = Application.Current.MainWindow?.Left;
+        var mainTop = Application.Current.MainWindow?.Top;
+        Top = mainTop.Value + top;
+        Left = mainLeft.Value + left;
+      }
+    }
   }
 }

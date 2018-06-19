@@ -1,4 +1,4 @@
-﻿<Window
+﻿<floatWindow:VsFloatingWindow
   x:Class="Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.SmartWatchPopup"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,19 +6,23 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels"
   mc:Ignorable="d"
   x:Name="SmartWatchPopupWindow"
-  Title="SmartWatch"
-  Width="420"
-  Height="135"
-  ResizeMode="NoResize"
+  Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+  Width="{Binding Width, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+  Height="{Binding Height, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+  MinWidth="420"
+  MinHeight="135"
+  Left="{Binding Left, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+  MinimizeButtonVisibility="Collapsed"
+  Top="{Binding Top, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Topmost="True"
-  WindowStyle="ToolWindow"
   >
-  <Window.DataContext>
+  <floatWindow:VsFloatingWindow.DataContext>
     <viewModels:SmartWatchPopupViewModel />
-  </Window.DataContext>
+  </floatWindow:VsFloatingWindow.DataContext>
 
   <i:Interaction.Triggers>
     <i:EventTrigger EventName="Loaded">
@@ -164,6 +168,7 @@
         Margin="0 5 5 5"
         Command="{Binding IgnoreSmartWatchCommand}"
         CommandParameter="{Binding ElementName=SmartWatchPopupWindow}"
+        IsCancel="True"
         Style="{StaticResource RemoveItemButtonStyle}"
         TabIndex="2"
         >
@@ -209,4 +214,4 @@
         />
     </StackPanel>
   </Grid>
-</Window>
+</floatWindow:VsFloatingWindow>

@@ -36,6 +36,48 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Interfaces
     }
 
     /// <summary>
+    /// Gets window title
+    /// </summary>
+    string Title
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Top window position
+    /// </summary>
+    double Top
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Left window position
+    /// </summary>
+    double Left
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Height
+    /// </summary>
+    double Height
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Width
+    /// </summary>
+    double Width
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Loaded command
     /// </summary>
     ICommand LoadedCommand
