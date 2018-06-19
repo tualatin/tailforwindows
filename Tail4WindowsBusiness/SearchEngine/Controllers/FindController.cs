@@ -63,7 +63,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
               string regString = WildCardToRegular(pattern);
               regex = new Regex(regString);
 
-              if ( regex.IsMatch(value) )
+              if ( !regex.IsMatch(value) )
                 return;
 
               result = GetStringResult(value, regex);

@@ -30,7 +30,10 @@ namespace Org.Vs.TailForWin.Core.Data
       Id = Guid.NewGuid();
 
       FontType = new FontType();
-      FindSettings = new FindData();
+      FindSettings = new FindData
+      {
+        WholeWord = true
+      };
       AutoRun = true;
       TabItemBackgroundColorStringHex = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor;
       RefreshRate = SettingsHelperController.CurrentSettings.DefaultRefreshRate;

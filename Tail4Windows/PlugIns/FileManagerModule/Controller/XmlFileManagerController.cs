@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Xml;
 using System.Xml.Linq;
 using log4net;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Data.XmlNames;
@@ -30,19 +32,28 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
     private static readonly ILog LOG = LogManager.GetLogger(typeof(XmlFileManagerController));
 
     private readonly string _fileManagerFile;
+    private readonly ISmartWatchController _smartWatchController;
     private XDocument _xmlDocument;
 
 
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public XmlFileManagerController() => _fileManagerFile = EnvironmentContainer.TailStorePath + @"\FileManager.xml";
+    public XmlFileManagerController()
+    {
+      _fileManagerFile = EnvironmentContainer.TailStorePath + @"\FileManager.xml";
+      _smartWatchController = new SmartWatchController();
+    }
 
     /// <summary>
     /// Constructor for testing purposes
     /// </summary>
     /// <param name="path">Path of XML file</param>
-    public XmlFileManagerController(string path) => _fileManagerFile = path;
+    public XmlFileManagerController(string path)
+    {
+      _fileManagerFile = path;
+      _smartWatchController = new SmartWatchController();
+    }
 
 
     /// <summary>
@@ -59,7 +70,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
 
       LOG.Trace("Read XML");
 
-      return await Task.Run(() => ReadXmlFile(), token).ConfigureAwait(false);
+      var result = await Task.Run(() => ReadXmlFile(), token).ConfigureAwait(false);
+
+      if ( result != null )
+        await ModifyFileNameBySmartWatchAsync(result).ConfigureAwait(false);
+
+      return result;
     }
 
     private ObservableCollection<TailData> ReadXmlFile()
@@ -125,12 +141,26 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       return result;
     }
 
+    private async Task ModifyFileNameBySmartWatchAsync(ObservableCollection<TailData> result)
+    {
+      foreach ( TailData item in result.Where(p => p.SmartWatch && p.UsePattern).ToList() )
+      {
+        item.FileName = await _smartWatchController.GetFileNameByPatternAsync(item, item.PatternString).ConfigureAwait(false);
+      }
+
+      foreach ( TailData item in result.Where(p => p.SmartWatch && !p.UsePattern).ToList() )
+      {
+        item.FileName = await _smartWatchController.GetFileNameBySmartWatchAsync(item).ConfigureAwait(false);
+      }
+    }
+
     private FindData GetSearchPatternFindSettings(XContainer settings)
     {
       var searchSettings = new FindData
       {
         UseRegex = settings.Element(XmlBaseStructure.IsRegex)?.Value.ConvertToBool() ?? false,
-        UseWildcard = settings.Element(XmlBaseStructure.UseWildcard)?.Value.ConvertToBool() ?? false
+        UseWildcard = settings.Element(XmlBaseStructure.UseWildcard)?.Value.ConvertToBool() ?? false,
+        WholeWord = true
       };
       return searchSettings;
     }
