@@ -94,6 +94,8 @@
     <Compile Include="Services\LogReadService.cs" />
     <Compile Include="SmartWatchEngine\Controlleres\SmartWatchController.cs" />
     <Compile Include="SmartWatchEngine\Interfaces\ISmartWatchController.cs" />
+    <Compile Include="StatisticEngine\Controllers\StatisticController.cs" />
+    <Compile Include="StatisticEngine\Interfaces\IStatisticController.cs" />
     <Compile Include="Utils\CacheManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -109,8 +111,6 @@
     <Folder Include="Data\Attributes\" />
     <Folder Include="DbEngine\Utils\" />
     <Folder Include="SearchEngine\Data\" />
-    <Folder Include="StatisticEngine\Controllers\" />
-    <Folder Include="StatisticEngine\Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
