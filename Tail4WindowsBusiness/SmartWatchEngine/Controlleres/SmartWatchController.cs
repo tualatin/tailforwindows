@@ -91,7 +91,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
       }
       else
       {
-        string ptn = $@"^\d{"{"}{root.Length}{"}"}\D";
+        string ptn = $@"^\d{"{"}{root.Length},{root.Length}{"}"}\D";
         var regex = new Regex(ptn);
         fileInfos = fileInfos.Where(p => p.Extension == Path.GetExtension(item.FileName) && regex.IsMatch(p.Name)).ToArray();
       }
