@@ -29,6 +29,7 @@
         <RowDefinition Height="26" />
         <RowDefinition Height="34*" />
       </Grid.RowDefinitions>
+
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="90" />
         <ColumnDefinition MinWidth="200" />
@@ -181,7 +182,6 @@
         Grid.Row="5"
         Grid.Column="1"
         Height="22"
-        MaxWidth="190"
         Margin="6 0"
         VerticalAlignment="Center"
         IsEnabled="{Binding ElementName=CheckBoxSameLogin, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"

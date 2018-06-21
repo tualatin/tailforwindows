@@ -14,6 +14,7 @@
   Height="550"
   MinWidth="600"
   MinHeight="550"
+  MaxWidth="800"
   CanClose="{Binding SaveOptionsCommand.Execution.IsSuccessfullyCompleted}"
   Icon="/T4W;component/Resources/system.ico"
   ResizeMode="CanResizeWithGrip"
@@ -92,8 +93,8 @@
       Grid.Row="0"
       Grid.Column="2"
       Margin="2"
-      HorizontalAlignment="Left"
-      VerticalAlignment="Top"
+      HorizontalAlignment="Stretch"
+      VerticalAlignment="Stretch"
       Content="{Binding CurrentViewModel, UpdateSourceTrigger=PropertyChanged}"
       />
 
