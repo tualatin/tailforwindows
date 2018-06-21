@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using log4net;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 using Org.Vs.TailForWin.PlugIns.PatternModule.Controller;
@@ -22,6 +24,8 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule.ViewModels
   /// </summary>
   public class PatternControlViewModel : StateManager, IPatternControlViewModel
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(PatternControlViewModel));
+
     private readonly IXmlPattern _patternController;
     private List<PatternData> _patterns;
 
@@ -162,21 +166,30 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule.ViewModels
       TextBoxHasFocus = true;
 
       CommitChanges();
+      CurrenTailData.FindSettings.CommitChanges();
 
-      if ( _patterns == null )
+      if ( _patterns == null || _patterns.Count == 0 )
         return;
 
       _menuItems = new ObservableCollection<MenuItem>();
 
-      foreach ( var pattern in _patterns.Where(p => p.IsRegex).ToList() )
+      try
       {
-        var menuItem = new MenuItem
+        foreach ( var pattern in _patterns.Where(p => p.IsRegex).OrderBy(p => p.PatternString).ToList() )
         {
-          Header = pattern.PatternString,
-          Foreground = Brushes.RoyalBlue
-        };
+          var menuItem = new MenuItem
+          {
+            Header = pattern.PatternString,
+            Foreground = Brushes.RoyalBlue
+          };
 
-        _menuItems.Add(menuItem);
+          _menuItems.Add(menuItem);
+        }
+      }
+      catch ( Exception ex )
+      {
+        _menuItems = null;
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
 
       OnPropertyChanged(nameof(MenuItems));

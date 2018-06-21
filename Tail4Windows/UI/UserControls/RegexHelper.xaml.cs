@@ -53,7 +53,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private static void OnMenuItemsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
-      if ( !(e.NewValue is ObservableCollection<MenuItem> items) )
+      if ( !(e.NewValue is ObservableCollection<MenuItem> items) || items.Count == 0 )
         return;
 
       if ( !(sender is RegexHelper control) )

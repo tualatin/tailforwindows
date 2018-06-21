@@ -162,6 +162,11 @@
   <system:String x:Key="ExtendedTailSettingsQuickSave">Schnell Speichern</system:String>
   <system:String x:Key="ExtendedTailSettingsQuickSaveInputGestureText">STRG+S</system:String>
   <system:String x:Key="ExtendedTailSettingsDeleteHistory">Lösche Historie</system:String>
+  <system:String x:Key="ExtendedFontToolTip">Setzt die aktuelle Schrift (ALT+A)</system:String>
+  <system:String x:Key="ExtendedClearLogWindow">Inhalt leeren</system:String>
+  <system:String x:Key="ExtendedClearLogWindowTooTip">Leert den Inhalt des aktuellen Fensters (STRG+E)</system:String>
+  <system:String x:Key="ExtendedSearch">Suche</system:String>
+  <system:String x:Key="ExtendedSearchToolTip">Starte die Suche (STRG+F)</system:String>
 
   <system:String x:Key="EFileSortFileCreationTime">Datei Erstelldatum</system:String>
   <system:String x:Key="EFileSortDefault">Standard</system:String>
