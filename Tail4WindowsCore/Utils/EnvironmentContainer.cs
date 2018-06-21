@@ -49,14 +49,24 @@ namespace Org.Vs.TailForWin.Core.Utils
     public static string ApplicationTitle => Application.Current.TryFindResource("ApplicationTitle").ToString();
 
     /// <summary>
+    /// Application Regex compare URL
+    /// </summary>
+    public static string ApplicationRegexWebUrl => "https://www.virtual-studios.de";
+
+    /// <summary>
     /// Application Update URL
     /// </summary>
-    public static string ApplicationUpdateWebUrl => Application.Current.TryFindResource("UpdateUrl").ToString();
+    public static string ApplicationUpdateWebUrl => "https://www.virtual-studios.de/tail4wnd/releases.txt";
 
     /// <summary>
     /// Application release URL
     /// </summary>
-    public static string ApplicationReleaseWebUrl => Application.Current.TryFindResource("WebUrl").ToString();
+    public static string ApplicationReleaseWebUrl => "https://github.com/tualatin/tailforwindows/releases";
+
+    /// <summary>
+    /// Application donate web URL
+    /// </summary>
+    public static string ApplicationDonateWebUrl => "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M436BDAMQL7WE";
 
     /// <summary>
     /// Unlimited log line value

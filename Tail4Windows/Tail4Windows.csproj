@@ -511,6 +511,7 @@
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
+    <Resource Include="Resources\paypal.png" />
     <Resource Include="Resources\transparent.png" />
     <Resource Include="Resources\colorfont_icon.png" />
     <Resource Include="Resources\Boomark.png" />

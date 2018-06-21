@@ -36,6 +36,14 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.Interfaces
     }
 
     /// <summary>
+    /// Donate command
+    /// </summary>
+    ICommand DonateCommand
+    {
+      get;
+    }
+
+    /// <summary>
     /// Uptime
     /// </summary>
     string UpTime

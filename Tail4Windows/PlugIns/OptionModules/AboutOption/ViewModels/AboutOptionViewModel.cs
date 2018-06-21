@@ -135,9 +135,22 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
     /// </summary>
     public ICommand UnloadedCommand => _unloadedCommand ?? (_unloadedCommand = new RelayCommand(p => ExecuteUnloadedCommand()));
 
+    private ICommand _donateCommand;
+
+    /// <summary>
+    /// Donate command
+    /// </summary>
+    public ICommand DonateCommand => _donateCommand ?? (_donateCommand = new RelayCommand(p => ExecuteDonateCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteDonateCommand()
+    {
+      var url = new Uri(EnvironmentContainer.ApplicationDonateWebUrl);
+      ExecuteRequestNavigateCommand(url);
+    }
 
     private async Task ExecuteLoadedCommandAsync()
     {

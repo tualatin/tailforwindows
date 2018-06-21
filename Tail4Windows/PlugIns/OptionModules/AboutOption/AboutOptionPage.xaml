@@ -10,6 +10,8 @@
   mc:Ignorable="d"
   d:DesignHeight="400"
   d:DesignWidth="400"
+  HorizontalAlignment="Stretch"
+  VerticalAlignment="Stretch"
   >
   <UserControl.DataContext>
     <viewModels:AboutOptionViewModel />
@@ -31,6 +33,7 @@
       <RowDefinition Height="30" />
       <RowDefinition Height="30" />
       <RowDefinition Height="25" />
+      <RowDefinition Height="30" />
       <RowDefinition Height="30" />
       <RowDefinition Height="30" />
     </Grid.RowDefinitions>
@@ -147,14 +150,73 @@
       </Hyperlink>
     </TextBlock>
 
+    <Button
+      Grid.Row="6"
+      Grid.Column="0"
+      Grid.ColumnSpan="3"
+      Width="24"
+      Height="24"
+      HorizontalAlignment="Center"
+      VerticalAlignment="Center"
+      Command="{Binding DonateCommand}"
+      >
+      <StackPanel>
+        <Image
+          RenderOptions.BitmapScalingMode="HighQuality"
+          RenderOptions.EdgeMode="Aliased"
+          Source="/T4W;component/Resources/paypal.png"
+          >
+          <Image.Style>
+            <Style TargetType="{x:Type Image}">
+              <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                  <Setter Property="Opacity" Value="0.5" />
+                </Trigger>
+              </Style.Triggers>
+            </Style>
+          </Image.Style>
+        </Image>
+      </StackPanel>
+      <Button.ToolTip>
+        <StackPanel>
+          <TextBlock
+            Margin="0 0 0 5"
+            Text="{DynamicResource AboutDonate}"
+            FontSize="12"
+            FontWeight="Bold"
+            />
+          <TextBlock Text="{DynamicResource AboutDonateToolTip}" />
+          <Border
+            Margin="0 8"
+            BorderBrush="Silver"
+            BorderThickness="0 1 0 0"
+            />
+          <WrapPanel>
+            <Image
+              Width="16"
+              Height="16"
+              Margin="0 0 5 0"
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/Search.ico"
+              />
+            <TextBlock
+              Text="{DynamicResource GeneralToolTipHint}"
+              FontStyle="Italic"
+              />
+          </WrapPanel>
+        </StackPanel>
+      </Button.ToolTip>
+    </Button>
+
     <!--  ReSharper disable once Xaml.MissingGridIndex  -->
     <Label
-      Grid.Row="6"
+      Grid.Row="7"
       VerticalAlignment="Center"
       Content="{DynamicResource AboutUptimeString}"
       />
     <Label
-      Grid.Row="6"
+      Grid.Row="7"
       Grid.Column="1"
       Grid.ColumnSpan="2"
       Margin="0 2"

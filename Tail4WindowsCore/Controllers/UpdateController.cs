@@ -46,9 +46,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       var stopUpdate = new Stopwatch();
       stopUpdate.Start();
-      LOG.Trace("Check if update is necessary...");
+      LOG.Info("Check if update is necessary...");
 
-      var matchUrl = Regex.Match(EnvironmentContainer.ApplicationUpdateWebUrl, "https://www.virtual-studios.de", RegexOptions.IgnoreCase);
+      var matchUrl = Regex.Match(EnvironmentContainer.ApplicationUpdateWebUrl, EnvironmentContainer.ApplicationRegexWebUrl, RegexOptions.IgnoreCase);
       _result = new UpdateData
       {
         ApplicationVersion = version

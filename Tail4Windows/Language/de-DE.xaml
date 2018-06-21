@@ -71,8 +71,6 @@
   <system:String x:Key="FileAlreadyOpen">Die Datei '{0}' ist bereits geöffnet.</system:String>
   <system:String x:Key="SmartWatchCanNotStart">SmartWatch kann nicht gestartet werden, es trat ein interner Fehler auf.</system:String>
   <system:String x:Key="XmlExceptionConfigFileCorrupt">Die XML Datei ist ungültig oder beschädigt!</system:String>
-  <system:String x:Key="WebUrl">https://github.com/tualatin/tailforwindows/releases</system:String>
-  <system:String x:Key="UpdateUrl">https://www.virtual-studios.de/tail4wnd/releases.txt</system:String>
   <system:String x:Key="QuickSearchWatermark">Schnellsuche</system:String>
   <system:String x:Key="ButtonStartTail">Start</system:String>
   <system:String x:Key="ButtonStartTailToolTip">Startet tail (STRG+R)</system:String>
@@ -234,6 +232,8 @@
   <system:String x:Key="AboutUptimeString">Laufzeit:</system:String>
   <system:String x:Key="AboutUptimeHours">Stunde(n)</system:String>
   <system:String x:Key="AboutUptimeDays">Tag(e)</system:String>
+  <system:String x:Key="AboutDonate">Spenden</system:String>
+  <system:String x:Key="AboutDonateToolTip">Ihnen gefällt meine Arbeit, dann spenden Sie doch etwas</system:String>
 
   <system:String x:Key="SystemInfoKey">Element</system:String>
   <system:String x:Key="SystemInfoValue">Wert</system:String>
