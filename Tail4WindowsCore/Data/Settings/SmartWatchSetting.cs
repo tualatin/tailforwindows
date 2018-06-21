@@ -11,6 +11,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
   /// </summary>
   public class SmartWatchSetting : NotifyMaster, ICloneable, IPropertyNotify
   {
+    private int _smartWatchInterval;
+
+    /// <summary>
+    /// SmartWatch interval
+    /// </summary>
+    public int SmartWatchInterval
+    {
+      get => _smartWatchInterval;
+      set
+      {
+        if (Equals(value, _smartWatchInterval))
+          return;
+
+        _smartWatchInterval = value;
+        OnPropertyChanged();
+      }
+    }
+
     private bool _filterByExtension;
 
     /// <summary>

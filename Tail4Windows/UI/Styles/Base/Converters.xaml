@@ -25,6 +25,7 @@
   <converters:SmtpSecurityConverter x:Key="SmtpSecurityConverter" />
   <converters:StringEmptyToDotConverter x:Key="StringEmptyToDotConverter" />
   <converters:SmartWatchModeToBoolConverter x:Key="SmartWatchModeToBoolConverter" />
+  <converters:SmartWatchIntervalToString x:Key="SmartWatchIntervalToString" />
   <converters:StatusBarStateToBoolConverter x:Key="StatusBarStateToBoolConverter" />
   <converters:StatusBarStateToBoolInverseConverter x:Key="StatusBarStateToBoolInverseConverter" />
   <converters:IntToBoolConverter x:Key="IntToBoolConverter" />

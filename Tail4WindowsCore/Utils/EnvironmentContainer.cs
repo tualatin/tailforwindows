@@ -79,6 +79,16 @@ namespace Org.Vs.TailForWin.Core.Utils
     public const int MinLogLineValue = 3000;
 
     /// <summary>
+    /// Minimum SmartWatch interval
+    /// </summary>
+    public const int MinSmartWatchInterval = 2000;
+
+    /// <summary>
+    /// Maximum SmartWatch interval
+    /// </summary>
+    public const int MaxSmartWatchInterval = 120000;
+
+    /// <summary>
     /// Current event manager
     /// </summary>
     public readonly IEventAggregator CurrentEventManager;

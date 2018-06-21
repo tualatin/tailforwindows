@@ -81,6 +81,8 @@
           <RowDefinition Height="26" />
           <RowDefinition Height="26" />
           <RowDefinition Height="26" />
+          <RowDefinition Height="40" />
+          <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -311,6 +313,70 @@
             </StackPanel>
           </CheckBox.ToolTip>
         </CheckBox>
+
+        <Label
+          Grid.Row="3"
+          Grid.Column="0"
+          Margin="6 0"
+          VerticalAlignment="Center"
+          Content="{DynamicResource SmartWatchInterval}"
+          />
+
+        <Slider
+          Name="SmartWatchInterval"
+          Grid.Row="3"
+          Grid.Column="1"
+          VerticalAlignment="Center"
+          Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatchSettings.SmartWatchInterval, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          IsSnapToTickEnabled="True"
+          Maximum="{Binding Source={x:Static utils:EnvironmentContainer.MaxSmartWatchInterval}}"
+          Minimum="{Binding Source={x:Static utils:EnvironmentContainer.MinSmartWatchInterval}}"
+          Orientation="Horizontal"
+          SmallChange="1000"
+          TabIndex="6"
+          TickFrequency="1000"
+          >
+          <Slider.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource SmartWatchInterval}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource SmartWatchIntervalToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </Slider.ToolTip>
+        </Slider>
+
+        <Label
+          Grid.Row="4"
+          Grid.Column="1"
+          Margin="0 0 10 0"
+          HorizontalAlignment="Right"
+          Content="{Binding ElementName=SmartWatchInterval, Path=Value, Converter={StaticResource SmartWatchIntervalToString}, UpdateSourceTrigger=PropertyChanged}"
+          FontSize="10"
+          FontWeight="SemiBold"
+          />
       </Grid>
     </Grid>
   </ScrollViewer>

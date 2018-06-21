@@ -109,8 +109,8 @@ namespace Org.Vs.TailForWin.Business.Services
         SimulateTailReading();
 #endif
     }
-
 #if DEBUG
+
     private void SimulateTailReading()
     {
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();

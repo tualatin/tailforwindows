@@ -9,10 +9,34 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.0.xxxx.x
+* new SplitWindow view
+* new Drag'n'Drop window design
+* new Tabheaders can colorized by user
+* new undo manager
+* new Find result window
+* new in SmartWatch you can use Wildcards
+* new SmartWatch interval is configurable (min 2sec, max 2 min)
+* new Quick save
+* new Quick add
+* new Logfile history
+* new delete Logfile history
+* new SmartWatch can used with non saved items
+* new Database engine
+* new Regex helper
+* new Statusbar design
+* new per user settings -> Users\user\AppData\Roaming\Tail4Windows\
+* new translateable userinterface - english, german
+* bug fix filtering
+* bug fix time settings
+* bug fix date settings
+* remove some old settings from config file -> Tail4Windows will check it at startup
+* complete redesign of Find
+* redesign of Pattern control
+* add more shortcuts -> see Shortcuts.txt
 * add more Options
-* add Logfile history
 * new Icon design
-* FileManager is TailManager now
+* FileManager is TailManager (complete redesign) now
+* Filters is FilterManager (complete redesign) now
 * complete new Options design
 * complete Code redesign
 

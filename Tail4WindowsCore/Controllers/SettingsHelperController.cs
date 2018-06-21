@@ -68,7 +68,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
         { "ShowExtendedSettings", DefaultEnvironmentSettings.ShowExtendedSettings.ToString() },
         { "SplitterBackgroundColor", DefaultEnvironmentSettings.SplitterBackgroundColor },
         { "SplitterWindowBehavior", DefaultEnvironmentSettings.SplitterWindowBehavior.ToString() },
-        { "SelectionBackgroundColor", DefaultEnvironmentSettings.SelectionBackgroundColor }
+        { "SelectionBackgroundColor", DefaultEnvironmentSettings.SelectionBackgroundColor },
+        { "SmartWatch.SmartWatchInterval", DefaultEnvironmentSettings.SmartWatchInterval.ToString() }
       };
 
       await AddNewPropertyAsync(settings, cts).ConfigureAwait(false);
@@ -282,6 +283,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "SmartWatch.FilterByExtension", CurrentSettings.SmartWatchSettings.FilterByExtension);
       WriteValueToSetting(config, "SmartWatch.Mode", CurrentSettings.SmartWatchSettings.Mode);
       WriteValueToSetting(config, "SmartWatch.NewTab", CurrentSettings.SmartWatchSettings.NewTab);
+      WriteValueToSetting(config, "SmartWatch.SmartWatchInterval", CurrentSettings.SmartWatchSettings.SmartWatchInterval);
     }
 
     /// <summary>
@@ -404,6 +406,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.SmartWatchSettings.NewTab = DefaultEnvironmentSettings.SmartWatchNewTab;
       CurrentSettings.SmartWatchSettings.Mode = DefaultEnvironmentSettings.SmartWatchMode;
       CurrentSettings.SmartWatchSettings.FilterByExtension = DefaultEnvironmentSettings.SmartWatchFilterByExension;
+      CurrentSettings.SmartWatchSettings.SmartWatchInterval = DefaultEnvironmentSettings.SmartWatchInterval;
     }
 
     /// <summary>
@@ -555,6 +558,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.SmartWatchSettings.FilterByExtension = GetBoolFromSetting("SmartWatch.FilterByExtension", true);
       CurrentSettings.SmartWatchSettings.NewTab = GetBoolFromSetting("SmartWatch.NewTab", true);
       CurrentSettings.SmartWatchSettings.Mode = GetSmartWatchMode(GetStringFromSetting("SmartWatch.Mode"));
+      CurrentSettings.SmartWatchSettings.SmartWatchInterval = GetIntFromSetting(GetStringFromSetting("SmartWatch.SmartWatchInterval"), 2000);
     }
 
     private static string GetStringFromSetting(string setting) => string.IsNullOrWhiteSpace(setting) ? string.Empty : ConfigurationManager.AppSettings[setting];

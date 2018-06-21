@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -8,7 +9,9 @@ using System.Threading.Tasks;
 using log4net;
 using Org.Vs.TailForWin.Business.SearchEngine.Controllers;
 using Org.Vs.TailForWin.Business.SearchEngine.Interfaces;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Events.Delegates;
 using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -22,8 +25,19 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SmartWatchController));
 
+    #region Events
+
+    /// <summary>
+    /// SmartWatch file changed event
+    /// </summary>
+    public event SmartWatchFileChangedEventHandler SmartWatchFileChanged;
+
+    #endregion
+
     private readonly IFindController _findController;
     private readonly ManualResetEvent _resetEvent;
+    private BackgroundWorker _smartWatchWorker;
+    private List<FileInfo> _currentFiles;
 
     /// <summary>
     /// Standard constructor
@@ -34,12 +48,128 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
       _resetEvent = new ManualResetEvent(false);
     }
 
+    #region SmartWatch worker
+
+    /// <summary>
+    /// Resume smart watch
+    /// </summary>
+    private void ResumeSmartWatch()
+    {
+      if ( _smartWatchWorker.IsBusy )
+        _resetEvent.Set();
+
+      LOG.Trace("Resume SmartWatch");
+    }
+
+    private void SmartWatchWorkerDoWork(object sender, DoWorkEventArgs e)
+    {
+      if ( !(e.Argument is TailData data) )
+        return;
+
+      while ( _smartWatchWorker != null && !_smartWatchWorker.CancellationPending )
+      {
+        _resetEvent.WaitOne();
+        Thread.Sleep(SettingsHelperController.CurrentSettings.SmartWatchSettings.SmartWatchInterval);
+
+        if ( _smartWatchWorker.CancellationPending )
+          return;
+
+        var dirFiles = GetFilesByDirectory(data);
+
+        if ( dirFiles == null )
+          continue;
+
+        var files = dirFiles as List<FileInfo> ?? dirFiles.ToList();
+
+        if ( _currentFiles.Count < files.Count )
+        {
+          if ( _smartWatchWorker.CancellationPending )
+            return;
+
+          LOG.Trace("SmartWatch logfiles changed! Current '{0}' new '{1}'", _currentFiles.Count, files.Count());
+          GetLatestFile(newValue);
+
+          _currentFiles = files.ToList();
+        }
+        else if ( _currentFiles.Count > files.Count )
+        {
+          if ( _smartWatchWorker.CancellationPending )
+            return;
+
+          LOG.Trace("SmartWatch some logfiles deleted! Current '{0}' new '{1}'", _currentFiles.Count, files.Count);
+          _currentFiles = files;
+        }
+      }
+
+      e.Cancel = true;
+    }
+
+    private void SmartWatchWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) => _resetEvent?.Reset();
+
+    #endregion
+
+    /// <summary>
+    /// Starts SmartWatch
+    /// </summary>
+    /// <param name="item"></param>
+    /// <exception cref="ArgumentException">If item is null</exception>
+    public void StartSmartWatch(TailData item)
+    {
+      Arg.NotNull(item, nameof(item));
+
+      if ( _smartWatchWorker == null )
+      {
+        _smartWatchWorker = new BackgroundWorker
+        {
+          WorkerSupportsCancellation = true
+        };
+        _smartWatchWorker.DoWork += SmartWatchWorkerDoWork;
+        _smartWatchWorker.RunWorkerCompleted += SmartWatchWorkerRunWorkerCompleted;
+      }
+
+      var files = GetFilesByDirectory(item);
+      _currentFiles = files as List<FileInfo> ?? files.ToList();
+
+      if ( _smartWatchWorker.IsBusy )
+      {
+        ResumeSmartWatch();
+        return;
+      }
+
+      _smartWatchWorker.RunWorkerAsync(item);
+      _resetEvent.Set();
+      LOG.Trace("Starts SmartWatch");
+    }
+
+    /// <summary>
+    /// Suspend smart watch
+    /// </summary>
+    public void SuspendSmartWatch()
+    {
+      if ( _smartWatchWorker.IsBusy )
+        _resetEvent.Reset();
+
+      LOG.Trace("Suspend SmartWatch");
+    }
+
+    /// <summary>
+    /// Stops current SmartWatch
+    /// </summary>
+    public void StopSmartWatch()
+    {
+      if ( !_smartWatchWorker.IsBusy )
+        return;
+
+      _smartWatchWorker.CancelAsync();
+    }
+
     /// <summary>
     /// Get filename by pattern
     /// </summary>
     /// <param name="item"><see cref="TailData"/></param>
     /// <param name="pattern">Pattern string</param>
     /// <returns>New filename otherwise <see cref="string.Empty"/></returns>
+    /// <exception cref="ArgumentException">If item is null</exception>
     public async Task<string> GetFileNameByPatternAsync(TailData item, string pattern)
     {
       Arg.NotNull(item, nameof(item));
@@ -69,6 +199,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
     /// </summary>
     /// <param name="item"><see cref="TailData"/></param>
     /// <returns>New filename otherwise <see cref="string.Empty"/></returns>
+    /// <exception cref="ArgumentException">If item is null</exception>
     public async Task<string> GetFileNameBySmartWatchAsync(TailData item)
     {
       Arg.NotNull(item, nameof(item));
@@ -186,7 +317,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
           return null;
 
         DirectoryInfo di = new DirectoryInfo(path);
-        return !di.Exists ? null : di.GetFiles();
+        return !di.Exists ? null : di.GetFiles(SettingsHelperController.CurrentSettings.SmartWatchSettings.FilterByExtension ? $"*{Path.GetExtension(item.FileName)}" : "*.*", SearchOption.TopDirectoryOnly);
       }
       catch ( Exception ex )
       {

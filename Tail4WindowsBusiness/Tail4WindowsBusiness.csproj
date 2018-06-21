@@ -93,6 +93,7 @@
     <Compile Include="SearchEngine\Interfaces\IFindController.cs" />
     <Compile Include="Services\LogReadService.cs" />
     <Compile Include="SmartWatchEngine\Controlleres\SmartWatchController.cs" />
+    <Compile Include="SmartWatchEngine\Events\Delegates\SmartWatchFileChangedEventHandler.cs" />
     <Compile Include="SmartWatchEngine\Interfaces\ISmartWatchController.cs" />
     <Compile Include="StatisticEngine\Controllers\StatisticController.cs" />
     <Compile Include="StatisticEngine\Interfaces\IStatisticController.cs" />
@@ -111,6 +112,7 @@
     <Folder Include="Data\Attributes\" />
     <Folder Include="DbEngine\Utils\" />
     <Folder Include="SearchEngine\Data\" />
+    <Folder Include="SmartWatchEngine\Events\Args\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -326,6 +326,7 @@
     <Compile Include="UI\Converters\MultiConverters\TailManagerMouseDoubleClickMultiConverter.cs" />
     <Compile Include="UI\Converters\RowFromFilterManagerCollectionConverter.cs" />
     <Compile Include="UI\Converters\RowFromTailManagerCollectionConverter.cs" />
+    <Compile Include="UI\Converters\SmartWatchIntervalToString.cs" />
     <Compile Include="UI\Converters\StatusBarStateToBoolConverter.cs" />
     <Compile Include="UI\Converters\StatusBarStateToBoolInverseConverter.cs" />
     <Compile Include="UI\Converters\StringFormatConverter.cs" />

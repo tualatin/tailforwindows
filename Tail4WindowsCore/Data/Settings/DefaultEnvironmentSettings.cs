@@ -379,6 +379,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// </summary>
     public const bool SmartWatchFilterByExension = true;
 
+    /// <summary>
+    /// Default value SmartWatch interval
+    /// </summary>
+    public const int SmartWatchInterval = 2000;
+
     #endregion
   }
 }
