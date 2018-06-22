@@ -10,8 +10,6 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule
   /// </summary>
   public partial class SmartWatchPopup
   {
-    private readonly ISmartWatchPopupViewModel _smartWatchPopupViewModel;
-
     #region Properties
 
     /// <summary>
@@ -19,29 +17,37 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule
     /// </summary>
     public TailData CurrenTailData
     {
-      get => _smartWatchPopupViewModel?.CurrenTailData;
+      get => SmartWatchPopupViewModel?.CurrenTailData;
       set
       {
-        if ( _smartWatchPopupViewModel == null )
+        if ( SmartWatchPopupViewModel == null )
           return;
 
-        _smartWatchPopupViewModel.CurrenTailData = value;
+        SmartWatchPopupViewModel.CurrenTailData = value;
       }
     }
 
     /// <summary>
-    /// Gets / sets current SmartWatch text
+    /// Gets / sets filename
     /// </summary>
-    public string SmartWatchText
+    public string FileName
     {
-      get => _smartWatchPopupViewModel?.SmartWatchText;
+      get => SmartWatchPopupViewModel?.FileName;
       set
       {
-        if ( _smartWatchPopupViewModel == null )
+        if ( SmartWatchPopupViewModel == null )
           return;
 
-        _smartWatchPopupViewModel.SmartWatchText = value;
+        SmartWatchPopupViewModel.FileName = value;
       }
+    }
+
+    /// <summary>
+    /// Gets SmartWatchPopupViewModel
+    /// </summary>
+    public ISmartWatchPopupViewModel SmartWatchPopupViewModel
+    {
+      get;
     }
 
     #endregion
@@ -53,7 +59,7 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule
     {
       InitializeComponent();
 
-      _smartWatchPopupViewModel = (SmartWatchPopupViewModel) DataContext;
+      SmartWatchPopupViewModel = (SmartWatchPopupViewModel) DataContext;
     }
   }
 }

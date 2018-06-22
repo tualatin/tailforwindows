@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Events.Delegates;
 
 
 namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Interfaces
@@ -9,6 +10,15 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Interfaces
   /// </summary>
   public interface ISmartWatchPopupViewModel
   {
+    #region Events
+
+    /// <summary>
+    /// SmartWatch window closed event
+    /// </summary>
+    event SmartWatchWindowClosedEventHandler SmartWatchWindowClosed;
+
+    #endregion
+
     /// <summary>
     /// Button has focus
     /// </summary>
@@ -41,6 +51,15 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Interfaces
     string Title
     {
       get;
+    }
+
+    /// <summary>
+    /// FileName
+    /// </summary>
+    string FileName
+    {
+      get;
+      set;
     }
 
     /// <summary>

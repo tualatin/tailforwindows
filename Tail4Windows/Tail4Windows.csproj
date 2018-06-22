@@ -278,6 +278,8 @@
       <DependentUpon>PatternControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\PatternModule\ViewModels\PatternControlViewModel.cs" />
+    <Compile Include="PlugIns\SmartWatchPopupModule\Events\Args\SmartWatchWindowClosedEventArgs.cs" />
+    <Compile Include="PlugIns\SmartWatchPopupModule\Events\Delegates\SmartWatchWindowClosedEventHandler.cs" />
     <Compile Include="PlugIns\SmartWatchPopupModule\Interfaces\ISmartWatchPopupViewModel.cs" />
     <Compile Include="PlugIns\SmartWatchPopupModule\SmartWatchPopup.xaml.cs">
       <DependentUpon>SmartWatchPopup.xaml</DependentUpon>

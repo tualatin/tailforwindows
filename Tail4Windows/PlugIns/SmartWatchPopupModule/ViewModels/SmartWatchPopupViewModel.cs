@@ -1,8 +1,11 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Events.Args;
+using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 
@@ -14,7 +17,34 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels
   /// </summary>
   public class SmartWatchPopupViewModel : NotifyMaster, ISmartWatchPopupViewModel
   {
+    #region Events
+
+    /// <summary>
+    /// SmartWatch window closed event
+    /// </summary>
+    public event SmartWatchWindowClosedEventHandler SmartWatchWindowClosed;
+
+    #endregion
+
     #region Properties
+
+    private string _fileName;
+
+    /// <summary>
+    /// FileName
+    /// </summary>
+    public string FileName
+    {
+      get => _fileName;
+      set
+      {
+        if ( Equals(value, _fileName) )
+          return;
+
+        _fileName = value;
+        OnPropertyChanged();
+      }
+    }
 
     private bool _buttonHasFocus;
 
@@ -195,7 +225,7 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels
       window.Focus();
 
       string message = Application.Current.TryFindResource("SmartWatchHint").ToString();
-      SmartWatchText = string.Format(message, CurrenTailData.File, EnvironmentContainer.ApplicationTitle);
+      SmartWatchText = string.Format(message, Path.GetFileName(FileName), EnvironmentContainer.ApplicationTitle);
       Title = $"{Title} - {CurrenTailData.File}";
       ButtonHasFocus = true;
     }
@@ -204,12 +234,15 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels
 
     private void ExecuteOpenSmartWatchInNewTab(Window window)
     {
+      SmartWatchWindowClosed?.Invoke(this, new SmartWatchWindowClosedEventArgs(true, FileName));
       ExecuteIgnoreSmartWatchCommand(window);
     }
 
     private void ExecuteOpenSmartWatchInSameTab(Window window)
     {
       ButtonHasFocus = false;
+
+      SmartWatchWindowClosed?.Invoke(this, new SmartWatchWindowClosedEventArgs(false, FileName));
       ExecuteIgnoreSmartWatchCommand(window);
     }
 

@@ -111,6 +111,7 @@
         Margin="5"
         VerticalAlignment="Center"
         Command="{Binding OpenSmartWatchInSameTabCommand}"
+        CommandParameter="{Binding ElementName=SmartWatchPopupWindow}"
         TabIndex="1"
         >
         <StackPanel>

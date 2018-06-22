@@ -25,6 +25,7 @@ using Org.Vs.TailForWin.Business.Utils.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
@@ -35,6 +36,8 @@ using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Utils;
 using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule;
+using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Events.Args;
+using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Extensions;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -271,16 +274,41 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is SmartWatchController) )
         return;
 
-      Dispatcher.InvokeAsync(
-        () =>
-        {
-          var smartWatchDialog = new SmartWatchPopup
+      switch ( SettingsHelperController.CurrentSettings.SmartWatchSettings.Mode )
+      {
+      case ESmartWatchMode.Auto:
+
+        OnSmartWatchWindowClosed(this, new SmartWatchWindowClosedEventArgs(SettingsHelperController.CurrentSettings.SmartWatchSettings.NewTab, file));
+        break;
+
+      case ESmartWatchMode.Manual:
+
+        Dispatcher.InvokeAsync(
+          () =>
           {
-            CurrenTailData = CurrentTailData,
-            ShouldClose = true
-          };
-          smartWatchDialog.Show();
-        });
+            var smartWatchPopup = new SmartWatchPopup
+            {
+              CurrenTailData = CurrentTailData,
+              FileName = file,
+              ShouldClose = true
+            };
+            smartWatchPopup.SmartWatchPopupViewModel.SmartWatchWindowClosed += OnSmartWatchWindowClosed;
+            smartWatchPopup.Show();
+          });
+        break;
+
+      default:
+
+        throw new ArgumentOutOfRangeException();
+      }
+    }
+
+    private void OnSmartWatchWindowClosed(object sender, SmartWatchWindowClosedEventArgs e)
+    {
+      if ( !(sender is SmartWatchPopupViewModel) )
+        return;
+
+      // TODO open TailData 
     }
 
     private void OnLogEntryCreated(object sender, LogEntryCreatedArgs e)
@@ -873,7 +901,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void SetBookmarkFromFindWhat(LogEntry log)
     {
-      Dispatcher.Invoke(() =>
+      Dispatcher.InvokeAsync(() =>
       {
         BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Boomark.png");
         log.BookmarkPoint = bp;
