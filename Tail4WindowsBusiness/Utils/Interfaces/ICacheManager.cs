@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Org.Vs.TailForWin.Business.Data;
 
 
-namespace Org.Vs.TailForWin.Business.Interfaces
+namespace Org.Vs.TailForWin.Business.Utils.Interfaces
 {
   /// <summary>
   /// CacheManager interface

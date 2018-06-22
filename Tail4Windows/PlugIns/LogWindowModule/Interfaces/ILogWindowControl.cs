@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
-using Org.Vs.TailForWin.Business.Interfaces;
+using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;

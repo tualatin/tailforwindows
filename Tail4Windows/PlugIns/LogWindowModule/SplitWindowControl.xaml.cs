@@ -14,12 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.Business.Data;
-using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Business.SearchEngine.Controllers;
 using Org.Vs.TailForWin.Business.SearchEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Business.Services.Events.Args;
+using Org.Vs.TailForWin.Business.Services.Interfaces;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres;
 using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Business.Utils.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -32,6 +34,7 @@ using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Utils;
+using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Extensions;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -232,7 +235,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       _searchController = new FindController();
       _preventMessageFlood = new PreventMessageFlood();
-
       _findController = new FindController();
     }
 
@@ -249,12 +251,36 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(d is SplitWindowControl sender) )
         return;
 
+      if ( e.OldValue is LogReadService reader )
+      {
+        reader.OnLogEntryCreated -= sender.OnLogEntryCreated;
+        reader.SmartWatch.SmartWatchFileChanged -= sender.OnSmartWatchFileChanged;
+      }
+
       sender.LogReaderService = e.NewValue as LogReadService;
 
       if ( sender.LogReaderService == null )
         return;
 
       sender.LogReaderService.OnLogEntryCreated += sender.OnLogEntryCreated;
+      sender.LogReaderService.SmartWatch.SmartWatchFileChanged += sender.OnSmartWatchFileChanged;
+    }
+
+    private void OnSmartWatchFileChanged(object sender, string file)
+    {
+      if ( !(sender is SmartWatchController) )
+        return;
+
+      Dispatcher.InvokeAsync(
+        () =>
+        {
+          var smartWatchDialog = new SmartWatchPopup
+          {
+            CurrenTailData = CurrentTailData,
+            ShouldClose = true
+          };
+          smartWatchDialog.Show();
+        });
     }
 
     private void OnLogEntryCreated(object sender, LogEntryCreatedArgs e)

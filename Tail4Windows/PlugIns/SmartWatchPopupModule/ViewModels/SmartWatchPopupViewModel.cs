@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 
@@ -193,6 +194,8 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels
       window.Activate();
       window.Focus();
 
+      string message = Application.Current.TryFindResource("SmartWatchHint").ToString();
+      SmartWatchText = string.Format(message, CurrenTailData.File, EnvironmentContainer.ApplicationTitle);
       Title = $"{Title} - {CurrenTailData.File}";
       ButtonHasFocus = true;
     }

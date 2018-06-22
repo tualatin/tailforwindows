@@ -86,8 +86,8 @@
     <Compile Include="DbEngine\Interfaces\ISettingsDbController.cs" />
     <Compile Include="Services\Events\Args\LogEntryCreatedArgs.cs" />
     <Compile Include="Services\Events\Delegates\LogEntryCreated.cs" />
-    <Compile Include="Interfaces\ICacheManager.cs" />
-    <Compile Include="Interfaces\ILogReadService.cs" />
+    <Compile Include="Utils\Interfaces\ICacheManager.cs" />
+    <Compile Include="Services\Interfaces\ILogReadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchEngine\Controllers\FindController.cs" />
     <Compile Include="SearchEngine\Interfaces\IFindController.cs" />
@@ -111,6 +111,7 @@
   <ItemGroup>
     <Folder Include="Data\Attributes\" />
     <Folder Include="DbEngine\Utils\" />
+    <Folder Include="Interfaces\" />
     <Folder Include="SearchEngine\Data\" />
     <Folder Include="SmartWatchEngine\Events\Args\" />
   </ItemGroup>

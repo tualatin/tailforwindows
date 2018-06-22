@@ -535,6 +535,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       LOG.Trace($"{EnvironmentContainer.ApplicationTitle} closing, goodbye!");
 
+      for ( int i = BusinessHelper.TabItemList.Count - 1; i >= 0; i-- )
+      {
+        BusinessHelper.UnregisterTabItem(BusinessHelper.TabItemList[i]);
+      }
+
       _cts.Cancel();
       TrayIconItemsSource.Clear();
       TabItemsSource.Clear();

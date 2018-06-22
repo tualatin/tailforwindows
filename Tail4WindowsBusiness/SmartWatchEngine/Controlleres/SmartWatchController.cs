@@ -36,8 +36,18 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
 
     private readonly IFindController _findController;
     private readonly ManualResetEvent _resetEvent;
+    private readonly ManualResetEvent _waitResetEvent;
     private BackgroundWorker _smartWatchWorker;
     private List<FileInfo> _currentFiles;
+
+    #region Properties
+
+    /// <summary>
+    /// SmartWatch is busy
+    /// </summary>
+    public bool IsBusy => _smartWatchWorker.IsBusy;
+
+    #endregion
 
     /// <summary>
     /// Standard constructor
@@ -46,6 +56,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
     {
       _findController = new FindController();
       _resetEvent = new ManualResetEvent(false);
+      _waitResetEvent = new ManualResetEvent(false);
     }
 
     #region SmartWatch worker
@@ -55,10 +66,13 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
     /// </summary>
     private void ResumeSmartWatch()
     {
-      if ( _smartWatchWorker.IsBusy )
-        _resetEvent.Set();
+      if ( !_smartWatchWorker.IsBusy )
+        return;
 
       LOG.Trace("Resume SmartWatch");
+
+      _resetEvent?.Set();
+      _waitResetEvent?.Reset();
     }
 
     private void SmartWatchWorkerDoWork(object sender, DoWorkEventArgs e)
@@ -68,11 +82,11 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
 
       while ( _smartWatchWorker != null && !_smartWatchWorker.CancellationPending )
       {
-        _resetEvent.WaitOne();
-        Thread.Sleep(SettingsHelperController.CurrentSettings.SmartWatchSettings.SmartWatchInterval);
+        _waitResetEvent?.WaitOne(TimeSpan.FromMilliseconds(SettingsHelperController.CurrentSettings.SmartWatchSettings.SmartWatchInterval));
+        _resetEvent?.WaitOne();
 
         if ( _smartWatchWorker.CancellationPending )
-          return;
+          break;
 
         var dirFiles = GetFilesByDirectory(data);
 
@@ -84,19 +98,38 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
         if ( _currentFiles.Count < files.Count )
         {
           if ( _smartWatchWorker.CancellationPending )
-            return;
+            break;
 
-          LOG.Trace("SmartWatch logfiles changed! Current '{0}' new '{1}'", _currentFiles.Count, files.Count());
-          GetLatestFile(newValue);
+          LOG.Trace("SmartWatch files changed! Current {0} new {1}", _currentFiles.Count, files.Count);
+
+          foreach ( FileInfo file in files )
+          {
+            if ( _smartWatchWorker.CancellationPending )
+              break;
+
+            if ( _currentFiles.Any(p => p.FullName == file.FullName) )
+              continue;
+
+            if ( data.UsePattern )
+            {
+              string match = GetFileNameByPatternAsync(data, data.PatternString).GetAwaiter().GetResult();
+              NewFileDetected(match, file.FullName);
+            }
+            else
+            {
+              string match = GetFileNameBySmartWatchAsync(data).GetAwaiter().GetResult();
+              NewFileDetected(match, file.FullName);
+            }
+          }
 
           _currentFiles = files.ToList();
         }
         else if ( _currentFiles.Count > files.Count )
         {
           if ( _smartWatchWorker.CancellationPending )
-            return;
+            break;
 
-          LOG.Trace("SmartWatch some logfiles deleted! Current '{0}' new '{1}'", _currentFiles.Count, files.Count);
+          LOG.Trace("SmartWatch some files deleted! Current {0} new {1}", _currentFiles.Count, files.Count);
           _currentFiles = files;
         }
       }
@@ -104,7 +137,22 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
       e.Cancel = true;
     }
 
-    private void SmartWatchWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) => _resetEvent?.Reset();
+    private void NewFileDetected(string match, string fileName)
+    {
+      if ( !Equals(match, fileName) )
+        return;
+
+      LOG.Info("SmartWatch file changed...");
+      SmartWatchFileChanged?.Invoke(this, match);
+    }
+
+    private void SmartWatchWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+      LOG.Trace("Stop finished");
+
+      _resetEvent?.Close();
+      _waitResetEvent?.Close();
+    }
 
     #endregion
 
@@ -116,6 +164,9 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
     public void StartSmartWatch(TailData item)
     {
       Arg.NotNull(item, nameof(item));
+
+      if ( !SettingsHelperController.CurrentSettings.SmartWatch || !item.SmartWatch )
+        return;
 
       if ( _smartWatchWorker == null )
       {
@@ -136,9 +187,11 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
         return;
       }
 
+      LOG.Trace("Start SmartWatch");
+      LOG.Trace($"SmartWatch interval is {SettingsHelperController.CurrentSettings.SmartWatchSettings.SmartWatchInterval} ms");
+
       _smartWatchWorker.RunWorkerAsync(item);
-      _resetEvent.Set();
-      LOG.Trace("Starts SmartWatch");
+      _resetEvent?.Set();
     }
 
     /// <summary>
@@ -146,10 +199,15 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
     /// </summary>
     public void SuspendSmartWatch()
     {
-      if ( _smartWatchWorker.IsBusy )
-        _resetEvent.Reset();
+      if ( _smartWatchWorker == null )
+        return;
+
+      if ( !_smartWatchWorker.IsBusy )
+        return;
 
       LOG.Trace("Suspend SmartWatch");
+      _resetEvent?.Reset();
+      _waitResetEvent?.Set();
     }
 
     /// <summary>
@@ -157,9 +215,13 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
     /// </summary>
     public void StopSmartWatch()
     {
+      if ( _smartWatchWorker == null )
+        return;
+
       if ( !_smartWatchWorker.IsBusy )
         return;
 
+      _resetEvent.Set();
       _smartWatchWorker.CancelAsync();
     }
 
@@ -174,10 +236,10 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
     {
       Arg.NotNull(item, nameof(item));
 
+      LOG.Info("SmartWatch get file name by pattern");
+
       if ( string.IsNullOrWhiteSpace(pattern) )
         return string.Empty;
-
-      LOG.Info("Get filename by Pattern");
 
       var files = GetFilesByDirectory(item);
       List<FileInfo> validFileInfos = new List<FileInfo>();
@@ -204,7 +266,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
     {
       Arg.NotNull(item, nameof(item));
 
-      LOG.Info("Get filename by SmartWatch");
+      LOG.Info("SmartWatch get file name by internal logic");
 
       List<FileInfo> validFileInfos = new List<FileInfo>();
       var files = GetFilesByDirectory(item);
@@ -292,14 +354,15 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
       await Task.Run(() =>
       {
         DateTime latestWriteTime = DateTime.MinValue;
-        Parallel.ForEach(validFileInfos, file =>
+
+        foreach ( FileInfo file in validFileInfos )
         {
           if ( file.LastWriteTime <= latestWriteTime )
             return;
 
           latestFile = file;
           latestWriteTime = file.LastWriteTime;
-        });
+        }
       }).ConfigureAwait(false);
 
       return latestFile?.FullName;

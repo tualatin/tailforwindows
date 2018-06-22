@@ -558,7 +558,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.SmartWatchSettings.FilterByExtension = GetBoolFromSetting("SmartWatch.FilterByExtension", true);
       CurrentSettings.SmartWatchSettings.NewTab = GetBoolFromSetting("SmartWatch.NewTab", true);
       CurrentSettings.SmartWatchSettings.Mode = GetSmartWatchMode(GetStringFromSetting("SmartWatch.Mode"));
-      CurrentSettings.SmartWatchSettings.SmartWatchInterval = GetIntFromSetting(GetStringFromSetting("SmartWatch.SmartWatchInterval"), 2000);
+      CurrentSettings.SmartWatchSettings.SmartWatchInterval = GetIntFromSetting("SmartWatch.SmartWatchInterval", 2000);
     }
 
     private static string GetStringFromSetting(string setting) => string.IsNullOrWhiteSpace(setting) ? string.Empty : ConfigurationManager.AppSettings[setting];

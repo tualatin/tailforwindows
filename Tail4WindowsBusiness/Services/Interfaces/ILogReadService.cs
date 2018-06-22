@@ -1,8 +1,9 @@
 ﻿using Org.Vs.TailForWin.Business.Services.Events.Delegates;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 
 
-namespace Org.Vs.TailForWin.Business.Interfaces
+namespace Org.Vs.TailForWin.Business.Services.Interfaces
 {
   /// <summary>
   /// Log read service interface
@@ -13,6 +14,14 @@ namespace Org.Vs.TailForWin.Business.Interfaces
     /// A new <see cref="Data.LogEntry"/> is created
     /// </summary>
     event LogEntryCreated OnLogEntryCreated;
+
+    /// <summary>
+    /// <see cref="ISmartWatchController"/> current SmartWatch
+    /// </summary>
+    ISmartWatchController SmartWatch
+    {
+      get;
+    }
 
     /// <summary>
     /// Size refresh time

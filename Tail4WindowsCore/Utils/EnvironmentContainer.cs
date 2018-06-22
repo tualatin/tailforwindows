@@ -86,7 +86,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Maximum SmartWatch interval
     /// </summary>
-    public const int MaxSmartWatchInterval = 120000;
+    public const int MaxSmartWatchInterval = 60000;
 
     /// <summary>
     /// Current event manager

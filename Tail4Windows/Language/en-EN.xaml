@@ -371,7 +371,7 @@
   <system:String x:Key="SmartWatchInterval">Interval</system:String>
   <system:String x:Key="SmartWatchIntervalToolTip">Set current SmartWatch interval, to check, if new file has created</system:String>
   <system:String x:Key="SmartWatchIntervalSeconds">{0:00} second(s)</system:String>
-  <system:String x:Key="SmartWatchIntervalMinutes">{0} minute(s) {1:00} second(s)</system:String>
+  <system:String x:Key="SmartWatchIntervalMinutes">{0} minute {1:00} second(s)</system:String>
 
   <system:String x:Key="AlertOptionBringIntoFront">Bring mainwindow to front when alert occurs</system:String>
   <system:String x:Key="AlertOptionPopupWindow">Show a popup window when alert occurs</system:String>

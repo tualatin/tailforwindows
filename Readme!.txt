@@ -15,7 +15,7 @@ v.2.0.xxxx.x
 * new undo manager
 * new Find result window
 * new in SmartWatch you can use Wildcards
-* new SmartWatch interval is configurable (min 2sec, max 2 min)
+* new SmartWatch interval is configurable (min 2sec, max 1 min)
 * new Quick save
 * new Quick add
 * new Logfile history

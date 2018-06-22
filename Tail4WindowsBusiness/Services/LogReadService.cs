@@ -4,9 +4,9 @@ using System.Threading;
 using System.Windows;
 using log4net;
 using Org.Vs.TailForWin.Business.Data;
-using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Business.Services.Events.Args;
 using Org.Vs.TailForWin.Business.Services.Events.Delegates;
+using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres;
 using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.Business.Services
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogReadService));
 
     private readonly BackgroundWorker _tailBackgroundWorker;
-    private readonly ISmartWatchController _smartWatch;
+    private readonly ManualResetEvent _resetEvent;
     private int _startOffset;
 
     #region Events
@@ -70,6 +70,14 @@ namespace Org.Vs.TailForWin.Business.Services
       private set;
     }
 
+    /// <summary>
+    /// <see cref="ISmartWatchController"/> current SmartWatch
+    /// </summary>
+    public ISmartWatchController SmartWatch
+    {
+      get;
+    }
+
     #endregion
 
     /// <summary>
@@ -86,7 +94,8 @@ namespace Org.Vs.TailForWin.Business.Services
 
       Index = 0;
       _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
-      _smartWatch = new SmartWatchController();
+      SmartWatch = new SmartWatchController();
+      _resetEvent = new ManualResetEvent(false);
     }
 
     /// <summary>
@@ -97,7 +106,10 @@ namespace Org.Vs.TailForWin.Business.Services
       LOG.Trace("Start tail...");
 
       Thread.CurrentThread.Priority = TailData.ThreadPriority;
+
       _tailBackgroundWorker.RunWorkerAsync();
+      _resetEvent?.Reset();
+      SmartWatch.StartSmartWatch(TailData);
     }
 
     private void LogReaderServiceDoWork(object sender, DoWorkEventArgs e)
@@ -106,21 +118,32 @@ namespace Org.Vs.TailForWin.Business.Services
 
 #if DEBUG
       if ( SettingsHelperController.CurrentSettings.DebugTailReader )
-        SimulateTailReading();
+        SimulateTailReading(e);
 #endif
-    }
-#if DEBUG
 
-    private void SimulateTailReading()
+      if ( SettingsHelperController.CurrentSettings.DebugTailReader )
+        return;
+
+      while ( _tailBackgroundWorker != null && !_tailBackgroundWorker.CancellationPending )
+      {
+        if ( _tailBackgroundWorker.CancellationPending )
+          return;
+
+        // TODO real log file reader here
+
+        _resetEvent?.WaitOne((int) TailData.RefreshRate);
+      }
+    }
+
+#if DEBUG
+    private void SimulateTailReading(DoWorkEventArgs e)
     {
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
 
       while ( _tailBackgroundWorker != null && !_tailBackgroundWorker.CancellationPending )
       {
-        Thread.Sleep((int) TailData.RefreshRate);
-
         if ( _tailBackgroundWorker.CancellationPending )
-          return;
+          break;
 
         Index++;
         LogEntry log;
@@ -148,16 +171,21 @@ namespace Org.Vs.TailForWin.Business.Services
         SizeRefreshTime = string.Format(message, $"{24 + Index * 12}", DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
 
         if ( _tailBackgroundWorker.CancellationPending )
-          return;
+          break;
 
         OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, SizeRefreshTime));
+        _resetEvent?.WaitOne((int) TailData.RefreshRate);
       }
+
+      e.Cancel = true;
     }
 #endif
 
     private void LogReaderServiceRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
       LOG.Trace("Stop finished");
+
+      _resetEvent?.Reset();
     }
 
     /// <summary>
@@ -169,6 +197,8 @@ namespace Org.Vs.TailForWin.Business.Services
       LOG.Trace("Stop tail.");
 
       _tailBackgroundWorker.CancelAsync();
+      _resetEvent?.Set();
+      SmartWatch.SuspendSmartWatch();
     }
 
     /// <summary>

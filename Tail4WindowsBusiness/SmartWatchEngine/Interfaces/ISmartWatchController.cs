@@ -21,6 +21,14 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces
     #endregion
 
     /// <summary>
+    /// SmartWatch is busy
+    /// </summary>
+    bool IsBusy
+    {
+      get;
+    }
+
+    /// <summary>
     /// Starts SmartWatch
     /// </summary>
     /// <param name="item"></param>

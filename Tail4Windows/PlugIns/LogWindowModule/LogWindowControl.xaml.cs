@@ -12,8 +12,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Business.Controllers;
-using Org.Vs.TailForWin.Business.Interfaces;
 using Org.Vs.TailForWin.Business.Services;
+using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -671,6 +671,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       MouseService.SetBusyState();
 
+      if ( TailReader != null )
+        TailReader = null;
+
       TailReader = new LogReadService();
       SplitWindow.LogReaderService = (LogReadService) TailReader;
 
@@ -860,8 +863,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( TailReader.IsBusy )
       {
         TailReader.StopTail();
+        TailReader.SmartWatch.StopSmartWatch();
 
-        while ( TailReader.IsBusy )
+        while ( TailReader.IsBusy || TailReader.SmartWatch.IsBusy )
         {
           await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
         }
