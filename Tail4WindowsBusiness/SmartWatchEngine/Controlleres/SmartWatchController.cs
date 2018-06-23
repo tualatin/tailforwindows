@@ -45,7 +45,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
     /// <summary>
     /// SmartWatch is busy
     /// </summary>
-    public bool IsBusy => _smartWatchWorker.IsBusy;
+    public bool IsBusy => _smartWatchWorker != null && _smartWatchWorker.IsBusy;
 
     #endregion
 

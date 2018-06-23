@@ -273,18 +273,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is SmartWatchController) )
         return;
 
-      switch ( SettingsHelperController.CurrentSettings.SmartWatchSettings.Mode )
-      {
-      case ESmartWatchMode.Auto:
-
-        OnSmartWatchWindowClosed(this, new SmartWatchWindowClosedEventArgs(SettingsHelperController.CurrentSettings.SmartWatchSettings.NewTab, file));
-        break;
-
-      case ESmartWatchMode.Manual:
-
-        Dispatcher.InvokeAsync(
-          () =>
+      Dispatcher.InvokeAsync(
+        () =>
+        {
+          switch ( SettingsHelperController.CurrentSettings.SmartWatchSettings.Mode )
           {
+          case ESmartWatchMode.Auto:
+
+            OnSmartWatchWindowClosed(this, new SmartWatchWindowClosedEventArgs(SettingsHelperController.CurrentSettings.SmartWatchSettings.NewTab, file));
+            break;
+
+          case ESmartWatchMode.Manual:
+
             var smartWatchPopup = new SmartWatchPopup
             {
               CurrenTailData = CurrentTailData,
@@ -293,18 +293,28 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             };
             smartWatchPopup.SmartWatchPopupViewModel.SmartWatchWindowClosed += OnSmartWatchWindowClosed;
             smartWatchPopup.Show();
-          });
-        break;
+            break;
 
-      default:
+          default:
 
-        throw new ArgumentOutOfRangeException();
-      }
+            throw new ArgumentOutOfRangeException();
+          }
+        });
     }
 
     private void OnSmartWatchWindowClosed(object sender, SmartWatchWindowClosedEventArgs e)
     {
-      // TODO open TailData
+      var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
+
+      if ( logWindow.Count == 0 || !(CurrentTailData.Clone() is TailData smartWatchObject) )
+        return;
+
+      smartWatchObject.FileName = e.FileName;
+
+      if ( e.NewTabWindow )
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataAsNewTabItem(this, smartWatchObject, logWindow.First().ParentWindowId, true));
+      else
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, smartWatchObject, logWindow.First().ParentWindowId, true));
     }
 
     private void OnLogEntryCreated(object sender, LogEntryCreatedArgs e)

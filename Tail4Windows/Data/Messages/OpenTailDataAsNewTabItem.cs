@@ -6,7 +6,7 @@ using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 namespace Org.Vs.TailForWin.Data.Messages
 {
   /// <summary>
-  /// Open <see cref="TailData"/> in new <see cref="DragSupportTabItem"/>
+  /// Open <see cref="Core.Data.TailData"/> in new <see cref="DragSupportTabItem"/>
   /// </summary>
   public class OpenTailDataAsNewTabItem
   {
@@ -27,6 +27,14 @@ namespace Org.Vs.TailForWin.Data.Messages
     }
 
     /// <summary>
+    /// Is SmartWatch object
+    /// </summary>
+    public bool IsSmartWatch
+    {
+      get;
+    }
+
+    /// <summary>
     /// Who is sending the message
     /// </summary>
     public object Sender
@@ -40,11 +48,13 @@ namespace Org.Vs.TailForWin.Data.Messages
     /// <param name="sender">Who sends the message</param>
     /// <param name="tailData"><see cref="TailData"/></param>
     /// <param name="id"><see cref="Guid"/></param>
-    public OpenTailDataAsNewTabItem(object sender, TailData tailData, Guid id)
+    /// <param name="isSmartWatch">Is SmartWatch object</param>
+    public OpenTailDataAsNewTabItem(object sender, TailData tailData, Guid id, bool isSmartWatch)
     {
       Sender = sender;
       TailData = tailData;
       ParentGuid = id;
+      IsSmartWatch = isSmartWatch;
     }
   }
 }

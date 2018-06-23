@@ -572,7 +572,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( string.IsNullOrWhiteSpace(SelectedItem?.FileName) )
         return;
 
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, SelectedItem, ParentGuid));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, SelectedItem, ParentGuid, false));
       ExecuteCloseCommand(window);
     }
 

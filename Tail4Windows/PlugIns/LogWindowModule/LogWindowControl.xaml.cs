@@ -27,7 +27,6 @@ using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
-using Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels;
 using Org.Vs.TailForWin.PlugIns.FontChooserModule;
 using Org.Vs.TailForWin.PlugIns.GoToLineModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller;
@@ -600,6 +599,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       TailReader.StopTail();
+      WaitingForTailWorkerAsync().GetAwaiter();
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
       LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
@@ -788,14 +788,23 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnOpenTailData(OpenTailDataMessage args)
     {
-      if ( !(args.Sender is FileManagerViewModel) )
-        return;
-
       var window = Window.GetWindow(this);
 
       if ( window == null )
         return;
 
+      if ( args.IsSmartWatch )
+      {
+        // Is it the right window?
+        if ( ParentWindowId != args.ParentGuid )
+          return;
+
+        // Open new SmartWatch object
+        OpenSmartWatchTailData(args.TailData);
+        return;
+      }
+
+      // Open in new Drag window
       if ( args.TailData.NewWindow )
       {
         CreateDragWindow(args.TailData, window);
@@ -808,11 +817,47 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( LogWindowTabItem.TabItemBusyIndicator == Visibility.Visible )
       {
-        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataAsNewTabItem(this, args.TailData, args.ParentGuid));
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataAsNewTabItem(this, args.TailData, args.ParentGuid, false));
         return;
       }
 
       CreateTailDataWindow(args.TailData);
+    }
+
+    private void OpenSmartWatchTailData(TailData tailData)
+    {
+      MouseService.SetBusyState();
+
+      if ( TailReader.IsBusy )
+      {
+        TailReader.StopTail();
+        TailReader.SmartWatch.StopSmartWatch();
+        WaitingForWorkersAsync().GetAwaiter();
+      }
+
+      LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
+      LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
+
+      CreateTailDataWindow(tailData);
+
+      if ( tailData.AutoRun )
+        NotifyTaskCompletion.Create(ExecuteStartTailCommandAsync());
+    }
+
+    private async Task WaitingForTailWorkerAsync()
+    {
+      while ( TailReader.IsBusy )
+      {
+        await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
+      }
+    }
+
+    private async Task WaitingForWorkersAsync()
+    {
+      while ( TailReader.IsBusy || TailReader.SmartWatch.IsBusy )
+      {
+        await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
+      }
     }
 
     private static void CreateDragWindow(TailData tailData, Window window)
@@ -864,11 +909,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         TailReader.StopTail();
         TailReader.SmartWatch.StopSmartWatch();
-
-        while ( TailReader.IsBusy || TailReader.SmartWatch.IsBusy )
-        {
-          await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
-        }
+        await WaitingForWorkersAsync().ConfigureAwait(false);
       }
 
       lock ( LogWindowControlLock )

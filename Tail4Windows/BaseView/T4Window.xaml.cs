@@ -366,9 +366,6 @@ namespace Org.Vs.TailForWin.BaseView
 
     private void OnOpenTailDataAsNewTabItem(OpenTailDataAsNewTabItem args)
     {
-      if ( !(args.Sender is LogWindowControl) )
-        return;
-
       if ( args.ParentGuid != DragWindowGuid )
         return;
 
