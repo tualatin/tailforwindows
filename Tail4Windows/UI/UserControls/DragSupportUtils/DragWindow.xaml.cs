@@ -630,12 +630,10 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       {
         LogWindowTabItem = new DragSupportTabItem(),
         CurrentTailData = args.TailData,
-        SelectedItem = args.TailData.FileName
+        SelectedItem = args.TailData.FileName,
+        IsSmartWatchAutoRun = args.IsSmartWatch && args.TailData.AutoRun
       };
       AddTabItem(args.TailData.File, args.TailData.FileName, Visibility.Collapsed, content: content);
-
-      if ( args.IsSmartWatch && args.TailData.AutoRun )
-        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StartTailMessage(content.WindowId));
 
       new ThrottledExecution().InMs(100).Do(() =>
       {

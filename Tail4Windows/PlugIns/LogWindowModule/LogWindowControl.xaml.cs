@@ -102,6 +102,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       private set;
     }
 
+    /// <summary>
+    /// IsSmartWatch and Autorun activated
+    /// </summary>
+    public bool IsSmartWatchAutoRun
+    {
+      get;
+      set;
+    }
+
     private DragSupportTabItem _logWindowTabItem;
 
     /// <summary>
@@ -787,6 +796,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       // Set focus to ComboBox
       LogFileComboBoxHasFocus = true;
+
+
+      if ( !IsSmartWatchAutoRun )
+        return;
+
+      NotifyTaskCompletion.Create(ExecuteStartTailCommandAsync);
+      IsSmartWatchAutoRun = false;
     }
 
     private void OnOpenTailData(OpenTailDataMessage args)

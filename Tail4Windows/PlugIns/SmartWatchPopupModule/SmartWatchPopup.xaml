@@ -118,7 +118,7 @@
           <Image
             RenderOptions.BitmapScalingMode="HighQuality"
             RenderOptions.EdgeMode="Aliased"
-            Source="/T4W;component/Resources/openfolder.ico"
+            Source="/T4W;component/Resources/sameTab.png"
             >
             <Image.Style>
               <Style TargetType="{x:Type Image}">

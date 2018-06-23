@@ -110,7 +110,8 @@ namespace Org.Vs.TailForWin.UI.Utils
         FileIsValid = content.FileIsValid,
         SelectedItem = content.SelectedItem,
         SplitterPosition = content.SplitterPosition,
-        CurrentTailData = content.CurrentTailData
+        CurrentTailData = content.CurrentTailData,
+        IsSmartWatchAutoRun = content.IsSmartWatchAutoRun
       };
 
       logWindowControl.SplitWindow.LogEntries = content.SplitWindow.LogEntries ?? new ObservableCollection<LogEntry>();

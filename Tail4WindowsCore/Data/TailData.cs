@@ -575,24 +575,6 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
-    private bool _openFromSmartWatch;
-
-    /// <summary>
-    /// Properties comes from SmartWatch
-    /// </summary>
-    public bool OpenFromSmartWatch
-    {
-      get => _openFromSmartWatch;
-      set
-      {
-        if ( value == _openFromSmartWatch )
-          return;
-
-        _openFromSmartWatch = value;
-        OnPropertyChanged();
-      }
-    }
-
     /// <summary>
     /// Creates a new object that is a copy of the current instance.
     /// </summary>

@@ -104,6 +104,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     }
 
     /// <summary>
+    /// IsSmartWatch and Autorun activated
+    /// </summary>
+    bool IsSmartWatchAutoRun
+    {
+      get;
+    }
+
+    /// <summary>
     /// SplitWindow control
     /// </summary>
     ISplitWindowControl SplitWindow
