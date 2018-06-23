@@ -166,6 +166,24 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       set;
     }
 
+    private int _caretIndex;
+
+    /// <summary>
+    /// Caret index
+    /// </summary>
+    public int CaretIndex
+    {
+      get => _caretIndex;
+      set
+      {
+        if ( value == _caretIndex )
+          return;
+
+        _caretIndex = value;
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     /// <summary>

@@ -358,7 +358,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
         foreach ( FileInfo file in validFileInfos )
         {
           if ( file.LastWriteTime <= latestWriteTime )
-            return;
+            continue;
 
           latestFile = file;
           latestWriteTime = file.LastWriteTime;

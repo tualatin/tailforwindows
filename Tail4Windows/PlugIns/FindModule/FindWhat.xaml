@@ -70,6 +70,7 @@
         </Grid.ColumnDefinitions>
 
         <ComboBox
+          x:Name="ComboBoxFindWhat"
           Grid.Column="0"
           Height="24"
           HorizontalAlignment="Stretch"
@@ -102,6 +103,7 @@
 
         <userControls:RegexHelper
           Grid.Column="1"
+          CaretIndex="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type floatWindow:VsFloatingWindow}}, Path=DataContext.CaretIndex, UpdateSourceTrigger=PropertyChanged}"
           DataContext="{Binding RelativeSource={RelativeSource Self}}"
           ElementHasFocus="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type floatWindow:VsFloatingWindow}}, Path=DataContext.SearchFieldHasFocus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           ElementText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type floatWindow:VsFloatingWindow}}, Path=DataContext.SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"

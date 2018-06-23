@@ -81,6 +81,15 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
     }
 
     /// <summary>
+    /// Caret index
+    /// </summary>
+    int CaretIndex
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Loaded command
     /// </summary>
     IAsyncCommand LoadedCommand

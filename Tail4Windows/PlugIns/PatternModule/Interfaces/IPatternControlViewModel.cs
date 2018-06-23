@@ -38,6 +38,15 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule.Interfaces
     }
 
     /// <summary>
+    /// Caret index
+    /// </summary>
+    int CaretIndex
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// <see cref="ObservableCollection{T}"/> of <see cref="MenuItem"/>
     /// </summary>
     ObservableCollection<MenuItem> MenuItems

@@ -46,6 +46,20 @@ namespace Org.Vs.TailForWin.UI.UserControls
     }
 
     /// <summary>
+    /// Selection index property
+    /// </summary>
+    public static readonly DependencyProperty CaretIndexProperty = DependencyProperty.Register(nameof(CaretIndex), typeof(int), typeof(RegexHelper));
+
+    /// <summary>
+    /// Caret index
+    /// </summary>
+    public int CaretIndex
+    {
+      get => (int) GetValue(CaretIndexProperty);
+      set => SetValue(CaretIndexProperty, value);
+    }
+
+    /// <summary>
     /// ExtendedMenuItems property
     /// </summary>
     public static readonly DependencyProperty ExtendedMenuItemsProperty = DependencyProperty.Register(nameof(ExtendedMenuItems), typeof(ObservableCollection<MenuItem>), typeof(RegexHelper),
@@ -375,7 +389,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
         return;
 
       ElementHasFocus = false;
-      ElementText = $"{ElementText}{str}";
+      ElementText = !string.IsNullOrWhiteSpace(ElementText) ? ElementText.Insert(CaretIndex, str) : $"{ElementText}{str}";
       ElementHasFocus = true;
     }
 

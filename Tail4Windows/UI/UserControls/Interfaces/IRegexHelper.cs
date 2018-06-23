@@ -22,5 +22,14 @@
       get;
       set;
     }
+
+    /// <summary>
+    /// SelectionIndex
+    /// </summary>
+    int CaretIndex
+    {
+      get;
+      set;
+    }
   }
 }

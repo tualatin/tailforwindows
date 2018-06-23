@@ -145,11 +145,13 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
     {
       foreach ( TailData item in result.Where(p => p.SmartWatch && p.UsePattern).ToList() )
       {
+        item.OriginalFileName = item.FileName;
         item.FileName = await _smartWatchController.GetFileNameByPatternAsync(item, item.PatternString).ConfigureAwait(false);
       }
 
       foreach ( TailData item in result.Where(p => p.SmartWatch && !p.UsePattern).ToList() )
       {
+        item.OriginalFileName = item.FileName;
         item.FileName = await _smartWatchController.GetFileNameBySmartWatchAsync(item).ConfigureAwait(false);
       }
     }

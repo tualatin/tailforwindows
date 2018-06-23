@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 using log4net;
 using Org.Vs.TailForWin.Core.Native;
@@ -16,7 +17,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(FindWhat));
 
-    private readonly IFindWhatViewModel _findDialogViewModel;
+    private readonly IFindWhatViewModel _findWhatViewModel;
 
     /// <summary>
     /// Hotkey F3
@@ -56,13 +57,13 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
     /// </summary>
     public string SearchText
     {
-      get => _findDialogViewModel == null ? string.Empty : _findDialogViewModel.SearchText;
+      get => _findWhatViewModel == null ? string.Empty : _findWhatViewModel.SearchText;
       set
       {
-        if ( _findDialogViewModel == null )
+        if ( _findWhatViewModel == null )
           return;
 
-        _findDialogViewModel.SearchText = value;
+        _findWhatViewModel.SearchText = value;
       }
     }
 
@@ -73,10 +74,10 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
     {
       set
       {
-        if ( _findDialogViewModel == null )
+        if ( _findWhatViewModel == null )
           return;
 
-        _findDialogViewModel.WindowGuid = value;
+        _findWhatViewModel.WindowGuid = value;
       }
     }
 
@@ -92,16 +93,29 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
       Loaded += FindWhatOnLoaded;
       Closing += FindWhatOnClosing;
 
-      _findDialogViewModel = (FindWhatViewModel) DataContext;
+      _findWhatViewModel = (FindWhatViewModel) DataContext;
     }
 
     private void FindWhatOnLoaded(object sender, RoutedEventArgs e)
     {
+      var tb = (TextBox) ComboBoxFindWhat.Template.FindName("PART_EditableTextBox", ComboBoxFindWhat);
+
+      if ( tb != null )
+        tb.SelectionChanged += TextBoxSelectionChanged;
+
       var helper = new WindowInteropHelper(this);
       _source = HwndSource.FromHwnd(helper.Handle);
 
       _source?.AddHook(HwndHook);
       RegisterHotKey();
+    }
+
+    private void TextBoxSelectionChanged(object sender, RoutedEventArgs e)
+    {
+      if ( !(sender is TextBox tb) )
+        return;
+
+      _findWhatViewModel.CaretIndex = tb.CaretIndex;
     }
 
     private void FindWhatOnClosing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -127,10 +141,10 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
       if ( wParam.ToInt32() != HotkeyId )
         return IntPtr.Zero;
 
-      if ( _findDialogViewModel == null || !_findDialogViewModel.CanExecuteFindCommand() )
+      if ( _findWhatViewModel == null || !_findWhatViewModel.CanExecuteFindCommand() )
         return IntPtr.Zero;
 
-      _findDialogViewModel.FindNextCommand.ExecuteAsync(null);
+      _findWhatViewModel.FindNextCommand.ExecuteAsync(null);
       handled = true;
 
       return IntPtr.Zero;

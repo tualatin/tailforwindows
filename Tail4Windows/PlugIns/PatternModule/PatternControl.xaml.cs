@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.PlugIns.PatternModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.PatternModule.ViewModels;
@@ -50,6 +52,14 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule
 
       e.Handled = true;
       Close();
+    }
+
+    private void PatternTextBoxOnSelectionChanged(object sender, RoutedEventArgs e)
+    {
+      if ( !(sender is TextBox tb) )
+        return;
+
+      _patternControlViewModel.CaretIndex = tb.CaretIndex;
     }
   }
 }

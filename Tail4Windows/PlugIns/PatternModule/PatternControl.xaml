@@ -74,6 +74,7 @@
             Height="24"
             Margin="15 5 0 5"
             Text="{Binding WorkingPattern, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            SelectionChanged="PatternTextBoxOnSelectionChanged"
             TabIndex="0"
             behaviors:FocusBehavior.IsFocused="{Binding TextBoxHasFocus, UpdateSourceTrigger=PropertyChanged}"
             />
@@ -81,6 +82,7 @@
           <userControls:RegexHelper
             Grid.Column="1"
             Margin="5 5 15 5"
+            CaretIndex="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsWindowEx}}, Path=DataContext.CaretIndex, UpdateSourceTrigger=PropertyChanged}"
             DataContext="{Binding RelativeSource={RelativeSource Self}}"
             ElementHasFocus="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsWindowEx}}, Path=DataContext.TextBoxHasFocus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             ElementText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsWindowEx}}, Path=DataContext.WorkingPattern, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"

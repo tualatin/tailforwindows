@@ -37,7 +37,6 @@ using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Utils;
 using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule;
 using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Events.Args;
-using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Extensions;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -305,10 +304,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnSmartWatchWindowClosed(object sender, SmartWatchWindowClosedEventArgs e)
     {
-      if ( !(sender is SmartWatchPopupViewModel) )
-        return;
-
-      // TODO open TailData 
+      // TODO open TailData
     }
 
     private void OnLogEntryCreated(object sender, LogEntryCreatedArgs e)
