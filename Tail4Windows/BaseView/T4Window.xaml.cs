@@ -11,6 +11,7 @@ using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
@@ -380,6 +381,9 @@ namespace Org.Vs.TailForWin.BaseView
         Content = content
       };
       AddTabItem(tabItem);
+
+      if ( args.IsSmartWatch && args.TailData.AutoRun )
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StartTailMessage(content.WindowId));
     }
   }
 }

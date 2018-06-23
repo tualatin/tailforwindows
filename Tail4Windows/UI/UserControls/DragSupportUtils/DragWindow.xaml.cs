@@ -618,9 +618,6 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     private void OnOpenTailDataAsNewTabItem(OpenTailDataAsNewTabItem args)
     {
-      if ( !(args.Sender is LogWindowControl) )
-        return;
-
       if ( args.ParentGuid != DragWindowGuid )
         return;
 
@@ -636,6 +633,9 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         SelectedItem = args.TailData.FileName
       };
       AddTabItem(args.TailData.File, args.TailData.FileName, Visibility.Collapsed, content: content);
+
+      if ( args.IsSmartWatch && args.TailData.AutoRun )
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StartTailMessage(content.WindowId));
 
       new ThrottledExecution().InMs(100).Do(() =>
       {

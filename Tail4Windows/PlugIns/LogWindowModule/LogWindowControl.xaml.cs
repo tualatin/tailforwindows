@@ -593,7 +593,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       await _historyController.SaveSearchHistoryAsync(CurrentTailData.FileName).ConfigureAwait(false);
     }
 
-    private void ExecuteStopTailCommand()
+    /// <summary>
+    /// Stops current TailReader
+    /// </summary>
+    public void ExecuteStopTailCommand()
     {
       if ( LogWindowTabItem == null )
         return;

@@ -312,9 +312,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       smartWatchObject.FileName = e.FileName;
 
       if ( e.NewTabWindow )
+      {
+        logWindow.First().ExecuteStopTailCommand();
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataAsNewTabItem(this, smartWatchObject, logWindow.First().ParentWindowId, true));
+      }
       else
+      {
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, smartWatchObject, logWindow.First().ParentWindowId, true));
+      }
     }
 
     private void OnLogEntryCreated(object sender, LogEntryCreatedArgs e)

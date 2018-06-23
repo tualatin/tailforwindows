@@ -123,6 +123,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     Task DisposeAsync();
 
     /// <summary>
+    /// Stops current TailReader
+    /// </summary>
+    void ExecuteStopTailCommand();
+
+    /// <summary>
     /// Gets parent window id
     /// </summary>
     Guid ParentWindowId
