@@ -15,7 +15,7 @@ using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
-using Org.Vs.TailForWin.UI.UserControls;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
@@ -235,7 +235,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      CreatePopUpWindow(Application.Current.TryFindResource("ImportExportImportLabel").ToString(), Application.Current.TryFindResource("ImportExportImportFinishedMessage").ToString());
+      BusinessHelper.
+        CreatePopUpWindow(Application.Current.TryFindResource("ImportExportImportLabel").ToString(), Application.Current.TryFindResource("ImportExportImportFinishedMessage").ToString());
     }
 
     private void ResetCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -243,7 +244,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      CreatePopUpWindow(Application.Current.TryFindResource("ImportExportResetConfiguration").ToString(), Application.Current.TryFindResource("ImportExportResetFinishedMessage").ToString());
+      BusinessHelper.
+        CreatePopUpWindow(Application.Current.TryFindResource("ImportExportResetConfiguration").ToString(), Application.Current.TryFindResource("ImportExportResetFinishedMessage").ToString());
     }
 
     private void ExportCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -251,17 +253,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      CreatePopUpWindow(Application.Current.TryFindResource("ImportExportExportLabel").ToString(), Application.Current.TryFindResource("ImportExportExportFinishedMessage").ToString());
-    }
-
-    private void CreatePopUpWindow(string alert, string detail)
-    {
-      var alertPopUp = new FancyNotificationPopUp
-      {
-        PopUpAlert = alert,
-        PopUpAlertDetail = detail
-      };
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowNotificationPopUpMessage(alertPopUp));
+      BusinessHelper.
+        CreatePopUpWindow(Application.Current.TryFindResource("ImportExportExportLabel").ToString(), Application.Current.TryFindResource("ImportExportExportFinishedMessage").ToString());
     }
 
     #endregion

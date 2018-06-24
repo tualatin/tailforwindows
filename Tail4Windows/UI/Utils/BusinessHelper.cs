@@ -6,8 +6,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
+using Org.Vs.TailForWin.UI.UserControls;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
 
@@ -145,6 +148,21 @@ namespace Org.Vs.TailForWin.UI.Utils
 
         return icon;
       }
+    }
+
+    /// <summary>
+    /// Create popup window
+    /// </summary>
+    /// <param name="alert">Alert title</param>
+    /// <param name="detail">Alert message</param>
+    public static void CreatePopUpWindow(string alert, string detail)
+    {
+      var alertPopUp = new FancyNotificationPopUp
+      {
+        PopUpAlert = alert,
+        PopUpAlertDetail = detail
+      };
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowNotificationPopUpMessage(alertPopUp));
     }
   }
 }

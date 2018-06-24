@@ -29,6 +29,14 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces
     }
 
     /// <summary>
+    /// SmartWatch is suspended
+    /// </summary>
+    bool IsSuspended
+    {
+      get;
+    }
+
+    /// <summary>
     /// Starts SmartWatch
     /// </summary>
     /// <param name="item"></param>

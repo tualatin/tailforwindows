@@ -47,6 +47,15 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
     /// </summary>
     public bool IsBusy => _smartWatchWorker != null && _smartWatchWorker.IsBusy;
 
+    /// <summary>
+    /// SmartWatch is suspended
+    /// </summary>
+    public bool IsSuspended
+    {
+      get;
+      private set;
+    }
+
     #endregion
 
     /// <summary>
@@ -71,6 +80,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
 
       LOG.Trace("Resume SmartWatch");
 
+      IsSuspended = false;
       _resetEvent?.Set();
       _waitResetEvent?.Reset();
     }
@@ -206,6 +216,8 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
         return;
 
       LOG.Trace("Suspend SmartWatch");
+
+      IsSuspended = true;
       _resetEvent?.Reset();
       _waitResetEvent?.Set();
     }

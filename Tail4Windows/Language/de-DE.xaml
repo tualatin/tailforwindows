@@ -370,6 +370,9 @@
   <system:String x:Key="SmartWatchIntervalToolTip">Setzt das aktuelle SmartWatch Intervall, welches nach neuen Dateien sucht</system:String>
   <system:String x:Key="SmartWatchIntervalSeconds">{0:00} Sekunde(n)</system:String>
   <system:String x:Key="SmartWatchIntervalMinutes">{0} Minute {1:00} Sekunde(n)</system:String>
+  <system:String x:Key="SmartWatchSuspend">SmartWatch suspendiert</system:String>
+  <system:String x:Key="SmartWatchStart">SmartWatch gestartet</system:String>
+  <system:String x:Key="SmartWatchResume">SmartWatch fortsetzen</system:String>
 
   <system:String x:Key="AlertOptionBringIntoFront">Das Hauptfenster in den Vordergrund bringen</system:String>
   <system:String x:Key="AlertOptionPopupWindow">Ein Popup Fenster anzeigen</system:String>

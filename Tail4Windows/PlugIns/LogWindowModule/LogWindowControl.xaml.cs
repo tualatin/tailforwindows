@@ -91,6 +91,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       ((AsyncCommand<object>) StartTailCommand).PropertyChanged += SaveHistoryCompleted;
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedCompleted;
+      SettingsHelperController.CurrentSettings.PropertyChanged += CurrentSettingsPropertyChanged;
     }
 
     /// <summary>
@@ -438,11 +439,20 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       if ( CurrentTailData.SmartWatch && !TailReader.SmartWatch.IsBusy )
+      {
+        BusinessHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchStart").ToString());
         TailReader.SmartWatch.StartSmartWatch(CurrentTailData);
+      }
       else if ( !CurrentTailData.SmartWatch && TailReader.SmartWatch.IsBusy )
+      {
+        BusinessHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchSuspend").ToString());
         TailReader.SmartWatch.SuspendSmartWatch();
+      }
       else if ( CurrentTailData.SmartWatch && TailReader.SmartWatch.IsBusy )
+      {
+        BusinessHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchResume").ToString());
         TailReader.SmartWatch.StartSmartWatch(CurrentTailData);
+      }
     }
 
     private void ExecutePatternControlCommand()
@@ -965,6 +975,23 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       // Wait some ms to set the correct focus
       await Task.Delay(TimeSpan.FromMilliseconds(25)).ConfigureAwait(false);
       return true;
+    }
+
+    private void CurrentSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !Equals(e.PropertyName, "SmartWatch") )
+        return;
+
+      if ( !SettingsHelperController.CurrentSettings.SmartWatch && TailReader.IsBusy && !TailReader.SmartWatch.IsSuspended )
+      {
+        BusinessHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchSuspend").ToString());
+        TailReader.SmartWatch.SuspendSmartWatch();
+      }
+      else if ( SettingsHelperController.CurrentSettings.SmartWatch && TailReader.IsBusy && TailReader.SmartWatch.IsSuspended )
+      {
+        BusinessHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchResume").ToString());
+        TailReader.SmartWatch.StartSmartWatch(CurrentTailData);
+      }
     }
 
     #region Keybindings
