@@ -47,7 +47,6 @@
 
   <multiConverters:WidthToMarginMultiConverter x:Key="WidthToMarginMultiConverter" />
   <multiConverters:VisibilityToMarginMultiConverter x:Key="VisibilityToMarginConverter" />
-  <multiConverters:LogFileIsEnableMultiConverter x:Key="LogFileIsEnableMultiConverter" />
   <multiConverters:LogFileFileManagerMultiConverter x:Key="LogFileLengthFileManagerMultiConverter" />
   <multiConverters:TailManagerMouseDoubleClickMultiConverter x:Key="TailManagerMouseDoubleClickMultiConverter" />
   <multiConverters:AlertEnableMailMultiConverter x:Key="AlertEnableMailMultiConverter" />

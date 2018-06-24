@@ -419,9 +419,31 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand PatternControlCommand => _patternControlCommand ?? (_patternControlCommand = new RelayCommand(p => FileIsValid, p => ExecutePatternControlCommand()));
 
+    private ICommand _smartWatchCommand;
+
+    /// <summary>
+    /// SmartWatch command
+    /// </summary>
+    public ICommand SmartWatchCommand => _smartWatchCommand ?? (_smartWatchCommand = new RelayCommand(p => CanExecuteSmartWatchCommand(), p => ExecuteSmartWatchCommand()));
+
     #endregion
 
     #region Command functions
+
+    private bool CanExecuteSmartWatchCommand() => SettingsHelperController.CurrentSettings.SmartWatch && FileIsValid;
+
+    private void ExecuteSmartWatchCommand()
+    {
+      if ( !TailReader.IsBusy )
+        return;
+
+      if ( CurrentTailData.SmartWatch && !TailReader.SmartWatch.IsBusy )
+        TailReader.SmartWatch.StartSmartWatch(CurrentTailData);
+      else if ( !CurrentTailData.SmartWatch && TailReader.SmartWatch.IsBusy )
+        TailReader.SmartWatch.SuspendSmartWatch();
+      else if ( CurrentTailData.SmartWatch && TailReader.SmartWatch.IsBusy )
+        TailReader.SmartWatch.StartSmartWatch(CurrentTailData);
+    }
 
     private void ExecutePatternControlCommand()
     {

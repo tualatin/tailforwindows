@@ -707,18 +707,9 @@
           <CheckBox
             Height="22"
             Content="SmartWatch"
+            Command="{Binding SmartWatchCommand}"
             IsChecked="{Binding CurrentTailData.SmartWatch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, FallbackValue=False}"
             >
-            <CheckBox.IsEnabled>
-              <MultiBinding Converter="{StaticResource LogFileIsEnableMultiConverter}">
-                <Binding Path="LogWindowState" />
-                <Binding
-                  Path="SmartWatch"
-                  Source="{x:Static controllers:SettingsHelperController.CurrentSettings}"
-                  />
-              </MultiBinding>
-            </CheckBox.IsEnabled>
-
             <CheckBox.ToolTip>
               <StackPanel>
                 <TextBlock
