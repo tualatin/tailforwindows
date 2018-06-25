@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -23,8 +22,7 @@ namespace Org.Vs.TailForWin.Business.Services
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(WindowsEventReadService));
 
-    private static readonly object MyLock = new object();
-    private string _machine;
+    private readonly int _startOffset;
     private EventLog _logReader;
 
     #region Events
@@ -53,8 +51,8 @@ namespace Org.Vs.TailForWin.Business.Services
     /// </summary>
     public TailData TailData
     {
-      get => throw new NotImplementedException();
-      set => throw new NotImplementedException();
+      get;
+      set;
     }
 
     /// <summary>
@@ -80,29 +78,16 @@ namespace Org.Vs.TailForWin.Business.Services
     /// <summary>
     /// Standard constructor
     /// </summary>
-    /// <param name="machine">Name of mache</param>
-    public WindowsEventReadService(string machine = ".")
+    public WindowsEventReadService()
     {
-      _machine = machine;
       Index = 0;
+      _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
     }
 
     /// <summary>
-    /// Changes current machine name
-    /// </summary>
-    /// <param name="machineName">Name of machine</param>
-    public void SetMachineName(string machineName) => _machine = machineName;
-
-    /// <summary>
     /// Starts tail
     /// </summary>
-    public void StartTail() => StartTail("System");
-
-    /// <summary>
-    /// Starts tail
-    /// </summary>
-    /// <param name="category">Category of Windows event</param>
-    public void StartTail(string category)
+    public void StartTail()
     {
       if ( _logReader != null )
       {
@@ -110,14 +95,14 @@ namespace Org.Vs.TailForWin.Business.Services
         _logReader = null;
       }
 
-      LOG.Trace($"Start read Windows events by category {category}, on machine {_machine}");
+      LOG.Trace($"Start read Windows events by category {TailData.WindowsEvent.Category}, on machine {TailData.WindowsEvent.Machine}");
 
-      _logReader = new EventLog(category, _machine);
+      _logReader = new EventLog(TailData.WindowsEvent.Category, TailData.WindowsEvent.Machine);
       _logReader.EntryWritten += LogReaderEntryWritten;
 
       var lastItems = new List<LogEntry>(SettingsHelperController.CurrentSettings.LinesRead);
 
-      for ( int i = _logReader.Entries.Count - 1; i >= _logReader.Entries.Count - SettingsHelperController.CurrentSettings.LinesRead; i-- )
+      for ( int i = _logReader.Entries.Count - 1; i >= _logReader.Entries.Count - _startOffset; i-- )
       {
         Index++;
         lastItems.Add(CreateLogEntryByWindowsEvent(_logReader.Entries[i]));
@@ -163,24 +148,21 @@ namespace Org.Vs.TailForWin.Business.Services
 
       await Task.Run(() =>
       {
-        lock ( MyLock )
-        {
-          LOG.Trace("Get Windows event categories");
+        LOG.Trace("Get Windows event categories");
 
-          foreach ( EventLog eventLog in EventLog.GetEventLogs(string.IsNullOrWhiteSpace(_machine) ? "." : _machine) )
+        foreach ( EventLog eventLog in EventLog.GetEventLogs(TailData.WindowsEvent.Machine) )
+        {
+          try
           {
-            try
+            result.Add(new WindowsEventCategory
             {
-              result.Add(new WindowsEventCategory
-              {
-                Log = eventLog.Log,
-                LogDisplayName = eventLog.LogDisplayName
-              });
-            }
-            catch
-            {
-              // Nothing
-            }
+              Log = eventLog.Log,
+              LogDisplayName = eventLog.LogDisplayName
+            });
+          }
+          catch
+          {
+            // Nothing
           }
         }
       }).ConfigureAwait(false);

@@ -65,12 +65,6 @@ namespace Org.Vs.TailForWin.Business.Services.Interfaces
     void StartTail();
 
     /// <summary>
-    /// Starts tail
-    /// </summary>
-    /// <param name="category">Category of Windows event</param>
-    void StartTail(string category);
-
-    /// <summary>
     /// Stops tail
     /// </summary>
     void StopTail();
@@ -91,11 +85,5 @@ namespace Org.Vs.TailForWin.Business.Services.Interfaces
     /// </summary>
     /// <returns>Task</returns>
     Task<ObservableCollection<WindowsEventCategory>> GetCategoriesAsync();
-
-    /// <summary>
-    /// Changes current machine name
-    /// </summary>
-    /// <param name="machineName">Name of machine</param>
-    void SetMachineName(string machineName);
   }
 }

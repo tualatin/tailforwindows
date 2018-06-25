@@ -34,6 +34,7 @@ namespace Org.Vs.TailForWin.Core.Data
       {
         WholeWord = true
       };
+      WindowsEvent = new WindowsEventData();
       AutoRun = true;
       TabItemBackgroundColorStringHex = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor;
       RefreshRate = SettingsHelperController.CurrentSettings.DefaultRefreshRate;
@@ -128,6 +129,42 @@ namespace Org.Vs.TailForWin.Core.Data
 
         _isLoadedByXml = value;
         OnPropertyChanged();
+      }
+    }
+
+    private bool _isWindowsEvent;
+
+    /// <summary>
+    /// Is WIndows event
+    /// </summary>
+    public bool IsWindowsEvent
+    {
+      get => _isWindowsEvent;
+      set
+      {
+        if ( Equals(value, _isWindowsEvent) )
+          return;
+
+        bool currentValue = _isWindowsEvent;
+        ChangeState(new Command(() => _isWindowsEvent = value, () => _isWindowsEvent = currentValue, nameof(IsWindowsEvent), Notification));
+      }
+    }
+
+    private WindowsEventData _windowsEvent;
+
+    /// <summary>
+    /// Windows event data
+    /// </summary>
+    public WindowsEventData WindowsEvent
+    {
+      get => _windowsEvent;
+      set
+      {
+        if ( Equals(value, _windowsEvent) )
+          return;
+
+        var currentValue = _isWindowsEvent;
+        ChangeState(new Command(() => _windowsEvent = value, () => _isWindowsEvent = currentValue, nameof(WindowsEvent), Notification));
       }
     }
 

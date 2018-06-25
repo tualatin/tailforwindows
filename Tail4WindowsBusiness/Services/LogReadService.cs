@@ -115,22 +115,10 @@ namespace Org.Vs.TailForWin.Business.Services
     }
 
     /// <summary>
-    /// Starts tail
-    /// </summary>
-    /// <param name="category">Category of Windows event</param>
-    public void StartTail(string category) => throw new NotImplementedException();
-
-    /// <summary>
     /// Get <see cref="ObservableCollection{T}"/> of <see cref="WindowsEventCategory"/> with Windows events categories
     /// </summary>
     /// <returns>Task</returns>
     public Task<ObservableCollection<WindowsEventCategory>> GetCategoriesAsync() => throw new NotImplementedException();
-
-    /// <summary>
-    /// Changes current machine name
-    /// </summary>
-    /// <param name="machineName">Name of machine</param>
-    public void SetMachineName(string machineName) => throw new NotImplementedException();
 
     private void LogReaderServiceDoWork(object sender, DoWorkEventArgs e)
     {

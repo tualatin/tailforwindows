@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data;
 
 namespace Org.Vs.NUnit.Tests
 {
@@ -30,7 +31,17 @@ namespace Org.Vs.NUnit.Tests
     public void TestReadWindowsEvents()
     {
       SettingsHelperController.CurrentSettings.LinesRead = 5;
-      _windowEventReader.StartTail("System");
+      var tailData = new TailData
+      {
+        IsWindowsEvent = true,
+        WindowsEvent = new WindowsEventData
+        {
+          Category = "System"
+        }
+      };
+      _windowEventReader.TailData = tailData;
+
+      _windowEventReader.StartTail();
       _windowEventReader.StopTail();
     }
   }

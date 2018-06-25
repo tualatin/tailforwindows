@@ -98,6 +98,7 @@
     <Compile Include="Data\Settings\SmtpSetting.cs" />
     <Compile Include="Data\TailData.cs" />
     <Compile Include="Data\UpdateData.cs" />
+    <Compile Include="Data\WindowsEventData.cs" />
     <Compile Include="Data\XmlNames\XmlBaseStructure.cs" />
     <Compile Include="Enums\EDateFormat.cs" />
     <Compile Include="Enums\EFileManagerState.cs" />
