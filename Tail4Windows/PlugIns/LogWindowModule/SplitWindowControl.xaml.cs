@@ -15,7 +15,6 @@ using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.Business.SearchEngine.Controllers;
 using Org.Vs.TailForWin.Business.SearchEngine.Interfaces;
-using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Services.Events.Args;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
@@ -215,6 +214,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set;
     }
 
+    /// <summary>
+    /// SelectedText
+    /// </summary>
+    public string SelectedText
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     /// <summary>
@@ -245,27 +253,63 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// LogReaderService property
     /// </summary>
-    public static readonly DependencyProperty LogReaderServiceProperty = DependencyProperty.Register(nameof(LogReaderService), typeof(LogReadService), typeof(SplitWindowControl),
+    public static readonly DependencyProperty LogReaderServiceProperty = DependencyProperty.Register(nameof(LogReaderService), typeof(ILogReadService), typeof(SplitWindowControl),
       new PropertyMetadata(null, OnLogReaderServiceChanged));
+
+    /// <summary>
+    /// LogReaderService
+    /// </summary>
+    public ILogReadService LogReaderService
+    {
+      get => (ILogReadService) GetValue(LogReaderServiceProperty);
+      set => SetValue(LogReaderServiceProperty, value);
+    }
+
+    /// <summary>
+    /// <see cref="TailData"/> property
+    /// </summary>
+    public static readonly DependencyProperty CurrentTailDataProperty = DependencyProperty.Register(nameof(CurrentTailData), typeof(TailData), typeof(SplitWindowControl),
+      new PropertyMetadata(new TailData(), TailDataOnChanged));
+
+    /// <summary>
+    /// Current <see cref="TailData"/>
+    /// </summary>
+    public TailData CurrentTailData
+    {
+      get => (TailData) GetValue(CurrentTailDataProperty);
+      set
+      {
+        SetValue(CurrentTailDataProperty, value);
+        OnPropertyChanged();
+      }
+    }
+
+    #endregion
+
+    #region Callback functions
 
     private static void OnLogReaderServiceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
       if ( !(d is SplitWindowControl sender) )
         return;
 
-      if ( e.OldValue is LogReadService reader )
+      if ( e.OldValue is ILogReadService reader )
       {
         reader.OnLogEntryCreated -= sender.OnLogEntryCreated;
-        reader.SmartWatch.SmartWatchFileChanged -= sender.OnSmartWatchFileChanged;
+
+        if ( reader.SmartWatch != null )
+          reader.SmartWatch.SmartWatchFileChanged -= sender.OnSmartWatchFileChanged;
       }
 
-      sender.LogReaderService = e.NewValue as LogReadService;
+      sender.LogReaderService = e.NewValue as ILogReadService;
 
       if ( sender.LogReaderService == null )
         return;
 
       sender.LogReaderService.OnLogEntryCreated += sender.OnLogEntryCreated;
-      sender.LogReaderService.SmartWatch.SmartWatchFileChanged += sender.OnSmartWatchFileChanged;
+
+      if ( sender.LogReaderService.SmartWatch != null )
+        sender.LogReaderService.SmartWatch.SmartWatchFileChanged += sender.OnSmartWatchFileChanged;
     }
 
     private void OnSmartWatchFileChanged(object sender, string file)
@@ -343,43 +387,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
           RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LinesRead, e.SizeRefreshTime));
         }, DispatcherPriority.Background);
-    }
-
-    /// <summary>
-    /// LogReaderService
-    /// </summary>
-    public LogReadService LogReaderService
-    {
-      get => (LogReadService) GetValue(LogReaderServiceProperty);
-      set => SetValue(LogReaderServiceProperty, value);
-    }
-
-    /// <summary>
-    /// <see cref="TailData"/> property
-    /// </summary>
-    public static readonly DependencyProperty CurrentTailDataProperty = DependencyProperty.Register(nameof(CurrentTailData), typeof(TailData), typeof(SplitWindowControl),
-      new PropertyMetadata(new TailData(), TailDataOnChanged));
-
-    /// <summary>
-    /// Current <see cref="TailData"/>
-    /// </summary>
-    public TailData CurrentTailData
-    {
-      get => (TailData) GetValue(CurrentTailDataProperty);
-      set
-      {
-        SetValue(CurrentTailDataProperty, value);
-        OnPropertyChanged();
-      }
-    }
-
-    /// <summary>
-    /// SelectedText
-    /// </summary>
-    public string SelectedText
-    {
-      get;
-      set;
     }
 
     #endregion

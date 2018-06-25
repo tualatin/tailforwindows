@@ -1,4 +1,7 @@
-﻿using Org.Vs.TailForWin.Business.Services.Events.Delegates;
+﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Business.Services.Events.Delegates;
 using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 
@@ -62,7 +65,13 @@ namespace Org.Vs.TailForWin.Business.Services.Interfaces
     void StartTail();
 
     /// <summary>
-    /// Stop tail
+    /// Starts tail
+    /// </summary>
+    /// <param name="category">Category of Windows event</param>
+    void StartTail(string category);
+
+    /// <summary>
+    /// Stops tail
     /// </summary>
     void StopTail();
 
@@ -76,5 +85,17 @@ namespace Org.Vs.TailForWin.Business.Services.Interfaces
     /// </summary>
     /// <param name="index">Index</param>
     void SetIndex(int index);
+
+    /// <summary>
+    /// Get <see cref="ObservableCollection{T}"/> of <see cref="WindowsEventCategory"/> with Windows events categories
+    /// </summary>
+    /// <returns>Task</returns>
+    Task<ObservableCollection<WindowsEventCategory>> GetCategoriesAsync();
+
+    /// <summary>
+    /// Changes current machine name
+    /// </summary>
+    /// <param name="machineName">Name of machine</param>
+    void SetMachineName(string machineName);
   }
 }

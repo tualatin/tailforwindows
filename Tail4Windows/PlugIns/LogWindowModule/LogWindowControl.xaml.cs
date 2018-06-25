@@ -312,7 +312,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Add to FileManager command
     /// </summary>
-    public ICommand AddToFileManagerCommand => _addToFileManagerCommand ?? (_addToFileManagerCommand = new RelayCommand(p => FileIsValid && CurrentTailData != null && !CurrentTailData.OpenFromFileManager, p => ExecuteAddToFileManagerCommand()));
+    public ICommand AddToFileManagerCommand => _addToFileManagerCommand ?? (_addToFileManagerCommand = new RelayCommand(p => CanExecuteAddToFileManager(), p => ExecuteAddToFileManagerCommand()));
 
     private ICommand _openFileManagerCommand;
 
@@ -431,7 +431,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #region Command functions
 
-    private bool CanExecuteSmartWatchCommand() => SettingsHelperController.CurrentSettings.SmartWatch && FileIsValid;
+    private bool CanExecuteSmartWatchCommand() => SettingsHelperController.CurrentSettings.SmartWatch && FileIsValid && TailReader is LogReadService;
 
     private void ExecuteSmartWatchCommand()
     {
@@ -619,11 +619,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Visible;
       LogWindowState = EStatusbarState.Busy;
 
-      TailReader.TailData = CurrentTailData;
+      if ( TailReader is LogReadService )
+        TailReader.TailData = CurrentTailData;
+
       TailReader.StartTail();
 
       // If Logfile comes from the FileManager or settings does not allow to save the history, do not save it in the history
-      if ( CurrentTailData.OpenFromFileManager || !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
+      if ( CurrentTailData.OpenFromFileManager || !SettingsHelperController.CurrentSettings.SaveLogFileHistory || !(TailReader is LogReadService) )
         return;
 
       if ( LogFileHistory.Contains(CurrentTailData.FileName) )
@@ -659,6 +661,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       SelectedItem = fileName;
       LogFileComboBoxHasFocus = true;
     }
+
+    private bool CanExecuteAddToFileManager() => FileIsValid && CurrentTailData != null && !CurrentTailData.OpenFromFileManager && TailReader is LogReadService;
 
     private void ExecuteAddToFileManagerCommand()
     {
@@ -959,8 +963,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( TailReader.IsBusy )
       {
         TailReader.StopTail();
-        TailReader.SmartWatch.StopSmartWatch();
-        await WaitingForWorkersAsync().ConfigureAwait(false);
+
+        if ( TailReader is LogReadService )
+        {
+          TailReader.SmartWatch.StopSmartWatch();
+          await WaitingForWorkersAsync().ConfigureAwait(false);
+        }
+        else
+        {
+          await WaitingForTailWorkerAsync().ConfigureAwait(false);
+        }
       }
 
       lock ( LogWindowControlLock )

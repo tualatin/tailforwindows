@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Enums;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
@@ -24,10 +26,23 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
       var xFm = (TailData) x;
       var yFm = (TailData) y;
 
-      var nx = xFm.FileCreationTime ?? DateTime.MaxValue;
-      var ny = yFm.FileCreationTime ?? DateTime.MaxValue;
+      switch ( SettingsHelperController.CurrentSettings.DefaultFileSort )
+      {
+      case EFileSort.FileCreationTime:
 
-      return -nx.CompareTo(ny);
+        DateTime nx = xFm.FileCreationTime ?? DateTime.MaxValue;
+        DateTime ny = yFm.FileCreationTime ?? DateTime.MaxValue;
+
+        return nx.CompareTo(ny);
+
+      default:
+
+        string xs = xFm.File;
+        string ys = yFm.File;
+
+        // ReSharper disable once StringCompareToIsCultureSpecific
+        return xs.CompareTo(ys);
+      }
     }
   }
 }

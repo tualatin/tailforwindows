@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using log4net;
 using Org.Vs.TailForWin.Business.Services.Data;
@@ -112,6 +114,24 @@ namespace Org.Vs.TailForWin.Business.Services
       SmartWatch.StartSmartWatch(TailData);
     }
 
+    /// <summary>
+    /// Starts tail
+    /// </summary>
+    /// <param name="category">Category of Windows event</param>
+    public void StartTail(string category) => throw new NotImplementedException();
+
+    /// <summary>
+    /// Get <see cref="ObservableCollection{T}"/> of <see cref="WindowsEventCategory"/> with Windows events categories
+    /// </summary>
+    /// <returns>Task</returns>
+    public Task<ObservableCollection<WindowsEventCategory>> GetCategoriesAsync() => throw new NotImplementedException();
+
+    /// <summary>
+    /// Changes current machine name
+    /// </summary>
+    /// <param name="machineName">Name of machine</param>
+    public void SetMachineName(string machineName) => throw new NotImplementedException();
+
     private void LogReaderServiceDoWork(object sender, DoWorkEventArgs e)
     {
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
@@ -189,7 +209,7 @@ namespace Org.Vs.TailForWin.Business.Services
     }
 
     /// <summary>
-    /// Stop tail
+    /// Stops tail
     /// </summary>
     public void StopTail()
     {

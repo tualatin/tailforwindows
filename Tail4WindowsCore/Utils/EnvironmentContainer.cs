@@ -413,7 +413,7 @@ namespace Org.Vs.TailForWin.Core.Utils
           }
 
           // Fileencoding
-          EncodingInfo[] encodings = Encoding.GetEncodings();
+          var encodings = Encoding.GetEncodings();
           Array.Sort(encodings, new CaseInsensitiveEncodingInfoNameComparer());
           Array.ForEach(encodings, fileEncode => FileEncoding.Add(fileEncode.GetEncoding()));
         }).ConfigureAwait(false);

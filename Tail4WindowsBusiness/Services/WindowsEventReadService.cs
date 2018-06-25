@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -8,7 +9,9 @@ using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Services.Events.Args;
 using Org.Vs.TailForWin.Business.Services.Events.Delegates;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data;
 
 
 namespace Org.Vs.TailForWin.Business.Services
@@ -16,9 +19,9 @@ namespace Org.Vs.TailForWin.Business.Services
   /// <summary>
   /// Windows event reader
   /// </summary>
-  public class WindowsEventReader : IWindowEventReader
+  public class WindowsEventReadService : ILogReadService
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof(WindowsEventReader));
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(WindowsEventReadService));
 
     private static readonly object MyLock = new object();
     private string _machine;
@@ -36,6 +39,34 @@ namespace Org.Vs.TailForWin.Business.Services
     #region Properties
 
     /// <summary>
+    /// <see cref="ISmartWatchController"/> current SmartWatch
+    /// </summary>
+    public ISmartWatchController SmartWatch => null;
+
+    /// <summary>
+    /// Size refresh time
+    /// </summary>
+    public string SizeRefreshTime => string.Empty;
+
+    /// <summary>
+    /// <see cref="Core.Data.TailData"/>
+    /// </summary>
+    public TailData TailData
+    {
+      get => throw new NotImplementedException();
+      set => throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// <see cref="System.ComponentModel.BackgroundWorker"/> is busy
+    /// </summary>
+    public bool IsBusy
+    {
+      get;
+      private set;
+    }
+
+    /// <summary>
     /// Current log line index
     /// </summary>
     public int Index
@@ -49,26 +80,29 @@ namespace Org.Vs.TailForWin.Business.Services
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public WindowsEventReader() => Index = 0;
-
-    /// <summary>
-    /// Init <see cref="WindowsEventReader"/>
-    /// </summary>
-    /// <param name="machine">Name of machine</param>
-    public void InitWindowsEventReader(string machine)
+    /// <param name="machine">Name of mache</param>
+    public WindowsEventReadService(string machine = ".")
     {
-      lock ( MyLock )
-      {
-        _machine = machine;
-      }
+      _machine = machine;
+      Index = 0;
     }
 
     /// <summary>
-    /// Read Windows  events
+    /// Changes current machine name
     /// </summary>
-    /// <param name="category">Category to read</param>
-    /// <returns><see cref="List{T}"/> of <see cref="LogEntry"/> of last xxx entries</returns>
-    public List<LogEntry> StartReadWindowsEvents(string category)
+    /// <param name="machineName">Name of machine</param>
+    public void SetMachineName(string machineName) => _machine = machineName;
+
+    /// <summary>
+    /// Starts tail
+    /// </summary>
+    public void StartTail() => StartTail("System");
+
+    /// <summary>
+    /// Starts tail
+    /// </summary>
+    /// <param name="category">Category of Windows event</param>
+    public void StartTail(string category)
     {
       if ( _logReader != null )
       {
@@ -76,10 +110,9 @@ namespace Org.Vs.TailForWin.Business.Services
         _logReader = null;
       }
 
-      string machine = string.IsNullOrWhiteSpace(_machine) ? "." : _machine;
-      LOG.Trace($"Start read Windows events by category {category}, on machine {machine}");
+      LOG.Trace($"Start read Windows events by category {category}, on machine {_machine}");
 
-      _logReader = new EventLog(category, machine);
+      _logReader = new EventLog(category, _machine);
       _logReader.EntryWritten += LogReaderEntryWritten;
 
       var lastItems = new List<LogEntry>(SettingsHelperController.CurrentSettings.LinesRead);
@@ -92,19 +125,24 @@ namespace Org.Vs.TailForWin.Business.Services
 
       // Reverse the list
       lastItems.Reverse();
-      return lastItems;
+      lastItems.ForEach(p =>
+      {
+        OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(p, string.Empty));
+      });
+      IsBusy = true;
     }
 
     /// <summary>
-    /// Stops reading Windows events
+    /// Stops tail
     /// </summary>
-    public void StopReadWindowsEvents()
+    public void StopTail()
     {
       if ( _logReader == null )
         return;
 
       LOG.Trace("Stop tail");
 
+      IsBusy = false;
       _logReader.EntryWritten -= LogReaderEntryWritten;
       _logReader = null;
     }
