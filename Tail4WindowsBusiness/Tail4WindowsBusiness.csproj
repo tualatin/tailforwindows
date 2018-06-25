@@ -77,15 +77,18 @@
   <ItemGroup>
     <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\SystemInformationController.cs" />
-    <Compile Include="Data\LogEntry.cs" />
+    <Compile Include="Services\Data\LogEntry.cs" />
     <Compile Include="Data\SystemInformation\CpuInfo.cs" />
     <Compile Include="Data\SystemInformation\IpAddress.cs" />
     <Compile Include="Data\SystemInformation\SystemInformationData.cs" />
     <Compile Include="DbEngine\Controllers\SettingsDbController.cs" />
     <Compile Include="DbEngine\Data\DatabaseSetting.cs" />
     <Compile Include="DbEngine\Interfaces\ISettingsDbController.cs" />
+    <Compile Include="Services\Data\WindowsEventCategory.cs" />
     <Compile Include="Services\Events\Args\LogEntryCreatedArgs.cs" />
     <Compile Include="Services\Events\Delegates\LogEntryCreated.cs" />
+    <Compile Include="Services\Interfaces\IWindowEventReader.cs" />
+    <Compile Include="Services\WindowsEventReader.cs" />
     <Compile Include="Utils\Interfaces\ICacheManager.cs" />
     <Compile Include="Services\Interfaces\ILogReadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

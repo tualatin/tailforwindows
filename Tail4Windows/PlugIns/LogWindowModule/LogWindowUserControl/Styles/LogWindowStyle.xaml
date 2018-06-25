@@ -3,8 +3,8 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
-  xmlns:business="clr-namespace:Org.Vs.TailForWin.Business.Data;assembly=T4WBusiness"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
+  xmlns:data="clr-namespace:Org.Vs.TailForWin.Business.Services.Data;assembly=T4WBusiness"
   xmlns:logWindowListBox="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl"
   xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
@@ -78,7 +78,7 @@
     <Setter Property="Text" Value="{Binding DateTime, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" />
   </Style>
 
-  <DataTemplate x:Key="DateTimeLineNumberTemplate" DataType="{x:Type business:LogEntry}">
+  <DataTemplate x:Key="DateTimeLineNumberTemplate" DataType="{x:Type data:LogEntry}">
     <Grid IsSharedSizeScope="True">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" SharedSizeGroup="Bookmark" />

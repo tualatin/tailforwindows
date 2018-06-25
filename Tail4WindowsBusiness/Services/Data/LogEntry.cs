@@ -2,7 +2,7 @@
 using Org.Vs.TailForWin.Core.Data.Base;
 
 
-namespace Org.Vs.TailForWin.Business.Data
+namespace Org.Vs.TailForWin.Business.Services.Data
 {
   /// <summary>
   /// LogEntry

@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 using log4net;
-using Org.Vs.TailForWin.Business.Data;
+using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.UI.Extensions;
 
 

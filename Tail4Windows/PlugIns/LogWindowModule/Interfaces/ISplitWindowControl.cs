@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
-using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.Services;
+using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Data;

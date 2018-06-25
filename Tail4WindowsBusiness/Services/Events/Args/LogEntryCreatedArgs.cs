@@ -1,5 +1,5 @@
 ﻿using System;
-using Org.Vs.TailForWin.Business.Data;
+using Org.Vs.TailForWin.Business.Services.Data;
 
 
 namespace Org.Vs.TailForWin.Business.Services.Events.Args

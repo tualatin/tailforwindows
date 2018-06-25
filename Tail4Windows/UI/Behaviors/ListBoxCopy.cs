@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Org.Vs.TailForWin.Business.Data;
+using Org.Vs.TailForWin.Business.Services.Data;
 
 
 namespace Org.Vs.TailForWin.UI.Behaviors

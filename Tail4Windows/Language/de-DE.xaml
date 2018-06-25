@@ -519,6 +519,10 @@
   <system:String x:Key="PatternControlGroupLogFile">Aktuelle Logdatei</system:String>
   <system:String x:Key="PatternControlGroupResult">Pattern Ergebnis</system:String>
 
+  <system:String x:Key="WindowsEventCategory">Kategorie: {0}</system:String>
+  <system:String x:Key="WindowsEventMachine">Computer Name: {0}</system:String>
+  <system:String x:Key="WindowdEventMessage">Nachricht: {0}</system:String>
+
   <system:String x:Key="ErrorEnterDescription">Bitte eine Bezeichnung angeben</system:String>
   <system:String x:Key="ErrorEnterFileName">Bitte einen Dateinamen angeben</system:String>
   <system:String x:Key="ErrorEnterFilterPattern">Bitte einen Filter angeben</system:String>

@@ -16,6 +16,8 @@ using Org.Vs.TailForWin.BaseView.Events.Args;
 using Org.Vs.TailForWin.BaseView.Interfaces;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
+using Org.Vs.TailForWin.Business.StatisticEngine.Controllers;
+using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
@@ -55,6 +57,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private readonly FindWhatResult _findWhatResultWindow;
     private FindWhat _findWhatWindow;
     private readonly ISettingsDbController _dbSettingsController;
+    private readonly IStatisticController _statisticController;
 
     #region Events
 
@@ -253,6 +256,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _cts = new CancellationTokenSource();
       _findWhatResultWindow = new FindWhatResult();
       _dbSettingsController = SettingsDbController.Instance;
+      _statisticController = new StatisticController();
       _currentStatusbarState = EStatusbarState.Default;
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
       _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;

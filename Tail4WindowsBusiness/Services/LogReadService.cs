@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Windows;
 using log4net;
-using Org.Vs.TailForWin.Business.Data;
+using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Services.Events.Args;
 using Org.Vs.TailForWin.Business.Services.Events.Delegates;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
