@@ -356,6 +356,17 @@
   <system:String x:Key="StatusbarEncoding">Encoding</system:String>
   <system:String x:Key="StatusbarEncodingToolTip">Select files encoding for current log file</system:String>
 
+  <system:String x:Key="SmartWatchAutorun">Autorun</system:String>
+  <system:String x:Key="SmartWatchIgnore">Ignore</system:String>
+  <system:String x:Key="SmartWatchIgnoreToolTip">Ignore current SmartWatch window</system:String>
+  <system:String x:Key="SmartWatchOpenInSameTab">Open in same tab</system:String>
+  <system:String x:Key="SmartWatchOpenInSameTabToolTip">Open file in same tab window</system:String>
+  <system:String x:Key="SmartWatchOpenInNewTab">Open in new tab</system:String>
+  <system:String x:Key="SmartWatchOpenInNewTabToolTip">Open file in new tab window</system:String>
+  <system:String
+    x:Key="SmartWatchHint"
+    xml:space="preserve"
+    >File {0} detected.&#10;What should {1} do?</system:String>
   <system:String x:Key="SmartWatchManual">Manual mode</system:String>
   <system:String x:Key="SmartWatchAuto">Auto mode</system:String>
   <system:String x:Key="SmartWatchOptionToolTip">Enables or disbales SmartWatch</system:String>
@@ -372,9 +383,9 @@
   <system:String x:Key="SmartWatchIntervalToolTip">Set current SmartWatch interval, to check, if new file has created</system:String>
   <system:String x:Key="SmartWatchIntervalSeconds">{0:00} second(s)</system:String>
   <system:String x:Key="SmartWatchIntervalMinutes">{0} minute {1:00} second(s)</system:String>
-  <system:String x:Key="SmartWatchSuspend">SmartWatch suspended</system:String>
-  <system:String x:Key="SmartWatchStart">SmartWatch started</system:String>
-  <system:String x:Key="SmartWatchResume">SmartWatch resume</system:String>
+  <system:String x:Key="SmartWatchSuspend">SmartWatch suspending</system:String>
+  <system:String x:Key="SmartWatchStart">SmartWatch starting</system:String>
+  <system:String x:Key="SmartWatchResume">SmartWatch resuming</system:String>
 
   <system:String x:Key="AlertOptionBringIntoFront">Bring mainwindow to front when alert occurs</system:String>
   <system:String x:Key="AlertOptionPopupWindow">Show a popup window when alert occurs</system:String>
@@ -509,18 +520,6 @@
   <system:String x:Key="PatternControlTitle">Define pattern</system:String>
   <system:String x:Key="PatternControlGroupLogFile">Current log file</system:String>
   <system:String x:Key="PatternControlGroupResult">Pattern result</system:String>
-
-  <system:String x:Key="SmartWatchAutorun">Autorun</system:String>
-  <system:String x:Key="SmartWatchIgnore">Ignore</system:String>
-  <system:String x:Key="SmartWatchIgnoreToolTip">Ignore current SmartWatch window</system:String>
-  <system:String x:Key="SmartWatchOpenInSameTab">Open in same tab</system:String>
-  <system:String x:Key="SmartWatchOpenInSameTabToolTip">Open file in same tab window</system:String>
-  <system:String x:Key="SmartWatchOpenInNewTab">Open in new tab</system:String>
-  <system:String x:Key="SmartWatchOpenInNewTabToolTip">Open file in new tab window</system:String>
-  <system:String
-    x:Key="SmartWatchHint"
-    xml:space="preserve"
-    >File {0} detected.&#10;What should {1} do?</system:String>
 
   <system:String x:Key="ErrorEnterDescription">Please enter a Description</system:String>
   <system:String x:Key="ErrorEnterFileName">Please enter a FileName</system:String>

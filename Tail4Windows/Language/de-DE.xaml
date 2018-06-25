@@ -354,6 +354,17 @@
   <system:String x:Key="StatusbarEncoding">Kodierung</system:String>
   <system:String x:Key="StatusbarEncodingToolTip">Wählt die Kodierung der aktuellen Logdatei</system:String>
 
+  <system:String x:Key="SmartWatchAutorun">Autostart</system:String>
+  <system:String x:Key="SmartWatchIgnore">Ignorieren</system:String>
+  <system:String x:Key="SmartWatchIgnoreToolTip">Ignoriere aktuelles SmartWatch Fenster</system:String>
+  <system:String x:Key="SmartWatchOpenInSameTab">Öffne im selben Tab</system:String>
+  <system:String x:Key="SmartWatchOpenInSameTabToolTip">Öffne die Datei im selben Tabfenster</system:String>
+  <system:String x:Key="SmartWatchOpenInNewTab">Öffne in neuem Tab</system:String>
+  <system:String x:Key="SmartWatchOpenInNewTabToolTip">Öffne die Datei in neuem Tabfenster</system:String>
+  <system:String
+    x:Key="SmartWatchHint"
+    xml:space="preserve"
+    >Datei {0} entdeckt.&#10;Was soll {1} damit machen?</system:String>
   <system:String x:Key="SmartWatchManual">Manueller Modus</system:String>
   <system:String x:Key="SmartWatchAuto">Auto Modus</system:String>
   <system:String x:Key="SmartWatchOptionToolTip">Aktiviert oder deaktiviert SmartWatch</system:String>
@@ -370,9 +381,9 @@
   <system:String x:Key="SmartWatchIntervalToolTip">Setzt das aktuelle SmartWatch Intervall, welches nach neuen Dateien sucht</system:String>
   <system:String x:Key="SmartWatchIntervalSeconds">{0:00} Sekunde(n)</system:String>
   <system:String x:Key="SmartWatchIntervalMinutes">{0} Minute {1:00} Sekunde(n)</system:String>
-  <system:String x:Key="SmartWatchSuspend">SmartWatch suspendiert</system:String>
-  <system:String x:Key="SmartWatchStart">SmartWatch gestartet</system:String>
-  <system:String x:Key="SmartWatchResume">SmartWatch fortsetzen</system:String>
+  <system:String x:Key="SmartWatchSuspend">SmartWatch wird suspendiert</system:String>
+  <system:String x:Key="SmartWatchStart">SmartWatch wird gestartet</system:String>
+  <system:String x:Key="SmartWatchResume">SmartWatch wird fortsetzen</system:String>
 
   <system:String x:Key="AlertOptionBringIntoFront">Das Hauptfenster in den Vordergrund bringen</system:String>
   <system:String x:Key="AlertOptionPopupWindow">Ein Popup Fenster anzeigen</system:String>
@@ -507,18 +518,6 @@
   <system:String x:Key="PatternControlTitle">Pattern definieren</system:String>
   <system:String x:Key="PatternControlGroupLogFile">Aktuelle Logdatei</system:String>
   <system:String x:Key="PatternControlGroupResult">Pattern Ergebnis</system:String>
-
-  <system:String x:Key="SmartWatchAutorun">Autostart</system:String>
-  <system:String x:Key="SmartWatchIgnore">Ignorieren</system:String>
-  <system:String x:Key="SmartWatchIgnoreToolTip">Ignoriere aktuelles SmartWatch Fenster</system:String>
-  <system:String x:Key="SmartWatchOpenInSameTab">Öffne im selben Tab</system:String>
-  <system:String x:Key="SmartWatchOpenInSameTabToolTip">Öffne die Datei im selben Tabfenster</system:String>
-  <system:String x:Key="SmartWatchOpenInNewTab">Öffne in neuem Tab</system:String>
-  <system:String x:Key="SmartWatchOpenInNewTabToolTip">Öffne die Datei in neuem Tabfenster</system:String>
-  <system:String
-    x:Key="SmartWatchHint"
-    xml:space="preserve"
-    >Datei {0} entdeckt.&#10;Was soll {1} damit machen?</system:String>
 
   <system:String x:Key="ErrorEnterDescription">Bitte eine Bezeichnung angeben</system:String>
   <system:String x:Key="ErrorEnterFileName">Bitte einen Dateinamen angeben</system:String>

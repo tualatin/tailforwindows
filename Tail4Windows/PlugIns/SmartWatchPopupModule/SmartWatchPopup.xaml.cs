@@ -1,4 +1,5 @@
-﻿using Org.Vs.TailForWin.Core.Data;
+﻿using System.Windows;
+using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels;
 
@@ -39,6 +40,21 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule
           return;
 
         SmartWatchPopupViewModel.FileName = value;
+      }
+    }
+
+    /// <summary>
+    /// Main window handle
+    /// </summary>
+    public Window MainWindow
+    {
+      get => SmartWatchPopupViewModel?.MainWindow;
+      set
+      {
+        if ( SmartWatchPopupViewModel == null )
+          return;
+
+        SmartWatchPopupViewModel.MainWindow = value;
       }
     }
 

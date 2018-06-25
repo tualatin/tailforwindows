@@ -987,7 +987,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         BusinessHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchSuspend").ToString());
         TailReader.SmartWatch.SuspendSmartWatch();
       }
-      else if ( SettingsHelperController.CurrentSettings.SmartWatch && TailReader.IsBusy && TailReader.SmartWatch.IsSuspended )
+      else if ( SettingsHelperController.CurrentSettings.SmartWatch && TailReader.IsBusy && TailReader.SmartWatch.IsSuspended && CurrentTailData.SmartWatch )
       {
         BusinessHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchResume").ToString());
         TailReader.SmartWatch.StartSmartWatch(CurrentTailData);

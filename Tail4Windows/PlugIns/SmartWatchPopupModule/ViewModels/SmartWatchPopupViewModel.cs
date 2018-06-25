@@ -112,6 +112,15 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels
       }
     }
 
+    /// <summary>
+    /// MainWindow
+    /// </summary>
+    public Window MainWindow
+    {
+      get;
+      set;
+    }
+
     private double _top;
 
     /// <summary>
@@ -250,24 +259,26 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels
 
     private void SetWindowPosition()
     {
-      var mainHeight = Application.Current.MainWindow?.Height;
-      var mainWidth = Application.Current.MainWindow?.Width;
+      var mainHeight = MainWindow?.Height ?? Application.Current.MainWindow?.Height;
+      var mainWidth = MainWindow?.Width ?? Application.Current.MainWindow?.Width;
+      Window mainWindow = MainWindow ?? Application.Current.MainWindow;
 
       if ( !mainWidth.HasValue || !mainHeight.HasValue )
         return;
 
-      var top = mainHeight.Value / 2 - Height / 2;
-      var left = mainWidth.Value / 2 - Width / 2;
+      double top = mainHeight.Value / 2 - Height / 2;
+      double left = mainWidth.Value / 2 - Width / 2;
 
-      if ( Application.Current.MainWindow?.WindowState == WindowState.Maximized )
+      if ( mainWindow?.WindowState == WindowState.Maximized )
       {
         Top = top;
         Left = left;
       }
       else
       {
-        var mainLeft = Application.Current.MainWindow?.Left;
-        var mainTop = Application.Current.MainWindow?.Top;
+        var mainLeft = mainWindow?.Left;
+        var mainTop = mainWindow?.Top;
+
         Top = mainTop.Value + top;
         Left = mainLeft.Value + left;
       }

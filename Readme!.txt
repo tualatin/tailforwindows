@@ -14,13 +14,14 @@ v.2.0.xxxx.x
 * new Tabheaders can colorized by user
 * new undo manager
 * new Find result window
-* new in SmartWatch you can use Wildcards
+* new SmartWatch can use Wildcards
 * new SmartWatch interval is configurable (min 2sec, max 1 min)
+* new when no pattern given in SmartWatch, it tries to find out the right pattern with internal logic
+* new SmartWatch can used with non saved items
 * new Quick save
 * new Quick add
 * new Logfile history
 * new delete Logfile history
-* new SmartWatch can used with non saved items
 * new Database engine
 * new Regex helper
 * new Statusbar design

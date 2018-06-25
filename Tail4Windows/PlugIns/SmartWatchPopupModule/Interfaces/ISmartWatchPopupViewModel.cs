@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Input;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Events.Delegates;
 
@@ -57,6 +58,15 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Interfaces
     /// FileName
     /// </summary>
     string FileName
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// MainWindow
+    /// </summary>
+    Window MainWindow
     {
       get;
       set;

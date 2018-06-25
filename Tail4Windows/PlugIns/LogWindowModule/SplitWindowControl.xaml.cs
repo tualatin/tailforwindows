@@ -285,11 +285,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
           case ESmartWatchMode.Manual:
 
+            var windows = this.Ancestors().OfType<Window>().ToList();
             var smartWatchPopup = new SmartWatchPopup
             {
               CurrenTailData = CurrentTailData,
               FileName = file,
-              ShouldClose = true
+              ShouldClose = true,
+              MainWindow = windows.FirstOrDefault()
             };
             smartWatchPopup.SmartWatchPopupViewModel.SmartWatchWindowClosed += OnSmartWatchWindowClosed;
             smartWatchPopup.Show();
