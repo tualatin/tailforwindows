@@ -44,7 +44,11 @@ namespace Org.Vs.TailForWin.Business.Services
     /// <summary>
     /// Size refresh time
     /// </summary>
-    public string SizeRefreshTime => string.Empty;
+    public string SizeRefreshTime
+    {
+      get;
+      private set;
+    }
 
     /// <summary>
     /// <see cref="Core.Data.TailData"/>
@@ -97,14 +101,19 @@ namespace Org.Vs.TailForWin.Business.Services
 
       LOG.Trace($"Start read Windows events by category {TailData.WindowsEvent.Category}, on machine {TailData.WindowsEvent.Machine}");
 
-      _logReader = new EventLog(TailData.WindowsEvent.Category, TailData.WindowsEvent.Machine);
+      _logReader = new EventLog(TailData.WindowsEvent.Category, TailData.WindowsEvent.Machine)
+      {
+        EnableRaisingEvents = true
+      };
       _logReader.EntryWritten += LogReaderEntryWritten;
 
       var lastItems = new List<LogEntry>(SettingsHelperController.CurrentSettings.LinesRead);
+      int index = _startOffset;
 
       for ( int i = _logReader.Entries.Count - 1; i >= _logReader.Entries.Count - _startOffset; i-- )
       {
-        Index++;
+        Index = index;
+        index--;
         lastItems.Add(CreateLogEntryByWindowsEvent(_logReader.Entries[i]));
       }
 
@@ -112,8 +121,11 @@ namespace Org.Vs.TailForWin.Business.Services
       lastItems.Reverse();
       lastItems.ForEach(p =>
       {
-        OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(p, string.Empty));
+        SizeRefreshTime = p.DateTime.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat);
+        OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(p, SizeRefreshTime));
       });
+
+      Index = _startOffset;
       IsBusy = true;
     }
 
@@ -135,7 +147,8 @@ namespace Org.Vs.TailForWin.Business.Services
     private void LogReaderEntryWritten(object sender, EntryWrittenEventArgs e)
     {
       Index++;
-      OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(CreateLogEntryByWindowsEvent(e.Entry), string.Empty));
+      SizeRefreshTime = e.Entry.TimeWritten.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat);
+      OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(CreateLogEntryByWindowsEvent(e.Entry), SizeRefreshTime));
     }
 
     /// <summary>
@@ -186,13 +199,14 @@ namespace Org.Vs.TailForWin.Business.Services
     private LogEntry CreateLogEntryByWindowsEvent(EventLogEntry e)
     {
       string category = string.Format(Application.Current.TryFindResource("WindowsEventCategory").ToString(), e.EntryType.ToString());
+      string source = string.Format(Application.Current.TryFindResource("WindowsEventSource").ToString(), e.Source);
       string machineName = string.Format(Application.Current.TryFindResource("WindowsEventMachine").ToString(), e.MachineName);
-      string message = string.Format(Application.Current.TryFindResource("WindowdEventMessage").ToString(), e.Message);
+      string message = string.Format(Application.Current.TryFindResource("WindowsEventMessage").ToString(), e.Message);
       var log = new LogEntry
       {
         Index = Index,
         DateTime = e.TimeWritten,
-        Message = $"{category} - {machineName} *** {message}"
+        Message = $"{category} -> {source} -> {machineName} -> {message}"
       };
 
       return log;

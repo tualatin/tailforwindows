@@ -12,6 +12,7 @@
         <ColumnDefinition />
         <ColumnDefinition Width="16" />
       </Grid.ColumnDefinitions>
+
       <Border
         x:Name="Border"
         Grid.ColumnSpan="2"
@@ -25,6 +26,7 @@
           <SolidColorBrush Color="Transparent" />
         </Border.Background>
       </Border>
+
       <Polygon
         x:Name="Arrow"
         Grid.Column="1"
@@ -133,6 +135,7 @@
               IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
               Template="{StaticResource StatusbarComboBoxToggleButton}"
               />
+
             <ContentPresenter
               x:Name="ContentSite"
               Margin="3 3 23 3"
@@ -143,6 +146,7 @@
               ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
               IsHitTestVisible="False"
               />
+
             <TextBox
               x:Name="PART_EditableTextBox"
               Margin="3 3 23 3"
@@ -156,6 +160,7 @@
               Template="{StaticResource StatusbarComboBoxTextBox}"
               Visibility="Hidden"
               />
+
             <Popup
               x:Name="Popup"
               AllowsTransparency="True"
@@ -170,6 +175,7 @@
                 MaxHeight="{TemplateBinding MaxDropDownHeight}"
                 SnapsToDevicePixels="True"
                 >
+
                 <Border
                   x:Name="DropDownBorder"
                   BorderThickness="1"
@@ -178,9 +184,10 @@
                     <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
                   </Border.BorderBrush>
                   <Border.Background>
-                    <SolidColorBrush Color="{DynamicResource ControlLightColor}" />
+                    <SolidColorBrush Color="{DynamicResource ColorWhite}" />
                   </Border.Background>
                 </Border>
+
                 <ScrollViewer
                   Margin="1 1 1 1"
                   SnapsToDevicePixels="True"

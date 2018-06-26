@@ -117,6 +117,9 @@ namespace Org.Vs.TailForWin.UI.Utils
         IsSmartWatchAutoRun = content.IsSmartWatchAutoRun
       };
 
+      if ( content.CurrentTailData.IsWindowsEvent )
+        logWindowControl.SetWindowsEventTailReader();
+
       logWindowControl.SplitWindow.LogEntries = content.SplitWindow.LogEntries ?? new ObservableCollection<LogEntry>();
       logWindowControl.SplitWindow.SelectedItem = content.SplitWindow.SelectedItem;
       logWindowControl.SplitWindow.FloodData = content.SplitWindow.FloodData;
@@ -125,6 +128,7 @@ namespace Org.Vs.TailForWin.UI.Utils
 
       logWindowControl.TailReader.SetIndex(content.TailReader.Index);
       logWindowControl.SplitWindow.CacheManager.SetCacheData(content.SplitWindow.CacheManager.GetCacheData());
+
 
       return logWindowControl;
     }

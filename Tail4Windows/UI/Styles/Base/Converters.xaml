@@ -6,6 +6,7 @@
   >
 
   <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+  <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
   <converters:BackgroundToForegroundConverter x:Key="BackgroundToForegroundConverter" />
   <converters:BackgroundToForegroundColorConverter x:Key="BackgroundToForegroundColorConverter" />
   <converters:BackgroundColorToIsNotSelectedConverter x:Key="BackgroundColorToIsNotSelectedConverter" />

@@ -78,7 +78,9 @@
   <system:String x:Key="ButtonAddsFileToFileManager">Adds file to...</system:String>
   <system:String x:Key="ButtonAddsFileToFileManagerToolTip">Adds current file to TailManager (CTRL+N)</system:String>
   <system:String x:Key="ButtonOpenFile">Open file...</system:String>
-  <system:String x:Key="ButtonOpenFileToolTip">Opens a file to tail... (CTRL+O)</system:String>
+  <system:String x:Key="ButtonOpenFileInputGesture">CTRL+O</system:String>
+  <system:String x:Key="ButtonOpenWindowsEvent">Open Windows event...</system:String>
+  <system:String x:Key="ButtonOpenWindowsEventInputGesture">CTRL+ALT+O</system:String>
   <system:String x:Key="TextBoxFileNameWatermark">Logfile</system:String>
   <system:String x:Key="LabelFile">File</system:String>
   <system:String x:Key="LabelRefreshRate">Refresh rate</system:String>
@@ -523,7 +525,8 @@
 
   <system:String x:Key="WindowsEventCategory">Category: {0}</system:String>
   <system:String x:Key="WindowsEventMachine">Machine Name: {0}</system:String>
-  <system:String x:Key="WindowdEventMessage">Message: {0}</system:String>
+  <system:String x:Key="WindowsEventMessage">Message: {0}</system:String>
+  <system:String x:Key="WindowsEventSource">Source: {0}</system:String>
 
   <system:String x:Key="ErrorEnterDescription">Please enter a Description</system:String>
   <system:String x:Key="ErrorEnterFileName">Please enter a FileName</system:String>

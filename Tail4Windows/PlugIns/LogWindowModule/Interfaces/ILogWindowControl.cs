@@ -136,6 +136,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     void ExecuteStopTailCommand();
 
     /// <summary>
+    /// Set Windows event tail reader
+    /// </summary>
+    void SetWindowsEventTailReader();
+
+    /// <summary>
     /// Gets parent window id
     /// </summary>
     Guid ParentWindowId

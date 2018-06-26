@@ -254,18 +254,11 @@
           Grid.Column="0"
           Orientation="Horizontal"
           >
-          <Label
-            Margin="0 0 5 0"
-            VerticalAlignment="Center"
-            Content="{DynamicResource LabelFile}"
-            />
-
           <Button
             Width="24"
             Height="24"
             Margin="0 0 5 0"
             VerticalAlignment="Center"
-            Command="{Binding OpenFileCommand}"
             >
             <StackPanel>
               <Image
@@ -284,36 +277,42 @@
                 </Image.Style>
               </Image>
             </StackPanel>
-            <Button.ToolTip>
-              <StackPanel>
-                <TextBlock
-                  Margin="0 0 0 5"
-                  Text="{DynamicResource ButtonOpenFile}"
-                  FontSize="12"
-                  FontWeight="Bold"
-                  />
-                <TextBlock Text="{DynamicResource ButtonOpenFileToolTip}" />
-                <Border
-                  Margin="0 8"
-                  BorderBrush="Silver"
-                  BorderThickness="0 1 0 0"
-                  />
-                <WrapPanel>
-                  <Image
-                    Width="16"
-                    Height="16"
-                    Margin="0 0 5 0"
-                    RenderOptions.BitmapScalingMode="HighQuality"
-                    RenderOptions.EdgeMode="Aliased"
-                    Source="/T4W;component/Resources/Search.ico"
-                    />
-                  <TextBlock
-                    Text="{DynamicResource GeneralToolTipHint}"
-                    FontStyle="Italic"
-                    />
-                </WrapPanel>
-              </StackPanel>
-            </Button.ToolTip>
+
+            <i:Interaction.Behaviors>
+              <behaviors:DropDownButtonBehavior />
+            </i:Interaction.Behaviors>
+
+            <Button.ContextMenu>
+              <ContextMenu>
+                <MenuItem
+                  Header="{DynamicResource ButtonOpenFile}"
+                  Command="{Binding OpenFileCommand}"
+                  InputGestureText="{DynamicResource ButtonOpenFileInputGesture}"
+                  >
+                  <MenuItem.Icon>
+                    <Image
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/openfolder.ico"
+                      />
+                  </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem
+                  Header="{DynamicResource ButtonOpenWindowsEvent}"
+                  Command="{Binding OpenWindowsEventsCommand}"
+                  InputGestureText="{DynamicResource ButtonOpenWindowsEventInputGesture}"
+                  >
+                  <MenuItem.Icon>
+                    <Image
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/event.png"
+                      />
+                  </MenuItem.Icon>
+                </MenuItem>
+              </ContextMenu>
+            </Button.ContextMenu>
           </Button>
 
           <Button
@@ -653,6 +652,7 @@
             Height="22"
             Content="{DynamicResource ComboBoxRemoveSpace}"
             IsChecked="{Binding CurrentTailData.RemoveSpace, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            Visibility="{Binding CurrentTailData.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
             >
             <CheckBox.ToolTip>
               <StackPanel>
@@ -709,6 +709,7 @@
             Content="SmartWatch"
             Command="{Binding SmartWatchCommand}"
             IsChecked="{Binding CurrentTailData.SmartWatch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, FallbackValue=False}"
+            Visibility="{Binding CurrentTailData.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
             >
             <CheckBox.ToolTip>
               <StackPanel>
@@ -780,11 +781,15 @@
             </CheckBox.ToolTip>
           </CheckBox>
 
-          <StackPanel Orientation="Horizontal">
+          <StackPanel
+            Orientation="Horizontal"
+            Visibility="{Binding CurrentTailData.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+            >
             <Label
               Margin="8 0 2 0"
               VerticalAlignment="Center"
               Content="{DynamicResource LabelThreadPriority}"
+              IsEnabled="{Binding ThreadPriorityIsEnable, UpdateSourceTrigger=PropertyChanged}"
               />
             <ComboBox
               Height="22"
@@ -831,7 +836,10 @@
             </ComboBox>
           </StackPanel>
 
-          <StackPanel Orientation="Horizontal">
+          <StackPanel
+            Orientation="Horizontal"
+            Visibility="{Binding CurrentTailData.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+            >
             <Label
               Margin="5 0 2 0"
               VerticalAlignment="Center"
@@ -925,6 +933,7 @@
                 <MenuItem
                   Header="{DynamicResource FileManagerDataGridPattern}"
                   Command="{Binding PatternControlCommand}"
+                  Visibility="{Binding CurrentTailData.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
                   >
                   <MenuItem.Icon>
                     <Image
@@ -938,6 +947,7 @@
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsOpenInExplorer}"
                   Command="{Binding OpenInEditorCommand}"
+                  Visibility="{Binding CurrentTailData.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
                   >
                   <MenuItem.Icon>
                     <Image

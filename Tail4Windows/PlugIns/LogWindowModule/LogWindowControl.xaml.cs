@@ -391,7 +391,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand UnloadedCommand => _unloadedCommand ?? (_unloadedCommand = new RelayCommand(p => ExecuteUnloadedCommand()));
 
-
     private IAsyncCommand _deleteHistoryCommand;
 
     /// <summary>
@@ -427,11 +426,38 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand SmartWatchCommand => _smartWatchCommand ?? (_smartWatchCommand = new RelayCommand(p => CanExecuteSmartWatchCommand(), p => ExecuteSmartWatchCommand()));
 
+    private ICommand _openWindowsEventsCommand;
+
+    /// <summary>
+    /// Open Windows events command
+    /// </summary>
+    public ICommand OpenWindowsEventsCommand => _openWindowsEventsCommand ?? (_openWindowsEventsCommand = new RelayCommand(p => LogWindowState != EStatusbarState.Busy, p => ExecuteOpenWindowsEventsCommand()));
+
     #endregion
 
     #region Command functions
 
-    private bool CanExecuteSmartWatchCommand() => SettingsHelperController.CurrentSettings.SmartWatch && FileIsValid && !CurrentTailData.IsWindowsEvent;
+    private void ExecuteOpenWindowsEventsCommand()
+    {
+      // TODO better solution
+      TailReader = new WindowsEventReadService();
+      CurrentTailData = new TailData
+      {
+        IsWindowsEvent = true,
+        Timestamp = true,
+        WindowsEvent = new WindowsEventData
+        {
+          Category = "System"
+        }
+      };
+
+      OnPropertyChanged(nameof(ThreadPriorityIsEnable));
+
+      SplitWindow.LogReaderService = TailReader;
+      SplitWindow.CurrentTailData = CurrentTailData;
+    }
+
+    private bool CanExecuteSmartWatchCommand() => SettingsHelperController.CurrentSettings.SmartWatch && FileIsValid;
 
     private void ExecuteSmartWatchCommand()
     {
@@ -947,6 +973,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       SelectedItem = CurrentTailData.FileName;
 
       OnPropertyChanged(nameof(CurrentTailData));
+    }
+
+    /// <summary>
+    /// Set Windows event tail reader
+    /// </summary>
+    public void SetWindowsEventTailReader()
+    {
+      // TODO better solution
+      TailReader = new WindowsEventReadService();
+      SplitWindow.LogReaderService = TailReader;
     }
 
     /// <summary>
