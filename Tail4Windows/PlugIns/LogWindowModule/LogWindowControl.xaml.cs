@@ -983,6 +983,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       // TODO better solution
       TailReader = new WindowsEventReadService();
       SplitWindow.LogReaderService = TailReader;
+      SplitWindow.CurrentTailData = CurrentTailData;
     }
 
     /// <summary>

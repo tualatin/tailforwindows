@@ -107,25 +107,29 @@ namespace Org.Vs.TailForWin.Business.Services
       };
       _logReader.EntryWritten += LogReaderEntryWritten;
 
-      var lastItems = new List<LogEntry>(SettingsHelperController.CurrentSettings.LinesRead);
-      int index = _startOffset;
-
-      for ( int i = _logReader.Entries.Count - 1; i >= _logReader.Entries.Count - _startOffset; i-- )
+      if ( Index == 0 )
       {
-        Index = index;
-        index--;
-        lastItems.Add(CreateLogEntryByWindowsEvent(_logReader.Entries[i]));
+        var lastItems = new List<LogEntry>(SettingsHelperController.CurrentSettings.LinesRead);
+        int index = _startOffset;
+
+        for ( int i = _logReader.Entries.Count - 1; i >= _logReader.Entries.Count - _startOffset; i-- )
+        {
+          Index = index;
+          index--;
+          lastItems.Add(CreateLogEntryByWindowsEvent(_logReader.Entries[i]));
+        }
+
+        // Reverse the list
+        lastItems.Reverse();
+        lastItems.ForEach(p =>
+        {
+          SizeRefreshTime = p.DateTime.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat);
+          OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(p, SizeRefreshTime));
+        });
+
+        Index = _startOffset;
       }
 
-      // Reverse the list
-      lastItems.Reverse();
-      lastItems.ForEach(p =>
-      {
-        SizeRefreshTime = p.DateTime.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat);
-        OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(p, SizeRefreshTime));
-      });
-
-      Index = _startOffset;
       IsBusy = true;
     }
 
@@ -139,9 +143,9 @@ namespace Org.Vs.TailForWin.Business.Services
 
       LOG.Trace("Stop tail");
 
-      IsBusy = false;
       _logReader.EntryWritten -= LogReaderEntryWritten;
       _logReader = null;
+      IsBusy = false;
     }
 
     private void LogReaderEntryWritten(object sender, EntryWrittenEventArgs e)

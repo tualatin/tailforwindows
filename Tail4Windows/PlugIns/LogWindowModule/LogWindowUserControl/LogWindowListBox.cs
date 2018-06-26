@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -631,12 +633,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( target == null || textBlock == null )
         return null;
 
-      var relativePoint = target.PointToScreen(new Point(0, 0));
+      var lines = GetLines(textBlock);
+      var linesEnumerable = lines as string[] ?? lines.ToArray();
+      Point relativePoint = target.PointToScreen(new Point(0, 0));
       var s = new Size(16, 16);
-      var textSize = textBlock.Text.GetMeasureTextSize(new Typeface(textBlock.FontFamily, textBlock.FontStyle, textBlock.FontWeight, textBlock.FontStretch), textBlock.FontSize);
+      Size textSize = textBlock.Text.GetMeasureTextSize(new Typeface(textBlock.FontFamily, textBlock.FontStyle, textBlock.FontWeight, textBlock.FontStretch), textBlock.FontSize);
 
-      if ( textSize.Height >= 16 )
-        s.Height = textSize.Height;
+      if ( textSize.Height * linesEnumerable.Length >= 16 )
+        s.Height = textSize.Height * linesEnumerable.Length;
 
       // very strange behaviour! when image is shown, no correction is needed, otherwise it is needed??? WTF!
       if ( item.BookmarkPoint != null )
@@ -650,6 +654,25 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       LOG.Debug($"BookmarkPoint is not null X {relativePoint.X} Y {relativePoint.Y} Width {s.Width} Height {s.Height}");
 
       return new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
+    }
+
+    private IEnumerable<string> GetLines(TextBlock source)
+    {
+      string text = source.Text;
+      var offset = 0;
+      TextPointer lineStart = source.ContentStart.GetPositionAtOffset(1, LogicalDirection.Forward);
+
+      do
+      {
+        TextPointer lineEnd = lineStart?.GetLineStartPosition(1);
+        int length = lineEnd != null ? lineStart.GetOffsetToPosition(lineEnd) : text.Length - offset;
+
+        yield return text.Substring(offset, length);
+
+        offset += length;
+        lineStart = lineEnd;
+      }
+      while ( lineStart != null );
     }
 
     /// <summary>
