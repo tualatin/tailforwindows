@@ -5,12 +5,14 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:commands="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels"
   mc:Ignorable="d"
+  x:Name="WindowsEventCategoryWindow"
   Title="{DynamicResource WindowsEventTitle}"
-  Width="400"
-  Height="350"
+  Width="300"
+  Height="370"
   Icon="/T4W;component/Resources/event.png"
   ResizeMode="NoResize"
   ShowInTaskbar="False"
@@ -19,10 +21,6 @@
   <i:Interaction.Triggers>
     <i:EventTrigger EventName="Loaded">
       <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-    </i:EventTrigger>
-
-    <i:EventTrigger EventName="Unloaded">
-      <i:InvokeCommandAction Command="{Binding UnloadedCommand}" />
     </i:EventTrigger>
   </i:Interaction.Triggers>
 
@@ -34,25 +32,97 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <StackPanel
+    <Grid
       Grid.Row="0"
       Margin="0 0 0 5"
-      Orientation="Horizontal"
       >
-      <Label
-        Margin="0 0 5 0"
-        Content="Computer"
-        FontWeight="Bold"
-        />
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
 
-      <Label Content="{Binding ComputerName, UpdateSourceTrigger=PropertyChanged}" />
-    </StackPanel>
+      <StackPanel
+        Grid.Column="0"
+        Orientation="Horizontal"
+        >
+        <Label
+          Margin="0 0 5 0"
+          VerticalAlignment="Center"
+          Content="Computer"
+          FontWeight="Bold"
+          />
+
+        <Label
+          VerticalAlignment="Center"
+          Content="{Binding ComputerName, UpdateSourceTrigger=PropertyChanged}"
+          />
+      </StackPanel>
+
+      <Button
+        Grid.Column="1"
+        Width="22"
+        Height="22"
+        Margin="5 0 0 0"
+        Command="{Binding LoadedCommand}"
+        TabIndex="0"
+        >
+        <StackPanel Margin="3">
+          <Image
+            RenderOptions.BitmapScalingMode="HighQuality"
+            RenderOptions.EdgeMode="Aliased"
+            Source="/T4W;component/Resources/refresh.png"
+            >
+            <Image.Style>
+              <Style TargetType="{x:Type Image}">
+                <Style.Triggers>
+                  <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5" />
+                  </Trigger>
+                </Style.Triggers>
+              </Style>
+            </Image.Style>
+          </Image>
+        </StackPanel>
+        <Button.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource WindowsEventRefresh}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource WindowsEventRefreshToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </Button.ToolTip>
+      </Button>
+    </Grid>
 
     <TreeView
       x:Name="TreeView"
       Grid.Row="1"
+      Margin="0 0 0 5"
       ItemsSource="{Binding Root}"
       >
       <TreeView.ItemTemplate>
@@ -85,7 +155,58 @@
             CommandParameter="{Binding SelectedItem, ElementName=TreeView}"
             />
         </i:EventTrigger>
+
+        <i:EventTrigger EventName="MouseDoubleClick">
+          <commands:InvokeDelegateCommandAction Command="{Binding MouseDoubleClickCommand}">
+            <commands:InvokeDelegateCommandAction.CommandParameter>
+              <MultiBinding Converter="{StaticResource TailManagerMouseDoubleClickMultiConverter}">
+                <Binding
+                  Path="InvokeParameter"
+                  RelativeSource="{RelativeSource Self}"
+                  />
+                <Binding ElementName="WindowsEventCategoryWindow" />
+              </MultiBinding>
+            </commands:InvokeDelegateCommandAction.CommandParameter>
+          </commands:InvokeDelegateCommandAction>
+        </i:EventTrigger>
       </i:Interaction.Triggers>
     </TreeView>
+
+    <Grid Grid.Row="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+
+      <Button
+        Grid.Column="0"
+        Width="75"
+        Height="24"
+        Margin="0 0 5 0"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Center"
+        Content="OK"
+        Command="{Binding OpenCommand}"
+        CommandParameter="{Binding ElementName=WindowsEventCategoryWindow}"
+        TabIndex="1"
+        >
+        <Button.InputBindings>
+          <KeyBinding Key="Enter" Command="{Binding OpenCommand}" />
+        </Button.InputBindings>
+      </Button>
+
+      <Button
+        Grid.Column="1"
+        Width="75"
+        Height="24"
+        Margin="5 0 0 0"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Content="{DynamicResource CloseWindowToolTip}"
+        CommandParameter="{Binding ElementName=WindowsEventCategoryWindow}"
+        IsCancel="True"
+        TabIndex="2"
+        />
+    </Grid>
   </Grid>
 </extendedControls:VsWindowEx>

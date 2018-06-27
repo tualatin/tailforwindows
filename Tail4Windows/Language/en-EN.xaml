@@ -532,6 +532,8 @@
   <system:String x:Key="WindowsEventMessage">Message: {0}</system:String>
   <system:String x:Key="WindowsEventSource">Source: {0}</system:String>
   <system:String x:Key="WindowsEventTotalEvents">Total events={0} / last refresh time={1}</system:String>
+  <system:String x:Key="WindowsEventRefresh">Update</system:String>
+  <system:String x:Key="WindowsEventRefreshToolTip">Updates Windows event categories</system:String>
 
   <system:String x:Key="ErrorEnterDescription">Please enter a Description</system:String>
   <system:String x:Key="ErrorEnterFileName">Please enter a FileName</system:String>

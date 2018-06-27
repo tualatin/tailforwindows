@@ -530,6 +530,8 @@
   <system:String x:Key="WindowsEventMessage">Nachricht: {0}</system:String>
   <system:String x:Key="WindowsEventSource">Quelle: {0}</system:String>
   <system:String x:Key="WindowsEventTotalEvents">Ereignisse insgesamt={0} / letzte Aktualisierung={1}</system:String>
+  <system:String x:Key="WindowsEventRefresh">Aktualisieren</system:String>
+  <system:String x:Key="WindowsEventRefreshToolTip">Aktualisiert die Windows Ereignisskategorien</system:String>
 
   <system:String x:Key="ErrorEnterDescription">Bitte eine Bezeichnung angeben</system:String>
   <system:String x:Key="ErrorEnterFileName">Bitte einen Dateinamen angeben</system:String>

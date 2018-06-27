@@ -96,10 +96,7 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
     /// <summary>
     /// Unloaded command
     /// </summary>
-    public ICommand UnloadedCommand
-    {
-      get;
-    }
+    public ICommand UnloadedCommand => throw new NotImplementedException();
 
     private ICommand _setSelectedItemCommand;
 
@@ -108,9 +105,41 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
     /// </summary>
     public ICommand SetSelectedItemCommand => _setSelectedItemCommand ?? (_setSelectedItemCommand = new RelayCommand(ExecuteSelectedItemCommand));
 
+    private ICommand _openCommand;
+
+    /// <summary>
+    /// Open command
+    /// </summary>
+    public ICommand OpenCommand => _openCommand ?? (_openCommand = new RelayCommand(p => CanExecuteOpenCommand(), p => ExecuteOpenCommand((Window) p)));
+
+    private ICommand _mouseDoubleClickCommand;
+
+    /// <summary>
+    /// MouseDouble click command
+    /// </summary>
+    public ICommand MouseDoubleClickCommand => _mouseDoubleClickCommand ?? (_mouseDoubleClickCommand = new RelayCommand(p => CanExecuteOpenCommand(), ExecuteMouseDoubleClickCommmand));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteMouseDoubleClickCommmand(object param)
+    {
+      if ( !(param is object[] o) )
+        return;
+
+      if ( !(o.First() is MouseButtonEventArgs) || !(o.Last() is Window wnd) )
+        return;
+
+      ExecuteOpenCommand(wnd);
+    }
+
+    private bool CanExecuteOpenCommand() => CurrentTailData != null && !string.IsNullOrWhiteSpace(CurrentTailData.WindowsEvent.Category);
+
+    private void ExecuteOpenCommand(Window window)
+    {
+      window.Close();
+    }
 
     private void ExecuteSelectedItemCommand(object parameter)
     {
