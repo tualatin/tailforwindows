@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using log4net;
@@ -24,6 +26,7 @@ namespace Org.Vs.TailForWin.Business.Services
 
     private readonly int _startOffset;
     private EventLog _logReader;
+    private readonly string _message;
 
     #region Events
 
@@ -86,6 +89,7 @@ namespace Org.Vs.TailForWin.Business.Services
     {
       Index = 0;
       _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
+      _message = Application.Current.TryFindResource("WindowsEventTotalEvents").ToString();
     }
 
     /// <summary>
@@ -107,7 +111,7 @@ namespace Org.Vs.TailForWin.Business.Services
       };
       _logReader.EntryWritten += LogReaderEntryWritten;
 
-      if ( Index == 0 )
+      if ( Index == 0 && _logReader.Entries.Count > 0 )
       {
         var lastItems = new List<LogEntry>(SettingsHelperController.CurrentSettings.LinesRead);
         int index = _startOffset;
@@ -123,7 +127,7 @@ namespace Org.Vs.TailForWin.Business.Services
         lastItems.Reverse();
         lastItems.ForEach(p =>
         {
-          SizeRefreshTime = p.DateTime.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat);
+          SizeRefreshTime = string.Format(_message, _logReader.Entries.Count, p.DateTime.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
           OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(p, SizeRefreshTime));
         });
 
@@ -151,17 +155,20 @@ namespace Org.Vs.TailForWin.Business.Services
     private void LogReaderEntryWritten(object sender, EntryWrittenEventArgs e)
     {
       Index++;
-      SizeRefreshTime = e.Entry.TimeWritten.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat);
+      SizeRefreshTime = string.Format(_message, _logReader.Entries.Count, e.Entry.TimeWritten.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
       OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(CreateLogEntryByWindowsEvent(e.Entry), SizeRefreshTime));
     }
 
     /// <summary>
     /// Get <see cref="ObservableCollection{T}"/> of <see cref="WindowsEventCategory"/> with Windows events categories
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>Task</returns>
-    public async Task<ObservableCollection<WindowsEventCategory>> GetCategoriesAsync()
+    public async Task<ObservableCollection<WindowsEventCategory>> GetCategoriesAsync(CancellationToken token)
     {
       var result = new ObservableCollection<WindowsEventCategory>();
+      string windowsLogs = Application.Current.TryFindResource("WindowsEventWindowsLogs").ToString();
+      string applicationLogs = Application.Current.TryFindResource("WindowsEventApplicationLogs").ToString();
 
       await Task.Run(() =>
       {
@@ -171,8 +178,18 @@ namespace Org.Vs.TailForWin.Business.Services
         {
           try
           {
+            string category;
+
+            if ( string.Compare(eventLog.Log, "application", StringComparison.OrdinalIgnoreCase) == 0 ||
+                 string.Compare(eventLog.Log, "security", StringComparison.OrdinalIgnoreCase) == 0 ||
+                 string.Compare(eventLog.Log, "system", StringComparison.OrdinalIgnoreCase) == 0 )
+              category = windowsLogs;
+            else
+              category = applicationLogs;
+
             result.Add(new WindowsEventCategory
             {
+              Category = category,
               Log = eventLog.Log,
               LogDisplayName = eventLog.LogDisplayName
             });
@@ -182,7 +199,7 @@ namespace Org.Vs.TailForWin.Business.Services
             // Nothing
           }
         }
-      }).ConfigureAwait(false);
+      }, token).ConfigureAwait(false);
 
       return result;
     }

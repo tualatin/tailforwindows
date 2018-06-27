@@ -237,7 +237,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         {
           try
           {
-            foreach ( var node in Root )
+            foreach ( TreeNodeOptionViewModel node in Root )
             {
               node.ApplyCriteria(string.Empty, new Stack<ITreeNodeViewModel>());
             }
@@ -270,7 +270,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       TreeNodeOptionViewModel isSelected = null;
       TreeNodeOptionViewModel parent = null;
 
-      foreach ( var treeNodeOptionViewModel in Root )
+      foreach ( TreeNodeOptionViewModel treeNodeOptionViewModel in Root )
       {
         if ( treeNodeOptionViewModel.OptionPage.PageId == idToOpen )
         {
@@ -304,7 +304,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private TreeNodeOptionViewModel SelectLastOpenOption(IEnumerable<TreeNodeOptionViewModel> node, Guid idToOpen)
     {
-      foreach ( var treeNodeOptionViewModel in node )
+      foreach ( TreeNodeOptionViewModel treeNodeOptionViewModel in node )
       {
         if ( treeNodeOptionViewModel.OptionPage.PageId == idToOpen )
           return treeNodeOptionViewModel;

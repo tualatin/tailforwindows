@@ -285,6 +285,12 @@
       <DependentUpon>SmartWatchPopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\SmartWatchPopupModule\ViewModels\SmartWatchPopupViewModel.cs" />
+    <Compile Include="PlugIns\WindowEventReadModule\Interfaces\IWindowsEventCategoriesViewModel.cs" />
+    <Compile Include="PlugIns\WindowEventReadModule\ViewModels\TreeNodeWindowsEventsViewModel.cs" />
+    <Compile Include="PlugIns\WindowEventReadModule\ViewModels\WindowsEventCategoriesViewModel.cs" />
+    <Compile Include="PlugIns\WindowEventReadModule\WindowsEventCategories.xaml.cs">
+      <DependentUpon>WindowsEventCategories.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Behaviors\Base\BehaviorBase.cs" />
     <Compile Include="UI\Behaviors\DataGridColumnWidthBehavior.cs" />
     <Compile Include="UI\Behaviors\FixHorizontalScrollbarPosition.cs" />
@@ -618,6 +624,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PlugIns\WindowEventReadModule\WindowsEventCategories.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\FloatWindow\Styles\VsFloatingWindowStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -916,9 +926,6 @@
     <Resource Include="Resources\print.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\remove.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\save.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -960,7 +967,6 @@
     <Folder Include="BaseView\UserControls\Styles\" />
     <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
-    <Folder Include="PlugIns\WindowEventReadModule\" />
     <Folder Include="UI\Events\Args\" />
     <Folder Include="UI\UserControls\Commands\" />
     <Folder Include="UI\UserControls\ViewModels\" />

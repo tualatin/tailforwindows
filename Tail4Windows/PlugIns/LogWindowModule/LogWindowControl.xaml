@@ -959,6 +959,20 @@
                 </MenuItem>
 
                 <MenuItem
+                  Header="{DynamicResource ExtendedTailSettingsOpenInEventViewer}"
+                  Command="{Binding OpenInEditorCommand}"
+                  Visibility="{Binding CurrentTailData.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}"
+                  >
+                  <MenuItem.Icon>
+                    <Image
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/event.png"
+                      />
+                  </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsPrintTailLog}"
                   Command="{Binding PrintTailDataCommand}"
                   >

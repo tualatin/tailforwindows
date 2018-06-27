@@ -207,6 +207,11 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     /// </summary>
     public IAsyncCommand LoadedCommand => _loadeCommand ?? (_loadeCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
 
+    /// <summary>
+    /// Unloaded command
+    /// </summary>
+    public ICommand UnloadedCommand => throw new NotImplementedException();
+
     private ICommand _closingCommand;
 
     /// <summary>

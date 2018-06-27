@@ -117,8 +117,9 @@ namespace Org.Vs.TailForWin.Business.Services
     /// <summary>
     /// Get <see cref="ObservableCollection{T}"/> of <see cref="WindowsEventCategory"/> with Windows events categories
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>Task</returns>
-    public Task<ObservableCollection<WindowsEventCategory>> GetCategoriesAsync() => throw new NotImplementedException();
+    public Task<ObservableCollection<WindowsEventCategory>> GetCategoriesAsync(CancellationToken token) => throw new NotImplementedException();
 
     private void LogReaderServiceDoWork(object sender, DoWorkEventArgs e)
     {

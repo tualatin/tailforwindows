@@ -160,6 +160,7 @@
   <system:String x:Key="ExtendedTailSettingsFilterLabel">Filter settings</system:String>
   <system:String x:Key="ExtendedTailSettingsFilterInputGestureText">CTRL+SHIFT+F</system:String>
   <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Open in Explorer</system:String>
+  <system:String x:Key="ExtendedTailSettingsOpenInEventViewer">Open Windows Eventviewer</system:String>
   <system:String x:Key="ExtendedTailSettingsPrintTailLog">Print current log file</system:String>
   <system:String x:Key="ExtendedTailSettingsQuickSave">Quick save</system:String>
   <system:String x:Key="ExtendedTailSettingsQuickSaveInputGestureText">CTRL+S</system:String>
@@ -523,10 +524,14 @@
   <system:String x:Key="PatternControlGroupLogFile">Current log file</system:String>
   <system:String x:Key="PatternControlGroupResult">Pattern result</system:String>
 
+  <system:String x:Key="WindowsEventTitle">Windows Event categories</system:String>
+  <system:String x:Key="WindowsEventWindowsLogs">Windows Logs</system:String>
+  <system:String x:Key="WindowsEventApplicationLogs">Application and Services Logs</system:String>
   <system:String x:Key="WindowsEventCategory">Category: {0}</system:String>
   <system:String x:Key="WindowsEventMachine">Machine Name: {0}</system:String>
   <system:String x:Key="WindowsEventMessage">Message: {0}</system:String>
   <system:String x:Key="WindowsEventSource">Source: {0}</system:String>
+  <system:String x:Key="WindowsEventTotalEvents">Total events={0} / last refresh time={1}</system:String>
 
   <system:String x:Key="ErrorEnterDescription">Please enter a Description</system:String>
   <system:String x:Key="ErrorEnterFileName">Please enter a FileName</system:String>

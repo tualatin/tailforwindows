@@ -138,6 +138,11 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule.ViewModels
     /// </summary>
     public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
 
+    /// <summary>
+    /// Unloaded command
+    /// </summary>
+    public ICommand UnloadedCommand => throw new NotImplementedException();
+
     private ICommand _undoCommand;
 
     /// <summary>

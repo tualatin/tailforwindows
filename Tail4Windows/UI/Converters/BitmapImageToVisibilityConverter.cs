@@ -23,7 +23,7 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if ( !(value is BitmapImage source) )
+      if ( !(value is BitmapImage) )
         return Visibility.Collapsed;
 
       return Visibility.Visible;
@@ -37,9 +37,6 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-      throw new NotImplementedException();
-    }
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
   }
 }

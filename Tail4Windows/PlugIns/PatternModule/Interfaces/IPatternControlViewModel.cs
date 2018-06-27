@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.UI.Interfaces;
 
 
 namespace Org.Vs.TailForWin.PlugIns.PatternModule.Interfaces
@@ -9,7 +10,7 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule.Interfaces
   /// <summary>
   /// PatternControl view model interface
   /// </summary>
-  public interface IPatternControlViewModel
+  public interface IPatternControlViewModel : IViewModelBase
   {
     /// <summary>
     /// Current <see cref="TailData"/>

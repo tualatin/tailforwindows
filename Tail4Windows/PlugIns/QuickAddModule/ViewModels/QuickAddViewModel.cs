@@ -21,7 +21,7 @@ namespace Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels
   /// <summary>
   /// QuickAdd view model
   /// </summary>
-  public class QuickAddViewModel : NotifyMaster
+  public class QuickAddViewModel : NotifyMaster, IViewModelBase
   {
     private readonly CancellationTokenSource _cts;
     private readonly IXmlFileManager _xmlFileManagerController;
@@ -108,6 +108,11 @@ namespace Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels
     /// Loaded command
     /// </summary>
     public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
+
+    /// <summary>
+    /// Unloaded command
+    /// </summary>
+    public ICommand UnloadedCommand => throw new NotImplementedException();
 
     private ICommand _closeCommand;
 

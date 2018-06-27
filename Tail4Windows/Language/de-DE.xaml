@@ -160,6 +160,7 @@
   <system:String x:Key="ExtendedTailSettingsFilterLabel">Filter Einstellungen</system:String>
   <system:String x:Key="ExtendedTailSettingsFilterInputGestureText">STRG+SHIFT+F</system:String>
   <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Öffne in Explorer</system:String>
+  <system:String x:Key="ExtendedTailSettingsOpenInEventViewer">Öffne Windows Ereignisanzeige</system:String>
   <system:String x:Key="ExtendedTailSettingsPrintTailLog">Drucke aktuelle Logdatei</system:String>
   <system:String x:Key="ExtendedTailSettingsQuickSave">Schnell Speichern</system:String>
   <system:String x:Key="ExtendedTailSettingsQuickSaveInputGestureText">STRG+S</system:String>
@@ -521,10 +522,14 @@
   <system:String x:Key="PatternControlGroupLogFile">Aktuelle Logdatei</system:String>
   <system:String x:Key="PatternControlGroupResult">Pattern Ergebnis</system:String>
 
+  <system:String x:Key="WindowsEventTitle">Windows Ereignisskategorien</system:String>
+  <system:String x:Key="WindowsEventWindowsLogs">Windows Protokolle</system:String>
+  <system:String x:Key="WindowsEventApplicationLogs">Anwendungs- und Dienstprotokolle</system:String>
   <system:String x:Key="WindowsEventCategory">Kategorie: {0}</system:String>
   <system:String x:Key="WindowsEventMachine">Computer Name: {0}</system:String>
   <system:String x:Key="WindowsEventMessage">Nachricht: {0}</system:String>
   <system:String x:Key="WindowsEventSource">Quelle: {0}</system:String>
+  <system:String x:Key="WindowsEventTotalEvents">Ereignisse insgesamt={0} / letzte Aktualisierung={1}</system:String>
 
   <system:String x:Key="ErrorEnterDescription">Bitte eine Bezeichnung angeben</system:String>
   <system:String x:Key="ErrorEnterFileName">Bitte einen Dateinamen angeben</system:String>

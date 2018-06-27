@@ -36,6 +36,7 @@ using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.PatternModule;
 using Org.Vs.TailForWin.PlugIns.QuickAddModule;
 using Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels;
+using Org.Vs.TailForWin.PlugIns.WindowEventReadModule;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
@@ -439,22 +440,28 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteOpenWindowsEventsCommand()
     {
-      // TODO better solution
-      TailReader = new WindowsEventReadService();
-      CurrentTailData = new TailData
+      var windowsEventCategories = new WindowsEventCategories
       {
-        IsWindowsEvent = true,
-        Timestamp = true,
-        WindowsEvent = new WindowsEventData
-        {
-          Category = "System"
-        }
+        Owner = Window.GetWindow(this)
       };
+      windowsEventCategories.ShowDialog();
 
-      OnPropertyChanged(nameof(ThreadPriorityIsEnable));
+      // TODO better solution
+      //TailReader = new WindowsEventReadService();
+      //CurrentTailData = new TailData
+      //{
+      //  IsWindowsEvent = true,
+      //  Timestamp = true,
+      //  WindowsEvent = new WindowsEventData
+      //  {
+      //    Category = "System"
+      //  }
+      //};
 
-      SplitWindow.LogReaderService = TailReader;
-      SplitWindow.CurrentTailData = CurrentTailData;
+      //OnPropertyChanged(nameof(ThreadPriorityIsEnable));
+
+      //SplitWindow.LogReaderService = TailReader;
+      //SplitWindow.CurrentTailData = CurrentTailData;
     }
 
     private bool CanExecuteSmartWatchCommand() => SettingsHelperController.CurrentSettings.SmartWatch && FileIsValid;
@@ -627,14 +634,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteOpenInEditorCommand()
     {
-      if ( string.IsNullOrWhiteSpace(CurrentTailData.FileName) )
+      if ( !CurrentTailData.IsWindowsEvent && string.IsNullOrWhiteSpace(CurrentTailData.FileName) )
         return;
 
-      var shellOpen = new ProcessStartInfo(CurrentTailData.FileName)
+      if ( !CurrentTailData.IsWindowsEvent )
       {
-        UseShellExecute = true
-      };
-      Process.Start(shellOpen);
+        var shellOpen = new ProcessStartInfo(CurrentTailData.FileName)
+        {
+          UseShellExecute = true
+        };
+        Process.Start(shellOpen);
+      }
+      else
+      {
+        Process.Start("eventvwr");
+      }
     }
 
     private async Task ExecuteStartTailCommandAsync()

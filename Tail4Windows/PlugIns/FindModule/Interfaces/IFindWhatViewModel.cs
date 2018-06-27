@@ -11,7 +11,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
   /// <summary>
   /// FindDialog view model interface
   /// </summary>
-  public interface IFindWhatViewModel
+  public interface IFindWhatViewModel : IViewModelBase
   {
     /// <summary>
     /// Top position
@@ -87,14 +87,6 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.Interfaces
     {
       get;
       set;
-    }
-
-    /// <summary>
-    /// Loaded command
-    /// </summary>
-    IAsyncCommand LoadedCommand
-    {
-      get;
     }
 
     /// <summary>

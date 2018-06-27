@@ -19,9 +19,11 @@
             <Border.BorderBrush>
               <SolidColorBrush Color="{DynamicResource BorderLightColor}" />
             </Border.BorderBrush>
+
             <Border.Background>
-              <SolidColorBrush Color="{DynamicResource ControlLightColor}" />
+              <SolidColorBrush Color="{DynamicResource ColorWhite}" />
             </Border.Background>
+
             <ScrollViewer
               Padding="4"
               CanContentScroll="False"
@@ -56,6 +58,7 @@
                 <SolidColorBrush Color="{DynamicResource GlyphColor}" />
               </Path.Fill>
             </Path>
+
             <Path
               x:Name="Expanded"
               Margin="1 1 1 1"
@@ -68,6 +71,7 @@
                 <SolidColorBrush Color="{DynamicResource GlyphColor}" />
               </Path.Fill>
             </Path>
+
             <VisualStateManager.VisualStateGroups>
               <VisualStateGroup x:Name="CheckStates">
                 <VisualState x:Name="Checked">
@@ -81,6 +85,7 @@
                         KeyTime="0"
                         />
                     </ObjectAnimationUsingKeyFrames>
+
                     <ObjectAnimationUsingKeyFrames
                       Storyboard.TargetName="Expanded"
                       Storyboard.TargetProperty="(UIElement.Visibility)"
@@ -93,6 +98,7 @@
                   </Storyboard>
                 </VisualState>
                 <VisualState x:Name="Unchecked" />
+
                 <VisualState x:Name="Indeterminate" />
               </VisualStateGroup>
             </VisualStateManager.VisualStateGroups>
@@ -101,6 +107,7 @@
       </Setter.Value>
     </Setter>
   </Style>
+
   <Style x:Key="TreeViewItemFocusVisual">
     <Setter Property="Control.Template">
       <Setter.Value>
@@ -137,16 +144,19 @@
               <ColumnDefinition Width="Auto" />
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
               <RowDefinition />
             </Grid.RowDefinitions>
+
             <ToggleButton
               x:Name="Expander"
               ClickMode="Press"
               IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
               Style="{StaticResource ExpandCollapseToggleStyle}"
               />
+
             <!--  ReSharper disable once Xaml.MissingGridIndex  -->
             <Border
               x:Name="Bd"
@@ -156,12 +166,14 @@
               BorderBrush="{TemplateBinding BorderBrush}"
               BorderThickness="{TemplateBinding BorderThickness}"
               >
+
               <ContentPresenter
                 x:Name="PART_Header"
                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                 ContentSource="Header"
                 />
             </Border>
+
             <ItemsPresenter
               x:Name="ItemsHost"
               Grid.Row="1"
@@ -178,13 +190,14 @@
                       Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
                       >
                       <EasingColorKeyFrame
-                        Value="{StaticResource SelectedBackgroundColor}"
+                        Value="{StaticResource ColorLightBlue}"
                         KeyTime="0"
                         />
                     </ColorAnimationUsingKeyFrames>
                   </Storyboard>
                 </VisualState>
                 <VisualState x:Name="Unselected" />
+
                 <VisualState x:Name="SelectedInactive">
                   <Storyboard>
                     <ColorAnimationUsingKeyFrames
@@ -221,6 +234,7 @@
             <Trigger Property="HasItems" Value="false">
               <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
             </Trigger>
+
             <Trigger Property="IsExpanded" Value="False">
               <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed" />
             </Trigger>
@@ -231,6 +245,7 @@
               </MultiTrigger.Conditions>
               <Setter TargetName="PART_Header" Property="MinWidth" Value="75" />
             </MultiTrigger>
+
             <MultiTrigger>
               <MultiTrigger.Conditions>
                 <Condition Property="HasHeader" Value="false" />
@@ -246,5 +261,4 @@
     <Setter Property="Visibility" Value="{Binding Path=IsMatch, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
   </Style>
   <!--</SnippetTreeView>-->
-
 </ResourceDictionary>

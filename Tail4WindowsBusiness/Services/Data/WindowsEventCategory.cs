@@ -8,6 +8,24 @@ namespace Org.Vs.TailForWin.Business.Services.Data
   /// </summary>
   public class WindowsEventCategory : NotifyMaster
   {
+    private string _category;
+
+    /// <summary>
+    /// Category
+    /// </summary>
+    public string Category
+    {
+      get => _category;
+      set
+      {
+        if (Equals(value, _category))
+          return;
+
+        _category = value;
+        OnPropertyChanged();
+      }
+    }
+
     private string _log;
 
     /// <summary>

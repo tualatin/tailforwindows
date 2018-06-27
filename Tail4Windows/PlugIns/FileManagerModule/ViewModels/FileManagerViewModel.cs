@@ -33,7 +33,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
   /// <summary>
   /// FileManager view model
   /// </summary>
-  public class FileManagerViewModel : NotifyMaster, IFileDragDropTarget
+  public class FileManagerViewModel : NotifyMaster, IFileDragDropTarget, IViewModelBase
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(FileManagerViewModel));
 
@@ -225,6 +225,11 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// Loaded command
     /// </summary>
     public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
+
+    /// <summary>
+    /// Unloaded command
+    /// </summary>
+    public ICommand UnloadedCommand => throw new NotImplementedException();
 
     private ICommand _openCommand;
 

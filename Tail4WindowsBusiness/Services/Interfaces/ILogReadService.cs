@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Services.Events.Delegates;
@@ -83,7 +84,8 @@ namespace Org.Vs.TailForWin.Business.Services.Interfaces
     /// <summary>
     /// Get <see cref="ObservableCollection{T}"/> of <see cref="WindowsEventCategory"/> with Windows events categories
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>Task</returns>
-    Task<ObservableCollection<WindowsEventCategory>> GetCategoriesAsync();
+    Task<ObservableCollection<WindowsEventCategory>> GetCategoriesAsync(CancellationToken token);
   }
 }

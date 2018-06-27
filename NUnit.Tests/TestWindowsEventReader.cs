@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
@@ -21,7 +23,7 @@ namespace Org.Vs.NUnit.Tests
     [Test]
     public async Task TestGetWindowsCategoriesAsync()
     {
-      var result = await _windowEventReader.GetCategoriesAsync().ConfigureAwait(false);
+      var result = await _windowEventReader.GetCategoriesAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
 
       Assert.IsNotNull(result);
       Assert.AreNotEqual(0, result.Count);

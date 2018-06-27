@@ -3,17 +3,16 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
-using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
 
 
-namespace Org.Vs.TailForWin.BaseView.ViewModels
+namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
 {
   /// <summary>
-  /// TreeNode view model
+  /// TreeNode Windows events view model
   /// </summary>
-  public class TreeNodeOptionViewModel : NotifyMaster, ITreeNodeViewModel
+  public class TreeNodeWindowsEventsViewModel : NotifyMaster, ITreeNodeViewModel
   {
-    private readonly ObservableCollection<TreeNodeOptionViewModel> _children;
+    private readonly ObservableCollection<TreeNodeWindowsEventsViewModel> _children;
 
     /// <summary>
     /// Children
@@ -29,17 +28,17 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     }
 
     /// <summary>
-    /// Is leaf
+    /// LogDisplayName
     /// </summary>
-    public bool IsLeaf => !Children.Any();
-
-    /// <summary>
-    /// Option page
-    /// </summary>
-    public IOptionPage OptionPage
+    public string LogDisplayName
     {
       get;
     }
+
+    /// <summary>
+    /// Is leaf
+    /// </summary>
+    public bool IsLeaf => !Children.Any();
 
     private bool _isExpanded;
 
@@ -134,34 +133,36 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// Constructor
     /// </summary>
-    /// <param name="optionRoot">Root option</param>
-    /// <param name="children">IEnumerable of <see cref="TreeNodeOptionViewModel"/></param>
+    /// <param name="name">Name of node</param>
+    /// <param name="logDisplayName">English log display nam</param>
+    /// <param name="children">IEnumerable of <see cref="TreeNodeWindowsEventsViewModel"/></param>
     /// <param name="iconSource">Icon source</param>
     /// <param name="isEnabled">Node is enabled</param>
-    public TreeNodeOptionViewModel(IOptionPage optionRoot, IEnumerable<TreeNodeOptionViewModel> children, string iconSource, bool isEnabled = true)
+    public TreeNodeWindowsEventsViewModel(string name, string logDisplayName, IEnumerable<TreeNodeWindowsEventsViewModel> children, string iconSource, bool isEnabled = true)
     {
-      Name = optionRoot.PageTitle;
-      OptionPage = optionRoot;
+      Name = name;
+      LogDisplayName = logDisplayName;
       IsEnabled = isEnabled;
       Icon = iconSource;
-      _children = new ObservableCollection<TreeNodeOptionViewModel>(children);
+      _children = new ObservableCollection<TreeNodeWindowsEventsViewModel>(children);
     }
 
     /// <summary>
     /// Constructor
     /// </summary>
-    /// <param name="option">Option page</param>
+    /// <param name="name">Name of node</param>
+    /// <param name="logDisplayName">English log display name</param>
     /// <param name="iconSource">Icon source</param>
     /// <param name="isEnabled">Node is enabled</param>
-    public TreeNodeOptionViewModel(IOptionPage option, string iconSource, bool isEnabled = true)
-      : this(option, Enumerable.Empty<TreeNodeOptionViewModel>(), iconSource, isEnabled)
+    public TreeNodeWindowsEventsViewModel(string name, string logDisplayName, string iconSource, bool isEnabled = true)
+      : this(name, logDisplayName, Enumerable.Empty<TreeNodeWindowsEventsViewModel>(), iconSource, isEnabled)
     {
     }
 
     /// <summary>
     /// Finish
     /// </summary>
-    ~TreeNodeOptionViewModel()
+    ~TreeNodeWindowsEventsViewModel()
     {
       Dispose();
     }
@@ -205,7 +206,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       foreach ( ITreeNodeViewModel treeNodeViewModel in parent.Children )
       {
-        var child = (TreeNodeOptionViewModel) treeNodeViewModel;
+        var child = (TreeNodeWindowsEventsViewModel) treeNodeViewModel;
 
         if ( child.IsLeaf && !child.IsCriteriaMatched(criteria) )
           child.IsMatch = false;
@@ -243,7 +244,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     }
 
     /// <summary>
-    /// Release all resources used by <see cref="TreeNodeOptionViewModel"/>
+    /// Release all resources used by <see cref="TreeNodeWindowsEventsViewModel"/>
     /// </summary>
     public void Dispose()
     {
