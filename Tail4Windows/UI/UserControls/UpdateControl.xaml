@@ -11,9 +11,9 @@
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="50" />
-      <ColumnDefinition MinWidth="90" />
-      <ColumnDefinition Width="10" />
-      <ColumnDefinition MinWidth="90" />
+      <ColumnDefinition Width="Auto " />
+      <ColumnDefinition />
+      <ColumnDefinition Width="Auto" />
       <ColumnDefinition Width="50" />
     </Grid.ColumnDefinitions>
 
@@ -47,7 +47,7 @@
     <Grid
       Grid.Row="0"
       Grid.Column="1"
-      Margin="5 0"
+      Margin="8 0"
       >
       <Grid.RowDefinitions>
         <RowDefinition Height="*" />
@@ -58,6 +58,7 @@
         VerticalAlignment="Bottom"
         Content="{DynamicResource UpdateControlLocalVersion}"
         />
+
       <Label
         Grid.Row="1"
         VerticalAlignment="Top"
@@ -69,7 +70,7 @@
     <Grid
       Grid.Row="0"
       Grid.Column="3"
-      Margin="5 0"
+      Margin="8 0"
       >
       <Grid.RowDefinitions>
         <RowDefinition Height="*" />
@@ -80,6 +81,7 @@
         VerticalAlignment="Bottom"
         Content="{DynamicResource UpdateControlWebVersion}"
         />
+
       <Label
         Grid.Row="1"
         VerticalAlignment="Top"
