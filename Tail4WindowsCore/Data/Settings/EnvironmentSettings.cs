@@ -25,7 +25,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       SmtpSettings = new SmtpSetting();
 
 #if DEBUG
-      DebugTailReader = true;
+      DebugTailReader = false;
 #endif
     }
 

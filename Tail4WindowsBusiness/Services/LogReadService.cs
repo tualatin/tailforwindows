@@ -167,7 +167,7 @@ namespace Org.Vs.TailForWin.Business.Services
       if ( SettingsHelperController.CurrentSettings.DebugTailReader )
         return;
 
-      if ( Index == 0 )
+      if ( SettingsHelperController.CurrentSettings.ShowNumberLineAtStart && Index == 0 )
       {
         RewindLinesInFile();
         ReadFileLines();
@@ -187,8 +187,8 @@ namespace Org.Vs.TailForWin.Business.Services
 
         if ( fileInfo.Length != _lastFileInfo.Length )
         {
-          LOG.Debug($"File {TailData.File} changed! Read it again...");
-          InitializeFileReader();
+          if ( !InitializeFileReader() )
+            continue;
 
           // file is suddenly empty
           if ( _fileReader.BaseStream.Length < _fileOffset )
@@ -215,28 +215,32 @@ namespace Org.Vs.TailForWin.Business.Services
 
     private void CloseFileStream()
     {
-      LOG.Trace("Close all streams and release all resources.");
       _fileReader.Close();
       _fileStream.Close();
     }
 
     private void ReadFileLines()
     {
-      string line;
-
-      while ( _fileReader != null && (line = _fileReader.ReadLine()) != null )
+      try
       {
-        Index++;
+        string line;
 
-        if ( TailData.RemoveSpace )
+        while ( _fileReader != null && (line = _fileReader.ReadLine()) != null )
         {
-          if ( !string.IsNullOrWhiteSpace(line) )
+          if ( TailData.RemoveSpace || Index == 0 )
+          {
+            if ( !string.IsNullOrWhiteSpace(line) )
+              SendLogEntryEvent(line);
+          }
+          else
+          {
             SendLogEntryEvent(line);
+          }
         }
-        else
-        {
-          SendLogEntryEvent(line);
-        }
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
@@ -250,7 +254,7 @@ namespace Org.Vs.TailForWin.Business.Services
         _fileReader.BaseStream.Seek(0, SeekOrigin.End);
         var linesRead = 0;
 
-        while ( linesRead < _startOffset && _fileReader.BaseStream.Position > 0 )
+        while ( linesRead < _startOffset + 1 && _fileReader.BaseStream.Position > 0 )
         {
           _fileReader.BaseStream.Position--;
           int c = _fileReader.BaseStream.ReadByte();
@@ -269,6 +273,7 @@ namespace Org.Vs.TailForWin.Business.Services
 
     private void SendLogEntryEvent(string line)
     {
+      Index++;
       var entry = new LogEntry
       {
         Index = Index,
