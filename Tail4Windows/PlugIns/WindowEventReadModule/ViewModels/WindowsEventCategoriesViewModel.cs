@@ -15,6 +15,8 @@ using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.PlugIns.WindowEventReadModule.Events.Args;
+using Org.Vs.TailForWin.PlugIns.WindowEventReadModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.WindowEventReadModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
@@ -33,6 +35,15 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
     private ObservableCollection<WindowsEventCategory> _categories;
     private CancellationTokenSource _cts;
 
+    #region Events
+
+    /// <summary>
+    /// On open Windows event
+    /// </summary>
+    public event OnOpenWindowsEventHandler OnOpenWindowsEvent;
+
+    #endregion
+
     #region Properties
 
     /// <summary>
@@ -41,7 +52,6 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
     public TailData CurrentTailData
     {
       get;
-      private set;
     }
 
     /// <summary>
@@ -78,7 +88,11 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
     /// </summary>
     public WindowsEventCategoriesViewModel()
     {
-      CurrentTailData = new TailData { IsWindowsEvent = true };
+      CurrentTailData = new TailData
+      {
+        IsWindowsEvent = true,
+        Timestamp = true
+      };
       _windowLogReadService = new WindowsEventReadService { TailData = CurrentTailData };
 
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedCompleted;
@@ -138,6 +152,8 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
 
     private void ExecuteOpenCommand(Window window)
     {
+      CurrentTailData.WindowsEvent.CommitChanges();
+      OnOpenWindowsEvent?.Invoke(this, new OnOpenWindowsEventArgs(CurrentTailData));
       window.Close();
     }
 
@@ -153,6 +169,7 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
       }
 
       CurrentTailData.WindowsEvent.Category = treeNode.LogDisplayName;
+      CurrentTailData.WindowsEvent.Name = treeNode.Name;
       CurrentTailData.WindowsEvent.Machine = ComputerName == Environment.MachineName ? "." : ComputerName;
 
       LOG.Trace($"Current category: {CurrentTailData.WindowsEvent.Category}");

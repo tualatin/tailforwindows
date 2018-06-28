@@ -31,6 +31,24 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
+    private string _name;
+
+    /// <summary>
+    /// Name
+    /// </summary>
+    public string Name
+    {
+      get => _name;
+      set
+      {
+        if (Equals(value, _name))
+          return;
+
+        _name = value;
+        OnPropertyChanged();
+      }
+    }
+
     private string _machine;
 
     /// <summary>

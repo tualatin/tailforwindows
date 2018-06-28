@@ -109,16 +109,16 @@ namespace Org.Vs.TailForWin.UI.Utils
       ILogWindowControl logWindowControl = new LogWindowControl
       {
         LogWindowTabItem = tabItem,
-        LogWindowState = content.LogWindowState,
         FileIsValid = content.FileIsValid,
         SelectedItem = content.SelectedItem,
+        LogWindowState = content.LogWindowState,
         SplitterPosition = content.SplitterPosition,
         CurrentTailData = content.CurrentTailData,
         IsSmartWatchAutoRun = content.IsSmartWatchAutoRun
       };
 
       if ( content.CurrentTailData.IsWindowsEvent )
-        logWindowControl.SetWindowsEventTailReader();
+        logWindowControl.SetWindowsEventTailReader(content.CurrentTailData);
 
       logWindowControl.SplitWindow.LogEntries = content.SplitWindow.LogEntries ?? new ObservableCollection<LogEntry>();
       logWindowControl.SplitWindow.SelectedItem = content.SplitWindow.SelectedItem;
@@ -128,7 +128,6 @@ namespace Org.Vs.TailForWin.UI.Utils
 
       logWindowControl.TailReader.SetIndex(content.TailReader.Index);
       logWindowControl.SplitWindow.CacheManager.SetCacheData(content.SplitWindow.CacheManager.GetCacheData());
-
 
       return logWindowControl;
     }
@@ -147,7 +146,7 @@ namespace Org.Vs.TailForWin.UI.Utils
         icon.UriSource = new Uri(url, UriKind.Relative);
         icon.EndInit();
 
-        RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.NearestNeighbor);
+        RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.HighQuality);
         RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
 
         return icon;

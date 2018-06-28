@@ -138,7 +138,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     /// <summary>
     /// Set Windows event tail reader
     /// </summary>
-    void SetWindowsEventTailReader();
+    /// <param name="item"><see cref="TailData"/></param>
+    void SetWindowsEventTailReader(TailData item);
 
     /// <summary>
     /// Gets parent window id

@@ -37,6 +37,8 @@ using Org.Vs.TailForWin.PlugIns.PatternModule;
 using Org.Vs.TailForWin.PlugIns.QuickAddModule;
 using Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels;
 using Org.Vs.TailForWin.PlugIns.WindowEventReadModule;
+using Org.Vs.TailForWin.PlugIns.WindowEventReadModule.Events.Args;
+using Org.Vs.TailForWin.PlugIns.WindowEventReadModule.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
@@ -444,24 +446,19 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         Owner = Window.GetWindow(this)
       };
+
+      if ( windowsEventCategories.WindowsEventCategoriesViewModel != null )
+        windowsEventCategories.WindowsEventCategoriesViewModel.OnOpenWindowsEvent += WindowsEventCategoriesOnOpenWindowsEvent;
+
       windowsEventCategories.ShowDialog();
+    }
 
-      // TODO better solution
-      //TailReader = new WindowsEventReadService();
-      //CurrentTailData = new TailData
-      //{
-      //  IsWindowsEvent = true,
-      //  Timestamp = true,
-      //  WindowsEvent = new WindowsEventData
-      //  {
-      //    Category = "System"
-      //  }
-      //};
+    private void WindowsEventCategoriesOnOpenWindowsEvent(object sender, OnOpenWindowsEventArgs e)
+    {
+      if ( !(sender is IWindowsEventCategoriesViewModel) )
+        return;
 
-      //OnPropertyChanged(nameof(ThreadPriorityIsEnable));
-
-      //SplitWindow.LogReaderService = TailReader;
-      //SplitWindow.CurrentTailData = CurrentTailData;
+      SetWindowsEventTailReader(e.TailData);
     }
 
     private bool CanExecuteSmartWatchCommand() => SettingsHelperController.CurrentSettings.SmartWatch && FileIsValid;
@@ -686,7 +683,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       WaitingForTailWorkerAsync().GetAwaiter();
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
-      LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
+
+      if ( CurrentTailData.IsWindowsEvent )
+        LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.WindowsEvent.Category) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
+      else
+        LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
     }
 
     private void ExecuteOpenFileCommand()
@@ -992,12 +993,27 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Set Windows event tail reader
     /// </summary>
-    public void SetWindowsEventTailReader()
+    /// <param name="item"><see cref="TailData"/></param>
+    public void SetWindowsEventTailReader(TailData item)
     {
-      // TODO better solution
-      TailReader = new WindowsEventReadService();
+      if ( TailReader != null )
+        TailReader = null;
+
+      TailReader = new WindowsEventReadService
+      {
+        TailData = CurrentTailData
+      };
+      CurrentTailData = item;
       SplitWindow.LogReaderService = TailReader;
+      string machine = CurrentTailData.WindowsEvent.Machine == "." ? Environment.MachineName : CurrentTailData.WindowsEvent.Machine;
+      LogWindowTabItem.HeaderContent = $"{machine}: {CurrentTailData.WindowsEvent.Name}";
+      LogWindowTabItem.HeaderToolTip = $"{machine}: {CurrentTailData.WindowsEvent.Name}";
+      LogWindowTabItem.TabItemBackgroundColorStringHex = CurrentTailData.TabItemBackgroundColorStringHex;
+      FileIsValid = true;
       SplitWindow.CurrentTailData = CurrentTailData;
+
+      if ( LogWindowTabItem.TabItemBusyIndicator != Visibility.Visible )
+        LogWindowState = !string.IsNullOrWhiteSpace(CurrentTailData.WindowsEvent.Category) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
     }
 
     /// <summary>

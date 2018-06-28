@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.Business.Services
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(WindowsEventReadService));
 
-    private readonly int _startOffset;
+    private int _startOffset;
     private EventLog _logReader;
     private readonly string _message;
 
@@ -114,6 +114,10 @@ namespace Org.Vs.TailForWin.Business.Services
       if ( Index == 0 && _logReader.Entries.Count > 0 )
       {
         var lastItems = new List<LogEntry>(SettingsHelperController.CurrentSettings.LinesRead);
+
+        if ( _startOffset > _logReader.Entries.Count )
+          _startOffset = _logReader.Entries.Count;
+
         int index = _startOffset;
 
         for ( int i = _logReader.Entries.Count - 1; i >= _logReader.Entries.Count - _startOffset; i-- )
@@ -123,7 +127,7 @@ namespace Org.Vs.TailForWin.Business.Services
           lastItems.Add(CreateLogEntryByWindowsEvent(_logReader.Entries[i]));
         }
 
-        // Reverse the list
+        // Reverse list
         lastItems.Reverse();
         lastItems.ForEach(p =>
         {

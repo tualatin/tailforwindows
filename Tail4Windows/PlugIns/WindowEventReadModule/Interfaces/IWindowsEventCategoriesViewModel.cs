@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.PlugIns.WindowEventReadModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels;
 using Org.Vs.TailForWin.UI.Interfaces;
 
@@ -12,6 +13,15 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.Interfaces
   /// </summary>
   public interface IWindowsEventCategoriesViewModel : IViewModelBase
   {
+    #region Events
+
+    /// <summary>
+    /// On open Windows event
+    /// </summary>
+    event OnOpenWindowsEventHandler OnOpenWindowsEvent;
+
+    #endregion
+
     /// <summary>
     /// Current <see cref="TailData"/>
     /// </summary>

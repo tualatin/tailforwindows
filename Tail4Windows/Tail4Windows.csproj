@@ -285,6 +285,8 @@
       <DependentUpon>SmartWatchPopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\SmartWatchPopupModule\ViewModels\SmartWatchPopupViewModel.cs" />
+    <Compile Include="PlugIns\WindowEventReadModule\Events\Args\OnOpenWindowsEventArgs.cs" />
+    <Compile Include="PlugIns\WindowEventReadModule\Events\Delegates\OnOpenWindowsEventHandler.cs" />
     <Compile Include="PlugIns\WindowEventReadModule\Interfaces\IWindowsEventCategoriesViewModel.cs" />
     <Compile Include="PlugIns\WindowEventReadModule\ViewModels\TreeNodeWindowsEventsViewModel.cs" />
     <Compile Include="PlugIns\WindowEventReadModule\ViewModels\WindowsEventCategoriesViewModel.cs" />
