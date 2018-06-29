@@ -68,6 +68,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseView\Events\Args\FileEncodingArgs.cs" />
+    <Compile Include="BaseView\Events\Delegates\FileEncodingChangedEventHandler.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\CollectionViewHolder.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\FilterManagerCollectionViewHolder.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\XmlNames.cs" />

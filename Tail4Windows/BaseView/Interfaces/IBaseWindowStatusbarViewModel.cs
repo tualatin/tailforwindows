@@ -1,5 +1,6 @@
 ﻿using System.Text;
-using Org.Vs.TailForWin.BaseView.Events.Delegates;
+using Org.Vs.TailForWin.Controllers.BaseView.Events.Delegates;
+
 
 namespace Org.Vs.TailForWin.BaseView.Interfaces
 {

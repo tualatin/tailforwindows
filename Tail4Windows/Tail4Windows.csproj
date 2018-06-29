@@ -169,8 +169,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BaseView\Events\Args\FileEncodingArgs.cs" />
-    <Compile Include="BaseView\Events\Delegates\FileEncodingChangedEventHandler.cs" />
     <Compile Include="BaseView\UserControls\Interfaces\IMainWindowQuickSearchViewModel.cs" />
     <Compile Include="Data\Messages\AddTabItemMessage.cs" />
     <Compile Include="Data\Messages\AddTailDataToQuickAddMessage.cs" />
@@ -927,7 +925,6 @@
     <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
     <Folder Include="PlugIns\LogWindowModule\Utils\" />
-    <Folder Include="UI\Events\Args\" />
     <Folder Include="UI\UserControls\Commands\" />
     <Folder Include="UI\UserControls\ViewModels\" />
   </ItemGroup>

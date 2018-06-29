@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Org.Vs.TailForWin.BaseView.Events.Args;
-using Org.Vs.TailForWin.BaseView.Events.Delegates;
 using Org.Vs.TailForWin.BaseView.Interfaces;
+using Org.Vs.TailForWin.Controllers.BaseView.Events.Args;
+using Org.Vs.TailForWin.Controllers.BaseView.Events.Delegates;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.UI.Commands;
 

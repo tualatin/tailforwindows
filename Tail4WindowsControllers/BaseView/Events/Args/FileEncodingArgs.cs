@@ -2,7 +2,7 @@
 using System.Text;
 
 
-namespace Org.Vs.TailForWin.BaseView.Events.Args
+namespace Org.Vs.TailForWin.Controllers.BaseView.Events.Args
 {
   /// <summary>
   /// FileEncoding event args
