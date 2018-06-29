@@ -9,6 +9,8 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.0.xxxx.x
+* new algorithm to read log files (Tail4Windows does not block files anymore)
+* new read Windows event log
 * new SplitWindow view
 * new Drag'n'Drop window design
 * new Tabheaders can colorized by user
@@ -27,6 +29,7 @@ v.2.0.xxxx.x
 * new Statusbar design
 * new per user settings -> Users\user\AppData\Roaming\Tail4Windows\
 * new translateable userinterface - english, german
+* it's faster than version 1.5.xxxx
 * bug fix filtering
 * bug fix time settings
 * bug fix date settings
