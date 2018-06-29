@@ -961,7 +961,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       lock ( LogWindowControlLock )
       {
         const int offset = 100;
-        tailData.OpenFromFileManager = true;
         ILogWindowControl content = new LogWindowControl
         {
           CurrentTailData = tailData
@@ -1057,6 +1056,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private void CurrentSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       if ( !Equals(e.PropertyName, "SmartWatch") )
+        return;
+
+      if ( TailReader.SmartWatch == null )
         return;
 
       if ( !SettingsHelperController.CurrentSettings.SmartWatch && TailReader.IsBusy && !TailReader.SmartWatch.IsSuspended )

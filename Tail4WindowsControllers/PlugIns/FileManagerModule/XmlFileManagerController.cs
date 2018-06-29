@@ -15,6 +15,7 @@ using Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres;
 using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Data.XmlNames;
@@ -72,7 +73,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 
       var result = await Task.Run(() => ReadXmlFile(), token).ConfigureAwait(false);
 
-      if ( result != null )
+      if ( result != null && SettingsHelperController.CurrentSettings.SmartWatch )
         await ModifyFileNameBySmartWatchAsync(result).ConfigureAwait(false);
 
       return result;

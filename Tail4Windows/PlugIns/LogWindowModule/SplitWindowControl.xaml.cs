@@ -302,8 +302,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           reader.SmartWatch.SmartWatchFileChanged -= sender.OnSmartWatchFileChanged;
       }
 
-      sender.LogReaderService = e.NewValue as ILogReadService;
-
       if ( sender.LogReaderService == null )
         return;
 
@@ -411,14 +409,22 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void CurrentTailDataChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( e.PropertyName != "FilterState" )
-        return;
+      switch ( e.PropertyName )
+      {
+      case "FilterState":
 
-      SearchResult = null;
-      CollectionView.Filter = DynamicFilter;
+        SearchResult = null;
+        CollectionView.Filter = DynamicFilter;
 
-      OnPropertyChanged(nameof(SearchResult));
-      LogWindowMainElement.ScrollToEnd();
+        OnPropertyChanged(nameof(SearchResult));
+        LogWindowMainElement.ScrollToEnd();
+        break;
+
+      case "Wrap":
+
+        LogWindowMainElement.ScrollToEnd();
+        break;
+      }
     }
 
     #region Commands
