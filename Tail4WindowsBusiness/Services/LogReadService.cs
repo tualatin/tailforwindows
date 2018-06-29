@@ -181,14 +181,23 @@ namespace Org.Vs.TailForWin.Business.Services
       while ( _tailBackgroundWorker != null && !_tailBackgroundWorker.CancellationPending )
       {
         if ( _tailBackgroundWorker.CancellationPending )
-          return;
+          break;
 
         var fileInfo = new FileInfo(TailData.FileName);
 
-        if ( fileInfo.Length != _lastFileInfo.Length )
+        if ( !fileInfo.Exists )
+        {
+          _resetEvent?.WaitOne((int) TailData.RefreshRate);
+          continue;
+        }
+
+        if ( fileInfo.Length != _lastFileInfo.Length || fileInfo.LastWriteTimeUtc != _lastFileInfo.LastWriteTimeUtc )
         {
           if ( !InitializeFileReader() )
+          {
+            _resetEvent?.WaitOne((int) TailData.RefreshRate);
             continue;
+          }
 
           // file is suddenly empty
           if ( _fileReader.BaseStream.Length < _fileOffset )
@@ -196,12 +205,18 @@ namespace Org.Vs.TailForWin.Business.Services
 
           _fileReader.BaseStream.Seek(_fileOffset, SeekOrigin.Begin);
 
+          if ( _tailBackgroundWorker.CancellationPending )
+            break;
+
           ReadFileLines();
 
           // update the last offset
           _fileOffset = _fileReader.BaseStream.Position;
 
           CloseFileStream();
+
+          if ( _tailBackgroundWorker.CancellationPending )
+            break;
 
           _lastFileInfo = fileInfo;
         }
