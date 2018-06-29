@@ -223,9 +223,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <param name="index">Index to go</param>
     public void GoToItemByIndex(int index)
     {
-      _scrollViewer?.ScrollToVerticalOffset(index - 1);
-      object item = Items.GetItemAt(index - 1);
-      SelectedItem = item;
+      try
+      {
+        _scrollViewer?.ScrollToVerticalOffset(index - 1);
+        object item = Items.GetItemAt(index - 1);
+        SelectedItem = item;
+      }
+      catch
+      {
+        // Nothing
+      }
     }
 
     /// <summary>
