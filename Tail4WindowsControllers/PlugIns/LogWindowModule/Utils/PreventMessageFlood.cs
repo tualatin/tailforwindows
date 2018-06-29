@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data.Base;
-using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 
 
-namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Utils
+namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Utils
 {
   /// <summary>
   /// Prevent message flood util

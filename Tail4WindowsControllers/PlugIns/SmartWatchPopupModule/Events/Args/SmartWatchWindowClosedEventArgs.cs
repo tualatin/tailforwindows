@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Events.Args
+namespace Org.Vs.TailForWin.Controllers.PlugIns.SmartWatchPopupModule.Events.Args
 {
   /// <summary>
   /// SmartWatch window closed event args

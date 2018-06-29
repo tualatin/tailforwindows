@@ -234,11 +234,6 @@
       <DependentUpon>GoToLine.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\GoToLineModule\ViewModels\GoToLineViewModel.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Events\Args\LinesRefreshTimeChangedArgs.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Events\Args\StatusChangedArgs.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Events\Delegates\LinesRefreshTimeChangedEventHandler.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Events\Delegates\StatusChangedEventHandler.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Interfaces\IPreventMessageFlood.cs" />
     <Compile Include="PlugIns\LogWindowModule\Interfaces\ISplitWindowControl.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowControl.xaml.cs">
       <DependentUpon>LogWindowControl.xaml</DependentUpon>
@@ -246,21 +241,16 @@
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\GridSplitterMouseExtension.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\LogEntryScrollBehavior.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Interfaces\ILogWindowListBox.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Utils\PreventMessageFlood.cs" />
     <Compile Include="PlugIns\PatternModule\Interfaces\IPatternControlViewModel.cs" />
     <Compile Include="PlugIns\PatternModule\PatternControl.xaml.cs">
       <DependentUpon>PatternControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\PatternModule\ViewModels\PatternControlViewModel.cs" />
-    <Compile Include="PlugIns\SmartWatchPopupModule\Events\Args\SmartWatchWindowClosedEventArgs.cs" />
-    <Compile Include="PlugIns\SmartWatchPopupModule\Events\Delegates\SmartWatchWindowClosedEventHandler.cs" />
     <Compile Include="PlugIns\SmartWatchPopupModule\Interfaces\ISmartWatchPopupViewModel.cs" />
     <Compile Include="PlugIns\SmartWatchPopupModule\SmartWatchPopup.xaml.cs">
       <DependentUpon>SmartWatchPopup.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\SmartWatchPopupModule\ViewModels\SmartWatchPopupViewModel.cs" />
-    <Compile Include="PlugIns\WindowEventReadModule\Events\Args\OnOpenWindowsEventArgs.cs" />
-    <Compile Include="PlugIns\WindowEventReadModule\Events\Delegates\OnOpenWindowsEventHandler.cs" />
     <Compile Include="PlugIns\WindowEventReadModule\Interfaces\IWindowsEventCategoriesViewModel.cs" />
     <Compile Include="PlugIns\WindowEventReadModule\ViewModels\TreeNodeWindowsEventsViewModel.cs" />
     <Compile Include="PlugIns\WindowEventReadModule\ViewModels\WindowsEventCategoriesViewModel.cs" />
@@ -936,6 +926,7 @@
     <Folder Include="PlugIns\FileManagerModule\Interfaces\" />
     <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
+    <Folder Include="PlugIns\LogWindowModule\Utils\" />
     <Folder Include="UI\Events\Args\" />
     <Folder Include="UI\UserControls\Commands\" />
     <Folder Include="UI\UserControls\ViewModels\" />

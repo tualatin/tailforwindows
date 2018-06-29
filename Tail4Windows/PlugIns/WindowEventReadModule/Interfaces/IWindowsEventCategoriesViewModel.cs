@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Controllers.PlugIns.WindowsEventReadModule.Events.Delegates;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.PlugIns.WindowEventReadModule.Events.Delegates;
 using Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels;
 using Org.Vs.TailForWin.UI.Interfaces;
 

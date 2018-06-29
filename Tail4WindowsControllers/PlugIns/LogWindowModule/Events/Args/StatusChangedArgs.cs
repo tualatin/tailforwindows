@@ -3,7 +3,7 @@ using System.Text;
 using Org.Vs.TailForWin.Core.Enums;
 
 
-namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Args
+namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Args
 {
   /// <summary>
   /// StatusChanged args

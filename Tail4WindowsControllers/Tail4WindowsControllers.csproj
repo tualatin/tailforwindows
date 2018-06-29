@@ -79,11 +79,21 @@
     <Compile Include="PlugIns\FindModule\XmlSearchHistoryController.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\MessageFloodData.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\XmlNames.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Events\Args\LinesRefreshTimeChangedArgs.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Events\Args\StatusChangedArgs.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Events\Delegates\LinesRefreshTimeChangedEventHandler.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Events\Delegates\StatusChangedEventHandler.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Interfaces\IPreventMessageFlood.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Utils\PreventMessageFlood.cs" />
     <Compile Include="PlugIns\LogWindowModule\XmlHistoryController.cs" />
     <Compile Include="PlugIns\PatternModule\Data\Pattern.cs" />
     <Compile Include="PlugIns\PatternModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\PatternModule\Interfaces\IXmlPattern.cs" />
     <Compile Include="PlugIns\PatternModule\XmlPatternController.cs" />
+    <Compile Include="PlugIns\SmartWatchPopupModule\Events\Args\SmartWatchWindowClosedEventArgs.cs" />
+    <Compile Include="PlugIns\SmartWatchPopupModule\Events\Delegates\SmartWatchWindowClosedEventHandler.cs" />
+    <Compile Include="PlugIns\WindowsEventReadModule\Events\Args\OnOpenWindowsEventArgs.cs" />
+    <Compile Include="PlugIns\WindowsEventReadModule\Events\Delegates\OnOpenWindowsEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

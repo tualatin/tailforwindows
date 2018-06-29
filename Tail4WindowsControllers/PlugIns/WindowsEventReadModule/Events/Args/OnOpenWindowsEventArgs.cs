@@ -2,7 +2,7 @@
 using Org.Vs.TailForWin.Core.Data;
 
 
-namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.Events.Args
+namespace Org.Vs.TailForWin.Controllers.PlugIns.WindowsEventReadModule.Events.Args
 {
   /// <summary>
   /// Open Windows event args

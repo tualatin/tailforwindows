@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Controllers.PlugIns.SmartWatchPopupModule.Events.Delegates;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Events.Delegates;
 
 
 namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Interfaces

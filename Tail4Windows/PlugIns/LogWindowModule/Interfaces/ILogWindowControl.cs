@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
-using Org.Vs.TailForWin.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
 
