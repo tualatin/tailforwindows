@@ -157,7 +157,7 @@
 
   <system:String x:Key="ExtendedTailSettingsLabel">Zeige erweiterte Einstellungen</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Zeige die erweiterten Einstellungen des aktuellen tail Tabs</system:String>
-  <system:String x:Key="ExtendedTailSettingsFilterLabel">Filter Einstellungen</system:String>
+  <system:String x:Key="ExtendedTailSettingsFilterLabel">FilterManager</system:String>
   <system:String x:Key="ExtendedTailSettingsFilterInputGestureText">STRG+SHIFT+F</system:String>
   <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Öffne in Explorer</system:String>
   <system:String x:Key="ExtendedTailSettingsOpenInEventViewer">Öffne Windows Ereignisanzeige</system:String>
