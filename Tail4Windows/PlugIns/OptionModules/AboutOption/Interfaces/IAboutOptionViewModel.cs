@@ -1,4 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Data;
+using System.Windows.Input;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Data;
 using Org.Vs.TailForWin.UI.Interfaces;
 
 
@@ -59,6 +62,22 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.Interfaces
     {
       get;
       set;
+    }
+
+    /// <summary>
+    /// ThirdPartyComponents view
+    /// </summary>
+    ListCollectionView ThirdPartyComponentsView
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Third party components
+    /// </summary>
+    ObservableCollection<ThirdPartyComponentData> ThirdPartyComponents
+    {
+      get;
     }
   }
 }

@@ -4,7 +4,9 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils;assembly=T4WCore"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels"
   mc:Ignorable="d"
@@ -36,6 +38,8 @@
       <RowDefinition Height="30" />
       <RowDefinition Height="30" />
       <RowDefinition Height="30" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
     </Grid.RowDefinitions>
 
     <Grid.ColumnDefinitions>
@@ -223,5 +227,64 @@
       VerticalAlignment="Center"
       Content="{Binding UpTime, UpdateSourceTrigger=PropertyChanged}"
       />
+
+    <Label
+      Grid.Row="8"
+      Grid.Column="0"
+      Grid.ColumnSpan="3"
+      Margin="0 5"
+      Content="{DynamicResource AboutThirdPartyLabel}"
+      />
+
+    <userControls:VsDataGrid
+      Grid.Row="9"
+      Grid.Column="0"
+      Grid.ColumnSpan="3"
+      CanUserAddRows="False"
+      CanUserReorderColumns="True"
+      CanUserSortColumns="True"
+      IsSynchronizedWithCurrentItem="True"
+      ItemsSource="{Binding ThirdPartyComponentsView}"
+      SelectionMode="Extended"
+      >
+      <userControls:VsDataGrid.RowStyle>
+        <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
+        <Style TargetType="{x:Type DataGridRow}">
+          <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocussedWhenSelected" Value="True" />
+        </Style>
+      </userControls:VsDataGrid.RowStyle>
+
+      <userControls:VsDataGrid.Columns>
+        <DataGridTextColumn
+          MinWidth="30"
+          MaxWidth="100"
+          Header="{DynamicResource FileManagerDataGridNo}"
+          Binding="{Binding ., Converter={StaticResource RowFromThirdPartyCollectionConverter}, StringFormat=#;;#}"
+          CanUserSort="False"
+          IsReadOnly="True"
+          />
+
+        <DataGridTextColumn
+          MinWidth="130"
+          Header="{DynamicResource AboutOptionDgComponent}"
+          Binding="{Binding ComponentName, UpdateSourceTrigger=PropertyChanged}"
+          IsReadOnly="True"
+          />
+
+        <DataGridTextColumn
+          MinWidth="160"
+          Header="{DynamicResource AboutOptionDbDescription}"
+          Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+          IsReadOnly="True"
+          />
+
+        <DataGridTextColumn
+          MinWidth="130"
+          Header="{DynamicResource AboutOptionDgVersion}"
+          Binding="{Binding ComponentVersion, UpdateSourceTrigger=PropertyChanged}"
+          IsReadOnly="True"
+          />
+      </userControls:VsDataGrid.Columns>
+    </userControls:VsDataGrid>
   </Grid>
 </UserControl>

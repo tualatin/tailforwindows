@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
@@ -21,6 +27,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
   public class AboutOptionViewModel : NotifyMaster, IAboutOptionViewModel
   {
     private CancellationTokenSource _cts;
+    private CancellationTokenSource _thirdPartyCts;
+    private readonly IThirdPartyController _thirdPartyController;
     private readonly string _hours = Application.Current.TryFindResource("AboutUptimeHours").ToString();
     private readonly string _days = Application.Current.TryFindResource("AboutUptimeDays").ToString();
 
@@ -86,6 +94,30 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
       }
     }
 
+    /// <summary>
+    /// ThirdPartyComponents view
+    /// </summary>
+    public ListCollectionView ThirdPartyComponentsView
+    {
+      get;
+      set;
+    }
+
+    private ObservableCollection<ThirdPartyComponentData> _thirdPartyComponents;
+
+    /// <summary>
+    /// Third party components
+    /// </summary>
+    public ObservableCollection<ThirdPartyComponentData> ThirdPartyComponents
+    {
+      get => _thirdPartyComponents;
+      private set
+      {
+        _thirdPartyComponents = value;
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     /// <summary>
@@ -104,9 +136,11 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
 #elif RELEASE
       string channel = "release";
 #endif
+      _thirdPartyController = new ThirdPartyController();
+      NotifyTaskCompletion notifyTaskCompletion = NotifyTaskCompletion.Create(GetThirdPartyComponentsAsync);
+      notifyTaskCompletion.PropertyChanged += OnGetThirdPartyComponentsPropertyChanged;
 
-      var assembly = Assembly.GetExecutingAssembly();
-
+      Assembly assembly = Assembly.GetExecutingAssembly();
       Author = $"M. Zoennchen, Copyright 2013 - {DateTime.Now.Year}";
       BuildDate = Core.Utils.BuildDate.GetBuildDateTime(assembly).ToString(SettingsHelperController.CurrentSettings.CurrentCultureInfo);
       Version = $"{assembly.GetName().Version} - {build} ({channel})";
@@ -159,7 +193,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
 
       while ( !_cts.IsCancellationRequested )
       {
-        var uptime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
+        TimeSpan uptime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
         UpTime = $"{uptime.Days} {_days}, {uptime.Hours:00}:{uptime.Minutes:00}:{uptime.Seconds:00} {_hours}";
 
         try
@@ -172,7 +206,12 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
         }
       }
     }
-    private void ExecuteUnloadedCommand() => _cts?.Cancel();
+
+    private void ExecuteUnloadedCommand()
+    {
+      _cts?.Cancel();
+      _thirdPartyCts?.Cancel();
+    }
 
     private void ExecuteRequestNavigateCommand(object parameter)
     {
@@ -183,5 +222,27 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
     }
 
     #endregion
+
+    private async Task GetThirdPartyComponentsAsync()
+    {
+      MouseService.SetBusyState();
+
+      _thirdPartyCts?.Dispose();
+      _thirdPartyCts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+
+      _thirdPartyComponents = await _thirdPartyController.GetThirdPartyComponentsAsync(_thirdPartyCts.Token).ConfigureAwait(false);
+    }
+
+    private void OnGetThirdPartyComponentsPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      ThirdPartyComponentsView = (ListCollectionView) new CollectionViewSource { Source = ThirdPartyComponents }.View;
+      ThirdPartyCollectionViewHolder.Cv = ThirdPartyComponentsView;
+
+      OnPropertyChanged(nameof(ThirdPartyComponents));
+      OnPropertyChanged(nameof(ThirdPartyComponentsView));
+    }
   }
 }

@@ -88,6 +88,11 @@
     <Compile Include="PlugIns\LogWindowModule\Interfaces\IPreventMessageFlood.cs" />
     <Compile Include="PlugIns\LogWindowModule\Utils\PreventMessageFlood.cs" />
     <Compile Include="PlugIns\LogWindowModule\XmlHistoryController.cs" />
+    <Compile Include="PlugIns\OptionModules\AboutOption\Data\ThirdPartyCollectionViewHolder.cs" />
+    <Compile Include="PlugIns\OptionModules\AboutOption\Data\ThirdPartyComponentData.cs" />
+    <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\IThirdPartyController.cs" />
+    <Compile Include="PlugIns\OptionModules\AboutOption\ThirdPartyController.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Data\ControlColorData.cs" />
     <Compile Include="PlugIns\PatternModule\Data\Pattern.cs" />
     <Compile Include="PlugIns\PatternModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\PatternModule\Interfaces\IXmlPattern.cs" />

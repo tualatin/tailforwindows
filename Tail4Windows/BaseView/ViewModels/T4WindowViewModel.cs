@@ -20,6 +20,7 @@ using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.BaseView.Events.Args;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
@@ -673,9 +674,18 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand OpenFontCommand => _openFontCommand ?? (_openFontCommand = new RelayCommand(p => ExeucteOpenFontCommand()));
 
+    private ICommand _minimizeWindowCommand;
+
+    /// <summary>
+    /// Minimize window command
+    /// </summary>
+    public ICommand MinimizeWindowCommand => _minimizeWindowCommand ?? (_minimizeWindowCommand = new RelayCommand(p => ExecuteMinimizeWindowCommand((Window) p)));
+
     #endregion
 
     #region KeyBinding command functions
+
+    private void ExecuteMinimizeWindowCommand(Window window) => window.WindowState = WindowState.Minimized;
 
     private void ExeucteOpenFontCommand()
     {
@@ -977,7 +987,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         return;
 
       var updateController = new UpdateController(new WebDataController());
-      var result = await updateController.UpdateNecessaryAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token,
+      UpdateData result = await updateController.UpdateNecessaryAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token,
         System.Reflection.Assembly.GetExecutingAssembly().GetName().Version).ConfigureAwait(false);
 
       if ( !result.Update )

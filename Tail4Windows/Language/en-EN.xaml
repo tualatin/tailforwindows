@@ -194,6 +194,10 @@
   <system:String x:Key="AboutOptionPageTitle">About</system:String>
   <system:String x:Key="AboutOptionUpdatePageTitle">Update</system:String>
   <system:String x:Key="AboutOptionSysInfoTitle">System Info</system:String>
+  <system:String x:Key="AboutThirdPartyLabel">ThirdParty components:</system:String>
+  <system:String x:Key="AboutOptionDgComponent">Component</system:String>
+  <system:String x:Key="AboutOptionDgVersion">Version</system:String>
+  <system:String x:Key="AboutOptionDbDescription">Description</system:String>
 
   <system:String x:Key="AlertOptionPageTitle">Alert</system:String>
   <system:String x:Key="AlertSmtpOptionPageTitle">SMTP</system:String>

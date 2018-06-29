@@ -254,7 +254,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
         return string.Empty;
 
       var files = GetFilesByDirectory(item);
-      List<FileInfo> validFileInfos = new List<FileInfo>();
+      var validFileInfos = new List<FileInfo>();
 
       foreach ( var file in files )
       {
@@ -280,15 +280,15 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
 
       LOG.Info("SmartWatch get file name by internal logic");
 
-      List<FileInfo> validFileInfos = new List<FileInfo>();
+      var validFileInfos = new List<FileInfo>();
       var files = GetFilesByDirectory(item);
       var fileInfos = files as FileInfo[] ?? files.ToArray();
 
       if ( !fileInfos.Any() )
         return string.Empty;
 
-      var root = GetRootString(item.File, out bool isNumeric);
-      var pattern = CreatePattern(item.File, string.Empty);
+      string root = GetRootString(item.File, out bool isNumeric);
+      string pattern = CreatePattern(item.File, string.Empty);
 
       if ( !isNumeric )
       {
@@ -386,12 +386,12 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
 
       try
       {
-        var path = Path.GetDirectoryName(item.FileName);
+        string path = Path.GetDirectoryName(item.FileName);
 
         if ( string.IsNullOrWhiteSpace(path) )
           return null;
 
-        DirectoryInfo di = new DirectoryInfo(path);
+        var di = new DirectoryInfo(path);
         return !di.Exists ? null : di.GetFiles(SettingsHelperController.CurrentSettings.SmartWatchSettings.FilterByExtension ? $"*{Path.GetExtension(item.FileName)}" : "*.*", SearchOption.TopDirectoryOnly);
       }
       catch ( Exception ex )

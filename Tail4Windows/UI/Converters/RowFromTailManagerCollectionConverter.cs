@@ -21,6 +21,7 @@ namespace Org.Vs.TailForWin.UI.Converters
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       int rn = 0;
+
       if ( TailManagerCollectionViewHolder.Cv == null || value == null )
         return rn;
 

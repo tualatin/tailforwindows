@@ -33,6 +33,7 @@
   <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
   <converters:RowFromFilterManagerCollectionConverter x:Key="RowFromFilterManagerCollectionConverter" />
   <converters:RowFromTailManagerCollectionConverter x:Key="RowFromTailManagerCollectionConverter" />
+  <converters:RowFromThirdPartyCollectionConverter x:Key="RowFromThirdPartyCollectionConverter" />
   <converters:FontToStringConverter x:Key="FontToStringConverter" />
   <converters:MediaBrushToMediaColorConverter x:Key="MediaBrushToMediaColorConverter" />
   <converters:TailDataListOfFilterToBoolConverter x:Key="TailDataListOfFilterToBoolConverter" />

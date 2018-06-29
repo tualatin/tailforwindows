@@ -1,7 +1,7 @@
 ﻿using Org.Vs.TailForWin.Core.Data.Base;
 
 
-namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.Data
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Data
 {
   /// <summary>
   /// Control color data

@@ -493,9 +493,18 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// </summary>
     public ICommand OpenFontCommand => _openFontCommand ?? (_openFontCommand = new RelayCommand(p => ExeucteOpenFontCommand()));
 
+    private ICommand _minimizeWindowCommand;
+
+    /// <summary>
+    /// Minimize window command
+    /// </summary>
+    public ICommand MinimizeWindowCommand => _minimizeWindowCommand ?? (_minimizeWindowCommand = new RelayCommand(p => ExecuteMinimizeWindowCommand((Window) p)));
+
     #endregion
 
     #region KeyBinding command functions
+
+    private void ExecuteMinimizeWindowCommand(Window window) => window.WindowState = WindowState.Minimized;
 
     private void ExeucteOpenFontCommand()
     {

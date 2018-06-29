@@ -152,6 +152,14 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
       get;
     }
 
+    /// <summary>
+    /// Minimize window command
+    /// </summary>
+    ICommand MinimizeWindowCommand
+    {
+      get;
+    }
+
     #endregion
 
     /// <summary>
