@@ -489,10 +489,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( !(d is LogWindowListBox control) )
         return;
 
-      if ( !(e.NewValue is TailData newValue) )
+      if ( !(e.NewValue is TailData) )
         return;
 
-      control.CurrentTailData = newValue;
       control.RaiseEvent(new RoutedEventArgs(ClearItemsRoutedEvent, control));
     }
 

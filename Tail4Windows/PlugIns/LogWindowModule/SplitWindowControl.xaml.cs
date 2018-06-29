@@ -403,7 +403,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(e.NewValue is TailData newValue) )
         return;
 
-      control.CurrentTailData = newValue;
       control.LogWindowSplitElement.CurrentTailData = newValue;
       control.LogWindowMainElement.CurrentTailData = newValue;
 
