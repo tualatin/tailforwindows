@@ -418,6 +418,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       CollectionView.Filter = DynamicFilter;
 
       OnPropertyChanged(nameof(SearchResult));
+      LogWindowMainElement.ScrollToEnd();
     }
 
     #region Commands

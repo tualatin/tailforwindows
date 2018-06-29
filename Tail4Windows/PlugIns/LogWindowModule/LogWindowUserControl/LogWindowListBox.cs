@@ -23,6 +23,7 @@ using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Interfaces;
 using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Extensions;
 using Org.Vs.TailForWin.UI.Utils;
@@ -33,7 +34,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
   /// <summary>
   /// LogWindow control
   /// </summary>
-  public class LogWindowListBox : ListBox, INotifyPropertyChanged
+  public class LogWindowListBox : ListBox, INotifyPropertyChanged, ILogWindowListBox
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogWindowListBox));
 
@@ -223,9 +224,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     public void GoToItemByIndex(int index)
     {
       _scrollViewer?.ScrollToVerticalOffset(index - 1);
-      var item = Items.GetItemAt(index - 1);
+      object item = Items.GetItemAt(index - 1);
       SelectedItem = item;
     }
+
+    /// <summary>
+    /// Scroll to end of list
+    /// </summary>
+    public void ScrollToEnd() => _scrollViewer?.ScrollToEnd();
 
     #region Mouse events
 
@@ -261,7 +267,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         return;
 
       _isMouseLeftDownClick = true;
-      var mousePoint = PointToScreen(Mouse.GetPosition(this));
+      Point mousePoint = PointToScreen(Mouse.GetPosition(this));
       Image image = null;
       ContextMenu = null;
 
@@ -269,7 +275,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       {
       case Grid myGrid:
 
-        var enumerator = myGrid.Children.GetEnumerator();
+        IEnumerator enumerator = myGrid.Children.GetEnumerator();
 
         if ( enumerator.MoveNext() )
           image = enumerator.Current as Image;
