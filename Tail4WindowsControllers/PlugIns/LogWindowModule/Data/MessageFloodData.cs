@@ -3,7 +3,7 @@ using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Core.Data;
 
 
-namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Data
+namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
 {
   /// <summary>
   /// MessageFloodData;

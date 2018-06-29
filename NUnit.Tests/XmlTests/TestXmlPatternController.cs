@@ -1,10 +1,10 @@
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using NUnit.Framework;
-using Org.Vs.TailForWin.PlugIns.PatternModule.Controller;
-using Org.Vs.TailForWin.PlugIns.PatternModule.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule;
+using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces;
 
 
 namespace Org.Vs.NUnit.Tests.XmlTests

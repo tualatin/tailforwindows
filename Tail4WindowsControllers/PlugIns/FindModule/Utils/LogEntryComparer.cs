@@ -2,7 +2,7 @@
 using Org.Vs.TailForWin.Business.Services.Data;
 
 
-namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Utils
 {
   /// <summary>
   /// <see cref="LogEntry"/> comparer

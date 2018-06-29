@@ -5,7 +5,7 @@ using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
 
 
-namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Utils
 {
   /// <summary>
   /// TailData comparer

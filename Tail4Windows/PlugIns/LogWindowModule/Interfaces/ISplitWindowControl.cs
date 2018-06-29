@@ -4,8 +4,8 @@ using System.Windows.Data;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Business.Utils.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.PlugIns.LogWindowModule.Data;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces

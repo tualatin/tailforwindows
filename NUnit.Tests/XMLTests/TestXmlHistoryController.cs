@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Xml.Linq;
 using NUnit.Framework;
+using Org.Vs.TailForWin.Controllers.PlugIns.FindModule;
 using Org.Vs.TailForWin.Core.Interfaces;
-using Org.Vs.TailForWin.PlugIns.FindModule.Controller;
 
 
 namespace Org.Vs.NUnit.Tests.XmlTests

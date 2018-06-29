@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using NUnit.Framework;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
-using Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller;
-using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
 
 
 namespace Org.Vs.NUnit.Tests.XmlTests

@@ -1,9 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Org.Vs.TailForWin.PlugIns.PatternModule.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Data;
 
 
-namespace Org.Vs.TailForWin.PlugIns.PatternModule.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces
 {
   /// <summary>
   /// XML pattern interface

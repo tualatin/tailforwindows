@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
-using Org.Vs.TailForWin.PlugIns.FileManagerModule.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
 
 
 namespace Org.Vs.TailForWin.UI.Converters

@@ -3,14 +3,14 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using log4net;
+using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Data;
 using Org.Vs.TailForWin.Core.Data.XmlNames;
 using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
-using Org.Vs.TailForWin.PlugIns.FindModule.Data;
 
 
-namespace Org.Vs.TailForWin.PlugIns.FindModule.Controller
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
 {
   /// <summary>
   /// XML history controller

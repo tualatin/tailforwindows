@@ -1,7 +1,7 @@
-using Org.Vs.TailForWin.Core.Data.Base;
+﻿using Org.Vs.TailForWin.Core.Data.Base;
 
 
-namespace Org.Vs.TailForWin.PlugIns.PatternModule.Data
+namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Data
 {
   /// <summary>
   /// Pattern container

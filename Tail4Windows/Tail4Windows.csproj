@@ -160,28 +160,8 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.3.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.DataGrid, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.3.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit, Version=3.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.3.3.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.4.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -226,9 +206,6 @@
     <Compile Include="Data\Messages\FindWhat\StartSearchAllMessage.cs" />
     <Compile Include="Data\Messages\FindWhat\StartSearchCountMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\ToggleFilterMessage.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Controller\TailDataComparer.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Data\CollectionViewHolder.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Data\FilterManagerCollectionViewHolder.cs" />
     <Compile Include="PlugIns\FileManagerModule\FileManager.xaml.cs">
       <DependentUpon>FileManager.xaml</DependentUpon>
     </Compile>
@@ -237,7 +214,6 @@
     </Compile>
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FileManagerViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\ViewModels\FilterManagerViewModel.cs" />
-    <Compile Include="PlugIns\FindModule\Controller\LogEntryComparer.cs" />
     <Compile Include="PlugIns\FindModule\FindWhat.xaml.cs">
       <DependentUpon>FindWhat.xaml</DependentUpon>
     </Compile>
@@ -258,9 +234,6 @@
       <DependentUpon>GoToLine.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\GoToLineModule\ViewModels\GoToLineViewModel.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Controller\XmlHistoryController.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Data\MessageFloodData.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Args\LinesRefreshTimeChangedArgs.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Args\StatusChangedArgs.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Delegates\LinesRefreshTimeChangedEventHandler.cs" />
@@ -443,9 +416,6 @@
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowStatusBarViewModel.cs" />
     <Compile Include="BaseView\ViewModels\OptionsViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\Interfaces\IOptionPage.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Controller\XmlFileManagerController.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Data\XmlNames.cs" />
-    <Compile Include="PlugIns\FindModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\AboutOptionPage.xaml.cs">
       <DependentUpon>AboutOptionPage.xaml</DependentUpon>
     </Compile>
@@ -455,12 +425,6 @@
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\EnvironmentOptionPage.xaml.cs">
       <DependentUpon>EnvironmentOptionPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PlugIns\PatternModule\Controller\XmlPatternController.cs" />
-    <Compile Include="PlugIns\FindModule\Controller\XmlSearchHistoryController.cs" />
-    <Compile Include="PlugIns\PatternModule\Data\Pattern.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Interfaces\IXmlFileManager.cs" />
-    <Compile Include="PlugIns\PatternModule\Data\XmlNames.cs" />
-    <Compile Include="PlugIns\PatternModule\Interfaces\IXmlPattern.cs" />
     <Compile Include="UI\Behaviors\DialogBehavior.cs" />
     <Compile Include="UI\Commands\AsyncCommand.cs" />
     <Compile Include="UI\Commands\Base\AsyncCommandBase.cs" />
@@ -969,6 +933,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BaseView\UserControls\Styles\" />
+    <Folder Include="PlugIns\FileManagerModule\Interfaces\" />
     <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
     <Folder Include="UI\Events\Args\" />
@@ -982,6 +947,10 @@
     <ProjectReference Include="..\Tail4WindowsBusiness\Tail4WindowsBusiness.csproj">
       <Project>{c81d4747-d467-42fa-a998-0b8e68131e46}</Project>
       <Name>Tail4WindowsBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tail4WindowsControllers\Tail4WindowsControllers.csproj">
+      <Project>{dfd6ab76-fd51-4b29-abca-f0e11bebb9ec}</Project>
+      <Name>Tail4WindowsControllers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj">
       <Project>{7e255b50-cfb7-4ad8-9694-e569427fe866}</Project>

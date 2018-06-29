@@ -119,6 +119,10 @@
       <Project>{c81d4747-d467-42fa-a998-0b8e68131e46}</Project>
       <Name>Tail4WindowsBusiness</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tail4WindowsControllers\Tail4WindowsControllers.csproj">
+      <Project>{dfd6ab76-fd51-4b29-abca-f0e11bebb9ec}</Project>
+      <Name>Tail4WindowsControllers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj">
       <Project>{7e255b50-cfb7-4ad8-9694-e569427fe866}</Project>
       <Name>Tail4WindowsCore</Name>

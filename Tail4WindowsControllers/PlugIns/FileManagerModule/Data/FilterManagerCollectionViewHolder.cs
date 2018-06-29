@@ -1,12 +1,12 @@
 ﻿using System.Windows.Data;
 
 
-namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Data
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data
 {
   /// <summary>
-  /// TailManager collection view holder
+  /// FilterManager collection view holder
   /// </summary>
-  public static class TailManagerCollectionViewHolder
+  public class FilterManagerCollectionViewHolder
   {
     /// <summary>
     /// <see cref="CollectionView"/>

@@ -10,7 +10,7 @@ using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Data;
 
 
-namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Controller
+namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
 {
   /// <summary>
   /// XML history controller

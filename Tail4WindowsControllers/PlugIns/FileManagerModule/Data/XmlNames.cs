@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Data
+﻿namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data
 {
   /// <summary>
   /// FileManager module XML structure

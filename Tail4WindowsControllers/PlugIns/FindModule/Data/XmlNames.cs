@@ -1,4 +1,4 @@
-﻿namespace Org.Vs.TailForWin.PlugIns.FindModule.Data
+﻿namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Data
 {
   /// <summary>
   /// Find module XML structure

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
-using Org.Vs.TailForWin.PlugIns.FileManagerModule.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
 
 
 namespace Org.Vs.TailForWin.UI.Converters
@@ -21,6 +21,7 @@ namespace Org.Vs.TailForWin.UI.Converters
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
     {
       int rn = 0;
+
       if ( FilterManagerCollectionViewHolder.Cv == null || value == null )
         return rn;
 

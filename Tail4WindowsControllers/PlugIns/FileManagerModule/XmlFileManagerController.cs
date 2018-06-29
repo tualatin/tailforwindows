@@ -13,16 +13,16 @@ using System.Xml.Linq;
 using log4net;
 using Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres;
 using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Data.XmlNames;
 using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Utils;
-using Org.Vs.TailForWin.PlugIns.FileManagerModule.Data;
-using Org.Vs.TailForWin.PlugIns.FileManagerModule.Interfaces;
 
 
-namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.Controller
+namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 {
   /// <summary>
   /// XML FileManager controller
