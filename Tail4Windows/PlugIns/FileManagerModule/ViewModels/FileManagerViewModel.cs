@@ -18,6 +18,7 @@ using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Utils;
+using Org.Vs.TailForWin.Controllers.PlugIns.WindowsEventReadModule.Events.Args;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -26,6 +27,8 @@ using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.FontChooserModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.PatternModule;
+using Org.Vs.TailForWin.PlugIns.WindowEventReadModule;
+using Org.Vs.TailForWin.PlugIns.WindowEventReadModule.Interfaces;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Utils;
 
@@ -325,9 +328,29 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public ICommand PatternControlCommand => _patternControlCommand ?? (_patternControlCommand = new RelayCommand(p => ExecutePatternControlCommand((Window) p)));
 
+    private ICommand _openWindowsEventsCommand;
+
+    /// <summary>
+    /// Open Windows events command
+    /// </summary>
+    public ICommand OpenWindowsEventsCommand => _openWindowsEventsCommand ?? (_openWindowsEventsCommand = new RelayCommand(p => ExecuteOpenWindowsEventsCommand((Window) p)));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteOpenWindowsEventsCommand(Window window)
+    {
+      var windowsEventCategories = new WindowsEventCategories
+      {
+        Owner = window
+      };
+
+      if ( windowsEventCategories.WindowsEventCategoriesViewModel != null )
+        windowsEventCategories.WindowsEventCategoriesViewModel.OnOpenWindowsEvent += WindowsEventCategoriesOnOpenWindowsEvent;
+
+      windowsEventCategories.ShowDialog();
+    }
 
     private void ExecutePatternControlCommand(Window window)
     {
@@ -380,7 +403,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private bool CanExecuteUndo()
     {
-      if ( SelectedItem == null )
+      if ( SelectedItem?.FindSettings == null || SelectedItem.WindowsEvent == null )
         return false;
 
       return SelectedItem.FindSettings.CanUndo || SelectedItem.CanUndo;
@@ -428,6 +451,11 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     private void ExecuteAddTailDataCommand()
     {
       var newItem = new TailData();
+
+      newItem.CommitChanges();
+      newItem.FindSettings.CommitChanges();
+      newItem.WindowsEvent.CommitChanges();
+
       FileManagerCollection.Add(newItem);
       SelectedItem = FileManagerCollection.Last();
 
@@ -512,7 +540,16 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
     }
 
-    private bool CanExecuteOpenCommand() => !string.IsNullOrWhiteSpace(SelectedItem?.FileName) && File.Exists(SelectedItem.FileName);
+    private bool CanExecuteOpenCommand()
+    {
+      if ( SelectedItem == null )
+        return false;
+
+      if ( SelectedItem.IsWindowsEvent && !string.IsNullOrWhiteSpace(SelectedItem.WindowsEvent.Category) )
+        return true;
+
+      return !string.IsNullOrWhiteSpace(SelectedItem?.FileName) && File.Exists(SelectedItem.FileName);
+    }
 
     private void ExecuteOpenCommand(Window window)
     {
@@ -559,6 +596,14 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     #endregion
 
+    private void WindowsEventCategoriesOnOpenWindowsEvent(object sender, OnOpenWindowsEventArgs e)
+    {
+      if ( !(sender is IWindowsEventCategoriesViewModel) )
+        return;
+
+      SelectedItem.WindowsEvent = e.TailData.WindowsEvent;
+    }
+
     private void SetCancellationTokenSource()
     {
       _cts?.Dispose();
@@ -576,7 +621,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         return;
       }
 
-      if ( string.IsNullOrWhiteSpace(SelectedItem?.FileName) )
+      if ( SelectedItem == null )
+        return;
+
+      if ( string.IsNullOrWhiteSpace(SelectedItem?.FileName) && !SelectedItem.IsWindowsEvent )
         return;
 
       SelectedItem.OpenFromFileManager = true;
@@ -608,7 +656,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( _fileManagerCollection == null || _fileManagerCollection.Count == 0 )
       {
         FileManagerCollection = new ObservableCollection<TailData> { new TailData() };
+
         FileManagerCollection.First().CommitChanges();
+        FileManagerCollection.First().FindSettings.CommitChanges();
+        FileManagerCollection.First().WindowsEvent.CommitChanges();
       }
 
       FilterHasFocus = false;
@@ -650,6 +701,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       {
         f.CommitChanges();
         f.FindSettings.CommitChanges();
+        f.WindowsEvent.CommitChanges();
 
         Parallel.ForEach(f.ListOfFilter, p =>
         {

@@ -70,7 +70,7 @@
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
         <RowDefinition />
-        <RowDefinition Height="0">
+        <RowDefinition Height="135">
           <RowDefinition.Style>
             <Style>
               <Style.Triggers>
@@ -570,6 +570,7 @@
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="130" />
                 <ColumnDefinition />
               </Grid.ColumnDefinitions>
@@ -757,6 +758,109 @@
                 Grid.Column="2"
                 Orientation="Horizontal"
                 >
+                <CheckBox
+                  Height="22"
+                  Margin="5 0"
+                  Content="{DynamicResource FileManagerIsWindowsEvent}"
+                  IsChecked="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                  >
+                  <CheckBox.ToolTip>
+                    <StackPanel>
+                      <TextBlock
+                        Margin="0 0 0 5"
+                        Text="{DynamicResource FileManagerIsWindowsEvent}"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        />
+                      <TextBlock Text="{DynamicResource FileManagerIsWindowsEventToolTip}" />
+                      <Border
+                        Margin="0 8"
+                        BorderBrush="Silver"
+                        BorderThickness="0 1 0 0"
+                        />
+                      <WrapPanel>
+                        <Image
+                          Width="16"
+                          Height="16"
+                          Margin="0 0 5 0"
+                          RenderOptions.BitmapScalingMode="HighQuality"
+                          RenderOptions.EdgeMode="Aliased"
+                          Source="/T4W;component/Resources/Search.ico"
+                          />
+                        <TextBlock
+                          Text="{DynamicResource GeneralToolTipHint}"
+                          FontStyle="Italic"
+                          />
+                      </WrapPanel>
+                    </StackPanel>
+                  </CheckBox.ToolTip>
+                </CheckBox>
+
+                <Button
+                  Width="18"
+                  Height="18"
+                  Margin="5"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Center"
+                  Command="{Binding OpenWindowsEventsCommand}"
+                  CommandParameter="{Binding ElementName=FileManagerWindow}"
+                  IsEnabled="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged}"
+                  >
+                  <StackPanel>
+                    <Image
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/event.png"
+                      >
+                      <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                          <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                              <Setter Property="Opacity" Value="0.5" />
+                            </Trigger>
+                          </Style.Triggers>
+                        </Style>
+                      </Image.Style>
+                    </Image>
+                  </StackPanel>
+                  <Button.ToolTip>
+                    <StackPanel>
+                      <TextBlock
+                        Margin="0 0 0 5"
+                        Text="{DynamicResource ButtonOpenWindowsEvent}"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        />
+                      <TextBlock Text="{DynamicResource FileManagerOpenWindowsEventToolTip}" />
+                      <Border
+                        Margin="0 8"
+                        BorderBrush="Silver"
+                        BorderThickness="0 1 0 0"
+                        />
+                      <WrapPanel>
+                        <Image
+                          Width="16"
+                          Height="16"
+                          Margin="0 0 5 0"
+                          RenderOptions.BitmapScalingMode="HighQuality"
+                          RenderOptions.EdgeMode="Aliased"
+                          Source="/T4W;component/Resources/Search.ico"
+                          />
+                        <TextBlock
+                          Text="{DynamicResource GeneralToolTipHint}"
+                          FontStyle="Italic"
+                          />
+                      </WrapPanel>
+                    </StackPanel>
+                  </Button.ToolTip>
+                </Button>
+              </StackPanel>
+
+              <StackPanel
+                Grid.Column="3"
+                IsEnabled="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}"
+                Orientation="Horizontal"
+                >
                 <Button
                   Width="18"
                   Height="18"
@@ -865,6 +969,7 @@
                 Margin="5 0 2 0"
                 VerticalAlignment="Center"
                 Content="{DynamicResource LabelThreadPriority}"
+                IsEnabled="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}"
                 />
 
               <ComboBox
@@ -875,6 +980,7 @@
                 Margin="6 5"
                 DisplayMemberPath="Description"
                 Foreground="Black"
+                IsEnabled="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}"
                 ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=ThreadPriority}"
                 SelectedValue="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.ThreadPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 SelectedValuePath="ThreadPriority"
@@ -917,6 +1023,7 @@
                 Margin="5 0 2 0"
                 VerticalAlignment="Center"
                 Content="{DynamicResource StatusbarEncoding}"
+                IsEnabled="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}"
                 />
 
               <ComboBox
@@ -927,6 +1034,7 @@
                 Margin="6 5"
                 DisplayMemberPath="HeaderName"
                 Foreground="Black"
+                IsEnabled="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}"
                 ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=FileEncoding}"
                 SelectedValue="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.FileEncoding, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 >
@@ -968,6 +1076,7 @@
                 Margin="5 0 2 0"
                 VerticalAlignment="Center"
                 Content="{DynamicResource LabelRefreshRate}"
+                IsEnabled="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}"
                 />
 
               <ComboBox
@@ -978,6 +1087,7 @@
                 Margin="6 5"
                 DisplayMemberPath="Description"
                 Foreground="Black"
+                IsEnabled="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}"
                 ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=RefreshRate}"
                 SelectedValue="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.RefreshRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 SelectedValuePath="RefreshRate"

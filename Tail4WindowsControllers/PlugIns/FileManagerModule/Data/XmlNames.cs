@@ -13,7 +13,7 @@
     /// <summary>
     /// Current XML version
     /// </summary>
-    public const decimal CurrentXmlVersion = 1.2m;
+    public const decimal CurrentXmlVersion = 2.0m;
 
     /// <summary>
     /// XML version
@@ -184,5 +184,35 @@
     /// tabItemBackgroundClr
     /// </summary>
     public const string TabItemBackgroundColor = "tabItemBackgroundClr";
+
+    /// <summary>
+    /// isWindowsEvent
+    /// </summary>
+    public const string IsWindowsEvent = "isWindowsEvent";
+
+    /// <summary>
+    /// windowsEvent
+    /// </summary>
+    public const string WindowsEvent = "windowsEvent";
+
+    /// <summary>
+    /// machineName
+    /// </summary>
+    public const string WindowsEventMachineName = "machineName";
+
+    /// <summary>
+    /// userName
+    /// </summary>
+    public const string WindowsEventUserName = "userName";
+
+    /// <summary>
+    /// category
+    /// </summary>
+    public const string WindowsEventCategory = "category";
+
+    /// <summary>
+    /// name
+    /// </summary>
+    public const string WindowsEventName = "name";
   }
 }

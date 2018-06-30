@@ -6,7 +6,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data
   /// <summary>
   /// FilterManager collection view holder
   /// </summary>
-  public class FilterManagerCollectionViewHolder
+  public static class FilterManagerCollectionViewHolder
   {
     /// <summary>
     /// <see cref="CollectionView"/>

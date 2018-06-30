@@ -131,6 +131,9 @@
   <system:String x:Key="FileManagerLineWrap">Line wrap</system:String>
   <system:String x:Key="FileManagerTabBackgroundColor">Tab header color</system:String>
   <system:String x:Key="FileManagerDeleteItemQuestion">Do you want delete selected item?</system:String>
+  <system:String x:Key="FileManagerIsWindowsEvent">Windows Event</system:String>
+  <system:String x:Key="FileManagerIsWindowsEventToolTip">Is a Windows event log reader</system:String>
+  <system:String x:Key="FileManagerOpenWindowsEventToolTip">Gets a list of Windows event catagories</system:String>
 
   <system:String x:Key="FilterManagerPatternTool">Pattern tool</system:String>
   <system:String x:Key="FilterManagerPatternToolToolTip">Define a pattern to find a dynamic log file</system:String>

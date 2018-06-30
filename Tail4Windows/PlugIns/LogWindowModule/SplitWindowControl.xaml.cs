@@ -492,7 +492,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<JumpToSelectedLogEntryMessage>(OnJumpToSelectedLogEntry);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchCountMessage>(OnStartSearchCount);
 
-      _cts.Cancel();
+      _cts?.Cancel();
     }
 
     private void ExecuteSizeChangedCommand(SizeChangedEventArgs e)

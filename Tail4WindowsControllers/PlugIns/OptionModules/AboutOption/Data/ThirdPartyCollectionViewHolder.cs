@@ -6,7 +6,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Data
   /// <summary>
   /// ThirdParty collection view holder
   /// </summary>
-  public class ThirdPartyCollectionViewHolder
+  public static class ThirdPartyCollectionViewHolder
   {
     /// <summary>
     /// <see cref="CollectionView"/>

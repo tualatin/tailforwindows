@@ -228,14 +228,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private bool CanExecuteUndo()
     {
-      try
-      {
-        return SelectedItem != null && (SelectedItem.CanUndo || SelectedItem.FindSettingsData.CanUndo);
-      }
-      catch
-      {
+      if ( SelectedItem?.FindSettingsData == null )
         return false;
-      }
+
+      return SelectedItem.CanUndo || SelectedItem.FindSettingsData.CanRedo;
     }
 
     private void ExecuteUndoCommand()
@@ -248,6 +244,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
       var newItem = new FilterData();
       newItem.CommitChanges();
+      newItem.FindSettingsData.CommitChanges();
 
       FilterManagerCollection.Add(newItem);
       SelectedItem = FilterManagerCollection.Last();

@@ -91,7 +91,8 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
       CurrentTailData = new TailData
       {
         IsWindowsEvent = true,
-        Timestamp = true
+        Timestamp = true,
+        Wrap = true
       };
       _windowLogReadService = new WindowsEventReadService { TailData = CurrentTailData };
 

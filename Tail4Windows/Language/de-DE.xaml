@@ -131,6 +131,9 @@
   <system:String x:Key="FileManagerLineWrap">Textumbruch</system:String>
   <system:String x:Key="FileManagerTabBackgroundColor">Tabheader Farbe</system:String>
   <system:String x:Key="FileManagerDeleteItemQuestion">Möchten Sie den ausgewählten Datensatz löschen?</system:String>
+  <system:String x:Key="FileManagerIsWindowsEvent">Windows Ereignis</system:String>
+  <system:String x:Key="FileManagerIsWindowsEventToolTip">Aktiviert, dass das Windows Ereignisprotokoll gelesen werden soll</system:String>
+  <system:String x:Key="FileManagerOpenWindowsEventToolTip">Öffnet eine Liste von Windows Ereigniskategorien</system:String>
 
   <system:String x:Key="FilterManagerPatternTool">Patternwerkzeug</system:String>
   <system:String x:Key="FilterManagerPatternToolToolTip">Definiere ein Pattern, um eine dynamische Logdatei zu finden</system:String>

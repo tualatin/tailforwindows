@@ -156,6 +156,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
     }
 
     /// <summary>
+    /// Open Windows events command
+    /// </summary>
+    ICommand OpenWindowsEventsCommand
+    {
+      get;
+    }
+
+    /// <summary>
     /// Selected category
     /// </summary>
     string SelectedCategory

@@ -35,6 +35,8 @@ namespace Org.Vs.TailForWin.Core.Data
         WholeWord = true
       };
       WindowsEvent = new WindowsEventData();
+      WindowsEvent.PropertyChanged += OnWindowsEventPropertyChanged;
+
       AutoRun = true;
       TabItemBackgroundColorStringHex = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor;
       RefreshRate = SettingsHelperController.CurrentSettings.DefaultRefreshRate;
@@ -42,6 +44,15 @@ namespace Org.Vs.TailForWin.Core.Data
 
       ListOfFilter = new ObservableCollection<FilterData>();
       ListOfFilter.CollectionChanged += ListOfFilterCollectionChanged;
+    }
+
+    private void OnWindowsEventPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !Equals(e.PropertyName, "Name") )
+        return;
+
+      File = WindowsEvent.Category;
+      OnPropertyChanged(nameof(File));
     }
 
     private void ListOfFilterCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -146,8 +157,22 @@ namespace Org.Vs.TailForWin.Core.Data
           return;
 
         bool currentValue = _isWindowsEvent;
+
+        if ( value )
+          ResetData();
+
         ChangeState(new Command(() => _isWindowsEvent = value, () => _isWindowsEvent = currentValue, nameof(IsWindowsEvent), Notification));
       }
+    }
+
+    private void ResetData()
+    {
+      SmartWatch = false;
+      FileName = string.Empty;
+      PatternString = string.Empty;
+      UsePattern = false;
+      Timestamp = true;
+      Wrap = true;
     }
 
     private WindowsEventData _windowsEvent;
@@ -644,7 +669,7 @@ namespace Org.Vs.TailForWin.Core.Data
 
         case nameof(FileName):
 
-          if ( string.IsNullOrWhiteSpace(FileName) )
+          if ( string.IsNullOrWhiteSpace(FileName) && !IsWindowsEvent )
             result = Application.Current.TryFindResource("ErrorEnterFileName").ToString();
           break;
         }
