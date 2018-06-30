@@ -2,7 +2,8 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Org.Vs.TailForWin.UI.Interfaces;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
 

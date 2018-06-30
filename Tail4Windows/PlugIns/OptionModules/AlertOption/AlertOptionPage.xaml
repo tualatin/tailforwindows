@@ -5,9 +5,9 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:my="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
-  xmlns:ui="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.UI.Utils"
   xmlns:validationRules="clr-namespace:Org.Vs.TailForWin.UI.ValidationRules"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels"
@@ -100,14 +100,14 @@
 
         <i:Interaction.Triggers>
           <i:EventTrigger EventName="PreviewDragOver">
-            <ui:InvokeDelegateCommandAction
+            <commands:InvokeDelegateCommandAction
               Command="{Binding PreviewDragEnterCommand}"
               CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
               />
           </i:EventTrigger>
 
           <i:EventTrigger EventName="PreviewDragEnter">
-            <ui:InvokeDelegateCommandAction
+            <commands:InvokeDelegateCommandAction
               Command="{Binding PreviewDragEnterCommand}"
               CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
               />

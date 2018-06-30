@@ -2,10 +2,10 @@
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages.Keybindings;
-using Org.Vs.TailForWin.UI.Commands;
 
 
 namespace Org.Vs.TailForWin.PlugIns.GoToLineModule.ViewModels

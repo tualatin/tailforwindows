@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Delegates;
+using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
@@ -15,6 +16,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
   /// </summary>
   public interface ILogWindowControl : INotifyPropertyChanged
   {
+    #region Events
+
     /// <summary>
     /// Lines and time changed event
     /// </summary>
@@ -24,6 +27,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     /// On status changed event
     /// </summary>
     event StatusChangedEventHandler OnStatusChanged;
+
+    #endregion
 
     /// <summary>
     /// <see cref="ILogReadService"/>
@@ -109,6 +114,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     bool IsSmartWatchAutoRun
     {
       get;
+      set;
     }
 
     /// <summary>

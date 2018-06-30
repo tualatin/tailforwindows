@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
-using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.ExtendedControls;
 
 

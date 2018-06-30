@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Org.Vs.TailForWin.BaseView.ViewModels;
-using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
-using Org.Vs.TailForWin.UI.Interfaces;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.Interfaces;
+using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 
 
 namespace Org.Vs.TailForWin.BaseView.Interfaces

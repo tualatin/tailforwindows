@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Org.Vs.TailForWin.UI.Commands;
+using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.UI.UserControls.Interfaces;
 
 

@@ -4,9 +4,9 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-  xmlns:ui="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels"
   mc:Ignorable="d"
@@ -189,7 +189,7 @@
             >
             <intr:Interaction.Triggers>
               <intr:EventTrigger EventName="PasswordChanged">
-                <ui:InvokeDelegateCommandAction
+                <commands:InvokeDelegateCommandAction
                   Command="{Binding PasswordChangedCommand}"
                   CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
                   />

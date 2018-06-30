@@ -11,8 +11,8 @@ using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
-using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
+using Org.Vs.TailForWin.PlugIns.LogWindowModule.Utils;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils;
@@ -369,13 +369,14 @@ namespace Org.Vs.TailForWin.BaseView
       if ( args.ParentGuid != DragWindowGuid )
         return;
 
-      ILogWindowControl content = new LogWindowControl
+      ILogWindowControl content = new LogWindowControlDummy
       {
         LogWindowTabItem = new DragSupportTabItem(),
         CurrentTailData = args.TailData,
         SelectedItem = args.TailData.FileName,
-        IsSmartWatchAutoRun = args.IsSmartWatch && args.TailData.AutoRun
+        IsSmartWatchAutoRun = args.IsSmartWatch && args.TailData.AutoRun,
       };
+
       var tabItem = new DragSupportTabItem
       {
         Content = content

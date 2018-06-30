@@ -1,5 +1,5 @@
 ﻿using System;
-using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.Interfaces;
 
 namespace Org.Vs.NUnit.Tests.Options
 {

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Controllers.Commands;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
@@ -15,8 +17,6 @@ using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.FontChooserModule;
-using Org.Vs.TailForWin.UI.Commands;
-using Org.Vs.TailForWin.UI.Interfaces;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
   /// <summary>
   /// FilterManager view model
   /// </summary>
-  public class FilterManagerViewModel : NotifyMaster
+  public class FilterManagerViewModel : NotifyMaster, IFilterManagerViewModel
   {
     private CancellationTokenSource _cts;
     private readonly IXmlFileManager _xmlFileManagerController;

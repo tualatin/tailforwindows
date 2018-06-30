@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.PlugIns.PatternModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.PatternModule.ViewModels;
 
 

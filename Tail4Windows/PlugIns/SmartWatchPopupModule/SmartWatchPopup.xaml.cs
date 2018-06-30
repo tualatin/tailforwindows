@@ -1,6 +1,6 @@
 ﻿using System.Windows;
+using Org.Vs.TailForWin.Controllers.PlugIns.SmartWatchPopupModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels;
 
 

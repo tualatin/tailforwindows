@@ -8,16 +8,16 @@ using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
+using Org.Vs.TailForWin.Controllers.Commands;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FindModule;
+using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
-using Org.Vs.TailForWin.PlugIns.FindModule.Interfaces;
-using Org.Vs.TailForWin.UI.Commands;
-using Org.Vs.TailForWin.UI.Interfaces;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels

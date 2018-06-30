@@ -3,12 +3,12 @@ using System.Windows.Input;
 using log4net;
 using Org.Vs.TailForWin.BaseView.UserControls.Interfaces;
 using Org.Vs.TailForWin.BaseView.ViewModels;
+using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
 using Org.Vs.TailForWin.Data.Messages.QuickSearchbar;
-using Org.Vs.TailForWin.UI.Commands;
 
 
 namespace Org.Vs.TailForWin.BaseView.UserControls.ViewModels

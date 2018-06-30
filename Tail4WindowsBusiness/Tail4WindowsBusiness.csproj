@@ -113,7 +113,6 @@
   <ItemGroup>
     <Folder Include="Data\Attributes\" />
     <Folder Include="DbEngine\Utils\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="SearchEngine\Data\" />
     <Folder Include="SmartWatchEngine\Events\Args\" />
   </ItemGroup>

@@ -4,14 +4,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.Controllers.Commands;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
-using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.Interfaces;
-using Org.Vs.TailForWin.UI.Commands;
-using Org.Vs.TailForWin.UI.Interfaces;
 
 
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels

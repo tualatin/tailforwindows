@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
+using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
-using Org.Vs.TailForWin.PlugIns.FindModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.FindModule.ViewModels;
 
 

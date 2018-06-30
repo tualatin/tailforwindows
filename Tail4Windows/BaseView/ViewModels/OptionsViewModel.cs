@@ -10,6 +10,9 @@ using log4net;
 using Org.Vs.TailForWin.BaseView.Interfaces;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
+using Org.Vs.TailForWin.Controllers.Commands;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
@@ -20,10 +23,7 @@ using Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels;
 using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption;
-using Org.Vs.TailForWin.PlugIns.OptionModules.Interfaces;
 using Org.Vs.TailForWin.PlugIns.OptionModules.SmartWatchOption;
-using Org.Vs.TailForWin.UI.Commands;
-using Org.Vs.TailForWin.UI.Interfaces;
 
 
 namespace Org.Vs.TailForWin.BaseView.ViewModels

@@ -3,8 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
 using log4net;
+using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Interfaces;
 using Org.Vs.TailForWin.Core.Native;
-using Org.Vs.TailForWin.PlugIns.FindModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.FindModule.ViewModels;
 
 

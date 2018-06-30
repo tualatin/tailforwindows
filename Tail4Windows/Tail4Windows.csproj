@@ -218,10 +218,8 @@
     <Compile Include="PlugIns\FindModule\FindWhatResult.xaml.cs">
       <DependentUpon>FindWhatResult.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PlugIns\FindModule\Interfaces\IFindWhatViewModel.cs" />
     <Compile Include="PlugIns\FindModule\ViewModels\FindWhatViewModel.cs" />
     <Compile Include="PlugIns\FindModule\ViewModels\FindWhatResultViewModel.cs" />
-    <Compile Include="PlugIns\FindModule\Interfaces\IFindWhatResultViewModel.cs" />
     <Compile Include="PlugIns\FontChooserModule\FontChooseDialog.xaml.cs">
       <DependentUpon>FontChooseDialog.xaml</DependentUpon>
     </Compile>
@@ -232,19 +230,17 @@
       <DependentUpon>GoToLine.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\GoToLineModule\ViewModels\GoToLineViewModel.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Interfaces\ISplitWindowControl.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowControl.xaml.cs">
       <DependentUpon>LogWindowControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\GridSplitterMouseExtension.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\LogEntryScrollBehavior.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Interfaces\ILogWindowListBox.cs" />
-    <Compile Include="PlugIns\PatternModule\Interfaces\IPatternControlViewModel.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Utils\LogWindowControlDummy.cs" />
     <Compile Include="PlugIns\PatternModule\PatternControl.xaml.cs">
       <DependentUpon>PatternControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\PatternModule\ViewModels\PatternControlViewModel.cs" />
-    <Compile Include="PlugIns\SmartWatchPopupModule\Interfaces\ISmartWatchPopupViewModel.cs" />
     <Compile Include="PlugIns\SmartWatchPopupModule\SmartWatchPopup.xaml.cs">
       <DependentUpon>SmartWatchPopup.xaml</DependentUpon>
     </Compile>
@@ -313,7 +309,6 @@
     <Compile Include="UI\FloatWindow\VsFloatingWindow.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
-    <Compile Include="BaseView\Interfaces\IBaseWindowStatusbarViewModel.cs" />
     <Compile Include="PlugIns\LogWindowModule\Interfaces\ILogWindowControl.cs" />
     <Compile Include="PlugIns\LogWindowModule\ViewModels\LogWindowViewModel.cs" />
     <Compile Include="UI\Behaviors\FocusBehavior.cs" />
@@ -323,7 +318,6 @@
     <Compile Include="BaseView\Interfaces\IOptionsViewModel.cs" />
     <Compile Include="BaseView\Interfaces\IT4WindowViewModel.cs" />
     <Compile Include="BaseView\ViewModels\TreeNodeOptionViewModel.cs" />
-    <Compile Include="UI\Interfaces\IViewModelBase.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\SysInfoOptionPage.xaml.cs">
       <DependentUpon>SysInfoOptionPage.xaml</DependentUpon>
     </Compile>
@@ -331,13 +325,9 @@
       <DependentUpon>UpdateOptionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\IAboutOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\IUpdateOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\ISysInfoViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\SysInfoViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\UpdateOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AlertOption\ViewModels\AlertOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\AlertOption\Interfaces\IAlertOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\SmtpOptionPage.xaml.cs">
       <DependentUpon>SmtpOptionPage.xaml</DependentUpon>
     </Compile>
@@ -355,11 +345,7 @@
     </Compile>
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ColorOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\EnvironmentOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IColorOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IEnvironmentOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IImportExportOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ImportExportOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IProxyOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ProxyOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\SmartWatchOption\SmartWatchOptionPage.xaml.cs">
       <DependentUpon>SmartWatchOptionPage.xaml</DependentUpon>
@@ -367,7 +353,6 @@
     <Compile Include="UI\AutoUpdatePopUp.xaml.cs">
       <DependentUpon>AutoUpdatePopUp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Commands\InvokeDelegateCommandAction.cs" />
     <Compile Include="UI\Converters\BoolToUpdateHintConverter.cs" />
     <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\InverseBooleanConverter.cs" />
@@ -403,7 +388,6 @@
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowQuickSearchViewModel.cs" />
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowStatusBarViewModel.cs" />
     <Compile Include="BaseView\ViewModels\OptionsViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\Interfaces\IOptionPage.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\AboutOptionPage.xaml.cs">
       <DependentUpon>AboutOptionPage.xaml</DependentUpon>
     </Compile>
@@ -414,15 +398,9 @@
       <DependentUpon>EnvironmentOptionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Behaviors\DialogBehavior.cs" />
-    <Compile Include="UI\Commands\AsyncCommand.cs" />
-    <Compile Include="UI\Commands\Base\AsyncCommandBase.cs" />
-    <Compile Include="UI\Commands\MouseBehaviour.cs" />
-    <Compile Include="UI\Commands\RelayCommand.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundConverter.cs" />
     <Compile Include="UI\Converters\ColorToSolidColorBrushConverter.cs" />
     <Compile Include="UI\Extensions\WindowExtension.cs" />
-    <Compile Include="UI\Interfaces\IAsyncCommand.cs" />
-    <Compile Include="UI\Interfaces\IFileDragDropTarget.cs" />
     <Compile Include="UI\NotifyIcon\Interop\SystemInfo.cs" />
     <Compile Include="BaseView\T4Window.xaml.cs">
       <DependentUpon>T4Window.xaml</DependentUpon>
@@ -921,10 +899,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BaseView\UserControls\Styles\" />
-    <Folder Include="PlugIns\FileManagerModule\Interfaces\" />
     <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
-    <Folder Include="PlugIns\LogWindowModule\Utils\" />
     <Folder Include="UI\UserControls\Commands\" />
     <Folder Include="UI\UserControls\ViewModels\" />
   </ItemGroup>

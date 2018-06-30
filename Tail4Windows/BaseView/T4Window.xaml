@@ -5,11 +5,11 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:baseViewControls="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
+  xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
   xmlns:dragSupportUtils="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
   xmlns:environment="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:taskbarNotification="clr-namespace:Hardcodet.Wpf.TaskbarNotification"
-  xmlns:ui="clr-namespace:Org.Vs.TailForWin.UI.Commands"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils;assembly=T4WCore"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
@@ -38,7 +38,7 @@
 
   <intr:Interaction.Triggers>
     <intr:EventTrigger EventName="Closing">
-      <ui:InvokeDelegateCommandAction
+      <commands:InvokeDelegateCommandAction
         Command="{Binding WndClosingCommand}"
         CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
         />
@@ -49,7 +49,7 @@
     </intr:EventTrigger>
 
     <intr:EventTrigger EventName="PreviewKeyDown">
-      <ui:InvokeDelegateCommandAction
+      <commands:InvokeDelegateCommandAction
         Command="{Binding PreviewKeyDownCommand}"
         CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
         />

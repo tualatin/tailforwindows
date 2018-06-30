@@ -12,6 +12,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using log4net;
+using Org.Vs.TailForWin.Controllers.Commands;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
@@ -24,7 +26,6 @@ using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.FontChooserModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.PatternModule;
-using Org.Vs.TailForWin.UI.Commands;
 using Org.Vs.TailForWin.UI.Interfaces;
 using Org.Vs.TailForWin.UI.Utils;
 
@@ -34,7 +35,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
   /// <summary>
   /// FileManager view model
   /// </summary>
-  public class FileManagerViewModel : NotifyMaster, IFileDragDropTarget, IViewModelBase
+  public class FileManagerViewModel : NotifyMaster, IFileDragDropTarget, IFileManagerViewModel
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(FileManagerViewModel));
 

@@ -93,7 +93,7 @@ namespace Org.Vs.TailForWin.UI.Utils
         {
           logWindowControl = SetLogWindowControl(content, tabItem);
 
-          if ( content.TailReader.IsBusy )
+          if ( content.TailReader != null && content.TailReader.IsBusy )
             logWindowControl.TailReader.StartTail();
         }
 
@@ -120,14 +120,21 @@ namespace Org.Vs.TailForWin.UI.Utils
       if ( content.CurrentTailData.IsWindowsEvent )
         logWindowControl.SetWindowsEventTailReader(content.CurrentTailData);
 
-      logWindowControl.SplitWindow.LogEntries = content.SplitWindow.LogEntries ?? new ObservableCollection<LogEntry>();
-      logWindowControl.SplitWindow.SelectedItem = content.SplitWindow.SelectedItem;
-      logWindowControl.SplitWindow.FloodData = content.SplitWindow.FloodData;
-      logWindowControl.TailReader.TailData = content.CurrentTailData;
-      logWindowControl.SplitWindow.CollectionView = content.SplitWindow.CollectionView;
+      if ( content.SplitWindow != null )
+      {
+        logWindowControl.SplitWindow.LogEntries = content.SplitWindow.LogEntries ?? new ObservableCollection<LogEntry>();
+        logWindowControl.SplitWindow.SelectedItem = content.SplitWindow.SelectedItem;
+        logWindowControl.SplitWindow.FloodData = content.SplitWindow.FloodData;
+        logWindowControl.SplitWindow.CollectionView = content.SplitWindow.CollectionView;
 
+        logWindowControl.SplitWindow.CacheManager.SetCacheData(content.SplitWindow.CacheManager.GetCacheData());
+      }
+
+      if ( content.TailReader == null )
+        return logWindowControl;
+
+      logWindowControl.TailReader.TailData = content.CurrentTailData;
       logWindowControl.TailReader.SetIndex(content.TailReader.Index);
-      logWindowControl.SplitWindow.CacheManager.SetCacheData(content.SplitWindow.CacheManager.GetCacheData());
 
       return logWindowControl;
     }
