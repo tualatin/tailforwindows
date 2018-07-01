@@ -185,11 +185,11 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      WorkingPattern = !string.IsNullOrWhiteSpace(CurrenTailData.PatternString) ? CurrenTailData.PatternString : CurrenTailData.File;
+      WorkingPattern = CurrenTailData == null ? string.Empty : !string.IsNullOrWhiteSpace(CurrenTailData.PatternString) ? CurrenTailData.PatternString : CurrenTailData.File;
       TextBoxHasFocus = true;
 
       CommitChanges();
-      CurrenTailData.FindSettings.CommitChanges();
+      CurrenTailData?.FindSettings.CommitChanges();
 
       if ( _patterns == null || _patterns.Count == 0 )
         return;

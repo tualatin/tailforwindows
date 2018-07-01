@@ -13,10 +13,10 @@
   x:Name="PatternControlWindow"
   Title="{DynamicResource PatternControlTitle}"
   Width="400"
-  Height="285"
+  Height="230"
   MinWidth="350"
-  MinHeight="285"
-  MaxHeight="285"
+  MinHeight="230"
+  MaxHeight="230"
   Icon="/T4W;component/Resources/script.ico"
   ResizeMode="CanResize"
   ShowInTaskbar="False"
@@ -36,7 +36,6 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="60" SharedSizeGroup="GroupLogFile" />
       <RowDefinition Height="90" />
-      <RowDefinition Height="60" SharedSizeGroup="GroupLogFile" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
@@ -67,6 +66,7 @@
           <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
 
           <TextBox
@@ -81,7 +81,7 @@
 
           <userControls:RegexHelper
             Grid.Column="1"
-            Margin="5 5 15 5"
+            Margin="5"
             CaretIndex="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsWindowEx}}, Path=DataContext.CaretIndex, UpdateSourceTrigger=PropertyChanged}"
             DataContext="{Binding RelativeSource={RelativeSource Self}}"
             ElementHasFocus="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsWindowEx}}, Path=DataContext.TextBoxHasFocus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -89,6 +89,65 @@
             ExtendedMenuItems="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsWindowEx}}, Path=DataContext.MenuItems, UpdateSourceTrigger=PropertyChanged}"
             IsEnabled="{Binding ElementName=RegexCheckBox, Path=IsChecked}"
             />
+
+          <Button
+            Grid.Column="2"
+            Width="24"
+            Height="24"
+            Margin="0 0 5 0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Command="{Binding UndoCommand}"
+            TabIndex="4"
+            >
+            <StackPanel Margin="2">
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Cancel.ico"
+                >
+                <Image.Style>
+                  <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                      <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Image.Style>
+              </Image>
+            </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource FileManagerUndo}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource FileManagerUndoToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
         </Grid>
 
         <Grid Grid.Row="1">
@@ -183,86 +242,8 @@
       </Grid>
     </Expander>
 
-    <GroupBox
-      Grid.Row="2"
-      Margin="5"
-      Header="{DynamicResource PatternControlGroupResult}"
-      >
-      <Grid>
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition />
-          <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-
-        <Label
-          Grid.Column="0"
-          Margin="5"
-          VerticalAlignment="Center"
-          Content="{Binding WorkingPattern, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-          Style="{StaticResource WindowTitleLabel}"
-          />
-
-        <Button
-          Grid.Column="1"
-          Width="18"
-          Height="18"
-          Margin="5 0"
-          Command="{Binding UndoCommand}"
-          TabIndex="4"
-          >
-          <StackPanel Margin="2">
-            <Image
-              RenderOptions.BitmapScalingMode="HighQuality"
-              RenderOptions.EdgeMode="Aliased"
-              Source="/T4W;component/Resources/Cancel.ico"
-              >
-              <Image.Style>
-                <Style TargetType="{x:Type Image}">
-                  <Style.Triggers>
-                    <Trigger Property="IsEnabled" Value="False">
-                      <Setter Property="Opacity" Value="0.5" />
-                    </Trigger>
-                  </Style.Triggers>
-                </Style>
-              </Image.Style>
-            </Image>
-          </StackPanel>
-          <Button.ToolTip>
-            <StackPanel>
-              <TextBlock
-                Margin="0 0 0 5"
-                Text="{DynamicResource FileManagerUndo}"
-                FontSize="12"
-                FontWeight="Bold"
-                />
-              <TextBlock Text="{DynamicResource FileManagerUndoToolTip}" />
-              <Border
-                Margin="0 8"
-                BorderBrush="Silver"
-                BorderThickness="0 1 0 0"
-                />
-              <WrapPanel>
-                <Image
-                  Width="16"
-                  Height="16"
-                  Margin="0 0 5 0"
-                  RenderOptions.BitmapScalingMode="HighQuality"
-                  RenderOptions.EdgeMode="Aliased"
-                  Source="/T4W;component/Resources/Search.ico"
-                  />
-                <TextBlock
-                  Text="{DynamicResource GeneralToolTipHint}"
-                  FontStyle="Italic"
-                  />
-              </WrapPanel>
-            </StackPanel>
-          </Button.ToolTip>
-        </Button>
-      </Grid>
-    </GroupBox>
-
     <Button
-      Grid.Row="3"
+      Grid.Row="2"
       Width="75"
       Height="24"
       Margin="0 5"

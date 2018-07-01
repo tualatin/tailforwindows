@@ -108,7 +108,7 @@ namespace Org.Vs.TailForWin.Business.Services
     /// </summary>
     public void StartTail()
     {
-      LOG.Trace("Start tail...");
+      LOG.Info("Start tail...");
 
       Thread.CurrentThread.Priority = TailData.ThreadPriority;
 
@@ -213,7 +213,11 @@ namespace Org.Vs.TailForWin.Business.Services
 
             // update the last offset
             _fileOffset = sr.BaseStream.Position;
+
+            sr.Close();
           }
+
+          fs.Close();
         }
       }
       catch ( Exception ex )
@@ -252,7 +256,11 @@ namespace Org.Vs.TailForWin.Business.Services
 
             ReadFile(sr);
             _fileOffset = sr.BaseStream.Length;
+
+            sr.Close();
           }
+
+          fs.Close();
         }
       }
       catch ( Exception ex )
@@ -344,7 +352,7 @@ namespace Org.Vs.TailForWin.Business.Services
 
     private void LogReaderServiceRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
-      LOG.Trace("Stop finished");
+      LOG.Info("Stop finished");
 
       _resetEvent?.Reset();
     }

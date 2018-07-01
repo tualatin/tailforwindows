@@ -22,7 +22,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// <summary>
     /// Max capacity
     /// </summary>
-    private const int MaxCapacity = 6500;
+    private const int MaxCapacity = 7500;
 
     private readonly List<LogEntry> _cacheData;
 

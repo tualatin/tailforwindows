@@ -344,23 +344,62 @@
             Binding="{Binding Filter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
             />
 
-          <DataGridCheckBoxColumn
+          <DataGridTemplateColumn
             MinWidth="70"
             Header="{DynamicResource FilterManagerFilterSource}"
-            Binding="{Binding FilterSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-            />
+            >
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Grid>
+                  <CheckBox
+                    Width="20"
+                    Height="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding FilterSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                    />
+                </Grid>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
 
-          <DataGridCheckBoxColumn
-            MinWidth="60"
+          <DataGridTemplateColumn
+            MinWidth="70"
             Header="{DynamicResource FilterManagerIsHighlight}"
-            Binding="{Binding IsHighlight, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-            />
+            >
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Grid>
+                  <CheckBox
+                    Width="20"
+                    Height="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding IsHighlight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
+                    />
+                </Grid>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
 
-          <DataGridCheckBoxColumn
-            MinWidth="60"
+          <DataGridTemplateColumn
+            MinWidth="70"
             Header="{DynamicResource FilterManagerNotification}"
-            Binding="{Binding UseNotification, UpdateSourceTrigger=PropertyChanged}"
-            />
+            >
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Grid>
+                  <CheckBox
+                    Width="20"
+                    Height="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding UseNotification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+                </Grid>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
 
           <DataGridTemplateColumn
             MinWidth="150"
