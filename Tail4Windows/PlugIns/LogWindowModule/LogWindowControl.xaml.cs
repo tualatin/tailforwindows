@@ -884,6 +884,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnOpenTailData(OpenTailDataMessage args)
     {
+      if ( args.Sender == null )
+        return;
+
       var window = Window.GetWindow(this);
 
       if ( window == null )

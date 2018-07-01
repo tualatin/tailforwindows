@@ -30,8 +30,6 @@ namespace Org.Vs.TailForWin.Business.Services
     private readonly ManualResetEvent _resetEvent;
     private readonly int _startOffset;
     private FileInfo _lastFileInfo;
-    private StreamReader _fileReader;
-    private FileStream _fileStream;
     private long _fileOffset;
 
     #region Events
@@ -103,9 +101,6 @@ namespace Org.Vs.TailForWin.Business.Services
       _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
       SmartWatch = new SmartWatchController();
       _resetEvent = new ManualResetEvent(false);
-
-      _fileReader?.Dispose();
-      _fileStream?.Dispose();
     }
 
     /// <summary>
@@ -116,9 +111,6 @@ namespace Org.Vs.TailForWin.Business.Services
       LOG.Trace("Start tail...");
 
       Thread.CurrentThread.Priority = TailData.ThreadPriority;
-
-      if ( !InitializeFileReader() )
-        return;
 
       _tailBackgroundWorker.RunWorkerAsync();
       _resetEvent?.Reset();
@@ -168,15 +160,9 @@ namespace Org.Vs.TailForWin.Business.Services
         return;
 
       if ( SettingsHelperController.CurrentSettings.ShowNumberLineAtStart && Index == 0 )
-      {
         RewindLinesInFile();
-        ReadFileLines();
-      }
 
-      _fileOffset = _fileReader.BaseStream.Length;
       _lastFileInfo = new FileInfo(TailData.FileName);
-
-      CloseFileStream();
 
       while ( _tailBackgroundWorker != null && !_tailBackgroundWorker.CancellationPending )
       {
@@ -193,27 +179,10 @@ namespace Org.Vs.TailForWin.Business.Services
 
         if ( fileInfo.Length != _lastFileInfo.Length || fileInfo.LastWriteTimeUtc != _lastFileInfo.LastWriteTimeUtc )
         {
-          if ( !InitializeFileReader() )
-          {
-            _resetEvent?.WaitOne((int) TailData.RefreshRate);
-            continue;
-          }
-
-          // file is suddenly empty
-          if ( _fileReader.BaseStream.Length < _fileOffset )
-            _fileOffset = _fileReader.BaseStream.Length;
-
-          _fileReader.BaseStream.Seek(_fileOffset, SeekOrigin.Begin);
-
           if ( _tailBackgroundWorker.CancellationPending )
             break;
 
           ReadFileLines();
-
-          // update the last offset
-          _fileOffset = _fileReader.BaseStream.Position;
-
-          CloseFileStream();
 
           if ( _tailBackgroundWorker.CancellationPending )
             break;
@@ -225,31 +194,25 @@ namespace Org.Vs.TailForWin.Business.Services
       }
 
       e.Cancel = true;
-      CloseFileStream();
-    }
-
-    private void CloseFileStream()
-    {
-      _fileReader.Close();
-      _fileStream.Close();
     }
 
     private void ReadFileLines()
     {
       try
       {
-        string line;
-
-        while ( _fileReader != null && (line = _fileReader.ReadLine()) != null )
+        using ( var fs = new FileStream(TailData.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite) )
         {
-          if ( TailData.RemoveSpace || Index == 0 )
+          using ( var sr = new StreamReader(fs, TailData.FileEncoding) )
           {
-            if ( !string.IsNullOrWhiteSpace(line) )
-              SendLogEntryEvent(line);
-          }
-          else
-          {
-            SendLogEntryEvent(line);
+            // file is suddenly empty
+            if ( sr.BaseStream.Length < _fileOffset )
+              _fileOffset = sr.BaseStream.Length;
+
+            sr.BaseStream.Seek(_fileOffset, SeekOrigin.Begin);
+            ReadFile(sr);
+
+            // update the last offset
+            _fileOffset = sr.BaseStream.Position;
           }
         }
       }
@@ -265,19 +228,31 @@ namespace Org.Vs.TailForWin.Business.Services
 
       try
       {
-        // Scroll to end of file
-        _fileReader.BaseStream.Seek(0, SeekOrigin.End);
-        var linesRead = 0;
-
-        while ( linesRead < _startOffset + 1 && _fileReader.BaseStream.Position > 0 )
+        using ( var fs = new FileStream(TailData.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite) )
         {
-          _fileReader.BaseStream.Position--;
-          int c = _fileReader.BaseStream.ReadByte();
+          using ( var sr = new StreamReader(fs, TailData.FileEncoding) )
+          {
+            // Scroll to end of file
+            sr.BaseStream.Seek(0, SeekOrigin.End);
+            var linesRead = 0;
 
-          if ( _fileReader.BaseStream.Position > 0 )
-            _fileReader.BaseStream.Position--;
-          if ( c == Convert.ToInt32('\n') )
-            linesRead++;
+            while ( linesRead < _startOffset + 1 && sr.BaseStream.Position > 0 )
+            {
+              if ( _tailBackgroundWorker.CancellationPending )
+                break;
+
+              sr.BaseStream.Position--;
+              int c = sr.BaseStream.ReadByte();
+
+              if ( sr.BaseStream.Position > 0 )
+                sr.BaseStream.Position--;
+              if ( c == Convert.ToInt32('\n') )
+                linesRead++;
+            }
+
+            ReadFile(sr);
+            _fileOffset = sr.BaseStream.Length;
+          }
         }
       }
       catch ( Exception ex )
@@ -286,7 +261,28 @@ namespace Org.Vs.TailForWin.Business.Services
       }
     }
 
-    private void SendLogEntryEvent(string line)
+    private void ReadFile(StreamReader sr)
+    {
+      string line;
+
+      while ( (line = sr.ReadLine()) != null )
+      {
+        if ( _tailBackgroundWorker.CancellationPending )
+          break;
+
+        if ( TailData.RemoveSpace || Index == 0 )
+        {
+          if ( !string.IsNullOrWhiteSpace(line) )
+            SendLogEntryEvent(line, sr.BaseStream.Length / 1024);
+        }
+        else
+        {
+          SendLogEntryEvent(line, sr.BaseStream.Length / 1024);
+        }
+      }
+    }
+
+    private void SendLogEntryEvent(string line, long fileSize)
     {
       Index++;
       var entry = new LogEntry
@@ -296,39 +292,8 @@ namespace Org.Vs.TailForWin.Business.Services
         DateTime = DateTime.Now
       };
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
-      SizeRefreshTime = string.Format(message, FileSize(), DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
+      SizeRefreshTime = string.Format(message, fileSize, DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
       OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(entry, SizeRefreshTime));
-    }
-
-    private double FileSize()
-    {
-      try
-      {
-        if ( _fileReader?.BaseStream == null )
-          return double.NaN;
-
-        return _fileReader.BaseStream.Length / 1024d;
-      }
-      catch
-      {
-        return double.NaN;
-      }
-    }
-
-    private bool InitializeFileReader()
-    {
-      try
-      {
-        _fileStream = new FileStream(TailData.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        _fileReader = new StreamReader(_fileStream, TailData.FileEncoding);
-
-        return true;
-      }
-      catch ( Exception ex )
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-      }
-      return false;
     }
 
 #if DEBUG
