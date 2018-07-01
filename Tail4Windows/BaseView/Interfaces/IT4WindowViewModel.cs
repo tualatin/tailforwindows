@@ -161,6 +161,14 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
       get;
     }
 
+    /// <summary>
+    /// Open Windows event command
+    /// </summary>
+    ICommand OpenWindowsEventCommand
+    {
+      get;
+    }
+
     #endregion
 
     /// <summary>

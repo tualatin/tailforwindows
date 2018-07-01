@@ -7,6 +7,7 @@
   <KeyBinding x:Key="FindWhatResultKeyBinding" Gesture="CTRL+ALT+F" />
   <KeyBinding x:Key="OpenFilterManagerKeyBinding" Gesture="CTRL+SHIFT+F" />
   <KeyBinding x:Key="OpenFileKeyBinding" Gesture="CTRL+O" />
+  <KeyBinding x:Key="OpenWindowsEventKeyBinding" Gesture="CTRL+ALT+O" />
   <KeyBinding x:Key="OpenFileManagerKeyBinding" Gesture="CTRL+M" />
   <KeyBinding x:Key="ClearTailWindowKeyBinding" Gesture="CTRL+E" />
   <KeyBinding x:Key="StartTailKeyBinding" Gesture="CTRL+R" />

@@ -2,6 +2,7 @@ Ctrl+G                              Go To Line
 Ctrl+F                              Find what
 Ctrl+Alt+F                          Find what result
 Ctrl+O                              Open file
+Ctrl+Alt+O                          Open Windows event window
 Ctrl+M                              Open TailManager
 Ctrl+Shift+F                        Open FilterManager
 Ctrl+N                              Quick add

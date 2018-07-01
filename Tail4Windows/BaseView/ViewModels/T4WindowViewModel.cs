@@ -682,9 +682,24 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand MinimizeWindowCommand => _minimizeWindowCommand ?? (_minimizeWindowCommand = new RelayCommand(p => ExecuteMinimizeWindowCommand((Window) p)));
 
+    private ICommand _openWindowsEventCommand;
+
+    /// <summary>
+    /// Open Windows event command
+    /// </summary>
+    public ICommand OpenWindowsEventCommand => _openWindowsEventCommand ?? (_openWindowsEventCommand = new RelayCommand(p => ExecuteOpenWindowsEventCommand()));
+
     #endregion
 
     #region KeyBinding command functions
+
+    private void ExecuteOpenWindowsEventCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenWindowsEventMessage(control.WindowId));
+    }
 
     private void ExecuteMinimizeWindowCommand(Window window) => window.WindowState = WindowState.Minimized;
 

@@ -548,6 +548,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StopTailMessage>(OnStopTail);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<QuickAddMessage>(OnQuickAdd);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFontSettingsMessage>(OnOpenFontSettings);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenWindowsEventMessage>(OnOpenWindowsEvent);
     }
 
     private void ExecuteUnloadedCommand() => UnregisterKeybindingEvents();
@@ -567,6 +568,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StopTailMessage>(OnStopTail);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<QuickAddMessage>(OnQuickAdd);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenFontSettingsMessage>(OnOpenFontSettings);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenWindowsEventMessage>(OnOpenWindowsEvent);
     }
 
     private bool CanExecuteOpenFontDialog() => LogWindowState == EStatusbarState.FileLoaded || LogWindowState == EStatusbarState.Busy;
@@ -1085,6 +1087,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     #region Keybindings
+
+    private void OnOpenWindowsEvent(OpenWindowsEventMessage args)
+    {
+      if ( args.WindowGuid != WindowId )
+        return;
+
+      ExecuteOpenWindowsEventsCommand();
+    }
 
     private void OnOpenFontSettings(OpenFontSettingsMessage args)
     {
