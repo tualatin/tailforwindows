@@ -88,12 +88,7 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
     /// </summary>
     public WindowsEventCategoriesViewModel()
     {
-      CurrentTailData = new TailData
-      {
-        IsWindowsEvent = true,
-        Timestamp = true,
-        Wrap = true
-      };
+      CurrentTailData = new TailData { IsWindowsEvent = true };
       _windowLogReadService = new WindowsEventReadService { TailData = CurrentTailData };
 
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedCompleted;

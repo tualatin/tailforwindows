@@ -987,6 +987,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <param name="item"><see cref="TailData"/></param>
     public void CreateTailDataWindow(TailData item)
     {
+      if ( item.IsWindowsEvent )
+      {
+        SetWindowsEventTailReader(item);
+        return;
+      }
+
       CurrentTailData = item;
       CurrentTailData.OpenFromFileManager = true;
       SelectedItem = CurrentTailData.FileName;

@@ -109,8 +109,8 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
           NewWindow = (p.Element(XmlNames.NewWindow)?.Value).ConvertToBool(),
           SmartWatch = (p.Element(XmlNames.UseSmartWatch)?.Value).ConvertToBool(),
           UsePattern = (p.Element(XmlNames.UsePattern)?.Value).ConvertToBool(),
-          IsWindowsEvent = (p.Element(XmlNames.IsWindowsEvent)?.Value).ConvertToBool(),
           WindowsEvent = GetWindowsEventData(p.Element(XmlNames.WindowsEvent)),
+          IsWindowsEvent = (p.Element(XmlNames.IsWindowsEvent)?.Value).ConvertToBool(),
           TabItemBackgroundColorStringHex = GetColorAsString(p.Element(XmlNames.TabItemBackgroundColor)?.Value),
           ThreadPriority = EnvironmentContainer.GetThreadPriority(p.Element(XmlNames.ThreadPriority)?.Value),
           RefreshRate = EnvironmentContainer.GetRefreshRate(p.Element(XmlNames.RefreshRate)?.Value),
@@ -248,8 +248,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         {
           if ( !File.Exists(_fileManagerFile) )
           {
+            // Adds XML version
             _xmlDocument = new XDocument(new XElement(XmlNames.FileManagerXmlRoot));
             _xmlDocument.Root?.Add(new XElement(XmlNames.XmlVersion, XmlNames.CurrentXmlVersion));
+          }
+          else
+          {
+            // Updates XML version
+            _xmlDocument.Root?.Element(XmlNames.XmlVersion)?.SetValue(XmlNames.CurrentXmlVersion);
           }
 
           if ( tailData.FileEncoding == null && !tailData.IsWindowsEvent )
@@ -270,7 +276,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 
           var node = new XElement(XmlNames.File,
             new XElement(XmlNames.Id, tailData.Id),
-            new XElement(XmlNames.FileName, tailData.FileName),
+            new XElement(XmlNames.FileName, tailData.IsWindowsEvent ? string.Empty : tailData.FileName),
             new XElement(XmlNames.Description, tailData.Description?.Trim()),
             new XElement(XmlNames.Category, tailData.Category?.Trim()),
             new XElement(XmlNames.ThreadPriority, tailData.ThreadPriority),
@@ -279,17 +285,17 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
             new XElement(XmlNames.TimeStamp, tailData.Timestamp),
             new XElement(XmlNames.RemoveSpace, tailData.RemoveSpace),
             new XElement(XmlNames.LineWrap, tailData.Wrap),
-            new XElement(XmlNames.FileEncoding, tailData.FileEncoding?.HeaderName),
+            new XElement(XmlNames.FileEncoding, tailData.IsWindowsEvent ? string.Empty : tailData.FileEncoding?.HeaderName),
             new XElement(XmlNames.UseFilters, tailData.FilterState),
-            new XElement(XmlNames.UsePattern, tailData.UsePattern),
-            new XElement(XmlNames.UseSmartWatch, tailData.SmartWatch),
+            new XElement(XmlNames.UsePattern, !tailData.IsWindowsEvent && tailData.UsePattern),
+            new XElement(XmlNames.UseSmartWatch, !tailData.IsWindowsEvent && tailData.SmartWatch),
             new XElement(XmlNames.TabItemBackgroundColor, tailData.TabItemBackgroundColorStringHex),
             new XElement(XmlNames.IsWindowsEvent, tailData.IsWindowsEvent),
             new XElement(XmlNames.WindowsEvent,
-              new XElement(XmlNames.WindowsEventName, tailData.WindowsEvent.Name),
-              new XElement(XmlNames.WindowsEventMachineName, tailData.WindowsEvent.Machine),
-              new XElement(XmlNames.WindowsEventUserName, tailData.WindowsEvent.UserName),
-              new XElement(XmlNames.WindowsEventCategory, tailData.WindowsEvent.Category)),
+              new XElement(XmlNames.WindowsEventName, tailData.IsWindowsEvent ? tailData.WindowsEvent.Name : string.Empty),
+              new XElement(XmlNames.WindowsEventMachineName, tailData.IsWindowsEvent ? tailData.WindowsEvent.Machine : string.Empty),
+              new XElement(XmlNames.WindowsEventUserName, tailData.IsWindowsEvent ? tailData.WindowsEvent.UserName : string.Empty),
+              new XElement(XmlNames.WindowsEventCategory, tailData.IsWindowsEvent ? tailData.WindowsEvent.Category : string.Empty)),
             new XElement(XmlNames.Font,
               new XElement(XmlBaseStructure.Name, tailData.FontType.FontFamily.Source),
               new XElement(XmlNames.Size, tailData.FontType.FontSize),
@@ -346,7 +352,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         if ( updateNode == null )
           return;
 
-        updateNode.Element(XmlNames.FileName)?.SetValue(tailData.FileName);
+        updateNode.Element(XmlNames.FileName)?.SetValue(tailData.IsWindowsEvent ? string.Empty : tailData.FileName);
         updateNode.Element(XmlNames.Description)?.SetValue(tailData.Description);
         updateNode.Element(XmlNames.Category)?.SetValue(tailData.Category ?? string.Empty);
         updateNode.Element(XmlNames.ThreadPriority)?.SetValue(tailData.ThreadPriority);
@@ -355,18 +361,18 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         updateNode.Element(XmlNames.TimeStamp)?.SetValue(tailData.Timestamp);
         updateNode.Element(XmlNames.RemoveSpace)?.SetValue(tailData.RemoveSpace);
         updateNode.Element(XmlNames.LineWrap)?.SetValue(tailData.Wrap);
-        updateNode.Element(XmlNames.FileEncoding)?.SetValue(tailData.FileEncoding?.HeaderName ?? string.Empty);
+        updateNode.Element(XmlNames.FileEncoding)?.SetValue(tailData.IsWindowsEvent ? string.Empty : tailData.FileEncoding?.HeaderName ?? string.Empty);
         updateNode.Element(XmlNames.UseFilters)?.SetValue(tailData.FilterState);
-        updateNode.Element(XmlNames.UsePattern)?.SetValue(tailData.UsePattern);
+        updateNode.Element(XmlNames.UsePattern)?.SetValue(!tailData.IsWindowsEvent && tailData.UsePattern);
         updateNode.Element(XmlNames.IsWindowsEvent)?.SetValue(tailData.IsWindowsEvent);
 
-        updateNode.Element(XmlNames.WindowsEvent)?.Element(XmlNames.WindowsEventName)?.SetValue(tailData.WindowsEvent.Name);
-        updateNode.Element(XmlNames.WindowsEvent)?.Element(XmlNames.WindowsEventMachineName)?.SetValue(tailData.WindowsEvent.Machine);
-        updateNode.Element(XmlNames.WindowsEvent)?.Element(XmlNames.WindowsEventUserName)?.SetValue(tailData.WindowsEvent.UserName);
-        updateNode.Element(XmlNames.WindowsEvent)?.Element(XmlNames.WindowsEventCategory)?.SetValue(tailData.WindowsEvent.Category);
+        updateNode.Element(XmlNames.WindowsEvent)?.Element(XmlNames.WindowsEventName)?.SetValue(tailData.IsWindowsEvent ? tailData.WindowsEvent.Name : string.Empty);
+        updateNode.Element(XmlNames.WindowsEvent)?.Element(XmlNames.WindowsEventMachineName)?.SetValue(tailData.IsWindowsEvent ? tailData.WindowsEvent.Machine : string.Empty);
+        updateNode.Element(XmlNames.WindowsEvent)?.Element(XmlNames.WindowsEventUserName)?.SetValue(tailData.IsWindowsEvent ? tailData.WindowsEvent.UserName : string.Empty);
+        updateNode.Element(XmlNames.WindowsEvent)?.Element(XmlNames.WindowsEventCategory)?.SetValue(tailData.IsWindowsEvent ? tailData.WindowsEvent.Category : string.Empty);
 
         updateNode.Element(XmlNames.TabItemBackgroundColor)?.SetValue(tailData.TabItemBackgroundColorStringHex ?? string.Empty);
-        updateNode.Element(XmlNames.UseSmartWatch)?.SetValue(tailData.SmartWatch);
+        updateNode.Element(XmlNames.UseSmartWatch)?.SetValue(!tailData.IsWindowsEvent && tailData.SmartWatch);
 
         updateNode.Element(XmlNames.Font)?.Element(XmlBaseStructure.Name)?.SetValue(tailData.FontType.FontFamily.Source);
         updateNode.Element(XmlNames.Font)?.Element(XmlNames.Size)?.SetValue(tailData.FontType.FontSize);

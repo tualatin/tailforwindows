@@ -602,6 +602,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         return;
 
       SelectedItem.WindowsEvent = e.TailData.WindowsEvent;
+      SelectedItem.SetFile();
     }
 
     private void SetCancellationTokenSource()

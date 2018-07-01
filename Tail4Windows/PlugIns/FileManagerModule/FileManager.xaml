@@ -70,7 +70,7 @@
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
         <RowDefinition />
-        <RowDefinition Height="135">
+        <RowDefinition Height="0">
           <RowDefinition.Style>
             <Style>
               <Style.Triggers>

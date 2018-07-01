@@ -51,7 +51,6 @@ namespace Org.Vs.TailForWin.Core.Data
       if ( !Equals(e.PropertyName, "Name") )
         return;
 
-      File = WindowsEvent.Category;
       OnPropertyChanged(nameof(File));
     }
 
@@ -165,16 +164,6 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
-    private void ResetData()
-    {
-      SmartWatch = false;
-      FileName = string.Empty;
-      PatternString = string.Empty;
-      UsePattern = false;
-      Timestamp = true;
-      Wrap = true;
-    }
-
     private WindowsEventData _windowsEvent;
 
     /// <summary>
@@ -217,7 +206,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <param name="propertyName">Name of property</param>
     private void FileNameChangedNotification(string propertyName)
     {
-      File = Path.GetFileName(_fileName);
+      OnPropertyChanged(nameof(File));
       OnPropertyChanged(propertyName);
     }
 
@@ -230,18 +219,18 @@ namespace Org.Vs.TailForWin.Core.Data
       set;
     }
 
-    private string _file;
-
     /// <summary>
     /// Filename without path
     /// </summary>
     public string File
     {
-      get => _file;
-      private set
+      get
       {
-        _file = value;
-        OnPropertyChanged(nameof(File));
+        if ( !IsWindowsEvent )
+          return Path.GetFileName(_fileName);
+
+        string text = WindowsEvent.Machine == "." ? Environment.MachineName : WindowsEvent.Machine;
+        return $"{text}: {WindowsEvent.Name}";
       }
     }
 
@@ -677,6 +666,21 @@ namespace Org.Vs.TailForWin.Core.Data
         return result;
       }
     }
+
+    private void ResetData()
+    {
+      SmartWatch = false;
+      FileName = string.Empty;
+      PatternString = string.Empty;
+      UsePattern = false;
+      Timestamp = true;
+      Wrap = true;
+    }
+
+    /// <summary>
+    /// Set File
+    /// </summary>
+    public void SetFile() => OnPropertyChanged(nameof(File));
 
     /// <summary>
     /// Gets an error message indicating what is wrong with this object.
