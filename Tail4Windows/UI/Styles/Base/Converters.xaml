@@ -53,4 +53,5 @@
   <multiConverters:TailManagerMouseDoubleClickMultiConverter x:Key="TailManagerMouseDoubleClickMultiConverter" />
   <multiConverters:AlertEnableMailMultiConverter x:Key="AlertEnableMailMultiConverter" />
   <multiConverters:IsEnableMultiConverter x:Key="IsEnableMultiConverter" />
+  <multiConverters:BoolMultiConverter x:Key="BoolMultiConverter" />
 </ResourceDictionary>

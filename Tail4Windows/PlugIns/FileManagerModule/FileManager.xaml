@@ -484,6 +484,7 @@
                     Width="18"
                     Height="18"
                     Command="{Binding Path=DataContext.OpenFileCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
+                    IsEnabled="{Binding IsWindowsEvent, Converter={StaticResource InverseBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource EllipsisHorizontalButtonStyle}"
                     />
                 </Grid>
@@ -512,12 +513,39 @@
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
 
-          <DataGridCheckBoxColumn
+          <DataGridTemplateColumn
             MinWidth="90"
             Header="{DynamicResource FileManagerUseSmartWatch}"
-            Binding="{Binding SmartWatch}"
-            IsReadOnly="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatch, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}"
-            />
+            >
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Grid>
+                  <CheckBox
+                    Width="20"
+                    Height="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding SmartWatch, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    >
+                    <CheckBox.IsEnabled>
+                      <MultiBinding Converter="{StaticResource BoolMultiConverter}">
+                        <Binding
+                          Path="SmartWatch"
+                          Source="{x:Static controllers:SettingsHelperController.CurrentSettings}"
+                          UpdateSourceTrigger="PropertyChanged"
+                          />
+
+                        <Binding
+                          Path="IsWindowsEvent"
+                          UpdateSourceTrigger="PropertyChanged"
+                          />
+                      </MultiBinding>
+                    </CheckBox.IsEnabled>
+                  </CheckBox>
+                </Grid>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
 
           <DataGridTemplateColumn
             MinWidth="150"
@@ -542,12 +570,26 @@
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
 
-          <DataGridCheckBoxColumn
+          <DataGridTemplateColumn
             MinWidth="50"
             Header="{DynamicResource FileManagerDataGridIsRegex}"
-            Binding="{Binding FindSettings.UseRegex}"
             IsReadOnly="True"
-            />
+            >
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Grid>
+                  <CheckBox
+                    Width="20"
+                    Height="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding FindSettings.UseRegex, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsHitTestVisible="False"
+                    />
+                </Grid>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
         </userControls:VsDataGrid.Columns>
       </userControls:VsDataGrid>
 
