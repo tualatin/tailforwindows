@@ -25,7 +25,7 @@
   <system:String x:Key="TrayIconReady">Ready...</system:String>
   <system:String x:Key="HCloseTab">Please close some tail windows before open a new one!</system:String>
   <system:String x:Key="LinesRead">Lines read={0}</system:String>
-  <system:String x:Key="SizeRefreshTime">Size={0:#,0.000} kb / last refresh time={1}</system:String>
+  <system:String x:Key="SizeRefreshTime">Size={0} kb / last refresh time={1}</system:String>
   <system:String x:Key="QResetSettings">Do you really want reset all settings to default?</system:String>
   <system:String x:Key="QDeleteDataGridItem">Do you want delete selected item?</system:String>
   <system:String x:Key="NoContentFound">The XML file is empty!</system:String>

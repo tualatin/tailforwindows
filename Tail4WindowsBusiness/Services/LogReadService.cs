@@ -281,11 +281,11 @@ namespace Org.Vs.TailForWin.Business.Services
         if ( TailData.RemoveSpace || Index == 0 )
         {
           if ( !string.IsNullOrWhiteSpace(line) )
-            SendLogEntryEvent(line, sr.BaseStream.Length / 1024);
+            SendLogEntryEvent(line, sr.BaseStream.Length);
         }
         else
         {
-          SendLogEntryEvent(line, sr.BaseStream.Length / 1024);
+          SendLogEntryEvent(line, sr.BaseStream.Length);
         }
       }
     }
@@ -300,7 +300,8 @@ namespace Org.Vs.TailForWin.Business.Services
         DateTime = DateTime.Now
       };
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
-      SizeRefreshTime = string.Format(message, fileSize, DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
+      SizeRefreshTime = string.Format(message, (fileSize / 1024d).ToString("#,0.000", SettingsHelperController.CurrentSettings.CurrentCultureInfo),
+        DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
       OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(entry, SizeRefreshTime));
     }
 
