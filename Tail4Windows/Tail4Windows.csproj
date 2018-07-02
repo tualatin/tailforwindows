@@ -903,7 +903,6 @@
     <Folder Include="BaseView\UserControls\Styles\" />
     <Folder Include="PlugIns\LogWindowModule\Behaviors\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
-    <Folder Include="UI\UserControls\Commands\" />
     <Folder Include="UI\UserControls\ViewModels\" />
   </ItemGroup>
   <ItemGroup>

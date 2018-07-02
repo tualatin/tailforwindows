@@ -111,7 +111,6 @@ namespace Org.Vs.TailForWin.UI.Utils
         LogWindowTabItem = tabItem,
         FileIsValid = content.FileIsValid,
         CurrentTailData = content.CurrentTailData,
-        SelectedItem = content.SelectedItem,
         LogWindowState = content.LogWindowState,
         SplitterPosition = content.SplitterPosition,
         IsSmartWatchAutoRun = content.IsSmartWatchAutoRun
@@ -119,6 +118,8 @@ namespace Org.Vs.TailForWin.UI.Utils
 
       if ( content.CurrentTailData.IsWindowsEvent )
         logWindowControl.SetWindowsEventTailReader(content.CurrentTailData);
+      else
+        logWindowControl.SelectedItem = content.SelectedItem;
 
       if ( content.SplitWindow != null )
       {
