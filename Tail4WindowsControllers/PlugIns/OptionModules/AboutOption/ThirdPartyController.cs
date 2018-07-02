@@ -37,7 +37,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption
         if ( dlls.Length == 0 )
           return;
 
-        dlls = dlls.Where(p => !p.Name.StartsWith("T4W")).OrderBy(p => p.Name).ToArray();
+        dlls = dlls.Where(p => !p.Name.StartsWith("T4W") && !p.Name.StartsWith("Microsoft")).OrderBy(p => p.Name).ToArray();
 
         foreach ( FileInfo file in dlls )
         {
