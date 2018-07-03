@@ -88,6 +88,7 @@
     <Compile Include="Services\Events\Args\LogEntryCreatedArgs.cs" />
     <Compile Include="Services\Events\Delegates\LogEntryCreated.cs" />
     <Compile Include="Services\WindowsEventReadService.cs" />
+    <Compile Include="StatisticEngine\Data\StatisticData.cs" />
     <Compile Include="Utils\Interfaces\ICacheManager.cs" />
     <Compile Include="Services\Interfaces\ILogReadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

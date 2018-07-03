@@ -236,9 +236,26 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     /// <summary>
+    /// Scroll to the beginning of list
+    /// </summary>
+    public void ScrollToHome() => _scrollViewer?.ScrollToHome();
+
+    /// <summary>
     /// Scroll to end of list
     /// </summary>
     public void ScrollToEnd() => _scrollViewer?.ScrollToEnd();
+
+    /// <summary>
+    /// Get ViewPort height
+    /// </summary>
+    /// <returns>ViewPort height, otherwise <see cref="double.NaN"/></returns>
+    public double GetViewportHeight() => _scrollViewer?.ViewportHeight ?? double.NaN;
+
+    /// <summary>
+    /// Gets scroll viewer VerticalOffset
+    /// </summary>
+    /// <returns>ScrollViewer VerticalOffset, otherwise <see cref="double.NaN"/></returns>
+    public double GetScrollViewerVerticalOffset() => _scrollViewer?.VerticalOffset ?? double.NaN;
 
     #region Mouse events
 

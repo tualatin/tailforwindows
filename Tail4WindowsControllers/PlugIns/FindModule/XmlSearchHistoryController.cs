@@ -110,7 +110,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
         {
           XElement root = _xmlDocument.Root?.Element(XmlNames.FindHistory) ?? SaveSearchHistoryWrapAttribute();
           var find = new XElement(XmlNames.Find);
-          find.Add(new XAttribute(XmlBaseStructure.Name, word));
+          find.Add(new XAttribute(XmlBaseStructure.Name, word.Trim()));
           root.Add(find);
 
           _xmlDocument.Save(_historyFile, SaveOptions.None);

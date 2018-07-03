@@ -347,7 +347,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       ExecuteAddNewTabItemCommand();
 
       SettingsHelperController.CurrentSettings.ColorSettings.PropertyChanged += ColorSettingsPropertyChanged;
+      SettingsHelperController.CurrentSettings.PropertyChanged += OnCurrentSettingsPropertyChanged;
       _notifyTaskCompletion.PropertyChanged -= TaskPropertyChanged;
+
+      if ( SettingsHelperController.CurrentSettings.Statistics )
+        _statisticController.Start();
     }
 
     private void WndClosingCommandChanged(object sender, PropertyChangedEventArgs e)
@@ -539,8 +543,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( e.Cancel )
         return;
 
-      LOG.Trace($"{EnvironmentContainer.ApplicationTitle} closing, goodbye!");
-
       for ( int i = BusinessHelper.TabItemList.Count - 1; i >= 0; i-- )
       {
         BusinessHelper.UnregisterTabItem(BusinessHelper.TabItemList[i]);
@@ -553,7 +555,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( SettingsHelperController.CurrentSettings.DeleteLogFiles )
         await DeleteLogFilesAsync().ConfigureAwait(false);
 
+      if ( SettingsHelperController.CurrentSettings.Statistics && _statisticController.IsBusy )
+        await StopStatisticAsync().ConfigureAwait(false);
+
       await EnvironmentContainer.Instance.SaveSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2))).ConfigureAwait(false);
+
+      LOG.Trace($"{EnvironmentContainer.ApplicationTitle} closing, goodbye!");
     }
 
     private async Task ExecuteWndLoadedCommandAsync()
@@ -1125,7 +1132,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
           {
             LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
           }
-        }).ConfigureAwait(false);
+        }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
     }
 
     private void ColorSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -1136,6 +1143,19 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       SetCurrentBusinessData();
     }
+
+    private void OnCurrentSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("Statistics") )
+        return;
+
+      if ( SettingsHelperController.CurrentSettings.Statistics && !_statisticController.IsBusy )
+        _statisticController.Start();
+      else if ( !SettingsHelperController.CurrentSettings.Statistics && _statisticController.IsBusy )
+        NotifyTaskCompletion.Create(StopStatisticAsync);
+    }
+
+    private async Task StopStatisticAsync() => await _statisticController.StopAsync().ConfigureAwait(false);
 
     private void SetCurrentBusinessData()
     {

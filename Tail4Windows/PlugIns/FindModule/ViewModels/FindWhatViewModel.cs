@@ -330,7 +330,10 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       FindSettings.CountFind = false;
       SearchFieldHasFocus = false;
 
-      await HandleFindAsync();
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StartSearchFindNextMessage(WindowGuid, FindSettings, SearchText));
+
+      if ( !FindSettings.SearchBookmarks )
+        await HandleFindAsync();
     }
 
     private async Task ExecuteFindAllCommandAsync()
@@ -372,9 +375,12 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     {
       MouseService.SetBusyState();
 
-      if ( !SearchHistory.ContainsKey(SearchText) && !string.IsNullOrWhiteSpace(SearchText) )
+      if ( string.IsNullOrWhiteSpace(SearchText) )
+        return;
+
+      if ( !SearchHistory.ContainsKey(SearchText.Trim()) )
       {
-        _searchHistory.Add(new KeyValuePair<string, string>(SearchText, SearchText));
+        _searchHistory.Add(new KeyValuePair<string, string>(SearchText.Trim(), SearchText.Trim()));
         await _searchHistoryController.SaveSearchHistoryAsync(SearchText).ConfigureAwait(false);
       }
     }

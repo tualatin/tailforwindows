@@ -109,6 +109,7 @@
     <Compile Include="PlugIns\FileManagerModule\Interfaces\IXmlFileManager.cs" />
     <Compile Include="PlugIns\FileManagerModule\Utils\TailDataComparer.cs" />
     <Compile Include="PlugIns\FileManagerModule\XmlFileManagerController.cs" />
+    <Compile Include="PlugIns\FindModule\Data\FindNextResult.cs" />
     <Compile Include="PlugIns\FindModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\FindModule\Interfaces\IFindWhatResultViewModel.cs" />
     <Compile Include="PlugIns\FindModule\Interfaces\IFindWhatViewModel.cs" />

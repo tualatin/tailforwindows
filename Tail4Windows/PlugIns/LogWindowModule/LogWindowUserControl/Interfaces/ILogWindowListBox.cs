@@ -82,8 +82,25 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Interfa
     void GoToItemByIndex(int index);
 
     /// <summary>
+    /// Scroll to the beginning of list
+    /// </summary>
+    void ScrollToHome();
+
+    /// <summary>
     /// Scroll to end of list
     /// </summary>
     void ScrollToEnd();
+
+    /// <summary>
+    /// Get ViewPort height
+    /// </summary>
+    /// <returns>ViewPort height, otherwise <see cref="double.NaN"/></returns>
+    double GetViewportHeight();
+
+    /// <summary>
+    /// Gets scroll viewer VerticalOffset
+    /// </summary>
+    /// <returns>ScrollViewer VerticalOffset, otherwise <see cref="double.NaN"/></returns>
+    double GetScrollViewerVerticalOffset();
   }
 }

@@ -23,6 +23,7 @@ using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Business.Utils.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Delegates;
@@ -61,6 +62,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private readonly IFindController _findController;
     private readonly List<LogEntry> _findWhatResults;
     private readonly IPlaySoundFile _playSoundFile;
+    private LogEntry _findNextResult;
 
     /// <summary>
     /// Configured sound file exists
@@ -482,6 +484,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchAllMessage>(OnStartSearchAll);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<JumpToSelectedLogEntryMessage>(OnJumpToSelectedLogEntry);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchCountMessage>(OnStartSearchCount);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchFindNextMessage>(OnStartSearchFindNext);
 
       await CacheManager.PrintCacheSizeAsync(_cts.Token).ConfigureAwait(false);
     }
@@ -491,6 +494,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchAllMessage>(OnStartSearchAll);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<JumpToSelectedLogEntryMessage>(OnJumpToSelectedLogEntry);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchCountMessage>(OnStartSearchCount);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchFindNextMessage>(OnStartSearchFindNext);
 
       _cts?.Cancel();
     }
@@ -530,15 +534,38 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !IsRightWindow(args.WindowGuid) )
         return;
 
+      ScrollToSelectedItem(args.SelectedLogEntry);
+    }
+
+    private void ScrollToSelectedItem(LogEntry logEntry)
+    {
       if ( _splitterPosition <= 0 )
       {
-        LogWindowMainElement.SelectedItem = args.SelectedLogEntry;
-        LogWindowMainElement.ScrollIntoView(args.SelectedLogEntry);
+        LogWindowMainElement.SelectedItem = logEntry;
+        LogWindowMainElement.ScrollIntoView(logEntry);
         return;
       }
 
-      LogWindowSplitElement.SelectedItem = args.SelectedLogEntry;
-      LogWindowSplitElement.ScrollIntoView(args.SelectedLogEntry);
+      LogWindowSplitElement.SelectedItem = logEntry;
+      LogWindowSplitElement.ScrollIntoView(logEntry);
+    }
+
+    private void OnStartSearchFindNext(StartSearchFindNextMessage args)
+    {
+      if ( !IsRightWindow(args.WindowGuid) )
+        return;
+
+      _notifyTaskCompletion = NotifyTaskCompletion.Create(StartSearchingFindNexdAsync(args.FindData, args.SearchText));
+      _notifyTaskCompletion.PropertyChanged += FindNextPropertyChanged;
+    }
+
+    private void FindNextPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      _notifyTaskCompletion.PropertyChanged -= FindWhatCountPropertyChanged;
+      _notifyTaskCompletion = null;
     }
 
     private void OnStartSearchCount(StartSearchCountMessage args)
@@ -593,6 +620,133 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _notifyTaskCompletion = null;
     }
 
+    private async Task StartSearchingFindNexdAsync(FindData findData, string searchText)
+    {
+      MouseService.SetBusyState();
+      _findWhatResults.Clear();
+
+      double startIndex = GetCurrentLogWindowIndex();
+      double endIndex = SplitterPosition <= 0 ? LogWindowMainElement.GetViewportHeight() : LogWindowSplitElement.GetViewportHeight();
+
+      // I.)
+      // Look into visible items
+      FindNextResult result = await SearchInVisibleItemsAsync(startIndex, startIndex + endIndex, findData, searchText).ConfigureAwait(false);
+
+      if ( result.Result )
+        return;
+
+      // II.)
+      // Look into hidden items
+      result = await SearchInHiddentemsAsync(result.EndIndex, findData, searchText).ConfigureAwait(false);
+
+      if ( result.Result )
+        return;
+
+      if ( !findData.Wrap )
+        return;
+
+      _findNextResult = null;
+
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+      Dispatcher.InvokeAsync(() =>
+      {
+        if ( SplitterPosition <= 0 )
+        {
+          LogWindowMainElement.ScrollToHome();
+          return;
+        }
+
+        LogWindowSplitElement.ScrollToHome();
+      }, DispatcherPriority.Normal);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+      startIndex = 0;
+      endIndex = SplitterPosition <= 0 ? LogWindowMainElement.GetViewportHeight() : LogWindowSplitElement.GetViewportHeight();
+
+      // III.)
+      // Starts from the beginning
+      await SearchInVisibleItemsAsync(startIndex, startIndex + endIndex, findData, searchText).ConfigureAwait(false);
+    }
+
+    private async Task<FindNextResult> SearchInVisibleItemsAsync(double start, double end, FindData findData, string searchText) =>
+      await SearchInItemsAsync(start, end, findData, searchText).ConfigureAwait(false);
+
+    private async Task<FindNextResult> SearchInHiddentemsAsync(double start, FindData findData, string searchText) =>
+      await SearchInItemsAsync(start, LogEntries.Count, findData, searchText).ConfigureAwait(false);
+
+    private async Task<FindNextResult> SearchInItemsAsync(double start, double end, FindData findData, string searchText)
+    {
+      FindNextResult findNext = null;
+      double stop = -1;
+      int countTo = LogEntries.Count < (int) Math.Round(end) ? LogEntries.Count : (int) Math.Round(end);
+
+      if ( start < 0 )
+        return new FindNextResult(false, stop);
+
+      if ( !findData.SearchBookmarks )
+      {
+        for ( var i = (int) Math.Round(start); i < countTo; i++ )
+        {
+          LogEntry log = LogEntries[i];
+          stop = i;
+          var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
+
+          if ( result == null || result.Count == 0 )
+            continue;
+
+          _findNextResult = log;
+
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+          Dispatcher.InvokeAsync(() =>
+          {
+            ScrollToSelectedItem(_findNextResult);
+          }, DispatcherPriority.Normal);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+          if ( findData.MarkLineAsBookmark )
+            SetBookmarkFromFindWhat(log);
+
+          findNext = new FindNextResult(true, log.Index);
+          break;
+        }
+      }
+      else
+      {
+        await Task.Run(() =>
+        {
+          for ( var i = (int) Math.Round(start); i < countTo; i++ )
+          {
+            LogEntry log = LogEntries[i];
+            stop = i;
+
+            if ( log.BookmarkPoint == null )
+              continue;
+
+            _findNextResult = log;
+
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            Dispatcher.InvokeAsync(() =>
+            {
+              ScrollToSelectedItem(_findNextResult);
+            }, DispatcherPriority.Normal);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+
+            findNext = new FindNextResult(true, log.Index);
+            break;
+          }
+        }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
+      }
+      return findNext ?? new FindNextResult(false, stop);
+    }
+
+    private double GetCurrentLogWindowIndex()
+    {
+      if ( SplitterPosition <= 0 )
+        return _findNextResult?.Index ?? LogWindowMainElement.GetScrollViewerVerticalOffset();
+
+      return _findNextResult?.Index ?? LogWindowSplitElement.GetScrollViewerVerticalOffset();
+    }
+
     private async Task StartAllSearchingAsync(FindData findData, string searchText)
     {
       MouseService.SetBusyState();
@@ -643,7 +797,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( result.Count > 0 )
             _findWhatResults.AddRange(result);
 
-        }).ConfigureAwait(false);
+        }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
       }
 
       LOG.Trace($"Find all result count {_findWhatResults.Count}");
@@ -932,7 +1086,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Boomark.png");
         log.BookmarkPoint = bp;
-      });
+      }, DispatcherPriority.Normal);
     }
 
     private bool IsRightWindow(Guid windowGuid)

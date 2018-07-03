@@ -306,7 +306,7 @@ namespace Org.Vs.TailForWin.Business.Services
     }
 
 #if DEBUG
-    private void SimulateTailReading(DoWorkEventArgs e)
+    private void SimulateTailReading(CancelEventArgs e)
     {
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
 
@@ -354,7 +354,6 @@ namespace Org.Vs.TailForWin.Business.Services
     private void LogReaderServiceRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
       LOG.Info("Stop finished");
-
       _resetEvent?.Reset();
     }
   }
