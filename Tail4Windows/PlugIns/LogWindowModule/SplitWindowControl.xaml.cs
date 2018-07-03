@@ -628,44 +628,40 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       double startIndex = GetCurrentLogWindowIndex();
       double endIndex = SplitterPosition <= 0 ? LogWindowMainElement.GetViewportHeight() : LogWindowSplitElement.GetViewportHeight();
 
-      // I.)
-      // Look into visible items
-      FindNextResult result = await SearchInVisibleItemsAsync(startIndex, startIndex + endIndex, findData, searchText).ConfigureAwait(false);
+      while ( true )
+      {
+        // I.)
+        // Look into visible items
+        FindNextResult result = await SearchInVisibleItemsAsync(startIndex, startIndex + endIndex, findData, searchText).ConfigureAwait(false);
 
-      if ( result.Result )
-        return;
+        if ( result.Result )
+          break;
 
-      // II.)
-      // Look into hidden items
-      result = await SearchInHiddentemsAsync(result.EndIndex, findData, searchText).ConfigureAwait(false);
+        // II.)
+        // Look into hidden items
+        result = await SearchInHiddentemsAsync(result.EndIndex, findData, searchText).ConfigureAwait(false);
 
-      if ( result.Result )
-        return;
+        if ( result.Result )
+          break;
 
-      if ( !findData.Wrap )
-        return;
+        if ( !findData.Wrap )
+          break;
 
-      _findNextResult = null;
+        _findNextResult = null;
 
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-      Dispatcher.InvokeAsync(() =>
-      {
-        if ( SplitterPosition <= 0 )
+        Dispatcher.InvokeAsync(() =>
         {
-          LogWindowMainElement.ScrollToHome();
-          return;
-        }
-
-        LogWindowSplitElement.ScrollToHome();
-      }, DispatcherPriority.Normal);
+          if ( SplitterPosition <= 0 )
+            LogWindowMainElement.ScrollToHome();
+          else
+            LogWindowSplitElement.ScrollToHome();
+        }, DispatcherPriority.Normal);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
-      startIndex = 0;
-      endIndex = SplitterPosition <= 0 ? LogWindowMainElement.GetViewportHeight() : LogWindowSplitElement.GetViewportHeight();
-
-      // III.)
-      // Starts from the beginning
-      await SearchInVisibleItemsAsync(startIndex, startIndex + endIndex, findData, searchText).ConfigureAwait(false);
+        startIndex = 0;
+        endIndex = SplitterPosition <= 0 ? LogWindowMainElement.GetViewportHeight() : LogWindowSplitElement.GetViewportHeight();
+      }
     }
 
     private async Task<FindNextResult> SearchInVisibleItemsAsync(double start, double end, FindData findData, string searchText) =>
