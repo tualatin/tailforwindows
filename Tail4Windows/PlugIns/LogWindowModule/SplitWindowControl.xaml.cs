@@ -688,6 +688,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         for ( var i = (int) Math.Round(start); i < countTo; i++ )
         {
           LogEntry log = LogEntries[i];
+
+          // If list is filtered
+          if ( !CollectionView.Contains(log) )
+            continue;
+
           stop = i;
           var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
 
@@ -717,6 +722,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           for ( var i = (int) Math.Round(start); i < countTo; i++ )
           {
             LogEntry log = LogEntries[i];
+
+            // If list is filtered
+            if ( !CollectionView.Contains(log) )
+              continue;
+
             stop = i;
 
             if ( log.BookmarkPoint == null )
@@ -758,6 +768,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         for ( int i = 0; i < LogEntries.Count; i++ )
         {
           LogEntry log = LogEntries[i];
+
+          // If list is filtered
+          if ( !CollectionView.Contains(log) )
+            continue;
+
           var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
 
           if ( result == null || result.Count == 0 )
@@ -788,6 +803,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         await Task.Run(() =>
         {
           var result = LogEntries.Where(p => p.BookmarkPoint != null).ToList();
+
+          // If list is filtered
+          result = result.Where(p => CollectionView.Contains(p)).ToList();
 
           if ( result.Count > 0 )
             _findWhatResults.AddRange(result);
