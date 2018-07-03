@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using log4net;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 
@@ -10,6 +11,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
   /// </summary>
   public class StatisticController : IStatisticController
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(StatisticController));
+
     #region Properties
 
     /// <summary>
@@ -28,6 +31,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// </summary>
     public void Start()
     {
+      LOG.Info("Starts statistics");
+
       IsBusy = true;
     }
 
@@ -36,6 +41,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// </summary>
     public async Task StopAsync()
     {
+      LOG.Info("Stops statistics");
+
       IsBusy = false;
     }
 
@@ -45,6 +52,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// <returns><see cref="StatisticData"/></returns>
     public async Task<StatisticData> StartAnalysisAsync()
     {
+      LOG.Trace("Starts statistics analysis");
+
       var result = new StatisticData();
 
       return result;

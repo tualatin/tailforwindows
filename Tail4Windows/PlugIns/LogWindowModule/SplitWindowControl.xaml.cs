@@ -564,6 +564,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
+      if ( _notifyTaskCompletion == null )
+        return;
+
       _notifyTaskCompletion.PropertyChanged -= FindWhatCountPropertyChanged;
       _notifyTaskCompletion = null;
     }
@@ -588,6 +591,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new FindWhatCountResponseMessage(logWindow.First().WindowId, _findWhatResults.Count));
+
+      if ( _notifyTaskCompletion == null )
+        return;
 
       _notifyTaskCompletion.PropertyChanged -= FindWhatCountPropertyChanged;
       _notifyTaskCompletion = null;
@@ -616,6 +622,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       FindWhatResults = new ObservableCollection<LogEntry>(_findWhatResults);
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatResultWindowMessage(FindWhatResults, logWindow.First().WindowId));
 
+      if ( _notifyTaskCompletion == null )
+        return;
+
       _notifyTaskCompletion.PropertyChanged -= FindWhatPropertyChanged;
       _notifyTaskCompletion = null;
     }
@@ -627,9 +636,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       double startIndex = GetCurrentLogWindowIndex();
       double endIndex = SplitterPosition <= 0 ? LogWindowMainElement.GetViewportHeight() : LogWindowSplitElement.GetViewportHeight();
+      int count = 0;
 
       while ( true )
       {
+        // Nothing found, a complete loop run finished, break
+        if ( count > 1 )
+          break;
+
         // I.)
         // Look into visible items
         FindNextResult result = await SearchInVisibleItemsAsync(startIndex, startIndex + endIndex, findData, searchText).ConfigureAwait(false);
@@ -661,6 +675,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         startIndex = 0;
         endIndex = SplitterPosition <= 0 ? LogWindowMainElement.GetViewportHeight() : LogWindowSplitElement.GetViewportHeight();
+        count++;
       }
     }
 
