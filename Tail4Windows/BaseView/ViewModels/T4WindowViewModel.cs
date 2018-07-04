@@ -384,16 +384,16 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       while ( !_cts.IsCancellationRequested )
       {
-        await Task.Delay(TimeSpan.FromMinutes(15), _cts.Token).ConfigureAwait(false);
+        await Task.Delay(TimeSpan.FromMinutes(30), _cts.Token).ConfigureAwait(false);
 
         LOG.Info("CleanUp GC..");
-        LOG.Trace($"TotalMemory before clean up: {GC.GetTotalMemory(true)}");
+        LOG.Trace($"TotalMemory before clean up: {GC.GetTotalMemory(false):N0}");
 
         GC.Collect();
         GC.WaitForFullGCComplete();
         GC.WaitForPendingFinalizers();
 
-        LOG.Trace($"TotalMemory after clean up: {GC.GetTotalMemory(true)}");
+        LOG.Trace($"TotalMemory after clean up: {GC.GetTotalMemory(false):N0}");
       }
     }
 
