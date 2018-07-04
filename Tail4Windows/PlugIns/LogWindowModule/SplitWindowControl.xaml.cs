@@ -636,7 +636,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       double startIndex = GetCurrentLogWindowIndex();
       double endIndex = SplitterPosition <= 0 ? LogWindowMainElement.GetViewportHeight() : LogWindowSplitElement.GetViewportHeight();
-      int count = 0;
+      var count = 0;
 
       while ( true )
       {
@@ -711,6 +711,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             continue;
 
           _findNextResult = log;
+          findNext = new FindNextResult(true, log.Index);
+
+          if ( findData.MarkLineAsBookmark )
+            SetBookmarkFromFindWhat(log);
 
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
           Dispatcher.InvokeAsync(() =>
@@ -719,10 +723,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           }, DispatcherPriority.Normal);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
-          if ( findData.MarkLineAsBookmark )
-            SetBookmarkFromFindWhat(log);
-
-          findNext = new FindNextResult(true, log.Index);
           break;
         }
       }
@@ -744,6 +744,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
               continue;
 
             _findNextResult = log;
+            findNext = new FindNextResult(true, log.Index);
 
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             Dispatcher.InvokeAsync(() =>
@@ -752,7 +753,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             }, DispatcherPriority.Normal);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
-            findNext = new FindNextResult(true, log.Index);
             break;
           }
         }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
@@ -848,7 +848,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( filterSource.Count == 0 )
         result = true;
 
-      foreach ( var filterData in filterSource )
+      foreach ( FilterData filterData in filterSource )
       {
         try
         {
@@ -872,7 +872,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !result || highlightSource.Count == 0 )
         return result;
 
-      foreach ( var filterData in highlightSource )
+      // TODO highlighting is not working
+      foreach ( FilterData filterData in highlightSource )
       {
         try
         {

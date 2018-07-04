@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\SystemInformationController.cs" />
+    <Compile Include="Data\BusinessEnvironment.cs" />
     <Compile Include="Services\Data\LogEntry.cs" />
     <Compile Include="Data\SystemInformation\CpuInfo.cs" />
     <Compile Include="Data\SystemInformation\IpAddress.cs" />
@@ -89,6 +90,12 @@
     <Compile Include="Services\Events\Delegates\LogEntryCreated.cs" />
     <Compile Include="Services\WindowsEventReadService.cs" />
     <Compile Include="StatisticEngine\Data\StatisticData.cs" />
+    <Compile Include="StatisticEngine\DbScheme\FileDateEntity.cs" />
+    <Compile Include="StatisticEngine\DbScheme\FileEntity.cs" />
+    <Compile Include="StatisticEngine\DbScheme\KeyValueEntity.cs" />
+    <Compile Include="StatisticEngine\DbScheme\KeyValueObjectEntity.cs" />
+    <Compile Include="StatisticEngine\DbScheme\LogLineDateEntity.cs" />
+    <Compile Include="StatisticEngine\DbScheme\LogLineEntity.cs" />
     <Compile Include="Utils\Interfaces\ICacheManager.cs" />
     <Compile Include="Services\Interfaces\ILogReadService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

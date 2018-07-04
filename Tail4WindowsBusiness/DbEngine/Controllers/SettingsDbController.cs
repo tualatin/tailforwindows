@@ -5,11 +5,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using LiteDB;
 using log4net;
+using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.DbEngine.Data;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Settings;
-using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
@@ -21,8 +21,6 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SettingsDbController));
     private static readonly object DbLock = new object();
-
-    private readonly string _dbFile;
 
     #region Setting keys
 
@@ -48,7 +46,9 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// </summary>
     public static SettingsDbController Instance => instance ?? (instance = new SettingsDbController());
 
-    private SettingsDbController() => _dbFile = EnvironmentContainer.TailStorePath + @"\T4W.db";
+    private SettingsDbController()
+    {
+    }
 
     /// <summary>
     /// Read current DataBase settings
@@ -63,7 +63,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
           {
             try
             {
-              using ( var db = new LiteDatabase(_dbFile) )
+              using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
               {
                 var settings = db.GetCollection<DatabaseSetting>(Settings);
 
@@ -145,7 +145,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
 
         try
         {
-          using ( var db = new LiteDatabase(_dbFile) )
+          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
           {
             db.Shrink();
 
@@ -183,7 +183,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
       {
         try
         {
-          using ( var db = new LiteDatabase(_dbFile) )
+          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
           {
             db.Shrink();
 
@@ -237,7 +237,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
       {
         try
         {
-          using ( var db = new LiteDatabase(_dbFile) )
+          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
           {
             db.Shrink();
 
