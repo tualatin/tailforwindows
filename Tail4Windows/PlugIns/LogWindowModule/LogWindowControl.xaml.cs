@@ -687,6 +687,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       TailReader.StopTail();
       NotifyTaskCompletion task = NotifyTaskCompletion.Create(WaitingForTailWorkerAsync);
       task.PropertyChanged += OnWaitingForTailWorkerPropertyChanged;
+
+      if ( CurrentTailData.IsWindowsEvent )
+        LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.WindowsEvent.Category) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
+      else
+        LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
     }
 
     private void OnWaitingForTailWorkerPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -695,11 +700,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
-
-      if ( CurrentTailData.IsWindowsEvent )
-        LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.WindowsEvent.Category) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
-      else
-        LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
     }
 
     private void ExecuteOpenFileCommand()

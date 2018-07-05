@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
@@ -128,6 +129,24 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
           return;
 
         _selectedItems = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private LogEntry _selectedItem;
+
+    /// <summary>
+    /// Selected item
+    /// </summary>
+    public LogEntry SelectedItem
+    {
+      get => _selectedItem;
+      set
+      {
+        if ( Equals(value, _selectedItem) )
+          return;
+
+        _selectedItem = value;
         OnPropertyChanged();
       }
     }
@@ -276,6 +295,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       FindWhatResultCollectionView.CustomSort = new LogEntryComparer();
       FindWhatResultCollectionView.Filter = DynamicFilter;
 
+      SelectedItem = FindWhatResultSource.Count == 0 ? null : FindWhatResultSource.First();
       FilterHasFocus = true;
       OnPropertyChanged(nameof(FindWhatResultCollectionView));
     }

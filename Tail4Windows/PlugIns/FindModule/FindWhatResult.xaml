@@ -86,6 +86,7 @@
       IsReadOnly="True"
       IsSynchronizedWithCurrentItem="True"
       ItemsSource="{Binding FindWhatResultCollectionView}"
+      SelectedItem="{Binding SelectedItem}"
       >
       <i:Interaction.Behaviors>
         <behaviors:ScrollDataGridRowIntoView />
@@ -113,7 +114,14 @@
           MinWidth="130"
           Header="{DynamicResource FindResultLineNumbers}"
           Binding="{Binding Index, UpdateSourceTrigger=PropertyChanged}"
-          />
+          >
+          <DataGridTextColumn.ElementStyle>
+            <Style TargetType="{x:Type TextBlock}">
+              <Setter Property="HorizontalAlignment" Value="Right" />
+              <Setter Property="Margin" Value="5 0" />
+            </Style>
+          </DataGridTextColumn.ElementStyle>
+        </DataGridTextColumn>
 
         <DataGridCheckBoxColumn
           MinWidth="90"
