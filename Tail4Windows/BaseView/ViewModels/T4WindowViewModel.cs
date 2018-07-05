@@ -308,7 +308,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
       case NotifyCollectionChangedAction.Add:
 
-        foreach ( var item in e.NewItems )
+        foreach ( object item in e.NewItems )
         {
           TrayIconItemsSource.Insert(0, new DragSupportMenuItem
           {
@@ -323,7 +323,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       case NotifyCollectionChangedAction.Remove:
 
-        foreach ( var item in e.OldItems )
+        foreach ( object item in e.OldItems )
         {
           var toRemove = TrayIconItemsSource.SingleOrDefault(p => p.TabItem != null && p.TabItem.TabItemId == ((DragSupportTabItem) item).TabItemId);
           TrayIconItemsSource.Remove(toRemove);

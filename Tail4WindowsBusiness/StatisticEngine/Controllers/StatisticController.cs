@@ -39,10 +39,10 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// </summary>
     public void Start()
     {
-      LOG.Info("Starts statistics");
+      LOG.Info("Start statistics");
 
       _cts?.Dispose();
-      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+      _cts = new CancellationTokenSource();
 
       NotifyTaskCompletion.Create(GetUsedMemoryAsync);
 
@@ -55,7 +55,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     public async Task StopAsync()
     {
       MouseService.SetBusyState();
-      LOG.Info("Stops statistics");
+      LOG.Info("Stop statistics");
 
       await SaveAllValuesIntoDatabaseAsync().ConfigureAwait(false);
       _cts.Cancel();
@@ -69,7 +69,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// <returns><see cref="StatisticData"/></returns>
     public async Task<StatisticData> StartAnalysisAsync()
     {
-      LOG.Trace("Starts statistics analysis");
+      LOG.Trace("Start statistics analysis");
 
       var result = new StatisticData();
 
