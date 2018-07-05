@@ -22,7 +22,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// <summary>
     /// Max capacity
     /// </summary>
-    private const int MaxCapacity = 7500;
+    private const int MaxCapacity = 10000;
 
     private readonly List<LogEntry> _cacheData;
 
@@ -45,7 +45,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     {
       while ( !token.IsCancellationRequested )
       {
-        await Task.Delay(TimeSpan.FromMinutes(10), token).ConfigureAwait(false);
+        await Task.Delay(TimeSpan.FromMinutes(30), token).ConfigureAwait(false);
         LOG.Trace($"Current cache size is {_cacheData.Count}");
       }
     }
@@ -118,7 +118,7 @@ namespace Org.Vs.TailForWin.Business.Utils
 
       int index = SettingsHelperController.CurrentSettings.LogLineLimit - count;
 
-      for ( int i = 0; i < index; i++ )
+      for ( var i = 0; i < index; i++ )
       {
         _cacheData.RemoveAt(i);
       }

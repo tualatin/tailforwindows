@@ -482,6 +482,24 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
+    private bool _openFromSmartWatch;
+
+    /// <summary>
+    /// Item opend by SmartWatch logic
+    /// </summary>
+    public bool OpenFromSmartWatch
+    {
+      get => _openFromSmartWatch;
+      set
+      {
+        if ( value == _openFromSmartWatch )
+          return;
+
+        _openFromSmartWatch = value;
+        OnPropertyChanged();
+      }
+    }
+
     private bool _openFromFileManager;
 
     /// <summary>

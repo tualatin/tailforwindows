@@ -506,7 +506,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( !(d is LogWindowListBox control) )
         return;
 
-      if ( !(e.NewValue is TailData) )
+      if ( !(e.NewValue is TailData tailData) )
+        return;
+
+      if ( tailData.OpenFromSmartWatch )
         return;
 
       control.RaiseEvent(new RoutedEventArgs(ClearItemsRoutedEvent, control));

@@ -90,6 +90,7 @@
     <Compile Include="Services\Events\Delegates\LogEntryCreated.cs" />
     <Compile Include="Services\WindowsEventReadService.cs" />
     <Compile Include="StatisticEngine\Data\StatisticData.cs" />
+    <Compile Include="StatisticEngine\Data\StatisticEnvironment.cs" />
     <Compile Include="StatisticEngine\DbScheme\FileDateEntity.cs" />
     <Compile Include="StatisticEngine\DbScheme\FileEntity.cs" />
     <Compile Include="StatisticEngine\DbScheme\KeyValueEntity.cs" />

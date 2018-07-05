@@ -108,6 +108,9 @@ namespace Org.Vs.TailForWin.Business.Services
     /// </summary>
     public void StartTail()
     {
+      if ( _tailBackgroundWorker.IsBusy )
+        return;
+
       LOG.Info("Start tail...");
 
       Thread.CurrentThread.Priority = TailData.ThreadPriority;

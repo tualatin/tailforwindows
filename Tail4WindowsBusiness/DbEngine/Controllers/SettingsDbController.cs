@@ -147,10 +147,11 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
           {
-            db.Shrink();
+            long shrinkSize = db.Shrink();
+            LOG.Trace($"Database shrink: {shrinkSize}");
 
             var settings = db.GetCollection<DatabaseSetting>(Settings);
-            var setting = settings.Find(p => p.Key == ProxyPassword).FirstOrDefault();
+            DatabaseSetting setting = settings.Find(p => p.Key == ProxyPassword).FirstOrDefault();
 
             if ( setting != null )
             {
@@ -188,7 +189,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
             db.Shrink();
 
             var settings = db.GetCollection<DatabaseSetting>(Settings);
-            var setting = settings.Find(p => p.Key == FindResultWindowTop).FirstOrDefault();
+            DatabaseSetting setting = settings.Find(p => p.Key == FindResultWindowTop).FirstOrDefault();
 
             if ( setting != null )
             {
@@ -242,7 +243,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
             db.Shrink();
 
             var settings = db.GetCollection<DatabaseSetting>(Settings);
-            var setting = settings.Find(p => p.Key == FindDialogWindowTop).FirstOrDefault();
+            DatabaseSetting setting = settings.Find(p => p.Key == FindDialogWindowTop).FirstOrDefault();
 
             if ( setting != null )
             {

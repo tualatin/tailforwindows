@@ -659,13 +659,17 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Visible;
       LogWindowState = EStatusbarState.Busy;
+      CurrentTailData.OpenFromSmartWatch = false;
       TailReader.TailData = CurrentTailData;
 
       TailReader.StartTail();
 
       // If Logfile comes from the FileManager or settings does not allow to save the history or is WindowsEvent setting, do not save it in the history
       if ( CurrentTailData.OpenFromFileManager || !SettingsHelperController.CurrentSettings.SaveLogFileHistory || CurrentTailData.IsWindowsEvent )
+      {
+        CurrentTailData.OpenFromFileManager = false;
         return;
+      }
 
       if ( LogFileHistory.Contains(CurrentTailData.FileName) )
         return;
@@ -684,7 +688,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       TailReader.StopTail();
-      WaitingForTailWorkerAsync().GetAwaiter();
+      NotifyTaskCompletion task = NotifyTaskCompletion.Create(WaitingForTailWorkerAsync);
+      task.PropertyChanged += OnWaitingForTailWorkerPropertyChanged;
+    }
+
+    private void OnWaitingForTailWorkerPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
 
@@ -762,11 +773,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       MouseService.SetBusyState();
 
-      if ( TailReader != null )
+      if ( TailReader != null && !CurrentTailData.OpenFromSmartWatch )
         TailReader = null;
 
-      TailReader = new LogReadService();
-      SplitWindow.LogReaderService = TailReader;
+      if ( !CurrentTailData.OpenFromSmartWatch )
+      {
+        TailReader = new LogReadService();
+        SplitWindow.LogReaderService = TailReader;
+      }
 
       if ( !File.Exists(SelectedItem) )
       {
@@ -929,19 +943,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       MouseService.SetBusyState();
 
-      if ( TailReader.IsBusy )
-      {
-        TailReader.StopTail();
-        TailReader.SmartWatch.StopSmartWatch();
-        WaitingForWorkersAsync().GetAwaiter();
-      }
+      if ( !TailReader.IsBusy )
+        return;
 
-      LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
-      LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
+      TailReader.StopTail();
+
+      NotifyTaskCompletion task = NotifyTaskCompletion.Create(WaitingForTailWorkerAsync);
+      task.PropertyChanged += OnWaitingForTailWorkerSmartWatchPropertyChanged;
+      tailData.OpenFromSmartWatch = true;
 
       CreateTailDataWindow(tailData);
+    }
 
-      if ( tailData.AutoRun )
+    private void OnWaitingForTailWorkerSmartWatchPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      if ( CurrentTailData.AutoRun )
         NotifyTaskCompletion.Create(ExecuteStartTailCommandAsync());
     }
 
@@ -972,7 +991,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         {
           CurrentTailData = tailData
         };
-        var tabItem = BusinessHelper.CreateDragSupportTabItem(tailData.File, tailData.FileName, Visibility.Collapsed, content);
+        DragSupportTabItem tabItem = BusinessHelper.CreateDragSupportTabItem(tailData.File, tailData.FileName, Visibility.Collapsed, content);
         dragWindow = DragWindow.CreateTabWindow(window.Left + offset, window.Top + offset, window.Width, window.Height, tabItem);
 
         // Unregister tab item, we do not need it again!

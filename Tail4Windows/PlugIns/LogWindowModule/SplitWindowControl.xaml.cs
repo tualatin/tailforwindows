@@ -140,6 +140,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set;
     }
 
+
     /// <summary>
     /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
     /// </summary>
@@ -238,6 +239,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       DataContext = this;
       FloodData = new List<MessageFloodData>();
       LogEntries = new ObservableCollection<LogEntry>();
+
       _findWhatResults = new List<LogEntry>();
       CacheManager = new CacheManager();
       _playSoundFile = new PlaySoundFile();
