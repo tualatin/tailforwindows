@@ -666,10 +666,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       // If Logfile comes from the FileManager or settings does not allow to save the history or is WindowsEvent setting, do not save it in the history
       if ( CurrentTailData.OpenFromFileManager || !SettingsHelperController.CurrentSettings.SaveLogFileHistory || CurrentTailData.IsWindowsEvent )
-      {
-        CurrentTailData.OpenFromFileManager = false;
         return;
-      }
 
       if ( LogFileHistory.Contains(CurrentTailData.FileName) )
         return;
