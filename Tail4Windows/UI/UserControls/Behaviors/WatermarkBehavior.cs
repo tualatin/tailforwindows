@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Interactivity;
 using System.Windows.Media;
+using Org.Vs.TailForWin.Core.Controllers;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
@@ -185,7 +186,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
 
         var text = new FormattedText(
                 _text,
-                System.Globalization.CultureInfo.CurrentCulture,
+                SettingsHelperController.CurrentSettings.CurrentCultureInfo,
                 FlowDirection.LeftToRight,
                 new Typeface(new FontFamily(_fontFamily), FontStyles.Italic, FontWeights.Normal, FontStretches.Normal),
                 _fontSize,

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.BaseView.Interfaces;
@@ -250,6 +251,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public T4WindowViewModel()
     {
+      // Set XAML language culture info
+      FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
+        new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(SettingsHelperController.CurrentSettings.CurrentCultureInfo.IetfLanguageTag)));
+
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<AddTabItemMessage>(OnAddTabItemFromMainWindow);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFindWhatWindowMessage>(OnOpenFindWhatWindow);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DragWindowTabItemChangedMessage>(OnFindWhatWindowTitleChanged);
