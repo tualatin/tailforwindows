@@ -253,7 +253,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       // Set XAML language culture info
       FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
-        new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(SettingsHelperController.CurrentSettings.CurrentCultureInfo.IetfLanguageTag)));
+        new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(SettingsHelperController.CurrentSettings.CurrentCultureInfo.Name)));
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<AddTabItemMessage>(OnAddTabItemFromMainWindow);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFindWhatWindowMessage>(OnOpenFindWhatWindow);
