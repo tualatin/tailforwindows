@@ -86,6 +86,11 @@ namespace Org.Vs.TailForWin.Business.Services
     /// </summary>
     public TimeSpan ElapsedTime => _sw.Elapsed;
 
+    /// <summary>
+    /// Sets current fileoffset to zero
+    /// </summary>
+    public void SetFileOffsetZero() => throw new NotImplementedException();
+
     #endregion
 
     /// <summary>

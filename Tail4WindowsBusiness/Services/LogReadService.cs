@@ -154,6 +154,11 @@ namespace Org.Vs.TailForWin.Business.Services
     public void SetIndex(int index) => Index = index;
 
     /// <summary>
+    /// Sets current fileoffset to zero
+    /// </summary>
+    public void SetFileOffsetZero() => _fileOffset = 0;
+
+    /// <summary>
     /// Get <see cref="ObservableCollection{T}"/> of <see cref="WindowsEventCategory"/> with Windows events categories
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
@@ -171,7 +176,7 @@ namespace Org.Vs.TailForWin.Business.Services
       if ( SettingsHelperController.CurrentSettings.DebugTailReader )
         return;
 
-      if ( SettingsHelperController.CurrentSettings.ShowNumberLineAtStart && Index == 0 )
+      if ( SettingsHelperController.CurrentSettings.ShowNumberLineAtStart && Index == 0 && _lastFileInfo == null )
         RewindLinesInFile();
 
       _lastFileInfo = new FileInfo(TailData.FileName);
@@ -189,7 +194,7 @@ namespace Org.Vs.TailForWin.Business.Services
           continue;
         }
 
-        if ( fileInfo.Length != _lastFileInfo.Length || fileInfo.LastWriteTimeUtc != _lastFileInfo.LastWriteTimeUtc )
+        if ( fileInfo.Length != _lastFileInfo.Length || fileInfo.LastWriteTimeUtc != _lastFileInfo.LastWriteTimeUtc || fileInfo.Length > 0 && _fileOffset == 0 )
         {
           if ( _tailBackgroundWorker.CancellationPending )
             break;

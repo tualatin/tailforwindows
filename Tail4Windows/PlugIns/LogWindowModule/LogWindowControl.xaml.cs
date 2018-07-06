@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -794,10 +795,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( !CurrentTailData.OpenFromFileManager || !Equals(SelectedItem, CurrentTailData.FileName) )
       {
+        Encoding fileEncoding = EncodingDetector.GetEncodingAsync(SelectedItem).Result;
         CurrentTailData = new TailData
         {
           FileName = SelectedItem,
-          FileEncoding = EncodingDetector.GetEncodingAsync(SelectedItem).Result
+          FileEncoding = fileEncoding ?? Encoding.UTF8
         };
       }
 
@@ -944,6 +946,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       TailReader.StopTail();
+      TailReader.SetFileOffsetZero();
 
       NotifyTaskCompletion task = NotifyTaskCompletion.Create(WaitingForTailWorkerAsync);
       task.PropertyChanged += OnWaitingForTailWorkerSmartWatchPropertyChanged;
