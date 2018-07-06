@@ -82,6 +82,14 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     {
       await Task.Run(() =>
       {
+        TimeSpan uptime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
+
+        if ( uptime.Hours < 1 )
+        {
+          LOG.Info($"Statistics not saved, {EnvironmentContainer.ApplicationTitle} was active less than 1 hour: {uptime.Minutes} minute(s)!");
+          return;
+        }
+
         try
         {
           using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
