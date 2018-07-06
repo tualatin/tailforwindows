@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace Org.Vs.TailForWin.Business.Services
     private readonly int _startOffset;
     private FileInfo _lastFileInfo;
     private long _fileOffset;
+    private readonly Stopwatch _sw;
 
     #region Events
 
@@ -83,6 +85,11 @@ namespace Org.Vs.TailForWin.Business.Services
       get;
     }
 
+    /// <summary>
+    /// Elapsed time
+    /// </summary>
+    public TimeSpan ElapsedTime => _sw.Elapsed;
+
     #endregion
 
     /// <summary>
@@ -101,6 +108,7 @@ namespace Org.Vs.TailForWin.Business.Services
       _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
       SmartWatch = new SmartWatchController();
       _resetEvent = new ManualResetEvent(false);
+      _sw = new Stopwatch();
     }
 
     /// <summary>
@@ -118,6 +126,7 @@ namespace Org.Vs.TailForWin.Business.Services
       _tailBackgroundWorker.RunWorkerAsync();
       _resetEvent?.Reset();
       SmartWatch.StartSmartWatch(TailData);
+      _sw.Start();
     }
 
     /// <summary>
@@ -356,8 +365,10 @@ namespace Org.Vs.TailForWin.Business.Services
 
     private void LogReaderServiceRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
-      LOG.Info("Stop finished");
+      _sw.Stop();
       _resetEvent?.Reset();
+
+      LOG.Info($"Stop finished, tail was running about {_sw.ElapsedMilliseconds:N0} ms");
     }
   }
 }

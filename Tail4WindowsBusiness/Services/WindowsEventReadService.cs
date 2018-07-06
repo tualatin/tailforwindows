@@ -27,6 +27,7 @@ namespace Org.Vs.TailForWin.Business.Services
     private int _startOffset;
     private EventLog _logReader;
     private readonly string _message;
+    private readonly Stopwatch _sw;
 
     #region Events
 
@@ -80,6 +81,11 @@ namespace Org.Vs.TailForWin.Business.Services
       private set;
     }
 
+    /// <summary>
+    /// Elapsed time
+    /// </summary>
+    public TimeSpan ElapsedTime => _sw.Elapsed;
+
     #endregion
 
     /// <summary>
@@ -90,6 +96,7 @@ namespace Org.Vs.TailForWin.Business.Services
       Index = 0;
       _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
       _message = Application.Current.TryFindResource("WindowsEventTotalEvents").ToString();
+      _sw = new Stopwatch();
     }
 
     /// <summary>
@@ -138,6 +145,7 @@ namespace Org.Vs.TailForWin.Business.Services
         Index = _startOffset;
       }
 
+      _sw.Start();
       IsBusy = true;
     }
 
@@ -149,11 +157,12 @@ namespace Org.Vs.TailForWin.Business.Services
       if ( _logReader == null )
         return;
 
-      LOG.Trace("Stop tail");
-
       _logReader.EntryWritten -= LogReaderEntryWritten;
       _logReader = null;
       IsBusy = false;
+      _sw.Stop();
+
+      LOG.Trace($"Stop tail, tail was running about {_sw.ElapsedMilliseconds:N0} ms");
     }
 
     private void LogReaderEntryWritten(object sender, EntryWrittenEventArgs e)

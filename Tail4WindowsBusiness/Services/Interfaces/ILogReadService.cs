@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Business.Services.Data;
@@ -56,6 +57,14 @@ namespace Org.Vs.TailForWin.Business.Services.Interfaces
     /// Current log index
     /// </summary>
     int Index
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Elapsed time
+    /// </summary>
+    TimeSpan ElapsedTime
     {
       get;
     }

@@ -33,7 +33,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     public CacheManager()
     {
       _cacheData = new List<LogEntry>();
-      LOG.Debug($"Current max logline capacity is {MaxCapacity}");
+      LOG.Debug($"Current max logline capacity is {MaxCapacity:N0}");
     }
 
     /// <summary>

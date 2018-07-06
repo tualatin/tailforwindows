@@ -198,7 +198,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
       }
 
       LOG.Trace("Start SmartWatch");
-      LOG.Trace($"SmartWatch interval is {SettingsHelperController.CurrentSettings.SmartWatchSettings.SmartWatchInterval} ms");
+      LOG.Trace($"SmartWatch interval is {SettingsHelperController.CurrentSettings.SmartWatchSettings.SmartWatchInterval:N0} ms");
 
       _smartWatchWorker.RunWorkerAsync(item);
       _resetEvent?.Set();
