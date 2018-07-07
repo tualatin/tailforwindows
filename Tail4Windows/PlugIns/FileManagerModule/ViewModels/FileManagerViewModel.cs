@@ -499,6 +499,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( errors.Count > 0 )
         return false;
 
+      // Duplicate item?
+      if ( FileManagerCollection.Where(p => !p.IsWindowsEvent).GroupBy(p => p.FileName).Any(p => p.Count() > 1) )
+        return false;
+
       return unsavedItems.Count > 0 || undo;
     }
 
@@ -545,6 +549,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( SelectedItem == null )
         return false;
 
+      if ( CanExecuteUndo() )
+        return false;
+
       if ( SelectedItem.IsWindowsEvent && !string.IsNullOrWhiteSpace(SelectedItem.WindowsEvent.Category) )
         return true;
 
@@ -575,7 +582,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       var unsavedItems = FileManagerCollection.Where(p => p.CanUndo || p.FindSettings.CanUndo).ToList();
 
-      if ( unsavedItems.Count > 0 )
+      // Duplicate item?
+      var duplicates = FileManagerCollection.Where(p => !p.IsWindowsEvent).GroupBy(p => p.FileName).Any(p => p.Count() > 1);
+
+      if ( unsavedItems.Count > 0 && !duplicates )
       {
         if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerCloseUnsaveItem").ToString()) == MessageBoxResult.Yes )
         {

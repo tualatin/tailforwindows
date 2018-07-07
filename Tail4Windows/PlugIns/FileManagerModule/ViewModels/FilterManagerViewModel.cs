@@ -286,6 +286,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       var errors = GetFilterErrors();
       bool undo = CanExecuteUndo();
 
+      // Duplicate item?
+      if ( FilterManagerCollection.GroupBy(p => p.Filter).Any(p => p.Count() > 1) )
+        return false;
+
       return errors.Count <= 0 && undo && CurrentTailData.IsLoadedByXml && FilterManagerCollection != null && FilterManagerCollection.Count > 0;
     }
 

@@ -116,6 +116,7 @@
     <Compile Include="PlugIns\FindModule\Utils\LogEntryComparer.cs" />
     <Compile Include="PlugIns\FindModule\XmlSearchHistoryController.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\MessageFloodData.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Data\TextHighlightData.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\XmlNames.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Args\LinesRefreshTimeChangedArgs.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Args\StatusChangedArgs.cs" />

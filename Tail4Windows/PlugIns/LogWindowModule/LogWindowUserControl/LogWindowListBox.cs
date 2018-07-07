@@ -580,6 +580,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( logWindow.Count == 0 )
         return;
 
+      LOG.Trace($"Selected word is {_readOnlyTextMessage.SelectedText}");
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatWindowMessage(this, CurrentTailData.File, logWindow.First().WindowId, _readOnlyTextMessage.SelectedText));
     }
 

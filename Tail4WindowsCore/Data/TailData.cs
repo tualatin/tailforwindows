@@ -670,7 +670,7 @@ namespace Org.Vs.TailForWin.Core.Data
         {
         case nameof(Description):
 
-          if ( string.IsNullOrEmpty(Description) )
+          if ( string.IsNullOrWhiteSpace(Description) )
             result = Application.Current.TryFindResource("ErrorEnterDescription").ToString();
           break;
 

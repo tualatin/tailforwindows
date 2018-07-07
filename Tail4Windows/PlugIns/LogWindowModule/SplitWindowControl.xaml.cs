@@ -101,6 +101,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     #region Properties
 
     /// <summary>
+    /// Highlight data
+    /// </summary>
+    public List<TextHighlightData> HighlightData
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Search result
     /// </summary>
     public List<string> SearchResult
@@ -887,6 +896,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           // If no FilterSource is defined, handle all alert settings here
           if ( filterSource.Count == 0 )
             HandleAlertSettings(filterData, sr, logEntry);
+
+          if ( HighlightData == null )
+            HighlightData = new List<TextHighlightData>();
+
+          var textHighlight = HighlightData.FirstOrDefault(p => p.Text.Contains(sr.First()));
+
+          if ( textHighlight != null )
+          {
+            textHighlight.Text.AddRange(sr);
+          }
+          else
+          {
+            HighlightData.Add(new TextHighlightData
+            {
+              TextHighlightColorHex = filterData.FilterColorHex,
+              Text = sr
+            });
+          }
         }
         catch ( Exception ex )
         {
