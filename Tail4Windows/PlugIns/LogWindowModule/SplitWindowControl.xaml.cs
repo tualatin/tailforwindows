@@ -852,8 +852,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return false;
 
       var result = false;
-      var filterSource = CurrentTailData.ListOfFilter.Where(p => p.FilterSource).ToList();
-      var highlightSource = CurrentTailData.ListOfFilter.Where(p => p.IsHighlight).ToList();
+      var filterSource = CurrentTailData.ListOfFilter.Where(p => p.FilterSource && p.IsEnabled).ToList();
+      var highlightSource = CurrentTailData.ListOfFilter.Where(p => p.IsHighlight && p.IsEnabled).ToList();
 
       // If no FilterSource is defined, we assume only Highlighting is active
       if ( filterSource.Count == 0 )

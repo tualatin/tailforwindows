@@ -287,7 +287,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       bool undo = CanExecuteUndo();
 
       // Duplicate item?
-      if ( FilterManagerCollection.GroupBy(p => p.Filter).Any(p => p.Count() > 1) )
+      if ( FilterManagerCollection.GroupBy(p => p.Filter.ToLower()).Any(p => p.Count() > 1) )
         return false;
 
       return errors.Count <= 0 && undo && CurrentTailData.IsLoadedByXml && FilterManagerCollection != null && FilterManagerCollection.Count > 0;
@@ -314,7 +314,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       var unsavedItems = FilterManagerCollection.Where(p => p.CanUndo).ToList();
 
-      if ( SaveButtonVisibility == Visibility.Visible && unsavedItems.Count > 0 )
+      // Duplicate item
+      var duplicates = FilterManagerCollection.GroupBy(p => p.Filter.ToLower()).Any(p => p.Count() > 1);
+
+      if ( SaveButtonVisibility == Visibility.Visible && unsavedItems.Count > 0 && !duplicates )
       {
         if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerCloseUnsaveItem").ToString()) == MessageBoxResult.Yes )
         {

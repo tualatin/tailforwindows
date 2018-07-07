@@ -20,6 +20,7 @@ namespace Org.Vs.TailForWin.Core.Data
       Id = Guid.NewGuid();
       FontType = new FontType();
       FindSettingsData = new FindData();
+      IsEnabled = true;
 
       FilterColorHex = DefaultEnvironmentSettings.FilterFontColor;
     }
@@ -41,6 +42,24 @@ namespace Org.Vs.TailForWin.Core.Data
       {
         _id = value;
         OnPropertyChanged(nameof(Id));
+      }
+    }
+
+    private bool _isEnabled;
+
+    /// <summary>
+    /// Is enabled
+    /// </summary>
+    public bool IsEnabled
+    {
+      get => _isEnabled;
+      set
+      {
+        if ( value == _isEnabled )
+          return;
+
+        bool currentValue = _isEnabled;
+        ChangeState(new Command(() => _isEnabled = value, () => _isEnabled = currentValue, nameof(IsEnabled), Notification));
       }
     }
 

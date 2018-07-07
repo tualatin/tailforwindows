@@ -214,5 +214,10 @@
     /// name
     /// </summary>
     public const string WindowsEventName = "name";
+
+    /// <summary>
+    /// isEnabled
+    /// </summary>
+    public const string IsEnabled = "isEnabled";
   }
 }

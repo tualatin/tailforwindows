@@ -499,8 +499,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( errors.Count > 0 )
         return false;
 
-      // Duplicate item?
-      if ( FileManagerCollection.Where(p => !p.IsWindowsEvent).GroupBy(p => p.FileName).Any(p => p.Count() > 1) )
+      if ( !PreventDuplicateItems() )
         return false;
 
       return unsavedItems.Count > 0 || undo;
@@ -582,10 +581,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       var unsavedItems = FileManagerCollection.Where(p => p.CanUndo || p.FindSettings.CanUndo).ToList();
 
-      // Duplicate item?
-      var duplicates = FileManagerCollection.Where(p => !p.IsWindowsEvent).GroupBy(p => p.FileName).Any(p => p.Count() > 1);
-
-      if ( unsavedItems.Count > 0 && !duplicates )
+      if ( unsavedItems.Count > 0 && PreventDuplicateItems() )
       {
         if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerCloseUnsaveItem").ToString()) == MessageBoxResult.Yes )
         {
@@ -719,6 +715,16 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
           p.FindSettingsData.CommitChanges();
         });
       });
+    }
+
+    private bool PreventDuplicateItems()
+    {
+      // Duplicate item?
+      if ( FileManagerCollection.Where(p => !p.IsWindowsEvent).GroupBy(p => p.FileName.ToLower()).Any(p => p.Count() > 1) )
+        return false;
+
+      // Duplicate Windows event item?
+      return !FileManagerCollection.Where(p => p.IsWindowsEvent).GroupBy(p => p.File.ToLower()).Any(p => p.Count() > 1);
     }
 
     private List<TailData> GetErrors()

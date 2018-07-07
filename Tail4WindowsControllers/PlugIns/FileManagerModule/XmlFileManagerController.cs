@@ -71,10 +71,13 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 
       LOG.Trace("Read XML");
 
-      var result = await Task.Run(() => ReadXmlFile(), token).ConfigureAwait(false);
+      var result = await Task.Run(() => ReadXmlFile(), token);
 
       if ( result != null && SettingsHelperController.CurrentSettings.SmartWatch )
-        await ModifyFileNameBySmartWatchAsync(result).ConfigureAwait(false);
+        await ModifyFileNameBySmartWatchAsync(result);
+
+      if ( result != null )
+        result = await RemoveDuplicateItemsAsync(result, token);
 
       return result;
     }
@@ -129,7 +132,8 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
             FindSettingsData = GetFilterSettingsData(x),
             IsHighlight = (x.Element(XmlNames.FilterIsHighlight)?.Value).ConvertToBool(),
             UseNotification = (x.Element(XmlNames.FilterNotification)?.Value).ConvertToBool(),
-            FilterSource = (x.Element(XmlNames.FilterSource)?.Value).ConvertToBool()
+            FilterSource = (x.Element(XmlNames.FilterSource)?.Value).ConvertToBool(true),
+            IsEnabled = (x.Element(XmlNames.IsEnabled)?.Value).ConvertToBool(true)
           }).ToList() ?? new List<FilterData>())
         }).ToList();
 
@@ -157,6 +161,33 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         item.OriginalFileName = item.FileName;
         item.FileName = await _smartWatchController.GetFileNameBySmartWatchAsync(item).ConfigureAwait(false);
       }
+    }
+
+    private async Task<ObservableCollection<TailData>> RemoveDuplicateItemsAsync(ObservableCollection<TailData> items, CancellationToken token)
+    {
+      LOG.Trace("Try to remove duplicate items");
+
+      ObservableCollection<TailData> result = null;
+
+      await Task.Run(() =>
+      {
+        var list = new List<TailData>();
+        list.AddRange(items.Where(p => !p.IsWindowsEvent).GroupBy(p => p.FileName.ToLower()).Select(p => p.FirstOrDefault()).ToList());
+        list.ForEach(w =>
+        {
+          w.ListOfFilter = new ObservableCollection<FilterData>(w.ListOfFilter.GroupBy(p => p.Filter.ToLower()).Select(p => p.FirstOrDefault()).ToList());
+        });
+
+        list.AddRange(items.Where(p => p.IsWindowsEvent).GroupBy(p => p.File.ToLower()).Select(p => p.FirstOrDefault()).ToList());
+        list.ForEach(w =>
+        {
+          w.ListOfFilter = new ObservableCollection<FilterData>(w.ListOfFilter.GroupBy(p => p.Filter.ToLower()).Select(p => p.FirstOrDefault()).ToList());
+        });
+
+        result = new ObservableCollection<TailData>(list);
+      }, token).ConfigureAwait(false);
+
+      return result;
     }
 
     private FindData GetSearchPatternFindSettings(XContainer settings)
@@ -621,6 +652,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         new XElement(XmlNames.FilterIsHighlight, filter.IsHighlight),
         new XElement(XmlNames.FilterNotification, filter.UseNotification),
         new XElement(XmlNames.FilterSource, filter.FilterSource),
+        new XElement(XmlNames.IsEnabled, filter.IsEnabled),
         new XElement(XmlNames.Font,
           new XElement(XmlBaseStructure.Name, filter.FontType.FontFamily.Source),
           new XElement(XmlNames.Size, filter.FontType.FontSize),
