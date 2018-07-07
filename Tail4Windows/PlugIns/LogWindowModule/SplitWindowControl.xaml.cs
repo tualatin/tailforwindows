@@ -871,6 +871,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         }
       }
 
+      // Remove disabled filters
+      var toRemove = CurrentTailData.ListOfFilter.Where(p => !p.IsEnabled && p.IsHighlight).ToList();
+
+      if ( toRemove.Count > 0 )
+        HighlightData?.Clear();
+
       // If result is false OR no highlighting is defined, return the current result
       if ( !result || highlightSource.Count == 0 )
         return result;
@@ -902,8 +908,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             // Color changed?
             if ( inside.Where(p => Equals(p.TextHighlightColorHex, filterData.FilterColorHex)).ToList().Count > 0 )
               continue;
-            else
-              HighlightData.Remove(inside.FirstOrDefault());
+
+            HighlightData.Remove(inside.FirstOrDefault());
           }
 
           HighlightData.Add(new TextHighlightData

@@ -30,9 +30,10 @@ namespace Org.Vs.TailForWin.UI.UserControls
         }
 
         string words = string.Join("|", HighlightText.Select(p => p.Text).ToList());
-        Inlines.Clear();
         var regex = new Regex($@"(?i)(\b{words}\b)");
         var splits = regex.Split(value);
+
+        Inlines.Clear();
 
         foreach ( var item in splits )
         {
