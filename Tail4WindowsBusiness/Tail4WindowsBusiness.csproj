@@ -103,7 +103,7 @@
     <Compile Include="SearchEngine\Controllers\FindController.cs" />
     <Compile Include="SearchEngine\Interfaces\IFindController.cs" />
     <Compile Include="Services\LogReadService.cs" />
-    <Compile Include="SmartWatchEngine\Controlleres\SmartWatchController.cs" />
+    <Compile Include="SmartWatchEngine\Controllers\SmartWatchController.cs" />
     <Compile Include="SmartWatchEngine\Events\Delegates\SmartWatchFileChangedEventHandler.cs" />
     <Compile Include="SmartWatchEngine\Interfaces\ISmartWatchController.cs" />
     <Compile Include="StatisticEngine\Controllers\StatisticController.cs" />

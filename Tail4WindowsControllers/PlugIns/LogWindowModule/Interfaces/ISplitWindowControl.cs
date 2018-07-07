@@ -121,6 +121,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     }
 
     /// <summary>
+    /// Highlight data <see cref="List{T}"/> of <see cref="TextHighlightData"/>
+    /// </summary>
+    List<TextHighlightData> HighlightData
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// CacheManager interface
     /// </summary>
     ICacheManager CacheManager

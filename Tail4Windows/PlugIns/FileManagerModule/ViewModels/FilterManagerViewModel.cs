@@ -287,7 +287,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       bool undo = CanExecuteUndo();
 
       // Duplicate item?
-      if ( FilterManagerCollection.GroupBy(p => p.Filter.ToLower()).Any(p => p.Count() > 1) )
+      if ( FilterManagerCollection.Where(p => !string.IsNullOrWhiteSpace(p.Filter)).GroupBy(p => p.Filter.ToLower()).Any(p => p.Count() > 1) )
         return false;
 
       return errors.Count <= 0 && undo && CurrentTailData.IsLoadedByXml && FilterManagerCollection != null && FilterManagerCollection.Count > 0;

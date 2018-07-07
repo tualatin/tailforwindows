@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
-using log4net;
+using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
+using Org.Vs.TailForWin.UI.Converters;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls
@@ -14,31 +17,32 @@ namespace Org.Vs.TailForWin.UI.UserControls
   /// </summary>
   public class HighlightTextBlock : TextBlock
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof(HighlightTextBlock));
+    private readonly StringToWindowMediaBrushConverter _stringToBrushConverter;
 
     private new string Text
     {
       set
       {
-        var words = (List<string>) HighlightText;
-
-        if ( words == null || words.Count == 0 )
+        if ( HighlightText == null || HighlightText.Count == 0 )
         {
           base.Text = value;
           return;
         }
 
+        string words = string.Join("|", HighlightText.Select(p => p.Text).ToList());
         Inlines.Clear();
-        var regex = new Regex($"({string.Join("|", words)})");
+        var regex = new Regex($@"(?i)(\b{words}\b)");
         var splits = regex.Split(value);
 
         foreach ( var item in splits )
         {
+          string hexColor = HighlightText.FirstOrDefault(p => string.Compare(p.Text, item, StringComparison.CurrentCultureIgnoreCase) == 0)?.TextHighlightColorHex;
+
           if ( regex.Match(item).Success )
           {
             var run = new Run(item)
             {
-              Foreground = HighlightForeground
+              Foreground = _stringToBrushConverter.Convert(hexColor, typeof(Brush), null, null) as Brush
             };
             Inlines.Add(run);
           }
@@ -69,15 +73,15 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// <summary>
     /// <see cref="List{T}"/> of <see cref="string"/> to be highlighted
     /// </summary>
-    public static readonly DependencyProperty HighlightTextroperty = DependencyProperty.Register(nameof(HighlightText), typeof(object), typeof(HighlightTextBlock),
+    public static readonly DependencyProperty HighlightTextroperty = DependencyProperty.Register(nameof(HighlightText), typeof(List<TextHighlightData>), typeof(HighlightTextBlock),
       new PropertyMetadata(null, HighlightTextChanged));
 
     /// <summary>
     /// Highlight text
     /// </summary>
-    public object HighlightText
+    public List<TextHighlightData> HighlightText
     {
-      get => GetValue(HighlightTextroperty);
+      get => (List<TextHighlightData>) GetValue(HighlightTextroperty);
       set => SetValue(HighlightTextroperty, value);
     }
 
@@ -101,18 +105,14 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public HighlightTextBlock()
-    {
-    }
+    public HighlightTextBlock() => _stringToBrushConverter = new StringToWindowMediaBrushConverter();
 
     /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="inline"><see cref="Inline"/></param>
     public HighlightTextBlock(Inline inline)
-    : base(inline)
-    {
-    }
+    : base(inline) => _stringToBrushConverter = new StringToWindowMediaBrushConverter();
 
     #region Property callbacks
 

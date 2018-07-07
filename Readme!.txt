@@ -29,6 +29,7 @@ v.2.0.xxxx.x
 * new Statusbar design
 * new per user settings -> Users\user\AppData\Roaming\Tail4Windows\
 * new translateable userinterface - english, german
+* new filters can be enabled/disabled
 * it's faster than version 1.5.xxxx
 * bug fix filtering
 * bug fix time settings

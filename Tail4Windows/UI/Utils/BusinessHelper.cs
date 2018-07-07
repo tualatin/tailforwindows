@@ -127,6 +127,7 @@ namespace Org.Vs.TailForWin.UI.Utils
         logWindowControl.SplitWindow.SelectedItem = content.SplitWindow.SelectedItem;
         logWindowControl.SplitWindow.FloodData = content.SplitWindow.FloodData;
         logWindowControl.SplitWindow.CollectionView = content.SplitWindow.CollectionView;
+        logWindowControl.SplitWindow.HighlightData = content.SplitWindow.HighlightData;
 
         logWindowControl.SplitWindow.CacheManager.SetCacheData(content.SplitWindow.CacheManager.GetCacheData());
       }

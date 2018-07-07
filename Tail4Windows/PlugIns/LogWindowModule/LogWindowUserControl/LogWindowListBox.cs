@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using log4net;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Controllers.Commands;
+using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Settings;
@@ -143,18 +144,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     /// <summary>
-    /// 
+    /// Highlight data result <see cref="List{T}"/> of <see cref="TextHighlightData"/> property
     /// </summary>
-    public static readonly DependencyProperty SearchResultProperty = DependencyProperty.Register(nameof(SearchResult), typeof(object), typeof(LogWindowListBox),
+    public static readonly DependencyProperty HighlightDataResultProperty = DependencyProperty.Register(nameof(HighlightDataResult), typeof(List<TextHighlightData>), typeof(LogWindowListBox),
       new PropertyMetadata(null));
 
     /// <summary>
-    /// 
+    /// Highlight data result <see cref="List{T}"/> of <see cref="TextHighlightData"/>
     /// </summary>
-    public object SearchResult
+    public List<TextHighlightData> HighlightDataResult
     {
-      get => GetValue(SearchResultProperty);
-      set => SetValue(SearchResultProperty, value);
+      get => (List<TextHighlightData>) GetValue(HighlightDataResultProperty);
+      set => SetValue(HighlightDataResultProperty, value);
     }
 
     /// <summary>

@@ -177,7 +177,7 @@
           <userControls:HighlightTextBlock
             x:Name="TextBoxMessage"
             Grid.Column="1"
-            HighlightText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=SearchResult}"
+            HighlightText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=HighlightDataResult}"
             Style="{StaticResource MyTextEditor}"
             >
             <userControls:HighlightTextBlock.Margin>

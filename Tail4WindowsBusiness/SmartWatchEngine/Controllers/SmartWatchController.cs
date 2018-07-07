@@ -16,7 +16,7 @@ using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Utils;
 
 
-namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres
+namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers
 {
   /// <summary>
   /// SmartWatch controller

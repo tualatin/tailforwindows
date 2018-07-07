@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Org.Vs.TailForWin.Core.Data.Base;
+﻿using Org.Vs.TailForWin.Core.Data.Base;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
@@ -9,12 +8,12 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
   /// </summary>
   public class TextHighlightData : NotifyMaster
   {
-    private List<string> _text;
+    private string _text;
 
     /// <summary>
     /// Text
     /// </summary>
-    public List<string> Text
+    public string Text
     {
       get => _text;
       set
@@ -44,10 +43,5 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
         OnPropertyChanged();
       }
     }
-
-    /// <summary>
-    /// Standard constructor
-    /// </summary>
-    public TextHighlightData() => Text = new List<string>();
   }
 }

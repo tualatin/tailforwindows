@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -18,7 +19,7 @@ using Org.Vs.TailForWin.Business.SearchEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Services.Events.Args;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
-using Org.Vs.TailForWin.Business.SmartWatchEngine.Controlleres;
+using Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Business.Utils.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
@@ -101,18 +102,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     #region Properties
 
     /// <summary>
-    /// Highlight data
+    /// Highlight data <see cref="List{T}"/> of <see cref="TextHighlightData"/>
     /// </summary>
     public List<TextHighlightData> HighlightData
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Search result
-    /// </summary>
-    public List<string> SearchResult
     {
       get;
       set;
@@ -426,10 +418,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
       case "FilterState":
 
-        SearchResult = null;
-        CollectionView.Filter = DynamicFilter;
+        HighlightData = null;
+        OnPropertyChanged(nameof(HighlightData));
 
-        OnPropertyChanged(nameof(SearchResult));
+        CollectionView.Filter = DynamicFilter;
         LogWindowMainElement.ScrollToEnd();
         break;
 
@@ -883,7 +875,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !result || highlightSource.Count == 0 )
         return result;
 
-      // TODO highlighting is not working
+      var sw = new Stopwatch();
+      sw.Start();
+
       foreach ( FilterData filterData in highlightSource )
       {
         try
@@ -900,26 +894,35 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( HighlightData == null )
             HighlightData = new List<TextHighlightData>();
 
-          var textHighlight = HighlightData.FirstOrDefault(p => p.Text.Contains(sr.First()));
+          // Is already inside highlight list?
+          var inside = HighlightData.Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0).ToList();
 
-          if ( textHighlight != null )
+          if ( inside.Count > 0 )
           {
-            textHighlight.Text.AddRange(sr);
+            // Color changed?
+            if ( inside.Where(p => Equals(p.TextHighlightColorHex, filterData.FilterColorHex)).ToList().Count > 0 )
+              continue;
+            else
+              HighlightData.Remove(inside.FirstOrDefault());
           }
-          else
+
+          HighlightData.Add(new TextHighlightData
           {
-            HighlightData.Add(new TextHighlightData
-            {
-              TextHighlightColorHex = filterData.FilterColorHex,
-              Text = sr
-            });
-          }
+            TextHighlightColorHex = filterData.FilterColorHex,
+            Text = string.Join("|", sr)
+          });
+
+          OnPropertyChanged(nameof(HighlightData));
         }
         catch ( Exception ex )
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
       }
+
+      sw.Stop();
+      LOG.Debug($"Elapsed time after highlighting {sw.ElapsedTicks} ticks / {sw.ElapsedMilliseconds} ms");
+
       return true;
     }
 

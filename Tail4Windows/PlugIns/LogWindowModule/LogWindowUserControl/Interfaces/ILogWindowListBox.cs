@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
+using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
 using Org.Vs.TailForWin.Core.Data;
 
 
@@ -68,6 +70,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Interfa
     /// Text editor search highlight foreground
     /// </summary>
     string TextEditorSearchHighlightForegroundHex
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Highlight data result <see cref="List{T}"/> of <see cref="TextHighlightData"/>
+    /// </summary>
+    List<TextHighlightData> HighlightDataResult
     {
       get;
       set;
