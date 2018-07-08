@@ -15,6 +15,8 @@
   Title="FilterManager"
   Width="510"
   Height="350"
+  MinWidth="510"
+  MinHeight="350"
   Icon="/T4W;component/Resources/Filters.ico"
   ResizeMode="CanResizeWithGrip"
   ShowInTaskbar="False"
