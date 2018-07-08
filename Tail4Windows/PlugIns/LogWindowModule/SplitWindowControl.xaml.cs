@@ -845,7 +845,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       var result = false;
       var filterSource = CurrentTailData.ListOfFilter.Where(p => p.FilterSource && p.IsEnabled).ToList();
-      var highlightSource = CurrentTailData.ListOfFilter.Where(p => p.IsHighlight && p.IsEnabled).ToList();
+      var highlightSource = CurrentTailData.ListOfFilter.Where(p => p.IsHighlight).ToList();
 
       // If no FilterSource is defined, we assume only Highlighting is active
       if ( filterSource.Count == 0 )
@@ -871,12 +871,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         }
       }
 
-      // Remove disabled filters
-      var toRemove = CurrentTailData.ListOfFilter.Where(p => !p.IsEnabled && p.IsHighlight).ToList();
-
-      if ( toRemove.Count > 0 )
-        HighlightData?.Clear();
-
       // If result is false OR no highlighting is defined, return the current result
       if ( !result || highlightSource.Count == 0 )
         return result;
@@ -899,6 +893,17 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
           if ( HighlightData == null )
             HighlightData = new List<TextHighlightData>();
+
+          if ( !filterData.IsEnabled )
+          {
+            // Remove disabled items from highlight list
+            var toRemove = HighlightData.Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0).ToList();
+
+            if ( toRemove.Count > 0 )
+              HighlightData.RemoveAll(p => toRemove.Contains(p));
+
+            continue;
+          }
 
           // Is already inside highlight list?
           var inside = HighlightData.Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0).ToList();
