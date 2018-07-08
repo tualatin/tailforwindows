@@ -231,7 +231,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( SelectedItem?.FindSettingsData == null )
         return false;
 
-      return SelectedItem.CanUndo || SelectedItem.FindSettingsData.CanRedo;
+      return SelectedItem.CanUndo || SelectedItem.FindSettingsData.CanUndo;
     }
 
     private void ExecuteUndoCommand()

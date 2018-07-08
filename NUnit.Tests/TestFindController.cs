@@ -19,7 +19,7 @@ namespace Org.Vs.NUnit.Tests
     protected void SetUp()
     {
       _findController = new FindController();
-      _textWorker = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.";
+      _textWorker = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, Sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.";
     }
 
     [Test]
@@ -36,17 +36,19 @@ namespace Org.Vs.NUnit.Tests
       Assert.IsFalse(result != null);
 
       settings.CaseSensitive = false;
-      result = await _findController.MatchTextAsync(settings, _textWorker, "*ip??m*").ConfigureAwait(false);
+      result = await _findController.MatchTextAsync(settings, _textWorker, "ip??m").ConfigureAwait(false);
       Assert.IsTrue(result.Count > 0);
+      Assert.AreEqual("ipsum", string.Join("|", result));
 
       settings.WholeWord = true;
       settings.UseWildcard = false;
       result = await _findController.MatchTextAsync(settings, _textWorker, "sed").ConfigureAwait(false);
       Assert.IsTrue(result.Count > 0);
+      Assert.AreEqual("Sed|sed", string.Join("|", result));
 
       settings.CaseSensitive = true;
       result = await _findController.MatchTextAsync(settings, _textWorker, "Diam").ConfigureAwait(false);
-      Assert.IsFalse(result != null);
+      Assert.AreEqual(0, result.Count);
 
       settings.CaseSensitive = false;
       settings.UseWildcard = false;

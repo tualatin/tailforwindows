@@ -16,7 +16,7 @@
   Width="510"
   Height="350"
   Icon="/T4W;component/Resources/Filters.ico"
-  ResizeMode="NoResize"
+  ResizeMode="CanResizeWithGrip"
   ShowInTaskbar="False"
   WindowStartupLocation="CenterOwner"
   >
@@ -80,6 +80,7 @@
           </RowDefinition.Style>
         </RowDefinition>
         <RowDefinition Height="Auto" />
+        <RowDefinition Height="17" />
       </Grid.RowDefinitions>
 
       <Border
@@ -750,6 +751,11 @@
           </ToggleButton.ToolTip>
         </ToggleButton>
       </Grid>
+
+      <Border
+        Grid.Row="4"
+        Background="{StaticResource BrushSolidBlue}"
+        />
     </Grid>
   </Border>
 </extendedControls:VsWindowEx>

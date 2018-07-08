@@ -48,12 +48,11 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
         {
           lock ( FindControllerLock )
           {
+            string caseSensitiveRegex = string.Empty;
+
             // if not case sensitive
             if ( !findSettings.CaseSensitive )
-            {
-              pattern = pattern.ToLower();
-              value = value.ToLower();
-            }
+              caseSensitiveRegex = "(?i)";
 
             Regex regex;
 
@@ -61,7 +60,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
             if ( findSettings.UseWildcard )
             {
               string regString = WildCardToRegular(pattern);
-              regex = new Regex(regString);
+              regex = new Regex(caseSensitiveRegex + regString);
 
               if ( !regex.IsMatch(value) )
                 return;
@@ -73,7 +72,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
             // searching a whole word with regex
             if ( findSettings.WholeWord && findSettings.UseRegex )
             {
-              regex = new Regex($"\\b({pattern})\\b");
+              regex = new Regex(caseSensitiveRegex + $"\\b({pattern})\\b");
 
               if ( !regex.IsMatch(value) )
                 return;
@@ -85,7 +84,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
             // searching a whole word
             if ( findSettings.WholeWord )
             {
-              regex = new Regex($"\\b{pattern}\\b");
+              regex = new Regex(caseSensitiveRegex + $"\\b{pattern}\\b");
               result = GetStringResult(value, regex);
               return;
             }
@@ -97,7 +96,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
                 return;
             }
 
-            regex = new Regex(pattern);
+            regex = new Regex(caseSensitiveRegex + pattern);
 
             if ( !regex.IsMatch(value) )
               return;
@@ -150,9 +149,11 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
 
     /// <summary>
     /// WildCard to regular expression
+    /// ? - any character  (one and only one)
+    /// * - any characters(zero or more)
     /// </summary>
     /// <param name="value">Value as string</param>
     /// <returns>A <see cref="Regex"/> string</returns>
-    private static string WildCardToRegular(string value) => "^" + Regex.Escape(value).Replace("\\?", ".").Replace("\\*", ".*") + "$";
+    private static string WildCardToRegular(string value) => Regex.Escape(value).Replace("\\?", ".").Replace("\\*", ".*");
   }
 }
