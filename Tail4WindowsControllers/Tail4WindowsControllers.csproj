@@ -148,6 +148,7 @@
     <Compile Include="PlugIns\SmartWatchPopupModule\Events\Args\SmartWatchWindowClosedEventArgs.cs" />
     <Compile Include="PlugIns\SmartWatchPopupModule\Events\Delegates\SmartWatchWindowClosedEventHandler.cs" />
     <Compile Include="PlugIns\SmartWatchPopupModule\Interfaces\ISmartWatchPopupViewModel.cs" />
+    <Compile Include="PlugIns\StatisticAnalysis\Interfaces\IStatisticAnalysisViewModel.cs" />
     <Compile Include="PlugIns\WindowsEventReadModule\Events\Args\OnOpenWindowsEventArgs.cs" />
     <Compile Include="PlugIns\WindowsEventReadModule\Events\Delegates\OnOpenWindowsEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

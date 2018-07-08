@@ -581,7 +581,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( logWindow.Count == 0 )
         return;
 
+#if DEBUG
       LOG.Trace($"Selected word is {_readOnlyTextMessage.SelectedText}");
+#endif
+
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatWindowMessage(this, CurrentTailData.File, logWindow.First().WindowId, _readOnlyTextMessage.SelectedText));
     }
 
@@ -679,14 +682,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       // very strange behaviour! when image is shown, no correction is needed, otherwise it is needed??? WTF!
       if ( item.BookmarkPoint != null )
       {
+#if DEBUG
         LOG.Debug($"BookmarkPoint is null X {relativePoint.X} Y {relativePoint.Y} Width {s.Width} Height {s.Height}");
+#endif
         return new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
       }
 
       relativePoint.X = relativePoint.X - s.Width / 2;
       relativePoint.Y = relativePoint.Y - s.Height / 2;
-      LOG.Debug($"BookmarkPoint is not null X {relativePoint.X} Y {relativePoint.Y} Width {s.Width} Height {s.Height}");
 
+#if DEBUG
+      LOG.Debug($"BookmarkPoint is not null X {relativePoint.X} Y {relativePoint.Y} Width {s.Width} Height {s.Height}");
+#endif
       return new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
     }
 

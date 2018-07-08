@@ -875,8 +875,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !result || highlightSource.Count == 0 )
         return result;
 
+#if DEBUG
       var sw = new Stopwatch();
       sw.Start();
+#endif
 
       foreach ( FilterData filterData in highlightSource )
       {
@@ -931,9 +933,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         }
       }
 
+#if DEBUG
       sw.Stop();
       LOG.Debug($"Elapsed time after highlighting {sw.ElapsedTicks} ticks / {sw.ElapsedMilliseconds} ms");
-
+#endif
       return true;
     }
 

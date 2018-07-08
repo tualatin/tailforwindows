@@ -19,6 +19,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(StatisticController));
 
+    private static readonly object MyLock = new object();
+
     private CancellationTokenSource _cts;
 
     #region Properties
@@ -55,6 +57,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     public async Task StopAsync()
     {
       MouseService.SetBusyState();
+
       LOG.Info("Stop statistics");
 
       await SaveAllValuesIntoDatabaseAsync().ConfigureAwait(false);
@@ -73,6 +76,11 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
       var result = new StatisticData();
 
+      lock ( MyLock )
+      {
+
+      }
+
       return result;
     }
 
@@ -82,26 +90,30 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     {
       await Task.Run(() =>
       {
-        TimeSpan uptime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
-
-        if ( uptime.Hours < 1 )
+        lock ( MyLock )
         {
-          LOG.Info($"Statistics not saved, {EnvironmentContainer.ApplicationTitle} was active less than 1 hour: {uptime.Minutes} minute(s)!");
-          return;
-        }
+          TimeSpan uptime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
 
-        try
-        {
-          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+          if ( uptime.Hours < 1 )
           {
-            long shrinkSize = db.Shrink();
-            LOG.Trace($"Database shrink: {shrinkSize}");
+            LOG.Info($"Statistics not saved, {EnvironmentContainer.ApplicationTitle} was active less than 1 hour: {uptime.Minutes} minute(s)!");
+            return;
+          }
+
+          try
+          {
+            using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+            {
+              long shrinkSize = db.Shrink();
+              LOG.Trace($"Database shrink: {shrinkSize}");
+            }
+          }
+          catch ( Exception ex )
+          {
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
           }
         }
-        catch ( Exception ex )
-        {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        }
+
       }, _cts.Token).ConfigureAwait(false);
     }
 
