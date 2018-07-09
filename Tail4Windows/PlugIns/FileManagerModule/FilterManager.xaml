@@ -12,7 +12,7 @@
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
   mc:Ignorable="d"
   x:Name="FilterManagerWindow"
-  Title="FilterManager"
+  Title="{DynamicResource ExtendedTailSettingsFilterLabel}"
   Width="510"
   Height="350"
   MinWidth="510"

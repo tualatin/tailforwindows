@@ -48,6 +48,7 @@
     <logWindowListBox:LogWindowListBox
       x:Name="LogWindowSplitElement"
       Grid.Row="0"
+      FindWhatHighlightText="{Binding ElementName=SplitWindow, Path=FindWhatHighlightTexts, UpdateSourceTrigger=PropertyChanged}"
       FontFamily="{Binding CurrentTailData.FontType.FontFamily, UpdateSourceTrigger=PropertyChanged}"
       FontSize="{Binding CurrentTailData.FontType.FontSize, UpdateSourceTrigger=PropertyChanged}"
       FontStretch="{Binding CurrentTailData.FontType.FontStretch, UpdateSourceTrigger=PropertyChanged}"
@@ -74,6 +75,7 @@
     <logWindowListBox:LogWindowListBox
       x:Name="LogWindowMainElement"
       Grid.Row="2"
+      FindWhatHighlightText="{Binding ElementName=SplitWindow, Path=FindWhatHighlightTexts, UpdateSourceTrigger=PropertyChanged}"
       FontFamily="{Binding CurrentTailData.FontType.FontFamily, UpdateSourceTrigger=PropertyChanged}"
       FontSize="{Binding CurrentTailData.FontType.FontSize, UpdateSourceTrigger=PropertyChanged}"
       FontStretch="{Binding CurrentTailData.FontType.FontStretch, UpdateSourceTrigger=PropertyChanged}"

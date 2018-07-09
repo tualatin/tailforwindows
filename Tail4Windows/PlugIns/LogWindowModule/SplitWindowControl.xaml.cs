@@ -102,6 +102,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     #region Properties
 
     /// <summary>
+    /// FindWhat highlight texts <see cref="List{T}"/> of string
+    /// </summary>
+    public List<string> FindWhatHighlightTexts
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Highlight data <see cref="List{T}"/> of <see cref="TextHighlightData"/>
     /// </summary>
     public List<TextHighlightData> HighlightData

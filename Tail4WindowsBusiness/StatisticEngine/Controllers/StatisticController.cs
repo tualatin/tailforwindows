@@ -80,7 +80,6 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       {
 
       }
-
       return result;
     }
 

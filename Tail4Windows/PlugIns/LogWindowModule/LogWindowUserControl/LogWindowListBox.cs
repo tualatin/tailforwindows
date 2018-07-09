@@ -18,7 +18,6 @@ using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
@@ -66,36 +65,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       get => (bool) GetValue(ShowGridSplitControlProperty);
       set => SetValue(ShowGridSplitControlProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor search highlight background property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorSearchHighlightBackgroundHexProperty = DependencyProperty.Register(nameof(TextEditorSearchHighlightBackgroundHex), typeof(string),
-      typeof(LogWindowListBox), new PropertyMetadata(DefaultEnvironmentSettings.SearchHighlightBackgroundColor));
-
-    /// <summary>
-    /// Text editor search highlight background
-    /// </summary>
-    public string TextEditorSearchHighlightBackgroundHex
-    {
-      get => (string) GetValue(TextEditorSearchHighlightBackgroundHexProperty);
-      set => SetValue(TextEditorSearchHighlightBackgroundHexProperty, value);
-    }
-
-    /// <summary>
-    /// Text editor search highlight foreground property
-    /// </summary>
-    public static readonly DependencyProperty TextEditorSearchHighlightForegroundHexProperty = DependencyProperty.Register(nameof(TextEditorSearchHighlightForegroundHex), typeof(string),
-      typeof(LogWindowListBox), new PropertyMetadata(DefaultEnvironmentSettings.SearchHighlightForegroundColor));
-
-    /// <summary>
-    /// Text editor search highlight foreground
-    /// </summary>
-    public string TextEditorSearchHighlightForegroundHex
-    {
-      get => (string) GetValue(TextEditorSearchHighlightForegroundHexProperty);
-      set => SetValue(TextEditorSearchHighlightForegroundHexProperty, value);
     }
 
     /// <summary>
@@ -156,6 +125,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       get => (List<TextHighlightData>) GetValue(HighlightDataResultProperty);
       set => SetValue(HighlightDataResultProperty, value);
+    }
+
+    /// <summary>
+    /// <see cref="List{T}"/> of <see cref="string"/> to be highlighted
+    /// </summary>
+    public static readonly DependencyProperty FindWhatHighlightTextProperty = DependencyProperty.Register(nameof(FindWhatHighlightText), typeof(List<string>), typeof(LogWindowListBox),
+      new PropertyMetadata(null));
+
+    /// <summary>
+    /// FindWhat Highlight text
+    /// </summary>
+    public List<string> FindWhatHighlightText
+    {
+      get => (List<string>) GetValue(FindWhatHighlightTextProperty);
+      set => SetValue(FindWhatHighlightTextProperty, value);
     }
 
     /// <summary>

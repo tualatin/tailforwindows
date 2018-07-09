@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
+using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.UI.Converters;
 
 
@@ -63,23 +64,54 @@ namespace Org.Vs.TailForWin.UI.UserControls
     #region Dependency properties
 
     /// <summary>
-    /// Highlight foreground property
+    /// FindWhat highlight background property
     /// </summary>
-    public static readonly DependencyProperty HighlightForegroundProperty = DependencyProperty.Register(nameof(HighlightForeground), typeof(Brush), typeof(HighlightTextBlock));
+    public static readonly DependencyProperty FindWhatHighlightBackgroundHexProperty = DependencyProperty.Register(nameof(FindWhatHighlightBackgroundHex), typeof(string),
+      typeof(HighlightTextBlock), new PropertyMetadata(DefaultEnvironmentSettings.SearchHighlightBackgroundColor));
 
     /// <summary>
-    /// Highlight foreground
+    /// FindWhat highlight background
     /// </summary>
-    public Brush HighlightForeground
+    public string FindWhatHighlightBackgroundHex
     {
-      get => (Brush) GetValue(HighlightForegroundProperty);
-      set => SetValue(HighlightForegroundProperty, value);
+      get => (string) GetValue(FindWhatHighlightBackgroundHexProperty);
+      set => SetValue(FindWhatHighlightBackgroundHexProperty, value);
+    }
+
+    /// <summary>
+    /// FindWhat highlight foreground property
+    /// </summary>
+    public static readonly DependencyProperty FindWhatHighlightForegroundHexProperty = DependencyProperty.Register(nameof(FindWhatHighlightForegroundHex), typeof(string),
+      typeof(HighlightTextBlock), new PropertyMetadata(DefaultEnvironmentSettings.SearchHighlightForegroundColor));
+
+    /// <summary>
+    /// FindWhat highlight foreground
+    /// </summary>
+    public string FindWhatHighlightForegroundHex
+    {
+      get => (string) GetValue(FindWhatHighlightForegroundHexProperty);
+      set => SetValue(FindWhatHighlightForegroundHexProperty, value);
     }
 
     /// <summary>
     /// <see cref="List{T}"/> of <see cref="string"/> to be highlighted
     /// </summary>
-    public static readonly DependencyProperty HighlightTextroperty = DependencyProperty.Register(nameof(HighlightText), typeof(List<TextHighlightData>), typeof(HighlightTextBlock),
+    public static readonly DependencyProperty FindWhatHighlightTextProperty = DependencyProperty.Register(nameof(FindWhatHighlightText), typeof(List<string>), typeof(HighlightTextBlock),
+      new PropertyMetadata(null, HighlightTextChanged));
+
+    /// <summary>
+    /// FindWhat Highlight text
+    /// </summary>
+    public List<string> FindWhatHighlightText
+    {
+      get => (List<string>) GetValue(FindWhatHighlightTextProperty);
+      set => SetValue(FindWhatHighlightTextProperty, value);
+    }
+
+    /// <summary>
+    /// <see cref="List{T}"/> of <see cref="TextHighlightData"/> to be highlighted
+    /// </summary>
+    public static readonly DependencyProperty HighlightTextProperty = DependencyProperty.Register(nameof(HighlightText), typeof(List<TextHighlightData>), typeof(HighlightTextBlock),
       new PropertyMetadata(null, HighlightTextChanged));
 
     /// <summary>
@@ -87,8 +119,8 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// </summary>
     public List<TextHighlightData> HighlightText
     {
-      get => (List<TextHighlightData>) GetValue(HighlightTextroperty);
-      set => SetValue(HighlightTextroperty, value);
+      get => (List<TextHighlightData>) GetValue(HighlightTextProperty);
+      set => SetValue(HighlightTextProperty, value);
     }
 
     /// <summary>

@@ -58,27 +58,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Interfa
     }
 
     /// <summary>
-    /// Text editor search highlight background
-    /// </summary>
-    string TextEditorSearchHighlightBackgroundHex
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Text editor search highlight foreground
-    /// </summary>
-    string TextEditorSearchHighlightForegroundHex
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
     /// Highlight data result <see cref="List{T}"/> of <see cref="TextHighlightData"/>
     /// </summary>
     List<TextHighlightData> HighlightDataResult
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// FindWhat Highlight text
+    /// </summary>
+    List<string> FindWhatHighlightText
     {
       get;
       set;

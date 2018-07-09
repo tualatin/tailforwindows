@@ -25,7 +25,6 @@
   </Style>
 
   <Style x:Key="MyTextEditor" TargetType="{x:Type userControls:HighlightTextBlock}">
-    <!--<Setter Property="Text" Value="{Binding Message, Mode=OneWay}" />-->
     <Setter Property="HighlightableText" Value="{Binding Message, Mode=OneWay}" />
     <Setter Property="TextWrapping" Value="{Binding Path=CurrentTailData.Wrap, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Converter={StaticResource BoolToTextWrapConverter}}" />
   </Style>
@@ -177,6 +176,9 @@
           <userControls:HighlightTextBlock
             x:Name="TextBoxMessage"
             Grid.Column="1"
+            FindWhatHighlightBackgroundHex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex}"
+            FindWhatHighlightForegroundHex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightForegroundColorHex}"
+            FindWhatHighlightText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=FindWhatHighlightText}"
             HighlightText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=HighlightDataResult}"
             Style="{StaticResource MyTextEditor}"
             >
@@ -259,8 +261,6 @@
         </ControlTemplate>
       </Setter.Value>
     </Setter>
-    <Setter Property="TextEditorSearchHighlightBackgroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex}" />
-    <Setter Property="TextEditorSearchHighlightForegroundHex" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightForegroundColorHex}" />
     <Setter Property="VerticalAlignment" Value="Stretch" />
     <Setter Property="VirtualizingStackPanel.CacheLength" Value="1,2" />
     <Setter Property="VirtualizingStackPanel.CacheLengthUnit" Value="Item" />
