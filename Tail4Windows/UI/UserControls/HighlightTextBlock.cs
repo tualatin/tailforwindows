@@ -24,20 +24,23 @@ namespace Org.Vs.TailForWin.UI.UserControls
     {
       set
       {
-        if ( HighlightText == null || HighlightText.Count == 0 )
+        if ( (HighlightText == null || HighlightText.Count == 0) && (FindWhatHighlightText == null || FindWhatHighlightText.Count == 0) )
         {
           base.Text = value;
           return;
         }
 
-        HighlightingText(value);
+        if ( HighlightText?.Count > 0 )
+          HighlightingText(value);
+
+        if ( FindWhatHighlightText?.Count > 0 )
+          FindWhatHighlight(value);
       }
     }
 
     private void HighlightingText(string value)
     {
-      string words = string.Join("|", HighlightText.Select(p => p.Text).ToList());
-      var regex = new Regex($@"\b({words})\b");
+      Regex regex = GetValidRegexPattern(HighlightText.Select(p => p.Text).ToList());
       var splits = regex.Split(value);
 
       Inlines.Clear();
@@ -59,6 +62,39 @@ namespace Org.Vs.TailForWin.UI.UserControls
           Inlines.Add(item);
         }
       }
+    }
+
+    private void FindWhatHighlight(string value)
+    {
+      Regex regex = GetValidRegexPattern(FindWhatHighlightText);
+      var splits = regex.Split(value);
+
+      // TODO what is with highlightes colors? Hmmm...
+
+      foreach ( string item in splits )
+      {
+        if ( regex.Match(item).Success )
+        {
+          var run = new Run(item)
+          {
+            Foreground = _stringToBrushConverter.Convert(FindWhatHighlightForegroundHex, typeof(Brush), null, null) as Brush,
+            Background = _stringToBrushConverter.Convert(FindWhatHighlightBackgroundHex, typeof(Brush), null, null) as Brush
+          };
+          Inlines.Add(run);
+        }
+        else
+        {
+          Inlines.Add(item);
+        }
+      }
+    }
+
+    private Regex GetValidRegexPattern(List<string> keyWords)
+    {
+      string words = string.Join("|", keyWords);
+      var regex = new Regex($@"\b({words})\b");
+
+      return regex;
     }
 
     #region Dependency properties
