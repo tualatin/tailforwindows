@@ -19,7 +19,7 @@ namespace Org.Vs.NUnit.Tests
     protected void SetUp()
     {
       _findController = new FindController();
-      _textWorker = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, Sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.";
+      _textWorker = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, Sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Sad";
     }
 
     [Test]
@@ -64,6 +64,16 @@ namespace Org.Vs.NUnit.Tests
       Assert.IsTrue(result.Count == 3);
       Assert.IsTrue(result.Contains("sed"));
       Assert.IsFalse(result.Contains("lorem"));
+
+      _textWorker = "Information: 0 : Logger was created successfully.";
+
+      settings.WholeWord = true;
+      settings.CaseSensitive = true;
+      settings.UseRegex = false;
+      settings.UseWildcard = false;
+      result = await _findController.MatchTextAsync(settings, _textWorker, "Info").ConfigureAwait(false);
+
+      Assert.AreEqual(0, result.Count);
     }
 
     private void InitTokenSource()

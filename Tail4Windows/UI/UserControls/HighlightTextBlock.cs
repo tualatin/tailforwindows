@@ -37,12 +37,12 @@ namespace Org.Vs.TailForWin.UI.UserControls
     private void HighlightingText(string value)
     {
       string words = string.Join("|", HighlightText.Select(p => p.Text).ToList());
-      var regex = new Regex($@"(\b{words}\b)");
+      var regex = new Regex($@"\b({words})\b");
       var splits = regex.Split(value);
 
       Inlines.Clear();
 
-      foreach ( var item in splits )
+      foreach ( string item in splits )
       {
         string hexColor = HighlightText.FirstOrDefault(p => string.Compare(p.Text, item, StringComparison.CurrentCultureIgnoreCase) == 0)?.TextHighlightColorHex;
 

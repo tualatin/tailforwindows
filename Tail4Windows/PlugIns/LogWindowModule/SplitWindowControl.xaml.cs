@@ -869,7 +869,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( sr == null || sr.Count == 0 )
             continue;
 
-          HandleAlertSettings(filterData, sr, logEntry);
+          if ( filterData.UseNotification )
+            HandleAlertSettings(filterData, sr, logEntry);
 
           result = true;
           break;
@@ -899,7 +900,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             continue;
 
           // If no FilterSource is defined, handle all alert settings here
-          if ( filterSource.Count == 0 )
+          if ( filterSource.Count == 0 && filterData.UseNotification )
             HandleAlertSettings(filterData, sr, logEntry);
 
           if ( HighlightData == null )
