@@ -74,6 +74,18 @@ namespace Org.Vs.NUnit.Tests
       result = await _findController.MatchTextAsync(settings, _textWorker, "Info").ConfigureAwait(false);
 
       Assert.AreEqual(0, result.Count);
+
+      _textWorker = "ShellWindow with a shell and a shellnut";
+
+      settings.WholeWord = false;
+      settings.CaseSensitive = false;
+      settings.UseRegex = false;
+      settings.UseWildcard = false;
+      result = await _findController.MatchTextAsync(settings, _textWorker, "shell").ConfigureAwait(false);
+
+      Assert.AreEqual(3, result.Count);
+      Assert.IsTrue(result.Contains("ShellWindow"));
+      Assert.IsFalse(result.Contains("with"));
     }
 
     private void InitTokenSource()

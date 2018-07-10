@@ -48,11 +48,13 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
         {
           lock ( FindControllerLock )
           {
-            string caseSensitiveRegex = string.Empty;
+            value = value.Trim();
+            pattern = pattern.Trim();
+            string ignoreCase = string.Empty;
 
             // if not case sensitive
             if ( !findSettings.CaseSensitive )
-              caseSensitiveRegex = "(?i)";
+              ignoreCase = "(?i)";
 
             Regex regex;
 
@@ -60,7 +62,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
             if ( findSettings.UseWildcard )
             {
               string regString = WildCardToRegular(pattern);
-              regex = new Regex(caseSensitiveRegex + regString);
+              regex = new Regex(ignoreCase + regString);
 
               if ( !regex.IsMatch(value) )
                 return;
@@ -72,11 +74,10 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
             // searching a whole word with regex
             if ( findSettings.WholeWord && findSettings.UseRegex )
             {
-              regex = new Regex(caseSensitiveRegex + $"\\b({pattern})\\b");
-
-              if ( !regex.IsMatch(value) )
+              if ( !VerifyRegex(pattern) )
                 return;
 
+              regex = new Regex(ignoreCase + $"\\b({pattern})\\b");
               result = GetStringResult(value, regex);
               return;
             }
@@ -84,7 +85,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
             // searching a whole word
             if ( findSettings.WholeWord )
             {
-              regex = new Regex(caseSensitiveRegex + $"\\b{pattern}\\b");
+              regex = new Regex(ignoreCase + $"\\b{pattern}\\b");
               result = GetStringResult(value, regex);
               return;
             }
@@ -94,13 +95,14 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
             {
               if ( !VerifyRegex(pattern) )
                 return;
+
+              regex = new Regex(pattern);
+              result = GetStringResult(value, regex);
+              return;
             }
 
-            regex = new Regex(caseSensitiveRegex + pattern);
-
-            if ( !regex.IsMatch(value) )
-              return;
-
+            pattern = $@"{ignoreCase}{pattern}\w+|{ignoreCase}{pattern}";
+            regex = new Regex(pattern);
             result = GetStringResult(value, regex);
           }
         }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);

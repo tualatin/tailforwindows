@@ -72,7 +72,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     private Regex GetValidRegexPattern(List<string> keyWords)
     {
       string words = string.Join("|", keyWords);
-      var regex = new Regex($@"\b({words})\b");
+      var regex = new Regex($@"(\b{words}\b)");
 
       return regex;
     }
