@@ -102,15 +102,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     #region Properties
 
     /// <summary>
-    /// FindWhat highlight texts <see cref="List{T}"/> of string
-    /// </summary>
-    public List<string> FindWhatHighlightTexts
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
     /// Highlight data <see cref="List{T}"/> of <see cref="TextHighlightData"/>
     /// </summary>
     public List<TextHighlightData> HighlightData
@@ -261,6 +252,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _searchController = new FindController();
       _preventMessageFlood = new PreventMessageFlood();
       _findController = new FindController();
+
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<FindWhatChangedClosedMessage>(OnFindWhatChangedOrClosed);
     }
 
     #region Dependency properties
@@ -562,6 +555,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowSplitElement.ScrollIntoView(logEntry);
     }
 
+    private void OnFindWhatChangedOrClosed(FindWhatChangedClosedMessage args) => RemoveFindWhatResultFromHighlightData();
+
     private void OnStartSearchFindNext(StartSearchFindNextMessage args)
     {
       if ( !IsRightWindow(args.WindowGuid) )
@@ -576,6 +571,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
+      LogWindowMainElement.UpateHighlighting(HighlightData);
+      LogWindowSplitElement.UpateHighlighting(HighlightData);
+
       if ( _notifyTaskCompletion == null )
         return;
 
@@ -585,6 +583,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnStartSearchCount(StartSearchCountMessage args)
     {
+      RemoveFindWhatResultFromHighlightData();
+
       if ( !IsRightWindow(args.WindowGuid) )
         return;
 
@@ -613,6 +613,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnStartSearchAll(StartSearchAllMessage args)
     {
+      RemoveFindWhatResultFromHighlightData();
+
       if ( !IsRightWindow(args.WindowGuid) )
         return;
 
@@ -633,6 +635,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       FindWhatResults?.Clear();
       FindWhatResults = new ObservableCollection<LogEntry>(_findWhatResults);
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatResultWindowMessage(FindWhatResults, logWindow.First().WindowId));
+
+      LogWindowMainElement.UpateHighlighting(HighlightData);
+      LogWindowSplitElement.UpateHighlighting(HighlightData);
 
       if ( _notifyTaskCompletion == null )
         return;
@@ -728,6 +733,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( findData.MarkLineAsBookmark )
             SetBookmarkFromFindWhat(log);
 
+          AddFindWhatResultToHighlightData(result);
+
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
           Dispatcher.InvokeAsync(() =>
           {
@@ -805,6 +812,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             SetBookmarkFromFindWhat(log);
 
           _findWhatResults.Add(log);
+          AddFindWhatResultToHighlightData(result);
         }
 
         for ( int i = 0; i < CacheManager.GetCacheData().Count; i++ )
@@ -819,6 +827,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             SetBookmarkFromFindWhat(log);
 
           _findWhatResults.Add(log);
+          AddFindWhatResultToHighlightData(result);
         }
       }
       else
@@ -842,6 +851,77 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
 
       LOG.Trace($"Find all result count {_findWhatResults.Count}");
+    }
+
+    private void AddFindWhatResultToHighlightData(List<string> values)
+    {
+      if ( HighlightData == null )
+        HighlightData = new List<TextHighlightData>();
+
+      string words = string.Join("|", values);
+      var inside = HighlightData.Where(i => Equals(i.Text, words) && !i.IsFindWhat).ToList();
+
+      if ( inside.Count > 0 )
+      {
+        // Item is in HighlightData, backup old highlight color
+        inside.ForEach(p =>
+        {
+          p.IsFindWhat = true;
+          p.OldTextHighlightColorHex = p.TextHighlightColorHex;
+          p.TextBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex;
+          p.TextHighlightColorHex = SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightForegroundColorHex;
+          p.Opacity = 0.6;
+        });
+        return;
+      }
+
+      inside = HighlightData.Where(p => Equals(p.Text, words) && p.IsFindWhat).ToList();
+
+      if ( inside.Count > 0 )
+        return;
+
+      HighlightData.Add(new TextHighlightData
+      {
+        IsFindWhat = true,
+        Opacity = 0.6,
+        Text = words,
+        TextBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex,
+        TextHighlightColorHex = SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightForegroundColorHex
+      });
+    }
+
+    private void RemoveFindWhatResultFromHighlightData()
+    {
+      if ( HighlightData == null || HighlightData.Count == 0 )
+        return;
+
+      var recover = HighlightData.Where(p => !string.IsNullOrWhiteSpace(p.OldTextHighlightColorHex) && p.IsFindWhat).ToList();
+
+      // recover is empty, remove all FindWhat results from list
+      if ( recover.Count == 0 )
+      {
+        // Remove FindWhat data
+        HighlightData.RemoveAll(p => p.IsFindWhat);
+        OnPropertyChanged(nameof(HighlightData));
+        return;
+      }
+
+      // Recover old highlight color
+      recover.ForEach(p =>
+      {
+        p.IsFindWhat = false;
+        p.TextHighlightColorHex = p.OldTextHighlightColorHex;
+        p.OldTextHighlightColorHex = string.Empty;
+        p.TextBackgroundColorHex = null;
+        p.Opacity = 1;
+      });
+
+      // Remove FindWhat data
+      HighlightData.RemoveAll(p => p.IsFindWhat);
+      OnPropertyChanged(nameof(HighlightData));
+
+      LogWindowMainElement.UpateHighlighting(HighlightData);
+      LogWindowSplitElement.UpateHighlighting(HighlightData);
     }
 
     private bool DynamicFilter(object item)
@@ -909,7 +989,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( !filterData.IsEnabled )
           {
             // Remove disabled items from highlight list
-            var toRemove = HighlightData.Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0).ToList();
+            var toRemove = HighlightData.Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0 && !p.IsFindWhat).ToList();
 
             if ( toRemove.Count > 0 )
               HighlightData.RemoveAll(p => toRemove.Contains(p));
@@ -918,7 +998,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           }
 
           // Is already inside highlight list?
-          var inside = HighlightData.Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0).ToList();
+          var inside = HighlightData.Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0 && !p.IsFindWhat).ToList();
 
           if ( inside.Count > 0 )
           {
@@ -926,7 +1006,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             if ( inside.Where(p => Equals(p.TextHighlightColorHex, filterData.FilterColorHex)).ToList().Count > 0 )
               continue;
 
-            HighlightData.Remove(inside.FirstOrDefault());
+            HighlightData.RemoveAll(p => inside.Contains(p));
           }
 
           HighlightData.Add(new TextHighlightData
@@ -1064,6 +1144,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     /// <summary>
+    /// Unregister FindWhat changed or closed message
+    /// </summary>
+    public void UnregisterFindWhatChanged() => EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<FindWhatChangedClosedMessage>(OnFindWhatChangedOrClosed);
+
+    /// <summary>
     /// GoToLine
     /// </summary>
     /// <param name="index">Index</param>
@@ -1170,6 +1255,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       Dispatcher.InvokeAsync(() =>
       {
+        if ( log.BookmarkPoint != null )
+          return;
+
         BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Boomark.png");
         log.BookmarkPoint = bp;
       }, DispatcherPriority.Normal);

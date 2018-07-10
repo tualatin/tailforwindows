@@ -51,14 +51,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     }
 
     /// <summary>
-    /// FindWhat highlight texts <see cref="List{T}"/> of string
-    /// </summary>
-    List<string> FindWhatHighlightTexts
-    {
-      get;
-    }
-
-    /// <summary>
     /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
     /// </summary>
     ObservableCollection<LogEntry> FindWhatResults
@@ -156,5 +148,10 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     /// Clears current items
     /// </summary>
     void ClearItems();
+
+    /// <summary>
+    /// Unregister FindWhat changed or closed message
+    /// </summary>
+    void UnregisterFindWhatChanged();
   }
 }

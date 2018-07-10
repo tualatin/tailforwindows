@@ -4,7 +4,7 @@ using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
 using Org.Vs.TailForWin.Core.Data;
 
 
-namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.LogWindowUserControl.Interfaces
 {
   /// <summary>
   /// LogWindow ListBox interface
@@ -66,15 +66,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Interfa
       set;
     }
 
-    /// <summary>
-    /// FindWhat Highlight text
-    /// </summary>
-    List<string> FindWhatHighlightText
-    {
-      get;
-      set;
-    }
-
     #endregion
 
     /// <summary>
@@ -104,5 +95,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Interfa
     /// </summary>
     /// <returns>ScrollViewer VerticalOffset, otherwise <see cref="double.NaN"/></returns>
     double GetScrollViewerVerticalOffset();
+
+    /// <summary>
+    /// Update highlighting in <see cref="System.Windows.Controls.TextBlock"/>
+    /// </summary>
+    /// <param name="result"></param>
+    void UpateHighlighting(List<TextHighlightData> result);
   }
 }

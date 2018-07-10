@@ -176,9 +176,6 @@
           <userControls:HighlightTextBlock
             x:Name="TextBoxMessage"
             Grid.Column="1"
-            FindWhatHighlightBackgroundHex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightBackgroundColorHex}"
-            FindWhatHighlightForegroundHex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.FindHighlightForegroundColorHex}"
-            FindWhatHighlightText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=FindWhatHighlightText}"
             HighlightText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=HighlightDataResult}"
             Style="{StaticResource MyTextEditor}"
             >

@@ -1073,6 +1073,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       lock ( LogWindowControlLock )
       {
+        SplitWindow.UnregisterFindWhatChanged();
         SplitWindow.LogEntries = null;
         CurrentTailData = null;
       }

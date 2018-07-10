@@ -138,6 +138,9 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       set
       {
         _searchText = value;
+        CountMatches = string.Empty;
+
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new FindWhatChangedClosedMessage(WindowGuid));
         OnPropertyChanged();
       }
     }
@@ -306,6 +309,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     private void ExecuteClosingCommand()
     {
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<FindWhatCountResponseMessage>(OnFindWhatCountResponse);
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new FindWhatChangedClosedMessage(WindowGuid));
 
       SettingsHelperController.CurrentSettings.FindDialogPositionX = LeftPosition;
       SettingsHelperController.CurrentSettings.FindDialogPositionY = TopPosition;
@@ -406,12 +410,16 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       {
         Wrap = _searchHistoryController.Wrap
       };
+      FindSettings.PropertyChanged += OnFindSettingsPropertyChanged;
 
       SearchFieldHasFocus = true;
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<FindWhatCountResponseMessage>(OnFindWhatCountResponse);
       OnPropertyChanged(nameof(SearchHistory));
     }
+
+    private void OnFindSettingsPropertyChanged(object sender, PropertyChangedEventArgs e) =>
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new FindWhatChangedClosedMessage(WindowGuid));
 
     private void OnFindWhatCountResponse(FindWhatCountResponseMessage args)
     {

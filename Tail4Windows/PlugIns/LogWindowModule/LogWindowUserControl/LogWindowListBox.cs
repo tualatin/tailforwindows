@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -16,6 +17,7 @@ using log4net;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.LogWindowUserControl.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Extensions;
@@ -24,7 +26,7 @@ using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
-using Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl.Interfaces;
+using Org.Vs.TailForWin.UI.Converters;
 using Org.Vs.TailForWin.UI.Extensions;
 using Org.Vs.TailForWin.UI.Utils;
 
@@ -49,6 +51,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     private TextBox _readOnlyTextMessage;
 
     private ContextMenu _readOnlyTextBoxContextMenu;
+    private readonly StringToWindowMediaBrushConverter _stringToBrushConverter;
+
 
     #region Public properties
 
@@ -128,21 +132,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     /// <summary>
-    /// <see cref="List{T}"/> of <see cref="string"/> to be highlighted
-    /// </summary>
-    public static readonly DependencyProperty FindWhatHighlightTextProperty = DependencyProperty.Register(nameof(FindWhatHighlightText), typeof(List<string>), typeof(LogWindowListBox),
-      new PropertyMetadata(null));
-
-    /// <summary>
-    /// FindWhat Highlight text
-    /// </summary>
-    public List<string> FindWhatHighlightText
-    {
-      get => (List<string>) GetValue(FindWhatHighlightTextProperty);
-      set => SetValue(FindWhatHighlightTextProperty, value);
-    }
-
-    /// <summary>
     /// SelectedText property
     /// </summary>
     public static readonly DependencyProperty SelectedTextProperty = DependencyProperty.Register(nameof(SelectedText), typeof(string),
@@ -185,7 +174,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public LogWindowListBox() => Loaded += LogWindowListBoxOnLoaded;
+    public LogWindowListBox()
+    {
+      _stringToBrushConverter = new StringToWindowMediaBrushConverter();
+      Loaded += LogWindowListBoxOnLoaded;
+    }
 
     private void LogWindowListBoxOnLoaded(object sender, RoutedEventArgs e)
     {
@@ -200,6 +193,66 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       PreviewMouseDoubleClick += LogWindowListBoxOnPreviewMouseDoubleClick;
 
       SelectionChanged += LogWindowListBoxOnSelectionChanged;
+    }
+
+    /// <summary>
+    /// Update highlighting in <see cref="TextBlock"/>
+    /// </summary>
+    /// <param name="result"></param>
+    public void UpateHighlighting(List<TextHighlightData> result)
+    {
+      if ( ItemsSource == null )
+        return;
+
+      IEnumerator enumerator = ItemsSource.GetEnumerator();
+
+      while ( enumerator.MoveNext() )
+      {
+        var tb = FindDataTemplate<TextBlock>(enumerator.Current as LogEntry, "TextBoxMessage");
+
+        if ( tb == null )
+          continue;
+
+        Regex regex = GetValidRegexPattern(result.Select(p => p.Text).ToList());
+        var splits = regex.Split(tb.Text);
+
+        tb.Inlines.Clear();
+
+        foreach ( string item in splits )
+        {
+          TextHighlightData highlightData = result.FirstOrDefault(p => string.Compare(p.Text, item, StringComparison.CurrentCultureIgnoreCase) == 0);
+
+          if ( regex.Match(item).Success && highlightData != null )
+          {
+            var run = new Run(item)
+            {
+              Foreground = _stringToBrushConverter.Convert(highlightData.TextHighlightColorHex, typeof(Brush), null, null) as Brush
+            };
+
+            if ( !string.IsNullOrWhiteSpace(highlightData.TextBackgroundColorHex) && highlightData.IsFindWhat )
+            {
+              run.Background = _stringToBrushConverter.Convert(highlightData.TextBackgroundColorHex, typeof(Brush), null, null) as Brush;
+
+              if ( run.Background != null )
+                run.Background.Opacity = highlightData.Opacity;
+            }
+
+            tb.Inlines.Add(run);
+          }
+          else
+          {
+            tb.Inlines.Add(item);
+          }
+        }
+      }
+    }
+
+    private Regex GetValidRegexPattern(List<string> keyWords)
+    {
+      string words = string.Join("|", keyWords);
+      var regex = new Regex($@"({words})");
+
+      return regex;
     }
 
     /// <summary>

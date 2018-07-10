@@ -175,6 +175,7 @@
     <Compile Include="Data\Messages\BringMainWindowToFrontMessage.cs" />
     <Compile Include="Data\Messages\DisableQuickAddInTailDataMessage.cs" />
     <Compile Include="Data\Messages\DragWindowTabItemChangedMessage.cs" />
+    <Compile Include="Data\Messages\FindWhat\FindWhatChangedClosedMessage.cs" />
     <Compile Include="Data\Messages\FindWhat\FindWhatResultMessage.cs" />
     <Compile Include="Data\Messages\FindWhat\FindWhatCountResponseMessage.cs" />
     <Compile Include="Data\Messages\FindWhat\StartSearchFindNextMessage.cs" />
@@ -237,7 +238,6 @@
     </Compile>
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\GridSplitterMouseExtension.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\LogEntryScrollBehavior.cs" />
-    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Interfaces\ILogWindowListBox.cs" />
     <Compile Include="PlugIns\LogWindowModule\Utils\LogWindowControlDummy.cs" />
     <Compile Include="PlugIns\PatternModule\PatternControl.xaml.cs">
       <DependentUpon>PatternControl.xaml</DependentUpon>

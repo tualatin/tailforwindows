@@ -124,6 +124,7 @@
     <Compile Include="PlugIns\LogWindowModule\Events\Delegates\StatusChangedEventHandler.cs" />
     <Compile Include="PlugIns\LogWindowModule\Interfaces\IPreventMessageFlood.cs" />
     <Compile Include="PlugIns\LogWindowModule\Interfaces\ISplitWindowControl.cs" />
+    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Interfaces\ILogWindowListBox.cs" />
     <Compile Include="PlugIns\LogWindowModule\Utils\PreventMessageFlood.cs" />
     <Compile Include="PlugIns\LogWindowModule\XmlHistoryController.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\Data\ThirdPartyCollectionViewHolder.cs" />

@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
-using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.UI.Converters;
 
 
@@ -24,7 +23,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     {
       set
       {
-        if ( (HighlightText == null || HighlightText.Count == 0) && (FindWhatHighlightText == null || FindWhatHighlightText.Count == 0) )
+        if ( HighlightText == null || HighlightText.Count == 0 )
         {
           base.Text = value;
           return;
@@ -32,9 +31,6 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
         if ( HighlightText?.Count > 0 )
           HighlightingText(value);
-
-        if ( FindWhatHighlightText?.Count > 0 )
-          FindWhatHighlight(value);
       }
     }
 
@@ -47,39 +43,23 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
       foreach ( string item in splits )
       {
-        string hexColor = HighlightText.FirstOrDefault(p => string.Compare(p.Text, item, StringComparison.CurrentCultureIgnoreCase) == 0)?.TextHighlightColorHex;
+        TextHighlightData highlightData = HighlightText.FirstOrDefault(p => string.Compare(p.Text, item, StringComparison.CurrentCultureIgnoreCase) == 0);
 
-        if ( regex.Match(item).Success )
+        if ( regex.Match(item).Success && highlightData != null )
         {
           var run = new Run(item)
           {
-            Foreground = _stringToBrushConverter.Convert(hexColor, typeof(Brush), null, null) as Brush
+            Foreground = _stringToBrushConverter.Convert(highlightData.TextHighlightColorHex, typeof(Brush), null, null) as Brush
           };
-          Inlines.Add(run);
-        }
-        else
-        {
-          Inlines.Add(item);
-        }
-      }
-    }
 
-    private void FindWhatHighlight(string value)
-    {
-      Regex regex = GetValidRegexPattern(FindWhatHighlightText);
-      var splits = regex.Split(value);
-
-      // TODO what is with highlightes colors? Hmmm...
-
-      foreach ( string item in splits )
-      {
-        if ( regex.Match(item).Success )
-        {
-          var run = new Run(item)
+          if ( !string.IsNullOrWhiteSpace(highlightData.TextBackgroundColorHex) && highlightData.IsFindWhat )
           {
-            Foreground = _stringToBrushConverter.Convert(FindWhatHighlightForegroundHex, typeof(Brush), null, null) as Brush,
-            Background = _stringToBrushConverter.Convert(FindWhatHighlightBackgroundHex, typeof(Brush), null, null) as Brush
-          };
+            run.Background = _stringToBrushConverter.Convert(highlightData.TextBackgroundColorHex, typeof(Brush), null, null) as Brush;
+
+            if ( run.Background != null )
+              run.Background.Opacity = highlightData.Opacity;
+          }
+
           Inlines.Add(run);
         }
         else
@@ -98,51 +78,6 @@ namespace Org.Vs.TailForWin.UI.UserControls
     }
 
     #region Dependency properties
-
-    /// <summary>
-    /// FindWhat highlight background property
-    /// </summary>
-    public static readonly DependencyProperty FindWhatHighlightBackgroundHexProperty = DependencyProperty.Register(nameof(FindWhatHighlightBackgroundHex), typeof(string),
-      typeof(HighlightTextBlock), new PropertyMetadata(DefaultEnvironmentSettings.SearchHighlightBackgroundColor));
-
-    /// <summary>
-    /// FindWhat highlight background
-    /// </summary>
-    public string FindWhatHighlightBackgroundHex
-    {
-      get => (string) GetValue(FindWhatHighlightBackgroundHexProperty);
-      set => SetValue(FindWhatHighlightBackgroundHexProperty, value);
-    }
-
-    /// <summary>
-    /// FindWhat highlight foreground property
-    /// </summary>
-    public static readonly DependencyProperty FindWhatHighlightForegroundHexProperty = DependencyProperty.Register(nameof(FindWhatHighlightForegroundHex), typeof(string),
-      typeof(HighlightTextBlock), new PropertyMetadata(DefaultEnvironmentSettings.SearchHighlightForegroundColor));
-
-    /// <summary>
-    /// FindWhat highlight foreground
-    /// </summary>
-    public string FindWhatHighlightForegroundHex
-    {
-      get => (string) GetValue(FindWhatHighlightForegroundHexProperty);
-      set => SetValue(FindWhatHighlightForegroundHexProperty, value);
-    }
-
-    /// <summary>
-    /// <see cref="List{T}"/> of <see cref="string"/> to be highlighted
-    /// </summary>
-    public static readonly DependencyProperty FindWhatHighlightTextProperty = DependencyProperty.Register(nameof(FindWhatHighlightText), typeof(List<string>), typeof(HighlightTextBlock),
-      new PropertyMetadata(null, HighlightTextChanged));
-
-    /// <summary>
-    /// FindWhat Highlight text
-    /// </summary>
-    public List<string> FindWhatHighlightText
-    {
-      get => (List<string>) GetValue(FindWhatHighlightTextProperty);
-      set => SetValue(FindWhatHighlightTextProperty, value);
-    }
 
     /// <summary>
     /// <see cref="List{T}"/> of <see cref="TextHighlightData"/> to be highlighted
