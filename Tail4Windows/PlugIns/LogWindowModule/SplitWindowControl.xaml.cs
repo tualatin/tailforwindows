@@ -903,6 +903,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         // Remove FindWhat data
         HighlightData.RemoveAll(p => p.IsFindWhat);
         OnPropertyChanged(nameof(HighlightData));
+
+        LogWindowMainElement.UpateHighlighting(HighlightData);
+        LogWindowSplitElement.UpateHighlighting(HighlightData);
         return;
       }
 
