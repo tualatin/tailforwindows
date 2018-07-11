@@ -88,6 +88,7 @@
             ElementText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsWindowEx}}, Path=DataContext.WorkingPattern, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
             ExtendedMenuItems="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsWindowEx}}, Path=DataContext.MenuItems, UpdateSourceTrigger=PropertyChanged}"
             IsEnabled="{Binding ElementName=RegexCheckBox, Path=IsChecked}"
+            TabIndex="1"
             />
 
           <Button
@@ -98,7 +99,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Command="{Binding UndoCommand}"
-            TabIndex="4"
+            TabIndex="2"
             >
             <StackPanel Margin="2">
               <Image
@@ -163,7 +164,7 @@
               Margin="10 5"
               Content="{DynamicResource FilterManagerWildCard}"
               IsChecked="{Binding CurrenTailData.FindSettings.UseWildcard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              TabIndex="2"
+              TabIndex="3"
               >
               <CheckBox.ToolTip>
                 <StackPanel>
@@ -204,7 +205,7 @@
               Margin="0 5"
               Content="{DynamicResource FileManagerDataGridIsRegex}"
               IsChecked="{Binding CurrenTailData.FindSettings.UseRegex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-              TabIndex="3"
+              TabIndex="4"
               >
               <CheckBox.ToolTip>
                 <StackPanel>
@@ -260,7 +261,7 @@
     </Button>
 
     <CheckBox
-      Grid.Row="3"
+      Grid.Row="2"
       Height="22"
       Margin="10 5"
       Content="{DynamicResource FileManagerUsePattern}"
@@ -269,4 +270,3 @@
       />
   </Grid>
 </extendedControls:VsWindowEx>
-

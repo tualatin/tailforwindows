@@ -98,7 +98,7 @@
               Height="22"
               Margin="0 0 2 0"
               Command="{Binding SaveCommand}"
-              TabIndex="0"
+              TabIndex="2"
               Visibility="{Binding SaveButtonVisibility, UpdateSourceTrigger=PropertyChanged}"
               >
               <StackPanel Margin="3">
@@ -155,7 +155,7 @@
               Height="22"
               Margin="0 0 2 0"
               Command="{Binding AddFilterDataCommand}"
-              TabIndex="1"
+              TabIndex="3"
               >
               <Path
                 Margin="3"
@@ -209,7 +209,7 @@
               Height="22"
               Margin="0 0 2 0"
               Command="{Binding UndoCommand}"
-              TabIndex="2"
+              TabIndex="4"
               >
               <StackPanel Margin="3">
                 <Image
@@ -266,7 +266,7 @@
               Margin="0 0 2 0"
               Command="{Binding DeleteFilterDataCommand}"
               Style="{StaticResource RemoveItemButtonStyle}"
-              TabIndex="3"
+              TabIndex="5"
               >
               <Button.ToolTip>
                 <StackPanel>
@@ -313,7 +313,7 @@
         IsSynchronizedWithCurrentItem="True"
         ItemsSource="{Binding FilterManagerView}"
         SelectionMode="Single"
-        TabIndex="4"
+        TabIndex="6"
         >
         <userControls:VsDataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
@@ -710,7 +710,7 @@
           Command="{Binding CloseCommand}"
           CommandParameter="{Binding ElementName=FilterManagerWindow}"
           IsCancel="True"
-          TabIndex="5"
+          TabIndex="0"
           />
 
         <ToggleButton
@@ -719,7 +719,7 @@
           Margin="0 5 15 5"
           HorizontalAlignment="Right"
           IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowExtendedSettings, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-          TabIndex="6"
+          TabIndex="1"
           >
           <ToggleButton.ToolTip>
             <StackPanel>

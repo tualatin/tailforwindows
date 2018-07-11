@@ -67,7 +67,7 @@
         Height="22"
         Margin="5 0 0 0"
         Command="{Binding LoadedCommand}"
-        TabIndex="0"
+        TabIndex="3"
         >
         <StackPanel Margin="3">
           <Image
@@ -124,6 +124,7 @@
       Grid.Row="1"
       Margin="0 0 0 5"
       ItemsSource="{Binding Root}"
+      TabIndex="0"
       >
       <TreeView.ItemTemplate>
         <HierarchicalDataTemplate

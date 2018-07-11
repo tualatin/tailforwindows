@@ -144,6 +144,7 @@
           ElementHasFocus="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type floatWindow:VsFloatingWindow}}, Path=DataContext.SearchFieldHasFocus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           ElementText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type floatWindow:VsFloatingWindow}}, Path=DataContext.SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           IsEnabled="{Binding ElementName=CheckBoxRegex, Path=IsChecked}"
+          TabIndex="11"
           />
       </Grid>
     </StackPanel>

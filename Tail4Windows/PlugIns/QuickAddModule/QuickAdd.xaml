@@ -118,7 +118,7 @@
         Content="{DynamicResource FileManagerSave}"
         Command="{Binding SaveCommand}"
         CommandParameter="{Binding ElementName=QuickAddWindow}"
-        TabIndex="0"
+        TabIndex="2"
         />
 
       <Button
@@ -132,7 +132,7 @@
         Command="{Binding CloseCommand}"
         CommandParameter="{Binding ElementName=QuickAddWindow}"
         IsCancel="True"
-        TabIndex="1"
+        TabIndex="3"
         />
     </Grid>
   </Grid>
