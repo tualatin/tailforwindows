@@ -101,7 +101,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
               return;
             }
 
-            pattern = $@"{ignoreCase}{pattern}\w+|{ignoreCase}{pattern}";
+            pattern = $@"{ignoreCase}{pattern}\w+|{ignoreCase}{pattern}|{ignoreCase}\w+{pattern}";
             regex = new Regex(pattern);
             result = GetStringResult(value, regex);
           }

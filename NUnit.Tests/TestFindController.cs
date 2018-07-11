@@ -65,10 +65,10 @@ namespace Org.Vs.NUnit.Tests
       Assert.IsTrue(result.Contains("sed"));
       Assert.IsFalse(result.Contains("lorem"));
 
-      _textWorker = "Information: 0 : Logger was created successfully.";
+      _textWorker = "TiCon4.exe Information: 0 : Bootstrapper sequence completed";
 
       settings.WholeWord = true;
-      settings.CaseSensitive = true;
+      settings.CaseSensitive = false;
       settings.UseRegex = false;
       settings.UseWildcard = false;
       result = await _findController.MatchTextAsync(settings, _textWorker, "Info").ConfigureAwait(false);

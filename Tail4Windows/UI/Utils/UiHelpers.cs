@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -33,8 +35,27 @@ namespace Org.Vs.TailForWin.UI.Utils
 
         return grid;
       }
-
       return null;
+    }
+
+    /// <summary>
+    /// Creates a valid <see cref="Regex"/> pattern
+    /// </summary>
+    /// <param name="keyWords"><see cref="List{T}"/> of keywords</param>
+    /// <returns>Valid <see cref="Regex"/></returns>
+    public static Regex GetValidRegexPattern(List<string> keyWords)
+    {
+      string words = string.Empty;
+      keyWords.ForEach(p =>
+      {
+        if ( !string.IsNullOrWhiteSpace(words) )
+          words += "|";
+
+        words += $@"\b{p}\b";
+      });
+      var regex = new Regex($@"({words})");
+
+      return regex;
     }
   }
 }

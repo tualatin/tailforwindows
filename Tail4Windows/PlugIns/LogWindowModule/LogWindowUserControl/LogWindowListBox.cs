@@ -213,7 +213,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         if ( tb == null )
           continue;
 
-        Regex regex = GetValidRegexPattern(result.Select(p => p.Text).ToList());
+        Regex regex = UiHelpers.GetValidRegexPattern(result.Select(p => p.Text).ToList());
         var splits = regex.Split(tb.Text);
 
         tb.Inlines.Clear();
@@ -245,14 +245,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
           }
         }
       }
-    }
-
-    private Regex GetValidRegexPattern(List<string> keyWords)
-    {
-      string words = string.Join("|", keyWords);
-      var regex = new Regex($@"({words})");
-
-      return regex;
     }
 
     /// <summary>

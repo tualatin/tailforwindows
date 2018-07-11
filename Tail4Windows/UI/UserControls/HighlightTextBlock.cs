@@ -8,6 +8,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
 using Org.Vs.TailForWin.UI.Converters;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls
@@ -36,7 +37,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private void HighlightingText(string value)
     {
-      Regex regex = GetValidRegexPattern(HighlightText.Select(p => p.Text).ToList());
+      Regex regex = UiHelpers.GetValidRegexPattern(HighlightText.Select(p => p.Text).ToList());
       var splits = regex.Split(value);
 
       Inlines.Clear();
@@ -67,14 +68,6 @@ namespace Org.Vs.TailForWin.UI.UserControls
           Inlines.Add(item);
         }
       }
-    }
-
-    private Regex GetValidRegexPattern(List<string> keyWords)
-    {
-      string words = string.Join("|", keyWords);
-      var regex = new Regex($@"(\b{words}\b)");
-
-      return regex;
     }
 
     #region Dependency properties
