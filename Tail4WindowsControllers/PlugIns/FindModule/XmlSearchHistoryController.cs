@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using log4net;
@@ -168,6 +169,26 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
     /// Deletes current history
     /// </summary>
     /// <returns>Task</returns>
-    public Task DeleteHistoryAsync() => throw new NotImplementedException();
+    public async Task DeleteHistoryAsync()
+    {
+      var history = await ReadXmlFileAsync().ConfigureAwait(false);
+      await Task.Run(() =>
+      {
+        DeleteHistory(history);
+      }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
+    }
+
+    private void DeleteHistory(IObservableDictionary<string, string> history)
+    {
+      lock ( MyLock )
+      {
+        history?.Clear();
+
+        if ( !File.Exists(_historyFile) )
+          return;
+
+        File.Delete(_historyFile);
+      }
+    }
   }
 }

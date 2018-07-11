@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using log4net;
@@ -30,8 +31,8 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
     /// </summary>
     public bool Wrap
     {
-      get => throw  new NotImplementedException();
-      set => throw  new NotImplementedException();
+      get => throw new NotImplementedException();
+      set => throw new NotImplementedException();
     }
 
     /// <summary>
@@ -139,7 +140,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
     /// Deletes current history
     /// </summary>
     /// <returns>Task</returns>
-    public async Task DeleteHistoryAsync() => await Task.Run(() => DeleteHistory()).ConfigureAwait(false);
+    public async Task DeleteHistoryAsync() => await Task.Run(() => DeleteHistory(), new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
 
     private void DeleteHistory()
     {

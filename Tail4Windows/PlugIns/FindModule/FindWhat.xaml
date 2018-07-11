@@ -18,6 +18,7 @@
   Height="350"
   MinWidth="315"
   MinHeight="350"
+  MaxHeight="450"
   Left="{Binding LeftPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Top="{Binding TopPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   >
@@ -58,10 +59,45 @@
     </Grid.RowDefinitions>
 
     <StackPanel Grid.Row="0">
-      <Label
-        Margin="0 0 0 5"
-        Content="{DynamicResource FindDialogFindWhat}"
-        />
+      <Grid Margin="0 0 0 5">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Label
+          Grid.Column="0"
+          VerticalAlignment="Center"
+          Content="{DynamicResource FindDialogFindWhat}"
+          />
+
+        <Button
+          Grid.Column="1"
+          HorizontalAlignment="Right"
+          Style="{StaticResource MenuButtonStyle}"
+          >
+          <i:Interaction.Behaviors>
+            <behaviors:DropDownButtonBehavior />
+          </i:Interaction.Behaviors>
+
+          <Button.ContextMenu>
+            <ContextMenu>
+              <MenuItem
+                Header="{DynamicResource ExtendedTailSettingsDeleteHistory}"
+                Command="{Binding DeleteHistoryCommand}"
+                >
+                <MenuItem.Icon>
+                  <Image
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/transparent.png"
+                    />
+                </MenuItem.Icon>
+              </MenuItem>
+            </ContextMenu>
+          </Button.ContextMenu>
+        </Button>
+      </Grid>
 
       <Grid>
         <Grid.ColumnDefinitions>

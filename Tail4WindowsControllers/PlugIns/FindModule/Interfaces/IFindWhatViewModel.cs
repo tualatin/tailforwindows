@@ -131,6 +131,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Interfaces
     }
 
     /// <summary>
+    /// Delete histroy command
+    /// </summary>
+    IAsyncCommand DeleteHistoryCommand
+    {
+      get;
+    }
+
+    /// <summary>
     /// Search history
     /// </summary>
     IObservableDictionary<string, string> SearchHistory

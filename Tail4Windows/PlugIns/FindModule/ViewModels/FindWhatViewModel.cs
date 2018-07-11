@@ -199,6 +199,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedPropertyChanged;
       ((AsyncCommand<object>) FindNextCommand).PropertyChanged += FindNextCommandPropertyChanged;
+      ((AsyncCommand<object>) DeleteHistoryCommand).PropertyChanged += DeleteHistoryPropertyChanged;
     }
 
     #region Commands
@@ -264,9 +265,24 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     /// </summary>
     public IAsyncCommand KeyDownCommand => _keyDownCommand ?? (_keyDownCommand = AsyncCommand.Create((p, t) => ExecuteKeyDownCommandAsync(p)));
 
+    private IAsyncCommand _deleteHistoryCommand;
+
+    /// <summary>
+    /// Delete histroy command
+    /// </summary>
+    public IAsyncCommand DeleteHistoryCommand => _deleteHistoryCommand ?? (_deleteHistoryCommand = AsyncCommand.Create(p => CanDeleteHistory(), ExecuteDeleteHistoryCommandAsync));
+
     #endregion
 
     #region Command functions
+
+    private bool CanDeleteHistory() => SearchHistory != null && SearchHistory.Count > 0;
+
+    private async Task ExecuteDeleteHistoryCommandAsync()
+    {
+      MouseService.SetBusyState();
+      await _searchHistoryController.DeleteHistoryAsync().ConfigureAwait(false);
+    }
 
     private async Task ExecuteKeyDownCommandAsync(object param)
     {
@@ -390,6 +406,15 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     }
 
     #endregion
+
+    private void DeleteHistoryPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      SearchHistory.Clear();
+      OnPropertyChanged(nameof(SearchHistory));
+    }
 
     private void FindNextCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
     {

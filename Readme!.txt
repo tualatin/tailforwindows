@@ -9,6 +9,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.0.xxxx.x
+* new user can delete FindWhat history
 * new keyword highlighting
 * new algorithm to read log files (Tail4Windows does not block files anymore)
 * new read Windows event log
@@ -32,11 +33,12 @@ v.2.0.xxxx.x
 * new translateable userinterface - english, german
 * new filters can be enabled/disabled
 * it's faster than version 1.5.xxxx
+* bug fix search highlighting
 * bug fix filtering
 * bug fix time settings
 * bug fix date settings
 * remove some old settings from config file -> Tail4Windows will check it at startup
-* complete redesign of Find
+* complete redesign of FindWhat
 * redesign of Pattern control
 * add more shortcuts -> see Shortcuts.txt
 * add more Options
