@@ -96,7 +96,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
               if ( !VerifyRegex(pattern) )
                 return;
 
-              regex = new Regex(pattern);
+              regex = new Regex(ignoreCase + pattern);
               result = GetStringResult(value, regex);
               return;
             }
