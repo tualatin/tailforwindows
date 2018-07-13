@@ -1017,8 +1017,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             TextHighlightColorHex = filterData.FilterColorHex,
             Text = string.Join("|", sr)
           });
-
-          OnPropertyChanged(nameof(HighlightData));
         }
         catch ( Exception ex )
         {
@@ -1030,6 +1028,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       sw.Stop();
       LOG.Debug($"Elapsed time after highlighting {sw.ElapsedTicks} ticks / {sw.ElapsedMilliseconds} ms");
 #endif
+      OnPropertyChanged(nameof(HighlightData));
+
       return true;
     }
 

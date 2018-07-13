@@ -874,6 +874,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       tabItem.TabHeaderDoubleClick += TabItemDoubleClick;
 
       TabItemsSource.Add(tabItem);
+
+      if ( content == null )
+        return;
+      if ( !content.CurrentTailData.FilterState )
+        return;
+
+      // Fuck off WPF databinding, set filter state false and than true again -> Highlighting works.
+      content.CurrentTailData.FilterState = false;
+      content.CurrentTailData.FilterState = true;
     }
 
     private void OnAddTabItemFromMainWindow(AddTabItemMessage args)
