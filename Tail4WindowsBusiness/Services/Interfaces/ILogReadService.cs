@@ -96,6 +96,18 @@ namespace Org.Vs.TailForWin.Business.Services.Interfaces
     void SetFileOffsetZero();
 
     /// <summary>
+    /// Gets current file offset
+    /// </summary>
+    /// <returns>Currrent file offset</returns>
+    long GetFileOffset();
+
+    /// <summary>
+    /// Sets current file offset
+    /// </summary>
+    /// <param name="offset">Offset</param>
+    void SetFileOffset(long offset);
+
+    /// <summary>
     /// Get <see cref="ObservableCollection{T}"/> of <see cref="WindowsEventCategory"/> with Windows events categories
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>

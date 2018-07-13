@@ -159,10 +159,23 @@ namespace Org.Vs.TailForWin.Business.Services
     public void SetFileOffsetZero() => _fileOffset = 0;
 
     /// <summary>
+    /// Gets current file offset
+    /// </summary>
+    /// <returns>Current file offset</returns>
+    public long GetFileOffset() => _fileOffset;
+
+    /// <summary>
+    /// Sets current file offset
+    /// </summary>
+    /// <param name="offset">Offset</param>
+    public void SetFileOffset(long offset) => _fileOffset = offset;
+
+    /// <summary>
     /// Get <see cref="ObservableCollection{T}"/> of <see cref="WindowsEventCategory"/> with Windows events categories
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>Task</returns>
+    /// <exception cref="NotImplementedException"></exception>
     public Task<ObservableCollection<WindowsEventCategory>> GetCategoriesAsync(CancellationToken token) => throw new NotImplementedException();
 
     private void LogReaderServiceDoWork(object sender, DoWorkEventArgs e)

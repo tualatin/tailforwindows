@@ -18,6 +18,12 @@ namespace Org.Vs.TailForWin.Business.Utils.Interfaces
     List<LogEntry> GetCacheData();
 
     /// <summary>
+    /// Adds <see cref="List{T}"/> of <see cref="LogEntry"/> to CacheData
+    /// </summary>
+    /// <param name="data"><see cref="List{T}"/> of <see cref="LogEntry"/></param>
+    void AddToCacheData(List<LogEntry> data);
+
+    /// <summary>
     /// Sets new cache data
     /// </summary>
     /// <param name="data"><see cref="IEnumerable{T}"/> of <see cref="LogEntry"/></param>

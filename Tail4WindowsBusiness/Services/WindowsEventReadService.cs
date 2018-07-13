@@ -89,7 +89,22 @@ namespace Org.Vs.TailForWin.Business.Services
     /// <summary>
     /// Sets current fileoffset to zero
     /// </summary>
+    /// <exception cref="NotImplementedException"></exception>
     public void SetFileOffsetZero() => throw new NotImplementedException();
+
+    /// <summary>
+    /// Gets current file offset
+    /// </summary>
+    /// <returns>Current file offset</returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public long GetFileOffset() => throw new NotImplementedException();
+
+    /// <summary>
+    /// Sets current file offset
+    /// </summary>
+    /// <param name="offset">Offset</param>
+    /// <exception cref="NotImplementedException"></exception>
+    public void SetFileOffset(long offset) => throw new NotImplementedException();
 
     #endregion
 

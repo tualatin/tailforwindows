@@ -137,6 +137,7 @@ namespace Org.Vs.TailForWin.UI.Utils
 
       logWindowControl.TailReader.TailData = content.CurrentTailData;
       logWindowControl.TailReader.SetIndex(content.TailReader.Index);
+      logWindowControl.TailReader.SetFileOffset(content.TailReader.GetFileOffset());
 
       return logWindowControl;
     }
