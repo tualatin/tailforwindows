@@ -213,7 +213,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         if ( tb == null )
           continue;
 
-        Regex regex = UiHelpers.GetValidRegexPattern(result.Select(p => p.Text).ToList());
+        Regex regex = BusinessHelper.GetValidRegexPattern(result.Select(p => p.Text).ToList());
         var splits = regex.Split(tb.Text);
 
         tb.Inlines.Clear();
