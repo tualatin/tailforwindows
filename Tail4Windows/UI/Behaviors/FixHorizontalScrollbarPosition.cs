@@ -87,7 +87,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       if ( !Equals(scrollViewer, scrollView) )
         return;
 
-      _horizontalScrollBarGrid = UiHelpers.GetHorizontalScrollBarGrid(scrollViewer);
+      _horizontalScrollBarGrid = BusinessHelper.GetHorizontalScrollBarGrid(scrollViewer);
 
       if ( _horizontalScrollBarGrid == null )
         return;

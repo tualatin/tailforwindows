@@ -459,7 +459,6 @@
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
     <Compile Include="UI\Utils\BusinessHelper.cs" />
     <Compile Include="UI\Utils\FileDragDropHelper.cs" />
-    <Compile Include="UI\Utils\UiHelpers.cs" />
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />

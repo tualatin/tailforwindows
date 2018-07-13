@@ -283,7 +283,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// MouseDoubleClick command
     /// </summary>
-    public ICommand DataGridMouseDoubleClickCommand => _dataGridMouseDoubleClickCommand ?? (_dataGridMouseDoubleClickCommand = new RelayCommand(p => SelectedItem != null, ExecuteMouseDoubleClickCommmand));
+    public ICommand DataGridMouseDoubleClickCommand => _dataGridMouseDoubleClickCommand ?? (_dataGridMouseDoubleClickCommand = new RelayCommand(p => CanExecuteOpenCommand(),
+                                                         ExecuteMouseDoubleClickCommmand));
 
     private ICommand _undoCommand;
 

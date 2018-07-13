@@ -37,7 +37,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private void HighlightingText(string value)
     {
-      Regex regex = UiHelpers.GetValidRegexPattern(HighlightText.Select(p => p.Text).ToList());
+      Regex regex = BusinessHelper.GetValidRegexPattern(HighlightText.Select(p => p.Text).ToList());
       var splits = regex.Split(value);
 
       Inlines.Clear();
