@@ -369,6 +369,15 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       tabItem.TabHeaderDoubleClick += TabItemTabHeaderDoubleClick;
 
       TabItems.Add(tabItem);
+
+      if ( content == null )
+        return;
+      if ( !content.CurrentTailData.FilterState )
+        return;
+
+      // Fuck off WPF databinding, set filter state false and than true again -> Highlighting works.
+      content.CurrentTailData.FilterState = false;
+      content.CurrentTailData.FilterState = true;
     }
 
     #region Commands
@@ -647,7 +656,6 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       // Workaround unregister OpenTailDataAsNewTabItem to prevent open this message more than one times. Very, very ugly!
       // Register this message again, after waiting some ms...
-      // TODO better solution?
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenTailDataAsNewTabItem>(OnOpenTailDataAsNewTabItem);
 
       ILogWindowControl content = new LogWindowControl
