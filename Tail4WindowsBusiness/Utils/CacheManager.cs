@@ -51,6 +51,12 @@ namespace Org.Vs.TailForWin.Business.Utils
     }
 
     /// <summary>
+    /// Adds <see cref="List{T}"/> of <see cref="LogEntry"/> to CacheData
+    /// </summary>
+    /// <param name="data"><see cref="List{T}"/> of <see cref="LogEntry"/></param>
+    public void AddToCacheData(List<LogEntry> data) => SetCacheData(data);
+
+    /// <summary>
     /// Gets current cache data
     /// </summary>
     /// <returns><see cref="List{T}"/> of <see cref="LogEntry"/></returns>
