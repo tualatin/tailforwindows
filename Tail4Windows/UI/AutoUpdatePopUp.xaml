@@ -10,10 +10,8 @@
   mc:Ignorable="d"
   x:Name="AutoUpdateDialog"
   Title="{DynamicResource AutoUpdateWndTitle}"
-  Width="350"
-  Height="165"
-  MinWidth="350"
-  MinHeight="165"
+  Width="400"
+  Height="170"
   Icon="/T4W;component/Resources/update.ico"
   ResizeMode="NoResize"
   ShowInTaskbar="False"
@@ -28,7 +26,7 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="80" />
       <RowDefinition Height="10" />
-      <RowDefinition Height="25" />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
     <userControls:UpdateControl
@@ -48,34 +46,47 @@
       VerticalContentAlignment="Center"
       />
 
-    <Grid Grid.Row="2">
-      <StackPanel
-        HorizontalAlignment="Center"
-        Orientation="Horizontal"
-        >
-        <Button
-          Width="75"
-          Height="23"
-          Margin="0 0 5 0"
-          VerticalAlignment="Center"
-          Content="{DynamicResource UpdateOptionVisitWebsite}"
-          Command="{Binding VisitWebsiteCommand}"
-          >
-          <Button.InputBindings>
-            <KeyBinding Key="Enter" Command="{Binding VisitWebsiteCommand}" />
-          </Button.InputBindings>
-        </Button>
+    <Grid
+      Grid.Row="2"
+      Margin="0 5"
+      >
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
 
-        <Button
-          Width="75"
-          Height="23"
-          VerticalAlignment="Center"
-          Content="{StaticResource CancelText}"
-          Command="{Binding CloseCommand}"
-          CommandParameter="{Binding ElementName=AutoUpdateDialog}"
-          IsCancel="True"
-          />
-      </StackPanel>
+      <Button
+        Grid.Column="0"
+        Height="24"
+        MinWidth="100"
+        Margin="0 0 5 0"
+        Padding="5 0"
+        HorizontalAlignment="Right"
+        VerticalAlignment="Center"
+        Content="{DynamicResource UpdateOptionVisitWebsite}"
+        Command="{Binding VisitWebsiteCommand}"
+        IsDefault="True"
+        TabIndex="0"
+        >
+        <Button.InputBindings>
+          <KeyBinding Key="Enter" Command="{Binding VisitWebsiteCommand}" />
+        </Button.InputBindings>
+      </Button>
+
+      <Button
+        Grid.Column="1"
+        Height="24"
+        MinWidth="100"
+        Margin="5 0 0 0"
+        Padding="5 0"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        Content="{DynamicResource CancelText}"
+        Command="{Binding CloseCommand}"
+        CommandParameter="{Binding ElementName=AutoUpdateDialog}"
+        IsCancel="True"
+        TabIndex="1"
+        />
     </Grid>
   </Grid>
 </extendedControls:VsWindowEx>

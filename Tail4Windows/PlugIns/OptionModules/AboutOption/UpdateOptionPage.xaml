@@ -158,6 +158,7 @@
         Grid.Row="3"
         Height="24"
         MinWidth="100"
+        Padding="5 0"
         HorizontalAlignment="Center"
         Content="{DynamicResource UpdateOptionVisitWebsite}"
         Command="{Binding VisitWebsiteCommand}"
