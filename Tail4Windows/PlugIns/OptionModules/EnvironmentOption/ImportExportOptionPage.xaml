@@ -194,7 +194,7 @@
         <Button
           Height="24"
           MinWidth="140"
-          MaxWidth="170"
+          Padding="5 0"
           HorizontalAlignment="Center"
           VerticalAlignment="Center"
           Content="{DynamicResource ImportExportResetConfiguration}"
