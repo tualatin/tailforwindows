@@ -2,16 +2,6 @@
 <defaultPatternFile>
   <Patterns>
     <Pattern>
-      <patternString>????-??-??</patternString>
-      <isRegex/>
-    </Pattern>
-    
-    <Pattern>
-      <patternString>??-??-????</patternString>
-      <isRegex/>
-    </Pattern>
-    
-    <Pattern>
       <patternString>\d{4}-\d{2}-\d{2}</patternString>
       <isRegex>True</isRegex>
     </Pattern>
