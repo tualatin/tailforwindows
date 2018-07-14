@@ -5,6 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
+  xmlns:debuging="clr-namespace:Org.Vs.TailForWin.UI.Debuging"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils;assembly=T4WCore"
   mc:Ignorable="d"
@@ -505,6 +506,7 @@
         Content="{DynamicResource ExtrasStatistics}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=Statistics, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
         TabIndex="10"
+        Visibility="{Binding Source={x:Static debuging:DebugBuild.IsDebug}}"
         >
         <CheckBox.ToolTip>
           <StackPanel>
