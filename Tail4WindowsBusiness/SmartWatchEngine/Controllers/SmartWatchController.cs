@@ -254,9 +254,14 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers
         return string.Empty;
 
       var files = GetFilesByDirectory(item);
+
+      if ( files == null )
+        return string.Empty;
+
+      IEnumerable<FileInfo> fileInfos = files as FileInfo[] ?? files.ToArray();
       var validFileInfos = new List<FileInfo>();
 
-      foreach ( var file in files )
+      foreach ( var file in fileInfos )
       {
         var result = await _findController.MatchTextAsync(item.FindSettings, file.Name, pattern).ConfigureAwait(false);
 
