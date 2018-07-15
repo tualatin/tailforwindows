@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+
 
 namespace Org.Vs.TailForWin.Core.Interfaces
 {
