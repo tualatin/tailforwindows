@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 
 
@@ -9,31 +9,31 @@ namespace Org.Vs.TailForWin.Core.Utils
   /// </summary>
   public static class Execute
   {
-    private static SynchronizationContext _uiSynchronizationContext;
-    private static Thread _synchronizationContextThread;
+    private static SynchronizationContext uiSynchronizationContext;
+    private static Thread synchronizationContextThread;
 
     /// <summary>
     /// Check if current thread is the synchronization context
     /// </summary>
     /// <returns><c>True</c> if it is the synchronization context, otherwise <c>False</c></returns>
-    public static bool CheckAccess() => Equals(Thread.CurrentThread, _synchronizationContextThread) || _synchronizationContextThread == null;
+    public static bool CheckAccess() => Equals(Thread.CurrentThread, synchronizationContextThread) || synchronizationContextThread == null;
 
     /// <summary>
     /// Gets the current sychronization context
     /// </summary>
     public static SynchronizationContext UiSynchronizationContext
     {
-      get => _uiSynchronizationContext;
+      get => uiSynchronizationContext;
       private set
       {
         if ( value != null )
         {
-          value.Send(p => _synchronizationContextThread = Thread.CurrentThread, null);
-          _uiSynchronizationContext = value;
+          value.Send(p => synchronizationContextThread = Thread.CurrentThread, null);
+          uiSynchronizationContext = value;
         }
         else
         {
-          _synchronizationContextThread = null;
+          synchronizationContextThread = null;
 
         }
       }
