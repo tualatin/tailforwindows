@@ -330,13 +330,11 @@
             Binding="{Binding ., Converter={StaticResource RowFromFilterManagerCollectionConverter}, StringFormat=#;;#}"
             CanUserSort="False"
             IsReadOnly="True"
-            behaviors:DataGridColumnWidthBehavior.DataGridColumnWidth="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
             />
 
           <DataGridTemplateColumn
             MinWidth="70"
             Header="{DynamicResource FilterManagerIsEnabled}"
-            behaviors:DataGridColumnWidthBehavior.DataGridColumnWidth="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
             >
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
@@ -358,7 +356,6 @@
             MaxWidth="250"
             Header="{DynamicResource FileManagerDataGridDescription}"
             Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
-            behaviors:DataGridColumnWidthBehavior.DataGridColumnWidth="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
             />
 
           <DataGridTextColumn

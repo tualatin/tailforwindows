@@ -8,7 +8,10 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
-v.2.0.xxxx.x
+v.2.1.xxxx.x
+* new Column chooser in DataGrid
+
+v.2.0.6769.x
 * new user can delete FindWhat history
 * new keyword highlighting
 * new algorithm to read log files (Tail4Windows does not block files anymore)

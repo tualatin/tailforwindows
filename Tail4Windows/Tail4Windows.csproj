@@ -261,7 +261,6 @@
       <DependentUpon>WindowsEventCategories.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Behaviors\Base\BehaviorBase.cs" />
-    <Compile Include="UI\Behaviors\DataGridColumnWidthBehavior.cs" />
     <Compile Include="UI\Behaviors\FixHorizontalScrollbarPosition.cs" />
     <Compile Include="UI\Behaviors\ListBoxCopy.cs" />
     <Compile Include="UI\Behaviors\ListBoxExtenders.cs" />
@@ -313,6 +312,7 @@
     <Compile Include="UI\Converters\TailDataListOfFilterToBoolConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\VisibilityToMarginConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\WidthToMarginConverter.cs" />
+    <Compile Include="UI\Converters\VisibilityToInverseBoolConverter.cs" />
     <Compile Include="UI\Debuging\DebugBuild.cs" />
     <Compile Include="UI\ExtendedControls\VsPopupEx.cs" />
     <Compile Include="UI\Extensions\VisualTreeEnumerationExtension.cs" />
