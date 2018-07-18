@@ -415,20 +415,20 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         {
           try
           {
-            if ( !Directory.Exists(EnvironmentContainer.TailStorePath) )
-              Directory.CreateDirectory(EnvironmentContainer.TailStorePath);
+            if ( !Directory.Exists(EnvironmentContainer.UserSettingsPath) )
+              Directory.CreateDirectory(EnvironmentContainer.UserSettingsPath);
 
             string fileManager = EnvironmentContainer.ApplicationPath + @"\FileManager.xml";
 
             if ( File.Exists(fileManager) )
-              File.Move(fileManager, EnvironmentContainer.TailStorePath + @"\FileManager.xml");
+              File.Move(fileManager, EnvironmentContainer.UserSettingsPath + @"\FileManager.xml");
 
             string history = EnvironmentContainer.ApplicationPath + @"\History.xml";
 
             if ( !File.Exists(history) )
               return;
 
-            File.Move(history, EnvironmentContainer.TailStorePath + @"\History.xml");
+            File.Move(history, EnvironmentContainer.UserSettingsPath + @"\History.xml");
           }
           catch ( Exception ex )
           {

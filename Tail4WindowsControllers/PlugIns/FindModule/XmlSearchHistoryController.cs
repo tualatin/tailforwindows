@@ -37,7 +37,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public XmlSearchHistoryController() => _historyFile = EnvironmentContainer.TailStorePath + @"\History.xml";
+    public XmlSearchHistoryController() => _historyFile = EnvironmentContainer.UserSettingsPath + @"\History.xml";
 
     /// <summary>
     /// Constructor for testing purposes

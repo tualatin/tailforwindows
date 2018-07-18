@@ -174,7 +174,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// TailStore path
     /// </summary>
-    public static string TailStorePath => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + $"\\{ApplicationTitle}";
+    public static string UserSettingsPath => Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + $"\\{ApplicationTitle}";
 
     /// <summary>
     /// Read current settings

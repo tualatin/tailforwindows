@@ -38,7 +38,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public XmlHistoryController() => _historyFile = EnvironmentContainer.TailStorePath + @"\LogfileHistory.xml";
+    public XmlHistoryController() => _historyFile = EnvironmentContainer.UserSettingsPath + @"\LogfileHistory.xml";
 
     /// <summary>
     /// Read XML file

@@ -11,6 +11,6 @@ namespace Org.Vs.TailForWin.Business.Data
     /// <summary>
     /// Tail4Window database file
     /// </summary>
-    public static string TailForWindowsDatabaseFile = EnvironmentContainer.TailStorePath + @"\T4W.db";
+    public static string TailForWindowsDatabaseFile = EnvironmentContainer.UserSettingsPath + @"\T4W.db";
   }
 }

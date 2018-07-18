@@ -42,7 +42,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
     /// </summary>
     public XmlFileManagerController()
     {
-      _fileManagerFile = EnvironmentContainer.TailStorePath + @"\FileManager.xml";
+      _fileManagerFile = EnvironmentContainer.UserSettingsPath + @"\FileManager.xml";
       _smartWatchController = new SmartWatchController();
     }
 
