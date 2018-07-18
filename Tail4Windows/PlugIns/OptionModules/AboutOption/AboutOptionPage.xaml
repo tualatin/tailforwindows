@@ -243,6 +243,7 @@
       CanUserAddRows="False"
       CanUserReorderColumns="True"
       CanUserSortColumns="True"
+      FrozenColumnCount="2"
       IsSynchronizedWithCurrentItem="True"
       ItemsSource="{Binding ThirdPartyComponentsView}"
       SelectionMode="Extended"

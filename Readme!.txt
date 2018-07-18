@@ -10,6 +10,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 Changelog:
 v.2.1.xxxx.x
 * new Column chooser in DataGrid
+* new DataGrid layout save/restore
 
 v.2.0.6769.x
 * new user can delete FindWhat history
