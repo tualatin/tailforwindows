@@ -155,6 +155,9 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// </summary>
     public void SaveDataGridOptions()
     {
+      if ( string.IsNullOrWhiteSpace(_userDataGridSettingsFile) )
+        return;
+
       LOG.Trace("Save DataGrid options");
 
       var columns = new DataSet(Name);
