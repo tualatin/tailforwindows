@@ -96,7 +96,15 @@
           Height="16"
           Margin="2 0"
           Source="{Binding Path=BookmarkPoint}"
-          />
+          >
+          <Image.ToolTip>
+            <ToolTip
+              Content="{Binding Path=BookmarkToolTip}"
+              Style="{StaticResource TabItemToolTipStyle}"
+              Visibility="{Binding Path=BookmarkToolTip, Converter={StaticResource StringToVisibilityConverter}}"
+              />
+          </Image.ToolTip>
+        </Image>
       </Grid>
 
       <Border

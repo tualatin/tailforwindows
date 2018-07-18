@@ -18,6 +18,11 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.LogWindowUserCon
     /// </summary>
     event RoutedEventHandler ClearItemsEvent;
 
+    /// <summary>
+    /// Add Bookmark comment event
+    /// </summary>
+    event RoutedEventHandler AddBookmarkCommentEvent;
+
     #endregion
 
     #region Properties

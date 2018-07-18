@@ -124,6 +124,7 @@
     <Compile Include="Commands\InvokeDelegateCommandAction.cs" />
     <Compile Include="Commands\MouseCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="PlugIns\BookmarkCommentModule\Interfaces\IAddBookmarkCommentViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\CollectionViewHolder.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\FilterManagerCollectionViewHolder.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\XmlNames.cs" />

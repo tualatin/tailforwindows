@@ -417,6 +417,7 @@
 
   <system:String x:Key="QuickAddDialogTitle">QuickAdd</system:String>
   <system:String x:Key="DeleteBookmarks">Delete all bookmarks</system:String>
+  <system:String x:Key="AddCommentToBookmark">Add comment</system:String>
   <system:String x:Key="AddToFilter">Add to filter and highlight list</system:String>
   <system:String x:Key="AddToFindWhat">Find what...</system:String>
 
@@ -547,4 +548,7 @@
   <system:String x:Key="ErrorEnterFileName">Please enter a FileName</system:String>
   <system:String x:Key="ErrorEnterFilterPattern">Please enter a Filterpattern</system:String>
   <system:String x:Key="ErrorEnterHighlightFilterSource">Please check Filter or Highlight</system:String>
+
+  <system:String x:Key="AddBookmarkCommentWindowTitle">Add Comment</system:String>
+  <system:String x:Key="AddbookmarkCommentWatermark">Comment</system:String>
 </ResourceDictionary>

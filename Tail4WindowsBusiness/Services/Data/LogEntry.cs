@@ -78,6 +78,24 @@ namespace Org.Vs.TailForWin.Business.Services.Data
       }
     }
 
+    private string _bookmarkToolTip;
+
+    /// <summary>
+    /// Bookmark ToolTip
+    /// </summary>
+    public string BookmarkToolTip
+    {
+      get => _bookmarkToolTip;
+      set
+      {
+        if (Equals(value, _bookmarkToolTip))
+          return;
+
+        _bookmarkToolTip = value;
+        OnPropertyChanged();
+      }
+    }
+
     private bool _isCacheData;
 
     /// <summary>

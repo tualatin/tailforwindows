@@ -415,6 +415,7 @@
 
   <system:String x:Key="QuickAddDialogTitle">Schnellhinzufügen</system:String>
   <system:String x:Key="DeleteBookmarks">Alle Bookmarks löschen</system:String>
+  <system:String x:Key="AddCommentToBookmark">Kommentar hinzufügen</system:String>
   <system:String x:Key="AddToFilter">Zur Filter- und Hervorhebungsliste hinzufügen</system:String>
   <system:String x:Key="AddToFindWhat">Suchen nach...</system:String>
 
@@ -545,4 +546,7 @@
   <system:String x:Key="ErrorEnterFileName">Bitte einen Dateinamen angeben</system:String>
   <system:String x:Key="ErrorEnterFilterPattern">Bitte einen Filter angeben</system:String>
   <system:String x:Key="ErrorEnterHighlightFilterSource">Bitte Filtern oder Hervorheben aktivieren</system:String>
+
+  <system:String x:Key="AddBookmarkCommentWindowTitle">Bemerkung hinzufügen</system:String>
+  <system:String x:Key="AddbookmarkCommentWatermark">Bemerkung</system:String>
 </ResourceDictionary>

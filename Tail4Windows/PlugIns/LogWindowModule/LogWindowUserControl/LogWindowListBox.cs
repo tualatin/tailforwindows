@@ -169,6 +169,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       remove => RemoveHandler(ClearItemsRoutedEvent, value);
     }
 
+    private static readonly RoutedEvent AddBookmarkCommentRoutedEvent = EventManager.RegisterRoutedEvent(nameof(AddBookmarkCommentEvent), RoutingStrategy.Bubble,
+      typeof(RoutedEvent), typeof(LogWindowListBox));
+
+    /// <summary>
+    /// Add Bookmark comment event
+    /// </summary>
+    public event RoutedEventHandler AddBookmarkCommentEvent
+    {
+      add => AddHandler(AddBookmarkCommentRoutedEvent, value);
+      remove => RemoveHandler(AddBookmarkCommentRoutedEvent, value);
+    }
+
     #endregion
 
     /// <summary>
@@ -386,13 +398,20 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( !rcBookmarkpoint.Value.Contains((int) mousePoint.X, (int) mousePoint.Y) && _isMouseLeftDownClick )
         return;
 
-      BitmapImage icon = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Delete_Bookmark.png");
-      var contenContextMenu = new ContextMenu();
-      MenuItem menuItem = CreateMenuItem(Application.Current.TryFindResource("DeleteBookmarks").ToString(), icon);
-      menuItem.Command = RemoveBookmarksCommand;
+      var contentContextMenu = new ContextMenu();
 
-      contenContextMenu.Items.Add(menuItem);
-      ContextMenu = contenContextMenu;
+      BitmapImage icon = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/bubble.png");
+      MenuItem menuItem = CreateMenuItem(Application.Current.TryFindResource("AddCommentToBookmark").ToString(), icon);
+      menuItem.Command = AddBookmarkCommentCommand;
+      menuItem.CommandParameter = item;
+      contentContextMenu.Items.Add(menuItem);
+
+      icon = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Delete_Bookmark.png");
+      menuItem = CreateMenuItem(Application.Current.TryFindResource("DeleteBookmarks").ToString(), icon);
+      menuItem.Command = RemoveBookmarksCommand;
+      contentContextMenu.Items.Add(menuItem);
+
+      ContextMenu = contentContextMenu;
     }
 
     private void LogWindowListBoxOnPreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
@@ -571,9 +590,25 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     private ICommand RemoveBookmarksCommand => _removeBookmarksCommand ?? (_removeBookmarksCommand = new RelayCommand(p => CanExecuteRemoveBookmarksCommand(),
                                                  p => ExecuteRemoveBookmarksCommand()));
 
+    private ICommand _addBookmarkCommentCommand;
+
+    /// <summary>
+    /// Add bookmark comment command
+    /// </summary>
+    private ICommand AddBookmarkCommentCommand => _addBookmarkCommentCommand ?? (_addBookmarkCommentCommand = new RelayCommand(ExecuteAddBookmarkCommentCommand));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteAddBookmarkCommentCommand(object args)
+    {
+      if ( !(args is LogEntry item) )
+        return;
+
+      var eventArgs = new RoutedEventArgs(AddBookmarkCommentRoutedEvent, item);
+      RaiseEvent(eventArgs);
+    }
 
     private bool CanExecuteAddToFilterCommand()
     {

@@ -39,6 +39,7 @@ using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
+using Org.Vs.TailForWin.PlugIns.BookmarkCommentModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule;
 using Org.Vs.TailForWin.UI.Extensions;
@@ -464,9 +465,34 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand ClearItemsCommand => _clearItemsCommand ?? (_clearItemsCommand = new RelayCommand(p => ExecuteClearItemsCommand()));
 
+    private ICommand _addBookmarkCommentCommand;
+
+    /// <summary>
+    /// Add bookmark comment command
+    /// </summary>
+    public ICommand AddBookmarkCommentCommand => _addBookmarkCommentCommand ?? (_addBookmarkCommentCommand = new RelayCommand(ExecuteAddBookmarkCommentCommand));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteAddBookmarkCommentCommand(object args)
+    {
+      if ( !(args is RoutedEventArgs e) )
+        return;
+
+      if ( !(e.OriginalSource is LogEntry item) )
+        return;
+
+      var addBookmarkCommentPopup = new AddBookmarkComment
+      {
+        Owner = Window.GetWindow(this),
+        Comment = item.BookmarkToolTip
+      };
+      addBookmarkCommentPopup.ShowDialog();
+
+      item.BookmarkToolTip = addBookmarkCommentPopup.Comment;
+    }
 
     private void ExecuteClearItemsCommand()
     {

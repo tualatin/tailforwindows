@@ -60,7 +60,16 @@
       genericBehaviors:ListBoxCopy.AutoCopy="True"
       genericBehaviors:ListBoxSelector.Enabled="True"
       genericBehaviors:ListBoxSelector.Offset="20"
-      />
+      >
+      <i:Interaction.Triggers>
+        <i:EventTrigger EventName="AddBookmarkCommentEvent">
+          <commands:InvokeDelegateCommandAction
+            Command="{Binding AddBookmarkCommentCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+            />
+        </i:EventTrigger>
+      </i:Interaction.Triggers>
+    </logWindowListBox:LogWindowListBox>
 
     <GridSplitter
       Grid.Row="1"
@@ -92,6 +101,13 @@
       <i:Interaction.Triggers>
         <i:EventTrigger EventName="ClearItemsEvent">
           <i:InvokeCommandAction Command="{Binding ClearItemsCommand}" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="AddBookmarkCommentEvent">
+          <commands:InvokeDelegateCommandAction
+            Command="{Binding AddBookmarkCommentCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+            />
         </i:EventTrigger>
       </i:Interaction.Triggers>
     </logWindowListBox:LogWindowListBox>

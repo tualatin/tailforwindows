@@ -210,6 +210,10 @@
     <Compile Include="Data\Messages\FindWhat\StartSearchAllMessage.cs" />
     <Compile Include="Data\Messages\FindWhat\StartSearchCountMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\ToggleFilterMessage.cs" />
+    <Compile Include="PlugIns\BookmarkCommentModule\AddBookmarkComment.xaml.cs">
+      <DependentUpon>AddBookmarkComment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\BookmarkCommentModule\ViewModels\AddBookmarkCommentViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\FileManager.xaml.cs">
       <DependentUpon>FileManager.xaml</DependentUpon>
     </Compile>
@@ -462,6 +466,7 @@
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
+    <Resource Include="Resources\bubble.png" />
     <Resource Include="Resources\update.ico" />
     <Resource Include="Resources\refresh.png" />
     <Resource Include="Resources\event.png" />
@@ -516,6 +521,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PlugIns\BookmarkCommentModule\AddBookmarkComment.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="PlugIns\FileManagerModule\FileManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
