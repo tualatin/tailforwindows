@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -98,7 +99,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
           int displayIndex = Convert.ToInt32(row[VsColumnDisplayIndex]);
           column.DisplayIndex = displayIndex;
 
-          double width = Convert.ToDouble(row[VsColumnWidth]);
+          double.TryParse(row[VsColumnWidth].ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out double width);
           column.Width = width;
 
           int visibility = Convert.ToInt32(row[VsColumnVisibility]);
