@@ -1,4 +1,7 @@
-﻿namespace Org.Vs.TailForWin.PlugIns.FileManagerModule
+﻿using System.ComponentModel;
+
+
+namespace Org.Vs.TailForWin.PlugIns.FileManagerModule
 {
   /// <summary>
   /// Interaction logic for FileManager.xaml
@@ -8,6 +11,12 @@
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public FileManager() => InitializeComponent();
+    public FileManager()
+    {
+      InitializeComponent();
+      Closing += OnFileManagerClosing;
+    }
+
+    private void OnFileManagerClosing(object sender, CancelEventArgs e) => TailManagerDataGrid.SaveDataGridOptions();
   }
 }
