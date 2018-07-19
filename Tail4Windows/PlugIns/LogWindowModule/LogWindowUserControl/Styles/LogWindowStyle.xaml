@@ -100,7 +100,7 @@
           <Image.ToolTip>
             <ToolTip
               Content="{Binding Path=BookmarkToolTip}"
-              Style="{StaticResource TabItemToolTipStyle}"
+              Style="{StaticResource BookmarkCommentToolTipStyle}"
               Visibility="{Binding Path=BookmarkToolTip, Converter={StaticResource StringToVisibilityConverter}}"
               />
           </Image.ToolTip>

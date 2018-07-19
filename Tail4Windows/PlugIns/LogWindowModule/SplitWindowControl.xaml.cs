@@ -748,7 +748,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             continue;
 
           stop = i;
-          var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
+          string message = findData.SearchBookmarkComments ? log.BookmarkToolTip : log.Message;
+          var result = await _findController.MatchTextAsync(findData, message, searchText).ConfigureAwait(false);
 
           if ( result == null || result.Count == 0 )
             continue;
@@ -829,7 +830,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( !CollectionView.Contains(log) )
             continue;
 
-          var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
+          string message = findData.SearchBookmarkComments ? log.BookmarkToolTip : log.Message;
+          var result = await _findController.MatchTextAsync(findData, message, searchText).ConfigureAwait(false);
 
           if ( result == null || result.Count == 0 )
             continue;
@@ -844,7 +846,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         for ( int i = 0; i < CacheManager.GetCacheData().Count; i++ )
         {
           LogEntry log = CacheManager.GetCacheData()[i];
-          var result = await _findController.MatchTextAsync(findData, log.Message, searchText).ConfigureAwait(false);
+          string message = findData.SearchBookmarkComments ? log.BookmarkToolTip : log.Message;
+          var result = await _findController.MatchTextAsync(findData, message, searchText).ConfigureAwait(false);
 
           if ( result == null || result.Count == 0 )
             continue;

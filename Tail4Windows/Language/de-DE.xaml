@@ -432,6 +432,8 @@
   <system:String x:Key="FindDialogFindNext">Suche weiter</system:String>
   <system:String x:Key="FindDialogFindAll">Suche alles</system:String>
   <system:String x:Key="FindDialogCount">Zählen</system:String>
+  <system:String x:Key="FindDialogSearchBookmarkComment">Suche nach Bookmark Kommentaren</system:String>
+  <system:String x:Key="FindDialogSearchBookmarkCommentToolTip">Suche nach bestimmten Bookmark Kommentaren</system:String>
   <system:String x:Key="FindDialogSearchBookmarks">Suche Bookmarks</system:String>
   <system:String x:Key="FindDialogSearchBookmarksToolTip">Suche alle Bookmarks, die der Nutzer gesetzt hat</system:String>
   <system:String x:Key="FindDialogBookmarkLine">Bookmark Suche</system:String>
@@ -549,4 +551,5 @@
 
   <system:String x:Key="AddBookmarkCommentWindowTitle">Bemerkung hinzufügen</system:String>
   <system:String x:Key="AddbookmarkCommentWatermark">Bemerkung</system:String>
+  <system:String x:Key="BookmarkCommentToolTipHeader">Bookmark Kommentar</system:String>
 </ResourceDictionary>

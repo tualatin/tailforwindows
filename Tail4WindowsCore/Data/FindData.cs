@@ -44,6 +44,28 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
+    private bool _searchBookmarkComment;
+
+    /// <summary>
+    /// Search bookmark comments
+    /// </summary>
+    public bool SearchBookmarkComments
+    {
+      get => _searchBookmarkComment;
+      set
+      {
+        if ( value == _searchBookmarkComment )
+          return;
+
+        _searchBookmarkComment = value;
+
+        if ( _searchBookmarkComment )
+          MarkLineAsBookmark = false;
+
+        OnPropertyChanged();
+      }
+    }
+
     private bool _searchBookmarks;
 
     /// <summary>
@@ -60,7 +82,10 @@ namespace Org.Vs.TailForWin.Core.Data
         _searchBookmarks = value;
 
         if ( _searchBookmarks )
+        {
+          SearchBookmarkComments = false;
           MarkLineAsBookmark = false;
+        }
 
         OnPropertyChanged();
       }
@@ -80,6 +105,10 @@ namespace Org.Vs.TailForWin.Core.Data
           return;
 
         _markLineAsBoomark = value;
+
+        if ( _markLineAsBoomark )
+          SearchBookmarkComments = false;
+
         OnPropertyChanged();
       }
     }

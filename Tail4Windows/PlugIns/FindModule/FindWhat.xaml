@@ -15,7 +15,7 @@
   x:Name="FindDialogWindow"
   Title="{DynamicResource FindDialogWindowTitle}"
   Width="315"
-  Height="350"
+  Height="380"
   MinWidth="315"
   MinHeight="350"
   MaxHeight="450"
@@ -330,11 +330,50 @@
           />
 
         <CheckBox
+          Height="22"
+          Content="{DynamicResource FindDialogSearchBookmarkComment}"
+          IsChecked="{Binding FindSettings.SearchBookmarkComments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+          IsEnabled="{Binding ElementName=CheckBoxSearchBookmarks, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
+          TabIndex="6"
+          >
+          <CheckBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource FindDialogSearchBookmarkComment}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource FindDialogSearchBookmarkCommentToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </CheckBox.ToolTip>
+        </CheckBox>
+
+        <CheckBox
           x:Name="CheckBoxSearchBookmarks"
           Height="22"
           Content="{DynamicResource FindDialogSearchBookmarks}"
           IsChecked="{Binding FindSettings.SearchBookmarks, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-          TabIndex="6"
+          TabIndex="7"
           >
           <CheckBox.ToolTip>
             <StackPanel>
@@ -373,7 +412,7 @@
           Content="{DynamicResource FindDialogBookmarkLine}"
           IsChecked="{Binding FindSettings.MarkLineAsBookmark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
           IsEnabled="{Binding ElementName=CheckBoxSearchBookmarks, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
-          TabIndex="7"
+          TabIndex="8"
           >
           <CheckBox.ToolTip>
             <StackPanel>
@@ -433,7 +472,7 @@
             HorizontalAlignment="Left"
             Content="{DynamicResource FindDialogFindNext}"
             Command="{Binding FindNextCommand}"
-            TabIndex="8"
+            TabIndex="9"
             />
 
           <Button
@@ -443,7 +482,7 @@
             HorizontalAlignment="Right"
             Content="{DynamicResource FindDialogFindAll}"
             Command="{Binding FindAllCommand}"
-            TabIndex="9"
+            TabIndex="10"
             />
         </StackPanel>
 
@@ -453,7 +492,7 @@
           HorizontalAlignment="Right"
           Content="{DynamicResource FindDialogCount}"
           Command="{Binding CountCommand}"
-          TabIndex="10"
+          TabIndex="11"
           />
       </StackPanel>
     </Grid>

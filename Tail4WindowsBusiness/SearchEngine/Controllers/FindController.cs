@@ -37,17 +37,18 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
     /// <returns>List of valid strings, otherwise null</returns>
     public async Task<List<string>> MatchTextAsync(FindData findSettings, string value, string pattern)
     {
-      if ( string.IsNullOrWhiteSpace(value) || string.IsNullOrWhiteSpace(pattern) )
-        return null;
-
       List<string> result = null;
-      IsBusy = true;
 
       await Task.Run(
         () =>
         {
           lock ( FindControllerLock )
           {
+            if ( string.IsNullOrWhiteSpace(value) || string.IsNullOrWhiteSpace(pattern) )
+              return;
+
+            IsBusy = true;
+
             value = value.Trim();
             pattern = pattern.Trim();
             string ignoreCase = string.Empty;
@@ -120,7 +121,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
         try
         {
           // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-          Regex.Match("", pattern);
+          Regex.Match(string.Empty, pattern);
         }
         catch ( ArgumentException )
         {

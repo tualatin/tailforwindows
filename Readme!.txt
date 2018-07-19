@@ -11,8 +11,13 @@ Changelog:
 v.2.1.xxxx.x
 * new Column chooser in DataGrid
 * new DataGrid layout save/restore
+* new Find Bookmark comments
+* new add/remove Bookmark comment
+* bug fix Find algorithm
+* bug fix highlight data
 
 v.2.0.6769.x
+* new add selected word to Filter/HighlightManager
 * new user can delete FindWhat history
 * new keyword highlighting
 * new algorithm to read log files (Tail4Windows does not block files anymore)

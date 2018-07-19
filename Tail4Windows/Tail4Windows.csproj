@@ -729,7 +729,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Styles\TabItemToolTipStyle.xaml">
+    <Page Include="UI\Styles\ToolTipsStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

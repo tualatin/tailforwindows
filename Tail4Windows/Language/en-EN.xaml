@@ -434,6 +434,8 @@
   <system:String x:Key="FindDialogFindNext">Find next</system:String>
   <system:String x:Key="FindDialogFindAll">Find all</system:String>
   <system:String x:Key="FindDialogCount">Count</system:String>
+  <system:String x:Key="FindDialogSearchBookmarkComment">Search for bookmark comment</system:String>
+  <system:String x:Key="FindDialogSearchBookmarkCommentToolTip">Find certain bookmark comment</system:String>
   <system:String x:Key="FindDialogSearchBookmarks">Search bookmarks</system:String>
   <system:String x:Key="FindDialogSearchBookmarksToolTip">Find all bookmarks the user has set</system:String>
   <system:String x:Key="FindDialogBookmarkLine">Bookmark line</system:String>
@@ -551,4 +553,5 @@
 
   <system:String x:Key="AddBookmarkCommentWindowTitle">Add Comment</system:String>
   <system:String x:Key="AddbookmarkCommentWatermark">Comment</system:String>
+  <system:String x:Key="BookmarkCommentToolTipHeader">Bookmark comment</system:String>
 </ResourceDictionary>

@@ -25,7 +25,7 @@
         <ResourceDictionary Source="UI/Styles/ScrollbarResources.xaml" />
         <ResourceDictionary Source="UI/Styles/StatusbarComboBoxStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/TreeView.xaml" />
-        <ResourceDictionary Source="UI/Styles/TabItemToolTipStyle.xaml" />
+        <ResourceDictionary Source="UI/Styles/ToolTipsStyle.xaml" />
         <ResourceDictionary Source="UI/UserControls/Styles/WatermarkTextBoxStyle.xaml" />
         <ResourceDictionary Source="UI/UserControls/Styles/VsDataGridStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/TitleBarWindowIconStyle.xaml" />
