@@ -9,6 +9,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.0.xxxx.x
+* new add selected word to Filter/HighlightManager
 * new user can delete FindWhat history
 * new keyword highlighting
 * new algorithm to read log files (Tail4Windows does not block files anymore)
