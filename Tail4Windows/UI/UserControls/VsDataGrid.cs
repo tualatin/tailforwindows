@@ -6,12 +6,13 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using log4net;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.Extensions;
-using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls
@@ -99,7 +100,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
           int displayIndex = Convert.ToInt32(row[VsColumnDisplayIndex]);
           column.DisplayIndex = displayIndex;
 
-          double.TryParse(row[VsColumnWidth].ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out double width);
+          Double.TryParse(row[VsColumnWidth].ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out double width);
           column.Width = width;
 
           int visibility = Convert.ToInt32(row[VsColumnVisibility]);
@@ -156,7 +157,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// </summary>
     public void SaveDataGridOptions()
     {
-      if ( string.IsNullOrWhiteSpace(_userDataGridSettingsFile) )
+      if ( String.IsNullOrWhiteSpace(_userDataGridSettingsFile) )
         return;
 
       LOG.Trace("Save DataGrid options");
@@ -182,8 +183,32 @@ namespace Org.Vs.TailForWin.UI.UserControls
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
+    }
+
+    /// <summary>
+    /// Get horizontal scrollbar grid
+    /// </summary>
+    /// <param name="scrollViewer"><see cref="DependencyObject"/></param>
+    /// <returns><see cref="Grid"/> horizontal scrollbar grid</returns>
+    public static Grid GetHorizontalScrollBarGrid(DependencyObject scrollViewer)
+    {
+      if ( scrollViewer == null )
+        return null;
+
+      var scrollBars = scrollViewer.Descendents().OfType<ScrollBar>().Where(p => p.Visibility == Visibility.Visible);
+
+      foreach ( var scrollBar in scrollBars )
+      {
+        var grid = scrollBar.Descendents().OfType<Grid>().FirstOrDefault(p => p.Name == "GridHorizontalScrollBar");
+
+        if ( grid == null )
+          continue;
+
+        return grid;
+      }
+      return null;
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -206,7 +231,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       if ( _horizontalScrollbarGrid != null )
         return;
 
-      _horizontalScrollbarGrid = BusinessHelper.GetHorizontalScrollBarGrid(_scrollViewer);
+      _horizontalScrollbarGrid = GetHorizontalScrollBarGrid(_scrollViewer);
       OnActualWidthChanged(this, EventArgs.Empty);
     }
 

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 using Org.Vs.TailForWin.UI.Extensions;
+using Org.Vs.TailForWin.UI.UserControls;
 using Org.Vs.TailForWin.UI.Utils;
 
 
@@ -87,7 +88,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       if ( !Equals(scrollViewer, scrollView) )
         return;
 
-      _horizontalScrollBarGrid = BusinessHelper.GetHorizontalScrollBarGrid(scrollViewer);
+      _horizontalScrollBarGrid = VsDataGrid.GetHorizontalScrollBarGrid(scrollViewer);
 
       if ( _horizontalScrollBarGrid == null )
         return;

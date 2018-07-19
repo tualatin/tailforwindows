@@ -15,6 +15,7 @@ v.2.1.xxxx.x
 * new add/remove Bookmark comment
 * bug fix Find algorithm
 * bug fix highlight data
+* bug clear log items -> Statusbar does not refresh
 
 v.2.0.6769.x
 * new add selected word to Filter/HighlightManager
