@@ -8,7 +8,12 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
-v.2.0.xxxx.x
+v2.0.xxxx.x
+* bug fix find algorithm
+* bug fix highlight data
+* bug clear log items -> Statusbar does not refresh
+
+v.2.0.6769.x
 * new add selected word to Filter/HighlightManager
 * new user can delete FindWhat history
 * new keyword highlighting

@@ -1169,7 +1169,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Clears current items
     /// </summary>
-    public void ClearItems() => ExecuteClearItemsCommand();
+    public void ClearItems()
+    {
+      ExecuteClearItemsCommand();
+      LogReaderService.ResetIndex();
+      RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LinesRead, string.Empty));
+    }
 
     private void SetupCache()
     {
