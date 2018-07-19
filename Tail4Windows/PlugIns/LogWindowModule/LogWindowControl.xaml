@@ -1010,6 +1010,20 @@
                   IsCheckable="True"
                   IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=DebugTailReader}"
                   />
+
+                <MenuItem
+                  Header="{DynamicResource ExtendedHelpLabel}"
+                  Command="{Binding OpenHelpCommand}"
+                  InputGestureText="F1"
+                  >
+                  <MenuItem.Icon>
+                    <Image
+                      RenderOptions.BitmapScalingMode="HighQuality"
+                      RenderOptions.EdgeMode="Aliased"
+                      Source="/T4W;component/Resources/help.png"
+                      />
+                  </MenuItem.Icon>
+                </MenuItem>
               </ContextMenu>
             </Button.ContextMenu>
 

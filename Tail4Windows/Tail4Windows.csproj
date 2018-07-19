@@ -466,6 +466,7 @@
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
+    <Resource Include="Resources\help.png" />
     <Resource Include="Resources\bubble.png" />
     <Resource Include="Resources\update.ico" />
     <Resource Include="Resources\refresh.png" />

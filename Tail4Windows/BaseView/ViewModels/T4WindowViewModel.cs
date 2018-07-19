@@ -701,9 +701,22 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand OpenWindowsEventCommand => _openWindowsEventCommand ?? (_openWindowsEventCommand = new RelayCommand(p => ExecuteOpenWindowsEventCommand()));
 
+    private ICommand _openHelpCommand;
+
+    /// <summary>
+    /// Open help command
+    /// </summary>
+    public ICommand OpenHelpCommand => _openHelpCommand ?? (_openHelpCommand = new RelayCommand(p => ExecuteOpenHelpCommand()));
+
     #endregion
 
     #region KeyBinding command functions
+
+    private void ExecuteOpenHelpCommand()
+    {
+      var url = new Uri(EnvironmentContainer.ApplicationHelpUrl);
+      EnvironmentContainer.Instance.ExecuteRequestNavigateCommand(url);
+    }
 
     private void ExecuteOpenWindowsEventCommand()
     {

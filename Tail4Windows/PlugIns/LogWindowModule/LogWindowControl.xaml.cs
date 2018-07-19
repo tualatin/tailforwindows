@@ -439,9 +439,22 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand OpenWindowsEventsCommand => _openWindowsEventsCommand ?? (_openWindowsEventsCommand = new RelayCommand(p => LogWindowState != EStatusbarState.Busy, p => ExecuteOpenWindowsEventsCommand()));
 
+    private ICommand _openHelpCommand;
+
+    /// <summary>
+    /// Open help command
+    /// </summary>
+    public ICommand OpenHelpCommand => _openHelpCommand ?? (_openHelpCommand = new RelayCommand(p => ExecuteOpenHelpCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteOpenHelpCommand()
+    {
+      var url = new Uri(EnvironmentContainer.ApplicationHelpUrl);
+      EnvironmentContainer.Instance.ExecuteRequestNavigateCommand(url);
+    }
 
     private void ExecuteOpenWindowsEventsCommand()
     {

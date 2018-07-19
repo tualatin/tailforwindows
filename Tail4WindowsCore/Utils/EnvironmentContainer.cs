@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -62,6 +63,11 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// Application release URL
     /// </summary>
     public static string ApplicationReleaseWebUrl => "https://github.com/tualatin/tailforwindows/releases";
+
+    /// <summary>
+    /// Application help URL
+    /// </summary>
+    public static string ApplicationHelpUrl => "https://github.com/tualatin/tailforwindows/wiki";
 
     /// <summary>
     /// Application donate web URL
@@ -321,6 +327,18 @@ namespace Org.Vs.TailForWin.Core.Utils
       Enum.TryParse(s, out ThreadPriority tp);
 
       return tp;
+    }
+
+    /// <summary>
+    /// Execute a request navigation command
+    /// </summary>
+    /// <param name="parameter">Parameter as <see cref="Uri"/></param>
+    public void ExecuteRequestNavigateCommand(object parameter)
+    {
+      if ( !(parameter is Uri url) )
+        return;
+
+      Process.Start(new ProcessStartInfo(url.AbsoluteUri));
     }
 
     /// <summary>

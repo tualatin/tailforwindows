@@ -169,6 +169,14 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
       get;
     }
 
+    /// <summary>
+    /// Open help command
+    /// </summary>
+    ICommand OpenHelpCommand
+    {
+      get;
+    }
+
     #endregion
 
     /// <summary>

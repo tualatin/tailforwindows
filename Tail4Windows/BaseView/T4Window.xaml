@@ -86,6 +86,7 @@
     <KeyBinding Key="{Binding Key, Source={StaticResource OpenFontKeyBinding}, Mode=OneTime}" Command="{Binding OpenFontCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenFontKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource MinimizeWndKeyBinding}, Mode=OneTime}" Command="{Binding MinimizeWindowCommand}" CommandParameter="{Binding ElementName=MainWindow}" Modifiers="{Binding Modifiers, Source={StaticResource MinimizeWndKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource OpenWindowsEventKeyBinding}, Mode=OneTime}" Command="{Binding OpenWindowsEventCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenWindowsEventKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource OpenHelpKeyBinding}, Mode=OneTime}" Command="{Binding OpenHelpCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenHelpKeyBinding}, Mode=OneTime}" />
   </Window.InputBindings>
 
   <Grid>

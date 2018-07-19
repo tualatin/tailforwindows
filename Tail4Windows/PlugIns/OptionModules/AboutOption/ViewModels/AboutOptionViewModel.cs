@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -152,7 +151,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
     /// <summary>
     /// Request navigate command
     /// </summary>
-    public ICommand RequestNavigateCommand => _requestNavigateCommand ?? (_requestNavigateCommand = new RelayCommand(ExecuteRequestNavigateCommand));
+    public ICommand RequestNavigateCommand => _requestNavigateCommand ?? (_requestNavigateCommand = new RelayCommand(EnvironmentContainer.Instance.ExecuteRequestNavigateCommand));
 
     private IAsyncCommand _loadedCommand;
 
@@ -182,7 +181,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
     private void ExecuteDonateCommand()
     {
       var url = new Uri(EnvironmentContainer.ApplicationDonateWebUrl);
-      ExecuteRequestNavigateCommand(url);
+      EnvironmentContainer.Instance.ExecuteRequestNavigateCommand(url);
     }
 
     private async Task ExecuteLoadedCommandAsync()
@@ -210,14 +209,6 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
     {
       _cts?.Cancel();
       _thirdPartyCts?.Cancel();
-    }
-
-    private void ExecuteRequestNavigateCommand(object parameter)
-    {
-      if ( !(parameter is Uri url) )
-        return;
-
-      Process.Start(new ProcessStartInfo(url.AbsoluteUri));
     }
 
     #endregion
