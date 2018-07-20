@@ -9,6 +9,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v2.0.xxxx.x
+* bug fix DataGrid style
 * bug fix find algorithm
 * bug fix highlight data
 * bug clear log items -> Statusbar does not refresh
