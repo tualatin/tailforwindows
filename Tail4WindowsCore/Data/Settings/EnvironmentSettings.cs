@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Threading;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
@@ -103,6 +104,29 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         OnPropertyChanged(nameof(Language));
       }
     }
+
+    private string _editorPath;
+
+    /// <summary>
+    /// Editor path
+    /// </summary>
+    public string EditorPath
+    {
+      get => _editorPath;
+      set
+      {
+        if (Equals(value, _editorPath))
+          return;
+
+        _editorPath = value;
+        OnPropertyChanged();
+      }
+    }
+
+    /// <summary>
+    /// Editor without path and extension
+    /// </summary>
+    public string Editor => string.IsNullOrWhiteSpace(_editorPath) ? string.Empty : Path.GetFileNameWithoutExtension(Path.GetFileName(_editorPath));
 
     #region Window settings
 

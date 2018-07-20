@@ -69,7 +69,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
         { "SplitterBackgroundColor", DefaultEnvironmentSettings.SplitterBackgroundColor },
         { "SplitterWindowBehavior", DefaultEnvironmentSettings.SplitterWindowBehavior.ToString() },
         { "SelectionBackgroundColor", DefaultEnvironmentSettings.SelectionBackgroundColor },
-        { "SmartWatch.SmartWatchInterval", DefaultEnvironmentSettings.SmartWatchInterval.ToString() }
+        { "SmartWatch.SmartWatchInterval", DefaultEnvironmentSettings.SmartWatchInterval.ToString() },
+        { "EditorPath", string.Empty }
       };
 
       await AddNewPropertyAsync(settings, cts).ConfigureAwait(false);
@@ -227,6 +228,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "LogFileHistorySize", CurrentSettings.HistoryMaxSize);
       WriteValueToSetting(config, "ShowExtendedSettings", CurrentSettings.ShowExtendedSettings);
       WriteValueToSetting(config, "SplitterWindowBehavior", CurrentSettings.SplitterWindowBehavior);
+      WriteValueToSetting(config, "EditorPath", CurrentSettings.EditorPath);
     }
 
     private void SaveStatusBarSettings(Configuration config)
@@ -350,6 +352,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.HistoryMaxSize = DefaultEnvironmentSettings.HistoryMaxSize;
       CurrentSettings.ShowExtendedSettings = DefaultEnvironmentSettings.ShowExtendedSettings;
       CurrentSettings.SplitterWindowBehavior = DefaultEnvironmentSettings.SplitterWindowBehavior;
+      CurrentSettings.EditorPath = string.Empty;
     }
 
     private void SetDefaultStatusBarSettings()
@@ -502,6 +505,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ShowExtendedSettings = GetBoolFromSetting("ShowExtendedSettings");
       CurrentSettings.SplitterWindowBehavior = GetBoolFromSetting("SplitterWindowBehavior");
       CurrentSettings.SmartWatch = GetBoolFromSetting("SmartWatch");
+      CurrentSettings.EditorPath = GetStringFromSetting("EditorPath");
     }
 
     private void ReadStatusBarSettings()
