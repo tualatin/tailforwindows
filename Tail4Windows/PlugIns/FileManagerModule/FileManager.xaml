@@ -441,7 +441,7 @@
 
         <userControls:VsDataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
-          <Style TargetType="{x:Type DataGridRow}">
+          <Style BasedOn="{StaticResource DataGridRowStyle}" TargetType="{x:Type DataGridRow}">
             <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocussedWhenSelected" Value="True" />
           </Style>
         </userControls:VsDataGrid.RowStyle>
