@@ -14,6 +14,7 @@ v.2.1.xxxx.x
 * new Find Bookmark comments
 * new add/remove Bookmark comment
 * new add Help URL (F1)
+* new configurable editor
 * bug fix DataGrid style
 * bug fix Find algorithm
 * bug fix highlight data

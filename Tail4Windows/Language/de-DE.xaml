@@ -163,7 +163,7 @@
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Zeige die erweiterten Einstellungen des aktuellen tail Tabs</system:String>
   <system:String x:Key="ExtendedTailSettingsFilterLabel">Filter und Hervorheben Manager</system:String>
   <system:String x:Key="ExtendedTailSettingsFilterInputGestureText">STRG+SHIFT+F</system:String>
-  <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Öffne in Explorer</system:String>
+  <system:String x:Key="ExtendedTailSettingsOpenInExplorer">Öffne in Editor</system:String>
   <system:String x:Key="ExtendedTailSettingsOpenInEventViewer">Öffne Windows Ereignisanzeige</system:String>
   <system:String x:Key="ExtendedTailSettingsPrintTailLog">Drucke aktuelle Logdatei</system:String>
   <system:String x:Key="ExtendedTailSettingsQuickSave">Schnell Speichern</system:String>
@@ -553,4 +553,6 @@
   <system:String x:Key="AddBookmarkCommentWindowTitle">Bemerkung hinzufügen</system:String>
   <system:String x:Key="AddbookmarkCommentWatermark">Bemerkung</system:String>
   <system:String x:Key="BookmarkCommentToolTipHeader">Bookmark Kommentar</system:String>
+
+  <system:String x:Key="QAddEditor">Es ist kein gültiger Editor konfiguriert, möchten Sie jetzt einen Editor hinzufügen?</system:String>
 </ResourceDictionary>

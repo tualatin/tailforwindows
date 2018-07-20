@@ -104,6 +104,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private string _editorPath;
+
+    /// <summary>
+    /// Editor path
+    /// </summary>
+    public string EditorPath
+    {
+      get => _editorPath;
+      set
+      {
+        if (Equals(value, _editorPath))
+          return;
+
+        _editorPath = value;
+        OnPropertyChanged();
+      }
+    }
+
     #region Window settings
 
     private bool _restoreWindowSize;

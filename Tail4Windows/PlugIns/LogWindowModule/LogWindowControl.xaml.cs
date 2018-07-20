@@ -654,11 +654,22 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( !CurrentTailData.IsWindowsEvent )
       {
-        var shellOpen = new ProcessStartInfo(CurrentTailData.FileName)
+        if ( string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.EditorPath) || !File.Exists(SettingsHelperController.CurrentSettings.EditorPath) )
         {
-          UseShellExecute = true
-        };
-        Process.Start(shellOpen);
+          if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("QAddEditor").ToString()) == MessageBoxResult.No )
+            return;
+
+          if ( !InteractionService.OpenFileDialog(out string editorPath, "Executable files(*.exe)|*.exe", EnvironmentContainer.ApplicationTitle) )
+            return;
+
+          SettingsHelperController.CurrentSettings.EditorPath = editorPath;
+
+          MouseService.SetBusyState();
+          SetCancellationTokenSource();
+          NotifyTaskCompletion.Create(EnvironmentContainer.Instance.SaveSettingsAsync(_cts));
+        }
+
+        Process.Start(SettingsHelperController.CurrentSettings.EditorPath, CurrentTailData.FileName);
       }
       else
       {
