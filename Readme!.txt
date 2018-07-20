@@ -13,6 +13,8 @@ v.2.1.xxxx.x
 * new DataGrid layout save/restore
 * new Find Bookmark comments
 * new add/remove Bookmark comment
+* new add Help URL (F1)
+* bug fix DataGrid style
 * bug fix Find algorithm
 * bug fix highlight data
 * bug clear log items -> Statusbar does not refresh
