@@ -16,7 +16,7 @@ v.2.1.xxxx.x
 * new add Help URL (F1)
 * new configurable editor
 
-v2.0.xxxx.x
+v2.0.6778.x
 * improve export/import
 * bug fix DataGrid style
 * bug fix find algorithm
