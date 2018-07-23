@@ -521,7 +521,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 
       LOG.Trace("Get TailData by '{0}", id);
 
-      return await Task.Run(() => GetTailDataById(tailData, id)).ConfigureAwait(false);
+      return await Task.Run(() => GetTailDataById(tailData, id), new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
     }
 
     private TailData GetTailDataById(ObservableCollection<TailData> tailData, Guid id)
