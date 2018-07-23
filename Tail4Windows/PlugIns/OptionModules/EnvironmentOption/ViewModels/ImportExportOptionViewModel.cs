@@ -11,6 +11,7 @@ using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Controllers;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
@@ -29,6 +30,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
     private CancellationTokenSource _cts;
     private readonly ISettingsDbController _dbSettingsController;
+    private readonly IImportExportController _importExportController;
 
     #region Properties
 
@@ -55,7 +57,11 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public ImportExportOptionViewModel() => _dbSettingsController = SettingsDbController.Instance;
+    public ImportExportOptionViewModel()
+    {
+      _dbSettingsController = SettingsDbController.Instance;
+      _importExportController = new ImportExportController();
+    }
 
     #region Commands
 
@@ -137,13 +143,12 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
     private async Task ExecuteExportCommandAsync()
     {
-      string appName = AppDomain.CurrentDomain.FriendlyName;
-      string appSettings = $"{AppDomain.CurrentDomain.BaseDirectory}{appName}.Config";
+      string appName = Path.GetFileNameWithoutExtension(AppDomain.CurrentDomain.FriendlyName);
       string date = DateTime.Now.ToString("yyyy_MM_dd_hh_mm");
 
       var saveDialog = new SaveFileDialog
       {
-        FileName = $"{date}_{appName}.Config",
+        FileName = $"{date}_{appName}",
         DefaultExt = ".export",
         Filter = Application.Current.TryFindResource("ImportExportExportSettingsFilter").ToString()
       };
@@ -157,29 +162,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       _cts = new CancellationTokenSource();
 
       MouseService.SetBusyState();
-
-      try
-      {
-        var saveFile = new FileStream(appSettings, FileMode.Open);
-        Stream output = File.Create($"{saveDialog.FileName}.{saveDialog.DefaultExt}");
-        var buffer = new byte[1024];
-        int len;
-
-        while ( (len = await saveFile.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0 )
-        {
-          await output.WriteAsync(buffer, 0, len, _cts.Token).ConfigureAwait(false);
-        }
-
-        saveFile.Flush();
-        output.Flush();
-
-        saveFile.Close();
-        output.Close();
-      }
-      catch ( Exception ex )
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-      }
+      await _importExportController.ExportUserSettingsAsync(saveDialog.FileName, _cts.Token).ConfigureAwait(false);
     }
 
     private async Task ExecuteImportCommandAsync()
@@ -199,31 +182,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
       MouseService.SetBusyState();
 
-      try
-      {
-        string appName = AppDomain.CurrentDomain.FriendlyName;
-        var importFile = new FileStream(importSettings, FileMode.Open);
-        Stream output = File.Create($"{AppDomain.CurrentDomain.BaseDirectory}{appName}.Config");
-        var buffer = new byte[1024];
-        int len;
-
-        while ( (len = await importFile.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) > 0 )
-        {
-          await output.WriteAsync(buffer, 0, len, _cts.Token).ConfigureAwait(false);
-        }
-
-        output.Flush();
-        importFile.Flush();
-
-        output.Close();
-        importFile.Close();
-
+      if ( await _importExportController.ImportUserSettingsAsync(importSettings, _cts.Token).ConfigureAwait(false) )
         await EnvironmentContainer.Instance.ReloadSettingsAsync(_cts).ContinueWith(p => EnvironmentContainer.Instance.ReadSettingsAsync(_cts)).ConfigureAwait(false);
-      }
-      catch ( Exception ex )
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-      }
     }
 
     #endregion
