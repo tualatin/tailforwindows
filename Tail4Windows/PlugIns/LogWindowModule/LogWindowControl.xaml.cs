@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Shell;
 using log4net;
 using Org.Vs.TailForWin.Business.Controllers;
 using Org.Vs.TailForWin.Business.Services;
@@ -897,14 +898,31 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( SettingsHelperController.CurrentSettings.SaveLogFileHistory )
       {
+        // Create TaskBar jumplist
+        JumpList jumpList = JumpList.GetJumpList(Application.Current);
+
+        if ( jumpList == null )
+        {
+          jumpList = new JumpList();
+          JumpList.SetJumpList(Application.Current, jumpList);
+        }
+
         foreach ( string s in _historyQueueSet )
         {
           if ( LogFileHistory.Contains(s) )
             continue;
 
+          var jumpTask = new JumpTask
+          {
+            Title = Path.GetFileName(s),
+            Arguments = s
+          };
+          JumpList.AddToRecentCategory(jumpTask);
+
           LogFileHistory.Add(s);
         }
 
+        jumpList.Apply();
         OnPropertyChanged(nameof(LogFileHistory));
       }
 
@@ -912,7 +930,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       // Set focus to ComboBox
       LogFileComboBoxHasFocus = true;
-
 
       if ( !IsSmartWatchAutoRun )
         return;
