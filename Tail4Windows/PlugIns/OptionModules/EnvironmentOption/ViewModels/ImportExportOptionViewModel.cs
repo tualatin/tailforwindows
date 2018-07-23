@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using log4net;
 using Microsoft.Win32;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
@@ -26,8 +25,6 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
   /// </summary>
   public class ImportExportOptionViewModel : NotifyMaster, IImportExportOptionViewModel
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof(ImportExportOptionViewModel));
-
     private CancellationTokenSource _cts;
     private readonly ISettingsDbController _dbSettingsController;
     private readonly IImportExportController _importExportController;

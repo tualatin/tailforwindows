@@ -32,7 +32,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.
 
         try
         {
-          ZipFile.CreateFromDirectory(EnvironmentContainer.TailStorePath, fileName, CompressionLevel.Optimal, false);
+          ZipFile.CreateFromDirectory(EnvironmentContainer.UserSettingsPath, fileName, CompressionLevel.Optimal, false);
 
           // Add config file to Zip archive
           using ( ZipArchive zipArchive = ZipFile.Open(fileName, ZipArchiveMode.Update) )
@@ -66,7 +66,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.
         {
           foreach ( ZipArchiveEntry entry in ZipFile.Open(fileName, ZipArchiveMode.Read).Entries )
           {
-            string fileNamePath = Path.Combine(EnvironmentContainer.TailStorePath, entry.FullName);
+            string fileNamePath = Path.Combine(EnvironmentContainer.UserSettingsPath, entry.FullName);
 
             if ( string.IsNullOrWhiteSpace(entry.Name) )
             {
@@ -80,11 +80,11 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.
           // Copy config file to app folder
           string appName = AppDomain.CurrentDomain.FriendlyName;
           string appSettings = $"{AppDomain.CurrentDomain.BaseDirectory}{appName}.Config";
-          string importConfig = $@"{EnvironmentContainer.TailStorePath}\{Path.GetFileName(appSettings)}";
+          string importConfig = $@"{EnvironmentContainer.UserSettingsPath}\{Path.GetFileName(appSettings)}";
 
           if ( !File.Exists(importConfig) )
             return;
-          
+
           using ( var fs = new FileStream(importConfig, FileMode.Open) )
           {
             Stream output = File.Create(appSettings);

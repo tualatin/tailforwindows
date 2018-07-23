@@ -15,8 +15,11 @@ v.2.1.xxxx.x
 * new add/remove Bookmark comment
 * new add Help URL (F1)
 * new configurable editor
+
+v2.0.xxxx.x
+* improve export/import
 * bug fix DataGrid style
-* bug fix Find algorithm
+* bug fix find algorithm
 * bug fix highlight data
 * bug clear log items -> Statusbar does not refresh
 
