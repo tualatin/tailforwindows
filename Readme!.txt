@@ -8,7 +8,7 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
-v2.0.xxxx.x
+v2.0.6778.x
 * improve export/import
 * bug fix DataGrid style
 * bug fix find algorithm
