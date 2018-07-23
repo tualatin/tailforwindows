@@ -101,6 +101,8 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -159,9 +161,11 @@
     <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\IUpdateOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\ThirdPartyController.cs" />
     <Compile Include="PlugIns\OptionModules\AlertOption\Interfaces\IAlertOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Controllers\ImportExportController.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Data\ControlColorData.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IColorOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IEnvironmentOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IImportExportController.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IImportExportOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IProxyOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\Interfaces\IOptionPage.cs" />
