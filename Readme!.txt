@@ -9,6 +9,8 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.1.xxxx.x
+* new Taskbar jumplist
+* new commandline parameters possible (file name or TailManager item id)
 * new Column chooser in DataGrid
 * new DataGrid layout save/restore
 * new Find Bookmark comments

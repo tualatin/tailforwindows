@@ -898,15 +898,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( SettingsHelperController.CurrentSettings.SaveLogFileHistory )
       {
-        // Create TaskBar jumplist
-        JumpList jumpList = JumpList.GetJumpList(Application.Current);
-
-        if ( jumpList == null )
-        {
-          jumpList = new JumpList();
-          JumpList.SetJumpList(Application.Current, jumpList);
-        }
-
         foreach ( string s in _historyQueueSet )
         {
           if ( LogFileHistory.Contains(s) )
@@ -915,14 +906,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           var jumpTask = new JumpTask
           {
             Title = Path.GetFileName(s),
-            Arguments = s
+            Arguments = s,
+            Description = s
           };
-          JumpList.AddToRecentCategory(jumpTask);
 
           LogFileHistory.Add(s);
+          AddJumpTaskToJumpList(jumpTask);
         }
 
-        jumpList.Apply();
         OnPropertyChanged(nameof(LogFileHistory));
       }
 
@@ -958,6 +949,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         OpenSmartWatchTailData(args.TailData);
         return;
       }
+
+      var jumpTask = new JumpTask
+      {
+        Title = args.TailData.Description,
+        Arguments = $"/id={args.TailData.Id}",
+        CustomCategory = "TailManager",
+        Description = args.TailData.FileName
+      };
+
+      AddJumpTaskToJumpList(jumpTask);
 
       // Open in new Drag window
       if ( args.TailData.NewWindow )
@@ -1268,6 +1269,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     #endregion
+
+    private void AddJumpTaskToJumpList(JumpTask item)
+    {
+      // Create TaskBar jumplist
+      JumpList jumpList = JumpList.GetJumpList(Application.Current);
+
+      if ( jumpList == null )
+      {
+        jumpList = new JumpList();
+        JumpList.SetJumpList(Application.Current, jumpList);
+      }
+
+      JumpList.AddToRecentCategory(item);
+      jumpList.Apply();
+    }
 
     private void OnDisableQuickAddFlag(DisableQuickAddInTailDataMessage args)
     {
