@@ -100,7 +100,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
           int displayIndex = Convert.ToInt32(row[VsColumnDisplayIndex]);
           column.DisplayIndex = displayIndex;
 
-          Double.TryParse(row[VsColumnWidth].ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out double width);
+          double.TryParse(row[VsColumnWidth].ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out double width);
           column.Width = width;
 
           int visibility = Convert.ToInt32(row[VsColumnVisibility]);
@@ -157,7 +157,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// </summary>
     public void SaveDataGridOptions()
     {
-      if ( String.IsNullOrWhiteSpace(_userDataGridSettingsFile) )
+      if ( string.IsNullOrWhiteSpace(_userDataGridSettingsFile) )
         return;
 
       LOG.Trace("Save DataGrid options");
@@ -199,7 +199,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
       var scrollBars = scrollViewer.Descendents().OfType<ScrollBar>().Where(p => p.Visibility == Visibility.Visible);
 
-      foreach ( var scrollBar in scrollBars )
+      foreach ( ScrollBar scrollBar in scrollBars )
       {
         var grid = scrollBar.Descendents().OfType<Grid>().FirstOrDefault(p => p.Name == "GridHorizontalScrollBar");
 
@@ -220,7 +220,9 @@ namespace Org.Vs.TailForWin.UI.UserControls
         return;
 
       _scrollViewer.ScrollChanged += OnScrollChanged;
+
       LoadDataGridOptions();
+      OnScrollChanged(this, null);
     }
 
     private void OnScrollChanged(object sender, ScrollChangedEventArgs e)

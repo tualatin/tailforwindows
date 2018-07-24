@@ -946,9 +946,15 @@
                 <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsOpenInExplorer}"
                   Command="{Binding OpenInEditorCommand}"
-                  ToolTip="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=Editor}"
                   Visibility="{Binding CurrentTailData.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
                   >
+                  <MenuItem.ToolTip>
+                    <ToolTip
+                      Content="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=Editor}"
+                      Style="{StaticResource TabItemToolTipStyle}"
+                      Visibility="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=Editor, Converter={StaticResource StringToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                      />
+                  </MenuItem.ToolTip>
                   <MenuItem.Icon>
                     <Image
                       RenderOptions.BitmapScalingMode="HighQuality"

@@ -23,7 +23,7 @@ v2.0.6778.x
 * bug fix DataGrid style
 * bug fix find algorithm
 * bug fix highlight data
-* bug clear log items -> Statusbar does not refresh
+* bug fix clear log items -> Statusbar does not refresh
 
 v.2.0.6769.x
 * new add selected word to Filter/HighlightManager

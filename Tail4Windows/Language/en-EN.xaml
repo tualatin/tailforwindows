@@ -64,7 +64,7 @@
   <system:String x:Key="QuickSearchToolTip">Quick search in current TailWindow (CTRL+Q)</system:String>
   <system:String x:Key="QuickSearchEnterToolTip">Search</system:String>
   <system:String x:Key="OptionsSystemMenu">Settings...</system:String>
-  <system:String x:Key="OptionsSystemMenuToolTip">Opens the settings dialog</system:String>
+  <system:String x:Key="OptionsSystemMenuToolTip">Opens the settings</system:String>
   <system:String x:Key="CancelText">Cancel</system:String>
   <system:String x:Key="TabControlAddNew">Add new log window tab (CTRL+T)</system:String>
   <system:String x:Key="ThreadIsBusy">There is a running process in {0}. Are you sure to exit?</system:String>
