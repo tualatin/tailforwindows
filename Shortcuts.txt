@@ -21,3 +21,4 @@ Alt+A                               Open font settings
 Ctrl+Q                              Focus quick search
 MiddleMouse button over TailWindow  New tab window
 MiddleMouse button over TabHeader   Close tab window
+F1                                  Open Tail4Windows Wiki page

@@ -20,6 +20,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
   public class DragSupportTabItem : TabItem, INotifyPropertyChanged
   {
     private Polygon _tabItemBusyIndicator;
+    private Ellipse _itemChangedIndictor;
     private readonly StringToWindowMediaBrushConverter _stringToWindowMediaBrushConverter;
 
     /// <summary>
@@ -35,7 +36,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// TabHeaderDoubleClicke event handler
     /// </summary>
-    private static readonly RoutedEvent TabHeaderDoubleClickEvent = EventManager.RegisterRoutedEvent("TabHeaderDoubleClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabItem));
+    private static readonly RoutedEvent TabHeaderDoubleClickEvent = EventManager.RegisterRoutedEvent(nameof(TabHeaderDoubleClick), RoutingStrategy.Bubble, typeof(RoutedEventHandler),
+      typeof(DragSupportTabItem));
 
     /// <summary>
     /// TabHeaderDoubleClick
@@ -49,7 +51,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// CloseTabWindow event handler
     /// </summary>
-    private static readonly RoutedEvent CloseTabWindowEvent = EventManager.RegisterRoutedEvent("CloseTabWindow", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabItem));
+    private static readonly RoutedEvent CloseTabWindowEvent = EventManager.RegisterRoutedEvent(nameof(CloseTabWindow), RoutingStrategy.Bubble, typeof(RoutedEventHandler),
+      typeof(DragSupportTabItem));
 
     /// <summary>
     /// Close tab window when user press the close button in TabHeader
@@ -63,7 +66,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Set HeaderToolTipProperty property
     /// </summary>
-    public static readonly DependencyProperty HeaderToolTipProperty = DependencyProperty.Register("HeaderToolTip", typeof(string), typeof(DragSupportTabItem), new UIPropertyMetadata(null));
+    public static readonly DependencyProperty HeaderToolTipProperty = DependencyProperty.Register(nameof(HeaderToolTip), typeof(string), typeof(DragSupportTabItem),
+      new UIPropertyMetadata(null));
 
     /// <summary>
     /// Gets/sets HeaderToolTip
@@ -81,7 +85,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Set HeaderToolContentProperty property
     /// </summary>
-    public static readonly DependencyProperty HeaderToolContentProperty = DependencyProperty.Register("HeaderContent", typeof(string), typeof(DragSupportTabItem));
+    public static readonly DependencyProperty HeaderToolContentProperty = DependencyProperty.Register(nameof(HeaderContent), typeof(string), typeof(DragSupportTabItem));
 
     /// <summary>
     /// Gets/sets HeaderToolContent
@@ -115,7 +119,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Set TabItemBusyIndicator property
     /// </summary>
-    public static readonly DependencyProperty TabItemBusyIndicatorProperty = DependencyProperty.Register("TabItemBusyIndicator", typeof(Visibility), typeof(DragSupportTabItem), new UIPropertyMetadata(Visibility.Collapsed, TabItemBusyIndicatorVisibilityChanged));
+    public static readonly DependencyProperty TabItemBusyIndicatorProperty = DependencyProperty.Register(nameof(TabItemBusyIndicator), typeof(Visibility), typeof(DragSupportTabItem),
+      new UIPropertyMetadata(Visibility.Collapsed, TabItemBusyIndicatorVisibilityChanged));
 
     private static void TabItemBusyIndicatorVisibilityChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
@@ -141,7 +146,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Set ColorPopupIsOpen property
     /// </summary>
-    public static readonly DependencyProperty ColorPopupIsOpenProperty = DependencyProperty.Register("ColorPopupIsOpenProperty", typeof(bool), typeof(DragSupportTabItem),
+    public static readonly DependencyProperty ColorPopupIsOpenProperty = DependencyProperty.Register(nameof(ColorPopupIsOpen), typeof(bool), typeof(DragSupportTabItem),
       new UIPropertyMetadata(false));
 
     /// <summary>
@@ -156,8 +161,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Set TabItem background color as string property
     /// </summary>
-    public static readonly DependencyProperty TabItemBackgroundColorStringHexProperty = DependencyProperty.Register("TabItemBackgroundColorStringHexProperty", typeof(string), typeof(DragSupportTabItem),
-      new UIPropertyMetadata(DefaultEnvironmentSettings.TabItemHeaderBackgroundColor, OnTabItemColorStringHexChanged));
+    public static readonly DependencyProperty TabItemBackgroundColorStringHexProperty = DependencyProperty.Register("TabItemBackgroundColorStringHexProperty", typeof(string),
+      typeof(DragSupportTabItem), new UIPropertyMetadata(DefaultEnvironmentSettings.TabItemHeaderBackgroundColor, OnTabItemColorStringHexChanged));
 
     private static void OnTabItemColorStringHexChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
@@ -173,7 +178,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// TabHeaderBackgroundChanged event handler
     /// </summary>
-    private static readonly RoutedEvent TabHeaderBackgroundChangedEvent = EventManager.RegisterRoutedEvent("TabHeaderBackgroundChanged", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabItem));
+    private static readonly RoutedEvent TabHeaderBackgroundChangedEvent = EventManager.RegisterRoutedEvent(nameof(TabHeaderBackgroundChanged), RoutingStrategy.Bubble,
+      typeof(RoutedEventHandler), typeof(DragSupportTabItem));
 
     /// <summary>
     /// TabHeaderBackgroundChanged
@@ -200,7 +206,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Set TabItem background color property
     /// </summary>
-    public static readonly DependencyProperty TabItemBackgroundColorProperty = DependencyProperty.Register("TabItemBackgroundColorProperty", typeof(SolidColorBrush), typeof(DragSupportTabItem), new UIPropertyMetadata(Application.Current.TryFindResource("BrushSolidLightBlue")));
+    public static readonly DependencyProperty TabItemBackgroundColorProperty = DependencyProperty.Register(nameof(TabItemBackgroundColor), typeof(SolidColorBrush),
+      typeof(DragSupportTabItem), new UIPropertyMetadata(Application.Current.TryFindResource("BrushSolidLightBlue")));
 
     /// <summary>
     /// Gets/sets background color
@@ -213,6 +220,33 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         SetValue(TabItemBackgroundColorProperty, value);
         OnPropertyChanged(nameof(TabItemBackgroundColor));
       }
+    }
+
+    /// <summary>
+    /// Set ItemChangedIndicator property
+    /// </summary>
+    public static readonly DependencyProperty ItemChangedIndicatorProperty = DependencyProperty.Register(nameof(ItemChangedIndicator), typeof(Visibility), typeof(DragSupportTabItem),
+      new UIPropertyMetadata(Visibility.Collapsed, ItemChangedIndicatorVisibilityChanged));
+
+    private static void ItemChangedIndicatorVisibilityChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    {
+      if ( !(sender is DragSupportTabItem tabItem) )
+        return;
+
+      if ( tabItem._itemChangedIndictor == null )
+        return;
+
+      tabItem._itemChangedIndictor.Visibility = e.NewValue is Visibility visibility ? visibility : Visibility.Visible;
+      tabItem.OnPropertyChanged(nameof(tabItem.ItemChangedIndicator));
+    }
+
+    /// <summary>
+    /// Gets/sets ItemChangedIndicator
+    /// </summary>
+    public Visibility ItemChangedIndicator
+    {
+      get => (Visibility) GetValue(ItemChangedIndicatorProperty);
+      set => SetValue(ItemChangedIndicatorProperty, value);
     }
 
     /// <summary>
@@ -239,6 +273,11 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       if ( _tabItemBusyIndicator != null )
         _tabItemBusyIndicator.Visibility = TabItemBusyIndicator;
+
+      _itemChangedIndictor = GetTemplateChild("ItemChangedIndicator") as Ellipse;
+
+      if ( _itemChangedIndictor != null )
+        _itemChangedIndictor.Visibility = ItemChangedIndicator;
 
       if ( !(GetTemplateChild("GridHeader") is Grid headerGrid) )
         return;

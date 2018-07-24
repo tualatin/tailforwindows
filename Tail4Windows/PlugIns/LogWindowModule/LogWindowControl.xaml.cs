@@ -98,6 +98,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       ((AsyncCommand<object>) StartTailCommand).PropertyChanged += SaveHistoryCompleted;
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedCompleted;
+      ((AsyncCommand<object>) QuickSaveCommand).PropertyChanged += QuickSaveCompleted;
       SettingsHelperController.CurrentSettings.PropertyChanged += CurrentSettingsPropertyChanged;
     }
 
@@ -171,8 +172,20 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set
       {
         _currentTailData = value;
+
+        if ( _currentTailData != null )
+          _currentTailData.PropertyChanged += OnTailDataPropertyChanged;
+
         OnPropertyChanged();
       }
+    }
+
+    private void OnTailDataPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !_currentTailData.OpenFromFileManager )
+        return;
+
+      LogWindowTabItem.ItemChangedIndicator = _currentTailData.CanUndo ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private bool _fileIsValid;
@@ -929,6 +942,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       IsSmartWatchAutoRun = false;
     }
 
+    private void QuickSaveCompleted(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      CurrentTailData.CommitChanges();
+    }
+
     private void OnOpenTailData(OpenTailDataMessage args)
     {
       if ( args.Sender == null )
@@ -1056,8 +1077,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
       }
 
+      item.OpenFromFileManager = true;
       CurrentTailData = item;
-      CurrentTailData.OpenFromFileManager = true;
       SelectedItem = CurrentTailData.FileName;
 
       OnPropertyChanged(nameof(CurrentTailData));

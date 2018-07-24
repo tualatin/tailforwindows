@@ -35,8 +35,8 @@ namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
     /// <param name="command"><see cref="Command"/></param>
     protected void ChangeState(Command command)
     {
-      command.Execute();
       _undos.Push(command);
+      command.Execute();
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
       if ( !CanUndo )
         return;
 
-      var command = _undos.Pop();
+      Command command = _undos.Pop();
 
       _redos.Push(command);
       command.Undo();
@@ -61,7 +61,7 @@ namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
       if ( !CanRedo )
         return;
 
-      var command = _redos.Pop();
+      Command command = _redos.Pop();
 
       _undos.Push(command);
       command.Execute();
@@ -74,6 +74,9 @@ namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
     {
       _undos.Clear();
       _redos.Clear();
+
+      OnPropertyChanged(nameof(CanRedo));
+      OnPropertyChanged(nameof(CanUndo));
     }
   }
 }
