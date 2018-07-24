@@ -1230,7 +1230,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( args.WindowGuid != WindowId || !CanExecuteQuickSaveCommand() )
         return;
 
-      NotifyTaskCompletion.Create(ExecuteQuickSaveCommandAsync());
+      NotifyTaskCompletion.Create(ExecuteQuickSaveCommandAsync()).PropertyChanged += QuickSaveCompleted;
     }
 
     private void OnToggleFilter(ToggleFilterMessage args)
