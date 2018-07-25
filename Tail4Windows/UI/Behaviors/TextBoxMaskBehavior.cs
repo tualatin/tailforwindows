@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interactivity;
+using Org.Vs.TailForWin.UI.Behaviors.Base;
 
 
 namespace Org.Vs.TailForWin.UI.Behaviors
@@ -11,7 +11,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
   /// <summary>
   /// <see cref="TextBox"/> mask behavior
   /// </summary>
-  public class TextBoxMaskBehavior : Behavior<TextBox>
+  public class TextBoxMaskBehavior : BehaviorBase<TextBox>
   {
     #region DependencyProperties
 
@@ -55,26 +55,21 @@ namespace Org.Vs.TailForWin.UI.Behaviors
     }
 
     /// <summary>
-    /// Called after the behavior is attached to an AssociatedObject.
+    /// Setup <see cref="BehaviorBase{T}"/>
     /// </summary>
-    protected override void OnAttached()
+    protected override void OnSetup()
     {
-      base.OnAttached();
-
       AssociatedObject.Loaded += AssociatedObjectLoaded;
       AssociatedObject.PreviewTextInput += AssociatedObjectPreviewTextInput;
       AssociatedObject.PreviewKeyDown += AssociatedObjectPreviewKeyDown;
 
       DataObject.AddPastingHandler(AssociatedObject, Pasting);
     }
-
     /// <summary>
-    /// Called when the behavior is being detached from its AssociatedObject, but before it has actually occurred.
+    /// Release all resource used by <see cref="BehaviorBase{T}"/>
     /// </summary>
-    protected override void OnDetaching()
+    protected override void OnCleanup()
     {
-      base.OnDetaching();
-
       AssociatedObject.Loaded -= AssociatedObjectLoaded;
       AssociatedObject.PreviewTextInput -= AssociatedObjectPreviewTextInput;
       AssociatedObject.PreviewKeyDown -= AssociatedObjectPreviewKeyDown;

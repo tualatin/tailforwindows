@@ -9,6 +9,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.1.xxxx.x
+* new SingleClick edit mode in DataGrid
 * new item changed indicator in TabHeader
 * new Taskbar jumplist
 * new commandline parameters possible (file name or TailManager item id)

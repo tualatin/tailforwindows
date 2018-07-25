@@ -11,23 +11,19 @@ namespace Org.Vs.TailForWin.UI.Behaviors.Base
   /// <typeparam name="T">Type of behavior</typeparam>
   public abstract class BehaviorBase<T> : Behavior<T> where T : FrameworkElement
   {
-    private bool _isSetup = true;
+    private bool _isSetup;
     private bool _isHookedUp;
     private WeakReference _weakTarget;
 
     /// <summary>
     /// Setup <see cref="BehaviorBase{T}"/>
     /// </summary>
-    protected virtual void OnSetup()
-    {
-    }
+    protected abstract void OnSetup();
 
     /// <summary>
     /// Release all resource used by <see cref="BehaviorBase{T}"/>
     /// </summary>
-    protected virtual void OnCleanup()
-    {
-    }
+    protected abstract void OnCleanup();
 
     /// <summary>
     /// <see cref="BehaviorBase{T}"/> changed

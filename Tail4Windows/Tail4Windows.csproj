@@ -265,6 +265,7 @@
       <DependentUpon>WindowsEventCategories.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Behaviors\Base\BehaviorBase.cs" />
+    <Compile Include="UI\Behaviors\DataGridSingleClickBehavior.cs" />
     <Compile Include="UI\Behaviors\FixHorizontalScrollbarPosition.cs" />
     <Compile Include="UI\Behaviors\ListBoxCopy.cs" />
     <Compile Include="UI\Behaviors\ListBoxExtenders.cs" />

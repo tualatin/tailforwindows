@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
-using System.Windows.Interactivity;
+using Org.Vs.TailForWin.UI.Behaviors.Base;
 
 
 namespace Org.Vs.TailForWin.UI.Behaviors
@@ -8,16 +8,17 @@ namespace Org.Vs.TailForWin.UI.Behaviors
   /// <summary>
   /// ScrollDataGridRowInto view
   /// </summary>
-  public class ScrollDataGridRowIntoView : Behavior<DataGrid>
+  public class ScrollDataGridRowIntoView : BehaviorBase<DataGrid>
   {
     /// <summary>
-    /// Called after the behavior is attached to an AssociatedObject.
+    /// Setup <see cref="BehaviorBase{T}"/>
     /// </summary>
-    protected override void OnAttached()
-    {
-      base.OnAttached();
-      AssociatedObject.SelectionChanged += AssociatedObjectSelectionChanged;
-    }
+    protected override void OnSetup() => AssociatedObject.SelectionChanged += AssociatedObjectSelectionChanged;
+
+    /// <summary>
+    /// Release all resource used by <see cref="BehaviorBase{T}"/>
+    /// </summary>
+    protected override void OnCleanup() => AssociatedObject.SelectionChanged -= AssociatedObjectSelectionChanged;
 
     private static void AssociatedObjectSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -33,15 +34,6 @@ namespace Org.Vs.TailForWin.UI.Behaviors
             datagrid.ScrollIntoView(datagrid.SelectedItem);
         }));
       }
-    }
-
-    /// <summary>
-    /// Called when the behavior is being detached from its AssociatedObject, but before it has actually occurred.
-    /// </summary>
-    protected override void OnDetaching()
-    {
-      base.OnDetaching();
-      AssociatedObject.SelectionChanged -= AssociatedObjectSelectionChanged;
     }
   }
 }

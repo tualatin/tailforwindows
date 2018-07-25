@@ -435,6 +435,7 @@
         </i:Interaction.Triggers>
 
         <i:Interaction.Behaviors>
+          <behaviors:DataGridSingleClickBehavior />
           <behaviors:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />
           <behaviors:ScrollDataGridRowIntoView />
         </i:Interaction.Behaviors>

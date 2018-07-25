@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interactivity;
+using Org.Vs.TailForWin.UI.Behaviors.Base;
 
 
 namespace Org.Vs.TailForWin.UI.Behaviors
@@ -10,7 +10,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
   /// <summary>
   /// MultiSelectionBehavior
   /// </summary>
-  public class MultiSelectionBehavior : Behavior<DataGrid>
+  public class MultiSelectionBehavior : BehaviorBase<DataGrid>
   {
     /// <summary>
     /// Standard constructor
@@ -18,14 +18,14 @@ namespace Org.Vs.TailForWin.UI.Behaviors
     public MultiSelectionBehavior() => SelectedItems = new ObservableCollection<object>();
 
     /// <summary>
-    /// Called after the behavior is attached to an AssociatedObject.
+    /// Setup <see cref="BehaviorBase{T}"/>
     /// </summary>
-    protected override void OnAttached() => AssociatedObject.SelectionChanged += AssociatedObjectSelectionChanged;
+    protected override void OnSetup() => AssociatedObject.SelectionChanged += AssociatedObjectSelectionChanged;
 
     /// <summary>
-    /// Called when the behavior is being detached from its AssociatedObject, but before it has actually occurred.
+    /// Release all resource used by <see cref="BehaviorBase{T}"/>
     /// </summary>
-    protected override void OnDetaching() => AssociatedObject.SelectionChanged -= AssociatedObjectSelectionChanged;
+    protected override void OnCleanup() => AssociatedObject.SelectionChanged -= AssociatedObjectSelectionChanged;
 
     private void AssociatedObjectSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -35,7 +35,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       {
         foreach ( var item in e.RemovedItems )
         {
-          if ( selectedItems.Contains(item))
+          if ( selectedItems.Contains(item) )
             selectedItems.Remove(item);
         }
       }

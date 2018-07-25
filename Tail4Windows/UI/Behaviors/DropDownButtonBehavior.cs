@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Interactivity;
+using Org.Vs.TailForWin.UI.Behaviors.Base;
 
 
 namespace Org.Vs.TailForWin.UI.Behaviors
@@ -10,19 +10,20 @@ namespace Org.Vs.TailForWin.UI.Behaviors
   /// <summary>
   /// DropDown button behavior
   /// </summary>
-  public class DropDownButtonBehavior : Behavior<Button>
+  public class DropDownButtonBehavior : BehaviorBase<Button>
   {
     private long _attachedCount;
     private bool _isContextMenuOpen;
 
     /// <summary>
-    /// Called after the behavior is attached to an AssociatedObject.
+    /// Setup <see cref="BehaviorBase{T}"/>
     /// </summary>
-    protected override void OnAttached()
-    {
-      base.OnAttached();
-      AssociatedObject.AddHandler(ButtonBase.ClickEvent, new RoutedEventHandler(AssociatedObjectClick), true);
-    }
+    protected override void OnSetup() => AssociatedObject.AddHandler(ButtonBase.ClickEvent, new RoutedEventHandler(AssociatedObjectClick), true);
+
+    /// <summary>
+    /// Release all resource used by <see cref="BehaviorBase{T}"/>
+    /// </summary>
+    protected override void OnCleanup() => AssociatedObject.RemoveHandler(ButtonBase.ClickEvent, new RoutedEventHandler(AssociatedObjectClick));
 
     private void AssociatedObjectClick(object sender, RoutedEventArgs e)
     {
@@ -42,15 +43,6 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       source.ContextMenu.Placement = PlacementMode.Bottom;
       source.ContextMenu.IsOpen = true;
       _isContextMenuOpen = true;
-    }
-
-    /// <summary>
-    /// Called when the behavior is being detached from its AssociatedObject, but before it has actually occurred.
-    /// </summary>
-    protected override void OnDetaching()
-    {
-      base.OnDetaching();
-      AssociatedObject.RemoveHandler(ButtonBase.ClickEvent, new RoutedEventHandler(AssociatedObjectClick));
     }
 
     private void ContextMenuClosed(object sender, RoutedEventArgs e)
