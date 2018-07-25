@@ -557,4 +557,7 @@
   <system:String x:Key="BookmarkCommentToolTipHeader">Bookmark comment</system:String>
 
   <system:String x:Key="QAddEditor">There is no valid editor configured, would you like to add an editor now?</system:String>
+
+  <system:String x:Key="SplitWindowFilterByBookmark">Filter by Bookmarks</system:String>
+  <system:String x:Key="SplitWindowFilterByBookmarkToolTip">Filter current view by bookmarked lines</system:String>
 </ResourceDictionary>

@@ -10,6 +10,8 @@
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:genericBehaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:logWindowListBox="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl"
+  xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   mc:Ignorable="d"
   d:DataContext="{Binding RelativeSource={RelativeSource Self}}"
   d:DesignHeight="450"
@@ -45,31 +47,120 @@
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <logWindowListBox:LogWindowListBox
-      x:Name="LogWindowSplitElement"
-      Grid.Row="0"
-      FontFamily="{Binding CurrentTailData.FontType.FontFamily, UpdateSourceTrigger=PropertyChanged}"
-      FontSize="{Binding CurrentTailData.FontType.FontSize, UpdateSourceTrigger=PropertyChanged}"
-      FontStretch="{Binding CurrentTailData.FontType.FontStretch, UpdateSourceTrigger=PropertyChanged}"
-      FontStyle="{Binding CurrentTailData.FontType.FontStyle, UpdateSourceTrigger=PropertyChanged}"
-      FontWeight="{Binding CurrentTailData.FontType.FontWeight, UpdateSourceTrigger=PropertyChanged}"
-      HighlightDataResult="{Binding ElementName=SplitWindow, Path=HighlightData, UpdateSourceTrigger=PropertyChanged}"
-      SelectedItem="{Binding ElementName=SplitWindow, Path=SelectedItem}"
-      SelectedText="{Binding ElementName=SplitWindow, Path=SelectedText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-      genericBehaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
-      genericBehaviors:ListBoxCopy.AutoCopy="True"
-      genericBehaviors:ListBoxSelector.Enabled="True"
-      genericBehaviors:ListBoxSelector.Offset="20"
-      >
-      <i:Interaction.Triggers>
-        <i:EventTrigger EventName="AddBookmarkCommentEvent">
-          <commands:InvokeDelegateCommandAction
-            Command="{Binding AddBookmarkCommentCommand}"
-            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+    <Grid>
+      <logWindowListBox:LogWindowListBox
+        x:Name="LogWindowSplitElement"
+        Grid.Row="0"
+        FontFamily="{Binding CurrentTailData.FontType.FontFamily, UpdateSourceTrigger=PropertyChanged}"
+        FontSize="{Binding CurrentTailData.FontType.FontSize, UpdateSourceTrigger=PropertyChanged}"
+        FontStretch="{Binding CurrentTailData.FontType.FontStretch, UpdateSourceTrigger=PropertyChanged}"
+        FontStyle="{Binding CurrentTailData.FontType.FontStyle, UpdateSourceTrigger=PropertyChanged}"
+        FontWeight="{Binding CurrentTailData.FontType.FontWeight, UpdateSourceTrigger=PropertyChanged}"
+        HighlightDataResult="{Binding ElementName=SplitWindow, Path=HighlightData, UpdateSourceTrigger=PropertyChanged}"
+        SelectedItem="{Binding ElementName=SplitWindow, Path=SelectedItem}"
+        SelectedText="{Binding ElementName=SplitWindow, Path=SelectedText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+        genericBehaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
+        genericBehaviors:ListBoxCopy.AutoCopy="True"
+        genericBehaviors:ListBoxSelector.Enabled="True"
+        genericBehaviors:ListBoxSelector.Offset="20"
+        >
+        <i:Interaction.Triggers>
+          <i:EventTrigger EventName="AddBookmarkCommentEvent">
+            <commands:InvokeDelegateCommandAction
+              Command="{Binding AddBookmarkCommentCommand}"
+              CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+              />
+          </i:EventTrigger>
+        </i:Interaction.Triggers>
+      </logWindowListBox:LogWindowListBox>
+
+      <Border
+        Width="650"
+        Height="35"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Top"
+        BorderBrush="#6DC2E9"
+        BorderThickness="1 0 1 1"
+        >
+        <Border.Background>
+          <SolidColorBrush Color="#FCFCFC" Opacity="0.8" po:Freeze="True" />
+        </Border.Background>
+        <Grid Margin="5">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <CheckBox
+            Grid.Column="0"
+            Height="22"
+            Content="{DynamicResource SplitWindowFilterByBookmark}"
+            >
+            <CheckBox.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource SplitWindowFilterByBookmark}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource SplitWindowFilterByBookmarkToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </CheckBox.ToolTip>
+          </CheckBox>
+
+          <userControls:WatermarkTextBox
+            Grid.Column="1"
+            Height="22"
+            Margin="20 0"
+            Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}"
+            TabIndex="0"
+            genericBehaviors:FocusBehavior.IsFocused="{Binding TextBoxHasFocus, UpdateSourceTrigger=PropertyChanged}"
+            >
+            <userControls:WatermarkTextBox.Watermark>
+              <TextBlock
+                Margin="5 0 0 0"
+                Text="{DynamicResource ExtendedSearch}"
+                FontStyle="Italic"
+                />
+            </userControls:WatermarkTextBox.Watermark>
+
+            <userControls:WatermarkTextBox.InputBindings>
+              <KeyBinding Key="Enter" Command="{Binding SaveBookmarkCommentCommand}" CommandParameter="{Binding ElementName=SplitWindow}" />
+            </userControls:WatermarkTextBox.InputBindings>
+          </userControls:WatermarkTextBox>
+
+          <Button
+            Grid.Column="2"
+            Width="18"
+            Height="18"
+            Margin="0 0 5 0"
+            Style="{StaticResource RemoveItemButtonStyle}"
+            ToolTip="{DynamicResource CloseWindowToolTip}"
             />
-        </i:EventTrigger>
-      </i:Interaction.Triggers>
-    </logWindowListBox:LogWindowListBox>
+        </Grid>
+      </Border>
+    </Grid>
 
     <GridSplitter
       Grid.Row="1"

@@ -19,6 +19,7 @@ v.2.1.xxxx.x
 * new add/remove Bookmark comment
 * new add Help URL (F1)
 * new configurable editor
+* bug fix update highlighting, when no highlight source is available
 
 v2.0.6778.x
 * improve export/import

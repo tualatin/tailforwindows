@@ -213,7 +213,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <param name="result"></param>
     public void UpateHighlighting(List<TextHighlightData> result)
     {
-      if ( ItemsSource == null || result == null )
+      if ( ItemsSource == null || result == null || result.Count == 0 )
         return;
 
       IEnumerator enumerator = ItemsSource.GetEnumerator();

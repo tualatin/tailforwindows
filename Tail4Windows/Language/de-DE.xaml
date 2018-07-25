@@ -555,4 +555,7 @@
   <system:String x:Key="BookmarkCommentToolTipHeader">Bookmark Kommentar</system:String>
 
   <system:String x:Key="QAddEditor">Es ist kein gültiger Editor konfiguriert, möchten Sie jetzt einen Editor hinzufügen?</system:String>
+
+  <system:String x:Key="SplitWindowFilterByBookmark">Gefilter nach Bookmarks</system:String>
+  <system:String x:Key="SplitWindowFilterByBookmarkToolTip">Filtere aktuelle Ansicht nach Zeilen, bei denen ein Lesezeichen gesetzt ist</system:String>
 </ResourceDictionary>
