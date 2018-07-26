@@ -39,6 +39,7 @@ using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
+using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.PlugIns.BookmarkCommentModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule;
@@ -229,6 +230,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set;
     }
 
+    private Visibility _extendedToolbarVisibility;
+
+    /// <summary>
+    /// Extended toolbar visibility
+    /// </summary>
+    public Visibility ExtendedToolbarVisibility
+    {
+      get => _extendedToolbarVisibility;
+      set
+      {
+        if ( value == _extendedToolbarVisibility )
+          return;
+
+        _extendedToolbarVisibility = value;
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     /// <summary>
@@ -253,6 +272,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _searchController = new FindController();
       _preventMessageFlood = new PreventMessageFlood();
       _findController = new FindController();
+
+      ExtendedToolbarVisibility = Visibility.Collapsed;
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<FindWhatChangedClosedMessage>(OnFindWhatChangedOrClosed);
     }
@@ -472,9 +493,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand AddBookmarkCommentCommand => _addBookmarkCommentCommand ?? (_addBookmarkCommentCommand = new RelayCommand(ExecuteAddBookmarkCommentCommand));
 
+    private ICommand _closeExtendedToolbarCommand;
+
+    /// <summary>
+    /// Close extended toolbar command
+    /// </summary>
+    public ICommand CloseExtendedToolbarCommand => _closeExtendedToolbarCommand ?? (_closeExtendedToolbarCommand = new RelayCommand(p => ExecuteCloseExtendedToolbarCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteCloseExtendedToolbarCommand() => ExtendedToolbarVisibility = Visibility.Collapsed;
 
     private void ExecuteAddBookmarkCommentCommand(object args)
     {
@@ -516,6 +546,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<JumpToSelectedLogEntryMessage>(OnJumpToSelectedLogEntry);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchCountMessage>(OnStartSearchCount);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchFindNextMessage>(OnStartSearchFindNext);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowExtendedToolbarMessage>(OnShowExtendedToolbar);
 
       await CacheManager.PrintCacheSizeAsync(_cts.Token).ConfigureAwait(false);
     }
@@ -526,6 +557,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<JumpToSelectedLogEntryMessage>(OnJumpToSelectedLogEntry);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchCountMessage>(OnStartSearchCount);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchFindNextMessage>(OnStartSearchFindNext);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ShowExtendedToolbarMessage>(OnShowExtendedToolbar);
 
       _cts?.Cancel();
     }
@@ -582,6 +614,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     private void OnFindWhatChangedOrClosed(FindWhatChangedClosedMessage args) => RemoveFindWhatResultFromHighlightData();
+
+    private void OnShowExtendedToolbar(ShowExtendedToolbarMessage args)
+    {
+      if ( !IsRightWindow(args.WindowGuid) || _splitterPosition <= 0 || ExtendedToolbarVisibility == Visibility.Visible )
+        return;
+
+      ExtendedToolbarVisibility = Visibility.Visible;
+    }
 
     private void OnStartSearchFindNext(StartSearchFindNextMessage args)
     {

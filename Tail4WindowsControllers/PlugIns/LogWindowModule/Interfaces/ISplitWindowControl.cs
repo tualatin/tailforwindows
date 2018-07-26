@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Data;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
@@ -133,6 +134,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     /// CacheManager interface
     /// </summary>
     ICacheManager CacheManager
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Extended toolbar visibility
+    /// </summary>
+    Visibility ExtendedToolbarVisibility
     {
       get;
       set;

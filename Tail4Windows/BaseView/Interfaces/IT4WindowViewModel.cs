@@ -177,6 +177,14 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
       get;
     }
 
+    /// <summary>
+    /// Show extended toolbar command
+    /// </summary>
+    ICommand ShowExtendedToolbarCommand
+    {
+      get;
+    }
+
     #endregion
 
     /// <summary>

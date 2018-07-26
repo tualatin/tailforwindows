@@ -190,6 +190,7 @@
     <Compile Include="Data\Messages\Keybindings\OpenWindowsEventMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\QuickAddMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\QuickSaveMessage.cs" />
+    <Compile Include="Data\Messages\Keybindings\ShowExtendedToolbarMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\StartTailMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\StopTailMessage.cs" />
     <Compile Include="Data\Messages\OpenFilterDataFromTailDataMessage.cs" />

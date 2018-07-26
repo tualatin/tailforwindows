@@ -131,7 +131,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       {
         try
         {
-          LOG.Trace("Read T4W settings");
+          LOG.Trace($"Read {EnvironmentContainer.ApplicationTitle} settings");
 
           ReadWindowSettings();
           ReadStatusBarSettings();
@@ -167,9 +167,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
       {
         try
         {
-          LOG.Trace("Save T4W settings");
+          LOG.Trace($"Save {EnvironmentContainer.ApplicationTitle} settings");
 
-          var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+          Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
           if ( config.AppSettings.Settings.Count <= 0 )
             return;
@@ -305,7 +305,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       lock ( MyLock )
       {
-        LOG.Trace("Reset T4W settings");
+        LOG.Trace($"Reset {EnvironmentContainer.ApplicationTitle} settings");
 
         SetDefaultWindowSettings();
         SetDefaultStatusBarSettings();
@@ -423,7 +423,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       lock ( MyLock )
       {
-        LOG.Trace("Reloads T4W settings");
+        LOG.Trace($"Reload {EnvironmentContainer.ApplicationTitle} settings");
         ConfigurationManager.RefreshSection("appSettings");
       }
     }

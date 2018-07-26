@@ -81,6 +81,7 @@
         VerticalAlignment="Top"
         BorderBrush="#6DC2E9"
         BorderThickness="1 0 1 1"
+        Visibility="{Binding ExtendedToolbarVisibility, UpdateSourceTrigger=PropertyChanged}"
         >
         <Border.Background>
           <SolidColorBrush Color="#FCFCFC" Opacity="0.8" po:Freeze="True" />
@@ -152,10 +153,11 @@
 
           <Button
             Grid.Column="2"
-            Width="18"
-            Height="18"
+            Width="16"
+            Height="16"
             Margin="0 0 5 0"
-            Style="{StaticResource RemoveItemButtonStyle}"
+            Command="{Binding CloseExtendedToolbarCommand}"
+            Style="{StaticResource DefaultCloseButton}"
             ToolTip="{DynamicResource CloseWindowToolTip}"
             />
         </Grid>

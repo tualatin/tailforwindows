@@ -708,9 +708,24 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand OpenHelpCommand => _openHelpCommand ?? (_openHelpCommand = new RelayCommand(p => ExecuteOpenHelpCommand()));
 
+    private ICommand _showExtendedToolbarCommand;
+
+    /// <summary>
+    /// Show extended toolbar command
+    /// </summary>
+    public ICommand ShowExtendedToolbarCommand => _showExtendedToolbarCommand ?? (_showExtendedToolbarCommand = new RelayCommand(p => ExecuteShowExtendedToolbarCommand()));
+
     #endregion
 
     #region KeyBinding command functions
+
+    private void ExecuteShowExtendedToolbarCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowExtendedToolbarMessage(control.WindowId));
+    }
 
     private void ExecuteOpenHelpCommand()
     {
