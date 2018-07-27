@@ -348,6 +348,7 @@
                     Height="20"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    ClickMode="Press"
                     IsChecked="{Binding IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     />
                 </Grid>
@@ -380,6 +381,7 @@
                     Height="20"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    ClickMode="Press"
                     IsChecked="{Binding FilterSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     />
                 </Grid>
@@ -399,6 +401,7 @@
                     Height="20"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    ClickMode="Press"
                     IsChecked="{Binding IsHighlight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"
                     />
                 </Grid>
@@ -418,6 +421,7 @@
                     Height="20"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    ClickMode="Press"
                     IsChecked="{Binding UseNotification, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     />
                 </Grid>

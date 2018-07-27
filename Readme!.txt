@@ -21,6 +21,7 @@ v.2.1.xxxx.x
 * new configurable editor
 * bug fix update highlighting, when no highlight source is available
 * bug fix select file in TailManager -> button event worked after two clicks
+* bug fix Checkboxes in DataGrid -> event worked after two clicks
 
 v2.0.6778.x
 * improve export/import
