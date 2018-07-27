@@ -489,6 +489,7 @@
                     Grid.Column="1"
                     Width="18"
                     Height="18"
+                    ClickMode="Press"
                     Command="{Binding Path=DataContext.OpenFileCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
                     IsEnabled="{Binding IsWindowsEvent, Converter={StaticResource InverseBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource EllipsisHorizontalButtonStyle}"

@@ -18,6 +18,7 @@
             Name="Border"
             Padding="2"
             Background="{StaticResource BrushSolidWhite}"
+            BorderBrush="Transparent"
             BorderThickness="0"
             >
             <ScrollViewer
