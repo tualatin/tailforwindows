@@ -58,9 +58,24 @@ namespace Org.Vs.TailForWin.UI.UserControls
     private string _userDataGridSettingsFile;
 
     /// <summary>
+    /// Save DataGrid layout property
+    /// </summary>
+    public static readonly DependencyProperty SaveDataGridLayoutProperty = DependencyProperty.Register(nameof(SaveDataGridLayout), typeof(bool), typeof(VsDataGrid),
+      new PropertyMetadata(true));
+
+    /// <summary>
+    /// Save DataGrid layout
+    /// </summary>
+    public bool SaveDataGridLayout
+    {
+      get => (bool) GetValue(SaveDataGridLayoutProperty);
+      set => SetValue(SaveDataGridLayoutProperty, value);
+    }
+
+    /// <summary>
     /// ActualColumnWidth property descriptor
     /// </summary>
-    public PropertyDescriptor ActualColumnWidthDescriptor = DependencyPropertyDescriptor.FromProperty(DataGridColumn.ActualWidthProperty, typeof(DataGridColumn));
+    private readonly PropertyDescriptor _actualColumnWidthDescriptor = DependencyPropertyDescriptor.FromProperty(DataGridColumn.ActualWidthProperty, typeof(DataGridColumn));
 
     static VsDataGrid() => DefaultStyleKeyProperty.OverrideMetadata(typeof(VsDataGrid), new FrameworkPropertyMetadata(typeof(VsDataGrid)));
 
@@ -79,7 +94,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// <summary>
     /// Loads current <see cref="VsDataGrid"/> options
     /// </summary>
-    public void LoadDataGridOptions()
+    private void LoadDataGridOptions()
     {
       if ( !File.Exists(_userDataGridSettingsFile) )
         return;
@@ -157,7 +172,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// </summary>
     public void SaveDataGridOptions()
     {
-      if ( string.IsNullOrWhiteSpace(_userDataGridSettingsFile) )
+      if ( string.IsNullOrWhiteSpace(_userDataGridSettingsFile) || !SaveDataGridLayout )
         return;
 
       LOG.Trace("Save DataGrid options");
@@ -221,7 +236,9 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
       _scrollViewer.ScrollChanged += OnScrollChanged;
 
-      LoadDataGridOptions();
+      if ( SaveDataGridLayout )
+        LoadDataGridOptions();
+
       OnScrollChanged(this, null);
     }
 
@@ -261,7 +278,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
             continue;
 
           _attachedDataGridColumns.Add(column, this);
-          ActualColumnWidthDescriptor.AddValueChanged(column, OnActualWidthChanged);
+          _actualColumnWidthDescriptor.AddValueChanged(column, OnActualWidthChanged);
         }
       }
 
@@ -277,7 +294,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
           continue;
 
         _attachedDataGridColumns.Remove(column);
-        ActualColumnWidthDescriptor.RemoveValueChanged(column, OnActualWidthChanged);
+        _actualColumnWidthDescriptor.RemoveValueChanged(column, OnActualWidthChanged);
       }
     }
 
