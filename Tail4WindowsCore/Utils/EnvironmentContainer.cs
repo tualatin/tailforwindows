@@ -60,6 +60,16 @@ namespace Org.Vs.TailForWin.Core.Utils
     public static string ApplicationUpdateWebUrl => "https://www.virtual-studios.de/tail4wnd/releases.txt";
 
     /// <summary>
+    /// Application Homepage URL
+    /// </summary>
+    public static string ApplicationHomePageWebUrl => "https://github.com/tualatin/tailforwindows";
+
+    /// <summary>
+    /// Application Issue URL
+    /// </summary>
+    public static string ApplicationIssueWebUrl => "https://github.com/tualatin/tailforwindows/issues";
+
+    /// <summary>
     /// Application release URL
     /// </summary>
     public static string ApplicationReleaseWebUrl => "https://github.com/tualatin/tailforwindows/releases";

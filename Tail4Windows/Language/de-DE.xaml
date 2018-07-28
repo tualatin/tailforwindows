@@ -246,6 +246,8 @@
   <system:String x:Key="AboutAuthorString">Autor:</system:String>
   <system:String x:Key="AboutAllRightReservedString">All rights reserved</system:String>
   <system:String x:Key="AboutHomepageString">Homepage:</system:String>
+  <system:String x:Key="AboutDownloadPageString">Download:</system:String>
+  <system:String x:Key="AboutIssuePageString">Fehler:</system:String>
   <system:String x:Key="AboutUptimeString">Laufzeit:</system:String>
   <system:String x:Key="AboutUptimeHours">Stunde(n)</system:String>
   <system:String x:Key="AboutUptimeDays">Tag(e)</system:String>
