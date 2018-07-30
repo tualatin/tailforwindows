@@ -81,7 +81,7 @@
         VerticalAlignment="Top"
         BorderBrush="#6DC2E9"
         BorderThickness="1 0 1 1"
-        Visibility="{Binding ExtendedToolbarVisibility, UpdateSourceTrigger=PropertyChanged}"
+        Visibility="{Binding ExtendedToolbarVisibility, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
         >
         <Border.Background>
           <SolidColorBrush Color="#FCFCFC" Opacity="0.8" po:Freeze="True" />
@@ -97,6 +97,8 @@
             Grid.Column="0"
             Height="22"
             Content="{DynamicResource SplitWindowFilterByBookmark}"
+            IsChecked="{Binding SplitElementFilterByBookmark, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            TabIndex="0"
             >
             <CheckBox.ToolTip>
               <StackPanel>
@@ -134,8 +136,8 @@
             Grid.Column="1"
             Height="22"
             Margin="20 0"
-            Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}"
-            TabIndex="0"
+            Text="{Binding SplitElementFilterText, UpdateSourceTrigger=PropertyChanged}"
+            TabIndex="1"
             genericBehaviors:FocusBehavior.IsFocused="{Binding TextBoxHasFocus, UpdateSourceTrigger=PropertyChanged}"
             >
             <userControls:WatermarkTextBox.Watermark>
@@ -145,10 +147,6 @@
                 FontStyle="Italic"
                 />
             </userControls:WatermarkTextBox.Watermark>
-
-            <userControls:WatermarkTextBox.InputBindings>
-              <KeyBinding Key="Enter" Command="{Binding SaveBookmarkCommentCommand}" CommandParameter="{Binding ElementName=SplitWindow}" />
-            </userControls:WatermarkTextBox.InputBindings>
           </userControls:WatermarkTextBox>
 
           <Button
@@ -158,6 +156,7 @@
             Margin="0 0 5 0"
             Command="{Binding CloseExtendedToolbarCommand}"
             Style="{StaticResource DefaultCloseButton}"
+            TabIndex="2"
             ToolTip="{DynamicResource CloseWindowToolTip}"
             />
         </Grid>

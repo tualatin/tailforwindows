@@ -66,6 +66,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private readonly List<LogEntry> _findWhatResults;
     private readonly IPlaySoundFile _playSoundFile;
     private LogEntry _findNextResult;
+    private readonly List<Predicate<LogEntry>> _criteria = new List<Predicate<LogEntry>>();
 
     /// <summary>
     /// Configured sound file exists
@@ -172,6 +173,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     /// <summary>
+    /// <see cref="LogWindowSplitElement"/> <see cref="ListCollectionView"/> of <see cref="LogEntry"/>
+    /// </summary>
+    public ListCollectionView SplitCollectionView
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Lines read
     /// </summary>
     public int LinesRead => LogReaderService?.Index ?? 0;
@@ -245,6 +255,78 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         _extendedToolbarVisibility = value;
         OnPropertyChanged();
+
+        SplitElementFilterText = string.Empty;
+        TextBoxHasFocus = _extendedToolbarVisibility == Visibility.Visible;
+      }
+    }
+
+    private bool _textBoxHasFocus;
+
+    /// <summary>
+    /// TextBox has focus
+    /// </summary>
+    public bool TextBoxHasFocus
+    {
+      get => _textBoxHasFocus;
+      set
+      {
+        if ( value == _textBoxHasFocus )
+          return;
+
+        _textBoxHasFocus = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private bool _splitElementFilterByBookmark;
+
+    /// <summary>
+    /// <see cref="LogWindowSplitElement"/> filtered by Bookmark
+    /// </summary>
+    public bool SplitElementFilterByBookmark
+    {
+      get => _splitElementFilterByBookmark;
+      set
+      {
+        if ( value == _splitElementFilterByBookmark )
+          return;
+
+        _splitElementFilterByBookmark = value;
+        SplitCollectionView.Filter = SplitElementDynamicFilter;
+        OnPropertyChanged();
+      }
+    }
+
+    private string _splitElementFilterText;
+
+    /// <summary>
+    /// <see cref="LogWindowSplitElement"/> filtered by Text
+    /// </summary>
+    public string SplitElementFilterText
+    {
+      get => _splitElementFilterText;
+      set
+      {
+        if ( Equals(value, _splitElementFilterText) )
+          return;
+
+        _splitElementFilterText = value;
+        OnPropertyChanged();
+
+        if ( SplitCollectionView == null )
+          return;
+
+        _criteria.Clear();
+
+        if ( string.IsNullOrWhiteSpace(_splitElementFilterText) )
+        {
+          SplitCollectionView.Filter = SplitElementDynamicFilter;
+          return;
+        }
+
+        _criteria.Add(p => !string.IsNullOrWhiteSpace(p.Message) && p.Message.ToLower().Contains(_splitElementFilterText));
+        SplitCollectionView.Filter = SplitElementDynamicFilter;
       }
     }
 
@@ -996,6 +1078,30 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowSplitElement.UpateHighlighting(HighlightData);
     }
 
+    private bool SplitElementDynamicFilter(object item)
+    {
+      if ( !SplitElementFilterByBookmark && _criteria.Count == 0 )
+        return true;
+
+      if ( !(item is LogEntry logEntry) )
+        return false;
+
+      var result = false;
+
+      if ( SplitElementFilterByBookmark )
+      {
+        if ( logEntry.BookmarkPoint != null )
+          result = true;
+      }
+
+      // If SplitElementFilterByBookmark is true and no bookmarks set, return; otherwise filter by SplitElementFilterText, if any set
+      if ( _criteria.Count == 0 || !result )
+        return result;
+
+      result &= _criteria.TrueForAll(p => p(logEntry));
+      return result;
+    }
+
     private bool DynamicFilter(object item)
     {
       if ( CurrentTailData.ListOfFilter == null || CurrentTailData.ListOfFilter.Count == 0 || !CurrentTailData.FilterState )
@@ -1273,7 +1379,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       if ( _splitterPosition > 0 && LogWindowSplitElement.ItemsSource == null )
       {
-        LogWindowSplitElement.ItemsSource = LogEntries;
+        SplitCollectionView = (ListCollectionView) new CollectionViewSource { Source = LogEntries }.View;
+        LogWindowSplitElement.ItemsSource = SplitCollectionView;
 
         if ( _lastSeenEntry == null )
         {

@@ -736,7 +736,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private bool DynamicFilter(object item)
     {
-      TailData t = item as TailData;
+      if ( !(item is TailData t) )
+        return false;
 
       if ( _criteria.Count == 0 )
         return true;

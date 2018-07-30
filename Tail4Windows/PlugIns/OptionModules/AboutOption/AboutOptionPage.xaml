@@ -308,6 +308,7 @@
       FrozenColumnCount="2"
       IsSynchronizedWithCurrentItem="True"
       ItemsSource="{Binding ThirdPartyComponentsView}"
+      SaveDataGridLayout="False"
       SelectionMode="Extended"
       >
       <userControls:VsDataGrid.RowStyle>

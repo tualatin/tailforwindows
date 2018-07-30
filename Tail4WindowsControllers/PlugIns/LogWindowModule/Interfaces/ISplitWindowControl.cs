@@ -149,6 +149,32 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     }
 
     /// <summary>
+    /// TextBox has focus
+    /// </summary>
+    bool TextBoxHasFocus
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Filtered by Bookmark
+    /// </summary>
+    bool SplitElementFilterByBookmark
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Filtered by Text
+    /// </summary>
+    string SplitElementFilterText
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// GoToLine
     /// </summary>
     /// <param name="index">Index</param>
