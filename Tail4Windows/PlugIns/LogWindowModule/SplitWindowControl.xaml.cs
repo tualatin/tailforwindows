@@ -1092,13 +1092,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         if ( logEntry.BookmarkPoint != null )
           result = true;
+        else
+          return false;
       }
 
-      // If SplitElementFilterByBookmark is true and no bookmarks set, return; otherwise filter by SplitElementFilterText, if any set
-      if ( _criteria.Count == 0 || !result )
+      if ( _criteria.Count == 0 )
         return result;
 
-      result &= _criteria.TrueForAll(p => p(logEntry));
+      if ( SplitElementFilterByBookmark )
+        result &= _criteria.TrueForAll(p => p(logEntry));
+      else
+        result = _criteria.TrueForAll(p => p(logEntry));
+
       return result;
     }
 
