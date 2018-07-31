@@ -27,7 +27,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
     /// <summary>
     ///  Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
     /// </summary>
-    public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(WatermarkBehavior), new PropertyMetadata("Watermark"));
+    public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(WatermarkBehavior), new PropertyMetadata("Watermark"));
 
     /// <summary>
     /// FontSize
@@ -41,7 +41,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
     /// <summary>
     /// Using a DependencyProperty as the backing store for FontSize.  This enables animation, styling, binding, etc...
     /// </summary>
-    public static readonly DependencyProperty FontSizeProperty = DependencyProperty.Register("FontSize", typeof(double), typeof(WatermarkBehavior), new PropertyMetadata(12.0));
+    public static readonly DependencyProperty FontSizeProperty = DependencyProperty.Register(nameof(FontSize), typeof(double), typeof(WatermarkBehavior), new PropertyMetadata(12.0));
 
     /// <summary>
     /// Foreground
@@ -55,7 +55,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
     /// <summary>
     /// Using a DependencyProperty as the backing store for Foreground.  This enables animation, styling, binding, etc...
     /// </summary>
-    public static readonly DependencyProperty ForegroundProperty = DependencyProperty.Register("Foreground", typeof(Brush), typeof(WatermarkBehavior), new PropertyMetadata(Brushes.Black));
+    public static readonly DependencyProperty ForegroundProperty = DependencyProperty.Register(nameof(Foreground), typeof(Brush), typeof(WatermarkBehavior),
+      new PropertyMetadata(Brushes.Black));
 
     /// <summary>
     /// FontFamily
@@ -69,7 +70,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
     /// <summary>
     /// Using a DependencyProperty as the backing store for FontFamily.  This enables animation, styling, binding, etc...
     /// </summary>
-    public static readonly DependencyProperty FontFamilyProperty = DependencyProperty.Register("FontFamily", typeof(string), typeof(WatermarkBehavior), new PropertyMetadata("Segoe UI"));
+    public static readonly DependencyProperty FontFamilyProperty = DependencyProperty.Register(nameof(FontFamily), typeof(string), typeof(WatermarkBehavior),
+      new PropertyMetadata("Segoe UI"));
 
     /// <summary>
     /// Called after the behavior is attached to an AssociatedObject.
@@ -105,7 +107,6 @@ namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
       {
         // Nothing
       }
-
     }
 
     private void OnLostFocus(object sender, RoutedEventArgs e)

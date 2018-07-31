@@ -28,6 +28,8 @@ namespace Org.Vs.TailForWin
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(App));
 
+    private readonly Guid _tail4WindowsGuid = new Guid("1c0c2cfa-add6-4b66-8c1d-6416f73f2046");
+
     private IXmlFileManager _xmlFileManagerController;
     private Guid _itemId;
 
@@ -41,14 +43,23 @@ namespace Org.Vs.TailForWin
         return;
       }
 
-      var wnd = new T4Window();
       AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
-      wnd.Show();
+      var instance = new SingleInstance(_tail4WindowsGuid);
+      instance.ArgsRecieved += OnArgsRecieved;
 
-      if ( e.Args.Length <= 0 )
+      instance.Run(() =>
+      {
+        new T4Window().Show();
+        return MainWindow;
+      }, e.Args);
+    }
+
+    private void OnArgsRecieved(string[] args)
+    {
+      if ( args.Length <= 0 )
         return;
 
-      string arg = e.Args.FirstOrDefault();
+      string arg = args.FirstOrDefault();
 
       if ( string.IsNullOrWhiteSpace(arg) )
         return;

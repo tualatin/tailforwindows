@@ -9,6 +9,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.1.xxxx.x
+* new only single instance is possible
 * new SplitWindow filter by bookmark or certain filter text
 * new shortcut F1 for help window
 * new Minimize to tray

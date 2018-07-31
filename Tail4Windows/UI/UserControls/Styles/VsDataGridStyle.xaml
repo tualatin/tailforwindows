@@ -497,7 +497,7 @@
     <Setter Property="CanUserSortColumns" Value="False" />
     <Setter Property="CellStyle" Value="{StaticResource DataGridCellStyle}" />
     <Setter Property="ColumnHeaderStyle" Value="{StaticResource DataGridColumnHeaderStyle}" />
-    <Setter Property="ContextMenu">
+    <!--<Setter Property="ContextMenu">
       <Setter.Value>
         <ContextMenu
           DataContext="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget}"
@@ -512,7 +512,7 @@
           </ContextMenu.ItemContainerStyle>
         </ContextMenu>
       </Setter.Value>
-    </Setter>
+    </Setter>-->
     <Setter Property="EnableColumnVirtualization" Value="False" />
     <Setter Property="EnableRowVirtualization" Value="True" />
     <Setter Property="FocusVisualStyle" Value="{x:Null}" />

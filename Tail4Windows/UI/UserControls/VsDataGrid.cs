@@ -236,6 +236,8 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
       _scrollViewer.ScrollChanged += OnScrollChanged;
 
+      SetupColumnHeaders();
+
       if ( SaveDataGridLayout )
         LoadDataGridOptions();
 
@@ -311,6 +313,65 @@ namespace Org.Vs.TailForWin.UI.UserControls
       }
 
       _horizontalScrollbarGrid.Margin = new Thickness(width, 0, 0, 0);
+    }
+
+    private void SetupColumnHeaders()
+    {
+      var columnHeaders = GetColumnHeaders();
+
+      if ( columnHeaders == null || columnHeaders.Length == 0 )
+        return;
+
+      foreach ( DataGridColumnHeader header in columnHeaders )
+      {
+        SetupColumnHeader(columnHeaders, header);
+      }
+    }
+
+    private void SetupColumnHeader(DataGridColumnHeader[] columns, DataGridColumnHeader columnHeader)
+    {
+      if ( columnHeader.ContextMenu == null )
+        columnHeader.ContextMenu = new ContextMenu();
+
+      foreach ( DataGridColumnHeader column in columns )
+      {
+        if ( string.IsNullOrWhiteSpace(GetColumnName(column.Column)) )
+          continue;
+
+        var item = new MenuItem
+        {
+          Header = GetColumnName(column.Column),
+          IsCheckable = true,
+          IsChecked = columnHeader.Column.Visibility == Visibility.Visible
+        };
+
+        item.Checked += delegate
+        {
+          column.Column.Visibility = Visibility.Visible;
+        };
+
+        item.Unchecked += delegate
+        {
+          column.Column.Visibility = Visibility.Hidden;
+        };
+
+        columnHeader.ContextMenu?.Items.Add(item);
+      }
+    }
+
+    private string GetColumnName(DataGridColumn column)
+    {
+      if ( column == null )
+        return string.Empty;
+
+      return column.Header != null ? column.Header.ToString() : $"Column {column.DisplayIndex}";
+    }
+
+    private DataGridColumnHeader[] GetColumnHeaders()
+    {
+      UpdateLayout();
+      var columnHeaders = this.Descendents().OfType<DataGridColumnHeader>().ToList();
+      return columnHeaders.Where(p => p?.Column != null).ToArray();
     }
   }
 }
