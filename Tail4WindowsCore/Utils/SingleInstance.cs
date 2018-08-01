@@ -120,6 +120,7 @@ namespace Org.Vs.TailForWin.Core.Utils
         _window = showWindow();
         // and start the service
         StartService();
+        ProcessArgs(_appGuid, args);
       }
       else
       {

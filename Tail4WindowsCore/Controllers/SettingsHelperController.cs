@@ -70,7 +70,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
         { "SplitterWindowBehavior", DefaultEnvironmentSettings.SplitterWindowBehavior.ToString() },
         { "SelectionBackgroundColor", DefaultEnvironmentSettings.SelectionBackgroundColor },
         { "SmartWatch.SmartWatchInterval", DefaultEnvironmentSettings.SmartWatchInterval.ToString() },
-        { "EditorPath", string.Empty }
+        { "EditorPath", string.Empty },
+        { "SingleInstance", DefaultEnvironmentSettings.SingleInstance.ToString() }
       };
 
       await AddNewPropertyAsync(settings, cts).ConfigureAwait(false);
@@ -203,6 +204,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "WndXPos", CurrentSettings.WindowPositionX);
       WriteValueToSetting(config, "WndYPos", CurrentSettings.WindowPositionY);
       WriteValueToSetting(config, "SaveWindowPosition", CurrentSettings.SaveWindowPosition);
+      WriteValueToSetting(config, "SingleInstance", CurrentSettings.SingleInstance);
       WriteValueToSetting(config, "ExitWithEsc", CurrentSettings.ExitWithEscape);
       WriteValueToSetting(config, "WindowState", CurrentSettings.CurrentWindowState);
       WriteValueToSetting(config, "Language", CurrentSettings.Language);
@@ -328,6 +330,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.DeleteLogFiles = DefaultEnvironmentSettings.DeleteLogFiles;
       CurrentSettings.LogFilesOlderThan = DefaultEnvironmentSettings.DeleteLogFilesOlderThan;
       CurrentSettings.ExitWithEscape = DefaultEnvironmentSettings.ExitWithEscape;
+      CurrentSettings.SingleInstance = DefaultEnvironmentSettings.SingleInstance;
       CurrentSettings.LinesRead = DefaultEnvironmentSettings.LinesRead;
       CurrentSettings.RestoreWindowSize = DefaultEnvironmentSettings.RestoreWindowSize;
       CurrentSettings.SaveWindowPosition = DefaultEnvironmentSettings.SaveWindowPosition;
@@ -480,6 +483,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.WindowPositionX = GetDoubleFromSetting("WndXPos");
       CurrentSettings.WindowPositionY = GetDoubleFromSetting("WndYPos");
       CurrentSettings.SaveWindowPosition = GetBoolFromSetting("SaveWindowPosition");
+      CurrentSettings.SingleInstance = GetBoolFromSetting("SingleInstance");
       CurrentSettings.ExitWithEscape = GetBoolFromSetting("ExitWithEsc");
       CurrentSettings.CurrentWindowState = GetWindowState(GetStringFromSetting("WindowState"));
       CurrentSettings.DeleteLogFiles = GetBoolFromSetting("DeleteLogFiles");

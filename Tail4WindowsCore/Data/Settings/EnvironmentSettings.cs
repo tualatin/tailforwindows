@@ -115,7 +115,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _editorPath;
       set
       {
-        if (Equals(value, _editorPath))
+        if ( Equals(value, _editorPath) )
           return;
 
         _editorPath = value;
@@ -407,6 +407,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     }
 
     #endregion
+
+    private bool _singleInstance;
+
+    /// <summary>
+    /// Single instance
+    /// </summary>
+    public bool SingleInstance
+    {
+      get => _singleInstance;
+      set
+      {
+        if ( value == _singleInstance )
+          return;
+
+        _singleInstance = value;
+        OnPropertyChanged();
+      }
+    }
 
     private bool _exitWithEscape;
 

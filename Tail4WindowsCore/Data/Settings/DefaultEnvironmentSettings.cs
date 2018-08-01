@@ -57,6 +57,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public const bool RestoreWindowSize = false;
 
     /// <summary>
+    /// Default value SingleInstance
+    /// </summary>
+    public const bool SingleInstance = false;
+
+    /// <summary>
     /// Default value ExitWithEscape
     /// </summary>
     public const bool ExitWithEscape = false;

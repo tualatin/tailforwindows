@@ -308,6 +308,8 @@
   <system:String x:Key="ExtrasDeleteLogFileOlderThanToolTip">Setzt die Zeitspanne in Tagen, wie alt die Log Dateien sein sollen, die gelösch werden sollen</system:String>
   <system:String x:Key="ExtrasActivateDragDropWindow">Drag'n'Drop Fensterverhalten</system:String>
   <system:String x:Key="ExtrasActivateDragDropWindowToolTip">Aktiviert/Deaktiviert das Drag'n'Drop Fensterverhalten</system:String>
+  <system:String x:Key="ExtrasSingleInstance">Nur eine Instanz</system:String>
+  <system:String x:Key="ExtrasSingleInstanceToolTip">Nur eine Instanz des Programms zulassen</system:String>
   <system:String x:Key="ExtrasSaveLogFileHistory">Logdatei Historie speichern</system:String>
   <system:String x:Key="ExtrasSaveLogFileHistoryToolTip">Speichert die aktuelle Logdatei in einem internen Speicher ab</system:String>
   <system:String x:Key="ExtrasSaveLogFileHistorySpinnerToolTip">Legt die maximale Speichertiefe fest</system:String>

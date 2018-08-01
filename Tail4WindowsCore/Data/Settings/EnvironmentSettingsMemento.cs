@@ -27,6 +27,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       RestoreWindowSize = memento.RestoreWindowSize;
       SaveWindowPosition = memento.SaveWindowPosition;
       ExitWithEscape = memento.ExitWithEscape;
+      SingleInstance = memento.SingleInstance;
       ActivateDragDropWindow = memento.ActivateDragDropWindow;
       DeleteLogFiles = memento.DeleteLogFiles;
       LogFilesOlderThan = memento.LogFilesOlderThan;
@@ -74,6 +75,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         RestoreWindowSize = obj.RestoreWindowSize;
         SaveWindowPosition = obj.SaveWindowPosition;
         ExitWithEscape = obj.ExitWithEscape;
+        SingleInstance = obj.SingleInstance;
         ActivateDragDropWindow = obj.ActivateDragDropWindow;
         DeleteLogFiles = obj.DeleteLogFiles;
         LogFilesOlderThan = obj.LogFilesOlderThan;
@@ -201,6 +203,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Current SMTP settings
       /// </summary>
       public SmtpSetting SmtpSettings
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Single instance
+      /// </summary>
+      public bool SingleInstance
       {
         get;
       }

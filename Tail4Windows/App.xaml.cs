@@ -10,6 +10,7 @@ using log4net;
 using Org.Vs.TailForWin.BaseView;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
@@ -30,6 +31,7 @@ namespace Org.Vs.TailForWin
 
     private readonly Guid _tail4WindowsGuid = new Guid("1c0c2cfa-add6-4b66-8c1d-6416f73f2046");
 
+    private string[] _args;
     private IXmlFileManager _xmlFileManagerController;
     private Guid _itemId;
 
@@ -43,20 +45,39 @@ namespace Org.Vs.TailForWin
         return;
       }
 
-      AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
-      var instance = new SingleInstance(_tail4WindowsGuid);
-      instance.ArgsRecieved += OnArgsRecieved;
+      if ( e.Args.Length > 0 )
+        _args = e.Args;
 
-      instance.Run(() =>
+      AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
+      NotifyTaskCompletion.Create(EnvironmentContainer.Instance.ReadSettingsAsync()).PropertyChanged += OnReadSettingsPropertyChanged;
+    }
+
+    private void OnReadSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      if ( SettingsHelperController.CurrentSettings.SingleInstance )
       {
-        new T4Window().Show();
-        return MainWindow;
-      }, e.Args);
+        var instance = new SingleInstance(_tail4WindowsGuid);
+        instance.ArgsRecieved += OnArgsRecieved;
+
+        instance.Run(() =>
+        {
+          new T4Window().Show();
+          return MainWindow;
+        }, _args);
+
+        return;
+      }
+
+      new T4Window().Show();
+      OnArgsRecieved(_args);
     }
 
     private void OnArgsRecieved(string[] args)
     {
-      if ( args.Length <= 0 )
+      if ( args == null || args.Length <= 0 )
         return;
 
       string arg = args.FirstOrDefault();

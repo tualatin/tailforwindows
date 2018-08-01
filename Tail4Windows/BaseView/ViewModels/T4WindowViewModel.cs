@@ -265,8 +265,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _dbSettingsController = SettingsDbController.Instance;
       _statisticController = new StatisticController();
       _currentStatusbarState = EStatusbarState.Default;
-      _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
-      _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
       BusinessHelper.TabItemList.CollectionChanged += RegisteredTabItemsSourceCollectionChanged;
 
       _baseWindowStatusbarViewModel = BaseWindowStatusbarViewModel.Instance;
@@ -276,6 +274,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       CreateTrayIconSystemMenu();
 
       TabItemsSource = new ObservableCollection<DragSupportTabItem>();
+
+      _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
+      _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
     }
 
     private void CreateTrayIconSystemMenu()
@@ -373,8 +374,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private async Task StartUpAsync()
     {
-      await EnvironmentContainer.Instance.ReadSettingsAsync().ConfigureAwait(false);
-
       SetUiLanguage();
       SetDefaultWindowSettings();
       MoveIntoView();

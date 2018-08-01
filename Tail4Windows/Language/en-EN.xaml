@@ -310,6 +310,8 @@
   <system:String x:Key="ExtrasDeleteLogFileOlderThanToolTip">Set a timespan in days, when log files should deleted</system:String>
   <system:String x:Key="ExtrasActivateDragDropWindow">Drag'n'Drop window behavior</system:String>
   <system:String x:Key="ExtrasActivateDragDropWindowToolTip">Enable/disable the Drag'n'Drop window behavior</system:String>
+  <system:String x:Key="ExtrasSingleInstance">Single instance</system:String>
+  <system:String x:Key="ExtrasSingleInstanceToolTip">Start only a single instance of application</system:String>
   <system:String x:Key="ExtrasSaveLogFileHistory">Save log file history</system:String>
   <system:String x:Key="ExtrasSaveLogFileHistoryToolTip">Saves current used log file into a internal history</system:String>
   <system:String x:Key="ExtrasSaveLogFileHistorySpinnerToolTip">Set a maximum history depth</system:String>
