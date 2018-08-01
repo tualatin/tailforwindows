@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(VsDataGrid));
 
-    #region constants
+    #region Constants
 
     /// <summary>
     /// DisplayIndex
@@ -49,6 +49,13 @@ namespace Org.Vs.TailForWin.UI.UserControls
     #endregion
 
     /// <summary>
+    /// ColumnHeader <see cref="ContextMenu"/>
+    /// </summary>
+    private readonly ContextMenu _columnHeaderContextMenu;
+
+    private bool _oneTime;
+
+    /// <summary>
     /// Current attached columns
     /// </summary>
     private readonly Dictionary<DataGridColumn, DataGrid> _attachedDataGridColumns;
@@ -56,6 +63,12 @@ namespace Org.Vs.TailForWin.UI.UserControls
     private Grid _horizontalScrollbarGrid;
     private ScrollViewer _scrollViewer;
     private string _userDataGridSettingsFile;
+
+    private string AllColumnsHeaders
+    {
+      get;
+      set;
+    }
 
     /// <summary>
     /// Save DataGrid layout property
@@ -73,6 +86,56 @@ namespace Org.Vs.TailForWin.UI.UserControls
     }
 
     /// <summary>
+    /// Visible columns property
+    /// </summary>
+    public static readonly DependencyProperty VisibleColumnsProperty = DependencyProperty.Register(nameof(VisibleColumns), typeof(string), typeof(VsDataGrid),
+      new PropertyMetadata(string.Empty, OnVisibleColumnsChanged));
+
+    /// <summary>
+    /// Gets or sets a value indicating the names of columns (as they appear in the column header) to be visible, seperated by a semicolon.
+    /// columns that whose name is not here will be hidden.
+    /// </summary>
+    public string VisibleColumns
+    {
+      get => (string) GetValue(VisibleColumnsProperty);
+      set => SetValue(VisibleColumnsProperty, value);
+    }
+
+    private static void OnVisibleColumnsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+      if ( !(d is VsDataGrid dg) )
+        return;
+
+      dg.VisibleColumnsChanged(e);
+    }
+
+    private void VisibleColumnsChanged(DependencyPropertyChangedEventArgs e)
+    {
+      if ( e.NewValue == null )
+        return;
+
+      string[] showTheseColumns = e.NewValue.ToString().Split(';');
+      string colName;
+
+      // update the columns visibility.
+      foreach ( DataGridColumn col in Columns )
+      {
+        colName = col.Header.ToString();
+        col.Visibility = showTheseColumns.Contains(colName) ? Visibility.Visible : Visibility.Collapsed;
+      }
+
+      // update the context menu items.
+      if ( _columnHeaderContextMenu == null )
+        return;
+
+      foreach ( MenuItem menuItem in _columnHeaderContextMenu.Items )
+      {
+        colName = menuItem.Header.ToString();
+        menuItem.IsChecked = showTheseColumns.Contains(colName);
+      }
+    }
+
+    /// <summary>
     /// ActualColumnWidth property descriptor
     /// </summary>
     private readonly PropertyDescriptor _actualColumnWidthDescriptor = DependencyPropertyDescriptor.FromProperty(DataGridColumn.ActualWidthProperty, typeof(DataGridColumn));
@@ -85,6 +148,8 @@ namespace Org.Vs.TailForWin.UI.UserControls
     public VsDataGrid()
     {
       _attachedDataGridColumns = new Dictionary<DataGridColumn, DataGrid>();
+      _columnHeaderContextMenu = new ContextMenu();
+      _oneTime = true;
 
       Columns.CollectionChanged += OnColumnsCollectionChanged;
       Loaded += OnLoaded;
@@ -119,6 +184,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
           column.Width = width;
 
           int visibility = Convert.ToInt32(row[VsColumnVisibility]);
+          List<string> splited = string.IsNullOrWhiteSpace(VisibleColumns) ? AllColumnsHeaders.Split(';').ToList() : VisibleColumns.Split(';').ToList();
 
           switch ( visibility )
           {
@@ -128,6 +194,12 @@ namespace Org.Vs.TailForWin.UI.UserControls
             break;
 
           case 2:
+
+            if ( splited.Contains(column.Header) )
+            {
+              splited.Remove(column.Header.ToString());
+              BuildVisibleColumns(splited);
+            }
 
             column.Visibility = Visibility.Collapsed;
             break;
@@ -236,8 +308,6 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
       _scrollViewer.ScrollChanged += OnScrollChanged;
 
-      SetupColumnHeaders();
-
       if ( SaveDataGridLayout )
         LoadDataGridOptions();
 
@@ -271,6 +341,20 @@ namespace Org.Vs.TailForWin.UI.UserControls
     {
       if ( e.NewItems != null )
       {
+        if ( e.NewItems[0] is DataGridColumn col )
+        {
+          // keep a list of all clomuns headers for later use.
+          AllColumnsHeaders = $"{col.Header};{AllColumnsHeaders}";
+
+          // make a new menu item and add it to the context menu.
+          MenuItem menuItem = new MenuItem();
+          menuItem.Click += ColumnMenuItemClick;
+          menuItem.Header = col.Header.ToString();
+          menuItem.IsCheckable = true;
+
+          _columnHeaderContextMenu.Items.Add(menuItem);
+        }
+
         foreach ( object item in e.NewItems )
         {
           if ( !(item is DataGridColumn column) )
@@ -315,63 +399,66 @@ namespace Org.Vs.TailForWin.UI.UserControls
       _horizontalScrollbarGrid.Margin = new Thickness(width, 0, 0, 0);
     }
 
-    private void SetupColumnHeaders()
+    /// <summary>
+    /// When overridden in a derived class, positions child elements and determines a size for a FrameworkElement derived class. 
+    /// </summary>
+    /// <param name="arrangeBounds">The final area within the parent that this element should use to arrange itself and its children.</param>
+    /// <returns>The actual size used.</returns>
+    protected override Size ArrangeOverride(Size arrangeBounds)
     {
-      var columnHeaders = GetColumnHeaders();
+      if ( !_oneTime )
+        return base.ArrangeOverride(arrangeBounds);
 
-      if ( columnHeaders == null || columnHeaders.Length == 0 )
+      _oneTime = false;
+      var headersPresenter = this.Descendents().OfType<DataGridColumnHeadersPresenter>().FirstOrDefault();
+
+      if ( headersPresenter == null )
+        return base.ArrangeOverride(arrangeBounds);
+
+      ContextMenuService.SetContextMenu(headersPresenter, _columnHeaderContextMenu);
+
+      if ( string.IsNullOrWhiteSpace(VisibleColumns) )
+      {
+        VisibleColumns = AllColumnsHeaders;
+      }
+      else
+      {
+        string s = VisibleColumns;
+        VisibleColumns = null;
+        VisibleColumns = s;
+      }
+      return base.ArrangeOverride(arrangeBounds);
+    }
+
+    private void ColumnMenuItemClick(object sender, RoutedEventArgs e)
+    {
+      if ( !(sender is MenuItem mi) )
         return;
 
-      foreach ( DataGridColumnHeader header in columnHeaders )
-      {
-        SetupColumnHeader(columnHeaders, header);
-      }
+      var splited = VisibleColumns.Split(';').ToList();
+      string columnName = mi.Header.ToString();
+
+      if ( !mi.IsChecked )
+        splited.Remove(columnName);
+      else
+        splited.Add(columnName);
+
+      BuildVisibleColumns(splited);
     }
 
-    private void SetupColumnHeader(DataGridColumnHeader[] columns, DataGridColumnHeader columnHeader)
+    private void BuildVisibleColumns(List<string> splited)
     {
-      if ( columnHeader.ContextMenu == null )
-        columnHeader.ContextMenu = new ContextMenu();
+      string build = string.Empty;
 
-      foreach ( DataGridColumnHeader column in columns )
+      foreach ( var name in splited )
       {
-        if ( string.IsNullOrWhiteSpace(GetColumnName(column.Column)) )
+        if ( string.IsNullOrWhiteSpace(name) )
           continue;
 
-        var item = new MenuItem
-        {
-          Header = GetColumnName(column.Column),
-          IsCheckable = true,
-          IsChecked = columnHeader.Column.Visibility == Visibility.Visible
-        };
-
-        item.Checked += delegate
-        {
-          column.Column.Visibility = Visibility.Visible;
-        };
-
-        item.Unchecked += delegate
-        {
-          column.Column.Visibility = Visibility.Hidden;
-        };
-
-        columnHeader.ContextMenu?.Items.Add(item);
+        build = $"{name};{build}";
       }
-    }
 
-    private string GetColumnName(DataGridColumn column)
-    {
-      if ( column == null )
-        return string.Empty;
-
-      return column.Header != null ? column.Header.ToString() : $"Column {column.DisplayIndex}";
-    }
-
-    private DataGridColumnHeader[] GetColumnHeaders()
-    {
-      UpdateLayout();
-      var columnHeaders = this.Descendents().OfType<DataGridColumnHeader>().ToList();
-      return columnHeaders.Where(p => p?.Column != null).ToArray();
+      VisibleColumns = build;
     }
   }
 }
