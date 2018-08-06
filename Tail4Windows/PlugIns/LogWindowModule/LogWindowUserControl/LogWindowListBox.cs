@@ -189,7 +189,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     public LogWindowListBox()
     {
       _stringToBrushConverter = new StringToWindowMediaBrushConverter();
+
       Loaded += LogWindowListBoxOnLoaded;
+      Unloaded += LogWindowListBoxOnUnloaded;
     }
 
     private void LogWindowListBoxOnLoaded(object sender, RoutedEventArgs e)
@@ -205,6 +207,19 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       PreviewMouseDoubleClick += LogWindowListBoxOnPreviewMouseDoubleClick;
 
       SelectionChanged += LogWindowListBoxOnSelectionChanged;
+    }
+
+    private void LogWindowListBoxOnUnloaded(object sender, RoutedEventArgs e)
+    {
+      PreviewMouseLeftButtonDown -= LogWindowListBoxOnPreviewMouseLeftButtonDown;
+      PreviewMouseLeftButtonUp -= LogWindowListBoxOnPreviewMouseLeftButtonUp;
+
+      PreviewMouseRightButtonDown -= LogWindowListBoxOnPreviewMouseRightButtonDown;
+      PreviewMouseRightButtonUp -= LogWindowListBoxOnPreviewMouseRightButtonUp;
+
+      PreviewMouseDoubleClick -= LogWindowListBoxOnPreviewMouseDoubleClick;
+
+      SelectionChanged -= LogWindowListBoxOnSelectionChanged;
     }
 
     /// <summary>
@@ -365,8 +380,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( !rcBookmarkpoint.Value.Contains((int) mousePoint.X, (int) mousePoint.Y) && _isMouseLeftDownClick )
         return;
 
-      BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Boomark.png");
-      item.BookmarkPoint = item.BookmarkPoint == null ? bp : null;
+      if ( item.BookmarkPoint == null )
+      {
+        BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Boomark.png");
+        item.BookmarkPoint = bp;
+      }
+      else
+      {
+        item.BookmarkPoint = null;
+      }
     }
 
     private void LogWindowListBoxOnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)

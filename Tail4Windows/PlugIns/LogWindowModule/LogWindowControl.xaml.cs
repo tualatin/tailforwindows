@@ -955,7 +955,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( args.Sender == null )
         return;
 
-      var window = Window.GetWindow(this);
+      Window window = Window.GetWindow(this);
 
       if ( window == null )
         return;
@@ -976,7 +976,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         Title = args.TailData.Description,
         Arguments = $"/id={args.TailData.Id}",
         CustomCategory = "TailManager",
-        Description = args.TailData.FileName
+        Description = args.TailData.IsWindowsEvent ? args.TailData.File : args.TailData.FileName
       };
 
       AddJumpTaskToJumpList(jumpTask);

@@ -1273,7 +1273,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         string messageTitle = Application.Current.TryFindResource("FilterManagerSendMailMessage").ToString();
         var msgBuild = new StringBuilder();
 
-        foreach ( var flood in FloodData )
+        foreach ( MessageFloodData flood in FloodData )
         {
           string detail = Application.Current.TryFindResource("FilterManagerSendMailDetail").ToString();
           msgBuild.Append(string.Format(detail, flood.LogEntry.Index, flood.LogEntry.Message, string.Join("\n\t", flood.Results)));
@@ -1440,8 +1440,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
-    private void SetBookmarkFromFindWhat(LogEntry log)
-    {
+    private void SetBookmarkFromFindWhat(LogEntry log) =>
       Dispatcher.InvokeAsync(() =>
       {
         if ( log.BookmarkPoint != null )
@@ -1450,7 +1449,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Boomark.png");
         log.BookmarkPoint = bp;
       }, DispatcherPriority.Normal);
-    }
 
     private bool IsRightWindow(Guid windowGuid)
     {
@@ -1469,7 +1467,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <param name="name">Name of property</param>
     private void OnPropertyChanged([CallerMemberName] string name = null)
     {
-      var handler = PropertyChanged;
+      PropertyChangedEventHandler handler = PropertyChanged;
       handler?.Invoke(this, new PropertyChangedEventArgs(name));
     }
   }

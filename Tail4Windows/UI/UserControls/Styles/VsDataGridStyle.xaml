@@ -497,22 +497,6 @@
     <Setter Property="CanUserSortColumns" Value="False" />
     <Setter Property="CellStyle" Value="{StaticResource DataGridCellStyle}" />
     <Setter Property="ColumnHeaderStyle" Value="{StaticResource DataGridColumnHeaderStyle}" />
-    <!--<Setter Property="ContextMenu">
-      <Setter.Value>
-        <ContextMenu
-          DataContext="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget}"
-          ItemsSource="{Binding Columns}"
-          >
-          <ContextMenu.ItemContainerStyle>
-            <Style TargetType="{x:Type MenuItem}">
-              <Setter Property="Header" Value="{Binding Header}" />
-              <Setter Property="IsCheckable" Value="True" />
-              <Setter Property="IsChecked" Value="{Binding Visibility, Mode=TwoWay, Converter={StaticResource VisibilityToInverseBoolConverter}}" />
-            </Style>
-          </ContextMenu.ItemContainerStyle>
-        </ContextMenu>
-      </Setter.Value>
-    </Setter>-->
     <Setter Property="EnableColumnVirtualization" Value="False" />
     <Setter Property="EnableRowVirtualization" Value="True" />
     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
