@@ -511,13 +511,18 @@
             >
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
+                <TextBlock Text="{Binding Category, UpdateSourceTrigger=PropertyChanged}" />
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+            <DataGridTemplateColumn.CellEditingTemplate>
+              <DataTemplate>
                 <ComboBox
                   Text="{Binding Category, UpdateSourceTrigger=LostFocus}"
                   IsEditable="True"
                   ItemsSource="{Binding Path=DataContext.Categories, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}}"
                   />
               </DataTemplate>
-            </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn.CellEditingTemplate>
           </DataGridTemplateColumn>
 
           <DataGridTemplateColumn

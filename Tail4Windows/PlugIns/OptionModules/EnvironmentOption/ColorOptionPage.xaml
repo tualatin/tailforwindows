@@ -58,6 +58,15 @@
                       />
                   </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
+                <DataGridTemplateColumn.CellEditingTemplate>
+                  <DataTemplate>
+                    <extendedControls:VsColorPicker
+                      ColorMode="ColorCanvas"
+                      SelectedColor="{Binding Color, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToWindowsMediaColorConverter}}"
+                      ShowTabHeaders="False"
+                      />
+                  </DataTemplate>
+                </DataGridTemplateColumn.CellEditingTemplate>
               </DataGridTemplateColumn>
             </userControls:VsDataGrid.Columns>
           </userControls:VsDataGrid>
