@@ -44,7 +44,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value ContinuedScroll
     /// </summary>
-    public const bool ContinuedScroll = true;
+    public const bool ContinuedScroll = false;
 
     /// <summary>
     /// Default value ActivateDragDropWindow
