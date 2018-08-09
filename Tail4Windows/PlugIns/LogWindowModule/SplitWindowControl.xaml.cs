@@ -586,7 +586,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #region Command functions
 
-    private void ExecuteCloseExtendedToolbarCommand() => ExtendedToolbarVisibility = Visibility.Collapsed;
+    private void ExecuteCloseExtendedToolbarCommand()
+    {
+      SplitElementCheckBoxScrollToItemsEnd.IsChecked = false;
+      ExtendedToolbarVisibility = Visibility.Collapsed;
+    }
 
     private void ExecuteAddBookmarkCommentCommand(object args)
     {

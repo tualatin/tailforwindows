@@ -564,4 +564,5 @@
 
   <system:String x:Key="SplitWindowFilterByBookmark">Filter by Bookmarks</system:String>
   <system:String x:Key="SplitWindowFilterByBookmarkToolTip">Filter current view by bookmarked lines</system:String>
+  <system:String x:Key="SplitWindowScrollToEnd">Scroll to end</system:String>
 </ResourceDictionary>

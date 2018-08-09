@@ -72,6 +72,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     }
 
     /// <summary>
+    /// ScrollToItemsEnd property
+    /// </summary>
+    public static readonly DependencyProperty ScrollToItemsEndProperty = DependencyProperty.Register(nameof(ScrollToItemsEnd), typeof(bool), typeof(LogWindowListBox),
+      new PropertyMetadata(false));
+
+    /// <summary>
+    /// ScrollToItemsEnd
+    /// </summary>
+    public bool ScrollToItemsEnd
+    {
+      get => (bool) GetValue(ScrollToItemsEndProperty);
+      set => SetValue(ScrollToItemsEndProperty, value);
+    }
+
+    /// <summary>
     /// AddDateTime property
     /// </summary>
     public static readonly DependencyProperty AddDateTimeProperty = DependencyProperty.Register(nameof(AddDateTime), typeof(bool), typeof(LogWindowListBox),
@@ -559,7 +574,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       {
       case NotifyCollectionChangedAction.Add:
 
-        if ( SettingsHelperController.CurrentSettings.AlwaysScrollToEnd && ShowGridSplitControl )
+        if ( SettingsHelperController.CurrentSettings.AlwaysScrollToEnd && ShowGridSplitControl || ScrollToItemsEnd )
           _scrollViewer?.ScrollToEnd();
 
         break;

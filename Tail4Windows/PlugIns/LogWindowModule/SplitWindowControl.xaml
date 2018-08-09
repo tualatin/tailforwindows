@@ -57,6 +57,7 @@
         FontStyle="{Binding CurrentTailData.FontType.FontStyle, UpdateSourceTrigger=PropertyChanged}"
         FontWeight="{Binding CurrentTailData.FontType.FontWeight, UpdateSourceTrigger=PropertyChanged}"
         HighlightDataResult="{Binding ElementName=SplitWindow, Path=HighlightData, UpdateSourceTrigger=PropertyChanged}"
+        ScrollToItemsEnd="{Binding ElementName=SplitElementCheckBoxScrollToItemsEnd, Path=IsChecked}"
         SelectedItem="{Binding ElementName=SplitWindow, Path=SelectedItem}"
         SelectedText="{Binding ElementName=SplitWindow, Path=SelectedText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
         genericBehaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
@@ -90,6 +91,7 @@
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
 
@@ -149,14 +151,53 @@
             </userControls:WatermarkTextBox.Watermark>
           </userControls:WatermarkTextBox>
 
-          <Button
+          <CheckBox
+            x:Name="SplitElementCheckBoxScrollToItemsEnd"
             Grid.Column="2"
+            Height="22"
+            Content="{DynamicResource SplitWindowScrollToEnd}"
+            TabIndex="2"
+            >
+            <CheckBox.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource SplitWindowScrollToEnd}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource EnvironmentAlwaysScrolltoEndToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </CheckBox.ToolTip>
+          </CheckBox>
+
+          <Button
+            Grid.Column="3"
             Width="16"
             Height="16"
-            Margin="0 0 5 0"
+            Margin="5 0"
             Command="{Binding CloseExtendedToolbarCommand}"
             Style="{StaticResource DefaultCloseButton}"
-            TabIndex="2"
+            TabIndex="3"
             ToolTip="{DynamicResource CloseWindowToolTip}"
             />
         </Grid>

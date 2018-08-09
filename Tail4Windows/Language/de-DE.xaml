@@ -562,4 +562,5 @@
 
   <system:String x:Key="SplitWindowFilterByBookmark">Gefilter nach Bookmarks</system:String>
   <system:String x:Key="SplitWindowFilterByBookmarkToolTip">Filtere aktuelle Ansicht nach Zeilen, bei denen ein Lesezeichen gesetzt ist</system:String>
+  <system:String x:Key="SplitWindowScrollToEnd">Zum Ende scrollen</system:String>
 </ResourceDictionary>
