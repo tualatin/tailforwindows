@@ -34,6 +34,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       CurrentWindowStyle = memento.CurrentWindowStyle;
       Language = memento.Language;
       AlwaysScrollToEnd = memento.AlwaysScrollToEnd;
+      ContinuedScroll = memento.ContinuedScroll;
       ShowNumberLineAtStart = memento.ShowNumberLineAtStart;
       ShowLineNumbers = memento.ShowLineNumbers;
       LinesRead = memento.LinesRead;
@@ -82,6 +83,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         CurrentWindowStyle = obj.CurrentWindowStyle;
         Language = obj.Language;
         AlwaysScrollToEnd = obj.AlwaysScrollToEnd;
+        ContinuedScroll = obj.ContinuedScroll;
         ShowNumberLineAtStart = obj.ShowNumberLineAtStart;
         ShowLineNumbers = obj.ShowLineNumbers;
         LinesRead = obj.LinesRead;
@@ -243,6 +245,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Always scroll to end
       /// </summary>
       public bool AlwaysScrollToEnd
+      {
+        get;
+      }
+
+      /// <summary>
+      /// ContinuedScroll or pushed method
+      /// </summary>
+      public bool ContinuedScroll
       {
         get;
       }

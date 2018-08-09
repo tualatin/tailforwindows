@@ -218,6 +218,8 @@
   <system:String x:Key="EnvironmentExitWithEscapeToolTip">Exit Application by pressing the Escape key</system:String>
   <system:String x:Key="EnvironmentAlwaysScrollToEnd">Always scroll to end</system:String>
   <system:String x:Key="EnvironmentAlwaysScrolltoEndToolTip">Scroll to end, when new log files appears in log window</system:String>
+  <system:String x:Key="EnvironmentContinuedScroll">Continued scroll</system:String>
+  <system:String x:Key="EnvironmentContinuedScrollToolTip">Scroll continuously instead of blockwise</system:String>
   <system:String x:Key="EnvironmentShowLineNumbers">Show line numbers</system:String>
   <system:String x:Key="EnvironmentShowLineNumbersToolTip">Show line numbers in log window</system:String>
   <system:String x:Key="EnvironmentShowNumberLineNumbers">Show n lines at start</system:String>

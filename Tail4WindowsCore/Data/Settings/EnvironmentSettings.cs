@@ -534,6 +534,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private bool _continuedScroll;
+
+    /// <summary>
+    /// ContinuedScroll or push method
+    /// </summary>
+    public bool ContinuedScroll
+    {
+      get => _continuedScroll;
+      set
+      {
+        if (value == _continuedScroll)
+          return;
+
+        _continuedScroll = value;
+        OnPropertyChanged();
+      }
+    }
+
     private bool _showLineNumbers;
 
     /// <summary>

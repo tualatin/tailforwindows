@@ -71,7 +71,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
         { "SelectionBackgroundColor", DefaultEnvironmentSettings.SelectionBackgroundColor },
         { "SmartWatch.SmartWatchInterval", DefaultEnvironmentSettings.SmartWatchInterval.ToString() },
         { "EditorPath", string.Empty },
-        { "SingleInstance", DefaultEnvironmentSettings.SingleInstance.ToString() }
+        { "SingleInstance", DefaultEnvironmentSettings.SingleInstance.ToString() },
+        { "ContinuedScroll", DefaultEnvironmentSettings.ContinuedScroll.ToString() }
       };
 
       await AddNewPropertyAsync(settings, cts).ConfigureAwait(false);
@@ -209,6 +210,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "WindowState", CurrentSettings.CurrentWindowState);
       WriteValueToSetting(config, "Language", CurrentSettings.Language);
       WriteValueToSetting(config, "AlwaysScrollToEnd", CurrentSettings.AlwaysScrollToEnd);
+      WriteValueToSetting(config, "ContinuedScroll", CurrentSettings.ContinuedScroll);
       WriteValueToSetting(config, "ShowNLineAtStart", CurrentSettings.ShowNumberLineAtStart);
       WriteValueToSetting(config, "ShowLineNumbers", CurrentSettings.ShowLineNumbers);
       WriteValueToSetting(config, "LinesRead", CurrentSettings.LinesRead);
@@ -326,6 +328,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.CurrentWindowStyle = DefaultEnvironmentSettings.CurrentWindowStyle;
       CurrentSettings.AlwaysOnTop = DefaultEnvironmentSettings.AlwaysOnTop;
       CurrentSettings.AlwaysScrollToEnd = DefaultEnvironmentSettings.AlwaysScrollToEnd;
+      CurrentSettings.ContinuedScroll = DefaultEnvironmentSettings.ContinuedScroll;
       CurrentSettings.CurrentWindowState = DefaultEnvironmentSettings.CurrentWindowState;
       CurrentSettings.DeleteLogFiles = DefaultEnvironmentSettings.DeleteLogFiles;
       CurrentSettings.LogFilesOlderThan = DefaultEnvironmentSettings.DeleteLogFilesOlderThan;
@@ -491,6 +494,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.CurrentWindowStyle = GetWindowStyle(GetStringFromSetting("CurrentWindowStyle"));
       CurrentSettings.Language = GetUiLanguage(GetStringFromSetting("Language"));
       CurrentSettings.AlwaysScrollToEnd = GetBoolFromSetting("AlwaysScrollToEnd");
+      CurrentSettings.ContinuedScroll = GetBoolFromSetting("ContinuedScroll");
       CurrentSettings.ShowNumberLineAtStart = GetBoolFromSetting("ShowNLineAtStart");
       CurrentSettings.ShowLineNumbers = GetBoolFromSetting("ShowLineNumbers");
       CurrentSettings.LinesRead = GetIntFromSetting("LinesRead");

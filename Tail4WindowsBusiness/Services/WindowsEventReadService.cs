@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -151,7 +152,7 @@ namespace Org.Vs.TailForWin.Business.Services
         {
           Index = index;
           index--;
-          lastItems.Add(CreateLogEntryByWindowsEvent(_logReader.Entries[i]));
+          lastItems.Add(CreateLogEntryByWindowsEvent(_logReader.Entries[i]).First());
         }
 
         // Reverse list
@@ -159,7 +160,7 @@ namespace Org.Vs.TailForWin.Business.Services
         lastItems.ForEach(p =>
         {
           SizeRefreshTime = string.Format(_message, _logReader.Entries.Count, p.DateTime.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
-          OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(p, SizeRefreshTime));
+          OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(new List<LogEntry> { p }, SizeRefreshTime));
         });
 
         Index = _startOffset;
@@ -250,7 +251,7 @@ namespace Org.Vs.TailForWin.Business.Services
 
     #region HelperFunctions
 
-    private LogEntry CreateLogEntryByWindowsEvent(EventLogEntry e)
+    private List<LogEntry> CreateLogEntryByWindowsEvent(EventLogEntry e)
     {
       string category = string.Format(Application.Current.TryFindResource("WindowsEventCategory").ToString(), e.EntryType.ToString());
       string source = string.Format(Application.Current.TryFindResource("WindowsEventSource").ToString(), e.Source);
@@ -263,7 +264,7 @@ namespace Org.Vs.TailForWin.Business.Services
         Message = $"{category} -> {source} -> {machineName} -> {message}"
       };
 
-      return log;
+      return new List<LogEntry> { log };
     }
 
     #endregion

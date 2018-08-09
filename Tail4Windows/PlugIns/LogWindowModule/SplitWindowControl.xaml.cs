@@ -35,6 +35,7 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
@@ -493,7 +494,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             LogEntries.RemoveAt(0);
 
           SetupCache();
-          LogEntries.Add(e.Log);
+          LogEntries.AddRange(e.Log);
 
           RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LinesRead, e.SizeRefreshTime));
         }, DispatcherPriority.Background);

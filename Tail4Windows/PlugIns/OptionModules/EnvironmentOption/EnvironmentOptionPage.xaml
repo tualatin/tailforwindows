@@ -231,9 +231,50 @@
         Grid.Row="2"
         Grid.Column="1"
         Height="22"
+        Content="{DynamicResource EnvironmentContinuedScroll}"
+        IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ContinuedScroll, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        TabIndex="4"
+        >
+        <CheckBox.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource EnvironmentContinuedScroll}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource EnvironmentContinuedScrollToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </CheckBox.ToolTip>
+      </CheckBox>
+
+
+      <CheckBox
+        Grid.Row="3"
+        Grid.Column="0"
+        Height="22"
         Content="{DynamicResource EnvironmentShowLineNumbers}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowLineNumbers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-        TabIndex="4"
+        TabIndex="5"
         >
         <CheckBox.ToolTip>
           <StackPanel>
@@ -269,12 +310,12 @@
 
       <CheckBox
         Name="CheckBoxShowLineNumbers"
-        Grid.Row="3"
+        Grid.Row="4"
         Grid.Column="0"
         Height="22"
         Content="{DynamicResource EnvironmentShowNumberLineNumbers}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowNumberLineAtStart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-        TabIndex="5"
+        TabIndex="6"
         >
         <CheckBox.ToolTip>
           <StackPanel>
@@ -309,7 +350,7 @@
       </CheckBox>
 
       <StackPanel
-        Grid.Row="3"
+        Grid.Row="4"
         Grid.Column="1"
         Orientation="Horizontal"
         >
@@ -323,7 +364,7 @@
           MaxSpinValue="100"
           MinSpinValue="10"
           StartIndex="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=LinesRead, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-          TabIndex="6"
+          TabIndex="7"
           TextBoxMaxValue="100"
           TextBoxMinValue="10"
           >
@@ -367,12 +408,12 @@
       </StackPanel>
 
       <CheckBox
-        Grid.Row="4"
+        Grid.Row="5"
         Grid.Column="0"
         Height="22"
         Content="{DynamicResource EnvironmentSaveWindowPosition}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SaveWindowPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-        TabIndex="7"
+        TabIndex="8"
         >
         <CheckBox.ToolTip>
           <StackPanel>
@@ -407,12 +448,12 @@
       </CheckBox>
 
       <CheckBox
-        Grid.Row="4"
+        Grid.Row="5"
         Grid.Column="1"
         Height="22"
         Content="{DynamicResource EnvironmentRestoreWindowSize}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=RestoreWindowSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-        TabIndex="8"
+        TabIndex="9"
         >
         <CheckBox.ToolTip>
           <StackPanel>
@@ -447,14 +488,14 @@
       </CheckBox>
 
       <Label
-        Grid.Row="5"
+        Grid.Row="6"
         Grid.Column="0"
         Margin="6 0 0 0"
         VerticalAlignment="Center"
         Content="{DynamicResource EnvironmentDefaultThreadPriority}"
         />
       <ComboBox
-        Grid.Row="5"
+        Grid.Row="6"
         Grid.Column="1"
         Height="22"
         Margin="6 0 0 0"
@@ -463,7 +504,7 @@
         ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=ThreadPriority}"
         SelectedValue="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=DefaultThreadPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
         SelectedValuePath="ThreadPriority"
-        TabIndex="9"
+        TabIndex="10"
         >
         <ComboBox.ToolTip>
           <StackPanel>
@@ -498,14 +539,14 @@
       </ComboBox>
 
       <Label
-        Grid.Row="6"
+        Grid.Row="7"
         Grid.Column="0"
         Margin="6 0 0 0"
         VerticalAlignment="Center"
         Content="{DynamicResource EnvironmentDefaultRefreshRate}"
         />
       <ComboBox
-        Grid.Row="6"
+        Grid.Row="7"
         Grid.Column="1"
         Height="22"
         Margin="6 0 0 0"
@@ -514,7 +555,7 @@
         ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=RefreshRate}"
         SelectedValue="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=DefaultRefreshRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
         SelectedValuePath="RefreshRate"
-        TabIndex="10"
+        TabIndex="11"
         >
         <ComboBox.ToolTip>
           <StackPanel>
@@ -549,14 +590,14 @@
       </ComboBox>
 
       <Label
-        Grid.Row="7"
+        Grid.Row="8"
         Grid.Column="0"
         Margin="6 0 0 0"
         VerticalAlignment="Center"
         Content="{DynamicResource EnvironmentDefaultTimeFormat}"
         />
       <ComboBox
-        Grid.Row="7"
+        Grid.Row="8"
         Grid.Column="1"
         Height="22"
         Margin="6 0 0 0"
@@ -565,7 +606,7 @@
         ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=TimeFormat}"
         SelectedValue="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=DefaultTimeFormat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
         SelectedValuePath="TimeFormat"
-        TabIndex="11"
+        TabIndex="12"
         >
         <ComboBox.ToolTip>
           <StackPanel>
@@ -600,14 +641,14 @@
       </ComboBox>
 
       <Label
-        Grid.Row="8"
+        Grid.Row="9"
         Grid.Column="0"
         Margin="6 0 0 0"
         VerticalAlignment="Center"
         Content="{DynamicResource EnvironmentDefaultDateFormat}"
         />
       <ComboBox
-        Grid.Row="8"
+        Grid.Row="9"
         Grid.Column="1"
         Height="22"
         Margin="6 0 0 0"
@@ -616,7 +657,7 @@
         ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=DateFormat}"
         SelectedValue="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=DefaultDateFormat, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
         SelectedValuePath="DateFormat"
-        TabIndex="12"
+        TabIndex="13"
         >
         <ComboBox.ToolTip>
           <StackPanel>
@@ -663,7 +704,7 @@
           VerticalAlignment="Center"
           Content="{Binding SendToButtonText, UpdateSourceTrigger=PropertyChanged}"
           Command="{Binding AddToSendToCommand}"
-          TabIndex="13"
+          TabIndex="14"
           >
           <Button.ToolTip>
             <StackPanel>

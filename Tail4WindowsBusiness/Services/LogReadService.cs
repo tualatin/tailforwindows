@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -302,6 +303,7 @@ namespace Org.Vs.TailForWin.Business.Services
     private void ReadFile(StreamReader sr)
     {
       string line;
+      var entries = new List<LogEntry>();
 
       while ( (line = sr.ReadLine()) != null )
       {
@@ -310,17 +312,28 @@ namespace Org.Vs.TailForWin.Business.Services
 
         if ( TailData.RemoveSpace || Index == 0 )
         {
-          if ( !string.IsNullOrWhiteSpace(line) )
-            SendLogEntryEvent(line, sr.BaseStream.Length);
+          if ( string.IsNullOrWhiteSpace(line) )
+            continue;
+
+          if ( SettingsHelperController.CurrentSettings.ContinuedScroll )
+            SendLogEntryEvent(CreateLogEntry(line), sr.BaseStream.Length);
+          else
+            entries.Add(CreateLogEntry(line));
         }
         else
         {
-          SendLogEntryEvent(line, sr.BaseStream.Length);
+          if ( SettingsHelperController.CurrentSettings.ContinuedScroll )
+            SendLogEntryEvent(CreateLogEntry(line), sr.BaseStream.Length);
+          else
+            entries.Add(CreateLogEntry(line));
         }
       }
+
+      if ( !SettingsHelperController.CurrentSettings.ContinuedScroll )
+        SendLogEntryEvent(entries, sr.BaseStream.Length);
     }
 
-    private void SendLogEntryEvent(string line, long fileSize)
+    private LogEntry CreateLogEntry(string line)
     {
       Index++;
       var entry = new LogEntry
@@ -329,10 +342,23 @@ namespace Org.Vs.TailForWin.Business.Services
         Message = line,
         DateTime = DateTime.Now
       };
+      return entry;
+    }
+
+    private void SendLogEntryEvent(LogEntry entry, long fileSize)
+    {
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
       SizeRefreshTime = string.Format(message, (fileSize / 1024d).ToString("#,0.000", SettingsHelperController.CurrentSettings.CurrentCultureInfo),
         DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
-      OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(entry, SizeRefreshTime));
+      OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(new List<LogEntry> { entry }, SizeRefreshTime));
+    }
+
+    private void SendLogEntryEvent(List<LogEntry> entries, long fileSize)
+    {
+      string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
+      SizeRefreshTime = string.Format(message, (fileSize / 1024d).ToString("#,0.000", SettingsHelperController.CurrentSettings.CurrentCultureInfo),
+        DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
+      OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(entries, SizeRefreshTime));
     }
 
 #if DEBUG
@@ -373,7 +399,7 @@ namespace Org.Vs.TailForWin.Business.Services
         if ( _tailBackgroundWorker.CancellationPending )
           break;
 
-        OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(log, SizeRefreshTime));
+        OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(new List<LogEntry> { log }, SizeRefreshTime));
         _resetEvent?.WaitOne((int) TailData.RefreshRate);
       }
 

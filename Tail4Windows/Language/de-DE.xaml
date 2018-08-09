@@ -218,6 +218,8 @@
   <system:String x:Key="EnvironmentExitWithEscapeToolTip">Das Programm mit Escape beenden</system:String>
   <system:String x:Key="EnvironmentAlwaysScrollToEnd">Immer zum Ende scrollen</system:String>
   <system:String x:Key="EnvironmentAlwaysScrolltoEndToolTip">Immer zum Ende scrollen, wenn neue Logauschriften im Log-Fenster erscheinen</system:String>
+  <system:String x:Key="EnvironmentContinuedScroll">Kontinuierliches Scrollen</system:String>
+  <system:String x:Key="EnvironmentContinuedScrollToolTip">Scrolle kontinuierlich, anstatt Blockweise</system:String>
   <system:String x:Key="EnvironmentShowLineNumbers">Editornummern anzeigen</system:String>
   <system:String x:Key="EnvironmentShowLineNumbersToolTip">Zeige Zeilennummern im Log-Fenster an</system:String>
   <system:String x:Key="EnvironmentShowNumberLineNumbers">Zeige n Zeilen beim Start</system:String>
