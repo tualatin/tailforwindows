@@ -3,6 +3,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
   mc:Ignorable="d"
   >
 
@@ -16,6 +17,7 @@
         <ColumnDefinition />
         <ColumnDefinition Width="16" />
       </Grid.ColumnDefinitions>
+
       <Border
         x:Name="Border"
         Grid.ColumnSpan="2"
@@ -23,11 +25,13 @@
         BorderBrush="{StaticResource BrushSolidBorderMedium}"
         BorderThickness="1"
         />
+
       <Border
         Grid.Column="0"
         Margin="1"
         Background="{StaticResource BrushSolidWhite}"
         />
+
       <Path
         x:Name="Arrow"
         Grid.Column="1"
@@ -36,9 +40,10 @@
         Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 Z"
         >
         <Path.Fill>
-          <SolidColorBrush Color="{StaticResource GlyphColor}" />
+          <SolidColorBrush Color="{StaticResource GlyphColor}" po:Freeze="True" />
         </Path.Fill>
       </Path>
+
       <VisualStateManager.VisualStateGroups>
         <VisualStateGroup x:Name="CommonStates">
           <VisualState x:Name="Normal" />
@@ -53,6 +58,7 @@
                   KeyTime="0"
                   />
               </ColorAnimationUsingKeyFrames>
+
               <ColorAnimationUsingKeyFrames
                 Storyboard.TargetName="Border"
                 Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
@@ -65,6 +71,7 @@
             </Storyboard>
           </VisualState>
           <VisualState x:Name="Pressed" />
+
           <VisualState x:Name="Disabled">
             <Storyboard>
               <ColorAnimationUsingKeyFrames
@@ -76,6 +83,7 @@
                   KeyTime="0"
                   />
               </ColorAnimationUsingKeyFrames>
+
               <ColorAnimationUsingKeyFrames
                 Storyboard.TargetName="Arrow"
                 Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
@@ -85,6 +93,7 @@
                   KeyTime="0"
                   />
               </ColorAnimationUsingKeyFrames>
+
               <ColorAnimationUsingKeyFrames
                 Storyboard.TargetName="Border"
                 Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
@@ -148,6 +157,7 @@
               IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
               Template="{StaticResource ComboBoxToggleButton}"
               />
+
             <ContentPresenter
               x:Name="ContentSite"
               Margin="3 3 23 3"
@@ -158,6 +168,7 @@
               ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
               IsHitTestVisible="False"
               />
+
             <TextBox
               x:Name="PART_EditableTextBox"
               Margin="3 3 23 3"
@@ -170,6 +181,7 @@
               Template="{StaticResource ComboBoxTextBox}"
               Visibility="Hidden"
               />
+
             <Popup
               x:Name="Popup"
               AllowsTransparency="True"
@@ -184,12 +196,14 @@
                 MaxHeight="{TemplateBinding MaxDropDownHeight}"
                 SnapsToDevicePixels="True"
                 >
+
                 <Border
                   x:Name="DropDownBorder"
                   Background="{StaticResource BrushSolidWhite}"
                   BorderBrush="{StaticResource BrushSolidBorderMedium}"
                   BorderThickness="1"
                   />
+
                 <ScrollViewer
                   Margin="1 0 1 1"
                   SnapsToDevicePixels="True"
@@ -201,6 +215,7 @@
                 </ScrollViewer>
               </Grid>
             </Popup>
+
             <VisualStateManager.VisualStateGroups>
               <VisualStateGroup x:Name="CommonStates">
                 <VisualState x:Name="Normal" />
@@ -219,6 +234,7 @@
                   </Storyboard>
                 </VisualState>
               </VisualStateGroup>
+
               <VisualStateGroup x:Name="EditStates">
                 <VisualState x:Name="Editable">
                   <Storyboard>
@@ -231,6 +247,7 @@
                         KeyTime="0"
                         />
                     </ObjectAnimationUsingKeyFrames>
+
                     <ObjectAnimationUsingKeyFrames
                       Storyboard.TargetName="ContentSite"
                       Storyboard.TargetProperty="(UIElement.Visibility)"
@@ -250,9 +267,11 @@
             <Trigger Property="HasItems" Value="False">
               <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
             </Trigger>
+
             <Trigger Property="IsGrouping" Value="True">
               <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
             </Trigger>
+
             <Trigger Property="AllowsTransparency" Value="True" SourceName="Popup">
               <Setter TargetName="DropDownBorder" Property="Margin" Value="0 -2 0 0" />
             </Trigger>
@@ -275,6 +294,7 @@
             SnapsToDevicePixels="True"
             >
             <ContentPresenter />
+
             <VisualStateManager.VisualStateGroups>
               <VisualStateGroup x:Name="SelectionStates">
                 <VisualState x:Name="Unselected" />
@@ -291,6 +311,7 @@
                     </ColorAnimationUsingKeyFrames>
                   </Storyboard>
                 </VisualState>
+
                 <VisualState x:Name="SelectedUnfocused">
                   <Storyboard>
                     <ColorAnimationUsingKeyFrames
@@ -311,6 +332,7 @@
             <Trigger Property="ComboBoxItem.IsHighlighted" Value="True">
               <Setter TargetName="Border" Property="Panel.Background" Value="#BB34b4e3" />
             </Trigger>
+
             <Trigger Property="UIElement.IsEnabled" Value="False">
               <Setter Property="TextElement.Foreground" Value="LightGray" />
             </Trigger>
@@ -319,5 +341,4 @@
       </Setter.Value>
     </Setter>
   </Style>
-
 </ResourceDictionary>
