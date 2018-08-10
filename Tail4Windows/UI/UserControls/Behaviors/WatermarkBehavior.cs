@@ -74,11 +74,37 @@ namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
       new PropertyMetadata("Segoe UI"));
 
     /// <summary>
+    /// Watermark visibility property
+    /// </summary>
+    public static readonly DependencyProperty WatermarkVisibilityProperty = DependencyProperty.Register(nameof(WatermarkVisibility), typeof(Visibility), typeof(WatermarkBehavior),
+      new PropertyMetadata(Visibility.Visible, OnVisibilityChangedCallback));
+
+    /// <summary>
+    /// Watermark visibility
+    /// </summary>
+    public Visibility WatermarkVisibility
+    {
+      get => (Visibility) GetValue(WatermarkVisibilityProperty);
+      set => SetValue(WatermarkVisibilityProperty, value);
+    }
+
+    private static void OnVisibilityChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+      if ( !(d is WatermarkBehavior behavior) )
+        return;
+
+      behavior._adorner.Visibility = (Visibility) e.NewValue;
+    }
+
+    /// <summary>
     /// Called after the behavior is attached to an AssociatedObject.
     /// </summary>
     protected override void OnAttached()
     {
-      _adorner = new WaterMarkAdorner(AssociatedObject, Text, FontSize, FontFamily, Foreground);
+      _adorner = new WaterMarkAdorner(AssociatedObject, Text, FontSize, FontFamily, Foreground)
+      {
+        Visibility = WatermarkVisibility
+      };
 
       AssociatedObject.Loaded += OnLoaded;
       AssociatedObject.GotFocus += OnFocus;

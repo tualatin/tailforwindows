@@ -24,6 +24,7 @@ using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Business.Utils.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.FindModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Args;
@@ -61,6 +62,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private NotifyTaskCompletion _notifyTaskCompletion;
     private int _index;
     private CancellationTokenSource _cts;
+
+    private readonly IXmlSearchHistory<IObservableDictionary<string, string>> _searchHistoryController;
     private readonly IFindController _searchController;
     private readonly IPreventMessageFlood _preventMessageFlood;
     private readonly IFindController _findController;
@@ -104,6 +107,39 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     #endregion
 
     #region Properties
+
+    private IObservableDictionary<string, string> _searchHistory;
+
+    /// <summary>
+    /// Search history
+    /// </summary>
+    public IObservableDictionary<string, string> SearchHistory
+    {
+      get => _searchHistory;
+      set
+      {
+        if ( value == _searchHistory )
+          return;
+
+        _searchHistory = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private KeyValuePair<string, string> _selectedSplitSearchItem;
+
+    /// <summary>
+    /// SelectedSplitSearch item
+    /// </summary>
+    public KeyValuePair<string, string> SelectedSplitSearchItem
+    {
+      get => _selectedSplitSearchItem;
+      set
+      {
+        _selectedSplitSearchItem = value;
+        OnPropertyChanged();
+      }
+    }
 
     /// <summary>
     /// Highlight data <see cref="List{T}"/> of <see cref="TextHighlightData"/>
@@ -352,6 +388,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogEntries }.View;
       CollectionView.Filter = DynamicFilter;
 
+      _searchHistoryController = new XmlSearchHistoryController();
       _searchController = new FindController();
       _preventMessageFlood = new PreventMessageFlood();
       _findController = new FindController();
@@ -359,6 +396,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       ExtendedToolbarVisibility = Visibility.Collapsed;
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<FindWhatChangedClosedMessage>(OnFindWhatChangedOrClosed);
+
+      ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedPropertyChanged;
+      ((AsyncCommand<object>) SplitSearchKeyDownCommand).PropertyChanged += OnSplitSearchKeyDownCommandPropertyChanged;
     }
 
     #region Dependency properties
@@ -583,9 +623,34 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public ICommand CloseExtendedToolbarCommand => _closeExtendedToolbarCommand ?? (_closeExtendedToolbarCommand = new RelayCommand(p => ExecuteCloseExtendedToolbarCommand()));
 
+    private IAsyncCommand _splitSearchKeyDownCommand;
+
+    /// <summary>
+    /// SplitSearchKeyDown command
+    /// </summary>
+    public IAsyncCommand SplitSearchKeyDownCommand => _splitSearchKeyDownCommand ?? (_splitSearchKeyDownCommand = AsyncCommand.Create((p, t) =>
+                                                        ExecuteSplitSearchKeyDownCommandAsync(p)));
+
     #endregion
 
     #region Command functions
+
+    private async Task ExecuteSplitSearchKeyDownCommandAsync(object param)
+    {
+      if ( !(param is KeyEventArgs e) )
+        return;
+
+      if ( string.IsNullOrWhiteSpace(SplitElementFilterText) || e.Key != Key.Enter )
+        return;
+
+      MouseService.SetBusyState();
+
+      if ( !SearchHistory.ContainsKey(SplitElementFilterText.Trim()) )
+      {
+        _searchHistory.Add(new KeyValuePair<string, string>(SplitElementFilterText.Trim(), SplitElementFilterText.Trim()));
+        await _searchHistoryController.SaveSearchHistoryAsync(SplitElementFilterText).ConfigureAwait(false);
+      }
+    }
 
     private void ExecuteCloseExtendedToolbarCommand()
     {
@@ -635,7 +700,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchFindNextMessage>(OnStartSearchFindNext);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowExtendedToolbarMessage>(OnShowExtendedToolbar);
 
-      await CacheManager.PrintCacheSizeAsync(_cts.Token).ConfigureAwait(false);
+      try
+      {
+        _searchHistory = await _searchHistoryController.ReadXmlFileAsync().ConfigureAwait(false);
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
     }
 
     private void ExecuteUnloadedCommand()
@@ -1459,6 +1531,23 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
       return logWindow.Count != 0 && logWindow.First().WindowId == windowGuid;
+    }
+
+    private void LoadedPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      OnPropertyChanged(nameof(SearchHistory));
+      NotifyTaskCompletion.Create(CacheManager.PrintCacheSizeAsync(_cts.Token));
+    }
+
+    private void OnSplitSearchKeyDownCommandPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      OnPropertyChanged(nameof(SearchHistory));
     }
 
     /// <summary>
