@@ -9,14 +9,13 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.1.xxxx.x
-* new continued scroll or push
+* new continuous scrolling or push
 * new single instance
 * new SplitWindow filter by bookmark or certain filter text (Ctrl+Alt+T)
 * new SplitWindow can scroll to end -> Ctrl+Alt+T
 * new shortcut F1 for help window
 * new Minimize to tray
 * new Close to tray
-* new Context menu of tray icon
 * new SingleClick edit mode in DataGrid
 * new item changed indicator in TabHeader
 * new Taskbar jumplist
