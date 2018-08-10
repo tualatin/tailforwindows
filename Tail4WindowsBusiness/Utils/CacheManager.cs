@@ -8,6 +8,7 @@ using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Utils;
+// ReSharper disable PossibleMultipleEnumeration
 
 
 namespace Org.Vs.TailForWin.Business.Utils
@@ -22,7 +23,10 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// <summary>
     /// Max capacity
     /// </summary>
-    private const int MaxCapacity = 10000;
+    private int MaxCapacity
+    {
+      get;
+    }
 
     private readonly List<LogEntry> _cacheData;
 
@@ -32,7 +36,9 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// </summary>
     public CacheManager()
     {
+      MaxCapacity = SettingsHelperController.CurrentSettings.ContinuedScroll ? 20000 : 70000;
       _cacheData = new List<LogEntry>();
+
       LOG.Debug($"Current max logline capacity is {MaxCapacity:N0}");
     }
 
@@ -138,9 +144,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// <exception cref="ArgumentException">If <c>other</c> is null</exception>
     public IEnumerable<LogEntry> GetIntersectData(IEnumerable<LogEntry> other)
     {
-      // ReSharper disable once PossibleMultipleEnumeration
       Arg.NotNull(other, nameof(other));
-      // ReSharper disable once PossibleMultipleEnumeration
       return _cacheData.Intersect(other);
     }
   }
