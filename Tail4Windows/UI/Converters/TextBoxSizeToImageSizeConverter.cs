@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Extensions;
-using Org.Vs.TailForWin.UI.Extensions;
-using Org.Vs.TailForWin.UI.UserControls;
 
 
 namespace Org.Vs.TailForWin.UI.Converters
@@ -27,16 +24,10 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-      if ( !(value is Grid grid) )
+      if ( !(value is FontType fontType) )
         return 15;
 
-      Grid templateGrid = grid.Ancestors().OfType<Grid>().FirstOrDefault(p => p.Name == "DataTemplateGrid");
-      HighlightTextBlock textBlock = templateGrid?.Descendents().OfType<HighlightTextBlock>().FirstOrDefault(p => p.Name == "TextBoxMessage");
-
-      if ( textBlock == null )
-        return 15;
-
-      Size textSize = textBlock.Text.GetMeasureTextSize(new Typeface(textBlock.FontFamily, textBlock.FontStyle, textBlock.FontWeight, textBlock.FontStretch), textBlock.FontSize);
+      Size textSize = "123".GetMeasureTextSize(new Typeface(fontType.FontFamily, fontType.FontStyle, fontType.FontWeight, fontType.FontStretch), fontType.FontSize);
 
       double height;
 
@@ -47,7 +38,7 @@ namespace Org.Vs.TailForWin.UI.Converters
       else
         height = textSize.Height;
 
-      return height - 1;
+      return height - 2;
     }
 
     /// <summary>

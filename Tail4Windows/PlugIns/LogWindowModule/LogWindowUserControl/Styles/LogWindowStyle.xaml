@@ -95,8 +95,8 @@
         <Image
           x:Name="TextBoxBookmarkPoint"
           Grid.Column="0"
-          Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}}, Path=., Converter={StaticResource TextBoxSizeToImageSizeConverter}}"
-          Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}}, Path=., Converter={StaticResource TextBoxSizeToImageSizeConverter}}"
+          Width="{Binding Path=CurrentTailData.FontType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Converter={StaticResource TextBoxSizeToImageSizeConverter}}"
+          Height="{Binding Path=CurrentTailData.FontType, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Converter={StaticResource TextBoxSizeToImageSizeConverter}}"
           Margin="2 0"
           Source="{Binding Path=BookmarkPoint}"
           >
