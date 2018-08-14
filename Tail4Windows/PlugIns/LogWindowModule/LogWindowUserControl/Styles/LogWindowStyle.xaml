@@ -78,9 +78,12 @@
   </Style>
 
   <DataTemplate x:Key="DateTimeLineNumberTemplate" DataType="{x:Type data:LogEntry}">
-    <Grid IsSharedSizeScope="True">
+    <Grid
+      x:Name="DataTemplateGrid"
+      IsSharedSizeScope="True"
+      >
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" SharedSizeGroup="Bookmark" />
+        <ColumnDefinition Width="16" SharedSizeGroup="Bookmark" />
         <ColumnDefinition Width="Auto" SharedSizeGroup="Index" />
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
@@ -92,8 +95,8 @@
         <Image
           x:Name="TextBoxBookmarkPoint"
           Grid.Column="0"
-          Width="16"
-          Height="16"
+          Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}}, Path=., Converter={StaticResource TextBoxSizeToImageSizeConverter}}"
+          Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Grid}}, Path=., Converter={StaticResource TextBoxSizeToImageSizeConverter}}"
           Margin="2 0"
           Source="{Binding Path=BookmarkPoint}"
           >

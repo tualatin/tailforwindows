@@ -198,6 +198,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     #endregion
 
+    static LogWindowListBox() => DefaultStyleKeyProperty.OverrideMetadata(typeof(LogWindowListBox), new FrameworkPropertyMetadata(typeof(LogWindowListBox)));
+
     /// <summary>
     /// Standard constructor
     /// </summary>

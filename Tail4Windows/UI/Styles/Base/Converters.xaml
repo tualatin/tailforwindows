@@ -47,6 +47,7 @@
   <converters:BoolToForegroundConverter x:Key="BoolToForegroundConverter" />
   <converters:CountToForegroundConverter x:Key="CountToForegroundConverter" />
   <converters:VisibilityToInverseBoolConverter x:Key="VisibilityToInverseBoolConverter" />
+  <converters:TextBoxSizeToImageSizeConverter x:Key="TextBoxSizeToImageSizeConverter" />
 
   <multiConverters:WidthToMarginMultiConverter x:Key="WidthToMarginMultiConverter" />
   <multiConverters:VisibilityToMarginMultiConverter x:Key="VisibilityToMarginConverter" />

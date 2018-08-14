@@ -318,6 +318,7 @@
     <Compile Include="UI\Converters\TailDataListOfFilterToBoolConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\VisibilityToMarginConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\WidthToMarginConverter.cs" />
+    <Compile Include="UI\Converters\TextBoxSizeToImageSizeConverter.cs" />
     <Compile Include="UI\Converters\VisibilityToInverseBoolConverter.cs" />
     <Compile Include="UI\Debuging\DebugBuild.cs" />
     <Compile Include="UI\ExtendedControls\VsPopupEx.cs" />

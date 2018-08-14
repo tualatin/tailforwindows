@@ -26,6 +26,7 @@ v.2.1.xxxx.x
 * new add/remove Bookmark comment
 * new add Help URL (F1)
 * new configurable editor
+* bug fix Bookmark image not scaled
 * bug fix TailManager DataGrid ComboBox close first time
 * bug fix LogWindowListBox add/remove events
 * bug fix Column chooser -> context menu not in ColumnHeader
