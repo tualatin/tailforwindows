@@ -83,13 +83,14 @@
       IsSharedSizeScope="True"
       >
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="16" SharedSizeGroup="Bookmark" />
+        <ColumnDefinition Width="Auto" SharedSizeGroup="Bookmark" />
         <ColumnDefinition Width="Auto" SharedSizeGroup="Index" />
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
 
       <Grid
         Grid.Column="0"
+        Width="20"
         Background="Transparent"
         >
         <Image
@@ -156,7 +157,7 @@
             Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=CurrentTailData.Timestamp, Converter={StaticResource BoolToVisibilityConverter}}"
             >
             <TextBlock.Margin>
-              <MultiBinding Converter="{StaticResource VisibilityToMarginConverter}" ConverterParameter="DateTimeEditor">
+              <MultiBinding Converter="{StaticResource VisibilityToMarginMultiConverter}" ConverterParameter="DateTimeEditor">
                 <Binding
                   ElementName="BorderLineNumber"
                   Path="Visibility"
@@ -171,7 +172,7 @@
             Style="{StaticResource MyEditTextEditor}"
             >
             <TextBox.Margin>
-              <MultiBinding Converter="{StaticResource VisibilityToMarginConverter}" ConverterParameter="TextBoxMessage">
+              <MultiBinding Converter="{StaticResource VisibilityToMarginMultiConverter}" ConverterParameter="TextBoxMessage">
                 <Binding
                   ElementName="BorderLineNumber"
                   Path="Visibility"
@@ -191,7 +192,7 @@
             Style="{StaticResource MyTextEditor}"
             >
             <userControls:HighlightTextBlock.Margin>
-              <MultiBinding Converter="{StaticResource VisibilityToMarginConverter}" ConverterParameter="TextBoxMessage">
+              <MultiBinding Converter="{StaticResource VisibilityToMarginMultiConverter}" ConverterParameter="TextBoxMessage">
                 <Binding
                   ElementName="BorderLineNumber"
                   Path="Visibility"

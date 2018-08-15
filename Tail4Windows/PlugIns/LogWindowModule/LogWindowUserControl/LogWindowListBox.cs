@@ -57,6 +57,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     #region Public properties
 
     /// <summary>
+    /// ShowBookmarkMargin property
+    /// </summary>
+    public static readonly DependencyProperty ShowBookmarkMarginProperty = DependencyProperty.Register(nameof(ShowBookmarkMargin), typeof(Visibility), typeof(LogWindowListBox),
+      new PropertyMetadata(Visibility.Collapsed));
+
+    /// <summary>
+    /// Show bookmark margin
+    /// </summary>
+    public Visibility ShowBookmarkMargin
+    {
+      get => (Visibility) GetValue(ShowBookmarkMarginProperty);
+      set => SetValue(ShowBookmarkMarginProperty, value);
+    }
+
+    /// <summary>
     /// ShowGridSplitControl property
     /// </summary>
     public static readonly DependencyProperty ShowGridSplitControlProperty = DependencyProperty.Register(nameof(ShowGridSplitControl), typeof(bool), typeof(LogWindowListBox),

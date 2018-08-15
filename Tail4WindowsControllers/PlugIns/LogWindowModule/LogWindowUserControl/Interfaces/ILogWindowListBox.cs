@@ -63,6 +63,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.LogWindowUserCon
     }
 
     /// <summary>
+    /// Show bookmark margin
+    /// </summary>
+    Visibility ShowBookmarkMargin
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Highlight data result <see cref="List{T}"/> of <see cref="TextHighlightData"/>
     /// </summary>
     List<TextHighlightData> HighlightDataResult

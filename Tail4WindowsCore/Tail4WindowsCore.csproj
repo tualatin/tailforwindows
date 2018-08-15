@@ -128,6 +128,7 @@
     <Compile Include="Enums\EFileManagerState.cs" />
     <Compile Include="Enums\EFileSort.cs" />
     <Compile Include="Enums\EMaskType.cs" />
+    <Compile Include="Enums\EScrollSyncType.cs" />
     <Compile Include="Enums\ESmartWatchMode.cs" />
     <Compile Include="Enums\EStatusbarState.cs" />
     <Compile Include="Enums\ETabState.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Utils\PlaySoundFile.cs" />
     <Compile Include="Utils\QueueSet.cs" />
     <Compile Include="Utils\SafeObservable.cs" />
+    <Compile Include="Utils\ScrollSynchronizer.cs" />
     <Compile Include="Utils\SingleInstance.cs" />
     <Compile Include="Utils\StringEncryption.cs" />
     <Compile Include="Utils\Threading\ServiceSynchronizationContext.cs" />
