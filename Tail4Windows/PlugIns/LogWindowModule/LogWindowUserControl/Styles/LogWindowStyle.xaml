@@ -1,8 +1,6 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:data="clr-namespace:Org.Vs.TailForWin.Business.Services.Data;assembly=T4WBusiness"
   xmlns:logWindowListBox="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl"
@@ -84,7 +82,6 @@
       >
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" SharedSizeGroup="Bookmark" />
-        <ColumnDefinition Width="Auto" SharedSizeGroup="Index" />
         <ColumnDefinition />
       </Grid.ColumnDefinitions>
 
@@ -92,7 +89,13 @@
         Grid.Column="0"
         Width="20"
         Background="Transparent"
+        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=ShowBookmarkMargin}"
         >
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="20" SharedSizeGroup="Bookmark" />
+          <ColumnDefinition Width="Auto" SharedSizeGroup="Index" />
+        </Grid.ColumnDefinitions>
+
         <Image
           x:Name="TextBoxBookmarkPoint"
           Grid.Column="0"
@@ -109,40 +112,41 @@
               />
           </Image.ToolTip>
         </Image>
+
+        <Border
+          x:Name="BorderLineNumber"
+          Grid.Column="1"
+          MinWidth="60"
+          BorderThickness="0 0 1 0"
+          Cursor="/T4W;component/Resources/RightArrow.cur"
+          Visibility="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowLineNumbers, Converter={StaticResource BoolToVisibilityConverter}}"
+          >
+          <Border.BorderBrush>
+            <VisualBrush>
+              <VisualBrush.Visual>
+                <Rectangle
+                  Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
+                  Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"
+                  Stroke="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+                  StrokeDashArray="2 6"
+                  StrokeThickness="0.6"
+                  />
+              </VisualBrush.Visual>
+            </VisualBrush>
+          </Border.BorderBrush>
+
+          <TextBlock
+            x:Name="TextBoxLineNumbers"
+            Margin="1 0 10 0"
+            Style="{StaticResource MyLineNumberText}"
+            />
+        </Border>
       </Grid>
 
       <Border
-        x:Name="BorderLineNumber"
-        Grid.Column="1"
-        MinWidth="60"
-        BorderThickness="0 0 1 0"
-        Cursor="/T4W;component/Resources/RightArrow.cur"
-        Visibility="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ShowLineNumbers, Converter={StaticResource BoolToVisibilityConverter}}"
-        >
-        <Border.BorderBrush>
-          <VisualBrush>
-            <VisualBrush.Visual>
-              <Rectangle
-                Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
-                Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"
-                Stroke="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
-                StrokeDashArray="2 6"
-                StrokeThickness="0.6"
-                />
-            </VisualBrush.Visual>
-          </VisualBrush>
-        </Border.BorderBrush>
-
-        <TextBlock
-          x:Name="TextBoxLineNumbers"
-          Margin="1 0 10 0"
-          Style="{StaticResource MyLineNumberText}"
-          />
-      </Border>
-
-      <Border
         x:Name="Chrome"
-        Grid.Column="2"
+        Grid.Column="1"
+        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=ShowBookmarkMargin, Converter={StaticResource NegativeVisiblityConverter}}"
         >
         <Grid>
           <Grid.ColumnDefinitions>
@@ -250,22 +254,10 @@
               HorizontalAlignment="Left"
               Fill="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
               Opacity="0.12"
+              Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=ShowBookmarkMargin}"
               />
 
-            <ScrollViewer
-              x:Name="ScrollViewer"
-              CanContentScroll="True"
-              HorizontalScrollBarVisibility="{Binding Path=CurrentTailData.Wrap, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Converter={StaticResource BoolToScrollbarVisibility}}"
-              IsDeferredScrollingEnabled="True"
-              VerticalScrollBarVisibility="Auto"
-              >
-              <ItemsPresenter />
-            </ScrollViewer>
-
-            <i:Interaction.Behaviors>
-              <behaviors:SynchronizeOffsetBehavior TargetElement="{Binding ElementName=ScrollViewer}" />
-              <behaviors:FixHorizontalScrollbarPosition FixedMargin="20 0 0 0" />
-            </i:Interaction.Behaviors>
+            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
           </Grid>
         </ControlTemplate>
       </Setter.Value>
