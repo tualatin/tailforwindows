@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:data="clr-namespace:Org.Vs.TailForWin.Business.Services.Data;assembly=T4WBusiness"
   xmlns:logWindowListBox="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl"
@@ -145,7 +147,6 @@
       <Border
         x:Name="Chrome"
         Grid.Column="1"
-        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=ShowBookmarkMargin, Converter={StaticResource NegativeVisiblityConverter}}"
         >
         <Grid>
           <Grid.ColumnDefinitions>
@@ -256,7 +257,20 @@
               Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=ShowBookmarkMargin}"
               />
 
-            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+            <ScrollViewer
+              x:Name="ScrollViewer"
+              CanContentScroll="True"
+              HorizontalScrollBarVisibility="{Binding Path=CurrentTailData.Wrap, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Converter={StaticResource BoolToScrollbarVisibility}}"
+              IsDeferredScrollingEnabled="True"
+              VerticalScrollBarVisibility="Auto"
+              >
+              <ItemsPresenter />
+            </ScrollViewer>
+
+            <i:Interaction.Behaviors>
+              <behaviors:SynchronizeOffsetBehavior TargetElement="{Binding ElementName=ScrollViewer}" />
+              <behaviors:FixHorizontalScrollbarPosition FixedMargin="20 0 0 0" />
+            </i:Interaction.Behaviors>
           </Grid>
         </ControlTemplate>
       </Setter.Value>

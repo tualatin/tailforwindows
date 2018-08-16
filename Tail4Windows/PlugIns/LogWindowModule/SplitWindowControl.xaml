@@ -62,6 +62,7 @@
         ScrollToItemsEnd="{Binding ElementName=SplitElementCheckBoxScrollToItemsEnd, Path=IsChecked}"
         SelectedItem="{Binding ElementName=SplitWindow, Path=SelectedItem}"
         SelectedText="{Binding ElementName=SplitWindow, Path=SelectedText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+        ShowBookmarkMargin="Visible"
         genericBehaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
         genericBehaviors:ListBoxCopy.AutoCopy="True"
         genericBehaviors:ListBoxSelector.Enabled="True"
@@ -229,13 +230,7 @@
       behaviors:GridSplitterMouseExtension.Enabled="True"
       />
 
-    <logWindowListBox:VsLogWindowControl
-      x:Name="LogWindowMainElement"
-      Grid.Row="2"
-      ShowGridSplitControl="True"
-      />
-
-    <!--<logWindowListBox:LogWindowListBox
+    <logWindowListBox:LogWindowListBox
       x:Name="LogWindowMainElement"
       Grid.Row="2"
       BookmarkImageSize="{Binding CurrentTailData.FontType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource FontTypeToImageSizeConverter}}"
@@ -248,6 +243,7 @@
       ItemsSource="{Binding CollectionView}"
       LastVisibleLogEntryIndex="{Binding ElementName=SplitWindow, Path=LastVisibleLogEntryIndex, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"
       SelectedText="{Binding ElementName=SplitWindow, Path=SelectedText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+      ShowBookmarkMargin="Visible"
       ShowGridSplitControl="True"
       genericBehaviors:ListBoxCopy.AddDateTime="{Binding RelativeSource={RelativeSource Self}, Path=AddDateTime}"
       genericBehaviors:ListBoxCopy.AutoCopy="True"
@@ -266,6 +262,6 @@
             />
         </i:EventTrigger>
       </i:Interaction.Triggers>
-    </logWindowListBox:LogWindowListBox>-->
+    </logWindowListBox:LogWindowListBox>
   </Grid>
 </UserControl>

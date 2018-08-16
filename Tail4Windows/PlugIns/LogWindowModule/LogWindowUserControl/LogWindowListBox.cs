@@ -516,8 +516,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       base.OnApplyTemplate();
 
-      //_scrollViewer = this.Descendents().OfType<ScrollViewer>().FirstOrDefault();
-      _scrollViewer = this.Ancestors().OfType<ScrollViewer>().FirstOrDefault(p => p.Name == "ScrollViewer");
+      _scrollViewer = this.Descendents().OfType<ScrollViewer>().FirstOrDefault();
 
       if ( _scrollViewer == null )
         return;
