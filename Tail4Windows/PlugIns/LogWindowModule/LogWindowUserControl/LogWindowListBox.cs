@@ -57,6 +57,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     #region Public properties
 
     /// <summary>
+    /// Bookmark image size property
+    /// </summary>
+    public static readonly DependencyProperty BookmarkImageSizeProperty = DependencyProperty.Register(nameof(BookmarkImageSize), typeof(double), typeof(LogWindowListBox),
+      new PropertyMetadata(16d));
+
+    /// <summary>
+    /// Bookmark image size
+    /// </summary>
+    public double BookmarkImageSize
+    {
+      get => (double) GetValue(BookmarkImageSizeProperty);
+      set => SetValue(BookmarkImageSizeProperty, value);
+    }
+
+    /// <summary>
     /// ShowBookmarkMargin property
     /// </summary>
     public static readonly DependencyProperty ShowBookmarkMarginProperty = DependencyProperty.Register(nameof(ShowBookmarkMargin), typeof(Visibility), typeof(LogWindowListBox),
@@ -149,8 +164,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Highlight data result <see cref="List{T}"/> of <see cref="TextHighlightData"/> property
     /// </summary>
-    public static readonly DependencyProperty HighlightDataResultProperty = DependencyProperty.Register(nameof(HighlightDataResult), typeof(List<TextHighlightData>), typeof(LogWindowListBox),
-      new PropertyMetadata(null));
+    public static readonly DependencyProperty HighlightDataResultProperty = DependencyProperty.Register(nameof(HighlightDataResult), typeof(List<TextHighlightData>),
+      typeof(LogWindowListBox), new PropertyMetadata(null));
 
     /// <summary>
     /// Highlight data result <see cref="List{T}"/> of <see cref="TextHighlightData"/>
@@ -164,8 +179,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// SelectedText property
     /// </summary>
-    public static readonly DependencyProperty SelectedTextProperty = DependencyProperty.Register(nameof(SelectedText), typeof(string),
-      typeof(LogWindowListBox), new PropertyMetadata(null));
+    public static readonly DependencyProperty SelectedTextProperty = DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(LogWindowListBox),
+      new PropertyMetadata(null));
 
     /// <summary>
     /// SelectedText
@@ -501,7 +516,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       base.OnApplyTemplate();
 
-      _scrollViewer = this.Descendents().OfType<ScrollViewer>().FirstOrDefault();
+      //_scrollViewer = this.Descendents().OfType<ScrollViewer>().FirstOrDefault();
+      _scrollViewer = this.Ancestors().OfType<ScrollViewer>().FirstOrDefault(p => p.Name == "ScrollViewer");
 
       if ( _scrollViewer == null )
         return;

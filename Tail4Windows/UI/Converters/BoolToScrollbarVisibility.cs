@@ -21,12 +21,7 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-      if ( !(value is bool b) )
-        return ScrollBarVisibility.Auto;
-
-      return b ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Auto;
-    }
+      => !(value is bool b) ? ScrollBarVisibility.Auto : (b ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Auto);
 
     /// <summary>
     /// Convert back

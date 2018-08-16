@@ -554,7 +554,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       control.LogWindowSplitElement.CurrentTailData = newValue;
-      control.LogWindowMainElement.CurrentTailData = newValue;
+      control.LogWindowMainElement.MyLogWindowListBox.CurrentTailData = newValue;
 
       control.CurrentTailData.PropertyChanged += control.CurrentTailDataChanged;
     }
@@ -569,12 +569,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         OnPropertyChanged(nameof(HighlightData));
 
         CollectionView.Filter = DynamicFilter;
-        LogWindowMainElement.ScrollToEnd();
+        LogWindowMainElement.MyLogWindowListBox.ScrollToEnd();
         break;
 
       case "Wrap":
 
-        LogWindowMainElement.ScrollToEnd();
+        LogWindowMainElement.MyLogWindowListBox.ScrollToEnd();
         break;
       }
     }
@@ -763,8 +763,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       if ( _splitterPosition <= 0 )
       {
-        LogWindowMainElement.SelectedItem = logEntry;
-        LogWindowMainElement.ScrollIntoView(logEntry);
+        LogWindowMainElement.MyLogWindowListBox.SelectedItem = logEntry;
+        LogWindowMainElement.MyLogWindowListBox.ScrollIntoView(logEntry);
         return;
       }
 
@@ -796,7 +796,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      LogWindowMainElement.UpateHighlighting(HighlightData);
+      LogWindowMainElement.MyLogWindowListBox.UpateHighlighting(HighlightData);
       LogWindowSplitElement.UpateHighlighting(HighlightData);
 
       if ( _notifyTaskCompletion == null )
@@ -861,7 +861,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       FindWhatResults = new ObservableCollection<LogEntry>(_findWhatResults);
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatResultWindowMessage(FindWhatResults, logWindow.First().WindowId));
 
-      LogWindowMainElement.UpateHighlighting(HighlightData);
+      LogWindowMainElement.MyLogWindowListBox.UpateHighlighting(HighlightData);
       LogWindowSplitElement.UpateHighlighting(HighlightData);
 
       if ( _notifyTaskCompletion == null )
@@ -877,7 +877,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _findWhatResults.Clear();
 
       double startIndex = GetCurrentLogWindowIndex();
-      double endIndex = SplitterPosition <= 0 ? LogWindowMainElement.GetViewportHeight() : LogWindowSplitElement.GetViewportHeight();
+      double endIndex = SplitterPosition <= 0 ? LogWindowMainElement.MyLogWindowListBox.GetViewportHeight() : LogWindowSplitElement.GetViewportHeight();
       var count = 0;
 
       while ( true )
@@ -909,14 +909,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         Dispatcher.InvokeAsync(() =>
         {
           if ( SplitterPosition <= 0 )
-            LogWindowMainElement.ScrollToHome();
+            LogWindowMainElement.MyLogWindowListBox.ScrollToHome();
           else
             LogWindowSplitElement.ScrollToHome();
         }, DispatcherPriority.Normal);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
         startIndex = 0;
-        endIndex = SplitterPosition <= 0 ? LogWindowMainElement.GetViewportHeight() : LogWindowSplitElement.GetViewportHeight();
+        endIndex = SplitterPosition <= 0 ? LogWindowMainElement.MyLogWindowListBox.GetViewportHeight() : LogWindowSplitElement.GetViewportHeight();
         count++;
       }
     }
@@ -1008,7 +1008,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private double GetCurrentLogWindowIndex()
     {
       if ( SplitterPosition <= 0 )
-        return _findNextResult?.Index ?? LogWindowMainElement.GetScrollViewerVerticalOffset();
+        return _findNextResult?.Index ?? LogWindowMainElement.MyLogWindowListBox.GetScrollViewerVerticalOffset();
 
       return _findNextResult?.Index ?? LogWindowSplitElement.GetScrollViewerVerticalOffset();
     }
@@ -1132,7 +1132,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         HighlightData.RemoveAll(p => p.IsFindWhat);
         OnPropertyChanged(nameof(HighlightData));
 
-        LogWindowMainElement.UpateHighlighting(HighlightData);
+        LogWindowMainElement.MyLogWindowListBox.UpateHighlighting(HighlightData);
         LogWindowSplitElement.UpateHighlighting(HighlightData);
         return;
       }
@@ -1151,7 +1151,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       HighlightData.RemoveAll(p => p.IsFindWhat);
       OnPropertyChanged(nameof(HighlightData));
 
-      LogWindowMainElement.UpateHighlighting(HighlightData);
+      LogWindowMainElement.MyLogWindowListBox.UpateHighlighting(HighlightData);
       LogWindowSplitElement.UpateHighlighting(HighlightData);
     }
 
@@ -1416,7 +1416,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       if ( SplitterPosition <= 0 )
       {
-        LogWindowMainElement.GoToItemByIndex(index);
+        LogWindowMainElement.MyLogWindowListBox.GoToItemByIndex(index);
         return;
       }
 

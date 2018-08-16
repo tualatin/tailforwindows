@@ -72,6 +72,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.LogWindowUserCon
     }
 
     /// <summary>
+    /// Bookmark image size
+    /// </summary>
+    double BookmarkImageSize
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Highlight data result <see cref="List{T}"/> of <see cref="TextHighlightData"/>
     /// </summary>
     List<TextHighlightData> HighlightDataResult

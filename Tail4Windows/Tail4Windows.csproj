@@ -300,6 +300,7 @@
     <Compile Include="UI\Converters\DoubleToGridLengthConverter.cs" />
     <Compile Include="UI\Converters\FilterCountToStringConverter.cs" />
     <Compile Include="UI\Converters\FontToStringConverter.cs" />
+    <Compile Include="UI\Converters\FontTypeToImageSizeConverter.cs" />
     <Compile Include="UI\Converters\ImageToBoolConverter.cs" />
     <Compile Include="UI\Converters\IntToBoolConverter.cs" />
     <Compile Include="UI\Converters\IntToVisibilityConverter.cs" />
@@ -322,7 +323,6 @@
     <Compile Include="UI\Converters\TailDataListOfFilterToBoolConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\VisibilityToMarginConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\WidthToMarginConverter.cs" />
-    <Compile Include="UI\Converters\TextBoxSizeToImageSizeConverter.cs" />
     <Compile Include="UI\Converters\VisibilityToInverseBoolConverter.cs" />
     <Compile Include="UI\Debuging\DebugBuild.cs" />
     <Compile Include="UI\ExtendedControls\VsPopupEx.cs" />

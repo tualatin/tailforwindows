@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 
+
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 {
   /// <summary>
@@ -16,7 +17,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// ShowGridSplitControl property
     /// </summary>
     public static readonly DependencyProperty ShowGridSplitControlProperty = DependencyProperty.Register(nameof(ShowGridSplitControl), typeof(bool), typeof(VsLogWindowControl),
-      new PropertyMetadata(false));
+      new PropertyMetadata(false, ShowGridSplitControlChangedCallback));
+
+    private static void ShowGridSplitControlChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+      if ( !(d is VsLogWindowControl control) )
+        return;
+
+      control.LogWindowListBoxMain.ShowGridSplitControl = (bool) e.NewValue;
+    }
 
     /// <summary>
     /// ShowGridSplitControl
@@ -26,5 +35,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       get => (bool) GetValue(ShowGridSplitControlProperty);
       set => SetValue(ShowGridSplitControlProperty, value);
     }
+
+    /// <summary>
+    /// <see cref="LogWindowListBox"/> control
+    /// </summary>
+    public LogWindowListBox MyLogWindowListBox => LogWindowListBoxMain;
   }
 }

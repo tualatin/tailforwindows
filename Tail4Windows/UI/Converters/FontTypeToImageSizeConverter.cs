@@ -10,9 +10,10 @@ using Org.Vs.TailForWin.Core.Extensions;
 namespace Org.Vs.TailForWin.UI.Converters
 {
   /// <summary>
-  /// TextBox size to image size converter
+  /// <see cref="FontType"/> to <see cref="double"/> converter
   /// </summary>
-  public class TextBoxSizeToImageSizeConverter : IValueConverter
+  [ValueConversion(typeof(FontType), typeof(double))]
+  public class FontTypeToImageSizeConverter : IValueConverter
   {
     /// <summary>
     /// Convert
@@ -25,18 +26,10 @@ namespace Org.Vs.TailForWin.UI.Converters
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
       if ( !(value is FontType fontType) )
-        return 15;
+        return 16;
 
       Size textSize = "123".GetMeasureTextSize(new Typeface(fontType.FontFamily, fontType.FontStyle, fontType.FontWeight, fontType.FontStretch), fontType.FontSize);
-
-      double height;
-
-      if ( textSize.Height > 16 )
-        height = 16;
-      else if ( textSize.Height < 10 )
-        height = 10;
-      else
-        height = textSize.Height;
+      double height = textSize.Height > 16 ? 16 : (textSize.Height < 10 ? 10 : textSize.Height);
 
       return height - 2;
     }
