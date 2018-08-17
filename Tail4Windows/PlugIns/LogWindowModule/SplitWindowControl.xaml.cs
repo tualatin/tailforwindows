@@ -1271,6 +1271,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
           HighlightData.Add(new TextHighlightData
           {
+            FilterFontType = filterData.FontType,
             TextHighlightColorHex = filterData.FilterColorHex,
             Text = string.Join("|", sr)
           });

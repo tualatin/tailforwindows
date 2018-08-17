@@ -50,7 +50,12 @@ namespace Org.Vs.TailForWin.UI.UserControls
         {
           var run = new Run(item)
           {
-            Foreground = _stringToBrushConverter.Convert(highlightData.TextHighlightColorHex, typeof(Brush), null, null) as Brush
+            Foreground = _stringToBrushConverter.Convert(highlightData.TextHighlightColorHex, typeof(Brush), null, null) as Brush,
+            FontFamily = highlightData.FilterFontType.FontFamily,
+            FontSize =  highlightData.FilterFontType.FontSize,
+            FontStretch = highlightData.FilterFontType.FontStretch,
+            FontStyle = highlightData.FilterFontType.FontStyle,
+            FontWeight = highlightData.FilterFontType.FontWeight
           };
 
           if ( !string.IsNullOrWhiteSpace(highlightData.TextBackgroundColorHex) && highlightData.IsFindWhat )

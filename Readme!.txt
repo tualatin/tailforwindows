@@ -26,6 +26,7 @@ v.2.1.xxxx.x
 * new add/remove Bookmark comment
 * new add Help URL (F1)
 * new configurable editor
+* bug fix filter font settings
 * bug fix layout style Proxy settings
 * bug fix Bookmark image not scaled
 * bug fix TailManager DataGrid ComboBox close first time

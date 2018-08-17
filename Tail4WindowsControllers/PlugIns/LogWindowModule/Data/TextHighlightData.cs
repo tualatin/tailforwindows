@@ -1,4 +1,5 @@
-﻿using Org.Vs.TailForWin.Core.Data.Base;
+﻿using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Data.Base;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
@@ -8,6 +9,24 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
   /// </summary>
   public class TextHighlightData : NotifyMaster
   {
+    private FontType _filterFontType;
+
+    /// <summary>
+    /// Filter text <see cref="FontType"/>
+    /// </summary>
+    public FontType FilterFontType
+    {
+      get => _filterFontType;
+      set
+      {
+        if (Equals(value, _filterFontType))
+          return;
+
+        _filterFontType = value;
+        OnPropertyChanged();
+      }
+    }
+
     private string _text;
 
     /// <summary>
