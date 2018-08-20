@@ -1,8 +1,6 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:data="clr-namespace:Org.Vs.TailForWin.Business.Services.Data;assembly=T4WBusiness"
   xmlns:logWindowListBox="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl"

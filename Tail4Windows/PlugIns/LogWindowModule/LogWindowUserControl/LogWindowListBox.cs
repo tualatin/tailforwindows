@@ -381,30 +381,28 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       _isMouseLeftDownClick = true;
       Point mousePoint = PointToScreen(Mouse.GetPosition(this));
-      Image image = null;
       ContextMenu = null;
+      LogEntry item = null;
 
       switch ( e.OriginalSource )
       {
-      case Grid myGrid:
+      case Border myBorder:
 
-        IEnumerator enumerator = myGrid.Children.GetEnumerator();
-
-        if ( enumerator.MoveNext() )
-          image = enumerator.Current as Image;
-
+        if ( myBorder.DataContext is LogEntry entry )
+          item = entry;
         break;
 
       case Image img:
 
-        image = img;
+        if ( img.DataContext is LogEntry dc )
+          item = dc;
         break;
       }
 
-      if ( !(image?.DataContext is LogEntry item) )
+      if ( item == null )
         return;
 
-      System.Drawing.Rectangle? rcBookmarkpoint = MouseButtonDownHelper(item);
+      var rcBookmarkpoint = MouseButtonDownHelper(item);
 
       if ( rcBookmarkpoint == null )
         return;
@@ -420,6 +418,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       else
       {
         item.BookmarkPoint = null;
+        item.BookmarkToolTip = string.Empty;
       }
     }
 
@@ -721,6 +720,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
           continue;
 
         logEntry.BookmarkPoint = null;
+        logEntry.BookmarkToolTip = string.Empty;
       }
 
       ContextMenu = null;
