@@ -78,24 +78,95 @@
   </Style>
 
   <DataTemplate x:Key="DateTimeLineNumberTemplate" DataType="{x:Type data:LogEntry}">
-    <Grid
+    <SelectiveScrollingGrid
       x:Name="DataTemplateGrid"
       IsSharedSizeScope="True"
       >
-      <Grid.ColumnDefinitions>
+      <SelectiveScrollingGrid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
-        <ColumnDefinition />
-      </Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+      </SelectiveScrollingGrid.ColumnDefinitions>
+
+      <Grid
+        x:Name="Chrome"
+        Grid.Column="1"
+        >
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" SharedSizeGroup="Date" />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+          x:Name="DateTimeEditor"
+          Grid.Column="0"
+          Style="{StaticResource MyDateTimeEditor}"
+          Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=CurrentTailData.Timestamp, Converter={StaticResource BoolToVisibilityConverter}}"
+          >
+          <TextBlock.Margin>
+            <MultiBinding Converter="{StaticResource VisibilityToMarginMultiConverter}" ConverterParameter="DateTimeEditor">
+              <Binding
+                ElementName="BorderLineNumber"
+                Path="Visibility"
+                />
+            </MultiBinding>
+          </TextBlock.Margin>
+        </TextBlock>
+
+        <TextBox
+          x:Name="TextBoxReadOnly"
+          Grid.Column="1"
+          Style="{StaticResource MyEditTextEditor}"
+          >
+          <TextBox.Margin>
+            <MultiBinding Converter="{StaticResource VisibilityToMarginMultiConverter}" ConverterParameter="TextBoxMessage">
+              <Binding
+                ElementName="BorderLineNumber"
+                Path="Visibility"
+                />
+              <Binding
+                ElementName="DateTimeEditor"
+                Path="Visibility"
+                />
+            </MultiBinding>
+          </TextBox.Margin>
+        </TextBox>
+
+        <userControls:HighlightTextBlock
+          x:Name="TextBoxMessage"
+          Grid.Column="1"
+          HighlightText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=HighlightDataResult}"
+          Style="{StaticResource MyTextEditor}"
+          >
+          <userControls:HighlightTextBlock.Margin>
+            <MultiBinding Converter="{StaticResource VisibilityToMarginMultiConverter}" ConverterParameter="TextBoxMessage">
+              <Binding
+                ElementName="BorderLineNumber"
+                Path="Visibility"
+                />
+              <Binding
+                ElementName="DateTimeEditor"
+                Path="Visibility"
+                />
+            </MultiBinding>
+          </userControls:HighlightTextBlock.Margin>
+        </userControls:HighlightTextBlock>
+      </Grid>
 
       <Grid
         Grid.Column="0"
-        Background="Transparent"
-        Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=ShowBookmarkMargin}"
+        Background="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.BackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+        SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
         >
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="20" />
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
+
+        <Border
+          Grid.Column="0"
+          Background="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+          Opacity="0.12"
+          />
 
         <Image
           x:Name="TextBoxBookmarkPoint"
@@ -143,74 +214,8 @@
             />
         </Border>
       </Grid>
+    </SelectiveScrollingGrid>
 
-      <Border
-        x:Name="Chrome"
-        Grid.Column="1"
-        >
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" SharedSizeGroup="Date" />
-            <ColumnDefinition />
-          </Grid.ColumnDefinitions>
-
-          <TextBlock
-            x:Name="DateTimeEditor"
-            Grid.Column="0"
-            Style="{StaticResource MyDateTimeEditor}"
-            Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=CurrentTailData.Timestamp, Converter={StaticResource BoolToVisibilityConverter}}"
-            >
-            <TextBlock.Margin>
-              <MultiBinding Converter="{StaticResource VisibilityToMarginMultiConverter}" ConverterParameter="DateTimeEditor">
-                <Binding
-                  ElementName="BorderLineNumber"
-                  Path="Visibility"
-                  />
-              </MultiBinding>
-            </TextBlock.Margin>
-          </TextBlock>
-
-          <TextBox
-            x:Name="TextBoxReadOnly"
-            Grid.Column="1"
-            Style="{StaticResource MyEditTextEditor}"
-            >
-            <TextBox.Margin>
-              <MultiBinding Converter="{StaticResource VisibilityToMarginMultiConverter}" ConverterParameter="TextBoxMessage">
-                <Binding
-                  ElementName="BorderLineNumber"
-                  Path="Visibility"
-                  />
-                <Binding
-                  ElementName="DateTimeEditor"
-                  Path="Visibility"
-                  />
-              </MultiBinding>
-            </TextBox.Margin>
-          </TextBox>
-
-          <userControls:HighlightTextBlock
-            x:Name="TextBoxMessage"
-            Grid.Column="1"
-            HighlightText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=HighlightDataResult}"
-            Style="{StaticResource MyTextEditor}"
-            >
-            <userControls:HighlightTextBlock.Margin>
-              <MultiBinding Converter="{StaticResource VisibilityToMarginMultiConverter}" ConverterParameter="TextBoxMessage">
-                <Binding
-                  ElementName="BorderLineNumber"
-                  Path="Visibility"
-                  />
-                <Binding
-                  ElementName="DateTimeEditor"
-                  Path="Visibility"
-                  />
-              </MultiBinding>
-            </userControls:HighlightTextBlock.Margin>
-          </userControls:HighlightTextBlock>
-        </Grid>
-      </Border>
-    </Grid>
     <DataTemplate.Triggers>
       <DataTrigger Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}">
         <Setter TargetName="Chrome" Property="Background">
@@ -254,7 +259,6 @@
               HorizontalAlignment="Left"
               Fill="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
               Opacity="0.12"
-              Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=ShowBookmarkMargin}"
               />
 
             <ScrollViewer
@@ -264,13 +268,70 @@
               IsDeferredScrollingEnabled="True"
               VerticalScrollBarVisibility="Auto"
               >
+              <ScrollViewer.Template>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                  <Grid>
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="*" />
+                      <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <ScrollContentPresenter
+                      x:Name="PART_ScrollContentPresenter"
+                      Grid.Row="1"
+                      Grid.ColumnSpan="2"
+                      CanContentScroll="{TemplateBinding CanContentScroll}"
+                      />
+
+
+                    <ScrollBar
+                      Name="PART_VerticalScrollBar"
+                      Grid.Row="1"
+                      Grid.Column="2"
+                      Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                      Maximum="{TemplateBinding ScrollableHeight}"
+                      Orientation="Vertical"
+                      ViewportSize="{TemplateBinding ViewportHeight}"
+                      Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                      />
+
+                    <Grid
+                      Grid.Row="2"
+                      Grid.Column="1"
+                      >
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                      </Grid.ColumnDefinitions>
+
+                      <ScrollBar
+                        Name="PART_HorizontalScrollBar"
+                        Grid.Column="1"
+                        Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+                        Maximum="{TemplateBinding ScrollableWidth}"
+                        Orientation="Horizontal"
+                        ViewportSize="{TemplateBinding ViewportWidth}"
+                        Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                        />
+                    </Grid>
+                  </Grid>
+                </ControlTemplate>
+              </ScrollViewer.Template>
+
               <ItemsPresenter />
             </ScrollViewer>
 
-            <i:Interaction.Behaviors>
+            <!--<i:Interaction.Behaviors>
               <behaviors:SynchronizeOffsetBehavior TargetElement="{Binding ElementName=ScrollViewer}" />
               <behaviors:FixHorizontalScrollbarPosition FixedMargin="20 0 0 0" />
-            </i:Interaction.Behaviors>
+            </i:Interaction.Behaviors>-->
           </Grid>
         </ControlTemplate>
       </Setter.Value>

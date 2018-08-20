@@ -247,9 +247,6 @@
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\GridSplitterMouseExtension.cs" />
     <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\LogEntryScrollBehavior.cs" />
     <Compile Include="PlugIns\LogWindowModule\Utils\LogWindowControlDummy.cs" />
-    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\VsLogWindowControl.xaml.cs">
-      <DependentUpon>VsLogWindowControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="PlugIns\PatternModule\PatternControl.xaml.cs">
       <DependentUpon>PatternControl.xaml</DependentUpon>
     </Compile>
@@ -570,10 +567,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlugIns\LogWindowModule\SplitWindowControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\LogWindowModule\LogWindowUserControl\VsLogWindowControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

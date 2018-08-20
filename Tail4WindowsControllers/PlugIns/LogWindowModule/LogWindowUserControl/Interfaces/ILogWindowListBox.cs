@@ -63,15 +63,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.LogWindowUserCon
     }
 
     /// <summary>
-    /// Show bookmark margin
-    /// </summary>
-    Visibility ShowBookmarkMargin
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
     /// Bookmark image size
     /// </summary>
     double BookmarkImageSize
