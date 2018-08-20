@@ -89,7 +89,7 @@ namespace Org.Vs.TailForWin.Core.Extensions
         if ( !(size.Width >= maxsize) )
           continue;
 
-        cuttext = cuttext.Substring(0, cuttext.Length - 3).Trim();
+        cuttext = cuttext.Substring(0, cuttext.Length > 3 ? cuttext.Length - 3 : cuttext.Length).Trim();
         cuttext += "...";
         break;
       }
