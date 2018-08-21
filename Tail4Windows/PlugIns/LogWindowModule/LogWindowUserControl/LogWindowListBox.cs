@@ -662,7 +662,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     #region Command functions
 
-    private bool CanExecuteUndoCommand() => CurrentTailData != null && CurrentTailData.CanUndo;
+    private bool CanExecuteUndoCommand() => CurrentTailData != null && CurrentTailData.OpenFromFileManager && CurrentTailData.CanUndo;
 
     private void ExecuteUndoCommand() => CurrentTailData.Undo();
 

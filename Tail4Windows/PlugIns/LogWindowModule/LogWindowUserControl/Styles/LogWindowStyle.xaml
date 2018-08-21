@@ -312,7 +312,6 @@
                       <Border
                         Grid.Column="0"
                         Height="18"
-                        MinWidth="150"
                         Background="{StaticResource BrushSolidWhite}"
                         BorderBrush="{StaticResource BrushSolidGrey20}"
                         BorderThickness="1"
@@ -328,56 +327,46 @@
                             Orientation="Horizontal"
                             >
                             <Button
-                              x:Name="UndoButton"
-                              Width="10"
                               Height="10"
                               Margin="5 0"
                               Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=UndoCommand}"
                               >
                               <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
-                                  <Image
-                                    RenderOptions.BitmapScalingMode="HighQuality"
-                                    RenderOptions.EdgeMode="Aliased"
-                                    Source="/T4W;component/Resources/Cancel.ico"
-                                    >
-                                    <Image.Style>
-                                      <Style TargetType="{x:Type Image}">
-                                        <Style.Triggers>
-                                          <Trigger Property="IsEnabled" Value="False">
-                                            <Setter Property="Opacity" Value="0.5" />
-                                          </Trigger>
-                                        </Style.Triggers>
-                                      </Style>
-                                    </Image.Style>
-                                  </Image>
+                                  <Grid>
+                                    <Grid.ColumnDefinitions>
+                                      <ColumnDefinition Width="Auto" />
+                                      <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
+                                    <Image
+                                      Grid.Column="0"
+                                      RenderOptions.BitmapScalingMode="HighQuality"
+                                      RenderOptions.EdgeMode="Aliased"
+                                      Source="/T4W;component/Resources/Cancel.ico"
+                                      >
+                                      <Image.Style>
+                                        <Style TargetType="{x:Type Image}">
+                                          <Style.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                              <Setter Property="Opacity" Value="0.5" />
+                                            </Trigger>
+                                          </Style.Triggers>
+                                        </Style>
+                                      </Image.Style>
+                                    </Image>
+
+                                    <Label
+                                      Grid.Column="1"
+                                      Margin="4 -1 2 0"
+                                      Content="{DynamicResource FileManagerUndo}"
+                                      FontFamily="Calibri"
+                                      FontSize="11"
+                                      />
+                                  </Grid>
                                 </ControlTemplate>
                               </Button.Template>
                             </Button>
-
-                            <TextBox
-                              Margin="2"
-                              Text="{DynamicResource FileManagerUndo}"
-                              FontFamily="Calibri"
-                              FontSize="11"
-                              IsEnabled="{Binding ElementName=UndoButton, Path=IsEnabled}"
-                              IsReadOnly="True"
-                              >
-                              <TextBox.Template>
-                                <ControlTemplate TargetType="{x:Type TextBox}">
-                                  <TextBlock
-                                    x:Name="TextBlock"
-                                    Text="{TemplateBinding Text}"
-                                    />
-                                  <ControlTemplate.Triggers>
-                                    <Trigger Property="IsEnabled" Value="False" SourceName="TextBlock">
-                                      <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey10}" />
-                                    </Trigger>
-                                  </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                              </TextBox.Template>
-                            </TextBox>
                           </StackPanel>
                         </Grid>
                       </Border>
