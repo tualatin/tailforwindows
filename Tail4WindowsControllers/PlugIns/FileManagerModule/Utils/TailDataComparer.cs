@@ -30,6 +30,9 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Utils
       {
       case EFileSort.FileCreationTime:
 
+        if ( xFm.IsWindowsEvent || yFm.IsWindowsEvent )
+          return FileCompare(xFm, yFm);
+
         DateTime nx = xFm.FileCreationTime ?? DateTime.MaxValue;
         DateTime ny = yFm.FileCreationTime ?? DateTime.MaxValue;
 
@@ -37,12 +40,17 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Utils
 
       default:
 
-        string xs = xFm.File;
-        string ys = yFm.File;
-
-        // ReSharper disable once StringCompareToIsCultureSpecific
-        return xs.CompareTo(ys);
+        return FileCompare(xFm, yFm);
       }
+    }
+
+    private static int FileCompare(TailData xFm, TailData yFm)
+    {
+      string xs = xFm.File;
+      string ys = yFm.File;
+
+      // ReSharper disable once StringCompareToIsCultureSpecific
+      return xs.CompareTo(ys);
     }
   }
 }

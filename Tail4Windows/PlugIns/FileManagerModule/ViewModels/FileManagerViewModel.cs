@@ -359,6 +359,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( !(SelectedItem.Clone() is TailData newItem) )
         return;
 
+      if ( SettingsHelperController.CurrentSettings.GroupByCategory )
+        FileManagerView.GroupDescriptions.Clear();
+
       newItem.Id = Guid.NewGuid();
       newItem.FileName = string.Empty;
       newItem.IsLoadedByXml = false;
@@ -376,6 +379,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       SelectedItem = FileManagerCollection.Last();
 
       OnPropertyChanged(nameof(FileManagerView));
+
+      if ( SettingsHelperController.CurrentSettings.GroupByCategory )
+        SetFileManagerViewGrouping();
     }
 
     private void ExecuteOpenWindowsEventsCommand(Window window)
