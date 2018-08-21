@@ -359,6 +359,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( !(SelectedItem.Clone() is TailData newItem) )
         return;
 
+      FileManagerView.CustomSort = null;
+
       if ( SettingsHelperController.CurrentSettings.GroupByCategory )
         FileManagerView.GroupDescriptions.Clear();
 
@@ -381,7 +383,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       OnPropertyChanged(nameof(FileManagerView));
 
       if ( SettingsHelperController.CurrentSettings.GroupByCategory )
-        SetFileManagerViewGrouping();
+      {
+        if ( FileManagerCollection.Count >= 2 )
+          SetFileManagerViewGrouping();
+      }
     }
 
     private void ExecuteOpenWindowsEventsCommand(Window window)
