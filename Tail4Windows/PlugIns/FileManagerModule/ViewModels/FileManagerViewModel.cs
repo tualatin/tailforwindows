@@ -380,13 +380,13 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       FileManagerCollection.Add(newItem);
       SelectedItem = FileManagerCollection.Last();
 
-      OnPropertyChanged(nameof(FileManagerView));
-
       if ( SettingsHelperController.CurrentSettings.GroupByCategory )
       {
         if ( FileManagerCollection.Count >= 2 )
           SetFileManagerViewGrouping();
       }
+
+      OnPropertyChanged(nameof(FileManagerView));
     }
 
     private void ExecuteOpenWindowsEventsCommand(Window window)
