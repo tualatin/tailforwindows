@@ -53,7 +53,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     private ContextMenu _readOnlyTextBoxContextMenu;
     private readonly StringToWindowMediaBrushConverter _stringToBrushConverter;
 
-
     #region Public properties
 
     /// <summary>
