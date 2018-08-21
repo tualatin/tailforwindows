@@ -621,6 +621,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     #region Commands
 
+    private ICommand _undoCommand;
+
+    /// <summary>
+    /// Undo command
+    /// </summary>
+    public ICommand UndoCommand => _undoCommand ?? (_undoCommand = new RelayCommand(p => CanExecuteUndoCommand(), p => ExecuteUndoCommand()));
+
     private ICommand _addToFilterCommand;
 
     /// <summary>
@@ -633,7 +640,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Add to find what command
     /// </summary>
-    private ICommand AddToFindWhatCommand => _addToFindWhatCommand ?? (_addToFindWhatCommand = new RelayCommand(p => CanExecuteAddToFindWhatCommand(), p => ExecuteAddToFindWhatCommand()));
+    private ICommand AddToFindWhatCommand => _addToFindWhatCommand ?? (_addToFindWhatCommand = new RelayCommand(p => CanExecuteAddToFindWhatCommand(),
+                                               p => ExecuteAddToFindWhatCommand()));
 
     private ICommand _removeBookmarksCommand;
 
@@ -654,6 +662,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     #region Command functions
 
+    private bool CanExecuteUndoCommand() => CurrentTailData != null && CurrentTailData.CanUndo;
+
+    private void ExecuteUndoCommand() => CurrentTailData.Undo();
+
     private void ExecuteAddBookmarkCommentCommand(object args)
     {
       if ( !(args is LogEntry item) )
@@ -663,13 +675,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       RaiseEvent(eventArgs);
     }
 
-    private bool CanExecuteAddToFilterCommand()
-    {
-      if ( _readOnlyTextMessage == null || _readOnlyTextMessage.Visibility == Visibility.Collapsed )
-        return false;
-
-      return _readOnlyTextMessage.SelectionLength > 0;
-    }
+    private bool CanExecuteAddToFilterCommand() => _readOnlyTextMessage != null && _readOnlyTextMessage.Visibility != Visibility.Collapsed && _readOnlyTextMessage.SelectionLength > 0;
 
     private void ExecuteAddToFilterCommand()
     {
