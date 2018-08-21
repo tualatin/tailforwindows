@@ -739,10 +739,17 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void SetFileManagerViewGrouping()
     {
-      FileManagerView.GroupDescriptions.Clear();
+      try
+      {
+        FileManagerView.GroupDescriptions.Clear();
 
-      if ( SettingsHelperController.CurrentSettings.GroupByCategory )
-        FileManagerView.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
+        if ( SettingsHelperController.CurrentSettings.GroupByCategory )
+          FileManagerView.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
+      }
+      catch
+      {
+        // Nothing
+      }
     }
 
     private async Task<bool> WaitAsync()
