@@ -105,6 +105,7 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
@@ -283,9 +284,66 @@
             Width="22"
             Height="22"
             Margin="0 0 2 0"
+            Command="{Binding CopyElementCommand}"
+            TabIndex="6"
+            >
+            <StackPanel Margin="3">
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Copy.png"
+                >
+                <Image.Style>
+                  <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                      <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Image.Style>
+              </Image>
+            </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource FileManagerCopyElement}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource FileManagerCopyElementToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+
+          <Button
+            Grid.Column="4"
+            Width="22"
+            Height="22"
+            Margin="0 0 2 0"
             Command="{Binding DeleteTailDataCommand}"
             Style="{StaticResource RemoveItemButtonStyle}"
-            TabIndex="6"
+            TabIndex="7"
             >
             <Button.ToolTip>
               <StackPanel>
@@ -320,12 +378,12 @@
           </Button>
 
           <CheckBox
-            Grid.Column="5"
+            Grid.Column="6"
             Height="22"
             Content="{DynamicResource FileManagerGroupByCategory}"
             Command="{Binding GroupByClickCommand}"
             IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=GroupByCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            TabIndex="7"
+            TabIndex="8"
             >
             <CheckBox.ToolTip>
               <StackPanel>
@@ -379,7 +437,7 @@
           Margin="5 3"
           VerticalAlignment="Center"
           Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}"
-          TabIndex="8"
+          TabIndex="9"
           behaviors:FocusBehavior.IsFocused="{Binding FilterHasFocus, UpdateSourceTrigger=PropertyChanged}"
           >
           <userControls:WatermarkTextBox.Watermark>
@@ -402,7 +460,7 @@
         IsSynchronizedWithCurrentItem="True"
         ItemsSource="{Binding FileManagerView}"
         SelectionMode="Extended"
-        TabIndex="9"
+        TabIndex="10"
         >
         <i:Interaction.Triggers>
           <i:EventTrigger EventName="MouseDoubleClick">
@@ -642,7 +700,7 @@
                   VerticalAlignment="Center"
                   Command="{Binding FontCommand}"
                   CommandParameter="{Binding ElementName=FileManagerWindow}"
-                  TabIndex="10"
+                  TabIndex="11"
                   >
                   <StackPanel>
                     <Image
@@ -715,7 +773,7 @@
                   VerticalAlignment="Center"
                   Command="{Binding FilterCommand}"
                   CommandParameter="{Binding ElementName=FileManagerWindow}"
-                  TabIndex="11"
+                  TabIndex="12"
                   >
                   <StackPanel>
                     <Image
@@ -739,7 +797,7 @@
                       <TextBlock
                         Margin="0 0 0 5"
                         Text="{DynamicResource ExtendedTailSettingsFilterLabel}"
-                        FontSize="12"
+                        FontSize="13"
                         FontWeight="Bold"
                         />
                       <TextBlock Text="{DynamicResource FileManagerUseFilterToolTip}" />
@@ -777,7 +835,7 @@
                   Content="{DynamicResource FileManagerUseFilter}"
                   IsChecked="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.FilterState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                   IsEnabled="{Binding Path=SelectedItem.ListOfFilter.Count, ElementName=TailManagerDataGrid, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntToBoolConverter}}"
-                  TabIndex="12"
+                  TabIndex="14"
                   >
                   <CheckBox.ToolTip>
                     <StackPanel>
@@ -821,7 +879,7 @@
                   Margin="5 0"
                   Content="{DynamicResource FileManagerIsWindowsEvent}"
                   IsChecked="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                  TabIndex="13"
+                  TabIndex="15"
                   >
                   <CheckBox.ToolTip>
                     <StackPanel>
@@ -864,7 +922,7 @@
                   Command="{Binding OpenWindowsEventsCommand}"
                   CommandParameter="{Binding ElementName=FileManagerWindow}"
                   IsEnabled="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged}"
-                  TabIndex="14"
+                  TabIndex="16"
                   >
                   <StackPanel>
                     <Image
@@ -930,7 +988,7 @@
                   Command="{Binding PatternControlCommand}"
                   CommandParameter="{Binding ElementName=FileManagerWindow}"
                   IsEnabled="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmartWatch, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                  TabIndex="15"
+                  TabIndex="17"
                   >
                   <StackPanel>
                     <Image
@@ -985,7 +1043,7 @@
                   Height="22"
                   Content="{DynamicResource FileManagerUsePattern}"
                   IsChecked="{Binding Path=SelectedItem.UsePattern, ElementName=TailManagerDataGrid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  TabIndex="16"
+                  TabIndex="18"
                   >
                   <CheckBox.IsEnabled>
                     <MultiBinding Converter="{StaticResource IsEnableMultiConverter}">
@@ -1046,7 +1104,7 @@
                 ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=ThreadPriority}"
                 SelectedValue="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.ThreadPriority, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 SelectedValuePath="ThreadPriority"
-                TabIndex="17"
+                TabIndex="19"
                 >
                 <ComboBox.ToolTip>
                   <StackPanel>
@@ -1100,7 +1158,7 @@
                 IsEnabled="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanConverter}}"
                 ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=FileEncoding}"
                 SelectedValue="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.FileEncoding, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                TabIndex="18"
+                TabIndex="20"
                 >
                 <ComboBox.ToolTip>
                   <StackPanel>
@@ -1155,7 +1213,7 @@
                 ItemsSource="{Binding Source={x:Static utils:EnvironmentContainer.Instance}, Path=RefreshRate}"
                 SelectedValue="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.RefreshRate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 SelectedValuePath="RefreshRate"
-                TabIndex="19"
+                TabIndex="21"
                 >
                 <ComboBox.ToolTip>
                   <StackPanel>
@@ -1195,7 +1253,7 @@
                 Height="22"
                 Content="{DynamicResource FileManagerOpenInNewWindow}"
                 IsChecked="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.NewWindow, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                TabIndex="20"
+                TabIndex="22"
                 >
                 <CheckBox.ToolTip>
                   <StackPanel>
@@ -1235,7 +1293,7 @@
                 Height="22"
                 Content="{DynamicResource ComboBoxRemoveSpace}"
                 IsChecked="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.RemoveSpace, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                TabIndex="21"
+                TabIndex="23"
                 >
                 <CheckBox.ToolTip>
                   <StackPanel>
@@ -1275,7 +1333,7 @@
                 Height="22"
                 Content="{DynamicResource FileManagerLineWrap}"
                 IsChecked="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.Wrap, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                TabIndex="22"
+                TabIndex="24"
                 >
                 <CheckBox.ToolTip>
                   <StackPanel>
@@ -1315,7 +1373,7 @@
                 Height="22"
                 Content="{DynamicResource ComboBoxTimeStamp}"
                 IsChecked="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.Timestamp, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                TabIndex="23"
+                TabIndex="25"
                 >
                 <CheckBox.ToolTip>
                   <StackPanel>
@@ -1366,7 +1424,7 @@
                   Margin="6 0"
                   HorizontalAlignment="Left"
                   SelectedColor="{Binding ElementName=TailManagerDataGrid, Path=SelectedItem.TabItemBackgroundColorStringHex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToWindowsMediaColorConverter}}"
-                  TabIndex="24"
+                  TabIndex="26"
                   />
               </StackPanel>
             </Grid>

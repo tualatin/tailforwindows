@@ -336,9 +336,47 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public ICommand OpenWindowsEventsCommand => _openWindowsEventsCommand ?? (_openWindowsEventsCommand = new RelayCommand(p => ExecuteOpenWindowsEventsCommand((Window) p)));
 
+    private ICommand _copyElementCommand;
+
+    /// <summary>
+    /// Copy element command
+    /// </summary>
+    public ICommand CopyElementCommand => _copyElementCommand ?? (_copyElementCommand = new RelayCommand(p => CanExecuteCopyElement(), p => ExecuteCopyElementCommand()));
+
     #endregion
 
     #region Command functions
+
+    private bool CanExecuteCopyElement() => SelectedItem != null;
+
+    private void ExecuteCopyElementCommand()
+    {
+      if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerQCopyElement").ToString()) == MessageBoxResult.No )
+        return;
+
+      MouseService.SetBusyState();
+
+      if ( !(SelectedItem.Clone() is TailData newItem) )
+        return;
+
+      newItem.Id = Guid.NewGuid();
+      newItem.FileName = string.Empty;
+      newItem.IsLoadedByXml = false;
+
+      newItem.CommitChanges();
+      newItem.FindSettings.CommitChanges();
+      newItem.WindowsEvent.CommitChanges();
+
+      Parallel.ForEach(newItem.ListOfFilter, p =>
+      {
+        p.FindSettingsData.CommitChanges();
+      });
+
+      FileManagerCollection.Add(newItem);
+      SelectedItem = FileManagerCollection.Last();
+
+      OnPropertyChanged(nameof(FileManagerView));
+    }
 
     private void ExecuteOpenWindowsEventsCommand(Window window)
     {

@@ -111,6 +111,9 @@
   <system:String x:Key="FileManagerRemoveToolTip">Deletes current selected data</system:String>
   <system:String x:Key="FileManagerAdd">Add</system:String>
   <system:String x:Key="FileManagerAddToolTip">Adds new data</system:String>
+  <system:String x:Key="FileManagerCopyElement">Clone entry</system:String>
+  <system:String x:Key="FileManagerCopyElementToolTip">Clone current entry and insert as new</system:String>
+  <system:String x:Key="FileManagerQCopyElement">Do you want copy current element and insert it as new one?</system:String>
   <system:String x:Key="FileManagerDataGridFileName">Filename</system:String>
   <system:String x:Key="FileManagerDataGridDescription">Description</system:String>
   <system:String x:Key="FileManagerDataGridCategory">Category</system:String>

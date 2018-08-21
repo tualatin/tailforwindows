@@ -188,5 +188,13 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
     {
       get;
     }
+
+    /// <summary>
+    /// Copy element command
+    /// </summary>
+    ICommand CopyElementCommand
+    {
+      get;
+    }
   }
 }

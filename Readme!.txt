@@ -9,6 +9,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.1.xxxx.x
+* new copy element in TailManager
 * new continuous scrolling or push
 * new single instance
 * new SplitWindow filter by bookmark or certain filter text (Ctrl+Alt+T)

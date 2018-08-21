@@ -111,6 +111,9 @@
   <system:String x:Key="FileManagerRemoveToolTip">Löscht die aktuell ausgewählte Zeile</system:String>
   <system:String x:Key="FileManagerAdd">Hinzufügen</system:String>
   <system:String x:Key="FileManagerAddToolTip">Fügt neue Daten hinzu</system:String>
+  <system:String x:Key="FileManagerCopyElement">Klone Eintrag</system:String>
+  <system:String x:Key="FileManagerCopyElementToolTip">Klone den aktuellen Eintrag und füge ihn als Neuen hinzu</system:String>
+  <system:String x:Key="FileManagerQCopyElement">Möchten Sie den ausgewählten Datensatz kopieren und als neuen hinzufügen?</system:String>
   <system:String x:Key="FileManagerDataGridFileName">Dateiname</system:String>
   <system:String x:Key="FileManagerDataGridDescription">Bezeichnung</system:String>
   <system:String x:Key="FileManagerDataGridCategory">Kategorie</system:String>
