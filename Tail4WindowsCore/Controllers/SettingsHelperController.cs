@@ -163,6 +163,19 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>Task</returns>
     public async Task SaveSettingsAsync(CancellationTokenSource cts) => await Task.Run(() => SaveSettings(), cts.Token).ConfigureAwait(false);
 
+    /// <summary>
+    /// Reset current color settings
+    /// </summary>
+    /// <param name="cts"><see cref="CancellationTokenSource"/></param>
+    /// <returns>Task</returns>
+    public async Task SetDefaultColorsAsync(CancellationTokenSource cts)
+    {
+      SetDefaultLogViewerSettings();
+      SetDefaultStatusBarSettings();
+
+      await SaveSettingsAsync(cts);
+    }
+
     private void SaveSettings()
     {
       lock ( MyLock )

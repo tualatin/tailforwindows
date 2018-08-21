@@ -208,7 +208,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Save current settings
     /// </summary>
-    /// <param name="cts">CancellationTokenSource</param>
+    /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
     public async Task SaveSettingsAsync(CancellationTokenSource cts) => await _settings.SaveSettingsAsync(cts).ConfigureAwait(false);
 
@@ -222,9 +222,16 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Reset current setting to default values
     /// </summary>
-    /// <param name="cts">CancellationTokenSource</param>
+    /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
     public async Task ResetCurrentSettingsAsync(CancellationTokenSource cts) => await _settings.SetDefaultSettingsAsync(cts).ConfigureAwait(false);
+
+    /// <summary>
+    /// Reset current color settings
+    /// </summary>
+    /// <param name="cts"><see cref="CancellationTokenSource"/></param>
+    /// <returns>Task</returns>
+    public async Task SetDefaultColorsAsync(CancellationTokenSource cts) => await _settings.SetDefaultColorsAsync(cts).ConfigureAwait(false);
 
     /// <summary>
     /// Current installed .NET version

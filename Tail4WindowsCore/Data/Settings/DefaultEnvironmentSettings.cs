@@ -246,12 +246,12 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default value search hightlight background color
     /// </summary>
-    public const string SearchHighlightBackgroundColor = "#FFFF0000";
+    public const string SearchHighlightBackgroundColor = "#FFCC00";
 
     /// <summary>
     /// Default value search hightlight foreground color
     /// </summary>
-    public const string SearchHighlightForegroundColor = "#FFF5F5F5";
+    public const string SearchHighlightForegroundColor = "#000000";
 
     /// <summary>
     /// Default value Splitter background color

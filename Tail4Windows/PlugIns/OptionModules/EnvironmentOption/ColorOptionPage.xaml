@@ -8,7 +8,7 @@
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels"
   mc:Ignorable="d"
-  d:DesignHeight="300"
+  d:DesignHeight="380"
   d:DesignWidth="500"
   >
   <UserControl.DataContext>
@@ -21,8 +21,9 @@
     >
     <Grid UseLayoutRounding="True">
       <Grid.RowDefinitions>
-        <RowDefinition />
-        <RowDefinition />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
 
       <GroupBox
@@ -111,6 +112,50 @@
           </userControls:VsDataGrid>
         </Grid>
       </GroupBox>
+
+      <Button
+        Grid.Row="2"
+        Height="24"
+        MinWidth="140"
+        Margin="5"
+        Padding="5 0"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Content="{DynamicResource ColorOptionResetColorSettings}"
+        Command="{Binding SetDefaultColorsCommand}"
+        TabIndex="3"
+        >
+        <Button.ToolTip>
+          <StackPanel>
+            <TextBlock
+              Margin="0 0 0 5"
+              Text="{DynamicResource ColorOptionResetColorSettings}"
+              FontSize="12"
+              FontWeight="Bold"
+              />
+            <TextBlock Text="{DynamicResource ColorOptionResetColorSettingsToolTip}" />
+            <Border
+              Margin="0 8"
+              BorderBrush="Silver"
+              BorderThickness="0 1 0 0"
+              />
+            <WrapPanel>
+              <Image
+                Width="16"
+                Height="16"
+                Margin="0 0 5 0"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Search.ico"
+                />
+              <TextBlock
+                Text="{DynamicResource GeneralToolTipHint}"
+                FontStyle="Italic"
+                />
+            </WrapPanel>
+          </StackPanel>
+        </Button.ToolTip>
+      </Button>
     </Grid>
   </ScrollViewer>
 </UserControl>

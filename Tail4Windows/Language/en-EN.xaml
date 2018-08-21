@@ -369,6 +369,8 @@
   <system:String x:Key="ColorOptionLineNumberColor">Line number color</system:String>
   <system:String x:Key="ColorOptionLineNumberHighlightColor">Line number highlight color</system:String>
   <system:String x:Key="ColorOptionSplitterBackgroundColor">Splitter background color</system:String>
+  <system:String x:Key="ColorOptionResetColorSettings">Set default colors</system:String>
+  <system:String x:Key="ColorOptionResetColorSettingsToolTip">Reset all colors to default values</system:String>
 
   <system:String x:Key="ColorOptionStatusBarInactiveColor">Statusbar inactive color</system:String>
   <system:String x:Key="ColorOptionStatusBarLoadedColor">Statusbar file loaded color</system:String>

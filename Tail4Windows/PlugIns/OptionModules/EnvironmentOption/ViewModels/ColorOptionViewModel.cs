@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces;
@@ -45,6 +48,13 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     /// </summary>
     public ICommand UnloadedCommand => throw new NotImplementedException();
 
+    private IAsyncCommand _setDefaultColorsCommand;
+
+    /// <summary>
+    /// Set default colors command
+    /// </summary>
+    public IAsyncCommand SetDefaultColorsCommand => _setDefaultColorsCommand ?? (_setDefaultColorsCommand = AsyncCommand.Create(ExecuteSetDefaultColorsCommandAsync));
+
     /// <summary>
     /// Standard constructor
     /// </summary>
@@ -52,6 +62,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     {
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ResetDataMessage>(ResetData);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ResetDataMessage>(ResetData);
+
+      ((AsyncCommand<object>) SetDefaultColorsCommand).PropertyChanged += OnSetDefaultColorsPropertyChanged;
 
       LogViewerColorData = new ObservableCollection<ControlColorData>();
       LogViewerColorData.CollectionChanged += ColorDataCollectionChanged;
@@ -61,6 +73,12 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
       AddLogViewerColorOptions();
       AddStatusbarColorOptions();
+    }
+
+    private async Task ExecuteSetDefaultColorsCommandAsync()
+    {
+      MouseService.SetBusyState();
+      await EnvironmentContainer.Instance.SetDefaultColorsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2))).ConfigureAwait(false);
     }
 
     private void ColorDataCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -154,7 +172,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
     private void ResetData(ResetDataMessage args)
     {
-      if ( !(args.Sender is ImportExportOptionViewModel) )
+      if ( !(args.Sender is ImportExportOptionViewModel) && !(args.Sender is ColorOptionViewModel) )
         return;
 
       LogViewerColorData.Clear();
@@ -250,5 +268,13 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     }
 
     #endregion
+
+    private void OnSetDefaultColorsPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      ResetData(new ResetDataMessage(this));
+    }
   }
 }

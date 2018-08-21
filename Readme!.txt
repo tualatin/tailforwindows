@@ -26,6 +26,7 @@ v.2.1.xxxx.x
 * new add/remove Bookmark comment
 * new add Help URL (F1)
 * new configurable editor
+* new reset colors to default values
 * bug fix remove Bookmark comment
 * bug fix text measure converter
 * bug fix filter font settings

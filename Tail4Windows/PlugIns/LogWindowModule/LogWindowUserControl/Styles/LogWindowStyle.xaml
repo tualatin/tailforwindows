@@ -8,14 +8,14 @@
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   >
   <Style x:Key="MyLineNumberText" TargetType="{x:Type TextBlock}">
-    <Setter Property="Foreground" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
+    <Setter Property="Foreground" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}" />
     <Setter Property="Text" Value="{Binding Index, Mode=OneWay}" />
     <Setter Property="TextAlignment" Value="Right" />
     <Style.Triggers>
       <DataTrigger Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}">
         <Setter Property="Foreground">
           <Setter.Value>
-            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberHighlightColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}}" po:Freeze="True" />
+            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberHighlightColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}, UpdateSourceTrigger=PropertyChanged}" po:Freeze="True" />
           </Setter.Value>
         </Setter>
       </DataTrigger>
@@ -152,7 +152,7 @@
 
       <Grid
         Grid.Column="0"
-        Background="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.BackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+        Background="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.BackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
         SelectiveScrollingGrid.SelectiveScrollingOrientation="Vertical"
         >
         <Grid.ColumnDefinitions>
@@ -162,7 +162,7 @@
 
         <Border
           Grid.Column="0"
-          Background="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+          Background="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
           Opacity="0.12"
           />
 
@@ -197,7 +197,7 @@
                 <Rectangle
                   Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
                   Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"
-                  Stroke="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+                  Stroke="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
                   StrokeDashArray="2 6"
                   StrokeThickness="0.6"
                   />
@@ -218,7 +218,7 @@
       <DataTrigger Value="True" Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}}">
         <Setter TargetName="Chrome" Property="Background">
           <Setter.Value>
-            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.SelectionBackgroundColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}}" Opacity="0.4" po:Freeze="True" />
+            <SolidColorBrush Color="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.SelectionBackgroundColorHex, Converter={StaticResource StringToWindowsMediaColorConverter}, UpdateSourceTrigger=PropertyChanged}" Opacity="0.4" po:Freeze="True" />
           </Setter.Value>
         </Setter>
       </DataTrigger>
@@ -236,8 +236,8 @@
   </Style>
 
   <Style x:Key="{x:Type logWindowListBox:LogWindowListBox}" TargetType="{x:Type logWindowListBox:LogWindowListBox}">
-    <Setter Property="Background" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.BackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
-    <Setter Property="Foreground" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.ForegroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}" />
+    <Setter Property="Background" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.BackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}" />
+    <Setter Property="Foreground" Value="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.ForegroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}" />
     <Setter Property="ItemContainerStyle" Value="{StaticResource ItemStyle}" />
     <Setter Property="ItemTemplate" Value="{StaticResource DateTimeLineNumberTemplate}" />
     <Setter Property="ItemsPanel">
@@ -255,7 +255,7 @@
             <Rectangle
               Width="20"
               HorizontalAlignment="Left"
-              Fill="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}}"
+              Fill="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
               Opacity="0.12"
               />
 

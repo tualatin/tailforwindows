@@ -19,7 +19,7 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// <summary>
     /// Reads current settings
     /// </summary>
-    /// <param name="cts">CancellationTokenSource</param>
+    /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
     Task ReadSettingsAsync(CancellationTokenSource cts);
 
@@ -32,7 +32,7 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// <summary>
     /// Writes current settings
     /// </summary>
-    /// <param name="cts">CancellationTokenSource</param>
+    /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
     Task SaveSettingsAsync(CancellationTokenSource cts);
 
@@ -45,9 +45,16 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// <summary>
     /// Reset current settings
     /// </summary>
-    /// <param name="cts">CancellationTokenSource</param>
+    /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
     Task SetDefaultSettingsAsync(CancellationTokenSource cts);
+
+    /// <summary>
+    /// Reset current color settings
+    /// </summary>
+    /// <param name="cts"><see cref="CancellationTokenSource"/></param>
+    /// <returns>Task</returns>
+    Task SetDefaultColorsAsync(CancellationTokenSource cts);
 
     /// <summary>
     /// Reloads current settings
@@ -60,7 +67,7 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// Adds a new property to config file
     /// </summary>
     /// <param name="newSettings">List of configuration pair</param>
-    /// <param name="cts">CancellationTokenSource</param>
+    /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
     Task AddNewPropertyAsync(Dictionary<string, string> newSettings, CancellationTokenSource cts);
   }
