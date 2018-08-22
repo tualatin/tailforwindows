@@ -357,6 +357,7 @@
                                     </Image>
 
                                     <Label
+                                      x:Name="ButtonLabel"
                                       Grid.Column="1"
                                       Margin="4 -1 2 0"
                                       Content="{DynamicResource FileManagerUndo}"
@@ -364,6 +365,12 @@
                                       FontSize="11"
                                       />
                                   </Grid>
+
+                                  <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                      <Setter TargetName="ButtonLabel" Property="Foreground" Value="#6DC2E9" />
+                                    </Trigger>
+                                  </ControlTemplate.Triggers>
                                 </ControlTemplate>
                               </Button.Template>
                             </Button>

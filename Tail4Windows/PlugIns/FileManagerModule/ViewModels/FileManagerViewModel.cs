@@ -453,10 +453,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private bool CanExecuteUndo()
     {
-      if ( SelectedItem?.FindSettings == null || SelectedItem.WindowsEvent == null )
+      if ( FileManagerCollection == null || FileManagerCollection.Count == 0 )
         return false;
 
-      return SelectedItem.FindSettings.CanUndo || SelectedItem.CanUndo;
+      var unsavedItems = FileManagerCollection.Where(p => p.CanUndo || p.FindSettings.CanUndo).ToList();
+
+      return unsavedItems.Count > 0;
     }
 
     private void ExecuteUndoCommand() => SelectedItem?.Undo();
@@ -546,13 +548,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( errors.Count == 0 )
         unsavedItems = FileManagerCollection.Where(p => !p.IsLoadedByXml).ToList();
 
-      if ( errors.Count > 0 )
-        return false;
-
-      if ( !PreventDuplicateItems() )
-        return false;
-
-      return unsavedItems.Count > 0 || undo;
+      return errors.Count <= 0 && PreventDuplicateItems() && (unsavedItems.Count > 0 || undo);
     }
 
     private async Task ExecuteSaveCommandAsync()
