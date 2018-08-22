@@ -228,10 +228,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private bool CanExecuteUndo()
     {
-      if ( SelectedItem?.FindSettingsData == null )
+      if ( FilterManagerCollection == null || FilterManagerCollection.Count == 0 )
         return false;
 
-      return SelectedItem.CanUndo || SelectedItem.FindSettingsData.CanUndo;
+      var unsavedItems = FilterManagerCollection.Where(p => p.CanUndo || p.FindSettingsData != null && p.FindSettingsData.CanUndo).ToList();
+
+      return unsavedItems.Count > 0;
     }
 
     private void ExecuteUndoCommand()
@@ -280,9 +282,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private bool CanExecuteSaveCommand()
     {
-      if ( CurrentTailData == null )
-        return false;
-
       var errors = GetFilterErrors();
       bool undo = CanExecuteUndo();
 
