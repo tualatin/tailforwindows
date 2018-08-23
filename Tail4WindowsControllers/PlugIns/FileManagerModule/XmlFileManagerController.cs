@@ -137,7 +137,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
           }).ToList() ?? new List<FilterData>();
 
           filters.ForEach(f => data.ListOfFilter.Add(f));
-
           files.Add(data);
         });
 
@@ -153,13 +152,13 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 
     private async Task ModifyFileNameBySmartWatchAsync(ObservableCollection<TailData> result)
     {
-      foreach ( TailData item in result.Where(p => p.SmartWatch && p.UsePattern).ToList() )
+      foreach ( TailData item in result.Where(p => p != null && p.SmartWatch && p.UsePattern).ToList() )
       {
         item.OriginalFileName = item.FileName;
         item.FileName = await _smartWatchController.GetFileNameByPatternAsync(item, item.PatternString).ConfigureAwait(false);
       }
 
-      foreach ( TailData item in result.Where(p => p.SmartWatch && !p.UsePattern).ToList() )
+      foreach ( TailData item in result.Where(p => p != null && p.SmartWatch && !p.UsePattern).ToList() )
       {
         item.OriginalFileName = item.FileName;
         item.FileName = await _smartWatchController.GetFileNameBySmartWatchAsync(item).ConfigureAwait(false);

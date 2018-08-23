@@ -49,8 +49,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Utils
       string xs = xFm.File;
       string ys = yFm.File;
 
-      // ReSharper disable once StringCompareToIsCultureSpecific
-      return xs.CompareTo(ys);
+      try
+      {
+        // ReSharper disable once StringCompareToIsCultureSpecific
+        return xs.CompareTo(ys);
+      }
+      catch
+      {
+        return 1;
+      }
     }
   }
 }
