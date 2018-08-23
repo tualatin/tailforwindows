@@ -43,11 +43,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       set
       {
         _currenTailData = value;
-
-        if ( _currenTailData == null )
-          SaveButtonVisibility = Visibility.Collapsed;
-        else
-          SaveButtonVisibility = CurrentTailData.IsLoadedByXml ? Visibility.Visible : Visibility.Collapsed;
+        SaveButtonVisibility = _currenTailData == null ? Visibility.Collapsed : (CurrentTailData.IsLoadedByXml ? Visibility.Visible : Visibility.Collapsed);
 
         OnPropertyChanged();
       }
@@ -282,6 +278,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private bool CanExecuteSaveCommand()
     {
+      if ( FilterManagerCollection == null || FilterManagerCollection.Count == 0 )
+        return false;
+
       var errors = GetFilterErrors();
       bool undo = CanExecuteUndo();
 
@@ -353,6 +352,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private List<FilterData> GetFilterErrors()
     {
+      if ( FilterManagerCollection == null )
+        return new List<FilterData>();
+
       var errors = FilterManagerCollection.Where(p => p["Description"] != null || p["Filter"] != null || p["FilterSource"] != null || p["IsHighlight"] != null).ToList();
       return errors;
     }

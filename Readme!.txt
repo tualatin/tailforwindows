@@ -40,6 +40,7 @@ v.2.1.xxxx.x
 * bug fix update highlighting, when no highlight source is available
 * bug fix select file in TailManager -> button event worked after two clicks
 * bug fix Checkboxes in DataGrid -> event worked after two clicks
+* bug fix load data from TailManager -> suddenly changed
 
 v2.0.6778.x
 * improve export/import

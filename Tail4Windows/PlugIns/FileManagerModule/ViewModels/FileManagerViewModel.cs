@@ -782,6 +782,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private List<TailData> GetErrors()
     {
+      if ( FileManagerCollection == null || FileManagerCollection.Count == 0 )
+        return new List<TailData>();
+
       var errors = FileManagerCollection.Where(p => p["Description"] != null || p["FileName"] != null).ToList();
       return errors;
     }
