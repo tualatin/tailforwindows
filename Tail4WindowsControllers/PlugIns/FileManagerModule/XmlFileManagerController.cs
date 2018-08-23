@@ -90,39 +90,39 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       {
         _xmlDocument = XDocument.Load(_fileManagerFile);
         var xmlVersion = _xmlDocument.Root?.Element(XmlNames.XmlVersion)?.Value.ConvertToDecimal();
-        decimal version;
+        decimal version = xmlVersion.HasValue ? (xmlVersion.Value == decimal.MinValue ? XmlNames.CurrentXmlVersion : xmlVersion.Value) : XmlNames.CurrentXmlVersion;
+        var files = new List<TailData>();
 
-        if ( xmlVersion.HasValue )
-          version = xmlVersion.Value == decimal.MinValue ? XmlNames.CurrentXmlVersion : xmlVersion.Value;
-        else
-          version = XmlNames.CurrentXmlVersion;
-
-        var files = _xmlDocument.Root?.Descendants(XmlNames.File).AsParallel().Select(p => new TailData
+        Parallel.ForEach(_xmlDocument.Root?.Descendants(XmlNames.File) ?? new List<XElement>(), p =>
         {
-          Version = version,
-          Id = GetIdByElement(p.Element(XmlNames.Id)?.Value),
-          IsLoadedByXml = true,
-          Description = p.Element(XmlNames.Description)?.Value,
-          FileName = p.Element(XmlNames.FileName)?.Value,
-          OriginalFileName = p.Element(XmlNames.FileName)?.Value,
-          Category = p.Element(XmlNames.Category)?.Value,
-          Wrap = (p.Element(XmlNames.LineWrap)?.Value).ConvertToBool(),
-          RemoveSpace = (p.Element(XmlNames.RemoveSpace)?.Value).ConvertToBool(),
-          Timestamp = (p.Element(XmlNames.TimeStamp)?.Value).ConvertToBool(),
-          NewWindow = (p.Element(XmlNames.NewWindow)?.Value).ConvertToBool(),
-          SmartWatch = (p.Element(XmlNames.UseSmartWatch)?.Value).ConvertToBool(),
-          UsePattern = (p.Element(XmlNames.UsePattern)?.Value).ConvertToBool(),
-          WindowsEvent = GetWindowsEventData(p.Element(XmlNames.WindowsEvent)),
-          IsWindowsEvent = (p.Element(XmlNames.IsWindowsEvent)?.Value).ConvertToBool(),
-          TabItemBackgroundColorStringHex = GetColorAsString(p.Element(XmlNames.TabItemBackgroundColor)?.Value),
-          ThreadPriority = EnvironmentContainer.GetThreadPriority(p.Element(XmlNames.ThreadPriority)?.Value),
-          RefreshRate = EnvironmentContainer.GetRefreshRate(p.Element(XmlNames.RefreshRate)?.Value),
-          FileEncoding = GetEncoding(p.Element(XmlNames.FileEncoding)?.Value),
-          FilterState = (p.Element(XmlNames.UseFilters)?.Value).ConvertToBool(),
-          FontType = GetFont(p.Element(XmlNames.Font)),
-          FindSettings = GetSearchPatternFindSettings(p.Element(XmlNames.SearchPattern)),
-          PatternString = p.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.PatternString)?.Value,
-          ListOfFilter = new ObservableCollection<FilterData>(p.Element(XmlNames.Filters)?.Descendants(XmlNames.Filter).Select(x => new FilterData
+          var data = new TailData
+          {
+            Version = version,
+            Id = GetIdByElement(p.Element(XmlNames.Id)?.Value),
+            IsLoadedByXml = true,
+            Description = p.Element(XmlNames.Description)?.Value,
+            FileName = p.Element(XmlNames.FileName)?.Value,
+            OriginalFileName = p.Element(XmlNames.FileName)?.Value,
+            Category = p.Element(XmlNames.Category)?.Value,
+            Wrap = (p.Element(XmlNames.LineWrap)?.Value).ConvertToBool(),
+            RemoveSpace = (p.Element(XmlNames.RemoveSpace)?.Value).ConvertToBool(),
+            Timestamp = (p.Element(XmlNames.TimeStamp)?.Value).ConvertToBool(),
+            NewWindow = (p.Element(XmlNames.NewWindow)?.Value).ConvertToBool(),
+            SmartWatch = (p.Element(XmlNames.UseSmartWatch)?.Value).ConvertToBool(),
+            UsePattern = (p.Element(XmlNames.UsePattern)?.Value).ConvertToBool(),
+            WindowsEvent = GetWindowsEventData(p.Element(XmlNames.WindowsEvent)),
+            IsWindowsEvent = (p.Element(XmlNames.IsWindowsEvent)?.Value).ConvertToBool(),
+            TabItemBackgroundColorStringHex = GetColorAsString(p.Element(XmlNames.TabItemBackgroundColor)?.Value),
+            ThreadPriority = EnvironmentContainer.GetThreadPriority(p.Element(XmlNames.ThreadPriority)?.Value),
+            RefreshRate = EnvironmentContainer.GetRefreshRate(p.Element(XmlNames.RefreshRate)?.Value),
+            FileEncoding = GetEncoding(p.Element(XmlNames.FileEncoding)?.Value),
+            FilterState = (p.Element(XmlNames.UseFilters)?.Value).ConvertToBool(),
+            FontType = GetFont(p.Element(XmlNames.Font)),
+            FindSettings = GetSearchPatternFindSettings(p.Element(XmlNames.SearchPattern)),
+            PatternString = p.Element(XmlNames.SearchPattern)?.Element(XmlBaseStructure.PatternString)?.Value,
+          };
+
+          var filters = p.Element(XmlNames.Filters)?.Descendants(XmlNames.Filter).Select(x => new FilterData
           {
             Id = GetIdByElement(x.Element(XmlNames.Id)?.Value),
             Description = x.Element(XmlNames.FilterName)?.Value,
@@ -134,11 +134,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
             UseNotification = (x.Element(XmlNames.FilterNotification)?.Value).ConvertToBool(),
             FilterSource = (x.Element(XmlNames.FilterSource)?.Value).ConvertToBool(true),
             IsEnabled = (x.Element(XmlNames.IsEnabled)?.Value).ConvertToBool(true)
-          }).ToList() ?? new List<FilterData>())
-        }).ToList();
+          }).ToList() ?? new List<FilterData>();
 
-        if ( files != null )
-          result = new ObservableCollection<TailData>(files);
+          filters.ForEach(f => data.ListOfFilter.Add(f));
+
+          files.Add(data);
+        });
+
+        result = new ObservableCollection<TailData>(files);
       }
       catch ( Exception ex )
       {

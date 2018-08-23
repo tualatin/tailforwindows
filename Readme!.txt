@@ -41,6 +41,7 @@ v.2.1.xxxx.x
 * bug fix select file in TailManager -> button event worked after two clicks
 * bug fix Checkboxes in DataGrid -> event worked after two clicks
 * bug fix load data from TailManager -> suddenly changed
+* bug fix change filter data properties -> only after reopen visibile
 
 v2.0.6778.x
 * improve export/import

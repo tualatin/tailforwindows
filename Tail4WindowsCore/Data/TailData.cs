@@ -62,7 +62,7 @@ namespace Org.Vs.TailForWin.Core.Data
 
         foreach ( FilterData item in e.OldItems )
         {
-          item.PropertyChanged -= ItemPropertyChanged;
+          item.PropertyChanged -= OnFilterItemPropertyChanged;
           OnPropertyChanged(nameof(ListOfFilter));
         }
         break;
@@ -71,7 +71,7 @@ namespace Org.Vs.TailForWin.Core.Data
 
         foreach ( FilterData item in e.NewItems )
         {
-          item.PropertyChanged += ItemPropertyChanged;
+          item.PropertyChanged += OnFilterItemPropertyChanged;
           OnPropertyChanged(nameof(ListOfFilter));
         }
         break;
@@ -92,6 +92,14 @@ namespace Org.Vs.TailForWin.Core.Data
 
         throw new ArgumentOutOfRangeException();
       }
+    }
+
+    private void OnFilterItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( e.PropertyName == "CanUndo" || e.PropertyName == "CanRedo" )
+        return;
+
+      OnPropertyChanged("FilterItem");
     }
 
     private decimal _version;
