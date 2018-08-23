@@ -613,17 +613,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteCloseCommand(Window window)
     {
-      var errors = GetErrors();
-
-      if ( errors.Count > 0 )
-      {
-        foreach ( var filterData in errors )
-        {
-          FileManagerCollection.Remove(filterData);
-        }
-
-        OnPropertyChanged(nameof(FileManagerView));
-      }
+      RemoveErrorsFromList();
 
       var unsavedItems = FileManagerCollection.Where(p => p.CanUndo || p.FindSettings.CanUndo).ToList();
 
@@ -637,7 +627,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         {
           foreach ( var item in unsavedItems )
           {
-            FileManagerCollection.Remove(item);
+            while ( item.CanUndo )
+            {
+              item.Undo();
+            }
           }
         }
       }
@@ -647,6 +640,36 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     }
 
     #endregion
+
+    private void RemoveErrorsFromList()
+    {
+      var errors = GetErrors();
+
+      if ( errors.Count <= 0 )
+        return;
+
+      // 1. All undo
+      foreach ( var data in errors )
+      {
+        while ( data.CanUndo )
+        {
+          data.Undo();
+        }
+      }
+
+      // 2. Remove all errors from list
+      errors = GetErrors();
+
+      if ( errors.Count <= 0 )
+        return;
+
+      foreach ( var data in errors )
+      {
+        FileManagerCollection.Remove(data);
+      }
+
+      OnPropertyChanged(nameof(FileManagerCollection));
+    }
 
     private void WindowsEventCategoriesOnOpenWindowsEvent(object sender, OnOpenWindowsEventArgs e)
     {

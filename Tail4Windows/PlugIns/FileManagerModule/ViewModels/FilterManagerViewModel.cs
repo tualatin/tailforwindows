@@ -325,7 +325,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         {
           foreach ( var item in unsavedItems )
           {
-            FilterManagerCollection.Remove(item);
+            while ( item.CanUndo )
+            {
+              item.Undo();
+            }
           }
         }
       }
@@ -338,6 +341,21 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     private void RemoveErrorsFromList()
     {
       var errors = GetFilterErrors();
+
+      if ( errors.Count <= 0 )
+        return;
+
+      // 1. All undo
+      foreach ( var filterData in errors )
+      {
+        while ( filterData.CanUndo )
+        {
+          filterData.Undo();
+        }
+      }
+
+      // 2. Remove all errors from list
+      errors = GetFilterErrors();
 
       if ( errors.Count <= 0 )
         return;
