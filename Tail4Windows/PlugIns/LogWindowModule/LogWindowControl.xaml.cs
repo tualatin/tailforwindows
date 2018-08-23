@@ -1015,6 +1015,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       task.PropertyChanged += OnWaitingForTailWorkerSmartWatchPropertyChanged;
       tailData.OpenFromSmartWatch = true;
 
+      tailData.CommitChanges();
       CreateTailDataWindow(tailData);
     }
 
