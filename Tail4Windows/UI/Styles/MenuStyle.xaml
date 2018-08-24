@@ -23,7 +23,7 @@
             <Grid>
               <Rectangle
                 Width="28"
-                Margin="1 -2"
+                Margin="1 0"
                 HorizontalAlignment="Left"
                 Fill="{StaticResource BrushSolidMenuIconPlaceColor}"
                 />
