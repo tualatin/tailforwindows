@@ -492,9 +492,18 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand DeactivatedCommand => _deactivatedCommand ?? (_deactivatedCommand = new RelayCommand(p => ExecuteDeactivatedCommand()));
 
+    private ICommand _trayIconLeftCommand;
+
+    /// <summary>
+    /// TrayIcon left command
+    /// </summary>
+    public ICommand TrayIconLeftCommand => _trayIconLeftCommand ?? (_trayIconLeftCommand = new RelayCommand(p => ExecuteTrayIconLeftCommand()));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteTrayIconLeftCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new BringMainWindowToFrontMessage(this));
 
     private void ExecuteActivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
 

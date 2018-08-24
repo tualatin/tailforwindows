@@ -120,6 +120,7 @@
     <taskbarNotification:TaskbarIcon
       x:Name="TbIcon"
       IconSource="/T4W;component/Resources/Main.ico"
+      LeftClickCommand="{Binding TrayIconLeftCommand}"
       >
       <taskbarNotification:TaskbarIcon.ContextMenu>
         <ContextMenu ItemsSource="{Binding TrayIconItemsSource}" />
