@@ -26,6 +26,7 @@ v.2.1.xxxx.x
 * new add Help URL (F1)
 * new configurable editor
 * new reset colors to default values
+* new click on TrayIcon brings main window into front
 * bug fix TailManager sort if entry is Window event
 * bug fix remove Bookmark comment
 * bug fix text measure converter
