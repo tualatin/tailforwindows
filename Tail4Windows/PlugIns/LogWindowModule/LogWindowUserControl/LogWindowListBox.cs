@@ -257,7 +257,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// Update highlighting in <see cref="TextBlock"/>
     /// </summary>
     /// <param name="result"></param>
-    public void UpateHighlighting(List<TextHighlightData> result)
+    public void UpdateHighlighting(List<TextHighlightData> result)
     {
       if ( ItemsSource == null || result == null || result.Count == 0 )
         return;
@@ -401,17 +401,17 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( item == null )
         return;
 
-      var rcBookmarkpoint = MouseButtonDownHelper(item);
+      var rcBookmarkPoint = MouseButtonDownHelper(item);
 
-      if ( rcBookmarkpoint == null )
+      if ( rcBookmarkPoint == null )
         return;
 
-      if ( !rcBookmarkpoint.Value.Contains((int) mousePoint.X, (int) mousePoint.Y) && _isMouseLeftDownClick )
+      if ( !rcBookmarkPoint.Value.Contains((int) mousePoint.X, (int) mousePoint.Y) && _isMouseLeftDownClick )
         return;
 
       if ( item.BookmarkPoint == null )
       {
-        BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Boomark.png");
+        BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark.png");
         item.BookmarkPoint = bp;
       }
       else
@@ -441,13 +441,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( item.BookmarkPoint == null )
         return;
 
-      var rcBookmarkpoint = MouseButtonDownHelper(item);
+      var rcBookmarkPoint = MouseButtonDownHelper(item);
       var mousePoint = PointToScreen(Mouse.GetPosition(this));
 
-      if ( rcBookmarkpoint == null )
+      if ( rcBookmarkPoint == null )
         return;
 
-      if ( !rcBookmarkpoint.Value.Contains((int) mousePoint.X, (int) mousePoint.Y) && _isMouseLeftDownClick )
+      if ( !rcBookmarkPoint.Value.Contains((int) mousePoint.X, (int) mousePoint.Y) && _isMouseLeftDownClick )
         return;
 
       var contentContextMenu = new ContextMenu();

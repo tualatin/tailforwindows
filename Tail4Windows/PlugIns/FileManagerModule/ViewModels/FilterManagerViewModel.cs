@@ -32,18 +32,18 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     #region Properties
 
-    private TailData _currenTailData;
+    private TailData _currentTailData;
 
     /// <summary>
     /// Current <see cref="TailData"/>
     /// </summary>
     private TailData CurrentTailData
     {
-      get => _currenTailData;
+      get => _currentTailData;
       set
       {
-        _currenTailData = value;
-        SaveButtonVisibility = _currenTailData == null ? Visibility.Collapsed : (CurrentTailData.IsLoadedByXml ? Visibility.Visible : Visibility.Collapsed);
+        _currentTailData = value;
+        SaveButtonVisibility = _currentTailData == null ? Visibility.Collapsed : (CurrentTailData.IsLoadedByXml ? Visibility.Visible : Visibility.Collapsed);
 
         OnPropertyChanged();
       }

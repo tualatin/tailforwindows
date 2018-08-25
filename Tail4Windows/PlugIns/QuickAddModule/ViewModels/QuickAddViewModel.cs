@@ -32,20 +32,20 @@ namespace Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels
 
     #region Properties
 
-    private TailData _currenTailData;
+    private TailData _currentTailData;
 
     /// <summary>
     /// Current <see cref="TailData"/>
     /// </summary>
     public TailData CurrentTailData
     {
-      get => _currenTailData;
+      get => _currentTailData;
       set
       {
-        if ( value == _currenTailData )
+        if ( value == _currentTailData )
           return;
 
-        _currenTailData = value;
+        _currentTailData = value;
         OnPropertyChanged();
       }
     }

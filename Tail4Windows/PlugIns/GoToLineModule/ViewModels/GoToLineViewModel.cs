@@ -27,7 +27,7 @@ namespace Org.Vs.TailForWin.PlugIns.GoToLineModule.ViewModels
     }
 
     /// <summary>
-    /// Max linenumber
+    /// Max line number
     /// </summary>
     public int MaxLines
     {
@@ -36,7 +36,7 @@ namespace Org.Vs.TailForWin.PlugIns.GoToLineModule.ViewModels
     }
 
     /// <summary>
-    /// Min linenumber
+    /// Min line number
     /// </summary>
     public int MinLines
     {

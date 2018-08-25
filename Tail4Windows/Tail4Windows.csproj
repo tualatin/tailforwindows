@@ -480,7 +480,7 @@
     <Resource Include="Resources\paypal.png" />
     <Resource Include="Resources\transparent.png" />
     <Resource Include="Resources\colorfont_icon.png" />
-    <Resource Include="Resources\Boomark.png" />
+    <Resource Include="Resources\Bookmark.png" />
     <Resource Include="Resources\Delete_Bookmark.png" />
     <Resource Include="Resources\RightArrow.cur" />
     <Page Include="BaseView\Options.xaml">

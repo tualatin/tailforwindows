@@ -43,7 +43,7 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
     private bool _isExpanded;
 
     /// <summary>
-    /// Is exapnded
+    /// Is expanded
     /// </summary>
     public bool IsExpanded
     {
@@ -218,7 +218,7 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
     private bool IsCriteriaMatched(string criteria) => string.IsNullOrEmpty(criteria) || Name.Contains(criteria);
 
     /// <summary>
-    /// Expand all childs
+    /// Expand all child
     /// </summary>
     public void Expand()
     {
@@ -231,7 +231,7 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
     }
 
     /// <summary>
-    /// Collapse all childs
+    /// Collapse all child
     /// </summary>
     public void Collapse()
     {

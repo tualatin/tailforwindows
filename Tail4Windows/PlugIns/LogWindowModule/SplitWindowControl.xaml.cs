@@ -483,7 +483,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             var windows = this.Ancestors().OfType<Window>().ToList();
             var smartWatchPopup = new SmartWatchPopup
             {
-              CurrenTailData = CurrentTailData,
+              CurrentTailData = CurrentTailData,
               FileName = file,
               ShouldClose = true,
               MainWindow = windows.FirstOrDefault()
@@ -788,7 +788,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !IsRightWindow(args.WindowGuid) )
         return;
 
-      _notifyTaskCompletion = NotifyTaskCompletion.Create(StartSearchingFindNexdAsync(args.FindData, args.SearchText));
+      _notifyTaskCompletion = NotifyTaskCompletion.Create(StartSearchingFindNextAsync(args.FindData, args.SearchText));
       _notifyTaskCompletion.PropertyChanged += FindNextPropertyChanged;
     }
 
@@ -797,8 +797,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      LogWindowMainElement.UpateHighlighting(HighlightData);
-      LogWindowSplitElement.UpateHighlighting(HighlightData);
+      LogWindowMainElement.UpdateHighlighting(HighlightData);
+      LogWindowSplitElement.UpdateHighlighting(HighlightData);
 
       if ( _notifyTaskCompletion == null )
         return;
@@ -862,8 +862,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       FindWhatResults = new ObservableCollection<LogEntry>(_findWhatResults);
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatResultWindowMessage(FindWhatResults, logWindow.First().WindowId));
 
-      LogWindowMainElement.UpateHighlighting(HighlightData);
-      LogWindowSplitElement.UpateHighlighting(HighlightData);
+      LogWindowMainElement.UpdateHighlighting(HighlightData);
+      LogWindowSplitElement.UpdateHighlighting(HighlightData);
 
       if ( _notifyTaskCompletion == null )
         return;
@@ -872,7 +872,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _notifyTaskCompletion = null;
     }
 
-    private async Task StartSearchingFindNexdAsync(FindData findData, string searchText)
+    private async Task StartSearchingFindNextAsync(FindData findData, string searchText)
     {
       MouseService.SetBusyState();
       _findWhatResults.Clear();
@@ -896,7 +896,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         // II.)
         // Look into hidden items
-        result = await SearchInHiddentemsAsync(result.EndIndex, findData, searchText).ConfigureAwait(false);
+        result = await SearchInHiddenItemsAsync(result.EndIndex, findData, searchText).ConfigureAwait(false);
 
         if ( result.Result )
           break;
@@ -925,7 +925,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private async Task<FindNextResult> SearchInVisibleItemsAsync(double start, double end, FindData findData, string searchText) =>
       await SearchInItemsAsync(start, end, findData, searchText).ConfigureAwait(false);
 
-    private async Task<FindNextResult> SearchInHiddentemsAsync(double start, FindData findData, string searchText) =>
+    private async Task<FindNextResult> SearchInHiddenItemsAsync(double start, FindData findData, string searchText) =>
       await SearchInItemsAsync(start, LogEntries.Count, findData, searchText).ConfigureAwait(false);
 
     private async Task<FindNextResult> SearchInItemsAsync(double start, double end, FindData findData, string searchText)
@@ -1006,13 +1006,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       return findNext ?? new FindNextResult(false, stop);
     }
 
-    private double GetCurrentLogWindowIndex()
-    {
-      if ( SplitterPosition <= 0 )
-        return _findNextResult?.Index ?? LogWindowMainElement.GetScrollViewerVerticalOffset();
-
-      return _findNextResult?.Index ?? LogWindowSplitElement.GetScrollViewerVerticalOffset();
-    }
+    private double GetCurrentLogWindowIndex() =>
+      SplitterPosition <= 0 ? _findNextResult?.Index ?? LogWindowMainElement.GetScrollViewerVerticalOffset() :
+      _findNextResult?.Index ?? LogWindowSplitElement.GetScrollViewerVerticalOffset();
 
     private async Task StartAllSearchingAsync(FindData findData, string searchText)
     {
@@ -1133,8 +1129,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         HighlightData.RemoveAll(p => p.IsFindWhat);
         OnPropertyChanged(nameof(HighlightData));
 
-        LogWindowMainElement.UpateHighlighting(HighlightData);
-        LogWindowSplitElement.UpateHighlighting(HighlightData);
+        LogWindowMainElement.UpdateHighlighting(HighlightData);
+        LogWindowSplitElement.UpdateHighlighting(HighlightData);
         return;
       }
 
@@ -1152,8 +1148,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       HighlightData.RemoveAll(p => p.IsFindWhat);
       OnPropertyChanged(nameof(HighlightData));
 
-      LogWindowMainElement.UpateHighlighting(HighlightData);
-      LogWindowSplitElement.UpateHighlighting(HighlightData);
+      LogWindowMainElement.UpdateHighlighting(HighlightData);
+      LogWindowSplitElement.UpdateHighlighting(HighlightData);
     }
 
     private bool SplitElementDynamicFilter(object item)

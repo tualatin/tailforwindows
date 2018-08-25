@@ -35,7 +35,7 @@
   <system:String x:Key="FilterNotEmpty">The filter value cannot be null!</system:String>
   <system:String x:Key="FiltersLoaded">{0} filters</system:String>
   <system:String x:Key="FilterLoaded">{0} filter</system:String>
-  <system:String x:Key="FileManagerCloseUnsaveItem">There are unsaved changes. Do you want to save this changes?</system:String>
+  <system:String x:Key="FileManagerCloseUnsavedItem">There are unsaved changes. Do you want to save this changes?</system:String>
   <system:String x:Key="GoToLineNumber">Line number ({0}-{1}):</system:String>
   <system:String x:Key="NoUpdate">No update necessary</system:String>
   <system:String x:Key="DoUpdate">New update available</system:String>

@@ -127,13 +127,13 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
     /// <summary>
     /// MouseDouble click command
     /// </summary>
-    public ICommand MouseDoubleClickCommand => _mouseDoubleClickCommand ?? (_mouseDoubleClickCommand = new RelayCommand(p => CanExecuteOpenCommand(), ExecuteMouseDoubleClickCommmand));
+    public ICommand MouseDoubleClickCommand => _mouseDoubleClickCommand ?? (_mouseDoubleClickCommand = new RelayCommand(p => CanExecuteOpenCommand(), ExecuteMouseDoubleClickCommand));
 
     #endregion
 
     #region Command functions
 
-    private void ExecuteMouseDoubleClickCommmand(object param)
+    private void ExecuteMouseDoubleClickCommand(object param)
     {
       if ( !(param is object[] o) )
         return;

@@ -22,13 +22,13 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule
     /// </summary>
     public TailData CurrentTailData
     {
-      get => _patternControlViewModel?.CurrenTailData;
+      get => _patternControlViewModel?.CurrentTailData;
       set
       {
         if ( _patternControlViewModel == null )
           return;
 
-        _patternControlViewModel.CurrenTailData = value;
+        _patternControlViewModel.CurrentTailData = value;
       }
     }
 

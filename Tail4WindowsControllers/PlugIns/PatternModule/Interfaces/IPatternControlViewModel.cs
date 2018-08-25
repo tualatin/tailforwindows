@@ -15,7 +15,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces
     /// <summary>
     /// Current <see cref="TailData"/>
     /// </summary>
-    TailData CurrenTailData
+    TailData CurrentTailData
     {
       get;
       set;

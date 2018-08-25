@@ -31,7 +31,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.SmartWatchPopupModule.Interfaces
     /// <summary>
     /// Gets / sets current <see cref="TailData"/>
     /// </summary>
-    TailData CurrenTailData
+    TailData CurrentTailData
     {
       get;
       set;

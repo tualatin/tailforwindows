@@ -217,12 +217,12 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
     #region Commands
 
-    private ICommand _loadeCommand;
+    private ICommand _loadedCommand;
 
     /// <summary>
     /// Loaded command
     /// </summary>
-    public ICommand LoadedCommand => _loadeCommand ?? (_loadeCommand = new RelayCommand(p => ExecuteLoadedCommand()));
+    public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(p => ExecuteLoadedCommand()));
 
     private ICommand _closingCommand;
 

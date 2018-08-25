@@ -47,7 +47,7 @@
       <Label
         Margin="5"
         VerticalAlignment="Center"
-        Content="{Binding CurrenTailData.File, UpdateSourceTrigger=PropertyChanged}"
+        Content="{Binding CurrentTailData.File, UpdateSourceTrigger=PropertyChanged}"
         Style="{StaticResource WindowTitleLabel}"
         />
     </GroupBox>
@@ -163,7 +163,7 @@
               Height="22"
               Margin="10 5"
               Content="{DynamicResource FilterManagerWildCard}"
-              IsChecked="{Binding CurrenTailData.FindSettings.UseWildcard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              IsChecked="{Binding CurrentTailData.FindSettings.UseWildcard, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
               TabIndex="3"
               >
               <CheckBox.ToolTip>
@@ -204,7 +204,7 @@
               Height="22"
               Margin="0 5"
               Content="{DynamicResource FileManagerDataGridIsRegex}"
-              IsChecked="{Binding CurrenTailData.FindSettings.UseRegex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+              IsChecked="{Binding CurrentTailData.FindSettings.UseRegex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
               TabIndex="4"
               >
               <CheckBox.ToolTip>
@@ -265,7 +265,7 @@
       Height="22"
       Margin="10 5"
       Content="{DynamicResource FileManagerUsePattern}"
-      IsChecked="{Binding CurrenTailData.UsePattern, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+      IsChecked="{Binding CurrentTailData.UsePattern, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
       TabIndex="5"
       />
   </Grid>

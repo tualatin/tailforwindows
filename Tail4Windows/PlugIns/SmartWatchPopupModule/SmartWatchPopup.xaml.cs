@@ -16,15 +16,15 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule
     /// <summary>
     /// Gets / sets current <see cref="TailData"/>
     /// </summary>
-    public TailData CurrenTailData
+    public TailData CurrentTailData
     {
-      get => SmartWatchPopupViewModel?.CurrenTailData;
+      get => SmartWatchPopupViewModel?.CurrentTailData;
       set
       {
         if ( SmartWatchPopupViewModel == null )
           return;
 
-        SmartWatchPopupViewModel.CurrenTailData = value;
+        SmartWatchPopupViewModel.CurrentTailData = value;
       }
     }
 

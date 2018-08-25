@@ -31,20 +31,20 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule.ViewModels
 
     #region Properties
 
-    private TailData _currenTailData;
+    private TailData _currentTailData;
 
     /// <summary>
     /// Current <see cref="TailData"/>
     /// </summary>
-    public TailData CurrenTailData
+    public TailData CurrentTailData
     {
-      get => _currenTailData;
+      get => _currentTailData;
       set
       {
-        if ( Equals(value, _currenTailData) )
+        if ( Equals(value, _currentTailData) )
           return;
 
-        _currenTailData = value;
+        _currentTailData = value;
         OnPropertyChanged();
       }
     }
@@ -163,17 +163,17 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule.ViewModels
 
     private void ExecuteCloseCommand(Window window)
     {
-      CurrenTailData.PatternString = WorkingPattern;
+      CurrentTailData.PatternString = WorkingPattern;
 
       window.Close();
     }
 
-    private bool CanExecuteUndoCommand() => CurrenTailData != null && CurrenTailData.FindSettings.CanUndo || CanUndo;
+    private bool CanExecuteUndoCommand() => CurrentTailData != null && CurrentTailData.FindSettings.CanUndo || CanUndo;
 
     private void ExecuteUndoCommand()
     {
       Undo();
-      CurrenTailData.FindSettings.Undo();
+      CurrentTailData.FindSettings.Undo();
     }
 
     private async Task ExecuteLoadedCommandAsync() => _patterns = await _patternController.ReadDefaultPatternsAsync().ConfigureAwait(false);
@@ -185,11 +185,11 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      WorkingPattern = CurrenTailData == null ? string.Empty : !string.IsNullOrWhiteSpace(CurrenTailData.PatternString) ? CurrenTailData.PatternString : CurrenTailData.File;
+      WorkingPattern = CurrentTailData == null ? string.Empty : !string.IsNullOrWhiteSpace(CurrentTailData.PatternString) ? CurrentTailData.PatternString : CurrentTailData.File;
       TextBoxHasFocus = true;
 
       CommitChanges();
-      CurrenTailData?.FindSettings.CommitChanges();
+      CurrentTailData?.FindSettings.CommitChanges();
 
       if ( _patterns == null || _patterns.Count == 0 )
         return;

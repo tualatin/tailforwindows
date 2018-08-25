@@ -210,7 +210,7 @@
         Margin="-5 5"
         Content="{DynamicResource SmartWatchAutorun}"
         Command="{Binding AutorunCommand}"
-        IsChecked="{Binding CurrenTailData.AutoRun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        IsChecked="{Binding CurrentTailData.AutoRun, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         TabIndex="3"
         />
     </StackPanel>

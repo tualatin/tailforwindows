@@ -97,17 +97,17 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels
       }
     }
 
-    private TailData _currenTailData;
+    private TailData _currentTailData;
 
     /// <summary>
     /// Gets / sets current <see cref="TailData"/>
     /// </summary>
-    public TailData CurrenTailData
+    public TailData CurrentTailData
     {
-      get => _currenTailData;
+      get => _currentTailData;
       set
       {
-        _currenTailData = value;
+        _currentTailData = value;
         OnPropertyChanged();
       }
     }
@@ -235,7 +235,7 @@ namespace Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels
 
       string message = Application.Current.TryFindResource("SmartWatchHint").ToString();
       SmartWatchText = string.Format(message, Path.GetFileName(FileName), EnvironmentContainer.ApplicationTitle);
-      Title = $"{Title} - {CurrenTailData.File}";
+      Title = $"{Title} - {CurrentTailData.File}";
       ButtonHasFocus = true;
     }
 

@@ -114,6 +114,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.LogWindowUserCon
     /// Update highlighting in <see cref="System.Windows.Controls.TextBlock"/>
     /// </summary>
     /// <param name="result"></param>
-    void UpateHighlighting(List<TextHighlightData> result);
+    void UpdateHighlighting(List<TextHighlightData> result);
   }
 }

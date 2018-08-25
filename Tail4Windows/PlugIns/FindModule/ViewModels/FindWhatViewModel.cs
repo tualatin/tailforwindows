@@ -204,12 +204,12 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
     #region Commands
 
-    private IAsyncCommand _loadeCommand;
+    private IAsyncCommand _loadedCommand;
 
     /// <summary>
     /// Loaded command
     /// </summary>
-    public IAsyncCommand LoadedCommand => _loadeCommand ?? (_loadeCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
+    public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
 
     /// <summary>
     /// Unloaded command
@@ -219,7 +219,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     private ICommand _closingCommand;
 
     /// <summary>
-    /// Cloasing command
+    /// Closing command
     /// </summary>
     public ICommand ClosingCommand => _closingCommand ?? (_closingCommand = new RelayCommand(p => ExecuteClosingCommand()));
 
@@ -268,7 +268,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     private IAsyncCommand _deleteHistoryCommand;
 
     /// <summary>
-    /// Delete histroy command
+    /// Delete history command
     /// </summary>
     public IAsyncCommand DeleteHistoryCommand => _deleteHistoryCommand ?? (_deleteHistoryCommand = AsyncCommand.Create(p => CanDeleteHistory(), ExecuteDeleteHistoryCommandAsync));
 

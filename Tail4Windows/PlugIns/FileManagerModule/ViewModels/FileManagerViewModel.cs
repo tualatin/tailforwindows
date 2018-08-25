@@ -284,7 +284,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// MouseDoubleClick command
     /// </summary>
     public ICommand DataGridMouseDoubleClickCommand => _dataGridMouseDoubleClickCommand ?? (_dataGridMouseDoubleClickCommand = new RelayCommand(p => CanExecuteOpenCommand(),
-                                                         ExecuteMouseDoubleClickCommmand));
+                                                         ExecuteMouseDoubleClickCommand));
 
     private ICommand _undoCommand;
 
@@ -463,7 +463,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteUndoCommand() => SelectedItem?.Undo();
 
-    private void ExecuteMouseDoubleClickCommmand(object param)
+    private void ExecuteMouseDoubleClickCommand(object param)
     {
       if ( !(param is object[] o) )
         return;
@@ -619,7 +619,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       if ( unsavedItems.Count > 0 && PreventDuplicateItems() )
       {
-        if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerCloseUnsaveItem").ToString()) == MessageBoxResult.Yes )
+        if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerCloseUnsavedItem").ToString()) == MessageBoxResult.Yes )
         {
           ExecuteSaveCommandAsync().GetAwaiter().GetResult();
         }
@@ -828,7 +828,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// On file drop
     /// </summary>
-    /// <param name="filePaths">Array of file pathes</param>
+    /// <param name="filePaths">Array of file paths</param>
     public void OnFileDrop(string[] filePaths)
     {
       if ( filePaths.Length == 0 )
