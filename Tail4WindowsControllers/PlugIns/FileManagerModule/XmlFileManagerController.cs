@@ -176,13 +176,13 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         try
         {
           var list = new List<TailData>();
-          list.AddRange(items.Where(p => !p.IsWindowsEvent).GroupBy(p => p.FileName.ToLower()).Select(p => p.FirstOrDefault()).ToList());
+          list.AddRange(items.Where(p => p != null && !p.IsWindowsEvent).GroupBy(p => p.FileName.ToLower()).Select(p => p.FirstOrDefault()).ToList());
           list.ForEach(w =>
           {
             w.ListOfFilter = new ObservableCollection<FilterData>(w.ListOfFilter.GroupBy(p => p.Filter.ToLower()).Select(p => p.FirstOrDefault()).ToList());
           });
 
-          list.AddRange(items.Where(p => p.IsWindowsEvent).GroupBy(p => p.File.ToLower()).Select(p => p.FirstOrDefault()).ToList());
+          list.AddRange(items.Where(p => p != null && p.IsWindowsEvent).GroupBy(p => p.File.ToLower()).Select(p => p.FirstOrDefault()).ToList());
           list.ForEach(w =>
           {
             w.ListOfFilter = new ObservableCollection<FilterData>(w.ListOfFilter.GroupBy(p => p.Filter.ToLower()).Select(p => p.FirstOrDefault()).ToList());
