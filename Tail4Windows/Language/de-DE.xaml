@@ -563,12 +563,14 @@
   <system:String x:Key="ErrorEnterHighlightFilterSource">Bitte Filtern oder Hervorheben aktivieren</system:String>
 
   <system:String x:Key="AddBookmarkCommentWindowTitle">Bemerkung hinzufügen</system:String>
-  <system:String x:Key="AddbookmarkCommentWatermark">Bemerkung</system:String>
+  <system:String x:Key="AddBookmarkCommentWatermark">Bemerkung</system:String>
   <system:String x:Key="BookmarkCommentToolTipHeader">Bookmark Kommentar</system:String>
 
   <system:String x:Key="QAddEditor">Es ist kein gültiger Editor konfiguriert, möchten Sie jetzt einen Editor hinzufügen?</system:String>
 
-  <system:String x:Key="SplitWindowFilterByBookmark">Gefilter nach Bookmarks</system:String>
+  <system:String x:Key="SplitWindowFilterByBookmark">Filter nach Bookmarks</system:String>
   <system:String x:Key="SplitWindowFilterByBookmarkToolTip">Filtere aktuelle Ansicht nach Zeilen, bei denen ein Lesezeichen gesetzt ist</system:String>
   <system:String x:Key="SplitWindowScrollToEnd">Zum Ende scrollen</system:String>
+
+  <system:String x:Key="OpenDialogAllFiles">Alle Dateien(*.*)|*.*</system:String>
 </ResourceDictionary>

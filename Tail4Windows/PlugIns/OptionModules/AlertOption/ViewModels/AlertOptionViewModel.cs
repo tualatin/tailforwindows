@@ -89,7 +89,9 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels
 
     private void ExecuteSelectSoundFile()
     {
-      if ( InteractionService.OpenFileDialog(out string fileName, "MP3(*.mp3)|*.mp3|Wave(*.wav)|*.wav|All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle) )
+      var allFiles = Application.Current.TryFindResource("OpenDialogAllFiles").ToString();
+
+      if ( InteractionService.OpenFileDialog(out string fileName, $"MP3(*.mp3)|*.mp3|Wave(*.wav)|*.wav|{allFiles}", EnvironmentContainer.ApplicationTitle) )
         SettingsHelperController.CurrentSettings.AlertSettings.SoundFileNameFullPath = fileName;
     }
 

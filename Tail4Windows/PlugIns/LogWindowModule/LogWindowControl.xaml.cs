@@ -727,10 +727,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       NotifyTaskCompletion task = NotifyTaskCompletion.Create(WaitingForTailWorkerAsync);
       task.PropertyChanged += OnWaitingForTailWorkerPropertyChanged;
 
-      if ( CurrentTailData.IsWindowsEvent )
-        LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.WindowsEvent.Category) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
-      else
-        LogWindowState = string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
+      LogWindowState = CurrentTailData.IsWindowsEvent
+        ? string.IsNullOrWhiteSpace(CurrentTailData.WindowsEvent.Category) ? EStatusbarState.Default : EStatusbarState.FileLoaded
+        : string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.Default : EStatusbarState.FileLoaded;
     }
 
     private void OnWaitingForTailWorkerPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -745,7 +744,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       LogFileComboBoxHasFocus = false;
 
-      if ( !InteractionService.OpenFileDialog(out string fileName, "All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle) )
+      if ( !InteractionService.OpenFileDialog(out string fileName, Application.Current.TryFindResource("OpenDialogAllFiles").ToString(), EnvironmentContainer.ApplicationTitle) )
         return;
 
       SelectedItem = fileName;
@@ -1030,18 +1029,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private async Task WaitingForTailWorkerAsync()
     {
-      while ( TailReader.IsBusy )
+      await Task.Run(() =>
       {
-        await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
-      }
+        while ( TailReader.IsBusy )
+        {
+          Task.Delay(TimeSpan.FromMilliseconds(50));
+        }
+      }).ConfigureAwait(false);
     }
 
     private async Task WaitingForWorkersAsync()
     {
-      while ( TailReader.IsBusy || TailReader.SmartWatch.IsBusy )
+      await Task.Run(() =>
       {
-        await Task.Delay(TimeSpan.FromMilliseconds(50)).ConfigureAwait(false);
-      }
+        while ( TailReader.IsBusy || TailReader.SmartWatch.IsBusy )
+        {
+          Task.Delay(TimeSpan.FromMilliseconds(50));
+        }
+      }).ConfigureAwait(false);
     }
 
     private static void CreateDragWindow(TailData tailData, Window window)

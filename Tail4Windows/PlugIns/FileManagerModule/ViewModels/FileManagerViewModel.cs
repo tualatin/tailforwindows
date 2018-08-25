@@ -491,7 +491,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteOpenFileCommand()
     {
-      if ( !InteractionService.OpenFileDialog(out string fileName, "All files(*.*)|*.*", EnvironmentContainer.ApplicationTitle) )
+      if ( !InteractionService.OpenFileDialog(out string fileName, Application.Current.TryFindResource("OpenDialogAllFiles").ToString(), EnvironmentContainer.ApplicationTitle) )
         return;
 
       MouseService.SetBusyState();

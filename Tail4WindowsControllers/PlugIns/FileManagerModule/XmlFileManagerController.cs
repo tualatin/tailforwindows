@@ -173,20 +173,27 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 
       await Task.Run(() =>
       {
-        var list = new List<TailData>();
-        list.AddRange(items.Where(p => !p.IsWindowsEvent && !string.IsNullOrWhiteSpace(p.FileName)).GroupBy(p => p.FileName.ToLower()).Select(p => p.FirstOrDefault()).ToList());
-        list.ForEach(w =>
+        try
         {
-          w.ListOfFilter = new ObservableCollection<FilterData>(w.ListOfFilter.GroupBy(p => p.Filter.ToLower()).Select(p => p.FirstOrDefault()).ToList());
-        });
+          var list = new List<TailData>();
+          list.AddRange(items.Where(p => !p.IsWindowsEvent).GroupBy(p => p.FileName.ToLower()).Select(p => p.FirstOrDefault()).ToList());
+          list.ForEach(w =>
+          {
+            w.ListOfFilter = new ObservableCollection<FilterData>(w.ListOfFilter.GroupBy(p => p.Filter.ToLower()).Select(p => p.FirstOrDefault()).ToList());
+          });
 
-        list.AddRange(items.Where(p => p.IsWindowsEvent).GroupBy(p => p.File.ToLower()).Select(p => p.FirstOrDefault()).ToList());
-        list.ForEach(w =>
+          list.AddRange(items.Where(p => p.IsWindowsEvent).GroupBy(p => p.File.ToLower()).Select(p => p.FirstOrDefault()).ToList());
+          list.ForEach(w =>
+          {
+            w.ListOfFilter = new ObservableCollection<FilterData>(w.ListOfFilter.GroupBy(p => p.Filter.ToLower()).Select(p => p.FirstOrDefault()).ToList());
+          });
+
+          result = new ObservableCollection<TailData>(list);
+        }
+        catch
         {
-          w.ListOfFilter = new ObservableCollection<FilterData>(w.ListOfFilter.GroupBy(p => p.Filter.ToLower()).Select(p => p.FirstOrDefault()).ToList());
-        });
-
-        result = new ObservableCollection<TailData>(list);
+          result = items;
+        }
       }, token).ConfigureAwait(false);
 
       return result;

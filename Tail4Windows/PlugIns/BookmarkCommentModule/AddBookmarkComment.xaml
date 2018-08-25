@@ -51,7 +51,7 @@
       <userControls:WatermarkTextBox.Watermark>
         <TextBlock
           Margin="5 0 0 0"
-          Text="{DynamicResource AddbookmarkCommentWatermark}"
+          Text="{DynamicResource AddBookmarkCommentWatermark}"
           FontStyle="Italic"
           />
       </userControls:WatermarkTextBox.Watermark>

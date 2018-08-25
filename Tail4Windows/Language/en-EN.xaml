@@ -563,11 +563,11 @@
 
   <system:String x:Key="ErrorEnterDescription">Please enter a Description</system:String>
   <system:String x:Key="ErrorEnterFileName">Please enter a FileName</system:String>
-  <system:String x:Key="ErrorEnterFilterPattern">Please enter a Filterpattern</system:String>
+  <system:String x:Key="ErrorEnterFilterPattern">Please enter a Filter pattern</system:String>
   <system:String x:Key="ErrorEnterHighlightFilterSource">Please check Filter or Highlight</system:String>
 
   <system:String x:Key="AddBookmarkCommentWindowTitle">Add Comment</system:String>
-  <system:String x:Key="AddbookmarkCommentWatermark">Comment</system:String>
+  <system:String x:Key="AddBookmarkCommentWatermark">Comment</system:String>
   <system:String x:Key="BookmarkCommentToolTipHeader">Bookmark comment</system:String>
 
   <system:String x:Key="QAddEditor">There is no valid editor configured, would you like to add an editor now?</system:String>
@@ -575,4 +575,6 @@
   <system:String x:Key="SplitWindowFilterByBookmark">Filter by Bookmarks</system:String>
   <system:String x:Key="SplitWindowFilterByBookmarkToolTip">Filter current view by bookmarked lines</system:String>
   <system:String x:Key="SplitWindowScrollToEnd">Scroll to end</system:String>
+
+  <system:String x:Key="OpenDialogAllFiles">All files(*.*)|*.*</system:String>
 </ResourceDictionary>
