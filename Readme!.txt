@@ -8,7 +8,7 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
-v.2.1.xxxx.x
+v.2.1.6811.x
 * new copy element in TailManager
 * new continuous scrolling or push
 * new single instance
@@ -18,7 +18,7 @@ v.2.1.xxxx.x
 * new SingleClick edit mode in DataGrid
 * new item changed indicator in TabHeader
 * new Taskbar jumplist
-* new commandline parameters possible (file name or TailManager item id)
+* new command line parameters possible (file name or TailManager item id)
 * new Column chooser in DataGrid
 * new DataGrid layout save/restore
 * new Find Bookmark comments
@@ -38,9 +38,9 @@ v.2.1.xxxx.x
 * bug fix Column chooser -> context menu not in ColumnHeader
 * bug fix update highlighting, when no highlight source is available
 * bug fix select file in TailManager -> button event worked after two clicks
-* bug fix Checkboxes in DataGrid -> event worked after two clicks
+* bug fix Check boxes in DataGrid -> event worked after two clicks
 * bug fix load data from TailManager -> suddenly changed
-* bug fix change filter data properties -> only after reopen visibile
+* bug fix change filter data properties -> only after reopen visible
 
 v2.0.6778.x
 * improve export/import
@@ -104,7 +104,7 @@ v1.5.6312.x
 * SpinnerControl accept MouseWheel now
 * File encoding can change while tailing
 * new Scrollbar design
-* improve Drag'n'Drop behaviour
+* improve Drag'n'Drop behavior
 * change internal structure 
 * bug fix auto update
 * change some icons
@@ -113,7 +113,7 @@ v1.5.6312.x
 * new tooltip design
 * bug fix Uptime
 * improve StatusBar Tooltip information
-* some code refactories
+* some code refactoring
 
 v1.0.5400.x
 * bug fix FileManager, does not changed the FontType
@@ -164,13 +164,13 @@ v0.9.5172.x
 * change category text box in FileManager
 * add TLS/SSL support for SMTP
 * add E-Mail options in Alert option tab
-* add SMTP settings dialogue
+* add SMTP settings dialog
 * add SMTP settings
 * improve read settings
 * change Filters icon
-* bug fix exception when enter a E-Mail address in Alert dialogue
-* remove systeminformation from TabItem (improve speed to call settings dialogue)
-* add systeminformation dialogue in About-Tab
+* bug fix exception when enter a E-Mail address in Alert dialog
+* remove systeminformation from TabItem (improve speed to call settings dialog)
+* add systeminformation dialog in About-Tab
 * add import and export settings
 * add autoupdate
 * improve updater
@@ -186,8 +186,8 @@ v0.9.5099.x
 * add shortcut Ctrl+Alt+M minimize main window
 * add shortcut F (Filter on/off)
 * add shortcut T (Always on top on/off)
-* FileManager dialogue add Enter key event
-* GoToLine dialogue add press Enter key event
+* FileManager dialog add Enter key event
+* GoToLine dialog add press Enter key event
 * add watermark textbox
 * change tab layout
 * update tab layout
@@ -196,7 +196,7 @@ v0.9.5099.x
 * add shortcut Ctrl+W close tab window
 * change shortcut Start tail (new Ctrl+R)
 * fix problems with linenumber font
-* add Webside information in About dialogue
+* add Webside information in About dialog
 * add shortcut CTRL+G (GoToLine)
 * add GoToLine
 * add sound support
@@ -207,7 +207,7 @@ v0.9.5099.x
 * bug fix change FontType
 * bug fix in FileManager
 * bug fixes writing XML file
-* add history for search dialogue
+* add history for search dialog
 * rename "Filters active" -> "Filter"
 * "Add" button not enabled again when file is open from FileManager
 
@@ -215,32 +215,32 @@ v0.9.5087.x
 * stability improvements
 * add filtering in view
 * improve tab selection change (minimize event firing)
-* lot bug fixes in search dialogue for more than one tab page
+* lot bug fixes in search dialog for more than one tab page
 * bug fix search next - scroll from beginning
 * bug fix for Windows XP
 * replace some icons (bug fix for Windows XP)
 * add Drag and Drop support
 * add Drag and Drop support in FileManager
-* add alert tab in options dialogue
+* add alert tab in options dialog
 * add more options in *.config file
 * add filters
 * add alert support
 * add read filter section from XML file
 * add writing filter section into XML file
 * bug fix in FileManager
-* bug fix Count button in search dialogue
+* bug fix Count button in search dialog
 * rename button "Manager font" -> "Manage font"
-* improve Find next in search dialogue
+* improve Find next in search dialog
 
 v0.9.5078.x
 * sorry the Filtersection is not implemented now, it comes as soon as possible!
 * add some shortcut keys (Ctrl+F - SearchDialog, Ctrl+O - OpenFileDialog, Ctrl+M - FileManagerDialog, Ctrl+E - Clears all content in TextEditor, Ctrl+T - Start tail, Ctrl+S - Pause tail)
-* improve button behaviour Start/Stop
+* improve button behavior Start/Stop
 * add searchbox
 * add safe search words until sessions end
 * bug fix scroll problems
 * improve CPU usage
-* improve scroll behaviour
+* improve scroll behavior
 * improve read first n lines
 * new datacollection (better performance)
 * change WPF TextBox to new TextEditorControl (Search highlighting, Linenmumbers) - it was a lot of work!
@@ -253,17 +253,17 @@ v0.9.5078.x
 * new property FileCreationTime
 * rename status bar message ("Record" to "Tail")
 * remove "copy to clipboard" button, was useless
-* bug fix search dialogue title
+* bug fix search dialog title
 * bug fix refresh datagrid source
 
 v0.9.5049.x
 * colour picker to customize colour in tail window
-* better event handling in all dialogues for Escape button
-* improve file open event from FileManager dialogue
-* improve file open event from FileManager dialogue to open a new program instance
+* better event handling in all dialogs for Escape button
+* improve file open event from FileManager dialog
+* improve file open event from FileManager dialog to open a new program instance
 * add more settings options in .config file
 * rename FindHighlightColor to FindHightlightBackgroundColor/add FindHighlightForegroundColor
-* remove file sort option from Options dialogue because WPF datagrid do it better for us
+* remove file sort option from Options dialog because WPF datagrid do it better for us
 * add x64 Bit support
-* bug fix computing free available memory in systeminformation dialogue
-* bug fix timestamp
+* bug fix computing free available memory in systeminformation dialog
+* bug fix timestamps
