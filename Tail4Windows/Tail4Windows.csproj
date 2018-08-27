@@ -470,6 +470,7 @@
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
+    <Resource Include="Resources\Bookmark_Info.png" />
     <Resource Include="Resources\Copy.png" />
     <Resource Include="Resources\help.png" />
     <Resource Include="Resources\bubble.png" />

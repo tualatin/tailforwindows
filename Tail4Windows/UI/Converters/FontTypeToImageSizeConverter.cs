@@ -31,7 +31,7 @@ namespace Org.Vs.TailForWin.UI.Converters
       Size textSize = "1".GetMeasureTextSize(new Typeface(fontType.FontFamily, fontType.FontStyle, fontType.FontWeight, fontType.FontStretch), fontType.FontSize);
       double height = textSize.Height > 16 ? 16 : (textSize.Height < 10 ? 10 : textSize.Height);
 
-      return height - 1;
+      return height - 2;
     }
 
     /// <summary>
