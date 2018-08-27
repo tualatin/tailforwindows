@@ -35,7 +35,7 @@
   <system:String x:Key="FilterNotEmpty">Der Filter darf nicht leer sein!</system:String>
   <system:String x:Key="FiltersLoaded">{0} Filter</system:String>
   <system:String x:Key="FilterLoaded">{0} Filter</system:String>
-  <system:String x:Key="FileManagerCloseUnsavedItem">Es sind ungespeicherte Änderungen vorhanden. Möchte Sie diese jetzt speichern?</system:String>
+  <system:String x:Key="FileManagerCloseUnsavedItem">Es sind ungesicherte Änderungen vorhanden. Möchte Sie diese jetzt speichern?</system:String>
   <system:String x:Key="GoToLineNumber">Zeilennummer ({0}-{1}):</system:String>
   <system:String x:Key="NoUpdate">Kein Update notwendig</system:String>
   <system:String x:Key="DoUpdate">Ein neues update steht zur verfügung</system:String>
@@ -49,7 +49,7 @@
   <system:String x:Key="OpenDialogImportSettings">Bitte wählen Sie eine Datei zum exportieren aus...</system:String>
   <system:String x:Key="QImportSettings">Möchten Sie diese Einstellungen wirklich importieren? Alte Einstellungen werden überschrieben.</system:String>
   <system:String x:Key="QAddSendTo">Do you really want to add {0} into the &quot;Send to&quot; context menu of Windows?</system:String>
-  <system:String x:Key="WndStyleChanged">Das Window Design wurde geändern, bitte starten Sie {0} neu, damit die Änderungen wirksam werden.</system:String>
+  <system:String x:Key="WndStyleChanged">Das Window Design wurde geändert, bitte starten Sie {0} neu, damit die Änderungen wirksam werden.</system:String>
   <system:String x:Key="Lowest">Niedrigste</system:String>
   <system:String x:Key="BelowNormal">Niedriger als normal</system:String>
   <system:String x:Key="Normal">Normal</system:String>
@@ -58,7 +58,7 @@
   <system:String x:Key="MinimizeWindowToolTip">Minimieren</system:String>
   <system:String x:Key="MaximizeWindowToolTip">Maximieren</system:String>
   <system:String x:Key="RestoreWindowToolTip">Wiederherstellen</system:String>
-  <system:String x:Key="CloseWindowToolTip">Schliesen</system:String>
+  <system:String x:Key="CloseWindowToolTip">Schließen</system:String>
   <system:String x:Key="TabItemColorPickerToolTip">Setzt die Farbe des Tabhintergrunds</system:String>
   <system:String x:Key="AlwaysOnTopToolTip">Immer im Vordergrund (ALT+T)</system:String>
   <system:String x:Key="QuickSearchToolTip">Schnellsuche im aktuellen Tail-Fenster (CTRL+Q)</system:String>
@@ -160,7 +160,7 @@
     x:Key="FilterManagerSendMailDetail"
     xml:space="preserve"
     >&#10;{0} {1}&#10;Grund:&#10;{2}</system:String>
-  <system:String x:Key="FilterManagerSendMailMessage">Dies ist eine Benachrichtung, die Sie konfiguriert haben. Es ist folgendes Ereignis aufgetreten:{0}</system:String>
+  <system:String x:Key="FilterManagerSendMailMessage">Dies ist eine Benachrichtigung, die Sie konfiguriert haben. Es ist folgendes Ereignis aufgetreten:{0}</system:String>
 
   <system:String x:Key="ExtendedTailSettingsLabel">Zeige erweiterte Einstellungen</system:String>
   <system:String x:Key="ExtendedTailSettingsToggleButtonToolTip">Zeige die erweiterten Einstellungen des aktuellen tail Tabs</system:String>
@@ -220,7 +220,7 @@
   <system:String x:Key="EnvironmentExitWithEscape">Beenden mit Escape</system:String>
   <system:String x:Key="EnvironmentExitWithEscapeToolTip">Das Programm mit Escape beenden</system:String>
   <system:String x:Key="EnvironmentAlwaysScrollToEnd">Immer zum Ende scrollen</system:String>
-  <system:String x:Key="EnvironmentAlwaysScrolltoEndToolTip">Immer zum Ende scrollen, wenn neue Logauschriften im Log-Fenster erscheinen</system:String>
+  <system:String x:Key="EnvironmentAlwaysScrollToEndToolTip">Immer zum Ende scrollen, wenn neue Logauschriften im Log-Fenster erscheinen</system:String>
   <system:String x:Key="EnvironmentContinuedScroll">Kontinuierliches Scrollen</system:String>
   <system:String
     x:Key="EnvironmentContinuedScrollToolTip"
@@ -336,7 +336,7 @@
   <system:String x:Key="SmtpFrom">Von</system:String>
   <system:String x:Key="SmtpFromWatermark">E-Mail Adresse</system:String>
   <system:String x:Key="SmtpMailSubject">E-Mail Betreff</system:String>
-  <system:String x:Key="SmtpMailSubjectWatermark">Betrefftext</system:String>
+  <system:String x:Key="SmtpMailSubjectWatermark">Betreff</system:String>
   <system:String x:Key="SmtpSecurity">Sicherheit</system:String>
   <system:String x:Key="SmtpSecurityNone">Keine</system:String>
   <system:String x:Key="SmtpSecuritySsl">SSL</system:String>
@@ -505,7 +505,7 @@
   <system:String
     x:Key="RegexHelper13"
     xml:space="preserve"
-    >{0}&#x09;&#x09;&#x09;Trifft drei fortlaufende Decimale Zeichen</system:String>
+    >{0}&#x09;&#x09;&#x09;Trifft drei fortlaufende Decimal Zeichen</system:String>
   <system:String
     x:Key="RegexHelper14"
     xml:space="preserve"
@@ -546,7 +546,7 @@
   <system:String x:Key="PatternControlGroupLogFile">Aktuelle Logdatei</system:String>
   <system:String x:Key="PatternControlGroupResult">Pattern Ergebnis</system:String>
 
-  <system:String x:Key="WindowsEventTitle">Windows Ereignisskategorien</system:String>
+  <system:String x:Key="WindowsEventTitle">Windows Ereigniskategorien</system:String>
   <system:String x:Key="WindowsEventWindowsLogs">Windows Protokolle</system:String>
   <system:String x:Key="WindowsEventApplicationLogs">Anwendungs- und Dienstprotokolle</system:String>
   <system:String x:Key="WindowsEventCategory">Kategorie: {0}</system:String>
@@ -555,7 +555,7 @@
   <system:String x:Key="WindowsEventSource">Quelle: {0}</system:String>
   <system:String x:Key="WindowsEventTotalEvents">Ereignisse insgesamt={0} / letzte Aktualisierung={1}</system:String>
   <system:String x:Key="WindowsEventRefresh">Aktualisieren</system:String>
-  <system:String x:Key="WindowsEventRefreshToolTip">Aktualisiert die Windows Ereignisskategorien</system:String>
+  <system:String x:Key="WindowsEventRefreshToolTip">Aktualisiert die Windows Ereigniskategorien</system:String>
 
   <system:String x:Key="ErrorEnterDescription">Bitte eine Bezeichnung angeben</system:String>
   <system:String x:Key="ErrorEnterFileName">Bitte einen Dateinamen angeben</system:String>
@@ -573,4 +573,9 @@
   <system:String x:Key="SplitWindowScrollToEnd">Zum Ende scrollen</system:String>
 
   <system:String x:Key="OpenDialogAllFiles">Alle Dateien(*.*)|*.*</system:String>
+
+  <system:String x:Key="LogWindowControlOpenBookmarkOverviewToolTip">Öffnet die Bookmark Übersicht</system:String>
+
+  <system:String x:Key="BookmarkOverviewTitle">Bookmark Übersicht</system:String>
+
 </ResourceDictionary>

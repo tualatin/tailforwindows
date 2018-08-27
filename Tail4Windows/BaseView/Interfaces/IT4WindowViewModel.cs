@@ -185,6 +185,14 @@ namespace Org.Vs.TailForWin.BaseView.Interfaces
       get;
     }
 
+    /// <summary>
+    /// Show bookmark overview command
+    /// </summary>
+    ICommand ShowBookmarkOverviewCommand
+    {
+      get;
+    }
+
     #endregion
 
     /// <summary>

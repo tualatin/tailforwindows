@@ -44,6 +44,7 @@
     <KeyBinding Key="{Binding Key, Source={StaticResource OpenWindowsEventKeyBinding}, Mode=OneTime}" Command="{Binding OpenWindowsEventCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenWindowsEventKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource OpenHelpKeyBinding}, Mode=OneTime}" Command="{Binding OpenHelpCommand}" Modifiers="{Binding Modifiers, Source={StaticResource OpenHelpKeyBinding}, Mode=OneTime}" />
     <KeyBinding Key="{Binding Key, Source={StaticResource ShowExtendedToolbarKeyBinding}, Mode=OneTime}" Command="{Binding ShowExtendedToolbarCommand}" Modifiers="{Binding Modifiers, Source={StaticResource ShowExtendedToolbarKeyBinding}, Mode=OneTime}" />
+    <KeyBinding Key="{Binding Key, Source={StaticResource ShowBookmarkOverviewKeyBinding}, Mode=OneTime}" Command="{Binding ShowBookmarkOverviewCommand}" Modifiers="{Binding Modifiers, Source={StaticResource ShowBookmarkOverviewKeyBinding}, Mode=OneTime}" />
   </Window.InputBindings>
 
   <Grid>

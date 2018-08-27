@@ -24,6 +24,7 @@ using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
+using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.Converters;
@@ -657,9 +658,49 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// </summary>
     private ICommand AddBookmarkCommentCommand => _addBookmarkCommentCommand ?? (_addBookmarkCommentCommand = new RelayCommand(ExecuteAddBookmarkCommentCommand));
 
+    private ICommand _bookmarkOverviewCommand;
+
+    /// <summary>
+    /// Bookmark overview command
+    /// </summary>
+    public ICommand BookmarkOverviewCommand => _bookmarkOverviewCommand ?? (_bookmarkOverviewCommand = new RelayCommand(p => CanExecuteBookmarkOverviewCommand(),
+                                                 p => ExecuteBookmarkOverviewCommand()));
+
     #endregion
 
     #region Command functions
+
+    private bool CanExecuteBookmarkOverviewCommand()
+    {
+      if ( ItemsSource == null )
+        return false;
+
+      IEnumerator enumerator = ItemsSource.GetEnumerator();
+      var result = false;
+
+      while ( enumerator.MoveNext() )
+      {
+        if ( !(enumerator.Current is LogEntry logEntry) )
+          continue;
+
+        if ( logEntry.BookmarkPoint == null )
+          continue;
+
+        result = true;
+        break;
+      }
+      return result;
+    }
+
+    private void ExecuteBookmarkOverviewCommand()
+    {
+      var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
+
+      if ( logWindow.Count == 0 )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowBookmarkOverviewMessage(logWindow.First().WindowId));
+    }
 
     private bool CanExecuteUndoCommand() => CurrentTailData != null && CurrentTailData.OpenFromFileManager && CurrentTailData.CanUndo;
 

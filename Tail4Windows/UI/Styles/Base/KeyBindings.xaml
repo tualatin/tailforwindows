@@ -25,4 +25,5 @@
   <KeyBinding x:Key="OpenFontKeyBinding" Gesture="ALT+A" />
   <KeyBinding x:Key="OpenHelpKeyBinding" Gesture="F1" />
   <KeyBinding x:Key="ShowExtendedToolbarKeyBinding" Gesture="CTRL+ALT+T" />
+  <KeyBinding x:Key="ShowBookmarkOverviewKeyBinding" Gesture="CTRL+ALT+B" />
 </ResourceDictionary>

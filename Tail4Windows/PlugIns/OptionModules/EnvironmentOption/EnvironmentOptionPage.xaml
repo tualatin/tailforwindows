@@ -203,7 +203,7 @@
               FontSize="12"
               FontWeight="Bold"
               />
-            <TextBlock Text="{DynamicResource EnvironmentAlwaysScrolltoEndToolTip}" />
+            <TextBlock Text="{DynamicResource EnvironmentAlwaysScrollToEndToolTip}" />
             <Border
               Margin="0 8"
               BorderBrush="Silver"

@@ -375,6 +375,54 @@
                               </Button.Template>
                             </Button>
                           </StackPanel>
+
+                          <StackPanel
+                            Grid.Column="1"
+                            Orientation="Horizontal"
+                            Visibility="{Binding ElementName=BookmarkOverviewButton, Path=IsEnabled, Converter={StaticResource BoolToVisibilityConverter}}"
+                            >
+                            <Rectangle
+                              Width="1"
+                              Margin="3 2"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              Fill="Black"
+                              SnapsToDevicePixels="True"
+                              />
+
+                            <Button
+                              x:Name="BookmarkOverviewButton"
+                              Width="10"
+                              Height="10"
+                              Margin="0 0 3 0"
+                              Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=BookmarkOverviewCommand}"
+                              SnapsToDevicePixels="True"
+                              ToolTip="{DynamicResource LogWindowControlOpenBookmarkOverviewToolTip}"
+                              >
+                              <Button.Template>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                  <Grid>
+                                    <Ellipse
+                                      x:Name="BookmarkEllipse"
+                                      Margin="1"
+                                      Fill="Black"
+                                      Stretch="Uniform"
+                                      />
+                                  </Grid>
+
+                                  <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                      <Setter TargetName="BookmarkEllipse" Property="Fill" Value="#6DC2E9" />
+                                    </Trigger>
+
+                                    <Trigger Property="IsEnabled" Value="False">
+                                      <Setter TargetName="BookmarkEllipse" Property="Fill" Value="{StaticResource BrushSolidGrey55}" />
+                                    </Trigger>
+                                  </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                              </Button.Template>
+                            </Button>
+                          </StackPanel>
                         </Grid>
                       </Border>
 

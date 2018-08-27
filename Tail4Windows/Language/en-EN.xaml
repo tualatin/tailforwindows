@@ -220,7 +220,7 @@
   <system:String x:Key="EnvironmentExitWithEscape">Exit with Escape</system:String>
   <system:String x:Key="EnvironmentExitWithEscapeToolTip">Exit Application by pressing the Escape key</system:String>
   <system:String x:Key="EnvironmentAlwaysScrollToEnd">Always scroll to end</system:String>
-  <system:String x:Key="EnvironmentAlwaysScrolltoEndToolTip">Scroll to end, when new log files appears in log window</system:String>
+  <system:String x:Key="EnvironmentAlwaysScrollToEndToolTip">Scroll to end, when new log files appears in log window</system:String>
   <system:String x:Key="EnvironmentContinuedScroll">Continuous scrolling</system:String>
   <system:String
     x:Key="EnvironmentContinuedScrollToolTip"
@@ -577,4 +577,9 @@
   <system:String x:Key="SplitWindowScrollToEnd">Scroll to end</system:String>
 
   <system:String x:Key="OpenDialogAllFiles">All files(*.*)|*.*</system:String>
+
+  <system:String x:Key="LogWindowControlOpenBookmarkOverviewToolTip">Opens the Bookmark overview</system:String>
+
+  <system:String x:Key="BookmarkOverviewTitle">Bookmark overview</system:String>
+
 </ResourceDictionary>

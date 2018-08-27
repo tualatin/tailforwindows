@@ -175,6 +175,7 @@
     <Compile Include="BaseView\UserControls\Interfaces\IMainWindowQuickSearchViewModel.cs" />
     <Compile Include="Data\Messages\AddTabItemMessage.cs" />
     <Compile Include="Data\Messages\AddTailDataToQuickAddMessage.cs" />
+    <Compile Include="Data\Messages\BookmarkOverviewResultMessage.cs" />
     <Compile Include="Data\Messages\BringMainWindowToFrontMessage.cs" />
     <Compile Include="Data\Messages\DisableQuickAddInTailDataMessage.cs" />
     <Compile Include="Data\Messages\DragWindowTabItemChangedMessage.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Data\Messages\Keybindings\ClearTailLogMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\GoToLineMessage.cs" />
     <Compile Include="Data\Messages\JumpToSelectedLogEntryMessage.cs" />
+    <Compile Include="Data\Messages\Keybindings\ShowBookmarkOverviewMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\OpenFileMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\OpenFontSettingsMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\OpenWindowsEventMessage.cs" />
@@ -215,6 +217,10 @@
       <DependentUpon>AddBookmarkComment.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\BookmarkCommentModule\ViewModels\AddBookmarkCommentViewModel.cs" />
+    <Compile Include="PlugIns\BookmarkOverviewModule\BookmarkOverview.xaml.cs">
+      <DependentUpon>BookmarkOverview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\BookmarkOverviewModule\ViewModels\BookmarkOverviewViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\FileManager.xaml.cs">
       <DependentUpon>FileManager.xaml</DependentUpon>
     </Compile>
@@ -531,6 +537,10 @@
     <Page Include="PlugIns\BookmarkCommentModule\AddBookmarkComment.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PlugIns\BookmarkOverviewModule\BookmarkOverview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlugIns\FileManagerModule\FileManager.xaml">
       <SubType>Designer</SubType>

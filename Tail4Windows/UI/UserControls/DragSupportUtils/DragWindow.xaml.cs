@@ -530,9 +530,24 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// </summary>
     public ICommand ShowExtendedToolbarCommand => _showExtendedToolbarCommand ?? (_showExtendedToolbarCommand = new RelayCommand(p => ExecuteShowExtendedToolbarCommand()));
 
+    private ICommand _showBookmarkOverviewCommand;
+
+    /// <summary>
+    /// Show bookmark overview command
+    /// </summary>
+    public ICommand ShowBookmarkOverviewCommand => _showBookmarkOverviewCommand ?? (_showBookmarkOverviewCommand = new RelayCommand(p => ExecuteShowBookmarkOverviewCommand()));
+
     #endregion
 
     #region KeyBinding command functions
+
+    private void ExecuteShowBookmarkOverviewCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowBookmarkOverviewMessage(control.WindowId));
+    }
 
     private void ExecuteShowExtendedToolbarCommand()
     {

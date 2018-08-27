@@ -33,6 +33,7 @@ using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
 using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.Data.Messages.QuickSearchbar;
+using Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule;
 using Org.Vs.TailForWin.PlugIns.FindModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
@@ -58,6 +59,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private readonly IBaseWindowStatusbarViewModel _baseWindowStatusbarViewModel;
     private readonly CancellationTokenSource _cts;
     private readonly FindWhatResult _findWhatResultWindow;
+    private readonly BookmarkOverview _bookmarkOverview;
+
     private FindWhat _findWhatWindow;
     private readonly ISettingsDbController _dbSettingsController;
     private readonly IStatisticController _statisticController;
@@ -262,6 +265,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _cts = new CancellationTokenSource();
       _findWhatResultWindow = new FindWhatResult();
+      _bookmarkOverview = new BookmarkOverview();
       _dbSettingsController = SettingsDbController.Instance;
       _statisticController = new StatisticController();
       _currentStatusbarState = EStatusbarState.Default;
@@ -367,6 +371,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _findWhatResultWindow.ShouldClose = true;
       _findWhatResultWindow.Close();
+
+      _bookmarkOverview.ShouldClose = true;
+      _bookmarkOverview.Close();
 
       if ( _findWhatWindow != null && _findWhatWindow.Visibility == Visibility.Visible )
         _findWhatWindow.Close();
@@ -693,7 +700,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// <summary>
     /// Open font command
     /// </summary>
-    public ICommand OpenFontCommand => _openFontCommand ?? (_openFontCommand = new RelayCommand(p => ExeucteOpenFontCommand()));
+    public ICommand OpenFontCommand => _openFontCommand ?? (_openFontCommand = new RelayCommand(p => ExecuteOpenFontCommand()));
 
     private ICommand _minimizeWindowCommand;
 
@@ -723,9 +730,24 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand ShowExtendedToolbarCommand => _showExtendedToolbarCommand ?? (_showExtendedToolbarCommand = new RelayCommand(p => ExecuteShowExtendedToolbarCommand()));
 
+    private ICommand _showBookmarkOverviewCommand;
+
+    /// <summary>
+    /// Show bookmark overview command
+    /// </summary>
+    public ICommand ShowBookmarkOverviewCommand => _showBookmarkOverviewCommand ?? (_showBookmarkOverviewCommand = new RelayCommand(p => ExecuteShowBookmarkOverviewCommand()));
+
     #endregion
 
     #region KeyBinding command functions
+
+    private void ExecuteShowBookmarkOverviewCommand()
+    {
+      if ( !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowBookmarkOverviewMessage(control.WindowId));
+    }
 
     private void ExecuteShowExtendedToolbarCommand()
     {
@@ -751,7 +773,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteMinimizeWindowCommand(Window window) => window.WindowState = WindowState.Minimized;
 
-    private void ExeucteOpenFontCommand()
+    private void ExecuteOpenFontCommand()
     {
       if ( !(SelectedTabItem.Content is ILogWindowControl control) )
         return;
@@ -1191,7 +1213,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private void ColorSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       if ( !e.PropertyName.Equals("StatusBarInactiveBackgroundColorHex") && !e.PropertyName.Equals("StatusBarFileLoadedBackgroundColorHex")
-                                                                         && !e.PropertyName.Equals("StatusBarTailBackgroundColorHex") && !e.PropertyName.Equals("RaiseOnPropertyChanged") )
+                                                                         && !e.PropertyName.Equals("StatusBarTailBackgroundColorHex")
+                                                                         && !e.PropertyName.Equals("RaiseOnPropertyChanged") )
         return;
 
       SetCurrentBusinessData();
