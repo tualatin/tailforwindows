@@ -308,7 +308,7 @@
     <Compile Include="UI\Converters\MultiConverters\IsEnableMultiConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\LogFileFileManagerMultiConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\TailManagerMouseDoubleClickMultiConverter.cs" />
-    <Compile Include="UI\Converters\NegativeVisiblityConverter.cs" />
+    <Compile Include="UI\Converters\NegativeVisibilityConverter.cs" />
     <Compile Include="UI\Converters\RowFromFilterManagerCollectionConverter.cs" />
     <Compile Include="UI\Converters\RowFromTailManagerCollectionConverter.cs" />
     <Compile Include="UI\Converters\RowFromThirdPartyCollectionConverter.cs" />

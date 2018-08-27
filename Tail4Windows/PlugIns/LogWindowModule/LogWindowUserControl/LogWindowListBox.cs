@@ -459,7 +459,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       contentContextMenu.Items.Add(menuItem);
 
       icon = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Delete_Bookmark.png");
-      menuItem = CreateMenuItem(Application.Current.TryFindResource("DeleteBookmarks").ToString(), icon);
+      menuItem = CreateMenuItem(Application.Current.TryFindResource("DeleteBookmarks").ToString(), icon, new Size(14, 14));
       menuItem.Command = RemoveBookmarksCommand;
       contentContextMenu.Items.Add(menuItem);
 
@@ -749,7 +749,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       _readOnlyTextBoxContextMenu.Items.Add(menuItem);
     }
 
-    private MenuItem CreateMenuItem(string header, ImageSource image = null)
+    private MenuItem CreateMenuItem(string header, ImageSource image = null, Size? iconSize = null)
     {
       if ( string.IsNullOrWhiteSpace(header) )
         throw new ArgumentNullException(nameof(header));
@@ -759,7 +759,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         Header = header,
         Icon = image == null ? null : new Image
         {
-          Source = image
+          Source = image,
+          Width = iconSize?.Width ?? 16,
+          Height = iconSize?.Height ?? 16
         },
         FontWeight = SystemFonts.MenuFontWeight,
         FontStyle = SystemFonts.MenuFontStyle,

@@ -47,7 +47,7 @@
   <converters:BoolToForegroundConverter x:Key="BoolToForegroundConverter" />
   <converters:CountToForegroundConverter x:Key="CountToForegroundConverter" />
   <converters:VisibilityToInverseBoolConverter x:Key="VisibilityToInverseBoolConverter" />
-  <converters:NegativeVisiblityConverter x:Key="NegativeVisiblityConverter" />
+  <converters:NegativeVisibilityConverter x:Key="NegativeVisibilityConverter" />
   <converters:FontTypeToImageSizeConverter x:Key="FontTypeToImageSizeConverter" />
 
   <multiConverters:WidthToMarginMultiConverter x:Key="WidthToMarginMultiConverter" />

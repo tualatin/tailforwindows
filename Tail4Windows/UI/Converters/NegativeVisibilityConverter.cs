@@ -9,7 +9,7 @@ namespace Org.Vs.TailForWin.UI.Converters
   /// <summary>
   /// Negative visibility converter
   /// </summary>
-  public class NegativeVisiblityConverter : IValueConverter
+  public class NegativeVisibilityConverter : IValueConverter
   {
     /// <summary>
     /// Convert
