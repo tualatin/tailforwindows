@@ -96,7 +96,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
           if ( uptime.Hours < 1 )
           {
-            LOG.Info($"Statistics not saved, {EnvironmentContainer.ApplicationTitle} was active less than 1 hour: {uptime.Minutes} minute(s)!");
+            LOG.Info($"Statistics not saved, {CoreEnvironment.ApplicationTitle} was active less than 1 hour: {uptime.Minutes} minute(s)!");
             return;
           }
 

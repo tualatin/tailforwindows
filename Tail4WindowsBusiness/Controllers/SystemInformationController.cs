@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
 using Org.Vs.TailForWin.Business.Data.SystemInformation;
-using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Native;
@@ -42,7 +41,7 @@ namespace Org.Vs.TailForWin.Business.Controllers
                         $"{SettingsHelperController.CurrentSettings.DefaultTimeFormat.GetEnumDescription()}";
         string buildDateTime = BuildDate.GetBuildDateTime(assembly).ToString(format);
 
-        sysInfo.ApplicationName = EnvironmentContainer.ApplicationTitle;
+        sysInfo.ApplicationName = CoreEnvironment.ApplicationTitle;
         sysInfo.BuildDateTime = buildDateTime;
         sysInfo.ApplicationVersion = Application.ProductVersion;
         sysInfo.MachineName = Environment.MachineName;

@@ -181,7 +181,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
 
     private void ExecuteDonateCommand()
     {
-      var url = new Uri(EnvironmentContainer.ApplicationDonateWebUrl);
+      var url = new Uri(CoreEnvironment.ApplicationDonateWebUrl);
       EnvironmentContainer.Instance.ExecuteRequestNavigateCommand(url);
     }
 
