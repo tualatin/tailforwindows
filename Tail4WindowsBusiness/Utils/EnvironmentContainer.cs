@@ -10,6 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using Microsoft.Win32;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Controllers;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Mappings;
@@ -40,6 +42,7 @@ namespace Org.Vs.TailForWin.Business.Utils
       _settings = new SettingsHelperController();
       UpTime = DateTime.Now;
       CurrentEventManager = new EventAggregator();
+      BookmarkManager = new BookmarkManager();
 
       NotifyTaskCompletion.Create(IntializeObservableCollectionsAsync);
     }
@@ -88,6 +91,11 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// Current event manager
     /// </summary>
     public readonly IEventAggregator CurrentEventManager;
+
+    /// <summary>
+    /// Current bookmark manager
+    /// </summary>
+    public readonly IBookmarkManager BookmarkManager;
 
     /// <summary>
     /// List of supported file encodings

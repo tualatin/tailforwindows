@@ -241,6 +241,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         _currentSizeRefreshTime = content.TailReader.SizeRefreshTime;
         _currentStatusbarState = content.LogWindowState;
         _currentEncoding = content.CurrentTailData?.FileEncoding;
+        EnvironmentContainer.Instance.BookmarkManager.RegisterWindowId(content.WindowId);
 
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ChangeWindowGuiMessage(content.WindowId));
         OnFindWhatWindowTitleChanged(new DragWindowTabItemChangedMessage(this, _selectedTabItem.HeaderContent, content.WindowId));
@@ -383,6 +384,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         _bookmarkOverview.Close();
       }
 
+      EnvironmentContainer.Instance.BookmarkManager.Dispose();
+
       if ( _findWhatWindow != null && _findWhatWindow.Visibility == Visibility.Visible )
         _findWhatWindow.Close();
     }
@@ -520,7 +523,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteTrayIconLeftCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new BringMainWindowToFrontMessage(this));
 
-    private void ExecuteActivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
+    private void ExecuteActivatedCommand()
+    {
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
+
+      if ( SelectedTabItem == null || !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.BookmarkManager.RegisterWindowId(control.WindowId);
+    }
 
     private void ExecuteDeactivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(false));
 
@@ -588,14 +599,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       await EnvironmentContainer.Instance.SaveSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2))).ConfigureAwait(false);
 
-      LOG.Trace($"{EnvironmentContainer.ApplicationTitle} closing, goodbye!");
+      LOG.Trace($"{CoreEnvironment.ApplicationTitle} closing, goodbye!");
     }
 
     private async Task ExecuteWndLoadedCommandAsync()
     {
       await Task.Run(() =>
       {
-        LOG.Trace($"{EnvironmentContainer.ApplicationTitle} startup completed!");
+        LOG.Trace($"{CoreEnvironment.ApplicationTitle} startup completed!");
       }).ConfigureAwait(false);
 
       await CleanGarbageCollectorAsync().ConfigureAwait(false);
@@ -1138,7 +1149,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
             }, DispatcherPriority.Normal);
           })
           {
-            Name = $"{EnvironmentContainer.ApplicationTitle}_AutoUpdateThread",
+            Name = $"{CoreEnvironment.ApplicationTitle}_AutoUpdateThread",
             IsBackground = true
           };
 
@@ -1150,7 +1161,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void MoveIntoView()
     {
-      LOG.Trace($"Move {EnvironmentContainer.ApplicationTitle} into view, if required.");
+      LOG.Trace($"Move {CoreEnvironment.ApplicationTitle} into view, if required.");
 
       if ( SettingsHelperController.CurrentSettings.WindowPositionY + SettingsHelperController.CurrentSettings.WindowHeight / 2 > SystemParameters.VirtualScreenHeight )
         SettingsHelperController.CurrentSettings.WindowPositionY = SystemParameters.VirtualScreenHeight - SettingsHelperController.CurrentSettings.WindowHeight;

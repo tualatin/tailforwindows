@@ -53,6 +53,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         if ( !(_selectedItem?.Content is ILogWindowControl control) )
           return;
 
+        EnvironmentContainer.Instance.BookmarkManager.RegisterWindowId(control.WindowId);
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new DragWindowTabItemChangedMessage(this, _selectedItem.HeaderContent, control.WindowId));
       }
     }
@@ -717,7 +718,15 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       });
     }
 
-    private void DragWindowOnActivated(object sender, EventArgs e) => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
+    private void DragWindowOnActivated(object sender, EventArgs e)
+    {
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(true));
+
+      if ( SelectedTabItem == null || !(SelectedTabItem.Content is ILogWindowControl control) )
+        return;
+
+      EnvironmentContainer.Instance.BookmarkManager.RegisterWindowId(control.WindowId);
+    }
 
     private void DragWindowOnDeactivated(object sender, EventArgs e) => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(false));
   }
