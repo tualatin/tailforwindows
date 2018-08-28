@@ -6,6 +6,7 @@ using log4net;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 

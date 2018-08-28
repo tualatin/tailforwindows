@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
 using NUnit.Framework;
@@ -30,7 +30,7 @@ namespace Org.Vs.NUnit.Tests
       Assert.That(() => _webController.GetStringByUrlAsync(null), Throws.InstanceOf<ArgumentException>());
       Assert.That(() => _webController.GetStringByUrlAsync("htpewh://blabla.info"), Throws.InstanceOf<NotSupportedException>());
 
-      var webRequest = await _webController.GetStringByUrlAsync(EnvironmentContainer.ApplicationUpdateWebUrl).ConfigureAwait(false);
+      var webRequest = await _webController.GetStringByUrlAsync(CoreEnvironment.ApplicationUpdateWebUrl).ConfigureAwait(false);
       Assert.IsNotNull(webRequest);
       Assert.IsTrue(webRequest.Contains("TfW_x64.zip"));
     }

@@ -24,9 +24,9 @@ namespace Org.Vs.TailForWin.Core.Utils
     public delegate void ArgsHandler(string[] args);
 
     /// <summary>
-    /// Arguments recieved
+    /// Arguments received
     /// </summary>
-    public event ArgsHandler ArgsRecieved;
+    public event ArgsHandler ArgsReceived;
 
     private readonly Guid _appGuid;
     private readonly Mutex _mutex;
@@ -163,11 +163,11 @@ namespace Org.Vs.TailForWin.Core.Utils
 
     private void ProcessArgs(Guid appGuid, string[] args)
     {
-      if ( appGuid == _appGuid && ArgsRecieved != null )
+      if ( appGuid == _appGuid && ArgsReceived != null )
       {
         _window.Dispatcher.BeginInvoke((ThreadStart) delegate
         {
-          ArgsRecieved(args);
+          ArgsReceived(args);
         });
       }
     }

@@ -12,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using log4net;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
@@ -491,7 +492,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void ExecuteOpenFileCommand()
     {
-      if ( !InteractionService.OpenFileDialog(out string fileName, Application.Current.TryFindResource("OpenDialogAllFiles").ToString(), EnvironmentContainer.ApplicationTitle) )
+      if ( !InteractionService.OpenFileDialog(out string fileName, Application.Current.TryFindResource("OpenDialogAllFiles").ToString(), CoreEnvironment.ApplicationTitle) )
         return;
 
       MouseService.SetBusyState();

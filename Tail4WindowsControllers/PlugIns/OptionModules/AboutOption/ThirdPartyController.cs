@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Interfaces;
-using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption

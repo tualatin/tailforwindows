@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
-using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 
 

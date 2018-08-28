@@ -15,13 +15,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using log4net;
 using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.LogWindowUserControl.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Extensions;
-using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
 using Org.Vs.TailForWin.Data.Messages.Keybindings;
@@ -729,13 +729,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       OnPropertyChanged(nameof(CurrentTailData));
     }
 
-    private bool CanExecuteAddToFindWhatCommand()
-    {
-      if ( _readOnlyTextMessage == null || _readOnlyTextMessage.Visibility == Visibility.Collapsed )
-        return false;
-
-      return _readOnlyTextMessage.SelectionLength > 0;
-    }
+    private bool CanExecuteAddToFindWhatCommand() => _readOnlyTextMessage != null && _readOnlyTextMessage.Visibility != Visibility.Collapsed && _readOnlyTextMessage.SelectionLength > 0;
 
     private void ExecuteAddToFindWhatCommand()
     {

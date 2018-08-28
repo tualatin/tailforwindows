@@ -10,7 +10,7 @@
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
-  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils;assembly=T4WCore"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
   xmlns:utils1="clr-namespace:Org.Vs.TailForWin.UI.Utils"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
   mc:Ignorable="d"

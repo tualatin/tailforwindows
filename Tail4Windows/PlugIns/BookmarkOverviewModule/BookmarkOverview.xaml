@@ -155,6 +155,12 @@
           />
 
         <DataGridTextColumn
+          MinWidth="130"
+          Header="{DynamicResource FindResultMessage}"
+          Binding="{Binding BookmarkToolTip, UpdateSourceTrigger=PropertyChanged}"
+          />
+
+        <DataGridTextColumn
           MinWidth="400"
           Header="{DynamicResource FindResultMessage}"
           Binding="{Binding Message, UpdateSourceTrigger=PropertyChanged}"

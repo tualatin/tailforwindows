@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AlertOption.Interfaces;
@@ -91,7 +92,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels
     {
       var allFiles = Application.Current.TryFindResource("OpenDialogAllFiles").ToString();
 
-      if ( InteractionService.OpenFileDialog(out string fileName, $"MP3(*.mp3)|*.mp3|Wave(*.wav)|*.wav|{allFiles}", EnvironmentContainer.ApplicationTitle) )
+      if ( InteractionService.OpenFileDialog(out string fileName, $"MP3(*.mp3)|*.mp3|Wave(*.wav)|*.wav|{allFiles}", CoreEnvironment.ApplicationTitle) )
         SettingsHelperController.CurrentSettings.AlertSettings.SoundFileNameFullPath = fileName;
     }
 
@@ -100,7 +101,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels
     /// <summary>
     /// On file drop
     /// </summary>
-    /// <param name="filePaths">Array of file pathes</param>
+    /// <param name="filePaths">Array of file paths</param>
     public void OnFileDrop(string[] filePaths)
     {
       if ( filePaths.Length == 0 )

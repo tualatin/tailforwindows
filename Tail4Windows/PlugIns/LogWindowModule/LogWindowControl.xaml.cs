@@ -16,6 +16,7 @@ using log4net;
 using Org.Vs.TailForWin.Business.Controllers;
 using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
@@ -533,13 +534,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       OnLinesTimeChanged?.Invoke(this, e);
     }
 
-    private bool CanExecuteDeleteHistoryCommand()
-    {
-      if ( !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
-        return false;
-
-      return _historyQueueSet != null && _historyQueueSet.Count != 0;
-    }
+    private bool CanExecuteDeleteHistoryCommand() => SettingsHelperController.CurrentSettings.SaveLogFileHistory && _historyQueueSet != null && _historyQueueSet.Count != 0;
 
     private async Task ExecuteDeleteHistoryCommandAsync()
     {
@@ -673,7 +668,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("QAddEditor").ToString()) == MessageBoxResult.No )
             return;
 
-          if ( !InteractionService.OpenFileDialog(out string editorPath, "Executable files(*.exe)|*.exe", EnvironmentContainer.ApplicationTitle) )
+          if ( !InteractionService.OpenFileDialog(out string editorPath, "Executable files(*.exe)|*.exe", CoreEnvironment.ApplicationTitle) )
             return;
 
           SettingsHelperController.CurrentSettings.EditorPath = editorPath;
@@ -744,7 +739,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       LogFileComboBoxHasFocus = false;
 
-      if ( !InteractionService.OpenFileDialog(out string fileName, Application.Current.TryFindResource("OpenDialogAllFiles").ToString(), EnvironmentContainer.ApplicationTitle) )
+      if ( !InteractionService.OpenFileDialog(out string fileName, Application.Current.TryFindResource("OpenDialogAllFiles").ToString(), CoreEnvironment.ApplicationTitle) )
         return;
 
       SelectedItem = fileName;
@@ -1323,7 +1318,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// On file drop
     /// </summary>
-    /// <param name="filePaths">Array of file pathes</param>
+    /// <param name="filePaths">Array of file paths</param>
     public void OnFileDrop(string[] filePaths)
     {
       if ( filePaths.Length == 0 )

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
-using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 
 

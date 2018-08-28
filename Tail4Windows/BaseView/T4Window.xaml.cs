@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using log4net;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
@@ -294,7 +295,7 @@ namespace Org.Vs.TailForWin.BaseView
     /// <summary>
     /// On Drag leave
     /// </summary>
-    public void OnDrageLeave()
+    public void OnDragLeave()
     {
       if ( _overlayWindow == null )
         return;

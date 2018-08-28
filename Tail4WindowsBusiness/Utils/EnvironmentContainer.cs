@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Media;
 using Microsoft.Win32;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -16,14 +15,15 @@ using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Mappings;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Utils;
 
 
-namespace Org.Vs.TailForWin.Core.Utils
+namespace Org.Vs.TailForWin.Business.Utils
 {
   /// <summary>
   /// Environment container for T4W as singleton
   /// </summary>
-  public class EnvironmentContainer
+  public class EnvironmentContainer : CoreEnvironment
   {
     private static EnvironmentContainer instance;
 
@@ -45,21 +45,6 @@ namespace Org.Vs.TailForWin.Core.Utils
     }
 
     /// <summary>
-    /// Application title
-    /// </summary>
-    public static string ApplicationTitle => Application.Current.TryFindResource("ApplicationTitle").ToString();
-
-    /// <summary>
-    /// Application Regex compare URL
-    /// </summary>
-    public static string ApplicationRegexWebUrl => "https://www.virtual-studios.de";
-
-    /// <summary>
-    /// Application Update URL
-    /// </summary>
-    public static string ApplicationUpdateWebUrl => "https://www.virtual-studios.de/tail4wnd/releases.txt";
-
-    /// <summary>
     /// Application Homepage URL
     /// </summary>
     public static string ApplicationHomePageWebUrl => "https://github.com/tualatin/tailforwindows";
@@ -78,11 +63,6 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// Application help URL
     /// </summary>
     public static string ApplicationHelpUrl => "https://github.com/tualatin/tailforwindows/wiki";
-
-    /// <summary>
-    /// Application donate web URL
-    /// </summary>
-    public static string ApplicationDonateWebUrl => "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M436BDAMQL7WE";
 
     /// <summary>
     /// Unlimited log line value

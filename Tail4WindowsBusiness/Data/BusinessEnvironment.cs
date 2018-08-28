@@ -1,4 +1,4 @@
-﻿using Org.Vs.TailForWin.Core.Utils;
+﻿using Org.Vs.TailForWin.Business.Utils;
 
 
 namespace Org.Vs.TailForWin.Business.Data

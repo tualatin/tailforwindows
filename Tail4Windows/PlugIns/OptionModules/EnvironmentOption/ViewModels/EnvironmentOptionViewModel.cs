@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces;
@@ -54,7 +55,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     /// </summary>
     public EnvironmentOptionViewModel()
     {
-      _sendToLinkName = $"{Environment.GetFolderPath(Environment.SpecialFolder.SendTo)}\\{EnvironmentContainer.ApplicationTitle}.lnk";
+      _sendToLinkName = $"{Environment.GetFolderPath(Environment.SpecialFolder.SendTo)}\\{CoreEnvironment.ApplicationTitle}.lnk";
 
       SetButtonContentByState();
     }
@@ -130,7 +131,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
           }
           else
           {
-            string message = string.Format(Application.Current.TryFindResource("QAddSendTo").ToString(), EnvironmentContainer.ApplicationTitle);
+            string message = string.Format(Application.Current.TryFindResource("QAddSendTo").ToString(), CoreEnvironment.ApplicationTitle);
 
             if ( InteractionService.ShowQuestionMessageBox(message) == MessageBoxResult.No )
               return;

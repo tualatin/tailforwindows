@@ -18,7 +18,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       if ( string.IsNullOrWhiteSpace(message) )
         return;
 
-      MessageBox.Show(message, EnvironmentContainer.ApplicationTitle, MessageBoxButton.OK, MessageBoxImage.Information);
+      MessageBox.Show(message, CoreEnvironment.ApplicationTitle, MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     /// <summary>
@@ -30,7 +30,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       if ( string.IsNullOrWhiteSpace(errorMessage) )
         return;
 
-      string caption = $"{EnvironmentContainer.ApplicationTitle} - {Application.Current.TryFindResource("Error")}";
+      string caption = $"{CoreEnvironment.ApplicationTitle} - {Application.Current.TryFindResource("Error")}";
       MessageBox.Show(errorMessage, caption, MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
@@ -42,7 +42,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <returns>MessageBoxResult</returns>
     public static MessageBoxResult ShowQuestionMessageBox(string question, MessageBoxResult defaultMessageBoxResult = MessageBoxResult.Yes)
     {
-      string caption = $"{EnvironmentContainer.ApplicationTitle} - {Application.Current.TryFindResource("Question")}";
+      string caption = $"{CoreEnvironment.ApplicationTitle} - {Application.Current.TryFindResource("Question")}";
       return string.IsNullOrWhiteSpace(question) ? MessageBoxResult.None :
         MessageBox.Show(question, caption, MessageBoxButton.YesNo, MessageBoxImage.Question, defaultMessageBoxResult);
     }

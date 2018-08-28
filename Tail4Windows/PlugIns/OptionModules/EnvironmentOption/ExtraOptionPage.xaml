@@ -7,7 +7,7 @@
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:debuging="clr-namespace:Org.Vs.TailForWin.UI.Debuging"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
-  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils;assembly=T4WCore"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
   mc:Ignorable="d"
   d:DesignHeight="400"
   d:DesignWidth="400"

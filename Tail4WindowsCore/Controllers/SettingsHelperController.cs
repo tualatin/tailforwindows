@@ -133,7 +133,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       {
         try
         {
-          LOG.Trace($"Read {EnvironmentContainer.ApplicationTitle} settings");
+          LOG.Trace($"Read {CoreEnvironment.ApplicationTitle} settings");
 
           ReadWindowSettings();
           ReadStatusBarSettings();
@@ -182,7 +182,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       {
         try
         {
-          LOG.Trace($"Save {EnvironmentContainer.ApplicationTitle} settings");
+          LOG.Trace($"Save {CoreEnvironment.ApplicationTitle} settings");
 
           Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
@@ -322,7 +322,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       lock ( MyLock )
       {
-        LOG.Trace($"Reset {EnvironmentContainer.ApplicationTitle} settings");
+        LOG.Trace($"Reset {CoreEnvironment.ApplicationTitle} settings");
 
         SetDefaultWindowSettings();
         SetDefaultStatusBarSettings();
@@ -442,7 +442,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       lock ( MyLock )
       {
-        LOG.Trace($"Reload {EnvironmentContainer.ApplicationTitle} settings");
+        LOG.Trace($"Reload {CoreEnvironment.ApplicationTitle} settings");
         ConfigurationManager.RefreshSection("appSettings");
       }
     }

@@ -11,7 +11,7 @@
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:taskbarNotification="clr-namespace:Hardcodet.Wpf.TaskbarNotification"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
-  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Core.Utils;assembly=T4WCore"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
   mc:Ignorable="d"
   x:Name="MainWindow"

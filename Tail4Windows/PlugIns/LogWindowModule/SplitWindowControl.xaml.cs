@@ -702,7 +702,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchCountMessage>(OnStartSearchCount);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchFindNextMessage>(OnStartSearchFindNext);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowExtendedToolbarMessage>(OnShowExtendedToolbar);
-      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowBookmarkOverviewMessage>(OnShowBookmarkOverview);
 
       try
       {
@@ -721,7 +720,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchCountMessage>(OnStartSearchCount);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchFindNextMessage>(OnStartSearchFindNext);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ShowExtendedToolbarMessage>(OnShowExtendedToolbar);
-      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ShowBookmarkOverviewMessage>(OnShowBookmarkOverview);
 
       _cts?.Cancel();
     }
@@ -755,17 +753,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     #endregion
-
-    private void OnShowBookmarkOverview(ShowBookmarkOverviewMessage args)
-    {
-      if ( !IsRightWindow(args.WindowGuid) )
-        return;
-
-      if ( LogEntries == null || LogEntries.Count == 0 )
-        return;
-
-      var result = LogEntries.Where(p => p?.BookmarkPoint != null).ToList();
-    }
 
     private void OnJumpToSelectedLogEntry(JumpToSelectedLogEntryMessage args)
     {

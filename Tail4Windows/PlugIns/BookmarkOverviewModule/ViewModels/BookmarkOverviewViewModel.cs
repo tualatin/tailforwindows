@@ -229,7 +229,7 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     {
       FilterHasFocus = false;
 
-      if ( BookmarkCollectionView == null )
+      if ( BookmarkSource == null )
       {
         FilterHasFocus = true;
         return;

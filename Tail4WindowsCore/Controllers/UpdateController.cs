@@ -48,7 +48,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       stopUpdate.Start();
       LOG.Info("Check if update is necessary...");
 
-      var matchUrl = Regex.Match(EnvironmentContainer.ApplicationUpdateWebUrl, EnvironmentContainer.ApplicationRegexWebUrl, RegexOptions.IgnoreCase);
+      Match matchUrl = Regex.Match(CoreEnvironment.ApplicationUpdateWebUrl, CoreEnvironment.ApplicationRegexWebUrl, RegexOptions.IgnoreCase);
       _result = new UpdateData
       {
         ApplicationVersion = version
@@ -57,8 +57,9 @@ namespace Org.Vs.TailForWin.Core.Controllers
       if ( !matchUrl.Success )
         throw new WebException("Not a valid update URL, operation aborted!");
 
-      string webRequest = await _webController.GetStringByUrlAsync(EnvironmentContainer.ApplicationUpdateWebUrl).ConfigureAwait(false);
+      string webRequest = await _webController.GetStringByUrlAsync(CoreEnvironment.ApplicationUpdateWebUrl).ConfigureAwait(false);
       await Task.Run(() => UpdateNecessary(webRequest), token).ConfigureAwait(false);
+
       stopUpdate.Stop();
 
       LOG.Trace("Checked in {0} ms", stopUpdate.ElapsedMilliseconds);

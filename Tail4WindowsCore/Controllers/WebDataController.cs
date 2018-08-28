@@ -29,48 +29,32 @@ namespace Org.Vs.TailForWin.Core.Controllers
       Arg.NotNull(url, nameof(url));
       CheckUrl(url);
 
-      HttpClientHandler handler = null;
-
-      if ( SettingsHelperController.CurrentSettings.ProxySettings.UseSystemSettings != null )
-        handler = await CreateHttpClientHandlerAsync().ConfigureAwait(false);
-      else
-        handler = new HttpClientHandler();
+      HttpClientHandler handler = SettingsHelperController.CurrentSettings.ProxySettings.UseSystemSettings != null ?
+        await CreateHttpClientHandlerAsync().ConfigureAwait(false) : new HttpClientHandler();
 
       using ( var client = new HttpClient(handler) )
       {
-        try
+        using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(3)) )
         {
-          using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(3)) )
-          {
-            var downloadTask = client.GetStringAsync(url);
-            var timeoutTask = Task.Delay(TimeSpan.FromMinutes(2), cts.Token);
-            var completedTask = await Task.WhenAny(downloadTask, timeoutTask).ConfigureAwait(false);
+          var downloadTask = client.GetStringAsync(url);
+          Task timeoutTask = Task.Delay(TimeSpan.FromMinutes(2), cts.Token);
+          Task completedTask = await Task.WhenAny(downloadTask, timeoutTask).ConfigureAwait(false);
 
-            if ( completedTask == timeoutTask )
-              return null;
-
-            return await downloadTask.ConfigureAwait(false);
-          }
-        }
-        catch ( Exception ex )
-        {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-          InteractionService.ShowErrorMessageBox(ex.Message);
+          return completedTask == timeoutTask ? null : await downloadTask.ConfigureAwait(false);
         }
       }
-      return null;
     }
 
     private async Task<HttpClientHandler> CreateHttpClientHandlerAsync()
     {
       string proxyUrl = $"{SettingsHelperController.CurrentSettings.ProxySettings.ProxyUrl}:{SettingsHelperController.CurrentSettings.ProxySettings.ProxyPort}";
       string pw = await StringEncryption.DecryptAsync(SettingsHelperController.CurrentSettings.ProxySettings.Password).ConfigureAwait(false);
-      bool usedefaultCredentials = true;
+      bool useDefaultCredentials = true;
       NetworkCredential proxyCredential = null;
 
       if ( !string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.ProxySettings.UserName) && !string.IsNullOrWhiteSpace(pw) )
       {
-        usedefaultCredentials = false;
+        useDefaultCredentials = false;
         proxyCredential = new NetworkCredential(SettingsHelperController.CurrentSettings.ProxySettings.UserName, pw);
       }
 
@@ -79,14 +63,14 @@ namespace Org.Vs.TailForWin.Core.Controllers
       if ( SettingsHelperController.CurrentSettings.ProxySettings.UseSystemSettings != null && SettingsHelperController.CurrentSettings.ProxySettings.UseSystemSettings.Value )
       {
         proxy = WebRequest.GetSystemWebProxy();
-        proxy.Credentials = usedefaultCredentials ? null : proxyCredential;
+        proxy.Credentials = useDefaultCredentials ? null : proxyCredential;
       }
       else
       {
         proxy = new WebProxy(proxyUrl, false)
         {
-          UseDefaultCredentials = usedefaultCredentials,
-          Credentials = usedefaultCredentials ? null : proxyCredential
+          UseDefaultCredentials = useDefaultCredentials,
+          Credentials = useDefaultCredentials ? null : proxyCredential
         };
       }
 
@@ -94,7 +78,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       {
         Proxy = proxy,
         PreAuthenticate = true,
-        UseDefaultCredentials = usedefaultCredentials
+        UseDefaultCredentials = useDefaultCredentials
       };
       return httpClientHandler;
     }

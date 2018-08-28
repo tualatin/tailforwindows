@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows;
 using log4net;
 using Org.Vs.TailForWin.BaseView;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -60,7 +61,7 @@ namespace Org.Vs.TailForWin
       if ( SettingsHelperController.CurrentSettings.SingleInstance )
       {
         var instance = new SingleInstance(_tail4WindowsGuid);
-        instance.ArgsRecieved += OnArgsRecieved;
+        instance.ArgsReceived += OnArgsReceived;
 
         instance.Run(() =>
         {
@@ -72,10 +73,10 @@ namespace Org.Vs.TailForWin
       }
 
       new T4Window().Show();
-      OnArgsRecieved(_args);
+      OnArgsReceived(_args);
     }
 
-    private void OnArgsRecieved(string[] args)
+    private void OnArgsReceived(string[] args)
     {
       if ( args == null || args.Length <= 0 )
         return;

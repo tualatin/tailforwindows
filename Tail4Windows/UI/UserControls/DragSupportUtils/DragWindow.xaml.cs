@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using log4net;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Native;
@@ -87,7 +88,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
           if ( busyTabItems.Count > 0 )
           {
-            string message = string.Format(Application.Current.TryFindResource("ThreadIsBusy").ToString(), EnvironmentContainer.ApplicationTitle);
+            string message = string.Format(Application.Current.TryFindResource("ThreadIsBusy").ToString(), CoreEnvironment.ApplicationTitle);
 
             if ( InteractionService.ShowQuestionMessageBox(message) == MessageBoxResult.Yes )
             {
@@ -300,7 +301,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// On Drag leave
     /// </summary>
-    public void OnDrageLeave()
+    public void OnDragLeave()
     {
       if ( _overlayWindow == null )
         return;
@@ -500,7 +501,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Open font command
     /// </summary>
-    public ICommand OpenFontCommand => _openFontCommand ?? (_openFontCommand = new RelayCommand(p => ExeucteOpenFontCommand()));
+    public ICommand OpenFontCommand => _openFontCommand ?? (_openFontCommand = new RelayCommand(p => ExecuteOpenFontCommand()));
 
     private ICommand _minimizeWindowCommand;
 
@@ -573,7 +574,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     private void ExecuteMinimizeWindowCommand(Window window) => window.WindowState = WindowState.Minimized;
 
-    private void ExeucteOpenFontCommand()
+    private void ExecuteOpenFontCommand()
     {
       if ( !(SelectedTabItem.Content is ILogWindowControl control) )
         return;

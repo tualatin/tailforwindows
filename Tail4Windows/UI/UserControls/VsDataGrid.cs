@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using log4net;
-using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.UI.Extensions;
 
 

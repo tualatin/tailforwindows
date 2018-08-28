@@ -2,8 +2,8 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Extensions;
-using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.UI.Converters

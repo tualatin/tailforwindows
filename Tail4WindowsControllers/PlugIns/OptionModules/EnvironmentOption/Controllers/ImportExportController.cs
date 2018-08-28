@@ -4,8 +4,8 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using log4net;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces;
-using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Controllers

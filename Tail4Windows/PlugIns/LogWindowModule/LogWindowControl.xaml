@@ -11,7 +11,7 @@
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:logWindowModule="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.UI.Utils"
-  xmlns:utils1="clr-namespace:Org.Vs.TailForWin.Core.Utils;assembly=T4WCore"
+  xmlns:utils1="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
   mc:Ignorable="d"
   d:DataContext="{Binding RelativeSource={RelativeSource Self}}"
   d:DesignHeight="450"

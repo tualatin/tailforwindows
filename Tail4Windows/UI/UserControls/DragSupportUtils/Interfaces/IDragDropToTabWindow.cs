@@ -24,7 +24,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces
     /// <summary>
     /// On Drag leave
     /// </summary>
-    void OnDrageLeave();
+    void OnDragLeave();
 
     /// <summary>
     /// Is drag mouse ober

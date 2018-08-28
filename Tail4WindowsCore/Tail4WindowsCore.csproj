@@ -170,12 +170,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Arg.cs" />
     <Compile Include="Utils\BuildDate.cs" />
+    <Compile Include="Utils\CoreEnvironment.cs" />
     <Compile Include="Utils\EncodingDetector.cs" />
-    <Compile Include="Utils\EnvironmentContainer.cs" />
     <Compile Include="Utils\EventAggregator.cs" />
     <Compile Include="Utils\Execution.cs" />
-    <Compile Include="Utils\InteractionService.cs" />
     <Compile Include="Interfaces\IPlaySoundFile.cs" />
+    <Compile Include="Utils\InteractionService.cs" />
     <Compile Include="Utils\LanguageSelector.cs" />
     <Compile Include="Utils\MouseService.cs" />
     <Compile Include="Utils\ObservableDictionary.cs" />

@@ -18,6 +18,7 @@ using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Business.StatisticEngine.Controllers;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.BaseView.Events.Args;
 using Org.Vs.TailForWin.Controllers.BaseView.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
@@ -262,6 +263,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFindWhatWindowMessage>(OnOpenFindWhatWindow);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DragWindowTabItemChangedMessage>(OnFindWhatWindowTitleChanged);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFindWhatResultWindowMessage>(OnOpenFindWhatResultWindow);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowBookmarkOverviewMessage>(OnOpenBookmarkOverviewWindow);
 
       _cts = new CancellationTokenSource();
       _findWhatResultWindow = new FindWhatResult();
@@ -369,11 +371,17 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      _findWhatResultWindow.ShouldClose = true;
-      _findWhatResultWindow.Close();
+      if ( _findWhatResultWindow != null )
+      {
+        _findWhatResultWindow.ShouldClose = true;
+        _findWhatResultWindow.Close();
+      }
 
-      _bookmarkOverview.ShouldClose = true;
-      _bookmarkOverview.Close();
+      if ( _bookmarkOverview != null )
+      {
+        _bookmarkOverview.ShouldClose = true;
+        _bookmarkOverview.Close();
+      }
 
       if ( _findWhatWindow != null && _findWhatWindow.Visibility == Visibility.Visible )
         _findWhatWindow.Close();
@@ -991,6 +999,18 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _findWhatWindow.DialogTitle = args.NewTitle;
       _findWhatWindow.WindowGuid = args.WindowGuid;
+    }
+
+    private void OnOpenBookmarkOverviewWindow(ShowBookmarkOverviewMessage args)
+    {
+      if ( _bookmarkOverview.IsVisible )
+      {
+        _bookmarkOverview.Activate();
+        _bookmarkOverview.Focus();
+        return;
+      }
+
+      _bookmarkOverview.Show();
     }
 
     private void OnOpenFindWhatResultWindow(OpenFindWhatResultWindowMessage args)

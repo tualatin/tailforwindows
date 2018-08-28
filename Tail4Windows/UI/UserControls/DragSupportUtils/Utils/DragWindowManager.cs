@@ -107,18 +107,18 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils
             continue;
 
           _dragEnteredWindows.Remove(existWin);
-          existWin.OnDrageLeave();
+          existWin.OnDragLeave();
         }
       }
 
       if ( _dragEnteredWindows.Count > 0 )
       {
         var dragWinHwnd = new WindowInteropHelper((Window) dragWin).Handle;
-        var dragBelowhwnd = NativeMethods.GetWindow(dragWinHwnd, NativeMethods.GW_HWNDNEXT);
+        var dragBelowHwnd = NativeMethods.GetWindow(dragWinHwnd, NativeMethods.GW_HWNDNEXT);
         IDragDropToTabWindow nextTopWin = null;
         bool foundTabTarget = false;
 
-        for ( var hWind = dragBelowhwnd; hWind != IntPtr.Zero; hWind = NativeMethods.GetWindow(hWind, NativeMethods.GW_HWNDNEXT) )
+        for ( var hWind = dragBelowHwnd; hWind != IntPtr.Zero; hWind = NativeMethods.GetWindow(hWind, NativeMethods.GW_HWNDNEXT) )
         {
           foreach ( var dragWindow in _dragEnteredWindows )
           {
@@ -147,7 +147,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils
           var enteredWin = (Window) dragWindow;
 
           if ( !nextTopWin.Equals(enteredWin) )
-            ((IDragDropToTabWindow) enteredWin).OnDrageLeave();
+            ((IDragDropToTabWindow) enteredWin).OnDragLeave();
         }
 
         if ( nextTopWin.IsDragMouseOverTabZone(dragWinPosition) )
@@ -197,7 +197,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils
           }
         }
 
-        targetWin.OnDrageLeave();
+        targetWin.OnDragLeave();
       }
 
       if ( _dragEnteredWindows.Count > 0 && ((IDragWindow) dragWin).TabItems.Count == 0 )

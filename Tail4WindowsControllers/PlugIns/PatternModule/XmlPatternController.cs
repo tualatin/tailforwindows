@@ -4,11 +4,11 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using log4net;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data.XmlNames;
 using Org.Vs.TailForWin.Core.Extensions;
-using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
 using Org.Vs.TailForWin.Business.Data.SystemInformation;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Native;

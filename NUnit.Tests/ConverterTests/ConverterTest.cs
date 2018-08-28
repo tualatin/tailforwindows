@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
 using NUnit.Framework;
-using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.UI.Converters;
 
 
