@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using log4net;
+using Microsoft.Win32;
 using Org.Vs.TailForWin.Business.Data.SystemInformation;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Extensions;
@@ -47,6 +48,7 @@ namespace Org.Vs.TailForWin.Business.Controllers
         sysInfo.MachineName = Environment.MachineName;
         sysInfo.OsName = GetOsFriendlyName().Trim();
         sysInfo.OsVersion = $"{Environment.OSVersion.Version} {Environment.OSVersion.ServicePack} Build {Environment.OSVersion.Version.Build}";
+        sysInfo.OsReleaseId = GetReleaseId();
         sysInfo.OsType = $"{GetOsArchitecture()} Bit-{System.Windows.Application.Current.TryFindResource("Os")}";
         sysInfo.HostIpAddress = GetIpAddress();
         sysInfo.MachineMemory = GetMachineMemoryInfo();
@@ -132,6 +134,19 @@ namespace Org.Vs.TailForWin.Business.Controllers
         }
       }
       return myCpu;
+    }
+
+    private static string GetReleaseId()
+    {
+      try
+      {
+        string releaseId = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "ReleaseId", "").ToString();
+        return releaseId;
+      }
+      catch
+      {
+        return string.Empty;
+      }
     }
 
     private static string GetSystemLanguage() => Thread.CurrentThread.CurrentCulture.DisplayName;

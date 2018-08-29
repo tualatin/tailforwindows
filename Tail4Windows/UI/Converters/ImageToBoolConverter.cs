@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.UI.Converters
@@ -29,6 +30,7 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+      !(value is bool b) ? null : (b ? BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark.png") : null);
   }
 }

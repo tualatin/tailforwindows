@@ -66,6 +66,15 @@ namespace Org.Vs.TailForWin.Business.Data.SystemInformation
     }
 
     /// <summary>
+    /// OS release Id
+    /// </summary>
+    public string OsReleaseId
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Is it a 32 or 64-Bit OS
     /// </summary>
     public string OsType

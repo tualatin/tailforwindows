@@ -125,36 +125,6 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
       _activeWindowGuid = Guid.Empty;
     }
 
-    private void OnBookmarkDataSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-    {
-      OnBookmarkDataSourceChanged?.Invoke(this, EventArgs.Empty);
-
-      switch ( e.Action )
-      {
-      case NotifyCollectionChangedAction.Add:
-
-        break;
-
-      case NotifyCollectionChangedAction.Remove:
-
-        break;
-
-      case NotifyCollectionChangedAction.Replace:
-
-        break;
-
-      case NotifyCollectionChangedAction.Move:
-
-        break;
-
-      case NotifyCollectionChangedAction.Reset:
-
-        break;
-
-      default:
-
-        throw new ArgumentOutOfRangeException();
-      }
-    }
+    private void OnBookmarkDataSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnBookmarkDataSourceChanged?.Invoke(this, EventArgs.Empty);
   }
 }

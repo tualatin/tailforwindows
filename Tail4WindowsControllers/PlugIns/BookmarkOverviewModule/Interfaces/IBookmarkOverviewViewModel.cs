@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 
 
@@ -12,6 +13,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interface
   /// </summary>
   public interface IBookmarkOverviewViewModel : IViewModelBase
   {
+    /// <summary>
+    /// Export command
+    /// </summary>
+    IAsyncCommand ExportCommand
+    {
+      get;
+    }
+
     /// <summary>
     /// Top position
     /// </summary>

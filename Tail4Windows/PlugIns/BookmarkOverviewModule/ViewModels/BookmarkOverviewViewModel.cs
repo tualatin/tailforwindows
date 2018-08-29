@@ -13,6 +13,7 @@ using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Utils;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
@@ -208,10 +209,23 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     /// </summary>
     public ICommand UnloadedCommand => throw new System.NotImplementedException();
 
+    private IAsyncCommand _exportCommand;
+
+    /// <summary>
+    /// Export command
+    /// </summary>
+    public IAsyncCommand ExportCommand => _exportCommand ?? (_exportCommand = AsyncCommand.Create(p => CanExecuteExportCommand(), ExecuteExportCommandAsync));
 
     #endregion
 
     #region Command functions
+
+    private bool CanExecuteExportCommand() => BookmarkCollectionView != null && BookmarkCollectionView.Count > 0;
+
+    private async Task ExecuteExportCommandAsync()
+    {
+      MouseService.SetBusyState();
+    }
 
     private async Task ExecuteLoadedCommandAsync()
     {
