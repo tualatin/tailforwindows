@@ -8,6 +8,10 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
+v.2.1.xxxx.x
+* bug fix NullReferenceException TailData property changed
+* bug fix Drag window wrong Changed indicator after Drag'n'Drop
+
 v.2.1.6811.x
 * new copy element in TailManager
 * new continuous scrolling or push
