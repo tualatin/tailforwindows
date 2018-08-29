@@ -182,7 +182,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnTailDataPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !_currentTailData.OpenFromFileManager )
+      if ( _currentTailData == null || !_currentTailData.OpenFromFileManager )
         return;
 
       LogWindowTabItem.ItemChangedIndicator = _currentTailData.CanUndo ? Visibility.Visible : Visibility.Collapsed;

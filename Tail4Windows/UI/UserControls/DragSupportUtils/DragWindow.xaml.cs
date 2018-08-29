@@ -378,6 +378,9 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       // Fuck off WPF databinding, set filter state false and than true again -> Highlighting works.
       content.CurrentTailData.FilterState = false;
       content.CurrentTailData.FilterState = true;
+
+      // Commit changes
+      content.CurrentTailData.CommitChanges();
     }
 
     #region Commands
