@@ -11,6 +11,10 @@ Changelog:
 v.2.2.xxxx.x
 * new change Bookmark icon, if a comment exists
 
+v.2.1.xxxx.x
+* bug fix NullReferenceException TailData property changed
+* bug fix Drag window wrong Changed indicator after Drag'n'Drop
+
 v.2.1.6811.x
 * new copy element in TailManager
 * new continuous scrolling or push
