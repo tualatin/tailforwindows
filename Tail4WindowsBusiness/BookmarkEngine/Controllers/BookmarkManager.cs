@@ -27,6 +27,11 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
     /// </summary>
     public event IdChangedEventHandler OnIdChanged;
 
+    /// <summary>
+    /// On Bookmark data source changed event
+    /// </summary>
+    public event EventHandler OnBookmarkDataSourceChanged;
+
     #endregion
 
     #region Properties
@@ -61,18 +66,27 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
     /// Register a <see cref="Guid"/>
     /// </summary>
     /// <param name="windowId">Window id</param>
-    public void RegisterWindowId(Guid windowId)
+    /// <param name="activated">Current window is activated again</param>
+    public void RegisterWindowId(Guid windowId, bool activated = false)
     {
       // Already exists...
       if ( Equals(_activeWindowGuid, windowId) )
         return;
 
       _activeWindowGuid = windowId;
-      LOG.Debug($"Current activated window id is {_activeWindowGuid}");
+      LOG.Debug($"Current activated window id is {_activeWindowGuid}, activated: {activated}");
 
       BookmarkDataSource.Clear();
-      OnIdChanged?.Invoke(this, new IdChangedEventArgs(_activeWindowGuid));
+
+      if ( activated )
+        OnIdChanged?.Invoke(this, new IdChangedEventArgs(_activeWindowGuid));
     }
+
+    /// <summary>
+    /// Adds a bookmark item to data source
+    /// </summary>
+    /// <param name="item">Bookmark item</param>
+    public void AddBookmarkItemsToSource(LogEntry item) => AddBookmarkItemsToSource(new List<LogEntry> { item });
 
     /// <summary>
     /// Adds bookmark items to data source
@@ -87,6 +101,21 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
     }
 
     /// <summary>
+    /// Removes item from bookmark data source
+    /// </summary>
+    /// <param name="item">Item to remove</param>
+    public void RemoveFromBookmarkDataSource(LogEntry item)
+    {
+      if ( BookmarkDataSource == null || BookmarkDataSource.Count == 0 )
+        return;
+
+      if ( !BookmarkDataSource.Contains(item) )
+        return;
+
+      BookmarkDataSource.Remove(item);
+    }
+
+    /// <summary>
     /// Release all used resources
     /// </summary>
     public void Dispose()
@@ -98,6 +127,8 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
 
     private void OnBookmarkDataSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
+      OnBookmarkDataSourceChanged?.Invoke(this, EventArgs.Empty);
+
       switch ( e.Action )
       {
       case NotifyCollectionChangedAction.Add:

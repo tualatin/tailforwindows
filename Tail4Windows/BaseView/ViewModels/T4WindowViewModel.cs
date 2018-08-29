@@ -530,7 +530,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( SelectedTabItem == null || !(SelectedTabItem.Content is ILogWindowControl control) )
         return;
 
-      EnvironmentContainer.Instance.BookmarkManager.RegisterWindowId(control.WindowId);
+      EnvironmentContainer.Instance.BookmarkManager.RegisterWindowId(control.WindowId, true);
     }
 
     private void ExecuteDeactivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(false));

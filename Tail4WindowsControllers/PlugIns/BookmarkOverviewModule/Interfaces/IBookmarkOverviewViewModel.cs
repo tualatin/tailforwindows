@@ -97,5 +97,10 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interface
       get;
       set;
     }
+
+    /// <summary>
+    /// Setup Bookmark collection view
+    /// </summary>
+    void SetupBookmarkCollectionView();
   }
 }

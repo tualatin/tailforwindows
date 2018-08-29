@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Utils;
@@ -188,27 +191,39 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     /// </summary>
     public BookmarkOverviewViewModel()
     {
+      EnvironmentContainer.Instance.BookmarkManager.OnBookmarkDataSourceChanged += OnBookmarkManagerBookmarkDataSourceChanged;
     }
 
     #region Commands
 
+    private IAsyncCommand _loadedCommand;
+
     /// <summary>
     /// Loaded command
     /// </summary>
-    public IAsyncCommand LoadedCommand => throw new System.NotImplementedException();
+    public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
 
     /// <summary>
     /// Unloaded command
     /// </summary>
     public ICommand UnloadedCommand => throw new System.NotImplementedException();
 
+
     #endregion
 
     #region Command functions
 
+    private async Task ExecuteLoadedCommandAsync()
+    {
+
+    }
+
     #endregion
 
-    private void SetupFindResultCollectionView()
+    /// <summary>
+    /// Setup Bookmark collection view
+    /// </summary>
+    public void SetupBookmarkCollectionView()
     {
       FilterHasFocus = false;
 
@@ -237,6 +252,14 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
       bool result = _criteria.TrueForAll(p => p(t));
 
       return result;
+    }
+
+    private void OnBookmarkManagerBookmarkDataSourceChanged(object sender, EventArgs e)
+    {
+      if ( !(sender is IBookmarkManager) )
+        return;
+
+      SetupBookmarkCollectionView();
     }
   }
 }

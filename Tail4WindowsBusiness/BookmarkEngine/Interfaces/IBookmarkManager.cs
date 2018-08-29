@@ -18,6 +18,11 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces
     /// </summary>
     event IdChangedEventHandler OnIdChanged;
 
+    /// <summary>
+    /// On Bookmark data source changed event
+    /// </summary>
+    event EventHandler OnBookmarkDataSourceChanged;
+
     #endregion
 
     /// <summary>
@@ -38,13 +43,26 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces
     /// Register a <see cref="Guid"/>
     /// </summary>
     /// <param name="windowId">Window id</param>
-    void RegisterWindowId(Guid windowId);
+    /// <param name="activated">Current window is activated again</param>
+    void RegisterWindowId(Guid windowId, bool activated = false);
+
+    /// <summary>
+    /// Adds a bookmark item to data source
+    /// </summary>
+    /// <param name="item">Bookmark item</param>
+    void AddBookmarkItemsToSource(LogEntry item);
 
     /// <summary>
     /// Adds bookmark items to data source
     /// </summary>
     /// <param name="itemRange"><see cref="List{T}"/> of bookmarks</param>
     void AddBookmarkItemsToSource(List<LogEntry> itemRange);
+
+    /// <summary>
+    /// Removes item from bookmark data source
+    /// </summary>
+    /// <param name="item">Item to remove</param>
+    void RemoveFromBookmarkDataSource(LogEntry item);
 
     /// <summary>
     /// Release all used resources

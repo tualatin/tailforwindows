@@ -1,4 +1,5 @@
-﻿using Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interfaces;
+﻿using System.Windows;
+using Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels;
 
 
@@ -20,5 +21,7 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule
 
       _bookmarkViewModel = (BookmarkOverviewViewModel) DataContext;
     }
+
+    private void OnBookmarkOverviewOnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) => _bookmarkViewModel?.SetupBookmarkCollectionView();
   }
 }

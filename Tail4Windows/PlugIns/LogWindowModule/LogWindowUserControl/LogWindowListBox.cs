@@ -414,11 +414,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       {
         BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark.png");
         item.BookmarkPoint = bp;
+
+        if ( !IsRightWindow() )
+          return;
+
+        EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(item);
       }
       else
       {
         item.BookmarkPoint = null;
         item.BookmarkToolTip = string.Empty;
+
+        if ( !IsRightWindow() )
+          return;
+
+        EnvironmentContainer.Instance.BookmarkManager.RemoveFromBookmarkDataSource(item);
       }
     }
 
@@ -694,12 +704,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private void ExecuteBookmarkOverviewCommand()
     {
-      var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
+      ILogWindowControl logWindow = GetLogWindow();
 
-      if ( logWindow.Count == 0 )
+      if ( logWindow == null )
         return;
 
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowBookmarkOverviewMessage(logWindow.First().WindowId));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowBookmarkOverviewMessage(logWindow.WindowId));
     }
 
     private bool CanExecuteUndoCommand() => CurrentTailData != null && CurrentTailData.OpenFromFileManager && CurrentTailData.CanUndo;
@@ -733,16 +743,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private void ExecuteAddToFindWhatCommand()
     {
-      var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
+      ILogWindowControl logWindow = GetLogWindow();
 
-      if ( logWindow.Count == 0 )
+      if ( logWindow == null )
         return;
 
 #if DEBUG
       LOG.Trace($"Selected word is {_readOnlyTextMessage.SelectedText}");
 #endif
 
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatWindowMessage(this, CurrentTailData.File, logWindow.First().WindowId, _readOnlyTextMessage.SelectedText));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatWindowMessage(this, CurrentTailData.File, logWindow.WindowId, _readOnlyTextMessage.SelectedText));
     }
 
     private bool CanExecuteRemoveBookmarksCommand() => Items.Count > 0;
@@ -761,12 +771,29 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
         logEntry.BookmarkPoint = null;
         logEntry.BookmarkToolTip = string.Empty;
+
+        if ( !IsRightWindow() )
+          continue;
+
+        EnvironmentContainer.Instance.BookmarkManager.RemoveFromBookmarkDataSource(logEntry);
       }
 
       ContextMenu = null;
     }
 
     #endregion
+
+    private bool IsRightWindow()
+    {
+      ILogWindowControl logWindow = GetLogWindow();
+      return logWindow != null && Equals(EnvironmentContainer.Instance.BookmarkManager.GetCurrentWindowId(), logWindow.WindowId);
+    }
+
+    private ILogWindowControl GetLogWindow()
+    {
+      var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
+      return logWindow.Count == 0 ? null : logWindow.FirstOrDefault();
+    }
 
     private void CreateReadOnlyTextBoxContextMenu()
     {
@@ -876,6 +903,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       while ( lineStart != null );
     }
 
+    #region PropertyChanged
+
     /// <summary>
     /// Declare the event
     /// </summary>
@@ -890,5 +919,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       var handler = PropertyChanged;
       handler?.Invoke(this, new PropertyChangedEventArgs(name));
     }
+
+    #endregion
   }
 }

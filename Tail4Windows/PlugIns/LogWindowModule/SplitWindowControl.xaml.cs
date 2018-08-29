@@ -706,6 +706,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowExtendedToolbarMessage>(OnShowExtendedToolbar);
 
       EnvironmentContainer.Instance.BookmarkManager.OnIdChanged += OnBookmarkManagerIdChanged;
+      BookmarkManagerIdChanged(EnvironmentContainer.Instance.BookmarkManager.GetCurrentWindowId());
 
       try
       {
@@ -716,7 +717,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
-
 
     private void ExecuteUnloadedCommand()
     {
@@ -1564,17 +1564,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is IBookmarkManager) )
         return;
 
-      if ( !IsRightWindow(e.WindowId) && (LogEntries == null || LogEntries.Count == 0) )
-        return;
-
-      EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(LogEntries.Where(p => p?.BookmarkPoint != null).ToList());
-
-      var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
-
-      LOG.Debug($"Id: {e.WindowId} Count: {LogEntries.Count} TabHeader: {logWindow.First().LogWindowTabItem.HeaderContent}");
+      BookmarkManagerIdChanged(e.WindowId);
     }
 
     #endregion
+
+    private void BookmarkManagerIdChanged(Guid windowId)
+    {
+      if ( !IsRightWindow(windowId) || LogEntries == null )
+        return;
+
+      EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(LogEntries.Where(p => p?.BookmarkPoint != null).ToList());
+    }
 
     #region PropertyChanged
 

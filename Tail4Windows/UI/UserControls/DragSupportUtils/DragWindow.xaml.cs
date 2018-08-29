@@ -728,7 +728,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( SelectedTabItem == null || !(SelectedTabItem.Content is ILogWindowControl control) )
         return;
 
-      EnvironmentContainer.Instance.BookmarkManager.RegisterWindowId(control.WindowId);
+      EnvironmentContainer.Instance.BookmarkManager.RegisterWindowId(control.WindowId, true);
     }
 
     private void DragWindowOnDeactivated(object sender, EventArgs e) => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(false));

@@ -16,6 +16,7 @@
   Height="{Binding WindowHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   MinWidth="700"
   MinHeight="250"
+  IsVisibleChanged="OnBookmarkOverviewOnIsVisibleChanged"
   Left="{Binding LeftPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Top="{Binding TopPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   >
@@ -27,10 +28,6 @@
     <i:EventTrigger EventName="Loaded">
       <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
     </i:EventTrigger>
-
-    <!--<i:EventTrigger EventName="Closing">
-      <i:InvokeCommandAction Command="{Binding ClosingCommand}" />
-    </i:EventTrigger>-->
   </i:Interaction.Triggers>
 
   <Grid>
