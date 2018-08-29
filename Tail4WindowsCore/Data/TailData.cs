@@ -494,7 +494,7 @@ namespace Org.Vs.TailForWin.Core.Data
     private bool _openFromSmartWatch;
 
     /// <summary>
-    /// Item opend by SmartWatch logic
+    /// Item opened by SmartWatch logic
     /// </summary>
     public bool OpenFromSmartWatch
     {
