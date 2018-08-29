@@ -76,11 +76,11 @@ namespace Org.Vs.TailForWin.BaseView
       {
         if ( !SettingsHelperController.CurrentSettings.ShouldClose )
         {
-          var busyTabItems = BusinessHelper.GetTabItemList().Where(p => p.TabItemBusyIndicator == Visibility.Visible).ToList();
+          var busyTabItems = UiHelper.GetTabItemList().Where(p => p.TabItemBusyIndicator == Visibility.Visible).ToList();
 
           if ( busyTabItems.Count > 0 )
           {
-            string message = string.Format(Application.Current.TryFindResource("ThreadIsBusy").ToString(), EnvironmentContainer.ApplicationTitle);
+            string message = string.Format(Application.Current.TryFindResource("ThreadIsBusy").ToString(), CoreEnvironment.ApplicationTitle);
 
             if ( InteractionService.ShowQuestionMessageBox(message) == MessageBoxResult.Yes )
             {
@@ -303,7 +303,6 @@ namespace Org.Vs.TailForWin.BaseView
       _overlayWindow.Close();
       _overlayWindow = null;
     }
-
 
     /// <summary>
     /// Is drag mouse ober

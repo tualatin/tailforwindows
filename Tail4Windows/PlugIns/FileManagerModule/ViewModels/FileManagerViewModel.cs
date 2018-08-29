@@ -690,7 +690,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     private void OpenSelectedItem(Window window)
     {
       // Is this file already open?
-      var result = BusinessHelper.GetTabItemList().Where(p => ((LogWindowControl) p.Content).CurrentTailData.Id == SelectedItem.Id).ToList();
+      var result = UiHelper.GetTabItemList().Where(p => ((LogWindowControl) p.Content).CurrentTailData.Id == SelectedItem.Id).ToList();
 
       if ( result.Count > 0 )
       {

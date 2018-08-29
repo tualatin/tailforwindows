@@ -272,7 +272,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _dbSettingsController = SettingsDbController.Instance;
       _statisticController = new StatisticController();
       _currentStatusbarState = EStatusbarState.Default;
-      BusinessHelper.TabItemList.CollectionChanged += RegisteredTabItemsSourceCollectionChanged;
+      UiHelper.TabItemList.CollectionChanged += RegisteredTabItemsSourceCollectionChanged;
 
       _baseWindowStatusbarViewModel = BaseWindowStatusbarViewModel.Instance;
       _baseWindowStatusbarViewModel.FileEncodingChanged += OnFileEncodingChanged;
@@ -582,9 +582,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( e.Cancel )
         return;
 
-      for ( int i = BusinessHelper.TabItemList.Count - 1; i >= 0; i-- )
+      for ( int i = UiHelper.TabItemList.Count - 1; i >= 0; i-- )
       {
-        BusinessHelper.UnregisterTabItem(BusinessHelper.TabItemList[i]);
+        UiHelper.UnregisterTabItem(UiHelper.TabItemList[i]);
       }
 
       _cts.Cancel();
@@ -945,7 +945,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void AddTabItem(string header, string toolTip, Visibility busyIndicator, ILogWindowControl content = null, string backgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor)
     {
-      var tabItem = BusinessHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, content, backgroundColor);
+      var tabItem = UiHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, content, backgroundColor);
 
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemDoubleClick;
@@ -1058,7 +1058,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       item.TabHeaderDoubleClick -= TabItemDoubleClick;
       item.CloseTabWindow -= TabItemCloseTabWindow;
 
-      BusinessHelper.UnregisterTabItem(item);
+      UiHelper.UnregisterTabItem(item);
       TabItemsSource.Remove(item);
 
       if ( TabItemsSource.Count == 0 )

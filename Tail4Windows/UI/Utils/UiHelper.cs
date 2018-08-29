@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Data.Settings;
@@ -18,9 +14,9 @@ using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 namespace Org.Vs.TailForWin.UI.Utils
 {
   /// <summary>
-  /// BusinessHelper
+  /// UiHelper
   /// </summary>
-  public static class BusinessHelper
+  public static class UiHelper
   {
     /// <summary>
     /// List of registered <see cref="DragSupportTabItem"/>
@@ -145,27 +141,6 @@ namespace Org.Vs.TailForWin.UI.Utils
     }
 
     /// <summary>
-    /// Create icon of type <see cref="BitmapImage"/>
-    /// </summary>
-    /// <param name="url">Url</param>
-    /// <returns><see cref="BitmapImage"/></returns>
-    public static BitmapImage CreateBitmapIcon(string url)
-    {
-      lock ( MyLock )
-      {
-        var icon = new BitmapImage();
-        icon.BeginInit();
-        icon.UriSource = new Uri(url, UriKind.Relative);
-        icon.EndInit();
-
-        RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.HighQuality);
-        RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
-
-        return icon;
-      }
-    }
-
-    /// <summary>
     /// Create popup window
     /// </summary>
     /// <param name="alert">Alert title</param>
@@ -178,26 +153,6 @@ namespace Org.Vs.TailForWin.UI.Utils
         PopUpAlertDetail = detail
       };
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowNotificationPopUpMessage(alertPopUp));
-    }
-
-    /// <summary>
-    /// Creates a valid <see cref="Regex"/> pattern
-    /// </summary>
-    /// <param name="keyWords"><see cref="List{T}"/> of keywords</param>
-    /// <returns>Valid <see cref="Regex"/></returns>
-    public static Regex GetValidRegexPattern(List<string> keyWords)
-    {
-      string words = string.Empty;
-      keyWords.ForEach(p =>
-      {
-        if ( !string.IsNullOrWhiteSpace(words) )
-          words += "|";
-
-        words += $@"\b{p}\b";
-      });
-      var regex = new Regex($@"({words})");
-
-      return regex;
     }
   }
 }

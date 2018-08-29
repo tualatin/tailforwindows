@@ -501,17 +501,17 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( CurrentTailData.SmartWatch && !TailReader.SmartWatch.IsBusy )
       {
-        BusinessHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchStart").ToString());
+        UiHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchStart").ToString());
         TailReader.SmartWatch.StartSmartWatch(CurrentTailData);
       }
       else if ( !CurrentTailData.SmartWatch && TailReader.SmartWatch.IsBusy )
       {
-        BusinessHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchSuspend").ToString());
+        UiHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchSuspend").ToString());
         TailReader.SmartWatch.SuspendSmartWatch();
       }
       else if ( CurrentTailData.SmartWatch && TailReader.SmartWatch.IsBusy )
       {
-        BusinessHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchResume").ToString());
+        UiHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchResume").ToString());
         TailReader.SmartWatch.StartSmartWatch(CurrentTailData);
       }
     }
@@ -1055,11 +1055,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         {
           CurrentTailData = tailData
         };
-        DragSupportTabItem tabItem = BusinessHelper.CreateDragSupportTabItem(tailData.File, tailData.FileName, Visibility.Collapsed, content);
+        DragSupportTabItem tabItem = UiHelper.CreateDragSupportTabItem(tailData.File, tailData.FileName, Visibility.Collapsed, content);
         dragWindow = DragWindow.CreateTabWindow(window.Left + offset, window.Top + offset, window.Width, window.Height, tabItem);
 
         // Unregister tab item, we do not need it again!
-        BusinessHelper.UnregisterTabItem(tabItem);
+        UiHelper.UnregisterTabItem(tabItem);
       }
 
       dragWindow?.Activate();
@@ -1160,12 +1160,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( !SettingsHelperController.CurrentSettings.SmartWatch && TailReader.IsBusy && !TailReader.SmartWatch.IsSuspended )
       {
-        BusinessHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchSuspend").ToString());
+        UiHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchSuspend").ToString());
         TailReader.SmartWatch.SuspendSmartWatch();
       }
       else if ( SettingsHelperController.CurrentSettings.SmartWatch && TailReader.IsBusy && TailReader.SmartWatch.IsSuspended && CurrentTailData.SmartWatch )
       {
-        BusinessHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchResume").ToString());
+        UiHelper.CreatePopUpWindow("SmartWatch", Application.Current.TryFindResource("SmartWatchResume").ToString());
         TailReader.SmartWatch.StartSmartWatch(CurrentTailData);
       }
     }

@@ -114,7 +114,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( !Items.Contains(tabItem) )
         return;
 
-      BusinessHelper.UnregisterTabItem(tabItem);
+      UiHelper.UnregisterTabItem(tabItem);
       var list = ItemsSource as ObservableCollection<DragSupportTabItem>;
       list?.Remove(tabItem);
     }

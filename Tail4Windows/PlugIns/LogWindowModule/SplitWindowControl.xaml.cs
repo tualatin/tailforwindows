@@ -49,7 +49,6 @@ using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule;
 using Org.Vs.TailForWin.UI.Extensions;
 using Org.Vs.TailForWin.UI.UserControls;
-using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule

@@ -110,7 +110,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       foreach ( var tabItem in TabItems )
       {
-        BusinessHelper.UnregisterTabItem(tabItem);
+        UiHelper.UnregisterTabItem(tabItem);
       }
     }
 
@@ -259,7 +259,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       tabItem.TabHeaderDoubleClick -= TabItemTabHeaderDoubleClick;
       tabItem.CloseTabWindow -= TabItemCloseTabWindow;
 
-      BusinessHelper.UnregisterTabItem(tabItem);
+      UiHelper.UnregisterTabItem(tabItem);
       TabItems.Remove(tabItem);
 
       if ( TabItems.Count == 0 )
@@ -365,7 +365,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     private void AddTabItem(string header, string toolTip, Visibility busyIndicator, string backgroundColor = "#FFD6DBE9", ILogWindowControl content = null)
     {
-      var tabItem = BusinessHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, content, backgroundColor);
+      var tabItem = UiHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, content, backgroundColor);
 
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemTabHeaderDoubleClick;

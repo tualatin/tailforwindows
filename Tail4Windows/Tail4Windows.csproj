@@ -472,7 +472,7 @@
     <Compile Include="UI\UserControls\VsDataGrid.cs" />
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
-    <Compile Include="UI\Utils\BusinessHelper.cs" />
+    <Compile Include="UI\Utils\UiHelper.cs" />
     <Compile Include="UI\Utils\FileDragDropHelper.cs" />
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />

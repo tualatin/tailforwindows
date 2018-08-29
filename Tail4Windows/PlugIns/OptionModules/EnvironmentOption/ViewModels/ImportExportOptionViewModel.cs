@@ -193,7 +193,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      BusinessHelper.
+      UiHelper.
         CreatePopUpWindow(Application.Current.TryFindResource("ImportExportImportLabel").ToString(), Application.Current.TryFindResource("ImportExportImportFinishedMessage").ToString());
     }
 
@@ -202,7 +202,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      BusinessHelper.
+      UiHelper.
         CreatePopUpWindow(Application.Current.TryFindResource("ImportExportResetConfiguration").ToString(), Application.Current.TryFindResource("ImportExportResetFinishedMessage").ToString());
     }
 
@@ -211,7 +211,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      BusinessHelper.
+      UiHelper.
         CreatePopUpWindow(Application.Current.TryFindResource("ImportExportExportLabel").ToString(), Application.Current.TryFindResource("ImportExportExportFinishedMessage").ToString());
     }
 

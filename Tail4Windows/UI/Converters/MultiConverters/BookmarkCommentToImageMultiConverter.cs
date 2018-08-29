@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
-using Org.Vs.TailForWin.UI.Utils;
+using Org.Vs.TailForWin.Business.Utils;
 
 
 namespace Org.Vs.TailForWin.UI.Converters.MultiConverters
@@ -25,8 +25,18 @@ namespace Org.Vs.TailForWin.UI.Converters.MultiConverters
       if ( values.Length != 2 )
         return null;
 
-      return !(values[1] is string s) ? values.First() : (string.IsNullOrWhiteSpace(s) ?
-        values.First() : BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark_Info.png"));
+      if ( values[0] == null )
+        return null;
+
+      if ( !(values[1] is string s) )
+        return values.First();
+
+      var image = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark_Info.png");
+
+      if ( !string.IsNullOrWhiteSpace(s) )
+        values[0] = image;
+
+      return values.First();
     }
 
     /// <summary>

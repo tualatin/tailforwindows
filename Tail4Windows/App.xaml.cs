@@ -158,7 +158,7 @@ namespace Org.Vs.TailForWin
       if ( task.Result == null )
         return;
 
-      DragSupportTabItem firstTab = BusinessHelper.TabItemList.FirstOrDefault();
+      DragSupportTabItem firstTab = UiHelper.TabItemList.FirstOrDefault();
 
       if ( !(firstTab?.Content is ILogWindowControl myControl) )
         return;
@@ -175,7 +175,7 @@ namespace Org.Vs.TailForWin
       {
         Current.Dispatcher.InvokeAsync(() =>
         {
-          DragSupportTabItem firstTab = BusinessHelper.TabItemList.FirstOrDefault();
+          DragSupportTabItem firstTab = UiHelper.TabItemList.FirstOrDefault();
 
           if ( !(firstTab?.Content is ILogWindowControl myControl) )
             return;

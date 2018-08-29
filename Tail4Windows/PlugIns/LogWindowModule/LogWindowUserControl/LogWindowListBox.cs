@@ -412,8 +412,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       if ( item.BookmarkPoint == null )
       {
-        BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark.png");
-        item.BookmarkPoint = bp;
+        item.BookmarkPoint = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark.png");
 
         if ( !IsRightWindow() )
           return;

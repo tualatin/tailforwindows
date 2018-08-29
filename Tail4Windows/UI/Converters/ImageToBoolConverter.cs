@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using Org.Vs.TailForWin.UI.Utils;
+using Org.Vs.TailForWin.Business.Utils;
 
 
 namespace Org.Vs.TailForWin.UI.Converters

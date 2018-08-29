@@ -6,9 +6,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
 using Org.Vs.TailForWin.UI.Converters;
-using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls
@@ -52,7 +52,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
           {
             Foreground = _stringToBrushConverter.Convert(highlightData.TextHighlightColorHex, typeof(Brush), null, null) as Brush,
             FontFamily = highlightData.FilterFontType.FontFamily,
-            FontSize =  highlightData.FilterFontType.FontSize,
+            FontSize = highlightData.FilterFontType.FontSize,
             FontStretch = highlightData.FilterFontType.FontStretch,
             FontStyle = highlightData.FilterFontType.FontStyle,
             FontWeight = highlightData.FilterFontType.FontWeight

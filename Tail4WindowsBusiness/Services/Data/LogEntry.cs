@@ -88,7 +88,7 @@ namespace Org.Vs.TailForWin.Business.Services.Data
       get => _bookmarkToolTip;
       set
       {
-        if (Equals(value, _bookmarkToolTip))
+        if ( Equals(value, _bookmarkToolTip) )
           return;
 
         _bookmarkToolTip = value;

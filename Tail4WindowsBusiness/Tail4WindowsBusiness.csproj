@@ -124,6 +124,7 @@
     <Compile Include="StatisticEngine\DbScheme\KeyValueObjectEntity.cs" />
     <Compile Include="StatisticEngine\DbScheme\LogLineDateEntity.cs" />
     <Compile Include="StatisticEngine\DbScheme\LogLineEntity.cs" />
+    <Compile Include="Utils\BusinessHelper.cs" />
     <Compile Include="Utils\EnvironmentContainer.cs" />
     <Compile Include="Utils\Interfaces\ICacheManager.cs" />
     <Compile Include="Services\Interfaces\ILogReadService.cs" />

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Windows.Media.Imaging;
 using log4net;
 using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Args;
 using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Delegates;
 using Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Business.Utils;
 
 
 namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
@@ -125,6 +128,65 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
       _activeWindowGuid = Guid.Empty;
     }
 
-    private void OnBookmarkDataSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => OnBookmarkDataSourceChanged?.Invoke(this, EventArgs.Empty);
+    private void OnBookmarkDataSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      OnBookmarkDataSourceChanged?.Invoke(this, EventArgs.Empty);
+
+      switch ( e.Action )
+      {
+      case NotifyCollectionChangedAction.Add:
+
+        foreach ( var item in e.NewItems )
+        {
+          if ( !(item is LogEntry logEntry) )
+            continue;
+
+          logEntry.PropertyChanged += OnLogEntryPropertyChanged;
+        }
+        break;
+
+      case NotifyCollectionChangedAction.Remove:
+
+        foreach ( var item in e.OldItems )
+        {
+          if ( !(item is LogEntry logEntry) )
+            continue;
+
+          logEntry.PropertyChanged -= OnLogEntryPropertyChanged;
+        }
+        break;
+
+      case NotifyCollectionChangedAction.Replace:
+
+        break;
+
+      case NotifyCollectionChangedAction.Move:
+
+        break;
+
+      case NotifyCollectionChangedAction.Reset:
+
+        break;
+      }
+    }
+
+    private void OnLogEntryPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !(sender is LogEntry logEntry) )
+        return;
+
+      if ( logEntry.BookmarkPoint == null )
+        return;
+
+      var image = BusinessHelper.CreateBitmapIcon(string.IsNullOrWhiteSpace(logEntry.BookmarkToolTip) ? "/T4W;component/Resources/Bookmark.png" : "/T4W;component/Resources/Bookmark_Info.png");
+
+      if ( !(logEntry.BookmarkPoint is BitmapImage bmpImg) )
+        return;
+
+      if ( Equals(image.UriSource, bmpImg.UriSource) )
+        return;
+
+      logEntry.BookmarkPoint = image;
+    }
   }
 }
