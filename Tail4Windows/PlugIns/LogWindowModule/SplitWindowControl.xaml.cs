@@ -14,6 +14,8 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using log4net;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Args;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces;
 using Org.Vs.TailForWin.Business.SearchEngine.Controllers;
 using Org.Vs.TailForWin.Business.SearchEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Services.Data;
@@ -703,6 +705,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchFindNextMessage>(OnStartSearchFindNext);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowExtendedToolbarMessage>(OnShowExtendedToolbar);
 
+      EnvironmentContainer.Instance.BookmarkManager.OnIdChanged += OnBookmarkManagerIdChanged;
+
       try
       {
         _searchHistory = await _searchHistoryController.ReadXmlFileAsync().ConfigureAwait(false);
@@ -713,6 +717,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
+
     private void ExecuteUnloadedCommand()
     {
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchAllMessage>(OnStartSearchAll);
@@ -720,6 +725,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchCountMessage>(OnStartSearchCount);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchFindNextMessage>(OnStartSearchFindNext);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ShowExtendedToolbarMessage>(OnShowExtendedToolbar);
+
+      EnvironmentContainer.Instance.BookmarkManager.OnIdChanged -= OnBookmarkManagerIdChanged;
 
       _cts?.Cancel();
     }
@@ -1550,6 +1557,27 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       OnPropertyChanged(nameof(SearchHistory));
     }
 
+    #region BookmarkManager events
+
+    private void OnBookmarkManagerIdChanged(object sender, IdChangedEventArgs e)
+    {
+      if ( !(sender is IBookmarkManager) )
+        return;
+
+      if ( !IsRightWindow(e.WindowId) && (LogEntries == null || LogEntries.Count == 0) )
+        return;
+
+      EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(LogEntries.Where(p => p?.BookmarkPoint != null).ToList());
+
+      var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
+
+      LOG.Debug($"Id: {e.WindowId} Count: {LogEntries.Count} TabHeader: {logWindow.First().LogWindowTabItem.HeaderContent}");
+    }
+
+    #endregion
+
+    #region PropertyChanged
+
     /// <summary>
     /// Declare the event
     /// </summary>
@@ -1564,5 +1592,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       PropertyChangedEventHandler handler = PropertyChanged;
       handler?.Invoke(this, new PropertyChangedEventArgs(name));
     }
+
+    #endregion
   }
 }

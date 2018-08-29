@@ -241,11 +241,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         _currentSizeRefreshTime = content.TailReader.SizeRefreshTime;
         _currentStatusbarState = content.LogWindowState;
         _currentEncoding = content.CurrentTailData?.FileEncoding;
-        EnvironmentContainer.Instance.BookmarkManager.RegisterWindowId(content.WindowId);
 
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ChangeWindowGuiMessage(content.WindowId));
         OnFindWhatWindowTitleChanged(new DragWindowTabItemChangedMessage(this, _selectedTabItem.HeaderContent, content.WindowId));
         SetCurrentBusinessData();
+        EnvironmentContainer.Instance.BookmarkManager.RegisterWindowId(content.WindowId);
       }
     }
 

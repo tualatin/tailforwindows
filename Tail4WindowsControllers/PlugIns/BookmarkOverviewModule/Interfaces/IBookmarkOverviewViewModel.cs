@@ -58,15 +58,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interface
     }
 
     /// <summary>
-    /// List of <see cref="LogEntry"/> data source
-    /// </summary>
-    ObservableCollection<LogEntry> BookmarkSource
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
     /// SelectedItems
     /// </summary>
     ObservableCollection<LogEntry> SelectedItems

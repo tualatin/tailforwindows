@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Utils;
@@ -89,23 +90,6 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     {
       get;
       set;
-    }
-
-    private ObservableCollection<LogEntry> _bookmarkSource;
-
-    /// <summary>
-    /// List of <see cref="LogEntry"/> data source
-    /// </summary>
-    public ObservableCollection<LogEntry> BookmarkSource
-    {
-      get => _bookmarkSource;
-      set
-      {
-        _bookmarkSource = value;
-
-        OnPropertyChanged();
-        SetupFindResultCollectionView();
-      }
     }
 
     private ObservableCollection<LogEntry> _selectedItems;
@@ -204,7 +188,6 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     /// </summary>
     public BookmarkOverviewViewModel()
     {
-      BookmarkSource = new ObservableCollection<LogEntry>();
     }
 
     #region Commands
@@ -229,17 +212,17 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     {
       FilterHasFocus = false;
 
-      if ( BookmarkSource == null )
+      if ( EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource == null )
       {
         FilterHasFocus = true;
         return;
       }
 
-      BookmarkCollectionView = (ListCollectionView) new CollectionViewSource { Source = BookmarkSource }.View;
+      BookmarkCollectionView = (ListCollectionView) new CollectionViewSource { Source = EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource }.View;
       BookmarkCollectionView.CustomSort = new LogEntryComparer();
       BookmarkCollectionView.Filter = DynamicFilter;
 
-      SelectedItem = BookmarkCollectionView.Count == 0 ? null : BookmarkSource.First();
+      SelectedItem = BookmarkCollectionView.Count == 0 ? null : EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource.First();
       FilterHasFocus = true;
       OnPropertyChanged(nameof(BookmarkCollectionView));
     }

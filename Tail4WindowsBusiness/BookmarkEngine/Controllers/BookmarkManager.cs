@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using log4net;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Args;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Delegates;
 using Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Services.Data;
 
@@ -16,6 +19,15 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
     private static readonly ILog LOG = LogManager.GetLogger(typeof(BookmarkManager));
 
     private Guid _activeWindowGuid;
+
+    #region Events
+
+    /// <summary>
+    /// On Window Id changed event
+    /// </summary>
+    public event IdChangedEventHandler OnIdChanged;
+
+    #endregion
 
     #region Properties
 
@@ -51,10 +63,27 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
     /// <param name="windowId">Window id</param>
     public void RegisterWindowId(Guid windowId)
     {
+      // Already exists...
+      if ( Equals(_activeWindowGuid, windowId) )
+        return;
+
       _activeWindowGuid = windowId;
       LOG.Debug($"Current activated window id is {_activeWindowGuid}");
 
       BookmarkDataSource.Clear();
+      OnIdChanged?.Invoke(this, new IdChangedEventArgs(_activeWindowGuid));
+    }
+
+    /// <summary>
+    /// Adds bookmark items to data source
+    /// </summary>
+    /// <param name="itemRange"><see cref="List{T}"/> of bookmarks</param>
+    public void AddBookmarkItemsToSource(List<LogEntry> itemRange)
+    {
+      foreach ( LogEntry item in itemRange )
+      {
+        BookmarkDataSource.Add(item);
+      }
     }
 
     /// <summary>

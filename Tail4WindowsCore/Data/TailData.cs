@@ -99,6 +99,7 @@ namespace Org.Vs.TailForWin.Core.Data
       if ( e.PropertyName == "CanUndo" || e.PropertyName == "CanRedo" )
         return;
 
+      // ReSharper disable once ExplicitCallerInfoArgument
       OnPropertyChanged("FilterItem");
     }
 

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Delegates;
 using Org.Vs.TailForWin.Business.Services.Data;
 
 namespace Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces
@@ -9,6 +11,15 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces
   /// </summary>
   public interface IBookmarkManager
   {
+    #region Events
+
+    /// <summary>
+    /// On Window Id changed event
+    /// </summary>
+    event IdChangedEventHandler OnIdChanged;
+
+    #endregion
+
     /// <summary>
     /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/> bookmark data source
     /// </summary>
@@ -28,6 +39,12 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces
     /// </summary>
     /// <param name="windowId">Window id</param>
     void RegisterWindowId(Guid windowId);
+
+    /// <summary>
+    /// Adds bookmark items to data source
+    /// </summary>
+    /// <param name="itemRange"><see cref="List{T}"/> of bookmarks</param>
+    void AddBookmarkItemsToSource(List<LogEntry> itemRange);
 
     /// <summary>
     /// Release all used resources
