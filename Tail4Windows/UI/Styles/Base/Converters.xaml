@@ -57,4 +57,5 @@
   <multiConverters:AlertEnableMailMultiConverter x:Key="AlertEnableMailMultiConverter" />
   <multiConverters:IsEnableMultiConverter x:Key="IsEnableMultiConverter" />
   <multiConverters:BoolMultiConverter x:Key="BoolMultiConverter" />
+  <multiConverters:BookmarkCommentToImageMultiConverter x:Key="BookmarkCommentToImageMultiConverter" />
 </ResourceDictionary>

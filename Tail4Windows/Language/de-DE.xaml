@@ -577,5 +577,5 @@
   <system:String x:Key="LogWindowControlOpenBookmarkOverviewToolTip">Öffnet die Bookmark Übersicht</system:String>
 
   <system:String x:Key="BookmarkOverviewTitle">Bookmark Übersicht</system:String>
-
+  <system:String x:Key="BookmarkOverviewFilterBy">Filtern nach Bookmark Kommentar</system:String>
 </ResourceDictionary>

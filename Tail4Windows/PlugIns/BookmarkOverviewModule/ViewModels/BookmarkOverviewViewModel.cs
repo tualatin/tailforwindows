@@ -156,7 +156,7 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
           return;
         }
 
-        _criteria.Add(p => p.Message.ToLower().Contains(_filterText));
+        _criteria.Add(p => !string.IsNullOrWhiteSpace(p.BookmarkToolTip) && p.BookmarkToolTip.ToLower().Contains(_filterText));
         BookmarkCollectionView.Filter = DynamicFilter;
       }
     }

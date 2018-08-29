@@ -50,7 +50,7 @@
         Grid.Column="0"
         Margin="2 0"
         VerticalAlignment="Center"
-        Content="{DynamicResource FindResultFilterBy}"
+        Content="{DynamicResource BookmarkOverviewFilterBy}"
         />
 
       <userControls:WatermarkTextBox
@@ -146,11 +146,66 @@
           </DataGridTextColumn.ElementStyle>
         </DataGridTextColumn>
 
-        <DataGridCheckBoxColumn
+        <DataGridTemplateColumn
           MinWidth="90"
           Header="{DynamicResource FindResultBookmark}"
-          Binding="{Binding BookmarkPoint, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ImageToBoolConverter}}"
-          />
+          >
+          <DataGridTemplateColumn.CellEditingTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox
+                  Grid.Column="0"
+                  Width="20"
+                  Height="20"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  ClickMode="Press"
+                  IsChecked="{Binding BookmarkPoint, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ImageToBoolConverter}}"
+                  />
+              </Grid>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellEditingTemplate>
+
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition />
+                  <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <CheckBox
+                  Grid.Column="0"
+                  Width="20"
+                  Height="20"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  ClickMode="Press"
+                  IsChecked="{Binding BookmarkPoint, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ImageToBoolConverter}}"
+                  />
+
+                <Image
+                  Grid.Column="1"
+                  Width="12"
+                  Height="12"
+                  Margin="5 0"
+                  >
+                  <Image.Source>
+                    <MultiBinding Converter="{StaticResource BookmarkCommentToImageMultiConverter}">
+                      <Binding Path="BookmarkPoint" />
+                      <Binding Path="BookmarkToolTip" />
+                    </MultiBinding>
+                  </Image.Source>
+                </Image>
+              </Grid>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
 
         <DataGridTextColumn
           MinWidth="130"
