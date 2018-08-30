@@ -1161,19 +1161,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void MoveIntoView()
     {
-      LOG.Trace($"Move {CoreEnvironment.ApplicationTitle} into view, if required.");
+      double posX = SettingsHelperController.CurrentSettings.WindowPositionX;
+      double posY = SettingsHelperController.CurrentSettings.WindowPositionY;
 
-      if ( SettingsHelperController.CurrentSettings.WindowPositionY + SettingsHelperController.CurrentSettings.WindowHeight / 2 > SystemParameters.VirtualScreenHeight )
-        SettingsHelperController.CurrentSettings.WindowPositionY = SystemParameters.VirtualScreenHeight - SettingsHelperController.CurrentSettings.WindowHeight;
+      UiHelper.MoveIntoView(CoreEnvironment.ApplicationTitle, ref posX, ref posY, SettingsHelperController.CurrentSettings.WindowWidth,
+        SettingsHelperController.CurrentSettings.WindowHeight);
 
-      if ( SettingsHelperController.CurrentSettings.WindowPositionX + SettingsHelperController.CurrentSettings.WindowWidth / 2 > SystemParameters.VirtualScreenWidth )
-        SettingsHelperController.CurrentSettings.WindowPositionX = SystemParameters.VirtualScreenWidth - SettingsHelperController.CurrentSettings.WindowWidth;
-
-      if ( SettingsHelperController.CurrentSettings.WindowPositionY < 0 )
-        SettingsHelperController.CurrentSettings.WindowPositionY = 0;
-
-      if ( SettingsHelperController.CurrentSettings.WindowPositionX < 0 )
-        SettingsHelperController.CurrentSettings.WindowPositionX = 0;
+      SettingsHelperController.CurrentSettings.WindowPositionX = posX;
+      SettingsHelperController.CurrentSettings.WindowPositionY = posY;
     }
 
     private void RestoreWindowSizeAndPosition()

@@ -3,19 +3,24 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces;
+using Org.Vs.TailForWin.Business.DbEngine.Controllers;
+using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Utils;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.UI.UserControls;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
@@ -25,6 +30,7 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
   /// </summary>
   public class BookmarkOverviewViewModel : NotifyMaster, IBookmarkOverviewViewModel
   {
+    private readonly ISettingsDbController _dbController;
     private readonly List<Predicate<LogEntry>> _criteria = new List<Predicate<LogEntry>>();
 
     #region Properties
@@ -185,22 +191,25 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     /// </summary>
     public BookmarkOverviewViewModel()
     {
+      _dbController = SettingsDbController.Instance;
       EnvironmentContainer.Instance.BookmarkManager.OnBookmarkDataSourceChanged += OnBookmarkManagerBookmarkDataSourceChanged;
     }
 
     #region Commands
 
-    private IAsyncCommand _loadedCommand;
+    private ICommand _loadedCommand;
 
     /// <summary>
     /// Loaded command
     /// </summary>
-    public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
+    public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(p => ExecuteLoadedCommand()));
+
+    private ICommand _closingCommand;
 
     /// <summary>
-    /// Unloaded command
+    /// Closing command
     /// </summary>
-    public ICommand UnloadedCommand => throw new System.NotImplementedException();
+    public ICommand ClosingCommand => _closingCommand ?? (_closingCommand = new RelayCommand(p => ExecuteClosingCommand()));
 
     private IAsyncCommand _exportCommand;
 
@@ -220,6 +229,17 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     #endregion
 
     #region Command functions
+
+    private void ExecuteClosingCommand()
+    {
+      SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX = LeftPosition;
+      SettingsHelperController.CurrentSettings.BookmarkOverviewPositionY = TopPosition;
+
+      SettingsHelperController.CurrentSettings.BookmarkOverviewHeight = WindowHeight;
+      SettingsHelperController.CurrentSettings.BookmarkOverviewWidth = WindowWidth;
+
+      _dbController.UpdateBookmarkOverviewDbSettings();
+    }
 
     private void ExecuteMouseDoubleClickCommand(object param)
     {
@@ -243,9 +263,15 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
       MouseService.SetBusyState();
     }
 
-    private async Task ExecuteLoadedCommandAsync()
+    private void ExecuteLoadedCommand()
     {
+      MoveInfoView();
 
+      TopPosition = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionY;
+      LeftPosition = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX;
+
+      WindowHeight = SettingsHelperController.CurrentSettings.BookmarkOverviewHeight;
+      WindowWidth = SettingsHelperController.CurrentSettings.BookmarkOverviewWidth;
     }
 
     #endregion
@@ -290,6 +316,18 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
         return;
 
       SetupBookmarkCollectionView();
+    }
+
+    private void MoveInfoView()
+    {
+      double posX = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX;
+      double posY = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionY;
+
+      UiHelper.MoveIntoView(Application.Current.TryFindResource("BookmarkOverviewTitle").ToString(), ref posX, ref posY, SettingsHelperController.CurrentSettings.BookmarkOverviewWidth,
+        SettingsHelperController.CurrentSettings.BookmarkOverviewHeight);
+
+      SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX = posX;
+      SettingsHelperController.CurrentSettings.BookmarkOverviewPositionY = posY;
     }
   }
 }

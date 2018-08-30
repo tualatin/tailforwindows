@@ -22,6 +22,16 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SettingsDbController));
     private static readonly object DbLock = new object();
 
+    /// <summary>
+    /// Work width
+    /// </summary>
+    private readonly double _workWidth = System.Windows.SystemParameters.WorkArea.Width;
+
+    /// <summary>
+    /// Work height
+    /// </summary>
+    private readonly double _workHeight = System.Windows.SystemParameters.WorkArea.Height;
+
     #region Setting keys
 
     private const string Settings = "Settings";
@@ -34,8 +44,13 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     private const string FindDialogWindowTop = "FindDialogWndTop";
     private const string FindDialogWindowLeft = "FindDialogWndLeft";
 
+    private const string BookmarkOverviewWindowTop = "BookmarkOverviewWndTop";
+    private const string BookmarkOverviewWindowLeft = "BookmarkOverviewWndLeft";
+    private const string BookmarkOverviewWindowHeight = "BookmarkOverviewWndHeight";
+    private const string BookmarkOverviewWindowWidth = "BookmarkOverivewWndWidth";
+
     private const string ProxyPassword = "Proxy.Password";
-    private const string SmtpPasword = "Smtp.Password";
+    private const string SmtpPassword = "Smtp.Password";
 
     #endregion
 
@@ -70,6 +85,8 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
                 if ( settings.Count() == 0 )
                   AddSettingsToDataBase(settings);
 
+                AddMissingDbSettings(settings);
+
                 settings = db.GetCollection<DatabaseSetting>(Settings);
                 settings.EnsureIndex(p => p.Key);
 
@@ -85,6 +102,18 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
                 setting = settings.Find(p => p.Key == FindResultWindowWidth).FirstOrDefault();
                 SettingsHelperController.CurrentSettings.FindResultWidth = Convert.ToDouble(setting?.Value);
 
+                // Bookmark overview position
+                setting = settings.Find(p => p.Key == BookmarkOverviewWindowTop).FirstOrDefault();
+                SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX = Convert.ToDouble(setting?.Value);
+                setting = settings.Find(p => p.Key == BookmarkOverviewWindowLeft).FirstOrDefault();
+                SettingsHelperController.CurrentSettings.BookmarkOverviewPositionY = Convert.ToDouble(setting?.Value);
+
+                // Bookmark overview size
+                setting = settings.Find(p => p.Key == BookmarkOverviewWindowHeight).FirstOrDefault();
+                SettingsHelperController.CurrentSettings.BookmarkOverviewHeight = Convert.ToDouble(setting?.Value);
+                setting = settings.Find(p => p.Key == BookmarkOverviewWindowWidth).FirstOrDefault();
+                SettingsHelperController.CurrentSettings.BookmarkOverviewWidth = Convert.ToDouble(setting?.Value);
+
                 // FindDialog position
                 setting = settings.Find(p => p.Key == FindDialogWindowTop).FirstOrDefault();
                 SettingsHelperController.CurrentSettings.FindDialogPositionX = Convert.ToDouble(setting?.Value);
@@ -96,7 +125,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
                 SettingsHelperController.CurrentSettings.ProxySettings.Password = setting?.Value;
 
                 // SMTP password
-                setting = settings.Find(p => p.Key == SmtpPasword).FirstOrDefault();
+                setting = settings.Find(p => p.Key == SmtpPassword).FirstOrDefault();
                 SettingsHelperController.CurrentSettings.SmtpSettings.Password = setting?.Value;
               }
             }
@@ -130,6 +159,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
              UpdatePasswordSettings();
              UpdateFindDialogDbSettings();
              UpdateFindResultDbSettings();
+             UpdateBookmarkOverviewDbSettings();
            }
          }, token).ConfigureAwait(false);
     }
@@ -141,14 +171,11 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     {
       lock ( DbLock )
       {
-        LOG.Trace("Save passwords");
-
         try
         {
           using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
           {
-            long shrinkSize = db.Shrink();
-            LOG.Trace($"Database shrink: {shrinkSize}");
+            db.Shrink();
 
             var settings = db.GetCollection<DatabaseSetting>(Settings);
             DatabaseSetting setting = settings.Find(p => p.Key == ProxyPassword).FirstOrDefault();
@@ -159,7 +186,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
               settings.Update(setting);
             }
 
-            setting = settings.Find(p => p.Key == SmtpPasword).FirstOrDefault();
+            setting = settings.Find(p => p.Key == SmtpPassword).FirstOrDefault();
 
             if ( setting == null )
               return;
@@ -230,6 +257,60 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     }
 
     /// <summary>
+    /// Updates Bookmark overview DataBase settings
+    /// </summary>
+    public void UpdateBookmarkOverviewDbSettings()
+    {
+      lock ( DbLock )
+      {
+        try
+        {
+          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+          {
+            db.Shrink();
+
+            var settings = db.GetCollection<DatabaseSetting>(Settings);
+            DatabaseSetting setting = settings.Find(p => p.Key == BookmarkOverviewWindowTop).FirstOrDefault();
+
+            if ( setting != null )
+            {
+              setting.Value = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX.ToString(CultureInfo.InvariantCulture);
+              settings.Update(setting);
+            }
+
+            setting = settings.Find(p => p.Key == BookmarkOverviewWindowLeft).FirstOrDefault();
+
+            if ( setting != null )
+            {
+              setting.Value = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionY.ToString(CultureInfo.InvariantCulture);
+              settings.Update(setting);
+            }
+
+            setting = settings.Find(p => p.Key == BookmarkOverviewWindowHeight).FirstOrDefault();
+
+            if ( setting != null )
+            {
+              setting.Value = SettingsHelperController.CurrentSettings.BookmarkOverviewHeight.ToString(CultureInfo.InvariantCulture);
+              settings.Update(setting);
+            }
+
+            setting = settings.Find(p => p.Key == BookmarkOverviewWindowWidth).FirstOrDefault();
+
+            if ( setting == null )
+              return;
+
+            setting.Value = SettingsHelperController.CurrentSettings.BookmarkOverviewWidth.ToString(CultureInfo.InvariantCulture);
+            settings.Update(setting);
+          }
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+      }
+    }
+
+    /// <summary>
     /// Updates FindDialog DataBase settings
     /// </summary>
     public void UpdateFindDialogDbSettings()
@@ -267,12 +348,71 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
       }
     }
 
+    private void AddMissingDbSettings(LiteCollection<DatabaseSetting> settings)
+    {
+      LOG.Info("Add missing database settings");
+
+      DatabaseSetting setting = settings.Find(p => p.Key == BookmarkOverviewWindowTop).FirstOrDefault();
+
+      if ( setting == null )
+      {
+        SetDefaultBookmarkOverviewSettings();
+        AddBookmarkOverviewDbSettings(settings);
+      }
+    }
+
     private void AddSettingsToDataBase(LiteCollection<DatabaseSetting> settings)
     {
       LOG.Info("Create new database file");
 
       SetDefaultWindowSettings();
 
+      AddFindResultDbSettings(settings);
+      AddFindDialogDbSettings(settings);
+      AddBookmarkOverviewDbSettings(settings);
+      AddProxyDbSettings(settings);
+      AddSmtpDbSettings(settings);
+    }
+
+    private static void AddSmtpDbSettings(LiteCollection<DatabaseSetting> settings)
+    {
+      var passwordSetting = new DatabaseSetting
+      {
+        Key = SmtpPassword,
+        Value = DefaultEnvironmentSettings.SmtpPassword
+      };
+      settings.Insert(passwordSetting);
+    }
+
+    private static void AddProxyDbSettings(LiteCollection<DatabaseSetting> settings)
+    {
+      var passwordSetting = new DatabaseSetting
+      {
+        Key = ProxyPassword,
+        Value = DefaultEnvironmentSettings.ProxyPassword
+      };
+      settings.Insert(passwordSetting);
+    }
+
+    private static void AddFindDialogDbSettings(LiteCollection<DatabaseSetting> settings)
+    {
+      var findDialogWindowPosition = new DatabaseSetting
+      {
+        Key = FindDialogWindowTop,
+        Value = SettingsHelperController.CurrentSettings.FindDialogPositionX.ToString(CultureInfo.InvariantCulture)
+      };
+      settings.Insert(findDialogWindowPosition);
+
+      findDialogWindowPosition = new DatabaseSetting
+      {
+        Key = FindDialogWindowLeft,
+        Value = SettingsHelperController.CurrentSettings.FindDialogPositionY.ToString(CultureInfo.InvariantCulture)
+      };
+      settings.Insert(findDialogWindowPosition);
+    }
+
+    private static void AddFindResultDbSettings(LiteCollection<DatabaseSetting> settings)
+    {
       var findResultWindowPosition = new DatabaseSetting
       {
         Key = FindResultWindowTop,
@@ -300,52 +440,66 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         Value = SettingsHelperController.CurrentSettings.FindResultWidth.ToString(CultureInfo.InvariantCulture)
       };
       settings.Insert(findResultSize);
+    }
 
-      var findDialogWindowPosition = new DatabaseSetting
+    private static void AddBookmarkOverviewDbSettings(LiteCollection<DatabaseSetting> settings)
+    {
+      var bookmarkOverviewWindowPosition = new DatabaseSetting
       {
-        Key = FindDialogWindowTop,
-        Value = SettingsHelperController.CurrentSettings.FindDialogPositionX.ToString(CultureInfo.InvariantCulture)
+        Key = BookmarkOverviewWindowTop,
+        Value = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX.ToString(CultureInfo.InvariantCulture)
       };
-      settings.Insert(findDialogWindowPosition);
+      settings.Insert(bookmarkOverviewWindowPosition);
 
-      findDialogWindowPosition = new DatabaseSetting
+      bookmarkOverviewWindowPosition = new DatabaseSetting
       {
-        Key = FindDialogWindowLeft,
-        Value = SettingsHelperController.CurrentSettings.FindDialogPositionY.ToString(CultureInfo.InvariantCulture)
+        Key = BookmarkOverviewWindowLeft,
+        Value = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionY.ToString(CultureInfo.InvariantCulture)
       };
-      settings.Insert(findDialogWindowPosition);
+      settings.Insert(bookmarkOverviewWindowPosition);
 
-      var passwordSetting = new DatabaseSetting
+      var bookmarkOverviewSize = new DatabaseSetting
       {
-        Key = ProxyPassword,
-        Value = DefaultEnvironmentSettings.ProxyPassword
+        Key = BookmarkOverviewWindowHeight,
+        Value = SettingsHelperController.CurrentSettings.BookmarkOverviewHeight.ToString(CultureInfo.InvariantCulture)
       };
-      settings.Insert(passwordSetting);
+      settings.Insert(bookmarkOverviewSize);
 
-      passwordSetting = new DatabaseSetting
+      bookmarkOverviewSize = new DatabaseSetting
       {
-        Key = SmtpPasword,
-        Value = DefaultEnvironmentSettings.SmtpPassword
+        Key = BookmarkOverviewWindowWidth,
+        Value = SettingsHelperController.CurrentSettings.BookmarkOverviewWidth.ToString(CultureInfo.InvariantCulture)
       };
-      settings.Insert(passwordSetting);
+      settings.Insert(bookmarkOverviewSize);
     }
 
     private void SetDefaultWindowSettings()
     {
-      double workWidth = System.Windows.SystemParameters.WorkArea.Width;
-      double workHeight = System.Windows.SystemParameters.WorkArea.Height;
+      SetDefaultFindDialogSettings();
+      SetDefaultFindResultSettings();
+      SetDefaultBookmarkOverviewSettings();
+    }
 
-      double findResultWidth = workWidth - 800;
-      double findResultHeight = workHeight - 300;
-      double findDialogWidth = workWidth - 400;
+    private void SetDefaultFindDialogSettings()
+    {
+      SettingsHelperController.CurrentSettings.FindDialogPositionX = _workWidth - 400;
+      SettingsHelperController.CurrentSettings.FindDialogPositionY = 0;
+    }
 
-      SettingsHelperController.CurrentSettings.FindResultPositionX = findResultWidth;
-      SettingsHelperController.CurrentSettings.FindResultPositionY = findResultHeight;
+    private void SetDefaultFindResultSettings()
+    {
+      SettingsHelperController.CurrentSettings.FindResultPositionX = _workWidth - 800;
+      SettingsHelperController.CurrentSettings.FindResultPositionY = _workHeight - 300;
       SettingsHelperController.CurrentSettings.FindResultHeight = 300;
       SettingsHelperController.CurrentSettings.FindResultWidth = 800;
+    }
 
-      SettingsHelperController.CurrentSettings.FindDialogPositionX = findDialogWidth;
-      SettingsHelperController.CurrentSettings.FindDialogPositionY = 0;
+    private void SetDefaultBookmarkOverviewSettings()
+    {
+      SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX = _workWidth - 800;
+      SettingsHelperController.CurrentSettings.BookmarkOverviewPositionY = _workHeight - 300;
+      SettingsHelperController.CurrentSettings.BookmarkOverviewHeight = 300;
+      SettingsHelperController.CurrentSettings.BookmarkOverviewWidth = 800;
     }
   }
 }

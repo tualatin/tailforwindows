@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using log4net;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Data.Settings;
@@ -18,6 +19,8 @@ namespace Org.Vs.TailForWin.UI.Utils
   /// </summary>
   public static class UiHelper
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(UiHelper));
+
     /// <summary>
     /// List of registered <see cref="DragSupportTabItem"/>
     /// </summary>
@@ -153,6 +156,31 @@ namespace Org.Vs.TailForWin.UI.Utils
         PopUpAlertDetail = detail
       };
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowNotificationPopUpMessage(alertPopUp));
+    }
+
+    /// <summary>
+    /// Move UI into view
+    /// </summary>
+    /// <param name="name">Name of control to move</param>
+    /// <param name="posX">Position X</param>
+    /// <param name="posY">Position Y</param>
+    /// <param name="width">Width</param>
+    /// <param name="height">Height</param>
+    public static void MoveIntoView(string name, ref double posX, ref double posY, double width, double height)
+    {
+      LOG.Trace($"Move {name} into view, if required.");
+
+      if ( posY + height / 2 > SystemParameters.VirtualScreenHeight )
+        posY = SystemParameters.VirtualScreenHeight - height;
+
+      if ( posX + width / 2 > SystemParameters.VirtualScreenWidth )
+        posX = SystemParameters.VirtualScreenWidth - width;
+
+      if ( posY < 0 )
+        posY = 0;
+
+      if ( posX < 0 )
+        posX = 0;
     }
   }
 }

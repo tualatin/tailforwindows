@@ -574,7 +574,7 @@
 
   <system:String x:Key="OpenDialogAllFiles">Alle Dateien(*.*)|*.*</system:String>
 
-  <system:String x:Key="LogWindowControlOpenBookmarkOverviewToolTip">Öffnet die Bookmark Übersicht</system:String>
+  <system:String x:Key="LogWindowControlOpenBookmarkOverviewToolTip">Öffnet die Bookmark Übersicht (STRG+ALT+B)</system:String>
 
   <system:String x:Key="BookmarkOverviewTitle">Bookmark Übersicht</system:String>
   <system:String x:Key="BookmarkOverviewFilterBy">Filtern nach Bookmark Kommentar</system:String>

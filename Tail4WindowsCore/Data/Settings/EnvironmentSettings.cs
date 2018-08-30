@@ -286,6 +286,66 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private double _bookmarkOverviewPositionX;
+
+    /// <summary>
+    /// Bookmark overview window X position
+    /// </summary>
+    public double BookmarkOverviewPositionX
+    {
+      get => _bookmarkOverviewPositionX;
+      set
+      {
+        _bookmarkOverviewPositionX = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _bookmarkOverviewPositionY;
+
+    /// <summary>
+    /// Bookmark overview window Y position
+    /// </summary>
+    public double BookmarkOverviewPositionY
+    {
+      get => _bookmarkOverviewPositionY;
+      set
+      {
+        _bookmarkOverviewPositionY = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _bookmarkOverviewHeight;
+
+    /// <summary>
+    /// Bookmark overview window height
+    /// </summary>
+    public double BookmarkOverviewHeight
+    {
+      get => _bookmarkOverviewHeight;
+      set
+      {
+        _bookmarkOverviewHeight = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _bookmarkOverviewWidth;
+
+    /// <summary>
+    /// Bookmark overview window width
+    /// </summary>
+    public double BookmarkOverviewWidth
+    {
+      get => _bookmarkOverviewWidth;
+      set
+      {
+        _bookmarkOverviewWidth = value;
+        OnPropertyChanged();
+      }
+    }
+
     private double _windowHeight;
 
     /// <summary>

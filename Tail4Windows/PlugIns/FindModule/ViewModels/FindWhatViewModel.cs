@@ -19,6 +19,7 @@ using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
@@ -430,6 +431,8 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
+      MoveInfoView();
+
       TopPosition = SettingsHelperController.CurrentSettings.FindDialogPositionY;
       LeftPosition = SettingsHelperController.CurrentSettings.FindDialogPositionX;
       FindSettings = new FindData
@@ -442,6 +445,17 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<FindWhatCountResponseMessage>(OnFindWhatCountResponse);
       OnPropertyChanged(nameof(SearchHistory));
+    }
+
+    private void MoveInfoView()
+    {
+      double posX = SettingsHelperController.CurrentSettings.FindDialogPositionX;
+      double posY = SettingsHelperController.CurrentSettings.FindDialogPositionY;
+
+      UiHelper.MoveIntoView(Application.Current.TryFindResource("FindDialogWindowTitle").ToString(), ref posX, ref posY, 315, 380);
+
+      SettingsHelperController.CurrentSettings.FindDialogPositionX = posX;
+      SettingsHelperController.CurrentSettings.FindDialogPositionY = posY;
     }
 
     private void OnFindSettingsPropertyChanged(object sender, PropertyChangedEventArgs e) =>

@@ -3,7 +3,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
-using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interfaces
@@ -11,8 +10,24 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interface
   /// <summary>
   /// Bookmark overview model interface
   /// </summary>
-  public interface IBookmarkOverviewViewModel : IViewModelBase
+  public interface IBookmarkOverviewViewModel
   {
+    /// <summary>
+    /// Loaded command
+    /// </summary>
+    ICommand LoadedCommand
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Closing command
+    /// </summary>
+    ICommand ClosingCommand
+    {
+      get;
+    }
+
     /// <summary>
     /// Export command
     /// </summary>

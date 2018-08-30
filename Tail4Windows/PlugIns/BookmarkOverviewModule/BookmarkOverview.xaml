@@ -28,6 +28,10 @@
     <i:EventTrigger EventName="Loaded">
       <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
     </i:EventTrigger>
+
+    <i:EventTrigger EventName="Closing">
+      <i:InvokeCommandAction Command="{Binding ClosingCommand}" />
+    </i:EventTrigger>
   </i:Interaction.Triggers>
 
   <Grid>

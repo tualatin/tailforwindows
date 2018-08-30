@@ -1,6 +1,7 @@
 Alt+A                               Open font settings
 Alt+F                               Filter/Highlight on/off
 Alt+T                               Always on top on/off
+Ctrl+Alt+B                          Bookmark overview
 Ctrl+Alt+F                          Find what result
 Ctrl+Alt+M                          Minimize mainwindow
 Ctrl+Alt+O                          Open Windows event window

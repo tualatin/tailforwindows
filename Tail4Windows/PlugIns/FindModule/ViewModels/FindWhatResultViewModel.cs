@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
@@ -15,6 +16,7 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.UI.UserControls;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
@@ -270,6 +272,8 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
     private void ExecuteLoadedCommand()
     {
+      MoveInfoView();
+
       TopPosition = SettingsHelperController.CurrentSettings.FindResultPositionY;
       LeftPosition = SettingsHelperController.CurrentSettings.FindResultPositionX;
 
@@ -280,6 +284,18 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     }
 
     #endregion
+
+    private void MoveInfoView()
+    {
+      double posX = SettingsHelperController.CurrentSettings.FindResultPositionX;
+      double posY = SettingsHelperController.CurrentSettings.FindResultPositionY;
+
+      UiHelper.MoveIntoView(Application.Current.TryFindResource("FindResultWindowTitle").ToString(), ref posX, ref posY, SettingsHelperController.CurrentSettings.FindResultWidth,
+        SettingsHelperController.CurrentSettings.FindResultHeight);
+
+      SettingsHelperController.CurrentSettings.FindResultPositionX = posX;
+      SettingsHelperController.CurrentSettings.FindResultPositionY = posY;
+    }
 
     private void SetupFindResultCollectionView()
     {

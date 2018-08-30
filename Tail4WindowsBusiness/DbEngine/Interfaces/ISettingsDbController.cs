@@ -31,6 +31,11 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Interfaces
     void UpdatePasswordSettings();
 
     /// <summary>
+    /// Updates Bookmark overview DataBase settings
+    /// </summary>
+    void UpdateBookmarkOverviewDbSettings();
+
+    /// <summary>
     /// Resets DataBase settings
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
