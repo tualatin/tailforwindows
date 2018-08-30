@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Media.Imaging;
 using Org.Vs.TailForWin.Core.Data.Base;
 
 
@@ -73,6 +74,12 @@ namespace Org.Vs.TailForWin.Business.Services.Data
       get => _bookmarkPoint;
       set
       {
+        if ( value is BitmapImage valImg && _bookmarkPoint is BitmapImage bookImg )
+        {
+          if ( Equals(valImg.UriSource, bookImg.UriSource) )
+            return;
+        }
+
         _bookmarkPoint = value;
         OnPropertyChanged();
       }

@@ -108,16 +108,19 @@
       IsSynchronizedWithCurrentItem="True"
       ItemsSource="{Binding BookmarkCollectionView}"
       SelectedItem="{Binding SelectedItem}"
+      SelectionMode="Extended"
       TabIndex="1"
       >
       <i:Interaction.Behaviors>
+        <behaviors:DataGridSingleClickBehavior />
+        <behaviors:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />
         <behaviors:ScrollDataGridRowIntoView />
       </i:Interaction.Behaviors>
 
       <i:Interaction.Triggers>
         <i:EventTrigger EventName="MouseDoubleClick">
           <commands:InvokeDelegateCommandAction
-            Command="{Binding FindWhatResultMouseDoubleClickCommand}"
+            Command="{Binding BookmarkOverviewMouseDoubleClickCommand}"
             CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
             />
         </i:EventTrigger>
@@ -154,8 +157,8 @@
             <DataTemplate>
               <Grid>
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition />
-                  <ColumnDefinition />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <CheckBox
@@ -172,6 +175,7 @@
                   Grid.Column="1"
                   Width="12"
                   Height="12"
+                  Margin="5 0"
                   >
                   <Image.Source>
                     <MultiBinding Converter="{StaticResource BookmarkCommentToImageMultiConverter}" UpdateSourceTrigger="PropertyChanged">
@@ -188,8 +192,8 @@
             <DataTemplate>
               <Grid>
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition />
-                  <ColumnDefinition />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <CheckBox
@@ -206,6 +210,7 @@
                   Grid.Column="1"
                   Width="12"
                   Height="12"
+                  Margin="5 0"
                   >
                   <Image.Source>
                     <MultiBinding Converter="{StaticResource BookmarkCommentToImageMultiConverter}" UpdateSourceTrigger="PropertyChanged">

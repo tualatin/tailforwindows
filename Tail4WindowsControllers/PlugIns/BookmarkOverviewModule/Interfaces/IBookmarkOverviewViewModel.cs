@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
+using System.Windows.Input;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.UI.Interfaces;
@@ -17,6 +17,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interface
     /// Export command
     /// </summary>
     IAsyncCommand ExportCommand
+    {
+      get;
+    }
+
+    /// <summary>
+    /// BookmarkOverview mouse double click command
+    /// </summary>
+    ICommand BookmarkOverviewMouseDoubleClickCommand
     {
       get;
     }
@@ -96,15 +104,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interface
     bool FilterHasFocus
     {
       get;
-    }
-
-    /// <summary>
-    /// Which window calls the find dialog
-    /// </summary>
-    Guid WindowGuid
-    {
-      get;
-      set;
     }
 
     /// <summary>

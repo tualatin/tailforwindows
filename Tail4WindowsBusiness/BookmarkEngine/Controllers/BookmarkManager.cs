@@ -136,7 +136,7 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
       {
       case NotifyCollectionChangedAction.Add:
 
-        foreach ( var item in e.NewItems )
+        foreach ( object item in e.NewItems )
         {
           if ( !(item is LogEntry logEntry) )
             continue;
@@ -147,7 +147,7 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
 
       case NotifyCollectionChangedAction.Remove:
 
-        foreach ( var item in e.OldItems )
+        foreach ( object item in e.OldItems )
         {
           if ( !(item is LogEntry logEntry) )
             continue;
@@ -178,13 +178,8 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
       if ( logEntry.BookmarkPoint == null )
         return;
 
-      var image = BusinessHelper.CreateBitmapIcon(string.IsNullOrWhiteSpace(logEntry.BookmarkToolTip) ? "/T4W;component/Resources/Bookmark.png" : "/T4W;component/Resources/Bookmark_Info.png");
-
-      if ( !(logEntry.BookmarkPoint is BitmapImage bmpImg) )
-        return;
-
-      if ( Equals(image.UriSource, bmpImg.UriSource) )
-        return;
+      BitmapImage image = BusinessHelper.CreateBitmapIcon(string.IsNullOrWhiteSpace(logEntry.BookmarkToolTip) ? "/T4W;component/Resources/Bookmark.png" :
+        "/T4W;component/Resources/Bookmark_Info.png");
 
       logEntry.BookmarkPoint = image;
     }

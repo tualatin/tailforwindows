@@ -10,6 +10,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 Changelog:
 v.2.2.xxxx.x
 * new change Bookmark icon, if a comment exists
+* new Bookmark overview
 
 v.2.1.xxxx.x
 * bug fix NullReferenceException TailData property changed

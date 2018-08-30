@@ -14,6 +14,8 @@ using Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Utils;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.UI.UserControls;
 
 
 namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
@@ -176,15 +178,6 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
       }
     }
 
-    /// <summary>
-    /// Which window calls the find dialog
-    /// </summary>
-    public Guid WindowGuid
-    {
-      get;
-      set;
-    }
-
     #endregion
 
     /// <summary>
@@ -216,9 +209,32 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     /// </summary>
     public IAsyncCommand ExportCommand => _exportCommand ?? (_exportCommand = AsyncCommand.Create(p => CanExecuteExportCommand(), ExecuteExportCommandAsync));
 
+    private ICommand _bookmarkOverviewMouseDoubleClickCommand;
+
+    /// <summary>
+    /// BookmarkOverview mouse double click command
+    /// </summary>
+    public ICommand BookmarkOverviewMouseDoubleClickCommand => _bookmarkOverviewMouseDoubleClickCommand ??
+                                                               (_bookmarkOverviewMouseDoubleClickCommand = new RelayCommand(ExecuteMouseDoubleClickCommand));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteMouseDoubleClickCommand(object param)
+    {
+      if ( !(param is MouseButtonEventArgs e) )
+        return;
+
+      if ( !(e.Source is VsDataGrid dg) )
+        return;
+
+      if ( !(dg.CurrentItem is LogEntry selectedItem) )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new JumpToSelectedLogEntryMessage(EnvironmentContainer.Instance.BookmarkManager.GetCurrentWindowId(),
+        selectedItem));
+    }
 
     private bool CanExecuteExportCommand() => BookmarkCollectionView != null && BookmarkCollectionView.Count > 0;
 

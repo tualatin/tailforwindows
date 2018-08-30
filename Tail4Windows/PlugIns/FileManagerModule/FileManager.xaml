@@ -459,7 +459,7 @@
         FrozenColumnCount="2"
         IsSynchronizedWithCurrentItem="True"
         ItemsSource="{Binding FileManagerView}"
-        SelectionMode="Extended"
+        SelectionMode="Single"
         TabIndex="10"
         >
         <i:Interaction.Triggers>
@@ -494,7 +494,7 @@
 
         <i:Interaction.Behaviors>
           <behaviors:DataGridSingleClickBehavior />
-          <behaviors:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />
+          <!--<behaviors:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />-->
           <behaviors:ScrollDataGridRowIntoView />
         </i:Interaction.Behaviors>
 
