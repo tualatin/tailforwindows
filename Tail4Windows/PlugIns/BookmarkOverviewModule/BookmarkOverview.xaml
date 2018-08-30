@@ -11,6 +11,7 @@
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels"
   mc:Ignorable="d"
+  x:Name="BookmarkOverviewWindow"
   Title="{DynamicResource BookmarkOverviewTitle}"
   Width="{Binding WindowWidth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Height="{Binding WindowHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -138,9 +139,40 @@
         </Style>
       </userControls:VsDataGrid.RowStyle>
 
+      <userControls:VsDataGrid.ContextMenu>
+        <ContextMenu>
+          <MenuItem
+            Header="{DynamicResource AddCommentToBookmark}"
+            Command="{Binding AddBookmarkCommentCommand}"
+            CommandParameter="{Binding ElementName=BookmarkOverviewWindow}"
+            >
+            <MenuItem.Icon>
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/bubble.png"
+                />
+            </MenuItem.Icon>
+          </MenuItem>
+
+          <MenuItem
+            Header="{DynamicResource DeleteBookmarks}"
+            Command="{Binding RemoveBookmarksCommand}"
+            >
+            <MenuItem.Icon>
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased"
+                Source="/T4W;component/Resources/Delete_Bookmark.png"
+                />
+            </MenuItem.Icon>
+          </MenuItem>
+        </ContextMenu>
+      </userControls:VsDataGrid.ContextMenu>
+
       <userControls:VsDataGrid.Columns>
         <DataGridTextColumn
-          MinWidth="130"
+          MinWidth="90"
           Header="{DynamicResource FindResultLineNumbers}"
           Binding="{Binding Index, UpdateSourceTrigger=PropertyChanged}"
           IsReadOnly="True"

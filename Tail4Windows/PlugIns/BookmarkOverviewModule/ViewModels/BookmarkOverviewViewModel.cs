@@ -19,6 +19,7 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.PlugIns.BookmarkCommentModule;
 using Org.Vs.TailForWin.UI.UserControls;
 using Org.Vs.TailForWin.UI.Utils;
 
@@ -193,6 +194,7 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     {
       _dbController = SettingsDbController.Instance;
       EnvironmentContainer.Instance.BookmarkManager.OnBookmarkDataSourceChanged += OnBookmarkManagerBookmarkDataSourceChanged;
+      SelectedItems = new ObservableCollection<LogEntry>();
     }
 
     #region Commands
@@ -226,9 +228,50 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     public ICommand BookmarkOverviewMouseDoubleClickCommand => _bookmarkOverviewMouseDoubleClickCommand ??
                                                                (_bookmarkOverviewMouseDoubleClickCommand = new RelayCommand(ExecuteMouseDoubleClickCommand));
 
+    private ICommand _removeBookmarksCommand;
+
+    /// <summary>
+    /// Remove bookmarks command
+    /// </summary>
+    public ICommand RemoveBookmarksCommand => _removeBookmarksCommand ?? (_removeBookmarksCommand = new RelayCommand(p => CanExecuteRemoveBookmarksCommand(),
+                                                p => ExecuteRemoveBookmarksCommand()));
+
+    private ICommand _addBookmarkCommentCommand;
+
+    /// <summary>
+    /// Add bookmark comment command
+    /// </summary>
+    public ICommand AddBookmarkCommentCommand => _addBookmarkCommentCommand ?? (_addBookmarkCommentCommand = new RelayCommand(p => CanExecuteRemoveBookmarksCommand(),
+                                                   ExecuteAddBookmarkCommentCommand));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteAddBookmarkCommentCommand(object param)
+    {
+      if ( !(param is BookmarkOverview window) )
+        return;
+
+      var addBookmarkCommentPopup = new AddBookmarkComment
+      {
+        Owner = window,
+        Comment = SelectedItems.First().BookmarkToolTip
+      };
+      addBookmarkCommentPopup.ShowDialog();
+
+      foreach ( LogEntry item in SelectedItems )
+      {
+        item.BookmarkToolTip = addBookmarkCommentPopup.Comment;
+      }
+    }
+
+    private bool CanExecuteRemoveBookmarksCommand() => SelectedItems != null && SelectedItems.Count > 0;
+
+    private void ExecuteRemoveBookmarksCommand()
+    {
+
+    }
 
     private void ExecuteClosingCommand()
     {

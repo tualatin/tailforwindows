@@ -13,11 +13,6 @@ namespace Org.Vs.TailForWin.UI.Behaviors
   public class MultiSelectionBehavior : BehaviorBase<DataGrid>
   {
     /// <summary>
-    /// Standard constructor
-    /// </summary>
-    public MultiSelectionBehavior() => SelectedItems = new ObservableCollection<object>();
-
-    /// <summary>
     /// Setup <see cref="BehaviorBase{T}"/>
     /// </summary>
     protected override void OnSetup() => AssociatedObject.SelectionChanged += AssociatedObjectSelectionChanged;
@@ -48,14 +43,19 @@ namespace Org.Vs.TailForWin.UI.Behaviors
         }
       }
 
-      SelectedItems = selectedItems;
+      SelectedItems = new ObservableCollection<object>();
+
+      foreach ( object item in selectedItems )
+      {
+        SelectedItems.Add(item);
+      }
     }
 
     /// <summary>
     /// SelectedItems property
     /// </summary>
     public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register("SelectedItems", typeof(IList), typeof(MultiSelectionBehavior),
-      new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+      new FrameworkPropertyMetadata(new ObservableCollection<object>(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
     /// <summary>
     /// SelectedItems

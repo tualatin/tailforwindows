@@ -45,6 +45,22 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interface
     }
 
     /// <summary>
+    /// Remove bookmarks command
+    /// </summary>
+    ICommand RemoveBookmarksCommand
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Add bookmark comment command
+    /// </summary>
+    ICommand AddBookmarkCommentCommand
+    {
+      get;
+    }
+
+    /// <summary>
     /// Top position
     /// </summary>
     double TopPosition

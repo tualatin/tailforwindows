@@ -113,7 +113,7 @@
 
       <userControls:VsDataGrid.Columns>
         <DataGridTextColumn
-          MinWidth="130"
+          MinWidth="90"
           Header="{DynamicResource FindResultLineNumbers}"
           Binding="{Binding Index, UpdateSourceTrigger=PropertyChanged}"
           >
