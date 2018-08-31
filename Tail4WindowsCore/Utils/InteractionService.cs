@@ -53,7 +53,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="fileName">Output of filename</param>
     /// <param name="filter">Filter</param>
     /// <param name="title">Title</param>
-    /// <returns>If success true otherwise false</returns>
+    /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
     public static bool OpenFileDialog(out string fileName, string filter, string title)
     {
       var openDialog = new OpenFileDialog
@@ -70,6 +70,34 @@ namespace Org.Vs.TailForWin.Core.Utils
         return false;
 
       fileName = openDialog.FileName;
+
+      return true;
+    }
+
+    /// <summary>
+    /// Shows save file dialog
+    /// </summary>
+    /// <param name="fileName">Filename</param>
+    /// <param name="extension">File extension</param>
+    /// <param name="filter">Filter</param>
+    /// <param name="title">Title</param>
+    /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
+    public static bool OpenSaveDialog(ref string fileName, string extension, string filter, string title)
+    {
+      var saveDialog = new SaveFileDialog
+      {
+        FileName = fileName,
+        DefaultExt = extension,
+        Filter = filter,
+        Title = title
+      };
+
+      var result = saveDialog.ShowDialog();
+
+      if ( result != true )
+        return false;
+
+      fileName = saveDialog.FileName;
 
       return true;
     }

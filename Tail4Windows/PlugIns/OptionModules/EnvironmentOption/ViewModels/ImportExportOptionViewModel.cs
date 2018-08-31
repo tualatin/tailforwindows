@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using Microsoft.Win32;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Utils;
@@ -143,24 +142,19 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     {
       string appName = Path.GetFileNameWithoutExtension(AppDomain.CurrentDomain.FriendlyName);
       string date = DateTime.Now.ToString("yyyy_MM_dd_hh_mm");
+      string fileName = $"{date}_{appName}";
 
-      var saveDialog = new SaveFileDialog
+      if ( !InteractionService.OpenSaveDialog(ref fileName, ".export", Application.Current.TryFindResource("ImportExportExportSettingsFilter").ToString(),
+        Application.Current.TryFindResource("ImportExportSaveDialogTitle").ToString()) )
       {
-        FileName = $"{date}_{appName}",
-        DefaultExt = ".export",
-        Filter = Application.Current.TryFindResource("ImportExportExportSettingsFilter").ToString()
-      };
-
-      var result = saveDialog.ShowDialog();
-
-      if ( result != true )
         return;
+      }
 
       _cts?.Dispose();
       _cts = new CancellationTokenSource();
 
       MouseService.SetBusyState();
-      await _importExportController.ExportUserSettingsAsync(saveDialog.FileName, _cts.Token).ConfigureAwait(false);
+      await _importExportController.ExportUserSettingsAsync(fileName, _cts.Token).ConfigureAwait(false);
     }
 
     private async Task ExecuteImportCommandAsync()

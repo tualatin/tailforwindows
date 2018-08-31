@@ -9,6 +9,8 @@ using System.Windows.Input;
 using Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
+using Org.Vs.TailForWin.Business.ExportEngine;
+using Org.Vs.TailForWin.Business.ExportEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
@@ -35,6 +37,7 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
   {
     private readonly ISettingsDbController _dbController;
     private readonly List<Predicate<LogEntry>> _criteria = new List<Predicate<LogEntry>>();
+    private readonly IDataExport<LogEntry> _dataExport;
 
     #region Properties
 
@@ -195,6 +198,7 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     public BookmarkOverviewViewModel()
     {
       _dbController = SettingsDbController.Instance;
+      _dataExport = new ExportBookmarkDataSource();
       EnvironmentContainer.Instance.BookmarkManager.OnBookmarkDataSourceChanged += OnBookmarkManagerBookmarkDataSourceChanged;
     }
 
@@ -316,6 +320,21 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     private async Task ExecuteExportCommandAsync()
     {
       MouseService.SetBusyState();
+
+      string fileName = string.Empty;
+
+      if ( !InteractionService.OpenSaveDialog(ref fileName, ".csv", Application.Current.TryFindResource("BookmarkOverviewExportCsv").ToString(),
+        Application.Current.TryFindResource("BookmarkOverviewSaveDialogTitle").ToString()) )
+      {
+        return;
+      }
+
+      bool result = await _dataExport.ExportAsCsvAsync(EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource, fileName).ConfigureAwait(false);
+
+      if ( result )
+        InteractionService.ShowInformationMessageBox(Application.Current.TryFindResource("BookmarkOverviewExportSuccess").ToString());
+      else
+        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("BookmarkOverviewExportFailed").ToString());
     }
 
     private void ExecuteLoadedCommand()

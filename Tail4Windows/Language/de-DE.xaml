@@ -290,6 +290,7 @@
   <system:String x:Key="ImportExportImportFinishedMessage">Einstellungen erfolgreich importiert</system:String>
   <system:String x:Key="ImportExportExportFinishedMessage">Einstellungen erfolgreich exportiert</system:String>
   <system:String x:Key="ImportExportResetFinishedMessage">Einstellungen erfolgreich zurück gesetzt</system:String>
+  <system:String x:Key="ImportExportSaveDialogTitle">Einstellungen exportieren</system:String>
 
   <system:String x:Key="ProxySettingsServerGroup">Server</system:String>
   <system:String x:Key="ProxySettingsAuthentificationGroup">Authentifizierung</system:String>
@@ -580,4 +581,8 @@
   <system:String x:Key="BookmarkOverviewFilterBy">Filtern nach Bookmark Kommentar</system:String>
   <system:String x:Key="BookmarkOverviewDeleteBookmark">Bookmark(s) löschen</system:String>
   <system:String x:Key="BookmarkOverviewQDeleteBookmark">Möchten Sie wirklich die ausgewählten Bookmark(s) löschen?</system:String>
+  <system:String x:Key="BookmarkOverviewExportCsv">Bookmarks exportieren (*.csv)|*.csv</system:String>
+  <system:String x:Key="BookmarkOverviewSaveDialogTitle">Bookmarks exportieren</system:String>
+  <system:String x:Key="BookmarkOverviewExportSuccess">Die Bookmarks wurden erfolgreich exportiert.</system:String>
+  <system:String x:Key="BookmarkOverviewExportFailed">Während des Exports trat ein Fehler auf, bitte schauen Sie im Logfile nach.</system:String>
 </ResourceDictionary>
