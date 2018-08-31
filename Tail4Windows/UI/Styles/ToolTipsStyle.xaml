@@ -5,7 +5,6 @@
   >
   <Style x:Key="TabItemToolTipStyle" TargetType="{x:Type ToolTip}">
     <Setter Property="HasDropShadow" Value="True" />
-    <!--<Setter Property="PlacementRectangle" Value="25,25,40,30"/>-->
     <Setter Property="HorizontalOffset" Value="10" />
     <Setter Property="OverridesDefaultStyle" Value="True" />
     <Setter Property="Placement" Value="MousePoint" />
@@ -52,7 +51,6 @@
 
   <Style x:Key="BookmarkCommentToolTipStyle" TargetType="{x:Type ToolTip}">
     <Setter Property="HasDropShadow" Value="True" />
-    <!--<Setter Property="PlacementRectangle" Value="25,25,40,30"/>-->
     <Setter Property="HorizontalOffset" Value="10" />
     <Setter Property="OverridesDefaultStyle" Value="True" />
     <Setter Property="Placement" Value="MousePoint" />

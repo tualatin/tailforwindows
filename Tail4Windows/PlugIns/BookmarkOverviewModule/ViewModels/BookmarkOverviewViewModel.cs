@@ -319,8 +319,6 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
 
     private async Task ExecuteExportCommandAsync()
     {
-      MouseService.SetBusyState();
-
       string fileName = string.Empty;
 
       if ( !InteractionService.OpenSaveDialog(ref fileName, ".csv", Application.Current.TryFindResource("BookmarkOverviewExportCsv").ToString(),
@@ -328,6 +326,8 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
       {
         return;
       }
+
+      MouseService.SetBusyState();
 
       bool result = await _dataExport.ExportAsCsvAsync(EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource, fileName).ConfigureAwait(false);
 

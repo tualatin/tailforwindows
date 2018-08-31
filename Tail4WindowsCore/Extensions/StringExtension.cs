@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -24,13 +26,7 @@ namespace Org.Vs.TailForWin.Core.Extensions
     /// </summary>
     /// <param name="value">String to convert</param>
     /// <returns><c>True</c>, <c>False</c> or <c>Null</c></returns>
-    public static bool? ConvertToThreeStateBool(this string value)
-    {
-      if ( !bool.TryParse(value, out bool result) )
-        return null;
-
-      return result;
-    }
+    public static bool? ConvertToThreeStateBool(this string value) => !bool.TryParse(value, out bool result) ? null : (bool?) result;
 
     /// <summary>
     /// Converts a string to int
@@ -38,7 +34,7 @@ namespace Org.Vs.TailForWin.Core.Extensions
     /// <param name="value">String to convert</param>
     /// <param name="defaultValue">Default value is <c>-1</c></param>
     /// <returns>Real integer value, otherwise defaultValue</returns>
-    public static int ConverToInt(this string value, int defaultValue = -1) => !int.TryParse(value, out int result) ? defaultValue : result;
+    public static int ConvertToInt(this string value, int defaultValue = -1) => !int.TryParse(value, out int result) ? defaultValue : result;
 
     /// <summary>
     /// Converts a string to double
@@ -71,7 +67,7 @@ namespace Org.Vs.TailForWin.Core.Extensions
     /// <param name="typeface"><see cref="Typeface"/></param>
     /// <param name="fontSize">Font size</param>
     /// <param name="maxsize">Max pixel size</param>
-    /// <returns>A cuted string if necessary</returns>
+    /// <returns>A cut string if necessary</returns>
     public static string MeasureTextAndCutIt(this string value, Typeface typeface, double fontSize, int maxsize)
     {
       var size = GetMeasureTextSize(value, typeface, fontSize);
@@ -117,6 +113,34 @@ namespace Org.Vs.TailForWin.Core.Extensions
 
       var size = new Size(formattedText.Width, formattedText.Height);
       return size;
+    }
+
+    /// <summary>
+    /// <see cref="List{T}"/> of strings to delimited string
+    /// </summary>
+    /// <param name="list"><see cref="List{T}"/> of strings</param>
+    /// <param name="delimiter">Delimiter</param>
+    /// <param name="insertSpaces">Insert spaces</param>
+    /// <param name="qualifier">Qualifier</param>
+    /// <returns>Flatten string</returns>
+    public static string ToDelimitedString(this List<string> list, string delimiter = ":", bool insertSpaces = false, string qualifier = "")
+    {
+      var result = new StringBuilder();
+
+      for ( var i = 0; i < list.Count; i++ )
+      {
+        string initialString = list[i];
+        result.Append(qualifier == string.Empty ? initialString : $"{qualifier}{initialString}{qualifier}");
+
+        if ( i >= list.Count - 1 )
+          continue;
+
+        result.Append(delimiter);
+
+        if ( insertSpaces )
+          result.Append(' ');
+      }
+      return result.ToString();
     }
   }
 }

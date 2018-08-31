@@ -21,9 +21,9 @@ namespace Org.Vs.NUnit.Tests
     [Test]
     public void TestStringToInt()
     {
-      Assert.AreEqual(10, "10".ConverToInt());
-      Assert.AreEqual(-1, "True".ConverToInt());
-      Assert.AreEqual(-10, "True".ConverToInt(-10));
+      Assert.AreEqual(10, "10".ConvertToInt());
+      Assert.AreEqual(-1, "True".ConvertToInt());
+      Assert.AreEqual(-10, "True".ConvertToInt(-10));
     }
 
     [Test]

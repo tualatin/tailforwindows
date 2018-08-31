@@ -18,7 +18,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 {
   /// <inheritdoc />
   /// <summary>
-  /// Holds settings from enviroment
+  /// Holds settings from environment
   /// </summary>
   public class SettingsHelperController : ISettingsHelper
   {
@@ -588,7 +588,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private static string GetStringFromSetting(string setting) => string.IsNullOrWhiteSpace(setting) ? string.Empty : ConfigurationManager.AppSettings[setting];
 
-    private static int GetIntFromSetting(string setting, int defaultValue = -1) => ConfigurationManager.AppSettings[setting].ConverToInt(defaultValue);
+    private static int GetIntFromSetting(string setting, int defaultValue = -1) => ConfigurationManager.AppSettings[setting].ConvertToInt(defaultValue);
 
     private static double GetDoubleFromSetting(string setting, double defaultValue = -1) => ConfigurationManager.AppSettings[setting].ConvertToDouble(defaultValue);
 

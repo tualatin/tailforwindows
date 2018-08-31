@@ -11,7 +11,11 @@ Changelog:
 v.2.2.xxxx.x
 * new change Bookmark icon, if a comment exists
 * new Bookmark overview (Ctrl+Alt+B)
+* new Bookmark comment multiedit -> Bookmark overview
+* new Bookmark delete selected -> Bookmark overview
+* new Bookmark export as CSV -> Bookmark overview
 * new Systeminformation overview shows Windows build id
+* improve Find result view -> ToolTip for message column
 
 v.2.1.xxxx.x
 * bug fix NullReferenceException TailData property changed

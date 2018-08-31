@@ -166,11 +166,28 @@
           </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>
 
-        <DataGridTextColumn
+        <DataGridTemplateColumn
           MinWidth="400"
           Header="{DynamicResource FindResultMessage}"
-          Binding="{Binding Message, UpdateSourceTrigger=PropertyChanged}"
-          />
+          >
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <TextBox
+                Text="{Binding Message, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                IsReadOnly="True"
+                Style="{StaticResource TextBoxDataGridStyle}"
+                >
+                <TextBox.ToolTip>
+                  <ToolTip
+                    Content="{Binding Message}"
+                    Style="{StaticResource TabItemToolTipStyle}"
+                    Visibility="{Binding Message, Converter={StaticResource StringToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    />
+                </TextBox.ToolTip>
+              </TextBox>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
       </userControls:VsDataGrid.Columns>
     </userControls:VsDataGrid>
   </Grid>
