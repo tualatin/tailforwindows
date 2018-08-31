@@ -125,14 +125,11 @@
     <Compile Include="Data\WindowsEventData.cs" />
     <Compile Include="Data\XmlNames\XmlBaseStructure.cs" />
     <Compile Include="Enums\EDateFormat.cs" />
-    <Compile Include="Enums\EFileManagerState.cs" />
     <Compile Include="Enums\EFileSort.cs" />
     <Compile Include="Enums\EMaskType.cs" />
     <Compile Include="Enums\EScrollSyncType.cs" />
     <Compile Include="Enums\ESmartWatchMode.cs" />
     <Compile Include="Enums\EStatusbarState.cs" />
-    <Compile Include="Enums\ETabState.cs" />
-    <Compile Include="Enums\ETailLogColorTypes.cs" />
     <Compile Include="Enums\ETailRefreshRate.cs" />
     <Compile Include="Enums\ETimeFormat.cs" />
     <Compile Include="Enums\EUiLanguage.cs" />

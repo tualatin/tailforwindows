@@ -29,30 +29,27 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
     /// <returns><see cref="Task"/> if success <c>True</c> otherwise <c>False</c></returns>
     public async Task<bool> ExportAsCsvAsync(IList<LogEntry> data, string fileName)
     {
-      bool result = false;
+      var result = false;
 
-      await Task.Run(() =>
+      try
       {
-        try
+        if ( _excel == null )
+          _excel = CreateDocument(data);
+
+        var csv = _excel.ConvertToCsv();
+        var fileInfo = new FileInfo(fileName);
+
+        using ( var fs = new FileStream(fileInfo.FullName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None) )
         {
-          if ( _excel == null )
-            _excel = CreateDocument(data);
-
-          var csv = _excel.ConvertToCsv();
-          var fileInfo = new FileInfo(fileName);
-
-          using ( var fs = new FileStream(fileInfo.FullName, FileMode.CreateNew, FileAccess.ReadWrite) )
-          {
-            fs.Write(csv, 0, csv.Length);
-          }
-
-          result = true;
+          await fs.WriteAsync(csv, 0, csv.Length);
         }
-        catch ( Exception ex )
-        {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        }
-      });
+
+        result = true;
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
       return result;
     }
 
@@ -62,7 +59,29 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
     /// <param name="data"><see cref="IList{T}"/> of <see cref="LogEntry"/></param>
     /// <param name="fileName">Filename</param>
     /// <returns><see cref="Task"/> if success <c>True</c> otherwise <c>False</c></returns>
-    public async Task<bool> ExportAsExcelAsync(IList<LogEntry> data, string fileName) => throw new System.NotImplementedException();
+    public async Task<bool> ExportAsExcelAsync(IList<LogEntry> data, string fileName)
+    {
+      var result = false;
+
+      try
+      {
+        await Task.Run(() =>
+        {
+          if ( _excel == null )
+            _excel = CreateDocument(data);
+
+          var fileInfo = new FileInfo(fileName);
+          _excel.SaveAs(fileInfo);
+
+          result = true;
+        });
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+      return result;
+    }
 
     /// <summary>
     /// Export data as OpenDocument
@@ -70,7 +89,7 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
     /// <param name="data"><see cref="IList{T}"/> of <see cref="LogEntry"/></param>
     /// <param name="fileName">Filename</param>
     /// <returns><see cref="Task"/> if success <c>True</c> otherwise <c>False</c></returns>
-    public async Task<bool> ExportAsOpenDocumentAsync(IList<LogEntry> data, string fileName) => throw new System.NotImplementedException();
+    public async Task<bool> ExportAsOpenDocumentAsync(IList<LogEntry> data, string fileName) => throw new NotImplementedException();
 
     private ExcelPackage CreateDocument(IEnumerable<LogEntry> data)
     {
@@ -93,13 +112,13 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
       bookmarkWorksheet.Cells[headerRange].LoadFromArrays(headerRows);
       bookmarkWorksheet.Cells[headerRange].Style.Font.Bold = true;
       bookmarkWorksheet.Cells[headerRange].Style.Font.Size = 11;
-      bookmarkWorksheet.Cells[2, 1].LoadFromArrays(CreateFlatList(data)).AutoFitColumns(10, 100);
+      bookmarkWorksheet.Cells[2, 1].LoadFromArrays(CreateFlatList(data)).AutoFitColumns(10, 150);
       bookmarkWorksheet.View.FreezePanes(2, 1);
 
       return excel;
     }
 
     private IEnumerable<object[]> CreateFlatList(IEnumerable<LogEntry> data) =>
-      data.Select(bookmark => new object[] {bookmark.Index, bookmark.BookmarkToolTip, bookmark.Message}).ToList();
+      data.Select(bookmark => new object[] { bookmark.Index, bookmark.BookmarkToolTip, bookmark.Message }).ToList();
   }
 }

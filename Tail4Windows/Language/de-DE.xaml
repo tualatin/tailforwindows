@@ -582,7 +582,13 @@
   <system:String x:Key="BookmarkOverviewDeleteBookmark">Bookmark(s) löschen</system:String>
   <system:String x:Key="BookmarkOverviewQDeleteBookmark">Möchten Sie wirklich die ausgewählten Bookmark(s) löschen?</system:String>
   <system:String x:Key="BookmarkOverviewExportCsv">Bookmarks exportieren (*.csv)|*.csv</system:String>
+  <system:String x:Key="BookmarkOverviewExportXls">Bookmarks exportieren (*.xlsx)|*.xlsx</system:String>
   <system:String x:Key="BookmarkOverviewSaveDialogTitle">Bookmarks exportieren</system:String>
   <system:String x:Key="BookmarkOverviewExportSuccess">Die Bookmarks wurden erfolgreich exportiert.</system:String>
   <system:String x:Key="BookmarkOverviewExportFailed">Während des Exports trat ein Fehler auf, bitte schauen Sie im Logfile nach.</system:String>
+
+  <system:String x:Key="ExportFormatSelectorTitle">Export-Format wählen</system:String>
+  <system:String x:Key="ExportFormatSelectorExportCsv">Exportieren als CSV</system:String>
+  <system:String x:Key="ExportFormatSelectorExportExcel">Exportieren als Excel</system:String>
+  <system:String x:Key="ExportFormatSelectorExportOpenDocument">Exportieren als OpenDocument</system:String>
 </ResourceDictionary>

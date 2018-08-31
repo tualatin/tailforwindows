@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 
+
 namespace Org.Vs.TailForWin.Core.Enums
 {
   /// <summary>

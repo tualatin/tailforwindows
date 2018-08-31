@@ -221,6 +221,10 @@
       <DependentUpon>BookmarkOverview.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\BookmarkOverviewModule\ViewModels\BookmarkOverviewViewModel.cs" />
+    <Compile Include="PlugIns\ExportFormatModule\ExportFormatSelector.xaml.cs">
+      <DependentUpon>ExportFormatSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\ExportFormatModule\ViewModels\ExportFormatSelectorViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\FileManager.xaml.cs">
       <DependentUpon>FileManager.xaml</DependentUpon>
     </Compile>
@@ -539,6 +543,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PlugIns\BookmarkOverviewModule\BookmarkOverview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\ExportFormatModule\ExportFormatSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

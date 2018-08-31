@@ -83,6 +83,7 @@
         Height="24"
         VerticalAlignment="Center"
         Command="{Binding ExportCommand}"
+        CommandParameter="{Binding ElementName=BookmarkOverviewWindow}"
         >
         <StackPanel>
           <Image

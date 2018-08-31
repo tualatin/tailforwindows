@@ -16,12 +16,14 @@ using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.ExportFormatModule.Enums;
 using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.BookmarkCommentModule;
+using Org.Vs.TailForWin.PlugIns.ExportFormatModule;
 using Org.Vs.TailForWin.UI.Extensions;
 using Org.Vs.TailForWin.UI.FloatWindow;
 using Org.Vs.TailForWin.UI.UserControls;
@@ -223,7 +225,7 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     /// <summary>
     /// Export command
     /// </summary>
-    public IAsyncCommand ExportCommand => _exportCommand ?? (_exportCommand = AsyncCommand.Create(p => CanExecuteExportCommand(), ExecuteExportCommandAsync));
+    public IAsyncCommand ExportCommand => _exportCommand ?? (_exportCommand = AsyncCommand.Create(p => CanExecuteExportCommand(), (p, t) => ExecuteExportCommandAsync(p)));
 
     private ICommand _bookmarkOverviewMouseDoubleClickCommand;
 
@@ -317,25 +319,72 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
 
     private bool CanExecuteExportCommand() => BookmarkCollectionView != null && BookmarkCollectionView.Count > 0;
 
-    private async Task ExecuteExportCommandAsync()
+    private async Task ExecuteExportCommandAsync(object param)
     {
-      string fileName = string.Empty;
-
-      if ( !InteractionService.OpenSaveDialog(ref fileName, ".csv", Application.Current.TryFindResource("BookmarkOverviewExportCsv").ToString(),
-        Application.Current.TryFindResource("BookmarkOverviewSaveDialogTitle").ToString()) )
-      {
+      if ( !(param is BookmarkOverview window) )
         return;
+
+      var exportFormatSelector = new ExportFormatSelector
+      {
+        Owner = window
+      };
+      var dialogResult = exportFormatSelector.ShowDialog();
+
+      if ( dialogResult != null && !(bool) dialogResult )
+        return;
+
+      string fileName = string.Empty;
+      bool result;
+      EExportFormat exportFormat = exportFormatSelector.ExportFormat;
+
+      if ( exportFormat.HasFlag(EExportFormat.Csv) )
+      {
+        if ( OpenSaveDialog(ref fileName, ".csv", Application.Current.TryFindResource("BookmarkOverviewExportCsv").ToString()) )
+        {
+          MouseService.SetBusyState();
+          result = await _dataExport.ExportAsCsvAsync(EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource, fileName).ConfigureAwait(false);
+
+          ShowExportResult(result);
+        }
       }
 
-      MouseService.SetBusyState();
+      fileName = string.Empty;
 
-      bool result = await _dataExport.ExportAsCsvAsync(EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource, fileName).ConfigureAwait(false);
+      if ( exportFormat.HasFlag(EExportFormat.Excel) )
+      {
+        if ( OpenSaveDialog(ref fileName, ".xlsx", Application.Current.TryFindResource("BookmarkOverviewExportXls").ToString()) )
+        {
+          MouseService.SetBusyState();
+          result = await _dataExport.ExportAsExcelAsync(EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource, fileName).ConfigureAwait(false);
 
+          ShowExportResult(result);
+        }
+      }
+
+      fileName = string.Empty;
+
+      if ( exportFormat.HasFlag(EExportFormat.OpenDocument) )
+      {
+        if ( OpenSaveDialog(ref fileName, "", "") )
+        {
+          MouseService.SetBusyState();
+          result = await _dataExport.ExportAsOpenDocumentAsync(EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource, fileName).ConfigureAwait(false);
+
+          ShowExportResult(result);
+        }
+      }
+    }
+
+    private void ShowExportResult(bool result)
+    {
       if ( result )
         InteractionService.ShowInformationMessageBox(Application.Current.TryFindResource("BookmarkOverviewExportSuccess").ToString());
       else
         InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("BookmarkOverviewExportFailed").ToString());
     }
+
+    private bool OpenSaveDialog(ref string fileName, string format, string filter) =>
+      InteractionService.OpenSaveDialog(ref fileName, format, filter, Application.Current.TryFindResource("BookmarkOverviewSaveDialogTitle").ToString());
 
     private void ExecuteLoadedCommand()
     {

@@ -1,5 +1,4 @@
-﻿
-namespace Org.Vs.TailForWin.Core.Enums
+﻿namespace Org.Vs.TailForWin.Core.Enums
 {
   /// <summary>
   /// TextBox mask types
