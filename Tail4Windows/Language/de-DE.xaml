@@ -578,4 +578,6 @@
 
   <system:String x:Key="BookmarkOverviewTitle">Bookmark Übersicht</system:String>
   <system:String x:Key="BookmarkOverviewFilterBy">Filtern nach Bookmark Kommentar</system:String>
+  <system:String x:Key="BookmarkOverviewDeleteBookmark">Bookmark(s) löschen</system:String>
+  <system:String x:Key="BookmarkOverviewQDeleteBookmark">Möchten Sie wirklich die ausgewählten Bookmark(s) löschen?</system:String>
 </ResourceDictionary>

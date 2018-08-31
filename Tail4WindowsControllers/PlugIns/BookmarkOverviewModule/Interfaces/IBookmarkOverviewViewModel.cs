@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections;
 using System.Windows.Data;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Business.Services.Data;
@@ -108,7 +108,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.BookmarkOverviewModule.Interface
     /// <summary>
     /// SelectedItems
     /// </summary>
-    ObservableCollection<LogEntry> SelectedItems
+    IList SelectedItems
     {
       get;
     }

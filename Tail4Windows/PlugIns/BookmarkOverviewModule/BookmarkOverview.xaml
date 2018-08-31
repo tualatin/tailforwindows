@@ -113,12 +113,12 @@
       IsSynchronizedWithCurrentItem="True"
       ItemsSource="{Binding BookmarkCollectionView}"
       SelectedItem="{Binding SelectedItem}"
+      SelectedItemsList="{Binding SelectedItems, UpdateSourceTrigger=PropertyChanged}"
       SelectionMode="Extended"
       TabIndex="1"
       >
       <i:Interaction.Behaviors>
         <behaviors:DataGridSingleClickBehavior />
-        <behaviors:MultiSelectionBehavior SelectedItems="{Binding SelectedItems}" />
         <behaviors:ScrollDataGridRowIntoView />
       </i:Interaction.Behaviors>
 
@@ -144,7 +144,7 @@
           <MenuItem
             Header="{DynamicResource AddCommentToBookmark}"
             Command="{Binding AddBookmarkCommentCommand}"
-            CommandParameter="{Binding ElementName=BookmarkOverviewWindow}"
+            CommandParameter="{Binding PlacementTarget, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ContextMenu}}}"
             >
             <MenuItem.Icon>
               <Image
@@ -156,7 +156,7 @@
           </MenuItem>
 
           <MenuItem
-            Header="{DynamicResource DeleteBookmarks}"
+            Header="{DynamicResource BookmarkOverviewDeleteBookmark}"
             Command="{Binding RemoveBookmarksCommand}"
             >
             <MenuItem.Icon>

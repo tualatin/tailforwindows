@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +20,8 @@ using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.BookmarkCommentModule;
+using Org.Vs.TailForWin.UI.Extensions;
+using Org.Vs.TailForWin.UI.FloatWindow;
 using Org.Vs.TailForWin.UI.UserControls;
 using Org.Vs.TailForWin.UI.Utils;
 
@@ -105,17 +107,17 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
       set;
     }
 
-    private ObservableCollection<LogEntry> _selectedItems;
+    private IList _selectedItems;
 
     /// <summary>
     /// SelectedItems
     /// </summary>
-    public ObservableCollection<LogEntry> SelectedItems
+    public IList SelectedItems
     {
       get => _selectedItems;
       set
       {
-        if ( value == _selectedItems )
+        if ( Equals(value, _selectedItems) )
           return;
 
         _selectedItems = value;
@@ -194,7 +196,6 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
     {
       _dbController = SettingsDbController.Instance;
       EnvironmentContainer.Instance.BookmarkManager.OnBookmarkDataSourceChanged += OnBookmarkManagerBookmarkDataSourceChanged;
-      SelectedItems = new ObservableCollection<LogEntry>();
     }
 
     #region Commands
@@ -250,13 +251,14 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
 
     private void ExecuteAddBookmarkCommentCommand(object param)
     {
-      if ( !(param is BookmarkOverview window) )
+      if ( !(param is VsDataGrid vsDataGrid) )
         return;
 
+      VsFloatingWindow bookmarkOverviewWindow = vsDataGrid.Ancestors().OfType<VsFloatingWindow>().FirstOrDefault(p => p.Name == "BookmarkOverviewWindow");
       var addBookmarkCommentPopup = new AddBookmarkComment
       {
-        Owner = window,
-        Comment = SelectedItems.First().BookmarkToolTip
+        Owner = bookmarkOverviewWindow,
+        Comment = (SelectedItems[0] as LogEntry)?.BookmarkToolTip
       };
       addBookmarkCommentPopup.ShowDialog();
 
@@ -270,7 +272,17 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
 
     private void ExecuteRemoveBookmarksCommand()
     {
+      if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("BookmarkOverviewQDeleteBookmark").ToString()) == MessageBoxResult.No )
+        return;
 
+      foreach ( object item in SelectedItems )
+      {
+        if ( !(item is LogEntry logEntry) )
+          continue;
+
+        logEntry.BookmarkPoint = null;
+        logEntry.BookmarkToolTip = string.Empty;
+      }
     }
 
     private void ExecuteClosingCommand()

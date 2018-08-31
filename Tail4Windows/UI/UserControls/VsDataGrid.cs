@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -71,6 +72,21 @@ namespace Org.Vs.TailForWin.UI.UserControls
     }
 
     /// <summary>
+    /// SelectedItemsList property
+    /// </summary>
+    public static readonly DependencyProperty SelectedItemsListProperty = DependencyProperty.Register(nameof(SelectedItemsList), typeof(IList), typeof(VsDataGrid),
+      new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+    /// <summary>
+    /// SelectedItemsList
+    /// </summary>
+    public IList SelectedItemsList
+    {
+      get => (IList) GetValue(SelectedItemsListProperty);
+      set => SetValue(SelectedItemsListProperty, value);
+    }
+
+    /// <summary>
     /// Save DataGrid layout property
     /// </summary>
     public static readonly DependencyProperty SaveDataGridLayoutProperty = DependencyProperty.Register(nameof(SaveDataGridLayout), typeof(bool), typeof(VsDataGrid),
@@ -92,7 +108,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       new PropertyMetadata(string.Empty, OnVisibleColumnsChanged));
 
     /// <summary>
-    /// Gets or sets a value indicating the names of columns (as they appear in the column header) to be visible, seperated by a semicolon.
+    /// Gets or sets a value indicating the names of columns (as they appear in the column header) to be visible, separated by a semicolon.
     /// columns that whose name is not here will be hidden.
     /// </summary>
     public string VisibleColumns
@@ -151,6 +167,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
       _columnHeaderContextMenu = new ContextMenu();
       _oneTime = true;
 
+      SelectionChanged += OnVsDataGridSelectionChanged;
       Columns.CollectionChanged += OnColumnsCollectionChanged;
       Loaded += OnLoaded;
       Unloaded += OnUnloaded;
@@ -337,13 +354,15 @@ namespace Org.Vs.TailForWin.UI.UserControls
       _horizontalScrollbarGrid = null;
     }
 
+    private void OnVsDataGridSelectionChanged(object sender, SelectionChangedEventArgs e) => SelectedItemsList = SelectedItems;
+
     private void OnColumnsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       if ( e.NewItems != null )
       {
         if ( e.NewItems[0] is DataGridColumn col )
         {
-          // keep a list of all clomuns headers for later use.
+          // keep a list of all columns headers for later use.
           AllColumnsHeaders = $"{col.Header};{AllColumnsHeaders}";
 
           // make a new menu item and add it to the context menu.
