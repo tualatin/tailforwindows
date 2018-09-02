@@ -127,6 +127,7 @@
     <Compile Include="Commands\MouseCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="PlugIns\BookmarkCommentModule\Interfaces\IAddBookmarkCommentViewModel.cs" />
+    <Compile Include="PlugIns\BookmarkOverviewModule\Data\BookmarkExportData.cs" />
     <Compile Include="PlugIns\BookmarkOverviewModule\Interfaces\IBookmarkOverviewViewModel.cs" />
     <Compile Include="PlugIns\ExportFormatModule\Interfaces\IExportFormatSelectorViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\CollectionViewHolder.cs" />

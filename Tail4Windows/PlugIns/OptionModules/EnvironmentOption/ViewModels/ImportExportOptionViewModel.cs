@@ -144,7 +144,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       string date = DateTime.Now.ToString("yyyy_MM_dd_hh_mm");
       string fileName = $"{date}_{appName}";
 
-      if ( !InteractionService.OpenSaveDialog(ref fileName, ".export", Application.Current.TryFindResource("ImportExportExportSettingsFilter").ToString(),
+      if ( !InteractionService.OpenSaveDialog(ref fileName, Application.Current.TryFindResource("ImportExportExportSettingsFilter").ToString(),
         Application.Current.TryFindResource("ImportExportSaveDialogTitle").ToString()) )
       {
         return;

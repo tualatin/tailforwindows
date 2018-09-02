@@ -78,16 +78,14 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// Shows save file dialog
     /// </summary>
     /// <param name="fileName">Filename</param>
-    /// <param name="extension">File extension</param>
     /// <param name="filter">Filter</param>
     /// <param name="title">Title</param>
     /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
-    public static bool OpenSaveDialog(ref string fileName, string extension, string filter, string title)
+    public static bool OpenSaveDialog(ref string fileName, string filter, string title)
     {
       var saveDialog = new SaveFileDialog
       {
         FileName = fileName,
-        DefaultExt = extension,
         Filter = filter,
         Title = title
       };

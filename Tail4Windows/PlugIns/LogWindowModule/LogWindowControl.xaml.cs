@@ -824,6 +824,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         FileIsValid = false;
         LogWindowState = EStatusbarState.Default;
         SplitWindow.CurrentTailData = CurrentTailData;
+        EnvironmentContainer.Instance.BookmarkManager.TimeStamp = CurrentTailData.Timestamp;
         return;
       }
 
@@ -842,6 +843,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowTabItem.TabItemBackgroundColorStringHex = CurrentTailData.TabItemBackgroundColorStringHex;
       FileIsValid = true;
       SplitWindow.CurrentTailData = CurrentTailData;
+      EnvironmentContainer.Instance.BookmarkManager.TimeStamp = CurrentTailData.Timestamp;
 
       if ( LogWindowTabItem.TabItemBusyIndicator != Visibility.Visible )
         LogWindowState = !string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
@@ -1108,6 +1110,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowTabItem.TabItemBackgroundColorStringHex = CurrentTailData.TabItemBackgroundColorStringHex;
       FileIsValid = true;
       SplitWindow.CurrentTailData = CurrentTailData;
+      EnvironmentContainer.Instance.BookmarkManager.TimeStamp = CurrentTailData.Timestamp;
 
       if ( LogWindowTabItem.TabItemBusyIndicator != Visibility.Visible )
         LogWindowState = !string.IsNullOrWhiteSpace(CurrentTailData.WindowsEvent.Category) ? EStatusbarState.FileLoaded : EStatusbarState.Default;

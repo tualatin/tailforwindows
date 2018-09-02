@@ -588,6 +588,7 @@
   <system:String x:Key="BookmarkOverviewExportFailed">Während des Exports trat ein Fehler auf, bitte schauen Sie im Logfile nach.</system:String>
 
   <system:String x:Key="ExportFormatSelectorTitle">Export-Format wählen</system:String>
+  <system:String x:Key="ExportFormatSelectorExportAllFiles">Exportieren (*.*)|*.*</system:String>
   <system:String x:Key="ExportFormatSelectorExportCsv">Exportieren als CSV</system:String>
   <system:String x:Key="ExportFormatSelectorExportExcel">Exportieren als Excel</system:String>
   <system:String x:Key="ExportFormatSelectorExportOpenDocument">Exportieren als OpenDocument</system:String>
