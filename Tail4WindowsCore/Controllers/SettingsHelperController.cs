@@ -72,7 +72,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
         { "SmartWatch.SmartWatchInterval", DefaultEnvironmentSettings.SmartWatchInterval.ToString() },
         { "EditorPath", string.Empty },
         { "SingleInstance", DefaultEnvironmentSettings.SingleInstance.ToString() },
-        { "ContinuedScroll", DefaultEnvironmentSettings.ContinuedScroll.ToString() }
+        { "ContinuedScroll", DefaultEnvironmentSettings.ContinuedScroll.ToString() },
+        { "LastUsedExportFormat", DefaultEnvironmentSettings.ExportFormat.ToString() }
       };
 
       await AddNewPropertyAsync(settings, cts).ConfigureAwait(false);
@@ -246,6 +247,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       WriteValueToSetting(config, "ShowExtendedSettings", CurrentSettings.ShowExtendedSettings);
       WriteValueToSetting(config, "SplitterWindowBehavior", CurrentSettings.SplitterWindowBehavior);
       WriteValueToSetting(config, "EditorPath", CurrentSettings.EditorPath);
+      WriteValueToSetting(config, "LastUsedExportFormat", CurrentSettings.ExportFormat);
     }
 
     private void SaveStatusBarSettings(Configuration config)
@@ -372,6 +374,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ShowExtendedSettings = DefaultEnvironmentSettings.ShowExtendedSettings;
       CurrentSettings.SplitterWindowBehavior = DefaultEnvironmentSettings.SplitterWindowBehavior;
       CurrentSettings.EditorPath = string.Empty;
+      CurrentSettings.ExportFormat = DefaultEnvironmentSettings.ExportFormat;
     }
 
     private void SetDefaultStatusBarSettings()
@@ -527,6 +530,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.SplitterWindowBehavior = GetBoolFromSetting("SplitterWindowBehavior");
       CurrentSettings.SmartWatch = GetBoolFromSetting("SmartWatch");
       CurrentSettings.EditorPath = GetStringFromSetting("EditorPath");
+      CurrentSettings.ExportFormat = GetExportFormat(GetStringFromSetting("LastUsedExportFormat"));
     }
 
     private void ReadStatusBarSettings()
@@ -618,6 +622,22 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       Arg.NotNull(config, "Configuration");
       config.AppSettings.Settings[setting].Value = value.ToString();
+    }
+
+    /// <summary>
+    /// Gets last used export format from Enum
+    /// </summary>
+    /// <param name="s">Enum value as string</param>
+    /// <returns>Enum of <see cref="EExportFormat"/></returns>
+    private static EExportFormat GetExportFormat(string s)
+    {
+      if ( string.IsNullOrWhiteSpace(s) )
+        return EExportFormat.Csv;
+
+      if ( !Enum.TryParse(s, out EExportFormat format) )
+        format = EExportFormat.Csv;
+
+      return format;
     }
 
     /// <summary>

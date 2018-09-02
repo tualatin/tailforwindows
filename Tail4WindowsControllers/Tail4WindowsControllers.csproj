@@ -128,7 +128,6 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="PlugIns\BookmarkCommentModule\Interfaces\IAddBookmarkCommentViewModel.cs" />
     <Compile Include="PlugIns\BookmarkOverviewModule\Interfaces\IBookmarkOverviewViewModel.cs" />
-    <Compile Include="PlugIns\ExportFormatModule\Enums\EExportFormat.cs" />
     <Compile Include="PlugIns\ExportFormatModule\Interfaces\IExportFormatSelectorViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\CollectionViewHolder.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\FilterManagerCollectionViewHolder.cs" />

@@ -8,6 +8,8 @@ using OfficeOpenXml;
 using Org.Vs.TailForWin.Business.ExportEngine.Extensions;
 using Org.Vs.TailForWin.Business.ExportEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Core.Controllers;
 
 
 namespace Org.Vs.TailForWin.Business.ExportEngine
@@ -33,9 +35,7 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
 
       try
       {
-        if ( _excel == null )
-          _excel = CreateDocument(data);
-
+        _excel = CreateDocument(data);
         var csv = _excel.ConvertToCsv();
         var fileInfo = new FileInfo(fileName);
 
@@ -67,9 +67,7 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
       {
         await Task.Run(() =>
         {
-          if ( _excel == null )
-            _excel = CreateDocument(data);
-
+          _excel = CreateDocument(data);
           var fileInfo = new FileInfo(fileName);
           _excel.SaveAs(fileInfo);
 
@@ -119,6 +117,7 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
     }
 
     private IEnumerable<object[]> CreateFlatList(IEnumerable<LogEntry> data) =>
-      data.Select(bookmark => new object[] { bookmark.Index, bookmark.BookmarkToolTip, bookmark.Message }).ToList();
+      data.Select(bookmark => new object[] { bookmark.Index, bookmark.BookmarkToolTip, !EnvironmentContainer.Instance.BookmarkManager.TimeStamp? bookmark.Message :
+        $"{bookmark.DateTime.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat)} {bookmark.Message}"}).ToList();
   }
 }

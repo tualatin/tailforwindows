@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using Org.Vs.TailForWin.Controllers.PlugIns.ExportFormatModule.Enums;
+using Org.Vs.TailForWin.Core.Enums;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.ExportFormatModule.Interfaces

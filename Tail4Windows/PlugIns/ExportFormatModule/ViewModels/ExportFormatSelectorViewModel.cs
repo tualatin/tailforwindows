@@ -1,8 +1,9 @@
 ﻿using System.Windows.Input;
 using Org.Vs.TailForWin.Controllers.Commands;
-using Org.Vs.TailForWin.Controllers.PlugIns.ExportFormatModule.Enums;
 using Org.Vs.TailForWin.Controllers.PlugIns.ExportFormatModule.Interfaces;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Enums;
 
 
 namespace Org.Vs.TailForWin.PlugIns.ExportFormatModule.ViewModels
@@ -89,8 +90,16 @@ namespace Org.Vs.TailForWin.PlugIns.ExportFormatModule.ViewModels
     /// </summary>
     public ExportFormatSelectorViewModel()
     {
-      CsvExport = true;
-      SelectedExportFormat = EExportFormat.Csv;
+      SelectedExportFormat = SettingsHelperController.CurrentSettings.ExportFormat;
+
+      if ( SettingsHelperController.CurrentSettings.ExportFormat.HasFlag(EExportFormat.Csv) )
+        CsvExport = true;
+
+      if ( SettingsHelperController.CurrentSettings.ExportFormat.HasFlag(EExportFormat.Excel) )
+        ExcelExport = true;
+
+      if ( SettingsHelperController.CurrentSettings.ExportFormat.HasFlag(EExportFormat.OpenDocument) )
+        OpenDocumentExport = true;
     }
 
     #region Commands
@@ -118,6 +127,7 @@ namespace Org.Vs.TailForWin.PlugIns.ExportFormatModule.ViewModels
       if ( OpenDocumentExport )
         SelectedExportFormat |= EExportFormat.OpenDocument;
 
+      SettingsHelperController.CurrentSettings.ExportFormat = SelectedExportFormat;
       window.DialogResult = true;
       window.Close();
     }

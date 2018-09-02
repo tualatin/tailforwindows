@@ -184,6 +184,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     #endregion
 
     /// <summary>
+    /// Default value Export format
+    /// </summary>
+    public const EExportFormat ExportFormat = EExportFormat.Csv;
+
+    /// <summary>
     /// Default value Filter font color
     /// </summary>
     public const string FilterFontColor = "#DC143C";

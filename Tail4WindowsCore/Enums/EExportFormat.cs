@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Org.Vs.TailForWin.Controllers.PlugIns.ExportFormatModule.Enums
+namespace Org.Vs.TailForWin.Core.Enums
 {
   /// <summary>
   /// Export format enum

@@ -125,6 +125,7 @@
     <Compile Include="Data\WindowsEventData.cs" />
     <Compile Include="Data\XmlNames\XmlBaseStructure.cs" />
     <Compile Include="Enums\EDateFormat.cs" />
+    <Compile Include="Enums\EExportFormat.cs" />
     <Compile Include="Enums\EFileSort.cs" />
     <Compile Include="Enums\EMaskType.cs" />
     <Compile Include="Enums\EScrollSyncType.cs" />

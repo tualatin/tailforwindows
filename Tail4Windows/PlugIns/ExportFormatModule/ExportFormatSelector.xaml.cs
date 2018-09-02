@@ -1,5 +1,5 @@
-﻿using Org.Vs.TailForWin.Controllers.PlugIns.ExportFormatModule.Enums;
-using Org.Vs.TailForWin.Controllers.PlugIns.ExportFormatModule.Interfaces;
+﻿using Org.Vs.TailForWin.Controllers.PlugIns.ExportFormatModule.Interfaces;
+using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.PlugIns.ExportFormatModule.ViewModels;
 
 

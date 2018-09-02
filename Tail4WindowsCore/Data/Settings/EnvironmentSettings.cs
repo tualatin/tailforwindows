@@ -49,7 +49,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     }
 
     /// <summary>
-    /// Currrent string format
+    /// Current string format
     /// </summary>
     public string CurrentStringFormat
     {
@@ -119,6 +119,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _editorPath = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private EExportFormat _exportFormat;
+
+    /// <summary>
+    /// Last used export format
+    /// </summary>
+    public EExportFormat ExportFormat
+    {
+      get => _exportFormat;
+      set
+      {
+        if ( Equals(value, _exportFormat) )
+          return;
+
+        _exportFormat = value;
         OnPropertyChanged();
       }
     }
@@ -604,7 +622,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       get => _continuedScroll;
       set
       {
-        if (value == _continuedScroll)
+        if ( value == _continuedScroll )
           return;
 
         _continuedScroll = value;

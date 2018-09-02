@@ -35,6 +35,15 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces
     }
 
     /// <summary>
+    /// Time stamp
+    /// </summary>
+    bool TimeStamp
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Gets current <see cref="Guid"/>
     /// </summary>
     /// <returns>Current Window id</returns>

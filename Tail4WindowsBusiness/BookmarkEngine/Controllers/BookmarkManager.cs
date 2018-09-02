@@ -48,6 +48,15 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
       private set;
     }
 
+    /// <summary>
+    /// Time stamp
+    /// </summary>
+    public bool TimeStamp
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     /// <summary>

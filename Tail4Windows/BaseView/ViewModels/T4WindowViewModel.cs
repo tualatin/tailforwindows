@@ -245,6 +245,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ChangeWindowGuiMessage(content.WindowId));
         OnFindWhatWindowTitleChanged(new DragWindowTabItemChangedMessage(this, _selectedTabItem.HeaderContent, content.WindowId));
         SetCurrentBusinessData();
+
         EnvironmentContainer.Instance.BookmarkManager.RegisterWindowId(content.WindowId);
       }
     }

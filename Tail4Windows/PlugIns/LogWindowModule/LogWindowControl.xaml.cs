@@ -187,6 +187,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       LogWindowTabItem.ItemChangedIndicator = _currentTailData.CanUndo ? Visibility.Visible : Visibility.Collapsed;
+      EnvironmentContainer.Instance.BookmarkManager.TimeStamp = _currentTailData.Timestamp;
     }
 
     private bool _fileIsValid;
@@ -333,7 +334,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Add to FileManager command
     /// </summary>
-    public ICommand AddToFileManagerCommand => _addToFileManagerCommand ?? (_addToFileManagerCommand = new RelayCommand(p => CanExecuteAddToFileManager(), p => ExecuteAddToFileManagerCommand()));
+    public ICommand AddToFileManagerCommand => _addToFileManagerCommand ?? (_addToFileManagerCommand = new RelayCommand(p => CanExecuteAddToFileManager(),
+                                                 p => ExecuteAddToFileManagerCommand()));
 
     private ICommand _openFileManagerCommand;
 
