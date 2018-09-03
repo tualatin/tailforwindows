@@ -473,7 +473,7 @@
       <Trigger Property="IsSelected" Value="True">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
-        <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey03}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
       </Trigger>
       <MultiDataTrigger>
         <MultiDataTrigger.Conditions>
