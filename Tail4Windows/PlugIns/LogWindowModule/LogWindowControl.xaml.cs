@@ -61,6 +61,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogWindowControl));
     private static readonly object LogWindowControlLock = new object();
 
+    /// <summary>
+    /// Current lock time span in milliseconds
+    /// </summary>
+    private const int LockTimeSpanIsMs = 300;
+
     private CancellationTokenSource _cts;
     private readonly PrintController _printerController;
     private readonly IXmlSearchHistory<QueueSet<string>> _historyController;
@@ -618,11 +623,22 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteClearLogWindowCommand()
     {
-      lock ( LogWindowControlLock )
+      if ( Monitor.TryEnter(LogWindowControlLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
-        MouseService.SetBusyState();
-        SplitWindow.ClearItems();
-        TailReader.ResetIndex();
+        try
+        {
+          MouseService.SetBusyState();
+          SplitWindow.ClearItems();
+          TailReader.ResetIndex();
+        }
+        finally
+        {
+          Monitor.Exit(LogWindowControlLock);
+        }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
       }
     }
 
@@ -1050,24 +1066,33 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private static void CreateDragWindow(TailData tailData, Window window)
     {
-      DragWindow dragWindow;
-
-      lock ( LogWindowControlLock )
+      if ( Monitor.TryEnter(LogWindowControlLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
-        const int offset = 100;
-        ILogWindowControl content = new LogWindowControl
+        try
         {
-          CurrentTailData = tailData
-        };
-        DragSupportTabItem tabItem = UiHelper.CreateDragSupportTabItem(tailData.File, tailData.FileName, Visibility.Collapsed, content);
-        dragWindow = DragWindow.CreateTabWindow(window.Left + offset, window.Top + offset, window.Width, window.Height, tabItem);
+          const int offset = 100;
+          ILogWindowControl content = new LogWindowControl
+          {
+            CurrentTailData = tailData
+          };
+          DragSupportTabItem tabItem = UiHelper.CreateDragSupportTabItem(tailData.File, tailData.FileName, Visibility.Collapsed, content);
+          DragWindow dragWindow = DragWindow.CreateTabWindow(window.Left + offset, window.Top + offset, window.Width, window.Height, tabItem);
 
-        // Unregister tab item, we do not need it again!
-        UiHelper.UnregisterTabItem(tabItem);
+          // Unregister tab item, we do not need it again!
+          UiHelper.UnregisterTabItem(tabItem);
+
+          dragWindow?.Activate();
+          dragWindow?.Focus();
+        }
+        finally
+        {
+          Monitor.Exit(LogWindowControlLock);
+        }
       }
-
-      dragWindow?.Activate();
-      dragWindow?.Focus();
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
 
     /// <summary>
@@ -1140,11 +1165,22 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         }
       }
 
-      lock ( LogWindowControlLock )
+      if ( Monitor.TryEnter(LogWindowControlLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
-        SplitWindow.UnregisterFindWhatChanged();
-        SplitWindow.LogEntries = null;
-        CurrentTailData = null;
+        try
+        {
+          SplitWindow.UnregisterFindWhatChanged();
+          SplitWindow.LogEntries = null;
+          CurrentTailData = null;
+        }
+        finally
+        {
+          Monitor.Exit(LogWindowControlLock);
+        }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
       }
     }
 
