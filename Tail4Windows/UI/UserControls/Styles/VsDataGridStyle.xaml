@@ -482,8 +482,8 @@
         </MultiDataTrigger.Conditions>
 
         <MultiDataTrigger.Setters>
-          <Setter Property="Background" Value="{StaticResource BrushSolidBorderLightBlue}" />
-          <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey20}" />
+          <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}" />
+          <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
         </MultiDataTrigger.Setters>
       </MultiDataTrigger>
     </Style.Triggers>
