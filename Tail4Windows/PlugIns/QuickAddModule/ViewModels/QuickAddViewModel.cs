@@ -145,6 +145,7 @@ namespace Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels
 
       _window = window;
       CurrentTailData.OpenFromFileManager = true;
+      CurrentTailData.IsLoadedByXml = true;
       CurrentTailData.CommitChanges();
 
       await _xmlFileManagerController.AddTailDataToXmlFileAsync(_cts.Token, CurrentTailData).ConfigureAwait(false);
