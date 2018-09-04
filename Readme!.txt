@@ -23,6 +23,7 @@ v.2.1.xxxx.x
 * bug fix DataGrid style -> Foreground color was black and not readable (Windows classic design)
 * bug fix QuickAdd -> after QuickAdd, Save button was not shown in Filter/HighlightManager
 * bug fix TabHeader style (Windows classic design)
+* bug fix Executable files was not translateable
 
 v.2.1.6811.x
 * new copy element in TailManager
