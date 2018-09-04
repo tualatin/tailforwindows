@@ -316,7 +316,8 @@
               </MultiTrigger.Conditions>
 
               <MultiTrigger.Setters>
-                <Setter TargetName="Border" Property="Panel.Background" Value="#BB34b4e3" />
+                <Setter TargetName="Border" Property="Panel.Background" Value="#FF26A0DA" />
+                <Setter TargetName="Border" Property="BorderBrush" Value="#99006CD9" />
               </MultiTrigger.Setters>
             </MultiTrigger>
           </ControlTemplate.Triggers>
