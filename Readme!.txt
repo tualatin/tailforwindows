@@ -19,6 +19,7 @@ v.2.2.xxxx.x
 * improve Find result view -> ToolTip for message column
 
 v.2.1.xxxx.x
+* improve ComboBox style
 * bug fix NullReferenceException TailData property changed
 * bug fix Drag window wrong Changed indicator after Drag'n'Drop
 * bug fix DataGrid style -> Foreground color was black and not readable (Windows classic design)
