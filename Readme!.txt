@@ -15,6 +15,7 @@ v.2.2.xxxx.x
 * new Bookmark delete selected -> Bookmark overview
 * new Bookmark export as CSV -> Bookmark overview
 * new Systeminformation overview shows Windows build id
+* improve customize editor -> Options -> Extras
 * improve Find result view -> ToolTip for message column
 
 v.2.1.xxxx.x
