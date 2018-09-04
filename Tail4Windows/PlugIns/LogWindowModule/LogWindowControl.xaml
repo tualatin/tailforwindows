@@ -959,7 +959,7 @@
                     <Image
                       RenderOptions.BitmapScalingMode="HighQuality"
                       RenderOptions.EdgeMode="Aliased"
-                      Source="/T4W;component/Resources/notepad.ico"
+                      Source="{Binding IconSource, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       />
                   </MenuItem.Icon>
                 </MenuItem>

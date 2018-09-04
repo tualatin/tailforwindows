@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Shell;
 using log4net;
 using Org.Vs.TailForWin.Business.Controllers;
@@ -106,6 +107,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedCompleted;
       ((AsyncCommand<object>) QuickSaveCommand).PropertyChanged += QuickSaveCompleted;
       SettingsHelperController.CurrentSettings.PropertyChanged += CurrentSettingsPropertyChanged;
+
+      SetIconSource();
     }
 
     /// <summary>
@@ -309,6 +312,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     public Guid WindowId
     {
       get;
+    }
+
+    private ImageSource _iconSource;
+
+    /// <summary>
+    /// ImageSource
+    /// </summary>
+    public ImageSource IconSource
+    {
+      get => _iconSource;
+      set
+      {
+        _iconSource = value;
+        OnPropertyChanged();
+      }
     }
 
     #region Commands
@@ -686,10 +704,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("QAddEditor").ToString()) == MessageBoxResult.No )
             return;
 
-          if ( !InteractionService.OpenFileDialog(out string editorPath, Application.Current.TryFindResource("ExtraOpenExecutableDialog").ToString(), CoreEnvironment.ApplicationTitle) )
+          if ( !InteractionService.OpenFileDialog(out string editorPath, Application.Current.TryFindResource("ExtrasOpenExecutableDialog").ToString(), CoreEnvironment.ApplicationTitle) )
             return;
 
           SettingsHelperController.CurrentSettings.EditorPath = editorPath;
+          IconSource = BusinessHelper.GetAssemblyIcon(SettingsHelperController.CurrentSettings.EditorPath);
 
           MouseService.SetBusyState();
           SetCancellationTokenSource();
@@ -1193,6 +1212,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void CurrentSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
+      if ( Equals(e.PropertyName, "EditorPath") )
+        SetIconSource();
+
       if ( !Equals(e.PropertyName, "SmartWatch") )
         return;
 
@@ -1332,6 +1354,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     #endregion
+
+    private void SetIconSource() =>
+      IconSource = string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.EditorPath) ?
+        BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/notepad.ico") :
+        BusinessHelper.GetAssemblyIcon(SettingsHelperController.CurrentSettings.EditorPath);
 
     private void AddJumpTaskToJumpList(JumpTask item)
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces;
@@ -158,5 +159,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Utils
     /// Window id
     /// </summary>
     public Guid WindowId => throw new NotImplementedException();
+
+    /// <summary>
+    /// ImageSource
+    /// </summary>
+    public ImageSource IconSource => throw new NotImplementedException();
   }
 }

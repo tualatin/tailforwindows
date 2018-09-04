@@ -249,8 +249,6 @@
   <system:String x:Key="EnvironmentRemoveSentTo">Remove from 'Send to'</system:String>
   <system:String x:Key="EnvironmentSendToToolTip">Add application to send to menu of Windows</system:String>
 
-  <system:String x:Key="ExtraOpenExecutableDialog">Executable files(*.exe)|*.exe</system:String>
-
   <system:String x:Key="AboutVersionString">Version:</system:String>
   <system:String x:Key="AboutBuildDateString">Build date:</system:String>
   <system:String x:Key="AboutAuthorString">Author:</system:String>
@@ -330,6 +328,9 @@
   <system:String x:Key="ExtrasShowExtendedSettingsToolTip">Show extended settings in certain modules</system:String>
   <system:String x:Key="ExtrasSplitterWindowBehavior">Splitter window behavior</system:String>
   <system:String x:Key="ExtrasSplitterWindowBehaviorToolTip">Enable/disable Splitter window behavior</system:String>
+  <system:String x:Key="ExtrasOpenExecutableDialog">Executable files(*.exe)|*.exe</system:String>
+  <system:String x:Key="ExtrasEditor">Select editor</system:String>
+  <system:String x:Key="ExtrasEditorToolTip">What is your favorite editor, to open log files</system:String>
 
   <system:String x:Key="SmtpServer">SMTP server</system:String>
   <system:String x:Key="SmtpPort">SMTP port</system:String>

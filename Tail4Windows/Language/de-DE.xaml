@@ -249,8 +249,6 @@
   <system:String x:Key="EnvironmentRemoveSentTo">Aus 'Send zu' entfernen</system:String>
   <system:String x:Key="EnvironmentSendToToolTip">Füge das Programm zum 'Senden zu' Menü von Windows hinzu</system:String>
 
-  <system:String x:Key="ExtraOpenExecutableDialog">Ausführbare Dateien(*.exe)|*.exe</system:String>
-
   <system:String x:Key="AboutVersionString">Version:</system:String>
   <system:String x:Key="AboutBuildDateString">Erstelldatum:</system:String>
   <system:String x:Key="AboutAuthorString">Autor:</system:String>
@@ -328,6 +326,9 @@
   <system:String x:Key="ExtrasShowExtendedSettingsToolTip">Zeige die erweiterten Einstellungen in bestimmten Modulen an</system:String>
   <system:String x:Key="ExtrasSplitterWindowBehavior">Splitter Fensterverhalten</system:String>
   <system:String x:Key="ExtrasSplitterWindowBehaviorToolTip">Aktiviert/Deaktiviert das Splitter Fensterverhalten</system:String>
+  <system:String x:Key="ExtrasOpenExecutableDialog">Ausführbare Dateien(*.exe)|*.exe</system:String>
+  <system:String x:Key="ExtrasEditor">Editor auswählen</system:String>
+  <system:String x:Key="ExtrasEditorToolTip">Einen favorisierten Editor auswählen, um Logdateien zu editieren</system:String>
 
   <system:String x:Key="SmtpServer">SMTP Server</system:String>
   <system:String x:Key="SmtpPort">SMTP Port</system:String>

@@ -96,7 +96,7 @@ namespace Org.Vs.TailForWin.Business.Utils
         Icon appIcon = Icon.ExtractAssociatedIcon(path);
 
         if ( appIcon == null )
-          return null;
+          return CreateBitmapIcon("/T4W;component/Resources/notepad.ico");
 
         BitmapSource bitmapSrc = Imaging.CreateBitmapSourceFromHIcon(appIcon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using System.Windows.Media;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
@@ -8,6 +9,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.
   /// </summary>
   public interface IExtraOptionViewModel
   {
+    /// <summary>
+    /// ImageSource
+    /// </summary>
+    ImageSource IconSource
+    {
+      get;
+    }
+
     /// <summary>
     /// Selected editor command
     /// </summary>
