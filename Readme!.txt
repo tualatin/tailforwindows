@@ -20,8 +20,9 @@ v.2.2.xxxx.x
 v.2.1.xxxx.x
 * bug fix NullReferenceException TailData property changed
 * bug fix Drag window wrong Changed indicator after Drag'n'Drop
-* bug fix DataGrid style -> Foreground color was black and not readable
+* bug fix DataGrid style -> Foreground color was black and not readable (Windows classic design)
 * bug fix QuickAdd -> after QuickAdd, Save button was not shown in Filter/HighlightManager
+* bug fix TabHeader style (Windows classic design)
 
 v.2.1.6811.x
 * new copy element in TailManager
