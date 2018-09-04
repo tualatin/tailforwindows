@@ -61,7 +61,11 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
         systemInformations.Add(new KeyValuePair<string, string>(Application.Current.TryFindResource("SystemInfoApplicationVersion").ToString(), result.ApplicationVersion));
         systemInformations.Add(new KeyValuePair<string, string>(Application.Current.TryFindResource("SystemInfoApplicationBuildDate").ToString(), result.BuildDateTime));
         systemInformations.Add(new KeyValuePair<string, string>(Application.Current.TryFindResource("SystemInfoMachineName").ToString(), result.MachineName));
-        systemInformations.Add(new KeyValuePair<string, string>(Application.Current.TryFindResource("Os").ToString(), $"{result.OsName} ({result.OsReleaseId}) / {result.OsType}"));
+
+        systemInformations.Add(!string.IsNullOrWhiteSpace(result.OsReleaseId) ?
+          new KeyValuePair<string, string>(Application.Current.TryFindResource("Os").ToString(), $"{result.OsName} ({result.OsReleaseId}) / {result.OsType}") :
+          new KeyValuePair<string, string>(Application.Current.TryFindResource("Os").ToString(), $"{result.OsName} / {result.OsType}"));
+
         systemInformations.Add(new KeyValuePair<string, string>(Application.Current.TryFindResource("SystemInfoVersion").ToString(), result.OsVersion));
         systemInformations.Add(new KeyValuePair<string, string>(Application.Current.TryFindResource("SystemInfoCpuName").ToString(), result.CpuInfo.Name));
         systemInformations.Add(new KeyValuePair<string, string>(Application.Current.TryFindResource("SystemInfoCpuManufacturer").ToString(), result.CpuInfo.Manufacturer));
