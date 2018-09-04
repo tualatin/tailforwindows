@@ -738,20 +738,20 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
-    private ThreadPriority _defaulThreadPriority;
+    private ThreadPriority _defaultThreadPriority;
 
     /// <summary>
     /// Default thread priority
     /// </summary>
     public ThreadPriority DefaultThreadPriority
     {
-      get => _defaulThreadPriority;
+      get => _defaultThreadPriority;
       set
       {
-        if ( value == _defaulThreadPriority )
+        if ( value == _defaultThreadPriority )
           return;
 
-        _defaulThreadPriority = value;
+        _defaultThreadPriority = value;
         OnPropertyChanged(nameof(DefaultThreadPriority));
       }
     }
