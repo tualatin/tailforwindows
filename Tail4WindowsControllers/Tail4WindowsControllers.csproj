@@ -168,6 +168,7 @@
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Data\ControlColorData.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IColorOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IEnvironmentOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IExtraOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IImportExportController.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IImportExportOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IProxyOptionViewModel.cs" />

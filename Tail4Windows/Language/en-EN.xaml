@@ -249,6 +249,8 @@
   <system:String x:Key="EnvironmentRemoveSentTo">Remove from 'Send to'</system:String>
   <system:String x:Key="EnvironmentSendToToolTip">Add application to send to menu of Windows</system:String>
 
+  <system:String x:Key="ExtraOpenExecutableDialog">Executable files(*.exe)|*.exe</system:String>
+
   <system:String x:Key="AboutVersionString">Version:</system:String>
   <system:String x:Key="AboutBuildDateString">Build date:</system:String>
   <system:String x:Key="AboutAuthorString">Author:</system:String>

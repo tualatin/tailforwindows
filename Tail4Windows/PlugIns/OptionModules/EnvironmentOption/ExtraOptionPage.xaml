@@ -8,10 +8,14 @@
   xmlns:debuging="clr-namespace:Org.Vs.TailForWin.UI.Debuging"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
+  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="400"
   d:DesignWidth="400"
   >
+  <UserControl.DataContext>
+    <viewModels:ExtraOptionViewModel />
+  </UserControl.DataContext>
 
   <ScrollViewer
     HorizontalScrollBarVisibility="Auto"
@@ -30,6 +34,7 @@
         <RowDefinition Height="26" />
         <RowDefinition Height="40" />
         <RowDefinition Height="20" />
+        <RowDefinition Height="26" />
         <RowDefinition Height="26" />
         <RowDefinition Height="26" />
         <RowDefinition Height="26" />
@@ -541,7 +546,7 @@
       </CheckBox>
 
       <CheckBox
-        Grid.Row="10"
+        Grid.Row="11"
         Grid.Column="0"
         Height="22"
         Content="{DynamicResource ExtrasStatistics}"

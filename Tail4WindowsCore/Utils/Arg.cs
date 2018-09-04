@@ -87,9 +87,9 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's</param>
     /// <param name="argName">The argument to check.</param>
     /// <typeparam name="T">The type of argument.</typeparam>
-    /// <typeparam name="E">The type of collection</typeparam>
+    /// <typeparam name="TE">The type of collection</typeparam>
     /// <returns>The checked argument.</returns>
-    public static T NotEmpty<T, E>(T arg, string argName) where T : ICollection<E>
+    public static T NotEmpty<T, TE>(T arg, string argName) where T : ICollection<TE>
     {
       if ( arg == null || arg.Count < 1 )
         throw new ArgumentException(FormatErrorMessage(argName, ErrEmpty));
@@ -106,9 +106,9 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's</param>
     /// <typeparam name="T">The type of argument.</typeparam>
-    /// <typeparam name="E">The type of collection</typeparam>
+    /// <typeparam name="TE">The type of collection</typeparam>
     /// <returns>The checked argument.</returns>
-    public static T NotEmptyIf<T, E>(T arg, bool condition, string argName) where T : ICollection<E> => condition ? NotEmpty<T, E>(arg, argName) : arg;
+    public static T NotEmptyIf<T, TE>(T arg, bool condition, string argName) where T : ICollection<TE> => condition ? NotEmpty<T, TE>(arg, argName) : arg;
 
     /// <summary>
     /// Asserts, that a method argument of type array does not contain <code>null</code> or empty values and throws an ArgumentException if there is a <code>null</code> or empty value.

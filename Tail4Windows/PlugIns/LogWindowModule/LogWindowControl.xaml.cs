@@ -686,7 +686,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("QAddEditor").ToString()) == MessageBoxResult.No )
             return;
 
-          if ( !InteractionService.OpenFileDialog(out string editorPath, "Executable files(*.exe)|*.exe", CoreEnvironment.ApplicationTitle) )
+          if ( !InteractionService.OpenFileDialog(out string editorPath, Application.Current.TryFindResource("ExtraOpenExecutableDialog").ToString(), CoreEnvironment.ApplicationTitle) )
             return;
 
           SettingsHelperController.CurrentSettings.EditorPath = editorPath;
