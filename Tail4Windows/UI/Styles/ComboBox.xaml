@@ -306,7 +306,7 @@
             </Trigger>
 
             <Trigger Property="UIElement.IsEnabled" Value="False">
-              <Setter Property="TextElement.Foreground" Value="LightGray" />
+              <Setter TargetName="Border" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
             </Trigger>
 
             <MultiTrigger>
