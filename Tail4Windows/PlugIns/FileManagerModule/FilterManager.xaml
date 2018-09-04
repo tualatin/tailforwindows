@@ -62,7 +62,7 @@
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition />
-        <RowDefinition Height="85">
+        <RowDefinition Height="0">
           <RowDefinition.Style>
             <Style>
               <Style.Triggers>
