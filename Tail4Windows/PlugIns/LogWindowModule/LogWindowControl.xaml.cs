@@ -1355,10 +1355,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #endregion
 
-    private void SetIconSource() =>
-      IconSource = string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.EditorPath) ?
-        BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/notepad.ico") :
-        BusinessHelper.GetAssemblyIcon(SettingsHelperController.CurrentSettings.EditorPath);
+    private void SetIconSource()
+    {
+      if ( !string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.EditorPath) && !File.Exists(SettingsHelperController.CurrentSettings.EditorPath) )
+      {
+        IconSource = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/notepad.ico");
+        return;
+      }
+
+      IconSource = string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.EditorPath) ? BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/notepad.ico") : BusinessHelper.GetAssemblyIcon(SettingsHelperController.CurrentSettings.EditorPath);
+    }
 
     private void AddJumpTaskToJumpList(JumpTask item)
     {
