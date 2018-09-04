@@ -291,51 +291,32 @@
             x:Name="Border"
             Padding="2"
             Background="Transparent"
-            SnapsToDevicePixels="True"
             >
             <ContentPresenter />
-
-            <VisualStateManager.VisualStateGroups>
-              <VisualStateGroup x:Name="SelectionStates">
-                <VisualState x:Name="Unselected" />
-                <VisualState x:Name="Selected">
-                  <Storyboard>
-                    <ColorAnimationUsingKeyFrames
-                      Storyboard.TargetName="Border"
-                      Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
-                      >
-                      <EasingColorKeyFrame
-                        Value="{StaticResource SelectedBackgroundColor}"
-                        KeyTime="0"
-                        />
-                    </ColorAnimationUsingKeyFrames>
-                  </Storyboard>
-                </VisualState>
-
-                <VisualState x:Name="SelectedUnfocused">
-                  <Storyboard>
-                    <ColorAnimationUsingKeyFrames
-                      Storyboard.TargetName="Border"
-                      Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
-                      >
-                      <EasingColorKeyFrame
-                        Value="{StaticResource SelectedUnfocusedColor}"
-                        KeyTime="0"
-                        />
-                    </ColorAnimationUsingKeyFrames>
-                  </Storyboard>
-                </VisualState>
-              </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
           </Border>
           <ControlTemplate.Triggers>
             <Trigger Property="ComboBoxItem.IsHighlighted" Value="True">
               <Setter TargetName="Border" Property="Panel.Background" Value="#BB34b4e3" />
             </Trigger>
 
+            <Trigger Property="ComboBoxItem.IsSelected" Value="True">
+              <Setter TargetName="Border" Property="Panel.Background" Value="{StaticResource BrushSolidGrey10}" />
+            </Trigger>
+
             <Trigger Property="UIElement.IsEnabled" Value="False">
               <Setter Property="TextElement.Foreground" Value="LightGray" />
             </Trigger>
+
+            <MultiTrigger>
+              <MultiTrigger.Conditions>
+                <Condition Property="ComboBoxItem.IsHighlighted" Value="True" />
+                <Condition Property="ComboBoxItem.IsSelected" Value="True" />
+              </MultiTrigger.Conditions>
+
+              <MultiTrigger.Setters>
+                <Setter TargetName="Border" Property="Panel.Background" Value="#BB34b4e3" />
+              </MultiTrigger.Setters>
+            </MultiTrigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
       </Setter.Value>
