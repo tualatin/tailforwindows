@@ -52,6 +52,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       HistoryMaxSize = memento.HistoryMaxSize;
       ShowExtendedSettings = memento.ShowExtendedSettings;
       SplitterWindowBehavior = memento.SplitterWindowBehavior;
+      EditorPath = memento.EditorPath;
 
       ProxySettings = (ProxySetting) memento.ProxySettings.Clone();
       AlertSettings = (AlertSetting) memento.AlertSettings.Clone();
@@ -101,6 +102,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         HistoryMaxSize = obj.HistoryMaxSize;
         ShowExtendedSettings = obj.ShowExtendedSettings;
         SplitterWindowBehavior = obj.SplitterWindowBehavior;
+        EditorPath = obj.EditorPath;
 
         ProxySettings = (ProxySetting) obj.ProxySettings.Clone();
         AlertSettings = (AlertSetting) obj.AlertSettings.Clone();
@@ -373,6 +375,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Show extended settings
       /// </summary>
       public bool ShowExtendedSettings
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Editor path
+      /// </summary>
+      public string EditorPath
       {
         get;
       }
