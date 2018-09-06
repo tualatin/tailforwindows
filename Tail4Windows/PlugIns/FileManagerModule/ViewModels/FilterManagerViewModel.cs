@@ -120,7 +120,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( CurrentTailData.ListOfFilter.Count == 0 )
         CurrentTailData.ListOfFilter.Add(new FilterData());
 
-      foreach ( var item in CurrentTailData.ListOfFilter )
+      foreach ( FilterData item in CurrentTailData.ListOfFilter )
       {
         item.CommitChanges();
       }
@@ -314,17 +314,17 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       var unsavedItems = FilterManagerCollection.Where(p => p.CanUndo).ToList();
 
       // Duplicate item
-      var duplicates = FilterManagerCollection.GroupBy(p => p.Filter.ToLower()).Any(p => p.Count() > 1);
+      bool duplicates = FilterManagerCollection.GroupBy(p => p.Filter.ToLower()).Any(p => p.Count() > 1);
 
       if ( SaveButtonVisibility == Visibility.Visible && unsavedItems.Count > 0 && !duplicates )
       {
-        if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerCloseUnsaveItem").ToString()) == MessageBoxResult.Yes )
+        if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerCloseUnsavedItem").ToString()) == MessageBoxResult.Yes )
         {
           ExecuteSaveCommandAsync().GetAwaiter().GetResult();
         }
         else
         {
-          foreach ( var item in unsavedItems )
+          foreach ( FilterData item in unsavedItems )
           {
             while ( item.CanUndo )
             {
@@ -347,7 +347,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         return;
 
       // 1. All undo
-      foreach ( var filterData in errors )
+      foreach ( FilterData filterData in errors )
       {
         while ( filterData.CanUndo )
         {
@@ -361,7 +361,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( errors.Count <= 0 )
         return;
 
-      foreach ( var filterData in errors )
+      foreach ( FilterData filterData in errors )
       {
         FilterManagerCollection.Remove(filterData);
       }
