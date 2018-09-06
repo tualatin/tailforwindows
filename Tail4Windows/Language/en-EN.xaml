@@ -594,6 +594,7 @@
   <system:String x:Key="BookmarkOverviewSaveDialogTitle">Export Bookmarks</system:String>
   <system:String x:Key="BookmarkOverviewExportSuccess">Bookmarks successfully exported.</system:String>
   <system:String x:Key="BookmarkOverviewExportFailed">An error occurred while exporting Bookmarks, please take a look into the logfile.</system:String>
+  <system:String x:Key="BookmarkOverviewBookmarkCount">{0:N0}</system:String>
 
   <system:String x:Key="ExportFormatSelectorTitle">Select export format</system:String>
   <system:String x:Key="ExportFormatSelectorExportAllFiles">Export file (*.*)|*.*</system:String>

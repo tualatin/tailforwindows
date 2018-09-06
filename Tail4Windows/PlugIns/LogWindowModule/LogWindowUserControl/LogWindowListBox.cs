@@ -179,6 +179,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       }
     }
 
+    /// <summary>
+    /// Bookmark count
+    /// </summary>
+    public int BookmarkCount => EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource == null ? 0 : EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource.Count;
+
     #endregion
 
     #region RoutedEvents
@@ -238,6 +243,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       PreviewMouseDoubleClick += LogWindowListBoxOnPreviewMouseDoubleClick;
 
       SelectionChanged += LogWindowListBoxOnSelectionChanged;
+      EnvironmentContainer.Instance.BookmarkManager.OnBookmarkDataSourceChanged += OnBookmarkManagerDataSourceChanged;
     }
 
     private void LogWindowListBoxOnUnloaded(object sender, RoutedEventArgs e)
@@ -251,6 +257,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       PreviewMouseDoubleClick -= LogWindowListBoxOnPreviewMouseDoubleClick;
 
       SelectionChanged -= LogWindowListBoxOnSelectionChanged;
+      EnvironmentContainer.Instance.BookmarkManager.OnBookmarkDataSourceChanged -= OnBookmarkManagerDataSourceChanged;
     }
 
     /// <summary>
@@ -484,6 +491,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     #endregion
 
     #region  Events
+
+    private void OnBookmarkManagerDataSourceChanged(object sender, EventArgs e) => OnPropertyChanged(nameof(BookmarkCount));
 
     private void LogWindowListBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {

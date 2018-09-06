@@ -590,6 +590,7 @@
   <system:String x:Key="BookmarkOverviewSaveDialogTitle">Bookmarks exportieren</system:String>
   <system:String x:Key="BookmarkOverviewExportSuccess">Die Bookmarks wurden erfolgreich exportiert.</system:String>
   <system:String x:Key="BookmarkOverviewExportFailed">Während des Exports trat ein Fehler auf, bitte schauen Sie im Logfile nach.</system:String>
+  <system:String x:Key="BookmarkOverviewBookmarkCount">{0:N0}</system:String>
 
   <system:String x:Key="ExportFormatSelectorTitle">Export-Format wählen</system:String>
   <system:String x:Key="ExportFormatSelectorExportAllFiles">Exportieren (*.*)|*.*</system:String>
