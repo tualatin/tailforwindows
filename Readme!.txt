@@ -27,6 +27,7 @@ v.2.1.xxxx.x
 * bug fix TabHeader style (Windows classic design)
 * bug fix Executable files was not translateable
 * bug fix Filter/HighlightManager add/remove filter -> Highlighting was not shown correct
+* buf fix Filter/HighlightManager Highlighting ignores enabled flag
 
 v.2.1.6811.x
 * new copy element in TailManager
