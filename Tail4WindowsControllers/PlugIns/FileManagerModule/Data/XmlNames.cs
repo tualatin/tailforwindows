@@ -116,6 +116,11 @@
     public const string FilterSource = "filterSource";
 
     /// <summary>
+    /// filterAutoBookmark
+    /// </summary>
+    public const string FilterAutoBookmark = "filterAutoBookmark";
+
+    /// <summary>
     /// lineWrap
     /// </summary>
     public const string LineWrap = "lineWrap";

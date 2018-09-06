@@ -29,7 +29,6 @@ using Org.Vs.TailForWin.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.UI.Converters;
 using Org.Vs.TailForWin.UI.Extensions;
-using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
@@ -756,7 +755,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private bool CanExecuteRemoveBookmarksCommand() => Items.Count > 0;
 
-    private void ExecuteRemoveBookmarksCommand()
+    private void ExecuteRemoveBookmarksCommand() => RemoveAllBookmarks(true);
+
+    private void RemoveAllBookmarks(bool isCommand)
     {
       IEnumerator enumerator = ItemsSource.GetEnumerator();
 
@@ -771,7 +772,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         logEntry.BookmarkPoint = null;
         logEntry.BookmarkToolTip = string.Empty;
 
-        if ( !IsRightWindow() )
+        if ( !isCommand || !IsRightWindow() )
           continue;
 
         EnvironmentContainer.Instance.BookmarkManager.RemoveFromBookmarkDataSource(logEntry);
@@ -779,6 +780,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       ContextMenu = null;
     }
+
+    /// <summary>
+    /// Removes all bookmarks from data source
+    /// </summary>
+    public void RemoveAllBookmarks() => RemoveAllBookmarks(false);
 
     #endregion
 

@@ -571,6 +571,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         HighlightData = null;
         OnPropertyChanged(nameof(HighlightData));
 
+        LogWindowMainElement.RemoveAllBookmarks();
+        EnvironmentContainer.Instance.BookmarkManager.ClearBookmarkDataSource();
+
         CollectionView.Filter = DynamicFilter;
         LogWindowMainElement.ScrollToEnd();
         break;
@@ -1200,7 +1203,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       var result = false;
       var filterSource = CurrentTailData.ListOfFilter.Where(p => p.FilterSource && p.IsEnabled).ToList();
-      var highlightSource = CurrentTailData.ListOfFilter.Where(p => p.IsHighlight).ToList();
+      var highlightSource = CurrentTailData.ListOfFilter.Where(p => p.IsHighlight && p.IsEnabled).ToList();
 
       // If no FilterSource is defined, we assume only Highlighting is active
       if ( filterSource.Count == 0 )
@@ -1215,8 +1218,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( sr == null || sr.Count == 0 )
             continue;
 
+          // Handle alert settings
           if ( filterData.UseNotification )
             HandleAlertSettings(filterData, sr, logEntry);
+
+          // Handle AutoBookmark
+          if ( filterData.IsAutoBookmark )
+            HandleAutoBookmark(logEntry);
 
           result = true;
           break;
@@ -1245,9 +1253,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( sr == null || sr.Count == 0 )
             continue;
 
-          // If no FilterSource is defined, handle all alert settings here
+          // If no FilterSource is defined, handle alert settings here
           if ( filterSource.Count == 0 && filterData.UseNotification )
             HandleAlertSettings(filterData, sr, logEntry);
+
+          // If not FilterSource is defined, handle AutoBookmark here
+          if ( filterSource.Count == 0 && filterData.IsAutoBookmark )
+            HandleAutoBookmark(logEntry);
 
           if ( HighlightData == null )
             HighlightData = new List<TextHighlightData>();
@@ -1295,6 +1307,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       OnPropertyChanged(nameof(HighlightData));
 
       return true;
+    }
+
+    private void HandleAutoBookmark(LogEntry item)
+    {
+      item.BookmarkPoint = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark_Info.png");
+      item.BookmarkToolTip = "Auto Bookmark";
+
+      EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(item);
     }
 
     private void HandleAlertSettings(FilterData filter, IReadOnlyCollection<string> stringResult, LogEntry item)

@@ -10,7 +10,7 @@ using Org.Vs.TailForWin.Core.Extensions;
 namespace Org.Vs.TailForWin.Core.Data.Settings
 {
   /// <summary>
-  /// Enviroment settings object
+  /// Environment settings object
   /// </summary>
   public partial class EnvironmentSettings : NotifyMaster
   {

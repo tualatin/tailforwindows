@@ -108,6 +108,9 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
     {
       foreach ( LogEntry item in itemRange )
       {
+        if ( BookmarkDataSource.Contains(item) )
+          continue;
+
         BookmarkDataSource.Add(item);
       }
     }
@@ -125,6 +128,17 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
         return;
 
       BookmarkDataSource.Remove(item);
+    }
+
+    /// <summary>
+    /// Clears the bookmark data source
+    /// </summary>
+    public void ClearBookmarkDataSource()
+    {
+      if ( BookmarkDataSource == null || BookmarkDataSource.Count == 0 )
+        return;
+
+      BookmarkDataSource.Clear();
     }
 
     /// <summary>
@@ -187,8 +201,8 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
       if ( logEntry.BookmarkPoint == null )
         return;
 
-      BitmapImage image = BusinessHelper.CreateBitmapIcon(string.IsNullOrWhiteSpace(logEntry.BookmarkToolTip) ? "/T4W;component/Resources/Bookmark.png" :
-        "/T4W;component/Resources/Bookmark_Info.png");
+      BitmapImage image = BusinessHelper.CreateBitmapIcon(string.IsNullOrWhiteSpace(logEntry.BookmarkToolTip) ?
+        "/T4W;component/Resources/Bookmark.png" : "/T4W;component/Resources/Bookmark_Info.png");
 
       logEntry.BookmarkPoint = image;
     }

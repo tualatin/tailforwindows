@@ -134,6 +134,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
             IsHighlight = (x.Element(XmlNames.FilterIsHighlight)?.Value).ConvertToBool(),
             UseNotification = (x.Element(XmlNames.FilterNotification)?.Value).ConvertToBool(),
             FilterSource = (x.Element(XmlNames.FilterSource)?.Value).ConvertToBool(true),
+            IsAutoBookmark = (x.Element(XmlNames.FilterAutoBookmark)?.Value).ConvertToBool(),
             IsEnabled = (x.Element(XmlNames.IsEnabled)?.Value).ConvertToBool(true)
           }).ToList() ?? new List<FilterData>();
 
@@ -509,7 +510,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
     {
       try
       {
-        var updateNode = _xmlDocument.Root?.Descendants(XmlNames.File).SingleOrDefault(p => p.Element(XmlNames.Id)?.Value == id);
+        XElement updateNode = _xmlDocument.Root?.Descendants(XmlNames.File).SingleOrDefault(p => p.Element(XmlNames.Id)?.Value == id);
 
         if ( updateNode == null )
           return;
@@ -670,6 +671,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         new XElement(XmlNames.FilterIsHighlight, filter.IsHighlight),
         new XElement(XmlNames.FilterNotification, filter.UseNotification),
         new XElement(XmlNames.FilterSource, filter.FilterSource),
+        new XElement(XmlNames.FilterAutoBookmark, filter.IsAutoBookmark),
         new XElement(XmlNames.IsEnabled, filter.IsEnabled),
         new XElement(XmlNames.Font,
           new XElement(XmlBaseStructure.Name, filter.FontType.FontFamily.Source),

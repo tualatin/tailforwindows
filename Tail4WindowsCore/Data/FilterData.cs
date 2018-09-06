@@ -63,21 +63,21 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
-    private bool _isHightlight;
+    private bool _isHighlight;
 
     /// <summary>
-    /// Is Hightlight
+    /// Is Highlight
     /// </summary>
     public bool IsHighlight
     {
-      get => _isHightlight;
+      get => _isHighlight;
       set
       {
-        if ( value == _isHightlight )
+        if ( value == _isHighlight )
           return;
 
-        bool currentValue = _isHightlight;
-        ChangeState(new Command(() => _isHightlight = value, () => _isHightlight = currentValue, nameof(IsHighlight), Notification));
+        bool currentValue = _isHighlight;
+        ChangeState(new Command(() => _isHighlight = value, () => _isHighlight = currentValue, nameof(IsHighlight), Notification));
       }
     }
 
@@ -184,7 +184,7 @@ namespace Org.Vs.TailForWin.Core.Data
         if ( Equals(value, _fontType) )
           return;
 
-        var currentValue = _fontType;
+        FontType currentValue = _fontType;
         ChangeState(new Command(() => _fontType = value, () => _fontType = currentValue, nameof(FontType), Notification));
       }
     }
@@ -202,8 +202,26 @@ namespace Org.Vs.TailForWin.Core.Data
         if ( Equals(value, _findSettingsData) )
           return;
 
-        var currentValue = _findSettingsData;
+        FindData currentValue = _findSettingsData;
         ChangeState(new Command(() => _findSettingsData = value, () => _findSettingsData = currentValue, nameof(FindSettingsData), Notification));
+      }
+    }
+
+    private bool _isAutoBookmark;
+
+    /// <summary>
+    /// IsAutoBookmark
+    /// </summary>
+    public bool IsAutoBookmark
+    {
+      get => _isAutoBookmark;
+      set
+      {
+        if ( value == _isAutoBookmark )
+          return;
+
+        bool currentValue = _isAutoBookmark;
+        ChangeState(new Command(() => _isAutoBookmark = value, () => _isAutoBookmark = currentValue, nameof(IsAutoBookmark), Notification));
       }
     }
 

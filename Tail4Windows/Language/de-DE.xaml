@@ -151,6 +151,7 @@
   <system:String x:Key="FilterManagerIsHighlight">Hervorheben</system:String>
   <system:String x:Key="FilterManagerFilterSource">Filter Ergebnis</system:String>
   <system:String x:Key="FilterManagerNotification">Benachrichtigung</system:String>
+  <system:String x:Key="FilterManagerAutoBookmark">Auto Bookmark</system:String>
   <system:String x:Key="FilterManagerIsEnabled">Aktiviert</system:String>
   <system:String
     x:Key="FilterManagerNotificationInformation"

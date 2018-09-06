@@ -75,6 +75,11 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces
     void RemoveFromBookmarkDataSource(LogEntry item);
 
     /// <summary>
+    /// Clears the bookmark data source
+    /// </summary>
+    void ClearBookmarkDataSource();
+
+    /// <summary>
     /// Release all used resources
     /// </summary>
     void Dispose();

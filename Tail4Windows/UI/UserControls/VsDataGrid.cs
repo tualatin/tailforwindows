@@ -186,10 +186,13 @@ namespace Org.Vs.TailForWin.UI.UserControls
       var columns = new DataSet(Name);
       columns.ReadXml(_userDataGridSettingsFile);
 
-      int index = 0;
+      var index = 0;
 
       foreach ( DataGridColumn column in Columns )
       {
+        if ( index >= columns.Tables[0].Rows.Count )
+          continue;
+
         DataRow row = columns.Tables[0].Rows[index];
 
         try
@@ -201,7 +204,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
           column.Width = width;
 
           int visibility = Convert.ToInt32(row[VsColumnVisibility]);
-          List<string> splited = string.IsNullOrWhiteSpace(VisibleColumns) ? AllColumnsHeaders.Split(';').ToList() : VisibleColumns.Split(';').ToList();
+          var splited = string.IsNullOrWhiteSpace(VisibleColumns) ? AllColumnsHeaders.Split(';').ToList() : VisibleColumns.Split(';').ToList();
 
           switch ( visibility )
           {

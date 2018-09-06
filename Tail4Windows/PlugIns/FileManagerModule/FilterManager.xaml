@@ -430,6 +430,26 @@
           </DataGridTemplateColumn>
 
           <DataGridTemplateColumn
+            MinWidth="70"
+            Header="{DynamicResource FilterManagerAutoBookmark}"
+            >
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Grid>
+                  <CheckBox
+                    Width="20"
+                    Height="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    ClickMode="Press"
+                    IsChecked="{Binding IsAutoBookmark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    />
+                </Grid>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+
+          <DataGridTemplateColumn
             MinWidth="150"
             Header="{DynamicResource ColorOptionLogWindowGridColor}"
             >
