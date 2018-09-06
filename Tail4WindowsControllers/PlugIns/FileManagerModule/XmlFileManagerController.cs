@@ -176,17 +176,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         try
         {
           var list = new List<TailData>();
-          list.AddRange(items.Where(p => p != null && !p.IsWindowsEvent).GroupBy(p => p.FileName.ToLower()).Select(p => p.FirstOrDefault()).ToList());
-          list.ForEach(w =>
-          {
-            w.ListOfFilter = new ObservableCollection<FilterData>(w.ListOfFilter.GroupBy(p => p.Filter.ToLower()).Select(p => p.FirstOrDefault()).ToList());
-          });
 
+          // Group all items not IsWindowsEvent
+          list.AddRange(items.Where(p => p != null && !p.IsWindowsEvent).GroupBy(p => p.FileName.ToLower()).Select(p => p.FirstOrDefault()).ToList());
+          list.ForEach(InsertFilterData);
+
+          // Group all item IsWindowsEvent
           list.AddRange(items.Where(p => p != null && p.IsWindowsEvent).GroupBy(p => p.File.ToLower()).Select(p => p.FirstOrDefault()).ToList());
-          list.ForEach(w =>
-          {
-            w.ListOfFilter = new ObservableCollection<FilterData>(w.ListOfFilter.GroupBy(p => p.Filter.ToLower()).Select(p => p.FirstOrDefault()).ToList());
-          });
+          list.ForEach(InsertFilterData);
 
           result = new ObservableCollection<TailData>(list);
         }
@@ -197,6 +194,17 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       }, token).ConfigureAwait(false);
 
       return result;
+    }
+
+    private static void InsertFilterData(TailData w)
+    {
+      var grouped = w.ListOfFilter.GroupBy(p => p.Filter.ToLower()).Select(p => p.FirstOrDefault()).ToList();
+      w.ListOfFilter.Clear();
+
+      foreach ( FilterData item in grouped )
+      {
+        w.ListOfFilter.Add(item);
+      }
     }
 
     private FindData GetSearchPatternFindSettings(XContainer settings)

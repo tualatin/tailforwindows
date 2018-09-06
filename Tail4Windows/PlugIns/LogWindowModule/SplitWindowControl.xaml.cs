@@ -565,6 +565,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
       case "FilterState":
       case "FilterItem":
+      case "ListOfFilter":
 
         HighlightData = null;
         OnPropertyChanged(nameof(HighlightData));
