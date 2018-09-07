@@ -71,6 +71,7 @@ namespace Org.Vs.TailForWin.Core.Data
 
         foreach ( FilterData item in e.NewItems )
         {
+          item.PropertyChanged -= OnFilterItemPropertyChanged;
           item.PropertyChanged += OnFilterItemPropertyChanged;
           OnPropertyChanged(nameof(ListOfFilter));
         }
@@ -99,6 +100,7 @@ namespace Org.Vs.TailForWin.Core.Data
       if ( e.PropertyName == "CanUndo" || e.PropertyName == "CanRedo" )
         return;
 
+      // ReSharper disable once ExplicitCallerInfoArgument
       OnPropertyChanged("FilterItem");
     }
 
@@ -160,7 +162,7 @@ namespace Org.Vs.TailForWin.Core.Data
       get => _isWindowsEvent;
       set
       {
-        if ( Equals(value, _isWindowsEvent) )
+        if ( value == _isWindowsEvent )
           return;
 
         bool currentValue = _isWindowsEvent;
