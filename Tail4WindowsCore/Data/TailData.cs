@@ -73,6 +73,7 @@ namespace Org.Vs.TailForWin.Core.Data
         {
           item.PropertyChanged -= OnFilterItemPropertyChanged;
           item.PropertyChanged += OnFilterItemPropertyChanged;
+
           OnPropertyChanged(nameof(ListOfFilter));
         }
         break;
@@ -301,16 +302,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// File creation time
     /// </summary>
-    public DateTime? FileCreationTime
-    {
-      get
-      {
-        if ( System.IO.File.Exists(FileName) )
-          return System.IO.File.GetCreationTime(FileName);
-
-        return null;
-      }
-    }
+    public DateTime? FileCreationTime => System.IO.File.Exists(FileName) ? (DateTime?) System.IO.File.GetCreationTime(FileName) : null;
 
     /// <summary>
     /// FileAge
@@ -319,14 +311,11 @@ namespace Org.Vs.TailForWin.Core.Data
     {
       get
       {
-        var now = DateTime.Now;
+        DateTime now = DateTime.Now;
 
         try
         {
-          if ( FileCreationTime != null )
-            return now.Subtract((DateTime) FileCreationTime);
-
-          return null;
+          return FileCreationTime != null ? (TimeSpan?) now.Subtract((DateTime) FileCreationTime) : null;
         }
         catch ( ArgumentOutOfRangeException ex )
         {
