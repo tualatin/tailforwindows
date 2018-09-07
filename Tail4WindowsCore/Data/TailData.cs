@@ -71,6 +71,7 @@ namespace Org.Vs.TailForWin.Core.Data
 
         foreach ( FilterData item in e.NewItems )
         {
+          item.PropertyChanged -= OnFilterItemPropertyChanged;
           item.PropertyChanged += OnFilterItemPropertyChanged;
           OnPropertyChanged(nameof(ListOfFilter));
         }
@@ -154,14 +155,14 @@ namespace Org.Vs.TailForWin.Core.Data
     private bool _isWindowsEvent;
 
     /// <summary>
-    /// Is WIndows event
+    /// Is Windows event
     /// </summary>
     public bool IsWindowsEvent
     {
       get => _isWindowsEvent;
       set
       {
-        if ( Equals(value, _isWindowsEvent) )
+        if ( value == _isWindowsEvent )
           return;
 
         bool currentValue = _isWindowsEvent;
@@ -186,7 +187,7 @@ namespace Org.Vs.TailForWin.Core.Data
         if ( Equals(value, _windowsEvent) )
           return;
 
-        var currentValue = _isWindowsEvent;
+        bool currentValue = _isWindowsEvent;
         ChangeState(new Command(() => _windowsEvent = value, () => _isWindowsEvent = currentValue, nameof(WindowsEvent), Notification));
       }
     }

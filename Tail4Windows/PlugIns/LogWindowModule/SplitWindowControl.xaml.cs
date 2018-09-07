@@ -568,6 +568,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       case "FilterItem":
       case "ListOfFilter":
 
+        MouseService.SetBusyState();
+
         HighlightData = null;
         OnPropertyChanged(nameof(HighlightData));
 

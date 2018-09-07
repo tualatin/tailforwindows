@@ -15,7 +15,7 @@ namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
 
 
     /// <summary>
-    /// Standarc constructor
+    /// Standard constructor
     /// </summary>
     /// <param name="action"><see cref="Action"/></param>
     /// <param name="undoAction"><see cref="Action"/></param>
