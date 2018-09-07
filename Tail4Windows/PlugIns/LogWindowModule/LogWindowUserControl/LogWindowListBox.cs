@@ -768,6 +768,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private void RemoveAllBookmarks(bool isCommand)
     {
+      if ( Items.Count == 0 )
+        return;
+
       IEnumerator enumerator = ItemsSource.GetEnumerator();
 
       while ( enumerator.MoveNext() )
