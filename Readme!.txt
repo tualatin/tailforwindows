@@ -28,6 +28,7 @@ v.2.1.xxxx.x
 * bug fix Executable files was not translateable
 * bug fix Filter/HighlightManager add/remove filter -> Highlighting was not shown correct
 * bug fix Filter/HighlightManager Highlighting ignores enabled flag
+* bug fix apply filter
 
 v.2.1.6811.x
 * new copy element in TailManager
