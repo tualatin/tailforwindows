@@ -182,11 +182,19 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set;
     }
 
-
     /// <summary>
     /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
     /// </summary>
     public ObservableCollection<LogEntry> LogEntries
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Filtered collection <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
+    /// </summary>
+    public ObservableCollection<LogEntry> FilteredCollection
     {
       get;
       set;
@@ -380,6 +388,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       DataContext = this;
       FloodData = new List<MessageFloodData>();
       LogEntries = new ObservableCollection<LogEntry>();
+      FilteredCollection = new ObservableCollection<LogEntry>();
 
       _findWhatResults = new List<LogEntry>();
       CacheManager = new CacheManager();
@@ -1191,6 +1200,17 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         result &= _criteria.TrueForAll(p => p(logEntry));
       else
         result = _criteria.TrueForAll(p => p(logEntry));
+
+      return result;
+    }
+
+    private async Task<bool> FilterCollectionAsync(LogEntry logEntry)
+    {
+      var result = true;
+      await Task.Run(() =>
+      {
+        result = DynamicFilter(logEntry);
+      }).ConfigureAwait(false);
 
       return result;
     }
