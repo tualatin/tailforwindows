@@ -96,7 +96,7 @@ namespace Org.Vs.TailForWin.Business.Services
     /// Gets current file offset
     /// </summary>
     /// <returns>Current file offset</returns>
-    public long GetFileOffset() => 0;
+    public long GetFileOffset() => -1;
 
     /// <summary>
     /// Sets current file offset
