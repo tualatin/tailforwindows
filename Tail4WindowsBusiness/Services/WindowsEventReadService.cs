@@ -88,24 +88,21 @@ namespace Org.Vs.TailForWin.Business.Services
     public TimeSpan ElapsedTime => _sw.Elapsed;
 
     /// <summary>
-    /// Sets current fileoffset to zero
+    /// Sets current file offset to zero
     /// </summary>
-    /// <exception cref="NotImplementedException"></exception>
-    public void SetFileOffsetZero() => throw new NotImplementedException();
+    public void SetFileOffsetZero() => LOG.Debug("Not implemented!");
 
     /// <summary>
     /// Gets current file offset
     /// </summary>
     /// <returns>Current file offset</returns>
-    /// <exception cref="NotImplementedException"></exception>
-    public long GetFileOffset() => throw new NotImplementedException();
+    public long GetFileOffset() => 0;
 
     /// <summary>
     /// Sets current file offset
     /// </summary>
     /// <param name="offset">Offset</param>
-    /// <exception cref="NotImplementedException"></exception>
-    public void SetFileOffset(long offset) => throw new NotImplementedException();
+    public void SetFileOffset(long offset) => LOG.Debug("Not implemented!");
 
     #endregion
 
@@ -217,9 +214,13 @@ namespace Org.Vs.TailForWin.Business.Services
             if ( string.Compare(eventLog.Log, "application", StringComparison.OrdinalIgnoreCase) == 0 ||
                  string.Compare(eventLog.Log, "security", StringComparison.OrdinalIgnoreCase) == 0 ||
                  string.Compare(eventLog.Log, "system", StringComparison.OrdinalIgnoreCase) == 0 )
+            {
               category = windowsLogs;
+            }
             else
+            {
               category = applicationLogs;
+            }
 
             result.Add(new WindowsEventCategory
             {

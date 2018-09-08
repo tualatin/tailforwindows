@@ -60,9 +60,9 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     }
 
     /// <summary>
-    /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
+    /// LogCollectionView <see cref="VsCollectionView"/>
     /// </summary>
-    ObservableCollection<LogEntry> LogEntries
+    VsCollectionView LogCollectionView
     {
       get;
       set;

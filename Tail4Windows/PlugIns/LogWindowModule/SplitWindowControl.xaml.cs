@@ -183,18 +183,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     /// <summary>
-    /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
+    /// LogCollectionView <see cref="VsCollectionView"/>
     /// </summary>
-    public ObservableCollection<LogEntry> LogEntries
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Filtered collection <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
-    /// </summary>
-    public ObservableCollection<LogEntry> FilteredCollection
+    public VsCollectionView LogCollectionView
     {
       get;
       set;
@@ -386,16 +377,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       InitializeComponent();
 
       DataContext = this;
+      LogCollectionView = new VsCollectionView();
       FloodData = new List<MessageFloodData>();
-      LogEntries = new ObservableCollection<LogEntry>();
-      FilteredCollection = new ObservableCollection<LogEntry>();
+      LogCollectionView.LogEntries = new ObservableCollection<LogEntry>();
 
       _findWhatResults = new List<LogEntry>();
       CacheManager = new CacheManager();
       _playSoundFile = new PlaySoundFile();
       _soundFileExists = _playSoundFile.InitSoundPlay(SettingsHelperController.CurrentSettings.AlertSettings.SoundFileNameFullPath);
 
-      CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogEntries }.View;
+      CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogCollectionView.LogEntries }.View;
       CollectionView.Filter = DynamicFilter;
 
       _searchHistoryController = new XmlSearchHistoryController();
@@ -537,14 +528,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       Dispatcher.InvokeAsync(
         () =>
         {
-          if ( LogEntries == null )
+          if ( LogCollectionView.LogEntries == null )
             return;
 
-          if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 && LogEntries.Count >= SettingsHelperController.CurrentSettings.LogLineLimit && _splitterPosition <= 0 )
-            LogEntries.RemoveAt(0);
+          if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 &&
+               LogCollectionView.LogEntries.Count >= SettingsHelperController.CurrentSettings.LogLineLimit &&
+               _splitterPosition <= 0 )
+          {
+            LogCollectionView.LogEntries.RemoveAt(0);
+          }
 
           SetupCache();
-          LogEntries.AddRange(e.Log);
+          LogCollectionView.LogEntries.AddRange(e.Log);
 
           RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LinesRead, e.SizeRefreshTime));
         }, DispatcherPriority.Background);
@@ -697,12 +692,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteClearItemsCommand()
     {
-      if ( LogEntries == null )
-        LogEntries = new ObservableCollection<LogEntry>();
+      if ( LogCollectionView.LogEntries == null )
+        LogCollectionView.LogEntries = new ObservableCollection<LogEntry>();
 
       LOG.Trace("Clear items and cache");
 
-      LogEntries.Clear();
+      LogCollectionView.LogEntries.Clear();
       CacheManager.ClearCacheData();
       _findWhatResults.Clear();
       FindWhatResults?.Clear();
@@ -949,13 +944,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       await SearchInItemsAsync(start, end, findData, searchText).ConfigureAwait(false);
 
     private async Task<FindNextResult> SearchInHiddenItemsAsync(double start, FindData findData, string searchText) =>
-      await SearchInItemsAsync(start, LogEntries.Count, findData, searchText).ConfigureAwait(false);
+      await SearchInItemsAsync(start, LogCollectionView.LogEntries.Count, findData, searchText).ConfigureAwait(false);
 
     private async Task<FindNextResult> SearchInItemsAsync(double start, double end, FindData findData, string searchText)
     {
       FindNextResult findNext = null;
       double stop = -1;
-      int countTo = LogEntries.Count < (int) Math.Round(end) ? LogEntries.Count : (int) Math.Round(end);
+      int countTo = LogCollectionView.LogEntries.Count < (int) Math.Round(end) ? LogCollectionView.LogEntries.Count : (int) Math.Round(end);
 
       if ( start < 0 )
         return new FindNextResult(false, stop);
@@ -964,7 +959,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         for ( var i = (int) Math.Round(start); i < countTo; i++ )
         {
-          LogEntry log = LogEntries[i];
+          LogEntry log = LogCollectionView.LogEntries[i];
 
           // If list is filtered
           if ( !CollectionView.Contains(log) )
@@ -1001,7 +996,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         {
           for ( var i = (int) Math.Round(start); i < countTo; i++ )
           {
-            LogEntry log = LogEntries[i];
+            LogEntry log = LogCollectionView.LogEntries[i];
 
             // If list is filtered
             if ( !CollectionView.Contains(log) )
@@ -1041,9 +1036,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !findData.SearchBookmarks )
       {
         // ReSharper disable once ForCanBeConvertedToForeach
-        for ( int i = 0; i < LogEntries.Count; i++ )
+        for ( int i = 0; i < LogCollectionView.LogEntries.Count; i++ )
         {
-          LogEntry log = LogEntries[i];
+          LogEntry log = LogCollectionView.LogEntries[i];
 
           // If list is filtered
           if ( !CollectionView.Contains(log) )
@@ -1082,7 +1077,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         await Task.Run(() =>
         {
-          var result = LogEntries.Where(p => p.BookmarkPoint != null).ToList();
+          var result = LogCollectionView.LogEntries.Where(p => p.BookmarkPoint != null).ToList();
 
           // If list is filtered
           result = result.Where(p => CollectionView.Contains(p)).ToList();
@@ -1484,7 +1479,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void SetupCache()
     {
-      if ( !CacheManager.HaveToCache(LogEntries.Count) )
+      if ( !CacheManager.HaveToCache(LogCollectionView.LogEntries.Count) )
         return;
 
       LogEntry logEntry;
@@ -1492,33 +1487,33 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( _splitterPosition <= 0 )
       {
         _index = 0;
-        logEntry = LogEntries.First();
+        logEntry = LogCollectionView.LogEntries.First();
       }
       else
       {
-        logEntry = LogEntries[_index];
+        logEntry = LogCollectionView.LogEntries[_index];
         _index++;
       }
 
-      CacheManager.SetupCache(LogEntries.Count, logEntry, _splitterPosition);
+      CacheManager.SetupCache(LogCollectionView.LogEntries.Count, logEntry, _splitterPosition);
 
       if ( _splitterPosition <= 0 )
-        LogEntries.RemoveAt(0);
+        LogCollectionView.LogEntries.RemoveAt(0);
     }
 
     private void SetSplitWindowItemSource()
     {
       if ( _splitterPosition > 0 && LogWindowSplitElement.ItemsSource == null )
       {
-        SplitCollectionView = (ListCollectionView) new CollectionViewSource { Source = LogEntries }.View;
+        SplitCollectionView = (ListCollectionView) new CollectionViewSource { Source = LogCollectionView.LogEntries }.View;
         LogWindowSplitElement.ItemsSource = SplitCollectionView;
 
         if ( _lastSeenEntry == null )
         {
-          if ( LogEntries.Count < LastVisibleLogEntryIndex )
-            LastVisibleLogEntryIndex = LogEntries.Count - 1;
+          if ( LogCollectionView.LogEntries.Count < LastVisibleLogEntryIndex )
+            LastVisibleLogEntryIndex = LogCollectionView.LogEntries.Count - 1;
 
-          _lastSeenEntry = LogEntries[LastVisibleLogEntryIndex];
+          _lastSeenEntry = LogCollectionView.LogEntries[LastVisibleLogEntryIndex];
         }
         else
         {
@@ -1541,24 +1536,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       try
       {
-        var result = CacheManager.GetIntersectData(LogEntries);
+        var result = CacheManager.GetIntersectData(LogCollectionView.LogEntries);
 
         foreach ( var logEntry in result )
         {
-          LogEntries.Remove(logEntry);
+          LogCollectionView.LogEntries.Remove(logEntry);
         }
 
-        if ( SettingsHelperController.CurrentSettings.LogLineLimit == -1 || LogEntries.Count < SettingsHelperController.CurrentSettings.LogLineLimit )
+        if ( SettingsHelperController.CurrentSettings.LogLineLimit == -1 || LogCollectionView.LogEntries.Count < SettingsHelperController.CurrentSettings.LogLineLimit )
           return;
 
-        int count = LogEntries.Count - SettingsHelperController.CurrentSettings.LogLineLimit;
+        int count = LogCollectionView.LogEntries.Count - SettingsHelperController.CurrentSettings.LogLineLimit;
 
         for ( int i = 0; i < count; i++ )
         {
-          LogEntries.RemoveAt(i);
+          LogCollectionView.LogEntries.RemoveAt(i);
         }
 
-        CacheManager.FixCacheSize(LogEntries.Count);
+        CacheManager.FixCacheSize(LogCollectionView.LogEntries.Count);
       }
       catch ( Exception ex )
       {
@@ -1613,10 +1608,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void BookmarkManagerIdChanged(Guid windowId)
     {
-      if ( !IsRightWindow(windowId) || LogEntries == null )
+      if ( !IsRightWindow(windowId) || LogCollectionView.LogEntries == null )
         return;
 
-      EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(LogEntries.Where(p => p?.BookmarkPoint != null).ToList());
+      EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(LogCollectionView.LogEntries.Where(p => p?.BookmarkPoint != null).ToList());
     }
 
     #region PropertyChanged

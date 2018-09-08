@@ -637,7 +637,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         CurrentTailData.FontType = fontManager.SelectedFont.FontType;
     }
 
-    private bool CanExecuteClearLogWindowCommand() => SplitWindow.LogEntries != null && SplitWindow.LogEntries.Count != 0;
+    private bool CanExecuteClearLogWindowCommand() => SplitWindow.LogCollectionView.LogEntries != null && SplitWindow.LogCollectionView.LogEntries.Count != 0;
 
     private void ExecuteClearLogWindowCommand()
     {
@@ -662,9 +662,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteOpenSearchDialogCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatWindowMessage(this, CurrentTailData.File, WindowId));
 
-    private bool CanExecutePrintTailDataCommand() => SplitWindow.LogEntries.Count != 0 && FileIsValid;
+    private bool CanExecutePrintTailDataCommand() => SplitWindow.LogCollectionView.LogEntries.Count != 0 && FileIsValid;
 
-    private void ExecutePrintTailDataCommand() => _printerController.PrintDocument(SplitWindow.LogEntries, CurrentTailData);
+    private void ExecutePrintTailDataCommand() => _printerController.PrintDocument(SplitWindow.LogCollectionView.LogEntries, CurrentTailData);
 
     private bool CanExecuteQuickSaveCommand() => FileIsValid && CurrentTailData.OpenFromFileManager;
 
@@ -1189,7 +1189,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         try
         {
           SplitWindow.UnregisterFindWhatChanged();
-          SplitWindow.LogEntries = null;
+          SplitWindow.LogCollectionView.LogEntries = null;
           CurrentTailData = null;
         }
         finally
@@ -1331,7 +1331,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<GoToLineMessage>(OnGoToLine);
-      var goToLine = new GoToLine(SplitWindow.LogEntries[0].Index, LinesRead, args.ParentGuid)
+      var goToLine = new GoToLine(SplitWindow.LogCollectionView.LogEntries[0].Index, LinesRead, args.ParentGuid)
       {
         Owner = Window.GetWindow(this),
         ShouldClose = true

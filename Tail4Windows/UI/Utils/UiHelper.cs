@@ -161,7 +161,7 @@ namespace Org.Vs.TailForWin.UI.Utils
 
       if ( content.SplitWindow != null )
       {
-        logWindowControl.SplitWindow.LogEntries = content.SplitWindow.LogEntries ?? new ObservableCollection<LogEntry>();
+        logWindowControl.SplitWindow.LogCollectionView.LogEntries = content.SplitWindow.LogCollectionView.LogEntries ?? new ObservableCollection<LogEntry>();
         logWindowControl.SplitWindow.SelectedItem = content.SplitWindow.SelectedItem;
         logWindowControl.SplitWindow.FloodData = content.SplitWindow.FloodData;
         logWindowControl.SplitWindow.CollectionView = content.SplitWindow.CollectionView;
