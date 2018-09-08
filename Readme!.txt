@@ -19,6 +19,7 @@ v.2.1.xxxx.x
 * bug fix Filter/HighlightManager add/remove filter -> Highlighting was not shown correct
 * bug fix Filter/HighlightManager Highlighting ignores enabled flag
 * bug fix apply filter
+* bug fix Windows event reader -> Drag'n'Drop causes an IsNotImplementedException
 
 v.2.1.6811.x
 * new copy element in TailManager
