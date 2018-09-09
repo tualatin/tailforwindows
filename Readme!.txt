@@ -9,6 +9,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.2.xxxx.x
+* new AutoUpdate checks for new version at startup and every 24 hours
 * new change Bookmark icon, if a comment exists
 * new Bookmark overview (Ctrl+Alt+B)
 * new Bookmark comment multiedit -> Bookmark overview
