@@ -1189,7 +1189,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         try
         {
           SplitWindow.UnregisterFindWhatChanged();
-          SplitWindow.LogCollectionView.LogEntries = null;
+          SplitWindow.LogCollectionView.Dispose();
           CurrentTailData = null;
         }
         finally

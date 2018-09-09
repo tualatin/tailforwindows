@@ -379,7 +379,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       DataContext = this;
       LogCollectionView = new VsCollectionView();
       FloodData = new List<MessageFloodData>();
-      LogCollectionView.LogEntries = new ObservableCollection<LogEntry>();
 
       _findWhatResults = new List<LogEntry>();
       CacheManager = new CacheManager();
@@ -697,7 +696,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       LOG.Trace("Clear items and cache");
 
-      LogCollectionView.LogEntries.Clear();
+      LogCollectionView.Clear();
       CacheManager.ClearCacheData();
       _findWhatResults.Clear();
       FindWhatResults?.Clear();
