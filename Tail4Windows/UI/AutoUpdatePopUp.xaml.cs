@@ -16,7 +16,8 @@ namespace Org.Vs.TailForWin.UI
     /// <summary>
     /// ApplicationVersion property
     /// </summary>
-    public static readonly DependencyProperty ApplicationVersionProperty = DependencyProperty.Register("ApplicationVersion", typeof(string), typeof(AutoUpdatePopUp), new FrameworkPropertyMetadata(string.Empty));
+    public static readonly DependencyProperty ApplicationVersionProperty = DependencyProperty.Register(nameof(ApplicationVersion), typeof(string), typeof(AutoUpdatePopUp),
+      new FrameworkPropertyMetadata(string.Empty));
 
     /// <summary>
     /// Application version
@@ -30,7 +31,8 @@ namespace Org.Vs.TailForWin.UI
     /// <summary>
     /// WebVersion property
     /// </summary>
-    public static readonly DependencyProperty WebVersionProperty = DependencyProperty.Register("WebVersion", typeof(string), typeof(AutoUpdatePopUp), new FrameworkPropertyMetadata(string.Empty));
+    public static readonly DependencyProperty WebVersionProperty = DependencyProperty.Register(nameof(WebVersion), typeof(string), typeof(AutoUpdatePopUp),
+      new FrameworkPropertyMetadata(string.Empty));
 
     /// <summary>
     /// Web version
@@ -44,10 +46,11 @@ namespace Org.Vs.TailForWin.UI
     /// <summary>
     /// Update hint property
     /// </summary>
-    public static readonly DependencyProperty UpdateHintProperty = DependencyProperty.Register("UpdateHint", typeof(string), typeof(AutoUpdatePopUp), new FrameworkPropertyMetadata(string.Empty));
+    public static readonly DependencyProperty UpdateHintProperty = DependencyProperty.Register(nameof(UpdateHint), typeof(string), typeof(AutoUpdatePopUp),
+      new FrameworkPropertyMetadata(string.Empty));
 
     /// <summary>
-    /// Applicaton version
+    /// Application version
     /// </summary>
     public string UpdateHint
     {

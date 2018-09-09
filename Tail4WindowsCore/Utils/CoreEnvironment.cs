@@ -18,10 +18,17 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// </summary>
     public static string ApplicationRegexWebUrl => "https://www.virtual-studios.de";
 
+#if DEBUG
+    /// <summary>
+    /// Application Update URL
+    /// </summary>
+    public static string ApplicationUpdateWebUrl => "https://www.virtual-studios.de/tail4wnd/releases_debug.txt";
+#else
     /// <summary>
     /// Application Update URL
     /// </summary>
     public static string ApplicationUpdateWebUrl => "https://www.virtual-studios.de/tail4wnd/releases.txt";
+#endif
 
     /// <summary>
     /// Application donate web URL

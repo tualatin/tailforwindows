@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -59,10 +60,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private string _currentSizeRefreshTime;
     private readonly IBaseWindowStatusbarViewModel _baseWindowStatusbarViewModel;
     private readonly CancellationTokenSource _cts;
+
     private readonly FindWhatResult _findWhatResultWindow;
     private readonly BookmarkOverview _bookmarkOverview;
-
     private FindWhat _findWhatWindow;
+
     private readonly ISettingsDbController _dbSettingsController;
     private readonly IStatisticController _statisticController;
 
@@ -268,8 +270,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowBookmarkOverviewMessage>(OnOpenBookmarkOverviewWindow);
 
       _cts = new CancellationTokenSource();
+
       _findWhatResultWindow = new FindWhatResult();
       _bookmarkOverview = new BookmarkOverview();
+
       _dbSettingsController = SettingsDbController.Instance;
       _statisticController = new StatisticController();
       _currentStatusbarState = EStatusbarState.Default;
@@ -400,7 +404,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       await MoveUserFilesToTailStoreAsync().ConfigureAwait(false);
       await _dbSettingsController.ReadDbSettingsAsync().ConfigureAwait(false);
-      await AutoUpdateAsync().ConfigureAwait(false);
     }
 
     private async Task CleanGarbageCollectorAsync()
@@ -610,7 +613,13 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         LOG.Trace($"{CoreEnvironment.ApplicationTitle} startup completed!");
       }).ConfigureAwait(false);
 
-      await CleanGarbageCollectorAsync().ConfigureAwait(false);
+      var tasks = new List<Task>
+      {
+        CleanGarbageCollectorAsync(),
+        AutoUpdateAsync()
+      };
+
+      Task.WaitAll(tasks.ToArray(), _cts.Token);
     }
 
     #endregion
@@ -1117,47 +1126,60 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         return;
 
       var updateController = new UpdateController(new WebDataController());
-      UpdateData result = await updateController.UpdateNecessaryAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token,
-        System.Reflection.Assembly.GetExecutingAssembly().GetName().Version).ConfigureAwait(false);
+      Thread staThread = null;
 
-      if ( !result.Update )
-        return;
+      while ( !_cts.IsCancellationRequested )
+      {
+        UpdateData result = await updateController.UpdateNecessaryAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token,
+          System.Reflection.Assembly.GetExecutingAssembly().GetName().Version).ConfigureAwait(false);
 
-      new ThrottledExecution().InMs(5000).Do(
-        () =>
+        if ( !result.Update || staThread != null && staThread.ThreadState == ThreadState.Background )
         {
-          var staThread = new Thread(() =>
+          await Task.Delay(TimeSpan.FromDays(1), _cts.Token).ConfigureAwait(false);
+          continue;
+        }
+
+        new ThrottledExecution().InMs(5000).Do(
+          () =>
           {
-            Dispatcher.CurrentDispatcher.Invoke(() =>
+            staThread = new Thread(() =>
             {
-              var updateDialog = new AutoUpdatePopUp
+              Dispatcher.CurrentDispatcher.Invoke(() =>
               {
-                ApplicationVersion = result.ApplicationVersion.ToString(),
-                WebVersion = result.WebVersion.ToString(),
-                UpdateHint = Application.Current.TryFindResource("UpdateControlUpdateExits").ToString()
-              };
+                var updateDialog = new AutoUpdatePopUp
+                {
+                  ApplicationVersion = result.ApplicationVersion.ToString(),
+                  WebVersion = result.WebVersion.ToString(),
+                  UpdateHint = Application.Current.TryFindResource("UpdateControlUpdateExits").ToString()
+                };
 
-              var wnd = new Window
-              {
-                Visibility = Visibility.Hidden,
-                WindowState = WindowState.Minimized,
-                ShowInTaskbar = false
-              };
+                var wnd = new Window
+                {
+                  Visibility = Visibility.Hidden,
+                  WindowState = WindowState.Minimized,
+                  ShowInTaskbar = false
+                };
 
-              wnd.Show();
-              updateDialog.Owner = wnd;
-              updateDialog.ShowDialog();
-            }, DispatcherPriority.Normal);
-          })
-          {
-            Name = $"{CoreEnvironment.ApplicationTitle}_AutoUpdateThread",
-            IsBackground = true
-          };
+                wnd.Show();
+                updateDialog.Owner = wnd;
+                updateDialog.ShowDialog();
+              }, DispatcherPriority.Normal);
+            })
+            {
+              Name = $"{CoreEnvironment.ApplicationTitle}_AutoUpdateThread",
+              IsBackground = true
+            };
 
-          staThread.SetApartmentState(ApartmentState.STA);
-          staThread.Start();
-          staThread.Join();
-        });
+            if ( staThread == null )
+              return;
+
+            staThread.SetApartmentState(ApartmentState.STA);
+            staThread.Start();
+            staThread.Join();
+          });
+
+        await Task.Delay(TimeSpan.FromDays(1), _cts.Token).ConfigureAwait(false);
+      }
     }
 
     private void MoveIntoView()
