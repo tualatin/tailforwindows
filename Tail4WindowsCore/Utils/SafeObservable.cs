@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading;
 using System.Windows.Threading;
 
@@ -35,13 +36,12 @@ namespace Org.Vs.TailForWin.Core.Utils
     public SafeObservable(IEnumerable<T> collection)
     {
       _dispatcher = Dispatcher.CurrentDispatcher;
-
-      IList<T> items = _collection;
+      var items = _collection;
 
       if ( collection == null || items == null )
         return;
 
-      using ( IEnumerator<T> enumerator = collection.GetEnumerator() )
+      using ( var enumerator = collection.GetEnumerator() )
       {
         while ( enumerator.MoveNext() )
         {
@@ -66,6 +66,23 @@ namespace Org.Vs.TailForWin.Core.Utils
         {
           DoAdd(item);
         }));
+      }
+    }
+
+    /// <summary>
+    /// Adds a range of the <see cref="Collection{T}"/>
+    /// </summary>
+    /// <param name="range">Range to add</param>
+    public void AddRange(IEnumerable<T> range)
+    {
+      // ReSharper disable once PossibleMultipleEnumeration
+      if ( range == null || !range.Any() )
+        return;
+
+      // ReSharper disable once PossibleMultipleEnumeration
+      foreach ( T item in range )
+      {
+        DoAdd(item);
       }
     }
 
@@ -104,7 +121,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     public bool Contains(T item)
     {
       _sync.AcquireReaderLock(Timeout.Infinite);
-      var result = _collection.Contains(item);
+      bool result = _collection.Contains(item);
       _sync.ReleaseReaderLock();
 
       return result;
@@ -130,7 +147,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       get
       {
         _sync.AcquireReaderLock(Timeout.Infinite);
-        var result = _collection.Count;
+        int result = _collection.Count;
         _sync.ReleaseReaderLock();
 
         return result;
@@ -152,27 +169,27 @@ namespace Org.Vs.TailForWin.Core.Utils
       if ( Thread.CurrentThread == _dispatcher.Thread )
         return DoRemove(item);
 
-      var op = _dispatcher.BeginInvoke(new Func<T, bool>(DoRemove), item);
+      DispatcherOperation op = _dispatcher.BeginInvoke(new Func<T, bool>(DoRemove), item);
 
-      if ( op.Result == null )
-        return false;
-
-      return (bool) op.Result;
+      return op.Result != null && (bool) op.Result;
     }
 
     private bool DoRemove(T item)
     {
       _sync.AcquireWriterLock(Timeout.Infinite);
-      var index = _collection.IndexOf(item);
+      int index = _collection.IndexOf(item);
+
       if ( index == -1 )
       {
         _sync.ReleaseWriterLock();
         return false;
       }
-      var result = _collection.Remove(item);
-      if ( result && CollectionChanged != null )
-        CollectionChanged(this, new
-            NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+
+      bool result = _collection.Remove(item);
+
+      if ( result )
+        CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+
       _sync.ReleaseWriterLock();
       return result;
     }
@@ -193,7 +210,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     public int IndexOf(T item)
     {
       _sync.AcquireReaderLock(Timeout.Infinite);
-      var result = _collection.IndexOf(item);
+      int result = _collection.IndexOf(item);
       _sync.ReleaseReaderLock();
 
       return result;
@@ -261,7 +278,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       get
       {
         _sync.AcquireReaderLock(Timeout.Infinite);
-        var result = _collection[index];
+        T result = _collection[index];
         _sync.ReleaseReaderLock();
 
         return result;

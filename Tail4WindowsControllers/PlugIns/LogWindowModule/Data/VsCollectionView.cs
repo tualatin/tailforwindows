@@ -1,6 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Threading;
-using Org.Vs.TailForWin.Business.Services.Data;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Threading.Tasks;
+using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
@@ -8,23 +12,34 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
   /// <summary>
   /// Virtual Studios collection view
   /// </summary>
-  public class VsCollectionView
+  public class VsCollectionView<T> where T : NotifyMaster, new()
   {
+    private readonly Func<T, TailData, Task> _filterFunction;
+
     #region Properties
 
     /// <summary>
-    /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
+    /// <see cref="ObservableCollection{T}"/>
     /// </summary>
-    public ObservableCollection<LogEntry> LogEntries
+    public AsyncObservableCollection<T> Collection
     {
       get;
       set;
     }
 
     /// <summary>
-    /// Filtered collection <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/>
+    /// Filtered collection <see cref="ObservableCollection{T}"/>
     /// </summary>
-    public ObservableCollection<LogEntry> FilteredCollection
+    public AsyncObservableCollection<T> FilteredCollection
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Current <see cref="TailData"/>
+    /// </summary>
+    public TailData CurrentTailData
     {
       get;
       set;
@@ -35,31 +50,78 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public VsCollectionView()
+    public VsCollectionView() => Initialize();
+
+    /// <summary>
+    /// Constructor
+    /// </summary>
+    /// <param name="filterFunction">Filter method async</param>
+    /// <param name="tailData"><see cref="TailData"/></param>
+    public VsCollectionView(Func<T, TailData, Task> filterFunction, TailData tailData)
     {
-      LogEntries = new ObservableCollection<LogEntry>();
-      FilteredCollection = new ObservableCollection<LogEntry>();
+      _filterFunction = filterFunction;
+      CurrentTailData = tailData;
+
+      Initialize();
+    }
+
+    private void Initialize()
+    {
+      Collection = new AsyncObservableCollection<T>();
+      FilteredCollection = new AsyncObservableCollection<T>();
+
+      Collection.CollectionChanged += OnLogEntriesCollectionChanged;
+    }
+
+    private void OnLogEntriesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      switch ( e.Action )
+      {
+      case NotifyCollectionChangedAction.Add:
+
+        break;
+
+      case NotifyCollectionChangedAction.Remove:
+
+        break;
+
+      case NotifyCollectionChangedAction.Replace:
+
+        break;
+
+      case NotifyCollectionChangedAction.Move:
+
+        break;
+
+      case NotifyCollectionChangedAction.Reset:
+
+        FilteredCollection.Clear();
+        break;
+
+      default:
+
+        throw new ArgumentOutOfRangeException();
+      }
     }
 
     /// <summary>
     /// Clears collections
     /// </summary>
-    public void Clear() =>
-      Dispatcher.CurrentDispatcher.Invoke(() =>
-      {
-        LogEntries.Clear();
-        FilteredCollection.Clear();
-        FilteredCollection.Clear();
-      }, DispatcherPriority.Normal);
+    public void Clear() => Collection.Clear();
 
     /// <summary>
-    /// Release all resources used by <see cref="VsCollectionView"/>
+    /// Clears filtered collection
+    /// </summary>
+    public void ClearFilteredCollection() => FilteredCollection.Clear();
+
+    /// <summary>
+    /// Release all resources used by <see cref="VsCollectionView{T}"/>
     /// </summary>
     public void Dispose()
     {
       Clear();
 
-      LogEntries = null;
+      Collection = null;
       FilteredCollection = null;
     }
   }

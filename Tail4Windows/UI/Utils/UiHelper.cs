@@ -7,6 +7,7 @@ using log4net;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
@@ -161,7 +162,7 @@ namespace Org.Vs.TailForWin.UI.Utils
 
       if ( content.SplitWindow != null )
       {
-        logWindowControl.SplitWindow.LogCollectionView.LogEntries = content.SplitWindow.LogCollectionView.LogEntries ?? new ObservableCollection<LogEntry>();
+        logWindowControl.SplitWindow.LogCollectionView.Collection = content.SplitWindow.LogCollectionView.Collection ?? new AsyncObservableCollection<LogEntry>();
         logWindowControl.SplitWindow.SelectedItem = content.SplitWindow.SelectedItem;
         logWindowControl.SplitWindow.FloodData = content.SplitWindow.FloodData;
         logWindowControl.SplitWindow.CollectionView = content.SplitWindow.CollectionView;
