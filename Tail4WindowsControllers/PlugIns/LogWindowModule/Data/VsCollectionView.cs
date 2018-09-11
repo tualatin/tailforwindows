@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Threading.Tasks;
-using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -14,8 +12,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
   /// </summary>
   public class VsCollectionView<T> where T : NotifyMaster, new()
   {
-    private readonly Func<T, TailData, Task> _filterFunction;
-
     #region Properties
 
     /// <summary>
@@ -36,34 +32,12 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
       set;
     }
 
-    /// <summary>
-    /// Current <see cref="TailData"/>
-    /// </summary>
-    public TailData CurrentTailData
-    {
-      get;
-      set;
-    }
-
     #endregion
 
     /// <summary>
     /// Standard constructor
     /// </summary>
     public VsCollectionView() => Initialize();
-
-    /// <summary>
-    /// Constructor
-    /// </summary>
-    /// <param name="filterFunction">Filter method async</param>
-    /// <param name="tailData"><see cref="TailData"/></param>
-    public VsCollectionView(Func<T, TailData, Task> filterFunction, TailData tailData)
-    {
-      _filterFunction = filterFunction;
-      CurrentTailData = tailData;
-
-      Initialize();
-    }
 
     private void Initialize()
     {
