@@ -91,22 +91,22 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
-    private bool _markLineAsBoomark;
+    private bool _markLineAsBookmark;
 
     /// <summary>
     /// Mark result as bookmark
     /// </summary>
     public bool MarkLineAsBookmark
     {
-      get => _markLineAsBoomark;
+      get => _markLineAsBookmark;
       set
       {
-        if ( value == _markLineAsBoomark )
+        if ( value == _markLineAsBookmark )
           return;
 
-        _markLineAsBoomark = value;
+        _markLineAsBookmark = value;
 
-        if ( _markLineAsBoomark )
+        if ( _markLineAsBookmark )
           SearchBookmarkComments = false;
 
         OnPropertyChanged();
