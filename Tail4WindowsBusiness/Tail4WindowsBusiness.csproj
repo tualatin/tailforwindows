@@ -105,6 +105,7 @@
   <ItemGroup>
     <Compile Include="BookmarkEngine\Controllers\BookmarkManager.cs" />
     <Compile Include="BookmarkEngine\Events\Args\IdChangedEventArgs.cs" />
+    <Compile Include="BookmarkEngine\Events\Delegates\BookmarkDataSourceChangedEventHandler.cs" />
     <Compile Include="BookmarkEngine\Events\Delegates\IdChangedEventHandler.cs" />
     <Compile Include="BookmarkEngine\Interfaces\IBookmarkManager.cs" />
     <Compile Include="Controllers\PrintController.cs" />

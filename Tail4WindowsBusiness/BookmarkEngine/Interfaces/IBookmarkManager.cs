@@ -22,7 +22,7 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces
     /// <summary>
     /// On Bookmark data source changed event
     /// </summary>
-    event EventHandler OnBookmarkDataSourceChanged;
+    event BookmarkDataSourceChangedEventHandler OnBookmarkDataSourceChanged;
 
     #endregion
 

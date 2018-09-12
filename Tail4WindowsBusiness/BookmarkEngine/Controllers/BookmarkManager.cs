@@ -33,7 +33,7 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
     /// <summary>
     /// On Bookmark data source changed event
     /// </summary>
-    public event EventHandler OnBookmarkDataSourceChanged;
+    public event BookmarkDataSourceChangedEventHandler OnBookmarkDataSourceChanged;
 
     #endregion
 
@@ -153,8 +153,6 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
 
     private void OnBookmarkDataSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      OnBookmarkDataSourceChanged?.Invoke(this, EventArgs.Empty);
-
       switch ( e.Action )
       {
       case NotifyCollectionChangedAction.Add:
@@ -191,6 +189,8 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
 
         break;
       }
+
+      OnBookmarkDataSourceChanged?.Invoke(this, new IdChangedEventArgs(_activeWindowGuid));
     }
 
     private void OnLogEntryPropertyChanged(object sender, PropertyChangedEventArgs e)
