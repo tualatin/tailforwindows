@@ -15,7 +15,7 @@
   Title="{DynamicResource ExtendedTailSettingsFilterLabel}"
   Width="510"
   Height="350"
-  MinWidth="510"
+  MinWidth="550"
   MinHeight="350"
   Icon="/T4W;component/Resources/Filters.ico"
   ResizeMode="CanResizeWithGrip"
@@ -445,6 +445,21 @@
                     IsChecked="{Binding IsAutoBookmark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     />
                 </Grid>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+
+          <DataGridTemplateColumn
+            MinWidth="130"
+            Header="{DynamicResource FilterManagerAutoBookmarkComment}"
+            >
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <TextBox
+                  Text="{Binding AutoBookmarkComment}"
+                  IsReadOnly="{Binding IsAutoBookmark, Converter={StaticResource InverseBooleanConverter}}"
+                  Style="{StaticResource TextBoxDataGridStyle}"
+                  />
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>

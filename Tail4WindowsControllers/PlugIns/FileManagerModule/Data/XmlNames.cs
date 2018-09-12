@@ -121,6 +121,11 @@
     public const string FilterAutoBookmark = "filterAutoBookmark";
 
     /// <summary>
+    /// filterAutoBookmarkComment
+    /// </summary>
+    public const string FilterAutoBookmarkComment = "filterAutoBookmarkComment";
+
+    /// <summary>
     /// lineWrap
     /// </summary>
     public const string LineWrap = "lineWrap";

@@ -135,6 +135,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
             UseNotification = (x.Element(XmlNames.FilterNotification)?.Value).ConvertToBool(),
             FilterSource = (x.Element(XmlNames.FilterSource)?.Value).ConvertToBool(true),
             IsAutoBookmark = (x.Element(XmlNames.FilterAutoBookmark)?.Value).ConvertToBool(),
+            AutoBookmarkComment = (x.Element(XmlNames.FilterAutoBookmarkComment)?.Value),
             IsEnabled = (x.Element(XmlNames.IsEnabled)?.Value).ConvertToBool(true)
           }).ToList() ?? new List<FilterData>();
 
@@ -672,6 +673,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         new XElement(XmlNames.FilterNotification, filter.UseNotification),
         new XElement(XmlNames.FilterSource, filter.FilterSource),
         new XElement(XmlNames.FilterAutoBookmark, filter.IsAutoBookmark),
+        new XElement(XmlNames.FilterAutoBookmarkComment, filter.AutoBookmarkComment),
         new XElement(XmlNames.IsEnabled, filter.IsEnabled),
         new XElement(XmlNames.Font,
           new XElement(XmlBaseStructure.Name, filter.FontType.FontFamily.Source),

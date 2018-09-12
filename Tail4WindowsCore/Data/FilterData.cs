@@ -225,6 +225,24 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
+    private string _autoBookmarkComment;
+
+    /// <summary>
+    /// AutoBookmark comment
+    /// </summary>
+    public string AutoBookmarkComment
+    {
+      get => _autoBookmarkComment;
+      set
+      {
+        if ( Equals(value, _autoBookmarkComment) )
+          return;
+
+        string currentValue = _autoBookmarkComment;
+        ChangeState(new Command(() => _autoBookmarkComment = value, () => _autoBookmarkComment = currentValue, nameof(AutoBookmarkComment), Notification));
+      }
+    }
+
     #region IDataErrorInfo interface
 
     /// <summary>

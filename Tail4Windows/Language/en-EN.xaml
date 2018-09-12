@@ -152,6 +152,7 @@
   <system:String x:Key="FilterManagerFilterSource">Filter result</system:String>
   <system:String x:Key="FilterManagerNotification">Notification</system:String>
   <system:String x:Key="FilterManagerAutoBookmark">Auto Bookmark</system:String>
+  <system:String x:Key="FilterManagerAutoBookmarkComment">Bookmark comment</system:String>
   <system:String x:Key="FilterManagerIsEnabled">Active</system:String>
   <system:String
     x:Key="FilterManagerNotificationInformation"

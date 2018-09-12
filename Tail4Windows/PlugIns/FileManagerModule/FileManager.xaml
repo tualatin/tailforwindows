@@ -572,6 +572,7 @@
                 <TextBlock Text="{Binding Category, UpdateSourceTrigger=PropertyChanged}" />
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
+
             <DataGridTemplateColumn.CellEditingTemplate>
               <DataTemplate>
                 <ComboBox

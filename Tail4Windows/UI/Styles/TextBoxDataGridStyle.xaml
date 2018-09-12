@@ -6,6 +6,7 @@
   <Style x:Key="TextBoxDataGridStyle" TargetType="{x:Type TextBox}">
     <Setter Property="AllowDrop" Value="true" />
     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+    <Setter Property="Foreground" Value="Black" />
     <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
     <Setter Property="MinHeight" Value="20" />
     <Setter Property="MinWidth" Value="30" />
@@ -94,6 +95,7 @@
                 Foreground="White"
                 />
             </Border>
+
             <AdornedElementPlaceholder
               Name="customAdorner"
               VerticalAlignment="Center"
