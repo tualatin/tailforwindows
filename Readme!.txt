@@ -19,6 +19,9 @@ v.2.2.xxxx.x
 * improve customize editor -> Options -> Extras
 * improve Find result view -> ToolTip for message column
 
+v.2.1.xxxx.x
+* bug fix Filter/HighlightManager layout
+
 v.2.1.6825.x
 * improve ComboBox style
 * bug fix NullReferenceException TailData property changed
