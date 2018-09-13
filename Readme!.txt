@@ -8,7 +8,7 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
-v.2.1.xxxx.x
+v.2.1.6825.x
 * improve ComboBox style
 * bug fix NullReferenceException TailData property changed
 * bug fix Drag window wrong Changed indicator after Drag'n'Drop
@@ -19,6 +19,7 @@ v.2.1.xxxx.x
 * bug fix Filter/HighlightManager add/remove filter -> Highlighting was not shown correct
 * bug fix Filter/HighlightManager Highlighting ignores enabled flag
 * bug fix apply filter
+* bug fix Windows event reader -> Drag'n'Drop causes an IsNotImplementedException
 
 v.2.1.6811.x
 * new copy element in TailManager
