@@ -487,17 +487,13 @@
           Margin="5 0 0 0"
           Orientation="Horizontal"
           >
-          <Line
+          <Rectangle
+            Width="1"
             Margin="0 3 6 3"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Fill="{StaticResource BrushSolidGrey35}"
             SnapsToDevicePixels="True"
-            Stroke="Black"
-            StrokeThickness="0.1"
-            X1="0"
-            X2="0"
-            Y1="0"
-            Y2="20"
             />
 
           <Button
@@ -685,17 +681,13 @@
             </CheckBox.ToolTip>
           </CheckBox>
 
-          <Line
-            Margin="3 3"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
+          <Rectangle
+            Width="1"
+            Margin="3"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Fill="{StaticResource BrushSolidGrey35}"
             SnapsToDevicePixels="True"
-            Stroke="Black"
-            StrokeThickness="0.1"
-            X1="0"
-            X2="0"
-            Y1="0"
-            Y2="20"
             />
         </StackPanel>
 
