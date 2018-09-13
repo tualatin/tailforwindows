@@ -714,7 +714,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowExtendedToolbarMessage>(OnShowExtendedToolbar);
 
       EnvironmentContainer.Instance.BookmarkManager.OnIdChanged += OnBookmarkManagerIdChanged;
+      EnvironmentContainer.Instance.BookmarkManager.OnBookmarkDataSourceChanged += OnBookmarkManagerDataSourceChanged;
+
       BookmarkManagerIdChanged(EnvironmentContainer.Instance.BookmarkManager.GetCurrentWindowId());
+      OnBookmarkManagerDataSourceChanged(this, new IdChangedEventArgs(EnvironmentContainer.Instance.BookmarkManager.GetCurrentWindowId()));
 
       try
       {
@@ -735,6 +738,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ShowExtendedToolbarMessage>(OnShowExtendedToolbar);
 
       EnvironmentContainer.Instance.BookmarkManager.OnIdChanged -= OnBookmarkManagerIdChanged;
+      EnvironmentContainer.Instance.BookmarkManager.OnBookmarkDataSourceChanged -= OnBookmarkManagerDataSourceChanged;
 
       _cts?.Cancel();
     }
@@ -1307,7 +1311,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
 #if DEBUG
       sw.Stop();
-      LOG.Debug($"Elapsed time after highlighting {sw.ElapsedTicks} ticks / {sw.ElapsedMilliseconds} ms");
+      //LOG.Debug($"Elapsed time after highlighting {sw.ElapsedTicks} ticks / {sw.ElapsedMilliseconds} ms");
 #endif
       OnPropertyChanged(nameof(HighlightData));
 
@@ -1319,7 +1323,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       item.BookmarkPoint = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark_Info.png");
       item.BookmarkToolTip = string.IsNullOrWhiteSpace(filterData.AutoBookmarkComment) ? "Auto Bookmark" : filterData.AutoBookmarkComment;
 
-      EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(item);
+      EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(GetLogWindow().WindowId, item);
     }
 
     private void HandleAlertSettings(FilterData filter, IReadOnlyCollection<string> stringResult, LogEntry item)
@@ -1559,10 +1563,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         log.BookmarkPoint = bp;
       }, DispatcherPriority.Normal);
 
-    private bool IsRightWindow(Guid windowGuid)
+    private ILogWindowControl GetLogWindow()
     {
       var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
-      return logWindow.Count != 0 && logWindow.First().WindowId == windowGuid;
+      return logWindow.Count == 0 ? null : logWindow.FirstOrDefault();
+    }
+
+    private bool IsRightWindow(Guid windowGuid)
+    {
+      ILogWindowControl window = GetLogWindow();
+      return window != null && window.WindowId == windowGuid;
     }
 
     private void LoadedPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -1592,6 +1602,17 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       BookmarkManagerIdChanged(e.WindowId);
     }
 
+    private void OnBookmarkManagerDataSourceChanged(object sender, IdChangedEventArgs e)
+    {
+      if ( !IsRightWindow(e.WindowId) )
+        return;
+
+      LogWindowSplitElement.BookmarkCount = EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource == null ? 0 :
+        EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource.Count;
+      LogWindowMainElement.BookmarkCount = EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource == null ? 0 :
+        EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource.Count;
+    }
+
     #endregion
 
     private void BookmarkManagerIdChanged(Guid windowId)
@@ -1599,7 +1620,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !IsRightWindow(windowId) || LogCollectionView.Collection == null )
         return;
 
-      EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(LogCollectionView.Collection.Where(p => p?.BookmarkPoint != null).ToList());
+      EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(windowId, LogCollectionView.Collection.Where(p => p?.BookmarkPoint != null).ToList());
     }
 
     #region PropertyChanged

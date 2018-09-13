@@ -14,7 +14,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using log4net;
-using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Args;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
@@ -254,9 +253,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       PreviewMouseDoubleClick += LogWindowListBoxOnPreviewMouseDoubleClick;
 
       SelectionChanged += LogWindowListBoxOnSelectionChanged;
-
-      //if ( !ShowGridSplitControl )
-      EnvironmentContainer.Instance.BookmarkManager.OnBookmarkDataSourceChanged += OnBookmarkManagerDataSourceChanged;
     }
 
     private void LogWindowListBoxOnUnloaded(object sender, RoutedEventArgs e)
@@ -270,9 +266,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       PreviewMouseDoubleClick -= LogWindowListBoxOnPreviewMouseDoubleClick;
 
       SelectionChanged -= LogWindowListBoxOnSelectionChanged;
-
-      //if ( !ShowGridSplitControl )
-      EnvironmentContainer.Instance.BookmarkManager.OnBookmarkDataSourceChanged -= OnBookmarkManagerDataSourceChanged;
     }
 
     /// <summary>
@@ -438,7 +431,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         if ( !IsRightWindow() )
           return;
 
-        EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(item);
+        EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(GetLogWindow().WindowId, item);
       }
       else
       {
@@ -506,16 +499,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     #endregion
 
     #region  Events
-
-    private void OnBookmarkManagerDataSourceChanged(object sender, IdChangedEventArgs e)
-    {
-      ILogWindowControl logWindow = GetLogWindow();
-
-      if ( e.WindowId != logWindow.WindowId )
-        return;
-
-      BookmarkCount = EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource == null ? 0 : EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource.Count;
-    }
 
     private void LogWindowListBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {

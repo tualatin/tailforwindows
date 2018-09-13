@@ -59,14 +59,16 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces
     /// <summary>
     /// Adds a bookmark item to data source
     /// </summary>
+    /// <param name="windowId">Window id</param>
     /// <param name="item">Bookmark item</param>
-    void AddBookmarkItemsToSource(LogEntry item);
+    void AddBookmarkItemsToSource(Guid windowId, LogEntry item);
 
     /// <summary>
     /// Adds bookmark items to data source
     /// </summary>
+    /// <param name="windowId">Window id</param>
     /// <param name="itemRange"><see cref="List{T}"/> of bookmarks</param>
-    void AddBookmarkItemsToSource(List<LogEntry> itemRange);
+    void AddBookmarkItemsToSource(Guid windowId, List<LogEntry> itemRange);
 
     /// <summary>
     /// Removes item from bookmark data source

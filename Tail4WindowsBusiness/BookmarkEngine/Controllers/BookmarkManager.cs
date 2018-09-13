@@ -97,15 +97,20 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
     /// <summary>
     /// Adds a bookmark item to data source
     /// </summary>
+    /// <param name="windowId">Window id</param>
     /// <param name="item">Bookmark item</param>
-    public void AddBookmarkItemsToSource(LogEntry item) => AddBookmarkItemsToSource(new List<LogEntry> { item });
+    public void AddBookmarkItemsToSource(Guid windowId, LogEntry item) => AddBookmarkItemsToSource(windowId, new List<LogEntry> { item });
 
     /// <summary>
     /// Adds bookmark items to data source
     /// </summary>
+    /// <param name="windowId">Window id</param>
     /// <param name="itemRange"><see cref="List{T}"/> of bookmarks</param>
-    public void AddBookmarkItemsToSource(List<LogEntry> itemRange)
+    public void AddBookmarkItemsToSource(Guid windowId, List<LogEntry> itemRange)
     {
+      if ( !Equals(_activeWindowGuid, windowId) )
+        return;
+
       foreach ( LogEntry item in itemRange )
       {
         if ( BookmarkDataSource.Contains(item) )
