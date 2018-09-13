@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -410,9 +409,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       while ( !_cts.IsCancellationRequested )
       {
-        await Task.Delay(TimeSpan.FromMinutes(1), _cts.Token).ConfigureAwait(false);
+        await Task.Delay(TimeSpan.FromMinutes(45), _cts.Token).ConfigureAwait(false);
 
-        LOG.Info("CleanUp GC..");
+        LOG.Info("CleanUp GC...");
         LOG.Trace($"TotalMemory before clean up: {GC.GetTotalMemory(false):N0}");
 
         GC.Collect();
@@ -608,18 +607,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private async Task ExecuteWndLoadedCommandAsync()
     {
-      await Task.Run(() =>
-      {
-        LOG.Trace($"{CoreEnvironment.ApplicationTitle} startup completed!");
-      }).ConfigureAwait(false);
+      LOG.Trace($"{CoreEnvironment.ApplicationTitle} startup completed!");
 
-      var tasks = new List<Task>
-      {
-        CleanGarbageCollectorAsync(),
-        AutoUpdateAsync()
-      };
+      Task cleanGcTask = CleanGarbageCollectorAsync();
+      Task autoUpdateTask = AutoUpdateAsync();
 
-      Task.WaitAll(tasks.ToArray(), _cts.Token);
+      await Task.WhenAll(cleanGcTask, autoUpdateTask).ConfigureAwait(false);
     }
 
     #endregion
