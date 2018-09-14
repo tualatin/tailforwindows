@@ -701,7 +701,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     private void OnChangeSelectedTabItem(ChangeSelectedTabItemMessage args)
     {
-      DragSupportTabItem result = BusinessHelper.GetTabItemList().FirstOrDefault(p => ((ILogWindowControl) p.Content).WindowId == args.WindowId);
+      DragSupportTabItem result = UiHelper.GetTabItemList().FirstOrDefault(p => ((ILogWindowControl) p.Content).WindowId == args.WindowId);
 
       if ( result == null )
         return;
