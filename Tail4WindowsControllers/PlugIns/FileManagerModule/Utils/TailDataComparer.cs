@@ -17,14 +17,11 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Utils
     /// </summary>
     /// <param name="x"><see cref="TailData"/> x</param>
     /// <param name="y"><see cref="TailData"/> y</param>
-    /// <returns>Compareable result</returns>
+    /// <returns>Comparable result</returns>
     public int Compare(object x, object y)
     {
-      if ( !(x is TailData) || !(y is TailData) )
+      if ( !(x is TailData xFm) || !(y is TailData yFm) )
         return 1;
-
-      var xFm = (TailData) x;
-      var yFm = (TailData) y;
 
       switch ( SettingsHelperController.CurrentSettings.DefaultFileSort )
       {
