@@ -108,7 +108,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// <returns><see cref="StatisticData"/></returns>
     public async Task<StatisticData> StartAnalysisAsync()
     {
-      LOG.Trace("Start statistics analysis");
+      LOG.Debug("Start statistics analysis");
 
       var result = new StatisticData();
 
@@ -154,7 +154,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
                 if ( existsSession != null )
                 {
-                  LOG.Trace($"Remove existing session from DataBase {SessionId}");
+                  LOG.Debug($"Remove existing session from DataBase {SessionId}");
                   sessionEntity.Delete(p => p.Session == SessionId);
                   db.Shrink();
                 }
@@ -167,7 +167,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
             {
               long shrinkSize = db.Shrink();
-              LOG.Trace($"Database shrink: {shrinkSize}");
+              LOG.Debug($"Database shrink: {shrinkSize}");
             }
           }
           catch ( Exception ex )
@@ -188,8 +188,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
     private async Task CreateSessionEntry()
     {
-      RemoveOldSessions();
-      RemoveInvalidSessions();
+      await RemoveOldSessionsAsync();
+      await RemoveInvalidSessionsAsync();
 
       while ( !_cts.IsCancellationRequested )
       {
@@ -229,65 +229,86 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       }
     }
 
-    private void RemoveOldSessions()
+    private async Task RemoveOldSessionsAsync()
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      await Task.Run(() =>
       {
-        try
+        if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
         {
-          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+          try
           {
-            var sessionEntity = GetSessionEntity(db);
-            var sessions = sessionEntity.FindAll().ToList();
-
-            if ( sessions.Count > MaxDataBaseElements )
+            using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
             {
-              // TODO remove oldest entries
+              LOG.Debug("Remove old sessions from DataBase");
+
+              bool valid = false;
+
+              while ( !valid )
+              {
+                var sessionEntity = GetSessionEntity(db);
+                var sessions = sessionEntity.FindAll().ToList();
+
+                if ( sessions.Count > MaxDataBaseElements )
+                {
+                  var session = sessions.FirstOrDefault(p => p.Date == sessions.Min(d => d.Date));
+                  sessionEntity.Delete(p => p.Session == session.Session);
+                }
+                else
+                {
+                  valid = true;
+                }
+              }
             }
           }
+          finally
+          {
+            Monitor.Exit(MyLock);
+          }
         }
-        finally
+        else
         {
-          Monitor.Exit(MyLock);
+          LOG.Error("Can not lock!");
         }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
+      }, _cts.Token);
     }
 
-    private void RemoveInvalidSessions()
+    private async Task RemoveInvalidSessionsAsync()
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      await Task.Run(() =>
       {
-        try
+        if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
         {
-          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+          try
           {
-            var sessionEntity = GetSessionEntity(db);
-
-            // Min is 1 hour!
-            var minUpTime = new TimeSpan(0, 1, 0, 0);
-            var sessions = sessionEntity.Find(p => TimeSpan.Compare(p.UpTime, minUpTime) < 0).ToList();
-
-            foreach ( SessionEntity session in sessions )
+            using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
             {
-              sessionEntity.Delete(p => p.Session == session.Session);
-            }
+              LOG.Debug("Remove invalid sessions from DataBase");
 
-            db.Shrink();
+              var sessionEntity = GetSessionEntity(db);
+
+              // Min is 1 hour!
+              var minUpTime = new TimeSpan(0, 1, 0, 0);
+              var sessions = sessionEntity.Find(p => TimeSpan.Compare(p.UpTime, minUpTime) < 0).ToList();
+
+              foreach ( SessionEntity session in sessions )
+              {
+                sessionEntity.Delete(p => p.Session == session.Session);
+              }
+
+              db.Shrink();
+            }
+          }
+          finally
+          {
+            Monitor.Exit(MyLock);
           }
         }
-        finally
+        else
         {
-          Monitor.Exit(MyLock);
+          LOG.Error("Can not lock!");
         }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
+
+      }, _cts.Token);
     }
 
     private static LiteCollection<SessionEntity> GetSessionEntity(LiteDatabase db)
