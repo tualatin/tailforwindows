@@ -1282,7 +1282,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
 #if DEBUG
       sw.Stop();
-      LOG.Debug($"Elapsed time after highlighting {sw.ElapsedTicks} ticks / {sw.ElapsedMilliseconds} ms");
+      //LOG.Debug($"Elapsed time after highlighting {sw.ElapsedTicks} ticks / {sw.ElapsedMilliseconds} ms");
 #endif
       OnPropertyChanged(nameof(HighlightData));
 
