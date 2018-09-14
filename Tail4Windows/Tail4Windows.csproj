@@ -177,6 +177,7 @@
     <Compile Include="Data\Messages\AddTailDataToQuickAddMessage.cs" />
     <Compile Include="Data\Messages\BookmarkOverviewResultMessage.cs" />
     <Compile Include="Data\Messages\BringMainWindowToFrontMessage.cs" />
+    <Compile Include="Data\Messages\ChangeSelectedTabItemMessage.cs" />
     <Compile Include="Data\Messages\DisableQuickAddInTailDataMessage.cs" />
     <Compile Include="Data\Messages\DragWindowTabItemChangedMessage.cs" />
     <Compile Include="Data\Messages\FindWhat\FindWhatChangedClosedMessage.cs" />

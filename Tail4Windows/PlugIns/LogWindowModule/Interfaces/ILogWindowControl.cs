@@ -133,6 +133,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     void CreateTailDataWindow(TailData item);
 
     /// <summary>
+    /// Open SmartWatch tail data
+    /// </summary>
+    /// <param name="tailData"><see cref="TailData"/></param>
+    void OpenSmartWatchTailData(TailData tailData);
+
+    /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
     Task DisposeAsync();

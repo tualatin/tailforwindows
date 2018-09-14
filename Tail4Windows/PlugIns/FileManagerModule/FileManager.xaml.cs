@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
 
 
 namespace Org.Vs.TailForWin.PlugIns.FileManagerModule
@@ -8,6 +10,23 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule
   /// </summary>
   public partial class FileManager
   {
+    private readonly IFileManagerViewModel _viewModel;
+
+    /// <summary>
+    /// Current Window ID
+    /// </summary>
+    public Guid WindowId
+    {
+      get => _viewModel?.WindowId ?? Guid.Empty;
+      set
+      {
+        if ( _viewModel == null )
+          return;
+
+        _viewModel.WindowId = value;
+      }
+    }
+
     /// <summary>
     /// Standard constructor
     /// </summary>
@@ -15,6 +34,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule
     {
       InitializeComponent();
       Closing += OnFileManagerClosing;
+      _viewModel = (IFileManagerViewModel) DataContext;
     }
 
     private void OnFileManagerClosing(object sender, CancelEventArgs e) => TailManagerDataGrid.SaveDataGridOptions();

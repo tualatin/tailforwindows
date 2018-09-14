@@ -206,6 +206,15 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       set;
     }
 
+    /// <summary>
+    /// Current Window ID
+    /// </summary>
+    public Guid WindowId
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     /// <summary>
@@ -706,7 +715,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       SelectedItem.OpenFromFileManager = true;
 
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, SelectedItem, ParentGuid, false));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, SelectedItem, ParentGuid, WindowId, false));
       ExecuteCloseCommand(window);
     }
 

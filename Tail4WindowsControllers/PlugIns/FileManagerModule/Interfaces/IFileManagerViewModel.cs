@@ -132,6 +132,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
     }
 
     /// <summary>
+    /// Current Window ID
+    /// </summary>
+    Guid WindowId
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// PatternControl command
     /// </summary>
     ICommand PatternControlCommand

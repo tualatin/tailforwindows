@@ -21,6 +21,7 @@ v.2.2.xxxx.x
 
 v.2.1.xxxx.x
 * bug fix Filter/HighlightManager layout
+* bug fix SmartWatch
 
 v.2.1.6825.x
 * improve ComboBox style
