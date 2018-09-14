@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace Org.Vs.TailForWin.UI.Debuging
+namespace Org.Vs.TailForWin.UI.Debugging
 {
   /// <summary>
   /// For debug use only!

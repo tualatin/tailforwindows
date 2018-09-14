@@ -16,11 +16,15 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
   public class FindController : IFindController
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(FindController));
-
     private static readonly object FindControllerLock = new object();
 
     /// <summary>
-    /// FindControll is busy indicator
+    /// Current lock time span in milliseconds
+    /// </summary>
+    private const int LockTimeSpanIsMs = 200;
+
+    /// <summary>
+    /// FindController is busy indicator
     /// </summary>
     public bool IsBusy
     {
@@ -42,70 +46,79 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
       await Task.Run(
         () =>
         {
-          lock ( FindControllerLock )
+          if ( Monitor.TryEnter(FindControllerLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
           {
-            if ( string.IsNullOrWhiteSpace(value) || string.IsNullOrWhiteSpace(pattern) )
-              return;
-
-            IsBusy = true;
-
-            value = value.Trim();
-            pattern = pattern.Trim();
-            string ignoreCase = string.Empty;
-
-            // if not case sensitive
-            if ( !findSettings.CaseSensitive )
-              ignoreCase = "(?i)";
-
-            Regex regex;
-
-            // use wild cards as '*' or '?'
-            if ( findSettings.UseWildcard )
+            try
             {
-              string regString = WildCardToRegular(pattern);
-              regex = new Regex(ignoreCase + regString);
-
-              if ( !regex.IsMatch(value) )
+              if ( string.IsNullOrWhiteSpace(value) || string.IsNullOrWhiteSpace(pattern) )
                 return;
 
-              result = GetStringResult(value, regex);
-              return;
-            }
+              IsBusy = true;
 
-            // searching a whole word with regex
-            if ( findSettings.WholeWord && findSettings.UseRegex )
-            {
-              if ( !VerifyRegex(pattern) )
+              value = value.Trim();
+              pattern = pattern.Trim();
+              string ignoreCase = string.Empty;
+
+              // if not case sensitive
+              if ( !findSettings.CaseSensitive )
+                ignoreCase = "(?i)";
+
+              Regex regex;
+
+              // use wild cards as '*' or '?'
+              if ( findSettings.UseWildcard )
+              {
+                string regString = WildCardToRegular(pattern);
+                regex = new Regex(ignoreCase + regString);
+
+                if ( !regex.IsMatch(value) )
+                  return;
+
+                result = GetStringResult(value, regex);
                 return;
+              }
 
-              regex = new Regex(ignoreCase + $"\\b({pattern})\\b");
-              result = GetStringResult(value, regex);
-              return;
-            }
+              // searching a whole word with regex
+              if ( findSettings.WholeWord && findSettings.UseRegex )
+              {
+                if ( !VerifyRegex(pattern) )
+                  return;
 
-            // searching a whole word
-            if ( findSettings.WholeWord )
-            {
-              regex = new Regex(ignoreCase + $"\\b{pattern}\\b");
-              result = GetStringResult(value, regex);
-              return;
-            }
-
-            // searching with regex
-            if ( findSettings.UseRegex )
-            {
-              if ( !VerifyRegex(pattern) )
+                regex = new Regex(ignoreCase + $"\\b({pattern})\\b");
+                result = GetStringResult(value, regex);
                 return;
+              }
 
-              regex = new Regex(ignoreCase + pattern);
+              // searching a whole word
+              if ( findSettings.WholeWord )
+              {
+                regex = new Regex(ignoreCase + $"\\b{pattern}\\b");
+                result = GetStringResult(value, regex);
+                return;
+              }
+
+              // searching with regex
+              if ( findSettings.UseRegex )
+              {
+                if ( !VerifyRegex(pattern) )
+                  return;
+
+                regex = new Regex(ignoreCase + pattern);
+                result = GetStringResult(value, regex);
+                return;
+              }
+
+              pattern = $@"{ignoreCase}{pattern}\w+|{ignoreCase}{pattern}|{ignoreCase}\w+{pattern}";
+              regex = new Regex(pattern);
               result = GetStringResult(value, regex);
-              return;
             }
-
-            pattern = $@"{ignoreCase}{pattern}\w+|{ignoreCase}{pattern}|{ignoreCase}\w+{pattern}";
-            regex = new Regex(pattern);
-            result = GetStringResult(value, regex);
+            finally
+            {
+              Monitor.Exit(FindControllerLock);
+            }
           }
+
+          LOG.Error("Can not lock!");
         }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
 
       IsBusy = false;

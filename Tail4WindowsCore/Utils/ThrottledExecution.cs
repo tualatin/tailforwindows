@@ -1,8 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using log4net;
 
 
 namespace Org.Vs.TailForWin.Core.Utils
@@ -12,6 +13,13 @@ namespace Org.Vs.TailForWin.Core.Utils
   /// </summary>
   public sealed class ThrottledExecution : IDisposable
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(ThrottledExecution));
+
+    /// <summary>
+    /// Current lock time span in milliseconds
+    /// </summary>
+    private const int LockTimeSpanIsMs = 200;
+
     private static readonly ConcurrentDictionary<string, ThrottledExecution> Throttles = new ConcurrentDictionary<string, ThrottledExecution>();
     private readonly string _scope;
     private Timer _timer;
@@ -211,10 +219,19 @@ namespace Org.Vs.TailForWin.Core.Utils
 
     private void Reset()
     {
-      lock ( _timerLock )
+      if ( Monitor.TryEnter(_timerLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
-        _timer?.Change(_throttleTimeInMs, Timeout.Infinite);
+        try
+        {
+          _timer?.Change(_throttleTimeInMs, Timeout.Infinite);
+        }
+        finally
+        {
+          Monitor.Exit(_timerLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
     }
 
     #endregion
@@ -224,15 +241,24 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// </summary>
     public void Dispose()
     {
-      lock ( _timerLock )
+      if ( Monitor.TryEnter(_timerLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
-        if ( _timer == null )
-          return;
+        try
+        {
+          if ( _timer == null )
+            return;
 
-        _timer.Change(Timeout.Infinite, Timeout.Infinite);
-        _timer.Dispose();
-        _timer = null;
+          _timer.Change(Timeout.Infinite, Timeout.Infinite);
+          _timer.Dispose();
+          _timer = null;
+        }
+        finally
+        {
+          Monitor.Exit(_timerLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
     }
   }
 }

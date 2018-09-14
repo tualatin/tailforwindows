@@ -23,8 +23,12 @@ namespace Org.Vs.TailForWin.Core.Controllers
   public class SettingsHelperController : ISettingsHelper
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SettingsHelperController));
-
     private static readonly object MyLock = new object();
+
+    /// <summary>
+    /// Current lock time span in milliseconds
+    /// </summary>
+    private const int LockTimeSpanIsMs = 200;
 
     /// <summary>
     /// Current T4W settings
@@ -100,7 +104,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       await Task.Run(
         () =>
         {
-          lock ( MyLock )
+          if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
           {
             LOG.Trace("Remove obsolete properties from config file");
 
@@ -123,14 +127,20 @@ namespace Org.Vs.TailForWin.Core.Controllers
             {
               LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
             }
+            finally
+            {
+              Monitor.Exit(MyLock);
+            }
           }
+
+          LOG.Error("Can not lock!");
         },
         token).ConfigureAwait(false);
     }
 
     private void ReadSettings()
     {
-      lock ( MyLock )
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
         try
         {
@@ -148,7 +158,13 @@ namespace Org.Vs.TailForWin.Core.Controllers
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
     }
 
     /// <summary>
@@ -179,7 +195,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SaveSettings()
     {
-      lock ( MyLock )
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
         try
         {
@@ -205,7 +221,13 @@ namespace Org.Vs.TailForWin.Core.Controllers
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
     }
 
     private void SaveWindowSettings(Configuration config)
@@ -322,18 +344,27 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SetDefaultSettings()
     {
-      lock ( MyLock )
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
-        LOG.Trace($"Reset {CoreEnvironment.ApplicationTitle} settings");
+        try
+        {
+          LOG.Trace($"Reset {CoreEnvironment.ApplicationTitle} settings");
 
-        SetDefaultWindowSettings();
-        SetDefaultStatusBarSettings();
-        SetDefaultProxySettings();
-        SetDefaultLogViewerSettings();
-        SetDefaultAlertSettings();
-        SetDefaultSmptSettings();
-        SetDefaultSmartWatchSettings();
+          SetDefaultWindowSettings();
+          SetDefaultStatusBarSettings();
+          SetDefaultProxySettings();
+          SetDefaultLogViewerSettings();
+          SetDefaultAlertSettings();
+          SetDefaultSmptSettings();
+          SetDefaultSmartWatchSettings();
+        }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
     }
 
     private void SetDefaultWindowSettings()
@@ -443,11 +474,20 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void ReloadCurrentSettings()
     {
-      lock ( MyLock )
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
-        LOG.Trace($"Reload {CoreEnvironment.ApplicationTitle} settings");
-        ConfigurationManager.RefreshSection("appSettings");
+        try
+        {
+          LOG.Trace($"Reload {CoreEnvironment.ApplicationTitle} settings");
+          ConfigurationManager.RefreshSection("appSettings");
+        }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
     }
 
     /// <summary>
@@ -463,7 +503,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       if ( settings == null || settings.Count == 0 )
         return;
 
-      lock ( MyLock )
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
         LOG.Trace("Add missing config properties");
 
@@ -486,7 +526,13 @@ namespace Org.Vs.TailForWin.Core.Controllers
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
     }
 
     #region HelperFunctions

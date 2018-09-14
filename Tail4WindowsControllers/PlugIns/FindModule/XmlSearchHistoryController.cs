@@ -20,8 +20,12 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
   public class XmlSearchHistoryController : IXmlSearchHistory<IObservableDictionary<string, string>>
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(XmlSearchHistoryController));
-
     private static readonly object MyLock = new object();
+
+    /// <summary>
+    /// Current lock time span in milliseconds
+    /// </summary>
+    private const int LockTimeSpanIsMs = 200;
 
     private readonly string _historyFile;
     private XDocument _xmlDocument;
@@ -57,17 +61,17 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
 
     private IObservableDictionary<string, string> ReadXmlFile()
     {
-      lock ( MyLock )
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
-        IObservableDictionary<string, string> history = new ObservableDictionary<string, string>();
-
-        if ( !File.Exists(_historyFile) )
-          return new ObservableDictionary<string, string>();
-
-        LOG.Trace("Read search history");
-
         try
         {
+          IObservableDictionary<string, string> history = new ObservableDictionary<string, string>();
+
+          if ( !File.Exists(_historyFile) )
+            return new ObservableDictionary<string, string>();
+
+          LOG.Trace("Read search history");
+
           _xmlDocument = XDocument.Load(_historyFile);
           XElement historyRoot = _xmlDocument.Root?.Element(XmlNames.FindHistory);
 
@@ -85,8 +89,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
-        return null;
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
+      return null;
     }
 
     /// <summary>
@@ -98,18 +108,18 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
 
     private void SaveSearchHistory(string word)
     {
-      lock ( MyLock )
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
-        LOG.Trace("Save search history");
-
-        if ( string.IsNullOrWhiteSpace(word) )
-          return;
-
-        if ( !File.Exists(_historyFile) )
-          _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
-
         try
         {
+          LOG.Trace("Save search history");
+
+          if ( string.IsNullOrWhiteSpace(word) )
+            return;
+
+          if ( !File.Exists(_historyFile) )
+            _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
+
           XElement root = _xmlDocument.Root?.Element(XmlNames.FindHistory) ?? SaveSearchHistoryWrapAttribute();
           var find = new XElement(XmlNames.Find);
           find.Add(new XAttribute(XmlBaseStructure.Name, word.Trim()));
@@ -121,7 +131,13 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
     }
 
     /// <summary>
@@ -132,15 +148,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
 
     private XElement SaveSearchHistoryWrapAttribute()
     {
-      lock ( MyLock )
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
-        LOG.Trace("Update wrap attribute in search history");
-
-        if ( !File.Exists(_historyFile) )
-          _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
-
         try
         {
+          LOG.Trace("Update wrap attribute in search history");
+
+          if ( !File.Exists(_historyFile) )
+            _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
+
           XElement root = _xmlDocument.Root?.Element(XmlNames.FindHistory);
 
           if ( root != null )
@@ -162,8 +178,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
-        return null;
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
+      return null;
     }
 
     /// <summary>
@@ -181,15 +203,24 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
 
     private void DeleteHistory(IObservableDictionary<string, string> history)
     {
-      lock ( MyLock )
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
-        history?.Clear();
+        try
+        {
+          history?.Clear();
 
-        if ( !File.Exists(_historyFile) )
-          return;
+          if ( !File.Exists(_historyFile) )
+            return;
 
-        File.Delete(_historyFile);
+          File.Delete(_historyFile);
+        }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
     }
   }
 }

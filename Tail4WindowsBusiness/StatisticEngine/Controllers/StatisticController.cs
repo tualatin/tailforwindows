@@ -19,8 +19,17 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
   public class StatisticController : IStatisticController
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(StatisticController));
-
     private static readonly object MyLock = new object();
+
+    /// <summary>
+    /// Current lock time span in milliseconds
+    /// </summary>
+    private const int LockTimeSpanIsMs = 200;
+
+    /// <summary>
+    /// Max elements in DataBase
+    /// </summary>
+    private const int MaxDataBaseElements = 100;
 
     private CancellationTokenSource _cts;
 
@@ -61,7 +70,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
       LOG.Info("Stop statistics");
 
-      await SaveAllValuesIntoDatabaseAsync().ConfigureAwait(false);
+      await SaveAllValuesIntoDatabaseAsync();
       _cts.Cancel();
 
       IsBusy = false;
@@ -77,10 +86,22 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
       var result = new StatisticData();
 
-      lock ( MyLock )
+      await Task.Run(() =>
       {
+        if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+        {
+          try
+          {
+          }
+          finally
+          {
+            Monitor.Exit(MyLock);
+          }
+        }
 
-      }
+        LOG.Error("Can not lock!");
+      }, _cts.Token);
+
       return result;
     }
 
@@ -90,7 +111,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     {
       await Task.Run(() =>
       {
-        lock ( MyLock )
+        if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
         {
           TimeSpan uptime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
 
@@ -112,16 +133,21 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
           {
             LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
           }
+          finally
+          {
+            Monitor.Exit(MyLock);
+          }
         }
 
-      }, _cts.Token).ConfigureAwait(false);
+        LOG.Error("Can not lock!");
+      }, _cts.Token);
     }
 
     private async Task GetUsedMemoryAsync()
     {
       while ( !_cts.IsCancellationRequested )
       {
-        await Task.Delay(TimeSpan.FromHours(1), _cts.Token).ConfigureAwait(false);
+        await Task.Delay(TimeSpan.FromHours(1), _cts.Token);
 
         long value = GC.GetTotalMemory(false);
         LOG.Trace($"Write current used memory {value:N0} into database");

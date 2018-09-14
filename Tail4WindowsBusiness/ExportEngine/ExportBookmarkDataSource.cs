@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using log4net;
 using OfficeOpenXml;
@@ -22,6 +23,7 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
     private static readonly ILog LOG = LogManager.GetLogger(typeof(ExportBookmarkDataSource));
 
     private ExcelPackage _excel;
+    private CancellationTokenSource _cts;
 
     /// <summary>
     /// Export data as CSV
@@ -41,7 +43,8 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
 
         using ( var fs = new FileStream(fileInfo.FullName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None) )
         {
-          await fs.WriteAsync(csv, 0, csv.Length);
+          SetCancellationTokenSource();
+          await fs.WriteAsync(csv, 0, csv.Length, _cts.Token);
         }
 
         result = true;
@@ -65,6 +68,7 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
 
       try
       {
+        SetCancellationTokenSource();
         await Task.Run(() =>
         {
           _excel = CreateDocument(data);
@@ -72,7 +76,7 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
           _excel.SaveAs(fileInfo);
 
           result = true;
-        });
+        }, _cts.Token);
       }
       catch ( Exception ex )
       {
@@ -113,11 +117,18 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
       bookmarkWorksheet.Cells[2, 1].LoadFromArrays(CreateFlatList(data)).AutoFitColumns(10, 150);
       bookmarkWorksheet.View.FreezePanes(2, 1);
 
+      _excel.Compression = CompressionLevel.BestSpeed;
       return excel;
     }
 
     private IEnumerable<object[]> CreateFlatList(IEnumerable<LogEntry> data) =>
       data.Select(bookmark => new object[] { bookmark.Index, bookmark.BookmarkToolTip, !EnvironmentContainer.Instance.BookmarkManager.TimeStamp? bookmark.Message :
         $"{bookmark.DateTime.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat)} {bookmark.Message}"}).ToList();
+
+    private void SetCancellationTokenSource()
+    {
+      _cts?.Dispose();
+      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+    }
   }
 }

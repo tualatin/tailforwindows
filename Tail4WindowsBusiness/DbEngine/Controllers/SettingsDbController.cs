@@ -23,6 +23,11 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     private static readonly object DbLock = new object();
 
     /// <summary>
+    /// Current lock time span in milliseconds
+    /// </summary>
+    private const int LockTimeSpanIsMs = 200;
+
+    /// <summary>
     /// Work width
     /// </summary>
     private readonly double _workWidth = System.Windows.SystemParameters.WorkArea.Width;
@@ -54,6 +59,8 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
 
     #endregion
 
+    #region Singleton pattern
+
     private static SettingsDbController instance;
 
     /// <summary>
@@ -65,6 +72,8 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     {
     }
 
+    #endregion
+
     /// <summary>
     /// Read current DataBase settings
     /// </summary>
@@ -74,7 +83,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
       await Task.Run(
         () =>
         {
-          lock ( DbLock )
+          if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
           {
             try
             {
@@ -133,7 +142,13 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
             {
               LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
             }
+            finally
+            {
+              Monitor.Exit(DbLock);
+            }
           }
+
+          LOG.Error("Can not lock!");
         }).ConfigureAwait(false);
     }
 
@@ -147,20 +162,29 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
       await Task.Run(
          () =>
          {
-           lock ( DbLock )
+           if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
            {
-             LOG.Info("Reset all database settings");
+             try
+             {
+               LOG.Info("Reset all database settings");
 
-             SettingsHelperController.CurrentSettings.ProxySettings.Password = DefaultEnvironmentSettings.ProxyPassword;
-             SettingsHelperController.CurrentSettings.SmtpSettings.Password = DefaultEnvironmentSettings.SmtpPassword;
+               SettingsHelperController.CurrentSettings.ProxySettings.Password = DefaultEnvironmentSettings.ProxyPassword;
+               SettingsHelperController.CurrentSettings.SmtpSettings.Password = DefaultEnvironmentSettings.SmtpPassword;
 
-             SetDefaultWindowSettings();
+               SetDefaultWindowSettings();
 
-             UpdatePasswordSettings();
-             UpdateFindDialogDbSettings();
-             UpdateFindResultDbSettings();
-             UpdateBookmarkOverviewDbSettings();
+               UpdatePasswordSettings();
+               UpdateFindDialogDbSettings();
+               UpdateFindResultDbSettings();
+               UpdateBookmarkOverviewDbSettings();
+             }
+             finally
+             {
+               Monitor.Exit(DbLock);
+             }
            }
+
+           LOG.Error("Can not lock!");
          }, token).ConfigureAwait(false);
     }
 
@@ -169,7 +193,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// </summary>
     public void UpdatePasswordSettings()
     {
-      lock ( DbLock )
+      if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
         try
         {
@@ -199,7 +223,13 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
+        finally
+        {
+          Monitor.Exit(DbLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
     }
 
     /// <summary>
@@ -207,7 +237,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// </summary>
     public void UpdateFindResultDbSettings()
     {
-      lock ( DbLock )
+      if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
         try
         {
@@ -253,7 +283,13 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
+        finally
+        {
+          Monitor.Exit(DbLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
     }
 
     /// <summary>
@@ -261,7 +297,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// </summary>
     public void UpdateBookmarkOverviewDbSettings()
     {
-      lock ( DbLock )
+      if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
         try
         {
@@ -307,7 +343,13 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
+        finally
+        {
+          Monitor.Exit(DbLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
     }
 
     /// <summary>
@@ -315,7 +357,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// </summary>
     public void UpdateFindDialogDbSettings()
     {
-      lock ( DbLock )
+      if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
         try
         {
@@ -345,7 +387,13 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
+        finally
+        {
+          Monitor.Exit(DbLock);
+        }
       }
+
+      LOG.Error("Can not lock!");
     }
 
     private void AddMissingDbSettings(LiteCollection<DatabaseSetting> settings)

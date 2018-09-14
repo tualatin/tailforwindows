@@ -332,7 +332,7 @@
     <Compile Include="UI\Converters\MultiConverters\VisibilityToMarginConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\WidthToMarginConverter.cs" />
     <Compile Include="UI\Converters\VisibilityToInverseBoolConverter.cs" />
-    <Compile Include="UI\Debuging\DebugBuild.cs" />
+    <Compile Include="UI\Debugging\DebugBuild.cs" />
     <Compile Include="UI\ExtendedControls\VsPopupEx.cs" />
     <Compile Include="UI\Extensions\VisualTreeEnumerationExtension.cs" />
     <Compile Include="UI\FloatWindow\VsFloatingWindow.cs" />
