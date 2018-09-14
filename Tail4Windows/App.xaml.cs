@@ -162,7 +162,7 @@ namespace Org.Vs.TailForWin
       if ( !(firstTab?.Content is ILogWindowControl myControl) )
         return;
 
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, task.Result, myControl.ParentWindowId, false));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, task.Result, myControl.ParentWindowId, myControl.WindowId, false));
     }
 
     private void OpenFileByName(string fileName)

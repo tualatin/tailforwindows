@@ -864,7 +864,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         var fileManager = new FileManager
         {
           Owner = window,
-          ParentGuid = ParentWindowId
+          ParentGuid = ParentWindowId,
+          WindowId = WindowId
         };
 
         LogFileComboBoxHasFocus = false;
@@ -970,6 +971,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         if ( ParentWindowId != args.ParentGuid )
           return;
 
+        if ( WindowId != args.WindowId )
+        {
+          EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ChangeSelectedTabItemMessage(args.ParentGuid, args.WindowId, args.TailData));
+          return;
+        }
+
         // Open new SmartWatch object
         OpenSmartWatchTailData(args.TailData);
         return;
@@ -998,14 +1005,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( LogWindowTabItem.TabItemBusyIndicator == Visibility.Visible )
       {
-        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataAsNewTabItem(this, args.TailData, args.ParentGuid, false));
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataAsNewTabItem(this, args.TailData, args.ParentGuid, args.WindowId, false));
         return;
       }
 
       CreateTailDataWindow(args.TailData);
     }
 
-    private void OpenSmartWatchTailData(TailData tailData)
+    /// <summary>
+    /// Open SmartWatch tail data
+    /// </summary>
+    /// <param name="tailData"><see cref="TailData"/></param>
+    public void OpenSmartWatchTailData(TailData tailData)
     {
       MouseService.SetBusyState();
 

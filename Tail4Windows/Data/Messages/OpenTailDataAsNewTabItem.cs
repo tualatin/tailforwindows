@@ -19,6 +19,14 @@ namespace Org.Vs.TailForWin.Data.Messages
     }
 
     /// <summary>
+    /// Current Window ID
+    /// </summary>
+    public Guid WindowId
+    {
+      get;
+    }
+
+    /// <summary>
     /// <see cref="TailData"/>
     /// </summary>
     public TailData TailData
@@ -48,12 +56,14 @@ namespace Org.Vs.TailForWin.Data.Messages
     /// <param name="sender">Who sends the message</param>
     /// <param name="tailData"><see cref="TailData"/></param>
     /// <param name="id"><see cref="Guid"/></param>
+    /// <param name="windowId">Window ID</param>
     /// <param name="isSmartWatch">Is SmartWatch object</param>
-    public OpenTailDataAsNewTabItem(object sender, TailData tailData, Guid id, bool isSmartWatch)
+    public OpenTailDataAsNewTabItem(object sender, TailData tailData, Guid id, Guid windowId, bool isSmartWatch)
     {
       Sender = sender;
       TailData = tailData;
       ParentGuid = id;
+      WindowId = windowId;
       IsSmartWatch = isSmartWatch;
     }
   }

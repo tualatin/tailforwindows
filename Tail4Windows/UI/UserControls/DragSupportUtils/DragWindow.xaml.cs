@@ -71,6 +71,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       DragWindowManager.Instance.Register(this);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataAsNewTabItem>(OnOpenTailDataAsNewTabItem);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ChangeSelectedTabItemMessage>(OnChangeSelectedTabItem);
+
       SourceInitialized += DragWindowSourceInitialized;
 
       IsParent = false;
@@ -679,6 +681,17 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     #endregion
+
+    private void OnChangeSelectedTabItem(ChangeSelectedTabItemMessage args)
+    {
+      DragSupportTabItem result = BusinessHelper.GetTabItemList().FirstOrDefault(p => ((ILogWindowControl) p.Content).WindowId == args.WindowId);
+
+      if ( result == null )
+        return;
+
+      result.IsSelected = true;
+      ((ILogWindowControl) result.Content).OpenSmartWatchTailData(args.TailData);
+    }
 
     private void OnOpenTailDataAsNewTabItem(OpenTailDataAsNewTabItem args)
     {

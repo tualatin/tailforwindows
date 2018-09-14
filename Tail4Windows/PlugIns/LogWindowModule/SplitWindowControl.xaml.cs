@@ -507,15 +507,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       smartWatchObject.FileName = e.FileName;
+      smartWatchObject.CommitChanges();
 
       if ( e.NewTabWindow )
       {
         logWindow.First().ExecuteStopTailCommand();
-        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataAsNewTabItem(this, smartWatchObject, logWindow.First().ParentWindowId, true));
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataAsNewTabItem(this, smartWatchObject, logWindow.First().ParentWindowId,
+          logWindow.First().WindowId, true));
       }
       else
       {
-        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, smartWatchObject, logWindow.First().ParentWindowId, true));
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, smartWatchObject, logWindow.First().ParentWindowId,
+          logWindow.First().WindowId, true));
       }
     }
 

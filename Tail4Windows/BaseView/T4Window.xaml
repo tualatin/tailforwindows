@@ -103,7 +103,7 @@
       >
       <dragSupportUtils:DragSupportTabControl
         ItemsSource="{Binding TabItemsSource, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-        SelectedItem="{Binding SelectedTabItem}"
+        SelectedItem="{Binding SelectedTabItem, Mode=TwoWay}"
         Style="{StaticResource DragSupportTabControlStyle}"
         >
         <intr:Interaction.Triggers>

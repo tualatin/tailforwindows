@@ -10,6 +10,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 Changelog:
 v.2.1.xxxx.x
 * bug fix Filter/HighlightManager layout
+* bug fix SmartWatch
 
 v.2.1.6825.x
 * improve ComboBox style

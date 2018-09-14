@@ -259,6 +259,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFindWhatWindowMessage>(OnOpenFindWhatWindow);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DragWindowTabItemChangedMessage>(OnFindWhatWindowTitleChanged);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFindWhatResultWindowMessage>(OnOpenFindWhatResultWindow);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ChangeSelectedTabItemMessage>(OnChangeSelectedTabItem);
 
       _cts = new CancellationTokenSource();
       _findWhatResultWindow = new FindWhatResult();
@@ -922,6 +923,17 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       // Commit changes
       content.CurrentTailData.CommitChanges();
+    }
+
+    private void OnChangeSelectedTabItem(ChangeSelectedTabItemMessage args)
+    {
+      DragSupportTabItem result = BusinessHelper.GetTabItemList().FirstOrDefault(p => ((ILogWindowControl) p.Content).WindowId == args.WindowId);
+
+      if ( result == null )
+        return;
+
+      result.IsSelected = true;
+      ((ILogWindowControl) result.Content).OpenSmartWatchTailData(args.TailData);
     }
 
     private void OnAddTabItemFromMainWindow(AddTabItemMessage args)

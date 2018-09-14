@@ -128,6 +128,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Utils
     }
 
     /// <summary>
+    /// Open SmartWatch tail data
+    /// </summary>
+    /// <param name="tailData"><see cref="TailData"/></param>
+    public void OpenSmartWatchTailData(TailData tailData) => throw new NotImplementedException();
+
+    /// <summary>
     /// Create tail data window
     /// </summary>
     /// <param name="item"><see cref="TailData"/></param>
