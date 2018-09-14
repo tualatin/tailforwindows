@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using LiteDB;
 using log4net;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
+using Org.Vs.TailForWin.Business.StatisticEngine.DbScheme;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -32,6 +34,21 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     private const int MaxDataBaseElements = 100;
 
     private CancellationTokenSource _cts;
+    private BsonMapper _mapper;
+
+    #region Entity constants
+
+    /// <summary>
+    /// SessionEntity
+    /// </summary>
+    private const string SessionEntityName = "SessionEntity";
+
+    /// <summary>
+    /// FileEntity
+    /// </summary>
+    private const string FileEntityName = "FileEntity";
+
+    #endregion
 
     #region Properties
 
@@ -44,6 +61,14 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       private set;
     }
 
+    /// <summary>
+    /// Current Session ID
+    /// </summary>
+    public Guid SessionId
+    {
+      get;
+    } = Guid.NewGuid();
+
     #endregion
 
     /// <summary>
@@ -55,8 +80,9 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
       _cts?.Dispose();
       _cts = new CancellationTokenSource();
+      _mapper = BsonMapper.Global;
 
-      NotifyTaskCompletion.Create(GetUsedMemoryAsync);
+      NotifyTaskCompletion.Create(CreateSessionEntry);
 
       IsBusy = true;
     }
@@ -98,8 +124,10 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             Monitor.Exit(MyLock);
           }
         }
-
-        LOG.Error("Can not lock!");
+        else
+        {
+          LOG.Error("Can not lock!");
+        }
       }, _cts.Token);
 
       return result;
@@ -113,16 +141,29 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       {
         if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
         {
-          TimeSpan uptime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
-
-          if ( uptime.Hours < 1 )
-          {
-            LOG.Info($"Statistics not saved, {CoreEnvironment.ApplicationTitle} was active less than 1 hour: {uptime.Minutes} minute(s)!");
-            return;
-          }
-
           try
           {
+            TimeSpan upTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
+
+            if ( upTime.Hours < 1 )
+            {
+              using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+              {
+                var sessionEntity = GetSessionEntity(db);
+                SessionEntity existsSession = sessionEntity.Find(p => p.Session == SessionId).FirstOrDefault();
+
+                if ( existsSession != null )
+                {
+                  LOG.Trace($"Remove existing session from DataBase {SessionId}");
+                  sessionEntity.Delete(p => p.Session == SessionId);
+                  db.Shrink();
+                }
+              }
+
+              LOG.Info($"Statistics not saved, {CoreEnvironment.ApplicationTitle} was active less than 1 hour: {upTime.Minutes} minute(s)!");
+              return;
+            }
+
             using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
             {
               long shrinkSize = db.Shrink();
@@ -138,20 +179,121 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             Monitor.Exit(MyLock);
           }
         }
-
-        LOG.Error("Can not lock!");
+        else
+        {
+          LOG.Error("Can not lock!");
+        }
       }, _cts.Token);
     }
 
-    private async Task GetUsedMemoryAsync()
+    private async Task CreateSessionEntry()
     {
+      RemoveOldSessions();
+      RemoveInvalidSessions();
+
       while ( !_cts.IsCancellationRequested )
       {
-        await Task.Delay(TimeSpan.FromHours(1), _cts.Token);
+        if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+        {
+          try
+          {
+            long value = GC.GetTotalMemory(false);
 
-        long value = GC.GetTotalMemory(false);
-        LOG.Trace($"Write current used memory {value:N0} into database");
+            using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+            {
+              var sessionEntity = GetSessionEntity(db);
+              var mySession = new SessionEntity
+              {
+                Date = DateTime.Now,
+                MemoryUsage = value,
+                Session = SessionId,
+                UpTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime)
+              };
+
+              sessionEntity.EnsureIndex(p => p.Id);
+              sessionEntity.Upsert(mySession);
+            }
+
+          }
+          finally
+          {
+            Monitor.Exit(MyLock);
+          }
+        }
+        else
+        {
+          LOG.Error("Can not lock!");
+        }
+
+        await Task.Delay(TimeSpan.FromMinutes(20), _cts.Token);
       }
+    }
+
+    private void RemoveOldSessions()
+    {
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      {
+        try
+        {
+          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+          {
+            var sessionEntity = GetSessionEntity(db);
+            var sessions = sessionEntity.FindAll().ToList();
+
+            if ( sessions.Count > MaxDataBaseElements )
+            {
+              // TODO remove oldest entries
+            }
+          }
+        }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
+    }
+
+    private void RemoveInvalidSessions()
+    {
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      {
+        try
+        {
+          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+          {
+            var sessionEntity = GetSessionEntity(db);
+
+            // Min is 1 hour!
+            var minUpTime = new TimeSpan(0, 1, 0, 0);
+            var sessions = sessionEntity.Find(p => TimeSpan.Compare(p.UpTime, minUpTime) < 0).ToList();
+
+            foreach ( SessionEntity session in sessions )
+            {
+              sessionEntity.Delete(p => p.Session == session.Session);
+            }
+
+            db.Shrink();
+          }
+        }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
+    }
+
+    private static LiteCollection<SessionEntity> GetSessionEntity(LiteDatabase db)
+    {
+      var sessionEntity = db.GetCollection<SessionEntity>(SessionEntityName);
+      return sessionEntity;
     }
 
     #endregion

@@ -136,8 +136,10 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
           Monitor.Exit(MyLock);
         }
       }
-
-      LOG.Error("Can not lock!");
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
 
     /// <summary>
@@ -219,8 +221,10 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
           Monitor.Exit(MyLock);
         }
       }
-
-      LOG.Error("Can not lock!");
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
   }
 }

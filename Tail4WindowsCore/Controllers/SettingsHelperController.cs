@@ -132,8 +132,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
               Monitor.Exit(MyLock);
             }
           }
-
-          LOG.Error("Can not lock!");
+          else
+          {
+            LOG.Error("Can not lock!");
+          }
         },
         token).ConfigureAwait(false);
     }
@@ -163,8 +165,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
           Monitor.Exit(MyLock);
         }
       }
-
-      LOG.Error("Can not lock!");
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
 
     /// <summary>
@@ -226,8 +230,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
           Monitor.Exit(MyLock);
         }
       }
-
-      LOG.Error("Can not lock!");
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
 
     private void SaveWindowSettings(Configuration config)
@@ -363,8 +369,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
           Monitor.Exit(MyLock);
         }
       }
-
-      LOG.Error("Can not lock!");
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
 
     private void SetDefaultWindowSettings()
@@ -486,8 +494,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
           Monitor.Exit(MyLock);
         }
       }
-
-      LOG.Error("Can not lock!");
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
 
     /// <summary>
@@ -531,8 +541,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
           Monitor.Exit(MyLock);
         }
       }
-
-      LOG.Error("Can not lock!");
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
 
     #region HelperFunctions

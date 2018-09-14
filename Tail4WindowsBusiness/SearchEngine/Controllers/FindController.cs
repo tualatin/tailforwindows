@@ -117,8 +117,10 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
               Monitor.Exit(FindControllerLock);
             }
           }
-
-          LOG.Error("Can not lock!");
+          else
+          {
+            LOG.Error("Can not lock!");
+          }
         }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
 
       IsBusy = false;

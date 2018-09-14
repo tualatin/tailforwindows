@@ -147,8 +147,10 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
               Monitor.Exit(DbLock);
             }
           }
-
-          LOG.Error("Can not lock!");
+          else
+          {
+            LOG.Error("Can not lock!");
+          }
         }).ConfigureAwait(false);
     }
 
@@ -183,8 +185,10 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
                Monitor.Exit(DbLock);
              }
            }
-
-           LOG.Error("Can not lock!");
+           else
+           {
+             LOG.Error("Can not lock!");
+           }
          }, token).ConfigureAwait(false);
     }
 
@@ -228,8 +232,10 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
           Monitor.Exit(DbLock);
         }
       }
-
-      LOG.Error("Can not lock!");
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
 
     /// <summary>
@@ -288,8 +294,10 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
           Monitor.Exit(DbLock);
         }
       }
-
-      LOG.Error("Can not lock!");
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
 
     /// <summary>
@@ -348,8 +356,10 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
           Monitor.Exit(DbLock);
         }
       }
-
-      LOG.Error("Can not lock!");
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
 
     /// <summary>
@@ -392,8 +402,10 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
           Monitor.Exit(DbLock);
         }
       }
-
-      LOG.Error("Can not lock!");
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
 
     private void AddMissingDbSettings(LiteCollection<DatabaseSetting> settings)

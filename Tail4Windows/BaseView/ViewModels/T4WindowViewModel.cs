@@ -603,7 +603,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       await EnvironmentContainer.Instance.SaveSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2))).ConfigureAwait(false);
 
-      LOG.Trace($"{CoreEnvironment.ApplicationTitle} closing, goodbye!");
+      LOG.Trace($"{CoreEnvironment.ApplicationTitle} closing with Session ID {_statisticController.SessionId}, goodbye!");
     }
 
     private async Task ExecuteWndLoadedCommandAsync()

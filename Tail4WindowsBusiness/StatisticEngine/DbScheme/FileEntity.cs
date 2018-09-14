@@ -1,4 +1,7 @@
-﻿namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
+﻿using System;
+
+
+namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
 {
   /// <summary>
   /// File entity
@@ -6,7 +9,7 @@
   public class FileEntity
   {
     /// <summary>
-    /// Id
+    /// ID
     /// </summary>
     public int Id
     {
@@ -15,9 +18,27 @@
     }
 
     /// <summary>
-    /// Name of log file with path
+    /// Count of log output
     /// </summary>
-    public string Name
+    public long LogCount
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Time of running in <see cref="DateTime"/>
+    /// </summary>
+    public DateTime RunningTime
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Memory usage
+    /// </summary>
+    public long MemoryUsage
     {
       get;
       set;

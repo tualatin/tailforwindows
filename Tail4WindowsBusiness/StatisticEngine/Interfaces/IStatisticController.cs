@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 
 
@@ -15,6 +16,14 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Interfaces
     /// Statistics is busy
     /// </summary>
     bool IsBusy
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Current Session ID
+    /// </summary>
+    Guid SessionId
     {
       get;
     }

@@ -126,12 +126,8 @@
     <Compile Include="Services\WindowsEventReadService.cs" />
     <Compile Include="StatisticEngine\Data\StatisticData.cs" />
     <Compile Include="StatisticEngine\Data\StatisticEnvironment.cs" />
-    <Compile Include="StatisticEngine\DbScheme\FileDateEntity.cs" />
     <Compile Include="StatisticEngine\DbScheme\FileEntity.cs" />
-    <Compile Include="StatisticEngine\DbScheme\KeyValueEntity.cs" />
-    <Compile Include="StatisticEngine\DbScheme\KeyValueObjectEntity.cs" />
-    <Compile Include="StatisticEngine\DbScheme\LogLineDateEntity.cs" />
-    <Compile Include="StatisticEngine\DbScheme\LogLineEntity.cs" />
+    <Compile Include="StatisticEngine\DbScheme\SessionEntity.cs" />
     <Compile Include="Utils\BusinessHelper.cs" />
     <Compile Include="Utils\EnvironmentContainer.cs" />
     <Compile Include="ExportEngine\Interfaces\IDataExport.cs" />
