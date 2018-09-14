@@ -258,6 +258,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
                   valid = true;
                 }
               }
+
+              db.Shrink();
             }
           }
           finally
