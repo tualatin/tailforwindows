@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LiteDB;
 
 
 namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
@@ -62,6 +63,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     /// <summary>
     /// <see cref="List{T}"/> of <see cref="FileEntity"/>
     /// </summary>
+    [BsonRef("Files")]
     public List<FileEntity> Files
     {
       get;

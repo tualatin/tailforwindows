@@ -41,12 +41,12 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// <summary>
     /// SessionEntity
     /// </summary>
-    private const string SessionEntityName = "SessionEntity";
+    private const string SessionEntityName = "Sessions";
 
     /// <summary>
     /// FileEntity
     /// </summary>
-    private const string FileEntityName = "FileEntity";
+    private const string FileEntityName = "Files";
 
     #endregion
 
@@ -166,6 +166,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
             using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
             {
+              // TODO remove sessions without file list
               long shrinkSize = db.Shrink();
               LOG.Debug($"Database shrink: {shrinkSize}");
             }
@@ -202,7 +203,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
             {
               var sessionEntity = GetSessionEntity(db);
-              var mySession = new SessionEntity
+              SessionEntity session = sessionEntity.Find(p => p.Session == SessionId).FirstOrDefault() ?? new SessionEntity
               {
                 Date = DateTime.Now,
                 MemoryUsage = value,
@@ -211,7 +212,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               };
 
               sessionEntity.EnsureIndex(p => p.Id);
-              sessionEntity.Upsert(mySession);
+              sessionEntity.Upsert(session);
             }
 
           }
@@ -285,6 +286,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
             {
               LOG.Debug("Remove invalid sessions from DataBase");
+              // TODO sessions without file list!
 
               var sessionEntity = GetSessionEntity(db);
 
