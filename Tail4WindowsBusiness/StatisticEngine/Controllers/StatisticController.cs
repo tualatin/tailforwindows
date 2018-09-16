@@ -205,11 +205,11 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               var sessionEntity = GetSessionEntity(db);
               SessionEntity session = sessionEntity.Find(p => p.Session == SessionId).FirstOrDefault() ?? new SessionEntity
               {
-                Date = DateTime.Now,
-                MemoryUsage = value,
                 Session = SessionId,
-                UpTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime)
+                Date = DateTime.Now
               };
+              session.MemoryUsage = value;
+              session.UpTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
 
               sessionEntity.EnsureIndex(p => p.Id);
               sessionEntity.Upsert(session);
