@@ -20,6 +20,7 @@ v.2.2.xxxx.x
 * improve Find result view -> ToolTip for message column
 
 v.2.1.xxxx.x
+* bug fix set bookmark by FindWhat
 * bug fix Filter/HighlightManager layout
 * bug fix SmartWatch
 
