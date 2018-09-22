@@ -1323,7 +1323,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void HandleAutoBookmark(FilterData filterData, LogEntry item)
     {
-      item.BookmarkPoint = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark_Info.png");
+      item.BookmarkPoint = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Auto_Bookmark.png");
       item.BookmarkToolTip = string.IsNullOrWhiteSpace(filterData.AutoBookmarkComment) ? "Auto Bookmark" : filterData.AutoBookmarkComment;
 
       EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(GetLogWindow().WindowId, item);
@@ -1562,7 +1562,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         if ( log.BookmarkPoint != null )
           return;
 
-        BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Boomark.png");
+        BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark.png");
         log.BookmarkPoint = bp;
       }, DispatcherPriority.Normal);
 
