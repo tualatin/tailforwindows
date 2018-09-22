@@ -9,6 +9,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.1.xxxx.x
+* bug fix set bookmark by FindWhat
 * bug fix Filter/HighlightManager layout
 * bug fix SmartWatch
 

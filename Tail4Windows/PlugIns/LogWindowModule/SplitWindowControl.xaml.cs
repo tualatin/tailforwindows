@@ -1525,7 +1525,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         if ( log.BookmarkPoint != null )
           return;
 
-        BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Boomark.png");
+        BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark.png");
         log.BookmarkPoint = bp;
       }, DispatcherPriority.Normal);
 
