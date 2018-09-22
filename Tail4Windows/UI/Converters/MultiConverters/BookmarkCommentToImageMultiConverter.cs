@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
+using System.Windows.Media.Imaging;
 using Org.Vs.TailForWin.Business.Utils;
 
 
@@ -30,6 +31,12 @@ namespace Org.Vs.TailForWin.UI.Converters.MultiConverters
 
       if ( !(values[1] is string s) )
         return values.First();
+
+      if ( values[0] is BitmapImage img )
+      {
+        if ( img.UriSource.OriginalString.Contains("Auto_Bookmark.png") )
+          return values.First();
+      }
 
       var image = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark_Info.png");
 
