@@ -34,21 +34,6 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     private const int MaxDataBaseElements = 100;
 
     private CancellationTokenSource _cts;
-    private BsonMapper _mapper;
-
-    #region Entity constants
-
-    /// <summary>
-    /// SessionEntity
-    /// </summary>
-    private const string SessionEntityName = "Sessions";
-
-    /// <summary>
-    /// FileEntity
-    /// </summary>
-    private const string FileEntityName = "Files";
-
-    #endregion
 
     #region Properties
 
@@ -80,7 +65,6 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
       _cts?.Dispose();
       _cts = new CancellationTokenSource();
-      _mapper = BsonMapper.Global;
 
       NotifyTaskCompletion.Create(CreateSessionEntry);
 
@@ -150,11 +134,13 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
               {
                 var sessionEntity = GetSessionEntity(db);
-                SessionEntity existsSession = sessionEntity.Find(p => p.Session == SessionId).FirstOrDefault();
+                var fileEntity = GetFileEntity(db);
+                SessionEntity existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
 
                 if ( existsSession != null )
                 {
                   LOG.Debug($"Remove existing session from DataBase {SessionId}");
+                  RemoveFiles(fileEntity, existsSession);
                   sessionEntity.Delete(p => p.Session == SessionId);
                   db.Shrink();
                 }
@@ -166,7 +152,15 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
             using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
             {
-              // TODO remove sessions without file list
+              var sessionEntity = GetSessionEntity(db);
+              var fileEntity = GetFileEntity(db);
+
+              // Remove session without files
+              var result = fileEntity.Include(p => p.Session).FindAll().Where(p => p.Session.Session == SessionId).ToList();
+
+              if ( result.Count == 0 )
+                sessionEntity.Delete(p => p.Session == SessionId);
+
               long shrinkSize = db.Shrink();
               LOG.Debug($"Database shrink: {shrinkSize}");
             }
@@ -203,7 +197,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
             {
               var sessionEntity = GetSessionEntity(db);
-              SessionEntity session = sessionEntity.Find(p => p.Session == SessionId).FirstOrDefault() ?? new SessionEntity
+              SessionEntity session = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId) ?? new SessionEntity
               {
                 Session = SessionId,
                 Date = DateTime.Now
@@ -211,10 +205,9 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               session.MemoryUsage = value;
               session.UpTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
 
-              sessionEntity.EnsureIndex(p => p.Id);
               sessionEntity.Upsert(session);
+              sessionEntity.EnsureIndex(p => p.Session);
             }
-
           }
           finally
           {
@@ -247,11 +240,14 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               while ( !valid )
               {
                 var sessionEntity = GetSessionEntity(db);
+                var fileEntity = GetFileEntity(db);
+
                 var sessions = sessionEntity.FindAll().ToList();
 
                 if ( sessions.Count > MaxDataBaseElements )
                 {
                   var session = sessions.FirstOrDefault(p => p.Date == sessions.Min(d => d.Date));
+                  RemoveFiles(fileEntity, session);
                   sessionEntity.Delete(p => p.Session == session.Session);
                 }
                 else
@@ -286,20 +282,40 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
             {
               LOG.Debug("Remove invalid sessions from DataBase");
-              // TODO sessions without file list!
 
               var sessionEntity = GetSessionEntity(db);
+              var fileEntity = GetFileEntity(db);
 
-              // Min is 1 hour!
+              // Minimum is 1 hour!
               var minUpTime = new TimeSpan(0, 1, 0, 0);
-              var sessions = sessionEntity.Find(p => TimeSpan.Compare(p.UpTime, minUpTime) < 0).ToList();
+              var sessions = sessionEntity.FindAll().Where(p => TimeSpan.Compare(p.UpTime, minUpTime) < 0).ToList();
 
               foreach ( SessionEntity session in sessions )
               {
+                RemoveFiles(fileEntity, session);
                 sessionEntity.Delete(p => p.Session == session.Session);
               }
 
-              db.Shrink();
+              // Remove all sessions without files
+              var files = fileEntity.Include(p => p.Session).FindAll().Select(p => p.Session.Session).Distinct().ToList();
+              sessions = sessionEntity.FindAll().ToList();
+
+              if ( files.Count == 0 )
+              {
+                foreach ( SessionEntity session in sessions )
+                {
+                  sessionEntity.Delete(p => p.Session == session.Session);
+                }
+              }
+              else
+              {
+                var result = sessions.Where(p => files.Any(x => x != p.Session)).ToList();
+
+                foreach ( SessionEntity session in result )
+                {
+                  sessionEntity.Delete(p => p.Session == session.Session);
+                }
+              }
             }
           }
           finally
@@ -315,10 +331,26 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       }, _cts.Token);
     }
 
-    private static LiteCollection<SessionEntity> GetSessionEntity(LiteDatabase db)
+    private void RemoveFiles(LiteCollection<FileEntity> fileEntity, SessionEntity session)
     {
-      var sessionEntity = db.GetCollection<SessionEntity>(SessionEntityName);
+      var result = fileEntity.Include(p => p.Session).FindAll().Where(p => p.Session.Session == session?.Session).ToList();
+
+      foreach ( var file in result )
+      {
+        fileEntity.Delete(p => p.FileId == file.FileId);
+      }
+    }
+
+    private LiteCollection<SessionEntity> GetSessionEntity(LiteDatabase db)
+    {
+      var sessionEntity = db.GetCollection<SessionEntity>(StatisticEnvironment.SessionEntityName);
       return sessionEntity;
+    }
+
+    private LiteCollection<FileEntity> GetFileEntity(LiteDatabase db)
+    {
+      var fileEntity = db.GetCollection<FileEntity>(StatisticEnvironment.FileEntityName);
+      return fileEntity;
     }
 
     #endregion

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using LiteDB;
 
 
@@ -11,14 +10,10 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
   public class SessionEntity
   {
     /// <summary>
-    /// Standard constructor
-    /// </summary>
-    public SessionEntity() => Files = new List<FileEntity>();
-
-    /// <summary>
     /// ID
     /// </summary>
-    public int Id
+    [BsonId]
+    public int SessionId
     {
       get;
       set;
@@ -55,16 +50,6 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     /// Memory usage
     /// </summary>
     public long MemoryUsage
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// <see cref="List{T}"/> of <see cref="FileEntity"/>
-    /// </summary>
-    [BsonRef("Files")]
-    public List<FileEntity> Files
     {
       get;
       set;

@@ -5,6 +5,18 @@
   /// </summary>
   public class StatisticEnvironment
   {
-    
+    #region Entity constants
+
+    /// <summary>
+    /// SessionEntity
+    /// </summary>
+    public const string SessionEntityName = "SessionEntity";
+
+    /// <summary>
+    /// FileEntity
+    /// </summary>
+    public const string FileEntityName = "FileEntity";
+
+    #endregion
   }
 }

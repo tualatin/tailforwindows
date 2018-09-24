@@ -1,4 +1,6 @@
 ﻿using System;
+using LiteDB;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 
 
 namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
@@ -11,7 +13,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     /// <summary>
     /// ID
     /// </summary>
-    public int Id
+    [BsonId]
+    public int FileId
     {
       get;
       set;
@@ -29,7 +32,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     /// <summary>
     /// Time of running in <see cref="DateTime"/>
     /// </summary>
-    public DateTime RunningTime
+    public TimeSpan RunningTime
     {
       get;
       set;
@@ -39,6 +42,16 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     /// Memory usage
     /// </summary>
     public long MemoryUsage
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Session reference
+    /// </summary>
+    [BsonRef(StatisticEnvironment.SessionEntityName)]
+    public SessionEntity Session
     {
       get;
       set;
