@@ -14,10 +14,10 @@ using System.Windows.Markup;
 using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.BaseView.Interfaces;
-using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Business.StatisticEngine.Controllers;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data.Messages;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.BaseView.Events.Args;
@@ -1029,7 +1029,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void OnChangeReader(StatisticChangeReaderMessage args)
     {
-      _statisticController.AddFileToCurrentSession();
+      if ( !SettingsHelperController.CurrentSettings.Statistics )
+        return;
+
+      _statisticController.AddFileToCurrentSession(args.Index, args.FileName);
     }
 
     private void OnFindWhatWindowTitleChanged(DragWindowTabItemChangedMessage args)

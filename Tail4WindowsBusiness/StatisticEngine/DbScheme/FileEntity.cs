@@ -48,9 +48,9 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     }
 
     /// <summary>
-    /// Time of running in <see cref="DateTime"/>
+    /// Elapsed time as <see cref="TimeSpan"/>
     /// </summary>
-    public TimeSpan RunningTime
+    public TimeSpan ElapsedTime
     {
       get;
       set;

@@ -35,11 +35,20 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Interfaces
     /// </summary>
     void Start();
 
+    /// <summary>
+    /// Adds file to current session
+    /// </summary>
+    /// <param name="index">Current index</param>
+    /// <param name="fileName">Name of file with path</param>
+    void AddFileToCurrentSession(int index, string fileName);
 
-    void AddFileToCurrentSession();
-
-
-    void RemoveFileFromCurrentSession();
+    /// <summary>
+    /// Saves file to current session
+    /// </summary>
+    /// <param name="index">Current index</param>
+    /// <param name="elapsedTime">Elapsed time</param>
+    /// <param name="fileName">Name of file with path</param>
+    void SaveFileToCurrentSession(int index, TimeSpan elapsedTime, string fileName);
 
     /// <summary>
     /// Stops statistics

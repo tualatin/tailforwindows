@@ -111,7 +111,7 @@
     <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\SystemInformationController.cs" />
     <Compile Include="Data\BusinessEnvironment.cs" />
-    <Compile Include="Data\Messages\StatisticChangeReaderMessage.cs" />
+    <Compile Include="StatisticEngine\Data\Messages\StatisticChangeReaderMessage.cs" />
     <Compile Include="ExportEngine\ExportBookmarkDataSource.cs" />
     <Compile Include="ExportEngine\Extensions\EpPlusExtension.cs" />
     <Compile Include="Services\Data\LogEntry.cs" />

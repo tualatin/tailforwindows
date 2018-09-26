@@ -14,6 +14,8 @@ using Org.Vs.TailForWin.Business.Services.Events.Delegates;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers;
 using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data.Messages;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Utils;
@@ -128,6 +130,8 @@ namespace Org.Vs.TailForWin.Business.Services
       _resetEvent?.Reset();
       SmartWatch.StartSmartWatch(TailData);
       _sw.Start();
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticChangeReaderMessage(Index, TailData.FileName));
     }
 
     /// <summary>

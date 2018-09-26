@@ -12,6 +12,8 @@ using Org.Vs.TailForWin.Business.Services.Events.Args;
 using Org.Vs.TailForWin.Business.Services.Events.Delegates;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data.Messages;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 
@@ -165,6 +167,8 @@ namespace Org.Vs.TailForWin.Business.Services
 
       _sw.Start();
       IsBusy = true;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticChangeReaderMessage(Index, TailData.WindowsEvent.Category));
     }
 
     /// <summary>
@@ -209,18 +213,11 @@ namespace Org.Vs.TailForWin.Business.Services
         {
           try
           {
-            string category;
-
-            if ( string.Compare(eventLog.Log, "application", StringComparison.OrdinalIgnoreCase) == 0 ||
+            var category = string.Compare(eventLog.Log, "application", StringComparison.OrdinalIgnoreCase) == 0 ||
                  string.Compare(eventLog.Log, "security", StringComparison.OrdinalIgnoreCase) == 0 ||
-                 string.Compare(eventLog.Log, "system", StringComparison.OrdinalIgnoreCase) == 0 )
-            {
-              category = windowsLogs;
-            }
-            else
-            {
-              category = applicationLogs;
-            }
+                 string.Compare(eventLog.Log, "system", StringComparison.OrdinalIgnoreCase) == 0
+              ? windowsLogs
+              : applicationLogs;
 
             result.Add(new WindowsEventCategory
             {

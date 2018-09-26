@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -117,7 +118,70 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       return result;
     }
 
+    /// <summary>
+    /// Adds file to current session
+    /// </summary>
+    /// <param name="index">Current index</param>
+    /// <param name="fileName">Name of file with path</param>
+    public void AddFileToCurrentSession(int index, string fileName) => NotifyTaskCompletion.Create(AddFileToCurrentSessionAsync(index, fileName));
+
+    /// <summary>
+    /// Saves file to current session
+    /// </summary>
+    /// <param name="index">Current index</param>
+    /// <param name="elapsedTime">Elapsed time</param>
+    /// <param name="fileName">Name of file with path</param>
+    public void SaveFileToCurrentSession(int index, TimeSpan elapsedTime, string fileName) => NotifyTaskCompletion.Create(UpdateCurrentSessionAsync(index, fileName, elapsedTime));
+
     #region HelperFunctions
+
+    private async Task AddFileToCurrentSessionAsync(int index, string fileName) => await UpdateCurrentSessionAsync(index, fileName);
+
+    private async Task UpdateCurrentSessionAsync(int index, string fileName, TimeSpan? elapsedTime = null)
+    {
+      await Task.Run(() =>
+      {
+        if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+        {
+          try
+          {
+            using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+            {
+              var sessionEntity = GetSessionEntity(db);
+              var fileEntity = GetFileEntity(db);
+              SessionEntity existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
+
+              if ( existsSession == null )
+                return;
+
+              FileEntity file = fileEntity.Include(p => p.Session).FindAll().FirstOrDefault(p => p.Session.Session == SessionId && fileName == p.FileName) ?? new FileEntity
+              {
+                FileName = fileName
+              };
+              file.LogCount = index;
+
+              if ( elapsedTime.HasValue )
+                file.ElapsedTime = elapsedTime.Value;
+
+              fileEntity.Upsert(file);
+              fileEntity.EnsureIndex(p => p.FileName);
+            }
+          }
+          catch ( Exception ex )
+          {
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          }
+          finally
+          {
+            Monitor.Exit(MyLock);
+          }
+        }
+        else
+        {
+          LOG.Error("Can not lock!");
+        }
+      }, _cts.Token);
+    }
 
     private async Task SaveAllValuesIntoDatabaseAsync()
     {
@@ -154,12 +218,21 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             {
               var sessionEntity = GetSessionEntity(db);
               var fileEntity = GetFileEntity(db);
+              var result = RemoveSessionIfRequired(fileEntity, sessionEntity);
 
-              // Remove session without files
-              var result = fileEntity.Include(p => p.Session).FindAll().Where(p => p.Session.Session == SessionId).ToList();
+              if ( result.Count > 0 )
+              {
+                // Remove files with low elapsed time, minimum 15 min!
+                var minElapsedTime = new TimeSpan(0, 0, 15, 0);
+                var invalidFiles = result.Where(p => TimeSpan.Compare(p.ElapsedTime, minElapsedTime) < 0).ToList();
 
-              if ( result.Count == 0 )
-                sessionEntity.Delete(p => p.Session == SessionId);
+                foreach ( var file in invalidFiles )
+                {
+                  fileEntity.Delete(p => p.FileId == file.FileId);
+                }
+
+                RemoveSessionIfRequired(fileEntity, sessionEntity);
+              }
 
               long shrinkSize = db.Shrink();
               LOG.Debug($"Database shrink: {shrinkSize}");
@@ -329,6 +402,17 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
 
       }, _cts.Token);
+    }
+
+    private List<FileEntity> RemoveSessionIfRequired(LiteCollection<FileEntity> fileEntity, LiteCollection<SessionEntity> sessionEntity)
+    {
+      // Remove session without files
+      var result = fileEntity.Include(p => p.Session).FindAll().Where(p => p.Session.Session == SessionId).ToList();
+
+      if ( result.Count == 0 )
+        sessionEntity.Delete(p => p.Session == SessionId);
+
+      return result;
     }
 
     private void RemoveFiles(LiteCollection<FileEntity> fileEntity, SessionEntity session)
