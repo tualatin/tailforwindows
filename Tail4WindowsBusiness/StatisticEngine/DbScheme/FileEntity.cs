@@ -30,6 +30,24 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     }
 
     /// <summary>
+    /// Name of file with path
+    /// </summary>
+    public string FileName
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Is SmartWatch in use
+    /// </summary>
+    public bool IsSmartWatch
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Time of running in <see cref="DateTime"/>
     /// </summary>
     public TimeSpan RunningTime

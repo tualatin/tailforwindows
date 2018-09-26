@@ -155,7 +155,7 @@ namespace Org.Vs.TailForWin.Business.Services
     public void SetIndex(int index) => Index = index;
 
     /// <summary>
-    /// Sets current fileoffset to zero
+    /// Sets current file offset to zero
     /// </summary>
     public void SetFileOffsetZero() => _fileOffset = 0;
 

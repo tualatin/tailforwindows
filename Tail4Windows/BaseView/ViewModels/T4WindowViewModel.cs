@@ -14,6 +14,7 @@ using System.Windows.Markup;
 using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.BaseView.Interfaces;
+using Org.Vs.TailForWin.Business.Data.Messages;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Business.StatisticEngine.Controllers;
@@ -268,6 +269,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFindWhatResultWindowMessage>(OnOpenFindWhatResultWindow);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowBookmarkOverviewMessage>(OnOpenBookmarkOverviewWindow);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ChangeSelectedTabItemMessage>(OnChangeSelectedTabItem);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StatisticChangeReaderMessage>(OnChangeReader);
 
       _cts = new CancellationTokenSource();
 
@@ -289,6 +291,20 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _notifyTaskCompletion = NotifyTaskCompletion.Create(StartUpAsync());
       _notifyTaskCompletion.PropertyChanged += TaskPropertyChanged;
+    }
+
+    /// <summary>
+    /// Destructor
+    /// </summary>
+    ~T4WindowViewModel()
+    {
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<AddTabItemMessage>(OnAddTabItemFromMainWindow);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenFindWhatWindowMessage>(OnOpenFindWhatWindow);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<DragWindowTabItemChangedMessage>(OnFindWhatWindowTitleChanged);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenFindWhatResultWindowMessage>(OnOpenFindWhatResultWindow);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ShowBookmarkOverviewMessage>(OnOpenBookmarkOverviewWindow);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ChangeSelectedTabItemMessage>(OnChangeSelectedTabItem);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StatisticChangeReaderMessage>(OnChangeReader);
     }
 
     private void CreateTrayIconSystemMenu()
@@ -1009,6 +1025,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _findWhatWindow.Show();
       _findWhatWindow.Focus();
+    }
+
+    private void OnChangeReader(StatisticChangeReaderMessage args)
+    {
+      _statisticController.AddFileToCurrentSession();
     }
 
     private void OnFindWhatWindowTitleChanged(DragWindowTabItemChangedMessage args)

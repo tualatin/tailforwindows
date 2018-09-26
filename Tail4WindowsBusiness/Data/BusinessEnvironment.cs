@@ -6,11 +6,11 @@ namespace Org.Vs.TailForWin.Business.Data
   /// <summary>
   /// Business environment
   /// </summary>
-  public class BusinessEnvironment
+  public static class BusinessEnvironment
   {
     /// <summary>
     /// Tail4Window database file
     /// </summary>
-    public static string TailForWindowsDatabaseFile = EnvironmentContainer.UserSettingsPath + @"\T4W.db";
+    public static readonly string TailForWindowsDatabaseFile = EnvironmentContainer.UserSettingsPath + @"\T4W.db";
   }
 }

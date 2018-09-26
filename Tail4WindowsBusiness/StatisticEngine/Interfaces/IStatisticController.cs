@@ -35,6 +35,12 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Interfaces
     /// </summary>
     void Start();
 
+
+    void AddFileToCurrentSession();
+
+
+    void RemoveFileFromCurrentSession();
+
     /// <summary>
     /// Stops statistics
     /// </summary>

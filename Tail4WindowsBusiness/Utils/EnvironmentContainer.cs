@@ -44,7 +44,7 @@ namespace Org.Vs.TailForWin.Business.Utils
       CurrentEventManager = new EventAggregator();
       BookmarkManager = new BookmarkManager();
 
-      NotifyTaskCompletion.Create(IntializeObservableCollectionsAsync);
+      NotifyTaskCompletion.Create(InitializeObservableCollectionsAsync);
     }
 
     /// <summary>
@@ -350,7 +350,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// Init all collections
     /// </summary>
     /// <returns>Task</returns>
-    public async Task IntializeObservableCollectionsAsync()
+    private async Task InitializeObservableCollectionsAsync()
     {
       await Task.Run(
         () =>
@@ -435,7 +435,7 @@ namespace Org.Vs.TailForWin.Business.Utils
             });
           }
 
-          // Fileencoding
+          // File encoding
           var encodings = Encoding.GetEncodings();
           Array.Sort(encodings, new CaseInsensitiveEncodingInfoNameComparer());
           Array.ForEach(encodings, fileEncode => FileEncoding.Add(fileEncode.GetEncoding()));

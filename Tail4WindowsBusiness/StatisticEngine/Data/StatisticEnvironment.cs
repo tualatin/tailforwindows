@@ -3,7 +3,7 @@
   /// <summary>
   /// Statistic environment definitions
   /// </summary>
-  public class StatisticEnvironment
+  public static class StatisticEnvironment
   {
     #region Entity constants
 
