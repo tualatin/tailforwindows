@@ -121,23 +121,26 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// <summary>
     /// Adds file to current session
     /// </summary>
+    /// <param name="logReaderId">LogReader Id</param>
     /// <param name="index">Current index</param>
     /// <param name="fileName">Name of file with path</param>
-    public void AddFileToCurrentSession(int index, string fileName) => NotifyTaskCompletion.Create(AddFileToCurrentSessionAsync(index, fileName));
+    public void AddFileToCurrentSession(Guid logReaderId, int index, string fileName) => NotifyTaskCompletion.Create(AddFileToCurrentSessionAsync(logReaderId, index, fileName));
 
     /// <summary>
     /// Saves file to current session
     /// </summary>
+    /// <param name="logReaderId">LogReader Id</param>
     /// <param name="index">Current index</param>
     /// <param name="elapsedTime">Elapsed time</param>
     /// <param name="fileName">Name of file with path</param>
-    public void SaveFileToCurrentSession(int index, TimeSpan elapsedTime, string fileName) => NotifyTaskCompletion.Create(UpdateCurrentSessionAsync(index, fileName, elapsedTime));
+    public void SaveFileToCurrentSession(Guid logReaderId, int index, TimeSpan elapsedTime, string fileName) =>
+      NotifyTaskCompletion.Create(UpdateCurrentSessionAsync(logReaderId, index, fileName, elapsedTime));
 
     #region HelperFunctions
 
-    private async Task AddFileToCurrentSessionAsync(int index, string fileName) => await UpdateCurrentSessionAsync(index, fileName);
+    private async Task AddFileToCurrentSessionAsync(Guid logReaderId, int index, string fileName) => await UpdateCurrentSessionAsync(logReaderId, index, fileName);
 
-    private async Task UpdateCurrentSessionAsync(int index, string fileName, TimeSpan? elapsedTime = null)
+    private async Task UpdateCurrentSessionAsync(Guid logReaderId, int index, string fileName, TimeSpan? elapsedTime = null)
     {
       await Task.Run(() =>
       {
@@ -154,11 +157,21 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               if ( existsSession == null )
                 return;
 
-              FileEntity file = fileEntity.Include(p => p.Session).FindAll().FirstOrDefault(p => p.Session.Session == SessionId && fileName == p.FileName) ?? new FileEntity
-              {
-                FileName = fileName
-              };
+              FileEntity file = fileEntity
+                                  .Include(p => p.Session)
+                                  .FindAll()
+                                  .FirstOrDefault(p => p.Session.Session == SessionId && (p.LogReaderId == logReaderId || fileName == p.FileName)) ?? new FileEntity
+                                  {
+                                    FileName = fileName,
+                                    LogReaderId = logReaderId
+                                  };
               file.LogCount = index;
+
+              if ( logReaderId == file.LogReaderId )
+              {
+                if ( string.CompareOrdinal(fileName, file.FileName) != 0 )
+                  file.IsSmartWatch = true;
+              }
 
               if ( elapsedTime.HasValue )
                 file.ElapsedTime = elapsedTime.Value;
@@ -409,9 +422,11 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       // Remove session without files
       var result = fileEntity.Include(p => p.Session).FindAll().Where(p => p.Session.Session == SessionId).ToList();
 
-      if ( result.Count == 0 )
+      if ( result.Count != 0 )
+      {
+        LOG.Debug($"Remove existing session from DataBase {SessionId}");
         sessionEntity.Delete(p => p.Session == SessionId);
-
+      }
       return result;
     }
 

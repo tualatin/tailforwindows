@@ -49,6 +49,14 @@ namespace Org.Vs.TailForWin.Business.Services
     #region Properties
 
     /// <summary>
+    /// LogReader Id
+    /// </summary>
+    public Guid LogReaderId
+    {
+      get;
+    }
+
+    /// <summary>
     /// Size refresh time
     /// </summary>
     public string SizeRefreshTime
@@ -109,6 +117,7 @@ namespace Org.Vs.TailForWin.Business.Services
 
       Index = 0;
       _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
+      LogReaderId = Guid.NewGuid();
       SmartWatch = new SmartWatchController();
       _resetEvent = new ManualResetEvent(false);
       _sw = new Stopwatch();
@@ -131,7 +140,7 @@ namespace Org.Vs.TailForWin.Business.Services
       SmartWatch.StartSmartWatch(TailData);
       _sw.Start();
 
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticChangeReaderMessage(Index, TailData.FileName));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticChangeReaderMessage(LogReaderId, Index, TailData.FileName));
     }
 
     /// <summary>
@@ -145,6 +154,8 @@ namespace Org.Vs.TailForWin.Business.Services
       _tailBackgroundWorker.CancelAsync();
       _resetEvent?.Set();
       SmartWatch.SuspendSmartWatch();
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticUpdateReaderMessage(LogReaderId, Index, TailData.FileName, _sw.Elapsed));
     }
 
     /// <summary>

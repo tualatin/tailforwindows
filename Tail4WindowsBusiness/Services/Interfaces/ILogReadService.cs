@@ -70,6 +70,14 @@ namespace Org.Vs.TailForWin.Business.Services.Interfaces
     }
 
     /// <summary>
+    /// LogReader Id
+    /// </summary>
+    Guid LogReaderId
+    {
+      get;
+    }
+
+    /// <summary>
     /// Starts tail
     /// </summary>
     void StartTail();

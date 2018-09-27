@@ -38,17 +38,19 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Interfaces
     /// <summary>
     /// Adds file to current session
     /// </summary>
+    /// <param name="logReaderId">LogReader Id</param>
     /// <param name="index">Current index</param>
     /// <param name="fileName">Name of file with path</param>
-    void AddFileToCurrentSession(int index, string fileName);
+    void AddFileToCurrentSession(Guid logReaderId, int index, string fileName);
 
     /// <summary>
     /// Saves file to current session
     /// </summary>
+    /// <param name="logReaderId">LogReader Id</param>
     /// <param name="index">Current index</param>
     /// <param name="elapsedTime">Elapsed time</param>
     /// <param name="fileName">Name of file with path</param>
-    void SaveFileToCurrentSession(int index, TimeSpan elapsedTime, string fileName);
+    void SaveFileToCurrentSession(Guid logReaderId, int index, TimeSpan elapsedTime, string fileName);
 
     /// <summary>
     /// Stops statistics

@@ -4,9 +4,9 @@
 namespace Org.Vs.TailForWin.Business.StatisticEngine.Data.Messages
 {
   /// <summary>
-  /// Informs the statistic, that file has changed
+  /// Informs the statistic, to update current file
   /// </summary>
-  public class StatisticChangeReaderMessage
+  public class StatisticUpdateReaderMessage
   {
     /// <summary>
     /// LogReader Id
@@ -33,16 +33,26 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Data.Messages
     }
 
     /// <summary>
+    /// Elapsed time as <see cref="TimeSpan"/>
+    /// </summary>
+    public TimeSpan ElapsedTime
+    {
+      get;
+    }
+
+    /// <summary>
     /// Standard constructor
     /// </summary>
     /// <param name="logReaderId">LogReader Id</param>
     /// <param name="index">Current index</param>
     /// <param name="fileName">Name of file with path</param>
-    public StatisticChangeReaderMessage(Guid logReaderId, int index, string fileName)
+    /// <param name="elapsedTime">Elapsed time as <see cref="TimeSpan"/></param>
+    public StatisticUpdateReaderMessage(Guid logReaderId, int index, string fileName, TimeSpan elapsedTime)
     {
       LogReaderId = logReaderId;
       Index = index;
       FileName = fileName;
+      ElapsedTime = elapsedTime;
     }
   }
 }

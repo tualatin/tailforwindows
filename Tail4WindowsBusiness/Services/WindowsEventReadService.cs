@@ -49,6 +49,14 @@ namespace Org.Vs.TailForWin.Business.Services
     public ISmartWatchController SmartWatch => null;
 
     /// <summary>
+    /// LogReader Id
+    /// </summary>
+    public Guid LogReaderId
+    {
+      get;
+    }
+
+    /// <summary>
     /// Size refresh time
     /// </summary>
     public string SizeRefreshTime
@@ -115,6 +123,7 @@ namespace Org.Vs.TailForWin.Business.Services
     {
       Index = 0;
       _startOffset = SettingsHelperController.CurrentSettings.LinesRead;
+      LogReaderId = Guid.NewGuid();
       _message = Application.Current.TryFindResource("WindowsEventTotalEvents").ToString();
       _sw = new Stopwatch();
     }
@@ -168,7 +177,7 @@ namespace Org.Vs.TailForWin.Business.Services
       _sw.Start();
       IsBusy = true;
 
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticChangeReaderMessage(Index, TailData.WindowsEvent.Category));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticChangeReaderMessage(LogReaderId, Index, TailData.WindowsEvent.Category));
     }
 
     /// <summary>
@@ -184,6 +193,7 @@ namespace Org.Vs.TailForWin.Business.Services
       IsBusy = false;
       _sw.Stop();
 
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticUpdateReaderMessage(LogReaderId, Index, TailData.WindowsEvent.Category, _sw.Elapsed));
       LOG.Trace($"Stop tail, tail was running about {_sw.ElapsedMilliseconds:N0} ms");
     }
 

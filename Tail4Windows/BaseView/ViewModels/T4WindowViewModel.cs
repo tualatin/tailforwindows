@@ -269,7 +269,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFindWhatResultWindowMessage>(OnOpenFindWhatResultWindow);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowBookmarkOverviewMessage>(OnOpenBookmarkOverviewWindow);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ChangeSelectedTabItemMessage>(OnChangeSelectedTabItem);
-      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StatisticChangeReaderMessage>(OnChangeReader);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StatisticChangeReaderMessage>(OnChangeLogReader);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StatisticUpdateReaderMessage>(OnUpdateStatistics);
 
       _cts = new CancellationTokenSource();
 
@@ -304,7 +305,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenFindWhatResultWindowMessage>(OnOpenFindWhatResultWindow);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ShowBookmarkOverviewMessage>(OnOpenBookmarkOverviewWindow);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ChangeSelectedTabItemMessage>(OnChangeSelectedTabItem);
-      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StatisticChangeReaderMessage>(OnChangeReader);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StatisticChangeReaderMessage>(OnChangeLogReader);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StatisticUpdateReaderMessage>(OnUpdateStatistics);
     }
 
     private void CreateTrayIconSystemMenu()
@@ -1027,12 +1029,20 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _findWhatWindow.Focus();
     }
 
-    private void OnChangeReader(StatisticChangeReaderMessage args)
+    private void OnUpdateStatistics(StatisticUpdateReaderMessage args)
     {
       if ( !SettingsHelperController.CurrentSettings.Statistics )
         return;
 
-      _statisticController.AddFileToCurrentSession(args.Index, args.FileName);
+      _statisticController.SaveFileToCurrentSession(args.LogReaderId, args.Index, args.ElapsedTime, args.FileName);
+    }
+
+    private void OnChangeLogReader(StatisticChangeReaderMessage args)
+    {
+      if ( !SettingsHelperController.CurrentSettings.Statistics )
+        return;
+
+      _statisticController.AddFileToCurrentSession(args.LogReaderId, args.Index, args.FileName);
     }
 
     private void OnFindWhatWindowTitleChanged(DragWindowTabItemChangedMessage args)

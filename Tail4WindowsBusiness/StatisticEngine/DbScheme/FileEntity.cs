@@ -39,6 +39,15 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     }
 
     /// <summary>
+    /// LogReader Id
+    /// </summary>
+    public Guid LogReaderId
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Is SmartWatch in use
     /// </summary>
     public bool IsSmartWatch
@@ -51,15 +60,6 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     /// Elapsed time as <see cref="TimeSpan"/>
     /// </summary>
     public TimeSpan ElapsedTime
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Memory usage
-    /// </summary>
-    public long MemoryUsage
     {
       get;
       set;
