@@ -59,7 +59,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     /// <summary>
     /// Elapsed time as <see cref="TimeSpan"/>
     /// </summary>
-    public TimeSpan ElapsedTime
+    public TimeSpan? ElapsedTime
     {
       get;
       set;

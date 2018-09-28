@@ -34,6 +34,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// </summary>
     private const int MaxDataBaseElements = 100;
 
+    private QueueSet<FileEntity> _fileQueue;
     private CancellationTokenSource _cts;
 
     #region Properties
@@ -66,6 +67,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
       _cts?.Dispose();
       _cts = new CancellationTokenSource();
+      _fileQueue = new QueueSet<FileEntity>(int.MaxValue);
 
       NotifyTaskCompletion.Create(CreateSessionEntry);
 
@@ -142,6 +144,33 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
     private async Task UpdateCurrentSessionAsync(Guid logReaderId, int index, string fileName, TimeSpan? elapsedTime = null)
     {
+      while ( !Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      {
+        if ( FileAlreadyExists(logReaderId, fileName) == null )
+        {
+          _fileQueue.Enqueue(new FileEntity
+          {
+            LogReaderId = logReaderId,
+            LogCount = index,
+            FileName = fileName,
+            ElapsedTime = elapsedTime
+          });
+        }
+
+        await Task.Delay(100);
+      }
+
+      if ( FileAlreadyExists(logReaderId, fileName) == null )
+      {
+        _fileQueue.Enqueue(new FileEntity
+        {
+          LogReaderId = logReaderId,
+          LogCount = index,
+          FileName = fileName,
+          ElapsedTime = elapsedTime
+        });
+      }
+
       await Task.Run(() =>
       {
         if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
@@ -157,27 +186,31 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               if ( existsSession == null )
                 return;
 
-              FileEntity file = fileEntity
-                                  .Include(p => p.Session)
-                                  .FindAll()
-                                  .FirstOrDefault(p => p.Session.Session == SessionId && (p.LogReaderId == logReaderId || fileName == p.FileName)) ?? new FileEntity
-                                  {
-                                    FileName = fileName,
-                                    LogReaderId = logReaderId
-                                  };
-              file.LogCount = index;
-
-              if ( logReaderId == file.LogReaderId )
+              while ( _fileQueue.Peek() != null )
               {
-                if ( string.CompareOrdinal(fileName, file.FileName) != 0 )
-                  file.IsSmartWatch = true;
+                var temp = _fileQueue.Dequeue();
+                FileEntity file = fileEntity
+                                    .Include(p => p.Session)
+                                    .FindAll()
+                                    .FirstOrDefault(p => p.Session.Session == SessionId && (p.LogReaderId == logReaderId || temp.FileName == p.FileName)) ?? new FileEntity
+                                    {
+                                      FileName = temp.FileName,
+                                      LogReaderId = temp.LogReaderId
+                                    };
+                file.LogCount = index;
+
+                if ( temp.LogReaderId == file.LogReaderId )
+                {
+                  if ( string.CompareOrdinal(temp.FileName, file.FileName) != 0 )
+                    file.IsSmartWatch = true;
+                }
+
+                if ( temp.ElapsedTime.HasValue )
+                  file.ElapsedTime = temp.ElapsedTime;
+
+                fileEntity.Upsert(file);
+                fileEntity.EnsureIndex(p => p.FileName);
               }
-
-              if ( elapsedTime.HasValue )
-                file.ElapsedTime = elapsedTime.Value;
-
-              fileEntity.Upsert(file);
-              fileEntity.EnsureIndex(p => p.FileName);
             }
           }
           catch ( Exception ex )
@@ -194,6 +227,12 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
           LOG.Error("Can not lock!");
         }
       }, _cts.Token);
+    }
+
+    private FileEntity FileAlreadyExists(Guid logReaderId, string fileName)
+    {
+      var result = _fileQueue.FirstOrDefault(p => p.FileName == fileName || p.LogReaderId == logReaderId);
+      return result;
     }
 
     private async Task SaveAllValuesIntoDatabaseAsync()
@@ -237,7 +276,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               {
                 // Remove files with low elapsed time, minimum 15 min!
                 var minElapsedTime = new TimeSpan(0, 0, 15, 0);
-                var invalidFiles = result.Where(p => TimeSpan.Compare(p.ElapsedTime, minElapsedTime) < 0).ToList();
+                var invalidFiles = result.Where(p => p.ElapsedTime != null && TimeSpan.Compare(p.ElapsedTime.Value, minElapsedTime) < 0).ToList();
 
                 foreach ( var file in invalidFiles )
                 {
