@@ -144,95 +144,75 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
     private async Task UpdateCurrentSessionAsync(Guid logReaderId, int index, string fileName, TimeSpan? elapsedTime = null)
     {
+      _fileQueue.Enqueue(new FileEntity
+      {
+        LogReaderId = logReaderId,
+        LogCount = index,
+        FileName = fileName,
+        ElapsedTime = elapsedTime
+      });
+
       while ( !Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
-        if ( FileAlreadyExists(logReaderId, fileName) == null )
-        {
-          _fileQueue.Enqueue(new FileEntity
-          {
-            LogReaderId = logReaderId,
-            LogCount = index,
-            FileName = fileName,
-            ElapsedTime = elapsedTime
-          });
-        }
-
         await Task.Delay(100);
       }
 
-      if ( FileAlreadyExists(logReaderId, fileName) == null )
-      {
-        _fileQueue.Enqueue(new FileEntity
-        {
-          LogReaderId = logReaderId,
-          LogCount = index,
-          FileName = fileName,
-          ElapsedTime = elapsedTime
-        });
-      }
-
       await Task.Run(() =>
-      {
-        if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
-        {
-          try
-          {
-            using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
-            {
-              var sessionEntity = GetSessionEntity(db);
-              var fileEntity = GetFileEntity(db);
-              SessionEntity existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
+       {
+         if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+         {
+           try
+           {
+             using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+             {
+               var sessionEntity = GetSessionEntity(db);
+               var fileEntity = GetFileEntity(db);
+               SessionEntity existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
 
-              if ( existsSession == null )
-                return;
+               if ( existsSession == null )
+                 return;
 
-              while ( _fileQueue.Peek() != null )
-              {
-                var temp = _fileQueue.Dequeue();
-                FileEntity file = fileEntity
-                                    .Include(p => p.Session)
-                                    .FindAll()
-                                    .FirstOrDefault(p => p.Session.Session == SessionId && (p.LogReaderId == logReaderId || temp.FileName == p.FileName)) ?? new FileEntity
-                                    {
-                                      FileName = temp.FileName,
-                                      LogReaderId = temp.LogReaderId
-                                    };
-                file.LogCount = index;
+               while ( _fileQueue.Peek() != null )
+               {
+                 var temp = _fileQueue.Dequeue();
+                 FileEntity file = fileEntity
+                                     .Include(p => p.Session)
+                                     .FindAll()
+                                     .FirstOrDefault(p => p.Session.Session == SessionId && (p.LogReaderId == logReaderId || temp.FileName == p.FileName)) ?? new FileEntity
+                                     {
+                                       FileName = temp.FileName,
+                                       LogReaderId = temp.LogReaderId
+                                     };
+                 file.LogCount = index;
 
-                if ( temp.LogReaderId == file.LogReaderId )
-                {
-                  if ( string.CompareOrdinal(temp.FileName, file.FileName) != 0 )
-                    file.IsSmartWatch = true;
-                }
+                 if ( temp.LogReaderId == file.LogReaderId )
+                 {
+                   if ( string.CompareOrdinal(temp.FileName, file.FileName) != 0 )
+                     file.IsSmartWatch = true;
+                 }
 
-                if ( temp.ElapsedTime.HasValue )
-                  file.ElapsedTime = temp.ElapsedTime;
+                 if ( temp.ElapsedTime.HasValue )
+                   file.ElapsedTime = temp.ElapsedTime;
 
-                fileEntity.Upsert(file);
-                fileEntity.EnsureIndex(p => p.FileName);
-              }
-            }
-          }
-          catch ( Exception ex )
-          {
-            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-          }
-          finally
-          {
-            Monitor.Exit(MyLock);
-          }
-        }
-        else
-        {
-          LOG.Error("Can not lock!");
-        }
-      }, _cts.Token);
-    }
-
-    private FileEntity FileAlreadyExists(Guid logReaderId, string fileName)
-    {
-      var result = _fileQueue.FirstOrDefault(p => p.FileName == fileName || p.LogReaderId == logReaderId);
-      return result;
+                 fileEntity.Upsert(file);
+                 fileEntity.EnsureIndex(p => p.FileName);
+               }
+             }
+           }
+           catch ( Exception ex )
+           {
+             LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+           }
+           finally
+           {
+             Monitor.Exit(MyLock);
+           }
+         }
+         else
+         {
+           LOG.Error("Can not lock!");
+         }
+       }, _cts.Token);
     }
 
     private async Task SaveAllValuesIntoDatabaseAsync()
