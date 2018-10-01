@@ -477,6 +477,10 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             }
           }
         }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
         finally
         {
           Monitor.Exit(MyLock);
@@ -491,24 +495,45 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
     private List<FileEntity> RemoveSessionIfRequired(LiteCollection<FileEntity> fileEntity, LiteCollection<SessionEntity> sessionEntity)
     {
-      // Remove session without files
-      var result = fileEntity.Include(p => p.Session).FindAll().Where(p => p.Session.Session == SessionId).ToList();
-
-      if ( result.Count != 0 )
+      try
       {
-        LOG.Debug($"Remove existing session from DataBase {SessionId}");
-        sessionEntity.Delete(p => p.Session == SessionId);
+        // Remove session without files
+        var result = fileEntity.Include(p => p.Session).FindAll().Where(p => p.Session.Session == SessionId).ToList();
+
+        if ( result.Count == 0 )
+        {
+          LOG.Debug($"Remove existing session from DataBase {SessionId}");
+          sessionEntity.Delete(p => p.Session == SessionId);
+        }
+        return result;
       }
-      return result;
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+      return new List<FileEntity>();
     }
 
     private void RemoveFiles(LiteCollection<FileEntity> fileEntity, SessionEntity session)
     {
-      var result = fileEntity.Include(p => p.Session).FindAll().Where(p => p.Session.Session == session?.Session).ToList();
-
-      foreach ( var file in result )
+      try
       {
-        fileEntity.Delete(p => p.FileId == file.FileId);
+        var result = fileEntity.Include(p => p.Session).FindAll().Where(p => p.Session.Session == session?.Session).ToList();
+
+        foreach ( var file in result )
+        {
+          fileEntity.Delete(p => p.FileId == file.FileId);
+        }
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        var result = fileEntity.Include(p => p.Session).FindAll().Where(p => p.Session == null).ToList();
+
+        foreach ( var file in result )
+        {
+          fileEntity.Delete(p => p.FileId == file.FileId);
+        }
       }
     }
 
