@@ -36,12 +36,28 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Interfaces
     void Start();
 
     /// <summary>
+    /// Starts to dequeue the file queue
+    /// </summary>
+    void StartFileQueue();
+
+    /// <summary>
     /// Adds file to current session
     /// </summary>
     /// <param name="logReaderId">LogReader Id</param>
     /// <param name="index">Current index</param>
     /// <param name="fileName">Name of file with path</param>
-    void AddFileToCurrentSession(Guid logReaderId, int index, string fileName);
+    /// <param name="isWindowsEvent">Is Windows event</param>
+    void AddFileToCurrentSession(Guid logReaderId, int index, string fileName, bool isWindowsEvent = false);
+
+    /// <summary>
+    /// Adds file to current queue
+    /// </summary>
+    /// <param name="logReaderId">LogReader Id</param>
+    /// <param name="index">Current index</param>
+    /// <param name="elapsedTime">Elapsed time</param>
+    /// <param name="fileName">Name of file with path</param>
+    /// <param name="isWindowsEvent">Is Windows event</param>
+    void AddFileToQueue(Guid logReaderId, int index, TimeSpan? elapsedTime, string fileName, bool isWindowsEvent = false);
 
     /// <summary>
     /// Saves file to current session

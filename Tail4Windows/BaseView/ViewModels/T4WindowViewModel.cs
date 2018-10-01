@@ -16,6 +16,8 @@ using log4net;
 using Org.Vs.TailForWin.BaseView.Interfaces;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
+using Org.Vs.TailForWin.Business.Services;
+using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Business.StatisticEngine.Controllers;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data.Messages;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
@@ -1042,7 +1044,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !SettingsHelperController.CurrentSettings.Statistics )
         return;
 
-      _statisticController.AddFileToCurrentSession(args.LogReaderId, args.Index, args.FileName);
+      _statisticController.AddFileToCurrentSession(args.LogReaderId, args.Index, args.FileName, args.IsWindowsEvent);
     }
 
     private void OnFindWhatWindowTitleChanged(DragWindowTabItemChangedMessage args)
@@ -1314,9 +1316,26 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         return;
 
       if ( SettingsHelperController.CurrentSettings.Statistics && !_statisticController.IsBusy )
+      {
         _statisticController.Start();
+
+        foreach ( DragSupportTabItem item in UiHelper.GetTabItemList() )
+        {
+          if ( item.TabItemBusyIndicator != Visibility.Visible || !(item.Content is ILogWindowControl control) )
+            continue;
+
+          ILogReadService readService = control.TailReader;
+
+          _statisticController.AddFileToQueue(readService.LogReaderId, readService.Index, readService.ElapsedTime, readService is WindowsEventReadService ?
+            readService.TailData.WindowsEvent.Category : readService.TailData.FileName, readService.TailData.IsWindowsEvent);
+        }
+
+        _statisticController.StartFileQueue();
+      }
       else if ( !SettingsHelperController.CurrentSettings.Statistics && _statisticController.IsBusy )
+      {
         NotifyTaskCompletion.Create(StopStatisticAsync);
+      }
     }
 
     private async Task StopStatisticAsync() => await _statisticController.StopAsync().ConfigureAwait(false);

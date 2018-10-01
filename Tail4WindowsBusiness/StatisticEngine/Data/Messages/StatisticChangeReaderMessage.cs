@@ -33,16 +33,26 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Data.Messages
     }
 
     /// <summary>
+    /// Is Windows event
+    /// </summary>
+    public bool IsWindowsEvent
+    {
+      get;
+    }
+
+    /// <summary>
     /// Standard constructor
     /// </summary>
     /// <param name="logReaderId">LogReader Id</param>
     /// <param name="index">Current index</param>
     /// <param name="fileName">Name of file with path</param>
-    public StatisticChangeReaderMessage(Guid logReaderId, int index, string fileName)
+    /// <param name="isWindowsEvent">Is Windows event</param>
+    public StatisticChangeReaderMessage(Guid logReaderId, int index, string fileName, bool isWindowsEvent)
     {
       LogReaderId = logReaderId;
       Index = index;
       FileName = fileName;
+      IsWindowsEvent = isWindowsEvent;
     }
   }
 }

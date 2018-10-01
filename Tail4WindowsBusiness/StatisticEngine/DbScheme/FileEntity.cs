@@ -57,6 +57,15 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     }
 
     /// <summary>
+    /// Is Windows event
+    /// </summary>
+    public bool IsWindowsEvent
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Elapsed time as <see cref="TimeSpan"/>
     /// </summary>
     public TimeSpan? ElapsedTime

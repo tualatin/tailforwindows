@@ -30,6 +30,11 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     private const int LockTimeSpanIsMs = 200;
 
     /// <summary>
+    /// Delay time in milliseconds
+    /// </summary>
+    private const int DelayTimeInMs = 100;
+
+    /// <summary>
     /// Max elements in DataBase
     /// </summary>
     private const int MaxDataBaseElements = 100;
@@ -73,6 +78,11 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
       IsBusy = true;
     }
+
+    /// <summary>
+    /// Starts to dequeue the file queue
+    /// </summary>
+    public void StartFileQueue() => NotifyTaskCompletion.Create(StartFileQueueAsync);
 
     /// <summary>
     /// Stops statistics
@@ -126,7 +136,27 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// <param name="logReaderId">LogReader Id</param>
     /// <param name="index">Current index</param>
     /// <param name="fileName">Name of file with path</param>
-    public void AddFileToCurrentSession(Guid logReaderId, int index, string fileName) => NotifyTaskCompletion.Create(AddFileToCurrentSessionAsync(logReaderId, index, fileName));
+    /// <param name="isWindowsEvent">Is Windows event</param>
+    public void AddFileToCurrentSession(Guid logReaderId, int index, string fileName, bool isWindowsEvent = false) =>
+      NotifyTaskCompletion.Create(AddFileToCurrentSessionAsync(logReaderId, index, fileName, isWindowsEvent));
+
+    /// <summary>
+    /// Adds file to current queue
+    /// </summary>
+    /// <param name="logReaderId">LogReader Id</param>
+    /// <param name="index">Current index</param>
+    /// <param name="elapsedTime">Elapsed time</param>
+    /// <param name="fileName">Name of file with path</param>
+    /// <param name="isWindowsEvent">Is Windows event</param>
+    public void AddFileToQueue(Guid logReaderId, int index, TimeSpan? elapsedTime, string fileName, bool isWindowsEvent = false) =>
+      _fileQueue.Enqueue(new FileEntity
+      {
+        LogReaderId = logReaderId,
+        LogCount = index,
+        FileName = fileName,
+        ElapsedTime = elapsedTime,
+        IsWindowsEvent = isWindowsEvent
+      });
 
     /// <summary>
     /// Saves file to current session
@@ -135,156 +165,185 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// <param name="index">Current index</param>
     /// <param name="elapsedTime">Elapsed time</param>
     /// <param name="fileName">Name of file with path</param>
-    public void SaveFileToCurrentSession(Guid logReaderId, int index, TimeSpan elapsedTime, string fileName) =>
-      NotifyTaskCompletion.Create(UpdateCurrentSessionAsync(logReaderId, index, fileName, elapsedTime));
+    public void SaveFileToCurrentSession(Guid logReaderId, int index, TimeSpan elapsedTime, string fileName)
+    {
+      AddFileToQueue(logReaderId, index, elapsedTime, fileName);
+      NotifyTaskCompletion.Create(UpdateCurrentSessionAsync());
+    }
 
     #region HelperFunctions
 
-    private async Task AddFileToCurrentSessionAsync(Guid logReaderId, int index, string fileName) => await UpdateCurrentSessionAsync(logReaderId, index, fileName);
-
-    private async Task UpdateCurrentSessionAsync(Guid logReaderId, int index, string fileName, TimeSpan? elapsedTime = null)
+    private async Task AddFileToCurrentSessionAsync(Guid logReaderId, int index, string fileName, bool isWindowsEvent)
     {
-      _fileQueue.Enqueue(new FileEntity
-      {
-        LogReaderId = logReaderId,
-        LogCount = index,
-        FileName = fileName,
-        ElapsedTime = elapsedTime
-      });
-
-      while ( !Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
-      {
-        await Task.Delay(100);
-      }
-
-      await Task.Run(() =>
-       {
-         if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
-         {
-           try
-           {
-             using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
-             {
-               var sessionEntity = GetSessionEntity(db);
-               var fileEntity = GetFileEntity(db);
-               SessionEntity existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
-
-               if ( existsSession == null )
-                 return;
-
-               while ( _fileQueue.Peek() != null )
-               {
-                 var temp = _fileQueue.Dequeue();
-                 FileEntity file = fileEntity
-                                     .Include(p => p.Session)
-                                     .FindAll()
-                                     .FirstOrDefault(p => p.Session.Session == SessionId && (p.LogReaderId == logReaderId || temp.FileName == p.FileName)) ?? new FileEntity
-                                     {
-                                       FileName = temp.FileName,
-                                       LogReaderId = temp.LogReaderId
-                                     };
-                 file.LogCount = index;
-
-                 if ( temp.LogReaderId == file.LogReaderId )
-                 {
-                   if ( string.CompareOrdinal(temp.FileName, file.FileName) != 0 )
-                     file.IsSmartWatch = true;
-                 }
-
-                 if ( temp.ElapsedTime.HasValue )
-                   file.ElapsedTime = temp.ElapsedTime;
-
-                 fileEntity.Upsert(file);
-                 fileEntity.EnsureIndex(p => p.FileName);
-               }
-             }
-           }
-           catch ( Exception ex )
-           {
-             LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-           }
-           finally
-           {
-             Monitor.Exit(MyLock);
-           }
-         }
-         else
-         {
-           LOG.Error("Can not lock!");
-         }
-       }, _cts.Token);
+      AddFileToQueue(logReaderId, index, null, fileName, isWindowsEvent);
+      await UpdateCurrentSessionAsync();
     }
 
-    private async Task SaveAllValuesIntoDatabaseAsync()
+    private async Task UpdateCurrentSessionAsync()
     {
-      await Task.Run(() =>
+      while ( Monitor.IsEntered(MyLock) )
       {
-        if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+        await Task.Delay(DelayTimeInMs);
+      }
+
+      await WorkingQueueAsync();
+    }
+
+    private async Task StartFileQueueAsync()
+    {
+      while ( Monitor.IsEntered(MyLock) )
+      {
+        await Task.Delay(DelayTimeInMs);
+      }
+
+      try
+      {
+        using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
         {
-          try
+          var sessionEntity = GetSessionEntity(db);
+          SessionEntity existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
+
+          while ( existsSession == null )
           {
-            TimeSpan upTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
+            await Task.Delay(DelayTimeInMs);
+            existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
+          }
+        }
 
-            if ( upTime.Hours < 1 )
+        await WorkingQueueAsync();
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+    }
+
+    private async Task WorkingQueueAsync() => await Task.Run(() =>
+    {
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      {
+        try
+        {
+          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+          {
+            var sessionEntity = GetSessionEntity(db);
+            var fileEntity = GetFileEntity(db);
+            SessionEntity existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
+
+            if ( existsSession == null )
+              return;
+
+            while ( _fileQueue.Peek() != null )
             {
-              using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
-              {
-                var sessionEntity = GetSessionEntity(db);
-                var fileEntity = GetFileEntity(db);
-                SessionEntity existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
+              var temp = _fileQueue.Dequeue();
+              FileEntity file = fileEntity
+                                  .Include(p => p.Session)
+                                  .FindAll()
+                                  .FirstOrDefault(p => p.Session.Session == SessionId && (p.LogReaderId == temp.LogReaderId || temp.FileName == p.FileName)) ?? new FileEntity
+                                  {
+                                    FileName = temp.FileName,
+                                    LogReaderId = temp.LogReaderId,
+                                    Session = existsSession,
+                                    IsWindowsEvent = temp.IsWindowsEvent
+                                  };
+              file.LogCount = temp.LogCount;
 
-                if ( existsSession != null )
-                {
-                  LOG.Debug($"Remove existing session from DataBase {SessionId}");
-                  RemoveFiles(fileEntity, existsSession);
-                  sessionEntity.Delete(p => p.Session == SessionId);
-                  db.Shrink();
-                }
+              if ( temp.LogReaderId == file.LogReaderId )
+              {
+                if ( string.CompareOrdinal(temp.FileName, file.FileName) != 0 )
+                  file.IsSmartWatch = true;
               }
 
-              LOG.Info($"Statistics not saved, {CoreEnvironment.ApplicationTitle} was active less than 1 hour: {upTime.Minutes} minute(s)!");
-              return;
-            }
+              if ( temp.ElapsedTime.HasValue )
+                file.ElapsedTime = temp.ElapsedTime;
 
+              fileEntity.Upsert(file);
+              fileEntity.EnsureIndex(p => p.FileName);
+            }
+          }
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
+    }, _cts.Token);
+
+    private async Task SaveAllValuesIntoDatabaseAsync() => await Task.Run(() =>
+    {
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      {
+        try
+        {
+          TimeSpan upTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
+
+          if ( upTime.Hours < 1 )
+          {
             using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
             {
               var sessionEntity = GetSessionEntity(db);
               var fileEntity = GetFileEntity(db);
-              var result = RemoveSessionIfRequired(fileEntity, sessionEntity);
+              SessionEntity existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
 
-              if ( result.Count > 0 )
+              if ( existsSession != null )
               {
-                // Remove files with low elapsed time, minimum 15 min!
-                var minElapsedTime = new TimeSpan(0, 0, 15, 0);
-                var invalidFiles = result.Where(p => p.ElapsedTime != null && TimeSpan.Compare(p.ElapsedTime.Value, minElapsedTime) < 0).ToList();
+                LOG.Debug($"Remove existing session from DataBase {SessionId}");
+                RemoveFiles(fileEntity, existsSession);
+                sessionEntity.Delete(p => p.Session == SessionId);
+                db.Shrink();
+              }
+            }
 
-                foreach ( var file in invalidFiles )
-                {
-                  fileEntity.Delete(p => p.FileId == file.FileId);
-                }
+            LOG.Info($"Statistics not saved, {CoreEnvironment.ApplicationTitle} was active less than 1 hour: {upTime.Minutes} minute(s)!");
+            return;
+          }
 
-                RemoveSessionIfRequired(fileEntity, sessionEntity);
+          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+          {
+            var sessionEntity = GetSessionEntity(db);
+            var fileEntity = GetFileEntity(db);
+            var result = RemoveSessionIfRequired(fileEntity, sessionEntity);
+
+            if ( result.Count > 0 )
+            {
+              // Remove files with low elapsed time, minimum 15 min!
+              var minElapsedTime = new TimeSpan(0, 0, 15, 0);
+              var invalidFiles = result.Where(p => p.ElapsedTime != null && TimeSpan.Compare(p.ElapsedTime.Value, minElapsedTime) < 0).ToList();
+
+              foreach ( var file in invalidFiles )
+              {
+                fileEntity.Delete(p => p.FileId == file.FileId);
               }
 
-              long shrinkSize = db.Shrink();
-              LOG.Debug($"Database shrink: {shrinkSize}");
+              RemoveSessionIfRequired(fileEntity, sessionEntity);
             }
-          }
-          catch ( Exception ex )
-          {
-            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-          }
-          finally
-          {
-            Monitor.Exit(MyLock);
+
+            long shrinkSize = db.Shrink();
+            LOG.Debug($"Database shrink: {shrinkSize}");
           }
         }
-        else
+        catch ( Exception ex )
         {
-          LOG.Error("Can not lock!");
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
-      }, _cts.Token);
-    }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
+    }, _cts.Token);
 
     private async Task CreateSessionEntry()
     {
@@ -328,113 +387,107 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       }
     }
 
-    private async Task RemoveOldSessionsAsync()
+    private async Task RemoveOldSessionsAsync() => await Task.Run(() =>
     {
-      await Task.Run(() =>
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
-        if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+        try
         {
-          try
+          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
           {
-            using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+            LOG.Debug("Remove old sessions from DataBase");
+
+            bool valid = false;
+
+            while ( !valid )
             {
-              LOG.Debug("Remove old sessions from DataBase");
-
-              bool valid = false;
-
-              while ( !valid )
-              {
-                var sessionEntity = GetSessionEntity(db);
-                var fileEntity = GetFileEntity(db);
-
-                var sessions = sessionEntity.FindAll().ToList();
-
-                if ( sessions.Count > MaxDataBaseElements )
-                {
-                  var session = sessions.FirstOrDefault(p => p.Date == sessions.Min(d => d.Date));
-                  RemoveFiles(fileEntity, session);
-                  sessionEntity.Delete(p => p.Session == session.Session);
-                }
-                else
-                {
-                  valid = true;
-                }
-              }
-
-              db.Shrink();
-            }
-          }
-          finally
-          {
-            Monitor.Exit(MyLock);
-          }
-        }
-        else
-        {
-          LOG.Error("Can not lock!");
-        }
-      }, _cts.Token);
-    }
-
-    private async Task RemoveInvalidSessionsAsync()
-    {
-      await Task.Run(() =>
-      {
-        if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
-        {
-          try
-          {
-            using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
-            {
-              LOG.Debug("Remove invalid sessions from DataBase");
-
               var sessionEntity = GetSessionEntity(db);
               var fileEntity = GetFileEntity(db);
 
-              // Minimum is 1 hour!
-              var minUpTime = new TimeSpan(0, 1, 0, 0);
-              var sessions = sessionEntity.FindAll().Where(p => TimeSpan.Compare(p.UpTime, minUpTime) < 0).ToList();
+              var sessions = sessionEntity.FindAll().ToList();
 
-              foreach ( SessionEntity session in sessions )
+              if ( sessions.Count > MaxDataBaseElements )
               {
+                var session = sessions.FirstOrDefault(p => p.Date == sessions.Min(d => d.Date));
                 RemoveFiles(fileEntity, session);
                 sessionEntity.Delete(p => p.Session == session.Session);
               }
-
-              // Remove all sessions without files
-              var files = fileEntity.Include(p => p.Session).FindAll().Select(p => p.Session.Session).Distinct().ToList();
-              sessions = sessionEntity.FindAll().ToList();
-
-              if ( files.Count == 0 )
-              {
-                foreach ( SessionEntity session in sessions )
-                {
-                  sessionEntity.Delete(p => p.Session == session.Session);
-                }
-              }
               else
               {
-                var result = sessions.Where(p => files.Any(x => x != p.Session)).ToList();
+                valid = true;
+              }
+            }
 
-                foreach ( SessionEntity session in result )
-                {
-                  sessionEntity.Delete(p => p.Session == session.Session);
-                }
+            db.Shrink();
+          }
+        }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
+    }, _cts.Token);
+
+    private async Task RemoveInvalidSessionsAsync() => await Task.Run(() =>
+    {
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      {
+        try
+        {
+          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+          {
+            LOG.Debug("Remove invalid sessions from DataBase");
+
+            var sessionEntity = GetSessionEntity(db);
+            var fileEntity = GetFileEntity(db);
+
+            // Minimum is 1 hour!
+            var minUpTime = new TimeSpan(0, 1, 0, 0);
+            var sessions = sessionEntity.FindAll().Where(p => TimeSpan.Compare(p.UpTime, minUpTime) < 0).ToList();
+
+            foreach ( SessionEntity session in sessions )
+            {
+              RemoveFiles(fileEntity, session);
+              sessionEntity.Delete(p => p.Session == session.Session);
+            }
+
+            // Remove all sessions without files
+            var files = fileEntity.Include(p => p.Session).FindAll().Select(p => p.Session.Session).Distinct().ToList();
+            sessions = sessionEntity.FindAll().ToList();
+
+            if ( files.Count == 0 )
+            {
+              foreach ( SessionEntity session in sessions )
+              {
+                sessionEntity.Delete(p => p.Session == session.Session);
+              }
+            }
+            else
+            {
+              var result = sessions.Where(p => files.Any(x => x != p.Session)).ToList();
+
+              foreach ( SessionEntity session in result )
+              {
+                sessionEntity.Delete(p => p.Session == session.Session);
               }
             }
           }
-          finally
-          {
-            Monitor.Exit(MyLock);
-          }
         }
-        else
+        finally
         {
-          LOG.Error("Can not lock!");
+          Monitor.Exit(MyLock);
         }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
 
-      }, _cts.Token);
-    }
+    }, _cts.Token);
 
     private List<FileEntity> RemoveSessionIfRequired(LiteCollection<FileEntity> fileEntity, LiteCollection<SessionEntity> sessionEntity)
     {

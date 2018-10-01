@@ -177,7 +177,7 @@ namespace Org.Vs.TailForWin.Business.Services
       _sw.Start();
       IsBusy = true;
 
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticChangeReaderMessage(LogReaderId, Index, TailData.WindowsEvent.Category));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticChangeReaderMessage(LogReaderId, Index, TailData.WindowsEvent.Category, TailData.IsWindowsEvent));
     }
 
     /// <summary>

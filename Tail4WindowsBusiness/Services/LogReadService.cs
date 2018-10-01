@@ -140,7 +140,7 @@ namespace Org.Vs.TailForWin.Business.Services
       SmartWatch.StartSmartWatch(TailData);
       _sw.Start();
 
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticChangeReaderMessage(LogReaderId, Index, TailData.FileName));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticChangeReaderMessage(LogReaderId, Index, TailData.FileName, TailData.IsWindowsEvent));
     }
 
     /// <summary>
