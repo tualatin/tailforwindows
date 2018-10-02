@@ -43,30 +43,20 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Interfaces
     /// <summary>
     /// Adds file to current session
     /// </summary>
-    /// <param name="logReaderId">LogReader Id</param>
-    /// <param name="index">Current index</param>
-    /// <param name="fileName">Name of file with path</param>
-    /// <param name="isWindowsEvent">Is Windows event</param>
-    void AddFileToCurrentSession(Guid logReaderId, int index, string fileName, bool isWindowsEvent = false);
+    /// <param name="data">Data as <see cref="StatisticData"/></param>
+    void AddFileToCurrentSession(StatisticData data);
 
     /// <summary>
     /// Adds file to current queue
     /// </summary>
-    /// <param name="logReaderId">LogReader Id</param>
-    /// <param name="index">Current index</param>
-    /// <param name="elapsedTime">Elapsed time</param>
-    /// <param name="fileName">Name of file with path</param>
-    /// <param name="isWindowsEvent">Is Windows event</param>
-    void AddFileToQueue(Guid logReaderId, int index, TimeSpan? elapsedTime, string fileName, bool isWindowsEvent = false);
+    /// <param name="data">Data as <see cref="StatisticData"/></param>
+    void AddFileToQueue(StatisticData data);
 
     /// <summary>
     /// Saves file to current session
     /// </summary>
-    /// <param name="logReaderId">LogReader Id</param>
-    /// <param name="index">Current index</param>
-    /// <param name="elapsedTime">Elapsed time</param>
-    /// <param name="fileName">Name of file with path</param>
-    void SaveFileToCurrentSession(Guid logReaderId, int index, TimeSpan elapsedTime, string fileName);
+    /// <param name="data">Data as <see cref="StatisticData"/></param>
+    void SaveFileToCurrentSession(StatisticData data);
 
     /// <summary>
     /// Stops statistics
@@ -77,6 +67,6 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Interfaces
     /// Starts analysis
     /// </summary>
     /// <returns><see cref="StatisticData"/></returns>
-    Task<StatisticData> StartAnalysisAsync();
+    Task<StatisticAnalysisData> StartAnalysisAsync();
   }
 }

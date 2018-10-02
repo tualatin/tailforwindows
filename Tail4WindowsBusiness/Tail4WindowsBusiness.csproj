@@ -130,6 +130,7 @@
     <Compile Include="StatisticEngine\Data\StatisticEnvironment.cs" />
     <Compile Include="StatisticEngine\DbScheme\FileEntity.cs" />
     <Compile Include="StatisticEngine\DbScheme\SessionEntity.cs" />
+    <Compile Include="StatisticEngine\Data\StatisticAnalysisData.cs" />
     <Compile Include="Utils\BusinessHelper.cs" />
     <Compile Include="Utils\EnvironmentContainer.cs" />
     <Compile Include="ExportEngine\Interfaces\IDataExport.cs" />

@@ -16,9 +16,9 @@ using log4net;
 using Org.Vs.TailForWin.BaseView.Interfaces;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
-using Org.Vs.TailForWin.Business.Services;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Business.StatisticEngine.Controllers;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data.Messages;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Utils;
@@ -1036,7 +1036,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !SettingsHelperController.CurrentSettings.Statistics )
         return;
 
-      _statisticController.SaveFileToCurrentSession(args.LogReaderId, args.Index, args.ElapsedTime, args.FileName);
+      _statisticController.SaveFileToCurrentSession(new StatisticData(
+        args.LogReaderId,
+        args.Index,
+        args.FileName,
+        args.ElapsedTime));
     }
 
     private void OnChangeLogReader(StatisticChangeReaderMessage args)
@@ -1044,7 +1048,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !SettingsHelperController.CurrentSettings.Statistics )
         return;
 
-      _statisticController.AddFileToCurrentSession(args.LogReaderId, args.Index, args.FileName, args.IsWindowsEvent);
+      _statisticController.AddFileToCurrentSession(new StatisticData(
+        args.LogReaderId,
+        args.Index,
+        args.FileName,
+        null,
+        args.IsWindowsEvent));
     }
 
     private void OnFindWhatWindowTitleChanged(DragWindowTabItemChangedMessage args)
@@ -1325,9 +1334,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
             continue;
 
           ILogReadService readService = control.TailReader;
+          var data = new StatisticData(
+            readService.LogReaderId,
+            readService.Index,
+            readService.TailData.IsWindowsEvent ? readService.TailData.WindowsEvent.Category : readService.TailData.FileName,
+            ,
+            readService.ElapsedTime,
+            readService.TailData.IsWindowsEvent);
 
-          _statisticController.AddFileToQueue(readService.LogReaderId, readService.Index, readService.ElapsedTime, readService is WindowsEventReadService ?
-            readService.TailData.WindowsEvent.Category : readService.TailData.FileName, readService.TailData.IsWindowsEvent);
+          _statisticController.AddFileToQueue(data);
         }
 
         _statisticController.StartFileQueue();

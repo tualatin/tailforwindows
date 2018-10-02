@@ -103,11 +103,11 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// Starts analysis
     /// </summary>
     /// <returns><see cref="StatisticData"/></returns>
-    public async Task<StatisticData> StartAnalysisAsync()
+    public async Task<StatisticAnalysisData> StartAnalysisAsync()
     {
       LOG.Debug("Start statistics analysis");
 
-      var result = new StatisticData();
+      var result = new StatisticAnalysisData();
 
       await Task.Run(() =>
       {
@@ -133,49 +133,39 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// <summary>
     /// Adds file to current session
     /// </summary>
-    /// <param name="logReaderId">LogReader Id</param>
-    /// <param name="index">Current index</param>
-    /// <param name="fileName">Name of file with path</param>
-    /// <param name="isWindowsEvent">Is Windows event</param>
-    public void AddFileToCurrentSession(Guid logReaderId, int index, string fileName, bool isWindowsEvent = false) =>
-      NotifyTaskCompletion.Create(AddFileToCurrentSessionAsync(logReaderId, index, fileName, isWindowsEvent));
+    /// <param name="data">Data as <see cref="StatisticData"/></param>
+    public void AddFileToCurrentSession(StatisticData data) => NotifyTaskCompletion.Create(AddFileToCurrentSessionAsync(data));
 
     /// <summary>
     /// Adds file to current queue
     /// </summary>
-    /// <param name="logReaderId">LogReader Id</param>
-    /// <param name="index">Current index</param>
-    /// <param name="elapsedTime">Elapsed time</param>
-    /// <param name="fileName">Name of file with path</param>
-    /// <param name="isWindowsEvent">Is Windows event</param>
-    public void AddFileToQueue(Guid logReaderId, int index, TimeSpan? elapsedTime, string fileName, bool isWindowsEvent = false) =>
+    /// <param name="data">Data as <see cref="StatisticData"/></param>
+    public void AddFileToQueue(StatisticData data) =>
       _fileQueue.Enqueue(new FileEntity
       {
-        LogReaderId = logReaderId,
-        LogCount = index,
-        FileName = fileName,
-        ElapsedTime = elapsedTime,
-        IsWindowsEvent = isWindowsEvent
+        LogReaderId = data.LogReaderId,
+        LogCount = data.Index,
+        FileName = data.FileName,
+        ElapsedTime = data.ElapsedTime,
+        IsWindowsEvent = data.IsWindowsEvent,
+        BookmarkCount = data.BookmarkCount
       });
 
     /// <summary>
     /// Saves file to current session
     /// </summary>
-    /// <param name="logReaderId">LogReader Id</param>
-    /// <param name="index">Current index</param>
-    /// <param name="elapsedTime">Elapsed time</param>
-    /// <param name="fileName">Name of file with path</param>
-    public void SaveFileToCurrentSession(Guid logReaderId, int index, TimeSpan elapsedTime, string fileName)
+    /// <param name="data">Data as <see cref="StatisticData"/></param>
+    public void SaveFileToCurrentSession(StatisticData data)
     {
-      AddFileToQueue(logReaderId, index, elapsedTime, fileName);
+      AddFileToQueue(data);
       NotifyTaskCompletion.Create(StartFileQueueAsync);
     }
 
     #region HelperFunctions
 
-    private async Task AddFileToCurrentSessionAsync(Guid logReaderId, int index, string fileName, bool isWindowsEvent)
+    private async Task AddFileToCurrentSessionAsync(StatisticData data)
     {
-      AddFileToQueue(logReaderId, index, null, fileName, isWindowsEvent);
+      AddFileToQueue(data);
       await StartFileQueueAsync();
     }
 
@@ -237,6 +227,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
                                     IsWindowsEvent = temp.IsWindowsEvent
                                   };
               file.LogCount = temp.LogCount;
+              file.BookmarkCount = temp.BookmarkCount;
 
               if ( temp.LogReaderId == file.LogReaderId )
               {

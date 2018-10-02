@@ -30,6 +30,15 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     }
 
     /// <summary>
+    /// Count of bookmarks
+    /// </summary>
+    public long BookmarkCount
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Name of file with path
     /// </summary>
     public string FileName
