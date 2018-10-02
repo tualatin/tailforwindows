@@ -168,7 +168,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     public void SaveFileToCurrentSession(Guid logReaderId, int index, TimeSpan elapsedTime, string fileName)
     {
       AddFileToQueue(logReaderId, index, elapsedTime, fileName);
-      NotifyTaskCompletion.Create(UpdateCurrentSessionAsync());
+      NotifyTaskCompletion.Create(StartFileQueueAsync);
     }
 
     #region HelperFunctions
@@ -176,17 +176,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     private async Task AddFileToCurrentSessionAsync(Guid logReaderId, int index, string fileName, bool isWindowsEvent)
     {
       AddFileToQueue(logReaderId, index, null, fileName, isWindowsEvent);
-      await UpdateCurrentSessionAsync();
-    }
-
-    private async Task UpdateCurrentSessionAsync()
-    {
-      while ( Monitor.IsEntered(MyLock) )
-      {
-        await Task.Delay(DelayTimeInMs);
-      }
-
-      await WorkingQueueAsync();
+      await StartFileQueueAsync();
     }
 
     private async Task StartFileQueueAsync()
@@ -468,7 +458,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             }
             else
             {
-              var result = sessions.Where(p => files.Any(x => x != p.Session)).ToList();
+              var result = sessions.Where(p => files.All(x => x != p.Session)).ToList();
 
               foreach ( SessionEntity session in result )
               {
