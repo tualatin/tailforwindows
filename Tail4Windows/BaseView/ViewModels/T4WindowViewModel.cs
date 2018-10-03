@@ -1036,11 +1036,17 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !SettingsHelperController.CurrentSettings.Statistics )
         return;
 
+      var tabItem = UiHelper.GetTabItemList().FirstOrDefault(p => p.Content is ILogWindowControl windowControl && windowControl.TailReader.LogReaderId == args.LogReaderId);
+
+      if ( tabItem == null || !(tabItem.Content is ILogWindowControl control) )
+        return;
+
       _statisticController.SaveFileToCurrentSession(new StatisticData(
-        args.LogReaderId,
-        args.Index,
-        args.FileName,
-        args.ElapsedTime));
+      args.LogReaderId,
+      args.Index,
+      args.FileName,
+      control.SplitWindow.BookmarkCount,
+      args.ElapsedTime));
     }
 
     private void OnChangeLogReader(StatisticChangeReaderMessage args)
@@ -1048,10 +1054,16 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !SettingsHelperController.CurrentSettings.Statistics )
         return;
 
+      var tabItem = UiHelper.GetTabItemList().FirstOrDefault(p => p.Content is ILogWindowControl windowControl && windowControl.TailReader.LogReaderId == args.LogReaderId);
+
+      if ( tabItem == null || !(tabItem.Content is ILogWindowControl control) )
+        return;
+
       _statisticController.AddFileToCurrentSession(new StatisticData(
         args.LogReaderId,
         args.Index,
         args.FileName,
+        control.SplitWindow.BookmarkCount,
         null,
         args.IsWindowsEvent));
     }
@@ -1338,7 +1350,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
             readService.LogReaderId,
             readService.Index,
             readService.TailData.IsWindowsEvent ? readService.TailData.WindowsEvent.Category : readService.TailData.FileName,
-            ,
+            control.SplitWindow.BookmarkCount,
             readService.ElapsedTime,
             readService.TailData.IsWindowsEvent);
 

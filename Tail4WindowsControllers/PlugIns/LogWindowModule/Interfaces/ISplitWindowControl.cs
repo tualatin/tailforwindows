@@ -17,6 +17,9 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
   /// </summary>
   public interface ISplitWindowControl
   {
+
+    #region Properties
+
     /// <summary>
     /// Current height
     /// </summary>
@@ -190,6 +193,16 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
       get;
       set;
     }
+
+    /// <summary>
+    /// Gets current Bookmark count
+    /// </summary>
+    int BookmarkCount
+    {
+      get;
+    }
+
+    #endregion
 
     /// <summary>
     /// GoToLine

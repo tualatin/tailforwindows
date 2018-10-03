@@ -367,6 +367,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
+    /// <summary>
+    /// Gets current Bookmark count
+    /// </summary>
+    public int BookmarkCount => LogWindowMainElement.BookmarkCount;
+
     #endregion
 
     /// <summary>
