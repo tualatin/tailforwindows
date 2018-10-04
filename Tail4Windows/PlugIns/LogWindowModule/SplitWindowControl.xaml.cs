@@ -390,8 +390,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _playSoundFile = new PlaySoundFile();
       _soundFileExists = _playSoundFile.InitSoundPlay(SettingsHelperController.CurrentSettings.AlertSettings.SoundFileNameFullPath);
 
-      CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogCollectionView.Collection }.View;
-      CollectionView.Filter = DynamicFilter;
+      InitCollectionView();
 
       _searchHistoryController = new XmlSearchHistoryController();
       _searchController = new FindController();
@@ -406,6 +405,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       ((AsyncCommand<object>) SplitSearchKeyDownCommand).PropertyChanged += OnSplitSearchKeyDownCommandPropertyChanged;
     }
 
+    /// <summary>
+    /// Initialize the CollectionView
+    /// </summary>
+    public void InitCollectionView()
+    {
+      CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogCollectionView.Collection }.View;
+      CollectionView.Filter = DynamicFilter;
+    }
+    
     #region Dependency properties
 
     /// <summary>

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -37,12 +39,27 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public VsCollectionView() => Initialize();
+    public VsCollectionView() => Initialize(null);
 
-    private void Initialize()
+    /// <summary>
+    /// constructor
+    /// </summary>
+    /// <param name="list"><see cref="IEnumerable{T}"/></param>
+    public VsCollectionView(IEnumerable<T> list) => Initialize(list);
+
+    private void Initialize(IEnumerable<T> list)
     {
-      Collection = new AsyncObservableCollection<T>();
-      FilteredCollection = new AsyncObservableCollection<T>();
+      if ( list != null )
+      {
+        IEnumerable<T> enumerable = list as T[] ?? list.ToArray();
+        Collection = new AsyncObservableCollection<T>(enumerable);
+        FilteredCollection = new AsyncObservableCollection<T>(enumerable);
+      }
+      else
+      {
+        Collection = new AsyncObservableCollection<T>();
+        FilteredCollection = new AsyncObservableCollection<T>();
+      }
 
       Collection.CollectionChanged += OnLogEntriesCollectionChanged;
     }
@@ -93,6 +110,9 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
     /// </summary>
     public void Dispose()
     {
+      Collection.Clear();
+      ClearFilteredCollection();
+
       Collection = null;
       FilteredCollection = null;
     }

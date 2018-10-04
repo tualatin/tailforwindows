@@ -219,5 +219,10 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     /// Unregister FindWhat changed or closed message
     /// </summary>
     void UnregisterFindWhatChanged();
+
+    /// <summary>
+    /// Initialize the CollectionView
+    /// </summary>
+    void InitCollectionView();
   }
 }
