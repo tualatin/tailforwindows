@@ -71,10 +71,10 @@ namespace Org.Vs.TailForWin.UI.Utils
           if ( !TabItemList.Contains(tabItem) )
             return;
 
-          TabItemList.Remove(tabItem);
-
           var control = tabItem.Content as ILogWindowControl;
+
           control?.DisposeAsync().GetAwaiter();
+          TabItemList.Remove(tabItem);
         }
         finally
         {

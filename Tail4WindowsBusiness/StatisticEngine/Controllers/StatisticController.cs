@@ -260,6 +260,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
     private async Task SaveAllValuesIntoDatabaseAsync() => await Task.Run(() =>
     {
+      UpdateSession();
+
       if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
         try
@@ -333,38 +335,44 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
       while ( !_cts.IsCancellationRequested )
       {
-        if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
-        {
-          try
-          {
-            long value = GC.GetTotalMemory(false);
-
-            using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
-            {
-              var sessionEntity = GetSessionEntity(db);
-              SessionEntity session = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId) ?? new SessionEntity
-              {
-                Session = SessionId,
-                Date = DateTime.Now
-              };
-              session.MemoryUsage = value;
-              session.UpTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
-
-              sessionEntity.Upsert(session);
-              sessionEntity.EnsureIndex(p => p.Session);
-            }
-          }
-          finally
-          {
-            Monitor.Exit(MyLock);
-          }
-        }
-        else
-        {
-          LOG.Error("Can not lock!");
-        }
-
+        UpdateSession();
         await Task.Delay(TimeSpan.FromMinutes(20), _cts.Token);
+      }
+    }
+
+    private void UpdateSession()
+    {
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      {
+        try
+        {
+          LOG.Debug("Insert / update current session");
+
+          long value = GC.GetTotalMemory(false);
+
+          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+          {
+            var sessionEntity = GetSessionEntity(db);
+            SessionEntity session = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId) ?? new SessionEntity
+            {
+              Session = SessionId,
+              Date = DateTime.Now
+            };
+            session.MemoryUsage = value;
+            session.UpTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
+
+            sessionEntity.Upsert(session);
+            sessionEntity.EnsureIndex(p => p.Session);
+          }
+        }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
       }
     }
 
