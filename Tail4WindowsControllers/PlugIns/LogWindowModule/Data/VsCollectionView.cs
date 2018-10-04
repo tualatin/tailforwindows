@@ -93,8 +93,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
     /// </summary>
     public void Dispose()
     {
-      Clear();
-
       Collection = null;
       FilteredCollection = null;
     }
