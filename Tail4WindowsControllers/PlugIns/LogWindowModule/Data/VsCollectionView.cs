@@ -69,7 +69,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
 
       case NotifyCollectionChangedAction.Reset:
 
-        FilteredCollection.Clear();
+        FilteredCollection?.Clear();
         break;
 
       default:

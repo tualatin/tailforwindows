@@ -1042,11 +1042,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         return;
 
       _statisticController.SaveFileToCurrentSession(new StatisticData(
-      args.LogReaderId,
-      args.Index,
-      args.FileName,
-      control.SplitWindow.BookmarkCount,
-      args.ElapsedTime));
+        args.LogReaderId,
+        args.Index,
+        args.FileName,
+        control.SplitWindow.BookmarkCount,
+        args.ElapsedTime));
     }
 
     private void OnChangeLogReader(StatisticChangeReaderMessage args)
