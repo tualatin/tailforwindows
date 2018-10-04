@@ -29,6 +29,14 @@ namespace Org.Vs.TailForWin.Business.Services.Interfaces
     }
 
     /// <summary>
+    /// File size or total events
+    /// </summary>
+    double FileSizeTotalEvents
+    {
+      get;
+    }
+
+    /// <summary>
     /// Size refresh time
     /// </summary>
     string SizeRefreshTime

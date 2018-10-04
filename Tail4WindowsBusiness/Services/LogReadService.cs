@@ -66,6 +66,15 @@ namespace Org.Vs.TailForWin.Business.Services
     }
 
     /// <summary>
+    /// File size or total events
+    /// </summary>
+    public double FileSizeTotalEvents
+    {
+      get;
+      private set;
+    }
+
+    /// <summary>
     /// <see cref="Core.Data.TailData"/>
     /// </summary>
     public TailData TailData
@@ -363,16 +372,20 @@ namespace Org.Vs.TailForWin.Business.Services
     private void SendLogEntryEvent(LogEntry entry, long fileSize)
     {
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
-      SizeRefreshTime = string.Format(message, (fileSize / 1024d).ToString("#,0.000", SettingsHelperController.CurrentSettings.CurrentCultureInfo),
+      FileSizeTotalEvents = fileSize / 1024d;
+      SizeRefreshTime = string.Format(message, FileSizeTotalEvents.ToString("#,0.000", SettingsHelperController.CurrentSettings.CurrentCultureInfo),
         DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
+
       OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(new List<LogEntry> { entry }, SizeRefreshTime));
     }
 
     private void SendLogEntryEvent(List<LogEntry> entries, long fileSize)
     {
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
-      SizeRefreshTime = string.Format(message, (fileSize / 1024d).ToString("#,0.000", SettingsHelperController.CurrentSettings.CurrentCultureInfo),
+      FileSizeTotalEvents = fileSize / 1024d;
+      SizeRefreshTime = string.Format(message, FileSizeTotalEvents.ToString("#,0.000", SettingsHelperController.CurrentSettings.CurrentCultureInfo),
         DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
+
       OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(entries, SizeRefreshTime));
     }
 

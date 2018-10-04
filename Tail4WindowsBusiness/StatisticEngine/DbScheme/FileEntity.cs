@@ -75,6 +75,15 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     }
 
     /// <summary>
+    /// File size (in KB!) or total events
+    /// </summary>
+    public double FileSizeTotalEvents
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Elapsed time as <see cref="TimeSpan"/>
     /// </summary>
     public TimeSpan? ElapsedTime

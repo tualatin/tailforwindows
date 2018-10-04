@@ -66,6 +66,15 @@ namespace Org.Vs.TailForWin.Business.Services
     }
 
     /// <summary>
+    /// File size or total events
+    /// </summary>
+    public double FileSizeTotalEvents
+    {
+      get;
+      private set;
+    }
+
+    /// <summary>
     /// <see cref="Core.Data.TailData"/>
     /// </summary>
     public TailData TailData
@@ -168,6 +177,8 @@ namespace Org.Vs.TailForWin.Business.Services
         lastItems.ForEach(p =>
         {
           SizeRefreshTime = string.Format(_message, _logReader.Entries.Count, p.DateTime.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
+          FileSizeTotalEvents = _logReader.Entries.Count;
+
           OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(new List<LogEntry> { p }, SizeRefreshTime));
         });
 
@@ -201,6 +212,8 @@ namespace Org.Vs.TailForWin.Business.Services
     {
       Index++;
       SizeRefreshTime = string.Format(_message, _logReader.Entries.Count, e.Entry.TimeWritten.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
+      FileSizeTotalEvents = _logReader.Entries.Count;
+
       OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(CreateLogEntryByWindowsEvent(e.Entry), SizeRefreshTime));
     }
 

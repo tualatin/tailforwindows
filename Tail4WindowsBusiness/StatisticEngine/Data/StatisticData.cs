@@ -25,6 +25,14 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Data
     }
 
     /// <summary>
+    /// File size or total events
+    /// </summary>
+    public double FileSizeTotalEvents
+    {
+      get;
+    }
+
+    /// <summary>
     /// File with path
     /// </summary>
     public string FileName
@@ -62,10 +70,11 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Data
     /// <param name="logReaderId">LogReader Id</param>
     /// <param name="index">Current index</param>
     /// <param name="fileName">File with path</param>
+    /// <param name="fileSizeTotalEvents">File size of total events</param>
     /// <param name="bookmarkCount">Count of Bookmarks</param>
     /// <param name="elapsedTime">Elapsed time as <see cref="TimeSpan"/></param>
     /// <param name="isWindowsEvent">Is Windows event</param>
-    public StatisticData(Guid logReaderId, int index, string fileName, int bookmarkCount, TimeSpan? elapsedTime, bool isWindowsEvent = false)
+    public StatisticData(Guid logReaderId, int index, string fileName, double fileSizeTotalEvents, int bookmarkCount, TimeSpan? elapsedTime, bool isWindowsEvent = false)
     {
       LogReaderId = logReaderId;
       Index = index;
@@ -73,6 +82,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Data
       BookmarkCount = bookmarkCount;
       IsWindowsEvent = isWindowsEvent;
       ElapsedTime = elapsedTime;
+      FileSizeTotalEvents = fileSizeTotalEvents;
     }
   }
 }

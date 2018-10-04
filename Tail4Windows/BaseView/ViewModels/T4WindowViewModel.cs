@@ -1045,6 +1045,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         args.LogReaderId,
         args.Index,
         args.FileName,
+        control.TailReader.FileSizeTotalEvents,
         control.SplitWindow.BookmarkCount,
         args.ElapsedTime));
     }
@@ -1063,6 +1064,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         args.LogReaderId,
         args.Index,
         args.FileName,
+        control.TailReader.FileSizeTotalEvents,
         control.SplitWindow.BookmarkCount,
         null,
         args.IsWindowsEvent));
@@ -1350,6 +1352,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
             readService.LogReaderId,
             readService.Index,
             readService.TailData.IsWindowsEvent ? readService.TailData.WindowsEvent.Category : readService.TailData.FileName,
+            control.TailReader.FileSizeTotalEvents,
             control.SplitWindow.BookmarkCount,
             readService.ElapsedTime,
             readService.TailData.IsWindowsEvent);

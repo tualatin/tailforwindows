@@ -148,7 +148,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         FileName = data.FileName,
         ElapsedTime = data.ElapsedTime,
         IsWindowsEvent = data.IsWindowsEvent,
-        BookmarkCount = data.BookmarkCount
+        BookmarkCount = data.BookmarkCount,
+        FileSizeTotalEvents = data.FileSizeTotalEvents
       });
 
     /// <summary>
@@ -228,6 +229,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
                                   };
               file.LogCount = temp.LogCount;
               file.BookmarkCount = temp.BookmarkCount;
+              file.FileSizeTotalEvents = temp.FileSizeTotalEvents;
 
               if ( temp.LogReaderId == file.LogReaderId )
               {
