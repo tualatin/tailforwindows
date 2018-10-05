@@ -16,6 +16,7 @@ using Org.Vs.TailForWin.Business.StatisticEngine.Data.Messages;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Data.Base;
 
 
 namespace Org.Vs.TailForWin.Business.Services
@@ -31,6 +32,7 @@ namespace Org.Vs.TailForWin.Business.Services
     private EventLog _logReader;
     private readonly string _message;
     private readonly Stopwatch _sw;
+    private CancellationTokenSource _cts;
 
     #region Events
 
@@ -188,6 +190,7 @@ namespace Org.Vs.TailForWin.Business.Services
       _sw.Start();
       IsBusy = true;
 
+      NotifyTaskCompletion.Create(UpdateStatisticsAsync);
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticChangeReaderMessage(LogReaderId, Index, TailData.WindowsEvent.Category, TailData.IsWindowsEvent));
     }
 
@@ -202,10 +205,28 @@ namespace Org.Vs.TailForWin.Business.Services
       _logReader.EntryWritten -= LogReaderEntryWritten;
       _logReader = null;
       IsBusy = false;
+
       _sw.Stop();
+      _cts.Cancel();
 
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticUpdateReaderMessage(LogReaderId, Index, TailData.WindowsEvent.Category, _sw.Elapsed));
       LOG.Trace($"Stop tail, tail was running about {_sw.ElapsedMilliseconds:N0} ms");
+    }
+
+    /// <summary>
+    /// Auto save into Database if Statistics is enabled
+    /// </summary>
+    /// <returns><see cref="Task{TResult}"/></returns>
+    private async Task UpdateStatisticsAsync()
+    {
+      _cts?.Dispose();
+      _cts = new CancellationTokenSource();
+
+      while ( !_cts.IsCancellationRequested )
+      {
+        await Task.Delay(TimeSpan.FromMinutes(30), _cts.Token);
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticUpdateReaderMessage(LogReaderId, Index, TailData.FileName, _sw.Elapsed));
+      }
     }
 
     private void LogReaderEntryWritten(object sender, EntryWrittenEventArgs e)
