@@ -42,7 +42,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// Reads current settings
     /// </summary>
     /// <returns>Task</returns>
-    public async Task ReadSettingsAsync() => await ReadSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(5))).ConfigureAwait(false);
+    public async Task ReadSettingsAsync() => await ReadSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(5)));
 
     /// <summary>
     /// Reads current settings
@@ -51,15 +51,16 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>Task</returns>
     public async Task ReadSettingsAsync(CancellationTokenSource cts)
     {
-      await RemovePropertiesIfExistsAsync(cts).ConfigureAwait(false);
-      await AddPropertiesIfNotExistsAsync(cts).ConfigureAwait(false);
-      await Task.Run(() => ReadSettings(), cts.Token).ConfigureAwait(false);
+      await RemovePropertiesIfExistsAsync(cts);
+      await AddPropertiesIfNotExistsAsync(cts);
+      await Task.Run(() => ReadSettings(), cts.Token);
     }
 
     private async Task AddPropertiesIfNotExistsAsync(CancellationTokenSource cts)
     {
       var settings = new Dictionary<string, string>
       {
+        { "IsUserSettings", DefaultEnvironmentSettings.IsUserSettings.ToString() },
         { "LastViewedOptionPage", Guid.Empty.ToString() },
         { "Language", DefaultEnvironmentSettings.Language.ToString() },
         { "DeleteLogFileOlderThan", DefaultEnvironmentSettings.DeleteLogFilesOlderThan.ToString() },
@@ -80,7 +81,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         { "LastUsedExportFormat", DefaultEnvironmentSettings.ExportFormat.ToString() }
       };
 
-      await AddNewPropertyAsync(settings, cts).ConfigureAwait(false);
+      await AddNewPropertyAsync(settings, cts);
     }
 
     private async Task RemovePropertiesIfExistsAsync(CancellationTokenSource cts)
@@ -96,49 +97,44 @@ namespace Org.Vs.TailForWin.Core.Controllers
         "Proxy.Password"
       };
 
-      await RemoveObsoletePropertiesAsync(settings, cts.Token).ConfigureAwait(false);
+      await RemoveObsoletePropertiesAsync(settings, cts.Token);
     }
 
-    private async Task RemoveObsoletePropertiesAsync(List<string> obsoleteSettings, CancellationToken token)
+    private async Task RemoveObsoletePropertiesAsync(List<string> obsoleteSettings, CancellationToken token) => await Task.Run(() =>
     {
-      await Task.Run(
-        () =>
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      {
+        LOG.Trace("Remove obsolete properties from config file");
+
+        try
         {
-          if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+          var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+          foreach ( string key in obsoleteSettings )
           {
-            LOG.Trace("Remove obsolete properties from config file");
+            if ( !config.AppSettings.Settings.AllKeys.Contains(key) )
+              continue;
 
-            try
-            {
-              var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
-              foreach ( string key in obsoleteSettings )
-              {
-                if ( !config.AppSettings.Settings.AllKeys.Contains(key) )
-                  continue;
-
-                config.AppSettings.Settings.Remove(key);
-              }
-
-              config.Save(ConfigurationSaveMode.Modified);
-              ConfigurationManager.RefreshSection("appSettings");
-            }
-            catch ( ConfigurationErrorsException ex )
-            {
-              LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-            }
-            finally
-            {
-              Monitor.Exit(MyLock);
-            }
+            config.AppSettings.Settings.Remove(key);
           }
-          else
-          {
-            LOG.Error("Can not lock!");
-          }
-        },
-        token).ConfigureAwait(false);
-    }
+
+          config.Save(ConfigurationSaveMode.Modified);
+          ConfigurationManager.RefreshSection("appSettings");
+        }
+        catch ( ConfigurationErrorsException ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
+    }, token);
 
     private void ReadSettings()
     {
@@ -182,7 +178,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task SaveSettingsAsync(CancellationTokenSource cts) => await Task.Run(() => SaveSettings(), cts.Token).ConfigureAwait(false);
+    public async Task SaveSettingsAsync(CancellationTokenSource cts) => await Task.Run(() => SaveSettings(), cts.Token);
 
     /// <summary>
     /// Reset current color settings
@@ -238,6 +234,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SaveWindowSettings(Configuration config)
     {
+      WriteValueToSetting(config, "IsUserSettings", CurrentSettings.IsUserSettings);
       WriteValueToSetting(config, "LastViewedOptionPage", CurrentSettings.LastViewedOptionPage);
       WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
       WriteValueToSetting(config, "AlwaysOnTop", CurrentSettings.AlwaysOnTop);
@@ -377,6 +374,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SetDefaultWindowSettings()
     {
+      CurrentSettings.IsUserSettings = DefaultEnvironmentSettings.IsUserSettings;
       CurrentSettings.LastViewedOptionPage = Guid.Empty;
       CurrentSettings.Language = DefaultEnvironmentSettings.Language;
       CurrentSettings.CurrentWindowStyle = DefaultEnvironmentSettings.CurrentWindowStyle;
@@ -478,7 +476,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task ReloadCurrentSettingsAsync(CancellationTokenSource cts) => await Task.Run(() => ReloadCurrentSettings(), cts.Token).ConfigureAwait(false);
+    public async Task ReloadCurrentSettingsAsync(CancellationTokenSource cts) => await Task.Run(() => ReloadCurrentSettings(), cts.Token);
 
     private void ReloadCurrentSettings()
     {
@@ -506,7 +504,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <param name="settings">List of configuration pair</param>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task AddNewPropertyAsync(Dictionary<string, string> settings, CancellationTokenSource cts) => await Task.Run(() => AddNewProperty(settings), cts.Token).ConfigureAwait(false);
+    public async Task AddNewPropertyAsync(Dictionary<string, string> settings, CancellationTokenSource cts) => await Task.Run(() => AddNewProperty(settings), cts.Token);
 
     private void AddNewProperty(Dictionary<string, string> settings)
     {
@@ -551,6 +549,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void ReadWindowSettings()
     {
+      CurrentSettings.IsUserSettings = GetBoolFromSetting("IsUserSettings", true);
       CurrentSettings.LastViewedOptionPage = Guid.Parse(GetStringFromSetting("LastViewedOptionPage"));
       CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
       CurrentSettings.AlwaysOnTop = GetBoolFromSetting("AlwaysOnTop");

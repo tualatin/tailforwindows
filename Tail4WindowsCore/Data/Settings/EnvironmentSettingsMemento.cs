@@ -24,6 +24,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     {
       Arg.NotNull(memento, nameof(memento));
 
+      IsUserSettings = memento.IsUserSettings;
       RestoreWindowSize = memento.RestoreWindowSize;
       SaveWindowPosition = memento.SaveWindowPosition;
       ExitWithEscape = memento.ExitWithEscape;
@@ -74,6 +75,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     {
       internal MementoEnvironmentSettings(EnvironmentSettings obj)
       {
+        IsUserSettings = obj.IsUserSettings;
         RestoreWindowSize = obj.RestoreWindowSize;
         SaveWindowPosition = obj.SaveWindowPosition;
         ExitWithEscape = obj.ExitWithEscape;
@@ -117,6 +119,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Current UI language
       /// </summary>
       public EUiLanguage Language
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Save settings in user roaming path or use it as portable app
+      /// </summary>
+      public bool IsUserSettings
       {
         get;
       }

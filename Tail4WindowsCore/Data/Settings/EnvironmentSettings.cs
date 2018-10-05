@@ -66,6 +66,24 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private bool _isUserSettings;
+
+    /// <summary>
+    /// Save settings in user roaming path or use it as portable app
+    /// </summary>
+    public bool IsUserSettings
+    {
+      get => _isUserSettings;
+      set
+      {
+        if ( value == _isUserSettings )
+          return;
+
+        _isUserSettings = value;
+        OnPropertyChanged();
+      }
+    }
+
     private CultureInfo _cultureInfo;
 
     /// <summary>
