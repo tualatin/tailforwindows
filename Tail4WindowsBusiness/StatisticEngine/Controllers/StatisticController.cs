@@ -338,7 +338,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       while ( !_cts.IsCancellationRequested )
       {
         UpdateSession();
-        await Task.Delay(TimeSpan.FromMinutes(20), _cts.Token);
+        await Task.Delay(TimeSpan.FromMinutes(30), _cts.Token);
       }
     }
 
