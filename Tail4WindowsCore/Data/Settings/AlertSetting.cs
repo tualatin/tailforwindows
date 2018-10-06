@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using Newtonsoft.Json;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
 
@@ -13,8 +15,10 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     private bool _bringToFront;
 
     /// <summary>
-    /// Bring mainwindow to front when alert occurs
+    /// Bring MainWindow to front when alert occurs
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.AlertBringToFront)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool BringToFront
     {
       get => _bringToFront;
@@ -33,6 +37,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Show Popup window when alert occurs
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.AlertPopUpWindow)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool PopupWnd
     {
       get => _popupWnd;
@@ -51,6 +57,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Play sound file when alert occurs
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.AlertPlaySoundFile)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool PlaySoundFile
     {
       get => _playSoundFile;
@@ -69,6 +77,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Send E-Mail when alert occurs
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.AlertSendMail)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool SendMail
     {
       get => _sendMail;
@@ -87,6 +97,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Name of sound file to play when alert occurs
     /// </summary>
+    [DefaultValue("")]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string SoundFileNameFullPath
     {
       get => _soundFileNameFullPath;
@@ -107,6 +119,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Name of sound file without path
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.AlertSoundFile)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string SoundFileName
     {
       get => _soundFileName;
@@ -125,6 +139,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// E-Mail address to send E-Mail when alert occurs
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.AlertMailAddress)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string MailAddress
     {
       get => _emailAddress;

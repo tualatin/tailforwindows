@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using log4net;
+using Newtonsoft.Json;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Extensions;
@@ -36,7 +37,16 @@ namespace Org.Vs.TailForWin.Core.Controllers
     public static EnvironmentSettings CurrentSettings
     {
       get;
+      private set;
     } = new EnvironmentSettings();
+
+    /// <summary>
+    /// Current T4W app settings
+    /// </summary>
+    public static AppSettings CurrentAppSettings
+    {
+      get;
+    } = new AppSettings();
 
     /// <summary>
     /// Reads current settings
@@ -51,34 +61,19 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>Task</returns>
     public async Task ReadSettingsAsync(CancellationTokenSource cts)
     {
-      await RemovePropertiesIfExistsAsync(cts);
       await AddPropertiesIfNotExistsAsync(cts);
+
       await Task.Run(() => ReadSettings(), cts.Token);
+      await Task.Run(() => ReadUserSettings(), cts.Token);
+
+      await RemovePropertiesIfExistsAsync(cts);
     }
 
     private async Task AddPropertiesIfNotExistsAsync(CancellationTokenSource cts)
     {
       var settings = new Dictionary<string, string>
       {
-        { "IsUserSettings", DefaultEnvironmentSettings.IsUserSettings.ToString() },
-        { "LastViewedOptionPage", Guid.Empty.ToString() },
-        { "Language", DefaultEnvironmentSettings.Language.ToString() },
-        { "DeleteLogFileOlderThan", DefaultEnvironmentSettings.DeleteLogFilesOlderThan.ToString() },
-        { "StatusBarInactiveBackgroundColor", DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor },
-        { "StatusBarFileLoadedBackgroundColor", DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor },
-        { "StatusBarTailBackgroundColor", DefaultEnvironmentSettings.StatusBarTailBackgroundColor },
-        { "DragDropWindow", DefaultEnvironmentSettings.ActivateDragDropWindow.ToString() },
-        { "SaveLogFileHistory", DefaultEnvironmentSettings.SaveLogFileHistory.ToString() },
-        { "LogFileHistorySize", DefaultEnvironmentSettings.HistoryMaxSize.ToString() },
-        { "ShowExtendedSettings", DefaultEnvironmentSettings.ShowExtendedSettings.ToString() },
-        { "SplitterBackgroundColor", DefaultEnvironmentSettings.SplitterBackgroundColor },
-        { "SplitterWindowBehavior", DefaultEnvironmentSettings.SplitterWindowBehavior.ToString() },
-        { "SelectionBackgroundColor", DefaultEnvironmentSettings.SelectionBackgroundColor },
-        { "SmartWatch.SmartWatchInterval", DefaultEnvironmentSettings.SmartWatchInterval.ToString() },
-        { "EditorPath", string.Empty },
-        { "SingleInstance", DefaultEnvironmentSettings.SingleInstance.ToString() },
-        { "ContinuedScroll", DefaultEnvironmentSettings.ContinuedScroll.ToString() },
-        { "LastUsedExportFormat", DefaultEnvironmentSettings.ExportFormat.ToString() }
+        { "IsUserSettings", DefaultEnvironmentSettings.IsUserSettings.ToString() }
       };
 
       await AddNewPropertyAsync(settings, cts);
@@ -86,21 +81,91 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private async Task RemovePropertiesIfExistsAsync(CancellationTokenSource cts)
     {
-      var settings = new List<string>
+      var settings = new[]
       {
-        "Proxy.Use",
+        "LastViewedOptionPage",
+        "Language",
+        "DragDropWindow",
+        "SplitterWindowBehavior",
+        "LinesRead",
+        "LogLineLimit",
+        "AlwaysOnTop",
+        "ShowNLineAtStart",
+        "AlwaysScrollToEnd",
+        "RestoreWindowSize",
         "InactiveBackgroundColor",
         "InactiveForegroundColor",
+         "WndWidth",
+        "WndHeight",
+        "SaveWindowPosition",
+        "WindowState",
+        "WndXPos",
+        "WndYPos",
+        "DefaultRefreshRate",
+        "DefaultThreadPriority",
+        "ExitWithEsc" ,
+        "TimeFormat",
+        "DateFormat",
         "SearchwndYPos",
         "SearchwndXPos",
+        "ForegroundColor",
+        "SingleInstance" ,
+        "ContinuedScroll" ,
+        "LastUsedExportFormat",
+        "BackgroundColor",
+        "SelectionBackgroundColor",
+        "FindHighlightForegroundColor",
+        "FindHighlightBackgroundColor",
+        "StatusBarInactiveBackgroundColor",
+        "StatusBarFileLoadedBackgroundColor",
+        "StatusBarTailBackgroundColor",
+        "SplitterBackgroundColor",
+        "FileManagerSort",
+        "ShowLineNumbers",
+        "LineNumbersColor",
+        "HighlightColor",
+        "AutoUpdate" ,
+        "SmartWatch",
+        "Statics",
+        "ShowExtendedSettings",
+        "GroupByCategory",
+        "SaveLogFileHistory",
+        "LogFileHistorySize",
+        "CurrentWindowStyle",
+        "DeleteLogFiles",
+        "DeleteLogFileOlderThan",
+        "EditorPath",
+        "Alert.BringToFront",
+        "Alert.PlaySoundFile",
+        "Alert.SoundFile",
+        "Alert.SendEMail",
+        "Alert.EMailAddress",
+        "Alert.PopupWindow",
+        "Proxy.Port" ,
+        "Proxy.Url" ,
+        "Proxy.UseSystem" ,
+        "Proxy.UserName" ,
+        "Proxy.Use",
+        "Proxy.Password",
+        "Smtp.Server" ,
+        "Smtp.Port" ,
+        "Smtp.Login" ,
+        "Smtp.FromEMail" ,
+        "Smtp.Subject",
+        "Smtp.Ssl",
+        "Smtp.Tls",
         "Smtp.Password",
-        "Proxy.Password"
+        "SmartWatch.FilterByExtension" ,
+        "SmartWatch.NewTab" ,
+        "SmartWatch.Mode" ,
+        "SmartWatch.AutoRun" ,
+        "SmartWatch.SmartWatchInterval"
       };
 
       await RemoveObsoletePropertiesAsync(settings, cts.Token);
     }
 
-    private async Task RemoveObsoletePropertiesAsync(List<string> obsoleteSettings, CancellationToken token) => await Task.Run(() =>
+    private async Task RemoveObsoletePropertiesAsync(IReadOnlyCollection<string> obsoleteSettings, CancellationToken token) => await Task.Run(() =>
     {
       if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
@@ -167,6 +232,53 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
     }
 
+    private void ReadUserSettings()
+    {
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      {
+        try
+        {
+          LOG.Trace($"Read {CoreEnvironment.ApplicationTitle} user settings");
+
+          if ( !Directory.Exists(CoreEnvironment.UserSettingsPath) )
+            Directory.CreateDirectory(CoreEnvironment.UserSettingsPath);
+
+          if ( !File.Exists(CoreEnvironment.ApplicationSettingsFile) )
+          {
+            if ( CurrentSettings.LastViewedOptionPage != Guid.Empty )
+            {
+              // Convert old settings to JSON
+              SaveUserSettings();
+            }
+            else
+            {
+              SetDefaultSettings();
+              SaveUserSettings();
+            }
+            return;
+          }
+
+          using ( StreamReader sr = File.OpenText(CoreEnvironment.ApplicationSettingsFile) )
+          {
+            JsonSerializer serializer = new JsonSerializer();
+            CurrentSettings = (EnvironmentSettings) serializer.Deserialize(sr, typeof(EnvironmentSettings));
+          }
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
+    }
+
     /// <summary>
     /// Writes current settings
     /// </summary>
@@ -178,7 +290,11 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task SaveSettingsAsync(CancellationTokenSource cts) => await Task.Run(() => SaveSettings(), cts.Token);
+    public async Task SaveSettingsAsync(CancellationTokenSource cts)
+    {
+      await Task.Run(() => SaveSettings(), cts.Token);
+      await Task.Run(() => SaveUserSettings(), cts.Token);
+    }
 
     /// <summary>
     /// Reset current color settings
@@ -207,12 +323,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
             return;
 
           SaveWindowSettings(config);
-          SaveStatusBarSettings(config);
-          SaveProxySettings(config);
-          SaveLogViewerSettings(config);
-          SaveAlertSettings(config);
-          SaveSmtpSettings(config);
-          SaveSmartWatchSettings(config);
 
           config.Save(ConfigurationSaveMode.Modified);
           ConfigurationManager.RefreshSection("appSettings");
@@ -232,105 +342,39 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
     }
 
-    private void SaveWindowSettings(Configuration config)
+    private void SaveUserSettings()
     {
-      WriteValueToSetting(config, "IsUserSettings", CurrentSettings.IsUserSettings);
-      WriteValueToSetting(config, "LastViewedOptionPage", CurrentSettings.LastViewedOptionPage);
-      WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
-      WriteValueToSetting(config, "AlwaysOnTop", CurrentSettings.AlwaysOnTop);
-      WriteValueToSetting(config, "RestoreWindowSize", CurrentSettings.RestoreWindowSize);
-      WriteValueToSetting(config, "WndWidth", CurrentSettings.WindowWidth);
-      WriteValueToSetting(config, "WndHeight", CurrentSettings.WindowHeight);
-      WriteValueToSetting(config, "WndXPos", CurrentSettings.WindowPositionX);
-      WriteValueToSetting(config, "WndYPos", CurrentSettings.WindowPositionY);
-      WriteValueToSetting(config, "SaveWindowPosition", CurrentSettings.SaveWindowPosition);
-      WriteValueToSetting(config, "SingleInstance", CurrentSettings.SingleInstance);
-      WriteValueToSetting(config, "ExitWithEsc", CurrentSettings.ExitWithEscape);
-      WriteValueToSetting(config, "WindowState", CurrentSettings.CurrentWindowState);
-      WriteValueToSetting(config, "Language", CurrentSettings.Language);
-      WriteValueToSetting(config, "AlwaysScrollToEnd", CurrentSettings.AlwaysScrollToEnd);
-      WriteValueToSetting(config, "ContinuedScroll", CurrentSettings.ContinuedScroll);
-      WriteValueToSetting(config, "ShowNLineAtStart", CurrentSettings.ShowNumberLineAtStart);
-      WriteValueToSetting(config, "ShowLineNumbers", CurrentSettings.ShowLineNumbers);
-      WriteValueToSetting(config, "LinesRead", CurrentSettings.LinesRead);
-      WriteValueToSetting(config, "GroupByCategory", CurrentSettings.GroupByCategory);
-      WriteValueToSetting(config, "AutoUpdate", CurrentSettings.AutoUpdate);
-      WriteValueToSetting(config, "DefaultRefreshRate", CurrentSettings.DefaultRefreshRate);
-      WriteValueToSetting(config, "DefaultThreadPriority", CurrentSettings.DefaultThreadPriority);
-      WriteValueToSetting(config, "CurrentWindowStyle", CurrentSettings.CurrentWindowStyle);
-      WriteValueToSetting(config, "TimeFormat", CurrentSettings.DefaultTimeFormat);
-      WriteValueToSetting(config, "DateFormat", CurrentSettings.DefaultDateFormat);
-      WriteValueToSetting(config, "FileManagerSort", CurrentSettings.DefaultFileSort);
-      WriteValueToSetting(config, "LogLineLimit", CurrentSettings.LogLineLimit);
-      WriteValueToSetting(config, "SmartWatch", CurrentSettings.SmartWatch);
-      WriteValueToSetting(config, "Statics", CurrentSettings.Statistics);
-      WriteValueToSetting(config, "DeleteLogFileOlderThan", CurrentSettings.LogFilesOlderThan);
-      WriteValueToSetting(config, "DeleteLogFiles", CurrentSettings.DeleteLogFiles);
-      WriteValueToSetting(config, "DragDropWindow", CurrentSettings.ActivateDragDropWindow);
-      WriteValueToSetting(config, "SaveLogFileHistory", CurrentSettings.SaveLogFileHistory);
-      WriteValueToSetting(config, "LogFileHistorySize", CurrentSettings.HistoryMaxSize);
-      WriteValueToSetting(config, "ShowExtendedSettings", CurrentSettings.ShowExtendedSettings);
-      WriteValueToSetting(config, "SplitterWindowBehavior", CurrentSettings.SplitterWindowBehavior);
-      WriteValueToSetting(config, "EditorPath", CurrentSettings.EditorPath);
-      WriteValueToSetting(config, "LastUsedExportFormat", CurrentSettings.ExportFormat);
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      {
+        try
+        {
+          LOG.Trace($"Save {CoreEnvironment.ApplicationTitle} user settings");
+
+          using ( FileStream fs = File.Open(CoreEnvironment.ApplicationSettingsFile, FileMode.OpenOrCreate) )
+          using ( StreamWriter sw = new StreamWriter(fs) )
+          using ( JsonWriter jw = new JsonTextWriter(sw) )
+          {
+            jw.Formatting = Formatting.Indented;
+            JsonSerializer serializer = new JsonSerializer();
+            serializer.Serialize(jw, CurrentSettings);
+          }
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
 
-    private void SaveStatusBarSettings(Configuration config)
-    {
-      WriteValueToSetting(config, "StatusBarInactiveBackgroundColor", CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex);
-      WriteValueToSetting(config, "StatusBarFileLoadedBackgroundColor", CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex);
-      WriteValueToSetting(config, "StatusBarTailBackgroundColor", CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex);
-    }
-
-    private void SaveLogViewerSettings(Configuration config)
-    {
-      WriteValueToSetting(config, "ForegroundColor", CurrentSettings.ColorSettings.ForegroundColorHex);
-      WriteValueToSetting(config, "BackgroundColor", CurrentSettings.ColorSettings.BackgroundColorHex);
-      WriteValueToSetting(config, "SelectionBackgroundColor", CurrentSettings.ColorSettings.SelectionBackgroundColorHex);
-      WriteValueToSetting(config, "FindHighlightForegroundColor", CurrentSettings.ColorSettings.FindHighlightForegroundColorHex);
-      WriteValueToSetting(config, "FindHighlightBackgroundColor", CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex);
-      WriteValueToSetting(config, "LineNumbersColor", CurrentSettings.ColorSettings.LineNumberColorHex);
-      WriteValueToSetting(config, "HighlightColor", CurrentSettings.ColorSettings.LineNumberHighlightColorHex);
-      WriteValueToSetting(config, "SplitterBackgroundColor", CurrentSettings.ColorSettings.SplitterBackgroundColorHex);
-    }
-
-    private void SaveAlertSettings(Configuration config)
-    {
-      WriteValueToSetting(config, "Alert.BringToFront", CurrentSettings.AlertSettings.BringToFront);
-      WriteValueToSetting(config, "Alert.EMailAddress", CurrentSettings.AlertSettings.MailAddress);
-      WriteValueToSetting(config, "Alert.SendEMail", CurrentSettings.AlertSettings.SendMail);
-      WriteValueToSetting(config, "Alert.PlaySoundFile", CurrentSettings.AlertSettings.PlaySoundFile);
-      WriteValueToSetting(config, "Alert.PopupWindow", CurrentSettings.AlertSettings.PopupWnd);
-      WriteValueToSetting(config, "Alert.SoundFile", CurrentSettings.AlertSettings.SoundFileNameFullPath);
-    }
-
-    private void SaveSmtpSettings(Configuration config)
-    {
-      WriteValueToSetting(config, "Smtp.Ssl", CurrentSettings.SmtpSettings.Ssl);
-      WriteValueToSetting(config, "Smtp.Tls", CurrentSettings.SmtpSettings.Tls);
-      WriteValueToSetting(config, "Smtp.FromEMail", CurrentSettings.SmtpSettings.FromAddress);
-      WriteValueToSetting(config, "Smtp.Subject", CurrentSettings.SmtpSettings.Subject);
-      WriteValueToSetting(config, "Smtp.Login", CurrentSettings.SmtpSettings.LoginName);
-      WriteValueToSetting(config, "Smtp.Port", CurrentSettings.SmtpSettings.SmtpPort);
-      WriteValueToSetting(config, "Smtp.Server", CurrentSettings.SmtpSettings.SmtpServerName);
-    }
-
-    private void SaveProxySettings(Configuration config)
-    {
-      WriteValueToSetting(config, "Proxy.UserName", CurrentSettings.ProxySettings.UserName);
-      WriteValueToSetting(config, "Proxy.Port", CurrentSettings.ProxySettings.ProxyPort.ToString(CultureInfo.InvariantCulture));
-      WriteValueToSetting(config, "Proxy.Url", CurrentSettings.ProxySettings.ProxyUrl);
-      WriteValueToSetting(config, "Proxy.UseSystem", CurrentSettings.ProxySettings.UseSystemSettings.ToString());
-    }
-
-    private void SaveSmartWatchSettings(Configuration config)
-    {
-      WriteValueToSetting(config, "SmartWatch.AutoRun", CurrentSettings.SmartWatchSettings.AutoRun);
-      WriteValueToSetting(config, "SmartWatch.FilterByExtension", CurrentSettings.SmartWatchSettings.FilterByExtension);
-      WriteValueToSetting(config, "SmartWatch.Mode", CurrentSettings.SmartWatchSettings.Mode);
-      WriteValueToSetting(config, "SmartWatch.NewTab", CurrentSettings.SmartWatchSettings.NewTab);
-      WriteValueToSetting(config, "SmartWatch.SmartWatchInterval", CurrentSettings.SmartWatchSettings.SmartWatchInterval);
-    }
+    private void SaveWindowSettings(Configuration config) => WriteValueToSetting(config, "IsUserSettings", CurrentAppSettings.IsUserSettings);
 
     /// <summary>
     /// Reset current settings
@@ -374,7 +418,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SetDefaultWindowSettings()
     {
-      CurrentSettings.IsUserSettings = DefaultEnvironmentSettings.IsUserSettings;
       CurrentSettings.LastViewedOptionPage = Guid.Empty;
       CurrentSettings.Language = DefaultEnvironmentSettings.Language;
       CurrentSettings.CurrentWindowStyle = DefaultEnvironmentSettings.CurrentWindowStyle;
@@ -549,8 +592,13 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void ReadWindowSettings()
     {
-      CurrentSettings.IsUserSettings = GetBoolFromSetting("IsUserSettings", true);
-      CurrentSettings.LastViewedOptionPage = Guid.Parse(GetStringFromSetting("LastViewedOptionPage"));
+      CurrentAppSettings.IsUserSettings = GetBoolFromSetting("IsUserSettings");
+
+      string guid = GetStringFromSetting("LastViewedOptionPage");
+
+      if ( !string.IsNullOrWhiteSpace(guid) )
+        CurrentSettings.LastViewedOptionPage = Guid.Parse(guid);
+
       CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
       CurrentSettings.AlwaysOnTop = GetBoolFromSetting("AlwaysOnTop");
       CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");

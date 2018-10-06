@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using Newtonsoft.Json;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
@@ -16,12 +18,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// SmartWatch interval
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SmartWatchInterval)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public int SmartWatchInterval
     {
       get => _smartWatchInterval;
       set
       {
-        if (Equals(value, _smartWatchInterval))
+        if ( Equals(value, _smartWatchInterval) )
           return;
 
         _smartWatchInterval = value;
@@ -34,6 +38,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Filter new files by extension
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SmartWatchFilterByExension)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool FilterByExtension
     {
       get => _filterByExtension;
@@ -52,6 +58,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// SmartWatch mode
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SmartWatchMode)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public ESmartWatchMode Mode
     {
       get => _mode;
@@ -70,6 +78,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Open in new tab
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SmartWatchNewTab)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool NewTab
     {
       get => _newTab;
@@ -88,6 +98,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// AutoRun mode of SmartWatch
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SmartWatchAutoRun)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool AutoRun
     {
       get => _autoRun;

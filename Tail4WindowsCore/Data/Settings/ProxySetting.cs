@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using Newtonsoft.Json;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
 
@@ -19,6 +21,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// 2. <c>False</c> == Manual proxy setting
     /// 3. <c>True</c> == use system proxy settings
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.ProxyUseSystemSettings)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool? UseSystemSettings
     {
       get => _useSystemSettings;
@@ -37,6 +41,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Proxy port
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.ProxyPort)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public int ProxyPort
     {
       get => _proxyPort;
@@ -55,6 +61,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Proxy server url
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.ProxyUrl)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string ProxyUrl
     {
       get => _proxyUrl;
@@ -73,6 +81,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Username
     /// </summary>
+    [DefaultValue("")]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string UserName
     {
       get => _userName;
@@ -91,6 +101,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Password
     /// </summary>
+    [JsonIgnore]
     public string Password
     {
       get => _password;

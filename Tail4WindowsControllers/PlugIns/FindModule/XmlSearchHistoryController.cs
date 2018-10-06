@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using log4net;
-using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Data;
 using Org.Vs.TailForWin.Core.Data.XmlNames;
 using Org.Vs.TailForWin.Core.Extensions;
@@ -42,7 +41,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public XmlSearchHistoryController() => _historyFile = EnvironmentContainer.UserSettingsPath + @"\History.xml";
+    public XmlSearchHistoryController() => _historyFile = CoreEnvironment.UserSettingsPath + @"\History.xml";
 
     /// <summary>
     /// Constructor for testing purposes

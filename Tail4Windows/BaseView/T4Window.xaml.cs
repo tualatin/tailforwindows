@@ -74,7 +74,7 @@ namespace Org.Vs.TailForWin.BaseView
     {
       try
       {
-        if ( !SettingsHelperController.CurrentSettings.ShouldClose )
+        if ( !SettingsHelperController.CurrentAppSettings.ShouldClose )
         {
           var busyTabItems = UiHelper.GetTabItemList().Where(p => p.TabItemBusyIndicator == Visibility.Visible).ToList();
 
@@ -84,7 +84,7 @@ namespace Org.Vs.TailForWin.BaseView
 
             if ( InteractionService.ShowQuestionMessageBox(message) == MessageBoxResult.Yes )
             {
-              SettingsHelperController.CurrentSettings.ShouldClose = true;
+              SettingsHelperController.CurrentAppSettings.ShouldClose = true;
               e.Cancel = false;
             }
             else

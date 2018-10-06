@@ -1,4 +1,4 @@
-﻿using Org.Vs.TailForWin.Business.Utils;
+﻿using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Business.Data
@@ -11,6 +11,6 @@ namespace Org.Vs.TailForWin.Business.Data
     /// <summary>
     /// Tail4Window database file
     /// </summary>
-    public static readonly string TailForWindowsDatabaseFile = EnvironmentContainer.UserSettingsPath + @"\T4W.db";
+    public static readonly string TailForWindowsDatabaseFile = CoreEnvironment.UserSettingsPath + @"\T4W.db";
   }
 }

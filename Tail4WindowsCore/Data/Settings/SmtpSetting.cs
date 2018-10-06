@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using Newtonsoft.Json;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
 
@@ -15,6 +17,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// SMTP server name
     /// </summary>
+    [DefaultValue("")]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string SmtpServerName
     {
       get => _smtpServerName;
@@ -33,6 +37,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// SMTP server port
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SmtpPort)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public int SmtpPort
     {
       get => _smtpPort;
@@ -51,6 +57,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// E-Mail-Server login name
     /// </summary>
+    [DefaultValue("")]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string LoginName
     {
       get => _loginName;
@@ -70,6 +78,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// E-Mail-Server password
     /// </summary>
+    [JsonIgnore]
     public string Password
     {
       get => _password;
@@ -88,6 +97,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// E-Mail address From
     /// </summary>
+    [DefaultValue("")]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string FromAddress
     {
       get => _fromAddress;
@@ -106,6 +117,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Subject
     /// </summary>
+    [DefaultValue("")]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string Subject
     {
       get => _subject;
@@ -124,6 +137,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Use SSL
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SmtpSsl)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool Ssl
     {
       get => _ssl;
@@ -142,6 +157,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Use TLS
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SmtpTls)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool Tls
     {
       get => _tls;

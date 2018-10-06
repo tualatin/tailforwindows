@@ -101,17 +101,13 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
     #region Command functions
 
-    private async Task ExecuteImportLoadedCommandAsync()
+    private async Task ExecuteImportLoadedCommandAsync() => await Task.Run(() =>
     {
-      await Task.Run(
-        () =>
-        {
-          CurrentSettingsPath = $"{AppDomain.CurrentDomain.BaseDirectory}{AppDomain.CurrentDomain.FriendlyName}.Config";
-          ((AsyncCommand<object>) ImportCommand).PropertyChanged += ImportCommandPropertyChanged;
-          ((AsyncCommand<object>) ExportCommand).PropertyChanged += ExportCommandPropertyChanged;
-          ((AsyncCommand<object>) ResetSettingsCommand).PropertyChanged += ResetCommandPropertyChanged;
-        }).ConfigureAwait(false);
-    }
+      CurrentSettingsPath = $"{AppDomain.CurrentDomain.BaseDirectory}{AppDomain.CurrentDomain.FriendlyName}.Config";
+      ((AsyncCommand<object>) ImportCommand).PropertyChanged += ImportCommandPropertyChanged;
+      ((AsyncCommand<object>) ExportCommand).PropertyChanged += ExportCommandPropertyChanged;
+      ((AsyncCommand<object>) ResetSettingsCommand).PropertyChanged += ResetCommandPropertyChanged;
+    }).ConfigureAwait(false);
 
     private void ExecuteImportUnloadedCommand()
     {

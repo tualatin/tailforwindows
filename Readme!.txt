@@ -9,6 +9,8 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.2.xxxx.x
+* new settings in JSON file
+* new Tail4Windows can save settings in Users\User\Roaming\Tail4Windows\ (IsUserSettings true) or Tail4Windows\Settings (IsUserSettings false), take a look T4W.exe.config - for portable use
 * new AutoUpdate checks for new version at startup and every 24 hours
 * new change Bookmark icon, if a comment exists
 * new Bookmark overview (Ctrl+Alt+B)

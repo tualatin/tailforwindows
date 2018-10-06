@@ -145,7 +145,7 @@ namespace Org.Vs.TailForWin.Business.Data.SystemInformation
     public string GuiTotalPageFileSize => (MachineMemory.ullTotalPageFile / Math.Pow(1024, 3)).ToString("N2", SetNumberFormat()) + " GB";
 
     /// <summary>
-    /// GuiAvailavlePageFileSize
+    /// GuiAvailablePageFileSize
     /// </summary>
     public string GuiAvailPageFileSize => (MachineMemory.ullAvailPageFile / Math.Pow(1024, 2)).ToString("N2", SetNumberFormat()) + " MB";
 
@@ -153,6 +153,6 @@ namespace Org.Vs.TailForWin.Business.Data.SystemInformation
     /// SetNumberFormat
     /// </summary>
     /// <returns></returns>
-    private NumberFormatInfo SetNumberFormat() => SettingsHelperController.CurrentSettings.CurrentCultureInfo.NumberFormat;
+    private NumberFormatInfo SetNumberFormat() => SettingsHelperController.CurrentAppSettings.CurrentCultureInfo.NumberFormat;
   }
 }

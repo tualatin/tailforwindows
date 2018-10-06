@@ -103,7 +103,7 @@ namespace Org.Vs.TailForWin.Core.Extensions
     {
       var formattedText = new FormattedText(
         value,
-        SettingsHelperController.CurrentSettings.CurrentCultureInfo,
+        SettingsHelperController.CurrentAppSettings.CurrentCultureInfo,
         FlowDirection.LeftToRight,
         typeface,
         fontSize,

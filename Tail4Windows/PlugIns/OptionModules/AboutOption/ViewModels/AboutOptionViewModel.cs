@@ -141,7 +141,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
 
       Assembly assembly = Assembly.GetExecutingAssembly();
       Author = $"M. Zoennchen, Copyright 2013 - {DateTime.Now.Year}";
-      BuildDate = Core.Utils.BuildDate.GetBuildDateTime(assembly).ToString(SettingsHelperController.CurrentSettings.CurrentCultureInfo);
+      BuildDate = Core.Utils.BuildDate.GetBuildDateTime(assembly).ToString(SettingsHelperController.CurrentAppSettings.CurrentCultureInfo);
       Version = $"{assembly.GetName().Version} - {build} ({channel})";
     }
 

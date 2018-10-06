@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using log4net;
-using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces;
@@ -98,17 +97,17 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       {
       case EUiLanguage.English:
 
-        LanguageSelector.SetLanguageResourceDictionary(EnvironmentContainer.ApplicationPath + @"\Language\en-EN.xaml");
+        LanguageSelector.SetLanguageResourceDictionary(CoreEnvironment.ApplicationPath + @"\Language\en-EN.xaml");
         break;
 
       case EUiLanguage.German:
 
-        LanguageSelector.SetLanguageResourceDictionary(EnvironmentContainer.ApplicationPath + @"\Language\de-DE.xaml");
+        LanguageSelector.SetLanguageResourceDictionary(CoreEnvironment.ApplicationPath + @"\Language\de-DE.xaml");
         break;
 
       default:
 
-        LanguageSelector.SetLanguageResourceDictionary(EnvironmentContainer.ApplicationPath + @"\Language\en-EN.xaml");
+        LanguageSelector.SetLanguageResourceDictionary(CoreEnvironment.ApplicationPath + @"\Language\en-EN.xaml");
         break;
       }
     }

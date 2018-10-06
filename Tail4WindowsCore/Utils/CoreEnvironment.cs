@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.IO;
+using System.Windows;
+using Org.Vs.TailForWin.Core.Controllers;
 
 
 namespace Org.Vs.TailForWin.Core.Utils
@@ -12,6 +15,22 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// Application title
     /// </summary>
     public static string ApplicationTitle => Application.Current.TryFindResource("ApplicationTitle").ToString();
+
+    /// <summary>
+    /// Current application path
+    /// </summary>
+    public static string ApplicationPath => Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+
+    /// <summary>
+    /// TailStore path
+    /// </summary>
+    public static string UserSettingsPath => !SettingsHelperController.CurrentAppSettings.IsUserSettings
+      ? ApplicationPath + @"\Settings" : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + $"\\{ApplicationTitle}";
+
+    /// <summary>
+    /// Application settings file
+    /// </summary>
+    public static string ApplicationSettingsFile => UserSettingsPath + $@"\{ApplicationTitle}.config";
 
     /// <summary>
     /// Application Regex compare URL

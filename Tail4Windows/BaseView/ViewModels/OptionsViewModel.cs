@@ -37,6 +37,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private static readonly ILog LOG = LogManager.GetLogger(typeof(OptionsViewModel));
 
     private EnvironmentSettings.MementoEnvironmentSettings _mementoSettings;
+    private AppSettings.AppSettingsMemento _mementoAppSettings;
     private CancellationTokenSource _cts;
     private readonly ISettingsDbController _dbSettingsDbController;
 
@@ -99,6 +100,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     public OptionsViewModel()
     {
       _mementoSettings = SettingsHelperController.CurrentSettings.SaveToMemento();
+      _mementoAppSettings = SettingsHelperController.CurrentAppSettings.SaveToMemento();
+
       _dbSettingsDbController = SettingsDbController.Instance;
 
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
@@ -160,8 +163,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( _mementoSettings != null )
         SettingsHelperController.CurrentSettings.RestoreFromMemento(_mementoSettings);
 
+      if ( _mementoAppSettings != null )
+        SettingsHelperController.CurrentAppSettings.RestoreFromMemento(_mementoAppSettings);
+
       SettingsHelperController.CurrentSettings.LastViewedOptionPage = CurrentViewModel.PageId;
       _mementoSettings = null;
+      _mementoAppSettings = null;
 
       _cts.Cancel();
       window?.Close();
@@ -173,6 +180,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       SettingsHelperController.CurrentSettings.LastViewedOptionPage = CurrentViewModel.PageId;
       _mementoSettings = null;
+      _mementoAppSettings = null;
 
       SetCancellationTokenSource();
       _dbSettingsDbController.UpdatePasswordSettings();

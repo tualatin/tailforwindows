@@ -213,7 +213,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.Behaviors
 
         var text = new FormattedText(
                 _text,
-                SettingsHelperController.CurrentSettings.CurrentCultureInfo,
+                SettingsHelperController.CurrentAppSettings.CurrentCultureInfo,
                 FlowDirection.LeftToRight,
                 new Typeface(new FontFamily(_fontFamily), FontStyles.Italic, FontWeights.Normal, FontStretches.Normal),
                 _fontSize,

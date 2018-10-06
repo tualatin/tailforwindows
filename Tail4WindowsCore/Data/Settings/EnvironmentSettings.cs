@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Globalization;
+using System.ComponentModel;
 using System.IO;
 using System.Threading;
+using Newtonsoft.Json;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Extensions;
@@ -24,33 +25,12 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       SmartWatchSettings = new SmartWatchSetting();
       ColorSettings = new EnvironmentColorSettings();
       SmtpSettings = new SmtpSetting();
-
-#if DEBUG
-      DebugTailReader = false;
-#endif
-    }
-
-    /// <summary>
-    /// Current application should close now
-    /// </summary>
-    public bool ShouldClose
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// Use debug tail reader
-    /// </summary>
-    public bool DebugTailReader
-    {
-      get;
-      set;
     }
 
     /// <summary>
     /// Current string format
     /// </summary>
+    [JsonIgnore]
     public string CurrentStringFormat
     {
       get
@@ -66,50 +46,13 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
-    private bool _isUserSettings;
-
-    /// <summary>
-    /// Save settings in user roaming path or use it as portable app
-    /// </summary>
-    public bool IsUserSettings
-    {
-      get => _isUserSettings;
-      set
-      {
-        if ( value == _isUserSettings )
-          return;
-
-        _isUserSettings = value;
-        OnPropertyChanged();
-      }
-    }
-
-    private CultureInfo _cultureInfo;
-
-    /// <summary>
-    /// Current culture info
-    /// </summary>
-    public CultureInfo CurrentCultureInfo
-    {
-      get => _cultureInfo ?? Thread.CurrentThread.CurrentUICulture;
-      private set
-      {
-        if ( Equals(_cultureInfo, value) )
-          return;
-
-        _cultureInfo = value;
-        Thread.CurrentThread.CurrentUICulture = value;
-        Thread.CurrentThread.CurrentCulture = value;
-
-        OnPropertyChanged(nameof(CurrentCultureInfo));
-      }
-    }
-
     private EUiLanguage _language;
 
     /// <summary>
     /// Current UI language
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.Language)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public EUiLanguage Language
     {
       get => _language;
@@ -128,6 +71,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Editor path
     /// </summary>
+    [DefaultValue("")]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string EditorPath
     {
       get => _editorPath;
@@ -146,6 +91,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Last used export format
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.ExportFormat)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public EExportFormat ExportFormat
     {
       get => _exportFormat;
@@ -171,6 +118,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Restore window size at startup
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.RestoreWindowSize)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool RestoreWindowSize
     {
       get => _restoreWindowSize;
@@ -189,6 +138,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Save window position
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SaveWindowPosition)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool SaveWindowPosition
     {
       get => _saveWindowPosition;
@@ -207,6 +158,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// X window position
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.WindowPositionX)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public double WindowPositionX
     {
       get => _windowPositionX;
@@ -222,6 +175,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Y window position
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.WindowPositionY)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public double WindowPositionY
     {
       get => _windowPositionY;
@@ -237,6 +192,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// FindResult window X position
     /// </summary>
+    [JsonIgnore]
     public double FindResultPositionX
     {
       get => _findResultPositionX;
@@ -252,6 +208,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// FindResult window Y position
     /// </summary>
+    [JsonIgnore]
     public double FindResultPositionY
     {
       get => _findResultPositionY;
@@ -267,6 +224,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// FindResult window height
     /// </summary>
+    [JsonIgnore]
     public double FindResultHeight
     {
       get => _findResultHeight;
@@ -282,6 +240,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// FindResult window width
     /// </summary>
+    [JsonIgnore]
     public double FindResultWidth
     {
       get => _findResultWidth;
@@ -297,6 +256,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// FindDialog window X position
     /// </summary>
+    [JsonIgnore]
     public double FindDialogPositionX
     {
       get => _findDialogPositionX;
@@ -312,6 +272,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// FindDialog window Y position
     /// </summary>
+    [JsonIgnore]
     public double FindDialogPositionY
     {
       get => _findDialogPositionY;
@@ -327,6 +288,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Bookmark overview window X position
     /// </summary>
+    [JsonIgnore]
     public double BookmarkOverviewPositionX
     {
       get => _bookmarkOverviewPositionX;
@@ -342,6 +304,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Bookmark overview window Y position
     /// </summary>
+    [JsonIgnore]
     public double BookmarkOverviewPositionY
     {
       get => _bookmarkOverviewPositionY;
@@ -357,6 +320,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Bookmark overview window height
     /// </summary>
+    [JsonIgnore]
     public double BookmarkOverviewHeight
     {
       get => _bookmarkOverviewHeight;
@@ -372,6 +336,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Bookmark overview window width
     /// </summary>
+    [JsonIgnore]
     public double BookmarkOverviewWidth
     {
       get => _bookmarkOverviewWidth;
@@ -387,6 +352,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Window height
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.WindowHeight)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public double WindowHeight
     {
       get => _windowHeight;
@@ -402,6 +369,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Window width
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.WindowWidth)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public double WindowWidth
     {
       get => _windowWidth;
@@ -417,6 +386,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Current window state
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.CurrentWindowState)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public System.Windows.WindowState CurrentWindowState
     {
       get => _currentWindowState;
@@ -435,6 +406,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Activate Drag'n'Drop window behavior
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.ActivateDragDropWindow)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool ActivateDragDropWindow
     {
       get => _activateDragDropWindow;
@@ -453,6 +426,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Save current log file history
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SaveLogFileHistory)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool SaveLogFileHistory
     {
       get => _saveLogFileHistory;
@@ -471,6 +446,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// LogFile history max size
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.HistoryMaxSize)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public int HistoryMaxSize
     {
       get => _historyMaxSize;
@@ -489,6 +466,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// SplitterWindow behavior
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SplitterWindowBehavior)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool SplitterWindowBehavior
     {
       get => _splitterWindowBehavior;
@@ -509,6 +488,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Single instance
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SingleInstance)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool SingleInstance
     {
       get => _singleInstance;
@@ -527,6 +508,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Close/exist T4W by pressing Escape key
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.ExitWithEscape)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool ExitWithEscape
     {
       get => _exitWithEscape;
@@ -545,6 +528,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// T4W window always on top
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.AlwaysOnTop)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool AlwaysOnTop
     {
       get => _alwaysOnTop;
@@ -563,6 +548,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Delete old T4W log files
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.DeleteLogFiles)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool DeleteLogFiles
     {
       get => _deleteLogFiles;
@@ -581,6 +568,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Log files older than xxx days
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.DeleteLogFilesOlderThan)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public int LogFilesOlderThan
     {
       get => _logFilesOlderThan;
@@ -599,6 +588,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Current window style
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.CurrentWindowStyle)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public EWindowStyle CurrentWindowStyle
     {
       get => _currentWindowStyle;
@@ -617,6 +608,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Always scroll to end
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.AlwaysScrollToEnd)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool AlwaysScrollToEnd
     {
       get => _alwaysScrollToEnd;
@@ -635,6 +628,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// ContinuedScroll or push method
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.ContinuedScroll)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool ContinuedScroll
     {
       get => _continuedScroll;
@@ -653,6 +648,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Show line numbers
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.ShowLineNumbers)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool ShowLineNumbers
     {
       get => _showLineNumbers;
@@ -671,6 +668,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Show n numbers at start
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.ShowNumberLineAtStart)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool ShowNumberLineAtStart
     {
       get => _showNumberLineAtStart;
@@ -689,6 +688,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Lines read at start
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.LinesRead)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public int LinesRead
     {
       get => _linesRead;
@@ -707,6 +708,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// DataGrid group by category
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.GroupByCategory)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool GroupByCategory
     {
       get => _groupByCategory;
@@ -725,6 +728,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// AutoUpdate
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.AutoUpdate)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool AutoUpdate
     {
       get => _autoUpdate;
@@ -743,6 +748,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default refresh rate
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.DefaultRefreshRate)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public ETailRefreshRate DefaultRefreshRate
     {
       get => _defaultRefreshRate;
@@ -761,6 +768,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default thread priority
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.DefaultThreadPriority)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public ThreadPriority DefaultThreadPriority
     {
       get => _defaultThreadPriority;
@@ -779,6 +788,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default time format
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.DefaultTimeFormat)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public ETimeFormat DefaultTimeFormat
     {
       get => _defaultTimeFormat;
@@ -797,6 +808,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default date format
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.DefaultDateFormat)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public EDateFormat DefaultDateFormat
     {
       get => _defaultDateFormat;
@@ -816,6 +829,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Default file sort
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.DefaultFileSort)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public EFileSort DefaultFileSort
     {
       get => _defaultFileSort;
@@ -834,6 +849,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Log line limitation
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.LogLineLimit)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public int LogLineLimit
     {
       get => _logLineLimit;
@@ -850,6 +867,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Last viewed option page
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public Guid LastViewedOptionPage
     {
       get;
@@ -861,6 +879,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Enable SmartWatch
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SmartWatch)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool SmartWatch
     {
       get => _smartWatch;
@@ -879,6 +899,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Statistics for nerds
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.Statistics)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool Statistics
     {
       get => _statistics;
@@ -897,6 +919,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Show extended settings
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.ShowExtendedSettings)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool ShowExtendedSettings
     {
       get => _showExtendedSettings;

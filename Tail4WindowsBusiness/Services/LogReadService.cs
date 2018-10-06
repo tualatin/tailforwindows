@@ -225,11 +225,11 @@ namespace Org.Vs.TailForWin.Business.Services
     {
 
 #if DEBUG
-      if ( SettingsHelperController.CurrentSettings.DebugTailReader )
+      if ( SettingsHelperController.CurrentAppSettings.DebugTailReader )
         SimulateTailReading(e);
 #endif
 
-      if ( SettingsHelperController.CurrentSettings.DebugTailReader )
+      if ( SettingsHelperController.CurrentAppSettings.DebugTailReader )
         return;
 
       if ( SettingsHelperController.CurrentSettings.ShowNumberLineAtStart && Index == 0 && _lastFileInfo == null )
@@ -391,7 +391,7 @@ namespace Org.Vs.TailForWin.Business.Services
     {
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
       FileSizeTotalEvents = fileSize / 1024d;
-      SizeRefreshTime = string.Format(message, FileSizeTotalEvents.ToString("#,0.000", SettingsHelperController.CurrentSettings.CurrentCultureInfo),
+      SizeRefreshTime = string.Format(message, FileSizeTotalEvents.ToString("#,0.000", SettingsHelperController.CurrentAppSettings.CurrentCultureInfo),
         DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
 
       OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(new List<LogEntry> { entry }, SizeRefreshTime));
@@ -401,7 +401,7 @@ namespace Org.Vs.TailForWin.Business.Services
     {
       string message = Application.Current.TryFindResource("SizeRefreshTime").ToString();
       FileSizeTotalEvents = fileSize / 1024d;
-      SizeRefreshTime = string.Format(message, FileSizeTotalEvents.ToString("#,0.000", SettingsHelperController.CurrentSettings.CurrentCultureInfo),
+      SizeRefreshTime = string.Format(message, FileSizeTotalEvents.ToString("#,0.000", SettingsHelperController.CurrentAppSettings.CurrentCultureInfo),
         DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
 
       OnLogEntryCreated?.Invoke(this, new LogEntryCreatedArgs(entries, SizeRefreshTime));

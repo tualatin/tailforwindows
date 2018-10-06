@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using log4net;
-using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.Extensions;
 
 
@@ -320,7 +320,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-      _userDataGridSettingsFile = EnvironmentContainer.UserSettingsPath + $@"\{Name}_Layout.xml";
+      _userDataGridSettingsFile = CoreEnvironment.UserSettingsPath + $@"\{Name}_Layout.xml";
       _scrollViewer = this.Descendents().OfType<ScrollViewer>().FirstOrDefault();
 
       if ( _scrollViewer == null )

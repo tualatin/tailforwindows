@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -169,17 +168,6 @@ namespace Org.Vs.TailForWin.Business.Utils
     {
       get;
     } = new ObservableCollection<SmartWatchMapping>();
-
-    /// <summary>
-    /// Current application path
-    /// </summary>
-    public static string ApplicationPath => Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-
-    /// <summary>
-    /// TailStore path
-    /// </summary>
-    public static string UserSettingsPath => !SettingsHelperController.CurrentSettings.IsUserSettings
-      ? ApplicationPath + @"\Settings" : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + $"\\{ApplicationTitle}";
 
     /// <summary>
     /// Read current settings

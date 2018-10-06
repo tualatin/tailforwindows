@@ -263,7 +263,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       // Set XAML language culture info
       FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
-        new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(SettingsHelperController.CurrentSettings.CurrentCultureInfo.Name)));
+        new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(SettingsHelperController.CurrentAppSettings.CurrentCultureInfo.Name)));
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<AddTabItemMessage>(OnAddTabItemFromMainWindow);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFindWhatWindowMessage>(OnOpenFindWhatWindow);
@@ -456,20 +456,17 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         {
           try
           {
-            if ( !Directory.Exists(EnvironmentContainer.UserSettingsPath) )
-              Directory.CreateDirectory(EnvironmentContainer.UserSettingsPath);
-
-            string fileManager = EnvironmentContainer.ApplicationPath + @"\FileManager.xml";
+            string fileManager = CoreEnvironment.ApplicationPath + @"\FileManager.xml";
 
             if ( File.Exists(fileManager) )
-              File.Move(fileManager, EnvironmentContainer.UserSettingsPath + @"\FileManager.xml");
+              File.Move(fileManager, CoreEnvironment.UserSettingsPath + @"\FileManager.xml");
 
-            string history = EnvironmentContainer.ApplicationPath + @"\History.xml";
+            string history = CoreEnvironment.ApplicationPath + @"\History.xml";
 
             if ( !File.Exists(history) )
               return;
 
-            File.Move(history, EnvironmentContainer.UserSettingsPath + @"\History.xml");
+            File.Move(history, CoreEnvironment.UserSettingsPath + @"\History.xml");
           }
           catch ( Exception ex )
           {
@@ -1169,17 +1166,17 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
       case EUiLanguage.English:
 
-        LanguageSelector.SetLanguageResourceDictionary(EnvironmentContainer.ApplicationPath + @"\Language\en-EN.xaml");
+        LanguageSelector.SetLanguageResourceDictionary(CoreEnvironment.ApplicationPath + @"\Language\en-EN.xaml");
         break;
 
       case EUiLanguage.German:
 
-        LanguageSelector.SetLanguageResourceDictionary(EnvironmentContainer.ApplicationPath + @"\Language\de-DE.xaml");
+        LanguageSelector.SetLanguageResourceDictionary(CoreEnvironment.ApplicationPath + @"\Language\de-DE.xaml");
         break;
 
       default:
 
-        LanguageSelector.SetLanguageResourceDictionary(EnvironmentContainer.ApplicationPath + @"\Language\en-EN.xaml");
+        LanguageSelector.SetLanguageResourceDictionary(CoreEnvironment.ApplicationPath + @"\Language\en-EN.xaml");
         break;
       }
     }

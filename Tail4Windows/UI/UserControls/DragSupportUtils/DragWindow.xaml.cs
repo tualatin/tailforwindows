@@ -85,7 +85,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       try
       {
-        if ( !SettingsHelperController.CurrentSettings.ShouldClose )
+        if ( !SettingsHelperController.CurrentAppSettings.ShouldClose )
         {
           var busyTabItems = TabItems.Where(p => p.TabItemBusyIndicator == Visibility.Visible).ToList();
 

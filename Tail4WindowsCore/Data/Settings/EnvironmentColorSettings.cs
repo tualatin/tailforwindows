@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using Newtonsoft.Json;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Interfaces;
 
@@ -17,6 +19,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// StatusBar inactive background color as hex string
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string StatusBarInactiveBackgroundColorHex
     {
       get => _statusBarInactiveBackgroundColorHex;
@@ -35,6 +39,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// StatusBar file loaded background color as hex string
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string StatusBarFileLoadedBackgroundColorHex
     {
       get => _statusBarFileLoadedBackgroundColorHex;
@@ -53,6 +59,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// StatusBar tail background color
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.StatusBarTailBackgroundColor)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string StatusBarTailBackgroundColorHex
     {
       get => _statusBarTailBackgroundColorHex;
@@ -75,6 +83,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Selection background color
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SelectionBackgroundColor)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string SelectionBackgroundColorHex
     {
       get => _selectionBackgroundColorHex;
@@ -93,6 +103,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Log viewer foreground color
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.ForegroundColor)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string ForegroundColorHex
     {
       get => _foregroundColorHex;
@@ -111,6 +123,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Log viewer background color
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.BackgroundColor)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string BackgroundColorHex
     {
       get => _backgroundColorHex;
@@ -133,6 +147,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Find highlight foreground color
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SearchHighlightForegroundColor)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string FindHighlightForegroundColorHex
     {
       get => _findHighlightForegroundColorHex;
@@ -151,6 +167,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Find highlight background color
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SearchHighlightBackgroundColor)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string FindHighlightBackgroundColorHex
     {
       get => _findHighlightBackgroundColorHex;
@@ -173,6 +191,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Line number color
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.LineNumberColor)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string LineNumberColorHex
     {
       get => _lineNumberColorHex;
@@ -191,6 +211,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Line number highlight color
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.HighlightLineNumberColor)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string LineNumberHighlightColorHex
     {
       get => _lineNumberHighlightColorHex;
@@ -211,6 +233,8 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// <summary>
     /// Splitter background color hex
     /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.SplitterBackgroundColor)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string SplitterBackgroundColorHex
     {
       get => _splitterBackgroundColorHex;

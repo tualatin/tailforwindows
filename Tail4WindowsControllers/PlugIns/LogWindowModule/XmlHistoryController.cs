@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using log4net;
-using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.XmlNames;
 using Org.Vs.TailForWin.Core.Interfaces;
@@ -39,7 +38,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public XmlHistoryController() => _historyFile = EnvironmentContainer.UserSettingsPath + @"\LogfileHistory.xml";
+    public XmlHistoryController() => _historyFile = CoreEnvironment.UserSettingsPath + @"\LogfileHistory.xml";
 
     /// <summary>
     /// Read XML file
