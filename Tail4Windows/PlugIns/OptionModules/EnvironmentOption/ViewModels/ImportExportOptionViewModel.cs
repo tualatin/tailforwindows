@@ -130,6 +130,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
       await EnvironmentContainer.Instance.ResetCurrentSettingsAsync(_cts).ConfigureAwait(false);
       await _dbSettingsController.ResetDbSettingsAsync(_cts.Token).ConfigureAwait(false);
+      await EnvironmentContainer.Instance.SaveSettingsAsync(_cts).ConfigureAwait(false);
 
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ResetDataMessage(this));
     }

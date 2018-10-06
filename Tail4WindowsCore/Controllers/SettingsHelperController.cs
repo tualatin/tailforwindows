@@ -529,6 +529,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
         {
           LOG.Trace($"Reload {CoreEnvironment.ApplicationTitle} settings");
           ConfigurationManager.RefreshSection("appSettings");
+
+          ReadUserSettings();
         }
         finally
         {
