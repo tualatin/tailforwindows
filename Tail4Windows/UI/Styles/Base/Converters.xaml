@@ -49,6 +49,8 @@
   <converters:VisibilityToInverseBoolConverter x:Key="VisibilityToInverseBoolConverter" />
   <converters:NegativeVisibilityConverter x:Key="NegativeVisibilityConverter" />
   <converters:FontTypeToImageSizeConverter x:Key="FontTypeToImageSizeConverter" />
+  <converters:IsPortableModeToToolTipConverter x:Key="IsPortableModeToToolTipConverter" />
+  <converters:IsPortableModeToImageSourceConverter x:Key="IsPortableModeToImageSourceConverter" />
 
   <multiConverters:WidthToMarginMultiConverter x:Key="WidthToMarginMultiConverter" />
   <multiConverters:VisibilityToMarginMultiConverter x:Key="VisibilityToMarginMultiConverter" />

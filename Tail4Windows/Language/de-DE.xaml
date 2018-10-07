@@ -381,6 +381,8 @@
   <system:String x:Key="ColorOptionStatusBarLoadedColor">Statusbar Datei geladen Farbe</system:String>
   <system:String x:Key="ColorOptionStatusBarBusyColor">Statusbar beschäftigt Farbe</system:String>
 
+  <system:String x:Key="StatusbarPortableModeToolTip">Portable Modus</system:String>
+  <system:String x:Key="StatusbarUserModeToolTip">Benutzer Modus</system:String>
   <system:String x:Key="StatusbarEncoding">Kodierung</system:String>
   <system:String x:Key="StatusbarEncodingToolTip">Wählt die Kodierung der aktuellen Logdatei</system:String>
 

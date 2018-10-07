@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
@@ -24,13 +25,23 @@
     >
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
       <ColumnDefinition Width="100" />
       <ColumnDefinition Width="Auto" />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
 
-    <Label
+    <Image
       Grid.Column="0"
+      Width="12"
+      Height="12"
+      Margin="2 0"
+      Source="{Binding Source={x:Static controllers:SettingsHelperController.CurrentAppSettings}, Path=IsPortable, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IsPortableModeToImageSourceConverter}}"
+      ToolTip="{Binding Source={x:Static controllers:SettingsHelperController.CurrentAppSettings}, Path=IsPortable, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IsPortableModeToToolTipConverter}}"
+      />
+
+    <Label
+      Grid.Column="1"
       Margin="5 0"
       VerticalAlignment="Center"
       Content="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
@@ -40,7 +51,7 @@
       />
 
     <Label
-      Grid.Column="2"
+      Grid.Column="3"
       Margin="5 0"
       VerticalAlignment="Center"
       Content="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=SizeRefreshTime, UpdateSourceTrigger=PropertyChanged}"
@@ -50,7 +61,7 @@
       />
 
     <Grid
-      Grid.Column="3"
+      Grid.Column="4"
       HorizontalAlignment="Right"
       >
       <Grid.ColumnDefinitions>

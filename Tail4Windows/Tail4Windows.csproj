@@ -312,6 +312,8 @@
     <Compile Include="UI\Converters\IntToBoolConverter.cs" />
     <Compile Include="UI\Converters\IntToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="UI\Converters\IsPortableModeToImageSourceConverter.cs" />
+    <Compile Include="UI\Converters\IsPortableModeToToolTipConverter.cs" />
     <Compile Include="UI\Converters\MediaBrushToMediaColorConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\AlertEnableMailMultiConverter.cs" />
     <Compile Include="UI\Converters\MultiConverters\BookmarkCommentToImageMultiConverter.cs" />
@@ -481,6 +483,8 @@
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
+    <Resource Include="Resources\User.png" />
+    <Resource Include="Resources\Portable.png" />
     <Resource Include="Resources\Auto_Bookmark.png" />
     <Resource Include="Resources\Bookmark_Info.png" />
     <Resource Include="Resources\Copy.png" />

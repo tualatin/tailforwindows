@@ -6,9 +6,9 @@ using System.Windows.Data;
 namespace Org.Vs.TailForWin.UI.Converters
 {
   /// <summary>
-  /// Inverse null to bool converter
+  /// Is portable mode to image source converter
   /// </summary>
-  public class InverseNullToBoolConverter : IValueConverter
+  public class IsPortableModeToImageSourceConverter : IValueConverter
   {
     /// <summary>
     /// Convert
@@ -18,7 +18,12 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is bool ? value : false;
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
+      !(value is bool b) ?
+        "/T4W;component/Resources/User.png" :
+        b ?
+          "/T4W;component/Resources/Portable.png" :
+          "/T4W;component/Resources/User.png";
 
     /// <summary>
     /// Convert
@@ -28,6 +33,6 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
   }
 }

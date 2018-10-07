@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
 
 namespace Org.Vs.TailForWin.UI.Converters
 {
   /// <summary>
-  /// Inverse null to bool converter
+  /// Is portable mode to ToolTip converter
   /// </summary>
-  public class InverseNullToBoolConverter : IValueConverter
+  public class IsPortableModeToToolTipConverter : IValueConverter
   {
     /// <summary>
     /// Convert
@@ -18,7 +19,12 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value is bool ? value : false;
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
+      !(value is bool b) ?
+      Application.Current.TryFindResource("StatusbarUserModeToolTip").ToString() :
+      b ?
+        Application.Current.TryFindResource("StatusbarPortableModeToolTip").ToString() :
+        Application.Current.TryFindResource("StatusbarUserModeToolTip").ToString();
 
     /// <summary>
     /// Convert
@@ -28,6 +34,6 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => value;
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
   }
 }
