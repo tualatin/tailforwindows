@@ -73,7 +73,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       var settings = new Dictionary<string, string>
       {
-        { "IsUserSettings", DefaultEnvironmentSettings.IsUserSettings.ToString() }
+        { "IsPortable", DefaultEnvironmentSettings.IsPortable.ToString() }
       };
 
       await AddNewPropertyAsync(settings, cts);
@@ -374,7 +374,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
     }
 
-    private void SaveWindowSettings(Configuration config) => WriteValueToSetting(config, "IsUserSettings", CurrentAppSettings.IsUserSettings);
+    private void SaveWindowSettings(Configuration config) => WriteValueToSetting(config, "IsPortable", CurrentAppSettings.IsPortable);
 
     /// <summary>
     /// Reset current settings
@@ -594,7 +594,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void ReadWindowSettings()
     {
-      CurrentAppSettings.IsUserSettings = GetBoolFromSetting("IsUserSettings");
+      CurrentAppSettings.IsPortable = GetBoolFromSetting("IsPortable");
 
       string guid = GetStringFromSetting("LastViewedOptionPage");
 

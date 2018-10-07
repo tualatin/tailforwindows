@@ -27,9 +27,9 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public const EWindowStyle CurrentWindowStyle = EWindowStyle.ModernBlueWindowStyle;
 
     /// <summary>
-    /// Default value IsUserSettings
+    /// Default value IsPortable
     /// </summary>
-    public const bool IsUserSettings = true;
+    public const bool IsPortable = false;
 
     /// <summary>
     /// Default value DeleteLogFiles

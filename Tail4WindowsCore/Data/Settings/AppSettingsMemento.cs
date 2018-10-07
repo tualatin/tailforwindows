@@ -22,7 +22,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     {
       Arg.NotNull(memento, nameof(memento));
 
-      IsUserSettings = memento.IsUserSettings;
+      IsPortable = memento.IsPortable;
     }
 
     /// <summary>
@@ -34,15 +34,12 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Internal constructor
       /// </summary>
       /// <param name="obj"><see cref="AppSettings"/></param>
-      internal AppSettingsMemento(AppSettings obj)
-      {
-        IsUserSettings = obj.IsUserSettings;
-      }
+      internal AppSettingsMemento(AppSettings obj) => IsPortable = obj.IsPortable;
 
       /// <summary>
       /// Save settings in user roaming path or use it as portable app
       /// </summary>
-      public bool IsUserSettings
+      public bool IsPortable
       {
         get;
       }
