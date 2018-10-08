@@ -25,7 +25,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// TailStore path
     /// </summary>
     public static string UserSettingsPath => SettingsHelperController.CurrentAppSettings.IsPortable
-      ? ApplicationPath + @"\Settings" : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + $"\\{ApplicationTitle}";
+      ? ApplicationPath + @"\Settings" : Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + $@"\{ApplicationTitle}";
 
     /// <summary>
     /// Application settings file

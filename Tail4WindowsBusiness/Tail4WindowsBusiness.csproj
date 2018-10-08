@@ -146,6 +146,8 @@
     <Compile Include="StatisticEngine\Controllers\StatisticController.cs" />
     <Compile Include="StatisticEngine\Interfaces\IStatisticController.cs" />
     <Compile Include="Utils\CacheManager.cs" />
+    <Compile Include="Utils\Interfaces\IProfileConverter.cs" />
+    <Compile Include="Utils\ProfileConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

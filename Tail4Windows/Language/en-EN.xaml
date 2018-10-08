@@ -385,6 +385,7 @@
   <system:String x:Key="ColorOptionStatusBarLoadedColor">Statusbar file loaded color</system:String>
   <system:String x:Key="ColorOptionStatusBarBusyColor">Statusbar busy color</system:String>
 
+  <system:String x:Key="StatusbarAppMode">App mode</system:String>
   <system:String x:Key="StatusbarPortableModeToolTip">Portable mode</system:String>
   <system:String x:Key="StatusbarUserModeToolTip">User mode</system:String>
   <system:String x:Key="StatusbarEncoding">Encoding</system:String>
@@ -604,4 +605,8 @@
   <system:String x:Key="ExportFormatSelectorExportCsv">Export as CSV</system:String>
   <system:String x:Key="ExportFormatSelectorExportExcel">Export as Excel</system:String>
   <system:String x:Key="ExportFormatSelectorExportOpenDocument">Export as OpenDocument</system:String>
+
+  <system:String x:Key="ConvertProfileFailed">There was an error converting your profile!</system:String>
+  <system:String x:Key="ConvertProfileWrongParameter">Unknown parameter!</system:String>
+  <system:String x:Key="ConvertProfileSuccess">Your profile has been successfully converted.</system:String>
 </ResourceDictionary>

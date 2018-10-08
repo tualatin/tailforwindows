@@ -9,6 +9,7 @@ using System.Windows;
 using log4net;
 using Org.Vs.TailForWin.BaseView;
 using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Business.Utils.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -42,15 +43,56 @@ namespace Org.Vs.TailForWin
       if ( EnvironmentContainer.NetFrameworkKey <= 393295 )
       {
         LOG.Error("Wrong .NET version! Please install .NET 4.6 or newer.");
-        Shutdown();
+        Shutdown(-1);
         return;
       }
 
       if ( e.Args.Length > 0 )
+      {
         _args = e.Args;
+
+        if ( _args.Contains("/convert") )
+        {
+          ConvertProfile();
+          return;
+        }
+      }
 
       AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
       NotifyTaskCompletion.Create(EnvironmentContainer.Instance.ReadSettingsAsync()).PropertyChanged += OnReadSettingsPropertyChanged;
+    }
+
+    private void ConvertProfile()
+    {
+      IProfileConverter converter = new ProfileConverter();
+
+      if ( _args.Contains("local") )
+      {
+        ConvertToLocalProfile(converter);
+      }
+      else if ( _args.Contains("roaming") )
+      {
+        ConvertToRoamingProfile(converter);
+      }
+      else
+      {
+        InteractionService.ShowErrorMessageBox(Current.TryFindResource("ConvertProfileWrongParameter").ToString());
+        Shutdown(-1);
+      }
+    }
+
+    private void ConvertToLocalProfile(IProfileConverter converter) =>
+      NotifyTaskCompletion.Create(converter.ConvertIntoLocalProfileAsync()).PropertyChanged += OnConvertProfilePropertyChanged;
+
+    private void ConvertToRoamingProfile(IProfileConverter converter) =>
+      NotifyTaskCompletion.Create(converter.ConvertIntoRoamingProfileAsync).PropertyChanged += OnConvertProfilePropertyChanged;
+
+    private void OnConvertProfilePropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      Shutdown(0);
     }
 
     private void OnReadSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
