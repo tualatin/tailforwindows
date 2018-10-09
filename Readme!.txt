@@ -22,6 +22,9 @@ v.2.2.xxxx.x
 * improve customize editor -> Options -> Extras
 * improve Find result view -> ToolTip for message column
 
+v.2.1.xxxx.x
+* bug fix ComboBox style
+
 v.2.1.6839.x
 * bug fix set bookmark by FindWhat
 * bug fix Filter/HighlightManager layout
