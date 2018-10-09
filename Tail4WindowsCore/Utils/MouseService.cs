@@ -33,7 +33,10 @@ namespace Org.Vs.TailForWin.Core.Utils
       Mouse.OverrideCursor = busy ? Cursors.Wait : null;
 
       if ( isBusy )
+      {
+        // ReSharper disable once ObjectCreationAsStatement
         new DispatcherTimer(TimeSpan.FromSeconds(0), DispatcherPriority.ApplicationIdle, DispatcherTimerTick, System.Windows.Application.Current.Dispatcher);
+      }
     }
 
     /// <summary>
