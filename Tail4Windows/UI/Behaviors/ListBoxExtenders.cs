@@ -13,7 +13,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
     #region Properties
 
     /// <summary>
-    /// AutcoScrollToCurrentItem property
+    /// AutoScrollToCurrentItem property
     /// </summary>
     public static readonly DependencyProperty AutoScrollToCurrentItemProperty = DependencyProperty.RegisterAttached("AutoScrollToCurrentItem", typeof(bool), typeof(ListBoxExtenders),
       new UIPropertyMetadata(default(bool), OnAutoScrollToCurrentItemChanged));
@@ -21,14 +21,14 @@ namespace Org.Vs.TailForWin.UI.Behaviors
     /// <summary>
     /// Returns the value of the AutoScrollToCurrentItemProperty
     /// </summary>
-    /// <param name="obj">The dependency-object whichs value should be returned</param>
+    /// <param name="obj">The dependency-object which value should be returned</param>
     /// <returns>The value of the given property</returns>
     public static bool GetAutoScrollToCurrentItem(DependencyObject obj) => (bool) obj.GetValue(AutoScrollToCurrentItemProperty);
 
     /// <summary>
     /// Sets the value of the AutoScrollToCurrentItemProperty
     /// </summary>
-    /// <param name="obj">The dependency-object whichs value should be set</param>
+    /// <param name="obj">The dependency-object which value should be set</param>
     /// <param name="value">The value which should be assigned to the AutoScrollToCurrentItemProperty</param>
     public static void SetAutoScrollToCurrentItem(DependencyObject obj, bool value) => obj.SetValue(AutoScrollToCurrentItemProperty, value);
 
@@ -47,8 +47,8 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       if ( !(s is ListBox listBox) )
         return;
 
-      var listBoxItems = listBox.Items;
-      bool newValue = (bool) e.NewValue;
+      ItemCollection listBoxItems = listBox.Items;
+      var newValue = (bool) e.NewValue;
       var autoScrollToCurrentItemWorker = new EventHandler((s1, e2) => OnAutoScrollToCurrentItem(listBox, listBox.Items.CurrentPosition));
 
       if ( newValue )

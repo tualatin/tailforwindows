@@ -27,29 +27,29 @@ namespace Org.Vs.TailForWin.UI.Behaviors
     /// <summary>
     /// Click command property
     /// </summary>
-    public static readonly DependencyProperty ClickCommandPropery = DependencyProperty.Register(nameof(ClickCommand), typeof(ICommand), typeof(ClickBehavior));
+    public static readonly DependencyProperty ClickCommandProperty = DependencyProperty.Register(nameof(ClickCommand), typeof(ICommand), typeof(ClickBehavior));
 
     /// <summary>
     /// Click command
     /// </summary>
     public ICommand ClickCommand
     {
-      get => (ICommand) GetValue(ClickCommandPropery);
-      set => SetValue(ClickCommandPropery, value);
+      get => (ICommand) GetValue(ClickCommandProperty);
+      set => SetValue(ClickCommandProperty, value);
     }
 
     /// <summary>
     /// Double click command property
     /// </summary>
-    public static readonly DependencyProperty DoubleClickCommandPropery = DependencyProperty.Register(nameof(DoubleClickCommand), typeof(ICommand), typeof(ClickBehavior));
+    public static readonly DependencyProperty DoubleClickCommandProperty = DependencyProperty.Register(nameof(DoubleClickCommand), typeof(ICommand), typeof(ClickBehavior));
 
     /// <summary>
     /// Double click command
     /// </summary>
     public ICommand DoubleClickCommand
     {
-      get => (ICommand) GetValue(DoubleClickCommandPropery);
-      set => SetValue(DoubleClickCommandPropery, value);
+      get => (ICommand) GetValue(DoubleClickCommandProperty);
+      set => SetValue(DoubleClickCommandProperty, value);
     }
 
     /// <summary>

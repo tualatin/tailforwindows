@@ -14,26 +14,26 @@ namespace Org.Vs.TailForWin.UI.Behaviors
   public class DataGridRowBehavior : Behavior<DataGridRow>
   {
     /// <summary>
-    /// Get is <see cref="DataGridRow"/> focussed when selected
+    /// Get is <see cref="DataGridRow"/> focused when selected
     /// </summary>
     /// <param name="dataGridRow"><see cref="DataGridRow"/></param>
     /// <returns><c>True</c> if it is selected, otherwise <c>False</c></returns>
-    public static bool GetIsDataGridRowFocussedWhenSelected(DataGridRow dataGridRow) => (bool) dataGridRow.GetValue(IsDataGridRowFocussedWhenSelectedProperty);
+    public static bool GetIsDataGridRowFocusedWhenSelected(DataGridRow dataGridRow) => (bool) dataGridRow.GetValue(IsDataGridRowFocusedWhenSelectedProperty);
 
     /// <summary>
-    /// Set is <see cref="DataGridRow"/> focussed when selected
+    /// Set is <see cref="DataGridRow"/> focused when selected
     /// </summary>
     /// <param name="dataGridRow"><see cref="DataGridRow"/></param>
     /// <param name="value">Bool value</param>
-    public static void SetIsDataGridRowFocussedWhenSelected(DataGridRow dataGridRow, bool value) => dataGridRow.SetValue(IsDataGridRowFocussedWhenSelectedProperty, value);
+    public static void SetIsDataGridRowFocusedWhenSelected(DataGridRow dataGridRow, bool value) => dataGridRow.SetValue(IsDataGridRowFocusedWhenSelectedProperty, value);
 
     /// <summary>
-    /// <see cref="DependencyProperty"/> IsDataGridRowFocussedWhenSelected
+    /// <see cref="DependencyProperty"/> IsDataGridRowFocusedWhenSelected
     /// </summary>
-    public static readonly DependencyProperty IsDataGridRowFocussedWhenSelectedProperty = DependencyProperty.RegisterAttached("IsDataGridRowFocussedWhenSelected", typeof(bool),
-      typeof(DataGridRowBehavior), new UIPropertyMetadata(false, OnIsDataGridRowFocussedWhenSelectedChanged));
+    public static readonly DependencyProperty IsDataGridRowFocusedWhenSelectedProperty = DependencyProperty.RegisterAttached("IsDataGridRowFocusedWhenSelected", typeof(bool),
+      typeof(DataGridRowBehavior), new UIPropertyMetadata(false, OnIsDataGridRowFocusedWhenSelectedChanged));
 
-    private static void OnIsDataGridRowFocussedWhenSelectedChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
+    private static void OnIsDataGridRowFocusedWhenSelectedChanged(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
     {
       if ( !(depObj is DataGridRow item) )
         return;
@@ -42,12 +42,12 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       //  return;
 
       if ( (bool) e.NewValue )
-        item.Selected += OndataGridRowSelected;
+        item.Selected += OnDataGridRowSelected;
       else
-        item.Selected -= OndataGridRowSelected;
+        item.Selected -= OnDataGridRowSelected;
     }
 
-    private static void OndataGridRowSelected(object sender, RoutedEventArgs e)
+    private static void OnDataGridRowSelected(object sender, RoutedEventArgs e)
     {
       // If focus is already on a cell then don't focus back out of it
       if ( Keyboard.FocusedElement is DataGridCell || Keyboard.FocusedElement is WatermarkTextBox || !(e.OriginalSource is DataGridRow row) )

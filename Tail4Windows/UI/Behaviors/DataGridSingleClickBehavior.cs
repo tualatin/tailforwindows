@@ -92,10 +92,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       if ( element is FrameworkElement frameworkElement )
         return frameworkElement;
 
-      if ( !(element is FrameworkContentElement parent) )
-        return null;
-
-      return parent.Parent as FrameworkElement;
+      return !(element is FrameworkContentElement parent) ? null : parent.Parent as FrameworkElement;
     }
   }
 }

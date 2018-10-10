@@ -136,7 +136,7 @@
         <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
         <Style TargetType="{x:Type DataGridRow}">
           <Setter Property="Foreground" Value="{Binding IsCacheData, Converter={StaticResource BoolToForegroundConverter}}" />
-          <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocussedWhenSelected" Value="True" />
+          <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocusedWhenSelected" Value="True" />
         </Style>
       </userControls:VsDataGrid.RowStyle>
 
