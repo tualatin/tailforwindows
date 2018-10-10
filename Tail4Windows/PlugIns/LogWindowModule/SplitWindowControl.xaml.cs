@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using log4net;
+using Org.Vs.TailForWin.BaseView.ViewModels;
 using Org.Vs.TailForWin.Business.SearchEngine.Controllers;
 using Org.Vs.TailForWin.Business.SearchEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Services.Data;
@@ -591,9 +592,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         {
           Dispatcher.InvokeAsync(() =>
           {
-            LogWindowMainElement.RemoveAllBookmarks();
-            EnvironmentContainer.Instance.BookmarkManager.ClearBookmarkDataSource();
-
             CollectionView.Filter = DynamicFilter;
             LogWindowMainElement.ScrollToEnd();
           });
@@ -606,6 +604,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         break;
       }
     }
+
     private void DispatcherTimerTick(object sender, EventArgs e)
     {
       if ( !(sender is DispatcherTimer dispatcherTimer) )
