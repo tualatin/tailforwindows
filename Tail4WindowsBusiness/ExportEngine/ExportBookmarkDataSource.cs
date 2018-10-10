@@ -117,7 +117,7 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
       bookmarkWorksheet.Cells[2, 1].LoadFromArrays(CreateFlatList(data)).AutoFitColumns(10, 150);
       bookmarkWorksheet.View.FreezePanes(2, 1);
 
-      _excel.Compression = CompressionLevel.BestSpeed;
+      excel.Compression = CompressionLevel.BestSpeed;
       return excel;
     }
 

@@ -180,6 +180,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       get => _currentTailData;
       set
       {
+        if ( _currentTailData != null )
+          _currentTailData.PropertyChanged -= OnTailDataPropertyChanged;
+
         _currentTailData = value;
 
         if ( _currentTailData != null )

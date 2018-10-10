@@ -624,6 +624,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         break;
       }
     }
+
     private void DispatcherTimerTick(object sender, EventArgs e)
     {
       if ( !(sender is DispatcherTimer dispatcherTimer) )
