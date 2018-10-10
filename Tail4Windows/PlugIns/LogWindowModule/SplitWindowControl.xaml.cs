@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using log4net;
+using Org.Vs.TailForWin.BaseView.ViewModels;
 using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Args;
 using Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces;
 using Org.Vs.TailForWin.Business.SearchEngine.Controllers;
@@ -87,6 +88,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// Last seen <see cref="LogEntry"/>
     /// </summary>
     private LogEntry _lastSeenEntry;
+
+    /// <summary>
+    /// Old StatusBar message
+    /// </summary>
+    private string _oldStatusBarMessage;
 
     #region RoutedEvents
 
@@ -413,7 +419,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogCollectionView.Collection }.View;
       CollectionView.Filter = DynamicFilter;
     }
-    
+
     #region Dependency properties
 
     /// <summary>
@@ -589,14 +595,27 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         MouseService.SetBusyState();
 
+        // I know, I will break the current T4W convention, that only the T4WindowViewModel is responsible for the StatusBar
+        _oldStatusBarMessage = BaseWindowStatusbarViewModel.Instance.CurrentBusyState;
+        BaseWindowStatusbarViewModel.Instance.CurrentBusyState = Application.Current.TryFindResource("Busy").ToString();
+
+        // ReSharper disable once ObjectCreationAsStatement
+        new DispatcherTimer(TimeSpan.FromSeconds(0), DispatcherPriority.ApplicationIdle, DispatcherTimerTick, Application.Current.Dispatcher);
+
         HighlightData = null;
         OnPropertyChanged(nameof(HighlightData));
 
-        LogWindowMainElement.RemoveAllBookmarks();
-        EnvironmentContainer.Instance.BookmarkManager.ClearBookmarkDataSource();
+        new ThrottledExecution().InMs(15).Do(() =>
+        {
+          Dispatcher.InvokeAsync(() =>
+          {
+            LogWindowMainElement.RemoveAllBookmarks();
+            EnvironmentContainer.Instance.BookmarkManager.ClearBookmarkDataSource();
 
-        CollectionView.Filter = DynamicFilter;
-        LogWindowMainElement.ScrollToEnd();
+            CollectionView.Filter = DynamicFilter;
+            LogWindowMainElement.ScrollToEnd();
+          });
+        });
         break;
 
       case "Wrap":
@@ -604,6 +623,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         LogWindowMainElement.ScrollToEnd();
         break;
       }
+    }
+    private void DispatcherTimerTick(object sender, EventArgs e)
+    {
+      if ( !(sender is DispatcherTimer dispatcherTimer) )
+        return;
+
+      dispatcherTimer.Stop();
+      BaseWindowStatusbarViewModel.Instance.CurrentBusyState = _oldStatusBarMessage;
     }
 
     #region Commands
