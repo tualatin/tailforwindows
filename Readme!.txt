@@ -23,6 +23,7 @@ v.2.2.xxxx.x
 * improve Find result view -> ToolTip for message column
 
 v.2.1.xxxx.x
+* improve StatusBar message
 * bug fix ComboBox style
 
 v.2.1.6839.x
