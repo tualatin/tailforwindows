@@ -7,7 +7,7 @@ using Org.Vs.TailForWin.Core.Data;
 namespace Org.Vs.TailForWin.Controllers.PlugIns.SmartWatchPopupModule.Interfaces
 {
   /// <summary>
-  /// SmartWatch popup view model inteface
+  /// SmartWatch popup view model interface
   /// </summary>
   public interface ISmartWatchPopupViewModel
   {
