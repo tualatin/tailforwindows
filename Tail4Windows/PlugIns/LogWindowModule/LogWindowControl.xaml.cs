@@ -253,10 +253,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set
       {
         // Strange workaround! Sometimes SelectedItem will set twice and value is null - no clue why!
-        if ( string.IsNullOrWhiteSpace(value) && !string.IsNullOrWhiteSpace(CurrentTailData.FileName) )
-          value = CurrentTailData.FileName;
+        if ( string.IsNullOrWhiteSpace(value) && !string.IsNullOrWhiteSpace(_selectedItem) )
+        {
+          if ( !string.IsNullOrWhiteSpace(_currentTailData.FileName) )
+            value = _selectedItem;
+        }
 
         _selectedItem = value;
+
         OnPropertyChanged();
 
         SetCurrentLogFileName();
