@@ -87,15 +87,9 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       dataGrid.BeginEdit(e);
     }
 
-    private FrameworkElement GetFrameworkElement(object element)
-    {
-      if ( element is FrameworkElement frameworkElement )
-        return frameworkElement;
-
-      if ( !(element is FrameworkContentElement parent) )
-        return null;
-
-      return parent.Parent as FrameworkElement;
-    }
+    private FrameworkElement GetFrameworkElement(object element) =>
+      element is FrameworkElement frameworkElement ?
+        frameworkElement :
+        !(element is FrameworkContentElement parent) ? null : parent.Parent as FrameworkElement;
   }
 }
