@@ -1160,14 +1160,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( TailReader != null )
         TailReader = null;
 
+      CurrentTailData.FileName = string.Empty;
+      SelectedItem = string.Empty;
+      CurrentTailData = item;
+
       TailReader = new WindowsEventReadService
       {
         TailData = CurrentTailData
       };
 
-      CurrentTailData.FileName = string.Empty;
-      SelectedItem = string.Empty;
-      CurrentTailData = item;
       SplitWindow.LogReaderService = TailReader;
       string machine = CurrentTailData.WindowsEvent.Machine == "." ? Environment.MachineName : CurrentTailData.WindowsEvent.Machine;
       LogWindowTabItem.HeaderContent = $"{machine}: {CurrentTailData.WindowsEvent.Name}";
