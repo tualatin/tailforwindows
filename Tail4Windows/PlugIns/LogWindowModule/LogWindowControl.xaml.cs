@@ -1164,6 +1164,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         TailData = CurrentTailData
       };
+
+      CurrentTailData.FileName = string.Empty;
+      SelectedItem = string.Empty;
       CurrentTailData = item;
       SplitWindow.LogReaderService = TailReader;
       string machine = CurrentTailData.WindowsEvent.Machine == "." ? Environment.MachineName : CurrentTailData.WindowsEvent.Machine;
