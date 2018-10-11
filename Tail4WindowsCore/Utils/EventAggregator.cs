@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -90,7 +90,27 @@ namespace Org.Vs.TailForWin.Core.Utils
     {
       Arg.NotNull(message, nameof(message));
 
-      var compatibleHandlers = _handlers.OfType<Action<T>>().ToList();
+      var compatibleHandlers = new List<Action<T>>();
+
+      try
+      {
+        compatibleHandlers = _handlers.OfType<Action<T>>().ToList();
+      }
+      catch
+      {
+        Type msgType = typeof(Action<T>);
+
+        for ( int i = _handlers.Count - 1; i >= 0; i-- )
+        {
+          Type type = _handlers[i].GetType();
+
+          if ( msgType != type )
+            continue;
+
+          var action = _handlers[i] as Action<T>;
+          compatibleHandlers.Add(action);
+        }
+      }
 
       foreach ( var h in compatibleHandlers )
       {
