@@ -25,6 +25,7 @@ v.2.2.xxxx.x
 v.2.1.xxxx.x
 * improve StatusBar message
 * bug fix ComboBox style
+* bug fix Event Aggregator
 
 v.2.1.6839.x
 * bug fix set bookmark by FindWhat
