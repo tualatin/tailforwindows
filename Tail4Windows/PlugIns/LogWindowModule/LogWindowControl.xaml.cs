@@ -171,6 +171,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       get => _currentTailData;
       set
       {
+        if ( _currentTailData != null )
+          _currentTailData.PropertyChanged -= OnTailDataPropertyChanged;
+
         _currentTailData = value;
 
         if ( _currentTailData != null )
@@ -798,7 +801,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !Equals(SelectedItem, textBox?.SelectedText) )
         return;
 
-      CurrentTailData.FileName = string.Empty;
+      CurrentTailData = new TailData();
       SelectedItem = string.Empty;
       e.Handled = true;
     }
