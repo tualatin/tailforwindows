@@ -8,7 +8,7 @@
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
-  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.BookmarkCommentModule.ViewModels"
+  xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
   x:Name="AddBookmarkCommentWindow"
   Title="{DynamicResource AddBookmarkCommentWindowTitle}"
@@ -22,11 +22,8 @@
   ShowInTaskbar="False"
   TitleBackgroundColor="{StaticResource BrushSolidBorderLightBlue}"
   WindowStartupLocation="CenterOwner"
+  vml:ViewModelLocator.IsAutomaticLocator="True"
   >
-  <floatWindow:VsFloatingWindow.DataContext>
-    <viewModels:AddBookmarkCommentViewModel />
-  </floatWindow:VsFloatingWindow.DataContext>
-
   <i:Interaction.Triggers>
     <i:EventTrigger EventName="Loaded">
       <i:InvokeCommandAction Command="{Binding LoadedCommand}" />

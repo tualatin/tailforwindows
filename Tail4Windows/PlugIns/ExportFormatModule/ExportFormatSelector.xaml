@@ -6,7 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:debugging="clr-namespace:Org.Vs.TailForWin.UI.Debugging"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
-  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.ExportFormatModule.ViewModels"
+  xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
   x:Name="ExportFormatSelectorWindow"
   Title="{DynamicResource ExportFormatSelectorTitle}"
@@ -15,11 +15,8 @@
   ResizeMode="NoResize"
   ShowInTaskbar="False"
   WindowStartupLocation="CenterOwner"
+  vml:ViewModelLocator.IsAutomaticLocator="True"
   >
-  <extendedControls:VsWindowEx.DataContext>
-    <viewModels:ExportFormatSelectorViewModel />
-  </extendedControls:VsWindowEx.DataContext>
-
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />

@@ -7,7 +7,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
-  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels"
+  xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
   x:Name="SmartWatchPopupWindow"
   Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
@@ -19,11 +19,8 @@
   MinimizeButtonVisibility="Collapsed"
   Top="{Binding Top, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Topmost="True"
+  vml:ViewModelLocator.IsAutomaticLocator="True"
   >
-  <floatWindow:VsFloatingWindow.DataContext>
-    <viewModels:SmartWatchPopupViewModel />
-  </floatWindow:VsFloatingWindow.DataContext>
-
   <i:Interaction.Triggers>
     <i:EventTrigger EventName="Loaded">
       <i:InvokeCommandAction

@@ -27,6 +27,7 @@ using Org.Vs.TailForWin.Controllers.BaseView.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Args;
+using Org.Vs.TailForWin.Controllers.UI.Vml.Attributes;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -51,6 +52,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
   /// <summary>
   /// T4Window view model
   /// </summary>
+  [Locator(nameof(T4WindowViewModel))]
   public class T4WindowViewModel : NotifyMaster, IT4WindowViewModel
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(T4WindowViewModel));

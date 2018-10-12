@@ -13,6 +13,7 @@
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
+  xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
   x:Name="MainWindow"
   Title="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationTitle}}"
@@ -31,11 +32,8 @@
   Topmost="{Binding Source={x:Static environment:SettingsHelperController.CurrentSettings}, Path=AlwaysOnTop, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   WindowState="{Binding WindowState, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   WindowStyle="None"
+  vml:ViewModelLocator.IsAutomaticLocator="True"
   >
-  <Window.DataContext>
-    <viewModels:T4WindowViewModel />
-  </Window.DataContext>
-
   <intr:Interaction.Triggers>
     <intr:EventTrigger EventName="Closing">
       <commands:InvokeDelegateCommandAction

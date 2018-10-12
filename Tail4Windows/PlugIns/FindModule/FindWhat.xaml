@@ -10,7 +10,7 @@
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
   xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
-  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FindModule.ViewModels"
+  xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
   x:Name="FindDialogWindow"
   Title="{DynamicResource FindDialogWindowTitle}"
@@ -21,11 +21,8 @@
   MaxHeight="450"
   Left="{Binding LeftPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Top="{Binding TopPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+  vml:ViewModelLocator.IsAutomaticLocator="True"
   >
-  <floatWindow:VsFloatingWindow.DataContext>
-    <viewModels:FindWhatViewModel />
-  </floatWindow:VsFloatingWindow.DataContext>
-
   <i:Interaction.Triggers>
     <i:EventTrigger EventName="Loaded">
       <i:InvokeCommandAction Command="{Binding LoadedCommand}" />

@@ -5,6 +5,7 @@ using Org.Vs.TailForWin.BaseView.UserControls.Interfaces;
 using Org.Vs.TailForWin.BaseView.ViewModels;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
+using Org.Vs.TailForWin.Controllers.UI.Vml.Attributes;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
@@ -16,9 +17,10 @@ namespace Org.Vs.TailForWin.BaseView.UserControls.ViewModels
   /// <summary>
   /// MainWindowQuickSearch view model
   /// </summary>
-  public class MainWindowQuickSearchViewModel : NotifyMaster, IMainWindowQuickSearchViewModel
+  [Locator(nameof(MainWindowQuickSearchBarViewModel))]
+  public class MainWindowQuickSearchBarViewModel : NotifyMaster, IMainWindowQuickSearchViewModel
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof(MainWindowQuickSearchViewModel));
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(MainWindowQuickSearchBarViewModel));
 
     private bool _isFocused;
 
@@ -73,7 +75,7 @@ namespace Org.Vs.TailForWin.BaseView.UserControls.ViewModels
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public MainWindowQuickSearchViewModel()
+    public MainWindowQuickSearchBarViewModel()
     {
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<QuickSearchTextBoxGetFocusMessage>(OnFocusChangedMessage);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ChangeWindowGuiMessage>(OnChangeWindowGuid);

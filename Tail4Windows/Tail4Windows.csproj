@@ -414,7 +414,7 @@
     <Compile Include="BaseView\UserControls\MainWindowToolbarButtons.xaml.cs">
       <DependentUpon>MainWindowToolbarButtons.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BaseView\UserControls\ViewModels\MainWindowQuickSearchViewModel.cs" />
+    <Compile Include="BaseView\UserControls\ViewModels\MainWindowQuickSearchBarViewModel.cs" />
     <Compile Include="BaseView\UserControls\ViewModels\MainWindowStatusBarViewModel.cs" />
     <Compile Include="BaseView\ViewModels\OptionsViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\AboutOption\AboutOptionPage.xaml.cs">

@@ -5,15 +5,12 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
-  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels"
+  xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
   Title="StatisticAnalytic"
   Width="800"
   Height="450"
+  vml:ViewModelLocator.IsAutomaticLocator="True"
   >
-  <extendedControls:VsWindowEx.DataContext>
-    <viewModels:StatisticAnalysisViewModel />
-  </extendedControls:VsWindowEx.DataContext>
-
   <Grid />
 </extendedControls:VsWindowEx>

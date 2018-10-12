@@ -7,6 +7,7 @@
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
+  xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
   x:Name="OptionsDialog"
   Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
@@ -20,6 +21,7 @@
   ResizeMode="CanResizeWithGrip"
   ShowInTaskbar="False"
   WindowStartupLocation="CenterOwner"
+  vml:ViewModelLocator.IsAutomaticLocator="True"
   >
 
   <intr:Interaction.Triggers>
@@ -27,10 +29,6 @@
       <intr:InvokeCommandAction Command="{Binding CloseOptionsCommand}" />
     </intr:EventTrigger>
   </intr:Interaction.Triggers>
-
-  <extendedControls:VsWindowEx.DataContext>
-    <viewModels:OptionsViewModel />
-  </extendedControls:VsWindowEx.DataContext>
 
   <Grid Margin="5 5 5 0">
     <Grid.RowDefinitions>

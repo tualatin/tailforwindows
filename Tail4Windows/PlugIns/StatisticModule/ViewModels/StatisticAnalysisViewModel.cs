@@ -8,6 +8,7 @@ using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces;
+using Org.Vs.TailForWin.Controllers.UI.Vml.Attributes;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -17,6 +18,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
   /// <summary>
   /// StatisticAnalysis view model
   /// </summary>
+  [Locator(nameof(StatisticAnalysisViewModel))]
   public class StatisticAnalysisViewModel : NotifyMaster, IStatisticAnalysisViewModel
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(StatisticAnalysisViewModel));

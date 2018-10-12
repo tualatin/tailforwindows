@@ -8,7 +8,7 @@
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
-  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels"
+  xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
   x:Name="QuickAddWindow"
   Title="{DynamicResource QuickAddDialogTitle}"
@@ -18,6 +18,7 @@
   ResizeMode="NoResize"
   ShowInTaskbar="False"
   WindowStartupLocation="CenterOwner"
+  vml:ViewModelLocator.IsAutomaticLocator="True"
   >
   <i:Interaction.Triggers>
     <i:EventTrigger EventName="Loaded">
@@ -28,10 +29,6 @@
       <i:InvokeCommandAction Command="{Binding CloseCommand}" />
     </i:EventTrigger>
   </i:Interaction.Triggers>
-
-  <extendedControls:VsWindowEx.DataContext>
-    <viewModels:QuickAddViewModel />
-  </extendedControls:VsWindowEx.DataContext>
 
   <Grid>
     <Grid.RowDefinitions>

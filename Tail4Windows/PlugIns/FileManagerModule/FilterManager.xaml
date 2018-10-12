@@ -9,7 +9,7 @@
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
-  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
+  xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
   x:Name="FilterManagerWindow"
   Title="{DynamicResource ExtendedTailSettingsFilterLabel}"
@@ -21,6 +21,7 @@
   ResizeMode="CanResizeWithGrip"
   ShowInTaskbar="False"
   WindowStartupLocation="CenterOwner"
+  vml:ViewModelLocator.IsAutomaticLocator="True"
   >
   <i:Interaction.Triggers>
     <i:EventTrigger EventName="Loaded">
@@ -31,10 +32,6 @@
       <i:InvokeCommandAction Command="{Binding CloseCommand}" />
     </i:EventTrigger>
   </i:Interaction.Triggers>
-
-  <extendedControls:VsWindowEx.DataContext>
-    <viewModels:FilterManagerViewModel />
-  </extendedControls:VsWindowEx.DataContext>
 
   <extendedControls:VsWindowEx.Resources>
     <Storyboard x:Key="ExtendedSettingsShowAnimation">

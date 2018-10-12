@@ -8,16 +8,13 @@
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
-  xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls.ViewModels"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
+  xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
   d:DesignHeight="23"
   d:DesignWidth="700"
+  vml:ViewModelLocator.IsAutomaticLocator="True"
   >
-  <UserControl.DataContext>
-    <viewModels:MainWindowStatusBarViewModel />
-  </UserControl.DataContext>
-
   <Grid
     Name="StatusbarGrid"
     Background="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=CurrentStatusBarBackgroundColorHex, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToWindowMediaBrushConverter}}"

@@ -14,6 +14,7 @@ using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.Interfaces;
+using Org.Vs.TailForWin.Controllers.UI.Vml.Attributes;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
@@ -32,6 +33,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
   /// <summary>
   /// Options view model
   /// </summary>
+  [Locator(nameof(OptionsViewModel))]
   public class OptionsViewModel : NotifyMaster, IOptionsViewModel
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(OptionsViewModel));
