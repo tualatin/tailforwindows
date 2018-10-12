@@ -828,7 +828,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !Equals(SelectedItem, textBox?.SelectedText) )
         return;
 
-      CurrentTailData.FileName = string.Empty;
+      CurrentTailData = new TailData();
       SelectedItem = string.Empty;
       e.Handled = true;
     }
