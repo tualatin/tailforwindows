@@ -130,19 +130,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       set => SetValue(LastVisibleLogEntryIndexProperty, value);
     }
 
-    /// <summary>
-    /// Current <see cref="CurrentTailData"/> property
-    /// </summary>
-    public static readonly DependencyProperty CurrentTailDataProperty = DependencyProperty.Register(nameof(CurrentTailData), typeof(TailData), typeof(LogWindowListBox),
-      new PropertyMetadata(null, OnTailDataChanged));
+    private TailData _currentTailData;
 
     /// <summary>
     /// <see cref="CurrentTailData"/>
     /// </summary>
     public TailData CurrentTailData
     {
-      get => (TailData) GetValue(CurrentTailDataProperty);
-      set => SetValue(CurrentTailDataProperty, value);
+      get => _currentTailData;
+      set
+      {
+        _currentTailData = value;
+        OnPropertyChanged();
+
+        if ( _currentTailData.OpenFromSmartWatch )
+          return;
+
+        RaiseEvent(new RoutedEventArgs(ClearItemsRoutedEvent, this));
+      }
     }
 
     /// <summary>
@@ -635,20 +640,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       if ( bookmarkCount != null )
         bookmarkCount.Content = listBox.BookmarkCount.ToString();
-    }
-
-    private static void OnTailDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-      if ( !(d is LogWindowListBox control) )
-        return;
-
-      if ( !(e.NewValue is TailData tailData) )
-        return;
-
-      if ( tailData.OpenFromSmartWatch )
-        return;
-
-      control.RaiseEvent(new RoutedEventArgs(ClearItemsRoutedEvent, control));
     }
 
     #endregion

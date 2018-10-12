@@ -35,7 +35,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     TailData CurrentTailData
     {
       get;
-      set;
     }
 
     /// <summary>
@@ -203,6 +202,12 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     }
 
     #endregion
+
+    /// <summary>
+    /// Updates <see cref="TailData"/>"
+    /// </summary>
+    /// <param name="tailData"><see cref="TailData"/></param>
+    void UpdateTailData(TailData tailData);
 
     /// <summary>
     /// GoToLine
