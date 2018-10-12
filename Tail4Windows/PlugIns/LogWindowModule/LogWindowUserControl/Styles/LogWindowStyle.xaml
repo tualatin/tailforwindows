@@ -330,6 +330,7 @@
                               Height="10"
                               Margin="5 0"
                               Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=UndoCommand}"
+                              ToolTip="{DynamicResource FileManagerUndo}"
                               >
                               <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
