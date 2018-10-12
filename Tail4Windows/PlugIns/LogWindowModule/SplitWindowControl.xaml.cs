@@ -424,21 +424,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set => SetValue(LogReaderServiceProperty, value);
     }
 
-    /// <summary>
-    /// <see cref="TailData"/> property
-    /// </summary>
-    public static readonly DependencyProperty CurrentTailDataProperty = DependencyProperty.Register(nameof(CurrentTailData), typeof(TailData), typeof(SplitWindowControl),
-      new PropertyMetadata(new TailData(), TailDataOnChanged));
+    private TailData _currentTailData;
 
     /// <summary>
     /// Current <see cref="TailData"/>
     /// </summary>
     public TailData CurrentTailData
     {
-      get => (TailData) GetValue(CurrentTailDataProperty);
-      set
+      get => _currentTailData;
+      private set
       {
-        SetValue(CurrentTailDataProperty, value);
+        if ( _currentTailData != null )
+          _currentTailData.PropertyChanged -= OnTailDataPropertyChanged;
+
+        _currentTailData = value;
+        LogWindowMainElement.CurrentTailData = value;
+        LogWindowSplitElement.CurrentTailData = value;
+
+        _currentTailData.PropertyChanged += OnTailDataPropertyChanged;
         OnPropertyChanged();
       }
     }
@@ -551,24 +554,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #endregion
 
-    private static void TailDataOnChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-    {
-      if ( !(sender is SplitWindowControl control) )
-        return;
+    /// <summary>
+    /// Updates LogWindowListBox"
+    /// </summary>
+    /// <param name="tailData"><see cref="TailData"/></param>
+    public void UpdateTailData(TailData tailData) => CurrentTailData = tailData;
 
-      if ( e.OldValue is TailData oldValue )
-        oldValue.PropertyChanged -= control.CurrentTailDataChanged;
-
-      if ( !(e.NewValue is TailData newValue) )
-        return;
-
-      control.LogWindowSplitElement.CurrentTailData = newValue;
-      control.LogWindowMainElement.CurrentTailData = newValue;
-
-      control.CurrentTailData.PropertyChanged += control.CurrentTailDataChanged;
-    }
-
-    private void CurrentTailDataChanged(object sender, PropertyChangedEventArgs e)
+    /// <summary>
+    /// <see cref="TailData"/> property changed
+    /// </summary>
+    /// <param name="sender">Who sends the event</param>
+    /// <param name="e"><see cref="PropertyChangedEventArgs"/></param>
+    private void OnTailDataPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       switch ( e.PropertyName )
       {
@@ -612,6 +609,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       dispatcherTimer.Stop();
       BaseWindowStatusbarViewModel.Instance.CurrentBusyState = _oldStatusBarMessage;
+      _oldStatusBarMessage = string.Empty;
     }
 
     #region Commands
@@ -1217,7 +1215,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private bool DynamicFilter(object item)
     {
-      if ( CurrentTailData.ListOfFilter == null || CurrentTailData.ListOfFilter.Count == 0 || !CurrentTailData.FilterState )
+      if ( CurrentTailData?.ListOfFilter == null || CurrentTailData.ListOfFilter.Count == 0 || !CurrentTailData.FilterState )
         return true;
 
       if ( !(item is LogEntry logEntry) )
