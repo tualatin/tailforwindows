@@ -1136,7 +1136,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowTabItem.HeaderToolTip = $"{machine}: {CurrentTailData.WindowsEvent.Name}";
       LogWindowTabItem.TabItemBackgroundColorStringHex = CurrentTailData.TabItemBackgroundColorStringHex;
       FileIsValid = true;
-      SplitWindow.CurrentTailData = CurrentTailData;
+
+      ChangeTailData();
 
       if ( LogWindowTabItem.TabItemBusyIndicator != Visibility.Visible )
         LogWindowState = !string.IsNullOrWhiteSpace(CurrentTailData.WindowsEvent.Category) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
