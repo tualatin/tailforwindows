@@ -22,7 +22,7 @@ v.2.2.xxxx.x
 * improve customize editor -> Options -> Extras
 * improve Find result view -> ToolTip for message column
 
-v.2.1.xxxx.x
+v.2.1.6862.x
 * improve StatusBar message
 * bug fix ComboBox style
 * bug fix Event Aggregator
