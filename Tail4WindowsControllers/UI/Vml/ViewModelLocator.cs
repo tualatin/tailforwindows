@@ -12,6 +12,8 @@ namespace Org.Vs.TailForWin.Controllers.UI.Vml
   /// </summary>
   public static class ViewModelLocator
   {
+    private static readonly object[] _arguments = new object[0];
+
     /// <summary>
     /// Gets automatic locator
     /// </summary>
@@ -56,7 +58,9 @@ namespace Org.Vs.TailForWin.Controllers.UI.Vml
       if ( userControlType == null )
         throw new ArgumentException($"Not exist a type {classNameDef} in the assembly {assembly.FullName}");
 
-      return Activator.CreateInstance(userControlType);
+      var ctor = userControlType.GetConstructors();
+
+      return Activator.CreateInstance(userControlType, _arguments);
     }
   }
 }
