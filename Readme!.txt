@@ -8,10 +8,6 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
-v.2.1.xxxx.x
-* bug fix highlight data
-* bug fix NullReferenceException highlight data
-
 v.2.2.xxxx.x
 * new profile converter (T4W.exe /convert local -> converts roaming profile to local; T4W.exe /convert roaming -> converts local profile to roaming)
 * new settings in JSON file
@@ -25,6 +21,10 @@ v.2.2.xxxx.x
 * new Systeminformation overview shows Windows build id
 * improve customize editor -> Options -> Extras
 * improve Find result view -> ToolTip for message column
+
+v.2.1.xxxx.x
+* bug fix highlight data
+* bug fix NullReferenceException highlight data
 
 v.2.1.6862.x
 * improve StatusBar message
