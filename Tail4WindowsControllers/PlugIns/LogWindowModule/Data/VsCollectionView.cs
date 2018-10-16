@@ -115,6 +115,8 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
 
       Collection = null;
       FilteredCollection = null;
+
+      GC.SuppressFinalize(this);
     }
   }
 }

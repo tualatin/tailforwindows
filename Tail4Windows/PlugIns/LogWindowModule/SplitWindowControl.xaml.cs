@@ -898,6 +898,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       _notifyTaskCompletion.PropertyChanged -= FindWhatCountPropertyChanged;
       _notifyTaskCompletion = null;
+
+      RemoveFindWhatResultFromHighlightData();
     }
 
     private void OnStartSearchAll(StartSearchAllMessage args)
@@ -1102,9 +1104,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           AddFindWhatResultToHighlightData(result);
         }
 
-        for ( int i = 0; i < CacheManager.GetCacheData().Count; i++ )
+        for ( var i = CacheManager.GetCacheData().Count - 1; i >= 0; i-- )
         {
           LogEntry log = CacheManager.GetCacheData()[i];
+
+          if ( log == null )
+            continue;
+
           string message = findData.SearchBookmarkComments ? log.BookmarkToolTip : log.Message;
           var result = await _findController.MatchTextAsync(findData, message, searchText).ConfigureAwait(false);
 
@@ -1188,6 +1194,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       // recover is empty, remove all FindWhat results from list
       if ( recover.Count == 0 )
       {
+        HighlightData.ForEach(p =>
+        {
+          if ( !p.IsFindWhat )
+            return;
+
+          p.IsFindWhat = false;
+          p.TextBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex;
+          p.TextHighlightColorHex = SettingsHelperController.CurrentSettings.ColorSettings.ForegroundColorHex;
+        });
+        LogWindowMainElement.UpdateHighlighting(HighlightData);
+        LogWindowSplitElement.UpdateHighlighting(HighlightData);
+
         // Remove FindWhat data
         HighlightData.RemoveAll(p => p.IsFindWhat);
         OnPropertyChanged(nameof(HighlightData));
@@ -1203,7 +1221,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         p.IsFindWhat = false;
         p.TextHighlightColorHex = p.OldTextHighlightColorHex;
         p.OldTextHighlightColorHex = string.Empty;
-        p.TextBackgroundColorHex = null;
+        p.TextBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex;
         p.Opacity = 1;
       });
 
