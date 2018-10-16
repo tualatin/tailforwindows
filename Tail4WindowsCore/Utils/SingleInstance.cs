@@ -100,6 +100,15 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// </summary>
     public void Dispose()
     {
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing)
+    {
+      if ( !disposing )
+        return;
+
       if ( _owned ) // always release a mutex if you own it
       {
         _owned = false;
