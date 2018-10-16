@@ -829,8 +829,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      LogWindowMainElement.UpdateHighlighting(HighlightData);
-      LogWindowSplitElement.UpdateHighlighting(HighlightData);
+      UpdateHighlighting();
 
       if ( _notifyTaskCompletion == null )
         return;
@@ -896,8 +895,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       FindWhatResults = new ObservableCollection<LogEntry>(_findWhatResults);
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatResultWindowMessage(FindWhatResults, logWindow.First().WindowId));
 
-      LogWindowMainElement.UpdateHighlighting(HighlightData);
-      LogWindowSplitElement.UpdateHighlighting(HighlightData);
+      UpdateHighlighting();
 
       if ( _notifyTaskCompletion == null )
         return;
@@ -1172,15 +1170,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           p.TextBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex;
           p.TextHighlightColorHex = SettingsHelperController.CurrentSettings.ColorSettings.ForegroundColorHex;
         });
-        LogWindowMainElement.UpdateHighlighting(HighlightData);
-        LogWindowSplitElement.UpdateHighlighting(HighlightData);
+        UpdateHighlighting();
 
         // Remove FindWhat data
         HighlightData.RemoveAll(p => p.IsFindWhat);
         OnPropertyChanged(nameof(HighlightData));
-
-        LogWindowMainElement.UpdateHighlighting(HighlightData);
-        LogWindowSplitElement.UpdateHighlighting(HighlightData);
+        UpdateHighlighting();
         return;
       }
 
@@ -1197,7 +1192,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       // Remove FindWhat data
       HighlightData.RemoveAll(p => p.IsFindWhat);
       OnPropertyChanged(nameof(HighlightData));
+      UpdateHighlighting();
+    }
 
+    private void UpdateHighlighting()
+    {
       LogWindowMainElement.UpdateHighlighting(HighlightData);
       LogWindowSplitElement.UpdateHighlighting(HighlightData);
     }
