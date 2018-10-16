@@ -8,6 +8,10 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
+v.2.1.xxxx.x
+* bug fix highlight data
+* bug fix NullReferenceException highlight data
+
 v.2.1.6862.x
 * improve StatusBar message
 * bug fix ComboBox style
