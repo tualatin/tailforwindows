@@ -477,35 +477,34 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is SmartWatchController) )
         return;
 
-      Dispatcher.InvokeAsync(
-        () =>
+      Dispatcher.InvokeAsync(() =>
+      {
+        switch ( SettingsHelperController.CurrentSettings.SmartWatchSettings.Mode )
         {
-          switch ( SettingsHelperController.CurrentSettings.SmartWatchSettings.Mode )
+        case ESmartWatchMode.Auto:
+
+          OnSmartWatchWindowClosed(this, new SmartWatchWindowClosedEventArgs(SettingsHelperController.CurrentSettings.SmartWatchSettings.NewTab, file));
+          break;
+
+        case ESmartWatchMode.Manual:
+
+          var windows = this.Ancestors().OfType<Window>().ToList();
+          var smartWatchPopup = new SmartWatchPopup
           {
-          case ESmartWatchMode.Auto:
+            CurrentTailData = CurrentTailData,
+            FileName = file,
+            ShouldClose = true,
+            MainWindow = windows.FirstOrDefault()
+          };
+          smartWatchPopup.SmartWatchPopupViewModel.SmartWatchWindowClosed += OnSmartWatchWindowClosed;
+          smartWatchPopup.Show();
+          break;
 
-            OnSmartWatchWindowClosed(this, new SmartWatchWindowClosedEventArgs(SettingsHelperController.CurrentSettings.SmartWatchSettings.NewTab, file));
-            break;
+        default:
 
-          case ESmartWatchMode.Manual:
-
-            var windows = this.Ancestors().OfType<Window>().ToList();
-            var smartWatchPopup = new SmartWatchPopup
-            {
-              CurrentTailData = CurrentTailData,
-              FileName = file,
-              ShouldClose = true,
-              MainWindow = windows.FirstOrDefault()
-            };
-            smartWatchPopup.SmartWatchPopupViewModel.SmartWatchWindowClosed += OnSmartWatchWindowClosed;
-            smartWatchPopup.Show();
-            break;
-
-          default:
-
-            throw new ArgumentOutOfRangeException();
-          }
-        });
+          throw new ArgumentOutOfRangeException();
+        }
+      });
     }
 
     private void OnSmartWatchWindowClosed(object sender, SmartWatchWindowClosedEventArgs e)
@@ -1073,7 +1072,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         for ( var i = CacheManager.GetCacheData().Count - 1; i >= 0; i-- )
         {
-          LogEntry log = CacheManager.GetCacheData()[i];
+          LogEntry log = CacheManager[i];
 
           if ( log == null )
             continue;
