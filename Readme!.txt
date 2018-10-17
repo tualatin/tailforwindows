@@ -23,6 +23,7 @@ v.2.2.xxxx.x
 * improve Find result view -> ToolTip for message column
 
 v.2.1.xxxx.x
+* improve CacheManager
 * bug fix highlight data
 * bug fix NullReferenceException highlight data
 
