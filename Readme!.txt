@@ -9,6 +9,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.1.xxxx.x
+* improve CacheManager
 * bug fix highlight data
 * bug fix NullReferenceException highlight data
 
