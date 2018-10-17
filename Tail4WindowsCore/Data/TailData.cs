@@ -364,7 +364,7 @@ namespace Org.Vs.TailForWin.Core.Data
     private ETailRefreshRate _refreshRate;
 
     /// <summary>
-    /// Refreshrate for thread
+    /// RefreshRate for thread
     /// </summary>
     public ETailRefreshRate RefreshRate
     {

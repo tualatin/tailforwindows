@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Business.Services.Data;
@@ -9,8 +11,19 @@ namespace Org.Vs.TailForWin.Business.Utils.Interfaces
   /// <summary>
   /// CacheManager interface
   /// </summary>
-  public interface ICacheManager
+  public interface ICacheManager : IEnumerable, IEnumerator
   {
+    /// <summary>
+    /// Gets <see cref="LogEntry"/> by index
+    /// </summary>
+    /// <param name="index">Index</param>
+    /// <returns><see cref="LogEntry"/></returns>
+    /// <exception cref="InvalidOperationException"></exception> if index is not in range
+    LogEntry this[int index]
+    {
+      get;
+    }
+
     /// <summary>
     /// Gets current cache data
     /// </summary>
