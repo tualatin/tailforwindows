@@ -15,10 +15,10 @@ v.2.2.xxxx.x
 * new AutoUpdate checks for new version at startup and every 24 hours
 * new change Bookmark icon, if a comment exists
 * new Bookmark overview (Ctrl+Alt+B)
-* new Bookmark comment multiedit -> Bookmark overview
+* new Bookmark comment multi edit -> Bookmark overview
 * new Bookmark delete selected -> Bookmark overview
 * new Bookmark export as CSV -> Bookmark overview
-* new Systeminformation overview shows Windows build id
+* new Systeminformation overview shows Windows build id (Windows 10)
 * improve customize editor -> Options -> Extras
 * improve Find result view -> ToolTip for message column
 
@@ -45,7 +45,7 @@ v.2.1.6825.x
 * bug fix DataGrid style -> Foreground color was black and not readable (Windows classic design)
 * bug fix QuickAdd -> after QuickAdd, Save button was not shown in Filter/HighlightManager
 * bug fix TabHeader style (Windows classic design)
-* bug fix Executable files was not translateable
+* bug fix Executable files was not translatable
 * bug fix Filter/HighlightManager add/remove filter -> Highlighting was not shown correct
 * bug fix Filter/HighlightManager Highlighting ignores enabled flag
 * bug fix apply filter
@@ -115,7 +115,7 @@ v.2.0.6769.x
 * new Regex helper
 * new Statusbar design
 * new per user settings -> Users\user\AppData\Roaming\Tail4Windows\
-* new translateable userinterface - english, german
+* new translatable user interface - English, German
 * new filters can be enabled/disabled
 * it's faster than version 1.5.xxxx
 * bug fix search highlighting
@@ -153,9 +153,9 @@ v1.5.6312.x
 * change some icons
 * Tail4Windows log files older than 5 days will automatically delete, if you don't want it, please edit the config file and set property 'DeleteLogFiles' to 'False'
 * new log4net is logging system now
-* new tooltip design
+* new ToolTip design
 * bug fix Uptime
-* improve StatusBar Tooltip information
+* improve StatusBar ToolTip information
 * some code refactoring
 
 v1.0.5400.x
@@ -179,17 +179,17 @@ v1.0.5296.x
 * improve tail thread
 * add mouse double click to open file from FileManager
 * save if Filter is on/off
-* click mousewheel add a new tab
-* click mousewheel on tab, remove this tab
+* click MouseWheel add a new tab
+* click MouseWheel on tab, remove this tab
 * some other bug fixes
 
 v0.9.5231.x
 * bug fix when clear FileName textbox, than press Start, textbox was empty
 * add select single word
-* add multiselect by mouse
-* improve performance multiselect by mouse
+* add multi select by mouse
+* improve performance multi select by mouse
 * bug fix mouse double click on a empty text editor window
-* bug fix rightmouse buttondown by multiselect items
+* bug fix right mouse button down by multi select items
 * bug fix NullReferenceException when closing TfW
 * add popup window alert option
 * improve spinner control: hold mouse button down increment or decrement value
@@ -289,7 +289,7 @@ v0.9.5078.x
 * change WPF TextBox to new TextEditorControl (Search highlighting, Linenmumbers) - it was a lot of work!
 * add printer support
 * add ShowLineNumbers as option
-* add line numbers colour option
+* add line numbers color option
 * new print page format
 * add new option FileManagerSort (Nothing - no sort, FileCreationTime - sort by file creation time)
 * new property FileAge
@@ -300,7 +300,7 @@ v0.9.5078.x
 * bug fix refresh datagrid source
 
 v0.9.5049.x
-* colour picker to customize colour in tail window
+* color picker to customize color in tail window
 * better event handling in all dialogs for Escape button
 * improve file open event from FileManager dialog
 * improve file open event from FileManager dialog to open a new program instance
