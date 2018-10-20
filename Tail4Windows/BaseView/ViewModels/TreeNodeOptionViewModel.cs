@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.Interfaces;
@@ -44,7 +45,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private bool _isExpanded;
 
     /// <summary>
-    /// Is exapnded
+    /// Is expanded
     /// </summary>
     public bool IsExpanded
     {
@@ -254,6 +255,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
         child.Dispose();
       }
+
+      GC.SuppressFinalize(this);
     }
   }
 }

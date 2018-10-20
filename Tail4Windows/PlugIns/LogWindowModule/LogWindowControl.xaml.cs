@@ -171,6 +171,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       get => _currentTailData;
       set
       {
+        if ( _currentTailData != null )
+          _currentTailData.PropertyChanged -= OnTailDataPropertyChanged;
+
         _currentTailData = value;
 
         if ( _currentTailData != null )
@@ -253,10 +256,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set
       {
         // Strange workaround! Sometimes SelectedItem will set twice and value is null - no clue why!
-        if ( string.IsNullOrWhiteSpace(value) && !string.IsNullOrWhiteSpace(CurrentTailData.FileName) )
-          value = CurrentTailData.FileName;
+        if ( string.IsNullOrWhiteSpace(value) && !string.IsNullOrWhiteSpace(_selectedItem) )
+        {
+          if ( !string.IsNullOrWhiteSpace(_currentTailData.FileName) )
+            value = _selectedItem;
+        }
 
         _selectedItem = value;
+
         OnPropertyChanged();
 
         SetCurrentLogFileName();
@@ -794,7 +801,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !Equals(SelectedItem, textBox?.SelectedText) )
         return;
 
-      CurrentTailData.FileName = string.Empty;
+      CurrentTailData = new TailData();
       SelectedItem = string.Empty;
       e.Handled = true;
     }
@@ -831,7 +838,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         CurrentTailData = new TailData();
         FileIsValid = false;
         LogWindowState = EStatusbarState.Default;
-        SplitWindow.CurrentTailData = CurrentTailData;
+
+        ChangeTailData();
         return;
       }
 
@@ -849,7 +857,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogWindowTabItem.HeaderToolTip = CurrentTailData.FileName;
       LogWindowTabItem.TabItemBackgroundColorStringHex = CurrentTailData.TabItemBackgroundColorStringHex;
       FileIsValid = true;
-      SplitWindow.CurrentTailData = CurrentTailData;
+
+      ChangeTailData();
 
       if ( LogWindowTabItem.TabItemBusyIndicator != Visibility.Visible )
         LogWindowState = !string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
@@ -1115,22 +1124,29 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( TailReader != null )
         TailReader = null;
 
+      CurrentTailData.FileName = string.Empty;
+      SelectedItem = string.Empty;
+      CurrentTailData = item;
+
       TailReader = new WindowsEventReadService
       {
         TailData = CurrentTailData
       };
-      CurrentTailData = item;
+
       SplitWindow.LogReaderService = TailReader;
       string machine = CurrentTailData.WindowsEvent.Machine == "." ? Environment.MachineName : CurrentTailData.WindowsEvent.Machine;
       LogWindowTabItem.HeaderContent = $"{machine}: {CurrentTailData.WindowsEvent.Name}";
       LogWindowTabItem.HeaderToolTip = $"{machine}: {CurrentTailData.WindowsEvent.Name}";
       LogWindowTabItem.TabItemBackgroundColorStringHex = CurrentTailData.TabItemBackgroundColorStringHex;
       FileIsValid = true;
-      SplitWindow.CurrentTailData = CurrentTailData;
+
+      ChangeTailData();
 
       if ( LogWindowTabItem.TabItemBusyIndicator != Visibility.Visible )
         LogWindowState = !string.IsNullOrWhiteSpace(CurrentTailData.WindowsEvent.Category) ? EStatusbarState.FileLoaded : EStatusbarState.Default;
     }
+
+    private void ChangeTailData() => SplitWindow.UpdateTailData(CurrentTailData);
 
     /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

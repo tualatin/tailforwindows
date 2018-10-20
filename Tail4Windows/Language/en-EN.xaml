@@ -18,6 +18,7 @@
   <system:String x:Key="Error">Error</system:String>
   <system:String x:Key="Question">Question</system:String>
   <system:String x:Key="Record">Tail...</system:String>
+  <system:String x:Key="Busy">Busy...</system:String>
   <system:String x:Key="Pause">Pause</system:String>
   <system:String x:Key="NoFile">No file</system:String>
   <system:String x:Key="LastTab">Cannot remove last tab.</system:String>

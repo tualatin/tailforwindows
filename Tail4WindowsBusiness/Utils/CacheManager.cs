@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -29,7 +30,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     }
 
     private readonly List<LogEntry> _cacheData;
-
+    private int _currentIndex;
 
     /// <summary>
     /// Standard constructor
@@ -38,6 +39,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     {
       MaxCapacity = SettingsHelperController.CurrentSettings.ContinuedScroll ? 20000 : 70000;
       _cacheData = new List<LogEntry>();
+      _currentIndex = -1;
 
       LOG.Debug($"Current max logline capacity is {MaxCapacity:N0}");
     }
@@ -106,8 +108,9 @@ namespace Org.Vs.TailForWin.Business.Utils
       if ( _cacheData.Count == 0 )
         LOG.Debug("Start caching...");
 
-      if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 && _cacheData.Count + MaxCapacity >= SettingsHelperController.CurrentSettings.LogLineLimit
-                                                                       && position <= 0 )
+      if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 &&
+           _cacheData.Count + MaxCapacity >= SettingsHelperController.CurrentSettings.LogLineLimit &&
+           position <= 0 )
       {
         _cacheData.RemoveAt(0);
       }
@@ -146,6 +149,66 @@ namespace Org.Vs.TailForWin.Business.Utils
     {
       Arg.NotNull(other, nameof(other));
       return _cacheData.Intersect(other);
+    }
+
+    /// <summary>
+    /// Returns an enumerator that iterates through a collection.
+    /// </summary>
+    /// <returns>An <see cref="IEnumerator"/> object that can be used to iterate through the collection.</returns>
+    public IEnumerator GetEnumerator() => _cacheData.GetEnumerator();
+
+    /// <summary>
+    /// Advances the enumerator to the next element of the collection.
+    /// </summary>
+    /// <returns><c>True</c> if the enumerator was successfully advanced to the next element; <c>False</c> if the enumerator has passed the end of the collection.</returns>
+    public bool MoveNext()
+    {
+      _currentIndex++;
+      return _currentIndex < _cacheData.Count;
+    }
+
+    /// <summary>
+    /// Sets the enumerator to its initial position, which is before the first element in the collection.
+    /// </summary>
+    public void Reset() => _currentIndex = -1;
+
+    /// <summary>
+    /// Gets the element in the collection at the current position of the enumerator.
+    /// </summary>
+    public object Current
+    {
+      get
+      {
+        try
+        {
+          return _cacheData[_currentIndex];
+        }
+        catch ( IndexOutOfRangeException )
+        {
+          throw new InvalidOperationException();
+        }
+      }
+    }
+
+    /// <summary>
+    /// Gets <see cref="LogEntry"/> by index
+    /// </summary>
+    /// <param name="index">Index</param>
+    /// <returns><see cref="LogEntry"/></returns>
+    /// <exception cref="InvalidOperationException"></exception> if index is not in range
+    public LogEntry this[int index]
+    {
+      get
+      {
+        try
+        {
+          return _cacheData[index];
+        }
+        catch ( IndexOutOfRangeException )
+        {
+          throw new InvalidOperationException();
+        }
+      }
     }
   }
 }

@@ -26,9 +26,23 @@ namespace Org.Vs.TailForWin.Core.Data
     }
 
     /// <summary>
-    /// Releases all resources used by the FilterData.
+    /// Releases all resources used by <see cref="FilterData"/>.
     /// </summary>
-    public void Dispose() => FontType = null;
+    public void Dispose()
+    {
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Releases all resources used by <see cref="FilterData"/>
+    /// </summary>
+    /// <param name="disposing">Disposing</param>
+    protected virtual void Dispose(bool disposing)
+    {
+      if ( disposing )
+        FontType = null;
+    }
 
     private Guid _id;
 

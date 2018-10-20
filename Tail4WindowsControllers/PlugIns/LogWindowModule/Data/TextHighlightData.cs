@@ -19,7 +19,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
       get => _filterFontType;
       set
       {
-        if (Equals(value, _filterFontType))
+        if ( Equals(value, _filterFontType) )
           return;
 
         _filterFontType = value;
@@ -73,7 +73,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
       get => _oldTextHighlightColorHex;
       set
       {
-        if (Equals(value, _oldTextHighlightColorHex))
+        if ( Equals(value, _oldTextHighlightColorHex) )
           return;
 
         _oldTextHighlightColorHex = value;
@@ -91,7 +91,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
       get => _textBackgroundColorHex;
       set
       {
-        if (Equals(value, _textBackgroundColorHex))
+        if ( Equals(value, _textBackgroundColorHex) )
           return;
 
         _textBackgroundColorHex = value;
@@ -109,7 +109,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
       get => _isFindWhat;
       set
       {
-        if (value == _isFindWhat)
+        if ( value == _isFindWhat )
           return;
 
         _isFindWhat = value;
@@ -127,7 +127,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
       get => _opacity;
       set
       {
-        if (Equals(value, _opacity))
+        if ( Equals(value, _opacity) )
           return;
 
         _opacity = value;
@@ -138,6 +138,10 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public TextHighlightData() => Opacity = 1.0;
+    public TextHighlightData()
+    {
+      FilterFontType = new FontType();
+      Opacity = 1.0;
+    }
   }
 }

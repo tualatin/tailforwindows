@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using log4net;
+using Org.Vs.TailForWin.BaseView.ViewModels;
 using Org.Vs.TailForWin.Business.SearchEngine.Controllers;
 using Org.Vs.TailForWin.Business.SearchEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Services.Data;
@@ -86,6 +87,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// Last seen <see cref="LogEntry"/>
     /// </summary>
     private LogEntry _lastSeenEntry;
+
+    /// <summary>
+    /// Old StatusBar message
+    /// </summary>
+    private string _oldStatusBarMessage;
 
     #region RoutedEvents
 
@@ -418,21 +424,24 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       set => SetValue(LogReaderServiceProperty, value);
     }
 
-    /// <summary>
-    /// <see cref="TailData"/> property
-    /// </summary>
-    public static readonly DependencyProperty CurrentTailDataProperty = DependencyProperty.Register(nameof(CurrentTailData), typeof(TailData), typeof(SplitWindowControl),
-      new PropertyMetadata(new TailData(), TailDataOnChanged));
+    private TailData _currentTailData;
 
     /// <summary>
     /// Current <see cref="TailData"/>
     /// </summary>
     public TailData CurrentTailData
     {
-      get => (TailData) GetValue(CurrentTailDataProperty);
-      set
+      get => _currentTailData;
+      private set
       {
-        SetValue(CurrentTailDataProperty, value);
+        if ( _currentTailData != null )
+          _currentTailData.PropertyChanged -= OnTailDataPropertyChanged;
+
+        _currentTailData = value;
+        LogWindowMainElement.CurrentTailData = value;
+        LogWindowSplitElement.CurrentTailData = value;
+
+        _currentTailData.PropertyChanged += OnTailDataPropertyChanged;
         OnPropertyChanged();
       }
     }
@@ -468,35 +477,34 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is SmartWatchController) )
         return;
 
-      Dispatcher.InvokeAsync(
-        () =>
+      Dispatcher.InvokeAsync(() =>
+      {
+        switch ( SettingsHelperController.CurrentSettings.SmartWatchSettings.Mode )
         {
-          switch ( SettingsHelperController.CurrentSettings.SmartWatchSettings.Mode )
+        case ESmartWatchMode.Auto:
+
+          OnSmartWatchWindowClosed(this, new SmartWatchWindowClosedEventArgs(SettingsHelperController.CurrentSettings.SmartWatchSettings.NewTab, file));
+          break;
+
+        case ESmartWatchMode.Manual:
+
+          var windows = this.Ancestors().OfType<Window>().ToList();
+          var smartWatchPopup = new SmartWatchPopup
           {
-          case ESmartWatchMode.Auto:
+            CurrentTailData = CurrentTailData,
+            FileName = file,
+            ShouldClose = true,
+            MainWindow = windows.FirstOrDefault()
+          };
+          smartWatchPopup.SmartWatchPopupViewModel.SmartWatchWindowClosed += OnSmartWatchWindowClosed;
+          smartWatchPopup.Show();
+          break;
 
-            OnSmartWatchWindowClosed(this, new SmartWatchWindowClosedEventArgs(SettingsHelperController.CurrentSettings.SmartWatchSettings.NewTab, file));
-            break;
+        default:
 
-          case ESmartWatchMode.Manual:
-
-            var windows = this.Ancestors().OfType<Window>().ToList();
-            var smartWatchPopup = new SmartWatchPopup
-            {
-              CurrentTailData = CurrentTailData,
-              FileName = file,
-              ShouldClose = true,
-              MainWindow = windows.FirstOrDefault()
-            };
-            smartWatchPopup.SmartWatchPopupViewModel.SmartWatchWindowClosed += OnSmartWatchWindowClosed;
-            smartWatchPopup.Show();
-            break;
-
-          default:
-
-            throw new ArgumentOutOfRangeException();
-          }
-        });
+          throw new ArgumentOutOfRangeException();
+        }
+      });
     }
 
     private void OnSmartWatchWindowClosed(object sender, SmartWatchWindowClosedEventArgs e)
@@ -545,24 +553,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #endregion
 
-    private static void TailDataOnChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-    {
-      if ( !(sender is SplitWindowControl control) )
-        return;
+    /// <summary>
+    /// Updates LogWindowListBox"
+    /// </summary>
+    /// <param name="tailData"><see cref="TailData"/></param>
+    public void UpdateTailData(TailData tailData) => CurrentTailData = tailData;
 
-      if ( e.OldValue is TailData oldValue )
-        oldValue.PropertyChanged -= control.CurrentTailDataChanged;
-
-      if ( !(e.NewValue is TailData newValue) )
-        return;
-
-      control.LogWindowSplitElement.CurrentTailData = newValue;
-      control.LogWindowMainElement.CurrentTailData = newValue;
-
-      control.CurrentTailData.PropertyChanged += control.CurrentTailDataChanged;
-    }
-
-    private void CurrentTailDataChanged(object sender, PropertyChangedEventArgs e)
+    /// <summary>
+    /// <see cref="TailData"/> property changed
+    /// </summary>
+    /// <param name="sender">Who sends the event</param>
+    /// <param name="e"><see cref="PropertyChangedEventArgs"/></param>
+    private void OnTailDataPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       switch ( e.PropertyName )
       {
@@ -570,11 +572,26 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       case "FilterItem":
       case "ListOfFilter":
 
+        MouseService.SetBusyState();
+
+        // I know, I will break the current T4W convention, that only the T4WindowViewModel is responsible for the StatusBar
+        _oldStatusBarMessage = BaseWindowStatusbarViewModel.Instance.CurrentBusyState;
+        BaseWindowStatusbarViewModel.Instance.CurrentBusyState = Application.Current.TryFindResource("Busy").ToString();
+
+        // ReSharper disable once ObjectCreationAsStatement
+        new DispatcherTimer(TimeSpan.FromSeconds(0), DispatcherPriority.ApplicationIdle, DispatcherTimerTick, Application.Current.Dispatcher);
+
         HighlightData = null;
         OnPropertyChanged(nameof(HighlightData));
 
-        CollectionView.Filter = DynamicFilter;
-        LogWindowMainElement.ScrollToEnd();
+        new ThrottledExecution().InMs(15).Do(() =>
+        {
+          Dispatcher.InvokeAsync(() =>
+          {
+            CollectionView.Filter = DynamicFilter;
+            LogWindowMainElement.ScrollToEnd();
+          });
+        });
         break;
 
       case "Wrap":
@@ -582,6 +599,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         LogWindowMainElement.ScrollToEnd();
         break;
       }
+    }
+
+    private void DispatcherTimerTick(object sender, EventArgs e)
+    {
+      if ( !(sender is DispatcherTimer dispatcherTimer) )
+        return;
+
+      dispatcherTimer.Stop();
+      BaseWindowStatusbarViewModel.Instance.CurrentBusyState = _oldStatusBarMessage;
+      _oldStatusBarMessage = string.Empty;
     }
 
     #region Commands
@@ -801,8 +828,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      LogWindowMainElement.UpdateHighlighting(HighlightData);
-      LogWindowSplitElement.UpdateHighlighting(HighlightData);
+      UpdateHighlighting();
 
       if ( _notifyTaskCompletion == null )
         return;
@@ -839,6 +865,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       _notifyTaskCompletion.PropertyChanged -= FindWhatCountPropertyChanged;
       _notifyTaskCompletion = null;
+
+      RemoveFindWhatResultFromHighlightData();
     }
 
     private void OnStartSearchAll(StartSearchAllMessage args)
@@ -866,8 +894,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       FindWhatResults = new ObservableCollection<LogEntry>(_findWhatResults);
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatResultWindowMessage(FindWhatResults, logWindow.First().WindowId));
 
-      LogWindowMainElement.UpdateHighlighting(HighlightData);
-      LogWindowSplitElement.UpdateHighlighting(HighlightData);
+      UpdateHighlighting();
 
       if ( _notifyTaskCompletion == null )
         return;
@@ -1043,9 +1070,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           AddFindWhatResultToHighlightData(result);
         }
 
-        for ( int i = 0; i < CacheManager.GetCacheData().Count; i++ )
+        for ( var i = CacheManager.GetCacheData().Count - 1; i >= 0; i-- )
         {
-          LogEntry log = CacheManager.GetCacheData()[i];
+          LogEntry log = CacheManager[i];
+
+          if ( log == null )
+            continue;
+
           string message = findData.SearchBookmarkComments ? log.BookmarkToolTip : log.Message;
           var result = await _findController.MatchTextAsync(findData, message, searchText).ConfigureAwait(false);
 
@@ -1129,12 +1160,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       // recover is empty, remove all FindWhat results from list
       if ( recover.Count == 0 )
       {
+        HighlightData.ForEach(p =>
+        {
+          if ( !p.IsFindWhat )
+            return;
+
+          p.IsFindWhat = false;
+          p.TextBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex;
+          p.TextHighlightColorHex = SettingsHelperController.CurrentSettings.ColorSettings.ForegroundColorHex;
+        });
+        UpdateHighlighting();
+
         // Remove FindWhat data
         HighlightData.RemoveAll(p => p.IsFindWhat);
         OnPropertyChanged(nameof(HighlightData));
-
-        LogWindowMainElement.UpdateHighlighting(HighlightData);
-        LogWindowSplitElement.UpdateHighlighting(HighlightData);
+        UpdateHighlighting();
         return;
       }
 
@@ -1144,14 +1184,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         p.IsFindWhat = false;
         p.TextHighlightColorHex = p.OldTextHighlightColorHex;
         p.OldTextHighlightColorHex = string.Empty;
-        p.TextBackgroundColorHex = null;
+        p.TextBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex;
         p.Opacity = 1;
       });
 
       // Remove FindWhat data
       HighlightData.RemoveAll(p => p.IsFindWhat);
       OnPropertyChanged(nameof(HighlightData));
+      UpdateHighlighting();
+    }
 
+    private void UpdateHighlighting()
+    {
       LogWindowMainElement.UpdateHighlighting(HighlightData);
       LogWindowSplitElement.UpdateHighlighting(HighlightData);
     }
@@ -1187,7 +1231,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private bool DynamicFilter(object item)
     {
-      if ( CurrentTailData.ListOfFilter == null || CurrentTailData.ListOfFilter.Count == 0 || !CurrentTailData.FilterState )
+      if ( CurrentTailData?.ListOfFilter == null || CurrentTailData.ListOfFilter.Count == 0 || !CurrentTailData.FilterState )
         return true;
 
       if ( !(item is LogEntry logEntry) )
