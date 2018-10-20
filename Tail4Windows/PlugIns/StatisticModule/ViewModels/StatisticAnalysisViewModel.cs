@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using LiveCharts;
+using LiveCharts.Wpf;
 using log4net;
 using Org.Vs.TailForWin.Business.StatisticEngine.Controllers;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
@@ -25,6 +27,12 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
 
     private readonly IStatisticController _statisticController;
 
+    public SeriesCollection Series
+    {
+      get;
+      set;
+    }
+
     /// <summary>
     /// Standard constructor
     /// </summary>
@@ -33,6 +41,18 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       _statisticController = new StatisticController();
 
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += OnLoadedPropertyChanged;
+
+      Series = new SeriesCollection
+      {
+        new LineSeries
+        {
+          Values = new ChartValues<double> { 3, 5, 7, 4 }
+        },
+        new ColumnSeries
+        {
+          Values = new ChartValues<decimal> { 5, 6, 2, 7 }
+        }
+      };
     }
 
     #region Commands
