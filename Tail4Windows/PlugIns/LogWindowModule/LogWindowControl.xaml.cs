@@ -338,6 +338,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #region Commands
 
+    private ICommand _showStatisticsCommand;
+
+    /// <summary>
+    /// Show statistics command
+    /// </summary>
+    public ICommand ShowStatisticsCommand => _showStatisticsCommand ?? (_showStatisticsCommand = new RelayCommand(p => SettingsHelperController.CurrentSettings.Statistics,
+                                               p => ExecuteShowStatisticsCommand()));
+
     private ICommand _openFileCommand;
 
     /// <summary>
@@ -789,6 +797,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       SelectedItem = fileName;
       LogFileComboBoxHasFocus = true;
     }
+
+    private void ExecuteShowStatisticsCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowStatisticsModuleMessage(this));
 
     private bool CanExecuteAddToFileManager() => FileIsValid && CurrentTailData != null && !CurrentTailData.OpenFromFileManager;
 

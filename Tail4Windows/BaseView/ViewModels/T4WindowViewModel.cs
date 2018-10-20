@@ -42,6 +42,7 @@ using Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule;
 using Org.Vs.TailForWin.PlugIns.FindModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
+using Org.Vs.TailForWin.PlugIns.StatisticModule;
 using Org.Vs.TailForWin.UI;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 using Org.Vs.TailForWin.UI.Utils;
@@ -67,6 +68,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private readonly FindWhatResult _findWhatResultWindow;
     private readonly BookmarkOverview _bookmarkOverview;
+    private readonly StatisticAnalysis _statisticAnalysis;
+
     private FindWhat _findWhatWindow;
 
     private readonly ISettingsDbController _dbSettingsController;
@@ -275,11 +278,16 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ChangeSelectedTabItemMessage>(OnChangeSelectedTabItem);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StatisticChangeReaderMessage>(OnChangeLogReader);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StatisticUpdateReaderMessage>(OnUpdateStatistics);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowStatisticsModuleMessage>(OnShowStatisticsWindow);
 
       _cts = new CancellationTokenSource();
 
       _findWhatResultWindow = new FindWhatResult();
       _bookmarkOverview = new BookmarkOverview();
+      _statisticAnalysis = new StatisticAnalysis
+      {
+        ShouldClose = false
+      };
 
       _dbSettingsController = SettingsDbController.Instance;
       _statisticController = new StatisticController();
@@ -311,6 +319,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ChangeSelectedTabItemMessage>(OnChangeSelectedTabItem);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StatisticChangeReaderMessage>(OnChangeLogReader);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StatisticUpdateReaderMessage>(OnUpdateStatistics);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ShowStatisticsModuleMessage>(OnShowStatisticsWindow);
     }
 
     private void CreateTrayIconSystemMenu()
@@ -403,6 +412,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
         _findWhatResultWindow.ShouldClose = true;
         _findWhatResultWindow.Close();
+      }
+
+      if ( _statisticAnalysis != null )
+      {
+        _statisticAnalysis.ShouldClose = true;
+        _statisticAnalysis?.Close();
       }
 
       if ( _bookmarkOverview != null )
@@ -1028,6 +1043,21 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _findWhatWindow.Show();
       _findWhatWindow.Focus();
+    }
+
+    private void OnShowStatisticsWindow(ShowStatisticsModuleMessage args)
+    {
+      if ( _statisticAnalysis == null || !(args.Sender is ILogWindowControl) )
+        return;
+
+      if ( _statisticAnalysis.Visibility == Visibility.Visible )
+      {
+        _statisticAnalysis.Focus();
+        _statisticAnalysis.Activate();
+        return;
+      }
+
+      _statisticAnalysis.Show();
     }
 
     private void OnUpdateStatistics(StatisticUpdateReaderMessage args)

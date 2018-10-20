@@ -8,9 +8,10 @@
   xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
-  Title="StatisticAnalytic"
+  Title="{DynamicResource ExtrasStatistics}"
   Width="800"
   Height="450"
+  Icon="/T4W;component/Resources/chart.png"
   vml:ViewModelLocator.IsAutomaticLocator="True"
   >
   <Grid>

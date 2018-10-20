@@ -1010,7 +1010,7 @@
 
                 <MenuItem
                   Header="{DynamicResource ExtrasStatistics}"
-                  Command="{Binding OpenHelpCommand}"
+                  Command="{Binding ShowStatisticsCommand}"
                   Visibility="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=Statistics, Converter={StaticResource BoolToVisibilityConverter}}"
                   >
                   <MenuItem.Icon>

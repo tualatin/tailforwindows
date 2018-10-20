@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using Org.Vs.TailForWin.UI.Extensions;
 
@@ -20,6 +21,18 @@ namespace Org.Vs.TailForWin.UI.ExtendedControls
       {
         this.HideMinimizeMaximizeButtons();
       };
+      Closing += OnVsWindowExClosing;
+
+      ShouldClose = true;
+    }
+
+    /// <summary>
+    /// Hides / real close the window
+    /// </summary>
+    public bool ShouldClose
+    {
+      private get;
+      set;
     }
 
     /// <summary>
@@ -57,6 +70,15 @@ namespace Org.Vs.TailForWin.UI.ExtendedControls
     {
       get => (Guid) GetValue(ParentGuidProperty);
       set => SetValue(ParentGuidProperty, value);
+    }
+
+    private void OnVsWindowExClosing(object sender, CancelEventArgs e)
+    {
+      if ( ShouldClose )
+        return;
+
+      e.Cancel = true;
+      Hide();
     }
   }
 }
