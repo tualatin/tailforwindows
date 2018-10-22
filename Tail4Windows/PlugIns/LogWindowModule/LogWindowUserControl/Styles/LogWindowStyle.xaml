@@ -251,14 +251,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type logWindowListBox:LogWindowListBox}">
-          <Grid Background="{TemplateBinding Background}">
-            <Rectangle
-              Width="20"
-              HorizontalAlignment="Left"
-              Fill="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
-              Opacity="0.12"
-              />
-
+          <Grid Background="{StaticResource ScrollBarLightColor}">
             <ScrollViewer
               x:Name="ScrollViewer"
               CanContentScroll="True"
@@ -281,12 +274,24 @@
                       <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <ScrollContentPresenter
-                      x:Name="PART_ScrollContentPresenter"
+                    <!--  A Grid around the ScrollContentPresenter, to not color the small rectangle between the two Scrollbars, see first Grid in style(!!)  -->
+                    <Grid
                       Grid.Row="1"
                       Grid.ColumnSpan="2"
-                      CanContentScroll="{TemplateBinding CanContentScroll}"
-                      />
+                      Background="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.BackgroundColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
+                      >
+                      <Rectangle
+                        Width="20"
+                        HorizontalAlignment="Left"
+                        Fill="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ColorSettings.LineNumberColorHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
+                        Opacity="0.12"
+                        />
+
+                      <ScrollContentPresenter
+                        x:Name="PART_ScrollContentPresenter"
+                        CanContentScroll="{TemplateBinding CanContentScroll}"
+                        />
+                    </Grid>
 
                     <ScrollBar
                       Name="PART_VerticalScrollBar"
