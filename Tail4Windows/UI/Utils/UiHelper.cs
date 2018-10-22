@@ -208,7 +208,7 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <param name="height">Height</param>
     public static void MoveIntoView(string name, ref double posX, ref double posY, double width, double height)
     {
-      LOG.Trace($"Move {name} into view, if required.");
+      LOG.Debug($"Move {name} into view, if required.");
 
       if ( posY + height / 2 > SystemParameters.VirtualScreenHeight )
         posY = SystemParameters.VirtualScreenHeight - height;

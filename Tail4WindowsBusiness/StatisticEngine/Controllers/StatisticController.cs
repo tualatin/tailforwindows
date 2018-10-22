@@ -102,8 +102,9 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// <summary>
     /// Starts analysis
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns><see cref="StatisticData"/></returns>
-    public async Task<StatisticAnalysisData> StartAnalysisAsync()
+    public async Task<StatisticAnalysisData> StartAnalysisAsync(CancellationToken token)
     {
       LOG.Debug("Start statistics analysis");
 
@@ -125,7 +126,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         {
           LOG.Error("Can not lock!");
         }
-      }, _cts.Token);
+      }, token);
 
       return result;
     }

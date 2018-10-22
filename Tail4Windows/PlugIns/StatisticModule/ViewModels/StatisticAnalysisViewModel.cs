@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using LiveCharts;
 using LiveCharts.Wpf;
@@ -11,8 +13,10 @@ using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces;
 using Org.Vs.TailForWin.Controllers.UI.Vml.Attributes;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
@@ -26,12 +30,77 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
     private static readonly ILog LOG = LogManager.GetLogger(typeof(StatisticAnalysisViewModel));
 
     private readonly IStatisticController _statisticController;
+    private CancellationTokenSource _cts;
+
+    #region Properties
+
+    private double _top;
+
+    /// <summary>
+    /// Top
+    /// </summary>
+    public double Top
+    {
+      get => _top;
+      set
+      {
+        _top = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _left;
+
+    /// <summary>
+    /// Left
+    /// </summary>
+    public double Left
+    {
+      get => _left;
+      set
+      {
+        _left = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _width;
+
+    /// <summary>
+    /// Width
+    /// </summary>
+    public double Width
+    {
+      get => _width;
+      set
+      {
+        _width = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _height;
+
+    /// <summary>
+    /// Height
+    /// </summary>
+    public double Height
+    {
+      get => _height;
+      set
+      {
+        _height = value;
+        OnPropertyChanged();
+      }
+    }
 
     public SeriesCollection Series
     {
       get;
       set;
     }
+
+    #endregion
 
     /// <summary>
     /// Standard constructor
@@ -64,6 +133,13 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
     /// </summary>
     public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
 
+    private ICommand _closingCommand;
+
+    /// <summary>
+    /// Closing command
+    /// </summary>
+    public ICommand ClosingCommand => _closingCommand ?? (_closingCommand = new RelayCommand(p => ExecuteClosingCommand()));
+
     /// <summary>
     /// Unloaded command
     /// </summary>
@@ -82,7 +158,9 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
 
       try
       {
-        await _statisticController.StartAnalysisAsync().ConfigureAwait(false);
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource(TimeSpan.FromMinutes(3));
+        await _statisticController.StartAnalysisAsync(_cts.Token).ConfigureAwait(false);
       }
       catch ( Exception ex )
       {
@@ -90,12 +168,41 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       }
     }
 
+    private void ExecuteClosingCommand()
+    {
+      SettingsHelperController.CurrentSettings.StatisticWindowLeft = Left;
+      SettingsHelperController.CurrentSettings.StatisticWindowTop = Top;
+
+      SettingsHelperController.CurrentSettings.StatisticWindowHeight = Height;
+      SettingsHelperController.CurrentSettings.StatisticWindowWidth = Width;
+    }
+
     #endregion
+
+    private void MoveIntoView()
+    {
+      double posX = SettingsHelperController.CurrentSettings.StatisticWindowLeft;
+      double posY = SettingsHelperController.CurrentSettings.StatisticWindowTop;
+
+      UiHelper.MoveIntoView(Application.Current.TryFindResource("ExtrasStatistics").ToString(), ref posX, ref posY, SettingsHelperController.CurrentSettings.StatisticWindowWidth,
+        SettingsHelperController.CurrentSettings.StatisticWindowHeight);
+
+      SettingsHelperController.CurrentSettings.StatisticWindowLeft = posX;
+      SettingsHelperController.CurrentSettings.StatisticWindowTop = posY;
+    }
 
     private void OnLoadedPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
+
+      MoveIntoView();
+
+      Left = SettingsHelperController.CurrentSettings.StatisticWindowLeft;
+      Top = SettingsHelperController.CurrentSettings.StatisticWindowTop;
+
+      Height = SettingsHelperController.CurrentSettings.StatisticWindowHeight;
+      Width = SettingsHelperController.CurrentSettings.StatisticWindowWidth;
     }
   }
 }

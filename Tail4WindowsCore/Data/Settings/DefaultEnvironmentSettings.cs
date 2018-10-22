@@ -198,6 +198,30 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// </summary>
     public const string FilterFontColor = "#DC143C";
 
+    #region Statistic window default settings
+
+    /// <summary>
+    /// Default value StatisticWindowLeft
+    /// </summary>
+    public const double StatisticWindowLeft = 0;
+
+    /// <summary>
+    /// Default value StatisticWindowTop
+    /// </summary>
+    public const double StatisticWindowTop = 0;
+
+    /// <summary>
+    /// Default value StatisticWindowHeight
+    /// </summary>
+    public const double StatisticWindowHeight = 450;
+
+    /// <summary>
+    /// Default value StatisticWindowWidth
+    /// </summary>
+    public const double StatisticWindowWidth = 800;
+
+    #endregion
+
     #region StatusBar default settings
 
     /// <summary>

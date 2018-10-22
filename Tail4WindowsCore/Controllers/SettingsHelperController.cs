@@ -260,7 +260,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
           using ( StreamReader sr = File.OpenText(CoreEnvironment.ApplicationSettingsFile) )
           {
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             CurrentSettings = (EnvironmentSettings) serializer.Deserialize(sr, typeof(EnvironmentSettings));
           }
         }
@@ -351,11 +351,11 @@ namespace Org.Vs.TailForWin.Core.Controllers
           LOG.Trace($"Save {CoreEnvironment.ApplicationTitle} user settings");
 
           using ( FileStream fs = File.Open(CoreEnvironment.ApplicationSettingsFile, FileMode.OpenOrCreate) )
-          using ( StreamWriter sw = new StreamWriter(fs) )
+          using ( var sw = new StreamWriter(fs) )
           using ( JsonWriter jw = new JsonTextWriter(sw) )
           {
             jw.Formatting = Formatting.Indented;
-            JsonSerializer serializer = new JsonSerializer();
+            var serializer = new JsonSerializer();
             serializer.Serialize(jw, CurrentSettings);
           }
         }
@@ -402,7 +402,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           SetDefaultProxySettings();
           SetDefaultLogViewerSettings();
           SetDefaultAlertSettings();
-          SetDefaultSmptSettings();
+          SetDefaultSmtpSettings();
           SetDefaultSmartWatchSettings();
         }
         finally
@@ -455,6 +455,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.SplitterWindowBehavior = DefaultEnvironmentSettings.SplitterWindowBehavior;
       CurrentSettings.EditorPath = string.Empty;
       CurrentSettings.ExportFormat = DefaultEnvironmentSettings.ExportFormat;
+      CurrentSettings.StatisticWindowHeight = DefaultEnvironmentSettings.StatisticWindowHeight;
+      CurrentSettings.StatisticWindowLeft = DefaultEnvironmentSettings.StatisticWindowLeft;
+      CurrentSettings.StatisticWindowTop = DefaultEnvironmentSettings.StatisticWindowTop;
+      CurrentSettings.StatisticWindowTop = DefaultEnvironmentSettings.StatisticWindowTop;
     }
 
     private void SetDefaultStatusBarSettings()
@@ -486,7 +490,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.AlertSettings.SoundFileNameFullPath = DefaultEnvironmentSettings.AlertSoundFile;
     }
 
-    private void SetDefaultSmptSettings()
+    private void SetDefaultSmtpSettings()
     {
       CurrentSettings.SmtpSettings.Ssl = DefaultEnvironmentSettings.SmtpSsl;
       CurrentSettings.SmtpSettings.Tls = DefaultEnvironmentSettings.SmtpTls;

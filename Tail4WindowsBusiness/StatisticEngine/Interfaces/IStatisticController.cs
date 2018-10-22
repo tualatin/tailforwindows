@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 
@@ -66,7 +67,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Interfaces
     /// <summary>
     /// Starts analysis
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns><see cref="StatisticData"/></returns>
-    Task<StatisticAnalysisData> StartAnalysisAsync();
+    Task<StatisticAnalysisData> StartAnalysisAsync(CancellationToken token);
   }
 }

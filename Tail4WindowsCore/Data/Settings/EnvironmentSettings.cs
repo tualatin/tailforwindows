@@ -483,6 +483,78 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
     #endregion
 
+    #region StatisticWindow settings
+
+    private double _statisticWindowLeft;
+
+    /// <summary>
+    /// Statistic window left
+    /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.StatisticWindowLeft)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public double StatisticWindowLeft
+    {
+      get => _statisticWindowLeft;
+      set
+      {
+        _statisticWindowLeft = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _statisticWindowTop;
+
+    /// <summary>
+    /// Statistic window top
+    /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.StatisticWindowTop)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public double StatisticWindowTop
+    {
+      get => _statisticWindowTop;
+      set
+      {
+        _statisticWindowTop = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _statisticWindowHeight;
+
+    /// <summary>
+    /// Statistic window height
+    /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.StatisticWindowHeight)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public double StatisticWindowHeight
+    {
+      get => _statisticWindowHeight;
+      set
+      {
+        _statisticWindowHeight = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _statisticWindowWidth;
+
+    /// <summary>
+    /// Statistic window width
+    /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.StatisticWindowWidth)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public double StatisticWindowWidth
+    {
+      get => _statisticWindowWidth;
+      set
+      {
+        _statisticWindowWidth = value;
+        OnPropertyChanged();
+      }
+    }
+
+    #endregion
+
     private bool _singleInstance;
 
     /// <summary>

@@ -398,7 +398,7 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
 
     private void ExecuteLoadedCommand()
     {
-      MoveInfoView();
+      MoveIntoView();
 
       TopPosition = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionY;
       LeftPosition = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX;
@@ -451,7 +451,7 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
       SetupBookmarkCollectionView();
     }
 
-    private void MoveInfoView()
+    private void MoveIntoView()
     {
       double posX = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX;
       double posY = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionY;
