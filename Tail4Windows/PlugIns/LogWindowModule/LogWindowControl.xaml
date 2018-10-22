@@ -1004,7 +1004,7 @@
                 <MenuItem
                   Header="Debug Tail Reader"
                   IsCheckable="True"
-                  IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=DebugTailReader}"
+                  IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentAppSettings}, Path=DebugTailReader}"
                   Visibility="{Binding Source={x:Static debugging:DebugBuild.IsDebug}}"
                   />
 
