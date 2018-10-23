@@ -175,6 +175,8 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
 
       SettingsHelperController.CurrentSettings.StatisticWindowHeight = Height;
       SettingsHelperController.CurrentSettings.StatisticWindowWidth = Width;
+
+      _cts?.Cancel();
     }
 
     #endregion

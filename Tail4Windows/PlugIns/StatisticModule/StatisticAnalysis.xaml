@@ -7,8 +7,10 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+  xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
+  d:DataContext="{d:DesignInstance {x:Type vm:StatisticAnalysisViewModel}}"
   Title="{DynamicResource ExtrasStatistics}"
   Width="{Binding Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
   Height="{Binding Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -41,7 +43,71 @@
         <RowDefinition Height="17" />
       </Grid.RowDefinitions>
 
-      <Grid Grid.Row="1">
+      <Grid
+        Grid.Row="0"
+        Margin="5"
+        >
+        <Button
+          Width="22"
+          Height="22"
+          HorizontalAlignment="Right"
+          Command="{Binding LoadedCommand}"
+          TabIndex="0"
+          >
+          <StackPanel Margin="3">
+            <Image
+              RenderOptions.BitmapScalingMode="HighQuality"
+              RenderOptions.EdgeMode="Aliased"
+              Source="/T4W;component/Resources/refresh.png"
+              >
+              <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                  <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                      <Setter Property="Opacity" Value="0.5" />
+                    </Trigger>
+                  </Style.Triggers>
+                </Style>
+              </Image.Style>
+            </Image>
+          </StackPanel>
+          <Button.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource WindowsEventRefresh}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource WindowsEventRefreshToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </Button.ToolTip>
+        </Button>
+      </Grid>
+
+      <Grid
+        Grid.Row="1"
+        Margin="5 0"
+        >
         <lvc:CartesianChart Series="{Binding Series}" />
       </Grid>
 

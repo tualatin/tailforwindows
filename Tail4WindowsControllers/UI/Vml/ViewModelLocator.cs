@@ -58,8 +58,6 @@ namespace Org.Vs.TailForWin.Controllers.UI.Vml
       if ( userControlType == null )
         throw new ArgumentException($"Not exist a type {classNameDef} in the assembly {assembly.FullName}");
 
-      var ctor = userControlType.GetConstructors();
-
       return Activator.CreateInstance(userControlType, _arguments);
     }
   }

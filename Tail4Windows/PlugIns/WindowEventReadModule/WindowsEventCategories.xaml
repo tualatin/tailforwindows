@@ -10,6 +10,7 @@
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
+  d:DataContext="{d:DesignInstance {x:Type viewModels:WindowsEventCategoriesViewModel}}"
   x:Name="WindowsEventCategoryWindow"
   Title="{DynamicResource WindowsEventTitle}"
   Width="300"
