@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 
 
@@ -55,6 +56,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces
     /// Closing command
     /// </summary>
     ICommand ClosingCommand
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Refresh command
+    /// </summary>
+    IAsyncCommand RefreshCommand
     {
       get;
     }

@@ -175,6 +175,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// <summary>
     /// Gets the element in the collection at the current position of the enumerator.
     /// </summary>
+    /// <exception cref="InvalidOperationException"> if current index is out of range</exception>
     public object Current
     {
       get

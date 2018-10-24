@@ -13,7 +13,7 @@ namespace Org.Vs.TailForWin.Controllers.UI.Vml.Attributes
     /// </summary>
     public string Name
     {
-      get; set;
+      get;
     }
 
     /// <summary>

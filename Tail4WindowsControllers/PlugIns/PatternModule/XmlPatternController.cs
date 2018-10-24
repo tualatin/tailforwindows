@@ -43,7 +43,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule
 
     private List<PatternData> ReadDefaultPatterns()
     {
-      List<PatternData> defaultPatterns = new List<PatternData>();
+      var defaultPatterns = new List<PatternData>();
 
       try
       {
@@ -53,15 +53,13 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule
         LOG.Trace("Read DefaultPatterns");
 
         _xmlDocument = XDocument.Load(_xmlPatternFile);
-        Parallel.ForEach(
-          _xmlDocument.Root?.Descendants(XmlNames.Pattern) ?? throw new InvalidOperationException(),
-          f =>
-          {
-            var pattern = GetPattern(f);
+        Parallel.ForEach(_xmlDocument.Root?.Descendants(XmlNames.Pattern) ?? throw new InvalidOperationException(), f =>
+        {
+          var pattern = GetPattern(f);
 
-            if ( pattern != null )
-              defaultPatterns.Add(pattern);
-          });
+          if ( pattern != null )
+            defaultPatterns.Add(pattern);
+        });
       }
       catch ( Exception ex )
       {
@@ -75,10 +73,9 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule
       var patternString = xPattern.Element(XmlBaseStructure.PatternString);
       var patternIsRegex = xPattern.Element(XmlBaseStructure.IsRegex)?.Value.ConvertToBool();
 
-      if ( patternString == null || !patternIsRegex.HasValue )
-        return null;
-
-      return new PatternData
+      return patternString == null || !patternIsRegex.HasValue
+        ? null
+        : new PatternData
       {
         PatternString = patternString.Value,
         IsRegex = (bool) patternIsRegex

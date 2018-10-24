@@ -8,6 +8,7 @@ using LiveCharts;
 using LiveCharts.Wpf;
 using log4net;
 using Org.Vs.TailForWin.Business.StatisticEngine.Controllers;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
@@ -31,6 +32,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
 
     private readonly IStatisticController _statisticController;
     private CancellationTokenSource _cts;
+    private IStatisticAnalysisCollection _statisticAnalysisCollection;
 
     #region Properties
 
@@ -140,6 +142,13 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
     /// </summary>
     public ICommand ClosingCommand => _closingCommand ?? (_closingCommand = new RelayCommand(p => ExecuteClosingCommand()));
 
+    private IAsyncCommand _refreshCommand;
+
+    /// <summary>
+    /// Refresh command
+    /// </summary>
+    public IAsyncCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = AsyncCommand.Create(ExecuteRefreshCommandAsync));
+
     /// <summary>
     /// Unloaded command
     /// </summary>
@@ -152,21 +161,9 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
 
     #region Command functions
 
-    private async Task ExecuteLoadedCommandAsync()
-    {
-      MouseService.SetBusyState();
+    private async Task ExecuteRefreshCommandAsync() => await CalculationStatisticsAsync();
 
-      try
-      {
-        _cts?.Dispose();
-        _cts = new CancellationTokenSource(TimeSpan.FromMinutes(3));
-        await _statisticController.StartAnalysisAsync(_cts.Token).ConfigureAwait(false);
-      }
-      catch ( Exception ex )
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-      }
-    }
+    private async Task ExecuteLoadedCommandAsync() => await CalculationStatisticsAsync();
 
     private void ExecuteClosingCommand()
     {
@@ -180,6 +177,27 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
     }
 
     #endregion
+
+    private async Task CalculationStatisticsAsync()
+    {
+      MouseService.SetBusyState();
+
+      try
+      {
+        _cts?.Dispose();
+        _cts = new CancellationTokenSource(TimeSpan.FromMinutes(3));
+        _statisticAnalysisCollection = await _statisticController.StartAnalysisAsync(_cts.Token).ConfigureAwait(false);
+
+        foreach ( StatisticAnalysisData item in _statisticAnalysisCollection )
+        {
+        
+        }
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+    }
 
     private void MoveIntoView()
     {

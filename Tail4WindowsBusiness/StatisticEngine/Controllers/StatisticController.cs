@@ -104,11 +104,11 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns><see cref="StatisticData"/></returns>
-    public async Task<StatisticAnalysisData> StartAnalysisAsync(CancellationToken token)
+    public async Task<IStatisticAnalysisCollection> StartAnalysisAsync(CancellationToken token)
     {
       LOG.Debug("Start statistics analysis");
 
-      var result = new StatisticAnalysisData();
+      IStatisticAnalysisCollection result = new StatisticAnalysisCollection();
 
       await Task.Run(() =>
       {
@@ -116,6 +116,27 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         {
           try
           {
+            using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+            {
+              var sessionEntity = GetSessionEntity(db);
+              var fileEntity = GetFileEntity(db);
+              var existsSessions = sessionEntity.FindAll();
+
+              Parallel.ForEach(existsSessions, new ParallelOptions { CancellationToken = token }, session =>
+              {
+                var files = fileEntity.FindAll().Where(p => p.Session.SessionId == session.SessionId).ToList();
+
+                if ( !files.Any() )
+                  return;
+
+                var temp = new StatisticAnalysisData
+                {
+                  SessionEntity = session,
+                  Files = files
+                };
+                result.Add(temp);
+              });
+            }
           }
           finally
           {

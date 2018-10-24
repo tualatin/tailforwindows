@@ -788,20 +788,17 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       return true;
     }
 
-    private void CommitChanges()
+    private void CommitChanges() => Parallel.ForEach(_fileManagerCollection, new ParallelOptions { CancellationToken = _cts.Token }, f =>
     {
-      Parallel.ForEach(_fileManagerCollection, f =>
-      {
-        f.CommitChanges();
-        f.FindSettings.CommitChanges();
-        f.WindowsEvent.CommitChanges();
+      f.CommitChanges();
+      f.FindSettings.CommitChanges();
+      f.WindowsEvent.CommitChanges();
 
-        Parallel.ForEach(f.ListOfFilter, p =>
-        {
-          p.FindSettingsData.CommitChanges();
-        });
+      Parallel.ForEach(f.ListOfFilter, new ParallelOptions { CancellationToken = _cts.Token }, p =>
+      {
+        p.FindSettingsData.CommitChanges();
       });
-    }
+    });
 
     private bool PreventDuplicateItems()
     {

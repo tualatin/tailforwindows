@@ -1326,30 +1326,33 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !Directory.Exists("logs") )
         return;
 
-      await Task.Run(
-        () =>
-        {
-          try
-          {
-            var files = new DirectoryInfo("logs").GetFiles("*.log");
+      var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
 
-            Parallel.ForEach(files.Where(p => DateTime.Now - p.LastWriteTimeUtc > TimeSpan.FromDays(SettingsHelperController.CurrentSettings.LogFilesOlderThan)), item =>
-            {
-              try
-              {
-                item.Delete();
-              }
-              catch ( Exception ex )
-              {
-                LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-              }
-            });
-          }
-          catch ( Exception ex )
+      await Task.Run(() =>
+      {
+        try
+        {
+          var files = new DirectoryInfo("logs").GetFiles("*.log");
+
+          Parallel.ForEach(
+            files.Where(p => DateTime.Now - p.LastWriteTimeUtc > TimeSpan.FromDays(SettingsHelperController.CurrentSettings.LogFilesOlderThan)),
+            new ParallelOptions { CancellationToken = cts.Token }, item =>
           {
-            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-          }
-        }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
+            try
+            {
+              item.Delete();
+            }
+            catch ( Exception ex )
+            {
+              LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+            }
+          });
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+      }, cts.Token).ConfigureAwait(false);
     }
 
     private void ColorSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)

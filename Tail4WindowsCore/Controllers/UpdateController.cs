@@ -82,16 +82,14 @@ namespace Org.Vs.TailForWin.Core.Controllers
           _webVersions.Clear();
           var versions = webData.Split('\n').ToList();
 
-          Parallel.ForEach(
-            versions,
-            p =>
-            {
-              if ( p == null )
-                return;
+          Parallel.ForEach(versions, p =>
+          {
+            if ( p == null )
+              return;
 
-              if ( Version.TryParse(p, out var v) )
-                _webVersions.Add(v);
-            });
+            if ( Version.TryParse(p, out var v) )
+              _webVersions.Add(v);
+          });
 
           SortWebVersions();
           DoCompareWebVersionWithApplicationVersion();
@@ -117,21 +115,19 @@ namespace Org.Vs.TailForWin.Core.Controllers
       if ( _webVersions.Count == 0 )
         return;
 
-      Parallel.ForEach(
-        _webVersions,
-        (f, state) =>
-        {
-          if ( f == null )
-            return;
+      Parallel.ForEach(_webVersions, (f, state) =>
+      {
+        if ( f == null )
+          return;
 
-          int res = f.CompareTo(_result.ApplicationVersion);
+        int res = f.CompareTo(_result.ApplicationVersion);
 
-          if ( res <= 0 )
-            return;
+        if ( res <= 0 )
+          return;
 
-          _result.Update = true;
-          state.Break();
-        });
+        _result.Update = true;
+        state.Break();
+      });
     }
 
     #region VersionComparer

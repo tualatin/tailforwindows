@@ -51,7 +51,7 @@
           Width="22"
           Height="22"
           HorizontalAlignment="Right"
-          Command="{Binding LoadedCommand}"
+          Command="{Binding RefreshCommand}"
           TabIndex="0"
           >
           <StackPanel Margin="3">
