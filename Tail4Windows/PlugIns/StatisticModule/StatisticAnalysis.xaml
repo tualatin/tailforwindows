@@ -32,6 +32,10 @@
     </i:EventTrigger>
   </i:Interaction.Triggers>
 
+  <extendedControls:VsWindowEx.InputBindings>
+    <KeyBinding Key="F5" Command="{Binding RefreshCommand}" />
+  </extendedControls:VsWindowEx.InputBindings>
+
   <Border
     BorderBrush="{StaticResource BrushSolidBlue}"
     BorderThickness="1 1 1 0"
@@ -47,7 +51,15 @@
         Grid.Row="0"
         Margin="5"
         >
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Label Content="{Binding UpTime, UpdateSourceTrigger=PropertyChanged}" />
+
         <Button
+          Grid.Column="1"
           Width="22"
           Height="22"
           HorizontalAlignment="Right"
@@ -108,7 +120,15 @@
         Grid.Row="1"
         Margin="5 0"
         >
-        <lvc:CartesianChart Series="{Binding Series}" />
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" SharedSizeGroup="C1" />
+        </Grid.ColumnDefinitions>
+
+        <lvc:CartesianChart
+          Grid.Column="0"
+          Series="{Binding Series, UpdateSourceTrigger=PropertyChanged}"
+          />
       </Grid>
 
       <Border

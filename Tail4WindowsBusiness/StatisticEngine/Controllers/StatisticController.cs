@@ -137,6 +137,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
                 result.Add(temp);
               });
             }
+
+            result.OrderCollectionByDate();
           }
           finally
           {

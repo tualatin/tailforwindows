@@ -102,6 +102,24 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       set;
     }
 
+    private string _upTime;
+
+    /// <summary>
+    /// Up time
+    /// </summary>
+    public string UpTime
+    {
+      get => _upTime;
+      set
+      {
+        if ( Equals(value, _upTime) )
+          return;
+
+        _upTime = value;
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     /// <summary>
@@ -112,18 +130,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       _statisticController = new StatisticController();
 
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += OnLoadedPropertyChanged;
-
-      Series = new SeriesCollection
-      {
-        new LineSeries
-        {
-          Values = new ChartValues<double> { 3, 5, 7, 4 }
-        },
-        new ColumnSeries
-        {
-          Values = new ChartValues<decimal> { 5, 6, 2, 7 }
-        }
-      };
+      ((AsyncCommand<object>) RefreshCommand).PropertyChanged += OnRefreshPropertyChanged;
     }
 
     #region Commands
@@ -187,11 +194,6 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
         _cts?.Dispose();
         _cts = new CancellationTokenSource(TimeSpan.FromMinutes(3));
         _statisticAnalysisCollection = await _statisticController.StartAnalysisAsync(_cts.Token).ConfigureAwait(false);
-
-        foreach ( StatisticAnalysisData item in _statisticAnalysisCollection )
-        {
-        
-        }
       }
       catch ( Exception ex )
       {
@@ -211,6 +213,14 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       SettingsHelperController.CurrentSettings.StatisticWindowTop = posY;
     }
 
+    private void OnRefreshPropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+        return;
+
+      PaintChartDiagram();
+    }
+
     private void OnLoadedPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
@@ -223,6 +233,49 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
 
       Height = SettingsHelperController.CurrentSettings.StatisticWindowHeight;
       Width = SettingsHelperController.CurrentSettings.StatisticWindowWidth;
+
+      PaintChartDiagram();
+    }
+
+    private void PaintChartDiagram()
+    {
+      if ( _statisticAnalysisCollection == null || _statisticAnalysisCollection.Count == 0 )
+        return;
+
+      //Series = new SeriesCollection
+      //{
+      //  new LineSeries
+      //  {
+      //    Values = new ChartValues<double> { 3, 5, 7, 4 }
+      //  },
+      //  new ColumnSeries
+      //  {
+      //    Values = new ChartValues<decimal> { 5, 6, 2, 7 }
+      //  }
+      //};
+
+      var chartValues = new ChartValues<double>();
+      var lineSeries = new LineSeries
+      {
+        Values = chartValues
+      };
+      var upTime = new TimeSpan();
+
+      foreach ( StatisticAnalysisData item in _statisticAnalysisCollection )
+      {
+        if ( item == null )
+          continue;
+
+        chartValues.Add(Math.Round((item.SessionEntity.MemoryUsage / 1024d) / 1014, 2));
+        upTime = upTime.Add(item.SessionEntity.UpTime);
+      }
+
+      UpTime = $"{upTime.Days:D0} {upTime.Hours:D2}:{upTime.Minutes:D2}:{upTime.Seconds:D2}";
+      Series = new SeriesCollection
+      {
+        lineSeries
+      };
+      OnPropertyChanged(nameof(Series));
     }
   }
 }

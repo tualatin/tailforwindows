@@ -22,6 +22,14 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Interfaces
     }
 
     /// <summary>
+    /// Gets the number of elements contained in the List.
+    /// </summary>
+    int Count
+    {
+      get;
+    }
+
+    /// <summary>
     /// Adds an object to the end of the List.
     /// </summary>
     /// <param name="item">The object to be added to the end of the List. The value can be null for reference types.</param>
@@ -47,5 +55,10 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Interfaces
     /// Removes all elements from the List.
     /// </summary>
     void Clear();
+
+    /// <summary>
+    /// Orders the current collection by <see cref="DbScheme.SessionEntity"/> date
+    /// </summary>
+    void OrderCollectionByDate();
   }
 }

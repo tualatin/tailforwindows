@@ -48,6 +48,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces
       set;
     }
 
+    /// <summary>
+    /// Up time
+    /// </summary>
+    string UpTime
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     #region Commands

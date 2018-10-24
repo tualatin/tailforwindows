@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -11,7 +12,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Data
   /// </summary>
   public class StatisticAnalysisCollection : IStatisticAnalysisCollection
   {
-    private readonly AsyncObservableCollection<StatisticAnalysisData> _statisticCollection;
+    private AsyncObservableCollection<StatisticAnalysisData> _statisticCollection;
     private int _currentIndex;
 
     /// <summary>
@@ -89,6 +90,11 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Data
     }
 
     /// <summary>
+    /// Gets the number of elements contained in the List.
+    /// </summary>
+    public int Count => _statisticCollection.Count;
+
+    /// <summary>
     /// Gets <see cref="StatisticAnalysisData"/> by index
     /// </summary>
     /// <param name="index">Index</param>
@@ -114,5 +120,16 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Data
     /// </summary>
     /// <returns>An <see cref="IEnumerator"/> object that can be used to iterate through the collection.</returns>
     public IEnumerator GetEnumerator() => _statisticCollection.GetEnumerator();
+
+    /// <summary>
+    /// Orders the current collection by <see cref="DbScheme.SessionEntity"/> date
+    /// </summary>
+    public void OrderCollectionByDate()
+    {
+      if ( _statisticCollection == null || _statisticCollection.Count == 0 )
+        return;
+
+      _statisticCollection = new AsyncObservableCollection<StatisticAnalysisData>(_statisticCollection.Where(p => p?.SessionEntity != null).OrderBy(p => p.SessionEntity.Date));
+    }
   }
 }
