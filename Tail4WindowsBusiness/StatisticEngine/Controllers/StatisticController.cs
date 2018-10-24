@@ -325,7 +325,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             {
               // Remove files with low elapsed time, minimum 15 min!
               var minElapsedTime = new TimeSpan(0, 0, 15, 0);
-              var invalidFiles = result.Where(p => p.ElapsedTime != null && TimeSpan.Compare(p.ElapsedTime.Value, minElapsedTime) < 0).ToList();
+              var invalidFiles = result.Where(p => p.ElapsedTime == null || p.ElapsedTime != null && TimeSpan.Compare(p.ElapsedTime.Value, minElapsedTime) < 0).ToList();
 
               foreach ( var file in invalidFiles )
               {
@@ -489,6 +489,17 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               {
                 sessionEntity.Delete(p => p.Session == session.Session);
               }
+            }
+
+            // Remove files without elapsed time
+            var invalidFiles = fileEntity.FindAll().Where(p => p.ElapsedTime == null).ToList();
+
+            if ( invalidFiles.Count == 0 )
+              return;
+
+            foreach ( var file in invalidFiles )
+            {
+              fileEntity.Delete(p => p.FileId == file.FileId);
             }
           }
         }
