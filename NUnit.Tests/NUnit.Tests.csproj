@@ -89,6 +89,7 @@
     <Compile Include="Data\TestDataObject.cs" />
     <Compile Include="Enums\ETestGetDescription.cs" />
     <Compile Include="Options\OptionTestClasses.cs" />
+    <Compile Include="TestAsyncObservableCollection.cs" />
     <Compile Include="TestColorExtension.cs" />
     <Compile Include="TestExecute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="TestObservableDictionary.cs" />
     <Compile Include="TestQueueSet.cs" />
     <Compile Include="TestSettingsHelper.cs" />
+    <Compile Include="TestStatisticAnalysisCollection.cs" />
     <Compile Include="TestStringEncryption.cs" />
     <Compile Include="TestStringExtension.cs" />
     <Compile Include="TestThrottledExecution.cs" />
