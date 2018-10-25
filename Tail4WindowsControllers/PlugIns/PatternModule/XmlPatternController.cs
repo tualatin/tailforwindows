@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -39,11 +38,11 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule
     /// Reads default patterns for SmartWatch
     /// </summary>
     /// <returns>List of default patterns</returns>
-    public async Task<List<PatternData>> ReadDefaultPatternsAsync() => await Task.Run(() => ReadDefaultPatterns()).ConfigureAwait(false);
+    public async Task<AsyncObservableCollection<PatternData>> ReadDefaultPatternsAsync() => await Task.Run(() => ReadDefaultPatterns()).ConfigureAwait(false);
 
-    private List<PatternData> ReadDefaultPatterns()
+    private AsyncObservableCollection<PatternData> ReadDefaultPatterns()
     {
-      var defaultPatterns = new List<PatternData>();
+      var defaultPatterns = new AsyncObservableCollection<PatternData>();
 
       try
       {
@@ -76,10 +75,10 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule
       return patternString == null || !patternIsRegex.HasValue
         ? null
         : new PatternData
-      {
-        PatternString = patternString.Value,
-        IsRegex = (bool) patternIsRegex
-      };
+        {
+          PatternString = patternString.Value,
+          IsRegex = (bool) patternIsRegex
+        };
     }
   }
 }

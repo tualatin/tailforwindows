@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Data;
+using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces
@@ -14,6 +14,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces
     /// Reads default patterns for SmartWatch
     /// </summary>
     /// <returns>List of default patterns</returns>
-    Task<List<PatternData>> ReadDefaultPatternsAsync();
+    Task<AsyncObservableCollection<PatternData>> ReadDefaultPatternsAsync();
   }
 }

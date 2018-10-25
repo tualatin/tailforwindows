@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +13,7 @@ using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
 
@@ -27,7 +27,7 @@ namespace Org.Vs.TailForWin.PlugIns.PatternModule.ViewModels
     private static readonly ILog LOG = LogManager.GetLogger(typeof(PatternControlViewModel));
 
     private readonly IXmlPattern _patternController;
-    private List<PatternData> _patterns;
+    private AsyncObservableCollection<PatternData> _patterns;
 
     #region Properties
 

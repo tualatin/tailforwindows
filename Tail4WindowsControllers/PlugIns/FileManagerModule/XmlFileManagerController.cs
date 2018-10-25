@@ -92,7 +92,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         _xmlDocument = XDocument.Load(_fileManagerFile);
         var xmlVersion = _xmlDocument.Root?.Element(XmlNames.XmlVersion)?.Value.ConvertToDecimal();
         decimal version = xmlVersion.HasValue ? (xmlVersion.Value == decimal.MinValue ? XmlNames.CurrentXmlVersion : xmlVersion.Value) : XmlNames.CurrentXmlVersion;
-        var files = new List<TailData>();
+        var files = new AsyncObservableCollection<TailData>();
 
         Parallel.ForEach(_xmlDocument.Root?.Descendants(XmlNames.File) ?? new List<XElement>(), p =>
         {

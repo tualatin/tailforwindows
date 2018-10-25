@@ -130,7 +130,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     }
 
     /// <summary>
-    /// Determines wheter the Dictionary&lt;TKey, TValue&gt; contains a specified KeyValue pair
+    /// Determines whether the Dictionary&lt;TKey, TValue&gt; contains a specified KeyValue pair
     /// </summary>
     /// <param name="item">KeyValue pair</param>
     /// <returns></returns>

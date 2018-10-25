@@ -28,11 +28,6 @@ namespace Org.Vs.TailForWin.Core.Utils
     private readonly object _myLock = new object();
 
     /// <summary>
-    /// Collection
-    /// </summary>
-    private ObservableCollection<T> _collection;
-
-    /// <summary>
     /// Hash collection
     /// </summary>
     private HashSet<T> _hashCollection;
@@ -47,6 +42,15 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// Queue with <see cref="NotifyCollectionChangedEventArgs"/>
     /// </summary>
     private ConcurrentQueue<NotifyCollectionChangedEventArgs> _collectionChangedQueue;
+
+    /// <summary>
+    /// Source of collection
+    /// </summary>
+    public ObservableCollection<T> Source
+    {
+      get;
+      private set;
+    }
 
     /// <summary>
     /// Standard constructor
@@ -66,11 +70,11 @@ namespace Org.Vs.TailForWin.Core.Utils
     private void Initialize()
     {
       _sync = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
-      _collection = new ObservableCollection<T>();
+      Source = new ObservableCollection<T>();
       _collectionChangedQueue = new ConcurrentQueue<NotifyCollectionChangedEventArgs>();
       _hashCollection = new HashSet<T>();
 
-      _collection.CollectionChanged += CollectionCollectionChanged;
+      Source.CollectionChanged += CollectionCollectionChanged;
     }
 
     #region IEnumerable<T> Members
@@ -86,7 +90,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterReadLock();
-        return _collection.ToList().GetEnumerator();
+        return Source.ToList().GetEnumerator();
       }
       finally
       {
@@ -152,7 +156,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterWriteLock();
-        _collection.Move(oldIndex, newIndex);
+        Source.Move(oldIndex, newIndex);
       }
       finally
       {
@@ -176,7 +180,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterWriteLock();
-        newList = new List<T>(_collection);
+        newList = new List<T>(Source);
       }
       finally
       {
@@ -273,7 +277,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterReadLock();
-        return _collection.IndexOf(item);
+        return Source.IndexOf(item);
       }
       finally
       {
@@ -294,18 +298,18 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterWriteLock();
-        var oldIndex = _collection.IndexOf(item);
+        var oldIndex = Source.IndexOf(item);
 
         if ( oldIndex != -1 )
         {
-          if ( oldIndex < _collection.Count )
+          if ( oldIndex < Source.Count )
           {
-            _collection.Move(index, oldIndex);
+            Source.Move(index, oldIndex);
           }
         }
         else
         {
-          _collection.Insert(index, item);
+          Source.Insert(index, item);
           _hashCollection.Add(item);
         }
       }
@@ -329,10 +333,10 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterWriteLock();
-        var item = _collection[index];
+        var item = Source[index];
 
         _hashCollection.Remove(item);
-        _collection.RemoveAt(index);
+        Source.RemoveAt(index);
       }
       finally
       {
@@ -354,7 +358,7 @@ namespace Org.Vs.TailForWin.Core.Utils
         try
         {
           _sync.EnterReadLock();
-          return _collection[index];
+          return Source[index];
         }
         finally
         {
@@ -369,16 +373,16 @@ namespace Org.Vs.TailForWin.Core.Utils
 
           if ( _hashCollection.Contains(value) )
           {
-            var oldIndex = _collection.IndexOf(value);
-            _collection.Move(oldIndex, index);
+            var oldIndex = Source.IndexOf(value);
+            Source.Move(oldIndex, index);
           }
           else
           {
-            var oldItem = _collection[index];
+            var oldItem = Source[index];
 
             _hashCollection.Remove(oldItem);
             _hashCollection.Add(value);
-            _collection[index] = value;
+            Source[index] = value;
           }
         }
         finally
@@ -424,7 +428,7 @@ namespace Org.Vs.TailForWin.Core.Utils
           {
             _sync.EnterWriteLock();
             _hashCollection.Add(item);
-            _collection.Add(item);
+            Source.Add(item);
           }
           finally
           {
@@ -447,7 +451,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterWriteLock();
-        _collection.ToList().ForEach(p => _collection.Remove(p));
+        Source.ToList().ForEach(p => Source.Remove(p));
         _hashCollection.Clear();
       }
       finally
@@ -486,11 +490,11 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterWriteLock();
-        if ( _collection.Count - arrayIndex > array.Length )
+        if ( Source.Count - arrayIndex > array.Length )
         {
           return;
         }
-        _collection.CopyTo(array, arrayIndex);
+        Source.CopyTo(array, arrayIndex);
       }
       finally
       {
@@ -509,7 +513,7 @@ namespace Org.Vs.TailForWin.Core.Utils
         try
         {
           _sync.EnterReadLock();
-          return _collection.Count;
+          return Source.Count;
         }
         finally
         {
@@ -521,7 +525,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Gets a value indicating whether the <see cref="T:System.Collections.IList" /> is read-only.
     /// </summary>
-    public bool IsReadOnly => ((IList) _collection).IsReadOnly;
+    public bool IsReadOnly => ((IList) Source).IsReadOnly;
 
     /// <summary>
     /// Removes the first occurrence of a specific object from the <see cref="List{T}"/>.
@@ -535,7 +539,7 @@ namespace Org.Vs.TailForWin.Core.Utils
         _sync.EnterWriteLock();
         _hashCollection.Remove(item);
 
-        return _collection.Remove(item);
+        return Source.Remove(item);
       }
       finally
       {
@@ -597,12 +601,12 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Gets a value indicating whether the <see cref="IList"/> has a fixed size.
     /// </summary>
-    protected bool IsFixedSize => ((IList) _collection).IsFixedSize;
+    protected bool IsFixedSize => ((IList) Source).IsFixedSize;
 
     /// <summary>
     /// Gets a value indicating whether the <see cref="IList"/> is read-only.
     /// </summary>
-    bool IList.IsReadOnly => ((IList) _collection).IsReadOnly;
+    bool IList.IsReadOnly => ((IList) Source).IsReadOnly;
 
     /// <summary>
     /// Removes the first occurrence of a specific object from the <see cref="List{T}"/>.
@@ -649,10 +653,10 @@ namespace Org.Vs.TailForWin.Core.Utils
       {
         _sync.EnterWriteLock();
 
-        if ( _collection.Count - index > array.Length )
+        if ( Source.Count - index > array.Length )
           return;
 
-        ((ICollection) _collection).CopyTo(array, index);
+        ((ICollection) Source).CopyTo(array, index);
       }
       finally
       {
@@ -674,7 +678,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Gets a value indicating whether access to the <see cref="ICollection"/> is synchronized (thread safe).
     /// </summary>
-    protected bool IsSynchronized => ((ICollection) _collection).IsSynchronized;
+    protected bool IsSynchronized => ((ICollection) Source).IsSynchronized;
 
     /// <summary>
     /// Gets an object that can be used to synchronize access to the <see cref="ICollection"/>.
@@ -684,7 +688,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Gets an object that can be used to synchronize access to the <see cref="ICollection"/>.
     /// </summary>
-    protected object SyncRoot => ((ICollection) _collection).SyncRoot;
+    protected object SyncRoot => ((ICollection) Source).SyncRoot;
 
     #endregion
 

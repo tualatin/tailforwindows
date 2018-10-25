@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,10 +48,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
     /// Constructor for testing purposes
     /// </summary>
     /// <param name="path">Path of XML file</param>
-    public XmlSearchHistoryController(string path)
-    {
-      _historyFile = path;
-    }
+    public XmlSearchHistoryController(string path) => _historyFile = path;
 
     /// <summary>
     /// Read XML file
@@ -64,7 +62,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
       {
         try
         {
-          IObservableDictionary<string, string> history = new ObservableDictionary<string, string>();
+          var concurrentDictionary = new ConcurrentDictionary<string, string>();
 
           if ( !File.Exists(_historyFile) )
             return new ObservableDictionary<string, string>();
@@ -80,9 +78,13 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
           string wrap = historyRoot.Attribute(XmlNames.Wrap)?.Value;
           Wrap = wrap.ConvertToBool();
 
-          Parallel.ForEach(historyRoot.Elements(XmlNames.Find), f => history.Add(f.Attribute(XmlBaseStructure.Name)?.Value, f.Attribute(XmlBaseStructure.Name)?.Value));
+          Parallel.ForEach(historyRoot.Elements(XmlNames.Find), f =>
+          {
+            // ReSharper disable once AssignNullToNotNullAttribute
+            concurrentDictionary.TryAdd(f.Attribute(XmlBaseStructure.Name)?.Value, f.Attribute(XmlBaseStructure.Name)?.Value);
+          });
 
-          return history;
+          return new ObservableDictionary<string, string>(concurrentDictionary);
         }
         catch ( Exception ex )
         {

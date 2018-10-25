@@ -22,6 +22,11 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
 
     private static readonly object MyLock = new object();
 
+    /// <summary>
+    /// Current lock time span in milliseconds
+    /// </summary>
+    private const int LockTimeSpanIsMs = 200;
+
     private readonly string _historyFile;
     private XDocument _xmlDocument;
     private QueueSet<string> _historyList;
@@ -48,34 +53,43 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
 
     private QueueSet<string> ReadXmlFile()
     {
-      lock ( MyLock )
+      if ( Monitor.TryEnter(MyLock, LockTimeSpanIsMs) )
       {
-        if ( !File.Exists(_historyFile) )
-          return new QueueSet<string>(SettingsHelperController.CurrentSettings.HistoryMaxSize);
-
-        LOG.Trace("Read history");
-
-        _historyList = new QueueSet<string>(SettingsHelperController.CurrentSettings.HistoryMaxSize);
-
         try
         {
-          _xmlDocument = XDocument.Load(_historyFile);
-          var historyRoot = _xmlDocument.Root?.Element(XmlNames.LogfileHistory);
+          if ( !File.Exists(_historyFile) )
+            return new QueueSet<string>(SettingsHelperController.CurrentSettings.HistoryMaxSize);
 
-          if ( historyRoot == null )
-            return _historyList;
+          LOG.Trace("Read history");
 
-          foreach ( var f in historyRoot.Elements(XmlNames.History) )
+          _historyList = new QueueSet<string>(SettingsHelperController.CurrentSettings.HistoryMaxSize);
+
+          try
           {
-            _historyList.Add(f.Attribute(XmlBaseStructure.Name)?.Value);
+            _xmlDocument = XDocument.Load(_historyFile);
+            var historyRoot = _xmlDocument.Root?.Element(XmlNames.LogfileHistory);
+
+            if ( historyRoot == null )
+              return _historyList;
+
+            foreach ( var f in historyRoot.Elements(XmlNames.History) )
+            {
+              _historyList.Add(f.Attribute(XmlBaseStructure.Name)?.Value);
+            }
           }
+          catch ( Exception ex )
+          {
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          }
+
+          return _historyList;
         }
-        catch ( Exception ex )
+        finally
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          Monitor.Exit(MyLock);
         }
-        return _historyList;
       }
+      return new QueueSet<string>(SettingsHelperController.CurrentSettings.HistoryMaxSize);
     }
 
     /// <summary>
@@ -87,45 +101,52 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
 
     private void SaveSearchHistory(string fileName)
     {
-      lock ( MyLock )
+      if ( Monitor.TryEnter(MyLock, LockTimeSpanIsMs) )
       {
-        LOG.Trace("Save history");
-
-        if ( string.IsNullOrWhiteSpace(fileName) )
-          return;
-
-        if ( File.Exists(_historyFile) )
-          File.Delete(_historyFile);
-
         try
         {
-          _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
+          LOG.Trace("Save history");
 
-          if ( _historyList == null )
-            _historyList = new QueueSet<string>(SettingsHelperController.CurrentSettings.HistoryMaxSize);
+          if ( string.IsNullOrWhiteSpace(fileName) )
+            return;
 
-          _historyList.Enqueue(fileName);
+          if ( File.Exists(_historyFile) )
+            File.Delete(_historyFile);
 
-          var root = _xmlDocument.Root?.Element(XmlNames.LogfileHistory);
-
-          if ( root == null )
+          try
           {
-            root = new XElement(XmlNames.LogfileHistory);
-            _xmlDocument.Root?.Add(root);
-          }
+            _xmlDocument = new XDocument(new XElement(XmlNames.HistoryXmlRoot));
 
-          foreach ( string s in _historyList )
+            if ( _historyList == null )
+              _historyList = new QueueSet<string>(SettingsHelperController.CurrentSettings.HistoryMaxSize);
+
+            _historyList.Enqueue(fileName);
+
+            var root = _xmlDocument.Root?.Element(XmlNames.LogfileHistory);
+
+            if ( root == null )
+            {
+              root = new XElement(XmlNames.LogfileHistory);
+              _xmlDocument.Root?.Add(root);
+            }
+
+            foreach ( string s in _historyList )
+            {
+              var find = new XElement(XmlNames.History);
+              find.Add(new XAttribute(XmlBaseStructure.Name, s));
+              root.Add(find);
+            }
+
+            _xmlDocument.Save(_historyFile, SaveOptions.None);
+          }
+          catch ( Exception ex )
           {
-            var find = new XElement(XmlNames.History);
-            find.Add(new XAttribute(XmlBaseStructure.Name, s));
-            root.Add(find);
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
           }
-
-          _xmlDocument.Save(_historyFile, SaveOptions.None);
         }
-        catch ( Exception ex )
+        finally
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          Monitor.Exit(MyLock);
         }
       }
     }
@@ -144,14 +165,21 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
 
     private void DeleteHistory()
     {
-      lock ( MyLock )
+      if ( Monitor.TryEnter(MyLock, LockTimeSpanIsMs) )
       {
-        _historyList?.Clear();
+        try
+        {
+          _historyList?.Clear();
 
-        if ( !File.Exists(_historyFile) )
-          return;
+          if ( !File.Exists(_historyFile) )
+            return;
 
-        File.Delete(_historyFile);
+          File.Delete(_historyFile);
+        }
+        finally
+        {
+          Monitor.Exit(MyLock);
+        }
       }
     }
   }
