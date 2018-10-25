@@ -21,6 +21,8 @@ v.2.2.xxxx.x
 * new Systeminformation overview shows Windows build id (Windows 10)
 * improve customize editor -> Options -> Extras
 * improve Find result view -> ToolTip for message column
+* bug fix TailManager sometimes does not load all files
+* bug fix HighlightManager sometimes does not load all files
 
 v.2.1.6865.x
 * improve CacheManager
