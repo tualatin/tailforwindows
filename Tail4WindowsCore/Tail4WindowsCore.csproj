@@ -181,8 +181,6 @@
     <Compile Include="Utils\ObservableDictionary.cs" />
     <Compile Include="Utils\PlaySoundFile.cs" />
     <Compile Include="Utils\QueueSet.cs" />
-    <Compile Include="Utils\SafeObservable.cs" />
-    <Compile Include="Utils\ScrollSynchronizer.cs" />
     <Compile Include="Utils\SingleInstance.cs" />
     <Compile Include="Utils\StringEncryption.cs" />
     <Compile Include="Utils\Threading\ServiceSynchronizationContext.cs" />
