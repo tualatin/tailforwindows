@@ -22,7 +22,7 @@ namespace Org.Vs.TailForWin.Core.Utils
   [CollectionDataContract]
   [ComVisible(false)]
   [HostProtection(SecurityAction.LinkDemand, Synchronization = true, ExternalThreading = true)]
-  public class AsyncObservableCollection<T> : IList<T>, IList, IReadOnlyCollection<T>, INotifyPropertyChanged
+  public class AsyncObservableCollection<T> : IList<T>, IList, IReadOnlyList<T>, INotifyPropertyChanged
   {
     private readonly SynchronizationContext _synchronizationContext = SynchronizationContext.Current;
     private readonly object _myLock = new object();
@@ -46,7 +46,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Source of collection
     /// </summary>
-    public ObservableCollection<T> Source
+    public ObservableCollection<T> Items
     {
       get;
       private set;
@@ -69,12 +69,12 @@ namespace Org.Vs.TailForWin.Core.Utils
 
     private void Initialize()
     {
+      Items = new ObservableCollection<T>();
+      Items.CollectionChanged += CollectionCollectionChanged;
+
       _sync = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
-      Source = new ObservableCollection<T>();
       _collectionChangedQueue = new ConcurrentQueue<NotifyCollectionChangedEventArgs>();
       _hashCollection = new HashSet<T>();
-
-      Source.CollectionChanged += CollectionCollectionChanged;
     }
 
     #region IEnumerable<T> Members
@@ -90,7 +90,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterReadLock();
-        return Source.ToList().GetEnumerator();
+        return Items.ToList().GetEnumerator();
       }
       finally
       {
@@ -156,7 +156,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterWriteLock();
-        Source.Move(oldIndex, newIndex);
+        Items.Move(oldIndex, newIndex);
       }
       finally
       {
@@ -180,7 +180,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterWriteLock();
-        newList = new List<T>(Source);
+        newList = new List<T>(Items);
       }
       finally
       {
@@ -277,7 +277,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterReadLock();
-        return Source.IndexOf(item);
+        return Items.IndexOf(item);
       }
       finally
       {
@@ -298,18 +298,18 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterWriteLock();
-        var oldIndex = Source.IndexOf(item);
+        var oldIndex = Items.IndexOf(item);
 
         if ( oldIndex != -1 )
         {
-          if ( oldIndex < Source.Count )
+          if ( oldIndex < Items.Count )
           {
-            Source.Move(index, oldIndex);
+            Items.Move(index, oldIndex);
           }
         }
         else
         {
-          Source.Insert(index, item);
+          Items.Insert(index, item);
           _hashCollection.Add(item);
         }
       }
@@ -333,10 +333,10 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterWriteLock();
-        var item = Source[index];
+        var item = Items[index];
 
         _hashCollection.Remove(item);
-        Source.RemoveAt(index);
+        Items.RemoveAt(index);
       }
       finally
       {
@@ -358,7 +358,7 @@ namespace Org.Vs.TailForWin.Core.Utils
         try
         {
           _sync.EnterReadLock();
-          return Source[index];
+          return Items[index];
         }
         finally
         {
@@ -373,16 +373,16 @@ namespace Org.Vs.TailForWin.Core.Utils
 
           if ( _hashCollection.Contains(value) )
           {
-            var oldIndex = Source.IndexOf(value);
-            Source.Move(oldIndex, index);
+            var oldIndex = Items.IndexOf(value);
+            Items.Move(oldIndex, index);
           }
           else
           {
-            var oldItem = Source[index];
+            var oldItem = Items[index];
 
             _hashCollection.Remove(oldItem);
             _hashCollection.Add(value);
-            Source[index] = value;
+            Items[index] = value;
           }
         }
         finally
@@ -428,7 +428,7 @@ namespace Org.Vs.TailForWin.Core.Utils
           {
             _sync.EnterWriteLock();
             _hashCollection.Add(item);
-            Source.Add(item);
+            Items.Add(item);
           }
           finally
           {
@@ -451,7 +451,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterWriteLock();
-        Source.ToList().ForEach(p => Source.Remove(p));
+        Items.ToList().ForEach(p => Items.Remove(p));
         _hashCollection.Clear();
       }
       finally
@@ -490,11 +490,11 @@ namespace Org.Vs.TailForWin.Core.Utils
       try
       {
         _sync.EnterWriteLock();
-        if ( Source.Count - arrayIndex > array.Length )
+        if ( Items.Count - arrayIndex > array.Length )
         {
           return;
         }
-        Source.CopyTo(array, arrayIndex);
+        Items.CopyTo(array, arrayIndex);
       }
       finally
       {
@@ -513,7 +513,7 @@ namespace Org.Vs.TailForWin.Core.Utils
         try
         {
           _sync.EnterReadLock();
-          return Source.Count;
+          return Items.Count;
         }
         finally
         {
@@ -525,7 +525,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Gets a value indicating whether the <see cref="T:System.Collections.IList" /> is read-only.
     /// </summary>
-    public bool IsReadOnly => ((IList) Source).IsReadOnly;
+    public bool IsReadOnly => ((IList) Items).IsReadOnly;
 
     /// <summary>
     /// Removes the first occurrence of a specific object from the <see cref="List{T}"/>.
@@ -539,7 +539,7 @@ namespace Org.Vs.TailForWin.Core.Utils
         _sync.EnterWriteLock();
         _hashCollection.Remove(item);
 
-        return Source.Remove(item);
+        return Items.Remove(item);
       }
       finally
       {
@@ -601,12 +601,12 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Gets a value indicating whether the <see cref="IList"/> has a fixed size.
     /// </summary>
-    protected bool IsFixedSize => ((IList) Source).IsFixedSize;
+    protected bool IsFixedSize => ((IList) Items).IsFixedSize;
 
     /// <summary>
     /// Gets a value indicating whether the <see cref="IList"/> is read-only.
     /// </summary>
-    bool IList.IsReadOnly => ((IList) Source).IsReadOnly;
+    bool IList.IsReadOnly => ((IList) Items).IsReadOnly;
 
     /// <summary>
     /// Removes the first occurrence of a specific object from the <see cref="List{T}"/>.
@@ -653,10 +653,10 @@ namespace Org.Vs.TailForWin.Core.Utils
       {
         _sync.EnterWriteLock();
 
-        if ( Source.Count - index > array.Length )
+        if ( Items.Count - index > array.Length )
           return;
 
-        ((ICollection) Source).CopyTo(array, index);
+        ((ICollection) Items).CopyTo(array, index);
       }
       finally
       {
@@ -678,7 +678,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Gets a value indicating whether access to the <see cref="ICollection"/> is synchronized (thread safe).
     /// </summary>
-    protected bool IsSynchronized => ((ICollection) Source).IsSynchronized;
+    protected bool IsSynchronized => ((ICollection) Items).IsSynchronized;
 
     /// <summary>
     /// Gets an object that can be used to synchronize access to the <see cref="ICollection"/>.
@@ -688,7 +688,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Gets an object that can be used to synchronize access to the <see cref="ICollection"/>.
     /// </summary>
-    protected object SyncRoot => ((ICollection) Source).SyncRoot;
+    protected object SyncRoot => ((ICollection) Items).SyncRoot;
 
     #endregion
 
@@ -727,15 +727,15 @@ namespace Org.Vs.TailForWin.Core.Utils
     #region INotifyPropertyChanged Members
 
     /// <summary>
-    /// Event, das anzeigt, dass sich ein Property der Collection geändert hat
+    /// Occurs when a property value changes.
     /// </summary>
     public event PropertyChangedEventHandler PropertyChanged;
 
     /// <summary>
-    /// Event, das anzeigt, dass sich ein Property der Collection geändert hat, auslösen
+    /// OnPropertyChanged
     /// </summary>
-    /// <param name="propertyName"></param>
-    protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    /// <param name="name">Name of property</param>
+    protected virtual void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
     #endregion
   }

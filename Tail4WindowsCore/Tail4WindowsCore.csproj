@@ -204,6 +204,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Collections\" />
     <Folder Include="Events\Args\" />
     <Folder Include="Events\Delegates\" />
     <Folder Include="Events\EventManagers\" />

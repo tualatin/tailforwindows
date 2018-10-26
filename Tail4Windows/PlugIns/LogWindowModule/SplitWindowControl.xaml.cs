@@ -415,7 +415,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public void InitCollectionView()
     {
-      CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogCollectionView.Collection.Source }.View;
+      CollectionView = (ListCollectionView) new CollectionViewSource { Source = LogCollectionView.Collection.Items }.View;
       CollectionView.Filter = DynamicFilter;
     }
 
@@ -547,24 +547,23 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is ILogReadService) )
         return;
 
-      Dispatcher.InvokeAsync(
-        () =>
+      Dispatcher.InvokeAsync(() =>
+      {
+        if ( LogCollectionView.Collection == null )
+          return;
+
+        if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 &&
+             LogCollectionView.Collection.Count >= SettingsHelperController.CurrentSettings.LogLineLimit &&
+             _splitterPosition <= 0 )
         {
-          if ( LogCollectionView.Collection == null )
-            return;
+          LogCollectionView.Collection.RemoveAt(0);
+        }
 
-          if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 &&
-               LogCollectionView.Collection.Count >= SettingsHelperController.CurrentSettings.LogLineLimit &&
-               _splitterPosition <= 0 )
-          {
-            LogCollectionView.Collection.RemoveAt(0);
-          }
+        SetupCache();
+        LogCollectionView.Collection.AddRange(e.Log);
 
-          SetupCache();
-          LogCollectionView.Collection.AddRange(e.Log);
-
-          RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LinesRead, e.SizeRefreshTime));
-        }, DispatcherPriority.Background);
+        RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LinesRead, e.SizeRefreshTime));
+      }, DispatcherPriority.Background);
     }
 
     #endregion
