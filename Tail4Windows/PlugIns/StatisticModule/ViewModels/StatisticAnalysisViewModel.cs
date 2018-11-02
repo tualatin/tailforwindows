@@ -299,7 +299,12 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       if ( _statisticAnalysisCollection == null || _statisticAnalysisCollection.Count == 0 )
         return;
 
-      var dayConfig = Mappers.Xy<DateModel>().X(p => p.Value).Y(p => (double) p.DateTime.Ticks / TimeSpan.FromMinutes(15).Ticks);
+      CreateMemoryUsageChart();
+    }
+
+    private void CreateMemoryUsageChart()
+    {
+      var dayConfig = Mappers.Xy<DateModel>().X(p => p.Value).Y(p => (double) p.TimeSpan.Ticks / TimeSpan.FromMinutes(15).Ticks);
       var memoryUsage = new ChartValues<double>();
       var upSessionUptime = new ChartValues<DateModel>();
       MemoryUsageSeries = new SeriesCollection(dayConfig)
@@ -319,8 +324,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
           PointGeometrySize = 12,
           Stroke = Brushes.Crimson,
           StrokeThickness = 1,
-          Fill = Brushes.Transparent,
-          ToolTip = "Test"
+          Fill = Brushes.Transparent
         }
       };
 
@@ -332,7 +336,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
         memoryUsage.Add(Math.Round((item.SessionEntity.MemoryUsage / 1024d) / 1014, 2));
         upSessionUptime.Add(new DateModel
         {
-          DateTime = new DateTime(item.SessionEntity.UpTime.Ticks),
+          TimeSpan = item.SessionEntity.UpTime,
           Value = count
         });
         upTime = upTime.Add(item.SessionEntity.UpTime);

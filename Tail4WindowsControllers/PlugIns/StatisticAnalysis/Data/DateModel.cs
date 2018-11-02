@@ -9,9 +9,9 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data
   public class DateModel
   {
     /// <summary>
-    /// Date time
+    /// Time span
     /// </summary>
-    public DateTime DateTime
+    public TimeSpan TimeSpan
     {
       get;
       set;
