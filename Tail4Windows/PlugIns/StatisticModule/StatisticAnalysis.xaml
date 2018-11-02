@@ -215,9 +215,15 @@
           </lvc:CartesianChart.AxisX>
 
           <lvc:CartesianChart.AxisY>
-            <lvc:Axis Title="{DynamicResource AnalysisMemUsageChartY}">
+            <lvc:Axis
+              Title="{DynamicResource AnalysisMemUsageChartY}"
+              MinValue="0"
+              >
               <lvc:Axis.Separator>
-                <lvc:Separator IsEnabled="True" />
+                <lvc:Separator
+                  IsEnabled="True"
+                  Step="20"
+                  />
               </lvc:Axis.Separator>
             </lvc:Axis>
           </lvc:CartesianChart.AxisY>

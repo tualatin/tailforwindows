@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -309,21 +310,18 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       var upSessionUptime = new ChartValues<DateModel>();
       MemoryUsageSeries = new SeriesCollection(dayConfig)
       {
+        new ColumnSeries
+        {
+          Values = upSessionUptime,
+          DataLabels = true,
+          LabelPoint = MemoryUsageLabelPoint
+        },
         new LineSeries
         {
           Values = memoryUsage,
           LineSmoothness = 1,
           PointGeometrySize = 8,
           StrokeThickness = 2,
-          Fill = Brushes.Transparent
-        },
-        new LineSeries
-        {
-          Values = upSessionUptime,
-          LineSmoothness = 1,
-          PointGeometrySize = 12,
-          Stroke = Brushes.Crimson,
-          StrokeThickness = 1,
           Fill = Brushes.Transparent
         }
       };
@@ -345,9 +343,28 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
 
       UpTime = $"{Application.Current.TryFindResource("AnalysisTotalUpTime")} {upTime.Days:D0} {Application.Current.TryFindResource("AboutUptimeDays")} " +
                $"{upTime.Hours:D2}:{upTime.Minutes:D2}:{upTime.Seconds:D2} {Application.Current.TryFindResource("AboutUptimeHours")}";
-      Formatter = value => new DateTime((long) (value * TimeSpan.FromMinutes(15).Ticks)).ToString("t");
+      Formatter = MemoryUsageFormatter;
 
       OnPropertyChanged(nameof(MemoryUsageSeries));
+    }
+
+    private string MemoryUsageFormatter(double arg)
+    {
+      double day = arg + 1;
+      string plural = (int) day == 1 ? Application.Current.TryFindResource("AnalysisMemUsageDay").ToString() : Application.Current.TryFindResource("AnalysisMemUsageDays").ToString();
+      return $"{day} {plural}";
+    }
+
+    private string MemoryUsageLabelPoint(ChartPoint arg)
+    {
+      if ( !(arg.Instance is DateModel model) )
+        return string.Empty;
+
+      var result = new StringBuilder();
+      result.AppendLine($"{model.TimeSpan.Days:D0}{Application.Current.TryFindResource("AnalysisMemUsageDaysShort")}");
+      result.Append($"{model.TimeSpan.Hours:D2}:{model.TimeSpan.Minutes:D2} {Application.Current.TryFindResource("AnalysisMemUsageHoursShort")}");
+
+      return result.ToString();
     }
   }
 }

@@ -614,4 +614,8 @@
   <system:String x:Key="AnalysisMemUsageTitle">Speicherverbrauch</system:String>
   <system:String x:Key="AnalysisMemUsageChartX">Sessionen</system:String>
   <system:String x:Key="AnalysisMemUsageChartY">Speicherverbrauch (MB)</system:String>
+  <system:String x:Key="AnalysisMemUsageDaysShort">T</system:String>
+  <system:String x:Key="AnalysisMemUsageHoursShort">S</system:String>
+  <system:String x:Key="AnalysisMemUsageDay">Tag</system:String>
+  <system:String x:Key="AnalysisMemUsageDays">Tage</system:String>
 </ResourceDictionary>
