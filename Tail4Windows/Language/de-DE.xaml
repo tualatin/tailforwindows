@@ -606,4 +606,12 @@
   <system:String x:Key="ConvertProfileFailed">Beim Konvertieren Ihres Profils trat ein Fehler auf!</system:String>
   <system:String x:Key="ConvertProfileWrongParameter">Unbekannter Parameter!</system:String>
   <system:String x:Key="ConvertProfileSuccess">Ihr Profil wurde erfolgreich konvertiert.</system:String>
+
+  <system:String x:Key="AnalysisTotalUpTime">Komplette Laufzeit</system:String>
+  <system:String x:Key="AnalysisChartTypeLabel">Auswertung von</system:String>
+  <system:String x:Key="Analysis_MemoryUsage">Speicherverbrauch</system:String>
+  <system:String x:Key="Analysis_FileUsage">Dateiverwendung</system:String>
+  <system:String x:Key="AnalysisMemUsageTitle">Speicherverbrauch</system:String>
+  <system:String x:Key="AnalysisMemUsageChartX">Sessionen</system:String>
+  <system:String x:Key="AnalysisMemUsageChartY">Speicherverbrauch (MB)</system:String>
 </ResourceDictionary>

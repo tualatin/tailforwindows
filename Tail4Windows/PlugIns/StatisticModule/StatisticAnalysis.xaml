@@ -5,8 +5,10 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
@@ -53,18 +55,81 @@
         >
         <Grid.ColumnDefinitions>
           <ColumnDefinition />
-          <ColumnDefinition />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="180" />
+          <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Label Content="{Binding UpTime, UpdateSourceTrigger=PropertyChanged}" />
+        <Label
+          Grid.Column="0"
+          Content="{Binding UpTime, UpdateSourceTrigger=PropertyChanged}"
+          FontWeight="DemiBold"
+          />
+
+        <Label
+          Grid.Column="1"
+          HorizontalAlignment="Right"
+          VerticalAlignment="Center"
+          Content="{DynamicResource AnalysisChartTypeLabel}"
+          />
+
+        <ComboBox
+          Grid.Column="2"
+          Height="22"
+          Margin="6 0 0 0"
+          DisplayMemberPath="Description"
+          Foreground="Black"
+          ItemsSource="{Binding AnalysisOfMappings}"
+          SelectedValue="{Binding CurrentAnalysisOf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+          SelectedValuePath="CurrentAnalysisOf"
+          TabIndex="0"
+          >
+          <i:Interaction.Triggers>
+            <i:EventTrigger EventName="SelectionChanged">
+              <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+            </i:EventTrigger>
+          </i:Interaction.Triggers>
+
+          <ComboBox.ToolTip>
+            <StackPanel>
+              <TextBlock
+                Margin="0 0 0 5"
+                Text="{DynamicResource UiLanguage}"
+                FontSize="12"
+                FontWeight="Bold"
+                />
+              <TextBlock Text="{DynamicResource EnvironmentLanguageToolTip}" />
+              <Border
+                Margin="0 8"
+                BorderBrush="Silver"
+                BorderThickness="0 1 0 0"
+                />
+              <WrapPanel>
+                <Image
+                  Width="16"
+                  Height="16"
+                  Margin="0 0 5 0"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/Search.ico"
+                  />
+                <TextBlock
+                  Text="{DynamicResource GeneralToolTipHint}"
+                  FontStyle="Italic"
+                  />
+              </WrapPanel>
+            </StackPanel>
+          </ComboBox.ToolTip>
+        </ComboBox>
 
         <Button
-          Grid.Column="1"
+          Grid.Column="3"
           Width="22"
           Height="22"
+          Margin="5 0 0 0"
           HorizontalAlignment="Right"
           Command="{Binding RefreshCommand}"
-          TabIndex="0"
+          TabIndex="1"
           >
           <StackPanel Margin="3">
             <Image
@@ -120,15 +185,54 @@
         Grid.Row="1"
         Margin="5 0"
         >
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition />
-          <ColumnDefinition Width="Auto" SharedSizeGroup="C1" />
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label
+          Grid.Row="0"
+          Margin="5"
+          HorizontalAlignment="Center"
+          Content="{DynamicResource AnalysisMemUsageTitle}"
+          FontSize="14"
+          FontWeight="DemiBold"
+          />
 
         <lvc:CartesianChart
-          Grid.Column="0"
-          Series="{Binding Series, UpdateSourceTrigger=PropertyChanged}"
-          />
+          x:Name="ChartMemUsage"
+          Grid.Row="1"
+          Series="{Binding MemoryUsageSeries}"
+          >
+          <lvc:CartesianChart.AxisX>
+            <lvc:Axis Title="{DynamicResource AnalysisMemUsageChartX}">
+              <lvc:Axis.Separator>
+                <lvc:Separator
+                  IsEnabled="False"
+                  Step="1"
+                  />
+              </lvc:Axis.Separator>
+            </lvc:Axis>
+          </lvc:CartesianChart.AxisX>
+
+          <lvc:CartesianChart.AxisY>
+            <lvc:Axis Title="{DynamicResource AnalysisMemUsageChartY}">
+              <lvc:Axis.Separator>
+                <lvc:Separator IsEnabled="True" />
+              </lvc:Axis.Separator>
+            </lvc:Axis>
+          </lvc:CartesianChart.AxisY>
+
+          <lvc:CartesianChart.Resources>
+            <Style TargetType="lvc:DefaultTooltip">
+              <!--  new property  -->
+              <Setter Property="FontSize" Value="11" />
+              <Setter Property="FontWeight" Value="Bold" />
+              <!--  new property  -->
+              <Setter Property="ShowSeries" Value="False" />
+              <Setter Property="ShowTitle" Value="False" />
+            </Style>
+          </lvc:CartesianChart.Resources>
+        </lvc:CartesianChart>
       </Grid>
 
       <Border

@@ -4,7 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using LiveCharts;
+using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using log4net;
 using Org.Vs.TailForWin.Business.StatisticEngine.Controllers;
@@ -12,6 +14,9 @@ using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data;
+using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Enums;
+using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Mappings;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces;
 using Org.Vs.TailForWin.Controllers.UI.Vml.Attributes;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -96,12 +101,6 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       }
     }
 
-    public SeriesCollection Series
-    {
-      get;
-      set;
-    }
-
     private string _upTime;
 
     /// <summary>
@@ -120,6 +119,52 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       }
     }
 
+    /// <summary>
+    /// Analysis of mappings of type <see cref="AnalysisOfMapping"/>
+    /// </summary>
+    public AsyncObservableCollection<AnalysisOfMapping> AnalysisOfMappings
+    {
+      get;
+      set;
+    }
+
+    private AnalysisOfMapping _currentAnalysisOf;
+
+    /// <summary>
+    /// Current <see cref="AnalysisOfMapping"/> selection
+    /// </summary>
+    public AnalysisOfMapping CurrentAnalysisOf
+    {
+      get => _currentAnalysisOf;
+      set
+      {
+        if ( Equals(value, _currentAnalysisOf) )
+          return;
+
+        _currentAnalysisOf = value;
+        OnPropertyChanged();
+      }
+    }
+
+    #endregion
+
+    #region Memory usage chart
+
+    /// <summary>
+    /// Memory usage series
+    /// </summary>
+    public SeriesCollection MemoryUsageSeries
+    {
+      get;
+      set;
+    }
+
+    public Func<double, string> Formatter
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     /// <summary>
@@ -131,6 +176,18 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
 
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += OnLoadedPropertyChanged;
       ((AsyncCommand<object>) RefreshCommand).PropertyChanged += OnRefreshPropertyChanged;
+
+      var analysisOf = new AsyncObservableCollection<AnalysisOfMapping>();
+
+      foreach ( EAnalysisOf analysis in Enum.GetValues(typeof(EAnalysisOf)) )
+      {
+        analysisOf.Add(new AnalysisOfMapping
+        {
+          AnalysisOf = analysis
+        });
+      }
+
+      AnalysisOfMappings = new AsyncObservableCollection<AnalysisOfMapping>(analysisOf);
     }
 
     #region Commands
@@ -242,40 +299,51 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       if ( _statisticAnalysisCollection == null || _statisticAnalysisCollection.Count == 0 )
         return;
 
-      //Series = new SeriesCollection
-      //{
-      //  new LineSeries
-      //  {
-      //    Values = new ChartValues<double> { 3, 5, 7, 4 }
-      //  },
-      //  new ColumnSeries
-      //  {
-      //    Values = new ChartValues<decimal> { 5, 6, 2, 7 }
-      //  }
-      //};
-
-      var chartValues = new ChartValues<double>();
-      var lineSeries = new LineSeries
+      var dayConfig = Mappers.Xy<DateModel>().X(p => p.Value).Y(p => (double) p.DateTime.Ticks / TimeSpan.FromMinutes(15).Ticks);
+      var memoryUsage = new ChartValues<double>();
+      var upSessionUptime = new ChartValues<DateModel>();
+      MemoryUsageSeries = new SeriesCollection(dayConfig)
       {
-        Values = chartValues
+        new LineSeries
+        {
+          Values = memoryUsage,
+          LineSmoothness = 1,
+          PointGeometrySize = 8,
+          StrokeThickness = 2,
+          Fill = Brushes.Transparent
+        },
+        new LineSeries
+        {
+          Values = upSessionUptime,
+          LineSmoothness = 1,
+          PointGeometrySize = 12,
+          Stroke = Brushes.Crimson,
+          StrokeThickness = 1,
+          Fill = Brushes.Transparent,
+          ToolTip = "Test"
+        }
       };
+
       var upTime = new TimeSpan();
+      var count = 0;
 
       foreach ( StatisticAnalysisData item in _statisticAnalysisCollection )
       {
-        if ( item == null )
-          continue;
-
-        chartValues.Add(Math.Round((item.SessionEntity.MemoryUsage / 1024d) / 1014, 2));
+        memoryUsage.Add(Math.Round((item.SessionEntity.MemoryUsage / 1024d) / 1014, 2));
+        upSessionUptime.Add(new DateModel
+        {
+          DateTime = new DateTime(item.SessionEntity.UpTime.Ticks),
+          Value = count
+        });
         upTime = upTime.Add(item.SessionEntity.UpTime);
+        count++;
       }
 
-      UpTime = $"{upTime.Days:D0} {upTime.Hours:D2}:{upTime.Minutes:D2}:{upTime.Seconds:D2}";
-      Series = new SeriesCollection
-      {
-        lineSeries
-      };
-      OnPropertyChanged(nameof(Series));
+      UpTime = $"{Application.Current.TryFindResource("AnalysisTotalUpTime")} {upTime.Days:D0} {Application.Current.TryFindResource("AboutUptimeDays")} " +
+               $"{upTime.Hours:D2}:{upTime.Minutes:D2}:{upTime.Seconds:D2} {Application.Current.TryFindResource("AboutUptimeHours")}";
+      Formatter = value => new DateTime((long) (value * TimeSpan.FromMinutes(15).Ticks)).ToString("t");
+
+      OnPropertyChanged(nameof(MemoryUsageSeries));
     }
   }
 }

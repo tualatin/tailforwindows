@@ -1,6 +1,8 @@
 ﻿using System.Windows.Input;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Mappings;
 using Org.Vs.TailForWin.Controllers.UI.Interfaces;
+using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces
@@ -52,6 +54,24 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces
     /// Up time
     /// </summary>
     string UpTime
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Analysis of mappings of type <see cref="AnalysisOfMapping"/>
+    /// </summary>
+    AsyncObservableCollection<AnalysisOfMapping> AnalysisOfMappings
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// Current <see cref="AnalysisOfMapping"/> selection
+    /// </summary>
+    AnalysisOfMapping CurrentAnalysisOf
     {
       get;
       set;
