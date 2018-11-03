@@ -1,21 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using LiveCharts;
-using LiveCharts.Configurations;
-using LiveCharts.Wpf;
 using log4net;
 using Org.Vs.TailForWin.Business.StatisticEngine.Controllers;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
-using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Enums;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Mappings;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces;
@@ -38,7 +32,6 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
 
     private readonly IStatisticController _statisticController;
     private CancellationTokenSource _cts;
-    private IStatisticAnalysisCollection _statisticAnalysisCollection;
 
     #region Properties
 
@@ -129,12 +122,12 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       set;
     }
 
-    private AnalysisOfMapping _currentAnalysisOf;
+    private EAnalysisOf _currentAnalysisOf;
 
     /// <summary>
     /// Current <see cref="AnalysisOfMapping"/> selection
     /// </summary>
-    public AnalysisOfMapping CurrentAnalysisOf
+    public EAnalysisOf CurrentAnalysisOf
     {
       get => _currentAnalysisOf;
       set
@@ -147,23 +140,19 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       }
     }
 
-    #endregion
-
-    #region Memory usage chart
+    private IStatisticAnalysisCollection _statisticAnalysisCollection;
 
     /// <summary>
-    /// Memory usage series
+    /// Statistic analysis collection
     /// </summary>
-    public SeriesCollection MemoryUsageSeries
+    public IStatisticAnalysisCollection StatisticAnalysisCollection
     {
-      get;
-      set;
-    }
-
-    public Func<double, string> Formatter
-    {
-      get;
-      set;
+      get => _statisticAnalysisCollection;
+      set
+      {
+        _statisticAnalysisCollection = value;
+        OnPropertyChanged();
+      }
     }
 
     #endregion
@@ -276,6 +265,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
+      OnPropertyChanged(nameof(StatisticAnalysisCollection));
       PaintChartDiagram();
     }
 
@@ -292,6 +282,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       Height = SettingsHelperController.CurrentSettings.StatisticWindowHeight;
       Width = SettingsHelperController.CurrentSettings.StatisticWindowWidth;
 
+      OnPropertyChanged(nameof(StatisticAnalysisCollection));
       PaintChartDiagram();
     }
 
@@ -300,71 +291,15 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       if ( _statisticAnalysisCollection == null || _statisticAnalysisCollection.Count == 0 )
         return;
 
-      CreateMemoryUsageChart();
-    }
-
-    private void CreateMemoryUsageChart()
-    {
-      var dayConfig = Mappers.Xy<DateModel>().X(p => p.Value).Y(p => (double) p.TimeSpan.Ticks / TimeSpan.FromMinutes(15).Ticks);
-      var memoryUsage = new ChartValues<double>();
-      var upSessionUptime = new ChartValues<DateModel>();
-      MemoryUsageSeries = new SeriesCollection(dayConfig)
-      {
-        new ColumnSeries
-        {
-          Values = upSessionUptime,
-          DataLabels = true,
-          LabelPoint = MemoryUsageLabelPoint
-        },
-        new LineSeries
-        {
-          Values = memoryUsage,
-          LineSmoothness = 1,
-          PointGeometrySize = 8,
-          StrokeThickness = 2,
-          Fill = Brushes.Transparent
-        }
-      };
-
       var upTime = new TimeSpan();
-      var count = 0;
 
       foreach ( StatisticAnalysisData item in _statisticAnalysisCollection )
       {
-        memoryUsage.Add(Math.Round((item.SessionEntity.MemoryUsage / 1024d) / 1014, 2));
-        upSessionUptime.Add(new DateModel
-        {
-          TimeSpan = item.SessionEntity.UpTime,
-          Value = count
-        });
         upTime = upTime.Add(item.SessionEntity.UpTime);
-        count++;
       }
 
       UpTime = $"{Application.Current.TryFindResource("AnalysisTotalUpTime")} {upTime.Days:D0} {Application.Current.TryFindResource("AboutUptimeDays")} " +
                $"{upTime.Hours:D2}:{upTime.Minutes:D2}:{upTime.Seconds:D2} {Application.Current.TryFindResource("AboutUptimeHours")}";
-      Formatter = MemoryUsageFormatter;
-
-      OnPropertyChanged(nameof(MemoryUsageSeries));
-    }
-
-    private string MemoryUsageFormatter(double arg)
-    {
-      double day = arg + 1;
-      string plural = (int) day == 1 ? Application.Current.TryFindResource("AnalysisMemUsageDay").ToString() : Application.Current.TryFindResource("AnalysisMemUsageDays").ToString();
-      return $"{day} {plural}";
-    }
-
-    private string MemoryUsageLabelPoint(ChartPoint arg)
-    {
-      if ( !(arg.Instance is DateModel model) )
-        return string.Empty;
-
-      var result = new StringBuilder();
-      result.AppendLine($"{model.TimeSpan.Days:D0}{Application.Current.TryFindResource("AnalysisMemUsageDaysShort")}");
-      result.Append($"{model.TimeSpan.Hours:D2}:{model.TimeSpan.Minutes:D2} {Application.Current.TryFindResource("AnalysisMemUsageHoursShort")}");
-
-      return result.ToString();
     }
   }
 }

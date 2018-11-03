@@ -276,6 +276,13 @@
     <Compile Include="PlugIns\StatisticModule\StatisticAnalysis.xaml.cs">
       <DependentUpon>StatisticAnalysis.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlugIns\StatisticModule\UserControls\Interfaces\IChartUserControl.cs" />
+    <Compile Include="PlugIns\StatisticModule\UserControls\UCFileUsageChart.xaml.cs">
+      <DependentUpon>UCFileUsageChart.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PlugIns\StatisticModule\UserControls\UCMemoryUsageChart.xaml.cs">
+      <DependentUpon>UCMemoryUsageChart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlugIns\StatisticModule\ViewModels\StatisticAnalysisViewModel.cs" />
     <Compile Include="PlugIns\WindowEventReadModule\Interfaces\IWindowsEventCategoriesViewModel.cs" />
     <Compile Include="PlugIns\WindowEventReadModule\ViewModels\TreeNodeWindowsEventsViewModel.cs" />
@@ -303,6 +310,7 @@
     <Compile Include="UI\Behaviors\SizeObserver.cs" />
     <Compile Include="UI\Behaviors\TextBoxMaskBehavior.cs" />
     <Compile Include="UI\Behaviors\TextBoxSelectionBehavior.cs" />
+    <Compile Include="UI\Converters\AnalysisEnumToVisibilityConverter.cs" />
     <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />
     <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
     <Compile Include="UI\Converters\BoolToForegroundConverter.cs" />
@@ -623,6 +631,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlugIns\StatisticModule\StatisticAnalysis.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\StatisticModule\UserControls\UCFileUsageChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PlugIns\StatisticModule\UserControls\UCMemoryUsageChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

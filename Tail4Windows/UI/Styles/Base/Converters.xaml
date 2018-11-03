@@ -51,6 +51,7 @@
   <converters:FontTypeToImageSizeConverter x:Key="FontTypeToImageSizeConverter" />
   <converters:IsPortableModeToToolTipConverter x:Key="IsPortableModeToToolTipConverter" />
   <converters:IsPortableModeToImageSourceConverter x:Key="IsPortableModeToImageSourceConverter" />
+  <converters:AnalysisEnumToVisibilityConverter x:Key="AnalysisEnumToVisibilityConverter" />
 
   <multiConverters:WidthToMarginMultiConverter x:Key="WidthToMarginMultiConverter" />
   <multiConverters:VisibilityToMarginMultiConverter x:Key="VisibilityToMarginMultiConverter" />

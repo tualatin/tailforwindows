@@ -1,0 +1,76 @@
+﻿<UserControl
+  x:Class="Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls.UCMemoryUsageChart"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls"
+  xmlns:wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+  mc:Ignorable="d"
+  d:DataContext="{d:DesignInstance local:UCMemoryUsageChart}"
+  d:DesignHeight="450"
+  d:DesignWidth="800"
+  HorizontalAlignment="Stretch"
+  VerticalAlignment="Stretch"
+  >
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+
+    <Label
+      Grid.Row="0"
+      Margin="5"
+      HorizontalAlignment="Center"
+      Content="{DynamicResource AnalysisMemUsageTitle}"
+      FontSize="14"
+      FontWeight="DemiBold"
+      />
+
+    <wpf:CartesianChart
+      Grid.Row="1"
+      Series="{Binding MemoryUsageSeries}"
+      >
+      <wpf:CartesianChart.AxisX>
+        <wpf:Axis
+          Title="{DynamicResource AnalysisMemUsageChartX}"
+          LabelFormatter="{Binding XAxisFormatter}"
+          >
+          <wpf:Axis.Separator>
+            <wpf:Separator
+              IsEnabled="False"
+              Step="1"
+              />
+          </wpf:Axis.Separator>
+        </wpf:Axis>
+      </wpf:CartesianChart.AxisX>
+
+      <wpf:CartesianChart.AxisY>
+        <wpf:Axis
+          Title="{DynamicResource AnalysisMemUsageChartY}"
+          LabelFormatter="{Binding YAxisFormatter}"
+          MinValue="0"
+          >
+          <wpf:Axis.Separator>
+            <wpf:Separator
+              IsEnabled="True"
+              Step="20"
+              />
+          </wpf:Axis.Separator>
+        </wpf:Axis>
+      </wpf:CartesianChart.AxisY>
+
+      <wpf:CartesianChart.Resources>
+        <Style TargetType="wpf:DefaultTooltip">
+          <!--  new property  -->
+          <Setter Property="FontSize" Value="11" />
+          <Setter Property="FontWeight" Value="Bold" />
+          <!--  new property  -->
+          <Setter Property="ShowSeries" Value="False" />
+          <Setter Property="ShowTitle" Value="False" />
+        </Style>
+      </wpf:CartesianChart.Resources>
+    </wpf:CartesianChart>
+  </Grid>
+</UserControl>

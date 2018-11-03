@@ -1,5 +1,7 @@
 ﻿using System.Windows.Input;
+using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Enums;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Mappings;
 using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
@@ -13,6 +15,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces
   public interface IStatisticAnalysisViewModel : IViewModelBase
   {
     #region Properties
+
+    /// <summary>
+    /// Statistic analysis collection
+    /// </summary>
+    IStatisticAnalysisCollection StatisticAnalysisCollection
+
+    {
+      get;
+    }
 
     /// <summary>
     /// Top
@@ -71,7 +82,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces
     /// <summary>
     /// Current <see cref="AnalysisOfMapping"/> selection
     /// </summary>
-    AnalysisOfMapping CurrentAnalysisOf
+    EAnalysisOf CurrentAnalysisOf
     {
       get;
       set;

@@ -617,7 +617,7 @@
   <system:String x:Key="Analysis_FileUsage">File usage</system:String>
   <system:String x:Key="AnalysisMemUsageTitle">Memory usage</system:String>
   <system:String x:Key="AnalysisMemUsageChartX">Sessions</system:String>
-  <system:String x:Key="AnalysisMemUsageChartY">Memory usage (MB)</system:String>
+  <system:String x:Key="AnalysisMemUsageChartY">Memory usage</system:String>
   <system:String x:Key="AnalysisMemUsageDaysShort">d</system:String>
   <system:String x:Key="AnalysisMemUsageHoursShort">h</system:String>
   <system:String x:Key="AnalysisMemUsageDay">Day</system:String>
