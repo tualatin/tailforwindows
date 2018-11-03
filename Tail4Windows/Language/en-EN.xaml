@@ -623,5 +623,6 @@
   <system:String x:Key="AnalysisMemUsageDay">Day</system:String>
   <system:String x:Key="AnalysisMemUsageDays">Days</system:String>
   <system:String x:Key="AnalysisMemUsageUpTime">Uptime</system:String>
+  <system:String x:Key="AnalysisMemUsageMemory">Memory</system:String>
   <system:String x:Key="AnalysisFileUsageTitle">File usage</system:String>
 </ResourceDictionary>

@@ -5,7 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls"
-  xmlns:wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+  xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
   mc:Ignorable="d"
   d:DataContext="{d:DesignInstance local:UCMemoryUsageChart}"
   d:DesignHeight="450"
@@ -14,6 +14,16 @@
   VerticalAlignment="Stretch"
   >
   <Grid>
+    <Grid.Effect>
+      <DropShadowEffect
+        BlurRadius="10"
+        Direction="-90"
+        Opacity=".2"
+        RenderingBias="Quality"
+        ShadowDepth="1"
+        />
+    </Grid.Effect>
+
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition />
@@ -29,55 +39,97 @@
       FontWeight="DemiBold"
       />
 
-    <wpf:CartesianChart
+    <Canvas
+      x:Name="Canvas"
       Grid.Row="1"
-      Series="{Binding MemoryUsageSeries}"
-      SnapsToDevicePixels="True"
       >
-      <wpf:CartesianChart.AxisX>
-        <wpf:Axis
-          Title="{DynamicResource AnalysisMemUsageChartX}"
-          LabelFormatter="{Binding XAxisFormatter}"
-          >
-          <wpf:Axis.Separator>
-            <wpf:Separator
-              IsEnabled="False"
-              Step="1"
+      <ListBox
+        x:Name="ListBox"
+        Canvas.Left="60"
+        Canvas.Top="20"
+        Panel.ZIndex="1"
+        Background="Transparent"
+        BorderThickness="0"
+        ItemsSource="{Binding MemoryUsageSeries, Converter={StaticResource ReverseConverter}}"
+        PreviewMouseDown="OnListBoxPreviewMouseDown"
+        >
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <TextBlock
+              Text="{Binding Path=(lvc:Series.Title)}"
+              FontSize="15"
+              Foreground="{Binding Path=(lvc:Series.Stroke)}"
+              Opacity="{Binding Path=(lvc:Series.Visibility), Converter={StaticResource OpacityConverter}}"
               />
-          </wpf:Axis.Separator>
-        </wpf:Axis>
-      </wpf:CartesianChart.AxisX>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+        <ListBox.ItemContainerStyle>
+          <Style TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                  <ContentPresenter />
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </ListBox.ItemContainerStyle>
+      </ListBox>
 
-      <wpf:CartesianChart.AxisY>
-        <wpf:Axis
-          Title="{DynamicResource AnalysisMemUsageChartY}"
-          FontWeight="Normal"
-          LabelFormatter="{Binding YAxisFormatter}"
-          MinValue="0"
-          >
-          <wpf:Axis.Separator>
-            <wpf:Separator
-              IsEnabled="True"
-              Step="20"
-              Stroke="{DynamicResource BrushSolidGrey35}"
-              StrokeDashArray="2 1"
-              StrokeThickness="1"
-              />
-          </wpf:Axis.Separator>
-        </wpf:Axis>
-      </wpf:CartesianChart.AxisY>
+      <lvc:CartesianChart
+        Width="{Binding ElementName=Canvas, Path=ActualWidth}"
+        Height="{Binding ElementName=Canvas, Path=ActualHeight}"
+        Hoverable="False"
+        Series="{Binding MemoryUsageSeries}"
+        SnapsToDevicePixels="True"
+        Zoom="X"
+        >
+        <lvc:CartesianChart.AxisX>
+          <lvc:Axis
+            Title="{DynamicResource AnalysisMemUsageChartX}"
+            LabelFormatter="{Binding XAxisFormatter}"
+            >
+            <lvc:Axis.Separator>
+              <lvc:Separator
+                IsEnabled="False"
+                Step="1"
+                />
+            </lvc:Axis.Separator>
+          </lvc:Axis>
+        </lvc:CartesianChart.AxisX>
 
-      <wpf:CartesianChart.Resources>
-        <Style TargetType="wpf:DefaultTooltip">
-          <!--  new property  -->
-          <Setter Property="FontSize" Value="11" />
-          <Setter Property="FontWeight" Value="Bold" />
-          <!--  new property  -->
-          <Setter Property="ShowSeries" Value="False" />
-          <Setter Property="ShowTitle" Value="False" />
-        </Style>
-      </wpf:CartesianChart.Resources>
-    </wpf:CartesianChart>
+        <lvc:CartesianChart.AxisY>
+          <lvc:Axis
+            Title="{DynamicResource AnalysisMemUsageChartY}"
+            FontWeight="Normal"
+            LabelFormatter="{Binding YAxisFormatter}"
+            MinValue="0"
+            >
+            <lvc:Axis.Separator>
+              <lvc:Separator
+                IsEnabled="True"
+                Step="20"
+                Stroke="{DynamicResource BrushSolidGrey35}"
+                StrokeDashArray="2 1"
+                StrokeThickness="1"
+                />
+            </lvc:Axis.Separator>
+          </lvc:Axis>
+        </lvc:CartesianChart.AxisY>
+
+        <lvc:CartesianChart.Resources>
+          <Style TargetType="lvc:DefaultTooltip">
+            <!--  new property  -->
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <!--  new property  -->
+            <Setter Property="ShowSeries" Value="False" />
+            <Setter Property="ShowTitle" Value="False" />
+          </Style>
+        </lvc:CartesianChart.Resources>
+      </lvc:CartesianChart>
+    </Canvas>
 
     <Grid Grid.Row="2">
       <Grid.ColumnDefinitions>

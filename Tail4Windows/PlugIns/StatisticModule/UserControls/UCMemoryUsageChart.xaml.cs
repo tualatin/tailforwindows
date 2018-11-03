@@ -5,9 +5,12 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using LiveCharts;
 using LiveCharts.Configurations;
+using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
@@ -190,15 +193,15 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     public async Task CreateChartAsync()
     {
       var dayConfig = Mappers.Xy<DateModel>().X(p => p.Value).Y(p => (double) p.TimeSpan.Ticks / TimeSpan.FromMinutes(15).Ticks);
-      var memoryUsage = new ChartValues<double>();
+      var memoryUsage = new ChartValues<ObservablePoint>();
       var upSessionUptime = new ChartValues<DateModel>();
       MemoryUsageSeries = new SeriesCollection(dayConfig)
       {
         new ColumnSeries
         {
           Values = upSessionUptime,
-          DataLabels = true,
-          LabelPoint = MemoryUsageLabelPoint
+          LabelPoint = MemoryUsageLabelPoint,
+          Title = Application.Current.TryFindResource("AnalysisMemUsageUpTime").ToString()
         },
         new LineSeries
         {
@@ -206,7 +209,8 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
           LineSmoothness = 1,
           PointGeometrySize = 8,
           StrokeThickness = 2,
-          Fill = Brushes.Transparent
+          Fill = Brushes.Transparent,
+          Title = Application.Current.TryFindResource("AnalysisMemUsageMemory").ToString()
         }
       };
 
@@ -218,7 +222,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
         foreach ( StatisticAnalysisData item in analysisCollection )
         {
-          memoryUsage.Add(Math.Round((item.SessionEntity.MemoryUsage / 1024d) / 1014, 2));
+          memoryUsage.Add(new ObservablePoint(count, Math.Round((item.SessionEntity.MemoryUsage / 1024d) / 1014, 2)));
           upSessionUptime.Add(new DateModel
           {
             TimeSpan = item.SessionEntity.UpTime,
@@ -227,7 +231,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
           count++;
         }
 
-        var averageMem = memoryUsage.Average();
+        var averageMem = memoryUsage.Average(p => p.Y);
         var averageRunningTime = (long) upSessionUptime.Average(p => p.TimeSpan.Ticks);
 
         if ( averageRunningTime.Equals(0) )
@@ -250,8 +254,8 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         }
 
         _averageMemoryUsage = $"{averageMem:N2}";
-        _minMemoryUsage = $"{memoryUsage.Min():N2}";
-        _maxMemoryUsage = $"{memoryUsage.Max():N2}";
+        _minMemoryUsage = $"{memoryUsage.Min(p => p.Y):N2}";
+        _maxMemoryUsage = $"{memoryUsage.Max(p => p.Y):N2}";
       }).ConfigureAwait(false);
     }
 
@@ -269,10 +273,19 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         return string.Empty;
 
       var result = new StringBuilder();
-      result.AppendLine($"{model.TimeSpan.Days:D0}{Application.Current.TryFindResource("AnalysisMemUsageDaysShort")}");
+      result.Append($"{model.TimeSpan.Days:D0}{Application.Current.TryFindResource("AnalysisMemUsageDaysShort")} ");
       result.Append($"{model.TimeSpan.Hours:D2}:{model.TimeSpan.Minutes:D2} {Application.Current.TryFindResource("AnalysisMemUsageHoursShort")}");
 
       return result.ToString();
+    }
+
+    private void OnListBoxPreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+      if ( !(ItemsControl.ContainerFromElement(ListBox, (DependencyObject) e.OriginalSource) is ListBoxItem item) )
+        return;
+
+      var series = (Series) item.Content;
+      series.Visibility = series.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
     }
 
     /// <summary>
