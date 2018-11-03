@@ -1357,9 +1357,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ColorSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !e.PropertyName.Equals("StatusBarInactiveBackgroundColorHex") && !e.PropertyName.Equals("StatusBarFileLoadedBackgroundColorHex")
-                                                                         && !e.PropertyName.Equals("StatusBarTailBackgroundColorHex")
-                                                                         && !e.PropertyName.Equals("RaiseOnPropertyChanged") )
+      if ( !e.PropertyName.Equals("StatusBarInactiveBackgroundColorHex") &&
+           !e.PropertyName.Equals("StatusBarFileLoadedBackgroundColorHex") &&
+           !e.PropertyName.Equals("StatusBarTailBackgroundColorHex") &&
+           !e.PropertyName.Equals("RaiseOnPropertyChanged") )
         return;
 
       SetCurrentBusinessData();

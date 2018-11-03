@@ -17,6 +17,7 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
     <Label
@@ -31,6 +32,7 @@
     <wpf:CartesianChart
       Grid.Row="1"
       Series="{Binding MemoryUsageSeries}"
+      SnapsToDevicePixels="True"
       >
       <wpf:CartesianChart.AxisX>
         <wpf:Axis
@@ -49,6 +51,7 @@
       <wpf:CartesianChart.AxisY>
         <wpf:Axis
           Title="{DynamicResource AnalysisMemUsageChartY}"
+          FontWeight="Normal"
           LabelFormatter="{Binding YAxisFormatter}"
           MinValue="0"
           >
@@ -56,6 +59,9 @@
             <wpf:Separator
               IsEnabled="True"
               Step="20"
+              Stroke="{DynamicResource BrushSolidGrey35}"
+              StrokeDashArray="2 1"
+              StrokeThickness="1"
               />
           </wpf:Axis.Separator>
         </wpf:Axis>
@@ -72,5 +78,75 @@
         </Style>
       </wpf:CartesianChart.Resources>
     </wpf:CartesianChart>
+
+    <Grid Grid.Row="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+
+      <Label
+        Grid.Column="0"
+        Margin="0 5"
+        Content="{DynamicResource AnalysisMemUsageTitle}"
+        ContentStringFormat=" {0}:"
+        FontSize="11"
+        />
+
+      <Label
+        Grid.Column="1"
+        Margin="5"
+        Content="{Binding MinMemoryUsage, UpdateSourceTrigger=PropertyChanged}"
+        ContentStringFormat="Min {0} MB"
+        FontSize="11"
+        Foreground="ForestGreen"
+        />
+
+      <Label
+        Grid.Column="2"
+        Margin="5"
+        Content="{Binding AverageMemoryUsage, UpdateSourceTrigger=PropertyChanged}"
+        ContentStringFormat="Ø {0} MB"
+        FontSize="11"
+        FontWeight="Medium"
+        Foreground="DodgerBlue"
+        />
+
+      <Label
+        Grid.Column="3"
+        Margin="5"
+        Content="{Binding MaxMemoryUsage, UpdateSourceTrigger=PropertyChanged}"
+        ContentStringFormat="Max {0} MB"
+        FontSize="11"
+        Foreground="OrangeRed"
+        />
+
+      <StackPanel
+        Grid.Column="5"
+        Orientation="Horizontal"
+        >
+        <Label
+          Margin="0 5"
+          HorizontalAlignment="Right"
+          Content="{DynamicResource AnalysisMemUsageUpTime}"
+          ContentStringFormat=" {0}:"
+          FontSize="11"
+          />
+
+        <Label
+          Margin="5"
+          HorizontalAlignment="Right"
+          Content="{Binding AverageRunningTime, UpdateSourceTrigger=PropertyChanged}"
+          ContentStringFormat="Ø {0}"
+          FontSize="11"
+          FontWeight="Medium"
+          Foreground="DodgerBlue"
+          />
+      </StackPanel>
+    </Grid>
   </Grid>
 </UserControl>

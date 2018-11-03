@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -292,12 +293,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
         return;
 
       var upTime = new TimeSpan();
-
-      foreach ( StatisticAnalysisData item in _statisticAnalysisCollection )
-      {
-        upTime = upTime.Add(item.SessionEntity.UpTime);
-      }
-
+      upTime = _statisticAnalysisCollection.Cast<StatisticAnalysisData>().Aggregate(upTime, (current, item) => current.Add(item.SessionEntity.UpTime));
       UpTime = $"{Application.Current.TryFindResource("AnalysisTotalUpTime")} {upTime.Days:D0} {Application.Current.TryFindResource("AboutUptimeDays")} " +
                $"{upTime.Hours:D2}:{upTime.Minutes:D2}:{upTime.Seconds:D2} {Application.Current.TryFindResource("AboutUptimeHours")}";
     }

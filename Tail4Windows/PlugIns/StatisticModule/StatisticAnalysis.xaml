@@ -5,6 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:enums="clr-namespace:Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Enums;assembly=T4WControllers"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:uc="clr-namespace:Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels"
@@ -182,7 +183,13 @@
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch"
           AnalysisCollection="{Binding ElementName=StatisticAnalysisWindow, Path=DataContext.StatisticAnalysisCollection, UpdateSourceTrigger=PropertyChanged}"
-          Visibility="{Binding ElementName=StatisticAnalysisWindow, Path=DataContext.CurrentAnalysisOf, Converter={StaticResource AnalysisEnumToVisibilityConverter}, ConverterParameter=MemoryUsage}"
+          Visibility="{Binding ElementName=StatisticAnalysisWindow, Path=DataContext.CurrentAnalysisOf, Converter={StaticResource AnalysisEnumToVisibilityConverter}, ConverterParameter={x:Static enums:EAnalysisOf.MemoryUsage}}"
+          />
+
+        <uc:UCFileUsageChart
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
+          Visibility="{Binding ElementName=StatisticAnalysisWindow, Path=DataContext.CurrentAnalysisOf, Converter={StaticResource AnalysisEnumToVisibilityConverter}, ConverterParameter={x:Static enums:EAnalysisOf.FileUsage}}"
           />
       </Grid>
 

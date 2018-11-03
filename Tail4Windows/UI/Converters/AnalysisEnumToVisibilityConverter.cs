@@ -21,11 +21,16 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Current culture</param>
     /// <returns>Converted value</returns>
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => !(value is EAnalysisOf enumValue) ?
-      Visibility.Collapsed :
-      string.Compare(enumValue.ToString(), parameter as string, StringComparison.InvariantCulture) == 0 ?
-        Visibility.Visible :
-        Visibility.Collapsed;
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+      if ( !(value is EAnalysisOf enumValue) )
+        return Visibility.Collapsed;
+
+      if ( !(parameter is EAnalysisOf param) )
+        return Visibility.Collapsed;
+
+      return enumValue == param ? Visibility.Visible : Visibility.Collapsed;
+    }
 
     /// <summary>
     /// Convert back

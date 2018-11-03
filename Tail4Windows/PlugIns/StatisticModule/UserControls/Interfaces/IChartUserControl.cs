@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 
 
@@ -34,5 +35,11 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls.Interfaces
     {
       get;
     }
+
+    /// <summary>
+    /// Create a chart view async
+    /// </summary>
+    /// <returns><see cref="Task"/></returns>
+    Task CreateChartAsync();
   }
 }
