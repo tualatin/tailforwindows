@@ -83,10 +83,29 @@
         Hoverable="False"
         Series="{Binding MemoryUsageSeries}"
         SnapsToDevicePixels="True"
-        Zoom="X"
+        UpdaterTickCommand="{Binding UpdaterTickCommand}"
+        Zoom="Xy"
         >
+        <lvc:CartesianChart.ContextMenu>
+          <ContextMenu>
+            <MenuItem
+              Header="{DynamicResource AnalysisContextMenuResetView}"
+              Command="{Binding ResetViewCommand}"
+              >
+              <MenuItem.Icon>
+                <Image
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/chart.png"
+                  />
+              </MenuItem.Icon>
+            </MenuItem>
+          </ContextMenu>
+        </lvc:CartesianChart.ContextMenu>
+
         <lvc:CartesianChart.AxisX>
           <lvc:Axis
+            x:Name="XAxis"
             Title="{DynamicResource AnalysisMemUsageChartX}"
             LabelFormatter="{Binding XAxisFormatter}"
             >
@@ -101,6 +120,7 @@
 
         <lvc:CartesianChart.AxisY>
           <lvc:Axis
+            x:Name="YAxis"
             Title="{DynamicResource AnalysisMemUsageChartY}"
             FontWeight="Normal"
             LabelFormatter="{Binding YAxisFormatter}"

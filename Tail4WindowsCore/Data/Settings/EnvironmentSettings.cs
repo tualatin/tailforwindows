@@ -28,6 +28,34 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     }
 
     /// <summary>
+    /// Current date format
+    /// </summary>
+    [JsonIgnore]
+    public string CurrentDateFormat
+    {
+      get
+      {
+        string currentFormat = string.Empty;
+
+        switch ( DefaultTimeFormat )
+        {
+        case ETimeFormat.HHMMd:
+        case ETimeFormat.HHMMD:
+
+          currentFormat = $"{DefaultDateFormat.GetEnumDescription()}";
+          break;
+
+        case ETimeFormat.HHMMSSd:
+        case ETimeFormat.HHMMSSD:
+
+          currentFormat = $"{DefaultDateFormat.GetEnumDescription()}";
+          break;
+        }
+        return currentFormat;
+      }
+    }
+
+    /// <summary>
     /// Current string format
     /// </summary>
     [JsonIgnore]
@@ -37,11 +65,20 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       {
         string currentFormat = string.Empty;
 
-        if ( DefaultTimeFormat == ETimeFormat.HHMMd || DefaultTimeFormat == ETimeFormat.HHMMD )
-          currentFormat = $"{DefaultDateFormat.GetEnumDescription()} {DefaultTimeFormat.GetEnumDescription()}";
-        else if ( DefaultTimeFormat == ETimeFormat.HHMMSSd || DefaultTimeFormat == ETimeFormat.HHMMSSD )
-          currentFormat = $"{DefaultDateFormat.GetEnumDescription()} {DefaultTimeFormat.GetEnumDescription()}.fff";
+        switch ( DefaultTimeFormat )
+        {
+        case ETimeFormat.HHMMd:
+        case ETimeFormat.HHMMD:
 
+          currentFormat = $"{DefaultDateFormat.GetEnumDescription()} {DefaultTimeFormat.GetEnumDescription()}";
+          break;
+
+        case ETimeFormat.HHMMSSd:
+        case ETimeFormat.HHMMSSD:
+
+          currentFormat = $"{DefaultDateFormat.GetEnumDescription()} {DefaultTimeFormat.GetEnumDescription()}.fff";
+          break;
+        }
         return currentFormat;
       }
     }

@@ -18,13 +18,18 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="value">Value</param>
     /// <param name="targetType">Target type</param>
     /// <param name="parameter">Parameter</param>
-    /// <param name="culture">Cutlure</param>
+    /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
       if ( !(value is int i) )
         return Visibility.Collapsed;
 
+      if ( parameter is string s )
+      {
+        if ( string.Compare("inverse", s, StringComparison.InvariantCultureIgnoreCase) == 0 )
+          return i == 0 ? Visibility.Visible : Visibility.Collapsed;
+      }
       return i <= 0 ? Visibility.Collapsed : Visibility.Visible;
     }
 

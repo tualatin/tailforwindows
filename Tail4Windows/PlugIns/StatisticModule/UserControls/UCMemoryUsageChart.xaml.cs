@@ -14,7 +14,9 @@ using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
+using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls.Interfaces;
 
@@ -186,6 +188,46 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       DataContext = this;
     }
 
+    #region Commands
+
+    private ICommand _resetViewCommand;
+
+    /// <summary>
+    /// Reset current view settings (zoom, panning...)
+    /// </summary>
+    public ICommand ResetViewCommand => _resetViewCommand ?? (_resetViewCommand = new RelayCommand(p => CanResetView(), p => ExecuteResetViewCommand()));
+
+    private ICommand _updaterTickCommand;
+
+    /// <summary>
+    /// Y range changed command
+    /// </summary>
+    public ICommand UpdaterTickCommand => _updaterTickCommand ?? (_updaterTickCommand = new RelayCommand(p => ExecuteUpdaterTickCommand((CartesianChart) p)));
+
+    #endregion
+
+    #region Command functions
+
+    private void ExecuteUpdaterTickCommand(CartesianChart e)
+    {
+    }
+
+    /// <summary>
+    /// Can reset current view
+    /// </summary>
+    /// <returns>If command can execute <c>True</c> otherwise <c>False</c></returns>
+    public bool CanResetView() => AnalysisCollection.Count != 0;
+
+    private void ExecuteResetViewCommand()
+    {
+      XAxis.MinValue = double.NaN;
+      XAxis.MaxValue = double.NaN;
+      YAxis.MinValue = 0;
+      YAxis.MaxValue = double.NaN;
+    }
+
+    #endregion
+
     /// <summary>
     /// Create a chart view async
     /// </summary>
@@ -218,6 +260,14 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
       await Task.Run(() =>
       {
+        if ( analysisCollection.Count == 0 )
+        {
+          _averageMemoryUsage = string.Empty;
+          _minMemoryUsage = string.Empty;
+          _maxMemoryUsage = string.Empty;
+          return;
+        }
+
         var count = 0;
 
         foreach ( StatisticAnalysisData item in analysisCollection )
@@ -226,6 +276,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
           upSessionUptime.Add(new DateModel
           {
             TimeSpan = item.SessionEntity.UpTime,
+            Date = item.SessionEntity.Date,
             Value = count
           });
           count++;
@@ -243,14 +294,6 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
           var timeSpan = new TimeSpan(averageRunningTime);
           _averageRunningTime = $"{timeSpan.Days:D0} {Application.Current.TryFindResource("AboutUptimeDays")}" +
                                 $"{timeSpan.Hours:D2}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2} {Application.Current.TryFindResource("AboutUptimeHours")}";
-        }
-
-        if ( averageMem.Equals(0) )
-        {
-          _averageMemoryUsage = string.Empty;
-          _minMemoryUsage = string.Empty;
-          _maxMemoryUsage = string.Empty;
-          return;
         }
 
         _averageMemoryUsage = $"{averageMem:N2}";
@@ -273,6 +316,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         return string.Empty;
 
       var result = new StringBuilder();
+      result.AppendLine($"{model.Date.ToString(SettingsHelperController.CurrentSettings.CurrentDateFormat)}");
       result.Append($"{model.TimeSpan.Days:D0}{Application.Current.TryFindResource("AnalysisMemUsageDaysShort")} ");
       result.Append($"{model.TimeSpan.Hours:D2}:{model.TimeSpan.Minutes:D2} {Application.Current.TryFindResource("AnalysisMemUsageHoursShort")}");
 

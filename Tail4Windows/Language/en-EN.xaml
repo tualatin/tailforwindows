@@ -611,6 +611,8 @@
   <system:String x:Key="ConvertProfileWrongParameter">Unknown parameter!</system:String>
   <system:String x:Key="ConvertProfileSuccess">Your profile has been successfully converted.</system:String>
 
+  <system:String x:Key="AnalysisNoDataAvailable">No data available!</system:String>
+  <system:String x:Key="AnalysisContextMenuResetView">Reset chart view</system:String>
   <system:String x:Key="AnalysisTotalUpTime">Total uptime</system:String>
   <system:String x:Key="AnalysisChartTypeLabel">Analysis of</system:String>
   <system:String x:Key="Analysis_MemoryUsage">Memory usage</system:String>
