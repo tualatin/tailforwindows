@@ -292,7 +292,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         else
         {
           var timeSpan = new TimeSpan(averageRunningTime);
-          _averageRunningTime = $"{timeSpan.Days:D0} {Application.Current.TryFindResource("AboutUptimeDays")}" +
+          _averageRunningTime = $"{timeSpan.Days:D0} {Application.Current.TryFindResource("AboutUptimeDays")} " +
                                 $"{timeSpan.Hours:D2}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2} {Application.Current.TryFindResource("AboutUptimeHours")}";
         }
 
