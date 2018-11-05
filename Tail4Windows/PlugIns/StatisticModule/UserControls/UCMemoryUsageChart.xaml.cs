@@ -10,7 +10,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using LiveCharts;
 using LiveCharts.Configurations;
-using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
@@ -235,22 +234,25 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     public async Task CreateChartAsync()
     {
       var dayConfig = Mappers.Xy<DateModel>().X(p => p.Value).Y(p => (double) p.TimeSpan.Ticks / TimeSpan.FromMinutes(15).Ticks);
-      var memoryUsage = new ChartValues<ObservablePoint>();
+      var memoryConfig = Mappers.Xy<MemoryModel>().X(p => p.X).Y(p => p.Y);
+
+      var memoryUsage = new ChartValues<MemoryModel>();
       var upSessionUptime = new ChartValues<DateModel>();
-      MemoryUsageSeries = new SeriesCollection(dayConfig)
+      MemoryUsageSeries = new SeriesCollection()
       {
-        new ColumnSeries
+        new ColumnSeries(dayConfig)
         {
           Values = upSessionUptime,
-          LabelPoint = MemoryUsageLabelPoint,
+          LabelPoint = UpTimeLabelPoint,
           Title = Application.Current.TryFindResource("AnalysisMemUsageUpTime").ToString()
         },
-        new LineSeries
+        new LineSeries(memoryConfig)
         {
           Values = memoryUsage,
           LineSmoothness = 1,
           PointGeometrySize = 8,
           StrokeThickness = 2,
+          LabelPoint = MemoryUsageLabelPoint,
           Fill = Brushes.Transparent,
           Title = Application.Current.TryFindResource("AnalysisMemUsageMemory").ToString()
         }
@@ -272,7 +274,11 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
         foreach ( StatisticAnalysisData item in analysisCollection )
         {
-          memoryUsage.Add(new ObservablePoint(count, Math.Round((item.SessionEntity.MemoryUsage / 1024d) / 1014, 2)));
+          memoryUsage.Add(new MemoryModel(count, Math.Round((item.SessionEntity.MemoryUsage / 1024d) / 1014, 2))
+          {
+            Date = item.SessionEntity.Date
+          });
+
           upSessionUptime.Add(new DateModel
           {
             TimeSpan = item.SessionEntity.UpTime,
@@ -302,6 +308,23 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       }).ConfigureAwait(false);
     }
 
+    private string MemoryUsageLabelPoint(ChartPoint arg)
+    {
+      if ( !(arg.Instance is MemoryModel model) )
+        return string.Empty;
+
+      var series = MemoryUsageSeries.Where(p => p.IsSeriesVisible).ToList();
+
+      if ( series.Count == 2 )
+        return $"{model.Y} MB";
+
+      var result = new StringBuilder();
+      result.AppendLine($"{model.Date.ToString(SettingsHelperController.CurrentSettings.CurrentDateFormat)}");
+      result.Append($"{model.Y} MB");
+
+      return result.ToString();
+    }
+
     private string MemoryUsageXAxisFormatter(double arg)
     {
       double session = arg + 1;
@@ -310,7 +333,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
     private string MemoryUsageYAxisFormatter(double arg) => $"{arg} MB";
 
-    private string MemoryUsageLabelPoint(ChartPoint arg)
+    private string UpTimeLabelPoint(ChartPoint arg)
     {
       if ( !(arg.Instance is DateModel model) )
         return string.Empty;
