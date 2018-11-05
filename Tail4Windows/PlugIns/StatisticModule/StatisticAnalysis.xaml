@@ -88,11 +88,11 @@
             <StackPanel>
               <TextBlock
                 Margin="0 0 0 5"
-                Text="{DynamicResource UiLanguage}"
+                Text="{DynamicResource AnalysisChartTypeLabel}"
                 FontSize="12"
                 FontWeight="Bold"
                 />
-              <TextBlock Text="{DynamicResource EnvironmentLanguageToolTip}" />
+              <TextBlock Text="{DynamicResource AnalysisChartTypeToolTip}" />
               <Border
                 Margin="0 8"
                 BorderBrush="Silver"
@@ -128,7 +128,7 @@
           <StackPanel Margin="3">
             <Image
               RenderOptions.BitmapScalingMode="HighQuality"
-              RenderOptions.EdgeMode="Aliased"
+              RenderOptions.EdgeMode="Unspecified"
               Source="/T4W;component/Resources/refresh.png"
               >
               <Image.Style>
@@ -150,7 +150,7 @@
                 FontSize="12"
                 FontWeight="Bold"
                 />
-              <TextBlock Text="{DynamicResource WindowsEventRefreshToolTip}" />
+              <TextBlock Text="{DynamicResource AnalysisChartViewRefreshToolTip}" />
               <Border
                 Margin="0 8"
                 BorderBrush="Silver"

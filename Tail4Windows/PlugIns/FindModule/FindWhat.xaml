@@ -89,7 +89,7 @@
                   <Image
                     RenderOptions.BitmapScalingMode="HighQuality"
                     RenderOptions.EdgeMode="Aliased"
-                    Source="/T4W;component/Resources/transparent.png"
+                    Source="/T4W;component/Resources/Delete.png"
                     />
                 </MenuItem.Icon>
               </MenuItem>

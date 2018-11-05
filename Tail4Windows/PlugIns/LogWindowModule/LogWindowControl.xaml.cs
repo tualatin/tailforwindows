@@ -677,7 +677,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteOpenSearchDialogCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatWindowMessage(this, CurrentTailData.File, WindowId));
 
-    private bool CanExecutePrintTailDataCommand() => SplitWindow.LogCollectionView.Collection.Count != 0 && FileIsValid;
+    private bool CanExecutePrintTailDataCommand() => SplitWindow.LogCollectionView != null && (SplitWindow.LogCollectionView.Collection.Count != 0 && FileIsValid);
 
     private void ExecutePrintTailDataCommand() => _printerController.PrintDocument(SplitWindow.LogCollectionView.Collection, CurrentTailData);
 

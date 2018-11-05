@@ -96,7 +96,7 @@
                 <Image
                   RenderOptions.BitmapScalingMode="HighQuality"
                   RenderOptions.EdgeMode="Aliased"
-                  Source="/T4W;component/Resources/chart.png"
+                  Source="/T4W;component/Resources/Cancel.ico"
                   />
               </MenuItem.Icon>
             </MenuItem>

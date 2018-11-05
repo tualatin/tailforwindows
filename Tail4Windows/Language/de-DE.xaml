@@ -611,6 +611,8 @@
   <system:String x:Key="AnalysisContextMenuResetView">Chartansicht zurücksetzen</system:String>
   <system:String x:Key="AnalysisTotalUpTime">Komplette Laufzeit</system:String>
   <system:String x:Key="AnalysisChartTypeLabel">Auswertung von</system:String>
+  <system:String x:Key="AnalysisChartTypeToolTip">Ändern der Analyseauswertung</system:String>
+  <system:String x:Key="AnalysisChartViewRefreshToolTip">Refresh current analysis chart view</system:String>
   <system:String x:Key="Analysis_MemoryUsage">Speicherverbrauch</system:String>
   <system:String x:Key="Analysis_FileUsage">Dateiverwendung</system:String>
   <system:String x:Key="AnalysisMemUsageTitle">Speicherverbrauch</system:String>

@@ -989,7 +989,7 @@
                   Command="{Binding DeleteHistoryCommand}"
                   >
                   <MenuItem.Icon>
-                    <Image Source="/T4W;component/Resources/transparent.png" />
+                    <Image Source="/T4W;component/Resources/Delete.png" />
                   </MenuItem.Icon>
                 </MenuItem>
 

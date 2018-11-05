@@ -499,6 +499,7 @@
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
+    <Resource Include="Resources\Delete.png" />
     <Resource Include="Resources\chart.png" />
     <Resource Include="Resources\User.png" />
     <Resource Include="Resources\Portable.png" />

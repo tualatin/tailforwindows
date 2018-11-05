@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.DbScheme;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -463,11 +465,33 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             // Minimum is 1 hour!
             var minUpTime = new TimeSpan(0, 1, 0, 0);
             var sessions = sessionEntity.FindAll().Where(p => TimeSpan.Compare(p.UpTime, minUpTime) < 0).ToList();
+            var t4W = new List<Process>();
 
-            foreach ( SessionEntity session in sessions )
+            if ( !SettingsHelperController.CurrentSettings.SingleInstance )
             {
-              RemoveFiles(fileEntity, session);
-              sessionEntity.Delete(p => p.Session == session.Session);
+              var allProcesses = Process.GetProcesses();
+              t4W = allProcesses.Where(p => p.MainWindowTitle == CoreEnvironment.ApplicationTitle).ToList();
+
+              foreach ( SessionEntity session in sessions )
+              {
+                if ( t4W.Any() )
+                {
+                  // If not single instance, do not remove this sessions, because it's possible, it's a running session
+                  if ( DateTime.Now.Date == session.Date.Date )
+                    continue;
+                }
+
+                RemoveFiles(fileEntity, session);
+                sessionEntity.Delete(p => p.Session == session.Session);
+              }
+            }
+            else
+            {
+              foreach ( SessionEntity session in sessions )
+              {
+                RemoveFiles(fileEntity, session);
+                sessionEntity.Delete(p => p.Session == session.Session);
+              }
             }
 
             // Remove all sessions without files
@@ -487,9 +511,18 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
               foreach ( SessionEntity session in result )
               {
+                if ( t4W.Any() )
+                {
+                  // If not single instance, do not remove this sessions, because it's possible, it's a running session
+                  if ( DateTime.Now.Date == session.Date.Date )
+                    continue;
+                }
+
                 sessionEntity.Delete(p => p.Session == session.Session);
               }
             }
+
+            t4W.Clear();
 
             // Remove files without elapsed time
             var invalidFiles = fileEntity.FindAll().Where(p => p.ElapsedTime == null).ToList();
