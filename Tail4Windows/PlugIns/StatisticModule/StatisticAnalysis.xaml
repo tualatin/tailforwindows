@@ -55,6 +55,7 @@
         >
         <Grid.ColumnDefinitions>
           <ColumnDefinition />
+          <ColumnDefinition />
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="180" />
           <ColumnDefinition Width="Auto" />
@@ -62,19 +63,28 @@
 
         <Label
           Grid.Column="0"
+          VerticalAlignment="Center"
           Content="{Binding UpTime, UpdateSourceTrigger=PropertyChanged}"
           FontWeight="DemiBold"
           />
 
         <Label
           Grid.Column="1"
+          Margin="5 0"
+          VerticalAlignment="Center"
+          Content="{Binding TotalFiles, UpdateSourceTrigger=PropertyChanged}"
+          FontWeight="DemiBold"
+          />
+
+        <Label
+          Grid.Column="2"
           HorizontalAlignment="Right"
           VerticalAlignment="Center"
           Content="{DynamicResource AnalysisChartTypeLabel}"
           />
 
         <ComboBox
-          Grid.Column="2"
+          Grid.Column="3"
           Height="22"
           Margin="6 0 0 0"
           DisplayMemberPath="Description"
@@ -117,7 +127,7 @@
         </ComboBox>
 
         <Button
-          Grid.Column="3"
+          Grid.Column="4"
           Width="22"
           Height="22"
           Margin="5 0 0 0"

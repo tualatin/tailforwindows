@@ -23,7 +23,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     /// <summary>
     /// Count of log output
     /// </summary>
-    public long LogCount
+    public ulong LogCount
     {
       get;
       set;
@@ -32,7 +32,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.DbScheme
     /// <summary>
     /// Count of bookmarks
     /// </summary>
-    public long BookmarkCount
+    public ulong BookmarkCount
     {
       get;
       set;

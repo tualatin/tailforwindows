@@ -13,9 +13,20 @@
   VerticalAlignment="Stretch"
   >
   <Grid>
+    <Grid.Effect>
+      <DropShadowEffect
+        BlurRadius="10"
+        Direction="-90"
+        Opacity=".2"
+        RenderingBias="Quality"
+        ShadowDepth="1"
+        />
+    </Grid.Effect>
+
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
     <Label
@@ -26,5 +37,29 @@
       FontSize="14"
       FontWeight="DemiBold"
       />
+
+    <Grid Grid.Row="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+
+      <Label
+        Grid.Column="0"
+        Margin="0 5"
+        Content="{DynamicResource AnalysisFileUsageTotalLines}"
+        ContentStringFormat=" {0}:"
+        FontSize="11"
+        />
+
+      <Label
+        Grid.Column="1"
+        Margin="5"
+        Content="{Binding TotalLinesRead, UpdateSourceTrigger=PropertyChanged}"
+        FontSize="11"
+        FontWeight="Medium"
+        Foreground="DodgerBlue"
+        />
+    </Grid>
   </Grid>
 </UserControl>

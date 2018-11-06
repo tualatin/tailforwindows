@@ -610,6 +610,7 @@
   <system:String x:Key="AnalysisNoDataAvailable">Keine Daten vorhanden!</system:String>
   <system:String x:Key="AnalysisContextMenuResetView">Chartansicht zurücksetzen</system:String>
   <system:String x:Key="AnalysisTotalUpTime">Komplette Laufzeit</system:String>
+  <system:String x:Key="AnalysisTotalFiles">Anzahl geöffneter Dateien</system:String>
   <system:String x:Key="AnalysisChartTypeLabel">Auswertung von</system:String>
   <system:String x:Key="AnalysisChartTypeToolTip">Ändern der Analyseauswertung</system:String>
   <system:String x:Key="AnalysisChartViewRefreshToolTip">Refresh current analysis chart view</system:String>
@@ -627,4 +628,5 @@
   <system:String x:Key="AnalysisMemUsageFile">Datei</system:String>
   <system:String x:Key="AnalysisMemUsageFiles">Dateien</system:String>
   <system:String x:Key="AnalysisFileUsageTitle">Dateiverwendung</system:String>
+  <system:String x:Key="AnalysisFileUsageTotalLines">Alle gelesenen Zeilen</system:String>
 </ResourceDictionary>

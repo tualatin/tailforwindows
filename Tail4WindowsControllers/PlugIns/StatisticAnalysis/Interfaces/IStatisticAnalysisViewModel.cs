@@ -67,7 +67,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces
     string UpTime
     {
       get;
-      set;
+    }
+
+    /// <summary>
+    /// Total files
+    /// </summary>
+    string TotalFiles
+    {
+      get;
     }
 
     /// <summary>

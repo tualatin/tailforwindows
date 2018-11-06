@@ -170,11 +170,11 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       _fileQueue.Enqueue(new FileEntity
       {
         LogReaderId = data.LogReaderId,
-        LogCount = data.Index,
+        LogCount = Convert.ToUInt64(data.Index),
         FileName = data.FileName,
         ElapsedTime = data.ElapsedTime,
         IsWindowsEvent = data.IsWindowsEvent,
-        BookmarkCount = data.BookmarkCount,
+        BookmarkCount = Convert.ToUInt64(data.BookmarkCount),
         FileSizeTotalEvents = data.FileSizeTotalEvents
       });
 

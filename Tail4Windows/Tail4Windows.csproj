@@ -277,6 +277,7 @@
       <DependentUpon>StatisticAnalysis.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlugIns\StatisticModule\UserControls\Interfaces\IChartUserControl.cs" />
+    <Compile Include="PlugIns\StatisticModule\UserControls\Interfaces\IUcFileUsageChart.cs" />
     <Compile Include="PlugIns\StatisticModule\UserControls\Interfaces\IUcMemoryUsageChart.cs" />
     <Compile Include="PlugIns\StatisticModule\UserControls\UCFileUsageChart.xaml.cs">
       <DependentUpon>UCFileUsageChart.xaml</DependentUpon>

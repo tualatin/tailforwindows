@@ -114,6 +114,24 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       }
     }
 
+    private string _totalFiles;
+
+    /// <summary>
+    /// Total files
+    /// </summary>
+    public string TotalFiles
+    {
+      get => _totalFiles;
+      set
+      {
+        if ( Equals(value, _totalFiles) )
+          return;
+
+        _totalFiles = value;
+        OnPropertyChanged();
+      }
+    }
+
     /// <summary>
     /// Analysis of mappings of type <see cref="AnalysisOfMapping"/>
     /// </summary>
@@ -296,6 +314,10 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       upTime = _statisticAnalysisCollection.Cast<StatisticAnalysisData>().Aggregate(upTime, (current, item) => current.Add(item.SessionEntity.UpTime));
       UpTime = $"{Application.Current.TryFindResource("AnalysisTotalUpTime")} {upTime.Days:D0} {Application.Current.TryFindResource("AboutUptimeDays")} " +
                $"{upTime.Hours:D2}:{upTime.Minutes:D2}:{upTime.Seconds:D2} {Application.Current.TryFindResource("AboutUptimeHours")}";
+
+      var fileCount = 0;
+      fileCount = _statisticAnalysisCollection.Cast<StatisticAnalysisData>().Aggregate(fileCount, (current, item) => current + item.Files.Count);
+      TotalFiles = $"{Application.Current.TryFindResource("AnalysisTotalFiles")} {fileCount:N0}";
     }
   }
 }

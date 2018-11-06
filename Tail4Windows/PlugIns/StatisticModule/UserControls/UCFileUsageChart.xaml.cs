@@ -1,10 +1,13 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
+using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls.Interfaces;
 
@@ -15,9 +18,31 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
   /// Interaction logic for UCFileUsageChart.xaml
   /// </summary>
   // ReSharper disable once InconsistentNaming
-  public partial class UCFileUsageChart : IChartUserControl
+  public partial class UCFileUsageChart : IUcFileUsageChart
   {
     private NotifyTaskCompletion _runner;
+
+    #region Properties
+
+    private string _totalLinesRead;
+
+    /// <summary>
+    /// Total lines read
+    /// </summary>
+    public string TotalLinesRead
+    {
+      get => _totalLinesRead;
+      set
+      {
+        if ( Equals(value, _totalLinesRead) )
+          return;
+
+        _totalLinesRead = value;
+        OnPropertyChanged();
+      }
+    }
+
+    #endregion
 
     /// <summary>
     /// Standard constructor
@@ -27,13 +52,6 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       InitializeComponent();
       DataContext = this;
     }
-
-    public ICommand ResetViewCommand
-    {
-      get;
-    }
-
-    public bool CanResetView() => throw new NotImplementedException();
 
     #region Dependency properties
 
@@ -56,6 +74,8 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     {
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
+
+      OnPropertyChanged(nameof(TotalLinesRead));
 
       if ( _runner == null )
         return;
@@ -81,6 +101,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     public Func<double, string> XAxisFormatter
     {
       get;
+      set;
     }
 
     /// <summary>
@@ -89,7 +110,37 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     public Func<double, string> YAxisFormatter
     {
       get;
+      set;
     }
+
+    #region Commands
+
+    private ICommand _resetViewCommand;
+
+    /// <summary>
+    /// Reset current view settings (zoom, panning...)
+    /// </summary>
+    public ICommand ResetViewCommand => _resetViewCommand ?? (_resetViewCommand = new RelayCommand(p => CanResetView(), p => ExecuteResetViewCommand()));
+
+    #endregion
+
+    #region Command functions
+
+    /// <summary>
+    /// Can reset current view
+    /// </summary>
+    /// <returns>If command can execute <c>True</c> otherwise <c>False</c></returns>
+    public bool CanResetView() => AnalysisCollection.Count != 0;
+
+    private void ExecuteResetViewCommand()
+    {
+      //XAxis.MinValue = double.NaN;
+      //XAxis.MaxValue = double.NaN;
+      //YAxis.MinValue = 0;
+      //YAxis.MaxValue = double.NaN;
+    }
+
+    #endregion
 
     /// <summary>
     /// Create a chart view async
@@ -97,7 +148,27 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     /// <returns><see cref="Task"/></returns>
     public async Task CreateChartAsync()
     {
+      var analysisCollection = AnalysisCollection;
 
+      await Task.Run(() =>
+      {
+        if ( analysisCollection.Count == 0 )
+        {
+          _totalLinesRead = string.Empty;
+          return;
+        }
+
+        ulong lines = 0;
+
+        foreach ( StatisticAnalysisData item in analysisCollection )
+        {
+          ulong current = 0;
+          current = item.Files.Aggregate(current, (c, i) => c + i.LogCount);
+          lines += current;
+        }
+
+        _totalLinesRead = $"{lines:N0}";
+      }).ConfigureAwait(false);
     }
 
     /// <summary>
