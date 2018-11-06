@@ -25,6 +25,9 @@ v.2.2.xxxx.x
 * bug fix TailManager sometimes does not load all files
 * bug fix HighlightManager sometimes does not load all files
 
+v.2.1.xxxx.x
+* improve stability
+
 v.2.1.6865.x
 * improve CacheManager
 * bug fix highlight data
