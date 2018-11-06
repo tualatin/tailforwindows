@@ -391,7 +391,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       _readOnlyTextMessage.SelectionChanged += ReadOnlyTextMessageOnSelectionChanged;
     }
 
-    private void ReadOnlyTextMessageOnSelectionChanged(object sender, RoutedEventArgs e) => SelectedText = _readOnlyTextMessage.SelectedText;
+    private void ReadOnlyTextMessageOnSelectionChanged(object sender, RoutedEventArgs e)
+    {
+      if ( _readOnlyTextMessage == null )
+        return;
+
+      SelectedText = _readOnlyTextMessage.SelectedText;
+    }
 
     private void LogWindowListBoxOnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
