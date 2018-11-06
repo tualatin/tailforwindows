@@ -624,5 +624,7 @@
   <system:String x:Key="AnalysisMemUsageDays">Tage</system:String>
   <system:String x:Key="AnalysisMemUsageUpTime">Laufzeit</system:String>
   <system:String x:Key="AnalysisMemUsageMemory">Speicher</system:String>
+  <system:String x:Key="AnalysisMemUsageFile">Datei</system:String>
+  <system:String x:Key="AnalysisMemUsageFiles">Dateien</system:String>
   <system:String x:Key="AnalysisFileUsageTitle">Dateiverwendung</system:String>
 </ResourceDictionary>

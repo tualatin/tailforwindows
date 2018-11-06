@@ -19,6 +19,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data
     }
 
     /// <summary>
+    /// Count of open files
+    /// </summary>
+    public int FileCount
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="x">X</param>

@@ -276,7 +276,8 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         {
           memoryUsage.Add(new MemoryModel(count, Math.Round((item.SessionEntity.MemoryUsage / 1024d) / 1014, 2))
           {
-            Date = item.SessionEntity.Date
+            Date = item.SessionEntity.Date,
+            FileCount = item.Files.Count
           });
 
           upSessionUptime.Add(new DateModel
@@ -314,13 +315,16 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         return string.Empty;
 
       var series = MemoryUsageSeries.Where(p => p.IsSeriesVisible).ToList();
+      string file = model.FileCount == 1 ?
+        Application.Current.TryFindResource("AnalysisMemUsageFile").ToString() :
+        Application.Current.TryFindResource("AnalysisMemUsageFiles").ToString();
 
       if ( series.Count == 2 )
-        return $"{model.Y} MB";
+        return $"{model.Y} MB ({model.FileCount} {file})";
 
       var result = new StringBuilder();
       result.AppendLine($"{model.Date.ToString(SettingsHelperController.CurrentSettings.CurrentDateFormat)}");
-      result.Append($"{model.Y} MB");
+      result.Append($"{model.Y} MB ({model.FileCount} {file})");
 
       return result.ToString();
     }
