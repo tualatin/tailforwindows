@@ -394,7 +394,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     private void ReadOnlyTextMessageOnSelectionChanged(object sender, RoutedEventArgs e)
     {
       if ( _readOnlyTextMessage == null )
+      {
+        SelectedText = string.Empty;
         return;
+      }
 
       SelectedText = _readOnlyTextMessage.SelectedText;
     }

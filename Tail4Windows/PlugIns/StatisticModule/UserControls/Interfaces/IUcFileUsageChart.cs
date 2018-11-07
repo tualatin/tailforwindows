@@ -5,6 +5,8 @@
   /// </summary>
   public interface IUcFileUsageChart : IChartUserControl
   {
+    #region Properties
+
     /// <summary>
     /// Total lines read
     /// </summary>
@@ -12,5 +14,15 @@
     {
       get;
     }
+
+    /// <summary>
+    /// Average daily file count
+    /// </summary>
+    string AverageDailyFileCount
+    {
+      get;
+    }
+
+    #endregion
   }
 }

@@ -42,6 +42,24 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       }
     }
 
+    private string _averageDailyFileCount;
+
+    /// <summary>
+    /// Average daily file count
+    /// </summary>
+    public string AverageDailyFileCount
+    {
+      get => _averageDailyFileCount;
+      set
+      {
+        if ( Equals(value, _averageDailyFileCount) )
+          return;
+
+        _averageDailyFileCount = value;
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     /// <summary>
@@ -76,6 +94,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         return;
 
       OnPropertyChanged(nameof(TotalLinesRead));
+      OnPropertyChanged(nameof(AverageDailyFileCount));
 
       if ( _runner == null )
         return;
@@ -150,26 +169,55 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     {
       var analysisCollection = AnalysisCollection;
 
-      await Task.Run(() =>
-      {
-        if ( analysisCollection.Count == 0 )
-        {
-          _totalLinesRead = string.Empty;
-          return;
-        }
+      Task totalLines = CalcTotalLinesReadAsync(analysisCollection);
+      Task averageDailyFileCount = CalcAverageDailyFileCountAsync(analysisCollection);
 
-        ulong lines = 0;
-
-        foreach ( StatisticAnalysisData item in analysisCollection )
-        {
-          ulong current = 0;
-          current = item.Files.Aggregate(current, (c, i) => c + i.LogCount);
-          lines += current;
-        }
-
-        _totalLinesRead = $"{lines:N0}";
-      }).ConfigureAwait(false);
+      await Task.WhenAll(totalLines, averageDailyFileCount).ConfigureAwait(false);
     }
+
+    private async Task CalcTotalLinesReadAsync(IStatisticAnalysisCollection collection) => await Task.Run(() =>
+    {
+      if ( collection.Count == 0 )
+      {
+        _totalLinesRead = string.Empty;
+        return;
+      }
+
+      ulong lines = 0;
+
+      foreach ( StatisticAnalysisData item in collection )
+      {
+        ulong current = 0;
+        current = item.Files.Aggregate(current, (c, i) => c + i.LogCount);
+        lines += current;
+      }
+
+      _totalLinesRead = $"{lines:N0}";
+    }).ConfigureAwait(false);
+
+    private async Task CalcAverageDailyFileCountAsync(IStatisticAnalysisCollection collection) => await Task.Run(() =>
+    {
+      if ( collection.Count == 0 )
+      {
+        _averageDailyFileCount = string.Empty;
+        return;
+      }
+
+      var result = collection.GroupBy(p => p.SessionEntity.Date).Select(p => p.Select(x => x.Files)).ToList();
+
+      if ( result.Count == 0 )
+        return;
+
+      var fileCount = 0;
+
+      foreach ( var item in result )
+      {
+        fileCount += item.Select(p => p.Count).FirstOrDefault();
+      }
+
+      decimal average = (decimal) fileCount / result.Count;
+      _averageDailyFileCount = $"{average:N1}";
+    }).ConfigureAwait(false);
 
     /// <summary>
     /// Declare the event

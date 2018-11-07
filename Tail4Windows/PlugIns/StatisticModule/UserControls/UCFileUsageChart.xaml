@@ -44,22 +44,46 @@
         <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
 
-      <Label
+      <StackPanel
         Grid.Column="0"
-        Margin="0 5"
-        Content="{DynamicResource AnalysisFileUsageTotalLines}"
-        ContentStringFormat=" {0}:"
-        FontSize="11"
-        />
+        Orientation="Horizontal"
+        >
+        <Label
+          Margin="0 5"
+          Content="{DynamicResource AnalysisFileUsageTotalLines}"
+          ContentStringFormat=" {0}:"
+          FontSize="11"
+          />
 
-      <Label
+        <Label
+          Margin="5"
+          Content="{Binding TotalLinesRead, UpdateSourceTrigger=PropertyChanged}"
+          FontSize="11"
+          FontWeight="Medium"
+          Foreground="DodgerBlue"
+          />
+      </StackPanel>
+
+      <StackPanel
         Grid.Column="1"
-        Margin="5"
-        Content="{Binding TotalLinesRead, UpdateSourceTrigger=PropertyChanged}"
-        FontSize="11"
-        FontWeight="Medium"
-        Foreground="DodgerBlue"
-        />
+        Margin="5 0"
+        Orientation="Horizontal"
+        >
+        <Label
+          Margin="0 5"
+          Content="{DynamicResource AnalysisFileUsageAverageDailyFileCount}"
+          ContentStringFormat=" {0}:"
+          FontSize="11"
+          />
+
+        <Label
+          Margin="5"
+          Content="{Binding AverageDailyFileCount, UpdateSourceTrigger=PropertyChanged}"
+          FontSize="11"
+          FontWeight="Medium"
+          Foreground="DodgerBlue"
+          />
+      </StackPanel>
     </Grid>
   </Grid>
 </UserControl>

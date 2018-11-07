@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
@@ -40,6 +41,12 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Data
     /// <param name="item">The object to remove from the List. The value can be null for reference types.</param>
     /// <returns><c>True</c> if item is successfully removed; otherwise, <c>False</c>. This method also returns false if item was not found in the List.</returns>
     public bool Remove(StatisticAnalysisData item) => item != null && _statisticCollection.Remove(item);
+
+    /// <summary>Groups the elements of a sequence according to a specified key selector function.</summary>
+    /// <typeparam name="TKey">The type of the key returned by <paramref name="selector" />.</typeparam>
+    /// <returns>An IEnumerable&lt;IGrouping&lt;TKey, TSource&gt;&gt; in C# or IEnumerable(Of IGrouping(Of TKey, TSource)) in Visual Basic where each
+    /// <see cref="T:System.Linq.IGrouping`2" /> object contains a sequence of objects and a key.</returns>
+    public IEnumerable<IGrouping<TKey, StatisticAnalysisData>> GroupBy<TKey>(Func<StatisticAnalysisData, TKey> selector) => _statisticCollection.GroupBy(selector);
 
     /// <summary>
     /// Returns the zero-based index of the first occurrence of a value in the List or in a portion of it.

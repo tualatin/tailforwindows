@@ -629,4 +629,5 @@
   <system:String x:Key="AnalysisMemUsageFiles">Dateien</system:String>
   <system:String x:Key="AnalysisFileUsageTitle">Dateiverwendung</system:String>
   <system:String x:Key="AnalysisFileUsageTotalLines">Alle gelesenen Zeilen</system:String>
+  <system:String x:Key="AnalysisFileUsageAverageDailyFileCount">Ø tägliche Dateianzahl</system:String>
 </ResourceDictionary>
