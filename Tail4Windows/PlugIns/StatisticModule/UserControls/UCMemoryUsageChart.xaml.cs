@@ -31,9 +31,9 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     private NotifyTaskCompletion _runner;
 
     /// <summary>
-    /// Memory usage series
+    /// Chart series
     /// </summary>
-    public SeriesCollection MemoryUsageSeries
+    public SeriesCollection ChartSeries
     {
       get;
       set;
@@ -154,7 +154,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       XAxisFormatter = MemoryUsageXAxisFormatter;
       YAxisFormatter = MemoryUsageYAxisFormatter;
 
-      OnPropertyChanged(nameof(MemoryUsageSeries));
+      OnPropertyChanged(nameof(ChartSeries));
       OnPropertyChanged(nameof(AverageMemoryUsage));
       OnPropertyChanged(nameof(AverageRunningTime));
       OnPropertyChanged(nameof(MinMemoryUsage));
@@ -199,7 +199,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     private ICommand _updaterTickCommand;
 
     /// <summary>
-    /// Y range changed command
+    /// Updater tick command
     /// </summary>
     public ICommand UpdaterTickCommand => _updaterTickCommand ?? (_updaterTickCommand = new RelayCommand(p => ExecuteUpdaterTickCommand((CartesianChart) p)));
 
@@ -238,7 +238,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
       var memoryUsage = new ChartValues<MemoryModel>();
       var upSessionUptime = new ChartValues<DateModel>();
-      MemoryUsageSeries = new SeriesCollection()
+      ChartSeries = new SeriesCollection()
       {
         new ColumnSeries(dayConfig)
         {
@@ -314,7 +314,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       if ( !(arg.Instance is MemoryModel model) )
         return string.Empty;
 
-      var series = MemoryUsageSeries.Where(p => p.IsSeriesVisible).ToList();
+      var series = ChartSeries.Where(p => p.IsSeriesVisible).ToList();
       string file = model.FileCount == 1 ?
         Application.Current.TryFindResource("AnalysisMemUsageFile").ToString() :
         Application.Current.TryFindResource("AnalysisMemUsageFiles").ToString();

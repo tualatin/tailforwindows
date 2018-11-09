@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using LiveCharts;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 
 
@@ -13,9 +14,25 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls.Interfaces
   public interface IChartUserControl : INotifyPropertyChanged
   {
     /// <summary>
+    /// Chart series
+    /// </summary>
+    SeriesCollection ChartSeries
+    {
+      get;
+    }
+
+    /// <summary>
     /// Reset current view settings (zoom, panning...)
     /// </summary>
     ICommand ResetViewCommand
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Updater tick command
+    /// </summary>
+    ICommand UpdaterTickCommand
     {
       get;
     }

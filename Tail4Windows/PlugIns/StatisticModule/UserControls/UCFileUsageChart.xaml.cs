@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using LiveCharts;
+using LiveCharts.Wpf;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
@@ -23,6 +25,15 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     private NotifyTaskCompletion _runner;
 
     #region Properties
+
+    /// <summary>
+    /// Chart series
+    /// </summary>
+    public SeriesCollection ChartSeries
+    {
+      get;
+      set;
+    }
 
     private string _totalLinesRead;
 
@@ -93,6 +104,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
+      OnPropertyChanged(nameof(ChartSeries));
       OnPropertyChanged(nameof(TotalLinesRead));
       OnPropertyChanged(nameof(AverageDailyFileCount));
 
@@ -141,9 +153,20 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     /// </summary>
     public ICommand ResetViewCommand => _resetViewCommand ?? (_resetViewCommand = new RelayCommand(p => CanResetView(), p => ExecuteResetViewCommand()));
 
+    private ICommand _updaterTickCommand;
+
+    /// <summary>
+    /// Updater tick command
+    /// </summary>
+    public ICommand UpdaterTickCommand => _updaterTickCommand ?? (_updaterTickCommand = new RelayCommand(p => ExecuteUpdaterTickCommand((CartesianChart) p)));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteUpdaterTickCommand(CartesianChart e)
+    {
+    }
 
     /// <summary>
     /// Can reset current view
@@ -153,10 +176,10 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
     private void ExecuteResetViewCommand()
     {
-      //XAxis.MinValue = double.NaN;
-      //XAxis.MaxValue = double.NaN;
-      //YAxis.MinValue = 0;
-      //YAxis.MaxValue = double.NaN;
+      XAxis.MinValue = double.NaN;
+      XAxis.MaxValue = double.NaN;
+      YAxis.MinValue = 0;
+      YAxis.MaxValue = double.NaN;
     }
 
     #endregion
@@ -232,6 +255,11 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     {
       var handler = PropertyChanged;
       handler?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+
+    private void OnListBoxPreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+
     }
   }
 }

@@ -50,7 +50,7 @@
         Panel.ZIndex="1"
         Background="Transparent"
         BorderThickness="0"
-        ItemsSource="{Binding MemoryUsageSeries, Converter={StaticResource ReverseConverter}}"
+        ItemsSource="{Binding ChartSeries, Converter={StaticResource ReverseConverter}}"
         PreviewMouseDown="OnListBoxPreviewMouseDown"
         >
         <ListBox.ItemTemplate>
@@ -81,7 +81,7 @@
         Width="{Binding ElementName=Canvas, Path=ActualWidth}"
         Height="{Binding ElementName=Canvas, Path=ActualHeight}"
         Hoverable="False"
-        Series="{Binding MemoryUsageSeries}"
+        Series="{Binding ChartSeries}"
         SnapsToDevicePixels="True"
         UpdaterTickCommand="{Binding UpdaterTickCommand}"
         Zoom="Xy"
