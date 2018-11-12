@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using LiveCharts;
+using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
+using Org.Vs.TailForWin.Business.StatisticEngine.DbScheme;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
+using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls.Interfaces;
 
@@ -140,6 +143,9 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
+      XAxisFormatter = FileUsageXAxisFormatter;
+      YAxisFormatter = FileUsageYAxisFormatter;
+
       OnPropertyChanged(nameof(ChartSeries));
       OnPropertyChanged(nameof(TotalLinesRead));
       OnPropertyChanged(nameof(AverageDailyFileCount));
@@ -232,8 +238,52 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
       Task totalLines = CalcTotalLinesReadAsync(analysisCollection);
       Task averageDailyFileCount = CalcAverageDailyFileCountAsync(analysisCollection);
+      Task createChartView = CreateChartViewAsync(analysisCollection);
 
-      await Task.WhenAll(totalLines, averageDailyFileCount).ConfigureAwait(false);
+      await Task.WhenAll(totalLines, averageDailyFileCount, createChartView).ConfigureAwait(false);
+    }
+
+    private async Task CreateChartViewAsync(IStatisticAnalysisCollection collection)
+    {
+      var fileSessionConfig = Mappers.Xy<FileSessionModel>().X(p => p.SessionCount).Y(p => (double) p.TimeSpan.Ticks / TimeSpan.FromMinutes(15).Ticks);
+      ChartSeries = new SeriesCollection();
+      var count = 0;
+
+      foreach ( StatisticAnalysisData item in collection )
+      {
+        var fileSessions = new ChartValues<FileSessionModel>();
+        var columnSeries = new ColumnSeries(fileSessionConfig)
+        {
+          //LabelPoint = FileSessionLabelPoint,
+          Values = fileSessions,
+          Title = item.SessionEntity.Session.ToString()
+        };
+
+        foreach ( FileEntity file in item.Files )
+        {
+          var model = new FileSessionModel
+          {
+            Date = item.SessionEntity.Date,
+            SessionCount = count,
+            BookmarkCount = file.BookmarkCount,
+            FileSize = file.FileSizeTotalEvents,
+            IsSmartWatch = file.IsSmartWatch,
+            IsWindowsEvent = file.IsWindowsEvent,
+            LogCount = file.LogCount
+          };
+
+          if ( file.ElapsedTime.HasValue )
+            model.TimeSpan = file.ElapsedTime.Value;
+
+          fileSessions.Add(model);
+        }
+
+        count++;
+        ChartSeries.Add(columnSeries);
+
+        if ( count == 5 )
+          break;
+      }
     }
 
     private async Task CalcTotalLinesReadAsync(IStatisticAnalysisCollection collection) => await Task.Run(() =>
@@ -291,6 +341,23 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       _averageDailyFileCount = $"{(decimal) fileCount / result.Count:N1}";
       _averageDailyLogCount = $"{dailyAverage / result.Count:N2}";
     }).ConfigureAwait(false);
+
+    private string FileSessionLabelPoint(ChartPoint arg)
+    {
+      // TODO Label
+      return string.Empty;
+    }
+
+    private string FileUsageXAxisFormatter(double arg)
+    {
+      double session = arg + 1;
+      return $"{session}.";
+    }
+
+    private string FileUsageYAxisFormatter(double arg)
+    {
+      return arg.ToString();
+    }
 
     /// <summary>
     /// Declare the event

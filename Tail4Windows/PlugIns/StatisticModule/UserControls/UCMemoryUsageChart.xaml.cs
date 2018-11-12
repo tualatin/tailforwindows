@@ -238,7 +238,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
       var memoryUsage = new ChartValues<MemoryModel>();
       var upSessionUptime = new ChartValues<DateModel>();
-      ChartSeries = new SeriesCollection()
+      ChartSeries = new SeriesCollection
       {
         new ColumnSeries(dayConfig)
         {

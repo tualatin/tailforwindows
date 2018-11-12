@@ -43,7 +43,7 @@
       x:Name="Canvas"
       Grid.Row="1"
       >
-      <ListBox
+      <!--<ListBox
         x:Name="ListBox"
         Canvas.Left="60"
         Canvas.Top="20"
@@ -75,7 +75,7 @@
             </Setter>
           </Style>
         </ListBox.ItemContainerStyle>
-      </ListBox>
+      </ListBox>-->
 
       <lvc:CartesianChart
         Width="{Binding ElementName=Canvas, Path=ActualWidth}"
