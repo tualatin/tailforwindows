@@ -23,6 +23,22 @@
       get;
     }
 
+    /// <summary>
+    /// Average log count
+    /// </summary>
+    string AverageLogCount
+    {
+      get;
+    }
+
+    /// <summary>
+    /// Average daily log count
+    /// </summary>
+    string AverageDailyLogCount
+    {
+      get;
+    }
+
     #endregion
   }
 }

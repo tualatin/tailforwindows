@@ -71,6 +71,42 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       }
     }
 
+    private string _averageLogCount;
+
+    /// <summary>
+    /// Average log count
+    /// </summary>
+    public string AverageLogCount
+    {
+      get => _averageLogCount;
+      set
+      {
+        if ( Equals(value, _averageLogCount) )
+          return;
+
+        _averageLogCount = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private string _averageDailyLogCount;
+
+    /// <summary>
+    /// Average daily log count
+    /// </summary>
+    public string AverageDailyLogCount
+    {
+      get => _averageDailyLogCount;
+      set
+      {
+        if ( Equals(value, _averageDailyLogCount) )
+          return;
+
+        _averageDailyLogCount = value;
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     /// <summary>
@@ -107,6 +143,8 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       OnPropertyChanged(nameof(ChartSeries));
       OnPropertyChanged(nameof(TotalLinesRead));
       OnPropertyChanged(nameof(AverageDailyFileCount));
+      OnPropertyChanged(nameof(AverageLogCount));
+      OnPropertyChanged(nameof(AverageDailyLogCount));
 
       if ( _runner == null )
         return;
@@ -203,26 +241,32 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       if ( collection.Count == 0 )
       {
         _totalLinesRead = string.Empty;
+        _averageLogCount = string.Empty;
         return;
       }
 
       ulong lines = 0;
+      var files = 0;
 
       foreach ( StatisticAnalysisData item in collection )
       {
         ulong current = 0;
         current = item.Files.Aggregate(current, (c, i) => c + i.LogCount);
         lines += current;
+        files += item.Files.Count;
       }
 
       _totalLinesRead = $"{lines:N0}";
+      _averageLogCount = $"{(decimal) lines / files:N2}";
     }).ConfigureAwait(false);
+
 
     private async Task CalcAverageDailyFileCountAsync(IStatisticAnalysisCollection collection) => await Task.Run(() =>
     {
       if ( collection.Count == 0 )
       {
         _averageDailyFileCount = string.Empty;
+        _averageDailyLogCount = string.Empty;
         return;
       }
 
@@ -232,14 +276,20 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         return;
 
       var fileCount = 0;
+      decimal dailyAverage = decimal.Zero;
 
       foreach ( var item in result )
       {
-        fileCount += item.Select(p => p.Count).FirstOrDefault();
+        int currentFileCount = item.Select(p => p.Count).FirstOrDefault();
+        ulong currentLinesCount = 0;
+        currentLinesCount = item.Select(p => p.Aggregate(currentLinesCount, (c, i) => c + i.LogCount)).FirstOrDefault();
+
+        dailyAverage += (decimal) currentLinesCount / currentFileCount;
+        fileCount += currentFileCount;
       }
 
-      decimal average = (decimal) fileCount / result.Count;
-      _averageDailyFileCount = $"{average:N1}";
+      _averageDailyFileCount = $"{(decimal) fileCount / result.Count:N1}";
+      _averageDailyLogCount = $"{dailyAverage / result.Count:N2}";
     }).ConfigureAwait(false);
 
     /// <summary>
