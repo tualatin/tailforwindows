@@ -132,10 +132,10 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     #region Dependency properties
 
     /// <summary>
-    /// Analysis collection property <see cref="IStatisticAnalysisCollection"/>
+    /// Analysis collection property <see cref="IStatisticAnalysisCollection{T}"/>
     /// </summary>
-    public static readonly DependencyProperty AnalysisCollectionProperty = DependencyProperty.Register(nameof(AnalysisCollection), typeof(IStatisticAnalysisCollection),
-      typeof(UCMemoryUsageChart), new PropertyMetadata(null, OnAnalysisCollectionChanged));
+    public static readonly DependencyProperty AnalysisCollectionProperty = DependencyProperty.Register(nameof(AnalysisCollection),
+      typeof(IStatisticAnalysisCollection<StatisticAnalysisData>), typeof(UCMemoryUsageChart), new PropertyMetadata(null, OnAnalysisCollectionChanged));
 
     private static void OnAnalysisCollectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -170,9 +170,9 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     /// <summary>
     /// Analysis collection
     /// </summary>
-    public IStatisticAnalysisCollection AnalysisCollection
+    public IStatisticAnalysisCollection<StatisticAnalysisData> AnalysisCollection
     {
-      get => (IStatisticAnalysisCollection) GetValue(AnalysisCollectionProperty);
+      get => (IStatisticAnalysisCollection<StatisticAnalysisData>) GetValue(AnalysisCollectionProperty);
       set => SetValue(AnalysisCollectionProperty, value);
     }
 

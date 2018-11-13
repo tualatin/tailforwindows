@@ -128,7 +128,7 @@
   <system:String x:Key="FileManagerFilterBy">Filter by Description or Category</system:String>
   <system:String x:Key="FileManagerFilter">Filter</system:String>
   <system:String x:Key="FileManagerUseFilter">Use filters</system:String>
-  <system:String x:Key="FileManagerUseFilterToolTip">Configurate current filters</system:String>
+  <system:String x:Key="FileManagerUseFilterToolTip">Configure current filters</system:String>
   <system:String x:Key="FileManagerUsePattern">Use pattern</system:String>
   <system:String x:Key="FileManagerOpenInNewWindow">Open in new DragWindow</system:String>
   <system:String x:Key="FileManagerOpenInNewWindowToolTip">Opens the current selection in an new DragWindow</system:String>
@@ -636,4 +636,7 @@
   <system:String x:Key="AnalysisFileUsageAverageLinesCount">Ø lines read</system:String>
   <system:String x:Key="AnalysisFileUsageAverageDailyFileCount">Ø daily file count</system:String>
   <system:String x:Key="AnalysisFileUsageAverageDailyLinesCount">Ø daily lines read</system:String>
+  <system:String x:Key="AnalysisFileUsageLogFiles">Log files</system:String>
+  <system:String x:Key="AnalysisFileUsageLogFilesIsSmartWatch">Log files (SmartWatch)</system:String>
+  <system:String x:Key="AnalysisFileUsageWindowsEventLog">Windows event log</system:String>
 </ResourceDictionary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -124,10 +125,10 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     #region Dependency properties
 
     /// <summary>
-    /// Analysis collection property <see cref="IStatisticAnalysisCollection"/>
+    /// Analysis collection property <see cref="IStatisticAnalysisCollection{T}"/>
     /// </summary>
-    public static readonly DependencyProperty AnalysisCollectionProperty = DependencyProperty.Register(nameof(AnalysisCollection), typeof(IStatisticAnalysisCollection),
-      typeof(UCFileUsageChart), new PropertyMetadata(null, OnAnalysisCollectionChanged));
+    public static readonly DependencyProperty AnalysisCollectionProperty = DependencyProperty.Register(nameof(AnalysisCollection),
+      typeof(IStatisticAnalysisCollection<StatisticAnalysisData>), typeof(UCFileUsageChart), new PropertyMetadata(null, OnAnalysisCollectionChanged));
 
     private static void OnAnalysisCollectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -162,9 +163,9 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     /// <summary>
     /// Analysis collection
     /// </summary>
-    public IStatisticAnalysisCollection AnalysisCollection
+    public IStatisticAnalysisCollection<StatisticAnalysisData> AnalysisCollection
     {
-      get => (IStatisticAnalysisCollection) GetValue(AnalysisCollectionProperty);
+      get => (IStatisticAnalysisCollection<StatisticAnalysisData>) GetValue(AnalysisCollectionProperty);
       set => SetValue(AnalysisCollectionProperty, value);
     }
 
@@ -220,10 +221,10 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
     private void ExecuteResetViewCommand()
     {
-      XAxis.MinValue = double.NaN;
-      XAxis.MaxValue = double.NaN;
-      YAxis.MinValue = 0;
-      YAxis.MaxValue = double.NaN;
+      //XAxis.MinValue = double.NaN;
+      //XAxis.MaxValue = double.NaN;
+      //YAxis.MinValue = 0;
+      //YAxis.MaxValue = double.NaN;
     }
 
     #endregion
@@ -239,11 +240,61 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       Task totalLines = CalcTotalLinesReadAsync(analysisCollection);
       Task averageDailyFileCount = CalcAverageDailyFileCountAsync(analysisCollection);
       Task createChartView = CreateChartViewAsync(analysisCollection);
+      Task createPieChartView = CreatePieChartViewAsync(analysisCollection);
 
-      await Task.WhenAll(totalLines, averageDailyFileCount, createChartView).ConfigureAwait(false);
+      await Task.WhenAll(totalLines, averageDailyFileCount, createChartView, createPieChartView).ConfigureAwait(false);
     }
 
-    private async Task CreateChartViewAsync(IStatisticAnalysisCollection collection)
+    private async Task CreatePieChartViewAsync(IStatisticAnalysisCollection<StatisticAnalysisData> collection)
+    {
+      var defaultLogFile = new ChartValues<int>();
+      var smartWatchLogFile = new ChartValues<int>();
+      var windowEvent = new ChartValues<int>();
+      ChartSeries = new SeriesCollection
+      {
+        new PieSeries
+        {
+          DataLabels = true,
+          Values = defaultLogFile,
+          Title = Application.Current.TryFindResource("AnalysisFileUsageLogFiles").ToString(),
+          LabelPoint = PieChartLabelPoint
+        },
+        new PieSeries
+        {
+          DataLabels = true,
+          Values = smartWatchLogFile,
+          Title = Application.Current.TryFindResource("AnalysisFileUsageLogFilesIsSmartWatch").ToString(),
+          LabelPoint = PieChartLabelPoint
+        },
+        new PieSeries
+        {
+          DataLabels = true,
+          Values = windowEvent,
+          Title = Application.Current.TryFindResource("AnalysisFileUsageWindowsEventLog").ToString(),
+          LabelPoint = PieChartLabelPoint
+        }
+      };
+
+      await Task.Run(() =>
+      {
+        var logFiles = new List<FileEntity>();
+        var windowsEvents = new List<FileEntity>();
+
+        foreach ( var item in collection )
+        {
+          logFiles.AddRange(item.Files.Where(p => !p.IsWindowsEvent).ToList());
+          windowsEvents.AddRange(item.Files.Where(p => p.IsWindowsEvent).ToList());
+        }
+
+        int isSmartWatch = logFiles.Where(p => p.IsSmartWatch).ToList().Count;
+
+        defaultLogFile.Add(logFiles.Count - isSmartWatch);
+        smartWatchLogFile.Add(isSmartWatch);
+        windowEvent.Add(windowsEvents.Count);
+      }).ConfigureAwait(false);
+    }
+
+    private async Task CreateChartViewAsync(IStatisticAnalysisCollection<StatisticAnalysisData> collection)
     {
       var fileSessionConfig = Mappers.Xy<FileSessionModel>().X(p => p.SessionCount).Y(p => (double) p.TimeSpan.Ticks / TimeSpan.FromMinutes(15).Ticks);
       ChartSeries = new SeriesCollection();
@@ -286,7 +337,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       }
     }
 
-    private async Task CalcTotalLinesReadAsync(IStatisticAnalysisCollection collection) => await Task.Run(() =>
+    private async Task CalcTotalLinesReadAsync(IStatisticAnalysisCollection<StatisticAnalysisData> collection) => await Task.Run(() =>
     {
       if ( collection.Count == 0 )
       {
@@ -311,7 +362,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     }).ConfigureAwait(false);
 
 
-    private async Task CalcAverageDailyFileCountAsync(IStatisticAnalysisCollection collection) => await Task.Run(() =>
+    private async Task CalcAverageDailyFileCountAsync(IStatisticAnalysisCollection<StatisticAnalysisData> collection) => await Task.Run(() =>
     {
       if ( collection.Count == 0 )
       {
@@ -341,6 +392,8 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       _averageDailyFileCount = $"{(decimal) fileCount / result.Count:N1}";
       _averageDailyLogCount = $"{dailyAverage / result.Count:N2}";
     }).ConfigureAwait(false);
+
+    private string PieChartLabelPoint(ChartPoint arg) => $"{arg.Y} ({arg.Participation:P})";
 
     private string FileSessionLabelPoint(ChartPoint arg)
     {
@@ -377,6 +430,20 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     private void OnListBoxPreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
 
+    }
+
+    private void OnPieChartDataClick(object sender, ChartPoint e)
+    {
+      var chart = (PieChart) e.ChartView;
+
+      foreach ( var seriesView in chart.Series )
+      {
+        var series = (PieSeries) seriesView;
+        series.PushOut = 0;
+      }
+
+      var selectedSeries = (PieSeries) e.SeriesView;
+      selectedSeries.PushOut = 10;
     }
   }
 }

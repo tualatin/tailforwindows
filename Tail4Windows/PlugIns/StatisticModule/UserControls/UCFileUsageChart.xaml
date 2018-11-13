@@ -77,7 +77,18 @@
         </ListBox.ItemContainerStyle>
       </ListBox>-->
 
-      <lvc:CartesianChart
+      <lvc:PieChart
+        Width="{Binding ElementName=Canvas, Path=ActualWidth}"
+        Height="{Binding ElementName=Canvas, Path=ActualHeight}"
+        DataClick="OnPieChartDataClick"
+        DataTooltip="{x:Null}"
+        Hoverable="False"
+        LegendLocation="Bottom"
+        Series="{Binding ChartSeries}"
+        SnapsToDevicePixels="True"
+        />
+
+      <!--<lvc:CartesianChart
         Width="{Binding ElementName=Canvas, Path=ActualWidth}"
         Height="{Binding ElementName=Canvas, Path=ActualHeight}"
         Hoverable="False"
@@ -140,15 +151,19 @@
 
         <lvc:CartesianChart.Resources>
           <Style TargetType="lvc:DefaultTooltip">
-            <!--  new property  -->
+      -->
+      <!--  new property  -->
+      <!--
             <Setter Property="FontSize" Value="11" />
             <Setter Property="FontWeight" Value="Bold" />
-            <!--  new property  -->
+      -->
+      <!--  new property  -->
+      <!--
             <Setter Property="ShowSeries" Value="False" />
             <Setter Property="ShowTitle" Value="False" />
           </Style>
         </lvc:CartesianChart.Resources>
-      </lvc:CartesianChart>
+      </lvc:CartesianChart>-->
     </Canvas>
 
     <Grid Grid.Row="2">

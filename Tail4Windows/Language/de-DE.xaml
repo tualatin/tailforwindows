@@ -632,4 +632,7 @@
   <system:String x:Key="AnalysisFileUsageAverageLinesCount">Ø gelesene Zeilen</system:String>
   <system:String x:Key="AnalysisFileUsageAverageDailyFileCount">Ø tägliche Dateianzahl</system:String>
   <system:String x:Key="AnalysisFileUsageAverageDailyLinesCount">Ø täglich gelesen Zeilen</system:String>
+  <system:String x:Key="AnalysisFileUsageLogFiles">Log Dateien</system:String>
+  <system:String x:Key="AnalysisFileUsageLogFilesIsSmartWatch">Log Dateien (SmartWatch)</system:String>
+  <system:String x:Key="AnalysisFileUsageWindowsEventLog">Windows Ereignis Log</system:String>
 </ResourceDictionary>

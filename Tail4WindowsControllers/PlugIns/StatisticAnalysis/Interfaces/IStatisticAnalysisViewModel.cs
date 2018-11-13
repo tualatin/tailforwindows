@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Enums;
@@ -19,7 +20,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces
     /// <summary>
     /// Statistic analysis collection
     /// </summary>
-    IStatisticAnalysisCollection StatisticAnalysisCollection
+    IStatisticAnalysisCollection<StatisticAnalysisData> StatisticAnalysisCollection
 
     {
       get;

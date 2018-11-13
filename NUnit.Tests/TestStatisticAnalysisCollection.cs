@@ -9,7 +9,7 @@ namespace Org.Vs.NUnit.Tests
   [TestFixture]
   public class TestStatisticAnalysisCollection
   {
-    private IStatisticAnalysisCollection _statisticAnalysisCollection;
+    private IStatisticAnalysisCollection<StatisticAnalysisData> _statisticAnalysisCollection;
     private int _index;
 
     [SetUp]

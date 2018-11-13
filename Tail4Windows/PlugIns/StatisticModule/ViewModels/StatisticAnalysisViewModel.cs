@@ -159,12 +159,12 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       }
     }
 
-    private IStatisticAnalysisCollection _statisticAnalysisCollection;
+    private IStatisticAnalysisCollection<StatisticAnalysisData> _statisticAnalysisCollection;
 
     /// <summary>
     /// Statistic analysis collection
     /// </summary>
-    public IStatisticAnalysisCollection StatisticAnalysisCollection
+    public IStatisticAnalysisCollection<StatisticAnalysisData> StatisticAnalysisCollection
     {
       get => _statisticAnalysisCollection;
       set

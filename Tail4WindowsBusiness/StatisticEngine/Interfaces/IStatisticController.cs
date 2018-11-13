@@ -69,6 +69,6 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Interfaces
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns><see cref="StatisticData"/></returns>
-    Task<IStatisticAnalysisCollection> StartAnalysisAsync(CancellationToken token);
+    Task<IStatisticAnalysisCollection<StatisticAnalysisData>> StartAnalysisAsync(CancellationToken token);
   }
 }

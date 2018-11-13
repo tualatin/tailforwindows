@@ -106,11 +106,11 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns><see cref="StatisticData"/></returns>
-    public async Task<IStatisticAnalysisCollection> StartAnalysisAsync(CancellationToken token)
+    public async Task<IStatisticAnalysisCollection<StatisticAnalysisData>> StartAnalysisAsync(CancellationToken token)
     {
       LOG.Debug("Start statistics analysis");
 
-      IStatisticAnalysisCollection result = new StatisticAnalysisCollection();
+      IStatisticAnalysisCollection<StatisticAnalysisData> result = new StatisticAnalysisCollection();
 
       await Task.Run(() =>
       {

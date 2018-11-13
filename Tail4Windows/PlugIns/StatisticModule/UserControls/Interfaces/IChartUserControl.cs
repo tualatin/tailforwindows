@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using LiveCharts;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 
 
@@ -46,7 +47,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls.Interfaces
     /// <summary>
     /// Analysis collection
     /// </summary>
-    IStatisticAnalysisCollection AnalysisCollection
+    IStatisticAnalysisCollection<StatisticAnalysisData> AnalysisCollection
     {
       get;
       set;
