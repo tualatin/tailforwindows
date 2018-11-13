@@ -635,4 +635,6 @@
   <system:String x:Key="AnalysisFileUsageLogFiles">Log Dateien</system:String>
   <system:String x:Key="AnalysisFileUsageLogFilesIsSmartWatch">Log Dateien (SmartWatch)</system:String>
   <system:String x:Key="AnalysisFileUsageWindowsEventLog">Windows Ereignis Log</system:String>
+  <system:String x:Key="AnalysisFileUsagePieChart">Kreisdiagramm</system:String>
+  <system:String x:Key="AnalysisFileUsageChartY">Laufzeit</system:String>
 </ResourceDictionary>

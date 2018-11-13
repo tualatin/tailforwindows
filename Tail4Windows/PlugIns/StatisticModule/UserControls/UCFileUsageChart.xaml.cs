@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using LiveCharts;
 using LiveCharts.Configurations;
@@ -34,6 +36,15 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     /// Chart series
     /// </summary>
     public SeriesCollection ChartSeries
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
+    /// PieChart series
+    /// </summary>
+    public SeriesCollection PieSeries
     {
       get;
       set;
@@ -111,6 +122,15 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       }
     }
 
+    /// <summary>
+    /// Chart visibility
+    /// </summary>
+    public List<ChartVisibility> ChartVisibility
+    {
+      get;
+      set;
+    }
+
     #endregion
 
     /// <summary>
@@ -146,8 +166,23 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
       XAxisFormatter = FileUsageXAxisFormatter;
       YAxisFormatter = FileUsageYAxisFormatter;
+      ChartVisibility = new List<ChartVisibility>
+      {
+        new ChartVisibility
+        {
+          Visibility = Visibility.Visible,
+          Title = Application.Current.TryFindResource("AnalysisFileUsagePieChart").ToString()
+        },
+        new ChartVisibility
+        {
+          Visibility = Visibility.Collapsed,
+          Title = "Bla"
+        }
+      };
 
+      OnPropertyChanged(nameof(ChartVisibility));
       OnPropertyChanged(nameof(ChartSeries));
+      OnPropertyChanged(nameof(PieSeries));
       OnPropertyChanged(nameof(TotalLinesRead));
       OnPropertyChanged(nameof(AverageDailyFileCount));
       OnPropertyChanged(nameof(AverageLogCount));
@@ -221,10 +256,10 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
     private void ExecuteResetViewCommand()
     {
-      //XAxis.MinValue = double.NaN;
-      //XAxis.MaxValue = double.NaN;
-      //YAxis.MinValue = 0;
-      //YAxis.MaxValue = double.NaN;
+      XAxis.MinValue = double.NaN;
+      XAxis.MaxValue = double.NaN;
+      YAxis.MinValue = 0;
+      YAxis.MaxValue = double.NaN;
     }
 
     #endregion
@@ -250,7 +285,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       var defaultLogFile = new ChartValues<int>();
       var smartWatchLogFile = new ChartValues<int>();
       var windowEvent = new ChartValues<int>();
-      ChartSeries = new SeriesCollection
+      PieSeries = new SeriesCollection
       {
         new PieSeries
         {
@@ -297,44 +332,45 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     private async Task CreateChartViewAsync(IStatisticAnalysisCollection<StatisticAnalysisData> collection)
     {
       var fileSessionConfig = Mappers.Xy<FileSessionModel>().X(p => p.SessionCount).Y(p => (double) p.TimeSpan.Ticks / TimeSpan.FromMinutes(15).Ticks);
-      ChartSeries = new SeriesCollection();
-      var count = 0;
 
-      foreach ( StatisticAnalysisData item in collection )
+      var fileValues = new ChartValues<FileSessionModel>();
+      ChartSeries = new SeriesCollection
       {
-        var fileSessions = new ChartValues<FileSessionModel>();
-        var columnSeries = new ColumnSeries(fileSessionConfig)
+        new ColumnSeries(fileSessionConfig)
         {
-          //LabelPoint = FileSessionLabelPoint,
-          Values = fileSessions,
-          Title = item.SessionEntity.Session.ToString()
-        };
-
-        foreach ( FileEntity file in item.Files )
-        {
-          var model = new FileSessionModel
-          {
-            Date = item.SessionEntity.Date,
-            SessionCount = count,
-            BookmarkCount = file.BookmarkCount,
-            FileSize = file.FileSizeTotalEvents,
-            IsSmartWatch = file.IsSmartWatch,
-            IsWindowsEvent = file.IsWindowsEvent,
-            LogCount = file.LogCount
-          };
-
-          if ( file.ElapsedTime.HasValue )
-            model.TimeSpan = file.ElapsedTime.Value;
-
-          fileSessions.Add(model);
+          Values = fileValues,
+          LabelPoint = FileSessionLabelPoint,
+          Title = "Files"
         }
+      };
 
-        count++;
-        ChartSeries.Add(columnSeries);
+      await Task.Run(() =>
+      {
+        var count = 0;
 
-        if ( count == 5 )
-          break;
-      }
+        foreach ( StatisticAnalysisData item in collection )
+        {
+          foreach ( FileEntity file in item.Files )
+          {
+            var sessionModel = new FileSessionModel
+            {
+              BookmarkCount = file.BookmarkCount,
+              FileSize = file.FileSizeTotalEvents,
+              LogCount = file.LogCount,
+              IsSmartWatch = file.IsSmartWatch,
+              IsWindowsEvent = file.IsWindowsEvent,
+              Date = item.SessionEntity.Date,
+              SessionCount = count
+            };
+
+            if ( file.ElapsedTime.HasValue )
+              sessionModel.TimeSpan = file.ElapsedTime.Value;
+
+            fileValues.Add(sessionModel);
+            count++;
+          }
+        }
+      }).ConfigureAwait(false);
     }
 
     private async Task CalcTotalLinesReadAsync(IStatisticAnalysisCollection<StatisticAnalysisData> collection) => await Task.Run(() =>
@@ -403,13 +439,20 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
     private string FileUsageXAxisFormatter(double arg)
     {
-      double session = arg + 1;
-      return $"{session}.";
+      double file = arg + 1;
+      return $"{file}";
     }
 
     private string FileUsageYAxisFormatter(double arg)
     {
-      return arg.ToString();
+      var timeSpan = new TimeSpan((long) (arg * TimeSpan.FromMinutes(15).Ticks));
+
+      var str = new StringBuilder();
+      str.Append($"{timeSpan.Days}d ");
+      str.Append($"{timeSpan.Hours:D2}:");
+      str.Append($"{timeSpan.Minutes:D2}h");
+
+      return str.ToString();
     }
 
     /// <summary>
@@ -429,7 +472,19 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
     private void OnListBoxPreviewMouseDown(object sender, MouseButtonEventArgs e)
     {
+      if ( !(ItemsControl.ContainerFromElement(ListBox, (DependencyObject) e.OriginalSource) is ListBoxItem item) )
+        return;
 
+      foreach ( object lbItem in ListBox.Items )
+      {
+        if ( !(lbItem is ChartVisibility chart) )
+          continue;
+
+        chart.Visibility = Visibility.Collapsed;
+      }
+
+      var chartVisibility = (ChartVisibility) item.Content;
+      chartVisibility.Visibility = Visibility.Visible;
     }
 
     private void OnPieChartDataClick(object sender, ChartPoint e)

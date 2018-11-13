@@ -43,23 +43,23 @@
       x:Name="Canvas"
       Grid.Row="1"
       >
-      <!--<ListBox
+      <ListBox
         x:Name="ListBox"
         Canvas.Left="60"
         Canvas.Top="20"
         Panel.ZIndex="1"
         Background="Transparent"
         BorderThickness="0"
-        ItemsSource="{Binding ChartSeries, Converter={StaticResource ReverseConverter}}"
+        ItemsSource="{Binding ChartVisibility}"
         PreviewMouseDown="OnListBoxPreviewMouseDown"
         >
         <ListBox.ItemTemplate>
           <DataTemplate>
             <TextBlock
-              Text="{Binding Path=(lvc:Series.Title)}"
+              Text="{Binding Path=Title}"
               FontSize="15"
-              Foreground="{Binding Path=(lvc:Series.Stroke)}"
-              Opacity="{Binding Path=(lvc:Series.Visibility), Converter={StaticResource OpacityConverter}}"
+              Foreground="Black"
+              Opacity="{Binding Path=Visibility, Converter={StaticResource OpacityConverter}}"
               />
           </DataTemplate>
         </ListBox.ItemTemplate>
@@ -75,7 +75,7 @@
             </Setter>
           </Style>
         </ListBox.ItemContainerStyle>
-      </ListBox>-->
+      </ListBox>
 
       <lvc:PieChart
         Width="{Binding ElementName=Canvas, Path=ActualWidth}"
@@ -83,18 +83,20 @@
         DataClick="OnPieChartDataClick"
         DataTooltip="{x:Null}"
         Hoverable="False"
-        LegendLocation="Bottom"
-        Series="{Binding ChartSeries}"
+        LegendLocation="Right"
+        Series="{Binding PieSeries}"
         SnapsToDevicePixels="True"
+        Visibility="{Binding ChartVisibility[0].Visibility}"
         />
 
-      <!--<lvc:CartesianChart
+      <lvc:CartesianChart
         Width="{Binding ElementName=Canvas, Path=ActualWidth}"
         Height="{Binding ElementName=Canvas, Path=ActualHeight}"
         Hoverable="False"
         Series="{Binding ChartSeries}"
         SnapsToDevicePixels="True"
         UpdaterTickCommand="{Binding UpdaterTickCommand}"
+        Visibility="{Binding ChartVisibility[1].Visibility}"
         Zoom="Xy"
         >
         <lvc:CartesianChart.ContextMenu>
@@ -117,7 +119,7 @@
         <lvc:CartesianChart.AxisX>
           <lvc:Axis
             x:Name="XAxis"
-            Title="{DynamicResource AnalysisMemUsageChartX}"
+            Title="{DynamicResource AnalysisMemUsageFiles}"
             LabelFormatter="{Binding XAxisFormatter}"
             >
             <lvc:Axis.Separator>
@@ -132,7 +134,7 @@
         <lvc:CartesianChart.AxisY>
           <lvc:Axis
             x:Name="YAxis"
-            Title="{DynamicResource AnalysisMemUsageChartY}"
+            Title="{DynamicResource AnalysisFileUsageChartY}"
             FontWeight="Normal"
             LabelFormatter="{Binding YAxisFormatter}"
             MinValue="0"
@@ -151,19 +153,15 @@
 
         <lvc:CartesianChart.Resources>
           <Style TargetType="lvc:DefaultTooltip">
-      -->
-      <!--  new property  -->
-      <!--
+            <!--  new property  -->
             <Setter Property="FontSize" Value="11" />
             <Setter Property="FontWeight" Value="Bold" />
-      -->
-      <!--  new property  -->
-      <!--
+            <!--  new property  -->
             <Setter Property="ShowSeries" Value="False" />
             <Setter Property="ShowTitle" Value="False" />
           </Style>
         </lvc:CartesianChart.Resources>
-      </lvc:CartesianChart>-->
+      </lvc:CartesianChart>
     </Canvas>
 
     <Grid Grid.Row="2">
