@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
@@ -16,6 +17,7 @@ using Org.Vs.TailForWin.Business.StatisticEngine.DbScheme;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data;
+using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls.Interfaces;
 
@@ -176,7 +178,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         new ChartVisibility
         {
           Visibility = Visibility.Collapsed,
-          Title = "Bla"
+          Title = Application.Current.TryFindResource("AnalysisFileUsageColumnChart").ToString()
         }
       };
 
@@ -331,22 +333,42 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
     private async Task CreateChartViewAsync(IStatisticAnalysisCollection<StatisticAnalysisData> collection)
     {
-      var fileSessionConfig = Mappers.Xy<FileSessionModel>().X(p => p.SessionCount).Y(p => (double) p.TimeSpan.Ticks / TimeSpan.FromMinutes(15).Ticks);
+      var fileSessionConfig = Mappers.Xy<FileSessionModel>()
+        .X(p => p.FilesCount)
+        .Y(p => (double) p.TimeSpan.Ticks / TimeSpan.FromMinutes(15).Ticks)
+        .Fill(p => p.IsWindowsEvent ? Brushes.DarkOrange : p.IsSmartWatch ? Brushes.DarkOrchid : Brushes.DodgerBlue);
+      var bookmarkConfig = Mappers.Xy<BookmarkModel>().X(p => p.X).Y(p => p.Y);
+      var fileSizeConfig = Mappers.Xy<FileSizeModel>().X(p => p.X).Y(p => p.Y);
 
       var fileValues = new ChartValues<FileSessionModel>();
+      var bookmarkValues = new ChartValues<BookmarkModel>();
+      var fileSize = new ChartValues<FileSizeModel>();
       ChartSeries = new SeriesCollection
       {
         new ColumnSeries(fileSessionConfig)
         {
           Values = fileValues,
           LabelPoint = FileSessionLabelPoint,
-          Title = "Files"
+          Title = Application.Current.TryFindResource("AnalysisMemUsageFiles").ToString()
+        },
+        new LineSeries(bookmarkConfig)
+        {
+          Values = bookmarkValues,
+          LabelPoint = BookmarkLabelPoint,
+          Title = Application.Current.TryFindResource("AnalysisFileUsageBookmarkTitle").ToString()
+        },
+        new LineSeries(fileSizeConfig)
+        {
+          Values = fileSize,
+          LabelPoint = FileSizeLabelPoint,
+          Title = Application.Current.TryFindResource("AnalysisFileUsageFileSizeTitle").ToString()
         }
       };
 
       await Task.Run(() =>
       {
         var count = 0;
+        var sessionCount = 1;
 
         foreach ( StatisticAnalysisData item in collection )
         {
@@ -354,21 +376,33 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
           {
             var sessionModel = new FileSessionModel
             {
+              FilesCount = count,
+              SessionCount = sessionCount,
               BookmarkCount = file.BookmarkCount,
               FileSize = file.FileSizeTotalEvents,
               LogCount = file.LogCount,
               IsSmartWatch = file.IsSmartWatch,
               IsWindowsEvent = file.IsWindowsEvent,
-              Date = item.SessionEntity.Date,
-              SessionCount = count
+              Date = item.SessionEntity.Date
             };
 
             if ( file.ElapsedTime.HasValue )
               sessionModel.TimeSpan = file.ElapsedTime.Value;
 
             fileValues.Add(sessionModel);
+            bookmarkValues.Add(new BookmarkModel(count, (double) file.BookmarkCount / 2)
+            {
+              BookmarkCount = file.BookmarkCount
+            });
+            fileSize.Add(new FileSizeModel(count, file.FileSizeTotalEvents / 100)
+            {
+              IsWindowsEvent = file.IsWindowsEvent,
+              FileSize = file.FileSizeTotalEvents
+            });
             count++;
           }
+
+          sessionCount++;
         }
       }).ConfigureAwait(false);
     }
@@ -431,10 +465,58 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
     private string PieChartLabelPoint(ChartPoint arg) => $"{arg.Y} ({arg.Participation:P})";
 
+    private string BookmarkLabelPoint(ChartPoint arg)
+    {
+      if ( !(arg.Instance is BookmarkModel model) )
+        return string.Empty;
+
+      var text = Application.Current.TryFindResource("AnalysisFileUsageBookmarks").ToString();
+      var result = new StringBuilder();
+
+      result.AppendFormat(text, model.BookmarkCount);
+
+      return result.ToString();
+    }
+
+    private string FileSizeLabelPoint(ChartPoint arg)
+    {
+      if ( !(arg.Instance is FileSizeModel model) )
+        return string.Empty;
+
+      var result = new StringBuilder();
+
+      if ( model.IsWindowsEvent )
+        result.AppendFormat(Application.Current.TryFindResource("AnalysisFileUsageTotalEvents").ToString(), model.FileSize);
+      else
+        result.AppendFormat(Application.Current.TryFindResource("AnalysisFileUsageTotalFileSize").ToString(), model.FileSize / 1024);
+
+      return result.ToString();
+    }
+
     private string FileSessionLabelPoint(ChartPoint arg)
     {
-      // TODO Label
-      return string.Empty;
+      if ( !(arg.Instance is FileSessionModel model) )
+        return string.Empty;
+
+      var text = Application.Current.TryFindResource("AnalysisFileUsageChartYFormat").ToString();
+      var str = string.Format(text, model.TimeSpan.Days, model.TimeSpan.Hours, model.TimeSpan.Minutes);
+      var result = new StringBuilder();
+
+      result.AppendLine($"Session: {model.SessionCount} - {model.Date.ToString(SettingsHelperController.CurrentSettings.CurrentDateFormat)}");
+      result.Append(str);
+
+      if ( model.IsSmartWatch && !model.IsWindowsEvent )
+      {
+        result.AppendLine();
+        result.Append(Application.Current.TryFindResource("AnalysisFileUsageSmartWatchUsed"));
+      }
+
+      if ( model.IsWindowsEvent )
+      {
+        result.AppendLine();
+        result.Append(Application.Current.TryFindResource("AnalysisFileUsageWindowsEventLog"));
+      }
+      return result.ToString();
     }
 
     private string FileUsageXAxisFormatter(double arg)
@@ -446,13 +528,10 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
     private string FileUsageYAxisFormatter(double arg)
     {
       var timeSpan = new TimeSpan((long) (arg * TimeSpan.FromMinutes(15).Ticks));
+      var text = Application.Current.TryFindResource("AnalysisFileUsageChartYFormat").ToString();
+      var str = string.Format(text, timeSpan.Days, timeSpan.Hours, timeSpan.Minutes);
 
-      var str = new StringBuilder();
-      str.Append($"{timeSpan.Days}d ");
-      str.Append($"{timeSpan.Hours:D2}:");
-      str.Append($"{timeSpan.Minutes:D2}h");
-
-      return str.ToString();
+      return str;
     }
 
     /// <summary>

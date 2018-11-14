@@ -323,6 +323,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         return $"{model.Y} MB ({model.FileCount} {file})";
 
       var result = new StringBuilder();
+
       result.AppendLine($"{model.Date.ToString(SettingsHelperController.CurrentSettings.CurrentDateFormat)}");
       result.Append($"{model.Y} MB ({model.FileCount} {file})");
 
@@ -342,10 +343,12 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       if ( !(arg.Instance is DateModel model) )
         return string.Empty;
 
+      var text = Application.Current.TryFindResource("AnalysisFileUsageChartYFormat").ToString();
+      var str = string.Format(text, model.TimeSpan.Days, model.TimeSpan.Hours, model.TimeSpan.Minutes);
       var result = new StringBuilder();
+
       result.AppendLine($"{model.Date.ToString(SettingsHelperController.CurrentSettings.CurrentDateFormat)}");
-      result.Append($"{model.TimeSpan.Days:D0}{Application.Current.TryFindResource("AnalysisMemUsageDaysShort")} ");
-      result.Append($"{model.TimeSpan.Hours:D2}:{model.TimeSpan.Minutes:D2} {Application.Current.TryFindResource("AnalysisMemUsageHoursShort")}");
+      result.Append(str);
 
       return result.ToString();
     }

@@ -623,8 +623,6 @@
   <system:String x:Key="AnalysisMemUsageTitle">Memory usage</system:String>
   <system:String x:Key="AnalysisMemUsageChartX">Sessions</system:String>
   <system:String x:Key="AnalysisMemUsageChartY">Memory usage</system:String>
-  <system:String x:Key="AnalysisMemUsageDaysShort">d</system:String>
-  <system:String x:Key="AnalysisMemUsageHoursShort">h</system:String>
   <system:String x:Key="AnalysisMemUsageDay">Day</system:String>
   <system:String x:Key="AnalysisMemUsageDays">Days</system:String>
   <system:String x:Key="AnalysisMemUsageUpTime">Uptime</system:String>
@@ -639,6 +637,14 @@
   <system:String x:Key="AnalysisFileUsageLogFiles">Log files</system:String>
   <system:String x:Key="AnalysisFileUsageLogFilesIsSmartWatch">Log files (SmartWatch)</system:String>
   <system:String x:Key="AnalysisFileUsageWindowsEventLog">Windows event log</system:String>
-  <system:String x:Key="AnalysisFileUsagePieChart">Pie chart</system:String>
+  <system:String x:Key="AnalysisFileUsagePieChart">Total file usage</system:String>
+  <system:String x:Key="AnalysisFileUsageColumnChart">File overview</system:String>
   <system:String x:Key="AnalysisFileUsageChartY">Elapsed time</system:String>
+  <system:String x:Key="AnalysisFileUsageChartYFormat">{0:D0}d {1:D2}:{2:D2} h</system:String>
+  <system:String x:Key="AnalysisFileUsageBookmarks">{0} Bookmarks</system:String>
+  <system:String x:Key="AnalysisFileUsageSmartWatchUsed">SmartWatch used</system:String>
+  <system:String x:Key="AnalysisFileUsageBookmarkTitle">Bookmarks</system:String>
+  <system:String x:Key="AnalysisFileUsageFileSizeTitle">File size</system:String>
+  <system:String x:Key="AnalysisFileUsageTotalFileSize">Total file size {0:N2} MB</system:String>
+  <system:String x:Key="AnalysisFileUsageTotalEvents">Total events {0:N0}</system:String>
 </ResourceDictionary>

@@ -185,10 +185,12 @@
     <Compile Include="PlugIns\SmartWatchPopupModule\Events\Args\SmartWatchWindowClosedEventArgs.cs" />
     <Compile Include="PlugIns\SmartWatchPopupModule\Events\Delegates\SmartWatchWindowClosedEventHandler.cs" />
     <Compile Include="PlugIns\SmartWatchPopupModule\Interfaces\ISmartWatchPopupViewModel.cs" />
+    <Compile Include="PlugIns\StatisticAnalysis\Data\BookmarkModel.cs" />
     <Compile Include="PlugIns\StatisticAnalysis\Data\ChartVisibility.cs" />
     <Compile Include="PlugIns\StatisticAnalysis\Data\DateModel.cs" />
     <Compile Include="PlugIns\StatisticAnalysis\Data\Enums\EAnalysisOf.cs" />
     <Compile Include="PlugIns\StatisticAnalysis\Data\FileSessionModel.cs" />
+    <Compile Include="PlugIns\StatisticAnalysis\Data\FileSizeModel.cs" />
     <Compile Include="PlugIns\StatisticAnalysis\Data\Mappings\AnalysisOfMapping.cs" />
     <Compile Include="PlugIns\StatisticAnalysis\Data\MemoryModel.cs" />
     <Compile Include="PlugIns\StatisticAnalysis\Interfaces\IStatisticAnalysisViewModel.cs" />

@@ -18,6 +18,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data
     }
 
     /// <summary>
+    /// Files count
+    /// </summary>
+    public int FilesCount
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Date time of item
     /// </summary>
     public DateTime Date
