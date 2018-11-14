@@ -776,7 +776,7 @@
                 FontSize="12"
                 FontWeight="Bold"
                 />
-              <TextBlock Text="{DynamicResource FileManagerExtendedSettingsToolTipt}" />
+              <TextBlock Text="{DynamicResource FileManagerExtendedSettingsToolTip}" />
               <Border
                 Margin="0 8"
                 BorderBrush="Silver"

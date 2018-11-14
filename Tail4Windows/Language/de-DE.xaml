@@ -101,7 +101,7 @@
   <system:String x:Key="ButtonFileManagerToolTip">Öffnet den TailManager (STRG+M)</system:String>
   <system:String x:Key="CheckBoxUseSmartWatchToolTip">Activate SmartWatch for current log file</system:String>
 
-  <system:String x:Key="FileManagerExtendedSettingsToolTipt">Zeigt die erweiterten Einstellungen der aktuellen tail Auswahl an</system:String>
+  <system:String x:Key="FileManagerExtendedSettingsToolTip">Zeigt die erweiterten Einstellungen der aktuellen tail Auswahl an</system:String>
   <system:String x:Key="FileManagerGroupByCategory">Daten nach Kategorie gruppieren</system:String>
   <system:String x:Key="FileManagerGroupByCategoryToolTip">Gruppiert DataGrid Daten nach der Kategorie</system:String>
   <system:String x:Key="FileManagerSave">Speichern</system:String>
@@ -138,6 +138,8 @@
   <system:String x:Key="FileManagerIsWindowsEvent">Windows Ereignis</system:String>
   <system:String x:Key="FileManagerIsWindowsEventToolTip">Aktiviert, dass das Windows Ereignisprotokoll gelesen werden soll</system:String>
   <system:String x:Key="FileManagerOpenWindowsEventToolTip">Öffnet eine Liste von Windows Ereigniskategorien</system:String>
+  <system:String x:Key="FileManagerOpenContainingFolder">Übergeordneten Ordner öffnen</system:String>
+  <system:String x:Key="FileManagerFileNotExists">Die Datei existiert nicht!</system:String>
 
   <system:String x:Key="FilterManagerPatternTool">Patternwerkzeug</system:String>
   <system:String x:Key="FilterManagerPatternToolToolTip">Definiere ein Pattern, um eine dynamische Logdatei zu finden</system:String>

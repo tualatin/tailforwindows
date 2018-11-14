@@ -205,5 +205,13 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
     {
       get;
     }
+
+    /// <summary>
+    /// Open containing folder command
+    /// </summary>
+    IAsyncCommand OpenContainingFolderCommand
+    {
+      get;
+    }
   }
 }

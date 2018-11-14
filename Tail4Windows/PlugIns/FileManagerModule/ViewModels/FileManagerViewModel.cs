@@ -353,9 +353,37 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public ICommand CopyElementCommand => _copyElementCommand ?? (_copyElementCommand = new RelayCommand(p => CanExecuteCopyElement(), p => ExecuteCopyElementCommand()));
 
+    private IAsyncCommand _openContainingFolderCommand;
+
+    /// <summary>
+    /// Open containing folder command
+    /// </summary>
+    public IAsyncCommand OpenContainingFolderCommand => _openContainingFolderCommand ?? (_openContainingFolderCommand = AsyncCommand.Create(p => CanExecuteOpenContainingFolder(),
+                                                          ExecuteOpenContainingFolderCommandAsync));
     #endregion
 
     #region Command functions
+
+    private bool CanExecuteOpenContainingFolder() => SelectedItem != null && !SelectedItem.IsWindowsEvent;
+
+    private async Task ExecuteOpenContainingFolderCommandAsync()
+    {
+      if ( SelectedItem == null )
+        return;
+
+      MouseService.SetBusyState();
+
+      await Task.Run(() =>
+      {
+        if ( !File.Exists(SelectedItem.FileName) )
+        {
+          InteractionService.ShowInformationMessageBox(Application.Current.TryFindResource("FileManagerFileNotExists").ToString());
+          return;
+        }
+
+        System.Diagnostics.Process.Start("explorer.exe", $"/select, {SelectedItem.FileName}");
+      }).ConfigureAwait(false);
+    }
 
     private bool CanExecuteCopyElement() => SelectedItem != null;
 

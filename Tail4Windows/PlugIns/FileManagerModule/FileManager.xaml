@@ -497,6 +497,23 @@
           <behaviors:ScrollDataGridRowIntoView />
         </i:Interaction.Behaviors>
 
+        <userControls:VsDataGrid.ContextMenu>
+          <ContextMenu>
+            <MenuItem
+              Header="{DynamicResource FileManagerOpenContainingFolder}"
+              Command="{Binding OpenContainingFolderCommand}"
+              >
+              <MenuItem.Icon>
+                <Image
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased"
+                  Source="/T4W;component/Resources/openfolder.ico"
+                  />
+              </MenuItem.Icon>
+            </MenuItem>
+          </ContextMenu>
+        </userControls:VsDataGrid.ContextMenu>
+
         <userControls:VsDataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
           <Style BasedOn="{StaticResource DataGridRowStyle}" TargetType="{x:Type DataGridRow}">
@@ -1485,7 +1502,7 @@
                 FontSize="12"
                 FontWeight="Bold"
                 />
-              <TextBlock Text="{DynamicResource FileManagerExtendedSettingsToolTipt}" />
+              <TextBlock Text="{DynamicResource FileManagerExtendedSettingsToolTip}" />
               <Border
                 Margin="0 8"
                 BorderBrush="Silver"
