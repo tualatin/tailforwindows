@@ -14,36 +14,29 @@
   <system:String x:Key="OpenFileDialog">Please select a file to tail...</system:String>
   <system:String x:Key="FileNotFound">File not found!</system:String>
   <system:String x:Key="NoFilenameEntered">No filename entered!</system:String>
-  <system:String x:Key="FileObjectDisposedException">Cannot access a closed File! Please check your network connection.</system:String>
   <system:String x:Key="Error">Error</system:String>
   <system:String x:Key="Question">Question</system:String>
   <system:String x:Key="Record">Tail...</system:String>
   <system:String x:Key="Busy">Busy...</system:String>
   <system:String x:Key="Pause">Pause</system:String>
   <system:String x:Key="NoFile">No file</system:String>
-  <system:String x:Key="LastTab">Cannot remove last tab.</system:String>
   <system:String x:Key="QRemoveTab">Are you sure you want to remove the tab</system:String>
   <system:String x:Key="TrayIconReady">Ready...</system:String>
-  <system:String x:Key="HCloseTab">Please close some tail windows before open a new one!</system:String>
   <system:String x:Key="LinesRead">Lines read={0:N0}</system:String>
   <system:String x:Key="SizeRefreshTime">Size={0} kb | last refresh time={1}</system:String>
   <system:String x:Key="QResetSettings">Do you really want reset all settings to default?</system:String>
   <system:String x:Key="QDeleteDataGridItem">Do you want delete selected item?</system:String>
   <system:String x:Key="NoContentFound">The XML file is empty!</system:String>
-  <system:String x:Key="FileEncodingLabel">(If no value selected, auto file encoding is on)</system:String>
   <system:String x:Key="SelectSoundFile">Please select a sound file</system:String>
   <system:String x:Key="NoSoundFile">This is a unknown sound file format. Please select a valid sound file!</system:String>
-  <system:String x:Key="FilterNotEmpty">The filter value cannot be null!</system:String>
   <system:String x:Key="FiltersLoaded">{0} filters</system:String>
   <system:String x:Key="FilterLoaded">{0} filter</system:String>
   <system:String x:Key="FileManagerCloseUnsavedItem">There are unsaved changes. Do you want to save this changes?</system:String>
   <system:String x:Key="GoToLineNumber">Line number ({0}-{1}):</system:String>
   <system:String x:Key="NoUpdate">No update necessary</system:String>
   <system:String x:Key="DoUpdate">New update available</system:String>
-  <system:String x:Key="DragDropRunningWarning">There is a running process! Do you want open a new TailWindow tab?</system:String>
   <system:String x:Key="EMailAddressNotValid">The e-mail address is not valid!</system:String>
   <system:String x:Key="SmtpServerAddressNecessary">SMTP server address necessary!</system:String>
-  <system:String x:Key="SmtpPortNotValid">The SMTP Server Port is not valid!</system:String>
   <system:String x:Key="MailCannotSend">The e-mail can not send! Please check your SMTP settings.</system:String>
   <system:String x:Key="MailSendSuccess">The e-mail was sent successfully.</system:String>
   <system:String x:Key="SmtpSettingsNotValid">Can not set SMTP settings! Please take a look into the log file to get more information.</system:String>
@@ -619,7 +612,7 @@
   <system:String x:Key="AnalysisTotalFiles">Number of open files</system:String>
   <system:String x:Key="AnalysisChartTypeLabel">Analysis of</system:String>
   <system:String x:Key="AnalysisChartTypeToolTip">Change the type of analysis</system:String>
-  <system:String x:Key="AnalysisChartViewRefreshToolTip">Refresh current analysis chart view</system:String>
+  <system:String x:Key="AnalysisChartViewRefreshToolTip">Refresh current analysis chart view (F5)</system:String>
   <system:String x:Key="Analysis_MemoryUsage">Memory usage</system:String>
   <system:String x:Key="Analysis_FileUsage">File usage</system:String>
   <system:String x:Key="AnalysisMemUsageTitle">Memory usage</system:String>

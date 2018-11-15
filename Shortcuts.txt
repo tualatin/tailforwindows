@@ -22,5 +22,6 @@ Ctrl+U                              Stop tail
 Ctrl+W                              Close tab window
 F1                                  Open Tail4Windows Wiki page
 F3                                  Searching forward
+F5                                  Refresh statistics
 MiddleMouse button over TabHeader   Close tab window
 MiddleMouse button over TailWindow  New tab window
