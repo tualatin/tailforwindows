@@ -27,6 +27,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data
     }
 
     /// <summary>
+    /// Log count
+    /// </summary>
+    public ulong LogCount
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="x">X</param>

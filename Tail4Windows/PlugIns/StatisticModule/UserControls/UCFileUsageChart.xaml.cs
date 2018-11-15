@@ -370,6 +370,13 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         var count = 0;
         var sessionCount = 1;
 
+        // Get only file entries and select the max file size
+        double maxFileSize = collection.Select(p => p.Files.Where(f => !f.IsWindowsEvent)).Where(p => p.Any()).Select(p => p.Max(x => x.FileSizeTotalEvents)).Max(p => p);
+
+        // Get only Windows events and select the max number of events
+        double maxWindowsEvents = collection.Select(p => p.Files.Where(f => f.IsWindowsEvent)).Where(p => p.Any()).Select(p => p.Max(x => x.FileSizeTotalEvents)).Max(p => p);
+        double maxValue = maxFileSize / 100;
+
         foreach ( StatisticAnalysisData item in collection )
         {
           foreach ( FileEntity file in item.Files )
@@ -394,10 +401,18 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
             {
               BookmarkCount = file.BookmarkCount
             });
-            fileSize.Add(new FileSizeModel(count, file.FileSizeTotalEvents / 100)
+
+            double value = file.IsWindowsEvent ?
+              file.FileSizeTotalEvents.Equals(maxWindowsEvents) ?
+                maxValue :
+                (file.FileSizeTotalEvents * maxValue) / maxWindowsEvents :
+              file.FileSizeTotalEvents / 100;
+
+            fileSize.Add(new FileSizeModel(count, value)
             {
               IsWindowsEvent = file.IsWindowsEvent,
-              FileSize = file.FileSizeTotalEvents
+              FileSize = file.FileSizeTotalEvents,
+              LogCount = file.LogCount
             });
             count++;
           }
@@ -486,9 +501,15 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
       var result = new StringBuilder();
 
       if ( model.IsWindowsEvent )
+      {
         result.AppendFormat(Application.Current.TryFindResource("AnalysisFileUsageTotalEvents").ToString(), model.FileSize);
+      }
       else
+      {
+        result.AppendFormat(Application.Current.TryFindResource("AnalysisFileUsageLogCount").ToString(), model.LogCount);
+        result.AppendLine();
         result.AppendFormat(Application.Current.TryFindResource("AnalysisFileUsageTotalFileSize").ToString(), model.FileSize / 1024);
+      }
 
       return result.ToString();
     }

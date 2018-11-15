@@ -360,6 +360,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public IAsyncCommand OpenContainingFolderCommand => _openContainingFolderCommand ?? (_openContainingFolderCommand = AsyncCommand.Create(p => CanExecuteOpenContainingFolder(),
                                                           ExecuteOpenContainingFolderCommandAsync));
+
     #endregion
 
     #region Command functions

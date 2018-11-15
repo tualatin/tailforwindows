@@ -646,7 +646,11 @@
   <system:String x:Key="AnalysisFileUsageBookmarks">{0} Bookmarks</system:String>
   <system:String x:Key="AnalysisFileUsageSmartWatchUsed">SmartWatch used</system:String>
   <system:String x:Key="AnalysisFileUsageBookmarkTitle">Bookmarks</system:String>
-  <system:String x:Key="AnalysisFileUsageFileSizeTitle">File size</system:String>
+  <system:String
+    x:Key="AnalysisFileUsageFileSizeTitle"
+    xml:space="preserve"
+    >File size/&#10;Windows events</system:String>
   <system:String x:Key="AnalysisFileUsageTotalFileSize">Total file size {0:N2} MB</system:String>
   <system:String x:Key="AnalysisFileUsageTotalEvents">Total events {0:N0}</system:String>
+  <system:String x:Key="AnalysisFileUsageLogCount">Total log count {0:N0}</system:String>
 </ResourceDictionary>
