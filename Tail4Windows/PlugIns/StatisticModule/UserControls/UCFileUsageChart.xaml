@@ -209,6 +209,7 @@
         <Label
           Margin="5"
           Content="{Binding AverageLogCount, UpdateSourceTrigger=PropertyChanged}"
+          FontSize="11"
           FontWeight="Medium"
           Foreground="DodgerBlue"
           />
