@@ -623,7 +623,6 @@
         Content="{DynamicResource ExtrasStatistics}"
         IsChecked="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=Statistics, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
         TabIndex="12"
-        Visibility="{Binding Source={x:Static debugging:DebugBuild.IsDebug}}"
         >
         <CheckBox.ToolTip>
           <StackPanel>
