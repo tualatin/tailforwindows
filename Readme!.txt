@@ -9,6 +9,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.2.xxxx.x
+* new Statistics for nerds -> see Options
 * new profile converter (T4W.exe /convert local -> converts roaming profile to local; T4W.exe /convert roaming -> converts local profile to roaming)
 * new settings in JSON file
 * new portable or user mode, take a look into T4W.exe.config - Portable - default is False
