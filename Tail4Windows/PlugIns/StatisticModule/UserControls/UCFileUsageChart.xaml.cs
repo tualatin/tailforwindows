@@ -371,10 +371,29 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         var sessionCount = 1;
 
         // Get only file entries and select the max file size
-        double maxFileSize = collection.Select(p => p.Files.Where(f => !f.IsWindowsEvent)).Where(p => p.Any()).Select(p => p.Max(x => x.FileSizeTotalEvents)).Max(p => p);
+        double maxFileSize;
+
+        try
+        {
+          maxFileSize = collection.Select(p => p.Files.Where(f => !f.IsWindowsEvent)).Where(p => p.Any()).Select(p => p.Max(x => x.FileSizeTotalEvents)).Max(p => p);
+        }
+        catch
+        {
+          maxFileSize = 0;
+        }
 
         // Get only Windows events and select the max number of events
-        double maxWindowsEvents = collection.Select(p => p.Files.Where(f => f.IsWindowsEvent)).Where(p => p.Any()).Select(p => p.Max(x => x.FileSizeTotalEvents)).Max(p => p);
+        double maxWindowsEvents;
+
+        try
+        {
+          maxWindowsEvents = collection.Select(p => p.Files.Where(f => f.IsWindowsEvent)).Where(p => p.Any()).Select(p => p.Max(x => x.FileSizeTotalEvents)).Max(p => p);
+        }
+        catch
+        {
+          maxWindowsEvents = 0;
+        }
+
         double maxValue = maxFileSize / 100;
 
         foreach ( StatisticAnalysisData item in collection )
