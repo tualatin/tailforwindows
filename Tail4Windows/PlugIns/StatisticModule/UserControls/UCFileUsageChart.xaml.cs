@@ -13,6 +13,7 @@ using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
+using Org.Vs.TailForWin.Business.StatisticEngine.Data.Extensions;
 using Org.Vs.TailForWin.Business.StatisticEngine.DbScheme;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
@@ -371,10 +372,10 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         var sessionCount = 1;
 
         // Get only file entries and select the max file size
-        var maxFileSize = GetMaxFileSize(collection);
+        var maxFileSize = collection.GetMaxFileSize();
 
         // Get only Windows events and select the max number of events
-        var maxWindowsEvents = GetMaxWindowsEventSize(collection);
+        var maxWindowsEvents = collection.GetMaxWindowsEventSize();
         double maxValue = maxFileSize / 100;
 
         foreach ( StatisticAnalysisData item in collection )
@@ -420,42 +421,6 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
           sessionCount++;
         }
       }).ConfigureAwait(false);
-    }
-
-    private double GetMaxFileSize(IStatisticAnalysisCollection<StatisticAnalysisData> collection)
-    {
-      if ( collection == null || collection.Count == 0 )
-        return 0;
-
-      double maxFileSize;
-
-      try
-      {
-        maxFileSize = collection.Select(p => p.Files.Where(f => !f.IsWindowsEvent)).Where(p => p.Any()).Select(p => p.Max(x => x.FileSizeTotalEvents)).Max(p => p);
-      }
-      catch
-      {
-        maxFileSize = 0;
-      }
-      return maxFileSize;
-    }
-
-    private double GetMaxWindowsEventSize(IStatisticAnalysisCollection<StatisticAnalysisData> collection)
-    {
-      if ( collection == null || collection.Count == 0 )
-        return 0;
-
-      double maxWindowsEvents;
-
-      try
-      {
-        maxWindowsEvents = collection.Select(p => p.Files.Where(f => f.IsWindowsEvent)).Where(p => p.Any()).Select(p => p.Max(x => x.FileSizeTotalEvents)).Max(p => p);
-      }
-      catch
-      {
-        maxWindowsEvents = 0;
-      }
-      return maxWindowsEvents;
     }
 
     private async Task CalcTotalLinesReadAsync(IStatisticAnalysisCollection<StatisticAnalysisData> collection) => await Task.Run(() =>
