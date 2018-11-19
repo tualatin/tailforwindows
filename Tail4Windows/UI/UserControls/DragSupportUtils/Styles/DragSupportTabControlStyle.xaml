@@ -8,7 +8,7 @@
     <Setter Property="FocusVisualStyle" Value="{x:Null}" />
     <Setter Property="Height" Value="16" />
     <Setter Property="HorizontalContentAlignment" Value="Center" />
-    <Setter Property="Margin" Value="2 4 0 4" />
+    <Setter Property="Margin" Value="2 2 0 2" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
@@ -46,6 +46,7 @@
   </Style>
 
   <Style x:Key="ContentControlAddButton" TargetType="{x:Type ContentControl}">
+    <Setter Property="Margin" Value="0" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
@@ -117,8 +118,7 @@
                   >
                   <TabPanel
                     x:Name="HeaderPanel"
-                    Height="27"
-                    Margin="0 0 0 -1"
+                    Height="22"
                     Panel.ZIndex="1"
                     IsItemsHost="True"
                     KeyboardNavigation.TabIndex="1"
@@ -135,7 +135,6 @@
                 <ContentControl
                   Name="ContentControlAddButton"
                   Grid.Column="3"
-                  Margin="0 4 0 0"
                   Style="{StaticResource ContentControlAddButton}"
                   />
               </Grid>

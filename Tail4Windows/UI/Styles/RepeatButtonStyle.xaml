@@ -5,7 +5,7 @@
   <Style x:Key="RepeatButtonLeftStyle" TargetType="{x:Type RepeatButton}">
     <Setter Property="Focusable" Value="False" />
     <Setter Property="Height" Value="16" />
-    <Setter Property="Margin" Value="0 8 2 4" />
+    <Setter Property="Margin" Value="0 0 2 0" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">
       <Setter.Value>
@@ -18,7 +18,7 @@
 
             <Path
               Name="RepeatPathLeft"
-              Margin="0 1 2 0"
+              Margin="0 2 2 0"
               HorizontalAlignment="Center"
               VerticalAlignment="Center"
               Data="M5,0L5,9 4,9 4,8 3,8 3,7 2,7 2,6 1,6 1,5 0,5 0,4 1,4 1,3 2,3 2,2 3,2 3,1 4,1 4,0z"
@@ -47,7 +47,7 @@
   <Style x:Key="RepeatButtonRightStyle" TargetType="{x:Type RepeatButton}">
     <Setter Property="Focusable" Value="False" />
     <Setter Property="Height" Value="16" />
-    <Setter Property="Margin" Value="2 8 2 4" />
+    <Setter Property="Margin" Value="2 0 0 0" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">
       <Setter.Value>

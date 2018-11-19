@@ -135,7 +135,7 @@
             <Border
               x:Name="Chrome"
               Height="22"
-              Margin="0 5 1 0"
+              Margin="0 1 1 0"
               Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColorStringHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
               BorderBrush="Transparent"
               >
