@@ -21,6 +21,7 @@ v.2.2.xxxx.x
 * new Bookmark export as CSV -> Bookmark overview
 * new Systeminformation overview shows Windows build id (Windows 10)
 * new TailManager right mouse click open containing folder
+* improve main window style
 * improve customize editor -> Options -> Extras
 * improve Find result view -> ToolTip for message column
 * improve stability

@@ -922,7 +922,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         fileManager.ShowDialog();
       }
 
-      LogFileComboBoxHasFocus = WaitAsync().Result;
+      LogFileComboBoxHasFocus = AsyncHelper.RunSync(WaitAsync);
     }
 
     #endregion
@@ -1051,6 +1051,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       // Is it the right window?
       if ( ParentWindowId != args.ParentGuid )
+        return;
+
+      if ( WindowId != args.WindowId )
         return;
 
       if ( LogWindowTabItem.TabItemBusyIndicator == Visibility.Visible )
