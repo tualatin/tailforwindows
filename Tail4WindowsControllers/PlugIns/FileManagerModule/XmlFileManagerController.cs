@@ -158,13 +158,13 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       foreach ( TailData item in result.Where(p => p != null && p.SmartWatch && p.UsePattern).ToList() )
       {
         item.OriginalFileName = item.FileName;
-        item.FileName = await _smartWatchController.GetFileNameByPatternAsync(item, item.PatternString).ConfigureAwait(false);
+        item.FileName = await _smartWatchController.GetFileNameByPatternAsync(item, item.PatternString);
       }
 
       foreach ( TailData item in result.Where(p => p != null && p.SmartWatch && !p.UsePattern).ToList() )
       {
         item.OriginalFileName = item.FileName;
-        item.FileName = await _smartWatchController.GetFileNameBySmartWatchAsync(item).ConfigureAwait(false);
+        item.FileName = await _smartWatchController.GetFileNameBySmartWatchAsync(item);
       }
     }
 
@@ -246,7 +246,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       Arg.NotNull(tailData, nameof(tailData));
       LOG.Trace("Get all categories from XML");
 
-      return await Task.Run(() => GetCategoriesFromXmlFile(tailData)).ConfigureAwait(false);
+      return await Task.Run(() => GetCategoriesFromXmlFile(tailData));
     }
 
     private ObservableCollection<string> GetCategoriesFromXmlFile(ObservableCollection<TailData> tailData)
@@ -274,7 +274,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
     public async Task WriteXmlFileAsync(CancellationToken token)
     {
       LOG.Trace("Writing XML file");
-      await Task.Run(() => WriteXmlFile(), token).ConfigureAwait(false);
+      await Task.Run(() => WriteXmlFile(), token);
     }
 
     private void WriteXmlFile()
@@ -313,7 +313,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
           {
             try
             {
-              tailData.FileEncoding = await EncodingDetector.GetEncodingAsync(tailData.FileName).ConfigureAwait(false);
+              tailData.FileEncoding = await EncodingDetector.GetEncodingAsync(tailData.FileName);
             }
             catch
             {
@@ -372,9 +372,9 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
           InteractionService.ShowErrorMessageBox(ex.Message);
         }
-      }, token).ConfigureAwait(false);
+      }, token);
 
-      await WriteXmlFileAsync(token).ConfigureAwait(false);
+      await WriteXmlFileAsync(token);
     }
 
     /// <summary>
@@ -389,8 +389,8 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       Arg.NotNull(tailData, nameof(tailData));
       LOG.Trace("Update TailData");
 
-      await Task.Run(() => UpdateTailDataInXmlFile(tailData), token).ConfigureAwait(false);
-      await WriteXmlFileAsync(token).ConfigureAwait(false);
+      await Task.Run(() => UpdateTailDataInXmlFile(tailData), token)
+        .ContinueWith(p => WriteXmlFileAsync(token), TaskContinuationOptions.OnlyOnRanToCompletion);
     }
 
     private void UpdateTailDataInXmlFile(TailData tailData)
@@ -503,8 +503,8 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       Arg.NotNull(_xmlDocument, nameof(_xmlDocument));
       LOG.Trace("Delete filter from XML id '{0}'", id);
 
-      await Task.Run(() => DeleteFilterByIdByTailDataIdFromXmlFile(id, filterId), token).ConfigureAwait(false);
-      await WriteXmlFileAsync(token).ConfigureAwait(false);
+      await Task.Run(() => DeleteFilterByIdByTailDataIdFromXmlFile(id, filterId), token);
+      await WriteXmlFileAsync(token);
     }
 
     private void DeleteFilterByIdByTailDataIdFromXmlFile(string id, string filterId)
@@ -541,7 +541,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 
       LOG.Trace("Get TailData by '{0}", id);
 
-      return await Task.Run(() => GetTailDataById(tailData, id), new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
+      return await Task.Run(() => GetTailDataById(tailData, id), new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token);
     }
 
     private TailData GetTailDataById(ObservableCollection<TailData> tailData, Guid id)

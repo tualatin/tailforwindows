@@ -295,16 +295,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     private async Task ExecuteSaveCommandAsync()
     {
       MouseService.SetBusyState();
-      SetCancellationTokenSource();
-
-      await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
-      await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, CurrentTailData).ConfigureAwait(false);
-
-      foreach ( var item in FilterManagerCollection )
-      {
-        item.CommitChanges();
-        item.FindSettingsData.CommitChanges();
-      }
+      await UpdateTailDataAsync();
     }
 
     private void ExecuteCloseCommand(Window window)
@@ -320,7 +311,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       {
         if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerCloseUnsavedItem").ToString()) == MessageBoxResult.Yes )
         {
-          ExecuteSaveCommandAsync().GetAwaiter().GetResult();
+          // ReSharper disable once UnusedVariable
+          var result = Task.Run(UpdateTailDataAsync).Result;
         }
         else
         {
@@ -379,6 +371,23 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     }
 
     #endregion
+
+    private async Task<bool> UpdateTailDataAsync()
+    {
+      SetCancellationTokenSource();
+
+      await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token)
+        .ContinueWith(p => _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, CurrentTailData), TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
+
+      foreach ( var item in FilterManagerCollection )
+      {
+        item.CommitChanges();
+        item.FindSettingsData.CommitChanges();
+      }
+
+      return true;
+    }
+
 
     private void SetCancellationTokenSource()
     {

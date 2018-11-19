@@ -1278,7 +1278,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         try
         {
-          var sr = _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).GetAwaiter().GetResult();
+          var sr = AsyncHelper.RunSync(() => _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter));
 
           if ( sr == null || sr.Count == 0 )
             continue;
@@ -1313,7 +1313,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         try
         {
-          var sr = _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).GetAwaiter().GetResult();
+          var sr = AsyncHelper.RunSync(() => _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter));
 
           if ( sr == null || sr.Count == 0 )
             continue;

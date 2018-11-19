@@ -593,24 +593,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     private async Task ExecuteSaveCommandAsync()
     {
       MouseService.SetBusyState();
-      SetCancellationTokenSource();
-
-      foreach ( var tailData in FileManagerCollection )
-      {
-        if ( tailData.IsLoadedByXml )
-        {
-          await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, tailData).ConfigureAwait(false);
-        }
-        else
-        {
-          tailData.IsLoadedByXml = true;
-          await _xmlFileManagerController.AddTailDataToXmlFileAsync(_cts.Token, tailData).ConfigureAwait(false);
-        }
-      }
-
-      _categories = await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(FileManagerCollection).ConfigureAwait(false);
-
-      CommitChanges();
+      await UpdateTailDataAsync();
     }
 
     private async Task ExecuteLoadedCommandAsync()
@@ -660,7 +643,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       {
         if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerCloseUnsavedItem").ToString()) == MessageBoxResult.Yes )
         {
-          ExecuteSaveCommandAsync().GetAwaiter().GetResult();
+          // ReSharper disable once UnusedVariable
+          var result = Task.Run(UpdateTailDataAsync);
         }
         else
         {
@@ -679,6 +663,30 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     }
 
     #endregion
+
+    private async Task<bool> UpdateTailDataAsync()
+    {
+      SetCancellationTokenSource();
+
+      foreach ( var tailData in FileManagerCollection )
+      {
+        if ( tailData.IsLoadedByXml )
+        {
+          await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, tailData).ConfigureAwait(false);
+        }
+        else
+        {
+          tailData.IsLoadedByXml = true;
+          await _xmlFileManagerController.AddTailDataToXmlFileAsync(_cts.Token, tailData).ConfigureAwait(false);
+        }
+      }
+
+      _categories = await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(FileManagerCollection).ConfigureAwait(false);
+
+      CommitChanges();
+
+      return true;
+    }
 
     private void RemoveErrorsFromList()
     {
