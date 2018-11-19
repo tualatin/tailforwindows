@@ -26,9 +26,10 @@ namespace Org.Vs.TailForWin.UI.Converters
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
       if ( !(value is FontType fontType) )
-        return 16;
+        fontType = new FontType();
 
-      Size textSize = "1".GetMeasureTextSize(new Typeface(fontType.FontFamily, fontType.FontStyle, fontType.FontWeight, fontType.FontStretch), fontType.FontSize);
+      Size textSize = "Lorem ipsum dolor sit amet, consetetur sadipscing"
+        .GetMeasureTextSize(new Typeface(fontType.FontFamily, fontType.FontStyle, fontType.FontWeight, fontType.FontStretch), fontType.FontSize);
       double height = textSize.Height > 16 ? 16 : (textSize.Height < 10 ? 10 : textSize.Height);
 
       return height - 2;

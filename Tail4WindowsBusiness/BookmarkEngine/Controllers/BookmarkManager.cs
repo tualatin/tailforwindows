@@ -207,7 +207,8 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
         return;
 
       BitmapImage image = BusinessHelper.CreateBitmapIcon(string.IsNullOrWhiteSpace(logEntry.BookmarkToolTip) ?
-        "/T4W;component/Resources/Bookmark.png" : "/T4W;component/Resources/Bookmark_Info.png");
+        "/T4W;component/Resources/Bookmark.png" :
+        "/T4W;component/Resources/Bookmark_Info.png");
 
       logEntry.BookmarkPoint = image;
     }
