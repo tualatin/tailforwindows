@@ -230,8 +230,10 @@ namespace Org.Vs.TailForWin.Core.Utils
           Monitor.Exit(_timerLock);
         }
       }
-
-      LOG.Error("Can not lock!");
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
 
     #endregion
@@ -257,8 +259,10 @@ namespace Org.Vs.TailForWin.Core.Utils
           Monitor.Exit(_timerLock);
         }
       }
-
-      LOG.Error("Can not lock!");
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
     }
   }
 }

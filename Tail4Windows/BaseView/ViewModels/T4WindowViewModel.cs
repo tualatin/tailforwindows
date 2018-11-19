@@ -644,10 +644,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       LOG.Trace($"{CoreEnvironment.ApplicationTitle} startup completed!");
 
-      Task cleanGcTask = CleanGarbageCollectorAsync();
+      //Task cleanGcTask = CleanGarbageCollectorAsync();
       Task autoUpdateTask = AutoUpdateAsync();
 
-      await Task.WhenAll(cleanGcTask, autoUpdateTask).ConfigureAwait(false);
+      await Task.WhenAll(/*cleanGcTask,*/ autoUpdateTask).ConfigureAwait(false);
     }
 
     #endregion
