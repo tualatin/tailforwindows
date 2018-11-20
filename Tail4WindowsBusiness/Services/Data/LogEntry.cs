@@ -85,6 +85,24 @@ namespace Org.Vs.TailForWin.Business.Services.Data
       }
     }
 
+    private bool _isAutoBookmark;
+
+    /// <summary>
+    /// It is a AutoBookmark
+    /// </summary>
+    public bool IsAutoBookmark
+    {
+      get => _isAutoBookmark;
+      set
+      {
+        if ( value == _isAutoBookmark )
+          return;
+
+        _isAutoBookmark = value;
+        OnPropertyChanged();
+      }
+    }
+
     private string _bookmarkToolTip;
 
     /// <summary>

@@ -203,7 +203,7 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
       if ( !(sender is LogEntry logEntry) )
         return;
 
-      if ( logEntry.BookmarkPoint == null )
+      if ( logEntry.BookmarkPoint == null || logEntry.IsAutoBookmark )
         return;
 
       BitmapImage image = BusinessHelper.CreateBitmapIcon(string.IsNullOrWhiteSpace(logEntry.BookmarkToolTip) ?
