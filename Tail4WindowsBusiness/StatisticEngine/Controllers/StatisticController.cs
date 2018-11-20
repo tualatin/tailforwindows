@@ -474,7 +474,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
               foreach ( SessionEntity session in sessions )
               {
-                if ( t4W.Any() )
+                if ( t4W.Count > 1 )
                 {
                   // If not single instance, do not remove this sessions, because it's possible, it's a running session
                   if ( DateTime.Now.Date == session.Date.Date )
