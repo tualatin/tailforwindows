@@ -1377,6 +1377,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void HandleAutoBookmark(FilterData filterData, LogEntry item)
     {
+      LOG.Debug("* * * * * * * * HandleAutoBookmark * * * * * * * *");
+
       item.BookmarkPoint = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Auto_Bookmark.png");
       item.BookmarkToolTip = string.IsNullOrWhiteSpace(filterData.AutoBookmarkComment) ? "Auto Bookmark" : filterData.AutoBookmarkComment;
 
@@ -1554,7 +1556,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       if ( _splitterPosition > 0 && LogWindowSplitElement.ItemsSource == null )
       {
-        SplitCollectionView = (ListCollectionView) new CollectionViewSource { Source = LogCollectionView.Collection }.View;
+        SplitCollectionView = (ListCollectionView) new CollectionViewSource { Source = LogCollectionView.Collection.Items }.View;
         LogWindowSplitElement.ItemsSource = SplitCollectionView;
 
         if ( _lastSeenEntry == null )

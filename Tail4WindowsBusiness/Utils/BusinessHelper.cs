@@ -36,6 +36,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     public static BitmapImage CreateBitmapIcon(string url)
     {
       Arg.NotNull(url, nameof(url));
+      LOG.Debug($"CreateBitmapIcon bitmap URL: {url}");
 
       if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {

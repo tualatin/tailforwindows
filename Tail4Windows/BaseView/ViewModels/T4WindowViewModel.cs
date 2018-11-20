@@ -449,9 +449,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
         await Task.Delay(TimeSpan.FromMinutes(45), _cts.Token).ConfigureAwait(false);
 
-        LOG.Debug("CleanUp GC...");
-        LOG.Info($"TotalMemory usage: {GC.GetTotalMemory(false):N0}");
+        long memUsage = GC.GetTotalMemory(false);
+        LOG.Info($"TotalMemory usage: {memUsage:N0}");
+
 #if DEBUG
+        if ( memUsage / 1024 <= 100000 )
+          continue;
+
+        LOG.Debug("CleanUp GC...");
         GC.Collect();
         GC.WaitForFullGCComplete();
         GC.WaitForPendingFinalizers();
