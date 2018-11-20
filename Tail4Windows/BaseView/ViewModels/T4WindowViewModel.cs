@@ -449,14 +449,15 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
         await Task.Delay(TimeSpan.FromMinutes(45), _cts.Token).ConfigureAwait(false);
 
-        LOG.Info("CleanUp GC...");
-        LOG.Trace($"TotalMemory before clean up: {GC.GetTotalMemory(false):N0}");
-
+        LOG.Debug("CleanUp GC...");
+        LOG.Info($"TotalMemory usage: {GC.GetTotalMemory(false):N0}");
+#if DEBUG
         GC.Collect();
         GC.WaitForFullGCComplete();
         GC.WaitForPendingFinalizers();
 
-        LOG.Trace($"TotalMemory after clean up: {GC.GetTotalMemory(false):N0}");
+        LOG.Debug($"TotalMemory after clean up: {GC.GetTotalMemory(false):N0}");
+#endif
       }
     }
 
@@ -468,28 +469,27 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       LOG.Info("Try to move old user settings");
 
-      await Task.Run(
-        () =>
+      await Task.Run(() =>
+      {
+        try
         {
-          try
-          {
-            string fileManager = CoreEnvironment.ApplicationPath + @"\FileManager.xml";
+          string fileManager = CoreEnvironment.ApplicationPath + @"\FileManager.xml";
 
-            if ( File.Exists(fileManager) )
-              File.Move(fileManager, CoreEnvironment.UserSettingsPath + @"\FileManager.xml");
+          if ( File.Exists(fileManager) )
+            File.Move(fileManager, CoreEnvironment.UserSettingsPath + @"\FileManager.xml");
 
-            string history = CoreEnvironment.ApplicationPath + @"\History.xml";
+          string history = CoreEnvironment.ApplicationPath + @"\History.xml";
 
-            if ( !File.Exists(history) )
-              return;
+          if ( !File.Exists(history) )
+            return;
 
-            File.Move(history, CoreEnvironment.UserSettingsPath + @"\History.xml");
-          }
-          catch ( Exception ex )
-          {
-            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-          }
-        }).ConfigureAwait(false);
+          File.Move(history, CoreEnvironment.UserSettingsPath + @"\History.xml");
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+      }).ConfigureAwait(false);
     }
 
     #region Commands
@@ -644,10 +644,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       LOG.Trace($"{CoreEnvironment.ApplicationTitle} startup completed!");
 
-      //Task cleanGcTask = CleanGarbageCollectorAsync();
+      Task cleanGcTask = CleanGarbageCollectorAsync();
       Task autoUpdateTask = AutoUpdateAsync();
 
-      await Task.WhenAll(/*cleanGcTask,*/ autoUpdateTask).ConfigureAwait(false);
+      await Task.WhenAll(cleanGcTask, autoUpdateTask).ConfigureAwait(false);
     }
 
     #endregion

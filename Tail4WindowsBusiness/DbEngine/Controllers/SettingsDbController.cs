@@ -78,119 +78,111 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// Read current DataBase settings
     /// </summary>
     /// <returns>Task</returns>
-    public async Task ReadDbSettingsAsync()
+    public async Task ReadDbSettingsAsync() => await Task.Run(() =>
     {
-      await Task.Run(
-        () =>
+      if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      {
+        try
         {
-          if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
           {
-            try
-            {
-              using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
-              {
-                var settings = db.GetCollection<DatabaseSetting>(Settings);
+            var settings = db.GetCollection<DatabaseSetting>(Settings);
 
-                if ( settings.Count() == 0 )
-                  AddSettingsToDataBase(settings);
+            if ( settings.Count() == 0 )
+              AddSettingsToDataBase(settings);
 
-                AddMissingDbSettings(settings);
+            AddMissingDbSettings(settings);
 
-                settings = db.GetCollection<DatabaseSetting>(Settings);
-                settings.EnsureIndex(p => p.Key);
+            settings = db.GetCollection<DatabaseSetting>(Settings);
+            settings.EnsureIndex(p => p.Key);
 
-                // FindResult position
-                var setting = settings.Find(p => p.Key == FindResultWindowTop).FirstOrDefault();
-                SettingsHelperController.CurrentSettings.FindResultPositionX = Convert.ToDouble(setting?.Value);
-                setting = settings.Find(p => p.Key == FindResultWindowLeft).FirstOrDefault();
-                SettingsHelperController.CurrentSettings.FindResultPositionY = Convert.ToDouble(setting?.Value);
+            // FindResult position
+            var setting = settings.Find(p => p.Key == FindResultWindowTop).FirstOrDefault();
+            SettingsHelperController.CurrentSettings.FindResultPositionX = Convert.ToDouble(setting?.Value);
+            setting = settings.Find(p => p.Key == FindResultWindowLeft).FirstOrDefault();
+            SettingsHelperController.CurrentSettings.FindResultPositionY = Convert.ToDouble(setting?.Value);
 
-                // FindResult size
-                setting = settings.Find(p => p.Key == FindResultWindowHeight).FirstOrDefault();
-                SettingsHelperController.CurrentSettings.FindResultHeight = Convert.ToDouble(setting?.Value);
-                setting = settings.Find(p => p.Key == FindResultWindowWidth).FirstOrDefault();
-                SettingsHelperController.CurrentSettings.FindResultWidth = Convert.ToDouble(setting?.Value);
+            // FindResult size
+            setting = settings.Find(p => p.Key == FindResultWindowHeight).FirstOrDefault();
+            SettingsHelperController.CurrentSettings.FindResultHeight = Convert.ToDouble(setting?.Value);
+            setting = settings.Find(p => p.Key == FindResultWindowWidth).FirstOrDefault();
+            SettingsHelperController.CurrentSettings.FindResultWidth = Convert.ToDouble(setting?.Value);
 
-                // Bookmark overview position
-                setting = settings.Find(p => p.Key == BookmarkOverviewWindowTop).FirstOrDefault();
-                SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX = Convert.ToDouble(setting?.Value);
-                setting = settings.Find(p => p.Key == BookmarkOverviewWindowLeft).FirstOrDefault();
-                SettingsHelperController.CurrentSettings.BookmarkOverviewPositionY = Convert.ToDouble(setting?.Value);
+            // Bookmark overview position
+            setting = settings.Find(p => p.Key == BookmarkOverviewWindowTop).FirstOrDefault();
+            SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX = Convert.ToDouble(setting?.Value);
+            setting = settings.Find(p => p.Key == BookmarkOverviewWindowLeft).FirstOrDefault();
+            SettingsHelperController.CurrentSettings.BookmarkOverviewPositionY = Convert.ToDouble(setting?.Value);
 
-                // Bookmark overview size
-                setting = settings.Find(p => p.Key == BookmarkOverviewWindowHeight).FirstOrDefault();
-                SettingsHelperController.CurrentSettings.BookmarkOverviewHeight = Convert.ToDouble(setting?.Value);
-                setting = settings.Find(p => p.Key == BookmarkOverviewWindowWidth).FirstOrDefault();
-                SettingsHelperController.CurrentSettings.BookmarkOverviewWidth = Convert.ToDouble(setting?.Value);
+            // Bookmark overview size
+            setting = settings.Find(p => p.Key == BookmarkOverviewWindowHeight).FirstOrDefault();
+            SettingsHelperController.CurrentSettings.BookmarkOverviewHeight = Convert.ToDouble(setting?.Value);
+            setting = settings.Find(p => p.Key == BookmarkOverviewWindowWidth).FirstOrDefault();
+            SettingsHelperController.CurrentSettings.BookmarkOverviewWidth = Convert.ToDouble(setting?.Value);
 
-                // FindDialog position
-                setting = settings.Find(p => p.Key == FindDialogWindowTop).FirstOrDefault();
-                SettingsHelperController.CurrentSettings.FindDialogPositionX = Convert.ToDouble(setting?.Value);
-                setting = settings.Find(p => p.Key == FindDialogWindowLeft).FirstOrDefault();
-                SettingsHelperController.CurrentSettings.FindDialogPositionY = Convert.ToDouble(setting?.Value);
+            // FindDialog position
+            setting = settings.Find(p => p.Key == FindDialogWindowTop).FirstOrDefault();
+            SettingsHelperController.CurrentSettings.FindDialogPositionX = Convert.ToDouble(setting?.Value);
+            setting = settings.Find(p => p.Key == FindDialogWindowLeft).FirstOrDefault();
+            SettingsHelperController.CurrentSettings.FindDialogPositionY = Convert.ToDouble(setting?.Value);
 
-                // Proxy password
-                setting = settings.Find(p => p.Key == ProxyPassword).FirstOrDefault();
-                SettingsHelperController.CurrentSettings.ProxySettings.Password = setting?.Value;
+            // Proxy password
+            setting = settings.Find(p => p.Key == ProxyPassword).FirstOrDefault();
+            SettingsHelperController.CurrentSettings.ProxySettings.Password = setting?.Value;
 
-                // SMTP password
-                setting = settings.Find(p => p.Key == SmtpPassword).FirstOrDefault();
-                SettingsHelperController.CurrentSettings.SmtpSettings.Password = setting?.Value;
-              }
-            }
-            catch ( Exception ex )
-            {
-              LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-            }
-            finally
-            {
-              Monitor.Exit(DbLock);
-            }
+            // SMTP password
+            setting = settings.Find(p => p.Key == SmtpPassword).FirstOrDefault();
+            SettingsHelperController.CurrentSettings.SmtpSettings.Password = setting?.Value;
           }
-          else
-          {
-            LOG.Error("Can not lock!");
-          }
-        }).ConfigureAwait(false);
-    }
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+        finally
+        {
+          Monitor.Exit(DbLock);
+        }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
+    });
 
     /// <summary>
     /// Resets DataBase settings
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>Task</returns>
-    public async Task ResetDbSettingsAsync(CancellationToken token)
+    public async Task ResetDbSettingsAsync(CancellationToken token) => await Task.Run(() =>
     {
-      await Task.Run(
-         () =>
-         {
-           if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
-           {
-             try
-             {
-               LOG.Info("Reset all database settings");
+      if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      {
+        try
+        {
+          LOG.Info("Reset all database settings");
 
-               SettingsHelperController.CurrentSettings.ProxySettings.Password = DefaultEnvironmentSettings.ProxyPassword;
-               SettingsHelperController.CurrentSettings.SmtpSettings.Password = DefaultEnvironmentSettings.SmtpPassword;
+          SettingsHelperController.CurrentSettings.ProxySettings.Password = DefaultEnvironmentSettings.ProxyPassword;
+          SettingsHelperController.CurrentSettings.SmtpSettings.Password = DefaultEnvironmentSettings.SmtpPassword;
 
-               SetDefaultWindowSettings();
+          SetDefaultWindowSettings();
 
-               UpdatePasswordSettings();
-               UpdateFindDialogDbSettings();
-               UpdateFindResultDbSettings();
-               UpdateBookmarkOverviewDbSettings();
-             }
-             finally
-             {
-               Monitor.Exit(DbLock);
-             }
-           }
-           else
-           {
-             LOG.Error("Can not lock!");
-           }
-         }, token).ConfigureAwait(false);
-    }
+          UpdatePasswordSettings();
+          UpdateFindDialogDbSettings();
+          UpdateFindResultDbSettings();
+          UpdateBookmarkOverviewDbSettings();
+        }
+        finally
+        {
+          Monitor.Exit(DbLock);
+        }
+      }
+      else
+      {
+        LOG.Error("Can not lock!");
+      }
+    }, token);
 
     /// <summary>
     /// Updates password settings
@@ -414,11 +406,11 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
 
       DatabaseSetting setting = settings.Find(p => p.Key == BookmarkOverviewWindowTop).FirstOrDefault();
 
-      if ( setting == null )
-      {
-        SetDefaultBookmarkOverviewSettings();
-        AddBookmarkOverviewDbSettings(settings);
-      }
+      if ( setting != null )
+        return;
+
+      SetDefaultBookmarkOverviewSettings();
+      AddBookmarkOverviewDbSettings(settings);
     }
 
     private void AddSettingsToDataBase(LiteCollection<DatabaseSetting> settings)

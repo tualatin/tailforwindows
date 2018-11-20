@@ -53,7 +53,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     {
       while ( !token.IsCancellationRequested )
       {
-        await Task.Delay(TimeSpan.FromMinutes(30), token).ConfigureAwait(false);
+        await Task.Delay(TimeSpan.FromMinutes(30), token);
         LOG.Trace($"Current cache size is {_cacheData.Count}");
       }
     }

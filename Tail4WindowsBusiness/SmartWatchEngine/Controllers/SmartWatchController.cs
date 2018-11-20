@@ -263,14 +263,14 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers
 
       foreach ( var file in fileInfos )
       {
-        var result = await _findController.MatchTextAsync(item.FindSettings, file.Name, pattern).ConfigureAwait(false);
+        var result = await _findController.MatchTextAsync(item.FindSettings, file.Name, pattern);
 
         if ( result == null || result.Count == 0 )
           continue;
 
         validFileInfos.Add(file);
       }
-      return validFileInfos.Count == 0 ? string.Empty : await GetLatestFileNameAsync(validFileInfos).ConfigureAwait(false);
+      return validFileInfos.Count == 0 ? string.Empty : await GetLatestFileNameAsync(validFileInfos);
     }
 
     /// <summary>
@@ -308,14 +308,14 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers
 
       foreach ( var file in fileInfos )
       {
-        var result = await _findController.MatchTextAsync(new FindData { UseRegex = true, WholeWord = true }, file.Name, pattern).ConfigureAwait(false);
+        var result = await _findController.MatchTextAsync(new FindData { UseRegex = true, WholeWord = true }, file.Name, pattern);
 
         if ( result == null || result.Count == 0 )
           continue;
 
         validFileInfos.Add(file);
       }
-      return validFileInfos.Count == 0 ? string.Empty : await GetLatestFileNameAsync(validFileInfos).ConfigureAwait(false);
+      return validFileInfos.Count == 0 ? string.Empty : await GetLatestFileNameAsync(validFileInfos);
     }
 
     #region HelperFunctions
@@ -380,7 +380,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers
           latestFile = file;
           latestWriteTime = file.LastWriteTime;
         }
-      }).ConfigureAwait(false);
+      });
 
       return latestFile?.FullName;
     }

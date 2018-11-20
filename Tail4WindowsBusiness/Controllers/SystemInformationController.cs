@@ -27,12 +27,12 @@ namespace Org.Vs.TailForWin.Business.Controllers
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SystemInformationController));
 
     /// <summary>
-    /// Get systeminformations from computer
+    /// Get systeminformation from computer
     /// </summary>
-    /// <returns>Object with systeminformations</returns>
+    /// <returns>Object with systeminformation</returns>
     public async Task<SystemInformationData> GetAllSystemInformationsAsync(CancellationToken token)
     {
-      LOG.Trace("Get System informations");
+      LOG.Debug("Get System information");
       SystemInformationData sysInfo = new SystemInformationData();
 
       await Task.Run(() =>
@@ -54,7 +54,7 @@ namespace Org.Vs.TailForWin.Business.Controllers
         sysInfo.MachineMemory = GetMachineMemoryInfo();
         sysInfo.Language = GetSystemLanguage();
         sysInfo.CpuInfo = GetCpuInfo();
-      }, token).ConfigureAwait(false);
+      }, token);
 
       return sysInfo;
     }

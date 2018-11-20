@@ -173,42 +173,42 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// Read current settings
     /// </summary>
     /// <returns>Task</returns>
-    public async Task ReadSettingsAsync() => await _settings.ReadSettingsAsync().ConfigureAwait(false);
+    public async Task ReadSettingsAsync() => await _settings.ReadSettingsAsync();
 
     /// <summary>
     /// Read current settings
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task ReadSettingsAsync(CancellationTokenSource cts) => await _settings.ReadSettingsAsync(cts).ConfigureAwait(false);
+    public async Task ReadSettingsAsync(CancellationTokenSource cts) => await _settings.ReadSettingsAsync(cts);
 
     /// <summary>
     /// Save current settings
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task SaveSettingsAsync(CancellationTokenSource cts) => await _settings.SaveSettingsAsync(cts).ConfigureAwait(false);
+    public async Task SaveSettingsAsync(CancellationTokenSource cts) => await _settings.SaveSettingsAsync(cts);
 
     /// <summary>
     /// Reload settings from config file
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task ReloadSettingsAsync(CancellationTokenSource cts) => await _settings.ReloadCurrentSettingsAsync(cts).ConfigureAwait(false);
+    public async Task ReloadSettingsAsync(CancellationTokenSource cts) => await _settings.ReloadCurrentSettingsAsync(cts);
 
     /// <summary>
     /// Reset current setting to default values
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task ResetCurrentSettingsAsync(CancellationTokenSource cts) => await _settings.SetDefaultSettingsAsync(cts).ConfigureAwait(false);
+    public async Task ResetCurrentSettingsAsync(CancellationTokenSource cts) => await _settings.SetDefaultSettingsAsync(cts);
 
     /// <summary>
     /// Reset current color settings
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task SetDefaultColorsAsync(CancellationTokenSource cts) => await _settings.SetDefaultColorsAsync(cts).ConfigureAwait(false);
+    public async Task SetDefaultColorsAsync(CancellationTokenSource cts) => await _settings.SetDefaultColorsAsync(cts);
 
     /// <summary>
     /// Current installed .NET version
@@ -428,7 +428,7 @@ namespace Org.Vs.TailForWin.Business.Utils
           var encodings = Encoding.GetEncodings();
           Array.Sort(encodings, new CaseInsensitiveEncodingInfoNameComparer());
           Array.ForEach(encodings, fileEncode => FileEncoding.Add(fileEncode.GetEncoding()));
-        }).ConfigureAwait(false);
+        });
     }
 
     #region CaseInsentiveEncodingInfoNameComparer

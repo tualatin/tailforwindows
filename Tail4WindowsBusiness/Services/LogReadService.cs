@@ -161,7 +161,7 @@ namespace Org.Vs.TailForWin.Business.Services
     public void StopTail()
     {
       MouseService.SetBusyState();
-      LOG.Trace("Stop tail.");
+      LOG.Info("Stop tail.");
 
       _tailBackgroundWorker.CancelAsync();
       _resetEvent?.Set();
@@ -232,47 +232,57 @@ namespace Org.Vs.TailForWin.Business.Services
       if ( SettingsHelperController.CurrentAppSettings.DebugTailReader )
         return;
 
-      if ( SettingsHelperController.CurrentSettings.ShowNumberLineAtStart && Index == 0 && _lastFileInfo == null )
-        RewindLinesInFile();
-
-      _lastFileInfo = new FileInfo(TailData.FileName);
-
-      while ( _tailBackgroundWorker != null && !_tailBackgroundWorker.CancellationPending )
+      try
       {
-        if ( _tailBackgroundWorker.CancellationPending )
-          break;
+        if ( SettingsHelperController.CurrentSettings.ShowNumberLineAtStart && Index == 0 && _lastFileInfo == null )
+          RewindLinesInFile();
 
-        var fileInfo = new FileInfo(TailData.FileName);
+        _lastFileInfo = new FileInfo(TailData.FileName);
 
-        if ( !fileInfo.Exists )
+        while ( _tailBackgroundWorker != null && !_tailBackgroundWorker.CancellationPending )
         {
+          if ( _tailBackgroundWorker.CancellationPending )
+            break;
+
+          var fileInfo = new FileInfo(TailData.FileName);
+
+          if ( !fileInfo.Exists )
+          {
+            _resetEvent?.WaitOne((int) TailData.RefreshRate);
+            continue;
+          }
+
+          if ( fileInfo.Length != _lastFileInfo.Length || fileInfo.LastWriteTimeUtc != _lastFileInfo.LastWriteTimeUtc || fileInfo.Length > 0 && _fileOffset == 0 )
+          {
+            if ( _tailBackgroundWorker.CancellationPending )
+              break;
+
+            ReadFileLines();
+
+            if ( _tailBackgroundWorker.CancellationPending )
+              break;
+
+            _lastFileInfo = fileInfo;
+          }
+
           _resetEvent?.WaitOne((int) TailData.RefreshRate);
-          continue;
         }
 
-        if ( fileInfo.Length != _lastFileInfo.Length || fileInfo.LastWriteTimeUtc != _lastFileInfo.LastWriteTimeUtc || fileInfo.Length > 0 && _fileOffset == 0 )
-        {
-          if ( _tailBackgroundWorker.CancellationPending )
-            break;
-
-          ReadFileLines();
-
-          if ( _tailBackgroundWorker.CancellationPending )
-            break;
-
-          _lastFileInfo = fileInfo;
-        }
-
-        _resetEvent?.WaitOne((int) TailData.RefreshRate);
+        e.Cancel = true;
       }
-
-      e.Cancel = true;
+      catch ( InvalidOperationException ex )
+      {
+        InteractionService.ShowErrorMessageBox(ex.Message);
+      }
     }
 
     private void ReadFileLines()
     {
       try
       {
+        if ( IsInvalidChars(TailData.FileName) )
+          throw new InvalidOperationException("Invalid characters found in path or file name.");
+
         using ( var fs = new FileStream(TailData.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite) )
         {
           using ( var sr = new StreamReader(fs, TailData.FileEncoding) )
@@ -293,6 +303,10 @@ namespace Org.Vs.TailForWin.Business.Services
           fs.Close();
         }
       }
+      catch ( InvalidOperationException )
+      {
+        throw;
+      }
       catch ( Exception ex )
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
@@ -305,6 +319,9 @@ namespace Org.Vs.TailForWin.Business.Services
 
       try
       {
+        if ( IsInvalidChars(TailData.FileName) )
+          throw new InvalidOperationException("Invalid characters found in path or file name.");
+
         using ( var fs = new FileStream(TailData.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite) )
         {
           using ( var sr = new StreamReader(fs, TailData.FileEncoding) )
@@ -335,6 +352,10 @@ namespace Org.Vs.TailForWin.Business.Services
 
           fs.Close();
         }
+      }
+      catch ( InvalidOperationException )
+      {
+        throw;
       }
       catch ( Exception ex )
       {
@@ -373,6 +394,15 @@ namespace Org.Vs.TailForWin.Business.Services
 
       if ( !SettingsHelperController.CurrentSettings.ContinuedScroll )
         SendLogEntryEvent(entries, sr.BaseStream.Length);
+    }
+
+    private bool IsInvalidChars(string fileName)
+    {
+      var invalidFileNameChars = Path.GetInvalidFileNameChars();
+      var invalidPathChars = Path.GetInvalidPathChars();
+      string path = Path.GetFullPath(fileName);
+
+      return fileName.IndexOfAny(invalidFileNameChars) < 0 && path.IndexOfAny(invalidPathChars) < 0;
     }
 
     private LogEntry CreateLogEntry(string line)

@@ -471,8 +471,8 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       Arg.NotNull(_xmlDocument, nameof(_xmlDocument));
       LOG.Trace("Delete TailData by '{0}'", id);
 
-      await Task.Run(() => DeleteTailDataByIdFromXmlFile(id), token).ConfigureAwait(false);
-      await WriteXmlFileAsync(token).ConfigureAwait(false);
+      await Task.Run(() => DeleteTailDataByIdFromXmlFile(id), token);
+      await WriteXmlFileAsync(token);
     }
 
     private void DeleteTailDataByIdFromXmlFile(string id)

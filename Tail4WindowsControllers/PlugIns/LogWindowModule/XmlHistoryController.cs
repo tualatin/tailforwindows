@@ -49,7 +49,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
     /// Read XML file
     /// </summary>
     /// <returns>Task</returns>
-    public async Task<QueueSet<string>> ReadXmlFileAsync() => await Task.Run(() => ReadXmlFile()).ConfigureAwait(false);
+    public async Task<QueueSet<string>> ReadXmlFileAsync() => await Task.Run(() => ReadXmlFile());
 
     private QueueSet<string> ReadXmlFile()
     {
@@ -97,7 +97,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
     /// </summary>
     /// <param name="searchWord">Search text to save into XML file</param>
     /// <returns>Task</returns>
-    public async Task SaveSearchHistoryAsync(string searchWord) => await Task.Run(() => SaveSearchHistory(searchWord)).ConfigureAwait(false);
+    public async Task SaveSearchHistoryAsync(string searchWord) => await Task.Run(() => SaveSearchHistory(searchWord));
 
     private void SaveSearchHistory(string fileName)
     {
@@ -110,8 +110,16 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
           if ( string.IsNullOrWhiteSpace(fileName) )
             return;
 
-          if ( File.Exists(_historyFile) )
-            File.Delete(_historyFile);
+          if ( !File.Exists(_historyFile) )
+            return;
+
+          if ( IsInvalidChars(_historyFile) )
+          {
+            InteractionService.ShowErrorMessageBox("Invalid characters found in path or file name.");
+            return;
+          }
+
+          File.Delete(_historyFile);
 
           try
           {
@@ -161,7 +169,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
     /// Deletes current history
     /// </summary>
     /// <returns>Task</returns>
-    public async Task DeleteHistoryAsync() => await Task.Run(() => DeleteHistory(), new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
+    public async Task DeleteHistoryAsync() => await Task.Run(() => DeleteHistory(), new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token);
 
     private void DeleteHistory()
     {
@@ -174,6 +182,12 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
           if ( !File.Exists(_historyFile) )
             return;
 
+          if ( IsInvalidChars(_historyFile) )
+          {
+            InteractionService.ShowErrorMessageBox("Invalid characters found in path or file name.");
+            return;
+          }
+
           File.Delete(_historyFile);
         }
         finally
@@ -181,6 +195,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
           Monitor.Exit(MyLock);
         }
       }
+    }
+
+    private bool IsInvalidChars(string fileName)
+    {
+      var invalidFileNameChars = Path.GetInvalidFileNameChars();
+      var invalidPathChars = Path.GetInvalidPathChars();
+      string path = Path.GetFullPath(fileName);
+
+      return fileName.IndexOfAny(invalidFileNameChars) < 0 && path.IndexOfAny(invalidPathChars) < 0;
     }
   }
 }

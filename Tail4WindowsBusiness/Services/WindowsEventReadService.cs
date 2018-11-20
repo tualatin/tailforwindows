@@ -275,7 +275,7 @@ namespace Org.Vs.TailForWin.Business.Services
             // Nothing
           }
         }
-      }, token).ConfigureAwait(false);
+      }, token);
 
       return result;
     }

@@ -725,7 +725,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       item.BookmarkToolTip = addBookmarkCommentPopup.Comment;
       item.BookmarkPoint = BusinessHelper.CreateBitmapIcon(string.IsNullOrWhiteSpace(item.BookmarkToolTip) ?
-        "/T4W;component/Resources/Bookmark.png" : "/T4W;component/Resources/Bookmark_Info.png");
+        "/T4W;component/Resources/Bookmark.png" :
+        "/T4W;component/Resources/Bookmark_Info.png");
     }
 
     private void ExecuteClearItemsCommand()
@@ -733,7 +734,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( LogCollectionView == null )
         LogCollectionView = new VsCollectionView<LogEntry>();
 
-      LOG.Trace("Clear items and cache");
+      LOG.Info("Clear items and cache");
 
       LogCollectionView.Clear();
       CacheManager.ClearCacheData();

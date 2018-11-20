@@ -38,7 +38,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule
     /// Reads default patterns for SmartWatch
     /// </summary>
     /// <returns>List of default patterns</returns>
-    public async Task<AsyncObservableCollection<PatternData>> ReadDefaultPatternsAsync() => await Task.Run(() => ReadDefaultPatterns()).ConfigureAwait(false);
+    public async Task<AsyncObservableCollection<PatternData>> ReadDefaultPatternsAsync() => await Task.Run(() => ReadDefaultPatterns());
 
     private AsyncObservableCollection<PatternData> ReadDefaultPatterns()
     {

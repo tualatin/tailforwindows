@@ -54,7 +54,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
     /// Read XML file
     /// </summary>
     /// <returns>Task</returns>
-    public async Task<IObservableDictionary<string, string>> ReadXmlFileAsync() => await Task.Run(() => ReadXmlFile()).ConfigureAwait(false);
+    public async Task<IObservableDictionary<string, string>> ReadXmlFileAsync() => await Task.Run(() => ReadXmlFile());
 
     private IObservableDictionary<string, string> ReadXmlFile()
     {
@@ -105,7 +105,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
     /// </summary>
     /// <param name="searchWord">Search text to save into XML file</param>
     /// <returns>Task</returns>
-    public async Task SaveSearchHistoryAsync(string searchWord) => await Task.Run(() => SaveSearchHistory(searchWord)).ConfigureAwait(false);
+    public async Task SaveSearchHistoryAsync(string searchWord) => await Task.Run(() => SaveSearchHistory(searchWord));
 
     private void SaveSearchHistory(string word)
     {
@@ -147,7 +147,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
     /// Save search history wrap as XML attribute
     /// </summary>
     /// <returns>XML element, if an error occurred, <c>null</c></returns>
-    public async Task<XElement> SaveSearchHistoryWrapAttributeAsync() => await Task.Run(() => SaveSearchHistoryWrapAttribute()).ConfigureAwait(false);
+    public async Task<XElement> SaveSearchHistoryWrapAttributeAsync() => await Task.Run(() => SaveSearchHistoryWrapAttribute());
 
     private XElement SaveSearchHistoryWrapAttribute()
     {
@@ -197,11 +197,11 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
     /// <returns>Task</returns>
     public async Task DeleteHistoryAsync()
     {
-      var history = await ReadXmlFileAsync().ConfigureAwait(false);
+      var history = await ReadXmlFileAsync();
       await Task.Run(() =>
       {
         DeleteHistory(history);
-      }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
+      }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token);
     }
 
     private void DeleteHistory(IObservableDictionary<string, string> history)
@@ -215,6 +215,12 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
           if ( !File.Exists(_historyFile) )
             return;
 
+          if ( IsInvalidChars(_historyFile) )
+          {
+            InteractionService.ShowErrorMessageBox("Invalid characters found in path or file name.");
+            return;
+          }
+
           File.Delete(_historyFile);
         }
         finally
@@ -226,6 +232,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
       {
         LOG.Error("Can not lock!");
       }
+    }
+
+    private bool IsInvalidChars(string fileName)
+    {
+      var invalidFileNameChars = Path.GetInvalidFileNameChars();
+      var invalidPathChars = Path.GetInvalidPathChars();
+      string path = Path.GetFullPath(fileName);
+
+      return fileName.IndexOfAny(invalidFileNameChars) < 0 && path.IndexOfAny(invalidPathChars) < 0;
     }
   }
 }

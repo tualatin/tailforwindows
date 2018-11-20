@@ -57,7 +57,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption
             // Nothing
           }
         }
-      }, token).ConfigureAwait(false);
+      }, token);
 
       return result;
     }
