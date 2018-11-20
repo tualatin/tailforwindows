@@ -353,6 +353,9 @@
     <Compile Include="UI\Converters\VisibilityToInverseBoolConverter.cs" />
     <Compile Include="UI\Debugging\DebugBuild.cs" />
     <Compile Include="UI\ExtendedControls\VsPopupEx.cs" />
+    <Compile Include="UI\Extensions\BindableBinding.cs" />
+    <Compile Include="UI\Extensions\ConverterBindableBinding.cs" />
+    <Compile Include="UI\Extensions\MultiValueConverterAdapter.cs" />
     <Compile Include="UI\Extensions\VisualTreeEnumerationExtension.cs" />
     <Compile Include="UI\FloatWindow\VsFloatingWindow.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />

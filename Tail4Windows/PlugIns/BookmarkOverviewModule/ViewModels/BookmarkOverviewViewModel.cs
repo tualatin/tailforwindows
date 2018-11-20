@@ -283,13 +283,15 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
       if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("BookmarkOverviewQDeleteBookmark").ToString()) == MessageBoxResult.No )
         return;
 
-      foreach ( object item in SelectedItems )
+      for ( int i = SelectedItems.Count - 1; i >= 0; i-- )
       {
-        if ( !(item is LogEntry logEntry) )
+        if ( !(SelectedItems[i] is LogEntry logEntry) )
           continue;
 
         logEntry.BookmarkPoint = null;
         logEntry.BookmarkToolTip = string.Empty;
+
+        EnvironmentContainer.Instance.BookmarkManager.RemoveFromBookmarkDataSource(logEntry);
       }
     }
 
