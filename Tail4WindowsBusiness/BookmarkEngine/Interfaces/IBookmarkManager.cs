@@ -44,6 +44,14 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces
     }
 
     /// <summary>
+    /// Bookmark count
+    /// </summary>
+    int Count
+    {
+      get;
+    }
+
+    /// <summary>
     /// Gets current <see cref="Guid"/>
     /// </summary>
     /// <returns>Current Window id</returns>

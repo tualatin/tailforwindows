@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Media.Imaging;
 using log4net;
 using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Args;
@@ -56,6 +57,11 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
       get;
       set;
     }
+
+    /// <summary>
+    /// Bookmark count
+    /// </summary>
+    public int Count => BookmarkDataSource?.Count(p => p.BookmarkPoint != null) ?? 0;
 
     #endregion
 
@@ -204,13 +210,17 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
         return;
 
       if ( logEntry.BookmarkPoint == null || logEntry.IsAutoBookmark )
+      {
+        OnBookmarkDataSourceChanged?.Invoke(this, new IdChangedEventArgs(_activeWindowGuid));
         return;
+      }
 
       BitmapImage image = BusinessHelper.CreateBitmapIcon(string.IsNullOrWhiteSpace(logEntry.BookmarkToolTip) ?
         "/T4W;component/Resources/Bookmark.png" :
         "/T4W;component/Resources/Bookmark_Info.png");
 
       logEntry.BookmarkPoint = image;
+      OnBookmarkDataSourceChanged?.Invoke(this, new IdChangedEventArgs(_activeWindowGuid));
     }
   }
 }

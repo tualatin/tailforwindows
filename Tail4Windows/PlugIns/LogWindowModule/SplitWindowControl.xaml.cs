@@ -1079,7 +1079,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !findData.SearchBookmarks )
       {
         // ReSharper disable once ForCanBeConvertedToForeach
-        for ( int i = 0; i < LogCollectionView.Collection.Count; i++ )
+        for ( var i = 0; i < LogCollectionView.Collection.Count; i++ )
         {
           LogEntry log = LogCollectionView.Collection[i];
 
@@ -1100,7 +1100,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           AddFindWhatResultToHighlightData(result);
         }
 
-        for ( var i = CacheManager.GetCacheData().Count - 1; i >= 0; i-- )
+        for ( int i = CacheManager.GetCacheData().Count - 1; i >= 0; i-- )
         {
           LogEntry log = CacheManager[i];
 
@@ -1600,7 +1600,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         int count = LogCollectionView.Collection.Count - SettingsHelperController.CurrentSettings.LogLineLimit;
 
-        for ( int i = 0; i < count; i++ )
+        for ( var i = 0; i < count; i++ )
         {
           LogCollectionView.Collection.RemoveAt(i);
         }
@@ -1667,10 +1667,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !IsRightWindow(e.WindowId) )
         return;
 
-      LogWindowSplitElement.BookmarkCount = EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource == null ? 0 :
-        EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource.Count;
-      LogWindowMainElement.BookmarkCount = EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource == null ? 0 :
-        EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource.Count;
+      LogWindowSplitElement.BookmarkCount = EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource == null
+        ? 0
+        : EnvironmentContainer.Instance.BookmarkManager.Count;
+      LogWindowMainElement.BookmarkCount = EnvironmentContainer.Instance.BookmarkManager.BookmarkDataSource == null
+        ? 0
+        : EnvironmentContainer.Instance.BookmarkManager.Count;
     }
 
     #endregion
