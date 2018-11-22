@@ -332,13 +332,16 @@
                             >
                             <Button
                               Height="10"
-                              Margin="5 0"
+                              Margin="2 0"
                               Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=UndoCommand}"
                               ToolTip="{DynamicResource FileManagerUndo}"
                               >
                               <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
-                                  <Grid>
+                                  <Grid
+                                    x:Name="BtnChrome"
+                                    Background="Transparent"
+                                    >
                                     <Grid.ColumnDefinitions>
                                       <ColumnDefinition Width="Auto" />
                                       <ColumnDefinition Width="Auto" />
@@ -372,7 +375,7 @@
                                   </Grid>
 
                                   <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
+                                    <Trigger Property="IsMouseOver" Value="True" SourceName="BtnChrome">
                                       <Setter TargetName="ButtonLabel" Property="Foreground" Value="#6DC2E9" />
                                     </Trigger>
                                   </ControlTemplate.Triggers>
@@ -395,41 +398,51 @@
                               SnapsToDevicePixels="True"
                               />
 
-                            <Label
-                              x:Name="BookmarkCountLabel"
-                              Margin="0 0 3 0"
-                              VerticalAlignment="Center"
-                              ContentStringFormat="{DynamicResource BookmarkOverviewBookmarkCount}"
-                              FontFamily="Calibri"
-                              FontSize="11"
-                              />
-
                             <Button
                               x:Name="BookmarkOverviewButton"
-                              Width="10"
                               Height="10"
-                              Margin="0 0 3 0"
+                              Margin="2 0 3 0"
                               Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=BookmarkOverviewCommand}"
                               SnapsToDevicePixels="True"
                               ToolTip="{DynamicResource LogWindowControlOpenBookmarkOverviewToolTip}"
                               >
                               <Button.Template>
                                 <ControlTemplate TargetType="{x:Type Button}">
-                                  <Grid>
+                                  <Grid
+                                    x:Name="BtnChrome"
+                                    Background="Transparent"
+                                    >
+                                    <Grid.ColumnDefinitions>
+                                      <ColumnDefinition Width="Auto" />
+                                      <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label
+                                      x:Name="BookmarkCountLabel"
+                                      Grid.Column="0"
+                                      Margin="0 -1 2 0"
+                                      ContentStringFormat="{DynamicResource BookmarkOverviewBookmarkCount}"
+                                      FontFamily="Calibri"
+                                      FontSize="11"
+                                      />
+
                                     <Ellipse
                                       x:Name="BookmarkEllipse"
-                                      Margin="1"
+                                      Grid.Column="1"
+                                      Margin="2"
                                       Fill="Black"
-                                      Stretch="Uniform"
+                                      Stretch="UniformToFill"
                                       />
                                   </Grid>
 
                                   <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
+                                    <Trigger Property="IsMouseOver" Value="True" SourceName="BtnChrome">
+                                      <Setter TargetName="BookmarkCountLabel" Property="Foreground" Value="#6DC2E9" />
                                       <Setter TargetName="BookmarkEllipse" Property="Fill" Value="#6DC2E9" />
                                     </Trigger>
 
                                     <Trigger Property="IsEnabled" Value="False">
+                                      <Setter TargetName="BookmarkCountLabel" Property="Foreground" Value="{StaticResource BrushSolidGrey55}" />
                                       <Setter TargetName="BookmarkEllipse" Property="Fill" Value="{StaticResource BrushSolidGrey55}" />
                                     </Trigger>
                                   </ControlTemplate.Triggers>
