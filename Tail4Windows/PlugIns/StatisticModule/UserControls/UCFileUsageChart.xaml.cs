@@ -403,11 +403,11 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
               BookmarkCount = file.BookmarkCount
             });
 
-            double value = file.IsWindowsEvent ?
-              file.FileSizeTotalEvents.Equals(maxWindowsEvents) ?
-                maxValue :
-                (file.FileSizeTotalEvents * maxValue) / maxWindowsEvents :
-              file.FileSizeTotalEvents / 100;
+            double value = file.IsWindowsEvent
+              ? file.FileSizeTotalEvents.Equals(maxWindowsEvents)
+                ? maxValue
+                : (file.FileSizeTotalEvents * maxValue) / maxWindowsEvents
+              : file.FileSizeTotalEvents / 100;
 
             fileSize.Add(new FileSizeModel(count, value)
             {

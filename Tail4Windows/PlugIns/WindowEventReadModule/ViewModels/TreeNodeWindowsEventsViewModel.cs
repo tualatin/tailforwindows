@@ -222,12 +222,11 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
     /// </summary>
     public void Expand()
     {
-      Children.Where(p => !p.IsLeaf).ToList().ForEach(
-        p =>
-        {
-          p.IsExpanded = true;
-          p.Expand();
-        });
+      Children.Where(p => !p.IsLeaf).ToList().ForEach(p =>
+      {
+        p.IsExpanded = true;
+        p.Expand();
+      });
     }
 
     /// <summary>
@@ -235,12 +234,11 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
     /// </summary>
     public void Collapse()
     {
-      Children.Where(p => p.IsExpanded).ToList().ForEach(
-        p =>
-        {
-          p.IsExpanded = false;
-          p.Collapse();
-        });
+      Children.Where(p => p.IsExpanded).ToList().ForEach(p =>
+      {
+        p.IsExpanded = false;
+        p.Collapse();
+      });
     }
 
     /// <summary>

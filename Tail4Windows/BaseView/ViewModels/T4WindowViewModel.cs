@@ -1237,44 +1237,43 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
           continue;
         }
 
-        new ThrottledExecution().InMs(5000).Do(
-          () =>
+        new ThrottledExecution().InMs(5000).Do(() =>
+        {
+          staThread = new Thread(() =>
           {
-            staThread = new Thread(() =>
+            Dispatcher.CurrentDispatcher.Invoke(() =>
             {
-              Dispatcher.CurrentDispatcher.Invoke(() =>
+              var updateDialog = new AutoUpdatePopUp
               {
-                var updateDialog = new AutoUpdatePopUp
-                {
-                  ApplicationVersion = result.ApplicationVersion.ToString(),
-                  WebVersion = result.WebVersion.ToString(),
-                  UpdateHint = Application.Current.TryFindResource("UpdateControlUpdateExits").ToString()
-                };
+                ApplicationVersion = result.ApplicationVersion.ToString(),
+                WebVersion = result.WebVersion.ToString(),
+                UpdateHint = Application.Current.TryFindResource("UpdateControlUpdateExits").ToString()
+              };
 
-                var wnd = new Window
-                {
-                  Visibility = Visibility.Hidden,
-                  WindowState = WindowState.Minimized,
-                  ShowInTaskbar = false
-                };
+              var wnd = new Window
+              {
+                Visibility = Visibility.Hidden,
+                WindowState = WindowState.Minimized,
+                ShowInTaskbar = false
+              };
 
-                wnd.Show();
-                updateDialog.Owner = wnd;
-                updateDialog.ShowDialog();
-              }, DispatcherPriority.Normal);
-            })
-            {
-              Name = $"{CoreEnvironment.ApplicationTitle}_AutoUpdateThread",
-              IsBackground = true
-            };
+              wnd.Show();
+              updateDialog.Owner = wnd;
+              updateDialog.ShowDialog();
+            }, DispatcherPriority.Normal);
+          })
+          {
+            Name = $"{CoreEnvironment.ApplicationTitle}_AutoUpdateThread",
+            IsBackground = true
+          };
 
-            if ( staThread == null )
-              return;
+          if ( staThread == null )
+            return;
 
-            staThread.SetApartmentState(ApartmentState.STA);
-            staThread.Start();
-            staThread.Join();
-          });
+          staThread.SetApartmentState(ApartmentState.STA);
+          staThread.Start();
+          staThread.Join();
+        });
 
         await Task.Delay(TimeSpan.FromDays(1), _cts.Token).ConfigureAwait(false);
       }

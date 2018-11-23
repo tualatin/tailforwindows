@@ -199,10 +199,12 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
     {
       string windowsLabel = Application.Current.TryFindResource("WindowsEventWindowsLogs").ToString();
       string applicationLabel = Application.Current.TryFindResource("WindowsEventApplicationLogs").ToString();
-      var windowsLogs = _categories.Where(p => string.Compare(p.Category, windowsLabel, StringComparison.OrdinalIgnoreCase) == 0).
-        Select(p => new TreeNodeWindowsEventsViewModel(p.LogDisplayName, p.Log, "event.png")).ToList();
-      var applicationLogs = _categories.Where(p => string.Compare(p.Category, applicationLabel, StringComparison.OrdinalIgnoreCase) == 0).
-        Select(p => new TreeNodeWindowsEventsViewModel(p.LogDisplayName, p.Log, "event.png")).ToList();
+      var windowsLogs = _categories
+        .Where(p => string.Compare(p.Category, windowsLabel, StringComparison.OrdinalIgnoreCase) == 0)
+        .Select(p => new TreeNodeWindowsEventsViewModel(p.LogDisplayName, p.Log, "event.png")).ToList();
+      var applicationLogs = _categories
+        .Where(p => string.Compare(p.Category, applicationLabel, StringComparison.OrdinalIgnoreCase) == 0)
+        .Select(p => new TreeNodeWindowsEventsViewModel(p.LogDisplayName, p.Log, "event.png")).ToList();
 
       var windowsTreeView = new TreeNodeWindowsEventsViewModel(windowsLabel, string.Empty, windowsLogs, "openfolder.ico");
       var applicationTreeView = new TreeNodeWindowsEventsViewModel(applicationLabel, string.Empty, applicationLogs, "openfolder.ico");
@@ -224,23 +226,22 @@ namespace Org.Vs.TailForWin.PlugIns.WindowEventReadModule.ViewModels
       MouseService.SetBusyState();
       SetCancellationTokenSource();
 
-      await Task.Run(
-        () =>
+      await Task.Run(() =>
+      {
+        try
         {
-          try
+          foreach ( TreeNodeWindowsEventsViewModel node in Root )
           {
-            foreach ( TreeNodeWindowsEventsViewModel node in Root )
-            {
-              node.ApplyCriteria(string.Empty, new Stack<ITreeNodeViewModel>());
-            }
+            node.ApplyCriteria(string.Empty, new Stack<ITreeNodeViewModel>());
+          }
 
-            OpenRootNode();
-          }
-          catch ( Exception ex )
-          {
-            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-          }
-        }, _cts.Token).ConfigureAwait(false);
+          OpenRootNode();
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+      }, _cts.Token).ConfigureAwait(false);
     }
 
     private void OpenRootNode()

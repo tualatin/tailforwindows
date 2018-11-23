@@ -315,9 +315,9 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
         return string.Empty;
 
       var series = ChartSeries.Where(p => p.IsSeriesVisible).ToList();
-      string file = model.FileCount == 1 ?
-        Application.Current.TryFindResource("AnalysisMemUsageFile").ToString() :
-        Application.Current.TryFindResource("AnalysisMemUsageFiles").ToString();
+      string file = model.FileCount == 1
+        ? Application.Current.TryFindResource("AnalysisMemUsageFile").ToString()
+        : Application.Current.TryFindResource("AnalysisMemUsageFiles").ToString();
 
       if ( series.Count == 2 )
         return $"{model.Y} MB ({model.FileCount} {file})";
