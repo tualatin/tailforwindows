@@ -88,13 +88,37 @@ namespace Org.Vs.TailForWin.Business.Controllers
       try
       {
         IPHostEntry lvsHost = Dns.GetHostEntry(Dns.GetHostName());
+        var idxIp6 = 0;
+        var idxIp4 = 0;
 
         Array.ForEach(lvsHost.AddressList, currentAddress =>
         {
           if ( string.CompareOrdinal(currentAddress.AddressFamily.ToString(), ProtocolFamily.InterNetworkV6.ToString()) == 0 )
-            ipAddress.Ipv6 = currentAddress.ToString();
+          {
+            if ( idxIp6 == 0 )
+            {
+              ipAddress.Ipv6 = currentAddress.ToString();
+              idxIp6++;
+            }
+            else
+            {
+              ipAddress.Ipv6 += $" ({currentAddress.ToString()})";
+              idxIp6++;
+            }
+          }
           else
-            ipAddress.Ipv4 = currentAddress.ToString();
+          {
+            if ( idxIp4 == 0 )
+            {
+              ipAddress.Ipv4 = currentAddress.ToString();
+              idxIp4++;
+            }
+            else
+            {
+              ipAddress.Ipv4 += $" ({currentAddress.ToString()})";
+              idxIp4++;
+            }
+          }
         });
       }
       catch ( Exception ex )
@@ -119,18 +143,11 @@ namespace Org.Vs.TailForWin.Business.Controllers
       {
         foreach ( var cpu in cpuInfo.Get().Cast<ManagementObject>() )
         {
+          myCpu.NumberOfProcessors = cpu["NumberOfEnabledCore"].ToString();
+          myCpu.LogicalNumberOfProcessors = cpu["NumberOfLogicalProcessors"].ToString();
           myCpu.Manufacturer = cpu["Manufacturer"].ToString();
           myCpu.ClockSpeed = cpu["CurrentClockSpeed"].ToString();
           myCpu.Name = cpu["Name"].ToString();
-        }
-      }
-
-      using ( ManagementObjectSearcher cpuInfo = new ManagementObjectSearcher("SELECT * FROM Win32_ComputerSystem ") )
-      {
-        foreach ( var cpu in cpuInfo.Get().Cast<ManagementObject>() )
-        {
-          myCpu.NumberOfProcessors = cpu["NumberOfProcessors"].ToString();
-          myCpu.LogicalNumberOfProcessors = cpu["NumberOfLogicalProcessors"].ToString();
         }
       }
       return myCpu;
