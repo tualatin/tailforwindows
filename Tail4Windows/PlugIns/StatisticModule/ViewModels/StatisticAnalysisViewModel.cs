@@ -279,8 +279,6 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
 
     private async Task CalculationStatisticsAsync()
     {
-      MouseService.SetBusyState();
-
       try
       {
         _cts?.Dispose();
@@ -334,7 +332,10 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
     private void PaintChartDiagram()
     {
       if ( _statisticAnalysisCollection == null || _statisticAnalysisCollection.Count == 0 )
+      {
+        IsBusy = false;
         return;
+      }
 
       var upTime = new TimeSpan();
       upTime = _statisticAnalysisCollection.Aggregate(upTime, (current, item) => current.Add(item.SessionEntity.UpTime));
