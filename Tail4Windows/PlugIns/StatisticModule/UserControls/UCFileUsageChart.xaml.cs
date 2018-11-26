@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -32,6 +33,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
   public partial class UCFileUsageChart : IUcFileUsageChart
   {
     private NotifyTaskCompletion _runner;
+    private int _fileCount;
 
     #region Properties
 
@@ -368,7 +370,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
       await Task.Run(() =>
       {
-        var count = 0;
+        _fileCount = 0;
         var sessionCount = 1;
 
         // Get only file entries and select the max file size
@@ -384,7 +386,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
           {
             var sessionModel = new FileSessionModel
             {
-              FilesCount = count,
+              FilesCount = _fileCount,
               SessionCount = sessionCount,
               BookmarkCount = file.BookmarkCount,
               FileSize = file.FileSizeTotalEvents,
@@ -398,7 +400,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
               sessionModel.TimeSpan = file.ElapsedTime.Value;
 
             fileValues.Add(sessionModel);
-            bookmarkValues.Add(new BookmarkModel(count, (double) file.BookmarkCount / 2)
+            bookmarkValues.Add(new BookmarkModel(_fileCount, (double) file.BookmarkCount / 2)
             {
               BookmarkCount = file.BookmarkCount
             });
@@ -409,13 +411,13 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
                 : (file.FileSizeTotalEvents * maxValue) / maxWindowsEvents
               : file.FileSizeTotalEvents / 100;
 
-            fileSize.Add(new FileSizeModel(count, value)
+            fileSize.Add(new FileSizeModel(_fileCount, value)
             {
               IsWindowsEvent = file.IsWindowsEvent,
               FileSize = file.FileSizeTotalEvents,
               LogCount = file.LogCount
             });
-            count++;
+            _fileCount++;
           }
 
           sessionCount++;
@@ -543,6 +545,13 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
     private string FileUsageXAxisFormatter(double arg)
     {
+      double proportion = ActualWidth / _fileCount;
+      Debug.WriteLine($"{GetType().Name} Proportion: {proportion}");
+
+      // Remove chart labels, if proportion does not allow it
+      if ( proportion < 17 )
+        return string.Empty;
+
       double file = arg + 1;
       return $"{file}";
     }

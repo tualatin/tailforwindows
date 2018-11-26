@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -29,6 +30,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
   public partial class UCMemoryUsageChart : IUcMemoryUsageChart
   {
     private NotifyTaskCompletion _runner;
+    private int _sessionCount;
 
     /// <summary>
     /// Chart series
@@ -270,11 +272,11 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
           return;
         }
 
-        var count = 0;
+        _sessionCount = 0;
 
         foreach ( StatisticAnalysisData item in analysisCollection )
         {
-          memoryUsage.Add(new MemoryModel(count, Math.Round((item.SessionEntity.MemoryUsage / 1024d) / 1014, 2))
+          memoryUsage.Add(new MemoryModel(_sessionCount, Math.Round((item.SessionEntity.MemoryUsage / 1024d) / 1014, 2))
           {
             Date = item.SessionEntity.Date,
             FileCount = item.Files.Count
@@ -284,9 +286,9 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
           {
             TimeSpan = item.SessionEntity.UpTime,
             Date = item.SessionEntity.Date,
-            Value = count
+            Value = _sessionCount
           });
-          count++;
+          _sessionCount++;
         }
 
         var averageMem = memoryUsage.Average(p => p.Y);
@@ -332,6 +334,13 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls
 
     private string MemoryUsageXAxisFormatter(double arg)
     {
+      double proportion = ActualWidth / _sessionCount;
+      Debug.WriteLine($"{GetType().Name} Proportion: {proportion}");
+
+      // Remove chart labels, if proportion does not allow it
+      if ( proportion < 17 )
+        return string.Empty;
+
       double session = arg + 1;
       return $"{session}.";
     }
