@@ -5,6 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+  xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
   xmlns:enums="clr-namespace:Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Enums;assembly=T4WControllers"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
   xmlns:uc="clr-namespace:Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls"
@@ -42,183 +43,188 @@
     BorderBrush="{StaticResource BrushSolidBlue}"
     BorderThickness="1 1 1 0"
     >
-    <Grid>
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition />
-        <RowDefinition Height="17" />
-      </Grid.RowDefinitions>
+    <xctk:BusyIndicator
+      BusyContent="{DynamicResource AnalysisCollectData}"
+      IsBusy="{Binding IsBusy, UpdateSourceTrigger=PropertyChanged}"
+      >
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition />
+          <RowDefinition Height="17" />
+        </Grid.RowDefinitions>
 
-      <Grid
-        Grid.Row="0"
-        Margin="5"
-        >
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition />
-          <ColumnDefinition />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="180" />
-          <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
+        <Grid
+          Grid.Row="0"
+          Margin="5"
+          >
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
 
-        <Label
-          Grid.Column="0"
+          <Label
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Content="{Binding UpTime, UpdateSourceTrigger=PropertyChanged}"
+            FontWeight="DemiBold"
+            />
+
+          <Label
+            Grid.Column="1"
+            Margin="5 0"
+            VerticalAlignment="Center"
+            Content="{Binding TotalFiles, UpdateSourceTrigger=PropertyChanged}"
+            FontWeight="DemiBold"
+            />
+
+          <Label
+            Grid.Column="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Content="{DynamicResource AnalysisChartTypeLabel}"
+            />
+
+          <ComboBox
+            Grid.Column="3"
+            Height="22"
+            Margin="6 0 0 0"
+            DisplayMemberPath="Description"
+            Foreground="Black"
+            ItemsSource="{Binding AnalysisOfMappings}"
+            SelectedValue="{Binding CurrentAnalysisOf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            SelectedValuePath="AnalysisOf"
+            TabIndex="0"
+            >
+            <ComboBox.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource AnalysisChartTypeLabel}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource AnalysisChartTypeToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </ComboBox.ToolTip>
+          </ComboBox>
+
+          <Button
+            Grid.Column="4"
+            Width="22"
+            Height="22"
+            Margin="5 0 0 0"
+            HorizontalAlignment="Right"
+            Command="{Binding RefreshCommand}"
+            TabIndex="1"
+            >
+            <StackPanel Margin="3">
+              <Image
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Unspecified"
+                Source="/T4W;component/Resources/refresh.png"
+                >
+                <Image.Style>
+                  <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+                      <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5" />
+                      </Trigger>
+                    </Style.Triggers>
+                  </Style>
+                </Image.Style>
+              </Image>
+            </StackPanel>
+            <Button.ToolTip>
+              <StackPanel>
+                <TextBlock
+                  Margin="0 0 0 5"
+                  Text="{DynamicResource WindowsEventRefresh}"
+                  FontSize="12"
+                  FontWeight="Bold"
+                  />
+                <TextBlock Text="{DynamicResource AnalysisChartViewRefreshToolTip}" />
+                <Border
+                  Margin="0 8"
+                  BorderBrush="Silver"
+                  BorderThickness="0 1 0 0"
+                  />
+                <WrapPanel>
+                  <Image
+                    Width="16"
+                    Height="16"
+                    Margin="0 0 5 0"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Aliased"
+                    Source="/T4W;component/Resources/Search.ico"
+                    />
+                  <TextBlock
+                    Text="{DynamicResource GeneralToolTipHint}"
+                    FontStyle="Italic"
+                    />
+                </WrapPanel>
+              </StackPanel>
+            </Button.ToolTip>
+          </Button>
+        </Grid>
+
+        <TextBlock
+          Grid.Row="1"
+          HorizontalAlignment="Center"
           VerticalAlignment="Center"
-          Content="{Binding UpTime, UpdateSourceTrigger=PropertyChanged}"
+          Text="{DynamicResource AnalysisNoDataAvailable}"
+          FontSize="16"
           FontWeight="DemiBold"
+          Visibility="{Binding StatisticAnalysisCollection.Count, Converter={StaticResource IntToVisibilityConverter}, ConverterParameter=Inverse}"
           />
 
-        <Label
-          Grid.Column="1"
+        <Grid
+          Grid.Row="1"
           Margin="5 0"
-          VerticalAlignment="Center"
-          Content="{Binding TotalFiles, UpdateSourceTrigger=PropertyChanged}"
-          FontWeight="DemiBold"
-          />
-
-        <Label
-          Grid.Column="2"
-          HorizontalAlignment="Right"
-          VerticalAlignment="Center"
-          Content="{DynamicResource AnalysisChartTypeLabel}"
-          />
-
-        <ComboBox
-          Grid.Column="3"
-          Height="22"
-          Margin="6 0 0 0"
-          DisplayMemberPath="Description"
-          Foreground="Black"
-          ItemsSource="{Binding AnalysisOfMappings}"
-          SelectedValue="{Binding CurrentAnalysisOf, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-          SelectedValuePath="AnalysisOf"
-          TabIndex="0"
+          Visibility="{Binding StatisticAnalysisCollection.Count, Converter={StaticResource IntToVisibilityConverter}}"
           >
-          <ComboBox.ToolTip>
-            <StackPanel>
-              <TextBlock
-                Margin="0 0 0 5"
-                Text="{DynamicResource AnalysisChartTypeLabel}"
-                FontSize="12"
-                FontWeight="Bold"
-                />
-              <TextBlock Text="{DynamicResource AnalysisChartTypeToolTip}" />
-              <Border
-                Margin="0 8"
-                BorderBrush="Silver"
-                BorderThickness="0 1 0 0"
-                />
-              <WrapPanel>
-                <Image
-                  Width="16"
-                  Height="16"
-                  Margin="0 0 5 0"
-                  RenderOptions.BitmapScalingMode="HighQuality"
-                  RenderOptions.EdgeMode="Aliased"
-                  Source="/T4W;component/Resources/Search.ico"
-                  />
-                <TextBlock
-                  Text="{DynamicResource GeneralToolTipHint}"
-                  FontStyle="Italic"
-                  />
-              </WrapPanel>
-            </StackPanel>
-          </ComboBox.ToolTip>
-        </ComboBox>
+          <uc:UCMemoryUsageChart
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            AnalysisCollection="{Binding ElementName=StatisticAnalysisWindow, Path=DataContext.StatisticAnalysisCollection, UpdateSourceTrigger=PropertyChanged}"
+            Visibility="{Binding ElementName=StatisticAnalysisWindow, Path=DataContext.CurrentAnalysisOf, Converter={StaticResource AnalysisEnumToVisibilityConverter}, ConverterParameter={x:Static enums:EAnalysisOf.MemoryUsage}}"
+            />
 
-        <Button
-          Grid.Column="4"
-          Width="22"
-          Height="22"
-          Margin="5 0 0 0"
-          HorizontalAlignment="Right"
-          Command="{Binding RefreshCommand}"
-          TabIndex="1"
-          >
-          <StackPanel Margin="3">
-            <Image
-              RenderOptions.BitmapScalingMode="HighQuality"
-              RenderOptions.EdgeMode="Unspecified"
-              Source="/T4W;component/Resources/refresh.png"
-              >
-              <Image.Style>
-                <Style TargetType="{x:Type Image}">
-                  <Style.Triggers>
-                    <Trigger Property="IsEnabled" Value="False">
-                      <Setter Property="Opacity" Value="0.5" />
-                    </Trigger>
-                  </Style.Triggers>
-                </Style>
-              </Image.Style>
-            </Image>
-          </StackPanel>
-          <Button.ToolTip>
-            <StackPanel>
-              <TextBlock
-                Margin="0 0 0 5"
-                Text="{DynamicResource WindowsEventRefresh}"
-                FontSize="12"
-                FontWeight="Bold"
-                />
-              <TextBlock Text="{DynamicResource AnalysisChartViewRefreshToolTip}" />
-              <Border
-                Margin="0 8"
-                BorderBrush="Silver"
-                BorderThickness="0 1 0 0"
-                />
-              <WrapPanel>
-                <Image
-                  Width="16"
-                  Height="16"
-                  Margin="0 0 5 0"
-                  RenderOptions.BitmapScalingMode="HighQuality"
-                  RenderOptions.EdgeMode="Aliased"
-                  Source="/T4W;component/Resources/Search.ico"
-                  />
-                <TextBlock
-                  Text="{DynamicResource GeneralToolTipHint}"
-                  FontStyle="Italic"
-                  />
-              </WrapPanel>
-            </StackPanel>
-          </Button.ToolTip>
-        </Button>
-      </Grid>
+          <uc:UCFileUsageChart
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            AnalysisCollection="{Binding ElementName=StatisticAnalysisWindow, Path=DataContext.StatisticAnalysisCollection, UpdateSourceTrigger=PropertyChanged}"
+            Visibility="{Binding ElementName=StatisticAnalysisWindow, Path=DataContext.CurrentAnalysisOf, Converter={StaticResource AnalysisEnumToVisibilityConverter}, ConverterParameter={x:Static enums:EAnalysisOf.FileUsage}}"
+            />
+        </Grid>
 
-      <TextBlock
-        Grid.Row="1"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        Text="{DynamicResource AnalysisNoDataAvailable}"
-        FontSize="16"
-        FontWeight="DemiBold"
-        Visibility="{Binding StatisticAnalysisCollection.Count, Converter={StaticResource IntToVisibilityConverter}, ConverterParameter=Inverse}"
-        />
-
-      <Grid
-        Grid.Row="1"
-        Margin="5 0"
-        Visibility="{Binding StatisticAnalysisCollection.Count, Converter={StaticResource IntToVisibilityConverter}}"
-        >
-        <uc:UCMemoryUsageChart
-          HorizontalAlignment="Stretch"
-          VerticalAlignment="Stretch"
-          AnalysisCollection="{Binding ElementName=StatisticAnalysisWindow, Path=DataContext.StatisticAnalysisCollection, UpdateSourceTrigger=PropertyChanged}"
-          Visibility="{Binding ElementName=StatisticAnalysisWindow, Path=DataContext.CurrentAnalysisOf, Converter={StaticResource AnalysisEnumToVisibilityConverter}, ConverterParameter={x:Static enums:EAnalysisOf.MemoryUsage}}"
-          />
-
-        <uc:UCFileUsageChart
-          HorizontalAlignment="Stretch"
-          VerticalAlignment="Stretch"
-          AnalysisCollection="{Binding ElementName=StatisticAnalysisWindow, Path=DataContext.StatisticAnalysisCollection, UpdateSourceTrigger=PropertyChanged}"
-          Visibility="{Binding ElementName=StatisticAnalysisWindow, Path=DataContext.CurrentAnalysisOf, Converter={StaticResource AnalysisEnumToVisibilityConverter}, ConverterParameter={x:Static enums:EAnalysisOf.FileUsage}}"
+        <Border
+          Grid.Row="2"
+          Background="{StaticResource BrushSolidBlue}"
           />
       </Grid>
-
-      <Border
-        Grid.Row="2"
-        Background="{StaticResource BrushSolidBlue}"
-        />
-    </Grid>
+    </xctk:BusyIndicator>
   </Border>
 </extendedControls:VsWindowEx>

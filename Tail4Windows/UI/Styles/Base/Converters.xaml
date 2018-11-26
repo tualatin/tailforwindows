@@ -54,6 +54,7 @@
   <converters:AnalysisEnumToVisibilityConverter x:Key="AnalysisEnumToVisibilityConverter" />
   <converters:OpacityConverter x:Key="OpacityConverter" />
   <converters:ReverseConverter x:Key="ReverseConverter" />
+  <converters:TaskStatusToBoolConverter x:Key="TaskStatusToBoolConverter" />
 
   <multiConverters:WidthToMarginMultiConverter x:Key="WidthToMarginMultiConverter" />
   <multiConverters:VisibilityToMarginMultiConverter x:Key="VisibilityToMarginMultiConverter" />

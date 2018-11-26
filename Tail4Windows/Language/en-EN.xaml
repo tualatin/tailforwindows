@@ -260,6 +260,7 @@
   <system:String x:Key="AboutDonate">Donate</system:String>
   <system:String x:Key="AboutDonateToolTip">You like my work, you can donate</system:String>
 
+  <system:String x:Key="SystemInfoCollectData">Collect system information...</system:String>
   <system:String x:Key="SystemInfoKey">Key</system:String>
   <system:String x:Key="SystemInfoValue">Value</system:String>
   <system:String x:Key="Os">Operating System</system:String>
@@ -606,6 +607,7 @@
   <system:String x:Key="ConvertProfileWrongParameter">Unknown parameter!</system:String>
   <system:String x:Key="ConvertProfileSuccess">Your profile has been successfully converted.</system:String>
 
+  <system:String x:Key="AnalysisCollectData">Collect data...</system:String>
   <system:String x:Key="AnalysisNoDataAvailable">No data available!</system:String>
   <system:String x:Key="AnalysisContextMenuResetView">Reset chart view</system:String>
   <system:String x:Key="AnalysisTotalUpTime">Total uptime</system:String>

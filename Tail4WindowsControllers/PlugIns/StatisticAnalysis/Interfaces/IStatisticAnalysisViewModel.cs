@@ -96,6 +96,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces
       set;
     }
 
+    /// <summary>
+    /// Is busy
+    /// </summary>
+    bool IsBusy
+    {
+      get;
+    }
+
     #endregion
 
     #region Commands

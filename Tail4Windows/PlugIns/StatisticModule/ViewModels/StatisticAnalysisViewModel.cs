@@ -174,6 +174,24 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       }
     }
 
+    private bool _isBusy;
+
+    /// <summary>
+    /// Is busy
+    /// </summary>
+    public bool IsBusy
+    {
+      get => _isBusy;
+      set
+      {
+        if ( value == _isBusy )
+          return;
+
+        _isBusy = value;
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     /// <summary>
@@ -234,9 +252,17 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
 
     #region Command functions
 
-    private async Task ExecuteRefreshCommandAsync() => await CalculationStatisticsAsync();
+    private async Task ExecuteRefreshCommandAsync()
+    {
+      IsBusy = true;
+      await CalculationStatisticsAsync();
+    }
 
-    private async Task ExecuteLoadedCommandAsync() => await CalculationStatisticsAsync();
+    private async Task ExecuteLoadedCommandAsync()
+    {
+      IsBusy = true;
+      await CalculationStatisticsAsync();
+    }
 
     private void ExecuteClosingCommand()
     {
@@ -311,13 +337,15 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
         return;
 
       var upTime = new TimeSpan();
-      upTime = _statisticAnalysisCollection.Cast<StatisticAnalysisData>().Aggregate(upTime, (current, item) => current.Add(item.SessionEntity.UpTime));
+      upTime = _statisticAnalysisCollection.Aggregate(upTime, (current, item) => current.Add(item.SessionEntity.UpTime));
       UpTime = $"{Application.Current.TryFindResource("AnalysisTotalUpTime")} {upTime.Days:D0} {Application.Current.TryFindResource("AboutUptimeDays")} " +
                $"{upTime.Hours:D2}:{upTime.Minutes:D2}:{upTime.Seconds:D2} {Application.Current.TryFindResource("AboutUptimeHours")}";
 
       var fileCount = 0;
-      fileCount = _statisticAnalysisCollection.Cast<StatisticAnalysisData>().Aggregate(fileCount, (current, item) => current + item.Files.Count);
+      fileCount = _statisticAnalysisCollection.Aggregate(fileCount, (current, item) => current + item.Files.Count);
       TotalFiles = $"{Application.Current.TryFindResource("AnalysisTotalFiles")} {fileCount:N0}";
+
+      IsBusy = false;
     }
   }
 }
