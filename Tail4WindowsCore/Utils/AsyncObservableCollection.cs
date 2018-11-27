@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Threading;
+using System.Windows.Data;
 
 
 namespace Org.Vs.TailForWin.Core.Utils
@@ -75,6 +76,8 @@ namespace Org.Vs.TailForWin.Core.Utils
       _sync = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
       _collectionChangedQueue = new ConcurrentQueue<NotifyCollectionChangedEventArgs>();
       _hashCollection = new HashSet<T>();
+
+      BindingOperations.EnableCollectionSynchronization(Items, _myLock);
     }
 
     #region IEnumerable<T> Members
