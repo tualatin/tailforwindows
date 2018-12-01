@@ -79,6 +79,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       await AddNewPropertyAsync(settings, cts);
     }
 
+    [Obsolete("Will removed as soon as possible")]
     private async Task RemovePropertiesIfExistsAsync(CancellationTokenSource cts)
     {
       var settings = new[]
@@ -165,6 +166,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       await RemoveObsoletePropertiesAsync(settings, cts.Token);
     }
 
+    [Obsolete("Will removed as soon as possible")]
     private async Task RemoveObsoletePropertiesAsync(IReadOnlyCollection<string> obsoleteSettings, CancellationToken token) => await Task.Run(() =>
     {
       if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
@@ -201,6 +203,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
     }, token);
 
+    [Obsolete("Will removed as soon as possible")]
     private void ReadSettings()
     {
       if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
@@ -243,6 +246,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           if ( !Directory.Exists(CoreEnvironment.UserSettingsPath) )
             Directory.CreateDirectory(CoreEnvironment.UserSettingsPath);
 
+          // To remove as soon as possible
           if ( !File.Exists(CoreEnvironment.ApplicationSettingsFile) )
           {
             if ( CurrentSettings.LastViewedOptionPage != Guid.Empty )
@@ -309,6 +313,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       await SaveSettingsAsync(cts);
     }
 
+    [Obsolete("Will removed as soon as possible")]
     private void SaveSettings()
     {
       if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
@@ -605,6 +610,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       if ( !string.IsNullOrWhiteSpace(guid) )
         CurrentSettings.LastViewedOptionPage = Guid.Parse(guid);
 
+      // To remove as soon as possible
       CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
       CurrentSettings.AlwaysOnTop = GetBoolFromSetting("AlwaysOnTop");
       CurrentSettings.RestoreWindowSize = GetBoolFromSetting("RestoreWindowSize");
@@ -644,6 +650,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ExportFormat = GetExportFormat(GetStringFromSetting("LastUsedExportFormat"));
     }
 
+    [Obsolete("Will removed as soon as possible")]
     private void ReadStatusBarSettings()
     {
       CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex = GetStringFromSetting("StatusBarInactiveBackgroundColor");
@@ -651,6 +658,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex = GetStringFromSetting("StatusBarTailBackgroundColor");
     }
 
+    [Obsolete("Will removed as soon as possible")]
     private void ReadLogViewerSettings()
     {
       CurrentSettings.ColorSettings.ForegroundColorHex = GetStringFromSetting("ForegroundColor");
@@ -663,6 +671,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ColorSettings.SplitterBackgroundColorHex = GetStringFromSetting("SplitterBackgroundColor");
     }
 
+    [Obsolete("Will removed as soon as possible")]
     private void ReadAlertSettings()
     {
       CurrentSettings.AlertSettings.BringToFront = GetBoolFromSetting("Alert.BringToFront", true);
@@ -673,6 +682,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.AlertSettings.SoundFileNameFullPath = GetStringFromSetting("Alert.SoundFile");
     }
 
+    [Obsolete("Will removed as soon as possible")]
     private void ReadSmtpSettings()
     {
       CurrentSettings.SmtpSettings.Ssl = GetBoolFromSetting("Smtp.Ssl", true);
@@ -684,6 +694,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.SmtpSettings.Subject = GetStringFromSetting("Smtp.Subject");
     }
 
+    [Obsolete("Will removed as soon as possible")]
     private void ReadProxySettings()
     {
       CurrentSettings.ProxySettings.UseSystemSettings = GetThreeStateBoolFromSetting("Proxy.UseSystem");
@@ -692,6 +703,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ProxySettings.UserName = GetStringFromSetting("Proxy.UserName");
     }
 
+    [Obsolete("Will removed as soon as possible")]
     private void ReadSmartWatchSettings()
     {
       CurrentSettings.SmartWatchSettings.AutoRun = GetBoolFromSetting("SmartWatch.AutoRun", true);
