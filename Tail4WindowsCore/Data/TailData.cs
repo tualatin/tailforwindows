@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using log4net;
+using Newtonsoft.Json;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
@@ -110,6 +111,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Current XML version
     /// </summary>
+    [JsonIgnore]
     public decimal Version
     {
       get => _version;
@@ -125,6 +127,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Unique ID of FileManager node
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public Guid Id
     {
       get => _id;
@@ -140,6 +143,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// This data comes from saved XML file
     /// </summary>
+    [JsonIgnore]
     public bool IsLoadedByXml
     {
       get => _isLoadedByXml;
@@ -158,6 +162,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Is Windows event
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool IsWindowsEvent
     {
       get => _isWindowsEvent;
@@ -180,6 +185,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Windows event data
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public WindowsEventData WindowsEvent
     {
       get => _windowsEvent;
@@ -198,6 +204,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Filename
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string FileName
     {
       get => _fileName;
@@ -224,6 +231,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Original filename from XML file or Tail4Windows window
     /// </summary>
+    [JsonIgnore]
     public string OriginalFileName
     {
       get;
@@ -233,6 +241,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Filename without path
     /// </summary>
+    [JsonIgnore]
     public string File
     {
       get
@@ -250,6 +259,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Description of item
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string Description
     {
       get => _description;
@@ -268,6 +278,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Category of item
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string Category
     {
       get => _category;
@@ -286,6 +297,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Open thread in new window
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "OpenInNewWindow")]
     public bool NewWindow
     {
       get => _newWindow;
@@ -302,11 +314,13 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// File creation time
     /// </summary>
+    [JsonIgnore]
     public DateTime? FileCreationTime => System.IO.File.Exists(FileName) ? (DateTime?) System.IO.File.GetCreationTime(FileName) : null;
 
     /// <summary>
     /// FileAge
     /// </summary>
+    [JsonIgnore]
     public TimeSpan? FileAge
     {
       get
@@ -330,6 +344,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Wrap text in textbox
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool Wrap
     {
       get => _wrap;
@@ -348,6 +363,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Remove extra space in each line
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool RemoveSpace
     {
       get => _removeSpace;
@@ -366,6 +382,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// RefreshRate for thread
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public ETailRefreshRate RefreshRate
     {
       get => _refreshRate;
@@ -384,6 +401,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Timestamp in taillog
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "UseTimestamp")]
     public bool Timestamp
     {
       get => _timeStamp;
@@ -402,6 +420,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// <see cref="Data.FontType"/>
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "FontStyle")]
     public FontType FontType
     {
       get => _fontType;
@@ -420,6 +439,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// ThreadPriority
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public System.Threading.ThreadPriority ThreadPriority
     {
       get => _threadPriority;
@@ -438,6 +458,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Last refresh time
     /// </summary>
+    [JsonIgnore]
     public DateTime LastRefreshTime
     {
       get => _lastRefreshTime;
@@ -453,6 +474,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// List of filters
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "Filters")]
     public ObservableCollection<FilterData> ListOfFilter
     {
       get => _listOfFilter;
@@ -468,6 +490,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// File encoding
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public Encoding FileEncoding
     {
       get => _fileEncoding;
@@ -486,6 +509,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Item opened by SmartWatch logic
     /// </summary>
+    [JsonIgnore]
     public bool OpenFromSmartWatch
     {
       get => _openFromSmartWatch;
@@ -504,6 +528,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Is item opened from FileManager
     /// </summary>
+    [JsonIgnore]
     public bool OpenFromFileManager
     {
       get => _openFromFileManager;
@@ -522,6 +547,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Is filter checkbox on/off
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "UseFilters")]
     public bool FilterState
     {
       get => _filterState;
@@ -540,6 +566,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Current pattern string
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "Pattern")]
     public string PatternString
     {
       get => _patternString;
@@ -558,6 +585,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// FindSettings
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public FindData FindSettings
     {
       get => _findSettings;
@@ -576,6 +604,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Use pattern logic
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool UsePattern
     {
       get => _usePattern;
@@ -594,6 +623,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Tail is using SmartWatch logic
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "UseSmartWatch")]
     public bool SmartWatch
     {
       get => _smartWatch;
@@ -612,6 +642,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Tail automatically after tab is created
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool AutoRun
     {
       get => _autoRun;
@@ -630,6 +661,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// TabItem background color as hex string
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "TabHeaderColor")]
     public string TabItemBackgroundColorStringHex
     {
       get => _tabItemBackgroundColorStringHex;
@@ -659,6 +691,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// </summary>
     /// <param name="columnName">Name of column</param>
     /// <returns>Current error result</returns>
+    [JsonIgnore]
     public string this[string columnName]
     {
       get
@@ -702,6 +735,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Gets an error message indicating what is wrong with this object.
     /// </summary>
+    [JsonIgnore]
     public string Error => throw new NotImplementedException();
   }
 }

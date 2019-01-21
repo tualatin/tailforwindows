@@ -29,21 +29,28 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
   /// <summary>
   /// XML FileManager controller
   /// </summary>
+  [Obsolete("Please use FileManagerController instead")]
   public class XmlFileManagerController : IXmlFileManager
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(XmlFileManagerController));
 
-    private readonly string _fileManagerFile;
     private readonly ISmartWatchController _smartWatchController;
     private XDocument _xmlDocument;
 
+    /// <summary>
+    /// Gets current XML config file
+    /// </summary>
+    public string XmlFileName
+    {
+      get;
+    }
 
     /// <summary>
     /// Standard constructor
     /// </summary>
     public XmlFileManagerController()
     {
-      _fileManagerFile = CoreEnvironment.UserSettingsPath + @"\FileManager.xml";
+      XmlFileName = CoreEnvironment.UserSettingsPath + @"\FileManager.xml";
       _smartWatchController = new SmartWatchController();
     }
 
@@ -53,7 +60,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
     /// <param name="path">Path of XML file</param>
     public XmlFileManagerController(string path)
     {
-      _fileManagerFile = path;
+      XmlFileName = path;
       _smartWatchController = new SmartWatchController();
     }
 
@@ -67,7 +74,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
     /// <exception cref="XmlException">If an error occurred while reading XML file</exception>
     public async Task<ObservableCollection<TailData>> ReadXmlFileAsync(CancellationToken token)
     {
-      if ( !File.Exists(_fileManagerFile) )
+      if ( !File.Exists(XmlFileName) )
         return new ObservableCollection<TailData>();
 
       LOG.Trace("Read XML");
@@ -89,7 +96,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 
       try
       {
-        _xmlDocument = XDocument.Load(_fileManagerFile);
+        _xmlDocument = XDocument.Load(XmlFileName);
         var xmlVersion = _xmlDocument.Root?.Element(XmlNames.XmlVersion)?.Value.ConvertToDecimal();
         decimal version = xmlVersion.HasValue ? (xmlVersion.Value == decimal.MinValue ? XmlNames.CurrentXmlVersion : xmlVersion.Value) : XmlNames.CurrentXmlVersion;
         var files = new AsyncObservableCollection<TailData>();
@@ -279,7 +286,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 
     private void WriteXmlFile()
     {
-      _xmlDocument.Save(_fileManagerFile, SaveOptions.None);
+      _xmlDocument.Save(XmlFileName, SaveOptions.None);
     }
 
     /// <summary>
@@ -297,7 +304,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       {
         try
         {
-          if ( !File.Exists(_fileManagerFile) )
+          if ( !File.Exists(XmlFileName) )
           {
             // Adds XML version
             _xmlDocument = new XDocument(new XElement(XmlNames.FileManagerXmlRoot));

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils.UndoRedoManager.Interfaces;
 
@@ -16,11 +17,13 @@ namespace Org.Vs.TailForWin.Core.Utils.UndoRedoManager
     /// <summary>
     /// Can undo
     /// </summary>
+    [JsonIgnore]
     public bool CanUndo => _undos.Count > 0;
 
     /// <summary>
     /// Can redo
     /// </summary>
+    [JsonIgnore]
     public bool CanRedo => _redos.Count > 0;
 
     /// <summary>

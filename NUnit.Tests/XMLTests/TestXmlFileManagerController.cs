@@ -20,7 +20,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
   public class TestXmlFileManagerController
   {
     private IXmlFileManager _xmlReader;
-    private TestContext _currenTestContext;
+    private TestContext _currentTestContext;
     private TailData _tailData;
     private string _path;
     private string _tempPath;
@@ -35,9 +35,9 @@ namespace Org.Vs.NUnit.Tests.XmlTests
         Application.LoadComponent(new Uri("/T4W;component/app.xaml", UriKind.Relative));
 
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-      _currenTestContext = TestContext.CurrentContext;
-      _tempPath = _currenTestContext.TestDirectory + @"\Files\FileManager.xml";
-      _path = _currenTestContext.TestDirectory + @"\FileManager.xml";
+      _currentTestContext = TestContext.CurrentContext;
+      _tempPath = _currentTestContext.TestDirectory + @"\Files\FileManager.xml";
+      _path = _currentTestContext.TestDirectory + @"\FileManager.xml";
       _tailData = new TailData
       {
         Id = Guid.Parse("8a0c7206-7d0e-4d81-a25c-1d4accca09b7"),
@@ -265,7 +265,7 @@ namespace Org.Vs.NUnit.Tests.XmlTests
 
       Assert.That(() => _xmlReader.AddTailDataToXmlFileAsync(_cts.Token, null), Throws.InstanceOf<ArgumentException>());
 
-      var path = _currenTestContext.TestDirectory + @"\FileManager.xml";
+      var path = _currentTestContext.TestDirectory + @"\FileManager.xml";
 
       if ( File.Exists(path) )
         File.Delete(path);

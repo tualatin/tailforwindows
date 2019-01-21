@@ -1,0 +1,137 @@
+[
+  {
+    "Id": "ce14d954-9336-4b8f-8160-67362f2f11a2",
+    "IsWindowsEvent": false,
+    "WindowsEvent": {
+      "Category": null,
+      "Description": null,
+      "Machine": ".",
+      "UserName": null
+    },
+    "FileName": "D:\\Temp\\dd_setup_20170308174811.log",
+    "Description": "Visual Studio Setup",
+    "Category": "MS Setup",
+    "OpenInNewWindow": false,
+    "Wrap": false,
+    "RemoveSpace": true,
+    "RefreshRate": 1000,
+    "UseTimestamp": false,
+    "FontStyle": {
+      "Size": 12.0,
+      "Style": "Normal",
+      "Weight": "Normal",
+      "Family": "Segoe UI",
+      "Stretch": "Normal"
+    },
+    "ThreadPriority": 2,
+    "Filters": [],
+    "FileEncoding": null,
+    "UseFilters": false,
+    "Pattern": "dd_setup_??????????????.log",
+    "FindSettings": {
+      "Wrap": false,
+      "UseRegex": false,
+      "WholeWord": true,
+      "CaseSensitive": false,
+      "UseWildcard": false
+    },
+    "UsePattern": true,
+    "UseSmartWatch": true,
+    "AutoRun": true,
+    "TabHeaderColor": "#FFD6DBE9"
+  },
+  {
+    "Id": "8a0c7206-7d0e-4d81-a25c-1d4accca09b7",
+    "IsWindowsEvent": false,
+    "WindowsEvent": {
+      "Category": null,
+      "Description": null,
+      "Machine": ".",
+      "UserName": null
+    },
+    "FileName": "D:\\Tools\\TailForWindows\\logs\\tailforwindows_2017-03-06.log",
+    "Description": "Tail4Windows",
+    "Category": "T4F",
+    "OpenInNewWindow": false,
+    "Wrap": false,
+    "RemoveSpace": false,
+    "RefreshRate": 50,
+    "UseTimestamp": false,
+    "FontStyle": {
+      "Size": 12.0,
+      "Style": "Normal",
+      "Weight": "Normal",
+      "Family": "Segoe UI",
+      "Stretch": "Normal"
+    },
+    "ThreadPriority": 0,
+    "Filters": [
+      {
+        "Id": "e8378c20-c0cc-457e-872f-c4139539dec9",
+        "IsEnabled": true,
+        "IsHighlight": false,
+        "FilterSource": true,
+        "UseNotification": false,
+        "Description": "Error filter",
+        "Filter": "error",
+        "FilterColor": "#DC143C",
+        "FontStyle": {
+          "Size": 12.0,
+          "Style": "Normal",
+          "Weight": "Normal",
+          "Family": "Tahoma",
+          "Stretch": "Normal"
+        },
+        "FindSettings": {
+          "Wrap": false,
+          "UseRegex": false,
+          "WholeWord": false,
+          "CaseSensitive": false,
+          "UseWildcard": false
+        },
+        "IsAutoBookmark": false,
+        "BookmarkDescription": null
+      },
+      {
+        "Id": "e8378c20-c1cc-457e-872f-c4139539dec9",
+        "IsEnabled": true,
+        "IsHighlight": false,
+        "FilterSource": true,
+        "UseNotification": false,
+        "Description": "Debug filter",
+        "Filter": "debug",
+        "FilterColor": "#DC143C",
+        "FontStyle": {
+          "Size": 12.0,
+          "Style": "Normal",
+          "Weight": "Normal",
+          "Family": "Tahoma",
+          "Stretch": "Normal"
+        },
+        "FindSettings": {
+          "Wrap": false,
+          "UseRegex": false,
+          "WholeWord": false,
+          "CaseSensitive": false,
+          "UseWildcard": false
+        },
+        "IsAutoBookmark": false,
+        "BookmarkDescription": null
+      }
+    ],
+    "FileEncoding": null,
+    "UseFilters": false,
+    "Pattern": "tailforwindows_????-??-??.log",
+    "FindSettings": {
+      "Wrap": false,
+      "UseRegex": false,
+      "WholeWord": true,
+      "CaseSensitive": false,
+      "UseWildcard": false
+    },
+    "UsePattern": true,
+    "UseSmartWatch": false,
+    "AutoRun": true,
+    "TabHeaderColor": "#FFD6DBE9"
+  }
+]

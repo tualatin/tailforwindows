@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Media;
+using Newtonsoft.Json;
 using Org.Vs.TailForWin.Core.Data.Base;
 
 
@@ -27,6 +28,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Font size
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "Size")]
     public double FontSize
     {
       get => _fontSize;
@@ -45,6 +47,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// FontStyle
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "Style")]
     public FontStyle FontStyle
     {
       get => _fontStyle;
@@ -63,6 +66,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// FontWeight
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "Weight")]
     public FontWeight FontWeight
     {
       get => _fontWeight;
@@ -81,6 +85,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// FontFamily
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "Family")]
     public FontFamily FontFamily
     {
       get => _fontFamily;
@@ -99,6 +104,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// FontStretch
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "Stretch")]
     public FontStretch FontStretch
     {
       get => _fontStretch;

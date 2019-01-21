@@ -11,7 +11,7 @@
         <ResourceDictionary Source="UI/Styles/Base/Shared.xaml" />
         <ResourceDictionary Source="UI/Styles/Base/KeyBindings.xaml" />
 
-        <ResourceDictionary Source="Language/en-EN.xaml" />
+        <!--<ResourceDictionary Source="Language/en-EN.xaml" />-->
         <ResourceDictionary Source="UI/Styles/RepeatButtonStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/AndroidCheckBox.xaml" />
         <ResourceDictionary Source="UI/Styles/AndroidRadioButton.xaml" />

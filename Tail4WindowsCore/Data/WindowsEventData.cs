@@ -1,4 +1,5 @@
-﻿using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
+﻿using Newtonsoft.Json;
+using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
 
 namespace Org.Vs.TailForWin.Core.Data
@@ -18,6 +19,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Windows event category
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string Category
     {
       get => _category;
@@ -36,6 +38,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Name
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "Description")]
     public string Name
     {
       get => _name;
@@ -54,6 +57,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Machine
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string Machine
     {
       get => _machine;
@@ -72,6 +76,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Username of the remote machine
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string UserName
     {
       get => _userName;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using Newtonsoft.Json;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
@@ -49,6 +50,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// ID filter
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public Guid Id
     {
       get => _id;
@@ -64,6 +66,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Is enabled
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool IsEnabled
     {
       get => _isEnabled;
@@ -82,6 +85,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Is Highlight
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool IsHighlight
     {
       get => _isHighlight;
@@ -100,6 +104,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Filter source
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool FilterSource
     {
       get => _filterSource;
@@ -118,6 +123,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Popup a notification information
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool UseNotification
     {
       get => _useNotification;
@@ -136,6 +142,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Filter description
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string Description
     {
       get => _description;
@@ -154,6 +161,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Filter
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public string Filter
     {
       get => _filter;
@@ -172,6 +180,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Font foreground color
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "FilterColor")]
     public string FilterColorHex
     {
       get => _filterColorHex;
@@ -190,6 +199,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// <see cref="Data.FontType"/>
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "FontStyle")]
     public FontType FontType
     {
       get => _fontType;
@@ -208,6 +218,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// FindSettings data
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "FindSettings")]
     public FindData FindSettingsData
     {
       get => _findSettingsData;
@@ -226,6 +237,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// IsAutoBookmark
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool IsAutoBookmark
     {
       get => _isAutoBookmark;
@@ -244,6 +256,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// AutoBookmark comment
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "BookmarkDescription")]
     public string AutoBookmarkComment
     {
       get => _autoBookmarkComment;
@@ -262,6 +275,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Gets an error message indicating what is wrong with this object.
     /// </summary>
+    [JsonIgnore]
     public string Error => throw new NotImplementedException();
 
     /// <summary>
@@ -269,6 +283,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// </summary>
     /// <param name="columnName">Name of column</param>
     /// <returns>Current error result</returns>
+    [JsonIgnore]
     public string this[string columnName]
     {
       get

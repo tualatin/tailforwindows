@@ -10,8 +10,17 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
   /// <summary>
   /// XML FileManager interface
   /// </summary>
+  [Obsolete("Please use IFileManager instead")]
   public interface IXmlFileManager
   {
+    /// <summary>
+    /// Gets current XML config file
+    /// </summary>
+    string XmlFileName
+    {
+      get;
+    }
+
     /// <summary>
     /// Read XML file
     /// </summary>

@@ -1,4 +1,5 @@
-﻿using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
+﻿using Newtonsoft.Json;
+using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
 
 namespace Org.Vs.TailForWin.Core.Data
@@ -13,6 +14,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Wrap search
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool Wrap
     {
       get => _wrap;
@@ -31,6 +33,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Counts search result
     /// </summary>
+    [JsonIgnore]
     public bool CountFind
     {
       get => _countFind;
@@ -49,6 +52,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Search bookmark comments
     /// </summary>
+    [JsonIgnore]
     public bool SearchBookmarkComments
     {
       get => _searchBookmarkComment;
@@ -71,6 +75,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Search bookmarks
     /// </summary>
+    [JsonIgnore]
     public bool SearchBookmarks
     {
       get => _searchBookmarks;
@@ -96,6 +101,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Mark result as bookmark
     /// </summary>
+    [JsonIgnore]
     public bool MarkLineAsBookmark
     {
       get => _markLineAsBookmark;
@@ -118,6 +124,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Use regex
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool UseRegex
     {
       get => _useRegex;
@@ -133,6 +140,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Whole words
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool WholeWord
     {
       get => _wholeWord;
@@ -148,6 +156,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Case sensitive
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool CaseSensitive
     {
       get => _caseSensitive;
@@ -163,6 +172,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Use wild cards
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool UseWildcard
     {
       get => _useWildcard;

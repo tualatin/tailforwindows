@@ -100,6 +100,9 @@
     <Reference Include="Microsoft.SDK.Expression.Blend, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.SDK.Expression.Blend.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -136,6 +139,8 @@
     <Compile Include="PlugIns\FileManagerModule\Data\CollectionViewHolder.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\FilterManagerCollectionViewHolder.cs" />
     <Compile Include="PlugIns\FileManagerModule\Data\XmlNames.cs" />
+    <Compile Include="PlugIns\FileManagerModule\FileManagerController.cs" />
+    <Compile Include="PlugIns\FileManagerModule\Interfaces\IFileManagerController.cs" />
     <Compile Include="PlugIns\FileManagerModule\Interfaces\IFileManagerViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\Interfaces\IFilterManagerViewModel.cs" />
     <Compile Include="PlugIns\FileManagerModule\Interfaces\IXmlFileManager.cs" />
