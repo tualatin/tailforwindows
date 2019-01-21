@@ -23,16 +23,11 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
   public class FileManagerController : IFileManagerController
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(FileManagerController));
-    private static readonly object MyLock = new object();
 
     private readonly string _fileManagerFile;
     private readonly ISmartWatchController _smartWatchController;
     private readonly IXmlFileManager _xmlFileManager;
 
-    /// <summary>
-    /// Current lock time span in milliseconds
-    /// </summary>
-    private const int LockTimeSpanIsMs = 200;
 
     /// <summary>
     /// Standard constructor
@@ -63,41 +58,72 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
     /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
     public async Task<bool> ConvertXmlToJsonConfigAsync(CancellationToken token)
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      var fileManagerCollection = await _xmlFileManager.ReadXmlFileAsync(token);
+
+      if ( fileManagerCollection == null || fileManagerCollection.Count == 0 )
+        return true;
+
+      try
       {
-        try
-        {
-          var fileManagerCollection = await _xmlFileManager.ReadXmlFileAsync(token);
+        LOG.Trace("Convert old XML file to JSON db file");
 
-          if ( fileManagerCollection == null || fileManagerCollection.Count == 0 )
-            return true;
+        WriteJsonFile(fileManagerCollection);
 
-          using ( FileStream fs = File.Open(_fileManagerFile, FileMode.OpenOrCreate) )
-          using ( var sw = new StreamWriter(fs) )
-          using ( JsonWriter jw = new JsonTextWriter(sw) )
-          {
-            jw.Formatting = Formatting.Indented;
-            var serializer = new JsonSerializer();
-            serializer.Serialize(jw, fileManagerCollection);
-          }
+        if ( File.Exists(_xmlFileManager.XmlFileName) )
+          File.Delete(_xmlFileManager.XmlFileName);
 
-          if ( File.Exists(_xmlFileManager.XmlFileName) )
-            File.Delete(_xmlFileManager.XmlFileName);
-
-          return true;
-        }
-        catch ( Exception ex )
-        {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        }
-        finally
-        {
-          Monitor.Exit(MyLock);
-        }
+        return true;
       }
-      else
+      catch ( Exception ex )
       {
-        LOG.Error("Can not lock!");
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+
+      return false;
+    }
+
+    private void WriteJsonFile(ObservableCollection<TailData> fileManagerCollection)
+    {
+      using ( FileStream fs = File.Open(_fileManagerFile, FileMode.OpenOrCreate) )
+      using ( var sw = new StreamWriter(fs) )
+      using ( JsonWriter jw = new JsonTextWriter(sw) )
+      {
+        jw.Formatting = Formatting.Indented;
+        var serializer = new JsonSerializer
+        {
+          NullValueHandling = NullValueHandling.Ignore
+        };
+        serializer.Serialize(jw, fileManagerCollection);
+      }
+    }
+
+    /// <summary>
+    /// Updates a JSON file
+    /// </summary>
+    /// <param name="tailData"><see cref="ObservableCollection{T}"/> of <see cref="TailData"/></param>
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
+    /// <exception cref="ArgumentException">If <paramref name="tailData"/> is null</exception>
+    public async Task<bool> CreateUpdateJsonFileAsync(ObservableCollection<TailData> tailData, CancellationToken token)
+    {
+      Arg.NotNull(tailData, nameof(tailData));
+
+      return tailData.Count == 0 || await Task.Run(() => CreateUpdateJsonFile(tailData), token);
+    }
+
+    private bool CreateUpdateJsonFile(ObservableCollection<TailData> tailData)
+    {
+      LOG.Trace("Create or update JSON db file");
+
+      try
+      {
+        WriteJsonFile(tailData);
+
+        return true;
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
 
       return false;
@@ -107,35 +133,22 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
     /// Reads a JSON file
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
-    /// <returns>List of tail settings from JSON file</returns>
+    /// <returns><see cref="ObservableCollection{T}"/> of <see cref="TailData"/></returns>
     public async Task<ObservableCollection<TailData>> ReadJsonFileAsync(CancellationToken token)
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
-      {
-        try
-        {
-          if ( !File.Exists(_fileManagerFile) )
-            return new ObservableCollection<TailData>();
+      if ( !File.Exists(_fileManagerFile) )
+        return new ObservableCollection<TailData>();
 
-          var result = await Task.Run(() => ReadJsonFile(), token);
+      LOG.Trace("Read JSON db file");
+      var result = await Task.Run(() => ReadJsonFile(), token);
 
-          if ( result != null && SettingsHelperController.CurrentSettings.SmartWatch )
-            await ModifyFileNameBySmartWatchAsync(result);
+      if ( result != null && SettingsHelperController.CurrentSettings.SmartWatch )
+        await ModifyFileNameBySmartWatchAsync(result);
 
-          if ( result != null )
-            result = await RemoveDuplicateItemsAsync(result, token);
+      if ( result != null )
+        result = await RemoveDuplicateItemsAsync(result, token);
 
-          return result;
-        }
-        finally
-        {
-          Monitor.Exit(MyLock);
-        }
-      }
-
-      LOG.Error("Can not lock!");
-
-      return new ObservableCollection<TailData>();
+      return result;
     }
 
     private ObservableCollection<TailData> ReadJsonFile()
@@ -149,7 +162,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       }
     }
 
-    private async Task ModifyFileNameBySmartWatchAsync(ObservableCollection<TailData> result)
+    private async Task ModifyFileNameBySmartWatchAsync(IReadOnlyCollection<TailData> result)
     {
       foreach ( TailData item in result.Where(p => p != null && p.SmartWatch && p.UsePattern).ToList() )
       {
@@ -204,6 +217,69 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       {
         w.ListOfFilter.Add(item);
       }
+    }
+
+    /// <summary>
+    /// Gets a list of categories from JSON file
+    /// </summary>
+    /// <param name="tailData"><see cref="ObservableCollection{T}"/> of <see cref="TailData"/></param>
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <returns><see cref="ObservableCollection{T}"/> of <see cref="string"/></returns>
+    /// <exception cref="ArgumentException">If <paramref name="tailData"/> is null</exception>
+    public async Task<ObservableCollection<string>> GetCategoriesAsync(ObservableCollection<TailData> tailData, CancellationToken token)
+    {
+      Arg.NotNull(tailData, nameof(tailData));
+
+      LOG.Trace("Get all categories from JSON db file");
+      return await Task.Run(() => GetCategories(tailData), token);
+    }
+
+    private ObservableCollection<string> GetCategories(IEnumerable<TailData> tailData)
+    {
+      try
+      {
+        var categories = tailData.Select(p => p.Category).Distinct().ToList();
+        var result = new ObservableCollection<string>(categories);
+
+        return result;
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+      return new ObservableCollection<string>();
+    }
+
+    /// <summary>
+    /// Get <c><see cref="TailData"/></c> by certain Id
+    /// </summary>
+    /// <param name="tailData"><see cref="ObservableCollection{T}"/> of <see cref="TailData"/></param>
+    /// <param name="id">Id</param>
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <returns><c><see cref="TailData"/></c>, otherwise <c>Null</c></returns>
+    /// <exception cref="ArgumentException">If <paramref name="tailData"/> is null or <paramref name="id"/> is <see cref="Guid.Empty"/></exception>
+    public async Task<TailData> GetTailDataByIdAsync(ObservableCollection<TailData> tailData, Guid id, CancellationToken token)
+    {
+      Arg.NotNull(tailData, nameof(tailData));
+
+      if ( id == Guid.Empty )
+        throw new ArgumentException();
+
+      LOG.Trace("Get TailData by '{0}", id);
+      return await Task.Run(() => GetTailDataById(tailData, id), token);
+    }
+
+    private TailData GetTailDataById(IEnumerable<TailData> tailData, Guid id)
+    {
+      try
+      {
+        return tailData.FirstOrDefault(p => p.Id.Equals(id));
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+      return new TailData();
     }
   }
 }

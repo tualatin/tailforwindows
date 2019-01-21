@@ -159,6 +159,7 @@
     <Compile Include="Interfaces\IUpdater.cs" />
     <Compile Include="Interfaces\IWebController.cs" />
     <Compile Include="Interfaces\IXmlSearchHistory.cs" />
+    <Compile Include="JsonConverters\EncodingJsonConverter.cs" />
     <Compile Include="Logging\Log4NetTraceListener.cs" />
     <Compile Include="Logging\LogExtentions.cs" />
     <Compile Include="Logging\Logger.cs" />

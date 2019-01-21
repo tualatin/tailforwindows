@@ -7,9 +7,11 @@ using System.Text;
 using System.Windows;
 using log4net;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.JsonConverters;
 using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
 
@@ -383,6 +385,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// RefreshRate for thread
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    [JsonConverter(typeof(StringEnumConverter))]
     public ETailRefreshRate RefreshRate
     {
       get => _refreshRate;
@@ -440,6 +443,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// ThreadPriority
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    [JsonConverter(typeof(StringEnumConverter))]
     public System.Threading.ThreadPriority ThreadPriority
     {
       get => _threadPriority;
@@ -491,6 +495,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// File encoding
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    [JsonConverter(typeof(EncodingJsonConverter))]
     public Encoding FileEncoding
     {
       get => _fileEncoding;

@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "Id": "ce14d954-9336-4b8f-8160-67362f2f11a2",
     "IsWindowsEvent": false,
@@ -25,7 +25,7 @@
     },
     "ThreadPriority": 2,
     "Filters": [],
-    "FileEncoding": null,
+    "FileEncoding": "utf-8",
     "UseFilters": false,
     "Pattern": "dd_setup_??????????????.log",
     "FindSettings": {
@@ -119,7 +119,7 @@
         "BookmarkDescription": null
       }
     ],
-    "FileEncoding": null,
+    "FileEncoding": "Windows-1252",
     "UseFilters": false,
     "Pattern": "tailforwindows_????-??-??.log",
     "FindSettings": {

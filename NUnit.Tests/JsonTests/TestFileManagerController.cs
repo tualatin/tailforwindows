@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -8,6 +10,7 @@ using NUnit.Framework;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
+using Org.Vs.TailForWin.Core.Enums;
 
 namespace Org.Vs.NUnit.Tests.JsonTests
 {
@@ -49,6 +52,7 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       var result = await _fileManagerController.ConvertXmlToJsonConfigAsync(_cts.Token).ConfigureAwait(false);
       Assert.IsTrue(result);
       Assert.IsFalse(File.Exists(_path));
+      Assert.IsTrue(File.Exists(_pathAsJson));
     }
 
     [Test]
@@ -77,6 +81,85 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       Assert.AreEqual("ce14d954-9336-4b8f-8160-67362f2f11a2", first.Id.ToString());
     }
 
+    [Test]
+    public async Task TestGetCategoriesAsync()
+    {
+      CopyTempFile();
+
+      var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
+      Assert.NotNull(result);
+      Assert.IsTrue(result.Count > 0);
+
+      var categories = await _fileManagerController.GetCategoriesAsync(result, _cts.Token).ConfigureAwait(false);
+      Assert.NotNull(categories);
+      Assert.IsTrue(categories.Count > 0);
+      Assert.AreEqual(2, categories.Count);
+    }
+
+    [Test]
+    public async Task TestGetTailDataByIdAsync()
+    {
+      CopyTempFile();
+
+      var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
+      Assert.NotNull(result);
+      Assert.IsTrue(result.Count > 0);
+
+      var guid = Guid.Parse("ce14d954-9336-4b8f-8160-67362f2f11a2");
+      var tailData = await _fileManagerController.GetTailDataByIdAsync(result, guid, _cts.Token).ConfigureAwait(false);
+      Assert.NotNull(tailData);
+      Assert.AreEqual("ce14d954-9336-4b8f-8160-67362f2f11a2", tailData.Id.ToString());
+    }
+
+    [Test]
+    public async Task TestUpdateJsonFileAsync()
+    {
+      CopyTempFile();
+
+      var tailData = new TailData
+      {
+        FileName = @"D:\Tools\TailForWindows\logs\tailforwindows_2017-03-06.log",
+        Description = "Tail4Windows",
+        Category = "T4F",
+        ThreadPriority = ThreadPriority.Lowest,
+        NewWindow = false,
+        RefreshRate = ETailRefreshRate.Highest,
+        Timestamp = false,
+        RemoveSpace = false,
+        Wrap = false,
+        FileEncoding = Encoding.ASCII,
+        FilterState = false,
+        UsePattern = true,
+        FontType = new FontType(),
+        SmartWatch = false,
+        TabItemBackgroundColorStringHex = "#FFE5C365",
+        PatternString = "tailforwindows_????-??-??.log",
+        ListOfFilter = new ObservableCollection<FilterData>
+        {
+          new FilterData
+          {
+            Description = "Error filter",
+            Filter = "error",
+            FontType = new FontType()
+          },
+          new FilterData
+          {
+            Description = "Debug filter",
+            Filter = "debug",
+            FontType = new FontType()
+          }
+        }
+      };
+
+      var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
+      Assert.NotNull(result);
+      Assert.IsTrue(result.Count > 0);
+
+      result.Add(tailData);
+      var success = await _fileManagerController.CreateUpdateJsonFileAsync(result, _cts.Token).ConfigureAwait(false);
+      Assert.IsTrue(success);
+    }
+
     private void InitMyTest()
     {
       if ( File.Exists(_path) )
@@ -84,8 +167,16 @@ namespace Org.Vs.NUnit.Tests.JsonTests
 
       if ( File.Exists(_pathAsJson) )
         File.Delete(_pathAsJson);
+
+      File.Copy(_tempPath, _path);
     }
 
-    private void CopyTempFile() => File.Copy(_tempPathAsJson, _pathAsJson);
+    private void CopyTempFile()
+    {
+      if ( File.Exists(_pathAsJson) )
+        File.Delete(_pathAsJson);
+
+      File.Copy(_tempPathAsJson, _pathAsJson);
+    }
   }
 }
