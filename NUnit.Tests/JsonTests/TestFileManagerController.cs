@@ -86,11 +86,19 @@ namespace Org.Vs.NUnit.Tests.JsonTests
     {
       CopyTempFile();
 
-      var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
-      Assert.NotNull(result);
-      Assert.IsTrue(result.Count > 0);
+      var categories = await _fileManagerController.GetCategoriesAsync(_cts.Token).ConfigureAwait(false);
+      Assert.NotNull(categories);
+      Assert.IsTrue(categories.Count > 0);
+      Assert.AreEqual(2, categories.Count);
+    }
 
-      var categories = await _fileManagerController.GetCategoriesAsync(result, _cts.Token).ConfigureAwait(false);
+    [Test]
+    public async Task TestGetCategoriesWithListAsync()
+    {
+      CopyTempFile();
+
+      var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
+      var categories = await _fileManagerController.GetCategoriesAsync(_cts.Token, result).ConfigureAwait(false);
       Assert.NotNull(categories);
       Assert.IsTrue(categories.Count > 0);
       Assert.AreEqual(2, categories.Count);
@@ -128,7 +136,7 @@ namespace Org.Vs.NUnit.Tests.JsonTests
         RemoveSpace = false,
         Wrap = false,
         FileEncoding = Encoding.ASCII,
-        FilterState = false,
+        FilterState = true,
         UsePattern = true,
         FontType = new FontType(),
         SmartWatch = false,
@@ -158,6 +166,53 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       result.Add(tailData);
       var success = await _fileManagerController.CreateUpdateJsonFileAsync(result, _cts.Token).ConfigureAwait(false);
       Assert.IsTrue(success);
+    }
+
+    [Test]
+    public async Task TestAddTailDataToJsonFileAsync()
+    {
+      CopyTempFile();
+
+      var tailData = new TailData
+      {
+        FileName = @"D:\Tools\TailForWindows\logs\addTailDataToJsonFile.log",
+        Description = "Add TailData to JSON file",
+        Category = "T4F",
+        ThreadPriority = ThreadPriority.Normal,
+        NewWindow = false,
+        RefreshRate = ETailRefreshRate.Highest,
+        Timestamp = true,
+        RemoveSpace = true,
+        Wrap = true,
+        FileEncoding = Encoding.UTF8,
+        FilterState = true,
+        FontType = new FontType(),
+        SmartWatch = false,
+        TabItemBackgroundColorStringHex = "#FFE5C365",
+        ListOfFilter = new ObservableCollection<FilterData>
+        {
+          new FilterData
+          {
+            Description = "Trace filter",
+            Filter = "trace",
+            FontType = new FontType()
+          },
+          new FilterData
+          {
+            Description = "Debug filter",
+            Filter = "debug",
+            FontType = new FontType()
+          }
+        }
+      };
+
+      var success = await _fileManagerController.AddTailDataAsync(tailData, _cts.Token).ConfigureAwait(false);
+      Assert.IsTrue(success);
+
+      var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
+      Assert.NotNull(result);
+      Assert.IsTrue(result.Count > 0);
+      Assert.IsTrue(result.Count == 3);
     }
 
     private void InitMyTest()

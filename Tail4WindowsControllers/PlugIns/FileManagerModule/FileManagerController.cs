@@ -82,6 +82,27 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       return false;
     }
 
+    /// <summary>
+    /// Add new tailData JSON file
+    /// </summary>
+    /// <param name="tailData"><see cref="TailData"/></param>
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
+    /// <exception cref="ArgumentException">If <paramref name="tailData"/> is null</exception>
+    public async Task<bool> AddTailDataAsync(TailData tailData, CancellationToken token)
+    {
+      Arg.NotNull(tailData, nameof(tailData));
+
+      var result = await ReadJsonFileAsync(token);
+
+      if ( result == null || result.Count == 0 )
+        result = new ObservableCollection<TailData>(new[] { tailData });
+      else
+        result.Add(tailData);
+
+      return await CreateUpdateJsonFileAsync(result, token);
+    }
+
     private void WriteJsonFile(ObservableCollection<TailData> fileManagerCollection)
     {
       using ( FileStream fs = File.Open(_fileManagerFile, FileMode.OpenOrCreate) )
@@ -221,21 +242,25 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 
     /// <summary>
     /// Gets a list of categories from JSON file
+    /// <para>Optional you can insert a list of <see cref="IReadOnlyCollection{T}"/> of <see cref="TailData"/></para>
     /// </summary>
-    /// <param name="tailData"><see cref="ObservableCollection{T}"/> of <see cref="TailData"/></param>
     /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <param name="tailData"><see cref="IReadOnlyCollection{T}"/> of <see cref="TailData"/></param>
     /// <returns><see cref="ObservableCollection{T}"/> of <see cref="string"/></returns>
-    /// <exception cref="ArgumentException">If <paramref name="tailData"/> is null</exception>
-    public async Task<ObservableCollection<string>> GetCategoriesAsync(ObservableCollection<TailData> tailData, CancellationToken token)
+    public async Task<ObservableCollection<string>> GetCategoriesAsync(CancellationToken token, IReadOnlyCollection<TailData> tailData = null)
+    {
+      LOG.Trace("Get all categories from JSON db file");
+
+      if ( tailData == null )
+        tailData = await ReadJsonFileAsync(token);
+
+      return tailData == null || tailData.Count == 0 ? new ObservableCollection<string>() : await Task.Run(() => GetCategories(tailData), token);
+    }
+
+    private ObservableCollection<string> GetCategories(IReadOnlyCollection<TailData> tailData)
     {
       Arg.NotNull(tailData, nameof(tailData));
 
-      LOG.Trace("Get all categories from JSON db file");
-      return await Task.Run(() => GetCategories(tailData), token);
-    }
-
-    private ObservableCollection<string> GetCategories(IEnumerable<TailData> tailData)
-    {
       try
       {
         var categories = tailData.Select(p => p.Category).Distinct().ToList();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +21,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
     Task<bool> ConvertXmlToJsonConfigAsync(CancellationToken token);
 
     /// <summary>
+    /// Add new tailData JSON file
+    /// </summary>
+    /// <param name="tailData"><see cref="TailData"/></param>
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
+    Task<bool> AddTailDataAsync(TailData tailData, CancellationToken token);
+
+    /// <summary>
     /// Reads a JSON file
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
@@ -28,11 +37,12 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
 
     /// <summary>
     /// Gets a list of categories from JSON file
+    /// <para>Optional you can insert a list of <see cref="IReadOnlyCollection{T}"/> of <see cref="TailData"/></para>
     /// </summary>
-    /// <param name="tailData"><see cref="ObservableCollection{T}"/> of <see cref="TailData"/></param>
     /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <param name="tailData"><see cref="IReadOnlyCollection{T}"/> of <see cref="TailData"/></param>
     /// <returns><see cref="ObservableCollection{T}"/> of <see cref="string"/></returns>
-    Task<ObservableCollection<string>> GetCategoriesAsync(ObservableCollection<TailData> tailData, CancellationToken token);
+    Task<ObservableCollection<string>> GetCategoriesAsync(CancellationToken token, IReadOnlyCollection<TailData> tailData = null);
 
     /// <summary>
     /// Get <c><see cref="TailData"/></c> by certain Id
