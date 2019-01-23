@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -213,6 +214,41 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       Assert.NotNull(result);
       Assert.IsTrue(result.Count > 0);
       Assert.IsTrue(result.Count == 3);
+    }
+
+    [Test]
+    public async Task TestDeleteItemByIdAsync()
+    {
+      CopyTempFile();
+
+      var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
+      Assert.NotNull(result);
+      Assert.IsTrue(result.Count > 0);
+
+      var success = await _fileManagerController.DeleteTailDataByIdAsync(result.FirstOrDefault().Id, _cts.Token).ConfigureAwait(false);
+      Assert.IsTrue(success);
+
+      result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
+      Assert.NotNull(result);
+      Assert.IsTrue(result.Count == 1);
+    }
+
+    [Test]
+    public async Task TestDeleteFilterItemByIdAsync()
+    {
+      CopyTempFile();
+
+      var result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
+      Assert.NotNull(result);
+      Assert.IsTrue(result.Count > 0);
+
+      var filterToDelete = result.Last().ListOfFilter.FirstOrDefault();
+      var success = await _fileManagerController.DeleteFilterDataByIdAsync(filterToDelete.Id, _cts.Token).ConfigureAwait(false);
+      Assert.IsTrue(success);
+
+      result = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
+      Assert.NotNull(result);
+      Assert.IsTrue(result.Last().ListOfFilter.Count == 1);
     }
 
     private void InitMyTest()

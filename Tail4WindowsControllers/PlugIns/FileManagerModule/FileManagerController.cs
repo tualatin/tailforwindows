@@ -103,9 +103,68 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       return await CreateUpdateJsonFileAsync(result, token);
     }
 
+    /// <summary>
+    /// Deletes a <see cref="TailData"/> item by this Id
+    /// </summary>
+    /// <param name="id">Id of item to delete</param>
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <param name="tailData">Optional <see cref="ObservableCollection{T}"/> if <see cref="TailData"/></param>
+    /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
+    /// <exception cref="ArgumentException"> If <paramref name="id"/> is null</exception>
+    public async Task<bool> DeleteTailDataByIdAsync(Guid id, CancellationToken token, ObservableCollection<TailData> tailData = null)
+    {
+      Arg.NotNull(id, nameof(id));
+
+      if ( tailData == null )
+        tailData = await ReadJsonFileAsync(token);
+
+      if ( tailData == null || tailData.Count == 0 )
+        return false;
+
+      var toDelete = tailData.FirstOrDefault(p => p.Id == id);
+      return toDelete != null && tailData.Remove(toDelete) && await CreateUpdateJsonFileAsync(tailData, token);
+    }
+
+    /// <summary>
+    /// Deletes a filter entry <see cref="FilterData"/>
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="token"></param>
+    /// <param name="tailData"></param>
+    /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
+    /// <exception cref="ArgumentException"> If <paramref name="id"/> is null</exception>
+    public async Task<bool> DeleteFilterDataByIdAsync(Guid id, CancellationToken token, ObservableCollection<TailData> tailData = null)
+    {
+      Arg.NotNull(id, nameof(id));
+
+      if ( tailData == null )
+        tailData = await ReadJsonFileAsync(token);
+
+      if ( tailData == null || tailData.Count == 0 )
+        return false;
+
+      var result = false;
+
+      await Task.Run(() =>
+      {
+        foreach ( TailData data in tailData )
+        {
+          var filterToDelete = data.ListOfFilter.FirstOrDefault(p => p.Id == id);
+
+          if ( filterToDelete == null )
+            continue;
+
+          result = data.ListOfFilter.Remove(filterToDelete);
+          break;
+        }
+      }, token);
+
+      return result && await CreateUpdateJsonFileAsync(tailData, token);
+    }
+
     private void WriteJsonFile(ObservableCollection<TailData> fileManagerCollection)
     {
-      using ( FileStream fs = File.Open(_fileManagerFile, FileMode.OpenOrCreate) )
+      using ( FileStream fs = File.Open(_fileManagerFile, FileMode.Create) )
       using ( var sw = new StreamWriter(fs) )
       using ( JsonWriter jw = new JsonTextWriter(sw) )
       {

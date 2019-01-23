@@ -40,7 +40,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
     /// <para>Optional you can insert a list of <see cref="IReadOnlyCollection{T}"/> of <see cref="TailData"/></para>
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
-    /// <param name="tailData"><see cref="IReadOnlyCollection{T}"/> of <see cref="TailData"/></param>
+    /// <param name="tailData">Optional <see cref="IReadOnlyCollection{T}"/> of <see cref="TailData"/></param>
     /// <returns><see cref="ObservableCollection{T}"/> of <see cref="string"/></returns>
     Task<ObservableCollection<string>> GetCategoriesAsync(CancellationToken token, IReadOnlyCollection<TailData> tailData = null);
 
@@ -60,5 +60,23 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
     /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
     Task<bool> CreateUpdateJsonFileAsync(ObservableCollection<TailData> tailData, CancellationToken token);
+
+    /// <summary>
+    /// Deletes a <see cref="TailData"/> item by this Id
+    /// </summary>
+    /// <param name="id">Id of item to delete</param>
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <param name="tailData">Optional <see cref="ObservableCollection{T}"/> if <see cref="TailData"/></param>
+    /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
+    Task<bool> DeleteTailDataByIdAsync(Guid id, CancellationToken token, ObservableCollection<TailData> tailData = null);
+
+    /// <summary>
+    /// Deletes a filter entry <see cref="FilterData"/>
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="token"></param>
+    /// <param name="tailData"></param>
+    /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
+    Task<bool> DeleteFilterDataByIdAsync(Guid id, CancellationToken token, ObservableCollection<TailData> tailData = null);
   }
 }
