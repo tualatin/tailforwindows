@@ -133,6 +133,9 @@
   <system:String x:Key="FileManagerOpenWindowsEventToolTip">Öffnet eine Liste von Windows Ereigniskategorien</system:String>
   <system:String x:Key="FileManagerOpenContainingFolder">Übergeordneten Ordner öffnen</system:String>
   <system:String x:Key="FileManagerFileNotExists">Die Datei existiert nicht!</system:String>
+  <system:String x:Key="FileManagerConvertXmlToJsonError">Die FileManager XML Datei konnte nicht konvertiert werden!</system:String>
+  <system:String x:Key="FileManagerDeleteTailDataItemError">Der selektierte Eintrag konnte nicht gelöscht werden!</system:String>
+  <system:String x:Key="FileManagerSaveItemsError">Die aktuellen Einstellungen konnten nicht gespeichert werden!</system:String>
 
   <system:String x:Key="FilterManagerPatternTool">Patternwerkzeug</system:String>
   <system:String x:Key="FilterManagerPatternToolToolTip">Definiere ein Pattern, um eine dynamische Logdatei zu finden</system:String>

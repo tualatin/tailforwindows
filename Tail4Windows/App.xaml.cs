@@ -34,7 +34,7 @@ namespace Org.Vs.TailForWin
     private readonly Guid _tail4WindowsGuid = new Guid("1c0c2cfa-add6-4b66-8c1d-6416f73f2046");
 
     private string[] _args;
-    private IXmlFileManager _xmlFileManagerController;
+    private IFileManagerController _fileManagerController;
     private Guid _itemId;
 
     private void ApplicationStartup(object sender, StartupEventArgs e)
@@ -168,8 +168,10 @@ namespace Org.Vs.TailForWin
         return;
 
       _itemId = Guid.Parse(id.Value);
-      _xmlFileManagerController = new XmlFileManagerController();
-      NotifyTaskCompletion.Create(_xmlFileManagerController.ReadXmlFileAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token)).PropertyChanged += OnReadXmlFilePropertyChanged;
+      _fileManagerController = new FileManagerController();
+
+      NotifyTaskCompletion.Create(
+        _fileManagerController.ReadJsonFileAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token)).PropertyChanged += OnReadXmlFilePropertyChanged;
     }
 
     private void OnReadXmlFilePropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -183,7 +185,10 @@ namespace Org.Vs.TailForWin
       if ( task.Result == null || task.Result.Count <= 0 )
         return;
 
-      NotifyTaskCompletion.Create(_xmlFileManagerController.GetTailDataByIdAsync(task.Result, _itemId)).PropertyChanged += OnGetTailDataByIdPropertyChanged;
+      NotifyTaskCompletion.Create(
+        _fileManagerController.GetTailDataByIdAsync(task.Result,
+        _itemId,
+        new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token)).PropertyChanged += OnGetTailDataByIdPropertyChanged;
     }
 
     private void OnGetTailDataByIdPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -194,7 +199,7 @@ namespace Org.Vs.TailForWin
       if ( !(sender is NotifyTaskCompletion<TailData> task) )
         return;
 
-      _xmlFileManagerController = null;
+      _fileManagerController = null;
       _itemId = Guid.Empty;
 
       if ( task.Result == null )

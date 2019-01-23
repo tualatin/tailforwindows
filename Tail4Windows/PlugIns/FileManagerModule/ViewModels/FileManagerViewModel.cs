@@ -44,7 +44,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     private static readonly ILog LOG = LogManager.GetLogger(typeof(FileManagerViewModel));
 
     private CancellationTokenSource _cts;
-    private readonly IXmlFileManager _xmlFileManagerController;
+    private readonly IFileManagerController _fileManagerController;
     private readonly List<Predicate<TailData>> _criteria = new List<Predicate<TailData>>();
 
     #region Properties
@@ -222,7 +222,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public FileManagerViewModel()
     {
-      _xmlFileManagerController = new XmlFileManagerController();
+      _fileManagerController = new FileManagerController();
       Categories = new ObservableCollection<string>();
 
       SetCancellationTokenSource();
@@ -571,8 +571,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       MouseService.SetBusyState();
 
-      string id = SelectedItem.Id.ToString();
-      await _xmlFileManagerController.DeleteTailDataByIdFromXmlFileAsync(_cts.Token, id).ConfigureAwait(false);
+      var success = await _fileManagerController.DeleteTailDataByIdAsync(SelectedItem.Id, _cts.Token, _fileManagerCollection).ConfigureAwait(false);
+
+      if ( !success )
+      {
+        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerDeleteTailDataItemError").ToString());
+      }
     }
 
     private bool CanExecuteSaveCommand()
@@ -600,8 +604,15 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
       try
       {
-        _fileManagerCollection = await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
-        _categories = await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(_fileManagerCollection).ConfigureAwait(false);
+        var success = await _fileManagerController.ConvertXmlToJsonConfigAsync(_cts.Token).ConfigureAwait(false);
+
+        if ( !success )
+        {
+          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerConvertXmlToJsonError").ToString());
+        }
+
+        _fileManagerCollection = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
+        _categories = await _fileManagerController.GetCategoriesAsync(_cts.Token, _fileManagerCollection).ConfigureAwait(false);
 
         CommitChanges();
       }
@@ -670,18 +681,19 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       foreach ( var tailData in FileManagerCollection )
       {
-        if ( tailData.IsLoadedByXml )
-        {
-          await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, tailData).ConfigureAwait(false);
-        }
-        else
-        {
+        if ( !tailData.IsLoadedByXml )
           tailData.IsLoadedByXml = true;
-          await _xmlFileManagerController.AddTailDataToXmlFileAsync(_cts.Token, tailData).ConfigureAwait(false);
-        }
       }
 
-      _categories = await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(FileManagerCollection).ConfigureAwait(false);
+      var success = await _fileManagerController.CreateUpdateJsonFileAsync(FileManagerCollection, _cts.Token).ConfigureAwait(false);
+
+      if ( !success )
+      {
+        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerSaveItemsError").ToString());
+        return false;
+      }
+
+      _categories = await _fileManagerController.GetCategoriesAsync(_cts.Token, FileManagerCollection).ConfigureAwait(false);
 
       CommitChanges();
 

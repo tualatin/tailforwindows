@@ -133,6 +133,9 @@
   <system:String x:Key="FileManagerOpenWindowsEventToolTip">Gets a list of Windows event categories</system:String>
   <system:String x:Key="FileManagerOpenContainingFolder">Open containing folder</system:String>
   <system:String x:Key="FileManagerFileNotExists">File does not exists!</system:String>
+  <system:String x:Key="FileManagerConvertXmlToJsonError">Can not convert your FileManager XML file!</system:String>
+  <system:String x:Key="FileManagerDeleteTailDataItemError">Can not delete selected item!</system:String>
+  <system:String x:Key="FileManagerSaveItemsError">Can not save current settings!</system:String>
 
   <system:String x:Key="FilterManagerPatternTool">Pattern tool</system:String>
   <system:String x:Key="FilterManagerPatternToolToolTip">Define a pattern to find a dynamic log file</system:String>

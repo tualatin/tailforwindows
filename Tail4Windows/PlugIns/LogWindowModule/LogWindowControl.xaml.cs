@@ -70,7 +70,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private CancellationTokenSource _cts;
     private readonly PrintController _printerController;
     private readonly IXmlSearchHistory<QueueSet<string>> _historyController;
-    private readonly IXmlFileManager _xmlFileManagerController;
+    private readonly IFileManagerController _fileManagerController;
     private QueueSet<string> _historyQueueSet;
 
     #region Events
@@ -97,7 +97,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       DataContext = this;
       _printerController = new PrintController();
       _historyController = new XmlHistoryController();
-      _xmlFileManagerController = new XmlFileManagerController();
+      _fileManagerController = new FileManagerController();
 
       TailReader = new LogReadService();
       CurrentTailData = new TailData();
@@ -691,8 +691,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       MouseService.SetBusyState();
       SetCancellationTokenSource();
 
-      await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
-      await _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, CurrentTailData).ConfigureAwait(false);
+      await _fileManagerController.ReadJsonFileAsync(_cts.Token).ContinueWith(p =>
+      {
+        var success = _fileManagerController.UpdateTailDataAsync(CurrentTailData, _cts.Token, p.Result).Result;
+
+        if ( !success )
+        {
+          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerSaveItemsError").ToString());
+        }
+      }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
     }
 
     private void ExecuteOpenTailDataFilterCommand()

@@ -9,7 +9,7 @@ using Org.Vs.TailForWin.Core.Data;
 namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
 {
   /// <summary>
-  /// FileManager controller interface
+  /// FileManager (for JSON use only) controller interface
   /// </summary>
   public interface IFileManagerController
   {
@@ -23,10 +23,11 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
     /// <summary>
     /// Add new tailData JSON file
     /// </summary>
-    /// <param name="tailData"><see cref="TailData"/></param>
+    /// <param name="item"><see cref="TailData"/> to add</param>
     /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <param name="tailData">Optional <see cref="ObservableCollection{T}"/> of <see cref="TailData"/></param>
     /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
-    Task<bool> AddTailDataAsync(TailData tailData, CancellationToken token);
+    Task<bool> AddTailDataAsync(TailData item, CancellationToken token, ObservableCollection<TailData> tailData = null);
 
     /// <summary>
     /// Reads a JSON file
@@ -54,6 +55,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
     Task<TailData> GetTailDataByIdAsync(ObservableCollection<TailData> tailData, Guid id, CancellationToken token);
 
     /// <summary>
+    /// Updates a <see cref="TailData"/> item
+    /// </summary>
+    /// <param name="item"><see cref="TailData"/> to update</param>
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <param name="tailData">Optional <see cref="ObservableCollection{T}"/> if <see cref="TailData"/></param>
+    /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
+    Task<bool> UpdateTailDataAsync(TailData item, CancellationToken token, ObservableCollection<TailData> tailData = null);
+ 
+    /// <summary>
     /// Updates a JSON file
     /// </summary>
     /// <param name="tailData"><see cref="ObservableCollection{T}"/> of <see cref="TailData"/></param>
@@ -62,7 +72,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
     Task<bool> CreateUpdateJsonFileAsync(ObservableCollection<TailData> tailData, CancellationToken token);
 
     /// <summary>
-    /// Deletes a <see cref="TailData"/> item by this Id
+    /// Deletes a <see cref="TailData"/> item by his Id
     /// </summary>
     /// <param name="id">Id of item to delete</param>
     /// <param name="token"><see cref="CancellationToken"/></param>

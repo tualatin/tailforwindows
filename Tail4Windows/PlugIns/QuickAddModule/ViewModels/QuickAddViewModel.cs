@@ -26,7 +26,7 @@ namespace Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels
   public class QuickAddViewModel : NotifyMaster, IViewModelBase
   {
     private readonly CancellationTokenSource _cts;
-    private readonly IXmlFileManager _xmlFileManagerController;
+    private readonly IFileManagerController _fileManagerController;
 
     private ObservableCollection<TailData> _fileManagerCollection;
     private Window _window;
@@ -94,7 +94,7 @@ namespace Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels
     /// </summary>
     public QuickAddViewModel()
     {
-      _xmlFileManagerController = new XmlFileManagerController();
+      _fileManagerController = new FileManagerController();
       _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<AddTailDataToQuickAddMessage>(OnGetTailData);
@@ -148,7 +148,12 @@ namespace Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels
       CurrentTailData.IsLoadedByXml = true;
       CurrentTailData.CommitChanges();
 
-      await _xmlFileManagerController.AddTailDataToXmlFileAsync(_cts.Token, CurrentTailData).ConfigureAwait(false);
+      var success = await _fileManagerController.AddTailDataAsync(CurrentTailData, _cts.Token, _fileManagerCollection).ConfigureAwait(false);
+
+      if ( !success )
+      {
+        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerSaveItemsError").ToString());
+      }
     }
 
     private void ExecuteCloseCommand(Window window)
@@ -163,8 +168,12 @@ namespace Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels
     {
       try
       {
-        _fileManagerCollection = await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token).ConfigureAwait(false);
-        _categories = await _xmlFileManagerController.GetCategoriesFromXmlFileAsync(_fileManagerCollection).ConfigureAwait(false);
+        await _fileManagerController.ConvertXmlToJsonConfigAsync(_cts.Token).ConfigureAwait(false);
+        await _fileManagerController.ReadJsonFileAsync(_cts.Token).ContinueWith(p =>
+        {
+          _fileManagerCollection = p.Result;
+          _categories = _fileManagerController.GetCategoriesAsync(_cts.Token, _fileManagerCollection).Result;
+        }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
       }
       catch
       {

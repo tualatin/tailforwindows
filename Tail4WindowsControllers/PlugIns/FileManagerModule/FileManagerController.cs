@@ -18,7 +18,7 @@ using Org.Vs.TailForWin.Core.Utils;
 namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 {
   /// <summary>
-  /// FileManager controller
+  /// FileManager (for JSON use only) controller
   /// </summary>
   public class FileManagerController : IFileManagerController
   {
@@ -65,12 +65,12 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 
       try
       {
-        LOG.Trace("Convert old XML file to JSON db file");
+        LOG.Info("Convert old XML file to JSON db file");
 
         WriteJsonFile(fileManagerCollection);
 
         if ( File.Exists(_xmlFileManager.XmlFileName) )
-          File.Delete(_xmlFileManager.XmlFileName);
+          File.Move(_xmlFileManager.XmlFileName, _xmlFileManager.XmlFileName + "_old");
 
         return true;
       }
@@ -85,22 +85,24 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
     /// <summary>
     /// Add new tailData JSON file
     /// </summary>
-    /// <param name="tailData"><see cref="TailData"/></param>
+    /// <param name="item"><see cref="TailData"/></param>
     /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <param name="tailData">Optional <see cref="ObservableCollection{T}"/> of <see cref="TailData"/></param>
     /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
-    /// <exception cref="ArgumentException">If <paramref name="tailData"/> is null</exception>
-    public async Task<bool> AddTailDataAsync(TailData tailData, CancellationToken token)
+    /// <exception cref="ArgumentException">If <paramref name="item"/> is null</exception>
+    public async Task<bool> AddTailDataAsync(TailData item, CancellationToken token, ObservableCollection<TailData> tailData = null)
     {
-      Arg.NotNull(tailData, nameof(tailData));
+      Arg.NotNull(item, nameof(item));
 
-      var result = await ReadJsonFileAsync(token);
+      if ( tailData == null )
+        tailData = await ReadJsonFileAsync(token);
 
-      if ( result == null || result.Count == 0 )
-        result = new ObservableCollection<TailData>(new[] { tailData });
+      if ( tailData == null || tailData.Count == 0 )
+        tailData = new ObservableCollection<TailData>(new[] { item });
       else
-        result.Add(tailData);
+        tailData.Add(item);
 
-      return await CreateUpdateJsonFileAsync(result, token);
+      return await CreateUpdateJsonFileAsync(tailData, token);
     }
 
     /// <summary>
@@ -228,6 +230,13 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       if ( result != null )
         result = await RemoveDuplicateItemsAsync(result, token);
 
+      if ( result != null )
+      {
+        foreach ( TailData data in result )
+        {
+          data.IsLoadedByXml = true;
+        }
+      }
       return result;
     }
 
@@ -297,6 +306,35 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       {
         w.ListOfFilter.Add(item);
       }
+    }
+
+    /// <summary>
+    /// Updates a <see cref="TailData"/> item
+    /// </summary>
+    /// <param name="item"><see cref="TailData"/> to update</param>
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <param name="tailData">Optional <see cref="ObservableCollection{T}"/> if <see cref="TailData"/></param>
+    /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
+    public async Task<bool> UpdateTailDataAsync(TailData item, CancellationToken token, ObservableCollection<TailData> tailData = null)
+    {
+      if ( item == null )
+        return false;
+
+      if ( tailData == null )
+        tailData = await ReadJsonFileAsync(token);
+
+      if ( tailData == null || tailData.Count == 0 )
+        return false;
+
+      var toChange = tailData.FirstOrDefault(p => p.Id == item.Id);
+
+      if ( toChange == null )
+        return false;
+
+      var index = tailData.IndexOf(toChange);
+      tailData[index] = item;
+
+      return await CreateUpdateJsonFileAsync(tailData, token);
     }
 
     /// <summary>

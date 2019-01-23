@@ -28,7 +28,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
   public class FilterManagerViewModel : NotifyMaster, IFilterManagerViewModel
   {
     private CancellationTokenSource _cts;
-    private readonly IXmlFileManager _xmlFileManagerController;
+    private readonly IFileManagerController _fileManagerController;
     private bool _filterAdded;
 
     #region Properties
@@ -104,8 +104,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public FilterManagerViewModel()
     {
-      _xmlFileManagerController = new XmlFileManagerController();
-
+      _fileManagerController = new FileManagerController();
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFilterDataFromTailDataMessage>(OnOpenTailData);
       SetCancellationTokenSource();
     }
@@ -376,8 +375,16 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
       SetCancellationTokenSource();
 
-      await _xmlFileManagerController.ReadXmlFileAsync(_cts.Token)
-        .ContinueWith(p => _xmlFileManagerController.UpdateTailDataInXmlFileAsync(_cts.Token, CurrentTailData), TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
+      await _fileManagerController.ReadJsonFileAsync(_cts.Token).ContinueWith(p =>
+      {
+        var success = _fileManagerController.UpdateTailDataAsync(CurrentTailData, _cts.Token, p.Result).Result;
+
+        if ( !success )
+        {
+          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerSaveItemsError").ToString());
+        }
+      }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
+
 
       foreach ( var item in FilterManagerCollection )
       {
