@@ -14,7 +14,6 @@ namespace Org.Vs.TailForWin.Controllers.Commands
   /// Async command
   /// </summary>
   /// <typeparam name="TResult">Type of result</typeparam>
-  // ReSharper disable once InheritdocConsiderUsage
   public class AsyncCommand<TResult> : AsyncCommandBase, INotifyPropertyChanged
   {
     private readonly Func<object, CancellationToken, Task<TResult>> _command;
@@ -47,7 +46,7 @@ namespace Org.Vs.TailForWin.Controllers.Commands
     /// <summary>
     /// Can execute
     /// </summary>
-    /// <param name="parameter">Paremeter</param>
+    /// <param name="parameter">Parameter</param>
     /// <returns><c>True</c> if it can execute otherwise <c>false</c></returns>
     public override bool CanExecute(object parameter) => (Execution == null || Execution.IsCompleted) && (_canExecute == null || _canExecute(parameter));
 
@@ -70,10 +69,7 @@ namespace Org.Vs.TailForWin.Controllers.Commands
       RaiseCanExecuteChanged();
     }
 
-    private void ExecutionPropertyChanged(object sender, PropertyChangedEventArgs e)
-    {
-      OnPropertyChanged(e.PropertyName);
-    }
+    private void ExecutionPropertyChanged(object sender, PropertyChangedEventArgs e) => OnPropertyChanged(e.PropertyName);
 
     /// <summary>
     /// Cancel command

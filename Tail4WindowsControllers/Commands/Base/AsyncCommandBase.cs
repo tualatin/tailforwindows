@@ -25,13 +25,13 @@ namespace Org.Vs.TailForWin.Controllers.Commands.Base
     /// <returns></returns>
     public abstract Task ExecuteAsync(object parameter);
 
-#pragma warning disable _MissingAsync // TAP methods must end with Async.
+#pragma warning disable _MissingAsync // methods must end with Async.
     /// <summary>
     /// Execute
     /// </summary>
     /// <param name="parameter">Parameter</param>
     public async void Execute(object parameter) => await ExecuteAsync(parameter).ConfigureAwait(false);
-#pragma warning restore _MissingAsync // TAP methods must end with Async.
+#pragma warning restore _MissingAsync // methods must end with Async.
 
     /// <summary>
     /// Can execute changed event
