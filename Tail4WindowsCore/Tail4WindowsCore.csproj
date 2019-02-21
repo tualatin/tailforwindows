@@ -111,6 +111,7 @@
     <Compile Include="Data\FindData.cs" />
     <Compile Include="Data\FontInfo.cs" />
     <Compile Include="Data\FontType.cs" />
+    <Compile Include="Data\HistoryData.cs" />
     <Compile Include="Data\Mappings\DateFormatMapping.cs" />
     <Compile Include="Data\Mappings\FileSortMapping.cs" />
     <Compile Include="Data\Mappings\LanguageMapping.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Extensions\ObservableCollectionExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Interfaces\IEventAggregator.cs" />
+    <Compile Include="Interfaces\IHistory.cs" />
     <Compile Include="Interfaces\IMailController.cs" />
     <Compile Include="Interfaces\INotifyTaskCompletion.cs" />
     <Compile Include="Interfaces\IObservableDictionary.cs" />
@@ -186,6 +188,7 @@
     <Compile Include="Utils\Execution.cs" />
     <Compile Include="Interfaces\IPlaySoundFile.cs" />
     <Compile Include="Utils\InteractionService.cs" />
+    <Compile Include="Utils\JsonUtils.cs" />
     <Compile Include="Utils\LanguageSelector.cs" />
     <Compile Include="Utils\MouseService.cs" />
     <Compile Include="Utils\ObservableDictionary.cs" />

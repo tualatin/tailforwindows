@@ -17,6 +17,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
   /// <summary>
   /// XML history controller
   /// </summary>
+  [Obsolete("Please use History controller instead")]
   public class XmlSearchHistoryController : IXmlSearchHistory<IObservableDictionary<string, string>>
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(XmlSearchHistoryController));

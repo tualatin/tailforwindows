@@ -148,6 +148,7 @@
     <Compile Include="PlugIns\FileManagerModule\XmlFileManagerController.cs" />
     <Compile Include="PlugIns\FindModule\Data\FindNextResult.cs" />
     <Compile Include="PlugIns\FindModule\Data\XmlNames.cs" />
+    <Compile Include="PlugIns\FindModule\HistoryController.cs" />
     <Compile Include="PlugIns\FindModule\Interfaces\IFindWhatResultViewModel.cs" />
     <Compile Include="PlugIns\FindModule\Interfaces\IFindWhatViewModel.cs" />
     <Compile Include="PlugIns\FindModule\Utils\LogEntryComparer.cs" />

@@ -8,6 +8,12 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
+v.2.3.xxxx.x
+* new History XML to JSON converter
+* new FileManager saves data as JSON
+* new FileManager XML (backup is *.xml_old) to JSON converter
+* bug fix create logfile history
+
 v.2.2.6908.x
 * new Statistics for nerds -> see Options
 * new profile converter (T4W.exe /convert local -> converts roaming profile to local; T4W.exe /convert roaming -> converts local profile to roaming)

@@ -14,7 +14,7 @@ using Org.Vs.TailForWin.PlugIns.LogWindowModule.Data;
 namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
 {
   /// <summary>
-  /// XML history controller
+  /// XML file history controller
   /// </summary>
   public class XmlHistoryController : IXmlSearchHistory<QueueSet<string>>
   {
@@ -110,16 +110,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
           if ( string.IsNullOrWhiteSpace(fileName) )
             return;
 
-          if ( !File.Exists(_historyFile) )
-            return;
-
           if ( IsInvalidChars(_historyFile) )
           {
             InteractionService.ShowErrorMessageBox("Invalid characters found in path or file name.");
             return;
           }
 
-          File.Delete(_historyFile);
+          if ( File.Exists(_historyFile) )
+            File.Delete(_historyFile);
 
           try
           {

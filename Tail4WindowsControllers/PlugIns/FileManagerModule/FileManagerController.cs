@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using log4net;
-using Newtonsoft.Json;
 using Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers;
 using Org.Vs.TailForWin.Business.SmartWatchEngine.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
@@ -65,9 +64,9 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 
       try
       {
-        LOG.Info("Convert old XML file to JSON db file");
+        LOG.Info("Convert XML file to JSON file");
 
-        WriteJsonFile(fileManagerCollection);
+        JsonUtils.WriteJsonFile(fileManagerCollection, _fileManagerFile);
 
         if ( File.Exists(_xmlFileManager.XmlFileName) )
           File.Move(_xmlFileManager.XmlFileName, _xmlFileManager.XmlFileName + "_old");
@@ -78,7 +77,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
-
       return false;
     }
 
@@ -164,20 +162,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       return result && await CreateUpdateJsonFileAsync(tailData, token);
     }
 
-    private void WriteJsonFile(ObservableCollection<TailData> fileManagerCollection)
-    {
-      using ( FileStream fs = File.Open(_fileManagerFile, FileMode.Create) )
-      using ( var sw = new StreamWriter(fs) )
-      using ( JsonWriter jw = new JsonTextWriter(sw) )
-      {
-        jw.Formatting = Formatting.Indented;
-        var serializer = new JsonSerializer
-        {
-          NullValueHandling = NullValueHandling.Ignore
-        };
-        serializer.Serialize(jw, fileManagerCollection);
-      }
-    }
 
     /// <summary>
     /// Updates a JSON file
@@ -199,8 +183,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
 
       try
       {
-        WriteJsonFile(tailData);
-
+        JsonUtils.WriteJsonFile(tailData, _fileManagerFile);
         return true;
       }
       catch ( Exception ex )
@@ -221,8 +204,8 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       if ( !File.Exists(_fileManagerFile) )
         return new ObservableCollection<TailData>();
 
-      LOG.Trace("Read JSON db file");
-      var result = await Task.Run(() => ReadJsonFile(), token);
+      LOG.Trace("Read JSON file");
+      var result = await Task.Run(() => JsonUtils.ReadJsonFile<ObservableCollection<TailData>>(_fileManagerFile), token);
 
       if ( result != null && SettingsHelperController.CurrentSettings.SmartWatch )
         await ModifyFileNameBySmartWatchAsync(result);
@@ -238,17 +221,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         }
       }
       return result;
-    }
-
-    private ObservableCollection<TailData> ReadJsonFile()
-    {
-      using ( StreamReader sr = File.OpenText(_fileManagerFile) )
-      {
-        var serializer = new JsonSerializer();
-        var json = (List<TailData>) serializer.Deserialize(sr, typeof(List<TailData>));
-
-        return new ObservableCollection<TailData>(json);
-      }
     }
 
     private async Task ModifyFileNameBySmartWatchAsync(IReadOnlyCollection<TailData> result)

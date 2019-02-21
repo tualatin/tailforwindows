@@ -89,6 +89,7 @@
     <Compile Include="Data\TestDataObject.cs" />
     <Compile Include="Enums\ETestGetDescription.cs" />
     <Compile Include="JsonTests\TestFileManagerController.cs" />
+    <Compile Include="JsonTests\TestHistoryController.cs" />
     <Compile Include="Options\OptionTestClasses.cs" />
     <Compile Include="TestAsyncObservableCollection.cs" />
     <Compile Include="TestColorExtension.cs" />
@@ -142,6 +143,9 @@
     <Content Include="Files\FileManager.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Files\History.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
