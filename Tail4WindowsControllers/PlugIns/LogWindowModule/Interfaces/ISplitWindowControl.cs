@@ -7,7 +7,6 @@ using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Business.Utils.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.Core.Interfaces;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
@@ -48,7 +47,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     /// <summary>
     /// SelectedSplitSearch item
     /// </summary>
-    KeyValuePair<string, string> SelectedSplitSearchItem
+    string SelectedSplitSearchItem
     {
       get;
     }
@@ -56,7 +55,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     /// <summary>
     /// Search history
     /// </summary>
-    IObservableDictionary<string, string> SearchHistory
+    HistoryData SearchHistory
     {
       get;
     }

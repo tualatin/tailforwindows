@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -31,8 +31,9 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(FindWhatViewModel));
 
+    private CancellationTokenSource _cts;
     private readonly ISettingsDbController _dbController;
-    private readonly IXmlSearchHistory<IObservableDictionary<string, string>> _searchHistoryController;
+    private readonly IHistory<HistoryData> _searchHistoryController;
 
     #region Properties
 
@@ -81,12 +82,12 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       }
     }
 
-    private IObservableDictionary<string, string> _searchHistory;
+    private HistoryData _searchHistory;
 
     /// <summary>
     /// Search history
     /// </summary>
-    public IObservableDictionary<string, string> SearchHistory
+    public HistoryData SearchHistory
     {
       get => _searchHistory;
       set
@@ -147,12 +148,12 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       }
     }
 
-    private KeyValuePair<string, string> _selectedItem;
+    private string _selectedItem;
 
     /// <summary>
     /// Selected item
     /// </summary>
-    public KeyValuePair<string, string> SelectedItem
+    public string SelectedItem
     {
       get => _selectedItem;
       set
@@ -197,10 +198,12 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     public FindWhatViewModel()
     {
       _dbController = SettingsDbController.Instance;
-      _searchHistoryController = new XmlSearchHistoryController();
+      _searchHistoryController = new HistoryController();
 
       ((AsyncCommand<object>) LoadedCommand).PropertyChanged += LoadedPropertyChanged;
       ((AsyncCommand<object>) FindNextCommand).PropertyChanged += FindNextCommandPropertyChanged;
+      ((AsyncCommand<object>) CountCommand).PropertyChanged += FindNextCommandPropertyChanged;
+      ((AsyncCommand<object>) FindAllCommand).PropertyChanged += FindNextCommandPropertyChanged;
       ((AsyncCommand<object>) DeleteHistoryCommand).PropertyChanged += DeleteHistoryPropertyChanged;
     }
 
@@ -278,12 +281,22 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
     #region Command functions
 
-    private bool CanDeleteHistory() => SearchHistory != null && SearchHistory.Count > 0;
+    private bool CanDeleteHistory() => SearchHistory != null && SearchHistory.FindCollection.Count > 0;
 
     private async Task ExecuteDeleteHistoryCommandAsync()
     {
       MouseService.SetBusyState();
-      await _searchHistoryController.DeleteHistoryAsync().ConfigureAwait(false);
+      SetCancellationTokenSource();
+
+      await _searchHistoryController.DeleteHistoryAsync(_searchHistory, _cts.Token).ContinueWith(p =>
+      {
+        if ( !p.Result )
+        {
+          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryDeleteError").ToString());
+        }
+
+        _searchHistory = _searchHistoryController.ReadHistoryAsync(_cts.Token).Result;
+      }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
     }
 
     private async Task ExecuteKeyDownCommandAsync(object param)
@@ -316,7 +329,9 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     {
       try
       {
-        _searchHistory = await _searchHistoryController.ReadXmlFileAsync().ConfigureAwait(false);
+        SetCancellationTokenSource();
+
+        _searchHistory = await _searchHistoryController.ReadHistoryAsync(_cts.Token).ConfigureAwait(false);
       }
       catch ( Exception ex )
       {
@@ -339,13 +354,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     /// Can execute find command
     /// </summary>
     /// <returns><c>True</c> if it can execute otherwise <c>False</c></returns>
-    public bool CanExecuteFindCommand()
-    {
-      if ( FindSettings != null && FindSettings.SearchBookmarks )
-        return true;
-
-      return !string.IsNullOrWhiteSpace(SearchText);
-    }
+    public bool CanExecuteFindCommand() => FindSettings != null && FindSettings.SearchBookmarks || !string.IsNullOrWhiteSpace(SearchText);
 
     private async Task ExecuteFindNextCommandAsync()
     {
@@ -385,8 +394,14 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
     {
       MouseService.SetBusyState();
 
-      _searchHistoryController.Wrap = FindSettings.Wrap;
-      await _searchHistoryController.SaveSearchHistoryWrapAttributeAsync().ConfigureAwait(false);
+      SearchHistory.Wrap = FindSettings.Wrap;
+
+      SetCancellationTokenSource();
+
+      if ( !await _searchHistoryController.UpdateHistoryAsync(_searchHistory, string.Empty, _cts.Token).ConfigureAwait(false) )
+      {
+        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryUpdateError").ToString());
+      }
     }
 
     #endregion
@@ -400,11 +415,17 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       if ( string.IsNullOrWhiteSpace(SearchText) )
         return;
 
-      if ( !SearchHistory.ContainsKey(SearchText.Trim()) )
+      SetCancellationTokenSource();
+
+      await _searchHistoryController.UpdateHistoryAsync(_searchHistory, SearchText, _cts.Token).ContinueWith(p =>
       {
-        _searchHistory.Add(new KeyValuePair<string, string>(SearchText.Trim(), SearchText.Trim()));
-        await _searchHistoryController.SaveSearchHistoryAsync(SearchText).ConfigureAwait(false);
-      }
+        if ( !p.Result )
+        {
+          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryUpdateError").ToString());
+        }
+
+        _searchHistory = _searchHistoryController.ReadHistoryAsync(_cts.Token).Result;
+      }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
     }
 
     #endregion
@@ -414,7 +435,6 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      SearchHistory.Clear();
       OnPropertyChanged(nameof(SearchHistory));
     }
 
@@ -437,7 +457,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       LeftPosition = SettingsHelperController.CurrentSettings.FindDialogPositionX;
       FindSettings = new FindData
       {
-        Wrap = _searchHistoryController.Wrap
+        Wrap = SearchHistory.Wrap
       };
       FindSettings.PropertyChanged += OnFindSettingsPropertyChanged;
 
@@ -467,6 +487,12 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
         return;
 
       CountMatches = string.Format(Application.Current.TryFindResource("FindDialogSearchCount").ToString(), args.Count);
+    }
+
+    private void SetCancellationTokenSource()
+    {
+      _cts?.Dispose();
+      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
     }
   }
 }

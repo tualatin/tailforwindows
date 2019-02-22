@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Core.Data
@@ -7,12 +8,14 @@ namespace Org.Vs.TailForWin.Core.Data
   /// <summary>
   /// History data
   /// </summary>
-  public class HistoryData
+  public class HistoryData : NotifyMaster
   {
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public HistoryData() => FindCollection = new List<string>();
+    public HistoryData() => FindCollection = new AsyncObservableCollection<string>();
+
+    private bool _wrap;
 
     /// <summary>
     /// Wrap at the end of search
@@ -20,18 +23,34 @@ namespace Org.Vs.TailForWin.Core.Data
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool Wrap
     {
-      get;
-      set;
+      get => _wrap;
+      set
+      {
+        if ( _wrap == value )
+          return;
+
+        _wrap = value;
+        OnPropertyChanged();
+      }
     }
+
+    private AsyncObservableCollection<string> _findCollection;
 
     /// <summary>
     /// Collection of history
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "History")]
-    public List<string> FindCollection
+    public AsyncObservableCollection<string> FindCollection
     {
-      get;
-      set;
+      get => _findCollection;
+      set
+      {
+        if ( _findCollection == value )
+          return;
+
+        _findCollection = value;
+        OnPropertyChanged();
+      }
     }
   }
 }

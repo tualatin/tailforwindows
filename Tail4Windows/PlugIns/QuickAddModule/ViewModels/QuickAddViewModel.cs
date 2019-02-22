@@ -168,7 +168,6 @@ namespace Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels
     {
       try
       {
-        await _fileManagerController.ConvertXmlToJsonConfigAsync(_cts.Token).ConfigureAwait(false);
         await _fileManagerController.ReadJsonFileAsync(_cts.Token).ContinueWith(p =>
         {
           _fileManagerCollection = p.Result;

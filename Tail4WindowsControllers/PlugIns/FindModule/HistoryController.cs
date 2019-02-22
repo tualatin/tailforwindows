@@ -13,16 +13,10 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
   /// <summary>
   /// History controller
   /// </summary>
-  public class HistoryController : IHistory
+  public class HistoryController : IHistory<HistoryData>
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(HistoryController));
-    private static readonly object MyLock = new object();
-
-    /// <summary>
-    /// Current lock time span in milliseconds
-    /// </summary>
-    private const int LockTimeSpanIsMs = 200;
-
+    private readonly SemaphoreSlim _semaphore;
     private readonly string _historyFile;
     private readonly IXmlSearchHistory<IObservableDictionary<string, string>> _xmlHistoryController;
     private readonly string _xmlHistoryFile;
@@ -32,6 +26,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
     /// </summary>
     public HistoryController()
     {
+      _semaphore = new SemaphoreSlim(1, 1);
       _xmlHistoryController = new XmlSearchHistoryController();
       _historyFile = CoreEnvironment.UserSettingsPath + @"\History.json";
       _xmlHistoryFile = CoreEnvironment.UserSettingsPath + @"\History.xml";
@@ -44,6 +39,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
     /// <param name="path">Path of XML file</param>
     public HistoryController(string jsonPath, string path)
     {
+      _semaphore = new SemaphoreSlim(1, 1);
       _xmlHistoryController = new XmlSearchHistoryController(path);
       _xmlHistoryFile = path;
       _historyFile = jsonPath;
@@ -56,16 +52,27 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
     /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
     public async Task<bool> ConvertXmlToJsonFileAsync(CancellationToken token)
     {
+      await _semaphore.WaitAsync(token);
+
       var history = await _xmlHistoryController.ReadXmlFileAsync();
 
       if ( history == null || history.Count == 0 )
         return true;
 
-      if ( !Monitor.TryEnter(MyLock, LockTimeSpanIsMs) )
-        return false;
-
       LOG.Info("Convert XML file to JSON file");
 
+      try
+      {
+        return await Task.Run(() => ConvertXmlToJsonFile(history), token);
+      }
+      finally
+      {
+        _semaphore.Release();
+      }
+    }
+
+    private bool ConvertXmlToJsonFile(IObservableDictionary<string, string> history)
+    {
       try
       {
         var historyData = new HistoryData
@@ -89,10 +96,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
-      finally
-      {
-        Monitor.Exit(MyLock);
-      }
       return false;
     }
 
@@ -106,50 +109,97 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule
       if ( !File.Exists(_historyFile) )
         return new HistoryData();
 
-
-      if ( !Monitor.TryEnter(MyLock, LockTimeSpanIsMs) )
-        return new HistoryData();
-
+      await _semaphore.WaitAsync(token);
       LOG.Trace("Read JSON file");
 
       try
       {
-        var result = await Task.Run(() => JsonUtils.ReadJsonFile<HistoryData>(_historyFile), token);
-
-        return result;
+        return await Task.Run(() => JsonUtils.ReadJsonFile<HistoryData>(_historyFile), token);
       }
       finally
       {
-        Monitor.Exit(MyLock);
+        _semaphore.Release();
       }
     }
 
     /// <summary>
-    /// Saves a search text to history file
+    /// Updates history file
     /// </summary>
+    /// <param name="data">Data to update</param>
     /// <param name="searchText">Text to save</param>
     /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
-    public async Task<bool> SaveHistoryAsync(string searchText, CancellationToken token)
+    public async Task<bool> UpdateHistoryAsync(HistoryData data, string searchText, CancellationToken token)
     {
-      if ( !Monitor.TryEnter(MyLock, LockTimeSpanIsMs) )
-        return false;
-
-      LOG.Trace("Save history");
+      await _semaphore.WaitAsync(token);
+      LOG.Trace("Update history");
 
       try
       {
-        var history = await Task.Run(() => JsonUtils.ReadJsonFile<HistoryData>(_historyFile), token);
-
-        history.FindCollection.Add(searchText);
-        JsonUtils.WriteJsonFile(history, _historyFile);
-
-        return true;
+        return await Task.Run(() => UpdateHistory(data, searchText.Trim()), token);
       }
       finally
       {
-        Monitor.Exit(MyLock);
+        _semaphore.Release();
       }
+    }
+
+    private bool UpdateHistory(HistoryData data, string searchText)
+    {
+      try
+      {
+        if ( !string.IsNullOrWhiteSpace(searchText) )
+        {
+          if ( !data.FindCollection.Contains(searchText) )
+            data.FindCollection.Add(searchText);
+        }
+
+        JsonUtils.WriteJsonFile(data, _historyFile);
+
+        return true;
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+      return false;
+    }
+
+    /// <summary>
+    /// Deletes the history
+    /// </summary>
+    /// <param name="data">Data to delete</param>
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
+    public async Task<bool> DeleteHistoryAsync(HistoryData data, CancellationToken token)
+    {
+      await _semaphore.WaitAsync(token);
+      LOG.Trace("Delete history");
+
+      try
+      {
+        return await Task.Run(() => DeleteHistory(data), token);
+      }
+      finally
+      {
+        _semaphore.Release();
+      }
+    }
+
+    private bool DeleteHistory(HistoryData data)
+    {
+      try
+      {
+        data.FindCollection.Clear();
+        JsonUtils.WriteJsonFile(data, _historyFile);
+
+        return true;
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
+      return false;
     }
   }
 }

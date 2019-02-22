@@ -604,13 +604,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
       try
       {
-        var success = await _fileManagerController.ConvertXmlToJsonConfigAsync(_cts.Token).ConfigureAwait(false);
-
-        if ( !success )
-        {
-          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerConvertXmlToJsonError").ToString());
-        }
-
         _fileManagerCollection = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
         _categories = await _fileManagerController.GetCategoriesAsync(_cts.Token, _fileManagerCollection).ConfigureAwait(false);
 

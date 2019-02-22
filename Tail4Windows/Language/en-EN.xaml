@@ -651,4 +651,8 @@
   <system:String x:Key="AnalysisFileUsageTotalFileSize">Total file size {0:N2} MB</system:String>
   <system:String x:Key="AnalysisFileUsageTotalEvents">Total events {0:N0}</system:String>
   <system:String x:Key="AnalysisFileUsageLogCount">Total log count {0:N0}</system:String>
+
+  <system:String x:Key="HistoryConvertXmlToJsonError">Can not convert history file!</system:String>
+  <system:String x:Key="HistoryDeleteError">Can not delete history!</system:String>
+  <system:String x:Key="HistoryUpdateError">Can not update history!</system:String>
 </ResourceDictionary>

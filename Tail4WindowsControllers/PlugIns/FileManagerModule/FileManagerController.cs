@@ -58,10 +58,11 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
     public async Task<bool> ConvertXmlToJsonConfigAsync(CancellationToken token)
     {
       var fileManagerCollection = await _xmlFileManager.ReadXmlFileAsync(token);
+      return fileManagerCollection == null || fileManagerCollection.Count == 0 || await Task.Run(() => ConvertXmlToJsonConfig(fileManagerCollection), token);
+    }
 
-      if ( fileManagerCollection == null || fileManagerCollection.Count == 0 )
-        return true;
-
+    private bool ConvertXmlToJsonConfig(ObservableCollection<TailData> fileManagerCollection)
+    {
       try
       {
         LOG.Info("Convert XML file to JSON file");
@@ -211,14 +212,16 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         await ModifyFileNameBySmartWatchAsync(result);
 
       if ( result != null )
-        result = await RemoveDuplicateItemsAsync(result, token);
-
-      if ( result != null )
       {
-        foreach ( TailData data in result )
+        await RemoveDuplicateItemsAsync(result, token).ContinueWith(p =>
         {
-          data.IsLoadedByXml = true;
-        }
+          foreach ( TailData data in p.Result )
+          {
+            data.IsLoadedByXml = true;
+          }
+
+          result = p.Result;
+        }, TaskContinuationOptions.OnlyOnRanToCompletion);
       }
       return result;
     }

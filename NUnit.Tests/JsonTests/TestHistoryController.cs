@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Threading;
 using NUnit.Framework;
 using Org.Vs.TailForWin.Controllers.PlugIns.FindModule;
+using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Interfaces;
 
 namespace Org.Vs.NUnit.Tests.JsonTests
@@ -13,7 +14,7 @@ namespace Org.Vs.NUnit.Tests.JsonTests
   [TestFixture]
   public class TestHistoryController
   {
-    private IHistory _historyController;
+    private IHistory<HistoryData> _historyController;
     private TestContext _currentTestContext;
     private CancellationTokenSource _cts;
     private string _pathAsJson;
@@ -69,13 +70,30 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       CopyTempFile();
 
       var searchText = "Hello world";
-      var oldHistory = await _historyController.ReadHistoryAsync(_cts.Token);
-      var result = await _historyController.SaveHistoryAsync(searchText, _cts.Token);
-      Assert.IsTrue(result);
 
-      var newHistory = await _historyController.ReadHistoryAsync(_cts.Token);
-      Assert.IsTrue(newHistory.FindCollection.Contains(searchText));
-      Assert.IsTrue(oldHistory.FindCollection.Count < newHistory.FindCollection.Count);
+      await _historyController.ReadHistoryAsync(_cts.Token).ContinueWith(p =>
+      {
+        var result = _historyController.UpdateHistoryAsync(p.Result, searchText, _cts.Token).Result;
+
+        Assert.IsTrue(result);
+        Assert.IsTrue(p.Result.FindCollection.Contains(searchText));
+
+      }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
+    }
+
+    [Test]
+    public async Task TestDeleteHistoryAsync()
+    {
+      InitMyTest();
+      CopyTempFile();
+
+      await _historyController.ReadHistoryAsync(_cts.Token).ContinueWith(p =>
+      {
+        var result = _historyController.DeleteHistoryAsync(p.Result, _cts.Token).Result;
+
+        Assert.IsTrue(result);
+        Assert.IsEmpty(p.Result.FindCollection);
+      }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
     }
 
     private void InitMyTest()

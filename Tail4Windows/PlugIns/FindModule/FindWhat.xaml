@@ -110,12 +110,10 @@
           Height="24"
           HorizontalAlignment="Stretch"
           Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-          DisplayMemberPath="Key"
           IsEditable="True"
           IsEnabled="{Binding ElementName=CheckBoxSearchBookmarks, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
-          ItemsSource="{Binding SearchHistory}"
+          ItemsSource="{Binding SearchHistory.FindCollection}"
           SelectedItem="{Binding SelectedItem}"
-          SelectedValuePath="Value"
           TabIndex="0"
           behaviors:FocusBehavior.IsFocused="{Binding SearchFieldHasFocus, UpdateSourceTrigger=PropertyChanged}"
           >

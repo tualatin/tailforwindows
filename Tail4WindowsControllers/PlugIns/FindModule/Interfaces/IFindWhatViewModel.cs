@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.Core.Interfaces;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Interfaces
@@ -67,7 +65,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Interfaces
     /// <summary>
     /// Selected item
     /// </summary>
-    KeyValuePair<string, string> SelectedItem
+    string SelectedItem
     {
       get;
     }
@@ -141,7 +139,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Interfaces
     /// <summary>
     /// Search history
     /// </summary>
-    IObservableDictionary<string, string> SearchHistory
+    HistoryData SearchHistory
     {
       get;
     }

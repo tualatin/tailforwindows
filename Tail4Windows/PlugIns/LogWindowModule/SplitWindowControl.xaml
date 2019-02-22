@@ -140,11 +140,9 @@
             Height="24"
             HorizontalAlignment="Stretch"
             Text="{Binding SplitElementFilterText, UpdateSourceTrigger=PropertyChanged}"
-            DisplayMemberPath="Key"
             IsEditable="True"
-            ItemsSource="{Binding SearchHistory}"
+            ItemsSource="{Binding SearchHistory.FindCollection}"
             SelectedItem="{Binding SelectedSplitSearchItem}"
-            SelectedValuePath="Value"
             TabIndex="1"
             genericBehaviors:FocusBehavior.IsFocused="{Binding TextBoxHasFocus, UpdateSourceTrigger=PropertyChanged}"
             >

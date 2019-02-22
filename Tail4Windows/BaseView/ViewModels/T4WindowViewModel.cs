@@ -26,6 +26,9 @@ using Org.Vs.TailForWin.Controllers.BaseView.Events.Args;
 using Org.Vs.TailForWin.Controllers.BaseView.Interfaces;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
+using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.FindModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.Controllers.UI.Vml.Attributes;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -33,6 +36,7 @@ using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
@@ -74,6 +78,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private readonly ISettingsDbController _dbSettingsController;
     private readonly IStatisticController _statisticController;
+
+    private readonly IHistory<HistoryData> _historyController;
+    private readonly IFileManagerController _fileManagerController;
 
     #region Events
 
@@ -289,6 +296,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         ShouldClose = false
       };
 
+      _fileManagerController = new FileManagerController();
+      _historyController = new HistoryController();
+
       _dbSettingsController = SettingsDbController.Instance;
       _statisticController = new StatisticController();
       _currentStatusbarState = EStatusbarState.Default;
@@ -441,6 +451,16 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       await MoveUserFilesToTailStoreAsync().ConfigureAwait(false);
       await _dbSettingsController.ReadDbSettingsAsync().ConfigureAwait(false);
+
+      if ( !await _historyController.ConvertXmlToJsonFileAsync(_cts.Token).ConfigureAwait(false) )
+      {
+        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryConvertXmlToJsonError").ToString());
+      }
+
+      if ( !await _fileManagerController.ConvertXmlToJsonConfigAsync(_cts.Token).ConfigureAwait(false) )
+      {
+        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerConvertXmlToJsonError").ToString());
+      }
     }
 
     private async Task CleanGarbageCollectorAsync()

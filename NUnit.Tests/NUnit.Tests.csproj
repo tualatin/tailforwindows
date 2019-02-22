@@ -114,7 +114,6 @@
     <Compile Include="ViewModels\TestT4WindowViewModel.cs" />
     <Compile Include="TestUpdateController.cs" />
     <Compile Include="TestWebController.cs" />
-    <Compile Include="XmlTests\TestXmlHistoryController.cs" />
     <Compile Include="XmlTests\TestXmlPatternController.cs" />
   </ItemGroup>
   <ItemGroup>

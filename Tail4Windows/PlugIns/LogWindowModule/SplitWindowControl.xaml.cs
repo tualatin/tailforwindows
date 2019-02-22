@@ -64,7 +64,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private int _index;
     private CancellationTokenSource _cts;
 
-    private readonly IXmlSearchHistory<IObservableDictionary<string, string>> _searchHistoryController;
+    private readonly IHistory<HistoryData> _searchHistoryController;
     private readonly IFindController _searchController;
     private readonly IPreventMessageFlood _preventMessageFlood;
     private readonly IFindController _findController;
@@ -114,12 +114,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     #region Properties
 
-    private IObservableDictionary<string, string> _searchHistory;
+    private HistoryData _searchHistory;
 
     /// <summary>
     /// Search history
     /// </summary>
-    public IObservableDictionary<string, string> SearchHistory
+    public HistoryData SearchHistory
     {
       get => _searchHistory;
       set
@@ -132,12 +132,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
-    private KeyValuePair<string, string> _selectedSplitSearchItem;
+    private string _selectedSplitSearchItem;
 
     /// <summary>
     /// SelectedSplitSearch item
     /// </summary>
-    public KeyValuePair<string, string> SelectedSplitSearchItem
+    public string SelectedSplitSearchItem
     {
       get => _selectedSplitSearchItem;
       set
@@ -397,7 +397,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       InitCollectionView();
 
-      _searchHistoryController = new XmlSearchHistoryController();
+      _searchHistoryController = new HistoryController();
       _searchController = new FindController();
       _preventMessageFlood = new PreventMessageFlood();
       _findController = new FindController();
@@ -695,11 +695,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       MouseService.SetBusyState();
 
-      if ( !SearchHistory.ContainsKey(SplitElementFilterText.Trim()) )
+      await _searchHistoryController.UpdateHistoryAsync(_searchHistory, SplitElementFilterText, _cts.Token).ContinueWith(p =>
       {
-        _searchHistory.Add(new KeyValuePair<string, string>(SplitElementFilterText.Trim(), SplitElementFilterText.Trim()));
-        await _searchHistoryController.SaveSearchHistoryAsync(SplitElementFilterText).ConfigureAwait(false);
-      }
+        if ( !p.Result )
+        {
+          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryUpdateError").ToString());
+        }
+
+        _searchHistory = _searchHistoryController.ReadHistoryAsync(_cts.Token).Result;
+      }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
     }
 
     private void ExecuteCloseExtendedToolbarCommand()
@@ -761,7 +765,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       try
       {
-        _searchHistory = await _searchHistoryController.ReadXmlFileAsync().ConfigureAwait(false);
+        _searchHistory = await _searchHistoryController.ReadHistoryAsync(_cts.Token).ConfigureAwait(false);
       }
       catch ( Exception ex )
       {
