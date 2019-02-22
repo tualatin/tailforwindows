@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 
 namespace Org.Vs.TailForWin.Core.Interfaces
@@ -7,6 +8,7 @@ namespace Org.Vs.TailForWin.Core.Interfaces
   /// XML search history interface
   /// </summary>
   /// <typeparam name="T">Type of interface</typeparam>
+  [Obsolete("Please us IHistory interface instead")]
   public interface IXmlSearchHistory<T>
   {
     /// <summary>

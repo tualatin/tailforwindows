@@ -91,7 +91,7 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
     /// <param name="data"><see cref="IList{T}"/> of <see cref="LogEntry"/></param>
     /// <param name="fileName">Filename</param>
     /// <returns><see cref="Task"/> if success <c>True</c> otherwise <c>False</c></returns>
-    public async Task<bool> ExportAsOpenDocumentAsync(IList<LogEntry> data, string fileName) => throw new NotImplementedException();
+    public Task<bool> ExportAsOpenDocumentAsync(IList<LogEntry> data, string fileName) => throw new NotImplementedException();
 
     private ExcelPackage CreateDocument(IEnumerable<LogEntry> data)
     {
