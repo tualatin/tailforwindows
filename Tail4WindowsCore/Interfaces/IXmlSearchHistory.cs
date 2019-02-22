@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using System.Xml.Linq;
 
 
 namespace Org.Vs.TailForWin.Core.Interfaces
@@ -24,24 +23,5 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// </summary>
     /// <returns>Task</returns>
     Task<T> ReadXmlFileAsync();
-
-    /// <summary>
-    /// Save search word as XML attribute
-    /// </summary>
-    /// <param name="searchWord">Search text to save into XML file</param>
-    /// <returns>Task</returns>
-    Task SaveSearchHistoryAsync(string searchWord);
-
-    /// <summary>
-    /// Save search history wrap as XML attribute
-    /// </summary>
-    /// <returns>XML element, if an error occurred, <c>null</c></returns>
-    Task<XElement> SaveSearchHistoryWrapAttributeAsync();
-
-    /// <summary>
-    /// Deletes current history
-    /// </summary>
-    /// <returns>Task</returns>
-    Task DeleteHistoryAsync();
   }
 }

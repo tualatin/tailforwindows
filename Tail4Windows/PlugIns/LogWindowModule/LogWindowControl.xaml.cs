@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -69,9 +68,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private CancellationTokenSource _cts;
     private readonly PrintController _printerController;
-    private readonly IXmlSearchHistory<QueueSet<string>> _historyController;
+    private readonly IHistory<LogFileHistoryData> _historyController;
     private readonly IFileManagerController _fileManagerController;
-    private QueueSet<string> _historyQueueSet;
 
     #region Events
 
@@ -96,7 +94,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       DataContext = this;
       _printerController = new PrintController();
-      _historyController = new XmlHistoryController();
+      _historyController = new LogFileHistoryController();
       _fileManagerController = new FileManagerController();
 
       TailReader = new LogReadService();
@@ -246,14 +244,23 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
+    private LogFileHistoryData _logFileHistory;
+
     /// <summary>
     /// Current LogFile history
     /// </summary>
-    public ObservableCollection<string> LogFileHistory
+    public LogFileHistoryData LogFileHistory
     {
-      get;
-      set;
-    } = new ObservableCollection<string>();
+      get => _logFileHistory;
+      set
+      {
+        if ( value == _logFileHistory )
+          return;
+
+        _logFileHistory = value;
+        OnPropertyChanged();
+      }
+    }
 
     private string _selectedItem;
 
@@ -574,15 +581,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       OnLinesTimeChanged?.Invoke(this, e);
     }
 
-    private bool CanExecuteDeleteHistoryCommand() => SettingsHelperController.CurrentSettings.SaveLogFileHistory && _historyQueueSet != null && _historyQueueSet.Count != 0;
+    private bool CanExecuteDeleteHistoryCommand() => SettingsHelperController.CurrentSettings.SaveLogFileHistory && LogFileHistory.FindCollection.Count != 0;
 
     private async Task ExecuteDeleteHistoryCommandAsync()
     {
-      LogFileHistory.Clear();
-      _historyQueueSet.Clear();
-
       MouseService.SetBusyState();
-      await _historyController.DeleteHistoryAsync().ConfigureAwait(false);
+
+      await _historyController.DeleteHistoryAsync(_logFileHistory, _cts.Token).ContinueWith(p =>
+      {
+        if ( !p.Result )
+        {
+          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryConvertXmlToJsonError").ToString());
+        }
+
+        _logFileHistory = _historyController.ReadHistoryAsync(_cts.Token).Result;
+      }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
     }
 
     private async Task ExecuteLoadedCommandAsync()
@@ -593,7 +606,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !SettingsHelperController.CurrentSettings.SaveLogFileHistory )
         return;
 
-      _historyQueueSet = await _historyController.ReadXmlFileAsync().ConfigureAwait(false);
+      _logFileHistory = await _historyController.ReadHistoryAsync(_cts.Token).ConfigureAwait(false);
     }
 
     private void RegisterKeybindingEvents()
@@ -761,12 +774,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( CurrentTailData.OpenFromFileManager || !SettingsHelperController.CurrentSettings.SaveLogFileHistory || CurrentTailData.IsWindowsEvent )
         return;
 
-      if ( LogFileHistory.Contains(CurrentTailData.FileName) )
-        return;
-
       MouseService.SetBusyState();
       SetCancellationTokenSource();
-      await _historyController.SaveSearchHistoryAsync(CurrentTailData.FileName).ConfigureAwait(false);
+
+      await _historyController.UpdateHistoryAsync(_logFileHistory, CurrentTailData.FileName, _cts.Token).ContinueWith(p =>
+      {
+        if ( !p.Result )
+        {
+          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryConvertXmlToJsonError").ToString());
+        }
+
+        _logFileHistory = _historyController.ReadHistoryAsync(_cts.Token).Result;
+      }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -962,7 +981,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
         return;
 
-      LogFileHistory.Add(CurrentTailData.FileName);
       OnPropertyChanged(nameof(LogFileHistory));
     }
 
@@ -973,11 +991,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( SettingsHelperController.CurrentSettings.SaveLogFileHistory )
       {
-        foreach ( string s in _historyQueueSet )
+        foreach ( string s in _logFileHistory.FindCollection )
         {
-          if ( LogFileHistory.Contains(s) )
-            continue;
-
           var jumpTask = new JumpTask
           {
             Title = Path.GetFileName(s),
@@ -985,7 +1000,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             Description = s
           };
 
-          LogFileHistory.Add(s);
           AddJumpTaskToJumpList(jumpTask);
         }
 

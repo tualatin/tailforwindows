@@ -363,7 +363,7 @@
           Text="{Binding SelectedItem, UpdateSourceTrigger=PropertyChanged}"
           IsEditable="True"
           IsEnabled="{Binding LogWindowState, Converter={StaticResource StatusBarStateToBoolConverter}}"
-          ItemsSource="{Binding LogFileHistory}"
+          ItemsSource="{Binding LogFileHistory.FindCollection}"
           SelectedItem="{Binding SelectedItem}"
           behaviors:FocusBehavior.IsFocused="{Binding LogFileComboBoxHasFocus, UpdateSourceTrigger=PropertyChanged}"
           >

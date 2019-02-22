@@ -29,6 +29,7 @@ using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FindModule;
+using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.Controllers.UI.Vml.Attributes;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -80,6 +81,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private readonly IStatisticController _statisticController;
 
     private readonly IHistory<HistoryData> _historyController;
+    private readonly IHistory<LogFileHistoryData> _logFileHistoryController;
     private readonly IFileManagerController _fileManagerController;
 
     #region Events
@@ -298,6 +300,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _fileManagerController = new FileManagerController();
       _historyController = new HistoryController();
+      _logFileHistoryController = new LogFileHistoryController();
 
       _dbSettingsController = SettingsDbController.Instance;
       _statisticController = new StatisticController();
@@ -460,6 +463,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !await _fileManagerController.ConvertXmlToJsonConfigAsync(_cts.Token).ConfigureAwait(false) )
       {
         InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerConvertXmlToJsonError").ToString());
+      }
+
+      if ( !await _logFileHistoryController.ConvertXmlToJsonFileAsync(_cts.Token).ConfigureAwait(false) )
+      {
+        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryConvertXmlToJsonError").ToString());
       }
     }
 

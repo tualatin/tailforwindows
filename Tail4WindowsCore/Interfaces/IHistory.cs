@@ -9,7 +9,7 @@ namespace Org.Vs.TailForWin.Core.Interfaces
   /// JSON history interface
   /// </summary>
   /// <typeparam name="T">Type of interface</typeparam>
-  public interface IHistory<in T> where T : class
+  public interface IHistory<T> where T : class
   {
     /// <summary>
     /// Converts old XML history file to JSON
@@ -23,7 +23,7 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns><see cref="HistoryData"/></returns>
-    Task<HistoryData> ReadHistoryAsync(CancellationToken token);
+    Task<T> ReadHistoryAsync(CancellationToken token);
 
     /// <summary>
     /// Updates history file

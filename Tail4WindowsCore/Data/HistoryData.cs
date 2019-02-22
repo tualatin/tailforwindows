@@ -39,7 +39,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// <summary>
     /// Collection of history
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "History")]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate, PropertyName = "SearchHistory")]
     public AsyncObservableCollection<string> FindCollection
     {
       get => _findCollection;

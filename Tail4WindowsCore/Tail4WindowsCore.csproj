@@ -112,6 +112,7 @@
     <Compile Include="Data\FontInfo.cs" />
     <Compile Include="Data\FontType.cs" />
     <Compile Include="Data\HistoryData.cs" />
+    <Compile Include="Data\LogFileHistoryData.cs" />
     <Compile Include="Data\Mappings\DateFormatMapping.cs" />
     <Compile Include="Data\Mappings\FileSortMapping.cs" />
     <Compile Include="Data\Mappings\LanguageMapping.cs" />
