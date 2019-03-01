@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 
@@ -32,6 +33,23 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
     {
       get;
       set;
+    }
+
+    private Func<object, Task<bool>> _filterAsync;
+
+    /// <summary>
+    /// Filter async action
+    /// </summary>
+    public Func<object, Task<bool>> FilterAsync
+    {
+      get => _filterAsync;
+      set
+      {
+        if ( _filterAsync != null && value == _filterAsync )
+          return;
+
+        _filterAsync = value;
+      }
     }
 
     #endregion
@@ -64,12 +82,28 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
       Collection.CollectionChanged += OnLogEntriesCollectionChanged;
     }
 
-    private void OnLogEntriesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private async void OnLogEntriesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       switch ( e.Action )
       {
       case NotifyCollectionChangedAction.Add:
 
+        foreach ( T item in e.NewItems )
+        {
+          if ( FilterAsync == null )
+          {
+            FilteredCollection.Add(item);
+          }
+          else
+          {
+            bool result = await FilterAsync?.Invoke(item);
+
+            if ( result )
+            {
+              FilteredCollection.Add(item);
+            }
+          }
+        }
         break;
 
       case NotifyCollectionChangedAction.Remove:

@@ -387,7 +387,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       InitializeComponent();
 
       DataContext = this;
-      LogCollectionView = new VsCollectionView<LogEntry>();
+      LogCollectionView = new VsCollectionView<LogEntry>
+      {
+        FilterAsync = DynamicFilterAsync
+      };
       FloodData = new List<MessageFloodData>();
 
       _findWhatResults = new List<LogEntry>();
@@ -1261,6 +1264,125 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         result = _criteria.TrueForAll(p => p(logEntry));
 
       return result;
+    }
+
+    private async Task<bool> DynamicFilterAsync(object item)
+    {
+      if ( CurrentTailData?.ListOfFilter == null || CurrentTailData.ListOfFilter.Count == 0 || !CurrentTailData.FilterState )
+        return true;
+
+      if ( !(item is LogEntry logEntry) )
+        return false;
+
+      var result = false;
+      var filterSource = CurrentTailData.ListOfFilter.Where(p => p.FilterSource && p.IsEnabled).ToList();
+      var highlightSource = CurrentTailData.ListOfFilter.Where(p => p.IsHighlight && p.IsEnabled).ToList();
+
+      // If no FilterSource is defined, we assume only Highlighting is active
+      if ( filterSource.Count == 0 )
+        result = true;
+
+      foreach ( FilterData filterData in filterSource )
+      {
+        try
+        {
+          var sr = await _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).ConfigureAwait(false);
+
+          if ( sr == null || sr.Count == 0 )
+            continue;
+
+          // Handle alert settings
+          if ( filterData.UseNotification )
+            HandleAlertSettings(filterData, sr, logEntry);
+
+          // Handle AutoBookmark
+          if ( filterData.IsAutoBookmark )
+            HandleAutoBookmark(filterData, logEntry);
+
+          result = true;
+          break;
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+      }
+
+      // If result is false OR no highlighting is defined, return the current result
+      if ( !result || highlightSource.Count == 0 )
+        return result;
+
+#if DEBUG
+      var sw = new Stopwatch();
+      sw.Start();
+#endif
+
+      foreach ( FilterData filterData in highlightSource )
+      {
+        try
+        {
+          var sr = await _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).ConfigureAwait(false);
+
+          if ( sr == null || sr.Count == 0 )
+            continue;
+
+          // If no FilterSource is defined, handle alert settings here
+          if ( filterSource.Count == 0 && filterData.UseNotification )
+            HandleAlertSettings(filterData, sr, logEntry);
+
+          // If not FilterSource is defined, handle AutoBookmark here
+          if ( filterSource.Count == 0 && filterData.IsAutoBookmark )
+            HandleAutoBookmark(filterData, logEntry);
+
+          if ( HighlightData == null )
+            HighlightData = new List<TextHighlightData>();
+
+          if ( !filterData.IsEnabled )
+          {
+            await Task.Run(() =>
+            {
+              // Remove disabled items from highlight list
+              var toRemove = HighlightData.Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0 && !p.IsFindWhat).ToList();
+
+              if ( toRemove.Count > 0 )
+                HighlightData.RemoveAll(p => toRemove.Contains(p));
+            }).ConfigureAwait(false);
+
+            continue;
+          }
+
+          // Is already inside highlight list?
+          var inside = HighlightData.Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0 && !p.IsFindWhat).ToList();
+
+          if ( inside.Count > 0 )
+          {
+            // Color changed?
+            if ( inside.Where(p => Equals(p.TextHighlightColorHex, filterData.FilterColorHex)).ToList().Count > 0 )
+              continue;
+
+            await Task.Run(() => HighlightData.RemoveAll(p => inside.Contains(p))).ConfigureAwait(false);
+          }
+
+          HighlightData.Add(new TextHighlightData
+          {
+            FilterFontType = filterData.FontType,
+            TextHighlightColorHex = filterData.FilterColorHex,
+            Text = string.Join("|", sr)
+          });
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
+      }
+
+#if DEBUG
+      sw.Stop();
+      //LOG.Debug($"Elapsed time after highlighting {sw.ElapsedTicks} ticks / {sw.ElapsedMilliseconds} ms");
+#endif
+      OnPropertyChanged(nameof(HighlightData));
+
+      return true;
     }
 
     private bool DynamicFilter(object item)
