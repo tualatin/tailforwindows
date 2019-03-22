@@ -19,13 +19,7 @@ namespace Org.Vs.TailForWin.Business.Utils
   public static class BusinessHelper
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(BusinessHelper));
-
-    private static readonly object MyLock = new object();
-
-    /// <summary>
-    /// Current lock time span in milliseconds
-    /// </summary>
-    private const int LockTimeSpanIsMs = 200;
+    private static readonly SemaphoreSlim Semaphore = new SemaphoreSlim(1, 1);
 
     /// <summary>
     /// Create icon of type <see cref="BitmapImage"/>
@@ -37,29 +31,24 @@ namespace Org.Vs.TailForWin.Business.Utils
     {
       Arg.NotNull(url, nameof(url));
       LOG.Debug($"CreateBitmapIcon bitmap URL: {url}");
+      Semaphore.Wait();
 
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      try
       {
-        try
-        {
-          var icon = new BitmapImage();
-          icon.BeginInit();
-          icon.UriSource = new Uri(url, UriKind.Relative);
-          icon.EndInit();
+        var icon = new BitmapImage();
+        icon.BeginInit();
+        icon.UriSource = new Uri(url, UriKind.Relative);
+        icon.EndInit();
 
-          RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.HighQuality);
-          RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
+        RenderOptions.SetBitmapScalingMode(icon, BitmapScalingMode.HighQuality);
+        RenderOptions.SetEdgeMode(icon, EdgeMode.Aliased);
 
-          return icon;
-        }
-        finally
-        {
-          Monitor.Exit(MyLock);
-        }
+        return icon;
       }
-
-      LOG.Error("Can not lock!");
-      return null;
+      finally
+      {
+        Semaphore.Release();
+      }
     }
 
     /// <summary>
@@ -91,8 +80,9 @@ namespace Org.Vs.TailForWin.Business.Utils
     public static BitmapSource GetAssemblyIcon(string path)
     {
       Arg.NotNull(path, nameof(path));
+      Semaphore.Wait();
 
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      try
       {
         Icon appIcon = Icon.ExtractAssociatedIcon(path);
 
@@ -103,9 +93,10 @@ namespace Org.Vs.TailForWin.Business.Utils
 
         return bitmapSrc;
       }
-
-      LOG.Error("Can not lock!");
-      return null;
+      finally
+      {
+        Semaphore.Release();
+      }
     }
   }
 }

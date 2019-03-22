@@ -24,12 +24,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
   public class SettingsHelperController : ISettingsHelper
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SettingsHelperController));
-    private static readonly object MyLock = new object();
-
-    /// <summary>
-    /// Current lock time span in milliseconds
-    /// </summary>
-    private const int LockTimeSpanIsMs = 200;
+    private readonly SemaphoreSlim _semaphore;
 
     /// <summary>
     /// Current T4W settings
@@ -49,6 +44,11 @@ namespace Org.Vs.TailForWin.Core.Controllers
     } = new AppSettings();
 
     /// <summary>
+    /// Standard constructor
+    /// </summary>
+    public SettingsHelperController() => _semaphore = new SemaphoreSlim(1, 1);
+
+    /// <summary>
     /// Reads current settings
     /// </summary>
     /// <returns>Task</returns>
@@ -61,19 +61,28 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>Task</returns>
     public async Task ReadSettingsAsync(CancellationTokenSource cts)
     {
-      await AddPropertiesIfNotExistsAsync(cts);
+      await _semaphore.WaitAsync(cts.Token);
 
-      await Task.Run(() => ReadSettings(), cts.Token);
-      await Task.Run(() => ReadUserSettings(), cts.Token);
+      try
+      {
+        await AddPropertiesIfNotExistsAsync(cts);
 
-      await RemovePropertiesIfExistsAsync(cts);
+        await Task.Run(() => ReadSettings(), cts.Token);
+        await Task.Run(() => ReadUserSettings(), cts.Token);
+
+        await RemovePropertiesIfExistsAsync(cts);
+      }
+      finally
+      {
+        _semaphore.Release();
+      }
     }
 
     private async Task AddPropertiesIfNotExistsAsync(CancellationTokenSource cts)
     {
       var settings = new Dictionary<string, string>
       {
-        { "Portable", DefaultEnvironmentSettings.IsPortable.ToString() }
+        {"Portable", DefaultEnvironmentSettings.IsPortable.ToString()}
       };
 
       await AddNewPropertyAsync(settings, cts);
@@ -96,7 +105,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         "RestoreWindowSize",
         "InactiveBackgroundColor",
         "InactiveForegroundColor",
-         "WndWidth",
+        "WndWidth",
         "WndHeight",
         "SaveWindowPosition",
         "WindowState",
@@ -104,14 +113,14 @@ namespace Org.Vs.TailForWin.Core.Controllers
         "WndYPos",
         "DefaultRefreshRate",
         "DefaultThreadPriority",
-        "ExitWithEsc" ,
+        "ExitWithEsc",
         "TimeFormat",
         "DateFormat",
         "SearchwndYPos",
         "SearchwndXPos",
         "ForegroundColor",
-        "SingleInstance" ,
-        "ContinuedScroll" ,
+        "SingleInstance",
+        "ContinuedScroll",
         "LastUsedExportFormat",
         "BackgroundColor",
         "SelectionBackgroundColor",
@@ -125,7 +134,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         "ShowLineNumbers",
         "LineNumbersColor",
         "HighlightColor",
-        "AutoUpdate" ,
+        "AutoUpdate",
         "SmartWatch",
         "Statics",
         "ShowExtendedSettings",
@@ -142,24 +151,24 @@ namespace Org.Vs.TailForWin.Core.Controllers
         "Alert.SendEMail",
         "Alert.EMailAddress",
         "Alert.PopupWindow",
-        "Proxy.Port" ,
-        "Proxy.Url" ,
-        "Proxy.UseSystem" ,
-        "Proxy.UserName" ,
+        "Proxy.Port",
+        "Proxy.Url",
+        "Proxy.UseSystem",
+        "Proxy.UserName",
         "Proxy.Use",
         "Proxy.Password",
-        "Smtp.Server" ,
-        "Smtp.Port" ,
-        "Smtp.Login" ,
-        "Smtp.FromEMail" ,
+        "Smtp.Server",
+        "Smtp.Port",
+        "Smtp.Login",
+        "Smtp.FromEMail",
         "Smtp.Subject",
         "Smtp.Ssl",
         "Smtp.Tls",
         "Smtp.Password",
-        "SmartWatch.FilterByExtension" ,
-        "SmartWatch.NewTab" ,
-        "SmartWatch.Mode" ,
-        "SmartWatch.AutoRun" ,
+        "SmartWatch.FilterByExtension",
+        "SmartWatch.NewTab",
+        "SmartWatch.Mode",
+        "SmartWatch.AutoRun",
         "SmartWatch.SmartWatchInterval"
       };
 
@@ -167,12 +176,12 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     [Obsolete("Will removed as soon as possible")]
-    private async Task RemoveObsoletePropertiesAsync(IReadOnlyCollection<string> obsoleteSettings, CancellationToken token) => await Task.Run(() =>
+    private async Task RemoveObsoletePropertiesAsync(IReadOnlyCollection<string> obsoleteSettings, CancellationToken token)
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
-      {
-        LOG.Trace("Remove obsolete properties from config file");
+      LOG.Trace("Remove obsolete properties from config file");
 
+      await Task.Run(() =>
+      {
         try
         {
           var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -192,94 +201,64 @@ namespace Org.Vs.TailForWin.Core.Controllers
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
-        finally
-        {
-          Monitor.Exit(MyLock);
-        }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
-    }, token);
+      }, token);
+    }
 
     [Obsolete("Will removed as soon as possible")]
     private void ReadSettings()
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      try
       {
-        try
-        {
-          LOG.Trace($"Read {CoreEnvironment.ApplicationTitle} settings");
+        LOG.Trace($"Read {CoreEnvironment.ApplicationTitle} settings");
 
-          ReadWindowSettings();
-          ReadStatusBarSettings();
-          ReadProxySettings();
-          ReadLogViewerSettings();
-          ReadAlertSettings();
-          ReadSmtpSettings();
-          ReadSmartWatchSettings();
-        }
-        catch ( ConfigurationErrorsException ex )
-        {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        }
-        finally
-        {
-          Monitor.Exit(MyLock);
-        }
+        ReadWindowSettings();
+        ReadStatusBarSettings();
+        ReadProxySettings();
+        ReadLogViewerSettings();
+        ReadAlertSettings();
+        ReadSmtpSettings();
+        ReadSmartWatchSettings();
       }
-      else
+      catch ( ConfigurationErrorsException ex )
       {
-        LOG.Error("Can not lock!");
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
     private void ReadUserSettings()
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      try
       {
-        try
+        LOG.Trace($"Read {CoreEnvironment.ApplicationTitle} user settings");
+
+        if ( !Directory.Exists(CoreEnvironment.UserSettingsPath) )
+          Directory.CreateDirectory(CoreEnvironment.UserSettingsPath);
+
+        // To remove as soon as possible
+        if ( !File.Exists(CoreEnvironment.ApplicationSettingsFile) )
         {
-          LOG.Trace($"Read {CoreEnvironment.ApplicationTitle} user settings");
-
-          if ( !Directory.Exists(CoreEnvironment.UserSettingsPath) )
-            Directory.CreateDirectory(CoreEnvironment.UserSettingsPath);
-
-          // To remove as soon as possible
-          if ( !File.Exists(CoreEnvironment.ApplicationSettingsFile) )
+          if ( CurrentSettings.LastViewedOptionPage != Guid.Empty )
           {
-            if ( CurrentSettings.LastViewedOptionPage != Guid.Empty )
-            {
-              // Convert old settings to JSON
-              SaveUserSettings();
-            }
-            else
-            {
-              SetDefaultSettings();
-              SaveUserSettings();
-            }
-            return;
+            // Convert old settings to JSON
+            SaveUserSettings();
           }
-
-          using ( StreamReader sr = File.OpenText(CoreEnvironment.ApplicationSettingsFile) )
+          else
           {
-            var serializer = new JsonSerializer();
-            CurrentSettings = (EnvironmentSettings) serializer.Deserialize(sr, typeof(EnvironmentSettings));
+            SetDefaultSettings();
+            SaveUserSettings();
           }
+          return;
         }
-        catch ( Exception ex )
+
+        using ( StreamReader sr = File.OpenText(CoreEnvironment.ApplicationSettingsFile) )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        }
-        finally
-        {
-          Monitor.Exit(MyLock);
+          var serializer = new JsonSerializer();
+          CurrentSettings = (EnvironmentSettings) serializer.Deserialize(sr, typeof(EnvironmentSettings));
         }
       }
-      else
+      catch ( Exception ex )
       {
-        LOG.Error("Can not lock!");
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
@@ -296,8 +275,17 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>Task</returns>
     public async Task SaveSettingsAsync(CancellationTokenSource cts)
     {
-      await Task.Run(() => SaveSettings(), cts.Token);
-      await Task.Run(() => SaveUserSettings(), cts.Token);
+      await _semaphore.WaitAsync(cts.Token);
+
+      try
+      {
+        await Task.Run(() => SaveSettings(), cts.Token);
+        await Task.Run(() => SaveUserSettings(), cts.Token);
+      }
+      finally
+      {
+        _semaphore.Release();
+      }
     }
 
     /// <summary>
@@ -316,66 +304,44 @@ namespace Org.Vs.TailForWin.Core.Controllers
     [Obsolete("Will removed as soon as possible")]
     private void SaveSettings()
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      try
       {
-        try
-        {
-          LOG.Trace($"Save {CoreEnvironment.ApplicationTitle} settings");
+        LOG.Trace($"Save {CoreEnvironment.ApplicationTitle} settings");
 
-          Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-          if ( config.AppSettings.Settings.Count <= 0 )
-            return;
+        if ( config.AppSettings.Settings.Count <= 0 )
+          return;
 
-          SaveWindowSettings(config);
+        SaveWindowSettings(config);
 
-          config.Save(ConfigurationSaveMode.Modified);
-          ConfigurationManager.RefreshSection("appSettings");
-        }
-        catch ( ConfigurationErrorsException ex )
-        {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        }
-        finally
-        {
-          Monitor.Exit(MyLock);
-        }
+        config.Save(ConfigurationSaveMode.Modified);
+        ConfigurationManager.RefreshSection("appSettings");
       }
-      else
+      catch ( ConfigurationErrorsException ex )
       {
-        LOG.Error("Can not lock!");
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
     private void SaveUserSettings()
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      try
       {
-        try
-        {
-          LOG.Trace($"Save {CoreEnvironment.ApplicationTitle} user settings");
+        LOG.Trace($"Save {CoreEnvironment.ApplicationTitle} user settings");
 
-          using ( FileStream fs = File.Open(CoreEnvironment.ApplicationSettingsFile, FileMode.OpenOrCreate) )
-          using ( var sw = new StreamWriter(fs) )
-          using ( JsonWriter jw = new JsonTextWriter(sw) )
-          {
-            jw.Formatting = Formatting.Indented;
-            var serializer = new JsonSerializer();
-            serializer.Serialize(jw, CurrentSettings);
-          }
-        }
-        catch ( Exception ex )
+        using ( FileStream fs = File.Open(CoreEnvironment.ApplicationSettingsFile, FileMode.OpenOrCreate) )
+        using ( var sw = new StreamWriter(fs) )
+        using ( JsonWriter jw = new JsonTextWriter(sw) )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        }
-        finally
-        {
-          Monitor.Exit(MyLock);
+          jw.Formatting = Formatting.Indented;
+          var serializer = new JsonSerializer();
+          serializer.Serialize(jw, CurrentSettings);
         }
       }
-      else
+      catch ( Exception ex )
       {
-        LOG.Error("Can not lock!");
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 
@@ -396,29 +362,15 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void SetDefaultSettings()
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
-      {
-        try
-        {
-          LOG.Trace($"Reset {CoreEnvironment.ApplicationTitle} settings");
+      LOG.Trace($"Reset {CoreEnvironment.ApplicationTitle} settings");
 
-          SetDefaultWindowSettings();
-          SetDefaultStatusBarSettings();
-          SetDefaultProxySettings();
-          SetDefaultLogViewerSettings();
-          SetDefaultAlertSettings();
-          SetDefaultSmtpSettings();
-          SetDefaultSmartWatchSettings();
-        }
-        finally
-        {
-          Monitor.Exit(MyLock);
-        }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
+      SetDefaultWindowSettings();
+      SetDefaultStatusBarSettings();
+      SetDefaultProxySettings();
+      SetDefaultLogViewerSettings();
+      SetDefaultAlertSettings();
+      SetDefaultSmtpSettings();
+      SetDefaultSmartWatchSettings();
     }
 
     private void SetDefaultWindowSettings()
@@ -528,28 +480,26 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task ReloadCurrentSettingsAsync(CancellationTokenSource cts) => await Task.Run(() => ReloadCurrentSettings(), cts.Token);
+    public async Task ReloadCurrentSettingsAsync(CancellationTokenSource cts)
+    {
+      await _semaphore.WaitAsync(cts.Token);
+
+      try
+      {
+        await Task.Run(() => ReloadCurrentSettings(), cts.Token);
+      }
+      finally
+      {
+        _semaphore.Release();
+      }
+    }
 
     private void ReloadCurrentSettings()
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
-      {
-        try
-        {
-          LOG.Trace($"Reload {CoreEnvironment.ApplicationTitle} settings");
-          ConfigurationManager.RefreshSection("appSettings");
+      LOG.Trace($"Reload {CoreEnvironment.ApplicationTitle} settings");
+      ConfigurationManager.RefreshSection("appSettings");
 
-          ReadUserSettings();
-        }
-        finally
-        {
-          Monitor.Exit(MyLock);
-        }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
+      ReadUserSettings();
     }
 
     /// <summary>
@@ -558,44 +508,34 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <param name="settings">List of configuration pair</param>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task AddNewPropertyAsync(Dictionary<string, string> settings, CancellationTokenSource cts) => await Task.Run(() => AddNewProperty(settings), cts.Token);
+    public async Task AddNewPropertyAsync(Dictionary<string, string> settings, CancellationTokenSource cts) =>
+      await Task.Run(() => AddNewProperty(settings), cts.Token);
 
     private void AddNewProperty(Dictionary<string, string> settings)
     {
       if ( settings == null || settings.Count == 0 )
         return;
 
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      LOG.Trace("Add missing config properties");
+
+      try
       {
-        LOG.Trace("Add missing config properties");
+        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-        try
+        foreach ( var pair in settings )
         {
-          Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+          if ( config.AppSettings.Settings.AllKeys.Contains(pair.Key) )
+            continue;
 
-          foreach ( var pair in settings )
-          {
-            if ( config.AppSettings.Settings.AllKeys.Contains(pair.Key) )
-              continue;
+          config.AppSettings.Settings.Add(pair.Key, pair.Value);
+        }
 
-            config.AppSettings.Settings.Add(pair.Key, pair.Value);
-          }
-
-          config.Save(ConfigurationSaveMode.Modified);
-          ConfigurationManager.RefreshSection("appSettings");
-        }
-        catch ( ConfigurationErrorsException ex )
-        {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        }
-        finally
-        {
-          Monitor.Exit(MyLock);
-        }
+        config.Save(ConfigurationSaveMode.Modified);
+        ConfigurationManager.RefreshSection("appSettings");
       }
-      else
+      catch ( ConfigurationErrorsException ex )
       {
-        LOG.Error("Can not lock!");
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
       }
     }
 

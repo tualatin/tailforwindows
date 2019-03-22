@@ -14,6 +14,7 @@ v.2.3.xxxx.x
 * new FileManager saves data as JSON
 * new FileManager XML (backup is *.xml_old) to JSON converter
 * bug fix create logfile history
+* bug fix add new Bookmarks
 
 v.2.2.6908.x
 * new Statistics for nerds -> see Options

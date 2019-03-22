@@ -16,6 +16,7 @@ using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
@@ -347,7 +348,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       SettingsHelperController.CurrentSettings.FindDialogPositionX = LeftPosition;
       SettingsHelperController.CurrentSettings.FindDialogPositionY = TopPosition;
 
-      _dbController.UpdateFindDialogDbSettings();
+      _dbController.UpdateFindDialogDbSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(1)).Token).SafeAwait();
     }
 
     /// <summary>

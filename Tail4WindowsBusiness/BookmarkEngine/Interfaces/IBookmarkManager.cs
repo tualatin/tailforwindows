@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Delegates;
 using Org.Vs.TailForWin.Business.Services.Data;
+using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces
@@ -29,7 +30,7 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces
     /// <summary>
     /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/> bookmark data source
     /// </summary>
-    ObservableCollection<LogEntry> BookmarkDataSource
+    AsyncObservableCollection<LogEntry> BookmarkDataSource
     {
       get;
     }

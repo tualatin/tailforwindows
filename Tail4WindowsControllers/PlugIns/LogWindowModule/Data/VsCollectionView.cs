@@ -79,7 +79,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
         FilteredCollection = new AsyncObservableCollection<T>();
       }
 
-      Collection.CollectionChanged += OnLogEntriesCollectionChanged;
+      //Collection.CollectionChanged += OnLogEntriesCollectionChanged;
     }
 
     private async void OnLogEntriesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

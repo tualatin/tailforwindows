@@ -20,12 +20,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
   public class SettingsDbController : ISettingsDbController
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SettingsDbController));
-    private static readonly object DbLock = new object();
-
-    /// <summary>
-    /// Current lock time span in milliseconds
-    /// </summary>
-    private const int LockTimeSpanIsMs = 200;
+    private readonly SemaphoreSlim _semaphore;
 
     /// <summary>
     /// Work width
@@ -68,9 +63,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// </summary>
     public static SettingsDbController Instance => instance ?? (instance = new SettingsDbController());
 
-    private SettingsDbController()
-    {
-    }
+    private SettingsDbController() => _semaphore = new SemaphoreSlim(1, 1);
 
     #endregion
 
@@ -78,9 +71,11 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// Read current DataBase settings
     /// </summary>
     /// <returns>Task</returns>
-    public async Task ReadDbSettingsAsync() => await Task.Run(() =>
+    public async Task ReadDbSettingsAsync()
     {
-      if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      await _semaphore.WaitAsync();
+
+      await Task.Run(() =>
       {
         try
         {
@@ -141,55 +136,53 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         }
         finally
         {
-          Monitor.Exit(DbLock);
+          _semaphore.Release();
         }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
-    });
+      });
+    }
 
     /// <summary>
     /// Resets DataBase settings
     /// </summary>
     /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>Task</returns>
-    public async Task ResetDbSettingsAsync(CancellationToken token) => await Task.Run(() =>
+    public async Task ResetDbSettingsAsync(CancellationToken token)
     {
-      if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      await _semaphore.WaitAsync(token);
+      LOG.Info("Reset all database settings");
+
+      await Task.Run(() =>
       {
         try
         {
-          LOG.Info("Reset all database settings");
-
           SettingsHelperController.CurrentSettings.ProxySettings.Password = DefaultEnvironmentSettings.ProxyPassword;
           SettingsHelperController.CurrentSettings.SmtpSettings.Password = DefaultEnvironmentSettings.SmtpPassword;
 
           SetDefaultWindowSettings();
-
-          UpdatePasswordSettings();
-          UpdateFindDialogDbSettings();
-          UpdateFindResultDbSettings();
-          UpdateBookmarkOverviewDbSettings();
         }
         finally
         {
-          Monitor.Exit(DbLock);
+          _semaphore.Release();
         }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
-    }, token);
+      }, token);
+
+      await UpdatePasswordSettingsAsync(token);
+      await UpdateFindDialogDbSettingsAsync(token);
+      await UpdateFindResultDbSettingsAsync(token);
+      await UpdateBookmarkOverviewDbSettingsAsync(token);
+
+    }
 
     /// <summary>
     /// Updates password settings
     /// </summary>
-    public void UpdatePasswordSettings()
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    public async Task UpdatePasswordSettingsAsync(CancellationToken token)
     {
-      if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      await _semaphore.WaitAsync(token);
+      LOG.Debug("Update password settings");
+
+      await Task.Run(() =>
       {
         try
         {
@@ -221,21 +214,21 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         }
         finally
         {
-          Monitor.Exit(DbLock);
+          _semaphore.Release();
         }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
+      }, token);
     }
 
     /// <summary>
     /// Updates current DataBase settings
     /// </summary>
-    public void UpdateFindResultDbSettings()
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    public async Task UpdateFindResultDbSettingsAsync(CancellationToken token)
     {
-      if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      await _semaphore.WaitAsync(token);
+      LOG.Debug("Update FindResult window settings");
+
+      await Task.Run(() =>
       {
         try
         {
@@ -283,21 +276,21 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         }
         finally
         {
-          Monitor.Exit(DbLock);
+          _semaphore.Release();
         }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
+      }, token);
     }
 
     /// <summary>
     /// Updates Bookmark overview DataBase settings
     /// </summary>
-    public void UpdateBookmarkOverviewDbSettings()
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    public async Task UpdateBookmarkOverviewDbSettingsAsync(CancellationToken token)
     {
-      if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      await _semaphore.WaitAsync(token);
+      LOG.Debug("Update BookmarkOverview window settings");
+
+      await Task.Run(() =>
       {
         try
         {
@@ -345,21 +338,21 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         }
         finally
         {
-          Monitor.Exit(DbLock);
+          _semaphore.Release();
         }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
+      }, token);
     }
 
     /// <summary>
     /// Updates FindDialog DataBase settings
     /// </summary>
-    public void UpdateFindDialogDbSettings()
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    public async Task UpdateFindDialogDbSettingsAsync(CancellationToken token)
     {
-      if ( Monitor.TryEnter(DbLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      await _semaphore.WaitAsync(token);
+      LOG.Debug("Update FindDialog window settings");
+
+      await Task.Run(() =>
       {
         try
         {
@@ -391,13 +384,9 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         }
         finally
         {
-          Monitor.Exit(DbLock);
+          _semaphore.Release();
         }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
+      }, token);
     }
 
     private void AddMissingDbSettings(LiteCollection<DatabaseSetting> settings)

@@ -11,6 +11,7 @@ using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Delegates;
 using Org.Vs.TailForWin.Business.BookmarkEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils;
+using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
@@ -43,7 +44,7 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
     /// <summary>
     /// <see cref="ObservableCollection{T}"/> of <see cref="LogEntry"/> bookmark data source
     /// </summary>
-    public ObservableCollection<LogEntry> BookmarkDataSource
+    public AsyncObservableCollection<LogEntry> BookmarkDataSource
     {
       get;
       private set;
@@ -70,7 +71,7 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
     /// </summary>
     public BookmarkManager()
     {
-      BookmarkDataSource = new ObservableCollection<LogEntry>();
+      BookmarkDataSource = new AsyncObservableCollection<LogEntry>();
       BookmarkDataSource.CollectionChanged += OnBookmarkDataSourceCollectionChanged;
     }
 

@@ -185,7 +185,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _mementoAppSettings = null;
 
       SetCancellationTokenSource();
-      _dbSettingsDbController.UpdatePasswordSettings();
+
+      await _dbSettingsDbController.UpdatePasswordSettingsAsync(_cts.Token).ConfigureAwait(false);
       await EnvironmentContainer.Instance.SaveSettingsAsync(_cts).ConfigureAwait(false);
     }
 

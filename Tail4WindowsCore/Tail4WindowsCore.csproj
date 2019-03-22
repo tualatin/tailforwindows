@@ -151,6 +151,7 @@
     <Compile Include="Extensions\EnumExtension.cs" />
     <Compile Include="Extensions\ObservableCollectionExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Extensions\TaskUtilities.cs" />
     <Compile Include="Interfaces\IEventAggregator.cs" />
     <Compile Include="Interfaces\IHistory.cs" />
     <Compile Include="Interfaces\IMailController.cs" />

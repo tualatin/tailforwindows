@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -58,8 +57,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Bookmark image size property
     /// </summary>
-    public static readonly DependencyProperty BookmarkImageSizeProperty = DependencyProperty.Register(nameof(BookmarkImageSize), typeof(double), typeof(LogWindowListBox),
-      new PropertyMetadata(16d));
+    public static readonly DependencyProperty BookmarkImageSizeProperty =
+      DependencyProperty.Register(nameof(BookmarkImageSize), typeof(double), typeof(LogWindowListBox), new PropertyMetadata(16d));
 
     /// <summary>
     /// Bookmark image size
@@ -73,8 +72,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// ShowGridSplitControl property
     /// </summary>
-    public static readonly DependencyProperty ShowGridSplitControlProperty = DependencyProperty.Register(nameof(ShowGridSplitControl), typeof(bool), typeof(LogWindowListBox),
-      new PropertyMetadata(false));
+    public static readonly DependencyProperty ShowGridSplitControlProperty =
+      DependencyProperty.Register(nameof(ShowGridSplitControl), typeof(bool), typeof(LogWindowListBox), new PropertyMetadata(false));
 
     /// <summary>
     /// ShowGridSplitControl
@@ -88,8 +87,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// ScrollToItemsEnd property
     /// </summary>
-    public static readonly DependencyProperty ScrollToItemsEndProperty = DependencyProperty.Register(nameof(ScrollToItemsEnd), typeof(bool), typeof(LogWindowListBox),
-      new PropertyMetadata(false));
+    public static readonly DependencyProperty ScrollToItemsEndProperty =
+      DependencyProperty.Register(nameof(ScrollToItemsEnd), typeof(bool), typeof(LogWindowListBox), new PropertyMetadata(false));
 
     /// <summary>
     /// ScrollToItemsEnd
@@ -103,8 +102,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// AddDateTime property
     /// </summary>
-    public static readonly DependencyProperty AddDateTimeProperty = DependencyProperty.Register(nameof(AddDateTime), typeof(bool), typeof(LogWindowListBox),
-      new PropertyMetadata(true));
+    public static readonly DependencyProperty AddDateTimeProperty =
+      DependencyProperty.Register(nameof(AddDateTime), typeof(bool), typeof(LogWindowListBox), new PropertyMetadata(true));
 
     /// <summary>
     /// AddDateTime
@@ -118,8 +117,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Last visible <see cref="LogEntry"/> index property
     /// </summary>
-    public static readonly DependencyProperty LastVisibleLogEntryIndexProperty = DependencyProperty.Register(nameof(LastVisibleLogEntryIndex), typeof(int), typeof(LogWindowListBox),
-      new PropertyMetadata(0));
+    public static readonly DependencyProperty LastVisibleLogEntryIndexProperty =
+      DependencyProperty.Register(nameof(LastVisibleLogEntryIndex), typeof(int), typeof(LogWindowListBox), new PropertyMetadata(0));
 
     /// <summary>
     /// Last visible <see cref="LogEntry"/> index property
@@ -153,8 +152,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Highlight data result <see cref="List{T}"/> of <see cref="TextHighlightData"/> property
     /// </summary>
-    public static readonly DependencyProperty HighlightDataResultProperty = DependencyProperty.Register(nameof(HighlightDataResult), typeof(List<TextHighlightData>),
-      typeof(LogWindowListBox), new PropertyMetadata(null));
+    public static readonly DependencyProperty HighlightDataResultProperty =
+      DependencyProperty.Register(nameof(HighlightDataResult), typeof(List<TextHighlightData>),
+        typeof(LogWindowListBox), new PropertyMetadata(null));
 
     /// <summary>
     /// Highlight data result <see cref="List{T}"/> of <see cref="TextHighlightData"/>
@@ -168,8 +168,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// SelectedText property
     /// </summary>
-    public static readonly DependencyProperty SelectedTextProperty = DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(LogWindowListBox),
-      new PropertyMetadata(null));
+    public static readonly DependencyProperty SelectedTextProperty =
+      DependencyProperty.Register(nameof(SelectedText), typeof(string), typeof(LogWindowListBox), new PropertyMetadata(null));
 
     /// <summary>
     /// SelectedText
@@ -187,8 +187,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// BookmarkCount property
     /// </summary>
-    public static readonly DependencyProperty BookmarkCountProperty = DependencyProperty.Register(nameof(BookmarkCount), typeof(int), typeof(LogWindowListBox),
-      new PropertyMetadata(0, OnBookmarkCountPropertyChangedCallback));
+    public static readonly DependencyProperty BookmarkCountProperty =
+      DependencyProperty.Register(nameof(BookmarkCount), typeof(int), typeof(LogWindowListBox),
+        new PropertyMetadata(0, OnBookmarkCountPropertyChangedCallback));
 
     /// <summary>
     /// Bookmark count
@@ -206,8 +207,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// <summary>
     /// Clears ItemsSource event handler
     /// </summary>
-    private static readonly RoutedEvent ClearItemsRoutedEvent = EventManager.RegisterRoutedEvent(nameof(ClearItemsRoutedEvent), RoutingStrategy.Bubble,
-      typeof(RoutedEventHandler), typeof(LogWindowListBox));
+    private static readonly RoutedEvent ClearItemsRoutedEvent =
+      EventManager.RegisterRoutedEvent(nameof(ClearItemsRoutedEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LogWindowListBox));
 
     /// <summary>
     /// Clears ItemsSource event
@@ -218,8 +219,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       remove => RemoveHandler(ClearItemsRoutedEvent, value);
     }
 
-    private static readonly RoutedEvent AddBookmarkCommentRoutedEvent = EventManager.RegisterRoutedEvent(nameof(AddBookmarkCommentEvent), RoutingStrategy.Bubble,
-      typeof(RoutedEvent), typeof(LogWindowListBox));
+    private static readonly RoutedEvent AddBookmarkCommentRoutedEvent =
+      EventManager.RegisterRoutedEvent(nameof(AddBookmarkCommentEvent), RoutingStrategy.Bubble, typeof(RoutedEvent), typeof(LogWindowListBox));
 
     /// <summary>
     /// Add Bookmark comment event
@@ -282,11 +283,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( ItemsSource == null || result == null || result.Count == 0 )
         return;
 
-      IEnumerator enumerator = ItemsSource.GetEnumerator();
+      var items = ItemsSource.Cast<LogEntry>().ToList();
 
-      while ( enumerator.MoveNext() )
+      // ReSharper disable once ForCanBeConvertedToForeach
+      for ( var i = 0; i < items.Count; i++ )
       {
-        var tb = FindDataTemplate<TextBlock>(enumerator.Current as LogEntry, "TextBoxMessage");
+        var logEntry = items[i];
+        var tb = FindDataTemplate<TextBlock>(logEntry, "TextBoxMessage");
 
         if ( tb == null )
           continue;
@@ -709,21 +712,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( ItemsSource == null )
         return false;
 
-      IEnumerator enumerator = ItemsSource.GetEnumerator();
-      var result = false;
+      var items = ItemsSource.Cast<LogEntry>().ToList();
 
-      while ( enumerator.MoveNext() )
-      {
-        if ( !(enumerator.Current is LogEntry logEntry) )
-          continue;
-
-        if ( logEntry.BookmarkPoint == null )
-          continue;
-
-        result = true;
-        break;
-      }
-      return result;
+      return items.Any(p => p.BookmarkPoint != null);
     }
 
     private void ExecuteBookmarkOverviewCommand()
@@ -749,7 +740,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       RaiseEvent(eventArgs);
     }
 
-    private bool CanExecuteAddToFilterCommand() => _readOnlyTextMessage != null && _readOnlyTextMessage.Visibility != Visibility.Collapsed && _readOnlyTextMessage.SelectionLength > 0;
+    private bool CanExecuteAddToFilterCommand() =>
+      _readOnlyTextMessage != null && _readOnlyTextMessage.Visibility != Visibility.Collapsed && _readOnlyTextMessage.SelectionLength > 0;
 
     private void ExecuteAddToFilterCommand()
     {
@@ -763,7 +755,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       OnPropertyChanged(nameof(CurrentTailData));
     }
 
-    private bool CanExecuteAddToFindWhatCommand() => _readOnlyTextMessage != null && _readOnlyTextMessage.Visibility != Visibility.Collapsed && _readOnlyTextMessage.SelectionLength > 0;
+    private bool CanExecuteAddToFindWhatCommand() =>
+      _readOnlyTextMessage != null && _readOnlyTextMessage.Visibility != Visibility.Collapsed && _readOnlyTextMessage.SelectionLength > 0;
 
     private void ExecuteAddToFindWhatCommand()
     {
@@ -788,24 +781,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( Items.Count == 0 )
         return;
 
-      IEnumerator enumerator = ItemsSource.GetEnumerator();
-
-      while ( enumerator.MoveNext() )
+      var items = ItemsSource.Cast<LogEntry>().ToList();
+      items.ForEach(p =>
       {
-        if ( !(enumerator.Current is LogEntry logEntry) )
-          continue;
+        if ( p.BookmarkPoint != null )
+        {
+          p.BookmarkPoint = null;
+          p.BookmarkToolTip = string.Empty;
+        }
 
-        if ( logEntry.BookmarkPoint == null )
-          continue;
-
-        logEntry.BookmarkPoint = null;
-        logEntry.BookmarkToolTip = string.Empty;
-
-        if ( !isCommand || !IsRightWindow() )
-          continue;
-
-        EnvironmentContainer.Instance.BookmarkManager.RemoveFromBookmarkDataSource(logEntry);
-      }
+        if ( isCommand && IsRightWindow() )
+          EnvironmentContainer.Instance.BookmarkManager.RemoveFromBookmarkDataSource(p);
+      });
 
       ContextMenu = null;
     }

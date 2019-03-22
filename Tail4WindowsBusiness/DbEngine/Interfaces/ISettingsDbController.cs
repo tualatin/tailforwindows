@@ -18,22 +18,26 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Interfaces
     /// <summary>
     /// Updates FindResult DataBase settings
     /// </summary>
-    void UpdateFindResultDbSettings();
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    Task UpdateFindResultDbSettingsAsync(CancellationToken token);
 
     /// <summary>
     /// Updates FindDialog DataBase settings
     /// </summary>
-    void UpdateFindDialogDbSettings();
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    Task UpdateFindDialogDbSettingsAsync(CancellationToken token);
 
     /// <summary>
     /// Updates password settings
     /// </summary>
-    void UpdatePasswordSettings();
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    Task UpdatePasswordSettingsAsync(CancellationToken token);
 
     /// <summary>
     /// Updates Bookmark overview DataBase settings
     /// </summary>
-    void UpdateBookmarkOverviewDbSettings();
+    /// <param name="token"><see cref="CancellationToken"/></param>
+    Task UpdateBookmarkOverviewDbSettingsAsync(CancellationToken token);
 
     /// <summary>
     /// Resets DataBase settings

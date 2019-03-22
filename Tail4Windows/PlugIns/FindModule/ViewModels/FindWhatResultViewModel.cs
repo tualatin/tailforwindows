@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -14,6 +15,7 @@ using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
+using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.UI.UserControls;
 using Org.Vs.TailForWin.UI.Utils;
@@ -267,7 +269,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       SettingsHelperController.CurrentSettings.FindResultHeight = WindowHeight;
       SettingsHelperController.CurrentSettings.FindResultWidth = WindowWidth;
 
-      _dbController.UpdateFindResultDbSettings();
+      _dbController.UpdateFindResultDbSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(1)).Token).SafeAwait();
     }
 
     private void ExecuteLoadedCommand()

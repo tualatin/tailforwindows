@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -22,6 +23,7 @@ using Org.Vs.TailForWin.Controllers.PlugIns.FindModule.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.BookmarkCommentModule;
@@ -303,7 +305,7 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
       SettingsHelperController.CurrentSettings.BookmarkOverviewHeight = WindowHeight;
       SettingsHelperController.CurrentSettings.BookmarkOverviewWidth = WindowWidth;
 
-      _dbController.UpdateBookmarkOverviewDbSettings();
+      _dbController.UpdateBookmarkOverviewDbSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(1)).Token).SafeAwait();
     }
 
     private void ExecuteMouseDoubleClickCommand(object param)
