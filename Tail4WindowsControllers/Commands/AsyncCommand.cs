@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using log4net;
 using Org.Vs.TailForWin.Controllers.Commands.Base;
 using Org.Vs.TailForWin.Core.Data.Base;
 
@@ -163,19 +164,26 @@ namespace Org.Vs.TailForWin.Controllers.Commands
   /// </summary>
   public static class AsyncCommand
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(AsyncCommand));
+
     /// <summary>
     /// Create async command
     /// </summary>
     /// <param name="command">Command</param>
     /// <returns>AsyncCommand of type object</returns>
-    public static AsyncCommand<object> Create(Func<Task> command)
-    {
-      return new AsyncCommand<object>(async (param, _) =>
+    public static AsyncCommand<object> Create(Func<Task> command) =>
+      new AsyncCommand<object>(async (param, _) =>
       {
-        await command();
+        try
+        {
+          await command();
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
         return null;
       });
-    }
 
     /// <summary>
     /// Create async command
@@ -183,14 +191,19 @@ namespace Org.Vs.TailForWin.Controllers.Commands
     /// <param name="canExecute">CanExecute</param>
     /// <param name="command">Comand</param>
     /// <returns>AsyncCommand of type object</returns>
-    public static AsyncCommand<object> Create(Predicate<object> canExecute, Func<Task> command)
-    {
-      return new AsyncCommand<object>(canExecute, async (param, _) =>
+    public static AsyncCommand<object> Create(Predicate<object> canExecute, Func<Task> command) =>
+      new AsyncCommand<object>(canExecute, async (param, _) =>
       {
-        await command();
+        try
+        {
+          await command();
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
         return null;
       });
-    }
 
     /// <summary>
     /// Create
@@ -198,28 +211,38 @@ namespace Org.Vs.TailForWin.Controllers.Commands
     /// <param name="canExecute">CanExecute</param>
     /// <param name="command">Command</param>
     /// <returns>AsyncCmmand of type object</returns>
-    public static AsyncCommand<object> Create(Predicate<object> canExecute, Func<object, CancellationToken, Task> command)
-    {
-      return new AsyncCommand<object>(canExecute, async (param, token) =>
+    public static AsyncCommand<object> Create(Predicate<object> canExecute, Func<object, CancellationToken, Task> command) =>
+      new AsyncCommand<object>(canExecute, async (param, token) =>
       {
-        await command(param, token);
+        try
+        {
+          await command(param, token);
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
         return null;
       });
-    }
 
     /// <summary>
     /// Create
     /// </summary>
     /// <param name="command">Command</param>
     /// <returns>AsyncCommand of type object</returns>
-    public static AsyncCommand<object> Create(Func<object, Task> command)
-    {
-      return new AsyncCommand<object>(async (param, _) =>
+    public static AsyncCommand<object> Create(Func<object, Task> command) =>
+      new AsyncCommand<object>(async (param, _) =>
       {
-        await command(param);
+        try
+        {
+          await command(param);
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
         return null;
       });
-    }
 
     /// <summary>
     /// Create
@@ -242,28 +265,38 @@ namespace Org.Vs.TailForWin.Controllers.Commands
     /// </summary>
     /// <param name="command">Command of cancellation token</param>
     /// <returns>AsyncCommand of type object</returns>
-    public static AsyncCommand<object> Create(Func<CancellationToken, Task> command)
-    {
-      return new AsyncCommand<object>(async (param, token) =>
+    public static AsyncCommand<object> Create(Func<CancellationToken, Task> command) =>
+      new AsyncCommand<object>(async (param, token) =>
       {
-        await command(token);
+        try
+        {
+          await command(token);
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
         return null;
       });
-    }
 
     /// <summary>
     /// Create
     /// </summary>
     /// <param name="command">Command</param>
     /// <returns>AsyncCmmand of type object</returns>
-    public static AsyncCommand<object> Create(Func<object, CancellationToken, Task> command)
-    {
-      return new AsyncCommand<object>(async (param, token) =>
+    public static AsyncCommand<object> Create(Func<object, CancellationToken, Task> command) =>
+      new AsyncCommand<object>(async (param, token) =>
       {
-        await command(param, token);
+        try
+        {
+          await command(param, token);
+        }
+        catch ( Exception ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
         return null;
       });
-    }
 
     /// <summary>
     /// Create

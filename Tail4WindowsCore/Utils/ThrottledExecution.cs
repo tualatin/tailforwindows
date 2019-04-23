@@ -138,8 +138,15 @@ namespace Org.Vs.TailForWin.Core.Utils
         var action = _func;
         _func = async () =>
         {
-          await action.Invoke().ConfigureAwait(false);
-          continueWithAction.Invoke();
+          try
+          {
+            await action.Invoke().ConfigureAwait(false);
+            continueWithAction.Invoke();
+          }
+          catch ( Exception ex )
+          {
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          }
         };
       }
       else
