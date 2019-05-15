@@ -5,7 +5,7 @@ using System.Windows.Input;
 namespace Org.Vs.TailForWin.UI.ExtendedControls
 {
   /// <summary>
-  /// Popup extended
+  /// Virtual Studios Popup extended
   /// </summary>
   public class VsPopupEx : Popup
   {

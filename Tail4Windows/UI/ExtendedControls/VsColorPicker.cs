@@ -5,7 +5,7 @@ using Xceed.Wpf.Toolkit;
 namespace Org.Vs.TailForWin.UI.ExtendedControls
 {
   /// <summary>
-  /// Extended ColorPicker
+  /// Virtual Studios Extended ColorPicker
   /// </summary>
   public class VsColorPicker : ColorPicker
   {

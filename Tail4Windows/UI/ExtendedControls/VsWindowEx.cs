@@ -7,7 +7,7 @@ using Org.Vs.TailForWin.UI.Extensions;
 namespace Org.Vs.TailForWin.UI.ExtendedControls
 {
   /// <summary>
-  /// WindowEx class
+  /// Virtual Studios WindowEx class
   /// </summary>
   public class VsWindowEx : Window
   {

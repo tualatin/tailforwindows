@@ -33,7 +33,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
     }
 
     /// <summary>
-    /// Mathes a text
+    /// Matches a text
     /// </summary>
     /// <param name="findSettings">Current find settings <see cref="FindData"/></param>
     /// <param name="value">Value as string</param>

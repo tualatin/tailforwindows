@@ -8,7 +8,7 @@ using Org.Vs.TailForWin.Data.Messages;
 namespace Org.Vs.TailForWin.UI.FloatWindow
 {
   /// <summary>
-  /// Floating window
+  /// Virtual Studios Floating window
   /// </summary>
   public class VsFloatingWindow : Window
   {

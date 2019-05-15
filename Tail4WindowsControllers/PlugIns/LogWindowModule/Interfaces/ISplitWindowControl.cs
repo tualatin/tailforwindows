@@ -63,7 +63,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     /// <summary>
     /// LogCollectionView <see cref="VsCollectionView{T}"/>
     /// </summary>
-    VsCollectionView<LogEntry> LogCollectionView
+    IVsCollectionView<LogEntry> LogCollectionView
     {
       get;
       set;
