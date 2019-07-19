@@ -73,7 +73,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
     /// <summary>
     /// Event Filter error
     /// </summary>
-    public event EventHandler<FilteringEventArgs> FilteringError;
+    //public event EventHandler<FilteringEventArgs> FilteringError;
 
     /// <summary>
     /// OnFilteringStarted
@@ -102,11 +102,11 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void OnFilteringError(object sender, FilteringEventArgs e)
-    {
-      EventHandler<FilteringEventArgs> localEvent = FilteringError;
-      localEvent?.Invoke(sender, e);
-    }
+    //private void OnFilteringError(object sender, FilteringEventArgs e)
+    //{
+    //  EventHandler<FilteringEventArgs> localEvent = FilteringError;
+    //  localEvent?.Invoke(sender, e);
+    //}
 
     private void SetFilter(ICollectionView view, Predicate<object> filter)
     {
@@ -119,27 +119,27 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
       _isFilterNotNull = filter != null;
     }
 
-    private void ApplyFilter()
-    {
-      ExecuteFilterAction(() =>
-      {
-        var view = CollectionViewSource.GetDefaultView();
+    //private void ApplyFilter()
+    //{
+    //  ExecuteFilterAction(() =>
+    //  {
+    //    var view = CollectionViewSource.GetDefaultView();
 
-        if ( view != null )
-        {
-          if ( _filteredCollectionHashSet != null )
-          {
-            SetFilter(view, ItemPassesFilter);
-          }
-          else
-          {
-            SetFilter(view, null);
-          }
-        }
+    //    if ( view != null )
+    //    {
+    //      if ( _filteredCollectionHashSet != null )
+    //      {
+    //        SetFilter(view, ItemPassesFilter);
+    //      }
+    //      else
+    //      {
+    //        SetFilter(view, null);
+    //      }
+    //    }
 
-        OnFilteringFinished(this, EventArgs.Empty);
-      });
-    }
+    //    OnFilteringFinished(this, EventArgs.Empty);
+    //  });
+    //}
 
     /// <summary>
     /// ItemPassesFilter

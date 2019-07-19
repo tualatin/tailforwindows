@@ -118,7 +118,7 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
       if ( !Equals(_activeWindowGuid, windowId) )
         return;
 
-      foreach ( LogEntry item in itemRange )
+      foreach ( var item in itemRange )
       {
         if ( BookmarkDataSource.Contains(item) )
           continue;

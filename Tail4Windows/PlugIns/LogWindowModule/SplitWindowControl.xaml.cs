@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.BaseView.ViewModels;
@@ -1085,7 +1084,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         // ReSharper disable once ForCanBeConvertedToForeach
         for ( var i = 0; i < LogCollectionView.Collection.Count; i++ )
         {
-          LogEntry log = LogCollectionView.Collection[i];
+          var log = LogCollectionView.Collection[i];
 
           // If list is filtered
           if ( !CollectionView.Contains(log) )
@@ -1106,7 +1105,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         for ( int i = CacheManager.GetCacheData().Count - 1; i >= 0; i-- )
         {
-          LogEntry log = CacheManager[i];
+          var log = CacheManager[i];
 
           if ( log == null )
             continue;
@@ -1279,7 +1278,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( filterSource.Count == 0 )
         result = true;
 
-      foreach ( FilterData filterData in filterSource )
+      foreach ( var filterData in filterSource )
       {
         try
         {
@@ -1314,7 +1313,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       sw.Start();
 #endif
 
-      foreach ( FilterData filterData in highlightSource )
+      foreach ( var filterData in highlightSource )
       {
         try
         {
@@ -1450,7 +1449,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         string messageTitle = Application.Current.TryFindResource("FilterManagerSendMailMessage").ToString();
         var msgBuild = new StringBuilder();
 
-        foreach ( MessageFloodData flood in FloodData )
+        foreach ( var flood in FloodData )
         {
           string detail = Application.Current.TryFindResource("FilterManagerSendMailDetail").ToString();
           msgBuild.Append(string.Format(detail, flood.LogEntry.Index, flood.LogEntry.Message, string.Join("\n\t", flood.Results)));
@@ -1623,8 +1622,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         if ( log.BookmarkPoint != null )
           return;
 
-        BitmapImage bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark.png");
+        var bp = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Bookmark.png");
         log.BookmarkPoint = bp;
+
+        EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(GetLogWindow().WindowId, log);
       }, DispatcherPriority.Normal);
 
     private ILogWindowControl GetLogWindow()
@@ -1635,7 +1636,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private bool IsRightWindow(Guid windowGuid)
     {
-      ILogWindowControl window = GetLogWindow();
+      var window = GetLogWindow();
       return window != null && window.WindowId == windowGuid;
     }
 
