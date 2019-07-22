@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using log4net;
 using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces;
+using Org.Vs.TailForWin.Core.Collections;
 using Org.Vs.TailForWin.Core.Data.XmlNames;
 using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Utils;

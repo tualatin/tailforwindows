@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-
-namespace Org.Vs.TailForWin.Core.Utils
+namespace Org.Vs.TailForWin.Core.Collections
 {
   /// <summary>
   /// A generic queue set

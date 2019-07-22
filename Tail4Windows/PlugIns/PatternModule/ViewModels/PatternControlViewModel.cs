@@ -12,8 +12,8 @@ using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces;
+using Org.Vs.TailForWin.Core.Collections;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Core.Utils.UndoRedoManager;
 
 

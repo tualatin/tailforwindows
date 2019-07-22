@@ -4,10 +4,10 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-using System.Windows.Data;
+using System.Threading.Tasks;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces;
+using Org.Vs.TailForWin.Core.Collections;
 using Org.Vs.TailForWin.Core.Data.Base;
-using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
@@ -82,7 +82,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
     /// <param name="e"></param>
     private void OnFilteringStarted(object sender, EventArgs e)
     {
-      EventHandler<EventArgs> localEvent = FilteringStarted;
+      var localEvent = FilteringStarted;
       localEvent?.Invoke(sender, e);
     }
 
@@ -93,7 +93,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
     /// <param name="e"></param>
     private void OnFilteringFinished(object sender, EventArgs e)
     {
-      EventHandler<EventArgs> localEvent = FilteringFinished;
+      var localEvent = FilteringFinished;
       localEvent?.Invoke(sender, e);
     }
 
@@ -117,6 +117,16 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
 
       view.Filter = filter;
       _isFilterNotNull = filter != null;
+    }
+
+    private void ApplyFilter()
+    {
+      NotifyTaskCompletion.Create(ExecuteFilterActionAsync(FilterActionAsync));
+    }
+
+    private async Task FilterActionAsync()
+    {
+
     }
 
     //private void ApplyFilter()
@@ -148,26 +158,15 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data
     /// <returns></returns>
     private bool ItemPassesFilter(object item) => _filteredCollectionHashSet.Contains(item);
 
-    private void ExecuteFilterAction(Action action)
+    private async Task ExecuteFilterActionAsync(Func<Task> task)
     {
-      var worker = new BackgroundWorker();
-      worker.DoWork += (s, e) =>
+      if ( task == null )
       {
-        _semaphore.Wait();
-        action?.Invoke();
-      };
+        throw new ArgumentNullException();
+      }
 
-      worker.RunWorkerCompleted += (s, e) =>
-      {
-        if ( e.Error != null )
-        {
-          // TODO error handling
-        }
-
-        _semaphore.Release();
-      };
-
-      worker.RunWorkerAsync();
+      await _semaphore.WaitAsync();
+      await task.Invoke();
     }
 
     /// <summary>

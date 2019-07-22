@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Org.Vs.TailForWin.Business.StatisticEngine.Interfaces;
-using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Core.Collections;
 
 
 namespace Org.Vs.TailForWin.Business.StatisticEngine.Data

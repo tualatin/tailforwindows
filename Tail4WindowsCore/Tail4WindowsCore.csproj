@@ -182,7 +182,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Arg.cs" />
     <Compile Include="Utils\AsyncHelper.cs" />
-    <Compile Include="Utils\AsyncObservableCollection.cs" />
+    <Compile Include="Collections\AsyncObservableCollection.cs" />
     <Compile Include="Utils\BuildDate.cs" />
     <Compile Include="Utils\CoreEnvironment.cs" />
     <Compile Include="Utils\EncodingDetector.cs" />
@@ -193,9 +193,9 @@
     <Compile Include="Utils\JsonUtils.cs" />
     <Compile Include="Utils\LanguageSelector.cs" />
     <Compile Include="Utils\MouseService.cs" />
-    <Compile Include="Utils\ObservableDictionary.cs" />
+    <Compile Include="Collections\ObservableDictionary.cs" />
     <Compile Include="Utils\PlaySoundFile.cs" />
-    <Compile Include="Utils\QueueSet.cs" />
+    <Compile Include="Collections\QueueSet.cs" />
     <Compile Include="Utils\SingleInstance.cs" />
     <Compile Include="Utils\StringEncryption.cs" />
     <Compile Include="Utils\Threading\ServiceSynchronizationContext.cs" />
@@ -211,7 +211,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Collections\" />
     <Folder Include="Events\Args\" />
     <Folder Include="Events\Delegates\" />
     <Folder Include="Events\EventManagers\" />

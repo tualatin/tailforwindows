@@ -11,8 +11,7 @@ using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Threading;
 
-
-namespace Org.Vs.TailForWin.Core.Utils
+namespace Org.Vs.TailForWin.Core.Collections
 {
   /// <summary>
   /// Async <see cref="ObservableCollection{T}"/>

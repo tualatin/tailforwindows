@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Core.Collections;
 
 namespace Org.Vs.NUnit.Tests
 {

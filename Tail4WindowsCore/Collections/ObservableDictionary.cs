@@ -5,9 +5,9 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using Org.Vs.TailForWin.Core.Interfaces;
+using Org.Vs.TailForWin.Core.Utils;
 
-
-namespace Org.Vs.TailForWin.Core.Utils
+namespace Org.Vs.TailForWin.Core.Collections
 {
   /// <summary>
   /// ObservableDictionary

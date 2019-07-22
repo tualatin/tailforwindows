@@ -1,9 +1,9 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using Org.Vs.TailForWin.Core.Collections;
 using Org.Vs.TailForWin.Core.Interfaces;
-using Org.Vs.TailForWin.Core.Utils;
 
 
 namespace Org.Vs.NUnit.Tests

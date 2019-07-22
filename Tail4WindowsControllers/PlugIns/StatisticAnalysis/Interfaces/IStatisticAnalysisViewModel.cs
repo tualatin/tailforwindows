@@ -5,7 +5,7 @@ using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Enums;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Mappings;
 using Org.Vs.TailForWin.Controllers.UI.Interfaces;
-using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Core.Collections;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces

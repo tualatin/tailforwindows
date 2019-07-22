@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Data;
-using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Core.Collections;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.PatternModule.Interfaces

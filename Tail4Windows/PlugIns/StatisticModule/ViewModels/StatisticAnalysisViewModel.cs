@@ -15,9 +15,9 @@ using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Enums;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Mappings;
 using Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Interfaces;
 using Org.Vs.TailForWin.Controllers.UI.Vml.Attributes;
+using Org.Vs.TailForWin.Core.Collections;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
-using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.UI.Utils;
 
 

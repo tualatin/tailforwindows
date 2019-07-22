@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Core.Collections;
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
 {
