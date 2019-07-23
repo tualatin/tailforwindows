@@ -236,7 +236,6 @@
       FontStyle="{Binding CurrentTailData.FontType.FontStyle, UpdateSourceTrigger=PropertyChanged}"
       FontWeight="{Binding CurrentTailData.FontType.FontWeight, UpdateSourceTrigger=PropertyChanged}"
       HighlightDataResult="{Binding ElementName=SplitWindow, Path=HighlightData, UpdateSourceTrigger=PropertyChanged}"
-      ItemsSource="{Binding CollectionView}"
       LastVisibleLogEntryIndex="{Binding ElementName=SplitWindow, Path=LastVisibleLogEntryIndex, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"
       SelectedText="{Binding ElementName=SplitWindow, Path=SelectedText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
       ShowGridSplitControl="True"

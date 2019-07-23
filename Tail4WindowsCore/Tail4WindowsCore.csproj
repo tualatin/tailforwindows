@@ -101,6 +101,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\FilterCollections\FilterEventArgs.cs" />
+    <Compile Include="Collections\FilterCollections\IVsCollectionView.cs" />
+    <Compile Include="Collections\FilterCollections\VsCollectionView.cs" />
     <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\SettingsHelperController.cs" />
     <Compile Include="Controllers\UpdateController.cs" />

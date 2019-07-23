@@ -6,7 +6,7 @@ using System.Windows;
 using log4net;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils;
-using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
+using Org.Vs.TailForWin.Core.Collections.FilterCollections;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
@@ -167,10 +167,9 @@ namespace Org.Vs.TailForWin.UI.Utils
 
       if ( content.SplitWindow != null )
       {
-        logWindowControl.SplitWindow.LogCollectionView = new VsCollectionView<LogEntry>(content.SplitWindow.LogCollectionView.Collection);
+        logWindowControl.SplitWindow.LogCollectionView = new VsCollectionView<LogEntry>(content.SplitWindow.LogCollectionView.Items);
         logWindowControl.SplitWindow.SelectedItem = content.SplitWindow.SelectedItem;
         logWindowControl.SplitWindow.FloodData = content.SplitWindow.FloodData;
-        logWindowControl.SplitWindow.CollectionView = content.SplitWindow.CollectionView;
         logWindowControl.SplitWindow.HighlightData = content.SplitWindow.HighlightData;
         logWindowControl.SplitWindow.ExtendedToolbarVisibility = content.SplitWindow.ExtendedToolbarVisibility;
 

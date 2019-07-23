@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Data;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Business.Utils.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
+using Org.Vs.TailForWin.Core.Collections.FilterCollections;
 using Org.Vs.TailForWin.Core.Data;
 
 
@@ -125,15 +125,6 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     /// <see cref="List{T}"/> of <see cref="MessageFloodData"/>
     /// </summary>
     List<MessageFloodData> FloodData
-    {
-      get;
-      set;
-    }
-
-    /// <summary>
-    /// <see cref="ListCollectionView"/> of <see cref="LogEntry"/>
-    /// </summary>
-    ListCollectionView CollectionView
     {
       get;
       set;

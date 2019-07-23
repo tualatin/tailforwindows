@@ -665,7 +665,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         CurrentTailData.FontType = fontManager.SelectedFont.FontType;
     }
 
-    private bool CanExecuteClearLogWindowCommand() => SplitWindow.LogCollectionView.Collection != null && SplitWindow.LogCollectionView.Collection.Count != 0;
+    private bool CanExecuteClearLogWindowCommand() => SplitWindow.LogCollectionView.Items != null && SplitWindow.LogCollectionView.Count != 0;
 
     private void ExecuteClearLogWindowCommand()
     {
@@ -690,9 +690,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteOpenSearchDialogCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenFindWhatWindowMessage(this, CurrentTailData.File, WindowId));
 
-    private bool CanExecutePrintTailDataCommand() => SplitWindow.LogCollectionView != null && (SplitWindow.LogCollectionView.Collection.Count != 0 && FileIsValid);
+    private bool CanExecutePrintTailDataCommand() => SplitWindow.LogCollectionView != null && (SplitWindow.LogCollectionView.Count != 0 && FileIsValid);
 
-    private void ExecutePrintTailDataCommand() => _printerController.PrintDocument(SplitWindow.LogCollectionView.Collection, CurrentTailData);
+    private void ExecutePrintTailDataCommand() => _printerController.PrintDocument(SplitWindow.LogCollectionView.Items, CurrentTailData);
 
     private bool CanExecuteQuickSaveCommand() => FileIsValid && CurrentTailData.OpenFromFileManager;
 
@@ -1395,7 +1395,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<GoToLineMessage>(OnGoToLine);
-      var goToLine = new GoToLine(SplitWindow.LogCollectionView.Collection[0].Index, LinesRead, args.ParentGuid)
+      var goToLine = new GoToLine(SplitWindow.LogCollectionView.Items[0].Index, LinesRead, args.ParentGuid)
       {
         Owner = Window.GetWindow(this),
         ShouldClose = true
