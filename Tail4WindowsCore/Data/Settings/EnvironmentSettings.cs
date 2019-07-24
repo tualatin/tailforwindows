@@ -99,7 +99,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _language = value;
-        OnPropertyChanged(nameof(Language));
+        OnPropertyChanged();
       }
     }
 
@@ -166,7 +166,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _restoreWindowSize = value;
-        OnPropertyChanged(nameof(RestoreWindowSize));
+        OnPropertyChanged();
       }
     }
 
@@ -186,7 +186,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _saveWindowPosition = value;
-        OnPropertyChanged(nameof(SaveWindowPosition));
+        OnPropertyChanged();
       }
     }
 
@@ -203,7 +203,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       set
       {
         _windowPositionX = value;
-        OnPropertyChanged(nameof(WindowPositionX));
+        OnPropertyChanged();
       }
     }
 
@@ -220,7 +220,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       set
       {
         _windowPositionY = value;
-        OnPropertyChanged(nameof(WindowPositionY));
+        OnPropertyChanged();
       }
     }
 
@@ -397,7 +397,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       set
       {
         _windowHeight = value;
-        OnPropertyChanged(nameof(WindowHeight));
+        OnPropertyChanged();
       }
     }
 
@@ -414,7 +414,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       set
       {
         _windowWidth = value;
-        OnPropertyChanged(nameof(WindowWidth));
+        OnPropertyChanged();
       }
     }
 
@@ -434,7 +434,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _currentWindowState = value;
-        OnPropertyChanged(nameof(CurrentWindowState));
+        OnPropertyChanged();
       }
     }
 
@@ -628,7 +628,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _exitWithEscape = value;
-        OnPropertyChanged(nameof(ExitWithEscape));
+        OnPropertyChanged();
       }
     }
 
@@ -648,7 +648,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _alwaysOnTop = value;
-        OnPropertyChanged(nameof(AlwaysOnTop));
+        OnPropertyChanged();
       }
     }
 
@@ -668,7 +668,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _deleteLogFiles = value;
-        OnPropertyChanged(nameof(DeleteLogFiles));
+        OnPropertyChanged();
       }
     }
 
@@ -688,7 +688,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _logFilesOlderThan = value;
-        OnPropertyChanged(nameof(LogFilesOlderThan));
+        OnPropertyChanged();
       }
     }
 
@@ -708,7 +708,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _currentWindowStyle = value;
-        OnPropertyChanged(nameof(CurrentWindowStyle));
+        OnPropertyChanged();
       }
     }
 
@@ -728,7 +728,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _alwaysScrollToEnd = value;
-        OnPropertyChanged(nameof(AlwaysScrollToEnd));
+        OnPropertyChanged();
       }
     }
 
@@ -755,7 +755,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     private bool _showLineNumbers;
 
     /// <summary>
-    /// Show line numbers
+    /// Shows line numbers
     /// </summary>
     [DefaultValue(DefaultEnvironmentSettings.ShowLineNumbers)]
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
@@ -768,7 +768,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _showLineNumbers = value;
-        OnPropertyChanged(nameof(ShowLineNumbers));
+        OnPropertyChanged();
       }
     }
 

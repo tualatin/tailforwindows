@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.Core.Data.Base;
 
@@ -143,7 +144,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     public VsCollectionView(IEnumerable<T> collection)
     {
       _cts?.Dispose();
-      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(5));
+      _cts = new CancellationTokenSource();
 
       _semaphoreLock = new SemaphoreSlim(1, MaxLockCount);
       _semaphoreEstablishQueueLock = new SemaphoreSlim(1, MaxLockCount);
@@ -206,14 +207,21 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     /// </summary>
     public void Clear()
     {
-      Collection.Clear();
-      FilteredCollection.Clear();
+      Application.Current.Dispatcher.InvokeAsync(() =>
+      {
+        Collection.Clear();
+        FilteredCollection.Clear();
+      }, DispatcherPriority.Normal);
+
       _internalCollection.Clear();
     }
 
     private async Task EstablishQueueAsync(IEnumerable collection)
     {
-      await _semaphoreEstablishQueueLock.WaitAsync(_cts.Token);
+      if ( collection == null )
+        return;
+
+      await _semaphoreEstablishQueueLock.WaitAsync();
 
       try
       {
@@ -235,7 +243,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 
     private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      _semaphoreLock.Wait(_cts.Token);
+      _semaphoreLock.Wait();
 
       try
       {
@@ -358,13 +366,10 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
       _cts?.Cancel();
       Collection.CollectionChanged -= OnCollectionChanged;
 
-      Clear();
-
-      Collection = null;
-      FilteredCollection = null;
-      _internalCollection = null;
       Filter = null;
       _collectionQueue = null;
+
+      Clear();
 
       _semaphoreLock.Dispose();
       _semaphoreEstablishQueueLock.Dispose();

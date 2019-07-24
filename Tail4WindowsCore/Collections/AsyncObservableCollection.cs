@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 using System.Threading;
+using log4net;
 
 namespace Org.Vs.TailForWin.Core.Collections
 {
@@ -23,6 +24,8 @@ namespace Org.Vs.TailForWin.Core.Collections
   [HostProtection(SecurityAction.LinkDemand, Synchronization = true, ExternalThreading = true)]
   public class AsyncObservableCollection<T> : IList<T>, IList, IReadOnlyList<T>, INotifyPropertyChanged
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof( AsyncObservableCollection<T>));
+
     private readonly SynchronizationContext _synchronizationContext = SynchronizationContext.Current;
     private readonly object _myLock = new object();
 
@@ -196,12 +199,17 @@ namespace Org.Vs.TailForWin.Core.Collections
 
     private void ProcessQueue()
     {
+      LOG.Debug("Enter ProcessQueue");
+
       if ( Monitor.TryEnter(_myLock) )
       {
         try
         {
           if ( _accessCount > 0 )
+          {
+            LOG.Debug("Exit ProcessQueue - AccessCount > 0");
             return;
+          }
 
           _accessCount++;
         }
@@ -224,6 +232,8 @@ namespace Org.Vs.TailForWin.Core.Collections
             Monitor.Exit(_myLock);
           }
         }
+
+        LOG.Debug("Exit ProcessQueue - Locked!");
         return;
       }
 
@@ -242,6 +252,8 @@ namespace Org.Vs.TailForWin.Core.Collections
             Monitor.Exit(_myLock);
           }
         }
+
+        LOG.Debug("Exit ProcessQueue - Queue is null");
         return;
       }
 
@@ -262,6 +274,8 @@ namespace Org.Vs.TailForWin.Core.Collections
           Monitor.Exit(_myLock);
         }
       }
+
+      LOG.Debug("Exit ProcessQueue End");
     }
 
     #region IList<T> Members
@@ -454,6 +468,10 @@ namespace Org.Vs.TailForWin.Core.Collections
         _sync.EnterWriteLock();
         Items.ToList().ForEach(p => Items.Remove(p));
         _hashCollection.Clear();
+      }
+      catch ( Exception )
+      {
+        // Nothing
       }
       finally
       {

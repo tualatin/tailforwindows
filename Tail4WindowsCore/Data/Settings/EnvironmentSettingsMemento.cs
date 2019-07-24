@@ -272,7 +272,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
 
       /// <summary>
-      /// Show line number
+      /// Shows line number
       /// </summary>
       public bool ShowLineNumbers
       {

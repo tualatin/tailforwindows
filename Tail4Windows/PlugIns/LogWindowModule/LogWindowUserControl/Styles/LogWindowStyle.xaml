@@ -75,6 +75,10 @@
     <Setter Property="Text" Value="{Binding DateTime, Mode=OneWay, Converter={StaticResource StringFormatConverter}}" />
   </Style>
 
+  <Style x:Key="MyTimeDeltaEditor" TargetType="{x:Type TextBlock}">
+    <Setter Property="Text" Value="{Binding TimeDelta, Mode=OneWay, Converter={StaticResource TimeDeltaStringFormatConverter}}" />
+  </Style>
+
   <DataTemplate x:Key="DateTimeLineNumberTemplate" DataType="{x:Type data:LogEntry}">
     <SelectiveScrollingGrid
       x:Name="DataTemplateGrid"
@@ -158,6 +162,7 @@
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="20" />
           <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <Border
@@ -211,6 +216,16 @@
             Style="{StaticResource MyLineNumberText}"
             />
         </Border>
+
+        <TextBlock
+          x:Name="TimeDeltaEditor"
+          Grid.Column="2"
+          MinWidth="65"
+          Margin="3 0 3 0"
+          TextAlignment="Right"
+          Style="{StaticResource MyTimeDeltaEditor}"
+          Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type logWindowListBox:LogWindowListBox}}, Path=CurrentTailData.ShowTimeDelta, Converter={StaticResource BoolToVisibilityConverter}}"
+          />
       </Grid>
     </SelectiveScrollingGrid>
 

@@ -19,12 +19,7 @@ namespace Org.Vs.TailForWin.UI.Converters
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-    {
-      if ( !(value is DateTime dt) )
-        return null;
-
-      return dt.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat);
-    }
+      => !(value is DateTime dt) ? null : dt.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat);
 
     /// <summary>
     /// Convert back

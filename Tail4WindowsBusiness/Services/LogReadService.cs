@@ -38,6 +38,7 @@ namespace Org.Vs.TailForWin.Business.Services
     private long _fileOffset;
     private readonly Stopwatch _sw;
     private CancellationTokenSource _cts;
+    private DateTime? _lastWrittenTime;
 
     #region Events
 
@@ -408,12 +409,16 @@ namespace Org.Vs.TailForWin.Business.Services
     private LogEntry CreateLogEntry(string line)
     {
       Index++;
+      var dateTime = DateTime.Now;
       var entry = new LogEntry
       {
         Index = Index,
         Message = line,
-        DateTime = DateTime.Now
+        DateTime = dateTime,
+        TimeDelta = dateTime - _lastWrittenTime
       };
+      _lastWrittenTime = dateTime;
+
       return entry;
     }
 

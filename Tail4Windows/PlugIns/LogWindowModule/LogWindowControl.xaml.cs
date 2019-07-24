@@ -415,7 +415,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Open <see cref="TailData"/> filter
     /// </summary>
-    public ICommand OpenTailDataFilterCommand => _openTailDataFilterCommand ?? (_openTailDataFilterCommand = new RelayCommand(p => FileIsValid, p => ExecuteOpenTailDataFilterCommand()));
+    public ICommand OpenTailDataFilterCommand =>
+      _openTailDataFilterCommand ?? (_openTailDataFilterCommand = new RelayCommand(p => FileIsValid, p => ExecuteOpenTailDataFilterCommand()));
 
     private IAsyncCommand _quickSaveCommand;
 
@@ -429,7 +430,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Print <see cref="TailData"/>
     /// </summary>
-    public ICommand PrintTailDataCommand => _printTailDataCommand ?? (_printTailDataCommand = new RelayCommand(p => CanExecutePrintTailDataCommand(), p => ExecutePrintTailDataCommand()));
+    public ICommand PrintTailDataCommand =>
+      _printTailDataCommand ?? (_printTailDataCommand = new RelayCommand(p => CanExecutePrintTailDataCommand(), p => ExecutePrintTailDataCommand()));
 
     private ICommand _openSearchDialogCommand;
 

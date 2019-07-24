@@ -363,7 +363,7 @@ namespace Org.Vs.TailForWin.Core.Data
     private bool _removeSpace;
 
     /// <summary>
-    /// Remove extra space in each line
+    /// Removes extra space in each line
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
     public bool RemoveSpace
@@ -376,6 +376,25 @@ namespace Org.Vs.TailForWin.Core.Data
 
         bool currentValue = _removeSpace;
         ChangeState(new Command(() => _removeSpace = value, () => _removeSpace = currentValue, nameof(RemoveSpace), Notification));
+      }
+    }
+
+    private bool _showTimeDelta;
+
+    /// <summary>
+    /// Shows time delta
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public bool ShowTimeDelta
+    {
+      get => _showTimeDelta;
+      set
+      {
+        if ( value == _showTimeDelta )
+          return;
+
+        bool currentValue = _showTimeDelta;
+        ChangeState(new Command(() => _showTimeDelta = value, () => _showTimeDelta = currentValue, nameof(ShowTimeDelta), Notification));
       }
     }
 

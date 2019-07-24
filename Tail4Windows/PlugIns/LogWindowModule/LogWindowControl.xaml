@@ -937,6 +937,13 @@
                 </MenuItem>
 
                 <MenuItem
+                  Header="{DynamicResource ExtendedTailSettingsShowTimeDelta}"
+                  IsCheckable="True"
+                  IsChecked="{Binding CurrentTailData.ShowTimeDelta, UpdateSourceTrigger=PropertyChanged}"
+                  IsEnabled="{Binding FileIsValid, UpdateSourceTrigger=PropertyChanged}"
+                  />
+
+                <MenuItem
                   Header="{DynamicResource ExtendedTailSettingsOpenInExplorer}"
                   Command="{Binding OpenInEditorCommand}"
                   Visibility="{Binding CurrentTailData.IsWindowsEvent, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
@@ -1122,12 +1129,15 @@
                   FontSize="12"
                   FontWeight="Bold"
                   />
+
                 <TextBlock Text="{DynamicResource ExtendedSearchToolTip}" />
+
                 <Border
                   Margin="0 8"
                   BorderBrush="Silver"
                   BorderThickness="0 1 0 0"
                   />
+
                 <WrapPanel>
                   <Image
                     Width="16"
@@ -1137,6 +1147,7 @@
                     RenderOptions.EdgeMode="Aliased"
                     Source="/T4W;component/Resources/Search.ico"
                     />
+
                   <TextBlock
                     Text="{DynamicResource GeneralToolTipHint}"
                     FontStyle="Italic"
@@ -1181,12 +1192,15 @@
                   FontSize="12"
                   FontWeight="Bold"
                   />
+
                 <TextBlock Text="{DynamicResource ExtendedClearLogWindowTooTip}" />
+
                 <Border
                   Margin="0 8"
                   BorderBrush="Silver"
                   BorderThickness="0 1 0 0"
                   />
+
                 <WrapPanel>
                   <Image
                     Width="16"
@@ -1196,6 +1210,7 @@
                     RenderOptions.EdgeMode="Aliased"
                     Source="/T4W;component/Resources/Search.ico"
                     />
+
                   <TextBlock
                     Text="{DynamicResource GeneralToolTipHint}"
                     FontStyle="Italic"
@@ -1240,12 +1255,15 @@
                   FontSize="12"
                   FontWeight="Bold"
                   />
+
                 <TextBlock Text="{DynamicResource ExtendedFontToolTip}" />
+
                 <Border
                   Margin="0 8"
                   BorderBrush="Silver"
                   BorderThickness="0 1 0 0"
                   />
+
                 <WrapPanel>
                   <Image
                     Width="16"
@@ -1255,6 +1273,7 @@
                     RenderOptions.EdgeMode="Aliased"
                     Source="/T4W;component/Resources/Search.ico"
                     />
+
                   <TextBlock
                     Text="{DynamicResource GeneralToolTipHint}"
                     FontStyle="Italic"

@@ -46,6 +46,25 @@ namespace Org.Vs.TailForWin.Business.Services.Data
       }
     }
 
+
+    private TimeSpan? _timeDelta;
+
+    /// <summary>
+    /// Current time delta
+    /// </summary>
+    public TimeSpan? TimeDelta
+    {
+      get => _timeDelta;
+      set
+      {
+        if (value == _timeDelta)
+          return;
+
+        _timeDelta = value;
+        OnPropertyChanged();
+      }
+    }
+
     private string _message;
 
     /// <summary>
