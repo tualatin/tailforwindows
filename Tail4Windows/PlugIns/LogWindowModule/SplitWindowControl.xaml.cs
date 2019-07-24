@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -378,7 +377,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       InitializeComponent();
 
       DataContext = this;
-      LogCollectionView = new VsCollectionView<LogEntry>();
       FloodData = new List<MessageFloodData>();
 
       _findWhatResults = new List<LogEntry>();
@@ -406,8 +404,29 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public void InitCollectionView()
     {
+      LogCollectionView = new VsCollectionView<LogEntry>();
+      LogCollectionView.FilteringStarted += OnFilteringStarted;
+      LogCollectionView.FilteringCompleted += OnFilteringCompleted;
+      LogCollectionView.FilteringErrorOccurred += OnFilteringErrorOccurred;
+
       LogWindowMainElement.ItemsSource = LogCollectionView.Items;
       LogCollectionView.Filter = DynamicFilterAsync;
+    }
+
+    private void OnFilteringStarted(object sender, EventArgs e)
+    {
+      LOG.Debug("Filtering startet");
+    }
+
+    private void OnFilteringCompleted(object sender, Core.Collections.FilterCollections.FilterEventArgs e)
+    {
+      LOG.Debug($"Filtering completed {e.IsCompleted}, elapsed time {e.ElapsedTime} ms");
+    }
+
+    private void OnFilteringErrorOccurred(object sender, Core.Collections.FilterCollections.FilterEventArgs e)
+    {
+      InteractionService.ShowErrorMessageBox(e.Exception.Message);
+      LOG.Error(e.Exception, "Filtering caused a(n) {0}, elapsed time {1}", e.Exception.GetType().Name, e.ElapsedTime);
     }
 
     #region Dependency properties
@@ -543,15 +562,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         if ( LogCollectionView.Items == null )
           return;
 
+        SetupCache();
+        LogCollectionView.AddRange(e.Log);
+
         if ( SettingsHelperController.CurrentSettings.LogLineLimit != -1 &&
              LogCollectionView.Count >= SettingsHelperController.CurrentSettings.LogLineLimit &&
              _splitterPosition <= 0 )
         {
-          LogCollectionView.RemoveAt(0);
-        }
+          var toRemove = LogCollectionView.Items.Take(LogCollectionView.Count - SettingsHelperController.CurrentSettings.LogLineLimit).ToArray();
 
-        SetupCache();
-        LogCollectionView.AddRange(e.Log);
+          for ( int i = toRemove.Length - 1; i >= 0; i-- )
+          {
+            var item = toRemove[i];
+            LogCollectionView.Remove(item);
+          }
+        }
 
         RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LinesRead, e.SizeRefreshTime));
       }, DispatcherPriority.Background);
@@ -669,8 +694,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// SplitSearchKeyDown command
     /// </summary>
-    public IAsyncCommand SplitSearchKeyDownCommand => _splitSearchKeyDownCommand ?? (_splitSearchKeyDownCommand = AsyncCommand.Create((p, t) =>
-                                                        ExecuteSplitSearchKeyDownCommandAsync(p)));
+    public IAsyncCommand SplitSearchKeyDownCommand =>
+      _splitSearchKeyDownCommand ?? (_splitSearchKeyDownCommand = AsyncCommand.Create((p, t) => ExecuteSplitSearchKeyDownCommandAsync(p)));
 
     #endregion
 
@@ -945,7 +970,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         // I.)
         // Look into visible items
-        FindNextResult result = await SearchInVisibleItemsAsync(startIndex, startIndex + endIndex, findData, searchText).ConfigureAwait(false);
+        var result = await SearchInVisibleItemsAsync(startIndex, startIndex + endIndex, findData, searchText).ConfigureAwait(false);
 
         if ( result.Result )
           break;
@@ -997,10 +1022,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         for ( var i = (int) Math.Round(start); i < countTo; i++ )
         {
-          var log = LogCollectionView.Items[i];
+          var log = LogCollectionView[i];
 
           // If list is filtered
-          if ( !LogCollectionView.Items.Contains(log) )
+          if ( !LogCollectionView.Contains(log) )
             continue;
 
           stop = i;
@@ -1034,10 +1059,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         {
           for ( var i = (int) Math.Round(start); i < countTo; i++ )
           {
-            var log = LogCollectionView.Items[i];
+            var log = LogCollectionView[i];
 
             // If list is filtered
-            if ( !LogCollectionView.Items.Contains(log) )
+            if ( !LogCollectionView.Contains(log) )
               continue;
 
             stop = i;
@@ -1076,10 +1101,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         // ReSharper disable once ForCanBeConvertedToForeach
         for ( var i = 0; i < LogCollectionView.Count; i++ )
         {
-          var log = LogCollectionView.Items[i];
+          var log = LogCollectionView[i];
 
           // If list is filtered
-          if ( !LogCollectionView.Items.Contains(log) )
+          if ( !LogCollectionView.Contains(log) )
             continue;
 
           string message = findData.SearchBookmarkComments ? log.BookmarkToolTip : log.Message;
@@ -1122,7 +1147,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           var result = LogCollectionView.Items.Where(p => p.BookmarkPoint != null).ToList();
 
           // If list is filtered
-          result = result.Where(p => LogCollectionView.Items.Contains(p)).ToList();
+          result = result.Where(p => LogCollectionView.Contains(p)).ToList();
 
           if ( result.Count > 0 )
             _findWhatResults.AddRange(result);
@@ -1262,6 +1287,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(item is LogEntry logEntry) )
         return false;
 
+      await LogCollectionView.CollectionViewLock.WaitAsync().ConfigureAwait(false);
+
       var result = false;
       var filterSource = CurrentTailData.ListOfFilter.Where(p => p.FilterSource && p.IsEnabled).ToList();
       var highlightSource = CurrentTailData.ListOfFilter.Where(p => p.IsHighlight && p.IsEnabled).ToList();
@@ -1270,118 +1297,115 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( filterSource.Count == 0 )
         result = true;
 
-      foreach ( var filterData in filterSource )
+      try
       {
-        try
+        foreach ( var filterData in filterSource )
         {
-          var sr = await _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).ConfigureAwait(false);
-
-          if ( sr == null || sr.Count == 0 )
-            continue;
-
-          // Handle alert settings
-          if ( filterData.UseNotification )
-            HandleAlertSettings(filterData, sr, logEntry);
-
-          // Handle AutoBookmark
-          if ( filterData.IsAutoBookmark )
-            await HandleAutoBookmarkAsync(filterData, logEntry);
-
-          result = true;
-          break;
-        }
-        catch ( Exception ex )
-        {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        }
-      }
-
-      // If result is false OR no highlighting is defined, return the current result
-      if ( !result || highlightSource.Count == 0 )
-        return result;
-
-#if DEBUG
-      var sw = new Stopwatch();
-      sw.Start();
-#endif
-
-      foreach ( var filterData in highlightSource )
-      {
-        try
-        {
-          var sr = await _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).ConfigureAwait(false);
-
-          if ( sr == null || sr.Count == 0 )
-            continue;
-
-          // If no FilterSource is defined, handle alert settings here
-          if ( filterSource.Count == 0 && filterData.UseNotification )
-            HandleAlertSettings(filterData, sr, logEntry);
-
-          // If not FilterSource is defined, handle AutoBookmark here
-          if ( filterSource.Count == 0 && filterData.IsAutoBookmark )
-            await HandleAutoBookmarkAsync(filterData, logEntry);
-
-          if ( HighlightData == null )
-            HighlightData = new List<TextHighlightData>();
-
-          if ( !filterData.IsEnabled )
+          try
           {
-            // Remove disabled items from highlight list
-            var toRemove = HighlightData.Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0 && !p.IsFindWhat).ToList();
+            var sr = await _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).ConfigureAwait(false);
 
-            if ( toRemove.Count > 0 )
-              HighlightData.RemoveAll(p => toRemove.Contains(p));
-
-            continue;
-          }
-
-          // Is already inside highlight list?
-          var inside = HighlightData.Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0 && !p.IsFindWhat).ToList();
-
-          if ( inside.Count > 0 )
-          {
-            // Color changed?
-            if ( inside.Where(p => Equals(p.TextHighlightColorHex, filterData.FilterColorHex)).ToList().Count > 0 )
+            if ( sr == null || sr.Count == 0 )
               continue;
 
-            HighlightData.RemoveAll(p => inside.Contains(p));
+            // Handle alert settings
+            if ( filterData.UseNotification )
+              HandleAlertSettings(filterData, sr, logEntry);
+
+            // Handle AutoBookmark
+            if ( filterData.IsAutoBookmark )
+              await HandleAutoBookmarkAsync(filterData, logEntry);
+
+            result = true;
+            break;
           }
-
-          HighlightData.Add(new TextHighlightData
+          catch ( Exception ex )
           {
-            FilterFontType = filterData.FontType,
-            TextHighlightColorHex = filterData.FilterColorHex,
-            Text = string.Join("|", sr)
-          });
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          }
         }
-        catch ( Exception ex )
+
+        // If result is false OR no highlighting is defined, return the current result
+        if ( !result || highlightSource.Count == 0 )
+          return result;
+
+        foreach ( var filterData in highlightSource )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          try
+          {
+            var sr = await _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).ConfigureAwait(false);
+
+            if ( sr == null || sr.Count == 0 )
+              continue;
+
+            // If no FilterSource is defined, handle alert settings here
+            if ( filterSource.Count == 0 && filterData.UseNotification )
+              HandleAlertSettings(filterData, sr, logEntry);
+
+            // If not FilterSource is defined, handle AutoBookmark here
+            if ( filterSource.Count == 0 && filterData.IsAutoBookmark )
+              await HandleAutoBookmarkAsync(filterData, logEntry);
+
+            if ( HighlightData == null )
+              HighlightData = new List<TextHighlightData>();
+
+            if ( !filterData.IsEnabled )
+            {
+              // Remove disabled items from highlight list
+              var toRemove = HighlightData
+                .Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0 && !p.IsFindWhat)
+                .ToList();
+
+              if ( toRemove.Count > 0 )
+                HighlightData.RemoveAll(p => toRemove.Contains(p));
+
+              continue;
+            }
+
+            // Is already inside highlight list?
+            var inside = HighlightData
+              .Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0 && !p.IsFindWhat)
+              .ToList();
+
+            if ( inside.Count > 0 )
+            {
+              // Color changed?
+              if ( inside.Where(p => Equals(p.TextHighlightColorHex, filterData.FilterColorHex)).ToList().Count > 0 )
+                continue;
+
+              HighlightData.RemoveAll(p => inside.Contains(p));
+            }
+
+            HighlightData.Add(new TextHighlightData { FilterFontType = filterData.FontType, TextHighlightColorHex = filterData.FilterColorHex, Text = string.Join("|", sr) });
+          }
+          catch ( Exception ex )
+          {
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          }
         }
+
+        OnPropertyChanged(nameof(HighlightData));
+
+        return true;
       }
-
-#if DEBUG
-      sw.Stop();
-      //LOG.Debug($"Elapsed time after highlighting {sw.ElapsedTicks} ticks / {sw.ElapsedMilliseconds} ms");
-#endif
-      OnPropertyChanged(nameof(HighlightData));
-
-      return true;
+      finally
+      {
+        LogCollectionView.CollectionViewLock.Release();
+      }
     }
 
     private async Task HandleAutoBookmarkAsync(FilterData filterData, LogEntry item)
     {
       LOG.Debug("* * * * * * * * HandleAutoBookmark * * * * * * * *");
 
-      await Application.Current.Dispatcher.InvokeAsync(() =>
+      await Dispatcher.InvokeAsync(() =>
       {
         item.BookmarkPoint = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Auto_Bookmark.png");
         item.BookmarkToolTip = string.IsNullOrWhiteSpace(filterData.AutoBookmarkComment) ? "Auto Bookmark" : filterData.AutoBookmarkComment;
         item.IsAutoBookmark = true;
 
         EnvironmentContainer.Instance.BookmarkManager.AddBookmarkItemsToSource(GetLogWindow().WindowId, item);
-      });
+      }, DispatcherPriority.Background);
     }
 
     private void HandleAlertSettings(FilterData filter, IReadOnlyCollection<string> stringResult, LogEntry item)
@@ -1541,7 +1565,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
       else
       {
-        logEntry = LogCollectionView.Items[_index];
+        logEntry = LogCollectionView[_index];
         _index++;
       }
 
@@ -1563,7 +1587,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           if ( LogCollectionView.Count < LastVisibleLogEntryIndex )
             LastVisibleLogEntryIndex = LogCollectionView.Count - 1;
 
-          _lastSeenEntry = LogCollectionView.Items[LastVisibleLogEntryIndex];
+          _lastSeenEntry = LogCollectionView[LastVisibleLogEntryIndex];
         }
         else
         {

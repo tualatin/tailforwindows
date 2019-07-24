@@ -40,12 +40,22 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     private readonly SemaphoreSlim _semaphoreEstablishQueueLock;
     private ConcurrentQueue<T> _collectionQueue;
     private HashSet<T> _internalCollection;
-    private bool _filteringStarted;
+    private bool _isFilteringStarted;
 
     /// <summary>
-    /// Fires, when the filtering is completed or an <see cref="Exception"/> occurred
+    /// Fires, when the filtering is completed
     /// </summary>
     public event EventHandler<FilterEventArgs> FilteringCompleted;
+
+    /// <summary>
+    /// Fires, when an error occurred while filtering
+    /// </summary>
+    public event EventHandler<FilterEventArgs> FilteringErrorOccurred;
+
+    /// <summary>
+    /// Fires, when the filtering is startet
+    /// </summary>
+    public event EventHandler<EventArgs> FilteringStarted;
 
     /// <summary>
     /// Collection view lock
@@ -82,13 +92,25 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 
         if ( _filter != null )
         {
-          _filteringStarted = true;
+          _isFilteringStarted = true;
+          FilteringStarted?.Invoke(this, EventArgs.Empty);
           LOG.Debug("Enabling filtering...");
         }
 
         FilteredCollection.Clear();
         NotifyTaskCompletion.Create(EstablishQueueAsync(Collection));
       }
+    }
+
+    /// <summary>
+    /// Get value by key index
+    /// </summary>
+    /// <param name="key">Key</param>
+    /// <returns>The corresponding value of given key</returns>
+    public T this[int key]
+    {
+      get => FilteredCollection[key];
+      set => FilteredCollection[key] = value;
     }
 
     /// <summary>
@@ -142,7 +164,6 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
       Collection.CollectionChanged += OnCollectionChanged;
     }
 
-
     /// <summary>
     /// Adds an object to the end of the <see cref="List{T}"/>.
     /// </summary>
@@ -172,6 +193,13 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     /// <paramref name="index" /> is equal to or greater than <see cref="P:System.Collections.ObjectModel.Collection`1.Count" />.
     /// </exception>
     public void RemoveAt(int index) => Collection.RemoveAt(index);
+
+    /// <summary>
+    /// Determines whether an element is in the <see cref="List{T}"/>.
+    /// </summary>
+    /// <param name="value">The object to locate in the <see cref="List{T}"/>. The value can be null for reference types.</param>
+    /// <returns><c>True</c> if item is found in the <see cref="List{T}"/>; otherwise, <c>False</c>.</returns>
+    public bool Contains(T value) => FilteredCollection.Contains(value);
 
     /// <summary>
     /// Clears collection
@@ -207,24 +235,43 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 
     private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
-      if ( e.Action != NotifyCollectionChangedAction.Add )
-      {
-        return;
-      }
+      _semaphoreLock.Wait(_cts.Token);
 
-      NotifyTaskCompletion.Create(EstablishQueueAsync(e.NewItems));
+      try
+      {
+        switch ( e.Action )
+        {
+        case NotifyCollectionChangedAction.Add:
+
+          NotifyTaskCompletion.Create(EstablishQueueAsync(e.NewItems));
+          break;
+
+        case NotifyCollectionChangedAction.Remove:
+
+          foreach ( object item in e.OldItems )
+          {
+            if ( item is T i )
+            {
+              FilteredCollection.Remove(i);
+            }
+          }
+
+          break;
+        }
+      }
+      finally
+      {
+        _semaphoreLock.Release();
+      }
     }
 
     private async Task RefreshInternalAsync()
     {
       var sw = new Stopwatch();
-
-      await _semaphoreLock.WaitAsync(_cts.Token);
+      sw.Start();
 
       try
       {
-        sw.Start();
-
         if ( _collectionQueue != null )
         {
           var count = 0;
@@ -266,26 +313,15 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
           {
             await AddToFilteredCollection(count, page);
 
-            _filteringStarted = false;
-            FilteringCompleted?.Invoke(this, new FilterEventArgs(true));
+            _isFilteringStarted = false;
+            FilteringCompleted?.Invoke(this, new FilterEventArgs(true, sw.ElapsedMilliseconds));
           }
         }
       }
       catch ( Exception ex )
       {
-        _filteringStarted = false;
-        FilteringCompleted?.Invoke(this, new FilterEventArgs(false, ex));
-      }
-      finally
-      {
-        sw.Stop();
-
-        if ( Filter != null )
-        {
-          LOG.Debug($"RefreshInternalAsync elapsed time {sw.ElapsedMilliseconds} ms");
-        }
-
-        _semaphoreLock?.Release();
+        _isFilteringStarted = false;
+        FilteringErrorOccurred?.Invoke(this, new FilterEventArgs(false, sw.ElapsedMilliseconds, ex));
       }
     }
 
@@ -295,7 +331,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
       {
         var start = page * PagingSize;
 
-        if ( _filteringStarted )
+        if ( _isFilteringStarted )
         {
           for ( var i = start; i < start + currentCount; i++ )
           {

@@ -14,9 +14,19 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
   public interface IVsCollectionView<T> : IDisposable
   {
     /// <summary>
-    /// Fires, when the filtering is completed or an <see cref="Exception"/> occurred
+    /// Fires, when the filtering is completed
     /// </summary>
     event EventHandler<FilterEventArgs> FilteringCompleted;
+
+    /// <summary>
+    /// Fires, when an error occurred while filtering
+    /// </summary>
+    event EventHandler<FilterEventArgs> FilteringErrorOccurred;
+
+    /// <summary>
+    /// Fires, when the filtering is startet
+    /// </summary>
+    event EventHandler<EventArgs> FilteringStarted;
 
     /// <summary>
     /// Current filtered items
@@ -52,6 +62,17 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     }
 
     /// <summary>
+    /// Get value by key index
+    /// </summary>
+    /// <param name="key">Key</param>
+    /// <returns>The corresponding value of given key</returns>
+    T this[int key]
+    {
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Adds an object to the end of the <see cref="List{T}"/>.
     /// </summary>
     /// <param name="item">The object to be added to the end of the <see cref="List{T}"/>. The value can be null for reference types.</param>
@@ -80,6 +101,13 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     /// <paramref name="index" /> is equal to or greater than <see cref="P:System.Collections.ObjectModel.Collection`1.Count" />.
     /// </exception>
     void RemoveAt(int index);
+
+    /// <summary>
+    /// Determines whether an element is in the <see cref="List{T}"/>.
+    /// </summary>
+    /// <param name="value">The object to locate in the <see cref="List{T}"/>. The value can be null for reference types.</param>
+    /// <returns><c>True</c> if item is found in the <see cref="List{T}"/>; otherwise, <c>False</c>.</returns>
+    bool Contains(T value);
 
     /// <summary>
     /// Clears collection

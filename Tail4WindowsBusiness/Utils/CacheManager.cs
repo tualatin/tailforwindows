@@ -112,7 +112,13 @@ namespace Org.Vs.TailForWin.Business.Utils
            _cacheData.Count + MaxCapacity >= SettingsHelperController.CurrentSettings.LogLineLimit &&
            position <= 0 )
       {
-        _cacheData.RemoveAt(0);
+        var toRemove = _cacheData.Take(_cacheData.Count - SettingsHelperController.CurrentSettings.LogLineLimit).ToArray();
+
+        for ( int i = toRemove.Length - 1; i >= 0; i-- )
+        {
+          var item = toRemove[i];
+          _cacheData.Remove(item);
+        }
       }
 
       entry.IsCacheData = true;

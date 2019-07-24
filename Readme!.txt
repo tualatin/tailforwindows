@@ -13,6 +13,8 @@ v.2.3.xxxx.x
 * new History XML to JSON converter
 * new FileManager saves data as JSON
 * new FileManager XML (backup is *.xml_old) to JSON converter
+* new async filter
+* bug fix log line limit
 * bug fix create logfile history
 * bug fix add new Bookmarks
 

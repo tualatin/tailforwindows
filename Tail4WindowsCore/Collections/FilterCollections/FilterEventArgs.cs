@@ -25,13 +25,23 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     }
 
     /// <summary>
+    /// Elapsed time
+    /// </summary>
+    public long ElapsedTime
+    {
+      get;
+    }
+
+    /// <summary>
     /// Constructor
     /// </summary>
     /// <param name="isCompleted">Filtering is completed</param>
+    /// <param name="elapsedTime">Elapsed time</param>
     /// <param name="exception">Occurred exception</param>
-    public FilterEventArgs(bool isCompleted, Exception exception = null)
+    public FilterEventArgs(bool isCompleted, long elapsedTime, Exception exception = null)
     {
       IsCompleted = isCompleted;
+      ElapsedTime = elapsedTime;
       Exception = exception;
     }
   }
