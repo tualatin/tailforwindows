@@ -76,6 +76,7 @@
   </Style>
 
   <Style x:Key="MyTimeDeltaEditor" TargetType="{x:Type TextBlock}">
+    <Setter Property="MinWidth" Value="45" />
     <Setter Property="Text" Value="{Binding TimeDelta, Mode=OneWay, Converter={StaticResource TimeDeltaStringFormatConverter}}" />
   </Style>
 
@@ -220,7 +221,6 @@
         <TextBlock
           x:Name="TimeDeltaEditor"
           Grid.Column="2"
-          MinWidth="65"
           Margin="3 0 3 0"
           TextAlignment="Right"
           Style="{StaticResource MyTimeDeltaEditor}"
