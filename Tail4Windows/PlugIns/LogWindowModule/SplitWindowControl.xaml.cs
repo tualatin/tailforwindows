@@ -378,6 +378,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       DataContext = this;
       FloodData = new List<MessageFloodData>();
+      LogCollectionView = new VsCollectionView<LogEntry>();
 
       _findWhatResults = new List<LogEntry>();
       CacheManager = new CacheManager();
@@ -404,7 +405,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public void InitCollectionView()
     {
-      LogCollectionView = new VsCollectionView<LogEntry>();
       LogCollectionView.FilteringStarted += OnFilteringStarted;
       LogCollectionView.FilteringCompleted += OnFilteringCompleted;
       LogCollectionView.FilteringErrorOccurred += OnFilteringErrorOccurred;

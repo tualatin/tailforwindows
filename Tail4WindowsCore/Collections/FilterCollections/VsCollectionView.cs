@@ -10,7 +10,6 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
 using log4net;
 using Org.Vs.TailForWin.Core.Data.Base;
 
@@ -207,12 +206,8 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     /// </summary>
     public void Clear()
     {
-      Application.Current.Dispatcher.InvokeAsync(() =>
-      {
-        Collection.Clear();
-        FilteredCollection.Clear();
-      }, DispatcherPriority.Normal);
-
+      Collection.Clear();
+      FilteredCollection.Clear();
       _internalCollection.Clear();
     }
 
