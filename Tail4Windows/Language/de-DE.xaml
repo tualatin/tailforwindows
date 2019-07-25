@@ -176,7 +176,7 @@
   <system:String
     x:Key="ExtendedTailSettingsShowTimeDelta"
     xml:space="preserve"
-    >Zeige Zeit &#916;</system:String>
+    >Zeige Aktualisierung &#916;</system:String>
   <system:String x:Key="ExtendedFontToolTip">Setzt die aktuelle Schrift (ALT+A)</system:String>
   <system:String x:Key="ExtendedClearLogWindow">Inhalt leeren</system:String>
   <system:String x:Key="ExtendedClearLogWindowTooTip">Leert den Inhalt des aktuellen Fensters (STRG+E)</system:String>
