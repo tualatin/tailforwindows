@@ -370,9 +370,9 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers
 
       await Task.Run(() =>
       {
-        DateTime latestWriteTime = DateTime.MinValue;
+        var latestWriteTime = DateTime.MinValue;
 
-        foreach ( FileInfo file in validFileInfos )
+        foreach ( var file in validFileInfos )
         {
           if ( file.LastWriteTime <= latestWriteTime )
             continue;

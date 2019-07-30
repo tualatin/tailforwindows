@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Windows.Media.Imaging;
 using log4net;
 using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Args;
 using Org.Vs.TailForWin.Business.BookmarkEngine.Events.Delegates;
@@ -216,7 +215,7 @@ namespace Org.Vs.TailForWin.Business.BookmarkEngine.Controllers
         return;
       }
 
-      BitmapImage image = BusinessHelper.CreateBitmapIcon(string.IsNullOrWhiteSpace(logEntry.BookmarkToolTip) ?
+      var image = BusinessHelper.CreateBitmapIcon(string.IsNullOrWhiteSpace(logEntry.BookmarkToolTip) ?
         "/T4W;component/Resources/Bookmark.png" :
         "/T4W;component/Resources/Bookmark_Info.png");
 

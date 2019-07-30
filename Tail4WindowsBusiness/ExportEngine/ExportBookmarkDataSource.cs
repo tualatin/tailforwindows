@@ -99,7 +99,7 @@ namespace Org.Vs.TailForWin.Business.ExportEngine
 
       excel.Workbook.Worksheets.Add("Bookmarks");
 
-      ExcelWorksheet bookmarkWorksheet = excel.Workbook.Worksheets["Bookmarks"];
+      var bookmarkWorksheet = excel.Workbook.Worksheets["Bookmarks"];
       var headerRows = new List<string[]>
       {
         new[]

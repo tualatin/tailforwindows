@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using Org.Vs.TailForWin.Business.Services.Data;
-using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Utils;
@@ -59,7 +58,7 @@ namespace Org.Vs.TailForWin.Business.Controllers
       _flowDocument.ColumnWidth = _flowDocument.PageWidth - _flowDocument.ColumnGap - _flowDocument.PagePadding.Left - _flowDocument.PagePadding.Right;
 
       var page = ((IDocumentPaginatorSource) _flowDocument).DocumentPaginator;
-      printDialog.PrintDocument(page, $"{EnvironmentContainer.ApplicationTitle} printing file {tailData.File}");
+      printDialog.PrintDocument(page, $"{CoreEnvironment.ApplicationTitle} printing file {tailData.File}");
     }
 
     /// <summary>
@@ -67,39 +66,41 @@ namespace Org.Vs.TailForWin.Business.Controllers
     /// <returns>A PrintTicket for the current local default printer.</returns>
     private PrintTicket GetPrintTicketFromPrinter()
     {
-      PrintQueue printQueue;
-      var localPrintServer = new LocalPrintServer();
-
-      // Retrieving collection of local printer on user machine
-      var localPrinterCollection = localPrintServer.GetPrintQueues();
-      System.Collections.IEnumerator localPrinterEnumerator = localPrinterCollection.GetEnumerator();
-
-      if ( localPrinterEnumerator.MoveNext() )
+      using ( var localPrintServer = new LocalPrintServer() )
       {
-        // Get PrintQueue from first available printer
-        printQueue = (PrintQueue) localPrinterEnumerator.Current;
+        PrintQueue printQueue;
+
+        // Retrieving collection of local printer on user machine
+        var localPrinterCollection = localPrintServer.GetPrintQueues();
+        System.Collections.IEnumerator localPrinterEnumerator = localPrinterCollection.GetEnumerator();
+
+        if ( localPrinterEnumerator.MoveNext() )
+        {
+          // Get PrintQueue from first available printer
+          printQueue = (PrintQueue) localPrinterEnumerator.Current;
+        }
+        else
+        {
+          // No printer exist, return null PrintTicket
+          return null;
+        }
+
+        // Get default PrintTicket from printer
+        var printTicket = printQueue?.DefaultPrintTicket;
+        var printCapabilities = printQueue?.GetPrintCapabilities();
+
+        // Modify PrintTicket
+        if ( printCapabilities != null && printCapabilities.CollationCapability.Contains(Collation.Collated) )
+          printTicket.Collation = Collation.Collated;
+
+        if ( printCapabilities != null && printCapabilities.DuplexingCapability.Contains(Duplexing.TwoSidedLongEdge) )
+          printTicket.Duplexing = Duplexing.TwoSidedLongEdge;
+
+        if ( printCapabilities != null && printCapabilities.StaplingCapability.Contains(Stapling.StapleDualLeft) )
+          printTicket.Stapling = Stapling.StapleDualLeft;
+
+        return printTicket;
       }
-      else
-      {
-        // No printer exist, return null PrintTicket
-        return null;
-      }
-
-      // Get default PrintTicket from printer
-      var printTicket = printQueue?.DefaultPrintTicket;
-      var printCapabilites = printQueue?.GetPrintCapabilities();
-
-      // Modify PrintTicket
-      if ( printCapabilites != null && printCapabilites.CollationCapability.Contains(Collation.Collated) )
-        printTicket.Collation = Collation.Collated;
-
-      if ( printCapabilites != null && printCapabilites.DuplexingCapability.Contains(Duplexing.TwoSidedLongEdge) )
-        printTicket.Duplexing = Duplexing.TwoSidedLongEdge;
-
-      if ( printCapabilites != null && printCapabilites.StaplingCapability.Contains(Stapling.StapleDualLeft) )
-        printTicket.Stapling = Stapling.StapleDualLeft;
-
-      return printTicket;
     }
   }
 }

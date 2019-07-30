@@ -594,12 +594,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       MouseService.SetBusyState();
 
-      var result = await _historyController.DeleteHistoryAsync(_logFileHistory, _cts.Token).ConfigureAwait(false);
-
-      if ( !result )
+      await _historyController.DeleteHistoryAsync(_logFileHistory, _cts.Token).ContinueWith(p =>
       {
-        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryConvertXmlToJsonError").ToString());
-      }
+        if ( !p.Result )
+        {
+          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryConvertXmlToJsonError").ToString());
+        }
+      }).ConfigureAwait(false);
 
       _logFileHistory = await _historyController.ReadHistoryAsync(_cts.Token).ConfigureAwait(false);
     }
@@ -711,12 +712,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       SetCancellationTokenSource();
 
       var data = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
-      var success = await _fileManagerController.UpdateTailDataAsync(CurrentTailData, _cts.Token, data).ConfigureAwait(false);
-
-      if ( !success )
+      await _fileManagerController.UpdateTailDataAsync(CurrentTailData, _cts.Token, data).ContinueWith(p =>
       {
-        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerSaveItemsError").ToString());
-      }
+        if ( !p.Result )
+        {
+          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerSaveItemsError").ToString());
+        }
+      }).ConfigureAwait(false);
     }
 
     private void ExecuteOpenTailDataFilterCommand()
@@ -781,12 +783,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       MouseService.SetBusyState();
       SetCancellationTokenSource();
 
-      var result = await _historyController.UpdateHistoryAsync(_logFileHistory, CurrentTailData.FileName, _cts.Token).ConfigureAwait(false);
-
-      if ( !result )
+      await _historyController.UpdateHistoryAsync(_logFileHistory, CurrentTailData.FileName, _cts.Token).ContinueWith(p =>
       {
-        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryConvertXmlToJsonError").ToString());
-      }
+        if ( !p.Result )
+        {
+          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryConvertXmlToJsonError").ToString());
+        }
+      }).ConfigureAwait(false);
 
       _logFileHistory = await _historyController.ReadHistoryAsync(_cts.Token).ConfigureAwait(false);
     }

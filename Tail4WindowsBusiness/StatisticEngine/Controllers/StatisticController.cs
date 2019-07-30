@@ -96,10 +96,15 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
       LOG.Info("Stop statistics");
 
-      await SaveAllValuesIntoDatabaseAsync();
-      _cts.Cancel();
-
-      IsBusy = false;
+      try
+      {
+        await SaveAllValuesIntoDatabaseAsync();
+        _cts.Cancel();
+      }
+      finally
+      {
+        IsBusy = false;
+      }
     }
 
     /// <summary>
@@ -550,7 +555,6 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       {
         LOG.Error("Can not lock!");
       }
-
     }, _cts.Token);
 
     private List<FileEntity> RemoveSessionIfRequired(LiteCollection<FileEntity> fileEntity, LiteCollection<SessionEntity> sessionEntity)
