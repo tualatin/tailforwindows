@@ -287,7 +287,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         _selectedItem = value;
 
         OnPropertyChanged();
-
         SetCurrentLogFileName();
       }
     }
@@ -355,65 +354,73 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Show statistics command
     /// </summary>
-    public ICommand ShowStatisticsCommand => _showStatisticsCommand ?? (_showStatisticsCommand = new RelayCommand(p => SettingsHelperController.CurrentSettings.Statistics,
-                                               p => ExecuteShowStatisticsCommand()));
+    public ICommand ShowStatisticsCommand =>
+      _showStatisticsCommand ?? (_showStatisticsCommand = new RelayCommand(p => SettingsHelperController.CurrentSettings.Statistics,
+        p => ExecuteShowStatisticsCommand()));
 
     private ICommand _openFileCommand;
 
     /// <summary>
     /// Open file command
     /// </summary>
-    public ICommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new RelayCommand(p => LogWindowState != EStatusbarState.Busy, p => ExecuteOpenFileCommand()));
+    public ICommand OpenFileCommand =>
+      _openFileCommand ?? (_openFileCommand = new RelayCommand(p => LogWindowState != EStatusbarState.Busy, p => ExecuteOpenFileCommand()));
 
     private IAsyncCommand _startTailCommand;
 
     /// <summary>
     /// Start tail command
     /// </summary>
-    public IAsyncCommand StartTailCommand => _startTailCommand ?? (_startTailCommand = AsyncCommand.Create(p => FileIsValid && LogWindowState != EStatusbarState.Busy, ExecuteStartTailCommandAsync));
+    public IAsyncCommand StartTailCommand =>
+      _startTailCommand ?? (_startTailCommand = AsyncCommand.Create(p => FileIsValid && LogWindowState != EStatusbarState.Busy, ExecuteStartTailCommandAsync));
 
     private ICommand _stopTailCommand;
 
     /// <summary>
     /// Stop tail command
     /// </summary>
-    public ICommand StopTailCommand => _stopTailCommand ?? (_stopTailCommand = new RelayCommand(p => LogWindowState == EStatusbarState.Busy, p => ExecuteStopTailCommand()));
+    public ICommand StopTailCommand =>
+      _stopTailCommand ?? (_stopTailCommand = new RelayCommand(p => LogWindowState == EStatusbarState.Busy, p => ExecuteStopTailCommand()));
 
     private ICommand _addToFileManagerCommand;
 
     /// <summary>
     /// Add to FileManager command
     /// </summary>
-    public ICommand AddToFileManagerCommand => _addToFileManagerCommand ?? (_addToFileManagerCommand = new RelayCommand(p => CanExecuteAddToFileManager(),
-                                                 p => ExecuteAddToFileManagerCommand()));
+    public ICommand AddToFileManagerCommand =>
+      _addToFileManagerCommand ?? (_addToFileManagerCommand = new RelayCommand(p => CanExecuteAddToFileManager(), p => ExecuteAddToFileManagerCommand()));
 
     private ICommand _openFileManagerCommand;
 
     /// <summary>
     /// Open FileManager command
     /// </summary>
-    public ICommand OpenFileManagerCommand => _openFileManagerCommand ?? (_openFileManagerCommand = new RelayCommand(p => ExecuteOpenFileManagerCommand()));
+    public ICommand OpenFileManagerCommand =>
+      _openFileManagerCommand ?? (_openFileManagerCommand = new RelayCommand(p => ExecuteOpenFileManagerCommand()));
 
     private ICommand _previewDragEnterCommand;
 
     /// <summary>
     /// Preview drag enter command
     /// </summary>
-    public ICommand PreviewDragEnterCommand => _previewDragEnterCommand ?? (_previewDragEnterCommand = new RelayCommand(ExecutePreviewDragEnterCommand));
+    public ICommand PreviewDragEnterCommand =>
+      _previewDragEnterCommand ?? (_previewDragEnterCommand = new RelayCommand(ExecutePreviewDragEnterCommand));
 
     private ICommand _keyDownCommand;
 
     /// <summary>
     /// KeyDown command
     /// </summary>
-    public ICommand KeyDownCommand => _keyDownCommand ?? (_keyDownCommand = new RelayCommand(ExecuteKeyDownCommand));
+    public ICommand KeyDownCommand =>
+      _keyDownCommand ?? (_keyDownCommand = new RelayCommand(ExecuteKeyDownCommand));
 
     private ICommand _openInEditorCommand;
 
     /// <summary>
     /// Open in editor command
     /// </summary>
-    public ICommand OpenInEditorCommand => _openInEditorCommand ?? (_openInEditorCommand = new RelayCommand(p => FileIsValid, p => ExecuteOpenInEditorCommand()));
+    public ICommand OpenInEditorCommand =>
+      _openInEditorCommand ?? (_openInEditorCommand = new RelayCommand(p => FileIsValid, p => ExecuteOpenInEditorCommand()));
 
     private ICommand _openTailDataFilterCommand;
 
@@ -428,7 +435,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Quick save command
     /// </summary>
-    public IAsyncCommand QuickSaveCommand => _quickSaveCommand ?? (_quickSaveCommand = AsyncCommand.Create(p => CanExecuteQuickSaveCommand(), ExecuteQuickSaveCommandAsync));
+    public IAsyncCommand QuickSaveCommand =>
+      _quickSaveCommand ?? (_quickSaveCommand = AsyncCommand.Create(p => CanExecuteQuickSaveCommand(), ExecuteQuickSaveCommandAsync));
 
     private ICommand _printTailDataCommand;
 
@@ -443,77 +451,89 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Open search dialog command
     /// </summary>
-    public ICommand OpenSearchDialogCommand => _openSearchDialogCommand ?? (_openSearchDialogCommand = new RelayCommand(p => CanExecuteOpenFontDialog(), p => ExecuteOpenSearchDialogCommand()));
+    public ICommand OpenSearchDialogCommand =>
+      _openSearchDialogCommand ?? (_openSearchDialogCommand = new RelayCommand(p => CanExecuteOpenFontDialog(), p => ExecuteOpenSearchDialogCommand()));
 
     private ICommand _openFontDialogCommand;
 
     /// <summary>
     /// Open font dialog command
     /// </summary>
-    public ICommand OpenFontDialogCommand => _openFontDialogCommand ?? (_openFontDialogCommand = new RelayCommand(p => CanExecuteOpenFontDialog(), p => ExecuteOpenFontDialogCommand()));
+    public ICommand OpenFontDialogCommand =>
+      _openFontDialogCommand ?? (_openFontDialogCommand = new RelayCommand(p => CanExecuteOpenFontDialog(), p => ExecuteOpenFontDialogCommand()));
 
     private IAsyncCommand _loadedCommand;
 
     /// <summary>
     /// Loaded command
     /// </summary>
-    public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
+    public IAsyncCommand LoadedCommand =>
+      _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
 
     private ICommand _unloadedCommand;
 
     /// <summary>
     /// Open font dialog command
     /// </summary>
-    public ICommand UnloadedCommand => _unloadedCommand ?? (_unloadedCommand = new RelayCommand(p => ExecuteUnloadedCommand()));
+    public ICommand UnloadedCommand =>
+      _unloadedCommand ?? (_unloadedCommand = new RelayCommand(p => ExecuteUnloadedCommand()));
 
     private IAsyncCommand _deleteHistoryCommand;
 
     /// <summary>
     /// Delete history command
     /// </summary>
-    public IAsyncCommand DeleteHistoryCommand => _deleteHistoryCommand ?? (_deleteHistoryCommand = AsyncCommand.Create(p => CanExecuteDeleteHistoryCommand(), ExecuteDeleteHistoryCommandAsync));
+    public IAsyncCommand DeleteHistoryCommand =>
+      _deleteHistoryCommand ?? (_deleteHistoryCommand = AsyncCommand.Create(p => CanExecuteDeleteHistoryCommand(), ExecuteDeleteHistoryCommandAsync));
 
     private ICommand _clearLogWindowCommand;
 
     /// <summary>
     /// Clear log window command
     /// </summary>
-    public ICommand ClearLogWindowCommand => _clearLogWindowCommand ?? (_clearLogWindowCommand = new RelayCommand(p => CanExecuteClearLogWindowCommand(), p => ExecuteClearLogWindowCommand()));
+    public ICommand ClearLogWindowCommand =>
+      _clearLogWindowCommand ?? (_clearLogWindowCommand = new RelayCommand(p => CanExecuteClearLogWindowCommand(), p => ExecuteClearLogWindowCommand()));
 
     private ICommand _linesRefreshTimeChangedCommand;
 
     /// <summary>
     /// LinesRefreshTimeChanged command
     /// </summary>
-    public ICommand LinesRefreshTimeChangedCommand => _linesRefreshTimeChangedCommand ?? (_linesRefreshTimeChangedCommand = new RelayCommand(ExecuteLinesRefreshTimeChangedCommand));
+    public ICommand LinesRefreshTimeChangedCommand =>
+      _linesRefreshTimeChangedCommand ?? (_linesRefreshTimeChangedCommand = new RelayCommand(ExecuteLinesRefreshTimeChangedCommand));
 
     private ICommand _patternControlCommand;
 
     /// <summary>
     /// Open pattern util command
     /// </summary>
-    public ICommand PatternControlCommand => _patternControlCommand ?? (_patternControlCommand = new RelayCommand(p => FileIsValid, p => ExecutePatternControlCommand()));
+    public ICommand PatternControlCommand =>
+      _patternControlCommand ?? (_patternControlCommand = new RelayCommand(p => FileIsValid, p => ExecutePatternControlCommand()));
 
     private ICommand _smartWatchCommand;
 
     /// <summary>
     /// SmartWatch command
     /// </summary>
-    public ICommand SmartWatchCommand => _smartWatchCommand ?? (_smartWatchCommand = new RelayCommand(p => CanExecuteSmartWatchCommand(), p => ExecuteSmartWatchCommand()));
+    public ICommand SmartWatchCommand =>
+      _smartWatchCommand ?? (_smartWatchCommand = new RelayCommand(p => CanExecuteSmartWatchCommand(), p => ExecuteSmartWatchCommand()));
 
     private ICommand _openWindowsEventsCommand;
 
     /// <summary>
     /// Open Windows events command
     /// </summary>
-    public ICommand OpenWindowsEventsCommand => _openWindowsEventsCommand ?? (_openWindowsEventsCommand = new RelayCommand(p => LogWindowState != EStatusbarState.Busy, p => ExecuteOpenWindowsEventsCommand()));
+    public ICommand OpenWindowsEventsCommand =>
+      _openWindowsEventsCommand ?? (_openWindowsEventsCommand = new RelayCommand(p => LogWindowState != EStatusbarState.Busy,
+        p => ExecuteOpenWindowsEventsCommand()));
 
     private ICommand _openHelpCommand;
 
     /// <summary>
     /// Open help command
     /// </summary>
-    public ICommand OpenHelpCommand => _openHelpCommand ?? (_openHelpCommand = new RelayCommand(p => ExecuteOpenHelpCommand()));
+    public ICommand OpenHelpCommand =>
+      _openHelpCommand ?? (_openHelpCommand = new RelayCommand(p => ExecuteOpenHelpCommand()));
 
     #endregion
 
@@ -984,7 +1004,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void SaveHistoryCompleted(object sender, PropertyChangedEventArgs e)
     {
-      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       OnPropertyChanged(nameof(LogFileHistory));
@@ -992,7 +1012,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void LoadedCompleted(object sender, PropertyChangedEventArgs e)
     {
-      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       if ( SettingsHelperController.CurrentSettings.SaveLogFileHistory )
@@ -1026,7 +1046,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void QuickSaveCompleted(object sender, PropertyChangedEventArgs e)
     {
-      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       CurrentTailData.CommitChanges();
@@ -1116,7 +1136,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnWaitingForTailWorkerSmartWatchPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       if ( CurrentTailData.AutoRun )
