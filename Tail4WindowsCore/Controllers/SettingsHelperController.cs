@@ -52,7 +52,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// Reads current settings
     /// </summary>
     /// <returns>Task</returns>
-    public async Task ReadSettingsAsync() => await ReadSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(5)));
+    public Task ReadSettingsAsync() => ReadSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(5)));
 
     /// <summary>
     /// Reads current settings
@@ -65,12 +65,12 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
       try
       {
-        await AddPropertiesIfNotExistsAsync(cts);
+        var t1 = AddPropertiesIfNotExistsAsync(cts);
+        var t2 = Task.Run(() => ReadSettings(), cts.Token);
+        var t3 = Task.Run(() => ReadUserSettings(), cts.Token);
+        var t4 = RemovePropertiesIfExistsAsync(cts);
 
-        await Task.Run(() => ReadSettings(), cts.Token);
-        await Task.Run(() => ReadUserSettings(), cts.Token);
-
-        await RemovePropertiesIfExistsAsync(cts);
+        await Task.WhenAll(t1, t2, t3, t4);
       }
       finally
       {
@@ -78,18 +78,18 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
     }
 
-    private async Task AddPropertiesIfNotExistsAsync(CancellationTokenSource cts)
+    private Task AddPropertiesIfNotExistsAsync(CancellationTokenSource cts)
     {
       var settings = new Dictionary<string, string>
       {
         {"Portable", DefaultEnvironmentSettings.IsPortable.ToString()}
       };
 
-      await AddNewPropertyAsync(settings, cts);
+      return AddNewPropertyAsync(settings, cts);
     }
 
     [Obsolete("Will removed as soon as possible")]
-    private async Task RemovePropertiesIfExistsAsync(CancellationTokenSource cts)
+    private Task RemovePropertiesIfExistsAsync(CancellationTokenSource cts)
     {
       var settings = new[]
       {
@@ -172,7 +172,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         "SmartWatch.SmartWatchInterval"
       };
 
-      await RemoveObsoletePropertiesAsync(settings, cts.Token);
+      return RemoveObsoletePropertiesAsync(settings, cts.Token);
     }
 
     [Obsolete("Will removed as soon as possible")]
@@ -250,7 +250,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           return;
         }
 
-        using ( StreamReader sr = File.OpenText(CoreEnvironment.ApplicationSettingsFile) )
+        using ( var sr = File.OpenText(CoreEnvironment.ApplicationSettingsFile) )
         {
           var serializer = new JsonSerializer();
           CurrentSettings = (EnvironmentSettings) serializer.Deserialize(sr, typeof(EnvironmentSettings));
@@ -279,8 +279,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
       try
       {
-        await Task.Run(() => SaveSettings(), cts.Token);
-        await Task.Run(() => SaveUserSettings(), cts.Token);
+        var t1 = Task.Run(() => SaveSettings(), cts.Token);
+        var t2 = Task.Run(() => SaveUserSettings(), cts.Token);
+
+        await Task.WhenAll(t1, t2);
       }
       finally
       {
@@ -293,12 +295,12 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task SetDefaultColorsAsync(CancellationTokenSource cts)
+    public Task SetDefaultColorsAsync(CancellationTokenSource cts)
     {
       SetDefaultLogViewerSettings();
       SetDefaultStatusBarSettings();
 
-      await SaveSettingsAsync(cts);
+      return SaveSettingsAsync(cts);
     }
 
     [Obsolete("Will removed as soon as possible")]
@@ -308,7 +310,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       {
         LOG.Trace($"Save {CoreEnvironment.ApplicationTitle} settings");
 
-        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
         if ( config.AppSettings.Settings.Count <= 0 )
           return;
@@ -330,7 +332,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       {
         LOG.Trace($"Save {CoreEnvironment.ApplicationTitle} user settings");
 
-        using ( FileStream fs = File.Open(CoreEnvironment.ApplicationSettingsFile, FileMode.OpenOrCreate) )
+        using ( var fs = File.Open(CoreEnvironment.ApplicationSettingsFile, FileMode.OpenOrCreate) )
         using ( var sw = new StreamWriter(fs) )
         using ( JsonWriter jw = new JsonTextWriter(sw) )
         {
@@ -358,7 +360,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task SetDefaultSettingsAsync(CancellationTokenSource cts) => await Task.Run(() => SetDefaultSettings(), cts.Token).ConfigureAwait(false);
+    public Task SetDefaultSettingsAsync(CancellationTokenSource cts) => Task.Run(() => SetDefaultSettings(), cts.Token);
 
     private void SetDefaultSettings()
     {
@@ -508,8 +510,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <param name="settings">List of configuration pair</param>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task AddNewPropertyAsync(Dictionary<string, string> settings, CancellationTokenSource cts) =>
-      await Task.Run(() => AddNewProperty(settings), cts.Token);
+    public Task AddNewPropertyAsync(Dictionary<string, string> settings, CancellationTokenSource cts) =>
+      Task.Run(() => AddNewProperty(settings), cts.Token);
 
     private void AddNewProperty(Dictionary<string, string> settings)
     {
@@ -520,7 +522,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
       try
       {
-        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+        var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
         foreach ( var pair in settings )
         {

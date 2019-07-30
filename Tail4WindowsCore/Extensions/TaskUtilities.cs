@@ -21,7 +21,7 @@ namespace Org.Vs.TailForWin.Core.Extensions
     {
       try
       {
-        await task;
+        await task.ConfigureAwait(false);
       }
       catch ( Exception ex )
       {

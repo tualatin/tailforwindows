@@ -615,17 +615,20 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         HighlightData = null;
         OnPropertyChanged(nameof(HighlightData));
 
-        new ThrottledExecution().InMs(15).Do(() =>
+        using ( var execute = new ThrottledExecution() )
         {
-          Dispatcher.InvokeAsync(() =>
+          execute.InMs(15).Do(() =>
           {
-            LogWindowMainElement.RemoveAllBookmarks();
-            EnvironmentContainer.Instance.BookmarkManager.ClearBookmarkDataSource();
+            Dispatcher.InvokeAsync(() =>
+            {
+              LogWindowMainElement.RemoveAllBookmarks();
+              EnvironmentContainer.Instance.BookmarkManager.ClearBookmarkDataSource();
 
-            LogCollectionView.Filter = DynamicFilterAsync;
-            LogWindowMainElement.ScrollToEnd();
+              LogCollectionView.Filter = DynamicFilterAsync;
+              LogWindowMainElement.ScrollToEnd();
+            });
           });
-        });
+        }
         break;
 
       case "Wrap":
@@ -1314,7 +1317,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
             // Handle AutoBookmark
             if ( filterData.IsAutoBookmark )
-              await HandleAutoBookmarkAsync(filterData, logEntry);
+              HandleAutoBookmark(filterData, logEntry);
 
             result = true;
             break;
@@ -1344,7 +1347,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
             // If not FilterSource is defined, handle AutoBookmark here
             if ( filterSource.Count == 0 && filterData.IsAutoBookmark )
-              await HandleAutoBookmarkAsync(filterData, logEntry);
+              HandleAutoBookmark(filterData, logEntry);
 
             if ( HighlightData == null )
               HighlightData = new List<TextHighlightData>();
@@ -1394,11 +1397,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
     }
 
-    private async Task HandleAutoBookmarkAsync(FilterData filterData, LogEntry item)
+    private void HandleAutoBookmark(FilterData filterData, LogEntry item)
     {
       LOG.Debug("* * * * * * * * HandleAutoBookmark * * * * * * * *");
 
-      await Dispatcher.InvokeAsync(() =>
+      Dispatcher.InvokeAsync(() =>
       {
         item.BookmarkPoint = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Auto_Bookmark.png");
         item.BookmarkToolTip = string.IsNullOrWhiteSpace(filterData.AutoBookmarkComment) ? "Auto Bookmark" : filterData.AutoBookmarkComment;
@@ -1511,14 +1514,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       string message = Application.Current.TryFindResource("FilterManagerNotificationInformation").ToString();
-      var alertPopUp = new FancyNotificationPopUp
+
+      Dispatcher.InvokeAsync(() =>
       {
-        Height = 100,
-        Width = 300,
-        PopUpAlert = CurrentTailData.File,
-        PopUpAlertDetail = string.Format(message, time.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat), string.Join("\n\t", notifications))
-      };
-      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowNotificationPopUpMessage(alertPopUp));
+        var alertPopUp = new FancyNotificationPopUp { Height = 100, Width = 300, PopUpAlert = CurrentTailData.File, PopUpAlertDetail = string.Format(message, time.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat), string.Join("\n\t", notifications)) };
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowNotificationPopUpMessage(alertPopUp));
+      });
     }
 
     /// <summary>

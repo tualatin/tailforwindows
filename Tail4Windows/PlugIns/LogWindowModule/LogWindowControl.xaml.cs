@@ -64,7 +64,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Current lock time span in milliseconds
     /// </summary>
-    private const int LockTimeSpanIsMs = 300;
+    private const int LockTimeSpanInMs = 300;
+
+    /// <summary>
+    /// Current wait time span in milliseconds
+    /// </summary>
+    private const int WaitTimeSpanInMs = 50;
 
     private CancellationTokenSource _cts;
     private readonly PrintController _printerController;
@@ -589,15 +594,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       MouseService.SetBusyState();
 
-      await _historyController.DeleteHistoryAsync(_logFileHistory, _cts.Token).ContinueWith(p =>
-      {
-        if ( !p.Result )
-        {
-          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryConvertXmlToJsonError").ToString());
-        }
+      var result = await _historyController.DeleteHistoryAsync(_logFileHistory, _cts.Token).ConfigureAwait(false);
 
-        _logFileHistory = _historyController.ReadHistoryAsync(_cts.Token).Result;
-      }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
+      if ( !result )
+      {
+        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryConvertXmlToJsonError").ToString());
+      }
+
+      _logFileHistory = await _historyController.ReadHistoryAsync(_cts.Token).ConfigureAwait(false);
     }
 
     private async Task ExecuteLoadedCommandAsync()
@@ -671,7 +675,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteClearLogWindowCommand()
     {
-      if ( Monitor.TryEnter(LogWindowControlLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      if ( Monitor.TryEnter(LogWindowControlLock, TimeSpan.FromMilliseconds(LockTimeSpanInMs)) )
       {
         try
         {
@@ -706,15 +710,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       MouseService.SetBusyState();
       SetCancellationTokenSource();
 
-      await _fileManagerController.ReadJsonFileAsync(_cts.Token).ContinueWith(p =>
-      {
-        var success = _fileManagerController.UpdateTailDataAsync(CurrentTailData, _cts.Token, p.Result).Result;
+      var data = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
+      var success = await _fileManagerController.UpdateTailDataAsync(CurrentTailData, _cts.Token, data).ConfigureAwait(false);
 
-        if ( !success )
-        {
-          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerSaveItemsError").ToString());
-        }
-      }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
+      if ( !success )
+      {
+        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FileManagerSaveItemsError").ToString());
+      }
     }
 
     private void ExecuteOpenTailDataFilterCommand()
@@ -779,15 +781,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       MouseService.SetBusyState();
       SetCancellationTokenSource();
 
-      await _historyController.UpdateHistoryAsync(_logFileHistory, CurrentTailData.FileName, _cts.Token).ContinueWith(p =>
-      {
-        if ( !p.Result )
-        {
-          InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryConvertXmlToJsonError").ToString());
-        }
+      var result = await _historyController.UpdateHistoryAsync(_logFileHistory, CurrentTailData.FileName, _cts.Token).ConfigureAwait(false);
 
-        _logFileHistory = _historyController.ReadHistoryAsync(_cts.Token).Result;
-      }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
+      if ( !result )
+      {
+        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("HistoryConvertXmlToJsonError").ToString());
+      }
+
+      _logFileHistory = await _historyController.ReadHistoryAsync(_cts.Token).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -912,7 +913,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       if ( !CurrentTailData.OpenFromFileManager || !Equals(SelectedItem, CurrentTailData.FileName) )
       {
-        Encoding fileEncoding = EncodingDetector.GetEncodingAsync(SelectedItem).Result;
+        var fileEncoding = EncodingDetector.GetEncodingAsync(SelectedItem).Result;
         CurrentTailData = new TailData
         {
           FileName = SelectedItem,
@@ -1119,31 +1120,27 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         NotifyTaskCompletion.Create(ExecuteStartTailCommandAsync());
     }
 
-    private async Task WaitingForTailWorkerAsync()
-    {
-      await Task.Run(() =>
+    private Task WaitingForTailWorkerAsync() =>
+      Task.Run(() =>
       {
         while ( TailReader.IsBusy )
         {
-          Task.Delay(TimeSpan.FromMilliseconds(50));
+          Task.Delay(TimeSpan.FromMilliseconds(WaitTimeSpanInMs));
         }
-      }).ConfigureAwait(false);
-    }
+      });
 
-    private async Task WaitingForWorkersAsync()
-    {
-      await Task.Run(() =>
+    private Task WaitingForWorkersAsync() =>
+      Task.Run(() =>
       {
         while ( TailReader.IsBusy || TailReader.SmartWatch.IsBusy )
         {
-          Task.Delay(TimeSpan.FromMilliseconds(50));
+          Task.Delay(TimeSpan.FromMilliseconds(WaitTimeSpanInMs));
         }
-      }).ConfigureAwait(false);
-    }
+      });
 
     private static void CreateDragWindow(TailData tailData, Window window)
     {
-      if ( Monitor.TryEnter(LogWindowControlLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      if ( Monitor.TryEnter(LogWindowControlLock, TimeSpan.FromMilliseconds(LockTimeSpanInMs)) )
       {
         try
         {
@@ -1152,7 +1149,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           {
             CurrentTailData = tailData
           };
-          DragSupportTabItem tabItem = UiHelper.CreateDragSupportTabItem(tailData.File, tailData.FileName, Visibility.Collapsed, content);
+          var tabItem = UiHelper.CreateDragSupportTabItem(tailData.File, tailData.FileName, Visibility.Collapsed, content);
           DragWindow dragWindow = DragWindow.CreateTabWindow(window.Left + offset, window.Top + offset, window.Width, window.Height, tabItem);
 
           // Unregister tab item, we do not need it again!
@@ -1250,7 +1247,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         }
       }
 
-      if ( Monitor.TryEnter(LogWindowControlLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      if ( Monitor.TryEnter(LogWindowControlLock, TimeSpan.FromMilliseconds(LockTimeSpanInMs)) )
       {
         try
         {
@@ -1404,11 +1401,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       };
       goToLine.ShowDialog();
 
-      new ThrottledExecution().InMs(100).Do(() =>
+      using ( var execute = new ThrottledExecution() )
       {
-        // Unregister message, we do not need it again!
-        EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<GoToLineMessage>(OnGoToLine);
-      });
+        execute.InMs(100).Do(() =>
+        {
+          // Unregister message, we do not need it again!
+          EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<GoToLineMessage>(OnGoToLine);
+
+        });
+      }
     }
 
     private void OnGoToLine(GoToLineMessage args)

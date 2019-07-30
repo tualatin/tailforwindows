@@ -16,7 +16,6 @@ using log4net;
 using Org.Vs.TailForWin.BaseView.Interfaces;
 using Org.Vs.TailForWin.Business.DbEngine.Controllers;
 using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
-using Org.Vs.TailForWin.Business.Services.Interfaces;
 using Org.Vs.TailForWin.Business.StatisticEngine.Controllers;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data;
 using Org.Vs.TailForWin.Business.StatisticEngine.Data.Messages;
@@ -37,6 +36,7 @@ using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Enums;
+using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
@@ -498,11 +498,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// Move some user files to new TailStore
     /// </summary>
     /// <see cref="Task"/>
-    public async Task MoveUserFilesToTailStoreAsync()
+    public Task MoveUserFilesToTailStoreAsync()
     {
       LOG.Info("Try to move old user settings");
 
-      await Task.Run(() =>
+      return Task.Run(() =>
       {
         try
         {
@@ -522,7 +522,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
-      }).ConfigureAwait(false);
+      });
     }
 
     #region Commands
@@ -608,14 +608,17 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteExitApplication()
     {
-      new ThrottledExecution().InMs(220).Do(() =>
+      using ( var execute = new ThrottledExecution() )
       {
-        Application.Current.Dispatcher.Invoke(() =>
+        execute.InMs(220).Do(() =>
         {
-          if ( Application.Current.MainWindow != null )
-            Application.Current.MainWindow.Close();
+          Application.Current.Dispatcher.InvokeAsync(() =>
+          {
+            if ( Application.Current.MainWindow != null )
+              Application.Current.MainWindow.Close();
+          });
         });
-      });
+      }
     }
 
     private void ExecuteCloseTabItemCommand()
@@ -677,8 +680,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       LOG.Trace($"{CoreEnvironment.ApplicationTitle} startup completed!");
 
-      Task cleanGcTask = CleanGarbageCollectorAsync();
-      Task autoUpdateTask = AutoUpdateAsync();
+      var cleanGcTask = CleanGarbageCollectorAsync();
+      var autoUpdateTask = AutoUpdateAsync();
 
       await Task.WhenAll(cleanGcTask, autoUpdateTask).ConfigureAwait(false);
     }
@@ -1038,7 +1041,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void OnChangeSelectedTabItem(ChangeSelectedTabItemMessage args)
     {
-      DragSupportTabItem result = UiHelper.GetTabItemList().FirstOrDefault(p => ((ILogWindowControl) p.Content).WindowId == args.WindowId);
+      var result = UiHelper.GetTabItemList().FirstOrDefault(p => ((ILogWindowControl) p.Content).WindowId == args.WindowId);
 
       if ( result == null )
         return;
@@ -1256,7 +1259,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       while ( !_cts.IsCancellationRequested )
       {
-        UpdateData result = await updateController.UpdateNecessaryAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token,
+        var result = await updateController.UpdateNecessaryAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token,
           System.Reflection.Assembly.GetExecutingAssembly().GetName().Version).ConfigureAwait(false);
 
         if ( !result.Update || staThread != null && staThread.ThreadState == ThreadState.Background )
@@ -1265,43 +1268,36 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
           continue;
         }
 
-        new ThrottledExecution().InMs(5000).Do(() =>
+        using ( var execute = new ThrottledExecution() )
         {
-          staThread = new Thread(() =>
+          execute.InMs(5000).Do(() =>
           {
-            Dispatcher.CurrentDispatcher.Invoke(() =>
+            staThread = new Thread(() =>
             {
-              var updateDialog = new AutoUpdatePopUp
+              Dispatcher.CurrentDispatcher.Invoke(() =>
               {
-                ApplicationVersion = result.ApplicationVersion.ToString(),
-                WebVersion = result.WebVersion.ToString(),
-                UpdateHint = Application.Current.TryFindResource("UpdateControlUpdateExits").ToString()
-              };
+                var updateDialog = new AutoUpdatePopUp { ApplicationVersion = result.ApplicationVersion.ToString(), WebVersion = result.WebVersion.ToString(), UpdateHint = Application.Current.TryFindResource("UpdateControlUpdateExits").ToString() };
 
-              var wnd = new Window
-              {
-                Visibility = Visibility.Hidden,
-                WindowState = WindowState.Minimized,
-                ShowInTaskbar = false
-              };
+                var wnd = new Window { Visibility = Visibility.Hidden, WindowState = WindowState.Minimized, ShowInTaskbar = false };
 
-              wnd.Show();
-              updateDialog.Owner = wnd;
-              updateDialog.ShowDialog();
-            }, DispatcherPriority.Normal);
-          })
-          {
-            Name = $"{CoreEnvironment.ApplicationTitle}_AutoUpdateThread",
-            IsBackground = true
-          };
+                wnd.Show();
+                updateDialog.Owner = wnd;
+                updateDialog.ShowDialog();
+              }, DispatcherPriority.Normal);
+            })
+            {
+              Name = $"{CoreEnvironment.ApplicationTitle}_AutoUpdateThread",
+              IsBackground = true
+            };
 
-          if ( staThread == null )
-            return;
+            if ( staThread == null )
+              return;
 
-          staThread.SetApartmentState(ApartmentState.STA);
-          staThread.Start();
-          staThread.Join();
-        });
+            staThread.SetApartmentState(ApartmentState.STA);
+            staThread.Start();
+            staThread.Join();
+          });
+        }
 
         await Task.Delay(TimeSpan.FromDays(1), _cts.Token).ConfigureAwait(false);
       }
@@ -1351,40 +1347,41 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
-    private async Task DeleteLogFilesAsync()
+    private Task DeleteLogFilesAsync()
     {
       LOG.Trace($"Delete log files older than {SettingsHelperController.CurrentSettings.LogFilesOlderThan} days...");
 
-      if ( !Directory.Exists("logs") )
-        return;
-
-      var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
-
-      await Task.Run(() =>
+      using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2)) )
       {
-        try
+        return Task.Run(() =>
         {
-          var files = new DirectoryInfo("logs").GetFiles("*.log");
+          if ( !Directory.Exists("logs") )
+            return;
 
-          Parallel.ForEach(
-            files.Where(p => DateTime.Now - p.LastWriteTimeUtc > TimeSpan.FromDays(SettingsHelperController.CurrentSettings.LogFilesOlderThan)),
-            new ParallelOptions { CancellationToken = cts.Token }, item =>
+          try
           {
-            try
-            {
-              item.Delete();
-            }
-            catch ( Exception ex )
-            {
-              LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-            }
-          });
-        }
-        catch ( Exception ex )
-        {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-        }
-      }, cts.Token).ConfigureAwait(false);
+            var files = new DirectoryInfo("logs").GetFiles("*.log");
+
+            Parallel.ForEach(
+              files.Where(p => DateTime.Now - p.LastWriteTimeUtc > TimeSpan.FromDays(SettingsHelperController.CurrentSettings.LogFilesOlderThan)),
+              new ParallelOptions { CancellationToken = cts.Token }, item =>
+                {
+                  try
+                  {
+                    item.Delete();
+                  }
+                  catch ( Exception ex )
+                  {
+                    LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+                  }
+                });
+          }
+          catch ( Exception ex )
+          {
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          }
+        }, cts.Token);
+      }
     }
 
     private void ColorSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -1407,12 +1404,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
         _statisticController.Start();
 
-        foreach ( DragSupportTabItem item in UiHelper.GetTabItemList() )
+        foreach ( var item in UiHelper.GetTabItemList() )
         {
           if ( item.TabItemBusyIndicator != Visibility.Visible || !(item.Content is ILogWindowControl control) )
             continue;
 
-          ILogReadService readService = control.TailReader;
+          var readService = control.TailReader;
           var data = new StatisticData(
             readService.LogReaderId,
             readService.Index,
@@ -1429,11 +1426,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
       else if ( !SettingsHelperController.CurrentSettings.Statistics && _statisticController.IsBusy )
       {
-        NotifyTaskCompletion.Create(StopStatisticAsync);
+        StopStatisticAsync().SafeAwait();
       }
     }
 
-    private async Task StopStatisticAsync() => await _statisticController.StopAsync().ConfigureAwait(false);
+    private Task StopStatisticAsync() => _statisticController.StopAsync();
 
     private void SetCurrentBusinessData()
     {

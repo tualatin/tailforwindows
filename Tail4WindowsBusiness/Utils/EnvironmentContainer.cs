@@ -173,42 +173,42 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// Read current settings
     /// </summary>
     /// <returns>Task</returns>
-    public async Task ReadSettingsAsync() => await _settings.ReadSettingsAsync();
+    public Task ReadSettingsAsync() => _settings.ReadSettingsAsync();
 
     /// <summary>
     /// Read current settings
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task ReadSettingsAsync(CancellationTokenSource cts) => await _settings.ReadSettingsAsync(cts);
+    public Task ReadSettingsAsync(CancellationTokenSource cts) => _settings.ReadSettingsAsync(cts);
 
     /// <summary>
     /// Save current settings
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task SaveSettingsAsync(CancellationTokenSource cts) => await _settings.SaveSettingsAsync(cts);
+    public Task SaveSettingsAsync(CancellationTokenSource cts) => _settings.SaveSettingsAsync(cts);
 
     /// <summary>
     /// Reload settings from config file
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task ReloadSettingsAsync(CancellationTokenSource cts) => await _settings.ReloadCurrentSettingsAsync(cts);
+    public Task ReloadSettingsAsync(CancellationTokenSource cts) => _settings.ReloadCurrentSettingsAsync(cts);
 
     /// <summary>
     /// Reset current setting to default values
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task ResetCurrentSettingsAsync(CancellationTokenSource cts) => await _settings.SetDefaultSettingsAsync(cts);
+    public Task ResetCurrentSettingsAsync(CancellationTokenSource cts) => _settings.SetDefaultSettingsAsync(cts);
 
     /// <summary>
     /// Reset current color settings
     /// </summary>
     /// <param name="cts"><see cref="CancellationTokenSource"/></param>
     /// <returns>Task</returns>
-    public async Task SetDefaultColorsAsync(CancellationTokenSource cts) => await _settings.SetDefaultColorsAsync(cts);
+    public Task SetDefaultColorsAsync(CancellationTokenSource cts) => _settings.SetDefaultColorsAsync(cts);
 
     /// <summary>
     /// Current installed .NET version
@@ -339,97 +339,94 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// Init all collections
     /// </summary>
     /// <returns>Task</returns>
-    private async Task InitializeObservableCollectionsAsync()
-    {
-      await Task.Run(
-        () =>
+    private Task InitializeObservableCollectionsAsync() =>
+      Task.Run(() =>
+      {
+        // ThreadRefresh rate
+        foreach ( ETailRefreshRate refreshName in Enum.GetValues(typeof(ETailRefreshRate)) )
         {
-          // ThreadRefresh rate
-          foreach ( ETailRefreshRate refreshName in Enum.GetValues(typeof(ETailRefreshRate)) )
-          {
-            RefreshRate.Add(
-              new RefreshRateMapping
-              {
-                RefreshRate = refreshName
-              });
-          }
-
-          // ThreadPriority
-          foreach ( ThreadPriority priority in Enum.GetValues(typeof(ThreadPriority)) )
-          {
-            ThreadPriority.Add(
-              new ThreadPriorityMapping
-              {
-                ThreadPriority = priority
-              });
-          }
-
-          // DateFormat
-          foreach ( EDateFormat format in Enum.GetValues(typeof(EDateFormat)) )
-          {
-            DateFormat.Add(
-              new DateFormatMapping
-              {
-                DateFormat = format
-              });
-          }
-
-          // TimeFormat
-          foreach ( ETimeFormat format in Enum.GetValues(typeof(ETimeFormat)) )
-          {
-            TimeFormat.Add(
-              new TimeFormatMapping
-              {
-                TimeFormat = format
-              });
-          }
-
-          // Languages
-          var languages = new ObservableCollection<LanguageMapping>();
-
-          foreach ( EUiLanguage language in Enum.GetValues(typeof(EUiLanguage)) )
-          {
-            languages.Add(
-              new LanguageMapping
-              {
-                Language = language
-              });
-          }
-
-          Languages = new ObservableCollection<LanguageMapping>(languages.OrderBy(p => p.Description));
-
-          // WindowStyle
-          foreach ( EWindowStyle style in Enum.GetValues(typeof(EWindowStyle)) )
-          {
-            WindowStyles.Add(new WindowStyleMapping
+          RefreshRate.Add(
+            new RefreshRateMapping
             {
-              WindowStyle = style
+              RefreshRate = refreshName
             });
-          }
+        }
 
-          // FileSort
-          foreach ( EFileSort fileSort in Enum.GetValues(typeof(EFileSort)) )
-          {
-            FileSort.Add(new FileSortMapping
+        // ThreadPriority
+        foreach ( ThreadPriority priority in Enum.GetValues(typeof(ThreadPriority)) )
+        {
+          ThreadPriority.Add(
+            new ThreadPriorityMapping
             {
-              FileSort = fileSort
+              ThreadPriority = priority
             });
-          }
+        }
 
-          foreach ( ESmartWatchMode smMode in Enum.GetValues(typeof(ESmartWatchMode)) )
-          {
-            SmartWatchModes.Add(new SmartWatchMapping
+        // DateFormat
+        foreach ( EDateFormat format in Enum.GetValues(typeof(EDateFormat)) )
+        {
+          DateFormat.Add(
+            new DateFormatMapping
             {
-              SmartWatchMode = smMode
+              DateFormat = format
             });
-          }
+        }
 
-          // File encoding
-          var encodings = Encoding.GetEncodings();
-          Array.Sort(encodings, new CaseInsensitiveEncodingInfoNameComparer());
-          Array.ForEach(encodings, fileEncode => FileEncoding.Add(fileEncode.GetEncoding()));
-        });
-    }
+        // TimeFormat
+        foreach ( ETimeFormat format in Enum.GetValues(typeof(ETimeFormat)) )
+        {
+          TimeFormat.Add(
+            new TimeFormatMapping
+            {
+              TimeFormat = format
+            });
+        }
+
+        // Languages
+        var languages = new ObservableCollection<LanguageMapping>();
+
+        foreach ( EUiLanguage language in Enum.GetValues(typeof(EUiLanguage)) )
+        {
+          languages.Add(
+            new LanguageMapping
+            {
+              Language = language
+            });
+        }
+
+        Languages = new ObservableCollection<LanguageMapping>(languages.OrderBy(p => p.Description));
+
+        // WindowStyle
+        foreach ( EWindowStyle style in Enum.GetValues(typeof(EWindowStyle)) )
+        {
+          WindowStyles.Add(new WindowStyleMapping
+          {
+            WindowStyle = style
+          });
+        }
+
+        // FileSort
+        foreach ( EFileSort fileSort in Enum.GetValues(typeof(EFileSort)) )
+        {
+          FileSort.Add(new FileSortMapping
+          {
+            FileSort = fileSort
+          });
+        }
+
+        foreach ( ESmartWatchMode smMode in Enum.GetValues(typeof(ESmartWatchMode)) )
+        {
+          SmartWatchModes.Add(new SmartWatchMapping
+          {
+            SmartWatchMode = smMode
+          });
+        }
+
+        // File encoding
+        var encodings = Encoding.GetEncodings();
+        Array.Sort(encodings, new CaseInsensitiveEncodingInfoNameComparer());
+        Array.ForEach(encodings, fileEncode => FileEncoding.Add(fileEncode.GetEncoding()));
+      });
 
     #region CaseInsentiveEncodingInfoNameComparer
 

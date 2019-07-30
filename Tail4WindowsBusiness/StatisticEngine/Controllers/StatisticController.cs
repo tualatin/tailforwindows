@@ -191,10 +191,10 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
     #region HelperFunctions
 
-    private async Task AddFileToCurrentSessionAsync(StatisticData data)
+    private Task AddFileToCurrentSessionAsync(StatisticData data)
     {
       AddFileToQueue(data);
-      await StartFileQueueAsync();
+      return StartFileQueueAsync();
     }
 
     private async Task StartFileQueueAsync()
@@ -209,7 +209,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
         {
           var sessionEntity = GetSessionEntity(db);
-          SessionEntity existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
+          var existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
 
           while ( existsSession == null )
           {
@@ -226,7 +226,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       }
     }
 
-    private async Task WorkingQueueAsync() => await Task.Run(() =>
+    private Task WorkingQueueAsync() => Task.Run(() =>
     {
       if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
@@ -236,7 +236,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
           {
             var sessionEntity = GetSessionEntity(db);
             var fileEntity = GetFileEntity(db);
-            SessionEntity existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
+            var existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
 
             if ( existsSession == null )
               return;
@@ -244,7 +244,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             while ( _fileQueue.Peek() != null )
             {
               var temp = _fileQueue.Dequeue();
-              FileEntity file = fileEntity
+              var file = fileEntity
                                   .Include(p => p.Session)
                                   .FindAll()
                                   .FirstOrDefault(p => p.Session.Session == SessionId && (p.LogReaderId == temp.LogReaderId || temp.FileName == p.FileName)) ?? new FileEntity
@@ -287,7 +287,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       }
     }, _cts.Token);
 
-    private async Task SaveAllValuesIntoDatabaseAsync() => await Task.Run(() =>
+    private Task SaveAllValuesIntoDatabaseAsync() => Task.Run(() =>
     {
       UpdateSession();
 
@@ -295,7 +295,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       {
         try
         {
-          TimeSpan upTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
+          var upTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
 
           if ( upTime.Hours < 1 )
           {
@@ -303,7 +303,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             {
               var sessionEntity = GetSessionEntity(db);
               var fileEntity = GetFileEntity(db);
-              SessionEntity existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
+              var existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
 
               if ( existsSession != null )
               {
@@ -382,7 +382,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
           using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
           {
             var sessionEntity = GetSessionEntity(db);
-            SessionEntity session = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId) ?? new SessionEntity
+            var session = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId) ?? new SessionEntity
             {
               Session = SessionId,
               Date = DateTime.Now
@@ -405,7 +405,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       }
     }
 
-    private async Task RemoveOldSessionsAsync() => await Task.Run(() =>
+    private Task RemoveOldSessionsAsync() => Task.Run(() =>
     {
       if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {
@@ -450,7 +450,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       }
     }, _cts.Token);
 
-    private async Task RemoveInvalidSessionsAsync() => await Task.Run(() =>
+    private Task RemoveInvalidSessionsAsync() => Task.Run(() =>
     {
       if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
       {

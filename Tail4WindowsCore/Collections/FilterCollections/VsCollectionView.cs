@@ -39,7 +39,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     private readonly SemaphoreSlim _semaphoreLock;
     private readonly SemaphoreSlim _semaphoreEstablishQueueLock;
     private ConcurrentQueue<T> _collectionQueue;
-    private HashSet<T> _internalCollection;
+    private readonly HashSet<T> _internalCollection;
     private bool _isFilteringStarted;
 
     /// <summary>
@@ -220,14 +220,16 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 
       try
       {
-        foreach ( object item in collection )
+        await Task.Run(() =>
         {
-          if ( !(item is T i) )
-            continue;
+          foreach ( object item in collection )
+          {
+            if ( !(item is T i) )
+              continue;
 
-          _collectionQueue.Enqueue(i);
-        }
-
+            _collectionQueue.Enqueue(i);
+          }
+        }, _cts.Token);
         await RefreshInternalAsync();
       }
       finally
@@ -292,29 +294,25 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
             }
             else
             {
-              await Task.Run(() =>
-              {
-                count++;
+              count++;
 
-                if ( Filter(item).Result )
-                {
-                  _internalCollection.Add(item);
-                }
-              }, _cts.Token).ContinueWith(p =>
+              if ( await Filter(item) )
               {
-                if ( count < PagingSize )
-                  return;
+                _internalCollection.Add(item);
+              }
 
-                AddToFilteredCollection(count, page).ConfigureAwait(true);
-                count = 0;
-                page++;
-              }, _cts.Token);
+              if ( count < PagingSize )
+                continue;
+
+              AddToFilteredCollection(count, page);
+              count = 0;
+              page++;
             }
           }
 
           if ( Filter != null )
           {
-            await AddToFilteredCollection(count, page);
+            AddToFilteredCollection(count, page);
 
             _isFilteringStarted = false;
             FilteringCompleted?.Invoke(this, new FilterEventArgs(true, sw.ElapsedMilliseconds));
@@ -328,9 +326,9 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
       }
     }
 
-    private async Task AddToFilteredCollection(int currentCount, int page)
+    private void AddToFilteredCollection(int currentCount, int page)
     {
-      await Application.Current.Dispatcher.InvokeAsync(() =>
+      Application.Current.Dispatcher.InvokeAsync(() =>
       {
         var start = page * PagingSize;
 

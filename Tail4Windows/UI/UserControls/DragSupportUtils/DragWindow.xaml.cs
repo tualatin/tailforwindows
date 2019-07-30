@@ -728,10 +728,13 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       };
       AddTabItem(args.TailData.File, args.TailData.FileName, Visibility.Collapsed, content: content);
 
-      new ThrottledExecution().InMs(100).Do(() =>
+      using ( var execute = new ThrottledExecution() )
       {
-        EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataAsNewTabItem>(OnOpenTailDataAsNewTabItem);
-      });
+        execute.InMs(100).Do(() =>
+        {
+          EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataAsNewTabItem>(OnOpenTailDataAsNewTabItem);
+        });
+      }
     }
 
     private void DragWindowOnActivated(object sender, EventArgs e)

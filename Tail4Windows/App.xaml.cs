@@ -18,7 +18,6 @@ using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
-using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 using Org.Vs.TailForWin.UI.Utils;
 
 
@@ -128,7 +127,7 @@ namespace Org.Vs.TailForWin
       if ( string.IsNullOrWhiteSpace(arg) )
         return;
 
-      Match match = Regex.Match(arg, @"/id=");
+      var match = Regex.Match(arg, @"/id=");
 
       if ( match.Success )
       {
@@ -162,7 +161,7 @@ namespace Org.Vs.TailForWin
 
     private void OpenTailManagerEntryById(string guid)
     {
-      Match id = Regex.Match(guid, @"^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$");
+      var id = Regex.Match(guid, @"^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$");
 
       if ( !id.Success )
         return;
@@ -205,7 +204,7 @@ namespace Org.Vs.TailForWin
       if ( task.Result == null )
         return;
 
-      DragSupportTabItem firstTab = UiHelper.TabItemList.FirstOrDefault();
+      var firstTab = UiHelper.TabItemList.FirstOrDefault();
 
       if ( !(firstTab?.Content is ILogWindowControl myControl) )
         return;
@@ -218,18 +217,22 @@ namespace Org.Vs.TailForWin
       if ( !File.Exists(fileName) )
         return;
 
-      new ThrottledExecution().InMs(500).Do(() =>
+      using ( var execute = new ThrottledExecution() )
       {
-        Current.Dispatcher.InvokeAsync(() =>
+        execute.InMs(500).Do(() =>
         {
-          DragSupportTabItem firstTab = UiHelper.TabItemList.FirstOrDefault();
+          Current.Dispatcher.InvokeAsync(() =>
+          {
+            var firstTab = UiHelper.TabItemList.FirstOrDefault();
 
-          if ( !(firstTab?.Content is ILogWindowControl myControl) )
-            return;
+            if ( !(firstTab?.Content is ILogWindowControl myControl) )
+              return;
 
-          myControl.SelectedItem = fileName;
+            myControl.SelectedItem = fileName;
+          });
+
         });
-      });
+      }
     }
 
     private static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e) =>

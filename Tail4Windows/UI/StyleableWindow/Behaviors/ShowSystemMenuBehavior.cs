@@ -110,11 +110,14 @@ namespace Org.Vs.TailForWin.UI.StyleableWindow.Behaviors
       }
 
       // Throttled execution to set leftButtonToggle to true again...
-      new ThrottledExecution().InMs(250).Do(() =>
+      using ( var execute = new ThrottledExecution() )
       {
-        if ( !leftButtonToggle )
-          leftButtonToggle = true;
-      });
+        execute.InMs(250).Do(() =>
+        {
+          if ( !leftButtonToggle )
+            leftButtonToggle = true;
+        });
+      }
     }
 
     #endregion
