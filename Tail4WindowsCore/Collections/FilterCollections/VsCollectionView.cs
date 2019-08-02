@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -35,12 +36,13 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     /// </summary>
     private const int PagingSize = 1000;
 
-    private readonly CancellationTokenSource _cts;
+    private readonly CancellationTokenSource _disposeCts = new CancellationTokenSource();
     private readonly SemaphoreSlim _semaphoreLock;
     private readonly SemaphoreSlim _semaphoreEstablishQueueLock;
     private ConcurrentQueue<T> _collectionQueue;
     private readonly HashSet<T> _internalCollection;
     private bool _isFilteringStarted;
+    private NotifyTaskCompletion _notifyTask;
 
     /// <summary>
     /// Fires, when the filtering is completed
@@ -75,12 +77,12 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     /// </summary>
     public int Count => FilteredCollection.Count;
 
-    private Func<object, Task<bool>> _filter;
+    private Func<object, CancellationToken, Task<bool>> _filter;
 
     /// <summary>
     /// Async filter function
     /// </summary>
-    public Func<object, Task<bool>> Filter
+    public Func<object, CancellationToken, Task<bool>> Filter
     {
       get => _filter;
       set
@@ -98,7 +100,9 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
         }
 
         FilteredCollection.Clear();
-        NotifyTaskCompletion.Create(EstablishQueueAsync(Collection));
+        _notifyTask = NotifyTaskCompletion.Create(EstablishQueueAsync(Collection));
+        _notifyTask.PropertyChanged -= OnNotifyTaskPropertyChanged;
+        _notifyTask.PropertyChanged += OnNotifyTaskPropertyChanged;
       }
     }
 
@@ -119,7 +123,6 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     private AsyncObservableCollection<T> Collection
     {
       get;
-      set;
     }
 
     /// <summary>
@@ -142,9 +145,6 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     /// <param name="collection"><see cref="IEnumerable{T}"/></param>
     public VsCollectionView(IEnumerable<T> collection)
     {
-      _cts?.Dispose();
-      _cts = new CancellationTokenSource();
-
       _semaphoreLock = new SemaphoreSlim(1, MaxLockCount);
       _semaphoreEstablishQueueLock = new SemaphoreSlim(1, MaxLockCount);
       _collectionQueue = new ConcurrentQueue<T>();
@@ -216,25 +216,28 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
       if ( collection == null )
         return;
 
-      await _semaphoreEstablishQueueLock.WaitAsync();
-
-      try
+      using ( var cts = new CancellationTokenSource() )
       {
-        await Task.Run(() =>
+        await _semaphoreEstablishQueueLock.WaitAsync(cts.Token);
+
+        try
         {
-          foreach ( object item in collection )
+          await Task.Run(() =>
           {
-            if ( !(item is T i) )
-              continue;
+            foreach ( object item in collection )
+            {
+              if ( !(item is T i) )
+                continue;
 
-            _collectionQueue.Enqueue(i);
-          }
-        }, _cts.Token);
-        await RefreshInternalAsync();
-      }
-      finally
-      {
-        _semaphoreEstablishQueueLock?.Release();
+              _collectionQueue.Enqueue(i);
+            }
+          }, cts.Token).ConfigureAwait(false);
+          await RefreshInternalAsync(cts.Token).ConfigureAwait(false);
+        }
+        finally
+        {
+          _semaphoreEstablishQueueLock?.Release();
+        }
       }
     }
 
@@ -248,7 +251,9 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
         {
         case NotifyCollectionChangedAction.Add:
 
-          NotifyTaskCompletion.Create(EstablishQueueAsync(e.NewItems));
+          _notifyTask = NotifyTaskCompletion.Create(EstablishQueueAsync(e.NewItems));
+          _notifyTask.PropertyChanged -= OnNotifyTaskPropertyChanged;
+          _notifyTask.PropertyChanged += OnNotifyTaskPropertyChanged;
           break;
 
         case NotifyCollectionChangedAction.Remove:
@@ -260,7 +265,6 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
               FilteredCollection.Remove(i);
             }
           }
-
           break;
         }
       }
@@ -270,65 +274,84 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
       }
     }
 
-    private async Task RefreshInternalAsync()
+    private void OnNotifyTaskPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      var sw = new Stopwatch();
-      sw.Start();
-
-      try
+      if ( e.PropertyName == nameof(NotifyTaskCompletion.IsCanceled) )
       {
-        if ( _collectionQueue != null )
+        CleanUp();
+      }
+    }
+
+    private async Task RefreshInternalAsync(CancellationToken token)
+    {
+      using ( var cts = CancellationTokenSource.CreateLinkedTokenSource(token, _disposeCts.Token) )
+      {
+        var sw = new Stopwatch();
+        sw.Start();
+
+        try
         {
-          var count = 0;
-          var page = 0;
-          _internalCollection.Clear();
-
-          while ( _collectionQueue.Count > 0 )
+          if ( _collectionQueue != null )
           {
-            if ( !_collectionQueue.TryDequeue(out var item) )
-              continue;
+            var count = 0;
+            var page = 0;
+            _internalCollection.Clear();
+            cts.Token.ThrowIfCancellationRequested();
 
-            if ( Filter == null )
+            while ( _collectionQueue.Count > 0 )
             {
-              FilteredCollection.Add(item);
-            }
-            else
-            {
-              count++;
-
-              if ( await Filter(item) )
-              {
-                _internalCollection.Add(item);
-              }
-
-              if ( count < PagingSize )
+              if ( !_collectionQueue.TryDequeue(out var item) )
                 continue;
 
+              if ( Filter == null )
+              {
+                FilteredCollection.Add(item);
+              }
+              else
+              {
+                count++;
+
+                if ( await Filter(item, cts.Token) )
+                {
+                  _internalCollection.Add(item);
+                }
+
+                if ( count < PagingSize )
+                  continue;
+
+                AddToFilteredCollection(count, page);
+                count = 0;
+                page++;
+              }
+
+              cts.Token.ThrowIfCancellationRequested();
+            }
+
+            if ( Filter != null )
+            {
               AddToFilteredCollection(count, page);
-              count = 0;
-              page++;
+
+              _isFilteringStarted = false;
+              FilteringCompleted?.Invoke(this, new FilterEventArgs(true, sw.ElapsedMilliseconds));
+              cts.Token.ThrowIfCancellationRequested();
             }
           }
-
-          if ( Filter != null )
-          {
-            AddToFilteredCollection(count, page);
-
-            _isFilteringStarted = false;
-            FilteringCompleted?.Invoke(this, new FilterEventArgs(true, sw.ElapsedMilliseconds));
-          }
         }
-      }
-      catch ( Exception ex )
-      {
-        _isFilteringStarted = false;
-        FilteringErrorOccurred?.Invoke(this, new FilterEventArgs(false, sw.ElapsedMilliseconds, ex));
+        catch ( OperationCanceledException )
+        {
+          throw;
+        }
+        catch ( Exception ex )
+        {
+          _isFilteringStarted = false;
+          FilteringErrorOccurred?.Invoke(this, new FilterEventArgs(false, sw.ElapsedMilliseconds, ex));
+        }
       }
     }
 
     private void AddToFilteredCollection(int currentCount, int page)
     {
-      Application.Current.Dispatcher.InvokeAsync(() =>
+      Application.Current.Dispatcher?.InvokeAsync(() =>
       {
         var start = page * PagingSize;
 
@@ -354,18 +377,21 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     /// <summary>
     /// Release all resources used by <see cref="VsCollectionView{T}"/>
     /// </summary>
-    public void Dispose()
+    public void Dispose() => _disposeCts?.Cancel();
+
+    private void CleanUp()
     {
-      _cts?.Cancel();
       Collection.CollectionChanged -= OnCollectionChanged;
 
       Filter = null;
       _collectionQueue = null;
 
+      _semaphoreLock?.Dispose();
+      _semaphoreEstablishQueueLock?.Dispose();
+
       Clear();
 
-      _semaphoreLock.Dispose();
-      _semaphoreEstablishQueueLock.Dispose();
+      LOG.Debug("Clean up completed");
       GC.Collect();
     }
   }

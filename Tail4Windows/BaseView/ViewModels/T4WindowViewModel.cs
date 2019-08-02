@@ -612,7 +612,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
         execute.InMs(220).Do(() =>
         {
-          Application.Current.Dispatcher.InvokeAsync(() =>
+          Application.Current.Dispatcher?.InvokeAsync(() =>
           {
             if ( Application.Current.MainWindow != null )
               Application.Current.MainWindow.Close();
@@ -1262,7 +1262,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         var result = await updateController.UpdateNecessaryAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token,
           System.Reflection.Assembly.GetExecutingAssembly().GetName().Version).ConfigureAwait(false);
 
-        if ( !result.Update || staThread != null && staThread.ThreadState == ThreadState.Background )
+        if ( !result.Update || staThread != null && staThread?.ThreadState == ThreadState.Background )
         {
           await Task.Delay(TimeSpan.FromDays(1), _cts.Token).ConfigureAwait(false);
           continue;
@@ -1293,9 +1293,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
             if ( staThread == null )
               return;
 
-            staThread.SetApartmentState(ApartmentState.STA);
-            staThread.Start();
-            staThread.Join();
+            staThread?.SetApartmentState(ApartmentState.STA);
+            staThread?.Start();
+            staThread?.Join();
           });
         }
 
@@ -1364,7 +1364,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
             Parallel.ForEach(
               files.Where(p => DateTime.Now - p.LastWriteTimeUtc > TimeSpan.FromDays(SettingsHelperController.CurrentSettings.LogFilesOlderThan)),
-              new ParallelOptions { CancellationToken = cts.Token }, item =>
+              item =>
                 {
                   try
                   {

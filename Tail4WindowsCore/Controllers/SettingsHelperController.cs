@@ -70,7 +70,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         var t3 = Task.Run(() => ReadUserSettings(), cts.Token);
         var t4 = RemovePropertiesIfExistsAsync(cts);
 
-        await Task.WhenAll(t1, t2, t3, t4);
+        await Task.WhenAll(t1, t2, t3, t4).ConfigureAwait(false);
       }
       finally
       {
@@ -282,7 +282,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         var t1 = Task.Run(() => SaveSettings(), cts.Token);
         var t2 = Task.Run(() => SaveUserSettings(), cts.Token);
 
-        await Task.WhenAll(t1, t2);
+        await Task.WhenAll(t1, t2).ConfigureAwait(false);
       }
       finally
       {
@@ -488,7 +488,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
       try
       {
-        await Task.Run(() => ReloadCurrentSettings(), cts.Token);
+        await Task.Run(() => ReloadCurrentSettings(), cts.Token).ConfigureAwait(false);
       }
       finally
       {

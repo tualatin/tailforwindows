@@ -55,7 +55,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     /// <summary>
     /// Async filter function
     /// </summary>
-    Func<object, Task<bool>> Filter
+    Func<object, CancellationToken, Task<bool>> Filter
     {
       get;
       set;

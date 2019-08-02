@@ -496,7 +496,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnSmartWatchFileChanged(object sender, string file)
     {
-      if ( !(sender is SmartWatchController) )
+      if ( !(sender is SmartWatchController) || Dispatcher == null )
         return;
 
       Dispatcher.InvokeAsync(() =>
@@ -554,7 +554,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnLogEntryCreated(object sender, LogEntryCreatedArgs e)
     {
-      if ( !(sender is ILogReadService) )
+      if ( !(sender is ILogReadService) || Dispatcher == null )
         return;
 
       Dispatcher.InvokeAsync(() =>
@@ -610,7 +610,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         BaseWindowStatusbarViewModel.Instance.CurrentBusyState = Application.Current.TryFindResource("Busy").ToString();
 
         // ReSharper disable once ObjectCreationAsStatement
-        new DispatcherTimer(TimeSpan.FromSeconds(0), DispatcherPriority.ApplicationIdle, DispatcherTimerTick, Application.Current.Dispatcher);
+        new DispatcherTimer(TimeSpan.FromSeconds(0),
+          DispatcherPriority.ApplicationIdle,
+          DispatcherTimerTick,
+          Application.Current.Dispatcher ?? throw new InvalidOperationException());
 
         HighlightData = null;
         OnPropertyChanged(nameof(HighlightData));
@@ -619,7 +622,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         {
           execute.InMs(15).Do(() =>
           {
-            Dispatcher.InvokeAsync(() =>
+            Dispatcher?.InvokeAsync(() =>
             {
               LogWindowMainElement.RemoveAllBookmarks();
               EnvironmentContainer.Instance.BookmarkManager.ClearBookmarkDataSource();
@@ -990,8 +993,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         _findNextResult = null;
 
+
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-        Dispatcher.InvokeAsync(() =>
+        Dispatcher?.InvokeAsync(() =>
         {
           if ( SplitterPosition <= 0 )
             LogWindowMainElement.ScrollToHome();
@@ -1047,7 +1051,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           AddFindWhatResultToHighlightData(result);
 
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-          Dispatcher.InvokeAsync(() =>
+          Dispatcher?.InvokeAsync(() =>
           {
             ScrollToSelectedItem(_findNextResult);
           }, DispatcherPriority.Normal);
@@ -1058,34 +1062,37 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
       else
       {
-        await Task.Run(() =>
+        using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(5)) )
         {
-          for ( var i = (int) Math.Round(start); i < countTo; i++ )
+          await Task.Run(() =>
           {
-            var log = LogCollectionView[i];
+            for ( var i = (int) Math.Round(start); i < countTo; i++ )
+            {
+              var log = LogCollectionView[i];
 
-            // If list is filtered
-            if ( !LogCollectionView.Contains(log) )
-              continue;
+              // If list is filtered
+              if ( !LogCollectionView.Contains(log) )
+                continue;
 
-            stop = i;
+              stop = i;
 
-            if ( log.BookmarkPoint == null )
-              continue;
+              if ( log.BookmarkPoint == null )
+                continue;
 
-            _findNextResult = log;
-            findNext = new FindNextResult(true, log.Index);
+              _findNextResult = log;
+              findNext = new FindNextResult(true, log.Index);
 
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            Dispatcher.InvokeAsync(() =>
-            {
-              ScrollToSelectedItem(_findNextResult);
-            }, DispatcherPriority.Normal);
+              Dispatcher?.InvokeAsync(() =>
+              {
+                ScrollToSelectedItem(_findNextResult);
+              }, DispatcherPriority.Normal);
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
-            break;
-          }
-        }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
+              break;
+            }
+          }, cts.Token).ConfigureAwait(false);
+        }
       }
       return findNext ?? new FindNextResult(false, stop);
     }
@@ -1145,22 +1152,25 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
       else
       {
-        await Task.Run(() =>
+        using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(5)) )
         {
-          var result = LogCollectionView.Items.Where(p => p.BookmarkPoint != null).ToList();
+          await Task.Run(() =>
+          {
+            var result = LogCollectionView.Items.Where(p => p.BookmarkPoint != null).ToList();
 
-          // If list is filtered
-          result = result.Where(p => LogCollectionView.Contains(p)).ToList();
+            // If list is filtered
+            result = result.Where(p => LogCollectionView.Contains(p)).ToList();
 
-          if ( result.Count > 0 )
-            _findWhatResults.AddRange(result);
+            if ( result.Count > 0 )
+              _findWhatResults.AddRange(result);
 
-          result = CacheManager.GetCacheData().Where(p => p.BookmarkPoint != null).ToList();
+            result = CacheManager.GetCacheData().Where(p => p.BookmarkPoint != null).ToList();
 
-          if ( result.Count > 0 )
-            _findWhatResults.AddRange(result);
+            if ( result.Count > 0 )
+              _findWhatResults.AddRange(result);
 
-        }, new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token).ConfigureAwait(false);
+          }, cts.Token).ConfigureAwait(false);
+        }
       }
 
       LOG.Trace($"Find all result count {_findWhatResults.Count}");
@@ -1282,7 +1292,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       return result;
     }
 
-    private async Task<bool> DynamicFilterAsync(object item)
+    private async Task<bool> DynamicFilterAsync(object item, CancellationToken token)
     {
       if ( CurrentTailData?.ListOfFilter == null || CurrentTailData.ListOfFilter.Count == 0 || !CurrentTailData.FilterState )
         return true;
@@ -1290,7 +1300,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(item is LogEntry logEntry) )
         return false;
 
-      await LogCollectionView.CollectionViewLock.WaitAsync().ConfigureAwait(false);
+      await LogCollectionView.CollectionViewLock.WaitAsync(token).ConfigureAwait(false);
 
       var result = false;
       var filterSource = CurrentTailData.ListOfFilter.Where(p => p.FilterSource && p.IsEnabled).ToList();
@@ -1307,6 +1317,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
           try
           {
             var sr = await _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).ConfigureAwait(false);
+            token.ThrowIfCancellationRequested();
 
             if ( sr == null || sr.Count == 0 )
               continue;
@@ -1315,10 +1326,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             if ( filterData.UseNotification )
               HandleAlertSettings(filterData, sr, logEntry);
 
+            token.ThrowIfCancellationRequested();
+
             // Handle AutoBookmark
             if ( filterData.IsAutoBookmark )
               HandleAutoBookmark(filterData, logEntry);
 
+            token.ThrowIfCancellationRequested();
             result = true;
             break;
           }
@@ -1336,7 +1350,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         {
           try
           {
-            var sr = await _searchController.MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).ConfigureAwait(false);
+            var sr = await _searchController
+              .MatchTextAsync(filterData.FindSettingsData, logEntry.Message, filterData.Filter).ConfigureAwait(false);
+            token.ThrowIfCancellationRequested();
 
             if ( sr == null || sr.Count == 0 )
               continue;
@@ -1345,12 +1361,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
             if ( filterSource.Count == 0 && filterData.UseNotification )
               HandleAlertSettings(filterData, sr, logEntry);
 
+            token.ThrowIfCancellationRequested();
+
             // If not FilterSource is defined, handle AutoBookmark here
             if ( filterSource.Count == 0 && filterData.IsAutoBookmark )
               HandleAutoBookmark(filterData, logEntry);
 
+            token.ThrowIfCancellationRequested();
+
             if ( HighlightData == null )
               HighlightData = new List<TextHighlightData>();
+
+            token.ThrowIfCancellationRequested();
 
             if ( !filterData.IsEnabled )
             {
@@ -1358,6 +1380,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
               var toRemove = HighlightData
                 .Where(p => string.Compare(p.Text, string.Join("|", sr), StringComparison.CurrentCultureIgnoreCase) == 0 && !p.IsFindWhat)
                 .ToList();
+
+              token.ThrowIfCancellationRequested();
 
               if ( toRemove.Count > 0 )
                 HighlightData.RemoveAll(p => toRemove.Contains(p));
@@ -1376,10 +1400,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
               if ( inside.Where(p => Equals(p.TextHighlightColorHex, filterData.FilterColorHex)).ToList().Count > 0 )
                 continue;
 
+              token.ThrowIfCancellationRequested();
               HighlightData.RemoveAll(p => inside.Contains(p));
             }
 
-            HighlightData.Add(new TextHighlightData { FilterFontType = filterData.FontType, TextHighlightColorHex = filterData.FilterColorHex, Text = string.Join("|", sr) });
+            HighlightData
+              .Add(new TextHighlightData { FilterFontType = filterData.FontType, TextHighlightColorHex = filterData.FilterColorHex, Text = string.Join("|", sr) });
           }
           catch ( Exception ex )
           {
@@ -1401,7 +1427,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       LOG.Debug("* * * * * * * * HandleAutoBookmark * * * * * * * *");
 
-      Dispatcher.InvokeAsync(() =>
+      Dispatcher?.InvokeAsync(() =>
       {
         item.BookmarkPoint = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Auto_Bookmark.png");
         item.BookmarkToolTip = string.IsNullOrWhiteSpace(filterData.AutoBookmarkComment) ? "Auto Bookmark" : filterData.AutoBookmarkComment;
@@ -1515,7 +1541,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       string message = Application.Current.TryFindResource("FilterManagerNotificationInformation").ToString();
 
-      Dispatcher.InvokeAsync(() =>
+      Dispatcher?.InvokeAsync(() =>
       {
         var alertPopUp = new FancyNotificationPopUp { Height = 100, Width = 300, PopUpAlert = CurrentTailData.File, PopUpAlertDetail = string.Format(message, time.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat), string.Join("\n\t", notifications)) };
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowNotificationPopUpMessage(alertPopUp));
@@ -1637,7 +1663,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     private void SetBookmarkFromFindWhat(LogEntry log) =>
-      Dispatcher.InvokeAsync(() =>
+      Dispatcher?.InvokeAsync(() =>
       {
         if ( log.BookmarkPoint != null )
           return;

@@ -218,5 +218,8 @@
     <Folder Include="Events\Delegates\" />
     <Folder Include="Events\EventManagers\" />
   </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AsyncAnalyzers.1.1.7.0\analyzers\dotnet\cs\AsyncAnalyzers.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
