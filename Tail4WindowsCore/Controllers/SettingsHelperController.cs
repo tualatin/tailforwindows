@@ -61,7 +61,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>Task</returns>
     public async Task ReadSettingsAsync(CancellationTokenSource cts)
     {
-      await _semaphore.WaitAsync(cts.Token);
+      await _semaphore.WaitAsync(cts.Token).ConfigureAwait(false);
 
       try
       {
@@ -84,7 +84,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
       {
         {"Portable", DefaultEnvironmentSettings.IsPortable.ToString()}
       };
-
       return AddNewPropertyAsync(settings, cts);
     }
 
@@ -201,7 +200,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         {
           LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
         }
-      }, token);
+      }, token).ConfigureAwait(false);
     }
 
     [Obsolete("Will removed as soon as possible")]
@@ -266,7 +265,13 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// Writes current settings
     /// </summary>
     /// <returns>Task</returns>
-    public async Task SaveSettingsAsync() => await SaveSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(5)));
+    public Task SaveSettingsAsync()
+    {
+      using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2)) )
+      {
+        return SaveSettingsAsync(cts);
+      }
+    }
 
     /// <summary>
     /// Writes current settings
@@ -353,7 +358,13 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// Reset current settings
     /// </summary>
     /// <returns>Task</returns>
-    public async Task SetDefaultSettingsAsync() => await SetDefaultSettingsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(5)));
+    public Task SetDefaultSettingsAsync()
+    {
+      using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(5)) )
+      {
+        return SetDefaultSettingsAsync(cts);
+      }
+    }
 
     /// <summary>
     /// Reset current settings

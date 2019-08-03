@@ -145,10 +145,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         var xVersion = x;
         var yVersion = y;
 
-        if ( xVersion != null )
-          return xVersion.CompareTo(yVersion);
-
-        return -1;
+        return xVersion != null ? xVersion.CompareTo(yVersion) : -1;
       }
     }
 
