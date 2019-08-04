@@ -43,7 +43,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// </summary>
     /// <param name="id">ID of filter to delete</param>
     /// <returns><c>True</c> if successfully deleted, otherwise <c>False</c></returns>
-    public async Task<bool> DeleteFilterAsync(Guid id)
+    public async Task<bool> DeleteGlobalFilterAsync(Guid id)
     {
       throw new NotImplementedException();
     }
@@ -52,7 +52,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// Loads filters async
     /// </summary>
     /// <returns>A <see cref="ObservableCollection{T}"/> of <see cref="FilterData"/></returns>
-    public async Task<ObservableCollection<FilterData>> LoadFiltersAsync()
+    public async Task<ObservableCollection<FilterData>> ReadGlobalFiltersAsync()
     {
       throw new NotImplementedException();
     }
@@ -61,22 +61,28 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// Save filter async
     /// </summary>
     /// <param name="items">Global filters to save</param>
-    public async Task SaveFilterAsync(ObservableCollection<FilterData> items)
+    /// <returns><c>True</c> if successfully deleted, otherwise <c>False</c></returns>
+    public async Task<bool> UpdateGlobalFilterAsync(ObservableCollection<FilterData> items)
     {
       Arg.NotNull(items, nameof(items));
 
       await _semaphore.WaitAsync();
+      LOG.Trace("Update global filters");
 
       using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2)) )
       {
+        var result = false;
+
         await Task.Run(() =>
         {
           try
           {
             if ( items.Count == 0 )
-              return;
+              return result;
 
+            FixFilterToGlobal(items);
             JsonUtils.WriteJsonFile(items, _globalFilterFile);
+            result = true;
           }
           catch ( Exception ex )
           {
@@ -86,7 +92,17 @@ namespace Org.Vs.TailForWin.Core.Controllers
           {
             _semaphore.Release();
           }
+          return result;
         }, cts.Token).ConfigureAwait(false);
+      }
+      return false;
+    }
+
+    private void FixFilterToGlobal(ObservableCollection<FilterData> items)
+    {
+      foreach ( var item in items )
+      {
+        item.IsGlobal = true;
       }
     }
   }

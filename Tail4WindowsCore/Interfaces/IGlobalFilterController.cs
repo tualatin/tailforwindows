@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Core.Data;
 
+
 namespace Org.Vs.TailForWin.Core.Interfaces
 {
   /// <summary>
@@ -14,19 +15,20 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// Save filter async
     /// </summary>
     /// <param name="items">Global filters to save</param>
-    Task SaveFilterAsync(ObservableCollection<FilterData> items);
+    /// <returns><c>True</c> if successfully deleted, otherwise <c>False</c></returns>
+    Task<bool> UpdateGlobalFilterAsync(ObservableCollection<FilterData> items);
 
     /// <summary>
     /// Loads filters async
     /// </summary>
     /// <returns>A <see cref="ObservableCollection{T}"/> of <see cref="FilterData"/></returns>
-    Task<ObservableCollection<FilterData>> LoadFiltersAsync();
+    Task<ObservableCollection<FilterData>> ReadGlobalFiltersAsync();
 
     /// <summary>
     /// Deletes a filter async
     /// </summary>
     /// <param name="id">ID of filter to delete</param>
     /// <returns><c>True</c> if successfully deleted, otherwise <c>False</c></returns>
-    Task<bool> DeleteFilterAsync(Guid id);
+    Task<bool> DeleteGlobalFilterAsync(Guid id);
   }
 }

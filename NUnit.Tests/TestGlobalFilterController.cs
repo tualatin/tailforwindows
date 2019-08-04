@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -31,7 +32,7 @@ namespace Org.Vs.NUnit.Tests
     }
 
     [Test]
-    public async Task TestCreateGlobalFilterAsync()
+    public void TestCreateGlobalFilter()
     {
       InitMyTest();
 
@@ -51,16 +52,14 @@ namespace Org.Vs.NUnit.Tests
 
       _globalFilters.Add(filter);
       Assert.IsTrue(_globalFilters.Count == 1);
-
-      await TestSaveGlobalFiltersAsync().ConfigureAwait(false);
-
-      Assert.ThrowsAsync<ArgumentException>(() => _globalFilterController.SaveFilterAsync(null));
-      Assert.DoesNotThrowAsync(() => _globalFilterController.SaveFilterAsync(_globalFilters));
+      Assert.ThrowsAsync<ArgumentException>(() => _globalFilterController.UpdateGlobalFilterAsync(null));
+      Assert.DoesNotThrowAsync(() => _globalFilterController.UpdateGlobalFilterAsync(_globalFilters));
       Assert.IsTrue(File.Exists(_pathAsJson));
+      Assert.IsTrue(_globalFilters.All(p => p.IsGlobal));
     }
 
     [Test]
-    public async Task TestDelteGlobalFilterAsync()
+    public async Task TestDeleteGlobalFilterAsync()
     {
 
     }
