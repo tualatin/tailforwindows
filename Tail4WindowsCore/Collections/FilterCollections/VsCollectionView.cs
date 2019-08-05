@@ -218,7 +218,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 
       using ( var cts = new CancellationTokenSource() )
       {
-        await _semaphoreEstablishQueueLock.WaitAsync(cts.Token);
+        await _semaphoreEstablishQueueLock.WaitAsync(cts.Token).ConfigureAwait(true);
 
         try
         {
@@ -311,7 +311,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
               {
                 count++;
 
-                if ( await Filter(item, cts.Token) )
+                if ( await Filter(item, cts.Token).ConfigureAwait(false) )
                 {
                   _internalCollection.Add(item);
                 }
