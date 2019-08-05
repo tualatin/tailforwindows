@@ -1,0 +1,80 @@
+[
+  {
+    "Id": "ceb61b01-ff6c-4e04-9219-7924ef21bd1c",
+    "IsGlobal": false,
+    "IsEnabled": true,
+    "IsHighlight": false,
+    "FilterSource": false,
+    "UseNotification": false,
+    "Description": "Test global filter 1",
+    "Filter": "debug",
+    "FilterColor": "#2F4F4F",
+    "FontStyle": {
+      "Size": 12.0,
+      "Style": "Normal",
+      "Weight": "Normal",
+      "Family": "Consolas",
+      "Stretch": "Normal"
+    },
+    "FindSettings": {
+      "Wrap": false,
+      "UseRegex": false,
+      "WholeWord": false,
+      "CaseSensitive": false,
+      "UseWildcard": false
+    },
+    "IsAutoBookmark": false
+  },
+    {
+    "Id": "ceb71b01-ff6c-4e04-9219-7924ef21bd1d",
+    "IsGlobal": false,
+    "IsEnabled": true,
+    "IsHighlight": false,
+    "FilterSource": false,
+    "UseNotification": false,
+    "Description": "Test global filter 2",
+    "Filter": "debug",
+    "FilterColor": "#2F4F4F",
+    "FontStyle": {
+      "Size": 12.0,
+      "Style": "Normal",
+      "Weight": "Normal",
+      "Family": "Consolas",
+      "Stretch": "Normal"
+    },
+    "FindSettings": {
+      "Wrap": false,
+      "UseRegex": false,
+      "WholeWord": false,
+      "CaseSensitive": false,
+      "UseWildcard": false
+    },
+    "IsAutoBookmark": false
+  },
+    {
+    "Id": "ceb91b01-ff6c-4e04-9219-7924ef21bd1z",
+    "IsGlobal": false,
+    "IsEnabled": true,
+    "IsHighlight": false,
+    "FilterSource": false,
+    "UseNotification": false,
+    "Description": "Test global filter 3",
+    "Filter": "debug",
+    "FilterColor": "#2F4F4F",
+    "FontStyle": {
+      "Size": 12.0,
+      "Style": "Normal",
+      "Weight": "Normal",
+      "Family": "Consolas",
+      "Stretch": "Normal"
+    },
+    "FindSettings": {
+      "Wrap": false,
+      "UseRegex": false,
+      "WholeWord": false,
+      "CaseSensitive": false,
+      "UseWildcard": false
+    },
+    "IsAutoBookmark": false
+  }
+]

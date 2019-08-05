@@ -61,6 +61,24 @@ namespace Org.Vs.TailForWin.Core.Data
       }
     }
 
+    private bool _isGlobal;
+
+    /// <summary>
+    /// Is global filter
+    /// </summary>
+    public bool IsGlobal
+    {
+      get => _isGlobal;
+      set
+      {
+        if ( value == _isGlobal )
+          return;
+
+        _isGlobal = value;
+        OnPropertyChanged();
+      }
+    }
+
     private bool _isEnabled;
 
     /// <summary>

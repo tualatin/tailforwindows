@@ -42,7 +42,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
     {
       await _semaphore.WaitAsync(token);
 
-      var history = await _xmlHistoryController.ReadXmlFileAsync();
+      var history = await _xmlHistoryController.ReadXmlFileAsync().ConfigureAwait(false);
 
       if ( history == null || history.Count == 0 )
         return true;
@@ -51,7 +51,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
 
       try
       {
-        return await Task.Run(() => ConvertXmlToJsonFile(history), token);
+        return await Task.Run(() => ConvertXmlToJsonFile(history), token).ConfigureAwait(false);
       }
       finally
       {
@@ -99,7 +99,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
 
       try
       {
-        return await Task.Run(() => JsonUtils.ReadJsonFile<LogFileHistoryData>(_historyFile), token);
+        return await Task.Run(() => JsonUtils.ReadJsonFile<LogFileHistoryData>(_historyFile), token).ConfigureAwait(false);
       }
       finally
       {
@@ -121,7 +121,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
 
       try
       {
-        return await Task.Run(() => UpdateHistory(data, searchText.Trim()), token);
+        return await Task.Run(() => UpdateHistory(data, searchText.Trim()), token).ConfigureAwait(false);
       }
       finally
       {
@@ -163,7 +163,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
 
       try
       {
-        return await Task.Run(() => DeleteHistory(data), token);
+        return await Task.Run(() => DeleteHistory(data), token).ConfigureAwait(false);
       }
       finally
       {

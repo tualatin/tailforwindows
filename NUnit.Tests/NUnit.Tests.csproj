@@ -99,6 +99,7 @@
     <Compile Include="TestEnumExtension.cs" />
     <Compile Include="TestFindController.cs" />
     <Compile Include="TestGetFileEncoding.cs" />
+    <Compile Include="TestGlobalFilterController.cs" />
     <Compile Include="TestMailController.cs" />
     <Compile Include="TestMementoOfObjects.cs" />
     <Compile Include="TestObservableDictionary.cs" />
@@ -142,6 +143,9 @@
     <Content Include="Files\FileManager.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Files\GlobalFilters.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Files\History.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
