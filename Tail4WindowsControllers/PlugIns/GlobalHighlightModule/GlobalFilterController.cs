@@ -60,6 +60,8 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule
     /// <param name="id">ID of filter to delete</param>
     /// <returns><c>True</c> if successfully deleted, otherwise <c>False</c></returns>
     /// <exception cref="ArgumentException">if id is null</exception>
+    /// <exception cref="ArgumentOutOfRangeException">If item does not exists in list</exception>
+    /// <exception cref="Exception">Is no items available</exception>
     public async Task<bool> DeleteGlobalFilterAsync(Guid id)
     {
       if ( id == Guid.Empty )
