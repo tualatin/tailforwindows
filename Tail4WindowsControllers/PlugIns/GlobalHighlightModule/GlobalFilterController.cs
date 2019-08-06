@@ -77,7 +77,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule
           var items = await ReadGlobalFiltersAsync(cts.Token);
 
           if ( items.Count == 0 )
-            throw new ArgumentException(GlobalHighlightListIsEmpty);
+            throw new Exception(GlobalHighlightListIsEmpty);
 
           var toDelete = items.FirstOrDefault(p => p.Id == id);
 
