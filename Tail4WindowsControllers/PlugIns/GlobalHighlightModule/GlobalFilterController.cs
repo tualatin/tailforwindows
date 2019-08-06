@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using log4net;
+using Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 
-namespace Org.Vs.TailForWin.Core.Controllers
+
+namespace Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule
 {
   /// <summary>
   /// Global filter controller
@@ -51,10 +54,24 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <summary>
     /// Loads filters async
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>A <see cref="ObservableCollection{T}"/> of <see cref="FilterData"/></returns>
-    public async Task<ObservableCollection<FilterData>> ReadGlobalFiltersAsync()
+    public async Task<ObservableCollection<FilterData>> ReadGlobalFiltersAsync(CancellationToken token)
     {
-      throw new NotImplementedException();
+      if ( !File.Exists(_globalFilterFile) )
+        return new ObservableCollection<FilterData>();
+
+      await _semaphore.WaitAsync(token).ConfigureAwait(false);
+      LOG.Trace("Read JSON file");
+
+      try
+      {
+        return await Task.Run(() => JsonUtils.ReadJsonFile<ObservableCollection<FilterData>>(_globalFilterFile), token).ConfigureAwait(false);
+      }
+      finally
+      {
+        _semaphore.Release();
+      }
     }
 
     /// <summary>
@@ -66,7 +83,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     {
       Arg.NotNull(items, nameof(items));
 
-      await _semaphore.WaitAsync();
+      await _semaphore.WaitAsync().ConfigureAwait(false);
       LOG.Trace("Update global filters");
 
       using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2)) )
@@ -100,7 +117,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     private void FixFilterToGlobal(ObservableCollection<FilterData> items)
     {
-      foreach ( var item in items )
+      foreach ( var item in items.Where(p => !p.IsGlobal).ToArray() )
       {
         item.IsGlobal = true;
       }

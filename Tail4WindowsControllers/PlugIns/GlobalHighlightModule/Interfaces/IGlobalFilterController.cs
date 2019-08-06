@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
 using Org.Vs.TailForWin.Core.Data;
 
 
-namespace Org.Vs.TailForWin.Core.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule.Interfaces
 {
   /// <summary>
   /// Global filter controller interface
@@ -21,8 +22,9 @@ namespace Org.Vs.TailForWin.Core.Interfaces
     /// <summary>
     /// Loads filters async
     /// </summary>
+    /// <param name="token"><see cref="CancellationToken"/></param>
     /// <returns>A <see cref="ObservableCollection{T}"/> of <see cref="FilterData"/></returns>
-    Task<ObservableCollection<FilterData>> ReadGlobalFiltersAsync();
+    Task<ObservableCollection<FilterData>> ReadGlobalFiltersAsync(CancellationToken token);
 
     /// <summary>
     /// Deletes a filter async

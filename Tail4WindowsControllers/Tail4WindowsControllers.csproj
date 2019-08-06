@@ -153,6 +153,8 @@
     <Compile Include="PlugIns\FindModule\Interfaces\IFindWhatViewModel.cs" />
     <Compile Include="PlugIns\FindModule\Utils\LogEntryComparer.cs" />
     <Compile Include="PlugIns\FindModule\XmlSearchHistoryController.cs" />
+    <Compile Include="PlugIns\GlobalHighlightModule\GlobalFilterController.cs" />
+    <Compile Include="PlugIns\GlobalHighlightModule\Interfaces\IGlobalFilterController.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\MessageFloodData.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\TextHighlightData.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\XmlNames.cs" />

@@ -40,7 +40,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
     /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
     public async Task<bool> ConvertXmlToJsonFileAsync(CancellationToken token)
     {
-      await _semaphore.WaitAsync(token);
+      await _semaphore.WaitAsync(token).ConfigureAwait(false);
 
       var history = await _xmlHistoryController.ReadXmlFileAsync().ConfigureAwait(false);
 
@@ -94,7 +94,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
       if ( !File.Exists(_historyFile) )
         return new LogFileHistoryData();
 
-      await _semaphore.WaitAsync(token);
+      await _semaphore.WaitAsync(token).ConfigureAwait(false);
       LOG.Trace("Read JSON file");
 
       try
@@ -116,7 +116,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
     /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
     public async Task<bool> UpdateHistoryAsync(LogFileHistoryData data, string searchText, CancellationToken token)
     {
-      await _semaphore.WaitAsync(token);
+      await _semaphore.WaitAsync(token).ConfigureAwait(false);
       LOG.Trace("Update history");
 
       try
@@ -158,7 +158,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule
     /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
     public async Task<bool> DeleteHistoryAsync(LogFileHistoryData data, CancellationToken token)
     {
-      await _semaphore.WaitAsync(token);
+      await _semaphore.WaitAsync(token).ConfigureAwait(false);
       LOG.Trace("Delete history");
 
       try

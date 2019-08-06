@@ -104,7 +104,6 @@
     <Compile Include="Collections\FilterCollections\FilterEventArgs.cs" />
     <Compile Include="Collections\FilterCollections\IVsCollectionView.cs" />
     <Compile Include="Collections\FilterCollections\VsCollectionView.cs" />
-    <Compile Include="Controllers\GlobalFilterController.cs" />
     <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\SettingsHelperController.cs" />
     <Compile Include="Controllers\UpdateController.cs" />
@@ -157,7 +156,6 @@
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Extensions\TaskUtilities.cs" />
     <Compile Include="Interfaces\IEventAggregator.cs" />
-    <Compile Include="Interfaces\IGlobalFilterController.cs" />
     <Compile Include="Interfaces\IHistory.cs" />
     <Compile Include="Interfaces\IMailController.cs" />
     <Compile Include="Interfaces\INotifyTaskCompletion.cs" />

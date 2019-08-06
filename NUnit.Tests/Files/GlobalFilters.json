@@ -1,7 +1,7 @@
-[
+﻿[
   {
     "Id": "ceb61b01-ff6c-4e04-9219-7924ef21bd1c",
-    "IsGlobal": false,
+    "IsGlobal": true,
     "IsEnabled": true,
     "IsHighlight": false,
     "FilterSource": false,
@@ -25,9 +25,9 @@
     },
     "IsAutoBookmark": false
   },
-    {
+  {
     "Id": "ceb71b01-ff6c-4e04-9219-7924ef21bd1d",
-    "IsGlobal": false,
+    "IsGlobal": true,
     "IsEnabled": true,
     "IsHighlight": false,
     "FilterSource": false,
@@ -51,9 +51,9 @@
     },
     "IsAutoBookmark": false
   },
-    {
-    "Id": "ceb91b01-ff6c-4e04-9219-7924ef21bd1z",
-    "IsGlobal": false,
+  {
+    "Id": "2612ee2f-c952-48d9-9d1c-840ef3f97502",
+    "IsGlobal": true,
     "IsEnabled": true,
     "IsHighlight": false,
     "FilterSource": false,

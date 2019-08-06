@@ -2,18 +2,20 @@
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule;
+using Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
-using Org.Vs.TailForWin.Core.Interfaces;
 
-namespace Org.Vs.NUnit.Tests
+namespace Org.Vs.NUnit.Tests.JsonTests
 {
   [TestFixture]
-  class TestGlobalFilterController
+  public class TestGlobalFilterController
   {
     private IGlobalFilterController _globalFilterController;
+    private CancellationTokenSource _cts;
     private ObservableCollection<FilterData> _globalFilters;
     private TestContext _currentTestContext;
     private string _pathAsJson;
@@ -67,7 +69,17 @@ namespace Org.Vs.NUnit.Tests
     [Test]
     public async Task LoadGlobalFiltersAsync()
     {
+      InitMyTest();
+      CopyTempFile();
 
+      Assert.DoesNotThrowAsync(() => _globalFilterController.ReadGlobalFiltersAsync(_cts.Token));
+
+      var filters = await _globalFilterController.ReadGlobalFiltersAsync(_cts.Token).ConfigureAwait(false);
+
+      Assert.IsInstanceOf<ObservableCollection<FilterData>>(filters);
+      Assert.IsTrue(filters.Count > 0);
+      Assert.IsTrue(filters.Count == 3);
+      Assert.IsTrue(filters.All(p => p.IsGlobal));
     }
 
     [Test]
@@ -81,6 +93,9 @@ namespace Org.Vs.NUnit.Tests
     {
       if ( File.Exists(_pathAsJson) )
         File.Delete(_pathAsJson);
+
+      _cts?.Dispose();
+      _cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
     }
 
     private void CopyTempFile()
