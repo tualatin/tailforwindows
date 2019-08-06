@@ -57,8 +57,10 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
     /// <returns>If success <c>True</c> otherwise <c>False</c></returns>
     public async Task<bool> ConvertXmlToJsonConfigAsync(CancellationToken token)
     {
-      var fileManagerCollection = await _xmlFileManager.ReadXmlFileAsync(token);
-      return fileManagerCollection == null || fileManagerCollection.Count == 0 || await Task.Run(() => ConvertXmlToJsonConfig(fileManagerCollection), token);
+      var fileManagerCollection = await _xmlFileManager.ReadXmlFileAsync(token).ConfigureAwait(false);
+      return fileManagerCollection == null ||
+             fileManagerCollection.Count == 0 ||
+             await Task.Run(() => ConvertXmlToJsonConfig(fileManagerCollection), token).ConfigureAwait(false);
     }
 
     private bool ConvertXmlToJsonConfig(ObservableCollection<TailData> fileManagerCollection)
@@ -158,7 +160,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
           result = data.ListOfFilter.Remove(filterToDelete);
           break;
         }
-      }, token);
+      }, token).ConfigureAwait(false);
 
       return result && await CreateUpdateJsonFileAsync(tailData, token);
     }
@@ -175,7 +177,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
     {
       Arg.NotNull(tailData, nameof(tailData));
 
-      return tailData.Count == 0 || await Task.Run(() => CreateUpdateJsonFile(tailData), token);
+      return tailData.Count == 0 || await Task.Run(() => CreateUpdateJsonFile(tailData), token).ConfigureAwait(false);
     }
 
     private bool CreateUpdateJsonFile(ObservableCollection<TailData> tailData)
@@ -206,7 +208,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         return new ObservableCollection<TailData>();
 
       LOG.Trace("Read JSON file");
-      var result = await Task.Run(() => JsonUtils.ReadJsonFile<ObservableCollection<TailData>>(_fileManagerFile), token);
+      var result = await Task.Run(() => JsonUtils.ReadJsonFile<ObservableCollection<TailData>>(_fileManagerFile), token).ConfigureAwait(false);
 
       if ( result != null && SettingsHelperController.CurrentSettings.SmartWatch )
         await ModifyFileNameBySmartWatchAsync(result);
@@ -221,7 +223,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
           }
 
           result = p.Result;
-        }, TaskContinuationOptions.OnlyOnRanToCompletion);
+        }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
       }
       return result;
     }
@@ -231,13 +233,13 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       foreach ( TailData item in result.Where(p => p != null && p.SmartWatch && p.UsePattern).ToList() )
       {
         item.OriginalFileName = item.FileName;
-        item.FileName = await _smartWatchController.GetFileNameByPatternAsync(item, item.PatternString);
+        item.FileName = await _smartWatchController.GetFileNameByPatternAsync(item, item.PatternString).ConfigureAwait(false);
       }
 
       foreach ( TailData item in result.Where(p => p != null && p.SmartWatch && !p.UsePattern).ToList() )
       {
         item.OriginalFileName = item.FileName;
-        item.FileName = await _smartWatchController.GetFileNameBySmartWatchAsync(item);
+        item.FileName = await _smartWatchController.GetFileNameBySmartWatchAsync(item).ConfigureAwait(false);
       }
     }
 
@@ -277,7 +279,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       var grouped = w.ListOfFilter.GroupBy(p => p.Filter.ToLower()).Select(p => p.FirstOrDefault()).ToList();
       w.ListOfFilter.Clear();
 
-      foreach ( FilterData item in grouped )
+      foreach ( var item in grouped )
       {
         w.ListOfFilter.Add(item);
       }
@@ -326,7 +328,9 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       if ( tailData == null )
         tailData = await ReadJsonFileAsync(token);
 
-      return tailData == null || tailData.Count == 0 ? new ObservableCollection<string>() : await Task.Run(() => GetCategories(tailData), token);
+      return tailData == null || tailData.Count == 0 ?
+        new ObservableCollection<string>() :
+        await Task.Run(() => GetCategories(tailData), token).ConfigureAwait(false);
     }
 
     private ObservableCollection<string> GetCategories(IReadOnlyCollection<TailData> tailData)
@@ -363,7 +367,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         throw new ArgumentException();
 
       LOG.Trace("Get TailData by '{0}", id);
-      return await Task.Run(() => GetTailDataById(tailData, id), token);
+      return await Task.Run(() => GetTailDataById(tailData, id), token).ConfigureAwait(false);
     }
 
     private TailData GetTailDataById(IEnumerable<TailData> tailData, Guid id)

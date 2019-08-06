@@ -63,7 +63,19 @@ namespace Org.Vs.NUnit.Tests.JsonTests
     [Test]
     public async Task TestDeleteGlobalFilterAsync()
     {
+      InitMyTest();
+      CopyTempFile();
 
+      Assert.ThrowsAsync<ArgumentException>(() => _globalFilterController.DeleteGlobalFilterAsync(Guid.Empty));
+      Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => _globalFilterController.DeleteGlobalFilterAsync(Guid.NewGuid()));
+
+      var result = await _globalFilterController.DeleteGlobalFilterAsync(Guid.Parse("2612ee2f-c952-48d9-9d1c-840ef3f97502")).ConfigureAwait(false);
+
+      Assert.IsTrue(result);
+
+      var filters = await _globalFilterController.ReadGlobalFiltersAsync(_cts.Token).ConfigureAwait(false);
+
+      Assert.IsTrue(filters.Count == 2);
     }
 
     [Test]
@@ -80,13 +92,6 @@ namespace Org.Vs.NUnit.Tests.JsonTests
       Assert.IsTrue(filters.Count > 0);
       Assert.IsTrue(filters.Count == 3);
       Assert.IsTrue(filters.All(p => p.IsGlobal));
-    }
-
-    [Test]
-    public async Task TestSaveGlobalFiltersAsync()
-    {
-
-
     }
 
     private void InitMyTest()

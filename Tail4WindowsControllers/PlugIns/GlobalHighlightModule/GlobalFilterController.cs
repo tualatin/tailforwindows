@@ -19,7 +19,18 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(GlobalFilterController));
 
+    /// <summary>
+    /// Item does not exists
+    /// </summary>
+    public const string ItemDoesNotExists = "Item does not exists";
+
+    /// <summary>
+    /// Global highlight list is empty
+    /// </summary>
+    public const string GlobalHighlightListIsEmpty = "Global highlight list is empty";
+
     private readonly SemaphoreSlim _semaphore;
+    private readonly SemaphoreSlim _semaphoreDelete;
     private readonly string _globalFilterFile;
 
     /// <summary>
@@ -28,6 +39,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule
     public GlobalFilterController()
     {
       _semaphore = new SemaphoreSlim(1, 1);
+      _semaphoreDelete = new SemaphoreSlim(1, 1);
       _globalFilterFile = CoreEnvironment.UserSettingsPath + @"\GlobalFilter.json";
     }
 
@@ -38,6 +50,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule
     public GlobalFilterController(string jsonPath)
     {
       _semaphore = new SemaphoreSlim(1, 1);
+      _semaphoreDelete = new SemaphoreSlim(1, 1);
       _globalFilterFile = jsonPath;
     }
 
@@ -46,9 +59,42 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule
     /// </summary>
     /// <param name="id">ID of filter to delete</param>
     /// <returns><c>True</c> if successfully deleted, otherwise <c>False</c></returns>
+    /// <exception cref="ArgumentException">if id is null</exception>
     public async Task<bool> DeleteGlobalFilterAsync(Guid id)
     {
-      throw new NotImplementedException();
+      if ( id == Guid.Empty )
+        throw new ArgumentException(nameof(id));
+
+      if ( !File.Exists(_globalFilterFile) )
+        return false;
+
+      await _semaphoreDelete.WaitAsync().ConfigureAwait(false);
+
+      try
+      {
+        using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2)) )
+        {
+          var items = await ReadGlobalFiltersAsync(cts.Token);
+
+          if ( items.Count == 0 )
+            throw new ArgumentException(GlobalHighlightListIsEmpty);
+
+          var toDelete = items.FirstOrDefault(p => p.Id == id);
+
+          if ( toDelete == null )
+            throw new ArgumentOutOfRangeException(nameof(id), ItemDoesNotExists);
+
+          var result = items.Remove(toDelete);
+
+          await UpdateGlobalFilterAsync(items);
+
+          return result;
+        }
+      }
+      finally
+      {
+        _semaphoreDelete.Release();
+      }
     }
 
     /// <summary>
@@ -79,6 +125,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule
     /// </summary>
     /// <param name="items">Global filters to save</param>
     /// <returns><c>True</c> if successfully deleted, otherwise <c>False</c></returns>
+    /// <exception cref="ArgumentException">If items is null</exception>
     public async Task<bool> UpdateGlobalFilterAsync(ObservableCollection<FilterData> items)
     {
       Arg.NotNull(items, nameof(items));
