@@ -5,12 +5,12 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using log4net;
-using Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Utils;
 
 
-namespace Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule
 {
   /// <summary>
   /// Global filter controller

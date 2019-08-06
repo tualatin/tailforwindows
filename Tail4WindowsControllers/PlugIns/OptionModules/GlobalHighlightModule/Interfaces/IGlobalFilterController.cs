@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Org.Vs.TailForWin.Core.Data;
 
 
-namespace Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule.Interfaces
+namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Interfaces
 {
   /// <summary>
   /// Global filter controller interface

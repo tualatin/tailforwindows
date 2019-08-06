@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule;
-using Org.Vs.TailForWin.Controllers.PlugIns.GlobalHighlightModule.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 
 namespace Org.Vs.NUnit.Tests.JsonTests

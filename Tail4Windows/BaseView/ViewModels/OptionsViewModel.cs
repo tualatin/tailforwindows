@@ -141,14 +141,22 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public IAsyncCommand LoadedCommand => throw new NotImplementedException();
 
+    private ICommand _unloadedCommand;
+
     /// <summary>
     /// Unloaded command
     /// </summary>
-    public ICommand UnloadedCommand => throw new NotImplementedException();
+    public ICommand UnloadedCommand => _unloadedCommand ?? (_unloadedCommand = new RelayCommand(p => ExecuteUnloadedCommand()));
 
     #endregion
 
     #region Command functions
+
+    private void ExecuteUnloadedCommand()
+    {
+      Root.Clear();
+      Root = null;
+    }
 
     private void ExecuteSelectedItemCommand(object parameter)
     {
@@ -201,6 +209,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       {
         new TreeNodeOptionViewModel(environment, null),
         new TreeNodeOptionViewModel(new ExtraOptionPage(), null),
+        new TreeNodeOptionViewModel(new GlobalHighlightOptionPage(), null),
         new TreeNodeOptionViewModel(new ColorOptionPage(), null),
         new TreeNodeOptionViewModel(new ProxyOptionPage(), null),
         new TreeNodeOptionViewModel(new SmtpOptionPage(), null),
@@ -316,7 +325,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private TreeNodeOptionViewModel SelectLastOpenOption(IEnumerable<TreeNodeOptionViewModel> node, Guid idToOpen)
     {
-      foreach ( TreeNodeOptionViewModel treeNodeOptionViewModel in node )
+      foreach ( var treeNodeOptionViewModel in node )
       {
         if ( treeNodeOptionViewModel.OptionPage.PageId == idToOpen )
           return treeNodeOptionViewModel;

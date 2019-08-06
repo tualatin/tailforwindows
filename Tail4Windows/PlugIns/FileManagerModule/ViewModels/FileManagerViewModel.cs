@@ -182,7 +182,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
           return;
         }
 
-        _criteria.Add(p => !string.IsNullOrEmpty(p.Category) && !string.IsNullOrEmpty(p.Description) &&
+        _criteria.Add(p => !string.IsNullOrEmpty(p.Category) &&
+                           !string.IsNullOrEmpty(p.Description) &&
                            (p.Category.ToLower().StartsWith(_filterText) || p.Description.ToLower().StartsWith(_filterText)));
 
         FileManagerView.Filter = DynamicFilter;
@@ -763,7 +764,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void OnDeleteTailDataPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       if ( SelectedItem == null )
@@ -778,7 +779,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void OnSaveTailDataPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       if ( _fileManagerCollection == null || _fileManagerCollection.Count == 0 )

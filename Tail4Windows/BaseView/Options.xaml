@@ -28,6 +28,10 @@
     <intr:EventTrigger EventName="Closing">
       <intr:InvokeCommandAction Command="{Binding CloseOptionsCommand}" />
     </intr:EventTrigger>
+
+    <intr:EventTrigger EventName="Unloaded">
+      <intr:InvokeCommandAction Command="{Binding UnloadedCommand}" />
+    </intr:EventTrigger>
   </intr:Interaction.Triggers>
 
   <Grid Margin="5 5 5 0">

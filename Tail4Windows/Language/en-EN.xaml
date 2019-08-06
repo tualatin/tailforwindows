@@ -219,6 +219,8 @@
 
   <system:String x:Key="ExtrasPageTitle">Extras</system:String>
 
+  <system:String x:Key="GlobalHighlightOptionPageTitle">Global highlighting</system:String>
+
   <system:String x:Key="EnvironmentLanguageToolTip">Set Application wide language</system:String>
   <system:String x:Key="EnvironmentAlwaysOnTop">Always on top</system:String>
   <system:String x:Key="EnvironmentAlwaysOnTopToolTip">Application is always on top</system:String>
