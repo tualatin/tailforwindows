@@ -18,8 +18,8 @@ namespace Org.Vs.TailForWin.UI.ExtendedControls
       AvailableColorsSortingMode = ColorSortingMode.HueSaturationBrightness;
       AvailableColorsHeader = Application.Current.TryFindResource("ColorPickerAvailableColorsHeader").ToString();
       StandardColorsHeader = Application.Current.TryFindResource("ColorPickerStandardColorsHeader").ToString();
-      AdvancedButtonHeader = Application.Current.TryFindResource("ColorPickerAdvancedButtonHeader").ToString();
-      StandardButtonHeader = Application.Current.TryFindResource("ColorPickerStandardButtonHeader").ToString();
+      AdvancedTabHeader = Application.Current.TryFindResource("ColorPickerAdvancedButtonHeader").ToString();
+      StandardTabHeader = Application.Current.TryFindResource("ColorPickerStandardButtonHeader").ToString();
 
       DisplayColorAndName = true;
       DisplayColorTooltip = true;
