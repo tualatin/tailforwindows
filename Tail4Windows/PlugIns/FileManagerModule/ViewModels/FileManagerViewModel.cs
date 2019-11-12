@@ -192,7 +192,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
           return;
 
         // Bring the current TailData back into view in case it moved
-        TailData currentTailData = SelectedItem;
+        var currentTailData = SelectedItem;
         FileManagerView.MoveCurrentToFirst();
         FileManagerView.MoveCurrentTo(currentTailData);
       }

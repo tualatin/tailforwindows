@@ -11,7 +11,7 @@ using System.Windows.Markup;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Virtual Studios")]
 [assembly: AssemblyProduct("T4W")]
-[assembly: AssemblyCopyright("Copyright ©  2013 - 2019 M. Zoennchen")]
+[assembly: AssemblyCopyright("Copyright ©  2013 - 2020 M. Zoennchen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

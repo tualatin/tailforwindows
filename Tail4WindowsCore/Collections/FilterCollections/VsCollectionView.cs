@@ -17,11 +17,11 @@ using Org.Vs.TailForWin.Core.Data.Base;
 
 namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 {
-  /// <summary>
-  /// Virtual Studio Collection view
-  /// </summary>
-  /// <typeparam name="T">Type of Collection view</typeparam>
-  [CollectionDataContract]
+    /// <summary>
+    /// Virtual Studio Collection view
+    /// </summary>
+    /// <typeparam name="T">Type of Collection view</typeparam>
+    [CollectionDataContract]
   public class VsCollectionView<T> : IVsCollectionView<T>
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(VsCollectionView<T>));
@@ -90,7 +90,9 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
         _filter = value;
 
         if ( FilteredCollection == null )
+        {
           FilteredCollection = new AsyncObservableCollection<T>();
+        }
 
         if ( _filter != null )
         {
@@ -99,9 +101,13 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
           LOG.Debug("Enabling filtering...");
         }
 
+        if (_notifyTask != null)
+        {
+          _notifyTask.PropertyChanged -= OnNotifyTaskPropertyChanged;
+        }
+
         FilteredCollection.Clear();
         _notifyTask = NotifyTaskCompletion.Create(EstablishQueueAsync(Collection));
-        _notifyTask.PropertyChanged -= OnNotifyTaskPropertyChanged;
         _notifyTask.PropertyChanged += OnNotifyTaskPropertyChanged;
       }
     }
@@ -218,7 +224,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 
       using ( var cts = new CancellationTokenSource() )
       {
-        await _semaphoreEstablishQueueLock.WaitAsync(cts.Token).ConfigureAwait(true);
+        await _semaphoreEstablishQueueLock.WaitAsync(cts.Token);
 
         try
         {
@@ -258,7 +264,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 
         case NotifyCollectionChangedAction.Remove:
 
-          foreach ( object item in e.OldItems )
+          foreach ( var item in e.OldItems )
           {
             if ( item is T i )
             {
@@ -276,7 +282,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 
     private void OnNotifyTaskPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( e.PropertyName == nameof(NotifyTaskCompletion.IsCanceled) )
+      if ( e.PropertyName == nameof(NotifyTaskCompletion.IsCanceled) || e.PropertyName == nameof(NotifyTaskCompletion.IsFaulted) )
       {
         CleanUp();
       }
@@ -349,8 +355,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
       }
     }
 
-    private void AddToFilteredCollection(int currentCount, int page)
-    {
+    private void AddToFilteredCollection(int currentCount, int page) =>
       Application.Current.Dispatcher?.InvokeAsync(() =>
       {
         var start = page * PagingSize;
@@ -372,12 +377,24 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
           FilteredCollection.AddRange(_internalCollection);
         }
       });
+
+    /// <summary>
+    /// Protected implementation of Dispose pattern
+    /// </summary>
+    /// <param name="disposing"></param>
+    protected virtual void Dispose(bool disposing)
+    {
+      _disposeCts?.Cancel();
     }
 
     /// <summary>
     /// Release all resources used by <see cref="VsCollectionView{T}"/>
     /// </summary>
-    public void Dispose() => _disposeCts?.Cancel();
+    public void Dispose()
+    {
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
 
     private void CleanUp()
     {

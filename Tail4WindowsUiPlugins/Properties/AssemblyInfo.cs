@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("T4WCore")]
-[assembly: AssemblyDescription("Professional log reader for Windows® Core")]
+[assembly: AssemblyTitle("T4WUiPlugins")]
+[assembly: AssemblyDescription("Professional log reader for Windows® UI Plugins")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Virtual Studios")]
-[assembly: AssemblyProduct("T4WCore")]
-[assembly: AssemblyCopyright("Copyright ©  2018 - 2020 M. Zoennchen")]
+[assembly: AssemblyProduct("T4WUiPlugins")]
+[assembly: AssemblyCopyright("Copyright ©  2019 - 2020 M. Zoennchen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("7e255b50-cfb7-4ad8-9694-e569427fe866")]
+[assembly: Guid("1cbf978a-e8bd-4f25-88ea-b069d1fdf62e")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyFileVersion("1.0.93")]
+[assembly: AssemblyFileVersion("1.0.0")]
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "Config/log4net.xml", Watch = true)]

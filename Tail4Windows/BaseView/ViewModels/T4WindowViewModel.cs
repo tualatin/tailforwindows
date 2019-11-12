@@ -335,8 +335,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ShowStatisticsModuleMessage>(OnShowStatisticsWindow);
     }
 
-    private void CreateTrayIconSystemMenu()
-    {
+    private void CreateTrayIconSystemMenu() =>
       TrayIconItemsSource = new ObservableCollection<DragSupportMenuItem>
       {
         new DragSupportMenuItem
@@ -346,7 +345,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
           Command = new RelayCommand(p => ExecuteExitApplication())
         }
       };
-    }
 
     private void OnFileEncodingChanged(object sender, FileEncodingArgs e)
     {
