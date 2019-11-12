@@ -329,53 +329,7 @@
     <Compile Include="UI\Behaviors\SizeObserver.cs" />
     <Compile Include="UI\Behaviors\TextBoxMaskBehavior.cs" />
     <Compile Include="UI\Behaviors\TextBoxSelectionBehavior.cs" />
-    <Compile Include="UI\Converters\AnalysisEnumToVisibilityConverter.cs" />
-    <Compile Include="UI\Converters\BackgroundColorToIsNotSelectedConverter.cs" />
-    <Compile Include="UI\Converters\BackgroundToForegroundColorConverter.cs" />
-    <Compile Include="UI\Converters\BoolToForegroundConverter.cs" />
-    <Compile Include="UI\Converters\BoolToScrollbarVisibility.cs" />
-    <Compile Include="UI\Converters\BoolToTextWrapConverter.cs" />
-    <Compile Include="UI\Converters\CountToForegroundConverter.cs" />
-    <Compile Include="UI\Converters\DoubleToGridLengthConverter.cs" />
-    <Compile Include="UI\Converters\FilterCountToStringConverter.cs" />
-    <Compile Include="UI\Converters\FontToStringConverter.cs" />
-    <Compile Include="UI\Converters\FontTypeToImageSizeConverter.cs" />
-    <Compile Include="UI\Converters\ImageToBoolConverter.cs" />
-    <Compile Include="UI\Converters\IntToBoolConverter.cs" />
-    <Compile Include="UI\Converters\IntToVisibilityConverter.cs" />
-    <Compile Include="UI\Converters\InverseBooleanToVisibilityConverter.cs" />
-    <Compile Include="UI\Converters\IsPortableModeToImageSourceConverter.cs" />
-    <Compile Include="UI\Converters\IsPortableModeToToolTipConverter.cs" />
-    <Compile Include="UI\Converters\MediaBrushToMediaColorConverter.cs" />
-    <Compile Include="UI\Converters\MultiConverters\AlertEnableMailMultiConverter.cs" />
-    <Compile Include="UI\Converters\MultiConverters\BookmarkCommentToImageMultiConverter.cs" />
-    <Compile Include="UI\Converters\MultiConverters\BoolMultiConverter.cs" />
-    <Compile Include="UI\Converters\MultiConverters\IsEnableMultiConverter.cs" />
-    <Compile Include="UI\Converters\MultiConverters\LogFileFileManagerMultiConverter.cs" />
-    <Compile Include="UI\Converters\MultiConverters\TailManagerMouseDoubleClickMultiConverter.cs" />
-    <Compile Include="UI\Converters\NegativeVisibilityConverter.cs" />
-    <Compile Include="UI\Converters\OpacityConverter.cs" />
-    <Compile Include="UI\Converters\ReverseConverter.cs" />
-    <Compile Include="UI\Converters\RowFromFilterManagerCollectionConverter.cs" />
-    <Compile Include="UI\Converters\RowFromTailManagerCollectionConverter.cs" />
-    <Compile Include="UI\Converters\RowFromThirdPartyCollectionConverter.cs" />
-    <Compile Include="UI\Converters\SmartWatchIntervalToString.cs" />
-    <Compile Include="UI\Converters\StatusBarStateToBoolConverter.cs" />
-    <Compile Include="UI\Converters\StatusBarStateToBoolInverseConverter.cs" />
-    <Compile Include="UI\Converters\StringFormatConverter.cs" />
-    <Compile Include="UI\Converters\StringToVisibilityConverter.cs" />
-    <Compile Include="UI\Converters\TailDataListOfFilterToBoolConverter.cs" />
-    <Compile Include="UI\Converters\MultiConverters\VisibilityToMarginConverter.cs" />
-    <Compile Include="UI\Converters\MultiConverters\WidthToMarginConverter.cs" />
-    <Compile Include="UI\Converters\TaskStatusToBoolConverter.cs" />
-    <Compile Include="UI\Converters\TimeDeltaStringFormatConverter.cs" />
-    <Compile Include="UI\Converters\VisibilityToInverseBoolConverter.cs" />
-    <Compile Include="UI\Debugging\DebugBuild.cs" />
     <Compile Include="UI\ExtendedControls\VsPopupEx.cs" />
-    <Compile Include="UI\Extensions\BindableBinding.cs" />
-    <Compile Include="UI\Extensions\ConverterBindableBinding.cs" />
-    <Compile Include="UI\Extensions\MultiValueConverterAdapter.cs" />
-    <Compile Include="UI\Extensions\VisualTreeEnumerationExtension.cs" />
     <Compile Include="UI\FloatWindow\VsFloatingWindow.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
@@ -423,24 +377,6 @@
     <Compile Include="UI\AutoUpdatePopUp.xaml.cs">
       <DependentUpon>AutoUpdatePopUp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Converters\BoolToUpdateHintConverter.cs" />
-    <Compile Include="UI\Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="UI\Converters\InverseBooleanConverter.cs" />
-    <Compile Include="UI\Converters\InverseNullToBoolConverter.cs" />
-    <Compile Include="UI\Converters\LogLineLimitConverter.cs" />
-    <Compile Include="UI\Converters\LogLineLimitToLabelConverter.cs" />
-    <Compile Include="UI\Converters\MailAddressConverter.cs" />
-    <Compile Include="UI\Converters\NullToBoolConverter.cs" />
-    <Compile Include="UI\Converters\NullToVisibilityConverter.cs" />
-    <Compile Include="UI\Converters\SmartWatchModeToBoolConverter.cs" />
-    <Compile Include="UI\Converters\SmtpSecurityConverter.cs" />
-    <Compile Include="UI\Converters\SoundFileNameConverter.cs" />
-    <Compile Include="UI\Converters\StringEmptyToDotConverter.cs" />
-    <Compile Include="UI\Converters\StringToIntConverter.cs" />
-    <Compile Include="UI\Converters\BitmapImageToVisibilityConverter.cs" />
-    <Compile Include="UI\Converters\StringToWindowMediaBrushConverter.cs" />
-    <Compile Include="UI\Converters\StringToWindowsMediaColorConverter.cs" />
-    <Compile Include="UI\Converters\TreeNodeToImageConverter.cs" />
     <Compile Include="UI\ExtendedControls\VsColorPicker.cs" />
     <Compile Include="UI\ExtendedControls\VsWindowEx.cs" />
     <Compile Include="BaseView\Options.xaml.cs">
@@ -468,9 +404,6 @@
       <DependentUpon>EnvironmentOptionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Behaviors\DialogBehavior.cs" />
-    <Compile Include="UI\Converters\BackgroundToForegroundConverter.cs" />
-    <Compile Include="UI\Converters\ColorToSolidColorBrushConverter.cs" />
-    <Compile Include="UI\Extensions\WindowExtension.cs" />
     <Compile Include="UI\NotifyIcon\Interop\SystemInfo.cs" />
     <Compile Include="BaseView\T4Window.xaml.cs">
       <DependentUpon>T4Window.xaml</DependentUpon>
@@ -1034,9 +967,13 @@
       <Project>{7e255b50-cfb7-4ad8-9694-e569427fe866}</Project>
       <Name>Tail4WindowsCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Tail4WindowsUiPlugins\Tail4WindowsUiPlugins.csproj">
+    <ProjectReference Include="..\Tail4WindowsUi.Plugins\Tail4WindowsUi.Plugins.csproj">
       <Project>{1cbf978a-e8bd-4f25-88ea-b069d1fdf62e}</Project>
-      <Name>Tail4WindowsUiPlugins</Name>
+      <Name>Tail4WindowsUi.Plugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tail4WindowsUi.Utils\Tail4WindowsUi.Utils.csproj">
+      <Project>{cc2ada96-deb9-4c47-8b9f-6f289b137701}</Project>
+      <Name>Tail4WindowsUi.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

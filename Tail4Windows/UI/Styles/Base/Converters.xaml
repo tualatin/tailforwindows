@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:converters="clr-namespace:Org.Vs.TailForWin.UI.Converters"
-  xmlns:multiConverters="clr-namespace:Org.Vs.TailForWin.UI.Converters.MultiConverters"
+  xmlns:converters="clr-namespace:Org.Vs.TailForWin.Ui.Utils.Converters;assembly=T4WUi.Utils"
+  xmlns:multiConverters="clr-namespace:Org.Vs.TailForWin.Ui.Utils.Converters.MultiConverters;assembly=T4WUi.Utils"
   >
 
   <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />

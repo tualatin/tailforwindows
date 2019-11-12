@@ -46,7 +46,7 @@ using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.PlugIns.BookmarkCommentModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule;
-using Org.Vs.TailForWin.UI.Extensions;
+using Org.Vs.TailForWin.Ui.Utils.Extensions;
 using Org.Vs.TailForWin.UI.UserControls;
 
 

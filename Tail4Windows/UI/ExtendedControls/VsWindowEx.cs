@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
-using Org.Vs.TailForWin.UI.Extensions;
+using Org.Vs.TailForWin.Ui.Utils.Extensions;
 
 
 namespace Org.Vs.TailForWin.UI.ExtendedControls

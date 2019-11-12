@@ -13,7 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using log4net;
 using Org.Vs.TailForWin.Core.Utils;
-using Org.Vs.TailForWin.UI.Extensions;
+using Org.Vs.TailForWin.Ui.Utils.Extensions;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls

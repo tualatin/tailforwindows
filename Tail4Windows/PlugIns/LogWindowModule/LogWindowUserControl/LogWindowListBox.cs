@@ -26,8 +26,8 @@ using Org.Vs.TailForWin.Data.Messages.FindWhat;
 using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
-using Org.Vs.TailForWin.UI.Converters;
-using Org.Vs.TailForWin.UI.Extensions;
+using Org.Vs.TailForWin.Ui.Utils.Converters;
+using Org.Vs.TailForWin.Ui.Utils.Extensions;
 
 
 namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl

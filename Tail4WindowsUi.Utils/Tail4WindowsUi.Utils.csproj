@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CC2ADA96-DEB9-4C47-8B9F-6F289B137701}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>Org.Vs.TailForWin.Ui.Utils</RootNamespace>
+    <AssemblyName>T4WUi.Utils</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>false</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\x64\Debug\T4WUi.Utils.xml</DocumentationFile>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Controls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Effects, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Effects.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Prototyping.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Prototyping.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Prototyping.SketchControls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Prototyping.SketchControls.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SDK.Expression.Blend, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.SDK.Expression.Blend.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Converters\AnalysisEnumToVisibilityConverter.cs" />
+    <Compile Include="Converters\BackgroundColorToIsNotSelectedConverter.cs" />
+    <Compile Include="Converters\BackgroundToForegroundColorConverter.cs" />
+    <Compile Include="Converters\BackgroundToForegroundConverter.cs" />
+    <Compile Include="Converters\BitmapImageToVisibilityConverter.cs" />
+    <Compile Include="Converters\BoolToForegroundConverter.cs" />
+    <Compile Include="Converters\BoolToScrollbarVisibility.cs" />
+    <Compile Include="Converters\BoolToTextWrapConverter.cs" />
+    <Compile Include="Converters\BoolToUpdateHintConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\ColorToSolidColorBrushConverter.cs" />
+    <Compile Include="Converters\CountToForegroundConverter.cs" />
+    <Compile Include="Converters\DoubleToGridLengthConverter.cs" />
+    <Compile Include="Converters\FilterCountToStringConverter.cs" />
+    <Compile Include="Converters\FontToStringConverter.cs" />
+    <Compile Include="Converters\FontTypeToImageSizeConverter.cs" />
+    <Compile Include="Converters\ImageToBoolConverter.cs" />
+    <Compile Include="Converters\IntToBoolConverter.cs" />
+    <Compile Include="Converters\IntToVisibilityConverter.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\InverseNullToBoolConverter.cs" />
+    <Compile Include="Converters\IsPortableModeToImageSourceConverter.cs" />
+    <Compile Include="Converters\IsPortableModeToToolTipConverter.cs" />
+    <Compile Include="Converters\LogLineLimitConverter.cs" />
+    <Compile Include="Converters\LogLineLimitToLabelConverter.cs" />
+    <Compile Include="Converters\MailAddressConverter.cs" />
+    <Compile Include="Converters\MediaBrushToMediaColorConverter.cs" />
+    <Compile Include="Converters\MultiConverters\AlertEnableMailMultiConverter.cs" />
+    <Compile Include="Converters\MultiConverters\BookmarkCommentToImageMultiConverter.cs" />
+    <Compile Include="Converters\MultiConverters\BoolMultiConverter.cs" />
+    <Compile Include="Converters\MultiConverters\IsEnableMultiConverter.cs" />
+    <Compile Include="Converters\MultiConverters\LogFileFileManagerMultiConverter.cs" />
+    <Compile Include="Converters\MultiConverters\TailManagerMouseDoubleClickMultiConverter.cs" />
+    <Compile Include="Converters\MultiConverters\VisibilityToMarginConverter.cs" />
+    <Compile Include="Converters\MultiConverters\WidthToMarginConverter.cs" />
+    <Compile Include="Converters\NegativeVisibilityConverter.cs" />
+    <Compile Include="Converters\NullToBoolConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Converters\OpacityConverter.cs" />
+    <Compile Include="Converters\ReverseConverter.cs" />
+    <Compile Include="Converters\RowFromFilterManagerCollectionConverter.cs" />
+    <Compile Include="Converters\RowFromTailManagerCollectionConverter.cs" />
+    <Compile Include="Converters\RowFromThirdPartyCollectionConverter.cs" />
+    <Compile Include="Converters\SmartWatchIntervalToString.cs" />
+    <Compile Include="Converters\SmartWatchModeToBoolConverter.cs" />
+    <Compile Include="Converters\SmtpSecurityConverter.cs" />
+    <Compile Include="Converters\SoundFileNameConverter.cs" />
+    <Compile Include="Converters\StatusBarStateToBoolConverter.cs" />
+    <Compile Include="Converters\StatusBarStateToBoolInverseConverter.cs" />
+    <Compile Include="Converters\StringEmptyToDotConverter.cs" />
+    <Compile Include="Converters\StringFormatConverter.cs" />
+    <Compile Include="Converters\StringToIntConverter.cs" />
+    <Compile Include="Converters\StringToVisibilityConverter.cs" />
+    <Compile Include="Converters\StringToWindowMediaBrushConverter.cs" />
+    <Compile Include="Converters\StringToWindowsMediaColorConverter.cs" />
+    <Compile Include="Converters\TailDataListOfFilterToBoolConverter.cs" />
+    <Compile Include="Converters\TaskStatusToBoolConverter.cs" />
+    <Compile Include="Converters\TimeDeltaStringFormatConverter.cs" />
+    <Compile Include="Converters\TreeNodeToImageConverter.cs" />
+    <Compile Include="Converters\VisibilityToInverseBoolConverter.cs" />
+    <Compile Include="Debugging\DebugBuild.cs" />
+    <Compile Include="Extensions\BindableBinding.cs" />
+    <Compile Include="Extensions\ConverterBindableBinding.cs" />
+    <Compile Include="Converters\MultiConverters\MultiValueConverterAdapter.cs" />
+    <Compile Include="Extensions\VisualTreeEnumerationExtension.cs" />
+    <Compile Include="Extensions\WindowExtension.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AsyncAnalyzers.1.1.7.0\analyzers\dotnet\cs\AsyncAnalyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tail4WindowsBusiness\Tail4WindowsBusiness.csproj">
+      <Project>{c81d4747-d467-42fa-a998-0b8e68131e46}</Project>
+      <Name>Tail4WindowsBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tail4WindowsControllers\Tail4WindowsControllers.csproj">
+      <Project>{dfd6ab76-fd51-4b29-abca-f0e11bebb9ec}</Project>
+      <Name>Tail4WindowsControllers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj">
+      <Project>{7e255b50-cfb7-4ad8-9694-e569427fe866}</Project>
+      <Name>Tail4WindowsCore</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

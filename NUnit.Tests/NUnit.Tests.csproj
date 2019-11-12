@@ -130,6 +130,10 @@
       <Project>{7e255b50-cfb7-4ad8-9694-e569427fe866}</Project>
       <Name>Tail4WindowsCore</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tail4WindowsUi.Utils\Tail4WindowsUi.Utils.csproj">
+      <Project>{cc2ada96-deb9-4c47-8b9f-6f289b137701}</Project>
+      <Name>Tail4WindowsUi.Utils</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tail4Windows\Tail4Windows.csproj">
       <Project>{b07be282-4b92-4e8b-97e0-8413e9501877}</Project>
       <Name>Tail4Windows</Name>

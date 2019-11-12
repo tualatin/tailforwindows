@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Data;
-using Org.Vs.TailForWin.UI.Converters;
+using Org.Vs.TailForWin.Ui.Utils.Converters;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls
@@ -37,14 +36,14 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private void HighlightingText(string value)
     {
-      Regex regex = BusinessHelper.GetValidRegexPattern(HighlightText.Select(p => p.Text).ToList());
+      var regex = BusinessHelper.GetValidRegexPattern(HighlightText.Select(p => p.Text).ToList());
       var splits = regex.Split(value);
 
       Inlines.Clear();
 
       foreach ( string item in splits )
       {
-        TextHighlightData highlightData = HighlightText.FirstOrDefault(p => string.Compare(p.Text, item, StringComparison.CurrentCultureIgnoreCase) == 0);
+        var highlightData = HighlightText.FirstOrDefault(p => string.Compare(p.Text, item, StringComparison.CurrentCultureIgnoreCase) == 0);
 
         if ( regex.Match(item).Success && highlightData != null )
         {

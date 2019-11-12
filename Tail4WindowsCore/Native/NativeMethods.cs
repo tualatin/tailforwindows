@@ -8,6 +8,7 @@ using Org.Vs.TailForWin.Core.Native.Data;
 
 [assembly: InternalsVisibleTo("T4W")]
 [assembly: InternalsVisibleTo("T4WBusiness")]
+[assembly: InternalsVisibleTo("T4WUi.Utils")]
 namespace Org.Vs.TailForWin.Core.Native
 {
   /// <summary>

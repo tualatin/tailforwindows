@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Extensions;
-using Org.Vs.TailForWin.UI.Converters;
+using Org.Vs.TailForWin.Ui.Utils.Converters;
 
 
 namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils

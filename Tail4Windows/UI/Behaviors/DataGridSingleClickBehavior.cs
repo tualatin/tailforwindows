@@ -3,8 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Ui.Utils.Extensions;
 using Org.Vs.TailForWin.UI.Behaviors.Base;
-using Org.Vs.TailForWin.UI.Extensions;
 using Org.Vs.TailForWin.UI.UserControls;
 
 
@@ -38,8 +38,8 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       if ( !(sender is VsDataGrid dataGrid) )
         return;
 
-      FrameworkElement fe = GetFrameworkElement(e.OriginalSource);
-      DataGridCell cell = fe?.Ancestors().OfType<DataGridCell>().FirstOrDefault();
+      var fe = GetFrameworkElement(e.OriginalSource);
+      var cell = fe?.Ancestors().OfType<DataGridCell>().FirstOrDefault();
 
       if ( cell == null || cell.IsEditing || cell.IsReadOnly || Keyboard.Modifiers != ModifierKeys.None )
         return;
@@ -54,7 +54,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       }
       else
       {
-        DataGridRow row = cell.Ancestors().OfType<DataGridRow>().FirstOrDefault();
+        var row = cell.Ancestors().OfType<DataGridRow>().FirstOrDefault();
 
         if ( row == null || !row.IsSelected )
           return;
@@ -71,7 +71,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
       if ( !(dataGrid.ItemContainerGenerator.ContainerFromItem(dataGrid.CurrentCell.Item) is DataGridRow row) )
         return;
 
-      DataGridCellsPresenter presenter = row.Descendents().OfType<DataGridCellsPresenter>().FirstOrDefault();
+      var presenter = row.Descendents().OfType<DataGridCellsPresenter>().FirstOrDefault();
 
       if ( presenter == null )
         return;
