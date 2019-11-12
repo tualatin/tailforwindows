@@ -2,7 +2,7 @@
 using System.Windows.Input;
 
 
-namespace Org.Vs.TailForWin.UI.ExtendedControls
+namespace Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls
 {
   /// <summary>
   /// Virtual Studios Popup extended

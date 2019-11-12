@@ -67,6 +67,13 @@
         genericBehaviors:ListBoxSelector.Offset="20"
         >
         <i:Interaction.Triggers>
+          <i:EventTrigger EventName="SelectedLinesChangedEvent">
+            <commands:InvokeDelegateCommandAction
+              Command="{Binding SelectedLinesChangedInSplitControlCommand}"
+              CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+              />
+          </i:EventTrigger>
+
           <i:EventTrigger EventName="AddBookmarkCommentEvent">
             <commands:InvokeDelegateCommandAction
               Command="{Binding AddBookmarkCommentCommand}"
@@ -247,6 +254,13 @@
       <i:Interaction.Triggers>
         <i:EventTrigger EventName="ClearItemsEvent">
           <i:InvokeCommandAction Command="{Binding ClearItemsCommand}" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="SelectedLinesChangedEvent">
+          <commands:InvokeDelegateCommandAction
+            Command="{Binding SelectedLinesChangedCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+            />
         </i:EventTrigger>
 
         <i:EventTrigger EventName="AddBookmarkCommentEvent">

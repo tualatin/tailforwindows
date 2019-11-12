@@ -11,7 +11,7 @@
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:debugging="clr-namespace:Org.Vs.TailForWin.Ui.Utils.Debugging;assembly=T4WUi.Utils"
   xmlns:logWindowModule="clr-namespace:Org.Vs.TailForWin.PlugIns.LogWindowModule"
-  xmlns:utils="clr-namespace:Org.Vs.TailForWin.UI.Utils"
+  xmlns:utils="clr-namespace:Org.Vs.TailForWin.Ui.Utils.Utils;assembly=T4WUi.Utils"
   xmlns:utils1="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
   mc:Ignorable="d"
   d:DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -1070,6 +1070,13 @@
             <i:EventTrigger EventName="LinesRefreshTimeChangedEvent">
               <commands:InvokeDelegateCommandAction
                 Command="{Binding ElementName=LogWindow, Path=LinesRefreshTimeChangedCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
+                />
+            </i:EventTrigger>
+
+            <i:EventTrigger EventName="SelectedLinesChangedEvent">
+              <commands:InvokeDelegateCommandAction
+                Command="{Binding ElementName=LogWindow, Path=SelectedLinesChangedCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=InvokeParameter}"
                 />
             </i:EventTrigger>

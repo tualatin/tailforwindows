@@ -118,6 +118,21 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
+    private int _selectedLines;
+
+    /// <summary>
+    /// Current selected lines
+    /// </summary>
+    public int SelectedLines
+    {
+      get => _selectedLines;
+      set
+      {
+        _selectedLines = value;
+        OnPropertyChanged();
+      }
+    }
+
     #endregion
 
     #region Commands

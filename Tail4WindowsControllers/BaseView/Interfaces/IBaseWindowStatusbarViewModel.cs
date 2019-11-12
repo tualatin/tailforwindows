@@ -58,5 +58,14 @@ namespace Org.Vs.TailForWin.Controllers.BaseView.Interfaces
       get;
       set;
     }
+
+    /// <summary>
+    /// Selected lines
+    /// </summary>
+    int SelectedLines
+    {
+      get;
+      set;
+    }
   }
 }

@@ -22,6 +22,7 @@
   <system:String x:Key="NoFile">No file</system:String>
   <system:String x:Key="QRemoveTab">Are you sure you want to remove the tab</system:String>
   <system:String x:Key="TrayIconReady">Ready...</system:String>
+  <system:String x:Key="SelectedLines">Selected lines={0}</system:String>
   <system:String x:Key="LinesRead">Lines read={0:N0}</system:String>
   <system:String x:Key="SizeRefreshTime">Size={0} kb | last refresh time={1}</system:String>
   <system:String x:Key="QResetSettings">Do you really want reset all settings to default?</system:String>

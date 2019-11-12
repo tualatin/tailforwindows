@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using Org.Vs.TailForWin.UI.Interfaces;
 
 
-namespace Org.Vs.TailForWin.UI.Utils
+namespace Org.Vs.TailForWin.Ui.Utils.Utils
 {
   /// <summary>
   /// File Drag and Drop helper

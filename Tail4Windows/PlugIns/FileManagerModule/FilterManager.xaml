@@ -7,7 +7,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
-  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
@@ -469,7 +469,7 @@
             >
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <extendedControls:VsColorPicker
+                <extendedControls:VsColorPickerEx
                   ColorMode="ColorPalette"
                   SelectedColor="{Binding FilterColorHex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToWindowsMediaColorConverter}}"
                   ShowTabHeaders="False"
@@ -478,7 +478,7 @@
             </DataGridTemplateColumn.CellTemplate>
             <DataGridTemplateColumn.CellEditingTemplate>
               <DataTemplate>
-                <extendedControls:VsColorPicker
+                <extendedControls:VsColorPickerEx
                   ColorMode="ColorPalette"
                   SelectedColor="{Binding FilterColorHex, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToWindowsMediaColorConverter}}"
                   ShowTabHeaders="False"

@@ -98,11 +98,11 @@ namespace Org.Vs.TailForWin.Core.Utils
       }
       catch
       {
-        Type msgType = typeof(Action<T>);
+        var msgType = typeof(Action<T>);
 
         for ( int i = _handlers.Count - 1; i >= 0; i-- )
         {
-          Type type = _handlers[i].GetType();
+          var type = _handlers[i].GetType();
 
           if ( msgType != type )
             continue;

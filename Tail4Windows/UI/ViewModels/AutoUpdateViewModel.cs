@@ -5,7 +5,7 @@ using log4net;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Core.Data.Base;
-using Org.Vs.TailForWin.UI.ExtendedControls;
+using Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;
 
 
 namespace Org.Vs.TailForWin.UI.ViewModels

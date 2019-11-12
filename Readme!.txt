@@ -9,6 +9,7 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.3.xxxx.x
+* new show amount of selected lines
 * new History saves data as JSON
 * new History XML to JSON converter
 * new FileManager saves data as JSON

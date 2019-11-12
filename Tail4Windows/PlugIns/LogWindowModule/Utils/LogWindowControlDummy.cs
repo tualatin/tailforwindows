@@ -35,6 +35,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Utils
     /// </summary>
     public event StatusChangedEventHandler OnStatusChanged;
 
+    /// <summary>
+    /// On selected lines changed event
+    /// </summary>
+    public event SelectedLinesChangedEventHandler OnSelectedLinesChanged;
+
     #endregion
 
     /// <summary>
@@ -109,6 +114,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Utils
     /// Lines read
     /// </summary>
     public int LinesRead => throw new NotFiniteNumberException();
+
+    /// <summary>
+    /// Selected lines
+    /// </summary>
+    public int SelectedLines => throw new NotFiniteNumberException();
 
     /// <summary>
     /// IsSmartWatch and Autorun activated

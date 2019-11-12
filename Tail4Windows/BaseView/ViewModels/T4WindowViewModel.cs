@@ -67,6 +67,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private EStatusbarState _currentStatusbarState;
     private Encoding _currentEncoding;
     private int _currentLinesRead;
+    private int _currentSelectedLines;
     private string _currentSizeRefreshTime;
     private readonly IBaseWindowStatusbarViewModel _baseWindowStatusbarViewModel;
     private readonly CancellationTokenSource _cts;
@@ -244,6 +245,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         {
           ((ILogWindowControl) _selectedTabItem.Content).OnStatusChanged -= OnStatusChangedCurrentLogWindow;
           ((ILogWindowControl) _selectedTabItem.Content).OnLinesTimeChanged -= OnLinesRefreshTimeChangedCurrentLogWindow;
+          ((ILogWindowControl) _selectedTabItem.Content).OnSelectedLinesChanged -= OnSelectedLinesChanged;
         }
 
         _selectedTabItem = value;
@@ -254,8 +256,10 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         var content = (ILogWindowControl) _selectedTabItem.Content;
         content.OnStatusChanged += OnStatusChangedCurrentLogWindow;
         content.OnLinesTimeChanged += OnLinesRefreshTimeChangedCurrentLogWindow;
+        content.OnSelectedLinesChanged += OnSelectedLinesChanged;
 
         _currentLinesRead = content.LinesRead;
+        _currentSelectedLines = content.SelectedLines;
         _currentSizeRefreshTime = content.TailReader.SizeRefreshTime;
         _currentStatusbarState = content.LogWindowState;
         _currentEncoding = content.CurrentTailData?.FileEncoding;
@@ -1011,6 +1015,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _baseWindowStatusbarViewModel.LinesRead = _currentLinesRead = e.LinesRead;
     }
 
+    private void OnSelectedLinesChanged(object sender, SelectedLinesChangedArgs e)
+    {
+      if ( !(sender is LogWindowControl) )
+        return;
+
+      _baseWindowStatusbarViewModel.SelectedLines = _currentSelectedLines = e.SelectedLines;
+    }
+
     #endregion
 
     #region HelperFunctions
@@ -1460,6 +1472,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _baseWindowStatusbarViewModel.SizeRefreshTime = _currentSizeRefreshTime;
       _baseWindowStatusbarViewModel.LinesRead = _currentLinesRead;
       _baseWindowStatusbarViewModel.CurrentEncoding = _currentEncoding;
+      _baseWindowStatusbarViewModel.SelectedLines = _currentSelectedLines;
     }
 
     #endregion

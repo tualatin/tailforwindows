@@ -2,17 +2,17 @@
 using Xceed.Wpf.Toolkit;
 
 
-namespace Org.Vs.TailForWin.UI.ExtendedControls
+namespace Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls
 {
   /// <summary>
   /// Virtual Studios Extended ColorPicker
   /// </summary>
-  public class VsColorPicker : ColorPicker
+  public class VsColorPickerEx : ColorPicker
   {
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public VsColorPicker()
+    public VsColorPickerEx()
     {
       UsingAlphaChannel = false;
       AvailableColorsSortingMode = ColorSortingMode.HueSaturationBrightness;

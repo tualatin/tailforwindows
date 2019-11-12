@@ -22,6 +22,7 @@
   <system:String x:Key="NoFile">Keine Datei</system:String>
   <system:String x:Key="QRemoveTab">Möchten Sie den Reiter wirklich schließen</system:String>
   <system:String x:Key="TrayIconReady">Bereit...</system:String>
+  <system:String x:Key="SelectedLines">Ausgew. Zeilen={0}</system:String>
   <system:String x:Key="LinesRead">Zeilen gelesen={0:N0}</system:String>
   <system:String x:Key="SizeRefreshTime">Größe={0} kb | letzte Aktualisierung={1}</system:String>
   <system:String x:Key="QResetSettings">Möchten Sie wirklich alle Einstellungen zurücksetzen?</system:String>

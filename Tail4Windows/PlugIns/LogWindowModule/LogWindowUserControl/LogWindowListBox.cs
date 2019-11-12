@@ -4,14 +4,12 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using log4net;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils;
@@ -231,6 +229,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       remove => RemoveHandler(AddBookmarkCommentRoutedEvent, value);
     }
 
+    private static readonly RoutedEvent SelectedLinesChangedRoutedEvent =
+      EventManager.RegisterRoutedEvent(nameof(SelectedLinesChangedEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LogWindowListBox));
+
+    /// <summary>
+    /// Selection of lines changed event
+    /// </summary>
+    public event RoutedEventHandler SelectedLinesChangedEvent
+    {
+      add => AddHandler(SelectedLinesChangedRoutedEvent, value);
+      remove => RemoveHandler(SelectedLinesChangedRoutedEvent, value);
+    }
+
     #endregion
 
     static LogWindowListBox() => DefaultStyleKeyProperty.OverrideMetadata(typeof(LogWindowListBox), new FrameworkPropertyMetadata(typeof(LogWindowListBox)));
@@ -294,14 +304,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         if ( tb == null )
           continue;
 
-        Regex regex = BusinessHelper.GetValidRegexPattern(result.Select(p => p.Text).ToList());
+        var regex = BusinessHelper.GetValidRegexPattern(result.Select(p => p.Text).ToList());
         var splits = regex.Split(tb.Text);
 
         tb.Inlines.Clear();
 
         foreach ( string item in splits )
         {
-          TextHighlightData highlightData = result.FirstOrDefault(p => string.Compare(p.Text, item, StringComparison.CurrentCultureIgnoreCase) == 0);
+          var highlightData = result.FirstOrDefault(p => string.Compare(p.Text, item, StringComparison.CurrentCultureIgnoreCase) == 0);
 
           if ( regex.Match(item).Success && highlightData != null )
           {
@@ -411,7 +421,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         return;
 
       _isMouseLeftDownClick = true;
-      Point mousePoint = PointToScreen(Mouse.GetPosition(this));
+      var mousePoint = PointToScreen(Mouse.GetPosition(this));
       ContextMenu = null;
       LogEntry item = null;
 
@@ -493,8 +503,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       var contentContextMenu = new ContextMenu();
 
-      BitmapImage icon = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/bubble.png");
-      MenuItem menuItem = CreateMenuItem(Application.Current.TryFindResource("AddCommentToBookmark").ToString(), icon);
+      var icon = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/bubble.png");
+      var menuItem = CreateMenuItem(Application.Current.TryFindResource("AddCommentToBookmark").ToString(), icon);
       menuItem.Command = AddBookmarkCommentCommand;
       menuItem.CommandParameter = item;
       contentContextMenu.Items.Add(menuItem);
@@ -519,11 +529,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private void LogWindowListBoxOnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+      var eventArgs = new RoutedEventArgs(SelectedLinesChangedRoutedEvent, SelectedItems.Count);
+      RaiseEvent(eventArgs);
+
       if ( _defaultTextMessage == null || _readOnlyTextMessage == null || _isMouseDoubleClick )
         return;
 
       _defaultTextMessage.Visibility = Visibility.Visible;
-
       _readOnlyTextMessage.Visibility = Visibility.Collapsed;
       _readOnlyTextMessage.ContextMenu = null;
       _readOnlyTextMessage.SelectionChanged -= ReadOnlyTextMessageOnSelectionChanged;
@@ -648,7 +660,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       if ( !(d is LogWindowListBox listBox) )
         return;
 
-      Label bookmarkCount = listBox.Descendents().OfType<Label>().FirstOrDefault(p => p.Name == "BookmarkCountLabel");
+      var bookmarkCount = listBox.Descendents().OfType<Label>().FirstOrDefault(p => p.Name == "BookmarkCountLabel");
 
       if ( bookmarkCount != null )
         bookmarkCount.Content = listBox.BookmarkCount.ToString();
@@ -719,7 +731,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private void ExecuteBookmarkOverviewCommand()
     {
-      ILogWindowControl logWindow = GetLogWindow();
+      var logWindow = GetLogWindow();
 
       if ( logWindow == null )
         return;
@@ -760,7 +772,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private void ExecuteAddToFindWhatCommand()
     {
-      ILogWindowControl logWindow = GetLogWindow();
+      var logWindow = GetLogWindow();
 
       if ( logWindow == null )
         return;
@@ -806,7 +818,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private bool IsRightWindow()
     {
-      ILogWindowControl logWindow = GetLogWindow();
+      var logWindow = GetLogWindow();
       return logWindow != null && Equals(EnvironmentContainer.Instance.BookmarkManager.GetCurrentWindowId(), logWindow.WindowId);
     }
 
@@ -818,9 +830,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
     private void CreateReadOnlyTextBoxContextMenu()
     {
-      BitmapImage icon = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/transparent.png");
+      var icon = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/transparent.png");
       _readOnlyTextBoxContextMenu = new ContextMenu();
-      MenuItem menuItem = CreateMenuItem(Application.Current.TryFindResource("AddToFilter").ToString(), icon);
+      var menuItem = CreateMenuItem(Application.Current.TryFindResource("AddToFilter").ToString(), icon);
       menuItem.Command = AddToFilterCommand;
 
       _readOnlyTextBoxContextMenu.Items.Add(menuItem);
@@ -880,9 +892,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       var lines = GetLines(textBlock);
       var linesEnumerable = lines as string[] ?? lines.ToArray();
-      Point relativePoint = target.PointToScreen(new Point(0, 0));
+      var relativePoint = target.PointToScreen(new Point(0, 0));
       var s = new Size(16, 16);
-      Size textSize = textBlock.Text.GetMeasureTextSize(new Typeface(textBlock.FontFamily, textBlock.FontStyle, textBlock.FontWeight, textBlock.FontStretch), textBlock.FontSize);
+      var textSize = textBlock.Text.GetMeasureTextSize(new Typeface(textBlock.FontFamily, textBlock.FontStyle, textBlock.FontWeight, textBlock.FontStretch), textBlock.FontSize);
 
       if ( textSize.Height * linesEnumerable.Length >= 16 )
         s.Height = textSize.Height * linesEnumerable.Length;
@@ -909,11 +921,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     {
       string text = source.Text;
       var offset = 0;
-      TextPointer lineStart = source.ContentStart.GetPositionAtOffset(1, LogicalDirection.Forward);
+      var lineStart = source.ContentStart.GetPositionAtOffset(1, LogicalDirection.Forward);
 
       do
       {
-        TextPointer lineEnd = lineStart?.GetLineStartPosition(1);
+        var lineEnd = lineStart?.GetLineStartPosition(1);
         int length = lineEnd != null ? lineStart.GetOffsetToPosition(lineEnd) : text.Length - offset;
 
         yield return text.Substring(offset, length);

@@ -83,7 +83,7 @@ namespace Org.Vs.TailForWin.Controllers.Commands
       if ( AssociatedObject == null )
         return;
 
-      ICommand command = ResolveCommand();
+      var command = ResolveCommand();
 
       if ( command != null && command.CanExecute(CommandParameter) )
         command.Execute(CommandParameter);
@@ -102,7 +102,7 @@ namespace Org.Vs.TailForWin.Controllers.Commands
 
         if ( dataContext != null )
         {
-          PropertyInfo commandPropertyInfo = dataContext.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
+          var commandPropertyInfo = dataContext.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)
             .FirstOrDefault(p => typeof(ICommand).IsAssignableFrom(p.PropertyType) && string.Equals(p.Name, CommandName, StringComparison.Ordinal));
 
           if ( commandPropertyInfo != null )

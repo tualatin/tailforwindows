@@ -88,6 +88,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// </summary>
     public event StatusChangedEventHandler OnStatusChanged;
 
+    /// <summary>
+    /// On selected lines changed event
+    /// </summary>
+    public event SelectedLinesChangedEventHandler OnSelectedLinesChanged;
+
     #endregion
 
     /// <summary>
@@ -315,6 +320,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     public int LinesRead => SplitWindow.LinesRead;
 
     /// <summary>
+    /// Selected lines
+    /// </summary>
+    public int SelectedLines => SplitWindow.SelectedLines;
+
+    /// <summary>
     /// SplitWindow control
     /// </summary>
     public ISplitWindowControl SplitWindow => SplitWindowControl;
@@ -497,10 +507,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private ICommand _linesRefreshTimeChangedCommand;
 
     /// <summary>
-    /// LinesRefreshTimeChanged command
+    /// lines refresh time changed command
     /// </summary>
     public ICommand LinesRefreshTimeChangedCommand =>
       _linesRefreshTimeChangedCommand ?? (_linesRefreshTimeChangedCommand = new RelayCommand(ExecuteLinesRefreshTimeChangedCommand));
+
+    private ICommand _selectedLinesChangedCommand;
+
+    /// <summary>
+    /// Selected lines changed command
+    /// </summary>
+    public ICommand SelectedLinesChangedCommand =>
+      _selectedLinesChangedCommand ?? (_selectedLinesChangedCommand = new RelayCommand(ExecuteSelectedLinesChangedCommand));
 
     private ICommand _patternControlCommand;
 
@@ -598,6 +616,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         CurrentTailData = CurrentTailData
       };
       patternControl.ShowDialog();
+    }
+
+    private void ExecuteSelectedLinesChangedCommand(object args)
+    {
+      if ( !(args is RoutedEventArgs e) )
+        return;
+
+      OnSelectedLinesChanged?.Invoke(this, new SelectedLinesChangedArgs(e.RoutedEvent, (int) e.OriginalSource));
     }
 
     private void ExecuteLinesRefreshTimeChangedCommand(object param)

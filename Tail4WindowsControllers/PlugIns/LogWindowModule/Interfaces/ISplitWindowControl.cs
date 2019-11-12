@@ -45,6 +45,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     }
 
     /// <summary>
+    /// Selected lines
+    /// </summary>
+    int SelectedLines
+    {
+      get;
+    }
+
+    /// <summary>
     /// SelectedSplitSearch item
     /// </summary>
     string SelectedSplitSearchItem

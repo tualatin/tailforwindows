@@ -23,7 +23,7 @@
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
       <ColumnDefinition Width="Auto" />
-      <ColumnDefinition Width="100" />
+      <ColumnDefinition Width="120" />
       <ColumnDefinition Width="Auto" />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
@@ -75,6 +75,18 @@
       FontSize="11"
       Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
       SnapsToDevicePixels="True"
+      />
+
+    <Label
+      Grid.Column="2"
+      Margin="8 0"
+      VerticalAlignment="Center"
+      Content="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=SelectedLines, UpdateSourceTrigger=PropertyChanged}"
+      ContentStringFormat="{DynamicResource SelectedLines}"
+      FontSize="11"
+      Foreground="{Binding ElementName=StatusbarGrid, Path=Background, Converter={StaticResource BackgroundToForegroundConverter}, UpdateSourceTrigger=PropertyChanged}"
+      SnapsToDevicePixels="True"
+      Visibility="{Binding Source={x:Static vm:BaseWindowStatusbarViewModel.Instance}, Path=SelectedLines, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource IntToVisibilityConverter}}"
       />
 
     <Label

@@ -29,6 +29,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     /// </summary>
     event StatusChangedEventHandler OnStatusChanged;
 
+    /// <summary>
+    /// On selected lines changed event
+    /// </summary>
+    event SelectedLinesChangedEventHandler OnSelectedLinesChanged;
+
     #endregion
 
     /// <summary>
@@ -106,6 +111,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces
     /// </summary>
     int LinesRead
     {
+      get;
+    }
+
+    /// <summary>
+    /// Selected lines
+    /// </summary>
+    int SelectedLines
+    {
+
       get;
     }
 

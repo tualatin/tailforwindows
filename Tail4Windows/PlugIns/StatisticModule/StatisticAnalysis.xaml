@@ -7,7 +7,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
   xmlns:enums="clr-namespace:Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Enums;assembly=T4WControllers"
-  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:uc="clr-namespace:Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"

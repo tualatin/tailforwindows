@@ -155,6 +155,8 @@
     <Compile Include="PlugIns\FindModule\Interfaces\IFindWhatViewModel.cs" />
     <Compile Include="PlugIns\FindModule\Utils\LogEntryComparer.cs" />
     <Compile Include="PlugIns\FindModule\XmlSearchHistoryController.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Events\Args\SelectedLinesChangedArgs.cs" />
+    <Compile Include="PlugIns\LogWindowModule\Events\Delegates\SelectedLinesChangedEventHandler.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IGlobalHighlightOptionViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\GlobalFilterController.cs" />
     <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\Interfaces\IGlobalFilterController.cs" />

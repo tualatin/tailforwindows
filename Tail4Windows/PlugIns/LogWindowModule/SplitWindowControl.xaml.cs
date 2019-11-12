@@ -109,6 +109,18 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       remove => RemoveHandler(LinesRefreshTimeChangedRoutedEvent, value);
     }
 
+    private static readonly RoutedEvent SelectedLinesChangedRoutedEvent = EventManager.RegisterRoutedEvent(nameof(SelectedLinesChangedEvent), RoutingStrategy.Bubble,
+      typeof(RoutedEventHandler), typeof(SplitWindowControl));
+
+    /// <summary>
+    /// Selected lines changed event
+    /// </summary>
+    public event RoutedEventHandler SelectedLinesChangedEvent
+    {
+      add => AddHandler(SelectedLinesChangedRoutedEvent, value);
+      remove => RemoveHandler(SelectedLinesChangedRoutedEvent, value);
+    }
+
     #endregion
 
     #region Properties
@@ -217,6 +229,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// Lines read
     /// </summary>
     public int LinesRead => LogReaderService?.Index ?? 0;
+
+    /// <summary>
+    /// Selected lines
+    /// </summary>
+    public int SelectedLines => SplitterPosition <= 0 ? LogWindowMainElement.SelectedItems.Count : LogWindowSplitElement.SelectedItems.Count;
 
     /// <summary>
     /// Last visible <see cref="LogEntry"/> index
@@ -703,9 +720,44 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     public IAsyncCommand SplitSearchKeyDownCommand =>
       _splitSearchKeyDownCommand ?? (_splitSearchKeyDownCommand = AsyncCommand.Create((p, t) => ExecuteSplitSearchKeyDownCommandAsync(p)));
 
+    private ICommand _selectedLinesChangedInSpitControlCommand;
+
+    /// <summary>
+    /// Selected lines changed in split control
+    /// </summary>
+    public ICommand SelectedLinesChangedInSplitControlCommand =>
+      _selectedLinesChangedInSpitControlCommand ?? (_selectedLinesChangedInSpitControlCommand = new RelayCommand(ExecuteSelectedLinesChangedInSplitControlCommand));
+
+    private ICommand _selectedLinesChangedCommand;
+
+    /// <summary>
+    /// Selected lines changed command
+    /// </summary>
+    public ICommand SelectedLinesChangedCommand =>
+      _selectedLinesChangedCommand ?? (_selectedLinesChangedCommand = new RelayCommand(ExecuteSelectedLinesChangedCommand));
+
     #endregion
 
     #region Command functions
+
+    private void ExecuteSelectedLinesChangedInSplitControlCommand(object args)
+    {
+      if ( SplitterPosition <= 0 )
+        return;
+
+      if ( !(args is RoutedEventArgs e) )
+        return;
+
+      RaiseEvent(new RoutedEventArgs(SelectedLinesChangedRoutedEvent, (int) e.OriginalSource));
+    }
+
+    private void ExecuteSelectedLinesChangedCommand(object args)
+    {
+      if ( !(args is RoutedEventArgs e) )
+        return;
+
+      RaiseEvent(new RoutedEventArgs(SelectedLinesChangedRoutedEvent, (int) e.OriginalSource));
+    }
 
     private async Task ExecuteSplitSearchKeyDownCommandAsync(object param)
     {
@@ -1613,7 +1665,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         {
           if ( LogCollectionView.Count < LastVisibleLogEntryIndex )
             LastVisibleLogEntryIndex = LogCollectionView.Count - 1;
-
           _lastSeenEntry = LogCollectionView[LastVisibleLogEntryIndex];
         }
         else
@@ -1628,6 +1679,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       {
         LogWindowSplitElement.ItemsSource = null;
         FixLogEntries();
+        RaiseEvent(new RoutedEventArgs(SelectedLinesChangedRoutedEvent, SelectedLines));
       }
     }
 

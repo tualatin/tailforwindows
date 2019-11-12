@@ -25,7 +25,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Args
     }
 
     /// <summary>
-    /// Standard constructur
+    /// Standard constructor
     /// </summary>
     /// <param name="routedEvent"><see cref="RoutedEvent"/></param>
     /// <param name="linesRead">Lines read</param>

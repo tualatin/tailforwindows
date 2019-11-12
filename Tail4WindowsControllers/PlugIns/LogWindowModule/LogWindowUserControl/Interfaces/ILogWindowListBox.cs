@@ -23,6 +23,11 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.LogWindowUserCon
     /// </summary>
     event RoutedEventHandler AddBookmarkCommentEvent;
 
+    /// <summary>
+    /// Selection of lines changed event
+    /// </summary>
+    event RoutedEventHandler SelectedLinesChangedEvent;
+
     #endregion
 
     #region Properties

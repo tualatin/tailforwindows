@@ -329,7 +329,6 @@
     <Compile Include="UI\Behaviors\SizeObserver.cs" />
     <Compile Include="UI\Behaviors\TextBoxMaskBehavior.cs" />
     <Compile Include="UI\Behaviors\TextBoxSelectionBehavior.cs" />
-    <Compile Include="UI\ExtendedControls\VsPopupEx.cs" />
     <Compile Include="UI\FloatWindow\VsFloatingWindow.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
@@ -377,8 +376,6 @@
     <Compile Include="UI\AutoUpdatePopUp.xaml.cs">
       <DependentUpon>AutoUpdatePopUp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\ExtendedControls\VsColorPicker.cs" />
-    <Compile Include="UI\ExtendedControls\VsWindowEx.cs" />
     <Compile Include="BaseView\Options.xaml.cs">
       <DependentUpon>Options.xaml</DependentUpon>
     </Compile>
@@ -451,7 +448,6 @@
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
     <Compile Include="UI\Utils\UiHelper.cs" />
-    <Compile Include="UI\Utils\FileDragDropHelper.cs" />
     <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />

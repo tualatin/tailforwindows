@@ -3,8 +3,9 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
   xmlns:dragSupportUtils="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
-  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.UI.ExtendedControls"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   >
+
   <Style x:Key="CloseableTabItemButtonStyle" TargetType="{x:Type Button}">
     <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}" />
     <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
