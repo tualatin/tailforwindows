@@ -401,7 +401,6 @@
       <DependentUpon>EnvironmentOptionPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Behaviors\DialogBehavior.cs" />
-    <Compile Include="UI\NotifyIcon\Interop\SystemInfo.cs" />
     <Compile Include="BaseView\T4Window.xaml.cs">
       <DependentUpon>T4Window.xaml</DependentUpon>
     </Compile>
@@ -423,15 +422,6 @@
     <Compile Include="UI\UserControls\DragSupportUtils\Utils\DragWindowManager.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\Interfaces\IDragDropToTabWindow.cs" />
     <Compile Include="UI\UserControls\DragSupportUtils\Interfaces\IDragWindow.cs" />
-    <Compile Include="UI\UserControls\FancyNotificationPopUp.xaml.cs">
-      <DependentUpon>FancyNotificationPopUp.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\UserControls\FancyAlertPopUp.xaml.cs">
-      <DependentUpon>FancyAlertPopUp.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\UserControls\FancyToolTip.xaml.cs">
-      <DependentUpon>FancyToolTip.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\UserControls\HighlightTextBlock.cs" />
     <Compile Include="UI\UserControls\Interfaces\IRegexHelper.cs" />
     <Compile Include="UI\UserControls\RegexHelper.xaml.cs">
@@ -448,8 +438,6 @@
     <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
     <Compile Include="UI\Utils\UiHelper.cs" />
-    <Compile Include="UI\ValidationRules\MailAddressValidation.cs" />
-    <Compile Include="UI\ValidationRules\SmtpServerAddressValidation.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
     <Resource Include="Resources\Delete.png" />
     <Resource Include="Resources\chart.png" />
@@ -770,18 +758,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\UserControls\FancyNotificationPopUp.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\UserControls\FancyAlertPopUp.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\UserControls\FancyToolTip.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UI\UserControls\Spinner.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -804,24 +780,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UI\NotifyIcon\BalloonIcon.cs" />
-    <Compile Include="UI\NotifyIcon\Interop\BalloonFlags.cs" />
-    <Compile Include="UI\NotifyIcon\Interop\IconDataMembers.cs" />
-    <Compile Include="UI\NotifyIcon\Interop\IconState.cs" />
-    <Compile Include="UI\NotifyIcon\Interop\MouseEvent.cs" />
-    <Compile Include="UI\NotifyIcon\Interop\NotifyCommand.cs" />
-    <Compile Include="UI\NotifyIcon\Interop\NotifyIconData.cs" />
-    <Compile Include="UI\NotifyIcon\Interop\NotifyIconVersion.cs" />
-    <Compile Include="UI\NotifyIcon\Interop\Point.cs" />
-    <Compile Include="UI\NotifyIcon\Interop\TrayInfo.cs" />
-    <Compile Include="UI\NotifyIcon\Interop\WinApi.cs" />
-    <Compile Include="UI\NotifyIcon\Interop\WindowClass.cs" />
-    <Compile Include="UI\NotifyIcon\Interop\WindowMessageSink.cs" />
-    <Compile Include="UI\NotifyIcon\PopupActivationMode.cs" />
-    <Compile Include="UI\NotifyIcon\RoutedEventHelper.cs" />
-    <Compile Include="UI\NotifyIcon\TaskbarIcon.cs" />
-    <Compile Include="UI\NotifyIcon\TaskbarIcon.Declarations.cs" />
-    <Compile Include="UI\NotifyIcon\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

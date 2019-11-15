@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using Org.Vs.TailForWin.Core.Controllers;
 
 
-namespace Org.Vs.TailForWin.UI.ValidationRules
+namespace Org.Vs.TailForWin.Ui.Utils.Utils.ValidationRules
 {
   /// <summary>
   /// SMTP server address validation rule

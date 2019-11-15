@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 
-namespace Org.Vs.TailForWin.UI.ValidationRules
+namespace Org.Vs.TailForWin.Ui.Utils.Utils.ValidationRules
 {
   /// <summary>
   /// E-Mail validation rule

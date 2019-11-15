@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace Org.Vs.TailForWin.UI.UserControls
+namespace Org.Vs.TailForWin.Ui.PlugIns.VsControls
 {
   /// <summary>
   /// Interaction logic for FancyPopUp.xaml

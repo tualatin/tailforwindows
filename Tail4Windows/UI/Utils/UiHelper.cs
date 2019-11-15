@@ -11,7 +11,7 @@ using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
-using Org.Vs.TailForWin.UI.UserControls;
+using Org.Vs.TailForWin.Ui.PlugIns.VsControls;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
 

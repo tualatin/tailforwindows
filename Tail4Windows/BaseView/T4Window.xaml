@@ -9,11 +9,11 @@
   xmlns:dragSupportUtils="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
   xmlns:environment="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-  xmlns:taskbarNotification="clr-namespace:Hardcodet.Wpf.TaskbarNotification"
-  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  xmlns:taskbarNotification="clr-namespace:Hardcodet.Wpf.TaskbarNotification;assembly=T4WUi.Plugins"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
+  xmlns:vsControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls;assembly=T4WUi.Plugins"
   mc:Ignorable="d"
   x:Name="MainWindow"
   Title="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationTitle}}"
@@ -126,7 +126,7 @@
       </taskbarNotification:TaskbarIcon.ContextMenu>
 
       <taskbarNotification:TaskbarIcon.TrayToolTip>
-        <userControls:FancyToolTip
+        <vsControls:FancyToolTip
           ApplicationText="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationTitle}}"
           InfoText="{Binding Source={x:Static viewModels:BaseWindowStatusbarViewModel.Instance}, Path=CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
           Opacity="0.85"

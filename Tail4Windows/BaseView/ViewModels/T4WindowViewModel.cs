@@ -610,17 +610,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteExitApplication()
     {
-      using ( var execute = new ThrottledExecution() )
+      new ThrottledExecution().InMs(220).Do(() =>
       {
-        execute.InMs(220).Do(() =>
+        Application.Current.Dispatcher?.InvokeAsync(() =>
         {
-          Application.Current.Dispatcher?.InvokeAsync(() =>
-          {
-            if ( Application.Current.MainWindow != null )
-              Application.Current.MainWindow.Close();
-          });
+          if ( Application.Current.MainWindow != null )
+            Application.Current.MainWindow.Close();
         });
-      }
+      });
     }
 
     private void ExecuteCloseTabItemCommand()

@@ -9,7 +9,7 @@
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:my="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Ui.Utils.Utils;assembly=T4WUi.Utils"
-  xmlns:validationRules="clr-namespace:Org.Vs.TailForWin.UI.ValidationRules"
+  xmlns:validationRules="clr-namespace:Org.Vs.TailForWin.Ui.Utils.Utils.ValidationRules;assembly=T4WUi.Utils"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels"
   mc:Ignorable="d"
   d:DesignHeight="400"
