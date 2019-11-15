@@ -33,13 +33,13 @@
         Header="{DynamicResource ColorOptionGroupLogWindow}"
         >
         <Grid Margin="3">
-          <userControls:VsDataGrid
+          <extendedControls:VsDataGrid
             CanUserAddRows="False"
             CanUserDeleteRows="False"
             ItemsSource="{Binding LogViewerColorData}"
             SelectionUnit="Cell"
             >
-            <userControls:VsDataGrid.Columns>
+            <extendedControls:VsDataGrid.Columns>
               <DataGridTextColumn
                 MinWidth="200"
                 Header="{DynamicResource ColorOptionLogWindowGridName}"
@@ -69,8 +69,8 @@
                   </DataTemplate>
                 </DataGridTemplateColumn.CellEditingTemplate>
               </DataGridTemplateColumn>
-            </userControls:VsDataGrid.Columns>
-          </userControls:VsDataGrid>
+            </extendedControls:VsDataGrid.Columns>
+          </extendedControls:VsDataGrid>
         </Grid>
       </GroupBox>
 
@@ -81,13 +81,13 @@
         Header="{DynamicResource ColorOptionGroupStatusBar}"
         >
         <Grid Margin="3">
-          <userControls:VsDataGrid
+          <extendedControls:VsDataGrid
             CanUserAddRows="False"
             CanUserDeleteRows="False"
             ItemsSource="{Binding StatusbarColorData}"
             SelectionUnit="Cell"
             >
-            <userControls:VsDataGrid.Columns>
+            <extendedControls:VsDataGrid.Columns>
               <DataGridTextColumn
                 MinWidth="200"
                 Header="{DynamicResource ColorOptionLogWindowGridName}"
@@ -108,8 +108,8 @@
                   </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
               </DataGridTemplateColumn>
-            </userControls:VsDataGrid.Columns>
-          </userControls:VsDataGrid>
+            </extendedControls:VsDataGrid.Columns>
+          </extendedControls:VsDataGrid>
         </Grid>
       </GroupBox>
 

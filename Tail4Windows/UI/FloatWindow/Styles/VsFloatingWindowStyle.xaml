@@ -2,8 +2,8 @@
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
+  xmlns:basicWindow="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.BasicWindow;assembly=T4WUi.Plugins"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.StyleableWindow.Behaviors"
-  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
   >
   <Style x:Key="WindowTitleLabel" TargetType="{x:Type Label}">
     <Setter Property="Template">
@@ -70,7 +70,7 @@
                 />
             </Border>
 
-            <userControls:MainWindowToolbarButtons
+            <basicWindow:MainWindowToolbarButtons
               x:Name="FloatingWindowToolbarButtons"
               Grid.Column="1"
               />

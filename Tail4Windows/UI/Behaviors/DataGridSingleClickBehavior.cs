@@ -3,9 +3,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;
 using Org.Vs.TailForWin.Ui.Utils.Extensions;
 using Org.Vs.TailForWin.UI.Behaviors.Base;
-using Org.Vs.TailForWin.UI.UserControls;
 
 
 namespace Org.Vs.TailForWin.UI.Behaviors

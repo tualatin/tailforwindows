@@ -5,6 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
@@ -298,7 +299,7 @@
       Content="{DynamicResource AboutThirdPartyLabel}"
       />
 
-    <userControls:VsDataGrid
+    <extendedControls:VsDataGrid
       Grid.Row="11"
       Grid.Column="0"
       Grid.ColumnSpan="3"
@@ -311,14 +312,14 @@
       SaveDataGridLayout="False"
       SelectionMode="Extended"
       >
-      <userControls:VsDataGrid.RowStyle>
+      <extendedControls:VsDataGrid.RowStyle>
         <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
         <Style BasedOn="{StaticResource DataGridRowStyle}" TargetType="{x:Type DataGridRow}">
           <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocusedWhenSelected" Value="True" />
         </Style>
-      </userControls:VsDataGrid.RowStyle>
+      </extendedControls:VsDataGrid.RowStyle>
 
-      <userControls:VsDataGrid.Columns>
+      <extendedControls:VsDataGrid.Columns>
         <DataGridTextColumn
           MinWidth="30"
           MaxWidth="100"
@@ -348,7 +349,7 @@
           Binding="{Binding ComponentVersion, UpdateSourceTrigger=PropertyChanged}"
           IsReadOnly="True"
           />
-      </userControls:VsDataGrid.Columns>
-    </userControls:VsDataGrid>
+      </extendedControls:VsDataGrid.Columns>
+    </extendedControls:VsDataGrid>
   </Grid>
 </UserControl>

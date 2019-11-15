@@ -7,6 +7,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.FindModule.ViewModels"
@@ -77,7 +78,7 @@
       </userControls:WatermarkTextBox>
     </Grid>
 
-    <userControls:VsDataGrid
+    <extendedControls:VsDataGrid
       Grid.Row="1"
       Margin="2 2 2 5"
       CanUserAddRows="False"
@@ -102,15 +103,15 @@
         </i:EventTrigger>
       </i:Interaction.Triggers>
 
-      <userControls:VsDataGrid.RowStyle>
+      <extendedControls:VsDataGrid.RowStyle>
         <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
         <Style TargetType="{x:Type DataGridRow}">
           <Setter Property="Foreground" Value="{Binding IsCacheData, Converter={StaticResource BoolToForegroundConverter}}" />
           <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocusedWhenSelected" Value="True" />
         </Style>
-      </userControls:VsDataGrid.RowStyle>
+      </extendedControls:VsDataGrid.RowStyle>
 
-      <userControls:VsDataGrid.Columns>
+      <extendedControls:VsDataGrid.Columns>
         <DataGridTextColumn
           MinWidth="90"
           Header="{DynamicResource FindResultLineNumbers}"
@@ -187,8 +188,8 @@
             </DataTemplate>
           </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>
-      </userControls:VsDataGrid.Columns>
-    </userControls:VsDataGrid>
+      </extendedControls:VsDataGrid.Columns>
+    </extendedControls:VsDataGrid>
   </Grid>
 </floatWindow:VsFloatingWindow>
 

@@ -302,7 +302,7 @@
         </Grid>
       </Border>
 
-      <userControls:VsDataGrid
+      <extendedControls:VsDataGrid
         x:Name="FilterDataGrid"
         Grid.Row="1"
         CanUserAddRows="False"
@@ -318,14 +318,14 @@
           <behaviors:DataGridSingleClickBehavior />
         </i:Interaction.Behaviors>
 
-        <userControls:VsDataGrid.RowStyle>
+        <extendedControls:VsDataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
           <Style BasedOn="{StaticResource DataGridRowStyle}" TargetType="{x:Type DataGridRow}">
             <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocusedWhenSelected" Value="True" />
           </Style>
-        </userControls:VsDataGrid.RowStyle>
+        </extendedControls:VsDataGrid.RowStyle>
 
-        <userControls:VsDataGrid.Columns>
+        <extendedControls:VsDataGrid.Columns>
           <DataGridTextColumn
             MinWidth="50"
             MaxWidth="100"
@@ -486,8 +486,8 @@
               </DataTemplate>
             </DataGridTemplateColumn.CellEditingTemplate>
           </DataGridTemplateColumn>
-        </userControls:VsDataGrid.Columns>
-      </userControls:VsDataGrid>
+        </extendedControls:VsDataGrid.Columns>
+      </extendedControls:VsDataGrid>
 
       <Border
         Grid.Row="2"

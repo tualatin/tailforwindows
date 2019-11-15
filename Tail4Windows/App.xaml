@@ -12,6 +12,9 @@
         <ResourceDictionary Source="UI/Styles/Base/KeyBindings.xaml" />
 
         <ResourceDictionary Source="Language/en-EN.xaml" />
+
+        <ResourceDictionary Source="pack://application:,,,/T4WUi.Plugins;component/Resources.xaml" />
+
         <ResourceDictionary Source="UI/Styles/RepeatButtonStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/AndroidCheckBox.xaml" />
         <ResourceDictionary Source="UI/Styles/AndroidRadioButton.xaml" />
@@ -27,7 +30,6 @@
         <ResourceDictionary Source="UI/Styles/TreeView.xaml" />
         <ResourceDictionary Source="UI/Styles/ToolTipsStyle.xaml" />
         <ResourceDictionary Source="UI/UserControls/Styles/WatermarkTextBoxStyle.xaml" />
-        <ResourceDictionary Source="UI/UserControls/Styles/VsDataGridStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/TitleBarWindowIconStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/TitleBarButtonsStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/SettingsGridStyle.xaml" />

@@ -2,7 +2,7 @@
 using System.Windows;
 
 
-namespace Org.Vs.TailForWin.BaseView.UserControls
+namespace Org.Vs.TailForWin.Ui.PlugIns.BasicWindow
 {
   /// <summary>
   /// Interaction logic for MainWindowToolbarButtons.xaml

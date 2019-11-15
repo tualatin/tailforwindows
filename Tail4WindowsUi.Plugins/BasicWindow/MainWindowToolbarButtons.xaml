@@ -1,5 +1,5 @@
 ﻿<UserControl
-  x:Class="Org.Vs.TailForWin.BaseView.UserControls.MainWindowToolbarButtons"
+  x:Class="Org.Vs.TailForWin.Ui.PlugIns.BasicWindow.MainWindowToolbarButtons"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"

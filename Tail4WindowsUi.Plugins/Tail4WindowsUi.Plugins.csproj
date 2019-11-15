@@ -88,6 +88,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicWindow\MainWindowToolbarButtons.xaml.cs">
+      <DependentUpon>MainWindowToolbarButtons.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NotifyIcon\BalloonIcon.cs" />
     <Compile Include="NotifyIcon\Interop\BalloonFlags.cs" />
     <Compile Include="NotifyIcon\Interop\IconDataMembers.cs" />
@@ -120,9 +123,18 @@
     <Compile Include="VsControls\FancyToolTip.xaml.cs">
       <DependentUpon>FancyToolTip.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VsControls\ExtendedControls\VsDataGrid.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tail4WindowsBusiness\Tail4WindowsBusiness.csproj">
+      <Project>{c81d4747-d467-42fa-a998-0b8e68131e46}</Project>
+      <Name>Tail4WindowsBusiness</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tail4WindowsControllers\Tail4WindowsControllers.csproj">
+      <Project>{dfd6ab76-fd51-4b29-abca-f0e11bebb9ec}</Project>
+      <Name>Tail4WindowsControllers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj">
       <Project>{7e255b50-cfb7-4ad8-9694-e569427fe866}</Project>
       <Name>Tail4WindowsCore</Name>
@@ -138,8 +150,18 @@
   <ItemGroup>
     <Analyzer Include="..\packages\AsyncAnalyzers.1.1.7.0\analyzers\dotnet\cs\AsyncAnalyzers.dll" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <Folder Include="VsControls\FloatingWindow\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="BasicWindow\MainWindowToolbarButtons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="VsControls\FancyAlertPopUp.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -149,6 +171,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="VsControls\FancyToolTip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="VsControls\ExtendedControls\Styles\VsDataGridStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

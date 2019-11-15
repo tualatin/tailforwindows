@@ -449,7 +449,7 @@
         </userControls:WatermarkTextBox>
       </Grid>
 
-      <userControls:VsDataGrid
+      <extendedControls:VsDataGrid
         x:Name="TailManagerDataGrid"
         Grid.Row="2"
         CanUserAddRows="False"
@@ -497,7 +497,7 @@
           <behaviors:ScrollDataGridRowIntoView />
         </i:Interaction.Behaviors>
 
-        <userControls:VsDataGrid.ContextMenu>
+        <extendedControls:VsDataGrid.ContextMenu>
           <ContextMenu>
             <MenuItem
               Header="{DynamicResource FileManagerOpenContainingFolder}"
@@ -512,16 +512,16 @@
               </MenuItem.Icon>
             </MenuItem>
           </ContextMenu>
-        </userControls:VsDataGrid.ContextMenu>
+        </extendedControls:VsDataGrid.ContextMenu>
 
-        <userControls:VsDataGrid.RowStyle>
+        <extendedControls:VsDataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
           <Style BasedOn="{StaticResource DataGridRowStyle}" TargetType="{x:Type DataGridRow}">
             <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocusedWhenSelected" Value="True" />
           </Style>
-        </userControls:VsDataGrid.RowStyle>
+        </extendedControls:VsDataGrid.RowStyle>
 
-        <userControls:VsDataGrid.Columns>
+        <extendedControls:VsDataGrid.Columns>
           <DataGridTextColumn
             MinWidth="50"
             MaxWidth="100"
@@ -678,8 +678,8 @@
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
-        </userControls:VsDataGrid.Columns>
-      </userControls:VsDataGrid>
+        </extendedControls:VsDataGrid.Columns>
+      </extendedControls:VsDataGrid>
 
       <Border
         Grid.Row="3"

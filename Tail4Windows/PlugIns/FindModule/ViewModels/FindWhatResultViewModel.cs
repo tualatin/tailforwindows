@@ -17,7 +17,7 @@ using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Data.Messages;
-using Org.Vs.TailForWin.UI.UserControls;
+using Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;
 using Org.Vs.TailForWin.UI.Utils;
 
 

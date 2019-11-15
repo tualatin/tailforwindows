@@ -1,0 +1,5 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/netfx/2009/xaml/presentation">
+  <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="VsControls/ExtendedControls/Styles/VsDataGridStyle.xaml" />
+  </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

@@ -28,9 +28,9 @@ using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.BookmarkCommentModule;
 using Org.Vs.TailForWin.PlugIns.ExportFormatModule;
+using Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;
 using Org.Vs.TailForWin.Ui.Utils.Extensions;
 using Org.Vs.TailForWin.UI.FloatWindow;
-using Org.Vs.TailForWin.UI.UserControls;
 using Org.Vs.TailForWin.UI.Utils;
 
 

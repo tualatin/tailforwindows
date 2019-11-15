@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:basicWindow="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.BasicWindow;assembly=T4WUi.Plugins"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.StyleableWindow.Behaviors"
-  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
   >
 
   <!--  Window template  -->
@@ -71,7 +71,7 @@
                 />
             </Border>
 
-            <userControls:MainWindowToolbarButtons
+            <basicWindow:MainWindowToolbarButtons
               x:Name="DragWindowToolbarButtons"
               Grid.Column="2"
               />
