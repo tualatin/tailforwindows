@@ -8,7 +8,6 @@
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
-  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
@@ -320,7 +319,7 @@
 
         <extendedControls:VsDataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
-          <Style BasedOn="{StaticResource DataGridRowStyle}" TargetType="{x:Type DataGridRow}">
+          <Style BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type extendedControls:VsDataGrid}, ResourceId=DataGridRowStyle}}" TargetType="{x:Type DataGridRow}">
             <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocusedWhenSelected" Value="True" />
           </Style>
         </extendedControls:VsDataGrid.RowStyle>

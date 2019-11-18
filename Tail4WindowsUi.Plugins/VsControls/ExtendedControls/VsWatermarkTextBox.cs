@@ -3,21 +3,21 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 
-namespace Org.Vs.TailForWin.UI.UserControls
+namespace Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls
 {
   /// <summary>
-  /// WatermakTextBox
+  /// Virtual Studios WatermarkTextBox
   /// </summary>
-  public class WatermarkTextBox : TextBox
+  public class VsWatermarkTextBox : TextBox
   {
-    static WatermarkTextBox() => DefaultStyleKeyProperty.OverrideMetadata(typeof(WatermarkTextBox), new FrameworkPropertyMetadata(typeof(WatermarkTextBox)));
+    static VsWatermarkTextBox() => DefaultStyleKeyProperty.OverrideMetadata(typeof(VsWatermarkTextBox), new FrameworkPropertyMetadata(typeof(VsWatermarkTextBox)));
 
     #region Public Properties
 
     /// <summary>
     /// Select all on got focus property
     /// </summary>
-    public static readonly DependencyProperty SelectAllOnGotFocusProperty = DependencyProperty.Register(nameof(SelectAllOnGotFocus), typeof(bool), typeof(WatermarkTextBox),
+    public static readonly DependencyProperty SelectAllOnGotFocusProperty = DependencyProperty.Register(nameof(SelectAllOnGotFocus), typeof(bool), typeof(VsWatermarkTextBox),
       new PropertyMetadata(false));
 
     /// <summary>
@@ -32,7 +32,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// <summary>
     /// Set watermark property
     /// </summary>
-    public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register(nameof(Watermark), typeof(object), typeof(WatermarkTextBox), new UIPropertyMetadata(null));
+    public static readonly DependencyProperty WatermarkProperty = DependencyProperty.Register(nameof(Watermark), typeof(object), typeof(VsWatermarkTextBox), new UIPropertyMetadata(null));
 
     /// <summary>
     /// Set watermark
@@ -46,7 +46,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
     /// <summary>
     /// Watermark template property
     /// </summary>
-    public static readonly DependencyProperty WatermarkTemplateProperty = DependencyProperty.Register(nameof(WatermarkTemplate), typeof(DataTemplate), typeof(WatermarkTextBox),
+    public static readonly DependencyProperty WatermarkTemplateProperty = DependencyProperty.Register(nameof(WatermarkTemplate), typeof(DataTemplate), typeof(VsWatermarkTextBox),
       new UIPropertyMetadata(null));
 
     /// <summary>

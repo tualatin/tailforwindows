@@ -48,6 +48,7 @@ using Org.Vs.TailForWin.PlugIns.FindModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.PlugIns.StatisticModule;
+using Org.Vs.TailForWin.Ui.Utils.EventMessages;
 using Org.Vs.TailForWin.UI;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 using Org.Vs.TailForWin.UI.Utils;

@@ -1,4 +1,4 @@
-﻿<floatWindow:VsFloatingWindow
+﻿<extendedControls:VsFloatingWindow
   x:Class="Org.Vs.TailForWin.PlugIns.FindModule.FindWhat"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,7 +8,7 @@
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:behaviors1="clr-namespace:Org.Vs.TailForWin.UI.UserControls.Behaviors"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
-  xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.FindModule.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
@@ -136,10 +136,10 @@
 
         <userControls:RegexHelper
           Grid.Column="1"
-          CaretIndex="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type floatWindow:VsFloatingWindow}}, Path=DataContext.CaretIndex, UpdateSourceTrigger=PropertyChanged}"
+          CaretIndex="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsFloatingWindow}}, Path=DataContext.CaretIndex, UpdateSourceTrigger=PropertyChanged}"
           DataContext="{Binding RelativeSource={RelativeSource Self}}"
-          ElementHasFocus="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type floatWindow:VsFloatingWindow}}, Path=DataContext.SearchFieldHasFocus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-          ElementText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type floatWindow:VsFloatingWindow}}, Path=DataContext.SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+          ElementHasFocus="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsFloatingWindow}}, Path=DataContext.SearchFieldHasFocus, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+          ElementText="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type extendedControls:VsFloatingWindow}}, Path=DataContext.SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           IsEnabled="{Binding ElementName=CheckBoxRegex, Path=IsChecked}"
           TabIndex="11"
           />
@@ -494,4 +494,4 @@
       </StackPanel>
     </Grid>
   </Grid>
-</floatWindow:VsFloatingWindow>
+</extendedControls:VsFloatingWindow>

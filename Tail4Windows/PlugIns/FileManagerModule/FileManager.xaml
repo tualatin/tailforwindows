@@ -9,7 +9,6 @@
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
-  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
   xmlns:utils1="clr-namespace:Org.Vs.TailForWin.Ui.Utils.Utils;assembly=T4WUi.Utils"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
@@ -430,7 +429,7 @@
           VerticalAlignment="Center"
           Content="{DynamicResource FileManagerFilterBy}"
           />
-        <userControls:WatermarkTextBox
+        <extendedControls:VsWatermarkTextBox
           Grid.Column="1"
           Height="22"
           Margin="5 3"
@@ -439,14 +438,14 @@
           TabIndex="9"
           behaviors:FocusBehavior.IsFocused="{Binding FilterHasFocus, UpdateSourceTrigger=PropertyChanged}"
           >
-          <userControls:WatermarkTextBox.Watermark>
+          <extendedControls:VsWatermarkTextBox.Watermark>
             <TextBlock
               Margin="5 0 0 0"
               Text="{DynamicResource FileManagerFilter}"
               FontStyle="Italic"
               />
-          </userControls:WatermarkTextBox.Watermark>
-        </userControls:WatermarkTextBox>
+          </extendedControls:VsWatermarkTextBox.Watermark>
+        </extendedControls:VsWatermarkTextBox>
       </Grid>
 
       <extendedControls:VsDataGrid
@@ -516,7 +515,7 @@
 
         <extendedControls:VsDataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
-          <Style BasedOn="{StaticResource DataGridRowStyle}" TargetType="{x:Type DataGridRow}">
+          <Style BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type extendedControls:VsDataGrid}, ResourceId=DataGridRowStyle}}" TargetType="{x:Type DataGridRow}">
             <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocusedWhenSelected" Value="True" />
           </Style>
         </extendedControls:VsDataGrid.RowStyle>

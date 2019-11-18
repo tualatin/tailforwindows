@@ -314,7 +314,7 @@
       >
       <extendedControls:VsDataGrid.RowStyle>
         <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
-        <Style BasedOn="{StaticResource DataGridRowStyle}" TargetType="{x:Type DataGridRow}">
+        <Style BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type extendedControls:VsDataGrid}, ResourceId=DataGridRowStyle}}" TargetType="{x:Type DataGridRow}">
           <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocusedWhenSelected" Value="True" />
         </Style>
       </extendedControls:VsDataGrid.RowStyle>

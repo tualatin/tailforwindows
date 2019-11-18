@@ -5,6 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:validationRules="clr-namespace:Org.Vs.TailForWin.Ui.Utils.Utils.ValidationRules;assembly=T4WUi.Utils"
   mc:Ignorable="d"
@@ -49,7 +50,7 @@
         Content="{DynamicResource SmtpPort}"
         />
 
-      <userControls:WatermarkTextBox
+      <extendedControls:VsWatermarkTextBox
         Grid.Row="1"
         Grid.Column="0"
         Grid.ColumnSpan="2"
@@ -57,13 +58,13 @@
         Margin="6 0"
         TabIndex="1"
         >
-        <userControls:WatermarkTextBox.ToolTip>
+        <extendedControls:VsWatermarkTextBox.ToolTip>
           <ToolTip
             Content="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.SmtpServerName, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringEmptyToDotConverter}}"
             Style="{StaticResource TabItemToolTipStyle}"
             />
-        </userControls:WatermarkTextBox.ToolTip>
-        <userControls:WatermarkTextBox.Text>
+        </extendedControls:VsWatermarkTextBox.ToolTip>
+        <extendedControls:VsWatermarkTextBox.Text>
           <Binding
             Mode="TwoWay"
             Path="SmtpSettings.SmtpServerName"
@@ -74,15 +75,15 @@
               <validationRules:SmtpServerAddressValidation />
             </Binding.ValidationRules>
           </Binding>
-        </userControls:WatermarkTextBox.Text>
-        <userControls:WatermarkTextBox.Watermark>
+        </extendedControls:VsWatermarkTextBox.Text>
+        <extendedControls:VsWatermarkTextBox.Watermark>
           <TextBlock
             Margin="5 0 0 0"
             Text="{DynamicResource SmtpServerWatermark}"
             FontStyle="Italic"
             />
-        </userControls:WatermarkTextBox.Watermark>
-      </userControls:WatermarkTextBox>
+        </extendedControls:VsWatermarkTextBox.Watermark>
+      </extendedControls:VsWatermarkTextBox>
 
       <userControls:Spinner
         Grid.Row="1"
@@ -136,7 +137,7 @@
         VerticalAlignment="Center"
         Content="{DynamicResource SmtpLogin}"
         />
-      <userControls:WatermarkTextBox
+      <extendedControls:VsWatermarkTextBox
         Grid.Row="3"
         Grid.Column="1"
         Height="22"
@@ -145,14 +146,14 @@
         Text="{Binding Path=SmtpSettings.LoginName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Source={x:Static controllers:SettingsHelperController.CurrentSettings}}"
         TabIndex="3"
         >
-        <userControls:WatermarkTextBox.Watermark>
+        <extendedControls:VsWatermarkTextBox.Watermark>
           <TextBlock
             Margin="5 0 0 0"
             Text="{DynamicResource SmtpLoginWatermark}"
             FontStyle="Italic"
             />
-        </userControls:WatermarkTextBox.Watermark>
-      </userControls:WatermarkTextBox>
+        </extendedControls:VsWatermarkTextBox.Watermark>
+      </extendedControls:VsWatermarkTextBox>
 
       <Label
         Grid.Row="4"
@@ -178,7 +179,7 @@
         VerticalAlignment="Center"
         Content="{DynamicResource SmtpFrom}"
         />
-      <userControls:WatermarkTextBox
+      <extendedControls:VsWatermarkTextBox
         Grid.Row="5"
         Grid.Column="1"
         Height="22"
@@ -187,13 +188,13 @@
         IsEnabled="{Binding ElementName=CheckBoxSameLogin, Path=IsChecked, Converter={StaticResource InverseBooleanConverter}}"
         TabIndex="6"
         >
-        <userControls:WatermarkTextBox.ToolTip>
+        <extendedControls:VsWatermarkTextBox.ToolTip>
           <ToolTip
             Content="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.FromAddress, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringEmptyToDotConverter}}"
             Style="{StaticResource TabItemToolTipStyle}"
             />
-        </userControls:WatermarkTextBox.ToolTip>
-        <userControls:WatermarkTextBox.Text>
+        </extendedControls:VsWatermarkTextBox.ToolTip>
+        <extendedControls:VsWatermarkTextBox.Text>
           <Binding
             Mode="TwoWay"
             Path="SmtpSettings.FromAddress"
@@ -204,15 +205,15 @@
               <validationRules:MailAddressValidation />
             </Binding.ValidationRules>
           </Binding>
-        </userControls:WatermarkTextBox.Text>
-        <userControls:WatermarkTextBox.Watermark>
+        </extendedControls:VsWatermarkTextBox.Text>
+        <extendedControls:VsWatermarkTextBox.Watermark>
           <TextBlock
             Margin="5 0 0 0"
             Text="{DynamicResource SmtpFromWatermark}"
             FontStyle="Italic"
             />
-        </userControls:WatermarkTextBox.Watermark>
-      </userControls:WatermarkTextBox>
+        </extendedControls:VsWatermarkTextBox.Watermark>
+      </extendedControls:VsWatermarkTextBox>
 
       <Label
         Grid.Row="6"
@@ -221,7 +222,7 @@
         VerticalAlignment="Center"
         Content="{DynamicResource SmtpMailSubject}"
         />
-      <userControls:WatermarkTextBox
+      <extendedControls:VsWatermarkTextBox
         Grid.Row="6"
         Grid.Column="1"
         Height="22"
@@ -230,14 +231,14 @@
         Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=SmtpSettings.Subject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         TabIndex="8"
         >
-        <userControls:WatermarkTextBox.Watermark>
+        <extendedControls:VsWatermarkTextBox.Watermark>
           <TextBlock
             Margin="5 0 0 0"
             Text="{DynamicResource SmtpMailSubjectWatermark}"
             FontStyle="Italic"
             />
-        </userControls:WatermarkTextBox.Watermark>
-      </userControls:WatermarkTextBox>
+        </extendedControls:VsWatermarkTextBox.Watermark>
+      </extendedControls:VsWatermarkTextBox>
 
       <Label
         Grid.Row="3"

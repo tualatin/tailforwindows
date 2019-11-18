@@ -1,4 +1,4 @@
-﻿<floatWindow:VsFloatingWindow
+﻿<extendedControls:VsFloatingWindow
   x:Class="Org.Vs.TailForWin.PlugIns.BookmarkCommentModule.AddBookmarkComment"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,8 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
-  xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
-  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.BookmarkCommentModule.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
@@ -38,7 +37,7 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <userControls:WatermarkTextBox
+    <extendedControls:VsWatermarkTextBox
       Grid.Row="0"
       Height="22"
       Margin="5 3"
@@ -47,18 +46,18 @@
       TabIndex="0"
       behaviors:FocusBehavior.IsFocused="{Binding TextBoxHasFocus, UpdateSourceTrigger=PropertyChanged}"
       >
-      <userControls:WatermarkTextBox.Watermark>
+      <extendedControls:VsWatermarkTextBox.Watermark>
         <TextBlock
           Margin="5 0 0 0"
           Text="{DynamicResource AddBookmarkCommentWatermark}"
           FontStyle="Italic"
           />
-      </userControls:WatermarkTextBox.Watermark>
+      </extendedControls:VsWatermarkTextBox.Watermark>
 
-      <userControls:WatermarkTextBox.InputBindings>
+      <extendedControls:VsWatermarkTextBox.InputBindings>
         <KeyBinding Key="Enter" Command="{Binding SaveBookmarkCommentCommand}" CommandParameter="{Binding ElementName=AddBookmarkCommentWindow}" />
-      </userControls:WatermarkTextBox.InputBindings>
-    </userControls:WatermarkTextBox>
+      </extendedControls:VsWatermarkTextBox.InputBindings>
+    </extendedControls:VsWatermarkTextBox>
 
     <Grid
       Grid.Row="1"
@@ -100,4 +99,4 @@
         />
     </Grid>
   </Grid>
-</floatWindow:VsFloatingWindow>
+</extendedControls:VsFloatingWindow>

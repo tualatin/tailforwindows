@@ -4,7 +4,7 @@ using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Ui.Utils.EventMessages;
 
 
-namespace Org.Vs.TailForWin.UI.StyleableWindow.Behaviors
+namespace Org.Vs.TailForWin.Ui.Utils.StyleableWindow.Behaviors
 {
   /// <summary>
   /// Opens the settings dialog

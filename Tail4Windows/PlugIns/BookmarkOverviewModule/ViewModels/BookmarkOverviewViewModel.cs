@@ -30,7 +30,6 @@ using Org.Vs.TailForWin.PlugIns.BookmarkCommentModule;
 using Org.Vs.TailForWin.PlugIns.ExportFormatModule;
 using Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;
 using Org.Vs.TailForWin.Ui.Utils.Extensions;
-using Org.Vs.TailForWin.UI.FloatWindow;
 using Org.Vs.TailForWin.UI.Utils;
 
 
@@ -264,7 +263,7 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
       if ( !(param is VsDataGrid vsDataGrid) )
         return;
 
-      VsFloatingWindow bookmarkOverviewWindow = vsDataGrid.Ancestors().OfType<VsFloatingWindow>().FirstOrDefault(p => p.Name == "BookmarkOverviewWindow");
+      var bookmarkOverviewWindow = vsDataGrid.Ancestors().OfType<VsFloatingWindow>().FirstOrDefault(p => p.Name == "BookmarkOverviewWindow");
       var addBookmarkCommentPopup = new AddBookmarkComment
       {
         Owner = bookmarkOverviewWindow,

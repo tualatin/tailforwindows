@@ -7,7 +7,6 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
-  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
@@ -62,7 +61,7 @@
           VerticalAlignment="Center"
           Content="{DynamicResource FileManagerDataGridDescription}"
           />
-        <userControls:WatermarkTextBox
+        <extendedControls:VsWatermarkTextBox
           Grid.Row="0"
           Grid.Column="1"
           Margin="5 0"
@@ -71,14 +70,14 @@
           TabIndex="0"
           behaviors:FocusBehavior.IsFocused="{Binding HasFocus, UpdateSourceTrigger=PropertyChanged}"
           >
-          <userControls:WatermarkTextBox.Watermark>
+          <extendedControls:VsWatermarkTextBox.Watermark>
             <TextBlock
               Margin="5 0 0 0"
               Text="{DynamicResource FileManagerDataGridDescription}"
               FontStyle="Italic"
               />
-          </userControls:WatermarkTextBox.Watermark>
-        </userControls:WatermarkTextBox>
+          </extendedControls:VsWatermarkTextBox.Watermark>
+        </extendedControls:VsWatermarkTextBox>
 
         <Label
           Grid.Row="1"

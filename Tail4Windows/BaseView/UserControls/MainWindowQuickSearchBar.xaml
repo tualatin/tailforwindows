@@ -5,7 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:behaviors1="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
-  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
   d:DesignHeight="22"
@@ -63,17 +63,17 @@
           <ColumnDefinition Width="21" />
         </Grid.ColumnDefinitions>
 
-        <userControls:WatermarkTextBox
+        <extendedControls:VsWatermarkTextBox
           Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
           BorderThickness="0"
           ToolTip="{DynamicResource QuickSearchToolTip}"
           Watermark="{DynamicResource QuickSearchWatermark}"
           behaviors1:FocusBehavior.IsFocused="{Binding IsFocused, UpdateSourceTrigger=PropertyChanged}"
           >
-          <userControls:WatermarkTextBox.InputBindings>
+          <extendedControls:VsWatermarkTextBox.InputBindings>
             <KeyBinding Key="Enter" Command="{Binding QuickSearchCommand}" />
-          </userControls:WatermarkTextBox.InputBindings>
-        </userControls:WatermarkTextBox>
+          </extendedControls:VsWatermarkTextBox.InputBindings>
+        </extendedControls:VsWatermarkTextBox>
 
         <Button
           Grid.Column="1"

@@ -1,7 +1,7 @@
-﻿namespace Org.Vs.TailForWin.Data.Messages
+﻿namespace Org.Vs.TailForWin.Ui.Utils.EventMessages
 {
   /// <summary>
-  /// Set <see cref="UI.FloatWindow.VsFloatingWindow"/> topmost flag message
+  /// Set topmost flag message
   /// </summary>
   public class SetFloatingTopmostFlagMessage
   {

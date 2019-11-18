@@ -1,4 +1,4 @@
-﻿<floatWindow:VsFloatingWindow
+﻿<extendedControls:VsFloatingWindow
   x:Class="Org.Vs.TailForWin.PlugIns.FindModule.FindWhatResult"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,8 +8,6 @@
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
-  xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
-  xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.FindModule.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
@@ -58,7 +56,7 @@
         Content="{DynamicResource FindResultFilterBy}"
         />
 
-      <userControls:WatermarkTextBox
+      <extendedControls:VsWatermarkTextBox
         Grid.Column="1"
         Height="22"
         Margin="5 3"
@@ -68,14 +66,14 @@
         TabIndex="0"
         behaviors:FocusBehavior.IsFocused="{Binding FilterHasFocus, UpdateSourceTrigger=PropertyChanged}"
         >
-        <userControls:WatermarkTextBox.Watermark>
+        <extendedControls:VsWatermarkTextBox.Watermark>
           <TextBlock
             Margin="5 0 0 0"
             Text="{DynamicResource FileManagerFilter}"
             FontStyle="Italic"
             />
-        </userControls:WatermarkTextBox.Watermark>
-      </userControls:WatermarkTextBox>
+        </extendedControls:VsWatermarkTextBox.Watermark>
+      </extendedControls:VsWatermarkTextBox>
     </Grid>
 
     <extendedControls:VsDataGrid
@@ -191,5 +189,5 @@
       </extendedControls:VsDataGrid.Columns>
     </extendedControls:VsDataGrid>
   </Grid>
-</floatWindow:VsFloatingWindow>
+</extendedControls:VsFloatingWindow>
 

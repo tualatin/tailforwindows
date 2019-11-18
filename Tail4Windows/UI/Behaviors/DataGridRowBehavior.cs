@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
-using Org.Vs.TailForWin.UI.UserControls;
+using Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;
 
 
 namespace Org.Vs.TailForWin.UI.Behaviors
@@ -50,7 +50,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
     private static void OnDataGridRowSelected(object sender, RoutedEventArgs e)
     {
       // If focus is already on a cell then don't focus back out of it
-      if ( Keyboard.FocusedElement is DataGridCell || Keyboard.FocusedElement is WatermarkTextBox || !(e.OriginalSource is DataGridRow row) )
+      if ( Keyboard.FocusedElement is DataGridCell || Keyboard.FocusedElement is VsWatermarkTextBox || !(e.OriginalSource is DataGridRow row) )
         return;
 
       row.Focusable = true;

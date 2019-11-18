@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels"
@@ -92,21 +93,21 @@
               VerticalAlignment="Center"
               Content="{DynamicResource ProxySettingsProxyAddress}"
               />
-            <userControls:WatermarkTextBox
+            <extendedControls:VsWatermarkTextBox
               Grid.Column="1"
               Height="22"
               VerticalAlignment="Center"
               Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.ProxyUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
               TabIndex="3"
               >
-              <userControls:WatermarkTextBox.Watermark>
+              <extendedControls:VsWatermarkTextBox.Watermark>
                 <TextBlock
                   Margin="5 0 0 0"
                   Text="Url"
                   FontStyle="Italic"
                   />
-              </userControls:WatermarkTextBox.Watermark>
-            </userControls:WatermarkTextBox>
+              </extendedControls:VsWatermarkTextBox.Watermark>
+            </extendedControls:VsWatermarkTextBox>
 
             <Label
               Grid.Column="2"
@@ -156,7 +157,7 @@
             VerticalAlignment="Center"
             Content="{DynamicResource ProxySettingsUserName}"
             />
-          <userControls:WatermarkTextBox
+          <extendedControls:VsWatermarkTextBox
             Grid.Row="0"
             Grid.Column="1"
             Height="22"
@@ -165,14 +166,14 @@
             Text="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=ProxySettings.UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             TabIndex="5"
             >
-            <userControls:WatermarkTextBox.Watermark>
+            <extendedControls:VsWatermarkTextBox.Watermark>
               <TextBlock
                 Margin="5 0 0 0"
                 Text="{DynamicResource ProxySettingsUserName}"
                 FontStyle="Italic"
                 />
-            </userControls:WatermarkTextBox.Watermark>
-          </userControls:WatermarkTextBox>
+            </extendedControls:VsWatermarkTextBox.Watermark>
+          </extendedControls:VsWatermarkTextBox>
 
           <Label
             Grid.Row="1"

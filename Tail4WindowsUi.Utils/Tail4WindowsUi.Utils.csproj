@@ -163,6 +163,8 @@
     <Compile Include="Converters\TreeNodeToImageConverter.cs" />
     <Compile Include="Converters\VisibilityToInverseBoolConverter.cs" />
     <Compile Include="Debugging\DebugBuild.cs" />
+    <Compile Include="EventMessages\OpenSettingsDialogMessage.cs" />
+    <Compile Include="EventMessages\SetFloatingTopmostFlagMessage.cs" />
     <Compile Include="Extensions\BindableBinding.cs" />
     <Compile Include="Extensions\ConverterBindableBinding.cs" />
     <Compile Include="Converters\MultiConverters\MultiValueConverterAdapter.cs" />
@@ -181,6 +183,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="StyleableWindow\Behaviors\ControlDoubleClickBehavior.cs" />
+    <Compile Include="StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
+    <Compile Include="StyleableWindow\Behaviors\ShowSystemMenuBehavior.cs" />
+    <Compile Include="StyleableWindow\Behaviors\WindowDragBehavior.cs" />
+    <Compile Include="StyleableWindow\Behaviors\WindowResizeBehavior.cs" />
+    <Compile Include="StyleableWindow\Commands\WindowCloseCommand.cs" />
+    <Compile Include="StyleableWindow\Commands\WindowMaximizeCommand.cs" />
+    <Compile Include="StyleableWindow\Commands\WindowMinimizeCommand.cs" />
+    <Compile Include="StyleableWindow\SystemMenuManager.cs" />
     <Compile Include="Utils\FileDragDropHelper.cs" />
     <Compile Include="Utils\ValidationRules\MailAddressValidation.cs" />
     <Compile Include="Utils\ValidationRules\SmtpServerAddressValidation.cs" />

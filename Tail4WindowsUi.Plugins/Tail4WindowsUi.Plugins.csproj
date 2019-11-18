@@ -112,8 +112,10 @@
     <Compile Include="NotifyIcon\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VsControls\ExtendedControls\VsColorPickerEx.cs" />
+    <Compile Include="VsControls\ExtendedControls\VsFloatingWindow.cs" />
     <Compile Include="VsControls\ExtendedControls\VsPopupEx.cs" />
     <Compile Include="VsControls\ExtendedControls\VsWindowEx.cs" />
+    <Compile Include="VsControls\ExtendedControls\VsWatermarkTextBox.cs" />
     <Compile Include="VsControls\FancyAlertPopUp.xaml.cs">
       <DependentUpon>FancyAlertPopUp.xaml</DependentUpon>
     </Compile>
@@ -151,16 +153,24 @@
     <Analyzer Include="..\packages\AsyncAnalyzers.1.1.7.0\analyzers\dotnet\cs\AsyncAnalyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="VsControls\FloatingWindow\" />
+    <Folder Include="PlugIns\" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="BasicWindow\MainWindowToolbarButtons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources.xaml">
+    <Page Include="themes\generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VsControls\ExtendedControls\Styles\VsFloatingWindowStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="VsControls\ExtendedControls\Styles\VsWatermarkTextBoxStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="VsControls\FancyAlertPopUp.xaml">
       <Generator>MSBuild:Compile</Generator>

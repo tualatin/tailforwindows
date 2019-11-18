@@ -220,7 +220,6 @@
     <Compile Include="Data\Messages\Keybindings\OpenFilterManagerMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\OpenGoToLineDialogMessage.cs" />
     <Compile Include="Data\Messages\FindWhat\OpenFindWhatWindowMessage.cs" />
-    <Compile Include="Data\Messages\OpenSettingsDialogMessage.cs" />
     <Compile Include="Data\Messages\OpenSmtpSettingMessage.cs" />
     <Compile Include="Data\Messages\OpenTailDataAsNewTabItem.cs" />
     <Compile Include="Data\Messages\OpenTailDataMessage.cs" />
@@ -228,7 +227,6 @@
     <Compile Include="Data\Messages\QuickSearchbar\ChangeWindowGuiMessage.cs" />
     <Compile Include="Data\Messages\QuickSearchbar\QuickSearchTextBoxGetFocusMessage.cs" />
     <Compile Include="Data\Messages\ResetDataMessage.cs" />
-    <Compile Include="Data\Messages\SetFloatingTopmostFlagMessage.cs" />
     <Compile Include="Data\Messages\ShowNotificationPopUpMessage.cs" />
     <Compile Include="Data\Messages\FindWhat\StartSearchAllMessage.cs" />
     <Compile Include="Data\Messages\FindWhat\StartSearchCountMessage.cs" />
@@ -329,7 +327,6 @@
     <Compile Include="UI\Behaviors\SizeObserver.cs" />
     <Compile Include="UI\Behaviors\TextBoxMaskBehavior.cs" />
     <Compile Include="UI\Behaviors\TextBoxSelectionBehavior.cs" />
-    <Compile Include="UI\FloatWindow\VsFloatingWindow.cs" />
     <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
     <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
     <Compile Include="PlugIns\LogWindowModule\Interfaces\ILogWindowControl.cs" />
@@ -431,7 +428,6 @@
     <Compile Include="UI\UserControls\UpdateControl.xaml.cs">
       <DependentUpon>UpdateControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\UserControls\WatermarkTextBox.cs" />
     <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
     <Compile Include="UI\Utils\UiHelper.cs" />
     <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
@@ -583,10 +579,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlugIns\WindowEventReadModule\WindowsEventCategories.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\FloatWindow\Styles\VsFloatingWindowStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -750,10 +742,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UI\UserControls\Styles\WatermarkTextBoxStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="BaseView\Styles\BlueWindowStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -891,6 +879,7 @@
   <ItemGroup>
     <Folder Include="BaseView\UserControls\Styles\" />
     <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
+    <Folder Include="UI\UserControls\Styles\" />
     <Folder Include="UI\UserControls\ViewModels\" />
   </ItemGroup>
   <ItemGroup>

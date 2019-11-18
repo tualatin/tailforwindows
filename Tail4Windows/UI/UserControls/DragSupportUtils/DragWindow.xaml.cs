@@ -19,6 +19,7 @@ using Org.Vs.TailForWin.Data.Messages.FindWhat;
 using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
+using Org.Vs.TailForWin.Ui.Utils.EventMessages;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Interfaces;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils.Utils;
 using Org.Vs.TailForWin.UI.Utils;

@@ -1,4 +1,4 @@
-﻿<floatWindow:VsFloatingWindow
+﻿<extendedControls:VsFloatingWindow
   x:Class="Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.SmartWatchPopup"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,7 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
-  xmlns:floatWindow="clr-namespace:Org.Vs.TailForWin.UI.FloatWindow"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.SmartWatchPopupModule.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
@@ -214,4 +214,4 @@
         />
     </StackPanel>
   </Grid>
-</floatWindow:VsFloatingWindow>
+</extendedControls:VsFloatingWindow>

@@ -13,7 +13,7 @@
 
         <ResourceDictionary Source="Language/en-EN.xaml" />
 
-        <ResourceDictionary Source="pack://application:,,,/T4WUi.Plugins;component/Resources.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/T4WUi.Plugins;component/themes/generic.xaml" />
 
         <ResourceDictionary Source="UI/Styles/RepeatButtonStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/AndroidCheckBox.xaml" />
@@ -29,7 +29,6 @@
         <ResourceDictionary Source="UI/Styles/StatusbarComboBoxStyle.xaml" />
         <ResourceDictionary Source="UI/Styles/TreeView.xaml" />
         <ResourceDictionary Source="UI/Styles/ToolTipsStyle.xaml" />
-        <ResourceDictionary Source="UI/UserControls/Styles/WatermarkTextBoxStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/TitleBarWindowIconStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/TitleBarButtonsStyle.xaml" />
         <ResourceDictionary Source="BaseView/Styles/SettingsGridStyle.xaml" />
@@ -42,7 +41,6 @@
         <ResourceDictionary Source="UI/UserControls/DragSupportUtils/Styles/DragSupportTabControlStyle.xaml" />
         <ResourceDictionary Source="UI/UserControls/DragSupportUtils/Styles/DragSupportWindowStyle.xaml" />
         <ResourceDictionary Source="UI/UserControls/DragSupportUtils/Styles/DragSupportMenuItemStyle.xaml" />
-        <ResourceDictionary Source="UI/FloatWindow/Styles/VsFloatingWindowStyle.xaml" />
 
         <ResourceDictionary Source="PlugIns/LogWindowModule/LogWindowUserControl/Styles/LogWindowStyle.xaml" />
       </ResourceDictionary.MergedDictionaries>

@@ -7,7 +7,7 @@
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
-  xmlns:my="clr-namespace:Org.Vs.TailForWin.UI.UserControls"
+  xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Ui.Utils.Utils;assembly=T4WUi.Utils"
   xmlns:validationRules="clr-namespace:Org.Vs.TailForWin.Ui.Utils.Utils.ValidationRules;assembly=T4WUi.Utils"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels"
@@ -199,7 +199,7 @@
         VerticalAlignment="Center"
         Content="{DynamicResource AlertOptionMailAddress}"
         />
-      <my:WatermarkTextBox
+      <extendedControls:VsWatermarkTextBox
         Grid.Row="5"
         Grid.Column="1"
         Height="24"
@@ -208,7 +208,7 @@
         IsEnabled="{Binding ElementName=CheckBoxSendMail, Path=IsChecked}"
         TabIndex="5"
         >
-        <my:WatermarkTextBox.Text>
+        <extendedControls:VsWatermarkTextBox.Text>
           <Binding
             Converter="{StaticResource MailAddressConverter}"
             Mode="TwoWay"
@@ -220,15 +220,15 @@
               <validationRules:MailAddressValidation />
             </Binding.ValidationRules>
           </Binding>
-        </my:WatermarkTextBox.Text>
-        <my:WatermarkTextBox.Watermark>
+        </extendedControls:VsWatermarkTextBox.Text>
+        <extendedControls:VsWatermarkTextBox.Watermark>
           <TextBlock
             Margin="5 0 0 0"
             Text="E-Mail Address"
             FontStyle="Italic"
             />
-        </my:WatermarkTextBox.Watermark>
-      </my:WatermarkTextBox>
+        </extendedControls:VsWatermarkTextBox.Watermark>
+      </extendedControls:VsWatermarkTextBox>
 
       <Button
         Grid.Row="5"

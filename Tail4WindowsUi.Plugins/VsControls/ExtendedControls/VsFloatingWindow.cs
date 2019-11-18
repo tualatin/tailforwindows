@@ -2,10 +2,10 @@
 using System.Windows;
 using System.Windows.Media;
 using Org.Vs.TailForWin.Business.Utils;
-using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.Ui.Utils.EventMessages;
 
 
-namespace Org.Vs.TailForWin.UI.FloatWindow
+namespace Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls
 {
   /// <summary>
   /// Virtual Studios Floating window
@@ -69,7 +69,8 @@ namespace Org.Vs.TailForWin.UI.FloatWindow
     {
       WindowStyle = WindowStyle.None;
       AllowsTransparency = true;
-      Style = (Style) Application.Current.TryFindResource("VsFloatingWindowStyle");
+      var resourceKey = new ComponentResourceKey(typeof(VsFloatingWindow), "VsFloatingWindowStyle");
+      Style = (Style) Application.Current.TryFindResource(resourceKey);
       Topmost = true;
 
       Closing += VsFloatingWindowClosing;
