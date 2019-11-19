@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.FontChooserModule"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   mc:Ignorable="d"
   d:DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -25,7 +26,7 @@
   </i:Interaction.Triggers>
 
   <Border
-    BorderBrush="{StaticResource BrushSolidBlue}"
+    BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBlueKey}}"
     BorderThickness="1"
     >
     <Grid>

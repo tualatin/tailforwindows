@@ -7,6 +7,7 @@
   xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:behaviors1="clr-namespace:Org.Vs.TailForWin.UI.UserControls.Behaviors"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:debugging="clr-namespace:Org.Vs.TailForWin.Ui.Utils.Debugging;assembly=T4WUi.Utils"
@@ -67,7 +68,7 @@
                   x:Name="PlusPath"
                   Margin="4"
                   Data="M3.875,0 L5.125,0 5.125,3.875 9,3.875 9,5.125 5.125,5.125 5.125,9 3.875,9 3.875,5.125 0,5.125 0,3.875 3.875,3.875 3.875,0 z"
-                  Fill="{StaticResource BrushSolidBlue}"
+                  Fill="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBlueKey}}"
                   SnapsToDevicePixels="True"
                   Stretch="Fill"
                   Stroke="{StaticResource BrushSolidBorderLightBlue}"
@@ -89,13 +90,13 @@
                 <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
               </Trigger>
               <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}" />
                 <Setter TargetName="PlusPath" Property="Effect">
                   <Setter.Value>
                     <DropShadowEffect Opacity="0" />
                   </Setter.Value>
                 </Setter>
-                <Setter TargetName="PlusPath" Property="Fill" Value="{StaticResource BrushSolidGrey35}" />
+                <Setter TargetName="PlusPath" Property="Fill" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}" />
 
               </Trigger>
               <Trigger Property="IsPressed" Value="True">
@@ -149,8 +150,8 @@
                 <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
               </Trigger>
               <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
-                <Setter TargetName="TrianglePolygon" Property="Fill" Value="{StaticResource BrushSolidGrey35}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}" />
+                <Setter TargetName="TrianglePolygon" Property="Fill" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}" />
               </Trigger>
               <Trigger Property="IsPressed" Value="True">
                 <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
@@ -191,8 +192,8 @@
                 <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
               </Trigger>
               <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
-                <Setter TargetName="StopPolygon" Property="Fill" Value="{StaticResource BrushSolidGrey35}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}" />
+                <Setter TargetName="StopPolygon" Property="Fill" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}" />
               </Trigger>
               <Trigger Property="IsPressed" Value="True">
                 <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
@@ -493,7 +494,7 @@
             Margin="0 3 6 3"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Fill="{StaticResource BrushSolidGrey35}"
+            Fill="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}"
             SnapsToDevicePixels="True"
             />
 
@@ -687,7 +688,7 @@
             Margin="3"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Fill="{StaticResource BrushSolidGrey35}"
+            Fill="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}"
             SnapsToDevicePixels="True"
             />
         </StackPanel>
@@ -1058,7 +1059,7 @@
 
     <Grid Grid.Row="1">
       <Border
-        BorderBrush="{StaticResource BrushSolidBlue}"
+        BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBlueKey}}"
         BorderThickness="0 1 0 0"
         >
         <logWindowModule:SplitWindowControl
@@ -1090,7 +1091,7 @@
       Background="{StaticResource BrushSolidLightBlue}"
       >
       <Border
-        BorderBrush="{StaticResource BrushSolidBlue}"
+        BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBlueKey}}"
         BorderThickness="0 1 0 0"
         >
         <Grid>

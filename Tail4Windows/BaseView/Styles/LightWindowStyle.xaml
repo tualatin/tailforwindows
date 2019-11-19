@@ -3,6 +3,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:basicWindow="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.BasicWindow;assembly=T4WUi.Plugins"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.StyleableWindow.Behaviors"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
   xmlns:environment="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:userControls="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
   >
@@ -225,7 +226,7 @@
 
   <Style x:Key="Tail4LightWindowStyle" TargetType="{x:Type Window}">
     <Setter Property="Background" Value="White" />
-    <Setter Property="BorderBrush" Value="{StaticResource BrushSolidGrey35}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="Template" Value="{StaticResource WindowLightTemplate}" />
   </Style>

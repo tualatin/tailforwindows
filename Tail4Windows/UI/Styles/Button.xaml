@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
   >
 
   <Style x:Key="{x:Type Button}" TargetType="{x:Type Button}">
@@ -36,7 +37,7 @@
               <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-              <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
+              <Setter Property="Foreground" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
               <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
@@ -86,13 +87,13 @@
               <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-              <Setter Property="Foreground" Value="{StaticResource BrushSolidGrey35}" />
+              <Setter Property="Foreground" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}" />
               <Setter TargetName="RemovePath" Property="Effect">
                 <Setter.Value>
                   <DropShadowEffect Opacity="0" />
                 </Setter.Value>
               </Setter>
-              <Setter TargetName="RemovePath" Property="Fill" Value="{StaticResource BrushSolidGrey35}" />
+              <Setter TargetName="RemovePath" Property="Fill" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}" />
 
             </Trigger>
             <Trigger Property="IsPressed" Value="True">

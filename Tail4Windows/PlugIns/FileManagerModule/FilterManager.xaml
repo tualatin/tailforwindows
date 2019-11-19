@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels"
@@ -53,7 +54,7 @@
   </extendedControls:VsWindowEx.Resources>
 
   <Border
-    BorderBrush="{StaticResource BrushSolidBlue}"
+    BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBlueKey}}"
     BorderThickness="1"
     >
     <Grid>
@@ -86,7 +87,7 @@
       <Border
         Grid.Row="0"
         Background="{StaticResource BrushSolidLightBlue}"
-        BorderBrush="{StaticResource BrushSolidBlue}"
+        BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBlueKey}}"
         BorderThickness="0 0 0 1"
         >
         <Grid Margin="5">
@@ -319,7 +320,7 @@
 
         <extendedControls:VsDataGrid.RowStyle>
           <!--  Because this is to be attached via a style the datagridrow behavior must be an attached behavior  -->
-          <Style BasedOn="{StaticResource {ComponentResourceKey TypeInTargetAssembly={x:Type extendedControls:VsDataGrid}, ResourceId=DataGridRowStyle}}" TargetType="{x:Type DataGridRow}">
+          <Style BasedOn="{StaticResource {x:Static extendedControls:VsDataGrid.DataGridRowStyleKey}}" TargetType="{x:Type DataGridRow}">
             <Setter Property="behaviors:DataGridRowBehavior.IsDataGridRowFocusedWhenSelected" Value="True" />
           </Style>
         </extendedControls:VsDataGrid.RowStyle>
@@ -490,7 +491,7 @@
 
       <Border
         Grid.Row="2"
-        BorderBrush="{StaticResource BrushSolidBlue}"
+        BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBlueKey}}"
         BorderThickness="0 1 0 1"
         >
         <Grid>
@@ -802,7 +803,7 @@
 
       <Border
         Grid.Row="4"
-        Background="{StaticResource BrushSolidBlue}"
+        Background="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBlueKey}}"
         />
     </Grid>
   </Border>

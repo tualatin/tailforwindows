@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
   >
 
   <Style x:Key="TextBoxDataGridStyle" TargetType="{x:Type TextBox}">
@@ -18,7 +19,7 @@
           <Border
             Name="Border"
             Padding="2"
-            Background="{StaticResource BrushSolidWhite}"
+            Background="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidWhiteKey}}"
             BorderBrush="Transparent"
             BorderThickness="0"
             >
@@ -141,7 +142,7 @@
             BorderThickness="1"
             >
             <Border.Background>
-              <SolidColorBrush Color="{DynamicResource ColorWhite}" />
+              <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.ColorWhiteKey}}" />
             </Border.Background>
             <Border.BorderBrush>
               <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />

@@ -6,6 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:vm="clr-namespace:Org.Vs.TailForWin.PlugIns.QuickAddModule.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
@@ -40,7 +41,7 @@
     <Border
       Grid.Row="0"
       Margin="0 5 0 0"
-      BorderBrush="{StaticResource BrushSolidBlue}"
+      BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBlueKey}}"
       BorderThickness="0 0 0 1"
       >
       <Grid>

@@ -4,6 +4,7 @@
   xmlns:local="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls"
   xmlns:basicWindow="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.BasicWindow"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.Ui.Utils.StyleableWindow.Behaviors;assembly=T4WUi.Utils"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns"
   >
   <Style x:Key="WindowTitleLabel" TargetType="{x:Type Label}">
     <Setter Property="Template">
@@ -33,7 +34,7 @@
       BorderBrush="{TemplateBinding BorderBrush}"
       BorderThickness="{TemplateBinding BorderThickness}"
       >
-      <Grid Background="White">
+      <Grid Background="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidWhiteKey}}">
         <Grid>
           <Grid.RowDefinitions>
             <RowDefinition Height="21" />
@@ -168,12 +169,12 @@
 
     <ControlTemplate.Triggers>
       <Trigger Property="Window.IsActive" Value="False">
-        <Setter TargetName="GridTitleBar" Property="Background" Value="{StaticResource BrushSolidInactiveBlue}" />
-        <Setter TargetName="WndTitle" Property="Foreground" Value="White" />
+        <Setter TargetName="GridTitleBar" Property="Background" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidInactiveBlueKey}}" />
+        <Setter TargetName="WndTitle" Property="Foreground" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidWhiteKey}}" />
       </Trigger>
 
       <Trigger Property="Window.IsActive" Value="True">
-        <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidBlue}" />
+        <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBlueKey}}" />
       </Trigger>
 
       <Trigger Property="WindowState" Value="Maximized">
@@ -191,8 +192,8 @@
   </ControlTemplate>
 
   <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type local:VsFloatingWindow}, ResourceId=VsFloatingWindowStyle}" TargetType="{x:Type local:VsFloatingWindow}">
-    <Setter Property="Background" Value="White" />
-    <Setter Property="BorderBrush" Value="{StaticResource BrushSolidGrey35}" />
+    <Setter Property="Background" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidWhiteKey}}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template" Value="{StaticResource FloatingWindowTemplate}" />

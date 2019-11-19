@@ -49,6 +49,45 @@ namespace Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls
 
     #endregion
 
+    #region Color keys
+
+    /// <summary>
+    /// Resource 'DataGridSelectAllButtonStyle'
+    /// </summary>
+    public static  ComponentResourceKey DataGridSelectAllButtonStyleKey => new ComponentResourceKey(typeof(VsDataGrid), "DataGridSelectAllButtonStyle");
+
+    /// <summary>
+    /// Resource 'DataGridCellStyle'
+    /// </summary>
+    public static ComponentResourceKey DataGridCellStyleKey => new ComponentResourceKey(typeof(VsDataGrid), "DataGridCellStyle");
+
+    /// <summary>
+    /// Resource 'RowHeaderGripperStyle'
+    /// </summary>
+    public static ComponentResourceKey RowHeaderGripperStyleKey => new ComponentResourceKey(typeof(VsDataGrid), "RowHeaderGripperStyle");
+
+    /// <summary>
+    /// Resource 'DataGridRowHeaderStyle'
+    /// </summary>
+    public static ComponentResourceKey DataGridRowHeaderStyleKey => new ComponentResourceKey(typeof(VsDataGrid), "DataGridRowHeaderStyle");
+
+    /// <summary>
+    /// Resource 'DataGridRowStyle'
+    /// </summary>
+    public static ComponentResourceKey DataGridRowStyleKey => new ComponentResourceKey(typeof(VsDataGrid), "DataGridRowStyle");
+
+    /// <summary>
+    /// Resource 'ColumnHeaderGripperStyle'
+    /// </summary>
+    public static ComponentResourceKey ColumnHeaderGripperStyleKey => new ComponentResourceKey(typeof(VsDataGrid), "ColumnHeaderGripperStyle");
+
+    /// <summary>
+    /// Resource 'DataGridColumnHeaderStyle'
+    /// </summary>
+    public static  ComponentResourceKey DataGridColumnHeaderStyleKey => new ComponentResourceKey(typeof(VsDataGrid), "DataGridColumnHeaderStyle");
+
+    #endregion
+
     /// <summary>
     /// ColumnHeader <see cref="ContextMenu"/>
     /// </summary>

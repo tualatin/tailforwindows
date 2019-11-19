@@ -4,6 +4,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
   xmlns:dragSupportUtils="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
   mc:Ignorable="d"
@@ -49,7 +50,7 @@
 
   <Grid>
     <Border
-      BorderBrush="{StaticResource BrushSolidBlue}"
+      BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBlueKey}}"
       BorderThickness="1 0 1 25"
       >
       <dragSupportUtils:DragSupportTabControl

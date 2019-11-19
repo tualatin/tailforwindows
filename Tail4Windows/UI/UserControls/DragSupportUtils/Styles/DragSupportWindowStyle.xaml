@@ -3,6 +3,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:basicWindow="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.BasicWindow;assembly=T4WUi.Plugins"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.StyleableWindow.Behaviors"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
   >
 
   <!--  Window template  -->
@@ -181,7 +182,7 @@
       </Trigger>
 
       <Trigger Property="Window.IsActive" Value="True">
-        <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource BrushSolidBlue}" />
+        <Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBlueKey}}" />
       </Trigger>
 
       <Trigger Property="WindowState" Value="Maximized">
@@ -208,7 +209,7 @@
 
   <Style x:Key="DragSupportWindowStyle" TargetType="{x:Type Window}">
     <Setter Property="Background" Value="White" />
-    <Setter Property="BorderBrush" Value="{StaticResource BrushSolidGrey35}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}" />
     <Setter Property="BorderThickness" Value="1" />
     <Setter Property="Template" Value="{StaticResource WindowTemplate}" />
   </Style>

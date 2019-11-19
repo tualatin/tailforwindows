@@ -3,6 +3,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
   xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
   mc:Ignorable="d"
   >
@@ -21,7 +22,7 @@
       <Border
         x:Name="Border"
         Grid.ColumnSpan="2"
-        Background="{StaticResource BrushSolidWhite}"
+        Background="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidWhiteKey}}"
         BorderBrush="{StaticResource BrushSolidBorderMedium}"
         BorderThickness="1"
         />
@@ -29,7 +30,7 @@
       <Border
         Grid.Column="0"
         Margin="1"
-        Background="{StaticResource BrushSolidWhite}"
+        Background="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidWhiteKey}}"
         />
 
       <Path
@@ -199,7 +200,7 @@
 
                 <Border
                   x:Name="DropDownBorder"
-                  Background="{StaticResource BrushSolidWhite}"
+                  Background="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidWhiteKey}}"
                   BorderBrush="{StaticResource BrushSolidBorderMedium}"
                   BorderThickness="1"
                   />

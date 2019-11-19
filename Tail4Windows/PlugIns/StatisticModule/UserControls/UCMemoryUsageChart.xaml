@@ -5,6 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:local="clr-namespace:Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
   xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
   mc:Ignorable="d"
   d:DataContext="{d:DesignInstance local:UCMemoryUsageChart}"
@@ -130,7 +131,7 @@
               <lvc:Separator
                 IsEnabled="True"
                 Step="20"
-                Stroke="{DynamicResource BrushSolidGrey35}"
+                Stroke="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidGrey35Key}}"
                 StrokeDashArray="2 1"
                 StrokeThickness="1"
                 />

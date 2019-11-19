@@ -99,12 +99,10 @@
 
   <Color x:Key="ColorGrey03Alpha">#4CF7F7F7</Color>
 
-  <Color x:Key="ColorWhite">White</Color>
   <Color x:Key="ColorGrey02">#FFFAFAFA</Color>
   <Color x:Key="ColorGrey03">#FFF7F7F7</Color>
   <Color x:Key="ColorGrey10">#FFE5E5E5</Color>
   <Color x:Key="ColorGrey20">#FFCCCCCC</Color>
-  <Color x:Key="ColorGrey35">#FFBBBBBB</Color>
   <Color x:Key="ColorGrey55">#FF919191</Color>
   <Color x:Key="ColorGrey65">#FF7B7B7B</Color>
   <Color x:Key="ColorGrey75">#FF636363</Color>
@@ -125,12 +123,10 @@
 
   <Color x:Key="ColorMenuIconPlaceColor">#FFDCE0EC</Color>
 
-  <SolidColorBrush x:Key="BrushSolidWhite" Color="{StaticResource ColorWhite}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey02" Color="{StaticResource ColorGrey02}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey03" Color="{StaticResource ColorGrey03}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey10" Color="{StaticResource ColorGrey10}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey20" Color="{StaticResource ColorGrey20}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidGrey35" Color="{StaticResource ColorGrey35}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey55" Color="{StaticResource ColorGrey55}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey65" Color="{StaticResource ColorGrey65}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey75" Color="{StaticResource ColorGrey75}" po:Freeze="True" />
@@ -142,8 +138,6 @@
   <SolidColorBrush x:Key="BrushSolidOrangePressed" Color="{StaticResource ColorOrangePressed}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidYellow" Color="#FFF29D" po:Freeze="True" />
 
-  <SolidColorBrush x:Key="BrushSolidBlue" Color="#293955" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidInactiveBlue" Color="#4B5E7F" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidLightBlue" Color="{StaticResource ColorLightBlue}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidBorderLightBlue" Color="{StaticResource ColorBorderLightBlue}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidAndroidIsMouseOverBlue" Color="{StaticResource ColorAndroidIsMouseOverBlue}" po:Freeze="True" />

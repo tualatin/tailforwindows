@@ -91,6 +91,7 @@
     <Compile Include="BasicWindow\MainWindowToolbarButtons.xaml.cs">
       <DependentUpon>MainWindowToolbarButtons.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ColorResources.cs" />
     <Compile Include="NotifyIcon\BalloonIcon.cs" />
     <Compile Include="NotifyIcon\Interop\BalloonFlags.cs" />
     <Compile Include="NotifyIcon\Interop\IconDataMembers.cs" />
@@ -157,6 +158,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="BasicWindow\MainWindowToolbarButtons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ColorResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
