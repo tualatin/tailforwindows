@@ -11,6 +11,7 @@
 
   <system:String x:Key="ApplicationTitle">Tail4Windows</system:String>
   <system:String x:Key="ApplicationExit">Exit</system:String>
+  <system:String x:Key="ApplicationWrongNetFx">{0} requires .NET 4.8, please install. The App will close.</system:String>
   <system:String x:Key="OpenFileDialog">Please select a file to tail...</system:String>
   <system:String x:Key="FileNotFound">File not found!</system:String>
   <system:String x:Key="NoFilenameEntered">No filename entered!</system:String>

@@ -26,7 +26,7 @@
               <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.ColorWhiteKey}}" />
             </Border.Background>
             <Border.BorderBrush>
-              <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
+              <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.BorderMediumColorKey}}" />
             </Border.BorderBrush>
             <ScrollViewer
               x:Name="PART_ContentHost"
@@ -149,7 +149,7 @@
               <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.ColorWhiteKey}}" />
             </Border.Background>
             <Border.BorderBrush>
-              <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
+              <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.BorderMediumColorKey}}" />
             </Border.BorderBrush>
             <ScrollViewer x:Name="PART_ContentHost" />
             <VisualStateManager.VisualStateGroups>

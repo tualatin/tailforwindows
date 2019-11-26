@@ -18,7 +18,7 @@
           <Border
             Name="Chrome"
             Background="{TemplateBinding Background}"
-            BorderBrush="{StaticResource BrushSolidBorderMedium}"
+            BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBorderMediumKey}}"
             BorderThickness="{TemplateBinding BorderThickness}"
             SnapsToDevicePixels="True"
             >
@@ -57,7 +57,7 @@
           <Border
             Name="Chrome"
             Background="{TemplateBinding Background}"
-            BorderBrush="{StaticResource BrushSolidBorderMedium}"
+            BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBorderMediumKey}}"
             BorderThickness="{TemplateBinding BorderThickness}"
             SnapsToDevicePixels="True"
             >

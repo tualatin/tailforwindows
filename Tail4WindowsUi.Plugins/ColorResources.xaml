@@ -4,13 +4,23 @@
   xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns"
   xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
   >
+
+  <!--  Border colors  -->
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BorderLightColor}">#FFCCCCCC</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BorderMediumColor}">#FF888888</Color>
+
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidBorderLightColor}" Color="{StaticResource {x:Static colorResources:ColorResources.BorderLightColorKey}}" po:Freeze="True" />
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidBorderMedium}" Color="{StaticResource {x:Static colorResources:ColorResources.BorderMediumColorKey}}" po:Freeze="True" />
+
   <!--  Color definitions  -->
   <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorWhite}">White</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorBlack}">Black</Color>
   <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorGrey35}">#FFBBBBBB</Color>
 
 
   <!--  SolidColorBrush definitions  -->
   <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidWhite}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorWhiteKey}}" po:Freeze="True" />
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidBlack}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorBlackKey}}" po:Freeze="True" />
   <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidGrey35}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorGrey35Key}}" po:Freeze="True" />
 
 

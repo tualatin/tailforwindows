@@ -4,7 +4,8 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:behaviors1="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
   mc:Ignorable="d"
@@ -45,7 +46,7 @@
             <Setter Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
           </Trigger>
           <Trigger Property="IsMouseOver" Value="False">
-            <Setter Property="BorderBrush" Value="{Binding Source={StaticResource BorderLightColor}, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBorderLightColorKey}}" />
           </Trigger>
           <DataTrigger Value="True" Binding="{Binding IsFocused, ElementName=QuickSearchTextBox}">
             <Setter Property="BorderBrush" Value="{StaticResource BrushSolidOrange}" />
@@ -68,7 +69,7 @@
           BorderThickness="0"
           ToolTip="{DynamicResource QuickSearchToolTip}"
           Watermark="{DynamicResource QuickSearchWatermark}"
-          behaviors1:FocusBehavior.IsFocused="{Binding IsFocused, UpdateSourceTrigger=PropertyChanged}"
+          behaviors:FocusBehavior.IsFocused="{Binding IsFocused, UpdateSourceTrigger=PropertyChanged}"
           >
           <extendedControls:VsWatermarkTextBox.InputBindings>
             <KeyBinding Key="Enter" Command="{Binding QuickSearchCommand}" />

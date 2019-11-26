@@ -73,8 +73,6 @@
 
 
   <!--  Border colors  -->
-  <Color x:Key="BorderLightColor">#FFCCCCCC</Color>
-  <Color x:Key="BorderMediumColor">#FF888888</Color>
   <Color x:Key="BorderDarkColor">#FF444444</Color>
 
   <Color x:Key="PressedBorderLightColor">#FF888888</Color>
@@ -106,7 +104,6 @@
   <Color x:Key="ColorGrey55">#FF919191</Color>
   <Color x:Key="ColorGrey65">#FF7B7B7B</Color>
   <Color x:Key="ColorGrey75">#FF636363</Color>
-  <Color x:Key="ColorBlack">Black</Color>
 
   <Color x:Key="ColorLightBlue">#FFD6DBE9</Color>
   <Color x:Key="ColorBorderLightBlue">#FFB0CBF1</Color>
@@ -130,7 +127,6 @@
   <SolidColorBrush x:Key="BrushSolidGrey55" Color="{StaticResource ColorGrey55}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey65" Color="{StaticResource ColorGrey65}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey75" Color="{StaticResource ColorGrey75}" po:Freeze="True" />
-  <SolidColorBrush x:Key="BrushSolidBlack" Color="{StaticResource ColorBlack}" po:Freeze="True" />
 
   <SolidColorBrush x:Key="ButtonNormalBorder" Color="#FFBC7B" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidCustomBeige" Color="#FFFFFCF4" po:Freeze="True" />
@@ -141,8 +137,6 @@
   <SolidColorBrush x:Key="BrushSolidLightBlue" Color="{StaticResource ColorLightBlue}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidBorderLightBlue" Color="{StaticResource ColorBorderLightBlue}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidAndroidIsMouseOverBlue" Color="{StaticResource ColorAndroidIsMouseOverBlue}" po:Freeze="True" />
-
-  <SolidColorBrush x:Key="BrushSolidBorderMedium" Color="{StaticResource BorderMediumColor}" po:Freeze="True" />
 
   <SolidColorBrush x:Key="BrushSolidStopRed" Color="{StaticResource ColorStopRed}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidStartGreen" Color="{StaticResource ColorStartGreen}" po:Freeze="True" />

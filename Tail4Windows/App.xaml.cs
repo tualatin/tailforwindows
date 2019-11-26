@@ -39,9 +39,10 @@ namespace Org.Vs.TailForWin
     private void ApplicationStartup(object sender, StartupEventArgs e)
     {
       // If it is not the minimum .NET version installed
-      if ( EnvironmentContainer.NetFrameworkKey <= 393295 )
+      if ( EnvironmentContainer.NetFrameworkKey < 528040 )
       {
-        LOG.Error("Wrong .NET version! Please install .NET 4.6 or newer.");
+        InteractionService.ShowInformationMessageBox(string.Format(Current.TryFindResource("ApplicationWrongNetFx").ToString(), Current.TryFindResource("ApplicationTitle")));
+        LOG.Error("Wrong .NET version! Please install .NET 4.8 or newer.");
         Shutdown(-1);
         return;
       }

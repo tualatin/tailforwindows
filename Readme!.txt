@@ -19,6 +19,7 @@ v.2.3.xxxx.x
 * bug fix log line limit
 * bug fix create logfile history
 * bug fix add new Bookmarks
+* bug fix .NET check (.NET 4.8 is required now!)
 
 v.2.2.6908.x
 * new Statistics for nerds -> see Options

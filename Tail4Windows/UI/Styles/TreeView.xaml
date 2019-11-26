@@ -18,7 +18,7 @@
             BorderThickness="1"
             >
             <Border.BorderBrush>
-              <SolidColorBrush Color="{DynamicResource BorderLightColor}" />
+              <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.BorderLightColorKey}}" />
             </Border.BorderBrush>
 
             <Border.Background>

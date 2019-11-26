@@ -182,7 +182,7 @@
                   BorderThickness="1"
                   >
                   <Border.BorderBrush>
-                    <SolidColorBrush Color="{DynamicResource BorderMediumColor}" />
+                    <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.BorderMediumColorKey}}" />
                   </Border.BorderBrush>
                   <Border.Background>
                     <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.ColorWhiteKey}}" />

@@ -11,9 +11,24 @@ namespace Org.Vs.TailForWin.Ui.PlugIns
     #region Colors
 
     /// <summary>
+    /// Resource 'BorderLightColor'
+    /// </summary>
+    public static ComponentResourceKey BorderLightColorKey => new ComponentResourceKey(typeof(ColorResources), "BorderLightColor");
+
+    /// <summary>
+    /// Resource 'BorderMediumColor'
+    /// </summary>
+    public static ComponentResourceKey BorderMediumColorKey => new ComponentResourceKey(typeof(ColorResources), "BorderMediumColor");
+
+    /// <summary>
     /// Resource 'ColorWhite'
     /// </summary>
     public static ComponentResourceKey ColorWhiteKey => new ComponentResourceKey(typeof(ColorResources), "ColorWhite");
+
+    /// <summary>
+    /// Resource 'ColorBlack'
+    /// </summary>
+    public static ComponentResourceKey ColorBlackKey => new ComponentResourceKey(typeof(ColorResources), "ColorBlack");
 
     /// <summary>
     /// Resource 'ColorGrey35'
@@ -25,9 +40,24 @@ namespace Org.Vs.TailForWin.Ui.PlugIns
     #region SolidColorBrushes
 
     /// <summary>
+    /// Resource 'BrushSolidBorderLightColor'
+    /// </summary>
+    public static ComponentResourceKey BrushSolidBorderLightColorKey => new ComponentResourceKey(typeof(ColorResources), "BrushSolidBorderLightColor");
+
+    /// <summary>
+    /// Resource 'BrushSolidBorderMedium'
+    /// </summary>
+    public static  ComponentResourceKey BrushSolidBorderMediumKey => new ComponentResourceKey(typeof(ColorResources), "BrushSolidBorderMedium");
+
+    /// <summary>
     /// Resource 'BrushSolidWhite'
     /// </summary>
     public static ComponentResourceKey BrushSolidWhiteKey => new ComponentResourceKey(typeof(ColorResources), "BrushSolidWhite");
+
+    /// <summary>
+    /// Resource 'BrushSolidBlack'
+    /// </summary>
+    public static ComponentResourceKey BrushSolidBlackKey => new ComponentResourceKey(typeof(ColorResources), "BrushSolidBlack");
 
     /// <summary>
     /// Resource 'BrushSolidGrey35'

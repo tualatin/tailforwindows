@@ -23,7 +23,7 @@
         x:Name="Border"
         Grid.ColumnSpan="2"
         Background="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidWhiteKey}}"
-        BorderBrush="{StaticResource BrushSolidBorderMedium}"
+        BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBorderMediumKey}}"
         BorderThickness="1"
         />
 
@@ -201,7 +201,7 @@
                 <Border
                   x:Name="DropDownBorder"
                   Background="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidWhiteKey}}"
-                  BorderBrush="{StaticResource BrushSolidBorderMedium}"
+                  BorderBrush="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBorderMediumKey}}"
                   BorderThickness="1"
                   />
 

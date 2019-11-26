@@ -161,7 +161,7 @@
               >
               <Border.BorderBrush>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                  <GradientStop Offset="0" Color="{StaticResource BorderLightColor}" />
+                  <GradientStop Offset="0" Color="{DynamicResource {x:Static colorResources:ColorResources.BorderLightColorKey}}" />
                   <GradientStop Offset="1" Color="{StaticResource ColorGrey03}" />
                 </LinearGradientBrush>
               </Border.BorderBrush>
@@ -361,7 +361,7 @@
               >
               <Border.BorderBrush>
                 <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                  <GradientStop Offset="0" Color="{StaticResource BorderLightColor}" />
+                  <GradientStop Offset="0" Color="{DynamicResource {x:Static colorResources:ColorResources.BorderLightColorKey}}" />
                   <GradientStop Offset="1" Color="{StaticResource ColorGrey20}" />
                 </LinearGradientBrush>
               </Border.BorderBrush>
