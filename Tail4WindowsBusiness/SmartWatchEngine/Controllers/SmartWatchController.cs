@@ -263,7 +263,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers
 
       foreach ( var file in fileInfos )
       {
-        var result = await _findController.MatchTextAsync(item.FindSettings, file.Name, pattern);
+        var result = await _findController.MatchTextAsync(item.FindSettings, file.Name, pattern).ConfigureAwait(false);
 
         if ( result == null || result.Count == 0 )
           continue;
@@ -308,7 +308,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers
 
       foreach ( var file in fileInfos )
       {
-        var result = await _findController.MatchTextAsync(new FindData { UseRegex = true, WholeWord = true }, file.Name, pattern);
+        var result = await _findController.MatchTextAsync(new FindData { UseRegex = true, WholeWord = true }, file.Name, pattern).ConfigureAwait(false);
 
         if ( result == null || result.Count == 0 )
           continue;
@@ -380,7 +380,7 @@ namespace Org.Vs.TailForWin.Business.SmartWatchEngine.Controllers
           latestFile = file;
           latestWriteTime = file.LastWriteTime;
         }
-      });
+      }).ConfigureAwait(false);
 
       return latestFile?.FullName;
     }

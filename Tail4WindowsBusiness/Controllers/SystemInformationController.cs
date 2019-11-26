@@ -54,7 +54,7 @@ namespace Org.Vs.TailForWin.Business.Controllers
         sysInfo.MachineMemory = GetMachineMemoryInfo();
         sysInfo.Language = GetSystemLanguage();
         sysInfo.CpuInfo = GetCpuInfo();
-      }, token);
+      }, token).ConfigureAwait(false);
 
       return sysInfo;
     }

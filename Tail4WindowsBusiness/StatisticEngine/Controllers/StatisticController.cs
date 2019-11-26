@@ -25,12 +25,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
   public class StatisticController : IStatisticController
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(StatisticController));
-    private static readonly object MyLock = new object();
-
-    /// <summary>
-    /// Current lock time span in milliseconds
-    /// </summary>
-    private const int LockTimeSpanIsMs = 200;
+    private static readonly SemaphoreSlim MyLock = new SemaphoreSlim(1);
+    private static  readonly SemaphoreSlim UpdateLock = new SemaphoreSlim(1);
 
     /// <summary>
     /// Delay time in milliseconds
@@ -77,7 +73,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       _cts = new CancellationTokenSource();
       _fileQueue = new QueueSet<FileEntity>(int.MaxValue);
 
-      NotifyTaskCompletion.Create(CreateSessionEntry);
+      NotifyTaskCompletion.Create(CreateSessionEntryAsync);
 
       IsBusy = true;
     }
@@ -118,46 +114,36 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
       IStatisticAnalysisCollection<StatisticAnalysisData> result = new StatisticAnalysisCollection();
 
+      await MyLock.WaitAsync(token).ConfigureAwait(false);
       await Task.Run(() =>
       {
-        if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+        try
         {
-          try
+          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
           {
-            using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+            var sessionEntity = GetSessionEntity(db);
+            var fileEntity = GetFileEntity(db);
+            var existsSessions = sessionEntity.FindAll();
+
+            Parallel.ForEach(existsSessions, new ParallelOptions {CancellationToken = token}, session =>
             {
-              var sessionEntity = GetSessionEntity(db);
-              var fileEntity = GetFileEntity(db);
-              var existsSessions = sessionEntity.FindAll();
+              var files = fileEntity.FindAll().Where(p => p.Session.SessionId == session.SessionId).ToList();
 
-              Parallel.ForEach(existsSessions, new ParallelOptions { CancellationToken = token }, session =>
-              {
-                var files = fileEntity.FindAll().Where(p => p.Session.SessionId == session.SessionId).ToList();
+              if ( !files.Any() )
+                return;
 
-                if ( !files.Any() )
-                  return;
-
-                var temp = new StatisticAnalysisData
-                {
-                  SessionEntity = session,
-                  Files = files
-                };
-                result.Add(temp);
-              });
-            }
-
-            result.OrderCollectionByDate();
+              var temp = new StatisticAnalysisData {SessionEntity = session, Files = files};
+              result.Add(temp);
+            });
           }
-          finally
-          {
-            Monitor.Exit(MyLock);
-          }
+
+          result.OrderCollectionByDate();
         }
-        else
+        finally
         {
-          LOG.Error("Can not lock!");
+          MyLock.Release();
         }
-      }, token);
+      }, token).ConfigureAwait(false);
 
       return result;
     }
@@ -204,10 +190,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
     private async Task StartFileQueueAsync()
     {
-      while ( Monitor.IsEntered(MyLock) )
-      {
-        await Task.Delay(DelayTimeInMs);
-      }
+      await MyLock.WaitAsync(_cts.Token).ConfigureAwait(false);
 
       try
       {
@@ -218,7 +201,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
           while ( existsSession == null )
           {
-            await Task.Delay(DelayTimeInMs);
+            await Task.Delay(DelayTimeInMs).ConfigureAwait(false);
             existsSession = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId);
           }
         }
@@ -231,9 +214,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       }
     }
 
-    private Task WorkingQueueAsync() => Task.Run(() =>
-    {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+    private Task WorkingQueueAsync() =>
+      Task.Run(() =>
       {
         try
         {
@@ -250,15 +232,9 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             {
               var temp = _fileQueue.Dequeue();
               var file = fileEntity
-                                  .Include(p => p.Session)
-                                  .FindAll()
-                                  .FirstOrDefault(p => p.Session.Session == SessionId && (p.LogReaderId == temp.LogReaderId || temp.FileName == p.FileName)) ?? new FileEntity
-                                  {
-                                    FileName = temp.FileName,
-                                    LogReaderId = temp.LogReaderId,
-                                    Session = existsSession,
-                                    IsWindowsEvent = temp.IsWindowsEvent
-                                  };
+                           .Include(p => p.Session)
+                           .FindAll()
+                           .FirstOrDefault(p => p.Session.Session == SessionId && (p.LogReaderId == temp.LogReaderId || temp.FileName == p.FileName)) ?? new FileEntity { FileName = temp.FileName, LogReaderId = temp.LogReaderId, Session = existsSession, IsWindowsEvent = temp.IsWindowsEvent };
               file.LogCount = temp.LogCount;
               file.BookmarkCount = temp.BookmarkCount;
               file.FileSizeTotalEvents = temp.FileSizeTotalEvents;
@@ -283,21 +259,17 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
         finally
         {
-          Monitor.Exit(MyLock);
+          MyLock.Release();
         }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
-    }, _cts.Token);
+      }, _cts.Token);
 
-    private Task SaveAllValuesIntoDatabaseAsync() => Task.Run(() =>
+    private async Task SaveAllValuesIntoDatabaseAsync()
     {
-      UpdateSession();
-
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      await MyLock.WaitAsync(_cts.Token).ConfigureAwait(false);
+      await Task.Run(() =>
       {
+        UpdateSession();
+
         try
         {
           var upTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
@@ -353,16 +325,12 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
         finally
         {
-          Monitor.Exit(MyLock);
+          MyLock.Release();
         }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
-    }, _cts.Token);
+      }, _cts.Token).ConfigureAwait(false);
+    }
 
-    private async Task CreateSessionEntry()
+    private async Task CreateSessionEntryAsync()
     {
       await RemoveOldSessionsAsync();
       await RemoveInvalidSessionsAsync();
@@ -370,49 +338,45 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       while ( !_cts.IsCancellationRequested )
       {
         UpdateSession();
-        await Task.Delay(TimeSpan.FromMinutes(30), _cts.Token);
+        await Task.Delay(TimeSpan.FromMinutes(30), _cts.Token).ConfigureAwait(false);
       }
     }
 
     private void UpdateSession()
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      UpdateLock.Wait(_cts.Token);
+
+      try
       {
-        try
+        LOG.Debug("Insert / update current session");
+
+        long value = GC.GetTotalMemory(false);
+
+        using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
         {
-          LOG.Debug("Insert / update current session");
-
-          long value = GC.GetTotalMemory(false);
-
-          using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
+          var sessionEntity = GetSessionEntity(db);
+          var session = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId) ?? new SessionEntity
           {
-            var sessionEntity = GetSessionEntity(db);
-            var session = sessionEntity.FindAll().FirstOrDefault(p => p.Session == SessionId) ?? new SessionEntity
-            {
-              Session = SessionId,
-              Date = DateTime.Now
-            };
-            session.MemoryUsage = value;
-            session.UpTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
+            Session = SessionId,
+            Date = DateTime.Now
+          };
+          session.MemoryUsage = value;
+          session.UpTime = DateTime.Now.Subtract(EnvironmentContainer.Instance.UpTime);
 
-            sessionEntity.Upsert(session);
-            sessionEntity.EnsureIndex(p => p.Session);
-          }
-        }
-        finally
-        {
-          Monitor.Exit(MyLock);
+          sessionEntity.Upsert(session);
+          sessionEntity.EnsureIndex(p => p.Session);
         }
       }
-      else
+      finally
       {
-        LOG.Error("Can not lock!");
+        UpdateLock.Release();
       }
     }
 
-    private Task RemoveOldSessionsAsync() => Task.Run(() =>
+    private async Task RemoveOldSessionsAsync()
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      await MyLock.WaitAsync(_cts.Token).ConfigureAwait(false);
+      await Task.Run(() =>
       {
         try
         {
@@ -446,18 +410,15 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
         finally
         {
-          Monitor.Exit(MyLock);
+          MyLock.Release();
         }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
-    }, _cts.Token);
+      }, _cts.Token).ConfigureAwait(false);
+    }
 
-    private Task RemoveInvalidSessionsAsync() => Task.Run(() =>
+    private async Task RemoveInvalidSessionsAsync()
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      await MyLock.WaitAsync(_cts.Token).ConfigureAwait(false);
+      await Task.Run(() =>
       {
         try
         {
@@ -478,7 +439,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               var allProcesses = Process.GetProcesses();
               t4W = allProcesses.Where(p => p.MainWindowTitle == CoreEnvironment.ApplicationTitle).ToList();
 
-              foreach ( SessionEntity session in sessions )
+              foreach ( var session in sessions )
               {
                 if ( t4W.Count > 1 )
                 {
@@ -493,7 +454,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             }
             else
             {
-              foreach ( SessionEntity session in sessions )
+              foreach ( var session in sessions )
               {
                 RemoveFiles(fileEntity, session);
                 sessionEntity.Delete(p => p.Session == session.Session);
@@ -506,7 +467,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
             if ( files.Count == 0 )
             {
-              foreach ( SessionEntity session in sessions )
+              foreach ( var session in sessions )
               {
                 sessionEntity.Delete(p => p.Session == session.Session);
               }
@@ -515,7 +476,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             {
               var result = sessions.Where(p => files.All(x => x != p.Session)).ToList();
 
-              foreach ( SessionEntity session in result )
+              foreach ( var session in result )
               {
                 if ( t4W.Any() )
                 {
@@ -548,14 +509,10 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
         finally
         {
-          Monitor.Exit(MyLock);
+          MyLock.Release();
         }
-      }
-      else
-      {
-        LOG.Error("Can not lock!");
-      }
-    }, _cts.Token);
+      }, _cts.Token).ConfigureAwait(false);
+    }
 
     private List<FileEntity> RemoveSessionIfRequired(LiteCollection<FileEntity> fileEntity, LiteCollection<SessionEntity> sessionEntity)
     {

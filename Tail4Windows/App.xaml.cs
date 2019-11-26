@@ -89,7 +89,7 @@ namespace Org.Vs.TailForWin
 
     private void OnConvertProfilePropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       Shutdown(0);
@@ -97,19 +97,20 @@ namespace Org.Vs.TailForWin
 
     private void OnReadSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       if ( SettingsHelperController.CurrentSettings.SingleInstance )
       {
-        var instance = new SingleInstance(_tail4WindowsGuid);
-        instance.ArgsReceived += OnArgsReceived;
-
-        instance.Run(() =>
+        using ( var instance = new SingleInstance(_tail4WindowsGuid) )
         {
-          new T4Window().Show();
-          return MainWindow;
-        }, _args);
+          instance.ArgsReceived += OnArgsReceived;
+          instance.Run(() =>
+          {
+            new T4Window().Show();
+            return MainWindow;
+          }, _args);
+        }
 
         return;
       }
@@ -170,13 +171,16 @@ namespace Org.Vs.TailForWin
       _itemId = Guid.Parse(id.Value);
       _fileManagerController = new FileManagerController();
 
-      NotifyTaskCompletion.Create(
-        _fileManagerController.ReadJsonFileAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token)).PropertyChanged += OnReadXmlFilePropertyChanged;
+      using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2)) )
+      {
+        NotifyTaskCompletion.Create(
+         _fileManagerController.ReadJsonFileAsync(cts.Token)).PropertyChanged += OnReadXmlFilePropertyChanged;
+      }
     }
 
     private void OnReadXmlFilePropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       if ( !(sender is NotifyTaskCompletion<ObservableCollection<TailData>> task) )
@@ -185,15 +189,16 @@ namespace Org.Vs.TailForWin
       if ( task.Result == null || task.Result.Count <= 0 )
         return;
 
-      NotifyTaskCompletion.Create(
-        _fileManagerController.GetTailDataByIdAsync(task.Result,
-        _itemId,
-        new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token)).PropertyChanged += OnGetTailDataByIdPropertyChanged;
+      using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2)) )
+      {
+        NotifyTaskCompletion.Create(
+          _fileManagerController.GetTailDataByIdAsync(task.Result, _itemId, cts.Token)).PropertyChanged += OnGetTailDataByIdPropertyChanged;
+      }
     }
 
     private void OnGetTailDataByIdPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       if ( !(sender is NotifyTaskCompletion<TailData> task) )
@@ -222,7 +227,7 @@ namespace Org.Vs.TailForWin
       {
         execute.InMs(500).Do(() =>
         {
-          Current.Dispatcher.InvokeAsync(() =>
+          Current.Dispatcher?.InvokeAsync(() =>
           {
             var firstTab = UiHelper.TabItemList.FirstOrDefault();
 

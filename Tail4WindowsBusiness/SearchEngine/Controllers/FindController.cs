@@ -123,7 +123,7 @@ namespace Org.Vs.TailForWin.Business.SearchEngine.Controllers
           {
             LOG.Error("Can not lock!");
           }
-        }, cts.Token);
+        }, cts.Token).ConfigureAwait(false);
       }
       return result;
     }

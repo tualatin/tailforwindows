@@ -73,7 +73,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// <returns>Task</returns>
     public async Task ReadDbSettingsAsync()
     {
-      await _semaphore.WaitAsync();
+      await _semaphore.WaitAsync().ConfigureAwait(false);
 
       await Task.Run(() =>
       {
@@ -138,7 +138,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           _semaphore.Release();
         }
-      });
+      }).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -148,7 +148,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// <returns>Task</returns>
     public async Task ResetDbSettingsAsync(CancellationToken token)
     {
-      await _semaphore.WaitAsync(token);
+      await _semaphore.WaitAsync(token).ConfigureAwait(false);
       LOG.Info("Reset all database settings");
 
       await Task.Run(() =>
@@ -164,7 +164,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           _semaphore.Release();
         }
-      }, token);
+      }, token).ConfigureAwait(false);
 
       await UpdatePasswordSettingsAsync(token);
       await UpdateFindDialogDbSettingsAsync(token);
@@ -179,7 +179,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// <param name="token"><see cref="CancellationToken"/></param>
     public async Task UpdatePasswordSettingsAsync(CancellationToken token)
     {
-      await _semaphore.WaitAsync(token);
+      await _semaphore.WaitAsync(token).ConfigureAwait(false);
       LOG.Debug("Update password settings");
 
       await Task.Run(() =>
@@ -216,7 +216,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           _semaphore.Release();
         }
-      }, token);
+      }, token).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -225,7 +225,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// <param name="token"><see cref="CancellationToken"/></param>
     public async Task UpdateFindResultDbSettingsAsync(CancellationToken token)
     {
-      await _semaphore.WaitAsync(token);
+      await _semaphore.WaitAsync(token).ConfigureAwait(false);
       LOG.Debug("Update FindResult window settings");
 
       await Task.Run(() =>
@@ -278,7 +278,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           _semaphore.Release();
         }
-      }, token);
+      }, token).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -287,7 +287,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// <param name="token"><see cref="CancellationToken"/></param>
     public async Task UpdateBookmarkOverviewDbSettingsAsync(CancellationToken token)
     {
-      await _semaphore.WaitAsync(token);
+      await _semaphore.WaitAsync(token).ConfigureAwait(false);
       LOG.Debug("Update BookmarkOverview window settings");
 
       await Task.Run(() =>
@@ -340,7 +340,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           _semaphore.Release();
         }
-      }, token);
+      }, token).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -349,7 +349,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
     /// <param name="token"><see cref="CancellationToken"/></param>
     public async Task UpdateFindDialogDbSettingsAsync(CancellationToken token)
     {
-      await _semaphore.WaitAsync(token);
+      await _semaphore.WaitAsync(token).ConfigureAwait(false);
       LOG.Debug("Update FindDialog window settings");
 
       await Task.Run(() =>
@@ -386,7 +386,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           _semaphore.Release();
         }
-      }, token);
+      }, token).ConfigureAwait(false);
     }
 
     private void AddMissingDbSettings(LiteCollection<DatabaseSetting> settings)
