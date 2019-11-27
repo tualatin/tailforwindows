@@ -22,6 +22,7 @@
   <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorBlack}">Black</Color>
   <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorGrey35}">#FFBBBBBB</Color>
 
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorGrey03Alpha}">#4CF7F7F7</Color>
 
   <!--  SolidColorBrush definitions  -->
   <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidWhite}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorWhiteKey}}" po:Freeze="True" />

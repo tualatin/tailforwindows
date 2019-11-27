@@ -3,23 +3,12 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
   >
-  <!--  Border colors  -->
-  <Color x:Key="DefaultBorderBrushDarkColor">Black</Color>
-
   <!--  Glyph colors  -->
   <Color x:Key="GlyphColor">#888888</Color>
   <Color x:Key="GlyphMouseOver">#1C97EA</Color>
   <Color x:Key="GlyphMousePressed">#136FAE</Color>
 
   <!--  Control-specific resources.  -->
-  <Color x:Key="HeaderTopColor">#FFC5CBF9</Color>
-  <Color x:Key="DatagridCurrentCellBorderColor">Black</Color>
-  <Color x:Key="SliderTrackDarkColor">#FFC5CBF9</Color>
-
-  <Color x:Key="NavButtonFrameColor">#FF3843C4</Color>
-
-  <Color x:Key="ColorGrey03Alpha">#4CF7F7F7</Color>
-
   <Color x:Key="ColorGrey02">#FFFAFAFA</Color>
   <Color x:Key="ColorGrey03">#FFF7F7F7</Color>
   <Color x:Key="ColorGrey10">#FFE5E5E5</Color>

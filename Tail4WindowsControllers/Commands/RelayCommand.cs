@@ -43,6 +43,11 @@ namespace Org.Vs.TailForWin.Controllers.Commands
     }
 
     /// <summary>
+    /// Raise can execute changed
+    /// </summary>
+    public void RaiseCanExecuteChanged() => CommandManager.InvalidateRequerySuggested();
+
+    /// <summary>
     /// Can execute
     /// </summary>
     /// <param name="parameter">Parameter</param>

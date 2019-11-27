@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/netfx/2009/xaml/presentation">
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="pack://application:,,,/T4WUi.Plugins;component/ColorResources.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/T4WUi.Plugins;component/StyleResources.xaml" />
+
     <ResourceDictionary Source="pack://application:,,,/T4WUi.Plugins;component/VsControls/ExtendedControls/Styles/VsDataGridStyle.xaml" />
     <ResourceDictionary Source="pack://application:,,,/T4WUi.Plugins;component/VsControls/ExtendedControls/Styles/VsWatermarkTextBoxStyle.xaml" />
     <ResourceDictionary Source="pack://application:,,,/T4WUi.Plugins;component/VsControls/ExtendedControls/Styles/VsFloatingWindowStyle.xaml" />

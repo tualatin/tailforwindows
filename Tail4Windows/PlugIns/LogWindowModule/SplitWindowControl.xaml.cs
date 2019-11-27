@@ -1373,13 +1373,17 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
             // Handle alert settings
             if ( filterData.UseNotification )
+            {
               HandleAlertSettings(filterData, sr, logEntry);
+            }
 
             token.ThrowIfCancellationRequested();
 
             // Handle AutoBookmark
             if ( filterData.IsAutoBookmark )
+            {
               HandleAutoBookmark(filterData, logEntry);
+            }
 
             token.ThrowIfCancellationRequested();
             result = true;
@@ -1414,7 +1418,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
             // If not FilterSource is defined, handle AutoBookmark here
             if ( filterSource.Count == 0 && filterData.IsAutoBookmark )
+            {
               HandleAutoBookmark(filterData, logEntry);
+            }
 
             token.ThrowIfCancellationRequested();
 

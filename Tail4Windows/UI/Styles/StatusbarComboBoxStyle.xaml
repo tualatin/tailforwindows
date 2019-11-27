@@ -46,7 +46,7 @@
                 Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
                 >
                 <EasingColorKeyFrame
-                  Value="{StaticResource ColorGrey03Alpha}"
+                  Value="{DynamicResource {x:Static colorResources:ColorResources.ColorGrey03AlphaKey}}"
                   KeyTime="0"
                   />
               </ColorAnimationUsingKeyFrames>
@@ -93,7 +93,7 @@
                 Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
                 >
                 <EasingColorKeyFrame
-                  Value="{StaticResource ColorGrey03Alpha}"
+                  Value="{DynamicResource {x:Static colorResources:ColorResources.ColorGrey03AlphaKey}}"
                   KeyTime="0"
                   />
               </ColorAnimationUsingKeyFrames>

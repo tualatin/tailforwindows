@@ -664,6 +664,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
 
       if ( bookmarkCount != null )
         bookmarkCount.Content = listBox.BookmarkCount.ToString();
+
+      ((RelayCommand) listBox.BookmarkOverviewCommand).RaiseCanExecuteChanged();
     }
 
     #endregion

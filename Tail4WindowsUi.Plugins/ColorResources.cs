@@ -55,6 +55,11 @@ namespace Org.Vs.TailForWin.Ui.PlugIns
     /// </summary>
     public static ComponentResourceKey ColorGrey35Key => new ComponentResourceKey(typeof(ColorResources), "ColorGrey35");
 
+    /// <summary>
+    /// Resource 'ColorGrey03Alpha'
+    /// </summary>
+    public static ComponentResourceKey ColorGrey03AlphaKey => new ComponentResourceKey(typeof(ColorResources), "ColorGrey03Alpha");
+
     #endregion
 
     #region SolidColorBrushes
