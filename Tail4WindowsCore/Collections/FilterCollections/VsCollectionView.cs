@@ -224,7 +224,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 
       using ( var cts = new CancellationTokenSource() )
       {
-        await _semaphoreEstablishQueueLock.WaitAsync(cts.Token);
+        await _semaphoreEstablishQueueLock.WaitAsync(cts.Token).ConfigureAwait(false);
 
         try
         {
@@ -325,7 +325,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
                 if ( count < PagingSize )
                   continue;
 
-                AddToFilteredCollection(count, page);
+                await AddToFilteredCollectionAsync(count, page);
                 count = 0;
                 page++;
               }
@@ -335,7 +335,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 
             if ( Filter != null )
             {
-              AddToFilteredCollection(count, page);
+              await AddToFilteredCollectionAsync(count, page);
 
               _isFilteringStarted = false;
               FilteringCompleted?.Invoke(this, new FilterEventArgs(true, sw.ElapsedMilliseconds));
@@ -355,28 +355,40 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
       }
     }
 
-    private void AddToFilteredCollection(int currentCount, int page) =>
-      Application.Current.Dispatcher?.InvokeAsync(() =>
+    private async Task AddToFilteredCollectionAsync(int currentCount, int page)
+    {
+      if ( Application.Current?.Dispatcher != null )
       {
-        var start = page * PagingSize;
-
-        if ( _isFilteringStarted )
+#pragma warning disable _MissingConfigureAwait // Consider using .ConfigureAwait(false).
+        await Application.Current.Dispatcher.InvokeAsync(() =>
         {
-          for ( var i = start; i < start + currentCount; i++ )
+          if ( _internalCollection.Count == 0 )
           {
-            var item = Collection[i];
+            return;
+          }
 
-            if ( _internalCollection.Contains(item) )
+          var start = page * PagingSize;
+
+          if ( _isFilteringStarted )
+          {
+            for ( var i = start; i < start + currentCount; i++ )
             {
-              FilteredCollection.Add(item);
+              var item = Collection[i];
+
+              if ( _internalCollection.Contains(item) )
+              {
+                FilteredCollection.Add(item);
+              }
             }
           }
-        }
-        else
-        {
-          FilteredCollection.AddRange(_internalCollection);
-        }
-      });
+          else
+          {
+            FilteredCollection.AddRange(_internalCollection);
+          }
+        });
+#pragma warning restore _MissingConfigureAwait // Consider using .ConfigureAwait(false).
+      }
+    }
 
     /// <summary>
     /// Protected implementation of Dispose pattern

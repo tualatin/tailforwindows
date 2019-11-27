@@ -613,7 +613,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     {
       new ThrottledExecution().InMs(220).Do(() =>
       {
-        Application.Current.Dispatcher?.InvokeAsync(() =>
+        Application.Current.Dispatcher?.Invoke(() =>
         {
           if ( Application.Current.MainWindow != null )
             Application.Current.MainWindow.Close();

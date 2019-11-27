@@ -227,7 +227,7 @@ namespace Org.Vs.TailForWin
       {
         execute.InMs(500).Do(() =>
         {
-          Current.Dispatcher?.InvokeAsync(() =>
+          Current.Dispatcher?.Invoke(() =>
           {
             var firstTab = UiHelper.TabItemList.FirstOrDefault();
 

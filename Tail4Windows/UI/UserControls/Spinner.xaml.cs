@@ -303,15 +303,12 @@ namespace Org.Vs.TailForWin.UI.UserControls
       }
     }
 
-    private void UpValue()
-    {
-      Dispatcher.InvokeAsync(
-        () =>
+    private void UpValue() =>
+      Dispatcher?.Invoke(() =>
         {
           if ( StartIndex <= MaxSpinValue )
             StartIndex += Increment;
         });
-    }
 
     private async Task DownValueAsync()
     {
@@ -329,15 +326,13 @@ namespace Org.Vs.TailForWin.UI.UserControls
       }
     }
 
-    private void DownValue()
-    {
-      Dispatcher.InvokeAsync(
+    private void DownValue() =>
+      Dispatcher?.Invoke(
         () =>
         {
           if ( StartIndex > MinSpinValue )
             StartIndex -= Increment;
         });
-    }
 
     #endregion
 

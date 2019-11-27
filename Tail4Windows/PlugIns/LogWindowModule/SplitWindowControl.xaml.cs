@@ -516,7 +516,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is SmartWatchController) || Dispatcher == null )
         return;
 
-      Dispatcher.InvokeAsync(() =>
+      Dispatcher.Invoke(() =>
       {
         switch ( SettingsHelperController.CurrentSettings.SmartWatchSettings.Mode )
         {
@@ -574,7 +574,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( !(sender is ILogReadService) || Dispatcher == null )
         return;
 
-      Dispatcher.InvokeAsync(() =>
+      Dispatcher.Invoke(() =>
       {
         if ( LogCollectionView.Items == null )
           return;
@@ -635,11 +635,9 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         HighlightData = null;
         OnPropertyChanged(nameof(HighlightData));
 
-        using ( var execute = new ThrottledExecution() )
-        {
-          execute.InMs(15).Do(() =>
+        new ThrottledExecution().InMs(15).Do(() =>
           {
-            Dispatcher?.InvokeAsync(() =>
+            Dispatcher?.Invoke(() =>
             {
               LogWindowMainElement.RemoveAllBookmarks();
               EnvironmentContainer.Instance.BookmarkManager.ClearBookmarkDataSource();
@@ -648,7 +646,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
               LogWindowMainElement.ScrollToEnd();
             });
           });
-        }
         break;
 
       case "Wrap":
@@ -1045,16 +1042,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         _findNextResult = null;
 
-
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-        Dispatcher?.InvokeAsync(() =>
+        if ( Dispatcher != null )
         {
-          if ( SplitterPosition <= 0 )
-            LogWindowMainElement.ScrollToHome();
-          else
-            LogWindowSplitElement.ScrollToHome();
-        }, DispatcherPriority.Normal);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+          await Dispatcher?.InvokeAsync(() =>
+          {
+            if ( SplitterPosition <= 0 )
+              LogWindowMainElement.ScrollToHome();
+            else
+              LogWindowSplitElement.ScrollToHome();
+          }, DispatcherPriority.Normal);
+        }
 
         startIndex = 0;
         endIndex = SplitterPosition <= 0 ? LogWindowMainElement.GetViewportHeight() : LogWindowSplitElement.GetViewportHeight();
@@ -1102,13 +1099,15 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
           AddFindWhatResultToHighlightData(result);
 
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-          Dispatcher?.InvokeAsync(() =>
+          if ( Dispatcher != null )
           {
-            ScrollToSelectedItem(_findNextResult);
-          }, DispatcherPriority.Normal);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-
+#pragma warning disable _MissingConfigureAwait // Consider using .ConfigureAwait(false).
+            await Dispatcher.InvokeAsync(() =>
+            {
+              ScrollToSelectedItem(_findNextResult);
+            }, DispatcherPriority.Normal);
+#pragma warning restore _MissingConfigureAwait // Consider using .ConfigureAwait(false).
+          }
           break;
         }
       }
@@ -1134,12 +1133,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
               _findNextResult = log;
               findNext = new FindNextResult(true, log.Index);
 
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-              Dispatcher?.InvokeAsync(() =>
+              Dispatcher?.Invoke(() =>
               {
                 ScrollToSelectedItem(_findNextResult);
-              }, DispatcherPriority.Normal);
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+              }, DispatcherPriority.Normal, cts.Token);
 
               break;
             }
@@ -1479,7 +1476,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     {
       LOG.Debug("* * * * * * * * HandleAutoBookmark * * * * * * * *");
 
-      Dispatcher?.InvokeAsync(() =>
+      Dispatcher?.Invoke(() =>
       {
         item.BookmarkPoint = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/Auto_Bookmark.png");
         item.BookmarkToolTip = string.IsNullOrWhiteSpace(filterData.AutoBookmarkComment) ? "Auto Bookmark" : filterData.AutoBookmarkComment;
@@ -1593,7 +1590,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       string message = Application.Current.TryFindResource("FilterManagerNotificationInformation").ToString();
 
-      Dispatcher?.InvokeAsync(() =>
+      Dispatcher?.Invoke(() =>
       {
         var alertPopUp = new FancyNotificationPopUp { Height = 100, Width = 300, PopUpAlert = CurrentTailData.File, PopUpAlertDetail = string.Format(message, time.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat), string.Join("\n\t", notifications)) };
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowNotificationPopUpMessage(alertPopUp));
@@ -1715,7 +1712,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     private void SetBookmarkFromFindWhat(LogEntry log) =>
-      Dispatcher?.InvokeAsync(() =>
+      Dispatcher?.Invoke(() =>
       {
         if ( log.BookmarkPoint != null )
           return;
