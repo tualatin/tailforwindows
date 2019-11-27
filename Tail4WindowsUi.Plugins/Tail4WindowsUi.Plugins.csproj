@@ -112,6 +112,7 @@
     <Compile Include="NotifyIcon\TaskbarIcon.Declarations.cs" />
     <Compile Include="NotifyIcon\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StyleResources.cs" />
     <Compile Include="VsControls\ExtendedControls\VsColorPickerEx.cs" />
     <Compile Include="VsControls\ExtendedControls\VsFloatingWindow.cs" />
     <Compile Include="VsControls\ExtendedControls\VsPopupEx.cs" />
@@ -164,6 +165,9 @@
     <Page Include="ColorResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="StyleResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="themes\generic.xaml">
       <SubType>Designer</SubType>

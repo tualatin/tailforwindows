@@ -206,7 +206,7 @@
                       Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
                       >
                       <EasingColorKeyFrame
-                        Value="{StaticResource SelectedUnfocusedColor}"
+                        Value="{DynamicResource {x:Static colorResources:ColorResources.SelectedUnfocusedColorKey}}"
                         KeyTime="0"
                         />
                     </ColorAnimationUsingKeyFrames>

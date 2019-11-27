@@ -20,6 +20,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
   public class SettingsDbController : ISettingsDbController
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(SettingsDbController));
+
     private readonly SemaphoreSlim _semaphore;
 
     /// <summary>

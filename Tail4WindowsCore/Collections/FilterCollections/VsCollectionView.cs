@@ -17,11 +17,11 @@ using Org.Vs.TailForWin.Core.Data.Base;
 
 namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
 {
-    /// <summary>
-    /// Virtual Studio Collection view
-    /// </summary>
-    /// <typeparam name="T">Type of Collection view</typeparam>
-    [CollectionDataContract]
+  /// <summary>
+  /// Virtual Studio Collection view
+  /// </summary>
+  /// <typeparam name="T">Type of Collection view</typeparam>
+  [CollectionDataContract]
   public class VsCollectionView<T> : IVsCollectionView<T>
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(VsCollectionView<T>));
@@ -101,7 +101,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
           LOG.Debug("Enabling filtering...");
         }
 
-        if (_notifyTask != null)
+        if ( _notifyTask != null )
         {
           _notifyTask.PropertyChanged -= OnNotifyTaskPropertyChanged;
         }

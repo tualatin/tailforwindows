@@ -25,8 +25,9 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
   public class StatisticController : IStatisticController
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(StatisticController));
-    private static readonly SemaphoreSlim MyLock = new SemaphoreSlim(1);
-    private static  readonly SemaphoreSlim UpdateLock = new SemaphoreSlim(1);
+
+    private readonly SemaphoreSlim _myLock = new SemaphoreSlim(1);
+    private readonly SemaphoreSlim _updateLock = new SemaphoreSlim(1);
 
     /// <summary>
     /// Delay time in milliseconds
@@ -114,7 +115,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
       IStatisticAnalysisCollection<StatisticAnalysisData> result = new StatisticAnalysisCollection();
 
-      await MyLock.WaitAsync(token).ConfigureAwait(false);
+      await _myLock.WaitAsync(token).ConfigureAwait(false);
       await Task.Run(() =>
       {
         try
@@ -141,7 +142,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
         finally
         {
-          MyLock.Release();
+          _myLock.Release();
         }
       }, token).ConfigureAwait(false);
 
@@ -190,7 +191,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
     private async Task StartFileQueueAsync()
     {
-      await MyLock.WaitAsync(_cts.Token).ConfigureAwait(false);
+      await _myLock.WaitAsync(_cts.Token).ConfigureAwait(false);
 
       try
       {
@@ -259,13 +260,13 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
         finally
         {
-          MyLock.Release();
+          _myLock.Release();
         }
       }, _cts.Token);
 
     private async Task SaveAllValuesIntoDatabaseAsync()
     {
-      await MyLock.WaitAsync(_cts.Token).ConfigureAwait(false);
+      await _myLock.WaitAsync(_cts.Token).ConfigureAwait(false);
       await Task.Run(() =>
       {
         UpdateSession();
@@ -325,7 +326,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
         finally
         {
-          MyLock.Release();
+          _myLock.Release();
         }
       }, _cts.Token).ConfigureAwait(false);
     }
@@ -344,7 +345,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
     private void UpdateSession()
     {
-      UpdateLock.Wait(_cts.Token);
+      _updateLock.Wait(_cts.Token);
 
       try
       {
@@ -369,13 +370,13 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       }
       finally
       {
-        UpdateLock.Release();
+        _updateLock.Release();
       }
     }
 
     private async Task RemoveOldSessionsAsync()
     {
-      await MyLock.WaitAsync(_cts.Token).ConfigureAwait(false);
+      await _myLock.WaitAsync(_cts.Token).ConfigureAwait(false);
       await Task.Run(() =>
       {
         try
@@ -410,14 +411,14 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
         finally
         {
-          MyLock.Release();
+          _myLock.Release();
         }
       }, _cts.Token).ConfigureAwait(false);
     }
 
     private async Task RemoveInvalidSessionsAsync()
     {
-      await MyLock.WaitAsync(_cts.Token).ConfigureAwait(false);
+      await _myLock.WaitAsync(_cts.Token).ConfigureAwait(false);
       await Task.Run(() =>
       {
         try
@@ -509,7 +510,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
         finally
         {
-          MyLock.Release();
+          _myLock.Release();
         }
       }, _cts.Token).ConfigureAwait(false);
     }

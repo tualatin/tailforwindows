@@ -113,7 +113,7 @@
   </Style>
   <!--</SnippetTextBox>-->
 
-  <Style x:Key="{x:Type RichTextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type RichTextBox}">
+  <Style x:Key="{x:Type RichTextBox}" BasedOn="{StaticResource {x:Type RichTextBox}}" TargetType="{x:Type RichTextBox}">
     <Style.Resources>
       <Style x:Key="{x:Type FlowDocument}" TargetType="{x:Type FlowDocument}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -158,7 +158,7 @@
                       Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)"
                       >
                       <EasingColorKeyFrame
-                        Value="{StaticResource DisabledControlLightColor}"
+                        Value="{DynamicResource {x:Static colorResources:ColorResources.DisabledControlLightColorKey}}"
                         KeyTime="0"
                         />
                     </ColorAnimationUsingKeyFrames>

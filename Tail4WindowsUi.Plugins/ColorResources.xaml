@@ -4,10 +4,15 @@
   xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns"
   xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
   >
+  <!--  Control colors  -->
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=DisabledControlLightColor}">#FFE8EDF9</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=DisabledControlDarkColor}">#FFC5CBF9</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=SelectedUnfocusedColor}">#FFDDDDDD</Color>
 
   <!--  Border colors  -->
   <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BorderLightColor}">#FFCCCCCC</Color>
   <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BorderMediumColor}">#FF888888</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=DisabledBorderDarkColor}">#FF888888</Color>
 
   <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidBorderLightColor}" Color="{StaticResource {x:Static colorResources:ColorResources.BorderLightColorKey}}" po:Freeze="True" />
   <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidBorderMedium}" Color="{StaticResource {x:Static colorResources:ColorResources.BorderMediumColorKey}}" po:Freeze="True" />

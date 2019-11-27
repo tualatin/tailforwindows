@@ -100,7 +100,7 @@
                 Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
                 >
                 <EasingColorKeyFrame
-                  Value="{StaticResource DisabledBorderDarkColor}"
+                  Value="{DynamicResource {x:Static colorResources:ColorResources.DisabledBorderDarkColorKey}}"
                   KeyTime="0"
                   />
               </ColorAnimationUsingKeyFrames>

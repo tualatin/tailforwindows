@@ -11,6 +11,21 @@ namespace Org.Vs.TailForWin.Ui.PlugIns
     #region Colors
 
     /// <summary>
+    /// Resource 'DisabledControlLightColor'
+    /// </summary>
+    public static ComponentResourceKey DisabledControlLightColorKey => new ComponentResourceKey(typeof(ColorResources), "DisabledControlLightColor");
+
+    /// <summary>
+    /// Resource 'DisabledControlDarkColor'
+    /// </summary>
+    public static ComponentResourceKey DisabledControlDarkColorKey => new ComponentResourceKey(typeof(ColorResources), "DisabledControlDarkColor");
+
+    /// <summary>
+    /// Resource 'SelectedUnfocusedColor'
+    /// </summary>
+    public static ComponentResourceKey SelectedUnfocusedColorKey => new ComponentResourceKey(typeof(ColorResources), "SelectedUnfocusedColor");
+
+    /// <summary>
     /// Resource 'BorderLightColor'
     /// </summary>
     public static ComponentResourceKey BorderLightColorKey => new ComponentResourceKey(typeof(ColorResources), "BorderLightColor");
@@ -19,6 +34,11 @@ namespace Org.Vs.TailForWin.Ui.PlugIns
     /// Resource 'BorderMediumColor'
     /// </summary>
     public static ComponentResourceKey BorderMediumColorKey => new ComponentResourceKey(typeof(ColorResources), "BorderMediumColor");
+
+    /// <summary>
+    /// Resource 'DisabledBorderDarkColor'
+    /// </summary>
+    public static ComponentResourceKey DisabledBorderDarkColorKey => new ComponentResourceKey(typeof(ColorResources), "DisabledBorderDarkColor");
 
     /// <summary>
     /// Resource 'ColorWhite'
@@ -47,7 +67,7 @@ namespace Org.Vs.TailForWin.Ui.PlugIns
     /// <summary>
     /// Resource 'BrushSolidBorderMedium'
     /// </summary>
-    public static  ComponentResourceKey BrushSolidBorderMediumKey => new ComponentResourceKey(typeof(ColorResources), "BrushSolidBorderMedium");
+    public static ComponentResourceKey BrushSolidBorderMediumKey => new ComponentResourceKey(typeof(ColorResources), "BrushSolidBorderMedium");
 
     /// <summary>
     /// Resource 'BrushSolidWhite'

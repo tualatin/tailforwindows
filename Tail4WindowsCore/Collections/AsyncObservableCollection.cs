@@ -24,10 +24,11 @@ namespace Org.Vs.TailForWin.Core.Collections
   [HostProtection(SecurityAction.LinkDemand, Synchronization = true, ExternalThreading = true)]
   public class AsyncObservableCollection<T> : IList<T>, IList, IReadOnlyList<T>, INotifyPropertyChanged
   {
-    private static readonly ILog LOG = LogManager.GetLogger(typeof( AsyncObservableCollection<T>));
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(AsyncObservableCollection<T>));
 
+    [NonSerialized]
     private readonly SynchronizationContext _synchronizationContext = SynchronizationContext.Current;
-    private readonly object _myLock = new object();
+    private readonly SemaphoreSlim _myObservableLock = new SemaphoreSlim(1);
 
     /// <summary>
     /// Hash collection
@@ -201,78 +202,69 @@ namespace Org.Vs.TailForWin.Core.Collections
     {
       LOG.Debug("Enter ProcessQueue");
 
-      if ( Monitor.TryEnter(_myLock) )
-      {
-        try
-        {
-          if ( _accessCount > 0 )
-          {
-            LOG.Debug("Exit ProcessQueue - AccessCount > 0");
-            return;
-          }
+      _myObservableLock.Wait();
 
-          _accessCount++;
-        }
-        finally
+      try
+      {
+        if ( _accessCount > 0 )
         {
-          Monitor.Exit(_myLock);
+          LOG.Debug("Exit ProcessQueue - AccessCount > 0");
+          return;
         }
+
+        _accessCount++;
+      }
+      finally
+      {
+        _myObservableLock.Release();
       }
 
       if ( _sync.IsReadLockHeld || _sync.IsUpgradeableReadLockHeld || _sync.IsWriteLockHeld )
       {
-        if ( Monitor.TryEnter(_myLock) )
-        {
-          try
-          {
-            _accessCount--;
-          }
-          finally
-          {
-            Monitor.Exit(_myLock);
-          }
-        }
+        _myObservableLock.Wait();
 
-        LOG.Debug("Exit ProcessQueue - Locked!");
-        return;
-      }
-
-      if ( _collectionChangedQueue == null )
-      {
-        _collectionChangedQueue = new ConcurrentQueue<NotifyCollectionChangedEventArgs>();
-
-        if ( Monitor.TryEnter(_myLock) )
-        {
-          try
-          {
-            _accessCount--;
-          }
-          finally
-          {
-            Monitor.Exit(_myLock);
-          }
-        }
-
-        LOG.Debug("Exit ProcessQueue - Queue is null");
-        return;
-      }
-
-      while ( _collectionChangedQueue.Count > 0 )
-      {
-        if ( _collectionChangedQueue.TryDequeue(out NotifyCollectionChangedEventArgs args) )
-          OnCollectionChanged(args);
-      }
-
-      if ( Monitor.TryEnter(_myLock) )
-      {
         try
         {
           _accessCount--;
         }
         finally
         {
-          Monitor.Exit(_myLock);
+          _myObservableLock.Release();
         }
+      }
+
+
+      if ( _collectionChangedQueue == null )
+      {
+        _collectionChangedQueue = new ConcurrentQueue<NotifyCollectionChangedEventArgs>();
+
+        _myObservableLock.Wait();
+
+        try
+        {
+          _accessCount--;
+        }
+        finally
+        {
+          _myObservableLock.Release();
+        }
+      }
+
+      while ( _collectionChangedQueue.Count > 0 )
+      {
+        if ( _collectionChangedQueue.TryDequeue(out var args) )
+          OnCollectionChanged(args);
+      }
+
+      _myObservableLock.Wait();
+
+      try
+      {
+        _accessCount--;
+      }
+      finally
+      {
+        _myObservableLock.Release();
       }
 
       LOG.Debug("Exit ProcessQueue End");
@@ -509,6 +501,7 @@ namespace Org.Vs.TailForWin.Core.Collections
       try
       {
         _sync.EnterWriteLock();
+
         if ( Items.Count - arrayIndex > array.Length )
         {
           return;
