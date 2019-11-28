@@ -5,6 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.UserControls.Behaviors"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
   mc:Ignorable="d"
   d:DesignHeight="22"
   d:DesignWidth="50"
@@ -84,21 +85,21 @@
                     <Trigger Property="IsMouseOver" Value="True">
                       <Setter Property="Foreground">
                         <Setter.Value>
-                          <SolidColorBrush Color="{StaticResource GlyphMouseOver}" />
+                          <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.GlyphMouseOverKey}}" />
                         </Setter.Value>
                       </Setter>
                     </Trigger>
                     <Trigger Property="IsMouseOver" Value="False">
                       <Setter Property="Foreground">
                         <Setter.Value>
-                          <SolidColorBrush Color="{StaticResource GlyphColor}" />
+                          <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.GlyphColorKey}}" />
                         </Setter.Value>
                       </Setter>
                     </Trigger>
                     <Trigger Property="IsPressed" Value="True">
                       <Setter Property="Foreground">
                         <Setter.Value>
-                          <SolidColorBrush Color="{StaticResource GlyphMousePressed}" />
+                          <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.GlyphMousePressedKey}}" />
                         </Setter.Value>
                       </Setter>
                     </Trigger>

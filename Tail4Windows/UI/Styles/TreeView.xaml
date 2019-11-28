@@ -56,7 +56,7 @@
               Data="M 4 0 L 8 4 L 4 8 Z"
               >
               <Path.Fill>
-                <SolidColorBrush Color="{DynamicResource GlyphColor}" />
+                <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.GlyphColorKey}}" />
               </Path.Fill>
             </Path>
 
@@ -69,7 +69,7 @@
               Visibility="Hidden"
               >
               <Path.Fill>
-                <SolidColorBrush Color="{DynamicResource GlyphColor}" />
+                <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.GlyphColorKey}}" />
               </Path.Fill>
             </Path>
 

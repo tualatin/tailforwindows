@@ -8,6 +8,25 @@ namespace Org.Vs.TailForWin.Ui.PlugIns
   /// </summary>
   public static class ColorResources
   {
+    #region Glyph colors
+
+    /// <summary>
+    /// Resource 'GlyphColor'
+    /// </summary>
+    public static ComponentResourceKey GlyphColorKey => new ComponentResourceKey(typeof(ColorResources), "GlyphColor");
+
+    /// <summary>
+    /// Resource 'GlyphMouseOver'
+    /// </summary>
+    public static ComponentResourceKey GlyphMouseOverKey => new ComponentResourceKey(typeof(ColorResources), "GlyphMouseOver");
+
+    /// <summary>
+    /// Resource 'GlyphMousePressed'
+    /// </summary>
+    public static ComponentResourceKey GlyphMousePressedKey => new ComponentResourceKey(typeof(ColorResources), "GlyphMousePressed");
+
+    #endregion
+
     #region Colors
 
     /// <summary>

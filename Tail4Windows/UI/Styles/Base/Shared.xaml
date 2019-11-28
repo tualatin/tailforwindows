@@ -3,11 +3,6 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
   >
-  <!--  Glyph colors  -->
-  <Color x:Key="GlyphColor">#888888</Color>
-  <Color x:Key="GlyphMouseOver">#1C97EA</Color>
-  <Color x:Key="GlyphMousePressed">#136FAE</Color>
-
   <!--  Control-specific resources.  -->
   <Color x:Key="ColorGrey02">#FFFAFAFA</Color>
   <Color x:Key="ColorGrey03">#FFF7F7F7</Color>

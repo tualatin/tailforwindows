@@ -476,7 +476,7 @@
         Data="M 0 0 L 0 7 L 4 3.5 Z"
         >
         <Path.Fill>
-          <SolidColorBrush Color="{DynamicResource GlyphColor}" />
+          <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.GlyphColorKey}}" />
         </Path.Fill>
       </Path>
 

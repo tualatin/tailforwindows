@@ -4,6 +4,11 @@
   xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns"
   xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
   >
+  <!--  Glyph colors  -->
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=GlyphColor}">#888888</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=GlyphMouseOver}">#1C97EA</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=GlyphMousePressed}">#136FAE</Color>
+
   <!--  Control colors  -->
   <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=DisabledControlLightColor}">#FFE8EDF9</Color>
   <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=DisabledControlDarkColor}">#FFC5CBF9</Color>

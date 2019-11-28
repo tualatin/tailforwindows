@@ -23,7 +23,7 @@
               Data="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
               >
               <Path.Fill>
-                <SolidColorBrush Color="{DynamicResource GlyphColor}" />
+                <SolidColorBrush Color="{DynamicResource {x:Static colorResources:ColorResources.GlyphColorKey}}" />
               </Path.Fill>
             </Path>
             <VisualStateManager.VisualStateGroups>
@@ -36,7 +36,7 @@
                       Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
                       >
                       <EasingColorKeyFrame
-                        Value="{StaticResource GlyphMouseOver}"
+                        Value="{DynamicResource {x:Static colorResources:ColorResources.GlyphMouseOverKey}}"
                         KeyTime="0"
                         />
                     </ColorAnimationUsingKeyFrames>
@@ -49,7 +49,7 @@
                       Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
                       >
                       <EasingColorKeyFrame
-                        Value="{StaticResource GlyphMousePressed}"
+                        Value="{DynamicResource {x:Static colorResources:ColorResources.GlyphMousePressedKey}}"
                         KeyTime="0"
                         />
                     </ColorAnimationUsingKeyFrames>
