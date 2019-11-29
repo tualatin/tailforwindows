@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace Org.Vs.TailForWin.Ui.PlugIns
+namespace Org.Vs.TailForWin.Ui.PlugIns.Resources
 {
   /// <summary>
   /// Style resources

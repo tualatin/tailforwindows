@@ -6,7 +6,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
   xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.Resources;assembly=T4WUi.Plugins"
   xmlns:enums="clr-namespace:Org.Vs.TailForWin.Controllers.PlugIns.StatisticAnalysis.Data.Enums;assembly=T4WControllers"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:uc="clr-namespace:Org.Vs.TailForWin.PlugIns.StatisticModule.UserControls"

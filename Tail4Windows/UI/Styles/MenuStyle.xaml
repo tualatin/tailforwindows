@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.Resources;assembly=T4WUi.Plugins"
   >
   <MenuScrollingVisibilityConverter x:Key="MenuScrollingVisibilityConverter" />
 

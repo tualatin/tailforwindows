@@ -91,7 +91,7 @@
     <Compile Include="BasicWindow\MainWindowToolbarButtons.xaml.cs">
       <DependentUpon>MainWindowToolbarButtons.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ColorResources.cs" />
+    <Compile Include="Resources\ColorResources.cs" />
     <Compile Include="NotifyIcon\BalloonIcon.cs" />
     <Compile Include="NotifyIcon\Interop\BalloonFlags.cs" />
     <Compile Include="NotifyIcon\Interop\IconDataMembers.cs" />
@@ -112,7 +112,7 @@
     <Compile Include="NotifyIcon\TaskbarIcon.Declarations.cs" />
     <Compile Include="NotifyIcon\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StyleResources.cs" />
+    <Compile Include="Resources\StyleResources.cs" />
     <Compile Include="VsControls\ExtendedControls\VsColorPickerEx.cs" />
     <Compile Include="VsControls\ExtendedControls\VsFloatingWindow.cs" />
     <Compile Include="VsControls\ExtendedControls\VsPopupEx.cs" />
@@ -162,11 +162,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ColorResources.xaml">
+    <Page Include="Resources\ColorResources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="StyleResources.xaml">
+    <Page Include="Resources\StyleResources.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="themes\generic.xaml">

@@ -7,7 +7,7 @@
   xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.UI.Behaviors"
   xmlns:behaviors1="clr-namespace:Org.Vs.TailForWin.UI.UserControls.Behaviors"
-  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.Resources;assembly=T4WUi.Plugins"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
   xmlns:controllers="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:debugging="clr-namespace:Org.Vs.TailForWin.Ui.Utils.Debugging;assembly=T4WUi.Utils"
@@ -86,7 +86,7 @@
 
             <ControlTemplate.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource ButtonOverBackground}" />
+                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource {x:Static colorResources:ColorResources.ButtonOverBackgroundKey}}" />
                 <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
               </Trigger>
               <Trigger Property="IsEnabled" Value="False">
@@ -146,7 +146,7 @@
 
             <ControlTemplate.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource ButtonOverBackground}" />
+                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource {x:Static colorResources:ColorResources.ButtonOverBackgroundKey}}" />
                 <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
               </Trigger>
               <Trigger Property="IsEnabled" Value="False">
@@ -188,7 +188,7 @@
 
             <ControlTemplate.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource ButtonOverBackground}" />
+                <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource {x:Static colorResources:ColorResources.ButtonOverBackgroundKey}}" />
                 <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
               </Trigger>
               <Trigger Property="IsEnabled" Value="False">

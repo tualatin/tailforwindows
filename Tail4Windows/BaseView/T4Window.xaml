@@ -5,7 +5,7 @@
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:baseViewControls="clr-namespace:Org.Vs.TailForWin.BaseView.UserControls"
-  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns;assembly=T4WUi.Plugins"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.Resources;assembly=T4WUi.Plugins"
   xmlns:commands="clr-namespace:Org.Vs.TailForWin.Controllers.Commands;assembly=T4WControllers"
   xmlns:dragSupportUtils="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
   xmlns:environment="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"

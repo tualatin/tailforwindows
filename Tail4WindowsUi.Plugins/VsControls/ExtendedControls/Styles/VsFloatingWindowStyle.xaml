@@ -4,7 +4,7 @@
   xmlns:local="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls"
   xmlns:basicWindow="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.BasicWindow"
   xmlns:behaviors="clr-namespace:Org.Vs.TailForWin.Ui.Utils.StyleableWindow.Behaviors;assembly=T4WUi.Utils"
-  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.Resources"
   >
   <Style x:Key="WindowTitleLabel" TargetType="{x:Type Label}">
     <Setter Property="Template">

@@ -4,7 +4,6 @@
   xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
   >
   <!--  Control-specific resources.  -->
-  <Color x:Key="ColorGrey02">#FFFAFAFA</Color>
   <Color x:Key="ColorGrey03">#FFF7F7F7</Color>
   <Color x:Key="ColorGrey10">#FFE5E5E5</Color>
   <Color x:Key="ColorGrey20">#FFCCCCCC</Color>
@@ -27,7 +26,6 @@
 
   <Color x:Key="ColorMenuIconPlaceColor">#FFDCE0EC</Color>
 
-  <SolidColorBrush x:Key="BrushSolidGrey02" Color="{StaticResource ColorGrey02}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey03" Color="{StaticResource ColorGrey03}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey10" Color="{StaticResource ColorGrey10}" po:Freeze="True" />
   <SolidColorBrush x:Key="BrushSolidGrey20" Color="{StaticResource ColorGrey20}" po:Freeze="True" />
@@ -52,27 +50,4 @@
   <SolidColorBrush x:Key="BorderHighlight" po:Freeze="True">#FFF0D0</SolidColorBrush>
 
   <SolidColorBrush x:Key="BrushSolidMenuIconPlaceColor" Color="{StaticResource ColorMenuIconPlaceColor}" po:Freeze="True" />
-
-  <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" StartPoint="0,0" EndPoint="1,0">
-    <LinearGradientBrush.GradientStops>
-      <GradientStopCollection>
-        <GradientStop Offset="0" Color="#000000FF" />
-        <GradientStop Offset="0.4" Color="#600000FF" />
-        <GradientStop Offset="0.6" Color="#600000FF" />
-        <GradientStop Offset="1" Color="#000000FF" />
-      </GradientStopCollection>
-    </LinearGradientBrush.GradientStops>
-  </LinearGradientBrush>
-
-  <LinearGradientBrush x:Key="ButtonNormalBackground" StartPoint="0,0" EndPoint="0,1">
-    <GradientStop Color="#F3F3F3" />
-    <GradientStop Offset="0.5" Color="#EBEBEB" />
-    <GradientStop Offset="0.5" Color="#DDDDDD" />
-    <GradientStop Offset="1" Color="#CDCDCD" />
-  </LinearGradientBrush>
-
-  <LinearGradientBrush x:Key="ButtonOverBackground" StartPoint="0,0" EndPoint="0,1">
-    <GradientStop Color="{StaticResource ColorGrey02}" />
-    <GradientStop Offset="1" Color="#FFE0E0E3" />
-  </LinearGradientBrush>
 </ResourceDictionary>

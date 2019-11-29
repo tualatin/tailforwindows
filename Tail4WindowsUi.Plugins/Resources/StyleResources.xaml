@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  xmlns:styleResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns"
+  xmlns:styleResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.Resources"
   >
   <Style x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type styleResources:StyleResources}, ResourceId=VerticalHic}" TargetType="{x:Type HeaderedItemsControl}">
     <Setter Property="Template">

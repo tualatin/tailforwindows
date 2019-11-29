@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace Org.Vs.TailForWin.Ui.PlugIns
+namespace Org.Vs.TailForWin.Ui.PlugIns.Resources
 {
   /// <summary>
   /// Color resources
@@ -70,6 +70,11 @@ namespace Org.Vs.TailForWin.Ui.PlugIns
     public static ComponentResourceKey ColorBlackKey => new ComponentResourceKey(typeof(ColorResources), "ColorBlack");
 
     /// <summary>
+    /// Resource 'ColorGrey02'
+    /// </summary>
+    public static ComponentResourceKey ColorGrey02Key => new ComponentResourceKey(typeof(ColorResources), "ColorGrey02");
+
+    /// <summary>
     /// Resource 'ColorGrey35'
     /// </summary>
     public static ComponentResourceKey ColorGrey35Key => new ComponentResourceKey(typeof(ColorResources), "ColorGrey35");
@@ -104,6 +109,11 @@ namespace Org.Vs.TailForWin.Ui.PlugIns
     public static ComponentResourceKey BrushSolidBlackKey => new ComponentResourceKey(typeof(ColorResources), "BrushSolidBlack");
 
     /// <summary>
+    /// Resource 'BrushSolidGrey02'
+    /// </summary>
+    public static ComponentResourceKey BrushSolidGrey02Key => new ComponentResourceKey(typeof(ColorResources), "BrushSolidGrey02");
+
+    /// <summary>
     /// Resource 'BrushSolidGrey35'
     /// </summary>
     public static ComponentResourceKey BrushSolidGrey35Key => new ComponentResourceKey(typeof(ColorResources), "BrushSolidGrey35");
@@ -117,6 +127,20 @@ namespace Org.Vs.TailForWin.Ui.PlugIns
     /// Resource 'BrushSolidInactiveBlue'
     /// </summary>
     public static ComponentResourceKey BrushSolidInactiveBlueKey => new ComponentResourceKey(typeof(ColorResources), "BrushSolidInactiveBlue");
+
+    #endregion
+
+    #region Linear gradien brushes
+
+    /// <summary>
+    /// Resource 'ButtonOverBackground'
+    /// </summary>
+    public static ComponentResourceKey ButtonOverBackgroundKey => new ComponentResourceKey(typeof(ColorResources), "ButtonOverBackground");
+
+    /// <summary>
+    /// Resource 'ButtonNormalBackground'
+    /// </summary>
+    public static ComponentResourceKey ButtonNormalBackgroundKey => new ComponentResourceKey(typeof(ColorResources), "ButtonNormalBackground");
 
     #endregion
   }
