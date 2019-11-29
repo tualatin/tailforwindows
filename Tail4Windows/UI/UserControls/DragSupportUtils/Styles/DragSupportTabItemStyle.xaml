@@ -168,7 +168,7 @@
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
                   DockPanel.Dock="Left"
-                  Fill="{StaticResource BrushSolidStartGreen}"
+                  Fill="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidStartGreenKey}}"
                   Points="0,0 7,5, 0,10"
                   />
 

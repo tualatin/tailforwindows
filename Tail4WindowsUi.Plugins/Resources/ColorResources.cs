@@ -84,6 +84,21 @@ namespace Org.Vs.TailForWin.Ui.PlugIns.Resources
     /// </summary>
     public static ComponentResourceKey ColorGrey03AlphaKey => new ComponentResourceKey(typeof(ColorResources), "ColorGrey03Alpha");
 
+    /// <summary>
+    /// Resource 'ColorMenuIconPlaceColor'
+    /// </summary>
+    public static ComponentResourceKey ColorMenuIconPlaceColorKey => new ComponentResourceKey(typeof(ColorResources), "ColorMenuIconPlaceColor");
+
+    /// <summary>
+    /// Resource 'ColorStartGreen'
+    /// </summary>
+    public static ComponentResourceKey ColorStartGreenKey => new ComponentResourceKey(typeof(ColorResources), "ColorStartGreen");
+
+    /// <summary>
+    /// Resource 'ColorStopRed'
+    /// </summary>
+    public static ComponentResourceKey ColorStopRedKey => new ComponentResourceKey(typeof(ColorResources), "ColorStopRed");
+
     #endregion
 
     #region SolidColorBrushes
@@ -127,6 +142,26 @@ namespace Org.Vs.TailForWin.Ui.PlugIns.Resources
     /// Resource 'BrushSolidInactiveBlue'
     /// </summary>
     public static ComponentResourceKey BrushSolidInactiveBlueKey => new ComponentResourceKey(typeof(ColorResources), "BrushSolidInactiveBlue");
+
+    /// <summary>
+    /// Resource 'BrushSolidMenuIconPlaceColor'
+    /// </summary>
+    public static ComponentResourceKey BrushSolidMenuIconPlaceColorKey => new ComponentResourceKey(typeof(ColorResources), "BrushSolidMenuIconPlaceColor");
+
+    /// <summary>
+    /// Resource 'BrushSolidStartGreen'
+    /// </summary>
+    public static ComponentResourceKey BrushSolidStartGreenKey => new ComponentResourceKey(typeof(ColorResources), "BrushSolidStartGreen");
+
+    /// <summary>
+    /// Resource 'BrushSolidStopRed'
+    /// </summary>
+    public static ComponentResourceKey BrushSolidStopRedKey => new ComponentResourceKey(typeof(ColorResources), "BrushSolidStopRed");
+
+    /// <summary>
+    /// Resource 'ScrollBarLightColor'
+    /// </summary>
+    public static ComponentResourceKey ScrollBarLightColorKey => new ComponentResourceKey(typeof(ColorResources), "ScrollBarLightColor");
 
     #endregion
 

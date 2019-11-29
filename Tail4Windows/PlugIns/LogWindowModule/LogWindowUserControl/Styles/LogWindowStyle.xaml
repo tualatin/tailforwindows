@@ -267,7 +267,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type logWindowListBox:LogWindowListBox}">
-          <Grid Background="{StaticResource ScrollBarLightColor}">
+          <Grid Background="{DynamicResource {x:Static colorResources:ColorResources.ScrollBarLightColorKey}}">
             <ScrollViewer
               x:Name="ScrollViewer"
               CanContentScroll="True"

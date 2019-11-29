@@ -14,7 +14,7 @@
         <ControlTemplate TargetType="{x:Type RepeatButton}">
           <Border
             x:Name="Border"
-            Background="{StaticResource ScrollBarLightColor}"
+            Background="{DynamicResource {x:Static colorResources:ColorResources.ScrollBarLightColorKey}}"
             >
             <Path
               x:Name="Arrow"
@@ -85,7 +85,7 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type RepeatButton}">
-          <Border Background="{StaticResource ScrollBarLightColor}" />
+          <Border Background="{DynamicResource {x:Static colorResources:ColorResources.ScrollBarLightColorKey}}" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>
@@ -160,7 +160,7 @@
 
       <Border
         Grid.RowSpan="3"
-        Background="{StaticResource ScrollBarLightColor}"
+        Background="{DynamicResource {x:Static colorResources:ColorResources.ScrollBarLightColorKey}}"
         />
 
       <Grid
@@ -258,7 +258,7 @@
 
       <Border
         Grid.ColumnSpan="3"
-        Background="{StaticResource ScrollBarLightColor}"
+        Background="{DynamicResource {x:Static colorResources:ColorResources.ScrollBarLightColorKey}}"
         />
 
       <RepeatButton

@@ -28,6 +28,11 @@
   <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorGrey02}">#FFFAFAFA</Color>
   <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorGrey35}">#FFBBBBBB</Color>
 
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorMenuIconPlaceColor}">#FFDCE0EC</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorStartGreen}">#FF317A2E</Color>
+  <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorStopRed}">#FF8E210B</Color>
+
+  <!--  Color alpha definitions  -->
   <Color x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ColorGrey03Alpha}">#4CF7F7F7</Color>
 
   <!--  SolidColorBrush definitions  -->
@@ -36,9 +41,14 @@
   <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidGrey02}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorGrey02Key}}" po:Freeze="True" />
   <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidGrey35}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorGrey35Key}}" po:Freeze="True" />
 
-
   <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidBlue}" Color="#293955" po:Freeze="True" />
   <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidInactiveBlue}" Color="#4B5E7F" po:Freeze="True" />
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidMenuIconPlaceColor}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorMenuIconPlaceColorKey}}" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidStartGreen}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorStartGreenKey}}" po:Freeze="True" />
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=BrushSolidStopRed}" Color="{StaticResource {x:Static colorResources:ColorResources.ColorStopRedKey}}" po:Freeze="True" />
+
+  <SolidColorBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ScrollBarLightColor}" po:Freeze="True">#E8E8EC</SolidColorBrush>
 
   <!--  Linear gradient brushes  -->
   <LinearGradientBrush x:Key="{ComponentResourceKey TypeInTargetAssembly={x:Type colorResources:ColorResources}, ResourceId=ButtonOverBackground}" StartPoint="0,0" EndPoint="0,1">
