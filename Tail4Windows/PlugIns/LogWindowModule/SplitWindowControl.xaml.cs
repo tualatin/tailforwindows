@@ -430,15 +430,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogCollectionView.Filter = DynamicFilterAsync;
     }
 
-    private void OnFilteringStarted(object sender, EventArgs e)
-    {
+    private void OnFilteringStarted(object sender, EventArgs e) =>
       LOG.Debug("Filtering startet");
-    }
 
-    private void OnFilteringCompleted(object sender, Core.Collections.FilterCollections.FilterEventArgs e)
-    {
+    private void OnFilteringCompleted(object sender, Core.Collections.FilterCollections.FilterEventArgs e) =>
       LOG.Debug($"Filtering completed {e.IsCompleted}, elapsed time {e.ElapsedTime} ms");
-    }
 
     private void OnFilteringErrorOccurred(object sender, Core.Collections.FilterCollections.FilterEventArgs e)
     {
@@ -1578,10 +1574,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       NotifyTaskCompletion.Create(HandleSendMailAsync(mailMessage));
     }
 
-    private async Task HandleSendMailAsync(string message)
+    private Task HandleSendMailAsync(string message)
     {
       IMailController mailController = new MailController();
-      await mailController.SendLogMailAsync(message).ConfigureAwait(false);
+      return mailController.SendLogMailAsync(message);
     }
 
     /// <summary>
@@ -1598,7 +1594,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
       Dispatcher?.Invoke(() =>
       {
-        var alertPopUp = new FancyNotificationPopUp { Height = 100, Width = 300, PopUpAlert = CurrentTailData.File, PopUpAlertDetail = string.Format(message, time.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat), string.Join("\n\t", notifications)) };
+        var alertPopUp = new FancyNotificationPopUp
+        {
+          Height = 100,
+          Width = 300,
+          PopUpAlert = CurrentTailData.File,
+          PopUpAlertDetail = string.Format(message, time.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat), string.Join("\n\t", notifications))
+        };
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowNotificationPopUpMessage(alertPopUp));
       });
     }

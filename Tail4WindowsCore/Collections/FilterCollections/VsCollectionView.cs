@@ -98,7 +98,6 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
         {
           _isFilteringStarted = true;
           FilteringStarted?.Invoke(this, EventArgs.Empty);
-          LOG.Debug("Enabling filtering...");
         }
 
         if ( _notifyTask != null )
