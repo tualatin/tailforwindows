@@ -11,6 +11,6 @@ namespace Org.Vs.TailForWin.Business.Data
     /// <summary>
     /// Tail4Window database file
     /// </summary>
-    public static readonly string TailForWindowsDatabaseFile = CoreEnvironment.UserSettingsPath + @"\T4W.db";
+    public static readonly string TailForWindowsDatabaseFile = $"Filename={CoreEnvironment.UserSettingsPath}\\T4W.db; Upgrade={true}";
   }
 }

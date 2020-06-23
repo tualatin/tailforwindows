@@ -1109,35 +1109,33 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
       else
       {
-        using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(5)) )
+        var cts = new CancellationTokenSource(TimeSpan.FromMinutes(5));
+        await Task.Run(() =>
         {
-          await Task.Run(() =>
+          for ( var i = (int) Math.Round(start); i < countTo; i++ )
           {
-            for ( var i = (int) Math.Round(start); i < countTo; i++ )
+            var log = LogCollectionView[i];
+
+            // If list is filtered
+            if ( !LogCollectionView.Contains(log) )
+              continue;
+
+            stop = i;
+
+            if ( log.BookmarkPoint == null )
+              continue;
+
+            _findNextResult = log;
+            findNext = new FindNextResult(true, log.Index);
+
+            Dispatcher?.Invoke(() =>
             {
-              var log = LogCollectionView[i];
+              ScrollToSelectedItem(_findNextResult);
+            }, DispatcherPriority.Normal, cts.Token);
 
-              // If list is filtered
-              if ( !LogCollectionView.Contains(log) )
-                continue;
-
-              stop = i;
-
-              if ( log.BookmarkPoint == null )
-                continue;
-
-              _findNextResult = log;
-              findNext = new FindNextResult(true, log.Index);
-
-              Dispatcher?.Invoke(() =>
-              {
-                ScrollToSelectedItem(_findNextResult);
-              }, DispatcherPriority.Normal, cts.Token);
-
-              break;
-            }
-          }, cts.Token).ConfigureAwait(false);
-        }
+            break;
+          }
+        }, cts.Token).ConfigureAwait(false);
       }
       return findNext ?? new FindNextResult(false, stop);
     }

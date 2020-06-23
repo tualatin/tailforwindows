@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using LiteDB;
+using LiteDB.Engine;
 using log4net;
 using Org.Vs.TailForWin.Business.Data;
 using Org.Vs.TailForWin.Business.DbEngine.Data;
@@ -189,7 +190,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
           {
-            db.Shrink();
+            db.Rebuild();
 
             var settings = db.GetCollection<DatabaseSetting>(Settings);
             DatabaseSetting setting = settings.Find(p => p.Key == ProxyPassword).FirstOrDefault();
@@ -235,7 +236,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
           {
-            db.Shrink();
+            db.Rebuild();
 
             var settings = db.GetCollection<DatabaseSetting>(Settings);
             DatabaseSetting setting = settings.Find(p => p.Key == FindResultWindowTop).FirstOrDefault();
@@ -297,7 +298,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
           {
-            db.Shrink();
+            db.Rebuild();
 
             var settings = db.GetCollection<DatabaseSetting>(Settings);
             DatabaseSetting setting = settings.Find(p => p.Key == BookmarkOverviewWindowTop).FirstOrDefault();
@@ -359,7 +360,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
         {
           using ( var db = new LiteDatabase(BusinessEnvironment.TailForWindowsDatabaseFile) )
           {
-            db.Shrink();
+            db.Rebuild();
 
             var settings = db.GetCollection<DatabaseSetting>(Settings);
             DatabaseSetting setting = settings.Find(p => p.Key == FindDialogWindowTop).FirstOrDefault();
@@ -390,7 +391,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
       }, token).ConfigureAwait(false);
     }
 
-    private void AddMissingDbSettings(LiteCollection<DatabaseSetting> settings)
+    private void AddMissingDbSettings(ILiteCollection<DatabaseSetting> settings)
     {
       LOG.Info("Add missing database settings");
 
@@ -403,7 +404,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
       AddBookmarkOverviewDbSettings(settings);
     }
 
-    private void AddSettingsToDataBase(LiteCollection<DatabaseSetting> settings)
+    private void AddSettingsToDataBase(ILiteCollection<DatabaseSetting> settings)
     {
       LOG.Info("Create new database file");
 
@@ -416,7 +417,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
       AddSmtpDbSettings(settings);
     }
 
-    private static void AddSmtpDbSettings(LiteCollection<DatabaseSetting> settings)
+    private static void AddSmtpDbSettings(ILiteCollection<DatabaseSetting> settings)
     {
       var passwordSetting = new DatabaseSetting
       {
@@ -426,7 +427,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
       settings.Insert(passwordSetting);
     }
 
-    private static void AddProxyDbSettings(LiteCollection<DatabaseSetting> settings)
+    private static void AddProxyDbSettings(ILiteCollection<DatabaseSetting> settings)
     {
       var passwordSetting = new DatabaseSetting
       {
@@ -436,7 +437,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
       settings.Insert(passwordSetting);
     }
 
-    private static void AddFindDialogDbSettings(LiteCollection<DatabaseSetting> settings)
+    private static void AddFindDialogDbSettings(ILiteCollection<DatabaseSetting> settings)
     {
       var findDialogWindowPosition = new DatabaseSetting
       {
@@ -453,7 +454,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
       settings.Insert(findDialogWindowPosition);
     }
 
-    private static void AddFindResultDbSettings(LiteCollection<DatabaseSetting> settings)
+    private static void AddFindResultDbSettings(ILiteCollection<DatabaseSetting> settings)
     {
       var findResultWindowPosition = new DatabaseSetting
       {
@@ -484,7 +485,7 @@ namespace Org.Vs.TailForWin.Business.DbEngine.Controllers
       settings.Insert(findResultSize);
     }
 
-    private static void AddBookmarkOverviewDbSettings(LiteCollection<DatabaseSetting> settings)
+    private static void AddBookmarkOverviewDbSettings(ILiteCollection<DatabaseSetting> settings)
     {
       var bookmarkOverviewWindowPosition = new DatabaseSetting
       {

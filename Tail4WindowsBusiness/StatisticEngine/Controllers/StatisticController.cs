@@ -126,16 +126,16 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             var fileEntity = GetFileEntity(db);
             var existsSessions = sessionEntity.FindAll();
 
-            Parallel.ForEach(existsSessions, new ParallelOptions {CancellationToken = token}, session =>
-            {
-              var files = fileEntity.FindAll().Where(p => p.Session.SessionId == session.SessionId).ToList();
+            Parallel.ForEach(existsSessions, new ParallelOptions { CancellationToken = token }, session =>
+              {
+                var files = fileEntity.FindAll().Where(p => p.Session.SessionId == session.SessionId).ToList();
 
-              if ( !files.Any() )
-                return;
+                if ( !files.Any() )
+                  return;
 
-              var temp = new StatisticAnalysisData {SessionEntity = session, Files = files};
-              result.Add(temp);
-            });
+                var temp = new StatisticAnalysisData { SessionEntity = session, Files = files };
+                result.Add(temp);
+              });
           }
 
           result.OrderCollectionByDate();
@@ -287,8 +287,8 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               {
                 LOG.Debug($"Remove existing session from DataBase {SessionId}");
                 RemoveFiles(fileEntity, existsSession);
-                sessionEntity.Delete(p => p.Session == SessionId);
-                db.Shrink();
+                sessionEntity.DeleteMany(p => p.Session == SessionId);
+                db.Rebuild();
               }
             }
 
@@ -310,13 +310,13 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
               foreach ( var file in invalidFiles )
               {
-                fileEntity.Delete(p => p.FileId == file.FileId);
+                fileEntity.DeleteMany(p => p.FileId == file.FileId);
               }
 
               RemoveSessionIfRequired(fileEntity, sessionEntity);
             }
 
-            long shrinkSize = db.Shrink();
+            long shrinkSize = db.Rebuild();
             LOG.Debug($"Database shrink: {shrinkSize}");
           }
         }
@@ -398,7 +398,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               {
                 var session = sessions.FirstOrDefault(p => p.Date == sessions.Min(d => d.Date));
                 RemoveFiles(fileEntity, session);
-                sessionEntity.Delete(p => p.Session == session.Session);
+                sessionEntity.DeleteMany(p => p.Session == session.Session);
               }
               else
               {
@@ -406,7 +406,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               }
             }
 
-            db.Shrink();
+            db.Rebuild();
           }
         }
         finally
@@ -450,7 +450,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
                 }
 
                 RemoveFiles(fileEntity, session);
-                sessionEntity.Delete(p => p.Session == session.Session);
+                sessionEntity.DeleteMany(p => p.Session == session.Session);
               }
             }
             else
@@ -458,7 +458,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
               foreach ( var session in sessions )
               {
                 RemoveFiles(fileEntity, session);
-                sessionEntity.Delete(p => p.Session == session.Session);
+                sessionEntity.DeleteMany(p => p.Session == session.Session);
               }
             }
 
@@ -470,7 +470,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
             {
               foreach ( var session in sessions )
               {
-                sessionEntity.Delete(p => p.Session == session.Session);
+                sessionEntity.DeleteMany(p => p.Session == session.Session);
               }
             }
             else
@@ -486,7 +486,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
                     continue;
                 }
 
-                sessionEntity.Delete(p => p.Session == session.Session);
+                sessionEntity.DeleteMany(p => p.Session == session.Session);
               }
             }
 
@@ -500,7 +500,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
             foreach ( var file in invalidFiles )
             {
-              fileEntity.Delete(p => p.FileId == file.FileId);
+              fileEntity.DeleteMany(p => p.FileId == file.FileId);
             }
           }
         }
@@ -515,7 +515,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       }, _cts.Token).ConfigureAwait(false);
     }
 
-    private List<FileEntity> RemoveSessionIfRequired(LiteCollection<FileEntity> fileEntity, LiteCollection<SessionEntity> sessionEntity)
+    private List<FileEntity> RemoveSessionIfRequired(ILiteCollection<FileEntity> fileEntity, ILiteCollection<SessionEntity> sessionEntity)
     {
       try
       {
@@ -525,7 +525,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         if ( result.Count == 0 )
         {
           LOG.Debug($"Remove existing session from DataBase {SessionId}");
-          sessionEntity.Delete(p => p.Session == SessionId);
+          sessionEntity.DeleteMany(p => p.Session == SessionId);
         }
         return result;
       }
@@ -536,7 +536,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       return new List<FileEntity>();
     }
 
-    private void RemoveFiles(LiteCollection<FileEntity> fileEntity, SessionEntity session)
+    private void RemoveFiles(ILiteCollection<FileEntity> fileEntity, SessionEntity session)
     {
       try
       {
@@ -544,7 +544,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
         foreach ( var file in result )
         {
-          fileEntity.Delete(p => p.FileId == file.FileId);
+          fileEntity.DeleteMany(p => p.FileId == file.FileId);
         }
       }
       catch ( Exception ex )
@@ -554,18 +554,18 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
         foreach ( var file in result )
         {
-          fileEntity.Delete(p => p.FileId == file.FileId);
+          fileEntity.DeleteMany(p => p.FileId == file.FileId);
         }
       }
     }
 
-    private LiteCollection<SessionEntity> GetSessionEntity(LiteDatabase db)
+    private ILiteCollection<SessionEntity> GetSessionEntity(LiteDatabase db)
     {
       var sessionEntity = db.GetCollection<SessionEntity>(StatisticEnvironment.SessionEntityName);
       return sessionEntity;
     }
 
-    private LiteCollection<FileEntity> GetFileEntity(LiteDatabase db)
+    private ILiteCollection<FileEntity> GetFileEntity(LiteDatabase db)
     {
       var fileEntity = db.GetCollection<FileEntity>(StatisticEnvironment.FileEntityName);
       return fileEntity;
