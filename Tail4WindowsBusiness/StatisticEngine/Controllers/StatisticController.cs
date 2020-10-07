@@ -140,6 +140,10 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
           result.OrderCollectionByDate();
         }
+        catch ( InvalidCastException ex )
+        {
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        }
         finally
         {
           _myLock.Release();

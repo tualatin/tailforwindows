@@ -30,7 +30,7 @@ namespace Org.Vs.TailForWin
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(App));
 
-    private readonly Guid _tail4WindowsGuid = new Guid("1c0c2cfa-add6-4b66-8c1d-6416f73f2046");
+    private readonly Guid _tail4WindowsGuid = new Guid("a741233e-f81e-4924-a373-cb4f280bc10b");
 
     private string[] _args;
     private IFileManagerController _fileManagerController;
