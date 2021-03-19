@@ -33,13 +33,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's.</param>
     /// <typeparam name="T">The type of argument.</typeparam>
     /// <returns>The checked argument.</returns>
-    public static T NotNull<T>(T arg, string argName)
-    {
-      if ( arg == null )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrNull));
-
-      return arg;
-    }
+    public static T NotNull<T>(T arg, string argName) => arg == null ? throw new ArgumentException(FormatErrorMessage(argName, ErrNull)) : arg;
 
     /// <summary>
     /// Asserts, that a method argument is not <code>null</code> and throws an {@link ArgumentException} if it is <code>null</code>. The check is only executed, if the given condition is <code>true</code>.
@@ -61,13 +55,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's</param>
     /// <typeparam name="T">The type of argument.</typeparam>
     /// <returns>The checked argument.</returns>
-    public static T[] NotEmpty<T>(T[] arg, string argName)
-    {
-      if ( arg == null || arg.Length < 1 )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrEmpty));
-
-      return arg;
-    }
+    public static T[] NotEmpty<T>(T[] arg, string argName) => arg == null || arg.Length < 1 ? throw new ArgumentException(FormatErrorMessage(argName, ErrEmpty)) : arg;
 
     /// <summary>
     /// Asserts, that a method argument of type array is not <code>null</code> and not empty and throws an ArgumentException if it is <code>null</code> or empty. The check is only executed, if the given condition is <code>true</code>.
@@ -89,13 +77,8 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <typeparam name="T">The type of argument.</typeparam>
     /// <typeparam name="TE">The type of collection</typeparam>
     /// <returns>The checked argument.</returns>
-    public static T NotEmpty<T, TE>(T arg, string argName) where T : ICollection<TE>
-    {
-      if ( arg == null || arg.Count < 1 )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrEmpty));
-
-      return arg;
-    }
+    public static T NotEmpty<T, TE>(T arg, string argName) where T : ICollection<TE> =>
+      arg == null || arg.Count < 1 ? throw new ArgumentException(FormatErrorMessage(argName, ErrEmpty)) : arg;
 
     /// <summary>
     /// Asserts, that a method argument of type {@link Collection} is not <code>null</code> and not empty and throws an ArgumentException if it is <code>null</code> or empty. The check is only executed, if the given condition
@@ -118,13 +101,8 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's</param>
     /// <typeparam name="T">The type of argument.</typeparam>
     /// <returns>The checked argument.</returns>
-    public static T[] NotContainsEmpty<T>(T[] arg, string argName)
-    {
-      if ( ContainsEmpty<T>(arg) )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrContainsEmpty));
-
-      return arg;
-    }
+    public static T[] NotContainsEmpty<T>(T[] arg, string argName) =>
+      ContainsEmpty(arg) ? throw new ArgumentException(FormatErrorMessage(argName, ErrContainsEmpty)) : arg;
 
     /// <summary>
     /// Asserts, that a method argument of type array does not contain <code>null</code> or empty values and throws an ArgumentException} if there is a <code>null</code> or empty value. The check is only executed, 
@@ -146,13 +124,8 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's</param>
     /// <returns>The checked argument.</returns>
-    public static int AtLeast(int arg, int minValue, string argName)
-    {
-      if ( arg < minValue )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrAtleast, arg, minValue));
-
-      return arg;
-    }
+    public static int AtLeast(int arg, int minValue, string argName) =>
+      arg < minValue ? throw new ArgumentException(FormatErrorMessage(argName, ErrAtleast, arg, minValue)) : arg;
 
     /// <summary>
     /// Asserts, that a method argument has a minimum value and throws an ArgumentException if it is lower than the checked value. The check is only executed, if the given condition is <code>true</code>.
@@ -173,13 +146,8 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's</param>
     /// <returns>The checked argument.</returns>
-    public static long AtLeast(long arg, long minValue, string argName)
-    {
-      if ( arg < minValue )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrAtleast, arg, minValue));
-
-      return arg;
-    }
+    public static long AtLeast(long arg, long minValue, string argName) =>
+      arg < minValue ? throw new ArgumentException(FormatErrorMessage(argName, ErrAtleast, arg, minValue)) : arg;
 
     /// <summary>
     /// Asserts, that a method argument has a minimum value and throws an ArgumentException if it is lower than the checked value. The check is only executed, if the given condition is <code>true</code>.
@@ -200,13 +168,8 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's ArgumentException if it is lower than or equal to the checked value.</param>
     /// <returns>The checked argument.</returns>
-    public static int GreaterThan(int arg, int minValue, string argName)
-    {
-      if ( arg <= minValue )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrIsgreater, arg, minValue));
-
-      return arg;
-    }
+    public static int GreaterThan(int arg, int minValue, string argName) =>
+      arg <= minValue ? throw new ArgumentException(FormatErrorMessage(argName, ErrIsgreater, arg, minValue)) : arg;
 
     /// <summary>
     /// Asserts, that a method argument is greater than a minimum value and throws an ArgumentException if it is lower than or equal to the checked value. The check is only executed, if the given condition is <code>true</code>.
@@ -227,13 +190,8 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's ArgumentException</param>
     /// <returns>The checked argument.</returns>
-    public static long GreaterThan(long arg, long minValue, string argName)
-    {
-      if ( arg <= minValue )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrIsgreater, arg, minValue));
-
-      return arg;
-    }
+    public static long GreaterThan(long arg, long minValue, string argName) =>
+      arg <= minValue ? throw new ArgumentException(FormatErrorMessage(argName, ErrIsgreater, arg, minValue)) : arg;
 
     /// <summary>
     /// Asserts, that a method argument is greater than a minimum value and throws an ArgumentException if it is lower than or equal to the checked value. The check is only executed, if the given condition is <code>true</code>.
@@ -254,13 +212,8 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's ArgumentException</param>
     /// <returns>The checked argument.</returns>
-    public static int AtMost(int arg, int maxValue, string argName)
-    {
-      if ( arg > maxValue )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrAtmost, maxValue, arg));
-
-      return arg;
-    }
+    public static int AtMost(int arg, int maxValue, string argName) =>
+      arg > maxValue ? throw new ArgumentException(FormatErrorMessage(argName, ErrAtmost, maxValue, arg)) : arg;
 
     /// <summary>
     /// Asserts, that a method argument has a maximum value and throws an ArgumentException if it is greater than the checked value. The check is only executed, if the given condition is <code>true</code>.
@@ -281,13 +234,8 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's ArgumentException</param>
     /// <returns>The checked argument.</returns>
-    public static long AtMost(long arg, long maxValue, string argName)
-    {
-      if ( arg > maxValue )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrAtmost, maxValue, arg));
-
-      return arg;
-    }
+    public static long AtMost(long arg, long maxValue, string argName) =>
+      arg > maxValue ? throw new ArgumentException(FormatErrorMessage(argName, ErrAtmost, maxValue, arg)) : arg;
 
     /// <summary>
     /// Asserts, that a method argument has a maximum value and throws an ArgumentException if it is greater than the checked value. The check is only executed, if the given condition is <code>true</code>.
@@ -308,13 +256,8 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's ArgumentException</param>
     /// <returns>The checked argument.</returns>
-    public static int LowerThan(int arg, int maxValue, string argName)
-    {
-      if ( arg >= maxValue )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrLowerthan, maxValue, arg));
-
-      return arg;
-    }
+    public static int LowerThan(int arg, int maxValue, string argName) =>
+      arg >= maxValue ? throw new ArgumentException(FormatErrorMessage(argName, ErrLowerthan, maxValue, arg)) : arg;
 
     /// <summary>
     /// Asserts, that a method argument is lower than a maximum value and throws an {@link ArgumentException} if it is greater than or equal to the checked value. The check is only executed, if the given condition is <code>true</code>
@@ -335,13 +278,8 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <param name="argName">The name of the argument, which is converted to a user readable string by separating all name parts of it with the space character in case of a class name. This string is put into the error message.
     /// <code>null</code> or empty, if details about the checked argument must be fetched from source code. The originally given string is set as the exception's ArgumentException</param>
     /// <returns>The checked argument.</returns>
-    public static long LowerThan(long arg, long maxValue, string argName)
-    {
-      if ( arg >= maxValue )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrLowerthan, maxValue, arg));
-
-      return arg;
-    }
+    public static long LowerThan(long arg, long maxValue, string argName) =>
+      arg >= maxValue ? throw new ArgumentException(FormatErrorMessage(argName, ErrLowerthan, maxValue, arg)) : arg;
 
     /// <summary>
     /// Asserts, that a method argument is lower than a maximum value and throws an {@link ArgumentException} if it is greater than or equal to the checked value. The check is only executed, if the given condition is <code>true</code>
@@ -364,12 +302,11 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <returns>The checked argument. Not <code>null</code>.</returns>
     public static T IsA<T>(object arg, string argName)
     {
-      Type argClass = typeof(T);
+      var argClass = typeof(T);
 
-      if ( !(arg is T) )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrExpectedClass, argClass.Name, arg != null ? arg.GetType().Name : null));
-
-      return (T) arg;
+      return !(arg is T)
+        ? throw new ArgumentException(FormatErrorMessage(argName, ErrExpectedClass, argClass.Name, arg?.GetType().Name))
+        : (T) arg;
     }
 
     /// <summary>
@@ -384,10 +321,9 @@ namespace Org.Vs.TailForWin.Core.Utils
     {
       NotNull(argClass, ArgArgumentClass);
 
-      if ( argClass.DeclaringType != null && (arg == null || !argClass.DeclaringType.IsAssignableFrom(arg.DeclaringType)) )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrExpectedClass, argClass.Name, arg != null ? arg.Name : null));
-
-      return arg;
+      return argClass.DeclaringType != null && (arg == null || !argClass.DeclaringType.IsAssignableFrom(arg.DeclaringType))
+        ? throw new ArgumentException(FormatErrorMessage(argName, ErrExpectedClass, argClass.Name, arg?.Name))
+        : arg;
     }
 
     /// <summary>
@@ -416,12 +352,11 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <returns>The checked argument. Not <code>null</code>.</returns>
     public static T SubclassOf<T>(object arg, string argName)
     {
-      Type argClass = typeof(T);
+      var argClass = typeof(T);
 
-      if ( !(arg is T) || argClass == arg.GetType() )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrExpectedSubClass, argClass.Name, arg != null ? arg.GetType().Name : null));
-
-      return (T) arg;
+      return !(arg is T) || argClass == arg.GetType()
+        ? throw new ArgumentException(FormatErrorMessage(argName, ErrExpectedSubClass, argClass.Name, arg?.GetType().Name))
+        : (T) arg;
     }
 
     /// <summary>
@@ -436,10 +371,9 @@ namespace Org.Vs.TailForWin.Core.Utils
     {
       NotNull(argClass, ArgArgumentClass);
 
-      if ( arg == null || argClass == arg || !argClass.IsAssignableFrom(arg) )
-        throw new ArgumentException(FormatErrorMessage(argName, ErrExpectedSubClass, argClass.Name, arg != null ? arg.Name : null));
-
-      return arg;
+      return arg == null || argClass == arg || !argClass.IsAssignableFrom(arg)
+        ? throw new ArgumentException(FormatErrorMessage(argName, ErrExpectedSubClass, argClass.Name, arg?.Name))
+        : arg;
     }
 
     /// <summary>
@@ -450,7 +384,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <returns>The instantiated enum value from the string. Not <code>null</code>.</returns>
     public static T OneOf<T>(string arg) where T : struct, IConvertible
     {
-      Type enumClass = typeof(T);
+      var enumClass = typeof(T);
 
       return OneOf<T>(arg, enumClass.Name);
     }
@@ -467,7 +401,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     {
       NotNull(arg, "arg");
 
-      Type enumClass = typeof(T);
+      var enumClass = typeof(T);
 
       if ( arg == null || !enumClass.IsEnum )
         throw new ArgumentException(FormatErrorMessage(argName, ErrValueNotValid, enumClass.Name, string.Join(",", EnumValues<T>())));
@@ -490,13 +424,13 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <returns>Returns all enum values by invoking the static <code>values()</code> method by reflection.</returns>
     private static string[] EnumValues<T>() where T : struct, IConvertible
     {
-      Type enumType = typeof(T);
+      var enumType = typeof(T);
 
       if ( enumType.IsEnum )
         throw new ArgumentException("enumType parameter is not a System.Enum");
 
       //get the public static fields (members of the enum)
-      FieldInfo[] fi = enumType.GetFields(BindingFlags.Static | BindingFlags.Public);
+      var fi = enumType.GetFields(BindingFlags.Static | BindingFlags.Public);
       //create a new enum array
       string[] values = new string[fi.Length];
 
@@ -513,43 +447,45 @@ namespace Org.Vs.TailForWin.Core.Utils
       //the type supplied does not derive from enum
     }
 
-    private static string FormatErrorMessage(string argumentName, string errorMessage, params object[] arguments) => string.Format(errorMessage, argumentName, arguments);
+    private static string FormatErrorMessage(string argumentName, string errorMessage, params object[] arguments) => $"{errorMessage} {argumentName} {arguments}";
 
     private static bool ContainsEmpty<T>(T[] a)
     {
       bool result = false;
 
-      if ( a != null )
+      if ( a == null )
       {
-        for ( int i = 0; !result && i < a.Length; i++ )
+        return false;
+      }
+
+      for ( int i = 0; !result && i < a.Length; i++ )
+      {
+        if ( a[i] == null )
         {
-          if ( a[i] == null )
+          result = true;
+        }
+        else if ( a[i] is ICollection )
+        {
+          result = ((ICollection) a[i]).Count < 1;
+        }
+        else if ( a[i] is IDictionary )
+        {
+          result = ((IDictionary) a[i]).Count < 1;
+        }
+        else
+        {
+          string aString = a as string;
+
+          if ( aString != null )
           {
-            result = true;
-          }
-          else if ( a[i] is ICollection )
-          {
-            result = ((ICollection) a[i]).Count < 1;
-          }
-          else if ( a[i] is IDictionary )
-          {
-            result = ((IDictionary) a[i]).Count < 1;
+            result = string.IsNullOrEmpty(aString);
           }
           else
           {
-            string aString = a as string;
+            var aObjectArray = a as object[];
 
-            if ( aString != null )
-            {
-              result = string.IsNullOrEmpty(aString);
-            }
-            else
-            {
-              object[] aObjectArray = a as object[];
-
-              if ( aObjectArray != null )
-                result = IsEmpty(aObjectArray);
-            }
+            if ( aObjectArray != null )
+              result = IsEmpty(aObjectArray);
           }
         }
       }
