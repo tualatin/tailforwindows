@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using log4net;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
@@ -26,6 +27,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
   /// </summary>
   public class GlobalHighlightOptionViewModel : NotifyMaster, IGlobalHighlightOptionViewModel
   {
+    private static readonly ILog LOG = LogManager.GetLogger(typeof(GlobalHighlightOptionViewModel));
+
     private bool _filterAdded;
     private readonly IGlobalFilterController _filterController;
     private CancellationTokenSource _cts;
@@ -141,14 +144,22 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
     private void ExecuteAddHighlightColorCommand()
     {
-      var newItem = new FilterData();
+      var newItem = new FilterData { IsGlobal = true };
       newItem.CommitChanges();
       newItem.FindSettingsData.CommitChanges();
 
       GlobalHighlightCollection.Add(newItem);
       SelectedItem = GlobalHighlightCollection.Last();
 
-      OnPropertyChanged(nameof(FilterManagerView));
+      // Whaaaaaaat? 
+      try
+      {
+        OnPropertyChanged(nameof(FilterManagerView));
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+      }
     }
 
     private bool CanExecuteDeleteHighlightColorCommand() => SelectedItem != null && GlobalHighlightCollection.Contains(SelectedItem);

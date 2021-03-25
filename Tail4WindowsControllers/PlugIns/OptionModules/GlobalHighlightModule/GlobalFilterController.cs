@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -162,11 +163,11 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightMod
       }
     }
 
-    private static void FixFilterToGlobal(ObservableCollection<FilterData> items)
+    private static void FixFilterToGlobal(IEnumerable<FilterData> items)
     {
       foreach ( var item in items.Where(p => !p.IsGlobal).ToArray() )
       {
-        item.IsGlobal = true;
+        item.ConvertToGlobal();
       }
     }
   }

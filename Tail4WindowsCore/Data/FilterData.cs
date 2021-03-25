@@ -345,5 +345,10 @@ namespace Org.Vs.TailForWin.Core.Data
     /// </summary>
     /// <returns>A shallow copy of the current Object.</returns>
     public object Clone() => MemberwiseClone();
+
+    /// <summary>
+    /// Marks filter as global
+    /// </summary>
+    public void ConvertToGlobal() => _isGlobal = true;
   }
 }

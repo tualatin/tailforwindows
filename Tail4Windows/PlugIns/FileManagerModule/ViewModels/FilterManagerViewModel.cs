@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
@@ -29,6 +32,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
   {
     private CancellationTokenSource _cts;
     private readonly IFileManagerController _fileManagerController;
+    private readonly IGlobalFilterController _globalFilterController;
     private bool _filterAdded;
 
     #region Properties
@@ -105,6 +109,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     public FilterManagerViewModel()
     {
       _fileManagerController = new FileManagerController();
+      _globalFilterController = new GlobalFilterController();
+
+      ((AsyncCommand<object>) DeleteFilterDataCommand).PropertyChanged += OnDeletePropertyChanged;
+      ((AsyncCommand<object>) LocalToGlobalFilterCommand).PropertyChanged += OnDeletePropertyChanged;
+      ;
+
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFilterDataFromTailDataMessage>(OnOpenTailData);
       SetCancellationTokenSource();
     }
@@ -188,6 +198,13 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public ICommand LoadedCommand => _loadedCommand ?? (_loadedCommand = new RelayCommand(p => ExecuteLoadedCommand()));
 
+    private IAsyncCommand _localToGlobalFilterCommand;
+
+    /// <summary>
+    /// Converts a local filter to global
+    /// </summary>
+    public IAsyncCommand LocalToGlobalFilterCommand => _localToGlobalFilterCommand ?? (_localToGlobalFilterCommand = AsyncCommand.Create(p => SelectedItem != null, ExecuteLocalToGlobalFilterCommandAsync));
+
     #endregion
 
     #region Command functions
@@ -250,31 +267,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       OnPropertyChanged(nameof(FilterManagerView));
     }
 
-    private async Task ExecuteDeleteCommandAsync()
-    {
-      if ( SelectedItem == null )
-        return;
-
-      if ( !FilterManagerCollection.Contains(SelectedItem) )
-        return;
-
-      bool error = SelectedItem["Description"] != null || SelectedItem["Filter"] != null || SelectedItem["FilterSource"] != null || SelectedItem["IsHighlight"] != null;
-
-      if ( !error )
-      {
-        if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerDeleteItemQuestion").ToString()) == MessageBoxResult.No )
-          return;
-      }
-
-      MouseService.SetBusyState();
-
-      FilterManagerCollection.Remove(SelectedItem);
-
-      if ( CurrentTailData.IsLoadedByXml )
-        await ExecuteSaveCommandAsync().ConfigureAwait(false);
-
-      OnPropertyChanged(nameof(FilterManagerView));
-    }
+    private Task ExecuteDeleteCommandAsync() => DeleteFilterAsync();
 
     private bool CanExecuteSaveCommand()
     {
@@ -369,6 +362,35 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       return errors;
     }
 
+    private async Task ExecuteLocalToGlobalFilterCommandAsync()
+    {
+      if ( SelectedItem == null )
+        return;
+
+      MouseService.SetBusyState();
+      SetCancellationTokenSource();
+
+      var globalFilters = await _globalFilterController.ReadGlobalFiltersAsync(_cts.Token);
+      var exists = globalFilters.SingleOrDefault(p => p.Id == SelectedItem.Id);
+
+      if ( exists != null )
+      {
+        InteractionService.ShowInformationMessageBox(Application.Current.TryFindResource("FilterManagerLocalToGlobalAlreadyExists").ToString());
+        return;
+      }
+
+      globalFilters.Add(SelectedItem);
+      var success = await _globalFilterController.UpdateGlobalFilterAsync(globalFilters);
+
+      if ( !success )
+      {
+        InteractionService.ShowErrorMessageBox(Application.Current.TryFindResource("FilterManagerLocalToGlobalError").ToString());
+        return;
+      }
+
+      await DeleteFilterAsync(false);
+    }
+
     #endregion
 
     private async Task<bool> UpdateTailDataAsync()
@@ -393,6 +415,43 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
 
       return true;
+    }
+
+    private async Task DeleteFilterAsync(bool showMessageBox = true)
+    {
+      if ( SelectedItem == null )
+        return;
+
+      if ( !FilterManagerCollection.Contains(SelectedItem) )
+        return;
+
+      bool error = SelectedItem["Description"] != null || SelectedItem["Filter"] != null || SelectedItem["FilterSource"] != null || SelectedItem["IsHighlight"] != null;
+
+      if ( !error && showMessageBox )
+      {
+        if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerDeleteItemQuestion").ToString()) == MessageBoxResult.No )
+          return;
+      }
+
+      MouseService.SetBusyState();
+
+      if ( FilterManagerCollection.Contains(SelectedItem) )
+        FilterManagerCollection.Remove(SelectedItem);
+
+      if ( CurrentTailData.IsLoadedByXml || !showMessageBox )
+        await ExecuteSaveCommandAsync().ConfigureAwait(false);
+    }
+
+    private void OnDeletePropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
+        return;
+
+      if ( SelectedItem == null )
+        return;
+
+      OnPropertyChanged(nameof(FilterManagerCollection));
+      OnPropertyChanged(nameof(FilterManagerView));
     }
 
 
