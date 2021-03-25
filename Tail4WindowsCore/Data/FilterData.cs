@@ -11,7 +11,7 @@ namespace Org.Vs.TailForWin.Core.Data
   /// <summary>
   /// Filter data object
   /// </summary>
-  public class FilterData : StateManager, IDisposable, IDataErrorInfo, ICloneable
+  public sealed class FilterData : StateManager, IDisposable, IDataErrorInfo, ICloneable
   {
     /// <summary>
     /// Standard constructor
@@ -39,7 +39,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// Releases all resources used by <see cref="FilterData"/>
     /// </summary>
     /// <param name="disposing">Disposing</param>
-    protected virtual void Dispose(bool disposing)
+    private void Dispose(bool disposing)
     {
       if ( disposing )
         FontType = null;
@@ -322,17 +322,17 @@ namespace Org.Vs.TailForWin.Core.Data
             result = Application.Current.TryFindResource("ErrorEnterFilterPattern").ToString();
           break;
 
-        case nameof(FilterSource):
+          //case nameof(FilterSource):
 
-          if ( !FilterSource && !IsHighlight )
-            result = Application.Current.TryFindResource("ErrorEnterHighlightFilterSource").ToString();
-          break;
+          //  if ( !FilterSource && !IsHighlight )
+          //    result = Application.Current.TryFindResource("ErrorEnterHighlightFilterSource").ToString();
+          //  break;
 
-        case nameof(IsHighlight):
+          //case nameof(IsHighlight):
 
-          if ( !FilterSource && !IsHighlight )
-            result = Application.Current.TryFindResource("ErrorEnterHighlightFilterSource").ToString();
-          break;
+          //  if ( !FilterSource && !IsHighlight )
+          //    result = Application.Current.TryFindResource("ErrorEnterHighlightFilterSource").ToString();
+          //  break;
         }
         return result;
       }
@@ -345,5 +345,10 @@ namespace Org.Vs.TailForWin.Core.Data
     /// </summary>
     /// <returns>A shallow copy of the current Object.</returns>
     public object Clone() => MemberwiseClone();
+
+    /// <summary>
+    /// Marks filter as global
+    /// </summary>
+    public void ConvertToGlobal() => _isGlobal = true;
   }
 }

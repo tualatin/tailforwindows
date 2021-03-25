@@ -393,10 +393,7 @@ namespace Org.Vs.TailForWin.Core.Collections.FilterCollections
     /// Protected implementation of Dispose pattern
     /// </summary>
     /// <param name="disposing"></param>
-    protected virtual void Dispose(bool disposing)
-    {
-      _disposeCts?.Cancel();
-    }
+    protected virtual void Dispose(bool disposing) => _disposeCts?.Cancel();
 
     /// <summary>
     /// Release all resources used by <see cref="VsCollectionView{T}"/>

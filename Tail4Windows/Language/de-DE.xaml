@@ -155,6 +155,9 @@
   <system:String x:Key="FilterManagerAutoBookmark">Auto Bookmark</system:String>
   <system:String x:Key="FilterManagerAutoBookmarkComment">Bookmark Kommentar</system:String>
   <system:String x:Key="FilterManagerIsEnabled">Aktiviert</system:String>
+  <system:String x:Key="FilterManagerLocalGlobal">Lokal zu Global Filter</system:String>
+  <system:String x:Key="FilterManagerLocalToGlobalError">Bei der Konvertierung ist ein Fehler aufgetreten. Nähere Informationen können Sie der Log-Datei entnehmen.</system:String>
+  <system:String x:Key="FilterManagerLocalToGlobalAlreadyExists">Dieser Eintrag existiert bereits!</system:String>
   <system:String
     x:Key="FilterManagerNotificationInformation"
     xml:space="preserve"

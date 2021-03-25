@@ -20,7 +20,9 @@ namespace Org.Vs.TailForWin.Ui.Utils.Converters
     public BackgroundToForegroundConverter()
     {
       _defaultForegroundColor = new SolidColorBrush(Colors.Black);
+      _defaultForegroundColor.Freeze();
       _foregroundColor = new SolidColorBrush(Color.FromRgb(240, 240, 240));
+      _foregroundColor.Freeze();
     }
 
     /// <summary>

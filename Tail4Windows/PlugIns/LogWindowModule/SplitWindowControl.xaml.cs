@@ -32,6 +32,9 @@ using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Utils;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Enums;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.SmartWatchPopupModule.Events.Args;
 using Org.Vs.TailForWin.Core.Collections.FilterCollections;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -71,6 +74,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     private readonly IPlaySoundFile _playSoundFile;
     private LogEntry _findNextResult;
     private readonly List<Predicate<LogEntry>> _criteria = new List<Predicate<LogEntry>>();
+
+    /// <summary>
+    /// Global filter controller
+    /// </summary>
+    private readonly IGlobalFilterController _globalFilterController;
 
     /// <summary>
     /// Configured sound file exists
@@ -380,6 +388,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     }
 
     /// <summary>
+    /// Global filter collection
+    /// </summary>
+    public ObservableCollection<FilterData> GlobalFilters
+    {
+
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Gets current Bookmark count
     /// </summary>
     public int BookmarkCount => LogWindowMainElement.BookmarkCount;
@@ -408,6 +426,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       _searchController = new FindController();
       _preventMessageFlood = new PreventMessageFlood();
       _findController = new FindController();
+      _globalFilterController = new GlobalFilterController();
 
       ExtendedToolbarVisibility = Visibility.Collapsed;
 
@@ -430,13 +449,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       LogCollectionView.Filter = DynamicFilterAsync;
     }
 
-    private void OnFilteringStarted(object sender, EventArgs e) =>
-      LOG.Debug("Filtering startet");
+    private static void OnFilteringStarted(object sender, EventArgs e) => LOG.Debug("Filtering startet");
 
-    private void OnFilteringCompleted(object sender, Core.Collections.FilterCollections.FilterEventArgs e) =>
+    private static void OnFilteringCompleted(object sender, Core.Collections.FilterCollections.FilterEventArgs e) =>
       LOG.Debug($"Filtering completed {e.IsCompleted}, elapsed time {e.ElapsedTime} ms");
 
-    private void OnFilteringErrorOccurred(object sender, Core.Collections.FilterCollections.FilterEventArgs e)
+    private static void OnFilteringErrorOccurred(object sender, Core.Collections.FilterCollections.FilterEventArgs e)
     {
       InteractionService.ShowErrorMessageBox(e.Exception.Message);
       LOG.Error(e.Exception, "Filtering caused a(n) {0}, elapsed time {1}", e.Exception.GetType().Name, e.ElapsedTime);
@@ -615,7 +633,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       case "FilterState":
       case "FilterItem":
       case "ListOfFilter":
-
         MouseService.SetBusyState();
 
         // I know, I will break the current T4W convention, that only the T4WindowViewModel is responsible for the StatusBar
@@ -645,7 +662,6 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         break;
 
       case "Wrap":
-
         LogWindowMainElement.ScrollToEnd();
         break;
       }
@@ -823,6 +839,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchCountMessage>(OnStartSearchCount);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartSearchFindNextMessage>(OnStartSearchFindNext);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ShowExtendedToolbarMessage>(OnShowExtendedToolbar);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<StartStopTailMessage>(OnStartStopTail);
 
       EnvironmentContainer.Instance.BookmarkManager.OnIdChanged += OnBookmarkManagerIdChanged;
       EnvironmentContainer.Instance.BookmarkManager.OnBookmarkDataSourceChanged += OnBookmarkManagerDataSourceChanged;
@@ -847,6 +864,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchCountMessage>(OnStartSearchCount);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartSearchFindNextMessage>(OnStartSearchFindNext);
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ShowExtendedToolbarMessage>(OnShowExtendedToolbar);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<StartStopTailMessage>(OnStartStopTail);
 
       EnvironmentContainer.Instance.BookmarkManager.OnIdChanged -= OnBookmarkManagerIdChanged;
       EnvironmentContainer.Instance.BookmarkManager.OnBookmarkDataSourceChanged -= OnBookmarkManagerDataSourceChanged;
@@ -907,6 +925,36 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnFindWhatChangedOrClosed(FindWhatChangedClosedMessage args) => RemoveFindWhatResultFromHighlightData();
 
+    private void OnStartStopTail(StartStopTailMessage args)
+    {
+      switch ( args.CurrentState )
+      {
+      case EGlobalFilterState.Read:
+      case EGlobalFilterState.Refresh:
+      case EGlobalFilterState.Delete:
+        NotifyTaskCompletion.Create(_globalFilterController.ReadGlobalFiltersAsync(_cts.Token)).PropertyChanged += OnGlobalFilterReadComplete;
+        break;
+
+      default:
+        throw new ArgumentOutOfRangeException();
+      }
+    }
+
+    private void OnGlobalFilterReadComplete(object sender, PropertyChangedEventArgs e)
+    {
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
+        return;
+
+      if ( !(sender is NotifyTaskCompletion<ObservableCollection<FilterData>> task) )
+        return;
+
+      HighlightData = null;
+      OnPropertyChanged(nameof(HighlightData));
+
+      GlobalFilters = task.Result;
+      LogCollectionView.Filter = DynamicFilterAsync;
+    }
+
     private void OnShowExtendedToolbar(ShowExtendedToolbarMessage args)
     {
       if ( !IsRightWindow(args.WindowGuid) || _splitterPosition <= 0 || ExtendedToolbarVisibility == Visibility.Visible )
@@ -926,7 +974,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void FindNextPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       UpdateHighlighting();
@@ -951,7 +999,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void FindWhatCountPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
@@ -983,7 +1031,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void FindWhatPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !(sender is NotifyTaskCompletion) || !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       var logWindow = this.Ancestors().OfType<ILogWindowControl>().ToList();
@@ -1337,7 +1385,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private async Task<bool> DynamicFilterAsync(object item, CancellationToken token)
     {
-      if ( CurrentTailData?.ListOfFilter == null || CurrentTailData.ListOfFilter.Count == 0 || !CurrentTailData.FilterState )
+      var existsLocalFilters = CurrentTailData?.ListOfFilter != null && CurrentTailData?.ListOfFilter.Count > 0;
+      var existsGlobalFilters = GlobalFilters != null && GlobalFilters.Count > 0;
+
+      if ( CurrentTailData != null && (!existsLocalFilters && !existsGlobalFilters || !CurrentTailData.FilterState) )
         return true;
 
       if ( !(item is LogEntry logEntry) )
@@ -1346,8 +1397,28 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       await LogCollectionView.CollectionViewLock.WaitAsync(token).ConfigureAwait(false);
 
       var result = false;
-      var filterSource = CurrentTailData.ListOfFilter.Where(p => p.FilterSource && p.IsEnabled).ToList();
-      var highlightSource = CurrentTailData.ListOfFilter.Where(p => p.IsHighlight && p.IsEnabled).ToList();
+      var filterSource = new List<FilterData>();
+
+      if ( CurrentTailData?.ListOfFilter != null && CurrentTailData.ListOfFilter.Count > 0 )
+        filterSource = CurrentTailData.ListOfFilter.Where(p => p.FilterSource && p.IsEnabled).ToList();
+
+
+      if ( GlobalFilters != null )
+      {
+        var globalFilterSource = GlobalFilters.Where(p => p.FilterSource && p.IsEnabled).ToList();
+        filterSource.AddRange(globalFilterSource);
+      }
+
+      var highlightSource = new List<FilterData>();
+
+      if ( CurrentTailData?.ListOfFilter != null && CurrentTailData.ListOfFilter.Count > 0 )
+        highlightSource = CurrentTailData.ListOfFilter.Where(p => p.IsHighlight && p.IsEnabled).ToList();
+
+      if ( GlobalFilters != null )
+      {
+        var globalHighlightSource = GlobalFilters.Where(p => p.IsHighlight && p.IsEnabled).ToList();
+        highlightSource.AddRange(globalHighlightSource);
+      }
 
       // If no FilterSource is defined, we assume only Highlighting is active
       if ( filterSource.Count == 0 )
@@ -1572,7 +1643,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       NotifyTaskCompletion.Create(HandleSendMailAsync(mailMessage));
     }
 
-    private Task HandleSendMailAsync(string message)
+    private static Task HandleSendMailAsync(string message)
     {
       IMailController mailController = new MailController();
       return mailController.SendLogMailAsync(message);

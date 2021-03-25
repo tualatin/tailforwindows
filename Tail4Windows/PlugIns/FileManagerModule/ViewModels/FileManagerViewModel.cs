@@ -402,7 +402,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       FileManagerView.CustomSort = null;
 
       if ( SettingsHelperController.CurrentSettings.GroupByCategory )
-        FileManagerView.GroupDescriptions.Clear();
+        FileManagerView.GroupDescriptions?.Clear();
 
       newItem.Id = Guid.NewGuid();
       newItem.FileName = string.Empty;
@@ -624,10 +624,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( CanExecuteUndo() )
         return false;
 
-      if ( SelectedItem.IsWindowsEvent && !string.IsNullOrWhiteSpace(SelectedItem.WindowsEvent.Category) )
-        return true;
-
-      return !string.IsNullOrWhiteSpace(SelectedItem?.FileName) && File.Exists(SelectedItem.FileName);
+      return SelectedItem.IsWindowsEvent &&
+        !string.IsNullOrWhiteSpace(SelectedItem.WindowsEvent.Category) ||
+        !string.IsNullOrWhiteSpace(SelectedItem?.FileName) &&
+        File.Exists(SelectedItem.FileName);
     }
 
     private void ExecuteOpenCommand(Window window)
@@ -641,6 +641,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     private void ExecuteCloseCommand(Window window)
     {
       RemoveErrorsFromList();
+
+      if ( FileManagerCollection == null )
+        return;
 
       var unsavedItems = FileManagerCollection.Where(p => p.CanUndo || p.FindSettings.CanUndo).ToList();
 
@@ -813,10 +816,10 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
       try
       {
-        FileManagerView.GroupDescriptions.Clear();
+        FileManagerView.GroupDescriptions?.Clear();
 
         if ( SettingsHelperController.CurrentSettings.GroupByCategory )
-          FileManagerView.GroupDescriptions.Add(new PropertyGroupDescription("Category"));
+          FileManagerView.GroupDescriptions?.Add(new PropertyGroupDescription("Category"));
       }
       catch
       {

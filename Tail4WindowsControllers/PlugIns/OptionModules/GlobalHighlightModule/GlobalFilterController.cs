@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -88,7 +89,8 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightMod
 
           var result = items.Remove(toDelete);
 
-          await UpdateGlobalFilterAsync(items);
+          if ( result )
+            result = await UpdateGlobalFilterAsync(items);
 
           return result;
         }
@@ -139,13 +141,10 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightMod
       {
         var result = false;
 
-        await Task.Run(() =>
+        return await Task.Run(() =>
         {
           try
           {
-            if ( items.Count == 0 )
-              return result;
-
             FixFilterToGlobal(items);
             JsonUtils.WriteJsonFile(items, _globalFilterFile);
             result = true;
@@ -158,17 +157,17 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightMod
           {
             _semaphore.Release();
           }
+
           return result;
         }, cts.Token).ConfigureAwait(false);
       }
-      return false;
     }
 
-    private void FixFilterToGlobal(ObservableCollection<FilterData> items)
+    private static void FixFilterToGlobal(IEnumerable<FilterData> items)
     {
       foreach ( var item in items.Where(p => !p.IsGlobal).ToArray() )
       {
-        item.IsGlobal = true;
+        item.ConvertToGlobal();
       }
     }
   }
