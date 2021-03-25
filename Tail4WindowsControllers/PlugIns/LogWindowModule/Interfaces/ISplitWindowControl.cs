@@ -37,6 +37,16 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces
     }
 
     /// <summary>
+    /// Global filter collection
+    /// </summary>
+    ObservableCollection<FilterData> GlobalFilters
+    {
+
+      get;
+      set;
+    }
+
+    /// <summary>
     /// Lines read
     /// </summary>
     int LinesRead

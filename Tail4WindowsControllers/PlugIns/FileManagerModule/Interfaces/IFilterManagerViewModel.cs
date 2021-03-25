@@ -44,6 +44,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
     }
 
     /// <summary>
+    /// Converts a local filter to global
+    /// </summary>
+    IAsyncCommand LocalToGlobalFilterCommand
+    {
+      get;
+    }
+
+    /// <summary>
     /// FileManager view
     /// </summary>
     ListCollectionView FilterManagerView

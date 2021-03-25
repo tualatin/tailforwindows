@@ -217,7 +217,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
       {
         await RemoveDuplicateItemsAsync(result, token).ContinueWith(p =>
         {
-          foreach ( TailData data in p.Result )
+          foreach ( var data in p.Result )
           {
             data.IsLoadedByXml = true;
           }
@@ -236,7 +236,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule
         item.FileName = await _smartWatchController.GetFileNameByPatternAsync(item, item.PatternString).ConfigureAwait(false);
       }
 
-      foreach ( TailData item in result.Where(p => p != null && p.SmartWatch && !p.UsePattern).ToList() )
+      foreach ( var item in result.Where(p => p != null && p.SmartWatch && !p.UsePattern).ToList() )
       {
         item.OriginalFileName = item.FileName;
         item.FileName = await _smartWatchController.GetFileNameBySmartWatchAsync(item).ConfigureAwait(false);

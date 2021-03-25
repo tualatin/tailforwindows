@@ -102,8 +102,8 @@
     <Reference Include="Microsoft.SDK.Expression.Blend, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.SDK.Expression.Blend.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -160,6 +160,7 @@
     <Compile Include="PlugIns\LogWindowModule\Events\Args\SelectedLinesChangedArgs.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Delegates\SelectedLinesChangedEventHandler.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IGlobalHighlightOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\Enums\EGlobalFilterState.cs" />
     <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\GlobalFilterController.cs" />
     <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\Interfaces\IGlobalFilterController.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\MessageFloodData.cs" />
@@ -234,5 +235,6 @@
   <ItemGroup>
     <Analyzer Include="..\packages\AsyncAnalyzers.1.1.7.0\analyzers\dotnet\cs\AsyncAnalyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

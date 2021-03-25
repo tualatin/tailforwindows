@@ -233,6 +233,7 @@
     <Compile Include="Data\Messages\FindWhat\StartSearchCountMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\ToggleFilterMessage.cs" />
     <Compile Include="Data\Messages\ShowStatisticsModuleMessage.cs" />
+    <Compile Include="Data\Messages\StartStopTailMessage.cs" />
     <Compile Include="PlugIns\BookmarkCommentModule\AddBookmarkComment.xaml.cs">
       <DependentUpon>AddBookmarkComment.xaml</DependentUpon>
     </Compile>
