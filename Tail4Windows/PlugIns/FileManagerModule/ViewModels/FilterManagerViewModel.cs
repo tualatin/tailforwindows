@@ -15,6 +15,7 @@ using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Enums;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -113,7 +114,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       ((AsyncCommand<object>) DeleteFilterDataCommand).PropertyChanged += OnDeletePropertyChanged;
       ((AsyncCommand<object>) LocalToGlobalFilterCommand).PropertyChanged += OnDeletePropertyChanged;
-      ;
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenFilterDataFromTailDataMessage>(OnOpenTailData);
       SetCancellationTokenSource();
@@ -278,10 +278,11 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       bool undo = CanExecuteUndo();
 
       // Duplicate item?
-      if ( FilterManagerCollection.Where(p => !string.IsNullOrWhiteSpace(p.Filter)).GroupBy(p => p.Filter.ToLower()).Any(p => p.Count() > 1) )
-        return false;
-
-      return errors.Count <= 0 && undo && CurrentTailData.IsLoadedByXml && FilterManagerCollection != null && FilterManagerCollection.Count > 0;
+      return !FilterManagerCollection
+        .Where(p => !string.IsNullOrWhiteSpace(p.Filter))
+        .GroupBy(p => p.Filter.ToLower())
+        .Any(p => p.Count() > 1) &&
+             (errors.Count <= 0 && undo && CurrentTailData.IsLoadedByXml && FilterManagerCollection != null && FilterManagerCollection.Count > 0);
     }
 
     private async Task ExecuteSaveCommandAsync()
@@ -358,7 +359,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( FilterManagerCollection == null )
         return new List<FilterData>();
 
-      var errors = FilterManagerCollection.Where(p => p["Description"] != null || p["Filter"] != null || p["FilterSource"] != null || p["IsHighlight"] != null).ToList();
+      var errors = FilterManagerCollection.Where(p => p["Description"] != null || p["Filter"] != null).ToList();
       return errors;
     }
 
@@ -388,6 +389,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         return;
       }
 
+      EnvironmentContainer.Instance.CurrentEventManager.PostMessage(new StartStopTailMessage(EGlobalFilterState.Delete));
       await DeleteFilterAsync(false);
     }
 
@@ -407,7 +409,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         }
       }, TaskContinuationOptions.OnlyOnRanToCompletion).ConfigureAwait(false);
 
-
       foreach ( var item in FilterManagerCollection )
       {
         item.CommitChanges();
@@ -425,7 +426,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( !FilterManagerCollection.Contains(SelectedItem) )
         return;
 
-      bool error = SelectedItem["Description"] != null || SelectedItem["Filter"] != null || SelectedItem["FilterSource"] != null || SelectedItem["IsHighlight"] != null;
+      bool error = SelectedItem["Description"] != null || SelectedItem["Filter"] != null;
 
       if ( !error && showMessageBox )
       {

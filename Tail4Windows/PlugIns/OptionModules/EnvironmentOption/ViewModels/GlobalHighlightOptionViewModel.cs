@@ -9,15 +9,18 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Enums;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
 
 
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
@@ -29,7 +32,6 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(GlobalHighlightOptionViewModel));
 
-    private bool _filterAdded;
     private readonly IGlobalFilterController _filterController;
     private CancellationTokenSource _cts;
 
@@ -172,7 +174,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       if ( !GlobalHighlightCollection.Contains(SelectedItem) )
         return;
 
-      bool error = SelectedItem["Description"] != null || SelectedItem["Filter"] != null || SelectedItem["FilterSource"] != null || SelectedItem["IsHighlight"] != null;
+      bool error = SelectedItem["Description"] != null || SelectedItem["Filter"] != null;
 
       if ( !error )
       {
@@ -252,7 +254,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
-      if ( !_globalHighlightCollection.Any() )
+      if ( _globalHighlightCollection == null )
       {
         _globalHighlightCollection = new ObservableCollection<FilterData>();
 
@@ -262,12 +264,12 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       FilterManagerView = (ListCollectionView) new CollectionViewSource { Source = GlobalHighlightCollection }.View;
       FilterManagerCollectionViewHolder.Cv = FilterManagerView;
 
-
       if ( FilterManagerView.Count == 0 )
         return;
 
-      SelectedItem = !_filterAdded ? GlobalHighlightCollection.First() : GlobalHighlightCollection.Last();
+      SelectedItem = GlobalHighlightCollection.Last();
 
+      EnvironmentContainer.Instance.CurrentEventManager.PostMessage(new StartStopTailMessage(EGlobalFilterState.Refresh));
       OnPropertyChanged(nameof(GlobalHighlightCollection));
       OnPropertyChanged(nameof(FilterManagerView));
     }
@@ -283,9 +285,12 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       if ( GlobalHighlightCollection.Contains(SelectedItem) )
         GlobalHighlightCollection.Remove(SelectedItem);
 
+      EnvironmentContainer.Instance.CurrentEventManager.PostMessage(new StartStopTailMessage(EGlobalFilterState.Delete));
+
       OnPropertyChanged(nameof(GlobalHighlightCollection));
       OnPropertyChanged(nameof(FilterManagerView));
     }
+
 
     private void SetCancellationTokenSource()
     {
@@ -299,9 +304,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         return new List<FilterData>();
 
       var errors = GlobalHighlightCollection.Where(p => p["Description"] != null ||
-                                                        p["Filter"] != null ||
-                                                        p["FilterSource"] != null ||
-                                                        p["IsHighlight"] != null).ToList();
+                                                        p["Filter"] != null).ToList();
       return errors;
     }
   }

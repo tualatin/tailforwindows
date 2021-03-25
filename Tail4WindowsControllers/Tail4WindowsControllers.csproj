@@ -160,6 +160,7 @@
     <Compile Include="PlugIns\LogWindowModule\Events\Args\SelectedLinesChangedArgs.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Delegates\SelectedLinesChangedEventHandler.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IGlobalHighlightOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\Enums\EGlobalFilterState.cs" />
     <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\GlobalFilterController.cs" />
     <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\Interfaces\IGlobalFilterController.cs" />
     <Compile Include="PlugIns\LogWindowModule\Data\MessageFloodData.cs" />
@@ -234,5 +235,6 @@
   <ItemGroup>
     <Analyzer Include="..\packages\AsyncAnalyzers.1.1.7.0\analyzers\dotnet\cs\AsyncAnalyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

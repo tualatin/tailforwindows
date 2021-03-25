@@ -25,6 +25,7 @@ using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Args;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Events.Delegates;
 using Org.Vs.TailForWin.Controllers.PlugIns.LogWindowModule.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Enums;
 using Org.Vs.TailForWin.Controllers.PlugIns.WindowsEventReadModule.Events.Args;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data;
@@ -59,7 +60,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
   public partial class LogWindowControl : ILogWindowControl, IFileDragDropTarget
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(LogWindowControl));
-    private static readonly object LogWindowControlLock = new object();
+    private static readonly SemaphoreSlim LogWindowControlLock = new SemaphoreSlim(1);
 
     /// <summary>
     /// Current lock time span in milliseconds
@@ -722,22 +723,17 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void ExecuteClearLogWindowCommand()
     {
-      if ( Monitor.TryEnter(LogWindowControlLock, TimeSpan.FromMilliseconds(LockTimeSpanInMs)) )
+      LogWindowControlLock.Wait(TimeSpan.FromMilliseconds(LockTimeSpanInMs));
+
+      try
       {
-        try
-        {
-          MouseService.SetBusyState();
-          SplitWindow.ClearItems();
-          TailReader.ResetIndex();
-        }
-        finally
-        {
-          Monitor.Exit(LogWindowControlLock);
-        }
+        MouseService.SetBusyState();
+        SplitWindow.ClearItems();
+        TailReader.ResetIndex();
       }
-      else
+      finally
       {
-        LOG.Error("Can not lock!");
+        LogWindowControlLock.Release();
       }
     }
 
@@ -820,6 +816,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       CurrentTailData.OpenFromSmartWatch = false;
       TailReader.TailData = CurrentTailData;
 
+      EnvironmentContainer.Instance.CurrentEventManager.PostMessage(new StartStopTailMessage(EGlobalFilterState.Read));
       TailReader.StartTail();
 
       // If Logfile comes from the FileManager or settings does not allow to save the history or is WindowsEvent setting, do not save it in the history
@@ -859,7 +856,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private void OnWaitingForTailWorkerPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-      if ( !e.PropertyName.Equals("IsSuccessfullyCompleted") )
+      if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
       LogWindowTabItem.TabItemBusyIndicator = Visibility.Collapsed;
@@ -1189,32 +1186,27 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
     private static void CreateDragWindow(TailData tailData, Window window)
     {
-      if ( Monitor.TryEnter(LogWindowControlLock, TimeSpan.FromMilliseconds(LockTimeSpanInMs)) )
+      LogWindowControlLock.Wait(TimeSpan.FromMilliseconds(LockTimeSpanInMs));
+
+      try
       {
-        try
+        const int offset = 100;
+        ILogWindowControl content = new LogWindowControl
         {
-          const int offset = 100;
-          ILogWindowControl content = new LogWindowControl
-          {
-            CurrentTailData = tailData
-          };
-          var tabItem = UiHelper.CreateDragSupportTabItem(tailData.File, tailData.FileName, Visibility.Collapsed, content);
-          DragWindow dragWindow = DragWindow.CreateTabWindow(window.Left + offset, window.Top + offset, window.Width, window.Height, tabItem);
+          CurrentTailData = tailData
+        };
+        var tabItem = UiHelper.CreateDragSupportTabItem(tailData.File, tailData.FileName, Visibility.Collapsed, content);
+        DragWindow dragWindow = DragWindow.CreateTabWindow(window.Left + offset, window.Top + offset, window.Width, window.Height, tabItem);
 
-          // Unregister tab item, we do not need it again!
-          UiHelper.UnregisterTabItem(tabItem);
+        // Unregister tab item, we do not need it again!
+        UiHelper.UnregisterTabItem(tabItem);
 
-          dragWindow?.Activate();
-          dragWindow?.Focus();
-        }
-        finally
-        {
-          Monitor.Exit(LogWindowControlLock);
-        }
+        dragWindow?.Activate();
+        dragWindow?.Focus();
       }
-      else
+      finally
       {
-        LOG.Error("Can not lock!");
+        LogWindowControlLock.Release();
       }
     }
 
@@ -1296,26 +1288,21 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         }
       }
 
-      if ( Monitor.TryEnter(LogWindowControlLock, TimeSpan.FromMilliseconds(LockTimeSpanInMs)) )
+      await LogWindowControlLock.WaitAsync(TimeSpan.FromMilliseconds(LockTimeSpanInMs)).ConfigureAwait(false);
+
+      try
       {
-        try
-        {
-          SplitWindow.UnregisterFindWhatChanged();
-          SplitWindow.LogCollectionView.Dispose();
-          CurrentTailData = null;
-        }
-        finally
-        {
-          Monitor.Exit(LogWindowControlLock);
-        }
+        SplitWindow.UnregisterFindWhatChanged();
+        SplitWindow.LogCollectionView.Dispose();
+        CurrentTailData = null;
       }
-      else
+      finally
       {
-        LOG.Error("Can not lock!");
+        LogWindowControlLock.Release();
       }
     }
 
-    private async Task<bool> WaitAsync()
+    private static async Task<bool> WaitAsync()
     {
       // Wait some ms to set the correct focus
       await Task.Delay(TimeSpan.FromMilliseconds(25)).ConfigureAwait(false);
@@ -1482,7 +1469,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       IconSource = string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.EditorPath) ? BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/notepad.ico") : BusinessHelper.GetAssemblyIcon(SettingsHelperController.CurrentSettings.EditorPath);
     }
 
-    private void AddJumpTaskToJumpList(JumpTask item)
+    private static void AddJumpTaskToJumpList(JumpTask item)
     {
       // Create TaskBar jumplist
       JumpList jumpList = JumpList.GetJumpList(Application.Current);

@@ -642,6 +642,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     {
       RemoveErrorsFromList();
 
+      if ( FileManagerCollection == null )
+        return;
+
       var unsavedItems = FileManagerCollection.Where(p => p.CanUndo || p.FindSettings.CanUndo).ToList();
 
       if ( unsavedItems.Count > 0 && PreventDuplicateItems() )

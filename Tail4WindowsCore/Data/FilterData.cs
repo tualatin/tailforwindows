@@ -322,17 +322,17 @@ namespace Org.Vs.TailForWin.Core.Data
             result = Application.Current.TryFindResource("ErrorEnterFilterPattern").ToString();
           break;
 
-        case nameof(FilterSource):
+          //case nameof(FilterSource):
 
-          if ( !FilterSource && !IsHighlight )
-            result = Application.Current.TryFindResource("ErrorEnterHighlightFilterSource").ToString();
-          break;
+          //  if ( !FilterSource && !IsHighlight )
+          //    result = Application.Current.TryFindResource("ErrorEnterHighlightFilterSource").ToString();
+          //  break;
 
-        case nameof(IsHighlight):
+          //case nameof(IsHighlight):
 
-          if ( !FilterSource && !IsHighlight )
-            result = Application.Current.TryFindResource("ErrorEnterHighlightFilterSource").ToString();
-          break;
+          //  if ( !FilterSource && !IsHighlight )
+          //    result = Application.Current.TryFindResource("ErrorEnterHighlightFilterSource").ToString();
+          //  break;
         }
         return result;
       }
