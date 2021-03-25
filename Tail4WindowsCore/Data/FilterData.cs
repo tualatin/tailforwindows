@@ -11,7 +11,7 @@ namespace Org.Vs.TailForWin.Core.Data
   /// <summary>
   /// Filter data object
   /// </summary>
-  public class FilterData : StateManager, IDisposable, IDataErrorInfo, ICloneable
+  public sealed class FilterData : StateManager, IDisposable, IDataErrorInfo, ICloneable
   {
     /// <summary>
     /// Standard constructor
@@ -39,7 +39,7 @@ namespace Org.Vs.TailForWin.Core.Data
     /// Releases all resources used by <see cref="FilterData"/>
     /// </summary>
     /// <param name="disposing">Disposing</param>
-    protected virtual void Dispose(bool disposing)
+    private void Dispose(bool disposing)
     {
       if ( disposing )
         FontType = null;

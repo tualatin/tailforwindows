@@ -119,7 +119,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( CurrentTailData.ListOfFilter.Count == 0 )
         CurrentTailData.ListOfFilter.Add(new FilterData());
 
-      foreach ( FilterData item in CurrentTailData.ListOfFilter )
+      foreach ( var item in CurrentTailData.ListOfFilter )
       {
         item.CommitChanges();
       }
@@ -338,7 +338,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
         return;
 
       // 1. All undo
-      foreach ( FilterData filterData in errors )
+      foreach ( var filterData in errors )
       {
         while ( filterData.CanUndo )
         {
@@ -352,7 +352,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( errors.Count <= 0 )
         return;
 
-      foreach ( FilterData filterData in errors )
+      foreach ( var filterData in errors )
       {
         FilterManagerCollection.Remove(filterData);
       }
