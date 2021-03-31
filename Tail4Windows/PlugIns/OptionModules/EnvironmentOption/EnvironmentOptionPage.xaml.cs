@@ -24,5 +24,10 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption
     /// Page GuId
     /// </summary>
     public Guid PageId => Guid.Parse("add169f3-968a-4b4d-b292-4e0cc8637dab");
+
+    /// <summary>
+    /// Current page settings changed
+    /// </summary>
+    public bool PageSettingsChanged => false;
   }
 }

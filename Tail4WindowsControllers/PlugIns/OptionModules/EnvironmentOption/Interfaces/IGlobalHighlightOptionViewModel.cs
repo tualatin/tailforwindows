@@ -32,6 +32,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.
     }
 
     /// <summary>
+    /// Global highlight collection changed
+    /// </summary>
+    bool GlobalHighlightCollectionChanged
+    {
+      get;
+    }
+
+    /// <summary>
     /// Global highlight collection
     /// </summary>
     ObservableCollection<FilterData> GlobalHighlightCollection

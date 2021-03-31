@@ -13,6 +13,7 @@ using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Enums;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.Interfaces;
 using Org.Vs.TailForWin.Controllers.UI.Vml.Attributes;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -182,6 +183,28 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _cts.Cancel();
       window?.Close();
+
+      var settingsChanged = false;
+
+      foreach ( var viewModel in Root )
+      {
+        foreach ( var treeNodeViewModel in viewModel.Children )
+        {
+          var child = (TreeNodeOptionViewModel) treeNodeViewModel;
+          settingsChanged = child.OptionPage.PageSettingsChanged;
+
+          if ( settingsChanged )
+            break;
+        }
+
+        if ( settingsChanged )
+          break;
+      }
+
+      if ( !settingsChanged )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.PostMessage(new StartStopTailMessage(EGlobalFilterState.Refresh));
     }
 
     private async Task ExecuteSaveOptionsCommandAsync()
@@ -258,7 +281,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         {
           try
           {
-            foreach ( TreeNodeOptionViewModel node in Root )
+            foreach ( var node in Root )
             {
               node.ApplyCriteria(string.Empty, new Stack<ITreeNodeViewModel>());
             }
@@ -291,7 +314,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       TreeNodeOptionViewModel isSelected = null;
       TreeNodeOptionViewModel parent = null;
 
-      foreach ( TreeNodeOptionViewModel treeNodeOptionViewModel in Root )
+      foreach ( var treeNodeOptionViewModel in Root )
       {
         if ( treeNodeOptionViewModel.OptionPage.PageId == idToOpen )
         {
@@ -323,7 +346,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       CurrentViewModel = isSelected.OptionPage;
     }
 
-    private TreeNodeOptionViewModel SelectLastOpenOption(IEnumerable<TreeNodeOptionViewModel> node, Guid idToOpen)
+    private static TreeNodeOptionViewModel SelectLastOpenOption(IEnumerable<TreeNodeOptionViewModel> node, Guid idToOpen)
     {
       foreach ( var treeNodeOptionViewModel in node )
       {

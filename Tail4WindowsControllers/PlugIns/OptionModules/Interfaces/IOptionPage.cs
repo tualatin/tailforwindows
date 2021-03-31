@@ -23,5 +23,13 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.Interfaces
     {
       get;
     }
+
+    /// <summary>
+    /// Current page settings changed
+    /// </summary>
+    bool PageSettingsChanged
+    {
+      get;
+    }
   }
 }

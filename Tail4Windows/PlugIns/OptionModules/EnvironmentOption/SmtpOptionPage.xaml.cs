@@ -32,6 +32,11 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption
     /// </summary>
     public Guid PageId => Guid.Parse("cfc162ef-5755-4958-a559-ab893ca8e1ed");
 
+    /// <summary>
+    /// Current page settings changed
+    /// </summary>
+    public bool PageSettingsChanged => false;
+
     private void UserControlLoaded(object sender, RoutedEventArgs e)
     {
       _notifyTaskCompletion = NotifyTaskCompletion.Create(SetPasswordAsync);

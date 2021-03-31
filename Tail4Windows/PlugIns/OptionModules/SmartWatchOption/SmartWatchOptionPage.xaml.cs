@@ -24,5 +24,10 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.SmartWatchOption
     /// Page GuId
     /// </summary>
     public Guid PageId => Guid.Parse("bde68ff9-54b7-4cc7-91e0-9e6ad2f021f6");
+
+    /// <summary>
+    /// Current page settings changed
+    /// </summary>
+    public bool PageSettingsChanged => false;
   }
 }
