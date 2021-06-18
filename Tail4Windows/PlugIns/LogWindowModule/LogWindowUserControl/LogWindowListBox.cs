@@ -846,7 +846,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       _readOnlyTextBoxContextMenu.Items.Add(menuItem);
     }
 
-    private MenuItem CreateMenuItem(string header, ImageSource image = null, Size? iconSize = null)
+    private static MenuItem CreateMenuItem(string header, ImageSource image = null, Size? iconSize = null)
     {
       if ( string.IsNullOrWhiteSpace(header) )
         throw new ArgumentNullException(nameof(header));
@@ -910,8 +910,8 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
         return new System.Drawing.Rectangle((int) relativePoint.X, (int) relativePoint.Y, (int) s.Width, (int) s.Height);
       }
 
-      relativePoint.X = relativePoint.X - s.Width / 2;
-      relativePoint.Y = relativePoint.Y - s.Height / 2;
+      relativePoint.X -= s.Width / 2;
+      relativePoint.Y -= s.Height / 2;
 
 #if DEBUG
       LOG.Debug($"BookmarkPoint is not null X {relativePoint.X} Y {relativePoint.Y} Width {s.Width} Height {s.Height}");

@@ -12,7 +12,7 @@ namespace Org.Vs.TailForWin.Controllers.UI.Vml
   /// </summary>
   public static class ViewModelLocator
   {
-    private static readonly object[] _arguments = new object[0];
+    private static readonly object[] Arguments = new object[0];
 
     /// <summary>
     /// Gets automatic locator
@@ -45,12 +45,12 @@ namespace Org.Vs.TailForWin.Controllers.UI.Vml
 
     private static object GetInstanceOf(Type dependencyPropertyType)
     {
-      Assembly assembly = dependencyPropertyType.Assembly;
+      var assembly = dependencyPropertyType.Assembly;
       var assemblyTypes = assembly.GetTypes();
       string classNameDef = $"{dependencyPropertyType.Name}ViewModel";
 
-      Type userControlType = assemblyTypes.FirstOrDefault(p => p.Name.Contains(classNameDef) && p.CustomAttributes != null &&
-                                                    p.CustomAttributes.Any(a => a.AttributeType == typeof(LocatorAttribute)));
+      var userControlType = assemblyTypes.FirstOrDefault(p => p.Name.Contains(classNameDef) && p.CustomAttributes != null &&
+                                                              p.CustomAttributes.Any(a => a.AttributeType == typeof(LocatorAttribute)));
 
       if ( userControlType == null )
         userControlType = assemblyTypes.FirstOrDefault(a => a.Name.Contains(classNameDef) && !a.Attributes.HasFlag(TypeAttributes.Abstract));
@@ -58,7 +58,7 @@ namespace Org.Vs.TailForWin.Controllers.UI.Vml
       if ( userControlType == null )
         throw new ArgumentException($"Not exist a type {classNameDef} in the assembly {assembly.FullName}");
 
-      return Activator.CreateInstance(userControlType, _arguments);
+      return Activator.CreateInstance(userControlType, Arguments);
     }
   }
 }
