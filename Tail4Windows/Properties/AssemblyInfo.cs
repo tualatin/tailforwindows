@@ -54,7 +54,7 @@ using System.Windows.Markup;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.3.*")]
-[assembly: AssemblyFileVersion("2.3.0")]
+[assembly: AssemblyFileVersion("2.3.1")]
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "Config/log4net.xml", Watch = true)]
 [assembly: Guid("c2612b08-dbd5-4002-a1f0-e1d789a906e7")]
 
