@@ -260,7 +260,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     /// <summary>
-    /// When overridden in a derived class, is invoked whenever application code or internal proc esses call <code>ApplyTemplate</code>.
+    /// When overridden in a derived class, is invoked whenever application code or internal processes call <code>ApplyTemplate</code>.
     /// </summary>
     public override void OnApplyTemplate()
     {

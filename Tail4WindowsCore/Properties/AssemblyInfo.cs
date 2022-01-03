@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Virtual Studios")]
 [assembly: AssemblyProduct("T4WCore")]
-[assembly: AssemblyCopyright("Copyright ©  2018 - 2020 M. Zoennchen")]
+[assembly: AssemblyCopyright("Copyright ©  2018 - 2022 M. Zoennchen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyFileVersion("1.0.101")]
+[assembly: AssemblyFileVersion("1.0.102")]
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "Config/log4net.xml", Watch = true)]
