@@ -108,7 +108,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
 
       foreach ( var tabItem in TabItems )
@@ -700,7 +700,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     #endregion
 
-    private void OnChangeSelectedTabItem(ChangeSelectedTabItemMessage args)
+    private static void OnChangeSelectedTabItem(ChangeSelectedTabItemMessage args)
     {
       DragSupportTabItem result = UiHelper.GetTabItemList().FirstOrDefault(p => ((ILogWindowControl) p.Content).WindowId == args.WindowId);
 
