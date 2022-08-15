@@ -135,7 +135,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       set
       {
         _width = value;
-        OnPropertyChanged(nameof(Width));
+        OnPropertyChanged();
       }
     }
 
@@ -150,7 +150,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       set
       {
         _height = value;
-        OnPropertyChanged(nameof(Height));
+        OnPropertyChanged();
       }
     }
 
@@ -165,7 +165,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       set
       {
         _windowState = value;
-        OnPropertyChanged(nameof(WindowState));
+        OnPropertyChanged();
       }
     }
 
@@ -180,7 +180,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       set
       {
         _windowPositionX = value;
-        OnPropertyChanged(nameof(WindowPositionX));
+        OnPropertyChanged();
       }
     }
 
@@ -195,7 +195,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       set
       {
         _windowPositionY = value;
-        OnPropertyChanged(nameof(WindowPositionY));
+        OnPropertyChanged();
       }
     }
 
@@ -210,7 +210,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       set
       {
         _t4WindowsStyle = value;
-        OnPropertyChanged(nameof(T4WindowsStyle));
+        OnPropertyChanged();
       }
     }
 

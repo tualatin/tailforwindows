@@ -156,7 +156,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule
       const uint vkF3 = 0x72;
 
       if ( !NativeMethods.RegisterHotKey(helper.Handle, HotkeyId, 0, vkF3) )
-        LOG.Error("{0} can not register hotkey", System.Reflection.MethodBase.GetCurrentMethod().Name);
+        LOG.Error("{0} can not register hotkey", System.Reflection.MethodBase.GetCurrentMethod()?.Name);
     }
 
     private void UnregisterHotKey()
