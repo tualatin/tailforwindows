@@ -242,6 +242,6 @@ namespace Org.Vs.TailForWin
     }
 
     private static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e) =>
-      LOG.Error("{0} caused a(n) {1} {2}", System.Reflection.MethodBase.GetCurrentMethod().Name, e.ExceptionObject.GetType().Name, e.ExceptionObject);
+      LOG.Error("{0} caused a(n) {1} {2}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, e.ExceptionObject.GetType().Name, e.ExceptionObject);
   }
 }

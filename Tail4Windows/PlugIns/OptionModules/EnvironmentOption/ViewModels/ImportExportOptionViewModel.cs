@@ -45,7 +45,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
           return;
 
         _currentSettingsPath = value;
-        OnPropertyChanged(nameof(CurrentSettingsPath));
+        OnPropertyChanged();
       }
     }
 

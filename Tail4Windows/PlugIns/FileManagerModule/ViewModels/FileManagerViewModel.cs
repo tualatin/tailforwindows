@@ -136,7 +136,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       get => FileManagerView?.CurrentItem as TailData;
       set
       {
-        FileManagerView.MoveCurrentTo(value);
+        FileManagerView?.MoveCurrentTo(value);
         OnPropertyChanged();
       }
     }
@@ -228,7 +228,6 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       ((AsyncCommand<object>) DeleteTailDataCommand).PropertyChanged += OnDeleteTailDataPropertyChanged;
       ((AsyncCommand<object>) SaveCommand).PropertyChanged += OnSaveTailDataPropertyChanged;
-      ((AsyncCommand<object>) LoadedCommand).PropertyChanged += OnSaveTailDataPropertyChanged;
     }
 
     #region Commands
@@ -315,14 +314,18 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// Font command
     /// </summary>
-    public ICommand FontCommand => _fontCommand ?? (_fontCommand = new RelayCommand(p => SelectedItem != null && SelectedItems.Count == 1, p => ExecuteFontCommand((Window) p)));
+    public ICommand FontCommand => _fontCommand ?? (_fontCommand = new RelayCommand(p => SelectedItem != null &&
+                                                                                         SelectedItems != null &&
+                                                                                         SelectedItems.Count == 1, p => ExecuteFontCommand((Window) p)));
 
     private ICommand _filterCommand;
 
     /// <summary>
     /// Filter command
     /// </summary>
-    public ICommand FilterCommand => _filterCommand ?? (_filterCommand = new RelayCommand(p => SelectedItem != null && SelectedItems.Count == 1, p => ExecuteFilterCommand((Window) p)));
+    public ICommand FilterCommand => _filterCommand ?? (_filterCommand = new RelayCommand(p => SelectedItem != null &&
+                                                                                               SelectedItems != null &&
+                                                                                               SelectedItems.Count == 1, p => ExecuteFilterCommand((Window) p)));
 
     private ICommand _previewDragEnterCommand;
 
@@ -336,7 +339,9 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// PatternControl command
     /// </summary>
-    public ICommand PatternControlCommand => _patternControlCommand ?? (_patternControlCommand = new RelayCommand(p => SelectedItem != null && SelectedItems.Count == 1, p => ExecutePatternControlCommand((Window) p)));
+    public ICommand PatternControlCommand => _patternControlCommand ?? (_patternControlCommand = new RelayCommand(p => SelectedItem != null &&
+                                                                                                                       SelectedItems != null &&
+                                                                                                                       SelectedItems.Count == 1, p => ExecutePatternControlCommand((Window) p)));
 
     private ICommand _openWindowsEventsCommand;
 
@@ -364,7 +369,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     #region Command functions
 
-    private bool CanExecuteOpenContainingFolder() => SelectedItem != null && SelectedItems.Count == 1 && !SelectedItem.IsWindowsEvent;
+    private bool CanExecuteOpenContainingFolder() => SelectedItem != null && SelectedItems != null && SelectedItems.Count == 1 && !SelectedItem.IsWindowsEvent;
 
     private async Task ExecuteOpenContainingFolderCommandAsync()
     {
@@ -385,7 +390,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }).ConfigureAwait(false);
     }
 
-    private bool CanExecuteCopyElement() => SelectedItem != null && SelectedItems.Count == 1;
+    private bool CanExecuteCopyElement() => SelectedItem != null && SelectedItems != null && SelectedItems.Count == 1;
 
     private void ExecuteCopyElementCommand()
     {
@@ -639,11 +644,15 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       {
         LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
+      finally
+      {
+        SetCollectionView();
+      }
     }
 
     private bool CanExecuteOpenCommand()
     {
-      if ( SelectedItem == null || SelectedItems.Count > 1 )
+      if ( SelectedItem == null || SelectedItems == null || SelectedItems.Count > 1 )
         return false;
 
       if ( CanExecuteUndo() )
@@ -810,7 +819,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
-      if ( _fileManagerCollection == null || _fileManagerCollection.Count == 0 )
+      SetCollectionView();
+    }
+
+    private void SetCollectionView()
+    {
+      if (_fileManagerCollection == null || _fileManagerCollection.Count == 0)
       {
         FileManagerCollection = new ObservableCollection<TailData> { new TailData() };
 
@@ -820,11 +834,11 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
 
       FilterHasFocus = false;
-      FileManagerView = (ListCollectionView) new CollectionViewSource { Source = FileManagerCollection }.View;
+      FileManagerView = (ListCollectionView)new CollectionViewSource { Source = FileManagerCollection }.View;
       FileManagerView.CustomSort = new TailDataComparer();
       FileManagerView.Filter = DynamicFilter;
 
-      if ( FileManagerCollection.Count >= 2 )
+      if (FileManagerCollection.Count >= 2)
         SetFileManagerViewGrouping();
 
       TailManagerCollectionViewHolder.Cv = FileManagerView;

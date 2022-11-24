@@ -60,7 +60,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
           return;
 
         _title = value;
-        OnPropertyChanged(nameof(Title));
+        OnPropertyChanged();
       }
     }
 
@@ -82,7 +82,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         if ( _currentViewModel != null )
           Title = string.Format(Application.Current.TryFindResource("OptionsPageTitle").ToString(), _currentViewModel.PageTitle);
 
-        OnPropertyChanged(nameof(CurrentViewModel));
+        OnPropertyChanged();
       }
     }
 

@@ -65,16 +65,16 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightMod
     /// <exception cref="Exception">Is no items available</exception>
     public async Task<bool> DeleteGlobalFilterAsync(Guid id)
     {
-      if ( id == Guid.Empty )
-        throw new ArgumentException(nameof(id));
-
-      if ( !File.Exists(_globalFilterFile) )
-        return false;
-
       await _semaphoreDelete.WaitAsync().ConfigureAwait(false);
 
       try
       {
+        if ( id == Guid.Empty )
+          throw new ArgumentException(nameof(id));
+
+        if ( !File.Exists(_globalFilterFile) )
+          return false;
+
         using ( var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2)) )
         {
           var items = await ReadGlobalFiltersAsync(cts.Token);
@@ -108,15 +108,14 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightMod
     /// <returns>A <see cref="ObservableCollection{T}"/> of <see cref="FilterData"/></returns>
     public async Task<ObservableCollection<FilterData>> ReadGlobalFiltersAsync(CancellationToken token)
     {
-      if ( !File.Exists(_globalFilterFile) )
-        return new ObservableCollection<FilterData>();
-
       await _semaphore.WaitAsync(token).ConfigureAwait(false);
       LOG.Trace("Read JSON file");
 
       try
       {
-        return await Task.Run(() => JsonUtils.ReadJsonFile<ObservableCollection<FilterData>>(_globalFilterFile), token).ConfigureAwait(false);
+        return !File.Exists(_globalFilterFile)
+          ? new ObservableCollection<FilterData>()
+          : await Task.Run(() => JsonUtils.ReadJsonFile<ObservableCollection<FilterData>>(_globalFilterFile), token).ConfigureAwait(false);
       }
       finally
       {
@@ -151,7 +150,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightMod
           }
           catch ( Exception ex )
           {
-            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
           }
           finally
           {

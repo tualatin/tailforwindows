@@ -56,7 +56,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
           return;
 
         _isExpanded = value;
-        OnPropertyChanged(nameof(IsExpanded));
+        OnPropertyChanged();
       }
     }
 
@@ -74,7 +74,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
           return;
 
         _isSelected = value;
-        OnPropertyChanged(nameof(IsSelected));
+        OnPropertyChanged();
       }
     }
 
@@ -92,7 +92,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
           return;
 
         _isEnabled = value;
-        OnPropertyChanged(nameof(IsEnabled));
+        OnPropertyChanged();
       }
     }
 
@@ -110,7 +110,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
           return;
 
         _icon = value;
-        OnPropertyChanged(nameof(Icon));
+        OnPropertyChanged();
       }
     }
 
@@ -128,7 +128,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
           return;
 
         _isMatch = value;
-        OnPropertyChanged(nameof(IsMatch));
+        OnPropertyChanged();
       }
     }
 

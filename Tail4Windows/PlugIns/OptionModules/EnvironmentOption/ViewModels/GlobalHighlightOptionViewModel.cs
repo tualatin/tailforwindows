@@ -40,7 +40,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     {
       _filterController = new GlobalFilterController();
 
-      ((AsyncCommand<object>) LoadedCommand).PropertyChanged += OnSavePropertyChanged;
+      SetCancellationTokenSource();
+
       ((AsyncCommand<object>) SaveCommand).PropertyChanged += OnSavePropertyChanged;
       ((AsyncCommand<object>) DeleteHighlightColorCommand).PropertyChanged += OnDeletePropertyChanged;
     }
@@ -140,10 +141,21 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     {
       SetCancellationTokenSource();
 
-      _globalHighlightCollection = await _filterController.ReadGlobalFiltersAsync(_cts.Token).ConfigureAwait(false);
-      _globalHighlightCollection.CollectionChanged += OnGlobalHighlightCollectionChanged;
+      try
+      {
+        _globalHighlightCollection = await _filterController.ReadGlobalFiltersAsync(_cts.Token).ConfigureAwait(false);
+        _globalHighlightCollection.CollectionChanged += OnGlobalHighlightCollectionChanged;
 
-      CommitChanges();
+        CommitChanges();
+      }
+      catch ( Exception ex )
+      {
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
+      }
+      finally
+      {
+        SetCollectionView();
+      }
     }
 
     private void ExecuteUnloadedCommand()
@@ -162,15 +174,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       GlobalHighlightCollection.Add(newItem);
       SelectedItem = GlobalHighlightCollection.Last();
 
-      // Whaaaaaaat? 
-      try
-      {
-        OnPropertyChanged(nameof(FilterManagerView));
-      }
-      catch ( Exception ex )
-      {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
-      }
+      OnPropertyChanged(nameof(FilterManagerView));
     }
 
     private bool CanExecuteDeleteHighlightColorCommand() => SelectedItem != null && GlobalHighlightCollection.Contains(SelectedItem);
@@ -263,24 +267,29 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       if ( e.PropertyName != nameof(NotifyTaskCompletion.IsSuccessfullyCompleted) )
         return;
 
-      if ( _globalHighlightCollection == null )
+      SetCollectionView();
+    }
+
+    private void SetCollectionView()
+    {
+      if (_globalHighlightCollection == null)
       {
         _globalHighlightCollection = new ObservableCollection<FilterData>();
 
         CommitChanges();
       }
 
-      FilterManagerView = (ListCollectionView) new CollectionViewSource { Source = GlobalHighlightCollection }.View;
+      FilterManagerView = (ListCollectionView)new CollectionViewSource { Source = GlobalHighlightCollection }.View;
       FilterManagerCollectionViewHolder.Cv = FilterManagerView;
 
-      if ( FilterManagerView.Count == 0 )
+      if (FilterManagerView.Count == 0)
         return;
 
       SelectedItem = GlobalHighlightCollection.Last();
       GlobalHighlightCollectionChanged = true;
 
-      OnPropertyChanged(nameof(GlobalHighlightCollection));
       OnPropertyChanged(nameof(FilterManagerView));
+      OnPropertyChanged(nameof(GlobalHighlightCollection));
     }
 
     private void OnDeletePropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -292,7 +301,9 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         return;
 
       if ( GlobalHighlightCollection.Contains(SelectedItem) )
+      {
         GlobalHighlightCollection.Remove(SelectedItem);
+      }
 
       OnPropertyChanged(nameof(GlobalHighlightCollection));
       OnPropertyChanged(nameof(FilterManagerView));
