@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -76,19 +77,16 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
     }
 
-    private ObservableCollection<TailData> _selectedItems;
+    private IList _selectedItems;
 
     /// <summary>
     /// SelectedItems
     /// </summary>
-    public ObservableCollection<TailData> SelectedItems
+    public IList SelectedItems
     {
       get => _selectedItems;
       set
       {
-        if ( value == _selectedItems )
-          return;
-
         _selectedItems = value;
         OnPropertyChanged();
       }
@@ -273,7 +271,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// Delete <see cref="TailData"/> from FileManager
     /// </summary>
-    public IAsyncCommand DeleteTailDataCommand => _deleteTailDataCommand ?? (_deleteTailDataCommand = AsyncCommand.Create(p => SelectedItem != null, ExecuteDeleteCommandAsync));
+    public IAsyncCommand DeleteTailDataCommand => _deleteTailDataCommand ?? (_deleteTailDataCommand = AsyncCommand.Create(p => SelectedItems != null && SelectedItems.Count > 0, ExecuteDeleteCommandAsync));
 
     private ICommand _addTailDataCommand;
 
@@ -282,12 +280,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// </summary>
     public ICommand AddTailDataCommand => _addTailDataCommand ?? (_addTailDataCommand = new RelayCommand(p => ExecuteAddTailDataCommand()));
 
-    private ICommand _openFileCommand;
+    private IAsyncCommand _openFileCommand;
 
     /// <summary>
     /// Open file command
     /// </summary>
-    public ICommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = new RelayCommand(p => ExecuteOpenFileCommand()));
+    public IAsyncCommand OpenFileCommand => _openFileCommand ?? (_openFileCommand = AsyncCommand.Create(ExecuteOpenFileCommandAsync));
 
     private ICommand _dataGridMouseDoubleClickCommand;
 
@@ -317,14 +315,14 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// Font command
     /// </summary>
-    public ICommand FontCommand => _fontCommand ?? (_fontCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteFontCommand((Window) p)));
+    public ICommand FontCommand => _fontCommand ?? (_fontCommand = new RelayCommand(p => SelectedItem != null && SelectedItems.Count == 1, p => ExecuteFontCommand((Window) p)));
 
     private ICommand _filterCommand;
 
     /// <summary>
     /// Filter command
     /// </summary>
-    public ICommand FilterCommand => _filterCommand ?? (_filterCommand = new RelayCommand(p => SelectedItem != null, p => ExecuteFilterCommand((Window) p)));
+    public ICommand FilterCommand => _filterCommand ?? (_filterCommand = new RelayCommand(p => SelectedItem != null && SelectedItems.Count == 1, p => ExecuteFilterCommand((Window) p)));
 
     private ICommand _previewDragEnterCommand;
 
@@ -338,7 +336,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     /// <summary>
     /// PatternControl command
     /// </summary>
-    public ICommand PatternControlCommand => _patternControlCommand ?? (_patternControlCommand = new RelayCommand(p => ExecutePatternControlCommand((Window) p)));
+    public ICommand PatternControlCommand => _patternControlCommand ?? (_patternControlCommand = new RelayCommand(p => SelectedItem != null && SelectedItems.Count == 1, p => ExecutePatternControlCommand((Window) p)));
 
     private ICommand _openWindowsEventsCommand;
 
@@ -366,7 +364,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     #region Command functions
 
-    private bool CanExecuteOpenContainingFolder() => SelectedItem != null && !SelectedItem.IsWindowsEvent;
+    private bool CanExecuteOpenContainingFolder() => SelectedItem != null && SelectedItems.Count == 1 && !SelectedItem.IsWindowsEvent;
 
     private async Task ExecuteOpenContainingFolderCommandAsync()
     {
@@ -387,7 +385,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }).ConfigureAwait(false);
     }
 
-    private bool CanExecuteCopyElement() => SelectedItem != null;
+    private bool CanExecuteCopyElement() => SelectedItem != null && SelectedItems.Count == 1;
 
     private void ExecuteCopyElementCommand()
     {
@@ -529,7 +527,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       OpenSelectedItem(o.Last() as Window);
     }
 
-    private void ExecuteOpenFileCommand()
+    private async Task ExecuteOpenFileCommandAsync()
     {
       if ( !InteractionService.OpenFileDialog(out string fileName, Application.Current.TryFindResource("OpenDialogAllFiles").ToString(), CoreEnvironment.ApplicationTitle) )
         return;
@@ -537,7 +535,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       MouseService.SetBusyState();
 
       SelectedItem.FileName = fileName;
-      SelectedItem.FileEncoding = EncodingDetector.GetEncodingAsync(SelectedItem.FileName).Result;
+      SelectedItem.FileEncoding = await EncodingDetector.GetEncodingAsync(SelectedItem.FileName).ConfigureAwait(false);
     }
 
     private void ExecuteAddTailDataCommand()
@@ -556,15 +554,33 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private async Task ExecuteDeleteCommandAsync()
     {
-      if ( SelectedItem == null )
+      if ( SelectedItems == null || SelectedItems.Count == 0 )
         return;
 
-      if ( !FileManagerCollection.Contains(SelectedItem) )
-        return;
+      var toDelete = new List<TailData>();
 
-      bool errors = SelectedItem["Description"] != null || SelectedItem["FileName"] != null;
+      foreach ( var item in SelectedItems )
+      {
+        if ( !FileManagerCollection.Contains(item) )
+        {
+          continue;
+        }
 
-      if ( !errors || SelectedItem.IsLoadedByXml )
+        if ( !(item is TailData tailData) )
+        {
+          continue;
+        }
+
+        if ( tailData["Description"] != null || tailData["FileName"] != null || !tailData.IsLoadedByXml )
+        {
+          continue;
+        }
+
+
+        toDelete.Add(tailData);
+      }
+
+      if ( toDelete.Any() )
       {
         if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("FileManagerDeleteItemQuestion").ToString()) == MessageBoxResult.No )
           return;
@@ -572,7 +588,14 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       MouseService.SetBusyState();
 
-      var success = await _fileManagerController.DeleteTailDataByIdAsync(SelectedItem.Id, _cts.Token, _fileManagerCollection).ConfigureAwait(false);
+      foreach ( var data in toDelete )
+      {
+        FileManagerCollection.Remove(data);
+      }
+
+      SetCancellationTokenSource();
+
+      var success = await _fileManagerController.CreateUpdateJsonFileAsync(FileManagerCollection, _cts.Token).ConfigureAwait(false);
 
       if ( !success )
       {
@@ -603,6 +626,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private async Task ExecuteLoadedCommandAsync()
     {
+      SetCancellationTokenSource();
+
       try
       {
         _fileManagerCollection = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
@@ -618,7 +643,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private bool CanExecuteOpenCommand()
     {
-      if ( SelectedItem == null )
+      if ( SelectedItem == null || SelectedItems.Count > 1 )
         return false;
 
       if ( CanExecuteUndo() )
