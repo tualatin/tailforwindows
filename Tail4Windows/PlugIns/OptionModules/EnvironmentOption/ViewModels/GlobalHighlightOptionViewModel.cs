@@ -154,7 +154,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       }
       finally
       {
-        SetCollectionView();
+        Action action = SetCollectionView;
+        await Application.Current.Dispatcher.BeginInvoke(action);
       }
     }
 

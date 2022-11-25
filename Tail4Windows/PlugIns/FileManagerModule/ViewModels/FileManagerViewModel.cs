@@ -47,6 +47,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
     private CancellationTokenSource _cts;
     private readonly IFileManagerController _fileManagerController;
     private readonly List<Predicate<TailData>> _criteria = new List<Predicate<TailData>>();
+    private readonly object _collectionLock = new object();
 
     #region Properties
 
@@ -551,8 +552,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       newItem.FindSettings.CommitChanges();
       newItem.WindowsEvent.CommitChanges();
 
-      FileManagerCollection.Add(newItem);
-      SelectedItem = FileManagerCollection.Last();
+      _fileManagerCollection.Add(newItem);
+      SelectedItem = _fileManagerCollection.Last();
 
       OnPropertyChanged(nameof(FileManagerView));
     }
@@ -566,7 +567,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       foreach ( var item in SelectedItems )
       {
-        if ( !FileManagerCollection.Contains(item) )
+        if ( !_fileManagerCollection.Contains(item) )
         {
           continue;
         }
@@ -595,7 +596,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
       foreach ( var data in toDelete )
       {
-        FileManagerCollection.Remove(data);
+        _fileManagerCollection.Remove(data);
       }
 
       SetCancellationTokenSource();
@@ -636,6 +637,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       try
       {
         _fileManagerCollection = await _fileManagerController.ReadJsonFileAsync(_cts.Token).ConfigureAwait(false);
+        BindingOperations.EnableCollectionSynchronization(_fileManagerCollection, _collectionLock);
+
         _categories = await _fileManagerController.GetCategoriesAsync(_cts.Token, _fileManagerCollection).ConfigureAwait(false);
 
         CommitChanges();
@@ -646,7 +649,8 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       }
       finally
       {
-        SetCollectionView();
+        Action action = SetCollectionView;
+        await Application.Current.Dispatcher.BeginInvoke(action);
       }
     }
 
@@ -824,25 +828,25 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
 
     private void SetCollectionView()
     {
-      if (_fileManagerCollection == null || _fileManagerCollection.Count == 0)
+      if ( _fileManagerCollection == null || _fileManagerCollection.Count == 0 )
       {
-        FileManagerCollection = new ObservableCollection<TailData> { new TailData() };
+        _fileManagerCollection = new ObservableCollection<TailData> { new TailData() };
 
-        FileManagerCollection.First().CommitChanges();
-        FileManagerCollection.First().FindSettings.CommitChanges();
+        _fileManagerCollection.First().CommitChanges();
+        _fileManagerCollection.First().FindSettings.CommitChanges();
         FileManagerCollection.First().WindowsEvent.CommitChanges();
       }
 
       FilterHasFocus = false;
-      FileManagerView = (ListCollectionView)new CollectionViewSource { Source = FileManagerCollection }.View;
+      FileManagerView = (ListCollectionView) new CollectionViewSource { Source = _fileManagerCollection }.View;
       FileManagerView.CustomSort = new TailDataComparer();
       FileManagerView.Filter = DynamicFilter;
 
-      if (FileManagerCollection.Count >= 2)
+      if ( _fileManagerCollection.Count >= 2 )
         SetFileManagerViewGrouping();
 
       TailManagerCollectionViewHolder.Cv = FileManagerView;
-      SelectedItem = FileManagerCollection.First();
+      SelectedItem = _fileManagerCollection.First();
 
       OnPropertyChanged(nameof(FileManagerView));
       OnPropertyChanged(nameof(Categories));

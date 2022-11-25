@@ -142,7 +142,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
         catch ( InvalidCastException ex )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
         }
         finally
         {
@@ -215,7 +215,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
 
@@ -260,7 +260,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
         catch ( Exception ex )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
         }
         finally
         {
@@ -270,7 +270,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
 
     private async Task SaveAllValuesIntoDatabaseAsync()
     {
-      await _myLock.WaitAsync(_cts.Token).ConfigureAwait(false);
+      await _myLock.WaitAsync(TimeSpan.FromMilliseconds(700), _cts.Token).ConfigureAwait(false);
       await Task.Run(() =>
       {
         UpdateSession();
@@ -326,7 +326,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
         catch ( Exception ex )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
         }
         finally
         {
@@ -510,7 +510,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
         }
         catch ( Exception ex )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
         }
         finally
         {
@@ -535,7 +535,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
       return new List<FileEntity>();
     }
@@ -553,7 +553,7 @@ namespace Org.Vs.TailForWin.Business.StatisticEngine.Controllers
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
         var result = fileEntity.Include(p => p.Session).FindAll().Where(p => p.Session == null).ToList();
 
         foreach ( var file in result )
