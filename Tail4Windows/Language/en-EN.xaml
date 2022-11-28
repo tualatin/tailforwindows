@@ -454,6 +454,7 @@
   <system:String x:Key="DeleteBookmarks">Delete all bookmarks</system:String>
   <system:String x:Key="AddCommentToBookmark">Add comment</system:String>
   <system:String x:Key="AddToFilter">Add to filter and highlight list</system:String>
+  <system:String x:Key="AddToGlobalFilter">Add to global filter and highlight list</system:String>
   <system:String x:Key="AddToFindWhat">Find what...</system:String>
 
   <system:String x:Key="FindResultLineNumbers">Linenumber</system:String>

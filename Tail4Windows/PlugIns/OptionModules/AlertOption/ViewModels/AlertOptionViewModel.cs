@@ -74,8 +74,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels
 
     private async Task ExecuteSendTestMailAsync()
     {
-      if ( string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.SmtpSettings.FromAddress)
-          || string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.SmtpSettings.SmtpServerName) )
+      if ( string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.SmtpSettings.FromAddress) ||
+           string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.SmtpSettings.SmtpServerName) )
       {
         if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("AlertOptionSmtpSettingsNotValid").ToString()) == MessageBoxResult.No )
           return;

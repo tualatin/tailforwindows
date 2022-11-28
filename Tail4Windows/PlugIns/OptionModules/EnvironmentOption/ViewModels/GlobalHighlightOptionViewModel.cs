@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using log4net;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Data;
@@ -19,6 +20,7 @@ using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.
 using Org.Vs.TailForWin.Core.Data;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
+using Org.Vs.TailForWin.Data.Messages;
 
 
 namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
@@ -42,6 +44,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
       SetCancellationTokenSource();
 
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenGlobalHightlightFromTailDataMessage>(OnOpenFilterData);
       ((AsyncCommand<object>) SaveCommand).PropertyChanged += OnSavePropertyChanged;
       ((AsyncCommand<object>) DeleteHighlightColorCommand).PropertyChanged += OnDeletePropertyChanged;
     }
@@ -273,17 +276,17 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
     private void SetCollectionView()
     {
-      if (_globalHighlightCollection == null)
+      if ( _globalHighlightCollection == null )
       {
         _globalHighlightCollection = new ObservableCollection<FilterData>();
 
         CommitChanges();
       }
 
-      FilterManagerView = (ListCollectionView)new CollectionViewSource { Source = GlobalHighlightCollection }.View;
+      FilterManagerView = (ListCollectionView) new CollectionViewSource { Source = GlobalHighlightCollection }.View;
       FilterManagerCollectionViewHolder.Cv = FilterManagerView;
 
-      if (FilterManagerView.Count == 0)
+      if ( FilterManagerView.Count == 0 )
         return;
 
       SelectedItem = GlobalHighlightCollection.Last();
@@ -323,6 +326,14 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
       var errors = GlobalHighlightCollection.Where(p => p["Description"] != null || p["Filter"] != null).ToList();
       return errors;
+    }
+
+    private void OnOpenFilterData(OpenGlobalHightlightFromTailDataMessage args)
+    {
+      if ( args == null || string.IsNullOrWhiteSpace(args.FilterPattern) )
+        return;
+
+
     }
 
     private void OnGlobalHighlightCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => GlobalHighlightCollectionChanged = true;

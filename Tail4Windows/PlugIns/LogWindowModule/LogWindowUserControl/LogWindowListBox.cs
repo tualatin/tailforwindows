@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using log4net;
+using Org.Vs.TailForWin.BaseView;
 using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
@@ -686,6 +687,13 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
     /// </summary>
     private ICommand AddToFilterCommand => _addToFilterCommand ?? (_addToFilterCommand = new RelayCommand(p => CanExecuteAddToFilterCommand(), p => ExecuteAddToFilterCommand()));
 
+    private ICommand _addToGlobalFilterCommand;
+
+    /// <summary>
+    /// Add to filter command
+    /// </summary>
+    private ICommand AddToGlobalFilterCommand => _addToGlobalFilterCommand ?? (_addToGlobalFilterCommand = new RelayCommand(p => CanExecuteAddToFilterCommand(), p => ExecuteAddToGlobalFilterCommand()));
+
     private ICommand _addToFindWhatCommand;
 
     /// <summary>
@@ -769,6 +777,16 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       OnPropertyChanged(nameof(CurrentTailData));
     }
 
+    private void ExecuteAddToGlobalFilterCommand()
+    {
+      var options = new Options
+      {
+        Owner = Window.GetWindow(this)
+      };
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenGlobalHighlightSettingMessage(this, _readOnlyTextMessage.SelectedText));
+      options.ShowDialog();
+    }
+
     private bool CanExecuteAddToFindWhatCommand() =>
       _readOnlyTextMessage != null && _readOnlyTextMessage.Visibility != Visibility.Collapsed && _readOnlyTextMessage.SelectionLength > 0;
 
@@ -838,6 +856,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule.LogWindowUserControl
       menuItem.Command = AddToFilterCommand;
 
       _readOnlyTextBoxContextMenu.Items.Add(menuItem);
+
+      menuItem = CreateMenuItem(Application.Current.TryFindResource("AddToGlobalFilter").ToString(), icon);
+      menuItem.Command = AddToGlobalFilterCommand;
+
+      _readOnlyTextBoxContextMenu.Items.Add(menuItem);
+
+      var separator = new Separator();
+      _readOnlyTextBoxContextMenu.Items.Add(separator);
 
       menuItem = CreateMenuItem(Application.Current.TryFindResource("AddToFindWhat").ToString(), icon);
       menuItem.Command = AddToFindWhatCommand;

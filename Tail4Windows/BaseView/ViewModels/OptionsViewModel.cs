@@ -109,6 +109,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenGlobalHighlightSettingMessage>(OnOpenGlobalHightlightSettings);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenGlobalHighlightSettingMessage>(OnOpenGlobalHightlightSettings);
 
       InitializeOptionPages();
       NotifyTaskCompletion.Create(InitializeOptionViewAsync);
@@ -230,42 +232,36 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       var environment = new EnvironmentOptionPage();
       var optionPage1 = new TreeNodeOptionViewModel(environment, new[]
       {
-        new TreeNodeOptionViewModel(environment, null),
-        new TreeNodeOptionViewModel(new ExtraOptionPage(), null),
-        new TreeNodeOptionViewModel(new GlobalHighlightOptionPage(), null),
-        new TreeNodeOptionViewModel(new ColorOptionPage(), null),
-        new TreeNodeOptionViewModel(new ProxyOptionPage(), null),
-        new TreeNodeOptionViewModel(new SmtpOptionPage(), null),
-        new TreeNodeOptionViewModel(new ImportExportOptionPage(), null)
-      }, "system.ico");
+          new TreeNodeOptionViewModel(environment, null),
+          new TreeNodeOptionViewModel(new ExtraOptionPage(), null),
+          new TreeNodeOptionViewModel(new GlobalHighlightOptionPage(), null),
+          new TreeNodeOptionViewModel(new ColorOptionPage(), null),
+          new TreeNodeOptionViewModel(new ProxyOptionPage(), null),
+          new TreeNodeOptionViewModel(new SmtpOptionPage(), null),
+          new TreeNodeOptionViewModel(new ImportExportOptionPage(), null)
+        }, "system.ico");
 
       var smartWatch = new SmartWatchOptionPage();
       var optionPage2 = new TreeNodeOptionViewModel(smartWatch, new[]
       {
-        new TreeNodeOptionViewModel(smartWatch, null)
-      }, "main.ico");
+          new TreeNodeOptionViewModel(smartWatch, null)
+        }, "main.ico");
 
       var alert = new AlertOptionPage();
       var optionPage3 = new TreeNodeOptionViewModel(alert, new[]
       {
-        new TreeNodeOptionViewModel(alert, null),
-      }, "alert.ico");
+          new TreeNodeOptionViewModel(alert, null),
+        }, "alert.ico");
 
       var about = new AboutOptionPage();
       var optionPage4 = new TreeNodeOptionViewModel(about, new[]
       {
-        new TreeNodeOptionViewModel(about, null),
-        new TreeNodeOptionViewModel(new UpdateOptionPage(), null),
-        new TreeNodeOptionViewModel(new SysInfoOptionPage(), null)
-      }, "about.png");
+          new TreeNodeOptionViewModel(about, null),
+          new TreeNodeOptionViewModel(new UpdateOptionPage(), null),
+          new TreeNodeOptionViewModel(new SysInfoOptionPage(), null)
+        }, "about.png");
 
-      Root = new ObservableCollection<TreeNodeOptionViewModel>
-      {
-        optionPage1,
-        optionPage2,
-        optionPage3,
-        optionPage4
-      };
+      Root = new ObservableCollection<TreeNodeOptionViewModel> { optionPage1, optionPage2, optionPage3, optionPage4 };
     }
 
     private async Task InitializeOptionViewAsync()
@@ -365,6 +361,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         return;
 
       GetCertainSettingsPage(Guid.Parse("cfc162ef-5755-4958-a559-ab893ca8e1ed"));
+    }
+
+    private void OnOpenGlobalHightlightSettings(OpenGlobalHighlightSettingMessage args) => OpenGlobalHighlightSettings(args.FilterPattern);
+
+    private void OpenGlobalHighlightSettings(string filterPattern)
+    {
+      GetCertainSettingsPage(Guid.Parse("c7dbca5f-e6a5-4482-a6a8-2edf975d6a98"));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenGlobalHightlightFromTailDataMessage(filterPattern));
     }
 
     private void SetCancellationTokenSource()

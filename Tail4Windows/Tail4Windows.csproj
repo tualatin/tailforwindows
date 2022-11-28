@@ -223,6 +223,8 @@
     <Compile Include="Data\Messages\Keybindings\OpenFilterManagerMessage.cs" />
     <Compile Include="Data\Messages\Keybindings\OpenGoToLineDialogMessage.cs" />
     <Compile Include="Data\Messages\FindWhat\OpenFindWhatWindowMessage.cs" />
+    <Compile Include="Data\Messages\OpenGlobalHighlightSettingMessage.cs" />
+    <Compile Include="Data\Messages\OpenGlobalHightlightFromTailDataMessage.cs" />
     <Compile Include="Data\Messages\OpenSmtpSettingMessage.cs" />
     <Compile Include="Data\Messages\OpenTailDataAsNewTabItem.cs" />
     <Compile Include="Data\Messages\OpenTailDataMessage.cs" />
