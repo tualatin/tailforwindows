@@ -892,6 +892,10 @@
     <Analyzer Include="..\packages\AsyncAnalyzers.1.1.7.0\analyzers\dotnet\cs\AsyncAnalyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tail4WindowsBusiness\Tail4WindowsBusiness.csproj">
+      <Project>{c81d4747-d467-42fa-a998-0b8e68131e46}</Project>
+      <Name>Tail4WindowsBusiness</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tail4WindowsControllers\Tail4WindowsControllers.csproj">
       <Project>{dfd6ab76-fd51-4b29-abca-f0e11bebb9ec}</Project>
       <Name>Tail4WindowsControllers</Name>
@@ -899,6 +903,10 @@
     <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj">
       <Project>{7e255b50-cfb7-4ad8-9694-e569427fe866}</Project>
       <Name>Tail4WindowsCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tail4WindowsUi.Plugins\Tail4WindowsUi.Plugins.csproj">
+      <Project>{1cbf978a-e8bd-4f25-88ea-b069d1fdf62e}</Project>
+      <Name>Tail4WindowsUi.Plugins</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tail4WindowsUi.Utils\Tail4WindowsUi.Utils.csproj">
       <Project>{cc2ada96-deb9-4c47-8b9f-6f289b137701}</Project>
