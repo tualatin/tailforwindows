@@ -60,6 +60,14 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       _importExportController = new ImportExportController();
     }
 
+    /// <summary>
+    /// Unloads view model events
+    /// </summary>
+    public void UnloadOptionViewModel()
+    {
+
+    }
+
     #region Commands
 
     private IAsyncCommand _loadedCommand;

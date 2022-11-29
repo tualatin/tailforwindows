@@ -1,9 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
+using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
@@ -49,6 +51,14 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         BusinessHelper.GetAssemblyIcon(SettingsHelperController.CurrentSettings.EditorPath);
     }
 
+    /// <summary>
+    /// Unloads view model events
+    /// </summary>
+    public void UnloadOptionViewModel()
+    {
+
+    }
+
     #region Commands
 
     private ICommand _selectEditorCommand;
@@ -72,5 +82,15 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     }
 
     #endregion
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public IAsyncCommand LoadedCommand => throw new NotImplementedException();
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public ICommand UnloadedCommand => throw new NotImplementedException();
   }
 }

@@ -34,6 +34,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
     private readonly IGlobalFilterController _filterController;
     private CancellationTokenSource _cts;
+    private FilterData _contextMenuFilterData;
 
     /// <summary>
     /// Standard constructor
@@ -48,6 +49,11 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       ((AsyncCommand<object>) SaveCommand).PropertyChanged += OnSavePropertyChanged;
       ((AsyncCommand<object>) DeleteHighlightColorCommand).PropertyChanged += OnDeletePropertyChanged;
     }
+
+    /// <summary>
+    /// Unloads view model events
+    /// </summary>
+    public void UnloadOptionViewModel() => EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenGlobalHightlightFromTailDataMessage>(OnOpenFilterData);
 
     /// <summary>
     /// Current selected item
@@ -150,6 +156,9 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         _globalHighlightCollection.CollectionChanged += OnGlobalHighlightCollectionChanged;
 
         CommitChanges();
+
+        if ( _contextMenuFilterData != null )
+          _globalHighlightCollection.Add(_contextMenuFilterData);
       }
       catch ( Exception ex )
       {
@@ -157,6 +166,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       }
       finally
       {
+        _contextMenuFilterData = null;
         Action action = SetCollectionView;
         await Application.Current.Dispatcher.BeginInvoke(action);
       }
@@ -333,7 +343,12 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       if ( args == null || string.IsNullOrWhiteSpace(args.FilterPattern) )
         return;
 
-
+      _contextMenuFilterData = new FilterData
+      {
+        Filter = args.FilterPattern,
+        Description = args.FilterPattern,
+        IsHighlight = true
+      };
     }
 
     private void OnGlobalHighlightCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => GlobalHighlightCollectionChanged = true;

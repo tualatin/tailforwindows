@@ -31,5 +31,10 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.Interfaces
     {
       get;
     }
+
+    /// <summary>
+    /// Unloads the option page
+    /// </summary>
+    void UnloadPage();
   }
 }

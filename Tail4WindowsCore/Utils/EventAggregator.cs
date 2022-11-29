@@ -78,15 +78,6 @@ namespace Org.Vs.TailForWin.Core.Utils
     public void UnregisterHandler<T>(Action<T> eventHandler)
     {
       Arg.NotNull(eventHandler, nameof(eventHandler));
-
-      var exists = _handlers.Where(p => p.Method.DeclaringType?.Name == eventHandler.Method.DeclaringType?.Name &&
-                                        p.Method.Name == eventHandler.Method.Name).ToArray();
-
-      if ( exists.Any() )
-      {
-        _handlers.Remove(exists.FirstOrDefault());
-      }
-
       _handlers.Remove(eventHandler);
     }
 

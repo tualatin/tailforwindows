@@ -107,9 +107,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _dbSettingsDbController = SettingsDbController.Instance;
 
-      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
-      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenGlobalHighlightSettingMessage>(OnOpenGlobalHightlightSettings);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenGlobalHighlightSettingMessage>(OnOpenGlobalHightlightSettings);
 
       InitializeOptionPages();
@@ -157,8 +155,36 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteUnloadedCommand()
     {
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenGlobalHighlightSettingMessage>(OnOpenGlobalHightlightSettings);
+
+      foreach ( var viewModel in Root )
+      {
+        viewModel.OptionPage.UnloadPage();
+
+        if ( !viewModel.Children.Any() )
+        {
+          continue;
+        }
+
+        UnLoadOptionChildren((IEnumerable<TreeNodeOptionViewModel>) viewModel.Children);
+      }
+
       Root.Clear();
       Root = null;
+    }
+
+    private void UnLoadOptionChildren(IEnumerable<TreeNodeOptionViewModel> options)
+    {
+      foreach ( var viewModel in options )
+      {
+        viewModel.OptionPage.UnloadPage();
+
+        if ( !viewModel.Children.Any() )
+          continue;
+
+        UnLoadOptionChildren((IEnumerable<TreeNodeOptionViewModel>) viewModel.Children);
+      }
     }
 
     private void ExecuteSelectedItemCommand(object parameter)

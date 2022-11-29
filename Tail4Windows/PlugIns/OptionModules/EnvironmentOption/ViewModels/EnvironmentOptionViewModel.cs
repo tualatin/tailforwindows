@@ -59,6 +59,14 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       SetButtonContentByState();
     }
 
+    /// <summary>
+    /// Unloads view model events
+    /// </summary>
+    public void UnloadOptionViewModel()
+    {
+
+    }
+
     #region Commands
 
     private IAsyncCommand _addToSendToCommand;

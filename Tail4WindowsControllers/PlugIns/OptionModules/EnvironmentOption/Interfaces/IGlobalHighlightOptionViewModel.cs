@@ -2,7 +2,6 @@
 using System.Windows.Data;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
-using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 using Org.Vs.TailForWin.Core.Data;
 
 
@@ -11,7 +10,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.
   /// <summary>
   /// Global highlight option view model interface
   /// </summary>
-  public interface IGlobalHighlightOptionViewModel : IViewModelBase
+  public interface IGlobalHighlightOptionViewModel : IOptionBaseViewModel
   {
     /// <summary>
     /// Filter manager view

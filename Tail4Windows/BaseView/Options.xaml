@@ -23,7 +23,6 @@
   WindowStartupLocation="CenterOwner"
   vml:ViewModelLocator.IsAutomaticLocator="True"
   >
-
   <intr:Interaction.Triggers>
     <intr:EventTrigger EventName="Closing">
       <intr:InvokeCommandAction Command="{Binding CloseOptionsCommand}" />

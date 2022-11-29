@@ -30,5 +30,16 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption
     /// Current page settings changed
     /// </summary>
     public bool PageSettingsChanged => DataContext is IGlobalHighlightOptionViewModel viewModel && viewModel.GlobalHighlightCollectionChanged;
+
+    /// <summary>
+    /// Unloads the option page
+    /// </summary>
+    public void UnloadPage()
+    {
+      if ( !(DataContext is IOptionBaseViewModel viewModel) )
+        return;
+
+      viewModel.UnloadOptionViewModel();
+    }
   }
 }

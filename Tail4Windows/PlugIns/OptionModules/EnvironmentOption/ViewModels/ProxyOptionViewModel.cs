@@ -17,6 +17,14 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
   /// </summary>
   public class ProxyOptionViewModel : NotifyMaster, IProxyOptionViewModel
   {
+    /// <summary>
+    /// Unloads view model events
+    /// </summary>
+    public void UnloadOptionViewModel()
+    {
+
+    }
+
     #region Commands
 
     private IAsyncCommand _passwordChangedCommand;

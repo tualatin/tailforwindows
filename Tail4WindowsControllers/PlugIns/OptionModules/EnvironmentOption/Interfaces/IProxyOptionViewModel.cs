@@ -1,5 +1,4 @@
 ﻿using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
-using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
@@ -7,7 +6,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.
   /// <summary>
   /// Proxy option view model interface
   /// </summary>
-  public interface IProxyOptionViewModel : IViewModelBase
+  public interface IProxyOptionViewModel : IOptionBaseViewModel
   {
     /// <summary>
     /// PasswordChanged command

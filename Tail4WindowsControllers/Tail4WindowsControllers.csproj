@@ -160,6 +160,7 @@
     <Compile Include="PlugIns\LogWindowModule\Events\Args\SelectedLinesChangedArgs.cs" />
     <Compile Include="PlugIns\LogWindowModule\Events\Delegates\SelectedLinesChangedEventHandler.cs" />
     <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IGlobalHighlightOptionViewModel.cs" />
+    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IOptionBaseViewModel.cs" />
     <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\Enums\EGlobalFilterState.cs" />
     <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\GlobalFilterController.cs" />
     <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\Interfaces\IGlobalFilterController.cs" />
