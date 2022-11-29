@@ -74,8 +74,8 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels
 
     private async Task ExecuteSendTestMailAsync()
     {
-      if ( string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.SmtpSettings.FromAddress)
-          || string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.SmtpSettings.SmtpServerName) )
+      if ( string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.SmtpSettings.FromAddress) ||
+           string.IsNullOrWhiteSpace(SettingsHelperController.CurrentSettings.SmtpSettings.SmtpServerName) )
       {
         if ( InteractionService.ShowQuestionMessageBox(Application.Current.TryFindResource("AlertOptionSmtpSettingsNotValid").ToString()) == MessageBoxResult.No )
           return;
@@ -127,7 +127,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
   }

@@ -4,6 +4,7 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:colorResources="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.Resources;assembly=T4WUi.Plugins"
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
@@ -15,7 +16,6 @@
   Height="590"
   MinWidth="650"
   MinHeight="590"
-  MaxWidth="800"
   CanClose="{Binding SaveOptionsCommand.Execution.IsSuccessfullyCompleted}"
   Icon="/T4W;component/Resources/system.ico"
   ResizeMode="CanResizeWithGrip"
@@ -23,7 +23,6 @@
   WindowStartupLocation="CenterOwner"
   vml:ViewModelLocator.IsAutomaticLocator="True"
   >
-
   <intr:Interaction.Triggers>
     <intr:EventTrigger EventName="Closing">
       <intr:InvokeCommandAction Command="{Binding CloseOptionsCommand}" />
@@ -147,5 +146,13 @@
           />
       </StackPanel>
     </Grid>
+
+    <Border
+      Grid.Row="3"
+      Grid.Column="0"
+      Grid.ColumnSpan="3"
+      Margin="-5 0"
+      Background="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidBlueKey}}"
+      />
   </Grid>
 </extendedControls:VsWindowEx>

@@ -57,7 +57,7 @@ namespace Org.Vs.TailForWin.Core.Data
       set
       {
         _id = value;
-        OnPropertyChanged(nameof(Id));
+        OnPropertyChanged();
       }
     }
 

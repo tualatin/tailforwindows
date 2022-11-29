@@ -59,7 +59,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
       set
       {
         _buildDate = value;
-        OnPropertyChanged(nameof(BuildDate));
+        OnPropertyChanged();
       }
     }
 
@@ -74,7 +74,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
       set
       {
         _author = value;
-        OnPropertyChanged(nameof(Author));
+        OnPropertyChanged();
       }
     }
 
@@ -89,7 +89,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
       set
       {
         _upTime = value;
-        OnPropertyChanged(nameof(UpTime));
+        OnPropertyChanged();
       }
     }
 

@@ -44,10 +44,12 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     /// </summary>
     public IAsyncCommand LoadedCommand => throw new NotImplementedException();
 
+    private ICommand _unloadedCommand;
+
     /// <summary>
     /// Unloaded command
     /// </summary>
-    public ICommand UnloadedCommand => throw new NotImplementedException();
+    public ICommand UnloadedCommand => _unloadedCommand ?? (_unloadedCommand = new RelayCommand(p => ExecuteUnloadedCommand()));
 
     private IAsyncCommand _setDefaultColorsCommand;
 
@@ -61,7 +63,6 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     /// </summary>
     public ColorOptionViewModel()
     {
-      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ResetDataMessage>(ResetData);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<ResetDataMessage>(ResetData);
 
       ((AsyncCommand<object>) SetDefaultColorsCommand).PropertyChanged += OnSetDefaultColorsPropertyChanged;
@@ -74,6 +75,21 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
 
       AddLogViewerColorOptions();
       AddStatusbarColorOptions();
+    }
+
+    /// <summary>
+    /// Unloads view model events
+    /// </summary>
+    public void UnloadOptionViewModel()
+    {
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<ResetDataMessage>(ResetData);
+      LogViewerColorData.CollectionChanged -= ColorDataCollectionChanged;
+      StatusbarColorData.CollectionChanged -= ColorDataCollectionChanged;
+    }
+
+    private void ExecuteUnloadedCommand()
+    {
+
     }
 
     private async Task ExecuteSetDefaultColorsCommandAsync()

@@ -7,7 +7,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.
   /// <summary>
   /// Extra option view model interface
   /// </summary>
-  public interface IExtraOptionViewModel
+  public interface IExtraOptionViewModel : IOptionBaseViewModel
   {
     /// <summary>
     /// ImageSource

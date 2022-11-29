@@ -1,5 +1,4 @@
 ﻿using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
-using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
@@ -7,7 +6,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.
   /// <summary>
   /// Import export option view model interface
   /// </summary>
-  public interface IImportExportOptionViewModel : IViewModelBase
+  public interface IImportExportOptionViewModel : IOptionBaseViewModel
   {
     /// <summary>
     /// Current settings path

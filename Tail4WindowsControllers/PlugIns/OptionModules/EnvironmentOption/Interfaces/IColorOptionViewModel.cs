@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Data;
-using Org.Vs.TailForWin.Controllers.UI.Interfaces;
 
 
 namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces
@@ -8,7 +7,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.
   /// <summary>
   /// Color option view model interface
   /// </summary>
-  public interface IColorOptionViewModel : IViewModelBase
+  public interface IColorOptionViewModel : IOptionBaseViewModel
   {
     /// <summary>
     /// Log viewer color data collection

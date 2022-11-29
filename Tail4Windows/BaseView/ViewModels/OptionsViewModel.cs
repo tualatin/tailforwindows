@@ -13,6 +13,7 @@ using Org.Vs.TailForWin.Business.DbEngine.Interfaces;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.GlobalHighlightModule.Enums;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.Interfaces;
 using Org.Vs.TailForWin.Controllers.UI.Vml.Attributes;
 using Org.Vs.TailForWin.Core.Controllers;
@@ -59,7 +60,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
           return;
 
         _title = value;
-        OnPropertyChanged(nameof(Title));
+        OnPropertyChanged();
       }
     }
 
@@ -81,7 +82,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         if ( _currentViewModel != null )
           Title = string.Format(Application.Current.TryFindResource("OptionsPageTitle").ToString(), _currentViewModel.PageTitle);
 
-        OnPropertyChanged(nameof(CurrentViewModel));
+        OnPropertyChanged();
       }
     }
 
@@ -106,8 +107,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _dbSettingsDbController = SettingsDbController.Instance;
 
-      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenGlobalHighlightSettingMessage>(OnOpenGlobalHightlightSettings);
 
       InitializeOptionPages();
       NotifyTaskCompletion.Create(InitializeOptionViewAsync);
@@ -154,8 +155,36 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void ExecuteUnloadedCommand()
     {
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenSmtpSettingMessage>(OnOpenSmtpSettings);
+      EnvironmentContainer.Instance.CurrentEventManager.UnregisterHandler<OpenGlobalHighlightSettingMessage>(OnOpenGlobalHightlightSettings);
+
+      foreach ( var viewModel in Root )
+      {
+        viewModel.OptionPage.UnloadPage();
+
+        if ( !viewModel.Children.Any() )
+        {
+          continue;
+        }
+
+        UnLoadOptionChildren((IEnumerable<TreeNodeOptionViewModel>) viewModel.Children);
+      }
+
       Root.Clear();
       Root = null;
+    }
+
+    private void UnLoadOptionChildren(IEnumerable<TreeNodeOptionViewModel> options)
+    {
+      foreach ( var viewModel in options )
+      {
+        viewModel.OptionPage.UnloadPage();
+
+        if ( !viewModel.Children.Any() )
+          continue;
+
+        UnLoadOptionChildren((IEnumerable<TreeNodeOptionViewModel>) viewModel.Children);
+      }
     }
 
     private void ExecuteSelectedItemCommand(object parameter)
@@ -182,6 +211,28 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       _cts.Cancel();
       window?.Close();
+
+      var settingsChanged = false;
+
+      foreach ( var viewModel in Root )
+      {
+        foreach ( var treeNodeViewModel in viewModel.Children )
+        {
+          var child = (TreeNodeOptionViewModel) treeNodeViewModel;
+          settingsChanged = child.OptionPage.PageSettingsChanged;
+
+          if ( settingsChanged )
+            break;
+        }
+
+        if ( settingsChanged )
+          break;
+      }
+
+      if ( !settingsChanged )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.PostMessage(new StartStopTailMessage(EGlobalFilterState.Refresh));
     }
 
     private async Task ExecuteSaveOptionsCommandAsync()
@@ -207,42 +258,36 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       var environment = new EnvironmentOptionPage();
       var optionPage1 = new TreeNodeOptionViewModel(environment, new[]
       {
-        new TreeNodeOptionViewModel(environment, null),
-        new TreeNodeOptionViewModel(new ExtraOptionPage(), null),
-        new TreeNodeOptionViewModel(new GlobalHighlightOptionPage(), null),
-        new TreeNodeOptionViewModel(new ColorOptionPage(), null),
-        new TreeNodeOptionViewModel(new ProxyOptionPage(), null),
-        new TreeNodeOptionViewModel(new SmtpOptionPage(), null),
-        new TreeNodeOptionViewModel(new ImportExportOptionPage(), null)
-      }, "system.ico");
+          new TreeNodeOptionViewModel(environment, null),
+          new TreeNodeOptionViewModel(new ExtraOptionPage(), null),
+          new TreeNodeOptionViewModel(new GlobalHighlightOptionPage(), null),
+          new TreeNodeOptionViewModel(new ColorOptionPage(), null),
+          new TreeNodeOptionViewModel(new ProxyOptionPage(), null),
+          new TreeNodeOptionViewModel(new SmtpOptionPage(), null),
+          new TreeNodeOptionViewModel(new ImportExportOptionPage(), null)
+        }, "system.ico");
 
       var smartWatch = new SmartWatchOptionPage();
       var optionPage2 = new TreeNodeOptionViewModel(smartWatch, new[]
       {
-        new TreeNodeOptionViewModel(smartWatch, null)
-      }, "main.ico");
+          new TreeNodeOptionViewModel(smartWatch, null)
+        }, "main.ico");
 
       var alert = new AlertOptionPage();
       var optionPage3 = new TreeNodeOptionViewModel(alert, new[]
       {
-        new TreeNodeOptionViewModel(alert, null),
-      }, "alert.ico");
+          new TreeNodeOptionViewModel(alert, null),
+        }, "alert.ico");
 
       var about = new AboutOptionPage();
       var optionPage4 = new TreeNodeOptionViewModel(about, new[]
       {
-        new TreeNodeOptionViewModel(about, null),
-        new TreeNodeOptionViewModel(new UpdateOptionPage(), null),
-        new TreeNodeOptionViewModel(new SysInfoOptionPage(), null)
-      }, "about.png");
+          new TreeNodeOptionViewModel(about, null),
+          new TreeNodeOptionViewModel(new UpdateOptionPage(), null),
+          new TreeNodeOptionViewModel(new SysInfoOptionPage(), null)
+        }, "about.png");
 
-      Root = new ObservableCollection<TreeNodeOptionViewModel>
-      {
-        optionPage1,
-        optionPage2,
-        optionPage3,
-        optionPage4
-      };
+      Root = new ObservableCollection<TreeNodeOptionViewModel> { optionPage1, optionPage2, optionPage3, optionPage4 };
     }
 
     private async Task InitializeOptionViewAsync()
@@ -258,7 +303,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         {
           try
           {
-            foreach ( TreeNodeOptionViewModel node in Root )
+            foreach ( var node in Root )
             {
               node.ApplyCriteria(string.Empty, new Stack<ITreeNodeViewModel>());
             }
@@ -273,7 +318,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
           }
           catch ( Exception ex )
           {
-            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+            LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
           }
         }, _cts.Token).ConfigureAwait(false);
     }
@@ -291,7 +336,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       TreeNodeOptionViewModel isSelected = null;
       TreeNodeOptionViewModel parent = null;
 
-      foreach ( TreeNodeOptionViewModel treeNodeOptionViewModel in Root )
+      foreach ( var treeNodeOptionViewModel in Root )
       {
         if ( treeNodeOptionViewModel.OptionPage.PageId == idToOpen )
         {
@@ -323,7 +368,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       CurrentViewModel = isSelected.OptionPage;
     }
 
-    private TreeNodeOptionViewModel SelectLastOpenOption(IEnumerable<TreeNodeOptionViewModel> node, Guid idToOpen)
+    private static TreeNodeOptionViewModel SelectLastOpenOption(IEnumerable<TreeNodeOptionViewModel> node, Guid idToOpen)
     {
       foreach ( var treeNodeOptionViewModel in node )
       {
@@ -342,6 +387,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         return;
 
       GetCertainSettingsPage(Guid.Parse("cfc162ef-5755-4958-a559-ab893ca8e1ed"));
+    }
+
+    private void OnOpenGlobalHightlightSettings(OpenGlobalHighlightSettingMessage args) => OpenGlobalHighlightSettings(args.FilterPattern);
+
+    private void OpenGlobalHighlightSettings(string filterPattern)
+    {
+      GetCertainSettingsPage(Guid.Parse("c7dbca5f-e6a5-4482-a6a8-2edf975d6a98"));
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenGlobalHightlightFromTailDataMessage(filterPattern));
     }
 
     private void SetCancellationTokenSource()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +10,6 @@ using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils.Interfaces;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Utils;
-// ReSharper disable PossibleMultipleEnumeration
 
 
 namespace Org.Vs.TailForWin.Business.Utils
@@ -53,7 +53,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     {
       while ( !token.IsCancellationRequested )
       {
-        await Task.Delay(TimeSpan.FromMinutes(30), token);
+        await Task.Delay(TimeSpan.FromMinutes(30), token).ConfigureAwait(false);
         LOG.Trace($"Current cache size is {_cacheData.Count}");
       }
     }
@@ -151,6 +151,7 @@ namespace Org.Vs.TailForWin.Business.Utils
     /// <param name="other">An <see cref="IEnumerable{T}" /> whose distinct elements that also appear in the first sequence will be returned.</param>
     /// <returns>A sequence that contains the elements that form the set intersection of two sequences.</returns>
     /// <exception cref="ArgumentException">If <c>other</c> is null</exception>
+    [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
     public IEnumerable<LogEntry> GetIntersectData(IEnumerable<LogEntry> other)
     {
       Arg.NotNull(other, nameof(other));

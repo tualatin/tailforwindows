@@ -79,12 +79,15 @@
               x:Name="ColorEllipse"
               Margin="4"
               Stretch="Uniform"
-              Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}"
+              Stroke="Black"
               StrokeThickness="0.8"
               >
+              <!--  Stroke="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}"  -->
               <Ellipse.Fill>
                 <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
-                  <GradientStop Offset="0.5" Color="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundColorConverter}}" />
+                  <!--<GradientStop Offset="0.5" Color="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundColorConverter}}" />
+                  <GradientStop Offset="0.5" Color="Transparent" />-->
+                  <GradientStop Offset="0.5" Color="Black" />
                   <GradientStop Offset="0.5" Color="Transparent" />
                 </LinearGradientBrush>
               </Ellipse.Fill>
@@ -109,7 +112,8 @@
             <Trigger Property="IsChecked" Value="True">
               <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
               <Setter TargetName="Chrome" Property="Opacity" Value="1" />
-              <Setter TargetName="ColorEllipse" Property="Fill" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}" />
+              <!--<Setter TargetName="ColorEllipse" Property="Fill" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}" />-->
+              <Setter TargetName="ColorEllipse" Property="Fill" Value="Black" />
             </Trigger>
           </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -138,8 +142,9 @@
               x:Name="Chrome"
               Height="22"
               Margin="0 1 1 0"
-              Background="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColorStringHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
-              BorderBrush="Transparent"
+              Background="{StaticResource BrushSolidLightBlue}"
+              BorderBrush="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColorStringHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
+              BorderThickness="5 0 0 0"
               >
               <DockPanel>
                 <Button
@@ -157,10 +162,11 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Data="F1M0,0L2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0z"
-                    Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}"
+                    Fill="Black"
                     Stretch="None"
                     />
                 </Button>
+                <!--  Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}"  -->
 
                 <Polygon
                   x:Name="TabItemBusyIndicator"
@@ -181,8 +187,9 @@
                   ContentSource="HeaderContent"
                   SnapsToDevicePixels="True"
                   TextBlock.FontWeight="Normal"
-                  TextBlock.Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}"
+                  TextBlock.Foreground="Black"
                   />
+                <!--  TextBlock.Foreground="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}"  -->
 
                 <Ellipse
                   x:Name="ItemChangedIndicator"
@@ -191,8 +198,9 @@
                   Margin="2 0"
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
-                  Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}"
+                  Fill="Black"
                   />
+                <!--  Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}"  -->
 
                 <ToggleButton
                   x:Name="ToggleColorPicker"
@@ -235,6 +243,8 @@
             </Trigger>
             <Trigger Property="IsSelected" Value="False">
               <Setter TargetName="Chrome" Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundColorToIsNotSelectedConverter}}" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundColorToIsNotSelectedConverter}}" />
+              <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}" />
             </Trigger>
             <MultiTrigger>
               <MultiTrigger.Conditions>
@@ -242,6 +252,8 @@
                 <Condition Property="IsSelected" Value="False" />
               </MultiTrigger.Conditions>
               <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidBorderLightBlue}" />
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColorStringHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}" />
+              <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="Black" />
               <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />
               <Setter TargetName="ToggleColorPicker" Property="Visibility" Value="Visible" />
             </MultiTrigger>

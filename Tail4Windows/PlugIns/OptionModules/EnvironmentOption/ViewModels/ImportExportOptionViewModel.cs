@@ -45,7 +45,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
           return;
 
         _currentSettingsPath = value;
-        OnPropertyChanged(nameof(CurrentSettingsPath));
+        OnPropertyChanged();
       }
     }
 
@@ -58,6 +58,14 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
     {
       _dbSettingsController = SettingsDbController.Instance;
       _importExportController = new ImportExportController();
+    }
+
+    /// <summary>
+    /// Unloads view model events
+    /// </summary>
+    public void UnloadOptionViewModel()
+    {
+
     }
 
     #region Commands

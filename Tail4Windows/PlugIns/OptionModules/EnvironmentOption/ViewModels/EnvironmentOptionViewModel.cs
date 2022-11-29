@@ -42,7 +42,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
           return;
 
         _sendToButtonText = value;
-        OnPropertyChanged(nameof(SendToButtonText));
+        OnPropertyChanged();
       }
     }
 
@@ -57,6 +57,14 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       _sendToLinkName = $"{Environment.GetFolderPath(Environment.SpecialFolder.SendTo)}\\{CoreEnvironment.ApplicationTitle}.lnk";
 
       SetButtonContentByState();
+    }
+
+    /// <summary>
+    /// Unloads view model events
+    /// </summary>
+    public void UnloadOptionViewModel()
+    {
+
     }
 
     #region Commands
@@ -144,7 +152,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
         }
         catch ( Exception ex )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
         }
         finally
         {

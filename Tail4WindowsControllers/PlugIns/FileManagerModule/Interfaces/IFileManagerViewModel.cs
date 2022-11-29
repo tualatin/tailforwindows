@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Input;
 using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
@@ -12,7 +14,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
   /// <summary>
   /// FileManager view model interface
   /// </summary>
-  public interface IFileManagerViewModel : IViewModelBase
+  public interface IFileManagerViewModel : IViewModelBase, INotifyPropertyChanged
   {
     /// <summary>
     /// Add <see cref="TailData"/> command
@@ -117,7 +119,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
     /// <summary>
     /// Open file command
     /// </summary>
-    ICommand OpenFileCommand
+    IAsyncCommand OpenFileCommand
     {
       get;
     }
@@ -184,7 +186,7 @@ namespace Org.Vs.TailForWin.Controllers.PlugIns.FileManagerModule.Interfaces
     /// <summary>
     /// SelectedItems
     /// </summary>
-    ObservableCollection<TailData> SelectedItems
+    IList SelectedItems
     {
       get;
       set;

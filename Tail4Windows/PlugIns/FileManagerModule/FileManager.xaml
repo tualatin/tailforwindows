@@ -458,7 +458,8 @@
         FrozenColumnCount="2"
         IsSynchronizedWithCurrentItem="True"
         ItemsSource="{Binding FileManagerView}"
-        SelectionMode="Single"
+        SelectedItemsList="{Binding SelectedItems}"
+        SelectionMode="Extended"
         TabIndex="10"
         >
         <i:Interaction.Triggers>

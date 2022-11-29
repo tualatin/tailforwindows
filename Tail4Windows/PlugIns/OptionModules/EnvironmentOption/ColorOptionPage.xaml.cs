@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.EnvironmentOption.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.Interfaces;
 
 
@@ -24,5 +25,21 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption
     /// Page GuId
     /// </summary>
     public Guid PageId => Guid.Parse("dd213455-e73a-4e98-9b2b-0dffdec2b4be");
+
+    /// <summary>
+    /// Current page settings changed
+    /// </summary>
+    public bool PageSettingsChanged => false;
+
+    /// <summary>
+    /// Unloads the option page
+    /// </summary>
+    public void UnloadPage()
+    {
+      if ( !(DataContext is IOptionBaseViewModel viewModel) )
+        return;
+
+      viewModel.UnloadOptionViewModel();
+    }
   }
 }
