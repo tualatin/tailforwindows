@@ -12,18 +12,23 @@
   mc:Ignorable="d"
   x:Name="OptionsDialog"
   Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
-  Width="650"
-  Height="590"
+  Width="{Binding Width, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+  Height="{Binding Height, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   MinWidth="650"
   MinHeight="590"
   CanClose="{Binding SaveOptionsCommand.Execution.IsSuccessfullyCompleted}"
   Icon="/T4W;component/Resources/system.ico"
+  Left="{Binding LeftPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   ResizeMode="CanResizeWithGrip"
   ShowInTaskbar="False"
-  WindowStartupLocation="CenterOwner"
+  Top="{Binding TopPosition, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   vml:ViewModelLocator.IsAutomaticLocator="True"
   >
   <intr:Interaction.Triggers>
+    <intr:EventTrigger EventName="Loaded">
+      <intr:InvokeCommandAction Command="{Binding LoadedCommand}" />
+    </intr:EventTrigger>
+
     <intr:EventTrigger EventName="Closing">
       <intr:InvokeCommandAction Command="{Binding CloseOptionsCommand}" />
     </intr:EventTrigger>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Windows;
 using log4net;
@@ -34,7 +35,7 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <summary>
     /// Current lock time span in milliseconds
     /// </summary>
-    private const int LockTimeSpanIsMs = 200;
+    private const int LockTimeSpanInMs = 200;
 
     /// <summary>
     /// Get current tab item list
@@ -42,7 +43,7 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <returns>List of <see cref="DragSupportTabItem"/></returns>
     public static IEnumerable<DragSupportTabItem> GetTabItemList()
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanInMs)) )
       {
         try
         {
@@ -64,7 +65,7 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
     public static void UnregisterTabItem(DragSupportTabItem tabItem)
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanInMs)) )
       {
         try
         {
@@ -103,7 +104,7 @@ namespace Org.Vs.TailForWin.UI.Utils
       ILogWindowControl content = null,
       string backgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor)
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanIsMs)) )
+      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanInMs)) )
       {
         try
         {
@@ -225,6 +226,51 @@ namespace Org.Vs.TailForWin.UI.Utils
 
       if ( posX < 0 )
         posX = 0;
+    }
+
+    /// <summary>
+    /// Move option window into view
+    /// </summary>
+    /// <param name="posX">Position X</param>
+    /// <param name="posY">Position Y</param>
+    /// <param name="width">Width</param>
+    /// <param name="height">Height</param>
+    /// <param name="defaultWidth"></param>
+    /// <param name="defaultHeight"></param>
+    [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
+    public static void MoveOptionsIntoView(
+      ref double posX,
+      ref double posY,
+      ref double width,
+      ref double height,
+      double defaultWidth,
+      double defaultHeight)
+    {
+      if ( posY + height / 2 > SystemParameters.VirtualScreenHeight )
+        posY = SystemParameters.VirtualScreenHeight - height;
+
+      if ( posX + width / 2 > SystemParameters.VirtualScreenWidth )
+        posX = SystemParameters.VirtualScreenWidth - width;
+
+      var mainWindowY = Application.Current.MainWindow.Top;
+      var mainWindowX = Application.Current.MainWindow.Left;
+      var mainWindowWidth = Application.Current.MainWindow.Width;
+      var mainWindowHeight = Application.Current.MainWindow.Height;
+
+      var defaultX = mainWindowX + (mainWindowWidth - defaultWidth) / 2;
+      var defaultY = mainWindowY + (mainWindowHeight - defaultHeight) / 2;
+
+      if ( posY < 0 )
+      {
+        height = defaultHeight;
+        posY = defaultY;
+      }
+
+      if ( !(posX < 0) )
+        return;
+
+      width = defaultWidth;
+      posX = defaultX;
     }
   }
 }

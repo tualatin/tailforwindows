@@ -198,7 +198,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         }
         catch ( ConfigurationErrorsException ex )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
         }
       }, token).ConfigureAwait(false);
     }
@@ -220,7 +220,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
       catch ( ConfigurationErrorsException ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
 
@@ -257,7 +257,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
 
@@ -327,7 +327,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
       catch ( ConfigurationErrorsException ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
 
@@ -348,7 +348,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
 
@@ -408,6 +408,10 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.WindowPositionX = DefaultEnvironmentSettings.WindowPositionX;
       CurrentSettings.WindowHeight = DefaultEnvironmentSettings.WindowHeight;
       CurrentSettings.WindowWidth = DefaultEnvironmentSettings.WindowWidth;
+      CurrentSettings.OptionWindowPositionY = DefaultEnvironmentSettings.WindowPositionY;
+      CurrentSettings.OptionWindowPositionX = DefaultEnvironmentSettings.WindowPositionX;
+      CurrentSettings.OptionWindowHeight = DefaultEnvironmentSettings.WindowHeight;
+      CurrentSettings.OptionWindowWidth = DefaultEnvironmentSettings.WindowWidth;
       CurrentSettings.GroupByCategory = DefaultEnvironmentSettings.GroupByCategory;
       CurrentSettings.AutoUpdate = DefaultEnvironmentSettings.AutoUpdate;
       CurrentSettings.DefaultRefreshRate = DefaultEnvironmentSettings.DefaultRefreshRate;
@@ -548,7 +552,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
       catch ( ConfigurationErrorsException ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
 

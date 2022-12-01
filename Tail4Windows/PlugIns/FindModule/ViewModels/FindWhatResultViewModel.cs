@@ -287,12 +287,16 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
 
     #endregion
 
-    private void MoveInfoView()
+    private static void MoveInfoView()
     {
       double posX = SettingsHelperController.CurrentSettings.FindResultPositionX;
       double posY = SettingsHelperController.CurrentSettings.FindResultPositionY;
 
-      UiHelper.MoveIntoView(Application.Current.TryFindResource("FindResultWindowTitle").ToString(), ref posX, ref posY, SettingsHelperController.CurrentSettings.FindResultWidth,
+      UiHelper.MoveIntoView(
+        Application.Current.TryFindResource("FindResultWindowTitle").ToString(),
+        ref posX,
+        ref posY,
+        SettingsHelperController.CurrentSettings.FindResultWidth,
         SettingsHelperController.CurrentSettings.FindResultHeight);
 
       SettingsHelperController.CurrentSettings.FindResultPositionX = posX;

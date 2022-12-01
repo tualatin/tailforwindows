@@ -119,6 +119,10 @@
     <Compile Include="XmlTests\TestXmlPatternController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tail4WindowsBusiness\Tail4WindowsBusiness.csproj">
+      <Project>{C81D4747-D467-42FA-A998-0B8E68131E46}</Project>
+      <Name>Tail4WindowsBusiness</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tail4WindowsControllers\Tail4WindowsControllers.csproj">
       <Project>{dfd6ab76-fd51-4b29-abca-f0e11bebb9ec}</Project>
       <Name>Tail4WindowsControllers</Name>
@@ -130,6 +134,10 @@
     <ProjectReference Include="..\Tail4WindowsUi.Utils\Tail4WindowsUi.Utils.csproj">
       <Project>{cc2ada96-deb9-4c47-8b9f-6f289b137701}</Project>
       <Name>Tail4WindowsUi.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tail4Windows\Tail4Windows.csproj">
+      <Project>{B07BE282-4B92-4E8B-97E0-8413E9501877}</Project>
+      <Name>Tail4Windows</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

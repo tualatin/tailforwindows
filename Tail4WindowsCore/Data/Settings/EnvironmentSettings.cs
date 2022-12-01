@@ -224,6 +224,40 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private double _optionWindowPositionX;
+
+    /// <summary>
+    /// X option window position
+    /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.WindowPositionX)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public double OptionWindowPositionX
+    {
+      get => _optionWindowPositionX;
+      set
+      {
+        _optionWindowPositionX = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _optionWindowPositionY;
+
+    /// <summary>
+    /// Y option window position
+    /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.WindowPositionY)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public double OptionWindowPositionY
+    {
+      get => _optionWindowPositionY;
+      set
+      {
+        _optionWindowPositionY = value;
+        OnPropertyChanged();
+      }
+    }
+
     private double _findResultPositionX;
 
     /// <summary>
@@ -414,6 +448,40 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       set
       {
         _windowWidth = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _optionWindowHeight;
+
+    /// <summary>
+    /// Option window height
+    /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.WindowHeight)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public double OptionWindowHeight
+    {
+      get => _optionWindowHeight;
+      set
+      {
+        _optionWindowHeight = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _optionWindowWidth;
+
+    /// <summary>
+    /// Option window width
+    /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.WindowWidth)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public double OptionWindowWidth
+    {
+      get => _optionWindowWidth;
+      set
+      {
+        _optionWindowWidth = value;
         OnPropertyChanged();
       }
     }
@@ -788,7 +856,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _showNumberLineAtStart = value;
-        OnPropertyChanged(nameof(ShowNumberLineAtStart));
+        OnPropertyChanged();
       }
     }
 
@@ -808,7 +876,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _linesRead = value;
-        OnPropertyChanged(nameof(LinesRead));
+        OnPropertyChanged();
       }
     }
 
@@ -828,7 +896,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _groupByCategory = value;
-        OnPropertyChanged(nameof(GroupByCategory));
+        OnPropertyChanged();
       }
     }
 
@@ -848,7 +916,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _autoUpdate = value;
-        OnPropertyChanged(nameof(AutoUpdate));
+        OnPropertyChanged();
       }
     }
 
@@ -868,7 +936,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _defaultRefreshRate = value;
-        OnPropertyChanged(nameof(DefaultRefreshRate));
+        OnPropertyChanged();
       }
     }
 
@@ -888,7 +956,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _defaultThreadPriority = value;
-        OnPropertyChanged(nameof(DefaultThreadPriority));
+        OnPropertyChanged();
       }
     }
 
@@ -908,7 +976,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _defaultTimeFormat = value;
-        OnPropertyChanged(nameof(DefaultTimeFormat));
+        OnPropertyChanged();
       }
     }
 
@@ -929,7 +997,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
 
 
         _defaultDateFormat = value;
-        OnPropertyChanged(nameof(DefaultDateFormat));
+        OnPropertyChanged();
       }
     }
 
@@ -949,7 +1017,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _defaultFileSort = value;
-        OnPropertyChanged(nameof(DefaultFileSort));
+        OnPropertyChanged();
       }
     }
 
@@ -969,7 +1037,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _logLineLimit = value;
-        OnPropertyChanged(nameof(LogLineLimit));
+        OnPropertyChanged();
       }
     }
 
@@ -999,7 +1067,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _smartWatch = value;
-        OnPropertyChanged(nameof(SmartWatch));
+        OnPropertyChanged();
       }
     }
 
@@ -1019,7 +1087,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _statistics = value;
-        OnPropertyChanged(nameof(Statistics));
+        OnPropertyChanged();
       }
     }
 

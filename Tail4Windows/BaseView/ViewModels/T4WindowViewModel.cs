@@ -1311,12 +1311,16 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
-    private void MoveIntoView()
+    private static void MoveIntoView()
     {
       double posX = SettingsHelperController.CurrentSettings.WindowPositionX;
       double posY = SettingsHelperController.CurrentSettings.WindowPositionY;
 
-      UiHelper.MoveIntoView(CoreEnvironment.ApplicationTitle, ref posX, ref posY, SettingsHelperController.CurrentSettings.WindowWidth,
+      UiHelper.MoveIntoView(
+        CoreEnvironment.ApplicationTitle,
+        ref posX,
+        ref posY,
+        SettingsHelperController.CurrentSettings.WindowWidth,
         SettingsHelperController.CurrentSettings.WindowHeight);
 
       SettingsHelperController.CurrentSettings.WindowPositionX = posX;

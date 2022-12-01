@@ -16,6 +16,7 @@ namespace Org.Vs.NUnit.Tests.Options
     }
 
     public bool PageSettingsChanged => throw new NotImplementedException();
+    public void UnloadPage() => throw new NotImplementedException();
   }
 
   public class GeneralProxyOptions : IOptionPage
@@ -31,6 +32,7 @@ namespace Org.Vs.NUnit.Tests.Options
     }
 
     public bool PageSettingsChanged => throw new NotImplementedException();
+    public void UnloadPage() => throw new NotImplementedException();
   }
 
   public class GeneralResetOptions : IOptionPage
@@ -46,6 +48,7 @@ namespace Org.Vs.NUnit.Tests.Options
     }
 
     public bool PageSettingsChanged => throw new NotImplementedException();
+    public void UnloadPage() => throw new NotImplementedException();
   }
 
   public class ExtraOptions : IOptionPage
@@ -61,6 +64,7 @@ namespace Org.Vs.NUnit.Tests.Options
     }
 
     public bool PageSettingsChanged => throw new NotImplementedException();
+    public void UnloadPage() => throw new NotImplementedException();
   }
 
   public class ExtraSmartWatch : IOptionPage
@@ -76,6 +80,7 @@ namespace Org.Vs.NUnit.Tests.Options
     }
 
     public bool PageSettingsChanged => throw new NotImplementedException();
+    public void UnloadPage() => throw new NotImplementedException();
   }
 
   public class AboutOptions : IOptionPage
@@ -91,6 +96,7 @@ namespace Org.Vs.NUnit.Tests.Options
     }
 
     public bool PageSettingsChanged => throw new NotImplementedException();
+    public void UnloadPage() => throw new NotImplementedException();
   }
 
   public class AboutSystemInformations : IOptionPage
@@ -106,6 +112,7 @@ namespace Org.Vs.NUnit.Tests.Options
     }
 
     public bool PageSettingsChanged => throw new NotImplementedException();
+    public void UnloadPage() => throw new NotImplementedException();
   }
 
   public class AboutUpdate : IOptionPage
@@ -121,5 +128,6 @@ namespace Org.Vs.NUnit.Tests.Options
     }
 
     public bool PageSettingsChanged => throw new NotImplementedException();
+    public void UnloadPage() => throw new NotImplementedException();
   }
 }

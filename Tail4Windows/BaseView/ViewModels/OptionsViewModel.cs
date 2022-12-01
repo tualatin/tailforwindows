@@ -27,6 +27,7 @@ using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.AlertOption.ViewModels;
 using Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption;
 using Org.Vs.TailForWin.PlugIns.OptionModules.SmartWatchOption;
+using Org.Vs.TailForWin.UI.Utils;
 
 
 namespace Org.Vs.TailForWin.BaseView.ViewModels
@@ -86,6 +87,66 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       }
     }
 
+    private double _width;
+
+    /// <summary>
+    /// Width of main window
+    /// </summary>
+    public double Width
+    {
+      get => _width;
+      set
+      {
+        _width = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _height;
+
+    /// <summary>
+    /// Height of main window
+    /// </summary>
+    public double Height
+    {
+      get => _height;
+      set
+      {
+        _height = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _topPosition;
+
+    /// <summary>
+    /// Top position
+    /// </summary>
+    public double TopPosition
+    {
+      get => _topPosition;
+      set
+      {
+        _topPosition = value;
+        OnPropertyChanged();
+      }
+    }
+
+    private double _leftPosition;
+
+    /// <summary>
+    /// Left position
+    /// </summary>
+    public double LeftPosition
+    {
+      get => _leftPosition;
+      set
+      {
+        _leftPosition = value;
+        OnPropertyChanged();
+      }
+    }
+
     /// <summary>
     /// TreeView items
     /// </summary>
@@ -137,10 +198,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     /// </summary>
     public ICommand SetSelectedItemCommand => _setSelectedItemCommand ?? (_setSelectedItemCommand = new RelayCommand(ExecuteSelectedItemCommand));
 
+    private IAsyncCommand _loadedCommand;
+
     /// <summary>
     /// Loaded command
     /// </summary>
-    public IAsyncCommand LoadedCommand => throw new NotImplementedException();
+    public IAsyncCommand LoadedCommand => _loadedCommand ?? (_loadedCommand = AsyncCommand.Create(ExecuteLoadedCommandAsync));
 
     private ICommand _unloadedCommand;
 
@@ -152,6 +215,40 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     #endregion
 
     #region Command functions
+
+    private Task ExecuteLoadedCommandAsync()
+    {
+      MoveIntoView();
+
+      TopPosition = SettingsHelperController.CurrentSettings.OptionWindowPositionY;
+      LeftPosition = SettingsHelperController.CurrentSettings.OptionWindowPositionX;
+
+      Height = SettingsHelperController.CurrentSettings.OptionWindowHeight;
+      Width = SettingsHelperController.CurrentSettings.OptionWindowWidth;
+
+      return Task.CompletedTask;
+    }
+
+    private static void MoveIntoView()
+    {
+      double posX = SettingsHelperController.CurrentSettings.OptionWindowPositionX;
+      double posY = SettingsHelperController.CurrentSettings.OptionWindowPositionY;
+      double width = SettingsHelperController.CurrentSettings.OptionWindowWidth;
+      double height = SettingsHelperController.CurrentSettings.OptionWindowHeight;
+
+      UiHelper.MoveOptionsIntoView(
+        ref posX,
+        ref posY,
+        ref width,
+        ref  height,
+        650,
+        590);
+
+      SettingsHelperController.CurrentSettings.OptionWindowPositionX = posX;
+      SettingsHelperController.CurrentSettings.OptionWindowPositionY = posY;
+      SettingsHelperController.CurrentSettings.OptionWindowWidth = width;
+      SettingsHelperController.CurrentSettings.OptionWindowHeight = height;
+    }
 
     private void ExecuteUnloadedCommand()
     {
@@ -174,7 +271,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       Root = null;
     }
 
-    private void UnLoadOptionChildren(IEnumerable<TreeNodeOptionViewModel> options)
+    private static void UnLoadOptionChildren(IEnumerable<TreeNodeOptionViewModel> options)
     {
       foreach ( var viewModel in options )
       {
@@ -208,6 +305,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       SettingsHelperController.CurrentSettings.LastViewedOptionPage = CurrentViewModel.PageId;
       _mementoSettings = null;
       _mementoAppSettings = null;
+
+      SettingsHelperController.CurrentSettings.OptionWindowPositionX = LeftPosition;
+      SettingsHelperController.CurrentSettings.OptionWindowPositionY = TopPosition;
+
+      SettingsHelperController.CurrentSettings.OptionWindowHeight = Height;
+      SettingsHelperController.CurrentSettings.OptionWindowWidth = Width;
 
       _cts.Cancel();
       window?.Close();

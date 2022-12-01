@@ -82,8 +82,8 @@ namespace Org.Vs.NUnit.Tests.ConverterTests
     public void TestStringToWindowMediaBrushConverter()
     {
       var converter = new StringToWindowMediaBrushConverter();
-      var convertedBrush = converter.Convert("#FFFFFF", typeof(System.Windows.Media.Brush), null, CultureInfo.CurrentCulture);
-      Assert.AreEqual(System.Windows.Media.Brushes.White.ToString(), convertedBrush?.ToString());
+      var convertedBrush = converter.Convert("#FFFFFF", typeof(Brush), null, CultureInfo.CurrentCulture);
+      Assert.AreEqual(Brushes.White.ToString(), convertedBrush?.ToString());
     }
 
     [Test]

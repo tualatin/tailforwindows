@@ -336,7 +336,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
 
@@ -468,7 +468,7 @@ namespace Org.Vs.TailForWin.PlugIns.FindModule.ViewModels
       OnPropertyChanged(nameof(SearchHistory));
     }
 
-    private void MoveInfoView()
+    private static void MoveInfoView()
     {
       double posX = SettingsHelperController.CurrentSettings.FindDialogPositionX;
       double posY = SettingsHelperController.CurrentSettings.FindDialogPositionY;

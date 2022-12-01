@@ -454,12 +454,16 @@ namespace Org.Vs.TailForWin.PlugIns.BookmarkOverviewModule.ViewModels
       SetupBookmarkCollectionView();
     }
 
-    private void MoveIntoView()
+    private static void MoveIntoView()
     {
       double posX = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX;
       double posY = SettingsHelperController.CurrentSettings.BookmarkOverviewPositionY;
 
-      UiHelper.MoveIntoView(Application.Current.TryFindResource("BookmarkOverviewTitle").ToString(), ref posX, ref posY, SettingsHelperController.CurrentSettings.BookmarkOverviewWidth,
+      UiHelper.MoveIntoView(
+        Application.Current.TryFindResource("BookmarkOverviewTitle").ToString(),
+        ref posX,
+        ref posY,
+        SettingsHelperController.CurrentSettings.BookmarkOverviewWidth,
         SettingsHelperController.CurrentSettings.BookmarkOverviewHeight);
 
       SettingsHelperController.CurrentSettings.BookmarkOverviewPositionX = posX;

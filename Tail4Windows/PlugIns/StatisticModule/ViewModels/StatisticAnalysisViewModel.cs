@@ -243,10 +243,7 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
     /// <summary>
     /// Unloaded command
     /// </summary>
-    public ICommand UnloadedCommand
-    {
-      get;
-    }
+    public ICommand UnloadedCommand => throw new NotImplementedException();
 
     #endregion
 
@@ -287,16 +284,20 @@ namespace Org.Vs.TailForWin.PlugIns.StatisticModule.ViewModels
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
 
-    private void MoveIntoView()
+    private static void MoveIntoView()
     {
       double posX = SettingsHelperController.CurrentSettings.StatisticWindowLeft;
       double posY = SettingsHelperController.CurrentSettings.StatisticWindowTop;
 
-      UiHelper.MoveIntoView(Application.Current.TryFindResource("ExtrasStatistics").ToString(), ref posX, ref posY, SettingsHelperController.CurrentSettings.StatisticWindowWidth,
+      UiHelper.MoveIntoView(
+        Application.Current.TryFindResource("ExtrasStatistics").ToString(),
+        ref posX,
+        ref posY,
+        SettingsHelperController.CurrentSettings.StatisticWindowWidth,
         SettingsHelperController.CurrentSettings.StatisticWindowHeight);
 
       SettingsHelperController.CurrentSettings.StatisticWindowLeft = posX;
