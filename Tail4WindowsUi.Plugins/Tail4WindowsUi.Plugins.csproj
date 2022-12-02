@@ -94,6 +94,8 @@
     <Compile Include="BasicWindow\MainWindowToolbarButtons.xaml.cs">
       <DependentUpon>MainWindowToolbarButtons.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NotifyIcon\Interop\AppBarInfo.cs" />
+    <Compile Include="NotifyIcon\Interop\WindowsMessages.cs" />
     <Compile Include="Resources\ColorResources.cs" />
     <Compile Include="NotifyIcon\BalloonIcon.cs" />
     <Compile Include="NotifyIcon\Interop\BalloonFlags.cs" />

@@ -19,7 +19,7 @@ namespace Org.Vs.TailForWin.Core.Utils
     /// <summary>
     /// Current application path
     /// </summary>
-    public static string ApplicationPath => Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+    public static string ApplicationPath => Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly()?.Location);
 
     /// <summary>
     /// TailStore path
