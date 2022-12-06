@@ -13,7 +13,11 @@ namespace Org.Vs.TailForWin.Ui.PlugIns.VsControls
     /// <summary>
     /// The tool tip details.
     /// </summary>
-    public static readonly DependencyProperty InfoTextProperty = DependencyProperty.Register("InfoText", typeof(string), typeof(FancyToolTip), new FrameworkPropertyMetadata(string.Empty));
+    public static readonly DependencyProperty InfoTextProperty = DependencyProperty.Register(
+      nameof(InfoText),
+      typeof(string),
+      typeof(FancyToolTip),
+      new FrameworkPropertyMetadata(string.Empty));
 
     /// <summary>
     /// A property wrapper for the <see cref="InfoTextProperty"/>
@@ -29,7 +33,10 @@ namespace Org.Vs.TailForWin.Ui.PlugIns.VsControls
     /// <summary>
     /// Application text property
     /// </summary>
-    public static readonly DependencyProperty ApplicationTextProperty = DependencyProperty.Register("ApplicationText", typeof(string), typeof(FancyToolTip),
+    public static readonly DependencyProperty ApplicationTextProperty = DependencyProperty.Register(
+      nameof(ApplicationText),
+      typeof(string),
+      typeof(FancyToolTip),
       new FrameworkPropertyMetadata(string.Empty));
 
     /// <summary>
@@ -44,7 +51,10 @@ namespace Org.Vs.TailForWin.Ui.PlugIns.VsControls
     /// <summary>
     /// ToolTip detail property
     /// </summary>
-    public static readonly DependencyProperty ToolTipDetailProperty = DependencyProperty.Register("ToolTipDetail", typeof(string), typeof(FancyToolTip),
+    public static readonly DependencyProperty ToolTipDetailProperty = DependencyProperty.Register(
+      nameof(ToolTipDetail),
+      typeof(string),
+      typeof(FancyToolTip),
       new FrameworkPropertyMetadata(string.Empty));
 
     /// <summary>
