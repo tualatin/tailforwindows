@@ -88,7 +88,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     [Obsolete("Will removed as soon as possible")]
-    private Task RemovePropertiesIfExistsAsync(CancellationTokenSource cts)
+    private static Task RemovePropertiesIfExistsAsync(CancellationTokenSource cts)
     {
       var settings = new[]
       {
@@ -175,7 +175,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     [Obsolete("Will removed as soon as possible")]
-    private async Task RemoveObsoletePropertiesAsync(IReadOnlyCollection<string> obsoleteSettings, CancellationToken token)
+    private static async Task RemoveObsoletePropertiesAsync(IReadOnlyCollection<string> obsoleteSettings, CancellationToken token)
     {
       LOG.Trace("Remove obsolete properties from config file");
 
@@ -280,7 +280,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>Task</returns>
     public async Task SaveSettingsAsync(CancellationTokenSource cts)
     {
-      await _semaphore.WaitAsync(cts.Token);
+      await _semaphore.WaitAsync(cts.Token).ConfigureAwait(false);
 
       try
       {
@@ -309,7 +309,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     [Obsolete("Will removed as soon as possible")]
-    private void SaveSettings()
+    private static void SaveSettings()
     {
       try
       {
@@ -331,7 +331,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
     }
 
-    private void SaveUserSettings()
+    private static void SaveUserSettings()
     {
       try
       {
@@ -352,7 +352,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       }
     }
 
-    private void SaveWindowSettings(Configuration config) => WriteValueToSetting(config, "Portable", CurrentAppSettings.IsPortable);
+    private static void SaveWindowSettings(Configuration config) => WriteValueToSetting(config, "Portable", CurrentAppSettings.IsPortable);
 
     /// <summary>
     /// Reset current settings
@@ -386,7 +386,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       SetDefaultSmartWatchSettings();
     }
 
-    private void SetDefaultWindowSettings()
+    private static void SetDefaultWindowSettings()
     {
       CurrentSettings.LastViewedOptionPage = Guid.Empty;
       CurrentSettings.Language = DefaultEnvironmentSettings.Language;
@@ -422,6 +422,8 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.LogLineLimit = DefaultEnvironmentSettings.LogLineLimit;
       CurrentSettings.SmartWatch = DefaultEnvironmentSettings.SmartWatch;
       CurrentSettings.Statistics = DefaultEnvironmentSettings.Statistics;
+      CurrentSettings.MouseHover = DefaultEnvironmentSettings.MouseHover;
+      CurrentSettings.ClearLogWindowIfLogIsCleared = DefaultEnvironmentSettings.ClearLogWindowIfLogIsCleared;
       CurrentSettings.ActivateDragDropWindow = DefaultEnvironmentSettings.ActivateDragDropWindow;
       CurrentSettings.SaveLogFileHistory = DefaultEnvironmentSettings.SaveLogFileHistory;
       CurrentSettings.HistoryMaxSize = DefaultEnvironmentSettings.HistoryMaxSize;
@@ -435,14 +437,14 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.StatisticWindowTop = DefaultEnvironmentSettings.StatisticWindowTop;
     }
 
-    private void SetDefaultStatusBarSettings()
+    private static void SetDefaultStatusBarSettings()
     {
       CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex = DefaultEnvironmentSettings.StatusBarInactiveBackgroundColor;
       CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex = DefaultEnvironmentSettings.StatusBarFileLoadedBackgroundColor;
       CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex = DefaultEnvironmentSettings.StatusBarTailBackgroundColor;
     }
 
-    private void SetDefaultLogViewerSettings()
+    private static void SetDefaultLogViewerSettings()
     {
       CurrentSettings.ColorSettings.ForegroundColorHex = DefaultEnvironmentSettings.ForegroundColor;
       CurrentSettings.ColorSettings.BackgroundColorHex = DefaultEnvironmentSettings.BackgroundColor;
@@ -454,7 +456,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ColorSettings.SplitterBackgroundColorHex = DefaultEnvironmentSettings.SplitterBackgroundColor;
     }
 
-    private void SetDefaultAlertSettings()
+    private static void SetDefaultAlertSettings()
     {
       CurrentSettings.AlertSettings.BringToFront = DefaultEnvironmentSettings.AlertBringToFront;
       CurrentSettings.AlertSettings.PlaySoundFile = DefaultEnvironmentSettings.AlertPlaySoundFile;
@@ -464,7 +466,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.AlertSettings.SoundFileNameFullPath = DefaultEnvironmentSettings.AlertSoundFile;
     }
 
-    private void SetDefaultSmtpSettings()
+    private static void SetDefaultSmtpSettings()
     {
       CurrentSettings.SmtpSettings.Ssl = DefaultEnvironmentSettings.SmtpSsl;
       CurrentSettings.SmtpSettings.Tls = DefaultEnvironmentSettings.SmtpTls;
@@ -475,7 +477,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.SmtpSettings.Subject = DefaultEnvironmentSettings.SmtpSubject;
     }
 
-    private void SetDefaultProxySettings()
+    private static void SetDefaultProxySettings()
     {
       CurrentSettings.ProxySettings.UserName = DefaultEnvironmentSettings.ProxyUserName;
       CurrentSettings.ProxySettings.ProxyPort = DefaultEnvironmentSettings.ProxyPort;
@@ -483,7 +485,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ProxySettings.UseSystemSettings = DefaultEnvironmentSettings.ProxyUseSystemSettings;
     }
 
-    private void SetDefaultSmartWatchSettings()
+    private static void SetDefaultSmartWatchSettings()
     {
       CurrentSettings.SmartWatchSettings.AutoRun = DefaultEnvironmentSettings.SmartWatchAutoRun;
       CurrentSettings.SmartWatchSettings.NewTab = DefaultEnvironmentSettings.SmartWatchNewTab;
@@ -499,7 +501,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     /// <returns>Task</returns>
     public async Task ReloadCurrentSettingsAsync(CancellationTokenSource cts)
     {
-      await _semaphore.WaitAsync(cts.Token);
+      await _semaphore.WaitAsync(cts.Token).ConfigureAwait(false);
 
       try
       {
@@ -528,7 +530,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     public Task AddNewPropertyAsync(Dictionary<string, string> settings, CancellationTokenSource cts) =>
       Task.Run(() => AddNewProperty(settings), cts.Token);
 
-    private void AddNewProperty(Dictionary<string, string> settings)
+    private static void AddNewProperty(Dictionary<string, string> settings)
     {
       if ( settings == null || settings.Count == 0 )
         return;
@@ -558,7 +560,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
 
     #region HelperFunctions
 
-    private void ReadWindowSettings()
+    private static void ReadWindowSettings()
     {
       CurrentAppSettings.IsPortable = GetBoolFromSetting("Portable");
 
@@ -616,7 +618,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     [Obsolete("Will removed as soon as possible")]
-    private void ReadLogViewerSettings()
+    private static void ReadLogViewerSettings()
     {
       CurrentSettings.ColorSettings.ForegroundColorHex = GetStringFromSetting("ForegroundColor");
       CurrentSettings.ColorSettings.BackgroundColorHex = GetStringFromSetting("BackgroundColor");
@@ -629,7 +631,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     [Obsolete("Will removed as soon as possible")]
-    private void ReadAlertSettings()
+    private static void ReadAlertSettings()
     {
       CurrentSettings.AlertSettings.BringToFront = GetBoolFromSetting("Alert.BringToFront", true);
       CurrentSettings.AlertSettings.MailAddress = GetStringFromSetting("Alert.EMailAddress");
@@ -640,7 +642,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     [Obsolete("Will removed as soon as possible")]
-    private void ReadSmtpSettings()
+    private static void ReadSmtpSettings()
     {
       CurrentSettings.SmtpSettings.Ssl = GetBoolFromSetting("Smtp.Ssl", true);
       CurrentSettings.SmtpSettings.Tls = GetBoolFromSetting("Smtp.Tls");
@@ -652,7 +654,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     [Obsolete("Will removed as soon as possible")]
-    private void ReadProxySettings()
+    private static void ReadProxySettings()
     {
       CurrentSettings.ProxySettings.UseSystemSettings = GetThreeStateBoolFromSetting("Proxy.UseSystem");
       CurrentSettings.ProxySettings.ProxyPort = GetIntFromSetting("Proxy.Port");
@@ -661,7 +663,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
     }
 
     [Obsolete("Will removed as soon as possible")]
-    private void ReadSmartWatchSettings()
+    private static void ReadSmartWatchSettings()
     {
       CurrentSettings.SmartWatchSettings.AutoRun = GetBoolFromSetting("SmartWatch.AutoRun", true);
       CurrentSettings.SmartWatchSettings.FilterByExtension = GetBoolFromSetting("SmartWatch.FilterByExtension", true);

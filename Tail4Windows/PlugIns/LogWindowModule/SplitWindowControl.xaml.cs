@@ -465,7 +465,10 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// LogReaderService property
     /// </summary>
-    public static readonly DependencyProperty LogReaderServiceProperty = DependencyProperty.Register(nameof(LogReaderService), typeof(ILogReadService), typeof(SplitWindowControl),
+    public static readonly DependencyProperty LogReaderServiceProperty = DependencyProperty.Register(
+      nameof(LogReaderService),
+      typeof(ILogReadService),
+      typeof(SplitWindowControl),
       new PropertyMetadata(null, OnLogReaderServiceChanged));
 
     /// <summary>
@@ -511,6 +514,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       if ( e.OldValue is ILogReadService reader )
       {
         reader.OnLogEntryCreated -= sender.OnLogEntryCreated;
+        reader.OnLogCleared -= sender.OnLogCleared;
 
         if ( reader.SmartWatch != null )
           reader.SmartWatch.SmartWatchFileChanged -= sender.OnSmartWatchFileChanged;
@@ -520,6 +524,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       sender.LogReaderService.OnLogEntryCreated += sender.OnLogEntryCreated;
+      sender.LogReaderService.OnLogCleared += sender.OnLogCleared;
 
       if ( sender.LogReaderService.SmartWatch != null )
         sender.LogReaderService.SmartWatch.SmartWatchFileChanged += sender.OnSmartWatchFileChanged;
@@ -611,6 +616,14 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
 
         RaiseEvent(new LinesRefreshTimeChangedArgs(LinesRefreshTimeChangedRoutedEvent, LinesRead, e.SizeRefreshTime));
       }, DispatcherPriority.Background);
+    }
+
+    private void OnLogCleared(object sender, EventArgs e)
+    {
+      if ( !(sender is ILogReadService) || Dispatcher == null )
+        return;
+
+      Dispatcher.Invoke(ClearItems);
     }
 
     #endregion
@@ -853,7 +866,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
 
@@ -1784,7 +1797,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
 

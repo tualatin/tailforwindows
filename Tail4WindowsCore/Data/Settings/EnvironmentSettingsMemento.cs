@@ -49,6 +49,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       SmartWatch = memento.SmartWatch;
       Statistics = memento.Statistics;
       MouseHover = memento.MouseHover;
+      ClearLogWindowIfLogIsCleared = memento.ClearLogWindowIfLogIsCleared;
       SaveLogFileHistory = memento.SaveLogFileHistory;
       HistoryMaxSize = memento.HistoryMaxSize;
       ShowExtendedSettings = memento.ShowExtendedSettings;
@@ -104,6 +105,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         SmartWatch = obj.SmartWatch;
         Statistics = obj.Statistics;
         MouseHover = obj.MouseHover;
+        ClearLogWindowIfLogIsCleared = obj.ClearLogWindowIfLogIsCleared;
         SaveLogFileHistory = obj.SaveLogFileHistory;
         HistoryMaxSize = obj.HistoryMaxSize;
         ShowExtendedSettings = obj.ShowExtendedSettings;
@@ -373,6 +375,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// MouseHover for LogWindow
       /// </summary>
       public bool MouseHover
+      {
+        get;
+      }
+
+      /// <summary>
+      /// Clear LogWindow when log file is cleared or deleted
+      /// </summary>
+      public bool ClearLogWindowIfLogIsCleared
       {
         get;
       }

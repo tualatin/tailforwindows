@@ -1111,6 +1111,26 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private bool _clearLogWindowIfLogIsCleared;
+
+    /// <summary>
+    /// Clear LogWindow when the log file is cleared or deleted
+    /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.ClearLogWindowIfLogIsCleared)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public bool ClearLogWindowIfLogIsCleared
+    {
+      get => _clearLogWindowIfLogIsCleared;
+      set
+      {
+        if ( value == _clearLogWindowIfLogIsCleared )
+          return;
+
+        _clearLogWindowIfLogIsCleared = value;
+        OnPropertyChanged();
+      }
+    }
+
     private bool _showExtendedSettings;
 
     /// <summary>

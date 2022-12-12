@@ -240,8 +240,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         ref posX,
         ref posY,
         ref width,
-        ref  height,
-        650,
+        ref height,
+        700,
         590);
 
       SettingsHelperController.CurrentSettings.OptionWindowPositionX = posX;

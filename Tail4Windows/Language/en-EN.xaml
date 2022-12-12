@@ -257,6 +257,8 @@
   <system:String x:Key="EnvironmentDefaultTimeFormatToolTip">The default time format value</system:String>
   <system:String x:Key="EnvironmentDefaultDateFormat">Default date format</system:String>
   <system:String x:Key="EnvironmentDefaultDateFormatToolTip">The default date format value</system:String>
+  <system:String x:Key="EnvironmentClearLogWindowIfLogFileIsCleared">Clear log window, if log file is empty or deleted</system:String>
+  <system:String x:Key="EnvironmentClearLogWindowIfLogFileIsClearedToolTip">Clears the content of log window, if log file is empty or deleted</system:String>
   <system:String x:Key="EnvironmentSendTo">Add to 'Send to'</system:String>
   <system:String x:Key="EnvironmentRemoveSentTo">Remove from 'Send to'</system:String>
   <system:String x:Key="EnvironmentSendToToolTip">Add application to send to menu of Windows</system:String>

@@ -14,7 +14,7 @@
   Title="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
   Width="{Binding Width, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
   Height="{Binding Height, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-  MinWidth="650"
+  MinWidth="700"
   MinHeight="590"
   CanClose="{Binding SaveOptionsCommand.Execution.IsSuccessfullyCompleted}"
   Icon="/T4W;component/Resources/system.ico"

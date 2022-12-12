@@ -41,6 +41,11 @@ namespace Org.Vs.TailForWin.Business.Services
     /// </summary>
     public event LogEntryCreated OnLogEntryCreated;
 
+    /// <summary>
+    /// Log file is cleared or deleted
+    /// </summary>
+    public event EventHandler OnLogCleared;
+
     #endregion
 
     #region Properties
@@ -224,7 +229,7 @@ namespace Org.Vs.TailForWin.Business.Services
 
       while ( !_cts.IsCancellationRequested )
       {
-        await Task.Delay(TimeSpan.FromMinutes(30), _cts.Token);
+        await Task.Delay(TimeSpan.FromMinutes(30), _cts.Token).ConfigureAwait(false);
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticUpdateReaderMessage(LogReaderId, Index, TailData.FileName, _sw.Elapsed));
       }
     }
@@ -275,7 +280,7 @@ namespace Org.Vs.TailForWin.Business.Services
             // Nothing
           }
         }
-      }, token);
+      }, token).ConfigureAwait(false);
 
       return result;
     }

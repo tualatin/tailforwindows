@@ -16,9 +16,14 @@ namespace Org.Vs.TailForWin.Business.Services.Interfaces
   public interface ILogReadService
   {
     /// <summary>
-    /// A new <see cref="Data.LogEntry"/> is created
+    /// A new <see cref="LogEntry"/> is created
     /// </summary>
     event LogEntryCreated OnLogEntryCreated;
+
+    /// <summary>
+    /// Log file is cleared or deleted
+    /// </summary>
+    event EventHandler OnLogCleared;
 
     /// <summary>
     /// <see cref="ISmartWatchController"/> current SmartWatch

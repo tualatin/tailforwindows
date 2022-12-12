@@ -257,6 +257,8 @@
   <system:String x:Key="EnvironmentDefaultTimeFormatToolTip">Das standard Zeitformat</system:String>
   <system:String x:Key="EnvironmentDefaultDateFormat">Standard Datumsformat</system:String>
   <system:String x:Key="EnvironmentDefaultDateFormatToolTip">Das standard Datumsformat</system:String>
+  <system:String x:Key="EnvironmentClearLogWindowIfLogFileIsCleared">Log-Fenster leeren, wenn Log-Datei gelöscht oder geleert ist</system:String>
+  <system:String x:Key="EnvironmentClearLogWindowIfLogFileIsClearedToolTip">Der Inhalt des Log-Fensters wird automatisch geleert, sobald eine Log-Datei leer oder gelöscht wurde</system:String>
   <system:String x:Key="EnvironmentSendTo">Zu 'Senden zu' hinzufügen</system:String>
   <system:String x:Key="EnvironmentRemoveSentTo">Aus 'Send zu' entfernen</system:String>
   <system:String x:Key="EnvironmentSendToToolTip">Füge das Programm zum 'Senden zu' Menü von Windows hinzu</system:String>

@@ -172,6 +172,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public const bool MouseHover = false;
 
     /// <summary>
+    /// Default value clear LogWindow when the log file is cleared or deleted
+    /// </summary>
+    public const bool ClearLogWindowIfLogIsCleared = false;
+
+    /// <summary>
     /// Default value SaveLogFileHistory
     /// </summary>
     public const bool SaveLogFileHistory = true;

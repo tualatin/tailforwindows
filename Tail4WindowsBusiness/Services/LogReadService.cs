@@ -47,6 +47,11 @@ namespace Org.Vs.TailForWin.Business.Services
     /// </summary>
     public event LogEntryCreated OnLogEntryCreated;
 
+    /// <summary>
+    /// Log file is cleared or deleted
+    /// </summary>
+    public event EventHandler OnLogCleared;
+
     #endregion
 
     #region Properties
@@ -217,7 +222,7 @@ namespace Org.Vs.TailForWin.Business.Services
 
       while ( _tailBackgroundWorker != null && !_tailBackgroundWorker.CancellationPending )
       {
-        await Task.Delay(TimeSpan.FromMinutes(30), _cts.Token);
+        await Task.Delay(TimeSpan.FromMinutes(30), _cts.Token).ConfigureAwait(false);
         EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new StatisticUpdateReaderMessage(LogReaderId, Index, TailData.FileName, _sw.Elapsed));
       }
     }
@@ -250,6 +255,9 @@ namespace Org.Vs.TailForWin.Business.Services
           if ( !fileInfo.Exists )
           {
             _resetEvent?.WaitOne((int) TailData.RefreshRate);
+
+            if ( SettingsHelperController.CurrentSettings.ClearLogWindowIfLogIsCleared )
+              OnLogCleared?.Invoke(this, EventArgs.Empty);
             continue;
           }
 
@@ -290,7 +298,12 @@ namespace Org.Vs.TailForWin.Business.Services
           {
             // file is suddenly empty
             if ( sr.BaseStream.Length < _fileOffset )
+            {
               _fileOffset = sr.BaseStream.Length;
+
+              if ( SettingsHelperController.CurrentSettings.ClearLogWindowIfLogIsCleared )
+                OnLogCleared?.Invoke(this, EventArgs.Empty);
+            }
 
             sr.BaseStream.Seek(_fileOffset, SeekOrigin.Begin);
             ReadFile(sr);
@@ -310,7 +323,7 @@ namespace Org.Vs.TailForWin.Business.Services
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
 
@@ -360,7 +373,7 @@ namespace Org.Vs.TailForWin.Business.Services
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
 
@@ -397,7 +410,7 @@ namespace Org.Vs.TailForWin.Business.Services
         SendLogEntryEvent(entries, sr.BaseStream.Length);
     }
 
-    private bool IsInvalidChars(string fileName)
+    private static bool IsInvalidChars(string fileName)
     {
       var invalidFileNameChars = Path.GetInvalidFileNameChars();
       var invalidPathChars = Path.GetInvalidPathChars();
@@ -453,27 +466,20 @@ namespace Org.Vs.TailForWin.Business.Services
           break;
 
         Index++;
-        LogEntry log;
         int mod = Index % 2;
-
-        if ( mod == 0 )
-        {
-          log = new LogEntry
+        LogEntry log = mod == 0
+          ? new LogEntry
           {
             Index = Index,
             Message = $"Log - {Index * 24} / Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.",
             DateTime = DateTime.Now
-          };
-        }
-        else
-        {
-          log = new LogEntry
+          }
+          : new LogEntry
           {
             Index = Index,
             Message = "Christabel strips and slips like a dream breaking ice with arms that gleam with pain disdain... She throws her head and glides against the stream throwing me her bravest smile defiant glittering shivering guile",
             DateTime = DateTime.Now
           };
-        }
 
         SizeRefreshTime = string.Format(message, $"{24 + Index * 12}", DateTime.Now.ToString(SettingsHelperController.CurrentSettings.CurrentStringFormat));
 
