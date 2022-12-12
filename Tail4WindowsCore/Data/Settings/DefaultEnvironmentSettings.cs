@@ -297,6 +297,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     /// </summary>
     public const string SplitterBackgroundColor = "#FF293955";
 
+    /// <summary>
+    /// Default MouseHover color
+    /// </summary>
+    public const string MouseHoverColor = "#A3C8DB";
+
     #endregion
 
     #region Proxy settings

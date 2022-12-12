@@ -30,7 +30,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _statusBarInactiveBackgroundColorHex = value;
-        OnPropertyChanged(nameof(StatusBarInactiveBackgroundColorHex));
+        OnPropertyChanged();
       }
     }
 
@@ -50,7 +50,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _statusBarFileLoadedBackgroundColorHex = value;
-        OnPropertyChanged(nameof(StatusBarFileLoadedBackgroundColorHex));
+        OnPropertyChanged();
       }
     }
 
@@ -70,7 +70,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _statusBarTailBackgroundColorHex = value;
-        OnPropertyChanged(nameof(StatusBarTailBackgroundColorHex));
+        OnPropertyChanged();
       }
     }
 
@@ -98,6 +98,26 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private string _mouseHoverColorHex;
+
+    /// <summary>
+    /// MouseHover color
+    /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.MouseHoverColor)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public string MouseHoverColorHex
+    {
+      get => _mouseHoverColorHex;
+      set
+      {
+        if ( Equals(value, _mouseHoverColorHex) )
+          return;
+
+        _mouseHoverColorHex = value;
+        OnPropertyChanged();
+      }
+    }
+
     private string _foregroundColorHex;
 
     /// <summary>
@@ -114,7 +134,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _foregroundColorHex = value;
-        OnPropertyChanged(nameof(ForegroundColorHex));
+        OnPropertyChanged();
       }
     }
 
@@ -134,7 +154,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _backgroundColorHex = value;
-        OnPropertyChanged(nameof(BackgroundColorHex));
+        OnPropertyChanged();
       }
     }
 
@@ -158,7 +178,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _findHighlightForegroundColorHex = value;
-        OnPropertyChanged(nameof(FindHighlightForegroundColorHex));
+        OnPropertyChanged();
       }
     }
 
@@ -178,7 +198,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _findHighlightBackgroundColorHex = value;
-        OnPropertyChanged(nameof(FindHighlightBackgroundColorHex));
+        OnPropertyChanged();
       }
     }
 
@@ -202,7 +222,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _lineNumberColorHex = value;
-        OnPropertyChanged(nameof(LineNumberColorHex));
+        OnPropertyChanged();
       }
     }
 
@@ -222,7 +242,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
           return;
 
         _lineNumberHighlightColorHex = value;
-        OnPropertyChanged(nameof(LineNumberHighlightColorHex));
+        OnPropertyChanged();
       }
     }
 

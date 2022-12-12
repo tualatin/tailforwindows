@@ -87,18 +87,18 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       StatusbarColorData.CollectionChanged -= ColorDataCollectionChanged;
     }
 
-    private void ExecuteUnloadedCommand()
+    private static void ExecuteUnloadedCommand()
     {
 
     }
 
-    private async Task ExecuteSetDefaultColorsCommandAsync()
+    private static async Task ExecuteSetDefaultColorsCommandAsync()
     {
       MouseService.SetBusyState();
       await EnvironmentContainer.Instance.SetDefaultColorsAsync(new CancellationTokenSource(TimeSpan.FromMinutes(2))).ConfigureAwait(false);
     }
 
-    private void ColorDataCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    private static void ColorDataCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
       if ( e.NewItems != null )
       {
@@ -117,7 +117,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       }
     }
 
-    private void ControlColorPropertyChanged(object sender, PropertyChangedEventArgs e)
+    private static void ControlColorPropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       if ( !(sender is ControlColorData mydata) )
         return;
@@ -125,62 +125,54 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
       switch ( mydata.ConfigurationName )
       {
       case "ForegroundColorHex":
-
         SettingsHelperController.CurrentSettings.ColorSettings.ForegroundColorHex = mydata.Color;
         break;
 
       case "BackgroundColorHex":
-
         SettingsHelperController.CurrentSettings.ColorSettings.BackgroundColorHex = mydata.Color;
         break;
 
       case "SelectionBackgroundColorHex":
-
         SettingsHelperController.CurrentSettings.ColorSettings.SelectionBackgroundColorHex = mydata.Color;
         break;
 
       case "FindHighlightForegroundColorHex":
-
         SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightForegroundColorHex = mydata.Color;
         break;
 
       case "FindHighlightBackgroundColorHex":
-
         SettingsHelperController.CurrentSettings.ColorSettings.FindHighlightBackgroundColorHex = mydata.Color;
         break;
 
       case "LineNumberColorHex":
-
         SettingsHelperController.CurrentSettings.ColorSettings.LineNumberColorHex = mydata.Color;
         break;
 
       case "LineNumberHighlightColorHex":
-
         SettingsHelperController.CurrentSettings.ColorSettings.LineNumberHighlightColorHex = mydata.Color;
         break;
 
       case "SplitterBackgroundColorHex":
-
         SettingsHelperController.CurrentSettings.ColorSettings.SplitterBackgroundColorHex = mydata.Color;
         break;
 
       case "StatusBarInactiveBackgroundColorHex":
-
         SettingsHelperController.CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex = mydata.Color;
         break;
 
       case "StatusBarFileLoadedBackgroundColorHex":
-
         SettingsHelperController.CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex = mydata.Color;
         break;
 
       case "StatusBarTailBackgroundColorHex":
-
         SettingsHelperController.CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex = mydata.Color;
         break;
 
-      default:
+      case "MouseHoverColorHex":
+        SettingsHelperController.CurrentSettings.ColorSettings.MouseHoverColorHex = mydata.Color;
+        break;
 
+      default:
         throw new NotImplementedException();
       }
     }
@@ -256,6 +248,13 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.EnvironmentOption.ViewModels
           ConfigurationName = "SplitterBackgroundColorHex",
           Name = Application.Current.TryFindResource("ColorOptionSplitterBackgroundColor").ToString(),
           Color = SettingsHelperController.CurrentSettings.ColorSettings.SplitterBackgroundColorHex
+        });
+      LogViewerColorData.Add(
+        new ControlColorData
+        {
+          ConfigurationName = "MouseHoverColorHex",
+          Name = Application.Current.TryFindResource("ColorOptionMouseHoverColor").ToString(),
+          Color = SettingsHelperController.CurrentSettings.ColorSettings.MouseHoverColorHex
         });
     }
 

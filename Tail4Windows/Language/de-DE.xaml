@@ -391,6 +391,7 @@
   <system:String x:Key="ColorOptionLineNumberColor">Editornummernfarbe</system:String>
   <system:String x:Key="ColorOptionLineNumberHighlightColor">Hervorheben Editornummernfarbe</system:String>
   <system:String x:Key="ColorOptionSplitterBackgroundColor">Splitter Hintergrundfarbe</system:String>
+  <system:String x:Key="ColorOptionMouseHoverColor">Maushoverfarbe</system:String>
   <system:String x:Key="ColorOptionResetColorSettings">Setze Standardfarben</system:String>
   <system:String x:Key="ColorOptionResetColorSettingsToolTip">Alle Farben zurücksetzen</system:String>
 
