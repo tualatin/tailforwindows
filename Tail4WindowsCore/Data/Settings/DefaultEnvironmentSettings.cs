@@ -167,6 +167,11 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
     public const bool Statistics = false;
 
     /// <summary>
+    /// Default value MouseHover for LogWindow
+    /// </summary>
+    public const bool MouseHover = false;
+
+    /// <summary>
     /// Default value SaveLogFileHistory
     /// </summary>
     public const bool SaveLogFileHistory = true;

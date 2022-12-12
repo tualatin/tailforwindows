@@ -344,6 +344,8 @@
   <system:String x:Key="ExtrasOpenExecutableDialog">Ausführbare Dateien(*.exe)|*.exe</system:String>
   <system:String x:Key="ExtrasEditor">Editor auswählen</system:String>
   <system:String x:Key="ExtrasEditorToolTip">Einen favorisierten Editor auswählen, um Logdateien zu editieren</system:String>
+  <system:String x:Key="ExtrasMouseHover">Maushover im LogWindow</system:String>
+  <system:String x:Key="ExtrasMouseHoverToolTip">Maushover im LogWindow unterstützen</system:String>
 
   <system:String x:Key="SmtpServer">SMTP Server</system:String>
   <system:String x:Key="SmtpPort">SMTP Port</system:String>

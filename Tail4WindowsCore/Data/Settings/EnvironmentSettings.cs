@@ -1091,6 +1091,26 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       }
     }
 
+    private bool _mouseHover;
+
+    /// <summary>
+    /// MouseHover in LogWindow
+    /// </summary>
+    [DefaultValue(DefaultEnvironmentSettings.MouseHover)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+    public bool MouseHover
+    {
+      get => _mouseHover;
+      set
+      {
+        if ( value == _mouseHover )
+          return;
+
+        _mouseHover = value;
+        OnPropertyChanged();
+      }
+    }
+
     private bool _showExtendedSettings;
 
     /// <summary>

@@ -238,6 +238,18 @@
           </Setter.Value>
         </Setter>
       </DataTrigger>
+
+      <MultiDataTrigger>
+        <MultiDataTrigger.Conditions>
+          <Condition Value="True" Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsMouseOver}" />
+          <Condition Value="True" Binding="{Binding Source={x:Static controllers:SettingsHelperController.CurrentSettings}, Path=MouseHover, UpdateSourceTrigger=PropertyChanged}" />
+        </MultiDataTrigger.Conditions>
+        <Setter TargetName="Chrome" Property="Background">
+          <Setter.Value>
+            <SolidColorBrush Color="Aqua" Opacity="0.2" po:Freeze="True" />
+          </Setter.Value>
+        </Setter>
+      </MultiDataTrigger>
     </DataTemplate.Triggers>
   </DataTemplate>
 

@@ -48,6 +48,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       LogLineLimit = memento.LogLineLimit;
       SmartWatch = memento.SmartWatch;
       Statistics = memento.Statistics;
+      MouseHover = memento.MouseHover;
       SaveLogFileHistory = memento.SaveLogFileHistory;
       HistoryMaxSize = memento.HistoryMaxSize;
       ShowExtendedSettings = memento.ShowExtendedSettings;
@@ -102,6 +103,7 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
         LogLineLimit = obj.LogLineLimit;
         SmartWatch = obj.SmartWatch;
         Statistics = obj.Statistics;
+        MouseHover = obj.MouseHover;
         SaveLogFileHistory = obj.SaveLogFileHistory;
         HistoryMaxSize = obj.HistoryMaxSize;
         ShowExtendedSettings = obj.ShowExtendedSettings;
@@ -363,6 +365,14 @@ namespace Org.Vs.TailForWin.Core.Data.Settings
       /// Statistics for nerds
       /// </summary>
       public bool Statistics
+      {
+        get;
+      }
+
+      /// <summary>
+      /// MouseHover for LogWindow
+      /// </summary>
+      public bool MouseHover
       {
         get;
       }
