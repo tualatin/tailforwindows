@@ -105,8 +105,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
     /// <summary>
     /// Clears ItemsSource event handler
     /// </summary>
-    private static readonly RoutedEvent LinesRefreshTimeChangedRoutedEvent = EventManager.RegisterRoutedEvent(nameof(LinesRefreshTimeChangedRoutedEvent), RoutingStrategy.Bubble,
-      typeof(LinesRefreshTimeChangedEventHandler), typeof(SplitWindowControl));
+    private static readonly RoutedEvent LinesRefreshTimeChangedRoutedEvent = EventManager.RegisterRoutedEvent(
+      nameof(LinesRefreshTimeChangedRoutedEvent),
+      RoutingStrategy.Bubble,
+      typeof(LinesRefreshTimeChangedEventHandler),
+      typeof(SplitWindowControl));
 
     /// <summary>
     /// Clears ItemsSource event
@@ -117,8 +120,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       remove => RemoveHandler(LinesRefreshTimeChangedRoutedEvent, value);
     }
 
-    private static readonly RoutedEvent SelectedLinesChangedRoutedEvent = EventManager.RegisterRoutedEvent(nameof(SelectedLinesChangedEvent), RoutingStrategy.Bubble,
-      typeof(RoutedEventHandler), typeof(SplitWindowControl));
+    private static readonly RoutedEvent SelectedLinesChangedRoutedEvent = EventManager.RegisterRoutedEvent(
+      nameof(SelectedLinesChangedEvent),
+      RoutingStrategy.Bubble,
+      typeof(RoutedEventHandler),
+      typeof(SplitWindowControl));
 
     /// <summary>
     /// Selected lines changed event

@@ -8,8 +8,13 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
-v.2.3.xxxx.x
-* new global highlighting
+v.2.3.8382.x
+* new Color design of TabHeaders
+* new Option window can save position and size
+* new global highlighting (community) -> see Options -> Global highlighting
+* new option mousehover in LogWindow -> see Options -> Extras
+* new option mousehover color for LogWindow
+* new option clear LogWindow, if log file is cleared or deleted (community) -> see Options -> Environment
 * new local filter to global filter
 * new show amount of selected lines
 * new History saves data as JSON
@@ -18,6 +23,7 @@ v.2.3.xxxx.x
 * new FileManager XML (backup is *.xml_old) to JSON converter
 * new async filter
 * new show log read time delta
+* lot of bug fixes
 * bug fix log line limit
 * bug fix create logfile history
 * bug fix add new Bookmarks

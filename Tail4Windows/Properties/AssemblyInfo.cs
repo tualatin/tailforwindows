@@ -1,7 +1,6 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Markup;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -53,8 +52,10 @@ using System.Windows.Markup;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.3.*")]
-[assembly: AssemblyFileVersion("2.3.2")]
+[assembly: AssemblyVersion("2.3.8382")]
+[assembly: AssemblyFileVersion("2.3.8382")]
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "Config/log4net.xml", Watch = true)]
 [assembly: Guid("c2612b08-dbd5-4002-a1f0-e1d789a906e7")]
 
+
+[assembly: AssemblyInformationalVersion("2.3.8382.3")]
