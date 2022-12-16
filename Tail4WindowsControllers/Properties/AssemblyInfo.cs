@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Virtual Studios")]
 [assembly: AssemblyProduct("T4WControllers")]
-[assembly: AssemblyCopyright("Copyright ©  2018 - 2022 M. Zoennchen")]
+[assembly: AssemblyCopyright("Copyright ©  2018 - 2023 M. Zoennchen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,6 +31,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.116")]
-[assembly: AssemblyFileVersion("1.0.116")]
+[assembly: AssemblyVersion("1.0.119")]
+[assembly: AssemblyFileVersion("1.0.119")]
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "Config/log4net.xml", Watch = true)]

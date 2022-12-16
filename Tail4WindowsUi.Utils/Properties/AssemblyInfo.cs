@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Virtual Studios")]
 [assembly: AssemblyProduct("T4WUI.Utils")]
-[assembly: AssemblyCopyright("Copyright ©  2019 - 2022 M. Zoennchen")]
+[assembly: AssemblyCopyright("Copyright ©  2019 - 2023 M. Zoennchen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -49,6 +49,6 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.17")]
-[assembly: AssemblyFileVersion("1.0.17")]
+[assembly: AssemblyVersion("1.0.20")]
+[assembly: AssemblyFileVersion("1.0.20")]
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "Config/log4net.xml", Watch = true)]
