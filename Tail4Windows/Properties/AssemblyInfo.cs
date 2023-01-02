@@ -1,5 +1,7 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Markup;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -57,4 +59,4 @@ using System.Runtime.InteropServices;
 [assembly: Guid("c2612b08-dbd5-4002-a1f0-e1d789a906e7")]
 
 
-[assembly: AssemblyInformationalVersion("2.3.8402.4")]
+[assembly: AssemblyInformationalVersion("2.3.8402.7")]
