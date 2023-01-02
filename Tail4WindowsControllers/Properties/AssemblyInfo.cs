@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Virtual Studios")]
 [assembly: AssemblyProduct("T4WControllers")]
-[assembly: AssemblyCopyright("Copyright ©  2018 - 2022 M. Zoennchen")]
+[assembly: AssemblyCopyright("Copyright ©  2018 - 2023 M. Zoennchen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
