@@ -1,17 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DFD6AB76-FD51-4B29-ABCA-F0E11BEBB9EC}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Org.Vs.TailForWin.Controllers</RootNamespace>
     <AssemblyName>T4WControllers</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+  <Platforms>AnyCPU;x86;x64</Platforms>
+    <TargetFramework>net48</TargetFramework>
     <ShouldCreateLogs>True</ShouldCreateLogs>
     <AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
     <UpdateAssemblyVersion>True</UpdateAssemblyVersion>
@@ -22,230 +14,98 @@
     <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
     <AssemblyFileVersionSettings>None.None.Increment.None</AssemblyFileVersionSettings>
+    <AssemblyTitle>T4WControllers</AssemblyTitle>
+    <Company>Virtual Studios</Company>
+    <Product>T4WControllers</Product>
+    <Description>Professional log reader for Windows® Controllers</Description>
+    <Copyright>Copyright ©  2018 - 2023 M. Zoennchen</Copyright>
+    <AssemblyVersion>1.0.130</AssemblyVersion>
+    <FileVersion>1.0.130</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\T4WControllers.xml</DocumentationFile>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DocumentationFile>bin\$(Configuration)\T4WControllers.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>bin\x64\Debug\T4WControllers.xml</DocumentationFile>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <DocumentationFile>bin\$(Platform)\$(Configuration)\T4WControllers.xml</DocumentationFile>
     <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <DefineConstants>CODE_ANALYSIS;RELEASE;BUILD64</DefineConstants>
-    <Optimize>true</Optimize>
     <DebugType>none</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>bin\Debug\T4WControllers.xml</DocumentationFile>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <DocumentationFile>bin\$(Configuration)\T4WControllers.xml</DocumentationFile>
     <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <DefineConstants>CODE_ANALYSIS;RELEASE;BUILD32</DefineConstants>
-    <Optimize>true</Optimize>
     <DebugType>none</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Controls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Effects, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Effects.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Prototyping.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Prototyping.Interactivity.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Prototyping.SketchControls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Prototyping.SketchControls.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SDK.Expression.Blend, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.SDK.Expression.Blend.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
+    <PackageReference Include="AsyncAnalyzers" Version="1.1.7.0">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="LiveCharts" Version="0.9.7" />
+    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="Microsoft.SDK.Expression.Blend" Version="1.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
-    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseView\Events\Args\FileEncodingArgs.cs" />
-    <Compile Include="BaseView\Events\Delegates\FileEncodingChangedEventHandler.cs" />
-    <Compile Include="BaseView\Interfaces\IBaseWindowStatusbarViewModel.cs" />
-    <Compile Include="Commands\AsyncCommand.cs" />
-    <Compile Include="Commands\Base\AsyncCommandBase.cs" />
-    <Compile Include="Commands\Interfaces\IAsyncCommand.cs" />
-    <Compile Include="Commands\InvokeDelegateCommandAction.cs" />
-    <Compile Include="Commands\MouseCommand.cs" />
-    <Compile Include="Commands\RelayCommand.cs" />
-    <Compile Include="PlugIns\BookmarkCommentModule\Interfaces\IAddBookmarkCommentViewModel.cs" />
-    <Compile Include="PlugIns\BookmarkOverviewModule\Data\BookmarkExportData.cs" />
-    <Compile Include="PlugIns\BookmarkOverviewModule\Interfaces\IBookmarkOverviewViewModel.cs" />
-    <Compile Include="PlugIns\ExportFormatModule\Interfaces\IExportFormatSelectorViewModel.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Data\CollectionViewHolder.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Data\FilterManagerCollectionViewHolder.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Data\XmlNames.cs" />
-    <Compile Include="PlugIns\FileManagerModule\FileManagerController.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Interfaces\IFileManagerController.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Interfaces\IFileManagerViewModel.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Interfaces\IFilterManagerViewModel.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Interfaces\IXmlFileManager.cs" />
-    <Compile Include="PlugIns\FileManagerModule\Utils\TailDataComparer.cs" />
-    <Compile Include="PlugIns\FileManagerModule\XmlFileManagerController.cs" />
-    <Compile Include="PlugIns\FindModule\Data\FindNextResult.cs" />
-    <Compile Include="PlugIns\FindModule\Data\XmlNames.cs" />
-    <Compile Include="PlugIns\FindModule\HistoryController.cs" />
-    <Compile Include="PlugIns\FindModule\Interfaces\IFindWhatResultViewModel.cs" />
-    <Compile Include="PlugIns\FindModule\Interfaces\IFindWhatViewModel.cs" />
-    <Compile Include="PlugIns\FindModule\Utils\LogEntryComparer.cs" />
-    <Compile Include="PlugIns\FindModule\XmlSearchHistoryController.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Events\Args\SelectedLinesChangedArgs.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Events\Delegates\SelectedLinesChangedEventHandler.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IGlobalHighlightOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IOptionBaseViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\Enums\EGlobalFilterState.cs" />
-    <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\GlobalFilterController.cs" />
-    <Compile Include="PlugIns\OptionModules\GlobalHighlightModule\Interfaces\IGlobalFilterController.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Data\MessageFloodData.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Data\TextHighlightData.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Data\XmlNames.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Events\Args\LinesRefreshTimeChangedArgs.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Events\Args\StatusChangedArgs.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Events\Delegates\LinesRefreshTimeChangedEventHandler.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Events\Delegates\StatusChangedEventHandler.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Interfaces\IPreventMessageFlood.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Interfaces\ISplitWindowControl.cs" />
-    <Compile Include="PlugIns\LogWindowModule\LogFileHistoryController.cs" />
-    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Interfaces\ILogWindowListBox.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Utils\PreventMessageFlood.cs" />
-    <Compile Include="PlugIns\LogWindowModule\XmlHistoryController.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\Data\ThirdPartyCollectionViewHolder.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\Data\ThirdPartyComponentData.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\IAboutOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\ISysInfoViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\IThirdPartyController.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\Interfaces\IUpdateOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\ThirdPartyController.cs" />
-    <Compile Include="PlugIns\OptionModules\AlertOption\Interfaces\IAlertOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Controllers\ImportExportController.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Data\ControlColorData.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IColorOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IEnvironmentOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IExtraOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IImportExportController.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IImportExportOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\Interfaces\IProxyOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\Interfaces\IOptionPage.cs" />
-    <Compile Include="PlugIns\PatternModule\Data\Pattern.cs" />
-    <Compile Include="PlugIns\PatternModule\Data\XmlNames.cs" />
-    <Compile Include="PlugIns\PatternModule\Interfaces\IPatternControlViewModel.cs" />
-    <Compile Include="PlugIns\PatternModule\Interfaces\IXmlPattern.cs" />
-    <Compile Include="PlugIns\PatternModule\XmlPatternController.cs" />
-    <Compile Include="PlugIns\SmartWatchPopupModule\Events\Args\SmartWatchWindowClosedEventArgs.cs" />
-    <Compile Include="PlugIns\SmartWatchPopupModule\Events\Delegates\SmartWatchWindowClosedEventHandler.cs" />
-    <Compile Include="PlugIns\SmartWatchPopupModule\Interfaces\ISmartWatchPopupViewModel.cs" />
-    <Compile Include="PlugIns\StatisticAnalysis\Data\BookmarkModel.cs" />
-    <Compile Include="PlugIns\StatisticAnalysis\Data\ChartVisibility.cs" />
-    <Compile Include="PlugIns\StatisticAnalysis\Data\DateModel.cs" />
-    <Compile Include="PlugIns\StatisticAnalysis\Data\Enums\EAnalysisOf.cs" />
-    <Compile Include="PlugIns\StatisticAnalysis\Data\FileSessionModel.cs" />
-    <Compile Include="PlugIns\StatisticAnalysis\Data\FileSizeModel.cs" />
-    <Compile Include="PlugIns\StatisticAnalysis\Data\Mappings\AnalysisOfMapping.cs" />
-    <Compile Include="PlugIns\StatisticAnalysis\Data\MemoryModel.cs" />
-    <Compile Include="PlugIns\StatisticAnalysis\Interfaces\IStatisticAnalysisViewModel.cs" />
-    <Compile Include="PlugIns\WindowsEventReadModule\Events\Args\OnOpenWindowsEventArgs.cs" />
-    <Compile Include="PlugIns\WindowsEventReadModule\Events\Delegates\OnOpenWindowsEventHandler.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\Interfaces\IFileDragDropTarget.cs" />
-    <Compile Include="UI\Interfaces\IViewModelBase.cs" />
-    <Compile Include="UI\Vml\Attributes\LocatorAttribute.cs" />
-    <Compile Include="UI\Vml\ViewModelLocator.cs" />
+    <ProjectReference Include="..\Tail4WindowsBusiness\Tail4WindowsBusiness.csproj" />
+    <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tail4WindowsBusiness\Tail4WindowsBusiness.csproj">
-      <Project>{c81d4747-d467-42fa-a998-0b8e68131e46}</Project>
-      <Name>Tail4WindowsBusiness</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj">
-      <Project>{7e255b50-cfb7-4ad8-9694-e569427fe866}</Project>
-      <Name>Tail4WindowsCore</Name>
-    </ProjectReference>
+    <Compile Remove="obj\x64\Debug\.NETFramework,Version=v4.6.1.AssemblyAttributes.cs" />
+    <Compile Remove="obj\x64\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
+    <Compile Remove="obj\x64\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="obj\x64\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Remove="obj\x64\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Remove="obj\x64\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Remove="obj\x64\Release\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="obj\x64\Release\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Remove="obj\x64\Release\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Remove="obj\x64\Release\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Remove="obj\x86\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="obj\x86\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Remove="obj\x86\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Remove="obj\x86\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Remove="obj\x86\Release\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="obj\x86\Release\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Remove="obj\x86\Release\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Remove="obj\x86\Release\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Remove="obj\x64\Debug\net48\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="obj\x64\Debug\net48\Tail4WindowsControllers.AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\AsyncAnalyzers.1.1.7.0\analyzers\dotnet\cs\AsyncAnalyzers.dll" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
