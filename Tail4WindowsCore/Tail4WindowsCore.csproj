@@ -67,7 +67,7 @@
     </PackageReference>
     <PackageReference Include="Castle.Core" Version="5.1.1" />
     <PackageReference Include="log4net" Version="2.0.15" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
