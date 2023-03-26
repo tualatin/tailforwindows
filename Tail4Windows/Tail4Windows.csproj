@@ -40,8 +40,8 @@
     <Description>Professional log reader for Windows®</Description>
     <Copyright>Copyright ©  2013 - 2023 M. Zoennchen</Copyright>
     <Version>2.3.8402.7</Version>
-    <AssemblyVersion>2.3.8475</AssemblyVersion>
-    <FileVersion>2.3.8475</FileVersion>
+    <AssemblyVersion>2.3.8485</AssemblyVersion>
+    <FileVersion>2.3.8485</FileVersion>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
