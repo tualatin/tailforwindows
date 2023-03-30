@@ -8,6 +8,10 @@ If there are problems, Tail4Windows creates log files in folder 'logs'. You can 
 Take a look to the Tail4Windows Wiki page, if you want more informations: https://github.com/tualatin/tailforwindows/wiki
 
 Changelog:
+v.2.3.xxxx.x64
+* bug fix InvalidOperationException when highlight text in logwindow
+* bug fix reset global colors -> mousehover color was not set correctly
+
 v.2.3.8382.x
 * new Color design of TabHeaders
 * new Option window can save position and size

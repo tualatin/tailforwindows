@@ -454,6 +454,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
       CurrentSettings.ColorSettings.LineNumberColorHex = DefaultEnvironmentSettings.LineNumberColor;
       CurrentSettings.ColorSettings.LineNumberHighlightColorHex = DefaultEnvironmentSettings.HighlightLineNumberColor;
       CurrentSettings.ColorSettings.SplitterBackgroundColorHex = DefaultEnvironmentSettings.SplitterBackgroundColor;
+      CurrentSettings.ColorSettings.MouseHoverColorHex = DefaultEnvironmentSettings.MouseHoverColor;
     }
 
     private static void SetDefaultAlertSettings()
