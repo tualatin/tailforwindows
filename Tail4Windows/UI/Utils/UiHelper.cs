@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Windows;
 using log4net;
@@ -237,7 +236,6 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <param name="height">Height</param>
     /// <param name="defaultWidth"></param>
     /// <param name="defaultHeight"></param>
-    [SuppressMessage("ReSharper", "PossibleNullReferenceException")]
     public static void MoveOptionsIntoView(
       ref double posX,
       ref double posY,
@@ -252,10 +250,10 @@ namespace Org.Vs.TailForWin.UI.Utils
       if ( posX + width / 2 > SystemParameters.VirtualScreenWidth )
         posX = SystemParameters.VirtualScreenWidth - width;
 
-      var mainWindowY = Application.Current.MainWindow.Top;
-      var mainWindowX = Application.Current.MainWindow.Left;
-      var mainWindowWidth = Application.Current.MainWindow.Width;
-      var mainWindowHeight = Application.Current.MainWindow.Height;
+      var mainWindowY = Application.Current.MainWindow?.Top;
+      var mainWindowX = Application.Current.MainWindow?.Left;
+      var mainWindowWidth = Application.Current.MainWindow?.Width;
+      var mainWindowHeight = Application.Current.MainWindow?.Height;
 
       var defaultX = mainWindowX + (mainWindowWidth - defaultWidth) / 2;
       var defaultY = mainWindowY + (mainWindowHeight - defaultHeight) / 2;
@@ -263,14 +261,14 @@ namespace Org.Vs.TailForWin.UI.Utils
       if ( posY < 0 )
       {
         height = defaultHeight;
-        posY = defaultY;
+        posY = defaultY ?? 0;
       }
 
       if ( !(posX < 0) )
         return;
 
       width = defaultWidth;
-      posX = defaultX;
+      posX = defaultX ?? 0;
     }
   }
 }

@@ -1,17 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1CBF978A-E8BD-4F25-88EA-B069D1FDF62E}</ProjectGuid>
-    <OutputType>Library</OutputType>
     <RootNamespace>Org.Vs.TailForWin.Ui.PlugIns</RootNamespace>
     <AssemblyName>T4WUi.Plugins</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+  <Platforms>AnyCPU;x86;x64</Platforms>
+    <TargetFramework>net48</TargetFramework>
     <Deterministic>false</Deterministic>
-    <TargetFrameworkProfile />
     <ShouldCreateLogs>True</ShouldCreateLogs>
     <AdvancedSettingsExpanded>False</AdvancedSettingsExpanded>
     <UpdateAssemblyVersion>True</UpdateAssemblyVersion>
@@ -22,156 +15,76 @@
     <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
     <AssemblyFileVersionSettings>None.None.Increment.None</AssemblyFileVersionSettings>
+    <AssemblyTitle>T4WUI.Plugins</AssemblyTitle>
+    <Company>Virtual Studios</Company>
+    <Product>T4WUI.Plugins</Product>
+    <Description>Professional log reader for Windows® UI Plugins</Description>
+    <Copyright>Copyright ©  2019 - 2023 M. Zoennchen</Copyright>
+    <AssemblyVersion>1.0.47</AssemblyVersion>
+    <FileVersion>1.0.47</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\T4WUi.Plugins.xml</DocumentationFile>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <DocumentationFile>bin\$(Configuration)\T4WUi.Plugins.xml</DocumentationFile>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>bin\x64\Debug\T4WUi.Plugins.xml</DocumentationFile>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+    <DocumentationFile>bin\$(Platform)\$(Configuration)\T4WUi.Plugins.xml</DocumentationFile>
     <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <LangVersion>7.3</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
-    </Reference>
+    <PackageReference Include="AsyncAnalyzers" Version="1.1.7.0">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="log4net" Version="2.0.15" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="Xceed.Wpf.AvalonDock, Version=4.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.5.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=4.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=4.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=4.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit, Version=4.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.5.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicWindow\MainWindowToolbarButtons.xaml.cs">
+    <Compile Update="BasicWindow\MainWindowToolbarButtons.xaml.cs">
       <DependentUpon>MainWindowToolbarButtons.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NotifyIcon\Interop\AppBarInfo.cs" />
-    <Compile Include="NotifyIcon\Interop\WindowsMessages.cs" />
-    <Compile Include="Resources\ColorResources.cs" />
-    <Compile Include="NotifyIcon\BalloonIcon.cs" />
-    <Compile Include="NotifyIcon\Interop\BalloonFlags.cs" />
-    <Compile Include="NotifyIcon\Interop\IconDataMembers.cs" />
-    <Compile Include="NotifyIcon\Interop\IconState.cs" />
-    <Compile Include="NotifyIcon\Interop\MouseEvent.cs" />
-    <Compile Include="NotifyIcon\Interop\NotifyCommand.cs" />
-    <Compile Include="NotifyIcon\Interop\NotifyIconData.cs" />
-    <Compile Include="NotifyIcon\Interop\NotifyIconVersion.cs" />
-    <Compile Include="NotifyIcon\Interop\Point.cs" />
-    <Compile Include="NotifyIcon\Interop\SystemInfo.cs" />
-    <Compile Include="NotifyIcon\Interop\TrayInfo.cs" />
-    <Compile Include="NotifyIcon\Interop\WinApi.cs" />
-    <Compile Include="NotifyIcon\Interop\WindowClass.cs" />
-    <Compile Include="NotifyIcon\Interop\WindowMessageSink.cs" />
-    <Compile Include="NotifyIcon\PopupActivationMode.cs" />
-    <Compile Include="NotifyIcon\RoutedEventHelper.cs" />
-    <Compile Include="NotifyIcon\TaskbarIcon.cs" />
-    <Compile Include="NotifyIcon\TaskbarIcon.Declarations.cs" />
-    <Compile Include="NotifyIcon\Util.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\StyleResources.cs" />
-    <Compile Include="VsControls\ExtendedControls\VsColorPickerEx.cs" />
-    <Compile Include="VsControls\ExtendedControls\VsFloatingWindow.cs" />
-    <Compile Include="VsControls\ExtendedControls\VsPopupEx.cs" />
-    <Compile Include="VsControls\ExtendedControls\VsWindowEx.cs" />
-    <Compile Include="VsControls\ExtendedControls\VsWatermarkTextBox.cs" />
-    <Compile Include="VsControls\FancyAlertPopUp.xaml.cs">
+    <Compile Update="VsControls\FancyAlertPopUp.xaml.cs">
       <DependentUpon>FancyAlertPopUp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VsControls\FancyNotificationPopUp.xaml.cs">
+    <Compile Update="VsControls\FancyNotificationPopUp.xaml.cs">
       <DependentUpon>FancyNotificationPopUp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VsControls\FancyToolTip.xaml.cs">
+    <Compile Update="VsControls\FancyToolTip.xaml.cs">
       <DependentUpon>FancyToolTip.xaml</DependentUpon>
     </Compile>
-    <Compile Include="VsControls\ExtendedControls\VsDataGrid.cs" />
-    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tail4WindowsBusiness\Tail4WindowsBusiness.csproj">
-      <Project>{c81d4747-d467-42fa-a998-0b8e68131e46}</Project>
-      <Name>Tail4WindowsBusiness</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tail4WindowsControllers\Tail4WindowsControllers.csproj">
-      <Project>{dfd6ab76-fd51-4b29-abca-f0e11bebb9ec}</Project>
-      <Name>Tail4WindowsControllers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj">
-      <Project>{7e255b50-cfb7-4ad8-9694-e569427fe866}</Project>
-      <Name>Tail4WindowsCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tail4WindowsUi.Utils\Tail4WindowsUi.Utils.csproj">
-      <Project>{cc2ada96-deb9-4c47-8b9f-6f289b137701}</Project>
-      <Name>Tail4WindowsUi.Utils</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\AsyncAnalyzers.1.1.7.0\analyzers\dotnet\cs\AsyncAnalyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="PlugIns\" />
+    <ProjectReference Include="..\Tail4WindowsBusiness\Tail4WindowsBusiness.csproj" />
+    <ProjectReference Include="..\Tail4WindowsControllers\Tail4WindowsControllers.csproj" />
+    <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj" />
+    <ProjectReference Include="..\Tail4WindowsUi.Utils\Tail4WindowsUi.Utils.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="BasicWindow\MainWindowToolbarButtons.xaml">
@@ -214,5 +127,45 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Remove="obj\x64\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
+    <Compile Remove="obj\x64\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="obj\x64\Debug\GeneratedInternalTypeHelper.g.cs" />
+    <Compile Remove="obj\x64\Debug\GeneratedInternalTypeHelper.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\Resources.g.i.cs" />
+    <Compile Remove="obj\x64\Release\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="obj\x64\Release\GeneratedInternalTypeHelper.g.cs" />
+    <Compile Remove="obj\x64\Release\GeneratedInternalTypeHelper.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\BasicWindow\MainWindowToolbarButtons.g.cs" />
+    <Compile Remove="obj\x64\Debug\BasicWindow\MainWindowToolbarButtons.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="obj\x64\Debug\net48\GeneratedInternalTypeHelper.g.cs" />
+    <Compile Remove="obj\x64\Debug\net48\GeneratedInternalTypeHelper.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\Tail4WindowsUi.Plugins.AssemblyInfo.cs" />
+    <Compile Remove="obj\x64\Debug\VsControls\FancyAlertPopUp.g.cs" />
+    <Compile Remove="obj\x64\Debug\VsControls\FancyAlertPopUp.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\VsControls\FancyNotificationPopUp.g.cs" />
+    <Compile Remove="obj\x64\Debug\VsControls\FancyNotificationPopUp.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\VsControls\FancyToolTip.g.cs" />
+    <Compile Remove="obj\x64\Debug\VsControls\FancyToolTip.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\VsUserControls\FancyAlertPopUp.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\VsUserControls\FancyNotificationPopUp.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\VsUserControls\FancyToolTip.g.i.cs" />
+    <Compile Remove="obj\x64\Release\BasicWindow\MainWindowToolbarButtons.g.cs" />
+    <Compile Remove="obj\x64\Release\BasicWindow\MainWindowToolbarButtons.g.i.cs" />
+    <Compile Remove="obj\x64\Release\VsControls\FancyAlertPopUp.g.cs" />
+    <Compile Remove="obj\x64\Release\VsControls\FancyAlertPopUp.g.i.cs" />
+    <Compile Remove="obj\x64\Release\VsControls\FancyNotificationPopUp.g.cs" />
+    <Compile Remove="obj\x64\Release\VsControls\FancyNotificationPopUp.g.i.cs" />
+    <Compile Remove="obj\x64\Release\VsControls\FancyToolTip.g.cs" />
+    <Compile Remove="obj\x64\Release\VsControls\FancyToolTip.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\BasicWindow\MainWindowToolbarButtons.g.cs" />
+    <Compile Remove="obj\x64\Debug\net48\BasicWindow\MainWindowToolbarButtons.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\VsControls\FancyAlertPopUp.g.cs" />
+    <Compile Remove="obj\x64\Debug\net48\VsControls\FancyAlertPopUp.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\VsControls\FancyNotificationPopUp.g.cs" />
+    <Compile Remove="obj\x64\Debug\net48\VsControls\FancyNotificationPopUp.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\VsControls\FancyToolTip.g.cs" />
+    <Compile Remove="obj\x64\Debug\net48\VsControls\FancyToolTip.g.i.cs" />
+  </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -18,6 +19,7 @@ namespace Org.Vs.TailForWin.UI.UserControls
   public class HighlightTextBlock : TextBlock
   {
     private readonly StringToWindowMediaBrushConverter _stringToBrushConverter;
+    private readonly SemaphoreSlim _highlightLock = new SemaphoreSlim(1);
 
     private new string Text
     {
@@ -36,41 +38,50 @@ namespace Org.Vs.TailForWin.UI.UserControls
 
     private void HighlightingText(string value)
     {
-      var regex = BusinessHelper.GetValidRegexPattern(HighlightText.Select(p => p.Text).ToList());
-      var splits = regex.Split(value);
+      _highlightLock.Wait();
 
-      Inlines.Clear();
-
-      foreach ( string item in splits )
+      try
       {
-        var highlightData = HighlightText.FirstOrDefault(p => string.Compare(p.Text, item, StringComparison.CurrentCultureIgnoreCase) == 0);
+        var regex = BusinessHelper.GetValidRegexPattern(HighlightText.Select(p => p.Text).ToList());
+        var splits = regex.Split(value);
 
-        if ( regex.Match(item).Success && highlightData != null )
+        Inlines.Clear();
+
+        foreach ( string item in splits )
         {
-          var run = new Run(item)
-          {
-            Foreground = _stringToBrushConverter.Convert(highlightData.TextHighlightColorHex, typeof(Brush), null, null) as Brush,
-            FontFamily = highlightData.FilterFontType.FontFamily,
-            FontSize = highlightData.FilterFontType.FontSize,
-            FontStretch = highlightData.FilterFontType.FontStretch,
-            FontStyle = highlightData.FilterFontType.FontStyle,
-            FontWeight = highlightData.FilterFontType.FontWeight
-          };
+          var highlightData = HighlightText.FirstOrDefault(p => string.Compare(p.Text, item, StringComparison.CurrentCultureIgnoreCase) == 0);
 
-          if ( !string.IsNullOrWhiteSpace(highlightData.TextBackgroundColorHex) && highlightData.IsFindWhat )
+          if ( regex.Match(item).Success && highlightData != null )
           {
-            run.Background = _stringToBrushConverter.Convert(highlightData.TextBackgroundColorHex, typeof(Brush), null, null) as Brush;
+            var run = new Run(item)
+            {
+              Foreground = _stringToBrushConverter.Convert(highlightData.TextHighlightColorHex, typeof(Brush), null, null) as Brush,
+              FontFamily = highlightData.FilterFontType.FontFamily,
+              FontSize = highlightData.FilterFontType.FontSize,
+              FontStretch = highlightData.FilterFontType.FontStretch,
+              FontStyle = highlightData.FilterFontType.FontStyle,
+              FontWeight = highlightData.FilterFontType.FontWeight
+            };
 
-            if ( run.Background != null )
-              run.Background.Opacity = highlightData.Opacity;
+            if ( !string.IsNullOrWhiteSpace(highlightData.TextBackgroundColorHex) && highlightData.IsFindWhat )
+            {
+              run.Background = _stringToBrushConverter.Convert(highlightData.TextBackgroundColorHex, typeof(Brush), null, null) as Brush;
+
+              if ( run.Background != null )
+                run.Background.Opacity = highlightData.Opacity;
+            }
+
+            Inlines.Add(run);
           }
-
-          Inlines.Add(run);
+          else
+          {
+            Inlines.Add(item);
+          }
         }
-        else
-        {
-          Inlines.Add(item);
-        }
+      }
+      finally
+      {
+        _highlightLock.Release();
       }
     }
 

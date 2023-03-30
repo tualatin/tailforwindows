@@ -1,22 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B07BE282-4B92-4E8B-97E0-8413E9501877}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Org.Vs.TailForWin</RootNamespace>
     <AssemblyName>T4W</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Platforms>AnyCPU;x86;x64</Platforms>
+    <TargetFramework>net48</TargetFramework>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -42,125 +34,78 @@
     <InheritWinAppVersionFrom>None</InheritWinAppVersionFrom>
     <AssemblyFileVersionSettings>None.None.DeltaDayStamp.Increment</AssemblyFileVersionSettings>
     <AssemblyInfoVersionSettings>None.None.DeltaDayStamp.Increment</AssemblyInfoVersionSettings>
+    <AssemblyTitle>T4W</AssemblyTitle>
+    <Company>Virtual Studios</Company>
+    <Product>T4W</Product>
+    <Description>Professional log reader for Windows®</Description>
+    <Copyright>Copyright ©  2013 - 2023 M. Zoennchen</Copyright>
+    <Version>2.3.8402.7</Version>
+    <AssemblyVersion>2.3.8489</AssemblyVersion>
+    <FileVersion>2.3.8489</FileVersion>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Resources\Main.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <DefineConstants>TRACE;DEBUG;BUILD64</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>bin\x64\Debug\T4W.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Platform)\$(Configuration)\T4W.xml</DocumentationFile>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <DefineConstants>CODE_ANALYSIS;RELEASE;BUILD64</DefineConstants>
-    <Optimize>true</Optimize>
     <DebugType>none</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile />
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <Prefer32Bit>false</Prefer32Bit>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <DefineConstants>TRACE;DEBUG;BUILD32</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>false</RunCodeAnalysis>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
     <DefineConstants>CODE_ANALYSIS;RELEASE;BUILD32</DefineConstants>
-    <Optimize>true</Optimize>
     <DebugType>none</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <Prefer32Bit>false</Prefer32Bit>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
-    </Reference>
-    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=2.0.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.15\lib\net45\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Controls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Drawing, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Drawing.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Effects, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Effects.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Prototyping.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Prototyping.Interactivity.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Expression.Prototyping.SketchControls, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.Expression.Prototyping.SketchControls.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="Microsoft.SDK.Expression.Blend, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\Microsoft.SDK.Expression.Blend.dll</HintPath>
-    </Reference>
+    <PackageReference Include="AsyncAnalyzers" Version="1.1.7.0">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="LiveCharts" Version="0.9.7" />
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="Microsoft.SDK.Expression.Blend" Version="1.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.SlowCheetah" Version="4.0.30">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="ReachFramework" />
-    <Reference Include="System" />
     <Reference Include="System.configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Printing" />
@@ -170,284 +115,14 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SDK.Expression.Blend.1.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="Xceed.Wpf.AvalonDock, Version=4.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.5.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=4.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=4.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=4.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.5.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
-    </Reference>
-    <Reference Include="Xceed.Wpf.Toolkit, Version=4.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.4.5.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="BaseView\UserControls\Interfaces\IMainWindowQuickSearchViewModel.cs" />
-    <Compile Include="Data\Messages\AddTabItemMessage.cs" />
-    <Compile Include="Data\Messages\AddTailDataToQuickAddMessage.cs" />
-    <Compile Include="Data\Messages\BookmarkOverviewResultMessage.cs" />
-    <Compile Include="Data\Messages\BringMainWindowToFrontMessage.cs" />
-    <Compile Include="Data\Messages\ChangeSelectedTabItemMessage.cs" />
-    <Compile Include="Data\Messages\DisableQuickAddInTailDataMessage.cs" />
-    <Compile Include="Data\Messages\DragWindowTabItemChangedMessage.cs" />
-    <Compile Include="Data\Messages\FindWhat\FindWhatChangedClosedMessage.cs" />
-    <Compile Include="Data\Messages\FindWhat\FindWhatResultMessage.cs" />
-    <Compile Include="Data\Messages\FindWhat\FindWhatCountResponseMessage.cs" />
-    <Compile Include="Data\Messages\FindWhat\StartSearchFindNextMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\ClearTailLogMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\GoToLineMessage.cs" />
-    <Compile Include="Data\Messages\JumpToSelectedLogEntryMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\ShowBookmarkOverviewMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\OpenFileMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\OpenFontSettingsMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\OpenWindowsEventMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\QuickAddMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\QuickSaveMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\ShowExtendedToolbarMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\StartTailMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\StopTailMessage.cs" />
-    <Compile Include="Data\Messages\OpenFilterDataFromTailDataMessage.cs" />
-    <Compile Include="Data\Messages\FindWhat\OpenFindWhatResultWindowMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\OpenFilterManagerMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\OpenGoToLineDialogMessage.cs" />
-    <Compile Include="Data\Messages\FindWhat\OpenFindWhatWindowMessage.cs" />
-    <Compile Include="Data\Messages\OpenGlobalHighlightSettingMessage.cs" />
-    <Compile Include="Data\Messages\OpenGlobalHightlightFromTailDataMessage.cs" />
-    <Compile Include="Data\Messages\OpenSmtpSettingMessage.cs" />
-    <Compile Include="Data\Messages\OpenTailDataAsNewTabItem.cs" />
-    <Compile Include="Data\Messages\OpenTailDataMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\OpenTailManagerMessage.cs" />
-    <Compile Include="Data\Messages\QuickSearchbar\ChangeWindowGuiMessage.cs" />
-    <Compile Include="Data\Messages\QuickSearchbar\QuickSearchTextBoxGetFocusMessage.cs" />
-    <Compile Include="Data\Messages\ResetDataMessage.cs" />
-    <Compile Include="Data\Messages\ShowNotificationPopUpMessage.cs" />
-    <Compile Include="Data\Messages\FindWhat\StartSearchAllMessage.cs" />
-    <Compile Include="Data\Messages\FindWhat\StartSearchCountMessage.cs" />
-    <Compile Include="Data\Messages\Keybindings\ToggleFilterMessage.cs" />
-    <Compile Include="Data\Messages\ShowStatisticsModuleMessage.cs" />
-    <Compile Include="Data\Messages\StartStopTailMessage.cs" />
-    <Compile Include="PlugIns\BookmarkCommentModule\AddBookmarkComment.xaml.cs">
-      <DependentUpon>AddBookmarkComment.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\BookmarkCommentModule\ViewModels\AddBookmarkCommentViewModel.cs" />
-    <Compile Include="PlugIns\BookmarkOverviewModule\BookmarkOverview.xaml.cs">
-      <DependentUpon>BookmarkOverview.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\BookmarkOverviewModule\ViewModels\BookmarkOverviewViewModel.cs" />
-    <Compile Include="PlugIns\ExportFormatModule\ExportFormatSelector.xaml.cs">
-      <DependentUpon>ExportFormatSelector.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\ExportFormatModule\ViewModels\ExportFormatSelectorViewModel.cs" />
-    <Compile Include="PlugIns\FileManagerModule\FileManager.xaml.cs">
-      <DependentUpon>FileManager.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\FileManagerModule\FilterManager.xaml.cs">
-      <DependentUpon>FilterManager.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\FileManagerModule\ViewModels\FileManagerViewModel.cs" />
-    <Compile Include="PlugIns\FileManagerModule\ViewModels\FilterManagerViewModel.cs" />
-    <Compile Include="PlugIns\FindModule\FindWhat.xaml.cs">
-      <DependentUpon>FindWhat.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\FindModule\FindWhatResult.xaml.cs">
-      <DependentUpon>FindWhatResult.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\FindModule\ViewModels\FindWhatViewModel.cs" />
-    <Compile Include="PlugIns\FindModule\ViewModels\FindWhatResultViewModel.cs" />
-    <Compile Include="PlugIns\FontChooserModule\FontChooseDialog.xaml.cs">
-      <DependentUpon>FontChooseDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\FontChooserModule\FontChooser.xaml.cs">
-      <DependentUpon>FontChooser.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\GoToLineModule\GoToLine.xaml.cs">
-      <DependentUpon>GoToLine.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\GoToLineModule\ViewModels\GoToLineViewModel.cs" />
-    <Compile Include="PlugIns\LogWindowModule\LogWindowControl.xaml.cs">
-      <DependentUpon>LogWindowControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\Behaviors\GridSplitterMouseExtension.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Utils\LogWindowControlDummy.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\GlobalHighlightOptionPage.xaml.cs">
-      <DependentUpon>GlobalHighlightOptionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ExtraOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\GlobalHighlightOptionViewModel.cs" />
-    <Compile Include="PlugIns\PatternModule\PatternControl.xaml.cs">
-      <DependentUpon>PatternControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\PatternModule\ViewModels\PatternControlViewModel.cs" />
-    <Compile Include="PlugIns\SmartWatchPopupModule\SmartWatchPopup.xaml.cs">
-      <DependentUpon>SmartWatchPopup.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\SmartWatchPopupModule\ViewModels\SmartWatchPopupViewModel.cs" />
-    <Compile Include="PlugIns\StatisticModule\StatisticAnalysis.xaml.cs">
-      <DependentUpon>StatisticAnalysis.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\StatisticModule\UserControls\Interfaces\IChartUserControl.cs" />
-    <Compile Include="PlugIns\StatisticModule\UserControls\Interfaces\IUcFileUsageChart.cs" />
-    <Compile Include="PlugIns\StatisticModule\UserControls\Interfaces\IUcMemoryUsageChart.cs" />
-    <Compile Include="PlugIns\StatisticModule\UserControls\UCFileUsageChart.xaml.cs">
-      <DependentUpon>UCFileUsageChart.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\StatisticModule\UserControls\UCMemoryUsageChart.xaml.cs">
-      <DependentUpon>UCMemoryUsageChart.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\StatisticModule\ViewModels\StatisticAnalysisViewModel.cs" />
-    <Compile Include="PlugIns\WindowEventReadModule\Interfaces\IWindowsEventCategoriesViewModel.cs" />
-    <Compile Include="PlugIns\WindowEventReadModule\ViewModels\TreeNodeWindowsEventsViewModel.cs" />
-    <Compile Include="PlugIns\WindowEventReadModule\ViewModels\WindowsEventCategoriesViewModel.cs" />
-    <Compile Include="PlugIns\WindowEventReadModule\WindowsEventCategories.xaml.cs">
-      <DependentUpon>WindowsEventCategories.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Behaviors\Base\BehaviorBase.cs" />
-    <Compile Include="UI\Behaviors\DataGridSingleClickBehavior.cs" />
-    <Compile Include="UI\Behaviors\ListBoxCopy.cs" />
-    <Compile Include="UI\Behaviors\ListBoxExtenders.cs" />
-    <Compile Include="UI\Behaviors\ListBoxSelector.cs" />
-    <Compile Include="PlugIns\LogWindowModule\LogWindowUserControl\LogWindowListBox.cs" />
-    <Compile Include="PlugIns\LogWindowModule\SplitWindowControl.xaml.cs">
-      <DependentUpon>SplitWindowControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\QuickAddModule\QuickAdd.xaml.cs">
-      <DependentUpon>QuickAdd.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\QuickAddModule\ViewModels\QuickAddViewModel.cs" />
-    <Compile Include="UI\Behaviors\ClickBehavior.cs" />
-    <Compile Include="UI\Behaviors\DataGridRowBehavior.cs" />
-    <Compile Include="UI\Behaviors\DropDownButtonBehavior.cs" />
-    <Compile Include="UI\Behaviors\ScrollDataGridRowIntoView.cs" />
-    <Compile Include="UI\Behaviors\SizeObserver.cs" />
-    <Compile Include="UI\Behaviors\TextBoxMaskBehavior.cs" />
-    <Compile Include="UI\Behaviors\TextBoxSelectionBehavior.cs" />
-    <Compile Include="UI\StyleableWindow\Behaviors\OpenSettingsDialogBehavior.cs" />
-    <Compile Include="BaseView\ViewModels\BaseWindowStatusbarViewModel.cs" />
-    <Compile Include="PlugIns\LogWindowModule\Interfaces\ILogWindowControl.cs" />
-    <Compile Include="PlugIns\LogWindowModule\ViewModels\LogWindowViewModel.cs" />
-    <Compile Include="UI\Behaviors\FocusBehavior.cs" />
-    <Compile Include="UI\UserControls\Behaviors\WatermarkBehavior.cs" />
-    <Compile Include="UI\UserControls\DragSupportUtils\DragSupportMenuItem.cs" />
-    <Compile Include="UI\UserControls\DragSupportUtils\DragSupportTabControl.cs" />
-    <Compile Include="BaseView\Interfaces\IOptionsViewModel.cs" />
-    <Compile Include="BaseView\Interfaces\IT4WindowViewModel.cs" />
-    <Compile Include="BaseView\ViewModels\TreeNodeOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\SysInfoOptionPage.xaml.cs">
-      <DependentUpon>SysInfoOptionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\OptionModules\AboutOption\UpdateOptionPage.xaml.cs">
-      <DependentUpon>UpdateOptionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\AboutOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\SysInfoViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\ViewModels\UpdateOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\AlertOption\ViewModels\AlertOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\SmtpOptionPage.xaml.cs">
-      <DependentUpon>SmtpOptionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ColorOptionPage.xaml.cs">
-      <DependentUpon>ColorOptionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ExtraOptionPage.xaml.cs">
-      <DependentUpon>ExtraOptionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ImportExportOptionPage.xaml.cs">
-      <DependentUpon>ImportExportOptionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ProxyOptionPage.xaml.cs">
-      <DependentUpon>ProxyOptionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ColorOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\EnvironmentOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ImportExportOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\ViewModels\ProxyOptionViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\SmartWatchOption\SmartWatchOptionPage.xaml.cs">
-      <DependentUpon>SmartWatchOptionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\AutoUpdatePopUp.xaml.cs">
-      <DependentUpon>AutoUpdatePopUp.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="BaseView\Options.xaml.cs">
-      <DependentUpon>Options.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="BaseView\UserControls\MainWindowQuickSearchBar.xaml.cs">
-      <DependentUpon>MainWindowQuickSearchBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="BaseView\UserControls\MainWindowStatusBar.xaml.cs">
-      <DependentUpon>MainWindowStatusBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="BaseView\UserControls\ViewModels\MainWindowQuickSearchBarViewModel.cs" />
-    <Compile Include="BaseView\UserControls\ViewModels\MainWindowStatusBarViewModel.cs" />
-    <Compile Include="BaseView\ViewModels\OptionsViewModel.cs" />
-    <Compile Include="PlugIns\OptionModules\AboutOption\AboutOptionPage.xaml.cs">
-      <DependentUpon>AboutOptionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\OptionModules\AlertOption\AlertOptionPage.xaml.cs">
-      <DependentUpon>AlertOptionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PlugIns\OptionModules\EnvironmentOption\EnvironmentOptionPage.xaml.cs">
-      <DependentUpon>EnvironmentOptionPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Behaviors\DialogBehavior.cs" />
-    <Compile Include="BaseView\T4Window.xaml.cs">
-      <DependentUpon>T4Window.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\StyleableWindow\Behaviors\ControlDoubleClickBehavior.cs" />
-    <Compile Include="UI\StyleableWindow\Behaviors\ShowSystemMenuBehavior.cs" />
-    <Compile Include="UI\StyleableWindow\SystemMenuManager.cs" />
-    <Compile Include="UI\StyleableWindow\Commands\WindowCloseCommand.cs" />
-    <Compile Include="UI\StyleableWindow\Behaviors\WindowDragBehavior.cs" />
-    <Compile Include="UI\StyleableWindow\Commands\WindowMaximizeCommand.cs" />
-    <Compile Include="UI\StyleableWindow\Commands\WindowMinimizeCommand.cs" />
-    <Compile Include="UI\StyleableWindow\Behaviors\WindowResizeBehavior.cs" />
-    <Compile Include="UI\UserControls\DragSupportUtils\DragSupportTabItem.cs" />
-    <Compile Include="UI\UserControls\DragSupportUtils\DragWindow.xaml.cs">
-      <DependentUpon>DragWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\UserControls\DragSupportUtils\DropOverlayWindow.xaml.cs">
-      <DependentUpon>DropOverlayWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\UserControls\DragSupportUtils\Utils\DragWindowManager.cs" />
-    <Compile Include="UI\UserControls\DragSupportUtils\Interfaces\IDragDropToTabWindow.cs" />
-    <Compile Include="UI\UserControls\DragSupportUtils\Interfaces\IDragWindow.cs" />
-    <Compile Include="UI\UserControls\HighlightTextBlock.cs" />
-    <Compile Include="UI\UserControls\Interfaces\IRegexHelper.cs" />
-    <Compile Include="UI\UserControls\RegexHelper.xaml.cs">
-      <DependentUpon>RegexHelper.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\UserControls\Spinner.xaml.cs">
-      <DependentUpon>Spinner.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\UserControls\Behaviors\TextBoxMaskBehavior.cs" />
-    <Compile Include="UI\UserControls\UpdateControl.xaml.cs">
-      <DependentUpon>UpdateControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="BaseView\ViewModels\T4WindowViewModel.cs" />
-    <Compile Include="UI\Utils\UiHelper.cs" />
-    <Compile Include="UI\ViewModels\AutoUpdateViewModel.cs" />
     <Resource Include="Resources\Delete.png" />
     <Resource Include="Resources\chart.png" />
     <Resource Include="Resources\User.png" />
@@ -467,34 +142,6 @@
     <Resource Include="Resources\Bookmark.png" />
     <Resource Include="Resources\Delete_Bookmark.png" />
     <Resource Include="Resources\RightArrow.cur" />
-    <Page Include="BaseView\Options.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="BaseView\Styles\LightWindowStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="BaseView\Styles\SettingsGridStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="BaseView\Styles\TitleBarButtonsStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="BaseView\Styles\TitleBarWindowIconStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="BaseView\UserControls\MainWindowQuickSearchBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="BaseView\UserControls\MainWindowStatusBar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <None Include="Config\log4net.Debug.xml">
       <DependentUpon>log4net.xml</DependentUpon>
       <IsTransformFile>true</IsTransformFile>
@@ -511,295 +158,6 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="PlugIns\BookmarkCommentModule\AddBookmarkComment.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PlugIns\BookmarkOverviewModule\BookmarkOverview.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\ExportFormatModule\ExportFormatSelector.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\FileManagerModule\FileManager.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\FileManagerModule\FilterManager.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\FindModule\FindWhat.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\FindModule\FindWhatResult.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\FontChooserModule\FontChooseDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\FontChooserModule\FontChooser.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\GoToLineModule\GoToLine.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\LogWindowModule\LogWindowControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\LogWindowModule\LogWindowUserControl\Styles\LogWindowStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\LogWindowModule\SplitWindowControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\OptionModules\EnvironmentOption\GlobalHighlightOptionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\PatternModule\PatternControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\QuickAddModule\QuickAdd.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\SmartWatchPopupModule\SmartWatchPopup.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\StatisticModule\StatisticAnalysis.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\StatisticModule\UserControls\UCFileUsageChart.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\StatisticModule\UserControls\UCMemoryUsageChart.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\WindowEventReadModule\WindowsEventCategories.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\Base\Converters.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\EllipsisHorizontalButtonStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\EllipsisMenuButtonStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\MenuStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\RepeatButtonStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\TextBoxDataGridStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\UserControls\DragSupportUtils\DragWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\UserControls\DragSupportUtils\DropOverlayWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\UserControls\DragSupportUtils\Styles\DragSupportMenuItemStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\UserControls\DragSupportUtils\Styles\DragSupportTabControlStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\OptionModules\AboutOption\AboutOptionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\OptionModules\AboutOption\SysInfoOptionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\OptionModules\AboutOption\UpdateOptionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\OptionModules\AlertOption\AlertOptionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\OptionModules\EnvironmentOption\SmtpOptionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\OptionModules\EnvironmentOption\ColorOptionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\OptionModules\EnvironmentOption\EnvironmentOptionPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="PlugIns\OptionModules\EnvironmentOption\ExtraOptionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\OptionModules\EnvironmentOption\ImportExportOptionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\OptionModules\EnvironmentOption\ProxyOptionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PlugIns\OptionModules\SmartWatchOption\SmartWatchOptionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\AutoUpdatePopUp.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\AndroidCheckBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Styles\AndroidRadioButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Styles\AndroidSlider.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Styles\AndroidToggleButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Styles\Button.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Styles\ComboBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\UserControls\RegexHelper.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\Base\KeyBindings.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\Label.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Styles\ScrollbarResources.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Styles\Base\Shared.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Styles\StatusbarComboBoxStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Styles\ToolTipsStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\UserControls\DragSupportUtils\Styles\DragSupportTabItemStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Styles\TextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Styles\TreeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\UserControls\DragSupportUtils\Styles\DragSupportWindowStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\UserControls\Spinner.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="BaseView\Styles\BlueWindowStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="BaseView\T4Window.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\UserControls\UpdateControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\log4net.xml">
@@ -887,49 +245,119 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
+    <ProjectReference Include="..\Tail4WindowsBusiness\Tail4WindowsBusiness.csproj" />
+    <ProjectReference Include="..\Tail4WindowsControllers\Tail4WindowsControllers.csproj" />
+    <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj" />
+    <ProjectReference Include="..\Tail4WindowsUi.Plugins\Tail4WindowsUi.Plugins.csproj" />
+    <ProjectReference Include="..\Tail4WindowsUi.Utils\Tail4WindowsUi.Utils.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BaseView\UserControls\Styles\" />
-    <Folder Include="PlugIns\LogWindowModule\LogWindowUserControl\Data\" />
-    <Folder Include="UI\UserControls\Styles\" />
-    <Folder Include="UI\UserControls\ViewModels\" />
+    <Compile Remove="UI\UserControls\VsDataGrid.cs" />
+    <Compile Remove="obj\x64\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="obj\x64\Debug\App.g.cs" />
+    <Compile Remove="obj\x64\Debug\App.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\GeneratedInternalTypeHelper.g.cs" />
+    <Compile Remove="obj\x64\Debug\GeneratedInternalTypeHelper.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\T4W_Content.g.cs" />
+    <Compile Remove="obj\x64\Debug\T4W_Content.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\BaseView\Options.g.cs" />
+    <Compile Remove="obj\x64\Debug\BaseView\Options.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\BaseView\T4Window.g.cs" />
+    <Compile Remove="obj\x64\Debug\BaseView\T4Window.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="obj\x64\Debug\net48\App.g.cs" />
+    <Compile Remove="obj\x64\Debug\net48\App.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\GeneratedInternalTypeHelper.g.cs" />
+    <Compile Remove="obj\x64\Debug\net48\GeneratedInternalTypeHelper.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\T4W_Content.g.cs" />
+    <Compile Remove="obj\x64\Debug\net48\T4W_Content.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\Tail4Windows.AssemblyInfo.cs" />
+    <Compile Remove="obj\x64\Debug\UI\AutoUpdatePopUp.g.cs" />
+    <Compile Remove="obj\x64\Debug\UI\AutoUpdatePopUp.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\BaseView\UserControls\MainWindowQuickSearchBar.g.cs" />
+    <Compile Remove="obj\x64\Debug\BaseView\UserControls\MainWindowQuickSearchBar.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\BaseView\UserControls\MainWindowStatusBar.g.cs" />
+    <Compile Remove="obj\x64\Debug\BaseView\UserControls\MainWindowStatusBar.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\BookmarkCommentModule\AddBookmarkComment.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\BookmarkCommentModule\AddBookmarkComment.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\BookmarkOverviewModule\BookmarkOverview.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\BookmarkOverviewModule\BookmarkOverview.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\ExportFormatModule\ExportFormatSelector.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\ExportFormatModule\ExportFormatSelector.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\FileManagerModule\FileManager.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\FileManagerModule\FileManager.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\FileManagerModule\FilterManager.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\FileManagerModule\FilterManager.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\FindModule\FindWhat.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\FindModule\FindWhat.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\FindModule\FindWhatResult.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\FindModule\FindWhatResult.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\FontChooserModule\FontChooseDialog.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\FontChooserModule\FontChooseDialog.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\FontChooserModule\FontChooser.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\FontChooserModule\FontChooser.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\GoToLineModule\GoToLine.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\GoToLineModule\GoToLine.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\LogWindowModule\LogWindowControl.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\LogWindowModule\LogWindowControl.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\LogWindowModule\SplitWindowControl.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\LogWindowModule\SplitWindowControl.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\PatternModule\PatternControl.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\PatternModule\PatternControl.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\QuickAddModule\QuickAdd.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\QuickAddModule\QuickAdd.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\SmartWatchPopupModule\SmartWatchPopup.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\SmartWatchPopupModule\SmartWatchPopup.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\StatisticModule\StatisticAnalysis.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\StatisticModule\StatisticAnalysis.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\WindowEventReadModule\WindowsEventCategories.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\WindowEventReadModule\WindowsEventCategories.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\UI\UserControls\RegexHelper.g.cs" />
+    <Compile Remove="obj\x64\Debug\UI\UserControls\RegexHelper.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\UI\UserControls\Spinner.g.cs" />
+    <Compile Remove="obj\x64\Debug\UI\UserControls\Spinner.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\UI\UserControls\UpdateControl.g.cs" />
+    <Compile Remove="obj\x64\Debug\UI\UserControls\UpdateControl.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\PlugIns\FontChooserModule\FontChooser.g.cs" />
+    <Compile Remove="obj\x64\Debug\net48\PlugIns\FontChooserModule\FontChooser.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\UI\UserControls\Spinner.g.cs" />
+    <Compile Remove="obj\x64\Debug\net48\UI\UserControls\Spinner.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\UI\UserControls\UpdateControl.g.cs" />
+    <Compile Remove="obj\x64\Debug\net48\UI\UserControls\UpdateControl.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\AboutOption\AboutOptionPage.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\AboutOption\AboutOptionPage.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\AboutOption\SysInfoOptionPage.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\AboutOption\SysInfoOptionPage.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\AboutOption\UpdateOptionPage.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\AboutOption\UpdateOptionPage.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\AlertOption\AlertOptionPage.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\AlertOption\AlertOptionPage.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\ColorOptionPage.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\ColorOptionPage.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\EnvironmentOptionPage.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\EnvironmentOptionPage.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\ExtraOptionPage.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\ExtraOptionPage.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\GlobalHighlightOptionPage.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\GlobalHighlightOptionPage.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\ImportExportOptionPage.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\ImportExportOptionPage.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\ProxyOptionPage.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\ProxyOptionPage.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\SmtpOptionPage.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\EnvironmentOption\SmtpOptionPage.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\OptionModules\SmartWatchOption\SmartWatchOptionPage.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\StatisticModule\UserControls\UCFileUsageChart.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\StatisticModule\UserControls\UCFileUsageChart.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\StatisticModule\UserControls\UCMemoryUsageChart.g.cs" />
+    <Compile Remove="obj\x64\Debug\PlugIns\StatisticModule\UserControls\UCMemoryUsageChart.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\UI\UserControls\DragSupportUtils\DragWindow.g.cs" />
+    <Compile Remove="obj\x64\Debug\UI\UserControls\DragSupportUtils\DragWindow.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\UI\UserControls\DragSupportUtils\DropOverlayWindow.g.cs" />
+    <Compile Remove="obj\x64\Debug\UI\UserControls\DragSupportUtils\DropOverlayWindow.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\PlugIns\OptionModules\EnvironmentOption\ExtraOptionPage.g.cs" />
+    <Compile Remove="obj\x64\Debug\net48\PlugIns\OptionModules\EnvironmentOption\ExtraOptionPage.g.i.cs" />
+    <Compile Remove="obj\x64\Debug\net48\UI\UserControls\DragSupportUtils\DragWindow.g.cs" />
+    <Compile Remove="obj\x64\Debug\net48\UI\UserControls\DragSupportUtils\DragWindow.g.i.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\AsyncAnalyzers.1.1.7.0\analyzers\dotnet\cs\AsyncAnalyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Tail4WindowsBusiness\Tail4WindowsBusiness.csproj">
-      <Project>{c81d4747-d467-42fa-a998-0b8e68131e46}</Project>
-      <Name>Tail4WindowsBusiness</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tail4WindowsControllers\Tail4WindowsControllers.csproj">
-      <Project>{dfd6ab76-fd51-4b29-abca-f0e11bebb9ec}</Project>
-      <Name>Tail4WindowsControllers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tail4WindowsCore\Tail4WindowsCore.csproj">
-      <Project>{7e255b50-cfb7-4ad8-9694-e569427fe866}</Project>
-      <Name>Tail4WindowsCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tail4WindowsUi.Plugins\Tail4WindowsUi.Plugins.csproj">
-      <Project>{1cbf978a-e8bd-4f25-88ea-b069d1fdf62e}</Project>
-      <Name>Tail4WindowsUi.Plugins</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Tail4WindowsUi.Utils\Tail4WindowsUi.Utils.csproj">
-      <Project>{cc2ada96-deb9-4c47-8b9f-6f289b137701}</Project>
-      <Name>Tail4WindowsUi.Utils</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\Microsoft.VisualStudio.SlowCheetah.4.0.8\build\Microsoft.VisualStudio.SlowCheetah.targets" Condition="Exists('..\packages\Microsoft.VisualStudio.SlowCheetah.4.0.8\build\Microsoft.VisualStudio.SlowCheetah.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.VisualStudio.SlowCheetah.4.0.8\build\Microsoft.VisualStudio.SlowCheetah.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.VisualStudio.SlowCheetah.4.0.8\build\Microsoft.VisualStudio.SlowCheetah.targets'))" />
-  </Target>
 </Project>
