@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -124,41 +125,47 @@ namespace Org.Vs.TailForWin
       if ( args == null || args.Length <= 0 )
         return;
 
-      string arg = args.FirstOrDefault();
+      var commandLineLogFileParameter = new List<string>();
 
-      if ( string.IsNullOrWhiteSpace(arg) )
-        return;
-
-      var match = Regex.Match(arg, @"/id=");
-
-      if ( match.Success )
+      foreach ( var arg in args )
       {
-        try
+        if ( string.IsNullOrWhiteSpace(arg) )
+          continue;
+
+        var match = Regex.Match(arg, @"/id=");
+
+        if ( match.Success )
         {
-          // Argument is an ID from TailManager
-          OpenTailManagerEntryById(arg.Substring("/id=".Length));
+          try
+          {
+            // Argument is an ID from TailManager
+            OpenTailManagerEntryById(arg.Substring("/id=".Length));
+            break;
+          }
+          catch
+          {
+            // Nothing
+          }
         }
-        catch
+        else
         {
-          // Nothing
+          try
+          {
+            // Argument is a FileName
+            var regex = new Regex(@"(?:(?:(?:\b[a-z]:|\\\\[a-z0-9_.$]+\\[a-z0-9_.$]+)\\|\\?[^\\/:*?""<>|\r\n]+\\?)(?:[^\\/:*?""<>|\r\n]+\\)*[^\\/:*?""<>|\r\n]*)", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+            match = regex.Match(arg);
+
+            if ( match.Success )
+              commandLineLogFileParameter.Add(arg);
+          }
+          catch
+          {
+            // Nothing
+          }
         }
       }
-      else
-      {
-        try
-        {
-          // Argument is a FileName
-          var regex = new Regex(@"(?:(?:(?:\b[a-z]:|\\\\[a-z0-9_.$]+\\[a-z0-9_.$]+)\\|\\?[^\\/:*?""<>|\r\n]+\\?)(?:[^\\/:*?""<>|\r\n]+\\)*[^\\/:*?""<>|\r\n]*)", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
-          match = regex.Match(arg);
 
-          if ( match.Success )
-            OpenFileByName(arg);
-        }
-        catch
-        {
-          // Nothing
-        }
-      }
+      OpenFileByName(commandLineLogFileParameter);
     }
 
     private void OpenTailManagerEntryById(string guid)
@@ -210,7 +217,7 @@ namespace Org.Vs.TailForWin
       if ( task.Result == null )
         return;
 
-      var firstTab = UiHelper.TabItemList.FirstOrDefault();
+      var firstTab = UiHelper.GetTabItemList().FirstOrDefault();
 
       if ( !(firstTab?.Content is ILogWindowControl myControl) )
         return;
@@ -218,21 +225,30 @@ namespace Org.Vs.TailForWin
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenTailDataMessage(this, task.Result, myControl.ParentWindowId, myControl.WindowId, false));
     }
 
-    private void OpenFileByName(string fileName)
+    private void OpenFileByName(IReadOnlyCollection<string> fileNames)
     {
-      if ( !File.Exists(fileName) )
-        return;
+      var validFileNames = new List<string>(fileNames.Count);
+      validFileNames.AddRange(fileNames.Where(File.Exists));
 
       new ThrottledExecution().InMs(500).Do(() =>
       {
         Current.Dispatcher?.Invoke(() =>
         {
-          var firstTab = UiHelper.TabItemList.FirstOrDefault();
+          foreach ( var fileName in validFileNames )
+          {
+            var firstTabItem = UiHelper.GetTabItemList().FirstOrDefault();
 
-          if ( !(firstTab?.Content is ILogWindowControl myControl) )
-            return;
+            if ( firstTabItem?.Content is ILogWindowControl myControl && myControl.SelectedItem == null)
+            {
+              myControl.SelectedItem = fileName;
+              continue;
+            }
 
-          myControl.SelectedItem = fileName;
+            var tabItem = UiHelper.CreateDragSupportTabItem($"{Current.TryFindResource("NoFile")}", $"{Current.TryFindResource("NoFile")}", Visibility.Collapsed);
+
+            ((ILogWindowControl) tabItem.Content).SelectedItem = fileName;
+            EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new AddTabItemMessage(this, tabItem));
+          }
         });
       });
     }

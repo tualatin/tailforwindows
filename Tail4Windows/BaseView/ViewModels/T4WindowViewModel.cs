@@ -86,10 +86,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
     private readonly IHistory<LogFileHistoryData> _logFileHistoryController;
     private readonly IFileManagerController _fileManagerController;
 
-    #region Events
-
-    #endregion
-
     #region Properties
 
     /// <summary>
@@ -310,7 +306,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       _dbSettingsController = SettingsDbController.Instance;
       _statisticController = new StatisticController();
       _currentStatusbarState = EStatusbarState.Default;
-      UiHelper.TabItemList.CollectionChanged += RegisteredTabItemsSourceCollectionChanged;
+      UiHelper.TabItemListCollectionChanged += RegisteredTabItemsSourceCollectionChanged;
 
       _baseWindowStatusbarViewModel = BaseWindowStatusbarViewModel.Instance;
       _baseWindowStatusbarViewModel.FileEncodingChanged += OnFileEncodingChanged;
@@ -372,7 +368,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       switch ( e.Action )
       {
       case NotifyCollectionChangedAction.Add:
-
         foreach ( object item in e.NewItems )
         {
           TrayIconItemsSource.Insert(0, new DragSupportMenuItem
@@ -387,7 +382,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         break;
 
       case NotifyCollectionChangedAction.Remove:
-
         foreach ( object item in e.OldItems )
         {
           var toRemove = TrayIconItemsSource.SingleOrDefault(p => p.TabItem != null && p.TabItem.TabItemId == ((DragSupportTabItem) item).TabItemId);
@@ -396,7 +390,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
         break;
 
       case NotifyCollectionChangedAction.Reset:
-
         TrayIconItemsSource.Clear();
         break;
       }
@@ -607,10 +600,9 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.BookmarkManager.RegisterWindowId(control.WindowId, true);
     }
 
-    private void ExecuteDeactivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(false));
+    private static void ExecuteDeactivatedCommand() => EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new SetFloatingTopmostFlagMessage(false));
 
-    private void ExecuteExitApplication()
-    {
+    private static void ExecuteExitApplication() =>
       new ThrottledExecution().InMs(220).Do(() =>
       {
         Application.Current.Dispatcher?.Invoke(() =>
@@ -619,7 +611,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
             Application.Current.MainWindow.Close();
         });
       });
-    }
 
     private void ExecuteCloseTabItemCommand()
     {
@@ -629,9 +620,12 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       CloseTabItem(SelectedTabItem);
     }
 
-    private void ExecuteAddNewTabItemCommand() => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}", Visibility.Collapsed);
+    /// <summary>
+    /// Creates a new TabItem window
+    /// </summary>
+    public void ExecuteAddNewTabItemCommand() => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}", Visibility.Collapsed);
 
-    private void ExecutePreviewKeyDownCommand(object parameter)
+    private static void ExecutePreviewKeyDownCommand(object parameter)
     {
       if ( !(parameter is KeyEventArgs e) )
         return;
@@ -639,7 +633,6 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       switch ( e.Key )
       {
       case Key.Escape:
-
         if ( SettingsHelperController.CurrentSettings.ExitWithEscape )
           Application.Current.Shutdown(0);
 
@@ -656,9 +649,11 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( e.Cancel )
         return;
 
-      for ( int i = UiHelper.TabItemList.Count - 1; i >= 0; i-- )
+      var tabItems = UiHelper.GetTabItemList().ToList();
+
+      for ( int i = UiHelper.TabItemCount - 1; i >= 0; i-- )
       {
-        UiHelper.UnregisterTabItem(UiHelper.TabItemList[i]);
+        UiHelper.UnregisterTabItem(tabItems[i]);
       }
 
       _cts.Cancel();
@@ -850,7 +845,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new ShowExtendedToolbarMessage(control.WindowId));
     }
 
-    private void ExecuteOpenHelpCommand()
+    private static void ExecuteOpenHelpCommand()
     {
       var url = new Uri(EnvironmentContainer.ApplicationHelpUrl);
       EnvironmentContainer.Instance.ExecuteRequestNavigateCommand(url);
@@ -864,7 +859,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenWindowsEventMessage(control.WindowId));
     }
 
-    private void ExecuteMinimizeWindowCommand(Window window) => window.WindowState = WindowState.Minimized;
+    private static void ExecuteMinimizeWindowCommand(Window window) => window.WindowState = WindowState.Minimized;
 
     private void ExecuteOpenFontCommand()
     {
@@ -973,7 +968,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new OpenGoToLineDialogMessage(((ILogWindowControl) SelectedTabItem.Content).ParentWindowId));
     }
 
-    private void ExecuteToggleAlwaysOnTopCommand() => SettingsHelperController.CurrentSettings.AlwaysOnTop = !SettingsHelperController.CurrentSettings.AlwaysOnTop;
+    private static void ExecuteToggleAlwaysOnTopCommand() => SettingsHelperController.CurrentSettings.AlwaysOnTop = !SettingsHelperController.CurrentSettings.AlwaysOnTop;
 
     #endregion
 
@@ -1047,7 +1042,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       content.CurrentTailData.CommitChanges();
     }
 
-    private void OnChangeSelectedTabItem(ChangeSelectedTabItemMessage args)
+    private static void OnChangeSelectedTabItem(ChangeSelectedTabItemMessage args)
     {
       var result = UiHelper.GetTabItemList().FirstOrDefault(p => ((ILogWindowControl) p.Content).WindowId == args.WindowId);
 
@@ -1058,13 +1053,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       ((ILogWindowControl) result.Content).OpenSmartWatchTailData(args.TailData);
     }
 
-    private void OnAddTabItemFromMainWindow(AddTabItemMessage args)
-    {
-      if ( !(args?.Sender is T4Window) )
-        return;
-
+    private void OnAddTabItemFromMainWindow(AddTabItemMessage args) =>
       AddTabItem(args.TabItem.HeaderContent, args.TabItem.HeaderToolTip, args.TabItem.TabItemBusyIndicator, (ILogWindowControl) args.TabItem.Content, args.TabItem.TabItemBackgroundColorStringHex);
-    }
 
     private void OnOpenFindWhatWindow(OpenFindWhatWindowMessage args)
     {
@@ -1219,17 +1209,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       switch ( SettingsHelperController.CurrentSettings.CurrentWindowStyle )
       {
       case EWindowStyle.ModernLightWindowStyle:
-
         T4WindowsStyle = (Style) Application.Current.TryFindResource("Tail4LightWindowStyle");
         break;
 
       case EWindowStyle.ModernBlueWindowStyle:
-
         T4WindowsStyle = (Style) Application.Current.TryFindResource("Tail4BlueWindowStyle");
         break;
 
       default:
-
         T4WindowsStyle = (Style) Application.Current.TryFindResource("Tail4LightWindowStyle");
         SettingsHelperController.CurrentSettings.CurrentWindowStyle = EWindowStyle.ModernLightWindowStyle;
         break;
@@ -1241,17 +1228,14 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       switch ( SettingsHelperController.CurrentSettings.Language )
       {
       case EUiLanguage.English:
-
         LanguageSelector.SetLanguageResourceDictionary(CoreEnvironment.ApplicationPath + @"\Language\en-EN.xaml");
         break;
 
       case EUiLanguage.German:
-
         LanguageSelector.SetLanguageResourceDictionary(CoreEnvironment.ApplicationPath + @"\Language\de-DE.xaml");
         break;
 
       default:
-
         LanguageSelector.SetLanguageResourceDictionary(CoreEnvironment.ApplicationPath + @"\Language\en-EN.xaml");
         break;
       }
@@ -1449,25 +1433,21 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       switch ( _currentStatusbarState )
       {
       case EStatusbarState.FileLoaded:
-
         _baseWindowStatusbarViewModel.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarFileLoadedBackgroundColorHex;
         _baseWindowStatusbarViewModel.CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
         break;
 
       case EStatusbarState.Busy:
-
         _baseWindowStatusbarViewModel.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarTailBackgroundColorHex;
         _baseWindowStatusbarViewModel.CurrentBusyState = Application.Current.TryFindResource("Record").ToString();
         break;
 
       case EStatusbarState.Default:
-
         _baseWindowStatusbarViewModel.CurrentStatusBarBackgroundColorHex = SettingsHelperController.CurrentSettings.ColorSettings.StatusBarInactiveBackgroundColorHex;
         _baseWindowStatusbarViewModel.CurrentBusyState = Application.Current.TryFindResource("TrayIconReady").ToString();
         break;
 
       default:
-
         throw new NotImplementedException();
       }
 

@@ -85,7 +85,7 @@ namespace Org.Vs.TailForWin.UI.Behaviors
 
     private static void OffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-      if ( !(d is ListBox listBox) )
+      if ( !(d is ListBox) )
         return;
     }
 

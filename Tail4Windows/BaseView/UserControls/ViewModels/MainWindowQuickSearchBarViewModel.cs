@@ -33,7 +33,7 @@ namespace Org.Vs.TailForWin.BaseView.UserControls.ViewModels
       set
       {
         _isFocused = value;
-        OnPropertyChanged(nameof(IsFocused));
+        OnPropertyChanged();
       }
     }
 

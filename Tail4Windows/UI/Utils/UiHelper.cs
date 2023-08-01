@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Threading;
 using System.Windows;
 using log4net;
@@ -25,9 +26,14 @@ namespace Org.Vs.TailForWin.UI.Utils
     private static readonly ILog LOG = LogManager.GetLogger(typeof(UiHelper));
 
     /// <summary>
+    /// Collection changed event of TabItemList
+    /// </summary>
+    public static event NotifyCollectionChangedEventHandler TabItemListCollectionChanged;
+
+    /// <summary>
     /// List of registered <see cref="DragSupportTabItem"/>
     /// </summary>
-    public static readonly ObservableCollection<DragSupportTabItem> TabItemList = new ObservableCollection<DragSupportTabItem>();
+    private static readonly ObservableCollection<DragSupportTabItem> TabItemList = new ObservableCollection<DragSupportTabItem>();
 
     private static readonly object MyLock = new object();
 
@@ -35,6 +41,16 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// Current lock time span in milliseconds
     /// </summary>
     private const int LockTimeSpanInMs = 200;
+
+    static UiHelper() => TabItemList.CollectionChanged += OnTabItemListCollectionChanged;
+
+    private static void OnTabItemListCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) =>
+      TabItemListCollectionChanged?.Invoke(sender, e);
+
+    /// <summary>
+    /// Item count of tab windows
+    /// </summary>
+    public static int TabItemCount => TabItemList.Count;
 
     /// <summary>
     /// Get current tab item list
