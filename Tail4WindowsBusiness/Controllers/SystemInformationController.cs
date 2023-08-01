@@ -102,7 +102,7 @@ namespace Org.Vs.TailForWin.Business.Controllers
             }
             else
             {
-              ipAddress.Ipv6 += $" ({currentAddress.ToString()})";
+              ipAddress.Ipv6 += $" ({currentAddress})";
               idxIp6++;
             }
           }
@@ -115,7 +115,7 @@ namespace Org.Vs.TailForWin.Business.Controllers
             }
             else
             {
-              ipAddress.Ipv4 += $" ({currentAddress.ToString()})";
+              ipAddress.Ipv4 += $" ({currentAddress})";
               idxIp4++;
             }
           }
@@ -123,7 +123,7 @@ namespace Org.Vs.TailForWin.Business.Controllers
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
       return ipAddress;
     }

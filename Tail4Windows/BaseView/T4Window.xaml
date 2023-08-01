@@ -10,7 +10,7 @@
   xmlns:dragSupportUtils="clr-namespace:Org.Vs.TailForWin.UI.UserControls.DragSupportUtils"
   xmlns:environment="clr-namespace:Org.Vs.TailForWin.Core.Controllers;assembly=T4WCore"
   xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-  xmlns:taskbarNotification="clr-namespace:Hardcodet.Wpf.TaskbarNotification;assembly=T4WUi.Plugins"
+  xmlns:tb="http://www.hardcodet.net/taskbar"
   xmlns:utils="clr-namespace:Org.Vs.TailForWin.Business.Utils;assembly=T4WBusiness"
   xmlns:viewModels="clr-namespace:Org.Vs.TailForWin.BaseView.ViewModels"
   xmlns:vml="clr-namespace:Org.Vs.TailForWin.Controllers.UI.Vml;assembly=T4WControllers"
@@ -117,22 +117,22 @@
     <baseViewControls:MainWindowStatusBar Grid.Row="1" />
 
     <!--  TaskbarIcon part  -->
-    <taskbarNotification:TaskbarIcon
+    <tb:TaskbarIcon
       x:Name="TbIcon"
       IconSource="/T4W;component/Resources/Main.ico"
       LeftClickCommand="{Binding TrayIconLeftCommand}"
       >
-      <taskbarNotification:TaskbarIcon.ContextMenu>
+      <tb:TaskbarIcon.ContextMenu>
         <ContextMenu ItemsSource="{Binding TrayIconItemsSource}" />
-      </taskbarNotification:TaskbarIcon.ContextMenu>
+      </tb:TaskbarIcon.ContextMenu>
 
-      <taskbarNotification:TaskbarIcon.TrayToolTip>
+      <tb:TaskbarIcon.TrayToolTip>
         <vsControls:FancyToolTip
           ApplicationText="{Binding Source={x:Static utils:EnvironmentContainer.ApplicationTitle}}"
           InfoText="{Binding Source={x:Static viewModels:BaseWindowStatusbarViewModel.Instance}, Path=CurrentBusyState, UpdateSourceTrigger=PropertyChanged}"
           Opacity="0.85"
           />
-      </taskbarNotification:TaskbarIcon.TrayToolTip>
-    </taskbarNotification:TaskbarIcon>
+      </tb:TaskbarIcon.TrayToolTip>
+    </tb:TaskbarIcon>
   </Grid>
 </Window>

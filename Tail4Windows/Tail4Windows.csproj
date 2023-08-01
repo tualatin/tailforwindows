@@ -40,8 +40,8 @@
     <Description>Professional log reader for Windows®</Description>
     <Copyright>Copyright ©  2013 - 2023 M. Zoennchen</Copyright>
     <Version>2.3.8402.7</Version>
-    <AssemblyVersion>2.3.8606</AssemblyVersion>
-    <FileVersion>2.3.8606</FileVersion>
+    <AssemblyVersion>2.3.8613</AssemblyVersion>
+    <FileVersion>2.3.8613</FileVersion>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -95,6 +95,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="LiveCharts" Version="0.9.7" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="log4net" Version="2.0.15" />
