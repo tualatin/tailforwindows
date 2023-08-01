@@ -223,22 +223,18 @@ namespace Org.Vs.TailForWin
       if ( !File.Exists(fileName) )
         return;
 
-      using ( var execute = new ThrottledExecution() )
+      new ThrottledExecution().InMs(500).Do(() =>
       {
-        execute.InMs(500).Do(() =>
+        Current.Dispatcher?.Invoke(() =>
         {
-          Current.Dispatcher?.Invoke(() =>
-          {
-            var firstTab = UiHelper.TabItemList.FirstOrDefault();
+          var firstTab = UiHelper.TabItemList.FirstOrDefault();
 
-            if ( !(firstTab?.Content is ILogWindowControl myControl) )
-              return;
+          if ( !(firstTab?.Content is ILogWindowControl myControl) )
+            return;
 
-            myControl.SelectedItem = fileName;
-          });
-
+          myControl.SelectedItem = fileName;
         });
-      }
+      });
     }
 
     private static void CurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e) =>
