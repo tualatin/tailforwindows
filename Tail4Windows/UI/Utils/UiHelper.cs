@@ -150,6 +150,8 @@ namespace Org.Vs.TailForWin.UI.Utils
           }
 
           tabItem.Content = logWindowControl;
+          tabItem.TabItemBackgroundColorStringHex = backgroundColor;
+
           TabItemList.Add(tabItem);
 
           return tabItem;

@@ -78,7 +78,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       set
       {
         SetValue(HeaderToolTipProperty, value);
-        OnPropertyChanged(nameof(HeaderToolTip));
+        OnPropertyChanged();
       }
     }
 
@@ -199,7 +199,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       set
       {
         SetValue(TabItemBackgroundColorStringHexProperty, value);
-        OnPropertyChanged(nameof(TabItemBackgroundColorStringHex));
+        OnPropertyChanged();
       }
     }
 
@@ -218,7 +218,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       set
       {
         SetValue(TabItemBackgroundColorProperty, value);
-        OnPropertyChanged(nameof(TabItemBackgroundColor));
+        OnPropertyChanged();
       }
     }
 

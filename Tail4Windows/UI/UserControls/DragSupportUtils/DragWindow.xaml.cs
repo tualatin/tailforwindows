@@ -10,6 +10,7 @@ using log4net;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
@@ -366,7 +367,12 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     #endregion
 
-    private void AddTabItem(string header, string toolTip, Visibility busyIndicator, string backgroundColor = "#FFD6DBE9", ILogWindowControl content = null)
+    private void AddTabItem(
+      string header,
+      string toolTip,
+      Visibility busyIndicator,
+      string backgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor,
+      ILogWindowControl content = null)
     {
       var tabItem = UiHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, content, backgroundColor);
 
