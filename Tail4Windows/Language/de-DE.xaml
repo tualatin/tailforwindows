@@ -672,4 +672,8 @@
   <system:String x:Key="HistoryConvertXmlToJsonError">Die Historie konnte nicht konvertiert werden!</system:String>
   <system:String x:Key="HistoryDeleteError">Die Historie konnte nicht gelöscht werden!</system:String>
   <system:String x:Key="HistoryUpdateError">Die Historie konnte nicht aktualisiert werden!</system:String>
+
+  <system:String x:Key="DragSupportTabItemCloseTab">Tab schließen</system:String>
+  <system:String x:Key="DragSupportTabItemLeftCloseTab">Linke Tabs schließen</system:String>
+  <system:String x:Key="DragSupportTabItemRightCloseTab">Rechte Tabs schließen</system:String>
 </ResourceDictionary>

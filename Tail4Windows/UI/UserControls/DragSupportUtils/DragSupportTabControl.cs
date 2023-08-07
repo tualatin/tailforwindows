@@ -122,7 +122,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Tab two TabItems
     /// </summary>
-    /// <param name="source">Soure TabItem</param>
+    /// <param name="source">Source TabItem</param>
     /// <param name="target">Target TabItem</param>
     /// <returns>If success <c>true</c> otherwise <c>false</c></returns>
     private void SwapTabItems(DragSupportTabItem source, DragSupportTabItem target)
