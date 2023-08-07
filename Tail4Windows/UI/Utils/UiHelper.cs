@@ -9,6 +9,7 @@ using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Collections.FilterCollections;
 using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
@@ -44,8 +45,7 @@ namespace Org.Vs.TailForWin.UI.Utils
 
     static UiHelper() => TabItemList.CollectionChanged += OnTabItemListCollectionChanged;
 
-    private static void OnTabItemListCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) =>
-      TabItemListCollectionChanged?.Invoke(sender, e);
+    private static void OnTabItemListCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => TabItemListCollectionChanged?.Invoke(sender, e);
 
     /// <summary>
     /// Item count of tab windows
@@ -72,6 +72,50 @@ namespace Org.Vs.TailForWin.UI.Utils
 
       LOG.Error("Can not lock!");
       return null;
+    }
+
+    /// <summary>
+    /// Remove tabs at certain position and direction
+    /// </summary>
+    /// <param name="tabItem"></param>
+    /// <param name="direction"><see cref="EDirection.Left"/> or <see cref="EDirection.Right"/></param>
+    /// <param name="itemSource"></param>
+    /// <param name="closeAction"></param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public static void RemoveTabsAtPositionByDirection(
+      DragSupportTabItem tabItem,
+      EDirection direction,
+      ObservableCollection<DragSupportTabItem> itemSource,
+      Action<DragSupportTabItem, bool> closeAction)
+    {
+      if ( tabItem == null )
+      {
+        return;
+      }
+
+      var position = itemSource.IndexOf(tabItem);
+
+      switch ( direction )
+      {
+      case EDirection.Left:
+        for ( var i = position - 1; i >= 0; --i )
+        {
+          var toRemove = itemSource[i];
+          closeAction?.Invoke(toRemove, false);
+        }
+        break;
+
+      case EDirection.Right:
+        for ( var i = itemSource.Count; i > position + 1; i-- )
+        {
+          var toRemove = itemSource[i - 1];
+          closeAction?.Invoke(toRemove, false);
+        }
+        break;
+
+      default:
+        throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
+      }
     }
 
     /// <summary>

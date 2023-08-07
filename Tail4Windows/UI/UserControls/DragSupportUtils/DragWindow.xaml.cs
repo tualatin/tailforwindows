@@ -11,6 +11,7 @@ using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
@@ -262,6 +263,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       tabItem.TabHeaderDoubleClick -= TabItemTabHeaderDoubleClick;
       tabItem.CloseTabWindow -= TabItemCloseTabWindow;
+      tabItem.CloseLeftTabs -= TabItemCloseLeftTabs;
+      tabItem.CloseRightTabs -= TabItemCloseRightTabs;
 
       UiHelper.UnregisterTabItem(tabItem);
       TabItems.Remove(tabItem);
@@ -378,6 +381,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemTabHeaderDoubleClick;
+      tabItem.CloseLeftTabs += TabItemCloseLeftTabs;
+      tabItem.CloseRightTabs += TabItemCloseRightTabs;
 
       TabItems.Add(tabItem);
 
@@ -394,13 +399,25 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       content.CurrentTailData.CommitChanges();
     }
 
-    #region Commands
+    private void TabItemCloseRightTabs(object sender, RoutedEventArgs e)
+    {
+      if ( !(e.Source is DragSupportTabItem tabItem) || TabItems.Count <= 1 )
+      {
+        return;
+      }
 
-    #endregion
+      UiHelper.RemoveTabsAtPositionByDirection(tabItem, EDirection.Right, TabItems, RemoveTabItem);
+    }
 
-    #region Command functions
+    private void TabItemCloseLeftTabs(object sender, RoutedEventArgs e)
+    {
+      if ( !(e.Source is DragSupportTabItem tabItem) || TabItems.Count <= 1 )
+      {
+        return;
+      }
 
-    #endregion
+      UiHelper.RemoveTabsAtPositionByDirection(tabItem, EDirection.Left, TabItems, RemoveTabItem);
+    }
 
     #region KeyBinding commands
 
