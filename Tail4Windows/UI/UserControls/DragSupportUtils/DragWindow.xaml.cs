@@ -10,7 +10,6 @@ using log4net;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Core.Controllers;
-using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
@@ -262,8 +261,6 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       tabItem.TabHeaderDoubleClick -= TabItemTabHeaderDoubleClick;
       tabItem.CloseTabWindow -= TabItemCloseTabWindow;
-      tabItem.CloseLeftTabs -= TabItemCloseLeftTabs;
-      tabItem.CloseRightTabs -= TabItemCloseRightTabs;
 
       UiHelper.UnregisterTabItem(tabItem);
       TabItems.Remove(tabItem);
@@ -354,32 +351,15 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     #region Events
 
-    private static void TabItemTabHeaderDoubleClick(object sender, RoutedEventArgs e) => LOG.Trace("MouseDoubleClick");
+    private void TabItemTabHeaderDoubleClick(object sender, RoutedEventArgs e)
+    {
+      LOG.Trace("MouseDoubleClick");
+    }
 
     private void TabItemCloseTabWindow(object sender, RoutedEventArgs e)
     {
       if ( e.Source is DragSupportTabItem item )
         RemoveTabItem(item, false);
-    }
-
-    private void TabItemCloseLeftTabs(object sender, RoutedEventArgs e)
-    {
-      if ( !(e.Source is DragSupportTabItem item) )
-      {
-        return;
-      }
-
-      UiHelper.RemoveTabItemsFromPosition(item, EDirection.Left, RemoveTabItem);
-    }
-
-    private void TabItemCloseRightTabs(object sender, RoutedEventArgs e)
-    {
-      if ( !(e.Source is DragSupportTabItem item) )
-      {
-        return;
-      }
-
-      UiHelper.RemoveTabItemsFromPosition(item, EDirection.Right, RemoveTabItem);
     }
 
     private void TabControlOnAddTabItemEvent(object sender, RoutedEventArgs e) => AddTabItem($"{Application.Current.TryFindResource("NoFile")}", $"{Application.Current.TryFindResource("NoFile")}", Visibility.Collapsed);
@@ -391,8 +371,6 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       var tabItem = UiHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, content, backgroundColor);
 
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
-      tabItem.CloseLeftTabs += TabItemCloseLeftTabs;
-      tabItem.CloseRightTabs += TabItemCloseRightTabs;
       tabItem.TabHeaderDoubleClick += TabItemTabHeaderDoubleClick;
 
       TabItems.Add(tabItem);
@@ -409,6 +387,14 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       // Commit changes
       content.CurrentTailData.CommitChanges();
     }
+
+    #region Commands
+
+    #endregion
+
+    #region Command functions
+
+    #endregion
 
     #region KeyBinding commands
 

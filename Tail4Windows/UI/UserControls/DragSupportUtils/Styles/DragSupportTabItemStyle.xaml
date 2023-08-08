@@ -122,19 +122,6 @@
   </Style>
 
   <Style x:Key="DragSupportTabItemStyle" TargetType="{x:Type dragSupportUtils:DragSupportTabItem}">
-    <!--<Setter Property="ContextMenu">
-      <Setter.Value>
-        <ContextMenu>
-          <MenuItem
-            x:Name="MenuItemCloseThisTab"
-            Header="Tab schließen"
-            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=CloseThisTabCommand}"
-            />
-          <MenuItem Header="Linke Tabs schließen" />
-          <MenuItem Header="Rechte Tabs schließen" />
-        </ContextMenu>
-      </Setter.Value>
-    </Setter>-->
     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
     <Setter Property="SnapsToDevicePixels" Value="True" />
     <Setter Property="Template">

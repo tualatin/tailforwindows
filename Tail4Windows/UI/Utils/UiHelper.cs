@@ -9,7 +9,6 @@ using Org.Vs.TailForWin.Business.Services.Data;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Collections.FilterCollections;
 using Org.Vs.TailForWin.Core.Data.Settings;
-using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule;
 using Org.Vs.TailForWin.PlugIns.LogWindowModule.Interfaces;
@@ -73,39 +72,6 @@ namespace Org.Vs.TailForWin.UI.Utils
 
       LOG.Error("Can not lock!");
       return null;
-    }
-
-    /// <summary>
-    /// Removes all tab from a certain position by <see cref="EDirection.Left"/> or <see cref="EDirection.Right"/> direction
-    /// </summary>
-    /// <param name="tabItem"></param>
-    /// <param name="direction"></param>
-    /// <param name="closeTabItem"></param>
-    public static void RemoveTabItemsFromPosition(DragSupportTabItem tabItem, EDirection direction, Action<DragSupportTabItem, bool> closeTabItem)
-    {
-      var position = TabItemList.IndexOf(tabItem);
-
-      switch ( direction )
-      {
-      case EDirection.Left:
-        for ( var i = position - 1; i >= 0; i-- )
-        {
-          var toRemove = TabItemList[i];
-          closeTabItem?.Invoke(toRemove, false);
-        }
-        break;
-
-      case EDirection.Right:
-        for ( var i = TabItemCount; i > position + 1; i-- )
-        {
-          var toRemove = TabItemList[i - 1];
-          closeTabItem?.Invoke(toRemove, false);
-        }
-        break;
-
-      default:
-        throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
-      }
     }
 
     /// <summary>
