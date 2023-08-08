@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Ui.Utils.Converters;
@@ -64,6 +65,36 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     /// <summary>
+    /// CloseLeft tabs event handler
+    /// </summary>
+    private static readonly RoutedEvent CloseLeftTabsEvent = EventManager.RegisterRoutedEvent(nameof(CloseLeftTabs), RoutingStrategy.Bubble, typeof(RoutedEventHandler),
+      typeof(DragSupportTabItem));
+
+    /// <summary>
+    /// Close left tabs when user press the close button in TabHeader
+    /// </summary>
+    public event RoutedEventHandler CloseLeftTabs
+    {
+      add => AddHandler(CloseLeftTabsEvent, value);
+      remove => RemoveHandler(CloseLeftTabsEvent, value);
+    }
+
+    /// <summary>
+    /// CloseRightTabs event handler
+    /// </summary>
+    private static readonly RoutedEvent CloseRightTabsEvent = EventManager.RegisterRoutedEvent(nameof(CloseRightTabs), RoutingStrategy.Bubble, typeof(RoutedEventHandler),
+      typeof(DragSupportTabItem));
+
+    /// <summary>
+    /// Close right tabs when user press the close button in TabHeader
+    /// </summary>
+    public event RoutedEventHandler CloseRightTabs
+    {
+      add => AddHandler(CloseRightTabsEvent, value);
+      remove => RemoveHandler(CloseRightTabsEvent, value);
+    }
+
+    /// <summary>
     /// Set HeaderToolTipProperty property
     /// </summary>
     public static readonly DependencyProperty HeaderToolTipProperty = DependencyProperty.Register(nameof(HeaderToolTip), typeof(string), typeof(DragSupportTabItem),
@@ -78,7 +109,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       set
       {
         SetValue(HeaderToolTipProperty, value);
-        OnPropertyChanged(nameof(HeaderToolTip));
+        OnPropertyChanged();
       }
     }
 
@@ -199,7 +230,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       set
       {
         SetValue(TabItemBackgroundColorStringHexProperty, value);
-        OnPropertyChanged(nameof(TabItemBackgroundColorStringHex));
+        OnPropertyChanged();
       }
     }
 
@@ -218,7 +249,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       set
       {
         SetValue(TabItemBackgroundColorProperty, value);
-        OnPropertyChanged(nameof(TabItemBackgroundColor));
+        OnPropertyChanged();
       }
     }
 
@@ -257,6 +288,12 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       Style = (Style) Application.Current.TryFindResource("DragSupportTabItemStyle");
       _stringToWindowMediaBrushConverter = new StringToWindowMediaBrushConverter();
       TabItemId = Guid.NewGuid();
+
+      ContextMenu = new ContextMenu();
+
+      ContextMenu.Items.Add(new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseTab"), Command = CloseCurrentTabItemCommand });
+      ContextMenu.Items.Add(new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseLeftTabs"), Command = CloseLeftTabsCommand });
+      ContextMenu.Items.Add(new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseRightTabs"), Command = CloseRightTabsCommand });
     }
 
     /// <summary>
@@ -285,6 +322,33 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       headerGrid.MouseDown += HeaderGridMiddleMouseButtonDown;
       headerGrid.MouseLeftButtonDown += HeaderGridMouseLeftButtonDown;
     }
+
+    private ICommand _closeCurrentTabItemCommand;
+
+    /// <summary>
+    /// Close current tab item command
+    /// </summary>
+    public ICommand CloseCurrentTabItemCommand => _closeCurrentTabItemCommand ?? (_closeCurrentTabItemCommand = new RelayCommand(p => ExecuteCloseCurrentTabItemCommand()));
+
+    private void ExecuteCloseCurrentTabItemCommand() => RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
+
+    private ICommand _closeLeftTabsCommand;
+
+    /// <summary>
+    /// Close left tabs command
+    /// </summary>
+    public ICommand CloseLeftTabsCommand => _closeLeftTabsCommand ?? (_closeLeftTabsCommand = new RelayCommand(p => ExecuteCloseLeftTabsCommand()));
+
+    private void ExecuteCloseLeftTabsCommand() => RaiseEvent(new RoutedEventArgs(CloseLeftTabsEvent, this));
+
+    private ICommand _closeRightTabsCommand;
+
+    /// <summary>
+    /// Close right tabs command
+    /// </summary>
+    public ICommand CloseRightTabsCommand => _closeRightTabsCommand ?? (_closeRightTabsCommand = new RelayCommand(p => ExecuteCloseRightTabsCommand()));
+
+    private void ExecuteCloseRightTabsCommand() => RaiseEvent(new RoutedEventArgs(CloseRightTabsEvent, this));
 
     private void CloseButtonClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
 

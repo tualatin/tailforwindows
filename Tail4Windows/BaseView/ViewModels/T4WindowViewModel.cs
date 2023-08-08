@@ -976,8 +976,32 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void TabItemCloseTabWindow(object sender, RoutedEventArgs e)
     {
-      if ( e.Source is DragSupportTabItem item )
-        CloseTabItem(item);
+      if ( !(e.Source is DragSupportTabItem item) )
+      {
+        return;
+      }
+
+      CloseTabItem(item);
+    }
+
+    private void TabItemCloseRightTabs(object sender, RoutedEventArgs e)
+    {
+      if ( !(e.Source is DragSupportTabItem tabItem) || TabItemsSource.Count <= 1 )
+      {
+        return;
+      }
+
+      UiHelper.RemoveTabsAtPositionByDirection(tabItem, EDirection.Right, TabItemsSource, CloseTabItem);
+    }
+
+    private void TabItemCloseLeftTabs(object sender, RoutedEventArgs e)
+    {
+      if ( !(e.Source is DragSupportTabItem tabItem) || TabItemsSource.Count <= 1 )
+      {
+        return;
+      }
+
+      UiHelper.RemoveTabsAtPositionByDirection(tabItem, EDirection.Left, TabItemsSource, CloseTabItem);
     }
 
     private void TabItemDoubleClick(object sender, RoutedEventArgs e)
@@ -1026,6 +1050,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemDoubleClick;
+      tabItem.CloseLeftTabs += TabItemCloseLeftTabs;
+      tabItem.CloseRightTabs += TabItemCloseRightTabs;
 
       TabItemsSource.Add(tabItem);
 
@@ -1194,6 +1220,8 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
       item.TabHeaderDoubleClick -= TabItemDoubleClick;
       item.CloseTabWindow -= TabItemCloseTabWindow;
+      item.CloseLeftTabs -= TabItemCloseLeftTabs;
+      item.CloseRightTabs -= TabItemCloseRightTabs;
 
       UiHelper.UnregisterTabItem(item);
       TabItemsSource.Remove(item);
