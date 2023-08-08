@@ -90,6 +90,13 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="Org.Vs.TailForWin.Core.Attributes.BuildDate">
+      <_Parameter1>$([System.DateTime]::Now.ToString("s"))</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="AsyncAnalyzers" Version="1.1.7.0">
       <PrivateAssets>all</PrivateAssets>

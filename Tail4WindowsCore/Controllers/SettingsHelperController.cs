@@ -824,6 +824,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           continue;
 
         Enum.TryParse(s, out EDateFormat df);
+
         return df;
       }
       return EDateFormat.DDMMYYYY;
@@ -840,6 +841,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
           continue;
 
         Enum.TryParse(s, out ETimeFormat tf);
+
         return tf;
       }
       return ETimeFormat.HHMMD;

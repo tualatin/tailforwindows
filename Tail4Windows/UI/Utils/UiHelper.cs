@@ -36,7 +36,7 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// </summary>
     private static readonly ObservableCollection<DragSupportTabItem> TabItemList = new ObservableCollection<DragSupportTabItem>();
 
-    private static readonly object MyLock = new object();
+    private static readonly SemaphoreSlim UiHelperLock = new SemaphoreSlim(1);
 
     /// <summary>
     /// Current lock time span in milliseconds
@@ -58,20 +58,16 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <returns>List of <see cref="DragSupportTabItem"/></returns>
     public static IEnumerable<DragSupportTabItem> GetTabItemList()
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanInMs)) )
-      {
-        try
-        {
-          return TabItemList;
-        }
-        finally
-        {
-          Monitor.Exit(MyLock);
-        }
-      }
+      UiHelperLock.Wait(TimeSpan.FromMilliseconds(LockTimeSpanInMs));
 
-      LOG.Error("Can not lock!");
-      return null;
+      try
+      {
+        return TabItemList;
+      }
+      finally
+      {
+        UiHelperLock.Release();
+      }
     }
 
     /// <summary>
@@ -139,26 +135,21 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
     public static void UnregisterTabItem(DragSupportTabItem tabItem)
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanInMs)) )
+      UiHelperLock.Wait(TimeSpan.FromMilliseconds(LockTimeSpanInMs));
+
+      try
       {
-        try
-        {
-          if ( !TabItemList.Contains(tabItem) )
-            return;
+        if ( !TabItemList.Contains(tabItem) )
+          return;
 
-          var control = tabItem.Content as ILogWindowControl;
+        var control = tabItem.Content as ILogWindowControl;
 
-          control?.DisposeAsync().GetAwaiter();
-          TabItemList.Remove(tabItem);
-        }
-        finally
-        {
-          Monitor.Exit(MyLock);
-        }
+        control?.DisposeAsync().GetAwaiter();
+        TabItemList.Remove(tabItem);
       }
-      else
+      finally
       {
-        LOG.Error("Can not lock!");
+        UiHelperLock.Release();
       }
     }
 
@@ -178,51 +169,47 @@ namespace Org.Vs.TailForWin.UI.Utils
       ILogWindowControl content = null,
       string backgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor)
     {
-      if ( Monitor.TryEnter(MyLock, TimeSpan.FromMilliseconds(LockTimeSpanInMs)) )
+      UiHelperLock.Wait(TimeSpan.FromMilliseconds(LockTimeSpanInMs));
+
+      try
       {
-        try
+        var tabItem = new DragSupportTabItem
         {
-          var tabItem = new DragSupportTabItem
+          HeaderContent = header,
+          IsSelected = true,
+          HeaderToolTip = toolTip,
+          TabItemBackgroundColorStringHex = backgroundColor,
+          TabItemBusyIndicator = busyIndicator
+        };
+
+        ILogWindowControl logWindowControl;
+
+        if ( content == null )
+        {
+          logWindowControl = new LogWindowControl
           {
-            HeaderContent = header,
-            IsSelected = true,
-            HeaderToolTip = toolTip,
-            TabItemBackgroundColorStringHex = backgroundColor,
-            TabItemBusyIndicator = busyIndicator
+            LogWindowTabItem = tabItem
           };
-
-          ILogWindowControl logWindowControl;
-
-          if ( content == null )
-          {
-            logWindowControl = new LogWindowControl
-            {
-              LogWindowTabItem = tabItem
-            };
-          }
-          else
-          {
-            logWindowControl = SetLogWindowControl(content, tabItem);
-
-            if ( content.TailReader != null && content.TailReader.IsBusy )
-              logWindowControl.TailReader.StartTail();
-          }
-
-          tabItem.Content = logWindowControl;
-          tabItem.TabItemBackgroundColorStringHex = backgroundColor;
-
-          TabItemList.Add(tabItem);
-
-          return tabItem;
         }
-        finally
+        else
         {
-          Monitor.Exit(MyLock);
-        }
-      }
+          logWindowControl = SetLogWindowControl(content, tabItem);
 
-      LOG.Error("Can not lock!");
-      return null;
+          if ( content.TailReader != null && content.TailReader.IsBusy )
+            logWindowControl.TailReader.StartTail();
+        }
+
+        tabItem.Content = logWindowControl;
+        tabItem.TabItemBackgroundColorStringHex = backgroundColor;
+
+        TabItemList.Add(tabItem);
+
+        return tabItem;
+      }
+      finally
+      {
+        UiHelperLock.Release();
+      }
     }
 
     private static ILogWindowControl SetLogWindowControl(ILogWindowControl content, DragSupportTabItem tabItem)
