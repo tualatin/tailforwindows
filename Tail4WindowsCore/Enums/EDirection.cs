@@ -13,6 +13,11 @@
     /// <summary>
     /// Right direction
     /// </summary>
-    Right
+    Right,
+
+    /// <summary>
+    /// Both directions
+    /// </summary>
+    Both
   }
 }

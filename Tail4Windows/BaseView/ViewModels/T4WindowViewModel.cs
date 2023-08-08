@@ -1004,6 +1004,17 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       UiHelper.RemoveTabsAtPositionByDirection(tabItem, EDirection.Left, TabItemsSource, CloseTabItem);
     }
 
+    private void TabItemCloseOtherTabs(object sender, RoutedEventArgs e)
+    {
+      if ( !(e.Source is DragSupportTabItem tabItem) || TabItemsSource.Count <= 1 )
+      {
+        return;
+      }
+
+      UiHelper.RemoveTabsAtPositionByDirection(tabItem, EDirection.Both, TabItemsSource, CloseTabItem);
+    }
+
+
     private void TabItemDoubleClick(object sender, RoutedEventArgs e)
     {
       DragWindow.CreateTabWindow(WindowPositionX + 10, WindowPositionY + 10, Width, height: Height, tabItem: SelectedTabItem);
@@ -1052,6 +1063,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       tabItem.TabHeaderDoubleClick += TabItemDoubleClick;
       tabItem.CloseLeftTabs += TabItemCloseLeftTabs;
       tabItem.CloseRightTabs += TabItemCloseRightTabs;
+      tabItem.CloseOtherTabs += TabItemCloseOtherTabs;
 
       TabItemsSource.Add(tabItem);
 
@@ -1060,7 +1072,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       if ( !content.CurrentTailData.FilterState )
         return;
 
-      // Fuck off WPF databinding, set filter state false and than true again -> Highlighting works.
+      // Fuck off WPF data binding, set filter state false and than true again -> Highlighting works.
       content.CurrentTailData.FilterState = false;
       content.CurrentTailData.FilterState = true;
 
@@ -1222,6 +1234,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       item.CloseTabWindow -= TabItemCloseTabWindow;
       item.CloseLeftTabs -= TabItemCloseLeftTabs;
       item.CloseRightTabs -= TabItemCloseRightTabs;
+      item.CloseOtherTabs -= TabItemCloseOtherTabs;
 
       UiHelper.UnregisterTabItem(item);
       TabItemsSource.Remove(item);

@@ -21,7 +21,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(UpdateController));
 
-    private static readonly object Lock = new object();
+    private static readonly SemaphoreSlim UpdateLock = new SemaphoreSlim(1);
     private readonly IWebController _webController;
     private readonly List<Version> _webVersions;
     private UpdateData _result;
@@ -58,7 +58,7 @@ namespace Org.Vs.TailForWin.Core.Controllers
         throw new WebException("Not a valid update URL, operation aborted!");
 
       string webRequest = await _webController.GetStringByUrlAsync(CoreEnvironment.ApplicationUpdateWebUrl).ConfigureAwait(false);
-      await Task.Run(() => UpdateNecessary(webRequest), token).ConfigureAwait(false);
+      await UpdateNecessaryInternalAsync(webRequest, token).ConfigureAwait(false);
 
       stopUpdate.Stop();
 
@@ -67,37 +67,40 @@ namespace Org.Vs.TailForWin.Core.Controllers
       return _result;
     }
 
-    private void UpdateNecessary(string webData)
+    private async Task UpdateNecessaryInternalAsync(string webData, CancellationToken token)
     {
       if ( string.IsNullOrWhiteSpace(webData) )
         throw new WebException("WebRequest was empty, operation aborted!");
 
+      await UpdateLock.WaitAsync(token).ConfigureAwait(false);
+
       try
       {
-        lock ( Lock )
+        if ( !webData.Contains("\n") )
+          return;
+
+        _webVersions.Clear();
+        var versions = webData.Split('\n').ToList();
+
+        Parallel.ForEach(versions, p =>
         {
-          if ( !webData.Contains("\n") )
+          if ( p == null )
             return;
 
-          _webVersions.Clear();
-          var versions = webData.Split('\n').ToList();
+          if ( Version.TryParse(p, out var v) )
+            _webVersions.Add(v);
+        });
 
-          Parallel.ForEach(versions, p =>
-          {
-            if ( p == null )
-              return;
-
-            if ( Version.TryParse(p, out var v) )
-              _webVersions.Add(v);
-          });
-
-          SortWebVersions();
-          DoCompareWebVersionWithApplicationVersion();
-        }
+        SortWebVersions();
+        DoCompareWebVersionWithApplicationVersion();
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
+      }
+      finally
+      {
+        UpdateLock.Release();
       }
     }
 
@@ -130,8 +133,6 @@ namespace Org.Vs.TailForWin.Core.Controllers
       });
     }
 
-    #region VersionComparer
-
     private class VersionComparer : IComparer<Version>
     {
       /// <summary>
@@ -148,7 +149,5 @@ namespace Org.Vs.TailForWin.Core.Controllers
         return xVersion != null ? xVersion.CompareTo(yVersion) : -1;
       }
     }
-
-    #endregion
   }
 }

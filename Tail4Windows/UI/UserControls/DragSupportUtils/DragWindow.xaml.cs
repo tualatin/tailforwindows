@@ -265,6 +265,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       tabItem.CloseTabWindow -= TabItemCloseTabWindow;
       tabItem.CloseLeftTabs -= TabItemCloseLeftTabs;
       tabItem.CloseRightTabs -= TabItemCloseRightTabs;
+      tabItem.CloseOtherTabs -= TabItemCloseOtherTabs;
 
       UiHelper.UnregisterTabItem(tabItem);
       TabItems.Remove(tabItem);
@@ -383,6 +384,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       tabItem.TabHeaderDoubleClick += TabItemTabHeaderDoubleClick;
       tabItem.CloseLeftTabs += TabItemCloseLeftTabs;
       tabItem.CloseRightTabs += TabItemCloseRightTabs;
+      tabItem.CloseOtherTabs += TabItemCloseOtherTabs;
 
       TabItems.Add(tabItem);
 
@@ -391,7 +393,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( !content.CurrentTailData.FilterState )
         return;
 
-      // Fuck off WPF databinding, set filter state false and than true again -> Highlighting works.
+      // Fuck off WPF data binding, set filter state false and than true again -> Highlighting works.
       content.CurrentTailData.FilterState = false;
       content.CurrentTailData.FilterState = true;
 
@@ -417,6 +419,16 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       }
 
       UiHelper.RemoveTabsAtPositionByDirection(tabItem, EDirection.Left, TabItems, RemoveTabItem);
+    }
+
+    private void TabItemCloseOtherTabs(object sender, RoutedEventArgs e)
+    {
+      if ( !(e.Source is DragSupportTabItem tabItem) || TabItems.Count <= 1 )
+      {
+        return;
+      }
+
+      UiHelper.RemoveTabsAtPositionByDirection(tabItem, EDirection.Both, TabItems, RemoveTabItem);
     }
 
     #region KeyBinding commands

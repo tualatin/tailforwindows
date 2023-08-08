@@ -95,6 +95,21 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     /// <summary>
+    /// CloseOtherTabs event handler
+    /// </summary>
+    private static readonly RoutedEvent CloseOtherTabsEvent = EventManager.RegisterRoutedEvent(nameof(CloseOtherTabs), RoutingStrategy.Bubble, typeof(RoutedEventHandler),
+      typeof(DragSupportTabItem));
+
+    /// <summary>
+    /// Close other tabs when user press the close button in TabHeader
+    /// </summary>
+    public event RoutedEventHandler CloseOtherTabs
+    {
+      add => AddHandler(CloseOtherTabsEvent, value);
+      remove => RemoveHandler(CloseOtherTabsEvent, value);
+    }
+
+    /// <summary>
     /// Set HeaderToolTipProperty property
     /// </summary>
     public static readonly DependencyProperty HeaderToolTipProperty = DependencyProperty.Register(nameof(HeaderToolTip), typeof(string), typeof(DragSupportTabItem),
@@ -290,10 +305,14 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       TabItemId = Guid.NewGuid();
 
       ContextMenu = new ContextMenu();
-
       ContextMenu.Items.Add(new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseTab"), Command = CloseCurrentTabItemCommand });
-      ContextMenu.Items.Add(new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseLeftTabs"), Command = CloseLeftTabsCommand });
-      ContextMenu.Items.Add(new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseRightTabs"), Command = CloseRightTabsCommand });
+
+      var subMenu = new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseTabs") };
+      subMenu.Items.Add(new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseLeftTabs"), Command = CloseLeftTabsCommand });
+      subMenu.Items.Add(new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseRightTabs"), Command = CloseRightTabsCommand });
+      subMenu.Items.Add(new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseOtherTabs"), Command = CloseOtherTabsCommand });
+
+      ContextMenu.Items.Add(subMenu);
     }
 
     /// <summary>
@@ -349,6 +368,15 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     public ICommand CloseRightTabsCommand => _closeRightTabsCommand ?? (_closeRightTabsCommand = new RelayCommand(p => ExecuteCloseRightTabsCommand()));
 
     private void ExecuteCloseRightTabsCommand() => RaiseEvent(new RoutedEventArgs(CloseRightTabsEvent, this));
+
+    private ICommand _closeOtherTabsCommand;
+
+    /// <summary>
+    /// Close other tabs command
+    /// </summary>
+    public ICommand CloseOtherTabsCommand => _closeOtherTabsCommand ?? (_closeOtherTabsCommand = new RelayCommand(p => ExecuteCloseOtherTabsCommand()));
+
+    private void ExecuteCloseOtherTabsCommand() => RaiseEvent(new RoutedEventArgs(CloseOtherTabsEvent, this));
 
     private void CloseButtonClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
 

@@ -78,7 +78,7 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// Remove tabs at certain position and direction
     /// </summary>
     /// <param name="tabItem"></param>
-    /// <param name="direction"><see cref="EDirection.Left"/> or <see cref="EDirection.Right"/></param>
+    /// <param name="direction"><see cref="EDirection.Left"/>, <see cref="EDirection.Right"/> or <see cref="EDirection.Both"/></param>
     /// <param name="itemSource"></param>
     /// <param name="closeAction"></param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
@@ -98,23 +98,38 @@ namespace Org.Vs.TailForWin.UI.Utils
       switch ( direction )
       {
       case EDirection.Left:
-        for ( var i = position - 1; i >= 0; --i )
-        {
-          var toRemove = itemSource[i];
-          closeAction?.Invoke(toRemove, false);
-        }
+        RemoveLeftTabs(itemSource, closeAction, position);
         break;
 
       case EDirection.Right:
-        for ( var i = itemSource.Count; i > position + 1; i-- )
-        {
-          var toRemove = itemSource[i - 1];
-          closeAction?.Invoke(toRemove, false);
-        }
+        RemoveRightTabs(itemSource, closeAction, position);
+        break;
+
+      case EDirection.Both:
+        RemoveRightTabs(itemSource, closeAction, position);
+        RemoveLeftTabs(itemSource, closeAction, position);
         break;
 
       default:
         throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
+      }
+    }
+
+    private static void RemoveRightTabs(IReadOnlyList<DragSupportTabItem> itemSource, Action<DragSupportTabItem, bool> closeAction, int position)
+    {
+      for ( var i = itemSource.Count; i > position + 1; i-- )
+      {
+        var toRemove = itemSource[i - 1];
+        closeAction?.Invoke(toRemove, false);
+      }
+    }
+
+    private static void RemoveLeftTabs(IReadOnlyList<DragSupportTabItem> itemSource, Action<DragSupportTabItem, bool> closeAction, int position)
+    {
+      for ( var i = position - 1; i >= 0; --i )
+      {
+        var toRemove = itemSource[i];
+        closeAction?.Invoke(toRemove, false);
       }
     }
 

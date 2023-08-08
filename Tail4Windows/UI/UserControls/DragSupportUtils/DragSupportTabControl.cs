@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -23,7 +24,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
   {
     private static readonly ILog LOG = LogManager.GetLogger(typeof(DragSupportTabItem));
 
-    private static readonly object MyLockWindow = new object();
+    private static readonly SemaphoreSlim MyLockWindow = new SemaphoreSlim(1);
     private Point _startPoint;
     private Window _dragToWindow;
     private RepeatButton _repeatButtonLeft;
@@ -37,7 +38,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// AddTabItem event handler
     /// </summary>
-    public static readonly RoutedEvent AddTabItemRoutedEvent = EventManager.RegisterRoutedEvent("AddTabItemEvent", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabControl));
+    public static readonly RoutedEvent AddTabItemRoutedEvent = EventManager.RegisterRoutedEvent(nameof(AddTabItemEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabControl));
 
     /// <summary>
     /// Add TabItem
@@ -122,7 +123,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Tab two TabItems
     /// </summary>
-    /// <param name="source">Soure TabItem</param>
+    /// <param name="source">Source TabItem</param>
     /// <param name="target">Target TabItem</param>
     /// <returns>If success <c>true</c> otherwise <c>false</c></returns>
     private void SwapTabItems(DragSupportTabItem source, DragSupportTabItem target)
@@ -323,7 +324,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     /// <summary>
-    /// Change visibility and avalability of buttons if it is necessary
+    /// Change visibility and availability of buttons if it is necessary
     /// </summary>
     /// <param name="horizontalOffset">the real offset instead of outdated one from the scroll viewer</param>
     private void UpdateScrollButtonsVisibility(double? horizontalOffset = null)
@@ -399,9 +400,15 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       if ( _dragToWindow == null )
       {
-        lock ( MyLockWindow )
+        MyLockWindow.Wait();
+
+        try
         {
           _dragToWindow = DragWindow.CreateTabWindow(left, top, ActualWidth, ActualHeight, tabItem);
+        }
+        finally
+        {
+          MyLockWindow.Release();
         }
       }
 

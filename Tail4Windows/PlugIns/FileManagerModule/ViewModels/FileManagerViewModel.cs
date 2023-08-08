@@ -794,7 +794,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule.ViewModels
       if ( SelectedItem == null )
         return;
 
-      if ( string.IsNullOrWhiteSpace(SelectedItem?.FileName) && !SelectedItem.IsWindowsEvent )
+      if ( string.IsNullOrWhiteSpace(SelectedItem.FileName) && !SelectedItem.IsWindowsEvent )
         return;
 
       SelectedItem.OpenFromFileManager = true;
