@@ -40,8 +40,8 @@
     <Description>Professional log reader for Windows®</Description>
     <Copyright>Copyright ©  2013 - 2023 M. Zoennchen</Copyright>
     <Version>2.3.8402.7</Version>
-    <AssemblyVersion>2.3.8613</AssemblyVersion>
-    <FileVersion>2.3.8613</FileVersion>
+    <AssemblyVersion>2.3.8620</AssemblyVersion>
+    <FileVersion>2.3.8620</FileVersion>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -90,6 +90,13 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <NoWarn>1591</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="Org.Vs.TailForWin.Core.Attributes.BuildDate">
+      <_Parameter1>$([System.DateTime]::Now.ToString("s"))</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="AsyncAnalyzers" Version="1.1.7.0">
       <PrivateAssets>all</PrivateAssets>

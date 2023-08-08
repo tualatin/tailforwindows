@@ -9,6 +9,10 @@ Take a look to the Tail4Windows Wiki page, if you want more informations: https:
 
 Changelog:
 v.2.3.xxxx.x64
+* new Close multiple tabs context menu -> Close left tabs, Close right tabs, Close other tabs
+* new commandline parameter parser can process multiple args, example: T4W c:\temp\abc.log d:\temp\xyz.log c:\temp\xxx.log
+* bug fix build date
+* bug fix commandline parameter parser
 * bug fix InvalidOperationException when highlight text in logwindow
 * bug fix reset global colors -> mousehover color was not set correctly
 

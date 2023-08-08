@@ -10,6 +10,8 @@ using log4net;
 using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Core.Controllers;
+using Org.Vs.TailForWin.Core.Data.Settings;
+using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Native.Data.Enum;
@@ -261,6 +263,9 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       tabItem.TabHeaderDoubleClick -= TabItemTabHeaderDoubleClick;
       tabItem.CloseTabWindow -= TabItemCloseTabWindow;
+      tabItem.CloseLeftTabs -= TabItemCloseLeftTabs;
+      tabItem.CloseRightTabs -= TabItemCloseRightTabs;
+      tabItem.CloseOtherTabs -= TabItemCloseOtherTabs;
 
       UiHelper.UnregisterTabItem(tabItem);
       TabItems.Remove(tabItem);
@@ -366,12 +371,20 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     #endregion
 
-    private void AddTabItem(string header, string toolTip, Visibility busyIndicator, string backgroundColor = "#FFD6DBE9", ILogWindowControl content = null)
+    private void AddTabItem(
+      string header,
+      string toolTip,
+      Visibility busyIndicator,
+      string backgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor,
+      ILogWindowControl content = null)
     {
       var tabItem = UiHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, content, backgroundColor);
 
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemTabHeaderDoubleClick;
+      tabItem.CloseLeftTabs += TabItemCloseLeftTabs;
+      tabItem.CloseRightTabs += TabItemCloseRightTabs;
+      tabItem.CloseOtherTabs += TabItemCloseOtherTabs;
 
       TabItems.Add(tabItem);
 
@@ -380,7 +393,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( !content.CurrentTailData.FilterState )
         return;
 
-      // Fuck off WPF databinding, set filter state false and than true again -> Highlighting works.
+      // Fuck off WPF data binding, set filter state false and than true again -> Highlighting works.
       content.CurrentTailData.FilterState = false;
       content.CurrentTailData.FilterState = true;
 
@@ -388,13 +401,35 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       content.CurrentTailData.CommitChanges();
     }
 
-    #region Commands
+    private void TabItemCloseRightTabs(object sender, RoutedEventArgs e)
+    {
+      if ( !(e.Source is DragSupportTabItem tabItem) || TabItems.Count <= 1 )
+      {
+        return;
+      }
 
-    #endregion
+      UiHelper.RemoveTabsAtPositionByDirection(tabItem, EDirection.Right, TabItems, RemoveTabItem);
+    }
 
-    #region Command functions
+    private void TabItemCloseLeftTabs(object sender, RoutedEventArgs e)
+    {
+      if ( !(e.Source is DragSupportTabItem tabItem) || TabItems.Count <= 1 )
+      {
+        return;
+      }
 
-    #endregion
+      UiHelper.RemoveTabsAtPositionByDirection(tabItem, EDirection.Left, TabItems, RemoveTabItem);
+    }
+
+    private void TabItemCloseOtherTabs(object sender, RoutedEventArgs e)
+    {
+      if ( !(e.Source is DragSupportTabItem tabItem) || TabItems.Count <= 1 )
+      {
+        return;
+      }
+
+      UiHelper.RemoveTabsAtPositionByDirection(tabItem, EDirection.Both, TabItems, RemoveTabItem);
+    }
 
     #region KeyBinding commands
 

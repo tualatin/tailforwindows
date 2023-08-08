@@ -23,7 +23,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     public DragSupportMenuItem() => Style = (Style) Application.Current.TryFindResource("DragSupportMenuItemStyle");
 
     /// <summary>
-    /// When overridden in a derived class, is invoked whenever application code or internal proc esses call <code>ApplyTemplate</code>.
+    /// When overridden in a derived class, is invoked whenever application code or internal processes call <code>ApplyTemplate</code>.
     /// </summary>
     public override void OnApplyTemplate()
     {
@@ -44,13 +44,11 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       switch ( e.PropertyName )
       {
       case "HeaderFullText":
-
         HeaderContent = TabItem.HeaderFullText;
         SetBusyIndicator();
         break;
 
       case "TabItemBusyIndicator":
-
         SetBusyIndicator();
         break;
       }

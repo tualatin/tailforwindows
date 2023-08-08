@@ -13,6 +13,7 @@ using Org.Vs.TailForWin.Controllers.Commands.Interfaces;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Data;
 using Org.Vs.TailForWin.Controllers.PlugIns.OptionModules.AboutOption.Interfaces;
+using Org.Vs.TailForWin.Core.Attributes;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Data.Base;
 using Org.Vs.TailForWin.Core.Utils;
@@ -141,7 +142,7 @@ namespace Org.Vs.TailForWin.PlugIns.OptionModules.AboutOption.ViewModels
 
       Assembly assembly = Assembly.GetExecutingAssembly();
       Author = $"M. Zoennchen, Copyright 2013 - {DateTime.Now.Year}";
-      BuildDate = Core.Utils.BuildDate.GetBuildDateTime(assembly).ToString(SettingsHelperController.CurrentAppSettings.CurrentCultureInfo);
+      BuildDate = Core.Utils.BuildDate.GetBuildDateByAssembly(assembly);
       Version = $"{assembly.GetName().Version} - {build} ({channel})";
     }
 

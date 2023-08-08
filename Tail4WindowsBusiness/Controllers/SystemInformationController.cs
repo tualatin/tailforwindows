@@ -10,8 +10,6 @@ using System.Windows.Forms;
 using log4net;
 using Microsoft.Win32;
 using Org.Vs.TailForWin.Business.Data.SystemInformation;
-using Org.Vs.TailForWin.Core.Controllers;
-using Org.Vs.TailForWin.Core.Extensions;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
 using Org.Vs.TailForWin.Core.Utils;
@@ -38,9 +36,7 @@ namespace Org.Vs.TailForWin.Business.Controllers
       await Task.Run(() =>
       {
         Assembly assembly = Assembly.GetExecutingAssembly();
-        string format = $"{SettingsHelperController.CurrentSettings.DefaultDateFormat.GetEnumDescription()} " +
-                        $"{SettingsHelperController.CurrentSettings.DefaultTimeFormat.GetEnumDescription()}";
-        string buildDateTime = BuildDate.GetBuildDateTime(assembly).ToString(format);
+        string buildDateTime = BuildDate.GetBuildDateByAssembly(assembly);
 
         sysInfo.ApplicationName = CoreEnvironment.ApplicationTitle;
         sysInfo.BuildDateTime = buildDateTime;
