@@ -143,6 +143,15 @@
               BorderThickness="5 0 0 0"
               >
               <DockPanel>
+                <!--<Canvas>
+                  <Polygon
+                    Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColorStringHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    Points="0,1 50,1 150,50 150,150 100,150 5,100"
+                    Stroke="{StaticResource BrushSolidBorderNotActiveBlue}"
+                    StrokeThickness="1"
+                    />
+                </Canvas>-->
+
                 <Button
                   x:Name="TabItemCloseButton"
                   Width="16"
@@ -229,7 +238,7 @@
           </Grid>
           <ControlTemplate.Triggers>
             <Trigger Property="IsSelected" Value="True">
-              <Setter TargetName="ContentSite" Property="TextBlock.FontWeight" Value="Bold" />
+              <Setter TargetName="ContentSite" Property="TextBlock.FontWeight" Value="DemiBold" />
               <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True" SourceName="Chrome">
