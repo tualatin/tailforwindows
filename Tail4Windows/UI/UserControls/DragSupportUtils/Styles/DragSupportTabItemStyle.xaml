@@ -7,6 +7,11 @@
   xmlns:extendedControls="clr-namespace:Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls;assembly=T4WUi.Plugins"
   >
 
+  <Geometry x:Key="UnPinnedState">F1M0,4L3,4 3,1 4,1 4,2 7,2 8,2 8,7 7,7 4,7 4,8 3,8 3,5 0,5 0,4z M7,3L4,3 4,5 7,5 7,3z</Geometry>
+  <Geometry x:Key="PinnedState">
+    M3.875,0 L5.125,0 5.125,3.875 9,3.875 9,5.125 5.125,5.125 5.125,9 3.875,9 3.875,5.125 0,5.125 0,3.875 3.875,3.875 3.875,0 z
+  </Geometry>
+
   <Style x:Key="CloseableTabItemButtonStyle" TargetType="{x:Type Button}">
     <Setter Property="Background" Value="{DynamicResource {x:Static colorResources:ColorResources.ButtonNormalBackgroundKey}}" />
     <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
@@ -156,7 +161,7 @@
                   x:Name="TabItemCloseButton"
                   Width="16"
                   Height="16"
-                  Margin="1 0 3 0"
+                  Margin="2 0"
                   Padding="4"
                   DockPanel.Dock="Right"
                   Style="{DynamicResource CloseableTabItemButtonStyle}"
@@ -170,6 +175,21 @@
                     Data="F1M0,0L2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0z"
                     Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource BackgroundToForegroundConverter}}"
                     Stretch="None"
+                    />
+                </Button>
+
+                <Button
+                  x:Name="TabItemPinnedButton"
+                  Margin="2 0"
+                  DockPanel.Dock="Right"
+                  Style="{x:Null}"
+                  >
+                  <Path
+                    x:Name="TabItemIsPinnedPath"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Data="{StaticResource UnPinnedState}"
+                    Fill="Black"
                     />
                 </Button>
 
@@ -237,6 +257,14 @@
             </Border>
           </Grid>
           <ControlTemplate.Triggers>
+            <Trigger Property="IsPinned" Value="True">
+              <Setter TargetName="TabItemIsPinnedPath" Property="Data" Value="{StaticResource PinnedState}" />
+            </Trigger>
+
+            <Trigger Property="IsPinned" Value="False">
+              <Setter TargetName="TabItemIsPinnedPath" Property="Data" Value="{StaticResource UnPinnedState}" />
+            </Trigger>
+
             <Trigger Property="IsSelected" Value="True">
               <Setter TargetName="ContentSite" Property="TextBlock.FontWeight" Value="DemiBold" />
               <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />

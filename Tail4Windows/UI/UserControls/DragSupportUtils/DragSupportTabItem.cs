@@ -111,6 +111,24 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     /// <summary>
+    /// Set IsPinned property
+    /// </summary>
+    public static readonly DependencyProperty IsPinnedProperty = DependencyProperty.Register(
+      nameof(IsPinned),
+      typeof(bool),
+      typeof(DragSupportTabItem),
+      new UIPropertyMetadata(false));
+
+    /// <summary>
+    /// Gets/sets IsPinned
+    /// </summary>
+    public bool IsPinned
+    {
+      get => (bool) GetValue(IsPinnedProperty);
+      set => SetValue(IsPinnedProperty, value);
+    }
+
+    /// <summary>
     /// Set HeaderToolTipProperty property
     /// </summary>
     public static readonly DependencyProperty HeaderToolTipProperty = DependencyProperty.Register(nameof(HeaderToolTip), typeof(string), typeof(DragSupportTabItem),
@@ -379,6 +397,9 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( GetTemplateChild("TabItemCloseButton") is Button closeButton )
         closeButton.PreviewMouseDown += CloseButtonClick;
 
+      if (GetTemplateChild("TabItemPinnedButton") is Button pinnedButton )
+        pinnedButton.PreviewMouseDown += PinnedButtonClick;
+
       _tabItemBusyIndicator = GetTemplateChild("TabItemBusyIndicator") as Polygon;
 
       if ( _tabItemBusyIndicator != null )
@@ -433,6 +454,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     private void ExecuteCloseOtherTabsCommand() => RaiseEvent(new RoutedEventArgs(CloseOtherTabsEvent, this));
 
     private void CloseButtonClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
+
+    private void PinnedButtonClick(object sender, MouseButtonEventArgs e) => IsPinned = !IsPinned;
 
     private void HeaderGridMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
