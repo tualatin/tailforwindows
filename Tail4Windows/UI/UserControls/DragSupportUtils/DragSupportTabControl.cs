@@ -33,6 +33,24 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     private ScrollViewer _scrollViewer;
     private Panel _headerPanel;
 
+    /// <summary>
+    /// Set TabItem background color property
+    /// </summary>
+    public static readonly DependencyProperty TabControlBorderBackgroundColorProperty = DependencyProperty.Register(
+      nameof(TabControlBorderBackgroundColor),
+      typeof(SolidColorBrush),
+      typeof(DragSupportTabControl),
+      new UIPropertyMetadata(Application.Current.TryFindResource("BrushSolidLightBlue")));
+
+    /// <summary>
+    /// Gets/sets background color
+    /// </summary>
+    public SolidColorBrush TabControlBorderBackgroundColor
+    {
+      get => (SolidColorBrush) GetValue(TabControlBorderBackgroundColorProperty);
+      set => SetValue(TabControlBorderBackgroundColorProperty, value);
+    }
+
     #region RoutedEvents
 
     /// <summary>
@@ -420,5 +438,20 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     #endregion
+
+    /// <summary>
+    /// Raises the Selector.SelectionChanged routed event
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+    {
+      if ( e.AddedItems.Count != 0 )
+      {
+        if ( e.AddedItems[0] is DragSupportTabItem selectedTabItem )
+          TabControlBorderBackgroundColor = selectedTabItem.TabItemBackgroundColor;
+      }
+
+      base.OnSelectionChanged(e);
+    }
   }
 }

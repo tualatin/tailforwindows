@@ -208,8 +208,24 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Set TabItem background color as string property
     /// </summary>
-    public static readonly DependencyProperty TabItemBackgroundColorStringHexProperty = DependencyProperty.Register("TabItemBackgroundColorStringHexProperty", typeof(string),
-      typeof(DragSupportTabItem), new UIPropertyMetadata(DefaultEnvironmentSettings.TabItemHeaderBackgroundColor, OnTabItemColorStringHexChanged));
+    public static readonly DependencyProperty TabItemBackgroundColorStringHexProperty = DependencyProperty.Register(
+      nameof(TabItemBackgroundColorStringHex),
+      typeof(string),
+      typeof(DragSupportTabItem),
+      new UIPropertyMetadata(DefaultEnvironmentSettings.TabItemHeaderBackgroundColor, OnTabItemColorStringHexChanged));
+
+    /// <summary>
+    /// Gets/sets background color as string
+    /// </summary>
+    public string TabItemBackgroundColorStringHex
+    {
+      get => (string) GetValue(TabItemBackgroundColorStringHexProperty);
+      set
+      {
+        SetValue(TabItemBackgroundColorStringHexProperty, value);
+        OnPropertyChanged();
+      }
+    }
 
     private static void OnTabItemColorStringHexChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
@@ -235,19 +251,6 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       add => AddHandler(TabHeaderBackgroundChangedEvent, value);
       remove => RemoveHandler(TabHeaderBackgroundChangedEvent, value);
-    }
-
-    /// <summary>
-    /// Gets/sets background color as string
-    /// </summary>
-    public string TabItemBackgroundColorStringHex
-    {
-      get => (string) GetValue(TabItemBackgroundColorStringHexProperty);
-      set
-      {
-        SetValue(TabItemBackgroundColorStringHexProperty, value);
-        OnPropertyChanged();
-      }
     }
 
     /// <summary>
