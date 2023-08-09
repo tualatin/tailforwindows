@@ -170,7 +170,7 @@
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center"
                   DockPanel.Dock="Left"
-                  Fill="{DynamicResource {x:Static colorResources:ColorResources.BrushSolidStartGreenKey}}"
+                  Fill="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColor, Converter={StaticResource ForegroundColorToBackgroundColorConverter}, ConverterParameter={StaticResource {x:Static colorResources:ColorResources.BrushSolidStartGreenKey}}}"
                   Points="0,0 7,5, 0,10"
                   />
 

@@ -21,6 +21,7 @@ namespace Org.Vs.TailForWin.Ui.Utils.Converters
     {
       _defaultForegroundColor = new SolidColorBrush(Colors.Black);
       _defaultForegroundColor.Freeze();
+
       _foregroundColor = new SolidColorBrush(Color.FromRgb(240, 240, 240));
       _foregroundColor.Freeze();
     }
@@ -39,6 +40,7 @@ namespace Org.Vs.TailForWin.Ui.Utils.Converters
         return _defaultForegroundColor;
 
       double l = 0.2126 * backgroundColor.Color.ScR + 0.7152 * backgroundColor.Color.ScG + 0.0722 * backgroundColor.Color.ScB;
+
       return l > 0.5 ? _defaultForegroundColor : _foregroundColor;
     }
 

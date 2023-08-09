@@ -19,7 +19,8 @@ namespace Org.Vs.TailForWin.Ui.Utils.Converters
     /// <param name="parameter">Parameter</param>
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => value != null && (Visibility) value == Visibility.Visible ? 1d : .2d;
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+      => value != null && (Visibility) value == Visibility.Visible ? 1d : .2d;
 
     /// <summary>
     /// Convert back
