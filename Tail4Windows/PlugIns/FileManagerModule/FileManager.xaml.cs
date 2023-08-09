@@ -13,7 +13,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule
   {
     private readonly IFileManagerViewModel _viewModel;
     private bool? _showExtendedSettingsOldState;
-    private int _clickClount;
+    private int _clickCount;
 
     /// <summary>
     /// Current Window ID
@@ -38,7 +38,7 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule
       InitializeComponent();
       Closing += OnFileManagerClosing;
       _viewModel = (IFileManagerViewModel) DataContext;
-      _clickClount = 0;
+      _clickCount = 0;
 
       if ( _viewModel == null )
       {
@@ -54,12 +54,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule
       {
         if ( _viewModel.SelectedItems.Count > 1 )
         {
-          if ( _clickClount == 0 )
+          if ( _clickCount == 0 )
           {
             _showExtendedSettingsOldState = ExtendedSettingsToggleButton.IsChecked;
             ExtendedSettingsToggleButton.IsChecked = false;
             ExtendedSettingsToggleButton.IsEnabled = false;
-            _clickClount++;
+            _clickCount++;
           }
         }
         else
@@ -67,12 +67,12 @@ namespace Org.Vs.TailForWin.PlugIns.FileManagerModule
           ExtendedSettingsToggleButton.IsChecked = _showExtendedSettingsOldState ?? ExtendedSettingsToggleButton.IsChecked;
           ExtendedSettingsToggleButton.IsEnabled = true;
 
-          if ( _clickClount == 0 )
+          if ( _clickCount == 0 )
           {
             return;
           }
 
-          _clickClount--;
+          _clickCount--;
         }
       }
     }

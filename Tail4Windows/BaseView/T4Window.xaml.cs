@@ -58,6 +58,8 @@ namespace Org.Vs.TailForWin.BaseView
       InitializeComponent();
 
       DragWindowGuid = Guid.NewGuid();
+      DragSupportTabControl.WindowId = DragWindowGuid;
+
       DragWindowManager.Instance.Register(this);
       SourceInitialized += T4WindowSourceInitialized;
 
