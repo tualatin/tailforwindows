@@ -329,7 +329,7 @@ namespace Org.Vs.TailForWin.Ui.PlugIns.VsControls.ExtendedControls
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
 

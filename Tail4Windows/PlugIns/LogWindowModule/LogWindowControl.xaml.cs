@@ -236,6 +236,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       get
       {
         var window = Window.GetWindow(this);
+
         return ((IDragWindow) window)?.DragWindowGuid ?? Guid.Empty;
       }
     }
@@ -954,6 +955,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         ChangeTailData();
 
         EnvironmentContainer.Instance.BookmarkManager.TimeStamp = CurrentTailData.Timestamp;
+        EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new DragSupportTabItemChangedMessage(this, LogWindowTabItem.TabItemBackgroundColor, ParentWindowId));
         return;
       }
 
@@ -975,6 +977,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
       ChangeTailData();
 
       EnvironmentContainer.Instance.BookmarkManager.TimeStamp = CurrentTailData.Timestamp;
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new DragSupportTabItemChangedMessage(this, LogWindowTabItem.TabItemBackgroundColor, ParentWindowId));
 
       if ( LogWindowTabItem.TabItemBusyIndicator != Visibility.Visible )
         LogWindowState = !string.IsNullOrWhiteSpace(CurrentTailData.FileName) ? EStatusbarState.FileLoaded : EStatusbarState.Default;

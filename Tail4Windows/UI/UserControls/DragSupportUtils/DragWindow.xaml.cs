@@ -73,6 +73,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       TabItems = new ObservableCollection<DragSupportTabItem>();
       DragWindowGuid = Guid.NewGuid();
+      DragSupportTabControl.WindowId = DragWindowGuid;
 
       DragWindowManager.Instance.Register(this);
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<OpenTailDataAsNewTabItem>(OnOpenTailDataAsNewTabItem);

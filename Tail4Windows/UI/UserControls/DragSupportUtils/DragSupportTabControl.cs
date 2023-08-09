@@ -8,9 +8,11 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 using log4net;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
+using Org.Vs.TailForWin.Data.Messages;
 using Org.Vs.TailForWin.Ui.Utils.Extensions;
 using Org.Vs.TailForWin.UI.Utils;
 
@@ -33,12 +35,52 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     private ScrollViewer _scrollViewer;
     private Panel _headerPanel;
 
+    /// <summary>
+    /// Set TabControl border background color property
+    /// </summary>
+    public static readonly DependencyProperty TabControlBorderBackgroundColorProperty = DependencyProperty.Register(
+      nameof(TabControlBorderBackgroundColor),
+      typeof(SolidColorBrush),
+      typeof(DragSupportTabControl),
+      new UIPropertyMetadata(Application.Current.TryFindResource("BrushSolidLightBlue")));
+
+    /// <summary>
+    /// Gets/sets background color
+    /// </summary>
+    public SolidColorBrush TabControlBorderBackgroundColor
+    {
+      get => (SolidColorBrush) GetValue(TabControlBorderBackgroundColorProperty);
+      set => SetValue(TabControlBorderBackgroundColorProperty, value);
+    }
+
+    /// <summary>
+    /// Set Window Guid property
+    /// </summary>
+    public static readonly DependencyProperty WindowIdProperty = DependencyProperty.Register(
+      nameof(WindowId),
+      typeof(Guid),
+      typeof(DragSupportTabControl),
+      new UIPropertyMetadata(Guid.Empty));
+
+    /// <summary>
+    /// Gets/sets Window Id
+    /// </summary>
+    public Guid WindowId
+    {
+      get => (Guid) GetValue(WindowIdProperty);
+      set => SetValue(WindowIdProperty, value);
+    }
+
     #region RoutedEvents
 
     /// <summary>
     /// AddTabItem event handler
     /// </summary>
-    public static readonly RoutedEvent AddTabItemRoutedEvent = EventManager.RegisterRoutedEvent(nameof(AddTabItemEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(DragSupportTabControl));
+    public static readonly RoutedEvent AddTabItemRoutedEvent = EventManager.RegisterRoutedEvent(
+      nameof(AddTabItemEvent),
+      RoutingStrategy.Bubble,
+      typeof(RoutedEventHandler),
+      typeof(DragSupportTabControl));
 
     /// <summary>
     /// Add TabItem
@@ -61,6 +103,16 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       Drop += DragSupportTabControlDrop;
       PreviewMouseLeftButtonDown += DragSupportTabControlPreviewMouseLeftButtonDown;
       Loaded += DragSupportTabControlLoaded;
+
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DragSupportTabItemChangedMessage>(TabItemPropertiesChanged);
+    }
+
+    private void TabItemPropertiesChanged(DragSupportTabItemChangedMessage args)
+    {
+      if ( args == null || args.WindowGuid != WindowId )
+        return;
+
+      TabControlBorderBackgroundColor = args.BackgroundColor;
     }
 
     /// <summary>
@@ -420,5 +472,20 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     }
 
     #endregion
+
+    /// <summary>
+    /// Raises the Selector.SelectionChanged routed event
+    /// </summary>
+    /// <param name="e"></param>
+    protected override void OnSelectionChanged(SelectionChangedEventArgs e)
+    {
+      if ( e.AddedItems.Count != 0 )
+      {
+        if ( e.AddedItems[0] is DragSupportTabItem selectedTabItem )
+          TabControlBorderBackgroundColor = selectedTabItem.TabItemBackgroundColor;
+      }
+
+      base.OnSelectionChanged(e);
+    }
   }
 }

@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Extensions;
@@ -207,8 +208,24 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Set TabItem background color as string property
     /// </summary>
-    public static readonly DependencyProperty TabItemBackgroundColorStringHexProperty = DependencyProperty.Register("TabItemBackgroundColorStringHexProperty", typeof(string),
-      typeof(DragSupportTabItem), new UIPropertyMetadata(DefaultEnvironmentSettings.TabItemHeaderBackgroundColor, OnTabItemColorStringHexChanged));
+    public static readonly DependencyProperty TabItemBackgroundColorStringHexProperty = DependencyProperty.Register(
+      nameof(TabItemBackgroundColorStringHex),
+      typeof(string),
+      typeof(DragSupportTabItem),
+      new UIPropertyMetadata(DefaultEnvironmentSettings.TabItemHeaderBackgroundColor, OnTabItemColorStringHexChanged));
+
+    /// <summary>
+    /// Gets/sets background color as string
+    /// </summary>
+    public string TabItemBackgroundColorStringHex
+    {
+      get => (string) GetValue(TabItemBackgroundColorStringHexProperty);
+      set
+      {
+        SetValue(TabItemBackgroundColorStringHexProperty, value);
+        OnPropertyChanged();
+      }
+    }
 
     private static void OnTabItemColorStringHexChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
     {
@@ -234,19 +251,6 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     {
       add => AddHandler(TabHeaderBackgroundChangedEvent, value);
       remove => RemoveHandler(TabHeaderBackgroundChangedEvent, value);
-    }
-
-    /// <summary>
-    /// Gets/sets background color as string
-    /// </summary>
-    public string TabItemBackgroundColorStringHex
-    {
-      get => (string) GetValue(TabItemBackgroundColorStringHexProperty);
-      set
-      {
-        SetValue(TabItemBackgroundColorStringHexProperty, value);
-        OnPropertyChanged();
-      }
     }
 
     /// <summary>
@@ -304,13 +308,63 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       _stringToWindowMediaBrushConverter = new StringToWindowMediaBrushConverter();
       TabItemId = Guid.NewGuid();
 
+      var icon = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/transparent.png");
       ContextMenu = new ContextMenu();
-      ContextMenu.Items.Add(new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseTab"), Command = CloseCurrentTabItemCommand });
+      ContextMenu.Items.Add(new MenuItem
+      {
+        Header = Application.Current.TryFindResource("DragSupportTabItemCloseTab"),
+        Command = CloseCurrentTabItemCommand,
+        Icon = new Image
+        {
+          Source = icon,
+          Width = 16,
+          Height = 16
+        }
+      });
 
-      var subMenu = new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseTabs") };
-      subMenu.Items.Add(new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseLeftTabs"), Command = CloseLeftTabsCommand });
-      subMenu.Items.Add(new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseRightTabs"), Command = CloseRightTabsCommand });
-      subMenu.Items.Add(new MenuItem { Header = Application.Current.TryFindResource("DragSupportTabItemCloseOtherTabs"), Command = CloseOtherTabsCommand });
+      var subMenu = new MenuItem
+      {
+        Header = Application.Current.TryFindResource("DragSupportTabItemCloseTabs"),
+        Icon = new Image
+        {
+          Source = icon,
+          Width = 16,
+          Height = 16
+        }
+      };
+      subMenu.Items.Add(new MenuItem
+      {
+        Header = Application.Current.TryFindResource("DragSupportTabItemCloseLeftTabs"),
+        Command = CloseLeftTabsCommand,
+        Icon = new Image
+        {
+          Source = icon,
+          Width = 16,
+          Height = 16
+        }
+      });
+      subMenu.Items.Add(new MenuItem
+      {
+        Header = Application.Current.TryFindResource("DragSupportTabItemCloseRightTabs"),
+        Command = CloseRightTabsCommand,
+        Icon = new Image
+        {
+          Source = icon,
+          Width = 16,
+          Height = 16
+        }
+      });
+      subMenu.Items.Add(new MenuItem
+      {
+        Header = Application.Current.TryFindResource("DragSupportTabItemCloseOtherTabs"),
+        Command = CloseOtherTabsCommand,
+        Icon = new Image
+        {
+          Source = icon,
+          Width = 16,
+          Height = 16
+        }
+      });
 
       ContextMenu.Items.Add(subMenu);
     }

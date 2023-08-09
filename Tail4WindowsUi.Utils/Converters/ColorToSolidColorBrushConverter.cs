@@ -21,12 +21,7 @@ namespace Org.Vs.TailForWin.Ui.Utils.Converters
     /// <param name="culture">Culture</param>
     /// <returns>Converted value</returns>
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-      if ( !(value is Color color) )
-        return null;
-
-      return new SolidColorBrush(color);
-    }
+      => !(value is Color color) ? null : (object) new SolidColorBrush(color);
 
     /// <summary>
     /// Convert back

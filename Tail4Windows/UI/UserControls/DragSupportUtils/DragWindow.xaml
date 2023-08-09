@@ -54,6 +54,7 @@
       BorderThickness="1 0 1 25"
       >
       <dragSupportUtils:DragSupportTabControl
+        x:Name="DragSupportTabControl"
         AddTabItemEvent="TabControlOnAddTabItemEvent"
         ItemsSource="{Binding TabItems, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
         SelectedItem="{Binding SelectedTabItem}"
