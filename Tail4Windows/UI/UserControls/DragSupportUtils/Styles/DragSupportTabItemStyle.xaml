@@ -39,7 +39,7 @@
           <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
               <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource {x:Static colorResources:ColorResources.ButtonOverBackgroundKey}}" />
-              <Setter TargetName="Chrome" Property="Opacity" Value="1" />
+              <Setter TargetName="Chrome" Property="Opacity" Value="0.7" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
               <Setter Property="Foreground" Value="#ADADAD" />
@@ -101,7 +101,7 @@
           <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
               <Setter TargetName="Chrome" Property="Background" Value="{DynamicResource {x:Static colorResources:ColorResources.ButtonOverBackgroundKey}}" />
-              <Setter TargetName="Chrome" Property="Opacity" Value="1" />
+              <Setter TargetName="Chrome" Property="Opacity" Value="0.7" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
               <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidOrangePressed}" />
@@ -255,10 +255,11 @@
                 <Condition Property="IsMouseOver" Value="True" />
                 <Condition Property="IsSelected" Value="False" />
               </MultiTrigger.Conditions>
-              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidBorderNotActiveBlue}" />
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource BrushSolidBorderLightBlue}" />
               <Setter TargetName="Chrome" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type dragSupportUtils:DragSupportTabItem}}, Path=TabItemBackgroundColorStringHex, Converter={StaticResource StringToWindowMediaBrushConverter}, UpdateSourceTrigger=PropertyChanged}" />
               <Setter TargetName="ContentSite" Property="TextBlock.Foreground" Value="Black" />
               <Setter TargetName="TabItemCloseButton" Property="Visibility" Value="Visible" />
+              <Setter TargetName="TabItemCloseButtonPath" Property="Fill" Value="Black" />
               <Setter TargetName="ToggleColorPicker" Property="Visibility" Value="Visible" />
             </MultiTrigger>
           </ControlTemplate.Triggers>

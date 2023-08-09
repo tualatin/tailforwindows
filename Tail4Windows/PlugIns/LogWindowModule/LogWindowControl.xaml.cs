@@ -1026,6 +1026,11 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         return;
 
       CurrentTailData.TabItemBackgroundColorStringHex = LogWindowTabItem.TabItemBackgroundColorStringHex;
+
+      if ( !IsSelected )
+        return;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new DragSupportTabItemChangedMessage(this, LogWindowTabItem.TabItemBackgroundColor, ParentWindowId));
     }
 
     private void SaveHistoryCompleted(object sender, PropertyChangedEventArgs e)
