@@ -11,6 +11,7 @@ using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Controllers.Commands;
 using Org.Vs.TailForWin.Core.Data.Settings;
 using Org.Vs.TailForWin.Core.Extensions;
+using Org.Vs.TailForWin.Data.Messages.DragSupportTabControl;
 using Org.Vs.TailForWin.Ui.Utils.Converters;
 
 
@@ -22,7 +23,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
   public class DragSupportTabItem : TabItem, INotifyPropertyChanged
   {
     private Polygon _tabItemBusyIndicator;
-    private Ellipse _itemChangedIndictor;
+    private Ellipse _itemChangedIndicator;
     private readonly StringToWindowMediaBrushConverter _stringToWindowMediaBrushConverter;
 
     /// <summary>
@@ -36,7 +37,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     static DragSupportTabItem() => DefaultStyleKeyProperty.OverrideMetadata(typeof(DragSupportTabItem), new FrameworkPropertyMetadata(typeof(DragSupportTabItem)));
 
     /// <summary>
-    /// TabHeaderDoubleClicke event handler
+    /// TabHeaderDoubleClick event handler
     /// </summary>
     private static readonly RoutedEvent TabHeaderDoubleClickEvent = EventManager.RegisterRoutedEvent(nameof(TabHeaderDoubleClick), RoutingStrategy.Bubble, typeof(RoutedEventHandler),
       typeof(DragSupportTabItem));
@@ -301,10 +302,10 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( !(sender is DragSupportTabItem tabItem) )
         return;
 
-      if ( tabItem._itemChangedIndictor == null )
+      if ( tabItem._itemChangedIndicator == null )
         return;
 
-      tabItem._itemChangedIndictor.Visibility = e.NewValue is Visibility visibility ? visibility : Visibility.Visible;
+      tabItem._itemChangedIndicator.Visibility = e.NewValue is Visibility visibility ? visibility : Visibility.Visible;
       tabItem.OnPropertyChanged(nameof(tabItem.ItemChangedIndicator));
     }
 
@@ -405,10 +406,10 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( _tabItemBusyIndicator != null )
         _tabItemBusyIndicator.Visibility = TabItemBusyIndicator;
 
-      _itemChangedIndictor = GetTemplateChild("ItemChangedIndicator") as Ellipse;
+      _itemChangedIndicator = GetTemplateChild("ItemChangedIndicator") as Ellipse;
 
-      if ( _itemChangedIndictor != null )
-        _itemChangedIndictor.Visibility = ItemChangedIndicator;
+      if ( _itemChangedIndicator != null )
+        _itemChangedIndicator.Visibility = ItemChangedIndicator;
 
       if ( !(GetTemplateChild("GridHeader") is Grid headerGrid) )
         return;
@@ -455,7 +456,15 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     private void CloseButtonClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(CloseTabWindowEvent, this));
 
-    private void PinnedButtonClick(object sender, MouseButtonEventArgs e) => IsPinned = !IsPinned;
+    private void PinnedButtonClick(object sender, MouseButtonEventArgs e)
+    {
+      IsPinned = !IsPinned;
+
+      EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new DragSupportTabItemPinnedChangedMessage(
+        this,
+        TabItemId,
+        IsPinned));
+    }
 
     private void HeaderGridMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {

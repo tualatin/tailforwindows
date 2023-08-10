@@ -12,7 +12,7 @@ using Org.Vs.TailForWin.Business.Utils;
 using Org.Vs.TailForWin.Core.Controllers;
 using Org.Vs.TailForWin.Core.Native;
 using Org.Vs.TailForWin.Core.Native.Data;
-using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.Data.Messages.DragSupportTabControl;
 using Org.Vs.TailForWin.Ui.Utils.Extensions;
 using Org.Vs.TailForWin.UI.Utils;
 
@@ -105,6 +105,30 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       Loaded += DragSupportTabControlLoaded;
 
       EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DragSupportTabItemChangedMessage>(TabItemPropertiesChanged);
+      EnvironmentContainer.Instance.CurrentEventManager.RegisterHandler<DragSupportTabItemPinnedChangedMessage>(TabItemPinnedStateChanged);
+    }
+
+    private void TabItemPinnedStateChanged(DragSupportTabItemPinnedChangedMessage args)
+    {
+      if ( !(args?.Sender is DragSupportTabItem tabItem) )
+        return;
+
+      if ( !(ItemsSource is ObservableCollection<DragSupportTabItem> list) || list.Count == 1 )
+        return;
+
+      if ( args.IsPinned )
+      {
+        var pinnedTabItems = list.Where(p => p.IsPinned).ToList();
+        var newIndex = 0;
+
+        if ( pinnedTabItems.Any() )
+          newIndex = pinnedTabItems.Count - 1;
+
+        list.Remove(tabItem);
+        list.Insert(newIndex, tabItem);
+
+        SelectedIndex = newIndex;
+      }
     }
 
     private void TabItemPropertiesChanged(DragSupportTabItemChangedMessage args)
@@ -188,8 +212,8 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       //int sourceIndex = Items.IndexOf(source);
       int targetIndex = Items.IndexOf(target);
-
       var list = ItemsSource as ObservableCollection<DragSupportTabItem>;
+
       list?.Remove(source);
       list?.Insert(targetIndex, source);
 
@@ -251,6 +275,12 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
         }
 
         if ( tabItemTarget == null )
+          return;
+
+        if ( tabItemSource.IsPinned && !tabItemTarget.IsPinned )
+          return;
+
+        if ( !tabItemSource.IsPinned && tabItemTarget.IsPinned )
           return;
 
         SwapTabItems(tabItemSource, tabItemTarget);

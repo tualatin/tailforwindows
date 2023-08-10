@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using Org.Vs.TailForWin.UI.UserControls.DragSupportUtils;
 
-namespace Org.Vs.TailForWin.Data.Messages
+namespace Org.Vs.TailForWin.Data.Messages.DragSupportTabControl
 {
   /// <summary>
   /// <see cref="DragSupportTabItem"/> properties changed

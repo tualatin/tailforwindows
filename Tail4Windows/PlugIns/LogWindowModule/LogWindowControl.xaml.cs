@@ -35,6 +35,7 @@ using Org.Vs.TailForWin.Core.Enums;
 using Org.Vs.TailForWin.Core.Interfaces;
 using Org.Vs.TailForWin.Core.Utils;
 using Org.Vs.TailForWin.Data.Messages;
+using Org.Vs.TailForWin.Data.Messages.DragSupportTabControl;
 using Org.Vs.TailForWin.Data.Messages.FindWhat;
 using Org.Vs.TailForWin.Data.Messages.Keybindings;
 using Org.Vs.TailForWin.PlugIns.FileManagerModule;
