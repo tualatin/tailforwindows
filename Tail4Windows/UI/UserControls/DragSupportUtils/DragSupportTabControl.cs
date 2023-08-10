@@ -116,19 +116,37 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( !(ItemsSource is ObservableCollection<DragSupportTabItem> list) || list.Count == 1 )
         return;
 
+      var pinnedTabItems = list.Where(p => p.IsPinned).ToList();
+      var newIndex = 0;
+
       if ( args.IsPinned )
       {
-        var pinnedTabItems = list.Where(p => p.IsPinned).ToList();
-        var newIndex = 0;
-
         if ( pinnedTabItems.Any() )
           newIndex = pinnedTabItems.Count - 1;
 
         list.Remove(tabItem);
         list.Insert(newIndex, tabItem);
-
-        SelectedIndex = newIndex;
       }
+      else
+      {
+        if ( pinnedTabItems.Any() )
+          newIndex = pinnedTabItems.Count;
+
+        var sourceIndex = list.IndexOf(tabItem);
+        list.Remove(tabItem);
+
+        for ( int i = sourceIndex; i < pinnedTabItems.Count; i++ )
+        {
+          var toMoveTabItem = pinnedTabItems[i];
+
+          list.Remove(toMoveTabItem);
+          list.Insert(i, toMoveTabItem);
+        }
+
+        list.Insert(newIndex, tabItem);
+      }
+
+      SelectedIndex = newIndex;
     }
 
     private void TabItemPropertiesChanged(DragSupportTabItemChangedMessage args)
