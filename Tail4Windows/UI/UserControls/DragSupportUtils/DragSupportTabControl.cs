@@ -110,7 +110,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     private void TabItemPinnedStateChanged(DragSupportTabItemPinnedChangedMessage args)
     {
-      if ( !(args?.Sender is DragSupportTabItem tabItem) )
+      if ( !(args?.Sender is DragSupportTabItem tabItem) || args.DragWindowId != WindowId )
         return;
 
       if ( !(ItemsSource is ObservableCollection<DragSupportTabItem> list) || list.Count == 1 )

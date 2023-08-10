@@ -17,9 +17,9 @@ namespace Org.Vs.TailForWin.Data.Messages.DragSupportTabControl
     }
 
     /// <summary>
-    /// TabItem Id
+    /// Current Window Id
     /// </summary>
-    public Guid TabItemId
+    public Guid DragWindowId
     {
       get;
     }
@@ -36,12 +36,12 @@ namespace Org.Vs.TailForWin.Data.Messages.DragSupportTabControl
     /// Constructor
     /// </summary>
     /// <param name="sender">Who sends the event</param>
-    /// <param name="tabItemId">TabItem Id</param>
+    /// <param name="dragWindowId">Current DragWindow Id</param>
     /// <param name="isPinned">Is pinned state</param>
-    public DragSupportTabItemPinnedChangedMessage(object sender, Guid tabItemId, bool isPinned)
+    public DragSupportTabItemPinnedChangedMessage(object sender, Guid dragWindowId, bool isPinned)
     {
       Sender = sender;
-      TabItemId = tabItemId;
+      DragWindowId = dragWindowId;
       IsPinned = isPinned;
     }
   }

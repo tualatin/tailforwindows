@@ -25,6 +25,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     private Polygon _tabItemBusyIndicator;
     private Ellipse _itemChangedIndicator;
     private readonly StringToWindowMediaBrushConverter _stringToWindowMediaBrushConverter;
+    private readonly Guid _dragWindowId;
 
     /// <summary>
     /// TabItem id
@@ -321,11 +322,13 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// <summary>
     /// Standard constructor
     /// </summary>
-    public DragSupportTabItem()
+    public DragSupportTabItem(Guid dragWindowId)
     {
       Style = (Style) Application.Current.TryFindResource("DragSupportTabItemStyle");
       _stringToWindowMediaBrushConverter = new StringToWindowMediaBrushConverter();
+
       TabItemId = Guid.NewGuid();
+      _dragWindowId = dragWindowId;
 
       var icon = BusinessHelper.CreateBitmapIcon("/T4W;component/Resources/transparent.png");
       ContextMenu = new ContextMenu();
@@ -398,7 +401,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       if ( GetTemplateChild("TabItemCloseButton") is Button closeButton )
         closeButton.PreviewMouseDown += CloseButtonClick;
 
-      if (GetTemplateChild("TabItemPinnedButton") is Button pinnedButton )
+      if ( GetTemplateChild("TabItemPinnedButton") is Button pinnedButton )
         pinnedButton.PreviewMouseDown += PinnedButtonClick;
 
       _tabItemBusyIndicator = GetTemplateChild("TabItemBusyIndicator") as Polygon;
@@ -462,7 +465,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new DragSupportTabItemPinnedChangedMessage(
         this,
-        TabItemId,
+        _dragWindowId,
         IsPinned));
     }
 

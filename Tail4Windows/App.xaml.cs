@@ -36,6 +36,7 @@ namespace Org.Vs.TailForWin
     private string[] _args;
     private IFileManagerController _fileManagerController;
     private Guid _itemId;
+    private Guid _dragWindowId;
 
     private void ApplicationStartup(object sender, StartupEventArgs e)
     {
@@ -108,7 +109,11 @@ namespace Org.Vs.TailForWin
           instance.ArgsReceived += OnArgsReceived;
           instance.Run(() =>
           {
-            new T4Window().Show();
+            var t4WsingleInstance = new T4Window();
+            _dragWindowId = t4WsingleInstance.DragWindowGuid;
+
+            t4WsingleInstance.Show();
+
             return MainWindow;
           }, _args);
         }
@@ -116,7 +121,10 @@ namespace Org.Vs.TailForWin
         return;
       }
 
-      new T4Window().Show();
+      var t4W = new T4Window();
+      _dragWindowId = t4W.DragWindowGuid;
+
+      t4W.Show();
       OnArgsReceived(_args);
     }
 
@@ -238,13 +246,17 @@ namespace Org.Vs.TailForWin
           {
             var firstTabItem = UiHelper.GetTabItemList().FirstOrDefault();
 
-            if ( firstTabItem?.Content is ILogWindowControl myControl && myControl.SelectedItem == null)
+            if ( firstTabItem?.Content is ILogWindowControl myControl && myControl.SelectedItem == null )
             {
               myControl.SelectedItem = fileName;
               continue;
             }
 
-            var tabItem = UiHelper.CreateDragSupportTabItem($"{Current.TryFindResource("NoFile")}", $"{Current.TryFindResource("NoFile")}", Visibility.Collapsed);
+            var tabItem = UiHelper.CreateDragSupportTabItem(
+              _dragWindowId,
+              $"{Current.TryFindResource("NoFile")}",
+              $"{Current.TryFindResource("NoFile")}",
+              Visibility.Collapsed);
 
             ((ILogWindowControl) tabItem.Content).SelectedItem = fileName;
             EnvironmentContainer.Instance.CurrentEventManager.SendMessage(new AddTabItemMessage(this, tabItem));

@@ -1193,7 +1193,7 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         }
       });
 
-    private static void CreateDragWindow(TailData tailData, Window window)
+    private void CreateDragWindow(TailData tailData, Window window)
     {
       LogWindowControlLock.Wait(TimeSpan.FromMilliseconds(LockTimeSpanInMs));
 
@@ -1204,7 +1204,12 @@ namespace Org.Vs.TailForWin.PlugIns.LogWindowModule
         {
           CurrentTailData = tailData
         };
-        var tabItem = UiHelper.CreateDragSupportTabItem(tailData.File, tailData.FileName, Visibility.Collapsed, content);
+        var tabItem = UiHelper.CreateDragSupportTabItem(
+          ParentWindowId,
+          tailData.File,
+          tailData.FileName,
+          Visibility.Collapsed,
+          content);
         DragWindow dragWindow = DragWindow.CreateTabWindow(window.Left + offset, window.Top + offset, window.Width, window.Height, tabItem);
 
         // Unregister tab item, we do not need it again!

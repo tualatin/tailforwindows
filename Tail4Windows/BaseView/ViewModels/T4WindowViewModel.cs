@@ -228,6 +228,24 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
       set;
     }
 
+    private Guid _dragWindowId;
+
+    /// <summary>
+    /// Window Id
+    /// </summary>
+    public Guid DragWindowId
+    {
+      get => _dragWindowId;
+      set
+      {
+        if (_dragWindowId == value)
+          return;
+
+        _dragWindowId = value;
+        OnPropertyChanged();
+      }
+    }
+
     private DragSupportTabItem _selectedTabItem;
 
     /// <summary>
@@ -1057,7 +1075,7 @@ namespace Org.Vs.TailForWin.BaseView.ViewModels
 
     private void AddTabItem(string header, string toolTip, Visibility busyIndicator, ILogWindowControl content = null, string backgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor)
     {
-      var tabItem = UiHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, content, backgroundColor);
+      var tabItem = UiHelper.CreateDragSupportTabItem(DragWindowId, header, toolTip, busyIndicator, content, backgroundColor);
 
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemDoubleClick;

@@ -156,29 +156,30 @@ namespace Org.Vs.TailForWin.UI.Utils
     /// <summary>
     /// Creates a <see cref="DragSupportTabItem"/>
     /// </summary>
+    /// <param name="dragWindowId">Current Window Id</param>
     /// <param name="header">Name of header</param>
     /// <param name="toolTip">ToolTip</param>
     /// <param name="busyIndicator">State of busy indicator</param>
     /// <param name="content">Content as <see cref="LogWindowControl"/></param>
-    /// <param name="backgroundColor">BackgroundColor as hex string</param>
+    /// <param name="tabItemBackgroundColor">BackgroundColor as hex string</param>
     /// <returns><see cref="DragSupportTabItem"/></returns>
     public static DragSupportTabItem CreateDragSupportTabItem(
+      Guid dragWindowId,
       string header,
       string toolTip,
       Visibility busyIndicator,
       ILogWindowControl content = null,
-      string backgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor)
+      string tabItemBackgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor)
     {
       UiHelperLock.Wait(TimeSpan.FromMilliseconds(LockTimeSpanInMs));
 
       try
       {
-        var tabItem = new DragSupportTabItem
+        var tabItem = new DragSupportTabItem(dragWindowId)
         {
           HeaderContent = header,
           IsSelected = true,
           HeaderToolTip = toolTip,
-          TabItemBackgroundColorStringHex = backgroundColor,
           TabItemBusyIndicator = busyIndicator
         };
 
@@ -190,10 +191,12 @@ namespace Org.Vs.TailForWin.UI.Utils
           {
             LogWindowTabItem = tabItem
           };
+
+          logWindowControl.LogWindowTabItem.TabItemBackgroundColorStringHex = tabItemBackgroundColor;
         }
         else
         {
-          logWindowControl = SetLogWindowControl(content, tabItem);
+          logWindowControl = SetLogWindowControl(content, tabItem, tabItemBackgroundColor);
 
           if ( content.TailReader != null && content.TailReader.IsBusy )
             logWindowControl.TailReader.StartTail();
@@ -211,7 +214,9 @@ namespace Org.Vs.TailForWin.UI.Utils
       }
     }
 
-    private static ILogWindowControl SetLogWindowControl(ILogWindowControl content, DragSupportTabItem tabItem)
+    private static ILogWindowControl SetLogWindowControl(
+      ILogWindowControl content,
+      DragSupportTabItem tabItem, string tabItemBackgroundColor)
     {
       ILogWindowControl logWindowControl = new LogWindowControl
       {
@@ -227,6 +232,8 @@ namespace Org.Vs.TailForWin.UI.Utils
         logWindowControl.SetWindowsEventTailReader(content.CurrentTailData);
       else
         logWindowControl.SelectedItem = content.SelectedItem;
+
+      logWindowControl.LogWindowTabItem.TabItemBackgroundColorStringHex = tabItemBackgroundColor;
 
       if ( content.SplitWindow != null )
       {

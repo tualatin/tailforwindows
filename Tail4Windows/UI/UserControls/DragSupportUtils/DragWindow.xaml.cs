@@ -242,7 +242,13 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
     /// Add TabItem
     /// </summary>
     /// <param name="tabItem"><see cref="DragSupportTabItem"/></param>
-    public void AddTabItem(DragSupportTabItem tabItem) => AddTabItem(tabItem.HeaderContent, tabItem.HeaderToolTip, tabItem.TabItemBusyIndicator, tabItem.TabItemBackgroundColorStringHex, (LogWindowControl) tabItem.Content);
+    public void AddTabItem(DragSupportTabItem tabItem)
+      => AddTabItem(
+        tabItem.HeaderContent,
+        tabItem.HeaderToolTip,
+        tabItem.TabItemBusyIndicator,
+        tabItem.TabItemBackgroundColorStringHex,
+        (LogWindowControl) tabItem.Content);
 
     /// <summary>
     /// Remove TabItem
@@ -357,10 +363,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
     #region Events
 
-    private void TabItemTabHeaderDoubleClick(object sender, RoutedEventArgs e)
-    {
-      LOG.Trace("MouseDoubleClick");
-    }
+    private static void TabItemTabHeaderDoubleClick(object sender, RoutedEventArgs e) => LOG.Trace("MouseDoubleClick");
 
     private void TabItemCloseTabWindow(object sender, RoutedEventArgs e)
     {
@@ -379,7 +382,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
       string backgroundColor = DefaultEnvironmentSettings.TabItemHeaderBackgroundColor,
       ILogWindowControl content = null)
     {
-      var tabItem = UiHelper.CreateDragSupportTabItem(header, toolTip, busyIndicator, content, backgroundColor);
+      var tabItem = UiHelper.CreateDragSupportTabItem(DragWindowGuid, header, toolTip, busyIndicator, content, backgroundColor);
 
       tabItem.CloseTabWindow += TabItemCloseTabWindow;
       tabItem.TabHeaderDoubleClick += TabItemTabHeaderDoubleClick;
@@ -758,7 +761,7 @@ namespace Org.Vs.TailForWin.UI.UserControls.DragSupportUtils
 
       ILogWindowControl content = new LogWindowControl
       {
-        LogWindowTabItem = new DragSupportTabItem(),
+        LogWindowTabItem = new DragSupportTabItem(DragWindowGuid),
         CurrentTailData = args.TailData,
         SelectedItem = args.TailData.FileName,
         IsSmartWatchAutoRun = args.IsSmartWatch && args.TailData.AutoRun

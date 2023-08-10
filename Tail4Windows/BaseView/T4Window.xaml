@@ -106,6 +106,7 @@
         ItemsSource="{Binding TabItemsSource, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
         SelectedItem="{Binding SelectedTabItem, Mode=TwoWay}"
         Style="{StaticResource DragSupportTabControlStyle}"
+        WindowId="{Binding DragWindowId, Mode=OneWayToSource}"
         >
         <intr:Interaction.Triggers>
           <intr:EventTrigger EventName="AddTabItemEvent">

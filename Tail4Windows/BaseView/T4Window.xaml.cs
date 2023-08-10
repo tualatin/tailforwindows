@@ -374,13 +374,13 @@ namespace Org.Vs.TailForWin.BaseView
 
       ILogWindowControl content = new LogWindowControlDummy
       {
-        LogWindowTabItem = new DragSupportTabItem(),
+        LogWindowTabItem = new DragSupportTabItem(DragWindowGuid),
         CurrentTailData = args.TailData,
         SelectedItem = args.TailData.FileName,
         IsSmartWatchAutoRun = args.IsSmartWatch && args.TailData.AutoRun,
       };
 
-      var tabItem = new DragSupportTabItem
+      var tabItem = new DragSupportTabItem(DragWindowGuid)
       {
         Content = content
       };
