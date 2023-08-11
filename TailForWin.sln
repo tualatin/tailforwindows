@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4WindowsUi.Utils", "Tai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4WindowsUi.Plugins", "Tail4WindowsUi.Plugins\Tail4WindowsUi.Plugins.csproj", "{1CBF978A-E8BD-4F25-88EA-B069D1FDF62E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tail4WindowsShared", "Tail4WindowsShared\Tail4WindowsShared.csproj", "{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4Windows.Core", "Tail4Windows.Core\Tail4Windows.Core.csproj", "{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
