@@ -23,7 +23,7 @@ namespace Org.Vs.TailForWin.Core.Data
           return;
 
         _applicationVersion = value;
-        OnPropertyChanged(nameof(ApplicationVersion));
+        OnPropertyChanged();
       }
     }
 
@@ -41,7 +41,7 @@ namespace Org.Vs.TailForWin.Core.Data
           return;
 
         _webVersion = value;
-        OnPropertyChanged(nameof(WebVersion));
+        OnPropertyChanged();
       }
     }
 
@@ -59,7 +59,7 @@ namespace Org.Vs.TailForWin.Core.Data
           return;
 
         _update = value;
-        OnPropertyChanged(nameof(Update));
+        OnPropertyChanged();
       }
     }
   }

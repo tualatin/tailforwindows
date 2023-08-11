@@ -59,7 +59,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
       return _result == 0;
     }
@@ -90,7 +90,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
       return false;
     }
@@ -123,7 +123,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
       return false;
     }
@@ -142,7 +142,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
       return _returnData.Length == 4 && string.CompareOrdinal(_returnData.ToString().Substring(0, 4), "open") == 0;
     }
@@ -161,7 +161,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
       return _returnData.Length == 7 && string.CompareOrdinal(_returnData.ToString().Substring(0, 7), "stopped") == 0;
     }

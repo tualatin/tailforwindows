@@ -3,24 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tail4Windows", "Tail4Windows\Tail4Windows.csproj", "{B07BE282-4B92-4E8B-97E0-8413E9501877}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4Windows", "Tail4Windows\Tail4Windows.csproj", "{B07BE282-4B92-4E8B-97E0-8413E9501877}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnit.Tests", "NUnit.Tests\NUnit.Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnit.Tests", "NUnit.Tests\NUnit.Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CDB7BF00-E89C-48BB-9131-BF3BC35C1157}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tail4WindowsCore", "Tail4WindowsCore\Tail4WindowsCore.csproj", "{7E255B50-CFB7-4AD8-9694-E569427FE866}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4WindowsCore", "Tail4WindowsCore\Tail4WindowsCore.csproj", "{7E255B50-CFB7-4AD8-9694-E569427FE866}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tail4WindowsBusiness", "Tail4WindowsBusiness\Tail4WindowsBusiness.csproj", "{C81D4747-D467-42FA-A998-0B8E68131E46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4WindowsBusiness", "Tail4WindowsBusiness\Tail4WindowsBusiness.csproj", "{C81D4747-D467-42FA-A998-0B8E68131E46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tail4WindowsControllers", "Tail4WindowsControllers\Tail4WindowsControllers.csproj", "{DFD6AB76-FD51-4B29-ABCA-F0E11BEBB9EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4WindowsControllers", "Tail4WindowsControllers\Tail4WindowsControllers.csproj", "{DFD6AB76-FD51-4B29-ABCA-F0E11BEBB9EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tail4WindowsUi.Utils", "Tail4WindowsUi.Utils\Tail4WindowsUi.Utils.csproj", "{CC2ADA96-DEB9-4C47-8B9F-6F289B137701}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4WindowsUi.Utils", "Tail4WindowsUi.Utils\Tail4WindowsUi.Utils.csproj", "{CC2ADA96-DEB9-4C47-8B9F-6F289B137701}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tail4WindowsUi.Plugins", "Tail4WindowsUi.Plugins\Tail4WindowsUi.Plugins.csproj", "{1CBF978A-E8BD-4F25-88EA-B069D1FDF62E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tail4WindowsUi.Plugins", "Tail4WindowsUi.Plugins\Tail4WindowsUi.Plugins.csproj", "{1CBF978A-E8BD-4F25-88EA-B069D1FDF62E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tail4WindowsShared", "Tail4WindowsShared\Tail4WindowsShared.csproj", "{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -146,6 +148,22 @@ Global
 		{1CBF978A-E8BD-4F25-88EA-B069D1FDF62E}.Release|x64.Build.0 = Release|x64
 		{1CBF978A-E8BD-4F25-88EA-B069D1FDF62E}.Release|x86.ActiveCfg = Release|Any CPU
 		{1CBF978A-E8BD-4F25-88EA-B069D1FDF62E}.Release|x86.Build.0 = Release|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Debug|x64.Build.0 = Debug|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Debug|x86.Build.0 = Debug|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Release|x64.ActiveCfg = Release|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Release|x64.Build.0 = Release|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Release|x86.ActiveCfg = Release|Any CPU
+		{C9A71E18-A6AD-4DB9-9C36-EE6D85081121}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

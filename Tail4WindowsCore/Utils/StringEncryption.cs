@@ -57,7 +57,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
       return null;
     }
@@ -101,7 +101,7 @@ namespace Org.Vs.TailForWin.Core.Utils
       }
       catch ( Exception ex )
       {
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
       return null;
     }

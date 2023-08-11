@@ -120,7 +120,7 @@ namespace Org.Vs.TailForWin.Core.Data
       set
       {
         _version = value;
-        OnPropertyChanged(nameof(Version));
+        OnPropertyChanged();
       }
     }
 
@@ -136,7 +136,7 @@ namespace Org.Vs.TailForWin.Core.Data
       set
       {
         _id = value;
-        OnPropertyChanged(nameof(Id));
+        OnPropertyChanged();
       }
     }
 
@@ -335,7 +335,7 @@ namespace Org.Vs.TailForWin.Core.Data
         }
         catch ( ArgumentOutOfRangeException ex )
         {
-          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+          LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
           throw;
         }
       }
@@ -488,7 +488,7 @@ namespace Org.Vs.TailForWin.Core.Data
       set
       {
         _lastRefreshTime = value;
-        OnPropertyChanged(nameof(LastRefreshTime));
+        OnPropertyChanged();
       }
     }
 
@@ -504,7 +504,7 @@ namespace Org.Vs.TailForWin.Core.Data
       set
       {
         _listOfFilter = value;
-        OnPropertyChanged(nameof(ListOfFilter));
+        OnPropertyChanged();
       }
     }
 

@@ -26,7 +26,7 @@ namespace Org.Vs.TailForWin.Core.Extensions
       catch ( Exception ex )
       {
         errorAction?.Invoke(ex);
-        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, ex.GetType().Name);
+        LOG.Error(ex, "{0} caused a(n) {1}", System.Reflection.MethodBase.GetCurrentMethod()?.Name, ex.GetType().Name);
       }
     }
   }
